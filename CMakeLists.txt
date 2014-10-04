@@ -117,7 +117,7 @@ elseif (WIN32)
 
 endif (APPLE)
 
-message("djvSystemName = " ${djvSystemName})
+#message("djvSystemName = " ${djvSystemName})
 
 #-------------------------------------------------------------------------------
 # Build Settings
@@ -138,8 +138,8 @@ set(djvProjectName ${djvVersionName}-${djvSystemName})
 
 project(${djvProjectName})
 
-message("djvVersionName = " ${djvVersionName})
-message("djvProjectName = " ${djvProjectName})
+#message("djvVersionName = " ${djvVersionName})
+#message("djvProjectName = " ${djvProjectName})
 
 # Set the project architecture.
 
@@ -149,9 +149,9 @@ if (CMAKE_SIZEOF_VOID_P EQUAL 8 OR CMAKE_CL_64)
 
 	set(djvBuildArch 64)
 
-endif()
+endif ()
 
-message("djvBuildArch = " ${djvBuildArch})
+#message("djvBuildArch = " ${djvBuildArch})
 
 # CMake module path.
 
