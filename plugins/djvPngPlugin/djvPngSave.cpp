@@ -205,28 +205,28 @@ bool pngOpen(
 
     png_init_io(png, f);
 
-    int color_type = 0;
+    int colorType = 0;
 
     switch (info.pixel)
     {
         case djvPixel::L_U8:
         case djvPixel::L_U16:
-            color_type = PNG_COLOR_TYPE_GRAY;
+            colorType = PNG_COLOR_TYPE_GRAY;
             break;
 
         case djvPixel::LA_U8:
         case djvPixel::LA_U16:
-            color_type = PNG_COLOR_TYPE_GRAY_ALPHA;
+            colorType = PNG_COLOR_TYPE_GRAY_ALPHA;
             break;
 
         case djvPixel::RGB_U8:
         case djvPixel::RGB_U16:
-            color_type = PNG_COLOR_TYPE_RGB;
+            colorType = PNG_COLOR_TYPE_RGB;
             break;
 
         case djvPixel::RGBA_U8:
         case djvPixel::RGBA_U16:
-            color_type = PNG_COLOR_TYPE_RGB_ALPHA;
+            colorType = PNG_COLOR_TYPE_RGB_ALPHA;
             break;
 
         default: break;
@@ -238,7 +238,7 @@ bool pngOpen(
         info.size.x,
         info.size.y,
         djvPixel::bitDepth(info.pixel),
-        color_type,
+        colorType,
         PNG_INTERLACE_NONE,
         PNG_COMPRESSION_TYPE_DEFAULT,
         PNG_FILTER_TYPE_DEFAULT);
@@ -275,7 +275,7 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (d
         djvStringUtil::cStringLength,
         QString("Error opening: %1").arg(in).toLatin1().data());
 
-    // Open.
+    // Open the file.
 
 #if defined(DJV_WINDOWS)
 
