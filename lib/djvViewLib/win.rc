@@ -1,0 +1,3 @@
+#include "winrc.h"
+
+DJV_ICON ICON "..\\..\\etc\\Windows\\djvProjector.ico"

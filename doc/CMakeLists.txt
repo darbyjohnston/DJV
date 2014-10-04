@@ -1,0 +1,145 @@
+set(html
+    djvCineonPlugin.html
+    djvCommandLine.html
+    djvCredits.html
+    djvDownloads.html
+    djvDpxPlugin.html
+    djvFaq.html
+    djvFileBrowser.html
+    djvHelp.html
+    djvIffPlugin.html
+    djvIflPlugin.html
+    djvImageIo.html
+    djvJpegPlugin.html
+    djvLegal.html
+    djvLibquicktimePlugin.html
+    djvLutPlugin.html
+    djvOpenExrPlugin.html
+    djvPicPlugin.html
+    djvPngPlugin.html
+    djvPpmPlugin.html
+    djvQuickTimePlugin.html
+    djvRlaPlugin.html
+    djvScreenshots.html
+    djvSgiPlugin.html
+    djvTargaPlugin.html
+    djvTestimonials.html
+    djvTiffPlugin.html
+    djvViewFileGroup.html
+    djvViewImageGroup.html
+    djvViewPlaybackGroup.html
+    djvViewToolGroup.html
+    djvViewViewGroup.html
+    djvViewWindowGroup.html
+    djv_convert.html
+    djv_info.html
+    djv_ls.html
+    djv_view.html
+    index.html
+    djvStyle.css)
+
+set(images
+    images/djvColorPickerIcon.png
+    images/djvConvert.png
+    images/djvConvertThumbnail.png
+    images/djvDirPrevIcon.png
+    images/djvDirReloadIcon.png
+    images/djvDirUpIcon.png
+    images/djvFileBrowser.png
+    images/djvFileBrowserBookmarksMenu.png
+    images/djvFileBrowserDiagram.png
+    images/djvFileBrowserDirectoryMenu.png
+    images/djvFileBrowserOptionsMenu.png
+    images/djvFileBrowserSmall.png
+    images/djvFileCloseIcon.png
+    images/djvFileOpenIcon.png
+    images/djvFileReloadIcon.png
+    images/djvFrameEndIcon.png
+    images/djvFrameNextIcon.png
+    images/djvFramePrevIcon.png
+    images/djvFrameStartIcon.png
+    images/djvHistogramIcon.png
+    images/djvInPointMarkIcon.png
+    images/djvInPointResetIcon.png
+    images/djvInfo.png
+    images/djvInfoIcon.png
+    images/djvInfoThumbnail.png
+    images/djvLockIcon.png
+    images/djvLogo.gif
+    images/djvLs.png
+    images/djvLsThumbnail.png
+    images/djvMagnifyIcon.png
+    images/djvOutPointMarkIcon.png
+    images/djvOutPointResetIcon.png
+    images/djvPlayForwardIcon.png
+    images/djvPlayInOutIcon.png
+    images/djvPlayReverseIcon.png
+    images/djvPlayStopIcon.png
+    images/djvTitle.gif
+    images/djvView.png
+    images/djvViewColorPickerTool.png
+    images/djvViewColorPickerToolDiagram.png
+    images/djvViewDiagram.png
+    images/djvViewDisplayProfile.png
+    images/djvViewFileMenu.png
+    images/djvViewFitIcon.png
+    images/djvViewHelpMenu.png
+    images/djvViewHistogramTool.png
+    images/djvViewHistogramToolDiagram.png
+    images/djvViewImageMenu.png
+    images/djvViewInfoTool.png
+    images/djvViewInfoToolDiagram.png
+    images/djvViewMagnifyTool.png
+    images/djvViewMagnifyToolDiagram.png
+    images/djvViewPlaybackDiagram.png
+    images/djvViewPlaybackMenu.png
+    images/djvViewThumbnail.png
+    images/djvViewToolMenu.png
+    images/djvViewTools.png
+    images/djvViewToolsSmall.png
+    images/djvViewViewMenu.png
+    images/djvViewWindowMenu.png
+    images/djvViewZoomInIcon.png
+    images/djvViewZoomOutIcon.png
+    images/djvViewZoomResetIcon.png
+    images/djvWindowCloseIcon.png
+    images/djvWindowCopyIcon.png
+    images/djvWindowFitIcon.png
+    images/djvWindowFullScreenIcon.png
+    images/djvWindowNewIcon.png
+    images/index.png
+    images/indexSmall.png
+    images/OpenGL.png)
+
+set(legal
+    ../LICENSE
+    ../LICENSE.CMake
+    ../LICENSE.FFmpeg
+    ../LICENSE.GLEW
+    ../LICENSE.libjpeg
+    ../LICENSE.libpng
+    ../LICENSE.libquicktime
+    ../LICENSE.libtiff
+    ../LICENSE.OpenEXR
+    ../LICENSE.Qt
+    ../LICENSE.zlib)
+
+install(
+    FILES
+    ${html}
+    DESTINATION doc)
+
+install(
+    FILES
+    ${images}
+    DESTINATION doc/images)
+
+#install(
+#    DIRECTORY
+#    doxygen/html
+#    DESTINATION doc/doxygen)
+
+install(
+    FILES
+    ${legal}
+    DESTINATION doc)

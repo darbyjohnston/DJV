@@ -1,0 +1,166 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2014 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="djvStyle.css">
+<title>DJV Imaging - djv_ls</title>
+</head>
+
+<body>
+
+<div class="header">
+<div style="position:absolute; top:10; left:10; height:50;">
+<a href="index.html"><img src="images/djvTitle.gif" align="middle"></a>
+</div>
+<div style="position:absolute; top:0; right:0;">
+<a href="index.html"><img src="images/djvLogo.gif"></a>
+</div>
+</div>
+
+<div class="nav">
+<a class="nav" href="index.html">Home</a>
+<a class="nav" href="djvDownloads.html">Downloads</a>
+<a class="nav" href="djvScreenshots.html">Screenshots</a>
+<a class="nav" href="djvHelp.html">Help</a>
+<a class="nav" href="djvCredits.html">Credits</a>
+<a class="nav" href="djvLegal.html">Legal</a>
+</div>
+
+<div class="content">
+<table width="90%" align="center">
+<tr>
+<td>
+
+<table>
+    <tr>
+        <td><img src="images/djvLsThumbnail.png"/></td>
+        <td><h1>djv_ls</h1></td>
+    </tr>
+</table>
+<ul>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#options">Options</a></li>
+    <li><a href="#sortingOptions">Sorting Options</a></li>
+    <li><a href="#generalOptions">General Options</a></li>
+    <li><a href="#examples">Examples</a></li>
+</ul>
+
+<p>
+This application provides a command line tool for listing directories with
+file sequences.</p>
+<p>Example output:
+<pre>
+el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
+richmond_train.2k.tiff    File 8.86MB darby rw Mon Jun 12 21:21:58 2006
+fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
+</pre>
+<p>Key:</p>
+<pre>
+(name)                        (type) (size) (user) (permissions) (time)
+</pre>
+<table><tr><td>
+<table>
+<tr><th colspan="2">File Types</th></tr>
+<tr><td>File</td><td>Regular file</td></tr>
+<td>Seq</td><td>File sequence</td></tr>
+<td>Dir</td><td>Directory</td></tr>
+</table>
+</td>
+<td>
+<table>
+<tr><th colspan="2">Permissions</th></tr>
+<tr><td>r</td><td>Readable</td></tr>
+<tr><td>w</td><td>Writable</td></tr>
+<tr><td>x</td><td>Executable</td></tr>
+</table>
+</td></tr></table>
+
+<a name="usage"><h2>Usage</h2></a>
+<pre>
+djv_ls [file|directory]... [option]...
+</pre>
+
+<a name="options"><h2>Options</h2></a>
+<table>
+<tr><td width="200">-x_info, -xi</td><td>Don't show information, only file
+names.</td></tr>
+<tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
+<tr><td>-seq, -q (value)</td><td>Set file sequencing. Options = Off, Sparse,
+Range. Default = Range.</td></tr>
+<tr><td>-recurse, -r</td><td>Descend into sub-directories.</td></tr>
+<tr><td>-hidden</td><td>Show hidden files.</td></tr>
+<tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
+output. A value of zero disables formatting.</td></tr>
+</table>
+
+<a name="sortingOptions"><h2>Sorting Options</h2></a>
+<table>
+<tr><td width="200">-sort, -s (value)</td><td>Set the sorting. Options = Name,
+Type, Size, User, Permissions, Time. Default = Name.</td></tr>
+<tr><td>-reverse_sort, -rs</td><td>Reverse the sorting order.</td></tr>
+<tr><td>-x_sort_dirs, -xsd</td><td>Don't sort directories first.</td></tr>
+</table>
+
+<a name="generalOptions"><h2>General Options</h2></a>
+<p>
+Documentation for general command line options is available
+<a href="djvCommandLine.html">here</a>.
+<p>
+
+<a name="examples"><h2>Examples</h2></a>
+<p>List the current directory:</p>
+<pre>
+> djv_ls
+</pre>
+<p>List specific directories:</p>
+<pre>
+> djv_ls ~/movies ~/pictures
+</pre>
+<p>Sort by time with the most recent first:</p>
+<pre>
+> djv_ls -sort time -reverse_sort
+</pre>
+
+</td>
+</tr>
+</table>
+</div>
+
+<div class="footer">
+Copyright (c) 2004-2014 Darby Johnston
+</div>
+
+</body>
+
+</html>

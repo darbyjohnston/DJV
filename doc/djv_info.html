@@ -1,0 +1,154 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2014 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="djvStyle.css">
+<title>DJV Imaging - djv_info</title>
+</head>
+
+<body>
+
+<div class="header">
+<div style="position:absolute; top:10; left:10; height:50;">
+<a href="index.html"><img src="images/djvTitle.gif" align="middle"></a>
+</div>
+<div style="position:absolute; top:0; right:0;">
+<a href="index.html"><img src="images/djvLogo.gif"></a>
+</div>
+</div>
+
+<div class="nav">
+<a class="nav" href="index.html">Home</a>
+<a class="nav" href="djvDownloads.html">Downloads</a>
+<a class="nav" href="djvScreenshots.html">Screenshots</a>
+<a class="nav" href="djvHelp.html">Help</a>
+<a class="nav" href="djvCredits.html">Credits</a>
+<a class="nav" href="djvLegal.html">Legal</a>
+</div>
+
+<div class="content">
+<table width="90%" align="center">
+<tr>
+<td>
+
+<table>
+    <tr>
+        <td><img src="images/djvInfoThumbnail.png"/></td>
+        <td><h1>djv_info</h1></td>
+    </tr>
+</table>
+<ul>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#options">Options</a></li>
+    <li><a href="#imageIoOptions">Image I/O Options</a></li>
+    <li><a href="#generalOptions">General Options</a></li>
+    <li><a href="#examples">Examples</a></li>
+</ul>
+
+<p>
+This application provides a command line tool for displaying information about
+images and movies.</p>
+<p>Example output:
+<pre>
+yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
+dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24
+render0001-1000.exr                                      00:00:41:16@24
+    0: A,B,G,R                                     720x480:1.5 RGBA F16
+    1: Ambient                                      720x480:1.5 RGB F16
+    2: Diffuse                                      720x480:1.5 RGB F16
+    3: Specular                                     720x480:1.5 RGB F16
+    4: Z                                              720x480:1.5 L F32
+</pre>
+<p>Key:</p>
+<pre>
+(name)       (width)x(height):(aspect ratio) (pixel) (duration)@(speed)
+</pre>
+<p>Layer key:</p>
+<pre>
+(name)                                               (duration)@(speed)
+    (layer): (name)             (width)x(height):(aspect ratio) (pixel)
+</pre>
+
+<a name="usage"><h2>Usage</h2></a>
+<pre>
+djv_info (image|directory)... [option]...
+</pre>
+
+<a name="options"><h2>Options</h2></a>
+<table>
+<tr><td width="200">-x_info, -xi</td><td>Don't show image information, only
+file names.</td></tr>
+<tr><td>-verbose, -v</td><td>Show verbose image information.</td></tr>
+<tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
+<tr><td>-seq, -q (value)</td><td>Set file sequencing. Options = Off, Sparse,
+Range. Default = Range.</td></tr>
+<tr><td>-recurse, -r</td><td>Descend into sub-directories.</td></tr>
+<tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
+output. A value of zero disables formatting.</td></tr>
+</table>
+
+<a name="imageIoOptions"><h2>Image I/O Options</h2></a>
+<p>Documentation for image I/O command line options is available
+<a href="djvImageIo.html">here</a>.<p>
+
+<a name="generalOptions"><h2>General Options</h2></a>
+<p>Documentation for general command line options is available
+<a href="djvCommandLine.html">here</a>.<p>
+
+<a name="examples"><h2>Examples</h2></a>
+<p>Display image information:</p>
+<pre>
+> djv_info image.sgi image2.sgi
+</pre>
+<p>Display image sequence information:</p>
+<pre>
+> djv_info image.1-100.sgi
+</pre>
+<p>Display information about all images within a directory:</p>
+<pre>
+> djv_info ~/pics
+</pre>
+
+</td>
+</tr>
+</table>
+</div>
+
+<div class="footer">
+Copyright (c) 2004-2014 Darby Johnston
+</div>
+
+</body>
+
+</html>

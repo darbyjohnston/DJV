@@ -1,0 +1,135 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2014 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="djvStyle.css">
+<title>DJV Imaging - FAQ</title>
+</head>
+
+<body>
+
+<div class="header">
+<div style="position:absolute; top:10; left:10; height:50;">
+<a href="index.html"><img src="images/djvTitle.gif" align="middle"></a>
+</div>
+<div style="position:absolute; top:0; right:0;">
+<a href="index.html"><img src="images/djvLogo.gif"></a>
+</div>
+</div>
+
+<div class="nav">
+<a class="nav" href="index.html">Home</a>
+<a class="nav" href="djvDownloads.html">Downloads</a>
+<a class="nav" href="djvScreenshots.html">Screenshots</a>
+<a class="nav" href="djvHelp.html">Help</a>
+<a class="nav" href="djvCredits.html">Credits</a>
+<a class="nav" href="djvLegal.html">Legal</a>
+</div>
+
+<div class="content">
+<table width="90%" align="center">
+<tr>
+<td>
+
+<h1>FAQ</h1>
+<ol>
+    <li><a href="#1">Is DJV free?</a></li>
+    <li><a href="#2">How do I setup the DJV command line tools?</a></li>
+    <li><a href="#3">How do I use a LUT (lookup table) with the DJV viewer?</a></li>
+    <li><a href="#4">Are 3D LUTs supported?</a></li>
+    <li><a href="#5">How can I convert an image sequence to a movie?</a></li>
+    <li><a href="#6">How can I convert a movie to an image sequence?</a></li>
+    <li><a href="#7">What image and movie file formats are supported?</a></li>
+    <li><a href="#8">How can I change the timecode display to frames?</a></li>
+</ol>
+
+<a name="1"><h2>Is DJV free?</h2></a>
+<p>The DJV source code is covered by an open source BSD style license. This
+means that DJV is essentially free to use, modify, and distribute. Note however
+that some of the third party software that DJV depends on may have different
+licensing requirements. See the legal page for more details
+<a href="djvLegal.html">here</a>.</p>
+
+<a name="2"><h2>How do I setup the DJV command line tools?</h2></a>
+<p>See the downloads page <a href="djvDownloads.html">here</a>.
+</p>
+
+<a name="3"><h2>How do I use a LUT (lookup table) with the DJV viewer?</h2></a>
+<p>\todo</p>
+ 
+<a name="4"><h2>Are 3D LUTs supported?</h2></a>
+<p>Unfortunately 3D LUTs are not currently supported.</p>
+
+<a name="5"><h2>How can I convert an image sequence to a movie?</h2></a>
+<p>Either the DJV viewer or the command line tools can be used to perform the
+conversion.</p>
+<p>To use the viewer to perform the conversion, first open the image sequence
+you would like to convert. Then choose "Save" from the "File" menu and enter
+the name of the movie with a file extension like ".mov". Click the "Ok" button
+and a dialog will appear showing the progress of the conversion.</p>
+<p>To use the command line tools to perform the conversion, run the command
+"djv_convert" from a terminal with arguments similar to this:
+<pre>
+> djv_convert input.1-100.sgi output.mov
+</pre>
+
+<a name="6"><h2>How can I convert a movie to an image sequence?</h2></a>
+<p>The steps are similar to the above question.</p>
+<p>When specifying the name of the output image sequence you only need to use
+the first frame, the other frames will be generated automatically. For
+example:</p>
+<pre>
+> djv_convert input.mov output.1.sgi
+</pre>
+
+<a name="7"><h2>What image and movie file formats are supported?</h2></a>
+<p>See the image I/O page located <a href="djvImageIo.html">here.</a></p>
+
+<a name="8"><h2>How can I change the timecode display to frames?</h2></a>
+<p>Open the preferences dialog from the "File" menu and click on "Miscellaneous"
+in the "General" section. Set the time units to "Frames".</p>
+<img src="images/djvTimecodeToFrames.png" align="middle">
+
+</td>
+</tr>
+</table>
+</div>
+
+<div class="footer">
+Copyright (c) 2004-2014 Darby Johnston
+</div>
+
+</body>
+
+</html>

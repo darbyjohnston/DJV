@@ -1,0 +1,14 @@
+#!/bin/sh
+
+djv_bundle="`echo "$0" | sed -e 's|/Contents/MacOS/@djvPackageName@||'`"
+djv_resources="$djv_bundle/Contents/Resources"
+
+echo "running $0"
+echo "djv_bundle = $djv_bundle"
+echo "djv_resources = $djv_resources"
+
+export "DYLD_FALLBACK_LIBRARY_PATH=$djv_resources/lib"
+
+#echo "DYLD_LIBRARY_PATH = $DYLD_LIBRARY_PATH"
+
+exec "$djv_resources/bin/djv_view" "$@"

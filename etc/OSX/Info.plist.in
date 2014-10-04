@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleExecutable</key>
+	<string>@djvPackageName@</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.djv.djv</string>
+	<key>CFBundleName</key>
+	<string>@djvPackageName@</string>
+	<key>CFBundleIconFile</key>
+	<string>@djvPackageName@</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@djvVersionMajor@.@djvVersionMinor@.@djvVersionPatch@</string>
+	<key>CFBundleVersion</key>
+	<string>@djvVersionMajor@.@djvVersionMinor@.@djvVersionPatch@</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright (c) 2004-2014 Darby Johnston</string>
+</dict>
+</plist>

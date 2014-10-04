@@ -1,0 +1,6 @@
+The HTML documentation is available in the "doc/" directory.
+
+To generate the developer documentation run Doxygen from the top-level
+directory.
+
+Instructions for building DJV from source are in CMakeLists.txt.
