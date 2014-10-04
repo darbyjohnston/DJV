@@ -115,13 +115,13 @@ struct DJV_CORE_EXPORT djvMemory
         quint64      size,
         int          wordSize);
 
-    //! Get a size label.
-
-    static QString sizeLabel(quint64);
-
     //! Get endian labels.
 
     static const QStringList & endianLabels();
+
+    //! Get a size label.
+
+    static QString sizeLabel(quint64);
 };
 
 //------------------------------------------------------------------------------
