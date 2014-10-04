@@ -34,6 +34,7 @@
 #include <djvPngSave.h>
 
 #include <djvError.h>
+#include <djvMemory.h>
 #include <djvOpenGlImage.h>
 #include <djvStringUtil.h>
 
@@ -294,5 +295,13 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (d
     if (! pngOpen(_f, _png, &_pngInfo, info))
     {
         throw djvError(djvPngPlugin::staticName, _pngError.msg);
+    }
+
+    // Set the endian.
+    
+    if (djvPixel::bitDepth(info.pixel) >= 16 &&
+        djvMemory::LSB == djvMemory::endian())
+    {
+        png_set_swap(_png);
     }
 }

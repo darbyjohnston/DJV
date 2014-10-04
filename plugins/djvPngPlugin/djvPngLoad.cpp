@@ -309,13 +309,16 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErro
 
     //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
 
-    if (bitDepth >= 16 && djvMemory::LSB == djvMemory::endian())
-    {
-        //png_set_swap(_png);
-    }
-
     if (! djvPixel::pixel(channels, bitDepth, djvPixel::INTEGER, info.pixel))
     {
         djvImageIo::throwUnsupported(djvPngPlugin::staticName, in);
     }
+
+    // Set the endian.
+    
+    if (bitDepth >= 16 && djvMemory::LSB == djvMemory::endian())
+    {
+        png_set_swap(_png);
+    }
 }
+
