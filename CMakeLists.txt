@@ -19,19 +19,28 @@ cmake_policy(SET CMP0042 OLD)
 # CMAKE_PREFIX_PATH. The CMake modules that are used for finding the
 # dependencies are located in "cmake/Modules".
 #
-#     Linux and OS X
+#     Linux
 #     
-#         * tar zxvf djv-third-party-1.0.0.tar.gz
-#         * cd djv-third-party-1.0.0
+#         * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+#         * cd djv-git-third-party
 #         * sh Linux-64.sh
+#         * cd ..
+#
+#     OS X
+#     
+#         * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+#         * cd djv-git-third-party
+#         * sh OSX-64.sh
+#         * fix libquicktime-1.2.4/config.h as described in the third party
+#           build script and rebuild/install libquicktime
 #         * cd ..
 #
 #     Windows
 #
-#         * mkdir djv-third-party-1.0.0-Windows-64-cmake
-#         * cd djv-third-party-1.0.0-Windows-64-cmake
-#         * apply patch/openexr.ImfCompressionAttibute.h.patch
-#         * cmake -G "NMake Makefiles" ..\djv-third-party-1.0.0
+#         * mkdir djv-git-third-party-Windows-64-cmake
+#         * cd djv-git-third-party-Windows-64-cmake
+#         * apply djv-git-third-party/patch/openexr.ImfCompressionAttibute.h.patch
+#         * cmake -G "NMake Makefiles" ..\djv-git-third-party
 #         * nmake
 #         * nmake package
 #         * unzip package in directory of your choice
@@ -43,30 +52,36 @@ cmake_policy(SET CMP0042 OLD)
 #
 # Building DJV
 #
-#     Linux and OS X
+#     Linux
 #
-#         * set djvPackageThirdParty in CMakeLists.txt
-#         * mkdir djv-1.0.0-Linux-64
-#         * cd djv-1.0.0-Linux-64
-#         * export CMAKE_PREFIX_PATH=/.../djv-third-party-1.0.0-Linux-64
-#         * cmake ../djv-1.0.0
+#         * git clone git://git.code.sf.net/p/djv/git djv-git
+#         * mkdir djv-git-Linux-64
+#         * cd djv-git-Linux-64
+#         * export CMAKE_PREFIX_PATH=/.../djv-git-third-party-Linux-64
+#         * cmake ../djv-git
 #         * make
 #         * make test
 #         * make package
 #
-#     OS X Only
+#     OS X
 #
-#         * fix libquicktime-1.2.4/config.h as described in the third party
-#           build script
+#         * git clone git://git.code.sf.net/p/djv/git djv-git
+#         * mkdir djv-git-OSX-64
+#         * cd djv-git-OSX-64
+#         * export CMAKE_PREFIX_PATH=/.../djv-git-third-party-OSX-64
+#         * cmake ../djv-git
+#         * make
+#         * make test
+#         * make package
 #
 #     Windows
 #
 #         * set djvPackageThirdParty in CMakeLists.txt
-#         * mkdir djv-1.0.0-Windows-64
-#         * cd djv-1.0.0-Windows-64
-#         * set CMAKE_PREFIX_PATH=C:/.../djv-third-party-1.0.0-Windows-64
-#         * set PATH=%PATH%;C:\...\djv-third-party-1.0.0-Windows-64\bin
-#         * cmake -G "NMake Makefiles" ..\djv-1.0.0
+#         * mkdir djv-git-Windows-64
+#         * cd djv-git-Windows-64
+#         * set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
+#         * set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
+#         * cmake -G "NMake Makefiles" ..\djv-git
 #         * nmake
 #         * nmake test
 #         * nmake package
