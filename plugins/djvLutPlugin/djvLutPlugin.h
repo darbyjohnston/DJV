@@ -50,6 +50,9 @@
 //!
 //! - Inferno and Kodak formats
 //! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA; 10-bit RGB
+//!
+//! \todo Add support for detecting whether the input LUT file is horizontal
+//! or vertical.
 
 //@} // plugins
 
