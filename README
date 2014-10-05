@@ -1,6 +1,12 @@
-The HTML documentation is available in the "doc/" directory.
+The documentation is available here: http://djv.sourceforge.net/djvHelp.html
+
+The change list is available here: http://djv.sourceforge.net/djvChangeList.html
+
+The copyright and license are available here: http://djv.sourceforge.net/djvLegal.html
+
+Source code is available from Git: git clone git://git.code.sf.net/p/djv/git djv-git
+
+Instructions for building DJV from source are in CMakeLists.txt.
 
 To generate the developer documentation run Doxygen from the top-level
 directory.
-
-Instructions for building DJV from source are in CMakeLists.txt.
