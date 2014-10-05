@@ -10,7 +10,9 @@ cmake_policy(SET CMP0042 OLD)
 # how to setup third party software dependencies and build DJV from source.
 # Note that these instructions are a work in progress.
 #
+#
 # Building Third Party Dependencies
+# ---------------------------------
 #
 # The DJV software has a number of third party dependencies that can either be
 # installed on the system or built from scratch. By default the dependencies
@@ -19,77 +21,85 @@ cmake_policy(SET CMP0042 OLD)
 # CMAKE_PREFIX_PATH. The CMake modules that are used for finding the
 # dependencies are located in "cmake/Modules".
 #
-#     Linux
+# Linux:
 #     
-#         * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-#         * cd djv-git-third-party
-#         * sh Linux-64.sh
-#         * cd ..
+# * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+# * cd djv-git-third-party
+# * sh Linux-64.sh
+# * cd ..
 #
-#     OS X
+# OS X:
 #     
-#         * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-#         * cd djv-git-third-party
-#         * sh OSX-64.sh
-#         * fix libquicktime-1.2.4/config.h as described in the third party
-#           build script and rebuild/install libquicktime
-#         * cd ..
+# * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+# * cd djv-git-third-party
+# * sh OSX-64.sh
+# * fix libquicktime-1.2.4/config.h as described in the third party build
+#   script and rebuild/install libquicktime
+# * cd ..
 #
-#     Windows
+# Windows:
 #
-#         * mkdir djv-git-third-party-Windows-64-cmake
-#         * cd djv-git-third-party-Windows-64-cmake
-#         * apply djv-git-third-party/patch/openexr.ImfCompressionAttibute.h.patch
-#         * cmake -G "NMake Makefiles" ..\djv-git-third-party
-#         * nmake
-#         * nmake package
-#         * unzip package in directory of your choice
-#         * compile qtbase-opensource-src-5.3.2.zip and install into the
-#           unzipped directory from the previous step; make sure to configure
-#           qt with desktop OpenGL support ("-opengl desktop")
-#         * rezip package
-#         * unzip package to desired build location
+# * mkdir djv-git-third-party-Windows-64-cmake
+# * cd djv-git-third-party-Windows-64-cmake
+# * apply djv-git-third-party/patch/openexr.ImfCompressionAttibute.h.patch
+# * cmake -G "NMake Makefiles" ..\djv-git-third-party
+# * nmake
+# * nmake package
+# * unzip package in directory of your choice
+# * compile qtbase-opensource-src-5.3.2.zip and install into the unzipped
+#   directory from the previous step; make sure to configure qt with desktop
+#   OpenGL support ("-opengl desktop")
+# * rezip package
+# * unzip package to desired build location
+#
 #
 # Building DJV
+# ------------
 #
-#     Linux
+# Linux:
 #
-#         * git clone git://git.code.sf.net/p/djv/git djv-git
-#         * mkdir djv-git-Linux-64
-#         * cd djv-git-Linux-64
-#         * export CMAKE_PREFIX_PATH=/.../djv-git-third-party-Linux-64
-#         * cmake ../djv-git
-#         * make
-#         * make test
-#         * make package
+# * git clone git://git.code.sf.net/p/djv/git djv-git
+# * mkdir djv-git-Linux-64
+# * cd djv-git-Linux-64
+# * export CMAKE_PREFIX_PATH=/.../djv-git-third-party-Linux-64
+# * cmake ../djv-git
+# * make
+# * make test
+# * make package
 #
-#     OS X
+# OS X:
 #
-#         * git clone git://git.code.sf.net/p/djv/git djv-git
-#         * mkdir djv-git-OSX-64
-#         * cd djv-git-OSX-64
-#         * export CMAKE_PREFIX_PATH=/.../djv-git-third-party-OSX-64
-#         * cmake ../djv-git
-#         * make
-#         * make test
-#         * make package
+# * git clone git://git.code.sf.net/p/djv/git djv-git
+# * mkdir djv-git-OSX-64
+# * cd djv-git-OSX-64
+# * export CMAKE_PREFIX_PATH=/.../djv-git-third-party-OSX-64
+# * cmake ../djv-git
+# * make
+# * make test
+# * make package
 #
-#     Windows
+# Windows:
 #
-#         * set djvPackageThirdParty in CMakeLists.txt
-#         * mkdir djv-git-Windows-64
-#         * cd djv-git-Windows-64
-#         * set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
-#         * set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
-#         * cmake -G "NMake Makefiles" ..\djv-git
-#         * nmake
-#         * nmake test
-#         * nmake package
+# * set djvPackageThirdParty in CMakeLists.txt
+# * mkdir djv-git-Windows-64
+# * cd djv-git-Windows-64
+# * set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
+# * set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
+# * cmake -G "NMake Makefiles" ..\djv-git
+# * nmake
+# * nmake test
+# * nmake package
+#
 #
 # Versioning Check List
+# ---------------------
 #
-# * Set the proper DJV version in this file.
-# * Update the DJV version numbers in doc/*.html.
+# Files to update:
+#
+# * Set the proper DJV version in this file
+# * Update the DJV version numbers in doc/*.html
+# * Update the version number in Doxyfile
+#
 #-------------------------------------------------------------------------------
 
 # Set whether to include third party dependencies when packaging.
@@ -142,7 +152,7 @@ endif (APPLE)
 
 set(djvVersionMajor "1")
 set(djvVersionMinor "0")
-set(djvVersionPatch "0")
+set(djvVersionPatch "1")
 
 # Set the project name.
 
