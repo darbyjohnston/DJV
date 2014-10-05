@@ -1518,7 +1518,7 @@ void displayProfileInit(
     if (djvVectorUtil::isSizeValid(options.displayProfile.lut.size()))
     {
         activeTexture(GL_TEXTURE3);
-        uniform1i(program, "inDisplayProfileLinDisplayProfileut", 3);
+        uniform1i(program, "inDisplayProfileLut", 3);
         displayProfile.init(options.displayProfile.lut);
     }
 }
