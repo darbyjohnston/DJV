@@ -171,7 +171,7 @@ const QString labelInfo =
 QString djvAbstractCoreApplication::info() const
 {
     return QString(labelInfo).
-        arg(DJV_PROJECT_NAME).
+        arg(DJV_PACKAGE_NAME).
         arg(djvSystem::info()).
         arg(djvStringUtil::label(djvMemory::endian()).join(", ")).
         arg(djvSystem::searchPath().join(", "));

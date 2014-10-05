@@ -178,6 +178,8 @@ endif ()
 
 #message("djvBuildArch = " ${djvBuildArch})
 
+set(djvPackageName ${djvProjectName}-${djvBuildArch})
+
 # CMake module path.
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
@@ -1128,8 +1130,6 @@ set(djvGuiLibs djvGui ${djvGuiDeps})
 #-------------------------------------------------------------------------------
 # Packaging
 #-------------------------------------------------------------------------------
-
-set(djvPackageName ${djvProjectName}-${djvBuildArch})
 
 if (WIN32)
 
