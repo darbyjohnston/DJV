@@ -351,7 +351,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                 if (_p->u8Conversion)
                 {
                     //DJV_DEBUG_PRINT("u8 conversion");
-                    //DJV_DEBUG_PRINT("image = " << _imageTmp2);
+                    //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
 
                     djvPixelDataInfo info(_p->imageTmp2.info());
                     info.pixel = djvPixel::pixel(
@@ -369,11 +369,11 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
                 that->_p->image = &_p->imageTmp;
 
-                //DJV_DEBUG_PRINT("image = " << *_image);
+                //DJV_DEBUG_PRINT("image = " << *_p->image);
             }
             catch (const djvError & error)
             {
-                //DJV_DEBUG_PRINT("error" << error);
+                //DJV_DEBUG_PRINT("error = " << error.string());
 
                 DJV_APP->printError(error);
             }
@@ -381,10 +381,17 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
         if (_p->image && _p->cacheEnabled)
         {
+            //DJV_DEBUG_PRINT("cache image");
+            
             that->_p->cacheRef = djvViewFileCache::global()->create(
                 new djvImage(*_p->image),
                 mainWindow(),
                 frame);
+            
+            that->_p->image = _p->cacheRef->image();
+            
+            _p->imageTmp.close();
+            _p->imageTmp2.close();
         }
     }
 
@@ -488,6 +495,11 @@ void djvViewFileGroup::open(const djvFileInfo & in)
             DJV_APP->printError(error);
         }
     }
+    else
+    {
+        _p->imageTmp  = djvImage();
+        _p->imageTmp2 = djvImage();    
+    }
 
     _p->layer = 0;
     _p->layers.clear();
@@ -573,6 +585,8 @@ void djvViewFileGroup::setCacheEnabled(bool cache)
 
     cacheDel();
     update();
+
+    Q_EMIT imageChanged();
 }
 
 void djvViewFileGroup::openCallback()

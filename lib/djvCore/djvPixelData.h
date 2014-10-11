@@ -225,6 +225,11 @@ public:
     //! Get the number of bytes in the data.
 
     inline quint64 dataByteCount() const;
+    
+    //! Close the file I/O associated with the pixel data. This will initialize
+    //! the image.
+    
+    void close();
 
     djvPixelData & operator = (const djvPixelData &);
 

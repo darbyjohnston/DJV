@@ -171,6 +171,18 @@ void djvPixelData::zero()
     _data.zero();
 }
 
+void djvPixelData::close()
+{
+    //DJV_DEBUG("djvPixelData::close");
+    
+    if (_fileIo)
+    {
+        delete _fileIo;
+        
+        init();
+    }
+}
+
 djvPixelData & djvPixelData::operator = (const djvPixelData & in)
 {
     if (&in != this)
@@ -200,6 +212,8 @@ void djvPixelData::detach()
         djvMemory::copy(_p, _data(), _dataByteCount);
         
         _p = data();
+
+        delete _fileIo;
 
         _fileIo = 0;
     }
