@@ -145,8 +145,20 @@ const QStringList & djvView::imageScaleLabels()
     static const QStringList data = QStringList() <<
         "None" <<
         "16.9" <<
+        "1.0" <<
+        "1.33" <<
+        "1.78" <<
         "1.85" <<
-        "2.35";
+        "2.0" <<
+        "2.35" <<
+        "2.39" <<
+        "2.40" <<
+        "1:1"  <<
+        "2:1"  <<
+        "3:2"  <<
+        "4:3"  <<
+        "5:3"  <<
+        "5:4";
 
     DJV_ASSERT(data.count() == IMAGE_SCALE_COUNT);
 
@@ -155,17 +167,41 @@ const QStringList & djvView::imageScaleLabels()
 
 djvVector2f djvView::imageScale(IMAGE_SCALE in, const djvVector2i & size)
 {
-    static const double data [] = { 1.0, 16.0 / 9.0, 1.85, 2.35 };
+    static const double data [] =
+    {
+        1.0,
+        16.0 / 9.0,
+        1.0,
+        1.33,
+        1.78,
+        1.85,
+        2.0,
+        2.35,
+        2.39,
+        2.40,
+        1.0,
+        2.0,
+        3.0 / 2.0,
+        4.0 / 3.0,
+        5.0 / 3.0,
+        5.0 / 4.0
+    };
+    
+    static const int dataCount = sizeof(data) / sizeof(data[0]);
+
+    DJV_ASSERT(dataCount == IMAGE_SCALE_COUNT);
 
     djvVector2f out(1.0);
 
     switch (in)
     {
-        case IMAGE_SCALE_16_9:
-        case IMAGE_SCALE_1_85:
-        case IMAGE_SCALE_2_35: out.x = data[in] / djvVectorUtil::aspect(size); break;
+        case IMAGE_SCALE_NONE: break;
 
-        default: break;
+        default:
+        
+            out.x = data[in] / djvVectorUtil::aspect(size);
+            
+            break;
     }
 
     return out;

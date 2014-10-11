@@ -175,9 +175,33 @@ const QVector<djvShortcut> & djvViewShortcutPrefs::shortcutsDefault()
         djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::IMAGE_SCALE_16_9], QKeySequence(Qt::Key_F6)) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_1_0], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_1_33], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_1_78], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::IMAGE_SCALE_1_85], QKeySequence(Qt::Key_F7)) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_2_0], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::IMAGE_SCALE_2_35], QKeySequence(Qt::Key_F8)) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_2_39], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_2_40], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_1_1], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_2_1], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_3_2], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_4_3], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_5_3], QKeySequence()) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::IMAGE_SCALE_5_4], QKeySequence()) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::IMAGE_ROTATE_0], QKeySequence(Qt::Key_F9)) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[

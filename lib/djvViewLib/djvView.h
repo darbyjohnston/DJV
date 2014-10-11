@@ -163,8 +163,20 @@ struct DJV_VIEW_LIB_EXPORT djvView
     {
         IMAGE_SCALE_NONE,
         IMAGE_SCALE_16_9,
+        IMAGE_SCALE_1_0,
+        IMAGE_SCALE_1_33,
+        IMAGE_SCALE_1_78,
         IMAGE_SCALE_1_85,
+        IMAGE_SCALE_2_0,
         IMAGE_SCALE_2_35,
+        IMAGE_SCALE_2_39,
+        IMAGE_SCALE_2_40,
+        IMAGE_SCALE_1_1,
+        IMAGE_SCALE_2_1,
+        IMAGE_SCALE_3_2,
+        IMAGE_SCALE_4_3,
+        IMAGE_SCALE_5_3,
+        IMAGE_SCALE_5_4,
 
         IMAGE_SCALE_COUNT
     };

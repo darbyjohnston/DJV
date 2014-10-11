@@ -179,8 +179,20 @@ void djvViewImageActions::update()
     const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewShortcut::IMAGE_SCALE_NONE].value <<
         shortcuts[djvViewShortcut::IMAGE_SCALE_16_9].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_1_0].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_1_33].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_1_78].value <<
         shortcuts[djvViewShortcut::IMAGE_SCALE_1_85].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_2_35].value;
+        shortcuts[djvViewShortcut::IMAGE_SCALE_2_0].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_2_35].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_2_39].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_2_40].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_1_1].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_2_1].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_3_2].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_4_3].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_5_3].value <<
+        shortcuts[djvViewShortcut::IMAGE_SCALE_5_4].value;
 
     for (int i = 0; i < djvView::imageScaleLabels().count(); ++i)
     {

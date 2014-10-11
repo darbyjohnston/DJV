@@ -96,8 +96,20 @@ const QStringList & djvViewShortcut::shortcutLabels()
         "Image Mirror Vertical" <<
         "Image Scale None" <<
         "Image Scale 16:9" <<
+        "Image Scale 1.0" <<
+        "Image Scale 1.33" <<
+        "Image Scale 1.78" <<
         "Image Scale 1.85" <<
+        "Image Scale 2.0" <<
         "Image Scale 2.35" <<
+        "Image Scale 2.39" <<
+        "Image Scale 2.40" <<
+        "Image Scale 1:1" <<
+        "Image Scale 2:1" <<
+        "Image Scale 3:2" <<
+        "Image Scale 4:3" <<
+        "Image Scale 5:3" <<
+        "Image Scale 5:4" <<
         "Image Rotate 0" <<
         "Image Rotate 90" <<
         "Image Rotate 180" <<
