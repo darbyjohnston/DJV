@@ -227,7 +227,8 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
 
     if (err != qt::noErr)
     {
-        throw djvError(staticName,
+        DJV_THROW_ERROR2(
+            staticName,
             QString("Cannot initialize (#%1)").arg(err));
     }
 
@@ -243,7 +244,8 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
 
     if (err != qt::noErr)
     {
-        throw djvError(staticName,
+        DJV_THROW_ERROR2(
+            staticName,
             QString("Incompatible version (#%1)").arg(err));
     }
 
@@ -255,7 +257,8 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
 
     if (err != qt::noErr)
     {
-        throw djvError(staticName,
+        DJV_THROW_ERROR2(
+            staticName,
             QString("Cannot initialize (#%1)").arg(err));
     }
 

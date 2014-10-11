@@ -55,10 +55,11 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
     HINSTANCE hinstance = GetModuleHandle(0);
 
     if (! hinstance)
-        throw djvError(
-            "djvWglContextPrivate",
+    {
+        DJV_THROW_ERROR(
             QString("GetModuleHandle: #%1").arg(int(GetLastError())));
-
+    }
+    
     static const char name [] = "djv";
     WNDCLASS wc;
     if (! GetClassInfo(hinstance, name, &wc))
@@ -76,25 +77,25 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
         wc.lpszClassName = name;
 
         if (! RegisterClass(&wc))
-            throw djvError(
-                "djvWglContextPrivate",
-                QString("RegisterClass: #%1").
-                    arg(int(GetLastError())));
+        {
+            DJV_THROW_ERROR(
+                QString("RegisterClass: #%1").arg(int(GetLastError())));
+        }
     }
 
     _id = CreateWindow(name, 0, 0, 0, 0, 0, 0, 0, 0, hinstance, 0);
 
     if (! _id)
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("CreateWindow: #%1").arg(int(GetLastError())));
+    {
+        DJV_THROW_ERROR(QString("CreateWindow: #%1").arg(int(GetLastError())));
+    }
 
     _device = GetDC(_id);
 
     if (! _device)
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("GetDC: #%1").arg(int(GetLastError())));
+    {
+        DJV_THROW_ERROR(QString("GetDC: #%1").arg(int(GetLastError())));
+    }
 
     PIXELFORMATDESCRIPTOR pixelFormatInfo;
 
@@ -142,40 +143,42 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
     //DJV_DEBUG_PRINT("pixel format = " << pixel_format_id);
 
     if (! pixel_format_id)
-        throw djvError(
-            "djvWglContextPrivate",
+    {
+        DJV_THROW_ERROR(
             QString("ChoosePixelFormat: #%1").arg(int(GetLastError())));
+    }
 
     if (! SetPixelFormat(_device, pixel_format_id, &pixel_format))
-        throw djvError(
-            "djvWglContextPrivate",
+    {
+        DJV_THROW_ERROR(
             QString("SetPixelFormat: #%1").arg(int(GetLastError())));
+    }
 
     // Create context.
 
     _context = wglCreateContext(_device);
 
     if (! _context)
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("Cannot create context: #%1").
-                arg(int(GetLastError())));
+    {
+        DJV_THROW_ERROR(
+            QString("Cannot create context: #%1").arg(int(GetLastError())));
+    }
 
     if (! wglMakeCurrent(_device, _context))
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("Cannot bind context: #%1").
-                arg(int(GetLastError())));
+    {
+        DJV_THROW_ERROR(
+            QString("Cannot bind context: #%1").arg(int(GetLastError())));
+    }
 
     // Initialize GLEW.
 
     GLenum err = glewInit();
 
     if (err != GLEW_OK)
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("Cannot initialize: #%1").
-                arg((char *)glewGetErrorString(err)));
+    {
+        DJV_THROW_ERROR(QString("Cannot initialize: #%1").
+            arg((char *)glewGetErrorString(err)));
+    }
 
     setVendor(QString((const char *)glGetString(GL_VENDOR)));
     setRenderer(QString((const char *)glGetString(GL_RENDERER)));
@@ -214,17 +217,17 @@ djvWglContextPrivate::~djvWglContextPrivate()
 void djvWglContextPrivate::bind() throw (djvError)
 {
     if (! wglMakeCurrent(_device, _context))
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("Cannot bind context: #%1").
-                arg(int(GetLastError())));
+    {
+        DJV_THROW_ERROR(
+            QString("Cannot bind context: #%1").arg(int(GetLastError())));
+    }
 }
 
 void djvWglContextPrivate::unbind()
 {
     if (! wglMakeCurrent(_device, 0))
-        throw djvError(
-            "djvWglContextPrivate",
-            QString("Cannot unbind context: #%1").
-                arg(int(GetLastError())));
+    {
+        DJV_THROW_ERROR(
+            QString("Cannot unbind context: #%1").arg(int(GetLastError())));
+    }
 }

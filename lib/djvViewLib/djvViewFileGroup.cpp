@@ -472,7 +472,10 @@ void djvViewFileGroup::open(const djvFileInfo & in)
                 djvImageIoFactory::global()->load(fileInfo, _p->imageIoInfo));
 
             if (!_p->imageLoad.data())
-                throw djvError(QString("Cannot open image \"%1\"").arg(fileInfo));
+            {
+                throw djvError(QString("Cannot open image \"%1\"").
+                    arg(fileInfo));
+            }
 
             _p->fileInfo = fileInfo;
 
@@ -619,8 +622,10 @@ void djvViewFileGroup::reloadCallback()
                 djvImageIoFactory::global()->load(_p->fileInfo, _p->imageIoInfo));
             
             if (! _p->imageLoad.data())
+            {
                 throw djvError(QString("Cannot open image \"%1\"").
                     arg(_p->fileInfo));
+            }
         }
         catch (const djvError & error)
         {

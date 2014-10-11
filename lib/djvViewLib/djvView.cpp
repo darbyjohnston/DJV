@@ -214,8 +214,10 @@ void djvView::loadLut(const djvFileInfo & in, djvPixelData & lut)
             djvImageIoFactory::global()->load(file, info));
     
         if (! load.data())
+        {
             throw djvError(QString("Cannot open LUT \"%1\"").
                 arg(file));
+        }
     
         djvImage image;
         

@@ -41,18 +41,6 @@
 #include <djvPixelDataUtil.h>
 #include <djvVector.h>
 
-namespace
-{
-
-#define _ERROR(prefix, in) \
-    \
-    djvError(prefix, QString("%1%2:%3"). \
-        arg(in). \
-        arg(__FILE__). \
-        arg(__LINE__))
-
-} // namespace
-
 //------------------------------------------------------------------------------
 //! \class djvOpenGlImageLut
 //!
@@ -119,7 +107,7 @@ void djvOpenGlImageLut::init(const djvPixelDataInfo & info) throw (djvError)
 
     if (! _id)
     {
-        throw _ERROR("djvOpenGlImageLut", "Cannot create texture");
+        DJV_THROW_ERROR("Cannot create texture");
     }
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_1D, _id));
@@ -289,7 +277,7 @@ void djvOpenGlImageTexture::init(
 
     if (! _id)
     {
-        throw _ERROR("djvOpenGlImageTexture", "Cannot create texture");
+        DJV_THROW_ERROR("Cannot create texture");
     }
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _id));
@@ -313,17 +301,21 @@ void djvOpenGlImageTexture::init(
         format = GL_RGBA32F;
     }
 
-    DJV_DEBUG_OPEN_GL(
-        glTexImage2D(
-            GL_TEXTURE_2D,
-            0,
-            format,
-            _info.size.x,
-            _info.size.y,
-            0,
-            djvOpenGlUtil::format(_info.pixel, _info.bgr),
-            djvOpenGlUtil::type(_info.pixel),
-            0));
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        format,
+        _info.size.x,
+        _info.size.y,
+        0,
+        djvOpenGlUtil::format(_info.pixel, _info.bgr),
+        djvOpenGlUtil::type(_info.pixel),
+        0);
+
+    if (glGetError() != GL_NO_ERROR)
+    {
+        DJV_THROW_ERROR("Cannot create texture");
+    }
 }
 
 void djvOpenGlImageTexture::init(
@@ -474,7 +466,7 @@ GLuint shaderCreate(GLenum type) throw (djvError)
 
     if (! r)
     {
-        throw _ERROR("djvOpenGlImageShader", "Cannot create shader");
+        DJV_THROW_ERROR("Cannot create shader");
     }
 
     return r;
@@ -507,8 +499,7 @@ void shaderCompile(GLuint id, const QString & source) throw (djvError)
 
     if (error != GL_TRUE)
     {
-        throw _ERROR("djvOpenGlImageShader",
-            QString("Cannot compile shader:\n%1").arg(log));
+        DJV_THROW_ERROR(QString("Cannot compile shader:\n%1").arg(log));
     }
 }
 
@@ -541,7 +532,7 @@ void djvOpenGlImageShader::init(
 
     if (! _program)
     {
-        throw _ERROR("djvOpenGlImageShader", "Cannot create shader program");
+        DJV_THROW_ERROR("Cannot create shader program");
     }
 
     DJV_DEBUG_OPEN_GL(glAttachShader(_program, _vertexId));
@@ -558,8 +549,7 @@ void djvOpenGlImageShader::init(
 
     if (error != GL_TRUE)
     {
-        throw _ERROR("djvOpenGlImageShader",
-            QString("Cannot link shader:\n%1").arg(log));
+        DJV_THROW_ERROR(QString("Cannot link shader:\n%1").arg(log));
     }
 }
 

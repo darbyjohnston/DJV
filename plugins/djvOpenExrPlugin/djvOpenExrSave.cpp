@@ -164,7 +164,7 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
     }
     catch (const std::exception & err)
     {
-        throw djvError(djvOpenExrPlugin::staticName, err.what());
+        DJV_THROW_ERROR2(djvOpenExrPlugin::staticName, err.what());
     }
 
     close();
@@ -268,6 +268,6 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
     }
     catch (const std::exception & error)
     {
-        throw djvError(djvOpenExrPlugin::staticName, error.what());
+        DJV_THROW_ERROR2(djvOpenExrPlugin::staticName, error.what());
     }
 }

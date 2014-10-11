@@ -185,8 +185,11 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         &_movie);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot open: %1 (#%2)").arg(in).arg(err));
+    }
 
     // Get the file information.
 
@@ -246,7 +249,8 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     if (err != qt::noErr)
     {
-        throw djvError(djvQuickTimePlugin::staticName,
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot create GWorld: %1 (#%2)").arg(in).arg(err));
     }
 

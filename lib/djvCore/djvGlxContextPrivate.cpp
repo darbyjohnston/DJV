@@ -55,9 +55,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     _display = XOpenDisplay(NULL);
 
     if (! _display)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "Cannot open X display");
+    {
+        DJV_THROW_ERROR("Cannot open X display");
+    }
 
     _screen = DefaultScreen(_display);
 
@@ -74,9 +74,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
         &_visualsCount);
 
     if (! _visuals || ! _visualsCount)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "No appropriate X visuals");
+    {
+        DJV_THROW_ERROR("No appropriate X visuals");
+    }
 
     // Create the color map.
 
@@ -87,16 +87,16 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
         AllocNone);
 
     if (! _colormap)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "Cannot create X colormap");
+    {
+        DJV_THROW_ERROR("Cannot create X colormap");
+    }
 
     // Check for GLX support.
 
     if (! glXQueryExtension(_display, 0, 0))
-        throw djvError(
-            "djvGlxContextPrivate",
-            "No GLX extension");
+    {
+        DJV_THROW_ERROR("No GLX extension");
+    }
 
     // Create a dummy window and rendering context for glewInit.
 
@@ -115,9 +115,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
         &winAttrib);
 
     if (! _window)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "Cannot create an X window");
+    {
+        DJV_THROW_ERROR("Cannot create an X window");
+    }
 
     // Create the OpenGL context.
 
@@ -128,9 +128,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
         True);
 
     if (! _context)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "Cannot create OpenGL context");
+    {
+        DJV_THROW_ERROR("Cannot create OpenGL context");
+    }
 
     // Bind the context.
 
@@ -141,9 +141,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     GLint glError = glewInit();
 
     if (glError != GLEW_OK)
-        throw djvError(
-            "djvGlxContextPrivate",
-            QString("Cannot initialize GLEW: #%1").arg(glError));
+    {
+        DJV_THROW_ERROR(QString("Cannot initialize GLEW: #%1").arg(glError));
+    }
 
     setVendor((const char *)glGetString(GL_VENDOR));
     setRenderer((const char *)glGetString(GL_RENDERER));
@@ -160,9 +160,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     //    (const char *)gluGetString(GLU_EXTENSIONS));
 
     if (! GL_EXT_framebuffer_object)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "No OpenGL FBO support");
+    {
+        DJV_THROW_ERROR("No OpenGL FBO support");
+    }
 }
 
 djvGlxContextPrivate::~djvGlxContextPrivate()
@@ -204,16 +204,16 @@ djvGlxContextPrivate::~djvGlxContextPrivate()
 void djvGlxContextPrivate::bind() throw (djvError)
 {
     if (! _context)
-        throw djvError(
-            "djvGlxContextPrivate",
-            "Invalid OpenGL context");
+    {
+        DJV_THROW_ERROR("Invalid OpenGL context");
+    }
 
     //DJV_DEBUG("djvGlxContextPrivate::bind");
 
     if (! glXMakeCurrent(_display, _window, _context))
-        throw djvError(
-            "djvGlxContextPrivate",
-            "Cannot bind OpenGL context");
+    {
+        DJV_THROW_ERROR("Cannot bind OpenGL context");
+    }
 }
 
 void djvGlxContextPrivate::unbind()

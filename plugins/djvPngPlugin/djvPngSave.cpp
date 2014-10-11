@@ -150,13 +150,13 @@ void djvPngSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     {
         if (! pngScanline(_png, p->data(0, h - 1 - y)))
         {
-            throw djvError(djvPngPlugin::staticName, _pngError.msg);
+            DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
         }
     }
 
     if (! pngEnd(_png, _pngInfo))
     {
-        throw djvError(djvPngPlugin::staticName, _pngError.msg);
+        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
     }
 
     close();
@@ -267,7 +267,7 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (d
 
     if (! _png)
     {
-        throw djvError(djvPngPlugin::staticName, _pngError.msg);
+        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
     }
 
     SNPRINTF(
@@ -294,7 +294,7 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (d
 
     if (! pngOpen(_f, _png, &_pngInfo, info))
     {
-        throw djvError(djvPngPlugin::staticName, _pngError.msg);
+        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
     }
 
     // Set the endian.

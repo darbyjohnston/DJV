@@ -224,7 +224,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame) t
     }
     catch (const std::exception & error)
     {
-        throw djvError(djvOpenExrPlugin::staticName, error.what());
+        DJV_THROW_ERROR2(djvOpenExrPlugin::staticName, error.what());
     }
 
     //DJV_DEBUG_PRINT("image = " << image);
@@ -308,6 +308,6 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info) throw (djv
     }
     catch (const std::exception & error)
     {
-        throw djvError(djvOpenExrPlugin::staticName, error.what());
+        DJV_THROW_ERROR2(djvOpenExrPlugin::staticName, error.what());
     }
 }

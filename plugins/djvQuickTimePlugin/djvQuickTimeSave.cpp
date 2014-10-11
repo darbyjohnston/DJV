@@ -87,11 +87,14 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         qt::kNoVolume);
 
     if (! _track)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot create track: %1 (#%2)").
                 arg(in).
                 arg(qt::GetMoviesError()));
-
+    }
+    
     _media = qt::NewTrackMedia(
         _track,
         qt::VideoMediaType,
@@ -100,18 +103,24 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         0);
 
     if (! _media)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot create media: %1 (#%2)").
                 arg(in).
                 arg(qt::GetMoviesError()));
+    }
 
     qt::OSErr err = qt::BeginMediaEdits(_media);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot begin editing media: %1 (#%2)").
                 arg(in).
                 arg(err));
+    }
 
     _file = in;
 
@@ -138,8 +147,11 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         _info.size.x * 4);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot create GWorld: %1 (#%2)").arg(in).arg(err));
+    }
 
     qt::SetMovieGWorld(_movie, _gworld, 0);
 }
@@ -163,10 +175,13 @@ void djvQuickTimeSave::_open(const QString & in, const djvImageIoInfo & info)
         &handleType);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot create data reference: %1 (#%2)").
                 arg(in).
                 arg(err));
+    }
 
     err = qt::CreateMovieStorage(
         handle.p,
@@ -178,8 +193,11 @@ void djvQuickTimeSave::_open(const QString & in, const djvImageIoInfo & info)
         &_movie);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot open: %1").arg(in).arg(err));
+    }
 }
 
 namespace
@@ -238,11 +256,14 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
         &compressMax);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot compress frame %1: %2 (#%3)").
                 arg(frame.frame).
                 arg(_file).
                 arg(err));
+    }
 
     //DJV_DEBUG_PRINT("compress max = " << static_cast<int>(compressMax));
 
@@ -252,11 +273,14 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
     description.init(4);
 
     if (! compress.p || ! description.p)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot compress frame %1: %2 (#%3)").
                 arg(frame.frame).
                 arg(_file).
                 arg(err));
+    }
 
     _LockPixels lock_pixels(pixmap);
 
@@ -269,11 +293,14 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
         *compress.p);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot compress frame %1: %2 (#%3)").
                 arg(frame.frame).
                 arg(_file).
                 arg(err));
+    }
 
     // Write the image.
 
@@ -289,11 +316,14 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
         0);
 
     if (err != qt::noErr)
-        throw djvError(djvQuickTimePlugin::staticName,
+    {
+        DJV_THROW_ERROR2(
+            djvQuickTimePlugin::staticName,
             QString("Cannot add frame %1: %2 (#%3)").
                 arg(frame.frame).
                 arg(_file).
                 arg(err));
+    }
 }
 
 void djvQuickTimeSave::close() throw (djvError)
@@ -307,10 +337,13 @@ void djvQuickTimeSave::close() throw (djvError)
         qt::OSErr err = qt::EndMediaEdits(_media);
 
         if (err != qt::noErr)
-            throw djvError(djvQuickTimePlugin::staticName,
+        {
+            DJV_THROW_ERROR2(
+                djvQuickTimePlugin::staticName,
                 QString("Cannot end editing media: %1 (#%2)").
                     arg(_file).
                     arg(err));
+        }
 
         err = qt::InsertMediaIntoTrack(
             _track,
@@ -320,8 +353,11 @@ void djvQuickTimeSave::close() throw (djvError)
             qt_fixed1);
 
         if (err != qt::noErr)
-            throw djvError(djvQuickTimePlugin::staticName,
+        {
+            DJV_THROW_ERROR2(
+                djvQuickTimePlugin::staticName,
                 QString("Cannot add media: %1 (#%2)").arg(_file).arg(err));
+        }
 
         qt::AddMovieToStorage(_movie, _f);
     }

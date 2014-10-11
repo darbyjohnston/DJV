@@ -75,7 +75,8 @@ void djvLibquicktimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     if (! quicktime_has_video(_f))
     {
-        throw djvError(djvLibquicktimePlugin::staticName,
+        DJV_THROW_ERROR2(
+            djvLibquicktimePlugin::staticName,
             QString("No video tracks in: %1").arg(in));
     }
 

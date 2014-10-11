@@ -92,6 +92,26 @@ private:
     DJV_PRIVATE_IMPLEMENTATION();
 };
 
+//------------------------------------------------------------------------------
+
+//! This macro throws an error with the file and line information.
+
+#define DJV_THROW_ERROR(message) \
+    \
+    throw djvError(QString("%1 (%2:%3)"). \
+        arg(message). \
+        arg(__FILE__). \
+        arg(__LINE__))
+
+//! This macro throws an error with the file and line information.
+
+#define DJV_THROW_ERROR2(prefix, message) \
+    \
+    throw djvError(prefix, QString("%1 (%2:%3)"). \
+        arg(message). \
+        arg(__FILE__). \
+        arg(__LINE__))
+
 //@} // djvCoreMisc
 
 #endif // DJV_ERROR_H

@@ -133,13 +133,13 @@ struct DJV_CORE_EXPORT djvOpenGlUtil
     cmd; \
     \
     { \
-        ::GLenum error = GL_NO_ERROR; \
+        GLenum error = GL_NO_ERROR; \
         \
-        if ((error = ::glGetError()) != GL_NO_ERROR) \
+        if ((error = glGetError()) != GL_NO_ERROR) \
         { \
             DJV_DEBUG_PRINT(QString("%1 = %2 (%3, line %4)"). \
                 arg(#cmd). \
-                arg((char *)::gluErrorString(error)). \
+                arg((char *)gluErrorString(error)). \
                 arg(__FILE__). \
                 arg(__LINE__)); \
         } \

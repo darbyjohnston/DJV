@@ -186,8 +186,10 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
             djvImageIoFactory::global()->load(_p->info.inputFile, loadInfo));
 
         if (! _p->load.data())
+        {
             throw djvError(QString("Cannot open image \"%1\"").
                 arg(_p->info.inputFile));
+        }
     }
     catch (const djvError & error)
     {
@@ -208,8 +210,10 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
             djvImageIoFactory::global()->save(_p->info.outputFile, saveInfo));
         
         if (! _p->save.data())
+        {
             throw djvError(QString("Cannot open image \"%1\"").
                 arg(_p->info.outputFile));
+        }
     }
     catch (const djvError & error)
     {

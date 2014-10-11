@@ -166,13 +166,13 @@ void djvJpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     {
         if (! jpegScanline(&_jpeg, p->data(0, h - 1 - y), &_jpegError))
         {
-            throw djvError(djvJpegPlugin::staticName, _jpegError.msg);
+            DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
         }
     }
 
     if (! jpeg_end(&_jpeg, &_jpegError))
     {
-        throw djvError(djvJpegPlugin::staticName, _jpegError.msg);
+        DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
     }
 
     close();
@@ -287,7 +287,7 @@ void djvJpegSave::_open(const QString & in, const djvImageIoInfo & info)
 
     if (! jpegInit(&_jpeg, &_jpegError))
     {
-        throw djvError(djvJpegPlugin::staticName, _jpegError.msg);
+        DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
     }
 
     _jpegInit = true;
@@ -311,7 +311,7 @@ void djvJpegSave::_open(const QString & in, const djvImageIoInfo & info)
 
     if (! jpegOpen(_f, &_jpeg, info, _options.quality, &_jpegError))
     {
-        throw djvError(djvJpegPlugin::staticName, _jpegError.msg);
+        DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
     }
 }
 

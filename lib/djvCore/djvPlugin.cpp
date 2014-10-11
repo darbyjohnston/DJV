@@ -124,7 +124,7 @@ public:
 
 #endif // DJV_WINDOWS
 
-            throw djvError("djvPluginFactory", error);
+            throw djvError(error);
         }
     }
 

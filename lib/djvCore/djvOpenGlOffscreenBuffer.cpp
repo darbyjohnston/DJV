@@ -85,9 +85,9 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
     _restore(0)
 {
     //DJV_DEBUG("djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer");
-     //DJV_DEBUG_PRINT("info = " << info);
+    //DJV_DEBUG_PRINT("info = " << info);
 
-     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
+    //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
     // Create the texture.
 
@@ -95,9 +95,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 
     if (! _texture)
     {
-        throw djvError(
-            "djvOpenGlOffscreenBuffer",
-            "Cannot initialize OpenGL FBO texture");
+        DJV_THROW_ERROR("Cannot initialize OpenGL FBO texture");
     }
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _texture));
@@ -122,7 +120,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         format = GL_RGBA32F;
     }
 
-    DJV_DEBUG_OPEN_GL(glTexImage2D(
+    glTexImage2D(
         GL_TEXTURE_2D,
         0,
         format,
@@ -131,7 +129,12 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         0,
         djvOpenGlUtil::format(_info.pixel, _info.bgr),
         djvOpenGlUtil::type(_info.pixel),
-        0));
+        0);
+
+    if (glGetError() != GL_NO_ERROR)
+    {
+        DJV_THROW_ERROR("Cannot initialize OpenGL FBO buffer texture");
+    }
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, 0));
 
@@ -141,9 +144,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 
     if (! _id)
     {
-        throw djvError(
-            "djvOpenGlOffscreenBuffer",
-            "Cannot initialize OpenGL FBO buffer");
+        DJV_THROW_ERROR("Cannot initialize OpenGL FBO buffer");
     }
 
     djvOpenGlOffscreenBufferScope scope(this);
@@ -159,10 +160,8 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 
     if (error != GL_FRAMEBUFFER_COMPLETE)
     {
-        throw djvError(
-            "djvOpenGlOffscreenBuffer",
-            QString("Cannot create OpenGL FBO buffer: %1").
-                arg(errorLabel(error)));
+        DJV_THROW_ERROR(QString("Cannot create OpenGL FBO buffer: %1").
+            arg(errorLabel(error)));
     }
 
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));

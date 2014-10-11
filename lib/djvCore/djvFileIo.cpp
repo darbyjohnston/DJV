@@ -171,8 +171,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
     if (INVALID_HANDLE_VALUE == _p->f)
     {
-        throw djvError("djvFileIo", QString("Cannot open file: %1").
-            arg(fileName));
+        throw djvError(QString("Cannot open file: %1").arg(fileName));
     }
 
 #else // DJV_WINDOWS
@@ -194,8 +193,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
     if (-1 == _p->f)
     {
-        throw djvError("djvFileIo", QString("Cannot open file: %1").
-            arg(fileName));
+        throw djvError(QString("Cannot open file: %1").arg(fileName));
     }
 
 #endif // DJV_WINDOWS
@@ -236,7 +234,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
         if (! _p->mmap)
         {
-            throw djvError("djvFileIo", QString("Cannot memory-map file: %1 (%2)").
+            DJV_THROW_ERROR(QString("Cannot memory-map file: %1 (%2)").
                 arg(_p->fileName).arg(djvErrorUtil::lastError()));
         }
         
@@ -245,7 +243,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
         if (! _p->mmapStart)
         {
-            throw djvError("djvFileIo", QString("Cannot memory-map file: %1 (%2)").
+            DJV_THROW_ERROR(QString("Cannot memory-map file: %1 (%2)").
                 arg(_p->fileName).arg(djvErrorUtil::lastError()));
         }
 
@@ -260,7 +258,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
         if (_p->mmap == (void *) - 1)
         {
-            throw djvError("djvFileIo", QString("Cannot memory-map file: %1").
+            DJV_THROW_ERROR(QString("Cannot memory-map file: %1").
                 arg(_p->fileName));
         }
 
@@ -398,8 +396,7 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
 
     if (p > _p->mmapEnd)
     {
-        throw djvError("djvFileIo", QString("Error reading file: %1").
-            arg(_p->fileName));
+        throw djvError(QString("Error reading file: %1").arg(_p->fileName));
     }
 
     if (_p->endian && wordSize > 1)
@@ -421,15 +418,16 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
 
     if (! ::ReadFile(_p->f, in, size * wordSize, &n, 0))
     {
-        throw djvError("djvFileIo", QString("Error reading file: %1").
-            arg(_p->fileName));
+        throw djvError(QString("Error reading file: %1").arg(_p->fileName));
     }
 
 #else // DJV_WINDOWS
 
     //if (-1 == ::read(_p->f, in, size * wordSize) == (size * wordSize))
-    //    throw djvError("djvFileIo", QString("Error reading file: %1").
-    //        arg(_p->fileName));
+    //{
+    //    throw djvError(QString("Error reading file: %1").arg(_p->fileName));
+    //}
+    
     ::read(_p->f, in, size * wordSize);
 
     if (_p->endian && wordSize > 1)
@@ -468,16 +466,14 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
 
     if (! ::WriteFile(_p->f, p, static_cast<DWORD>(size * wordSize), &n, 0))
     {
-        throw djvError("djvFileIo", QString("Error writing file: %1").
-            arg(_p->fileName));
+        throw djvError(QString("Error writing file: %1").arg(_p->fileName));
     }
 
 #else
 
     if (::write(_p->f, p, size * wordSize) == -1)
     {
-        throw djvError("djvFileIo", QString("Error writing file: %1").
-            arg(_p->fileName));
+        throw djvError(QString("Error writing file: %1").arg(_p->fileName));
     }
 
 #endif
@@ -599,7 +595,6 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
             if (_p->mmapP > _p->mmapEnd)
             {
                 throw djvError(
-                    "djvFileIo",
                     QString("Cannot set file position: %1").arg(_p->fileName));
             }
 
@@ -621,7 +616,6 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
                     ! seek ? FILE_BEGIN : FILE_CURRENT))
             {
                 throw djvError(
-                    "djvFileIo",
                     QString("Cannot set file position: %1").arg(_p->fileName));
             }
 
@@ -630,7 +624,6 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
             if (::lseek(_p->f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
             {
                 throw djvError(
-                    "djvFileIo",
                     QString("Cannot set file position: %1").arg(_p->fileName));
             }
 

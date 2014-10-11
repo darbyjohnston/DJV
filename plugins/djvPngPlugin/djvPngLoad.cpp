@@ -127,7 +127,7 @@ void djvPngLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     {
         if (! pngScanline(_png, data->data(0,  data->h() - 1 - y)))
         {
-            throw djvError(djvPngPlugin::staticName, _pngError.msg);
+            DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
         }
     }
 
@@ -248,7 +248,7 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErro
 
     if (! _png)
     {
-        throw djvError(djvPngPlugin::staticName, _pngError.msg);
+        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
     }
 
     SNPRINTF(
@@ -275,7 +275,7 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErro
 
     if (! pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
     {
-        throw djvError(djvPngPlugin::staticName, _pngError.msg);
+        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
     }
 
     // Get file information.

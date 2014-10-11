@@ -62,9 +62,10 @@ public:
         CGLError error = CGLChoosePixelFormat(attribs, &_format, &npix);
 
         if (error != kCGLNoError)
-            throw djvError(
-                "djvCglContextPrivate",
+        {
+            DJV_THROW_ERROR(
                 QString("Cannot get CGL pixel format: #%1").arg(error));
+        }
     }
 
     ~PixelFormat()
@@ -105,9 +106,10 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
     CGLError error = CGLCreateContext(pixelFormat.format(), 0, &_context);
 
     if (error != kCGLNoError || ! _context)
-        throw djvError(
-            "djvCglContextPrivate",
+    {
+        DJV_THROW_ERROR(
             QString("Cannot create OpenGL context: #%1").arg(error));
+    }
 
     // Bind the context.
 
@@ -118,9 +120,9 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
     GLint glError = glewInit();
 
     if (glError != GLEW_OK)
-        throw djvError(
-            "djvCglContextPrivate",
-            QString("Cannot initialize GLEW: #%1").arg(glError));
+    {
+        DJV_THROW_ERROR(QString("Cannot initialize GLEW: #%1").arg(glError));
+    }
 
     setVendor  ((const char *)glGetString(GL_VENDOR));
     setRenderer((const char *)glGetString(GL_RENDERER));
@@ -137,9 +139,9 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
     //    (const char *)gluGetString(GLU_EXTENSIONS));
 
     if (! GL_EXT_framebuffer_object)
-        throw djvError(
-            "djvCglContextPrivate",
-            "No OpenGL FBO support");
+    {
+        DJV_THROW_ERROR("No OpenGL FBO support");
+    }
 }
 
 djvCglContextPrivate::~djvCglContextPrivate()
@@ -158,7 +160,7 @@ void djvCglContextPrivate::bind() throw (djvError)
 {
     if (! _context)
     {
-        throw djvError("djvCglContextPrivate", "Invalid OpenGL context");
+        DJV_THROW_ERROR("Invalid OpenGL context");
     }
 
     //DJV_DEBUG("djvCglContextPrivate::bind");
@@ -166,9 +168,9 @@ void djvCglContextPrivate::bind() throw (djvError)
     CGLError error = CGLSetCurrentContext(_context);
 
     if (error != kCGLNoError)
-        throw djvError(
-            "djvCglContextPrivate",
-            QString("Cannot bind OpenGL context: #%1").arg(error));
+    {
+        DJV_THROW_ERROR(QString("Cannot bind OpenGL context: #%1").arg(error));
+    }
 }
 
 void djvCglContextPrivate::unbind()

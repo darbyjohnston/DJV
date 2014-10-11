@@ -94,7 +94,8 @@ void djvLibquicktimeSave::open(const djvFileInfo & in, const djvImageIoInfo & in
 
     if (! codecInfo.p)
     {
-        throw djvError(djvLibquicktimePlugin::staticName,
+        DJV_THROW_ERROR2(
+            djvLibquicktimePlugin::staticName,
             QString("Cannot set codec for: %1").arg(in));
     }
 
@@ -132,13 +133,17 @@ void djvLibquicktimeSave::open(const djvFileInfo & in, const djvImageIoInfo & in
     switch (cmodel)
     {
         case BC_BGR888:       _info.bgr = true;
+        
         case BC_RGB888:       _info.pixel = djvPixel::RGB_U8;   break;
         case BC_RGB161616:    _info.pixel = djvPixel::RGB_U16;  break;
         case BC_RGBA8888:     _info.pixel = djvPixel::RGBA_U8;  break;
         case BC_RGBA16161616: _info.pixel = djvPixel::RGBA_U16; break;
 
-        default: throw djvError(djvLibquicktimePlugin::staticName,
-            QString("Cannot set color model for: %1").arg(in));
+        default:
+        
+            DJV_THROW_ERROR2(
+                djvLibquicktimePlugin::staticName,
+                QString("Cannot set color model for: %1").arg(in));
     }
 
     lqt_set_cmodel(_f, 0, cmodel);
