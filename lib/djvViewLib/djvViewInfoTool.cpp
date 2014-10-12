@@ -105,7 +105,7 @@ djvViewInfoTool::djvViewInfoTool(
     QVBoxLayout * layout = new QVBoxLayout(this);
     
     QFormLayout * formLayout = new QFormLayout;
-    formLayout->addRow("File Name:", _p->fileNameWidget);
+    formLayout->addRow("File name:", _p->fileNameWidget);
     formLayout->addRow("Layer:", _p->layerNameWidget);
     formLayout->addRow("Size:", _p->sizeWidget);
     formLayout->addRow("Pixel:", _p->pixelWidget);
