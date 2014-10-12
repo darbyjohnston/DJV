@@ -103,11 +103,18 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
     
     GLenum error = glGetError();
     
+#if ! defined(DJV_OSX)
+
+    //! \todo On OS X this error is triggered in djv_view when a new file is
+    //! loaded, though it doesn't actually seem to be a problem?
+    
     if (error != GL_NO_ERROR)
     {
         DJV_THROW_ERROR(QString("Cannot create texture; %1").
             arg((char *)gluErrorString(error)));
     }
+
+#endif // DJV_OSX
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, 0));
 

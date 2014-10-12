@@ -314,11 +314,22 @@ void djvOpenGlImageTexture::init(
     
     GLenum error = glGetError();
     
+#if ! defined(DJV_OSX)
+
+    //! \todo On OS X this error is triggered the first time djv_view is
+    //! started, though it doesn't actually seem to be a problem? If we
+    //! throw here the image is not displayed (start djv_view from the
+    //! command line with an image), but if we igore the error the image is
+    //! displayed OK? Is this related to the "invalid drawable" message we
+    //! are also getting on start up?
+    
     if (error != GL_NO_ERROR)
     {
         DJV_THROW_ERROR(QString("Cannot create texture; %1").
             arg((char *)gluErrorString(error)));
     }
+    
+#endif // DJV_OSX
 }
 
 void djvOpenGlImageTexture::init(
