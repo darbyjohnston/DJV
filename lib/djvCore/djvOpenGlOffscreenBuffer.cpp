@@ -43,36 +43,6 @@
 namespace
 {
 
-QString errorLabel(GLenum in)
-{
-    switch (in)
-    {
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-            return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
-
-        case GL_FRAMEBUFFER_UNSUPPORTED:
-            return "GL_FRAMEBUFFER_UNSUPPORTED";
-
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-            return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
-
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
-            return "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
-
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
-            return "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
-        
-        default: break;
-    }
-
-    return QString();
-}
-
-} // namespace
-
-namespace
-{
-
 int bufferCount = 0;
 
 } // namespace
@@ -130,10 +100,13 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         djvOpenGlUtil::format(_info.pixel, _info.bgr),
         djvOpenGlUtil::type(_info.pixel),
         0);
-
-    if (glGetError() != GL_NO_ERROR)
+    
+    GLenum error = glGetError();
+    
+    if (error != GL_NO_ERROR)
     {
-        DJV_THROW_ERROR("Cannot initialize OpenGL FBO buffer texture");
+        DJV_THROW_ERROR(QString("Cannot create texture; %1").
+            arg((char *)gluErrorString(error)));
     }
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, 0));
@@ -156,12 +129,12 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         _texture,
         0));
 
-    GLenum error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
     if (error != GL_FRAMEBUFFER_COMPLETE)
     {
-        DJV_THROW_ERROR(QString("Cannot create OpenGL FBO buffer: %1").
-            arg(errorLabel(error)));
+        DJV_THROW_ERROR(QString("Cannot create OpenGL FBO buffer; %1").
+            arg((char *)gluErrorString(error)));
     }
 
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));

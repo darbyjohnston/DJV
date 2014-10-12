@@ -311,10 +311,13 @@ void djvOpenGlImageTexture::init(
         djvOpenGlUtil::format(_info.pixel, _info.bgr),
         djvOpenGlUtil::type(_info.pixel),
         0);
-
-    if (glGetError() != GL_NO_ERROR)
+    
+    GLenum error = glGetError();
+    
+    if (error != GL_NO_ERROR)
     {
-        DJV_THROW_ERROR("Cannot create texture");
+        DJV_THROW_ERROR(QString("Cannot create texture; %1").
+            arg((char *)gluErrorString(error)));
     }
 }
 
