@@ -155,6 +155,7 @@ public:
         PLAYBACK_REVERSE,
         PLAYBACK_STOP,
         PLAYBACK_FORWARD,
+        PLAYBACK_TOGGLE,
         PLAYBACK_LOOP,
         PLAYBACK_START,
         PLAYBACK_START_ABS,

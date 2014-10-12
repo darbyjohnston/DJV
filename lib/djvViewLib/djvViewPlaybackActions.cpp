@@ -68,6 +68,9 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
+    _actions[PLAYBACK_TOGGLE]->setText("Toggle Playback");
+    _actions[PLAYBACK_TOGGLE]->setToolTip("Toggle playback");
+    
     _actions[EVERY_FRAME]->setText("Ever&y Frame");
     _actions[EVERY_FRAME]->setCheckable(true);
     _actions[EVERY_FRAME]->setIcon(djvIconLibrary::global()->icon("djvLockIcon.png"));
@@ -199,6 +202,14 @@ void djvViewPlaybackActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
         djvViewShortcutPrefs::global()->shortcuts();
+    
+    // Update the actions.
+    
+    QKeySequence key = shortcuts[djvViewShortcut::PLAYBACK_TOGGLE].value;
+    
+    _actions[PLAYBACK_TOGGLE]->setShortcut(key);
+    _actions[PLAYBACK_TOGGLE]->setToolTip(
+        QString("Toggle playback\n\nShortcut: %1").arg(key.toString()));
     
     // Update the action groups.
     

@@ -127,6 +127,10 @@ public Q_SLOTS:
 
     void setPlayback(djvView::PLAYBACK);
 
+    //! Toggle the platback.
+    
+    void togglePlayback();
+
     //! Set the loop mode.
 
     void setLoop(djvView::LOOP);

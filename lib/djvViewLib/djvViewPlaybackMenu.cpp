@@ -58,6 +58,8 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
         actions->group(djvViewPlaybackActions::PLAYBACK_GROUP)->actions())
         addAction(action);
 
+    addAction(actions->action(djvViewPlaybackActions::PLAYBACK_TOGGLE));
+
     QMenu * loopMenu = addMenu("&Loop");
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LOOP_GROUP)->actions())

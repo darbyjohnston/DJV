@@ -72,6 +72,7 @@ struct djvViewPlaybackGroup::P
 {
     P() :
         playback        (djvView::STOP),
+        playbackPrev    (djvView::STOP),
         loop            (djvView::LOOP_REPEAT),
         realSpeed       (0.0),
         droppedFrames   (false),
@@ -97,6 +98,7 @@ struct djvViewPlaybackGroup::P
     
     djvSequence              sequence;
     djvView::PLAYBACK        playback;
+    djvView::PLAYBACK        playbackPrev;
     djvView::LOOP            loop;
     djvSpeed                 speed;
     double                   realSpeed;
@@ -155,6 +157,7 @@ djvViewPlaybackGroup::djvViewPlaybackGroup(
     {
         _p->sequence     = copy->_p->sequence;
         _p->playback     = copy->_p->playback;
+        _p->playbackPrev = copy->_p->playbackPrev;
         _p->loop         = copy->_p->loop;
         _p->speed        = copy->_p->speed;
         _p->everyFrame   = copy->_p->everyFrame;
@@ -172,6 +175,11 @@ djvViewPlaybackGroup::djvViewPlaybackGroup(
     layoutUpdate();
 
     // Setup the action callbacks.
+
+    connect(
+        _p->actions->action(djvViewPlaybackActions::PLAYBACK_TOGGLE),
+        SIGNAL(triggered()),
+        SLOT(togglePlayback()));
 
     connect(
         _p->actions->action(djvViewPlaybackActions::EVERY_FRAME),
@@ -390,11 +398,24 @@ void djvViewPlaybackGroup::setPlayback(djvView::PLAYBACK playback)
     //DJV_DEBUG("djvViewPlaybackGroup::setPlayback");
     //DJV_DEBUG_PRINT("playback = " << playback);
 
+    _p->playbackPrev = _p->playback;
+
     _p->playback = playback;
 
     playbackUpdate();
 
     Q_EMIT playbackChanged(_p->playback);
+}
+
+void djvViewPlaybackGroup::togglePlayback()
+{
+    switch (_p->playback)
+    {
+        case djvView::FORWARD:
+        case djvView::REVERSE: setPlayback(djvView::STOP); break;
+            
+        default: setPlayback(_p->playbackPrev); break;
+    }
 }
 
 void djvViewPlaybackGroup::setLoop(djvView::LOOP loop)

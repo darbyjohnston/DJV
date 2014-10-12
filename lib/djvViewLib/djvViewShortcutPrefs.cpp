@@ -251,6 +251,8 @@ const QVector<djvShortcut> & djvViewShortcutPrefs::shortcutsDefault()
         djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::PLAYBACK_FORWARD], QKeySequence("L")) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::PLAYBACK_TOGGLE], QKeySequence("Space")) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::PLAYBACK_LOOP], QKeySequence(";")) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::PLAYBACK_START], QKeySequence(Qt::Key_Home)) <<

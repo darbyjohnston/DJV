@@ -135,6 +135,7 @@ const QStringList & djvViewShortcut::shortcutLabels()
         "Playback Reverse" <<
         "Playback Stop" <<
         "Playback Forward" <<
+        "Playback Toggle" <<
         "Playback Loop" <<
         "Playback Start" <<
         "Playback Start Absolute" <<

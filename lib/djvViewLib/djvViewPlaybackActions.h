@@ -66,6 +66,7 @@ public:
 
     enum ACTION
     {
+        PLAYBACK_TOGGLE,
         EVERY_FRAME,
 
         ACTION_COUNT
