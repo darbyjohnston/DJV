@@ -178,7 +178,7 @@ if (CMAKE_SIZEOF_VOID_P EQUAL 8 OR CMAKE_CL_64)
 
 	set(djvBuildArch 64)
 
-endif ()
+endif()
 
 #message("djvBuildArch = " ${djvBuildArch})
 
