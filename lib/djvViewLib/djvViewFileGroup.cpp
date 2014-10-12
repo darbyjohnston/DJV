@@ -424,7 +424,12 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("in type = " << in.type());
 
-    djvFileInfo fileInfo = in;
+    djvFileInfo fileInfo = djvFileInfoUtil::fixPath(in);
+    
+    if (fileInfo.isSequenceValid())
+    {
+        fileInfo.setType(djvFileInfo::SEQUENCE);
+    }
 
     // Initialize.
 
@@ -444,9 +449,9 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     }
 
     //DJV_DEBUG_PRINT("file = " << fileInfo);
-    //DJV_DEBUG_PRINT("file type = " << file.type());
-    //DJV_DEBUG_PRINT("sequence valid = " << file.isSequenceValid());
-    //DJV_DEBUG_PRINT("sequence = " << file.sequence());
+    //DJV_DEBUG_PRINT("file type = " << fileInfo.type());
+    //DJV_DEBUG_PRINT("sequence valid = " << fileInfo.isSequenceValid());
+    //DJV_DEBUG_PRINT("sequence = " << fileInfo.sequence());
 
     // Automatic sequence loading.
 
