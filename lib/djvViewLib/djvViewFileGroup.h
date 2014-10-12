@@ -135,6 +135,10 @@ Q_SIGNALS:
     //! This signal is emitted to store the current frame.
 
     void loadFrameStore();
+    
+    //! This signal is emitted to reload the frame.
+    
+    void reloadFrame();
 
     //! This signal is emitted to save a sequence.
 
@@ -149,6 +153,7 @@ private Q_SLOTS:
     void openCallback();
     void recentCallback(QAction *);
     void reloadCallback();
+    void reloadFrameCallback();
     void closeCallback();
     void saveCallback();
     void saveFrameCallback();

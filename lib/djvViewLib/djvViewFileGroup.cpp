@@ -154,6 +154,11 @@ djvViewFileGroup::djvViewFileGroup(
         SLOT(reloadCallback()));
 
     connect(
+        _p->actions->action(djvViewFileActions::RELOAD_FRAME),
+        SIGNAL(triggered()),
+        SLOT(reloadFrameCallback()));
+
+    connect(
         _p->actions->action(djvViewFileActions::CLOSE),
         SIGNAL(triggered()),
         SLOT(closeCallback()));
@@ -626,6 +631,41 @@ void djvViewFileGroup::reloadCallback()
 
     cacheDel();
 
+    _p->imageLoad.reset();
+
+    if (! _p->fileInfo.fileName().isEmpty())
+    {
+        try
+        {
+            _p->imageLoad.reset(
+                djvImageIoFactory::global()->load(_p->fileInfo, _p->imageIoInfo));
+            
+            if (! _p->imageLoad.data())
+            {
+                throw djvError(QString("Cannot open image \"%1\"").
+                    arg(_p->fileInfo));
+            }
+        }
+        catch (const djvError & error)
+        {
+            DJV_APP->printError(error);
+        }
+    }
+
+    Q_EMIT imageChanged();
+}
+
+void djvViewFileGroup::reloadFrameCallback()
+{
+    //DJV_DEBUG("djvViewFileGroup::reloadFrameCallback");
+
+    if (djvViewImagePrefs::global()->hasFrameStoreFileReload())
+    {
+        Q_EMIT loadFrameStore();
+    }
+    
+    Q_EMIT reloadFrame();
+    
     _p->imageLoad.reset();
 
     if (! _p->fileInfo.fileName().isEmpty())

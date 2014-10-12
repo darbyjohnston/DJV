@@ -231,6 +231,11 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     connect(
         _p->fileGroup,
+        SIGNAL(reloadFrame()),
+        SLOT(reloadFrameCallback()));
+
+    connect(
+        _p->fileGroup,
         SIGNAL(save(const djvFileInfo &)),
         SLOT(saveCallback(const djvFileInfo &)));
 
@@ -640,6 +645,17 @@ bool djvViewMainWindow::eventFilter(QObject * object, QEvent * event)
     }
     
     return QMainWindow::eventFilter(object, event);
+}
+
+void djvViewMainWindow::reloadFrameCallback()
+{
+    //DJV_DEBUG("djvViewMainWindow::reloadFrameCallback");
+    
+    const qint64 frame = _p->playbackGroup->frame();
+    
+    //DJV_DEBUG_PRINT("frame = " << frame);
+    
+    djvViewFileCache::global()->del(this, frame);
 }
 
 void djvViewMainWindow::saveCallback(const djvFileInfo & in)

@@ -130,6 +130,10 @@ public:
 
     void del(const void * key);
 
+    //! Delete all null references matching the given key and frame.
+
+    void del(const void * key, qint64 frame);
+
     //! Delete all of the null references.
 
     void clear();

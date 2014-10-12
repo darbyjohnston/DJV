@@ -83,9 +83,11 @@ const QVector<djvShortcut> & djvViewShortcutPrefs::shortcutsDefault()
         djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::FILE_RELOAD], QKeySequence("Ctrl+R")) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
+            djvViewShortcut::FILE_RELOAD_FRAME], QKeySequence("Ctrl+Shift+R")) <<
+        djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::FILE_SAVE], QKeySequence("Ctrl+S")) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
-            djvViewShortcut::FILE_SAVE_FRAME], QKeySequence("Ctrl+Shift+s")) <<
+            djvViewShortcut::FILE_SAVE_FRAME], QKeySequence("Ctrl+Shift+S")) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[
             djvViewShortcut::FILE_CLOSE], QKeySequence("Ctrl+W")) <<
         djvShortcut(djvViewShortcut::shortcutLabels()[

@@ -306,6 +306,34 @@ void djvViewFileCache::del(const void * key)
     debug();
 }
 
+void djvViewFileCache::del(const void * key, qint64 frame)
+{
+    //DJV_DEBUG("djvViewFileCache::del");
+    //DJV_DEBUG_PRINT("key = " << reinterpret_cast<qint64>(key));
+    //DJV_DEBUG_PRINT("frame = " << frame);
+    
+    debug();
+
+    // Initialize any remaining references that match the key; they will be
+    // cleaned up later.
+    
+    const int count = _p->refs.count();
+    
+    for (int i = 0; i < count; ++i)
+    {
+        if (key == _p->refs[i]->key() && frame == _p->refs[i]->frame())
+        {
+            _p->refs[i]->setKey(0);
+        }
+    }
+
+    // Emit a signal that the cache has changed.
+
+    Q_EMIT cacheChanged();
+
+    debug();
+}
+
 void djvViewFileCache::clear()
 {
     //DJV_DEBUG("djvViewFileCache::clear");
@@ -420,9 +448,9 @@ void djvViewFileCache::debug()
     /*DJV_DEBUG("djvViewFileCache::debug");
     DJV_DEBUG_PRINT("refs = " << _p->refs.count());
     DJV_DEBUG_PRINT("cache max = " << maxSize());
-    DJV_DEBUG_PRINT("cache size = " << cacheSize());
+    DJV_DEBUG_PRINT("cache size = " << size());
 
-	for (int i = 0; i < _refs.count(); ++i)
+	for (int i = 0; i < _p->refs.count(); ++i)
 	{
         DJV_DEBUG_PRINT(
             "item (ref = " << _p->refs[i]->refCount() << ") = " <<

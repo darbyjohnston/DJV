@@ -47,6 +47,7 @@ const QStringList & djvViewShortcut::shortcutLabels()
 
         "File Open" <<
         "File Reload" <<
+        "File Reload Frame" <<
         "File Save" <<
         "File Save Frame" <<
         "File Close" <<

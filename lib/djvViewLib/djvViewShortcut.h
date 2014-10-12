@@ -67,6 +67,7 @@ public:
 
         FILE_OPEN,
         FILE_RELOAD,
+        FILE_RELOAD_FRAME,
         FILE_SAVE,
         FILE_SAVE_FRAME,
         FILE_CLOSE,

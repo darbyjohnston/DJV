@@ -68,6 +68,8 @@ djvViewFileMenu::djvViewFileMenu(
 
     addAction(actions->action(djvViewFileActions::RELOAD));
 
+    addAction(actions->action(djvViewFileActions::RELOAD_FRAME));
+
     addAction(actions->action(djvViewFileActions::CLOSE));
 
     addAction(actions->action(djvViewFileActions::SAVE));

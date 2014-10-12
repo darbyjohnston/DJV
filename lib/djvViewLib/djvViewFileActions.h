@@ -57,6 +57,7 @@ public:
     {
         OPEN,
         RELOAD,
+        RELOAD_FRAME,
         CLOSE,
         SAVE,
         SAVE_FRAME,

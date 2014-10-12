@@ -82,6 +82,8 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
     _actions[RELOAD]->setIcon(djvIconLibrary::global()->icon(
         "djvFileReloadIcon.png"));
 
+    _actions[RELOAD_FRAME]->setText("Reload Frame");
+
     _actions[CLOSE]->setText("Clos&e");
     _actions[CLOSE]->setIcon(djvIconLibrary::global()->icon(
         "djvFileCloseIcon.png"));
@@ -185,10 +187,17 @@ void djvViewFileActions::update()
     _actions[OPEN]->setToolTip(QString("Open a new file\n\nShortcut: %1").
         arg(shortcuts[djvViewShortcut::FILE_OPEN].value.toString()));
 
-    _actions[RELOAD]->setShortcut(shortcuts[djvViewShortcut::FILE_RELOAD].value);
+    _actions[RELOAD]->setShortcut(
+        shortcuts[djvViewShortcut::FILE_RELOAD].value);
     _actions[RELOAD]->setToolTip(QString(
         "Reload the current file\n\nShortcut: %1").
         arg(shortcuts[djvViewShortcut::FILE_RELOAD].value.toString()));
+
+    _actions[RELOAD_FRAME]->setShortcut(
+        shortcuts[djvViewShortcut::FILE_RELOAD_FRAME].value);
+    _actions[RELOAD_FRAME]->setToolTip(QString(
+        "Reload the current frame\n\nShortcut: %1").
+        arg(shortcuts[djvViewShortcut::FILE_RELOAD_FRAME].value.toString()));
 
     _actions[CLOSE]->setShortcut(shortcuts[djvViewShortcut::FILE_CLOSE].value);
     _actions[CLOSE]->setToolTip(QString(
@@ -197,11 +206,14 @@ void djvViewFileActions::update()
 
     _actions[SAVE]->setShortcut(shortcuts[djvViewShortcut::FILE_SAVE].value);
 
-    _actions[SAVE_FRAME]->setShortcut(shortcuts[djvViewShortcut::FILE_SAVE_FRAME].value);
+    _actions[SAVE_FRAME]->setShortcut(
+        shortcuts[djvViewShortcut::FILE_SAVE_FRAME].value);
 
-    _actions[LAYER_PREV]->setShortcut(shortcuts[djvViewShortcut::FILE_LAYER_PREV].value);
+    _actions[LAYER_PREV]->setShortcut(
+        shortcuts[djvViewShortcut::FILE_LAYER_PREV].value);
 
-    _actions[LAYER_NEXT]->setShortcut(shortcuts[djvViewShortcut::FILE_LAYER_NEXT].value);
+    _actions[LAYER_NEXT]->setShortcut(
+        shortcuts[djvViewShortcut::FILE_LAYER_NEXT].value);
 
     _actions[EXIT]->setShortcut(shortcuts[djvViewShortcut::EXIT].value);
 
