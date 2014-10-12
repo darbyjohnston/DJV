@@ -182,7 +182,7 @@ namespace
 
 const QString labelAbout =
 "\n"
-" DJV Imaging\n"
+" DJV Imaging, Version: %1\n"
 "\n"
 " http://djv.sourceforge.net\n"
 "\n"
@@ -287,7 +287,7 @@ const QString labelAbout =
 
 QString djvAbstractCoreApplication::about() const
 {
-    return labelAbout;
+    return QString(labelAbout).arg(DJV_PACKAGE_NAME);
 }
 
 void djvAbstractCoreApplication::printMessage(const QString & string) const
