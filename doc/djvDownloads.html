@@ -81,10 +81,20 @@ distributions.</p>
 <pre>
 > sudo rpm -iv djv-1.0.3-Linux-64.rpm
 </pre>
+<p>To uninstall the RPM package:</p>
+<pre>
+> sudo rpm -e djv-1.0.3-1.x86_64
+</pre>
+
 <p>To install the DEB package:</p>
 <pre>
 > sudo dpkg -i djv-1.0.3-Linux-64.deb
 </pre>
+<p>To uninstall the DEB package:</p>
+<pre>
+> sudo dpkg --remove djv-1.0.3
+</pre>
+
 <p>Shell scripts are provided to setup the proper environment and run the DJV
 applications, they are located in the "bin" directory. For example if you
 installed the RPM or DEB package use this command to run djv_view:</p>
