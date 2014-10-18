@@ -156,7 +156,7 @@ endif (APPLE)
 
 set(djvVersionMajor "1")
 set(djvVersionMinor "0")
-set(djvVersionPatch "2")
+set(djvVersionPatch "3")
 
 # Set the project name.
 
