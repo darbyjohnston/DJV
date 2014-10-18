@@ -49,6 +49,26 @@ if (UNIX)
         PROGRAMS djv_view.sh
         DESTINATION bin)
 
+    install(
+        FILES ../../etc/Gnome/djv_view.desktop
+        DESTINATION /usr/share/applications)
+    install(
+        FILES ../../etc/Gnome/djv_view.mime.xml
+        DESTINATION /usr/share/mime/packages)
+
+    install(
+        FILES ../../etc/images/djv_view_16x16.png
+        DESTINATION /usr/share/icons/hicolor/16x16/apps
+        RENAME djv_view.png)
+    install(
+        FILES ../../etc/images/djv_view_32x32.png
+        DESTINATION /usr/share/icons/hicolor/32x32/apps
+        RENAME djv_view.png)
+    install(
+        FILES ../../etc/images/djv_view_48x48.png
+        DESTINATION /usr/share/icons/hicolor/48x48/apps
+        RENAME djv_view.png)
+
 endif (UNIX)
 
 # \todo Build a second binary for a Windows command line version (.com).

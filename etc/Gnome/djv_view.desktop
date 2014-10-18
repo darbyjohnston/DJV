@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Icon=djv_view
+Exec=/usr/local/djv-1.0.3-Linux-64/bin/djv_view.sh %U
+Name=djv_view
+Comment=Professional movie playback software for film production, VFX, and computer animation
+Categories=Graphics
+Terminal=false
+MimeType=image/jpeg;image/png;image/x-cin;image/x-dpx;image/x-iff;image/x-ifl;image/x-exr;image/x-lut;image/x-pic;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-rla;image/x-sgi;image/x-tga;image/x-1dl;image/tiff;video/quicktime;video/mp4;
+

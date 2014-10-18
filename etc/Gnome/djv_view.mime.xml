@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+    <mime-type type="application/x-cin">
+        <comment>Kodak Cineon image file format</comment>
+        <glob pattern="*.cin"/>
+    </mime-type>
+    <mime-type type="application/x-dpx">
+        <comment>SMPTE Digital Picture Exchange (DPX) image file format</comment>
+        <glob pattern="*.dpx"/>
+    </mime-type>
+    <mime-type type="application/x-ifl">
+        <comment>Autodesk Image File List (IFL) format</comment>
+        <glob pattern="*.ifl"/>
+    </mime-type>
+    <mime-type type="application/x-lut">
+        <comment>Inferno lookup table file format</comment>
+        <glob pattern="*.lut"/>
+    </mime-type>
+    <mime-type type="application/x-1dl">
+        <comment>Kodak lookup table file format</comment>
+        <glob pattern="*.1dl"/>
+    </mime-type>
+    <mime-type type="application/x-pic">
+        <comment>Softimage image file format</comment>
+        <glob pattern="*.pic"/>
+    </mime-type>
+    <mime-type type="application/x-rla">
+        <comment>Wavefront RLA image file format</comment>
+        <glob pattern="*.rla"/>
+        <glob pattern="*.rpf"/>
+    </mime-type>
+</mime-info>
+
