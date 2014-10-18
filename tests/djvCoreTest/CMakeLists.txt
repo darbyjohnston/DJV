@@ -91,5 +91,5 @@ add_library(djvCoreTest ${header} ${source})
 
 target_link_libraries(djvCoreTest djvTestLib ${djvCoreLibs})
 
-set_target_properties(djvCoreTest PROPERTIES FOLDER lib)
+set_target_properties(djvCoreTest PROPERTIES FOLDER tests)
 

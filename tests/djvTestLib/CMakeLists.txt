@@ -12,7 +12,7 @@ add_library(djvTestLib ${header} ${source})
 
 target_link_libraries(djvTestLib ${djvCoreDeps})
 
-set_target_properties(djvTestLib PROPERTIES FOLDER lib)
+set_target_properties(djvTestLib PROPERTIES FOLDER tests)
 
 if (djvInstallRpath)
 

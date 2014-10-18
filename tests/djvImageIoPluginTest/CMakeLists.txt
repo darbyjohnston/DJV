@@ -14,7 +14,7 @@ add_library(djvImageIoPluginTest ${header} ${source})
 
 target_link_libraries(djvImageIoPluginTest djvTestLib ${djvCoreLibs})
 
-set_target_properties(djvImageIoPluginTest PROPERTIES FOLDER lib)
+set_target_properties(djvImageIoPluginTest PROPERTIES FOLDER tests)
 
 if (djvImageIoPlugins)
 

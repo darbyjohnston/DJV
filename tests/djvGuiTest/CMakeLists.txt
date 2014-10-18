@@ -12,5 +12,5 @@ add_library(djvGuiTest ${header} ${source})
 
 target_link_libraries(djvGuiTest djvTestLib ${djvGuiLibs})
 
-set_target_properties(djvGuiTest PROPERTIES FOLDER lib)
+set_target_properties(djvGuiTest PROPERTIES FOLDER tests)
 

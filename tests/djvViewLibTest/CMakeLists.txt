@@ -13,5 +13,5 @@ add_library(djvViewLibTest ${header} ${source})
 
 target_link_libraries(djvViewLibTest djvTestLib ${djvViewLibLibs})
 
-set_target_properties(djvViewLibTest PROPERTIES FOLDER lib)
+set_target_properties(djvViewLibTest PROPERTIES FOLDER tests)
 
