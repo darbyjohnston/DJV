@@ -1161,6 +1161,98 @@ if (WIN32)
         set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
 
     endif (djvBuildArch EQUAL 32)
+		
+	set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+	
+		WriteRegStr HKCR '.cin' '' 'djv_view'
+
+		WriteRegStr HKCR '.dpx' '' 'djv_view'
+
+		WriteRegStr HKCR '.iff' '' 'djv_view'
+		WriteRegStr HKCR '.z' '' 'djv_view'
+
+		WriteRegStr HKCR '.ifl' '' 'djv_view'
+		
+		WriteRegStr HKCR '.jpeg' '' 'djv_view'
+		WriteRegStr HKCR '.jpg' '' 'djv_view'
+		WriteRegStr HKCR '.jfif' '' 'djv_view'
+
+		WriteRegStr HKCR '.lut' '' 'djv_view'
+		WriteRegStr HKCR '.1dl' '' 'djv_view'
+
+		WriteRegStr HKCR '.exr' '' 'djv_view'
+
+		WriteRegStr HKCR '.pic' '' 'djv_view'
+		
+		WriteRegStr HKCR '.png' '' 'djv_view'
+
+		WriteRegStr HKCR '.ppm' '' 'djv_view'
+		WriteRegStr HKCR '.pnm' '' 'djv_view'
+		WriteRegStr HKCR '.pgm' '' 'djv_view'
+		WriteRegStr HKCR '.pbm' '' 'djv_view'
+
+		WriteRegStr HKCR '.rla' '' 'djv_view'
+		WriteRegStr HKCR '.rpf' '' 'djv_view'
+
+		WriteRegStr HKCR '.sgi' '' 'djv_view'
+		WriteRegStr HKCR '.rgba' '' 'djv_view'
+		WriteRegStr HKCR '.rgb' '' 'djv_view'
+		WriteRegStr HKCR '.bw' '' 'djv_view'
+
+		WriteRegStr HKCR '.tga' '' 'djv_view'
+		
+		WriteRegStr HKCR '.tiff' '' 'djv_view'
+		WriteRegStr HKCR '.tif' '' 'djv_view'
+		
+		WriteRegStr HKCR 'djv_view' '' 'djv_view'
+		WriteRegStr HKCR 'djv_view\\\\shell' '' 'open'
+		WriteRegStr HKCR 'djv_view\\\\shell\\\\open\\\\command' '' '$INSTDIR\\\\bin\\\\djv_view.exe \\\"%1\\\"'
+		")
+
+	set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+ 
+		DeleteRegKey HKCR '.cin'
+
+		DeleteRegKey HKCR '.dpx'
+
+		DeleteRegKey HKCR '.iff'
+		DeleteRegKey HKCR '.z'
+
+		DeleteRegKey HKCR '.ifl'
+
+		DeleteRegKey HKCR '.jpeg'
+		DeleteRegKey HKCR '.jpg'
+		DeleteRegKey HKCR '.jfif'
+		
+		DeleteRegKey HKCR '.lut'
+		DeleteRegKey HKCR '.1dl'
+
+		DeleteRegKey HKCR '.exr'
+
+		DeleteRegKey HKCR '.pic'
+
+		DeleteRegKey HKCR '.png'
+
+		DeleteRegKey HKCR '.ppm'
+		DeleteRegKey HKCR '.pnm'
+		DeleteRegKey HKCR '.pgm'
+		DeleteRegKey HKCR '.pbm'
+
+		DeleteRegKey HKCR '.rla'
+		DeleteRegKey HKCR '.rpf'
+
+		DeleteRegKey HKCR '.sgi'
+		DeleteRegKey HKCR '.rgba'
+		DeleteRegKey HKCR '.rgb'
+		DeleteRegKey HKCR '.bw'
+
+		DeleteRegKey HKCR '.tga'
+
+		DeleteRegKey HKCR '.tiff'
+		DeleteRegKey HKCR '.tif'
+
+        DeleteRegKey HKCR 'djv_view'
+	    ")
 
     # Set the installation directory.
     

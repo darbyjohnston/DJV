@@ -220,8 +220,8 @@ djvViewApplication::~djvViewApplication()
 
 void djvViewApplication::commandLine(QStringList & in) throw (djvError)
 {
-    //DJV_DEBUG("djvViewApplication::commandLine");
-    //DJV_DEBUG_PRINT("in = " << in);
+    DJV_DEBUG("djvViewApplication::commandLine");
+    DJV_DEBUG_PRINT("in = " << in);
 
     djvApplication::commandLine(in);
 
@@ -290,23 +290,6 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
                 in >> value;
                 _p->commandLine.playbackSpeed.reset(new djvSpeed(value));
             }
-
-#           if defined(DJV_WINDOWS)
-
-            //! \todo Remove these arguments on Windows which only happens
-            //! when running djv_view after its been installed?
-
-            else if (0 == QString("Files\\%1\\bin\\djv_view.exe\"").
-                arg(DJV_PACKAGE_NAME).compare(arg, Qt::CaseInsensitive))
-            {}
-            else if (0 == QString("(x86)\\%1\\bin\\djv_view.exe\"").
-                arg(DJV_PACKAGE_NAME).compare(arg, Qt::CaseInsensitive))
-            {}
-            else if (0 == QString("Files").
-                arg(DJV_PACKAGE_NAME).compare(arg, Qt::CaseInsensitive))
-            {}
-
-#           endif // DJV_WINDOWS
 
             // Arguments.
 

@@ -41,16 +41,6 @@
 #include <tchar.h>
 #endif // DJV_WINDOWS
 
-//! \addtogroup bin
-//@{
-
-//! \defgroup djv_view djv_view
-//!
-//! This application is used for image sequence and movie playback. All of the
-//! functionality for djv_view is implemented in the \ref djvViewLib library.
-
-//@} // bin
-
 //------------------------------------------------------------------------------
 // main()
 //------------------------------------------------------------------------------
@@ -78,29 +68,12 @@ int main(int argc, char ** argv)
 #if defined(DJV_WINDOWS)
 
 int WINAPI WinMain(
-    HINSTANCE,
+    HINSTANCE hInstance,
     HINSTANCE,
     LPSTR,
     int)
 {
-    //! \todo Verify that this properly creates argc/argv.
-
-    TCHAR   cmdline[4096];
-    TCHAR * argv   [4096];
-    int     argc = 0;
-
-    ::strcpy_s(cmdline, 4096, GetCommandLine());
-
-    argv[argc] = _tcstok(cmdline, TEXT(" \t"));
-
-    while (argv[argc] != 0)
-    {
-        argc++;
-        argv[argc] = _tcstok(0, TEXT(" \t"));
-    }
-
-    return main(argc, argv);
+    return main(__argc, __argv);
 }
 
 #endif // DJV_WINDOWS
-

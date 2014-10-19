@@ -19,7 +19,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/lib/djvViewLib
     ${djvGuiIncludeDirs})
 
-add_executable(djv_view WIN32 ${header} ${source} djvViewWinMain.cpp)
+add_executable(djv_view WIN32 ${header} ${source} djvViewMain.cpp)
 
 target_link_libraries(djv_view djvViewLib ${djvGuiLibs})
 
