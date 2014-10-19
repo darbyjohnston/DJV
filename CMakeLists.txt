@@ -104,6 +104,12 @@ cmake_policy(SET CMP0042 OLD)
 # * Update the DJV version numbers in doc/*.html
 # * Update the version number in Doxyfile
 #
+#
+# Image I/O Check List
+# --------------------
+#
+# New image I/O file extensions need to be added both to this file (in the
+# packaging section) and etc/Gnome/djv_view.mime.xml.
 #-------------------------------------------------------------------------------
 
 # Set whether to include third party dependencies when packaging.
