@@ -158,6 +158,22 @@ void djvViewWindowActions::update()
         QString("Toggle the user interface controls visbility\n\nShortcut: %1").
         arg(shortcuts[djvViewShortcut::WINDOW_CONTROLS_VISIBLE].value.toString()));
 
+    const djvViewShortcut::SHORTCUT toolBarShortcuts[] =
+    {
+        djvViewShortcut::WINDOW_TOOL_BARS_VISIBLE,
+        djvViewShortcut::WINDOW_PLAYBACK_VISIBLE,
+        djvViewShortcut::WINDOW_INFO_VISIBLE
+    };
+
+    const int toolBarShortcutsCount =
+        sizeof(toolBarShortcuts) / sizeof(toolBarShortcuts[0]);
+
+    for (int i = 0; i < toolBarShortcutsCount; ++i)
+    {
+        _groups[TOOL_BAR_VISIBLE_GROUP]->actions()[i]->setShortcut(
+            shortcuts[toolBarShortcuts[i]].value);
+    }
+
     // Fix up the actions.
     
     osxMenuHack();
