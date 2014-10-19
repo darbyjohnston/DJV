@@ -220,8 +220,8 @@ djvViewApplication::~djvViewApplication()
 
 void djvViewApplication::commandLine(QStringList & in) throw (djvError)
 {
-    DJV_DEBUG("djvViewApplication::commandLine");
-    DJV_DEBUG_PRINT("in = " << in);
+    //DJV_DEBUG("djvViewApplication::commandLine");
+    //DJV_DEBUG_PRINT("in = " << in);
 
     djvApplication::commandLine(in);
 
