@@ -189,10 +189,20 @@ void djvViewWindowGroup::setFullScreen(bool fullScreen)
     if (_p->fullScreen)
     {
         mainWindow()->showFullScreen();
+
+        if (! djvViewWindowPrefs::global()->hasFullScreenControls())
+        {
+            setControlsVisible(false);
+        }
     }
     else
     {
         mainWindow()->showNormal();
+
+        if (!djvViewWindowPrefs::global()->hasFullScreenControls())
+        {
+            setControlsVisible(true);
+        }
     }
 
     mainWindow()->viewWidget()->viewFit();

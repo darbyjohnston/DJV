@@ -53,13 +53,15 @@
 struct djvViewWindowPrefsWidget::P
 {
     P() :
-        resizeFitWidget   (0),
-        resizeMaxWidget   (0),
-        toolBarButtonGroup(0)
+        resizeFitWidget         (0),
+        resizeMaxWidget         (0),
+        fullScreenControlsWidget(0),
+        toolBarButtonGroup      (0)
     {}
     
     QCheckBox *    resizeFitWidget;
     QComboBox *    resizeMaxWidget;
+    QCheckBox *    fullScreenControlsWidget;
     QButtonGroup * toolBarButtonGroup;
 };
 
@@ -78,6 +80,11 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     _p->resizeMaxWidget = new QComboBox;
     _p->resizeMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->resizeMaxWidget->addItems(djvView::windowResizeMaxLabels());
+
+    // Create the full screen widgets.
+
+    _p->fullScreenControlsWidget = new QCheckBox(
+        "Set whether the controls are visible when going full screen");
 
     // Create the tool bar widgets.
 
@@ -101,6 +108,13 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->resizeFitWidget);
     formLayout->addRow("Maximum screen size:", _p->resizeMaxWidget);
+    layout->addWidget(prefsGroupBox);
+
+    prefsGroupBox = new djvPrefsGroupBox(
+        "Full Screen",
+        "Set general full screen options.");
+    formLayout = prefsGroupBox->createLayout();
+    formLayout->addRow(_p->fullScreenControlsWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
@@ -128,6 +142,11 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
         _p->resizeMaxWidget,
         SIGNAL(activated(int)),
         SLOT(resizeMaxCallback(int)));
+
+    connect(
+        _p->fullScreenControlsWidget,
+        SIGNAL(toggled(bool)),
+        SLOT(fullScreenControlsCallback(bool)));
     
     connect(
         _p->toolBarButtonGroup,
@@ -146,6 +165,8 @@ void djvViewWindowPrefsWidget::resetPreferences()
         djvViewWindowPrefs::resizeFitDefault());
     djvViewWindowPrefs::global()->setResizeMax(
         djvViewWindowPrefs::resizeMaxDefault());
+    djvViewWindowPrefs::global()->setFullScreenControls(
+        djvViewWindowPrefs::fullScreenControlsDefault());
     djvViewWindowPrefs::global()->setToolBar(
         djvViewWindowPrefs::toolBarDefault());
     
@@ -163,6 +184,11 @@ void djvViewWindowPrefsWidget::resizeMaxCallback(int in)
         static_cast<djvView::WINDOW_RESIZE_MAX>(in));
 }
 
+void djvViewWindowPrefsWidget::fullScreenControlsCallback(bool in)
+{
+    djvViewWindowPrefs::global()->setFullScreenControls(in);
+}
+
 void djvViewWindowPrefsWidget::toolBarCallback(int id, bool toggled)
 {
     QVector<bool> visible = djvViewWindowPrefs::global()->toolBar();
@@ -177,6 +203,7 @@ void djvViewWindowPrefsWidget::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->resizeFitWidget <<
         _p->resizeMaxWidget <<
+        _p->fullScreenControlsWidget <<
         _p->toolBarButtonGroup);
 
     _p->resizeFitWidget->setChecked(
@@ -185,6 +212,9 @@ void djvViewWindowPrefsWidget::widgetUpdate()
     _p->resizeMaxWidget->setCurrentIndex(
         djvViewWindowPrefs::global()->resizeMax());
     
+    _p->fullScreenControlsWidget->setChecked(
+        djvViewWindowPrefs::global()->hasFullScreenControls());
+
     const QVector<bool> & visible = djvViewWindowPrefs::global()->toolBar();
     
     for (int i = 0; i < visible.count(); ++i)

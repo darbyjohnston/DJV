@@ -78,6 +78,15 @@ public:
 
     djvView::WINDOW_RESIZE_MAX resizeMax() const;
 
+    //! Get the default for whether the controls are visible when going full
+    //! screen.
+
+    static bool fullScreenControlsDefault();
+
+    //! Get whether the controls are visible when going full screen.
+
+    bool hasFullScreenControls() const;
+
     //! Get the default tool bar visiblity.
     
     static QVector<bool> toolBarDefault();
@@ -100,6 +109,10 @@ public Q_SLOTS:
 
     void setResizeMax(djvView::WINDOW_RESIZE_MAX);
 
+    //! Set whether the controls are visible when going full screen.
+
+    void setFullScreenControls(bool);
+
     //! Set the tool bar visibility.
 
     void setToolBar(const QVector<bool> &);
@@ -114,6 +127,11 @@ Q_SIGNALS:
 
     void resizeMaxChanged(djvView::WINDOW_RESIZE_MAX);
 
+    //! This signal is emitted when the full screen controls option is
+    //! changed.
+
+    void fullScreenControlsChanged(bool);
+
     //! This signal is emitted when the tool bar visibility is changed.
 
     void toolBarChanged(const QVector<bool> &);
@@ -123,6 +141,7 @@ private:
     djvBox2i                   _geom;
     bool                       _resizeFit;
     djvView::WINDOW_RESIZE_MAX _resizeMax;
+    bool                       _fullScreenControls;
     QVector<bool>              _toolBar;
 };
 

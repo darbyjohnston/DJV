@@ -43,15 +43,17 @@
 
 djvViewWindowPrefs::djvViewWindowPrefs(QObject * parent) :
     djvViewAbstractPrefs(parent),
-    _resizeFit(resizeFitDefault()),
-    _resizeMax(resizeMaxDefault()),
-    _toolBar  (toolBarDefault())
+    _resizeFit         (resizeFitDefault()),
+    _resizeMax         (resizeMaxDefault()),
+    _fullScreenControls(fullScreenControlsDefault()),
+    _toolBar           (toolBarDefault())
 {
     //DJV_DEBUG("djvViewWindowPrefs");
 
     djvPrefs prefs("djvViewWindowPrefs");
     prefs.get("resizeFit", _resizeFit);
     prefs.get("resizeMax", _resizeMax);
+    prefs.get("fullScreenControls", _fullScreenControls);
     if (prefs.contains("toolBar"))
     {
         _toolBar.clear();
@@ -65,6 +67,7 @@ djvViewWindowPrefs::~djvViewWindowPrefs()
     djvPrefs prefs("djvViewWindowPrefs");
     prefs.set("resizeFit", _resizeFit);
     prefs.set("resizeMax", _resizeMax);
+    prefs.set("fullScreenControls", _fullScreenControls);
     prefs.set("toolBar", _toolBar);
 }
 
@@ -86,6 +89,16 @@ djvView::WINDOW_RESIZE_MAX djvViewWindowPrefs::resizeMaxDefault()
 djvView::WINDOW_RESIZE_MAX djvViewWindowPrefs::resizeMax() const
 {
     return _resizeMax;
+}
+
+bool djvViewWindowPrefs::fullScreenControlsDefault()
+{
+    return false;
+}
+
+bool djvViewWindowPrefs::hasFullScreenControls() const
+{
+    return _fullScreenControls;
 }
 
 QVector<bool> djvViewWindowPrefs::toolBarDefault()
@@ -125,10 +138,21 @@ void djvViewWindowPrefs::setResizeMax(djvView::WINDOW_RESIZE_MAX in)
 {
     if (in == _resizeMax)
         return;
-    
+
     _resizeMax = in;
 
     Q_EMIT resizeMaxChanged(_resizeMax);
+    Q_EMIT prefChanged();
+}
+
+void djvViewWindowPrefs::setFullScreenControls(bool in)
+{
+    if (in == _fullScreenControls)
+        return;
+
+    _fullScreenControls = in;
+
+    Q_EMIT fullScreenControlsChanged(_fullScreenControls);
     Q_EMIT prefChanged();
 }
 
