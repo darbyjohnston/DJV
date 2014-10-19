@@ -1167,7 +1167,9 @@ if (WIN32)
         set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
 
     endif (djvBuildArch EQUAL 32)
-		
+	
+    # \todo How can we ask the user if they want these file associations?
+    
 	set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
 	
 		WriteRegStr HKCR '.cin' '' 'djv_view'
