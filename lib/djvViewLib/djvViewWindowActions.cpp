@@ -177,5 +177,4 @@ void djvViewWindowActions::update()
     // Fix up the actions.
     
     osxMenuHack();
-
 }
