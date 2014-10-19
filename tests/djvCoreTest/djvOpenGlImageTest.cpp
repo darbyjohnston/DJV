@@ -103,9 +103,9 @@ void djvOpenGlImageTest::members()
     }
     
     {
-        DJV_ASSERT(djvOpenGlImageFilter::gl(djvOpenGlImageFilter::NEAREST));
-        DJV_ASSERT(djvOpenGlImageFilter::gl(djvOpenGlImageFilter::LINEAR));
-        DJV_ASSERT(! djvOpenGlImageFilter::gl(djvOpenGlImageFilter::BOX));
+        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::NEAREST));
+        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::LINEAR));
+        DJV_ASSERT(!djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::BOX));
     }
 
     {

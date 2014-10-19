@@ -192,8 +192,8 @@ const QStringList & djvOpenGlImageFilter::filterLabels()
 }
 
 djvOpenGlImageFilter::djvOpenGlImageFilter() :
-    min(filterGlobal().min),
-    mag(filterGlobal().mag)
+    min(filter().min),
+    mag(filter().mag)
 {}
 
 djvOpenGlImageFilter::djvOpenGlImageFilter(FILTER min, FILTER mag) :
@@ -201,7 +201,7 @@ djvOpenGlImageFilter::djvOpenGlImageFilter(FILTER min, FILTER mag) :
     mag(mag)
 {}
 
-GLuint djvOpenGlImageFilter::gl(FILTER in)
+GLuint djvOpenGlImageFilter::toGl(FILTER in)
 {
     switch (in)
     {
@@ -212,15 +212,6 @@ GLuint djvOpenGlImageFilter::gl(FILTER in)
     }
 
     return 0;
-}
-
-const djvOpenGlImageFilter & djvOpenGlImageFilter::filterDefault()
-{
-    static const djvOpenGlImageFilter data(
-        djvOpenGlImageFilter::LINEAR,
-        djvOpenGlImageFilter::NEAREST);
-
-    return data;
 }
 
 const djvOpenGlImageFilter & djvOpenGlImageFilter::filterHighQuality()
@@ -235,18 +226,27 @@ const djvOpenGlImageFilter & djvOpenGlImageFilter::filterHighQuality()
 namespace
 {
 
-djvOpenGlImageFilter _filterGlobal = djvOpenGlImageFilter::filterDefault();
+const djvOpenGlImageFilter _filterConst(
+    djvOpenGlImageFilter::LINEAR,
+    djvOpenGlImageFilter::NEAREST);
+
+djvOpenGlImageFilter _filter = _filterConst;
 
 } // namespace
 
-const djvOpenGlImageFilter & djvOpenGlImageFilter::filterGlobal()
+const djvOpenGlImageFilter & djvOpenGlImageFilter::filter()
 {
-    return _filterGlobal;
+    return _filter;
 }
 
-void djvOpenGlImageFilter::setFilterGlobal(const djvOpenGlImageFilter & filter)
+void djvOpenGlImageFilter::setFilter(const djvOpenGlImageFilter & filter)
 {
-    _filterGlobal = filter;
+    _filter = filter;
+}
+
+void djvOpenGlImageFilter::resetFilter()
+{
+    _filter = _filterConst;
 }
 
 //------------------------------------------------------------------------------

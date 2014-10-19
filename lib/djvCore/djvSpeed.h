@@ -82,18 +82,6 @@ public:
 
     static const QStringList & fpsLabels();
 
-    //! Get the default frames per second.
-
-    static FPS fpsDefault();
-
-    //! Set the default frames per second.
-
-    static void setFpsDefault(FPS);
-    
-    //! Reset the default frames per second.
-    
-    static void resetFpsDefault();
-
     //! Constructor.
 
     djvSpeed();
@@ -129,6 +117,18 @@ public:
     //! Convert a floating point value to a speed.
 
     static djvSpeed floatToSpeed(double);
+
+    //! Get the default speed.
+
+    static FPS speedDefault();
+
+    //! Set the default speed.
+
+    static void setSpeedDefault(FPS);
+
+    //! Reset the default speed.
+
+    static void resetSpeedDefault();
 
 private:
 

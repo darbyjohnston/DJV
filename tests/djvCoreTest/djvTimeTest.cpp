@@ -289,7 +289,7 @@ void djvTimeTest::convert()
                 QList<djvTime::UNITS>() << djvTime::UNITS_TIMECODE <<
                     djvTime::UNITS_FRAMES)
             {
-                djvTime::setUnitsDefault(units);
+                djvTime::setUnits(units);
                 
                 const QString s = djvTime::unitsToString(
                     data[i].frame,
@@ -305,12 +305,12 @@ void djvTimeTest::convert()
                 DJV_ASSERT(data[i].ok    == ok);
             }
             
-            djvTime::resetUnitsDefault();
+            djvTime::resetUnits();
         }
     }
     
     {
-        djvTime::UNITS units = djvTime::unitsDefault();
+        djvTime::UNITS units = djvTime::units();
         
         QStringList tmp;
         
@@ -318,7 +318,7 @@ void djvTimeTest::convert()
         
         tmp >> units;
         
-        DJV_ASSERT(djvTime::unitsDefault() == units);
+        DJV_ASSERT(djvTime::units() == units);
     }
 }
 

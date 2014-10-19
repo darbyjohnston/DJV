@@ -70,13 +70,18 @@ qint64 djvSequenceUtil::findClosest(qint64 frame, const djvFrameList & frames)
 
 QString djvSequenceUtil::frameToString(qint64 frame, int pad)
 {
-    char format [] = "%00d";
-    static const int formatMax = 9;
-    format[2] = char('0' + djvMath::min(pad, formatMax));
-
     char tmp[djvStringUtil::cStringLength] = "";
-    SNPRINTF(tmp, djvStringUtil::cStringLength, format, frame);
-    return QString(tmp);
+
+    const int length = djvStringUtil::intToString<qint64>(frame, tmp);
+
+    QString p;
+
+    for (int i = 0; i < pad - length; ++i)
+    {
+        p += '0';
+    }
+
+    return p + QString(tmp);
 }
 
 namespace

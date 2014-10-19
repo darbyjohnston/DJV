@@ -118,7 +118,7 @@ djvOpenGlPrefsWidget::~djvOpenGlPrefsWidget()
 
 void djvOpenGlPrefsWidget::resetPreferences()
 {
-    djvOpenGlPrefs::global()->setFilter(djvOpenGlImageFilter::filterDefault());
+    djvOpenGlPrefs::global()->setFilter(djvOpenGlImageFilter::filter());
 
     widgetUpdate();
 }

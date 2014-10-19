@@ -164,7 +164,10 @@ const QString labelInfo =
 "     Version: %1\n"
 "     System: %2\n"
 "     Endian: %3\n"
-"     Search Path: %4\n";
+"     Search path: %4\n"
+"     Time units: %5\n"
+"     Default speed: %6\n"
+"     Maximum sequence size: %7\n";
 
 } // namespace
 
@@ -174,7 +177,10 @@ QString djvAbstractCoreApplication::info() const
         arg(DJV_PACKAGE_NAME).
         arg(djvSystem::info()).
         arg(djvStringUtil::label(djvMemory::endian()).join(", ")).
-        arg(djvSystem::searchPath().join(", "));
+        arg(djvSystem::searchPath().join(", ")).
+        arg(djvStringUtil::label(djvTime::units()).join(", ")).
+        arg(djvStringUtil::label(djvSpeed::speedDefault()).join(", ")).
+        arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
 }
 
 namespace
@@ -346,13 +352,19 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
             {
                 djvTime::UNITS value = static_cast<djvTime::UNITS>(0);
                 in >> value;
-                djvTime::setUnitsDefault(value);
+                djvTime::setUnits(value);
             }
             else if ("-default_speed" == arg)
             {
                 djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
-                djvSpeed::setFpsDefault(value);
+                djvSpeed::setSpeedDefault(value);
+            }
+            else if ("-max_sequence_frames" == arg)
+            {
+                qint64 value = static_cast<qint64>(0);
+                in >> value;
+                djvSequence::setMaxFrames(value);
             }
 
             else if ("-help" == arg || "-h" == arg)
@@ -413,6 +425,8 @@ const QString commandLineHelpLabel =
 "         Set the time units. Options = %1. Default = %2.\n"
 "     -default_speed (value)\n"
 "         Set the default speed. Options = %3. Default = %4.\n"
+"     -max_sequence_frames (value)\n"
+"         Set the maximum number of frames a sequence can hold. Default = %5.\n"
 "     -help, -h\n"
 "         Show the help message.\n"
 "     -info\n"
@@ -426,9 +440,10 @@ QString djvAbstractCoreApplication::commandLineHelp() const
 {
     return QString(commandLineHelpLabel).
         arg(djvTime::unitsLabels().join(", ")).
-        arg(djvStringUtil::label(djvTime::unitsDefault()).join(", ")).
+        arg(djvStringUtil::label(djvTime::units()).join(", ")).
         arg(djvSpeed::fpsLabels().join(", ")).
-        arg(djvStringUtil::label(djvSpeed::fpsDefault()).join(", "));
+        arg(djvStringUtil::label(djvSpeed::speedDefault()).join(", ")).
+        arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
 }
 
 const QString djvAbstractCoreApplication::errorCommandLine =

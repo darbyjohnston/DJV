@@ -72,7 +72,7 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
     app.commandLine(args);
 
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvTime::UNITS_TIMECODE == djvTime::unitsDefault());
+    DJV_ASSERT(djvTime::UNITS_TIMECODE == djvTime::units());
     
     args += "-default_speed";
     args += "12";
@@ -80,7 +80,7 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
     app.commandLine(args);
 
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvSpeed(12) == djvSpeed::fpsDefault());
+    DJV_ASSERT(djvSpeed(12) == djvSpeed::speedDefault());
     
     args += "-time_units";
 

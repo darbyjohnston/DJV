@@ -113,6 +113,18 @@ struct DJV_CORE_EXPORT djvSequence
     //! Sort the frame numbers in a sequence.
 
     void sort();
+
+    //! Get the maximum number of frames a sequence can hold.
+
+    static qint64 maxFrames();
+
+    //! Set the maximum number of frames a sequence can hold.
+
+    static void setMaxFrames(qint64);
+
+    //! Reset the maximum number of frames to the default.
+
+    static void resetMaxFrames();
 };
 
 //------------------------------------------------------------------------------

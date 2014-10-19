@@ -160,7 +160,7 @@ QStringList & operator >> (QStringList & in, int & out) throw (QString)
 {
     QString tmp;
     in >> tmp;
-    out = tmp.toInt();
+    out = djvStringUtil::stringToInt<int>(tmp.toLatin1().data());
     return in;
 }
 
@@ -168,7 +168,23 @@ QStringList & operator >> (QStringList & in, unsigned int & out) throw (QString)
 {
     QString tmp;
     in >> tmp;
-    out = tmp.toUInt();
+    out = djvStringUtil::stringToInt<unsigned int>(tmp.toLatin1().data());
+    return in;
+}
+
+QStringList & operator >> (QStringList & in, qint64 & out) throw (QString)
+{
+    QString tmp;
+    in >> tmp;
+    out = djvStringUtil::stringToInt<qint64>(tmp.toLatin1().data());
+    return in;
+}
+
+QStringList & operator >> (QStringList & in, quint64 & out) throw (QString)
+{
+    QString tmp;
+    in >> tmp;
+    out = djvStringUtil::stringToInt<quint64>(tmp.toLatin1().data());
     return in;
 }
 
@@ -196,14 +212,44 @@ QStringList & operator << (QStringList & out, bool in)
 
 QStringList & operator << (QStringList & out, int in)
 {
-    out += QString::number(in);
+    char tmp[djvStringUtil::cStringLength];
+
+    djvStringUtil::intToString<int>(in, tmp);
+
+    out += tmp;
 
     return out;
 }
 
 QStringList & operator << (QStringList & out, unsigned int in)
 {
-    out += QString::number(in);
+    char tmp[djvStringUtil::cStringLength];
+
+    djvStringUtil::intToString<unsigned int>(in, tmp);
+
+    out += tmp;
+
+    return out;
+}
+
+QStringList & operator << (QStringList & out, qint64 in)
+{
+    char tmp[djvStringUtil::cStringLength];
+
+    djvStringUtil::intToString<qint64>(in, tmp);
+
+    out += tmp;
+
+    return out;
+}
+
+QStringList & operator << (QStringList & out, quint64 in)
+{
+    char tmp[djvStringUtil::cStringLength];
+
+    djvStringUtil::intToString<quint64>(in, tmp);
+
+    out += tmp;
 
     return out;
 }

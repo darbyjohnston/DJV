@@ -34,10 +34,13 @@
 #include <djvMiscPrefsWidget.h>
 
 #include <djvApplication.h>
+#include <djvIntEdit.h>
+#include <djvIntObject.h>
 #include <djvMiscPrefs.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
 
+#include <djvSequence.h>
 #include <djvSignalBlocker.h>
 
 #include <QDialogButtonBox>
@@ -54,14 +57,16 @@
 struct djvMiscPrefsWidget::P
 {
     P() :
-        timeUnitsWidget(0),
-        speedWidget    (0),
-        toolTipsWidget (0)
+        timeUnitsWidget        (0),
+        speedDefaultWidget     (0),
+        sequenceMaxFramesWidget(0),
+        toolTipsWidget         (0)
     {}
 
-    QComboBox * timeUnitsWidget;
-    QComboBox * speedWidget;
-    QCheckBox * toolTipsWidget;
+    QComboBox *  timeUnitsWidget;
+    QComboBox *  speedDefaultWidget;
+    djvIntEdit * sequenceMaxFramesWidget;
+    QCheckBox *  toolTipsWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -78,10 +83,16 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
     _p->timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->timeUnitsWidget->addItems(djvTime::unitsLabels());
 
-    _p->speedWidget = new QComboBox;
-    _p->speedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->speedWidget->addItems(djvSpeed::fpsLabels());
+    _p->speedDefaultWidget = new QComboBox;
+    _p->speedDefaultWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _p->speedDefaultWidget->addItems(djvSpeed::fpsLabels());
     
+    // Create the sequence widgets.
+
+    _p->sequenceMaxFramesWidget = new djvIntEdit;
+    _p->sequenceMaxFramesWidget->setMax(djvIntObject::intMax);
+    _p->sequenceMaxFramesWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
     // Create the help widgets.
 
     _p->toolTipsWidget = new QCheckBox("Enable tool tips");
@@ -95,11 +106,18 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
         "Time",
         "Set general time options.");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Units:", _p->timeUnitsWidget);
+    formLayout->addRow("Time units:", _p->timeUnitsWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->addWidget(_p->speedWidget);
+    hLayout->addWidget(_p->speedDefaultWidget);
     hLayout->addWidget(new QLabel("(frames per second)"));
     formLayout->addRow("Default speed:", hLayout);
+    layout->addWidget(prefsGroupBox);
+
+    prefsGroupBox = new djvPrefsGroupBox(
+        "Sequences",
+        "Set general sequence options.");
+    formLayout = prefsGroupBox->createLayout();
+    formLayout->addRow("Maximum number of frames:", _p->sequenceMaxFramesWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
@@ -123,9 +141,14 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
         SLOT(timeUnitsCallback(int)));
 
     connect(
-        _p->speedWidget,
+        _p->speedDefaultWidget,
         SIGNAL(activated(int)),
-        SLOT(speedCallback(int)));
+        SLOT(speedDefaultCallback(int)));
+
+    connect(
+        _p->sequenceMaxFramesWidget,
+        SIGNAL(valueChanged(int)),
+        SLOT(sequenceMaxFramesCallback(int)));
 
     connect(
         _p->toolTipsWidget,
@@ -140,14 +163,18 @@ djvMiscPrefsWidget::~djvMiscPrefsWidget()
 
 void djvMiscPrefsWidget::resetPreferences()
 {
-    djvSpeed::resetFpsDefault();
+    djvTime::resetUnits();
     
-    djvMiscPrefs::global()->setSpeed(djvSpeed::fpsDefault());
+    djvMiscPrefs::global()->setTimeUnits(djvTime::units());
     
-    djvTime::resetUnitsDefault();
-    
-    djvMiscPrefs::global()->setUnits(djvTime::unitsDefault());
-    
+    djvSpeed::resetSpeedDefault();
+
+    djvMiscPrefs::global()->setSpeedDefault(djvSpeed::speedDefault());
+
+    djvSequence::resetMaxFrames();
+
+    djvMiscPrefs::global()->setSequenceMaxFrames(djvSequence::maxFrames());
+
     DJV_APP->setToolTips(djvApplication::toolTipsDefault());
     
     widgetUpdate();
@@ -155,12 +182,17 @@ void djvMiscPrefsWidget::resetPreferences()
 
 void djvMiscPrefsWidget::timeUnitsCallback(int index)
 {
-    djvMiscPrefs::global()->setUnits(static_cast<djvTime::UNITS>(index));
+    djvMiscPrefs::global()->setTimeUnits(static_cast<djvTime::UNITS>(index));
 }
 
-void djvMiscPrefsWidget::speedCallback(int index)
+void djvMiscPrefsWidget::speedDefaultCallback(int index)
 {
-    djvMiscPrefs::global()->setSpeed(static_cast<djvSpeed::FPS>(index));
+    djvMiscPrefs::global()->setSpeedDefault(static_cast<djvSpeed::FPS>(index));
+}
+
+void djvMiscPrefsWidget::sequenceMaxFramesCallback(int size)
+{
+    djvMiscPrefs::global()->setSequenceMaxFrames(size);
 }
 
 void djvMiscPrefsWidget::helpToolTipsCallback(bool toolTips)
@@ -172,12 +204,15 @@ void djvMiscPrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->timeUnitsWidget <<
-        _p->speedWidget <<
+        _p->speedDefaultWidget <<
+        _p->sequenceMaxFramesWidget <<
         _p->toolTipsWidget);
 
-    _p->timeUnitsWidget->setCurrentIndex(djvMiscPrefs::global()->units());
+    _p->timeUnitsWidget->setCurrentIndex(djvTime::units());
     
-    _p->speedWidget->setCurrentIndex(djvMiscPrefs::global()->speed());
+    _p->speedDefaultWidget->setCurrentIndex(djvSpeed::speedDefault());
+
+    _p->sequenceMaxFramesWidget->setValue(djvSequence::maxFrames());
 
     _p->toolTipsWidget->setChecked(DJV_APP->hasToolTips());
 }

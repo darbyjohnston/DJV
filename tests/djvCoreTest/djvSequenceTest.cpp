@@ -103,6 +103,21 @@ void djvSequenceTest::members()
         DJV_ASSERT(djvFrameList() << 3 << 2 << 1 == seq.frames);
         DJV_ASSERT(3 == seq.start());
         DJV_ASSERT(1 == seq.end());
+
+        seq.setFrames(0, djvSequence::maxFrames() - 1);
+
+        DJV_ASSERT(0 == seq.start());
+        DJV_ASSERT((djvSequence::maxFrames() - 1) == seq.end());
+
+        seq.setFrames(0, djvSequence::maxFrames());
+
+        DJV_ASSERT(0 == seq.start());
+        DJV_ASSERT((djvSequence::maxFrames() - 1) == seq.end());
+
+        seq.setFrames(djvSequence::maxFrames(), 0);
+
+        DJV_ASSERT(djvSequence::maxFrames() == seq.start());
+        DJV_ASSERT(1 == seq.end());
     }
     
     {

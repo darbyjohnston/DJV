@@ -186,25 +186,25 @@ struct DJV_CORE_EXPORT djvOpenGlImageFilter
     FILTER min;
     FILTER mag;
 
-    //! Convert a filter to OpenGL.
+    //! Convert an image filter to OpenGL.
 
-    static GLuint gl(FILTER);
+    static GLuint toGl(FILTER);
 
-    //! Get the default filter.
-
-    static const djvOpenGlImageFilter & filterDefault();
-
-    //! Get the high quality filter.
+    //! Get the high quality image filter.
 
     static const djvOpenGlImageFilter & filterHighQuality();
 
-    //! Get the global filter.
+    //! Get the global image filter.
 
-    static const djvOpenGlImageFilter & filterGlobal();
+    static const djvOpenGlImageFilter & filter();
 
-    //! Set the global filter.
+    //! Set the global image filter.
 
-    static void setFilterGlobal(const djvOpenGlImageFilter &);
+    static void setFilter(const djvOpenGlImageFilter &);
+
+    //! Reset the global image filter to the default.
+
+    static void resetFilter();
 };
 
 //------------------------------------------------------------------------------

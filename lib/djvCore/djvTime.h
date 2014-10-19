@@ -153,17 +153,17 @@ struct DJV_CORE_EXPORT djvTime
 
     static qint64 stringToUnits(const QString &, const djvSpeed &, bool * ok = 0);
 
-    //! Get the default time units.
+    //! Get the global time units.
 
-    static UNITS unitsDefault();
+    static UNITS units();
 
-    //! Set the default time units.
+    //! Set the global time units.
 
-    static void setUnitsDefault(UNITS);
+    static void setUnits(UNITS);
     
-    //! Reset the default time units.
+    //! Reset the global time units to the default.
     
-    static void resetUnitsDefault();
+    static void resetUnits();
 };
 
 //------------------------------------------------------------------------------

@@ -129,7 +129,7 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 
     connect(
         djvMiscPrefs::global(),
-        SIGNAL(unitsChanged(djvTime::UNITS)),
+        SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(update()));
 }
 

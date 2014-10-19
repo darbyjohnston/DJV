@@ -77,7 +77,7 @@
 
 int main(int argc, char ** argv)
 {
-    const QVector<djvAbstractTest *> tests = QVector<djvAbstractTest *>() <<
+    QVector<djvAbstractTest *> tests = QVector<djvAbstractTest *>() <<
         new djvCoreApplicationTest <<
         new djvBoxTest <<
         new djvBoxUtilTest <<
@@ -120,6 +120,9 @@ int main(int argc, char ** argv)
         new djvVectorTest <<
         new djvVectorUtilTest;	
     
+    //tests = QVector<djvAbstractTest *>() <<
+    //    new djvSequenceTest;
+
     for (int i = 0; i < tests.count(); ++i)
     {
         tests[i]->run(argc, argv);

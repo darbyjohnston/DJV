@@ -63,7 +63,9 @@ void djvSequenceUtilTest::frameToString()
         { 0,       "0", 0 },
         { 0,    "0000", 4 },
         { 100,  "0100", 4 },
-        { 1000, "1000", 4 }
+        { 1000, "1000", 4 },
+
+        { 1370468628437, "1370468628437", 0 }
     };
     
     const int dataCount = sizeof(data) / sizeof(Data);
@@ -94,7 +96,10 @@ void djvSequenceUtilTest::stringToFrame()
         { "0000",    0, 4 },
         { "0100",  100, 4 },
         { "1000", 1000, 0 },
-        { "#",      -1, 0 }
+
+        { "1370468628437", 1370468628437, 0 },
+
+        { "#", -1, 0 }
     };
     
     const int dataCount = sizeof(data) / sizeof(Data);

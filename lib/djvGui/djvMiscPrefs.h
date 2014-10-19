@@ -53,21 +53,29 @@ class DJV_GUI_EXPORT djvMiscPrefs : public QObject
 {
     Q_OBJECT
     
+    //! This property holds the global time units.
+    
+    Q_PROPERTY(
+        djvTime::UNITS timeUnits
+        READ           timeUnits
+        WRITE          setTimeUnits
+        NOTIFY         timeUnitsChanged)
+    
     //! This property holds the default speed.
     
     Q_PROPERTY(
-        djvSpeed::FPS speed
-        READ          speed
-        WRITE         setSpeed
-        NOTIFY        speedChanged)
+        djvSpeed::FPS speedDefault
+        READ          speedDefault
+        WRITE         setSpeedDefault
+        NOTIFY        speedDefaultChanged)
     
-    //! This property holds the time units.
+    //! This property holds the maximum number of frames a sequence can hold.
     
     Q_PROPERTY(
-        djvTime::UNITS units
-        READ           units
-        WRITE          setUnits
-        NOTIFY         unitsChanged)
+        qint64 sequenceMaxFrames
+        READ   sequenceMaxFrames
+        WRITE  setSequenceMaxFrames
+        NOTIFY sequenceMaxFramesChanged)
     
 public:
 
@@ -79,13 +87,17 @@ public:
 
     ~djvMiscPrefs();
 
-    //! Get the efault speed.
+    //! Get the global time units.
 
-    djvSpeed::FPS speed() const;
+    djvTime::UNITS timeUnits() const;
 
-    //! Get the time units.
+    //! Get the default speed.
 
-    djvTime::UNITS units() const;
+    djvSpeed::FPS speedDefault() const;
+
+    //! Get the maximum number of frames a sequence can hold.
+
+    qint64 sequenceMaxFrames() const;
 
     //! Get the global preferences.
 
@@ -93,23 +105,32 @@ public:
     
 public Q_SLOTS:
 
-    //! Set the efault speed.
+    //! Set the global time units.
 
-    void setSpeed(djvSpeed::FPS);
+    void setTimeUnits(djvTime::UNITS);
 
-    //! Set the time units.
+    //! Set the default speed.
 
-    void setUnits(djvTime::UNITS);
+    void setSpeedDefault(djvSpeed::FPS);
+
+    //! Set the maximum number of frames a sequence can hold.
+
+    void setSequenceMaxFrames(qint64);
 
 Q_SIGNALS:
 
-    //! This signal is emitted when the efault speed is changed.
+    //! This signal is emitted when the global time units are changed.
     
-    void speedChanged(djvSpeed::FPS);
-    
-    //! This signal is emitted when the time units are changed.
-    
-    void unitsChanged(djvTime::UNITS);
+    void timeUnitsChanged(djvTime::UNITS);
+
+    //! This signal is emitted when the default speed is changed.
+
+    void speedDefaultChanged(djvSpeed::FPS);
+
+    //! This signal is emitted when the maximum number of frames in a sequence
+    //! is changed.
+
+    void sequenceMaxFramesChanged(qint64);
 };
 
 //@} // djvGuiMisc

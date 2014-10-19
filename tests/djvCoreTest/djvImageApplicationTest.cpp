@@ -65,7 +65,7 @@ void djvImageApplicationTest::run(int & argc, char ** argv)
     DJV_ASSERT(1 == args.count());
     DJV_ASSERT(djvOpenGlImageFilter(
         djvOpenGlImageFilter::BOX, djvOpenGlImageFilter::TRIANGLE) ==
-        djvOpenGlImageFilter::filterGlobal());
+        djvOpenGlImageFilter::filter());
     
     args += "-render_filter_high";
     
@@ -73,7 +73,7 @@ void djvImageApplicationTest::run(int & argc, char ** argv)
 
     DJV_ASSERT(1 == args.count());
     DJV_ASSERT(djvOpenGlImageFilter::filterHighQuality() ==
-        djvOpenGlImageFilter::filterGlobal());
+        djvOpenGlImageFilter::filter());
     
     args += "-render_filter";
 

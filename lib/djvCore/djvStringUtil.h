@@ -85,6 +85,19 @@ struct DJV_CORE_EXPORT djvStringUtil
     //! Default C-string length.
 
     static const int cStringLength = 256;
+
+    //! Convert a string to an integer.
+
+    template<typename T>
+    static inline T stringToInt(
+        const char * string,
+        int          maxLen = cStringLength);
+
+    template<typename T>
+    static inline int intToString(
+        T      value,
+        char * string,
+        int    maxLen = cStringLength);
 };
 
 //------------------------------------------------------------------------------
@@ -115,6 +128,8 @@ DJV_CORE_EXPORT QStringList & operator >> (QStringList &, QStringList &) throw (
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, bool &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, int &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &, qint64 &) throw (QString);
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &, quint64 &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, double &) throw (QString);
 template <typename T>
 inline QStringList & operator >> (QStringList &, QVector<T> &) throw (QString);
@@ -123,6 +138,8 @@ DJV_CORE_EXPORT QStringList & operator << (QStringList &, const char *);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, bool);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, int);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, unsigned int);
+DJV_CORE_EXPORT QStringList & operator << (QStringList &, qint64);
+DJV_CORE_EXPORT QStringList & operator << (QStringList &, quint64);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, double);
 template <typename T>
 inline QStringList & operator << (QStringList &, const QVector<T> &);

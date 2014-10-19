@@ -146,3 +146,104 @@ inline QStringList & operator << (QStringList & out, const QVector<T> & in)
 
     return out;
 }
+
+namespace
+{
+
+    // Valid character lookup tables.
+
+    static int _stringToInt[] =
+    {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0
+    };
+
+} // namespace
+
+template<typename T>
+inline T djvStringUtil::stringToInt(const char * string, int maxLen)
+{
+    bool negative = false;
+
+    if (*string)
+    {
+        if ('-' == *string)
+        {
+            negative = true;
+
+            ++string;
+        }
+    }
+
+    T out = 0;
+
+    while (_stringToInt[static_cast<int>(*string)] && maxLen--)
+    {
+        out *= 10;
+        out += *string++ - '0';
+    }
+
+    return negative ? -out : out;
+}
+
+template<typename T>
+inline int djvStringUtil::intToString(T value, char * out, int maxLen)
+{
+    //DJV_ASSERT(maxLen > 0);
+
+    const int max = maxLen - 1;
+
+    const bool negative = ! (0 == value || value > 0);
+
+    int count = 0;
+    T tmp = value;
+
+    do
+    {
+        ++count;
+        tmp /= 10;
+    } while (tmp && count < max);
+
+    if (negative)
+    {
+        ++count;
+        out[0] = '-';
+    }
+
+    if (count > 0)
+    {
+        const int end = negative ? 1 : 0;
+
+        for (int i = count - 1; i >= end; --i, value /= 10)
+        {
+            if (negative)
+            {
+                out[i] = '0' - (value % 10);
+            }
+            else
+            {
+                out[i] = '0' + (value % 10);
+            }
+        }
+    }
+
+    out[count] = 0;
+
+    return count;
+}

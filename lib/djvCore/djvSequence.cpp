@@ -36,6 +36,7 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvListUtil.h>
+#include <djvMath.h>
 #include <djvSequenceUtil.h>
 
 //------------------------------------------------------------------------------
@@ -59,11 +60,22 @@ djvSequence::djvSequence(qint64 start, qint64 end, int pad, const djvSpeed & spe
     setFrames(start, end);
 }
 
+namespace
+{
+
+// Set the maximum number of frames large enough for a two hour movie.
+
+const qint64 _maxFramesConst = 120 * 60 * 24;
+
+qint64 _maxFrames = _maxFramesConst;
+
+} // namespace
+
 void djvSequence::setFrames(qint64 start, qint64 end)
 {
     if (start < end)
     {
-        const qint64 size = end - start + 1;
+        const qint64 size = djvMath::min<qint64>(end - start + 1, _maxFrames);
 
         frames.resize(size);
 
@@ -74,7 +86,7 @@ void djvSequence::setFrames(qint64 start, qint64 end)
     }
     else
     {
-        const qint64 size = start - end + 1;
+        const qint64 size = djvMath::min<qint64>(start - end + 1, _maxFrames);
 
         frames.resize(size);
 
@@ -110,6 +122,21 @@ bool compare(qint64 a, qint64 b)
 void djvSequence::sort()
 {
     qSort(frames.begin(), frames.end(), compare);
+}
+
+qint64 djvSequence::maxFrames()
+{
+    return _maxFrames;
+}
+
+void djvSequence::setMaxFrames(qint64 size)
+{
+    _maxFrames = size;
+}
+
+void djvSequence::resetMaxFrames()
+{
+    _maxFrames = _maxFramesConst;
 }
 
 //------------------------------------------------------------------------------

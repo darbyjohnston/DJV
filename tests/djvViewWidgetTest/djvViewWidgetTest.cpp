@@ -154,7 +154,7 @@ djvViewWidgetTest::djvViewWidgetTest() :
 
 void djvViewWidgetTest::timeUnitsCallback(int index)
 {
-    djvMiscPrefs::global()->setUnits(static_cast<djvTime::UNITS>(index));
+    djvMiscPrefs::global()->setTimeUnits(static_cast<djvTime::UNITS>(index));
 }
 
 void djvViewWidgetTest::frameCallback(qint64 frame)
@@ -197,7 +197,7 @@ void djvViewWidgetTest::widgetUpdate()
         _frameWidget <<
         _frameSlider);
     
-    _timeUnitsWidget->setCurrentIndex(djvMiscPrefs::global()->units());
+    _timeUnitsWidget->setCurrentIndex(djvMiscPrefs::global()->timeUnits());
     
     _frameWidget->setFrameList(_frameList);
     _frameWidget->setSpeed(_speed);

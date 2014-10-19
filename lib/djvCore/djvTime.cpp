@@ -286,7 +286,7 @@ QString djvTime::unitsToString(qint64 frame, const djvSpeed & speed)
 {
     QString out;
 
-    switch (unitsDefault())
+    switch (units())
     {
         case UNITS_TIMECODE:
         
@@ -313,7 +313,7 @@ qint64 djvTime::stringToUnits(
 {
     qint64 out = 0;
 
-    switch (unitsDefault())
+    switch (units())
     {
         case UNITS_TIMECODE:
         
@@ -336,23 +336,25 @@ qint64 djvTime::stringToUnits(
 namespace
 {
 
-djvTime::UNITS _unitsDefault = djvTime::UNITS_FRAMES;
+const djvTime::UNITS _unitsConst = djvTime::UNITS_FRAMES;
+
+djvTime::UNITS _units = _unitsConst;
 
 } // namespace
 
-djvTime::UNITS djvTime::unitsDefault()
+djvTime::UNITS djvTime::units()
 {
-    return _unitsDefault;
+    return _units;
 }
 
-void djvTime::setUnitsDefault(UNITS units)
+void djvTime::setUnits(UNITS units)
 {
-    _unitsDefault = units;
+    _units = units;
 }
 
-void djvTime::resetUnitsDefault()
+void djvTime::resetUnits()
 {
-    _unitsDefault = djvTime::UNITS_FRAMES;
+    _units = _unitsConst;
 }
 
 //------------------------------------------------------------------------------

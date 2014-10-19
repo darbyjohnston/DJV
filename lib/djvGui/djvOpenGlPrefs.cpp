@@ -51,7 +51,7 @@ djvOpenGlPrefs::djvOpenGlPrefs(QObject * parent) :
 
     if (prefs.get("filter", filter))
     {
-        djvOpenGlImageFilter::setFilterGlobal(filter);
+        djvOpenGlImageFilter::setFilter(filter);
     }
 }
 
@@ -61,12 +61,12 @@ djvOpenGlPrefs::~djvOpenGlPrefs()
 
     djvPrefs prefs("djvOpenGlPrefs", djvPrefs::SYSTEM);
 
-    prefs.set("filter", djvOpenGlImageFilter::filterGlobal());
+    prefs.set("filter", djvOpenGlImageFilter::filter());
 }
 
 const djvOpenGlImageFilter & djvOpenGlPrefs::filter() const
 {
-    return djvOpenGlImageFilter::filterGlobal();
+    return djvOpenGlImageFilter::filter();
 }
 
 djvOpenGlPrefs * djvOpenGlPrefs::global()
@@ -86,7 +86,7 @@ void djvOpenGlPrefs::setFilter(const djvOpenGlImageFilter & filter)
     if (filter == this->filter())
         return;
 
-    djvOpenGlImageFilter::setFilterGlobal(filter);
+    djvOpenGlImageFilter::setFilter(filter);
 
     Q_EMIT filterChanged(filter);
 }

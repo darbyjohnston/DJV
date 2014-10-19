@@ -1604,8 +1604,8 @@ void djvOpenGlImage::draw(
 
                 state->_texture->init(
                     data.info(),
-                    djvOpenGlImageFilter::gl(filter),
-                    djvOpenGlImageFilter::gl(filter));
+                    djvOpenGlImageFilter::toGl(filter),
+                    djvOpenGlImageFilter::toGl(filter));
 
                 state->_shader->init(
                     sourceVertex,

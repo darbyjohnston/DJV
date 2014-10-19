@@ -240,7 +240,7 @@ _p(new P)
 
     connect(
         djvMiscPrefs::global(),
-        SIGNAL(unitsChanged(djvTime::UNITS)),
+        SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
 
@@ -273,7 +273,7 @@ QSize djvViewFrameWidget::sizeHint() const
 {
     QString sizeString;
 
-    switch (djvTime::unitsDefault())
+    switch (djvTime::units())
     {
         case djvTime::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
         case djvTime::UNITS_FRAMES:   sizeString = "000000";      break;
@@ -774,7 +774,7 @@ djvViewFrameDisplay::djvViewFrameDisplay(QWidget * parent) :
 
     connect(
         djvMiscPrefs::global(),
-        SIGNAL(unitsChanged(djvTime::UNITS)),
+        SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
 
@@ -802,7 +802,7 @@ QSize djvViewFrameDisplay::sizeHint() const
 {
     QString sizeString;
 
-    switch (djvTime::unitsDefault())
+    switch (djvTime::units())
     {
         case djvTime::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
         case djvTime::UNITS_FRAMES:   sizeString = "000000";      break;

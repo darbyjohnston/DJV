@@ -36,6 +36,8 @@
 #include <djvApplication.h>
 #include <djvPrefs.h>
 
+#include <djvSequence.h>
+
 //------------------------------------------------------------------------------
 // djvMiscPrefs
 //------------------------------------------------------------------------------
@@ -47,18 +49,25 @@ djvMiscPrefs::djvMiscPrefs(QObject * parent) :
 
     djvPrefs prefs("djvMiscPrefs", djvPrefs::SYSTEM);
 
-    djvSpeed::FPS fps = djvSpeed::fpsDefault();
+    djvTime::UNITS timeUnits = djvTime::units();
 
-    if (prefs.get("speed", fps))
+    if (prefs.get("timeUnits", timeUnits))
     {
-        djvSpeed::setFpsDefault(fps);
+        djvTime::setUnits(timeUnits);
     }
 
-    djvTime::UNITS units = djvTime::unitsDefault();
+    djvSpeed::FPS speedDefault = djvSpeed::speedDefault();
 
-    if (prefs.get("units", units))
+    if (prefs.get("speedDefault", speedDefault))
     {
-        djvTime::setUnitsDefault(units);
+        djvSpeed::setSpeedDefault(speedDefault);
+    }
+
+    qint64 sequenceMaxFrames = djvSequence::maxFrames();
+
+    if (prefs.get("sequenceMaxFrames", sequenceMaxFrames))
+    {
+        djvSequence::setMaxFrames(sequenceMaxFrames);
     }
 }
 
@@ -68,18 +77,24 @@ djvMiscPrefs::~djvMiscPrefs()
 
     djvPrefs prefs("djvMiscPrefs", djvPrefs::SYSTEM);
 
-    prefs.set("speed", djvSpeed::fpsDefault());
-    prefs.set("units", djvTime::unitsDefault());
+    prefs.set("timeUnits", djvTime::units());
+    prefs.set("speedDefault", djvSpeed::speedDefault());
+    prefs.set("sequenceMaxFrames", djvSequence::maxFrames());
 }
 
-djvSpeed::FPS djvMiscPrefs::speed() const
+djvTime::UNITS djvMiscPrefs::timeUnits() const
 {
-    return djvSpeed::fpsDefault();
+    return djvTime::units();
 }
 
-djvTime::UNITS djvMiscPrefs::units() const
+djvSpeed::FPS djvMiscPrefs::speedDefault() const
 {
-    return djvTime::unitsDefault();
+    return djvSpeed::speedDefault();
+}
+
+qint64 djvMiscPrefs::sequenceMaxFrames() const
+{
+    return djvSequence::maxFrames();
 }
 
 djvMiscPrefs * djvMiscPrefs::global()
@@ -94,22 +109,32 @@ djvMiscPrefs * djvMiscPrefs::global()
     return global;
 }
 
-void djvMiscPrefs::setSpeed(djvSpeed::FPS speed)
+void djvMiscPrefs::setTimeUnits(djvTime::UNITS units)
 {
-    if (speed == this->speed())
+    if (units == this->timeUnits())
         return;
 
-    djvSpeed::setFpsDefault(speed);
+    djvTime::setUnits(units);
 
-    Q_EMIT speedChanged(speed);
+    Q_EMIT timeUnitsChanged(this->timeUnits());
 }
 
-void djvMiscPrefs::setUnits(djvTime::UNITS units)
+void djvMiscPrefs::setSpeedDefault(djvSpeed::FPS speed)
 {
-    if (units == this->units())
+    if (speed == this->speedDefault())
         return;
 
-    djvTime::setUnitsDefault(units);
+    djvSpeed::setSpeedDefault(speed);
 
-    Q_EMIT unitsChanged(units);
+    Q_EMIT speedDefaultChanged(this->speedDefault());
+}
+
+void djvMiscPrefs::setSequenceMaxFrames(qint64 size)
+{
+    if (size == this->sequenceMaxFrames())
+        return;
+
+    djvSequence::setMaxFrames(size);
+
+    Q_EMIT sequenceMaxFramesChanged(this->sequenceMaxFrames());
 }

@@ -109,10 +109,11 @@ const QString labelInfo =
 "     Vendor: %2\n"
 "     Renderer: %3\n"
 "     Version: %4\n"
+"     Render filter: %5, %6\n"
 "\n"
 " Image I/O\n"
 "\n"
-"     Plugins: %5\n";
+"     Plugins: %7\n";
 
 } // namespace
 
@@ -123,6 +124,8 @@ QString djvAbstractImageApplication::info() const
         arg(_p->context->vendor()).
         arg(_p->context->renderer()).
         arg(_p->context->version()).
+        arg(djvStringUtil::label(djvOpenGlImageFilter::filter().min).join(", ")).
+        arg(djvStringUtil::label(djvOpenGlImageFilter::filter().mag).join(", ")).
         arg(djvImageIoFactory::global()->names().join(", "));
 }
 
@@ -158,12 +161,12 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (djvError)
             {
                 djvOpenGlImageFilter value;
                 in >> value;
-                djvOpenGlImageFilter::setFilterGlobal(value);
+                djvOpenGlImageFilter::setFilter(value);
             }
 
             else if ("-render_filter_high" == arg)
             {
-                djvOpenGlImageFilter::setFilterGlobal(
+                djvOpenGlImageFilter::setFilter(
                     djvOpenGlImageFilter::filterHighQuality());
             }
 
@@ -215,8 +218,8 @@ QString djvAbstractImageApplication::commandLineHelp() const
     return QString(commandLineHelpLabel).
         arg(imageIoHelp).
         arg(djvOpenGlImageFilter::filterLabels().join(", ")).
-        arg(djvStringUtil::label(djvOpenGlImageFilter::filterGlobal().min).join(", ")).
-        arg(djvStringUtil::label(djvOpenGlImageFilter::filterGlobal().mag).join(", ")).
+        arg(djvStringUtil::label(djvOpenGlImageFilter::filter().min).join(", ")).
+        arg(djvStringUtil::label(djvOpenGlImageFilter::filter().mag).join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filterHighQuality().min).join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filterHighQuality().mag).join(", ")).
         arg(djvAbstractCoreApplication::commandLineHelp());

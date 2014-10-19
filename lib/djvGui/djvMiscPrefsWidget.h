@@ -68,7 +68,8 @@ public:
 private Q_SLOTS:
 
     void timeUnitsCallback(int);
-    void speedCallback(int);
+    void speedDefaultCallback(int);
+    void sequenceMaxFramesCallback(int);
     void helpToolTipsCallback(bool);
     
 private:
