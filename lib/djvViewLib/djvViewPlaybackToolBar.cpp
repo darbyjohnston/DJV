@@ -276,6 +276,8 @@ void djvViewPlaybackToolBar::setSpeed(const djvSpeed & speed)
 
     _p->frameWidget->setSpeed(speed);
 
+    _p->frameSlider->setSpeed(speed);
+
     _p->startWidget->setSpeed(speed);
 
     _p->endWidget->setSpeed(speed);

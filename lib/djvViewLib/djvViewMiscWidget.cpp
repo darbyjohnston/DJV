@@ -626,6 +626,45 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         box.h,
         palette().color(QPalette::Base));
 
+    // Draw the frame ticks.
+
+    const double s = djvSpeed::speedToFloat(_p->speed);
+
+    const bool drawTicks   = frameToPosF(1) > 3;
+    const bool drawSeconds = frameToPosF(static_cast<int>(s)) > 3;
+
+    const int tickH = box.h / 4;
+
+    for (int i = 0; i < _p->frameList.count(); ++i)
+    {
+        bool draw = drawTicks;
+
+        int h = tickH;
+
+        if (0 == i % static_cast<int>(s))
+        {
+            draw = drawSeconds;
+
+            h *= 2;
+        }
+
+        if (draw)
+        {
+            const QRectF r(
+                frameToPosF(i),
+                box.h - h,
+                frameToPosF(1),
+                h);
+
+            painter.setPen(palette().color(QPalette::Text));
+            painter.drawLine(
+                r.x() + r.width() / 2,
+                r.y(),
+                r.x() + r.width() / 2,
+                r.y() + r.height());
+        }
+    }
+
     // Draw the in/out points.
     
     if (_p->inPoint != 0 || _p->outPoint != end())
@@ -635,9 +674,9 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
 
         const QRectF r(
             frameToPosF(_p->inPoint),
-            djvMath::floor<int>(height() / 2.0),
+            djvMath::floor<int>(box.h / 2.0),
             frameToPosF(_p->outPoint - _p->inPoint + 1),
-            height());
+            box.h);
 
         painter.fillRect(r, color);
     }
@@ -659,7 +698,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
                 frameToPosF(list[i].min),
                 0,
                 frameToPosF(list[i].max - list[i].min + 1),
-                djvMath::ceil<int>(height() / 2.0));
+                djvMath::ceil<int>(box.h / 2.0));
 
             painter.fillRect(r, color);
         }
@@ -671,11 +710,11 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         djvMath::floor<int>(frameToPosF(_p->frame)),
         0,
         djvMath::ceil<int>(frameToPosF(1)),
-        height());
+        box.h);
 
-    QColor c(palette().color(QPalette::Text));
-    c.setAlpha(30);
-    painter.fillRect(r, c);
+    QColor color(palette().color(QPalette::Text));
+    color.setAlpha(30);
+    painter.fillRect(r, color);
 
     painter.setPen(palette().color(QPalette::Text));
     painter.drawRect(r);
