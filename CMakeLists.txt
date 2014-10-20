@@ -104,6 +104,11 @@ cmake_policy(SET CMP0042 OLD)
 # * Update the DJV version numbers in doc/*.html
 # * Update the version number in Doxyfile
 #
+# Git tag example:
+#
+# * git tag -a 1.0.2 -m "Version 1.0.2" df2f2e21232ceeab85ca40fc988aba5591fe9e64
+# * git push origin 1.0.2
+#
 #
 # Image I/O Check List
 # --------------------
