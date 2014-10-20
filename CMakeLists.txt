@@ -109,7 +109,7 @@ cmake_policy(SET CMP0042 OLD)
 # --------------------
 #
 # New image I/O file extensions need to be added both to this file (in the
-# packaging section) and etc/Gnome/djv_view.mime.xml.
+# packaging section) and etc/Linux/djv_view.mime.xml.
 #-------------------------------------------------------------------------------
 
 # Set whether to include third party dependencies when packaging.

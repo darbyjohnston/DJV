@@ -56,10 +56,10 @@ elseif (UNIX)
         DESTINATION bin)
 
     install(
-        FILES ../../etc/Gnome/djv_view.desktop
+        FILES ../../etc/Linux/djv_view.desktop
         DESTINATION /usr/share/applications)
     install(
-        FILES ../../etc/Gnome/djv_view.mime.xml
+        FILES ../../etc/Linux/djv_view.mime.xml
         DESTINATION /usr/share/mime/packages)
 
     install(
