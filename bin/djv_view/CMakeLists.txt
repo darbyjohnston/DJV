@@ -43,7 +43,13 @@ install(
     TARGETS djv_view
     RUNTIME DESTINATION bin)
 
-if (UNIX)
+if (APPLE)
+
+    install(
+        PROGRAMS djv_view.sh
+        DESTINATION bin)
+
+elseif (UNIX)
 
     install(
         PROGRAMS djv_view.sh
@@ -69,7 +75,7 @@ if (UNIX)
         DESTINATION /usr/share/icons/hicolor/48x48/apps
         RENAME djv_view.png)
 
-endif (UNIX)
+endif (APPLE)
 
 # \todo Build a second binary for a Windows command line version (.com).
 
