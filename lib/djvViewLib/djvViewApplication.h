@@ -69,6 +69,10 @@ public:
 
     virtual QString commandLineHelp() const;
 
+protected:
+
+    virtual bool event(QEvent *);
+    
 private:
 
     djvViewMainWindow * window() const;

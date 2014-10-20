@@ -57,6 +57,8 @@
 #include <djvFileInfoUtil.h>
 #include <djvStringUtil.h>
 
+#include <QFileOpenEvent>
+
 //------------------------------------------------------------------------------
 // djvViewApplication::P
 //------------------------------------------------------------------------------
@@ -358,6 +360,31 @@ QString djvViewApplication::commandLineHelp() const
         arg(djvView::playbackLabels().join(", ")).
         arg(djvSpeed::fpsLabels().join(", ")).
         arg(djvApplication::commandLineHelp());
+}
+
+bool djvViewApplication::event(QEvent * event)
+{
+    switch (event->type())
+    {
+        case QEvent::FileOpen:
+        {
+            QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
+            
+            QVector<djvViewMainWindow *> mainWindowList =
+                djvViewMainWindow::mainWindowList();
+        
+            if (mainWindowList.count())
+            {
+                mainWindowList[0]->fileOpen(e->file());
+                mainWindowList[0]->raise();
+            }
+        
+        } return true;
+        
+        default: break;
+    }
+    
+    return djvApplication::event(event);
 }
 
 djvViewMainWindow * djvViewApplication::window() const

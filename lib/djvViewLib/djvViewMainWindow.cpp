@@ -130,7 +130,7 @@ struct djvViewMainWindow::P
 namespace
 {
 
-int mainWindowCount = 0;
+QVector<djvViewMainWindow *> _mainWindowList;
 
 } // namespace
 
@@ -139,7 +139,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 {
     //DJV_DEBUG("djvViewMainWindow::djvViewMainWindow");
 
-    ++mainWindowCount;
+    _mainWindowList.append(this);
 
     //! \todo The native menu bar on OS X causes issues with keyboard shortcuts.
     
@@ -389,6 +389,11 @@ djvViewImageView * djvViewMainWindow::viewWidget() const
     return _p->viewWidget;
 }
 
+QVector<djvViewMainWindow *> djvViewMainWindow::mainWindowList()
+{
+    return _mainWindowList;
+}
+
 void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
 {
     //DJV_DEBUG("djvViewMainWindow::fileOpen");
@@ -579,9 +584,9 @@ void djvViewMainWindow::closeEvent(QCloseEvent * event)
 {
     QMainWindow::closeEvent(event);
 
-    --mainWindowCount;
+    _mainWindowList.remove(_mainWindowList.indexOf(this));
 
-    if (0 == mainWindowCount)
+    if (0 == _mainWindowList.count())
     {
         Q_FOREACH(QWidget * widget, qApp->topLevelWidgets())
         {

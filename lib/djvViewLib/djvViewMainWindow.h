@@ -77,6 +77,10 @@ public:
     //! Get the view widget.
     
     djvViewImageView * viewWidget() const;
+    
+    //! Get the list of main windows.
+    
+    static QVector<djvViewMainWindow *> mainWindowList();
 
 public Q_SLOTS:
 
