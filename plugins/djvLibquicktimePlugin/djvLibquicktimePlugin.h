@@ -51,7 +51,7 @@
 //!
 //! - libquicktime - http://libquicktime.sourceforge.net
 //!
-//! File extensions: .qt, .mov, .avi, .mp4
+//! File extensions: .qt, .mov, .mp4
 //!
 //! Supported features:
 //!

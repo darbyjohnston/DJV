@@ -51,6 +51,12 @@
         <glob pattern="*.pbm"/>
     </mime-type>
     <mime-type type="application/x-rla">
+        <comment>libquicktime</comment>
+        <glob pattern="*.qt"/>
+        <glob pattern="*.mov"/>
+        <glob pattern="*.mp4"/>
+    </mime-type>
+    <mime-type type="application/x-rla">
         <comment>Wavefront RLA image file format</comment>
         <glob pattern="*.rla"/>
         <glob pattern="*.rpf"/>

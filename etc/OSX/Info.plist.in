@@ -91,6 +91,14 @@
         <dict>
             <key>CFBundleTypeExtensions</key>
             <array>
+                <string>qt</string>
+                <string>mov</string>
+                <string>mp4</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeExtensions</key>
+            <array>
                 <string>rla</string>
                 <string>rpf</string>
             </array>

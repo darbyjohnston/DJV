@@ -1199,6 +1199,10 @@ if (WIN32)
 		WriteRegStr HKCR '.pgm' '' 'djv_view'
 		WriteRegStr HKCR '.pbm' '' 'djv_view'
 
+		WriteRegStr HKCR '.qt' '' 'djv_view'
+		WriteRegStr HKCR '.mov' '' 'djv_view'
+		WriteRegStr HKCR '.mp4' '' 'djv_view'
+
 		WriteRegStr HKCR '.rla' '' 'djv_view'
 		WriteRegStr HKCR '.rpf' '' 'djv_view'
 
@@ -1245,6 +1249,10 @@ if (WIN32)
 		DeleteRegKey HKCR '.pnm'
 		DeleteRegKey HKCR '.pgm'
 		DeleteRegKey HKCR '.pbm'
+
+		DeleteRegKey HKCR '.qt'
+		DeleteRegKey HKCR '.mov'
+		DeleteRegKey HKCR '.mp4'
 
 		DeleteRegKey HKCR '.rla'
 		DeleteRegKey HKCR '.rpf'

@@ -69,7 +69,7 @@ namespace qt
 //!
 //! - QuickTime - http://www.apple.com/quicktime
 //!
-//! File extensions: .qt, .mov, .avi, .mp4
+//! File extensions: .qt, .mov, .mp4
 //!
 //! Supported features:
 //!
