@@ -44,7 +44,6 @@ class QString;
 #if defined(DJV_WINDOWS)
 
 typedef int uid_t;
-typedef int gid_t;
 
 #endif // DJV_WINDOWS
 
