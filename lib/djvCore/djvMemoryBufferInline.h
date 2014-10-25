@@ -48,7 +48,9 @@ inline djvMemoryBuffer<T>::djvMemoryBuffer(const djvMemoryBuffer & in) :
     _data(0),
     _size(0)
 {
-    *this = in;
+    setSize(in._size);
+    
+    djvMemory::copy(in._data, _data, _size);
 }
 
 template<typename T>
@@ -72,7 +74,7 @@ inline quint64 djvMemoryBuffer<T>::size() const
 }
 
 template<typename T>
-inline void djvMemoryBuffer<T>::setSize(quint64 size)
+inline void djvMemoryBuffer<T>::setSize(quint64 size, bool zero)
 {
     if (size == _size)
         return;
@@ -81,11 +83,24 @@ inline void djvMemoryBuffer<T>::setSize(quint64 size)
 
     _size = size;
 
-    _data = reinterpret_cast<T *>(djvMemory::get(_size * sizeof(T) + 1));
+    _data = new T [_size];
 
-    //! Should we zero the allocated memory?
-    
-    //zero();
+    if (zero)
+    {
+        this->zero();
+    }
+}
+
+template<typename T>
+inline const T * djvMemoryBuffer<T>::data() const
+{
+    return _data;
+}
+
+template<typename T>
+inline const T * djvMemoryBuffer<T>::operator () () const
+{
+    return _data;
 }
 
 template<typename T>
@@ -95,7 +110,7 @@ inline T * djvMemoryBuffer<T>::data()
 }
 
 template<typename T>
-inline const T * djvMemoryBuffer<T>::data() const
+inline T * djvMemoryBuffer<T>::operator () ()
 {
     return _data;
 }
@@ -121,23 +136,11 @@ inline djvMemoryBuffer<T> & djvMemoryBuffer<T>::operator = (
 }
 
 template<typename T>
-inline T * djvMemoryBuffer<T>::operator () ()
-{
-    return _data;
-}
-
-template<typename T>
-inline const T * djvMemoryBuffer<T>::operator () () const
-{
-    return _data;
-}
-
-template<typename T>
 inline void djvMemoryBuffer<T>::del()
 {
     if (_data)
     {
-        djvMemory::del(_data);
+        delete [] _data;
         
         _data = 0;
         _size = 0;

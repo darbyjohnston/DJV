@@ -37,10 +37,6 @@
 #include <djvStringUtil.h>
 
 #include <string.h>
-#if ! (defined(DJV_FREEBSD) || defined(DJV_OSX))
-#include <malloc.h>
-#include <stdlib.h>
-#endif
 
 //------------------------------------------------------------------------------
 // djvMemory
@@ -50,59 +46,6 @@ const quint64 djvMemory::kilobyte = 1024;
 const quint64 djvMemory::megabyte = kilobyte * 1024;
 const quint64 djvMemory::gigabyte = megabyte * 1024;
 const quint64 djvMemory::terabyte = gigabyte * 1024;
-
-const int djvMemory::align = 4096;
-
-void * djvMemory::get(quint64 in)
-{
-    //! \todo Does using the memalign() function gain any performance?
-
-#if ! (defined(DJV_WINDOWS) || defined(DJV_FREEBSD) || defined(DJV_OSX))
-    return ::memalign(djvMemory::align, in);
-#else
-    return ::malloc(in);
-#endif
-}
-
-void djvMemory::del(void * in)
-{
-    ::free(in);
-}
-
-void djvMemory::copy(const void * in, void * out, quint64 size)
-{
-    ::memcpy(out, in, size);
-}
-
-void djvMemory::zero(void * out, quint64 size)
-{
-    ::memset(out, 0, size);
-}
-
-int djvMemory::compare(const void * a, const void * b, quint64 size)
-{
-    return ::memcmp(a, b, size);
-}
-
-djvMemory::ENDIAN djvMemory::endian()
-{
-    static const int tmp = 1;
-
-    static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
-
-    return *p ? LSB : MSB;
-}
-
-const QStringList & djvMemory::endianLabels()
-{
-    static const QStringList data = QStringList() <<
-        "MSB" <<
-        "LSB";
-
-    DJV_ASSERT(data.count() == ENDIAN_COUNT);
-
-    return data;
-}
 
 QString djvMemory::sizeLabel(quint64 in)
 {
@@ -126,6 +69,32 @@ QString djvMemory::sizeLabel(quint64 in)
         return QString("%4KB").arg(in /
             static_cast<double>(djvMemory::kilobyte), 0, 'f', 2);
     }
+}
+
+const QStringList & djvMemory::endianLabels()
+{
+    static const QStringList data = QStringList() <<
+        "MSB" <<
+        "LSB";
+
+    DJV_ASSERT(data.count() == ENDIAN_COUNT);
+
+    return data;
+}
+
+void djvMemory::copy(const void * in, void * out, quint64 size)
+{
+    ::memcpy(out, in, size);
+}
+
+void djvMemory::zero(void * out, quint64 size)
+{
+    ::memset(out, 0, size);
+}
+
+int djvMemory::compare(const void * a, const void * b, quint64 size)
+{
+    return ::memcmp(a, b, size);
 }
 
 //------------------------------------------------------------------------------

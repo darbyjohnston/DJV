@@ -50,78 +50,68 @@
 
 struct DJV_CORE_EXPORT djvMemory
 {
-    static const quint64 kilobyte; //!< Kilobyte.
-    static const quint64 megabyte; //!< Megabyte.
-    static const quint64 gigabyte; //!< Gigabyte.
-    static const quint64 terabyte; //!< Terabyte.
+    static const quint64 kilobyte; //!< The number of bytes in a kilobyte.
+    static const quint64 megabyte; //!< The number of bytes in a megabyte.
+    static const quint64 gigabyte; //!< The number of bytes in a gigabyte.
+    static const quint64 terabyte; //!< The number of bytes in a terabyte.
 
-    static const int align; //!< Memory alignment.
+    //! Convert a byte count to a human readable string.
 
-    //! This enumeration provides the machine endian
+    static QString sizeLabel(quint64);
+
+    //! This enumeration provides the machine endian.
 
     enum ENDIAN
     {
-        MSB,  //!< Most siginificant byte first
-        LSB,  //!< Least significant byte first
+        MSB, //!< Most siginificant byte first
+        LSB, //!< Least significant byte first
 
         ENDIAN_COUNT
     };
 
-    //! Allocate memory.
+    //! Get the machine endian labels.
 
-    static void * get(quint64);
+    static const QStringList & endianLabels();
 
-    //! De-allocate memory.
+    //! Copy a block of memory.
 
-    static void del(void *);
+    static void copy(const void * in, void * out, quint64 size);
 
-    //! Copy memory.
-
-    static void copy(const void *, void *, quint64 size);
-
-    //! Fill memory with a value.
+    //! Fill a block of memory with a value.
 
     template<typename T>
-    static inline void fill(T, void *, quint64 size);
+    static inline void fill(T value, void * in, quint64 size);
 
-    //! Fill memory with zeroes.
+    //! Fill a block of memory with zeroes.
 
-    static void zero(void *, quint64 size);
+    static void zero(void * in, quint64 size);
 
-    //! Compare memory.
+    //! Compare a block of memory.
 
     static int compare(const void *, const void *, quint64 size);
 
     //! Get the current machine's endian.
 
-    static ENDIAN endian();
+    static inline ENDIAN endian();
 
     //! Get the opposite of the given endian.
 
     static inline ENDIAN endianOpposite(ENDIAN);
 
-    //! Endian conversion.
+    //! Convert the endianness of a block of memory in place.
 
     static inline void convertEndian(
-        void *  data,
+        void *  in,
         quint64 size,
         int     wordSize);
 
-    //! Endian conversion.
+    //! Convert the endianness of a block of memory.
 
     static inline void convertEndian(
         const void * in,
         void *       out,
         quint64      size,
         int          wordSize);
-
-    //! Get endian labels.
-
-    static const QStringList & endianLabels();
-
-    //! Get a size label.
-
-    static QString sizeLabel(quint64);
 };
 
 //------------------------------------------------------------------------------

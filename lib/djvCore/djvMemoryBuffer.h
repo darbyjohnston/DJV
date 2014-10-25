@@ -43,7 +43,7 @@
 //------------------------------------------------------------------------------
 //! \class djvMemoryBuffer
 //!
-//! This class provides a memory buffer.
+//! This class provides functionality for managing a block of memory.
 //------------------------------------------------------------------------------
 
 template<typename T>
@@ -67,13 +67,21 @@ public:
 
     inline ~djvMemoryBuffer();
 
-    //!  Get the size.
+    //! Get the size.
 
     inline quint64 size() const;
 
     //! Set the size.
 
-    inline void setSize(quint64);
+    inline void setSize(quint64, bool zero = false);
+
+    //! Get a const pointer to the memory.
+
+    inline const T * data() const;
+
+    //! Get a const pointer to the memory.
+
+    inline const T * operator () () const;
 
     //! Get a pointer to the memory.
 
@@ -81,17 +89,15 @@ public:
 
     //! Get a pointer to the memory.
 
-    inline const T * data() const;
+    inline T * operator () ();
 
     //! Zero the memory.
 
     inline void zero();
 
+    //! Copy operator.
+    
     inline djvMemoryBuffer & operator = (const djvMemoryBuffer &);
-
-    inline T * operator () ();
-
-    inline const T * operator () () const;
 
 private:
 

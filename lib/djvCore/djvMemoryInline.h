@@ -36,24 +36,24 @@
 //------------------------------------------------------------------------------
 
 template<typename T>
-inline void djvMemory::fill(T in, void * out, quint64 size)
+inline void djvMemory::fill(T value, void * out, quint64 size)
 {
     T * p = reinterpret_cast<T *>(out);
 
     for (quint64 i = 0; i < size; ++i)
     {
-        p [i] = in;
+        p[i] = value;
     }
 }
 
-/*inline djvMemory::ENDIAN djvMemory::endian()
+inline djvMemory::ENDIAN djvMemory::endian()
 {
     static const int tmp = 1;
 
     static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
 
     return *p ? LSB : MSB;
-}*/
+}
 
 inline djvMemory::ENDIAN djvMemory::endianOpposite(ENDIAN in)
 {
@@ -201,12 +201,6 @@ inline void djvMemory::convertEndian(
                 outP += 8;
             }
 
-            break;
-
-        default:
-        
-            djvMemory::copy(in, out, size * wordSize);
-        
             break;
     }
 }

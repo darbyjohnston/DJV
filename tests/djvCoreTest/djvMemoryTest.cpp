@@ -52,17 +52,9 @@ void djvMemoryTest::members()
     DJV_DEBUG("djvMemoryTest::members");
     
     {
-        void * buf = djvMemory::get(djvMemory::kilobyte);
-        
-        DJV_ASSERT(buf);
-        
-        djvMemory::del(buf);
-    }
-    
-    {
         const char * tmp = "1234567890";
         
-        void * buf = djvMemory::get(sizeof(tmp));
+        char * buf = new char [sizeof(tmp)];
         
         DJV_ASSERT(buf);
         
@@ -74,7 +66,7 @@ void djvMemoryTest::members()
         
         DJV_ASSERT(djvMemory::compare(tmp, buf, sizeof(tmp)) > 0);
         
-        djvMemory::del(buf);
+        delete [] buf;
     }
     
     {
