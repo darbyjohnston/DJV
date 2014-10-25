@@ -372,6 +372,8 @@ void djvStyle::setSizeMetrics(const QVector<SizeMetric> & sizeMetrics)
     
     _p->sizeMetrics = sizeMetrics;
     
+    sizeUpdate();
+
     Q_EMIT sizeMetricsChanged();
 }
 
