@@ -43,6 +43,7 @@
 #include <djvIconLibrary.h>
 #include <djvMiscPrefs.h>
 #include <djvPrefs.h>
+#include <djvStyle.h>
 #include <djvToolButton.h>
 
 #include <djvBox.h>
@@ -426,6 +427,11 @@ djvViewFrameSlider::djvViewFrameSlider(QWidget * parent) :
     _p(new P)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
+
+    connect(
+        djvMiscPrefs::global(),
+        SIGNAL(timeUnitsChanged(djvTime::UNITS)),
+        SLOT(timeUnitsCallback()));
 }
 
 djvViewFrameSlider::~djvViewFrameSlider()
@@ -465,7 +471,7 @@ qint64 djvViewFrameSlider::outPoint() const
     
 QSize djvViewFrameSlider::sizeHint() const
 {
-    return QSize(200, 25);
+    return QSize(200, fontMetrics().height() * 2);
 }
 
 void djvViewFrameSlider::setFrameList(const djvFrameList & in)
@@ -608,6 +614,26 @@ void djvViewFrameSlider::mouseMoveEvent(QMouseEvent * event)
     setFrame(posToFrame(event->pos().x()));
 }
 
+namespace
+{
+    
+struct Tick
+{
+    Tick() :
+        x0(0.0),
+        x1(0.0),
+        h (0)
+    {}
+    
+    double  x0;
+    double  x1;
+    int     h;
+    QString label;
+    QRect   labelRect;
+};
+
+} // namespace
+
 void djvViewFrameSlider::paintEvent(QPaintEvent * event)
 {
     //DJV_DEBUG("djvViewFrameSlider::paintEvent");
@@ -626,51 +652,12 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         box.h,
         palette().color(QPalette::Base));
 
-    // Draw the frame ticks.
-
-    const double s = djvSpeed::speedToFloat(_p->speed);
-
-    const bool drawTicks   = frameToPosF(1) > 3;
-    const bool drawSeconds = frameToPosF(static_cast<int>(s)) > 3;
-
-    const int tickH = box.h / 4;
-
-    for (int i = 0; i < _p->frameList.count(); ++i)
-    {
-        bool draw = drawTicks;
-
-        int h = tickH;
-
-        if (0 == i % static_cast<int>(s))
-        {
-            draw = drawSeconds;
-
-            h *= 2;
-        }
-
-        if (draw)
-        {
-            const QRectF r(
-                frameToPosF(i),
-                box.h - h,
-                frameToPosF(1),
-                h);
-
-            painter.setPen(palette().color(QPalette::Text));
-            painter.drawLine(
-                r.x() + r.width() / 2,
-                r.y(),
-                r.x() + r.width() / 2,
-                r.y() + r.height());
-        }
-    }
-
     // Draw the in/out points.
     
     if (_p->inPoint != 0 || _p->outPoint != end())
     {
         QColor color = palette().color(QPalette::Highlight);
-        color.setAlpha(_p->inOutEnabled ? 160 : 60);
+        color.setAlpha(_p->inOutEnabled ? 127 : 60);
 
         const QRectF r(
             frameToPosF(_p->inPoint),
@@ -688,7 +675,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         //DJV_DEBUG_PRINT("cached frames = " << _p->cachedFrames.count());
 
         QColor color = QColor(90, 90, 255);
-        color.setAlpha(160);
+        color.setAlpha(127);
 
         const djvFrameRangeList list = djvRangeUtil::range(_p->cachedFrames);
 
@@ -701,6 +688,103 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
                 djvMath::ceil<int>(box.h / 2.0));
 
             painter.fillRect(r, color);
+        }
+    }
+
+    // Draw the frame ticks.
+    
+    QVector<Tick> ticks;
+
+    const double speed         = djvSpeed::speedToFloat(_p->speed);
+    const bool   drawFrames    = frameToPosF(1) > 3;
+    const bool   drawSeconds   = frameToPosF(static_cast<int>(speed)) > 3;
+    const int    tickH         = box.h / 4;
+    int          labelWidthMax = 0;
+    
+    for (int i = 0; i < _p->frameList.count(); ++i)
+    {
+        bool drawTick  = drawFrames;
+        bool drawLabel = false;
+        int  h         = tickH;
+
+        if (0 == i % static_cast<int>(speed))
+        {
+            drawTick  = drawSeconds;
+            drawLabel = true;
+            h         = box.h / 2;
+        }
+
+        if (drawTick)
+        {
+            Tick tick;
+            tick.x0 = frameToPosF(i);
+            tick.x1 = frameToPosF(i + 1);
+            tick.h  = h;
+            
+            if (drawLabel)
+            {
+                tick.label = djvTime::frameToString(
+                    _p->frameList[i],
+                    _p->speed);
+                
+                const QRect labelBounds =
+                    fontMetrics().boundingRect(tick.label);
+                
+                tick.labelRect = QRect(
+                    tick.x0,
+                    0,
+                    labelBounds.width(),
+                    labelBounds.height());
+                
+                labelWidthMax = djvMath::max(
+                    labelWidthMax,
+                    tick.labelRect.width());
+            }
+            
+            ticks.append(tick);
+        }
+    }
+    
+    for (int i = 0; i < ticks.count(); ++i)
+    {
+        ticks[i].labelRect.setWidth(labelWidthMax);
+    }
+    
+    const int margin = djvStyle::global()->sizeMetric().margin;
+    
+    int j = 0;
+    
+    for (int i = 1; i < ticks.count(); ++i)
+    {
+        if (! ticks[i].label.isEmpty())
+        {
+            if (ticks[i].labelRect.adjusted(-margin, 0, margin, 0).intersects(
+                ticks[j].labelRect.adjusted(-margin, 0, margin, 0)))
+            {
+                ticks[i].label = QString();
+            }
+            else
+            {
+                j = i;
+            }
+        }
+    }
+    
+    for (int i = 0; i < ticks.count(); ++i)
+    {
+        painter.setPen(ticks[i].label.isEmpty() ?
+            palette().color(QPalette::Text).darker(200) :
+            palette().color(QPalette::Text));
+
+        painter.drawLine(
+            (ticks[i].x0 + ticks[i].x1) / 2,
+            box.h - ticks[i].h,
+            (ticks[i].x0 + ticks[i].x1) / 2,
+            box.h);
+        
+        if (! ticks[i].label.isEmpty())
+        {
+            painter.drawText(ticks[i].labelRect, ticks[i].label);
         }
     }
 
@@ -718,6 +802,12 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
 
     painter.setPen(palette().color(QPalette::Text));
     painter.drawRect(r);
+}
+
+void djvViewFrameSlider::timeUnitsCallback()
+{
+    updateGeometry();
+    update();
 }
 
 qint64 djvViewFrameSlider::end() const

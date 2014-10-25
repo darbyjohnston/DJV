@@ -405,6 +405,10 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *);
     virtual void paintEvent(QPaintEvent *);
 
+private Q_SLOTS:
+
+    void timeUnitsCallback();
+    
 private:
 
     qint64 end() const;
