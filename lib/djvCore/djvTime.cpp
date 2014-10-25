@@ -282,12 +282,15 @@ const QStringList & djvTime::unitsLabels()
     return data;
 }
 
+djvTime::UNITS djvTime::unitsDefault()
+{
+    return djvTime::UNITS_FRAMES;
+}
+
 namespace
 {
 
-const djvTime::UNITS _unitsConst = djvTime::UNITS_FRAMES;
-
-djvTime::UNITS _units = _unitsConst;
+djvTime::UNITS _units = djvTime::unitsDefault();
 
 } // namespace
 
@@ -299,11 +302,6 @@ djvTime::UNITS djvTime::units()
 void djvTime::setUnits(UNITS units)
 {
     _units = units;
-}
-
-void djvTime::resetUnits()
-{
-    _units = _unitsConst;
 }
 
 QString djvTime::frameToString(qint64 frame, const djvSpeed & speed)

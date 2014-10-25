@@ -65,9 +65,7 @@ namespace
 
 // Set the maximum number of frames large enough for a two hour movie.
 
-const qint64 _maxFramesConst = 120 * 60 * 24;
-
-qint64 _maxFrames = _maxFramesConst;
+qint64 _maxFrames = djvSequence::maxFramesDefault();
 
 } // namespace
 
@@ -124,6 +122,11 @@ void djvSequence::sort()
     qSort(frames.begin(), frames.end(), compare);
 }
 
+qint64 djvSequence::maxFramesDefault()
+{
+    return 120 * 60 * 24;
+}
+
 qint64 djvSequence::maxFrames()
 {
     return _maxFrames;
@@ -132,11 +135,6 @@ qint64 djvSequence::maxFrames()
 void djvSequence::setMaxFrames(qint64 size)
 {
     _maxFrames = size;
-}
-
-void djvSequence::resetMaxFrames()
-{
-    _maxFrames = _maxFramesConst;
 }
 
 //------------------------------------------------------------------------------

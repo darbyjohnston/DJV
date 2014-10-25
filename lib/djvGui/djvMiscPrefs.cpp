@@ -36,6 +36,7 @@
 #include <djvApplication.h>
 #include <djvPrefs.h>
 
+#include <djvDebug.h>
 #include <djvSequence.h>
 
 //------------------------------------------------------------------------------
@@ -56,11 +57,11 @@ djvMiscPrefs::djvMiscPrefs(QObject * parent) :
         djvTime::setUnits(timeUnits);
     }
 
-    djvSpeed::FPS speedDefault = djvSpeed::speedDefault();
+    djvSpeed::FPS speed = djvSpeed::speed();
 
-    if (prefs.get("speedDefault", speedDefault))
+    if (prefs.get("speed", speed))
     {
-        djvSpeed::setSpeedDefault(speedDefault);
+        djvSpeed::setSpeed(speed);
     }
 
     qint64 sequenceMaxFrames = djvSequence::maxFrames();
@@ -78,7 +79,7 @@ djvMiscPrefs::~djvMiscPrefs()
     djvPrefs prefs("djvMiscPrefs", djvPrefs::SYSTEM);
 
     prefs.set("timeUnits", djvTime::units());
-    prefs.set("speedDefault", djvSpeed::speedDefault());
+    prefs.set("speed", djvSpeed::speed());
     prefs.set("sequenceMaxFrames", djvSequence::maxFrames());
 }
 
@@ -87,9 +88,9 @@ djvTime::UNITS djvMiscPrefs::timeUnits() const
     return djvTime::units();
 }
 
-djvSpeed::FPS djvMiscPrefs::speedDefault() const
+djvSpeed::FPS djvMiscPrefs::speed() const
 {
-    return djvSpeed::speedDefault();
+    return djvSpeed::speed();
 }
 
 qint64 djvMiscPrefs::sequenceMaxFrames() const
@@ -119,14 +120,14 @@ void djvMiscPrefs::setTimeUnits(djvTime::UNITS units)
     Q_EMIT timeUnitsChanged(this->timeUnits());
 }
 
-void djvMiscPrefs::setSpeedDefault(djvSpeed::FPS speed)
+void djvMiscPrefs::setSpeed(djvSpeed::FPS speed)
 {
-    if (speed == this->speedDefault())
+    if (speed == this->speed())
         return;
 
-    djvSpeed::setSpeedDefault(speed);
+    djvSpeed::setSpeed(speed);
 
-    Q_EMIT speedDefaultChanged(this->speedDefault());
+    Q_EMIT speedChanged(this->speed());
 }
 
 void djvMiscPrefs::setSequenceMaxFrames(qint64 size)

@@ -190,6 +190,10 @@ struct DJV_CORE_EXPORT djvOpenGlImageFilter
 
     static GLuint toGl(FILTER);
 
+    //! Get the default image filter.
+
+    static const djvOpenGlImageFilter & filterDefault();
+
     //! Get the high quality image filter.
 
     static const djvOpenGlImageFilter & filterHighQuality();
@@ -201,10 +205,6 @@ struct DJV_CORE_EXPORT djvOpenGlImageFilter
     //! Set the global image filter.
 
     static void setFilter(const djvOpenGlImageFilter &);
-
-    //! Reset the global image filter to the default.
-
-    static void resetFilter();
 };
 
 //------------------------------------------------------------------------------

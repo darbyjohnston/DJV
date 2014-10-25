@@ -179,7 +179,7 @@ QString djvAbstractCoreApplication::info() const
         arg(djvStringUtil::label(djvMemory::endian()).join(", ")).
         arg(djvSystem::searchPath().join(", ")).
         arg(djvStringUtil::label(djvTime::units()).join(", ")).
-        arg(djvStringUtil::label(djvSpeed::speedDefault()).join(", ")).
+        arg(djvStringUtil::label(djvSpeed::speed()).join(", ")).
         arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
 }
 
@@ -358,7 +358,7 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
             {
                 djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
-                djvSpeed::setSpeedDefault(value);
+                djvSpeed::setSpeed(value);
             }
             else if ("-max_sequence_frames" == arg)
             {
@@ -442,7 +442,7 @@ QString djvAbstractCoreApplication::commandLineHelp() const
         arg(djvTime::unitsLabels().join(", ")).
         arg(djvStringUtil::label(djvTime::units()).join(", ")).
         arg(djvSpeed::fpsLabels().join(", ")).
-        arg(djvStringUtil::label(djvSpeed::speedDefault()).join(", ")).
+        arg(djvStringUtil::label(djvSpeed::speed()).join(", ")).
         arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
 }
 

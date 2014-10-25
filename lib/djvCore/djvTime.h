@@ -145,6 +145,10 @@ struct DJV_CORE_EXPORT djvTime
 
     static const QStringList & unitsLabels();
 
+    //! Get the time units default.
+    
+    static UNITS unitsDefault();
+    
     //! Get the global time units.
 
     static UNITS units();
@@ -153,10 +157,6 @@ struct DJV_CORE_EXPORT djvTime
 
     static void setUnits(UNITS);
     
-    //! Reset the global time units to the default.
-    
-    static void resetUnits();
-
     //! Convert a frame to a string using the global time units.
 
     static QString frameToString(qint64 frame, const djvSpeed &);

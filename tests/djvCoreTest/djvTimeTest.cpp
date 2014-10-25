@@ -305,7 +305,7 @@ void djvTimeTest::convert()
                 DJV_ASSERT(data[i].ok    == ok);
             }
             
-            djvTime::resetUnits();
+            djvTime::setUnits(djvTime::unitsDefault());
         }
     }
     

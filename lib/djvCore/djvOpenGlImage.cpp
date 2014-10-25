@@ -223,14 +223,17 @@ const djvOpenGlImageFilter & djvOpenGlImageFilter::filterHighQuality()
     return data;
 }
 
+const djvOpenGlImageFilter & djvOpenGlImageFilter::filterDefault()
+{
+    return djvOpenGlImageFilter(
+        djvOpenGlImageFilter::LINEAR,
+        djvOpenGlImageFilter::NEAREST);
+}
+
 namespace
 {
 
-const djvOpenGlImageFilter _filterConst(
-    djvOpenGlImageFilter::LINEAR,
-    djvOpenGlImageFilter::NEAREST);
-
-djvOpenGlImageFilter _filter = _filterConst;
+djvOpenGlImageFilter _filter = djvOpenGlImageFilter::filterDefault();
 
 } // namespace
 
@@ -242,11 +245,6 @@ const djvOpenGlImageFilter & djvOpenGlImageFilter::filter()
 void djvOpenGlImageFilter::setFilter(const djvOpenGlImageFilter & filter)
 {
     _filter = filter;
-}
-
-void djvOpenGlImageFilter::resetFilter()
-{
-    _filter = _filterConst;
 }
 
 //------------------------------------------------------------------------------

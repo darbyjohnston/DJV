@@ -118,17 +118,17 @@ public:
 
     static djvSpeed floatToSpeed(double);
 
-    //! Get the default speed.
+    //! Get the speed default.
 
-    static FPS speedDefault();
+    static FPS speedDefault2();
 
-    //! Set the default speed.
+    //! Get the global speed.
 
-    static void setSpeedDefault(FPS);
+    static FPS speed();
 
-    //! Reset the default speed.
+    //! Set the global speed.
 
-    static void resetSpeedDefault();
+    static void setSpeed(FPS);
 
 private:
 
