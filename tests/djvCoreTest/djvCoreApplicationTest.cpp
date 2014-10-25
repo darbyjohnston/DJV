@@ -80,7 +80,7 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
     app.commandLine(args);
 
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvSpeed(12) == djvSpeed::speedDefault2());
+    DJV_ASSERT(djvSpeed(12) == djvSpeed::speed());
     
     args += "-time_units";
 

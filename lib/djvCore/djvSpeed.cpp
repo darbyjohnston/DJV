@@ -70,13 +70,13 @@ const QStringList & djvSpeed::fpsLabels()
 namespace
 {
 
-djvSpeed::FPS _speedDefault = djvSpeed::speedDefault2();
+djvSpeed::FPS _speedDefault = djvSpeed::speedDefault();
 
 } // namespace
 
 djvSpeed::djvSpeed()
 {
-    set(speedDefault2());
+    set(speedDefault());
 }
 
 djvSpeed::djvSpeed(int scale, int duration) :
@@ -176,7 +176,7 @@ djvSpeed djvSpeed::floatToSpeed(double value)
     return djvSpeed(djvMath::round<int>(value));
 }
 
-djvSpeed::FPS djvSpeed::speedDefault2()
+djvSpeed::FPS djvSpeed::speedDefault()
 {
     return djvSpeed::FPS_24;
 }

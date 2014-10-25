@@ -166,7 +166,7 @@ void djvMiscPrefsWidget::resetPreferences()
 {
     djvMiscPrefs::global()->setTimeUnits(djvTime::unitsDefault());
     
-    djvMiscPrefs::global()->setSpeed(djvSpeed::speedDefault2());
+    djvMiscPrefs::global()->setSpeed(djvSpeed::speedDefault());
 
     djvMiscPrefs::global()->setSequenceMaxFrames(djvSequence::maxFramesDefault());
 

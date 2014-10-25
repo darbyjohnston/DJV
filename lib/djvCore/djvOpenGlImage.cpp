@@ -223,7 +223,7 @@ const djvOpenGlImageFilter & djvOpenGlImageFilter::filterHighQuality()
     return data;
 }
 
-const djvOpenGlImageFilter & djvOpenGlImageFilter::filterDefault()
+djvOpenGlImageFilter djvOpenGlImageFilter::filterDefault()
 {
     return djvOpenGlImageFilter(
         djvOpenGlImageFilter::LINEAR,

@@ -192,7 +192,7 @@ struct DJV_CORE_EXPORT djvOpenGlImageFilter
 
     //! Get the default image filter.
 
-    static const djvOpenGlImageFilter & filterDefault();
+    static djvOpenGlImageFilter filterDefault();
 
     //! Get the high quality image filter.
 

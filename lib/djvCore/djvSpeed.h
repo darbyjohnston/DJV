@@ -120,7 +120,7 @@ public:
 
     //! Get the speed default.
 
-    static FPS speedDefault2();
+    static FPS speedDefault();
 
     //! Get the global speed.
 
