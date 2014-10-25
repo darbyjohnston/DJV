@@ -235,7 +235,7 @@ void djvFileBrowserItem::imageIoInit()
                     arg(_imageIoInfo.size.y).
                     arg(djvVectorUtil::aspect(_imageIoInfo.size), 0, 'f', 2).
                     arg(djvStringUtil::label(_imageIoInfo.pixel).join(", ")).
-                    arg(djvTime::unitsToString(
+                    arg(djvTime::frameToString(
                         _imageIoInfo.sequence.frames.count(),
                         _imageIoInfo.sequence.speed)).
                     arg(djvSpeed::speedToFloat(_imageIoInfo.sequence.speed));

@@ -291,14 +291,14 @@ void djvTimeTest::convert()
             {
                 djvTime::setUnits(units);
                 
-                const QString s = djvTime::unitsToString(
+                const QString s = djvTime::frameToString(
                     data[i].frame,
                     data[i].speed);
                 
                 djvSpeed speed;
                 bool     ok    = false;
                 
-                const int frame = djvTime::stringToUnits(s, speed, &ok);
+                const int frame = djvTime::stringToFrame(s, speed, &ok);
 
                 DJV_ASSERT(data[i].frame == frame);
                 DJV_ASSERT(data[i].speed == speed);

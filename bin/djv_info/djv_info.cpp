@@ -341,7 +341,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
                 arg(_info[0].size.y).
                 arg(djvVectorUtil::aspect(_info[0].size), 0, 'f', 2).
                 arg(djvStringUtil::label(_info[0].pixel).join(", ")).
-                arg(djvTime::unitsToString(
+                arg(djvTime::frameToString(
                     _info.sequence.frames.count(),
                     _info.sequence.speed)).
                 arg(djvSpeed::speedToFloat(_info.sequence.speed), 0, 'f', 2);
@@ -355,7 +355,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
             // Print time information.
 
             const QString str = QString("%1@%2").
-                arg(djvTime::unitsToString(
+                arg(djvTime::frameToString(
                     _info.sequence.frames.count(),
                     _info.sequence.speed)).
                 arg(djvSpeed::speedToFloat(_info.sequence.speed), 0, 'f', 2);
@@ -402,13 +402,17 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
         }
 
         print(QString("Start = %1").
-            arg(djvTime::unitsToString(_info.sequence.start(), _info.sequence.speed)));
+            arg(djvTime::frameToString(
+                _info.sequence.start(),
+                _info.sequence.speed)));
 
         print(QString("End = %1").
-            arg(djvTime::unitsToString(_info.sequence.end(), _info.sequence.speed)));
+            arg(djvTime::frameToString(
+                _info.sequence.end(),
+                _info.sequence.speed)));
 
         print(QString("Duration = %1").
-            arg(djvTime::unitsToString(
+            arg(djvTime::frameToString(
                 _info.sequence.frames.count(),
                 _info.sequence.speed)));
 

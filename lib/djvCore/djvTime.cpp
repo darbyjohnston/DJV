@@ -282,7 +282,31 @@ const QStringList & djvTime::unitsLabels()
     return data;
 }
 
-QString djvTime::unitsToString(qint64 frame, const djvSpeed & speed)
+namespace
+{
+
+const djvTime::UNITS _unitsConst = djvTime::UNITS_FRAMES;
+
+djvTime::UNITS _units = _unitsConst;
+
+} // namespace
+
+djvTime::UNITS djvTime::units()
+{
+    return _units;
+}
+
+void djvTime::setUnits(UNITS units)
+{
+    _units = units;
+}
+
+void djvTime::resetUnits()
+{
+    _units = _unitsConst;
+}
+
+QString djvTime::frameToString(qint64 frame, const djvSpeed & speed)
 {
     QString out;
 
@@ -306,7 +330,7 @@ QString djvTime::unitsToString(qint64 frame, const djvSpeed & speed)
     return out;
 }
 
-qint64 djvTime::stringToUnits(
+qint64 djvTime::stringToFrame(
     const QString &  string,
     const djvSpeed & speed,
     bool *           ok)
@@ -331,30 +355,6 @@ qint64 djvTime::stringToUnits(
     }
 
     return out;
-}
-
-namespace
-{
-
-const djvTime::UNITS _unitsConst = djvTime::UNITS_FRAMES;
-
-djvTime::UNITS _units = _unitsConst;
-
-} // namespace
-
-djvTime::UNITS djvTime::units()
-{
-    return _units;
-}
-
-void djvTime::setUnits(UNITS units)
-{
-    _units = units;
-}
-
-void djvTime::resetUnits()
-{
-    _units = _unitsConst;
 }
 
 //------------------------------------------------------------------------------

@@ -362,7 +362,7 @@ void djvViewFrameWidget::editingFinishedCallback()
     //DJV_DEBUG_PRINT("text = " << text);
 
     setFrame(djvSequenceUtil::findClosest(
-        djvTime::stringToUnits(text, _p->speed), _p->frameList));
+        djvTime::stringToFrame(text, _p->speed), _p->frameList));
 
     lineEdit()->setText(_p->text);
 }
@@ -385,7 +385,7 @@ void djvViewFrameWidget::textUpdate()
         frame = _p->frameList[_p->frame];
     }
 
-    _p->text = djvTime::unitsToString(frame, _p->speed);
+    _p->text = djvTime::frameToString(frame, _p->speed);
 }
 
 void djvViewFrameWidget::widgetUpdate()
@@ -896,7 +896,7 @@ void djvViewFrameDisplay::timeUnitsCallback()
 
 void djvViewFrameDisplay::textUpdate()
 {
-    _p->text = djvTime::unitsToString(_p->frame, _p->speed);
+    _p->text = djvTime::frameToString(_p->frame, _p->speed);
 }
 
 void djvViewFrameDisplay::widgetUpdate()

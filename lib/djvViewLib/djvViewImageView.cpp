@@ -618,7 +618,7 @@ void djvViewImageView::drawHud()
     if (_p->hudVisible[djvView::HUD_FRAME])
     {
         upperRight += QString("Frame = %1").
-            arg(djvTime::unitsToString(_p->hudInfo.frame, _p->hudInfo.speed));
+            arg(djvTime::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
     }
 
     if (_p->hudVisible[djvView::HUD_SPEED])

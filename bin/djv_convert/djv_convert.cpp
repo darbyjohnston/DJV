@@ -413,7 +413,7 @@ QString labelImage(const djvPixelDataInfo & in, const djvSequence & sequence)
         arg(in.size.y).
         arg(djvVectorUtil::aspect(in.size), 0, 'f', 2).
         arg(djvStringUtil::label(in.pixel).join(", ")).
-        arg(djvTime::unitsToString(sequence.frames.count(), sequence.speed)).
+        arg(djvTime::frameToString(sequence.frames.count(), sequence.speed)).
         arg(djvSpeed::speedToFloat(sequence.speed));
 }
 
@@ -480,12 +480,12 @@ bool djvConvertApplication::work()
     
     if (! _input.start.isEmpty())
         start = djvSequenceUtil::findClosest(
-            djvTime::stringToUnits(_input.start, loadInfo.sequence.speed),
+            djvTime::stringToFrame(_input.start, loadInfo.sequence.speed),
             loadInfo.sequence.frames);
 
     if (! _input.end.isEmpty())
         end = djvSequenceUtil::findClosest(
-            djvTime::stringToUnits(_input.end, loadInfo.sequence.speed),
+            djvTime::stringToFrame(_input.end, loadInfo.sequence.speed),
             loadInfo.sequence.frames);
 
     //DJV_DEBUG_PRINT("start = " << start);

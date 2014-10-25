@@ -59,11 +59,11 @@ struct DJV_CORE_EXPORT djvTime
 
     static ::time_t current();
 
-    //! Go to sleep.
+    //! Sleep for the given number of seconds.
 
     static void sleep(double seconds);
 
-    //! Convert seconds to a time.
+    //! Convert the given number of seconds to hours, minutes, and seconds.
 
     static void secondsToTime(
         double,
@@ -75,7 +75,7 @@ struct DJV_CORE_EXPORT djvTime
 
     static QString timeToString(::time_t);
 
-    //! Get a time label.
+    //! Convert seconds to a human readable string.
 
     static QString labelTime(double seconds);
 
@@ -145,14 +145,6 @@ struct DJV_CORE_EXPORT djvTime
 
     static const QStringList & unitsLabels();
 
-    //! Convert a frame to a string.
-
-    static QString unitsToString(qint64 frame, const djvSpeed &);
-
-    //! Convert a string to a frame.
-
-    static qint64 stringToUnits(const QString &, const djvSpeed &, bool * ok = 0);
-
     //! Get the global time units.
 
     static UNITS units();
@@ -164,6 +156,14 @@ struct DJV_CORE_EXPORT djvTime
     //! Reset the global time units to the default.
     
     static void resetUnits();
+
+    //! Convert a frame to a string using the global time units.
+
+    static QString frameToString(qint64 frame, const djvSpeed &);
+
+    //! Convert a string to a frame using the global time units.
+
+    static qint64 stringToFrame(const QString &, const djvSpeed &, bool * ok = 0);
 };
 
 //------------------------------------------------------------------------------

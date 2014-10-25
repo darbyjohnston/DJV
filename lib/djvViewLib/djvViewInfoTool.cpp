@@ -167,9 +167,9 @@ void djvViewInfoTool::widgetUpdate()
             djvStringUtil::label(imageIoInfo.pixel).join(", "));
 
         _p->timeWidget->setText(QString("%1@%2").
-            arg(djvTime::unitsToString(
-            imageIoInfo.sequence.frames.count(),
-            imageIoInfo.sequence.speed)).
+            arg(djvTime::frameToString(
+                imageIoInfo.sequence.frames.count(),
+                imageIoInfo.sequence.speed)).
             arg(djvSpeed::speedToFloat(imageIoInfo.sequence.speed), 0, 'f', 2));
 
         QString tmp;
