@@ -46,15 +46,6 @@ inline void djvMemory::fill(T value, void * out, quint64 size)
     }
 }
 
-inline djvMemory::ENDIAN djvMemory::endian()
-{
-    static const int tmp = 1;
-
-    static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
-
-    return *p ? LSB : MSB;
-}
-
 inline djvMemory::ENDIAN djvMemory::endianOpposite(ENDIAN in)
 {
     return MSB == in ? LSB : MSB;

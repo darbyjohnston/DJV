@@ -495,7 +495,7 @@ void djvFileIo::readAhead()
 
     //! \todo Will this force a read-ahead with memory mapped files?
 
-    for (const quint8 * p = _p->mmapStart; p < _p->mmapEnd; p += djvMemory::align)
+    for (const quint8 * p = _p->mmapStart; p < _p->mmapEnd; p += 4096)
     {
         _p->mmapReadAhead = *p;
     }

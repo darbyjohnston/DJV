@@ -97,6 +97,15 @@ int djvMemory::compare(const void * a, const void * b, quint64 size)
     return ::memcmp(a, b, size);
 }
 
+djvMemory::ENDIAN djvMemory::endian()
+{
+    static const int tmp = 1;
+
+    static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
+
+    return *p ? LSB : MSB;
+}
+
 //------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvMemory::ENDIAN, djvMemory::endianLabels())

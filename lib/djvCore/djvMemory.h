@@ -92,7 +92,7 @@ struct DJV_CORE_EXPORT djvMemory
 
     //! Get the current machine's endian.
 
-    static inline ENDIAN endian();
+    static ENDIAN endian();
 
     //! Get the opposite of the given endian.
 
