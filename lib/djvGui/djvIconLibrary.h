@@ -42,6 +42,7 @@
 
 class QIcon;
 class QPixmap;
+class QSize;
 
 //! \addtogroup djvGuiMisc
 //@{

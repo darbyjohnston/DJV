@@ -50,6 +50,7 @@
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QUrl>
 #include <QWheelEvent>
 
 //------------------------------------------------------------------------------
@@ -377,13 +378,22 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
         mouseWheel = djvViewInputPrefs::global()->mouseWheelCtrl();
     }
 
+    const int delta =
+#       if QT_VERSION < 0x050000
+        event->delta();
+#       else
+        event->angleDelta().y();
+#       endif
+
     switch (mouseWheel)
     {
         case djvViewInput::MOUSE_WHEEL_VIEW_ZOOM:
+        {
 
-            setZoomFocus(viewZoom() * (event->angleDelta().y() / 120.0 > 0 ? 1.1 : 0.9));
+            setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? 1.1 : 0.9));
 
-            break;
+        }
+        break;
 
         case djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
@@ -396,7 +406,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
                 _p->mouseWheel = true;
             }
 
-            _p->mouseWheelTmp += event->angleDelta().y() / 120.0;
+            _p->mouseWheelTmp += delta / 120.0;
 
             Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
 
@@ -411,7 +421,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
                 _p->mouseWheel = true;
             }
 
-            _p->mouseWheelTmp += event->angleDelta().y() / 120.0;
+            _p->mouseWheelTmp += delta / 120.0;
 
             Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
 

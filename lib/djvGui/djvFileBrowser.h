@@ -43,6 +43,8 @@
 
 class djvFileBrowserModel;
 
+class QModelIndex;
+
 //! \addtogroup djvGuiDialog
 //@{
 

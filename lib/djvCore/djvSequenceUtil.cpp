@@ -158,7 +158,7 @@ QString djvSequenceUtil::sequenceToString(const djvSequence & seq)
 
     //DJV_DEBUG_PRINT("out = " << out);
 
-    return out.join(',');
+    return out.join(",");
 }
 
 djvSequence djvSequenceUtil::stringToSequence(const QString & seq)

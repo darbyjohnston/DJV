@@ -41,6 +41,7 @@
 
 #include <QStringList>
 #include <QMap>
+#include <QPair>
 
 #if defined(DJV_WINDOWS)
 
@@ -208,7 +209,9 @@ djvPluginFactory::djvPluginFactory(
     {
         //DJV_DEBUG_PRINT("searching = " << searchPath[i]);
 
-        djvFileInfoList items = djvFileInfoUtil::list(searchPath[i], djvSequence::COMPRESS_OFF);
+        djvFileInfoList items = djvFileInfoUtil::list(
+            searchPath[i],
+            djvSequenceEnum::COMPRESS_OFF);
         
         djvFileInfoUtil::filter(items, djvFileInfoUtil::FILTER_NONE, QString(), glob);
 

@@ -36,6 +36,7 @@
 
 #include <djvSpeed.h>
 
+#include <QObject>
 #include <QVector>
 
 //! \addtogroup djvCoreMisc
@@ -50,6 +51,42 @@ DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<qint64>;
 //! This typedef provides a list of frame numbers.
 
 typedef QVector<qint64> djvFrameList;
+
+//------------------------------------------------------------------------------
+//! \class djvSequenceEnum
+//!
+//! This class provides sequence enumerations.
+//!
+//! \todo This class is necessary to register the enumerations with the Qt 4
+//! type system.
+//------------------------------------------------------------------------------
+
+class DJV_CORE_EXPORT djvSequenceEnum : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(COMPRESS)
+    
+public:
+
+    //! This enumeration provides the sequence compression.
+
+    enum COMPRESS
+    {
+        COMPRESS_OFF,     //!< No sequence compression
+        COMPRESS_SPARSE,  //!< Sparse sequence compression, for example: 1-3,5
+        COMPRESS_RANGE,   //!< Range sequence compression, for example: 1-5
+
+        COMPRESS_COUNT
+    };
+
+    //! Get the compression labels.
+
+    static const QStringList & compressLabels();    
+
+private:
+
+    djvSequenceEnum();
+};
 
 //------------------------------------------------------------------------------
 //! \class djvSequence
@@ -95,21 +132,6 @@ struct DJV_CORE_EXPORT djvSequence
 
     inline qint64 end() const;
 
-    //! This enumeration provides the sequence compression.
-
-    enum COMPRESS
-    {
-        COMPRESS_OFF,     //!< No sequence compression
-        COMPRESS_SPARSE,  //!< Sparse sequence compression, for example: 1-3,5
-        COMPRESS_RANGE,   //!< Range sequence compression, for example: 1-5
-
-        COMPRESS_COUNT
-    };
-
-    //! Get the compression labels.
-
-    static const QStringList & compressLabels();
-
     //! Sort the frame numbers in a sequence.
 
     void sort();
@@ -133,16 +155,16 @@ inline bool operator == (const djvSequence &, const djvSequence &);
 
 inline bool operator != (const djvSequence &, const djvSequence &);
 
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSequenceEnum::COMPRESS &)
+    throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSequence &)
     throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSequence::COMPRESS &)
-    throw (QString);
 
+DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvSequenceEnum::COMPRESS);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvSequence &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvSequence::COMPRESS);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvSequence &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvSequence::COMPRESS);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvSequenceEnum::COMPRESS);
 
 //@} // djvCoreMisc
 

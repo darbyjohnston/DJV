@@ -230,7 +230,7 @@ djvViewColorPickerTool::~djvViewColorPickerTool()
     prefs.set("displayProfile", _p->displayProfile);
     prefs.set("lock", _p->lock);
     
-    viewWidget()->context()->makeCurrent();
+    viewWidget()->makeCurrent();
 
     delete _p;
 }
@@ -344,7 +344,7 @@ void djvViewColorPickerTool::swatchUpdate()
 
         try
         {
-            viewWidget()->context()->makeCurrent();
+            viewWidget()->makeCurrent();
 
             if (! _p->buffer || _p->buffer->info() != tmp.info())
             {

@@ -258,7 +258,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->widgets.reload->setDefaultAction(_p->actions.actions[P::Actions::RELOAD]);
 
     _p->widgets.seq = new QComboBox;
-    _p->widgets.seq->addItems(djvSequence::compressLabels());
+    _p->widgets.seq->addItems(djvSequenceEnum::compressLabels());
     QLabel * seqLabel = new QLabel("Sequence:");
 
     _p->widgets.search = new djvSearchBox;
@@ -379,8 +379,8 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
 
     _p->model->connect(
         djvFileBrowserPrefs::global(),
-        SIGNAL(sequenceChanged(djvSequence::COMPRESS)),
-        SLOT(setSequence(djvSequence::COMPRESS)));
+        SIGNAL(sequenceChanged(djvSequenceEnum::COMPRESS)),
+        SLOT(setSequence(djvSequenceEnum::COMPRESS)));
 
     _p->model->connect(
         djvFileBrowserPrefs::global(),
@@ -534,7 +534,7 @@ void djvFileBrowser::setFileInfo(const djvFileInfo & fileInfo)
 
     _p->fileInfo = tmp;
     
-    if (_p->model->sequence() != djvSequence::COMPRESS_OFF &&
+    if (_p->model->sequence() != djvSequenceEnum::COMPRESS_OFF &&
         _p->fileInfo.isSequenceValid())
     {
         _p->fileInfo.setType(djvFileInfo::SEQUENCE);
@@ -685,12 +685,13 @@ void djvFileBrowser::showHiddenCallback()
 
 void djvFileBrowser::seqCallback(QAction * action)
 {
-    _p->model->setSequence(static_cast<djvSequence::COMPRESS>(action->data().toInt()));
+    _p->model->setSequence(
+        static_cast<djvSequenceEnum::COMPRESS>(action->data().toInt()));
 }
 
 void djvFileBrowser::seqCallback(int in)
 {
-    _p->model->setSequence(static_cast<djvSequence::COMPRESS>(in));
+    _p->model->setSequence(static_cast<djvSequenceEnum::COMPRESS>(in));
 }
 
 void djvFileBrowser::searchCallback(const QString & text)
@@ -981,7 +982,7 @@ void djvFileBrowser::menuUpdate()
 
     _p->menus.menus[P::Menus::SEQ]->clear();
     
-    const QStringList & seq = djvSequence::compressLabels();
+    const QStringList & seq = djvSequenceEnum::compressLabels();
     
     for (int i = 0; i < seq.count(); ++i)
     {

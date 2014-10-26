@@ -40,6 +40,22 @@
 #include <djvSequenceUtil.h>
 
 //------------------------------------------------------------------------------
+// djvSequenceEnum
+//------------------------------------------------------------------------------
+
+const QStringList & djvSequenceEnum::compressLabels()
+{
+    static const QStringList data = QStringList() <<
+        "Off" <<
+        "Sparse" <<
+        "Range";
+
+    DJV_ASSERT(data.count() == COMPRESS_COUNT);
+
+    return data;
+}
+
+//------------------------------------------------------------------------------
 // djvSequence
 //------------------------------------------------------------------------------
 
@@ -95,18 +111,6 @@ void djvSequence::setFrames(qint64 start, qint64 end)
     }
 }
 
-const QStringList & djvSequence::compressLabels()
-{
-    static const QStringList data = QStringList() <<
-        "Off" <<
-        "Sparse" <<
-        "Range";
-
-    DJV_ASSERT(data.count() == COMPRESS_COUNT);
-
-    return data;
-}
-
 namespace
 {
 
@@ -139,6 +143,9 @@ void djvSequence::setMaxFrames(qint64 size)
 
 //------------------------------------------------------------------------------
 
+_DJV_STRING_OPERATOR_LABEL(djvSequenceEnum::COMPRESS,
+    djvSequenceEnum::compressLabels())
+
 QStringList & operator << (QStringList & out, const djvSequence & in)
 {
     return out << djvSequenceUtil::sequenceToString(in);
@@ -152,8 +159,6 @@ QStringList & operator >> (QStringList & in, djvSequence & out) throw (QString)
     return in;
 }
 
-_DJV_STRING_OPERATOR_LABEL(djvSequence::COMPRESS, djvSequence::compressLabels())
-
 djvDebug & operator << (djvDebug & debug, const djvSequence & in)
 {
     return debug <<
@@ -162,7 +167,7 @@ djvDebug & operator << (djvDebug & debug, const djvSequence & in)
         djvSpeed::speedToFloat(in.speed);
 }
 
-djvDebug & operator << (djvDebug & debug, djvSequence::COMPRESS in)
+djvDebug & operator << (djvDebug & debug, djvSequenceEnum::COMPRESS in)
 {
     return debug << djvStringUtil::label(in);
 }

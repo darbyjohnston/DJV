@@ -217,9 +217,9 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
             }
             else if ("-speed" == arg)
             {
-                djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
+                djvSpeedEnum::FPS value = static_cast<djvSpeedEnum::FPS>(0);
                 in >> value;
-                _output.speed.reset(new djvSpeed::FPS(value));
+                _output.speed.reset(new djvSpeedEnum::FPS(value));
             }
             else if ("-tag" == arg)
             {
@@ -397,7 +397,7 @@ QString djvConvertApplication::commandLineHelp() const
         arg(djvStringUtil::label(_input.proxy).join(", ")).
         arg(_input.timeout).
         arg(djvPixel::pixelLabels().join(", ")).
-        arg(djvSpeed::fpsLabels().join(", ")).
+        arg(djvSpeedEnum::fpsLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvStringUtil::label(_output.tagsAuto).join(", ")).
         arg(djvImageApplication::commandLineHelp());

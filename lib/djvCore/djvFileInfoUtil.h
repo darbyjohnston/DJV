@@ -65,8 +65,8 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
     //! Get a file list from a directory.
     
     static djvFileInfoList list(
-        const QString &       path,
-        djvSequence::COMPRESS sequence = djvSequence::COMPRESS_RANGE);
+        const QString &           path,
+        djvSequenceEnum::COMPRESS sequence = djvSequenceEnum::COMPRESS_RANGE);
 
     //! Find a match for a sequence wildcard. If nothing is found the input is
     //! returned.
@@ -81,7 +81,7 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
 
     static void compressSequence(
         djvFileInfoList &,
-        djvSequence::COMPRESS = djvSequence::COMPRESS_RANGE);
+        djvSequenceEnum::COMPRESS = djvSequenceEnum::COMPRESS_RANGE);
 
     //! Expand a sequence into a list of file names.
 

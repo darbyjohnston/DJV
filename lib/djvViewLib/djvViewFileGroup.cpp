@@ -319,7 +319,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
     djvViewFileGroup * that = const_cast<djvViewFileGroup *>(this);
 
-    that->mainWindow()->viewWidget()->context()->makeCurrent();
+    that->mainWindow()->viewWidget()->makeCurrent();
 
     that->_p->image = 0;
 

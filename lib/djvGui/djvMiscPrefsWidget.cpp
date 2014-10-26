@@ -86,7 +86,7 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
 
     _p->speedWidget = new QComboBox;
     _p->speedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->speedWidget->addItems(djvSpeed::fpsLabels());
+    _p->speedWidget->addItems(djvSpeedEnum::fpsLabels());
     
     // Create the sequence widgets.
 
@@ -182,7 +182,7 @@ void djvMiscPrefsWidget::timeUnitsCallback(int index)
 
 void djvMiscPrefsWidget::speedCallback(int index)
 {
-    djvMiscPrefs::global()->setSpeed(static_cast<djvSpeed::FPS>(index));
+    djvMiscPrefs::global()->setSpeed(static_cast<djvSpeedEnum::FPS>(index));
 }
 
 void djvMiscPrefsWidget::sequenceMaxFramesCallback(int size)

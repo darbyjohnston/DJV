@@ -36,6 +36,8 @@
 #include <djvAssert.h>
 #include <djvStringUtil.h>
 
+#include <QThread>
+
 #if defined(DJV_WINDOWS)
 #include <windows.h>
 #else
@@ -54,17 +56,33 @@
     return ::time(0);
 }
 
-void djvTime::sleep(double seconds)
+namespace
 {
-#if defined(DJV_WINDOWS)
 
-    ::Sleep(seconds * 1000);
+class Thread : public QThread
+{
+public:
 
-#else // DJV_WINDOWS
+    static void sleep (unsigned long seconds) { QThread::sleep (seconds); }
+    static void msleep(unsigned long msecs)   { QThread::msleep(msecs);   }
+    static void usleep(unsigned long usecs)   { QThread::usleep(usecs);   }
+};
 
-    ::sleep(seconds);
+} // namespace
 
-#endif // DJV_WINDOWS
+void djvTime::sleep(unsigned long seconds)
+{
+    Thread::sleep(seconds);
+}
+
+void djvTime::msleep(unsigned long msecs)
+{
+    Thread::msleep(msecs);
+}
+
+void djvTime::usleep(unsigned long usecs)
+{
+    Thread::usleep(usecs);
 }
 
 void djvTime::secondsToTime(double in, int & hour, int & minute, double & second)

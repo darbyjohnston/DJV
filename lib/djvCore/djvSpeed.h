@@ -37,7 +37,7 @@
 #include <djvConfig.h>
 #include <djvCoreExport.h>
 
-#include <QString>
+#include <QObject>
 
 class djvDebug;
 
@@ -45,13 +45,19 @@ class djvDebug;
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvSpeed
+//! \class djvSpeedEnum
 //!
-//! This struct provides speed information.
+//! This class provides speed enumerations.
+//!
+//! \todo This class is necessary to register the enumerations with the Qt 4
+//! type system.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSpeed
+class DJV_CORE_EXPORT djvSpeedEnum : public QObject
 {
+    Q_OBJECT
+    Q_ENUMS(FPS)
+    
 public:
 
     //! This enumeration provides the frames per second.
@@ -82,6 +88,24 @@ public:
 
     static const QStringList & fpsLabels();
 
+private:
+
+    djvSpeedEnum();
+};
+
+//------------------------------------------------------------------------------
+//! \class djvSpeed
+//!
+//! This class provides speed information.
+//!
+//! \todo This class inherits from QObject to register the enumerations with
+//! the Qt 4 type system.
+//------------------------------------------------------------------------------
+
+class DJV_CORE_EXPORT djvSpeed
+{
+public:
+
     //! Constructor.
 
     djvSpeed();
@@ -92,7 +116,7 @@ public:
 
     //! Constructor.
 
-    djvSpeed(FPS);
+    djvSpeed(djvSpeedEnum::FPS);
     
     //! Get the time scale.
     
@@ -104,7 +128,7 @@ public:
 
     //! Set the frames per second.
 
-    void set(FPS);
+    void set(djvSpeedEnum::FPS);
 
     //! Get whether the speed is valid.
 
@@ -120,15 +144,15 @@ public:
 
     //! Get the speed default.
 
-    static FPS speedDefault();
+    static djvSpeedEnum::FPS speedDefault();
 
     //! Get the global speed.
 
-    static FPS speed();
+    static djvSpeedEnum::FPS speed();
 
     //! Set the global speed.
 
-    static void setSpeed(FPS);
+    static void setSpeed(djvSpeedEnum::FPS);
 
 private:
 
@@ -142,13 +166,13 @@ DJV_CORE_EXPORT bool operator == (const djvSpeed &, const djvSpeed &);
 
 DJV_CORE_EXPORT bool operator != (const djvSpeed &, const djvSpeed &);
 
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSpeedEnum::FPS &)
+    throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSpeed &)
     throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSpeed::FPS &)
-    throw (QString);
 
+DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvSpeedEnum::FPS);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvSpeed &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvSpeed::FPS);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvSpeed &);
 

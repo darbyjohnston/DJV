@@ -107,11 +107,11 @@ struct djvConvertOutput
 
     djvConvertOutput();
 
-    djvFileInfo                     file;
-    QScopedPointer<djvPixel::PIXEL> pixel;
-    djvImageTags                    tags;
-    bool                            tagsAuto;
-    QScopedPointer<djvSpeed::FPS>   speed;
+    djvFileInfo                       file;
+    QScopedPointer<djvPixel::PIXEL>   pixel;
+    djvImageTags                      tags;
+    bool                              tagsAuto;
+    QScopedPointer<djvSpeedEnum::FPS> speed;
 };
 
 //------------------------------------------------------------------------------

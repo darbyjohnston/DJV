@@ -41,13 +41,13 @@
 
 struct djvViewAbstractTool::P
 {
-    P(const djvViewMainWindow * mainWindow) :
+    P(djvViewMainWindow * mainWindow) :
         mainWindow(mainWindow),
         viewWidget(mainWindow->viewWidget())
     {}
 
-    const djvViewMainWindow * mainWindow;
-    const djvViewImageView  * viewWidget;
+    djvViewMainWindow * mainWindow;
+    djvViewImageView  * viewWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -66,12 +66,12 @@ djvViewAbstractTool::~djvViewAbstractTool()
     delete _p;
 }
 
-const djvViewMainWindow * djvViewAbstractTool::mainWindow() const
+djvViewMainWindow * djvViewAbstractTool::mainWindow() const
 {
     return _p->mainWindow;
 }
 
-const djvViewImageView * djvViewAbstractTool::viewWidget() const
+djvViewImageView * djvViewAbstractTool::viewWidget() const
 {
     return _p->viewWidget;
 }

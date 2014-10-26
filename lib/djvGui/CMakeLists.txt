@@ -50,7 +50,6 @@ set(header
     djvQuestionDialog.h
     djvSearchBox.h
     djvShortcut.h
-    djvShortcutEdit.h
     djvShortcutsModel.h
     djvShortcutsWidget.h
     djvShuttleButton.h
@@ -111,7 +110,6 @@ set(source
     djvQuestionDialog.cpp
     djvSearchBox.cpp
     djvShortcut.cpp
-    djvShortcutEdit.cpp
     djvShortcutsModel.cpp
     djvShortcutsWidget.cpp
     djvShuttleButton.cpp
@@ -122,7 +120,11 @@ set(source
     djvVector2iEditWidget.cpp
     djvWindowUtil.cpp)
 
-QT5_ADD_RESOURCES(rccSource djvGui.qrc)
+if (Qt5Core_DIR)
+    QT5_ADD_RESOURCES(rccSource djvGui.qrc)
+else()
+    QT4_ADD_RESOURCES(rccSource djvGui.qrc)
+endif()
 
 include_directories(${djvGuiIncludeDirs})
 

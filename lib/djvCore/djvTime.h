@@ -36,7 +36,7 @@
 
 #include <djvSpeed.h>
 
-#include <QtGlobal>
+#include <QObject>
 
 #if ! defined(DJV_WINDOWS)
 #include <sys/time.h>
@@ -48,20 +48,36 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvTime
+//! \class djvTime
 //!
-//! This struct provides time utilities.
+//! This class provides time utilities.
+//!
+//! \todo This class inherits from QObject to register the enumerations with
+//! the Qt 4 type system.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvTime
+class DJV_CORE_EXPORT djvTime : public QObject
 {
+    Q_OBJECT
+    Q_ENUMS(UNITS)
+    
+public:
+
     //! Get the current time.
 
     static ::time_t current();
 
     //! Sleep for the given number of seconds.
 
-    static void sleep(double seconds);
+    static void sleep(unsigned long seconds);
+
+    //! Sleep for the given number of milliseconds.
+
+    static void msleep(unsigned long msecs);
+
+    //! Sleep for the given number of microseconds.
+
+    static void usleep(unsigned long usecs);
 
     //! Convert the given number of seconds to hours, minutes, and seconds.
 
@@ -164,6 +180,10 @@ struct DJV_CORE_EXPORT djvTime
     //! Convert a string to a frame using the global time units.
 
     static qint64 stringToFrame(const QString &, const djvSpeed &, bool * ok = 0);
+
+private:
+
+    djvTime();
 };
 
 //------------------------------------------------------------------------------

@@ -71,7 +71,7 @@ void djvSpeedTest::ctors()
     }
     
     {
-        const djvSpeed speed(djvSpeed::FPS_23_976);
+        const djvSpeed speed(djvSpeedEnum::FPS_23_976);
         
         DJV_ASSERT(24000 == speed.scale());
         DJV_ASSERT(1001  == speed.duration());
@@ -83,11 +83,11 @@ void djvSpeedTest::members()
     DJV_DEBUG("djvSpeedTest::members");
     
     {
-        djvSpeed::setSpeed(djvSpeed::FPS_24);
+        djvSpeed::setSpeed(djvSpeedEnum::FPS_24);
         
         const djvSpeed speed = djvSpeed::speed();
         
-        djvSpeed::setSpeed(djvSpeed::FPS_23_976);
+        djvSpeed::setSpeed(djvSpeedEnum::FPS_23_976);
         djvSpeed::setSpeed(djvSpeed::speedDefault());
         
         DJV_ASSERT(djvSpeed::speed() == speed);
@@ -96,7 +96,7 @@ void djvSpeedTest::members()
     {
         djvSpeed speed;
         
-        speed.set(djvSpeed::FPS_23_976);
+        speed.set(djvSpeedEnum::FPS_23_976);
         
         DJV_ASSERT(24000 == speed.scale());
         DJV_ASSERT(1001  == speed.duration());
@@ -120,10 +120,10 @@ void djvSpeedTest::convert()
     }
         data [] =
     {
-        { djvSpeed(djvSpeed::FPS_23_976), 23.976 },
-        { djvSpeed(djvSpeed::FPS_24),     24.0   },
-        { djvSpeed(djvSpeed::FPS_29_97),  29.97  },
-        { djvSpeed(240, 1),               240.0  }
+        { djvSpeed(djvSpeedEnum::FPS_23_976), 23.976 },
+        { djvSpeed(djvSpeedEnum::FPS_24),     24.0   },
+        { djvSpeed(djvSpeedEnum::FPS_29_97),  29.97  },
+        { djvSpeed(240, 1),                   240.0  }
     };
     
     const int dataCount = sizeof(data) / sizeof(data[0]);
@@ -149,7 +149,7 @@ void djvSpeedTest::operators()
     DJV_DEBUG("djvSpeedTest::operators");
     
     {
-        const djvSpeed a(djvSpeed::FPS_23_976), b(djvSpeed::FPS_23_976);
+        const djvSpeed a(djvSpeedEnum::FPS_23_976), b(djvSpeedEnum::FPS_23_976);
         
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvSpeed());

@@ -42,7 +42,7 @@
 #include <djvError.h>
 #include <djvFileIoUtil.h>
 
-#include <QRegularExpression>
+#include <QRegExp>
 
 #include <stdio.h>
 
@@ -248,7 +248,7 @@ void djvLutPlugin::kodakOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE type)
     //DJV_DEBUG_PRINT("header = " << header);
 
     const QStringList split = header.split(
-        QRegularExpression("\\s"),
+        QRegExp("\\s"),
         QString::SkipEmptyParts);
 
     //DJV_DEBUG_PRINT("split = " << split.join("|"));

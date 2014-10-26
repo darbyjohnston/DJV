@@ -36,8 +36,7 @@
 #include <djvProgressDialog.h>
 
 #include <djvSystem.h>
-
-#include <QThread>
+#include <djvTime.h>
 
 QString djvProgressDialogTest::name()
 {
@@ -58,5 +57,5 @@ void djvProgressDialogTest::callback(int value)
 {
     djvSystem::print(QString("%1").arg(value));
     
-    QThread::msleep(50);
+    djvTime::msleep(50);
 }

@@ -33,15 +33,20 @@
 
 #include <djvShortcutsWidget.h>
 
-#include <djvListUtil.h>
+#include <djvIconLibrary.h>
 #include <djvSearchBox.h>
-#include <djvShortcutEdit.h>
 #include <djvShortcutsModel.h>
 #include <djvSignalBlocker.h>
+#include <djvStyle.h>
+
+#include <djvDebug.h>
+#include <djvListUtil.h>
 
 #include <QAbstractItemModel>
 #include <QHBoxLayout>
 #include <QHeaderView>
+#include <QMouseEvent>
+#include <QPainter>
 #include <QSortFilterProxyModel>
 #include <QStyledItemDelegate>
 #include <QTreeView>
@@ -53,6 +58,113 @@
 
 namespace
 {
+
+class ShortcutDelegateEdit : public QWidget
+{
+public:
+
+    ShortcutDelegateEdit(QWidget * parent);
+    
+    const djvShortcut & shortcut() const;
+    
+    void setShortcut(const djvShortcut &);
+
+    virtual QSize sizeHint() const;
+
+protected:
+
+    virtual void paintEvent(QPaintEvent *);
+    virtual void mousePressEvent(QMouseEvent *);
+    virtual void keyPressEvent(QKeyEvent *);
+
+private:
+
+    djvShortcut _shortcut;
+};
+
+ShortcutDelegateEdit::ShortcutDelegateEdit(QWidget * parent) :
+    QWidget(parent)
+{
+    setAttribute(Qt::WA_OpaquePaintEvent);
+
+    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+}
+
+const djvShortcut & ShortcutDelegateEdit::shortcut() const
+{
+    return _shortcut;
+}
+
+void ShortcutDelegateEdit::setShortcut(const djvShortcut & shortcut)
+{
+    if (shortcut == _shortcut)
+        return;
+
+    _shortcut = shortcut;
+
+    updateGeometry();
+    update();
+}
+
+QSize ShortcutDelegateEdit::sizeHint() const
+{
+    const int margin = djvStyle::global()->sizeMetric().margin;
+    
+    const QSize size =
+        fontMetrics().size(Qt::TextSingleLine, _shortcut.value.toString());
+    
+    return QSize(size.width() + margin * 2, size.height());
+}
+
+void ShortcutDelegateEdit::paintEvent(QPaintEvent * event)
+{
+    QPainter painter(this);
+    
+    const int w      = width ();
+    const int h      = height();
+    const int margin = djvStyle::global()->sizeMetric().margin;
+    
+    painter.fillRect(0, 0, w, h, palette().color(QPalette::Base));
+    
+    painter.setPen(palette().color(QPalette::Text));
+    
+    QFont font(this->font());
+    font.setItalic(true);
+    painter.setFont(font);
+    
+    painter.drawText(
+        QRect(margin, 0, w - margin, h),
+        _shortcut.value.toString());
+}
+
+void ShortcutDelegateEdit::mousePressEvent(QMouseEvent * event)
+{
+    event->accept();
+}
+
+void ShortcutDelegateEdit::keyPressEvent(QKeyEvent * event)
+{
+    switch (event->key())
+    {
+        case Qt::Key_Shift:
+        case Qt::Key_Control:
+        case Qt::Key_Meta:
+        case Qt::Key_Alt:
+            
+            return;
+    }
+    
+    const Qt::Modifier mod = Qt::Modifier(
+        (event->modifiers() & Qt::ShiftModifier   ? Qt::SHIFT : 0) |
+        (event->modifiers() & Qt::ControlModifier ? Qt::CTRL  : 0) |
+        (event->modifiers() & Qt::MetaModifier    ? Qt::META  : 0) |
+        (event->modifiers() & Qt::AltModifier     ? Qt::ALT   : 0));
+    
+    djvShortcut shortcut = _shortcut;
+    shortcut.value = QKeySequence(event->key() | mod);
+        
+    setShortcut(shortcut);
+}
 
 class ShortcutDelegate : public QStyledItemDelegate
 {
@@ -78,29 +190,48 @@ public:
         QWidget *                    editor,
         const QStyleOptionViewItem & option,
         const QModelIndex &          index) const;
+
+    virtual QSize sizeHint(
+        const QStyleOptionViewItem & option,
+        const QModelIndex &          index) const;
+    
+    virtual void paint(
+        QPainter *                   painter,
+        const QStyleOptionViewItem & option,
+        const QModelIndex &          index) const;
+    
+    virtual bool editorEvent(
+        QEvent *                     event,
+        QAbstractItemModel *         model,
+        const QStyleOptionViewItem & option,
+        const QModelIndex &          index);
+
+private:
+
+    QPixmap _clearPixmap;
 };
 
 ShortcutDelegate::ShortcutDelegate(QObject * parent) :
     QStyledItemDelegate(parent)
-{}
+{
+    _clearPixmap = djvIconLibrary::global()->pixmap("djvResetIcon.png");
+}
 
 QWidget * ShortcutDelegate::createEditor(
     QWidget *                    parent,
     const QStyleOptionViewItem & option,
     const QModelIndex &          index) const
 {
-    djvShortcutEdit * editor = new djvShortcutEdit(parent);
-
-    return editor;
+    return new ShortcutDelegateEdit(parent);
 }
 
 void ShortcutDelegate::setEditorData(
     QWidget *           editor,
     const QModelIndex & index) const
 {
-    djvShortcutEdit * edit = static_cast<djvShortcutEdit *>(editor);
+    ShortcutDelegateEdit * e = static_cast<ShortcutDelegateEdit *>(editor);
 
-    edit->setShortcut(djvShortcut(
+    e->setShortcut(djvShortcut(
         index.model()->data(index, Qt::DisplayRole).toString(),
         index.model()->data(index, Qt::EditRole).toString()));
 }
@@ -110,10 +241,10 @@ void ShortcutDelegate::setModelData(
     QAbstractItemModel * model,
     const QModelIndex &  index) const
 {
-    djvShortcutEdit * edit = static_cast<djvShortcutEdit *>(editor);
+    ShortcutDelegateEdit * e = static_cast<ShortcutDelegateEdit *>(editor);
 
-    const djvShortcut shortcut = edit->shortcut();
-
+    const djvShortcut shortcut = e->shortcut();
+    
     model->setData(index, shortcut.value, Qt::EditRole);
 }
 
@@ -123,6 +254,90 @@ void ShortcutDelegate::updateEditorGeometry(
     const QModelIndex &          index) const
 {
     editor->setGeometry(option.rect);
+}
+
+QSize ShortcutDelegate::sizeHint(
+    const QStyleOptionViewItem & option,
+    const QModelIndex &          index) const
+{
+    QSize size = QStyledItemDelegate::sizeHint(option, index);
+    
+    switch (index.column())
+    {
+        case 1:
+        {
+            const int spacing = djvStyle::global()->sizeMetric().spacing;
+    
+            size = QSize(
+                size.width() + spacing + _clearPixmap.width(),
+                djvMath::max(size.height(), _clearPixmap.height()));
+        }
+        break;
+    }
+    
+    return size;
+}
+
+void ShortcutDelegate::paint(
+    QPainter *                   painter,
+    const QStyleOptionViewItem & option,
+    const QModelIndex &          index) const
+{
+    QStyledItemDelegate::paint(painter, option, index);
+    
+    const QRect & r = option.rect;
+    
+    switch (index.column())
+    {
+        case 1:
+        {
+            painter->drawPixmap(
+                r.x() + r.width() - _clearPixmap.width(),
+                r.y(),
+                _clearPixmap);
+        }
+        break;
+    }
+}
+
+bool ShortcutDelegate::editorEvent(
+    QEvent *                     event,
+    QAbstractItemModel *         model,
+    const QStyleOptionViewItem & option,
+    const QModelIndex &          index)
+{
+    switch (index.column())
+    {
+        case 1:
+        
+            switch (event->type())
+            {
+                case QEvent::MouseButtonPress:
+                {
+                    QMouseEvent * e = static_cast<QMouseEvent *>(event);
+                    
+                    QRect r(
+                        option.rect.x() + option.rect.width() - _clearPixmap.width(),
+                        option.rect.y(),
+                        _clearPixmap.width(),
+                        _clearPixmap.height());
+                    
+                    if (r.contains(e->pos()))
+                    {
+                        model->setData(index, djvShortcut().value, Qt::EditRole);
+
+                        return true;
+                    }
+                }
+                break;
+        
+                default: break;
+            }
+            
+            break;
+    }
+    
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
 
 } // namespace

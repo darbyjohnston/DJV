@@ -70,11 +70,11 @@ public:
 
     //! Get the main window.
 
-    const djvViewMainWindow * mainWindow() const;
+    djvViewMainWindow * mainWindow() const;
 
     //! Get the view widget.
 
-    const djvViewImageView * viewWidget() const;
+    djvViewImageView * viewWidget() const;
 
 private:
 

@@ -135,7 +135,11 @@ set(source
 	djvViewWindowPrefsWidget.cpp
 	djvViewWindowToolBar.cpp)
 
-QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
+if (Qt5Core_DIR)
+    QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
+else()
+    QT4_ADD_RESOURCES(rccSource djvViewLib.qrc)
+endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/djvViewLib ${djvGuiIncludeDirs})
 

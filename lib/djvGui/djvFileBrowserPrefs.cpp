@@ -56,7 +56,7 @@ struct djvFileBrowserPrefs::P
         shortcuts     (shortcutsDefault())
     {}
     
-    djvSequence::COMPRESS                sequence;
+    djvSequenceEnum::COMPRESS            sequence;
     bool                                 showHidden;
     djvFileBrowserModel::COLUMNS         sort;
     bool                                 reverseSort;
@@ -146,12 +146,12 @@ const QString & djvFileBrowserPrefs::pathDefault()
     return _pathDefault;
 }
 
-djvSequence::COMPRESS djvFileBrowserPrefs::sequenceDefault()
+djvSequenceEnum::COMPRESS djvFileBrowserPrefs::sequenceDefault()
 {
-    return djvSequence::COMPRESS_RANGE;
+    return djvSequenceEnum::COMPRESS_RANGE;
 }
 
-djvSequence::COMPRESS djvFileBrowserPrefs::sequence() const
+djvSequenceEnum::COMPRESS djvFileBrowserPrefs::sequence() const
 {
     return _p->sequence;
 }
@@ -333,7 +333,7 @@ void djvFileBrowserPrefs::setPathDefault(const QString & in)
     _pathDefault = in;
 }
 
-void djvFileBrowserPrefs::setSequence(djvSequence::COMPRESS in)
+void djvFileBrowserPrefs::setSequence(djvSequenceEnum::COMPRESS in)
 {
     if (in == _p->sequence)
         return;

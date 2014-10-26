@@ -353,7 +353,7 @@ const QVariant & djvFileBrowserItem::editRole(int column) const
 struct djvFileBrowserModel::P
 {
     P() :
-        sequence           (djvSequence::COMPRESS_RANGE),
+        sequence           (djvSequenceEnum::COMPRESS_RANGE),
         showHidden         (false),
         sort               (NAME),
         reverseSort        (false),
@@ -364,16 +364,16 @@ struct djvFileBrowserModel::P
         thumbnailQueueTimer(-1)
     {}
     
-    QString               path;
-    djvSequence::COMPRESS sequence;
-    QString               filterText;
-    bool                  showHidden;
-    COLUMNS               sort;
-    bool                  reverseSort;
-    bool                  sortDirsFirst;
-    THUMBNAILS            thumbnails;
-    THUMBNAILS_SIZE       thumbnailsSize;
-    QAbstractItemView *   view;
+    QString                   path;
+    djvSequenceEnum::COMPRESS sequence;
+    QString                   filterText;
+    bool                      showHidden;
+    COLUMNS                   sort;
+    bool                      reverseSort;
+    bool                      sortDirsFirst;
+    THUMBNAILS                thumbnails;
+    THUMBNAILS_SIZE           thumbnailsSize;
+    QAbstractItemView *       view;
     
     djvFileInfoList                     list;
     djvFileInfoList                     listTmp;
@@ -441,7 +441,7 @@ djvFileInfo djvFileBrowserModel::fileInfo(const QModelIndex & index) const
     return fileInfo ? *fileInfo : djvFileInfo();
 }
 
-djvSequence::COMPRESS djvFileBrowserModel::sequence() const
+djvSequenceEnum::COMPRESS djvFileBrowserModel::sequence() const
 {
     return _p->sequence;
 }
@@ -719,7 +719,7 @@ void djvFileBrowserModel::reload()
     modelUpdate();
 }
 
-void djvFileBrowserModel::setSequence(djvSequence::COMPRESS in)
+void djvFileBrowserModel::setSequence(djvSequenceEnum::COMPRESS in)
 {
     if (in == _p->sequence)
         return;
@@ -857,8 +857,8 @@ void djvFileBrowserModel::timerEvent(QTimerEvent *)
                 {
                     Q_EMIT dataChanged(
                         pair.second,
-                        pair.second,
-                        QVector<int>() << Qt::DisplayRole << Qt::SizeHintRole);
+                        pair.second);
+                        //QVector<int>() << Qt::DisplayRole << Qt::SizeHintRole);
 
                     _p->thumbnailQueue += pair;
                 }
@@ -870,8 +870,8 @@ void djvFileBrowserModel::timerEvent(QTimerEvent *)
 
             Q_EMIT dataChanged(
                 pair.second,
-                pair.second, 
-                QVector<int>() << Qt::DisplayRole);
+                pair.second);
+                //QVector<int>() << Qt::DisplayRole);
         }
     }
     else

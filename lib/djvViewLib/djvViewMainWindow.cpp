@@ -368,7 +368,7 @@ djvViewMainWindow::~djvViewMainWindow()
 
     _p->viewWidget->setData(0);
 
-    _p->viewWidget->context()->makeCurrent();
+    _p->viewWidget->makeCurrent();
 
     //! \todo Hopefully this ensures that the view widget context is deleted
     //! after the child widgets.

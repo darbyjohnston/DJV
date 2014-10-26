@@ -37,8 +37,7 @@
 #include <djvConfig.h>
 #include <djvCoreExport.h>
 
-#include <QString>
-#include <QVector>
+#include <QObject>
 
 #include <half.h>
 
@@ -51,10 +50,21 @@ class djvDebug;
 //! \struct djvPixel
 //!
 //! This struct provides support for image pixels.
+//!
+//! \todo This class inherits from QObject to register the enumerations with
+//! the Qt 4 type system.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvPixel
+class DJV_CORE_EXPORT djvPixel : QObject
 {
+    Q_OBJECT
+    Q_ENUMS(FORMAT)
+    Q_ENUMS(TYPE)
+    Q_ENUMS(DATA)
+    Q_ENUMS(PIXEL)
+    
+public:
+
     //! This enumeration provides the pixel format.
 
     enum FORMAT
@@ -351,6 +361,10 @@ struct DJV_CORE_EXPORT djvPixel
         int          size     = 1,
         int          stride   = 1,
         bool         bgr      = false);
+
+private:
+
+    djvPixel();
 };
 
 //------------------------------------------------------------------------------

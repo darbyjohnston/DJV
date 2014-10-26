@@ -238,7 +238,7 @@ djvViewMagnifyTool::~djvViewMagnifyTool()
     prefs.set("colorProfile", _p->colorProfile);
     prefs.set("displayProfile", _p->displayProfile);
     
-    viewWidget()->context()->makeCurrent();
+    viewWidget()->makeCurrent();
     
     delete _p;
 }
@@ -324,7 +324,7 @@ void djvViewMagnifyTool::pixelDataUpdate()
 
         try
         {
-            viewWidget()->context()->makeCurrent();
+            viewWidget()->makeCurrent();
 
             if (! _p->magnifyBuffer || _p->magnifyBuffer->info() != tmp.info())
             {

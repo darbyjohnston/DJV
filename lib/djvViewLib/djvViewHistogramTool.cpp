@@ -440,7 +440,7 @@ void djvViewHistogramTool::widgetUpdate()
         {
             try
             {
-                viewWidget()->context()->makeCurrent();
+                viewWidget()->makeCurrent();
 
                 djvPixelData tmp(djvPixelDataInfo(data->size(), data->pixel()));
 

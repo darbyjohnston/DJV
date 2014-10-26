@@ -149,7 +149,11 @@ elseif (WIN32)
 
 endif (APPLE)
 
-QT5_ADD_RESOURCES(rccSource djvCore.qrc)
+if (Qt5Core_DIR)
+    QT5_ADD_RESOURCES(rccSource djvCore.qrc)
+else()
+    QT4_ADD_RESOURCES(rccSource djvCore.qrc)
+endif()
 
 include_directories(${djvCoreIncludeDirs})
 

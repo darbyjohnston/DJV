@@ -47,6 +47,9 @@
 #include <djvSystem.h>
 
 #include <QDesktopServices>
+#if QT_VERSION < 0x050000
+#include <QPlastiqueStyle>
+#endif
 #include <QUrl>
 
 #include <algorithm>
@@ -378,7 +381,11 @@ djvApplication::djvApplication(const QString & name, int & argc, char ** argv)
     QApplication(argc, argv),
     djvAbstractApplication(name, argc, argv)
 {
+#   if QT_VERSION < 0x050000
+    setStyle(new QPlastiqueStyle);
+#   else
     setStyle("fusion");
+#   endif
     
     setOrganizationName("djv.sourceforge.net");
     

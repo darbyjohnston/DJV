@@ -42,7 +42,8 @@
 
 #include <QCoreApplication>
 #include <QDir>
-#include <QRegularExpression>
+#include <QRegExp>
+//#include <QRegularExpression>
 #include <QSet>
 
 #if defined(DJV_WINDOWS)
@@ -280,7 +281,7 @@ QStringList djvSystem::searchPath()
             match += c;
         
         out += path.split(
-            QRegularExpression(QString("[%1]+").arg(match)),
+            QRegExp(QString("[%1]+").arg(match)),
             QString::SkipEmptyParts);
     }
 
@@ -297,7 +298,7 @@ QStringList djvSystem::searchPath()
         //DJV_DEBUG_PRINT("match = " << match);
 
         out += path.split(
-            QRegularExpression(QString("[%1]+").arg(match)),
+            QRegExp(QString("[%1]+").arg(match)),
             QString::SkipEmptyParts);
     }
 
@@ -432,7 +433,7 @@ void djvSystem::print(const QString & in, bool newline)
             chunks += line;
         }
         
-        ::printf("%s", chunks.join('\n').toLatin1().data());
+        ::printf("%s", chunks.join("\n").toLatin1().data());
         
         if (i < lines.count() - 1)
         {

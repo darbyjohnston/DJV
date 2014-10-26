@@ -36,7 +36,7 @@
 
 #include <djvUtil.h>
 
-#include <QtGlobal>
+#include <QVector>
 
 class QString;
 class QStringList;

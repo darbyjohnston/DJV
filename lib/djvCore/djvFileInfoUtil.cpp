@@ -257,8 +257,8 @@ inline bool isDotDir(const char * p, size_t l)
 } // namespace
 
 djvFileInfoList djvFileInfoUtil::list(
-    const QString &       path,
-    djvSequence::COMPRESS compress)
+    const QString &           path,
+    djvSequenceEnum::COMPRESS compress)
 {
     //DJV_DEBUG("djvFileInfoUtil::list");
     //DJV_DEBUG_PRINT("path = " << path);
@@ -406,7 +406,7 @@ djvFileInfoList djvFileInfoUtil::list(
         out[i]._sequence.sort();
     }
 
-    if (djvSequence::COMPRESS_RANGE == compress)
+    if (djvSequenceEnum::COMPRESS_RANGE == compress)
     {
         for (int i = 0; i < out.count(); ++i)
         {
@@ -449,9 +449,11 @@ const djvFileInfo & djvFileInfoUtil::sequenceWildcardMatch(
     return in;
 }
 
-void djvFileInfoUtil::compressSequence(djvFileInfoList & items, djvSequence::COMPRESS compress)
+void djvFileInfoUtil::compressSequence(
+    djvFileInfoList &         items,
+    djvSequenceEnum::COMPRESS compress)
 {
-    if (djvSequence::COMPRESS_OFF == compress)
+    if (djvSequenceEnum::COMPRESS_OFF == compress)
         return;
 
     //DJV_DEBUG("djvFileInfoUtil::compressSequence");
@@ -520,7 +522,7 @@ void djvFileInfoUtil::compressSequence(djvFileInfoList & items, djvSequence::COM
         items[i]._sequence.sort();
     }
 
-    if (djvSequence::COMPRESS_RANGE == compress)
+    if (djvSequenceEnum::COMPRESS_RANGE == compress)
     {
         for (int i = 0; i < items.count(); ++i)
         {

@@ -150,8 +150,8 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     
     connect(
         _p->toolBarButtonGroup,
-        SIGNAL(buttonToggled(int, bool)),
-        SLOT(toolBarCallback(int, bool)));
+        SIGNAL(buttonClicked(int)),
+        SLOT(toolBarCallback(int)));
 }
 
 djvViewWindowPrefsWidget::~djvViewWindowPrefsWidget()
@@ -189,11 +189,11 @@ void djvViewWindowPrefsWidget::fullScreenControlsCallback(bool in)
     djvViewWindowPrefs::global()->setFullScreenControls(in);
 }
 
-void djvViewWindowPrefsWidget::toolBarCallback(int id, bool toggled)
+void djvViewWindowPrefsWidget::toolBarCallback(int id)
 {
     QVector<bool> visible = djvViewWindowPrefs::global()->toolBar();
     
-    visible[id] = toggled;
+    visible[id] = _p->toolBarButtonGroup->button(id)->isChecked();
 
     djvViewWindowPrefs::global()->setToolBar(visible);
 }

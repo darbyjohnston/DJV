@@ -56,10 +56,10 @@ class DJV_GUI_EXPORT djvFileBrowserPrefs : public QObject
     //! This property holds the file sequencing.
     
     Q_PROPERTY(
-        djvSequence::COMPRESS sequence
-        READ                  sequence
-        WRITE                 setSequence
-        NOTIFY                sequenceChanged)
+        djvSequenceEnum::COMPRESS sequence
+        READ                      sequence
+        WRITE                     setSequence
+        NOTIFY                    sequenceChanged)
     
     //! This property holds whether hidden files are shown.
     
@@ -148,11 +148,11 @@ public:
 
     //! Get the file sequencing default.
 
-    static djvSequence::COMPRESS sequenceDefault();
+    static djvSequenceEnum::COMPRESS sequenceDefault();
 
     //! Get the file sequencing.
 
-    djvSequence::COMPRESS sequence() const;
+    djvSequenceEnum::COMPRESS sequence() const;
 
     //! Get the hidden files shown default.
 
@@ -275,7 +275,7 @@ public Q_SLOTS:
 
     //! Set the file sequencing.
 
-    void setSequence(djvSequence::COMPRESS);
+    void setSequence(djvSequenceEnum::COMPRESS);
     
     //! Set whether hidden files are shown.
 
@@ -329,7 +329,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the file sequencing is changed.
 
-    void sequenceChanged(djvSequence::COMPRESS);
+    void sequenceChanged(djvSequenceEnum::COMPRESS);
 
     //! This signal is emitted when the hidden files are changed.
 

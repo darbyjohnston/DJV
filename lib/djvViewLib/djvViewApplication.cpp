@@ -288,7 +288,7 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
             }
             else if ("-playback_speed" == arg)
             {
-                djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
+                djvSpeedEnum::FPS value = static_cast<djvSpeedEnum::FPS>(0);
                 in >> value;
                 _p->commandLine.playbackSpeed.reset(new djvSpeed(value));
             }
@@ -358,7 +358,7 @@ QString djvViewApplication::commandLineHelp() const
         arg(djvPixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvView::playbackLabels().join(", ")).
-        arg(djvSpeed::fpsLabels().join(", ")).
+        arg(djvSpeedEnum::fpsLabels().join(", ")).
         arg(djvApplication::commandLineHelp());
 }
 

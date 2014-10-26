@@ -386,7 +386,7 @@ void djvViewImagePrefsWidget::removeDisplayProfileCallback()
 
     if (index != -1)
     {
-        displayProfiles.removeAt(index);
+        displayProfiles.remove(index);
 
         djvViewImagePrefs::global()->setDisplayProfiles(displayProfiles);
 
@@ -406,7 +406,7 @@ void djvViewImagePrefsWidget::moveDisplayProfileUpCallback()
 
         djvViewDisplayProfile displayProfile = displayProfiles[index];
 
-        displayProfiles.removeAt(index);
+        displayProfiles.remove(index);
 
         if (index > 0)
             --index;
@@ -430,7 +430,7 @@ void djvViewImagePrefsWidget::moveDisplayProfileDownCallback()
 
         djvViewDisplayProfile displayProfile = displayProfiles[index];
 
-        displayProfiles.removeAt(index);
+        displayProfiles.remove(index);
 
         if (index < displayProfiles.count())
             ++index;

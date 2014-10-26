@@ -602,7 +602,7 @@ void djvOpenExrPlugin::loadTags(const Imf::Header & in, djvImageIoInfo & out)
             QString::number(data.blue.x) <<
             QString::number(data.blue.y) <<
             QString::number(data.white.x) <<
-            QString::number(data.white.y)).join(' ');
+            QString::number(data.white.y)).join(" ");
     }
 
     if (hasWhiteLuminance(in))

@@ -67,7 +67,7 @@ private Q_SLOTS:
     void resizeFitCallback(bool);
     void resizeMaxCallback(int);
     void fullScreenControlsCallback(bool);
-    void toolBarCallback(int, bool);
+    void toolBarCallback(int);
     
     void widgetUpdate();
 

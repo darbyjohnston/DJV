@@ -45,6 +45,8 @@
 #include <djvPixelDataUtil.h>
 #include <djvStringUtil.h>
 
+#include <QPair>
+
 #include <algorithm>
 
 void djvImageIoPluginTest::run(int & argc, char ** argv)
