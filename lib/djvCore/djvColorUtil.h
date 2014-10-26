@@ -65,7 +65,15 @@ struct DJV_CORE_EXPORT djvColorUtil
 
     //! Interpolate a color.
 
+    static void lerp(double, const QColor &, const QColor &, QColor &);
+
+    //! Interpolate a color.
+
     static djvColor lerp(double, const djvColor &, const djvColor &);
+
+    //! Interpolate a color.
+
+    static QColor lerp(double, const QColor &, const QColor &);
 
     //! Convert a color.
 

@@ -64,10 +64,10 @@ djvColor djvColorUtil::scale(double value, const djvColor & in)
 }
 
 void djvColorUtil::lerp(
-    double value,
+    double           value,
     const djvColor & min,
     const djvColor & max,
-    djvColor & out)
+    djvColor &       out)
 {
     djvColor min_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
     djvColor max_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
@@ -86,10 +86,32 @@ void djvColorUtil::lerp(
     convert(min_, out);
 }
 
+void djvColorUtil::lerp(
+    double         value,
+    const QColor & min,
+    const QColor & max,
+    QColor &       out)
+{
+    out.setRedF  (djvMath::lerp(value, min.redF(),   max.redF  ()));
+    out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
+    out.setBlueF (djvMath::lerp(value, min.blueF(),  max.blueF ()));
+    out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
+}
+
 djvColor djvColorUtil::lerp(double value, const djvColor & min, const djvColor & max)
 {
     djvColor out(djvMath::max(min.pixel(), max.pixel()));
     lerp(value, min, max, out);
+    return out;
+}
+
+QColor djvColorUtil::lerp(double value, const QColor & min, const QColor & max)
+{
+    QColor out;
+    out.setRedF  (djvMath::lerp(value, min.redF(),   max.redF  ()));
+    out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
+    out.setBlueF (djvMath::lerp(value, min.blueF(),  max.blueF ()));
+    out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
     return out;
 }
 

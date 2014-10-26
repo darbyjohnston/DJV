@@ -48,6 +48,7 @@
 
 #include <djvBox.h>
 #include <djvBoxUtil.h>
+#include <djvColorUtil.h>
 #include <djvDebug.h>
 #include <djvPixel.h>
 #include <djvRange.h>
@@ -471,7 +472,7 @@ qint64 djvViewFrameSlider::outPoint() const
     
 QSize djvViewFrameSlider::sizeHint() const
 {
-    return QSize(200, fontMetrics().height() * 2);
+    return QSize(200, fontMetrics().height() * 2 + 5 * 2);
 }
 
 void djvViewFrameSlider::setFrameList(const djvFrameList & in)
@@ -619,17 +620,65 @@ namespace
     
 struct Tick
 {
+    enum TYPE
+    {
+        FRAME,
+        SECOND,
+        CURRENT
+    };
+
     Tick() :
-        x0(0.0),
-        x1(0.0),
-        h (0)
+        type(static_cast<TYPE>(0)),
+        x   (0.0)
     {}
     
-    double  x0;
-    double  x1;
-    int     h;
+    TYPE    type;
+    double  x;
     QString label;
     QRect   labelRect;
+
+    void draw(QPainter * painter, const QPalette & palette, int h)
+    {
+        switch (type)
+        {
+            case FRAME:
+
+                painter->setPen(djvColorUtil::lerp(
+                    0.2,
+                    palette.color(QPalette::Base),
+                    palette.color(QPalette::Text)));
+                painter->drawLine(x, 0, x, 5);
+                painter->drawLine(x, h - 5, x, h - 1);
+
+                break;
+
+            case SECOND:
+
+                if (! label.isEmpty())
+                {
+                    painter->setPen(djvColorUtil::lerp(
+                        0.2,
+                        palette.color(QPalette::Base),
+                        palette.color(QPalette::Text)));
+                    painter->drawLine(x, 0, x, h - 1);
+                    painter->setPen(djvColorUtil::lerp(
+                        0.4,
+                        palette.color(QPalette::Base),
+                        palette.color(QPalette::Text)));
+                    painter->drawText(labelRect, label);
+                }
+
+                break;
+
+            case CURRENT:
+
+                painter->setPen(palette.color(QPalette::Text));
+                painter->drawLine(x, 0, x, h - 1);
+                painter->drawText(labelRect, label);
+
+                break;
+        }
+    }
 };
 
 } // namespace
@@ -643,6 +692,8 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
+    const QPalette palette(this->palette());
+
     // Fill the background.
     
     painter.fillRect(
@@ -650,32 +701,26 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         box.y,
         box.w,
         box.h,
-        palette().color(QPalette::Base));
+        palette.color(QPalette::Base));
 
     // Draw the in/out points.
-    
+
     if (_p->inPoint != 0 || _p->outPoint != end())
     {
-        QColor color = palette().color(QPalette::Highlight);
-        color.setAlpha(_p->inOutEnabled ? 127 : 60);
-
         const QRectF r(
             frameToPosF(_p->inPoint),
-            djvMath::floor<int>(box.h / 2.0),
+            0,
             frameToPosF(_p->outPoint - _p->inPoint + 1),
-            box.h);
+            2);
 
-        painter.fillRect(r, color);
+        painter.fillRect(r, palette.color(QPalette::Highlight));
     }
-    
+
     // Draw the cached frames.
-    
+
     if (_p->cachedFrames.count())
     {
         //DJV_DEBUG_PRINT("cached frames = " << _p->cachedFrames.count());
-
-        QColor color = QColor(90, 90, 255);
-        color.setAlpha(127);
 
         const djvFrameRangeList list = djvRangeUtil::range(_p->cachedFrames);
 
@@ -683,11 +728,11 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         {
             const QRectF r(
                 frameToPosF(list[i].min),
-                0,
+                box.h - 2,
                 frameToPosF(list[i].max - list[i].min + 1),
-                djvMath::ceil<int>(box.h / 2.0));
+                2);
 
-            painter.fillRect(r, color);
+            painter.fillRect(r, QColor(90, 90, 255));
         }
     }
 
@@ -695,62 +740,64 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     
     QVector<Tick> ticks;
 
-    const double speed         = djvSpeed::speedToFloat(_p->speed);
-    const bool   drawFrames    = frameToPosF(1) > 3;
-    const bool   drawSeconds   = frameToPosF(static_cast<int>(speed)) > 3;
-    const int    tickH         = box.h / 4;
-    int          labelWidthMax = 0;
+    const double speed       = djvSpeed::speedToFloat(_p->speed);
+    const bool   drawFrames  = frameToPosF(1) > 3;
+    const bool   drawSeconds = frameToPosF(static_cast<int>(speed)) > 3;
     
     for (int i = 0; i < _p->frameList.count(); ++i)
     {
-        bool drawTick  = drawFrames;
+        Tick tick;
+        tick.type = Tick::FRAME;
+
+        bool drawTick = drawFrames;
         bool drawLabel = false;
-        int  h         = tickH;
 
         if (0 == i % static_cast<int>(speed))
         {
             drawTick  = drawSeconds;
             drawLabel = true;
-            h         = box.h / 2;
+            tick.type = Tick::SECOND;
         }
 
         if (drawTick)
         {
-            Tick tick;
-            tick.x0 = frameToPosF(i);
-            tick.x1 = frameToPosF(i + 1);
-            tick.h  = h;
+            tick.x = (frameToPosF(i) + frameToPosF(i + 1)) / 2.0;
             
             if (drawLabel)
             {
                 tick.label = djvTime::frameToString(
                     _p->frameList[i],
                     _p->speed);
-                
-                const QRect labelBounds =
-                    fontMetrics().boundingRect(tick.label);
-                
-                tick.labelRect = QRect(
-                    tick.x0,
-                    0,
-                    labelBounds.width(),
-                    labelBounds.height());
-                
-                labelWidthMax = djvMath::max(
-                    labelWidthMax,
-                    tick.labelRect.width());
             }
             
             ticks.append(tick);
         }
     }
     
+    int labelWidthMax = 0;
+
+    const int spacing = djvStyle::global()->sizeMetric().spacing;
+
+    for (int i = 0; i < ticks.count(); ++i)
+    {
+        const QRect labelBounds =
+            fontMetrics().boundingRect(ticks[i].label);
+
+        ticks[i].labelRect = QRect(
+            ticks[i].x + spacing,
+            box.h / 2,
+            labelBounds.width(),
+            labelBounds.height());
+
+        labelWidthMax = djvMath::max(
+            labelWidthMax,
+            ticks[i].labelRect.width());
+    }
+
     for (int i = 0; i < ticks.count(); ++i)
     {
         ticks[i].labelRect.setWidth(labelWidthMax);
     }
-    
-    const int margin = djvStyle::global()->sizeMetric().margin;
     
     int j = 0;
     
@@ -758,8 +805,8 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     {
         if (! ticks[i].label.isEmpty())
         {
-            if (ticks[i].labelRect.adjusted(-margin, 0, margin, 0).intersects(
-                ticks[j].labelRect.adjusted(-margin, 0, margin, 0)))
+            if (ticks[i].labelRect.adjusted(-spacing, 0, 0, 0).intersects(
+                ticks[j].labelRect))
             {
                 ticks[i].label = QString();
             }
@@ -772,36 +819,25 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     
     for (int i = 0; i < ticks.count(); ++i)
     {
-        painter.setPen(ticks[i].label.isEmpty() ?
-            palette().color(QPalette::Text).darker(200) :
-            palette().color(QPalette::Text));
-
-        painter.drawLine(
-            (ticks[i].x0 + ticks[i].x1) / 2,
-            box.h - ticks[i].h,
-            (ticks[i].x0 + ticks[i].x1) / 2,
-            box.h);
-        
-        if (! ticks[i].label.isEmpty())
-        {
-            painter.drawText(ticks[i].labelRect, ticks[i].label);
-        }
+        ticks[i].draw(&painter, palette, box.h);
     }
 
     // Draw the current frame.
     
-    const QRect r(
-        djvMath::floor<int>(frameToPosF(_p->frame)),
-        0,
-        djvMath::ceil<int>(frameToPosF(1)),
-        box.h);
-
-    QColor color(palette().color(QPalette::Text));
-    color.setAlpha(30);
-    painter.fillRect(r, color);
-
-    painter.setPen(palette().color(QPalette::Text));
-    painter.drawRect(r);
+    Tick current;
+    current.type = Tick::CURRENT;
+    current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.0;
+    current.label = djvTime::frameToString(_p->frameList[_p->frame], speed);
+    const QRect labelBounds =
+        fontMetrics().boundingRect(current.label);
+    current.labelRect = QRect(
+        current.x + spacing,
+        5,
+        labelWidthMax,
+        labelBounds.height());
+    if (current.labelRect.right() > box.w)
+        current.labelRect.moveLeft(current.x - spacing - labelWidthMax);
+    current.draw(&painter, palette, box.h);
 }
 
 void djvViewFrameSlider::timeUnitsCallback()
