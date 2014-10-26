@@ -472,7 +472,7 @@ qint64 djvViewFrameSlider::outPoint() const
     
 QSize djvViewFrameSlider::sizeHint() const
 {
-    return QSize(200, fontMetrics().height() * 2 + 5 * 2);
+    return QSize(200, fontMetrics().height() * 2 + 5);
 }
 
 void djvViewFrameSlider::setFrameList(const djvFrameList & in)
@@ -647,7 +647,6 @@ struct Tick
                     0.2,
                     palette.color(QPalette::Base),
                     palette.color(QPalette::Text)));
-                painter->drawLine(x, 0, x, 5);
                 painter->drawLine(x, h - 5, x, h - 1);
 
                 break;
@@ -709,7 +708,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     {
         const QRectF r(
             frameToPosF(_p->inPoint),
-            0,
+            box.h - 2,
             frameToPosF(_p->outPoint - _p->inPoint + 1),
             2);
 
@@ -728,7 +727,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         {
             const QRectF r(
                 frameToPosF(list[i].min),
-                box.h - 2,
+                box.h - 4,
                 frameToPosF(list[i].max - list[i].min + 1),
                 2);
 
@@ -785,7 +784,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
 
         ticks[i].labelRect = QRect(
             ticks[i].x + spacing,
-            box.h / 2,
+            (box.h - 5) / 2,
             labelBounds.width(),
             labelBounds.height());
 
@@ -832,7 +831,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         fontMetrics().boundingRect(current.label);
     current.labelRect = QRect(
         current.x + spacing,
-        5,
+        0,
         labelWidthMax,
         labelBounds.height());
     if (current.labelRect.right() > box.w)
