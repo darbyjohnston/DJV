@@ -34,7 +34,7 @@
     <file alias="djvPlayReverseIcon.png">images/djvPlayReverseIcon.png</file>
     <file alias="djvPlayStopIcon.png">images/djvPlayStopIcon.png</file>
     <file alias="djvRemoveIcon.png">images/djvRemoveIcon.png</file>
-    <file alias="djvReset.png">images/djvResetIcon.png</file>
+    <file alias="djvResetIcon.png">images/djvResetIcon.png</file>
     <file alias="djvRightIcon.png">images/djvRightIcon.png</file>
     <file alias="djvSeqIcon.png">images/djvSeqIcon.png</file>
     <file alias="djvShuttle0Icon.png">images/djvShuttle0Icon.png</file>
