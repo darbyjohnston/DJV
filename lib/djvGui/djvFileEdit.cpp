@@ -114,11 +114,11 @@ void djvFileEdit::editCallback()
 
 void djvFileEdit::buttonCallback()
 {
-    djvFileBrowser fileBrowser;
+    djvFileBrowser * fileBrowser = djvFileBrowser::global();
     
-    if (QDialog::Accepted == fileBrowser.exec())
+    if (QDialog::Accepted == fileBrowser->exec())
     {
-        setFileInfo(fileBrowser.fileInfo());
+        setFileInfo(fileBrowser->fileInfo());
     }
 }
 

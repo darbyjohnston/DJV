@@ -34,10 +34,12 @@
 #include <djvFileBrowserPrefs.h>
 
 #include <djvApplication.h>
+#include <djvFileBrowserCache.h>
 #include <djvPrefs.h>
 
 #include <djvAssert.h>
 #include <djvFileInfoUtil.h>
+#include <djvMemory.h>
 
 //------------------------------------------------------------------------------
 // djvFileBrowserPrefs::P
@@ -46,14 +48,15 @@
 struct djvFileBrowserPrefs::P
 {
     P() :
-        sequence      (sequenceDefault()),
-        showHidden    (showHiddenDefault()),
-        sort          (sortDefault()),
-        reverseSort   (reverseSortDefault()),
-        sortDirsFirst (sortDirsFirstDefault()),
-        thumbnails    (thumbnailsDefault()),
-        thumbnailsSize(thumbnailsSizeDefault()),
-        shortcuts     (shortcutsDefault())
+        sequence       (sequenceDefault()),
+        showHidden     (showHiddenDefault()),
+        sort           (sortDefault()),
+        reverseSort    (reverseSortDefault()),
+        sortDirsFirst  (sortDirsFirstDefault()),
+        thumbnails     (thumbnailsDefault()),
+        thumbnailsSize (thumbnailsSizeDefault()),
+        thumbnailsCache(thumbnailsCacheDefault()),
+        shortcuts      (shortcutsDefault())
     {}
     
     djvSequenceEnum::COMPRESS            sequence;
@@ -63,6 +66,7 @@ struct djvFileBrowserPrefs::P
     bool                                 sortDirsFirst;
     djvFileBrowserModel::THUMBNAILS      thumbnails;
     djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize;
+    qint64                               thumbnailsCache;
     QStringList                          recent;
     QStringList                          bookmarks;
     QVector<djvShortcut>                 shortcuts;
@@ -94,6 +98,7 @@ djvFileBrowserPrefs::djvFileBrowserPrefs(QObject * parent) :
     prefs.get("sortDirsFirst", _p->sortDirsFirst);
     prefs.get("thumbnails", _p->thumbnails);
     prefs.get("thumbnailsSize", _p->thumbnailsSize);
+    prefs.get("thumbnailsCache", _p->thumbnailsCache);
     prefs.get("recent", _p->recent);
     prefs.get("bookmarks", _p->bookmarks);
 
@@ -126,6 +131,7 @@ djvFileBrowserPrefs::~djvFileBrowserPrefs()
     prefs.set("sortDirsFirst", _p->sortDirsFirst);
     prefs.set("thumbnails", _p->thumbnails);
     prefs.set("thumbnailsSize", _p->thumbnailsSize);
+    prefs.set("thumbnailsCache", _p->thumbnailsCache);
     prefs.set("recent", _p->recent);
     prefs.set("bookmarks", _p->bookmarks);
 
@@ -214,6 +220,16 @@ djvFileBrowserModel::THUMBNAILS_SIZE djvFileBrowserPrefs::thumbnailsSizeDefault(
 djvFileBrowserModel::THUMBNAILS_SIZE djvFileBrowserPrefs::thumbnailsSize() const
 {
     return _p->thumbnailsSize;
+}
+
+qint64 djvFileBrowserPrefs::thumbnailsCacheDefault()
+{
+    return 8 * djvMemory::megabyte;
+}
+
+qint64 djvFileBrowserPrefs::thumbnailsCache() const
+{
+    return _p->thumbnailsCache;
 }
 
 const QStringList & djvFileBrowserPrefs::recent() const
@@ -395,6 +411,8 @@ void djvFileBrowserPrefs::setThumbnails(djvFileBrowserModel::THUMBNAILS thumbnai
 
     _p->thumbnails = thumbnails;
 
+    djvFileBrowserCache::global()->clear();
+    
     Q_EMIT thumbnailsChanged(_p->thumbnails);
     Q_EMIT prefChanged();
 }
@@ -406,7 +424,22 @@ void djvFileBrowserPrefs::setThumbnailsSize(djvFileBrowserModel::THUMBNAILS_SIZE
 
     _p->thumbnailsSize = size;
 
+    djvFileBrowserCache::global()->clear();
+    
     Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
+    Q_EMIT prefChanged();
+}
+
+void djvFileBrowserPrefs::setThumbnailsCache(qint64 size)
+{
+    if (size == _p->thumbnailsCache)
+        return;
+
+    _p->thumbnailsCache = size;
+    
+    djvFileBrowserCache::global()->setMaxCost(_p->thumbnailsCache);
+
+    Q_EMIT thumbnailsCacheChanged(_p->thumbnailsCache);
     Q_EMIT prefChanged();
 }
 

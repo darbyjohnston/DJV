@@ -109,6 +109,14 @@ class DJV_GUI_EXPORT djvFileBrowserPrefs : public QObject
         WRITE                                setThumbnailsSize
         NOTIFY                               thumbnailsSizeChanged)
 
+    //! This property holds the image thumbnail cache size.
+    
+    Q_PROPERTY(
+        qint64 thumbnailsCache
+        READ   thumbnailsCache
+        WRITE  setThumbnailsCache
+        NOTIFY thumbnailsCacheChanged)
+    
     //! This property holds the list of recent directories.
     
     Q_PROPERTY(
@@ -201,6 +209,14 @@ public:
     //! Get the image thumbnail size.
 
     djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize() const;
+
+    //! Get the image thumbnail cache size default.
+    
+    static qint64 thumbnailsCacheDefault();
+
+    //! Get the image thumbnail cache size.
+    
+    qint64 thumbnailsCache() const;
 
     //! Get the list of recent directories.
 
@@ -301,6 +317,10 @@ public Q_SLOTS:
 
     void setThumbnailsSize(djvFileBrowserModel::THUMBNAILS_SIZE);
 
+    //! Set the image thumbnail cache size.
+    
+    void setThumbnailsCache(qint64);
+
     //! Set the list of recent directories.
 
     void setRecent(const QStringList &);
@@ -354,6 +374,10 @@ Q_SIGNALS:
     //! This signal is emitted when the image thumbnail size is changed.
 
     void thumbnailsSizeChanged(djvFileBrowserModel::THUMBNAILS_SIZE);
+
+    //! This signal is emitted when the image thumbnail cache size is changed.
+    
+    void thumbnailsCacheChanged(qint64);
 
     //! This signal is emitted when the recent directories are changed.
     

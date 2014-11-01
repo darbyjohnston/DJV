@@ -515,6 +515,22 @@ const djvFileInfo & djvFileBrowser::fileInfo() const
     return _p->fileInfo;
 }
 
+djvFileBrowser * djvFileBrowser::global(const QString & title)
+{
+    static djvFileBrowser * fileBrowser = 0;
+    
+    if (! fileBrowser)
+    {
+        fileBrowser = new djvFileBrowser;
+    }
+    
+    fileBrowser->setWindowTitle(! title.isEmpty() ? title : "File Browser");
+    
+    fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djvFileInfo &)));
+
+    return fileBrowser;
+}
+
 void djvFileBrowser::setFileInfo(const djvFileInfo & fileInfo)
 {
     const djvFileInfo tmp = djvFileInfoUtil::fixPath(fileInfo);

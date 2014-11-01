@@ -29,67 +29,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserPrefsWidget.h
+//! \file djvFileBrowserCache.cpp
 
-#ifndef DJV_FILE_BROWSER_PREFS_WIDGET_H
-#define DJV_FILE_BROWSER_PREFS_WIDGET_H
+#include <djvFileBrowserCache.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvFileBrowserPrefs.h>
 
-#include <djvUtil.h>
-
-struct djvShortcut;
-
-class QListWidgetItem;
-
-//! \addtogroup djvGuiDialog
-//@{
+#include <djvMemory.h>
 
 //------------------------------------------------------------------------------
-//! \class djvFileBrowserPrefsWidget
-//!
-//! This class provides a file browser preferences widget.
+// djvFileBrowserCache
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
+djvFileBrowserCache * djvFileBrowserCache::global()
 {
-    Q_OBJECT
+    static djvFileBrowserCache * cache = 0;
     
-public:
-
-    //! Constructor.
-
-    djvFileBrowserPrefsWidget();
-
-    //! Destructor.
-
-    virtual ~djvFileBrowserPrefsWidget();
-
-    virtual void resetPreferences();
-
-private Q_SLOTS:
-
-    void seqCallback(int);
-    void sortCallback(int);
-    void thumbnailsCallback(int);
-    void thumbnailsSizeCallback(int);
-    void thumbnailsCacheCallback(int);
-    void bookmarkCallback(QListWidgetItem *);
-    void addBookmarkCallback();
-    void removeBookmarkCallback();
-    void moveBookmarkUpCallback();
-    void moveBookmarkDownCallback();
-    void shortcutsCallback(const QVector<djvShortcut> &);
+    if (! cache)
+    {
+        cache = new djvFileBrowserCache;
+        
+        cache->setMaxCost(djvFileBrowserPrefs::global()->thumbnailsCache());
+    }
     
-    void widgetUpdate();
-    
-private:
-
-    DJV_PRIVATE_COPY(djvFileBrowserPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
-};
-
-//@} // djvGuiDialog
-
-#endif // DJV_FILE_BROWSER_PREFS_WIDGET_H
-
+    return cache;
+}

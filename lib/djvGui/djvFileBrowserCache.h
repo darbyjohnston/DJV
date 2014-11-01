@@ -29,67 +29,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserPrefsWidget.h
+//! \file djvFileBrowserCache.h
 
-#ifndef DJV_FILE_BROWSER_PREFS_WIDGET_H
-#define DJV_FILE_BROWSER_PREFS_WIDGET_H
+#ifndef DJV_FILE_BROWSER_CACHE_H
+#define DJV_FILE_BROWSER_CACHE_H
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvGuiExport.h>
 
-#include <djvUtil.h>
+#include <djvFileInfo.h>
 
-struct djvShortcut;
-
-class QListWidgetItem;
-
-//! \addtogroup djvGuiDialog
-//@{
+#include <QCache>
+#include <QPixmap>
 
 //------------------------------------------------------------------------------
-//! \class djvFileBrowserPrefsWidget
+//! \class djvFileBrowserCache
 //!
-//! This class provides a file browser preferences widget.
+//! This class provides a file browser thumbnail cache.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
+class DJV_GUI_EXPORT djvFileBrowserCache : public QCache<djvFileInfo, QPixmap>
 {
-    Q_OBJECT
-    
 public:
 
-    //! Constructor.
-
-    djvFileBrowserPrefsWidget();
-
-    //! Destructor.
-
-    virtual ~djvFileBrowserPrefsWidget();
-
-    virtual void resetPreferences();
-
-private Q_SLOTS:
-
-    void seqCallback(int);
-    void sortCallback(int);
-    void thumbnailsCallback(int);
-    void thumbnailsSizeCallback(int);
-    void thumbnailsCacheCallback(int);
-    void bookmarkCallback(QListWidgetItem *);
-    void addBookmarkCallback();
-    void removeBookmarkCallback();
-    void moveBookmarkUpCallback();
-    void moveBookmarkDownCallback();
-    void shortcutsCallback(const QVector<djvShortcut> &);
-    
-    void widgetUpdate();
-    
-private:
-
-    DJV_PRIVATE_COPY(djvFileBrowserPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    static djvFileBrowserCache * global();
 };
 
-//@} // djvGuiDialog
-
-#endif // DJV_FILE_BROWSER_PREFS_WIDGET_H
-
+#endif // DJV_FILE_BROWSER_CACHE_H

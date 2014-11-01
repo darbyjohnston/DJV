@@ -11,6 +11,7 @@ set(header
     djvColorSwatch.h
     djvColorWidget.h
     djvFileBrowser.h
+    djvFileBrowserCache.h
     djvFileBrowserModel.h
     djvFileBrowserPrefs.h
     djvFileBrowserPrefsWidget.h
@@ -73,6 +74,7 @@ set(source
     djvColorSwatch.cpp
     djvColorWidget.cpp
     djvFileBrowser.cpp
+    djvFileBrowserCache.cpp
     djvFileBrowserModel.cpp
     djvFileBrowserPrefs.cpp
     djvFileBrowserPrefsWidget.cpp

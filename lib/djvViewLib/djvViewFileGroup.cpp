@@ -601,11 +601,11 @@ void djvViewFileGroup::setCacheEnabled(bool cache)
 
 void djvViewFileGroup::openCallback()
 {
-    djvFileBrowser fileBrowser;
-
-    if (fileBrowser.exec() == QDialog::Accepted)
+    djvFileBrowser * fileBrowser = djvFileBrowser::global("Open");
+    
+    if (fileBrowser->exec() == QDialog::Accepted)
     {
-        mainWindow()->fileOpen(fileBrowser.fileInfo());
+        mainWindow()->fileOpen(fileBrowser->fileInfo());
     }
 }
 
@@ -704,11 +704,11 @@ void djvViewFileGroup::closeCallback()
 
 void djvViewFileGroup::saveCallback()
 {
-    djvFileBrowser fileBrowser;
+    djvFileBrowser * fileBrowser = djvFileBrowser::global("Save");
 
-    if (fileBrowser.exec() == QDialog::Accepted)
+    if (fileBrowser->exec() == QDialog::Accepted)
     {
-        const djvFileInfo & fileInfo = fileBrowser.fileInfo();
+        const djvFileInfo & fileInfo = fileBrowser->fileInfo();
 
         if (djvFileInfoUtil::exists(fileInfo))
         {
@@ -731,11 +731,11 @@ void djvViewFileGroup::saveCallback()
 
 void djvViewFileGroup::saveFrameCallback()
 {
-    djvFileBrowser fileBrowser;
-
-    if (fileBrowser.exec() == QDialog::Accepted)
+    djvFileBrowser * fileBrowser = djvFileBrowser::global("Save Frame");
+    
+    if (fileBrowser->exec() == QDialog::Accepted)
     {
-        const djvFileInfo & fileInfo = fileBrowser.fileInfo();
+        const djvFileInfo & fileInfo = fileBrowser->fileInfo();
 
         if (djvFileInfoUtil::exists(fileInfo))
         {

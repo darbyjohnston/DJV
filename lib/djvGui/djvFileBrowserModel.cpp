@@ -34,6 +34,7 @@
 #include <djvFileBrowserModel.h>
 
 #include <djvApplication.h>
+#include <djvFileBrowserCache.h>
 
 #include <djvAssert.h>
 #include <djvDebug.h>
@@ -272,6 +273,20 @@ void djvFileBrowserItem::loadImage()
     //DJV_DEBUG_PRINT("file = " << _fileInfo);
     //DJV_DEBUG_PRINT("size = " << _thumbnail.width() << " " << _thumbnail.height());
 
+    djvFileBrowserCache * cache = djvFileBrowserCache::global();
+
+    if (cache->contains(_fileInfo))
+    {
+        //DJV_DEBUG_PRINT("cached");
+        
+        _thumbnail = *(cache->object(_fileInfo));
+
+        _imageLoaded = true;
+        
+        return;
+    
+    }
+
     try
     {
         //qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -316,6 +331,13 @@ void djvFileBrowserItem::loadImage()
             _thumbnail = djvPixelDataUtil::toQt(tmp);
 
             _imageLoaded = true;
+            
+            cache->insert(
+                _fileInfo,
+                new QPixmap(_thumbnail),
+                _thumbnail.width() * _thumbnail.height() * 4);
+
+            //DJV_DEBUG_PRINT("cache size = " << cache->totalCost());
         }
 
         //qApp->restoreOverrideCursor();
@@ -409,6 +431,8 @@ djvFileBrowserModel::djvFileBrowserModel(QObject * parent) :
     QAbstractItemModel(parent),
     _p(new P)
 {
+    //DJV_DEBUG("djvFileBrowserModel::djvFileBrowserModel");
+    
     //dirUpdate();
     //modelUpdate();
 }

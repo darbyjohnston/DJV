@@ -81,6 +81,10 @@ public:
 
     const djvFileInfo & fileInfo() const;
     
+    //! Get the global file browser.
+    
+    static djvFileBrowser * global(const QString & title = QString());
+    
 public Q_SLOTS:
 
     //! Set the file information.

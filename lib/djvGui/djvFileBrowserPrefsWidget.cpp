@@ -35,17 +35,20 @@
 
 #include <djvFileBrowserPrefs.h>
 #include <djvIconLibrary.h>
+#include <djvIntEdit.h>
 #include <djvInputDialog.h>
 #include <djvPrefsGroupBox.h>
 #include <djvShortcutsWidget.h>
 #include <djvStyle.h>
 #include <djvToolButton.h>
 
+#include <djvMemory.h>
 #include <djvSignalBlocker.h>
 
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QListWidget>
 #include <QVBoxLayout>
 
@@ -73,15 +76,16 @@ public:
 struct djvFileBrowserPrefsWidget::P
 {
     P() :
-        seqWidget           (0),
-        showHiddenWidget    (0),
-        sortWidget          (0),
-        reverseSortWidget   (0),
-        sortDirsFirstWidget (0),
-        thumbnailsWidget    (0),
-        thumbnailsSizeWidget(0),
-        bookmarksWidget     (0),
-        shortcutsWidget     (0)
+        seqWidget            (0),
+        showHiddenWidget     (0),
+        sortWidget           (0),
+        reverseSortWidget    (0),
+        sortDirsFirstWidget  (0),
+        thumbnailsWidget     (0),
+        thumbnailsSizeWidget (0),
+        thumbnailsCacheWidget(0),
+        bookmarksWidget      (0),
+        shortcutsWidget      (0)
     {}
     
     QComboBox *          seqWidget;
@@ -91,6 +95,7 @@ struct djvFileBrowserPrefsWidget::P
     QCheckBox *          sortDirsFirstWidget;
     QComboBox *          thumbnailsWidget;
     QComboBox *          thumbnailsSizeWidget;
+    djvIntEdit *         thumbnailsCacheWidget;
     QListWidget *        bookmarksWidget;
     djvShortcutsWidget * shortcutsWidget;
 };
@@ -126,6 +131,10 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     _p->thumbnailsSizeWidget = new QComboBox;
     _p->thumbnailsSizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->thumbnailsSizeWidget->addItems(djvFileBrowserModel::thumbnailsSizeLabels());
+
+    _p->thumbnailsCacheWidget = new djvIntEdit;
+    _p->thumbnailsCacheWidget->setRange(1, 128);
+    _p->thumbnailsCacheWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     _p->bookmarksWidget = new SmallListWidget;
     
@@ -178,12 +187,16 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Thumbnails:", _p->thumbnailsWidget);
     formLayout->addRow("Thumbnails size:", _p->thumbnailsSizeWidget);
+    QHBoxLayout * hLayout = new QHBoxLayout;
+    hLayout->addWidget(_p->thumbnailsCacheWidget);
+    hLayout->addWidget(new QLabel("(MB)"));
+    formLayout->addRow("Thumbnails cache size:", hLayout);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox("Bookmarks");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->bookmarksWidget);
-    QHBoxLayout * hLayout = new QHBoxLayout;
+    hLayout = new QHBoxLayout;
     hLayout->addStretch();
     hLayout->addWidget(addBookmarkButton);
     hLayout->addWidget(removeBookmarkButton);
@@ -240,6 +253,11 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
         _p->thumbnailsSizeWidget,
         SIGNAL(activated(int)),
         SLOT(thumbnailsSizeCallback(int)));
+
+    connect(
+        _p->thumbnailsCacheWidget,
+        SIGNAL(valueChanged(int)),
+        SLOT(thumbnailsCacheCallback(int)));
 
     connect(
         _p->bookmarksWidget,
@@ -305,6 +323,9 @@ void djvFileBrowserPrefsWidget::resetPreferences()
     djvFileBrowserPrefs::global()->setThumbnailsSize(
         djvFileBrowserPrefs::thumbnailsSizeDefault());
 
+    djvFileBrowserPrefs::global()->setThumbnailsCache(
+        djvFileBrowserPrefs::thumbnailsCacheDefault());
+
     djvFileBrowserPrefs::global()->setShortcuts(
         djvFileBrowserPrefs::shortcutsDefault());
     
@@ -333,6 +354,12 @@ void djvFileBrowserPrefsWidget::thumbnailsSizeCallback(int index)
 {
     djvFileBrowserPrefs::global()->setThumbnailsSize(
         static_cast<djvFileBrowserModel::THUMBNAILS_SIZE>(index));
+}
+
+void djvFileBrowserPrefsWidget::thumbnailsCacheCallback(int value)
+{
+    djvFileBrowserPrefs::global()->setThumbnailsCache(
+        value * djvMemory::megabyte);
 }
 
 void djvFileBrowserPrefsWidget::bookmarkCallback(QListWidgetItem * item)
@@ -436,6 +463,7 @@ void djvFileBrowserPrefsWidget::widgetUpdate()
         _p->sortDirsFirstWidget <<
         _p->thumbnailsWidget <<
         _p->thumbnailsSizeWidget <<
+        _p->thumbnailsCacheWidget <<
         _p->bookmarksWidget <<
         _p->shortcutsWidget);
 
@@ -459,6 +487,9 @@ void djvFileBrowserPrefsWidget::widgetUpdate()
 
     _p->thumbnailsSizeWidget->setCurrentIndex(
         djvFileBrowserPrefs::global()->thumbnailsSize());
+
+    _p->thumbnailsCacheWidget->setValue(
+        djvFileBrowserPrefs::global()->thumbnailsCache() / djvMemory::megabyte);
 
     _p->bookmarksWidget->clear();
     const QStringList & bookmarks = djvFileBrowserPrefs::global()->bookmarks();
