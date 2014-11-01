@@ -602,11 +602,21 @@ void djvViewFileGroup::setCacheEnabled(bool cache)
 void djvViewFileGroup::openCallback()
 {
     djvFileBrowser * fileBrowser = djvFileBrowser::global("Open");
+
+    fileBrowser->setPinnable(true);
     
-    if (fileBrowser->exec() == QDialog::Accepted)
-    {
-        mainWindow()->fileOpen(fileBrowser->fileInfo());
-    }
+    connect(
+        fileBrowser,
+        SIGNAL(fileInfoChanged(const djvFileInfo &)),
+        SLOT(openCallback(const djvFileInfo &)));
+    
+    fileBrowser->show();
+    fileBrowser->raise();
+}
+
+void djvViewFileGroup::openCallback(const djvFileInfo & fileInfo)
+{
+    mainWindow()->fileOpen(fileInfo);
 }
 
 void djvViewFileGroup::recentCallback(QAction * action)

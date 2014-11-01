@@ -67,6 +67,22 @@ class DJV_GUI_EXPORT djvFileBrowser : public QDialog
         WRITE       setFileInfo
         NOTIFY      fileInfoChanged)
     
+    //! This property holds whether the file browser is pinnable.
+    
+    Q_PROPERTY(
+        bool   pinnable
+        READ   isPinnable
+        WRITE  setPinnable
+        NOTIFY pinnableChanged)
+    
+    //! This property holds whether the file browser is currently pinned.
+    
+    Q_PROPERTY(
+        bool   pinned
+        READ   isPinned
+        WRITE  setPinned
+        NOTIFY pinnedChanged)
+
 public:
 
     //! Constructor.
@@ -81,6 +97,14 @@ public:
 
     const djvFileInfo & fileInfo() const;
     
+    //! Get whether the file browser is pinnable.
+    
+    bool isPinnable() const;
+    
+    //! Get whether the file browser is currently pinned.
+    
+    bool isPinned() const;
+    
     //! Get the global file browser.
     
     static djvFileBrowser * global(const QString & title = QString());
@@ -90,6 +114,14 @@ public Q_SLOTS:
     //! Set the file information.
 
     void setFileInfo(const djvFileInfo &);
+    
+    //! Set whether the file browser is pinnable.
+    
+    void setPinnable(bool);
+    
+    //! Set whether the file browser is currently pinned.
+    
+    void setPinned(bool);
 
 Q_SIGNALS:
 
@@ -97,6 +129,14 @@ Q_SIGNALS:
 
     void fileInfoChanged(const djvFileInfo &);
 
+    //! This signal is emitted when the pinnable state is changed.
+    
+    void pinnableChanged(bool);
+    
+    //! This signal is emitted when the pinned state is changed.
+    
+    void pinnedChanged(bool);
+    
 protected:
 
     virtual void showEvent(QShowEvent *);
@@ -127,6 +167,7 @@ private Q_SLOTS:
     void reverseSortCallback();
     void sortDirsFirstCallback(bool);
     void sortDirsFirstCallback();
+    void pinnedCallback(bool);
     void addBookmarkCallback();
     void deleteBookmarkCallback();
     void deleteAllBookmarksCallback();

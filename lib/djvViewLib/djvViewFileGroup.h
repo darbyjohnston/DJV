@@ -151,6 +151,7 @@ Q_SIGNALS:
 private Q_SLOTS:
 
     void openCallback();
+    void openCallback(const djvFileInfo &);
     void recentCallback(QAction *);
     void reloadCallback();
     void reloadFrameCallback();

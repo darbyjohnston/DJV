@@ -133,7 +133,8 @@ struct djvFileBrowser::P
             reload (0),
             seq    (0),
             search (0),
-            browser(0)
+            browser(0),
+            pinned (0)
         {}
         
         QLineEdit *     file;
@@ -143,14 +144,19 @@ struct djvFileBrowser::P
         QComboBox *     seq;
         djvSearchBox *  search;
         QTreeView *     browser;
+        QCheckBox *     pinned;
     };
     
     P() :
+        pinnable   (false),
+        pinned     (false),
         shown      (false),
         model      (0),
         osxMenuHack(0)
     {}
     
+    bool                  pinnable;
+    bool                  pinned;
     bool                  shown;
     djvFileInfo           fileInfo;
     QString               prev;
@@ -275,6 +281,8 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->widgets.browser->setDragDropMode(QAbstractItemView::DragOnly);
     _p->widgets.browser->setDragEnabled(true);
 
+    _p->widgets.pinned = new QCheckBox("Pin");
+
     QPushButton * okButton = new QPushButton("Ok");
 
     QPushButton * closeButton = new QPushButton("Close");
@@ -312,6 +320,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     layout->addWidget(_p->widgets.file);
     
     hLayout = new QHBoxLayout;
+    hLayout->addWidget(_p->widgets.pinned);
     hLayout->addStretch();
     hLayout->addWidget(okButton);
     hLayout->addWidget(closeButton);
@@ -462,6 +471,11 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
         SIGNAL(textChanged(const QString &)),
         SLOT(searchCallback(const QString &)));
 
+    connect(
+        _p->widgets.pinned,
+        SIGNAL(toggled(bool)),
+        SLOT(pinnedCallback(bool)));
+
     connect(okButton, SIGNAL(clicked()), SLOT(acceptedCallback()));
 
     connect(closeButton, SIGNAL(clicked()), this, SLOT(reject()));
@@ -514,6 +528,16 @@ const djvFileInfo & djvFileBrowser::fileInfo() const
 {
     return _p->fileInfo;
 }
+    
+bool djvFileBrowser::isPinnable() const
+{
+    return _p->pinnable;
+}
+
+bool djvFileBrowser::isPinned() const
+{
+    return _p->pinned;
+}
 
 djvFileBrowser * djvFileBrowser::global(const QString & title)
 {
@@ -524,7 +548,11 @@ djvFileBrowser * djvFileBrowser::global(const QString & title)
         fileBrowser = new djvFileBrowser;
     }
     
+    fileBrowser->close();
+    
     fileBrowser->setWindowTitle(! title.isEmpty() ? title : "File Browser");
+    
+    fileBrowser->setPinnable(false);
     
     fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djvFileInfo &)));
 
@@ -573,6 +601,28 @@ void djvFileBrowser::setFileInfo(const djvFileInfo & fileInfo)
     }
 
     widgetUpdate();
+}
+    
+void djvFileBrowser::setPinnable(bool pinnable)
+{
+    if (pinnable == _p->pinnable)
+        return;
+    
+    _p->pinnable = pinnable;
+    
+    widgetUpdate();
+    
+    Q_EMIT pinnableChanged(_p->pinnable);
+}
+
+void djvFileBrowser::setPinned(bool pinned)
+{
+    if (pinned == _p->pinned)
+        return;
+    
+    _p->pinned = pinned;
+    
+    Q_EMIT pinnedChanged(_p->pinned);
 }
 
 void djvFileBrowser::showEvent(QShowEvent *)
@@ -775,6 +825,11 @@ void djvFileBrowser::sortDirsFirstCallback()
     _p->model->setSortDirsFirst(! _p->model->hasSortDirsFirst());
 }
 
+void djvFileBrowser::pinnedCallback(bool pinned)
+{
+    _p->pinned = pinned;
+}
+
 void djvFileBrowser::addBookmarkCallback()
 {
     djvFileBrowserPrefs::global()->addBookmark(_p->fileInfo.path());
@@ -898,7 +953,10 @@ void djvFileBrowser::acceptedCallback()
     {
         djvFileBrowserPrefs::global()->addRecent(_p->fileInfo.path());
 
-        accept();
+        if (! _p->pinnable || (_p->pinnable && ! _p->pinned))
+        {
+            accept();
+        }
 
         Q_EMIT fileInfoChanged(_p->fileInfo);
     }
@@ -926,7 +984,8 @@ void djvFileBrowser::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->widgets.file <<
         _p->widgets.seq <<
-        _p->widgets.browser->header());
+        _p->widgets.browser->header() <<
+        _p->widgets.pinned);
 
     _p->widgets.file->setText(_p->fileInfo);
 
@@ -935,6 +994,9 @@ void djvFileBrowser::widgetUpdate()
     _p->widgets.browser->header()->setSortIndicator(
         _p->model->sort(),
         static_cast<Qt::SortOrder>(_p->model->hasReverseSort()));
+    
+    _p->widgets.pinned->setVisible(_p->pinnable);
+    _p->widgets.pinned->setChecked(_p->pinned);
 }
 
 void djvFileBrowser::menuUpdate()
