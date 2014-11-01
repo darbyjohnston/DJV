@@ -193,6 +193,9 @@ void djvFloatEditSlider::setValue(double value)
 
 void djvFloatEditSlider::setDefaultValue(double value)
 {
+    //DJV_DEBUG("djvFloatEditSlider::setDefaultValue");
+    //DJV_DEBUG_PRINT("in = " << value);
+    
     _p->edit->object()->setDefaultValue(value);
 }
 

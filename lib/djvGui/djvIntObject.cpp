@@ -60,6 +60,8 @@ djvIntObject::djvIntObject(QObject * parent) :
     setDefaultValue(0);
     
     setInc(1, 10);
+
+    defaultValidUpdate();
 }
 
 djvIntObject::~djvIntObject()

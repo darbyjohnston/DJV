@@ -33,6 +33,7 @@
 
 #include <djvFloatObject.h>
 
+#include <djvDebug.h>
 #include <djvMath.h>
 
 //------------------------------------------------------------------------------
@@ -59,6 +60,8 @@ djvFloatObject::djvFloatObject(QObject * parent) :
     setDefaultValue(0.0);
 
     setInc(0.1, 1.0);
+
+    defaultValidUpdate();
 }
 
 djvFloatObject::~djvFloatObject()
@@ -127,6 +130,9 @@ void djvFloatObject::setDefaultValue(double in)
 {
     if (djvMath::fuzzyCompare(in, _defaultValue))
         return;
+
+    //DJV_DEBUG("djvFloatObject::setDefaultValue");
+    //DJV_DEBUG_PRINT("in = " << in);
 
     _defaultValue = in;
 

@@ -38,6 +38,7 @@
 
 #include <djvFileEdit.h>
 #include <djvFloatEditSlider.h>
+#include <djvFloatObject.h>
 #include <djvIconLibrary.h>
 #include <djvInputDialog.h>
 #include <djvToolButton.h>
@@ -100,15 +101,18 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
 
     _p->brightnessWidget = new djvFloatEditSlider;
     _p->brightnessWidget->setDefaultValue(_p->displayProfile.color.brightness);
-    _p->brightnessWidget->setRange(0.0, 4.0);
+    _p->brightnessWidget->editObject()->setClamp(false);
+    _p->brightnessWidget->sliderObject()->setRange(0.0, 4.0);
 
     _p->contrastWidget = new djvFloatEditSlider;
     _p->contrastWidget->setDefaultValue(_p->displayProfile.color.contrast);
-    _p->contrastWidget->setRange(0.0, 4.0);
+    _p->contrastWidget->editObject()->setClamp(false);
+    _p->contrastWidget->sliderObject()->setRange(0.0, 4.0);
 
     _p->saturationWidget = new djvFloatEditSlider;
     _p->saturationWidget->setDefaultValue(_p->displayProfile.color.saturation);
-    _p->saturationWidget->setRange(0.0, 4.0);
+    _p->saturationWidget->editObject()->setClamp(false);
+    _p->saturationWidget->sliderObject()->setRange(0.0, 4.0);
 
     // Create the levels widgets.
 
@@ -116,27 +120,33 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
 
     _p->levelsInWidget[0] = new djvFloatEditSlider;
     _p->levelsInWidget[0]->setDefaultValue(_p->displayProfile.levels.inLow);
-    _p->levelsInWidget[0]->setRange(0.0, 1.0);
+    _p->levelsInWidget[0]->editObject()->setClamp(false);
+    _p->levelsInWidget[0]->sliderObject()->setRange(0.0, 1.0);
 
     _p->levelsInWidget[1] = new djvFloatEditSlider;
     _p->levelsInWidget[1]->setDefaultValue(_p->displayProfile.levels.inHigh);
-    _p->levelsInWidget[1]->setRange(0.0, 1.0);
+    _p->levelsInWidget[1]->editObject()->setClamp(false);
+    _p->levelsInWidget[1]->sliderObject()->setRange(0.0, 1.0);
 
     _p->gammaWidget = new djvFloatEditSlider;
     _p->gammaWidget->setDefaultValue(_p->displayProfile.levels.gamma);
-    _p->gammaWidget->setRange(0.0, 4.0);
+    _p->gammaWidget->editObject()->setClamp(false);
+    _p->gammaWidget->sliderObject()->setRange(0.0, 4.0);
 
     _p->levelsOutWidget[0] = new djvFloatEditSlider;
     _p->levelsOutWidget[0]->setDefaultValue(_p->displayProfile.levels.outLow);
-    _p->levelsOutWidget[0]->setRange(0.0, 1.0);
+    _p->levelsOutWidget[0]->editObject()->setClamp(false);
+    _p->levelsOutWidget[0]->sliderObject()->setRange(0.0, 1.0);
 
     _p->levelsOutWidget[1] = new djvFloatEditSlider;
     _p->levelsOutWidget[1]->setDefaultValue(_p->displayProfile.levels.outHigh);
-    _p->levelsOutWidget[1]->setRange(0.0, 1.0);
+    _p->levelsOutWidget[1]->editObject()->setClamp(false);
+    _p->levelsOutWidget[1]->sliderObject()->setRange(0.0, 1.0);
 
     _p->softClipWidget = new djvFloatEditSlider;
     _p->softClipWidget->setDefaultValue(_p->displayProfile.softClip);
-    _p->softClipWidget->setRange(0.0, 1.0);
+    _p->softClipWidget->editObject()->setClamp(false);
+    _p->softClipWidget->sliderObject()->setRange(0.0, 1.0);
 
     // Create the other widgets.
 
