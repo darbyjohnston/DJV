@@ -109,13 +109,6 @@ private:
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT djvMemoryBuffer<char>;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT djvMemoryBuffer<quint8>;
-
-#endif // DJV_WINDOWS
-
 //@} // djvCoreMisc
 
 #include <djvMemoryBufferInline.h>

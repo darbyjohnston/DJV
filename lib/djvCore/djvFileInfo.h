@@ -308,12 +308,6 @@ typedef QVector<djvFileInfo> djvFileInfoList;
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvFileInfo>;
-
-#endif // DJV_WINDOWS
-
 inline bool operator == (const djvFileInfo &, const djvFileInfo &);
 
 inline bool operator != (const djvFileInfo &, const djvFileInfo &);

@@ -76,12 +76,6 @@ public:
     virtual QString pluginName() const = 0;
 };
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QList<djvPlugin *>;
-
-#endif // DJV_WINDOWS
-
 //! Plugin entry point export.
 
 #if defined(DJV_WINDOWS)

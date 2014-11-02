@@ -57,13 +57,6 @@ struct DJV_VIEW_LIB_EXPORT djvViewDisplayProfile :
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_VIEW_LIB_EXPORT_TEMPLATE
-template class DJV_VIEW_LIB_EXPORT QVector<djvViewDisplayProfile>;
-
-#endif // DJV_WINDOWS
-
 DJV_VIEW_LIB_EXPORT bool operator == (
     const djvViewDisplayProfile &,
     const djvViewDisplayProfile &);

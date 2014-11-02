@@ -369,12 +369,6 @@ private:
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvPixel::PIXEL>;
-
-#endif // DJV_WINDOWS
-
 #define PIXEL_U8_ZERO  0
 #define PIXEL_U10_ZERO 0
 #define PIXEL_U16_ZERO 0

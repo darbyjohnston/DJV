@@ -41,12 +41,6 @@
 
 //! \addtogroup djvCoreMisc
 //@{
-    
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<qint64>;
-
-#endif // DJV_WINDOWS
 
 //! This typedef provides a list of frame numbers.
 

@@ -251,18 +251,6 @@ private:
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE
-template class DJV_CORE_EXPORT QVector<djvPixelDataInfo::PROXY>;
-DJV_CORE_EXPORT_TEMPLATE
-template class DJV_CORE_EXPORT QVector<djvPixelDataInfo::Mirror>;
-DJV_CORE_EXPORT_TEMPLATE
-template class DJV_CORE_EXPORT QVector<djvPixelDataInfo>;
-DJV_CORE_EXPORT_TEMPLATE
-
-#endif // DJV_WINDOWS
-
 DJV_CORE_EXPORT bool operator == (
     const djvPixelDataInfo::Mirror &,
     const djvPixelDataInfo::Mirror &);

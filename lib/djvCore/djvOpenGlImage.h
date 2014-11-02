@@ -356,15 +356,6 @@ public:
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE
-template class DJV_CORE_EXPORT QVector<djvOpenGlImageFilter::FILTER>;
-DJV_CORE_EXPORT_TEMPLATE
-template class DJV_CORE_EXPORT QVector<djvOpenGlImageOptions::CHANNEL>;
-
-#endif // DJV_WINDOWS
-
 DJV_CORE_EXPORT bool operator == (
     const djvOpenGlImageXform &, const djvOpenGlImageXform &);
 DJV_CORE_EXPORT bool operator == (

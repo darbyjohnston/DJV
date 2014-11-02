@@ -201,15 +201,6 @@ struct djvMatrix<T, 4>
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvMatrix<double, 3>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvMatrix<double, 4>;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvMatrix<double, 3> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvMatrix<double, 4> >;
-
-#endif // DJV_WINDOWS
-
 //! 3x3 floating-point matrix typedef.
 
 typedef djvMatrix<double, 3> djvMatrix3f;

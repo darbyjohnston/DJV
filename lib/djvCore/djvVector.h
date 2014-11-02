@@ -219,19 +219,6 @@ struct djvVector<T, 3>
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvVector<int, 2>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvVector<double, 2>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvVector<int, 3>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvVector<double, 3>;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvVector<int, 2> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvVector<double, 2> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvVector<int, 3> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvVector<double, 3> >;
-
-#endif // DJV_WINDOWS
-
 //! Two-dimensional integer vector typedef.
 
 typedef djvVector<int, 2> djvVector2i;

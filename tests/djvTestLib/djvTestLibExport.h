@@ -54,19 +54,11 @@
 
 #define DJV_TEST_LIB_EXPORT __declspec(dllexport)
 
-//! This define provides the Windows template export.
-
-#define DJV_TEST_LIB_EXPORT_TEMPLATE
-
 #else // djvTestLib_EXPORTS
 
 //! This define provides the library export.
 
 #define DJV_TEST_LIB_EXPORT __declspec(dllimport)
-
-//! This define provides the Windows template export.
-
-#define DJV_TEST_LIB_EXPORT_TEMPLATE extern
 
 #endif // djvTestLib_EXPORTS
 

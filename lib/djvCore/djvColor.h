@@ -158,12 +158,6 @@ private:
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvColor>;
-
-#endif // DJV_WINDOWS
-
 DJV_CORE_EXPORT bool operator == (const djvColor &, const djvColor &);
 
 DJV_CORE_EXPORT bool operator != (const djvColor &, const djvColor &);

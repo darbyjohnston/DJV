@@ -255,19 +255,6 @@ struct djvBox<T, 3>
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvBox<int, 2>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvBox<double, 2>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvBox<int, 3>;
-DJV_CORE_EXPORT_TEMPLATE template struct DJV_CORE_EXPORT djvBox<double, 3>;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvBox<int, 2> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvBox<double, 2> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvBox<int, 3> >;
-DJV_CORE_EXPORT_TEMPLATE template class DJV_CORE_EXPORT QVector<djvBox<double, 3> >;
-
-#endif // DJV_WINDOWS
-
 //! Two-dimensional integer axis-aligned box typedef.
 
 typedef djvBox<int, 2> djvBox2i;

@@ -68,12 +68,6 @@ struct DJV_GUI_EXPORT djvShortcut
 
 //------------------------------------------------------------------------------
 
-#if defined(DJV_WINDOWS)
-
-DJV_GUI_EXPORT_TEMPLATE template class DJV_GUI_EXPORT QVector<djvShortcut>;
-
-#endif // DJV_WINDOWS
-
 //@} // djvGuiMisc
 
 #endif // DJV_SHORTCUT_H
