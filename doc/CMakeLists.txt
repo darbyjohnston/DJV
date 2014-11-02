@@ -1,4 +1,5 @@
 set(html
+    djvChangeList.html
     djvCineonPlugin.html
     djvCommandLine.html
     djvCredits.html
