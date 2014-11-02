@@ -485,7 +485,7 @@ endif (djvPackageThirdParty)
 
 # libjpeg
 
-#find_package(JPEG)
+find_package(JPEG)
 
 #message("JPEG_FOUND = " ${JPEG_FOUND})
 #message("JPEG_INCLUDE_DIR = " ${JPEG_INCLUDE_DIR})
