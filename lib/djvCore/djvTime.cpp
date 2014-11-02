@@ -98,7 +98,21 @@ void djvTime::secondsToTime(double in, int & hour, int & minute, double & second
 
 QString djvTime::timeToString(::time_t in)
 {
-    QString out = ::ctime(&in);
+    QString out;
+    
+#   if defined(DJV_WINDOWS)
+
+    char buf[djvStringUtil::cStringLength];
+
+    ::ctime_s(buf, djvStringUtil::cStringLength, &in);
+
+    out = buf;
+
+#   else // DJV_WINDOWS
+
+    out = ::ctime(&in);
+
+#   endif // DJV_WINDOWS
 
     // Remove the newline.
 

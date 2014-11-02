@@ -168,7 +168,7 @@ QStringList & operator >> (QStringList & in, unsigned int & out) throw (QString)
 {
     QString tmp;
     in >> tmp;
-    out = djvStringUtil::stringToInt<unsigned int>(tmp.toLatin1().data());
+    out = djvStringUtil::stringToUInt<unsigned int>(tmp.toLatin1().data());
     return in;
 }
 
@@ -184,7 +184,7 @@ QStringList & operator >> (QStringList & in, quint64 & out) throw (QString)
 {
     QString tmp;
     in >> tmp;
-    out = djvStringUtil::stringToInt<quint64>(tmp.toLatin1().data());
+    out = djvStringUtil::stringToUInt<quint64>(tmp.toLatin1().data());
     return in;
 }
 

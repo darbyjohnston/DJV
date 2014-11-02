@@ -203,6 +203,20 @@ inline T djvStringUtil::stringToInt(const char * string, int maxLen)
 }
 
 template<typename T>
+inline T djvStringUtil::stringToUInt(const char * string, int maxLen)
+{
+    T out = 0;
+
+    while (_stringToInt[static_cast<int>(*string)] && maxLen--)
+    {
+        out *= 10;
+        out += *string++ - '0';
+    }
+
+    return out;
+}
+
+template<typename T>
 inline int djvStringUtil::intToString(T value, char * out, int maxLen)
 {
     //DJV_ASSERT(maxLen > 0);

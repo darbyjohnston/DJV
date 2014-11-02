@@ -93,6 +93,15 @@ struct DJV_CORE_EXPORT djvStringUtil
         const char * string,
         int          maxLen = cStringLength);
 
+    //! Convert a string to an unsigned integer.
+
+    template<typename T>
+    static inline T stringToUInt(
+        const char * string,
+        int          maxLen = cStringLength);
+
+    //! Convert an integer to a string.
+
     template<typename T>
     static inline int intToString(
         T      value,

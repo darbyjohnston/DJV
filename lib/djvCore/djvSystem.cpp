@@ -38,6 +38,7 @@
 #include <djvFileInfoUtil.h>
 #include <djvMath.h>
 #include <djvMemory.h>
+#include <djvMemoryBuffer.h>
 #include <djvStringUtil.h>
 
 #include <QCoreApplication>
@@ -458,9 +459,34 @@ int djvSystem::exec(const QString & in)
 
 QString djvSystem::env(const QString & in)
 {
-    const char * p = ::getenv(in.toLatin1().data());
-    
-    return QString(p ? p : "");
+    QString out;
+
+#   if defined(DJV_WINDOWS)
+
+    size_t size = 0;
+
+    char * p = 0;
+
+    if (0 == _dupenv_s(&p, &size, in.toLatin1().data()))
+    {
+        out = p;
+    }
+
+    if (p)
+    {
+        free(p);
+    }
+
+#   else // DJV_WINDOWS
+
+    if (const char * p = ::getenv(in.toLatin1().data()))
+    {
+        out = p;
+    }
+
+#   endif // DJV_WINDOWS
+
+    return out;
 }
 
 bool djvSystem::setEnv(const QString & var, const QString & value)
