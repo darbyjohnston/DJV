@@ -531,8 +531,8 @@ QVector<djvOpenExrPlugin::Layer> djvOpenExrPlugin::layer(
         out += _layer(list, channels);
     }
 
-    for (int i = 0; i < out.count(); ++i)
-        //DJV_DEBUG_PRINT("layer[" << i << "] = " << out[i].name);
+    //for (int i = 0; i < out.count(); ++i)
+    //    DJV_DEBUG_PRINT("layer[" << i << "] = " << out[i].name);
 
     return out;
 }
