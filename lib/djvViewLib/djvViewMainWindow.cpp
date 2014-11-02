@@ -538,6 +538,13 @@ void djvViewMainWindow::fitWindow()
 
     showNormal();
 
+    const int fw = frameGeometry().width ();
+    const int fh = frameGeometry().height();
+
+    move(
+        djvMath::max(0, x() + fw / 2 - (((size.x + (fw - width ())) / 2))),
+        djvMath::max(0, y() + fh / 2 - (((size.y + (fh - height())) / 2))));
+
     resize(size.x, size.y);
 
     _p->viewWidget->viewFit();
