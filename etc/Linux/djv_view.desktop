@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Application
 Icon=djv_view
-Exec=/usr/local/djv-1.0.3-Linux-64/bin/djv_view.sh %U
+Exec=/usr/local/djv-1.0.5-Linux-64/bin/djv_view.sh %U
 Name=djv_view
 Comment=Professional movie playback software for film production, VFX, and computer animation
 Categories=Graphics

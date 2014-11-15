@@ -103,6 +103,7 @@ cmake_policy(SET CMP0042 OLD)
 # * Set the proper DJV version in this file
 # * Update the DJV version numbers in doc/*.html
 # * Update the version number in Doxyfile
+# * Update etc/Linux/djv_view.desktop
 #
 # Git tag example:
 #
