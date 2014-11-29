@@ -42,6 +42,7 @@
 
 #include <QCheckBox>
 #include <QComboBox>
+#include <QFontComboBox>
 #include <QFormLayout>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -59,7 +60,10 @@ struct djvStylePrefsWidget::P
         colorButtonWidget            (0),
         colorSelectWidget            (0),
         colorSwatchTransparencyWidget(0),
-        sizeValueWidget              (0)
+        sizeValueWidget              (0),
+        fontNormalWidget             (0),
+        fontBoldWidget               (0),
+        fontFixedWidget              (0)
     {}
 
     QComboBox *      colorWidget;
@@ -71,6 +75,9 @@ struct djvStylePrefsWidget::P
     QCheckBox *      colorSwatchTransparencyWidget;
     QComboBox *      sizeWidget;
     djvIntEdit *     sizeValueWidget;
+    QFontComboBox *  fontNormalWidget;
+    QFontComboBox *  fontBoldWidget;
+    QFontComboBox *  fontFixedWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -122,6 +129,15 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     _p->sizeValueWidget = new djvIntEdit;
     _p->sizeValueWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+    _p->fontNormalWidget = new QFontComboBox;
+    _p->fontNormalWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    _p->fontBoldWidget = new QFontComboBox;
+    _p->fontBoldWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    _p->fontFixedWidget = new QFontComboBox;
+    _p->fontFixedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -151,6 +167,15 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     hLayout->addWidget(_p->sizeWidget);
     hLayout->addWidget(_p->sizeValueWidget);
     formLayout->addRow(hLayout);
+    layout->addWidget(prefsGroupBox);
+
+    prefsGroupBox = new djvPrefsGroupBox(
+        "Fonts",
+        "Set the user interface fonts.");
+    formLayout = prefsGroupBox->createLayout();
+    formLayout->addRow("Normal:", _p->fontNormalWidget);
+    formLayout->addRow("Bold:", _p->fontBoldWidget);
+    formLayout->addRow("Fixed:", _p->fontFixedWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
@@ -205,6 +230,21 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
         _p->sizeValueWidget,
         SIGNAL(valueChanged(int)),
         SLOT(sizeValueCallback(int)));
+    
+    connect(
+        _p->fontNormalWidget,
+        SIGNAL(currentFontChanged(const QFont &)),
+        SLOT(fontNormalCallback(const QFont &)));
+    
+    connect(
+        _p->fontBoldWidget,
+        SIGNAL(currentFontChanged(const QFont &)),
+        SLOT(fontBoldCallback(const QFont &)));
+    
+    connect(
+        _p->fontFixedWidget,
+        SIGNAL(currentFontChanged(const QFont &)),
+        SLOT(fontFixedCallback(const QFont &)));
 }
 
 djvStylePrefsWidget::~djvStylePrefsWidget()
@@ -224,6 +264,8 @@ void djvStylePrefsWidget::resetPreferences()
         djvStyle::sizeMetricsDefault());
     djvStyle::global()->setSizeMetricsIndex(
         djvStyle::sizeMetricsIndexDefault());
+    djvStyle::global()->setFonts(
+        djvStyle::fontsDefault());
     
     widgetUpdate();
 }
@@ -288,6 +330,27 @@ void djvStylePrefsWidget::sizeValueCallback(int size)
         djvStyle::SizeMetric(djvStyle::global()->sizeMetric().name, size));
 }
 
+void djvStylePrefsWidget::fontNormalCallback(const QFont & font)
+{
+    djvStyle::Fonts fonts = djvStyle::global()->fonts();
+    fonts.normal = font;
+    djvStyle::global()->setFonts(fonts);
+}
+
+void djvStylePrefsWidget::fontBoldCallback(const QFont & font)
+{
+    djvStyle::Fonts fonts = djvStyle::global()->fonts();
+    fonts.bold = font;
+    djvStyle::global()->setFonts(fonts);
+}
+
+void djvStylePrefsWidget::fontFixedCallback(const QFont & font)
+{
+    djvStyle::Fonts fonts = djvStyle::global()->fonts();
+    fonts.fixed = font;
+    djvStyle::global()->setFonts(fonts);
+}
+
 void djvStylePrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
@@ -299,7 +362,10 @@ void djvStylePrefsWidget::widgetUpdate()
         _p->colorSelectWidget <<
         _p->colorSwatchTransparencyWidget <<
         _p->sizeWidget <<
-        _p->sizeValueWidget);
+        _p->sizeValueWidget <<
+        _p->fontNormalWidget <<
+        _p->fontBoldWidget <<
+        _p->fontFixedWidget);
 
     _p->colorWidget->setCurrentIndex(djvStyle::global()->palettesIndex());
 
@@ -314,4 +380,8 @@ void djvStylePrefsWidget::widgetUpdate()
 
     _p->sizeWidget->setCurrentIndex(djvStyle::global()->sizeMetricsIndex());
     _p->sizeValueWidget->setValue(djvStyle::global()->sizeMetric().fontSize);
+    
+    _p->fontNormalWidget->setCurrentFont(djvStyle::global()->fonts().normal);
+    _p->fontBoldWidget->setCurrentFont(djvStyle::global()->fonts().bold);
+    _p->fontFixedWidget->setCurrentFont(djvStyle::global()->fonts().fixed);
 }

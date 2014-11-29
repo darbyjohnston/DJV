@@ -40,8 +40,7 @@
 #include <djvUtil.h>
 
 #include <QObject>
-
-class QFont;
+#include <QFont>
 
 //! \addtogroup djvGuiMisc
 //@{
@@ -198,17 +197,28 @@ public:
     
     QStringList sizeMetricNames() const;
 
-    //! Get the font.
+    //! This struct provides the fonts.
+    
+    struct DJV_GUI_EXPORT Fonts
+    {
+        Fonts();
+        
+        QFont normal;
+        QFont bold;
+        QFont fixed;
+    };
+    
+    //! Get the default fonts.
+    
+    static const Fonts & fontsDefault();
 
-    QFont font() const;
+    //! Get the fonts.
 
-    //! Get the bold font.
+    const Fonts & fonts() const;
 
-    QFont boldFont() const;
-
-    //! Get the fixed width font.
-
-    QFont fixedFont() const;
+    //! Set the fonts.
+    
+    void setFonts(const Fonts &);
 
     //! Get the global style.
 
@@ -223,11 +233,16 @@ Q_SIGNALS:
     //! This signal is emitted when the size metrics are changed.
     
     void sizeMetricsChanged();
+    
+    //! This signal is emitted when the fonts are changed.
+    
+    void fontsChanged();
 
 private:
 
     void colorUpdate();
     void sizeUpdate();
+    void fontsUpdate();
     
     DJV_PRIVATE_COPY(djvStyle);
     DJV_PRIVATE_IMPLEMENTATION();
@@ -239,21 +254,29 @@ DJV_GUI_EXPORT bool operator == (const djvStyle::Palette &,
     const djvStyle::Palette &);
 DJV_GUI_EXPORT bool operator == (const djvStyle::SizeMetric &,
     const djvStyle::SizeMetric &);
+DJV_GUI_EXPORT bool operator == (const djvStyle::Fonts &,
+    const djvStyle::Fonts &);
 
 DJV_GUI_EXPORT bool operator != (const djvStyle::Palette &,
     const djvStyle::Palette &);
 DJV_GUI_EXPORT bool operator != (const djvStyle::SizeMetric &,
     const djvStyle::SizeMetric &);
+DJV_GUI_EXPORT bool operator != (const djvStyle::Fonts &,
+    const djvStyle::Fonts &);
 
 DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
     djvStyle::Palette &) throw (QString);
 DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
     djvStyle::SizeMetric &) throw (QString);
+DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
+    djvStyle::Fonts &) throw (QString);
 
 DJV_GUI_EXPORT QStringList & operator << (QStringList &,
     const djvStyle::Palette &);
 DJV_GUI_EXPORT QStringList & operator << (QStringList &,
     const djvStyle::SizeMetric &);
+DJV_GUI_EXPORT QStringList & operator << (QStringList &,
+    const djvStyle::Fonts &);
 
 //@} // djvGuiMisc
 

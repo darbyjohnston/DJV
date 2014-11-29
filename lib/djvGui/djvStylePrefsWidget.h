@@ -76,6 +76,9 @@ public:
     void colorSwatchTransparencyCallback(bool);
     void sizeCallback(int);
     void sizeValueCallback(int);
+    void fontNormalCallback(const QFont &);
+    void fontBoldCallback(const QFont &);
+    void fontFixedCallback(const QFont &);
 
 private:
 

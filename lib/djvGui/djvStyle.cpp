@@ -87,6 +87,18 @@ djvStyle::SizeMetric::SizeMetric(const QString & name, int fontSize) :
 {}
 
 //------------------------------------------------------------------------------
+// djvStyle::Fonts
+//------------------------------------------------------------------------------
+
+djvStyle::Fonts::Fonts() :
+    normal(qApp->font()),
+    bold  (qApp->font()),
+    fixed ("Courier")
+{
+    bold.setBold(true);
+}
+
+//------------------------------------------------------------------------------
 // djvStyle::P
 //------------------------------------------------------------------------------
 
@@ -105,9 +117,7 @@ struct djvStyle::P
     bool                colorSwatchTransparency;
     QVector<SizeMetric> sizeMetrics;
     int                 sizeMetricsIndex;
-    QFont               font;
-    QFont               boldFont;
-    QFont               fixedFont;
+    Fonts               fonts;
 };
 
 //------------------------------------------------------------------------------
@@ -189,12 +199,15 @@ djvStyle::djvStyle(QObject * parent) :
     
     prefs.get("sizeMetricsIndex", _p->sizeMetricsIndex);
     
+    prefs.get("fonts", _p->fonts);
+    
     //DJV_DEBUG_PRINT("sizeMetricsIndex = " << _p->sizeMetricsIndex);
 
     // Initialize.
     
     colorUpdate();
     sizeUpdate();
+    fontsUpdate();
 }
 
 djvStyle::~djvStyle()
@@ -228,6 +241,8 @@ djvStyle::~djvStyle()
     }
 
     prefs.set("sizeMetricsIndex", _p->sizeMetricsIndex);
+
+    prefs.set("fonts", _p->fonts);
 
     delete _p;
 }
@@ -428,19 +443,28 @@ QStringList djvStyle::sizeMetricNames() const
     return names;
 }
 
-QFont djvStyle::font() const
+const djvStyle::Fonts & djvStyle::fontsDefault()
 {
-    return _p->font;
+    static const djvStyle::Fonts data;
+    
+    return data;
 }
 
-QFont djvStyle::boldFont() const
+const djvStyle::Fonts & djvStyle::fonts() const
 {
-    return _p->boldFont;
+    return _p->fonts;
 }
 
-QFont djvStyle::fixedFont() const
+void djvStyle::setFonts(const Fonts & fonts)
 {
-    return _p->fixedFont;
+    if (fonts == _p->fonts)
+        return;
+    
+    _p->fonts = fonts;
+    
+    fontsUpdate();
+    
+    Q_EMIT fontsChanged();
 }
 
 namespace
@@ -512,7 +536,16 @@ void djvStyle::sizeUpdate()
 {
     //DJV_DEBUG("djvStyle::sizeUpdate");
     
-    QFont font = qApp->font();
+    QFont font = _p->fonts.normal;
+    font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
+    qApp->setFont(font);
+}
+
+void djvStyle::fontsUpdate()
+{
+    //DJV_DEBUG("djvStyle::fontsUpdate");
+    
+    QFont font = _p->fonts.normal;
     font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
     qApp->setFont(font);
 }
@@ -555,6 +588,19 @@ bool operator == (const djvStyle::SizeMetric & a, const djvStyle::SizeMetric & b
 }
 
 bool operator != (const djvStyle::SizeMetric & a, const djvStyle::SizeMetric & b)
+{
+    return ! (a == b);
+}
+
+bool operator == (const djvStyle::Fonts & a, const djvStyle::Fonts & b)
+{
+    return
+        a.normal == b.normal &&
+        a.bold   == b.bold   &&
+        a.fixed  == b.fixed;
+}
+
+bool operator != (const djvStyle::Fonts & a, const djvStyle::Fonts & b)
 {
     return ! (a == b);
 }
@@ -666,6 +712,35 @@ QStringList & operator << (QStringList & out, const djvStyle::SizeMetric & in)
     out << in.swatchSize;
     out << QString("thumbnailSize");
     out << in.thumbnailSize;
+    
+    return out;
+}
+
+QStringList & operator >> (QStringList & in, djvStyle::Fonts & out)
+    throw (QString)
+{
+    QString tmp, tmp2;
+    in >> tmp;
+    in >> tmp2;
+    out.normal.setFamily(tmp2);
+    in >> tmp;
+    in >> tmp2;
+    out.bold.setFamily(tmp2);
+    in >> tmp;
+    in >> tmp2;
+    out.fixed.setFamily(tmp2);
+
+    return in;
+}
+
+QStringList & operator << (QStringList & out, const djvStyle::Fonts & in)
+{
+    out << QString("normal");
+    out << in.normal.family();
+    out << QString("bold");
+    out << in.bold.family();
+    out << QString("fixed");
+    out << in.fixed.family();
     
     return out;
 }
