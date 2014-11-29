@@ -761,7 +761,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         bool drawTick = drawFrames;
         bool drawLabel = false;
 
-        if (0 == i % static_cast<int>(speed))
+        if (speed > 0.0 && 0 == i % static_cast<int>(speed))
         {
             drawTick  = drawSeconds;
             drawLabel = true;
