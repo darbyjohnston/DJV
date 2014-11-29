@@ -836,7 +836,8 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     Tick current;
     current.type = Tick::CURRENT;
     current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.0;
-    current.label = djvTime::frameToString(_p->frameList[_p->frame], speed);
+    current.label = djvTime::frameToString(
+        _p->frameList.count() ? _p->frameList[_p->frame] : 0, speed);
     const QRect labelBounds =
         fontMetrics().boundingRect(current.label);
     current.labelRect = QRect(
