@@ -69,6 +69,7 @@ public:
         CLEAR_CACHE,
         MESSAGES,
         PREFS,
+        DEBUG_LOG,
         EXIT,
 
         ACTION_COUNT

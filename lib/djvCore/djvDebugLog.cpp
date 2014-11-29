@@ -29,102 +29,117 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebug.h
+//! \file djvDebugLog.cpp
 
-#ifndef DJV_DEBUG_H
-#define DJV_DEBUG_H
+#include <djvDebugLog.h>
 
-#include <djvUtil.h>
+#include <djvCoreApplication.h>
+
+#include <djvDebug.h>
 
 #include <QVector>
 
-class QString;
-class QStringList;
-
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDebug
-//!
-//! This class provides debugging messages.
-//------------------------------------------------------------------------------
-
-class DJV_CORE_EXPORT djvDebug
+namespace
 {
-public:
 
-    //! Constructor.
+const int max = 10000;
 
-    djvDebug(const QString & prefix, const QString &);
+} // namespace
 
-    //! Destructor.
+//------------------------------------------------------------------------------
+// djvDebugLog::P
+//------------------------------------------------------------------------------
 
-    ~djvDebug();
-
-    //! Add a message.
-
-    void add(const QString &);
-
-    //! This enumeration provides the line beginning and ending.
-
-    enum LINE
-    {
-        LINE_BEGIN,
-        LINE_END
-    };
-
-    djvDebug & operator << (LINE);
-
-    //! Convert bits to a string.
-
-    static QString bitsU8(quint8);
-
-    //! Convert bits to a string.
-
-    static QString bitsU16(quint16);
-
-    //! Convert bits to a string.
-
-    static QString bitsU32(quint32);
-
-private:
-
-    void init(const QString &);
-
-    DJV_PRIVATE_COPY(djvDebug);
-    DJV_PRIVATE_IMPLEMENTATION();
+struct djvDebugLog::P
+{
+    P() :
+        print(false)
+    {}
+    
+    QVector<QString> messages;
+    bool             print;
 };
 
 //------------------------------------------------------------------------------
+// djvDebugLog
+//------------------------------------------------------------------------------
 
-//! Start a debugging message block.
+djvDebugLog::djvDebugLog(QObject * parent) :
+    QObject(parent),
+    _p(new P)
+{}
 
-#define DJV_DEBUG(in) \
-    \
-    djvDebug _debug(__FILE__, in)
+djvDebugLog::~djvDebugLog()
+{
+    delete _p;
+}
 
-//! Print a debugging message.
+const QVector<QString> & djvDebugLog::messages() const
+{
+    return _p->messages;
+}
 
-#define DJV_DEBUG_PRINT(in) \
-    \
-    _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
+bool djvDebugLog::hasPrint() const
+{
+    return _p->print;
+}
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QString &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, bool);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QStringList &);
-template<class T>
-inline djvDebug & operator << (djvDebug &, const QVector<T> &);
+djvDebugLog * djvDebugLog::global()
+{
+    static djvDebugLog * object = 0;
+    
+    if (! object)
+    {
+        object = new djvDebugLog(qApp);
+    }
+    
+    return object;
+}
 
-//@} // djvCoreMisc
+void djvDebugLog::addMessage(const QString & context, const QString & message)
+{
+    Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))
+    {
+        QString s = QString("[%1] %2").arg(context).arg(line);
+        
+        _p->messages.append(s);
+        
+        if (_p->messages.count() > max)
+        {
+            _p->messages.pop_front();
+        }
+        
+        if (_p->print)
+        {
+            print(s);
+        }
+        
+        Q_EMIT this->message(s);
+    }
+}
 
-#include <djvDebugInline.h>
+void djvDebugLog::setPrint(bool print)
+{
+    if (print == _p->print)
+        return;
 
-#endif // DJV_DEBUG_H
+    _p->print = print;
+    
+    if (_p->print)
+    {
+        while (_p->messages.count())
+        {
+            this->print(_p->messages.first());
+            
+            _p->messages.pop_front();
+        }
+    }
+    
+    Q_EMIT printChanged(_p->print);
+}
+
+void djvDebugLog::print(const QString & string)
+{
+    DJV_CORE_APP->printMessage(string);
+}
 

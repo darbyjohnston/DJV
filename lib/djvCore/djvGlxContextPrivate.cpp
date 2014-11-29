@@ -34,6 +34,7 @@
 #include <djvGlxContextPrivate.h>
 
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 
 //------------------------------------------------------------------------------
 // djvGlxContextPrivate
@@ -51,6 +52,8 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     //DJV_DEBUG("djvGlxContextPrivate::djvGlxContextPrivate");
 
     // Open the X display.
+    
+    DJV_LOG("djvGlxContextPrivate", "Opening the X display...");
 
     _display = XOpenDisplay(NULL);
 
@@ -58,8 +61,10 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     {
         DJV_THROW_ERROR("Cannot open X display");
     }
-
+    
     _screen = DefaultScreen(_display);
+
+    DJV_LOG("djvGlxContextPrivate", QString("Screen: %1").arg(_screen));
 
     // Choose a visual.
 
@@ -75,6 +80,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     
     for (int i = 0; i < depthsCount; ++i)
     {
+        DJV_LOG("djvGlxContextPrivate",
+            QString("Checking for a visual with a depth of %1...").arg(depths[i]));
+
         visualInfo.depth = depths[i];
 
         _visuals = XGetVisualInfo(
@@ -164,6 +172,10 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     setVendor((const char *)glGetString(GL_VENDOR));
     setRenderer((const char *)glGetString(GL_RENDERER));
     setVersion((const char *)glGetString(GL_VERSION));
+
+    DJV_LOG("djvGlxContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG("djvGlxContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG("djvGlxContextPrivate", QString("GL version: \"%1\"").arg(version()));
 
     //DJV_DEBUG_PRINT("vendor string = " << vendor());
     //DJV_DEBUG_PRINT("renderer string = " << renderer());

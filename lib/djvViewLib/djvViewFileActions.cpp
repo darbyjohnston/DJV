@@ -108,8 +108,10 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
     _actions[CLEAR_CACHE]->setText("Clear Memory Cac&he");
 
     _actions[MESSAGES]->setText("Messa&ges");
-
+    
     _actions[PREFS]->setText("&Preferences");
+
+    _actions[DEBUG_LOG]->setText("Debugging Log");
 
     _actions[EXIT]->setText("E&xit");
 

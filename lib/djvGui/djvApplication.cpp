@@ -34,6 +34,7 @@
 #include <djvApplication.h>
 
 #include <djvApplicationMessageDialog.h>
+#include <djvDebugLogDialog.h>
 #include <djvFileBrowserPrefs.h>
 #include <djvImageIoPrefs.h>
 #include <djvMiscPrefs.h>
@@ -42,6 +43,7 @@
 #include <djvPrefsDialog.h>
 #include <djvStyle.h>
 
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfoUtil.h>
 #include <djvSystem.h>
@@ -79,11 +81,12 @@ protected:
 struct djvAbstractApplication::P
 {
     P() :
-        valid         (false),
-        toolTips      (toolTipsDefault()),
-        toolTipFilter (new ToolTipFilter),
-        _messageDialog(0),
-        _prefsDialog  (0)
+        valid          (false),
+        toolTips       (toolTipsDefault()),
+        toolTipFilter  (new ToolTipFilter),
+        _messageDialog (0),
+        _prefsDialog   (0),
+        _debugLogDialog(0)
     {}
     
     ~P()
@@ -102,6 +105,13 @@ struct djvAbstractApplication::P
             delete _prefsDialog;
             
             _prefsDialog = 0;
+        }
+
+        if (_debugLogDialog)
+        {
+            delete _debugLogDialog;
+            
+            _debugLogDialog = 0;
         }
     }
     
@@ -129,10 +139,21 @@ struct djvAbstractApplication::P
         return _prefsDialog;
     }
     
+    djvDebugLogDialog * debugLogDialog() const
+    {
+        if (! _debugLogDialog)
+        {
+            _debugLogDialog = new djvDebugLogDialog;
+        }
+        
+        return _debugLogDialog;
+    }
+    
 private:
 
     mutable djvApplicationMessageDialog * _messageDialog;
     mutable djvPrefsDialog *              _prefsDialog;
+    mutable djvDebugLogDialog *           _debugLogDialog;
 };
 
 //------------------------------------------------------------------------------
@@ -163,6 +184,8 @@ djvAbstractApplication::djvAbstractApplication(
 
     // Load the preferences.
     
+    DJV_LOG("djvAbstractApplication", "Load the preferences...");
+    
     djvFileBrowserPrefs::global();
     djvImageIoPrefs::global();
     djvMiscPrefs::global();
@@ -176,6 +199,9 @@ djvAbstractApplication::djvAbstractApplication(
     djvStyle::global();
 
     toolTipsUpdate();
+    
+    DJV_LOG("djvAbstractApplication",
+        QString("Information: %1").arg(info()));
 }
 
 djvAbstractApplication::~djvAbstractApplication()
@@ -224,6 +250,11 @@ void djvAbstractApplication::setToolTips(bool toolTips)
 void djvAbstractApplication::messageDialog()
 {
     _p->messageDialog()->show();
+}
+
+void djvAbstractApplication::debugLogDialog()
+{
+    _p->debugLogDialog()->show();
 }
 
 djvPrefsDialog * djvAbstractApplication::prefsDialog() const
@@ -342,6 +373,8 @@ void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in) throw
 
             if ("-reset_prefs" == arg)
             {
+                DJV_LOG("djvAbstractApplication", "Reset the preferences...");
+                
                 djvPrefs::setReset(true);
             }
             else

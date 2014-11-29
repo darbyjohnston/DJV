@@ -70,8 +70,14 @@ public:
         EXIT_VALUE_ERROR,
         EXIT_VALUE_HELP,
         EXIT_VALUE_INFO,
-        EXIT_VALUE_ABOUT
+        EXIT_VALUE_ABOUT,
+        
+        EXIT_VALUE_COUNT
     };
+    
+    //! Get the exit value labels.
+
+    static const QStringList & exitValueLabels();
 
     //! Start the application.
 
@@ -100,7 +106,7 @@ public:
     //! Get application about information.
 
     virtual QString about() const;
-
+    
     //! Print a message.
 
     virtual void printMessage(const QString &) const;
@@ -165,9 +171,17 @@ public:
         throw (djvError);
 };
 
+//------------------------------------------------------------------------------
+
 //! Get the global application instance.
 
 #define DJV_CORE_APP djvAbstractCoreApplication::global()
+
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
+    djvAbstractCoreApplication::EXIT_VALUE &) throw (QString);
+
+DJV_CORE_EXPORT QStringList & operator << (QStringList &,
+    djvAbstractCoreApplication::EXIT_VALUE);
 
 //@} // djvCoreMisc
 

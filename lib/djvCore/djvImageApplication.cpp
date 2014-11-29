@@ -33,6 +33,7 @@
 
 #include <djvImageApplication.h>
 
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvImageIo.h>
 #include <djvOpenGlContext.h>
@@ -67,12 +68,17 @@ djvAbstractImageApplication::djvAbstractImageApplication(
 {
     //DJV_DEBUG("djvAbstractImageApplication::djvAbstractImageApplication");
     //DJV_DEBUG_PRINT("name = " << name);
-
+    
     // Create the default OpenGL context.
+
+    DJV_LOG("djvAbstractImageApplication",
+        "Creating the default OpenGL context...");
 
     _p->context = djvOpenGlContextFactory::create();
 
     //! Force image I/O plugin loading.
+
+    DJV_LOG("djvAbstractImageApplication", "Loading image I/O plugins...");
 
     djvImageIoFactory::global();
 
@@ -82,6 +88,9 @@ djvAbstractImageApplication::djvAbstractImageApplication(
     //    ImageLoadFactory::global()->plugins().count());
     //DJV_DEBUG_PRINT("image save = " <<
     //    ImageSaveFactory::global()->plugins().count());
+
+    DJV_LOG("djvAbstractImageApplication",
+        QString("Information: %1").arg(info()));
 }
 
 djvAbstractImageApplication::~djvAbstractImageApplication()

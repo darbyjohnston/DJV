@@ -100,8 +100,10 @@ djvViewFileMenu::djvViewFileMenu(
     addSeparator();
 
     addAction(actions->action(djvViewFileActions::MESSAGES));
-    
+
     addAction(actions->action(djvViewFileActions::PREFS));
+    
+    addAction(actions->action(djvViewFileActions::DEBUG_LOG));
     
     addSeparator();
 

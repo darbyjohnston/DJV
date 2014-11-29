@@ -44,6 +44,7 @@
 #include <djvViewMainWindow.h>
 
 #include <djvApplicationMessageDialog.h>
+#include <djvDebugLogDialog.h>
 #include <djvFileBrowser.h>
 #include <djvFileBrowserPrefs.h>
 #include <djvPrefs.h>
@@ -212,6 +213,11 @@ djvViewFileGroup::djvViewFileGroup(
         _p->actions->action(djvViewFileActions::PREFS),
         SIGNAL(triggered()),
         SLOT(prefsCallback()));
+
+    connect(
+        _p->actions->action(djvViewFileActions::DEBUG_LOG),
+        SIGNAL(triggered()),
+        SLOT(debugLogCallback()));
 
     connect(
         _p->actions->action(djvViewFileActions::EXIT),
@@ -802,6 +808,11 @@ void djvViewFileGroup::prefsCallback()
 {
     DJV_VIEW_APP->prefsDialog()->show();
     DJV_VIEW_APP->prefsDialog()->raise();
+}
+
+void djvViewFileGroup::debugLogCallback()
+{
+    DJV_VIEW_APP->debugLogDialog();
 }
 
 void djvViewFileGroup::update()

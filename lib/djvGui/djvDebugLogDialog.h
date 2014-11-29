@@ -29,102 +29,63 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebug.h
+//! \file djvDebugLogDialog.h
 
-#ifndef DJV_DEBUG_H
-#define DJV_DEBUG_H
+#ifndef DJV_DEBUG_LOG_DIALOG_H
+#define DJV_DEBUG_LOG_DIALOG_H
+
+#include <djvGuiExport.h>
 
 #include <djvUtil.h>
 
-#include <QVector>
+#include <QDialog>
 
-class QString;
-class QStringList;
+class djvError;
 
-//! \addtogroup djvCoreMisc
+//! \addtogroup djvGuiDialog
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvDebug
+//! \class djvDebugLogDialog
 //!
-//! This class provides debugging messages.
+//! This class provides a dialog for displaying the debugging log.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvDebug
+class DJV_GUI_EXPORT djvDebugLogDialog : public QDialog
 {
+    Q_OBJECT
+    
 public:
 
     //! Constructor.
 
-    djvDebug(const QString & prefix, const QString &);
+    djvDebugLogDialog();
 
     //! Destructor.
 
-    ~djvDebug();
+    virtual ~djvDebugLogDialog();
 
-    //! Add a message.
+    //! Clear the log.
 
-    void add(const QString &);
+    void clear();
 
-    //! This enumeration provides the line beginning and ending.
+protected:
 
-    enum LINE
-    {
-        LINE_BEGIN,
-        LINE_END
-    };
+    virtual void showEvent(QShowEvent *);
+    
+private Q_SLOTS:
 
-    djvDebug & operator << (LINE);
-
-    //! Convert bits to a string.
-
-    static QString bitsU8(quint8);
-
-    //! Convert bits to a string.
-
-    static QString bitsU16(quint16);
-
-    //! Convert bits to a string.
-
-    static QString bitsU32(quint32);
-
+    void messageCallback(const QString &);
+    void copyCallback();
+    void clearCallback();
+    
 private:
-
-    void init(const QString &);
-
-    DJV_PRIVATE_COPY(djvDebug);
+    
+    DJV_PRIVATE_COPY(djvDebugLogDialog);
     DJV_PRIVATE_IMPLEMENTATION();
 };
 
-//------------------------------------------------------------------------------
+//@} // djvGuiDialog
 
-//! Start a debugging message block.
-
-#define DJV_DEBUG(in) \
-    \
-    djvDebug _debug(__FILE__, in)
-
-//! Print a debugging message.
-
-#define DJV_DEBUG_PRINT(in) \
-    \
-    _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
-
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QString &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, bool);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QStringList &);
-template<class T>
-inline djvDebug & operator << (djvDebug &, const QVector<T> &);
-
-//@} // djvCoreMisc
-
-#include <djvDebugInline.h>
-
-#endif // DJV_DEBUG_H
+#endif // DJV_DEBUG_LOG_DIALOG_H
 

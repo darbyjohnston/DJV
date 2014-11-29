@@ -29,102 +29,94 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebug.h
+//! \file djvDebugLog.h
 
-#ifndef DJV_DEBUG_H
-#define DJV_DEBUG_H
+#ifndef DJV_DEBUG_LOG_H
+#define DJV_DEBUG_LOG_H
 
 #include <djvUtil.h>
 
-#include <QVector>
-
-class QString;
-class QStringList;
+#include <QObject>
 
 //! \addtogroup djvCoreMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvDebug
+//! \class djvDebugLog
 //!
-//! This class provides debugging messages.
+//! This class provides a log for debugging.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvDebug
+class DJV_CORE_EXPORT djvDebugLog : public QObject
 {
+    Q_OBJECT
+    
+    //! This property holds whether the messages are printed.
+    
+    Q_PROPERTY(
+        bool   print
+        READ   hasPrint
+        WRITE  setPrint
+        NOTIFY printChanged)
+    
 public:
 
     //! Constructor.
-
-    djvDebug(const QString & prefix, const QString &);
-
+    
+    explicit djvDebugLog(QObject * parent = 0);
+    
     //! Destructor.
+    
+    virtual ~djvDebugLog();
+    
+    //! Get the messages.
+    
+    const QVector<QString> & messages() const;
+    
+    //! Get whether the messages are printed.
+    
+    bool hasPrint() const;
+    
+    //! Get the global debugging log.
+    
+    static djvDebugLog * global();
 
-    ~djvDebug();
+public Q_SLOTS:
 
     //! Add a message.
+    
+    void addMessage(const QString & context, const QString & message);
+    
+    //! Set whether the messages are printed.
+    
+    void setPrint(bool);
+    
+Q_SIGNALS:
 
-    void add(const QString &);
-
-    //! This enumeration provides the line beginning and ending.
-
-    enum LINE
-    {
-        LINE_BEGIN,
-        LINE_END
-    };
-
-    djvDebug & operator << (LINE);
-
-    //! Convert bits to a string.
-
-    static QString bitsU8(quint8);
-
-    //! Convert bits to a string.
-
-    static QString bitsU16(quint16);
-
-    //! Convert bits to a string.
-
-    static QString bitsU32(quint32);
-
+    //! This signal is emitted when a message is added.
+    
+    void message(const QString &);
+    
+    //! This signal is emitted when the printing is changed.
+    
+    void printChanged(bool);
+    
 private:
-
-    void init(const QString &);
-
-    DJV_PRIVATE_COPY(djvDebug);
+    
+    static void print(const QString &);
+    
     DJV_PRIVATE_IMPLEMENTATION();
 };
 
 //------------------------------------------------------------------------------
 
-//! Start a debugging message block.
+//! Add a message to the log.
 
-#define DJV_DEBUG(in) \
+#define DJV_LOG(context, message) \
     \
-    djvDebug _debug(__FILE__, in)
-
-//! Print a debugging message.
-
-#define DJV_DEBUG_PRINT(in) \
-    \
-    _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
-
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QString &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, bool);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QStringList &);
-template<class T>
-inline djvDebug & operator << (djvDebug &, const QVector<T> &);
+    djvDebugLog::global()->addMessage(context, message)
 
 //@} // djvCoreMisc
 
-#include <djvDebugInline.h>
-
-#endif // DJV_DEBUG_H
+#endif // DJV_DEBUG_LOG_H
 

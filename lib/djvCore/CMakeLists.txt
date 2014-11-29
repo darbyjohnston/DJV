@@ -15,6 +15,7 @@ set(header
     djvCoreExport.h
     djvDebug.h
     djvDebugInline.h
+    djvDebugLog.h
     djvError.h
     djvErrorUtil.h
     djvFileInfo.h
@@ -78,6 +79,7 @@ set(header
 
 set(source
     djvAssert.cpp
+    djvDebugLog.cpp
     djvColor.cpp
     djvColorUtil.cpp
     djvColorProfile.cpp

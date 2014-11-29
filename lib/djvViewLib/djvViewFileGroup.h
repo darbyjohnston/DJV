@@ -165,6 +165,7 @@ private Q_SLOTS:
     void cacheClearCallback();
     void messagesCallback();
     void prefsCallback();
+    void debugLogCallback();
 
     void update();
 

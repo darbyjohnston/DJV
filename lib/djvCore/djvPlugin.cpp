@@ -35,6 +35,7 @@
 
 #include <djvCoreApplication.h>
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
@@ -200,53 +201,63 @@ djvPluginFactory::djvPluginFactory(
 #endif // DJV_WINDOWS
 
     //DJV_DEBUG_PRINT("glob = " << glob);
-
+    
     // Find plugins.
 
-    QStringList list;
+    DJV_LOG("djvPluginFactory", "Searching for plugins...");
+    DJV_LOG("djvPluginFactory",
+        QString("Glob pattern: \"%1\"").arg(glob.join(", ")));
 
-    for (int i = 0; i < searchPath.count(); ++i)
+    djvFileInfoList fileInfoList;
+
+    Q_FOREACH(const QString & path, searchPath)
     {
-        //DJV_DEBUG_PRINT("searching = " << searchPath[i]);
+        //DJV_DEBUG_PRINT("searching = " << path);
 
-        djvFileInfoList items = djvFileInfoUtil::list(
-            searchPath[i],
+        DJV_LOG("djvPluginFactory", QString("Search path: \"%1\"").arg(path));
+
+        djvFileInfoList tmp = djvFileInfoUtil::list(
+            path,
             djvSequenceEnum::COMPRESS_OFF);
         
-        djvFileInfoUtil::filter(items, djvFileInfoUtil::FILTER_NONE, QString(), glob);
+        djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_NONE, QString(), glob);
 
-        //DJV_DEBUG_PRINT("items = " << items.count());
-
-        for (int i = 0; i < items.count(); ++i)
+        //DJV_DEBUG_PRINT("tmp = " << tmp.count());
+        
+        Q_FOREACH(const djvFileInfo & fileInfo, tmp)
         {
-            //DJV_DEBUG_PRINT("found = " << items[i]);
+            //DJV_DEBUG_PRINT("found = " << fileInfo);
 
-            list += items[i];
+            DJV_LOG("djvPluginFactory", QString("Found: \"%1\"").arg(fileInfo));
+
+            fileInfoList += fileInfo;
         }
     }
 
     // Load plugins.
 
-    //DJV_DEBUG_PRINT("size = " << list.count());
-
-    for (int i = 0; i < list.count(); ++i)
+    //DJV_DEBUG_PRINT("fileInfoList = " << fileInfoList.count());
+    
+    Q_FOREACH(const djvFileInfo & fileInfo, fileInfoList)
     {
-        //DJV_DEBUG_PRINT("loading = " << list[i]);
-
         // Open.
+
+        //DJV_DEBUG_PRINT("loading = " << fileInfo);
+
+        DJV_LOG("djvPluginFactory", QString("Loading: \"%1\"...").arg(fileInfo));
 
         QScopedPointer<Handle> handle(new Handle);
 
         try
         {
-            handle->open(list[i]);
+            handle->open(fileInfo);
         }
         catch (const djvError & error)
         {
             DJV_CORE_APP->printError(djvError(
                 "djvPluginFactory",
                 QString("Cannot open plugin \"%1\": %2").
-                    arg(list[i]).
+                    arg(fileInfo).
                     arg(error.string())));
 
             continue;
@@ -256,6 +267,8 @@ djvPluginFactory::djvPluginFactory(
 
         if (! entry)
         {
+            DJV_LOG("djvPluginFactory", "No plugin entry point");
+            
             continue;
         }
 
@@ -277,18 +290,23 @@ djvPluginFactory::djvPluginFactory(
             DJV_CORE_APP->printError(djvError(
                 "djvPluginFactory",
                 QString("Cannot load plugin \"%1\"").
-                    arg(list[i])));
+                    arg(fileInfo)));
 
             continue;
         }
 
         //DJV_DEBUG_PRINT("name = " << plugin->pluginName());
 
+        DJV_LOG("djvPluginFactory",
+            QString("Plugin name: \"%1\"").arg(plugin->pluginName()));
+
         // Check for duplicates.
 
         if (_p->plugins.contains(plugin->pluginName()))
         {
             //DJV_DEBUG_PRINT("duplicate");
+            
+            DJV_LOG("djvPluginFactory", "Duplicate plugin, discarding");
 
             plugin.reset();
 
@@ -318,6 +336,9 @@ djvPluginFactory::djvPluginFactory(
 
         _p->plugins[p->pluginName()] = P::Pair(p, h);
     }
+    
+    DJV_LOG("djvPluginFactory",
+        QString("Plugins loaded: %1").arg(_p->plugins.count()));
 }
 
 djvPluginFactory::~djvPluginFactory()

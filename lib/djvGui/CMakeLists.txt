@@ -10,6 +10,7 @@ set(header
     djvColorDialog.h
     djvColorSwatch.h
     djvColorWidget.h
+    djvDebugLogDialog.h
     djvFileBrowser.h
     djvFileBrowserCache.h
     djvFileBrowserModel.h
@@ -73,6 +74,7 @@ set(source
     djvColorDialog.cpp
     djvColorSwatch.cpp
     djvColorWidget.cpp
+    djvDebugLogDialog.cpp
     djvFileBrowser.cpp
     djvFileBrowserCache.cpp
     djvFileBrowserModel.cpp

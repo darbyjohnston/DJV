@@ -33,6 +33,8 @@
 
 #include <djvCoreApplication.h>
 
+#include <djvAssert.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
@@ -99,6 +101,15 @@ djvAbstractCoreApplication::djvAbstractCoreApplication(
     }
 
     //DJV_DEBUG_PRINT("commandLine = " << _commandLineArgs);
+
+    DJV_LOG("djvAbstractCoreApplication",
+        QString("Command line name: \"%1\"").arg(_p->commandLineName));
+    DJV_LOG("djvAbstractCoreApplication",
+        QString("Command line arguments: %1").
+            arg(_commandLineArgs.join(", ")));
+
+    DJV_LOG("djvAbstractCoreApplication",
+        QString("Information: %1").arg(info()));
 }
 
 djvAbstractCoreApplication::~djvAbstractCoreApplication()
@@ -106,6 +117,20 @@ djvAbstractCoreApplication::~djvAbstractCoreApplication()
     //DJV_DEBUG("djvAbstractCoreApplication::~djvAbstractCoreApplication");
     
     delete _p;
+}
+
+const QStringList & djvAbstractCoreApplication::exitValueLabels()
+{
+    static const QStringList data = QStringList() <<
+        "Default" <<
+        "Error" <<
+        "Help" <<
+        "Info" <<
+        "About";
+    
+    DJV_ASSERT(EXIT_VALUE_COUNT == data.count());
+    
+    return data;
 }
 
 int djvAbstractCoreApplication::run()
@@ -118,6 +143,11 @@ int djvAbstractCoreApplication::run()
 
         default: break;
     }
+    
+    QStringList tmp;
+    tmp << _p->exitValue;
+    DJV_LOG("djvAbstractCoreApplication",
+        QString("Exit value: %1").arg(tmp.join(", ")));
     
     return _p->exitValue;
 }
@@ -367,11 +397,15 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
                 djvSequence::setMaxFrames(value);
             }
 
+            else if ("-printLog" == arg)
+            {
+                djvDebugLog::global()->setPrint(true);
+            }
+
             else if ("-help" == arg || "-h" == arg)
             {
                 setExitValue(EXIT_VALUE_HELP);
             }
-
             else if ("-info" == arg)
             {
                 setExitValue(EXIT_VALUE_INFO);
@@ -427,6 +461,8 @@ const QString commandLineHelpLabel =
 "         Set the default speed. Options = %3. Default = %4.\n"
 "     -max_sequence_frames (value)\n"
 "         Set the maximum number of frames a sequence can hold. Default = %5.\n"
+"     -printLog\n"
+"         Print log messages.\n"
 "     -help, -h\n"
 "         Show the help message.\n"
 "     -info\n"
@@ -467,4 +503,10 @@ djvCoreApplication::djvCoreApplication(const QString & name, int & argc, char **
 
     setApplicationName(name);
 }
+
+//------------------------------------------------------------------------------
+
+_DJV_STRING_OPERATOR_LABEL(
+    djvAbstractCoreApplication::EXIT_VALUE,
+    djvAbstractCoreApplication::exitValueLabels())
 

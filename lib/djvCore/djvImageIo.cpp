@@ -34,8 +34,10 @@
 #include <djvImageIo.h>
 
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfo.h>
+#include <djvStringUtil.h>
 
 #include <QCoreApplication>
 #include <QMap>
@@ -341,16 +343,28 @@ djvImageLoad * djvImageIoFactory::load(
 {
     //DJV_DEBUG("djvImageIoFactory::load");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    
+    DJV_LOG("djvImageIoFactory", QString("Loading: \"%1\"...").arg(fileInfo));
 
     const QString extensionLower = fileInfo.extension().toLower();
 
     if (_p->extensionMap.contains(extensionLower))
     {
         djvImageIo * imageIo = _p->extensionMap[extensionLower];
+        
+        DJV_LOG("djvImageIoFactory",
+            QString("Using plugin: \"%1\"").arg(imageIo->pluginName()));
 
         if (djvImageLoad * imageLoad = imageIo->createLoad())
         {
             imageLoad->open(fileInfo, imageIoInfo);
+
+            QStringList tmp;
+            tmp << imageIoInfo.size;
+            DJV_LOG("djvImageIoFactory", QString("Size: %1").arg(tmp.join(", ")));
+            tmp.clear();
+            tmp << imageIoInfo.pixel;
+            DJV_LOG("djvImageIoFactory", QString("Pixel: %1").arg(tmp.join(", ")));
 
             return imageLoad;
         }
@@ -371,11 +385,22 @@ djvImageSave * djvImageIoFactory::save(
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
     //DJV_DEBUG_PRINT("imageIoInfo = " << imageIoInfp);
 
+    DJV_LOG("djvImageIoFactory", QString("Saving: \"%1\"").arg(fileInfo));
+    QStringList tmp;
+    tmp << imageIoInfo.size;
+    DJV_LOG("djvImageIoFactory", QString("Size: %1").arg(tmp.join(", ")));
+    tmp.clear();
+    tmp << imageIoInfo.pixel;
+    DJV_LOG("djvImageIoFactory", QString("Pixel: %1").arg(tmp.join(", ")));
+
     const QString extensionLower = fileInfo.extension().toLower();
 
     if (_p->extensionMap.contains(extensionLower))
     {
         djvImageIo * imageIo = _p->extensionMap[extensionLower];
+        
+        DJV_LOG("djvImageIoFactory",
+            QString("Using plugin: \"%1\"").arg(imageIo->pluginName()));
 
         if (djvImageSave * imageSave = imageIo->createSave())
         {

@@ -223,8 +223,8 @@ configure_file(
 
 # Enable debug or release mode.
 
-#set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release)
 
 # Enable shared libraries.
 

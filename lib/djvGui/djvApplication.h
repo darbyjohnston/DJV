@@ -93,6 +93,10 @@ public:
     
     djvPrefsDialog * prefsDialog() const;
     
+    //! Show the global debug log dialog.
+    
+    void debugLogDialog();
+    
     virtual int run();
 
     virtual QString info() const;
