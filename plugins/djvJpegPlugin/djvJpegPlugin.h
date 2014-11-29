@@ -38,6 +38,16 @@
 
 #include <stdio.h>
 
+//! \todo Is there a better way to fix theses libjpeg / X11 / OS define
+//! conflicts?
+
+#if defined(TRUE)
+#undef TRUE
+#endif // TRUE
+#if defined(FALSE)
+#undef FALSE
+#endif // FALSE
+
 //! \todo This namespace is meant to resolve conflicts on Windows, is it still
 //! necessary?
 
