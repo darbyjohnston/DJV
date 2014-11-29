@@ -219,7 +219,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 configure_file(
     ${PROJECT_SOURCE_DIR}/djvConfig.h.in
     ${PROJECT_BINARY_DIR}/djvConfig.h
-    ${PROJECT_BINARY_DIR}/djvConfig.h
     @ONLY)
 
 # Enable debug or release mode.
