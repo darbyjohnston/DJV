@@ -204,7 +204,6 @@ public:
         Fonts();
         
         QFont normal;
-        QFont bold;
         QFont fixed;
     };
     

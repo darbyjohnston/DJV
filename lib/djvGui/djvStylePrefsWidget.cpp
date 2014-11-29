@@ -62,7 +62,6 @@ struct djvStylePrefsWidget::P
         colorSwatchTransparencyWidget(0),
         sizeValueWidget              (0),
         fontNormalWidget             (0),
-        fontBoldWidget               (0),
         fontFixedWidget              (0)
     {}
 
@@ -76,7 +75,6 @@ struct djvStylePrefsWidget::P
     QComboBox *      sizeWidget;
     djvIntEdit *     sizeValueWidget;
     QFontComboBox *  fontNormalWidget;
-    QFontComboBox *  fontBoldWidget;
     QFontComboBox *  fontFixedWidget;
 };
 
@@ -132,9 +130,6 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     _p->fontNormalWidget = new QFontComboBox;
     _p->fontNormalWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    _p->fontBoldWidget = new QFontComboBox;
-    _p->fontBoldWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
     _p->fontFixedWidget = new QFontComboBox;
     _p->fontFixedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
@@ -174,7 +169,6 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
         "Set the user interface fonts.");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Normal:", _p->fontNormalWidget);
-    formLayout->addRow("Bold:", _p->fontBoldWidget);
     formLayout->addRow("Fixed:", _p->fontFixedWidget);
     layout->addWidget(prefsGroupBox);
 
@@ -235,11 +229,6 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
         _p->fontNormalWidget,
         SIGNAL(currentFontChanged(const QFont &)),
         SLOT(fontNormalCallback(const QFont &)));
-    
-    connect(
-        _p->fontBoldWidget,
-        SIGNAL(currentFontChanged(const QFont &)),
-        SLOT(fontBoldCallback(const QFont &)));
     
     connect(
         _p->fontFixedWidget,
@@ -337,13 +326,6 @@ void djvStylePrefsWidget::fontNormalCallback(const QFont & font)
     djvStyle::global()->setFonts(fonts);
 }
 
-void djvStylePrefsWidget::fontBoldCallback(const QFont & font)
-{
-    djvStyle::Fonts fonts = djvStyle::global()->fonts();
-    fonts.bold = font;
-    djvStyle::global()->setFonts(fonts);
-}
-
 void djvStylePrefsWidget::fontFixedCallback(const QFont & font)
 {
     djvStyle::Fonts fonts = djvStyle::global()->fonts();
@@ -364,7 +346,6 @@ void djvStylePrefsWidget::widgetUpdate()
         _p->sizeWidget <<
         _p->sizeValueWidget <<
         _p->fontNormalWidget <<
-        _p->fontBoldWidget <<
         _p->fontFixedWidget);
 
     _p->colorWidget->setCurrentIndex(djvStyle::global()->palettesIndex());
@@ -382,6 +363,6 @@ void djvStylePrefsWidget::widgetUpdate()
     _p->sizeValueWidget->setValue(djvStyle::global()->sizeMetric().fontSize);
     
     _p->fontNormalWidget->setCurrentFont(djvStyle::global()->fonts().normal);
-    _p->fontBoldWidget->setCurrentFont(djvStyle::global()->fonts().bold);
     _p->fontFixedWidget->setCurrentFont(djvStyle::global()->fonts().fixed);
 }
+

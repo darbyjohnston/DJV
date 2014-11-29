@@ -92,11 +92,8 @@ djvStyle::SizeMetric::SizeMetric(const QString & name, int fontSize) :
 
 djvStyle::Fonts::Fonts() :
     normal(qApp->font()),
-    bold  (qApp->font()),
     fixed ("Courier")
-{
-    bold.setBold(true);
-}
+{}
 
 //------------------------------------------------------------------------------
 // djvStyle::P
@@ -596,7 +593,6 @@ bool operator == (const djvStyle::Fonts & a, const djvStyle::Fonts & b)
 {
     return
         a.normal == b.normal &&
-        a.bold   == b.bold   &&
         a.fixed  == b.fixed;
 }
 
@@ -725,9 +721,6 @@ QStringList & operator >> (QStringList & in, djvStyle::Fonts & out)
     out.normal.setFamily(tmp2);
     in >> tmp;
     in >> tmp2;
-    out.bold.setFamily(tmp2);
-    in >> tmp;
-    in >> tmp2;
     out.fixed.setFamily(tmp2);
 
     return in;
@@ -737,8 +730,6 @@ QStringList & operator << (QStringList & out, const djvStyle::Fonts & in)
 {
     out << QString("normal");
     out << in.normal.family();
-    out << QString("bold");
-    out << in.bold.family();
     out << QString("fixed");
     out << in.fixed.family();
     
