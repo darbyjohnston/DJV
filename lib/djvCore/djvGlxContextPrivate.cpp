@@ -63,16 +63,32 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     // Choose a visual.
 
+    static const int depths [] =
+    {
+        32, 24
+    };
+    
+    static const int depthsCount = sizeof(depths) / sizeof(depths[0]);
+
     XVisualInfo visualInfo;
     visualInfo.screen = _screen;
-    visualInfo.depth  = 32;
+    
+    for (int i = 0; i < depthsCount; ++i)
+    {
+        visualInfo.depth = depths[i];
 
-    _visuals = XGetVisualInfo(
-        _display,
-        VisualScreenMask | VisualDepthMask,
-        &visualInfo,
-        &_visualsCount);
-
+        _visuals = XGetVisualInfo(
+            _display,
+            VisualScreenMask | VisualDepthMask,
+            &visualInfo,
+            &_visualsCount);
+        
+        if (_visuals && _visualsCount)
+            break;
+    }
+    
+    //DJV_DEBUG_PRINT("depth = " << visualInfo.depth);
+    
     if (! _visuals || ! _visualsCount)
     {
         DJV_THROW_ERROR("No appropriate X visuals");
