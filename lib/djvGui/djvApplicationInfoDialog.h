@@ -67,6 +67,14 @@ public:
     
     static djvApplicationInfoDialog * global();
 
+protected:
+
+    virtual void showEvent(QShowEvent *);
+    
+private Q_SLOTS:
+
+    void copyCallback();
+
 private:
 
     DJV_PRIVATE_COPY(djvApplicationInfoDialog);

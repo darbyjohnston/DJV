@@ -35,7 +35,10 @@
 
 #include <djvApplication.h>
 
+#include <QApplication>
+#include <QClipboard>
 #include <QDialogButtonBox>
+#include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
@@ -45,6 +48,13 @@
 
 struct djvApplicationInfoDialog::P
 {
+    P() :
+        widget   (0),
+        buttonBox(0)
+    {}
+
+    QTextEdit *        widget;
+    QDialogButtonBox * buttonBox;
 };
 
 //------------------------------------------------------------------------------
@@ -58,18 +68,20 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
 
     // Create the widgets.
     
-    QTextEdit * textLabel = new QTextEdit;
-    textLabel->setText(DJV_APP->info());
-    textLabel->setReadOnly(true);
+    _p->widget = new QTextEdit;
+    _p->widget->setText(DJV_APP->info());
+    _p->widget->setReadOnly(true);
     
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Close);
+    QPushButton * copyButton = new QPushButton("Copy");
+    
+    _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->addWidget(textLabel);
-    layout->addWidget(buttonBox);
+    layout->addWidget(_p->widget);
+    layout->addWidget(_p->buttonBox);
 
     // Initialize.
     
@@ -79,7 +91,9 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     
     // Setup callbacks.
     
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
+    
+    connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 djvApplicationInfoDialog::~djvApplicationInfoDialog()
@@ -98,3 +112,15 @@ djvApplicationInfoDialog * djvApplicationInfoDialog::global()
     
     return dialog;
 }
+
+void djvApplicationInfoDialog::showEvent(QShowEvent *)
+{
+    _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
+        Qt::PopupFocusReason);
+}
+
+void djvApplicationInfoDialog::copyCallback()
+{
+    QApplication::clipboard()->setText(_p->widget->toPlainText());
+}
+

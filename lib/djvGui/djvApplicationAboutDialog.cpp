@@ -35,9 +35,12 @@
 
 #include <djvApplication.h>
 
+#include <QApplication>
+#include <QClipboard>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QPixmap>
+#include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
@@ -49,6 +52,13 @@
 
 struct djvApplicationAboutDialog::P
 {
+    P() :
+        widget   (0),
+        buttonBox(0)
+    {}
+
+    QTextEdit *        widget;
+    QDialogButtonBox * buttonBox;
 };
 
 //------------------------------------------------------------------------------
@@ -64,19 +74,21 @@ djvApplicationAboutDialog::djvApplicationAboutDialog() :
     imageLabel->setPixmap(QPixmap(durantXpm));
     imageLabel->setAlignment(Qt::AlignCenter);
     
-    QTextEdit * textLabel = new QTextEdit;
-    textLabel->setText(DJV_APP->about());
-    textLabel->setReadOnly(true);
+    _p->widget = new QTextEdit;
+    _p->widget->setText(DJV_APP->about());
+    _p->widget->setReadOnly(true);
     
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Close);
+    QPushButton * copyButton = new QPushButton("Copy");
+    
+    _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+    _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->addWidget(imageLabel);
-    layout->addWidget(textLabel);
-    layout->addWidget(buttonBox);
+    layout->addWidget(_p->widget);
+    layout->addWidget(_p->buttonBox);
     
     // Initialize.
     
@@ -86,7 +98,9 @@ djvApplicationAboutDialog::djvApplicationAboutDialog() :
     
     // Setup callbacks.
     
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
+    
+    connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 djvApplicationAboutDialog::~djvApplicationAboutDialog()
@@ -105,3 +119,15 @@ djvApplicationAboutDialog * djvApplicationAboutDialog::global()
     
     return dialog;
 }
+
+void djvApplicationAboutDialog::showEvent(QShowEvent *)
+{
+    _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
+        Qt::PopupFocusReason);
+}
+
+void djvApplicationAboutDialog::copyCallback()
+{
+    QApplication::clipboard()->setText(_p->widget->toPlainText());
+}
+
