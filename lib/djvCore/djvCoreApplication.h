@@ -109,7 +109,8 @@ public:
 
     virtual void printError(const djvError &) const;
 
-    //! Low-level printing function used internally by message() and error().
+    //! Low-level printing function used internally by printMessage() and
+    //! printError().
 
     virtual void print(const QString &, bool newline = true) const;
 
