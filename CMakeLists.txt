@@ -1483,6 +1483,7 @@ elseif (UNIX)
     # Set Debian options.
     
     set(CPACK_DEBIAN_PACKAGE_NAME djv)
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
 
 endif (WIN32)
 
