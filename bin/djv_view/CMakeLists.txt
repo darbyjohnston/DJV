@@ -1,3 +1,8 @@
+configure_file(
+    ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in
+    ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
+    @ONLY)
+
 set(header)
 
 set(source)
@@ -56,7 +61,7 @@ elseif (UNIX)
         DESTINATION bin)
 
     install(
-        FILES ../../etc/Linux/djv_view.desktop
+        FILES ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
         DESTINATION /usr/share/applications)
     install(
         FILES ../../etc/Linux/djv_view.mime.xml

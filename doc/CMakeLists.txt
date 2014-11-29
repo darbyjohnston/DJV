@@ -1,9 +1,18 @@
+configure_file(
+    ${PROJECT_SOURCE_DIR}/doc/index.html.in
+    ${PROJECT_BINARY_DIR}/doc/index.html
+    @ONLY)
+configure_file(
+    ${PROJECT_SOURCE_DIR}/doc/djvDownloads.html.in
+    ${PROJECT_BINARY_DIR}/doc/djvDownloads.html
+    @ONLY)
+
 set(html
     djvChangeList.html
     djvCineonPlugin.html
     djvCommandLine.html
     djvCredits.html
-    djvDownloads.html
+    ${PROJECT_BINARY_DIR}/doc/djvDownloads.html
     djvDpxPlugin.html
     djvFaq.html
     djvFileBrowser.html
@@ -36,7 +45,7 @@ set(html
     djv_info.html
     djv_ls.html
     djv_view.html
-    index.html
+    ${PROJECT_BINARY_DIR}/doc/index.html
     djvStyle.css)
 
 set(images

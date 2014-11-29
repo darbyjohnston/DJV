@@ -101,9 +101,8 @@ cmake_policy(SET CMP0042 OLD)
 # Files to update:
 #
 # * Set the proper DJV version in this file
-# * Update the DJV version numbers in doc/*.html
 # * Update the version number in Doxyfile
-# * Update etc/Linux/djv_view.desktop
+# * Add a change list description to doc/djvChangeList.html
 #
 # Git tag example:
 #
@@ -170,10 +169,11 @@ set(djvVersionMajor "1")
 set(djvVersionMinor "0")
 set(djvVersionPatch "5")
 
+set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
+
 # Set the project name.
 
-set(djvVersionName
-    djv-${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
+set(djvVersionName djv-${djvVersion})
 
 set(djvProjectName ${djvVersionName}-${djvSystemName})
 
