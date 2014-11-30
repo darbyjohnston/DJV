@@ -92,7 +92,7 @@ djvStyle::SizeMetric::SizeMetric(const QString & name, int fontSize) :
 
 djvStyle::Fonts::Fonts() :
     normal(qApp->font()),
-    fixed ("Courier")
+    fixed ("Monospace")
 {}
 
 //------------------------------------------------------------------------------
