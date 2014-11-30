@@ -79,6 +79,10 @@ private Q_SLOTS:
     void copyCallback();
     void clearCallback();
     
+private Q_SLOTS:
+    
+    void updateWidget();
+    
 private:
     
     DJV_PRIVATE_COPY(djvDebugLogDialog);

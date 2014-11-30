@@ -69,7 +69,6 @@ djvDebugLogDialog::djvDebugLogDialog() :
     // Create the widgets.
     
     _p->widget = new QTextEdit;
-    _p->widget->setFont(djvStyle::global()->fonts().fixed);
     _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
     _p->widget->document()->setMaximumBlockCount(10000);
@@ -97,6 +96,8 @@ djvDebugLogDialog::djvDebugLogDialog() :
     {
         _p->widget->append(message);
     }
+    
+    updateWidget();
 
     // Setup the callbacks.
     
@@ -110,6 +111,11 @@ djvDebugLogDialog::djvDebugLogDialog() :
         djvDebugLog::global(),
         SIGNAL(message(const QString &)),
         SLOT(messageCallback(const QString &)));
+    
+    connect(
+        djvStyle::global(),
+        SIGNAL(fontsChanged()),
+        SLOT(updateWidget()));
 }
 
 djvDebugLogDialog::~djvDebugLogDialog()
@@ -136,5 +142,10 @@ void djvDebugLogDialog::copyCallback()
 void djvDebugLogDialog::clearCallback()
 {
     _p->widget->clear();
+}
+
+void djvDebugLogDialog::updateWidget()
+{
+    _p->widget->setFont(djvStyle::global()->fonts().fixed);
 }
 
