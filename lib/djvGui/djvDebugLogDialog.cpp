@@ -69,8 +69,8 @@ djvDebugLogDialog::djvDebugLogDialog() :
     // Create the widgets.
     
     _p->widget = new QTextEdit;
-    _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
+    _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->document()->setMaximumBlockCount(10000);
     
     QPushButton * copyButton = new QPushButton("Copy");

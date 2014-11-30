@@ -34,8 +34,8 @@
 #include <djvApplicationInfoDialog.h>
 
 #include <djvApplication.h>
+#include <djvStyle.h>
 
-#include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -69,7 +69,6 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     // Create the widgets.
     
     _p->widget = new QTextEdit;
-    _p->widget->setText(DJV_APP->info());
     _p->widget->setReadOnly(true);
     
     QPushButton * copyButton = new QPushButton("Copy");
@@ -89,11 +88,18 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     
     resize(500, 400);
     
+    updateWidget();
+    
     // Setup callbacks.
     
     connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
     
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    
+    connect(
+        djvStyle::global(),
+        SIGNAL(fontsChanged()),
+        SLOT(updateWidget()));
 }
 
 djvApplicationInfoDialog::~djvApplicationInfoDialog()
@@ -122,5 +128,11 @@ void djvApplicationInfoDialog::showEvent(QShowEvent *)
 void djvApplicationInfoDialog::copyCallback()
 {
     QApplication::clipboard()->setText(_p->widget->toPlainText());
+}
+
+void djvApplicationInfoDialog::updateWidget()
+{
+    _p->widget->setFont(djvStyle::global()->fonts().fixed);
+    _p->widget->setText(DJV_APP->info());    
 }
 

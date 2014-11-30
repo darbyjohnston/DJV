@@ -35,6 +35,7 @@
 
 #include <djvApplication.h>
 #include <djvPrefs.h>
+#include <djvStyle.h>
 
 #include <djvDebug.h>
 #include <djvError.h>
@@ -92,20 +93,18 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
 
-    // Initialize.
-    
-    setWindowTitle("Messages Dialog");
-    
-    resize(400, 200);
-
     // Preferences.
 
     djvPrefs prefs("djvApplicationMessageDialog", djvPrefs::SYSTEM);
     prefs.get("show", _p->show);
 
     // Initialize.
-
-    widgetUpdate();
+    
+    setWindowTitle("Messages Dialog");
+    
+    resize(400, 200);
+    
+    updateWidget();
 
     // Setup the callbacks.
     
@@ -114,6 +113,11 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
     connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
     
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    
+    connect(
+        djvStyle::global(),
+        SIGNAL(fontsChanged()),
+        SLOT(updateWidget()));
 }
 
 djvApplicationMessageDialog::~djvApplicationMessageDialog()
@@ -133,7 +137,7 @@ void djvApplicationMessageDialog::message(const QString & in)
         _p->list.pop_back();
     }
 
-    widgetUpdate();
+    updateWidget();
 
     if (_p->show)
     {
@@ -156,7 +160,7 @@ void djvApplicationMessageDialog::clearCallback()
 {
     _p->list.clear();
 
-    widgetUpdate();
+    updateWidget();
 }
 
 void djvApplicationMessageDialog::showCallback(bool value)
@@ -164,9 +168,11 @@ void djvApplicationMessageDialog::showCallback(bool value)
     _p->show = value;
 }
 
-void djvApplicationMessageDialog::widgetUpdate()
+void djvApplicationMessageDialog::updateWidget()
 {
-    //DJV_DEBUG("ApplicationMessageDialog::widgetUpdate");
+    //DJV_DEBUG("ApplicationMessageDialog::updateWidget");
+    
+    _p->widget->setFont(djvStyle::global()->fonts().fixed);
     
     const QString text = _p->list.join("\n");
     

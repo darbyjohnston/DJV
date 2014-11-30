@@ -34,8 +34,8 @@
 #include <djvApplicationAboutDialog.h>
 
 #include <djvApplication.h>
+#include <djvStyle.h>
 
-#include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
 #include <QLabel>
@@ -75,7 +75,6 @@ djvApplicationAboutDialog::djvApplicationAboutDialog() :
     imageLabel->setAlignment(Qt::AlignCenter);
     
     _p->widget = new QTextEdit;
-    _p->widget->setText(DJV_APP->about());
     _p->widget->setReadOnly(true);
     
     QPushButton * copyButton = new QPushButton("Copy");
@@ -96,11 +95,18 @@ djvApplicationAboutDialog::djvApplicationAboutDialog() :
     
     resize(500, 400);
     
+    updateWidget();
+    
     // Setup callbacks.
     
     connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
     
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    
+    connect(
+        djvStyle::global(),
+        SIGNAL(fontsChanged()),
+        SLOT(updateWidget()));
 }
 
 djvApplicationAboutDialog::~djvApplicationAboutDialog()
@@ -129,5 +135,11 @@ void djvApplicationAboutDialog::showEvent(QShowEvent *)
 void djvApplicationAboutDialog::copyCallback()
 {
     QApplication::clipboard()->setText(_p->widget->toPlainText());
+}
+
+void djvApplicationAboutDialog::updateWidget()
+{
+    _p->widget->setFont(djvStyle::global()->fonts().fixed);
+    _p->widget->setText(DJV_APP->about());
 }
 

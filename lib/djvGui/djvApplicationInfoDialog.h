@@ -74,6 +74,8 @@ protected:
 private Q_SLOTS:
 
     void copyCallback();
+    
+    void updateWidget();
 
 private:
 

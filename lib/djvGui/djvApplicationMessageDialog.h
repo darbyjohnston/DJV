@@ -85,10 +85,10 @@ private Q_SLOTS:
 
     void clearCallback();
     void showCallback(bool);
+
+    void updateWidget();
     
 private:
-
-    void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvApplicationMessageDialog);
     DJV_PRIVATE_IMPLEMENTATION();

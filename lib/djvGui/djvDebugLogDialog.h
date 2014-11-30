@@ -79,8 +79,6 @@ private Q_SLOTS:
     void copyCallback();
     void clearCallback();
     
-private Q_SLOTS:
-    
     void updateWidget();
     
 private:
