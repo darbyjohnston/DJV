@@ -131,6 +131,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     _p->fontNormalWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     _p->fontFixedWidget = new QFontComboBox;
+    _p->fontFixedWidget->setFontFilters(QFontComboBox::MonospacedFonts);
     _p->fontFixedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     // Layout the widgets.
