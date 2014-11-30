@@ -49,6 +49,9 @@
 //! \class djvStyle
 //!
 //! This class provides the user interface style.
+//!
+//! \todo Can we use events instead of signals for notifying other objects
+//! when the style changes?
 //------------------------------------------------------------------------------
 
 class DJV_GUI_EXPORT djvStyle : public QObject
