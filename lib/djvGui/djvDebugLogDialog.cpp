@@ -70,6 +70,7 @@ djvDebugLogDialog::djvDebugLogDialog() :
     
     _p->widget = new QTextEdit;
     _p->widget->setFont(djvStyle::global()->fonts().fixed);
+    _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
     _p->widget->document()->setMaximumBlockCount(10000);
     

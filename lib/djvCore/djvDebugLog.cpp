@@ -100,7 +100,7 @@ void djvDebugLog::addMessage(const QString & context, const QString & message)
 {
     Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))
     {
-        QString s = QString("[%1] %2").arg(context).arg(line);
+        QString s = QString("[%1] %2").arg(context, 30).arg(line);
         
         _p->messages.append(s);
         

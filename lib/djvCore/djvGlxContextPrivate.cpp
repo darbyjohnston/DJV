@@ -64,7 +64,7 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     
     _screen = DefaultScreen(_display);
 
-    DJV_LOG("djvGlxContextPrivate", QString("Screen: %1").arg(_screen));
+    DJV_LOG("djvGlxContextPrivate", QString("X screen: %1").arg(_screen));
 
     // Choose a visual.
 
@@ -81,7 +81,7 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     for (int i = 0; i < depthsCount; ++i)
     {
         DJV_LOG("djvGlxContextPrivate",
-            QString("Checking for a visual with a depth of %1...").arg(depths[i]));
+            QString("Checking for a X visual with a depth of %1...").arg(depths[i]));
 
         visualInfo.depth = depths[i];
 

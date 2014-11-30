@@ -206,7 +206,7 @@ djvPluginFactory::djvPluginFactory(
 
     DJV_LOG("djvPluginFactory", "Searching for plugins...");
     DJV_LOG("djvPluginFactory",
-        QString("Glob pattern: \"%1\"").arg(glob.join(", ")));
+        QString("Plugin search pattern: \"%1\"").arg(glob.join(", ")));
 
     djvFileInfoList fileInfoList;
 
@@ -214,7 +214,7 @@ djvPluginFactory::djvPluginFactory(
     {
         //DJV_DEBUG_PRINT("searching = " << path);
 
-        DJV_LOG("djvPluginFactory", QString("Search path: \"%1\"").arg(path));
+        DJV_LOG("djvPluginFactory", QString("Checking search path: \"%1\"").arg(path));
 
         djvFileInfoList tmp = djvFileInfoUtil::list(
             path,
@@ -228,7 +228,7 @@ djvPluginFactory::djvPluginFactory(
         {
             //DJV_DEBUG_PRINT("found = " << fileInfo);
 
-            DJV_LOG("djvPluginFactory", QString("Found: \"%1\"").arg(fileInfo));
+            DJV_LOG("djvPluginFactory", QString("Found plugin: \"%1\"").arg(fileInfo));
 
             fileInfoList += fileInfo;
         }
@@ -244,7 +244,7 @@ djvPluginFactory::djvPluginFactory(
 
         //DJV_DEBUG_PRINT("loading = " << fileInfo);
 
-        DJV_LOG("djvPluginFactory", QString("Loading: \"%1\"...").arg(fileInfo));
+        DJV_LOG("djvPluginFactory", QString("Loading plugin: \"%1\"...").arg(fileInfo));
 
         QScopedPointer<Handle> handle(new Handle);
 
