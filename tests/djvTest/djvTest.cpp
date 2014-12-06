@@ -73,14 +73,10 @@
 #include <djvVectorTest.h>
 #include <djvVectorUtilTest.h>
 
-#include <djvDebugLog.h>
-
 #include <QVector>
 
 int main(int argc, char ** argv)
 {
-    //djvDebugLog::global()->setPrint(true);
-
     QVector<djvAbstractTest *> tests = QVector<djvAbstractTest *>() <<
         new djvCoreApplicationTest <<
         new djvBoxTest <<
