@@ -63,10 +63,6 @@ public:
 
     virtual ~djvApplicationInfoDialog();
     
-    //! Get the global dialog.
-    
-    static djvApplicationInfoDialog * global();
-
 protected:
 
     virtual void showEvent(QShowEvent *);

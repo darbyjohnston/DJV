@@ -49,7 +49,7 @@ inline qint64 djvSequence::end() const
 
 inline bool operator == (const djvSequence & a, const djvSequence & b)
 {
-    return a.frames == b.frames && a.pad == b.pad;
+    return a.frames == b.frames && a.pad == b.pad && a.speed == b.speed;
 }
 
 inline bool operator != (const djvSequence & a, const djvSequence & b)

@@ -141,7 +141,15 @@ void djvSequenceTest::members()
 void djvSequenceTest::operators()
 {
     DJV_DEBUG("djvSequenceTest::operators");
-    
+
+    {
+        djvSequence a(1, 3), b(a);
+
+        DJV_ASSERT(a == b);
+
+        DJV_ASSERT(a != djvSequence());
+    }
+
     {
         djvSequence seq;
         

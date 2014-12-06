@@ -57,7 +57,7 @@ void djvSpeedTest::ctors()
     {
         const djvSpeed speed;
         
-        const djvSpeed speedDefault(djvSpeed::speedDefault());
+        const djvSpeed speedDefault(djvSpeed::speed());
         
         DJV_ASSERT(speedDefault.scale()    == speed.scale());
         DJV_ASSERT(speedDefault.duration() == speed.duration());

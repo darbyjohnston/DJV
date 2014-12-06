@@ -114,18 +114,6 @@ djvApplicationAboutDialog::~djvApplicationAboutDialog()
     delete _p;
 }
 
-djvApplicationAboutDialog * djvApplicationAboutDialog::global()
-{
-    static djvApplicationAboutDialog * dialog = 0;
-    
-    if (! dialog)
-    {
-        dialog = new djvApplicationAboutDialog;
-    }
-    
-    return dialog;
-}
-
 void djvApplicationAboutDialog::showEvent(QShowEvent *)
 {
     _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(

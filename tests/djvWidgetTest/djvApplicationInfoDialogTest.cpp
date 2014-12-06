@@ -33,6 +33,7 @@
 
 #include <djvApplicationInfoDialogTest.h>
 
+#include <djvApplication.h>
 #include <djvApplicationInfoDialog.h>
 
 QString djvApplicationInfoDialogTest::name()
@@ -42,6 +43,6 @@ QString djvApplicationInfoDialogTest::name()
 
 void djvApplicationInfoDialogTest::run(const QStringList & args)
 {
-    djvApplicationInfoDialog::global()->show();
+    DJV_APP->infoDialog();
 }
 

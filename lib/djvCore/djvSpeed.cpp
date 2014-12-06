@@ -74,13 +74,13 @@ const QStringList & djvSpeedEnum::fpsLabels()
 namespace
 {
 
-djvSpeedEnum::FPS _speedDefault = djvSpeed::speedDefault();
+djvSpeedEnum::FPS _speed = djvSpeed::speedDefault();
 
 } // namespace
 
 djvSpeed::djvSpeed()
 {
-    set(speedDefault());
+    set(speed());
 }
 
 djvSpeed::djvSpeed(int scale, int duration) :
@@ -187,12 +187,12 @@ djvSpeedEnum::FPS djvSpeed::speedDefault()
 
 djvSpeedEnum::FPS djvSpeed::speed()
 {
-    return _speedDefault;
+    return _speed;
 }
 
 void djvSpeed::setSpeed(djvSpeedEnum::FPS fps)
 {
-    _speedDefault = fps;
+    _speed = fps;
 }
 
 //------------------------------------------------------------------------------

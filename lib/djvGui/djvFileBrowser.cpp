@@ -63,6 +63,7 @@
 #include <QLineEdit>
 #include <QMenu>
 #include <QMenuBar>
+#include <QPointer>
 #include <QPushButton>
 #include <QResizeEvent>
 #include <QShortcut>
@@ -541,15 +542,15 @@ bool djvFileBrowser::isPinned() const
 
 djvFileBrowser * djvFileBrowser::global(const QString & title)
 {
-    static djvFileBrowser * fileBrowser = 0;
+    static QPointer<djvFileBrowser> fileBrowser;
     
     if (! fileBrowser)
     {
-        fileBrowser = new djvFileBrowser;
+        fileBrowser = QPointer<djvFileBrowser>(new djvFileBrowser);
     }
     
     fileBrowser->close();
-    
+
     fileBrowser->setWindowTitle(! title.isEmpty() ? title : "File Browser");
     
     fileBrowser->setPinnable(false);

@@ -37,6 +37,7 @@
 
 #include <djvDebug.h>
 
+#include <QPointer>
 #include <QVector>
 
 namespace
@@ -86,14 +87,14 @@ bool djvDebugLog::hasPrint() const
 
 djvDebugLog * djvDebugLog::global()
 {
-    static djvDebugLog * object = 0;
+    static QPointer<djvDebugLog> global;
     
-    if (! object)
+    if (! global)
     {
-        object = new djvDebugLog(qApp);
+        global = QPointer<djvDebugLog>(new djvDebugLog(qApp));
     }
     
-    return object;
+    return global.data();
 }
 
 void djvDebugLog::addMessage(const QString & context, const QString & message)

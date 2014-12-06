@@ -90,7 +90,7 @@ djvAbstractCoreApplication::djvAbstractCoreApplication(
 
     // Store the command line arguments.
 
-    if (argc)
+    if (argc > 0)
     {
         _p->commandLineName = argv[0];
     }

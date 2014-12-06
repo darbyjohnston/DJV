@@ -118,10 +118,10 @@ void djvViewHelpGroup::helpCallback()
 
 void djvViewHelpGroup::infoCallback()
 {
-    djvApplicationInfoDialog::global()->show();
+    DJV_VIEW_APP->infoDialog();
 }
 
 void djvViewHelpGroup::aboutCallback()
 {
-    djvApplicationAboutDialog::global()->show();
+    DJV_VIEW_APP->aboutDialog();
 }

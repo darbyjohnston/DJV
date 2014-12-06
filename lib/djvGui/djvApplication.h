@@ -85,17 +85,25 @@ public:
 
     void setToolTips(bool);
 
-    //! Show the global message dialog.
-    
-    void messageDialog();
-    
-    //! Get the global references dialog.
+    //! Get the preferences dialog.
     
     djvPrefsDialog * prefsDialog() const;
-    
-    //! Show the global debug log dialog.
-    
+
+    //! Show the message dialog.
+
+    void messageDialog();
+
+    //! Show the debug log dialog.
+
     void debugLogDialog();
+
+    //! Show the information dialog.
+
+    void infoDialog();
+
+    //! Show the about dialog.
+
+    void aboutDialog();
     
     virtual int run();
 
