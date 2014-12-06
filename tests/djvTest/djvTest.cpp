@@ -125,7 +125,26 @@ int main(int argc, char ** argv)
 
     for (int i = 0; i < tests.count(); ++i)
     {
-        tests[i]->run(argc, argv);
+        int     argcCopy = argc;
+        char ** argvCopy = 0;
+
+        argvCopy = (char **)malloc(sizeof(char **) * argcCopy);
+
+        for (int j = 0; j < argc; ++j)
+        {
+            argvCopy[j] = (char *)malloc(sizeof(char) * (strlen(argv[j]) + 1));
+
+            strcpy(argvCopy[j], argv[j]);
+        }
+
+        tests[i]->run(argcCopy, argvCopy);
+
+        for (int j = 0; j < argc; ++j)
+        {
+            free(argvCopy[j]);
+        }
+
+        free(argvCopy);
     }
     
     qDeleteAll(tests);
