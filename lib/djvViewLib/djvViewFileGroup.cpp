@@ -353,11 +353,11 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                 _p->imageLoad->read(
                     _p->u8Conversion ? that->_p->imageTmp2 : that->_p->imageTmp,
                     djvImageIoFrameInfo(
-                    _p->imageIoInfo.sequence.frames.count() ?
-                        _p->imageIoInfo.sequence.frames[frame] :
-                        -1,
-                    _p->layer,
-                    _p->proxy));
+                        _p->imageIoInfo.sequence.frames.count() ?
+                            _p->imageIoInfo.sequence.frames[frame] :
+                            -1,
+                        _p->layer,
+                        _p->proxy));
 
                 if (_p->u8Conversion)
                 {
