@@ -194,14 +194,16 @@ djvAbstractApplication::djvAbstractApplication(
     djvPrefs prefs("djvAbstractApplication", djvPrefs::SYSTEM);
     prefs.get("toolTips", _p->toolTips);
 
+    DJV_LOG("djvAbstractImageApplication", "");
+
     // Initialize.
 
     djvStyle::global();
 
     toolTipsUpdate();
     
-    DJV_LOG("djvAbstractApplication",
-        QString("Information: %1").arg(info()));
+    DJV_LOG("djvAbstractApplication", "Information:");
+    DJV_LOG("djvAbstractApplication", info());
 }
 
 djvAbstractApplication::~djvAbstractApplication()

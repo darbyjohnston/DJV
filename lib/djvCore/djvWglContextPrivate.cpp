@@ -36,7 +36,10 @@
 #include <djvWglContextPrivate.h>
 
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
+
+#include <QStringList>
 
 //------------------------------------------------------------------------------
 // djvWglContextPrivate
@@ -49,8 +52,10 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
 {
     //DJV_DEBUG("djvWglContextPrivate::djvWglContextPrivate");
 
-    // XXX Create a dummy window and rendering context for glewInit.
+    // XXX Create a dummy window and OpenGL context for glewInit.
     // According to the docs, glewInit can be called just once per-process?
+
+    DJV_LOG("djvWglContextPrivate", "Creating dummy window...");
 
     HINSTANCE hinstance = GetModuleHandle(0);
 
@@ -99,17 +104,20 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
 
     PIXELFORMATDESCRIPTOR pixelFormatInfo;
 
-    const int pixelFormatSize = DescribePixelFormat(_device, 0, 0, 0);
+    const int pixelFormatCount = DescribePixelFormat(_device, 0, 0, 0);
 
-    //DJV_DEBUG_PRINT("pixel format size = " << pixelFormatSize);
+    //DJV_DEBUG_PRINT("pixel format count = " << pixelFormatCount);
 
-    for (int i = 1; i < pixelFormatSize; ++i)
+    DJV_LOG("djvWglContextPrivate",
+        QString("Pixel format count: %1").arg(pixelFormatCount));
+
+    for (int i = 1; i < pixelFormatCount; ++i)
     {
         DescribePixelFormat(_device, i, sizeof(PIXELFORMATDESCRIPTOR),
             &pixelFormatInfo);
 
         //DJV_DEBUG_PRINT("  id " << i << ": " <<
-        //    ((PFD_SUPPORT_OPENGL & pixelFormatInfo.dwFlags) ? "ogl " : "") <<
+        //    ((PFD_SUPPORT_OPENGL & pixelFormatInfo.dwFlags) ? "gl " : "") <<
         //    ((PFD_GENERIC_FORMAT & pixelFormatInfo.dwFlags) ? "" : "accel ") <<
         //    ((PFD_TYPE_RGBA == pixelFormatInfo.iPixelType) ? "rgba " : "") <<
         //    "depth = " << pixelFormatInfo.cColorBits << "/" <<
@@ -117,9 +125,27 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
         //    pixelFormatInfo.cGreenBits << "/" <<
         //    pixelFormatInfo.cBlueBits << "/" <<
         //    pixelFormatInfo.cAlphaBits << " ");
+
+        QStringList tmp;
+        if (PFD_SUPPORT_OPENGL & pixelFormatInfo.dwFlags)
+            tmp += "gl";
+        if (! (PFD_GENERIC_FORMAT & pixelFormatInfo.dwFlags))
+            tmp += "accel";
+        if (PFD_TYPE_RGBA == pixelFormatInfo.iPixelType)
+            tmp += "rgba";
+
+        DJV_LOG("djvWglContextPrivate",
+            QString("Pixel format %1: %2 %3/%4/%5/%6/%7").
+            arg(i).
+            arg(tmp.join(" ")).
+            arg(pixelFormatInfo.cColorBits).
+            arg(pixelFormatInfo.cRedBits).
+            arg(pixelFormatInfo.cGreenBits).
+            arg(pixelFormatInfo.cBlueBits).
+            arg(pixelFormatInfo.cAlphaBits));
     }
 
-    PIXELFORMATDESCRIPTOR pixel_format =
+    PIXELFORMATDESCRIPTOR pixelFormat =
     {
         sizeof(PIXELFORMATDESCRIPTOR),
         1,
@@ -138,23 +164,29 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
         0,
         0, 0, 0
     };
-    int pixel_format_id = ChoosePixelFormat(_device, &pixel_format);
 
-    //DJV_DEBUG_PRINT("pixel format = " << pixel_format_id);
+    int pixelFormatId = ChoosePixelFormat(_device, &pixelFormat);
 
-    if (! pixel_format_id)
+    //DJV_DEBUG_PRINT("pixel format = " << pixelFormatId);
+
+    DJV_LOG("djvWglContextPrivate",
+        QString("Chosen pixel format: %1").arg(pixelFormatId));
+
+    if (! pixelFormatId)
     {
         DJV_THROW_ERROR(
             QString("ChoosePixelFormat: #%1").arg(int(GetLastError())));
     }
 
-    if (! SetPixelFormat(_device, pixel_format_id, &pixel_format))
+    if (! SetPixelFormat(_device, pixelFormatId, &pixelFormat))
     {
         DJV_THROW_ERROR(
             QString("SetPixelFormat: #%1").arg(int(GetLastError())));
     }
 
-    // Create context.
+    // Create OpengGL context.
+
+    DJV_LOG("djvWglContextPrivate", "Creating OpenGL context...");
 
     _context = wglCreateContext(_device);
 
@@ -171,6 +203,8 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
     }
 
     // Initialize GLEW.
+
+    DJV_LOG("djvWglContextPrivate", "Initializing GLEW...");
 
     GLenum err = glewInit();
 
@@ -193,6 +227,10 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
     //    (const char *)gluGetString(GLU_VERSION));
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
+
+    DJV_LOG("djvWglContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG("djvWglContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG("djvWglContextPrivate", QString("GL version: \"%1\"").arg(version()));
 }
 
 djvWglContextPrivate::~djvWglContextPrivate()

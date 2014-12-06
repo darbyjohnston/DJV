@@ -107,9 +107,10 @@ djvAbstractCoreApplication::djvAbstractCoreApplication(
     DJV_LOG("djvAbstractCoreApplication",
         QString("Command line arguments: %1").
             arg(_commandLineArgs.join(", ")));
+    DJV_LOG("djvAbstractCoreApplication", "");
 
-    DJV_LOG("djvAbstractCoreApplication",
-        QString("Information: %1").arg(info()));
+    DJV_LOG("djvAbstractCoreApplication", "Information:");
+    DJV_LOG("djvAbstractCoreApplication", info());
 }
 
 djvAbstractCoreApplication::~djvAbstractCoreApplication()

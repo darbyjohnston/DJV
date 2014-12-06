@@ -103,6 +103,8 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     }
 
     // Create the color map.
+	
+	DJV_LOG("djvGlxContextPrivate", "Creating the color map...");
 
     _colormap = XCreateColormap(
         _display,
@@ -117,12 +119,16 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     // Check for GLX support.
 
+	DJV_LOG("djvGlxContextPrivate", "Checking for GLX...");
+	
     if (! glXQueryExtension(_display, 0, 0))
     {
         DJV_THROW_ERROR("No GLX extension");
     }
 
-    // Create a dummy window and rendering context for glewInit.
+    // Create a dummy window and OpenGL context for glewInit.
+
+	DJV_LOG("djvGlxContextPrivate", "Creating dummy window...");
 
     XSetWindowAttributes winAttrib;
     winAttrib.colormap     = _colormap;
@@ -145,6 +151,8 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     // Create the OpenGL context.
 
+	DJV_LOG("djvGlxContextPrivate", "Creating OpenGL context...");
+
     _context = glXCreateContext(
         _display,
         &_visuals[0],
@@ -161,6 +169,8 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     bind();
 
     // Initialize GLEW.
+	
+    DJV_LOG("djvGlxContextPrivate", "Initializing GLEW...");
 
     GLint glError = glewInit();
 
@@ -173,10 +183,6 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     setRenderer((const char *)glGetString(GL_RENDERER));
     setVersion((const char *)glGetString(GL_VERSION));
 
-    DJV_LOG("djvGlxContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
-    DJV_LOG("djvGlxContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
-    DJV_LOG("djvGlxContextPrivate", QString("GL version: \"%1\"").arg(version()));
-
     //DJV_DEBUG_PRINT("vendor string = " << vendor());
     //DJV_DEBUG_PRINT("renderer string = " << renderer());
     //DJV_DEBUG_PRINT("version string = " << version());
@@ -186,6 +192,10 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     //    (const char *)gluGetString(GLU_VERSION));
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
+
+    DJV_LOG("djvGlxContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG("djvGlxContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG("djvGlxContextPrivate", QString("GL version: \"%1\"").arg(version()));
 
     if (! GL_EXT_framebuffer_object)
     {

@@ -76,6 +76,8 @@ djvAbstractImageApplication::djvAbstractImageApplication(
 
     _p->context = djvOpenGlContextFactory::create();
 
+    DJV_LOG("djvAbstractImageApplication", "");
+
     //! Force image I/O plugin loading.
 
     DJV_LOG("djvAbstractImageApplication", "Loading image I/O plugins...");
@@ -89,8 +91,10 @@ djvAbstractImageApplication::djvAbstractImageApplication(
     //DJV_DEBUG_PRINT("image save = " <<
     //    ImageSaveFactory::global()->plugins().count());
 
-    DJV_LOG("djvAbstractImageApplication",
-        QString("Information: %1").arg(info()));
+    DJV_LOG("djvAbstractImageApplication", "");
+
+    DJV_LOG("djvAbstractImageApplication", "Information:");
+    DJV_LOG("djvAbstractImageApplication", info());
 }
 
 djvAbstractImageApplication::~djvAbstractImageApplication()
