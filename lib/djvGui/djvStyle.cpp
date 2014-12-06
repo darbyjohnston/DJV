@@ -93,7 +93,9 @@ djvStyle::SizeMetric::SizeMetric(const QString & name, int fontSize) :
 djvStyle::Fonts::Fonts() :
     normal(qApp->font()),
     fixed ("Monospace")
-{}
+{
+    fixed.setStyleHint(QFont::TypeWriter);
+}
 
 //------------------------------------------------------------------------------
 // djvStyle::P
