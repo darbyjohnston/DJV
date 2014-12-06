@@ -248,10 +248,10 @@ QString djvLibquicktimePlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" Libquicktime Options\n"
+"Libquicktime Options\n"
 "\n"
-"     -libquicktime_codec (value)\n"
-"         Set the codec used when saving Libquicktime movies. Options = %1. "
+"    -libquicktime_codec (value)\n"
+"        Set the codec used when saving Libquicktime movies. Options = %1. "
 "Default = %2.\n").
     arg(codecLabels().join(", ")).
     arg(djvStringUtil::label(_options.codec).join(", "));

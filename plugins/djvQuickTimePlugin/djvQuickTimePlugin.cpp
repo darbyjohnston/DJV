@@ -422,13 +422,13 @@ QString djvQuickTimePlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" QuickTime Options\n"
+"QuickTime Options\n"
 "\n"
-"     -quicktime_codec (value)\n"
-"         Set the codec used when saving QuickTime movies. Options = %1. "
+"    -quicktime_codec (value)\n"
+"        Set the codec used when saving QuickTime movies. Options = %1. "
 "Default = %2.\n"
-"     -quicktime_quality (value)\n"
-"         Set the quality used when saving QuickTime movies. Options = %3. "
+"    -quicktime_quality (value)\n"
+"        Set the quality used when saving QuickTime movies. Options = %3. "
 "Default = %4.\n").
     arg(codecLabels().join(", ")).
     arg(djvStringUtil::label(_options.codec).join(", ")).
