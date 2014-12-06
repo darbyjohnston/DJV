@@ -138,9 +138,9 @@ int djvAbstractCoreApplication::run()
 {
     switch (_p->exitValue)
     {
-        case EXIT_VALUE_HELP:  printMessage(commandLineHelp()); break;
-        case EXIT_VALUE_INFO:  printMessage(info()); break;
-        case EXIT_VALUE_ABOUT: printMessage(about()); break;
+        case EXIT_VALUE_HELP:  printMessage("\n" + commandLineHelp(), 1); break;
+        case EXIT_VALUE_INFO:  printMessage("\n" + info(), 1); break;
+        case EXIT_VALUE_ABOUT: printMessage("\n" + about(), 1); break;
 
         default: break;
     }
@@ -189,16 +189,15 @@ namespace
 {
 
 const QString labelInfo =
+"General\n"
 "\n"
-" General\n"
-"\n"
-"     Version: %1\n"
-"     System: %2\n"
-"     Endian: %3\n"
-"     Search path: %4\n"
-"     Time units: %5\n"
-"     Default speed: %6\n"
-"     Maximum sequence size: %7\n";
+"    Version: %1\n"
+"    System: %2\n"
+"    Endian: %3\n"
+"    Search path: %4\n"
+"    Time units: %5\n"
+"    Default speed: %6\n"
+"    Maximum sequence size: %7\n";
 
 } // namespace
 
@@ -218,107 +217,106 @@ namespace
 {
 
 const QString labelAbout =
+"DJV Imaging, Version: %1\n"
 "\n"
-" DJV Imaging, Version: %1\n"
+"http://djv.sourceforge.net\n"
 "\n"
-" http://djv.sourceforge.net\n"
+"Made in Berkeley, CA, USA\n"
 "\n"
-" Made in Berkeley, CA, USA\n"
+"Copyright (c) 2004-2014 Darby Johnston\n"
+"All rights reserved.\n"
 "\n"
-" Copyright (c) 2004-2014 Darby Johnston\n"
-" All rights reserved.\n"
+"Redistribution and use in source and binary forms, with or without"
+"modification, are permitted provided that the following conditions are"
+"met:\n"
 "\n"
-" Redistribution and use in source and binary forms, with or without"
-" modification, are permitted provided that the following conditions are"
-" met:\n"
+"* Redistributions of source code must retain the above copyright notice,"
+"this list of conditions, and the following disclaimer.\n"
 "\n"
-" * Redistributions of source code must retain the above copyright notice,"
-" this list of conditions, and the following disclaimer.\n"
+"* Redistributions in binary form must reproduce the above copyright"
+"notice, this list of conditions, and the following disclaimer in the"
+"documentation and/or other materials provided with the distribution.\n"
 "\n"
-" * Redistributions in binary form must reproduce the above copyright"
-" notice, this list of conditions, and the following disclaimer in the"
-" documentation and/or other materials provided with the distribution.\n"
+"* Neither the names of the copyright holders nor the names of any"
+"contributors may be used to endorse or promote products derived from this"
+"software without specific prior written permission.\n"
 "\n"
-" * Neither the names of the copyright holders nor the names of any"
-" contributors may be used to endorse or promote products derived from this"
-" software without specific prior written permission.\n"
+"THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS"
+"\"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT"
+"LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A"
+"PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER"
+"OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,"
+"EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,"
+"PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR"
+"PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF"
+"LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING"
+"NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS"
+"SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
 "\n"
-" THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS"
-" \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT"
-" LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A"
-" PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER"
-" OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,"
-" EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,"
-" PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR"
-" PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF"
-" LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING"
-" NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS"
-" SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n"
+"Portions of this software are copyright (in alphabetical order):\n"
 "\n"
-" Portions of this software are copyright (in alphabetical order):\n"
+"    Copyright (c) 2004-2014 Darby Johnston\n"
+"    All rights reserved.\n"
 "\n"
-"     Copyright (c) 2004-2014 Darby Johnston\n"
-"     All rights reserved.\n"
+"    Copyright (c) 2008 Alan Jones\n"
+"    All rights reserved.\n"
 "\n"
-"     Copyright (c) 2008 Alan Jones\n"
-"     All rights reserved.\n"
+"    Copyright (c) 2008-2009 Mikael Sundell\n"
+"    All rights reserved.\n"
 "\n"
-"     Copyright (c) 2008-2009 Mikael Sundell\n"
-"     All rights reserved.\n"
+"This software is based in part on the works of (in alphabetical order):\n"
 "\n"
-" This software is based in part on the works of (in alphabetical order):\n"
+"    CMake\n"
+"    http://www.cmake.org\n"
+"    Copyright 2000-2011 Kitware, Inc., Insight Software Consortium\n"
+"    All rights reserved.\n"
 "\n"
-"     CMake\n"
-"     http://www.cmake.org\n"
-"     Copyright 2000-2011 Kitware, Inc., Insight Software Consortium\n"
-"     All rights reserved.\n"
+"    FFmpeg\n"
+"    http://www.ffmpeg.org\n"
+"    Licensed under the LGPLv2.1\n"
+"    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html\n"
 "\n"
-"     FFmpeg\n"
-"     http://www.ffmpeg.org\n"
-"     Licensed under the LGPLv2.1\n"
-"     http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html\n"
+"    GLEW\n"
+"    http://glew.sourceforge.net\n"
+"    Copyright (c) 2002-2007, Milan Ikits <milan ikits[]ieee org>\n"
+"    Copyright (c) 2002-2007, Marcelo E. Magallon <mmagallo[]debian org>\n"
+"    Copyright (c) 2002, Lev Povalahev\n"
+"    All rights reserved.\n"
 "\n"
-"     GLEW\n"
-"     http://glew.sourceforge.net\n"
-"     Copyright (c) 2002-2007, Milan Ikits <milan ikits[]ieee org>\n"
-"     Copyright (c) 2002-2007, Marcelo E. Magallon <mmagallo[]debian org>\n"
-"     Copyright (c) 2002, Lev Povalahev\n"
-"     All rights reserved.\n"
+"    libjpeg\n"
+"    http://www.ijg.org\n"
+"    Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding\n"
 "\n"
-"     libjpeg\n"
-"     http://www.ijg.org\n"
-"     Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding\n"
+"    libpng\n"
+"    http://www.libpng.org\n"
+"    Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson\n"
 "\n"
-"     libpng\n"
-"     http://www.libpng.org\n"
-"     Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson\n"
+"    libquicktime\n"
+"    http://libquicktime.sourceforge.net\n"
+"    Copyright (c) 2002 Heroine Virtual Ltd.\n"
+"    Copyright (c) 2002-2007 Members of the libquicktime project\n"
 "\n"
-"     libquicktime\n"
-"     http://libquicktime.sourceforge.net\n"
-"     Copyright (c) 2002 Heroine Virtual Ltd.\n"
-"     Copyright (c) 2002-2007 Members of the libquicktime project\n"
+"    libtiff\n"
+"    http://www.libtiff.org\n"
+"    Copyright (c) 1988-1997 Sam Leffler\n"
+"    Copyright (c) 1991-1997 Silicon Graphics, Inc.\n"
 "\n"
-"     libtiff\n"
-"     http://www.libtiff.org\n"
-"     Copyright (c) 1988-1997 Sam Leffler\n"
-"     Copyright (c) 1991-1997 Silicon Graphics, Inc.\n"
+"    OpenEXR\n"
+"    http://www.openexr.com\n"
+"    Copyright (c) 2006, Industrial Light & Magic, a division of Lucasfilm"
+"Entertainment Company Ltd.\n"
 "\n"
-"     OpenEXR\n"
-"     http://www.openexr.com\n"
-"     Copyright (c) 2006, Industrial Light & Magic, a division of Lucasfilm"
-" Entertainment Company Ltd.\n"
+"    PortAudio\n"
+"    http://www.portaudio.com\n"
+"    Copyright (c) 1999-2006 Ross Bencina and Phil Burk\n"
 "\n"
-"     PortAudio\n"
-"     http://www.portaudio.com\n"
-"     Copyright (c) 1999-2006 Ross Bencina and Phil Burk\n"
+"    Qt\n"
+"    http://qt-project.org\n"
+"    Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies)\n"
 "\n"
-"     Qt\n"
-"     http://qt-project.org\n"
-"     Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies)\n"
-"\n"
-"     zlib\n"
-"     http://www.zlib.net/\n"
-"     Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n";
+"    zlib\n"
+"    http://www.zlib.net/\n"
+"    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n";
 
 } // namespace
 
@@ -327,9 +325,9 @@ QString djvAbstractCoreApplication::about() const
     return QString(labelAbout).arg(DJV_PACKAGE_NAME);
 }
 
-void djvAbstractCoreApplication::printMessage(const QString & string) const
+void djvAbstractCoreApplication::printMessage(const QString & string, int indent) const
 {
-    print(string);
+    print(string, true, indent);
 }
 
 void djvAbstractCoreApplication::printError(const djvError & error) const
@@ -344,7 +342,7 @@ void djvAbstractCoreApplication::printError(const djvError & error) const
     djvErrorUtil::print(error);
 }
 
-void djvAbstractCoreApplication::print(const QString & string, bool newline) const
+void djvAbstractCoreApplication::print(const QString & string, bool newline, int indent) const
 {
     if (_p->separator)
     {
@@ -353,7 +351,7 @@ void djvAbstractCoreApplication::print(const QString & string, bool newline) con
         const_cast<djvAbstractCoreApplication *>(this)->_p->separator = false;
     }
 
-    djvSystem::print(string, newline);
+    djvSystem::print(string, newline, indent);
 
     const_cast<djvAbstractCoreApplication *>(this)->_p->endline = ! newline;
 }
@@ -454,22 +452,22 @@ namespace
 
 const QString commandLineHelpLabel =
 "\n"
-" General Options\n"
+"General Options\n"
 "\n"
-"     -time_units (value)\n"
-"         Set the time units. Options = %1. Default = %2.\n"
-"     -default_speed (value)\n"
-"         Set the default speed. Options = %3. Default = %4.\n"
-"     -max_sequence_frames (value)\n"
-"         Set the maximum number of frames a sequence can hold. Default = %5.\n"
-"     -printLog\n"
-"         Print log messages.\n"
-"     -help, -h\n"
-"         Show the help message.\n"
-"     -info\n"
-"         Show the information message.\n"
-"     -about\n"
-"         Show the about message.\n";
+"    -time_units (value)\n"
+"        Set the time units. Options = %1. Default = %2.\n"
+"    -default_speed (value)\n"
+"        Set the default speed. Options = %3. Default = %4.\n"
+"    -max_sequence_frames (value)\n"
+"        Set the maximum number of frames a sequence can hold. Default = %5.\n"
+"    -printLog\n"
+"        Print log messages.\n"
+"    -help, -h\n"
+"        Show the help message.\n"
+"    -info\n"
+"        Show the information message.\n"
+"    -about\n"
+"        Show the about message.\n";
 
 } // namespace
 
@@ -510,4 +508,3 @@ djvCoreApplication::djvCoreApplication(const QString & name, int & argc, char **
 _DJV_STRING_OPERATOR_LABEL(
     djvAbstractCoreApplication::EXIT_VALUE,
     djvAbstractCoreApplication::exitValueLabels())
-

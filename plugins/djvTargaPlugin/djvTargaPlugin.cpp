@@ -564,10 +564,10 @@ QString djvTargaPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" Targa Options\n"
+"Targa Options\n"
 "\n"
-"     -targa_compression (value)\n"
-"         Set the file compression used when saving Targa images. Options = "
+"    -targa_compression (value)\n"
+"        Set the file compression used when saving Targa images. Options = "
 "%1. Default = %2.\n").
     arg(djvTargaPlugin::compressionLabels().join(", ")).
     arg(djvStringUtil::label(_options.compression).join(", "));

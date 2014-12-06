@@ -569,10 +569,10 @@ QString djvSgiPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" SGI Options\n"
+"SGI Options\n"
 "\n"
-"     -sgi_compression (value)\n"
-"         Set the file compression used when saving SGI images. Options = %1. "
+"    -sgi_compression (value)\n"
+"        Set the file compression used when saving SGI images. Options = %1. "
 "Default = %2.\n").
     arg(djvSgiPlugin::compressionLabels().join(", ")).
     arg(djvStringUtil::label(_options.compression).join(", "));

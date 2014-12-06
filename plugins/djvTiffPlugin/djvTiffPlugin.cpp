@@ -235,10 +235,10 @@ QString djvTiffPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" TIFF Options\n"
+"TIFF Options\n"
 "\n"
-"     -tiff_compression (value)\n"
-"         Set the file compression used when saving TIFF images. Options = %1. "
+"    -tiff_compression (value)\n"
+"        Set the file compression used when saving TIFF images. Options = %1. "
 "Default = %2.\n").
     arg(djvTiffPlugin::compressionLabels().join(", ")).
     arg(djvStringUtil::label(_options.compression).join(", "));

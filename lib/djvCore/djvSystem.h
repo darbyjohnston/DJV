@@ -78,7 +78,7 @@ struct DJV_CORE_EXPORT djvSystem
 
     //! Print a message to the terminal.
 
-    static void print(const QString &, bool newline = true);
+    static void print(const QString &, bool newline = true, int indent = 0);
 
     //! Execute a command.
 

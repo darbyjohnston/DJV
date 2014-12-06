@@ -380,14 +380,14 @@ int djvSystem::terminalWidth()
     return out;
 }
 
-void djvSystem::print(const QString & in, bool newline)
+void djvSystem::print(const QString & in, bool newline, int indent)
 {
     //DJV_DEBUG("djvSystem::print");
     //DJV_DEBUG_PRINT("newline = " << newline);
     
     const QStringList lines = in.split('\n');
     
-    const int width = terminalWidth() - 1;
+    const int width = terminalWidth() - 1 - indent;
 
     //DJV_DEBUG_PRINT("lines = " << lines.count());
     //DJV_DEBUG_PRINT("width = " << width);
@@ -434,8 +434,25 @@ void djvSystem::print(const QString & in, bool newline)
             chunks += line;
         }
         
-        ::printf("%s", chunks.join("\n").toLatin1().data());
+        /*::printf("%s", chunks.join("\n").toLatin1().data());
         
+        if (i < lines.count() - 1)
+        {
+            ::printf("\n");
+        }*/
+
+        for (int j = 0; j < chunks.count(); ++j)
+        {
+            ::printf("%s", QString("%1%2").
+                arg("", -indent).
+                arg(chunks[j]).toLatin1().data());
+
+            if (j < chunks.count() - 1)
+            {
+                ::printf("\n");
+            }
+        }
+
         if (i < lines.count() - 1)
         {
             ::printf("\n");

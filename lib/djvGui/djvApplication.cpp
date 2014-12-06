@@ -283,10 +283,10 @@ namespace
 const QString labelInfo =
 "%1"
 "\n"
-" Preferences\n"
+"Preferences\n"
 "\n"
-"     User: %2\n"
-"     System: %3\n";
+"    User: %2\n"
+"    System: %3\n";
 
 } // namespace
 
@@ -338,10 +338,10 @@ namespace
 
 const QString commandLineHelpLabel =
 "\n"
-" User Interface Options\n"
+"User Interface Options\n"
 "\n"
-"     -reset_prefs\n"
-"         Do not load the preference at start up.\n"
+"    -reset_prefs\n"
+"        Do not load the preference at start up.\n"
 "%2";
 
 } // namespace

@@ -493,10 +493,10 @@ QString djvLutPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" LUT Options\n"
+"LUT Options\n"
 "\n"
-"     -lut_type (value)\n"
-"         Set the pixel type used when loading LUTs. Options = %1. Default = "
+"    -lut_type (value)\n"
+"        Set the pixel type used when loading LUTs. Options = %1. Default = "
 "%2.\n").
     arg(djvLutPlugin::typeLabels().join(", ")).
     arg(djvStringUtil::label(_options.type).join(", "));

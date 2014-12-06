@@ -109,7 +109,7 @@ public:
     
     //! Print a message.
 
-    virtual void printMessage(const QString &) const;
+    virtual void printMessage(const QString &, int indent = 0) const;
 
     //! Print an error.
 
@@ -118,11 +118,11 @@ public:
     //! Low-level printing function used internally by printMessage() and
     //! printError().
 
-    virtual void print(const QString &, bool newline = true) const;
+    void print(const QString &, bool newline = true, int indent = 0) const;
 
     //! Print a separator.
 
-    virtual void printSeparator() const;
+    void printSeparator() const;
 
     //! Parse the comamand line.
 

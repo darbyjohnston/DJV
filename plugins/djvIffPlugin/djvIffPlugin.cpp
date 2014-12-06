@@ -795,10 +795,10 @@ QString djvIffPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" IFF Options\n"
+"IFF Options\n"
 "\n"
-"     -iff_compression (value)\n"
-"         Set the file compression used when saving IFF images. Options = %1. "
+"    -iff_compression (value)\n"
+"        Set the file compression used when saving IFF images. Options = %1. "
 "Default = %2.\n").
     arg(djvIffPlugin::compressionLabels().join(", ")).
     arg(djvStringUtil::label(_options.compression).join(", "));

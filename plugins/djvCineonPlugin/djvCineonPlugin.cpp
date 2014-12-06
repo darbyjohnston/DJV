@@ -268,22 +268,22 @@ QString djvCineonPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" Cineon Options\n"
+"Cineon Options\n"
 "\n"
-"     -cineon_input_color_profile (value)\n"
-"         Set the color profile used when loading Cineon images. Options = %1. "
+"    -cineon_input_color_profile (value)\n"
+"        Set the color profile used when loading Cineon images. Options = %1. "
 "Default = %2.\n"
-"     -cineon_input_film_print (black) (white) (gamma) (soft clip)\n"
-"         Set the film print values used when loading Cineon images. Default = "
+"    -cineon_input_film_print (black) (white) (gamma) (soft clip)\n"
+"        Set the film print values used when loading Cineon images. Default = "
 "%3.\n"
-"     -cineon_output_color_profile (value)\n"
-"         Set the color profile used when saving Cineon images. Options = %4. "
+"    -cineon_output_color_profile (value)\n"
+"        Set the color profile used when saving Cineon images. Options = %4. "
 "Default = %5.\n"
-"     -cineon_output_film_print (black) (white) (gamma) (soft clip)\n"
-"         Set the film print values used when saving Cineon images. Default = "
+"    -cineon_output_film_print (black) (white) (gamma) (soft clip)\n"
+"        Set the film print values used when saving Cineon images. Default = "
 "%6.\n"
-"     -cineon_convert (value)\n"
-"         Set whether the pixel data is converted to 8-bits when loading "
+"    -cineon_convert (value)\n"
+"        Set whether the pixel data is converted to 8-bits when loading "
 "Cineon images. Options = %7. Default = %8.\n").
     arg(djvCineon::colorProfileLabels().join(", ")).
     arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).

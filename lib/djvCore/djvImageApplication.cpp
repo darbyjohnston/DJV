@@ -92,7 +92,6 @@ djvAbstractImageApplication::djvAbstractImageApplication(
     //    ImageSaveFactory::global()->plugins().count());
 
     DJV_LOG("djvAbstractImageApplication", "");
-
     DJV_LOG("djvAbstractImageApplication", "Information:");
     DJV_LOG("djvAbstractImageApplication", info());
 }
@@ -117,16 +116,16 @@ namespace
 const QString labelInfo =
 "%1"
 "\n"
-" OpenGL\n"
+"OpenGL\n"
 "\n"
-"     Vendor: %2\n"
-"     Renderer: %3\n"
-"     Version: %4\n"
-"     Render filter: %5, %6\n"
+"    Vendor: %2\n"
+"    Renderer: %3\n"
+"    Version: %4\n"
+"    Render filter: %5, %6\n"
 "\n"
-" Image I/O\n"
+"Image I/O\n"
 "\n"
-"     Plugins: %7\n";
+"    Plugins: %7\n";
 
 } // namespace
 
@@ -207,12 +206,12 @@ namespace
 const QString commandLineHelpLabel =
 "%1"
 "\n"
-" OpenGL Options\n"
+"OpenGL Options\n"
 "\n"
-"     -render_filter (minify) (magnify)\n"
-"         Set the render filter. Options = %2. Default = %3, %4.\n"
-"     -render_filter_high\n"
-"         Set the render filter to high quality settings (%5, %6).\n"
+"    -render_filter (minify) (magnify)\n"
+"        Set the render filter. Options = %2. Default = %3, %4.\n"
+"    -render_filter_high\n"
+"        Set the render filter to high quality settings (%5, %6).\n"
 "%7";
 
 } // namespace

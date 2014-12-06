@@ -391,13 +391,13 @@ QString djvPpmPlugin::commandLineHelp() const
 {
     return QString(
 "\n"
-" PPM Options\n"
+"PPM Options\n"
 "\n"
-"     -ppm_type (value)\n"
-"         Set the file type used when saving PPM images. Options = %1. "
+"    -ppm_type (value)\n"
+"        Set the file type used when saving PPM images. Options = %1. "
 "Default = %2.\n"
-"     -ppm_data (value)\n"
-"         Set the data type used when saving PPM images. Options = %3. "
+"    -ppm_data (value)\n"
+"        Set the data type used when saving PPM images. Options = %3. "
 "Default = %4.\n").
     arg(djvPpmPlugin::typeLabels().join(", ")).
     arg(djvStringUtil::label(_options.type).join(", ")).
