@@ -68,6 +68,7 @@
 #undef KeyRelease
 #undef None
 #undef Status
+#undef Unsorted
 
 #endif // DJV_LINUX
 
