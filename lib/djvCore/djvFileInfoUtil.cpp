@@ -69,7 +69,7 @@ inline bool isPathSeparator(const QChar & c)
 
 inline bool isSequenceValid(const QChar & c)
 {
-    return QChar(c).isDigit() || '#' == c;
+    return QChar(c).isDigit() || '-' == c || '#' == c;
 }
 
 inline bool seqSeparator(const QChar & c)
@@ -138,14 +138,10 @@ void djvFileInfoUtil::split(
     {
         tmp = i;
         int separator = -1;
-        int dashes = 0;
         QString word;
 
         for (; i > 0; --i)
         {
-            if ('-' == in[i])
-                ++dashes;
-            
             if (! isSequenceValid(in[i - 1]) || seqSeparator(in[i - 1]))
             {
                 if (separator != -1 &&
@@ -169,16 +165,9 @@ void djvFileInfoUtil::split(
                 break;
         }
 
-        if (dashes <= 1)
-        {
-            number = in.mid(i, tmp - i + 1);
+        number = in.mid(i, tmp - i + 1);
         
-            --i;
-        }
-        else
-        {
-            i = tmp;
-        }
+        --i;
     }
 
     //DJV_DEBUG_PRINT("number = " << number);

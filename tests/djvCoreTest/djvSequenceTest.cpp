@@ -121,6 +121,37 @@ void djvSequenceTest::members()
     }
     
     {
+        djvSequence seq;
+        
+        seq.setFrames(-1, -3);
+        
+        DJV_ASSERT(djvFrameList() << -1 << -2 << -3 == seq.frames);
+        DJV_ASSERT(-1 == seq.start());
+        DJV_ASSERT(-3 == seq.end());
+
+        seq.setFrames(-3, -1);
+        
+        DJV_ASSERT(djvFrameList() << -3 << -2 << -1 == seq.frames);
+        DJV_ASSERT(-3 == seq.start());
+        DJV_ASSERT(-1 == seq.end());
+
+        seq.setFrames(-(djvSequence::maxFrames() - 1), 0);
+
+        DJV_ASSERT(-(djvSequence::maxFrames() - 1) == seq.start());
+        DJV_ASSERT(0 == seq.end());
+
+        seq.setFrames(-djvSequence::maxFrames(), 0);
+
+        DJV_ASSERT(-djvSequence::maxFrames() == seq.start());
+        DJV_ASSERT(-1 == seq.end());
+
+        seq.setFrames(0, -djvSequence::maxFrames());
+
+        DJV_ASSERT(0 == seq.start());
+        DJV_ASSERT(-(djvSequence::maxFrames() - 1) == seq.end());
+    }
+    
+    {
         djvSequence seq(djvFrameList() << 2 << 3 << 1);
         seq.sort();
 
@@ -128,13 +159,30 @@ void djvSequenceTest::members()
     }
     
     {
+        djvSequence seq(djvFrameList() << -2 << -3 << -1);
+        seq.sort();
+
+        DJV_ASSERT(djvFrameList() << -3 << -2 << -1 == seq.frames);
+    }
+    
+    {
         const djvSequence seq(djvFrameList() << 1 << 5 << 15);
         
-        DJV_ASSERT(0 == djvSequenceUtil::findClosest(1, seq.frames));
-        DJV_ASSERT(1 == djvSequenceUtil::findClosest(4, seq.frames));
-        DJV_ASSERT(1 == djvSequenceUtil::findClosest(6, seq.frames));
+        DJV_ASSERT(0 == djvSequenceUtil::findClosest( 1, seq.frames));
+        DJV_ASSERT(1 == djvSequenceUtil::findClosest( 4, seq.frames));
+        DJV_ASSERT(1 == djvSequenceUtil::findClosest( 6, seq.frames));
         DJV_ASSERT(2 == djvSequenceUtil::findClosest(12, seq.frames));
         DJV_ASSERT(2 == djvSequenceUtil::findClosest(15, seq.frames));
+    }
+    
+    {
+        const djvSequence seq(djvFrameList() << -15 << -5 << -1);
+        
+        DJV_ASSERT(2 == djvSequenceUtil::findClosest( -1, seq.frames));
+        DJV_ASSERT(1 == djvSequenceUtil::findClosest( -4, seq.frames));
+        DJV_ASSERT(1 == djvSequenceUtil::findClosest( -6, seq.frames));
+        DJV_ASSERT(0 == djvSequenceUtil::findClosest(-12, seq.frames));
+        DJV_ASSERT(0 == djvSequenceUtil::findClosest(-15, seq.frames));
     }
 }
 

@@ -60,7 +60,7 @@ void djvTimeTest::sleep()
 {
     DJV_DEBUG("djvTimeTest::sleep");
     
-    djvTime::sleep(1);
+    djvTime::sleep (1);
     djvTime::msleep(1);
     djvTime::usleep(1);
 }
@@ -116,8 +116,8 @@ void djvTimeTest::convert()
         }
             data [] =
         {
-            { 0, 0, 0, 0 },
-            { 1, 1, 1, 1 },
+            {  0,  0,  0,  0 },
+            {  1,  1,  1,  1 },
             { 10, 10, 10, 10 }
         };
         

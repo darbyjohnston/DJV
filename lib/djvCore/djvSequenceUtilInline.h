@@ -42,19 +42,24 @@ inline qint64 djvSequenceUtil::stringToFrame(const QString & string, int * pad)
     const int length = string.length();
 
     if (length && '#' == string[0])
-    {
         return -1;
-    }
-
+    
     if (pad)
     {
         *pad = 0;
 
-        if (length > 1)
+        int i = 0;
+        
+        if (length && '-' == string[i])
         {
-            if ('0' == string[0])
+            ++i;
+        }
+
+        if ((length - i) > 1)
+        {
+            if ('0' == string[i])
             {
-                *pad = length;
+                *pad = (length - i);
             }
         }
     }

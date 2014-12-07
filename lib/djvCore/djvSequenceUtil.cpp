@@ -33,9 +33,12 @@
 
 #include <djvSequenceUtil.h>
 
+#include <djvDebug.h>
 #include <djvMath.h>
 
 #include <QVector>
+
+#include <limits>
 
 #include <stdio.h>
 
@@ -70,18 +73,31 @@ qint64 djvSequenceUtil::findClosest(qint64 frame, const djvFrameList & frames)
 
 QString djvSequenceUtil::frameToString(qint64 frame, int pad)
 {
-    char tmp[djvStringUtil::cStringLength] = "";
+    const bool    negative = frame < 0;
+    const quint64 abs      = negative ? -frame : frame;
+    
+    char c[djvStringUtil::cStringLength] = "";
 
-    const int length = djvStringUtil::intToString<qint64>(frame, tmp);
+    const int length = djvStringUtil::intToString<qint64>(abs, c);
 
     QString p;
+    
+    if (negative)
+    {
+        p.append('-');
+    }
 
     for (int i = 0; i < pad - length; ++i)
     {
-        p += '0';
+        p.append('0');
+    }
+    
+    for (int i = 0; i < length; ++i)
+    {
+        p.append(c[i]);
     }
 
-    return p + QString(tmp);
+    return p;
 }
 
 namespace
@@ -121,9 +137,11 @@ QString djvSequenceUtil::sequenceToString(const djvSequence & seq)
     const int    count  = frames.count();
     const int    pad    = seq.pad;
 
-    // List end marker.
+    // Add the list end marker.
 
-    frames += -2;
+    static const qint64 marker = -std::numeric_limits<qint64>::min();
+
+    frames += marker;
 
     // Sequence.
 
@@ -170,43 +188,73 @@ djvSequence djvSequenceUtil::stringToSequence(const QString & seq)
 
     int pad = 0;
 
-    const QStringList tmp = seq.split(',', QString::SkipEmptyParts);
-
-    for (int i = 0; i < tmp.count(); ++i)
+    Q_FOREACH(const QString & s, seq.split(',', QString::SkipEmptyParts))
     {
-        const QStringList tmp2 = tmp[i].split('-', QString::SkipEmptyParts);
+        const int count = s.count();
         
-        const int size = tmp2.count();
-
-        if (size)
+        if (count)
         {
-            int          _pad  = 0;
-            const qint64 start = stringToFrame(tmp2[0], &_pad);
-            const qint64 end   = stringToFrame(tmp2[size - 1]);
-
-            if (start != -1 && end != -1)
+            QString a, b;
+        
+            int j = 0;
+            
+            if ('-' == s[j])
             {
-                if (start < end)
-                {
-                    const qint64 size = end - start + 1;
+                a.append(s[j]);
+                
+                ++j;
+            }
+            
+            while (s[j].isNumber() && j < count)
+            {
+                a.append(s[j]);
+                
+                ++j;
+            }
+            
+            if (j < count - 1 && '-' == s[j] && '-' == s[j + 1])
+            {
+                ++j;
+            }
+            else if (j < count && '-' == s[j])
+            {
+                ++j;
+            }
+            
+            while (j < count)
+            {
+                b.append(s[j]);
+                
+                ++j;
+            }
+            
+            //DJV_DEBUG_PRINT("a = " << a);
+            //DJV_DEBUG_PRINT("b = " << b);
+            
+            int          _pad  = 0;
+            const qint64 start = stringToFrame(a, &_pad);
+            const qint64 end   = b.count() ? stringToFrame(b) : start;
 
-                    for (qint64 j = start, k = 0;
-                        j <= end && k < size; ++j,
-                        ++k)
-                    {
-                        out.frames += j;
-                    }
+            if (start < end)
+            {
+                const qint64 size = end - start + 1;
+
+                for (qint64 j = start, k = 0;
+                    j <= end && k < size; ++j,
+                    ++k)
+                {
+                    out.frames += j;
                 }
-                else
-                {
-                    const qint64 size = start - end + 1;
+            }
+            else
+            {
+                const qint64 size = start - end + 1;
 
-                    for (qint64 j = start, k = 0;
-                        j >= end && k < size; --j,
-                        ++k)
-                    {
-                        out.frames += j;
-                    }
+                for (qint64 j = start, k = 0;
+                    j >= end && k < size; --j,
+                    ++k)
+                {
+                    out.frames += j;
                 }
             }
 

@@ -121,7 +121,11 @@ int main(int argc, char ** argv)
         new djvVectorUtilTest;	
     
     //tests = QVector<djvAbstractTest *>() <<
-    //    new djvSequenceTest;
+    //    new djvFileInfoTest <<
+    //    new djvFileInfoUtilTest <<
+    //    new djvSequenceTest <<
+    //    new djvSequenceUtilTest <<
+    //    new djvTimeTest;
 
     for (int i = 0; i < tests.count(); ++i)
     {

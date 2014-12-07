@@ -152,7 +152,7 @@ namespace
 
 // Valid character lookup tables.
 
-static int _stringToInt[] =
+const int _stringToInt[] =
 {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
