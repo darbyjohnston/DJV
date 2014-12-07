@@ -38,6 +38,7 @@
 #include <djvViewImageView.h>
 
 #include <djvColor.h>
+#include <djvVector.h>
 
 //! \addtogroup djvViewView
 //@{
@@ -69,6 +70,14 @@ public:
     //! Get the background color.
 
     const djvColor & background() const;
+    
+    //! Get the default view size.
+    
+    static const djvVector2i & viewSizeDefault();
+    
+    //! Get the view size.
+    
+    const djvVector2i & viewSize() const;
 
     //! Get the default view resize behavior.
     
@@ -147,6 +156,10 @@ public Q_SLOTS:
     //! Set the background color.
 
     void setBackground(const djvColor &);
+
+    //! Set the view size.
+    
+    void setViewSize(const djvVector2i &);
     
     //! Set the view resize behavior.
 
@@ -190,6 +203,10 @@ Q_SIGNALS:
     
     void backgroundChanged(const djvColor &);
 
+    //! This signal is emitted when the view size is changed.
+    
+    void viewSizeChanged(const djvVector2i &);
+
     //! This signal is emitted when the view resize behavior is changed.
 
     void resizeChanged(djvView::VIEW_RESIZE);
@@ -229,6 +246,7 @@ Q_SIGNALS:
 private:
 
     djvColor                _background;
+    djvVector2i             _viewSize;
     djvView::VIEW_RESIZE    _resize;
     djvView::GRID           _grid;
     djvColor                _gridColor;

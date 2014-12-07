@@ -63,6 +63,22 @@ class DJV_GUI_EXPORT djvVector2iEditWidget : public QWidget
         WRITE       setValue
         NOTIFY      valueChanged)
     
+    //! This property holds the minimum value.
+    
+    Q_PROPERTY(
+        djvVector2i min
+        READ        min
+        WRITE       setMin
+        NOTIFY      minChanged)
+    
+    //! This property holds the maximum value.
+    
+    Q_PROPERTY(
+        djvVector2i max
+        READ        max
+        WRITE       setMax
+        NOTIFY      maxChanged)
+    
 public:
 
     //! Constructor.
@@ -75,13 +91,33 @@ public:
 
     //! Get the value.
 
-    const djvVector2i & value() const;
+    djvVector2i value() const;
 
+    //! Get the minimum value.
+
+    djvVector2i min() const;
+
+    //! Get the maximum value.
+
+    djvVector2i max() const;
+    
 public Q_SLOTS:
 
     //! Set the value.
 
     void setValue(const djvVector2i &);
+
+    //! Set the minimum value.
+
+    void setMin(const djvVector2i &);
+
+    //! Set the maximum value.
+
+    void setMax(const djvVector2i &);
+
+    //! Set the value range.
+
+    void setRange(const djvVector2i & min, const djvVector2i & max);
 
 Q_SIGNALS:
 
@@ -89,15 +125,25 @@ Q_SIGNALS:
 
     void valueChanged(const djvVector2i &);
 
+    //! This signal is emitted when the minimum value is changed.
+
+    void minChanged(const djvVector2i &);
+
+    //! This signal is emitted when the maximum value is changed.
+
+    void maxChanged(const djvVector2i &);
+
+    //! This signal is emitted when the value range is changed.
+
+    void rangeChanged(const djvVector2i &, const djvVector2i &);
+
 private Q_SLOTS:
 
-    void widgetCallback(int);
-    void widget2Callback(int);
+    void valueCallback();
+    void rangeCallback();
 
 private:
 
-    void widgetUpdate();
-    
     DJV_PRIVATE_COPY(djvVector2iEditWidget);
     DJV_PRIVATE_IMPLEMENTATION();
 };

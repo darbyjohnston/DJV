@@ -37,6 +37,7 @@
 
 #include <djvColorSwatch.h>
 #include <djvPrefsGroupBox.h>
+#include <djvVector2iEditWidget.h>
 
 #include <djvSignalBlocker.h>
 
@@ -72,6 +73,7 @@ struct djvViewViewPrefsWidget::P
 {
     P() :
         backgroundColorWidget   (0),
+        viewSizeWidget          (0),
         resizeWidget            (0),
         gridWidget              (0),
         gridColorWidget         (0),
@@ -82,15 +84,16 @@ struct djvViewViewPrefsWidget::P
         hudBackgroundColorWidget(0)
     {}
 
-    djvColorSwatch *  backgroundColorWidget;
-    QComboBox *       resizeWidget;
-    QComboBox *       gridWidget;
-    djvColorSwatch *  gridColorWidget;
-    QCheckBox *       hudEnabledWidget;
-    QListWidget *     hudVisibleWidget;
-    djvColorSwatch *  hudColorWidget;
-    QComboBox *       hudBackgroundWidget;
-    djvColorSwatch *  hudBackgroundColorWidget;
+    djvColorSwatch *        backgroundColorWidget;
+    djvVector2iEditWidget * viewSizeWidget;
+    QComboBox *             resizeWidget;
+    QComboBox *             gridWidget;
+    djvColorSwatch *        gridColorWidget;
+    QCheckBox *             hudEnabledWidget;
+    QListWidget *           hudVisibleWidget;
+    djvColorSwatch *        hudColorWidget;
+    QComboBox *             hudBackgroundWidget;
+    djvColorSwatch *        hudBackgroundColorWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -106,6 +109,12 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     _p->backgroundColorWidget = new djvColorSwatch;
     _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
     _p->backgroundColorWidget->setColorDialogEnabled(true);
+
+    // Create the resizing widgets.
+    
+    _p->viewSizeWidget = new djvVector2iEditWidget;
+    _p->viewSizeWidget->setRange(djvVector2i(100, 100), djvVector2i(8192, 8192));
+    _p->viewSizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     _p->resizeWidget = new QComboBox;
     _p->resizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -161,7 +170,8 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
         "Resizing",
         "Set what happens to the image when the view is resized.");
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->resizeWidget);
+    formLayout->addRow("Default size:", _p->viewSizeWidget);
+    formLayout->addRow("Resize:", _p->resizeWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
@@ -195,6 +205,11 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
         _p->backgroundColorWidget,
         SIGNAL(colorChanged(const djvColor &)),
         SLOT(backgroundCallback(const djvColor &)));
+
+    connect(
+        _p->viewSizeWidget,
+        SIGNAL(valueChanged(const djvVector2i &)),
+        SLOT(viewSizeCallback(const djvVector2i &)));
 
     connect(
         _p->resizeWidget,
@@ -246,6 +261,8 @@ void djvViewViewPrefsWidget::resetPreferences()
 {
     djvViewViewPrefs::global()->setBackground(
         djvViewViewPrefs::backgroundDefault());
+    djvViewViewPrefs::global()->setViewSize(
+        djvViewViewPrefs::viewSizeDefault());
     djvViewViewPrefs::global()->setResize(
         djvViewViewPrefs::resizeDefault());
     djvViewViewPrefs::global()->setGrid(
@@ -271,6 +288,11 @@ void djvViewViewPrefsWidget::backgroundCallback(const djvColor & in)
     _p->backgroundColorWidget->setColor(in);
 
     djvViewViewPrefs::global()->setBackground(in);
+}
+
+void djvViewViewPrefsWidget::viewSizeCallback(const djvVector2i & in)
+{
+    djvViewViewPrefs::global()->setViewSize(in);
 }
 
 void djvViewViewPrefsWidget::resizeCallback(int in)
@@ -332,6 +354,7 @@ void djvViewViewPrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->backgroundColorWidget <<
+        _p->viewSizeWidget <<
         _p->resizeWidget <<
         _p->gridWidget <<
         _p->gridColorWidget <<
@@ -343,6 +366,9 @@ void djvViewViewPrefsWidget::widgetUpdate()
 
     _p->backgroundColorWidget->setColor(
         djvViewViewPrefs::global()->background());
+
+    _p->viewSizeWidget->setValue(
+        djvViewViewPrefs::global()->viewSize());
 
     _p->resizeWidget->setCurrentIndex(
         djvViewViewPrefs::global()->resize());

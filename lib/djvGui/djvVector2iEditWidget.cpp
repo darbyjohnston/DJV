@@ -34,6 +34,7 @@
 #include <djvVector2iEditWidget.h>
 
 #include <djvIntEdit.h>
+#include <djvIntObject.h>
 #include <djvSignalBlocker.h>
 
 #include <QHBoxLayout>
@@ -49,8 +50,6 @@ struct djvVector2iEditWidget::P
         widget2(0)
     {}
     
-    djvVector2i  value;
-    djvVector2i  tmp;
     djvIntEdit * widget;
     djvIntEdit * widget2;
 };
@@ -64,20 +63,29 @@ djvVector2iEditWidget::djvVector2iEditWidget(QWidget * parent) :
     _p(new P)
 {
     _p->widget = new djvIntEdit;
-    _p->widget->setRange(-100, 100);
+    _p->widget->setRange(djvIntObject::intMin, djvIntObject::intMax);
     
     _p->widget2 = new djvIntEdit;
-    _p->widget2->setRange(-100, 100);
+    _p->widget2->setRange(djvIntObject::intMin, djvIntObject::intMax);
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->widget2);
 
-    widgetUpdate();
-
-    connect(_p->widget, SIGNAL(valueChanged(int)), SLOT(widgetCallback(int)));
-    connect(_p->widget2, SIGNAL(valueChanged(int)), SLOT(widget2Callback(int)));
+    connect(_p->widget,
+        SIGNAL(valueChanged(int)),
+        SLOT(valueCallback()));
+    connect(_p->widget,
+        SIGNAL(rangeChanged(int, int)),
+        SLOT(rangeCallback()));
+    
+    connect(_p->widget2,
+        SIGNAL(valueChanged(int)),
+        SLOT(valueCallback()));
+    connect(_p->widget2,
+        SIGNAL(rangeChanged(int, int)),
+        SLOT(rangeCallback()));
 }
 
 djvVector2iEditWidget::~djvVector2iEditWidget()
@@ -85,40 +93,53 @@ djvVector2iEditWidget::~djvVector2iEditWidget()
     delete _p;
 }
 
-const djvVector2i & djvVector2iEditWidget::value() const
+djvVector2i djvVector2iEditWidget::value() const
 {
-    return _p->value;
+    return djvVector2i(_p->widget->value(), _p->widget2->value());
+}
+
+djvVector2i djvVector2iEditWidget::min() const
+{
+    return djvVector2i(_p->widget->min(), _p->widget2->min());
+}
+
+djvVector2i djvVector2iEditWidget::max() const
+{
+    return djvVector2i(_p->widget->max(), _p->widget2->max());
 }
 
 void djvVector2iEditWidget::setValue(const djvVector2i & value)
 {
-    if (value == _p->value)
-        return;
-
-    _p->value = value;
-
-    widgetUpdate();
-
-    Q_EMIT valueChanged(_p->value);
+    _p->widget->setValue(value.x);
+    _p->widget2->setValue(value.y);
 }
 
-void djvVector2iEditWidget::widgetCallback(int in)
+void djvVector2iEditWidget::setMin(const djvVector2i & min)
 {
-    setValue(djvVector2i(in, _p->value.y));
+    _p->widget->setMin(min.x);
+    _p->widget2->setMin(min.y);
 }
 
-void djvVector2iEditWidget::widget2Callback(int in)
+void djvVector2iEditWidget::setMax(const djvVector2i & max)
 {
-    setValue(djvVector2i(_p->value.x, in));
+    _p->widget->setMax(max.x);
+    _p->widget2->setMax(max.y);
 }
 
-void djvVector2iEditWidget::widgetUpdate()
+void djvVector2iEditWidget::setRange(
+    const djvVector2i & min,
+    const djvVector2i & max)
 {
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->widget <<
-        _p->widget2);
+    _p->widget->setRange(min.x, max.x);
+    _p->widget2->setRange(min.y, max.y);
+}
 
-    _p->widget->setValue(_p->value.x);
-    
-    _p->widget2->setValue(_p->value.y);
+void djvVector2iEditWidget::valueCallback()
+{
+    Q_EMIT valueChanged(value());
+}
+
+void djvVector2iEditWidget::rangeCallback()
+{
+    Q_EMIT rangeChanged(min(), max());
 }

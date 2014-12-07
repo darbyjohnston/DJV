@@ -121,7 +121,7 @@ Q_SIGNALS:
 
     void maxChanged(double);
 
-    //! This signal is emitted when the range is changed.
+    //! This signal is emitted when the value range is changed.
 
     void rangeChanged(double, double);
     

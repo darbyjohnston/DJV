@@ -148,6 +148,10 @@ protected:
     virtual void dropEvent(QDropEvent *);
     virtual void paintGL();
 
+private Q_SLOTS:
+
+    void viewSizeCallback();
+
 private:
 
     void drawGrid();

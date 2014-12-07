@@ -37,8 +37,6 @@
 #include <djvView.h>
 #include <djvViewAbstractPrefs.h>
 
-#include <djvBox.h>
-
 //! \addtogroup djvViewWindow
 //@{
 
@@ -138,7 +136,6 @@ Q_SIGNALS:
 
 private:
 
-    djvBox2i                   _geom;
     bool                       _resizeFit;
     djvView::WINDOW_RESIZE_MAX _resizeMax;
     bool                       _fullScreenControls;

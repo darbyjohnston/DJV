@@ -105,6 +105,11 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 
     connect(
         djvViewViewPrefs::global(),
+        SIGNAL(viewSizeChanged(const djvVector2i &)),
+        SLOT(viewSizeCallback()));
+
+    connect(
+        djvViewViewPrefs::global(),
         SIGNAL(gridColorChanged(const djvColor &)),
         SLOT(setGridColor(const djvColor &)));
 
@@ -153,7 +158,13 @@ const djvVector2i & djvViewImageView::mousePos() const
 
 QSize djvViewImageView::sizeHint() const
 {
-    return QSize(640, 360);
+    //DJV_DEBUG("djvViewImageView::sizeHint");
+    
+    const djvVector2i & size = djvViewViewPrefs::global()->viewSize();
+    
+    //DJV_DEBUG_PRINT("size = " << size);
+    
+    return QSize(size.x, size.y);
 }
 
 QSize djvViewImageView::minimumSizeHint() const
@@ -507,6 +518,11 @@ void djvViewImageView::paintGL()
     {
         drawHud();
     }
+}
+
+void djvViewImageView::viewSizeCallback()
+{
+    updateGeometry();
 }
 
 void djvViewImageView::drawGrid()

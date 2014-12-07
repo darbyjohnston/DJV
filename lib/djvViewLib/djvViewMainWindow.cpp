@@ -208,7 +208,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     }
     else
     {
-        fitWindow();
+        //fitWindow();
     }
     
     _p->viewWidget->installEventFilter(this);
@@ -491,7 +491,10 @@ void djvViewMainWindow::fitWindow()
 
     if (! djvVectorUtil::isSizeValid(imageSize))
     {
-        imageSize = djvVector2i(600, 300);
+        const QSize sizeHint = _p->viewWidget->sizeHint();
+        
+        imageSize.x = sizeHint.width ();
+        imageSize.y = sizeHint.height();
     }
 
     //DJV_DEBUG_PRINT("image size = " << imageSize);
@@ -503,9 +506,13 @@ void djvViewMainWindow::fitWindow()
         djvViewWindowPrefs::global()->resizeMax() :
         djvView::WINDOW_RESIZE_MAX_UNLIMITED);
 
+    //DJV_DEBUG_PRINT("resize max = " << resizeMax);
+
     const djvVector2i max(
         static_cast<int>(qApp->desktop()->width () * resizeMax),
         static_cast<int>(qApp->desktop()->height() * resizeMax));
+
+    //DJV_DEBUG_PRINT("max = " << max);
 
     if (imageSize.x > max.x || imageSize.y > max.y)
     {
@@ -521,16 +528,18 @@ void djvViewMainWindow::fitWindow()
                 max.y);
     }
 
+    //DJV_DEBUG_PRINT("image size = " << imageSize);
+
     // Adjust to size hint.
 
     const djvVector2i uiSize =
-        djvVector2i(sizeHint().width(), sizeHint().height()) -
-        djvVector2i(0, _p->viewWidget->sizeHint().height());
+        djvVector2i(width(), height()) -
+        djvVector2i(_p->viewWidget->width(), _p->viewWidget->height());
 
     //DJV_DEBUG_PRINT("ui size = " << uiSize);
 
     const djvVector2i size = djvVector2i(
-        djvMath::max(imageSize.x, uiSize.x),
+        imageSize.x + uiSize.x,
         imageSize.y + uiSize.y);
 
     //DJV_DEBUG_PRINT("size = " << size);
@@ -539,15 +548,16 @@ void djvViewMainWindow::fitWindow()
 
     showNormal();
 
-    const int fw = frameGeometry().width ();
-    const int fh = frameGeometry().height();
-
-    move(
-        djvMath::max(0, x() + fw / 2 - (((size.x + (fw - width ())) / 2))),
-        djvMath::max(0, y() + fh / 2 - (((size.y + (fh - height())) / 2))));
+    const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
+    
+    //DJV_DEBUG_PRINT("frame = " << frame);
 
     resize(size.x, size.y);
-
+    
+    move(
+        x() - (frameGeometry().width () / 2 - frame.x / 2),
+        y() - (frameGeometry().height() / 2 - frame.y / 2));
+    
     _p->viewWidget->viewFit();
 }
 
