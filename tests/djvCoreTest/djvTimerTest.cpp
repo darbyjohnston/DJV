@@ -64,7 +64,7 @@ void djvTimerTest::ctors()
         djvTimer a;
         
         a.start();
-        djvTime::sleep(0.1);
+        djvTime::msleep(1);
         a.check();
         
         djvTimer b(a);
@@ -82,7 +82,7 @@ void djvTimerTest::operators()
         djvTimer a;
         
         a.start();
-        djvTime::sleep(0.1);
+        djvTime::msleep(1);
         a.check();
         
         djvTimer b;

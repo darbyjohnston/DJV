@@ -60,7 +60,9 @@ void djvTimeTest::sleep()
 {
     DJV_DEBUG("djvTimeTest::sleep");
     
-    djvTime::sleep(0.1);
+    djvTime::sleep(1);
+    djvTime::msleep(1);
+    djvTime::usleep(1);
 }
 
 void djvTimeTest::convert()
