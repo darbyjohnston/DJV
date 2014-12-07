@@ -431,7 +431,12 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("in type = " << in.type());
 
-    djvFileInfo fileInfo = djvFileInfoUtil::fixPath(in);
+    djvFileInfo fileInfo;
+    
+    if (! in.isEmpty())
+    {
+        fileInfo = djvFileInfoUtil::fixPath(in);
+    }
     
     if (fileInfo.isSequenceValid())
     {

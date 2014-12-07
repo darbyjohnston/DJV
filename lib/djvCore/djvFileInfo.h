@@ -167,6 +167,10 @@ public:
 
     void setExtension(const QString &);
     
+    //! Get whether the file is empty.
+    
+    inline bool isEmpty() const;
+    
     //! Get whether this file exists.
     
     inline bool exists() const;

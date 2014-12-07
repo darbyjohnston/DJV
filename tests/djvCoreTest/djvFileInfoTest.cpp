@@ -55,7 +55,7 @@ void djvFileInfoTest::ctors()
     {
         djvFileInfo fileInfo;
         
-        DJV_ASSERT(! fileInfo.fileName().length());
+        DJV_ASSERT(fileInfo.isEmpty());
     }
     
     {

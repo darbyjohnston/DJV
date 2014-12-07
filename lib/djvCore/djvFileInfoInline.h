@@ -60,6 +60,15 @@ inline const QString & djvFileInfo::extension() const
     return _extension;
 }
 
+inline bool djvFileInfo::isEmpty() const
+{
+    return
+        _path.isEmpty()      &&
+        _base.isEmpty()      &&
+        _number.isEmpty()    &&
+        _extension.isEmpty();
+}
+
 inline bool djvFileInfo::exists() const
 {
     return _exists;
