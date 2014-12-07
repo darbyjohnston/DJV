@@ -34,6 +34,7 @@
 #include <djvCglContextPrivate.h>
 
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 
 //------------------------------------------------------------------------------
 // PixelFormat
@@ -103,6 +104,8 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
     // Create the context.
 
+	DJV_LOG("djvCglContextPrivate", "Creating OpenGL context...");
+
     CGLError error = CGLCreateContext(pixelFormat.format(), 0, &_context);
 
     if (error != kCGLNoError || ! _context)
@@ -116,6 +119,8 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
     bind();
 
     // Initialize GLEW.
+	
+    DJV_LOG("djvCglContextPrivate", "Initializing GLEW...");
 
     GLint glError = glewInit();
 
@@ -137,6 +142,10 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
     //    (const char *)gluGetString(GLU_VERSION));
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
+
+    DJV_LOG("djvCglContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG("djvCglContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG("djvCglContextPrivate", QString("GL version: \"%1\"").arg(version()));
 
     if (! GL_EXT_framebuffer_object)
     {
