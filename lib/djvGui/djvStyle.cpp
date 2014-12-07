@@ -94,7 +94,7 @@ djvStyle::Fonts::Fonts() :
     normal(qApp->font()),
     fixed ("Monospace")
 {
-    fixed.setStyleHint(QFont::TypeWriter);
+    fixed.setStyleHint(QFont::Monospace);
 }
 
 //------------------------------------------------------------------------------
