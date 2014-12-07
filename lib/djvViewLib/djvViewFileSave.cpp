@@ -41,6 +41,8 @@
 #include <djvImage.h>
 #include <djvPixelDataUtil.h>
 
+#include <QDir>
+
 //------------------------------------------------------------------------------
 // djvViewFileSaveInfo
 //------------------------------------------------------------------------------
@@ -101,29 +103,14 @@ djvViewFileSave::djvViewFileSave(QObject * parent) :
     connect(
         _p->dialog,
         SIGNAL(finishedSignal()),
-        SIGNAL(finished()));
+        SLOT(finishedCallback()));
 }
 
 djvViewFileSave::~djvViewFileSave()
 {
     //DJV_DEBUG("djvViewFileSave::~djvViewFileSave");
 
-    if (_p->save.data())
-    {
-        try
-        {
-            //DJV_DEBUG_PRINT("close");
-
-            _p->save->close();
-        }
-        catch (const djvError & error)
-        {
-            DJV_VIEW_APP->printError(error);
-        }
-    }
-
     delete _p->dialog;
-
     delete _p;
 }
 
@@ -188,7 +175,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
         if (! _p->load.data())
         {
             throw djvError(QString("Cannot open image \"%1\"").
-                arg(_p->info.inputFile));
+                arg(QDir::toNativeSeparators(_p->info.inputFile)));
         }
     }
     catch (const djvError & error)
@@ -212,7 +199,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
         if (! _p->save.data())
         {
             throw djvError(QString("Cannot open image \"%1\"").
-                arg(_p->info.outputFile));
+                arg(QDir::toNativeSeparators(_p->info.outputFile)));
         }
     }
     catch (const djvError & error)
@@ -225,7 +212,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     // Start...
 
     _p->dialog->setLabel(QString("Saving \"%1\":").
-        arg(_p->info.outputFile));
+        arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
     _p->dialog->start(
         _p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
@@ -235,9 +222,25 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
 
 void djvViewFileSave::cancel()
 {
+    //DJV_DEBUG("djvViewFileSave::cancel");
+
     if (_p->dialog->isVisible())
     {
         _p->dialog->reject();
+    }
+
+    if (_p->save.data())
+    {
+        try
+        {
+            //DJV_DEBUG_PRINT("close");
+
+            _p->save->close();
+        }
+        catch (const djvError & error)
+        {
+            DJV_VIEW_APP->printError(error);
+        }
     }
 
     _p->info = djvViewFileSaveInfo();
@@ -322,4 +325,37 @@ void djvViewFileSave::callback(int in)
 
         return;
     }
+
+    if ((_p->saveSequence.frames.count() - 1) == in)
+    {
+        try
+        {
+            //DJV_DEBUG_PRINT("close");
+
+            _p->save->close();
+        }
+        catch (const djvError & error)
+        {
+            DJV_VIEW_APP->printError(error);
+        }
+    }
+
+}
+
+void djvViewFileSave::finishedCallback()
+{
+    //DJV_DEBUG("djvViewFileSave::finishedCallback");
+
+    try
+    {
+        //DJV_DEBUG_PRINT("close");
+
+        _p->save->close();
+    }
+    catch (const djvError & error)
+    {
+        DJV_VIEW_APP->printError(error);
+    }
+
+    Q_EMIT finished();
 }

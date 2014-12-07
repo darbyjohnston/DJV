@@ -43,6 +43,7 @@
 #include <djvSequenceUtil.h>
 #include <djvStringUtil.h>
 
+#include <QDir>
 #include <QFileInfo>
 #include <QRegExp>
 
@@ -233,13 +234,13 @@ bool djvFileInfoUtil::exists(const djvFileInfo & in)
 
             return true;
         }
-        catch (const djvError &)
+        catch (const djvError & error)
         {
             //DJV_DEBUG_PRINT("error = " << error.string());
         }
     }
 
-    return false;;
+    return false;
 }
 
 namespace
@@ -832,7 +833,14 @@ QString djvFileInfoUtil::fixPath(const QString & in)
     }
     else
     {
-        out = in;
+        if (qFileInfo.isAbsolute())
+        {
+            out = qFileInfo.filePath();
+        }
+        else
+        {
+            out = QDir::currentPath() + '/' + qFileInfo.filePath();
+        }
     }
     
     //DJV_DEBUG_PRINT("out = " << out);

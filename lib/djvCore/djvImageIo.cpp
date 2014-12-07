@@ -40,6 +40,7 @@
 #include <djvStringUtil.h>
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QMap>
 #include <QPointer>
 
@@ -185,7 +186,8 @@ void djvImageIo::throwUnrecognized(
 {
     throw djvError(
         plugin,
-        QString("Unrecognized file: %1").arg(fileName));
+        QString("Unrecognized file: %1").
+            arg(QDir::toNativeSeparators(fileName)));
 }
 
 void djvImageIo::throwUnsupported(
@@ -194,7 +196,8 @@ void djvImageIo::throwUnsupported(
 {
     throw djvError(
         plugin,
-        QString("Unsupported file: %1").arg(fileName));
+        QString("Unsupported file: %1").
+            arg(QDir::toNativeSeparators(fileName)));
 }
 
 void djvImageIo::throwErrorOpen(
@@ -203,7 +206,8 @@ void djvImageIo::throwErrorOpen(
 {
     throw djvError(
         plugin,
-        QString("Cannot open file: %1").arg(fileName));
+        QString("Cannot open file: %1").
+            arg(QDir::toNativeSeparators(fileName)));
 }
 
 void djvImageIo::throwErrorRead(
@@ -212,7 +216,8 @@ void djvImageIo::throwErrorRead(
 {
     throw djvError(
         plugin,
-        QString("Error reading file: %1").arg(fileName));
+        QString("Error reading file: %1").
+            arg(QDir::toNativeSeparators(fileName)));
 }
 
 void djvImageIo::throwErrorWrite(
@@ -221,7 +226,8 @@ void djvImageIo::throwErrorWrite(
 {
     throw djvError(
         plugin,
-        QString("Error writing file: %1").arg(fileName));
+        QString("Error writing file: %1").
+            arg(QDir::toNativeSeparators(fileName)));
 }
 
 //------------------------------------------------------------------------------
@@ -371,7 +377,8 @@ djvImageLoad * djvImageIoFactory::load(
     }
     else
     {
-        throw djvError(QString("Unrecognized file: %1").arg(fileInfo));
+        throw djvError(QString("Unrecognized file: %1").
+            arg(QDir::toNativeSeparators(fileInfo)));
     }
     
     return 0;
@@ -411,7 +418,8 @@ djvImageSave * djvImageIoFactory::save(
     }
     else
     {
-        throw djvError(QString("Unrecognized file: %1").arg(fileInfo));
+        throw djvError(QString("Unrecognized file: %1").
+            arg(QDir::toNativeSeparators(fileInfo)));
     }
     
     return 0;

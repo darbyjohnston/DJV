@@ -43,6 +43,8 @@
 #include <djvTimer.h>
 #include <djvUser.h>
 
+#include <QDir>
+
 //------------------------------------------------------------------------------
 // djvConvertOptions
 //------------------------------------------------------------------------------
@@ -494,7 +496,7 @@ bool djvConvertApplication::work()
         loadInfo.sequence.frames.mid(start, end - start + 1);
 
     print(QString("%1 %2").
-        arg(_input.file).
+        arg(QDir::toNativeSeparators(_input.file)).
         arg(labelImage(loadInfo, loadInfo.sequence)));
 
     // Open the output file.
@@ -581,7 +583,7 @@ bool djvConvertApplication::work()
         
         if (! save.data())
             throw djvError(QString("Cannot open image \"%1\"").
-                arg(_output.file));
+                arg(QDir::toNativeSeparators(_output.file)));
     }
     catch (const djvError & error)
     {
@@ -591,7 +593,7 @@ bool djvConvertApplication::work()
     }
 
     print(QString("%1 %2").
-        arg(_output.file).
+        arg(QDir::toNativeSeparators(_output.file)).
         arg(labelImage(saveInfo, saveInfo.sequence)));
 
     // Add the slate.
@@ -611,7 +613,7 @@ bool djvConvertApplication::work()
             
             if (! load.data())
                 throw djvError(QString("Cannot open slate: \"%1\"").
-                    arg(_input.slate));
+                    arg(QDir::toNativeSeparators(_input.slate)));
 
             djvImage image;
             
@@ -630,6 +632,8 @@ bool djvConvertApplication::work()
         {
             printError(error);
             
+            save->close();
+
             return false;
         }
     }
@@ -651,6 +655,8 @@ bool djvConvertApplication::work()
         catch (const djvError & error)
         {
             printError(error);
+
+            save->close();
             
             return false;
         }
@@ -708,6 +714,8 @@ bool djvConvertApplication::work()
         if (! image.isValid())
         {
             printError(error);
+
+            save->close();
             
             return false;
         }
@@ -771,6 +779,9 @@ bool djvConvertApplication::work()
         catch (const djvError & error)
         {
             printError(error);
+
+            save->close();
+
             return false;
         }
 
@@ -810,6 +821,7 @@ bool djvConvertApplication::work()
     catch (const djvError & error)
     {
         printError(error);
+
         return false;
     }
 

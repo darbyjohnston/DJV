@@ -61,6 +61,7 @@
 #include <djvStringUtil.h>
 
 #include <QDesktopWidget>
+#include <QDir>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
@@ -762,22 +763,22 @@ void djvViewMainWindow::mouseWheelCallback(djvViewInput::MOUSE_WHEEL in)
 
     switch (_p->mouseWheel)
     {
-    case djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
-        _p->playbackGroup->setPlayback(djvView::STOP);
+            _p->playbackGroup->setPlayback(djvView::STOP);
 
-        _p->playbackFrameTmp = _p->playbackGroup->frame();
+            _p->playbackFrameTmp = _p->playbackGroup->frame();
 
-        break;
+            break;
 
-    case djvViewInput::MOUSE_WHEEL_PLAYBACK_SPEED:
+        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SPEED:
 
-        _p->playbackSpeedTmp =
-            djvSpeed::speedToFloat(_p->playbackGroup->speed());
+            _p->playbackSpeedTmp =
+                djvSpeed::speedToFloat(_p->playbackGroup->speed());
 
-        break;
+            break;
 
-    default: break;
+        default: break;
     }
 }
 
@@ -812,10 +813,12 @@ void djvViewMainWindow::fileUpdate()
 {
     // Update the window title.
 
-    const djvFileInfo & file = _p->fileGroup->fileInfo();
+    const djvFileInfo & fileInfo = _p->fileGroup->fileInfo();
 
-    const QString title = ! file.fileName().isEmpty() ?
-        QString("%1 - %2").arg(DJV_APP->name()).arg(file) :
+    const QString title = ! fileInfo.fileName().isEmpty() ?
+        QString("%1 - %2").
+            arg(DJV_APP->name()).
+            arg(QDir::toNativeSeparators(fileInfo)) :
         QString("%1").arg(DJV_APP->name());
 
     setWindowTitle(title);

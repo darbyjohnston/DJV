@@ -40,9 +40,10 @@
 #include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
 
-#include <QStringList>
+#include <QDir>
 #include <QMap>
 #include <QPair>
+#include <QStringList>
 
 #if defined(DJV_WINDOWS)
 
@@ -257,7 +258,7 @@ djvPluginFactory::djvPluginFactory(
             DJV_CORE_APP->printError(djvError(
                 "djvPluginFactory",
                 QString("Cannot open plugin \"%1\": %2").
-                    arg(fileInfo).
+                    arg(QDir::toNativeSeparators(fileInfo)).
                     arg(error.string())));
 
             continue;
@@ -290,7 +291,7 @@ djvPluginFactory::djvPluginFactory(
             DJV_CORE_APP->printError(djvError(
                 "djvPluginFactory",
                 QString("Cannot load plugin \"%1\"").
-                    arg(fileInfo)));
+                    arg(QDir::toNativeSeparators(fileInfo))));
 
             continue;
         }

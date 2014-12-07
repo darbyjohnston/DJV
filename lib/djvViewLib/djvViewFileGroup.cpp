@@ -57,6 +57,7 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QDir>
 #include <QMenuBar>
 #include <QToolBar>
 
@@ -497,7 +498,7 @@ void djvViewFileGroup::open(const djvFileInfo & in)
             if (!_p->imageLoad.data())
             {
                 throw djvError(QString("Cannot open image \"%1\"").
-                    arg(fileInfo));
+                    arg(QDir::toNativeSeparators(fileInfo)));
             }
 
             _p->fileInfo = fileInfo;
@@ -664,7 +665,7 @@ void djvViewFileGroup::reloadCallback()
             if (! _p->imageLoad.data())
             {
                 throw djvError(QString("Cannot open image \"%1\"").
-                    arg(_p->fileInfo));
+                    arg(QDir::toNativeSeparators(_p->fileInfo)));
             }
         }
         catch (const djvError & error)
@@ -699,7 +700,7 @@ void djvViewFileGroup::reloadFrameCallback()
             if (! _p->imageLoad.data())
             {
                 throw djvError(QString("Cannot open image \"%1\"").
-                    arg(_p->fileInfo));
+                    arg(QDir::toNativeSeparators(_p->fileInfo)));
             }
         }
         catch (const djvError & error)
@@ -720,18 +721,23 @@ void djvViewFileGroup::closeCallback()
 
 void djvViewFileGroup::saveCallback()
 {
+    //DJV_DEBUG("djvViewFileGroup::saveCallback");
+
     djvFileBrowser * fileBrowser = djvFileBrowser::global("Save");
 
     if (fileBrowser->exec() == QDialog::Accepted)
     {
         const djvFileInfo & fileInfo = fileBrowser->fileInfo();
 
+        //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+
         if (djvFileInfoUtil::exists(fileInfo))
         {
             //DJV_DEBUG_PRINT("exists");
 
             djvQuestionDialog dialog(
-                QString("Overwrite existing file \"%1\"?").arg(fileInfo));
+                QString("Overwrite existing file \"%1\"?").
+                    arg(QDir::toNativeSeparators(fileInfo)));
 
             if (QDialog::Accepted == dialog.exec())
             {
@@ -756,7 +762,8 @@ void djvViewFileGroup::saveFrameCallback()
         if (djvFileInfoUtil::exists(fileInfo))
         {
             djvQuestionDialog dialog(
-                QString("Overwrite existing file \"%1\"?").arg(fileInfo));
+                QString("Overwrite existing file \"%1\"?").
+                    arg(QDir::toNativeSeparators(fileInfo)));
 
             if (QDialog::Accepted == dialog.exec())
             {

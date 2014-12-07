@@ -660,7 +660,7 @@ void djvFileBrowser::fileCallback()
 
         setFileInfo(fileInfo);
 
-        _p->widgets.file->setText(_p->fileInfo);
+        _p->widgets.file->setText(QDir::toNativeSeparators(_p->fileInfo));
     }
 }
 
@@ -672,7 +672,7 @@ void djvFileBrowser::browserCallback(const QModelIndex & index)
 
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
-    _p->widgets.file->setText(fileInfo);
+    _p->widgets.file->setText(QDir::toNativeSeparators(fileInfo));
 
     acceptedCallback();
 }
@@ -687,7 +687,7 @@ void djvFileBrowser::browserCurrentCallback(
 
     //DJV_DEBUG_PRINT("file = " << fileInfo);
 
-    _p->widgets.file->setText(fileInfo);
+    _p->widgets.file->setText(QDir::toNativeSeparators(fileInfo));
 }
 
 void djvFileBrowser::recentCallback(QAction * action)
@@ -938,7 +938,8 @@ void djvFileBrowser::acceptedCallback()
 {
     //DJV_DEBUG("djvFileBrowser::acceptedCallback");
 
-    const QString fileName = _p->widgets.file->text();
+    const QString fileName = djvFileInfoUtil::fixPath(
+        _p->widgets.file->text());
 
     //DJV_DEBUG_PRINT("file name = " << fileName);
 
@@ -948,7 +949,7 @@ void djvFileBrowser::acceptedCallback()
 
     setFileInfo(fileInfo);
 
-    _p->widgets.file->setText(_p->fileInfo);
+    _p->widgets.file->setText(QDir::toNativeSeparators(_p->fileInfo));
 
     if (fileInfo.type() != djvFileInfo::DIRECTORY)
     {
@@ -988,7 +989,7 @@ void djvFileBrowser::widgetUpdate()
         _p->widgets.browser->header() <<
         _p->widgets.pinned);
 
-    _p->widgets.file->setText(_p->fileInfo);
+    _p->widgets.file->setText(QDir::toNativeSeparators(_p->fileInfo));
 
     _p->widgets.seq->setCurrentIndex(_p->model->sequence());
 
@@ -1018,7 +1019,8 @@ void djvFileBrowser::menuUpdate()
     
     for (int i = 0; i < recent.count(); ++i)
     {
-        QAction * action = _p->menus.menus[P::Menus::RECENT]->addAction(recent[i]);
+        QAction * action = _p->menus.menus[P::Menus::RECENT]->addAction(
+            QDir::toNativeSeparators(recent[i]));
         action->setData(recent[i]);
         _p->actions.groups[P::Actions::RECENT_GROUP]->addAction(action);
     }
@@ -1038,7 +1040,8 @@ void djvFileBrowser::menuUpdate()
     
     for (int i = 0; i < drives.count(); ++i)
     {
-        QAction * action = _p->menus.menus[P::Menus::DRIVES]->addAction(drives[i]);
+        QAction * action = _p->menus.menus[P::Menus::DRIVES]->addAction(
+            QDir::toNativeSeparators(drives[i]));
         action->setData(drives[i]);
         _p->actions.groups[P::Actions::DRIVES_GROUP]->addAction(action);
     }

@@ -37,6 +37,8 @@
 #include <djvFileInfoUtil.h>
 #include <djvOpenGlImage.h>
 
+#include <QDir>
+
 namespace qt
 {
 
@@ -91,7 +93,7 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
             QString("Cannot create track: %1 (#%2)").
-                arg(in).
+                arg(QDir::toNativeSeparators(in)).
                 arg(qt::GetMoviesError()));
     }
     
@@ -107,7 +109,7 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
             QString("Cannot create media: %1 (#%2)").
-                arg(in).
+                arg(QDir::toNativeSeparators(in)).
                 arg(qt::GetMoviesError()));
     }
 
@@ -118,7 +120,7 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
             QString("Cannot begin editing media: %1 (#%2)").
-                arg(in).
+                arg(QDir::toNativeSeparators(in)).
                 arg(err));
     }
 
@@ -150,7 +152,9 @@ void djvQuickTimeSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
     {
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
-            QString("Cannot create GWorld: %1 (#%2)").arg(in).arg(err));
+            QString("Cannot create GWorld: %1 (#%2)").
+                arg(QDir::toNativeSeparators(in)).
+                arg(err));
     }
 
     qt::SetMovieGWorld(_movie, _gworld, 0);
@@ -161,6 +165,7 @@ void djvQuickTimeSave::_open(const QString & in, const djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvQuickTimeSave::_open");
     //DJV_DEBUG_PRINT("in = " << in);
+    //DJV_DEBUG_PRINT("in = " << djvFileInfoUtil::fixPath(in));
     //DJV_DEBUG_PRINT("info = " << info);
 
     djvQuickTimePlugin::Handle handle;
@@ -168,8 +173,8 @@ void djvQuickTimeSave::_open(const QString & in, const djvImageIoInfo & info)
     
     qt::OSErr err = qt::QTNewDataReferenceFromFullPathCFString(
         djvQuickTimePlugin::CFStringRef(djvFileInfoUtil::fixPath(in)).p,
-        qt::kQTNativeDefaultPathStyle,
-        //qt::kQTPOSIXPathStyle,
+        //qt::kQTNativeDefaultPathStyle,
+        qt::kQTPOSIXPathStyle,
         0,
         &handle.p,
         &handleType);
@@ -179,7 +184,7 @@ void djvQuickTimeSave::_open(const QString & in, const djvImageIoInfo & info)
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
             QString("Cannot create data reference: %1 (#%2)").
-                arg(in).
+                arg(QDir::toNativeSeparators(in)).
                 arg(err));
     }
 
@@ -196,7 +201,9 @@ void djvQuickTimeSave::_open(const QString & in, const djvImageIoInfo & info)
     {
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
-            QString("Cannot open: %1").arg(in).arg(err));
+            QString("Cannot open: %1 (#%2)").
+                arg(QDir::toNativeSeparators(in)).
+                arg(err));
     }
 }
 
@@ -261,7 +268,7 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
             djvQuickTimePlugin::staticName,
             QString("Cannot compress frame %1: %2 (#%3)").
                 arg(frame.frame).
-                arg(_file).
+                arg(QDir::toNativeSeparators(_file)).
                 arg(err));
     }
 
@@ -278,7 +285,7 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
             djvQuickTimePlugin::staticName,
             QString("Cannot compress frame %1: %2 (#%3)").
                 arg(frame.frame).
-                arg(_file).
+                arg(QDir::toNativeSeparators(_file)).
                 arg(err));
     }
 
@@ -298,7 +305,7 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
             djvQuickTimePlugin::staticName,
             QString("Cannot compress frame %1: %2 (#%3)").
                 arg(frame.frame).
-                arg(_file).
+                arg(QDir::toNativeSeparators(_file)).
                 arg(err));
     }
 
@@ -321,7 +328,7 @@ void djvQuickTimeSave::write(const djvImage & in, const djvImageIoFrameInfo & fr
             djvQuickTimePlugin::staticName,
             QString("Cannot add frame %1: %2 (#%3)").
                 arg(frame.frame).
-                arg(_file).
+                arg(QDir::toNativeSeparators(_file)).
                 arg(err));
     }
 }
@@ -341,7 +348,7 @@ void djvQuickTimeSave::close() throw (djvError)
             DJV_THROW_ERROR2(
                 djvQuickTimePlugin::staticName,
                 QString("Cannot end editing media: %1 (#%2)").
-                    arg(_file).
+                    arg(QDir::toNativeSeparators(_file)).
                     arg(err));
         }
 
@@ -356,7 +363,9 @@ void djvQuickTimeSave::close() throw (djvError)
         {
             DJV_THROW_ERROR2(
                 djvQuickTimePlugin::staticName,
-                QString("Cannot add media: %1 (#%2)").arg(_file).arg(err));
+                QString("Cannot add media: %1 (#%2)").
+                    arg(QDir::toNativeSeparators(_file)).
+                    arg(err));
         }
 
         qt::AddMovieToStorage(_movie, _f);

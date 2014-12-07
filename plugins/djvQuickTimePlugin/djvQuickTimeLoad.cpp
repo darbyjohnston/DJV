@@ -37,6 +37,8 @@
 #include <djvFileInfoUtil.h>
 #include <djvPixelDataUtil.h>
 
+#include <QDir>
+
 namespace qt
 {
 #if defined(DJV_WINDOWS)
@@ -188,7 +190,9 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     {
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
-            QString("Cannot open: %1 (#%2)").arg(in).arg(err));
+            QString("Cannot open: %1 (#%2)").
+                arg(QDir::toNativeSeparators(in)).
+                arg(err));
     }
 
     // Get the file information.
@@ -251,7 +255,9 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     {
         DJV_THROW_ERROR2(
             djvQuickTimePlugin::staticName,
-            QString("Cannot create GWorld: %1 (#%2)").arg(in).arg(err));
+            QString("Cannot create GWorld: %1 (#%2)").
+                arg(QDir::toNativeSeparators(in)).
+                arg(err));
     }
 
     qt::SetMovieGWorld(_movie, _gworld, 0);

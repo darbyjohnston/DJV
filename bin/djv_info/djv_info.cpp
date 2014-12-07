@@ -346,7 +346,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
                 arg(djvSpeed::speedToFloat(_info.sequence.speed), 0, 'f', 2);
 
             print(QString("%1 %2").
-                arg(name).
+                arg(QDir::toNativeSeparators(name)).
                 arg(str, _columns - name.length() - 2));
         }
         else
@@ -360,7 +360,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
                 arg(djvSpeed::speedToFloat(_info.sequence.speed), 0, 'f', 2);
 
             print(QString("%1 %2").
-                arg(name).
+                arg(QDir::toNativeSeparators(name)).
                 arg(str, _columns - name.length() - 2));
 
             // Print each layer's information.
@@ -387,7 +387,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
     {
         // Print verbose informaton.
 
-        print(name);
+        print(QDir::toNativeSeparators(name));
 
         for (int i = 0; i < _info.layerCount(); ++i)
         {
@@ -445,7 +445,8 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (! QDir(in.path()).exists() && ! _recurse)
     {
-        throw djvError(QString("Cannot open directory: %1").arg(in));
+        throw djvError(QString("Cannot open directory: %1").
+            arg(QDir::toNativeSeparators(in)));
     }
 
     djvFileInfoList items = djvFileInfoUtil::list(in, _sequence);
@@ -459,7 +460,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (label)
     {
-        print(QString("%1:").arg(in));
+        print(QString("%1:").arg(QDir::toNativeSeparators(in)));
 
         if (_verbose)
         {

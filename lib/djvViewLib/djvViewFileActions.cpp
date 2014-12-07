@@ -42,6 +42,7 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QDir>
 
 //------------------------------------------------------------------------------
 // djvViewFileActions::P
@@ -229,7 +230,7 @@ void djvViewFileActions::update()
     for (int i = 0; i < recent.count(); ++i)
     {
         QAction * action = new QAction(this);
-        action->setText(recent[i]);
+        action->setText(QDir::toNativeSeparators(recent[i]));
         action->setData(i);
 
         _groups[RECENT_GROUP]->addAction(action);

@@ -122,6 +122,7 @@ Q_SIGNALS:
 private Q_SLOTS:
 
     void callback(int);
+    void finishedCallback();
 
 private:
     

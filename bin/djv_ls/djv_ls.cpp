@@ -121,7 +121,8 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
 
             if (! file.stat())
             {
-                printError(djvError(QString("Cannot open: %1").arg(file)));
+                printError(djvError(QString("Cannot open: %1").
+                    arg(QDir::toNativeSeparators(file))));
                 
                 setExitValue(EXIT_VALUE_ERROR);
                 
@@ -162,7 +163,8 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
                 list[i],
                 ((list.count() > 1) || _recurse) && ! _filePath))
             {
-                printError(djvError(QString("Cannot open: %1").arg(list[i])));
+                printError(djvError(QString("Cannot open: %1").
+                    arg(QDir::toNativeSeparators(list[i]))));
                 
                 setExitValue(EXIT_VALUE_ERROR);
             }
@@ -409,8 +411,8 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
 
         print(
             QString("%1 %2").
-            arg(name).
-            arg(infoString, _columns - name.length() - 2));
+                arg(QDir::toNativeSeparators(name)).
+                arg(infoString, _columns - name.length() - 2));
     }
     else
     {
@@ -438,7 +440,7 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (label)
     {
-        print(QString("%1:").arg(in));
+        print(QString("%1:").arg(QDir::toNativeSeparators(in)));
     }
 
     for (int i = 0; i < items.count(); ++i)

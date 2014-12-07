@@ -42,6 +42,7 @@
 #include <djvSignalBlocker.h>
 #include <djvTime.h>
 
+#include <QDir>
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>
@@ -154,7 +155,8 @@ void djvViewInfoTool::widgetUpdate()
 
     if (isVisible())
     {
-        _p->fileNameWidget->setText(imageIoInfo.fileName);
+        _p->fileNameWidget->setText(
+            QDir::toNativeSeparators(imageIoInfo.fileName));
 
         _p->layerNameWidget->setText(imageIoInfo.layerName);
 

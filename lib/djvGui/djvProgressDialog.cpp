@@ -197,6 +197,8 @@ djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
     
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectedCallback()));
+
+    connect(this, SIGNAL(rejected()), SIGNAL(finishedSignal()));
 }
 
 djvProgressDialog::~djvProgressDialog()
