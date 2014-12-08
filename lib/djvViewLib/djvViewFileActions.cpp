@@ -145,7 +145,7 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
 
     connect(
         djvViewFilePrefs::global(),
-        SIGNAL(recentChanged(const QStringList &)),
+        SIGNAL(recentChanged(const djvFileInfoList &)),
         SLOT(update()));
 
     connect(
@@ -225,7 +225,7 @@ void djvViewFileActions::update()
     Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())
         delete action;
 
-    const QStringList & recent = djvViewFilePrefs::global()->recentFiles();
+    const djvFileInfoList & recent = djvViewFilePrefs::global()->recentFiles();
 
     for (int i = 0; i < recent.count(); ++i)
     {

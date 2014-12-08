@@ -36,6 +36,7 @@
 
 #include <djvViewAbstractPrefs.h>
 
+#include <djvFileInfo.h>
 #include <djvPixelData.h>
 
 #include <QStringList>
@@ -65,11 +66,11 @@ public:
 
     //! Add a recent file.
 
-    void addRecent(const QString &);
+    void addRecent(const djvFileInfo &);
 
     //! Get the recent files.
 
-    const QStringList & recentFiles() const;
+    const djvFileInfoList & recentFiles() const;
 
     //! Get the default for whether sequences are automatically opened.
     
@@ -165,7 +166,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the recent files are changed.
 
-    void recentChanged(const QStringList &);
+    void recentChanged(const djvFileInfoList &);
     
     //! This signal is emitted when automatic sequences is changed.
 
@@ -193,7 +194,7 @@ Q_SIGNALS:
 
 private:
 
-    QStringList             _recent;
+    djvFileInfoList         _recent;
     bool                    _autoSequence;
     bool                    _combineCommandLine;
     djvPixelDataInfo::PROXY _proxy;

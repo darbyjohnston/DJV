@@ -771,7 +771,38 @@ void djvFileInfoUtil::sortDirsFirst(djvFileInfoList & in)
 
 int djvFileInfoUtil::recentMax = 10;
 
-void djvFileInfoUtil::recent(const QString & fileName, QStringList & list, int max)
+void djvFileInfoUtil::recent(
+    const djvFileInfo & fileInfo,
+    djvFileInfoList &   list,
+    int                 max)
+{
+    const int index = list.indexOf(fileInfo);
+    
+    if (-1 == index)
+    {
+        // Insert new item at front of list.
+
+        list.push_front(fileInfo);    
+        
+        while (list.count() > max)
+        {
+            list.pop_back();
+        }
+    }
+    else
+    {
+        // Move existing item to front of list.
+
+        list.removeAt(list.indexOf(fileInfo));
+        
+        list.push_front(fileInfo);
+    }
+}
+
+void djvFileInfoUtil::recent(
+    const QString & fileName,
+    QStringList &   list,
+    int             max)
 {
     const int index = list.indexOf(fileName);
     

@@ -140,7 +140,17 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
 
     //! Update a recent files list.
 
-    static void recent(const QString &, QStringList &, int max = recentMax);
+    static void recent(
+        const djvFileInfo & fileInfo,
+        djvFileInfoList &   list,
+        int                 max = recentMax);
+
+    //! Update a recent files list.
+
+    static void recent(
+        const QString & fileName,
+        QStringList &   list,
+        int             max = recentMax);
 
     //! Fix a path.
 

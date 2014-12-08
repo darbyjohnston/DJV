@@ -306,6 +306,8 @@ private:
     friend struct djvFileInfoUtil;
 };
 
+Q_DECLARE_METATYPE(djvFileInfo);
+
 //! File information list typedef.
 
 typedef QVector<djvFileInfo> djvFileInfoList;
@@ -318,8 +320,11 @@ inline bool operator != (const djvFileInfo &, const djvFileInfo &);
 
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvFileInfo::TYPE &)
     throw (QString);
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvFileInfo &)
+    throw (QString);
 
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvFileInfo::TYPE);
+DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvFileInfo &);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvFileInfo::TYPE &);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvFileInfo &);

@@ -562,12 +562,13 @@ djvFileBrowser * djvFileBrowser::global(const QString & title)
 
 void djvFileBrowser::setFileInfo(const djvFileInfo & fileInfo)
 {
-    const djvFileInfo tmp = djvFileInfoUtil::fixPath(fileInfo);
-
+    djvFileInfo tmp = djvFileInfoUtil::fixPath(fileInfo);
+    tmp.setType(fileInfo.type());
+    
     if (tmp == _p->fileInfo)
         return;
 
-    //DJV_DEBUG("djvFileBrowser::setFile");
+    //DJV_DEBUG("djvFileBrowser::setFileInfo");
     //DJV_DEBUG_PRINT("fileInfo = " << tmp);
 
     const QString oldDir = djvFileInfoUtil::fixPath(
@@ -578,12 +579,6 @@ void djvFileBrowser::setFileInfo(const djvFileInfo & fileInfo)
     //DJV_DEBUG_PRINT("oldDir = " << oldDir);
 
     _p->fileInfo = tmp;
-    
-    if (_p->model->sequence() != djvSequenceEnum::COMPRESS_OFF &&
-        _p->fileInfo.isSequenceValid())
-    {
-        _p->fileInfo.setType(djvFileInfo::SEQUENCE);
-    }
     
     //DJV_DEBUG_PRINT("file = " << _p->fileInfo);
 
@@ -670,7 +665,7 @@ void djvFileBrowser::browserCallback(const QModelIndex & index)
 
     const djvFileInfo fileInfo = _p->model->fileInfo(index);
 
-    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
 
     _p->widgets.file->setText(QDir::toNativeSeparators(fileInfo));
 
@@ -944,8 +939,14 @@ void djvFileBrowser::acceptedCallback()
     //DJV_DEBUG_PRINT("file name = " << fileName);
 
     djvFileInfo fileInfo(fileName);
+    
+    if (_p->model->sequence() != djvSequenceEnum::COMPRESS_OFF &&
+        fileInfo.isSequenceValid())
+    {
+        fileInfo.setType(djvFileInfo::SEQUENCE);
+    }
 
-    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
 
     setFileInfo(fileInfo);
 

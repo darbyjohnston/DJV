@@ -373,6 +373,28 @@ void djvFileInfo::sortSequence()
 
 _DJV_STRING_OPERATOR_LABEL(djvFileInfo::TYPE, djvFileInfo::typeLabels())
 
+QStringList & operator >> (QStringList & in, djvFileInfo & out) throw (QString)
+{
+    QString           fileName;
+    djvFileInfo::TYPE type     = static_cast<djvFileInfo::TYPE>(0);
+    
+    in >> fileName;
+    in >> type;
+    
+    out = fileName;
+    out.setType(type);
+    
+    return in;
+}
+
+QStringList & operator << (QStringList & out, const djvFileInfo & in)
+{
+    out << in.fileName();
+    out << in.type();
+    
+    return out;
+}
+
 djvDebug & operator << (djvDebug & debug, const djvFileInfo::TYPE & in)
 {
     QStringList tmp;
@@ -385,3 +407,4 @@ djvDebug & operator << (djvDebug & debug, const djvFileInfo & in)
 {
     return debug << in.fileName();
 }
+

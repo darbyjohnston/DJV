@@ -453,8 +453,9 @@ void djvViewImageView::dragEnterEvent(QDragEnterEvent * event)
     //Q_FOREACH(const QString & format, event->mimeData()->formats())
     //    DJV_DEBUG_PRINT("mime = " << format);
 
-    if (event->mimeData()->hasFormat("text/plain") ||
-        event->mimeData()->hasFormat("text/uri-list"))
+    if (event->mimeData()->hasFormat("application/x-filebrowser") ||
+        event->mimeData()->hasFormat("text/uri-list") ||
+        event->mimeData()->hasFormat("text/plain"))
     {
         event->acceptProposedAction();
     }
@@ -468,11 +469,28 @@ void djvViewImageView::dropEvent(QDropEvent * event)
 
     event->acceptProposedAction();
 
-    QString fileName;
+    djvFileInfo fileInfo;
 
-    if (event->mimeData()->hasFormat("text/uri-list"))
+    if (event->mimeData()->hasFormat("application/x-filebrowser"))
     {
-        fileName = QUrl(event->mimeData()->text()).toLocalFile();
+         //DJV_DEBUG_PRINT("application/x-filebrowser");
+
+        const QByteArray data = event->mimeData()->data("application/x-filebrowser");
+        
+        QDataStream stream(data);
+        
+        QStringList tmp;
+        stream >> tmp;
+        
+         //DJV_DEBUG_PRINT("tmp = " << tmp);
+        
+        tmp >> fileInfo;
+    }
+    else if (event->mimeData()->hasFormat("text/uri-list"))
+    {
+         //DJV_DEBUG_PRINT("text/uri-list");
+        
+        QString fileName = QUrl(event->mimeData()->text()).toLocalFile();
         
         //! \todo Why do we have to strip new-lines off the end of the URI?
 
@@ -484,21 +502,18 @@ void djvViewImageView::dropEvent(QDropEvent * event)
             fileName.chop(1);
         }
         
-        //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");
+         //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");
+         
+         fileInfo = fileName;
     }
     else if (event->mimeData()->hasFormat("text/plain"))
     {
-        fileName = event->mimeData()->text();
+         //DJV_DEBUG_PRINT("text/plain");
+
+        fileInfo = event->mimeData()->text();
     }
 
-    //DJV_DEBUG_PRINT("fileName = " << fileName);
-
-    djvFileInfo fileInfo(fileName);
-
-    if (fileInfo.isSequenceValid())
-    {
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-    }
+     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
     Q_EMIT fileDropped(fileInfo);
 }

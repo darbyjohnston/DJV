@@ -387,12 +387,12 @@ void djvFileInfoUtilTest::recent()
     
     const QString fileName("image.%1.dpx");
     
-    const QStringList list = QStringList() <<
+    const djvFileInfoList list = djvFileInfoList() <<
         fileName.arg(4) <<
         fileName.arg(3) <<
         fileName.arg(1);
 
-    QStringList tmp;
+    djvFileInfoList tmp;
 
     for (int i = 0; i < list.count(); ++i)
     {

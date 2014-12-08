@@ -84,7 +84,7 @@ djvViewFilePrefs::~djvViewFilePrefs()
     prefs.set("cacheDisplay", _cacheDisplay);
 }
 
-void djvViewFilePrefs::addRecent(const QString & in)
+void djvViewFilePrefs::addRecent(const djvFileInfo & in)
 {
     //DJV_DEBUG("djvViewFilePrefs::addRecent");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -95,7 +95,7 @@ void djvViewFilePrefs::addRecent(const QString & in)
     Q_EMIT prefChanged();
 }
 
-const QStringList & djvViewFilePrefs::recentFiles() const
+const djvFileInfoList & djvViewFilePrefs::recentFiles() const
 {
     return _recent;
 }

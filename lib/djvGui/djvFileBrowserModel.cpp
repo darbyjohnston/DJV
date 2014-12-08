@@ -152,7 +152,7 @@ djvFileBrowserItem::djvFileBrowserItem(
 
     // Initialize the edit role data.
 
-    _editRole[djvFileBrowserModel::NAME] = fileInfo.name();
+    _editRole[djvFileBrowserModel::NAME].setValue<djvFileInfo>(fileInfo);
     _editRole[djvFileBrowserModel::SIZE] = fileInfo.size();
 #if ! defined(DJV_WINDOWS)
     _editRole[djvFileBrowserModel::USER] = fileInfo.user();
@@ -284,7 +284,6 @@ void djvFileBrowserItem::loadImage()
         _imageLoaded = true;
         
         return;
-    
     }
 
     try
@@ -707,7 +706,7 @@ int djvFileBrowserModel::columnCount(const QModelIndex & parent) const
 
 QStringList djvFileBrowserModel::mimeTypes() const
 {
-    return QStringList() << "text/plain";
+    return QStringList() << "application/x-filebrowser";
 }
 
 QMimeData * djvFileBrowserModel::mimeData(const QModelIndexList & indexes) const
@@ -718,7 +717,14 @@ QMimeData * djvFileBrowserModel::mimeData(const QModelIndexList & indexes) const
     {
         const djvFileInfo fileInfo = this->fileInfo(indexes[0]);
         
-        mimeData->setText(fileInfo);
+        QStringList tmp;
+        tmp << fileInfo;
+        
+        QByteArray data;
+        QDataStream stream(&data, QIODevice::WriteOnly);
+        stream << tmp;
+        
+        mimeData->setData("application/x-filebrowser", data);
     }
 
     return mimeData;
@@ -925,6 +931,8 @@ void djvFileBrowserModel::dirUpdate()
     }
     
     //DJV_DEBUG_PRINT("list = " << _p->list.count());
+    //Q_FOREACH(const djvFileInfo & fileInfo, _p->list)
+    //    DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
 }
 
 void djvFileBrowserModel::modelUpdate()

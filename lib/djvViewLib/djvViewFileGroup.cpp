@@ -436,13 +436,9 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     if (! in.isEmpty())
     {
         fileInfo = djvFileInfoUtil::fixPath(in);
+        fileInfo.setType(in.type());
     }
     
-    if (fileInfo.isSequenceValid())
-    {
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-    }
-
     // Initialize.
 
     cacheDel();
@@ -637,14 +633,11 @@ void djvViewFileGroup::recentCallback(QAction * action)
     
     const int index = action->data().toInt();
 
-    djvFileInfo file = djvViewFilePrefs::global()->recentFiles()[index];
+    djvFileInfo fileInfo = djvViewFilePrefs::global()->recentFiles()[index];
+    
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
 
-    if (file.isSequenceValid())
-    {
-        file.setType(djvFileInfo::SEQUENCE);
-    }
-
-    mainWindow()->fileOpen(file);
+    mainWindow()->fileOpen(fileInfo);
 }
 
 void djvViewFileGroup::reloadCallback()
