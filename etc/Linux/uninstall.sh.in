@@ -1,0 +1,7 @@
+rm /usr/bin/djv_convert
+rm /usr/bin/djv_info
+rm /usr/bin/djv_ls
+rm /usr/bin/djv_view
+
+update-mime-database /usr/share/mime
+

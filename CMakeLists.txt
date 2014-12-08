@@ -1478,11 +1478,36 @@ elseif (UNIX)
     
     set(CPACK_RPM_PACKAGE_NAME djv)
     #set(CPACK_RPM_PACKAGE_RELOCATABLE true)
+    configure_file(
+        ${PROJECT_SOURCE_DIR}/etc/Linux/install.sh.in
+        ${PROJECT_BINARY_DIR}/etc/Linux/install.sh
+        @ONLY)
+    configure_file(
+        ${PROJECT_SOURCE_DIR}/etc/Linux/uninstall.sh.in
+        ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh
+        @ONLY)
+    SET(
+        CPACK_RPM_POST_INSTALL_SCRIPT_FILE
+        ${PROJECT_BINARY_DIR}/etc/Linux/install.sh)
+    SET(
+        CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
+        ${PROJECT_BINARY_DIR}/etc/Linux/uninstall.sh)
     
     # Set Debian options.
     
     set(CPACK_DEBIAN_PACKAGE_NAME djv)
     set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE amd64)
+    configure_file(
+        ${PROJECT_SOURCE_DIR}/etc/Linux/postinst.in
+        ${PROJECT_BINARY_DIR}/etc/Linux/postinst
+        @ONLY)
+    configure_file(
+        ${PROJECT_SOURCE_DIR}/etc/Linux/postrm.in
+        ${PROJECT_BINARY_DIR}/etc/Linux/postrm
+        @ONLY)
+    set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+        ${PROJECT_BINARY_DIR}/etc/Linux/postinst
+        ${PROJECT_BINARY_DIR}/etc/Linux/postrm)
 
 endif (WIN32)
 

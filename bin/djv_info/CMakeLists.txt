@@ -34,8 +34,13 @@ install(
 
 if (UNIX)
 
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/djv_info_linux.sh.in
+        ${CMAKE_CURRENT_BINARY_DIR}/djv_info.sh
+        @ONLY)
+
     install(
-        PROGRAMS djv_info.sh
+        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_info.sh
         DESTINATION bin)
 
 endif (UNIX)

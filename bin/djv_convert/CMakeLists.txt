@@ -34,8 +34,13 @@ install(
 
 if (UNIX)
 
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/djv_convert_linux.sh.in
+        ${CMAKE_CURRENT_BINARY_DIR}/djv_convert.sh
+        @ONLY)
+
     install(
-        PROGRAMS djv_convert.sh
+        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_convert.sh
         DESTINATION bin)
 
 endif (UNIX)

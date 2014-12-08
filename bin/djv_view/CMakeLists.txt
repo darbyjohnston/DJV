@@ -50,14 +50,24 @@ install(
 
 if (APPLE)
 
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/djv_view_osx.sh.in
+        ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
+        @ONLY)
+
     install(
-        PROGRAMS djv_view.sh
+        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
         DESTINATION bin)
 
 elseif (UNIX)
 
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/djv_view_linux.sh.in
+        ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
+        @ONLY)
+
     install(
-        PROGRAMS djv_view.sh
+        PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_view.sh
         DESTINATION bin)
 
     install(
