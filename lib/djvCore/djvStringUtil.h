@@ -153,6 +153,14 @@ DJV_CORE_EXPORT QStringList & operator << (QStringList &, double);
 template <typename T>
 inline QStringList & operator << (QStringList &, const QVector<T> &);
 
+//! Convenience macros for declaring string serialize operators.
+
+#define DJV_STRING_OPERATOR_LABEL(EXPORT, TYPE) \
+    \
+    EXPORT QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
+    \
+    EXPORT QStringList & operator << (QStringList &, TYPE)
+    
 //! Convenience macros for defining string serialize operators.
 
 #define _DJV_STRING_OPERATOR_LABEL(TYPE, LABEL) \

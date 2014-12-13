@@ -34,8 +34,7 @@
 #ifndef DJV_IMAGE_PIXEL_H
 #define DJV_IMAGE_PIXEL_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <djvStringUtil.h>
 
 #include <QObject>
 
@@ -414,21 +413,25 @@ private:
 inline bool operator == (const djvPixel::Mask &, const djvPixel::Mask &);
 inline bool operator != (const djvPixel::Mask &, const djvPixel::Mask &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvPixel::FORMAT &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvPixel::TYPE &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvPixel::DATA &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvPixel::PIXEL &) throw (QString);
+DJV_STRING_OPERATOR_LABEL(DJV_CORE_EXPORT, djvPixel::FORMAT);
+DJV_STRING_OPERATOR_LABEL(DJV_CORE_EXPORT, djvPixel::TYPE);
+DJV_STRING_OPERATOR_LABEL(DJV_CORE_EXPORT, djvPixel::DATA);
+DJV_STRING_OPERATOR_LABEL(DJV_CORE_EXPORT, djvPixel::PIXEL);
+//DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
+//    djvPixel::FORMAT &) throw (QString);
+//DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
+//    djvPixel::TYPE &) throw (QString);
+//DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
+//    djvPixel::DATA &) throw (QString);
+//DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
+//    djvPixel::PIXEL &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
     djvPixel::Mask &) throw (QString);
 
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::FORMAT);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::TYPE);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::DATA);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::PIXEL);
+//DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::FORMAT);
+//DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::TYPE);
+//DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::DATA);
+//DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvPixel::PIXEL);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvPixel::Mask &);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixel::FORMAT);
