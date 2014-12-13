@@ -93,6 +93,7 @@ djvAbstractImageApplication::djvAbstractImageApplication(
 
     DJV_LOG("djvAbstractImageApplication", "");
     DJV_LOG("djvAbstractImageApplication", "Information:");
+    DJV_LOG("djvAbstractImageApplication", "");
     DJV_LOG("djvAbstractImageApplication", info());
 }
 

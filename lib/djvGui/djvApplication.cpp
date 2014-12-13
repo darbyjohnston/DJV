@@ -200,6 +200,7 @@ djvAbstractApplication::djvAbstractApplication(
     toolTipsUpdate();
     
     DJV_LOG("djvAbstractApplication", "Information:");
+    DJV_LOG("djvAbstractApplication", "");
     DJV_LOG("djvAbstractApplication", info());
 }
 

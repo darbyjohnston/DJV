@@ -110,6 +110,7 @@ djvAbstractCoreApplication::djvAbstractCoreApplication(
     DJV_LOG("djvAbstractCoreApplication", "");
 
     DJV_LOG("djvAbstractCoreApplication", "Information:");
+    DJV_LOG("djvAbstractCoreApplication", "");
     DJV_LOG("djvAbstractCoreApplication", info());
 }
 
