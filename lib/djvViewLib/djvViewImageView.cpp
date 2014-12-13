@@ -379,9 +379,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
     {
         case djvViewInput::MOUSE_WHEEL_VIEW_ZOOM:
         {
-
             setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? 1.1 : 0.9));
-
         }
         break;
 

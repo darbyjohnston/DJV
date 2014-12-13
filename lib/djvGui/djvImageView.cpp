@@ -156,11 +156,18 @@ void djvImageView::setViewPos(const djvVector2i & pos)
 
 void djvImageView::setViewZoom(double zoom)
 {
+    //DJV_DEBUG("djvImageView::setViewZoom");
+    //DJV_DEBUG_PRINT("zoom = " << zoom);
+
     setViewPosZoom(_p->viewPos, zoom);
 }
 
 void djvImageView::setViewZoom(double zoom, const djvVector2i & focus)
 {
+    //DJV_DEBUG("djvImageView::setViewZoom");
+    //DJV_DEBUG_PRINT("zoom = " << zoom);
+    //DJV_DEBUG_PRINT("focus = " << focus);
+
     setViewPosZoom(
         focus + djvVector2i(djvVector2f(_p->viewPos - focus) * (zoom / _p->viewZoom)),
         zoom);

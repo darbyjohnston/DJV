@@ -543,7 +543,10 @@ void djvViewMainWindow::fitWindow()
 
     // Set the size.
 
-    showNormal();
+    if (isFullScreen())
+    {
+        showNormal();
+    }
 
     const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
     
@@ -555,7 +558,10 @@ void djvViewMainWindow::fitWindow()
         x() - (frameGeometry().width () / 2 - frame.x / 2),
         y() - (frameGeometry().height() / 2 - frame.y / 2));
     
-    _p->viewWidget->viewFit();
+    if (isVisible())
+    {
+        _p->viewWidget->viewFit();
+    }
 }
 
 void djvViewMainWindow::setPlayback(djvView::PLAYBACK in)
@@ -585,7 +591,7 @@ void djvViewMainWindow::changeEvent(QEvent * event)
         case QEvent::WindowStateChange:
         {
             //DJV_DEBUG("djvViewMainWindow::changeEvent");
-        
+            
             //
             //! \todo It seems that changing full screen mode happens
             //! asynchronously so we add this extra flag to trigger the
@@ -659,7 +665,7 @@ bool djvViewMainWindow::eventFilter(QObject * object, QEvent * event)
                 //DJV_DEBUG("djvViewMainWindow::eventFilter");
                 //DJV_DEBUG_PRINT("view fit");
                 
-                _p->viewWidget->viewFit();
+                QTimer::singleShot(100, _p->viewWidget, SLOT(viewFit()));
                 
                 _p->viewWidgetFit = false;
             }
