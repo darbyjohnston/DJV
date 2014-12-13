@@ -84,7 +84,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     // Create the full screen widgets.
 
     _p->fullScreenControlsWidget = new QCheckBox(
-        "Set whether the controls are visible when going full screen");
+        "Set whether the controls are visible in full screen mode");
 
     // Create the tool bar widgets.
 
@@ -102,24 +102,18 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Resizing",
-        "Set the behavior of the window when it resizes.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Size");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->resizeFitWidget);
     formLayout->addRow("Maximum screen size:", _p->resizeMaxWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Full Screen",
-        "Set general full screen options.");
+    prefsGroupBox = new djvPrefsGroupBox("Full Screen");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->fullScreenControlsWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Tool Bar",
-        "Set the tool bar visibility.");
+    prefsGroupBox = new djvPrefsGroupBox("Tool Bars");
     formLayout = prefsGroupBox->createLayout();
     for (int i = 0; i < _p->toolBarButtonGroup->buttons().count(); ++i)
         formLayout->addRow(_p->toolBarButtonGroup->button(i));

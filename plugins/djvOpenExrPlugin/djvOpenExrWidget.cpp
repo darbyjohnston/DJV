@@ -71,7 +71,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
 
     // Create the thread widgets.
 
-    _threadsEnableWidget = new QCheckBox("Enable multi-threading");
+    _threadsEnableWidget = new QCheckBox("Enable");
 
     _threadCountWidget = new djvIntEdit;
     _threadCountWidget->setRange(0, 1024);
@@ -118,9 +118,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Multithreading",
-        "Set multithreading options.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Multithreading");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_threadsEnableWidget);
     formLayout->addRow("Thread count:", _threadCountWidget);

@@ -164,33 +164,27 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Files",
-        "Set general file options.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("File sequencing:", _p->seqWidget);
     formLayout->addRow(_p->showHiddenWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Sorting",
-        "Set sorting options.");
+    prefsGroupBox = new djvPrefsGroupBox("Sorting");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Sort by:", _p->sortWidget);
     formLayout->addRow(_p->reverseSortWidget);
     formLayout->addRow(_p->sortDirsFirstWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Thumbnails",
-        "Set image thumbnail options.");
+    prefsGroupBox = new djvPrefsGroupBox("Thumbnails");
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Thumbnails:", _p->thumbnailsWidget);
-    formLayout->addRow("Thumbnails size:", _p->thumbnailsSizeWidget);
+    formLayout->addRow(_p->thumbnailsWidget);
+    formLayout->addRow("Size:", _p->thumbnailsSizeWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->thumbnailsCacheWidget);
     hLayout->addWidget(new QLabel("(MB)"));
-    formLayout->addRow("Thumbnails cache size:", hLayout);
+    formLayout->addRow("Cache size:", hLayout);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox("Bookmarks");

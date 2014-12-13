@@ -77,9 +77,9 @@ double djvView::windowResizeMax(WINDOW_RESIZE_MAX in)
 const QStringList & djvView::toolBarLabels()
 {
     static const QStringList data = QStringList() <<
-        "Show Tool Bars" <<
-        "Show Playback Bar" <<
-        "Show Information Bar";
+        "Tool Bars" <<
+        "Playback Bar" <<
+        "Information Bar";
 
     DJV_ASSERT(data.count() == TOOL_BAR_COUNT);
 

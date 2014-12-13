@@ -103,9 +103,7 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Time",
-        "Set general time options.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Time");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Time units:", _p->timeUnitsWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
@@ -114,16 +112,12 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
     formLayout->addRow("Default speed:", hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Sequences",
-        "Set general sequence options.");
+    prefsGroupBox = new djvPrefsGroupBox("File Sequences");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Maximum number of frames:", _p->sequenceMaxFramesWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Help",
-        "Set general help options.");
+    prefsGroupBox = new djvPrefsGroupBox("Help");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->toolTipsWidget);
     layout->addWidget(prefsGroupBox);

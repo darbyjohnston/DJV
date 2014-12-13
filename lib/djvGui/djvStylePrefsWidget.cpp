@@ -139,9 +139,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Colors",
-        "Set the user interface colors.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Colors");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->colorWidget);
@@ -154,9 +152,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     formLayout->addRow(_p->colorSwatchTransparencyWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Sizes",
-        "Set the user interface size.");
+    prefsGroupBox = new djvPrefsGroupBox("Size");
     formLayout = prefsGroupBox->createLayout();
     hLayout = new QHBoxLayout;
     hLayout->setMargin(0);
@@ -165,9 +161,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     formLayout->addRow(hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Fonts",
-        "Set the user interface fonts.");
+    prefsGroupBox = new djvPrefsGroupBox("Fonts");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Normal:", _p->fontNormalWidget);
     formLayout->addRow("Fixed:", _p->fontFixedWidget);

@@ -102,7 +102,7 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
 
     // Create the file cache widgets.
 
-    _p->cacheWidget = new QCheckBox("Enable memory cache");
+    _p->cacheWidget = new QCheckBox("Enable the memory cache");
 
     _p->cacheSizeWidget = new djvViewCacheSizeWidget;
 
@@ -112,8 +112,7 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Files");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoSequenceWidget);
     formLayout->addRow(_p->combineCommandLineWidget);

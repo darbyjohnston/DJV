@@ -172,7 +172,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     prefsGroupBox = new djvPrefsGroupBox("Grid");
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Style:", _p->gridWidget);
+    formLayout->addRow(_p->gridWidget);
     formLayout->addRow("Color:", _p->gridColorWidget);
     layout->addWidget(prefsGroupBox);
 

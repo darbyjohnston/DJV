@@ -90,20 +90,16 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Playback",
-        "Set general playback options.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoStartWidget);
     formLayout->addRow("Loop mode:", _p->loopWidget);
     formLayout->addRow(_p->everyFrameWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Layout",
-        "Set the layout for the playback controls.");
+    prefsGroupBox = new djvPrefsGroupBox("Layout");
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->layoutWidget);
+    formLayout->addRow("Playback controls:", _p->layoutWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

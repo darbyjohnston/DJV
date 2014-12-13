@@ -120,7 +120,7 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     _p->rotateWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->rotateWidget->addItems(djvView::imageRotateLabels());
 
-    _p->colorProfileWidget = new QCheckBox("Enable color profiles");
+    _p->colorProfileWidget = new QCheckBox("Enable");
 
     _p->displayProfileWidget = new QComboBox;
     _p->displayProfileWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -154,16 +154,12 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Images",
-        "Set general image options.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->frameStoreFileReloadWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Transforms",
-        "Set image transform options.");
+    prefsGroupBox = new djvPrefsGroupBox("Transforms");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->mirrorHWidget);
     formLayout->addRow(_p->mirrorVWidget);
@@ -171,16 +167,14 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     formLayout->addRow("Rotate:", _p->rotateWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Color Profile",
-        "Set color profile options.");
+    prefsGroupBox = new djvPrefsGroupBox("Color Profile");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->colorProfileWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Display Profiles");
+    prefsGroupBox = new djvPrefsGroupBox("Display Profile");
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Display profile:", _p->displayProfileWidget);
+    formLayout->addRow(_p->displayProfileWidget);
     formLayout->addRow(_p->displayProfileListWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addStretch();
@@ -191,9 +185,7 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     formLayout->addRow(hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Channels",
-        "Set image channel options.");
+    prefsGroupBox = new djvPrefsGroupBox("Channels");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->channelWidget);
     layout->addWidget(prefsGroupBox);

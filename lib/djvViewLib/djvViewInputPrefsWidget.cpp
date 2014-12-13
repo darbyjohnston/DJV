@@ -90,9 +90,7 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
 
     djvFormLayoutAlign * align = new djvFormLayoutAlign(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Mouse Wheel",
-        "Set the mouse wheel behavior.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Mouse Wheel");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Wheel:", _p->mouseWheelWidget);
     formLayout->addRow("Shift + wheel:", _p->mouseWheelShiftWidget);
