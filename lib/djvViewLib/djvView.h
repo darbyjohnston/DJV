@@ -55,7 +55,7 @@ class djvPixelData;
 struct DJV_VIEW_LIB_EXPORT djvView
 {
     //! This enumeration provides the maximum percentage of the screen to use
-    //! when resizing windows.
+    //! when resizing a window to fit an image.
 
     enum WINDOW_RESIZE_MAX
     {
@@ -64,14 +64,15 @@ struct DJV_VIEW_LIB_EXPORT djvView
         WINDOW_RESIZE_MAX_50,
         WINDOW_RESIZE_MAX_75,
 
-        WINDOW_RESIZE_COUNT
+        WINDOW_RESIZE_MAX_COUNT
     };
-
-    //! Get the window resize labels.
-
+    
+    //! Get the window maximum resize labels.
+    
     static const QStringList & windowResizeMaxLabels();
 
-    //! Get the window resize amount.
+    //! Get the maximum percentage of the screen to use when resizing a window
+    //! to fit an image.
 
     static double windowResizeMax(WINDOW_RESIZE_MAX);
 
@@ -90,19 +91,18 @@ struct DJV_VIEW_LIB_EXPORT djvView
 
     static const QStringList & toolBarLabels();
 	
-    //! This enumeration provides what to do with the image when the view
-    //! resizes.
+    //! This enumeration provides the view resize behavior.
 
     enum VIEW_RESIZE
     {
-        VIEW_RESIZE_NOTHING,
-        VIEW_RESIZE_FIT,
-        VIEW_RESIZE_CENTER,
+        VIEW_RESIZE_NONE,
+        VIEW_RESIZE_FIT_IMAGE,
+        VIEW_RESIZE_CENTER_IMAGE,
 
         VIEW_RESIZE_COUNT
     };
 
-    //! Get the view resize labels.
+    //! Get the view resize behavior labels.
 
     static const QStringList & viewResizeLabels();
 
@@ -122,7 +122,7 @@ struct DJV_VIEW_LIB_EXPORT djvView
 
     static const QStringList & gridLabels();
 
-    //! This enumeration provides what is visible in the HUD.
+    //! This enumeration provides the HUD information.
 
     enum HUD
     {
@@ -138,9 +138,9 @@ struct DJV_VIEW_LIB_EXPORT djvView
         HUD_COUNT
     };
 
-    //! Get the HUD visiblity labels.
+    //! Get the HUD information labels.
 
-    static const QStringList & hudVisibleLabels();
+    static const QStringList & hudInfoLabels();
 
     //! This enumeration provides the HUD backgrounds.
 

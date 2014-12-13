@@ -481,7 +481,7 @@ void djvViewMainWindow::fitWindow()
 {
     //DJV_DEBUG("djvViewMainWindow::fitWindow");
 
-    // Calculate image size.
+    // Calculate the image size.
 
     const djvBox2f bbox = _p->viewWidget->bbox().size;
 
@@ -491,15 +491,12 @@ void djvViewMainWindow::fitWindow()
 
     if (! djvVectorUtil::isSizeValid(imageSize))
     {
-        const QSize sizeHint = _p->viewWidget->sizeHint();
-        
-        imageSize.x = sizeHint.width ();
-        imageSize.y = sizeHint.height();
+        imageSize = djvViewViewPrefs::global()->viewSize();
     }
 
     //DJV_DEBUG_PRINT("image size = " << imageSize);
 
-    // Adjust to screen size.
+    // Adjust to the screen size.
 
     const double resizeMax = djvView::windowResizeMax(
         djvViewWindowPrefs::global()->hasResizeFit() ?
@@ -530,7 +527,7 @@ void djvViewMainWindow::fitWindow()
 
     //DJV_DEBUG_PRINT("image size = " << imageSize);
 
-    // Adjust to size hint.
+    // Adjust to the size hint.
 
     const djvVector2i uiSize =
         djvVector2i(width(), height()) -
@@ -544,7 +541,7 @@ void djvViewMainWindow::fitWindow()
 
     //DJV_DEBUG_PRINT("size = " << size);
 
-    // Set size.
+    // Set the size.
 
     showNormal();
 
@@ -574,6 +571,11 @@ void djvViewMainWindow::setPlaybackFrame(qint64 in)
 void djvViewMainWindow::setPlaybackSpeed(const djvSpeed & in)
 {
     _p->playbackGroup->setSpeed(in);
+}
+
+void djvViewMainWindow::showEvent(QShowEvent *)
+{
+    fitWindow();
 }
 
 void djvViewMainWindow::changeEvent(QEvent * event)
@@ -978,7 +980,8 @@ void djvViewMainWindow::viewOverlayUpdate()
     hudInfo.speed         = _p->playbackGroup->speed();
     hudInfo.realSpeed     = _p->playbackGroup->realSpeed();
     hudInfo.droppedFrames = _p->playbackGroup->hasDroppedFrames();
-
+    hudInfo.visible       = djvViewViewPrefs::global()->hudInfo();
+    
     _p->viewWidget->setHudInfo(hudInfo);
 }
 
@@ -1052,8 +1055,8 @@ void djvViewMainWindow::viewResizeUpdate()
 
     switch (djvViewViewPrefs::global()->resize())
     {
-        case djvView::VIEW_RESIZE_FIT:    _p->viewWidget->viewFit();    break;
-        case djvView::VIEW_RESIZE_CENTER: _p->viewWidget->viewCenter(); break;
+        case djvView::VIEW_RESIZE_FIT_IMAGE:    _p->viewWidget->viewFit();    break;
+        case djvView::VIEW_RESIZE_CENTER_IMAGE: _p->viewWidget->viewCenter(); break;
 
         default: break;
     }

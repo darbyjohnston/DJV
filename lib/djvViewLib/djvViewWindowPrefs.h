@@ -59,22 +59,27 @@ public:
     //! Destructor.
 
     virtual ~djvViewWindowPrefs();
-    
-    //! Get the default for whether resize fit is enabled.
+
+    //! Get the default for whether to fit the window to the image when
+    //! resizing.
     
     static bool resizeFitDefault();
 
-    //! Get whether resize fit is enabled.
+    //! Get whether to fit the window to the image when resizing.
 
     bool hasResizeFit() const;
 
-    //! Get the default maximum resize amount.
-    
+    //! Get the default maximum percentage of the screen to use when resizing a
+    //! window to fit an image.
+
     static djvView::WINDOW_RESIZE_MAX resizeMaxDefault();
 
-    //! Get the maximum resize amount.
+    //! Get the maximum percentage of the screen to use when resizing a window
+    //! to fit an image.
 
     djvView::WINDOW_RESIZE_MAX resizeMax() const;
+
+    // Get the default fixed width 
 
     //! Get the default for whether the controls are visible when going full
     //! screen.

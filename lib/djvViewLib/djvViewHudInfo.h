@@ -65,6 +65,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
     djvSpeed         speed;
     double           realSpeed;
     bool             droppedFrames;
+    QVector<bool>    visible;
 };
 
 //------------------------------------------------------------------------------

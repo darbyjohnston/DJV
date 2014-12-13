@@ -64,7 +64,6 @@ struct djvViewImageView::P
         grid              (djvViewViewPrefs::global()->grid()),
         gridColor         (djvViewViewPrefs::global()->gridColor()),
         hudEnabled        (djvViewViewPrefs::global()->isHudEnabled()),
-        hudVisible        (djvViewViewPrefs::global()->hudVisible()),
         hudColor          (djvViewViewPrefs::global()->hudColor()),
         hudBackground     (djvViewViewPrefs::global()->hudBackground()),
         hudBackgroundColor(djvViewViewPrefs::global()->hudBackgroundColor()),
@@ -80,7 +79,6 @@ struct djvViewImageView::P
     djvColor                gridColor;
     bool                    hudEnabled;
     djvViewHudInfo          hudInfo;
-    QVector<bool>           hudVisible;
     djvColor                hudColor;
     djvView::HUD_BACKGROUND hudBackground;
     djvColor                hudBackgroundColor;
@@ -100,6 +98,8 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
     djvImageView(parent),
     _p(new P)
 {
+    //DJV_DEBUG("djvViewImageView::djvViewImageView");
+    
     setMouseTracking(true);
     setAcceptDrops(true);
 
@@ -115,8 +115,8 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 
     connect(
         djvViewViewPrefs::global(),
-        SIGNAL(hudVisibleChanged(const QVector<bool> &)),
-        SLOT(setHudVisible(const QVector<bool> &)));
+        SIGNAL(hudInfoChanged(const QVector<bool> &)),
+        SLOT(hudInfoCallback(const QVector<bool> &)));
 
     connect(
         djvViewViewPrefs::global(),
@@ -154,17 +154,6 @@ bool djvViewImageView::isMouseInside() const
 const djvVector2i & djvViewImageView::mousePos() const
 {
     return _p->mousePos;
-}
-
-QSize djvViewImageView::sizeHint() const
-{
-    //DJV_DEBUG("djvViewImageView::sizeHint");
-    
-    const djvVector2i & size = djvViewViewPrefs::global()->viewSize();
-    
-    //DJV_DEBUG_PRINT("size = " << size);
-    
-    return QSize(size.x, size.y);
 }
 
 QSize djvViewImageView::minimumSizeHint() const
@@ -215,16 +204,6 @@ void djvViewImageView::setHudInfo(const djvViewHudInfo & info)
         return;
 
     _p->hudInfo = info;
-
-    update();
-}
-
-void djvViewImageView::setHudVisible(const QVector<bool> & visible)
-{
-    if (visible == _p->hudVisible)
-        return;
-
-    _p->hudVisible = visible;
 
     update();
 }
@@ -299,8 +278,8 @@ void djvViewImageView::resizeEvent(QResizeEvent * event)
 
     switch (djvViewViewPrefs::global()->resize())
     {
-        case djvView::VIEW_RESIZE_CENTER: viewCenter(); break;
-        case djvView::VIEW_RESIZE_FIT:    viewFit(); break;
+        case djvView::VIEW_RESIZE_FIT_IMAGE:    viewFit();    break;
+        case djvView::VIEW_RESIZE_CENTER_IMAGE: viewCenter(); break;
 
         default: break;
     }
@@ -540,6 +519,13 @@ void djvViewImageView::viewSizeCallback()
     updateGeometry();
 }
 
+void djvViewImageView::hudInfoCallback(const QVector<bool> & info)
+{
+    _p->hudInfo.visible = info;
+
+    update();
+}
+
 void djvViewImageView::drawGrid()
 {
     //DJV_DEBUG("djvViewImageView::drawGrid");
@@ -612,17 +598,17 @@ void djvViewImageView::drawHud()
 
     // Generate the upper left contents.
 
-    if (_p->hudVisible[djvView::HUD_FILE_NAME])
+    if (_p->hudInfo.visible[djvView::HUD_FILE_NAME])
     {
         upperLeft += QString("File  = %1").arg(_p->hudInfo.info.fileName);
     }
 
-    if (_p->hudVisible[djvView::HUD_LAYER])
+    if (_p->hudInfo.visible[djvView::HUD_LAYER])
     {
         upperLeft += QString("Layer = %1").arg(_p->hudInfo.info.layerName);
     }
 
-    if (_p->hudVisible[djvView::HUD_SIZE])
+    if (_p->hudInfo.visible[djvView::HUD_SIZE])
     {
         upperLeft += QString("Size  = %1x%2:%3").
             arg(_p->hudInfo.info.size.x).
@@ -630,12 +616,12 @@ void djvViewImageView::drawHud()
             arg(djvVectorUtil::aspect(_p->hudInfo.info.size), 0, 'f', 2);
     }
 
-    if (_p->hudVisible[djvView::HUD_PROXY])
+    if (_p->hudInfo.visible[djvView::HUD_PROXY])
     {
         upperLeft += QString("Proxy = %1").arg(_p->hudInfo.info.proxy);
     }
 
-    if (_p->hudVisible[djvView::HUD_PIXEL])
+    if (_p->hudInfo.visible[djvView::HUD_PIXEL])
     {
         upperLeft += QString("Pixel = %1").
             arg(djvStringUtil::label(_p->hudInfo.info.pixel).join(", "));
@@ -643,7 +629,7 @@ void djvViewImageView::drawHud()
 
     // Generate the lower left contents.
 
-    if (_p->hudVisible[djvView::HUD_TAG] && _p->hudInfo.tags.count())
+    if (_p->hudInfo.visible[djvView::HUD_TAG] && _p->hudInfo.tags.count())
     {
         const QStringList keys = _p->hudInfo.tags.keys();
 
@@ -656,13 +642,13 @@ void djvViewImageView::drawHud()
 
     // Generate the upper right contents.
 
-    if (_p->hudVisible[djvView::HUD_FRAME])
+    if (_p->hudInfo.visible[djvView::HUD_FRAME])
     {
         upperRight += QString("Frame = %1").
             arg(djvTime::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
     }
 
-    if (_p->hudVisible[djvView::HUD_SPEED])
+    if (_p->hudInfo.visible[djvView::HUD_SPEED])
     {
         upperRight += QString("Speed = %1/%2").
             arg(djvSpeed::speedToFloat(_p->hudInfo.speed), 0, 'f', 2).

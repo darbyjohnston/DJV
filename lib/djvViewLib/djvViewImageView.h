@@ -74,8 +74,6 @@ public:
 
     const djvVector2i & mousePos() const;
     
-    virtual QSize sizeHint() const;
-
     virtual QSize minimumSizeHint() const;
 
 public Q_SLOTS:
@@ -99,10 +97,6 @@ public Q_SLOTS:
     //! Set the HUD information.
 
     void setHudInfo(const djvViewHudInfo &);
-
-    //! Set the HUD visibility.
-
-    void setHudVisible(const QVector<bool> &);
 
     //! Set the HUD color.
 
@@ -151,6 +145,7 @@ protected:
 private Q_SLOTS:
 
     void viewSizeCallback();
+    void hudInfoCallback(const QVector<bool> &);
 
 private:
 

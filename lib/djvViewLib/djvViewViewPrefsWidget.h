@@ -75,7 +75,7 @@ private Q_SLOTS:
     void gridCallback(int);
     void gridColorCallback(const djvColor &);
     void hudEnabledCallback(bool);
-    void hudVisibleCallback(QListWidgetItem *);
+    void hudInfoCallback(QListWidgetItem *);
     void hudColorCallback(const djvColor &);
     void hudBackgroundCallback(int);
     void hudBackgroundColorCallback(const djvColor &);

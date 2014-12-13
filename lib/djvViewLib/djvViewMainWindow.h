@@ -128,6 +128,7 @@ Q_SIGNALS:
 
 protected:
 
+    virtual void showEvent(QShowEvent *);
     virtual void changeEvent(QEvent *);
     virtual void closeEvent(QCloseEvent *);
     virtual void keyPressEvent(QKeyEvent *);

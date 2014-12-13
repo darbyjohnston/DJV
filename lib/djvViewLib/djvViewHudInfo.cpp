@@ -43,10 +43,12 @@ bool operator == (const djvViewHudInfo & a, const djvViewHudInfo & b)
         a.frame == b.frame &&
         a.speed == b.speed &&
         djvMath::fuzzyCompare(a.realSpeed, b.realSpeed) &&
-        a.droppedFrames == b.droppedFrames;
+        a.droppedFrames == b.droppedFrames &&
+        a.visible == b.visible;
 }
 
 bool operator != (const djvViewHudInfo & a, const djvViewHudInfo & b)
 {
     return ! (a == b);
 }
+

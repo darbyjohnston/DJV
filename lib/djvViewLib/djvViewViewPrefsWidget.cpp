@@ -78,7 +78,7 @@ struct djvViewViewPrefsWidget::P
         gridWidget              (0),
         gridColorWidget         (0),
         hudEnabledWidget        (0),
-        hudVisibleWidget        (0),
+        hudInfoWidget           (0),
         hudColorWidget          (0),
         hudBackgroundWidget     (0),
         hudBackgroundColorWidget(0)
@@ -90,7 +90,7 @@ struct djvViewViewPrefsWidget::P
     QComboBox *             gridWidget;
     djvColorSwatch *        gridColorWidget;
     QCheckBox *             hudEnabledWidget;
-    QListWidget *           hudVisibleWidget;
+    QListWidget *           hudInfoWidget;
     djvColorSwatch *        hudColorWidget;
     QComboBox *             hudBackgroundWidget;
     djvColorSwatch *        hudBackgroundColorWidget;
@@ -132,14 +132,14 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     // Create the HUD widgets.
 
-    _p->hudEnabledWidget = new QCheckBox("Enable the HUD");
+    _p->hudEnabledWidget = new QCheckBox("Enable");
 
-    _p->hudVisibleWidget = new SmallListWidget;
+    _p->hudInfoWidget = new SmallListWidget;
     
     for (int i = 0; i < djvView::HUD_COUNT; ++i)
     {
-        QListWidgetItem * item = new QListWidgetItem(_p->hudVisibleWidget);
-        item->setText(djvView::hudVisibleLabels()[i]);
+        QListWidgetItem * item = new QListWidgetItem(_p->hudInfoWidget);
+        item->setText(djvView::hudInfoLabels()[i]);
         item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
     }
 
@@ -159,37 +159,29 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Views",
-        "Set general view options.");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Background color:", _p->backgroundColorWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Resizing",
-        "Set what happens to the image when the view is resized.");
+    prefsGroupBox = new djvPrefsGroupBox("Size");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow("Default size:", _p->viewSizeWidget);
-    formLayout->addRow("Resize:", _p->resizeWidget);
+    formLayout->addRow("Resize behvior:", _p->resizeWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Grid",
-        "Set options for the grid overlay.");
+    prefsGroupBox = new djvPrefsGroupBox("Grid");
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Size:", _p->gridWidget);
+    formLayout->addRow("Style:", _p->gridWidget);
     formLayout->addRow("Color:", _p->gridColorWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        "HUD",
-        "Set options for the HUD (Heads Up Display).");
+    prefsGroupBox = new djvPrefsGroupBox("HUD (Heads Up Display)");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->hudEnabledWidget);
-    formLayout->addRow("Visible:", _p->hudVisibleWidget);
-    formLayout->addRow("Color:", _p->hudColorWidget);
-    formLayout->addRow("Background:", _p->hudBackgroundWidget);
+    formLayout->addRow("Information:", _p->hudInfoWidget);
+    formLayout->addRow("Foreground color:", _p->hudColorWidget);
+    formLayout->addRow("Background style:", _p->hudBackgroundWidget);
     formLayout->addRow("Background color:", _p->hudBackgroundColorWidget);
     layout->addWidget(prefsGroupBox);
 
@@ -232,9 +224,9 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
         SLOT(hudEnabledCallback(bool)));
 
     connect(
-        _p->hudVisibleWidget,
+        _p->hudInfoWidget,
         SIGNAL(itemChanged(QListWidgetItem *)),
-        SLOT(hudVisibleCallback(QListWidgetItem *)));
+        SLOT(hudInfoCallback(QListWidgetItem *)));
 
     connect(
         _p->hudColorWidget,
@@ -271,8 +263,8 @@ void djvViewViewPrefsWidget::resetPreferences()
         djvViewViewPrefs::gridColorDefault());
     djvViewViewPrefs::global()->setHudEnabled(
         djvViewViewPrefs::hudEnabledDefault());
-    djvViewViewPrefs::global()->setHudVisible(
-        djvViewViewPrefs::hudVisibleDefault());
+    djvViewViewPrefs::global()->setHudInfo(
+        djvViewViewPrefs::hudInfoDefault());
     djvViewViewPrefs::global()->setHudColor(
         djvViewViewPrefs::hudColorDefault());
     djvViewViewPrefs::global()->setHudBackground(
@@ -319,15 +311,15 @@ void djvViewViewPrefsWidget::hudEnabledCallback(bool in)
     djvViewViewPrefs::global()->setHudEnabled(in);
 }
 
-void djvViewViewPrefsWidget::hudVisibleCallback(QListWidgetItem * item)
+void djvViewViewPrefsWidget::hudInfoCallback(QListWidgetItem * item)
 {
-    const int row = _p->hudVisibleWidget->row(item);
+    const int row = _p->hudInfoWidget->row(item);
 
-    QVector<bool> visible = djvViewViewPrefs::global()->hudVisible();
+    QVector<bool> info = djvViewViewPrefs::global()->hudInfo();
 
-    visible[row] = ! visible[row];
+    info[row] = ! info[row];
 
-    djvViewViewPrefs::global()->setHudVisible(visible);
+    djvViewViewPrefs::global()->setHudInfo(info);
 }
 
 void djvViewViewPrefsWidget::hudColorCallback(const djvColor & in)
@@ -359,7 +351,7 @@ void djvViewViewPrefsWidget::widgetUpdate()
         _p->gridWidget <<
         _p->gridColorWidget <<
         _p->hudEnabledWidget <<
-        _p->hudVisibleWidget <<
+        _p->hudInfoWidget <<
         _p->hudColorWidget <<
         _p->hudBackgroundWidget <<
         _p->hudBackgroundColorWidget);
@@ -382,13 +374,13 @@ void djvViewViewPrefsWidget::widgetUpdate()
     _p->hudEnabledWidget->setChecked(
         djvViewViewPrefs::global()->isHudEnabled());
 
-    QVector<bool> hudVisible = djvViewViewPrefs::global()->hudVisible();
+    QVector<bool> hudInfo = djvViewViewPrefs::global()->hudInfo();
 
     for (int i = 0; i < djvView::HUD_COUNT; ++i)
     {
-        QListWidgetItem * item = _p->hudVisibleWidget->item(i);
+        QListWidgetItem * item = _p->hudInfoWidget->item(i);
 
-        item->setCheckState(hudVisible[i] ? Qt::Checked : Qt::Unchecked);
+        item->setCheckState(hudInfo[i] ? Qt::Checked : Qt::Unchecked);
     }
 
     _p->hudColorWidget->setColor(

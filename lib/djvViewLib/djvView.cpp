@@ -55,7 +55,7 @@ const QStringList & djvView::windowResizeMaxLabels()
         "50%" <<
         "75%";
 
-    DJV_ASSERT(data.count() == WINDOW_RESIZE_COUNT);
+    DJV_ASSERT(data.count() == WINDOW_RESIZE_MAX_COUNT);
 
     return data;
 }
@@ -89,9 +89,9 @@ const QStringList & djvView::toolBarLabels()
 const QStringList & djvView::viewResizeLabels()
 {
     static const QStringList data = QStringList() <<
-        "Nothing" <<
-        "Fit" <<
-        "Center";
+        "None" <<
+        "Fit Image" <<
+        "Center Image";
 
     DJV_ASSERT(data.count() == VIEW_RESIZE_COUNT);
 
@@ -111,7 +111,7 @@ const QStringList & djvView::gridLabels()
     return data;
 }
 
-const QStringList & djvView::hudVisibleLabels()
+const QStringList & djvView::hudInfoLabels()
 {
     static const QStringList data = QStringList() <<
         "File Name" <<

@@ -87,7 +87,7 @@ public:
 
     djvView::VIEW_RESIZE resize() const;
 
-    //! Get the default view grid.
+    //! Get the default grid.
 
     static djvView::GRID gridDefault();
 
@@ -111,17 +111,17 @@ public:
 
     bool isHudEnabled() const;
 
-    //! Get the default HUD visibility.
+    //! Get the default HUD information.
     
-    static QVector<bool> hudVisibleDefault();
+    static QVector<bool> hudInfoDefault();
 
-    //! Get the HUD visibility.
+    //! Get the HUD information.
 
-    QVector<bool> hudVisible() const;
+    QVector<bool> hudInfo() const;
 
-    //! Get the HUD visibility.
+    //! Get the HUD information.
 
-    bool isHudVisible(djvView::HUD in) const;
+    bool isHudInfo(djvView::HUD in) const;
 
     //! Get the default HUD color.
     
@@ -177,13 +177,13 @@ public Q_SLOTS:
 
     void setHudEnabled(bool);
 
-    //! Set the HUD visibility.
+    //! Set the HUD informati0on.
 
-    void setHudVisible(const QVector<bool> &);
+    void setHudInfo(const QVector<bool> &);
 
-    //! Set the HUD visibility.
+    //! Set the HUD information.
 
-    void setHudVisible(djvView::HUD, bool);
+    void setHudInfo(djvView::HUD, bool);
     
     //! Set the HUD color.
 
@@ -223,9 +223,9 @@ Q_SIGNALS:
 
     void hudEnabledChanged(bool);
     
-    //! This signal is emitted when the HUD visibility is changed.
+    //! This signal is emitted when the HUD information is changed.
     
-    void hudVisibleChanged(const QVector<bool> &);
+    void hudInfoChanged(const QVector<bool> &);
     
     //! This signal is emitted when the HUD color is changed.
     
@@ -251,7 +251,7 @@ private:
     djvView::GRID           _grid;
     djvColor                _gridColor;
     bool                    _hudEnabled;
-    QVector<bool>           _hudVisible;
+    QVector<bool>           _hudInfo;
     djvColor                _hudColor;
     djvView::HUD_BACKGROUND _hudBackground;
     djvColor                _hudBackgroundColor;

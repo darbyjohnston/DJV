@@ -49,7 +49,7 @@ djvViewViewPrefs::djvViewViewPrefs(QObject * parent) :
     _grid              (gridDefault()),
     _gridColor         (gridColorDefault()),
     _hudEnabled        (hudEnabledDefault()),
-    _hudVisible        (hudVisibleDefault()),
+    _hudInfo           (hudInfoDefault()),
     _hudColor          (hudColorDefault()),
     _hudBackground     (hudBackgroundDefault()),
     _hudBackgroundColor(hudBackgroundColorDefault())
@@ -63,24 +63,24 @@ djvViewViewPrefs::djvViewViewPrefs(QObject * parent) :
     prefs.get("grid", _grid);
     prefs.get("gridColor", _gridColor);
     prefs.get("hudEnabled", _hudEnabled);
-    if (prefs.contains("hudVisible"))
+    if (prefs.contains("hudInfo"))
     {
-        _hudVisible.clear();
-        prefs.get("hudVisible", _hudVisible);
-        _hudVisible.resize(djvView::HUD_COUNT);
+        _hudInfo.clear();
+        prefs.get("hudInfo", _hudInfo);
+        _hudInfo.resize(djvView::HUD_COUNT);
     }
     prefs.get("hudColor", _hudColor);
     prefs.get("hudBackground", _hudBackground);
     prefs.get("hudBackgroundColor", _hudBackgroundColor);
 
-    //DJV_DEBUG_PRINT("hudVisible = " << _hudVisible);
+    //DJV_DEBUG_PRINT("hudInfo = " << _hudInfo);
 }
 
 djvViewViewPrefs::~djvViewViewPrefs()
 {
     //DJV_DEBUG("djvViewViewPrefs::~djvViewViewPrefs");
 
-    //DJV_DEBUG_PRINT("hudVisible = " << _hudVisible);
+    //DJV_DEBUG_PRINT("hudInfo = " << _hudInfo);
 
     djvPrefs prefs("djvViewViewPrefs");
     prefs.set("background", _background);
@@ -89,7 +89,7 @@ djvViewViewPrefs::~djvViewViewPrefs()
     prefs.set("grid", _grid);
     prefs.set("gridColor", _gridColor);
     prefs.set("hudEnabled", _hudEnabled);
-    prefs.set("hudVisible", _hudVisible);
+    prefs.set("hudInfo", _hudInfo);
     prefs.set("hudColor", _hudColor);
     prefs.set("hudBackground", _hudBackground);
     prefs.set("hudBackgroundColor", _hudBackgroundColor);
@@ -119,7 +119,7 @@ const djvVector2i & djvViewViewPrefs::viewSize() const
 
 djvView::VIEW_RESIZE djvViewViewPrefs::resizeDefault()
 {
-    return djvView::VIEW_RESIZE_NOTHING;
+    return djvView::VIEW_RESIZE_NONE;
 }
 
 djvView::VIEW_RESIZE djvViewViewPrefs::resize() const
@@ -157,19 +157,19 @@ bool djvViewViewPrefs::isHudEnabled() const
     return _hudEnabled;
 }
 
-QVector<bool> djvViewViewPrefs::hudVisibleDefault()
+QVector<bool> djvViewViewPrefs::hudInfoDefault()
 {
     return QVector<bool>(djvView::HUD_COUNT, true);
 }
 
-QVector<bool> djvViewViewPrefs::hudVisible() const
+QVector<bool> djvViewViewPrefs::hudInfo() const
 {
-    return _hudVisible;
+    return _hudInfo;
 }
 
-bool djvViewViewPrefs::isHudVisible(djvView::HUD in) const
+bool djvViewViewPrefs::isHudInfo(djvView::HUD in) const
 {
-    return _hudVisible[in] != 0 ? true : false;
+    return _hudInfo[in] != 0 ? true : false;
 }
 
 djvColor djvViewViewPrefs::hudColorDefault()
@@ -280,30 +280,30 @@ void djvViewViewPrefs::setHudEnabled(bool in)
     Q_EMIT prefChanged();
 }
 
-void djvViewViewPrefs::setHudVisible(const QVector<bool> & visible)
+void djvViewViewPrefs::setHudInfo(const QVector<bool> & info)
 {
-    if (visible == _hudVisible)
+    if (info == _hudInfo)
         return;
 
-    //DJV_DEBUG("djvViewViewPrefs::setHudVisible");
-    //DJV_DEBUG_PRINT("visible = " << visible);
+    //DJV_DEBUG("djvViewViewPrefs::setHudInfo");
+    //DJV_DEBUG_PRINT("info = " << info);
 
-    _hudVisible = visible;
+    _hudInfo = info;
 
-    Q_EMIT hudVisibleChanged(_hudVisible);
+    Q_EMIT hudInfoChanged(_hudInfo);
     Q_EMIT prefChanged();
 }
 
-void djvViewViewPrefs::setHudVisible(djvView::HUD visible, bool in)
+void djvViewViewPrefs::setHudInfo(djvView::HUD info, bool in)
 {
-    const bool tmp = _hudVisible[visible] != 0 ? true : false;
+    const bool tmp = _hudInfo[info] != 0 ? true : false;
 
     if (in == tmp)
         return;
 
-    _hudVisible[visible] = in;
+    _hudInfo[info] = in;
 
-    Q_EMIT hudVisibleChanged(_hudVisible);
+    Q_EMIT hudInfoChanged(_hudInfo);
     Q_EMIT prefChanged();
 }
 
