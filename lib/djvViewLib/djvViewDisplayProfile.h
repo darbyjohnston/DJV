@@ -67,8 +67,7 @@ DJV_VIEW_LIB_EXPORT bool operator != (
 
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 
-DJV_VIEW_LIB_EXPORT djvDebug & operator << (djvDebug &,
-    const djvViewDisplayProfile &);
+DJV_DEBUG_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 
 //@} // djvViewImage
 

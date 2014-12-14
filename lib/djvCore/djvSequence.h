@@ -152,8 +152,8 @@ inline bool operator != (const djvSequence &, const djvSequence &);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequenceEnum::COMPRESS);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequence);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvSequence &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvSequenceEnum::COMPRESS);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequence);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequenceEnum::COMPRESS);
 
 //@} // djvCoreMisc
 

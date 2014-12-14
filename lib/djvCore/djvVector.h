@@ -34,12 +34,11 @@
 #ifndef DJV_VECTOR_H
 #define DJV_VECTOR_H
 
+#include <djvDebug.h>
 #include <djvStringUtil.h>
 
 #include <QString>
 #include <QVector>
-
-class djvDebug;
 
 //! \addtogroup djvCoreMath
 //@{

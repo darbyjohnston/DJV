@@ -168,7 +168,7 @@ djvDebug & operator << (djvDebug & debug, const djvSequence & in)
         djvSpeed::speedToFloat(in.speed);
 }
 
-djvDebug & operator << (djvDebug & debug, djvSequenceEnum::COMPRESS in)
+djvDebug & operator << (djvDebug & debug, const djvSequenceEnum::COMPRESS & in)
 {
     return debug << djvStringUtil::label(in);
 }

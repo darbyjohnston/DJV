@@ -110,15 +110,20 @@ private:
     \
     _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QString &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, bool);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const QStringList &);
+//! Convenience macro for declaring debugging operators.
+
+#define DJV_DEBUG_OPERATOR(EXPORT, TYPE) \
+    \
+    EXPORT djvDebug & operator << (djvDebug &, const TYPE &)
+
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QString);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, bool);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, int);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, unsigned int);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, qint64);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, quint64);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, double);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QStringList);
 template<class T>
 inline djvDebug & operator << (djvDebug &, const QVector<T> &);
 

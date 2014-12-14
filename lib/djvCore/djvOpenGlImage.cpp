@@ -1053,7 +1053,7 @@ djvDebug & operator << (djvDebug & debug, const djvOpenGlImageFilter & in)
     return debug << djvStringUtil::label(in);
 }
 
-djvDebug & operator << (djvDebug & debug, djvOpenGlImageFilter::FILTER in)
+djvDebug & operator << (djvDebug & debug, const djvOpenGlImageFilter::FILTER & in)
 {
     return debug << djvStringUtil::label(in);
 }
@@ -1067,7 +1067,7 @@ djvDebug & operator << (djvDebug & debug, const djvOpenGlImageOptions & in)
         in.proxyScale;
 }
 
-djvDebug & operator << (djvDebug & debug, djvOpenGlImageOptions::CHANNEL in)
+djvDebug & operator << (djvDebug & debug, const djvOpenGlImageOptions::CHANNEL & in)
 {
     return debug << djvStringUtil::label(in);
 }

@@ -34,11 +34,10 @@
 #ifndef DJV_SPEED_H
 #define DJV_SPEED_H
 
+#include <djvDebug.h>
 #include <djvStringUtil.h>
 
 #include <QObject>
-
-class djvDebug;
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -168,7 +167,7 @@ DJV_CORE_EXPORT bool operator != (const djvSpeed &, const djvSpeed &);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeedEnum::FPS);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvSpeed &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
 //@} // djvCoreMisc
 

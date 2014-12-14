@@ -73,7 +73,7 @@ DJV_CORE_EXPORT bool operator == (const djvImage &, const djvImage &);
 
 DJV_CORE_EXPORT bool operator != (const djvImage &, const djvImage &);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvImage &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImage);
 
 //@} // djvCoreImage
 

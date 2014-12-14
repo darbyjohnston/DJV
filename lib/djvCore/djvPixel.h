@@ -34,13 +34,12 @@
 #ifndef DJV_IMAGE_PIXEL_H
 #define DJV_IMAGE_PIXEL_H
 
+#include <djvDebug.h>
 #include <djvStringUtil.h>
 
 #include <QObject>
 
 #include <half.h>
-
-class djvDebug;
 
 //! \addtogroup djvCoreImage
 //@{
@@ -419,11 +418,12 @@ DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::DATA);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::PIXEL);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::Mask);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixel::FORMAT);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixel::TYPE);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixel::DATA);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixel::PIXEL);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvPixel::Mask &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::FORMAT);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::TYPE);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::DATA);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::PIXEL);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::FORMAT);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::Mask);
 
 //@} // djvCoreImage
 

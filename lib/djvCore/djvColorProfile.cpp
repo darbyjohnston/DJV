@@ -128,7 +128,7 @@ djvDebug & operator << (djvDebug & debug, const djvColorProfile::Exposure & in)
         in.kneeHigh;
 }
 
-djvDebug & operator << (djvDebug & debug, djvColorProfile::PROFILE in)
+djvDebug & operator << (djvDebug & debug, const djvColorProfile::PROFILE & in)
 {
     return debug << djvStringUtil::label(in);
 }

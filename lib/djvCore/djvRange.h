@@ -34,10 +34,7 @@
 #ifndef DJV_RANGE_H
 #define DJV_RANGE_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
-
-class djvDebug;
+#include <djvDebug.h>
 
 //! \addtogroup djvCoreMath
 //@{

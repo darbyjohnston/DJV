@@ -132,22 +132,22 @@ QStringList & operator << (QStringList & out, const djvPixel::Mask & in)
     return out;
 }
 
-djvDebug & operator << (djvDebug & debug, djvPixel::FORMAT in)
+djvDebug & operator << (djvDebug & debug, const djvPixel::FORMAT & in)
 {
     return debug << djvStringUtil::label(in);
 }
 
-djvDebug & operator << (djvDebug & debug, djvPixel::TYPE in)
+djvDebug & operator << (djvDebug & debug, const djvPixel::TYPE & in)
 {
     return debug << djvStringUtil::label(in);
 }
 
-djvDebug & operator << (djvDebug & debug, djvPixel::DATA in)
+djvDebug & operator << (djvDebug & debug, const djvPixel::DATA & in)
 {
     return debug << djvStringUtil::label(in);
 }
 
-djvDebug & operator << (djvDebug & debug, djvPixel::PIXEL in)
+djvDebug & operator << (djvDebug & debug, const djvPixel::PIXEL & in)
 {
     return debug << djvStringUtil::label(in);
 }

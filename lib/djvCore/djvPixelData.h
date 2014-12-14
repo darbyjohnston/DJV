@@ -270,10 +270,10 @@ DJV_CORE_EXPORT bool operator != (const djvPixelData &, const djvPixelData &);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::PROXY);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixelDataInfo::PROXY);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvPixelDataInfo::Mirror &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvPixelDataInfo &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvPixelData &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::PROXY);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelData);
 
 //@} // djvCoreImage
 

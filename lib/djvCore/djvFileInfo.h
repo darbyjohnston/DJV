@@ -321,8 +321,8 @@ typedef QVector<djvFileInfo> djvFileInfoList;
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo::TYPE);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvFileInfo::TYPE &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvFileInfo &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvFileInfo::TYPE);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
 
 //@} // djvCoreFile
 

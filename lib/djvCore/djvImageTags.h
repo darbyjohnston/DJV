@@ -34,9 +34,7 @@
 #ifndef DJV_IMAGE_TAGS_H
 #define DJV_IMAGE_TAGS_H
 
-#include <djvUtil.h>
-
-class djvDebug;
+#include <djvDebug.h>
 
 class QString;
 class QStringList;
@@ -135,7 +133,7 @@ DJV_CORE_EXPORT bool operator == (const djvImageTags &, const djvImageTags &);
 
 DJV_CORE_EXPORT bool operator != (const djvImageTags &, const djvImageTags &);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvImageTags &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
 
 //@} // djvCoreImage
 

@@ -110,9 +110,9 @@ DJV_CORE_EXPORT bool operator != (
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvColorProfile::Exposure &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvColorProfile::PROFILE);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvColorProfile &);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile);
 
 //@} // djvCoreImage
 

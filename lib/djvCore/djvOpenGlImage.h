@@ -389,14 +389,14 @@ DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter::FILTER);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions::CHANNEL);
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageXform &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageColor &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageLevels &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageDisplayProfile &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageFilter &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvOpenGlImageFilter::FILTER);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageOptions &);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvOpenGlImageOptions::CHANNEL);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageLevels);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageDisplayProfile);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter::FILTER);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions::CHANNEL);
 
 //@} // djvCoreOpenGL
 

@@ -344,7 +344,7 @@ QStringList & operator << (QStringList & out, const djvPixelDataInfo::Mirror & i
     return out;
 }
 
-djvDebug & operator << (djvDebug & debug, djvPixelDataInfo::PROXY in)
+djvDebug & operator << (djvDebug & debug, const djvPixelDataInfo::PROXY & in)
 {
     return debug << djvStringUtil::label(in);
 }
