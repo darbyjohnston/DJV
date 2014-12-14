@@ -129,9 +129,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (const djvImageTags &, const djvImageTags &);
-
-DJV_CORE_EXPORT bool operator != (const djvImageTags &, const djvImageTags &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
 
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
 

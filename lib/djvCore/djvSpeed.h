@@ -160,9 +160,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (const djvSpeed &, const djvSpeed &);
-
-DJV_CORE_EXPORT bool operator != (const djvSpeed &, const djvSpeed &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeedEnum::FPS);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed);

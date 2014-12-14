@@ -56,6 +56,14 @@
     \
     P * _p;
 
+//! Convenience macro for declaring comparison operators.
+
+#define DJV_COMPARISON_OPERATOR(EXPORT, TYPE) \
+    \
+    EXPORT bool operator == (const TYPE &, const TYPE &); \
+    \
+    EXPORT bool operator != (const TYPE &, const TYPE &)
+
 //@} // djvCoreMisc
 
 #endif // DJV_UTIL_H

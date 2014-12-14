@@ -358,19 +358,8 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (
-    const djvImageIoInfo &,
-    const djvImageIoInfo &);
-DJV_CORE_EXPORT bool operator == (
-    const djvImageIoFrameInfo &,
-    const djvImageIoFrameInfo &);
-
-DJV_CORE_EXPORT bool operator != (
-    const djvImageIoInfo &,
-    const djvImageIoInfo &);
-DJV_CORE_EXPORT bool operator != (
-    const djvImageIoFrameInfo &,
-    const djvImageIoFrameInfo &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageIoInfo);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageIoFrameInfo);
 
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageIoInfo);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageIoFrameInfo);

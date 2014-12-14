@@ -251,21 +251,9 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (
-    const djvPixelDataInfo::Mirror &,
-    const djvPixelDataInfo::Mirror &);
-DJV_CORE_EXPORT bool operator == (
-    const djvPixelDataInfo &,
-    const djvPixelDataInfo &);
-DJV_CORE_EXPORT bool operator == (const djvPixelData &, const djvPixelData &);
-
-DJV_CORE_EXPORT bool operator != (
-    const djvPixelDataInfo &,
-    const djvPixelDataInfo &);
-DJV_CORE_EXPORT bool operator != (
-    const djvPixelDataInfo::Mirror &,
-    const djvPixelDataInfo::Mirror &);
-DJV_CORE_EXPORT bool operator != (const djvPixelData &, const djvPixelData &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelData);
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::PROXY);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);

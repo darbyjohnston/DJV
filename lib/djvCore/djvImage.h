@@ -69,9 +69,7 @@ public:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (const djvImage &, const djvImage &);
-
-DJV_CORE_EXPORT bool operator != (const djvImage &, const djvImage &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImage);
 
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImage);
 

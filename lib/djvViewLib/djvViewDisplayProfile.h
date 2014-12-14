@@ -57,13 +57,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewDisplayProfile :
 
 //------------------------------------------------------------------------------
 
-DJV_VIEW_LIB_EXPORT bool operator == (
-    const djvViewDisplayProfile &,
-    const djvViewDisplayProfile &);
-
-DJV_VIEW_LIB_EXPORT bool operator != (
-    const djvViewDisplayProfile &,
-    const djvViewDisplayProfile &);
+DJV_COMPARISON_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 

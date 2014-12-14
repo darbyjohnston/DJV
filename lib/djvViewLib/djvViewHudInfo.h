@@ -70,13 +70,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
 
 //------------------------------------------------------------------------------
 
-DJV_VIEW_LIB_EXPORT bool operator == (
-    const djvViewHudInfo &,
-    const djvViewHudInfo &);
-
-DJV_VIEW_LIB_EXPORT bool operator != (
-    const djvViewHudInfo &,
-    const djvViewHudInfo &);
+DJV_COMPARISON_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewHudInfo);
 
 //@} // djvViewView
 

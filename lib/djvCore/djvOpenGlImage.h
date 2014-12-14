@@ -356,31 +356,12 @@ public:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (
-    const djvOpenGlImageXform &, const djvOpenGlImageXform &);
-DJV_CORE_EXPORT bool operator == (
-    const djvOpenGlImageColor &, const djvOpenGlImageColor &);
-DJV_CORE_EXPORT bool operator == (
-    const djvOpenGlImageLevels &, const djvOpenGlImageLevels &);
-DJV_CORE_EXPORT bool operator == (
-    const djvOpenGlImageDisplayProfile &, const djvOpenGlImageDisplayProfile &);
-DJV_CORE_EXPORT bool operator == (
-    const djvOpenGlImageFilter &, const djvOpenGlImageFilter &);
-DJV_CORE_EXPORT bool operator == (
-    const djvOpenGlImageOptions &, const djvOpenGlImageOptions &);
-
-DJV_CORE_EXPORT bool operator != (
-    const djvOpenGlImageXform &, const djvOpenGlImageXform &);
-DJV_CORE_EXPORT bool operator != (
-    const djvOpenGlImageColor &, const djvOpenGlImageColor &);
-DJV_CORE_EXPORT bool operator != (
-    const djvOpenGlImageLevels &, const djvOpenGlImageLevels &);
-DJV_CORE_EXPORT bool operator != (
-    const djvOpenGlImageDisplayProfile &, const djvOpenGlImageDisplayProfile &);
-DJV_CORE_EXPORT bool operator != (
-    const djvOpenGlImageFilter &, const djvOpenGlImageFilter &);
-DJV_CORE_EXPORT bool operator != (
-    const djvOpenGlImageOptions &, const djvOpenGlImageOptions &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageLevels);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageDisplayProfile);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions);
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);

@@ -93,19 +93,8 @@ struct DJV_CORE_EXPORT djvColorProfile
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT bool operator == (
-    const djvColorProfile::Exposure &,
-    const djvColorProfile::Exposure &);
-DJV_CORE_EXPORT bool operator == (
-    const djvColorProfile &,
-    const djvColorProfile &);
-
-DJV_CORE_EXPORT bool operator != (
-    const djvColorProfile::Exposure &,
-    const djvColorProfile::Exposure &);
-DJV_CORE_EXPORT bool operator != (
-    const djvColorProfile &,
-    const djvColorProfile &);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
+DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColorProfile);
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);

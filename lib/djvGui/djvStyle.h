@@ -252,19 +252,9 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_GUI_EXPORT bool operator == (const djvStyle::Palette &,
-    const djvStyle::Palette &);
-DJV_GUI_EXPORT bool operator == (const djvStyle::SizeMetric &,
-    const djvStyle::SizeMetric &);
-DJV_GUI_EXPORT bool operator == (const djvStyle::Fonts &,
-    const djvStyle::Fonts &);
-
-DJV_GUI_EXPORT bool operator != (const djvStyle::Palette &,
-    const djvStyle::Palette &);
-DJV_GUI_EXPORT bool operator != (const djvStyle::SizeMetric &,
-    const djvStyle::SizeMetric &);
-DJV_GUI_EXPORT bool operator != (const djvStyle::Fonts &,
-    const djvStyle::Fonts &);
+DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);
+DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
+DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::Fonts);
 
 DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);
 DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
