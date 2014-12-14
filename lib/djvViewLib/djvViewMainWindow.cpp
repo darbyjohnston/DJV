@@ -598,7 +598,9 @@ void djvViewMainWindow::changeEvent(QEvent * event)
             //! proper resizing behavior.
             //
             
-            _p->viewWidgetFit = true;
+            //_p->viewWidgetFit = true;
+
+            _p->viewWidget->fitOnNextResize();
             
         } break;
         
@@ -665,7 +667,7 @@ bool djvViewMainWindow::eventFilter(QObject * object, QEvent * event)
                 //DJV_DEBUG("djvViewMainWindow::eventFilter");
                 //DJV_DEBUG_PRINT("view fit");
                 
-                QTimer::singleShot(100, _p->viewWidget, SLOT(viewFit()));
+                //QTimer::singleShot(100, _p->viewWidget, SLOT(viewFit()));
                 
                 _p->viewWidgetFit = false;
             }
@@ -951,7 +953,9 @@ void djvViewMainWindow::controlsUpdate()
     //! proper resizing behavior.
     //
     
-    _p->viewWidgetFit = true;
+    //_p->viewWidgetFit = true;
+
+    _p->viewWidget->fitOnNextResize();
     
     QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
 }

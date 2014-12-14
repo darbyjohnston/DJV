@@ -67,6 +67,7 @@ struct djvViewImageView::P
         hudColor          (djvViewViewPrefs::global()->hudColor()),
         hudBackground     (djvViewViewPrefs::global()->hudBackground()),
         hudBackgroundColor(djvViewViewPrefs::global()->hudBackgroundColor()),
+        fitOnNextResize   (false),
         inside            (false),
         mouseWheel        (false),
         mouseWheelTmp     (0),
@@ -82,6 +83,7 @@ struct djvViewImageView::P
     djvColor                hudColor;
     djvView::HUD_BACKGROUND hudBackground;
     djvColor                hudBackgroundColor;
+    bool                    fitOnNextResize;
     bool                    inside;
     djvVector2i             mousePos;
     djvVector2i             mouseStartPos;
@@ -238,6 +240,11 @@ void djvViewImageView::setHudBackgroundColor(const djvColor & color)
     update();
 }
 
+void djvViewImageView::fitOnNextResize()
+{
+    _p->fitOnNextResize = true;
+}
+
 void djvViewImageView::timerEvent(QTimerEvent *)
 {
     // Reset cursor.
@@ -276,13 +283,22 @@ void djvViewImageView::resizeEvent(QResizeEvent * event)
 {
     djvImageView::resizeEvent(event);
 
+    bool fitOnNextResize = _p->fitOnNextResize;
+
     switch (djvViewViewPrefs::global()->resize())
     {
-        case djvView::VIEW_RESIZE_FIT_IMAGE:    viewFit();    break;
-        case djvView::VIEW_RESIZE_CENTER_IMAGE: viewCenter(); break;
+        case djvView::VIEW_RESIZE_FIT_IMAGE:    fitOnNextResize = true; break;
+        case djvView::VIEW_RESIZE_CENTER_IMAGE: viewCenter();           break;
 
         default: break;
     }
+
+    if (fitOnNextResize)
+    {
+        viewFit();
+    }
+
+    _p->fitOnNextResize = false;
 }
 
 void djvViewImageView::mousePressEvent(QMouseEvent * event)
