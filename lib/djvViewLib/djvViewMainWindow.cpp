@@ -431,7 +431,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
     fileUpdate();
     imageUpdate();
 
-    if (init)
+    if (init && isVisible())
     {
         if (djvViewWindowPrefs::global()->hasResizeFit())
         {
@@ -580,16 +580,7 @@ void djvViewMainWindow::setPlaybackSpeed(const djvSpeed & in)
 
 void djvViewMainWindow::showEvent(QShowEvent *)
 {
-    if (djvViewWindowPrefs::global()->hasResizeFit())
-    {
-        _p->viewWidget->setViewZoom(1.0);
-
-        fitWindow(djvVector2i(), false);
-    }
-    else
-    {
-        fitWindow(djvViewViewPrefs::global()->viewSize(), false);
-    }
+    QTimer::singleShot(0, this, SLOT(showCallback()));
 }
 
 void djvViewMainWindow::closeEvent(QCloseEvent * event)
@@ -712,18 +703,6 @@ void djvViewMainWindow::saveFrameCallback(const djvFileInfo & in)
     djvViewFileSave::global()->save(info);
 }
 
-void djvViewMainWindow::pickCallback(const djvVector2i & pick)
-{
-    _p->imagePick = pick;
-
-    if (! _p->sampleInit)
-    {
-        _p->sampleInit = true;
-
-        QTimer::singleShot(0, this, SLOT(viewPickUpdate()));
-    }
-}
-
 void djvViewMainWindow::loadFrameStoreCallback()
 {
     //DJV_DEBUG("djvViewMainWindow::loadFrameStoreCallback");
@@ -731,6 +710,32 @@ void djvViewMainWindow::loadFrameStoreCallback()
     if (_p->imageP)
     {
         _p->imageTmp = *_p->imageP;
+    }
+}
+
+void djvViewMainWindow::showCallback()
+{
+    if (djvViewWindowPrefs::global()->hasResizeFit())
+    {
+        _p->viewWidget->viewZero();
+
+        fitWindow(djvVector2i(), false);
+    }
+    else
+    {
+        fitWindow(djvViewViewPrefs::global()->viewSize(), false);
+    }
+}
+
+void djvViewMainWindow::pickCallback(const djvVector2i & pick)
+{
+    _p->imagePick = pick;
+
+    if (!_p->sampleInit)
+    {
+        _p->sampleInit = true;
+
+        QTimer::singleShot(0, this, SLOT(viewPickUpdate()));
     }
 }
 
