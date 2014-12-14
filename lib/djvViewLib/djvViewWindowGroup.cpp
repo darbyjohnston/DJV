@@ -205,8 +205,6 @@ void djvViewWindowGroup::setFullScreen(bool fullScreen)
         }
     }
 
-    mainWindow()->viewWidget()->viewFit();
-
     update();
     
     Q_EMIT fullScreenChanged(_p->fullScreen);

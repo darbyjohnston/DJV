@@ -119,7 +119,7 @@ const djvVector2i & djvViewViewPrefs::viewSize() const
 
 djvView::VIEW_RESIZE djvViewViewPrefs::resizeDefault()
 {
-    return djvView::VIEW_RESIZE_NONE;
+    return djvView::VIEW_RESIZE_FIT_IMAGE;
 }
 
 djvView::VIEW_RESIZE djvViewViewPrefs::resize() const

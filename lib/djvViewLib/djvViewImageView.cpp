@@ -67,7 +67,6 @@ struct djvViewImageView::P
         hudColor          (djvViewViewPrefs::global()->hudColor()),
         hudBackground     (djvViewViewPrefs::global()->hudBackground()),
         hudBackgroundColor(djvViewViewPrefs::global()->hudBackgroundColor()),
-        fitOnNextResize   (false),
         inside            (false),
         mouseWheel        (false),
         mouseWheelTmp     (0),
@@ -83,7 +82,6 @@ struct djvViewImageView::P
     djvColor                hudColor;
     djvView::HUD_BACKGROUND hudBackground;
     djvColor                hudBackgroundColor;
-    bool                    fitOnNextResize;
     bool                    inside;
     djvVector2i             mousePos;
     djvVector2i             mouseStartPos;
@@ -104,11 +102,6 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
     
     setMouseTracking(true);
     setAcceptDrops(true);
-
-    connect(
-        djvViewViewPrefs::global(),
-        SIGNAL(viewSizeChanged(const djvVector2i &)),
-        SLOT(viewSizeCallback()));
 
     connect(
         djvViewViewPrefs::global(),
@@ -165,6 +158,9 @@ QSize djvViewImageView::minimumSizeHint() const
 
 void djvViewImageView::setZoomFocus(double in)
 {
+    //DJV_DEBUG("djvViewImageView::setZoomFocus");
+    //DJV_DEBUG_PRINT("in = " << in);
+    
     djvImageView::setViewZoom(
         in,
         _p->inside ? _p->mousePos : (djvVector2i(width(), height()) / 2));
@@ -240,11 +236,6 @@ void djvViewImageView::setHudBackgroundColor(const djvColor & color)
     update();
 }
 
-void djvViewImageView::fitOnNextResize()
-{
-    _p->fitOnNextResize = true;
-}
-
 void djvViewImageView::timerEvent(QTimerEvent *)
 {
     // Reset cursor.
@@ -281,24 +272,17 @@ void djvViewImageView::leaveEvent(QEvent * event)
 
 void djvViewImageView::resizeEvent(QResizeEvent * event)
 {
-    djvImageView::resizeEvent(event);
+    //DJV_DEBUG("djvViewImageView::resizeEvent");
 
-    bool fitOnNextResize = _p->fitOnNextResize;
+    djvImageView::resizeEvent(event);
 
     switch (djvViewViewPrefs::global()->resize())
     {
-        case djvView::VIEW_RESIZE_FIT_IMAGE:    fitOnNextResize = true; break;
-        case djvView::VIEW_RESIZE_CENTER_IMAGE: viewCenter();           break;
+        case djvView::VIEW_RESIZE_FIT_IMAGE:    viewFit();    break;
+        case djvView::VIEW_RESIZE_CENTER_IMAGE: viewCenter(); break;
 
         default: break;
     }
-
-    if (fitOnNextResize)
-    {
-        viewFit();
-    }
-
-    _p->fitOnNextResize = false;
 }
 
 void djvViewImageView::mousePressEvent(QMouseEvent * event)
@@ -526,11 +510,6 @@ void djvViewImageView::paintGL()
     {
         drawHud();
     }
-}
-
-void djvViewImageView::viewSizeCallback()
-{
-    updateGeometry();
 }
 
 void djvViewImageView::hudInfoCallback(const QVector<bool> & info)

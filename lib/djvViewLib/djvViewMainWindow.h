@@ -106,7 +106,7 @@ public Q_SLOTS:
 
     //! Fit the window to the image.
 
-    void fitWindow(bool move = true);
+    void fitWindow(const djvVector2i & size = djvVector2i(), bool move = true);
 
     //! Set the playback.
 
@@ -129,10 +129,8 @@ Q_SIGNALS:
 protected:
 
     virtual void showEvent(QShowEvent *);
-    virtual void changeEvent(QEvent *);
     virtual void closeEvent(QCloseEvent *);
     virtual void keyPressEvent(QKeyEvent *);
-    virtual bool eventFilter(QObject *, QEvent *);
     
 private Q_SLOTS:
 

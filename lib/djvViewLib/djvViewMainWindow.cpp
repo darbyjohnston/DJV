@@ -92,7 +92,6 @@ struct djvViewMainWindow::P
         imageP          (0),
         sampleInit      (false),
         viewWidget      (0),
-        viewWidgetFit   (false),
         infoSwatch      (0),
         infoPixelLabel  (0),
         menuBarHeight   (0)
@@ -116,7 +115,6 @@ struct djvViewMainWindow::P
     QScopedPointer<djvOpenGlOffscreenBuffer> sampleBuffer;
     djvOpenGlImageState                      sampleState;
     djvViewImageView *                       viewWidget;
-    bool                                     viewWidgetFit;
     djvColorSwatch *                         infoSwatch;
     QLabel *                                 infoPixelLabel;
     QLabel *                                 infoImageLabel;
@@ -211,8 +209,6 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
         //fitWindow();
     }
     
-    _p->viewWidget->installEventFilter(this);
-
     fileUpdate();
     fileCacheUpdate();
     imageUpdate();
@@ -477,25 +473,31 @@ void djvViewMainWindow::setFileCacheEnabled(bool in)
     _p->fileGroup->setCacheEnabled(in);
 }
 
-void djvViewMainWindow::fitWindow(bool move)
+void djvViewMainWindow::fitWindow(const djvVector2i & size, bool move)
 {
     //DJV_DEBUG("djvViewMainWindow::fitWindow");
+    //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("move = " << move);
 
-    // Calculate the image size.
-
-    const djvBox2f bbox = _p->viewWidget->bbox().size;
-
-    //DJV_DEBUG_PRINT("bbox = " << bbox);
-
-    djvVector2i imageSize = djvVectorUtil::ceil<double, int>(bbox.size);
-
-    if (! djvVectorUtil::isSizeValid(imageSize))
+    djvVector2i tmp = size;
+    
+    if (! djvVectorUtil::isSizeValid(tmp))
     {
-        imageSize = djvViewViewPrefs::global()->viewSize();
+        //DJV_DEBUG_PRINT("view zoom = " << _p->viewWidget->viewZoom());
+
+        const djvBox2f bbox = _p->viewWidget->bbox().size;
+
+        //DJV_DEBUG_PRINT("bbox = " << bbox);
+
+        tmp = djvVectorUtil::ceil<double, int>(bbox.size);
+    }
+    
+    if (! djvVectorUtil::isSizeValid(tmp))
+    {
+        tmp = djvViewViewPrefs::global()->viewSize();
     }
 
-    //DJV_DEBUG_PRINT("image size = " << imageSize);
+    //DJV_DEBUG_PRINT("size = " << tmp);
 
     // Adjust to the screen size.
 
@@ -512,21 +514,19 @@ void djvViewMainWindow::fitWindow(bool move)
 
     //DJV_DEBUG_PRINT("max = " << max);
 
-    if (imageSize.x > max.x || imageSize.y > max.y)
+    if (tmp.x > max.x || tmp.y > max.y)
     {
-        imageSize =
-            imageSize.x > imageSize.y ?
+        tmp =
+            tmp.x > tmp.y ?
             djvVector2i(
                 max.x,
-                djvMath::ceil<int>(
-                    imageSize.y / static_cast<double>(imageSize.x) * max.x)) :
+                djvMath::ceil<int>(tmp.y / static_cast<double>(tmp.x) * max.x)) :
             djvVector2i(
-                djvMath::ceil<int>(
-                    imageSize.x / static_cast<double>(imageSize.y) * max.y),
+                djvMath::ceil<int>(tmp.x / static_cast<double>(tmp.y) * max.y),
                 max.y);
     }
 
-    //DJV_DEBUG_PRINT("image size = " << imageSize);
+    //DJV_DEBUG_PRINT("size = " << tmp);
 
     // Adjust to the size hint.
 
@@ -536,11 +536,9 @@ void djvViewMainWindow::fitWindow(bool move)
 
     //DJV_DEBUG_PRINT("ui size = " << uiSize);
 
-    const djvVector2i size = djvVector2i(
-        imageSize.x + uiSize.x,
-        imageSize.y + uiSize.y);
+    const djvVector2i newSize = djvVector2i(tmp.x + uiSize.x, tmp.y + uiSize.y);
 
-    //DJV_DEBUG_PRINT("size = " << size);
+    //DJV_DEBUG_PRINT("new size = " << newSize);
 
     // Set the size.
 
@@ -549,23 +547,20 @@ void djvViewMainWindow::fitWindow(bool move)
         showNormal();
     }
 
-    resize(size.x, size.y);
+    const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
+
+    //DJV_DEBUG_PRINT("frame = " << frame);
+
+    resize(newSize.x, newSize.y);
 
     if (move)
     {
-        const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
-
-        //DJV_DEBUG_PRINT("frame = " << frame);
-
         this->move(
-            x() - (frameGeometry().width() / 2 - frame.x / 2),
+            x() - (frameGeometry().width () / 2 - frame.x / 2),
             y() - (frameGeometry().height() / 2 - frame.y / 2));
     }
     
-    if (isVisible())
-    {
-        _p->viewWidget->viewFit();
-    }
+    _p->viewWidget->viewFit();
 }
 
 void djvViewMainWindow::setPlayback(djvView::PLAYBACK in)
@@ -585,30 +580,15 @@ void djvViewMainWindow::setPlaybackSpeed(const djvSpeed & in)
 
 void djvViewMainWindow::showEvent(QShowEvent *)
 {
-    //fitWindow(false);
-}
-
-void djvViewMainWindow::changeEvent(QEvent * event)
-{
-    switch (event->type())
+    if (djvViewWindowPrefs::global()->hasResizeFit())
     {
-        case QEvent::WindowStateChange:
-        {
-            //DJV_DEBUG("djvViewMainWindow::changeEvent");
-            
-            //
-            //! \todo It seems that changing full screen mode happens
-            //! asynchronously so we add this extra flag to trigger the
-            //! proper resizing behavior.
-            //
-            
-            //_p->viewWidgetFit = true;
+        _p->viewWidget->setViewZoom(1.0);
 
-            _p->viewWidget->fitOnNextResize();
-            
-        } break;
-        
-        default: break;
+        fitWindow(djvVector2i(), false);
+    }
+    else
+    {
+        fitWindow(djvViewViewPrefs::global()->viewSize(), false);
     }
 }
 
@@ -655,33 +635,6 @@ void djvViewMainWindow::keyPressEvent(QKeyEvent * event)
             
             break;
     }
-}
-
-bool djvViewMainWindow::eventFilter(QObject * object, QEvent * event)
-{
-    //DJV_DEBUG("djvViewMainWindow::eventFilter");
-    //DJV_DEBUG_PRINT("event = " << event->type());
-    
-    switch (event->type())
-    {
-        case QEvent::UpdateRequest:
-
-            if (_p->viewWidgetFit)
-            {
-                //DJV_DEBUG("djvViewMainWindow::eventFilter");
-                //DJV_DEBUG_PRINT("view fit");
-                
-                //QTimer::singleShot(100, _p->viewWidget, SLOT(viewFit()));
-                
-                _p->viewWidgetFit = false;
-            }
-        
-            break;
-        
-        default: break;
-    }
-    
-    return QMainWindow::eventFilter(object, event);
 }
 
 void djvViewMainWindow::reloadFrameCallback()
@@ -950,16 +903,6 @@ void djvViewMainWindow::controlsUpdate()
     statusBar()->setVisible(controls && visible[djvView::INFO_BAR]);
     
     //windowResizeUpdate();
-        
-    //
-    //! \todo It seems that changing the visibility of the controls is
-    //! happening asynchronously so we add this extra flag to trigger the
-    //! proper resizing behavior.
-    //
-    
-    //_p->viewWidgetFit = true;
-
-    _p->viewWidget->fitOnNextResize();
     
     QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
 }

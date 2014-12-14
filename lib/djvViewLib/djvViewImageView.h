@@ -110,10 +110,6 @@ public Q_SLOTS:
 
     void setHudBackgroundColor(const djvColor &);
 
-    //! Set whether to fit the image on the next resize.
-
-    void fitOnNextResize();
-
 Q_SIGNALS:
 
     //! This signal is emitted when the view is picked.
@@ -148,7 +144,6 @@ protected:
 
 private Q_SLOTS:
 
-    void viewSizeCallback();
     void hudInfoCallback(const QVector<bool> &);
 
 private:

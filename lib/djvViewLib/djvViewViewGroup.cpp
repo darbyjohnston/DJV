@@ -320,6 +320,9 @@ void djvViewViewGroup::viewMove(const djvVector2i & offset)
 
 void djvViewViewGroup::viewZoom(double zoom)
 {
+    //DJV_DEBUG("djvViewViewGroup::viewZoom");
+    //DJV_DEBUG_PRINT("zoom = " << zoom);
+    
     mainWindow()->viewWidget()->setZoomFocus(
         mainWindow()->viewWidget()->viewZoom() * zoom);
 }
