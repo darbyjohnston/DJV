@@ -459,11 +459,6 @@ void djvViewFileGroup::open(const djvFileInfo & in)
         DJV_LOG("djvViewFileGroup", QString("match wildcards = \"%1\"").arg(fileInfo));
     }
     
-    if (fileInfo.isSequenceValid())
-    {
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-    }
-
     //DJV_DEBUG_PRINT("file = " << fileInfo);
     //DJV_DEBUG_PRINT("file type = " << fileInfo.type());
     //DJV_DEBUG_PRINT("sequence valid = " << fileInfo.isSequenceValid());
@@ -485,6 +480,7 @@ void djvViewFileGroup::open(const djvFileInfo & in)
                 items[i].extension() == fileInfo.extension() &&
                 items[i].base()      == fileInfo.base())
             {
+                fileInfo.setType(djvFileInfo::SEQUENCE);
                 fileInfo.setSequence(items[i].sequence());
                 
                 break;
