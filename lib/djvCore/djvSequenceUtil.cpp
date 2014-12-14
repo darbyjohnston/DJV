@@ -205,7 +205,7 @@ djvSequence djvSequenceUtil::stringToSequence(const QString & seq)
                 ++j;
             }
             
-            while (s[j].isNumber() && j < count)
+            while (j < count && s[j].isNumber())
             {
                 a.append(s[j]);
                 
