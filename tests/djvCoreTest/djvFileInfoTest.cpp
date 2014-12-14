@@ -153,6 +153,12 @@ void djvFileInfoTest::members()
         DJV_ASSERT(fileInfo.isSequenceValid());
         DJV_ASSERT("image1-3.dpx" == fileInfo.fileName());
     }
+
+    {
+        djvFileInfo fileInfo("image.dpx");
+        
+        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image1.dpx")));
+    }
     
     {
         djvFileInfo fileInfo("image.1.dpx");

@@ -135,7 +135,7 @@ inline bool djvFileInfo::addSequence(const djvFileInfo & in)
     if (_base != in._base)
         return false;
 
-    if (! in.isSequenceValid())
+    if (! isSequenceValid() || ! in.isSequenceValid())
         return false;
 
     //if (isSequenceValid() && _sequence.pad != in._sequence.pad)
