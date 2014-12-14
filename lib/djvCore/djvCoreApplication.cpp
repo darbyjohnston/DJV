@@ -106,7 +106,7 @@ djvAbstractCoreApplication::djvAbstractCoreApplication(
         QString("Command line name: \"%1\"").arg(_p->commandLineName));
     DJV_LOG("djvAbstractCoreApplication",
         QString("Command line arguments: %1").
-            arg(_commandLineArgs.join(", ")));
+            arg(djvStringUtil::addQuotes(_commandLineArgs).join(", ")));
     DJV_LOG("djvAbstractCoreApplication", "");
 
     DJV_LOG("djvAbstractCoreApplication", "Information:");
@@ -208,7 +208,7 @@ QString djvAbstractCoreApplication::info() const
         arg(DJV_PACKAGE_NAME).
         arg(djvSystem::info()).
         arg(djvStringUtil::label(djvMemory::endian()).join(", ")).
-        arg(djvSystem::searchPath().join(", ")).
+        arg(djvStringUtil::addQuotes(djvSystem::searchPath()).join(", ")).
         arg(djvStringUtil::label(djvTime::units()).join(", ")).
         arg(djvStringUtil::label(djvSpeed::speed()).join(", ")).
         arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
@@ -397,7 +397,7 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
                 djvSequence::setMaxFrames(value);
             }
 
-            else if ("-printLog" == arg)
+            else if ("-debug_log" == arg)
             {
                 djvDebugLog::global()->setPrint(true);
             }
@@ -461,8 +461,8 @@ const QString commandLineHelpLabel =
 "        Set the default speed. Options = %3. Default = %4.\n"
 "    -max_sequence_frames (value)\n"
 "        Set the maximum number of frames a sequence can hold. Default = %5.\n"
-"    -printLog\n"
-"        Print log messages.\n"
+"    -debug_log\n"
+"        Print debug log messages.\n"
 "    -help, -h\n"
 "        Show the help message.\n"
 "    -info\n"

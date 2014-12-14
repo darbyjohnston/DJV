@@ -33,6 +33,7 @@
 
 #include <djv_ls.h>
 
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
 #include <djvMath.h>
@@ -87,64 +88,53 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
 
     for (int i = 0; i < _input.count(); ++i)
     {
-        djvFileInfo file(_input[i], false);
+        // Parse the input.
+        
+        djvFileInfo fileInfo =
+            djvFileInfoUtil::commandLine(_input[i], _sequence);
 
-        //DJV_DEBUG_PRINT("file = " << file);
-
-        // Match wildcards.
-
-        if (_sequence && file.isSequenceWildcard())
-        {
-            file = djvFileInfoUtil::sequenceWildcardMatch(
-                file,
-                djvFileInfoUtil::list(file.path(), _sequence));
-
-            //DJV_DEBUG_PRINT("  wildcard match = " << file);
-        }
-
-        // Is this a sequence?
-
-        if (_sequence && file.isSequenceValid())
-        {
-            file.setType(djvFileInfo::SEQUENCE);
-
-            //DJV_DEBUG_PRINT("  sequence = " << file);
-        }
-
+        //DJV_DEBUG_PRINT("input = " << fileInfo);
+        
+        DJV_LOG("djv_ls", QString("Input = \"%1\"").arg(fileInfo));
+        
         // Expand the sequence.
 
-        QStringList tmp = djvFileInfoUtil::expandSequence(file);
+        QStringList tmp = djvFileInfoUtil::expandSequence(fileInfo);
 
         for (int j = 0; j < tmp.count(); ++j)
         {
-            file = djvFileInfo(tmp[j], false);
+            fileInfo = djvFileInfo(tmp[j], false);
 
-            if (! file.stat())
+            if (! fileInfo.stat())
             {
-                printError(djvError(QString("Cannot open: %1").
-                    arg(QDir::toNativeSeparators(file))));
+                printError(djvError(QString("Cannot open: \"%1\"").
+                    arg(QDir::toNativeSeparators(fileInfo))));
                 
                 setExitValue(EXIT_VALUE_ERROR);
                 
                 continue;
             }
 
-            if (_sequence && file.isSequenceValid())
+            if (_sequence && fileInfo.isSequenceValid())
             {
-                file.setType(djvFileInfo::SEQUENCE);
+                fileInfo.setType(djvFileInfo::SEQUENCE);
             }
 
-            list += file;
+            list += fileInfo;
         }
     }
 
     //DJV_DEBUG_PRINT("list = " << list);
+    
+    DJV_LOG("djv_ls", QString("Input count = %1").arg(list.count()));
 
     // Process the inputs.
 
     process(list);
 
     //DJV_DEBUG_PRINT("process = " << list);
+
+    DJV_LOG("djv_ls", QString("Processed count = %1").arg(list.count()));
 
     // If there are no inputs list the current directory.
 
@@ -163,7 +153,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
                 list[i],
                 ((list.count() > 1) || _recurse) && ! _filePath))
             {
-                printError(djvError(QString("Cannot open: %1").
+                printError(djvError(QString("Cannot open: \"%1\"").
                     arg(QDir::toNativeSeparators(list[i]))));
                 
                 setExitValue(EXIT_VALUE_ERROR);
@@ -222,7 +212,7 @@ void djvLsApplication::commandLine(QStringList & in) throw (djvError)
                 in >> _columns;
             }
 
-            // Sorting options.
+            // Parse the sorting options.
 
             else if ("-sort" == arg || "-s" == arg)
             {
@@ -336,7 +326,7 @@ void djvLsApplication::process(djvFileInfoList & in)
 
     // Compress files into sequences.
 
-    //djvFileInfoUtil::compressSeq(in, _seq);
+    djvFileInfoUtil::compressSequence(in, _sequence);
 
     //DJV_DEBUG_PRINT("compress = " << in);
 

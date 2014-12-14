@@ -58,13 +58,17 @@ struct DJV_CORE_EXPORT djvStringUtil
         const QStringList & list,
         int *               index  = 0);
 
-    //! Find a string in a list case insensitive.
+    //! Find a string in a list, case insensitive.
 
     static inline bool findNoCase(
         const QString &     string,
         const QStringList & list,
         int *               index = 0);
 
+    //! Add double quotes to each string in a list.
+    
+    static QStringList addQuotes(const QStringList &);
+    
     //! Get a label for a value.
 
     template<typename T>

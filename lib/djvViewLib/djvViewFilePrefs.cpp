@@ -48,7 +48,6 @@
 djvViewFilePrefs::djvViewFilePrefs(QObject * parent) :
     djvViewAbstractPrefs(parent),
     _autoSequence      (autoSequenceDefault()),
-    _combineCommandLine(combineCommandLineDefault()),
     _proxy             (proxyDefault()),
     _u8Conversion      (u8ConversionDefault()),
     _cacheEnabled      (cacheEnabledDefault()),
@@ -59,7 +58,6 @@ djvViewFilePrefs::djvViewFilePrefs(QObject * parent) :
 
     prefs.get("recent", _recent);
     prefs.get("autoSequence", _autoSequence);
-    prefs.get("combineCommandLine", _combineCommandLine);
     prefs.get("proxy", _proxy);
     prefs.get("u8Conversion", _u8Conversion);
     prefs.get("cacheEnabled", _cacheEnabled);
@@ -76,7 +74,6 @@ djvViewFilePrefs::~djvViewFilePrefs()
 
     prefs.set("recent", _recent);
     prefs.set("autoSequence", _autoSequence);
-    prefs.set("combineCommandLine", _combineCommandLine);
     prefs.set("proxy", _proxy);
     prefs.set("u8Conversion", _u8Conversion);
     prefs.set("cacheEnabled", _cacheEnabled);
@@ -108,16 +105,6 @@ bool djvViewFilePrefs::autoSequenceDefault()
 bool djvViewFilePrefs::hasAutoSequence() const
 {
     return _autoSequence;
-}
-
-bool djvViewFilePrefs::combineCommandLineDefault()
-{
-    return false;
-}
-
-bool djvViewFilePrefs::hasCombineCommandLine() const
-{
-    return _combineCommandLine;
 }
 
 djvPixelDataInfo::PROXY djvViewFilePrefs::proxyDefault()
@@ -191,11 +178,6 @@ void djvViewFilePrefs::setAutoSequence(bool autoSequence)
 
     Q_EMIT autoSequenceChanged(_autoSequence);
     Q_EMIT prefChanged();
-}
-
-void djvViewFilePrefs::setCombineCommandLine(bool combineCommandLine)
-{
-    _combineCommandLine = combineCommandLine;
 }
 
 void djvViewFilePrefs::setProxy(djvPixelDataInfo::PROXY proxy)

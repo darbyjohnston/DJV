@@ -54,6 +54,7 @@
 #include <djvColorSwatch.h>
 
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
@@ -396,6 +397,8 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
     //DJV_DEBUG("djvViewMainWindow::fileOpen");
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("init = " << init);
+
+    DJV_LOG("djvViewMainWindow", QString("Open file = \"%1\"").arg(in));
 
     // Initialize.
 

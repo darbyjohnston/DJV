@@ -67,7 +67,6 @@ public:
 private Q_SLOTS:
 
     void autoSequenceCallback(bool);
-    void combineCommandLineCallback(bool);
     void proxyCallback(int);
     void u8ConversionCallback(bool);
     void cacheCallback(bool);

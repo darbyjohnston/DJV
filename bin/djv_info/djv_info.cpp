@@ -33,6 +33,7 @@
 
 #include <djv_info.h>
 
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
@@ -84,54 +85,43 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
 
     for (int i = 0; i < _input.count(); ++i)
     {
-        //DJV_DEBUG_PRINT("input = " << _input[i]);
+        // Parse the input.
+        
+        djvFileInfo fileInfo =
+            djvFileInfoUtil::commandLine(_input[i], _sequence);
 
-        djvFileInfo file(_input[i]);
-
-        // Match wildcards.
-
-        if (_sequence && file.isSequenceWildcard())
-        {
-            file = djvFileInfoUtil::sequenceWildcardMatch(
-                file,
-                djvFileInfoUtil::list(file.path(), _sequence));
-
-            //DJV_DEBUG_PRINT("  wildcard match = " << file);
-        }
-
-        // Is this is a sequence?
-
-        if (_sequence && file.isSequenceValid())
-        {
-            file.setType(djvFileInfo::SEQUENCE);
-
-            //DJV_DEBUG_PRINT("sequence = " << file);
-        }
+        //DJV_DEBUG_PRINT("input = " << fileInfo);
+        
+        DJV_LOG("djv_info", QString("Input = \"%1\"").arg(fileInfo));
 
         // Expand the sequence.
 
-        QStringList tmp = djvFileInfoUtil::expandSequence(file);
+        QStringList tmp = djvFileInfoUtil::expandSequence(fileInfo);
 
         for (int j = 0; j < tmp.count(); ++j)
         {
-            file = djvFileInfo(tmp[j]);
+            fileInfo = djvFileInfo(tmp[j]);
 
-            if (_sequence && file.isSequenceValid())
+            if (_sequence && fileInfo.isSequenceValid())
             {
-                file.setType(djvFileInfo::SEQUENCE);
+                fileInfo.setType(djvFileInfo::SEQUENCE);
             }
 
-            list += file;
+            list += fileInfo;
         }
     }
 
     //DJV_DEBUG_PRINT("list = " << list);
+    
+    DJV_LOG("djv_info", QString("Input count = %1").arg(list.count()));
 
-    // Compress the inputs into sequences.
+    // Compress files into sequences.
 
-    //djvFileInfoUtil::compressSequence(list, _sequence);
+    djvFileInfoUtil::compressSequence(list, _sequence);
 
     //DJV_DEBUG_PRINT("list = " << list);
+
+    DJV_LOG("djv_info", QString("Processed count = %1").arg(list.count()));
 
     // Print the files.
 
@@ -445,7 +435,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (! QDir(in.path()).exists() && ! _recurse)
     {
-        throw djvError(QString("Cannot open directory: %1").
+        throw djvError(QString("Cannot open directory: \"%1\"").
             arg(QDir::toNativeSeparators(in)));
     }
 

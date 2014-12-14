@@ -57,7 +57,6 @@ struct djvViewFilePrefsWidget::P
 {
     P() :
         autoSequenceWidget      (0),
-        combineCommandLineWidget(0),
         proxyWidget             (0),
         u8ConversionWidget      (0),
         cacheWidget             (0),
@@ -66,7 +65,6 @@ struct djvViewFilePrefsWidget::P
     {}
     
     QCheckBox *              autoSequenceWidget;
-    QCheckBox *              combineCommandLineWidget;
     QComboBox *              proxyWidget;
     QCheckBox *              u8ConversionWidget;
     QCheckBox *              cacheWidget;
@@ -86,9 +84,6 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
 
     _p->autoSequenceWidget = new QCheckBox(
         "Automatically detect sequences when opening files");
-
-    _p->combineCommandLineWidget = new QCheckBox(
-        "Combine command line arguments into a single sequence");
 
     // Create the proxy scale widgets.
 
@@ -115,7 +110,6 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoSequenceWidget);
-    formLayout->addRow(_p->combineCommandLineWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
@@ -162,11 +156,6 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
         SLOT(autoSequenceCallback(bool)));
 
     connect(
-        _p->combineCommandLineWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(combineCommandLineCallback(bool)));
-
-    connect(
         _p->proxyWidget,
         SIGNAL(activated(int)),
         SLOT(proxyCallback(int)));
@@ -201,8 +190,6 @@ void djvViewFilePrefsWidget::resetPreferences()
 {
     djvViewFilePrefs::global()->setAutoSequence(
         djvViewFilePrefs::autoSequenceDefault());
-    djvViewFilePrefs::global()->setCombineCommandLine(
-        djvViewFilePrefs::combineCommandLineDefault());
     djvViewFilePrefs::global()->setProxy(
         djvViewFilePrefs::proxyDefault());
     djvViewFilePrefs::global()->setU8Conversion(
@@ -220,11 +207,6 @@ void djvViewFilePrefsWidget::resetPreferences()
 void djvViewFilePrefsWidget::autoSequenceCallback(bool in)
 {
     djvViewFilePrefs::global()->setAutoSequence(in);
-}
-
-void djvViewFilePrefsWidget::combineCommandLineCallback(bool in)
-{
-    djvViewFilePrefs::global()->setCombineCommandLine(in);
 }
 
 void djvViewFilePrefsWidget::proxyCallback(int in)
@@ -256,7 +238,6 @@ void djvViewFilePrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->autoSequenceWidget <<
-        _p->combineCommandLineWidget <<
         _p->proxyWidget <<
         _p->u8ConversionWidget <<
         _p->cacheWidget <<
@@ -265,9 +246,6 @@ void djvViewFilePrefsWidget::widgetUpdate()
     
     _p->autoSequenceWidget->setChecked(
         djvViewFilePrefs::global()->hasAutoSequence());
-    
-    _p->combineCommandLineWidget->setChecked(
-        djvViewFilePrefs::global()->hasCombineCommandLine());
     
     _p->proxyWidget->setCurrentIndex(
         djvViewFilePrefs::global()->proxy());

@@ -41,8 +41,20 @@
 #include <stdlib.h>
 
 //------------------------------------------------------------------------------
-// StringUtil
+// djvStringUtil
 //------------------------------------------------------------------------------
+
+QStringList djvStringUtil::addQuotes(const QStringList & list)
+{
+    QStringList tmp;
+    
+    Q_FOREACH(const QString & s, list)
+    {
+        tmp += QString("\"%1\"").arg(s);
+    }
+    
+    return tmp;
+}
 
 const QStringList & djvStringUtil::boolLabels()
 {

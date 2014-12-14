@@ -87,7 +87,7 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
 
     static QStringList expandSequence(const djvFileInfo &);
 
-    //! This enumeration provides the file filters.
+    //! This enumeration provides file filters.
 
     enum FILTER
     {
@@ -105,7 +105,7 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
         const QString &     filterText = QString(),
         const QStringList & glob       = QStringList());
 
-    //! This enumeration provides the file sorting.
+    //! This enumeration provides file sorting.
 
     enum SORT
     {
@@ -130,13 +130,13 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
         SORT,
         bool reverse = false);
 
-    //! Sort list so directories are first.
+    //! Sort the list so directories are first.
 
     static void sortDirsFirst(djvFileInfoList &);
 
     //! The maximum number of recent files.
 
-    static int recentMax;
+    static const int recentMax = 10;
 
     //! Update a recent files list.
 
@@ -175,6 +175,12 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
     //! Dot dot directory.
 
     static const QString dotDot;
+    
+    //! Parse a command line file input.
+    
+    static djvFileInfo commandLine(
+        const QString &           fileName,
+        djvSequenceEnum::COMPRESS sequence);
 };
 
 //------------------------------------------------------------------------------

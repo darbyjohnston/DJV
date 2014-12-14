@@ -51,6 +51,7 @@
 #include <djvPrefsDialog.h>
 #include <djvQuestionDialog.h>
 
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfoUtil.h>
 #include <djvListUtil.h>
@@ -438,7 +439,7 @@ void djvViewFileGroup::open(const djvFileInfo & in)
         fileInfo = djvFileInfoUtil::fixPath(in);
         fileInfo.setType(in.type());
     }
-    
+
     // Initialize.
 
     cacheDel();
@@ -454,6 +455,13 @@ void djvViewFileGroup::open(const djvFileInfo & in)
         fileInfo = djvFileInfoUtil::sequenceWildcardMatch(
             fileInfo,
             djvFileInfoUtil::list(fileInfo.path()));
+        
+        DJV_LOG("djvViewFileGroup", QString("match wildcards = \"%1\"").arg(fileInfo));
+    }
+    
+    if (fileInfo.isSequenceValid())
+    {
+        fileInfo.setType(djvFileInfo::SEQUENCE);
     }
 
     //DJV_DEBUG_PRINT("file = " << fileInfo);
@@ -461,28 +469,31 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     //DJV_DEBUG_PRINT("sequence valid = " << fileInfo.isSequenceValid());
     //DJV_DEBUG_PRINT("sequence = " << fileInfo.sequence());
 
+    DJV_LOG("djvViewFileGroup", QString("Open file = \"%1\"").arg(fileInfo));
+    
     // Automatic sequence loading.
 
     if (_p->autoSequence &&
         fileInfo.isSequenceValid() &&
         fileInfo.sequence().frames.count() == 1)
     {
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-
         const djvFileInfoList items = djvFileInfoUtil::list(fileInfo.path());
-
-        djvSequence sequence = fileInfo.sequence();
-        sequence.frames.clear();
-        fileInfo.setSequence(sequence);
-
+        
         for (int i = 0; i < items.count(); ++i)
         {
-            fileInfo.addSequence(items[i]);
+            if (items[i].isSequenceValid() &&
+                items[i].extension() == fileInfo.extension() &&
+                items[i].base()      == fileInfo.base())
+            {
+                fileInfo.setSequence(items[i].sequence());
+                
+                break;
+            }
         }
 
-        fileInfo.sortSequence();
-
         //DJV_DEBUG_PRINT("sequence = " << fileInfo);
+
+        DJV_LOG("djvViewFileGroup", QString("sequence = \"%1\"").arg(fileInfo));
     }
 
     // Load.

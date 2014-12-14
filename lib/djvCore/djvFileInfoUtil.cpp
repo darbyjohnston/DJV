@@ -638,6 +638,21 @@ void djvFileInfoUtil::filter(
     items.resize(i);
 }
 
+const QStringList & djvFileInfoUtil::sortLabels()
+{
+    static const QStringList data = QStringList() <<
+        "Name" <<
+        "Type" <<
+        "Size" <<
+        "User" <<
+        "Permissions" <<
+        "Time";
+
+    DJV_ASSERT(data.count() == SORT_COUNT);
+
+    return data;
+}
+
 namespace
 {
 
@@ -769,8 +784,6 @@ void djvFileInfoUtil::sortDirsFirst(djvFileInfoList & in)
     in += files;
 }
 
-int djvFileInfoUtil::recentMax = 10;
-
 void djvFileInfoUtil::recent(
     const djvFileInfo & fileInfo,
     djvFileInfoList &   list,
@@ -874,19 +887,36 @@ const QString djvFileInfoUtil::dot(".");
 
 const QString djvFileInfoUtil::dotDot("..");
 
-const QStringList & djvFileInfoUtil::sortLabels()
+djvFileInfo djvFileInfoUtil::commandLine(
+    const QString &           fileName,
+    djvSequenceEnum::COMPRESS sequence)
 {
-    static const QStringList data = QStringList() <<
-        "Name" <<
-        "Type" <<
-        "Size" <<
-        "User" <<
-        "Permissions" <<
-        "Time";
+    //DJV_DEBUG("djvFileInfoUtil::commandLine");
+    //DJV_DEBUG_PRINT("file name = " << fileName);
+    
+    djvFileInfo fileInfo(fileName, false);
 
-    DJV_ASSERT(data.count() == SORT_COUNT);
+    // Match wildcards.
 
-    return data;
+    if (sequence && fileInfo.isSequenceWildcard())
+    {
+        fileInfo = djvFileInfoUtil::sequenceWildcardMatch(
+            fileInfo,
+            djvFileInfoUtil::list(fileInfo.path(), sequence));
+
+        //DJV_DEBUG_PRINT("  wildcard match = " << fileInfo);
+    }
+
+    // Is this is a sequence?
+
+    if (sequence && fileInfo.isSequenceValid())
+    {
+        fileInfo.setType(djvFileInfo::SEQUENCE);
+
+        //DJV_DEBUG_PRINT("sequence = " << fileInfo);
+    }
+    
+    return fileInfo;
 }
 
 //------------------------------------------------------------------------------

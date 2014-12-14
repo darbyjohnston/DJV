@@ -70,7 +70,7 @@ struct djvConvertOptions
     djvVector2i                    size;
     djvBox2i                       crop;
     djvBox2f                       cropPercent;
-    bool                           sequence;
+    djvSequenceEnum::COMPRESS      sequence;
 };
 
 //------------------------------------------------------------------------------

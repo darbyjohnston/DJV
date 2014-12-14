@@ -34,8 +34,10 @@
 #include <djv_convert.h>
 
 #include <djvColor.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
+#include <djvFileInfoUtil.h>
 #include <djvImageIo.h>
 #include <djvSequenceUtil.h>
 #include <djvSystem.h>
@@ -52,7 +54,7 @@
 djvConvertOptions::djvConvertOptions() :
     scale   (1.0),
     channel (static_cast<djvOpenGlImageOptions::CHANNEL>(0)),
-    sequence(true)
+    sequence(djvSequenceEnum::COMPRESS_RANGE)
 {}
 
 //------------------------------------------------------------------------------
@@ -177,7 +179,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
             {
                 in >> _options.channel;
             }
-            else if ("-seq" == arg)
+            if ("-seq" == arg || "-q" == arg)
             {
                 in >> _options.sequence;
             }
@@ -248,7 +250,10 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
         throw djvError(arg);
     }
 
-    //DJV_DEBUG_PRINT("arg list = " << args);
+    //DJV_DEBUG_PRINT("args = " << args);
+    
+    DJV_LOG("djv_convert",
+        QString("Args = %1").arg(djvStringUtil::addQuotes(args).join(", ")));
 
     // Parse the input file.
 
@@ -257,14 +262,11 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
         throw djvError("Input");
     }
 
-    _input.file = args.first();
+    _input.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
+    
+    DJV_LOG("djv_convert", QString("Input = \"%1\"").arg(_input.file));
 
     args.pop_front();
-
-    if (_options.sequence && _input.file.isSequenceValid())
-    {
-        _input.file.setType(djvFileInfo::SEQUENCE);
-    }
 
     // Parse the output file.
 
@@ -273,14 +275,11 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
         throw djvError("Output");
     }
 
-    _output.file = args.first();
+    _output.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
+
+    DJV_LOG("djv_convert", QString("Output = \"%1\"").arg(_output.file));
 
     args.pop_front();
-
-    if (_options.sequence && _output.file.isSequenceValid())
-    {
-        _output.file.setType(djvFileInfo::SEQUENCE);
-    }
 
     if (! args.isEmpty())
     {
@@ -321,7 +320,7 @@ const QString commandLineHelpLabel =
 "        Crop the image as a percentage.\n"
 "    -channel (value)\n"
 "        Show only specific image channels. Options = %1. Default = %2.\n"
-"    -seq (value)\n"
+"    -seq, -q (value)\n"
 "        Set whether file sequencing is enabled. Options = %3. Default = %4.\n"
 "\n"
 "Input Options\n"
@@ -392,7 +391,7 @@ QString djvConvertApplication::commandLineHelp() const
     return QString(commandLineHelpLabel).
         arg(djvOpenGlImageOptions::channelLabels().join(", ")).
         arg(djvStringUtil::label(_options.channel).join(", ")).
-        arg(djvStringUtil::boolLabels().join(", ")).
+        arg(djvSequenceEnum::compressLabels().join(", ")).
         arg(djvStringUtil::label(_options.sequence).join(", ")).
         arg(djvPixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::label(_input.proxy).join(", ")).

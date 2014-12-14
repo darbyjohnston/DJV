@@ -80,14 +80,6 @@ public:
 
     bool hasAutoSequence() const;
 
-    //! Get the default for whether to combine command line arguments.
-    
-    static bool combineCommandLineDefault();
-
-    //! Get whether to combine command line arguments.
-
-    bool hasCombineCommandLine() const;
-
     //! Get the default proxy scale.
     
     static djvPixelDataInfo::PROXY proxyDefault();
@@ -138,10 +130,6 @@ public Q_SLOTS:
 
     void setAutoSequence(bool);
 
-    //! Set whether to combine command line arguments.
-
-    void setCombineCommandLine(bool);
-    
     //! Set the proxy scale.
 
     void setProxy(djvPixelDataInfo::PROXY);
@@ -196,7 +184,6 @@ private:
 
     djvFileInfoList         _recent;
     bool                    _autoSequence;
-    bool                    _combineCommandLine;
     djvPixelDataInfo::PROXY _proxy;
     bool                    _u8Conversion;
     bool                    _cacheEnabled;
