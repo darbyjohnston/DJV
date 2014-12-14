@@ -138,41 +138,48 @@ inline bool djvFileInfo::addSequence(const djvFileInfo & in)
     if (! isSequenceValid() || ! in.isSequenceValid())
         return false;
 
-    //if (isSequenceValid() && _sequence.pad != in._sequence.pad)
-    //  return false;
-
     // Update sequence.
 
     _type = SEQUENCE;
 
     _sequence.frames += in._sequence.frames;
+    
     if (in._sequence.pad > _sequence.pad)
         _sequence.pad = in._sequence.pad;
 
     // Update information.
 
     _size += in._size;
+    
     if (in._user > _user)
         _user = in._user;
+    
     if (in._time > _time)
         _time = in._time;
 
     return true;
 }
 
+inline bool djvFileInfo::operator == (const djvFileInfo & in) const
+{
+    return
+        in._path        == _path        &&
+        in._base        == _base        &&
+        in._number      == _number      &&
+        in._extension   == _extension   &&
+        in._type        == _type        &&
+        in._size        == _size        &&
+        in._user        == _user        &&
+        in._permissions == _permissions &&
+        in._time        == _time;
+}
+
+inline bool djvFileInfo::operator != (const djvFileInfo & in) const
+{
+    return ! (in == *this);
+}
+
 inline djvFileInfo::operator QString() const
 {
     return fileName();
-}
-
-//------------------------------------------------------------------------------
-
-inline bool operator == (const djvFileInfo & a, const djvFileInfo & b)
-{
-    return a.fileName() == b.fileName();
-}
-
-inline bool operator != (const djvFileInfo & a, const djvFileInfo & b)
-{
-    return ! (a == b);
 }

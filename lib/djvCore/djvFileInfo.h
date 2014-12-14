@@ -282,6 +282,10 @@ public:
 
     inline bool addSequence(const djvFileInfo &);
 
+    inline bool operator == (const djvFileInfo &) const;
+    
+    inline bool operator != (const djvFileInfo &) const;
+    
     inline operator QString() const;
 
 private:
@@ -313,10 +317,6 @@ Q_DECLARE_METATYPE(djvFileInfo);
 typedef QVector<djvFileInfo> djvFileInfoList;
 
 //------------------------------------------------------------------------------
-
-inline bool operator == (const djvFileInfo &, const djvFileInfo &);
-
-inline bool operator != (const djvFileInfo &, const djvFileInfo &);
 
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvFileInfo::TYPE &)
     throw (QString);

@@ -215,14 +215,14 @@ void djvFileInfoUtilTest::compress()
     tmp = list;
     
     djvFileInfoUtil::compressSequence(tmp, djvSequenceEnum::COMPRESS_SPARSE);
-    
-    DJV_ASSERT(tmp[0] == djvFileInfo(fileName.arg("1,3-4")));
+        
+    DJV_ASSERT(tmp[0].number() == "1,3-4");
     
     tmp = list;
     
     djvFileInfoUtil::compressSequence(tmp, djvSequenceEnum::COMPRESS_RANGE);
     
-    DJV_ASSERT(tmp[0] == djvFileInfo(fileName.arg("1-4")));
+    DJV_ASSERT(tmp[0].number() == "1-4");
 }
     
 void djvFileInfoUtilTest::expand()
@@ -323,62 +323,62 @@ void djvFileInfoUtilTest::sort()
     
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TYPE);
     
-    DJV_ASSERT(tmp[2] == list[0]);
+    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TYPE, true);
     
-    DJV_ASSERT(tmp[0] == list[0]);
+    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
     tmp = list;
     tmp[0].setSize(1);
     
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_SIZE);
     
-    DJV_ASSERT(tmp[2] == list[0]);
+    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_SIZE, true);
     
-    DJV_ASSERT(tmp[0] == list[0]);
+    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
     tmp = list;
     tmp[0].setUser(1);
     
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_USER);
     
-    DJV_ASSERT(tmp[2] == list[0]);
+    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_USER, true);
     
-    DJV_ASSERT(tmp[0] == list[0]);
+    DJV_ASSERT(tmp[0].fileName()== list[0].fileName());
 
     tmp = list;
     tmp[0].setPermissions(1);
     
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_PERMISSIONS);
     
-    DJV_ASSERT(tmp[2] == list[0]);
+    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_PERMISSIONS, true);
     
-    DJV_ASSERT(tmp[0] == list[0]);
+    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
     tmp = list;
     tmp[0].setTime(1);
     
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TIME);
     
-    DJV_ASSERT(tmp[2] == list[0]);
+    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
     djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TIME, true);
     
-    DJV_ASSERT(tmp[0] == list[0]);
+    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
     tmp = list;
     tmp[2].setType(djvFileInfo::DIRECTORY);
     
     djvFileInfoUtil::sortDirsFirst(tmp);
     
-    DJV_ASSERT(tmp[0] == list[2]);
+    DJV_ASSERT(tmp[0].fileName() == list[2].fileName());
 }
 
 void djvFileInfoUtilTest::recent()
