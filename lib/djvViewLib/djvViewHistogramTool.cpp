@@ -423,7 +423,7 @@ void djvViewHistogramTool::resizeEvent(QResizeEvent * event)
 
 void djvViewHistogramTool::widgetUpdate()
 {
-    //DJV_DEBUG("djvViewHistogramTool::widgetUpdate");
+    DJV_DEBUG("djvViewHistogramTool::widgetUpdate");
 
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->widget <<
@@ -442,10 +442,20 @@ void djvViewHistogramTool::widgetUpdate()
             {
                 viewWidget()->makeCurrent();
 
-                djvPixelData tmp(djvPixelDataInfo(data->size(), data->pixel()));
-
                 djvOpenGlImageOptions options = viewWidget()->options();
+    
+                //! \todo Why do we need to reverse the rotation here?
+                
+                options.xform.rotate = options.xform.rotate;
 
+                const djvBox2f bbox =
+                    djvOpenGlImageXform::xformMatrix(options.xform) *
+                    djvBox2f(data->size());
+
+                //DJV_DEBUG_PRINT("bbox = " << bbox);
+
+                options.xform.position = -bbox.position;
+                
                 if (! _p->colorProfile)
                 {
                     options.colorProfile = djvColorProfile();
@@ -456,6 +466,8 @@ void djvViewHistogramTool::widgetUpdate()
                     options.displayProfile = djvViewDisplayProfile();
                 }
             
+                djvPixelData tmp(djvPixelDataInfo(bbox.size, data->pixel()));
+
                 djvOpenGlImage::copy(*data, tmp, options);
                 
                 djvOpenGlImage::histogram(
