@@ -106,7 +106,7 @@ public Q_SLOTS:
 
     //! Fit the window to the image.
 
-    void fitWindow();
+    void fitWindow(bool move = true);
 
     //! Set the playback.
 

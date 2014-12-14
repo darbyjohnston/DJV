@@ -73,7 +73,7 @@ public:
     //! Get the mouse position.
 
     const djvVector2i & mousePos() const;
-    
+
     virtual QSize minimumSizeHint() const;
 
 public Q_SLOTS:

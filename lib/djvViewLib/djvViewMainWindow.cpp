@@ -477,9 +477,10 @@ void djvViewMainWindow::setFileCacheEnabled(bool in)
     _p->fileGroup->setCacheEnabled(in);
 }
 
-void djvViewMainWindow::fitWindow()
+void djvViewMainWindow::fitWindow(bool move)
 {
     //DJV_DEBUG("djvViewMainWindow::fitWindow");
+    //DJV_DEBUG_PRINT("move = " << move);
 
     // Calculate the image size.
 
@@ -548,15 +549,18 @@ void djvViewMainWindow::fitWindow()
         showNormal();
     }
 
-    const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
-    
-    //DJV_DEBUG_PRINT("frame = " << frame);
-
     resize(size.x, size.y);
-    
-    move(
-        x() - (frameGeometry().width () / 2 - frame.x / 2),
-        y() - (frameGeometry().height() / 2 - frame.y / 2));
+
+    if (move)
+    {
+        const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
+
+        //DJV_DEBUG_PRINT("frame = " << frame);
+
+        this->move(
+            x() - (frameGeometry().width() / 2 - frame.x / 2),
+            y() - (frameGeometry().height() / 2 - frame.y / 2));
+    }
     
     if (isVisible())
     {
@@ -581,7 +585,7 @@ void djvViewMainWindow::setPlaybackSpeed(const djvSpeed & in)
 
 void djvViewMainWindow::showEvent(QShowEvent *)
 {
-    fitWindow();
+    //fitWindow(false);
 }
 
 void djvViewMainWindow::changeEvent(QEvent * event)
