@@ -232,16 +232,9 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvDpxPlugin::VERSION &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvDpxPlugin::TYPE &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvDpxPlugin::ENDIAN &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvDpxPlugin::VERSION);
-QStringList & operator << (QStringList &, djvDpxPlugin::TYPE);
-QStringList & operator << (QStringList &, djvDpxPlugin::ENDIAN);
+DJV_STRING_OPERATOR(, djvDpxPlugin::VERSION);
+DJV_STRING_OPERATOR(, djvDpxPlugin::TYPE);
+DJV_STRING_OPERATOR(, djvDpxPlugin::ENDIAN);
 
 //@} // djvDpxPlugin
 

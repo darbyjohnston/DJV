@@ -33,8 +33,6 @@
 
 #include <djvShortcutsModel.h>
 
-#include <djvStringUtil.h>
-
 #include <QBrush>
 #include <QColor>
 

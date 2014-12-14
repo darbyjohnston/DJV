@@ -172,10 +172,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvSgiPlugin::COMPRESSION &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvSgiPlugin::COMPRESSION);
+DJV_STRING_OPERATOR(, djvSgiPlugin::COMPRESSION);
 
 //@} // djvSgiPlugin
 

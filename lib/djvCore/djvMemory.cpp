@@ -34,7 +34,6 @@
 #include <djvMemory.h>
 
 #include <djvAssert.h>
-#include <djvStringUtil.h>
 
 #include <string.h>
 

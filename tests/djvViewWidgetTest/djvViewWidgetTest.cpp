@@ -42,7 +42,6 @@
 
 #include <djvRangeUtil.h>
 #include <djvSignalBlocker.h>
-#include <djvStringUtil.h>
 #include <djvTime.h>
 
 #include <QComboBox>

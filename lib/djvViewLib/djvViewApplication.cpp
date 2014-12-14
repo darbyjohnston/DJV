@@ -56,7 +56,6 @@
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfoUtil.h>
-#include <djvStringUtil.h>
 
 #include <QFileOpenEvent>
 

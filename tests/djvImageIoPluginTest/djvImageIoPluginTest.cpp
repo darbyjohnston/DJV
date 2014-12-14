@@ -43,7 +43,6 @@
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
 #include <djvPixelDataUtil.h>
-#include <djvStringUtil.h>
 
 #include <QPair>
 

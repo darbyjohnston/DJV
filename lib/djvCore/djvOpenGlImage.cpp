@@ -38,7 +38,6 @@
 #include <djvError.h>
 #include <djvMatrixUtil.h>
 #include <djvOpenGlOffscreenBuffer.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvOpenGlImageXform

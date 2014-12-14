@@ -38,7 +38,6 @@
 #include <djvPrefsGroupBox.h>
 
 #include <djvSignalBlocker.h>
-#include <djvStringUtil.h>
 
 #include <QCheckBox>
 #include <QComboBox>

@@ -36,7 +36,6 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvMatrix.h>
-#include <djvStringUtil.h>
 
 void djvMatrixTest::run(int &, char **)
 {

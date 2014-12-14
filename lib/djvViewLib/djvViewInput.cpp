@@ -34,7 +34,6 @@
 #include <djvViewInput.h>
 
 #include <djvAssert.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvViewInput

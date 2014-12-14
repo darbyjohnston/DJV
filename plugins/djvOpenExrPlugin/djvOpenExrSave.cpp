@@ -35,7 +35,6 @@
 
 #include <djvError.h>
 #include <djvOpenGlImage.h>
-#include <djvStringUtil.h>
 
 #include <ImfChannelList.h>
 #include <ImfCompressionAttribute.h>

@@ -38,7 +38,6 @@
 #include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
 #include <djvImageIo.h>
-#include <djvStringUtil.h>
 #include <djvSystem.h>
 #include <djvTime.h>
 #include <djvVectorUtil.h>

@@ -59,7 +59,6 @@
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
 #include <djvOpenGlPrefs.h>
-#include <djvStringUtil.h>
 
 #include <QDesktopWidget>
 #include <QDir>

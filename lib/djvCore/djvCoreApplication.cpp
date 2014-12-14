@@ -40,7 +40,6 @@
 #include <djvFileInfoUtil.h>
 #include <djvMath.h>
 #include <djvMemory.h>
-#include <djvStringUtil.h>
 #include <djvSystem.h>
 #include <djvTime.h>
 

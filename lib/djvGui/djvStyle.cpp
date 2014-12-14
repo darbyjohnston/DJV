@@ -37,7 +37,6 @@
 #include <djvPrefs.h>
 
 #include <djvColorUtil.h>
-#include <djvStringUtil.h>
 
 #include <QApplication>
 #include <QColor>

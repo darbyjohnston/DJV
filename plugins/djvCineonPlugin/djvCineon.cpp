@@ -34,7 +34,6 @@
 #include <djvCineon.h>
 
 #include <djvAssert.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvCineon

@@ -37,7 +37,6 @@
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfo.h>
-#include <djvStringUtil.h>
 
 #include <QCoreApplication>
 #include <QDir>

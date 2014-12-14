@@ -34,7 +34,6 @@
 #include <djvTime.h>
 
 #include <djvAssert.h>
-#include <djvStringUtil.h>
 
 #include <QThread>
 

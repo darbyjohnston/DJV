@@ -34,7 +34,6 @@
 #include <djvViewDisplayProfile.h>
 
 #include <djvDebug.h>
-#include <djvStringUtil.h>
 
 bool operator == (
     const djvViewDisplayProfile & a,

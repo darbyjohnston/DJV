@@ -185,10 +185,7 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvFileInfoUtil::SORT &)
-    throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvFileInfoUtil::SORT);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfoUtil::SORT);
 
 //@} // djvCoreFile
 

@@ -44,7 +44,6 @@
 #include <djvFileInfo.h>
 #include <djvOpenGl.h>
 #include <djvPixel.h>
-#include <djvStringUtil.h>
 #include <djvTime.h>
 
 #include <QDragEnterEvent>

@@ -36,7 +36,6 @@
 #include <djvAssert.h>
 #include <djvColorProfile.h>
 #include <djvDebug.h>
-#include <djvStringUtil.h>
 
 void djvColorProfileTest::run(int &, char **)
 {

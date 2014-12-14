@@ -36,7 +36,6 @@
 #include <djvColorUtil.h>
 #include <djvDebug.h>
 #include <djvMemory.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvColor

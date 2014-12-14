@@ -180,13 +180,8 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvPpmPlugin::TYPE &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvPpmPlugin::DATA &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvPpmPlugin::TYPE);
-QStringList & operator << (QStringList &, djvPpmPlugin::DATA);
+DJV_STRING_OPERATOR(, djvPpmPlugin::TYPE);
+DJV_STRING_OPERATOR(, djvPpmPlugin::DATA);
 
 //@} // djvPpmPlugin
 

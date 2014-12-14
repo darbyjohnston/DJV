@@ -34,8 +34,7 @@
 #ifndef DJV_SPEED_H
 #define DJV_SPEED_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <djvStringUtil.h>
 
 #include <QObject>
 
@@ -166,13 +165,8 @@ DJV_CORE_EXPORT bool operator == (const djvSpeed &, const djvSpeed &);
 
 DJV_CORE_EXPORT bool operator != (const djvSpeed &, const djvSpeed &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSpeedEnum::FPS &)
-    throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSpeed &)
-    throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvSpeedEnum::FPS);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvSpeed &);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeedEnum::FPS);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvSpeed &);
 

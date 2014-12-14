@@ -318,13 +318,8 @@ typedef QVector<djvFileInfo> djvFileInfoList;
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvFileInfo::TYPE &)
-    throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvFileInfo &)
-    throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvFileInfo::TYPE);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvFileInfo &);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo::TYPE);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvFileInfo::TYPE &);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvFileInfo &);

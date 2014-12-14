@@ -36,7 +36,7 @@
 
 #include <djvViewLibExport.h>
 
-#include <QString>
+#include <djvStringUtil.h>
 
 //! \addtogroup djvViewMisc
 //@{
@@ -68,11 +68,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewTool
 
 //------------------------------------------------------------------------------
 
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvViewTool::TOOL &) throw (QString);
-
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvViewTool::TOOL);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewTool::TOOL);
 
 //@} // djvViewMisc
 

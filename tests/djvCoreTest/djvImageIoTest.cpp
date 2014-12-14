@@ -39,7 +39,6 @@
 #include <djvImage.h>
 #include <djvImageApplication.h>
 #include <djvImageIo.h>
-#include <djvStringUtil.h>
 
 void djvImageIoTest::run(int & argc, char ** argv)
 {

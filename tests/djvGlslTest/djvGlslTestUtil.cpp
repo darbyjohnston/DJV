@@ -35,7 +35,6 @@
 
 #include <djvMatrix.h>
 #include <djvOpenGlImage.h>
-#include <djvStringUtil.h>
 
 namespace
 {

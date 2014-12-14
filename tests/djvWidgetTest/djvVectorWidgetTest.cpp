@@ -37,7 +37,6 @@
 #include <djvVector2fEditWidget.h>
 
 #include <djvSystem.h>
-#include <djvStringUtil.h>
 
 #include <QFormLayout>
 

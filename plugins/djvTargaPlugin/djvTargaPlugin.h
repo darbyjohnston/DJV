@@ -173,10 +173,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvTargaPlugin::COMPRESSION &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvTargaPlugin::COMPRESSION);
+DJV_STRING_OPERATOR(, djvTargaPlugin::COMPRESSION);
 
 //@} // djvTargaPlugin
 

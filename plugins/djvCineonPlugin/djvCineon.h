@@ -161,18 +161,9 @@ bool operator != (const djvCineon::LinearToFilmPrint &,
 bool operator != (const djvCineon::FilmPrintToLinear &,
     const djvCineon::FilmPrintToLinear &);
 
-QStringList & operator >> (QStringList &, djvCineon::LinearToFilmPrint &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvCineon::FilmPrintToLinear &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvCineon::COLOR_PROFILE &)
-    throw (QString);
-
-QStringList & operator << (QStringList &,
-    const djvCineon::LinearToFilmPrint &);
-QStringList & operator << (QStringList &,
-    const djvCineon::FilmPrintToLinear &);
-QStringList & operator << (QStringList &, djvCineon::COLOR_PROFILE);
+DJV_STRING_OPERATOR(, djvCineon::LinearToFilmPrint);
+DJV_STRING_OPERATOR(, djvCineon::FilmPrintToLinear);
+DJV_STRING_OPERATOR(, djvCineon::COLOR_PROFILE);
 
 //@} // djvCineonPlugin
 

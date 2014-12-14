@@ -162,9 +162,7 @@ DJV_CORE_EXPORT bool operator == (const djvColor &, const djvColor &);
 
 DJV_CORE_EXPORT bool operator != (const djvColor &, const djvColor &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvColor &) throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvColor &);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColor);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvColor &);
 

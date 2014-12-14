@@ -38,7 +38,6 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvMemory.h>
-#include <djvStringUtil.h>
 
 extern "C"
 {

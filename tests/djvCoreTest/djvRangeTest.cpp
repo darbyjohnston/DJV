@@ -37,7 +37,6 @@
 #include <djvDebug.h>
 #include <djvRange.h>
 #include <djvRangeUtil.h>
-#include <djvStringUtil.h>
 
 void djvRangeTest::run(int &, char **)
 {

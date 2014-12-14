@@ -309,16 +309,9 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvOpenExrPlugin::COLOR_PROFILE &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvOpenExrPlugin::COMPRESSION &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvOpenExrPlugin::CHANNELS &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvOpenExrPlugin::COLOR_PROFILE);
-QStringList & operator << (QStringList &, djvOpenExrPlugin::COMPRESSION);
-QStringList & operator << (QStringList &, djvOpenExrPlugin::CHANNELS);
+DJV_STRING_OPERATOR(, djvOpenExrPlugin::COLOR_PROFILE);
+DJV_STRING_OPERATOR(, djvOpenExrPlugin::COMPRESSION);
+DJV_STRING_OPERATOR(, djvOpenExrPlugin::CHANNELS);
 
 bool compare(const QVector<Imf::Channel> &);
 

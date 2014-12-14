@@ -149,13 +149,8 @@ inline bool operator == (const djvSequence &, const djvSequence &);
 
 inline bool operator != (const djvSequence &, const djvSequence &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSequenceEnum::COMPRESS &)
-    throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvSequence &)
-    throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvSequenceEnum::COMPRESS);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, const djvSequence &);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequenceEnum::COMPRESS);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequence);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvSequence &);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvSequenceEnum::COMPRESS);

@@ -382,31 +382,12 @@ DJV_CORE_EXPORT bool operator != (
 DJV_CORE_EXPORT bool operator != (
     const djvOpenGlImageOptions &, const djvOpenGlImageOptions &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvOpenGlImageXform &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvOpenGlImageColor &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvOpenGlImageLevels &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvOpenGlImageFilter &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvOpenGlImageFilter::FILTER &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvOpenGlImageOptions::CHANNEL &) throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    const djvOpenGlImageXform &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    const djvOpenGlImageColor &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    const djvOpenGlImageLevels &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    const djvOpenGlImageFilter &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    djvOpenGlImageFilter::FILTER);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    djvOpenGlImageOptions::CHANNEL);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageLevels);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter::FILTER);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions::CHANNEL);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageXform &);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvOpenGlImageColor &);

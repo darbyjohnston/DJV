@@ -159,11 +159,11 @@ inline QStringList & operator << (QStringList &, const QVector<T> &);
 
 //! Convenience macros for declaring string serialize operators.
 
-#define DJV_STRING_OPERATOR_LABEL(EXPORT, TYPE) \
+#define DJV_STRING_OPERATOR(EXPORT, TYPE) \
     \
     EXPORT QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
     \
-    EXPORT QStringList & operator << (QStringList &, TYPE)
+    EXPORT QStringList & operator << (QStringList &, const TYPE &)
     
 //! Convenience macros for defining string serialize operators.
 
@@ -180,7 +180,7 @@ inline QStringList & operator << (QStringList &, const QVector<T> &);
         return in; \
     } \
     \
-    QStringList & operator << (QStringList & out, TYPE in) \
+    QStringList & operator << (QStringList & out, const TYPE & in) \
     { \
         return out << djvSerialize(in, LABEL); \
     }

@@ -34,8 +34,7 @@
 #ifndef DJV_VECTOR_H
 #define DJV_VECTOR_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <djvStringUtil.h>
 
 #include <QString>
 #include <QVector>

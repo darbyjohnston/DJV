@@ -38,7 +38,6 @@
 #include <djvImageIo.h>
 #include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
-#include <djvStringUtil.h>
 
 #include <QVector>
 

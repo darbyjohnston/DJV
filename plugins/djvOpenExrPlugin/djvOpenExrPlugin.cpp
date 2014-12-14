@@ -40,7 +40,6 @@
 #include <djvAssert.h>
 #include <djvError.h>
 #include <djvListUtil.h>
-#include <djvStringUtil.h>
 #include <djvTime.h>
 
 #include <ImfFramesPerSecond.h>

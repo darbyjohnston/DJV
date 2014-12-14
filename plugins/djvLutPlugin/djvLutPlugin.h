@@ -198,13 +198,8 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvLutPlugin::FORMAT &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvLutPlugin::TYPE &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvLutPlugin::FORMAT);
-QStringList & operator << (QStringList &, djvLutPlugin::TYPE);
+DJV_STRING_OPERATOR(, djvLutPlugin::FORMAT);
+DJV_STRING_OPERATOR(, djvLutPlugin::TYPE);
 
 //@} // djvLutPlugin
 

@@ -48,7 +48,6 @@
 #include <djvOpenGlOffscreenBuffer.h>
 #include <djvPixelDataUtil.h>
 #include <djvSignalBlocker.h>
-#include <djvStringUtil.h>
 
 #include <QHBoxLayout>
 #include <QScopedPointer>

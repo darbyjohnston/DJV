@@ -188,10 +188,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, djvTime::UNITS &)
-    throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvTime::UNITS);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvTime::UNITS);
 
 //@} // djvCoreMisc
 

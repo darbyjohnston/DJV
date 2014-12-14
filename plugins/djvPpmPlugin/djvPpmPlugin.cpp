@@ -41,7 +41,6 @@
 #include <djvError.h>
 #include <djvFileIoUtil.h>
 #include <djvMath.h>
-#include <djvStringUtil.h>
 
 extern "C"
 {

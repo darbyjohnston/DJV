@@ -35,7 +35,7 @@
 #define DJV_CORE_APPLICATION_H
 
 #include <djvError.h>
-#include <djvUtil.h>
+#include <djvStringUtil.h>
 
 #include <QCoreApplication>
 #include <QStringList>
@@ -177,11 +177,7 @@ public:
 
 #define DJV_CORE_APP djvAbstractCoreApplication::global()
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvAbstractCoreApplication::EXIT_VALUE &) throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    djvAbstractCoreApplication::EXIT_VALUE);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvAbstractCoreApplication::EXIT_VALUE);
 
 //@} // djvCoreMisc
 

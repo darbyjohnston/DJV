@@ -267,15 +267,8 @@ DJV_CORE_EXPORT bool operator != (
     const djvPixelDataInfo::Mirror &);
 DJV_CORE_EXPORT bool operator != (const djvPixelData &, const djvPixelData &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvPixelDataInfo::PROXY &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvPixelDataInfo::Mirror &) throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    djvPixelDataInfo::PROXY);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    const djvPixelDataInfo::Mirror &);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::PROXY);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvPixelDataInfo::PROXY);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvPixelDataInfo::Mirror &);

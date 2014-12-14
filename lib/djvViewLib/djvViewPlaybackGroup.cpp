@@ -45,7 +45,6 @@
 
 #include <djvListUtil.h>
 #include <djvSignalBlocker.h>
-#include <djvStringUtil.h>
 #include <djvTimer.h>
 
 #include <QAction>

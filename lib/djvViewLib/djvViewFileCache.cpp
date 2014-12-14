@@ -40,7 +40,6 @@
 #include <djvImage.h>
 #include <djvListUtil.h>
 #include <djvMemory.h>
-#include <djvStringUtil.h>
 
 #include <algorithm>
 

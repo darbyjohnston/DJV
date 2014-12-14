@@ -37,7 +37,6 @@
 #include <djvDebug.h>
 #include <djvImageApplication.h>
 #include <djvOpenGlImage.h>
-#include <djvStringUtil.h>
 
 void djvImageApplicationTest::run(int & argc, char ** argv)
 {

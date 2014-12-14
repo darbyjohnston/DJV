@@ -373,19 +373,9 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
-    djvFileBrowserModel::COLUMNS &) throw (QString);
-DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
-    djvFileBrowserModel::THUMBNAILS &) throw (QString);
-DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
-    djvFileBrowserModel::THUMBNAILS_SIZE &) throw (QString);
-
-DJV_GUI_EXPORT QStringList & operator << (QStringList &,
-    djvFileBrowserModel::COLUMNS);
-DJV_GUI_EXPORT QStringList & operator << (QStringList &,
-    djvFileBrowserModel::THUMBNAILS);
-DJV_GUI_EXPORT QStringList & operator << (QStringList &,
-    djvFileBrowserModel::THUMBNAILS_SIZE);
+DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::COLUMNS);
+DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::THUMBNAILS);
+DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::THUMBNAILS_SIZE);
 
 #endif // DJV_FILE_BROWSER_MODEL_H
 

@@ -65,11 +65,7 @@ DJV_VIEW_LIB_EXPORT bool operator != (
     const djvViewDisplayProfile &,
     const djvViewDisplayProfile &);
 
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvViewDisplayProfile &) throw (QString);
-
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    const djvViewDisplayProfile &);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 
 DJV_VIEW_LIB_EXPORT djvDebug & operator << (djvDebug &,
     const djvViewDisplayProfile &);

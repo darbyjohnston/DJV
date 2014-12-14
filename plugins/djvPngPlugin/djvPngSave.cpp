@@ -36,7 +36,6 @@
 #include <djvError.h>
 #include <djvMemory.h>
 #include <djvOpenGlImage.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvPngSave

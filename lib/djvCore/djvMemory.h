@@ -34,10 +34,7 @@
 #ifndef DJV_MEMORY_H
 #define DJV_MEMORY_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
-
-#include <QString>
+#include <djvStringUtil.h>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -116,10 +113,7 @@ struct DJV_CORE_EXPORT djvMemory
 
 //------------------------------------------------------------------------------
 
-DJV_CORE_EXPORT
-QStringList & operator >> (QStringList &, djvMemory::ENDIAN &) throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, djvMemory::ENDIAN);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvMemory::ENDIAN);
 
 //@} // djvCoreMisc
 

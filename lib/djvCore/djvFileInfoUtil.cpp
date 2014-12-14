@@ -41,7 +41,6 @@
 #include <djvMath.h>
 #include <djvMemory.h>
 #include <djvSequenceUtil.h>
-#include <djvStringUtil.h>
 
 #include <QDir>
 #include <QFileInfo>

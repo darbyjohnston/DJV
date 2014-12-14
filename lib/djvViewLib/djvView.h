@@ -36,9 +36,8 @@
 
 #include <djvViewLibExport.h>
 
+#include <djvStringUtil.h>
 #include <djvVector.h>
-
-#include <QString>
 
 class djvFileInfo;
 class djvPixelData;
@@ -321,51 +320,17 @@ struct DJV_VIEW_LIB_EXPORT djvView
 
 //------------------------------------------------------------------------------
 
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::WINDOW_RESIZE_MAX &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::TOOL_BAR &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::VIEW_RESIZE &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::GRID &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::HUD_BACKGROUND &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::IMAGE_SCALE &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::IMAGE_ROTATE &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::PLAYBACK &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::FRAME &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::LOOP &) throw (QString);
-DJV_VIEW_LIB_EXPORT QStringList & operator >> (QStringList &,
-    djvView::LAYOUT &) throw (QString);
-
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::WINDOW_RESIZE_MAX);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::TOOL_BAR);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::VIEW_RESIZE);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::GRID);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::HUD_BACKGROUND);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::IMAGE_SCALE);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::IMAGE_ROTATE);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::PLAYBACK);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::FRAME);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::LOOP);
-DJV_VIEW_LIB_EXPORT QStringList & operator << (QStringList &,
-    djvView::LAYOUT);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::WINDOW_RESIZE_MAX);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::TOOL_BAR);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::VIEW_RESIZE);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::GRID);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::HUD_BACKGROUND);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::IMAGE_SCALE);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::IMAGE_ROTATE);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::PLAYBACK);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::FRAME);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::LOOP);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::LAYOUT);
 
 //@} // djvViewLib
 

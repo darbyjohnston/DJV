@@ -45,7 +45,6 @@
 #include <djvMemory.h>
 #include <djvOpenGlImage.h>
 #include <djvPixelDataUtil.h>
-#include <djvStringUtil.h>
 #include <djvStyle.h>
 #include <djvTime.h>
 #include <djvUser.h>

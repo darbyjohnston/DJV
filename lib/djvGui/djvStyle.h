@@ -266,19 +266,9 @@ DJV_GUI_EXPORT bool operator != (const djvStyle::SizeMetric &,
 DJV_GUI_EXPORT bool operator != (const djvStyle::Fonts &,
     const djvStyle::Fonts &);
 
-DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
-    djvStyle::Palette &) throw (QString);
-DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
-    djvStyle::SizeMetric &) throw (QString);
-DJV_GUI_EXPORT QStringList & operator >> (QStringList &,
-    djvStyle::Fonts &) throw (QString);
-
-DJV_GUI_EXPORT QStringList & operator << (QStringList &,
-    const djvStyle::Palette &);
-DJV_GUI_EXPORT QStringList & operator << (QStringList &,
-    const djvStyle::SizeMetric &);
-DJV_GUI_EXPORT QStringList & operator << (QStringList &,
-    const djvStyle::Fonts &);
+DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);
+DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
+DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::Fonts);
 
 //@} // djvGuiMisc
 

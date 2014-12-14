@@ -36,8 +36,6 @@
 #include <djvPngLoad.h>
 #include <djvPngSave.h>
 
-#include <djvStringUtil.h>
-
 extern "C"
 {
 

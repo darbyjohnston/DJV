@@ -41,8 +41,6 @@
 #include <djvShuttleButton.h>
 #include <djvToolButton.h>
 
-#include <djvStringUtil.h>
-
 #include <QActionGroup>
 #include <QButtonGroup>
 #include <QHBoxLayout>

@@ -37,7 +37,6 @@
 
 #include <djvDebug.h>
 #include <djvTime.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvDpxHeader

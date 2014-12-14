@@ -35,8 +35,6 @@
 
 #include <djvIntEditSlider.h>
 
-#include <djvStringUtil.h>
-
 #include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>

@@ -35,7 +35,6 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvColorProfile::Exposure

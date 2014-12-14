@@ -38,7 +38,6 @@
 #include <djvStyle.h>
 
 #include <djvSignalBlocker.h>
-#include <djvStringUtil.h>
 
 #include <QFormLayout>
 #include <QVBoxLayout>

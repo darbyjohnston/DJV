@@ -107,15 +107,8 @@ DJV_CORE_EXPORT bool operator != (
     const djvColorProfile &,
     const djvColorProfile &);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvColorProfile::Exposure &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &,
-    djvColorProfile::PROFILE &) throw (QString);
-
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    const djvColorProfile::Exposure &);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &,
-    djvColorProfile::PROFILE);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const djvColorProfile::Exposure &);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, djvColorProfile::PROFILE);

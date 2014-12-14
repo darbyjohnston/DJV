@@ -34,7 +34,6 @@
 #include <djvPrefs.h>
 
 #include <djvFileInfoUtil.h>
-#include <djvStringUtil.h>
 
 #include <QApplication>
 #include <QSettings>

@@ -155,10 +155,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvTiffPlugin::COMPRESSION &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvTiffPlugin::COMPRESSION);
+DJV_STRING_OPERATOR(, djvTiffPlugin::COMPRESSION);
 
 //@} // djvTiffPlugin
 

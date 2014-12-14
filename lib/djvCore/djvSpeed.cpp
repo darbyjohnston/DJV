@@ -36,7 +36,6 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvMath.h>
-#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
 // djvSpeedEnum

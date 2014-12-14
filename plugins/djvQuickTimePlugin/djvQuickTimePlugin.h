@@ -230,13 +230,8 @@ private:
 
 //------------------------------------------------------------------------------
 
-QStringList & operator >> (QStringList &, djvQuickTimePlugin::CODEC &)
-    throw (QString);
-QStringList & operator >> (QStringList &, djvQuickTimePlugin::QUALITY &)
-    throw (QString);
-
-QStringList & operator << (QStringList &, djvQuickTimePlugin::CODEC);
-QStringList & operator << (QStringList &, djvQuickTimePlugin::QUALITY);
+DJV_STRING_OPERATOR(, djvQuickTimePlugin::CODEC);
+DJV_STRING_OPERATOR(, djvQuickTimePlugin::QUALITY);
 
 //@} // djvQuickTimePlugin
 

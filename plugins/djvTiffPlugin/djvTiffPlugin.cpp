@@ -39,7 +39,6 @@
 
 #include <djvAssert.h>
 #include <djvError.h>
-#include <djvStringUtil.h>
 
 extern "C"
 {

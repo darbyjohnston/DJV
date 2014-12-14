@@ -38,7 +38,6 @@
 #include <djvCoreApplication.h>
 #include <djvMath.h>
 #include <djvSpeed.h>
-#include <djvStringUtil.h>
 #include <djvTime.h>
 
 void djvCoreApplicationTest::run(int & argc, char ** argv)

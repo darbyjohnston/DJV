@@ -48,7 +48,6 @@
 
 #include <djvDebug.h>
 #include <djvError.h>
-#include <djvStringUtil.h>
 
 namespace qt
 {
