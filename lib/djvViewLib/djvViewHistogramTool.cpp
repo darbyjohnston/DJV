@@ -423,7 +423,7 @@ void djvViewHistogramTool::resizeEvent(QResizeEvent * event)
 
 void djvViewHistogramTool::widgetUpdate()
 {
-    DJV_DEBUG("djvViewHistogramTool::widgetUpdate");
+    //DJV_DEBUG("djvViewHistogramTool::widgetUpdate");
 
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->widget <<
