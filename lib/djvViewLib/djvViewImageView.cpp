@@ -156,58 +156,42 @@ const djvVector2i & djvViewImageView::mousePos() const
 
 QSize djvViewImageView::sizeHint() const
 {
-    //return _p->sizeHint;
-    
-    djvVector2i tmp;
-    
-    if (! djvVectorUtil::isSizeValid(tmp))
+    //DJV_DEBUG("djvViewImageView::sizeHint");
+    //DJV_DEBUG_PRINT("zoom = " << viewZoom());
+
+    djvVector2i size;
+
+    if (djvViewWindowPrefs::global()->hasResizeFit())
     {
-        //DJV_DEBUG_PRINT("view zoom = " << _p->viewWidget->viewZoom());
+        size = djvVectorUtil::ceil<double, int>(bbox().size);
 
-        const djvBox2f bbox = this->bbox().size;
+        if (!djvVectorUtil::isSizeValid(size))
+        {
+            size = djvVector2i(640, 300);
+        }
 
-        //DJV_DEBUG_PRINT("bbox = " << bbox);
+        const double aspect = size.x / static_cast<double>(size.y);
 
-        tmp = djvVectorUtil::ceil<double, int>(bbox.size);
+        const QSize max =
+            qApp->desktop()->availableGeometry().size() *
+            djvView::windowResizeMax(djvViewWindowPrefs::global()->resizeMax());
+
+        if (size.x > max.width() || size.y > max.height())
+        {
+            const djvVector2i a(max.width(), max.width() / aspect);
+            const djvVector2i b(max.height() * aspect, max.height());
+
+            size = a < b ? a : b;
+        }
     }
-    
-    if (! djvVectorUtil::isSizeValid(tmp))
+    else
     {
-        tmp = djvViewViewPrefs::global()->viewSize();
-    }
-
-    //DJV_DEBUG_PRINT("size = " << tmp);
-
-    // Adjust to the screen size.
-
-    const double resizeMax = djvView::windowResizeMax(
-        djvViewWindowPrefs::global()->hasResizeFit() ?
-        djvViewWindowPrefs::global()->resizeMax() :
-        djvView::WINDOW_RESIZE_MAX_UNLIMITED);
-
-    //DJV_DEBUG_PRINT("resize max = " << resizeMax);
-
-    const djvVector2i max(
-        static_cast<int>(qApp->desktop()->width () * resizeMax),
-        static_cast<int>(qApp->desktop()->height() * resizeMax));
-
-    //DJV_DEBUG_PRINT("max = " << max);
-
-    if (tmp.x > max.x || tmp.y > max.y)
-    {
-        tmp =
-            tmp.x > tmp.y ?
-            djvVector2i(
-                max.x,
-                djvMath::ceil<int>(tmp.y / static_cast<double>(tmp.x) * max.x)) :
-            djvVector2i(
-                djvMath::ceil<int>(tmp.x / static_cast<double>(tmp.y) * max.y),
-                max.y);
+        size = djvViewViewPrefs::global()->viewSize();
     }
 
-    //DJV_DEBUG_PRINT("size = " << tmp);
+    //DJV_DEBUG_PRINT("size = " << size);
 
-    return QSize(tmp.x, tmp.y);
+    return QSize(size.x, size.y);
 }
 
 QSize djvViewImageView::minimumSizeHint() const
