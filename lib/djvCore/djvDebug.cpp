@@ -151,43 +151,50 @@ QString djvDebug::bitsU32(quint32 in)
 
 //------------------------------------------------------------------------------
 
-djvDebug & operator << (djvDebug & debug, const QString & in)
+djvDebug & operator << (djvDebug & debug, const char * in)
 {
     debug.add(in);
 
     return debug;
 }
 
-djvDebug & operator << (djvDebug & debug, const bool & in)
+djvDebug & operator << (djvDebug & debug, bool in)
 {
     static const QStringList label = djvStringUtil::boolLabels();
 
     return debug << label[in];
 }
 
-djvDebug & operator << (djvDebug & debug, const int & in)
+djvDebug & operator << (djvDebug & debug, int in)
 {
     return debug << QString::number(in);
 }
 
-djvDebug & operator << (djvDebug & debug, const unsigned int & in)
+djvDebug & operator << (djvDebug & debug, unsigned int in)
 {
     return debug << QString::number(in);
 }
 
-djvDebug & operator << (djvDebug & debug, const qint64 & in)
+djvDebug & operator << (djvDebug & debug, qint64 in)
 {
     return debug << QString::number(in);
 }
 
-djvDebug & operator << (djvDebug & debug, const quint64 & in)
+djvDebug & operator << (djvDebug & debug, quint64 in)
 {
     return debug << QString::number(in);
 }
 
-djvDebug & operator << (djvDebug & debug, const double & in)
+djvDebug & operator << (djvDebug & debug, double in)
 {
     return debug << QString::number(in);
+}
+
+djvDebug & operator << (djvDebug & debug, const QString & in)
+{
+    debug.add(in);
+
+    return debug;
 }
 
 djvDebug & operator << (djvDebug & debug, const QStringList & in)

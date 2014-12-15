@@ -116,13 +116,14 @@ private:
     \
     EXPORT djvDebug & operator << (djvDebug &, const TYPE &)
 
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, bool);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QString);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, bool);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, int);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, unsigned int);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, qint64);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, quint64);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, double);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QStringList);
 template<class T>
 inline djvDebug & operator << (djvDebug &, const QVector<T> &);
