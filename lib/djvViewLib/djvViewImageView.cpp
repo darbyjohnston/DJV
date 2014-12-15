@@ -87,6 +87,7 @@ struct djvViewImageView::P
     bool                    mouseWheel;
     int                     mouseWheelTmp;
     int                     timer;
+    QSize                   sizeHint;
 };
 
 //------------------------------------------------------------------------------
@@ -99,6 +100,7 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMouseTracking(true);
     setAcceptDrops(true);
 
@@ -148,6 +150,21 @@ bool djvViewImageView::isMouseInside() const
 const djvVector2i & djvViewImageView::mousePos() const
 {
     return _p->mousePos;
+}
+
+void djvViewImageView::setSizeHint(const QSize & size)
+{
+    if (size == _p->sizeHint)
+        return;
+
+    _p->sizeHint = size;
+    
+    updateGeometry();
+}
+
+QSize djvViewImageView::sizeHint() const
+{
+    return _p->sizeHint;
 }
 
 QSize djvViewImageView::minimumSizeHint() const

@@ -74,6 +74,12 @@ public:
 
     const djvVector2i & mousePos() const;
 
+    //! Set the size hint.
+    
+    void setSizeHint(const QSize &);
+    
+    virtual QSize sizeHint() const;
+
     virtual QSize minimumSizeHint() const;
 
 public Q_SLOTS:

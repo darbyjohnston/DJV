@@ -530,7 +530,22 @@ void djvViewMainWindow::fitWindow(const djvVector2i & size, bool move)
 
     //DJV_DEBUG_PRINT("size = " << tmp);
 
-    // Adjust to the size hint.
+    _p->viewWidget->setSizeHint(QSize(tmp.x, tmp.y));
+
+    const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
+    
+    adjustSize();
+
+    if (move)
+    {
+        this->move(
+            x() - (frameGeometry().width () / 2 - frame.x / 2),
+            y() - (frameGeometry().height() / 2 - frame.y / 2));
+    }
+    
+    _p->viewWidget->viewFit();
+    
+    /*// Adjust to the size hint.
 
     const djvVector2i uiSize =
         djvVector2i(width(), height()) -
@@ -562,7 +577,7 @@ void djvViewMainWindow::fitWindow(const djvVector2i & size, bool move)
             y() - (frameGeometry().height() / 2 - frame.y / 2));
     }
     
-    _p->viewWidget->viewFit();
+    _p->viewWidget->viewFit();*/
 }
 
 void djvViewMainWindow::setPlayback(djvView::PLAYBACK in)
