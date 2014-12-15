@@ -33,9 +33,11 @@
 
 #include <djvViewImageView.h>
 
+#include <djvViewApplication.h>
 #include <djvViewHudInfo.h>
 #include <djvViewInputPrefs.h>
 #include <djvViewViewPrefs.h>
+#include <djvViewWindowPrefs.h>
 
 #include <djvMiscPrefs.h>
 #include <djvStyle.h>
@@ -46,6 +48,7 @@
 #include <djvPixel.h>
 #include <djvTime.h>
 
+#include <QDesktopWidget>
 #include <QDragEnterEvent>
 #include <QMimeData>
 #include <QMouseEvent>
@@ -87,7 +90,6 @@ struct djvViewImageView::P
     bool                    mouseWheel;
     int                     mouseWheelTmp;
     int                     timer;
-    QSize                   sizeHint;
 };
 
 //------------------------------------------------------------------------------
@@ -100,7 +102,7 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setMouseTracking(true);
     setAcceptDrops(true);
 
@@ -152,19 +154,60 @@ const djvVector2i & djvViewImageView::mousePos() const
     return _p->mousePos;
 }
 
-void djvViewImageView::setSizeHint(const QSize & size)
-{
-    if (size == _p->sizeHint)
-        return;
-
-    _p->sizeHint = size;
-    
-    updateGeometry();
-}
-
 QSize djvViewImageView::sizeHint() const
 {
-    return _p->sizeHint;
+    //return _p->sizeHint;
+    
+    djvVector2i tmp;
+    
+    if (! djvVectorUtil::isSizeValid(tmp))
+    {
+        //DJV_DEBUG_PRINT("view zoom = " << _p->viewWidget->viewZoom());
+
+        const djvBox2f bbox = this->bbox().size;
+
+        //DJV_DEBUG_PRINT("bbox = " << bbox);
+
+        tmp = djvVectorUtil::ceil<double, int>(bbox.size);
+    }
+    
+    if (! djvVectorUtil::isSizeValid(tmp))
+    {
+        tmp = djvViewViewPrefs::global()->viewSize();
+    }
+
+    //DJV_DEBUG_PRINT("size = " << tmp);
+
+    // Adjust to the screen size.
+
+    const double resizeMax = djvView::windowResizeMax(
+        djvViewWindowPrefs::global()->hasResizeFit() ?
+        djvViewWindowPrefs::global()->resizeMax() :
+        djvView::WINDOW_RESIZE_MAX_UNLIMITED);
+
+    //DJV_DEBUG_PRINT("resize max = " << resizeMax);
+
+    const djvVector2i max(
+        static_cast<int>(qApp->desktop()->width () * resizeMax),
+        static_cast<int>(qApp->desktop()->height() * resizeMax));
+
+    //DJV_DEBUG_PRINT("max = " << max);
+
+    if (tmp.x > max.x || tmp.y > max.y)
+    {
+        tmp =
+            tmp.x > tmp.y ?
+            djvVector2i(
+                max.x,
+                djvMath::ceil<int>(tmp.y / static_cast<double>(tmp.x) * max.x)) :
+            djvVector2i(
+                djvMath::ceil<int>(tmp.x / static_cast<double>(tmp.y) * max.y),
+                max.y);
+    }
+
+    //DJV_DEBUG_PRINT("size = " << tmp);
+
+    return QSize(tmp.x, tmp.y);
 }
 
 QSize djvViewImageView::minimumSizeHint() const
@@ -509,6 +552,23 @@ void djvViewImageView::dropEvent(QDropEvent * event)
      //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
     Q_EMIT fileDropped(fileInfo);
+}
+
+bool djvViewImageView::event(QEvent * event)
+{
+    /*switch (event->type())
+    {
+        case QEvent::LayoutRequest:
+        
+            setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+            updateGeometry();
+            
+            break;
+        
+        default: break;
+    }*/
+    
+    return djvImageView::event(event);
 }
 
 void djvViewImageView::paintGL()

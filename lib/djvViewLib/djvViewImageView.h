@@ -73,10 +73,6 @@ public:
     //! Get the mouse position.
 
     const djvVector2i & mousePos() const;
-
-    //! Set the size hint.
-    
-    void setSizeHint(const QSize &);
     
     virtual QSize sizeHint() const;
 
@@ -146,6 +142,7 @@ protected:
     virtual void wheelEvent(QWheelEvent *);
     virtual void dragEnterEvent(QDragEnterEvent *);
     virtual void dropEvent(QDropEvent *);
+    virtual bool event(QEvent *);
     virtual void paintGL();
 
 private Q_SLOTS:

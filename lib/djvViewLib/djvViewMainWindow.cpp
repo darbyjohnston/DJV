@@ -60,7 +60,6 @@
 #include <djvOpenGlOffscreenBuffer.h>
 #include <djvOpenGlPrefs.h>
 
-#include <QDesktopWidget>
 #include <QDir>
 #include <QHBoxLayout>
 #include <QKeyEvent>
@@ -204,15 +203,15 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     {
         resize(copy->size());
     }
-    else
-    {
-        //fitWindow();
-    }
     
     fileUpdate();
     fileCacheUpdate();
     imageUpdate();
     controlsUpdate();
+    
+    //! \todo Hard-coded timer.
+    
+    QTimer::singleShot(100, this, SLOT(fitCallback()));
 
     // Setup the file group callbacks.
 
@@ -475,62 +474,18 @@ void djvViewMainWindow::setFileCacheEnabled(bool in)
     _p->fileGroup->setCacheEnabled(in);
 }
 
-void djvViewMainWindow::fitWindow(const djvVector2i & size, bool move)
+void djvViewMainWindow::fitWindow(bool move)
 {
-    //DJV_DEBUG("djvViewMainWindow::fitWindow");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("move = " << move);
-
-    djvVector2i tmp = size;
+    if (isFullScreen())
+        return;
     
-    if (! djvVectorUtil::isSizeValid(tmp))
-    {
-        //DJV_DEBUG_PRINT("view zoom = " << _p->viewWidget->viewZoom());
-
-        const djvBox2f bbox = _p->viewWidget->bbox().size;
-
-        //DJV_DEBUG_PRINT("bbox = " << bbox);
-
-        tmp = djvVectorUtil::ceil<double, int>(bbox.size);
-    }
+    _p->viewWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     
-    if (! djvVectorUtil::isSizeValid(tmp))
-    {
-        tmp = djvViewViewPrefs::global()->viewSize();
-    }
-
-    //DJV_DEBUG_PRINT("size = " << tmp);
-
-    // Adjust to the screen size.
-
-    const double resizeMax = djvView::windowResizeMax(
-        djvViewWindowPrefs::global()->hasResizeFit() ?
-        djvViewWindowPrefs::global()->resizeMax() :
-        djvView::WINDOW_RESIZE_MAX_UNLIMITED);
-
-    //DJV_DEBUG_PRINT("resize max = " << resizeMax);
-
-    const djvVector2i max(
-        static_cast<int>(qApp->desktop()->width () * resizeMax),
-        static_cast<int>(qApp->desktop()->height() * resizeMax));
-
-    //DJV_DEBUG_PRINT("max = " << max);
-
-    if (tmp.x > max.x || tmp.y > max.y)
-    {
-        tmp =
-            tmp.x > tmp.y ?
-            djvVector2i(
-                max.x,
-                djvMath::ceil<int>(tmp.y / static_cast<double>(tmp.x) * max.x)) :
-            djvVector2i(
-                djvMath::ceil<int>(tmp.x / static_cast<double>(tmp.y) * max.y),
-                max.y);
-    }
-
-    //DJV_DEBUG_PRINT("size = " << tmp);
-
-    _p->viewWidget->setSizeHint(QSize(tmp.x, tmp.y));
+    _p->viewWidget->updateGeometry();
+    
+    //! \todo Hard-coded timer.
+    
+    QTimer::singleShot(100, this, SLOT(fitCallback()));
 
     const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
     
@@ -544,40 +499,6 @@ void djvViewMainWindow::fitWindow(const djvVector2i & size, bool move)
     }
     
     _p->viewWidget->viewFit();
-    
-    /*// Adjust to the size hint.
-
-    const djvVector2i uiSize =
-        djvVector2i(width(), height()) -
-        djvVector2i(_p->viewWidget->width(), _p->viewWidget->height());
-
-    //DJV_DEBUG_PRINT("ui size = " << uiSize);
-
-    const djvVector2i newSize = djvVector2i(tmp.x + uiSize.x, tmp.y + uiSize.y);
-
-    //DJV_DEBUG_PRINT("new size = " << newSize);
-
-    // Set the size.
-
-    if (isFullScreen())
-    {
-        showNormal();
-    }
-
-    const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
-
-    //DJV_DEBUG_PRINT("frame = " << frame);
-
-    resize(newSize.x, newSize.y);
-
-    if (move)
-    {
-        this->move(
-            x() - (frameGeometry().width () / 2 - frame.x / 2),
-            y() - (frameGeometry().height() / 2 - frame.y / 2));
-    }
-    
-    _p->viewWidget->viewFit();*/
 }
 
 void djvViewMainWindow::setPlayback(djvView::PLAYBACK in)
@@ -593,11 +514,6 @@ void djvViewMainWindow::setPlaybackFrame(qint64 in)
 void djvViewMainWindow::setPlaybackSpeed(const djvSpeed & in)
 {
     _p->playbackGroup->setSpeed(in);
-}
-
-void djvViewMainWindow::showEvent(QShowEvent *)
-{
-    QTimer::singleShot(0, this, SLOT(showCallback()));
 }
 
 void djvViewMainWindow::closeEvent(QCloseEvent * event)
@@ -730,18 +646,9 @@ void djvViewMainWindow::loadFrameStoreCallback()
     }
 }
 
-void djvViewMainWindow::showCallback()
+void djvViewMainWindow::fitCallback()
 {
-    if (djvViewWindowPrefs::global()->hasResizeFit())
-    {
-        _p->viewWidget->viewZero();
-
-        fitWindow(djvVector2i(), false);
-    }
-    else
-    {
-        fitWindow(djvViewViewPrefs::global()->viewSize(), false);
-    }
+    _p->viewWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 void djvViewMainWindow::pickCallback(const djvVector2i & pick)

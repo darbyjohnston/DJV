@@ -106,7 +106,7 @@ public Q_SLOTS:
 
     //! Fit the window to the image.
 
-    void fitWindow(const djvVector2i & size = djvVector2i(), bool move = true);
+    void fitWindow(bool move = true);
 
     //! Set the playback.
 
@@ -128,7 +128,6 @@ Q_SIGNALS:
 
 protected:
 
-    virtual void showEvent(QShowEvent *);
     virtual void closeEvent(QCloseEvent *);
     virtual void keyPressEvent(QKeyEvent *);
     
@@ -138,7 +137,7 @@ private Q_SLOTS:
     void saveCallback(const djvFileInfo &);
     void saveFrameCallback(const djvFileInfo &);
     void loadFrameStoreCallback();
-    void showCallback();
+    void fitCallback();
     void pickCallback(const djvVector2i &);
     void mouseWheelCallback(djvViewInput::MOUSE_WHEEL);
     void mouseWheelValueCallback(int);
