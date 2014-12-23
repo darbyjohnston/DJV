@@ -113,12 +113,12 @@ struct DJV_CORE_EXPORT djvVectorUtil
     template<typename T, typename T2, int D>
     static inline djvVector<T2, D> convert(const djvVector<T, D> &);
 
-    //! Round to the smallest integer value.
+    //! Round to the largest integer value.
 
     template<typename T, typename T2, int D>
     static inline djvVector<T2, D> ceil(const djvVector<T, D> &);
 
-    //! Round to the largest integer value.
+    //! Round to the smallest integer value.
 
     template<typename T, typename T2, int D>
     static inline djvVector<T2, D> floor(const djvVector<T, D> &);
