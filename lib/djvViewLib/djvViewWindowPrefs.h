@@ -60,26 +60,30 @@ public:
 
     virtual ~djvViewWindowPrefs();
 
-    //! Get the default for whether to fit the window to the image when
-    //! resizing.
+    //! Get the default for whether to automatically fit the window to the
+    //! image.
     
-    static bool resizeFitDefault();
+    static bool autoFitDefault();
 
-    //! Get whether to fit the window to the image when resizing.
+    //! Get whether to automatically fit the window to the image.
 
-    bool hasResizeFit() const;
+    bool hasAutoFit() const;
 
-    //! Get the default maximum percentage of the screen to use when resizing a
-    //! window to fit an image.
+    //! Get the default maximum view size.
 
-    static djvView::WINDOW_RESIZE_MAX resizeMaxDefault();
+    static djvView::VIEW_MAX viewMaxDefault();
 
-    //! Get the maximum percentage of the screen to use when resizing a window
-    //! to fit an image.
+    //! Get the maximum view size.
 
-    djvView::WINDOW_RESIZE_MAX resizeMax() const;
-
-    // Get the default fixed width 
+    djvView::VIEW_MAX viewMax() const;
+    
+    //! Get the default user specified maximum view size.
+    
+    static const djvVector2i & viewMaxUserDefault();
+    
+    //! Get the user specified maximum view size.
+    
+    const djvVector2i & viewMaxUser() const;
 
     //! Get the default for whether the controls are visible when going full
     //! screen.
@@ -104,13 +108,17 @@ public:
 
 public Q_SLOTS:
 
-    //! Set whether resize fit is enabled.
+    //! Set whether to automatically fit the window to the image.
+    
+    void setAutoFit(bool);
 
-    void setResizeFit(bool);
+    //! Set the maximum view size.
 
-    //! Set the maximum resize amount.
-
-    void setResizeMax(djvView::WINDOW_RESIZE_MAX);
+    void setViewMax(djvView::VIEW_MAX);
+    
+    //! Set the user specified maximum view size.
+    
+    void setViewMaxUser(const djvVector2i &);
 
     //! Set whether the controls are visible when going full screen.
 
@@ -122,13 +130,19 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 
-    //! This signal is emitted when resize fit is changed.
+    //! This signal is emitted when automatically fitting the window to the
+    //! image is changed.
 
-    void resizeFitChanged(bool);
+    void autoFitChanged(bool);
 
-    //! This signal is emitted when the maximum resize amount is changed.
+    //! This signal is emitted when the maximum view size is changed.
 
-    void resizeMaxChanged(djvView::WINDOW_RESIZE_MAX);
+    void viewMaxChanged(djvView::VIEW_MAX);
+    
+    //! This signal is emitted when the user specified maximum view size is
+    //! changed.
+
+    void viewMaxUserChanged(const djvVector2i &);
 
     //! This signal is emitted when the full screen controls option is
     //! changed.
@@ -141,8 +155,9 @@ Q_SIGNALS:
 
 private:
 
-    bool                       _resizeFit;
-    djvView::WINDOW_RESIZE_MAX _resizeMax;
+    bool                       _autoFit;
+    djvView::VIEW_MAX          _viewMax;
+    djvVector2i                _viewMaxUser;
     bool                       _fullScreenControls;
     QVector<bool>              _toolBar;
 };

@@ -142,7 +142,6 @@ protected:
     virtual void wheelEvent(QWheelEvent *);
     virtual void dragEnterEvent(QDragEnterEvent *);
     virtual void dropEvent(QDropEvent *);
-    virtual bool event(QEvent *);
     virtual void paintGL();
 
 private Q_SLOTS:

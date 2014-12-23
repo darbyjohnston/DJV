@@ -50,13 +50,15 @@ struct djvImageView::P
 {
     P() :
         data    (0),
-        viewZoom(1.0)
+        viewZoom(1.0),
+        viewFit (false)
     {}
     
     const djvPixelData *  data;
     djvOpenGlImageOptions options;
     djvVector2i           viewPos;
     double                viewZoom;
+    bool                  viewFit;
     djvOpenGlImageState   state;
 };
 
@@ -130,6 +132,8 @@ void djvImageView::setData(const djvPixelData * data)
 
     _p->data = data;
 
+    _p->viewFit = false;
+    
     update();
 
     Q_EMIT dataChanged(_p->data);
@@ -143,6 +147,8 @@ void djvImageView::setOptions(const djvOpenGlImageOptions & options)
 
     _p->options = options;
 
+    _p->viewFit = false;
+    
     update();
 
     Q_EMIT optionsChanged(_p->options);
@@ -183,6 +189,8 @@ void djvImageView::setViewPosZoom(const djvVector2i & pos, double zoom)
 
     _p->viewPos  = pos;
     _p->viewZoom = zoom;
+    
+    _p->viewFit = false;
 
     update();
 
@@ -231,6 +239,8 @@ void djvImageView::viewFit()
     //DJV_DEBUG_PRINT("pos = " << pos);
 
     setViewPosZoom(pos, zoom);
+    
+    _p->viewFit = true;
 }
 
 void djvImageView::paintGL()
@@ -313,4 +323,9 @@ djvBox2f djvImageView::bbox(const djvVector2i & pos, double zoom) const
     //DJV_DEBUG_PRINT("box = " << box);
 
     return box;
+}
+
+bool djvImageView::hasViewFit() const
+{
+    return _p->viewFit;
 }

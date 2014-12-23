@@ -142,6 +142,7 @@ private Q_SLOTS:
     void mouseWheelCallback(djvViewInput::MOUSE_WHEEL);
     void mouseWheelValueCallback(int);
     void enableUpdatesCallback();
+    void windowResizeCallback();
     
     void fileUpdate();
     void fileCacheUpdate();
@@ -149,8 +150,6 @@ private Q_SLOTS:
     void controlsUpdate();
     void viewOverlayUpdate();
     void viewPickUpdate();
-    void viewResizeUpdate();
-    void windowResizeUpdate();
     
 private:
 

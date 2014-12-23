@@ -36,6 +36,7 @@
 #include <djvViewWindowPrefs.h>
 
 #include <djvPrefsGroupBox.h>
+#include <djvVector2iEditWidget.h>
 
 #include <djvSignalBlocker.h>
 
@@ -52,16 +53,18 @@
 struct djvViewWindowPrefsWidget::P
 {
     P() :
-        resizeFitWidget         (0),
-        resizeMaxWidget         (0),
+        autoFitWidget           (0),
+        viewMaxWidget           (0),
+        viewMaxUserWidget       (0),
         fullScreenControlsWidget(0),
         toolBarButtonGroup      (0)
     {}
     
-    QCheckBox *    resizeFitWidget;
-    QComboBox *    resizeMaxWidget;
-    QCheckBox *    fullScreenControlsWidget;
-    QButtonGroup * toolBarButtonGroup;
+    QCheckBox *             autoFitWidget;
+    QComboBox *             viewMaxWidget;
+    djvVector2iEditWidget * viewMaxUserWidget;
+    QCheckBox *             fullScreenControlsWidget;
+    QButtonGroup *          toolBarButtonGroup;
 };
 
 //------------------------------------------------------------------------------
@@ -72,14 +75,19 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     djvViewAbstractPrefsWidget("Windows"),
     _p(new P)
 {
-    // Create the resize widgets.
+    // Create the size widgets.
 
-    _p->resizeFitWidget = new QCheckBox("Fit window to image");
+    _p->autoFitWidget = new QCheckBox(
+        "Automatically fit the window to the image");
 
-    _p->resizeMaxWidget = new QComboBox;
-    _p->resizeMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->resizeMaxWidget->addItems(djvView::windowResizeMaxLabels());
+    _p->viewMaxWidget = new QComboBox;
+    _p->viewMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _p->viewMaxWidget->addItems(djvView::viewMaxLabels());
 
+    _p->viewMaxUserWidget = new djvVector2iEditWidget;
+    _p->viewMaxUserWidget->setRange(djvVector2i(100, 100), djvVector2i(8192, 8192));
+    _p->viewMaxUserWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    
     // Create the full screen widgets.
 
     _p->fullScreenControlsWidget = new QCheckBox(
@@ -103,8 +111,9 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Size");
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->resizeFitWidget);
-    formLayout->addRow("Maximum screen size:", _p->resizeMaxWidget);
+    formLayout->addRow(_p->autoFitWidget);
+    formLayout->addRow("Maximum view size:", _p->viewMaxWidget);
+    formLayout->addRow("", _p->viewMaxUserWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox("Full Screen");
@@ -127,15 +136,20 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     // Setup the callbacks.
 
     connect(
-        _p->resizeFitWidget,
+        _p->autoFitWidget,
         SIGNAL(toggled(bool)),
-        SLOT(resizeFitCallback(bool)));
+        SLOT(autoFitCallback(bool)));
     
     connect(
-        _p->resizeMaxWidget,
+        _p->viewMaxWidget,
         SIGNAL(activated(int)),
-        SLOT(resizeMaxCallback(int)));
+        SLOT(viewMaxCallback(int)));
 
+    connect(
+        _p->viewMaxUserWidget,
+        SIGNAL(valueChanged(const djvVector2i &)),
+        SLOT(viewMaxUserCallback(const djvVector2i &)));
+    
     connect(
         _p->fullScreenControlsWidget,
         SIGNAL(toggled(bool)),
@@ -154,10 +168,12 @@ djvViewWindowPrefsWidget::~djvViewWindowPrefsWidget()
 
 void djvViewWindowPrefsWidget::resetPreferences()
 {
-    djvViewWindowPrefs::global()->setResizeFit(
-        djvViewWindowPrefs::resizeFitDefault());
-    djvViewWindowPrefs::global()->setResizeMax(
-        djvViewWindowPrefs::resizeMaxDefault());
+    djvViewWindowPrefs::global()->setAutoFit(
+        djvViewWindowPrefs::autoFitDefault());
+    djvViewWindowPrefs::global()->setViewMax(
+        djvViewWindowPrefs::viewMaxDefault());
+    djvViewWindowPrefs::global()->setViewMaxUser(
+        djvViewWindowPrefs::viewMaxUserDefault());
     djvViewWindowPrefs::global()->setFullScreenControls(
         djvViewWindowPrefs::fullScreenControlsDefault());
     djvViewWindowPrefs::global()->setToolBar(
@@ -166,15 +182,21 @@ void djvViewWindowPrefsWidget::resetPreferences()
     widgetUpdate();
 }
 
-void djvViewWindowPrefsWidget::resizeFitCallback(bool in)
+void djvViewWindowPrefsWidget::autoFitCallback(bool in)
 {
-    djvViewWindowPrefs::global()->setResizeFit(in);
+    djvViewWindowPrefs::global()->setAutoFit(in);
 }
 
-void djvViewWindowPrefsWidget::resizeMaxCallback(int in)
+void djvViewWindowPrefsWidget::viewMaxCallback(int in)
 {
-    djvViewWindowPrefs::global()->setResizeMax(
-        static_cast<djvView::WINDOW_RESIZE_MAX>(in));
+    djvViewWindowPrefs::global()->setViewMax(static_cast<djvView::VIEW_MAX>(in));
+    
+    widgetUpdate();
+}
+
+void djvViewWindowPrefsWidget::viewMaxUserCallback(const djvVector2i & in)
+{
+    djvViewWindowPrefs::global()->setViewMaxUser(in);
 }
 
 void djvViewWindowPrefsWidget::fullScreenControlsCallback(bool in)
@@ -194,16 +216,22 @@ void djvViewWindowPrefsWidget::toolBarCallback(int id)
 void djvViewWindowPrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->resizeFitWidget <<
-        _p->resizeMaxWidget <<
+        _p->autoFitWidget <<
+        _p->viewMaxWidget <<
+        _p->viewMaxUserWidget <<
         _p->fullScreenControlsWidget <<
         _p->toolBarButtonGroup);
 
-    _p->resizeFitWidget->setChecked(
-        djvViewWindowPrefs::global()->hasResizeFit());
+    _p->autoFitWidget->setChecked(
+        djvViewWindowPrefs::global()->hasAutoFit());
     
-    _p->resizeMaxWidget->setCurrentIndex(
-        djvViewWindowPrefs::global()->resizeMax());
+    _p->viewMaxWidget->setCurrentIndex(
+        djvViewWindowPrefs::global()->viewMax());
+    
+    _p->viewMaxUserWidget->setValue(
+        djvViewWindowPrefs::global()->viewMaxUser());
+    _p->viewMaxUserWidget->setVisible(
+        djvView::VIEW_MAX_USER == djvViewWindowPrefs::global()->viewMax());
     
     _p->fullScreenControlsWidget->setChecked(
         djvViewWindowPrefs::global()->hasFullScreenControls());

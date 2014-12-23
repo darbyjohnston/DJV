@@ -70,22 +70,6 @@ public:
     //! Get the background color.
 
     const djvColor & background() const;
-    
-    //! Get the default view size.
-    
-    static const djvVector2i & viewSizeDefault();
-    
-    //! Get the view size.
-    
-    const djvVector2i & viewSize() const;
-
-    //! Get the default view resize behavior.
-    
-    static djvView::VIEW_RESIZE resizeDefault();
-
-    //! Get the view resize behavior.
-
-    djvView::VIEW_RESIZE resize() const;
 
     //! Get the default grid.
 
@@ -157,14 +141,6 @@ public Q_SLOTS:
 
     void setBackground(const djvColor &);
 
-    //! Set the view size.
-    
-    void setViewSize(const djvVector2i &);
-    
-    //! Set the view resize behavior.
-
-    void setResize(djvView::VIEW_RESIZE);
-
     //! Set the view grid.
 
     void setGrid(djvView::GRID);
@@ -203,14 +179,6 @@ Q_SIGNALS:
     
     void backgroundChanged(const djvColor &);
 
-    //! This signal is emitted when the view size is changed.
-    
-    void viewSizeChanged(const djvVector2i &);
-
-    //! This signal is emitted when the view resize behavior is changed.
-
-    void resizeChanged(djvView::VIEW_RESIZE);
-    
     //! This signal is emitted when the view grid is changed.
 
     void gridChanged(djvView::GRID);
@@ -246,8 +214,6 @@ Q_SIGNALS:
 private:
 
     djvColor                _background;
-    djvVector2i             _viewSize;
-    djvView::VIEW_RESIZE    _resize;
     djvView::GRID           _grid;
     djvColor                _gridColor;
     bool                    _hudEnabled;

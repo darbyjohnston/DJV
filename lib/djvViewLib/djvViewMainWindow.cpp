@@ -255,7 +255,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     connect(
         _p->imageGroup,
         SIGNAL(resizeNeeded()),
-        SLOT(windowResizeUpdate()));
+        SLOT(windowResizeCallback()));
 
     // Setup the window group callbacks.
 
@@ -304,7 +304,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     connect(
         _p->playbackGroup,
         SIGNAL(layoutChanged(djvView::LAYOUT)),
-        SLOT(windowResizeUpdate()));
+        SLOT(windowResizeCallback()));
 
     // Setup the view callbacks.
 
@@ -424,7 +424,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
 
     if (init && isVisible())
     {
-        if (djvViewWindowPrefs::global()->hasResizeFit())
+        if (djvViewWindowPrefs::global()->hasAutoFit())
         {
             if (! isFullScreen())
             {
@@ -439,7 +439,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
         }
         else
         {
-            viewResizeUpdate();
+            _p->viewWidget->viewFit();
         }
     }
 }
@@ -516,6 +516,8 @@ void djvViewMainWindow::showEvent(QShowEvent * event)
     QMainWindow::showEvent(event);
     
     resize(sizeHint());
+    
+    _p->viewWidget->viewFit();
 }
 
 void djvViewMainWindow::closeEvent(QCloseEvent * event)
@@ -727,6 +729,34 @@ void djvViewMainWindow::fileUpdate()
     setWindowTitle(title);
 }
 
+void djvViewMainWindow::windowResizeCallback()
+{
+    //DJV_DEBUG("djvViewMainWindow::windowResizeCallback");
+    //DJV_DEBUG_PRINT("size = " << width() << " " << height());
+    
+    // Temporarily disable updates to try and minimize flickering.
+    
+    setUpdatesEnabled(false);
+    
+    if (djvViewWindowPrefs::global()->hasAutoFit())
+    {
+        if (! isFullScreen())
+        {
+            //DJV_DEBUG_PRINT("fit window");
+            
+            fitWindow();
+        }
+        else
+        {
+            //DJV_DEBUG_PRINT("fit view");
+
+            _p->viewWidget->viewFit();
+        }
+    }
+
+    QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
+}
+
 void djvViewMainWindow::fileCacheUpdate()
 {
     //DJV_DEBUG("djvViewMainWindow::cacheUpdate");
@@ -828,8 +858,6 @@ void djvViewMainWindow::controlsUpdate()
 
     statusBar()->setVisible(controls && visible[djvView::INFO_BAR]);
     
-    //windowResizeUpdate();
-    
     QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
 }
 
@@ -930,47 +958,6 @@ void djvViewMainWindow::viewPickUpdate()
         arg(djvStringUtil::label(_p->imageSample).join(" ")));
 
     _p->sampleInit = false;
-}
-
-void djvViewMainWindow::viewResizeUpdate()
-{
-    //DJV_DEBUG("djvViewMainWindow::viewResizeUpdate");
-
-    switch (djvViewViewPrefs::global()->resize())
-    {
-        case djvView::VIEW_RESIZE_FIT_IMAGE:    _p->viewWidget->viewFit();    break;
-        case djvView::VIEW_RESIZE_CENTER_IMAGE: _p->viewWidget->viewCenter(); break;
-
-        default: break;
-    }
-}
-
-void djvViewMainWindow::windowResizeUpdate()
-{
-    //DJV_DEBUG("djvViewMainWindow::windowResizeUpdate");
-    //DJV_DEBUG_PRINT("size = " << width() << " " << height());
-    
-    // Temporarily disable updates to try and minimize flickering.
-    
-    setUpdatesEnabled(false);
-    
-    if (djvViewWindowPrefs::global()->hasResizeFit())
-    {
-        if (! isFullScreen())
-        {
-            //DJV_DEBUG_PRINT("fit window");
-            
-            fitWindow();
-        }
-        else
-        {
-            //DJV_DEBUG_PRINT("fit view");
-
-            _p->viewWidget->viewFit();
-        }
-    }
-
-    QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
 }
 
 const djvImage * djvViewMainWindow::image() const

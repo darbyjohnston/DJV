@@ -43,9 +43,7 @@
 
 djvViewViewPrefs::djvViewViewPrefs(QObject * parent) :
     djvViewAbstractPrefs(parent),
-    _viewSize          (viewSizeDefault()),
     _background        (backgroundDefault()),
-    _resize            (resizeDefault()),
     _grid              (gridDefault()),
     _gridColor         (gridColorDefault()),
     _hudEnabled        (hudEnabledDefault()),
@@ -58,8 +56,6 @@ djvViewViewPrefs::djvViewViewPrefs(QObject * parent) :
 
     djvPrefs prefs("djvViewViewPrefs");
     prefs.get("background", _background);
-    prefs.get("viewSize", _viewSize);
-    prefs.get("resize", _resize);
     prefs.get("grid", _grid);
     prefs.get("gridColor", _gridColor);
     prefs.get("hudEnabled", _hudEnabled);
@@ -84,8 +80,6 @@ djvViewViewPrefs::~djvViewViewPrefs()
 
     djvPrefs prefs("djvViewViewPrefs");
     prefs.set("background", _background);
-    prefs.set("viewSize", _viewSize);
-    prefs.set("resize", _resize);
     prefs.set("grid", _grid);
     prefs.set("gridColor", _gridColor);
     prefs.set("hudEnabled", _hudEnabled);
@@ -103,28 +97,6 @@ djvColor djvViewViewPrefs::backgroundDefault()
 const djvColor & djvViewViewPrefs::background() const
 {
     return _background;
-}
-
-const djvVector2i & djvViewViewPrefs::viewSizeDefault()
-{
-    static const djvVector2i viewSize(640, 300);
-    
-    return viewSize;
-}
-
-const djvVector2i & djvViewViewPrefs::viewSize() const
-{
-    return _viewSize;
-}
-
-djvView::VIEW_RESIZE djvViewViewPrefs::resizeDefault()
-{
-    return djvView::VIEW_RESIZE_FIT_IMAGE;
-}
-
-djvView::VIEW_RESIZE djvViewViewPrefs::resize() const
-{
-    return _resize;
 }
 
 djvView::GRID djvViewViewPrefs::gridDefault()
@@ -222,28 +194,6 @@ void djvViewViewPrefs::setBackground(const djvColor & in)
     _background = in;
 
     Q_EMIT backgroundChanged(_background);
-    Q_EMIT prefChanged();
-}
-
-void djvViewViewPrefs::setViewSize(const djvVector2i & size)
-{
-    if (size == _viewSize)
-        return;
-    
-    _viewSize = size;
-    
-    Q_EMIT viewSizeChanged(_viewSize);
-    Q_EMIT prefChanged();
-}
-
-void djvViewViewPrefs::setResize(djvView::VIEW_RESIZE in)
-{
-    if (in == _resize)
-        return;
-
-    _resize = in;
-
-    Q_EMIT resizeChanged(_resize);
     Q_EMIT prefChanged();
 }
 

@@ -37,7 +37,6 @@
 #include <djvViewAbstractPrefsWidget.h>
 
 #include <djvColor.h>
-#include <djvVector.h>
 
 class QListWidgetItem;
 
@@ -70,8 +69,6 @@ public:
 private Q_SLOTS:
 
     void backgroundCallback(const djvColor &);
-    void viewSizeCallback(const djvVector2i &);
-    void resizeCallback(int);
     void gridCallback(int);
     void gridColorCallback(const djvColor &);
     void hudEnabledCallback(bool);

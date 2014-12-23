@@ -43,16 +43,18 @@
 
 djvViewWindowPrefs::djvViewWindowPrefs(QObject * parent) :
     djvViewAbstractPrefs(parent),
-    _resizeFit         (resizeFitDefault()),
-    _resizeMax         (resizeMaxDefault()),
+    _autoFit           (autoFitDefault()),
+    _viewMax           (viewMaxDefault()),
+    _viewMaxUser       (viewMaxUserDefault()),
     _fullScreenControls(fullScreenControlsDefault()),
     _toolBar           (toolBarDefault())
 {
     //DJV_DEBUG("djvViewWindowPrefs");
 
     djvPrefs prefs("djvViewWindowPrefs");
-    prefs.get("resizeFit", _resizeFit);
-    prefs.get("resizeMax", _resizeMax);
+    prefs.get("autoFit", _autoFit);
+    prefs.get("viewMax", _viewMax);
+    prefs.get("viewMaxUser", _viewMaxUser);
     prefs.get("fullScreenControls", _fullScreenControls);
     if (prefs.contains("toolBar"))
     {
@@ -65,30 +67,43 @@ djvViewWindowPrefs::djvViewWindowPrefs(QObject * parent) :
 djvViewWindowPrefs::~djvViewWindowPrefs()
 {
     djvPrefs prefs("djvViewWindowPrefs");
-    prefs.set("resizeFit", _resizeFit);
-    prefs.set("resizeMax", _resizeMax);
+    prefs.set("autoFit", _autoFit);
+    prefs.set("viewMax", _viewMax);
+    prefs.set("viewMaxUser", _viewMaxUser);
     prefs.set("fullScreenControls", _fullScreenControls);
     prefs.set("toolBar", _toolBar);
 }
 
-bool djvViewWindowPrefs::resizeFitDefault()
+bool djvViewWindowPrefs::autoFitDefault()
 {
     return true;
 }
 
-bool djvViewWindowPrefs::hasResizeFit() const
+bool djvViewWindowPrefs::hasAutoFit() const
 {
-    return _resizeFit;
+    return _autoFit;
 }
 
-djvView::WINDOW_RESIZE_MAX djvViewWindowPrefs::resizeMaxDefault()
+djvView::VIEW_MAX djvViewWindowPrefs::viewMaxDefault()
 {
-    return djvView::WINDOW_RESIZE_MAX_75;
+    return djvView::VIEW_MAX_75;
 }
 
-djvView::WINDOW_RESIZE_MAX djvViewWindowPrefs::resizeMax() const
+djvView::VIEW_MAX djvViewWindowPrefs::viewMax() const
 {
-    return _resizeMax;
+    return _viewMax;
+}
+
+const djvVector2i & djvViewWindowPrefs::viewMaxUserDefault()
+{
+    static const djvVector2i size(640, 300);
+    
+    return size;
+}
+
+const djvVector2i & djvViewWindowPrefs::viewMaxUser() const
+{
+    return _viewMaxUser;
 }
 
 bool djvViewWindowPrefs::fullScreenControlsDefault()
@@ -123,25 +138,36 @@ djvViewWindowPrefs * djvViewWindowPrefs::global()
     return prefs;
 }
 
-void djvViewWindowPrefs::setResizeFit(bool in)
+void djvViewWindowPrefs::setAutoFit(bool in)
 {
-    if (in == _resizeFit)
+    if (in == _autoFit)
         return;
     
-    _resizeFit = in;
+    _autoFit = in;
 
-    Q_EMIT resizeFitChanged(_resizeFit);
+    Q_EMIT autoFitChanged(_autoFit);
     Q_EMIT prefChanged();
 }
 
-void djvViewWindowPrefs::setResizeMax(djvView::WINDOW_RESIZE_MAX in)
+void djvViewWindowPrefs::setViewMax(djvView::VIEW_MAX in)
 {
-    if (in == _resizeMax)
+    if (in == _viewMax)
         return;
 
-    _resizeMax = in;
+    _viewMax = in;
 
-    Q_EMIT resizeMaxChanged(_resizeMax);
+    Q_EMIT viewMaxChanged(_viewMax);
+    Q_EMIT prefChanged();
+}
+
+void djvViewWindowPrefs::setViewMaxUser(const djvVector2i & size)
+{
+    if (size == _viewMaxUser)
+        return;
+    
+    _viewMaxUser = size;
+    
+    Q_EMIT viewMaxUserChanged(_viewMaxUser);
     Q_EMIT prefChanged();
 }
 

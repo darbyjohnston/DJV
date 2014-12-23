@@ -93,17 +93,17 @@ public:
     //! Constructor.
 
     explicit djvImageView(
-        QWidget *         parent = 0,
+        QWidget *         parent      = 0,
         const QGLWidget * shareWidget = 0,
-        Qt::WindowFlags   flags = 0);
+        Qt::WindowFlags   flags       = 0);
 
     //! Constructor.
 
     explicit djvImageView(
         QGLContext *      context,
-        QWidget *         parent = 0,
+        QWidget *         parent      = 0,
         const QGLWidget * shareWidget = 0,
-        Qt::WindowFlags   flags = 0);
+        Qt::WindowFlags   flags       = 0);
 
     //! Destructor.
 
@@ -125,10 +125,14 @@ public:
 
     double viewZoom() const;
 
-    //! Get the bounding box.
+    //! Get the image bounding box.
 
     djvBox2f bbox() const;
-        
+    
+    //! Get whether the view has been fitted.
+    
+    bool hasViewFit() const;
+    
     virtual void updateGL();
 
     virtual QSize sizeHint() const;
@@ -192,6 +196,10 @@ Q_SIGNALS:
     //! This signal is emitted when the view is changed.
 
     void viewChanged();
+
+    //! This signal is emitted when the view is fitted.
+
+    void viewFitted();
 
 protected:
 

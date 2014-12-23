@@ -46,31 +46,18 @@
 // djvView
 //------------------------------------------------------------------------------
 
-const QStringList & djvView::windowResizeMaxLabels()
+const QStringList & djvView::viewMaxLabels()
 {
     static const QStringList data = QStringList() <<
         "Unlimited" <<
-        "25%" <<
-        "50%" <<
-        "75%";
+        "25% of screen" <<
+        "50% of screen" <<
+        "75% of screen" <<
+        "User specified";
 
-    DJV_ASSERT(data.count() == WINDOW_RESIZE_MAX_COUNT);
+    DJV_ASSERT(data.count() == VIEW_MAX_COUNT);
 
     return data;
-}
-
-double djvView::windowResizeMax(WINDOW_RESIZE_MAX in)
-{
-    switch (in)
-    {
-        case WINDOW_RESIZE_MAX_25: return 0.25;
-        case WINDOW_RESIZE_MAX_50: return 0.50;
-        case WINDOW_RESIZE_MAX_75: return 0.75;
-
-        default: break;
-    }
-
-    return 1.0;
 }
 
 const QStringList & djvView::toolBarLabels()
@@ -81,18 +68,6 @@ const QStringList & djvView::toolBarLabels()
         "Information Bar";
 
     DJV_ASSERT(data.count() == TOOL_BAR_COUNT);
-
-    return data;
-}
-
-const QStringList & djvView::viewResizeLabels()
-{
-    static const QStringList data = QStringList() <<
-        "None" <<
-        "Fit Image" <<
-        "Center Image";
-
-    DJV_ASSERT(data.count() == VIEW_RESIZE_COUNT);
 
     return data;
 }
@@ -366,10 +341,8 @@ const int djvView::histogramSize(HISTOGRAM histogram)
 
 //------------------------------------------------------------------------------
 
-_DJV_STRING_OPERATOR_LABEL(djvView::WINDOW_RESIZE_MAX,
-    djvView::windowResizeMaxLabels())
+_DJV_STRING_OPERATOR_LABEL(djvView::VIEW_MAX, djvView::viewMaxLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::TOOL_BAR, djvView::toolBarLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::VIEW_RESIZE, djvView::viewResizeLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::GRID, djvView::gridLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::HUD_BACKGROUND,
 	djvView::hudBackgroundLabels())

@@ -102,7 +102,6 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
-    //setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setMouseTracking(true);
     setAcceptDrops(true);
 
@@ -159,48 +158,59 @@ QSize djvViewImageView::sizeHint() const
     //DJV_DEBUG("djvViewImageView::sizeHint");
     //DJV_DEBUG_PRINT("zoom = " << viewZoom());
 
-    djvVector2i size;
-
-    if (djvViewWindowPrefs::global()->hasResizeFit())
+    djvVector2i size = djvVectorUtil::ceil<double, int>(bbox().size);
+        
+    if (! djvVectorUtil::isSizeValid(size))
     {
-        // Use the size of the current image.
-        
-        size = djvVectorUtil::ceil<double, int>(bbox().size);
-        
-        //DJV_DEBUG_PRINT("current image size = " << size);
+        size = djvVector2i(640, 300);
+    }
 
-        if (! djvVectorUtil::isSizeValid(size))
+    djvVector2i maxSize;
+    
+    const djvVector2i screenSize = djvVectorUtil::fromQSize(
+        qApp->desktop()->availableGeometry().size());
+    
+    switch (djvViewWindowPrefs::global()->viewMax())
+    {
+        case djvView::VIEW_MAX_25:
+        case djvView::VIEW_MAX_50:
+        case djvView::VIEW_MAX_75:
         {
-            // Use a default size.
+            double v = 0.0f;
             
-            size = djvVector2i(640, 300);
+            switch (djvViewWindowPrefs::global()->viewMax())
+            {
+                case djvView::VIEW_MAX_25: v = 0.25; break;
+                case djvView::VIEW_MAX_50: v = 0.5;  break;
+                case djvView::VIEW_MAX_75: v = 0.75; break;
+                
+                default: break;
+            }
             
-            //DJV_DEBUG_PRINT("default size = " << size);
+            maxSize = djvVectorUtil::ceil<double, int>(djvVector2f(screenSize) * v);
         }
+        break;
         
-        // Clamp the size to some percentage of the screen size.
-
-        const double aspect = size.x / static_cast<double>(size.y);
-
-        const djvVector2i max = djvVectorUtil::fromQSize(
-            qApp->desktop()->availableGeometry().size() *
-            djvView::windowResizeMax(djvViewWindowPrefs::global()->resizeMax()));
-
-        //DJV_DEBUG_PRINT("max size = " << max);
+        case djvView::VIEW_MAX_USER:
         
-        if (size.x > max.x || size.y > max.y)
+            maxSize = djvViewWindowPrefs::global()->viewMaxUser();
+            
+            break;
+            
+        default: break;
+    }
+    
+    if (djvVectorUtil::isSizeValid(maxSize))
+    {
+        if (size.x > maxSize.x || size.y > maxSize.y)
         {
-            const djvVector2i a(max.x, max.x / aspect);
-            const djvVector2i b(max.y * aspect, max.y);
+            const double aspect = size.x / static_cast<double>(size.y);
+            
+            const djvVector2i a(maxSize.x, maxSize.x / aspect);
+            const djvVector2i b(maxSize.y * aspect, maxSize.y);
 
             size = a < b ? a : b;
         }
-    }
-    else
-    {
-        // Use the size from the preferences.
-        
-        size = djvViewViewPrefs::global()->viewSize();
     }
 
     //DJV_DEBUG_PRINT("size = " << size);
@@ -218,7 +228,7 @@ void djvViewImageView::setZoomFocus(double in)
     //DJV_DEBUG("djvViewImageView::setZoomFocus");
     //DJV_DEBUG_PRINT("in = " << in);
     
-    djvImageView::setViewZoom(
+    setViewZoom(
         in,
         _p->inside ? _p->mousePos : (djvVector2i(width(), height()) / 2));
 }
@@ -333,12 +343,9 @@ void djvViewImageView::resizeEvent(QResizeEvent * event)
 
     djvImageView::resizeEvent(event);
 
-    switch (djvViewViewPrefs::global()->resize())
+    if (hasViewFit())
     {
-        case djvView::VIEW_RESIZE_FIT_IMAGE:    viewFit();    break;
-        case djvView::VIEW_RESIZE_CENTER_IMAGE: viewCenter(); break;
-
-        default: break;
+        viewFit();
     }
 }
 
@@ -550,23 +557,6 @@ void djvViewImageView::dropEvent(QDropEvent * event)
      //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
     Q_EMIT fileDropped(fileInfo);
-}
-
-bool djvViewImageView::event(QEvent * event)
-{
-    /*switch (event->type())
-    {
-        case QEvent::LayoutRequest:
-        
-            setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-            updateGeometry();
-            
-            break;
-        
-        default: break;
-    }*/
-    
-    return djvImageView::event(event);
 }
 
 void djvViewImageView::paintGL()

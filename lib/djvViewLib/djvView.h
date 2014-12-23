@@ -53,27 +53,22 @@ class djvPixelData;
 
 struct DJV_VIEW_LIB_EXPORT djvView
 {
-    //! This enumeration provides the maximum percentage of the screen to use
-    //! when resizing a window to fit an image.
+    //! This enumeration provides the maximum view size.
 
-    enum WINDOW_RESIZE_MAX
+    enum VIEW_MAX
     {
-        WINDOW_RESIZE_MAX_UNLIMITED,
-        WINDOW_RESIZE_MAX_25,
-        WINDOW_RESIZE_MAX_50,
-        WINDOW_RESIZE_MAX_75,
+        VIEW_MAX_NONE,
+        VIEW_MAX_25,
+        VIEW_MAX_50,
+        VIEW_MAX_75,
+        VIEW_MAX_USER,
 
-        WINDOW_RESIZE_MAX_COUNT
+        VIEW_MAX_COUNT
     };
     
-    //! Get the window maximum resize labels.
+    //! Get the maximum view size labels.
     
-    static const QStringList & windowResizeMaxLabels();
-
-    //! Get the maximum percentage of the screen to use when resizing a window
-    //! to fit an image.
-
-    static double windowResizeMax(WINDOW_RESIZE_MAX);
+    static const QStringList & viewMaxLabels();
 
     //! This enumeration provides tool bar visibility options.
 
@@ -89,21 +84,6 @@ struct DJV_VIEW_LIB_EXPORT djvView
     //! Get the visibility option labels.
 
     static const QStringList & toolBarLabels();
-	
-    //! This enumeration provides the view resize behavior.
-
-    enum VIEW_RESIZE
-    {
-        VIEW_RESIZE_NONE,
-        VIEW_RESIZE_FIT_IMAGE,
-        VIEW_RESIZE_CENTER_IMAGE,
-
-        VIEW_RESIZE_COUNT
-    };
-
-    //! Get the view resize behavior labels.
-
-    static const QStringList & viewResizeLabels();
 
     //! This enumeration provides the grid overlays.
 
@@ -320,9 +300,8 @@ struct DJV_VIEW_LIB_EXPORT djvView
 
 //------------------------------------------------------------------------------
 
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::WINDOW_RESIZE_MAX);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::VIEW_MAX);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::TOOL_BAR);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::VIEW_RESIZE);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::GRID);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::HUD_BACKGROUND);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::IMAGE_SCALE);

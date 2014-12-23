@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
+#include <djvVector.h>
+
 //! \addtogroup djvViewWindow
 //@{
 
@@ -64,8 +66,9 @@ public:
 
 private Q_SLOTS:
 
-    void resizeFitCallback(bool);
-    void resizeMaxCallback(int);
+    void autoFitCallback(bool);
+    void viewMaxCallback(int);
+    void viewMaxUserCallback(const djvVector2i &);
     void fullScreenControlsCallback(bool);
     void toolBarCallback(int);
     
