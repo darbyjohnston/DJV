@@ -113,6 +113,11 @@ djvBox2f djvImageView::bbox() const
     return bbox(_p->viewPos, _p->viewZoom);
 }
 
+bool djvImageView::hasViewFit() const
+{
+    return _p->viewFit;
+}
+
 void djvImageView::updateGL()
 {
     djvOpenGlWidget::updateGL();
@@ -131,8 +136,6 @@ void djvImageView::setData(const djvPixelData * data)
     //DJV_DEBUG("djvImageView::setData");
 
     _p->data = data;
-
-    _p->viewFit = false;
     
     update();
 
@@ -146,8 +149,6 @@ void djvImageView::setOptions(const djvOpenGlImageOptions & options)
         return;
 
     _p->options = options;
-
-    _p->viewFit = false;
     
     update();
 
@@ -187,6 +188,10 @@ void djvImageView::setViewPosZoom(const djvVector2i & pos, double zoom)
     if (posSame && zoomSame)
         return;
 
+    //DJV_DEBUG("djvImageView::setViewPosZoom");
+    //DJV_DEBUG_PRINT("pos = " << pos);
+    //DJV_DEBUG_PRINT("zoom = " << zoom);
+    
     _p->viewPos  = pos;
     _p->viewZoom = zoom;
     
@@ -239,6 +244,8 @@ void djvImageView::viewFit()
     //DJV_DEBUG_PRINT("pos = " << pos);
 
     setViewPosZoom(pos, zoom);
+
+    //DJV_DEBUG_PRINT("fit");
     
     _p->viewFit = true;
 }
@@ -325,7 +332,3 @@ djvBox2f djvImageView::bbox(const djvVector2i & pos, double zoom) const
     return box;
 }
 
-bool djvImageView::hasViewFit() const
-{
-    return _p->viewFit;
-}

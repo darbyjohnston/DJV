@@ -345,6 +345,8 @@ void djvViewImageView::resizeEvent(QResizeEvent * event)
 
     if (hasViewFit())
     {
+        //DJV_DEBUG_PRINT("fit");
+    
         viewFit();
     }
 }
