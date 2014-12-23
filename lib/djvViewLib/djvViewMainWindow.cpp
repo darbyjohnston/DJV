@@ -183,24 +183,18 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     // Initialize.
 
-    if (copy)
-    {
-        _p->imageTmp  = copy->_p->imageTmp;
-        _p->imagePick = copy->_p->imagePick;
-    }
-
     setWindowTitle(DJV_APP->name());
 
     setAttribute(Qt::WA_DeleteOnClose);
     
     if (copy)
     {
+        _p->imageTmp  = copy->_p->imageTmp;
+        _p->imagePick = copy->_p->imagePick;
+        
         _p->viewWidget->setViewPos (copy->_p->viewWidget->viewPos());
         _p->viewWidget->setViewZoom(copy->_p->viewWidget->viewZoom());
-    }
 
-    if (copy)
-    {
         resize(copy->size());
     }
     
@@ -209,10 +203,6 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     imageUpdate();
     controlsUpdate();
     
-    //! \todo Hard-coded timer.
-    
-    QTimer::singleShot(100, this, SLOT(fitCallback()));
-
     // Setup the file group callbacks.
 
     connect(
@@ -479,20 +469,25 @@ void djvViewMainWindow::fitWindow(bool move)
     if (isFullScreen())
         return;
     
-    _p->viewWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    
-    _p->viewWidget->updateGeometry();
-    
-    //! \todo Hard-coded timer.
-    
-    QTimer::singleShot(100, this, SLOT(fitCallback()));
+    //DJV_DEBUG("djvViewMainWindow::fitWindow");
 
     const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
     
-    adjustSize();
+    //DJV_DEBUG_PRINT("frame = " << frame);
+    //DJV_DEBUG_PRINT("view size = " <<
+    //    djvVectorUtil::fromQSize(_p->viewWidget->size()));
+    
+    _p->viewWidget->updateGeometry();
 
+    resize(sizeHint());
+
+    //DJV_DEBUG_PRINT("new view size = " <<
+    //    djvVectorUtil::fromQSize(_p->viewWidget->size()));
+    
     if (move)
     {
+        //DJV_DEBUG_PRINT("move");
+        
         this->move(
             x() - (frameGeometry().width () / 2 - frame.x / 2),
             y() - (frameGeometry().height() / 2 - frame.y / 2));
@@ -514,6 +509,13 @@ void djvViewMainWindow::setPlaybackFrame(qint64 in)
 void djvViewMainWindow::setPlaybackSpeed(const djvSpeed & in)
 {
     _p->playbackGroup->setSpeed(in);
+}
+
+void djvViewMainWindow::showEvent(QShowEvent * event)
+{
+    QMainWindow::showEvent(event);
+    
+    resize(sizeHint());
 }
 
 void djvViewMainWindow::closeEvent(QCloseEvent * event)
@@ -644,11 +646,6 @@ void djvViewMainWindow::loadFrameStoreCallback()
     {
         _p->imageTmp = *_p->imageP;
     }
-}
-
-void djvViewMainWindow::fitCallback()
-{
-    _p->viewWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 void djvViewMainWindow::pickCallback(const djvVector2i & pick)

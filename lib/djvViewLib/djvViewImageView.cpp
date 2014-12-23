@@ -102,7 +102,7 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    //setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setMouseTracking(true);
     setAcceptDrops(true);
 
@@ -163,29 +163,43 @@ QSize djvViewImageView::sizeHint() const
 
     if (djvViewWindowPrefs::global()->hasResizeFit())
     {
+        // Use the size of the current image.
+        
         size = djvVectorUtil::ceil<double, int>(bbox().size);
+        
+        //DJV_DEBUG_PRINT("current image size = " << size);
 
-        if (!djvVectorUtil::isSizeValid(size))
+        if (! djvVectorUtil::isSizeValid(size))
         {
+            // Use a default size.
+            
             size = djvVector2i(640, 300);
+            
+            //DJV_DEBUG_PRINT("default size = " << size);
         }
+        
+        // Clamp the size to some percentage of the screen size.
 
         const double aspect = size.x / static_cast<double>(size.y);
 
-        const QSize max =
+        const djvVector2i max = djvVectorUtil::fromQSize(
             qApp->desktop()->availableGeometry().size() *
-            djvView::windowResizeMax(djvViewWindowPrefs::global()->resizeMax());
+            djvView::windowResizeMax(djvViewWindowPrefs::global()->resizeMax()));
 
-        if (size.x > max.width() || size.y > max.height())
+        //DJV_DEBUG_PRINT("max size = " << max);
+        
+        if (size.x > max.x || size.y > max.y)
         {
-            const djvVector2i a(max.width(), max.width() / aspect);
-            const djvVector2i b(max.height() * aspect, max.height());
+            const djvVector2i a(max.x, max.x / aspect);
+            const djvVector2i b(max.y * aspect, max.y);
 
             size = a < b ? a : b;
         }
     }
     else
     {
+        // Use the size from the preferences.
+        
         size = djvViewViewPrefs::global()->viewSize();
     }
 

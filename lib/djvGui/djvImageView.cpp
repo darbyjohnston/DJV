@@ -218,7 +218,7 @@ void djvImageView::viewFit()
 
     //DJV_DEBUG_PRINT("bbox = " << bbox);
 
-    double zoom = djvVectorUtil::isSizeValid(bbox.size) ?
+    const double zoom = djvVectorUtil::isSizeValid(bbox.size) ?
         djvMath::min(geom.w / bbox.size.x, geom.h / bbox.size.y) : 1.0;
 
     //DJV_DEBUG_PRINT("zoom = " << zoom);
