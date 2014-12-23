@@ -36,6 +36,9 @@
 
 #include <djvVector.h>
 
+class QPoint;
+class QSize;
+
 //! \addtogroup djvCoreMath
 //@{
 
@@ -127,6 +130,22 @@ struct DJV_CORE_EXPORT djvVectorUtil
     //! Convert cartesian to spherical coordinates.
 
     static void cartesianToSpherical(const djvVector3f &, djvVector3f *);
+    
+    //! Convert to Qt.
+    
+    static QPoint toQPoint(const djvVector2i &);
+    
+    //! Convert to Qt.
+    
+    static QSize toQSize(const djvVector2i &);
+    
+    //! Convert from Qt.
+    
+    static djvVector2i fromQPoint(const QPoint &);
+    
+    //! Convert from Qt.
+    
+    static djvVector2i fromQSize(const QSize &);
 };
 
 //@} // djvCoreMath

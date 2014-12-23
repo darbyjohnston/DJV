@@ -35,6 +35,9 @@
 
 #include <djvMath.h>
 
+#include <QPoint>
+#include <QSize>
+
 //------------------------------------------------------------------------------
 // djvVectorUtil
 //------------------------------------------------------------------------------
@@ -54,3 +57,24 @@ void djvVectorUtil::cartesianToSpherical(const djvVector3f & in, djvVector3f * o
     out->x = out->z != 0.0 ? djvMath::arcCos(in.z / out->z) : 0.0;
     out->y = in.x != 0.0 ? djvMath::arcTan(in.y / in.x) : 0.0;
 }
+
+QPoint djvVectorUtil::toQPoint(const djvVector2i & in)
+{
+    return QPoint(in.x, in.y);
+}
+
+QSize djvVectorUtil::toQSize(const djvVector2i & in)
+{
+    return QSize(in.x, in.y);
+}
+
+djvVector2i djvVectorUtil::fromQPoint(const QPoint & in)
+{
+    return djvVector2i(in.x(), in.y());
+}
+
+djvVector2i djvVectorUtil::fromQSize(const QSize & in)
+{
+    return djvVector2i(in.width(), in.height());
+}
+
