@@ -64,10 +64,10 @@ class DJV_GUI_EXPORT djvMiscPrefs : public QObject
     //! This property holds the global speed.
     
     Q_PROPERTY(
-        djvSpeedEnum::FPS speed
-        READ              speed
-        WRITE             setSpeed
-        NOTIFY            speedChanged)
+        djvSpeed::FPS speed
+        READ          speed
+        WRITE         setSpeed
+        NOTIFY        speedChanged)
     
     //! This property holds the maximum number of frames a sequence can hold.
     
@@ -93,7 +93,7 @@ public:
 
     //! Get the global speed.
 
-    djvSpeedEnum::FPS speed() const;
+    djvSpeed::FPS speed() const;
 
     //! Get the maximum number of frames a sequence can hold.
 
@@ -111,7 +111,7 @@ public Q_SLOTS:
 
     //! Set the global speed.
 
-    void setSpeed(djvSpeedEnum::FPS);
+    void setSpeed(djvSpeed::FPS);
 
     //! Set the maximum number of frames a sequence can hold.
 
@@ -125,7 +125,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the global speed is changed.
 
-    void speedChanged(djvSpeedEnum::FPS);
+    void speedChanged(djvSpeed::FPS);
 
     //! This signal is emitted when the maximum number of frames in a sequence
     //! is changed.

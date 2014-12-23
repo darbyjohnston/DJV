@@ -219,9 +219,13 @@ djvPluginFactory::djvPluginFactory(
 
         djvFileInfoList tmp = djvFileInfoUtil::list(
             path,
-            djvSequenceEnum::COMPRESS_OFF);
+            djvSequence::COMPRESS_OFF);
         
-        djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_NONE, QString(), glob);
+        djvFileInfoUtil::filter(
+            tmp,
+            djvFileInfoUtil::FILTER_NONE,
+            QString(),
+            glob);
 
         //DJV_DEBUG_PRINT("tmp = " << tmp.count());
         

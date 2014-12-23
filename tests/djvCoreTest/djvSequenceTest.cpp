@@ -61,20 +61,20 @@ void djvSequenceTest::ctors()
     
     {
         const djvFrameList frameList = djvFrameList() << 1 << 2 << 3;
-        const djvSequence seq(frameList, 4, djvSpeedEnum::FPS_24);
+        const djvSequence seq(frameList, 4, djvSpeed::FPS_24);
         
         DJV_ASSERT(frameList == seq.frames);
         DJV_ASSERT(4 == seq.pad);
-        DJV_ASSERT(djvSpeedEnum::FPS_24 == seq.speed);
+        DJV_ASSERT(djvSpeed::FPS_24 == seq.speed);
     }
     
     {
         const djvFrameList frameList = djvFrameList() << 1 << 2 << 3;
-        const djvSequence seq(1, 3, 4, djvSpeedEnum::FPS_24);
+        const djvSequence seq(1, 3, 4, djvSpeed::FPS_24);
         
         DJV_ASSERT(frameList == seq.frames);
         DJV_ASSERT(4 == seq.pad);
-        DJV_ASSERT(djvSpeedEnum::FPS_24 == seq.speed);
+        DJV_ASSERT(djvSpeed::FPS_24 == seq.speed);
     }
 }
 
@@ -235,7 +235,7 @@ void djvSequenceTest::operators()
     }
     
     {
-        DJV_DEBUG_PRINT(djvSequenceEnum::COMPRESS_RANGE);
+        DJV_DEBUG_PRINT(djvSequence::COMPRESS_RANGE);
     }
 }
 

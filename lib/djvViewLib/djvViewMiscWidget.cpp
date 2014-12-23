@@ -1120,7 +1120,7 @@ void djvViewSpeedButton::pressedCallback()
         menu.addSeparator();
     }
     
-    const QStringList & labels = djvSpeedEnum::fpsLabels();
+    const QStringList & labels = djvSpeed::fpsLabels();
 
     for (int i = 0; i < labels.count(); ++i)
     {
@@ -1143,7 +1143,7 @@ void djvViewSpeedButton::menuCallback()
     const int index = action->data().toInt();
     
     Q_EMIT speedChanged(
-        -1 == index ? _p->defaultSpeed : static_cast<djvSpeedEnum::FPS>(index));
+        -1 == index ? _p->defaultSpeed : static_cast<djvSpeed::FPS>(index));
 }
 
 //------------------------------------------------------------------------------

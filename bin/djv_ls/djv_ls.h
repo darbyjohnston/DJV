@@ -79,17 +79,17 @@ private:
 
     bool printDirectory(const djvFileInfo &, bool label);
 
-    QStringList               _input;
-    bool                      _info;
-    bool                      _filePath;
-    djvSequenceEnum::COMPRESS _sequence;
-    bool                      _recurse;
-    bool                      _hidden;
-    QStringList               _glob;
-    int                       _columns;
-    djvFileInfoUtil::SORT     _sort;
-    bool                      _reverseSort;
-    bool                      _doNotSortDirs;
+    QStringList           _input;
+    bool                  _info;
+    bool                  _filePath;
+    djvSequence::COMPRESS _sequence;
+    bool                  _recurse;
+    bool                  _hidden;
+    QStringList           _glob;
+    int                   _columns;
+    djvFileInfoUtil::SORT _sort;
+    bool                  _reverseSort;
+    bool                  _doNotSortDirs;
 };
 
 //@} // djv_ls

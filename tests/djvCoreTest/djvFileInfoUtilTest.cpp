@@ -164,15 +164,15 @@ void djvFileInfoUtilTest::list()
         io.close();
     }
 
-    djvFileInfoList list = djvFileInfoUtil::list(".", djvSequenceEnum::COMPRESS_OFF);
+    djvFileInfoList list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_OFF);
     
     DJV_ASSERT(list.indexOf(djvFileInfo(fileName.arg(1))));
 
-    list = djvFileInfoUtil::list(".", djvSequenceEnum::COMPRESS_SPARSE);
+    list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_SPARSE);
     
     DJV_ASSERT(list.indexOf(djvFileInfo(fileName.arg("1,3"))));
 
-    list = djvFileInfoUtil::list(".", djvSequenceEnum::COMPRESS_RANGE);
+    list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_RANGE);
     
     DJV_ASSERT(list.indexOf(djvFileInfo(fileName.arg("1-3"))));
 }
@@ -208,19 +208,19 @@ void djvFileInfoUtilTest::compress()
     
     djvFileInfoList tmp = list;
     
-    djvFileInfoUtil::compressSequence(tmp, djvSequenceEnum::COMPRESS_OFF);
+    djvFileInfoUtil::compressSequence(tmp, djvSequence::COMPRESS_OFF);
     
     DJV_ASSERT(tmp[0] == list[0]);
     
     tmp = list;
     
-    djvFileInfoUtil::compressSequence(tmp, djvSequenceEnum::COMPRESS_SPARSE);
+    djvFileInfoUtil::compressSequence(tmp, djvSequence::COMPRESS_SPARSE);
         
     DJV_ASSERT(tmp[0].number() == "1,3-4");
     
     tmp = list;
     
-    djvFileInfoUtil::compressSequence(tmp, djvSequenceEnum::COMPRESS_RANGE);
+    djvFileInfoUtil::compressSequence(tmp, djvSequence::COMPRESS_RANGE);
     
     DJV_ASSERT(tmp[0].number() == "1-4");
 }

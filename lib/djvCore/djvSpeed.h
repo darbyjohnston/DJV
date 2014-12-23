@@ -43,17 +43,17 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvSpeedEnum
+//! \class djvSpeed
 //!
-//! This class provides speed enumerations.
+//! This class provides speed information.
 //!
-//! \todo This class is necessary to register the enumerations with the Qt 4
-//! type system.
+//! \todo This class inherits from QObject to register the enumerations with
+//! the Qt 4 type system.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSpeedEnum : public QObject
+class DJV_CORE_EXPORT djvSpeed
 {
-    Q_OBJECT
+    Q_GADGET
     Q_ENUMS(FPS)
     
 public:
@@ -86,24 +86,6 @@ public:
 
     static const QStringList & fpsLabels();
 
-private:
-
-    djvSpeedEnum();
-};
-
-//------------------------------------------------------------------------------
-//! \class djvSpeed
-//!
-//! This class provides speed information.
-//!
-//! \todo This class inherits from QObject to register the enumerations with
-//! the Qt 4 type system.
-//------------------------------------------------------------------------------
-
-class DJV_CORE_EXPORT djvSpeed
-{
-public:
-
     //! Constructor.
 
     djvSpeed();
@@ -114,7 +96,7 @@ public:
 
     //! Constructor.
 
-    djvSpeed(djvSpeedEnum::FPS);
+    djvSpeed(FPS);
     
     //! Get the time scale.
     
@@ -126,7 +108,7 @@ public:
 
     //! Set the frames per second.
 
-    void set(djvSpeedEnum::FPS);
+    void set(FPS);
 
     //! Get whether the speed is valid.
 
@@ -142,15 +124,15 @@ public:
 
     //! Get the speed default.
 
-    static djvSpeedEnum::FPS speedDefault();
+    static FPS speedDefault();
 
     //! Get the global speed.
 
-    static djvSpeedEnum::FPS speed();
+    static FPS speed();
 
     //! Set the global speed.
 
-    static void setSpeed(djvSpeedEnum::FPS);
+    static void setSpeed(FPS);
 
 private:
 
@@ -162,7 +144,7 @@ private:
 
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeedEnum::FPS);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed::FPS);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSpeed);

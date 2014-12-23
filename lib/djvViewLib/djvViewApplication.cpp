@@ -67,20 +67,20 @@ struct djvViewApplication::P
 {
     P() :
         combine (false),
-        sequence(djvSequenceEnum::COMPRESS_RANGE)
+        sequence(djvSequence::COMPRESS_RANGE)
     {}
     
-    QStringList                               input;
-    bool                                      combine;
-    djvSequenceEnum::COMPRESS                 sequence;
-    QScopedPointer<bool>                      fileSequenceAuto;
-    QScopedPointer<int>                       fileLayer;
-    QScopedPointer<djvPixelDataInfo::PROXY>   fileProxy;
-    QScopedPointer<bool>                      fileCacheEnabled;
-    QScopedPointer<bool>                      windowFullScreen;
-    QScopedPointer<djvView::PLAYBACK>         playback;
-    QScopedPointer<int>                       playbackFrame;
-    QScopedPointer<djvSpeed>                  playbackSpeed;
+    QStringList                             input;
+    bool                                    combine;
+    djvSequence::COMPRESS                   sequence;
+    QScopedPointer<bool>                    fileSequenceAuto;
+    QScopedPointer<int>                     fileLayer;
+    QScopedPointer<djvPixelDataInfo::PROXY> fileProxy;
+    QScopedPointer<bool>                    fileCacheEnabled;
+    QScopedPointer<bool>                    windowFullScreen;
+    QScopedPointer<djvView::PLAYBACK>       playback;
+    QScopedPointer<int>                     playbackFrame;
+    QScopedPointer<djvSpeed>                playbackSpeed;
 };
 
 //------------------------------------------------------------------------------
@@ -323,7 +323,7 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
             }
             else if ("-playback_speed" == arg)
             {
-                djvSpeedEnum::FPS value = static_cast<djvSpeedEnum::FPS>(0);
+                djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
                 _p->playbackSpeed.reset(new djvSpeed(value));
             }
@@ -394,14 +394,14 @@ const QString commandLineHelpLabel =
 QString djvViewApplication::commandLineHelp() const
 {
     return QString(commandLineHelpLabel).
-        arg(djvSequenceEnum::compressLabels().join(", ")).
+        arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_p->sequence).join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(0).
         arg(djvPixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvView::playbackLabels().join(", ")).
-        arg(djvSpeedEnum::fpsLabels().join(", ")).
+        arg(djvSpeed::fpsLabels().join(", ")).
         arg(djvApplication::commandLineHelp());
 }
 

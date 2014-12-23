@@ -112,7 +112,7 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
 
     _p->seqWidget = new QComboBox;
     _p->seqWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->seqWidget->addItems(djvSequenceEnum::compressLabels());
+    _p->seqWidget->addItems(djvSequence::compressLabels());
 
     _p->showHiddenWidget = new QCheckBox("Show hidden files");
 
@@ -329,7 +329,7 @@ void djvFileBrowserPrefsWidget::resetPreferences()
 void djvFileBrowserPrefsWidget::seqCallback(int index)
 {
     djvFileBrowserPrefs::global()->setSequence(
-        static_cast<djvSequenceEnum::COMPRESS>(index));
+        static_cast<djvSequence::COMPRESS>(index));
 }
 
 void djvFileBrowserPrefsWidget::sortCallback(int index)

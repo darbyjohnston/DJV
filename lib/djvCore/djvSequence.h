@@ -47,19 +47,16 @@
 typedef QVector<qint64> djvFrameList;
 
 //------------------------------------------------------------------------------
-//! \class djvSequenceEnum
+//! \class djvSequence
 //!
-//! This class provides sequence enumerations.
-//!
-//! \todo This class is necessary to register the enumerations with the Qt 4
-//! type system.
+//! This class provides a sequence of frames.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSequenceEnum : public QObject
+class DJV_CORE_EXPORT djvSequence
 {
-    Q_OBJECT
+    Q_GADGET
     Q_ENUMS(COMPRESS)
-    
+
 public:
 
     //! This enumeration provides the sequence compression.
@@ -77,19 +74,6 @@ public:
 
     static const QStringList & compressLabels();    
 
-private:
-
-    djvSequenceEnum();
-};
-
-//------------------------------------------------------------------------------
-//! \class djvSequence
-//!
-//! This class provides a sequence of frames.
-//------------------------------------------------------------------------------
-
-struct DJV_CORE_EXPORT djvSequence
-{
     //! Constructor.
 
     djvSequence();
@@ -149,11 +133,11 @@ inline bool operator == (const djvSequence &, const djvSequence &);
 
 inline bool operator != (const djvSequence &, const djvSequence &);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequenceEnum::COMPRESS);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequence::COMPRESS);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequence);
 
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequence);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequenceEnum::COMPRESS);
+DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequence::COMPRESS);
 
 //@} // djvCoreMisc
 

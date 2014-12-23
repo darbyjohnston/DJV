@@ -52,7 +52,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     djvCoreApplication("djv_ls", argc, argv),
     _info         (true),
     _filePath     (false),
-    _sequence     (djvSequenceEnum::COMPRESS_RANGE),
+    _sequence     (djvSequence::COMPRESS_RANGE),
     _recurse      (false),
     _hidden       (false),
     _columns      (djvSystem::terminalWidth()),
@@ -311,7 +311,7 @@ const QString commandLineHelpLabel =
 QString djvLsApplication::commandLineHelp() const
 {
     return QString(commandLineHelpLabel).
-        arg(djvSequenceEnum::compressLabels().join(", ")).
+        arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvFileInfoUtil::sortLabels().join(", ")).
         arg(djvStringUtil::label(_sort).join(", ")).

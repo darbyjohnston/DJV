@@ -79,13 +79,13 @@ private:
 
     void printDirectory(const djvFileInfo &, bool label) throw (djvError);
 
-    QStringList               _input;
-    bool                      _info;
-    bool                      _verbose;
-    bool                      _filePath;
-    djvSequenceEnum::COMPRESS _sequence;
-    bool                      _recurse;
-    int                       _columns;
+    QStringList           _input;
+    bool                  _info;
+    bool                  _verbose;
+    bool                  _filePath;
+    djvSequence::COMPRESS _sequence;
+    bool                  _recurse;
+    int                   _columns;
 };
 
 //@} // djv_info

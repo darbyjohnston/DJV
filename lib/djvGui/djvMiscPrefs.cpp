@@ -57,7 +57,7 @@ djvMiscPrefs::djvMiscPrefs(QObject * parent) :
         djvTime::setUnits(timeUnits);
     }
 
-    djvSpeedEnum::FPS speed = djvSpeed::speed();
+    djvSpeed::FPS speed = djvSpeed::speed();
 
     if (prefs.get("speed", speed))
     {
@@ -88,7 +88,7 @@ djvTime::UNITS djvMiscPrefs::timeUnits() const
     return djvTime::units();
 }
 
-djvSpeedEnum::FPS djvMiscPrefs::speed() const
+djvSpeed::FPS djvMiscPrefs::speed() const
 {
     return djvSpeed::speed();
 }
@@ -120,7 +120,7 @@ void djvMiscPrefs::setTimeUnits(djvTime::UNITS units)
     Q_EMIT timeUnitsChanged(this->timeUnits());
 }
 
-void djvMiscPrefs::setSpeed(djvSpeedEnum::FPS speed)
+void djvMiscPrefs::setSpeed(djvSpeed::FPS speed)
 {
     if (speed == this->speed())
         return;

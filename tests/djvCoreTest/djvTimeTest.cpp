@@ -155,22 +155,22 @@ void djvTimeTest::convert()
         }
             data [] =
         {
-            { "00:00:00:00",  0,                djvSpeedEnum::FPS_24, true  },
-            { "00:00:00:01",  1,                djvSpeedEnum::FPS_24, true  },
-            { "00:00:00:23", 23,                djvSpeedEnum::FPS_24, true  },
-            { "00:00:01:00", 24,                djvSpeedEnum::FPS_24, true  },
-            { "00:00:01:01", 24 + 1,            djvSpeedEnum::FPS_24, true  },
-            { "00:00:01:23", 24 + 23,           djvSpeedEnum::FPS_24, true  },
-            { "00:00:02:00", 24 + 24,           djvSpeedEnum::FPS_24, true  },
-            { "00:01:00:00", 60 * 24,           djvSpeedEnum::FPS_24, true  },
-            { "00:01:00:01", 60 * 24 + 1,       djvSpeedEnum::FPS_24, true  },
-            { "00:01:00:23", 60 * 24 + 23,      djvSpeedEnum::FPS_24, true  },
-            { "00:01:01:00", 60 * 24 + 24,      djvSpeedEnum::FPS_24, true  },
-            { "01:00:00:00", 60 * 60 * 24,      djvSpeedEnum::FPS_24, true  },
-            { "01:00:00:01", 60 * 60 * 24 + 1,  djvSpeedEnum::FPS_24, true  },
-            { "01:00:00:23", 60 * 60 * 24 + 23, djvSpeedEnum::FPS_24, true  },
-            { "01:00:01:00", 60 * 60 * 24 + 24, djvSpeedEnum::FPS_24, true  },
-            { "",            0,                 0,                    false }
+            { "00:00:00:00",  0,                djvSpeed::FPS_24, true  },
+            { "00:00:00:01",  1,                djvSpeed::FPS_24, true  },
+            { "00:00:00:23", 23,                djvSpeed::FPS_24, true  },
+            { "00:00:01:00", 24,                djvSpeed::FPS_24, true  },
+            { "00:00:01:01", 24 + 1,            djvSpeed::FPS_24, true  },
+            { "00:00:01:23", 24 + 23,           djvSpeed::FPS_24, true  },
+            { "00:00:02:00", 24 + 24,           djvSpeed::FPS_24, true  },
+            { "00:01:00:00", 60 * 24,           djvSpeed::FPS_24, true  },
+            { "00:01:00:01", 60 * 24 + 1,       djvSpeed::FPS_24, true  },
+            { "00:01:00:23", 60 * 24 + 23,      djvSpeed::FPS_24, true  },
+            { "00:01:01:00", 60 * 24 + 24,      djvSpeed::FPS_24, true  },
+            { "01:00:00:00", 60 * 60 * 24,      djvSpeed::FPS_24, true  },
+            { "01:00:00:01", 60 * 60 * 24 + 1,  djvSpeed::FPS_24, true  },
+            { "01:00:00:23", 60 * 60 * 24 + 23, djvSpeed::FPS_24, true  },
+            { "01:00:01:00", 60 * 60 * 24 + 24, djvSpeed::FPS_24, true  },
+            { "",            0,                 0,                false }
         };
         
         const int dataCount = sizeof(data) / sizeof(Data);
@@ -279,7 +279,7 @@ void djvTimeTest::convert()
         }
             data [] =
         {
-            { 0, djvSpeedEnum::FPS_24, true }
+            { 0, djvSpeed::FPS_24, true }
         };
         
         const int dataCount = sizeof(data) / sizeof(Data);

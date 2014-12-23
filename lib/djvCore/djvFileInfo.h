@@ -37,6 +37,7 @@
 #include <djvSequence.h>
 #include <djvUser.h>
 
+#include <QMetaType>
 #include <QString>
 
 #include <sys/types.h>

@@ -38,10 +38,10 @@
 #include <djvMath.h>
 
 //------------------------------------------------------------------------------
-// djvSpeedEnum
+// djvSpeed
 //------------------------------------------------------------------------------
 
-const QStringList & djvSpeedEnum::fpsLabels()
+const QStringList & djvSpeed::fpsLabels()
 {
     static const QStringList data = QStringList() <<
         "1" <<
@@ -66,14 +66,10 @@ const QStringList & djvSpeedEnum::fpsLabels()
     return data;
 }
 
-//------------------------------------------------------------------------------
-// djvSpeed
-//------------------------------------------------------------------------------
-
 namespace
 {
 
-djvSpeedEnum::FPS _speed = djvSpeed::speedDefault();
+djvSpeed::FPS _speed = djvSpeed::speedDefault();
 
 } // namespace
 
@@ -87,7 +83,7 @@ djvSpeed::djvSpeed(int scale, int duration) :
     _duration(duration)
 {}
 
-djvSpeed::djvSpeed(djvSpeedEnum::FPS in)
+djvSpeed::djvSpeed(FPS in)
 {
     set(in);
 }
@@ -102,7 +98,7 @@ int djvSpeed::duration() const
     return _duration;
 }
 
-void djvSpeed::set(djvSpeedEnum::FPS fps)
+void djvSpeed::set(FPS fps)
 {
     static const int scale[] =
     {
@@ -124,7 +120,7 @@ void djvSpeed::set(djvSpeedEnum::FPS fps)
         120
     };
     
-    DJV_ASSERT(sizeof(scale) / sizeof(scale[0]) == djvSpeedEnum::FPS_COUNT);
+    DJV_ASSERT(sizeof(scale) / sizeof(scale[0]) == FPS_COUNT);
     
     static const int duration[] =
     {
@@ -146,7 +142,7 @@ void djvSpeed::set(djvSpeedEnum::FPS fps)
         1
     };
 
-    DJV_ASSERT(sizeof(duration) / sizeof(duration[0]) == djvSpeedEnum::FPS_COUNT);
+    DJV_ASSERT(sizeof(duration) / sizeof(duration[0]) == FPS_COUNT);
     
     _scale    = scale   [fps];
     _duration = duration[fps];
@@ -166,9 +162,9 @@ djvSpeed djvSpeed::floatToSpeed(double value)
 {
     //! \todo Implement a proper floating-point to rational number conversion.
     
-    for (int i = 0; i < djvSpeedEnum::FPS_COUNT; ++i)
+    for (int i = 0; i < FPS_COUNT; ++i)
     {
-        const djvSpeedEnum::FPS fps = static_cast<djvSpeedEnum::FPS>(i);
+        const FPS fps = static_cast<FPS>(i);
         
         if (djvMath::abs(value - speedToFloat(fps)) < 0.001)
         {
@@ -179,17 +175,17 @@ djvSpeed djvSpeed::floatToSpeed(double value)
     return djvSpeed(djvMath::round<int>(value));
 }
 
-djvSpeedEnum::FPS djvSpeed::speedDefault()
+djvSpeed::FPS djvSpeed::speedDefault()
 {
-    return djvSpeedEnum::FPS_24;
+    return FPS_24;
 }
 
-djvSpeedEnum::FPS djvSpeed::speed()
+djvSpeed::FPS djvSpeed::speed()
 {
     return _speed;
 }
 
-void djvSpeed::setSpeed(djvSpeedEnum::FPS fps)
+void djvSpeed::setSpeed(FPS fps)
 {
     _speed = fps;
 }
@@ -206,7 +202,7 @@ bool operator != (const djvSpeed & a, const djvSpeed & b)
     return ! (a == b);
 }
 
-_DJV_STRING_OPERATOR_LABEL(djvSpeedEnum::FPS, djvSpeedEnum::fpsLabels())
+_DJV_STRING_OPERATOR_LABEL(djvSpeed::FPS, djvSpeed::fpsLabels())
 
 QStringList & operator >> (QStringList & string, djvSpeed & out) throw (QString)
 {

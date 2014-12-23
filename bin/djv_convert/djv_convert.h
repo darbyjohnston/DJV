@@ -70,7 +70,7 @@ struct djvConvertOptions
     djvVector2i                    size;
     djvBox2i                       crop;
     djvBox2f                       cropPercent;
-    djvSequenceEnum::COMPRESS      sequence;
+    djvSequence::COMPRESS          sequence;
 };
 
 //------------------------------------------------------------------------------
@@ -107,11 +107,11 @@ struct djvConvertOutput
 
     djvConvertOutput();
 
-    djvFileInfo                       file;
-    QScopedPointer<djvPixel::PIXEL>   pixel;
-    djvImageTags                      tags;
-    bool                              tagsAuto;
-    QScopedPointer<djvSpeedEnum::FPS> speed;
+    djvFileInfo                     file;
+    QScopedPointer<djvPixel::PIXEL> pixel;
+    djvImageTags                    tags;
+    bool                            tagsAuto;
+    QScopedPointer<djvSpeed::FPS>   speed;
 };
 
 //------------------------------------------------------------------------------

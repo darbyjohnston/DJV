@@ -41,10 +41,10 @@
 #include <djvSequenceUtil.h>
 
 //------------------------------------------------------------------------------
-// djvSequenceEnum
+// djvSequence
 //------------------------------------------------------------------------------
 
-const QStringList & djvSequenceEnum::compressLabels()
+const QStringList & djvSequence::compressLabels()
 {
     static const QStringList data = QStringList() <<
         "Off" <<
@@ -55,10 +55,6 @@ const QStringList & djvSequenceEnum::compressLabels()
 
     return data;
 }
-
-//------------------------------------------------------------------------------
-// djvSequence
-//------------------------------------------------------------------------------
 
 djvSequence::djvSequence() :
     pad(0)
@@ -144,8 +140,7 @@ void djvSequence::setMaxFrames(qint64 size)
 
 //------------------------------------------------------------------------------
 
-_DJV_STRING_OPERATOR_LABEL(djvSequenceEnum::COMPRESS,
-    djvSequenceEnum::compressLabels())
+_DJV_STRING_OPERATOR_LABEL(djvSequence::COMPRESS, djvSequence::compressLabels())
 
 QStringList & operator << (QStringList & out, const djvSequence & in)
 {
@@ -168,7 +163,7 @@ djvDebug & operator << (djvDebug & debug, const djvSequence & in)
         djvSpeed::speedToFloat(in.speed);
 }
 
-djvDebug & operator << (djvDebug & debug, const djvSequenceEnum::COMPRESS & in)
+djvDebug & operator << (djvDebug & debug, const djvSequence::COMPRESS & in)
 {
     return debug << djvStringUtil::label(in);
 }

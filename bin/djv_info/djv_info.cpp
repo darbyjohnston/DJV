@@ -53,7 +53,7 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
     _info    (true),
     _verbose (false),
     _filePath(false),
-    _sequence(djvSequenceEnum::COMPRESS_RANGE),
+    _sequence(djvSequence::COMPRESS_RANGE),
     _recurse (false),
     _columns (djvSystem::terminalWidth())
 {
@@ -291,7 +291,7 @@ const QString commandLineHelpLabel =
 QString djvInfoApplication::commandLineHelp() const
 {
     return QString(commandLineHelpLabel).
-        arg(djvSequenceEnum::compressLabels().join(", ")).
+        arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvImageApplication::commandLineHelp());
 }

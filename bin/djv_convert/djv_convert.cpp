@@ -54,7 +54,7 @@
 djvConvertOptions::djvConvertOptions() :
     scale   (1.0),
     channel (static_cast<djvOpenGlImageOptions::CHANNEL>(0)),
-    sequence(djvSequenceEnum::COMPRESS_RANGE)
+    sequence(djvSequence::COMPRESS_RANGE)
 {}
 
 //------------------------------------------------------------------------------
@@ -221,9 +221,9 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
             }
             else if ("-speed" == arg)
             {
-                djvSpeedEnum::FPS value = static_cast<djvSpeedEnum::FPS>(0);
+                djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
-                _output.speed.reset(new djvSpeedEnum::FPS(value));
+                _output.speed.reset(new djvSpeed::FPS(value));
             }
             else if ("-tag" == arg)
             {
@@ -391,13 +391,13 @@ QString djvConvertApplication::commandLineHelp() const
     return QString(commandLineHelpLabel).
         arg(djvOpenGlImageOptions::channelLabels().join(", ")).
         arg(djvStringUtil::label(_options.channel).join(", ")).
-        arg(djvSequenceEnum::compressLabels().join(", ")).
+        arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_options.sequence).join(", ")).
         arg(djvPixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::label(_input.proxy).join(", ")).
         arg(_input.timeout).
         arg(djvPixel::pixelLabels().join(", ")).
-        arg(djvSpeedEnum::fpsLabels().join(", ")).
+        arg(djvSpeed::fpsLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvStringUtil::label(_output.tagsAuto).join(", ")).
         arg(djvImageApplication::commandLineHelp());

@@ -246,8 +246,8 @@ inline bool isDotDir(const char * p, size_t l)
 } // namespace
 
 djvFileInfoList djvFileInfoUtil::list(
-    const QString &           path,
-    djvSequenceEnum::COMPRESS compress)
+    const QString &       path,
+    djvSequence::COMPRESS compress)
 {
     //DJV_DEBUG("djvFileInfoUtil::list");
     //DJV_DEBUG_PRINT("path = " << path);
@@ -395,7 +395,7 @@ djvFileInfoList djvFileInfoUtil::list(
         out[i]._sequence.sort();
     }
 
-    if (djvSequenceEnum::COMPRESS_RANGE == compress)
+    if (djvSequence::COMPRESS_RANGE == compress)
     {
         for (int i = 0; i < out.count(); ++i)
         {
@@ -439,10 +439,10 @@ const djvFileInfo & djvFileInfoUtil::sequenceWildcardMatch(
 }
 
 void djvFileInfoUtil::compressSequence(
-    djvFileInfoList &         items,
-    djvSequenceEnum::COMPRESS compress)
+    djvFileInfoList &     items,
+    djvSequence::COMPRESS compress)
 {
-    if (djvSequenceEnum::COMPRESS_OFF == compress)
+    if (djvSequence::COMPRESS_OFF == compress)
         return;
 
     //DJV_DEBUG("djvFileInfoUtil::compressSequence");
@@ -511,7 +511,7 @@ void djvFileInfoUtil::compressSequence(
         items[i]._sequence.sort();
     }
 
-    if (djvSequenceEnum::COMPRESS_RANGE == compress)
+    if (djvSequence::COMPRESS_RANGE == compress)
     {
         for (int i = 0; i < items.count(); ++i)
         {
@@ -805,7 +805,7 @@ void djvFileInfoUtil::recent(
     {
         // Move existing item to front of list.
 
-        list.removeAt(list.indexOf(fileInfo));
+        list.remove(list.indexOf(fileInfo));
         
         list.push_front(fileInfo);
     }
@@ -887,8 +887,8 @@ const QString djvFileInfoUtil::dot(".");
 const QString djvFileInfoUtil::dotDot("..");
 
 djvFileInfo djvFileInfoUtil::commandLine(
-    const QString &           fileName,
-    djvSequenceEnum::COMPRESS sequence)
+    const QString &       fileName,
+    djvSequence::COMPRESS sequence)
 {
     //DJV_DEBUG("djvFileInfoUtil::commandLine");
     //DJV_DEBUG_PRINT("file name = " << fileName);

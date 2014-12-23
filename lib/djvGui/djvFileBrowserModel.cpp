@@ -373,7 +373,7 @@ const QVariant & djvFileBrowserItem::editRole(int column) const
 struct djvFileBrowserModel::P
 {
     P() :
-        sequence           (djvSequenceEnum::COMPRESS_RANGE),
+        sequence           (djvSequence::COMPRESS_RANGE),
         showHidden         (false),
         sort               (NAME),
         reverseSort        (false),
@@ -384,16 +384,16 @@ struct djvFileBrowserModel::P
         thumbnailQueueTimer(-1)
     {}
     
-    QString                   path;
-    djvSequenceEnum::COMPRESS sequence;
-    QString                   filterText;
-    bool                      showHidden;
-    COLUMNS                   sort;
-    bool                      reverseSort;
-    bool                      sortDirsFirst;
-    THUMBNAILS                thumbnails;
-    THUMBNAILS_SIZE           thumbnailsSize;
-    QAbstractItemView *       view;
+    QString               path;
+    djvSequence::COMPRESS sequence;
+    QString               filterText;
+    bool                  showHidden;
+    COLUMNS               sort;
+    bool                  reverseSort;
+    bool                  sortDirsFirst;
+    THUMBNAILS            thumbnails;
+    THUMBNAILS_SIZE       thumbnailsSize;
+    QAbstractItemView *   view;
     
     djvFileInfoList                     list;
     djvFileInfoList                     listTmp;
@@ -463,7 +463,7 @@ djvFileInfo djvFileBrowserModel::fileInfo(const QModelIndex & index) const
     return fileInfo ? *fileInfo : djvFileInfo();
 }
 
-djvSequenceEnum::COMPRESS djvFileBrowserModel::sequence() const
+djvSequence::COMPRESS djvFileBrowserModel::sequence() const
 {
     return _p->sequence;
 }
@@ -748,7 +748,7 @@ void djvFileBrowserModel::reload()
     modelUpdate();
 }
 
-void djvFileBrowserModel::setSequence(djvSequenceEnum::COMPRESS in)
+void djvFileBrowserModel::setSequence(djvSequence::COMPRESS in)
 {
     if (in == _p->sequence)
         return;
