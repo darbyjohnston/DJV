@@ -33,7 +33,6 @@
 
 #include <djvViewPlaybackWidgets.h>
 
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvChoiceButton.h>
@@ -164,7 +163,7 @@ void djvViewLoopWidget::widgetUpdate()
         djvViewShortcutPrefs::global()->shortcuts();
 
     _p->button->setShortcut(
-        shortcuts[djvViewShortcut::PLAYBACK_LOOP].value);
+        shortcuts[djvView::SHORTCUT_PLAYBACK_LOOP].value);
 
     // Update tool tips.
 
@@ -172,7 +171,7 @@ void djvViewLoopWidget::widgetUpdate()
         "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
         arg(djvStringUtil::label(_p->loop).join(", ")).
         arg(djvView::loopLabels().join(", ")).
-        arg(shortcuts[djvViewShortcut::PLAYBACK_LOOP].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_PLAYBACK_LOOP].value.toString()));
 }
 
 //------------------------------------------------------------------------------

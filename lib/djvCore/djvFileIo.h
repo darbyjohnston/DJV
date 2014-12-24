@@ -38,7 +38,7 @@
 #include <djvStringUtil.h>
 #include <djvUtil.h>
 
-class QString;
+#include <QMetaType>
 
 //! \addtogroup djvCoreFile
 //@{
@@ -51,6 +51,9 @@ class QString;
 
 class DJV_CORE_EXPORT djvFileIo
 {
+    Q_GADGET
+    Q_ENUMS(MODE)
+    
 public:
 
     //! Constructor.

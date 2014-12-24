@@ -265,14 +265,14 @@ void djvFileInfoUtilTest::filter()
     
     tmp = list;
     
-    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_FILE);
+    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_FILES);
     
     DJV_ASSERT(! tmp.count());
     
     tmp = list;
     tmp[0].setType(djvFileInfo::DIRECTORY);
     
-    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_DIRECTORY);
+    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_DIRECTORIES);
     
     DJV_ASSERT(list[1] == tmp[0]);
     

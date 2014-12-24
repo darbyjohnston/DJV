@@ -202,7 +202,7 @@ const QStringList & djvFileInfo::permissionsLabels()
         "w" <<
         "x";
 
-    DJV_ASSERT(data.count() == djvFileInfo::PERM_COUNT);
+    DJV_ASSERT(data.count() == djvFileInfo::PERMISSIONS_COUNT);
 
     return data;
 }

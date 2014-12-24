@@ -52,6 +52,9 @@ class QAbstractItemView;
 class DJV_GUI_EXPORT djvFileBrowserModel : public QAbstractItemModel
 {
     Q_OBJECT
+    Q_ENUMS(COLUMNS)
+    Q_ENUMS(THUMBNAILS)
+    Q_ENUMS(THUMBNAILS_SIZE)
     
     //! This property holds the path.
     

@@ -130,10 +130,10 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
     {
         printError(djvError(QString(errorCommandLine).arg(error.string())));
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     // Initialize user interface.
@@ -250,7 +250,7 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
 
     djvApplication::commandLine(in);
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     QString arg;

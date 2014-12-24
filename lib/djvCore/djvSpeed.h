@@ -37,7 +37,7 @@
 #include <djvDebug.h>
 #include <djvStringUtil.h>
 
-#include <QObject>
+#include <QMetaType>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -46,9 +46,6 @@
 //! \class djvSpeed
 //!
 //! This class provides speed information.
-//!
-//! \todo This class inherits from QObject to register the enumerations with
-//! the Qt 4 type system.
 //------------------------------------------------------------------------------
 
 class DJV_CORE_EXPORT djvSpeed

@@ -51,6 +51,8 @@
 class djvViewPlaybackActions : public djvViewAbstractActions
 {
     Q_OBJECT
+    Q_ENUMS(ACTION)
+    Q_ENUMS(GROUP)
 
 public:
 

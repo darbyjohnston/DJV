@@ -35,7 +35,6 @@
 
 #include <djvViewApplication.h>
 #include <djvViewFileCache.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvFloatEdit.h>

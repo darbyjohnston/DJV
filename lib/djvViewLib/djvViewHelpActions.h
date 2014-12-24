@@ -48,6 +48,7 @@
 class DJV_VIEW_LIB_EXPORT djvViewHelpActions : public djvViewAbstractActions
 {
     Q_OBJECT
+    Q_ENUMS(ACTION)
     
 public:
 

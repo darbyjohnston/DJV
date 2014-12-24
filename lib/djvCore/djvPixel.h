@@ -37,7 +37,7 @@
 #include <djvDebug.h>
 #include <djvStringUtil.h>
 
-#include <QObject>
+#include <QMetaType>
 
 #include <half.h>
 
@@ -48,14 +48,11 @@
 //! \struct djvPixel
 //!
 //! This struct provides support for image pixels.
-//!
-//! \todo This class inherits from QObject to register the enumerations with
-//! the Qt 4 type system.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPixel : QObject
+class DJV_CORE_EXPORT djvPixel
 {
-    Q_OBJECT
+    Q_GADGET
     Q_ENUMS(FORMAT)
     Q_ENUMS(TYPE)
     Q_ENUMS(DATA)
@@ -410,6 +407,7 @@ private:
 #define PIXEL_F32_TO_F32(IN) (IN)
 
 inline bool operator == (const djvPixel::Mask &, const djvPixel::Mask &);
+
 inline bool operator != (const djvPixel::Mask &, const djvPixel::Mask &);
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::FORMAT);

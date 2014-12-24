@@ -385,8 +385,7 @@ void djvViewImageView::mousePressEvent(QMouseEvent * event)
     {
         setCursor(Qt::SizeHorCursor);
         
-        Q_EMIT mouseWheelChanged(
-            djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE);
+        Q_EMIT mouseWheelChanged(djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE);
     }
 }
 
@@ -422,8 +421,7 @@ void djvViewImageView::mouseMoveEvent(QMouseEvent * event)
 
 void djvViewImageView::wheelEvent(QWheelEvent * event)
 {
-    djvViewInput::MOUSE_WHEEL mouseWheel =
-        djvViewInputPrefs::global()->mouseWheel();
+    djvView::MOUSE_WHEEL mouseWheel = djvViewInputPrefs::global()->mouseWheel();
 
     if (event->modifiers() & Qt::ShiftModifier)
     {
@@ -443,13 +441,13 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
 
     switch (mouseWheel)
     {
-        case djvViewInput::MOUSE_WHEEL_VIEW_ZOOM:
-        {
-            setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? 1.1 : 0.9));
-        }
-        break;
+        case djvView::MOUSE_WHEEL_VIEW_ZOOM:
 
-        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+            setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? 1.1 : 0.9));
+
+            break;
+
+        case djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
             if (! _p->mouseWheel)
             {
@@ -466,7 +464,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
 
             break;
 
-        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SPEED:
+        case djvView::MOUSE_WHEEL_PLAYBACK_SPEED:
 
             if (! _p->mouseWheel)
             {

@@ -166,7 +166,7 @@ const QStringList & djvImageTags::tagLabels()
         "Keycode" <<
         "Timecode";
 
-    DJV_ASSERT(data.count() == TAG_COUNT);
+    DJV_ASSERT(data.count() == TAGS_COUNT);
 
     return data;
 }

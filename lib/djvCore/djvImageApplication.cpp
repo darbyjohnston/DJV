@@ -148,7 +148,8 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (djvError)
 
     djvAbstractCoreApplication::commandLine(in);
 
-    if (djvAbstractCoreApplication::exitValue() != EXIT_VALUE_DEFAULT)
+    if (djvAbstractCoreApplication::exitValue() !=
+        djvApplicationEnum::EXIT_DEFAULT)
         return;
     
     Q_FOREACH (djvPlugin * plugin, djvImageIoFactory::global()->plugins())

@@ -40,7 +40,6 @@
 #include <djvViewImagePrefs.h>
 #include <djvViewImageToolBar.h>
 #include <djvViewMainWindow.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvIconLibrary.h>

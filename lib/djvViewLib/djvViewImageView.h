@@ -35,7 +35,6 @@
 #define DJV_VIEW_IMAGE_VIEW_H
 
 #include <djvView.h>
-#include <djvViewInput.h>
 
 #include <djvImageView.h>
 
@@ -120,7 +119,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the mouse wheel is changed.
 
-    void mouseWheelChanged(djvViewInput::MOUSE_WHEEL);
+    void mouseWheelChanged(djvView::MOUSE_WHEEL);
 
     //! This signal is emitted when the mouse wheel value is changed.
 

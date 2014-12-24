@@ -100,12 +100,17 @@ djvDebug & djvDebug::operator << (LINE in)
     switch (in)
     {
         case LINE_BEGIN:
+        
             _p->tmp = "debug " + QString(indent, ' ');
+            
             break;
 
         case LINE_END:
+        
             ::printf("%s\n", _p->tmp.toLatin1().data());
+            
             ::fflush(stdout);
+            
             break;
     }
 

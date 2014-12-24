@@ -93,27 +93,27 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     _p->colorWidget->addItems(djvStyle::global()->paletteNames());
 
     _p->colorForegroundWidget = new djvColorSwatch;
-    _p->colorForegroundWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->colorForegroundWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorForegroundWidget->setColorDialogEnabled(true);
     _p->colorForegroundWidget->setToolTip("Foreground");
 
     _p->colorBackgroundWidget = new djvColorSwatch;
-    _p->colorBackgroundWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->colorBackgroundWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorBackgroundWidget->setColorDialogEnabled(true);
     _p->colorBackgroundWidget->setToolTip("Background");
 
     _p->colorBackground2Widget = new djvColorSwatch;
-    _p->colorBackground2Widget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->colorBackground2Widget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorBackground2Widget->setColorDialogEnabled(true);
     _p->colorBackground2Widget->setToolTip("Background 2");
 
     _p->colorButtonWidget = new djvColorSwatch;
-    _p->colorButtonWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->colorButtonWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorButtonWidget->setColorDialogEnabled(true);
     _p->colorButtonWidget->setToolTip("Button");
 
     _p->colorSelectWidget = new djvColorSwatch;
-    _p->colorSelectWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->colorSelectWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorSelectWidget->setColorDialogEnabled(true);
     _p->colorSelectWidget->setToolTip("Select");
 

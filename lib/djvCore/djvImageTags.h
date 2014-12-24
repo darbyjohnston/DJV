@@ -36,8 +36,7 @@
 
 #include <djvDebug.h>
 
-class QString;
-class QStringList;
+#include <QMetaType>
 
 //! \addtogroup djvCoreImage
 //@{
@@ -50,6 +49,9 @@ class QStringList;
 
 class DJV_CORE_EXPORT djvImageTags
 {
+    Q_GADGET
+    Q_ENUMS(TAGS)
+    
 public:
 
     //! Constructor.
@@ -98,7 +100,7 @@ public:
 
     //! This enumeration provides the standard image tags.
 
-    enum TAG
+    enum TAGS
     {
         PROJECT,
         CREATOR,
@@ -109,7 +111,7 @@ public:
         KEYCODE,
         TIMECODE,
 
-        TAG_COUNT
+        TAGS_COUNT
     };
 
     //! Get the image tag labels.

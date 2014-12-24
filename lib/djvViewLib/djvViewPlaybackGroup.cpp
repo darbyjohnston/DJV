@@ -39,7 +39,6 @@
 #include <djvViewPlaybackMenu.h>
 #include <djvViewPlaybackPrefs.h>
 #include <djvViewPlaybackToolBar.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvToolButton.h>
 

@@ -32,7 +32,6 @@ set(header
     djvViewImageToolBar.h
     djvViewImageView.h
 	djvViewInfoTool.h
-    djvViewInput.h
     djvViewInputPrefs.h
     djvViewInputPrefsWidget.h
     djvViewLibExport.h
@@ -46,10 +45,8 @@ set(header
     djvViewPlaybackPrefsWidget.h
     djvViewPlaybackToolBar.h
     djvViewPlaybackWidgets.h
-	djvViewShortcut.h
 	djvViewShortcutPrefs.h
 	djvViewShortcutPrefsWidget.h
-	djvViewTool.h
 	djvViewToolActions.h
 	djvViewToolGroup.h
 	djvViewToolMenu.h
@@ -101,7 +98,6 @@ set(source
     djvViewImageToolBar.cpp
     djvViewImageView.cpp
 	djvViewInfoTool.cpp
-    djvViewInput.cpp
     djvViewInputPrefs.cpp
     djvViewInputPrefsWidget.cpp
 	djvViewMagnifyTool.cpp
@@ -114,10 +110,8 @@ set(source
     djvViewPlaybackPrefsWidget.cpp
     djvViewPlaybackToolBar.cpp
     djvViewPlaybackWidgets.cpp
-	djvViewShortcut.cpp
 	djvViewShortcutPrefs.cpp
 	djvViewShortcutPrefsWidget.cpp
-	djvViewTool.cpp
 	djvViewToolActions.cpp
 	djvViewToolGroup.cpp
 	djvViewToolMenu.cpp

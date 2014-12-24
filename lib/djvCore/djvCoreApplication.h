@@ -44,6 +44,37 @@
 //@{
 
 //------------------------------------------------------------------------------
+//! \class djvApplicationEnum
+//!
+//! This class provides enumerations for applications.
+//------------------------------------------------------------------------------
+
+class DJV_CORE_EXPORT djvApplicationEnum
+{
+    Q_GADGET
+    Q_ENUMS(EXIT_VALUE)
+    
+public:
+
+    //! This enumeration provides the exit value.
+
+    enum EXIT_VALUE
+    {
+        EXIT_DEFAULT,
+        EXIT_ERROR,
+        EXIT_HELP,
+        EXIT_INFO,
+        EXIT_ABOUT,
+        
+        EXIT_VALUE_COUNT
+    };
+    
+    //! Get the exit value labels.
+
+    static const QStringList & exitValueLabels();
+};
+
+//------------------------------------------------------------------------------
 //! \class djvAbstractCoreApplication
 //!
 //! This class provides the base functionality for applications.
@@ -62,34 +93,17 @@ public:
 
     virtual ~djvAbstractCoreApplication() = 0;
 
-    //! This enumeration provides the exit value.
-
-    enum EXIT_VALUE
-    {
-        EXIT_VALUE_DEFAULT,
-        EXIT_VALUE_ERROR,
-        EXIT_VALUE_HELP,
-        EXIT_VALUE_INFO,
-        EXIT_VALUE_ABOUT,
-        
-        EXIT_VALUE_COUNT
-    };
-    
-    //! Get the exit value labels.
-
-    static const QStringList & exitValueLabels();
-
     //! Start the application.
 
     virtual int run();
 
     //! Get the exit value.
 
-    EXIT_VALUE exitValue() const;
+    djvApplicationEnum::EXIT_VALUE exitValue() const;
 
     //! Set the exit value.
 
-    virtual void setExitValue(EXIT_VALUE);
+    void setExitValue(djvApplicationEnum::EXIT_VALUE);
 
     //! Get the application name.
 
@@ -177,7 +191,7 @@ public:
 
 #define DJV_CORE_APP djvAbstractCoreApplication::global()
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvAbstractCoreApplication::EXIT_VALUE);
+DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvApplicationEnum::EXIT_VALUE);
 
 //@} // djvCoreMisc
 

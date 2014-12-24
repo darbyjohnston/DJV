@@ -74,8 +74,6 @@ public:
         LINE_END
     };
 
-    djvDebug & operator << (LINE);
-
     //! Convert bits to a string.
 
     static QString bitsU8(quint8);
@@ -87,6 +85,8 @@ public:
     //! Convert bits to a string.
 
     static QString bitsU32(quint32);
+
+    djvDebug & operator << (LINE);
 
 private:
 

@@ -52,6 +52,7 @@
 class DJV_GUI_EXPORT djvFileBrowserPrefs : public QObject
 {
     Q_OBJECT
+    Q_ENUMS(SHORTCUT)
     
     //! This property holds the file sequencing.
     

@@ -35,7 +35,6 @@
 
 #include <djvView.h>
 #include <djvViewImagePrefs.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvIconLibrary.h>
@@ -160,39 +159,39 @@ void djvViewImageActions::update()
     // Update the actions.
 
     _actions[FRAME_STORE]->setShortcut(
-        shortcuts[djvViewShortcut::IMAGE_FRAME_STORE].value);
+        shortcuts[djvView::SHORTCUT_IMAGE_FRAME_STORE].value);
 
     _actions[LOAD_FRAME_STORE]->setShortcut(
-        shortcuts[djvViewShortcut::IMAGE_FRAME_STORE_LOAD].value);
+        shortcuts[djvView::SHORTCUT_IMAGE_FRAME_STORE_LOAD].value);
 
     _actions[MIRROR_H]->setShortcut(
-        shortcuts[djvViewShortcut::IMAGE_MIRROR_HORIZONTAL].value);
+        shortcuts[djvView::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
 
     _actions[MIRROR_V]->setShortcut(
-        shortcuts[djvViewShortcut::IMAGE_MIRROR_VERTICAL].value);
+        shortcuts[djvView::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
 
     _actions[COLOR_PROFILE]->setShortcut(
-        shortcuts[djvViewShortcut::IMAGE_COLOR_PROFILE].value);
+        shortcuts[djvView::SHORTCUT_IMAGE_COLOR_PROFILE].value);
 
     // Update the action groups.
 
     const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_NONE].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_16_9].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_1_0].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_1_33].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_1_78].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_1_85].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_2_0].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_2_35].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_2_39].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_2_40].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_1_1].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_2_1].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_3_2].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_4_3].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_5_3].value <<
-        shortcuts[djvViewShortcut::IMAGE_SCALE_5_4].value;
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_NONE].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_16_9].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_1_0].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_1_33].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_1_78].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_1_85].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_2_0].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_2_35].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_2_39].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_2_40].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_1_1].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_2_1].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_3_2].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_4_3].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_5_3].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_SCALE_5_4].value;
 
     for (int i = 0; i < djvView::imageScaleLabels().count(); ++i)
     {
@@ -200,10 +199,10 @@ void djvViewImageActions::update()
     }
 
     const QVector<QKeySequence> rotateShortcuts = QVector<QKeySequence>() <<
-        shortcuts[djvViewShortcut::IMAGE_ROTATE_0].value <<
-        shortcuts[djvViewShortcut::IMAGE_ROTATE_90].value <<
-        shortcuts[djvViewShortcut::IMAGE_ROTATE_180].value <<
-        shortcuts[djvViewShortcut::IMAGE_ROTATE_270].value;
+        shortcuts[djvView::SHORTCUT_IMAGE_ROTATE_0].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_ROTATE_90].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_ROTATE_180].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_ROTATE_270].value;
 
     for (int i = 0; i < djvView::imageRotateLabels().count(); ++i)
     {
@@ -218,17 +217,17 @@ void djvViewImageActions::update()
     displayProfileNames += djvViewImagePrefs::global()->displayProfileNames();
 
     const QVector<QKeySequence> displayProfileShortcuts = QVector<QKeySequence>() <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_RESET].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_1].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_2].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_3].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_4].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_5].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_6].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_7].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_8].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_9].value <<
-        shortcuts[djvViewShortcut::IMAGE_DISPLAY_PROFILE_10].value;
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_1].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_2].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_3].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_4].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_5].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_6].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_7].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_8].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_9].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_DISPLAY_PROFILE_10].value;
 
     for (int i = 0; i < displayProfileNames.count(); ++i)
     {
@@ -243,10 +242,10 @@ void djvViewImageActions::update()
 
     const QVector<QKeySequence> channelShortcuts = QVector<QKeySequence>() <<
         QKeySequence() <<
-        shortcuts[djvViewShortcut::IMAGE_CHANNEL_RED].value <<
-        shortcuts[djvViewShortcut::IMAGE_CHANNEL_GREEN].value <<
-        shortcuts[djvViewShortcut::IMAGE_CHANNEL_BLUE].value <<
-        shortcuts[djvViewShortcut::IMAGE_CHANNEL_ALPHA].value;
+        shortcuts[djvView::SHORTCUT_IMAGE_CHANNEL_RED].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
+        shortcuts[djvView::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
 
     for (int i = 0; i < djvOpenGlImageOptions::channelLabels().count(); ++i)
     {

@@ -36,19 +36,26 @@
 
 #include <djvFileInfo.h>
 
+#include <QMetaType>
 #include <QStringList>
 
 //! \addtogroup djvCoreFile
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvFileInfoUtil
+//! \class djvFileInfoUtil
 //!
-//! This struct provides file information utilities.
+//! This class provides file information utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvFileInfoUtil
+class DJV_CORE_EXPORT djvFileInfoUtil
 {
+    Q_GADGET
+    Q_FLAGS(FILTER)
+    Q_ENUMS(SORT)
+    
+public:
+
     //! Split a file name into pieces.
 
     static void split(
@@ -91,10 +98,10 @@ struct DJV_CORE_EXPORT djvFileInfoUtil
 
     enum FILTER
     {
-        FILTER_NONE = 0,
-        FILTER_FILE = 1,      //!< Filter files
-        FILTER_DIRECTORY = 2, //!< Filter directories
-        FILTER_HIDDEN = 4     //!< Filter hidden items
+        FILTER_NONE        = 0,
+        FILTER_FILES       = 1, //!< Filter files
+        FILTER_DIRECTORIES = 2, //!< Filter directories
+        FILTER_HIDDEN      = 4  //!< Filter hidden items
     };
 
     //! Filter a list of files.

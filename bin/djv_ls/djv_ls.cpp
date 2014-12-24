@@ -72,10 +72,10 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     {
         printError(djvError(QString(errorCommandLine).arg(error.string())));
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     // Convert the command line inputs:
@@ -109,7 +109,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
                 printError(djvError(QString("Cannot open: \"%1\"").
                     arg(QDir::toNativeSeparators(fileInfo))));
                 
-                setExitValue(EXIT_VALUE_ERROR);
+                setExitValue(djvApplicationEnum::EXIT_ERROR);
                 
                 continue;
             }
@@ -137,7 +137,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
 
     // If there are no inputs list the current directory.
 
-    if (! list.count() && exitValue() != EXIT_VALUE_ERROR)
+    if (! list.count() && exitValue() != djvApplicationEnum::EXIT_ERROR)
     {
         list += djvFileInfo(".");
     }
@@ -155,7 +155,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
                 printError(djvError(QString("Cannot open: \"%1\"").
                     arg(QDir::toNativeSeparators(list[i]))));
                 
-                setExitValue(EXIT_VALUE_ERROR);
+                setExitValue(djvApplicationEnum::EXIT_ERROR);
             }
         }
         else
@@ -172,7 +172,7 @@ void djvLsApplication::commandLine(QStringList & in) throw (djvError)
 
     djvCoreApplication::commandLine(in);
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     QStringList args;
@@ -452,7 +452,7 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
 
         djvFileInfoUtil::filter(
             items,
-            djvFileInfoUtil::FILTER_FILE |
+            djvFileInfoUtil::FILTER_FILES |
                 (! _hidden ? djvFileInfoUtil::FILTER_HIDDEN : 0));
 
         for (int i = 0; i < items.count(); ++i)

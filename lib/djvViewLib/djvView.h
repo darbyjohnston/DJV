@@ -39,20 +39,49 @@
 #include <djvStringUtil.h>
 #include <djvVector.h>
 
+#include <QMetaType>
+
 class djvFileInfo;
 class djvPixelData;
+
+#if defined(DJV_WINDOWS)
+
+//! \todo Windows defines the macro "FILE_OPEN".
+
+#undef FILE_OPEN
+
+#endif
 
 //! \addtogroup djvViewLib
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvView
+//! \class djvView
 //!
-//! This struct provides basic functionality.
+//! This class provides basic functionality.
 //------------------------------------------------------------------------------
 
-struct DJV_VIEW_LIB_EXPORT djvView
+class DJV_VIEW_LIB_EXPORT djvView
 {
+    Q_GADGET
+    Q_ENUMS(VIEW_MAX)
+    Q_ENUMS(TOOL_BAR)
+    Q_ENUMS(GRID)
+    Q_ENUMS(HUD)
+    Q_ENUMS(HUD_BACKGROUND)
+    Q_ENUMS(IMAGE_SCALE)
+    Q_ENUMS(IMAGE_ROTATE)
+    Q_ENUMS(PLAYBACK)
+    Q_ENUMS(FRAME)
+    Q_ENUMS(LOOP)
+    Q_ENUMS(IN_OUT)
+    Q_ENUMS(LAYOUT)
+    Q_ENUMS(HISTOGRAM)
+    Q_ENUMS(SHORTCUT)
+    Q_ENUMS(MOUSE_WHEEL)
+    
+public:
+
     //! This enumeration provides the maximum view size.
 
     enum VIEW_MAX
@@ -277,6 +306,22 @@ struct DJV_VIEW_LIB_EXPORT djvView
 
     static const QStringList & layoutLabels();
     
+    //! This enumeration provides the tool actions.
+
+    enum TOOL
+    {
+        TOOL_MAGNIFY,
+        TOOL_COLOR_PICKER,
+        TOOL_HISTOGRAM,
+        TOOL_INFO,
+
+        TOOL_COUNT
+    };
+
+    //! Get the tool action labels.
+
+    static const QStringList & toolLabels();
+    
     //! This enumeration provides the histogram sizes.
     
     enum HISTOGRAM
@@ -296,6 +341,148 @@ struct DJV_VIEW_LIB_EXPORT djvView
     //! Get a histogram size.
     
     static const int histogramSize(HISTOGRAM);
+
+    //! This enumeration provides the keyboard shortcuts.
+
+    enum SHORTCUT
+    {
+        SHORTCUT_EXIT,
+
+        SHORTCUT_FILE_OPEN,
+        SHORTCUT_FILE_RELOAD,
+        SHORTCUT_FILE_RELOAD_FRAME,
+        SHORTCUT_FILE_SAVE,
+        SHORTCUT_FILE_SAVE_FRAME,
+        SHORTCUT_FILE_CLOSE,
+        SHORTCUT_FILE_LAYER_DEFAULT,
+        SHORTCUT_FILE_LAYER_1,
+        SHORTCUT_FILE_LAYER_2,
+        SHORTCUT_FILE_LAYER_3,
+        SHORTCUT_FILE_LAYER_4,
+        SHORTCUT_FILE_LAYER_5,
+        SHORTCUT_FILE_LAYER_6,
+        SHORTCUT_FILE_LAYER_7,
+        SHORTCUT_FILE_LAYER_8,
+        SHORTCUT_FILE_LAYER_9,
+        SHORTCUT_FILE_LAYER_10,
+        SHORTCUT_FILE_LAYER_PREV,
+        SHORTCUT_FILE_LAYER_NEXT,
+        SHORTCUT_FILE_PROXY_NONE,
+        SHORTCUT_FILE_PROXY_1_2,
+        SHORTCUT_FILE_PROXY_1_4,
+        SHORTCUT_FILE_PROXY_1_8,
+
+        SHORTCUT_WINDOW_NEW,
+        SHORTCUT_WINDOW_COPY,
+        SHORTCUT_WINDOW_CLOSE,
+        SHORTCUT_WINDOW_FIT,
+        SHORTCUT_WINDOW_FULL_SCREEN,
+        SHORTCUT_WINDOW_CONTROLS_VISIBLE,
+        SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
+        SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
+        SHORTCUT_WINDOW_INFO_VISIBLE,
+
+        SHORTCUT_VIEW_LEFT,
+        SHORTCUT_VIEW_RIGHT,
+        SHORTCUT_VIEW_UP,
+        SHORTCUT_VIEW_DOWN,
+        SHORTCUT_VIEW_CENTER,
+        SHORTCUT_VIEW_ZOOM_IN,
+        SHORTCUT_VIEW_ZOOM_OUT,
+        SHORTCUT_VIEW_ZOOM_RESET,
+        SHORTCUT_VIEW_RESET,
+        SHORTCUT_VIEW_FIT,
+        SHORTCUT_VIEW_HUD,
+
+        SHORTCUT_IMAGE_FRAME_STORE,
+        SHORTCUT_IMAGE_FRAME_STORE_LOAD,
+        SHORTCUT_IMAGE_MIRROR_HORIZONTAL,
+        SHORTCUT_IMAGE_MIRROR_VERTICAL,
+        SHORTCUT_IMAGE_SCALE_NONE,
+        SHORTCUT_IMAGE_SCALE_16_9,
+        SHORTCUT_IMAGE_SCALE_1_0,
+        SHORTCUT_IMAGE_SCALE_1_33,
+        SHORTCUT_IMAGE_SCALE_1_78,
+        SHORTCUT_IMAGE_SCALE_1_85,
+        SHORTCUT_IMAGE_SCALE_2_0,
+        SHORTCUT_IMAGE_SCALE_2_35,
+        SHORTCUT_IMAGE_SCALE_2_39,
+        SHORTCUT_IMAGE_SCALE_2_40,
+        SHORTCUT_IMAGE_SCALE_1_1,
+        SHORTCUT_IMAGE_SCALE_2_1,
+        SHORTCUT_IMAGE_SCALE_3_2,
+        SHORTCUT_IMAGE_SCALE_4_3,
+        SHORTCUT_IMAGE_SCALE_5_3,
+        SHORTCUT_IMAGE_SCALE_5_4,
+        SHORTCUT_IMAGE_ROTATE_0,
+        SHORTCUT_IMAGE_ROTATE_90,
+        SHORTCUT_IMAGE_ROTATE_180,
+        SHORTCUT_IMAGE_ROTATE_270,
+        SHORTCUT_IMAGE_COLOR_PROFILE,
+        SHORTCUT_IMAGE_CHANNEL_RED,
+        SHORTCUT_IMAGE_CHANNEL_GREEN,
+        SHORTCUT_IMAGE_CHANNEL_BLUE,
+        SHORTCUT_IMAGE_CHANNEL_ALPHA,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_1,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_2,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_3,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_4,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_5,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_6,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_7,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_8,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_9,
+        SHORTCUT_IMAGE_DISPLAY_PROFILE_10,
+
+        SHORTCUT_PLAYBACK_REVERSE,
+        SHORTCUT_PLAYBACK_STOP,
+        SHORTCUT_PLAYBACK_FORWARD,
+        SHORTCUT_PLAYBACK_TOGGLE,
+        SHORTCUT_PLAYBACK_LOOP,
+        SHORTCUT_PLAYBACK_START,
+        SHORTCUT_PLAYBACK_START_ABS,
+        SHORTCUT_PLAYBACK_PREV,
+        SHORTCUT_PLAYBACK_PREV_10,
+        SHORTCUT_PLAYBACK_PREV_100,
+        SHORTCUT_PLAYBACK_NEXT,
+        SHORTCUT_PLAYBACK_NEXT_10,
+        SHORTCUT_PLAYBACK_NEXT_100,
+        SHORTCUT_PLAYBACK_END,
+        SHORTCUT_PLAYBACK_END_ABS,
+        SHORTCUT_PLAYBACK_IN_OUT,
+        SHORTCUT_PLAYBACK_MARK_IN,
+        SHORTCUT_PLAYBACK_RESET_IN,
+        SHORTCUT_PLAYBACK_MARK_OUT,
+        SHORTCUT_PLAYBACK_RESET_OUT,
+
+        SHORTCUT_TOOL_MAGNIFY,
+        SHORTCUT_TOOL_COLOR_PICKER,
+        SHORTCUT_TOOL_HISTOGRAM,
+        SHORTCUT_TOOL_INFO,
+
+        SHORTCUT_COUNT
+    };
+
+    //! Get the shortcut labels.
+
+    static const QStringList & shortcutLabels();
+    
+    //! This enumeration provides the mouse wheel actions.
+
+    enum MOUSE_WHEEL
+    {
+        MOUSE_WHEEL_VIEW_ZOOM,
+        MOUSE_WHEEL_PLAYBACK_SHUTTLE,
+        MOUSE_WHEEL_PLAYBACK_SPEED,
+
+        MOUSE_WHEEL_COUNT
+    };
+
+    //! Get the mouse wheel action labels.
+
+    static const QStringList & mouseWheelLabels();
 };
 
 //------------------------------------------------------------------------------
@@ -310,6 +497,10 @@ DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::PLAYBACK);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::FRAME);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::LOOP);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::LAYOUT);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::TOOL);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::HISTOGRAM);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::SHORTCUT);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::MOUSE_WHEEL);
 
 //@} // djvViewLib
 

@@ -35,7 +35,6 @@
 
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvViewViewActions.h>
 #include <djvViewViewMenu.h>

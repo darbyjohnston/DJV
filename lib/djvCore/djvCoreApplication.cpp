@@ -44,21 +44,39 @@
 #include <djvTime.h>
 
 //------------------------------------------------------------------------------
+// djvApplicationEnum
+//------------------------------------------------------------------------------
+
+const QStringList & djvApplicationEnum::exitValueLabels()
+{
+    static const QStringList data = QStringList() <<
+        "Default" <<
+        "Error" <<
+        "Help" <<
+        "Info" <<
+        "About";
+    
+    DJV_ASSERT(EXIT_VALUE_COUNT == data.count());
+    
+    return data;
+}
+
+//------------------------------------------------------------------------------
 // djvAbstractCoreApplication::P
 //------------------------------------------------------------------------------
 
 struct djvAbstractCoreApplication::P
 {
     P() :
-        exitValue(EXIT_VALUE_DEFAULT),
+        exitValue(djvApplicationEnum::EXIT_DEFAULT),
         endline  (false),
         separator(false)
     {}
 
-    EXIT_VALUE  exitValue;
-    QString     commandLineName;
-    bool        endline;
-    bool        separator;
+    djvApplicationEnum::EXIT_VALUE exitValue;
+    QString                        commandLineName;
+    bool                           endline;
+    bool                           separator;
 };
 
 //------------------------------------------------------------------------------
@@ -120,27 +138,27 @@ djvAbstractCoreApplication::~djvAbstractCoreApplication()
     delete _p;
 }
 
-const QStringList & djvAbstractCoreApplication::exitValueLabels()
-{
-    static const QStringList data = QStringList() <<
-        "Default" <<
-        "Error" <<
-        "Help" <<
-        "Info" <<
-        "About";
-    
-    DJV_ASSERT(EXIT_VALUE_COUNT == data.count());
-    
-    return data;
-}
-
 int djvAbstractCoreApplication::run()
 {
     switch (_p->exitValue)
     {
-        case EXIT_VALUE_HELP:  printMessage("\n" + commandLineHelp(), 1); break;
-        case EXIT_VALUE_INFO:  printMessage("\n" + info(), 1); break;
-        case EXIT_VALUE_ABOUT: printMessage("\n" + about(), 1); break;
+        case djvApplicationEnum::EXIT_HELP:
+        
+            printMessage("\n" + commandLineHelp(), 1);
+            
+            break;
+
+        case djvApplicationEnum::EXIT_INFO:
+        
+            printMessage("\n" + info(), 1);
+            
+            break;
+
+        case djvApplicationEnum::EXIT_ABOUT:
+        
+            printMessage("\n" + about(), 1);
+            
+            break;
 
         default: break;
     }
@@ -153,14 +171,14 @@ int djvAbstractCoreApplication::run()
     return _p->exitValue;
 }
 
-djvAbstractCoreApplication::EXIT_VALUE djvAbstractCoreApplication::exitValue() const
+djvApplicationEnum::EXIT_VALUE djvAbstractCoreApplication::exitValue() const
 {
     return _p->exitValue;
 }
 
-void djvAbstractCoreApplication::setExitValue(EXIT_VALUE exitValue)
+void djvAbstractCoreApplication::setExitValue(djvApplicationEnum::EXIT_VALUE in)
 {
-    _p->exitValue = exitValue;
+    _p->exitValue = in;
 }
 
 const QString & djvAbstractCoreApplication::name()
@@ -403,15 +421,15 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
 
             else if ("-help" == arg || "-h" == arg)
             {
-                setExitValue(EXIT_VALUE_HELP);
+                setExitValue(djvApplicationEnum::EXIT_HELP);
             }
             else if ("-info" == arg)
             {
-                setExitValue(EXIT_VALUE_INFO);
+                setExitValue(djvApplicationEnum::EXIT_INFO);
             }
             else if ("-about" == arg)
             {
-                setExitValue(EXIT_VALUE_ABOUT);
+                setExitValue(djvApplicationEnum::EXIT_ABOUT);
             }
 
 #if defined(DJV_OSX)
@@ -506,5 +524,6 @@ djvCoreApplication::djvCoreApplication(const QString & name, int & argc, char **
 //------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(
-    djvAbstractCoreApplication::EXIT_VALUE,
-    djvAbstractCoreApplication::exitValueLabels())
+    djvApplicationEnum::EXIT_VALUE,
+    djvApplicationEnum::exitValueLabels())
+

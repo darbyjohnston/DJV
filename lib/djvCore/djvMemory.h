@@ -36,6 +36,8 @@
 
 #include <djvStringUtil.h>
 
+#include <QMetaType>
+
 //! \addtogroup djvCoreMisc
 //@{
 
@@ -47,6 +49,11 @@
 
 struct DJV_CORE_EXPORT djvMemory
 {
+    Q_GADGET
+    Q_ENUMS(ENDIAN)
+
+public:
+
     static const quint64 kilobyte; //!< The number of bytes in a kilobyte.
     static const quint64 megabyte; //!< The number of bytes in a megabyte.
     static const quint64 gigabyte; //!< The number of bytes in a gigabyte.

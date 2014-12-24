@@ -101,7 +101,7 @@ djvImagePlayTestApplication::djvImagePlayTestApplication(
     {
         print("Usage: djvImagePlayTest (input)");
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
         
         return;
     }
@@ -124,7 +124,7 @@ djvImagePlayTestApplication::djvImagePlayTestApplication(
     {
         printError(error);
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
         
         return;
     }

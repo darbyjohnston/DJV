@@ -313,6 +313,19 @@ const QStringList & djvView::layoutLabels()
     return data;
 }
 
+const QStringList & djvView::toolLabels()
+{
+    static const QStringList data = QStringList() <<
+        "Magnify Tool" <<
+        "Color Picker Tool" <<
+        "Histogram Tool" <<
+        "Information Tool";
+
+    DJV_ASSERT(data.count() == TOOL_COUNT);
+
+    return data;
+}
+
 const QStringList & djvView::histogramLabels()
 {
     static const QStringList data = QStringList() <<
@@ -339,16 +352,156 @@ const int djvView::histogramSize(HISTOGRAM histogram)
     return data[histogram];
 }
 
+const QStringList & djvView::shortcutLabels()
+{
+    static const QStringList data = QStringList() <<
+    
+        "Exit" <<
+
+        "File Open" <<
+        "File Reload" <<
+        "File Reload Frame" <<
+        "File Save" <<
+        "File Save Frame" <<
+        "File Close" <<
+        "File Layer Default" <<
+        "File Layer 1" <<
+        "File Layer 2" <<
+        "File Layer 3" <<
+        "File Layer 4" <<
+        "File Layer 5" <<
+        "File Layer 6" <<
+        "File Layer 7" <<
+        "File Layer 8" <<
+        "File Layer 9" <<
+        "File Layer 10" <<
+        "File Layer Previous" <<
+        "File Layer Next" <<
+        "File Proxy None" <<
+        "File Proxy 1/2" <<
+        "File Proxy 1/4" <<
+        "File Proxy 1/8" <<
+
+        "Window New" <<
+        "Window Copy" <<
+        "Window Close" <<
+        "Window Fit" <<
+        "Window Full Screen" <<
+        "Window Show Controls" <<
+        "Window Show Tool Bars" <<
+        "Window Show Playback" <<
+        "Window Show Information" <<
+
+        "View Left" <<
+        "View Right" <<
+        "View Up" <<
+        "View Down" <<
+        "View Center" <<
+        "View Zoom In" <<
+        "View Zoom Out" <<
+        "View Zoom Reset" <<
+        "View Reset" <<
+        "View Fit" <<
+        "View HUD" <<
+
+        "Image Show Frame Store" <<
+        "Image Load Frame Store" <<
+        "Image Mirror Horizontal" <<
+        "Image Mirror Vertical" <<
+        "Image Scale None" <<
+        "Image Scale 16:9" <<
+        "Image Scale 1.0" <<
+        "Image Scale 1.33" <<
+        "Image Scale 1.78" <<
+        "Image Scale 1.85" <<
+        "Image Scale 2.0" <<
+        "Image Scale 2.35" <<
+        "Image Scale 2.39" <<
+        "Image Scale 2.40" <<
+        "Image Scale 1:1" <<
+        "Image Scale 2:1" <<
+        "Image Scale 3:2" <<
+        "Image Scale 4:3" <<
+        "Image Scale 5:3" <<
+        "Image Scale 5:4" <<
+        "Image Rotate 0" <<
+        "Image Rotate 90" <<
+        "Image Rotate 180" <<
+        "Image Rotate 270" <<
+        "Image Color Profile" <<
+        "Image Channel Red" <<
+        "Image Channel Green" <<
+        "Image Channel Blue" <<
+        "Image Channel Alpha" <<
+        "Image Display Profile" <<
+        "Image Display Profile Reset" <<
+        "Image Display Profile 1" <<
+        "Image Display Profile 2" <<
+        "Image Display Profile 3" <<
+        "Image Display Profile 4" <<
+        "Image Display Profile 5" <<
+        "Image Display Profile 6" <<
+        "Image Display Profile 7" <<
+        "Image Display Profile 8" <<
+        "Image Display Profile 9" <<
+        "Image Display Profile 10" <<
+
+        "Playback Reverse" <<
+        "Playback Stop" <<
+        "Playback Forward" <<
+        "Playback Toggle" <<
+        "Playback Loop" <<
+        "Playback Start" <<
+        "Playback Start Absolute" <<
+        "Playback Previous" <<
+        "Playback Previous 10" <<
+        "Playback Previous 100" <<
+        "Playback Next" <<
+        "Playback Next 10" <<
+        "Playback Next 100" <<
+        "Playback End" <<
+        "Playback End Absolute" <<
+        "Playback In/Out Points" <<
+        "Playback In Point Mark" <<
+        "Playback In Point Reset" <<
+        "Playback Out Point Mark" <<
+        "Playback Out Point Reset" <<
+
+        "Tool Magnify" <<
+        "Tool Color Picker" <<
+        "Tool Histogram" <<
+        "Tool Information";
+
+    DJV_ASSERT(data.count() == SHORTCUT_COUNT);
+
+    return data;
+}
+
+const QStringList & djvView::mouseWheelLabels()
+{
+    static const QStringList data = QStringList() <<
+        "View Zoom" <<
+        "Playback Shuttle" <<
+        "Playback Speed";
+
+    DJV_ASSERT(data.count() == MOUSE_WHEEL_COUNT);
+
+    return data;
+}
+
 //------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvView::VIEW_MAX, djvView::viewMaxLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::TOOL_BAR, djvView::toolBarLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::GRID, djvView::gridLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::HUD_BACKGROUND,
-	djvView::hudBackgroundLabels())
+_DJV_STRING_OPERATOR_LABEL(djvView::HUD_BACKGROUND, djvView::hudBackgroundLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::IMAGE_SCALE, djvView::imageScaleLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::IMAGE_ROTATE, djvView::imageRotateLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::PLAYBACK, djvView::playbackLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::FRAME, djvView::frameLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::LOOP, djvView::loopLabels())
 _DJV_STRING_OPERATOR_LABEL(djvView::LAYOUT, djvView::layoutLabels())
+_DJV_STRING_OPERATOR_LABEL(djvView::TOOL, djvView::toolLabels())
+_DJV_STRING_OPERATOR_LABEL(djvView::HISTOGRAM, djvView::histogramLabels())
+_DJV_STRING_OPERATOR_LABEL(djvView::MOUSE_WHEEL, djvView::mouseWheelLabels())
+

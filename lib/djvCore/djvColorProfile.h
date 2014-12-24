@@ -36,17 +36,24 @@
 
 #include <djvPixelData.h>
 
+#include <QMetaType>
+
 //! \addtogroup djvCoreImage
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvColorProfile
+//! \class djvColorProfile
 //!
 //! This class provides a color profile.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvColorProfile
+class DJV_CORE_EXPORT djvColorProfile
 {
+    Q_GADGET
+    Q_ENUMS(PROFILE)
+
+public:
+
     //! This struct provides exposure values.
 
     struct DJV_CORE_EXPORT Exposure
@@ -90,6 +97,8 @@ struct DJV_CORE_EXPORT djvColorProfile
     djvPixelData lut;
     Exposure     exposure;
 };
+
+Q_DECLARE_METATYPE(djvColorProfile)
 
 //------------------------------------------------------------------------------
 

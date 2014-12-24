@@ -52,6 +52,7 @@
 class DJV_GUI_EXPORT djvColorSwatch : public QWidget
 {
     Q_OBJECT
+    Q_ENUMS(SWATCH_SIZE)
     
     //! This property holds the color.
     
@@ -73,20 +74,20 @@ public:
     
     //! This enumeration provides the swatch size.
     
-    enum SwatchSize
+    enum SWATCH_SIZE
     {
-        SwatchSmall,
-        SwatchMedium,
-        SwatchLarge,
+        SWATCH_SMALL,
+        SWATCH_MEDIUM,
+        SWATCH_LARGE,
     };
     
     //! Get the size.
     
-    SwatchSize swatchSize() const;
+    SWATCH_SIZE swatchSize() const;
     
     //! Set the swatch size.
     
-    void setSwatchSize(SwatchSize);
+    void setSwatchSize(SWATCH_SIZE);
     
     //! Get whether the color dialog is enabled.
     
@@ -125,9 +126,9 @@ private Q_SLOTS:
 
 private:
 
-    djvColor   _color;
-    SwatchSize _swatchSize;
-    bool       _colorDialogEnabled;
+    djvColor    _color;
+    SWATCH_SIZE _swatchSize;
+    bool        _colorDialogEnabled;
 };
 
 //@} // djvGuiWidget

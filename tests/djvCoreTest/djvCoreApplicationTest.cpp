@@ -98,7 +98,7 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
     app.run();
     
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvAbstractCoreApplication::EXIT_VALUE_HELP == app.exitValue());
+    DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
     
     args += "-info";
     
@@ -106,7 +106,7 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
     app.run();
     
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvAbstractCoreApplication::EXIT_VALUE_INFO == app.exitValue());
+    DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
     
     args += "-about";
     
@@ -114,6 +114,6 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
     app.run();
     
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvAbstractCoreApplication::EXIT_VALUE_ABOUT == app.exitValue());
+    DJV_ASSERT(djvApplicationEnum::EXIT_ABOUT == app.exitValue());
 }
 

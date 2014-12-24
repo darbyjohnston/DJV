@@ -578,13 +578,13 @@ void djvFileInfoUtil::filter(
 
         const djvFileInfo::TYPE type = items[j].type();
 
-        if ((filter & FILTER_FILE) &&
+        if ((filter & FILTER_FILES) &&
             (djvFileInfo::FILE == type || djvFileInfo::SEQUENCE == type))
         {
             valid = false;
         }
 
-        if ((filter & FILTER_DIRECTORY) && djvFileInfo::DIRECTORY == type)
+        if ((filter & FILTER_DIRECTORIES) && djvFileInfo::DIRECTORY == type)
         {
             valid = false;
         }

@@ -51,7 +51,7 @@ djvImagePlay2TestApplication::djvImagePlay2TestApplication(
     {
         print("Usage: djvImagePlay2Test (input)");
         
-        setExitValue(EXIT_VALUE_DEFAULT);
+        setExitValue(djvApplicationEnum::EXIT_DEFAULT);
         
         return;
     }
@@ -188,7 +188,7 @@ void djvImagePlay2TestApplication::timerEvent(QTimerEvent *)
 
     if (_frame >= _file.sequence().frames.count())
     {
-        setExitValue(EXIT_VALUE_DEFAULT);
+        setExitValue(djvApplicationEnum::EXIT_DEFAULT);
         
         quit();
     }

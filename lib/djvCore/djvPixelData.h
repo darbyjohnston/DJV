@@ -42,6 +42,7 @@
 #include <djvMemoryBuffer.h>
 #include <djvVector.h>
 
+#include <QMetaType>
 #include <QString>
 
 class djvFileIo;
@@ -57,6 +58,9 @@ class djvFileIo;
 
 class DJV_CORE_EXPORT djvPixelDataInfo
 {
+    Q_GADGET
+    Q_ENUMS(PROXY)
+    
 public:
 
     //! Constructor.

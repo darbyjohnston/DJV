@@ -34,7 +34,6 @@
 #include <djvViewViewActions.h>
 
 #include <djvView.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvIconLibrary.h>
@@ -139,49 +138,49 @@ void djvViewViewActions::update()
 
     // Update the actions.
 
-    _actions[LEFT]->setShortcut(shortcuts[djvViewShortcut::VIEW_LEFT].value);
+    _actions[LEFT]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_LEFT].value);
     _actions[LEFT]->setToolTip(QString("Move the view left\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_LEFT].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_LEFT].value.toString()));
 
-    _actions[RIGHT]->setShortcut(shortcuts[djvViewShortcut::VIEW_RIGHT].value);
+    _actions[RIGHT]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_RIGHT].value);
     _actions[RIGHT]->setToolTip(QString("Move the view right\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_RIGHT].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_RIGHT].value.toString()));
 
-    _actions[UP]->setShortcut(shortcuts[djvViewShortcut::VIEW_UP].value);
+    _actions[UP]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_UP].value);
     _actions[UP]->setToolTip(QString("Move the view up\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_UP].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_UP].value.toString()));
 
-    _actions[DOWN]->setShortcut(shortcuts[djvViewShortcut::VIEW_DOWN].value);
+    _actions[DOWN]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_DOWN].value);
     _actions[DOWN]->setToolTip(QString("Move the view down\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_DOWN].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_DOWN].value.toString()));
 
-    _actions[CENTER]->setShortcut(shortcuts[djvViewShortcut::VIEW_CENTER].value);
+    _actions[CENTER]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_CENTER].value);
     _actions[CENTER]->setToolTip(QString("Center the view\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_CENTER].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_CENTER].value.toString()));
 
-    _actions[ZOOM_IN]->setShortcut(shortcuts[djvViewShortcut::VIEW_ZOOM_IN].value);
+    _actions[ZOOM_IN]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_ZOOM_IN].value);
     _actions[ZOOM_IN]->setToolTip(QString("Zoom into the view\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_ZOOM_IN].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_ZOOM_IN].value.toString()));
 
-    _actions[ZOOM_OUT]->setShortcut(shortcuts[djvViewShortcut::VIEW_ZOOM_OUT].value);
+    _actions[ZOOM_OUT]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_ZOOM_OUT].value);
     _actions[ZOOM_OUT]->setToolTip(QString("Zoom out of the view\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_ZOOM_OUT].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_ZOOM_OUT].value.toString()));
 
-    _actions[ZOOM_RESET]->setShortcut(shortcuts[djvViewShortcut::VIEW_ZOOM_RESET].value);
+    _actions[ZOOM_RESET]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_ZOOM_RESET].value);
     _actions[ZOOM_RESET]->setToolTip(QString("Reset the zoom\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_ZOOM_RESET].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_ZOOM_RESET].value.toString()));
 
-    _actions[RESET]->setShortcut(shortcuts[djvViewShortcut::VIEW_RESET].value);
+    _actions[RESET]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_RESET].value);
     _actions[RESET]->setToolTip(QString("Reset the position and zoom\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_RESET].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_RESET].value.toString()));
 
-    _actions[FIT]->setShortcut(shortcuts[djvViewShortcut::VIEW_FIT].value);
+    _actions[FIT]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_FIT].value);
     _actions[FIT]->setToolTip(QString("Fit the image to the view\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_FIT].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_FIT].value.toString()));
 
-    _actions[HUD]->setShortcut(shortcuts[djvViewShortcut::VIEW_HUD].value);
+    _actions[HUD]->setShortcut(shortcuts[djvView::SHORTCUT_VIEW_HUD].value);
     _actions[HUD]->setToolTip(QString("Toggle the HUD (Heads Up Display)\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::VIEW_HUD].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_VIEW_HUD].value.toString()));
 
     // Fix up the actions.
     

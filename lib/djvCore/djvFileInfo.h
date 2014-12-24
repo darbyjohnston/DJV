@@ -42,8 +42,7 @@
 
 #include <sys/types.h>
 
-class  djvDebug;
-struct djvFileInfoUtil;
+class djvFileInfoUtil;
 
 //! \addtogroup djvCoreFile
 //@{
@@ -109,6 +108,10 @@ struct djvFileInfoUtil;
 
 class DJV_CORE_EXPORT djvFileInfo
 {
+    Q_GADGET
+    Q_ENUMS(TYPE)
+    Q_FLAGS(PERMISSIONS)
+    
 public:
 
     //! Constructor.
@@ -184,9 +187,9 @@ public:
 
     enum TYPE
     {
-        FILE,       //!< Regular file
-        SEQUENCE,   //!< File sequence
-        DIRECTORY,  //!< Directory
+        FILE,      //!< Regular file
+        SEQUENCE,  //!< File sequence
+        DIRECTORY, //!< Directory
 
         TYPE_COUNT
     };
@@ -197,14 +200,14 @@ public:
 
     //! This enumeration provides the file permissions.
 
-    enum PERM
+    enum PERMISSIONS
     {
-        READ  = 1,  //!< Readable
-        WRITE = 2,  //!< Writable
-        EXEC  = 4   //!< Executable
+        READ  = 1, //!< Readable
+        WRITE = 2, //!< Writable
+        EXEC  = 4  //!< Executable
     };
 
-    static const int PERM_COUNT = 3;
+    static const int PERMISSIONS_COUNT = 3;
 
     //! Get the file permissions labels.
 
@@ -308,12 +311,12 @@ private:
 
     djvSequence _sequence;
 
-    friend struct djvFileInfoUtil;
+    friend class djvFileInfoUtil;
 };
 
-Q_DECLARE_METATYPE(djvFileInfo);
+Q_DECLARE_METATYPE(djvFileInfo)
 
-//! File information list typedef.
+//! This typedef provides a file information list.
 
 typedef QVector<djvFileInfo> djvFileInfoList;
 
@@ -330,3 +333,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
 #include <djvFileInfoInline.h>
 
 #endif // DJV_FILE_INFO_H
+

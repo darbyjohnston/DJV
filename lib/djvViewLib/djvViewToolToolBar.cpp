@@ -33,7 +33,7 @@
 
 #include <djvViewToolToolBar.h>
 
-#include <djvViewTool.h>
+#include <djvView.h>
 #include <djvViewToolActions.h>
 
 #include <djvToolButton.h>
@@ -57,7 +57,7 @@ djvViewToolToolBar::djvViewToolToolBar(
     djvViewAbstractToolBar(actions, parent),
     _p(new P)
 {
-    for (int i = 0; i < djvViewTool::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
     {
         djvToolButton * button = new djvToolButton;
         button->setDefaultAction(

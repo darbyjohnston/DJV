@@ -38,6 +38,8 @@
 
 #include <djvUtil.h>
 
+#include <QMetaType>
+
 class QString;
 class QStringList;
 
@@ -52,6 +54,9 @@ class QStringList;
 
 class DJV_GUI_EXPORT djvPrefs
 {
+    Q_GADGET
+    Q_ENUMS(SCOPE)
+    
 public:
 
     //! This enumeration provides the preferences scope.

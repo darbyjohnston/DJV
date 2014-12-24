@@ -176,7 +176,7 @@ djvAbstractApplication::djvAbstractApplication(
     {
         printError(djvError(QString(errorCommandLine).arg(error.string())));
 
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
     // Load the preferences.
@@ -279,11 +279,6 @@ int djvAbstractApplication::run()
     //DJV_DEBUG("djvAbstractApplication::run");
     //DJV_DEBUG_PRINT("valid = " << _valid);
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
-    {
-        setExitValue(djvAbstractImageApplication::exitValue());
-    }
-
     return djvAbstractImageApplication::run();
 }
 
@@ -371,7 +366,8 @@ void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in) throw
 
     djvAbstractCoreApplication::commandLine(in);
 
-    if (djvAbstractCoreApplication::exitValue() != EXIT_VALUE_DEFAULT)
+    if (djvAbstractCoreApplication::exitValue() !=
+        djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     QStringList tmp;
@@ -441,7 +437,7 @@ int djvApplication::run()
 {
     djvAbstractApplication::run();
 
-    if (EXIT_VALUE_DEFAULT == exitValue())
+    if (djvApplicationEnum::EXIT_DEFAULT == exitValue())
     {
         QApplication::exec();
     }

@@ -69,10 +69,10 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
     {
         printError(djvError(QString(errorCommandLine).arg(error.string())));
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     // Convert the command line inputs:
@@ -138,7 +138,7 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
             {
                 printError(error);
                 
-                setExitValue(EXIT_VALUE_ERROR);
+                setExitValue(djvApplicationEnum::EXIT_ERROR);
             }
         }
         else
@@ -151,7 +151,7 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
             {
                 printError(error);
                 
-                setExitValue(EXIT_VALUE_ERROR);
+                setExitValue(djvApplicationEnum::EXIT_ERROR);
             }
         }
     }
@@ -161,12 +161,12 @@ void djvInfoApplication::commandLine(QStringList & in) throw (djvError)
 {
     djvImageApplication::commandLine(in);
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     if (in.isEmpty())
     {
-        setExitValue(EXIT_VALUE_HELP);
+        setExitValue(djvApplicationEnum::EXIT_HELP);
         
         return;
     }
@@ -442,7 +442,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
     // Process the items.
 
-    djvFileInfoUtil::filter(items, djvFileInfoUtil::FILTER_DIRECTORY);
+    djvFileInfoUtil::filter(items, djvFileInfoUtil::FILTER_DIRECTORIES);
     //djvFileInfoUtil::compressSequence(items, _sequence);
 
     // Print the items.
@@ -480,7 +480,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
         djvFileInfoUtil::filter(
             list,
-            djvFileInfoUtil::FILTER_FILE | djvFileInfoUtil::FILTER_HIDDEN);
+            djvFileInfoUtil::FILTER_FILES | djvFileInfoUtil::FILTER_HIDDEN);
 
         for (int i = 0; i < list.count(); ++i)
         {

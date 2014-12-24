@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_INPUT_PREFS_H
 #define DJV_VIEW_INPUT_PREFS_H
 
+#include <djvView.h>
 #include <djvViewAbstractPrefs.h>
-#include <djvViewInput.h>
 
 //! \addtogroup djvViewMisc
 //@{
@@ -62,27 +62,27 @@ public:
     
     //! Get the default mouse wheel action.
     
-    static djvViewInput::MOUSE_WHEEL mouseWheelDefault();
+    static djvView::MOUSE_WHEEL mouseWheelDefault();
 
     //! Get the mouse wheel action.
 
-    djvViewInput::MOUSE_WHEEL mouseWheel() const;
+    djvView::MOUSE_WHEEL mouseWheel() const;
 
     //! Get the default shift + mouse wheel action.
     
-    static djvViewInput::MOUSE_WHEEL mouseWheelShiftDefault();
+    static djvView::MOUSE_WHEEL mouseWheelShiftDefault();
 
     //! Get the shift + mouse wheel action.
 
-    djvViewInput::MOUSE_WHEEL mouseWheelShift() const;
+    djvView::MOUSE_WHEEL mouseWheelShift() const;
 
     //! Get the default control + mouse wheel action.
     
-    static djvViewInput::MOUSE_WHEEL mouseWheelCtrlDefault();
+    static djvView::MOUSE_WHEEL mouseWheelCtrlDefault();
 
     //! Get the control + mouse wheel action.
 
-    djvViewInput::MOUSE_WHEEL mouseWheelCtrl() const;
+    djvView::MOUSE_WHEEL mouseWheelCtrl() const;
 
     //! Get the global preferences.
 
@@ -92,15 +92,15 @@ public Q_SLOTS:
 
     //! Set the mouse wheel action.
 
-    void setMouseWheel(djvViewInput::MOUSE_WHEEL);
+    void setMouseWheel(djvView::MOUSE_WHEEL);
     
     //! Set the shift + mouse wheel action.
 
-    void setMouseWheelShift(djvViewInput::MOUSE_WHEEL);
+    void setMouseWheelShift(djvView::MOUSE_WHEEL);
     
     //! Set the control + mouse wheel action.
 
-    void setMouseWheelCtrl(djvViewInput::MOUSE_WHEEL);
+    void setMouseWheelCtrl(djvView::MOUSE_WHEEL);
 
 Q_SIGNALS:
 
@@ -110,9 +110,9 @@ Q_SIGNALS:
 
 private:
 
-    djvViewInput::MOUSE_WHEEL _mouseWheel;
-    djvViewInput::MOUSE_WHEEL _mouseWheelShift;
-    djvViewInput::MOUSE_WHEEL _mouseWheelCtrl;
+    djvView::MOUSE_WHEEL _mouseWheel;
+    djvView::MOUSE_WHEEL _mouseWheelShift;
+    djvView::MOUSE_WHEEL _mouseWheelCtrl;
 };
 
 //@} // djvViewMisc

@@ -78,7 +78,7 @@
 struct djvViewMainWindow::P
 {
     P() :
-        mouseWheel      (static_cast<djvViewInput::MOUSE_WHEEL>(0)),
+        mouseWheel      (static_cast<djvView::MOUSE_WHEEL>(0)),
         fileGroup       (0),
         windowGroup     (0),
         viewGroup       (0),
@@ -96,7 +96,7 @@ struct djvViewMainWindow::P
         menuBarHeight   (0)
     {}
 
-    djvViewInput::MOUSE_WHEEL                mouseWheel;
+    djvView::MOUSE_WHEEL                     mouseWheel;
     djvViewFileGroup *                       fileGroup;
     djvViewWindowGroup *                     windowGroup;
     djvViewViewGroup *                       viewGroup;
@@ -315,8 +315,8 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     connect(
         _p->viewWidget,
-        SIGNAL(mouseWheelChanged(djvViewInput::MOUSE_WHEEL)),
-        SLOT(mouseWheelCallback(djvViewInput::MOUSE_WHEEL)));
+        SIGNAL(mouseWheelChanged(djvView::MOUSE_WHEEL)),
+        SLOT(mouseWheelCallback(djvView::MOUSE_WHEEL)));
 
     connect(
         _p->viewWidget,
@@ -662,13 +662,13 @@ void djvViewMainWindow::pickCallback(const djvVector2i & pick)
     }
 }
 
-void djvViewMainWindow::mouseWheelCallback(djvViewInput::MOUSE_WHEEL in)
+void djvViewMainWindow::mouseWheelCallback(djvView::MOUSE_WHEEL in)
 {
     _p->mouseWheel = in;
 
     switch (_p->mouseWheel)
     {
-        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+        case djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
             _p->playbackGroup->setPlayback(djvView::STOP);
 
@@ -676,7 +676,7 @@ void djvViewMainWindow::mouseWheelCallback(djvViewInput::MOUSE_WHEEL in)
 
             break;
 
-        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SPEED:
+        case djvView::MOUSE_WHEEL_PLAYBACK_SPEED:
 
             _p->playbackSpeedTmp =
                 djvSpeed::speedToFloat(_p->playbackGroup->speed());
@@ -691,13 +691,13 @@ void djvViewMainWindow::mouseWheelValueCallback(int in)
 {
     switch (_p->mouseWheel)
     {
-        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+        case djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
             _p->playbackGroup->setFrame(_p->playbackFrameTmp + in);
 
             break;
 
-        case djvViewInput::MOUSE_WHEEL_PLAYBACK_SPEED:
+        case djvView::MOUSE_WHEEL_PLAYBACK_SPEED:
 
             _p->playbackGroup->setSpeed(
                 djvSpeed::floatToSpeed(

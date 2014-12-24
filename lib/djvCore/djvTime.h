@@ -36,7 +36,7 @@
 
 #include <djvSpeed.h>
 
-#include <QObject>
+#include <QMetaType>
 
 #if ! defined(DJV_WINDOWS)
 #include <sys/time.h>
@@ -51,14 +51,11 @@
 //! \class djvTime
 //!
 //! This class provides time utilities.
-//!
-//! \todo This class inherits from QObject to register the enumerations with
-//! the Qt 4 type system.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvTime : public QObject
+class DJV_CORE_EXPORT djvTime
 {
-    Q_OBJECT
+    Q_GADGET
     Q_ENUMS(UNITS)
     
 public:

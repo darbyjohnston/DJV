@@ -102,7 +102,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     // Create the options widgets.
 
     _p->backgroundColorWidget = new djvColorSwatch;
-    _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->backgroundColorWidget->setColorDialogEnabled(true);
 
     // Create the grid widgets.
@@ -112,7 +112,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     _p->gridWidget->addItems(djvView::gridLabels());
 
     _p->gridColorWidget = new djvColorSwatch();
-    _p->gridColorWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->gridColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->gridColorWidget->setColorDialogEnabled(true);
 
     // Create the HUD widgets.
@@ -125,11 +125,14 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     {
         QListWidgetItem * item = new QListWidgetItem(_p->hudInfoWidget);
         item->setText(djvView::hudInfoLabels()[i]);
-        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+        item->setFlags(
+            Qt::ItemIsSelectable    |
+            Qt::ItemIsUserCheckable |
+            Qt::ItemIsEnabled);
     }
 
     _p->hudColorWidget = new djvColorSwatch;
-    _p->hudColorWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->hudColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->hudColorWidget->setColorDialogEnabled(true);
 
     _p->hudBackgroundWidget = new QComboBox;
@@ -137,7 +140,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     _p->hudBackgroundWidget->addItems(djvView::hudBackgroundLabels());
 
     _p->hudBackgroundColorWidget = new djvColorSwatch;
-    _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SwatchSmall);
+    _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->hudBackgroundColorWidget->setColorDialogEnabled(true);
 
     // Layout the widgets.

@@ -36,7 +36,7 @@
 
 #include <djvSpeed.h>
 
-#include <QObject>
+#include <QMetaType>
 #include <QVector>
 
 //! \addtogroup djvCoreMisc

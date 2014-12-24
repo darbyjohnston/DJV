@@ -93,7 +93,7 @@ djvImageViewTestApplication::djvImageViewTestApplication(
     {
         print("Usage: djvImageViewTest (input)");
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
         
         return;
     }
@@ -115,7 +115,7 @@ djvImageViewTestApplication::djvImageViewTestApplication(
     {
         printError(error);
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
         
         return;
     }

@@ -42,6 +42,8 @@
 #include <djvMatrix.h>
 #include <djvPixelData.h>
 
+#include <QMetaType>
+
 class djvOpenGlImageLut;
 class djvOpenGlImageShader;
 class djvOpenGlImageTexture;
@@ -51,13 +53,15 @@ class djvOpenGlOffscreenBuffer;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageXform
+//! \class djvOpenGlImageXform
 //!
-//! This struct provides OpenGL image transform options.
+//! This class provides OpenGL image transform options.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageXform
+class DJV_CORE_EXPORT djvOpenGlImageXform
 {
+public:
+
     //! Constructor.
 
     djvOpenGlImageXform();
@@ -73,13 +77,15 @@ struct DJV_CORE_EXPORT djvOpenGlImageXform
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageColor
+//! \class djvOpenGlImageColor
 //!
-//! This struct provides OpenGL image color options.
+//! This class provides OpenGL image color options.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageColor
+class DJV_CORE_EXPORT djvOpenGlImageColor
 {
+public:
+
     //! Constructor.
 
     djvOpenGlImageColor();
@@ -106,13 +112,15 @@ struct DJV_CORE_EXPORT djvOpenGlImageColor
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageLevels
+//! \class djvOpenGlImageLevels
 //!
-//! This struct provides OpenGL image color levels options.
+//! This class provides OpenGL image color levels options.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageLevels
+class DJV_CORE_EXPORT djvOpenGlImageLevels
 {
+public:
+
     //! Constructor.
 
     djvOpenGlImageLevels();
@@ -129,13 +137,15 @@ struct DJV_CORE_EXPORT djvOpenGlImageLevels
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageDisplayProfile
+//! \class djvOpenGlImageDisplayProfile
 //!
-//! This struct provides OpenGL image display profile options.
+//! This class provides OpenGL image display profile options.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageDisplayProfile
+class DJV_CORE_EXPORT djvOpenGlImageDisplayProfile
 {
+public:
+
     //! Constructor.
 
     djvOpenGlImageDisplayProfile();
@@ -147,13 +157,18 @@ struct DJV_CORE_EXPORT djvOpenGlImageDisplayProfile
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageFilter
+//! \class djvOpenGlImageFilter
 //!
-//! This struct provides OpenGL image filtering options.
+//! This class provides OpenGL image filtering options.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageFilter
+class DJV_CORE_EXPORT djvOpenGlImageFilter
 {
+    Q_GADGET
+    Q_ENUMS(FILTER)
+    
+public:
+
     //! This enumeration provides the image filters.
 
     enum FILTER
@@ -171,7 +186,7 @@ struct DJV_CORE_EXPORT djvOpenGlImageFilter
         FILTER_COUNT
     };
 
-    //! Get the image filtering labels.
+    //! Get the image filter labels.
 
     static const QStringList & filterLabels();
 
@@ -208,13 +223,18 @@ struct DJV_CORE_EXPORT djvOpenGlImageFilter
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageOptions
+//! \class djvOpenGlImageOptions
 //!
-//! This struct provides OpenGL image options.
+//! This class provides OpenGL image options.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageOptions
+class DJV_CORE_EXPORT djvOpenGlImageOptions
 {
+    Q_GADGET
+    Q_ENUMS(CHANNEL)
+
+public:
+
     //! This enumeration provides the channels to display.
 
     enum CHANNEL
@@ -246,13 +266,15 @@ struct DJV_CORE_EXPORT djvOpenGlImageOptions
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlImageState
+//! \class djvOpenGlImageState
 //!
-//! This struct provides OpenGL image state.
+//! This class provides OpenGL image state.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlImageState
+class DJV_CORE_EXPORT djvOpenGlImageState
 {
+public:
+
     //! Constructor.
 
     djvOpenGlImageState();

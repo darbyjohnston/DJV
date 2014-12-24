@@ -91,7 +91,7 @@ void djvImageApplicationTest::run(int & argc, char ** argv)
     app.run();
     
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvAbstractImageApplication::EXIT_VALUE_HELP == app.exitValue());
+    DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
     
     args += "-info";
     
@@ -99,6 +99,6 @@ void djvImageApplicationTest::run(int & argc, char ** argv)
     app.run();
     
     DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvAbstractImageApplication::EXIT_VALUE_INFO == app.exitValue());
+    DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
 }
 

@@ -35,7 +35,6 @@
 #define DJV_VIEW_MAIN_WINDOW_H
 
 #include <djvView.h>
-#include <djvViewInput.h>
 
 #include <djvImage.h>
 
@@ -139,7 +138,7 @@ private Q_SLOTS:
     void saveFrameCallback(const djvFileInfo &);
     void loadFrameStoreCallback();
     void pickCallback(const djvVector2i &);
-    void mouseWheelCallback(djvViewInput::MOUSE_WHEEL);
+    void mouseWheelCallback(djvView::MOUSE_WHEEL);
     void mouseWheelValueCallback(int);
     void enableUpdatesCallback();
     void windowResizeCallback();

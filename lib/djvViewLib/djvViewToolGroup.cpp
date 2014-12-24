@@ -38,7 +38,6 @@
 #include <djvViewInfoTool.h>
 #include <djvViewMagnifyTool.h>
 #include <djvViewMainWindow.h>
-#include <djvViewTool.h>
 #include <djvViewToolActions.h>
 #include <djvViewToolMenu.h>
 #include <djvViewToolToolBar.h>
@@ -57,7 +56,7 @@
 struct djvViewToolGroup::P
 {
     P() :
-        tools          (djvViewTool::TOOL_COUNT, false),
+        tools          (djvView::TOOL_COUNT, false),
         actions        (0),
         menu           (0),
         toolBar        (0),
@@ -76,7 +75,7 @@ struct djvViewToolGroup::P
     djvViewColorPickerTool * colorPickerTool;
     djvViewHistogramTool *   histogramTool;
     djvViewInfoTool *        infoTool;
-    QDockWidget *            dockWidgets[djvViewTool::TOOL_COUNT];
+    QDockWidget *            dockWidgets[djvView::TOOL_COUNT];
 };
 
 //------------------------------------------------------------------------------
@@ -127,9 +126,9 @@ djvViewToolGroup::djvViewToolGroup(
         Qt::RightDockWidgetArea <<
         Qt::RightDockWidgetArea;
     
-    for (int i = 0; i < djvViewTool::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
     {
-        _p->dockWidgets[i] = new QDockWidget(djvViewTool::toolLabels()[i]);
+        _p->dockWidgets[i] = new QDockWidget(djvView::toolLabels()[i]);
         _p->dockWidgets[i]->setWidget(widgets[i]);
         
         mainWindow->addDockWidget(areas[i], _p->dockWidgets[i]);
@@ -153,7 +152,7 @@ djvViewToolGroup::djvViewToolGroup(
 
     // Setup widget callbacks.
     
-    for (int i = 0; i < djvViewTool::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
     {
         _p->actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]->connect(
             _p->dockWidgets[i],
@@ -195,7 +194,7 @@ void djvViewToolGroup::toolsCallback(QAction *)
 {
     QVector<bool> tools;
     
-    for (int i = 0; i < djvViewTool::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
     {
         tools += _p->actions->group(djvViewToolActions::TOOL_GROUP)->
             actions()[i]->isChecked();
@@ -208,7 +207,7 @@ void djvViewToolGroup::update()
 {
     // Update action groups.
 
-    for (int i = 0; i < djvViewTool::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
     {
         _p->actions->group(djvViewToolActions::TOOL_GROUP)->
             actions()[i]->setChecked(_p->tools[i]);
@@ -216,7 +215,7 @@ void djvViewToolGroup::update()
     
     // Update widgets.
 
-    for (int i = 0; i < djvViewTool::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
     {
         _p->dockWidgets[i]->setVisible(_p->tools[i]);
     }

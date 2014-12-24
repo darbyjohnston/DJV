@@ -96,17 +96,17 @@ djvConvertApplication::djvConvertApplication(int argc, char ** argv)
     {
         printError(djvError(QString(errorCommandLine).arg(error.string())));
         
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     // Convert the images.
 
     if (! work())
     {
-        setExitValue(EXIT_VALUE_ERROR);
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 }
 
@@ -117,12 +117,12 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
 
     djvImageApplication::commandLine(in);
 
-    if (exitValue() != EXIT_VALUE_DEFAULT)
+    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
     if (in.isEmpty())
     {
-        setExitValue(EXIT_VALUE_HELP);
+        setExitValue(djvApplicationEnum::EXIT_HELP);
         
         return;
     }

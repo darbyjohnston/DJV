@@ -46,7 +46,7 @@
 
 djvColorSwatch::djvColorSwatch(QWidget * parent) :
     QWidget(parent),
-    _swatchSize        (SwatchMedium),
+    _swatchSize        (SWATCH_MEDIUM),
     _colorDialogEnabled(false)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
@@ -69,12 +69,12 @@ const djvColor & djvColorSwatch::color() const
     return _color;
 }
     
-djvColorSwatch::SwatchSize djvColorSwatch::swatchSize() const
+djvColorSwatch::SWATCH_SIZE djvColorSwatch::swatchSize() const
 {
     return _swatchSize;
 }
 
-void djvColorSwatch::setSwatchSize(SwatchSize swatchSize)
+void djvColorSwatch::setSwatchSize(SWATCH_SIZE swatchSize)
 {
     if (swatchSize == _swatchSize)
         return;
@@ -100,8 +100,8 @@ QSize djvColorSwatch::sizeHint() const
 
     switch (_swatchSize)
     {
-        case SwatchSmall: size /= 2; break;
-        case SwatchLarge: size *= 2; break;
+        case SWATCH_SMALL: size /= 2; break;
+        case SWATCH_LARGE: size *= 2; break;
 
         default: break;
     }

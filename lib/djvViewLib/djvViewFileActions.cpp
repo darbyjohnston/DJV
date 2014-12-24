@@ -33,8 +33,8 @@
 
 #include <djvViewFileActions.h>
 
+#include <djvView.h>
 #include <djvViewFilePrefs.h>
-#include <djvViewShortcut.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvIconLibrary.h>
@@ -186,39 +186,39 @@ void djvViewFileActions::update()
 
     // Update the actions.
 
-    _actions[OPEN]->setShortcut(shortcuts[djvViewShortcut::FILE_OPEN].value);
+    _actions[OPEN]->setShortcut(shortcuts[djvView::SHORTCUT_FILE_OPEN].value);
     _actions[OPEN]->setToolTip(QString("Open a new file\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::FILE_OPEN].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_FILE_OPEN].value.toString()));
 
     _actions[RELOAD]->setShortcut(
-        shortcuts[djvViewShortcut::FILE_RELOAD].value);
+        shortcuts[djvView::SHORTCUT_FILE_RELOAD].value);
     _actions[RELOAD]->setToolTip(QString(
         "Reload the current file\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::FILE_RELOAD].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_FILE_RELOAD].value.toString()));
 
     _actions[RELOAD_FRAME]->setShortcut(
-        shortcuts[djvViewShortcut::FILE_RELOAD_FRAME].value);
+        shortcuts[djvView::SHORTCUT_FILE_RELOAD_FRAME].value);
     _actions[RELOAD_FRAME]->setToolTip(QString(
         "Reload the current frame\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::FILE_RELOAD_FRAME].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
 
-    _actions[CLOSE]->setShortcut(shortcuts[djvViewShortcut::FILE_CLOSE].value);
+    _actions[CLOSE]->setShortcut(shortcuts[djvView::SHORTCUT_FILE_CLOSE].value);
     _actions[CLOSE]->setToolTip(QString(
         "Close the current file\n\nShortcut: %1").
-        arg(shortcuts[djvViewShortcut::FILE_CLOSE].value.toString()));
+        arg(shortcuts[djvView::SHORTCUT_FILE_CLOSE].value.toString()));
 
-    _actions[SAVE]->setShortcut(shortcuts[djvViewShortcut::FILE_SAVE].value);
+    _actions[SAVE]->setShortcut(shortcuts[djvView::SHORTCUT_FILE_SAVE].value);
 
     _actions[SAVE_FRAME]->setShortcut(
-        shortcuts[djvViewShortcut::FILE_SAVE_FRAME].value);
+        shortcuts[djvView::SHORTCUT_FILE_SAVE_FRAME].value);
 
     _actions[LAYER_PREV]->setShortcut(
-        shortcuts[djvViewShortcut::FILE_LAYER_PREV].value);
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_PREV].value);
 
     _actions[LAYER_NEXT]->setShortcut(
-        shortcuts[djvViewShortcut::FILE_LAYER_NEXT].value);
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_NEXT].value);
 
-    _actions[EXIT]->setShortcut(shortcuts[djvViewShortcut::EXIT].value);
+    _actions[EXIT]->setShortcut(shortcuts[djvView::SHORTCUT_EXIT].value);
 
     // Update the action groups.
 
@@ -240,17 +240,17 @@ void djvViewFileActions::update()
         delete action;
 
     const QVector<QKeySequence> layerShortcuts = QVector<QKeySequence>() <<
-        shortcuts[djvViewShortcut::FILE_LAYER_DEFAULT].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_1].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_2].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_3].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_4].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_5].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_6].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_7].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_8].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_9].value <<
-        shortcuts[djvViewShortcut::FILE_LAYER_10].value;
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_DEFAULT].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_1].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_2].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_3].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_4].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_5].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_6].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_7].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_8].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_9].value <<
+        shortcuts[djvView::SHORTCUT_FILE_LAYER_10].value;
 
     for (int i = 0; i < _p->layers.count(); ++i)
     {
@@ -266,10 +266,10 @@ void djvViewFileActions::update()
     }
     
     const QVector<QKeySequence> proxyShortcuts = QVector<QKeySequence>() <<
-        shortcuts[djvViewShortcut::FILE_PROXY_NONE].value <<
-        shortcuts[djvViewShortcut::FILE_PROXY_1_2].value <<
-        shortcuts[djvViewShortcut::FILE_PROXY_1_4].value <<
-        shortcuts[djvViewShortcut::FILE_PROXY_1_8].value;
+        shortcuts[djvView::SHORTCUT_FILE_PROXY_NONE].value <<
+        shortcuts[djvView::SHORTCUT_FILE_PROXY_1_2].value <<
+        shortcuts[djvView::SHORTCUT_FILE_PROXY_1_4].value <<
+        shortcuts[djvView::SHORTCUT_FILE_PROXY_1_8].value;
 
     for (int i = 0; i < _groups[PROXY_GROUP]->actions().count(); ++i)
     {
