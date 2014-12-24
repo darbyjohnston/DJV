@@ -69,6 +69,8 @@ public:
 
 //------------------------------------------------------------------------------
 
+Q_DECLARE_METATYPE(djvImage)
+
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImage);
 
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImage);

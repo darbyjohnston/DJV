@@ -29,10 +29,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvView.h
+//! \file djvViewUtil.h
 
-#ifndef DJV_VIEW_H
-#define DJV_VIEW_H
+#ifndef DJV_VIEW_UTIL_H
+#define DJV_VIEW_UTIL_H
 
 #include <djvViewLibExport.h>
 
@@ -56,12 +56,12 @@ class djvPixelData;
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvView
+//! \class djvViewUtil
 //!
-//! This class provides basic functionality.
+//! This class provides enumerations and utilities.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvView
+class DJV_VIEW_LIB_EXPORT djvViewUtil
 {
     Q_GADGET
     Q_ENUMS(VIEW_MAX)
@@ -81,6 +81,10 @@ class DJV_VIEW_LIB_EXPORT djvView
     Q_ENUMS(MOUSE_WHEEL)
     
 public:
+
+    //! Destructor.
+    
+    virtual ~djvViewUtil() = 0;
 
     //! This enumeration provides the maximum view size.
 
@@ -487,22 +491,22 @@ public:
 
 //------------------------------------------------------------------------------
 
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::VIEW_MAX);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::TOOL_BAR);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::GRID);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::HUD_BACKGROUND);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::IMAGE_SCALE);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::IMAGE_ROTATE);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::PLAYBACK);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::FRAME);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::LOOP);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::LAYOUT);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::TOOL);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::HISTOGRAM);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::SHORTCUT);
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvView::MOUSE_WHEEL);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::VIEW_MAX);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::TOOL_BAR);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::GRID);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::HUD_BACKGROUND);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::IMAGE_SCALE);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::IMAGE_ROTATE);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::PLAYBACK);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::FRAME);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::LOOP);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::LAYOUT);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::TOOL);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::HISTOGRAM);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::SHORTCUT);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::MOUSE_WHEEL);
 
 //@} // djvViewLib
 
-#endif // DJV_VIEW_H
+#endif // DJV_VIEW_UTIL_H
 

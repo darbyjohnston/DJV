@@ -209,6 +209,9 @@ typedef djvMatrix<double, 3> djvMatrix3f;
 
 typedef djvMatrix<double, 4> djvMatrix4f;
 
+Q_DECLARE_METATYPE(djvMatrix3f)
+Q_DECLARE_METATYPE(djvMatrix4f)
+
 template<typename T, int D>
 inline djvMatrix<T, D> operator * (const djvMatrix<T, D> &, const djvMatrix<T, D> &);
 

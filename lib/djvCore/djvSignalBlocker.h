@@ -34,8 +34,7 @@
 #ifndef DJV_SIGNAL_BLOCKER_H
 #define DJV_SIGNAL_BLOCKER_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <djvUtil.h>
 
 #include <QObject>
 #include <QVector>
@@ -83,6 +82,8 @@ public:
     
 private:
 
+    DJV_PRIVATE_COPY(djvSignalBlocker)
+    
     QObjectList _objects;
 };
 

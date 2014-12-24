@@ -43,13 +43,19 @@ class QSize;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvVectorUtil
+//! \class djvVectorUtil
 //!
-//! This struct provides vector utilities.
+//! This class provides vector utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvVectorUtil
+class DJV_CORE_EXPORT djvVectorUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvVectorUtil() = 0;
+    
     //! Get the absolute value of the vector components.
 
     template<typename T, int D>

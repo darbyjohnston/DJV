@@ -60,7 +60,7 @@ djvViewWindowPrefs::djvViewWindowPrefs(QObject * parent) :
     {
         _toolBar.clear();
         prefs.get("toolBar", _toolBar);
-        _toolBar.resize(djvView::TOOL_BAR_COUNT);
+        _toolBar.resize(djvViewUtil::TOOL_BAR_COUNT);
     }
 }
 
@@ -84,12 +84,12 @@ bool djvViewWindowPrefs::hasAutoFit() const
     return _autoFit;
 }
 
-djvView::VIEW_MAX djvViewWindowPrefs::viewMaxDefault()
+djvViewUtil::VIEW_MAX djvViewWindowPrefs::viewMaxDefault()
 {
-    return djvView::VIEW_MAX_75;
+    return djvViewUtil::VIEW_MAX_75;
 }
 
-djvView::VIEW_MAX djvViewWindowPrefs::viewMax() const
+djvViewUtil::VIEW_MAX djvViewWindowPrefs::viewMax() const
 {
     return _viewMax;
 }
@@ -118,7 +118,7 @@ bool djvViewWindowPrefs::hasFullScreenControls() const
 
 QVector<bool> djvViewWindowPrefs::toolBarDefault()
 {
-    return QVector<bool>(djvView::TOOL_BAR_COUNT, true);
+    return QVector<bool>(djvViewUtil::TOOL_BAR_COUNT, true);
 }
 
 const QVector<bool> & djvViewWindowPrefs::toolBar() const
@@ -149,7 +149,7 @@ void djvViewWindowPrefs::setAutoFit(bool in)
     Q_EMIT prefChanged();
 }
 
-void djvViewWindowPrefs::setViewMax(djvView::VIEW_MAX in)
+void djvViewWindowPrefs::setViewMax(djvViewUtil::VIEW_MAX in)
 {
     if (in == _viewMax)
         return;

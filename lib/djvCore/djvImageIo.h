@@ -40,6 +40,7 @@
 #include <djvSequence.h>
 #include <djvSystem.h>
 
+#include <QMetaType>
 #include <QObject>
 #include <QStringList>
 
@@ -357,6 +358,9 @@ private:
 };
 
 //------------------------------------------------------------------------------
+
+Q_DECLARE_METATYPE(djvImageIoInfo)
+Q_DECLARE_METATYPE(djvImageIoFrameInfo)
 
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageIoInfo);
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageIoFrameInfo);

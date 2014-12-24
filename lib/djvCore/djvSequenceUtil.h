@@ -42,11 +42,17 @@
 //------------------------------------------------------------------------------
 //! \class djvSequenceUtil
 //!
-//! This struct provides sequence utilities.
+//! This class provides sequence utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvSequenceUtil
+class DJV_CORE_EXPORT djvSequenceUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvSequenceUtil() = 0;
+    
     //! Find the closest frame in a sequence.
 
     static qint64 findClosest(qint64, const djvFrameList &);

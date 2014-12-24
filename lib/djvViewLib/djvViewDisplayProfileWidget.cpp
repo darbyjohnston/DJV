@@ -33,8 +33,8 @@
 
 #include <djvViewDisplayProfileWidget.h>
 
-#include <djvView.h>
 #include <djvViewImagePrefs.h>
+#include <djvViewUtil.h>
 
 #include <djvFileEdit.h>
 #include <djvFloatEditSlider.h>
@@ -293,7 +293,7 @@ void djvViewDisplayProfileWidget::lutCallback(const djvFileInfo & in)
 {
     _p->displayProfile.lutFile = in;
     
-    djvView::loadLut(_p->displayProfile.lutFile, _p->displayProfile.lut);
+    djvViewUtil::loadLut(_p->displayProfile.lutFile, _p->displayProfile.lut);
 
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }

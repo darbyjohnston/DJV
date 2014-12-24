@@ -43,13 +43,19 @@ class QRectF;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvBoxUtil
+//! \class djvBoxUtil
 //!
-//! This struct provides box utilities.
+//! This class provides box utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvBoxUtil
+class DJV_CORE_EXPORT djvBoxUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvBoxUtil() = 0;
+    
     //! Create a box with the given corners.
 
     template<typename T, int D>

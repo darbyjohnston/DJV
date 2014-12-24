@@ -34,9 +34,9 @@
 #ifndef DJV_VIEW_IMAGE_GROUP_H
 #define DJV_VIEW_IMAGE_GROUP_H
 
-#include <djvView.h>
 #include <djvViewAbstractGroup.h>
 #include <djvViewDisplayProfile.h>
+#include <djvViewUtil.h>
 
 class QAction;
 
@@ -74,11 +74,11 @@ public:
 
     //! Get the scale.
 
-    djvView::IMAGE_SCALE scale() const;
+    djvViewUtil::IMAGE_SCALE scale() const;
 
     //! Get the rotation.
 
-    djvView::IMAGE_ROTATE rotate() const;
+    djvViewUtil::IMAGE_ROTATE rotate() const;
 
     //! Get whether the color profile is enabled.
 
@@ -128,9 +128,9 @@ private Q_SLOTS:
     void mirrorCallback(const djvPixelDataInfo::Mirror &);
     void mirrorHCallback(bool);
     void mirrorVCallback(bool);
-    void scaleCallback(djvView::IMAGE_SCALE);
+    void scaleCallback(djvViewUtil::IMAGE_SCALE);
     void scaleCallback(QAction *);
-    void rotateCallback(djvView::IMAGE_ROTATE);
+    void rotateCallback(djvViewUtil::IMAGE_ROTATE);
     void rotateCallback(QAction *);
     void colorProfileCallback(bool);
     void displayProfileCallback(QAction *);

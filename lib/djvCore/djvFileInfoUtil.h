@@ -56,6 +56,10 @@ class DJV_CORE_EXPORT djvFileInfoUtil
     
 public:
 
+    //! Destructor.
+    
+    virtual ~djvFileInfoUtil() = 0;
+    
     //! Split a file name into pieces.
 
     static void split(
@@ -170,9 +174,13 @@ public:
     //! Path list separator.
 
 #if defined(DJV_WINDOWS)
+
     static const QChar & listSeparator;
+
 #else // DJV_WINDOWS
+
     static const QChar & listSeparator;
+
 #endif // DJV_WINDOWS
 
     //! Dot directory.

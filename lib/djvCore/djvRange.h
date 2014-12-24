@@ -42,7 +42,7 @@
 //------------------------------------------------------------------------------
 //! \struct djvRange
 //!
-//! This class provides a number range.
+//! This struct provides a number range.
 //------------------------------------------------------------------------------
 
 template<typename T>
@@ -65,6 +65,8 @@ struct djvRange
     T max;
 };
 
+//------------------------------------------------------------------------------
+
 //! This typedef provides a frame range.
 
 typedef djvRange<qint64> djvFrameRange;
@@ -72,8 +74,6 @@ typedef djvRange<qint64> djvFrameRange;
 //! This typedef provides a frame range list.
 
 typedef QVector<djvFrameRange> djvFrameRangeList;
-
-//------------------------------------------------------------------------------
 
 template<typename T>
 inline bool operator == (const djvRange<T> &, const djvRange<T> &);

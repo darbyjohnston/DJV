@@ -69,9 +69,9 @@ qint64 sequenceEnd(const djvSequence & sequence)
 struct djvViewPlaybackGroup::P
 {
     P() :
-        playback        (djvView::STOP),
-        playbackPrev    (djvView::STOP),
-        loop            (djvView::LOOP_REPEAT),
+        playback        (djvViewUtil::STOP),
+        playbackPrev    (djvViewUtil::STOP),
+        loop            (djvViewUtil::LOOP_REPEAT),
         realSpeed       (0.0),
         droppedFrames   (false),
         droppedFramesTmp(false),
@@ -95,9 +95,9 @@ struct djvViewPlaybackGroup::P
     {}
     
     djvSequence              sequence;
-    djvView::PLAYBACK        playback;
-    djvView::PLAYBACK        playbackPrev;
-    djvView::LOOP            loop;
+    djvViewUtil::PLAYBACK    playback;
+    djvViewUtil::PLAYBACK    playbackPrev;
+    djvViewUtil::LOOP        loop;
     djvSpeed                 speed;
     double                   realSpeed;
     bool                     droppedFrames;
@@ -117,7 +117,7 @@ struct djvViewPlaybackGroup::P
     quint64                  idleFrame;
     djvTimer                 speedTimer;
     quint64                  speedCounter;
-    djvView::LAYOUT          layout;
+    djvViewUtil::LAYOUT      layout;
     djvViewPlaybackActions * actions;
     djvViewPlaybackMenu *    menu;
     djvViewPlaybackToolBar * toolBar;
@@ -282,8 +282,8 @@ djvViewPlaybackGroup::djvViewPlaybackGroup(
     
     connect(
         djvViewPlaybackPrefs::global(),
-        SIGNAL(layoutChanged(djvView::LAYOUT)),
-        SLOT(setLayout(djvView::LAYOUT)));
+        SIGNAL(layoutChanged(djvViewUtil::LAYOUT)),
+        SLOT(setLayout(djvViewUtil::LAYOUT)));
 
     // Setup other callbacks.
 
@@ -303,12 +303,12 @@ const djvSequence & djvViewPlaybackGroup::sequence() const
     return _p->sequence;
 }
 
-djvView::PLAYBACK djvViewPlaybackGroup::playback() const
+djvViewUtil::PLAYBACK djvViewPlaybackGroup::playback() const
 {
     return _p->playback;
 }
 
-djvView::LOOP djvViewPlaybackGroup::loop() const
+djvViewUtil::LOOP djvViewPlaybackGroup::loop() const
 {
     return _p->loop;
 }
@@ -353,7 +353,7 @@ qint64 djvViewPlaybackGroup::outPoint() const
     return _p->outPoint;
 }
 
-djvView::LAYOUT djvViewPlaybackGroup::layout() const
+djvViewUtil::LAYOUT djvViewPlaybackGroup::layout() const
 {
     return _p->layout;
 }
@@ -388,7 +388,7 @@ void djvViewPlaybackGroup::setSequence(const djvSequence & sequence)
     Q_EMIT droppedFramesChanged(_p->droppedFrames);
 }
 
-void djvViewPlaybackGroup::setPlayback(djvView::PLAYBACK playback)
+void djvViewPlaybackGroup::setPlayback(djvViewUtil::PLAYBACK playback)
 {
     if (playback == _p->playback)
         return;
@@ -409,14 +409,14 @@ void djvViewPlaybackGroup::togglePlayback()
 {
     switch (_p->playback)
     {
-        case djvView::FORWARD:
-        case djvView::REVERSE: setPlayback(djvView::STOP); break;
+        case djvViewUtil::FORWARD:
+        case djvViewUtil::REVERSE: setPlayback(djvViewUtil::STOP); break;
             
         default: setPlayback(_p->playbackPrev); break;
     }
 }
 
-void djvViewPlaybackGroup::setLoop(djvView::LOOP loop)
+void djvViewPlaybackGroup::setLoop(djvViewUtil::LOOP loop)
 {
     if (loop == _p->loop)
         return;
@@ -470,34 +470,34 @@ void djvViewPlaybackGroup::setFrame(qint64 in, bool inOutEnabled)
 
     switch (_p->loop)
     {
-        case djvView::LOOP_ONCE:
+        case djvViewUtil::LOOP_ONCE:
 
             if (in <= frameStart || in >= frameEnd)
             {
-                setPlayback(djvView::STOP);
+                setPlayback(djvViewUtil::STOP);
             }
 
             in = djvMath::clamp(in, frameStart, frameEnd);
 
             break;
 
-        case djvView::LOOP_REPEAT:
+        case djvViewUtil::LOOP_REPEAT:
 
             in = djvMath::wrap(in, frameStart, frameEnd);
 
             break;
 
-        case djvView::LOOP_PING_PONG:
+        case djvViewUtil::LOOP_PING_PONG:
 
-            if (_p->playback != djvView::STOP)
+            if (_p->playback != djvViewUtil::STOP)
             {
                 if (in <= frameStart)
                 {
-                    setPlayback(djvView::FORWARD);
+                    setPlayback(djvViewUtil::FORWARD);
                 }
                 else if (in >= frameEnd)
                 {
-                    setPlayback(djvView::REVERSE);
+                    setPlayback(djvViewUtil::REVERSE);
                 }
             }
 
@@ -558,7 +558,7 @@ void djvViewPlaybackGroup::setOutPoint(qint64 in)
     Q_EMIT outPointChanged(_p->outPoint);
 }
 
-void djvViewPlaybackGroup::setLayout(djvView::LAYOUT in)
+void djvViewPlaybackGroup::setLayout(djvViewUtil::LAYOUT in)
 {
     if (in == _p->layout)
         return;
@@ -621,7 +621,7 @@ void djvViewPlaybackGroup::timerEvent(QTimerEvent *)
 
     _p->idleFrame = absoluteFrame;
 
-    if (djvView::REVERSE == _p->playback)
+    if (djvViewUtil::REVERSE == _p->playback)
     {
         inc = -inc;
     }
@@ -670,7 +670,7 @@ void djvViewPlaybackGroup::playbackCallback(QAction * action)
 
     //DJV_DEBUG_PRINT("data = " << data);
 
-    setPlayback(static_cast<djvView::PLAYBACK>(data));
+    setPlayback(static_cast<djvViewUtil::PLAYBACK>(data));
 }
 
 void djvViewPlaybackGroup::playbackShuttleCallback(bool in)
@@ -680,7 +680,7 @@ void djvViewPlaybackGroup::playbackShuttleCallback(bool in)
 
     if (in)
     {
-        setPlayback(djvView::STOP);
+        setPlayback(djvViewUtil::STOP);
 
         _p->shuttle = true;
         _p->shuttleSpeed = 0.0;
@@ -719,23 +719,23 @@ void djvViewPlaybackGroup::playbackShuttleValueCallback(int in)
 
 void djvViewPlaybackGroup::loopCallback(QAction * action)
 {
-    setLoop(static_cast<djvView::LOOP>(action->data().toInt()));
+    setLoop(static_cast<djvViewUtil::LOOP>(action->data().toInt()));
 }
 
 void djvViewPlaybackGroup::frameCallback(QAction * action)
 {
-    switch (static_cast<djvView::FRAME>(action->data().toInt()))
+    switch (static_cast<djvViewUtil::FRAME>(action->data().toInt()))
     {
-        case djvView::FRAME_START:     frameCallback(_p->inPoint);     break;
-        case djvView::FRAME_START_ABS: frameSliderCallback(0);         break;
-        case djvView::FRAME_PREV:      frameCallback(_p->frame - 1);   break;
-        case djvView::FRAME_PREV_10:   frameCallback(_p->frame - 10);  break;
-        case djvView::FRAME_PREV_100:  frameCallback(_p->frame - 100); break;
-        case djvView::FRAME_NEXT:      frameCallback(_p->frame + 1);   break;
-        case djvView::FRAME_NEXT_10:   frameCallback(_p->frame + 10);  break;
-        case djvView::FRAME_NEXT_100:  frameCallback(_p->frame + 100); break;
-        case djvView::FRAME_END:       frameCallback(_p->outPoint);    break;
-        case djvView::FRAME_END_ABS:   frameSliderCallback(sequenceEnd(_p->sequence)); break;
+        case djvViewUtil::FRAME_START:     frameCallback(_p->inPoint);     break;
+        case djvViewUtil::FRAME_START_ABS: frameSliderCallback(0);         break;
+        case djvViewUtil::FRAME_PREV:      frameCallback(_p->frame - 1);   break;
+        case djvViewUtil::FRAME_PREV_10:   frameCallback(_p->frame - 10);  break;
+        case djvViewUtil::FRAME_PREV_100:  frameCallback(_p->frame - 100); break;
+        case djvViewUtil::FRAME_NEXT:      frameCallback(_p->frame + 1);   break;
+        case djvViewUtil::FRAME_NEXT_10:   frameCallback(_p->frame + 10);  break;
+        case djvViewUtil::FRAME_NEXT_100:  frameCallback(_p->frame + 100); break;
+        case djvViewUtil::FRAME_END:       frameCallback(_p->outPoint);    break;
+        case djvViewUtil::FRAME_END_ABS:   frameSliderCallback(sequenceEnd(_p->sequence)); break;
         
         default: break;
     }
@@ -748,7 +748,7 @@ void djvViewPlaybackGroup::frameCallback(qint64 in)
 
 void djvViewPlaybackGroup::frameStopCallback(qint64 in)
 {
-    setPlayback(djvView::STOP);
+    setPlayback(djvViewUtil::STOP);
 
     frameCallback(in);
 }
@@ -788,18 +788,18 @@ void djvViewPlaybackGroup::frameReleasedCallback()
 
 void djvViewPlaybackGroup::inOutCallback(QAction * action)
 {
-    switch (static_cast<djvView::IN_OUT>(action->data().toInt()))
+    switch (static_cast<djvViewUtil::IN_OUT>(action->data().toInt()))
     {
-        case djvView::IN_OUT_ENABLE:
+        case djvViewUtil::IN_OUT_ENABLE:
         
             setInOutEnabled(action->isChecked());
             
             break;
         
-        case djvView::MARK_IN:   _p->toolBar->markInPoint();   break;
-        case djvView::MARK_OUT:  _p->toolBar->markOutPoint();  break;
-        case djvView::RESET_IN:  _p->toolBar->resetInPoint();  break;
-        case djvView::RESET_OUT: _p->toolBar->resetOutPoint(); break;
+        case djvViewUtil::MARK_IN:   _p->toolBar->markInPoint();   break;
+        case djvViewUtil::MARK_OUT:  _p->toolBar->markOutPoint();  break;
+        case djvViewUtil::RESET_IN:  _p->toolBar->resetInPoint();  break;
+        case djvViewUtil::RESET_OUT: _p->toolBar->resetOutPoint(); break;
         
         default: break;
     }
@@ -810,7 +810,7 @@ void djvViewPlaybackGroup::inOutCallback(QAction * action)
 
 void djvViewPlaybackGroup::layoutCallback(QAction * action)
 {
-    setLayout(static_cast<djvView::LAYOUT>(action->data().toInt()));
+    setLayout(static_cast<djvViewUtil::LAYOUT>(action->data().toInt()));
 }
 
 void djvViewPlaybackGroup::cacheCallback()
@@ -848,11 +848,11 @@ void djvViewPlaybackGroup::playbackUpdate()
             _p->loop]->trigger();
     }
 
-    if (djvView::LOOP_ONCE == _p->loop)
+    if (djvViewUtil::LOOP_ONCE == _p->loop)
     {
         switch (_p->playback)
         {
-            case djvView::REVERSE:
+            case djvViewUtil::REVERSE:
 
                 if (_p->frame == frameStart())
                 {
@@ -861,7 +861,7 @@ void djvViewPlaybackGroup::playbackUpdate()
 
                 break;
 
-            case djvView::FORWARD:
+            case djvViewUtil::FORWARD:
 
                 if (_p->frame == frameEnd())
                 {
@@ -883,8 +883,8 @@ void djvViewPlaybackGroup::playbackUpdate()
 
     switch (_p->playback)
     {
-        case djvView::REVERSE:
-        case djvView::FORWARD:
+        case djvViewUtil::REVERSE:
+        case djvViewUtil::FORWARD:
 
             _p->timer = startTimer(0);
 
@@ -913,7 +913,7 @@ void djvViewPlaybackGroup::timeUpdate()
     //DJV_DEBUG("djvViewPlaybackGroup::timeUpdate");
 
     _p->actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
-        djvView::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
+        djvViewUtil::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
 
     const qint64 end = sequenceEnd(_p->sequence);
 

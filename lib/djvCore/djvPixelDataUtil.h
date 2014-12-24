@@ -43,13 +43,19 @@ class QPixmap;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvPixelDataUtil
+//! \class djvPixelDataUtil
 //!
 //! This class provides pixel data utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvPixelDataUtil
+class DJV_CORE_EXPORT djvPixelDataUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvPixelDataUtil();
+    
     //! Get the number of bytes in a scanline.
 
     static quint64 scanlineByteCount(const djvPixelDataInfo &);

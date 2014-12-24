@@ -271,6 +271,11 @@ typedef djvBox<int, 3> djvBox3i;
 
 typedef djvBox<double, 3> djvBox3f;
 
+Q_DECLARE_METATYPE(djvBox2i)
+Q_DECLARE_METATYPE(djvBox2f)
+Q_DECLARE_METATYPE(djvBox3i)
+Q_DECLARE_METATYPE(djvBox3f)
+
 template <typename T, int D>
 inline djvBox<T, D> operator + (const djvBox<T, D> &, T);
 template <typename T, int D>

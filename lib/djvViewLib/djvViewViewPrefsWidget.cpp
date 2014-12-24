@@ -109,7 +109,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     _p->gridWidget = new QComboBox;
     _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->gridWidget->addItems(djvView::gridLabels());
+    _p->gridWidget->addItems(djvViewUtil::gridLabels());
 
     _p->gridColorWidget = new djvColorSwatch();
     _p->gridColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
@@ -121,10 +121,10 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     _p->hudInfoWidget = new SmallListWidget;
     
-    for (int i = 0; i < djvView::HUD_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::HUD_COUNT; ++i)
     {
         QListWidgetItem * item = new QListWidgetItem(_p->hudInfoWidget);
-        item->setText(djvView::hudInfoLabels()[i]);
+        item->setText(djvViewUtil::hudInfoLabels()[i]);
         item->setFlags(
             Qt::ItemIsSelectable    |
             Qt::ItemIsUserCheckable |
@@ -137,7 +137,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     _p->hudBackgroundWidget = new QComboBox;
     _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->hudBackgroundWidget->addItems(djvView::hudBackgroundLabels());
+    _p->hudBackgroundWidget->addItems(djvViewUtil::hudBackgroundLabels());
 
     _p->hudBackgroundColorWidget = new djvColorSwatch;
     _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
@@ -253,7 +253,7 @@ void djvViewViewPrefsWidget::backgroundCallback(const djvColor & in)
 void djvViewViewPrefsWidget::gridCallback(int in)
 {
     djvViewViewPrefs::global()->setGrid(
-        static_cast<djvView::GRID>(in));
+        static_cast<djvViewUtil::GRID>(in));
 }
 
 void djvViewViewPrefsWidget::gridColorCallback(const djvColor & in)
@@ -289,7 +289,7 @@ void djvViewViewPrefsWidget::hudColorCallback(const djvColor & in)
 void djvViewViewPrefsWidget::hudBackgroundCallback(int in)
 {
     djvViewViewPrefs::global()->setHudBackground(
-        static_cast<djvView::HUD_BACKGROUND>(in));
+        static_cast<djvViewUtil::HUD_BACKGROUND>(in));
 }
 
 void djvViewViewPrefsWidget::hudBackgroundColorCallback(const djvColor & in)
@@ -325,7 +325,7 @@ void djvViewViewPrefsWidget::widgetUpdate()
 
     QVector<bool> hudInfo = djvViewViewPrefs::global()->hudInfo();
 
-    for (int i = 0; i < djvView::HUD_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::HUD_COUNT; ++i)
     {
         QListWidgetItem * item = _p->hudInfoWidget->item(i);
 

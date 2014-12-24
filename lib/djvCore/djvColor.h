@@ -36,6 +36,8 @@
 
 #include <djvPixel.h>
 
+#include <QMetaType>
+
 //! \addtogroup djvCoreImage
 //@{
 
@@ -157,6 +159,8 @@ private:
 };
 
 //------------------------------------------------------------------------------
+
+Q_DECLARE_METATYPE(djvColor)
 
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColor);
 

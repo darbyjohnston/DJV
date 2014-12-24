@@ -34,9 +34,9 @@
 #ifndef DJV_VIEW_IMAGE_PREFS_H
 #define DJV_VIEW_IMAGE_PREFS_H
 
-#include <djvView.h>
 #include <djvViewAbstractPrefs.h>
 #include <djvViewDisplayProfile.h>
+#include <djvViewUtil.h>
 
 //! \addtogroup djvViewImage
 //@{
@@ -79,19 +79,19 @@ public:
 
     //! Get the default scale.
     
-    static djvView::IMAGE_SCALE scaleDefault();
+    static djvViewUtil::IMAGE_SCALE scaleDefault();
 
     //! Get the scale.
 
-    djvView::IMAGE_SCALE scale() const;
+    djvViewUtil::IMAGE_SCALE scale() const;
 
     //! Get the default rotation.
     
-    static djvView::IMAGE_ROTATE rotateDefault();
+    static djvViewUtil::IMAGE_ROTATE rotateDefault();
 
     //! Get the rotation.
 
-    djvView::IMAGE_ROTATE rotate() const;
+    djvViewUtil::IMAGE_ROTATE rotate() const;
 
     //! Get the default for whether the color profile is enabled.
     
@@ -145,11 +145,11 @@ public Q_SLOTS:
 
     //! Set the scale.
 
-    void setScale(djvView::IMAGE_SCALE);
+    void setScale(djvViewUtil::IMAGE_SCALE);
 
     //! Set the rotation.
 
-    void setRotate(djvView::IMAGE_ROTATE);
+    void setRotate(djvViewUtil::IMAGE_ROTATE);
 
     //! Set whether the color profile is enabled.
 
@@ -175,11 +175,11 @@ Q_SIGNALS:
     
     //! This signal is emitted when the scale is changed.
 
-    void scaleChanged(djvView::IMAGE_SCALE);
+    void scaleChanged(djvViewUtil::IMAGE_SCALE);
     
     //! This signal is emitted when the rotation is changed.
 
-    void rotateChanged(djvView::IMAGE_ROTATE);
+    void rotateChanged(djvViewUtil::IMAGE_ROTATE);
     
     //! This signal is emitted when the color profile is changed.
 
@@ -202,8 +202,8 @@ private:
 
     bool                           _frameStoreFileReload;
     djvPixelDataInfo::Mirror       _mirror;
-    djvView::IMAGE_SCALE           _scale;
-    djvView::IMAGE_ROTATE          _rotate;
+    djvViewUtil::IMAGE_SCALE       _scale;
+    djvViewUtil::IMAGE_ROTATE      _rotate;
     bool                           _colorProfile;
     int                            _displayProfileIndex;
     QVector<djvViewDisplayProfile> _displayProfiles;

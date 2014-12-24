@@ -41,9 +41,9 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvMath
+//! \class djvMath
 //!
-//! This struct provides math utilities.
+//! This class provides math utilities.
 //!
 //! References:
 //!
@@ -52,12 +52,18 @@
 //!   Steven Worley, "Texturing & Modeling, A Procedural Approach"
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvMath
+class DJV_CORE_EXPORT djvMath
 {
-    static const double pi;    //!< Pi
-    static const double pi_x2; //!< Pi times two
-    static const double pi_2;  //!< Pi divided by two
-    static const double pi_4;  //!< Pi divided by four
+public:
+
+    //! Destructor.
+    
+    virtual ~djvMath() = 0;
+    
+    static const double pi;     //!< Pi
+    static const double piX2;   //!< Pi times two
+    static const double piDiv2; //!< Pi divided by two
+    static const double piDiv4; //!< Pi divided by four
 
     //! Get the absolute value.
 

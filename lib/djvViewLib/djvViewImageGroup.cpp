@@ -80,8 +80,8 @@ struct djvViewImageGroup::P
     
     bool                           frameStore;
     djvPixelDataInfo::Mirror       mirror;
-    djvView::IMAGE_SCALE           scale;
-    djvView::IMAGE_ROTATE          rotate;
+    djvViewUtil::IMAGE_SCALE       scale;
+    djvViewUtil::IMAGE_ROTATE      rotate;
     bool                           colorProfile;
     djvViewDisplayProfile          displayProfile;
     djvOpenGlImageOptions::CHANNEL channel;
@@ -225,13 +225,13 @@ djvViewImageGroup::djvViewImageGroup(
 
     connect(
         djvViewImagePrefs::global(),
-        SIGNAL(scaleChanged(djvView::IMAGE_SCALE)),
-        SLOT(scaleCallback(djvView::IMAGE_SCALE)));
+        SIGNAL(scaleChanged(djvViewUtil::IMAGE_SCALE)),
+        SLOT(scaleCallback(djvViewUtil::IMAGE_SCALE)));
 
     connect(
         djvViewImagePrefs::global(),
-        SIGNAL(rotateChanged(djvView::IMAGE_ROTATE)),
-        SLOT(rotateCallback(djvView::IMAGE_ROTATE)));
+        SIGNAL(rotateChanged(djvViewUtil::IMAGE_ROTATE)),
+        SLOT(rotateCallback(djvViewUtil::IMAGE_ROTATE)));
 
     connect(
         djvViewImagePrefs::global(),
@@ -264,12 +264,12 @@ const djvPixelDataInfo::Mirror & djvViewImageGroup::mirror() const
     return _p->mirror;
 }
 
-djvView::IMAGE_SCALE djvViewImageGroup::scale() const
+djvViewUtil::IMAGE_SCALE djvViewImageGroup::scale() const
 {
     return _p->scale;
 }
 
-djvView::IMAGE_ROTATE djvViewImageGroup::rotate() const
+djvViewUtil::IMAGE_ROTATE djvViewImageGroup::rotate() const
 {
     return _p->rotate;
 }
@@ -331,7 +331,7 @@ void djvViewImageGroup::mirrorVCallback(bool in)
     mirrorCallback(djvPixelDataInfo::Mirror(_p->mirror.x, in));
 }
 
-void djvViewImageGroup::scaleCallback(djvView::IMAGE_SCALE scale)
+void djvViewImageGroup::scaleCallback(djvViewUtil::IMAGE_SCALE scale)
 {
     //DJV_DEBUG("djvViewImageGroup::scaleCallback");
     //DJV_DEBUG_PRINT("scale = " << scale);
@@ -344,10 +344,11 @@ void djvViewImageGroup::scaleCallback(djvView::IMAGE_SCALE scale)
 
 void djvViewImageGroup::scaleCallback(QAction * action)
 {
-    scaleCallback(static_cast<djvView::IMAGE_SCALE>(action->data().toInt()));
+    scaleCallback(
+        static_cast<djvViewUtil::IMAGE_SCALE>(action->data().toInt()));
 }
 
-void djvViewImageGroup::rotateCallback(djvView::IMAGE_ROTATE rotate)
+void djvViewImageGroup::rotateCallback(djvViewUtil::IMAGE_ROTATE rotate)
 {
     //DJV_DEBUG("djvViewImageGroup::rotateCallback");
     //DJV_DEBUG_PRINT("rotate = " << rotate);
@@ -360,7 +361,8 @@ void djvViewImageGroup::rotateCallback(djvView::IMAGE_ROTATE rotate)
 
 void djvViewImageGroup::rotateCallback(QAction * action)
 {
-    rotateCallback(static_cast<djvView::IMAGE_ROTATE>(action->data().toInt()));
+    rotateCallback(
+        static_cast<djvViewUtil::IMAGE_ROTATE>(action->data().toInt()));
 }
 
 void djvViewImageGroup::colorProfileCallback(bool in)

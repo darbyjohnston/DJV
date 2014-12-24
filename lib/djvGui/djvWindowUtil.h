@@ -42,13 +42,19 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvWindowUtil
+//! \class djvWindowUtil
 //!
-//! This struct provides window utilities.
+//! This class provides window utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_GUI_EXPORT djvWindowUtil
+class DJV_GUI_EXPORT djvWindowUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvWindowUtil() = 0;
+    
     //! Resize a window taking into account the screen size.
     
     static djvVector2i resize(const djvVector2i &, double maxPercent = 0.9);

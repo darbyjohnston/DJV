@@ -40,13 +40,19 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvMatrixUtil
+//! \class djvMatrixUtil
 //!
-//! This struct provides matrix utilities.
+//! This class provides matrix utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvMatrixUtil
+class DJV_CORE_EXPORT djvMatrixUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvMatrixUtil() = 0;
+    
     //! Transpose a matrix.
 
     template<typename T, int D>

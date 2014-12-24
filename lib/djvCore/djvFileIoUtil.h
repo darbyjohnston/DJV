@@ -44,13 +44,19 @@ class djvFileIo;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvFileIoUtil
+//! \class djvFileIoUtil
 //!
-//! This struct provides file I/O utilities.
+//! This class provides file I/O utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvFileIoUtil
+class DJV_CORE_EXPORT djvFileIoUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvFileIoUtil() = 0;
+    
     //! Read a word from a file.
 
     static void word(

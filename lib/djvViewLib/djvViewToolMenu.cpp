@@ -33,7 +33,7 @@
 
 #include <djvViewToolMenu.h>
 
-#include <djvView.h>
+#include <djvViewUtil.h>
 #include <djvViewToolActions.h>
 
 //------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ djvViewToolMenu::djvViewToolMenu(
 {
     // Create the menus.
     
-    for (int i = 0; i < djvView::TOOL_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         addAction(actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]);
     }

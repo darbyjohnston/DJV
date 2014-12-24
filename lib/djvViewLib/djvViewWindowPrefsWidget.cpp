@@ -82,7 +82,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
 
     _p->viewMaxWidget = new QComboBox;
     _p->viewMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->viewMaxWidget->addItems(djvView::viewMaxLabels());
+    _p->viewMaxWidget->addItems(djvViewUtil::viewMaxLabels());
 
     _p->viewMaxUserWidget = new djvVector2iEditWidget;
     _p->viewMaxUserWidget->setRange(djvVector2i(100, 100), djvVector2i(8192, 8192));
@@ -98,9 +98,9 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     _p->toolBarButtonGroup = new QButtonGroup(this);
     _p->toolBarButtonGroup->setExclusive(false);
     
-    for (int i = 0; i < djvView::toolBarLabels().count(); ++i)
+    for (int i = 0; i < djvViewUtil::toolBarLabels().count(); ++i)
     {
-        QCheckBox * checkBox = new QCheckBox(djvView::toolBarLabels()[i]);
+        QCheckBox * checkBox = new QCheckBox(djvViewUtil::toolBarLabels()[i]);
         
         _p->toolBarButtonGroup->addButton(checkBox, i);
     }
@@ -189,7 +189,7 @@ void djvViewWindowPrefsWidget::autoFitCallback(bool in)
 
 void djvViewWindowPrefsWidget::viewMaxCallback(int in)
 {
-    djvViewWindowPrefs::global()->setViewMax(static_cast<djvView::VIEW_MAX>(in));
+    djvViewWindowPrefs::global()->setViewMax(static_cast<djvViewUtil::VIEW_MAX>(in));
     
     widgetUpdate();
 }
@@ -231,7 +231,7 @@ void djvViewWindowPrefsWidget::widgetUpdate()
     _p->viewMaxUserWidget->setValue(
         djvViewWindowPrefs::global()->viewMaxUser());
     _p->viewMaxUserWidget->setVisible(
-        djvView::VIEW_MAX_USER == djvViewWindowPrefs::global()->viewMax());
+        djvViewUtil::VIEW_MAX_USER == djvViewWindowPrefs::global()->viewMax());
     
     _p->fullScreenControlsWidget->setChecked(
         djvViewWindowPrefs::global()->hasFullScreenControls());

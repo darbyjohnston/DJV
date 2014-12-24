@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_PLAYBACK_TOOL_BAR_H
 #define DJV_VIEW_PLAYBACK_TOOL_BAR_H
 
-#include <djvView.h>
 #include <djvViewAbstractToolBar.h>
+#include <djvViewUtil.h>
 
 #include <djvSequence.h>
 
@@ -138,7 +138,7 @@ public Q_SLOTS:
 
     //! Set the layout.
 
-    void setLayout(djvView::LAYOUT);
+    void setLayout(djvViewUtil::LAYOUT);
 
 Q_SIGNALS:
 

@@ -34,10 +34,7 @@
 #ifndef DJV_VIEW_PLAYBACK_WIDGETS_H
 #define DJV_VIEW_PLAYBACK_WIDGETS_H
 
-#include <djvView.h>
-#include <djvViewLibExport.h>
-
-#include <djvUtil.h>
+#include <djvViewUtil.h>
 
 #include <QWidget>
 
@@ -159,3 +156,4 @@ private:
 //@} // djvViewPlayback
 
 #endif // DJV_VIEW_PLAYBACK_WIDGETS_H
+

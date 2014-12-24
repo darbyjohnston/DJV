@@ -33,8 +33,8 @@
 
 #include <djvViewWindowActions.h>
 
-#include <djvView.h>
 #include <djvViewShortcutPrefs.h>
+#include <djvViewUtil.h>
 
 #include <djvIconLibrary.h>
 #include <djvShortcut.h>
@@ -97,10 +97,10 @@ djvViewWindowActions::djvViewWindowActions(QObject * parent) :
 
     _groups[TOOL_BAR_VISIBLE_GROUP]->setExclusive(false);
 
-    for (int i = 0; i < djvView::toolBarLabels().count(); ++i)
+    for (int i = 0; i < djvViewUtil::toolBarLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
-        action->setText(djvView::toolBarLabels()[i]);
+        action->setText(djvViewUtil::toolBarLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
 
@@ -131,37 +131,42 @@ void djvViewWindowActions::update()
 
     // Update the actions.
 
-    _actions[NEW]->setShortcut(shortcuts[djvView::SHORTCUT_WINDOW_NEW].value);
+    _actions[NEW]->setShortcut(
+        shortcuts[djvViewUtil::SHORTCUT_WINDOW_NEW].value);
     _actions[NEW]->setToolTip(QString("Create a new window\n\nShortcut: %1").
-        arg(shortcuts[djvView::SHORTCUT_WINDOW_NEW].value.toString()));
+        arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_NEW].value.toString()));
 
-    _actions[COPY]->setShortcut(shortcuts[djvView::SHORTCUT_WINDOW_COPY].value);
+    _actions[COPY]->setShortcut(
+        shortcuts[djvViewUtil::SHORTCUT_WINDOW_COPY].value);
     _actions[COPY]->setToolTip(QString("Copy the current window\n\nShortcut: %1").
-        arg(shortcuts[djvView::SHORTCUT_WINDOW_COPY].value.toString()));
+        arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_COPY].value.toString()));
 
-    _actions[CLOSE]->setShortcut(shortcuts[djvView::SHORTCUT_WINDOW_CLOSE].value);
+    _actions[CLOSE]->setShortcut(
+        shortcuts[djvViewUtil::SHORTCUT_WINDOW_CLOSE].value);
     _actions[CLOSE]->setToolTip(QString("Close the current window\n\nShortcut: %1").
-        arg(shortcuts[djvView::SHORTCUT_WINDOW_CLOSE].value.toString()));
+        arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_CLOSE].value.toString()));
 
-    _actions[FIT]->setShortcut(shortcuts[djvView::SHORTCUT_WINDOW_FIT].value);
+    _actions[FIT]->setShortcut(
+        shortcuts[djvViewUtil::SHORTCUT_WINDOW_FIT].value);
     _actions[FIT]->setToolTip(QString("Resize the window to fit the image\n\nShortcut: %1").
-        arg(shortcuts[djvView::SHORTCUT_WINDOW_FIT].value.toString()));
+        arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_FIT].value.toString()));
 
-    _actions[FULL_SCREEN]->setShortcut(shortcuts[djvView::SHORTCUT_WINDOW_FULL_SCREEN].value);
+    _actions[FULL_SCREEN]->setShortcut(
+        shortcuts[djvViewUtil::SHORTCUT_WINDOW_FULL_SCREEN].value);
     _actions[FULL_SCREEN]->setToolTip(QString("Show the window full screen\n\nShortcut: %1").
-        arg(shortcuts[djvView::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
+        arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
 
     _actions[CONTROLS_VISIBLE]->setShortcut(
-        shortcuts[djvView::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value);
+        shortcuts[djvViewUtil::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value);
     _actions[CONTROLS_VISIBLE]->setToolTip(
         QString("Toggle the user interface controls visbility\n\nShortcut: %1").
-        arg(shortcuts[djvView::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value.toString()));
+        arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value.toString()));
 
-    const djvView::SHORTCUT toolBarShortcuts[] =
+    const djvViewUtil::SHORTCUT toolBarShortcuts[] =
     {
-        djvView::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
-        djvView::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
-        djvView::SHORTCUT_WINDOW_INFO_VISIBLE
+        djvViewUtil::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
+        djvViewUtil::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
+        djvViewUtil::SHORTCUT_WINDOW_INFO_VISIBLE
     };
 
     const int toolBarShortcutsCount =

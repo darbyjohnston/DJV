@@ -50,3 +50,4 @@ djvVector2i djvWindowUtil::resize(const djvVector2i & size, double maxPercent)
         size,
         djvVector2i(djvVector2f(qSize.width(), qSize.height()) * maxPercent));
 }
+

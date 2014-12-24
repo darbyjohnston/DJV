@@ -45,9 +45,9 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvPixel
+//! \class djvPixel
 //!
-//! This struct provides support for image pixels.
+//! This class provides pixel functionality.
 //------------------------------------------------------------------------------
 
 class DJV_CORE_EXPORT djvPixel
@@ -59,6 +59,10 @@ class DJV_CORE_EXPORT djvPixel
     Q_ENUMS(PIXEL)
     
 public:
+
+    //! Destructor.
+    
+    virtual ~djvPixel() = 0;
 
     //! This enumeration provides the pixel format.
 
@@ -356,10 +360,6 @@ public:
         int          size     = 1,
         int          stride   = 1,
         bool         bgr      = false);
-
-private:
-
-    djvPixel();
 };
 
 //------------------------------------------------------------------------------

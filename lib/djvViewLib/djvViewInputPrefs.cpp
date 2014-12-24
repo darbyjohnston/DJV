@@ -65,32 +65,32 @@ djvViewInputPrefs::~djvViewInputPrefs()
     prefs.set("mouseWheelCtrl", _mouseWheelCtrl);
 }
 
-djvView::MOUSE_WHEEL djvViewInputPrefs::mouseWheelDefault()
+djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelDefault()
 {
-    return djvView::MOUSE_WHEEL_VIEW_ZOOM;
+    return djvViewUtil::MOUSE_WHEEL_VIEW_ZOOM;
 }
 
-djvView::MOUSE_WHEEL djvViewInputPrefs::mouseWheel() const
+djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheel() const
 {
     return _mouseWheel;
 }
 
-djvView::MOUSE_WHEEL djvViewInputPrefs::mouseWheelShiftDefault()
+djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelShiftDefault()
 {
-    return djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE;
+    return djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE;
 }
 
-djvView::MOUSE_WHEEL djvViewInputPrefs::mouseWheelShift() const
+djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelShift() const
 {
     return _mouseWheelShift;
 }
 
-djvView::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrlDefault()
+djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrlDefault()
 {
-    return djvView::MOUSE_WHEEL_PLAYBACK_SPEED;
+    return djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED;
 }
 
-djvView::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrl() const
+djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrl() const
 {
     return _mouseWheelCtrl;
 }
@@ -107,7 +107,7 @@ djvViewInputPrefs * djvViewInputPrefs::global()
     return prefs;
 }
 
-void djvViewInputPrefs::setMouseWheel(djvView::MOUSE_WHEEL in)
+void djvViewInputPrefs::setMouseWheel(djvViewUtil::MOUSE_WHEEL in)
 {
     if (in == _mouseWheel)
         return;
@@ -117,7 +117,7 @@ void djvViewInputPrefs::setMouseWheel(djvView::MOUSE_WHEEL in)
     Q_EMIT prefChanged();
 }
 
-void djvViewInputPrefs::setMouseWheelShift(djvView::MOUSE_WHEEL in)
+void djvViewInputPrefs::setMouseWheelShift(djvViewUtil::MOUSE_WHEEL in)
 {
     if (in == _mouseWheelShift)
         return;
@@ -127,7 +127,7 @@ void djvViewInputPrefs::setMouseWheelShift(djvView::MOUSE_WHEEL in)
     Q_EMIT prefChanged();
 }
 
-void djvViewInputPrefs::setMouseWheelCtrl(djvView::MOUSE_WHEEL in)
+void djvViewInputPrefs::setMouseWheelCtrl(djvViewUtil::MOUSE_WHEEL in)
 {
     if (in == _mouseWheelCtrl)
         return;

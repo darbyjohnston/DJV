@@ -314,13 +314,13 @@ private:
     friend class djvFileInfoUtil;
 };
 
-Q_DECLARE_METATYPE(djvFileInfo)
+//------------------------------------------------------------------------------
 
 //! This typedef provides a file information list.
 
 typedef QVector<djvFileInfo> djvFileInfoList;
 
-//------------------------------------------------------------------------------
+Q_DECLARE_METATYPE(djvFileInfo)
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo::TYPE);
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);

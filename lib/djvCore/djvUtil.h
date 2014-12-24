@@ -40,7 +40,7 @@
 //! \addtogroup djvCoreMisc
 //@{
 
-//! This define provides a private copy constructor and operator.
+//! This macro provides a private copy constructor and operator.
 
 #define DJV_PRIVATE_COPY(class) \
     \
@@ -48,7 +48,7 @@
     \
     class & operator = (const class &);
 
-//! This define provides a private implementation struct.
+//! This macro provides a private implementation struct.
 
 #define DJV_PRIVATE_IMPLEMENTATION() \
     \
@@ -56,7 +56,7 @@
     \
     P * _p;
 
-//! Convenience macro for declaring comparison operators.
+//! This macro provides comparison operators.
 
 #define DJV_COMPARISON_OPERATOR(EXPORT, TYPE) \
     \

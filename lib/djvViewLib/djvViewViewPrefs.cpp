@@ -63,7 +63,7 @@ djvViewViewPrefs::djvViewViewPrefs(QObject * parent) :
     {
         _hudInfo.clear();
         prefs.get("hudInfo", _hudInfo);
-        _hudInfo.resize(djvView::HUD_COUNT);
+        _hudInfo.resize(djvViewUtil::HUD_COUNT);
     }
     prefs.get("hudColor", _hudColor);
     prefs.get("hudBackground", _hudBackground);
@@ -99,12 +99,12 @@ const djvColor & djvViewViewPrefs::background() const
     return _background;
 }
 
-djvView::GRID djvViewViewPrefs::gridDefault()
+djvViewUtil::GRID djvViewViewPrefs::gridDefault()
 {
-    return djvView::GRID_NONE;
+    return djvViewUtil::GRID_NONE;
 }
 
-djvView::GRID djvViewViewPrefs::grid() const
+djvViewUtil::GRID djvViewViewPrefs::grid() const
 {
     return _grid;
 }
@@ -131,7 +131,7 @@ bool djvViewViewPrefs::isHudEnabled() const
 
 QVector<bool> djvViewViewPrefs::hudInfoDefault()
 {
-    return QVector<bool>(djvView::HUD_COUNT, true);
+    return QVector<bool>(djvViewUtil::HUD_COUNT, true);
 }
 
 QVector<bool> djvViewViewPrefs::hudInfo() const
@@ -139,7 +139,7 @@ QVector<bool> djvViewViewPrefs::hudInfo() const
     return _hudInfo;
 }
 
-bool djvViewViewPrefs::isHudInfo(djvView::HUD in) const
+bool djvViewViewPrefs::isHudInfo(djvViewUtil::HUD in) const
 {
     return _hudInfo[in] != 0 ? true : false;
 }
@@ -154,12 +154,12 @@ const djvColor & djvViewViewPrefs::hudColor() const
     return _hudColor;
 }
 
-djvView::HUD_BACKGROUND djvViewViewPrefs::hudBackgroundDefault()
+djvViewUtil::HUD_BACKGROUND djvViewViewPrefs::hudBackgroundDefault()
 {
-    return djvView::HUD_BACKGROUND_SHADOW;
+    return djvViewUtil::HUD_BACKGROUND_SHADOW;
 }
 
-djvView::HUD_BACKGROUND djvViewViewPrefs::hudBackground() const
+djvViewUtil::HUD_BACKGROUND djvViewViewPrefs::hudBackground() const
 {
     return _hudBackground;
 }
@@ -197,7 +197,7 @@ void djvViewViewPrefs::setBackground(const djvColor & in)
     Q_EMIT prefChanged();
 }
 
-void djvViewViewPrefs::setGrid(djvView::GRID in)
+void djvViewViewPrefs::setGrid(djvViewUtil::GRID in)
 {
     if (in == _grid)
         return;
@@ -244,7 +244,7 @@ void djvViewViewPrefs::setHudInfo(const QVector<bool> & info)
     Q_EMIT prefChanged();
 }
 
-void djvViewViewPrefs::setHudInfo(djvView::HUD info, bool in)
+void djvViewViewPrefs::setHudInfo(djvViewUtil::HUD info, bool in)
 {
     const bool tmp = _hudInfo[info] != 0 ? true : false;
 
@@ -268,7 +268,7 @@ void djvViewViewPrefs::setHudColor(const djvColor & in)
     Q_EMIT prefChanged();
 }
 
-void djvViewViewPrefs::setHudBackground(djvView::HUD_BACKGROUND in)
+void djvViewViewPrefs::setHudBackground(djvViewUtil::HUD_BACKGROUND in)
 {
     if (in == _hudBackground)
         return;

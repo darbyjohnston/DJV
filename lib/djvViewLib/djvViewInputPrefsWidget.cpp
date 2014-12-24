@@ -73,15 +73,15 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
 
     _p->mouseWheelWidget = new QComboBox;
     _p->mouseWheelWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->mouseWheelWidget->addItems(djvView::mouseWheelLabels());
+    _p->mouseWheelWidget->addItems(djvViewUtil::mouseWheelLabels());
 
     _p->mouseWheelShiftWidget = new QComboBox;
     _p->mouseWheelShiftWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->mouseWheelShiftWidget->addItems(djvView::mouseWheelLabels());
+    _p->mouseWheelShiftWidget->addItems(djvViewUtil::mouseWheelLabels());
 
     _p->mouseWheelCtrlWidget = new QComboBox;
     _p->mouseWheelCtrlWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->mouseWheelCtrlWidget->addItems(djvView::mouseWheelLabels());
+    _p->mouseWheelCtrlWidget->addItems(djvViewUtil::mouseWheelLabels());
 
     // Layout the widgets.
 
@@ -141,19 +141,19 @@ void djvViewInputPrefsWidget::resetPreferences()
 void djvViewInputPrefsWidget::mouseWheelCallback(int in)
 {
     djvViewInputPrefs::global()->setMouseWheel(
-        static_cast<djvView::MOUSE_WHEEL>(in));
+        static_cast<djvViewUtil::MOUSE_WHEEL>(in));
 }
 
 void djvViewInputPrefsWidget::mouseWheelShiftCallback(int in)
 {
     djvViewInputPrefs::global()->setMouseWheelShift(
-        static_cast<djvView::MOUSE_WHEEL>(in));
+        static_cast<djvViewUtil::MOUSE_WHEEL>(in));
 }
 
 void djvViewInputPrefsWidget::mouseWheelCtrlCallback(int in)
 {
     djvViewInputPrefs::global()->setMouseWheelCtrl(
-        static_cast<djvView::MOUSE_WHEEL>(in));
+        static_cast<djvViewUtil::MOUSE_WHEEL>(in));
 }
 
 void djvViewInputPrefsWidget::widgetUpdate()

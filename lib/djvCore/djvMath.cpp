@@ -46,10 +46,10 @@
 // djvMath
 //------------------------------------------------------------------------------
 
-const double djvMath::pi    = 3.1415927;
-const double djvMath::pi_x2 = 6.2831853;
-const double djvMath::pi_2  = 1.5707963;
-const double djvMath::pi_4  = 0.7853981;
+const double djvMath::pi     = 3.1415927;
+const double djvMath::piX2   = 6.2831853;
+const double djvMath::piDiv2 = 1.5707963;
+const double djvMath::piDiv4 = 0.7853981;
 
 int djvMath::pow(int value, int power)
 {

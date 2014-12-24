@@ -44,13 +44,19 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvStringUtil
+//! \class djvStringUtil
 //!
-//! This struct provides string utilities.
+//! This class provides string utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvStringUtil
+class DJV_CORE_EXPORT djvStringUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvStringUtil() = 0;
+    
     //! Find a string in a list.
 
     static inline bool find(
@@ -115,7 +121,7 @@ struct DJV_CORE_EXPORT djvStringUtil
 
 //------------------------------------------------------------------------------
 
-//! String formatting.
+//! This macro provides string formatting.
 
 #if defined(DJV_WINDOWS)
 
@@ -126,8 +132,6 @@ struct DJV_CORE_EXPORT djvStringUtil
 #define SNPRINTF ::snprintf
 
 #endif // DJV_WINDOWS
-
-//! Serialize functions and operators.
 
 DJV_CORE_EXPORT bool djvSerialize(QStringList &, QString &);
 DJV_CORE_EXPORT bool djvSerialize(QStringList &, unsigned int &, const QStringList & labels);
@@ -157,7 +161,7 @@ DJV_CORE_EXPORT QStringList & operator << (QStringList &, double);
 template <typename T>
 inline QStringList & operator << (QStringList &, const QVector<T> &);
 
-//! Convenience macros for declaring string serialize operators.
+//! This macros provides string serialize operators.
 
 #define DJV_STRING_OPERATOR(EXPORT, TYPE) \
     \
@@ -165,7 +169,7 @@ inline QStringList & operator << (QStringList &, const QVector<T> &);
     \
     EXPORT QStringList & operator << (QStringList &, const TYPE &)
     
-//! Convenience macros for defining string serialize operators.
+//! This macro provides string serialize operators.
 
 #define _DJV_STRING_OPERATOR_LABEL(TYPE, LABEL) \
     \

@@ -47,7 +47,8 @@ class djvOpenGlContext;
 //! This class provides the core functionality for image applications.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvAbstractImageApplication : public djvAbstractCoreApplication
+class DJV_CORE_EXPORT djvAbstractImageApplication :
+    public djvAbstractCoreApplication
 {
 public:
 

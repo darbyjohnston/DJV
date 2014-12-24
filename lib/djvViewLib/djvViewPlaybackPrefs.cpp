@@ -74,12 +74,12 @@ bool djvViewPlaybackPrefs::hasAutoStart() const
     return _autoStart;
 }
 
-djvView::LOOP djvViewPlaybackPrefs::loopDefault()
+djvViewUtil::LOOP djvViewPlaybackPrefs::loopDefault()
 {
-    return djvView::LOOP_REPEAT;
+    return djvViewUtil::LOOP_REPEAT;
 }
 
-djvView::LOOP djvViewPlaybackPrefs::loop() const
+djvViewUtil::LOOP djvViewPlaybackPrefs::loop() const
 {
     return _loop;
 }
@@ -94,12 +94,12 @@ bool djvViewPlaybackPrefs::hasEveryFrame() const
     return _everyFrame;
 }
 
-djvView::LAYOUT djvViewPlaybackPrefs::layoutDefault()
+djvViewUtil::LAYOUT djvViewPlaybackPrefs::layoutDefault()
 {
-    return djvView::LAYOUT_DEFAULT;
+    return djvViewUtil::LAYOUT_DEFAULT;
 }
 
-djvView::LAYOUT djvViewPlaybackPrefs::layout() const
+djvViewUtil::LAYOUT djvViewPlaybackPrefs::layout() const
 {
     return _layout;
 }
@@ -127,7 +127,7 @@ void djvViewPlaybackPrefs::setAutoStart(bool in)
     Q_EMIT prefChanged();
 }
 
-void djvViewPlaybackPrefs::setLoop(djvView::LOOP in)
+void djvViewPlaybackPrefs::setLoop(djvViewUtil::LOOP in)
 {
     if (in == _loop)
         return;
@@ -149,7 +149,7 @@ void djvViewPlaybackPrefs::setEveryFrame(bool in)
     Q_EMIT prefChanged();
 }
 
-void djvViewPlaybackPrefs::setLayout(djvView::LAYOUT in)
+void djvViewPlaybackPrefs::setLayout(djvViewUtil::LAYOUT in)
 {
     if (in == _layout)
         return;

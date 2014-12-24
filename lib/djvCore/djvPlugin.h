@@ -76,18 +76,6 @@ public:
     virtual QString pluginName() const = 0;
 };
 
-//! Plugin entry point export.
-
-#if defined(DJV_WINDOWS)
-#define DJV_PLUGIN_EXPORT __declspec(dllexport)
-#else
-#define DJV_PLUGIN_EXPORT
-#endif
-
-//! This typedef provides a plugin entry point.
-
-typedef djvPlugin * (djvPluginEntry)();
-
 //------------------------------------------------------------------------------
 //! \class djvPluginFactory
 //!
@@ -131,6 +119,20 @@ private:
     DJV_PRIVATE_COPY(djvPluginFactory);
     DJV_PRIVATE_IMPLEMENTATION();
 };
+
+//------------------------------------------------------------------------------
+
+//! This macro provides a plugin entry point export.
+
+#if defined(DJV_WINDOWS)
+#define DJV_PLUGIN_EXPORT __declspec(dllexport)
+#else
+#define DJV_PLUGIN_EXPORT
+#endif
+
+//! This typedef provides a plugin entry point.
+
+typedef djvPlugin * (djvPluginEntry)();
 
 //@} // djvCoreMisc
 

@@ -44,10 +44,10 @@
 struct djvViewPlaybackActions::P
 {
     P() :
-        playback(static_cast<djvView::PLAYBACK>(0))
+        playback(static_cast<djvViewUtil::PLAYBACK>(0))
     {}
 
-    djvView::PLAYBACK playback;
+    djvViewUtil::PLAYBACK playback;
 };
 
 //------------------------------------------------------------------------------
@@ -88,11 +88,11 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
         djvIconLibrary::global()->icon("djvPlayStopIcon.png") <<
         djvIconLibrary::global()->icon("djvPlayForwardIcon.png");
 
-    for (int i = 0; i < djvView::PLAYBACK_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::PLAYBACK_COUNT; ++i)
     {
         QAction * action = new QAction(
             playbackIcons[i],
-            djvView::playbackLabels()[i],
+            djvViewUtil::playbackLabels()[i],
             _groups[PLAYBACK_GROUP]);
         action->setCheckable(true);
         action->setData(i);
@@ -106,11 +106,11 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
         djvIconLibrary::global()->icon("djvPlayLoopRepeatIcon.png") <<
         djvIconLibrary::global()->icon("djvPlayLoopPingPongIcon.png");
 
-    for (int i = 0; i < djvView::LOOP_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::LOOP_COUNT; ++i)
     {
         QAction * action = new QAction(
             loopIcons[i],
-            djvView::loopLabels()[i],
+            djvViewUtil::loopLabels()[i],
             _groups[LOOP_GROUP]);
         action->setCheckable(true);
         action->setData(i);
@@ -131,11 +131,11 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
         djvIconLibrary::global()->icon("djvFrameEndIcon.png") <<
         QIcon();
 
-    for (int i = 0; i < djvView::FRAME_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::FRAME_COUNT; ++i)
     {
         QAction * action = new QAction(
             frameIcons[i],
-            djvView::frameLabels()[i],
+            djvViewUtil::frameLabels()[i],
             _groups[FRAME_GROUP]);
         action->setData(i);
     }
@@ -151,15 +151,15 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
         djvIconLibrary::global()->icon("djvOutPointResetIcon.png") <<
         QIcon();
 
-    for (int i = 0; i < djvView::IN_OUT_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::IN_OUT_COUNT; ++i)
     {
         QAction * action = new QAction(
             inOutIcons[i],
-            djvView::inOutLabels()[i],
+            djvViewUtil::inOutLabels()[i],
             _groups[IN_OUT_GROUP]);
         action->setData(i);
         
-        if (djvView::IN_OUT_ENABLE == i)
+        if (djvViewUtil::IN_OUT_ENABLE == i)
         {
             action->setCheckable(true);
         }
@@ -168,10 +168,10 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     _groups[LAYOUT_GROUP] = new QActionGroup(this);
     _groups[LAYOUT_GROUP]->setExclusive(true);
 
-    for (int i = 0; i < djvView::LAYOUT_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::LAYOUT_COUNT; ++i)
     {
         QAction * action = new QAction(this);
-        action->setText(djvView::layoutLabels()[i]);
+        action->setText(djvViewUtil::layoutLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
 
@@ -202,7 +202,7 @@ void djvViewPlaybackActions::update()
     
     // Update the actions.
     
-    QKeySequence key = shortcuts[djvView::SHORTCUT_PLAYBACK_TOGGLE].value;
+    QKeySequence key = shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_TOGGLE].value;
     
     _actions[PLAYBACK_TOGGLE]->setShortcut(key);
     _actions[PLAYBACK_TOGGLE]->setToolTip(
@@ -210,18 +210,18 @@ void djvViewPlaybackActions::update()
     
     // Update the action groups.
     
-    const QVector<djvView::SHORTCUT> playbackShortcuts =
-        QVector<djvView::SHORTCUT>() <<
-        djvView::SHORTCUT_PLAYBACK_REVERSE <<
-        djvView::SHORTCUT_PLAYBACK_STOP <<
-        djvView::SHORTCUT_PLAYBACK_FORWARD;
+    const QVector<djvViewUtil::SHORTCUT> playbackShortcuts =
+        QVector<djvViewUtil::SHORTCUT>() <<
+        djvViewUtil::SHORTCUT_PLAYBACK_REVERSE <<
+        djvViewUtil::SHORTCUT_PLAYBACK_STOP <<
+        djvViewUtil::SHORTCUT_PLAYBACK_FORWARD;
 
     const QStringList playbackToolTips = QStringList() <<
         "Start reverse playback\n\nShortcut: %1" <<
         "Stop playback\n\nShortcut: %1" <<
         "Start forward playback\n\nShortcut: %1";
 
-    for (int i = 0; i < djvView::PLAYBACK_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::PLAYBACK_COUNT; ++i)
     {
         const QKeySequence key = shortcuts[playbackShortcuts[i]].value;
 
@@ -242,18 +242,18 @@ void djvViewPlaybackActions::update()
         false <<
         false;
 
-    const QVector<djvView::SHORTCUT> frameShortcuts =
-        QVector<djvView::SHORTCUT>() <<
-        djvView::SHORTCUT_PLAYBACK_START <<
-        djvView::SHORTCUT_PLAYBACK_START_ABS <<
-        djvView::SHORTCUT_PLAYBACK_PREV <<
-        djvView::SHORTCUT_PLAYBACK_PREV_10 <<
-        djvView::SHORTCUT_PLAYBACK_PREV_100 <<
-        djvView::SHORTCUT_PLAYBACK_NEXT <<
-        djvView::SHORTCUT_PLAYBACK_NEXT_10 <<
-        djvView::SHORTCUT_PLAYBACK_NEXT_100 <<
-        djvView::SHORTCUT_PLAYBACK_END <<
-        djvView::SHORTCUT_PLAYBACK_END_ABS;
+    const QVector<djvViewUtil::SHORTCUT> frameShortcuts =
+        QVector<djvViewUtil::SHORTCUT>() <<
+        djvViewUtil::SHORTCUT_PLAYBACK_START <<
+        djvViewUtil::SHORTCUT_PLAYBACK_START_ABS <<
+        djvViewUtil::SHORTCUT_PLAYBACK_PREV <<
+        djvViewUtil::SHORTCUT_PLAYBACK_PREV_10 <<
+        djvViewUtil::SHORTCUT_PLAYBACK_PREV_100 <<
+        djvViewUtil::SHORTCUT_PLAYBACK_NEXT <<
+        djvViewUtil::SHORTCUT_PLAYBACK_NEXT_10 <<
+        djvViewUtil::SHORTCUT_PLAYBACK_NEXT_100 <<
+        djvViewUtil::SHORTCUT_PLAYBACK_END <<
+        djvViewUtil::SHORTCUT_PLAYBACK_END_ABS;
 
     const QStringList frameToolTips = QStringList() <<
         "Go to the start frame or in point\n\nShortcut: %1" <<
@@ -267,7 +267,7 @@ void djvViewPlaybackActions::update()
         "Go to the end frame or out point\n\nShortcut: %1" <<
         QString();
 
-    for (int i = 0; i < djvView::FRAME_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::FRAME_COUNT; ++i)
     {
         const QKeySequence key = shortcuts[frameShortcuts[i]].value;
 
@@ -278,13 +278,13 @@ void djvViewPlaybackActions::update()
                 frameToolTips[i].arg(key.toString()));
     }
     
-    const QVector<djvView::SHORTCUT> inOutShortcuts =
-        QVector<djvView::SHORTCUT>() <<
-        djvView::SHORTCUT_PLAYBACK_IN_OUT <<
-        djvView::SHORTCUT_PLAYBACK_MARK_IN <<
-        djvView::SHORTCUT_PLAYBACK_MARK_OUT <<
-        djvView::SHORTCUT_PLAYBACK_RESET_IN <<
-        djvView::SHORTCUT_PLAYBACK_RESET_OUT;
+    const QVector<djvViewUtil::SHORTCUT> inOutShortcuts =
+        QVector<djvViewUtil::SHORTCUT>() <<
+        djvViewUtil::SHORTCUT_PLAYBACK_IN_OUT <<
+        djvViewUtil::SHORTCUT_PLAYBACK_MARK_IN <<
+        djvViewUtil::SHORTCUT_PLAYBACK_MARK_OUT <<
+        djvViewUtil::SHORTCUT_PLAYBACK_RESET_IN <<
+        djvViewUtil::SHORTCUT_PLAYBACK_RESET_OUT;
 
     const QStringList inOutToolTips = QStringList() <<
         "Enable in/out points\n\nShortcut: %1" <<
@@ -293,7 +293,7 @@ void djvViewPlaybackActions::update()
         "Reset the in point\n\nShortcut: %1" <<
         "Reset the out point\n\nShortcut: %1";
 
-    for (int i = 0; i < djvView::IN_OUT_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::IN_OUT_COUNT; ++i)
     {
         const QKeySequence key = shortcuts[inOutShortcuts[i]].value;
 

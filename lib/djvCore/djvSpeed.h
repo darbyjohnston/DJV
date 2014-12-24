@@ -139,6 +139,8 @@ private:
 
 //------------------------------------------------------------------------------
 
+Q_DECLARE_METATYPE(djvSpeed)
+
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed::FPS);

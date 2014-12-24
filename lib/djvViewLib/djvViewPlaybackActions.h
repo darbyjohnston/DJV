@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_PLAYBACK_ACTIONS_H
 #define DJV_VIEW_PLAYBACK_ACTIONS_H
 
-#include <djvView.h>
 #include <djvViewAbstractActions.h>
+#include <djvViewUtil.h>
 
 #include <QActionGroup>
 

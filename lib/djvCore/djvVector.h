@@ -37,6 +37,7 @@
 #include <djvDebug.h>
 #include <djvStringUtil.h>
 
+#include <QMetaType>
 #include <QString>
 #include <QVector>
 
@@ -232,6 +233,11 @@ typedef djvVector<int, 3> djvVector3i;
 //! This typedef provides a three-dimensional floating-point vector.
 
 typedef djvVector<double, 3> djvVector3f;
+
+Q_DECLARE_METATYPE(djvVector2i)
+Q_DECLARE_METATYPE(djvVector2f)
+Q_DECLARE_METATYPE(djvVector3i)
+Q_DECLARE_METATYPE(djvVector3f)
 
 template<typename T, int D>
 inline djvVector<T, D> operator + (const djvVector<T, D> &, const djvVector<T, D> &);

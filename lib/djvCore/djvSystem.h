@@ -44,13 +44,19 @@ class QStringList;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvSystem
+//! \class djvSystem
 //!
-//! This struct provides system utilities.
+//! This class provides system utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvSystem
+class DJV_CORE_EXPORT djvSystem
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvSystem() = 0;
+    
     //! Get system information.
 
     static QString info();

@@ -114,11 +114,11 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
 
     _p->scaleWidget = new QComboBox;
     _p->scaleWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->scaleWidget->addItems(djvView::imageScaleLabels());
+    _p->scaleWidget->addItems(djvViewUtil::imageScaleLabels());
 
     _p->rotateWidget = new QComboBox;
     _p->rotateWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->rotateWidget->addItems(djvView::imageRotateLabels());
+    _p->rotateWidget->addItems(djvViewUtil::imageRotateLabels());
 
     _p->colorProfileWidget = new QCheckBox("Enable");
 
@@ -316,13 +316,13 @@ void djvViewImagePrefsWidget::mirrorVCallback(bool in)
 void djvViewImagePrefsWidget::scaleCallback(int in)
 {
     djvViewImagePrefs::global()->setScale(
-        static_cast<djvView::IMAGE_SCALE>(in));
+        static_cast<djvViewUtil::IMAGE_SCALE>(in));
 }
 
 void djvViewImagePrefsWidget::rotateCallback(int in)
 {
     djvViewImagePrefs::global()->setRotate(
-        static_cast<djvView::IMAGE_ROTATE>(in));
+        static_cast<djvViewUtil::IMAGE_ROTATE>(in));
 }
 
 void djvViewImagePrefsWidget::colorProfileCallback(bool in)

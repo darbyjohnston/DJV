@@ -241,7 +241,7 @@ void djvViewHistogramWidget::updatePixmap()
 struct djvViewHistogramTool::P
 {
     P() :
-        size                (static_cast<djvView::HISTOGRAM>(0)),
+        size                (static_cast<djvViewUtil::HISTOGRAM>(0)),
         colorProfile        (true),
         displayProfile      (true),
         widget              (0),
@@ -253,7 +253,7 @@ struct djvViewHistogramTool::P
         displayProfileButton(0)
     {}
     
-    djvView::HISTOGRAM       size;
+    djvViewUtil::HISTOGRAM   size;
     bool                     colorProfile;
     bool                     displayProfile;
     djvPixelData             histogram;
@@ -291,7 +291,7 @@ djvViewHistogramTool::djvViewHistogramTool(
     _p->maxWidget->setReadOnly(true);
 
     _p->sizeWidget = new QComboBox;
-    _p->sizeWidget->addItems(djvView::histogramLabels());
+    _p->sizeWidget->addItems(djvViewUtil::histogramLabels());
     _p->sizeWidget->setToolTip("The size of the histogram");
 
     _p->maskWidget = new djvPixelMaskWidget;
@@ -381,7 +381,7 @@ djvViewHistogramTool::~djvViewHistogramTool()
 
 void djvViewHistogramTool::sizeCallback(int in)
 {
-    _p->size = static_cast<djvView::HISTOGRAM>(in);
+    _p->size = static_cast<djvViewUtil::HISTOGRAM>(in);
     
     widgetUpdate();
 }
@@ -473,7 +473,7 @@ void djvViewHistogramTool::widgetUpdate()
                 djvOpenGlImage::histogram(
                     tmp,
                     _p->histogram,
-                    djvView::histogramSize(_p->size),
+                    djvViewUtil::histogramSize(_p->size),
                     _p->min,
                     _p->max,
                     _p->mask);

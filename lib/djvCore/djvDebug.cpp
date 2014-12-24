@@ -95,28 +95,6 @@ djvDebug::~djvDebug()
     delete _p;
 }
 
-djvDebug & djvDebug::operator << (LINE in)
-{
-    switch (in)
-    {
-        case LINE_BEGIN:
-        
-            _p->tmp = "debug " + QString(indent, ' ');
-            
-            break;
-
-        case LINE_END:
-        
-            ::printf("%s\n", _p->tmp.toLatin1().data());
-            
-            ::fflush(stdout);
-            
-            break;
-    }
-
-    return *this;
-}
-
 void djvDebug::add(const QString & in)
 {
     _p->tmp += in;
@@ -152,6 +130,28 @@ QString djvDebug::bitsU16(quint16 in)
 QString djvDebug::bitsU32(quint32 in)
 {
     return bits(in, 32);
+}
+
+djvDebug & djvDebug::operator << (LINE in)
+{
+    switch (in)
+    {
+        case LINE_BEGIN:
+        
+            _p->tmp = "debug " + QString(indent, ' ');
+            
+            break;
+
+        case LINE_END:
+        
+            ::printf("%s\n", _p->tmp.toLatin1().data());
+            
+            ::fflush(stdout);
+            
+            break;
+    }
+
+    return *this;
 }
 
 //------------------------------------------------------------------------------

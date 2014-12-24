@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_PLAYBACK_GROUP_H
 #define DJV_VIEW_PLAYBACK_GROUP_H
 
-#include <djvView.h>
 #include <djvViewAbstractGroup.h>
+#include <djvViewUtil.h>
 
 struct djvSequence;
 class  djvSpeed;
@@ -73,11 +73,11 @@ public:
 
     //! Get the playback.
 
-    djvView::PLAYBACK playback() const;
+    djvViewUtil::PLAYBACK playback() const;
 
     //! Get the loop mode.
 
-    djvView::LOOP loop() const;
+    djvViewUtil::LOOP loop() const;
 
     //! Get the speed.
 
@@ -113,7 +113,7 @@ public:
 
     //! Get the layout.
 
-    djvView::LAYOUT layout() const;
+    djvViewUtil::LAYOUT layout() const;
 
     virtual QToolBar * toolBar() const;
 
@@ -125,7 +125,7 @@ public Q_SLOTS:
 
     //! Set the playback.
 
-    void setPlayback(djvView::PLAYBACK);
+    void setPlayback(djvViewUtil::PLAYBACK);
 
     //! Toggle the platback.
     
@@ -133,7 +133,7 @@ public Q_SLOTS:
 
     //! Set the loop mode.
 
-    void setLoop(djvView::LOOP);
+    void setLoop(djvViewUtil::LOOP);
 
     //! Set the speed.
 
@@ -161,7 +161,7 @@ public Q_SLOTS:
 
     //! Set the layout.
 
-    void setLayout(djvView::LAYOUT);
+    void setLayout(djvViewUtil::LAYOUT);
 
 Q_SIGNALS:
 
@@ -171,11 +171,11 @@ Q_SIGNALS:
 
     //! This signal is emitted when the playback is changed.
 
-    void playbackChanged(djvView::PLAYBACK);
+    void playbackChanged(djvViewUtil::PLAYBACK);
 
     //! This signal is emitted when the loop mode is changed.
 
-    void loopChanged(djvView::LOOP);
+    void loopChanged(djvViewUtil::LOOP);
 
     //! This signal is emitted when the speed is changed.
 
@@ -211,7 +211,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the layout is changed.
 
-    void layoutChanged(djvView::LAYOUT);
+    void layoutChanged(djvViewUtil::LAYOUT);
 
 protected:
 

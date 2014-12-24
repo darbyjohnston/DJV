@@ -41,13 +41,19 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvRangeUtil
+//! \class djvRangeUtil
 //!
-//! This struct provides number range utilities.
+//! This class provides number range utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvRangeUtil
+class DJV_CORE_EXPORT djvRangeUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvRangeUtil() = 0;
+    
     //! Get whether a value is inside a range.
 
     template<typename T>

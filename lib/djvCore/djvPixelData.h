@@ -255,6 +255,9 @@ private:
 
 //------------------------------------------------------------------------------
 
+Q_DECLARE_METATYPE(djvPixelDataInfo)
+Q_DECLARE_METATYPE(djvPixelData)
+
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo);
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelData);

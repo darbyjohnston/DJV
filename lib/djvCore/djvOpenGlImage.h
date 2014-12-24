@@ -285,6 +285,8 @@ public:
 
 private:
 
+    DJV_PRIVATE_COPY(djvOpenGlImageState);
+
     bool                    _init;
     djvPixelDataInfo        _info;
     djvOpenGlImageOptions   _options;
@@ -309,6 +311,10 @@ private:
 class DJV_CORE_EXPORT djvOpenGlImage
 {
 public:
+
+    //! Destructor.
+    
+    virtual ~djvOpenGlImage() = 0;
 
     //! Draw pixel data.
 

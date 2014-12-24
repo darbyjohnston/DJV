@@ -34,7 +34,7 @@
 #ifndef DJV_VIEW_MAIN_WINDOW_H
 #define DJV_VIEW_MAIN_WINDOW_H
 
-#include <djvView.h>
+#include <djvViewUtil.h>
 
 #include <djvImage.h>
 
@@ -109,7 +109,7 @@ public Q_SLOTS:
 
     //! Set the playback.
 
-    void setPlayback(djvView::PLAYBACK);
+    void setPlayback(djvViewUtil::PLAYBACK);
 
     //! Set the playback frame.
 
@@ -138,7 +138,7 @@ private Q_SLOTS:
     void saveFrameCallback(const djvFileInfo &);
     void loadFrameStoreCallback();
     void pickCallback(const djvVector2i &);
-    void mouseWheelCallback(djvView::MOUSE_WHEEL);
+    void mouseWheelCallback(djvViewUtil::MOUSE_WHEEL);
     void mouseWheelValueCallback(int);
     void enableUpdatesCallback();
     void windowResizeCallback();

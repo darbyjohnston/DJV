@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_PLAYBACK_PREFS_H
 #define DJV_VIEW_PLAYBACK_PREFS_H
 
-#include <djvView.h>
 #include <djvViewAbstractPrefs.h>
+#include <djvViewUtil.h>
 
 //! \addtogroup djvViewPlayback
 //@{
@@ -70,11 +70,11 @@ public:
 
     //! Get the default playback loop.
     
-    static djvView::LOOP loopDefault();
+    static djvViewUtil::LOOP loopDefault();
 
     //! Get the playback loop.
 
-    djvView::LOOP loop() const;
+    djvViewUtil::LOOP loop() const;
 
     //! Get the default for whether every frame is played.
     
@@ -86,11 +86,11 @@ public:
 
     //! Get the default playback layout.
     
-    static djvView::LAYOUT layoutDefault();
+    static djvViewUtil::LAYOUT layoutDefault();
 
     //! Get the playback layout.
 
-    djvView::LAYOUT layout() const;
+    djvViewUtil::LAYOUT layout() const;
 
     //! Get the global preferences.
 
@@ -104,7 +104,7 @@ public Q_SLOTS:
     
     //! Set the playback loop.
 
-    void setLoop(djvView::LOOP);
+    void setLoop(djvViewUtil::LOOP);
 
     //! Set whether every frame is played.
 
@@ -112,7 +112,7 @@ public Q_SLOTS:
 
     //! Set the playback layout.
 
-    void setLayout(djvView::LAYOUT);
+    void setLayout(djvViewUtil::LAYOUT);
 
 Q_SIGNALS:
 
@@ -122,7 +122,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the playback loop is changed.
 
-    void loopChanged(djvView::LOOP);
+    void loopChanged(djvViewUtil::LOOP);
     
     //! This signal is emitted when every frame played is changed.
 
@@ -130,7 +130,7 @@ Q_SIGNALS:
     
     //! This signal is emitted when the playback layout is changed.
 
-    void layoutChanged(djvView::LAYOUT);
+    void layoutChanged(djvViewUtil::LAYOUT);
 
     //! This signal is emitted when a preference is changed.
 
@@ -138,10 +138,10 @@ Q_SIGNALS:
 
 private:
 
-    bool            _autoStart;
-    djvView::LOOP   _loop;
-    bool            _everyFrame;
-    djvView::LAYOUT _layout;
+    bool                _autoStart;
+    djvViewUtil::LOOP   _loop;
+    bool                _everyFrame;
+    djvViewUtil::LAYOUT _layout;
 };
 
 //@} // djvViewPlayback

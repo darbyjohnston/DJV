@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvView.cpp
+//! \file djvViewUtil.cpp
 
-#include <djvView.h>
+#include <djvViewUtil.h>
 
 #include <djvApplication.h>
 
@@ -43,10 +43,10 @@
 #include <djvVectorUtil.h>
 
 //------------------------------------------------------------------------------
-// djvView
+// djvViewUtil
 //------------------------------------------------------------------------------
 
-const QStringList & djvView::viewMaxLabels()
+const QStringList & djvViewUtil::viewMaxLabels()
 {
     static const QStringList data = QStringList() <<
         "Unlimited" <<
@@ -60,7 +60,7 @@ const QStringList & djvView::viewMaxLabels()
     return data;
 }
 
-const QStringList & djvView::toolBarLabels()
+const QStringList & djvViewUtil::toolBarLabels()
 {
     static const QStringList data = QStringList() <<
         "Tool Bars" <<
@@ -72,7 +72,7 @@ const QStringList & djvView::toolBarLabels()
     return data;
 }
 
-const QStringList & djvView::gridLabels()
+const QStringList & djvViewUtil::gridLabels()
 {
     static const QStringList data = QStringList() <<
         "None" <<
@@ -85,7 +85,7 @@ const QStringList & djvView::gridLabels()
     return data;
 }
 
-const QStringList & djvView::hudInfoLabels()
+const QStringList & djvViewUtil::hudInfoLabels()
 {
     static const QStringList data = QStringList() <<
         "File Name" <<
@@ -102,7 +102,7 @@ const QStringList & djvView::hudInfoLabels()
     return data;
 }
 
-const QStringList & djvView::hudBackgroundLabels()
+const QStringList & djvViewUtil::hudBackgroundLabels()
 {
     static const QStringList data = QStringList() <<
         "None" <<
@@ -114,7 +114,7 @@ const QStringList & djvView::hudBackgroundLabels()
     return data;
 }
 
-const QStringList & djvView::imageScaleLabels()
+const QStringList & djvViewUtil::imageScaleLabels()
 {
     static const QStringList data = QStringList() <<
         "None" <<
@@ -139,7 +139,7 @@ const QStringList & djvView::imageScaleLabels()
     return data;
 }
 
-djvVector2f djvView::imageScale(IMAGE_SCALE in, const djvVector2i & size)
+djvVector2f djvViewUtil::imageScale(IMAGE_SCALE in, const djvVector2i & size)
 {
     static const double data [] =
     {
@@ -181,7 +181,7 @@ djvVector2f djvView::imageScale(IMAGE_SCALE in, const djvVector2i & size)
     return out;
 }
 
-const QStringList & djvView::imageRotateLabels()
+const QStringList & djvViewUtil::imageRotateLabels()
 {
     static const QStringList data = QStringList() <<
         "0" <<
@@ -194,19 +194,19 @@ const QStringList & djvView::imageRotateLabels()
     return data;
 }
 
-double djvView::imageRotate(IMAGE_ROTATE in)
+double djvViewUtil::imageRotate(IMAGE_ROTATE in)
 {
     static const double data [] = { 0, 90, 180, 270 };
 
     return data[in];
 }
 
-void djvView::loadLut(const djvFileInfo & in, djvPixelData & lut)
+void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
 {
     if (in.fileName().isEmpty())
         return;
 
-    //DJV_DEBUG("djvView::loadLut");
+    //DJV_DEBUG("djvViewUtil::loadLut");
     //DJV_DEBUG_PRINT("in = " << in);
 
     djvFileInfo file(in);
@@ -243,7 +243,7 @@ void djvView::loadLut(const djvFileInfo & in, djvPixelData & lut)
     }
 }
 
-const QStringList & djvView::playbackLabels()
+const QStringList & djvViewUtil::playbackLabels()
 {
     static const QStringList data = QStringList() <<
         "Reverse" <<
@@ -255,7 +255,7 @@ const QStringList & djvView::playbackLabels()
     return data;
 }
 
-const QStringList & djvView::frameLabels()
+const QStringList & djvViewUtil::frameLabels()
 {
     static const QStringList data = QStringList() <<
         "Start" <<
@@ -274,7 +274,7 @@ const QStringList & djvView::frameLabels()
     return data;
 }
 
-const QStringList & djvView::loopLabels()
+const QStringList & djvViewUtil::loopLabels()
 {
     static const QStringList data = QStringList() <<
         "Once" <<
@@ -286,7 +286,7 @@ const QStringList & djvView::loopLabels()
     return data;
 }
 
-const QStringList & djvView::inOutLabels()
+const QStringList & djvViewUtil::inOutLabels()
 {
     static const QStringList data = QStringList() <<
         "Enable &In/Out Points" <<
@@ -300,7 +300,7 @@ const QStringList & djvView::inOutLabels()
     return data;
 }
 
-const QStringList & djvView::layoutLabels()
+const QStringList & djvViewUtil::layoutLabels()
 {
     static const QStringList data = QStringList() <<
         "Default" <<
@@ -313,7 +313,7 @@ const QStringList & djvView::layoutLabels()
     return data;
 }
 
-const QStringList & djvView::toolLabels()
+const QStringList & djvViewUtil::toolLabels()
 {
     static const QStringList data = QStringList() <<
         "Magnify Tool" <<
@@ -326,7 +326,7 @@ const QStringList & djvView::toolLabels()
     return data;
 }
 
-const QStringList & djvView::histogramLabels()
+const QStringList & djvViewUtil::histogramLabels()
 {
     static const QStringList data = QStringList() <<
         "256" <<
@@ -339,7 +339,7 @@ const QStringList & djvView::histogramLabels()
     return data;
 }
 
-const int djvView::histogramSize(HISTOGRAM histogram)
+const int djvViewUtil::histogramSize(HISTOGRAM histogram)
 {
     static const QList<int> data = QList<int>() <<
         256 <<
@@ -352,7 +352,7 @@ const int djvView::histogramSize(HISTOGRAM histogram)
     return data[histogram];
 }
 
-const QStringList & djvView::shortcutLabels()
+const QStringList & djvViewUtil::shortcutLabels()
 {
     static const QStringList data = QStringList() <<
     
@@ -477,7 +477,7 @@ const QStringList & djvView::shortcutLabels()
     return data;
 }
 
-const QStringList & djvView::mouseWheelLabels()
+const QStringList & djvViewUtil::mouseWheelLabels()
 {
     static const QStringList data = QStringList() <<
         "View Zoom" <<
@@ -491,17 +491,22 @@ const QStringList & djvView::mouseWheelLabels()
 
 //------------------------------------------------------------------------------
 
-_DJV_STRING_OPERATOR_LABEL(djvView::VIEW_MAX, djvView::viewMaxLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::TOOL_BAR, djvView::toolBarLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::GRID, djvView::gridLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::HUD_BACKGROUND, djvView::hudBackgroundLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::IMAGE_SCALE, djvView::imageScaleLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::IMAGE_ROTATE, djvView::imageRotateLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::PLAYBACK, djvView::playbackLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::FRAME, djvView::frameLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::LOOP, djvView::loopLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::LAYOUT, djvView::layoutLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::TOOL, djvView::toolLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::HISTOGRAM, djvView::histogramLabels())
-_DJV_STRING_OPERATOR_LABEL(djvView::MOUSE_WHEEL, djvView::mouseWheelLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::VIEW_MAX, djvViewUtil::viewMaxLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::TOOL_BAR, djvViewUtil::toolBarLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::GRID, djvViewUtil::gridLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::HUD_BACKGROUND,
+    djvViewUtil::hudBackgroundLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::IMAGE_SCALE,
+    djvViewUtil::imageScaleLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::IMAGE_ROTATE,
+    djvViewUtil::imageRotateLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::PLAYBACK, djvViewUtil::playbackLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::FRAME, djvViewUtil::frameLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::LOOP, djvViewUtil::loopLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::LAYOUT, djvViewUtil::layoutLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::TOOL, djvViewUtil::toolLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::HISTOGRAM,
+    djvViewUtil::histogramLabels())
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::MOUSE_WHEEL,
+    djvViewUtil::mouseWheelLabels())
 

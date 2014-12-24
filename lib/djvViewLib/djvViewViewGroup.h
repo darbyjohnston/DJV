@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_VIEW_GROUP_H
 #define DJV_VIEW_VIEW_GROUP_H
 
-#include <djvView.h>
 #include <djvViewAbstractGroup.h>
+#include <djvViewUtil.h>
 
 #include <djvVector.h>
 
@@ -82,7 +82,7 @@ private Q_SLOTS:
     void zoomIncCallback();
     void zoomDecCallback();
     void fitCallback();
-    void gridCallback(djvView::GRID);
+    void gridCallback(djvViewUtil::GRID);
     void gridCallback(QAction *);
     void hudEnabledCallback(bool);
 

@@ -76,13 +76,19 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvOpenGlUtil
+//! \class djvOpenGlUtil
 //!
-//! This struct provides OpenGL utilities.
+//! This class provides OpenGL utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvOpenGlUtil
+class DJV_CORE_EXPORT djvOpenGlUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvOpenGlUtil() = 0;
+    
     //! Setup an orthographic camera.
     
     static void ortho(

@@ -44,13 +44,19 @@ class QColor;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvColorUtil
+//! \class djvColorUtil
 //!
-//! This struct provides color utilities.
+//! This class provides color utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvColorUtil
+class DJV_CORE_EXPORT djvColorUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvColorUtil() = 0;
+    
     //! Scale a color.
 
     static void scale(double, const djvColor &, djvColor &);

@@ -49,7 +49,7 @@
 struct djvViewPlaybackToolBar::P
 {
     P() :
-        layout             (static_cast<djvView::LAYOUT>(0)),
+        layout             (static_cast<djvViewUtil::LAYOUT>(0)),
         widget             (0),
         widgetLayout       (0),
         playbackButtons    (0),
@@ -70,7 +70,7 @@ struct djvViewPlaybackToolBar::P
         resetOutPointButton(0)
     {}
 
-    djvView::LAYOUT          layout;
+    djvViewUtil::LAYOUT      layout;
     QWidget *                widget;
     QHBoxLayout *            widgetLayout;
     djvViewPlaybackButtons * playbackButtons;
@@ -148,31 +148,31 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
     _p->inOutEnabledButton = new djvToolButton;
     _p->inOutEnabledButton->setDefaultAction(
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
-            djvView::IN_OUT_ENABLE]);
+            djvViewUtil::IN_OUT_ENABLE]);
     _p->inOutEnabledButton->setIconSize(QSize(20, 20));
 
     _p->markInPointButton = new djvToolButton;
     _p->markInPointButton->setDefaultAction(
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
-            djvView::MARK_IN]);
+            djvViewUtil::MARK_IN]);
     _p->markInPointButton->setIconSize(QSize(20, 20));
 
     _p->markOutPointButton = new djvToolButton;
     _p->markOutPointButton->setDefaultAction(
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
-            djvView::MARK_OUT]);
+            djvViewUtil::MARK_OUT]);
     _p->markOutPointButton->setIconSize(QSize(20, 20));
 
     _p->resetInPointButton = new djvToolButton;
     _p->resetInPointButton->setDefaultAction(
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
-            djvView::RESET_IN]);
+            djvViewUtil::RESET_IN]);
     _p->resetInPointButton->setIconSize(QSize(20, 20));
 
     _p->resetOutPointButton = new djvToolButton;
     _p->resetOutPointButton->setDefaultAction(
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
-            djvView::RESET_OUT]);
+            djvViewUtil::RESET_OUT]);
     _p->resetOutPointButton->setIconSize(QSize(20, 20));
 
     // Layout the widgets.
@@ -375,7 +375,7 @@ void djvViewPlaybackToolBar::resetOutPoint()
     _p->frameSlider->resetOutPoint();
 }
 
-void djvViewPlaybackToolBar::setLayout(djvView::LAYOUT layout)
+void djvViewPlaybackToolBar::setLayout(djvViewUtil::LAYOUT layout)
 {
     if (layout == _p->layout)
         return;
@@ -395,8 +395,8 @@ void djvViewPlaybackToolBar::layoutUpdate()
 
     switch (_p->layout)
     {
-        case djvView::LAYOUT_DEFAULT:
-        case djvView::LAYOUT_LEFT:
+        case djvViewUtil::LAYOUT_DEFAULT:
+        case djvViewUtil::LAYOUT_LEFT:
         {
             QVBoxLayout * leftLayout = new QVBoxLayout;
             leftLayout->setMargin(0);
@@ -441,7 +441,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
             hLayout2->addWidget(_p->resetInPointButton);
             hLayout2->addWidget(_p->startWidget);
             hLayout->addLayout(hLayout2);
-            if (djvView::LAYOUT_DEFAULT == _p->layout)
+            if (djvViewUtil::LAYOUT_DEFAULT == _p->layout)
                 hLayout->addStretch(1000);
             hLayout2 = new QHBoxLayout;
             hLayout2->setSpacing(0);
@@ -451,7 +451,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
             hLayout2->addWidget(_p->markOutPointButton);
             hLayout->addLayout(hLayout2);
             hLayout->addWidget(_p->durationDisplay);
-            if (djvView::LAYOUT_LEFT == _p->layout)
+            if (djvViewUtil::LAYOUT_LEFT == _p->layout)
                 hLayout->addStretch(1000);
             rightLayout->addLayout(hLayout);
 
@@ -459,7 +459,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
         }
         break;
 
-        case djvView::LAYOUT_CENTER:
+        case djvViewUtil::LAYOUT_CENTER:
         {
             QVBoxLayout * layout = new QVBoxLayout;
             layout->setMargin(0);
@@ -487,7 +487,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
         }
         break;
 
-        case djvView::LAYOUT_MINIMAL:
+        case djvViewUtil::LAYOUT_MINIMAL:
         {
             _p->widgetLayout->addWidget(_p->playbackButtons);
             _p->widgetLayout->addWidget(_p->frameSlider, 1);
@@ -499,8 +499,8 @@ void djvViewPlaybackToolBar::layoutUpdate()
 
     switch (_p->layout)
     {
-        case djvView::LAYOUT_DEFAULT:
-        case djvView::LAYOUT_LEFT:
+        case djvViewUtil::LAYOUT_DEFAULT:
+        case djvViewUtil::LAYOUT_LEFT:
 
             _p->speedWidget->show();
             _p->realSpeedDisplay->show();
@@ -520,7 +520,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
 
             break;
 
-        case djvView::LAYOUT_CENTER:
+        case djvViewUtil::LAYOUT_CENTER:
 
             _p->speedWidget->hide();
             _p->realSpeedDisplay->hide();
@@ -541,7 +541,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
 
             break;
 
-        case djvView::LAYOUT_MINIMAL:
+        case djvViewUtil::LAYOUT_MINIMAL:
 
             _p->speedWidget->hide();
             _p->realSpeedDisplay->hide();

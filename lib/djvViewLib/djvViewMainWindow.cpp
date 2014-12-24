@@ -78,7 +78,7 @@
 struct djvViewMainWindow::P
 {
     P() :
-        mouseWheel      (static_cast<djvView::MOUSE_WHEEL>(0)),
+        mouseWheel      (static_cast<djvViewUtil::MOUSE_WHEEL>(0)),
         fileGroup       (0),
         windowGroup     (0),
         viewGroup       (0),
@@ -96,7 +96,7 @@ struct djvViewMainWindow::P
         menuBarHeight   (0)
     {}
 
-    djvView::MOUSE_WHEEL                     mouseWheel;
+    djvViewUtil::MOUSE_WHEEL                 mouseWheel;
     djvViewFileGroup *                       fileGroup;
     djvViewWindowGroup *                     windowGroup;
     djvViewViewGroup *                       viewGroup;
@@ -303,7 +303,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     connect(
         _p->playbackGroup,
-        SIGNAL(layoutChanged(djvView::LAYOUT)),
+        SIGNAL(layoutChanged(djvViewUtil::LAYOUT)),
         SLOT(windowResizeCallback()));
 
     // Setup the view callbacks.
@@ -315,8 +315,8 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     connect(
         _p->viewWidget,
-        SIGNAL(mouseWheelChanged(djvView::MOUSE_WHEEL)),
-        SLOT(mouseWheelCallback(djvView::MOUSE_WHEEL)));
+        SIGNAL(mouseWheelChanged(djvViewUtil::MOUSE_WHEEL)),
+        SLOT(mouseWheelCallback(djvViewUtil::MOUSE_WHEEL)));
 
     connect(
         _p->viewWidget,
@@ -412,8 +412,8 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
             _p->playbackGroup->setPlayback(
                 (sequence.frames.count() > 1 &&
                     djvViewPlaybackPrefs::global()->hasAutoStart()) ?
-                    djvView::FORWARD :
-                    djvView::STOP);
+                    djvViewUtil::FORWARD :
+                    djvViewUtil::STOP);
         }
     }
 
@@ -496,7 +496,7 @@ void djvViewMainWindow::fitWindow(bool move)
     _p->viewWidget->viewFit();
 }
 
-void djvViewMainWindow::setPlayback(djvView::PLAYBACK in)
+void djvViewMainWindow::setPlayback(djvViewUtil::PLAYBACK in)
 {
     _p->playbackGroup->setPlayback(in);
 }
@@ -662,21 +662,21 @@ void djvViewMainWindow::pickCallback(const djvVector2i & pick)
     }
 }
 
-void djvViewMainWindow::mouseWheelCallback(djvView::MOUSE_WHEEL in)
+void djvViewMainWindow::mouseWheelCallback(djvViewUtil::MOUSE_WHEEL in)
 {
     _p->mouseWheel = in;
 
     switch (_p->mouseWheel)
     {
-        case djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+        case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
-            _p->playbackGroup->setPlayback(djvView::STOP);
+            _p->playbackGroup->setPlayback(djvViewUtil::STOP);
 
             _p->playbackFrameTmp = _p->playbackGroup->frame();
 
             break;
 
-        case djvView::MOUSE_WHEEL_PLAYBACK_SPEED:
+        case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED:
 
             _p->playbackSpeedTmp =
                 djvSpeed::speedToFloat(_p->playbackGroup->speed());
@@ -691,13 +691,13 @@ void djvViewMainWindow::mouseWheelValueCallback(int in)
 {
     switch (_p->mouseWheel)
     {
-        case djvView::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
+        case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
             _p->playbackGroup->setFrame(_p->playbackFrameTmp + in);
 
             break;
 
-        case djvView::MOUSE_WHEEL_PLAYBACK_SPEED:
+        case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED:
 
             _p->playbackGroup->setSpeed(
                 djvSpeed::floatToSpeed(
@@ -848,15 +848,21 @@ void djvViewMainWindow::controlsUpdate()
 
     const QVector<bool> & visible = _p->windowGroup->toolBarVisible();
 
-    _p->fileGroup->toolBar()->setVisible(controls && visible[djvView::TOOL_BARS]);
-    _p->windowGroup->toolBar()->setVisible(controls && visible[djvView::TOOL_BARS]);
-    _p->viewGroup->toolBar()->setVisible(controls && visible[djvView::TOOL_BARS]);
-    _p->imageGroup->toolBar()->setVisible(controls && visible[djvView::TOOL_BARS]);
-    _p->toolGroup->toolBar()->setVisible(controls && visible[djvView::TOOL_BARS]);
+    _p->fileGroup->toolBar()->setVisible(
+        controls && visible[djvViewUtil::TOOL_BARS]);
+    _p->windowGroup->toolBar()->setVisible(
+        controls && visible[djvViewUtil::TOOL_BARS]);
+    _p->viewGroup->toolBar()->setVisible(
+        controls && visible[djvViewUtil::TOOL_BARS]);
+    _p->imageGroup->toolBar()->setVisible(
+        controls && visible[djvViewUtil::TOOL_BARS]);
+    _p->toolGroup->toolBar()->setVisible(
+        controls && visible[djvViewUtil::TOOL_BARS]);
 
-    _p->playbackGroup->toolBar()->setVisible(controls && visible[djvView::PLAYBACK_BAR]);
+    _p->playbackGroup->toolBar()->setVisible(
+        controls && visible[djvViewUtil::PLAYBACK_BAR]);
 
-    statusBar()->setVisible(controls && visible[djvView::INFO_BAR]);
+    statusBar()->setVisible(controls && visible[djvViewUtil::INFO_BAR]);
     
     QTimer::singleShot(0, this, SLOT(enableUpdatesCallback()));
 }
@@ -914,7 +920,7 @@ void djvViewMainWindow::viewPickUpdate()
 
     const djvImage * image = this->image();
 
-    if (image && _p->windowGroup->toolBarVisible()[djvView::INFO_BAR])
+    if (image && _p->windowGroup->toolBarVisible()[djvViewUtil::INFO_BAR])
     {
         //DJV_DEBUG_PRINT("sample");
 
@@ -977,11 +983,11 @@ djvOpenGlImageOptions djvViewMainWindow::imageOptions() const
 
     if (image)
     {
-        out.xform.scale = djvView::imageScale(
+        out.xform.scale = djvViewUtil::imageScale(
             _p->imageGroup->scale(), image->size());
     }
 
-    out.xform.rotate = djvView::imageRotate(_p->imageGroup->rotate());
+    out.xform.rotate = djvViewUtil::imageRotate(_p->imageGroup->rotate());
 
     if (image && _p->imageGroup->hasColorProfile())
     {

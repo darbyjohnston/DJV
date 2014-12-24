@@ -77,13 +77,13 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
 
     _p->loopWidget = new QComboBox;
     _p->loopWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->loopWidget->addItems(djvView::loopLabels());
+    _p->loopWidget->addItems(djvViewUtil::loopLabels());
 
     _p->everyFrameWidget = new QCheckBox("Play every frame");
 
     _p->layoutWidget = new QComboBox;
     _p->layoutWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->layoutWidget->addItems(djvView::layoutLabels());
+    _p->layoutWidget->addItems(djvViewUtil::layoutLabels());
 
     // Layout the widgets.
 
@@ -157,7 +157,7 @@ void djvViewPlaybackPrefsWidget::autoStartCallback(bool in)
 void djvViewPlaybackPrefsWidget::loopCallback(int in)
 {
     djvViewPlaybackPrefs::global()->setLoop(
-        static_cast<djvView::LOOP>(in));
+        static_cast<djvViewUtil::LOOP>(in));
 }
 
 void djvViewPlaybackPrefsWidget::everyFrameCallback(bool in)
@@ -168,7 +168,7 @@ void djvViewPlaybackPrefsWidget::everyFrameCallback(bool in)
 void djvViewPlaybackPrefsWidget::layoutCallback(int in)
 {
     djvViewPlaybackPrefs::global()->setLayout(
-        static_cast<djvView::LAYOUT>(in));
+        static_cast<djvViewUtil::LAYOUT>(in));
 }
 
 void djvViewPlaybackPrefsWidget::widgetUpdate()

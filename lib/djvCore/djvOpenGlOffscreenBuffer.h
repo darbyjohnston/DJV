@@ -81,9 +81,7 @@ public:
 
 private:
 
-    djvOpenGlOffscreenBuffer(const djvOpenGlOffscreenBuffer &);
-
-    djvOpenGlOffscreenBuffer & operator = (const djvOpenGlOffscreenBuffer &);
+    DJV_PRIVATE_COPY(djvOpenGlOffscreenBuffer);
 
     djvPixelDataInfo _info;
     GLuint           _id;

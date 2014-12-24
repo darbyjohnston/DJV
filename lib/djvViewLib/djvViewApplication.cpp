@@ -78,7 +78,7 @@ struct djvViewApplication::P
     QScopedPointer<djvPixelDataInfo::PROXY> fileProxy;
     QScopedPointer<bool>                    fileCacheEnabled;
     QScopedPointer<bool>                    windowFullScreen;
-    QScopedPointer<djvView::PLAYBACK>       playback;
+    QScopedPointer<djvViewUtil::PLAYBACK>   playback;
     QScopedPointer<int>                     playbackFrame;
     QScopedPointer<djvSpeed>                playbackSpeed;
 };
@@ -311,9 +311,10 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
 
             else if ("-playback" == arg)
             {
-                djvView::PLAYBACK value = static_cast<djvView::PLAYBACK>(0);
+                djvViewUtil::PLAYBACK value =
+                    static_cast<djvViewUtil::PLAYBACK>(0);
                 in >> value;
-                _p->playback.reset(new djvView::PLAYBACK(value));
+                _p->playback.reset(new djvViewUtil::PLAYBACK(value));
             }
             else if ("-playback_frame" == arg)
             {
@@ -400,7 +401,7 @@ QString djvViewApplication::commandLineHelp() const
         arg(0).
         arg(djvPixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
-        arg(djvView::playbackLabels().join(", ")).
+        arg(djvViewUtil::playbackLabels().join(", ")).
         arg(djvSpeed::fpsLabels().join(", ")).
         arg(djvApplication::commandLineHelp());
 }

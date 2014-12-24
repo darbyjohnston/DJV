@@ -73,11 +73,11 @@ public:
 
     //! Get the default grid.
 
-    static djvView::GRID gridDefault();
+    static djvViewUtil::GRID gridDefault();
 
     //! Get the view grid.
 
-    djvView::GRID grid() const;
+    djvViewUtil::GRID grid() const;
 
     //! Get the default view grid color.
     
@@ -105,7 +105,7 @@ public:
 
     //! Get the HUD information.
 
-    bool isHudInfo(djvView::HUD in) const;
+    bool isHudInfo(djvViewUtil::HUD in) const;
 
     //! Get the default HUD color.
     
@@ -117,11 +117,11 @@ public:
 
     //! Get the default HUD background.
     
-    static djvView::HUD_BACKGROUND hudBackgroundDefault();
+    static djvViewUtil::HUD_BACKGROUND hudBackgroundDefault();
 
     //! Get the HUD background.
 
-    djvView::HUD_BACKGROUND hudBackground() const;
+    djvViewUtil::HUD_BACKGROUND hudBackground() const;
 
     //! Get the default HUD background color.
     
@@ -143,7 +143,7 @@ public Q_SLOTS:
 
     //! Set the view grid.
 
-    void setGrid(djvView::GRID);
+    void setGrid(djvViewUtil::GRID);
 
     //! Set the view grid color.
 
@@ -159,7 +159,7 @@ public Q_SLOTS:
 
     //! Set the HUD information.
 
-    void setHudInfo(djvView::HUD, bool);
+    void setHudInfo(djvViewUtil::HUD, bool);
     
     //! Set the HUD color.
 
@@ -167,7 +167,7 @@ public Q_SLOTS:
     
     //! Set the HUD background.
 
-    void setHudBackground(djvView::HUD_BACKGROUND);
+    void setHudBackground(djvViewUtil::HUD_BACKGROUND);
     
     //! Set the HUD background color.
 
@@ -181,7 +181,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the view grid is changed.
 
-    void gridChanged(djvView::GRID);
+    void gridChanged(djvViewUtil::GRID);
     
     //! This signal is emitted when the view grid color is changed.
     
@@ -201,7 +201,7 @@ Q_SIGNALS:
     
     //! This signal is emitted when the HUD background is changed.
     
-    void hudBackgroundChanged(djvView::HUD_BACKGROUND);
+    void hudBackgroundChanged(djvViewUtil::HUD_BACKGROUND);
     
     //! This signal is emitted when the HUD background color is changed.
     
@@ -213,14 +213,14 @@ Q_SIGNALS:
     
 private:
 
-    djvColor                _background;
-    djvView::GRID           _grid;
-    djvColor                _gridColor;
-    bool                    _hudEnabled;
-    QVector<bool>           _hudInfo;
-    djvColor                _hudColor;
-    djvView::HUD_BACKGROUND _hudBackground;
-    djvColor                _hudBackgroundColor;
+    djvColor                    _background;
+    djvViewUtil::GRID           _grid;
+    djvColor                    _gridColor;
+    bool                        _hudEnabled;
+    QVector<bool>               _hudInfo;
+    djvColor                    _hudColor;
+    djvViewUtil::HUD_BACKGROUND _hudBackground;
+    djvColor                    _hudBackgroundColor;
 };
 
 //@} // djvViewView

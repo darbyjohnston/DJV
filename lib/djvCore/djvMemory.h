@@ -42,17 +42,21 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvMemory
+//! \class djvMemory
 //!
-//! This struct provides memory utilities.
+//! This class provides memory utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvMemory
+class DJV_CORE_EXPORT djvMemory
 {
     Q_GADGET
     Q_ENUMS(ENDIAN)
 
 public:
+
+    //! Destructor.
+    
+    virtual ~djvMemory() = 0;
 
     static const quint64 kilobyte; //!< The number of bytes in a kilobyte.
     static const quint64 megabyte; //!< The number of bytes in a megabyte.

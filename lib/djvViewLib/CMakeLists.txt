@@ -1,5 +1,4 @@
 set(header
-    djvView.h
 	djvViewAbstractActions.h
 	djvViewAbstractGroup.h
 	djvViewAbstractMenu.h
@@ -51,6 +50,7 @@ set(header
 	djvViewToolGroup.h
 	djvViewToolMenu.h
 	djvViewToolToolBar.h
+    djvViewUtil.h
 	djvViewViewActions.h
 	djvViewViewGroup.h
 	djvViewViewMenu.h
@@ -65,7 +65,6 @@ set(header
 	djvViewWindowToolBar.h)
 
 set(source
-    djvView.cpp
 	djvViewAbstractActions.cpp
 	djvViewAbstractGroup.cpp
 	djvViewAbstractMenu.cpp
@@ -116,6 +115,7 @@ set(source
 	djvViewToolGroup.cpp
 	djvViewToolMenu.cpp
 	djvViewToolToolBar.cpp
+    djvViewUtil.cpp
 	djvViewViewActions.cpp
 	djvViewViewGroup.cpp
 	djvViewViewMenu.cpp

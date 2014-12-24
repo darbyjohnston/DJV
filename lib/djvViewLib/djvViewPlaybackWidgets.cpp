@@ -117,11 +117,11 @@ djvViewPlaybackButtons::~djvViewPlaybackButtons()
 struct djvViewLoopWidget::P
 {
     P() :
-        loop  (djvView::LOOP_REPEAT),
+        loop  (djvViewUtil::LOOP_REPEAT),
         button(0)
     {}
 
-    djvView::LOOP     loop;
+    djvViewUtil::LOOP loop;
     djvChoiceButton * button;
 };
 
@@ -163,15 +163,15 @@ void djvViewLoopWidget::widgetUpdate()
         djvViewShortcutPrefs::global()->shortcuts();
 
     _p->button->setShortcut(
-        shortcuts[djvView::SHORTCUT_PLAYBACK_LOOP].value);
+        shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value);
 
     // Update tool tips.
 
     _p->button->setToolTip(QString(
         "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
         arg(djvStringUtil::label(_p->loop).join(", ")).
-        arg(djvView::loopLabels().join(", ")).
-        arg(shortcuts[djvView::SHORTCUT_PLAYBACK_LOOP].value.toString()));
+        arg(djvViewUtil::loopLabels().join(", ")).
+        arg(shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value.toString()));
 }
 
 //------------------------------------------------------------------------------

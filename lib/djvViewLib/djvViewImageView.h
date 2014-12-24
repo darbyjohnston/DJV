@@ -34,7 +34,7 @@
 #ifndef DJV_VIEW_IMAGE_VIEW_H
 #define DJV_VIEW_IMAGE_VIEW_H
 
-#include <djvView.h>
+#include <djvViewUtil.h>
 
 #include <djvImageView.h>
 
@@ -85,7 +85,7 @@ public Q_SLOTS:
 
     //! Set the grid.
 
-    void setGrid(djvView::GRID);
+    void setGrid(djvViewUtil::GRID);
 
     //! Set the grid color.
 
@@ -105,7 +105,7 @@ public Q_SLOTS:
 
     //! Set the HUD background.
 
-    void setHudBackground(djvView::HUD_BACKGROUND);
+    void setHudBackground(djvViewUtil::HUD_BACKGROUND);
 
     //! Set the HUD background color.
 
@@ -119,7 +119,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the mouse wheel is changed.
 
-    void mouseWheelChanged(djvView::MOUSE_WHEEL);
+    void mouseWheelChanged(djvViewUtil::MOUSE_WHEEL);
 
     //! This signal is emitted when the mouse wheel value is changed.
 

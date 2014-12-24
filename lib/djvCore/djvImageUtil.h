@@ -42,11 +42,16 @@
 //------------------------------------------------------------------------------
 //! \class djvImageUtil
 //!
-//! This struct provides image utilities.
+//! This class provides image utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvImageUtil
+class DJV_CORE_EXPORT djvImageUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvImageUtil() = 0;
 };
 
 //@} // djvCoreImage

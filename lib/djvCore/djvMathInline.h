@@ -147,14 +147,14 @@ inline int djvMath::toPow2(int value)
 
 inline double djvMath::degreesToRadians(double value)
 {
-    static const double m = 1.0 / 360.0 * pi_x2;
+    static const double m = 1.0 / 360.0 * piX2;
     
     return value * m;
 }
 
 inline double djvMath::radiansToDegrees(double value)
 {
-    static const double m = 1.0 / pi_x2 * 360.0;
+    static const double m = 1.0 / piX2 * 360.0;
     
     return value * m;
 }

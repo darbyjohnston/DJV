@@ -64,7 +64,7 @@ struct djvViewViewGroup::P
         toolBar   (0)
     {}
     
-    djvView::GRID        grid;
+    djvViewUtil::GRID    grid;
     bool                 hudEnabled;
     djvViewViewActions * actions;
     djvViewViewMenu *    menu;
@@ -187,8 +187,8 @@ djvViewViewGroup::djvViewViewGroup(
 
     connect(
         djvViewViewPrefs::global(),
-        SIGNAL(gridChanged(djvView::GRID)),
-        SLOT(gridCallback(djvView::GRID)));
+        SIGNAL(gridChanged(djvViewUtil::GRID)),
+        SLOT(gridCallback(djvViewUtil::GRID)));
 
     connect(
         djvViewViewPrefs::global(),
@@ -266,7 +266,7 @@ void djvViewViewGroup::fitCallback()
     mainWindow()->viewWidget()->viewFit();
 }
 
-void djvViewViewGroup::gridCallback(djvView::GRID grid)
+void djvViewViewGroup::gridCallback(djvViewUtil::GRID grid)
 {
     _p->grid = grid;
 
@@ -275,7 +275,7 @@ void djvViewViewGroup::gridCallback(djvView::GRID grid)
 
 void djvViewViewGroup::gridCallback(QAction * action)
 {
-    gridCallback(static_cast<djvView::GRID>(action->data().toInt()));
+    gridCallback(static_cast<djvViewUtil::GRID>(action->data().toInt()));
 }
 
 void djvViewViewGroup::hudEnabledCallback(bool value)

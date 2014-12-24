@@ -60,6 +60,10 @@ class DJV_CORE_EXPORT djvTime
     
 public:
 
+    //! Destructor.
+    
+    virtual ~djvTime() = 0;
+
     //! Get the current time.
 
     static ::time_t current();
@@ -177,10 +181,6 @@ public:
     //! Convert a string to a frame using the global time units.
 
     static qint64 stringToFrame(const QString &, const djvSpeed &, bool * ok = 0);
-
-private:
-
-    djvTime();
 };
 
 //------------------------------------------------------------------------------

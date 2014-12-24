@@ -34,8 +34,8 @@
 #ifndef DJV_VIEW_WINDOW_PREFS_H
 #define DJV_VIEW_WINDOW_PREFS_H
 
-#include <djvView.h>
 #include <djvViewAbstractPrefs.h>
+#include <djvViewUtil.h>
 
 //! \addtogroup djvViewWindow
 //@{
@@ -71,11 +71,11 @@ public:
 
     //! Get the default maximum view size.
 
-    static djvView::VIEW_MAX viewMaxDefault();
+    static djvViewUtil::VIEW_MAX viewMaxDefault();
 
     //! Get the maximum view size.
 
-    djvView::VIEW_MAX viewMax() const;
+    djvViewUtil::VIEW_MAX viewMax() const;
     
     //! Get the default user specified maximum view size.
     
@@ -114,7 +114,7 @@ public Q_SLOTS:
 
     //! Set the maximum view size.
 
-    void setViewMax(djvView::VIEW_MAX);
+    void setViewMax(djvViewUtil::VIEW_MAX);
     
     //! Set the user specified maximum view size.
     
@@ -137,7 +137,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the maximum view size is changed.
 
-    void viewMaxChanged(djvView::VIEW_MAX);
+    void viewMaxChanged(djvViewUtil::VIEW_MAX);
     
     //! This signal is emitted when the user specified maximum view size is
     //! changed.
@@ -155,11 +155,11 @@ Q_SIGNALS:
 
 private:
 
-    bool                       _autoFit;
-    djvView::VIEW_MAX          _viewMax;
-    djvVector2i                _viewMaxUser;
-    bool                       _fullScreenControls;
-    QVector<bool>              _toolBar;
+    bool                  _autoFit;
+    djvViewUtil::VIEW_MAX _viewMax;
+    djvVector2i           _viewMaxUser;
+    bool                  _fullScreenControls;
+    QVector<bool>         _toolBar;
 };
 
 //@} // djvViewWindow

@@ -129,6 +129,8 @@ public:
 
 //------------------------------------------------------------------------------
 
+Q_DECLARE_METATYPE(djvSequence)
+
 inline bool operator == (const djvSequence &, const djvSequence &);
 
 inline bool operator != (const djvSequence &, const djvSequence &);

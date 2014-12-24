@@ -274,7 +274,7 @@ void djvViewWindowGroup::update()
     _p->actions->action(djvViewWindowActions::CONTROLS_VISIBLE)->
         setChecked(_p->controlsVisible);
 
-    for (int i = 0; i < djvView::TOOL_BAR_COUNT; ++i)
+    for (int i = 0; i < djvViewUtil::TOOL_BAR_COUNT; ++i)
     {
         _p->actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP)->
             actions()[i]->setChecked(_p->toolBarVisible[i]);

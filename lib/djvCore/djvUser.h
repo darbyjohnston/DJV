@@ -51,13 +51,19 @@ typedef int uid_t;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvUser
+//! \class djvUser
 //!
-//! This struct provides user utilities.
+//! This class provides user utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvUser
+class DJV_CORE_EXPORT djvUser
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvUser() = 0;
+    
     //! Get the current user name.
 
     static QString current();

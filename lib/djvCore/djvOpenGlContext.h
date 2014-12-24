@@ -114,6 +114,10 @@ class DJV_CORE_EXPORT djvOpenGlContextFactory
 {
 public:
 
+    //! Destructor.
+    
+    virtual ~djvOpenGlContextFactory() = 0;
+
     //! Create an OpenGL context.
 
     static djvOpenGlContext * create(bool bind = true) throw (djvError);
@@ -128,7 +132,6 @@ public:
 class DJV_CORE_EXPORT djvOpenGlContextScope
 {
 public:
-public:
 
     //! Constructor.
 
@@ -140,9 +143,9 @@ public:
 
 private:
 
-    djvOpenGlContext * _context;
-    
     DJV_PRIVATE_COPY(djvOpenGlContextScope);
+
+    djvOpenGlContext * _context;
 };
 
 //@} // djvCoreOpenGL

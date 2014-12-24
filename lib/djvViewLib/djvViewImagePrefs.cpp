@@ -70,7 +70,7 @@ djvViewImagePrefs::djvViewImagePrefs(QObject * parent) :
     {
         djvViewDisplayProfile value;
         displayProfilePrefs.get(QString("%1").arg(i), value);
-        djvView::loadLut(value.lutFile, value.lut);
+        djvViewUtil::loadLut(value.lutFile, value.lut);
         _displayProfiles += value;
     }
 
@@ -119,22 +119,22 @@ const djvPixelDataInfo::Mirror & djvViewImagePrefs::mirror() const
     return _mirror;
 }
 
-djvView::IMAGE_SCALE djvViewImagePrefs::scaleDefault()
+djvViewUtil::IMAGE_SCALE djvViewImagePrefs::scaleDefault()
 {
-    return static_cast<djvView::IMAGE_SCALE>(0);
+    return static_cast<djvViewUtil::IMAGE_SCALE>(0);
 }
 
-djvView::IMAGE_SCALE djvViewImagePrefs::scale() const
+djvViewUtil::IMAGE_SCALE djvViewImagePrefs::scale() const
 {
     return _scale;
 }
 
-djvView::IMAGE_ROTATE djvViewImagePrefs::rotateDefault()
+djvViewUtil::IMAGE_ROTATE djvViewImagePrefs::rotateDefault()
 {
-    return static_cast<djvView::IMAGE_ROTATE>(0);
+    return static_cast<djvViewUtil::IMAGE_ROTATE>(0);
 }
 
-djvView::IMAGE_ROTATE djvViewImagePrefs::rotate() const
+djvViewUtil::IMAGE_ROTATE djvViewImagePrefs::rotate() const
 {
     return _rotate;
 }
@@ -223,7 +223,7 @@ void djvViewImagePrefs::setMirror(const djvPixelDataInfo::Mirror & mirror)
     Q_EMIT prefChanged();
 }
 
-void djvViewImagePrefs::setScale(djvView::IMAGE_SCALE in)
+void djvViewImagePrefs::setScale(djvViewUtil::IMAGE_SCALE in)
 {
     if (in == _scale)
         return;
@@ -234,7 +234,7 @@ void djvViewImagePrefs::setScale(djvView::IMAGE_SCALE in)
     Q_EMIT prefChanged();
 }
 
-void djvViewImagePrefs::setRotate(djvView::IMAGE_ROTATE in)
+void djvViewImagePrefs::setRotate(djvViewUtil::IMAGE_ROTATE in)
 {
     if (in == _rotate)
         return;

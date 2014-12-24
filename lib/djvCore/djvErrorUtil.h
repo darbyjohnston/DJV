@@ -45,13 +45,19 @@ class QString;
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvErrorUtil
+//! \class djvErrorUtil
 //!
-//! This struct provides error utilities.
+//! This class provides error utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvErrorUtil
+class DJV_CORE_EXPORT djvErrorUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvErrorUtil() = 0;
+    
     //! Convert an error into a printable format.
 
     static QString format(const djvError &);

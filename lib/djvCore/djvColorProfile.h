@@ -98,9 +98,9 @@ public:
     Exposure     exposure;
 };
 
-Q_DECLARE_METATYPE(djvColorProfile)
-
 //------------------------------------------------------------------------------
+
+Q_DECLARE_METATYPE(djvColorProfile)
 
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColorProfile);

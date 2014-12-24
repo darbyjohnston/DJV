@@ -43,13 +43,19 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvListUtil
+//! \class djvListUtil
 //!
-//! This struct provides utilities for lists.
+//! This class provides utilities for lists.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvListUtil
+class DJV_CORE_EXPORT djvListUtil
 {
+public:
+
+    //! Destructor.
+    
+    virtual ~djvListUtil() = 0;
+    
     //! Convert list types.
 
     template<typename A, typename B>
