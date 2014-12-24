@@ -65,11 +65,11 @@ struct djvRange
     T max;
 };
 
-//! Frame range typedef.
+//! This typedef provides a frame range.
 
 typedef djvRange<qint64> djvFrameRange;
 
-//! Frame range list typedef.
+//! This typedef provides a frame range list.
 
 typedef QVector<djvFrameRange> djvFrameRangeList;
 

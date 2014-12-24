@@ -42,7 +42,7 @@
 //! \addtogroup djvCoreMisc
 //@{
 
-//! This typedef provides a list of frame numbers.
+//! This typedef provides a frame number list.
 
 typedef QVector<qint64> djvFrameList;
 

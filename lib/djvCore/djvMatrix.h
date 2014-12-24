@@ -201,11 +201,11 @@ struct djvMatrix<T, 4>
 
 //------------------------------------------------------------------------------
 
-//! 3x3 floating-point matrix typedef.
+//! This typedef provides a 3x3 floating-point matrix.
 
 typedef djvMatrix<double, 3> djvMatrix3f;
 
-//! 4x4 floating-point matrix typedef.
+//! This typedef provides a 4x4 floating-point matrix.
 
 typedef djvMatrix<double, 4> djvMatrix4f;
 

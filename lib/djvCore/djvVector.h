@@ -217,19 +217,19 @@ struct djvVector<T, 3>
 
 //------------------------------------------------------------------------------
 
-//! Two-dimensional integer vector typedef.
+//! This typedef provides a two-dimensional integer vector.
 
 typedef djvVector<int, 2> djvVector2i;
 
-//! Two-dimensional floating-point vector typedef.
+//! This typedef provides a two-dimensional floating-point vector.
 
 typedef djvVector<double, 2> djvVector2f;
 
-//! Three-dimensional integer vector typedef.
+//! This typedef provides a three-dimensional integer vector.
 
 typedef djvVector<int, 3> djvVector3i;
 
-//! Three-dimensional floating-point vector typedef.
+//! This typedef provides a three-dimensional floating-point vector.
 
 typedef djvVector<double, 3> djvVector3f;
 

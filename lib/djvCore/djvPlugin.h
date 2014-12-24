@@ -84,7 +84,7 @@ public:
 #define DJV_PLUGIN_EXPORT
 #endif
 
-//! Plugin entry point.
+//! This typedef provides a plugin entry point.
 
 typedef djvPlugin * (djvPluginEntry)();
 

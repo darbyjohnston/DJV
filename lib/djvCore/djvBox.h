@@ -255,19 +255,19 @@ struct djvBox<T, 3>
 
 //------------------------------------------------------------------------------
 
-//! Two-dimensional integer axis-aligned box typedef.
+//! This typedef provides a two-dimensional integer axis-aligned box.
 
 typedef djvBox<int, 2> djvBox2i;
 
-//! Two-dimensional floating-point axis-aligned box typedef.
+//! This typedef provides a two-dimensional floating-point axis-aligned box.
 
 typedef djvBox<double, 2> djvBox2f;
 
-//! Three-dimensional integer axis-aligned box typedef.
+//! This typedef provides a three-dimensional integer axis-aligned box.
 
 typedef djvBox<int, 3> djvBox3i;
 
-//! Three-dimensional floating-point axis-aligned box typedef.
+//! This typedef provides a three-dimensional floating-point axis-aligned box.
 
 typedef djvBox<double, 3> djvBox3f;
 
