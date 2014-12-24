@@ -106,6 +106,8 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame) thro
                 _colormap[0], _colormap[1], _colormap[2]);
         }
     }
+    
+    // Proxy scaling.
 
     if (frame.proxy)
     {
@@ -117,6 +119,8 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame) thro
         djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
     }
 
+    // Close the file.
+    
     //DJV_DEBUG_PRINT("image = " << image);
     
     close();
