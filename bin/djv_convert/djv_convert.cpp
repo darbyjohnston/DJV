@@ -179,7 +179,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
             {
                 in >> _options.channel;
             }
-            if ("-seq" == arg || "-q" == arg)
+            else if ("-seq" == arg || "-q" == arg)
             {
                 in >> _options.sequence;
             }
@@ -372,7 +372,7 @@ const QString commandLineHelpLabel =
 "    > djv_convert input.sgi output.sgi -pixel \"rgb u16\"\n"
 "\n"
 "    Scale an image by half:\n"
-"    > djv_convert input.tga output.tga -scale 0.5 0.5\n"
+"    > djv_convert input.tga output.tga -scale 0.5\n"
 "\n"
 "    Resize an image:\n"
 "    > djv_convert input.tga output.tga -resize 2048 1556\n"
