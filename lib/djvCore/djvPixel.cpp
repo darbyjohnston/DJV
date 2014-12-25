@@ -40,6 +40,9 @@
 // djvPixel
 //------------------------------------------------------------------------------
 
+djvPixel::~djvPixel()
+{}
+
 const QStringList & djvPixel::formatLabels()
 {
     static const QStringList data = QStringList() <<

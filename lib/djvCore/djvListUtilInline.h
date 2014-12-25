@@ -37,6 +37,9 @@
 // djvListUtil
 //------------------------------------------------------------------------------
 
+inline djvListUtil::~djvListUtil()
+{}
+
 template<typename A, typename B>
 inline void djvListUtil::convert(const QVector<A> & in, QVector<B> & out)
 {

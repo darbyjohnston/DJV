@@ -37,8 +37,8 @@
 #include <djvViewAbstractGroup.h>
 #include <djvViewUtil.h>
 
-struct djvSequence;
-class  djvSpeed;
+class djvSequence;
+class djvSpeed;
 
 class QAction;
 

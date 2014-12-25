@@ -35,6 +35,9 @@
 // djvMatrixUtil
 //------------------------------------------------------------------------------
 
+inline djvMatrixUtil::~djvMatrixUtil()
+{}
+
 template<typename T, int D>
 inline djvMatrix<T, D> djvMatrixUtil::transpose(const djvMatrix<T, D> & in)
 {

@@ -42,9 +42,9 @@
 
 class djvViewImageView;
 
-class  djvImageIoInfo;
-struct djvOpenGlImageOptions;
-class  djvSpeed;
+class djvImageIoInfo;
+class djvOpenGlImageOptions;
+class djvSpeed;
 
 //! \addtogroup djvViewWindow
 //@{

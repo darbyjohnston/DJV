@@ -51,7 +51,7 @@ public:
 
     //! Destructor.
     
-    virtual ~djvMatrixUtil() = 0;
+    inline virtual ~djvMatrixUtil() = 0;
     
     //! Transpose a matrix.
 

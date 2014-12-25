@@ -109,6 +109,9 @@ void djvOpenGlContext::setVersion(const QString & version)
 // djvOpenGlContextFactory
 //------------------------------------------------------------------------------
 
+djvOpenGlContextFactory::~djvOpenGlContextFactory()
+{}
+
 djvOpenGlContext * djvOpenGlContextFactory::create(bool bind) throw (djvError)
 {
     djvOpenGlContext * context = 0;

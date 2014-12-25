@@ -41,6 +41,9 @@
 // djvColorUtil
 //------------------------------------------------------------------------------
 
+djvColorUtil::~djvColorUtil()
+{}
+
 void djvColorUtil::scale(double value, const djvColor & in, djvColor & out)
 {
     djvColor in_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));

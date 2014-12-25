@@ -42,6 +42,9 @@
 // djvWindowUtil
 //------------------------------------------------------------------------------
 
+djvWindowUtil::~djvWindowUtil()
+{}
+
 djvVector2i djvWindowUtil::resize(const djvVector2i & size, double maxPercent)
 {
     const QSize qSize = qApp->desktop()->availableGeometry().size();

@@ -54,7 +54,7 @@ public:
 
     //! Destructor.
     
-    virtual ~djvListUtil() = 0;
+    inline virtual ~djvListUtil() = 0;
     
     //! Convert list types.
 

@@ -42,6 +42,9 @@
 // djvVectorUtil
 //------------------------------------------------------------------------------
 
+djvVectorUtil::~djvVectorUtil()
+{}
+
 void djvVectorUtil::sphericalToCartesian(const djvVector3f & in, djvVector3f * out)
 {
     const double tmp = djvMath::sin(in.x);

@@ -42,6 +42,9 @@
 // djvFileIoUtil
 //------------------------------------------------------------------------------
 
+djvFileIoUtil::~djvFileIoUtil()
+{}
+
 void djvFileIoUtil::word(djvFileIo & in, char * out, int maxLen) throw (djvError)
 {
     DJV_ASSERT(maxLen > 0);

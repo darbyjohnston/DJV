@@ -52,7 +52,7 @@ public:
 
     //! Destructor.
     
-    virtual ~djvRangeUtil() = 0;
+    inline virtual ~djvRangeUtil() = 0;
     
     //! Get whether a value is inside a range.
 

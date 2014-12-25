@@ -37,6 +37,9 @@
 // djvRangeUtil
 //------------------------------------------------------------------------------
 
+inline djvRangeUtil::~djvRangeUtil()
+{}
+
 template<typename T>
 inline bool djvRangeUtil::intersect(T in, const djvRange<T> & range)
 {

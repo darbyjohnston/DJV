@@ -40,6 +40,9 @@
 // djvOpenGlUtil
 //------------------------------------------------------------------------------
 
+djvOpenGlUtil::~djvOpenGlUtil()
+{}
+
 void djvOpenGlUtil::ortho(const djvVector2i & size, const djvVector2f & minMax)
 {
     glMatrixMode(GL_PROJECTION);

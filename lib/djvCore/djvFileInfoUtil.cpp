@@ -58,6 +58,9 @@
 // djvFileInfoUtil
 //------------------------------------------------------------------------------
 
+djvFileInfoUtil::~djvFileInfoUtil()
+{}
+
 namespace
 {
 

@@ -38,8 +38,8 @@
 
 #include <djvUtil.h>
 
-struct djvOpenGlImageOptions;
-class  djvPixelData;
+class djvOpenGlImageOptions;
+class djvPixelData;
 
 //! \addtogroup djvGuiWidget
 //@{

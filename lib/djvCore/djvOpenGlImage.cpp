@@ -273,6 +273,9 @@ const QStringList & djvOpenGlImageOptions::channelLabels()
 // djvOpenGlImage
 //------------------------------------------------------------------------------
 
+djvOpenGlImage::~djvOpenGlImage()
+{}
+
 void djvOpenGlImage::read(djvPixelData & output)
 {
     read(output, djvBox2i(output.size()));

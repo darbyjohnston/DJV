@@ -67,6 +67,9 @@
 // djvSystem
 //------------------------------------------------------------------------------
 
+djvSystem::~djvSystem()
+{}
+
 #if defined(DJV_WINDOWS)
 
 namespace

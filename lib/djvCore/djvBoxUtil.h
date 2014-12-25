@@ -54,7 +54,7 @@ public:
 
     //! Destructor.
     
-    virtual ~djvBoxUtil() = 0;
+    inline virtual ~djvBoxUtil() = 0;
     
     //! Create a box with the given corners.
 

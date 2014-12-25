@@ -46,6 +46,9 @@
 // djvUser
 //------------------------------------------------------------------------------
 
+djvUser::~djvUser()
+{}
+
 QString djvUser::current()
 {
     QString out;

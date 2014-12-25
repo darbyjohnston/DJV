@@ -46,6 +46,9 @@
 // djvMath
 //------------------------------------------------------------------------------
 
+djvMath::~djvMath()
+{}
+
 const double djvMath::pi     = 3.1415927;
 const double djvMath::piX2   = 6.2831853;
 const double djvMath::piDiv2 = 1.5707963;

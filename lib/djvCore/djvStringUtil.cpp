@@ -44,6 +44,9 @@
 // djvStringUtil
 //------------------------------------------------------------------------------
 
+djvStringUtil::~djvStringUtil()
+{}
+
 QStringList djvStringUtil::addQuotes(const QStringList & list)
 {
     QStringList tmp;

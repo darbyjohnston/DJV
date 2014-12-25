@@ -46,6 +46,9 @@
 // djvViewUtil
 //------------------------------------------------------------------------------
 
+djvViewUtil::~djvViewUtil()
+{}
+
 const QStringList & djvViewUtil::viewMaxLabels()
 {
     static const QStringList data = QStringList() <<

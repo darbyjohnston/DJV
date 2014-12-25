@@ -47,6 +47,9 @@
 // djvErrorUtil
 //------------------------------------------------------------------------------
 
+djvErrorUtil::~djvErrorUtil()
+{}
+
 QString djvErrorUtil::format(const djvError & error)
 {
     return error.prefix().isEmpty() ?

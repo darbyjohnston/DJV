@@ -41,6 +41,9 @@
 // djvMemory
 //------------------------------------------------------------------------------
 
+djvMemory::~djvMemory()
+{}
+
 const quint64 djvMemory::kilobyte = 1024;
 const quint64 djvMemory::megabyte = kilobyte * 1024;
 const quint64 djvMemory::gigabyte = megabyte * 1024;

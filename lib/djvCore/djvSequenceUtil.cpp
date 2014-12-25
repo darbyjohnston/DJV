@@ -46,6 +46,8 @@
 // djvSequenceUtil
 //------------------------------------------------------------------------------
 
+djvSequenceUtil::~djvSequenceUtil()
+{}
 
 qint64 djvSequenceUtil::findClosest(qint64 frame, const djvFrameList & frames)
 {

@@ -42,6 +42,9 @@
 // djvPixelDataUtil
 //------------------------------------------------------------------------------
 
+djvPixelDataUtil::~djvPixelDataUtil()
+{}
+
 quint64 djvPixelDataUtil::scanlineByteCount(const djvPixelDataInfo & in)
 {
     return (in.size.x * djvPixel::byteCount(in.pixel) * in.align) / in.align;

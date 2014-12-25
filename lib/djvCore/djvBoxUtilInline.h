@@ -41,6 +41,9 @@
 // djvBoxUtil
 //------------------------------------------------------------------------------
 
+inline djvBoxUtil::~djvBoxUtil()
+{}
+
 template<typename T, int D>
 inline djvBox<T, D> djvBoxUtil::corners(
     const djvVector<T, D> & upperLeft,
