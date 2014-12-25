@@ -133,6 +133,8 @@ protected:
     
 private Q_SLOTS:
 
+    void windowResizeCallback();
+    void enableUpdatesCallback();
     void reloadFrameCallback();
     void saveCallback(const djvFileInfo &);
     void saveFrameCallback(const djvFileInfo &);
@@ -140,8 +142,6 @@ private Q_SLOTS:
     void pickCallback(const djvVector2i &);
     void mouseWheelCallback(djvViewUtil::MOUSE_WHEEL);
     void mouseWheelValueCallback(int);
-    void enableUpdatesCallback();
-    void windowResizeCallback();
     
     void fileUpdate();
     void fileCacheUpdate();
