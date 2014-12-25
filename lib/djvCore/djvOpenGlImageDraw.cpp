@@ -1345,9 +1345,9 @@ QString sourceFragment(
 } // namespace
 
 //------------------------------------------------------------------------------
-//! \fn colorProfileInit
-//!
-//! This function initializes the color profile.
+// colorProfileInit
+//
+// This function initializes the color profile.
 //------------------------------------------------------------------------------
 
 namespace
@@ -1455,9 +1455,9 @@ void colorProfileInit(
 } // namespace
 
 //------------------------------------------------------------------------------
-//! \fn displayProfileInit
-//!
-//! This function initializes the display profile.
+// displayProfileInit
+//
+// This function initializes the display profile.
 //------------------------------------------------------------------------------
 
 namespace

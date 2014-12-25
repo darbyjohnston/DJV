@@ -51,7 +51,10 @@ class DJV_GUI_EXPORT djvFileBrowserCache : public QCache<djvFileInfo, QPixmap>
 {
 public:
 
+    //! Get the global file browser thumbnail cache.
+
     static djvFileBrowserCache * global();
 };
 
 #endif // DJV_FILE_BROWSER_CACHE_H
+

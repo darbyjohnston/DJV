@@ -97,6 +97,10 @@ public:
 
     void debugLogDialog();
 
+    //! Open the documentation.
+    
+    void help() const;
+
     //! Show the information dialog.
 
     void infoDialog();
@@ -112,8 +116,6 @@ public:
     virtual void printMessage(const QString &) const;
 
     virtual void printError(const djvError &) const;
-
-    virtual void help() const;
 
     virtual QString commandLineHelp() const;
 

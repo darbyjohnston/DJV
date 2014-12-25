@@ -71,6 +71,8 @@ class djvPicPlugin : public djvImageIo
 {
 public:
 
+    //! The plugin name.
+
     static const QString staticName;
 
     //! This enumeration provides the file types.

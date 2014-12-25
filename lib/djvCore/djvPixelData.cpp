@@ -327,8 +327,7 @@ _DJV_STRING_OPERATOR_LABEL(
     djvPixelDataInfo::PROXY,
     djvPixelDataInfo::proxyLabels())
 
-QStringList & operator >> (QStringList & in, djvPixelDataInfo::Mirror & out)
-    throw (QString)
+QStringList & operator >> (QStringList & in, djvPixelDataInfo::Mirror & out) throw (QString)
 {
     in >> out.x;
     in >> out.y;

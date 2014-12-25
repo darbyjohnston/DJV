@@ -264,6 +264,17 @@ void djvAbstractApplication::debugLogDialog()
     _p->debugLogDialog()->show();
 }
 
+void djvAbstractApplication::help() const
+{
+    //DJV_DEBUG("djvAbstractApplication::help");
+
+    const QString url(docPath() + "djv_view.html");
+
+    //DJV_DEBUG_PRINT("url = " << url);
+
+    QDesktopServices::openUrl(QUrl::fromLocalFile(url));
+}
+
 void djvAbstractApplication::infoDialog()
 {
     _p->infoDialog()->show();
@@ -325,17 +336,6 @@ void djvAbstractApplication::printError(const djvError & in) const
     {
         djvAbstractImageApplication::printError(in);
     }
-}
-
-void djvAbstractApplication::help() const
-{
-    //DJV_DEBUG("djvAbstractApplication::help");
-
-    const QString url(docPath() + "djv_view.html");
-
-    //DJV_DEBUG_PRINT("url = " << url);
-
-    QDesktopServices::openUrl(QUrl::fromLocalFile(url));
 }
 
 namespace
