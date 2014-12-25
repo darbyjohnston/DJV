@@ -85,7 +85,7 @@ djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
     connect(
         _p->widget2,
         SIGNAL(valueChanged(double)),
-        SLOT(widget2Callback(double)));
+        SLOT(valueCallback()));
     connect(
         _p->widget2,
         SIGNAL(rangeChanged(double, double)),

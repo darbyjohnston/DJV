@@ -55,7 +55,7 @@ void djvFileEditTest::run(const QStringList & args)
     
     connect(
         fileEdit,
-        SIGNAL(fileChanged(const djvFileInfo &)),
+        SIGNAL(fileInfoChanged(const djvFileInfo &)),
         SLOT(callback(const djvFileInfo &)));
     
     window->show();

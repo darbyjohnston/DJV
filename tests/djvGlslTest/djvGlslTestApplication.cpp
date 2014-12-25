@@ -69,6 +69,8 @@ djvGlslTestApplication::djvGlslTestApplication(int argc, char ** argv) :
     {
         print("Usage: djvGlslTest (image)");
         
+        setExitValue(djvApplicationEnum::EXIT_ERROR);
+        
         return;
     }
 

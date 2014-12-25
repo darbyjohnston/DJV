@@ -113,13 +113,13 @@ djvViewWidgetTest::djvViewWidgetTest() :
     
     connect(
         _frameWidget,
-        SIGNAL(frameChanged(int64_t)),
-        SLOT(frameCallback(int64_t)));
+        SIGNAL(frameChanged(qint64)),
+        SLOT(frameCallback(qint64)));
     
     connect(
         _frameSlider,
-        SIGNAL(frameChanged(int64_t)),
-        SLOT(frameCallback(int64_t)));
+        SIGNAL(frameChanged(qint64)),
+        SLOT(frameCallback(qint64)));
 
     connect(
         markInPointButton,

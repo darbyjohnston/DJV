@@ -484,7 +484,7 @@ void djvViewMainWindow::fitWindow(bool move)
     //DJV_DEBUG_PRINT("new view size = " <<
     //    djvVectorUtil::fromQSize(_p->viewWidget->size()));
     
-    if (move)
+    if (0 && isVisible())
     {
         //DJV_DEBUG_PRINT("move");
         

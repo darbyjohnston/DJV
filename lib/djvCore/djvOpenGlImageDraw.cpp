@@ -494,10 +494,10 @@ void shaderCompile(GLuint id, const QString & source) throw (djvError)
     djvMemoryBuffer<char> buf(source.length());
     djvMemory::copy(source.toLatin1().data(), buf.data(), buf.size());
 
-    const char * sources        [] = { buf.data() };
-    const GLint  source_lengths [] = { buf.size() };
+    const char * sources       [] = { buf.data() };
+    const GLint  sourceLengths [] = { buf.size() };
 
-    DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, source_lengths));
+    DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
 
     DJV_DEBUG_OPEN_GL(glCompileShader(id));
 

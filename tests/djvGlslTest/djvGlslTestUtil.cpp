@@ -161,12 +161,20 @@ void djvGlslTestShader::init(const QString & in) throw (djvError)
     if (! _vertex)
         throw djvError("Cannot create vertex shader");
 
-    const char * src [] = { vertexSrc.toLatin1().data() };
-    DJV_DEBUG_OPEN_GL(glShaderSource(_vertex, 1, src, 0));
+    djvMemoryBuffer<char> buf(vertexSrc.length());
+    djvMemory::copy(vertexSrc.toLatin1().data(), buf.data(), buf.size());
+    
+    const char * vertexSources [] = { buf.data() };
+    const GLint  vertexLengths [] = { buf.size() };
+    
+    DJV_DEBUG_OPEN_GL(glShaderSource(_vertex, 1, vertexSources, vertexLengths));
+    
     DJV_DEBUG_OPEN_GL(glCompileShader(_vertex));
+    
     char log[djvStringUtil::cStringLength] = "";
     glGetShaderInfoLog(_vertex, djvStringUtil::cStringLength, 0, log);
     //DJV_DEBUG_PRINT("log = " << log);
+    
     glGetShaderiv(_vertex, GL_COMPILE_STATUS, &error);
 
     if (! error)
@@ -178,9 +186,16 @@ void djvGlslTestShader::init(const QString & in) throw (djvError)
     if (! _fragment)
         throw djvError("Cannot create fragment shader");
 
-    src[0] = in.toLatin1().data();
-    DJV_DEBUG_OPEN_GL(glShaderSource(_fragment, 1, src, 0));
+    buf.setSize(in.length());
+    djvMemory::copy(in.toLatin1().data(), buf.data(), buf.size());
+    
+    const char * fragmentSources [] = { buf.data() };
+    const GLint  fragmentLengths [] = { buf.size() };
+    
+    DJV_DEBUG_OPEN_GL(glShaderSource(_fragment, 1, fragmentSources, fragmentLengths));
+    
     DJV_DEBUG_OPEN_GL(glCompileShader(_fragment));
+    
     glGetShaderInfoLog(_fragment, djvStringUtil::cStringLength, 0, log);
     //DJV_DEBUG_PRINT("log = " << log);
     glGetShaderiv(_fragment, GL_COMPILE_STATUS, &error);
