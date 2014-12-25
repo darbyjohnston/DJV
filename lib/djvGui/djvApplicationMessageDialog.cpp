@@ -101,6 +101,7 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
     // Initialize.
     
     setWindowTitle("Messages Dialog");
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     
     resize(400, 200);
     
