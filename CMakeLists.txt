@@ -106,8 +106,8 @@ cmake_policy(SET CMP0042 OLD)
 #
 # Git tag example:
 #
-# * git tag -a 1.0.5 -m "Version 1.0.5" df2f2e21232ceeab85ca40fc988aba5591fe9e64
-# * git push origin 1.0.5
+# * git tag -a 1.0.6 -m "Version 1.0.6" df2f2e21232ceeab85ca40fc988aba5591fe9e64
+# * git push origin 1.0.6
 #
 #
 # Image I/O Check List
@@ -167,7 +167,7 @@ endif (APPLE)
 
 set(djvVersionMajor "1")
 set(djvVersionMinor "0")
-set(djvVersionPatch "5")
+set(djvVersionPatch "6")
 
 set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
 
