@@ -37,6 +37,8 @@
 #include <djvDebug.h>
 #include <djvMath.h>
 
+#include <QCoreApplication>
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -62,8 +64,8 @@ QStringList djvStringUtil::addQuotes(const QStringList & list)
 const QStringList & djvStringUtil::boolLabels()
 {
     static const QStringList data = QStringList() <<
-        "False" <<
-        "True";
+        qApp->translate("djvStringUtil", "False") <<
+        qApp->translate("djvStringUtil", "True");
 
     return data;
 }

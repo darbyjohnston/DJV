@@ -36,6 +36,8 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvColorProfile::Exposure
 //------------------------------------------------------------------------------
@@ -63,10 +65,10 @@ djvColorProfile::djvColorProfile() :
 const QStringList & djvColorProfile::profileLabels()
 {
     static const QStringList data = QStringList() <<
-        "Raw" <<
-        "Gamma" <<
-        "LUT" <<
-        "Exposure";
+        qApp->translate("djvColorProfile", "Raw") <<
+        qApp->translate("djvColorProfile", "Gamma") <<
+        qApp->translate("djvColorProfile", "LUT") <<
+        qApp->translate("djvColorProfile", "Exposure");
 
     DJV_ASSERT(data.count() == PROFILE_COUNT);
 

@@ -59,6 +59,28 @@ public:
     //! Destructor.
 
     virtual ~djvGlxContextPrivate();
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_X_DISPLAY,
+        ERROR_X_VISUALS,
+        ERROR_X_COLORMAP,
+        ERROR_GLX,
+        ERROR_X_WINDOW,
+        ERROR_CREATE_CONTEXT,
+        ERROR_INIT_GLEW,
+        ERROR_NO_FBO,
+        ERROR_INVALID_CONTEXT,
+        ERROR_BIND_CONTEXT,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get error code labels.
+    
+    static const QStringList & errorLabels();
 
     virtual void bind() throw (djvError);
 

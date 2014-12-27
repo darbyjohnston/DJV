@@ -179,54 +179,18 @@ djvAbstractPrefsWidget * djvImageIo::createWidget()
     return 0;
 }
 
-void djvImageIo::throwUnrecognized(
-    const QString & plugin,
-    const QString & fileName) throw (djvError)
+const QStringList & djvImageIo::errorLabels()
 {
-    throw djvError(
-        plugin,
-        QString("Unrecognized file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
-}
-
-void djvImageIo::throwUnsupported(
-    const QString & plugin,
-    const QString & fileName) throw (djvError)
-{
-    throw djvError(
-        plugin,
-        QString("Unsupported file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
-}
-
-void djvImageIo::throwErrorOpen(
-    const QString & plugin,
-    const QString & fileName) throw (djvError)
-{
-    throw djvError(
-        plugin,
-        QString("Cannot open file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
-}
-
-void djvImageIo::throwErrorRead(
-    const QString & plugin,
-    const QString & fileName) throw (djvError)
-{
-    throw djvError(
-        plugin,
-        QString("Error reading file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
-}
-
-void djvImageIo::throwErrorWrite(
-    const QString & plugin,
-    const QString & fileName) throw (djvError)
-{
-    throw djvError(
-        plugin,
-        QString("Error writing file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
+    static const QStringList data = QStringList() <<
+        tr("Unrecognized file: \"%1\"") <<
+        tr("Unsupported file: \"%1\"") <<
+        tr("Cannot open file: \"%1\"") <<
+        tr("Error reading file: \"%1\"") <<
+        tr("Error writing file: \"%1\"");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
 }
 
 //------------------------------------------------------------------------------
@@ -376,7 +340,8 @@ djvImageLoad * djvImageIoFactory::load(
     }
     else
     {
-        throw djvError(QString("Unrecognized file: %1").
+        throw djvError(
+            errorLabels()[ERROR_UNRECOGNIZED].
             arg(QDir::toNativeSeparators(fileInfo)));
     }
     
@@ -417,7 +382,8 @@ djvImageSave * djvImageIoFactory::save(
     }
     else
     {
-        throw djvError(QString("Unrecognized file: %1").
+        throw djvError(
+            errorLabels()[ERROR_UNRECOGNIZED].
             arg(QDir::toNativeSeparators(fileInfo)));
     }
     
@@ -438,6 +404,16 @@ djvImageIoFactory * djvImageIoFactory::global()
     }
 
     return factory.data();
+}
+
+const QStringList & djvImageIoFactory::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        tr("Unrecognized file: \"%1\"");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
 }
 
 void djvImageIoFactory::pluginOptionCallback(const QString &)

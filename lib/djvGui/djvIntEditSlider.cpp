@@ -80,7 +80,7 @@ djvIntEditSlider::djvIntEditSlider(QWidget * parent) :
     _p->defaultButton->setIconSize(QSize(16, 16));
     _p->defaultButton->setIcon(
         djvIconLibrary::global()->icon("djvResetIcon.png"));
-    _p->defaultButton->setToolTip("Reset the value");
+    _p->defaultButton->setToolTip(tr("Reset the value"));
     
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setSpacing(5);

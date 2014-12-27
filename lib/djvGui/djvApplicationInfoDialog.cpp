@@ -71,7 +71,7 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     
-    QPushButton * copyButton = new QPushButton("Copy");
+    QPushButton * copyButton = new QPushButton(tr("Copy"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -84,7 +84,7 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
 
     // Initialize.
     
-    setWindowTitle("Information Dialog");
+    setWindowTitle(tr("Information Dialog"));
     
     resize(500, 400);
     

@@ -380,6 +380,24 @@ public:
     //! Get a pixel.
     
     static djvColor pixel(const djvPixelData &, int x, int y);
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_CREATE_TEXTURE,
+        ERROR_CREATE_TEXTURE2,
+        ERROR_CREATE_SHADER,
+        ERROR_COMPILE_SHADER,
+        ERROR_CREATE_PROGRAM,
+        ERROR_LINK_PROGRAM,
+            
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 };
 
 //------------------------------------------------------------------------------

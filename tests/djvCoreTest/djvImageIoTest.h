@@ -44,7 +44,6 @@ public:
 private:
 
     void info();
-    void exceptions();
     void plugin();
     void io();
 };

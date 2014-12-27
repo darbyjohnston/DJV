@@ -75,7 +75,7 @@ struct djvMiscPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget("Miscellaneous", parent),
+    djvAbstractPrefsWidget(tr("Miscellaneous"), parent),
     _p(new P)
 {
     // Create the time widgets.
@@ -96,28 +96,29 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
 
     // Create the help widgets.
 
-    _p->toolTipsWidget = new QCheckBox("Enable tool tips");
+    _p->toolTipsWidget = new QCheckBox(tr("Enable tool tips"));
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Time");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Time"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Time units:", _p->timeUnitsWidget);
+    formLayout->addRow(tr("Time units:"), _p->timeUnitsWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->speedWidget);
-    hLayout->addWidget(new QLabel("(frames per second)"));
-    formLayout->addRow("Default speed:", hLayout);
+    hLayout->addWidget(new QLabel(tr("(frames per second)")));
+    formLayout->addRow(tr("Default speed:"), hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("File Sequences");
+    prefsGroupBox = new djvPrefsGroupBox(tr("File Sequences"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Maximum number of frames:", _p->sequenceMaxFramesWidget);
+    formLayout->addRow(tr("Maximum number of frames:"),
+        _p->sequenceMaxFramesWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Help");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Help"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->toolTipsWidget);
     layout->addWidget(prefsGroupBox);

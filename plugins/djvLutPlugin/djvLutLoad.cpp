@@ -48,7 +48,8 @@ djvLutLoad::djvLutLoad(const djvLutPlugin::Options & options) :
 djvLutLoad::~djvLutLoad()
 {}
 
-void djvLutLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvLutLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvLutLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -118,7 +119,11 @@ void djvLutLoad::_open(const djvFileInfo & in, djvImageIoInfo & info, djvFileIo 
     const int index = djvLutPlugin::staticExtensions.indexOf(in.extension());
 
     if (-1 == index)
-        djvImageIo::throwUnrecognized(djvLutPlugin::staticName, in);
+    {
+        throw djvError(
+            djvLutPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].arg(in));
+    }
 
     _format = static_cast<djvLutPlugin::FORMAT>(index);
 

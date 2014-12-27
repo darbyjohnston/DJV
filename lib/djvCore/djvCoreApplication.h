@@ -154,11 +154,24 @@ public:
     
     static djvAbstractCoreApplication * global();
 
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_COMMAND_LINE,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
+    
 protected:
 
-    QStringList _commandLineArgs;
+    void loadTranslator(const QString & baseName);
 
-    static const QString errorCommandLine;
+    QStringList _commandLineArgs;
 
 private:
     

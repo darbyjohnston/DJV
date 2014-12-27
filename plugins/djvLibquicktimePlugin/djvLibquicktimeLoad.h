@@ -56,6 +56,19 @@ public:
     //! Destructor.
 
     virtual ~djvLibquicktimeLoad();
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_NO_VIDEO_TRACKS,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
     virtual void open(const djvFileInfo &, djvImageIoInfo &)
         throw (djvError);

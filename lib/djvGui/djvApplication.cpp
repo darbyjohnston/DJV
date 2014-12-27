@@ -166,6 +166,8 @@ djvAbstractApplication::djvAbstractApplication(
 {
     //DJV_DEBUG("djvAbstractApplication::djvAbstractApplication");
 
+    loadTranslator("djvGui");
+
     // Parse the command line for the reset preferences option.
 
     try
@@ -174,7 +176,8 @@ djvAbstractApplication::djvAbstractApplication(
     }
     catch (const djvError & error)
     {
-        printError(djvError(QString(errorCommandLine).arg(error.string())));
+        printError(
+            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
 
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -293,22 +296,17 @@ int djvAbstractApplication::run()
     return djvAbstractImageApplication::run();
 }
 
-namespace
+QString djvAbstractApplication::info() const
 {
-
-const QString labelInfo =
+    static const QString label = qApp->translate("djvAbstractApplication",
 "%1"
 "\n"
 "Preferences\n"
 "\n"
 "    User: %2\n"
-"    System: %3\n";
+"    System: %3\n");
 
-} // namespace
-
-QString djvAbstractApplication::info() const
-{
-    return QString(labelInfo).
+    return QString(label).
         arg(djvAbstractImageApplication::info()).
         arg(djvPrefs(QString(), djvPrefs::USER).fileName()).
         arg(djvPrefs(QString(), djvPrefs::SYSTEM).fileName());
@@ -338,28 +336,22 @@ void djvAbstractApplication::printError(const djvError & in) const
     }
 }
 
-namespace
+QString djvAbstractApplication::commandLineHelp() const
 {
-
-const QString commandLineHelpLabel =
+    static const QString label = qApp->translate("djvAbstractApplication",
 "\n"
 "User Interface Options\n"
 "\n"
 "    -reset_prefs\n"
 "        Do not load the preference at start up.\n"
-"%2";
+"%2");
 
-} // namespace
-
-QString djvAbstractApplication::commandLineHelp() const
-{
-    QString imageIoHelp;
-
-    return QString(commandLineHelpLabel).
+    return QString(label).
         arg(djvAbstractImageApplication::commandLineHelp());
 }
 
-void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in) throw (djvError)
+void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in)
+    throw (djvError)
 {
     //DJV_DEBUG("djvAbstractApplication::resetPreferencesCommandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -379,7 +371,7 @@ void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in) throw
         {
             in >> arg;
 
-            if ("-reset_prefs" == arg)
+            if (qApp->translate("djvAbstractApplication", "-reset_prefs") == arg)
             {
                 DJV_LOG("djvAbstractApplication", "Reset the preferences...");
                 

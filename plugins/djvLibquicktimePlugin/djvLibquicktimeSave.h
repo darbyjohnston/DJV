@@ -58,6 +58,20 @@ public:
     //! Destructor.
     
     virtual ~djvLibquicktimeSave();
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_SET_CODEC,
+        ERROR_SET_COLOR_MODEL,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
     virtual void open(const djvFileInfo &, const djvImageIoInfo &)
         throw (djvError);

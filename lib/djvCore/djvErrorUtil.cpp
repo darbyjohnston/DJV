@@ -35,6 +35,7 @@
 
 #include <djvError.h>
 
+#include <QCoreApplication>
 #include <QString>
 
 #if defined(DJV_WINDOWS)
@@ -53,8 +54,9 @@ djvErrorUtil::~djvErrorUtil()
 QString djvErrorUtil::format(const djvError & error)
 {
     return error.prefix().isEmpty() ?
-        QString("[ERROR] %1").arg(error.string()) :
-        QString("[ERROR %1] %2").arg(error.prefix()).arg(error.string());
+        qApp->translate("djvErrorUtil", "[ERROR] %1").arg(error.string()) :
+        qApp->translate("djvErrorUtil", "[ERROR %1] %2").
+            arg(error.prefix()).arg(error.string());
 }
 
 void djvErrorUtil::print(const djvError & in)

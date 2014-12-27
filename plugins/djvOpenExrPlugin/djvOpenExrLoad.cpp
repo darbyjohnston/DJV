@@ -59,7 +59,8 @@ djvOpenExrLoad::~djvOpenExrLoad()
     close();
 }
 
-void djvOpenExrLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvOpenExrLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvOpenExrLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -76,7 +77,8 @@ void djvOpenExrLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (
     }
 }
 
-void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame) throw (djvError)
+void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
+    throw (djvError)
 {
     //DJV_DEBUG("djvOpenExrLoad::read");
     //DJV_DEBUG_PRINT("frame = " << frame);
@@ -95,7 +97,9 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame) t
 
         if (frame.layer < 0 || frame.layer >= _layers.count())
         {
-            djvImageIo::throwErrorRead(djvOpenExrPlugin::staticName, fileName);
+            throw djvError(
+                djvOpenExrPlugin::staticName,
+                djvImageIo::errorLabels()[djvImageIo::ERROR_READ].arg(fileName));
         }
 
         djvPixelDataInfo _info = info[frame.layer];
@@ -224,7 +228,9 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame) t
     }
     catch (const std::exception & error)
     {
-        DJV_THROW_ERROR2(djvOpenExrPlugin::staticName, error.what());
+        throw djvError(
+            djvOpenExrPlugin::staticName,
+            error.what());
     }
 
     //DJV_DEBUG_PRINT("image = " << image);
@@ -239,7 +245,8 @@ void djvOpenExrLoad::close() throw (djvError)
     _f = 0;
 }
 
-void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvError)
+void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvOpenExrLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -284,7 +291,10 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info) throw (djv
             
             if (! djvPixel::format(_layers[i].channels.count(), format))
             {
-                djvImageIo::throwUnsupported(djvOpenExrPlugin::staticName, in);
+                throw djvError(
+                    djvOpenExrPlugin::staticName,
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+                    arg(in));
             }
             
             //DJV_DEBUG_PRINT("format = " << format);
@@ -294,7 +304,10 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info) throw (djv
                 _layers[i].channels[0].type,
                 tmp.pixel))
             {
-                djvImageIo::throwUnsupported(djvOpenExrPlugin::staticName, in);
+                throw djvError(
+                    djvOpenExrPlugin::staticName,
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+                    arg(in));
             }
 
             //DJV_DEBUG_PRINT("pixel = " << tmp.pixel);
@@ -308,6 +321,8 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info) throw (djv
     }
     catch (const std::exception & error)
     {
-        DJV_THROW_ERROR2(djvOpenExrPlugin::staticName, error.what());
+        throw djvError(
+            djvOpenExrPlugin::staticName,
+            error.what());
     }
 }

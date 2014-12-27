@@ -47,7 +47,6 @@ void djvImageIoTest::run(int & argc, char ** argv)
     djvImageApplication app("djvImageIoTest", argc, argv);
     
     info();
-    exceptions();
     plugin();
     io();
 }
@@ -145,68 +144,6 @@ void djvImageIoTest::info()
         DJV_DEBUG_PRINT(djvImageIoInfo());
         
         DJV_DEBUG_PRINT(djvImageIoFrameInfo());
-    }
-}
-
-void djvImageIoTest::exceptions()
-{
-    DJV_DEBUG("djvImageIoTest::exceptions");
-    
-    const QString name = "name";
-    
-    try
-    {
-        djvImageIo::throwUnrecognized(name, "");
-        
-        DJV_ASSERT(0);
-    }
-    catch (const djvError & error)
-    {
-        DJV_ASSERT(error.prefix() == name);
-    }
-    
-    try
-    {
-        djvImageIo::throwUnsupported(name, "");
-        
-        DJV_ASSERT(0);
-    }
-    catch (const djvError & error)
-    {
-        DJV_ASSERT(error.prefix() == name);
-    }
-    
-    try
-    {
-        djvImageIo::throwErrorOpen(name, "");
-        
-        DJV_ASSERT(0);
-    }
-    catch (const djvError & error)
-    {
-        DJV_ASSERT(error.prefix() == name);
-    }
-    
-    try
-    {
-        djvImageIo::throwErrorRead(name, "");
-        
-        DJV_ASSERT(0);
-    }
-    catch (const djvError & error)
-    {
-        DJV_ASSERT(error.prefix() == name);
-    }
-    
-    try
-    {
-        djvImageIo::throwErrorWrite(name, "");
-        
-        DJV_ASSERT(0);
-    }
-    catch (const djvError & error)
-    {
-        DJV_ASSERT(error.prefix() == name);
     }
 }
     

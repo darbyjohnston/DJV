@@ -38,6 +38,8 @@
 #include <djvImage.h>
 #include <djvPixelDataUtil.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvLibquicktimeLoad
 //------------------------------------------------------------------------------
@@ -55,6 +57,16 @@ djvLibquicktimeLoad::~djvLibquicktimeLoad()
     close();
 }
 
+const QStringList & djvLibquicktimeLoad::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvLibquicktimeLoad", "No video tracks in: %1");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
+}
+
 void djvLibquicktimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     throw (djvError)
 {
@@ -69,21 +81,23 @@ void djvLibquicktimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     if (! _f)
     {
-        djvLibquicktimePlugin::throwErrorOpen(
-            djvLibquicktimePlugin::staticName, in);
+        throw djvError(
+            djvLibquicktimePlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
     }
 
     if (! quicktime_has_video(_f))
     {
-        DJV_THROW_ERROR2(
+        throw djvError(
             djvLibquicktimePlugin::staticName,
-            QString("No video tracks in: %1").arg(in));
+            errorLabels()[ERROR_NO_VIDEO_TRACKS].arg(in));
     }
 
     if (! quicktime_supported_video(_f, 0))
     {
-        djvLibquicktimePlugin::throwUnsupported(
-            djvLibquicktimePlugin::staticName, in);
+        throw djvError(
+            djvLibquicktimePlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
     }
 
     // Get file information.
@@ -116,8 +130,9 @@ void djvLibquicktimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         case BC_RGBA8888:     _info.pixel = djvPixel::RGBA_U8;  break;
         case BC_RGBA16161616: _info.pixel = djvPixel::RGBA_U16; break;
 
-        default: djvLibquicktimePlugin::throwUnsupported(
-            djvLibquicktimePlugin::staticName, in);
+        throw djvError(
+            djvLibquicktimePlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
     }
 
     lqt_set_cmodel(_f, 0, cmodel);

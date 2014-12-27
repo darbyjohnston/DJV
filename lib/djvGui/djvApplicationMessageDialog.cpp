@@ -79,9 +79,9 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     
-    _p->showCheckBox = new QCheckBox("Show");
+    _p->showCheckBox = new QCheckBox(tr("Show"));
     
-    QPushButton * clearButton = new QPushButton("Clear");
+    QPushButton * clearButton = new QPushButton(tr("Clear"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(_p->showCheckBox, QDialogButtonBox::ActionRole);
@@ -100,7 +100,7 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
 
     // Initialize.
     
-    setWindowTitle("Messages Dialog");
+    setWindowTitle(tr("Messages Dialog"));
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     
     resize(400, 200);

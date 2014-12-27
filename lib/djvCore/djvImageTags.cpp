@@ -36,6 +36,7 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 
+#include <QCoreApplication>
 #include <QPair>
 #include <QString>
 #include <QStringList>
@@ -157,14 +158,14 @@ void djvImageTags::clear()
 const QStringList & djvImageTags::tagLabels()
 {
     static const QStringList data = QStringList() <<
-        "Project" <<
-        "Creator" <<
-        "Description" <<
-        "Copyright" <<
-        "Time" <<
-        "UTC Offset" <<
-        "Keycode" <<
-        "Timecode";
+        qApp->translate("djvImageTags", "Project") <<
+        qApp->translate("djvImageTags", "Creator") <<
+        qApp->translate("djvImageTags", "Description") <<
+        qApp->translate("djvImageTags", "Copyright") <<
+        qApp->translate("djvImageTags", "Time") <<
+        qApp->translate("djvImageTags", "UTC Offset") <<
+        qApp->translate("djvImageTags", "Keycode") <<
+        qApp->translate("djvImageTags", "Timecode");
 
     DJV_ASSERT(data.count() == TAGS_COUNT);
 

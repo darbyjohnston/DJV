@@ -412,13 +412,13 @@ struct djvFileBrowserModel::P
 const QStringList & djvFileBrowserModel::columnsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Name" <<
-        "Size" <<
+        tr("Name") <<
+        tr("Size") <<
 #if ! defined(DJV_WINDOWS)
-        "User" <<
+        tr("User") <<
 #endif
-        "Permissions" <<
-        "Time";
+        tr("Permissions") <<
+        tr("Time");
 
     DJV_ASSERT(data.count() == COLUMNS_COUNT);
 
@@ -496,9 +496,9 @@ bool djvFileBrowserModel::hasSortDirsFirst() const
 const QStringList & djvFileBrowserModel::thumbnailsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Off" <<
-        "Low Quality" <<
-        "High Quality";
+        tr("Off") <<
+        tr("Low Quality") <<
+        tr("High Quality");
 
     DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
 
@@ -513,9 +513,9 @@ djvFileBrowserModel::THUMBNAILS djvFileBrowserModel::thumbnails() const
 const QStringList & djvFileBrowserModel::thumbnailsSizeLabels()
 {
     static const QStringList data = QStringList() <<
-        "Small" <<
-        "Medium" <<
-        "Large";
+        tr("Small") <<
+        tr("Medium") <<
+        tr("Large");
 
     DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
 

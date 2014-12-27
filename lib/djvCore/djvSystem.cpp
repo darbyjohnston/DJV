@@ -209,16 +209,16 @@ WINDOWS windowsVersion()
 const QStringList & windowsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Unknown" <<
-        "Windows 2000" <<
-        "Windows XP" <<
-        "Windows XPProfessional x64 Edition" <<
-        "Windows Server2003" <<
-        "Windows Server 2003 R2" <<
-        "Windows Vista" <<
-        "Windows Server 2008" <<
-        "Windows 7" <<
-        "Windows Server 2008 R2";
+        qApp->translate("djvSystem", "Unknown") <<
+        qApp->translate("djvSystem", "Windows 2000") <<
+        qApp->translate("djvSystem", "Windows XP") <<
+        qApp->translate("djvSystem", "Windows XPProfessional x64 Edition") <<
+        qApp->translate("djvSystem", "Windows Server2003") <<
+        qApp->translate("djvSystem", "Windows Server 2003 R2") <<
+        qApp->translate("djvSystem", "Windows Vista") <<
+        qApp->translate("djvSystem", "Windows Server 2008") <<
+        qApp->translate("djvSystem", "Windows 7") <<
+        qApp->translate("djvSystem", "Windows Server 2008 R2");
 
     DJV_ASSERT(data.count() == _WINDOWS_SIZE);
 
@@ -316,15 +316,17 @@ QStringList djvSystem::searchPath()
 
     out += applicationPath;
     
-    // Add library paths.
+    // Add library and translation paths.
 
     out += QDir(applicationPath + "/../lib").absolutePath();
+    out += QDir(applicationPath + "/../translations").absolutePath();
 
 #if defined(DJV_WINDOWS) || defined(DJV_OSX)
 
     const QString dirName = QDir(qApp->applicationDirPath()).dirName();
 
     out += QDir(applicationPath + "/../../lib/" + dirName).absolutePath();
+    out += QDir(applicationPath + "/../../translations/" + dirName).absolutePath();
 
 #endif
 
@@ -346,6 +348,21 @@ QStringList djvSystem::searchPath()
         out += s;
 
     return out;
+}
+
+QString djvSystem::findFile(const QString & fileName)
+{
+    Q_FOREACH(const QString & path, searchPath())
+    {
+        QFileInfo fileInfo(path + "/" + fileName);
+        
+        if (fileInfo.exists())
+        {
+            return fileInfo.absoluteFilePath();
+        }
+    }
+    
+    return QString();
 }
 
 int djvSystem::terminalWidth()

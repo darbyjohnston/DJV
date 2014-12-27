@@ -73,7 +73,7 @@ djvQuestionDialog::djvQuestionDialog(const QString & label, QWidget * parent) :
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
 
-    setWindowTitle("Question Dialog");
+    setWindowTitle(tr("Question Dialog"));
     
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));

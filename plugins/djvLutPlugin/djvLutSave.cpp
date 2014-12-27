@@ -97,7 +97,12 @@ void djvLutSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     const int index = djvLutPlugin::staticExtensions.indexOf(_file.extension());
 
     if (-1 == index)
-        djvImageIo::throwUnrecognized(djvLutPlugin::staticName, fileName);
+    {
+        throw djvError(
+            djvLutPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
+            arg(fileName));
+    }
 
     _format = static_cast<djvLutPlugin::FORMAT>(index);
 

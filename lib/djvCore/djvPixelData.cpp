@@ -40,6 +40,8 @@
 #include <djvFileIo.h>
 #include <djvStringUtil.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvPixelDataInfo::Mirror
 //------------------------------------------------------------------------------
@@ -55,7 +57,10 @@ djvPixelDataInfo::Mirror::Mirror(bool x, bool y) :
 
 void djvPixelDataInfo::init()
 {
-    layerName = "Default";
+    static const QString defaultLayerName =
+        qApp->translate("djvPixelDataInfo", "Default");
+    
+    layerName = defaultLayerName;
     proxy     = PROXY_NONE;
     pixel     = static_cast<djvPixel::PIXEL>(0);
     bgr       = false;
@@ -117,10 +122,10 @@ djvPixelDataInfo::djvPixelDataInfo(
 const QStringList & djvPixelDataInfo::proxyLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "1/2" <<
-        "1/4" <<
-        "1/8";
+        qApp->translate("djvPixelDataInfo", "None") <<
+        qApp->translate("djvPixelDataInfo", "1/2") <<
+        qApp->translate("djvPixelDataInfo", "1/4") <<
+        qApp->translate("djvPixelDataInfo", "1/8");
 
     DJV_ASSERT(data.count() == djvPixelDataInfo::PROXY_COUNT);
 

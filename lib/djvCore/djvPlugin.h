@@ -113,6 +113,20 @@ public:
     //! Get the list of plugin names.
 
     QStringList names() const;
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_OPEN,
+        ERROR_LOAD,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
 private:
     

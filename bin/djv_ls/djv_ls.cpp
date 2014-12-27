@@ -33,6 +33,7 @@
 
 #include <djv_ls.h>
 
+#include <djvAssert.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
@@ -61,6 +62,8 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     _doNotSortDirs(false)
 {
     //DJV_DEBUG("djvLsApplication::djvLsApplication");
+    
+    loadTranslator("djv_ls");
 
     // Parse the command line.
 
@@ -70,7 +73,8 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     }
     catch (const djvError & error)
     {
-        printError(djvError(QString(errorCommandLine).arg(error.string())));
+        printError(
+            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -106,7 +110,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
 
             if (! fileInfo.stat())
             {
-                printError(djvError(QString("Cannot open: \"%1\"").
+                printError(djvError(errorLabels()[ERROR_OPEN].
                     arg(QDir::toNativeSeparators(fileInfo))));
                 
                 setExitValue(djvApplicationEnum::EXIT_ERROR);
@@ -152,7 +156,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
                 list[i],
                 ((list.count() > 1) || _recurse) && ! _filePath))
             {
-                printError(djvError(QString("Cannot open: \"%1\"").
+                printError(djvError(errorLabels()[ERROR_OPEN].
                     arg(QDir::toNativeSeparators(list[i]))));
                 
                 setExitValue(djvApplicationEnum::EXIT_ERROR);
@@ -186,42 +190,42 @@ void djvLsApplication::commandLine(QStringList & in) throw (djvError)
 
             // Parse the options.
 
-            if ("-x_info" == arg || "-xi" == arg)
+            if (tr("-x_info") == arg || tr("-xi") == arg)
             {
                 _info = false;
             }
-            else if ("-file_path" == arg || "-fp" == arg)
+            else if (tr("-file_path") == arg || tr("-fp") == arg)
             {
                 _filePath = true;
             }
-            else if ("-seq" == arg || "-q" == arg)
+            else if (tr("-seq") == arg || tr("-q") == arg)
             {
                 in >> _sequence;
             }
-            else if ("-recurse" == arg || "-r" == arg)
+            else if (tr("-recurse") == arg || tr("-r") == arg)
             {
                 _recurse = true;
             }
-            else if ("-hidden" == arg)
+            else if (tr("-hidden") == arg)
             {
                 _hidden = true;
             }
-            else if ("-columns" == arg || "-c" == arg)
+            else if (tr("-columns") == arg || tr("-c") == arg)
             {
                 in >> _columns;
             }
 
             // Parse the sorting options.
 
-            else if ("-sort" == arg || "-s" == arg)
+            else if (tr("-sort") == arg || tr("-s") == arg)
             {
                 in >> _sort;
             }
-            else if ("-reverse_sort" == arg || "-rs" == arg)
+            else if (tr("-reverse_sort") == arg || tr("-rs") == arg)
             {
                 _reverseSort = true;
             }
-            else if ("-x_sort_dirs" == arg || "-xsd" == arg)
+            else if (tr("-x_sort_dirs") == arg || tr("-xsd") == arg)
             {
                 _doNotSortDirs = false;
             }
@@ -239,11 +243,20 @@ void djvLsApplication::commandLine(QStringList & in) throw (djvError)
         throw djvError(arg);
     }
 }
-
-namespace
+    
+const QStringList & djvLsApplication::errorLabels()
 {
+    static const QStringList data = QStringList() <<
+        tr("Cannot open: \"%1\"");
 
-const QString commandLineHelpLabel =
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
+}
+
+QString djvLsApplication::commandLineHelp() const
+{
+    static const QString label = tr(
 "djv_ls\n"
 "\n"
 "    This application provides a command line tool for listing directories "
@@ -304,13 +317,9 @@ const QString commandLineHelpLabel =
 "    > djv_ls ~/movies ~/pictures\n"
 "\n"
 "    Sort by time with the most recent first:\n"
-"    > djv_ls -sort time -reverse_sort\n";
+"    > djv_ls -sort time -reverse_sort\n");
 
-} // namespace
-
-QString djvLsApplication::commandLineHelp() const
-{
-    return QString(commandLineHelpLabel).
+    return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvFileInfoUtil::sortLabels().join(", ")).
@@ -366,9 +375,9 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
     {
         const QString infoString =
 #if defined(DJV_WINDOWS)
-            QString("%1 %2 %3 %4").
+            tr("%1 %2 %3 %4").
 #else
-            QString("%1 %2 %3 %4 %5").
+            tr("%1 %2 %3 %4 %5").
 #endif
             arg(djvFileInfo::typeLabels()[in.type()], 4).
             arg(djvMemory::sizeLabel(in.size())).
@@ -399,7 +408,7 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
         }
 
         print(
-            QString("%1 %2").
+            tr("%1 %2").
                 arg(QDir::toNativeSeparators(name)).
                 arg(infoString, _columns - name.length() - 2));
     }
@@ -429,7 +438,7 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (label)
     {
-        print(QString("%1:").arg(QDir::toNativeSeparators(in)));
+        print(tr("%1:").arg(QDir::toNativeSeparators(in)));
     }
 
     for (int i = 0; i < items.count(); ++i)

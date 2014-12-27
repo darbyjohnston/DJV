@@ -4,11 +4,17 @@ set(header
 set(source
     djv_convert.cpp)
 
+if (Qt5Core_DIR)
+    QT5_CREATE_TRANSLATION(qmSource ${source} djv_convert_en_US.ts)
+else()
+    QT4_CREATE_TRANSLATION(qmSource ${source} djv_convert_en_US.ts)
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_convert
     ${djvCoreIncludeDirs})
 
-add_executable(djv_convert ${header} ${source})
+add_executable(djv_convert ${header} ${source} ${qmSource})
 
 target_link_libraries(djv_convert ${djvCoreLibs})
 
@@ -27,6 +33,10 @@ if (djvImageIoPlugins)
     add_dependencies(djv_convert ${djvImageIoPlugins})
 
 endif (djvImageIoPlugins)
+
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
 
 install(
     TARGETS djv_convert

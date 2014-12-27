@@ -189,7 +189,7 @@ djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
 
     // Initialize.
     
-    setWindowTitle("Progress Dialog");
+    setWindowTitle(tr("Progress Dialog"));
     
     _p->labelWidget->setText(label);
 
@@ -288,13 +288,13 @@ void djvProgressDialog::timerEvent(QTimerEvent *)
         static_cast<double>(_p->currentTick + 1) *
         (_p->totalTicks - (_p->currentTick + 1));
 
-    const QString estimateLabel = QString("Estimated: %1 (%2 Frames/Second)").
+    const QString estimateLabel = QString(tr("Estimated: %1 (%2 Frames/Second)")).
         arg(djvTime::labelTime(estimate)).
         arg(_p->currentTick / _p->elapsed.seconds(), 0, 'f', 2);
     
     _p->estimateLabel->setText(estimateLabel);
 
-    const QString elapsedLabel = QString("Elapsed: %1").
+    const QString elapsedLabel = QString(tr("Elapsed: %1")).
         arg(djvTime::labelTime(_p->elapsed.seconds()));
     
     _p->elapsedLabel->setText(elapsedLabel);

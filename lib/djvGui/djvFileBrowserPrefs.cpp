@@ -257,39 +257,39 @@ djvFileBrowserPrefs * djvFileBrowserPrefs::global()
 const QStringList & djvFileBrowserPrefs::shortcutLabels()
 {
     static const QStringList data = QStringList() <<
-        "Up" <<
-        "Previous" <<
-        "Current" <<
-        "Home" <<
-        "Desktop" <<
-        "Root" <<
-        "Reload" <<
-        "Sequence Off" <<
-        "Sequence Sparse" <<
-        "Sequence Range" <<
-        "Show Hidden" <<
-        "Sort Name" <<
-        "Sort Size" <<
+        tr("Up") <<
+        tr("Previous") <<
+        tr("Current") <<
+        tr("Home") <<
+        tr("Desktop") <<
+        tr("Root") <<
+        tr("Reload") <<
+        tr("Sequence Off") <<
+        tr("Sequence Sparse") <<
+        tr("Sequence Range") <<
+        tr("Show Hidden") <<
+        tr("Sort Name") <<
+        tr("Sort Size") <<
 #if ! defined(DJV_WINDOWS)
-        "SortUser" <<
+        tr("SortUser") <<
 #endif
-        "Sort Time" <<
-        "Sort Permissions" <<
-        "Reverse Sort" <<
-        "Sort Dirs First" <<
-        "Add Bookmark" <<
-        "Bookmark 1" <<
-        "Bookmark 2" <<
-        "Bookmark 3" <<
-        "Bookmark 4" <<
-        "Bookmark 5" <<
-        "Bookmark 6" <<
-        "Bookmark 7" <<
-        "Bookmark 8" <<
-        "Bookmark 9" <<
-        "Bookmark 10" <<
-        "Bookmark 11" <<
-        "Bookmark 12";
+        tr("Sort Time") <<
+        tr("Sort Permissions") <<
+        tr("Reverse Sort") <<
+        tr("Sort Dirs First") <<
+        tr("Add Bookmark") <<
+        tr("Bookmark 1") <<
+        tr("Bookmark 2") <<
+        tr("Bookmark 3") <<
+        tr("Bookmark 4") <<
+        tr("Bookmark 5") <<
+        tr("Bookmark 6") <<
+        tr("Bookmark 7") <<
+        tr("Bookmark 8") <<
+        tr("Bookmark 9") <<
+        tr("Bookmark 10") <<
+        tr("Bookmark 11") <<
+        tr("Bookmark 12");
 
     DJV_ASSERT(data.count() == SHORTCUT_COUNT);
 

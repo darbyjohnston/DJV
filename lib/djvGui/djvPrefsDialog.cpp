@@ -135,11 +135,11 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     
     _p->resetPageButton =
-        _p->buttonBox->addButton("Reset Page", QDialogButtonBox::ResetRole);
+        _p->buttonBox->addButton(tr("Reset Page"), QDialogButtonBox::ResetRole);
     _p->resetPageButton->setAutoDefault(false);
 
     _p->resetAllButton =
-        _p->buttonBox->addButton("Reset All", QDialogButtonBox::ResetRole);
+        _p->buttonBox->addButton(tr("Reset All"), QDialogButtonBox::ResetRole);
     _p->resetAllButton->setAutoDefault(false);
 
     // Layout the widgets.
@@ -155,12 +155,12 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
     
     // Initialize.
     
-    setWindowTitle("Preferences Dialog");
+    setWindowTitle(tr("Preferences Dialog"));
 
-    addWidget(new djvFileBrowserPrefsWidget, "General");
-    addWidget(new djvMiscPrefsWidget, "General");
-    addWidget(new djvOpenGlPrefsWidget, "General");
-    addWidget(new djvStylePrefsWidget, "General");
+    addWidget(new djvFileBrowserPrefsWidget, tr("General"));
+    addWidget(new djvMiscPrefsWidget, tr("General"));
+    addWidget(new djvOpenGlPrefsWidget, tr("General"));
+    addWidget(new djvStylePrefsWidget, tr("General"));
 
     const QList<djvPlugin *> & imageIo = djvImageIoFactory::global()->plugins();
 
@@ -170,7 +170,7 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
         {
             if (djvAbstractPrefsWidget * widget = plugin->createWidget())
             {
-                addWidget(widget, "Image I/O");
+                addWidget(widget, tr("Image I/O"));
             }
         }
     }
@@ -250,7 +250,7 @@ void djvPrefsDialog::buttonCallback(QAbstractButton * button)
     if (button == _p->resetAllButton)
     {
         djvQuestionDialog dialog(
-            "Are you sure you want to reset all of the preferences?");
+            tr("Are you sure you want to reset all of the preferences?"));
 
         if (QDialog::Accepted == dialog.exec())
         {
@@ -263,7 +263,7 @@ void djvPrefsDialog::buttonCallback(QAbstractButton * button)
     if (button == _p->resetPageButton)
     {
         djvQuestionDialog dialog(
-            "Are you sure you want to reset the preferences for the current page?");
+            tr("Are you sure you want to reset the preferences for the current page?"));
 
         if (QDialog::Accepted == dialog.exec())
         {

@@ -185,69 +185,71 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->menus.menuBar = new QMenuBar(this);
     _p->menus.menuBar->setNativeMenuBar(false);
     
-    QMenu * directoryMenu = _p->menus.menuBar->addMenu("&Directory");
+    QMenu * directoryMenu = _p->menus.menuBar->addMenu(tr("&Directory"));
     
     _p->actions.actions[P::Actions::UP] = directoryMenu->addAction(
-        "&Up", this, SLOT(upCallback()));
+        tr("&Up"), this, SLOT(upCallback()));
     _p->actions.actions[P::Actions::UP]->setIcon(
         djvIconLibrary::global()->icon("djvDirUpIcon.png"));
 
     _p->actions.actions[P::Actions::PREV] = directoryMenu->addAction(
-        "&Prev", this, SLOT(prevCallback()));
+        tr("&Prev"), this, SLOT(prevCallback()));
     _p->actions.actions[P::Actions::PREV]->setIcon(
         djvIconLibrary::global()->icon("djvDirPrevIcon.png"));
 
-    _p->menus.menus[P::Menus::RECENT] = directoryMenu->addMenu("&Recent");
+    _p->menus.menus[P::Menus::RECENT] = directoryMenu->addMenu(tr("&Recent"));
     _p->actions.groups[P::Actions::RECENT_GROUP] = new QActionGroup(this);
     
     directoryMenu->addSeparator();
     
     _p->actions.actions[P::Actions::CURRENT] = directoryMenu->addAction(
-        "&Current", this, SLOT(currentCallback()));
+        tr("&Current"), this, SLOT(currentCallback()));
 
     _p->actions.actions[P::Actions::HOME] = directoryMenu->addAction(
-        "&Home", this, SLOT(homeCallback()));
+        tr("&Home"), this, SLOT(homeCallback()));
 
     _p->actions.actions[P::Actions::DESKTOP] = directoryMenu->addAction(
-        "&Desktop", this, SLOT(desktopCallback()));
+        tr("&Desktop"), this, SLOT(desktopCallback()));
 
-    _p->menus.menus[P::Menus::DRIVES] = directoryMenu->addMenu("&Drives");
+    _p->menus.menus[P::Menus::DRIVES] = directoryMenu->addMenu(tr("&Drives"));
     _p->actions.groups[P::Actions::DRIVES_GROUP] = new QActionGroup(this);
     
     directoryMenu->addSeparator();
     
     _p->actions.actions[P::Actions::RELOAD] = directoryMenu->addAction(
-        "Re&load", this, SLOT(reloadCallback()));
+        tr("Re&load"), this, SLOT(reloadCallback()));
     _p->actions.actions[P::Actions::RELOAD]->setIcon(
         djvIconLibrary::global()->icon("djvDirReloadIcon.png"));
     
-    QMenu * optionsMenu = _p->menus.menuBar->addMenu("&Options");
+    QMenu * optionsMenu = _p->menus.menuBar->addMenu(tr("&Options"));
     
-    _p->menus.menus[P::Menus::THUMBNAILS] = optionsMenu->addMenu("Thu&mbnails");
+    _p->menus.menus[P::Menus::THUMBNAILS] =
+        optionsMenu->addMenu(tr("Thu&mbnails"));
     _p->actions.groups[P::Actions::THUMBNAILS_GROUP] = new QActionGroup(this);
     _p->actions.groups[P::Actions::THUMBNAILS_GROUP]->setExclusive(true);
     
-    _p->menus.menus[P::Menus::SEQ] = optionsMenu->addMenu("Se&quence");
+    _p->menus.menus[P::Menus::SEQ] = optionsMenu->addMenu(tr("Se&quence"));
     _p->actions.groups[P::Actions::SEQ_GROUP] = new QActionGroup(this);
     
     _p->actions.actions[P::Actions::SHOW_HIDDEN] = optionsMenu->addAction(
-        "Show &Hidden", this, SLOT(showHiddenCallback(bool)));
+        tr("Show &Hidden"), this, SLOT(showHiddenCallback(bool)));
     _p->actions.actions[P::Actions::SHOW_HIDDEN]->setCheckable(true);
 
     optionsMenu->addSeparator();
     
-    _p->menus.menus[P::Menus::SORT] = optionsMenu->addMenu("&Sort");
+    _p->menus.menus[P::Menus::SORT] = optionsMenu->addMenu(tr("&Sort"));
     _p->actions.groups[P::Actions::SORT_GROUP] = new QActionGroup(this);
     
     _p->actions.actions[P::Actions::REVERSE_SORT] = optionsMenu->addAction(
-        "&Reverse Sort", this, SLOT(reverseSortCallback(bool)));
+        tr("&Reverse Sort"), this, SLOT(reverseSortCallback(bool)));
     _p->actions.actions[P::Actions::REVERSE_SORT]->setCheckable(true);
     
     _p->actions.actions[P::Actions::SORT_DIRS_FIRST] = optionsMenu->addAction(
-        "Sort &Directories First", this, SLOT(sortDirsFirstCallback(bool)));
+        tr("Sort &Directories First"), this, SLOT(sortDirsFirstCallback(bool)));
     _p->actions.actions[P::Actions::SORT_DIRS_FIRST]->setCheckable(true);
     
-    _p->menus.menus[P::Menus::BOOKMARKS] = _p->menus.menuBar->addMenu("&Bookmarks");
+    _p->menus.menus[P::Menus::BOOKMARKS] =
+        _p->menus.menuBar->addMenu(tr("&Bookmarks"));
     
     _p->actions.groups[P::Actions::BOOKMARKS_GROUP] = new QActionGroup(this);
     
@@ -266,7 +268,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
 
     _p->widgets.seq = new QComboBox;
     _p->widgets.seq->addItems(djvSequence::compressLabels());
-    QLabel * seqLabel = new QLabel("Sequence:");
+    QLabel * seqLabel = new QLabel(tr("Sequence:"));
 
     _p->widgets.search = new djvSearchBox;
     _p->widgets.search->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -282,11 +284,11 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->widgets.browser->setDragDropMode(QAbstractItemView::DragOnly);
     _p->widgets.browser->setDragEnabled(true);
 
-    _p->widgets.pinned = new QCheckBox("Pin");
+    _p->widgets.pinned = new QCheckBox(tr("Pin"));
 
-    QPushButton * okButton = new QPushButton("Ok");
+    QPushButton * okButton = new QPushButton(tr("Ok"));
 
-    QPushButton * closeButton = new QPushButton("Close");
+    QPushButton * closeButton = new QPushButton(tr("Close"));
     closeButton->setAutoDefault(false);
     
     // Layout the widgets.
@@ -348,7 +350,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     
     // Initialize.
     
-    setWindowTitle("File Browser");
+    setWindowTitle(tr("File Browser"));
 
     _p->widgets.browser->setModel(_p->model);
 
@@ -551,7 +553,7 @@ djvFileBrowser * djvFileBrowser::global(const QString & title)
     
     fileBrowser->close();
 
-    fileBrowser->setWindowTitle(! title.isEmpty() ? title : "File Browser");
+    fileBrowser->setWindowTitle(! title.isEmpty() ? title : tr("File Browser"));
     
     fileBrowser->setPinnable(false);
     
@@ -841,7 +843,7 @@ void djvFileBrowser::deleteBookmarkCallback()
     //DJV_DEBUG("djvFileBrowser::deleteBookmarkCallback");
     //DJV_DEBUG_PRINT("bookmarks = " << bookmarks);
     
-    djvMultiChoiceDialog dialog("Delete bookmarks:", bookmarks);
+    djvMultiChoiceDialog dialog(tr("Delete bookmarks:"), bookmarks);
     
     if (QDialog::Accepted == dialog.exec())
     {
@@ -872,7 +874,7 @@ void djvFileBrowser::deleteAllBookmarksCallback()
     if (! bookmarks.count())
         return;
 
-    djvQuestionDialog dialog("Delete all bookmarks?");
+    djvQuestionDialog dialog(tr("Delete all bookmarks?"));
     
     if (QDialog::Accepted == dialog.exec())
     {
@@ -1117,15 +1119,15 @@ void djvFileBrowser::menuUpdate()
     _p->menus.menus[P::Menus::BOOKMARKS]->clear();
 
     QAction * action = _p->menus.menus[P::Menus::BOOKMARKS]->addAction(
-        "&Add", this, SLOT(addBookmarkCallback()));
+        tr("&Add"), this, SLOT(addBookmarkCallback()));
     action->setShortcut(
         shortcuts[djvFileBrowserPrefs::ADD_BOOKMARK].value);
 
     _p->menus.menus[P::Menus::BOOKMARKS]->addAction(
-        "&Delete", this, SLOT(deleteBookmarkCallback()));
+        tr("&Delete"), this, SLOT(deleteBookmarkCallback()));
 
     _p->menus.menus[P::Menus::BOOKMARKS]->addAction(
-        "D&elete All", this, SLOT(deleteAllBookmarksCallback()));
+        tr("D&elete All"), this, SLOT(deleteAllBookmarksCallback()));
 
     _p->menus.menus[P::Menus::BOOKMARKS]->addSeparator();
 
@@ -1172,17 +1174,18 @@ void djvFileBrowser::toolTipUpdate()
 
     const QVector<djvShortcut> & shortcuts = djvFileBrowserPrefs::global()->shortcuts();
 
-    _p->widgets.file->setToolTip("File name");
+    _p->widgets.file->setToolTip(tr("File name"));
 
-    _p->widgets.up->setToolTip(QString("Go up a directory\n\nShortcut: %1").
+    _p->widgets.up->setToolTip(QString(
+        tr("Go up a directory\n\nShortcut: %1")).
         arg(shortcuts[djvFileBrowserPrefs::UP].value.toString()));
 
     _p->widgets.prev->setToolTip(QString(
-        "Go to the previous directory\n\nShortcut: %1").
+        tr("Go to the previous directory\n\nShortcut: %1")).
         arg(shortcuts[djvFileBrowserPrefs::PREV].value.toString()));
 
     _p->widgets.reload->setToolTip(QString(
-        "Reload the current directory\n\nShortcut: %1").
+        tr("Reload the current directory\n\nShortcut: %1")).
         arg(shortcuts[djvFileBrowserPrefs::RELOAD].value.toString()));
 }
 

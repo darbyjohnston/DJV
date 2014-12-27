@@ -152,7 +152,12 @@ void djvLutPlugin::infernoOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE typ
     //DJV_DEBUG_PRINT("magic = " << tmp);
 
     if (QString(tmp) != "LUT:")
-        djvImageIo::throwUnrecognized(staticName, io.fileName());
+    {
+        throw djvError(
+            djvLutPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
+            arg(io.fileName()));
+    }
 
     djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
     const int channels = QString(tmp).toInt();
@@ -183,7 +188,10 @@ void djvLutPlugin::infernoOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE typ
 
     if (! djvPixel::pixel(channels, bitDepth, djvPixel::INTEGER, info.pixel))
     {
-        djvImageIo::throwUnsupported(staticName, io.fileName());
+        throw djvError(
+            djvLutPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 }
 
@@ -300,14 +308,19 @@ void djvLutPlugin::kodakOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE type)
 
     if (! djvPixel::pixel(channels, bitDepth, djvPixel::INTEGER, info.pixel))
     {
-        djvImageIo::throwUnsupported(staticName, io.fileName());
+        throw djvError(
+            djvLutPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 }
 
-void djvLutPlugin::kodakOpen(djvFileIo &, const djvPixelDataInfo &) throw (djvError)
+void djvLutPlugin::kodakOpen(djvFileIo &, const djvPixelDataInfo &)
+    throw (djvError)
 {}
 
-void djvLutPlugin::infernoLoad(djvFileIo & io, djvImage & out) throw (djvError)
+void djvLutPlugin::infernoLoad(djvFileIo & io, djvImage & out)
+    throw (djvError)
 {
     //DJV_DEBUG("djvLutPlugin::infernoLoad");
 
@@ -379,7 +392,8 @@ void djvLutPlugin::kodakLoad(djvFileIo & io, djvImage & out) throw (djvError)
     }
 }
 
-void djvLutPlugin::infernoSave(djvFileIo & io, const djvPixelData * out) throw (djvError)
+void djvLutPlugin::infernoSave(djvFileIo & io, const djvPixelData * out)
+    throw (djvError)
 {
     QVector<djvColor> color(out->w());
 
@@ -417,7 +431,8 @@ void djvLutPlugin::infernoSave(djvFileIo & io, const djvPixelData * out) throw (
     }
 }
 
-void djvLutPlugin::kodakSave(djvFileIo & io, const djvPixelData * out) throw (djvError)
+void djvLutPlugin::kodakSave(djvFileIo & io, const djvPixelData * out)
+    throw (djvError)
 {
     for (int x = 0; x < out->w(); ++x)
     {

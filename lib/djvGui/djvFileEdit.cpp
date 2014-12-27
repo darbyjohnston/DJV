@@ -65,7 +65,7 @@ djvFileEdit::djvFileEdit(QWidget * parent) :
 
     _p->edit = new QLineEdit;
 
-    QPushButton * button = new QPushButton("&Browse");
+    QPushButton * button = new QPushButton(tr("&Browse"));
 
     // Layout the widgets.
 

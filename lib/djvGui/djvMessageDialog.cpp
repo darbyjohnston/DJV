@@ -72,7 +72,7 @@ djvMessageDialog::djvMessageDialog(const QString & label, QWidget * parent) :
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle("Message Dialog");
+    setWindowTitle(tr("Message Dialog"));
 
     widgetUpdate();
     

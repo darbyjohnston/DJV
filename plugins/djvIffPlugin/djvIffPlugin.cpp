@@ -184,8 +184,11 @@ void Header::load(
                         // Test if size if correct.
                         if (tbhdsize != 24 && tbhdsize != 32)
                         {
-                            djvImageIo::throwErrorRead(
-                                djvIffPlugin::staticName, io.fileName());
+                            throw djvError(
+                                djvIffPlugin::staticName,
+                                djvImageIo::errorLabels()[
+                                    djvImageIo::ERROR_READ].
+                                arg(io.fileName()));
                         }
 
                         // Set data.
@@ -219,8 +222,12 @@ void Header::load(
                         {
                             // no compression or non-rle compression not
                             // supported
-                            djvImageIo::throwUnsupported(
-                                djvIffPlugin::staticName, io.fileName());
+
+                            throw djvError(
+                                djvIffPlugin::staticName,
+                                djvImageIo::errorLabels()[
+                                    djvImageIo::ERROR_UNSUPPORTED].
+                                arg(io.fileName()));
                         }
 
                         // Get compressed.

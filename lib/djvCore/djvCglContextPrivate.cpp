@@ -64,8 +64,9 @@ public:
 
         if (error != kCGLNoError)
         {
-            DJV_THROW_ERROR(
-                QString("Cannot get CGL pixel format: #%1").arg(error));
+            throw djvError(
+                "djvCglContextPrivate",
+                errorLabels()[ERROR_PIXEL_FORMAT].arg(error));
         }
     }
 
@@ -110,8 +111,9 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
     if (error != kCGLNoError || ! _context)
     {
-        DJV_THROW_ERROR(
-            QString("Cannot create OpenGL context: #%1").arg(error));
+        throw djvError(
+            "djvCglContextPrivate",
+            errorLabels()[ERROR_CREATE_CONTEXT].arg(error));
     }
 
     // Bind the context.
@@ -126,7 +128,9 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
     if (glError != GLEW_OK)
     {
-        DJV_THROW_ERROR(QString("Cannot initialize GLEW: #%1").arg(glError));
+        throw djvError(
+            "djvCglContextPrivate",
+            errorLabels()[ERROR_INIT_GLEW].arg(glError));
     }
 
     setVendor  ((const char *)glGetString(GL_VENDOR));
@@ -149,7 +153,9 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
     if (! GL_EXT_framebuffer_object)
     {
-        DJV_THROW_ERROR("No OpenGL FBO support");
+        throw djvError(
+            "djvCglContextPrivate",
+            errorLabels()[ERROR_NO_FBO]);
     }
 }
 
@@ -165,11 +171,28 @@ djvCglContextPrivate::~djvCglContextPrivate()
     }
 }
 
+const QStringList & djvCglContextPrivate::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvCglContextPrivate", "Cannot get pixel format: #%1"),
+        qApp->translate("djvCglContextPrivate", "Cannot create OpenGL context: #%1"),
+        qApp->translate("djvCglContextPrivate", "Cannot initialize GLEW: #%1"),
+        qApp->translate("djvCglContextPrivate", "No OpenGL FBO support"),
+        qApp->translate("djvCglContextPrivate", "Invalid OpenGL context"),
+        qApp->translate("djvCglContextPrivate", "Cannot bind OpenGL context: #%1");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
+}
+
 void djvCglContextPrivate::bind() throw (djvError)
 {
     if (! _context)
     {
-        DJV_THROW_ERROR("Invalid OpenGL context");
+        throw djvError(
+            "djvCglContextPrivate",
+            errorLabels()[ERROR_INVALID_CONTEXT]);
     }
 
     //DJV_DEBUG("djvCglContextPrivate::bind");
@@ -178,7 +201,9 @@ void djvCglContextPrivate::bind() throw (djvError)
 
     if (error != kCGLNoError)
     {
-        DJV_THROW_ERROR(QString("Cannot bind OpenGL context: #%1").arg(error));
+        throw djvError(
+            "djvCglContextPrivate",
+            errorLabels()[ERROR_BIND_CONTEXT].arg(error));
     }
 }
 

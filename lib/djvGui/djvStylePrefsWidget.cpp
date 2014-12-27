@@ -83,7 +83,7 @@ struct djvStylePrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget("Style", parent),
+    djvAbstractPrefsWidget(tr("Style"), parent),
     _p(new P)
 {
     // Create the widgets.
@@ -95,30 +95,30 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     _p->colorForegroundWidget = new djvColorSwatch;
     _p->colorForegroundWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorForegroundWidget->setColorDialogEnabled(true);
-    _p->colorForegroundWidget->setToolTip("Foreground");
+    _p->colorForegroundWidget->setToolTip(tr("Foreground"));
 
     _p->colorBackgroundWidget = new djvColorSwatch;
     _p->colorBackgroundWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorBackgroundWidget->setColorDialogEnabled(true);
-    _p->colorBackgroundWidget->setToolTip("Background");
+    _p->colorBackgroundWidget->setToolTip(tr("Background"));
 
     _p->colorBackground2Widget = new djvColorSwatch;
     _p->colorBackground2Widget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorBackground2Widget->setColorDialogEnabled(true);
-    _p->colorBackground2Widget->setToolTip("Background 2");
+    _p->colorBackground2Widget->setToolTip(tr("Background 2"));
 
     _p->colorButtonWidget = new djvColorSwatch;
     _p->colorButtonWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorButtonWidget->setColorDialogEnabled(true);
-    _p->colorButtonWidget->setToolTip("Button");
+    _p->colorButtonWidget->setToolTip(tr("Button"));
 
     _p->colorSelectWidget = new djvColorSwatch;
     _p->colorSelectWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorSelectWidget->setColorDialogEnabled(true);
-    _p->colorSelectWidget->setToolTip("Select");
+    _p->colorSelectWidget->setToolTip(tr("Select"));
 
     _p->colorSwatchTransparencyWidget =
-        new QCheckBox("Show transparency in color swatches");
+        new QCheckBox(tr("Show transparency in color swatches"));
 
     _p->sizeWidget = new QComboBox;
     _p->sizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -139,7 +139,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Colors");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Colors"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->colorWidget);
@@ -152,7 +152,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     formLayout->addRow(_p->colorSwatchTransparencyWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Size");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Size"));
     formLayout = prefsGroupBox->createLayout();
     hLayout = new QHBoxLayout;
     hLayout->setMargin(0);
@@ -161,10 +161,10 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     formLayout->addRow(hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Fonts");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Fonts"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Normal:", _p->fontNormalWidget);
-    formLayout->addRow("Fixed:", _p->fontFixedWidget);
+    formLayout->addRow(tr("Normal:"), _p->fontNormalWidget);
+    formLayout->addRow(tr("Fixed:"), _p->fontFixedWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

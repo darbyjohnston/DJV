@@ -73,8 +73,8 @@ djvDebugLogDialog::djvDebugLogDialog() :
     _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->document()->setMaximumBlockCount(10000);
     
-    QPushButton * copyButton = new QPushButton("Copy");
-    QPushButton * clearButton = new QPushButton("Clear");
+    QPushButton * copyButton = new QPushButton(tr("Copy"));
+    QPushButton * clearButton = new QPushButton(tr("Clear"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -88,7 +88,7 @@ djvDebugLogDialog::djvDebugLogDialog() :
 
     // Initialize.
     
-    setWindowTitle("Debugging Log");
+    setWindowTitle(tr("Debugging Log"));
     
     resize(800, 600);
     

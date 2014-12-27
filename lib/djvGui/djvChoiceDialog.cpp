@@ -88,7 +88,7 @@ djvChoiceDialog::djvChoiceDialog(
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle("Choice Dialog");
+    setWindowTitle(tr("Choice Dialog"));
 
     widgetUpdate();
     

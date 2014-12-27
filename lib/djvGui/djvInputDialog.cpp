@@ -84,7 +84,7 @@ djvInputDialog::djvInputDialog(
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle("Input Dialog");
+    setWindowTitle(tr("Input Dialog"));
 
     widgetUpdate();
     

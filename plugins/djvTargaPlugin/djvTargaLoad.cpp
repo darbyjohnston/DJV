@@ -43,7 +43,8 @@
 djvTargaLoad::~djvTargaLoad()
 {}
 
-void djvTargaLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvTargaLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvTargaLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -117,7 +118,10 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
             if (! p)
             {
-                djvImageIo::throwErrorRead(djvTargaPlugin::staticName, fileName);
+                throw djvError(
+                    djvTargaPlugin::staticName,
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                    arg(fileName));
             }
         }
     }

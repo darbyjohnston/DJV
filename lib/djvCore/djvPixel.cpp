@@ -36,6 +36,8 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvPixel
 //------------------------------------------------------------------------------
@@ -46,10 +48,10 @@ djvPixel::~djvPixel()
 const QStringList & djvPixel::formatLabels()
 {
     static const QStringList data = QStringList() <<
-        "L" <<
-        "LA" <<
-        "RGB" <<
-        "RGBA";
+        qApp->translate("djvPixel", "L") <<
+        qApp->translate("djvPixel", "LA") <<
+        qApp->translate("djvPixel", "RGB") <<
+        qApp->translate("djvPixel", "RGBA");
 
     DJV_ASSERT(data.count() == FORMAT_COUNT);
 
@@ -59,11 +61,11 @@ const QStringList & djvPixel::formatLabels()
 const QStringList & djvPixel::typeLabels()
 {
     static const QStringList data = QStringList() <<
-        "U8" <<
-        "U10" <<
-        "U16" <<
-        "F16" <<
-        "F32";
+        qApp->translate("djvPixel", "U8") <<
+        qApp->translate("djvPixel", "U10") <<
+        qApp->translate("djvPixel", "U16") <<
+        qApp->translate("djvPixel", "F16") <<
+        qApp->translate("djvPixel", "F32");
 
     DJV_ASSERT(data.count() == TYPE_COUNT);
 
@@ -73,8 +75,8 @@ const QStringList & djvPixel::typeLabels()
 const QStringList & djvPixel::dataLabels()
 {
     static const QStringList data = QStringList() <<
-        "Integer" <<
-        "Float";
+        qApp->translate("djvPixel", "Integer") <<
+        qApp->translate("djvPixel", "Float");
 
     DJV_ASSERT(data.count() == DATA_COUNT);
 
@@ -84,23 +86,23 @@ const QStringList & djvPixel::dataLabels()
 const QStringList & djvPixel::pixelLabels()
 {
     static const QStringList data = QStringList() <<
-        "L U8" <<
-        "L U16" <<
-        "L F16" <<
-        "L F32" <<
-        "LA U8" <<
-        "LA U16" <<
-        "LA F16" <<
-        "LA F32" <<
-        "RGB U8" <<
-        "RGB U10" <<
-        "RGB U16" <<
-        "RGB F16" <<
-        "RGB F32" <<
-        "RGBA U8" <<
-        "RGBA U16" <<
-        "RGBA F16" <<
-        "RGBA F32";
+        qApp->translate("djvPixel", "L U8") <<
+        qApp->translate("djvPixel", "L U16") <<
+        qApp->translate("djvPixel", "L F16") <<
+        qApp->translate("djvPixel", "L F32") <<
+        qApp->translate("djvPixel", "LA U8") <<
+        qApp->translate("djvPixel", "LA U16") <<
+        qApp->translate("djvPixel", "LA F16") <<
+        qApp->translate("djvPixel", "LA F32") <<
+        qApp->translate("djvPixel", "RGB U8") <<
+        qApp->translate("djvPixel", "RGB U10") <<
+        qApp->translate("djvPixel", "RGB U16") <<
+        qApp->translate("djvPixel", "RGB F16") <<
+        qApp->translate("djvPixel", "RGB F32") <<
+        qApp->translate("djvPixel", "RGBA U8") <<
+        qApp->translate("djvPixel", "RGBA U16") <<
+        qApp->translate("djvPixel", "RGBA F16") <<
+        qApp->translate("djvPixel", "RGBA F32");
 
     DJV_ASSERT(data.count() == PIXEL_COUNT);
 

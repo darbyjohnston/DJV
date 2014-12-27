@@ -153,13 +153,15 @@ endif (APPLE)
 
 if (Qt5Core_DIR)
     QT5_ADD_RESOURCES(rccSource djvCore.qrc)
+    QT5_CREATE_TRANSLATION(qmSource ${source} djvCore_en_US.ts)
 else()
     QT4_ADD_RESOURCES(rccSource djvCore.qrc)
+    QT4_CREATE_TRANSLATION(qmSource ${source} djvCore_en_US.ts)
 endif()
 
 include_directories(${djvCoreIncludeDirs})
 
-add_library(djvCore ${header} ${source} ${rccSource})
+add_library(djvCore ${header} ${source} ${rccSource} ${qmSource})
 
 target_link_libraries(djvCore ${djvCoreDeps})
 
@@ -176,6 +178,10 @@ endif (djvInstallRpath)
 install(
     FILES ${header}
     DESTINATION include)
+
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
 
 install(
     TARGETS djvCore

@@ -206,14 +206,18 @@ QVariant djvShortcutsModel::headerData(
     Qt::Orientation orientation,
     int             role) const
 {
+    static const QStringList data = QStringList() <<
+        tr("Name") <<
+        tr("Shortcut");
+
     switch (role)
     {
         case Qt::DisplayRole:
 
             switch (section)
             {
-                case 0: return "Name";
-                case 1: return "Shortcut";
+                case 0: return data[0];
+                case 1: return data[1];
 
                 default: break;
             }

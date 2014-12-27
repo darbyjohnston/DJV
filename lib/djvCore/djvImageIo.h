@@ -257,35 +257,22 @@ public:
     
     virtual djvAbstractPrefsWidget * createWidget();
 
-    //! Throw an error that the image is unrecognized.
-
-    static void throwUnrecognized(
-        const QString & plugin,
-        const QString & fileName) throw (djvError);
-
-    //! Throw an error that the image is unsupported.
-
-    static void throwUnsupported(
-        const QString & plugin,
-        const QString & fileName) throw (djvError);
-
-    //! Throw an error that the image could not be opened.
-
-    static void throwErrorOpen(
-        const QString & plugin,
-        const QString & fileName) throw (djvError);
-
-    //! Throw an error that the image could not be read.
-
-    static void throwErrorRead(
-        const QString & plugin,
-        const QString & fileName) throw (djvError);
-
-    //! Throw an error that the image could not be written.
-
-    static void throwErrorWrite(
-        const QString & plugin,
-        const QString & fileName) throw (djvError);
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_UNRECOGNIZED,
+        ERROR_UNSUPPORTED,
+        ERROR_OPEN,
+        ERROR_READ,
+        ERROR_WRITE,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
 Q_SIGNALS:
 
@@ -340,6 +327,19 @@ public:
     //! Get the global factory.
 
     static djvImageIoFactory * global();
+
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_UNRECOGNIZED,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
 Q_SIGNALS:
 

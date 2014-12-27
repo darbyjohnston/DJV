@@ -91,7 +91,7 @@ djvMultiChoiceDialog::djvMultiChoiceDialog(
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle("Multi Choice Dialog");
+    setWindowTitle(tr("Multi Choice Dialog"));
 
     widgetUpdate();
     

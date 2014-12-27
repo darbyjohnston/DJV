@@ -33,6 +33,7 @@
 
 #include <djv_info.h>
 
+#include <djvAssert.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvErrorUtil.h>
@@ -58,6 +59,8 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
     _columns (djvSystem::terminalWidth())
 {
     //DJV_DEBUG("djvInfoApplication::djvInfoApplication");
+    
+    loadTranslator("djv_info");
 
     // Parse the command line.
 
@@ -67,7 +70,8 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
     }
     catch (const djvError & error)
     {
-        printError(djvError(QString(errorCommandLine).arg(error.string())));
+        printError(
+            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -181,27 +185,27 @@ void djvInfoApplication::commandLine(QStringList & in) throw (djvError)
 
             // Parse the options.
 
-            if ("-x_info" == arg || "-xi" == arg)
+            if (tr("-x_info") == arg || tr("-xi") == arg)
             {
                 _info = false;
             }
-            else if ("-verbose" == arg || "-v" == arg)
+            else if (tr("-verbose") == arg || tr("-v") == arg)
             {
                 _verbose = true;
             }
-            else if ("-file_path" == arg || "-fp" == arg)
+            else if (tr("-file_path") == arg || tr("-fp") == arg)
             {
                 _filePath = true;
             }
-            else if ("-seq" == arg || "-q" == arg)
+            else if (tr("-seq") == arg || tr("-q") == arg)
             {
                 in >> _sequence;
             }
-            else if ("-recurse" == arg || "-r" == arg)
+            else if (tr("-recurse") == arg || tr("-r") == arg)
             {
                 _recurse = true;
             }
-            else if ("-columns" == arg || "-c" == arg)
+            else if (tr("-columns") == arg || tr("-c") == arg)
             {
                 in >> _columns;
             }
@@ -221,14 +225,23 @@ void djvInfoApplication::commandLine(QStringList & in) throw (djvError)
 
     if (! _input.count())
     {
-        throw djvError("Input");
+        throw djvError(tr("Input"));
     }
 }
-
-namespace
+    
+const QStringList & djvInfoApplication::errorLabels()
 {
+    static const QStringList data = QStringList() <<
+        tr("Cannot open directory: \"%1\"");
 
-const QString commandLineHelpLabel =
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
+}
+
+QString djvInfoApplication::commandLineHelp() const
+{
+    static const QString label = tr(
 "djv_info\n"
 "\n"
 "    This application provides a command line tool for displaying information "
@@ -284,13 +297,9 @@ const QString commandLineHelpLabel =
 "    > djv_info image.1-100.sgi\n"
 "\n"
 "    Display information about all images within a directory:\n"
-"    > djv_info ~/pics\n";
+"    > djv_info ~/pics\n");
 
-} // namespace
-
-QString djvInfoApplication::commandLineHelp() const
-{
-    return QString(commandLineHelpLabel).
+    return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvImageApplication::commandLineHelp());
@@ -324,7 +333,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
         {
             // Print single layer information.
 
-            const QString str = QString("%1x%2:%3 %4 %5@%6").
+            const QString str = tr("%1x%2:%3 %4 %5@%6").
                 arg(_info[0].size.x).
                 arg(_info[0].size.y).
                 arg(djvVectorUtil::aspect(_info[0].size), 0, 'f', 2).
@@ -334,7 +343,7 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
                     _info.sequence.speed)).
                 arg(djvSpeed::speedToFloat(_info.sequence.speed), 0, 'f', 2);
 
-            print(QString("%1 %2").
+            print(tr("%1 %2").
                 arg(QDir::toNativeSeparators(name)).
                 arg(str, _columns - name.length() - 2));
         }
@@ -342,13 +351,13 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
         {
             // Print time information.
 
-            const QString str = QString("%1@%2").
+            const QString str = tr("%1@%2").
                 arg(djvTime::frameToString(
                     _info.sequence.frames.count(),
                     _info.sequence.speed)).
                 arg(djvSpeed::speedToFloat(_info.sequence.speed), 0, 'f', 2);
 
-            print(QString("%1 %2").
+            print(tr("%1 %2").
                 arg(QDir::toNativeSeparators(name)).
                 arg(str, _columns - name.length() - 2));
 
@@ -356,17 +365,17 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
 
             for (int i = 0; i < _info.layerCount(); ++i)
             {
-                const QString nameString = QString("    %1. %2").
+                const QString nameString = tr("    %1. %2").
                     arg(i).
                     arg(_info[i].layerName);
 
-                const QString infoString = QString("%1x%2:%3 %4").
+                const QString infoString = tr("%1x%2:%3 %4").
                     arg(_info[i].size.x).
                     arg(_info[i].size.y).
                     arg(djvVectorUtil::aspect(_info[i].size), 0, 'f', 2).
                     arg(djvStringUtil::label(_info[i].pixel).join(", "));
 
-                print(QString("%1 %2").
+                print(tr("%1 %2").
                     arg(nameString).
                     arg(infoString, _columns - nameString.length() - 2));
             }
@@ -380,38 +389,38 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
 
         for (int i = 0; i < _info.layerCount(); ++i)
         {
-            print(QString("Layer = %1").arg(_info[i].layerName));
-            print(QString("  Width = %1").arg(_info[i].size.x));
-            print(QString("  Height = %1").arg(_info[i].size.y));
-            print(QString("  Aspect = %1").
+            print(tr("Layer = %1").arg(_info[i].layerName));
+            print(tr("  Width = %1").arg(_info[i].size.x));
+            print(tr("  Height = %1").arg(_info[i].size.y));
+            print(tr("  Aspect = %1").
                 arg(djvVectorUtil::aspect(_info[i].size), 0, 'f', 2));
-            print(QString("  Pixel = %1").
+            print(tr("  Pixel = %1").
                 arg(djvStringUtil::label(_info[i].pixel).join(", ")));
         }
 
-        print(QString("Start = %1").
+        print(tr("Start = %1").
             arg(djvTime::frameToString(
                 _info.sequence.start(),
                 _info.sequence.speed)));
 
-        print(QString("End = %1").
+        print(tr("End = %1").
             arg(djvTime::frameToString(
                 _info.sequence.end(),
                 _info.sequence.speed)));
 
-        print(QString("Duration = %1").
+        print(tr("Duration = %1").
             arg(djvTime::frameToString(
                 _info.sequence.frames.count(),
                 _info.sequence.speed)));
 
-        print(QString("Speed = %1").
+        print(tr("Speed = %1").
             arg(djvSpeed::speedToFloat(_info.sequence.speed)));
 
         const QStringList keys = _info.tags.keys();
 
         for (int i = 0; i < keys.count(); ++i)
         {
-            print(QString("Tag %1 = %2").
+            print(tr("Tag %1 = %2").
                 arg(keys[i]).
                 arg(_info.tags[keys[i]]));
         }
@@ -434,7 +443,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (! QDir(in.path()).exists() && ! _recurse)
     {
-        throw djvError(QString("Cannot open directory: \"%1\"").
+        throw djvError(errorLabels()[ERROR_OPEN_DIR].
             arg(QDir::toNativeSeparators(in)));
     }
 
@@ -449,7 +458,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (label)
     {
-        print(QString("%1:").arg(QDir::toNativeSeparators(in)));
+        print(tr("%1:").arg(QDir::toNativeSeparators(in)));
 
         if (_verbose)
         {

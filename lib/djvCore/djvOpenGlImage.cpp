@@ -39,6 +39,8 @@
 #include <djvMatrixUtil.h>
 #include <djvOpenGlOffscreenBuffer.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvOpenGlImageXform
 //------------------------------------------------------------------------------
@@ -175,15 +177,15 @@ djvOpenGlImageDisplayProfile::djvOpenGlImageDisplayProfile() :
 const QStringList & djvOpenGlImageFilter::filterLabels()
 {
     static const QStringList data = QStringList() <<
-        "Nearest" <<
-        "Linear" <<
-        "Box" <<
-        "Triangle" <<
-        "Bell" <<
-        "B-Spline" <<
-        "Lanczos3" <<
-        "Cubic" <<
-        "Mitchell";
+        qApp->translate("djvOpenGlImageFilter", "Nearest") <<
+        qApp->translate("djvOpenGlImageFilter", "Linear") <<
+        qApp->translate("djvOpenGlImageFilter", "Box") <<
+        qApp->translate("djvOpenGlImageFilter", "Triangle") <<
+        qApp->translate("djvOpenGlImageFilter", "Bell") <<
+        qApp->translate("djvOpenGlImageFilter", "B-Spline") <<
+        qApp->translate("djvOpenGlImageFilter", "Lanczos3") <<
+        qApp->translate("djvOpenGlImageFilter", "Cubic") <<
+        qApp->translate("djvOpenGlImageFilter", "Mitchell");
 
     DJV_ASSERT(data.count() == FILTER_COUNT);
 
@@ -258,11 +260,11 @@ djvOpenGlImageOptions::djvOpenGlImageOptions() :
 const QStringList & djvOpenGlImageOptions::channelLabels()
 {
     static const QStringList data = QStringList() <<
-        "Default" <<
-        "Red" <<
-        "Green" <<
-        "Blue" <<
-        "Alpha";
+        qApp->translate("djvOpenGlImageOptions", "Default") <<
+        qApp->translate("djvOpenGlImageOptions", "Red") <<
+        qApp->translate("djvOpenGlImageOptions", "Green") <<
+        qApp->translate("djvOpenGlImageOptions", "Blue") <<
+        qApp->translate("djvOpenGlImageOptions", "Alpha");
 
     DJV_ASSERT(data.count() == CHANNEL_COUNT);
 

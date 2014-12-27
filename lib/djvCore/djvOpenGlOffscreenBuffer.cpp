@@ -36,6 +36,8 @@
 #include <djvDebug.h>
 #include <djvError.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvOpenGlOffscreenBuffer
 //------------------------------------------------------------------------------
@@ -65,7 +67,9 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 
     if (! _texture)
     {
-        DJV_THROW_ERROR("Cannot initialize OpenGL FBO texture");
+        throw djvError(
+            "djvOpenGlOffscreenBuffer",
+            errorLabels()[ERROR_CREATE_TEXTURE]);
     }
 
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _texture));
@@ -110,7 +114,9 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
     
     if (error != GL_NO_ERROR)
     {
-        DJV_THROW_ERROR(QString("Cannot create texture; %1").
+        throw djvError(
+            "djvOpenGlOffscreenBuffer",
+            errorLabels()[ERROR_INIT_TEXTURE].
             arg((char *)gluErrorString(error)));
     }
 
@@ -124,7 +130,9 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 
     if (! _id)
     {
-        DJV_THROW_ERROR("Cannot initialize OpenGL FBO buffer");
+        throw djvError(
+            "djvOpenGlOffscreenBuffer",
+            errorLabels()[ERROR_CREATE_FBO]);
     }
 
     djvOpenGlOffscreenBufferScope scope(this);
@@ -140,7 +148,9 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 
     if (error != GL_FRAMEBUFFER_COMPLETE)
     {
-        DJV_THROW_ERROR(QString("Cannot create OpenGL FBO buffer; %1").
+        throw djvError(
+            "djvOpenGlOffscreenBuffer",
+            errorLabels()[ERROR_INIT_FBO].
             arg((char *)gluErrorString(error)));
     }
 
@@ -211,6 +221,19 @@ void djvOpenGlOffscreenBuffer::unbind()
     DJV_DEBUG_OPEN_GL(glBindFramebuffer(GL_FRAMEBUFFER, _restore));
 
     _restore = 0;
+}
+
+const QStringList & djvOpenGlOffscreenBuffer::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvOpenGlOffscreenBuffer", "Cannot create texture") <<
+        qApp->translate("djvOpenGlOffscreenBuffer", "Cannot initialize texture: %1") <<
+        qApp->translate("djvOpenGlOffscreenBuffer", "Cannot create FBO") <<
+        qApp->translate("djvOpenGlOffscreenBuffer", "Cannot initialize FBO: %1");
+
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
 }
 
 //------------------------------------------------------------------------------

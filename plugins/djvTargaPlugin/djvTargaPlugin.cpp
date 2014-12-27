@@ -161,8 +161,12 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
         case 0:
         case 8: break;
 
-        default: djvImageIo::throwUnsupported(
-            djvTargaPlugin::staticName, io.fileName());
+        default:
+
+             throw djvError(
+                djvTargaPlugin::staticName,
+                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+                arg(io.fileName()));
     }
 
     int pixel = -1;
@@ -201,8 +205,10 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
 
     if (-1 == pixel)
     {
-        djvImageIo::throwUnsupported(
-            djvTargaPlugin::staticName, io.fileName());
+         throw djvError(
+            djvTargaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     info.pixel = static_cast<djvPixel::PIXEL>(pixel);
@@ -213,8 +219,10 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
 
     if (bits < (djvPixel::channels(info.pixel) * 8) || (bits % 8) != 0)
     {
-        djvImageIo::throwUnsupported(
-            djvTargaPlugin::staticName, io.fileName());
+         throw djvError(
+            djvTargaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     *compression =

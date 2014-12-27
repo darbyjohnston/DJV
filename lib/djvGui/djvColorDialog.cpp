@@ -90,7 +90,7 @@ djvColorDialog::djvColorDialog(const djvColor & color, QWidget * parent) :
     
     // Initialize.
     
-    setWindowTitle("Color Dialog");
+    setWindowTitle(tr("Color Dialog"));
     
     widgetUpdate();
 

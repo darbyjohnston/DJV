@@ -128,7 +128,10 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
 
     if (_data.magic != 474)
     {
-        djvImageIo::throwUnrecognized(djvSgiPlugin::staticName, io.fileName());
+        throw djvError(
+            djvSgiPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
+            arg(io.fileName()));
     }
 
     io.getU8(&_data.storage);
@@ -154,7 +157,10 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
         djvPixel::INTEGER,
         info.pixel))
     {
-        djvImageIo::throwUnsupported(djvSgiPlugin::staticName, io.fileName());
+        throw djvError(
+            djvSgiPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
     
     //DJV_DEBUG_PRINT("pixel = " << info.pixel);

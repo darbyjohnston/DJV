@@ -43,7 +43,8 @@
 djvSgiLoad::~djvSgiLoad()
 {}
 
-void djvSgiLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvSgiLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvSgiLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -136,7 +137,10 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     bytes,
                     io.endian()))
                 {
-                    djvImageIo::throwErrorRead(djvSgiPlugin::staticName, fileName);
+                    throw djvError(
+                        djvSgiPlugin::staticName,
+                        djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                        arg(fileName));
                 }
             }
         }

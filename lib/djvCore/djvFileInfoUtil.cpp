@@ -42,6 +42,7 @@
 #include <djvMemory.h>
 #include <djvSequenceUtil.h>
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
 #include <QRegExp>
@@ -643,12 +644,12 @@ void djvFileInfoUtil::filter(
 const QStringList & djvFileInfoUtil::sortLabels()
 {
     static const QStringList data = QStringList() <<
-        "Name" <<
-        "Type" <<
-        "Size" <<
-        "User" <<
-        "Permissions" <<
-        "Time";
+        qApp->translate("djvFileInfoUtil", "Name") <<
+        qApp->translate("djvFileInfoUtil", "Type") <<
+        qApp->translate("djvFileInfoUtil", "Size") <<
+        qApp->translate("djvFileInfoUtil", "User") <<
+        qApp->translate("djvFileInfoUtil", "Permissions") <<
+        qApp->translate("djvFileInfoUtil", "Time");
 
     DJV_ASSERT(data.count() == SORT_COUNT);
 
@@ -924,3 +925,4 @@ djvFileInfo djvFileInfoUtil::commandLine(
 //------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvFileInfoUtil::SORT, djvFileInfoUtil::sortLabels())
+

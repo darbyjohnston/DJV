@@ -33,6 +33,7 @@
 
 #include <djvPlugin.h>
 
+#include <djvAssert.h>
 #include <djvCoreApplication.h>
 #include <djvDebug.h>
 #include <djvDebugLog.h>
@@ -215,7 +216,8 @@ djvPluginFactory::djvPluginFactory(
     {
         //DJV_DEBUG_PRINT("searching = " << path);
 
-        DJV_LOG("djvPluginFactory", QString("Checking search path: \"%1\"").arg(path));
+        DJV_LOG("djvPluginFactory",
+            QString("Checking search path: \"%1\"").arg(path));
 
         djvFileInfoList tmp = djvFileInfoUtil::list(
             path,
@@ -233,7 +235,8 @@ djvPluginFactory::djvPluginFactory(
         {
             //DJV_DEBUG_PRINT("found = " << fileInfo);
 
-            DJV_LOG("djvPluginFactory", QString("Found plugin: \"%1\"").arg(fileInfo));
+            DJV_LOG("djvPluginFactory",
+                QString("Found plugin: \"%1\"").arg(fileInfo));
 
             fileInfoList += fileInfo;
         }
@@ -249,7 +252,8 @@ djvPluginFactory::djvPluginFactory(
 
         //DJV_DEBUG_PRINT("loading = " << fileInfo);
 
-        DJV_LOG("djvPluginFactory", QString("Loading plugin: \"%1\"...").arg(fileInfo));
+        DJV_LOG("djvPluginFactory",
+            QString("Loading plugin: \"%1\"...").arg(fileInfo));
 
         QScopedPointer<Handle> handle(new Handle);
 
@@ -260,10 +264,9 @@ djvPluginFactory::djvPluginFactory(
         catch (const djvError & error)
         {
             DJV_CORE_APP->printError(djvError(
-                "djvPluginFactory",
-                QString("Cannot open plugin \"%1\": %2").
-                    arg(QDir::toNativeSeparators(fileInfo)).
-                    arg(error.string())));
+                errorLabels()[ERROR_OPEN].
+                arg(QDir::toNativeSeparators(fileInfo)).
+                arg(error.string())));
 
             continue;
         }
@@ -293,9 +296,8 @@ djvPluginFactory::djvPluginFactory(
         if (! plugin.data())
         {
             DJV_CORE_APP->printError(djvError(
-                "djvPluginFactory",
-                QString("Cannot load plugin \"%1\"").
-                    arg(QDir::toNativeSeparators(fileInfo))));
+                errorLabels()[ERROR_LOAD].
+                arg(QDir::toNativeSeparators(fileInfo))));
 
             continue;
         }
@@ -388,5 +390,16 @@ QStringList djvPluginFactory::names() const
     }
 
     return out;
+}
+
+const QStringList & djvPluginFactory::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        tr("Cannot open plugin \"%1\": %2"),
+        tr("Cannot load plugin \"%1\"");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
 }
 

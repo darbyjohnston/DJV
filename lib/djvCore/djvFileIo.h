@@ -158,6 +158,28 @@ public:
     //! functions.
 
     void setEndian(bool);
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_OPEN,
+#       if defined(DJV_WINDOWS)
+        ERROR_FILE_MAPPING,
+        ERROR_MEMORY_MAP,
+#       else // DJV_WINDOWS
+        ERROR_MEMORY_MAP,
+#       endif // DJV_WINDOWS
+        ERROR_READ,
+        ERROR_WRITE,
+        ERROR_SET_POS,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
 private:
 

@@ -44,6 +44,7 @@
 #include <djvMemory.h>
 #include <djvMemoryBuffer.h>
 
+#include <QCoreApplication>
 #include <QDir>
 
 #if defined(DJV_WINDOWS)
@@ -173,8 +174,8 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
     if (INVALID_HANDLE_VALUE == _p->f)
     {
-        throw djvError(QString("Cannot open file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
+        throw djvError(
+            errorLabels()[ERROR_OPEN].arg(QDir::toNativeSeparators(fileName)));
     }
 
 #else // DJV_WINDOWS
@@ -196,8 +197,8 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
     if (-1 == _p->f)
     {
-        throw djvError(QString("Cannot open file: %1").
-            arg(QDir::toNativeSeparators(fileName)));
+        throw djvError(
+            errorLabels()[ERROR_OPEN].arg(QDir::toNativeSeparators(fileName)));
     }
 
 #endif // DJV_WINDOWS
@@ -238,7 +239,8 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
         if (! _p->mmap)
         {
-            DJV_THROW_ERROR(QString("Cannot memory-map file: %1 (%2)").
+            throw djvError(
+                errorLabels()[ERROR_FILE_MAPPING].
                 arg(QDir::toNativeSeparators(_p->fileName)).
                 arg(djvErrorUtil::lastError()));
         }
@@ -248,7 +250,8 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
         if (! _p->mmapStart)
         {
-            DJV_THROW_ERROR(QString("Cannot memory-map file: %1 (%2)").
+            throw djvError(
+                errorLabels()[ERROR_MEMORY_MAP].
                 arg(QDir::toNativeSeparators(_p->fileName)).
                 arg(djvErrorUtil::lastError()));
         }
@@ -264,7 +267,8 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
 
         if (_p->mmap == (void *) - 1)
         {
-            DJV_THROW_ERROR(QString("Cannot memory-map file: %1").
+            throw djvError(
+                errorLabels()[ERROR_MEMORY_MAP].
                 arg(QDir::toNativeSeparators(_p->fileName)));
         }
 
@@ -402,7 +406,8 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
 
     if (p > _p->mmapEnd)
     {
-        throw djvError(QString("Error reading file: %1").
+        throw djvError(
+            errorLabels()[ERROR_READ].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
 
@@ -425,7 +430,8 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
 
     if (! ::ReadFile(_p->f, in, size * wordSize, &n, 0))
     {
-        throw djvError(QString("Error reading file: %1").
+        throw djvError(
+            errorLabels()[ERROR_READ].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
 
@@ -433,7 +439,8 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
 
     //if (-1 == ::read(_p->f, in, size * wordSize) == (size * wordSize))
     //{
-    //    throw djvError(QString("Error reading file: %1").
+    //    throw djvError(
+    //        errorLabels()[ERROR_READ].
     //        arg(QDir::toNativeSeparators(_p->fileName)));
     //}
     
@@ -475,7 +482,8 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
 
     if (! ::WriteFile(_p->f, p, static_cast<DWORD>(size * wordSize), &n, 0))
     {
-        throw djvError(QString("Error writing file: %1").
+        throw djvError(
+            errorLabels()[ERROR_WRITE].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
 
@@ -483,7 +491,8 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
 
     if (::write(_p->f, p, size * wordSize) == -1)
     {
-        throw djvError(QString("Error writing file: %1").
+        throw djvError(
+            errorLabels()[ERROR_WRITE].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
 
@@ -606,8 +615,8 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
             if (_p->mmapP > _p->mmapEnd)
             {
                 throw djvError(
-                    QString("Cannot set file position: %1").
-                        arg(QDir::toNativeSeparators(_p->fileName)));
+                    errorLabels()[ERROR_SET_POS].
+                    arg(QDir::toNativeSeparators(_p->fileName)));
             }
 
             break;
@@ -628,8 +637,8 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
                     ! seek ? FILE_BEGIN : FILE_CURRENT))
             {
                 throw djvError(
-                    QString("Cannot set file position: %1").
-                        arg(QDir::toNativeSeparators(_p->fileName)));
+                    errorLabels()[ERROR_SET_POS].
+                    arg(QDir::toNativeSeparators(_p->fileName)));
             }
 
 #else // DJV_WINDOWS
@@ -637,8 +646,8 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
             if (::lseek(_p->f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
             {
                 throw djvError(
-                    QString("Cannot set file position: %1").
-                        arg(QDir::toNativeSeparators(_p->fileName)));
+                    errorLabels()[ERROR_SET_POS].
+                    arg(QDir::toNativeSeparators(_p->fileName)));
             }
 
 #endif // DJV_WINDOWS
@@ -655,5 +664,24 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
     {
         _p->pos += in;
     }
+}
+
+const QStringList & djvFileIo::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvFileIo", "Cannot open file: \"%1\"") <<
+#       if defined(DJV_WINDOWS)
+        qApp->translate("djvFileIo", "Cannot create file mapping: \"%1\" (%2)") <<
+        qApp->translate("djvFileIo", "Cannot memory-map file: \"%1\" (%2)") <<
+#       else // DJV_WINDOWS
+        qApp->translate("djvFileIo", "Cannot memory-map file: \"%1\"") <<
+#       endif // DJV_WINDOWS
+        qApp->translate("djvFileIo", "Error reading file: \"%1\"") <<
+        qApp->translate("djvFileIo", "Error writing file: \"%1\"") <<
+        qApp->translate("djvFileIo", "Cannot set file position: \"%1\"");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
 }
 

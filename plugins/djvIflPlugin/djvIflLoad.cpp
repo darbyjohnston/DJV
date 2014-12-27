@@ -46,7 +46,8 @@
 djvIflLoad::~djvIflLoad()
 {}
 
-void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvIflLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -63,7 +64,9 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvE
     }
     catch (const djvError &)
     {
-        djvImageIo::throwErrorRead(djvIflPlugin::staticName, in);
+        throw djvError(
+            djvIflPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].arg(in));
     }
 
     for (int i = 0; i < tmp.count(); ++i)

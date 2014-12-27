@@ -35,6 +35,7 @@
 
 #include <djvAssert.h>
 
+#include <QCoreApplication>
 #include <QThread>
 
 #if defined(DJV_WINDOWS)
@@ -308,8 +309,8 @@ bool djvTime::stringToKeycode(
 const QStringList & djvTime::unitsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Timecode" <<
-        "Frames";
+        qApp->translate("djvTime", "Timecode") <<
+        qApp->translate("djvTime", "Frames");
 
     DJV_ASSERT(data.count() == UNITS_COUNT);
 

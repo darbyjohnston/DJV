@@ -149,13 +149,17 @@ void djvPngSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     {
         if (! pngScanline(_png, p->data(0, h - 1 - y)))
         {
-            DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+            throw djvError(
+                djvPngPlugin::staticName,
+                _pngError.msg);
         }
     }
 
     if (! pngEnd(_png, _pngInfo))
     {
-        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+        throw djvError(
+            djvPngPlugin::staticName,
+            _pngError.msg);
     }
 
     close();
@@ -249,7 +253,8 @@ bool pngOpen(
 
 } // namespace
 
-void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (djvError)
+void djvPngSave::_open(const QString & in, const djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvPngSave::_open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -266,7 +271,9 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (d
 
     if (! _png)
     {
-        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+        throw djvError(
+            djvPngPlugin::staticName,
+            _pngError.msg);
     }
 
     SNPRINTF(
@@ -288,12 +295,16 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info) throw (d
 
     if (! _f)
     {
-        djvImageIo::throwErrorOpen(djvPngPlugin::staticName, in);
+        throw djvError(
+            djvPngPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
     }
 
     if (! pngOpen(_f, _png, &_pngInfo, info))
     {
-        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+        throw djvError(
+            djvPngPlugin::staticName,
+            _pngError.msg);
     }
 
     // Set the endian.

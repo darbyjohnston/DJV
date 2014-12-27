@@ -93,6 +93,8 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
 {
     //DJV_DEBUG("djvViewApplication::djvViewApplication");
     
+    loadTranslator("djvViewLib");
+    
     //
     // Load the preferences.
     //
@@ -128,7 +130,8 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
     }
     catch (const djvError & error)
     {
-        printError(djvError(QString(errorCommandLine).arg(error.string())));
+        printError(
+            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }

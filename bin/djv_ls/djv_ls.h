@@ -68,6 +68,19 @@ public:
     //! Parse the command line.
 
     void commandLine(QStringList &) throw (djvError);
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_OPEN,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
     virtual QString commandLineHelp() const;
 

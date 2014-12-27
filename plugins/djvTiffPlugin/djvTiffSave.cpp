@@ -118,7 +118,10 @@ void djvTiffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     {
         if (TIFFWriteScanline(_f, (tdata_t *)p->data(0, y), y) == -1)
         {
-            djvImageIo::throwErrorWrite(djvTiffPlugin::staticName, fileName);
+            throw djvError(
+                djvTiffPlugin::staticName,
+                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
+                arg(fileName));
         }
     }
 
@@ -135,7 +138,8 @@ void djvTiffSave::close() throw (djvError)
     }
 }
 
-void djvTiffSave::_open(const QString & in, const djvImageIoInfo & info) throw (djvError)
+void djvTiffSave::_open(const QString & in, const djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvTiffSave::_open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -148,7 +152,10 @@ void djvTiffSave::_open(const QString & in, const djvImageIoInfo & info) throw (
 
     if (! _f)
     {
-        djvImageIo::throwErrorOpen(djvTiffPlugin::staticName, in);
+        throw djvError(
+            djvTiffPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].
+            arg(in));
     }
 
     // Write the header.

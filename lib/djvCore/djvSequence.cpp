@@ -40,6 +40,8 @@
 #include <djvMath.h>
 #include <djvSequenceUtil.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvSequence
 //------------------------------------------------------------------------------
@@ -47,9 +49,9 @@
 const QStringList & djvSequence::compressLabels()
 {
     static const QStringList data = QStringList() <<
-        "Off" <<
-        "Sparse" <<
-        "Range";
+        qApp->translate("djvSequence", "Off") <<
+        qApp->translate("djvSequence", "Sparse") <<
+        qApp->translate("djvSequence", "Range");
 
     DJV_ASSERT(data.count() == COMPRESS_COUNT);
 

@@ -52,7 +52,8 @@ djvCineonLoad::djvCineonLoad(const djvCineonPlugin::Options & options) :
 djvCineonLoad::~djvCineonLoad()
 {}
 
-void djvCineonLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvCineonLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvCineonLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -163,3 +164,4 @@ void djvCineonLoad::_open(
     //DJV_DEBUG_PRINT("info = " << info);
     //DJV_DEBUG_PRINT("film print = " << _filmPrint);
 }
+

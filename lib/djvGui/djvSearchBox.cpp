@@ -67,13 +67,13 @@ djvSearchBox::djvSearchBox(QWidget * parent) :
     // Create the widgets.
     
     _p->lineEdit = new QLineEdit;
-    _p->lineEdit->setToolTip("Enter a search");
+    _p->lineEdit->setToolTip(tr("Enter a search"));
     
     _p->resetButton = new djvToolButton;
     _p->resetButton->setIconSize(QSize(16, 16));
     _p->resetButton->setIcon(
         djvIconLibrary::global()->icon("djvResetIcon.png"));
-    _p->resetButton->setToolTip("Reset the search");
+    _p->resetButton->setToolTip(tr("Reset the search"));
 
     QLabel * label = new QLabel;
     label->setPixmap(

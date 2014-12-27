@@ -103,7 +103,10 @@ void djvDpxHeader::load(
     }
     else
     {
-        djvImageIo::throwUnrecognized(djvDpxPlugin::staticName, io.fileName());
+        throw djvError(
+            djvDpxPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
+            arg(io.fileName()));
     }
 
     //DJV_DEBUG_PRINT("endian = " << info.endian);
@@ -126,7 +129,10 @@ void djvDpxHeader::load(
 
     if (image.elemSize != 1)
     {
-        djvImageIo::throwUnsupported(djvDpxPlugin::staticName, io.fileName());
+        throw djvError(
+            djvDpxPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     info.size = djvVector2i(image.size[0], image.size[1]);
@@ -253,7 +259,10 @@ void djvDpxHeader::load(
 
     if (! found)
     {
-        djvImageIo::throwUnsupported(djvDpxPlugin::staticName, io.fileName());
+        throw djvError(
+            djvDpxPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     info.pixel = pixel;
@@ -268,12 +277,18 @@ void djvDpxHeader::load(
 
     if (image.elem[0].encoding)
     {
-        djvImageIo::throwUnsupported(djvDpxPlugin::staticName, io.fileName());
+        throw djvError(
+            djvDpxPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     if (isValid(&image.elem[0].linePadding) && image.elem[0].linePadding)
     {
-        djvImageIo::throwUnsupported(djvDpxPlugin::staticName, io.fileName());
+        throw djvError(
+            djvDpxPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     filmPrint = TRANSFER_FILM_PRINT == image.elem[0].transfer;

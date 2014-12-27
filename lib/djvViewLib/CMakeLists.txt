@@ -131,13 +131,15 @@ set(source
 
 if (Qt5Core_DIR)
     QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
+    QT5_CREATE_TRANSLATION(qmSource ${source} djvViewLib_en_US.ts)
 else()
     QT4_ADD_RESOURCES(rccSource djvViewLib.qrc)
+    QT4_CREATE_TRANSLATION(qmSource ${source} djvViewLib_en_US.ts)
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/djvViewLib ${djvGuiIncludeDirs})
 
-add_library(djvViewLib ${header} ${source} ${rccSource})
+add_library(djvViewLib ${header} ${source} ${rccSource} ${qmSource})
 
 target_link_libraries(djvViewLib ${djvGuiLibs})
 
@@ -154,6 +156,10 @@ endif (djvInstallRpath)
 install(
     FILES ${header}
     DESTINATION include)
+
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
 
 install(
     TARGETS djvViewLib

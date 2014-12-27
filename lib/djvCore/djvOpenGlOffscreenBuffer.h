@@ -78,6 +78,22 @@ public:
     //! Unbind the offscreen buffer.
 
     void unbind();
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_CREATE_TEXTURE,
+        ERROR_INIT_TEXTURE,
+        ERROR_CREATE_FBO,
+        ERROR_INIT_FBO,
+            
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
 private:
 

@@ -36,6 +36,8 @@
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // djvGlxContextPrivate
 //------------------------------------------------------------------------------
@@ -59,7 +61,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     if (! _display)
     {
-        DJV_THROW_ERROR("Cannot open X display");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_X_DISPLAY]);
     }
     
     _screen = DefaultScreen(_display);
@@ -81,7 +85,8 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     for (int i = 0; i < depthsCount; ++i)
     {
         DJV_LOG("djvGlxContextPrivate",
-            QString("Checking for a X visual with a depth of %1...").arg(depths[i]));
+            QString("Checking for a X visual with a depth of %1...").
+            arg(depths[i]));
 
         visualInfo.depth = depths[i];
 
@@ -99,7 +104,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     
     if (! _visuals || ! _visualsCount)
     {
-        DJV_THROW_ERROR("No appropriate X visuals");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_X_VISUALS]);
     }
 
     // Create the color map.
@@ -114,7 +121,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     if (! _colormap)
     {
-        DJV_THROW_ERROR("Cannot create X colormap");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_X_COLORMAP]);
     }
 
     // Check for GLX support.
@@ -123,7 +132,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 	
     if (! glXQueryExtension(_display, 0, 0))
     {
-        DJV_THROW_ERROR("No GLX extension");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_GLX]);
     }
 
     // Create a dummy window and OpenGL context for glewInit.
@@ -146,7 +157,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     if (! _window)
     {
-        DJV_THROW_ERROR("Cannot create an X window");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_X_WINDOW]);
     }
 
     // Create the OpenGL context.
@@ -161,7 +174,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     if (! _context)
     {
-        DJV_THROW_ERROR("Cannot create OpenGL context");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_CREATE_CONTEXT]);
     }
 
     // Bind the context.
@@ -176,7 +191,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     if (glError != GLEW_OK)
     {
-        DJV_THROW_ERROR(QString("Cannot initialize GLEW: #%1").arg(glError));
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_INIT_GLEW].arg(glError));
     }
 
     setVendor((const char *)glGetString(GL_VENDOR));
@@ -199,7 +216,9 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
     if (! GL_EXT_framebuffer_object)
     {
-        DJV_THROW_ERROR("No OpenGL FBO support");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_NO_FBO]);
     }
 }
 
@@ -239,18 +258,41 @@ djvGlxContextPrivate::~djvGlxContextPrivate()
     }
 }
 
+const QStringList & djvGlxContextPrivate::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvGlxContextPrivate", "Cannot open X display") <<
+        qApp->translate("djvGlxContextPrivate", "No appropriate X visuals") <<
+        qApp->translate("djvGlxContextPrivate", "Cannot create X colormap") <<
+        qApp->translate("djvGlxContextPrivate", "No GLX extension") <<
+        qApp->translate("djvGlxContextPrivate", "Cannot create an X window") <<
+        qApp->translate("djvGlxContextPrivate", "Cannot create OpenGL context") <<
+        qApp->translate("djvGlxContextPrivate", "Cannot initialize GLEW: #%1") <<
+        qApp->translate("djvGlxContextPrivate", "No OpenGL FBO support") <<
+        qApp->translate("djvGlxContextPrivate", "Invalid OpenGL context") <<
+        qApp->translate("djvGlxContextPrivate", "Cannot bind OpenGL context");
+    
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
+    return data;
+}
+
 void djvGlxContextPrivate::bind() throw (djvError)
 {
     if (! _context)
     {
-        DJV_THROW_ERROR("Invalid OpenGL context");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_INVALID_CONTEXT]);
     }
 
     //DJV_DEBUG("djvGlxContextPrivate::bind");
 
     if (! glXMakeCurrent(_display, _window, _context))
     {
-        DJV_THROW_ERROR("Cannot bind OpenGL context");
+        throw djvError(
+            "djvGlxContextPrivate",
+            errorLabels()[ERROR_BIND_CONTEXT]);
     }
 }
 

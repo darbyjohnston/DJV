@@ -106,7 +106,10 @@ void djvCineonHeader::load(
     }
     else
     {
-        djvImageIo::throwUnrecognized(djvCineon::staticName, io.fileName());
+        throw djvError(
+            djvCineon::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
+            arg(io.fileName()));
     }
 
     io.get(&image, sizeof(Image));
@@ -158,7 +161,10 @@ void djvCineonHeader::load(
 
     if (! image.channels)
     {
-        djvImageIo::throwUnsupported(djvCineon::staticName, io.fileName());
+        throw djvError(
+            djvCineon::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     int i = 1;
@@ -179,7 +185,10 @@ void djvCineonHeader::load(
 
     if (i < image.channels)
     {
-        djvImageIo::throwUnsupported(djvCineon::staticName, io.fileName());
+        throw djvError(
+            djvCineon::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     int pixel = -1;
@@ -199,7 +208,10 @@ void djvCineonHeader::load(
 
     if (-1 == pixel)
     {
-        djvImageIo::throwUnsupported(djvCineon::staticName, io.fileName());
+        throw djvError(
+            djvCineon::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     info.pixel = djvPixel::PIXEL(pixel);
@@ -210,12 +222,18 @@ void djvCineonHeader::load(
 
     if (isValid(&image.linePadding) && image.linePadding)
     {
-        djvImageIo::throwUnsupported(djvCineon::staticName, io.fileName());
+        throw djvError(
+            djvCineon::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     if (isValid(&image.channelPadding) && image.channelPadding)
     {
-        djvImageIo::throwUnsupported(djvCineon::staticName, io.fileName());
+        throw djvError(
+            djvCineon::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(io.fileName()));
     }
 
     filmPrint = DESCRIPTOR_R_FILM_PRINT == image.channel[0].descriptor[1];

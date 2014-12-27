@@ -4,11 +4,17 @@ set(header
 set(source
     djv_ls.cpp)
 
+if (Qt5Core_DIR)
+    QT5_CREATE_TRANSLATION(qmSource ${source} djv_ls_en_US.ts)
+else()
+    QT4_CREATE_TRANSLATION(qmSource ${source} djv_ls_en_US.ts)
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_ls
     ${djvCoreIncludeDirs})
 
-add_executable(djv_ls ${header} ${source})
+add_executable(djv_ls ${header} ${source} ${qmSource})
 
 target_link_libraries(djv_ls ${djvCoreLibs})
 
@@ -27,6 +33,10 @@ if (djvImageIoPlugins)
     add_dependencies(djv_ls ${djvImageIoPlugins})
 
 endif (djvImageIoPlugins)
+
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
 
 install(
     TARGETS djv_ls

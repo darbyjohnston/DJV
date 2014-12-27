@@ -54,7 +54,8 @@ djvPngLoad::~djvPngLoad()
     close();
 }
 
-void djvPngLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvPngLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvPngLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -127,7 +128,9 @@ void djvPngLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     {
         if (! pngScanline(_png, data->data(0,  data->h() - 1 - y)))
         {
-            DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+            throw djvError(
+                djvPngPlugin::staticName,
+                _pngError.msg);
         }
     }
 
@@ -231,7 +234,8 @@ bool pngOpen(
 
 } // namespace
 
-void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvError)
+void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvPngLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -248,7 +252,9 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErro
 
     if (! _png)
     {
-        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+        throw djvError(
+            djvPngPlugin::staticName,
+            _pngError.msg);
     }
 
     SNPRINTF(
@@ -270,12 +276,16 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErro
 
     if (! _f)
     {
-        djvImageIo::throwErrorOpen(djvPngPlugin::staticName, in);
+        throw djvError(
+            djvPngPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
     }
 
     if (! pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
     {
-        DJV_THROW_ERROR2(djvPngPlugin::staticName, _pngError.msg);
+        throw djvError(
+            djvPngPlugin::staticName,
+            _pngError.msg);
     }
 
     // Get file information.
@@ -311,7 +321,9 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErro
 
     if (! djvPixel::pixel(channels, bitDepth, djvPixel::INTEGER, info.pixel))
     {
-        djvImageIo::throwUnsupported(djvPngPlugin::staticName, in);
+        throw djvError(
+            djvPngPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
     }
 
     // Set the endian.

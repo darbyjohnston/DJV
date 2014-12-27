@@ -110,10 +110,9 @@ djvOpenGlContext * djvAbstractImageApplication::context()
     return _p->context;
 }
 
-namespace
+QString djvAbstractImageApplication::info() const
 {
-
-const QString labelInfo =
+    static const QString label = qApp->translate("djvAbstractImageApplication",
 "%1"
 "\n"
 "OpenGL\n"
@@ -125,13 +124,9 @@ const QString labelInfo =
 "\n"
 "Image I/O\n"
 "\n"
-"    Plugins: %7\n";
+"    Plugins: %7\n");
 
-} // namespace
-
-QString djvAbstractImageApplication::info() const
-{
-    return QString(labelInfo).
+    return QString(label).
         arg(djvAbstractCoreApplication::info()).
         arg(_p->context->vendor()).
         arg(_p->context->renderer()).
@@ -170,14 +165,15 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (djvError)
 
             // OpenGL options.
 
-            if ("-render_filter" == arg)
+            if (
+                qApp->translate("djvAbstractImageApplication", "-render_filter") == arg)
             {
                 djvOpenGlImageFilter value;
                 in >> value;
                 djvOpenGlImageFilter::setFilter(value);
             }
 
-            else if ("-render_filter_high" == arg)
+            else if (qApp->translate("djvAbstractImageApplication", "-render_filter_high") == arg)
             {
                 djvOpenGlImageFilter::setFilter(
                     djvOpenGlImageFilter::filterHighQuality());
@@ -201,22 +197,6 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (djvError)
     in = tmp;
 }
 
-namespace
-{
-
-const QString commandLineHelpLabel =
-"%1"
-"\n"
-"OpenGL Options\n"
-"\n"
-"    -render_filter (minify) (magnify)\n"
-"        Set the render filter. Options = %2. Default = %3, %4.\n"
-"    -render_filter_high\n"
-"        Set the render filter to high quality settings (%5, %6).\n"
-"%7";
-
-} // namespace
-
 QString djvAbstractImageApplication::commandLineHelp() const
 {
     QString imageIoHelp;
@@ -227,8 +207,19 @@ QString djvAbstractImageApplication::commandLineHelp() const
         
         imageIoHelp += io->commandLineHelp();
     }
+
+    static const QString label = qApp->translate("djvAbstractImageApplication",
+"%1"
+"\n"
+"OpenGL Options\n"
+"\n"
+"    -render_filter (minify) (magnify)\n"
+"        Set the render filter. Options = %2. Default = %3, %4.\n"
+"    -render_filter_high\n"
+"        Set the render filter to high quality settings (%5, %6).\n"
+"%7");
     
-    return QString(commandLineHelpLabel).
+    return QString(label).
         arg(imageIoHelp).
         arg(djvOpenGlImageFilter::filterLabels().join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filter().min).join(", ")).

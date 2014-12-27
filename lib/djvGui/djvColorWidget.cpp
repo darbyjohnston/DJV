@@ -92,11 +92,11 @@ djvColorWidget::djvColorWidget(QWidget * parent) :
 
     _p->formatWidget = new QComboBox;
     _p->formatWidget->addItems(djvPixel::formatLabels());
-    _p->formatWidget->setToolTip("Pixel format");
+    _p->formatWidget->setToolTip(tr("Pixel format"));
 
     _p->typeWidget = new QComboBox;
     _p->typeWidget->addItems(djvPixel::typeLabels());
-    _p->typeWidget->setToolTip("Pixel type");
+    _p->typeWidget->setToolTip(tr("Pixel type"));
 
     // Layout the widgets.
 
@@ -271,18 +271,18 @@ void djvColorWidget::widgetUpdate()
 
     const int channels = djvPixel::channels(_p->color.pixel());
 
-    const QString toolTip0[] =
+    static const QString toolTip0[] =
     {
-        "Luminance channel",
-        "Alpha channel"
+        tr("Luminance channel"),
+        tr("Alpha channel")
     };
 
-    const QString toolTip1[] =
+    static const QString toolTip1[] =
     {
-        "Red channel",
-        "Green channel",
-        "Blue channel",
-        "Alpha channel"
+        tr("Red channel"),
+        tr("Green channel"),
+        tr("Blue channel"),
+        tr("Alpha channel")
     };
 
     const QString * toolTip = 0;

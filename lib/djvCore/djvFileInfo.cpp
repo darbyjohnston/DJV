@@ -40,6 +40,8 @@
 #include <djvMemory.h>
 #include <djvSequenceUtil.h>
 
+#include <QCoreApplication>
+
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
@@ -171,9 +173,9 @@ void djvFileInfo::setExtension(const QString & in)
 const QStringList & djvFileInfo::typeLabels()
 {
     static const QStringList data = QStringList() <<
-        "File" <<
-        "Seq" <<
-        "Dir";
+        qApp->translate("djvFileInfo", "File") <<
+        qApp->translate("djvFileInfo", "Seq") <<
+        qApp->translate("djvFileInfo", "Dir");
 
     DJV_ASSERT(data.count() == djvFileInfo::TYPE_COUNT);
 
@@ -198,9 +200,9 @@ void djvFileInfo::setUser(uid_t in)
 const QStringList & djvFileInfo::permissionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "r" <<
-        "w" <<
-        "x";
+        qApp->translate("djvFileInfo", "r") <<
+        qApp->translate("djvFileInfo", "w") <<
+        qApp->translate("djvFileInfo", "x");
 
     DJV_ASSERT(data.count() == djvFileInfo::PERMISSIONS_COUNT);
 
@@ -211,14 +213,14 @@ const QString & djvFileInfo::permissionsLabel(int in)
 {
     static const QString data[] =
     {
-        "",
-        "r",
-        "w",
-        "rw",
-        "x",
-        "rx",
-        "wx",
-        "rwx"
+        qApp->translate("djvFileInfo", ""),
+        qApp->translate("djvFileInfo", "r"),
+        qApp->translate("djvFileInfo", "w"),
+        qApp->translate("djvFileInfo", "rw"),
+        qApp->translate("djvFileInfo", "x"),
+        qApp->translate("djvFileInfo", "rx"),
+        qApp->translate("djvFileInfo", "wx"),
+        qApp->translate("djvFileInfo", "rwx")
     };
 
     return data[in];

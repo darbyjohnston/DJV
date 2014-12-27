@@ -51,7 +51,8 @@ djvPicLoad::djvPicLoad() :
 djvPicLoad::~djvPicLoad()
 {}
 
-void djvPicLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvPicLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvPicLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -126,8 +127,12 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         endian);
 
                     if (! p)
-                        djvImageIo::throwErrorRead(djvPicPlugin::staticName,
-                            fileName);
+                    {
+                        throw djvError(
+                            djvPicPlugin::staticName,
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                            arg(fileName));
+                    }
                 }
                 else
                 {
@@ -153,8 +158,12 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         endian);
 
                     if (! p)
-                        djvImageIo::throwErrorRead(djvPicPlugin::staticName,
-                            fileName);
+                    {
+                        throw djvError(
+                            djvPicPlugin::staticName,
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                            arg(fileName));
+                    }
                 }
                 else
                 {
@@ -176,8 +185,12 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         endian);
 
                     if (! p)
-                        djvImageIo::throwErrorRead(djvPicPlugin::staticName,
-                            fileName);
+                    {
+                        throw djvError(
+                            djvPicPlugin::staticName,
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                            arg(fileName));
+                    }
                 }
                 else
                 {
@@ -279,7 +292,12 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     io.getU32(&header.magic);
 
     if (header.magic != 0x5380F634)
-        djvImageIo::throwUnrecognized(djvPicPlugin::staticName, in);
+    {
+        throw djvError(
+            djvPicPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
+    }
 
     io.getF32(&header.version);
     io.get(header.comment, sizeof(header.comment));
@@ -300,7 +318,12 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     //DJV_DEBUG_PRINT("fields = " << header.fields);
 
     if (QString::fromLatin1(header.id, sizeof(header.id)) != "PICT")
-        djvImageIo::throwUnsupported(djvPicPlugin::staticName, in);
+    {
+        throw djvError(
+            djvPicPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
+    }
 
     // Information.
 
@@ -364,7 +387,12 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     }
 
     if (-1 == type)
-        djvImageIo::throwUnsupported(djvPicPlugin::staticName, in);
+    {
+        throw djvError(
+            djvPicPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
+    }
 
     _type = static_cast<djvPicPlugin::TYPE>(type);
 

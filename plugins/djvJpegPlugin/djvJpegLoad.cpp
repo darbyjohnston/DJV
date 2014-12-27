@@ -51,7 +51,8 @@ djvJpegLoad::~djvJpegLoad()
     close();
 }
 
-void djvJpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvJpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvJpegLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -142,13 +143,17 @@ void djvJpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             data->data(0, data->h() - 1 - y),
             &_jpegError))
         {
-            DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
+            throw djvError(
+                djvJpegPlugin::staticName,
+                _jpegError.msg);
         }
     }
 
     if (! jpegEnd(&_jpeg, &_jpegError))
     {
-        DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
+        throw djvError(
+            djvJpegPlugin::staticName,
+            _jpegError.msg);
     }
 
     if (frame.proxy)
@@ -239,7 +244,8 @@ bool jpegOpen(
 
 } // namespace
 
-void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvError)
+void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvJpegLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -255,7 +261,9 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErr
 
     if (! jpegInit(&_jpeg, &_jpegError))
     {
-        DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
+        throw djvError(
+            djvJpegPlugin::staticName,
+            _jpegError.msg);
     }
 
     _jpegInit = true;
@@ -274,12 +282,16 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErr
 
     if (! _f)
     {
-        djvImageIo::throwErrorOpen(djvJpegPlugin::staticName, in);
+        throw djvError(
+            djvJpegPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
     }
 
     if (! jpegOpen(_f, &_jpeg, &_jpegError))
     {
-        DJV_THROW_ERROR2(djvJpegPlugin::staticName, _jpegError.msg);
+        throw djvError(
+            djvJpegPlugin::staticName,
+            _jpegError.msg);
     }
 
     // Information.
@@ -291,7 +303,9 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info) throw (djvErr
     if (! djvPixel::pixel(
         _jpeg.out_color_components, 8, djvPixel::INTEGER, info.pixel))
     {
-        djvImageIo::throwUnsupported(djvJpegPlugin::staticName, in);
+        throw djvError(
+            djvJpegPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
     }
 
     // Image tags.

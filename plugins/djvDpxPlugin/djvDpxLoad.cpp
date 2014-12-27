@@ -51,7 +51,8 @@ djvDpxLoad::djvDpxLoad(const djvDpxPlugin::Options & options) :
 djvDpxLoad::~djvDpxLoad()
 {}
 
-void djvDpxLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvDpxLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvDpxLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);

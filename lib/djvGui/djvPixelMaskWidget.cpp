@@ -66,7 +66,7 @@ djvPixelMaskWidget::djvPixelMaskWidget(QWidget * parent) :
     _p->button = new djvToolButton(
         djvIconLibrary::global()->icon("djvPixelMaskIcon.png"));
     _p->button->setCheckable(true);
-    _p->button->setToolTip("Set the pixel mask");
+    _p->button->setToolTip(tr("Set the pixel mask"));
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -107,12 +107,12 @@ void djvPixelMaskWidget::buttonCallback()
 {
     QMenu menu;
     
-    const QString text [] =
+    static const QString text [] =
     {
-        "Solo red",
-        "Solo green",
-        "Solo blue",
-        "Solo alpha"
+        tr("Solo red"),
+        tr("Solo green"),
+        tr("Solo blue"),
+        tr("Solo alpha")
     };
     
     int count = sizeof(text) / sizeof(text[0]);
@@ -129,12 +129,12 @@ void djvPixelMaskWidget::buttonCallback()
     
     menu.addSeparator();
 
-    const QString text2 [] =
+    static const QString text2 [] =
     {
-        "Red",
-        "Green",
-        "Blue",
-        "Alpha"
+        tr("Red"),
+        tr("Green"),
+        tr("Blue"),
+        tr("Alpha")
     };
     
     count = sizeof(text) / sizeof(text[0]);
@@ -153,7 +153,7 @@ void djvPixelMaskWidget::buttonCallback()
     
     menu.addSeparator();
     
-    QAction * action = menu.addAction("Reset");
+    QAction * action = menu.addAction(tr("Reset"));
     
     connect(action, SIGNAL(triggered()), SLOT(resetCallback()));
     

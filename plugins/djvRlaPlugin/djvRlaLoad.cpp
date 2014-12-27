@@ -43,7 +43,8 @@
 djvRlaLoad::~djvRlaLoad()
 {}
 
-void djvRlaLoad::open(const djvFileInfo & in, djvImageIoInfo & info) throw (djvError)
+void djvRlaLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
+    throw (djvError)
 {
     //DJV_DEBUG("djvRlaLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -84,7 +85,10 @@ void djvRlaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
     if (frame.layer < 0 || frame.layer >= info.layerCount())
     {
-        djvImageIo::throwErrorRead(djvRlaPlugin::staticName, fileName);
+        throw djvError(
+            djvRlaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+            arg(fileName));
     }
 
     djvPixelDataInfo _info = info[frame.layer];
@@ -284,17 +288,26 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
     if (header.matteChannels > 1)
     {
-        djvImageIo::throwUnsupported(djvRlaPlugin::staticName, in);
+        throw djvError(
+            djvRlaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
     }
 
     if (header.matteChannelType != header.colorChannelType)
     {
-        djvImageIo::throwUnsupported(djvRlaPlugin::staticName, in);
+        throw djvError(
+            djvRlaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
     }
 
     if (header.matteBitDepth != header.colorBitDepth)
     {
-        djvImageIo::throwUnsupported(djvRlaPlugin::staticName, in);
+        throw djvError(
+            djvRlaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
     }
 
     if (! djvPixel::pixel(
@@ -303,12 +316,18 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         3 == header.colorChannelType ? djvPixel::FLOAT : djvPixel::INTEGER,
         pixel))
     {
-        djvImageIo::throwUnsupported(djvRlaPlugin::staticName, in);
+        throw djvError(
+            djvRlaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
     }
 
     if (header.field)
     {
-        djvImageIo::throwUnsupported(djvRlaPlugin::staticName, in);
+        throw djvError(
+            djvRlaPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
+            arg(in));
     }
 
     info = djvPixelDataInfo(in, size, pixel);

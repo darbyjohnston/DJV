@@ -63,7 +63,7 @@ struct djvOpenGlPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget("OpenGL", parent),
+    djvAbstractPrefsWidget(tr("OpenGL"), parent),
     _p(new P)
 {
     // Create the filter widgets.
@@ -82,14 +82,14 @@ djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Render Filter",
-        "Set the render filter quality. The filters \"Nearest\" and "
+        tr("Render Filter"),
+        tr("Set the render filter quality. The filters \"Nearest\" and "
         "\"Linear\" are generally the fastest. The other filters can provide "
         "higher quality but are generally slower. The minify filter is "
-        "used when zooming out, the magnify filter is used when zooming in.");
+        "used when zooming out, the magnify filter is used when zooming in."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Minify:", _p->filterMinWidget);
-    formLayout->addRow("Magnify:", _p->filterMagWidget);
+    formLayout->addRow(tr("Minify:"), _p->filterMinWidget);
+    formLayout->addRow(tr("Magnify:"), _p->filterMagWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

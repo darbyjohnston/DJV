@@ -131,12 +131,28 @@ public:
     //! Parse the command line.
 
     void commandLine(QStringList &) throw (djvError);
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_OPEN,
+        ERROR_OPEN_SLATE,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 
     virtual QString commandLineHelp() const;
 
 private:
 
     bool work();
+    
+    QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
 
     djvConvertOptions                        _options;
     djvConvertInput                          _input;

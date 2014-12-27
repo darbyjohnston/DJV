@@ -77,6 +77,11 @@ public:
     //! - The current directory
 
     static QStringList searchPath();
+    
+    //! Find a file in the search path. If the file is found the path to the
+    //! file is returned, otherwise an empty string is returned.
+    
+    static QString findFile(const QString & fileName);
 
     //! Get the width of the terminal.
 
