@@ -175,7 +175,9 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
     if (INVALID_HANDLE_VALUE == _p->f)
     {
         throw djvError(
-            errorLabels()[ERROR_OPEN].arg(QDir::toNativeSeparators(fileName)));
+            "djvFileIo",
+            errorLabels()[ERROR_OPEN].
+            arg(QDir::toNativeSeparators(fileName)));
     }
 
 #else // DJV_WINDOWS
@@ -198,7 +200,9 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
     if (-1 == _p->f)
     {
         throw djvError(
-            errorLabels()[ERROR_OPEN].arg(QDir::toNativeSeparators(fileName)));
+            "djvFileIo",
+            errorLabels()[ERROR_OPEN].
+            arg(QDir::toNativeSeparators(fileName)));
     }
 
 #endif // DJV_WINDOWS
@@ -240,6 +244,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
         if (! _p->mmap)
         {
             throw djvError(
+                "djvFileIo",
                 errorLabels()[ERROR_FILE_MAPPING].
                 arg(QDir::toNativeSeparators(_p->fileName)).
                 arg(djvErrorUtil::lastError()));
@@ -251,6 +256,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
         if (! _p->mmapStart)
         {
             throw djvError(
+                "djvFileIo",
                 errorLabels()[ERROR_MEMORY_MAP].
                 arg(QDir::toNativeSeparators(_p->fileName)).
                 arg(djvErrorUtil::lastError()));
@@ -268,6 +274,7 @@ void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)
         if (_p->mmap == (void *) - 1)
         {
             throw djvError(
+                "djvFileIo",
                 errorLabels()[ERROR_MEMORY_MAP].
                 arg(QDir::toNativeSeparators(_p->fileName)));
         }
@@ -407,6 +414,7 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
     if (p > _p->mmapEnd)
     {
         throw djvError(
+            "djvFileIo",
             errorLabels()[ERROR_READ].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
@@ -431,6 +439,7 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
     if (! ::ReadFile(_p->f, in, size * wordSize, &n, 0))
     {
         throw djvError(
+            "djvFileIo",
             errorLabels()[ERROR_READ].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
@@ -440,6 +449,7 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
     //if (-1 == ::read(_p->f, in, size * wordSize) == (size * wordSize))
     //{
     //    throw djvError(
+    //        "djvFileIo",
     //        errorLabels()[ERROR_READ].
     //        arg(QDir::toNativeSeparators(_p->fileName)));
     //}
@@ -483,6 +493,7 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
     if (! ::WriteFile(_p->f, p, static_cast<DWORD>(size * wordSize), &n, 0))
     {
         throw djvError(
+            "djvFileIo",
             errorLabels()[ERROR_WRITE].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
@@ -492,6 +503,7 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
     if (::write(_p->f, p, size * wordSize) == -1)
     {
         throw djvError(
+            "djvFileIo",
             errorLabels()[ERROR_WRITE].
             arg(QDir::toNativeSeparators(_p->fileName)));
     }
@@ -615,6 +627,7 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
             if (_p->mmapP > _p->mmapEnd)
             {
                 throw djvError(
+                    "djvFileIo",
                     errorLabels()[ERROR_SET_POS].
                     arg(QDir::toNativeSeparators(_p->fileName)));
             }
@@ -637,6 +650,7 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
                     ! seek ? FILE_BEGIN : FILE_CURRENT))
             {
                 throw djvError(
+                    "djvFileIo",
                     errorLabels()[ERROR_SET_POS].
                     arg(QDir::toNativeSeparators(_p->fileName)));
             }
@@ -646,6 +660,7 @@ void djvFileIo::setPos(quint64 in, bool seek) throw (djvError)
             if (::lseek(_p->f, in, ! seek ? SEEK_SET : SEEK_CUR) == (off_t) - 1)
             {
                 throw djvError(
+                    "djvFileIo",
                     errorLabels()[ERROR_SET_POS].
                     arg(QDir::toNativeSeparators(_p->fileName)));
             }

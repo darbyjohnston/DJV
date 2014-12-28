@@ -341,6 +341,7 @@ djvImageLoad * djvImageIoFactory::load(
     else
     {
         throw djvError(
+            "djvImageIoFactory",
             errorLabels()[ERROR_UNRECOGNIZED].
             arg(QDir::toNativeSeparators(fileInfo)));
     }
@@ -383,6 +384,7 @@ djvImageSave * djvImageIoFactory::save(
     else
     {
         throw djvError(
+            "djvImageIoFactory",
             errorLabels()[ERROR_UNRECOGNIZED].
             arg(QDir::toNativeSeparators(fileInfo)));
     }

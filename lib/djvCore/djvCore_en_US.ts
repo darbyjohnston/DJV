@@ -385,43 +385,43 @@ OpenGL Options
 <context>
     <name>djvFileIo</name>
     <message>
-        <location filename="djvFileIo.cpp" line="672"/>
+        <location filename="djvFileIo.cpp" line="687"/>
         <source>Cannot open file: &quot;%1&quot;</source>
         <oldsource>Cannot open file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="674"/>
+        <location filename="djvFileIo.cpp" line="689"/>
         <source>Cannot create file mapping: &quot;%1&quot; (%2)</source>
         <oldsource>Cannot create file mapping: %1 (%2)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="675"/>
+        <location filename="djvFileIo.cpp" line="690"/>
         <source>Cannot memory-map file: &quot;%1&quot; (%2)</source>
         <oldsource>Cannot memory-map file: %1 (%2)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="677"/>
+        <location filename="djvFileIo.cpp" line="692"/>
         <source>Cannot memory-map file: &quot;%1&quot;</source>
         <oldsource>Cannot memory-map file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="679"/>
+        <location filename="djvFileIo.cpp" line="694"/>
         <source>Error reading file: &quot;%1&quot;</source>
         <oldsource>Error reading file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="680"/>
+        <location filename="djvFileIo.cpp" line="695"/>
         <source>Error writing file: &quot;%1&quot;</source>
         <oldsource>Error writing file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="681"/>
+        <location filename="djvFileIo.cpp" line="696"/>
         <source>Cannot set file position: &quot;%1&quot;</source>
         <oldsource>Cannot set file position: %1</oldsource>
         <translation type="unfinished"></translation>
@@ -516,7 +516,7 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="412"/>
+        <location filename="djvImageIo.cpp" line="414"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <oldsource>Unrecognized file: %1</oldsource>
         <translation type="unfinished"></translation>
