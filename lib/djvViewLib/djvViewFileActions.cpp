@@ -75,46 +75,46 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
-    _actions[OPEN]->setText("&Open");
+    _actions[OPEN]->setText(tr("&Open"));
     _actions[OPEN]->setIcon(djvIconLibrary::global()->icon(
         "djvFileOpenIcon.png"));
 
-    _actions[RELOAD]->setText("Re&load");
+    _actions[RELOAD]->setText(tr("Re&load"));
     _actions[RELOAD]->setIcon(djvIconLibrary::global()->icon(
         "djvFileReloadIcon.png"));
 
-    _actions[RELOAD_FRAME]->setText("Reload Frame");
+    _actions[RELOAD_FRAME]->setText(tr("Reload Frame"));
 
-    _actions[CLOSE]->setText("Clos&e");
+    _actions[CLOSE]->setText(tr("Clos&e"));
     _actions[CLOSE]->setIcon(djvIconLibrary::global()->icon(
         "djvFileCloseIcon.png"));
 
-    _actions[SAVE]->setText("&Save");
+    _actions[SAVE]->setText(tr("&Save"));
 
-    _actions[SAVE_FRAME]->setText("Save &Frame");
+    _actions[SAVE_FRAME]->setText(tr("Save &Frame"));
 
-    _actions[AUTO_SEQUENCE]->setText("&Auto Sequence");
+    _actions[AUTO_SEQUENCE]->setText(tr("&Auto Sequence"));
     _actions[AUTO_SEQUENCE]->setCheckable(true);
 
-    _actions[LAYER_PREV]->setText("Layer Previous");
+    _actions[LAYER_PREV]->setText(tr("Layer Previous"));
 
-    _actions[LAYER_NEXT]->setText("Layer Next");
+    _actions[LAYER_NEXT]->setText(tr("Layer Next"));
 
-    _actions[U8_CONVERSION]->setText("&8-bit Conversion");
+    _actions[U8_CONVERSION]->setText(tr("&8-bit Conversion"));
     _actions[U8_CONVERSION]->setCheckable(true);
 
-    _actions[CACHE_ENABLED]->setText("&Memory Cache");
+    _actions[CACHE_ENABLED]->setText(tr("&Memory Cache"));
     _actions[CACHE_ENABLED]->setCheckable(true);
 
-    _actions[CLEAR_CACHE]->setText("Clear Memory Cac&he");
+    _actions[CLEAR_CACHE]->setText(tr("Clear Memory Cac&he"));
 
-    _actions[MESSAGES]->setText("Messa&ges");
+    _actions[MESSAGES]->setText(tr("Messa&ges"));
     
-    _actions[PREFS]->setText("&Preferences");
+    _actions[PREFS]->setText(tr("&Preferences"));
 
-    _actions[DEBUG_LOG]->setText("Debugging Log");
+    _actions[DEBUG_LOG]->setText(tr("Debugging Log"));
 
-    _actions[EXIT]->setText("E&xit");
+    _actions[EXIT]->setText(tr("E&xit"));
 
     // Create the action groups.
 
@@ -188,25 +188,25 @@ void djvViewFileActions::update()
 
     _actions[OPEN]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_OPEN].value);
-    _actions[OPEN]->setToolTip(QString("Open a new file\n\nShortcut: %1").
+    _actions[OPEN]->setToolTip(QString(tr("Open a new file\n\nShortcut: %1")).
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_OPEN].value.toString()));
 
     _actions[RELOAD]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD].value);
     _actions[RELOAD]->setToolTip(QString(
-        "Reload the current file\n\nShortcut: %1").
+        tr("Reload the current file\n\nShortcut: %1")).
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD].value.toString()));
 
     _actions[RELOAD_FRAME]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD_FRAME].value);
     _actions[RELOAD_FRAME]->setToolTip(QString(
-        "Reload the current frame\n\nShortcut: %1").
+        tr("Reload the current frame\n\nShortcut: %1")).
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
 
     _actions[CLOSE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_CLOSE].value);
     _actions[CLOSE]->setToolTip(QString(
-        "Close the current file\n\nShortcut: %1").
+        tr("Close the current file\n\nShortcut: %1")).
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_CLOSE].value.toString()));
 
     _actions[SAVE]->setShortcut(

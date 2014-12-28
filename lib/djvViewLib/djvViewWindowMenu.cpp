@@ -76,7 +76,7 @@ djvViewWindowMenu::djvViewWindowMenu(
 
     // Initialize.
 
-    setTitle("&Window");
+    setTitle(tr("&Window"));
 }
 
 djvViewWindowMenu::~djvViewWindowMenu()

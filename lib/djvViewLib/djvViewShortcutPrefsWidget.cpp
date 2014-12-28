@@ -61,7 +61,7 @@ struct djvViewShortcutPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget() :
-    djvViewAbstractPrefsWidget("Shortcuts"),
+    djvViewAbstractPrefsWidget(tr("Shortcuts")),
     _p(new P)
 {
     // Create the widgets.
@@ -72,7 +72,7 @@ djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Keyboard Shortcuts");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Keyboard Shortcuts"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->shortcutsWidget);
     layout->addWidget(prefsGroupBox);

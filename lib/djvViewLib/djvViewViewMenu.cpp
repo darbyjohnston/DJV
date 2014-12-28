@@ -73,7 +73,7 @@ djvViewViewMenu::djvViewViewMenu(
 
     addSeparator();
 
-    QMenu * gridMenu = addMenu("&Grid");
+    QMenu * gridMenu = addMenu(tr("&Grid"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewViewActions::GRID_GROUP)->actions())
         gridMenu->addAction(action);
@@ -82,7 +82,7 @@ djvViewViewMenu::djvViewViewMenu(
 
     // Initialize.
 
-    setTitle("&View");
+    setTitle(tr("&View"));
 }
 
 djvViewViewMenu::~djvViewViewMenu()

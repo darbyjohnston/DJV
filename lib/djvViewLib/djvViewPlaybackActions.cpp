@@ -65,13 +65,13 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
-    _actions[PLAYBACK_TOGGLE]->setText("Toggle Playback");
-    _actions[PLAYBACK_TOGGLE]->setToolTip("Toggle playback");
+    _actions[PLAYBACK_TOGGLE]->setText(tr("Toggle Playback"));
+    _actions[PLAYBACK_TOGGLE]->setToolTip(tr("Toggle playback"));
     
-    _actions[EVERY_FRAME]->setText("Ever&y Frame");
+    _actions[EVERY_FRAME]->setText(tr("Ever&y Frame"));
     _actions[EVERY_FRAME]->setCheckable(true);
     _actions[EVERY_FRAME]->setIcon(djvIconLibrary::global()->icon("djvLockIcon.png"));
-    _actions[EVERY_FRAME]->setToolTip("Set whether every frame is played back");
+    _actions[EVERY_FRAME]->setToolTip(tr("Set whether every frame is played back"));
     
     // Create the action groups.
 
@@ -206,7 +206,7 @@ void djvViewPlaybackActions::update()
     
     _actions[PLAYBACK_TOGGLE]->setShortcut(key);
     _actions[PLAYBACK_TOGGLE]->setToolTip(
-        QString("Toggle playback\n\nShortcut: %1").arg(key.toString()));
+        tr("Toggle playback\n\nShortcut: %1").arg(key.toString()));
     
     // Update the action groups.
     
@@ -217,9 +217,9 @@ void djvViewPlaybackActions::update()
         djvViewUtil::SHORTCUT_PLAYBACK_FORWARD;
 
     const QStringList playbackToolTips = QStringList() <<
-        "Start reverse playback\n\nShortcut: %1" <<
-        "Stop playback\n\nShortcut: %1" <<
-        "Start forward playback\n\nShortcut: %1";
+        tr("Start reverse playback\n\nShortcut: %1") <<
+        tr("Stop playback\n\nShortcut: %1") <<
+        tr("Start forward playback\n\nShortcut: %1");
 
     for (int i = 0; i < djvViewUtil::PLAYBACK_COUNT; ++i)
     {
@@ -256,15 +256,15 @@ void djvViewPlaybackActions::update()
         djvViewUtil::SHORTCUT_PLAYBACK_END_ABS;
 
     const QStringList frameToolTips = QStringList() <<
-        "Go to the start frame or in point\n\nShortcut: %1" <<
+        tr("Go to the start frame or in point\n\nShortcut: %1") <<
         QString() <<
-        "Go to the previous frame\n\nShortcut: %1" <<
-        QString() <<
-        QString() <<
-        "Go to the next frame\n\nShortcut: %1" <<
+        tr("Go to the previous frame\n\nShortcut: %1") <<
         QString() <<
         QString() <<
-        "Go to the end frame or out point\n\nShortcut: %1" <<
+        tr("Go to the next frame\n\nShortcut: %1") <<
+        QString() <<
+        QString() <<
+        tr("Go to the end frame or out point\n\nShortcut: %1") <<
         QString();
 
     for (int i = 0; i < djvViewUtil::FRAME_COUNT; ++i)
@@ -287,11 +287,11 @@ void djvViewPlaybackActions::update()
         djvViewUtil::SHORTCUT_PLAYBACK_RESET_OUT;
 
     const QStringList inOutToolTips = QStringList() <<
-        "Enable in/out points\n\nShortcut: %1" <<
-        "Set the current frame as the in point\n\nShortcut: %1" <<
-        "Set the current frame as the out point\n\nShortcut: %1" <<
-        "Reset the in point\n\nShortcut: %1" <<
-        "Reset the out point\n\nShortcut: %1";
+        tr("Enable in/out points\n\nShortcut: %1") <<
+        tr("Set the current frame as the in point\n\nShortcut: %1") <<
+        tr("Set the current frame as the out point\n\nShortcut: %1") <<
+        tr("Reset the in point\n\nShortcut: %1") <<
+        tr("Reset the out point\n\nShortcut: %1");
 
     for (int i = 0; i < djvViewUtil::IN_OUT_COUNT; ++i)
     {

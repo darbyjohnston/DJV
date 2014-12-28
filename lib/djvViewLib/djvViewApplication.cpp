@@ -266,37 +266,37 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
 
             // Parse the options.
             
-            if ("-combine" == arg)
+            if (tr("-combine") == arg)
             {
                 _p->combine = true;
             }
-            else if ("-seq" == arg || "-q" == arg)
+            else if (tr("-seq") == arg || tr("-q") == arg)
             {
                 in >> _p->sequence;
             }
 
             // Parse the file options.
 
-            else if ("-file_seq_auto" == arg)
+            else if (tr("-file_seq_auto") == arg)
             {
                 bool value = 0;
                 in >> value;
                 _p->fileSequenceAuto.reset(new bool(value));
             }
-            else if ("-file_layer" == arg)
+            else if (tr("-file_layer") == arg)
             {
                 int value = 0;
                 in >> value;
                 _p->fileLayer.reset(new int(value));
             }
-            else if ("-file_proxy" == arg)
+            else if (tr("-file_proxy") == arg)
             {
                 djvPixelDataInfo::PROXY value =
                     static_cast<djvPixelDataInfo::PROXY>(0);
                 in >> value;
                 _p->fileProxy.reset(new djvPixelDataInfo::PROXY(value));
             }
-            else if ("-file_cache" == arg)
+            else if (tr("-file_cache") == arg)
             {
                 bool value = false;
                 in >> value;
@@ -305,27 +305,27 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
 
             // Parse the window options.
 
-            else if ("-window_full_screen" == arg)
+            else if (tr("-window_full_screen") == arg)
             {
                 _p->windowFullScreen.reset(new bool(true));
             }
 
             // Parse the playback options.
 
-            else if ("-playback" == arg)
+            else if (tr("-playback") == arg)
             {
                 djvViewUtil::PLAYBACK value =
                     static_cast<djvViewUtil::PLAYBACK>(0);
                 in >> value;
                 _p->playback.reset(new djvViewUtil::PLAYBACK(value));
             }
-            else if ("-playback_frame" == arg)
+            else if (tr("-playback_frame") == arg)
             {
                 int value = 0;
                 in >> value;
                 _p->playbackFrame.reset(new int(value));
             }
-            else if ("-playback_speed" == arg)
+            else if (tr("-playback_speed") == arg)
             {
                 djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
@@ -346,10 +346,9 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
     }
 }
 
-namespace
+QString djvViewApplication::commandLineHelp() const
 {
-
-const QString commandLineHelpLabel =
+    static const QString label = tr(
 "djv_view\n"
 "\n"
 "    The djv_view application provides real-time image sequence and movie "
@@ -391,13 +390,9 @@ const QString commandLineHelpLabel =
 "        Set the playback frame.\n"
 "    -playback_speed (value)\n"
 "        Set the playback speed. Options = %8.\n"
-"%9";
+"%9");
 
-} // namespace
-
-QString djvViewApplication::commandLineHelp() const
-{
-    return QString(commandLineHelpLabel).
+    return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_p->sequence).join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).

@@ -96,7 +96,7 @@ struct djvViewViewPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
-    djvViewAbstractPrefsWidget("Views"),
+    djvViewAbstractPrefsWidget(tr("Views")),
     _p(new P)
 {
     // Create the options widgets.
@@ -117,7 +117,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     // Create the HUD widgets.
 
-    _p->hudEnabledWidget = new QCheckBox("Enable");
+    _p->hudEnabledWidget = new QCheckBox(tr("Enable"));
 
     _p->hudInfoWidget = new SmallListWidget;
     
@@ -147,24 +147,24 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Background color:", _p->backgroundColorWidget);
+    formLayout->addRow(tr("Background color:"), _p->backgroundColorWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Grid");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Grid"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->gridWidget);
-    formLayout->addRow("Color:", _p->gridColorWidget);
+    formLayout->addRow(tr("Color:"), _p->gridColorWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("HUD (Heads Up Display)");
+    prefsGroupBox = new djvPrefsGroupBox(tr("HUD (Heads Up Display)"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->hudEnabledWidget);
-    formLayout->addRow("Information:", _p->hudInfoWidget);
-    formLayout->addRow("Foreground color:", _p->hudColorWidget);
-    formLayout->addRow("Background style:", _p->hudBackgroundWidget);
-    formLayout->addRow("Background color:", _p->hudBackgroundColorWidget);
+    formLayout->addRow(tr("Information:"), _p->hudInfoWidget);
+    formLayout->addRow(tr("Foreground color:"), _p->hudColorWidget);
+    formLayout->addRow(tr("Background style:"), _p->hudBackgroundWidget);
+    formLayout->addRow(tr("Background color:"), _p->hudBackgroundColorWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

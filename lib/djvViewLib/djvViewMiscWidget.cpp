@@ -1107,7 +1107,7 @@ void djvViewSpeedButton::pressedCallback()
     
     if (_p->defaultSpeed.isValid())
     {
-        const QString text = QString("Default: %1").
+        const QString text = tr("Default: %1").
             arg(djvSpeed::speedToFloat(_p->defaultSpeed), 0, 'f', 2);
 
         QAction * action = menu.addAction(

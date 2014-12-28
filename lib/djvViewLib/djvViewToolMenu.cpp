@@ -62,7 +62,7 @@ djvViewToolMenu::djvViewToolMenu(
 
     // Initialize.
 
-    setTitle("&Tools");
+    setTitle(tr("&Tools"));
 }
 
 djvViewToolMenu::~djvViewToolMenu()

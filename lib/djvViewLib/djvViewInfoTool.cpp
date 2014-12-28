@@ -106,12 +106,12 @@ djvViewInfoTool::djvViewInfoTool(
     QVBoxLayout * layout = new QVBoxLayout(this);
     
     QFormLayout * formLayout = new QFormLayout;
-    formLayout->addRow("File name:", _p->fileNameWidget);
-    formLayout->addRow("Layer:", _p->layerNameWidget);
-    formLayout->addRow("Size:", _p->sizeWidget);
-    formLayout->addRow("Pixel:", _p->pixelWidget);
-    formLayout->addRow("Time:", _p->timeWidget);
-    formLayout->addRow("Tags:", _p->tagsWidget);
+    formLayout->addRow(tr("File name:"), _p->fileNameWidget);
+    formLayout->addRow(tr("Layer:"), _p->layerNameWidget);
+    formLayout->addRow(tr("Size:"), _p->sizeWidget);
+    formLayout->addRow(tr("Pixel:"), _p->pixelWidget);
+    formLayout->addRow(tr("Time:"), _p->timeWidget);
+    formLayout->addRow(tr("Tags:"), _p->tagsWidget);
     layout->addLayout(formLayout);
 
     QHBoxLayout * hLayout = new QHBoxLayout;
@@ -121,7 +121,7 @@ djvViewInfoTool::djvViewInfoTool(
 
     // Initialize.
     
-    setWindowTitle("Information");
+    setWindowTitle(tr("Information"));
 
     // Setup the callbacks.
 
@@ -160,7 +160,7 @@ void djvViewInfoTool::widgetUpdate()
 
         _p->layerNameWidget->setText(imageIoInfo.layerName);
 
-        _p->sizeWidget->setText(QString("%1x%2:%3").
+        _p->sizeWidget->setText(QString(tr("%1x%2:%3")).
             arg(imageIoInfo.size.x).
             arg(imageIoInfo.size.y).
             arg(djvVectorUtil::aspect(imageIoInfo.size)));
@@ -168,7 +168,7 @@ void djvViewInfoTool::widgetUpdate()
         _p->pixelWidget->setText(
             djvStringUtil::label(imageIoInfo.pixel).join(", "));
 
-        _p->timeWidget->setText(QString("%1@%2").
+        _p->timeWidget->setText(QString(tr("%1@%2")).
             arg(djvTime::frameToString(
                 imageIoInfo.sequence.frames.count(),
                 imageIoInfo.sequence.speed)).
@@ -180,7 +180,7 @@ void djvViewInfoTool::widgetUpdate()
 
         for (int i = 0; i < keys.count(); ++i)
         {
-            tmp += QString("%1 = %2\n").
+            tmp += QString(tr("%1 = %2\n")).
                 arg(keys[i]).arg(imageIoInfo.tags[keys[i]]);
         }
 

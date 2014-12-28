@@ -85,8 +85,8 @@ djvViewPlaybackButtons::djvViewPlaybackButtons(
 
     _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault());
     _p->shuttle->setToolTip(
-        "Playback shuttle\n\nClick and drag to start playback; the speed is "
-        "determined by how far you drag.");
+        tr("Playback shuttle\n\nClick and drag to start playback; the speed is "
+        "determined by how far you drag."));
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -167,8 +167,8 @@ void djvViewLoopWidget::widgetUpdate()
 
     // Update tool tips.
 
-    _p->button->setToolTip(QString(
-        "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
+    _p->button->setToolTip(
+        tr("Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
         arg(djvStringUtil::label(_p->loop).join(", ")).
         arg(djvViewUtil::loopLabels().join(", ")).
         arg(shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value.toString()));
@@ -216,7 +216,7 @@ djvViewFrameButtons::djvViewFrameButtons(
 
     _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault());
     _p->shuttle->setToolTip(
-        "Frame shuttle\n\nClick and drag to change the current frame.");
+        tr("Frame shuttle\n\nClick and drag to change the current frame."));
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);

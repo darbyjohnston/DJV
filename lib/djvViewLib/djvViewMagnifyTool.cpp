@@ -161,12 +161,14 @@ djvViewMagnifyTool::djvViewMagnifyTool(
     _p->colorProfileButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
-    _p->colorProfileButton->setToolTip("Set whether the color profile is enabled");
+    _p->colorProfileButton->setToolTip(
+        tr("Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
-    _p->displayProfileButton->setToolTip("Set whether the display profile is enabled");
+    _p->displayProfileButton->setToolTip(
+        tr("Set whether the display profile is enabled"));
 
     // Layout the widgets.
 
@@ -196,7 +198,7 @@ djvViewMagnifyTool::djvViewMagnifyTool(
 
     // Initialize.
     
-    setWindowTitle("Magnify");
+    setWindowTitle(tr("Magnify"));
 
     widgetUpdate();
 

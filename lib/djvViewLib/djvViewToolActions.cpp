@@ -68,10 +68,10 @@ djvViewToolActions::djvViewToolActions(QObject * parent) :
     _groups[TOOL_GROUP]->setExclusive(false);
     
     const QStringList toolText = QStringList() <<
-        "&Magnify" <<
-        "&Color Picker" <<
-        "&Histogram" <<
-        "&Information";
+        tr("&Magnify") <<
+        tr("&Color Picker") <<
+        tr("&Histogram") <<
+        tr("&Information");
     
     const QList<bool> toolCheckable = QList<bool>() <<
         true <<
@@ -127,10 +127,10 @@ void djvViewToolActions::update()
         shortcuts[djvViewUtil::SHORTCUT_TOOL_INFO].value;
     
     const QStringList toolToolTips = QStringList() <<
-        "Toggle the magnify tool\n\nShortcut: %1" <<
-        "Toggle the color picker tool\n\nShortcut: %1" <<
-        "Toggle the histogram tool\n\nShortcut: %1" <<
-        "Toggle the information tool\n\nShortcut: %1";
+        tr("Toggle the magnify tool\n\nShortcut: %1") <<
+        tr("Toggle the color picker tool\n\nShortcut: %1") <<
+        tr("Toggle the histogram tool\n\nShortcut: %1") <<
+        tr("Toggle the information tool\n\nShortcut: %1");
     
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {

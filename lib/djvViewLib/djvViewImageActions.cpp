@@ -67,22 +67,22 @@ djvViewImageActions::djvViewImageActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
-    _actions[FRAME_STORE]->setText("Show &Frame Store");
+    _actions[FRAME_STORE]->setText(tr("Show &Frame Store"));
     _actions[FRAME_STORE]->setCheckable(true);
 
-    _actions[LOAD_FRAME_STORE]->setText("&Load Frame Store");
+    _actions[LOAD_FRAME_STORE]->setText(tr("&Load Frame Store"));
 
-    _actions[MIRROR_H]->setText("Mirror &Horizontal");
+    _actions[MIRROR_H]->setText(tr("Mirror &Horizontal"));
     _actions[MIRROR_H]->setCheckable(true);
 
-    _actions[MIRROR_V]->setText("Mirror &Vertical");
+    _actions[MIRROR_V]->setText(tr("Mirror &Vertical"));
     _actions[MIRROR_V]->setCheckable(true);
 
-    _actions[COLOR_PROFILE]->setText("&Color Profile");
+    _actions[COLOR_PROFILE]->setText(tr("&Color Profile"));
     _actions[COLOR_PROFILE]->setCheckable(true);
 
     _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
-    _actions[DISPLAY_PROFILE_VISIBLE]->setText("Show Display Profile");
+    _actions[DISPLAY_PROFILE_VISIBLE]->setText(tr("Show Display Profile"));
     _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(djvIconLibrary::global()->icon(
         "djvDisplayProfileIcon.png"));
 
@@ -213,7 +213,7 @@ void djvViewImageActions::update()
         delete action;
 
     QStringList displayProfileNames;
-    displayProfileNames += "Reset";
+    displayProfileNames += tr("Reset");
     displayProfileNames += djvViewImagePrefs::global()->displayProfileNames();
 
     const QVector<QKeySequence> displayProfileShortcuts = QVector<QKeySequence>() <<

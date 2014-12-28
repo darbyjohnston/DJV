@@ -57,11 +57,11 @@ djvViewHelpActions::djvViewHelpActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
-    _actions[HELP]->setText("&Help");
+    _actions[HELP]->setText(tr("&Help"));
 
-    _actions[INFO]->setText("&Information");
+    _actions[INFO]->setText(tr("&Information"));
 
-    _actions[ABOUT]->setText("&About");
+    _actions[ABOUT]->setText(tr("&About"));
 }
 
 djvViewHelpActions::~djvViewHelpActions()

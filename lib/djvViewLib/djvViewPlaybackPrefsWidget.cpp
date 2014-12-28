@@ -68,18 +68,18 @@ struct djvViewPlaybackPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
-    djvViewAbstractPrefsWidget("Playback"),
+    djvViewAbstractPrefsWidget(tr("Playback")),
     _p(new P)
 {
     // Create the widgets.
 
-    _p->autoStartWidget = new QCheckBox("Start playback when opening files");
+    _p->autoStartWidget = new QCheckBox(tr("Start playback when opening files"));
 
     _p->loopWidget = new QComboBox;
     _p->loopWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->loopWidget->addItems(djvViewUtil::loopLabels());
 
-    _p->everyFrameWidget = new QCheckBox("Play every frame");
+    _p->everyFrameWidget = new QCheckBox(tr("Play every frame"));
 
     _p->layoutWidget = new QComboBox;
     _p->layoutWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -89,16 +89,16 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoStartWidget);
-    formLayout->addRow("Loop mode:", _p->loopWidget);
+    formLayout->addRow(tr("Loop mode:"), _p->loopWidget);
     formLayout->addRow(_p->everyFrameWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Layout");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Layout"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Playback controls:", _p->layoutWidget);
+    formLayout->addRow(tr("Playback controls:"), _p->layoutWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

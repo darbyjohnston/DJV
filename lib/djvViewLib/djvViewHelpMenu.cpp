@@ -62,7 +62,7 @@ djvViewHelpMenu::djvViewHelpMenu(
 
     // Initialize.
 
-    setTitle("&Help");
+    setTitle(tr("&Help"));
 }
 
 djvViewHelpMenu::~djvViewHelpMenu()

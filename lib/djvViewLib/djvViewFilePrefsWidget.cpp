@@ -77,13 +77,13 @@ struct djvViewFilePrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
-    djvViewAbstractPrefsWidget("Files"),
+    djvViewAbstractPrefsWidget(tr("Files")),
     _p(new P)
 {
     // Create the options widgets.
 
     _p->autoSequenceWidget = new QCheckBox(
-        "Automatically detect sequences when opening files");
+        tr("Automatically detect sequences when opening files"));
 
     // Create the proxy scale widgets.
 
@@ -93,52 +93,53 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
 
     // Create the convert to 8-bits widgets.
 
-    _p->u8ConversionWidget = new QCheckBox("Enable 8-bit conversion");
+    _p->u8ConversionWidget = new QCheckBox(tr("Enable 8-bit conversion"));
 
     // Create the file cache widgets.
 
-    _p->cacheWidget = new QCheckBox("Enable the memory cache");
+    _p->cacheWidget = new QCheckBox(tr("Enable the memory cache"));
 
     _p->cacheSizeWidget = new djvViewCacheSizeWidget;
 
-    _p->cacheDisplayWidget = new QCheckBox("Display cached frames in timeline");
+    _p->cacheDisplayWidget = new QCheckBox(
+        tr("Display cached frames in timeline"));
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("General");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoSequenceWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Proxy Scale",
-        "Proxy scaling reduces the resolution when loading files to allow more "
-        "images to be stored in the memory cache at the expense of image "
+        tr("Proxy Scale"),
+        tr("Proxy scaling reduces the resolution when loading files to allow "
+        "more images to be stored in the memory cache at the expense of image "
         "quality. Proxy scaling can also improve playback speed since the "
-        "images are smaller.");
+        "images are smaller."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->proxyWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Conversion",
-        "This option converts images to 8-bits when loading files to allow "
+        tr("Conversion"),
+        tr("This option converts images to 8-bits when loading files to allow "
         "more images to be stored in the memory cache at the expense of image "
-        "quality.");
+        "quality."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->u8ConversionWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Memory Cache",
-        "The memory cache allows the application to store images in memory "
+        tr("Memory Cache"),
+        tr("The memory cache allows the application to store images in memory "
         "which can improve playback performance. When the memory cache is "
-        "disabled the images are streamed directly from disk.");
+        "disabled the images are streamed directly from disk."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->cacheWidget);
-    formLayout->addRow("Cache size (gigabytes):", _p->cacheSizeWidget);
+    formLayout->addRow(tr("Cache size (gigabytes):"), _p->cacheSizeWidget);
     formLayout->addRow(_p->cacheDisplayWidget);
     layout->addWidget(prefsGroupBox);
 

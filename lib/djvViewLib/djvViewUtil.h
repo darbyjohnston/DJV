@@ -487,6 +487,20 @@ public:
     //! Get the mouse wheel action labels.
 
     static const QStringList & mouseWheelLabels();
+    
+    //! This enumeration provides error codes.
+    
+    enum ERROR
+    {
+        ERROR_OPEN_IMAGE,
+        ERROR_OPEN_LUT,
+
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
 };
 
 //------------------------------------------------------------------------------

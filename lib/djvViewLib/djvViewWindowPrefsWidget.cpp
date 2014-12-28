@@ -72,13 +72,13 @@ struct djvViewWindowPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
-    djvViewAbstractPrefsWidget("Windows"),
+    djvViewAbstractPrefsWidget(tr("Windows")),
     _p(new P)
 {
     // Create the size widgets.
 
     _p->autoFitWidget = new QCheckBox(
-        "Automatically fit the window to the image");
+        tr("Automatically fit the window to the image"));
 
     _p->viewMaxWidget = new QComboBox;
     _p->viewMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -91,7 +91,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     // Create the full screen widgets.
 
     _p->fullScreenControlsWidget = new QCheckBox(
-        "Set whether the controls are visible in full screen mode");
+        tr("Set whether the controls are visible in full screen mode"));
 
     // Create the tool bar widgets.
 
@@ -109,19 +109,19 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Size");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Size"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoFitWidget);
-    formLayout->addRow("Maximum view size:", _p->viewMaxWidget);
+    formLayout->addRow(tr("Maximum view size:"), _p->viewMaxWidget);
     formLayout->addRow("", _p->viewMaxUserWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Full Screen");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Full Screen"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->fullScreenControlsWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox("Tool Bars");
+    prefsGroupBox = new djvPrefsGroupBox(tr("Tool Bars"));
     formLayout = prefsGroupBox->createLayout();
     for (int i = 0; i < _p->toolBarButtonGroup->buttons().count(); ++i)
         formLayout->addRow(_p->toolBarButtonGroup->button(i));

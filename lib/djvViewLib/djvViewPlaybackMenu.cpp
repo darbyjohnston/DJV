@@ -60,7 +60,7 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
 
     addAction(actions->action(djvViewPlaybackActions::PLAYBACK_TOGGLE));
 
-    QMenu * loopMenu = addMenu("&Loop");
+    QMenu * loopMenu = addMenu(tr("&Loop"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LOOP_GROUP)->actions())
         loopMenu->addAction(action);
@@ -81,14 +81,14 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
 
     addSeparator();
 
-    QMenu * layoutMenu = addMenu("Layout");
+    QMenu * layoutMenu = addMenu(tr("Layout"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LAYOUT_GROUP)->actions())
         layoutMenu->addAction(action);
 
     // Initialize.
 
-    setTitle("&Playback");
+    setTitle(tr("&Playback"));
 }
 
 djvViewPlaybackMenu::~djvViewPlaybackMenu()

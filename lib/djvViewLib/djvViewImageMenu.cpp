@@ -68,11 +68,11 @@ djvViewImageMenu::djvViewImageMenu(
     addAction(actions->action(djvViewImageActions::MIRROR_H));
     addAction(actions->action(djvViewImageActions::MIRROR_V));
 
-    QMenu * scaleMenu = addMenu("&Scale");
+    QMenu * scaleMenu = addMenu(tr("&Scale"));
     scaleMenu->addActions(
         actions->group(djvViewImageActions::SCALE_GROUP)->actions());
 
-    QMenu * rotateMenu = addMenu("&Rotate");
+    QMenu * rotateMenu = addMenu(tr("&Rotate"));
     rotateMenu->addActions(
         actions->group(djvViewImageActions::ROTATE_GROUP)->actions());
 
@@ -82,17 +82,17 @@ djvViewImageMenu::djvViewImageMenu(
 
     addAction(actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE));
 
-    _p->displayProfileMenu = addMenu("&Display Profile");
+    _p->displayProfileMenu = addMenu(tr("&Display Profile"));
 
     addSeparator();
 
-    QMenu * channelMenu = addMenu("C&hannel");
+    QMenu * channelMenu = addMenu(tr("C&hannel"));
     channelMenu->addActions(
         actions->group(djvViewImageActions::CHANNEL_GROUP)->actions());
 
     // Initialize.
 
-    setTitle("&Image");
+    setTitle(tr("&Image"));
 
     menuUpdate();
 }

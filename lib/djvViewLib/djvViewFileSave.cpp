@@ -34,6 +34,7 @@
 #include <djvViewFileSave.h>
 
 #include <djvViewApplication.h>
+#include <djvViewUtil.h>
 
 #include <djvProgressDialog.h>
 
@@ -174,7 +175,9 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
 
         if (! _p->load.data())
         {
-            throw djvError(QString("Cannot open image \"%1\"").
+            throw djvError(
+                "djvViewFileSave",
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.inputFile)));
         }
     }
@@ -198,7 +201,9 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
         
         if (! _p->save.data())
         {
-            throw djvError(QString("Cannot open image \"%1\"").
+            throw djvError(
+                "djvViewFileSave",
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
         }
     }
@@ -211,7 +216,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
 
     // Start...
 
-    _p->dialog->setLabel(QString("Saving \"%1\":").
+    _p->dialog->setLabel(tr("Saving \"%1\":").
         arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
     _p->dialog->start(

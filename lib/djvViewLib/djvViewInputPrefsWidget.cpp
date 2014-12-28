@@ -66,7 +66,7 @@ struct djvViewInputPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
-    djvViewAbstractPrefsWidget("Input"),
+    djvViewAbstractPrefsWidget(tr("Input")),
     _p(new P)
 {
     // Create the widgets.
@@ -89,11 +89,11 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
 
     djvFormLayoutAlign * align = new djvFormLayoutAlign(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Mouse Wheel");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Mouse Wheel"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow("Wheel:", _p->mouseWheelWidget);
-    formLayout->addRow("Shift + wheel:", _p->mouseWheelShiftWidget);
-    formLayout->addRow("Ctrl + wheel:", _p->mouseWheelCtrlWidget);
+    formLayout->addRow(tr("Wheel:"), _p->mouseWheelWidget);
+    formLayout->addRow(tr("Shift + wheel:"), _p->mouseWheelShiftWidget);
+    formLayout->addRow(tr("Ctrl + wheel:"), _p->mouseWheelCtrlWidget);
     align->addLayout(formLayout);
     layout->addWidget(prefsGroupBox);
 

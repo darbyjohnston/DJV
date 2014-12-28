@@ -134,7 +134,7 @@ djvViewImageGroup::djvViewImageGroup(
     
     _p->displayProfileWidget =
         new djvViewDisplayProfileWidget(mainWindow->viewWidget());
-    _p->displayProfileDockWidget = new QDockWidget("Display Profile");
+    _p->displayProfileDockWidget = new QDockWidget(tr("Display Profile"));
     _p->displayProfileDockWidget->setWidget(_p->displayProfileWidget);
 
     mainWindow->addDockWidget(

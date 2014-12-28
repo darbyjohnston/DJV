@@ -42,6 +42,8 @@
 #include <djvImageIo.h>
 #include <djvVectorUtil.h>
 
+#include <QDir>
+
 //------------------------------------------------------------------------------
 // djvViewUtil
 //------------------------------------------------------------------------------
@@ -52,11 +54,11 @@ djvViewUtil::~djvViewUtil()
 const QStringList & djvViewUtil::viewMaxLabels()
 {
     static const QStringList data = QStringList() <<
-        "Unlimited" <<
-        "25% of screen" <<
-        "50% of screen" <<
-        "75% of screen" <<
-        "User specified";
+        qApp->translate("djvViewUtil", "Unlimited") <<
+        qApp->translate("djvViewUtil", "25% of screen") <<
+        qApp->translate("djvViewUtil", "50% of screen") <<
+        qApp->translate("djvViewUtil", "75% of screen") <<
+        qApp->translate("djvViewUtil", "User specified");
 
     DJV_ASSERT(data.count() == VIEW_MAX_COUNT);
 
@@ -66,9 +68,9 @@ const QStringList & djvViewUtil::viewMaxLabels()
 const QStringList & djvViewUtil::toolBarLabels()
 {
     static const QStringList data = QStringList() <<
-        "Tool Bars" <<
-        "Playback Bar" <<
-        "Information Bar";
+        qApp->translate("djvViewUtil", "Tool Bars") <<
+        qApp->translate("djvViewUtil", "Playback Bar") <<
+        qApp->translate("djvViewUtil", "Information Bar");
 
     DJV_ASSERT(data.count() == TOOL_BAR_COUNT);
 
@@ -78,10 +80,10 @@ const QStringList & djvViewUtil::toolBarLabels()
 const QStringList & djvViewUtil::gridLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "1x1" <<
-        "10x10" <<
-        "100x100";
+        qApp->translate("djvViewUtil", "None") <<
+        qApp->translate("djvViewUtil", "1x1") <<
+        qApp->translate("djvViewUtil", "10x10") <<
+        qApp->translate("djvViewUtil", "100x100");
 
     DJV_ASSERT(data.count() == GRID_COUNT);
 
@@ -91,14 +93,14 @@ const QStringList & djvViewUtil::gridLabels()
 const QStringList & djvViewUtil::hudInfoLabels()
 {
     static const QStringList data = QStringList() <<
-        "File Name" <<
-        "Layer" <<
-        "Size" <<
-        "Proxy" <<
-        "Pixel" <<
-        "Tags" <<
-        "Playback Frame" <<
-        "Playback Speed";
+        qApp->translate("djvViewUtil", "File Name") <<
+        qApp->translate("djvViewUtil", "Layer") <<
+        qApp->translate("djvViewUtil", "Size") <<
+        qApp->translate("djvViewUtil", "Proxy") <<
+        qApp->translate("djvViewUtil", "Pixel") <<
+        qApp->translate("djvViewUtil", "Tags") <<
+        qApp->translate("djvViewUtil", "Playback Frame") <<
+        qApp->translate("djvViewUtil", "Playback Speed");
 
     DJV_ASSERT(data.count() == HUD_COUNT);
 
@@ -108,9 +110,9 @@ const QStringList & djvViewUtil::hudInfoLabels()
 const QStringList & djvViewUtil::hudBackgroundLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "Solid" <<
-        "Shadow";
+        qApp->translate("djvViewUtil", "None") <<
+        qApp->translate("djvViewUtil", "Solid") <<
+        qApp->translate("djvViewUtil", "Shadow");
 
     DJV_ASSERT(data.count() == HUD_BACKGROUND_COUNT);
 
@@ -120,22 +122,22 @@ const QStringList & djvViewUtil::hudBackgroundLabels()
 const QStringList & djvViewUtil::imageScaleLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "16.9" <<
-        "1.0" <<
-        "1.33" <<
-        "1.78" <<
-        "1.85" <<
-        "2.0" <<
-        "2.35" <<
-        "2.39" <<
-        "2.40" <<
-        "1:1"  <<
-        "2:1"  <<
-        "3:2"  <<
-        "4:3"  <<
-        "5:3"  <<
-        "5:4";
+        qApp->translate("djvViewUtil", "None") <<
+        qApp->translate("djvViewUtil", "16.9") <<
+        qApp->translate("djvViewUtil", "1.0") <<
+        qApp->translate("djvViewUtil", "1.33") <<
+        qApp->translate("djvViewUtil", "1.78") <<
+        qApp->translate("djvViewUtil", "1.85") <<
+        qApp->translate("djvViewUtil", "2.0") <<
+        qApp->translate("djvViewUtil", "2.35") <<
+        qApp->translate("djvViewUtil", "2.39") <<
+        qApp->translate("djvViewUtil", "2.40") <<
+        qApp->translate("djvViewUtil", "1:1") <<
+        qApp->translate("djvViewUtil", "2:1") <<
+        qApp->translate("djvViewUtil", "3:2") <<
+        qApp->translate("djvViewUtil", "4:3") <<
+        qApp->translate("djvViewUtil", "5:3") <<
+        qApp->translate("djvViewUtil", "5:4");
 
     DJV_ASSERT(data.count() == IMAGE_SCALE_COUNT);
 
@@ -187,10 +189,10 @@ djvVector2f djvViewUtil::imageScale(IMAGE_SCALE in, const djvVector2i & size)
 const QStringList & djvViewUtil::imageRotateLabels()
 {
     static const QStringList data = QStringList() <<
-        "0" <<
-        "90" <<
-        "180" <<
-        "270";
+        qApp->translate("djvViewUtil", "0") <<
+        qApp->translate("djvViewUtil", "90") <<
+        qApp->translate("djvViewUtil", "180") <<
+        qApp->translate("djvViewUtil", "270");
 
     DJV_ASSERT(data.count() == IMAGE_ROTATE_COUNT);
 
@@ -228,8 +230,10 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
     
         if (! load.data())
         {
-            throw djvError(QString("Cannot open LUT \"%1\"").
-                arg(file));
+            throw djvError(
+                "djvViewUtil",
+                errorLabels()[ERROR_OPEN_LUT].
+                arg(QDir::toNativeSeparators(file)));
         }
     
         djvImage image;
@@ -249,9 +253,9 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
 const QStringList & djvViewUtil::playbackLabels()
 {
     static const QStringList data = QStringList() <<
-        "Reverse" <<
-        "Stop" <<
-        "Forward";
+        qApp->translate("djvViewUtil", "Reverse") <<
+        qApp->translate("djvViewUtil", "Stop") <<
+        qApp->translate("djvViewUtil", "Forward");
 
     DJV_ASSERT(data.count() == PLAYBACK_COUNT);
 
@@ -261,16 +265,16 @@ const QStringList & djvViewUtil::playbackLabels()
 const QStringList & djvViewUtil::frameLabels()
 {
     static const QStringList data = QStringList() <<
-        "Start" <<
-        "Start Absolute" <<
-        "Previous" <<
-        "Previous X10" <<
-        "Previous X100" <<
-        "Next" <<
-        "Next X10" <<
-        "Next X100" <<
-        "End" <<
-        "End Absolute";
+        qApp->translate("djvViewUtil", "Start") <<
+        qApp->translate("djvViewUtil", "Start Absolute") <<
+        qApp->translate("djvViewUtil", "Previous") <<
+        qApp->translate("djvViewUtil", "Previous X10") <<
+        qApp->translate("djvViewUtil", "Previous X100") <<
+        qApp->translate("djvViewUtil", "Next") <<
+        qApp->translate("djvViewUtil", "Next X10") <<
+        qApp->translate("djvViewUtil", "Next X100") <<
+        qApp->translate("djvViewUtil", "End") <<
+        qApp->translate("djvViewUtil", "End Absolute");
     
     DJV_ASSERT(data.count() == FRAME_COUNT);
 
@@ -280,9 +284,9 @@ const QStringList & djvViewUtil::frameLabels()
 const QStringList & djvViewUtil::loopLabels()
 {
     static const QStringList data = QStringList() <<
-        "Once" <<
-        "Repeat" <<
-        "PingPong";
+        qApp->translate("djvViewUtil", "Once") <<
+        qApp->translate("djvViewUtil", "Repeat") <<
+        qApp->translate("djvViewUtil", "PingPong");
 
     DJV_ASSERT(data.count() == LOOP_COUNT);
 
@@ -292,11 +296,11 @@ const QStringList & djvViewUtil::loopLabels()
 const QStringList & djvViewUtil::inOutLabels()
 {
     static const QStringList data = QStringList() <<
-        "Enable &In/Out Points" <<
-        "&Mark In Point" <<
-        "Mar&k Out Point" <<
-        "Reset In Point" <<
-        "Reset Out Point";
+        qApp->translate("djvViewUtil", "Enable &In/Out Points") <<
+        qApp->translate("djvViewUtil", "&Mark In Point") <<
+        qApp->translate("djvViewUtil", "Mar&k Out Point") <<
+        qApp->translate("djvViewUtil", "Reset In Point") <<
+        qApp->translate("djvViewUtil", "Reset Out Point");
 
     DJV_ASSERT(data.count() == IN_OUT_COUNT);
 
@@ -306,10 +310,10 @@ const QStringList & djvViewUtil::inOutLabels()
 const QStringList & djvViewUtil::layoutLabels()
 {
     static const QStringList data = QStringList() <<
-        "Default" <<
-        "Left" <<
-        "Center" <<
-        "Minimal";
+        qApp->translate("djvViewUtil", "Default") <<
+        qApp->translate("djvViewUtil", "Left") <<
+        qApp->translate("djvViewUtil", "Center") <<
+        qApp->translate("djvViewUtil", "Minimal");
 
     DJV_ASSERT(data.count() == LAYOUT_COUNT);
 
@@ -319,10 +323,10 @@ const QStringList & djvViewUtil::layoutLabels()
 const QStringList & djvViewUtil::toolLabels()
 {
     static const QStringList data = QStringList() <<
-        "Magnify Tool" <<
-        "Color Picker Tool" <<
-        "Histogram Tool" <<
-        "Information Tool";
+        qApp->translate("djvViewUtil", "Magnify Tool") <<
+        qApp->translate("djvViewUtil", "Color Picker Tool") <<
+        qApp->translate("djvViewUtil", "Histogram Tool") <<
+        qApp->translate("djvViewUtil", "Information Tool");
 
     DJV_ASSERT(data.count() == TOOL_COUNT);
 
@@ -332,10 +336,10 @@ const QStringList & djvViewUtil::toolLabels()
 const QStringList & djvViewUtil::histogramLabels()
 {
     static const QStringList data = QStringList() <<
-        "256" <<
-        "1024" <<
-        "2048" <<
-        "4096";
+        qApp->translate("djvViewUtil", "256") <<
+        qApp->translate("djvViewUtil", "1024") <<
+        qApp->translate("djvViewUtil", "2048") <<
+        qApp->translate("djvViewUtil", "4096");
 
     DJV_ASSERT(data.count() == HISTOGRAM_COUNT);
 
@@ -359,121 +363,121 @@ const QStringList & djvViewUtil::shortcutLabels()
 {
     static const QStringList data = QStringList() <<
     
-        "Exit" <<
+        qApp->translate("djvViewUtil", "Exit") <<
 
-        "File Open" <<
-        "File Reload" <<
-        "File Reload Frame" <<
-        "File Save" <<
-        "File Save Frame" <<
-        "File Close" <<
-        "File Layer Default" <<
-        "File Layer 1" <<
-        "File Layer 2" <<
-        "File Layer 3" <<
-        "File Layer 4" <<
-        "File Layer 5" <<
-        "File Layer 6" <<
-        "File Layer 7" <<
-        "File Layer 8" <<
-        "File Layer 9" <<
-        "File Layer 10" <<
-        "File Layer Previous" <<
-        "File Layer Next" <<
-        "File Proxy None" <<
-        "File Proxy 1/2" <<
-        "File Proxy 1/4" <<
-        "File Proxy 1/8" <<
+        qApp->translate("djvViewUtil", "File Open") <<
+        qApp->translate("djvViewUtil", "File Reload") <<
+        qApp->translate("djvViewUtil", "File Reload Frame") <<
+        qApp->translate("djvViewUtil", "File Save") <<
+        qApp->translate("djvViewUtil", "File Save Frame") <<
+        qApp->translate("djvViewUtil", "File Close") <<
+        qApp->translate("djvViewUtil", "File Layer Default") <<
+        qApp->translate("djvViewUtil", "File Layer 1") <<
+        qApp->translate("djvViewUtil", "File Layer 2") <<
+        qApp->translate("djvViewUtil", "File Layer 3") <<
+        qApp->translate("djvViewUtil", "File Layer 4") <<
+        qApp->translate("djvViewUtil", "File Layer 5") <<
+        qApp->translate("djvViewUtil", "File Layer 6") <<
+        qApp->translate("djvViewUtil", "File Layer 7") <<
+        qApp->translate("djvViewUtil", "File Layer 8") <<
+        qApp->translate("djvViewUtil", "File Layer 9") <<
+        qApp->translate("djvViewUtil", "File Layer 10") <<
+        qApp->translate("djvViewUtil", "File Layer Previous") <<
+        qApp->translate("djvViewUtil", "File Layer Next") <<
+        qApp->translate("djvViewUtil", "File Proxy None") <<
+        qApp->translate("djvViewUtil", "File Proxy 1/2") <<
+        qApp->translate("djvViewUtil", "File Proxy 1/4") <<
+        qApp->translate("djvViewUtil", "File Proxy 1/8") <<
 
-        "Window New" <<
-        "Window Copy" <<
-        "Window Close" <<
-        "Window Fit" <<
-        "Window Full Screen" <<
-        "Window Show Controls" <<
-        "Window Show Tool Bars" <<
-        "Window Show Playback" <<
-        "Window Show Information" <<
+        qApp->translate("djvViewUtil", "Window New") <<
+        qApp->translate("djvViewUtil", "Window Copy") <<
+        qApp->translate("djvViewUtil", "Window Close") <<
+        qApp->translate("djvViewUtil", "Window Fit") <<
+        qApp->translate("djvViewUtil", "Window Full Screen") <<
+        qApp->translate("djvViewUtil", "Window Show Controls") <<
+        qApp->translate("djvViewUtil", "Window Show Tool Bars") <<
+        qApp->translate("djvViewUtil", "Window Show Playback") <<
+        qApp->translate("djvViewUtil", "Window Show Information") <<
 
-        "View Left" <<
-        "View Right" <<
-        "View Up" <<
-        "View Down" <<
-        "View Center" <<
-        "View Zoom In" <<
-        "View Zoom Out" <<
-        "View Zoom Reset" <<
-        "View Reset" <<
-        "View Fit" <<
-        "View HUD" <<
+        qApp->translate("djvViewUtil", "View Left") <<
+        qApp->translate("djvViewUtil", "View Right") <<
+        qApp->translate("djvViewUtil", "View Up") <<
+        qApp->translate("djvViewUtil", "View Down") <<
+        qApp->translate("djvViewUtil", "View Center") <<
+        qApp->translate("djvViewUtil", "View Zoom In") <<
+        qApp->translate("djvViewUtil", "View Zoom Out") <<
+        qApp->translate("djvViewUtil", "View Zoom Reset") <<
+        qApp->translate("djvViewUtil", "View Reset") <<
+        qApp->translate("djvViewUtil", "View Fit") <<
+        qApp->translate("djvViewUtil", "View HUD") <<
 
-        "Image Show Frame Store" <<
-        "Image Load Frame Store" <<
-        "Image Mirror Horizontal" <<
-        "Image Mirror Vertical" <<
-        "Image Scale None" <<
-        "Image Scale 16:9" <<
-        "Image Scale 1.0" <<
-        "Image Scale 1.33" <<
-        "Image Scale 1.78" <<
-        "Image Scale 1.85" <<
-        "Image Scale 2.0" <<
-        "Image Scale 2.35" <<
-        "Image Scale 2.39" <<
-        "Image Scale 2.40" <<
-        "Image Scale 1:1" <<
-        "Image Scale 2:1" <<
-        "Image Scale 3:2" <<
-        "Image Scale 4:3" <<
-        "Image Scale 5:3" <<
-        "Image Scale 5:4" <<
-        "Image Rotate 0" <<
-        "Image Rotate 90" <<
-        "Image Rotate 180" <<
-        "Image Rotate 270" <<
-        "Image Color Profile" <<
-        "Image Channel Red" <<
-        "Image Channel Green" <<
-        "Image Channel Blue" <<
-        "Image Channel Alpha" <<
-        "Image Display Profile" <<
-        "Image Display Profile Reset" <<
-        "Image Display Profile 1" <<
-        "Image Display Profile 2" <<
-        "Image Display Profile 3" <<
-        "Image Display Profile 4" <<
-        "Image Display Profile 5" <<
-        "Image Display Profile 6" <<
-        "Image Display Profile 7" <<
-        "Image Display Profile 8" <<
-        "Image Display Profile 9" <<
-        "Image Display Profile 10" <<
+        qApp->translate("djvViewUtil", "Image Show Frame Store") <<
+        qApp->translate("djvViewUtil", "Image Load Frame Store") <<
+        qApp->translate("djvViewUtil", "Image Mirror Horizontal") <<
+        qApp->translate("djvViewUtil", "Image Mirror Vertical") <<
+        qApp->translate("djvViewUtil", "Image Scale None") <<
+        qApp->translate("djvViewUtil", "Image Scale 16:9") <<
+        qApp->translate("djvViewUtil", "Image Scale 1.0") <<
+        qApp->translate("djvViewUtil", "Image Scale 1.33") <<
+        qApp->translate("djvViewUtil", "Image Scale 1.78") <<
+        qApp->translate("djvViewUtil", "Image Scale 1.85") <<
+        qApp->translate("djvViewUtil", "Image Scale 2.0") <<
+        qApp->translate("djvViewUtil", "Image Scale 2.35") <<
+        qApp->translate("djvViewUtil", "Image Scale 2.39") <<
+        qApp->translate("djvViewUtil", "Image Scale 2.40") <<
+        qApp->translate("djvViewUtil", "Image Scale 1:1") <<
+        qApp->translate("djvViewUtil", "Image Scale 2:1") <<
+        qApp->translate("djvViewUtil", "Image Scale 3:2") <<
+        qApp->translate("djvViewUtil", "Image Scale 4:3") <<
+        qApp->translate("djvViewUtil", "Image Scale 5:3") <<
+        qApp->translate("djvViewUtil", "Image Scale 5:4") <<
+        qApp->translate("djvViewUtil", "Image Rotate 0") <<
+        qApp->translate("djvViewUtil", "Image Rotate 90") <<
+        qApp->translate("djvViewUtil", "Image Rotate 180") <<
+        qApp->translate("djvViewUtil", "Image Rotate 270") <<
+        qApp->translate("djvViewUtil", "Image Color Profile") <<
+        qApp->translate("djvViewUtil", "Image Channel Red") <<
+        qApp->translate("djvViewUtil", "Image Channel Green") <<
+        qApp->translate("djvViewUtil", "Image Channel Blue") <<
+        qApp->translate("djvViewUtil", "Image Channel Alpha") <<
+        qApp->translate("djvViewUtil", "Image Display Profile") <<
+        qApp->translate("djvViewUtil", "Image Display Profile Reset") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 1") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 2") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 3") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 4") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 5") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 6") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 7") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 8") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 9") <<
+        qApp->translate("djvViewUtil", "Image Display Profile 10") <<
 
-        "Playback Reverse" <<
-        "Playback Stop" <<
-        "Playback Forward" <<
-        "Playback Toggle" <<
-        "Playback Loop" <<
-        "Playback Start" <<
-        "Playback Start Absolute" <<
-        "Playback Previous" <<
-        "Playback Previous 10" <<
-        "Playback Previous 100" <<
-        "Playback Next" <<
-        "Playback Next 10" <<
-        "Playback Next 100" <<
-        "Playback End" <<
-        "Playback End Absolute" <<
-        "Playback In/Out Points" <<
-        "Playback In Point Mark" <<
-        "Playback In Point Reset" <<
-        "Playback Out Point Mark" <<
-        "Playback Out Point Reset" <<
+        qApp->translate("djvViewUtil", "Playback Reverse") <<
+        qApp->translate("djvViewUtil", "Playback Stop") <<
+        qApp->translate("djvViewUtil", "Playback Forward") <<
+        qApp->translate("djvViewUtil", "Playback Toggle") <<
+        qApp->translate("djvViewUtil", "Playback Loop") <<
+        qApp->translate("djvViewUtil", "Playback Start") <<
+        qApp->translate("djvViewUtil", "Playback Start Absolute") <<
+        qApp->translate("djvViewUtil", "Playback Previous") <<
+        qApp->translate("djvViewUtil", "Playback Previous 10") <<
+        qApp->translate("djvViewUtil", "Playback Previous 100") <<
+        qApp->translate("djvViewUtil", "Playback Next") <<
+        qApp->translate("djvViewUtil", "Playback Next 10") <<
+        qApp->translate("djvViewUtil", "Playback Next 100") <<
+        qApp->translate("djvViewUtil", "Playback End") <<
+        qApp->translate("djvViewUtil", "Playback End Absolute") <<
+        qApp->translate("djvViewUtil", "Playback In/Out Points") <<
+        qApp->translate("djvViewUtil", "Playback In Point Mark") <<
+        qApp->translate("djvViewUtil", "Playback In Point Reset") <<
+        qApp->translate("djvViewUtil", "Playback Out Point Mark") <<
+        qApp->translate("djvViewUtil", "Playback Out Point Reset") <<
 
-        "Tool Magnify" <<
-        "Tool Color Picker" <<
-        "Tool Histogram" <<
-        "Tool Information";
+        qApp->translate("djvViewUtil", "Tool Magnify") <<
+        qApp->translate("djvViewUtil", "Tool Color Picker") <<
+        qApp->translate("djvViewUtil", "Tool Histogram") <<
+        qApp->translate("djvViewUtil", "Tool Information");
 
     DJV_ASSERT(data.count() == SHORTCUT_COUNT);
 
@@ -483,12 +487,23 @@ const QStringList & djvViewUtil::shortcutLabels()
 const QStringList & djvViewUtil::mouseWheelLabels()
 {
     static const QStringList data = QStringList() <<
-        "View Zoom" <<
-        "Playback Shuttle" <<
-        "Playback Speed";
+        qApp->translate("djvViewUtil", "View Zoom") <<
+        qApp->translate("djvViewUtil", "Playback Shuttle") <<
+        qApp->translate("djvViewUtil", "Playback Speed");
 
     DJV_ASSERT(data.count() == MOUSE_WHEEL_COUNT);
 
+    return data;
+}
+
+const QStringList & djvViewUtil::errorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvViewUtil", "Cannot open image: \"%1\"");
+        qApp->translate("djvViewUtil", "Cannot open LUT: \"%1\"");
+
+    DJV_ASSERT(ERROR_COUNT == data.count());
+    
     return data;
 }
 

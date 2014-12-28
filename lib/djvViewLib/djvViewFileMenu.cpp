@@ -64,7 +64,7 @@ djvViewFileMenu::djvViewFileMenu(
 
     addAction(actions->action(djvViewFileActions::OPEN));
 
-    _p->recent = addMenu("&Recent");
+    _p->recent = addMenu(tr("&Recent"));
 
     addAction(actions->action(djvViewFileActions::RELOAD));
 
@@ -80,13 +80,13 @@ djvViewFileMenu::djvViewFileMenu(
 
     addSeparator();
 
-    _p->layer = addMenu("La&yer");
+    _p->layer = addMenu(tr("La&yer"));
 
     addAction(actions->action(djvViewFileActions::LAYER_PREV));
 
     addAction(actions->action(djvViewFileActions::LAYER_NEXT));
 
-    QMenu * proxyMenu = addMenu("Pro&xy Scale");
+    QMenu * proxyMenu = addMenu(tr("Pro&xy Scale"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewFileActions::PROXY_GROUP)->actions())
         proxyMenu->addAction(action);
@@ -111,7 +111,7 @@ djvViewFileMenu::djvViewFileMenu(
 
     // Initialize.
 
-    setTitle("&File");
+    setTitle(tr("&File"));
 
     menuUpdate();
 }

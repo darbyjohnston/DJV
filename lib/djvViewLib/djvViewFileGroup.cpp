@@ -505,7 +505,9 @@ void djvViewFileGroup::open(const djvFileInfo & in)
 
             if (!_p->imageLoad.data())
             {
-                throw djvError(QString("Cannot open image \"%1\"").
+                throw djvError(
+                    "djvViewFileGroup",
+                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                     arg(QDir::toNativeSeparators(fileInfo)));
             }
 
@@ -515,8 +517,6 @@ void djvViewFileGroup::open(const djvFileInfo & in)
         }
         catch (const djvError & error)
         {
-            //DJV_DEBUG_PRINT("error = " << error);
-
             DJV_APP->printError(error);
         }
     }
@@ -616,7 +616,7 @@ void djvViewFileGroup::setCacheEnabled(bool cache)
 
 void djvViewFileGroup::openCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global("Open");
+    djvFileBrowser * fileBrowser = djvFileBrowser::global(tr("Open"));
 
     fileBrowser->setPinnable(true);
     
@@ -669,7 +669,9 @@ void djvViewFileGroup::reloadCallback()
             
             if (! _p->imageLoad.data())
             {
-                throw djvError(QString("Cannot open image \"%1\"").
+                throw djvError(
+                    "djvViewFileGroup",
+                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
             }
         }
@@ -704,7 +706,9 @@ void djvViewFileGroup::reloadFrameCallback()
             
             if (! _p->imageLoad.data())
             {
-                throw djvError(QString("Cannot open image \"%1\"").
+                throw djvError(
+                    "djvViewFileGroup",
+                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
             }
         }
@@ -728,7 +732,7 @@ void djvViewFileGroup::saveCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::saveCallback");
 
-    djvFileBrowser * fileBrowser = djvFileBrowser::global("Save");
+    djvFileBrowser * fileBrowser = djvFileBrowser::global(tr("Save"));
 
     if (fileBrowser->exec() == QDialog::Accepted)
     {
@@ -741,7 +745,7 @@ void djvViewFileGroup::saveCallback()
             //DJV_DEBUG_PRINT("exists");
 
             djvQuestionDialog dialog(
-                QString("Overwrite existing file \"%1\"?").
+                tr("Overwrite existing file \"%1\"?").
                     arg(QDir::toNativeSeparators(fileInfo)));
 
             if (QDialog::Accepted == dialog.exec())
@@ -758,7 +762,7 @@ void djvViewFileGroup::saveCallback()
 
 void djvViewFileGroup::saveFrameCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global("Save Frame");
+    djvFileBrowser * fileBrowser = djvFileBrowser::global(tr("Save Frame"));
     
     if (fileBrowser->exec() == QDialog::Accepted)
     {
@@ -767,7 +771,7 @@ void djvViewFileGroup::saveFrameCallback()
         if (djvFileInfoUtil::exists(fileInfo))
         {
             djvQuestionDialog dialog(
-                QString("Overwrite existing file \"%1\"?").
+                tr("Overwrite existing file \"%1\"?").
                     arg(QDir::toNativeSeparators(fileInfo)));
 
             if (QDialog::Accepted == dialog.exec())

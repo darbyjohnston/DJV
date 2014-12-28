@@ -153,14 +153,14 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     _p->infoPixelLabel = new QLabel;
     _p->infoPixelLabel->setToolTip(
-        "Pixel information\n\nClick and drag inside the image.");
+        tr("Pixel information\n\nClick and drag inside the image."));
 
     _p->infoImageLabel = new QLabel;
-    _p->infoImageLabel->setToolTip("Image information.");
+    _p->infoImageLabel->setToolTip(tr("Image information."));
 
     _p->infoCacheLabel = new QLabel;
     _p->infoCacheLabel->setToolTip(
-        "File cache information.");
+        tr("File cache information."));
 
     // Create the groups.
 
@@ -767,7 +767,7 @@ void djvViewMainWindow::fileUpdate()
     const djvFileInfo & fileInfo = _p->fileGroup->fileInfo();
 
     const QString title = ! fileInfo.fileName().isEmpty() ?
-        QString("%1 - %2").
+        QString(tr("%1 - %2")).
             arg(DJV_APP->name()).
             arg(QDir::toNativeSeparators(fileInfo)) :
         QString("%1").arg(DJV_APP->name());
@@ -782,7 +782,7 @@ void djvViewMainWindow::fileCacheUpdate()
     const double totalSize = djvViewFileCache::global()->size();
     const double maxSize   = djvViewFileCache::global()->maxSize();
 
-    _p->infoCacheLabel->setText(QString("Cache: %1% %2/%3GB").
+    _p->infoCacheLabel->setText(QString(tr("Cache: %1% %2/%3GB")).
         arg(static_cast<int>(totalSize / maxSize * 100)).
         arg(totalSize, 0, 'f', 2).
         arg(maxSize,   0, 'f', 2));
@@ -814,7 +814,7 @@ void djvViewMainWindow::imageUpdate()
 
     //DJV_DEBUG_PRINT("info = " << info);
 
-    _p->infoImageLabel->setText(QString("Image: %1x%2:%3 %4").
+    _p->infoImageLabel->setText(tr("Image: %1x%2:%3 %4").
         arg(info.size.x).
         arg(info.size.y).
         arg(djvVectorUtil::aspect(info.size), 0, 'f', 2).
@@ -976,7 +976,7 @@ void djvViewMainWindow::viewPickUpdate()
 
     _p->infoSwatch->setColor(_p->imageSample);
 
-    _p->infoPixelLabel->setText(QString("Pixel: %1, %2, %3").
+    _p->infoPixelLabel->setText(tr("Pixel: %1, %2, %3").
         arg(pick.x).
         arg(pick.y).
         arg(djvStringUtil::label(_p->imageSample).join(" ")));
