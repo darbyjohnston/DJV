@@ -67,7 +67,7 @@ public:
     
     //! Parse the command line.
 
-    void commandLine(QStringList &) throw (djvError);
+    void commandLine(QStringList &) throw (QString);
     
     //! This enumeration provides error codes.
     

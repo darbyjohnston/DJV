@@ -539,7 +539,7 @@ QStringList djvTargaPlugin::options() const
     return optionsLabels();
 }
 
-void djvTargaPlugin::commandLine(QStringList & in) throw (djvError)
+void djvTargaPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -562,7 +562,7 @@ void djvTargaPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

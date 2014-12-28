@@ -56,22 +56,21 @@ void djvErrorTest::ctors()
     {
         const djvError error;
         
-        DJV_ASSERT(error.prefix().isEmpty());
-        DJV_ASSERT(error.string().isEmpty());
+        DJV_ASSERT(error.messages().isEmpty());
     }
     
     {
         const djvError error("string");
         
-        DJV_ASSERT(error.prefix().isEmpty());
-        DJV_ASSERT("string" == error.string());
+        DJV_ASSERT(error.messages()[0].prefix.isEmpty());
+        DJV_ASSERT("string" == error.messages()[0].string);
     }
     
     {
         const djvError error("prefix", "string");
         
-        DJV_ASSERT("prefix" == error.prefix());
-        DJV_ASSERT("string" == error.string());
+        DJV_ASSERT("prefix" == error.messages()[0].prefix);
+        DJV_ASSERT("string" == error.messages()[0].string);
     }
     
     {
@@ -79,8 +78,8 @@ void djvErrorTest::ctors()
         
         const djvError other(error);
         
-        DJV_ASSERT(other.prefix() == error.prefix());
-        DJV_ASSERT(other.string() == error.string());
+        DJV_ASSERT(other.messages()[0].prefix == error.messages()[0].prefix);
+        DJV_ASSERT(other.messages()[0].string == error.messages()[0].string);
     }
 }
 
@@ -104,8 +103,8 @@ void djvErrorTest::operators()
         
         a = b;
         
-        DJV_ASSERT(a.prefix() == b.prefix());
-        DJV_ASSERT(a.string() == b.string());
+        DJV_ASSERT(a.messages()[0].prefix == b.messages()[0].prefix);
+        DJV_ASSERT(a.messages()[0].string == b.messages()[0].string);
     }
 }
 

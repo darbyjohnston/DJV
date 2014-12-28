@@ -128,10 +128,10 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
     {
         commandLine(_commandLineArgs);
     }
-    catch (const djvError & error)
+    catch (const QString & error)
     {
         printError(
-            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
+            djvApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -246,7 +246,7 @@ djvViewApplication::~djvViewApplication()
     delete _p;
 }
 
-void djvViewApplication::commandLine(QStringList & in) throw (djvError)
+void djvViewApplication::commandLine(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvViewApplication::commandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -342,7 +342,7 @@ void djvViewApplication::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 }
 

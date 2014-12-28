@@ -390,7 +390,7 @@ void djvAbstractCoreApplication::printSeparator() const
     const_cast<djvAbstractCoreApplication *>(this)->_p->separator = true;
 }
 
-void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
+void djvAbstractCoreApplication::commandLine(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvAbstractCoreApplication::commandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -474,7 +474,7 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (djvError)
     {
         in = tmp;
         
-        throw djvError(arg);
+        throw QString(arg);
     }
 
     in = tmp;

@@ -228,14 +228,6 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
         QScopedPointer<djvImageLoad> load(
             djvImageIoFactory::global()->load(file, info));
     
-        if (! load.data())
-        {
-            throw djvError(
-                "djvViewUtil",
-                errorLabels()[ERROR_OPEN_LUT].
-                arg(QDir::toNativeSeparators(file)));
-        }
-    
         djvImage image;
         
         load->read(image);
@@ -244,8 +236,12 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
 
         //DJV_DEBUG_PRINT("lut = " << lut);
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            errorLabels()[ERROR_OPEN_LUT].
+            arg(QDir::toNativeSeparators(file)));
+
         DJV_APP->printError(error);
     }
 }
@@ -499,8 +495,13 @@ const QStringList & djvViewUtil::mouseWheelLabels()
 const QStringList & djvViewUtil::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvViewUtil", "Cannot open image: \"%1\"");
-        qApp->translate("djvViewUtil", "Cannot open LUT: \"%1\"");
+        qApp->translate("djvViewUtil", "Cannot open image: \"%1\"") <<
+        qApp->translate("djvViewUtil", "Cannot read image: \"%1\"") <<
+        qApp->translate("djvViewUtil", "Cannot write image: \"%1\"") <<
+        qApp->translate("djvViewUtil", "Cannot open LUT: \"%1\"") <<
+        qApp->translate("djvViewUtil", "Cannot pick color") <<
+        qApp->translate("djvViewUtil", "Cannot compute histogram") <<
+        qApp->translate("djvViewUtil", "Cannot magnify");
 
     DJV_ASSERT(ERROR_COUNT == data.count());
     

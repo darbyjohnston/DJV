@@ -480,8 +480,11 @@ void djvViewHistogramTool::widgetUpdate()
                     _p->max,
                     _p->mask);
             }
-            catch (const djvError & error)
+            catch (djvError error)
             {
+                error.add(
+                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_HISTOGRAM]);
+                
                 DJV_VIEW_APP->printError(error);
             }
         }

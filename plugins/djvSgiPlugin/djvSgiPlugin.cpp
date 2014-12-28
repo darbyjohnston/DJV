@@ -542,7 +542,7 @@ QStringList djvSgiPlugin::options() const
     return optionsLabels();
 }
 
-void djvSgiPlugin::commandLine(QStringList & in) throw (djvError)
+void djvSgiPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -565,7 +565,7 @@ void djvSgiPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

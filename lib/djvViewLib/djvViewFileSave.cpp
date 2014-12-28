@@ -172,17 +172,13 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     {
         _p->load.reset(
             djvImageIoFactory::global()->load(_p->info.inputFile, loadInfo));
-
-        if (! _p->load.data())
-        {
-            throw djvError(
-                "djvViewFileSave",
-                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
-                arg(QDir::toNativeSeparators(_p->info.inputFile)));
-        }
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
+            arg(QDir::toNativeSeparators(_p->info.inputFile)));
+
         DJV_VIEW_APP->printError(error);
 
         return;
@@ -198,17 +194,13 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     {
         _p->save.reset(
             djvImageIoFactory::global()->save(_p->info.outputFile, saveInfo));
-        
-        if (! _p->save.data())
-        {
-            throw djvError(
-                "djvViewFileSave",
-                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
-                arg(QDir::toNativeSeparators(_p->info.outputFile)));
-        }
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
+            arg(QDir::toNativeSeparators(_p->info.outputFile)));
+        
         DJV_VIEW_APP->printError(error);
 
         return;
@@ -242,8 +234,12 @@ void djvViewFileSave::cancel()
 
             _p->save->close();
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
+                arg(QDir::toNativeSeparators(_p->info.outputFile)));
+
             DJV_VIEW_APP->printError(error);
         }
     }
@@ -275,8 +271,12 @@ void djvViewFileSave::callback(int in)
 
         //DJV_DEBUG_PRINT("image = " << image);
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
+            arg(QDir::toNativeSeparators(_p->info.inputFile)));
+
         DJV_VIEW_APP->printError(error);
 
         cancel();
@@ -302,8 +302,12 @@ void djvViewFileSave::callback(int in)
 
         djvOpenGlImage::copy(image, tmp, options);
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
+            arg(QDir::toNativeSeparators(_p->info.outputFile)));
+
         DJV_VIEW_APP->printError(error);
 
         cancel();
@@ -322,8 +326,12 @@ void djvViewFileSave::callback(int in)
             djvImageIoFrameInfo(
                 in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
+            arg(QDir::toNativeSeparators(_p->info.outputFile)));
+
         DJV_VIEW_APP->printError(error);
 
         cancel();
@@ -339,8 +347,12 @@ void djvViewFileSave::callback(int in)
 
             _p->save->close();
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
+                arg(QDir::toNativeSeparators(_p->info.outputFile)));
+
             DJV_VIEW_APP->printError(error);
         }
     }
@@ -357,8 +369,12 @@ void djvViewFileSave::finishedCallback()
 
         _p->save->close();
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
+            arg(QDir::toNativeSeparators(_p->info.outputFile)));
+
         DJV_VIEW_APP->printError(error);
     }
 

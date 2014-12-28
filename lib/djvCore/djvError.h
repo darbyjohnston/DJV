@@ -36,7 +36,7 @@
 
 #include <djvUtil.h>
 
-class QString;
+#include <QString>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -50,6 +50,18 @@ class QString;
 class DJV_CORE_EXPORT djvError
 {
 public:
+
+    //! This struct provides an error message.
+    
+    struct Message
+    {
+        Message(
+            const QString & prefix = QString(),
+            const QString & string = QString());
+
+        QString prefix;
+        QString string;
+    };
 
     //! Constructor.
 
@@ -71,13 +83,17 @@ public:
 
     virtual ~djvError();
 
-    //! Get the error prefix.
+    //! Get the message list.
 
-    const QString & prefix() const;
-
-    //! Get the error string.
-
-    const QString & string() const;
+    const QList<Message> & messages() const;
+    
+    //! Add a message to the list.
+    
+    void add(const QString &);
+    
+    //! Add a message to the list.
+    
+    void add(const QString & prefix, const QString &);
 
     djvError & operator = (const djvError &);
 

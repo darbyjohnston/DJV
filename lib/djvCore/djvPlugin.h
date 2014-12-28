@@ -95,8 +95,7 @@ public:
         const QString &     pluginEntry,
         const QString &     pluginPrefix = "djv",
         const QString &     pluginSuffix = "Plugin",
-        QObject *           parent       = 0)
-        throw (djvError);
+        QObject *           parent       = 0);
 
     //! Destructor.
 

@@ -51,17 +51,32 @@
 djvErrorUtil::~djvErrorUtil()
 {}
 
-QString djvErrorUtil::format(const djvError & error)
+QStringList djvErrorUtil::format(const djvError & error)
 {
-    return error.prefix().isEmpty() ?
-        qApp->translate("djvErrorUtil", "[ERROR] %1").arg(error.string()) :
-        qApp->translate("djvErrorUtil", "[ERROR %1] %2").
-            arg(error.prefix()).arg(error.string());
+    QStringList out;
+    
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvErrorUtil", "[ERROR] %1") <<
+        qApp->translate("djvErrorUtil", "[ERROR %1] %2");
+    
+    Q_FOREACH(const djvError::Message & message, error.messages())
+    {
+        out += message.prefix.isEmpty() ?
+            data[0].arg(message.string) :
+            data[1].arg(message.prefix).arg(message.string);
+    }
+    
+    return out;
 }
 
 void djvErrorUtil::print(const djvError & in)
 {
-    ::printf("%s\n", format(in).toLatin1().data());
+    const QStringList list = format(in);
+    
+    Q_FOREACH(const QString & string, list)
+    {
+        ::printf("%s\n", string.toLatin1().data());
+    }
 }
 
 QString djvErrorUtil::lastError()

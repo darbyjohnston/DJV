@@ -37,9 +37,9 @@
 #include <djvConfig.h>
 #include <djvCoreExport.h>
 
-class djvError;
+#include <QStringList>
 
-class QString;
+class djvError;
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -60,7 +60,7 @@ public:
     
     //! Convert an error into a printable format.
 
-    static QString format(const djvError &);
+    static QStringList format(const djvError &);
 
     //! Print an error to the console.
 

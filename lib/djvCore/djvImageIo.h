@@ -239,7 +239,7 @@ public:
 
     //! Parse the command line.
 
-    virtual void commandLine(QStringList &) throw (djvError);
+    virtual void commandLine(QStringList &) throw (QString);
 
     //! Get the command line help.
 
@@ -297,8 +297,7 @@ public:
 
     explicit djvImageIoFactory(
         const QStringList & searchPath = djvSystem::searchPath(),
-        QObject *           parent     = 0)
-        throw (djvError);
+        QObject *           parent     = 0);
 
     //! Destructor.
 

@@ -34,7 +34,6 @@
 #include <djvPlugin.h>
 
 #include <djvAssert.h>
-#include <djvCoreApplication.h>
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
@@ -102,7 +101,7 @@ public:
 #endif // DJV_WINDOWS
     }
 
-    void open(const QString & in) throw (djvError)
+    void open(const QString & in) throw (QString)
     {
 #if defined(DJV_WINDOWS)
 
@@ -128,7 +127,7 @@ public:
 
 #endif // DJV_WINDOWS
 
-            throw djvError(error);
+            throw error;
         }
     }
 
@@ -178,7 +177,7 @@ djvPluginFactory::djvPluginFactory(
     const QString &     pluginEntry,
     const QString &     pluginPrefix,
     const QString &     pluginSuffix,
-    QObject *           parent) throw (djvError) :
+    QObject *           parent) :
     QObject(parent),
     _p(new P)
 {
@@ -261,12 +260,13 @@ djvPluginFactory::djvPluginFactory(
         {
             handle->open(fileInfo);
         }
-        catch (const djvError & error)
+        catch (const QString & error)
         {
-            DJV_CORE_APP->printError(djvError(
+            DJV_LOG(
+                "djvPluginFactory",         
                 errorLabels()[ERROR_OPEN].
                 arg(QDir::toNativeSeparators(fileInfo)).
-                arg(error.string())));
+                arg(error));
 
             continue;
         }
@@ -288,16 +288,17 @@ djvPluginFactory::djvPluginFactory(
         }
         catch (const djvError & error)
         {
-            DJV_CORE_APP->printError(error);
+            DJV_LOG("djvPluginFactory", djvErrorUtil::format(error).join("\n"));
 
             plugin.reset();
         }
 
         if (! plugin.data())
         {
-            DJV_CORE_APP->printError(djvError(
+            DJV_LOG(
+                "djvPluginFactory",
                 errorLabels()[ERROR_LOAD].
-                arg(QDir::toNativeSeparators(fileInfo))));
+                arg(QDir::toNativeSeparators(fileInfo)));
 
             continue;
         }
@@ -328,7 +329,7 @@ djvPluginFactory::djvPluginFactory(
         }
         catch (const djvError & error)
         {
-            DJV_CORE_APP->printError(error);
+            DJV_LOG("djvPluginFactory", djvErrorUtil::format(error).join("\n"));
 
             plugin->releasePlugin();
             plugin.reset();
@@ -395,7 +396,7 @@ QStringList djvPluginFactory::names() const
 const QStringList & djvPluginFactory::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Cannot open plugin \"%1\": %2"),
+        tr("Cannot open plugin \"%1\": %2") <<
         tr("Cannot load plugin \"%1\"");
     
     DJV_ASSERT(ERROR_COUNT == data.count());

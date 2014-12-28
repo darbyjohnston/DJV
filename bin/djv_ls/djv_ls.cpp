@@ -71,10 +71,10 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     {
         commandLine(_commandLineArgs);
     }
-    catch (const djvError & error)
+    catch (const QString & error)
     {
         printError(
-            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
+            djvCoreApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -110,7 +110,8 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
 
             if (! fileInfo.stat())
             {
-                printError(djvError(errorLabels()[ERROR_OPEN].
+                printError(
+                    djvError(errorLabels()[ERROR_OPEN].
                     arg(QDir::toNativeSeparators(fileInfo))));
                 
                 setExitValue(djvApplicationEnum::EXIT_ERROR);
@@ -156,7 +157,8 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
                 list[i],
                 ((list.count() > 1) || _recurse) && ! _filePath))
             {
-                printError(djvError(errorLabels()[ERROR_OPEN].
+                printError(
+                    djvError(errorLabels()[ERROR_OPEN].
                     arg(QDir::toNativeSeparators(list[i]))));
                 
                 setExitValue(djvApplicationEnum::EXIT_ERROR);
@@ -169,7 +171,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     }
 }
 
-void djvLsApplication::commandLine(QStringList & in) throw (djvError)
+void djvLsApplication::commandLine(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvLsApplication::commandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -240,7 +242,7 @@ void djvLsApplication::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw QString(arg);
     }
 }
     

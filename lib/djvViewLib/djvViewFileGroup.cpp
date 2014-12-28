@@ -384,9 +384,11 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
                 //DJV_DEBUG_PRINT("image = " << *_p->image);
             }
-            catch (const djvError & error)
+            catch (djvError error)
             {
-                //DJV_DEBUG_PRINT("error = " << error.string());
+                error.add(
+                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
+                    arg(QDir::toNativeSeparators(_p->fileInfo)));
 
                 DJV_APP->printError(error);
             }
@@ -503,20 +505,16 @@ void djvViewFileGroup::open(const djvFileInfo & in)
             _p->imageLoad.reset(
                 djvImageIoFactory::global()->load(fileInfo, _p->imageIoInfo));
 
-            if (!_p->imageLoad.data())
-            {
-                throw djvError(
-                    "djvViewFileGroup",
-                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
-                    arg(QDir::toNativeSeparators(fileInfo)));
-            }
-
             _p->fileInfo = fileInfo;
 
             djvViewFilePrefs::global()->addRecent(_p->fileInfo);
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
+                arg(QDir::toNativeSeparators(fileInfo)));
+
             DJV_APP->printError(error);
         }
     }
@@ -666,17 +664,13 @@ void djvViewFileGroup::reloadCallback()
         {
             _p->imageLoad.reset(
                 djvImageIoFactory::global()->load(_p->fileInfo, _p->imageIoInfo));
-            
-            if (! _p->imageLoad.data())
-            {
-                throw djvError(
-                    "djvViewFileGroup",
-                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
-                    arg(QDir::toNativeSeparators(_p->fileInfo)));
-            }
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
+                arg(QDir::toNativeSeparators(_p->fileInfo)));
+
             DJV_APP->printError(error);
         }
     }
@@ -703,17 +697,13 @@ void djvViewFileGroup::reloadFrameCallback()
         {
             _p->imageLoad.reset(
                 djvImageIoFactory::global()->load(_p->fileInfo, _p->imageIoInfo));
-            
-            if (! _p->imageLoad.data())
-            {
-                throw djvError(
-                    "djvViewFileGroup",
-                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
-                    arg(QDir::toNativeSeparators(_p->fileInfo)));
-            }
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
+                arg(QDir::toNativeSeparators(_p->fileInfo)));
+
             DJV_APP->printError(error);
         }
     }

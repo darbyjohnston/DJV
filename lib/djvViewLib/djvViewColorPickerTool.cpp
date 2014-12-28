@@ -382,8 +382,11 @@ void djvViewColorPickerTool::swatchUpdate()
 
             djvOpenGlImage::average(tmp, _p->value);
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_PICK_COLOR]);
+
             DJV_APP->printError(error);
         }
 

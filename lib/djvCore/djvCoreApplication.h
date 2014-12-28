@@ -140,7 +140,7 @@ public:
 
     //! Parse the comamand line.
 
-    virtual void commandLine(QStringList &) throw (djvError);
+    virtual void commandLine(QStringList &) throw (QString);
 
     //! Get the command line name.
 

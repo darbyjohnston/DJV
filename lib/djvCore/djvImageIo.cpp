@@ -156,7 +156,7 @@ QStringList djvImageIo::options() const
     return QStringList();
 }
 
-void djvImageIo::commandLine(QStringList &) throw (djvError)
+void djvImageIo::commandLine(QStringList &) throw (QString)
 {}
 
 QString djvImageIo::commandLineHelp() const
@@ -213,8 +213,7 @@ struct djvImageIoFactory::P
 // djvImageIoFactory
 //------------------------------------------------------------------------------
 
-djvImageIoFactory::djvImageIoFactory(const QStringList & searchPath, QObject * parent)
-    throw (djvError) :
+djvImageIoFactory::djvImageIoFactory(const QStringList & searchPath, QObject * parent) :
     djvPluginFactory(searchPath, "djvImageIo", "djv", "Plugin", parent),
     _p(new P)
 {
@@ -338,14 +337,12 @@ djvImageLoad * djvImageIoFactory::load(
             return imageLoad;
         }
     }
-    else
-    {
-        throw djvError(
-            "djvImageIoFactory",
-            errorLabels()[ERROR_UNRECOGNIZED].
-            arg(QDir::toNativeSeparators(fileInfo)));
-    }
-    
+
+    throw djvError(
+        "djvImageIoFactory",
+        errorLabels()[ERROR_UNRECOGNIZED].
+        arg(QDir::toNativeSeparators(fileInfo)));
+
     return 0;
 }
     
@@ -381,13 +378,11 @@ djvImageSave * djvImageIoFactory::save(
             return imageSave;
         }
     }
-    else
-    {
-        throw djvError(
-            "djvImageIoFactory",
-            errorLabels()[ERROR_UNRECOGNIZED].
-            arg(QDir::toNativeSeparators(fileInfo)));
-    }
+
+    throw djvError(
+        "djvImageIoFactory",
+        errorLabels()[ERROR_UNRECOGNIZED].
+        arg(QDir::toNativeSeparators(fileInfo)));
     
     return 0;
 }

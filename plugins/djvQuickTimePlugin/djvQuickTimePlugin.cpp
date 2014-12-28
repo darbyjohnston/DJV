@@ -384,7 +384,7 @@ QStringList djvQuickTimePlugin::options() const
     return optionsLabels();
 }
 
-void djvQuickTimePlugin::commandLine(QStringList & in) throw (djvError)
+void djvQuickTimePlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -409,9 +409,9 @@ void djvQuickTimePlugin::commandLine(QStringList & in) throw (djvError)
             }
         }
     }
-    catch (const djvError &)
+    catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

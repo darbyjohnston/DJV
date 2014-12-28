@@ -475,7 +475,7 @@ const QStringList & djvLutPlugin::optionsLabels()
     return data;
 }
 
-void djvLutPlugin::commandLine(QStringList & in) throw (djvError)
+void djvLutPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -498,7 +498,7 @@ void djvLutPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

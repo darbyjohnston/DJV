@@ -130,7 +130,7 @@ public:
 
     //! Parse the command line.
 
-    void commandLine(QStringList &) throw (djvError);
+    void commandLine(QStringList &) throw (QString);
     
     //! This enumeration provides error codes.
     
@@ -138,6 +138,8 @@ public:
     {
         ERROR_OPEN,
         ERROR_OPEN_SLATE,
+        ERROR_READ,
+        ERROR_WRITE,
         
         ERROR_COUNT
     };

@@ -360,8 +360,11 @@ void djvViewMagnifyTool::pixelDataUpdate()
                     &_p->convertState,
                     _p->convertBuffer.data()));
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_MAGNIFY]);
+
             DJV_APP->printError(error);
         }
     }

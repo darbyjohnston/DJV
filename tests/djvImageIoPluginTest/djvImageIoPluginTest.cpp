@@ -35,6 +35,7 @@
 
 #include <djvDebug.h>
 #include <djvError.h>
+#include <djvErrorUtil.h>
 #include <djvFileInfo.h>
 #include <djvImageApplication.h>
 #include <djvImage.h>
@@ -266,7 +267,7 @@ void djvImageIoPluginTest::runTest(djvImageIo * plugin, const djvImage & image)
     }
     catch (const djvError & error)
     {
-        DJV_DEBUG_PRINT(plugin->pluginName() + " = " + error.string());
+        DJV_DEBUG_PRINT(djvErrorUtil::format(error));
     }
 }
 

@@ -353,7 +353,7 @@ QStringList djvPpmPlugin::options() const
     return optionsLabels();
 }
 
-void djvPpmPlugin::commandLine(QStringList & in) throw (djvError)
+void djvPpmPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -380,7 +380,7 @@ void djvPpmPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

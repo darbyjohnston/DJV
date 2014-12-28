@@ -219,7 +219,7 @@ QStringList djvCineonPlugin::options() const
     return optionsLabels();
 }
 
-void djvCineonPlugin::commandLine(QStringList & in) throw (djvError)
+void djvCineonPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -258,7 +258,7 @@ void djvCineonPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

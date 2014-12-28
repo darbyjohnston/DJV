@@ -33,7 +33,17 @@
 
 #include <djvError.h>
 
+#include <QList>
 #include <QString>
+
+//------------------------------------------------------------------------------
+// djvError::Message
+//------------------------------------------------------------------------------
+
+djvError::Message::Message(const QString & prefix, const QString & string) :
+    prefix(prefix),
+    string(string)
+{}
 
 //------------------------------------------------------------------------------
 // djvError::P
@@ -41,8 +51,7 @@
 
 struct djvError::P
 {
-    QString prefix;
-    QString string;
+    QList<Message> messages;
 };
 
 //------------------------------------------------------------------------------
@@ -58,23 +67,21 @@ djvError::djvError(const QString & string)
 {
     init();
 
-    _p->string = string;
+    _p->messages += Message(QString(), string);
 }
 
 djvError::djvError(const QString & prefix, const QString & string)
 {
     init();
 
-    _p->prefix = prefix;
-    _p->string = string;
+    _p->messages += Message(prefix, string);
 }
 
 djvError::djvError(const djvError & other)
 {
     init();
 
-    _p->prefix = other._p->prefix;
-    _p->string = other._p->string;
+    _p->messages = other._p->messages;
 }
 
 djvError::~djvError()
@@ -82,22 +89,26 @@ djvError::~djvError()
     delete _p;
 }
 
-const QString & djvError::prefix() const
+const QList<djvError::Message> & djvError::messages() const
 {
-    return _p->prefix;
+    return _p->messages;
+}
+    
+void djvError::add(const QString & string)
+{
+    _p->messages.append(Message(QString(), string));
 }
 
-const QString & djvError::string() const
+void djvError::add(const QString & prefix, const QString & string)
 {
-    return _p->string;
+    _p->messages.append(Message(prefix, string));
 }
 
 djvError & djvError::operator = (const djvError & other)
 {
     if (this != &other)
     {
-        _p->prefix = other._p->prefix;
-        _p->string = other._p->string;
+        _p->messages = other._p->messages;
     }
 
     return *this;
@@ -107,3 +118,4 @@ void djvError::init()
 {
     _p = new P;
 }
+

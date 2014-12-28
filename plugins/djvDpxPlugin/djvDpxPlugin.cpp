@@ -346,7 +346,7 @@ QStringList djvDpxPlugin::options() const
     return optionsLabels();
 }
 
-void djvDpxPlugin::commandLine(QStringList & in) throw (djvError)
+void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -397,7 +397,7 @@ void djvDpxPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;

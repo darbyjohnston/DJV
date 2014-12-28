@@ -121,7 +121,7 @@ public:
 
 protected:
 
-    void resetPreferencesCommandLine(QStringList &) throw (djvError);
+    void resetPreferencesCommandLine(QStringList &) throw (QString);
 
 private:
 

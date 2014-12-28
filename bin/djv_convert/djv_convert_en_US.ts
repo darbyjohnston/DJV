@@ -88,14 +88,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cannot open image: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -218,6 +210,22 @@ Examples
     </message>
     <message>
         <source>%1x%2:%3 %4 %5@%6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot read image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot write image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>output</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -174,10 +174,9 @@ djvAbstractApplication::djvAbstractApplication(
     {
         resetPreferencesCommandLine(_commandLineArgs);
     }
-    catch (const djvError & error)
+    catch (const QString & error)
     {
-        printError(
-            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
+        printError(djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error)));
 
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -351,7 +350,7 @@ QString djvAbstractApplication::commandLineHelp() const
 }
 
 void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in)
-    throw (djvError)
+    throw (QString)
 {
     //DJV_DEBUG("djvAbstractApplication::resetPreferencesCommandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -387,7 +386,7 @@ void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in)
     {
         in = tmp;
         
-        throw djvError(arg);
+        throw QString(arg);
     }
 
     in = tmp;

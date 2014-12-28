@@ -77,6 +77,7 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
     // Create the widgets.
     
     _p->widget = new QTextEdit;
+    _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
     
     _p->showCheckBox = new QCheckBox(tr("Show"));
@@ -148,7 +149,7 @@ void djvApplicationMessageDialog::message(const QString & in)
 
 void djvApplicationMessageDialog::message(const djvError & in)
 {
-    message(djvErrorUtil::format(in));
+    message(djvErrorUtil::format(in).join("\n"));
 }
 
 void djvApplicationMessageDialog::showEvent(QShowEvent *)

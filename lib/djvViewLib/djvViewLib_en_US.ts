@@ -1720,6 +1720,26 @@ Shortcut: %1</source>
         <source>Playback Shuttle</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Cannot read image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot write image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot pick color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot compute histogram</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot magnify</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>djvViewViewActions</name>

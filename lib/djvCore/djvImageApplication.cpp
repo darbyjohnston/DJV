@@ -136,7 +136,7 @@ QString djvAbstractImageApplication::info() const
         arg(djvImageIoFactory::global()->names().join(", "));
 }
 
-void djvAbstractImageApplication::commandLine(QStringList & in) throw (djvError)
+void djvAbstractImageApplication::commandLine(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvAbstractImageApplication::commandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -191,7 +191,7 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (djvError)
     {
         in = tmp;
 
-        throw djvError(arg);
+        throw QString(arg);
     }
 
     in = tmp;

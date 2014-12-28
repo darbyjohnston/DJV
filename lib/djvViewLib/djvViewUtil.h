@@ -493,7 +493,12 @@ public:
     enum ERROR
     {
         ERROR_OPEN_IMAGE,
+        ERROR_READ_IMAGE,
+        ERROR_WRITE_IMAGE,
         ERROR_OPEN_LUT,
+        ERROR_PICK_COLOR,
+        ERROR_HISTOGRAM,
+        ERROR_MAGNIFY,
 
         ERROR_COUNT
     };

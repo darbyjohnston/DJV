@@ -67,7 +67,7 @@ public:
     
     virtual QString info() const;
 
-    virtual void commandLine(QStringList &) throw (djvError);
+    virtual void commandLine(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
 

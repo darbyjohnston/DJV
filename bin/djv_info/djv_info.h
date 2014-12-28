@@ -68,13 +68,13 @@ public:
 
     //! Parse the command line.
     
-    void commandLine(QStringList &) throw (djvError);
+    void commandLine(QStringList &) throw (QString);
     
     //! This enumeration provides error codes.
     
     enum ERROR
     {
-        ERROR_OPEN_DIR,
+        ERROR_OPEN,
         
         ERROR_COUNT
     };
@@ -90,7 +90,7 @@ private:
     void printItem(const djvFileInfo &, bool path = false, bool info = true)
         throw (djvError);
 
-    void printDirectory(const djvFileInfo &, bool label) throw (djvError);
+    void printDirectory(const djvFileInfo &, bool label);
 
     QStringList           _input;
     bool                  _info;

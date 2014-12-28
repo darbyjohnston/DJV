@@ -68,10 +68,10 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
     {
         commandLine(_commandLineArgs);
     }
-    catch (const djvError & error)
+    catch (const QString & error)
     {
         printError(
-            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
+            djvImageApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -126,24 +126,22 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
 
     DJV_LOG("djv_info", QString("Processed count = %1").arg(list.count()));
 
+    // If there are no inputs use the current directory.
+
+    if (! list.count() && exitValue() != djvApplicationEnum::EXIT_ERROR)
+    {
+        list += djvFileInfo(".");
+    }
+
     // Print the files.
 
     for (int i = 0; i < list.count(); ++i)
     {
         if (djvFileInfo::DIRECTORY == list[i].type())
         {
-            try
-            {
-                printDirectory(
-                    list[i],
-                    ((list.count() > 1) || _recurse) && ! _filePath);
-            }
-            catch (const djvError & error)
-            {
-                printError(error);
-                
-                setExitValue(djvApplicationEnum::EXIT_ERROR);
-            }
+            printDirectory(
+                list[i],
+                ((list.count() > 1) || _recurse) && ! _filePath);
         }
         else
         {
@@ -161,19 +159,12 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
     }
 }
 
-void djvInfoApplication::commandLine(QStringList & in) throw (djvError)
+void djvInfoApplication::commandLine(QStringList & in) throw (QString)
 {
     djvImageApplication::commandLine(in);
 
     if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
-
-    if (in.isEmpty())
-    {
-        setExitValue(djvApplicationEnum::EXIT_HELP);
-        
-        return;
-    }
 
     QString arg;
 
@@ -220,19 +211,14 @@ void djvInfoApplication::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
-    }
-
-    if (! _input.count())
-    {
-        throw djvError(tr("Input"));
+        throw QString(arg);
     }
 }
     
 const QStringList & djvInfoApplication::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Cannot open directory: \"%1\"");
+        tr("Cannot open image: \"%1\"");
 
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -269,7 +255,7 @@ QString djvInfoApplication::commandLineHelp() const
 "\n"
 "Usage\n"
 "\n"
-"    djv_info (image|directory)... [option]...\n"
+"    djv_info [image|directory]... [option]...\n"
 "\n"
 "Options\n"
 "\n"
@@ -315,12 +301,19 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
 
     djvImageIoInfo _info;
 
-    {
-        QScopedPointer<djvImageLoad> load(
-            djvImageIoFactory::global()->load(in, _info));
+    QScopedPointer<djvImageLoad> load;
     
-        if (! load.data())
-            return;
+    try
+    {
+        load.reset(djvImageIoFactory::global()->load(in, _info));
+    }
+    catch (djvError error)
+    {
+        error.add(
+            errorLabels()[ERROR_OPEN].
+            arg(QDir::toNativeSeparators(in)));
+        
+        throw error;    
     }
     
     // Print the file.
@@ -434,20 +427,15 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
 }
 
 void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
-    throw (djvError)
 {
     //DJV_DEBUG("djvInfoApplication::printDirectory");
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Read the directory contents.
 
-    if (! QDir(in.path()).exists() && ! _recurse)
-    {
-        throw djvError(errorLabels()[ERROR_OPEN_DIR].
-            arg(QDir::toNativeSeparators(in)));
-    }
-
-    djvFileInfoList items = djvFileInfoUtil::list(in, _sequence);
+    djvFileInfoList items;
+    
+    items = djvFileInfoUtil::list(in, _sequence);
 
     // Process the items.
 
@@ -472,8 +460,12 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
         {
             printItem(items[i], _filePath, _info);
         }
-        catch (const djvError &)
-        {}
+        catch (const djvError & error)
+        {
+            printError(error);
+
+            setExitValue(djvApplicationEnum::EXIT_ERROR);
+        }
     }
 
     if (label)

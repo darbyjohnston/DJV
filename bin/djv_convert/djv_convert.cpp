@@ -94,10 +94,10 @@ djvConvertApplication::djvConvertApplication(int argc, char ** argv)
     {
         commandLine(_commandLineArgs);
     }
-    catch (const djvError & error)
+    catch (const QString & error)
     {
         printError(
-            djvError(errorLabels()[ERROR_COMMAND_LINE].arg(error.string())));
+            djvImageApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -113,7 +113,7 @@ djvConvertApplication::djvConvertApplication(int argc, char ** argv)
     }
 }
 
-void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
+void djvConvertApplication::commandLine(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvConvertApplication::commandLine");
     //DJV_DEBUG_PRINT("in = " << in);
@@ -250,7 +250,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw QString(arg);
     }
 
     //DJV_DEBUG_PRINT("args = " << args);
@@ -262,7 +262,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
 
     if (! args.count())
     {
-        throw djvError(tr("Input"));
+        throw QString(tr("input"));
     }
 
     _input.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
@@ -275,7 +275,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
 
     if (! args.count())
     {
-        throw djvError(tr("Output"));
+        throw QString(tr("output"));
     }
 
     _output.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
@@ -286,7 +286,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (djvError)
 
     if (! args.isEmpty())
     {
-        throw djvError(args[0]);
+        throw QString(args[0]);
     }
 }
     
@@ -294,7 +294,9 @@ const QStringList & djvConvertApplication::errorLabels()
 {
     static const QStringList data = QStringList() <<
         tr("Cannot open image: \"%1\"") <<
-        tr("Cannot open slate: \"%1\"");
+        tr("Cannot open slate: \"%1\"") <<
+        tr("Cannot read image: \"%1\"") <<
+        tr("Cannot write image: \"%1\"");
 
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -458,8 +460,12 @@ bool djvConvertApplication::work()
 
     if (! load.data())
     {
-        printError(error);
+        error.add(
+            errorLabels()[ERROR_OPEN].
+            arg(QDir::toNativeSeparators(_input.file)));
         
+        printError(error);
+
         return false;
     }
 
@@ -472,15 +478,19 @@ bool djvConvertApplication::work()
         0;
     
     if (! _input.start.isEmpty())
+    {
         start = djvSequenceUtil::findClosest(
             djvTime::stringToFrame(_input.start, loadInfo.sequence.speed),
             loadInfo.sequence.frames);
-
+    }
+    
     if (! _input.end.isEmpty())
+    {
         end = djvSequenceUtil::findClosest(
             djvTime::stringToFrame(_input.end, loadInfo.sequence.speed),
             loadInfo.sequence.frames);
-
+    }
+    
     //DJV_DEBUG_PRINT("start = " << start);
     //DJV_DEBUG_PRINT("end = " << end);
 
@@ -572,13 +582,13 @@ bool djvConvertApplication::work()
     {
         save.reset(
             djvImageIoFactory::global()->save(_output.file, saveInfo));
-        
-        if (! save.data())
-            throw djvError(errorLabels()[ERROR_OPEN].
-                arg(QDir::toNativeSeparators(_output.file)));
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            errorLabels()[ERROR_OPEN].
+            arg(QDir::toNativeSeparators(_output.file)));
+
         printError(error);
         
         return false;
@@ -602,10 +612,6 @@ bool djvConvertApplication::work()
             
             QScopedPointer<djvImageLoad> load(
                 djvImageIoFactory::global()->load(_input.slate, info));
-            
-            if (! load.data())
-                throw djvError(errorLabels()[ERROR_OPEN_SLATE].
-                    arg(QDir::toNativeSeparators(_input.slate)));
 
             djvImage image;
             
@@ -620,8 +626,12 @@ bool djvConvertApplication::work()
 
             djvOpenGlImage::copy(image, slate, options);
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                errorLabels()[ERROR_OPEN_SLATE].
+                arg(QDir::toNativeSeparators(_input.slate)));
+
             printError(error);
             
             save->close();
@@ -644,8 +654,12 @@ bool djvConvertApplication::work()
 
             saveInfo.sequence.frames.pop_front();
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                errorLabels()[ERROR_WRITE].
+                arg(QDir::toNativeSeparators(_output.file)));
+            
             printError(error);
 
             save->close();
@@ -705,6 +719,10 @@ bool djvConvertApplication::work()
 
         if (! image.isValid())
         {
+            error.add(
+                errorLabels()[ERROR_READ].
+                arg(QDir::toNativeSeparators(_input.file)));
+
             printError(error);
 
             save->close();
@@ -768,8 +786,12 @@ bool djvConvertApplication::work()
                     saveInfo.sequence.frames[i] :
                     -1));
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                errorLabels()[ERROR_WRITE].
+                arg(QDir::toNativeSeparators(_output.file)));
+
             printError(error);
 
             save->close();
@@ -810,8 +832,12 @@ bool djvConvertApplication::work()
     {
         save->close();
     }
-    catch (const djvError & error)
+    catch (djvError error)
     {
+        error.add(
+            errorLabels()[ERROR_WRITE].
+            arg(QDir::toNativeSeparators(_output.file)));
+
         printError(error);
 
         return false;

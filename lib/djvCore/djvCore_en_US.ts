@@ -283,12 +283,12 @@ OpenGL Options
 <context>
     <name>djvErrorUtil</name>
     <message>
-        <location filename="djvErrorUtil.cpp" line="57"/>
+        <location filename="djvErrorUtil.cpp" line="59"/>
         <source>[ERROR] %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvErrorUtil.cpp" line="58"/>
+        <location filename="djvErrorUtil.cpp" line="60"/>
         <source>[ERROR %1] %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -516,7 +516,7 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="414"/>
+        <location filename="djvImageIo.cpp" line="409"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <oldsource>Unrecognized file: %1</oldsource>
         <translation type="unfinished"></translation>
@@ -906,12 +906,12 @@ OpenGL Options
 <context>
     <name>djvPluginFactory</name>
     <message>
-        <location filename="djvPlugin.cpp" line="398"/>
+        <location filename="djvPlugin.cpp" line="399"/>
         <source>Cannot open plugin &quot;%1&quot;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPlugin.cpp" line="399"/>
+        <location filename="djvPlugin.cpp" line="400"/>
         <source>Cannot load plugin &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>

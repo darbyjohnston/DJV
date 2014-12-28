@@ -213,7 +213,7 @@ public:
 
     virtual QStringList options() const;
 
-    virtual void commandLine(QStringList &) throw (djvError);
+    virtual void commandLine(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
     

@@ -966,8 +966,11 @@ void djvViewMainWindow::viewPickUpdate()
 
             djvOpenGlImage::average(tmp, _p->imageSample);
         }
-        catch (const djvError & error)
+        catch (djvError error)
         {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_PICK_COLOR]);
+
             DJV_VIEW_APP->printError(error);
         }
     }

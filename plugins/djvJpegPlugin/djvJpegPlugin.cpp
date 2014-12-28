@@ -139,7 +139,7 @@ QStringList djvJpegPlugin::options() const
     return optionsLabels();
 }
 
-void djvJpegPlugin::commandLine(QStringList & in) throw (djvError)
+void djvJpegPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
@@ -162,7 +162,7 @@ void djvJpegPlugin::commandLine(QStringList & in) throw (djvError)
     }
     catch (const QString &)
     {
-        throw djvError(arg);
+        throw arg;
     }
 
     in = tmp;
