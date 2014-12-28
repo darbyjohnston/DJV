@@ -107,12 +107,5 @@ void djvErrorTest::operators()
         DJV_ASSERT(a.prefix() == b.prefix());
         DJV_ASSERT(a.string() == b.string());
     }
-
-    {
-        const djvError a("prefix", "string"), b("prefix", "string");
-                
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvError());
-    }
 }
 

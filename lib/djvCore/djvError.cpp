@@ -103,18 +103,6 @@ djvError & djvError::operator = (const djvError & other)
     return *this;
 }
 
-bool djvError::operator == (const djvError & other) const
-{
-    return
-        _p->prefix == other._p->prefix &&
-        _p->string == other._p->string;
-}
-
-bool djvError::operator != (const djvError & other) const
-{
-    return ! (*this == other);
-}
-
 void djvError::init()
 {
     _p = new P;

@@ -81,10 +81,6 @@ public:
 
     djvError & operator = (const djvError &);
 
-    bool operator == (const djvError &) const;
-
-    bool operator != (const djvError &) const;
-
 private:
 
     void init();
