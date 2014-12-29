@@ -258,6 +258,39 @@ OpenGL Options
     </message>
 </context>
 <context>
+    <name>djvCglContextPrivate</name>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="180"/>
+        <source>Cannot get pixel format: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="181"/>
+        <source>Cannot create OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="182"/>
+        <source>Cannot initialize GLEW: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="183"/>
+        <source>No OpenGL FBO support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="184"/>
+        <source>Invalid OpenGL context</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="185"/>
+        <source>Cannot bind OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djvColorProfile</name>
     <message>
         <location filename="djvColorProfile.cpp" line="68"/>
@@ -424,59 +457,6 @@ OpenGL Options
         <location filename="djvFileIo.cpp" line="696"/>
         <source>Cannot set file position: &quot;%1&quot;</source>
         <oldsource>Cannot set file position: %1</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvGlxContextPrivate</name>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="264"/>
-        <source>Cannot open X display</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="265"/>
-        <source>No appropriate X visuals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="266"/>
-        <source>Cannot create X colormap</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="267"/>
-        <source>No GLX extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="268"/>
-        <source>Cannot create an X window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="269"/>
-        <source>Cannot create OpenGL context</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="270"/>
-        <source>Cannot initialize GLEW: #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="271"/>
-        <source>No OpenGL FBO support</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="272"/>
-        <source>Invalid OpenGL context</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvGlxContextPrivate.cpp" line="273"/>
-        <source>Cannot bind OpenGL context</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
