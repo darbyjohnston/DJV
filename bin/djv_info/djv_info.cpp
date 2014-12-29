@@ -76,6 +76,19 @@ djvInfoApplication::djvInfoApplication(int argc, char ** argv) throw (djvError) 
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
+    if (hasDebugLog())
+    {
+        Q_FOREACH(const QString & message, djvDebugLog::global()->messages())
+        {
+            printMessage(message);
+        }
+        
+        connect(
+            djvDebugLog::global(),
+            SIGNAL(message(const QString &)),
+            SLOT(debugLogCallback(const QString &)));
+    }
+
     if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
@@ -214,7 +227,7 @@ void djvInfoApplication::commandLine(QStringList & in) throw (QString)
         throw QString(arg);
     }
 }
-    
+
 const QStringList & djvInfoApplication::errorLabels()
 {
     static const QStringList data = QStringList() <<
@@ -289,6 +302,11 @@ QString djvInfoApplication::commandLineHelp() const
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvImageApplication::commandLineHelp());
+}
+
+void djvInfoApplication::debugLogCallback(const QString & in)
+{
+    printMessage(in);
 }
 
 void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
@@ -462,9 +480,6 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
         }
         catch (const djvError & error)
         {
-            printError(error);
-
-            setExitValue(djvApplicationEnum::EXIT_ERROR);
         }
     }
 

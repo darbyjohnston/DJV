@@ -59,6 +59,8 @@
 
 class djvLsApplication : public djvCoreApplication
 {
+    Q_OBJECT
+    
 public:
 
     //! Constructor.
@@ -83,6 +85,10 @@ public:
     static const QStringList & errorLabels();
 
     virtual QString commandLineHelp() const;
+
+private Q_SLOTS:
+
+    void debugLogCallback(const QString &);
 
 private:
 

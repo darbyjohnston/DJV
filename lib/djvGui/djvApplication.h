@@ -141,6 +141,8 @@ class DJV_GUI_EXPORT djvApplication :
     public QApplication,
     public djvAbstractApplication
 {
+    Q_OBJECT
+    
 public:
 
     //! Constructor.

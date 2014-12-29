@@ -86,6 +86,8 @@ class DJV_CORE_EXPORT djvImageApplication :
     public QCoreApplication,
     public djvAbstractImageApplication
 {
+    Q_OBJECT
+    
 public:
 
     //! Constructor.
@@ -93,11 +95,6 @@ public:
     djvImageApplication(const QString & name, int & argc, char ** argv)
         throw (djvError);
 };
-
-//! Get the global application instance.
-
-#define DJV_IMAGE_APP \
-    dynamic_cast<djvAbstractImageApplication *>(AbstractImageApplication::global())
 
 //@} // djvCoreMisc
 

@@ -33,11 +33,12 @@
 
 #include <djvDebugLog.h>
 
-#include <djvCoreApplication.h>
-
 #include <djvDebug.h>
 
+#include <QCoreApplication>
 #include <QPointer>
+#include <QRegExp>
+#include <QStringList>
 #include <QVector>
 
 namespace
@@ -53,12 +54,7 @@ const int max = 10000;
 
 struct djvDebugLog::P
 {
-    P() :
-        print(false)
-    {}
-    
     QVector<QString> messages;
-    bool             print;
 };
 
 //------------------------------------------------------------------------------
@@ -78,11 +74,6 @@ djvDebugLog::~djvDebugLog()
 const QVector<QString> & djvDebugLog::messages() const
 {
     return _p->messages;
-}
-
-bool djvDebugLog::hasPrint() const
-{
-    return _p->print;
 }
 
 djvDebugLog * djvDebugLog::global()
@@ -110,37 +101,7 @@ void djvDebugLog::addMessage(const QString & context, const QString & message)
             _p->messages.pop_front();
         }
         
-        if (_p->print)
-        {
-            print(s);
-        }
-        
         Q_EMIT this->message(s);
     }
-}
-
-void djvDebugLog::setPrint(bool print)
-{
-    if (print == _p->print)
-        return;
-
-    _p->print = print;
-    
-    if (_p->print)
-    {
-        while (_p->messages.count())
-        {
-            this->print(_p->messages.first());
-            
-            _p->messages.pop_front();
-        }
-    }
-    
-    Q_EMIT printChanged(_p->print);
-}
-
-void djvDebugLog::print(const QString & string)
-{
-    DJV_CORE_APP->printMessage(string);
 }
 

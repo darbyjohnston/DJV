@@ -102,6 +102,19 @@ djvConvertApplication::djvConvertApplication(int argc, char ** argv)
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
+    if (hasDebugLog())
+    {
+        Q_FOREACH(const QString & message, djvDebugLog::global()->messages())
+        {
+            printMessage(message);
+        }
+        
+        connect(
+            djvDebugLog::global(),
+            SIGNAL(message(const QString &)),
+            SLOT(debugLogCallback(const QString &)));
+    }
+
     if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
@@ -412,6 +425,11 @@ QString djvConvertApplication::commandLineHelp() const
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvStringUtil::label(_output.tagsAuto).join(", ")).
         arg(djvImageApplication::commandLineHelp());
+}
+
+void djvConvertApplication::debugLogCallback(const QString & in)
+{
+    printMessage(in);
 }
 
 bool djvConvertApplication::work()

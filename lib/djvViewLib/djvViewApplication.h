@@ -72,6 +72,10 @@ public:
 protected:
 
     virtual bool event(QEvent *);
+
+private Q_SLOTS:
+
+    void debugLogCallback(const QString &);
     
 private:
 

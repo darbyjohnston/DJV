@@ -170,6 +170,8 @@ public:
 protected:
 
     void loadTranslator(const QString & baseName);
+    
+    bool hasDebugLog() const;
 
     QStringList _commandLineArgs;
 
@@ -190,6 +192,8 @@ class DJV_CORE_EXPORT djvCoreApplication :
     public QCoreApplication,
     public djvAbstractCoreApplication
 {
+    Q_OBJECT
+    
 public:
 
     //! Constructor.
@@ -199,10 +203,6 @@ public:
 };
 
 //------------------------------------------------------------------------------
-
-//! Get the global application instance.
-
-#define DJV_CORE_APP djvAbstractCoreApplication::global()
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvApplicationEnum::EXIT_VALUE);
 

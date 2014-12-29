@@ -79,9 +79,22 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
+    if (hasDebugLog())
+    {
+        Q_FOREACH(const QString & message, djvDebugLog::global()->messages())
+        {
+            printMessage(message);
+        }
+        
+        connect(
+            djvDebugLog::global(),
+            SIGNAL(message(const QString &)),
+            SLOT(debugLogCallback(const QString &)));
+    }
+
     if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
-
+    
     // Convert the command line inputs:
     //
     // * Match wildcards
@@ -327,6 +340,11 @@ QString djvLsApplication::commandLineHelp() const
         arg(djvFileInfoUtil::sortLabels().join(", ")).
         arg(djvStringUtil::label(_sort).join(", ")).
         arg(djvCoreApplication::commandLineHelp());
+}
+
+void djvLsApplication::debugLogCallback(const QString & in)
+{
+    printMessage(in);
 }
 
 void djvLsApplication::process(djvFileInfoList & in)

@@ -4,7 +4,7 @@
 <context>
     <name>djvAbstractCoreApplication</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="225"/>
+        <location filename="djvCoreApplication.cpp" line="227"/>
         <source>General
 
     Version: %1
@@ -29,7 +29,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="251"/>
+        <location filename="djvCoreApplication.cpp" line="253"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -116,52 +116,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="410"/>
+        <location filename="djvCoreApplication.cpp" line="412"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="417"/>
+        <location filename="djvCoreApplication.cpp" line="419"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="424"/>
+        <location filename="djvCoreApplication.cpp" line="426"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="432"/>
+        <location filename="djvCoreApplication.cpp" line="434"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="438"/>
+        <location filename="djvCoreApplication.cpp" line="440"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="439"/>
+        <location filename="djvCoreApplication.cpp" line="441"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="444"/>
+        <location filename="djvCoreApplication.cpp" line="446"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="449"/>
+        <location filename="djvCoreApplication.cpp" line="451"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="457"/>
+        <location filename="djvCoreApplication.cpp" line="459"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="490"/>
+        <location filename="djvCoreApplication.cpp" line="492"/>
         <source>
 General Options
 
@@ -183,7 +183,7 @@ General Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="526"/>
+        <location filename="djvCoreApplication.cpp" line="528"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>

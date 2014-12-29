@@ -136,6 +136,19 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
 
+    if (hasDebugLog())
+    {
+        Q_FOREACH(const QString & message, djvDebugLog::global()->messages())
+        {
+            printMessage(message);
+        }
+        
+        connect(
+            djvDebugLog::global(),
+            SIGNAL(message(const QString &)),
+            SLOT(debugLogCallback(const QString &)));
+    }
+
     if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
 
@@ -143,8 +156,14 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
     
     DJV_LOG("djvViewApplication", "Initialize user interface...");
 
-    setValid(true);
+    disconnect(
+        djvDebugLog::global(),
+        SIGNAL(message(const QString &)),
+        this,
+        SLOT(debugLogCallback(const QString &)));
     
+    setValid(true);
+        
     setWindowIcon(QPixmap(":projector32x32.png"));
 
     prefsDialog()->addWidget(new djvViewFilePrefsWidget, "djv_view");
@@ -427,6 +446,11 @@ bool djvViewApplication::event(QEvent * event)
     }
     
     return djvApplication::event(event);
+}
+
+void djvViewApplication::debugLogCallback(const QString & in)
+{
+    printMessage(in);
 }
 
 djvViewMainWindow * djvViewApplication::window() const

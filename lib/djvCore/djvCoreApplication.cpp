@@ -74,13 +74,15 @@ struct djvAbstractCoreApplication::P
     P() :
         exitValue(djvApplicationEnum::EXIT_DEFAULT),
         endline  (false),
-        separator(false)
+        separator(false),
+        debugLog (false)
     {}
 
     djvApplicationEnum::EXIT_VALUE exitValue;
     QString                        commandLineName;
     bool                           endline;
     bool                           separator;
+    bool                           debugLog;
 };
 
 //------------------------------------------------------------------------------
@@ -431,7 +433,7 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (QString)
             else if (
                 qApp->translate("djvAbstractCoreApplication", "-debug_log") == arg)
             {
-                djvDebugLog::global()->setPrint(true);
+                _p->debugLog = true;
             }
 
             else if (
@@ -551,6 +553,11 @@ void djvAbstractCoreApplication::loadTranslator(const QString & baseName)
     }
     
     DJV_LOG("djvAbstractCoreApplication", "");
+}
+
+bool djvAbstractCoreApplication::hasDebugLog() const
+{
+    return _p->debugLog;
 }
 
 //------------------------------------------------------------------------------

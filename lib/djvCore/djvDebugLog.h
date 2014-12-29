@@ -53,14 +53,6 @@ class DJV_CORE_EXPORT djvDebugLog : public QObject
 {
     Q_OBJECT
     
-    //! This property holds whether the messages are printed.
-    
-    Q_PROPERTY(
-        bool   print
-        READ   hasPrint
-        WRITE  setPrint
-        NOTIFY printChanged)
-    
 public:
 
     //! Constructor.
@@ -75,10 +67,6 @@ public:
     
     const QVector<QString> & messages() const;
     
-    //! Get whether the messages are printed.
-    
-    bool hasPrint() const;
-    
     //! Get the global debugging log.
     
     static djvDebugLog * global();
@@ -89,23 +77,13 @@ public Q_SLOTS:
     
     void addMessage(const QString & context, const QString & message);
     
-    //! Set whether the messages are printed.
-    
-    void setPrint(bool);
-    
 Q_SIGNALS:
 
     //! This signal is emitted when a message is added.
     
     void message(const QString &);
     
-    //! This signal is emitted when the printing is changed.
-    
-    void printChanged(bool);
-    
 private:
-    
-    static void print(const QString &);
     
     DJV_PRIVATE_IMPLEMENTATION();
 };
