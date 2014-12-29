@@ -66,9 +66,9 @@ djvViewWindowMenu::djvViewWindowMenu(
 
     addAction(actions->action(djvViewWindowActions::FULL_SCREEN));
 
-    addAction(actions->action(djvViewWindowActions::CONTROLS_VISIBLE));
-
     addSeparator();
+
+    addAction(actions->action(djvViewWindowActions::CONTROLS_VISIBLE));
 
     Q_FOREACH(QAction * action,
         actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
