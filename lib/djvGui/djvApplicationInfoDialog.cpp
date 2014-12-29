@@ -107,6 +107,18 @@ djvApplicationInfoDialog::~djvApplicationInfoDialog()
     delete _p;
 }
 
+djvApplicationInfoDialog * djvApplicationInfoDialog::global()
+{
+    static djvApplicationInfoDialog * data = 0;
+    
+    if (! data)
+    {
+        data = new djvApplicationInfoDialog;
+    }
+    
+    return data;
+}
+
 void djvApplicationInfoDialog::showEvent(QShowEvent *)
 {
     _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
@@ -121,6 +133,10 @@ void djvApplicationInfoDialog::copyCallback()
 void djvApplicationInfoDialog::updateWidget()
 {
     _p->widget->setFont(djvStyle::global()->fonts().fixed);
-    _p->widget->setText(DJV_APP->info());    
+
+    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
+    {
+        _p->widget->setText(app->info());    
+    }
 }
 

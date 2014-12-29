@@ -365,7 +365,7 @@ void djvViewMagnifyTool::pixelDataUpdate()
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_MAGNIFY]);
 
-            DJV_APP->printError(error);
+            DJV_VIEW_APP->printError(error);
         }
     }
 

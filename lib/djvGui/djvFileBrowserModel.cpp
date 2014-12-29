@@ -33,12 +33,13 @@
 
 #include <djvFileBrowserModel.h>
 
-#include <djvApplication.h>
 #include <djvFileBrowserCache.h>
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
+#include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
 #include <djvImage.h>
 #include <djvImageIo.h>
@@ -221,7 +222,6 @@ void djvFileBrowserItem::imageIoInit()
         }
         catch (const djvError & error)
         {
-            //DJV_APP->printError(error);
         }
 
         if (load.data())
@@ -342,7 +342,7 @@ void djvFileBrowserItem::loadImage()
     }
     catch (const djvError & error)
     {
-        DJV_APP->printError(error);
+        DJV_LOG("djvFileBrowserItem", djvErrorUtil::format(error).join("\n"));
     }
 }
 

@@ -165,7 +165,10 @@ void djvMiscPrefsWidget::resetPreferences()
 
     djvMiscPrefs::global()->setSequenceMaxFrames(djvSequence::maxFramesDefault());
 
-    DJV_APP->setToolTips(djvApplication::toolTipsDefault());
+    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
+    {
+        app->setToolTips(djvApplication::toolTipsDefault());
+    }
     
     widgetUpdate();
 }
@@ -187,7 +190,10 @@ void djvMiscPrefsWidget::sequenceMaxFramesCallback(int size)
 
 void djvMiscPrefsWidget::helpToolTipsCallback(bool toolTips)
 {
-    DJV_APP->setToolTips(toolTips);
+    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
+    {
+        app->setToolTips(toolTips);
+    }
 }
 
 void djvMiscPrefsWidget::widgetUpdate()
@@ -204,5 +210,8 @@ void djvMiscPrefsWidget::widgetUpdate()
 
     _p->sequenceMaxFramesWidget->setValue(djvSequence::maxFrames());
 
-    _p->toolTipsWidget->setChecked(DJV_APP->hasToolTips());
+    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
+    {
+        _p->toolTipsWidget->setChecked(app->hasToolTips());
+    }
 }

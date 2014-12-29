@@ -33,10 +33,11 @@
 
 #include <djvImageIoPrefs.h>
 
-#include <djvApplication.h>
 #include <djvPrefs.h>
 
 #include <djvImageIo.h>
+
+#include <QApplication>
 
 //------------------------------------------------------------------------------
 // djvImageIoPrefs

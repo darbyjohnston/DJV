@@ -76,6 +76,10 @@ public:
     //! Clear the messages.
 
     void clear();
+    
+    //! Get the global message dialog.
+    
+    static djvApplicationMessageDialog * global();
 
 protected:
 

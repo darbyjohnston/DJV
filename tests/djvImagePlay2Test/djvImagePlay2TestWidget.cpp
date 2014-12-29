@@ -33,9 +33,9 @@
 
 #include <djvImagePlay2TestWidget.h>
 
-#include <djvApplication.h>
-
+#include <djvDebugLog.h>
 #include <djvError.h>
+#include <djvErrorUtil.h>
 
 djvImagePlay2TestWidget::djvImagePlay2TestWidget() :
     _image(0)
@@ -70,7 +70,9 @@ void djvImagePlay2TestWidget::paintGL()
         }
         catch (const djvError & error)
         {
-            DJV_APP->printError(error);
+            DJV_LOG(
+                "djvImagePlay2TestWidget",
+                djvErrorUtil::format(error).join("\n"));
         }
 
         DJV_DEBUG_OPEN_GL(glPushMatrix());

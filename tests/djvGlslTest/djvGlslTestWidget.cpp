@@ -33,7 +33,8 @@
 
 #include <djvGlslTestWidget.h>
 
-#include <djvApplication.h>
+#include <djvDebugLog.h>
+#include <djvErrorUtil.h>
 
 djvGlslTestWidget::djvGlslTestWidget() :
     _op   (0),
@@ -61,7 +62,9 @@ void djvGlslTestWidget::paintGL()
         }
         catch (const djvError & error)
         {
-            DJV_APP->printError(error);
+            DJV_LOG(
+                "djvGlslTestWidget",
+                djvErrorUtil::format(error).join("\n"));
         }
     }
 }

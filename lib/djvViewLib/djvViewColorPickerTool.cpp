@@ -33,11 +33,11 @@
 
 #include <djvViewColorPickerTool.h>
 
+#include <djvViewApplication.h>
 #include <djvViewDisplayProfile.h>
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
 
-#include <djvApplication.h>
 #include <djvColorSwatch.h>
 #include <djvColorWidget.h>
 #include <djvIconLibrary.h>
@@ -387,7 +387,7 @@ void djvViewColorPickerTool::swatchUpdate()
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_PICK_COLOR]);
 
-            DJV_APP->printError(error);
+            DJV_VIEW_APP->printError(error);
         }
 
         //DJV_DEBUG_PRINT("value = " << _p->value);

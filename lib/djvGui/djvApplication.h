@@ -40,8 +40,6 @@
 
 #include <QApplication>
 
-class djvPrefsDialog;
-
 //! \addtogroup djvGuiMisc
 //@{
 
@@ -85,29 +83,9 @@ public:
 
     void setToolTips(bool);
 
-    //! Get the preferences dialog.
-    
-    djvPrefsDialog * prefsDialog() const;
-
-    //! Show the message dialog.
-
-    void messageDialog();
-
-    //! Show the debug log dialog.
-
-    void debugLogDialog();
-
     //! Open the documentation.
     
     void help() const;
-
-    //! Show the information dialog.
-
-    void infoDialog();
-
-    //! Show the about dialog.
-
-    void aboutDialog();
     
     virtual int run();
 
@@ -151,11 +129,6 @@ public:
     
     virtual int run();
 };
-
-//! Get the global application instance.
-
-#define DJV_APP \
-    static_cast<djvApplication*>(djvApplication::global())
 
 //@} // djvGuiMisc
 

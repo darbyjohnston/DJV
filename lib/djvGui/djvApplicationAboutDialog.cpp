@@ -114,6 +114,18 @@ djvApplicationAboutDialog::~djvApplicationAboutDialog()
     delete _p;
 }
 
+djvApplicationAboutDialog * djvApplicationAboutDialog::global()
+{
+    static djvApplicationAboutDialog * data = 0;
+    
+    if (! data)
+    {
+        data = new djvApplicationAboutDialog;
+    }
+    
+    return data;
+}
+
 void djvApplicationAboutDialog::showEvent(QShowEvent *)
 {
     _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
@@ -128,6 +140,10 @@ void djvApplicationAboutDialog::copyCallback()
 void djvApplicationAboutDialog::updateWidget()
 {
     _p->widget->setFont(djvStyle::global()->fonts().fixed);
-    _p->widget->setText(DJV_APP->about());
+    
+    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
+    {
+        _p->widget->setText(app->about());
+    }
 }
 

@@ -33,13 +33,14 @@
 
 #include <djvFileBrowserPrefs.h>
 
-#include <djvApplication.h>
 #include <djvFileBrowserCache.h>
 #include <djvPrefs.h>
 
 #include <djvAssert.h>
 #include <djvFileInfoUtil.h>
 #include <djvMemory.h>
+
+#include <QApplication>
 
 //------------------------------------------------------------------------------
 // djvFileBrowserPrefs::P

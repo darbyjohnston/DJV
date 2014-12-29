@@ -33,7 +33,7 @@
 
 #include <djvViewUtil.h>
 
-#include <djvApplication.h>
+#include <djvViewApplication.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -242,7 +242,7 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
             errorLabels()[ERROR_OPEN_LUT].
             arg(QDir::toNativeSeparators(file)));
 
-        DJV_APP->printError(error);
+        DJV_VIEW_APP->printError(error);
     }
 }
 

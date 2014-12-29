@@ -33,7 +33,6 @@
 
 #include <djvStyle.h>
 
-#include <djvApplication.h>
 #include <djvPrefs.h>
 
 #include <djvColorUtil.h>

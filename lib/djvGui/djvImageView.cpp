@@ -33,10 +33,10 @@
 
 #include <djvImageView.h>
 
-#include <djvApplication.h>
-
 #include <djvColorUtil.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
+#include <djvErrorUtil.h>
 #include <djvImage.h>
 #include <djvMatrix.h>
 #include <djvOpenGlImage.h>
@@ -294,7 +294,7 @@ void djvImageView::paintGL()
     }
     catch (const djvError & error)
     {
-        DJV_APP->printError(error);
+        DJV_LOG("djvImageView", djvErrorUtil::format(error).join("\n"));
     }
 }
 

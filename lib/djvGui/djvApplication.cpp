@@ -33,17 +33,13 @@
 
 #include <djvApplication.h>
 
-#include <djvApplicationAboutDialog.h>
-#include <djvApplicationInfoDialog.h>
 #include <djvApplicationMessageDialog.h>
-#include <djvDebugLogDialog.h>
 #include <djvFileBrowser.h>
 #include <djvFileBrowserPrefs.h>
 #include <djvImageIoPrefs.h>
 #include <djvMiscPrefs.h>
 #include <djvOpenGlPrefs.h>
 #include <djvPrefs.h>
-#include <djvPrefsDialog.h>
 #include <djvStyle.h>
 
 #include <djvDebugLog.h>
@@ -93,64 +89,6 @@ struct djvAbstractApplication::P
     bool                          valid;
     bool                          toolTips;
     QScopedPointer<ToolTipFilter> toolTipFilter;
-    
-    djvPrefsDialog * prefsDialog() const
-    {
-        if (! _prefsDialog)
-        {
-            _prefsDialog.reset(new djvPrefsDialog);
-        }
-        
-        return _prefsDialog.data();
-    }
-
-    djvApplicationMessageDialog * messageDialog() const
-    {
-        if (!_messageDialog)
-        {
-            _messageDialog.reset(new djvApplicationMessageDialog);
-        }
-
-        return _messageDialog.data();
-    }
-
-    djvDebugLogDialog * debugLogDialog() const
-    {
-        if (!_debugLogDialog)
-        {
-            _debugLogDialog.reset(new djvDebugLogDialog);
-        }
-
-        return _debugLogDialog.data();
-    }
-
-    djvApplicationInfoDialog * infoDialog() const
-    {
-        if (!_infoDialog)
-        {
-            _infoDialog.reset(new djvApplicationInfoDialog);
-        }
-
-        return _infoDialog.data();
-    }
-
-    djvApplicationAboutDialog * aboutDialog() const
-    {
-        if (!_aboutDialog)
-        {
-            _aboutDialog.reset(new djvApplicationAboutDialog);
-        }
-
-        return _aboutDialog.data();
-    }
-    
-private:
-
-    mutable QScopedPointer<djvPrefsDialog>              _prefsDialog;
-    mutable QScopedPointer<djvApplicationMessageDialog> _messageDialog;
-    mutable QScopedPointer<djvDebugLogDialog>           _debugLogDialog;
-    mutable QScopedPointer<djvApplicationInfoDialog>    _infoDialog;
-    mutable QScopedPointer<djvApplicationAboutDialog>   _aboutDialog;
 };
 
 //------------------------------------------------------------------------------
@@ -251,21 +189,6 @@ void djvAbstractApplication::setToolTips(bool toolTips)
     toolTipsUpdate();
 }
 
-djvPrefsDialog * djvAbstractApplication::prefsDialog() const
-{
-    return _p->prefsDialog();
-}
-
-void djvAbstractApplication::messageDialog()
-{
-    _p->messageDialog()->show();
-}
-
-void djvAbstractApplication::debugLogDialog()
-{
-    _p->debugLogDialog()->show();
-}
-
 void djvAbstractApplication::help() const
 {
     //DJV_DEBUG("djvAbstractApplication::help");
@@ -275,16 +198,6 @@ void djvAbstractApplication::help() const
     //DJV_DEBUG_PRINT("url = " << url);
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(url));
-}
-
-void djvAbstractApplication::infoDialog()
-{
-    _p->infoDialog()->show();
-}
-
-void djvAbstractApplication::aboutDialog()
-{
-    _p->aboutDialog()->show();
 }
 
 int djvAbstractApplication::run()
@@ -315,7 +228,7 @@ void djvAbstractApplication::printMessage(const QString & message) const
 {
     if (_p->valid)
     {
-        _p->messageDialog()->message(message);
+        djvApplicationMessageDialog::global()->message(message);
     }
     else
     {
@@ -327,7 +240,7 @@ void djvAbstractApplication::printError(const djvError & in) const
 {
     if (_p->valid)
     {
-        _p->messageDialog()->message(in);
+        djvApplicationMessageDialog::global()->message(in);
     }
     else
     {

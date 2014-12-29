@@ -166,13 +166,20 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
         
     setWindowIcon(QPixmap(":projector32x32.png"));
 
-    prefsDialog()->addWidget(new djvViewFilePrefsWidget, "djv_view");
-    prefsDialog()->addWidget(new djvViewWindowPrefsWidget, "djv_view");
-    prefsDialog()->addWidget(new djvViewViewPrefsWidget, "djv_view");
-    prefsDialog()->addWidget(new djvViewImagePrefsWidget, "djv_view");
-    prefsDialog()->addWidget(new djvViewPlaybackPrefsWidget, "djv_view");
-    prefsDialog()->addWidget(new djvViewInputPrefsWidget, "djv_view");
-    prefsDialog()->addWidget(new djvViewShortcutPrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewFilePrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewWindowPrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewViewPrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewImagePrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewPlaybackPrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewInputPrefsWidget, "djv_view");
+    djvPrefsDialog::global()->addWidget(
+        new djvViewShortcutPrefsWidget, "djv_view");
     
     DJV_LOG("djvViewApplication", "");
 

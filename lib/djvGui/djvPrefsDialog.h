@@ -71,7 +71,11 @@ public:
     //! Add a preferences widget.
 
     void addWidget(djvAbstractPrefsWidget *, const QString & group);
-
+    
+    //! Get the global about dialog.
+    
+    static djvPrefsDialog * global();
+    
 private Q_SLOTS:
 
     void browserCallback(QTreeWidgetItem *, QTreeWidgetItem *);

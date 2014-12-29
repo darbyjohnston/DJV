@@ -33,7 +33,6 @@
 
 #include <djvApplicationMessageDialog.h>
 
-#include <djvApplication.h>
 #include <djvPrefs.h>
 #include <djvStyle.h>
 
@@ -150,6 +149,18 @@ void djvApplicationMessageDialog::message(const QString & in)
 void djvApplicationMessageDialog::message(const djvError & in)
 {
     message(djvErrorUtil::format(in).join("\n"));
+}
+
+djvApplicationMessageDialog * djvApplicationMessageDialog::global()
+{
+    static djvApplicationMessageDialog * data = 0;
+    
+    if (! data)
+    {
+        data = new djvApplicationMessageDialog;
+    }
+    
+    return data;
 }
 
 void djvApplicationMessageDialog::showEvent(QShowEvent *)

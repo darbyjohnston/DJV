@@ -68,6 +68,10 @@ public:
     //! Clear the log.
 
     void clear();
+    
+    //! Get the global debugging log dialog.
+    
+    static djvDebugLogDialog * global();
 
 protected:
 

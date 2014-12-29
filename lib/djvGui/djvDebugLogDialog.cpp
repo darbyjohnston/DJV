@@ -123,6 +123,18 @@ djvDebugLogDialog::~djvDebugLogDialog()
     delete _p;
 }
 
+djvDebugLogDialog * djvDebugLogDialog::global()
+{
+    static djvDebugLogDialog * data = 0;
+    
+    if (! data)
+    {
+        data = new djvDebugLogDialog;
+    }
+    
+    return data;
+}
+
 void djvDebugLogDialog::showEvent(QShowEvent *)
 {
     _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(

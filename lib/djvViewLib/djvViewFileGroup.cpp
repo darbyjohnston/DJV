@@ -390,7 +390,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-                DJV_APP->printError(error);
+                DJV_VIEW_APP->printError(error);
             }
         }
 
@@ -515,7 +515,7 @@ void djvViewFileGroup::open(const djvFileInfo & in)
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(fileInfo)));
 
-            DJV_APP->printError(error);
+            DJV_VIEW_APP->printError(error);
         }
     }
     else
@@ -671,7 +671,7 @@ void djvViewFileGroup::reloadCallback()
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-            DJV_APP->printError(error);
+            DJV_VIEW_APP->printError(error);
         }
     }
 
@@ -704,7 +704,7 @@ void djvViewFileGroup::reloadFrameCallback()
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-            DJV_APP->printError(error);
+            DJV_VIEW_APP->printError(error);
         }
     }
 
@@ -807,18 +807,20 @@ void djvViewFileGroup::cacheClearCallback()
 
 void djvViewFileGroup::messagesCallback()
 {
-    DJV_VIEW_APP->messageDialog();
+    djvApplicationMessageDialog::global()->show();
+    djvApplicationMessageDialog::global()->raise();
 }
 
 void djvViewFileGroup::prefsCallback()
 {
-    DJV_VIEW_APP->prefsDialog()->show();
-    DJV_VIEW_APP->prefsDialog()->raise();
+    djvPrefsDialog::global()->show();
+    djvPrefsDialog::global()->raise();
 }
 
 void djvViewFileGroup::debugLogCallback()
 {
-    DJV_VIEW_APP->debugLogDialog();
+    djvDebugLogDialog::global()->show();
+    djvDebugLogDialog::global()->raise();
 }
 
 void djvViewFileGroup::update()

@@ -33,7 +33,6 @@
 
 #include <djvFileBrowser.h>
 
-#include <djvApplication.h>
 #include <djvFileBrowserModel.h>
 #include <djvFileBrowserPrefs.h>
 #include <djvIndexShortcut.h>

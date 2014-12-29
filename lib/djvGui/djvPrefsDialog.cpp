@@ -227,6 +227,18 @@ void djvPrefsDialog::addWidget(djvAbstractPrefsWidget * widget, const QString & 
     new TreeWidgetItem(widget, groupItem);
 }
 
+djvPrefsDialog * djvPrefsDialog::global()
+{
+    static djvPrefsDialog * data = 0;
+    
+    if (! data)
+    {
+        data = new djvPrefsDialog;
+    }
+    
+    return data;
+}
+
 void djvPrefsDialog::browserCallback(QTreeWidgetItem * current, QTreeWidgetItem *)
 {
     if (TreeWidgetItem * item = dynamic_cast<TreeWidgetItem *>(current))

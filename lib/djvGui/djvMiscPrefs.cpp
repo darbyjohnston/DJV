@@ -33,11 +33,12 @@
 
 #include <djvMiscPrefs.h>
 
-#include <djvApplication.h>
 #include <djvPrefs.h>
 
 #include <djvDebug.h>
 #include <djvSequence.h>
+
+#include <QApplication>
 
 //------------------------------------------------------------------------------
 // djvMiscPrefs

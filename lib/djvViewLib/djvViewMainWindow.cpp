@@ -184,7 +184,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     // Initialize.
 
-    setWindowTitle(DJV_APP->name());
+    setWindowTitle(DJV_VIEW_APP->name());
 
     setAttribute(Qt::WA_DeleteOnClose);
     
@@ -768,9 +768,9 @@ void djvViewMainWindow::fileUpdate()
 
     const QString title = ! fileInfo.fileName().isEmpty() ?
         QString(tr("%1 - %2")).
-            arg(DJV_APP->name()).
+            arg(DJV_VIEW_APP->name()).
             arg(QDir::toNativeSeparators(fileInfo)) :
-        QString("%1").arg(DJV_APP->name());
+        QString("%1").arg(DJV_VIEW_APP->name());
 
     setWindowTitle(title);
 }
