@@ -33,7 +33,6 @@
 
 #include <djvApplicationMessageDialogTest.h>
 
-#include <djvApplication.h>
 #include <djvApplicationMessageDialog.h>
 
 QString djvApplicationMessageDialogTest::name()
@@ -43,6 +42,6 @@ QString djvApplicationMessageDialogTest::name()
 
 void djvApplicationMessageDialogTest::run(const QStringList & args)
 {
-    DJV_APP->printMessage("This is a message");
+    djvApplicationMessageDialog::global()->message("This is a message");
 }
 

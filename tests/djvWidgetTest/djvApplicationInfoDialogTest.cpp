@@ -43,6 +43,6 @@ QString djvApplicationInfoDialogTest::name()
 
 void djvApplicationInfoDialogTest::run(const QStringList & args)
 {
-    DJV_APP->infoDialog();
+    djvApplicationInfoDialog::global()->show();
 }
 
