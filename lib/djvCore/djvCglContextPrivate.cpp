@@ -36,6 +36,8 @@
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 
+#include <QCoreApplication>
+
 //------------------------------------------------------------------------------
 // PixelFormat
 //------------------------------------------------------------------------------
@@ -66,7 +68,8 @@ public:
         {
             throw djvError(
                 "djvCglContextPrivate",
-                errorLabels()[ERROR_PIXEL_FORMAT].arg(error));
+                djvCglContextPrivate::errorLabels()[
+                    djvCglContextPrivate::ERROR_PIXEL_FORMAT].arg(error));
         }
     }
 
@@ -174,11 +177,11 @@ djvCglContextPrivate::~djvCglContextPrivate()
 const QStringList & djvCglContextPrivate::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvCglContextPrivate", "Cannot get pixel format: #%1"),
-        qApp->translate("djvCglContextPrivate", "Cannot create OpenGL context: #%1"),
-        qApp->translate("djvCglContextPrivate", "Cannot initialize GLEW: #%1"),
-        qApp->translate("djvCglContextPrivate", "No OpenGL FBO support"),
-        qApp->translate("djvCglContextPrivate", "Invalid OpenGL context"),
+        qApp->translate("djvCglContextPrivate", "Cannot get pixel format: #%1") <<
+        qApp->translate("djvCglContextPrivate", "Cannot create OpenGL context: #%1") <<
+        qApp->translate("djvCglContextPrivate", "Cannot initialize GLEW: #%1") <<
+        qApp->translate("djvCglContextPrivate", "No OpenGL FBO support") <<
+        qApp->translate("djvCglContextPrivate", "Invalid OpenGL context") <<
         qApp->translate("djvCglContextPrivate", "Cannot bind OpenGL context: #%1");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
