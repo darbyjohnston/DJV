@@ -98,9 +98,17 @@ cmake_policy(SET CMP0042 OLD)
 #       -opensource
 #       -confirm-license
 #       -nomake examples
-#       -skip qtwebkit
-#       -skip qtmultimedia
+#       -skip qtconnectivity
 #       -skip qtdeclarative
+#       -skip qtlocation
+#       -skip qtmultimedia
+#       -skip qtscript
+#       -skip qtsensors
+#       -skip qtserialport
+#       -skip qtwebkit
+#       -skip qtwebsockets
+#       -skip qtwinextras
+#       -skip qtxmlpatterns
 # > nmake
 # > nmake install
 #
