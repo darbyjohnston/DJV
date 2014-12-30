@@ -41,24 +41,79 @@ cmake_policy(SET CMP0042 OLD)
 #
 # Windows:
 #
-# * git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-# * cd djv-git-third-party
-# * uncompress third party packges
-# * apply patch/openexr.ImfCompressionAttibute.h.patch
-# * cd ..
-# * mkdir djv-git-third-party-Windows-64-cmake
-# * cd djv-git-third-party-Windows-64-cmake
-# * cmake -G "NMake Makefiles" ..\djv-git-third-party
-# * nmake
-# * nmake package
-# * unzip package in directory of your choice
-# * compile qtbase-opensource-src-5.3.2.zip and install into the unzipped
-#   directory from the previous step; make sure to configure qt with desktop
-#   OpenGL support: -opengl desktop; other usefull options are:
-#   -opensource, -confirm-license, -nomake examples 
-# * rezip package
-# * set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
-# * set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
+# \todo Write a script that automates as much of this as possible.
+#
+# First clone the DJV third party repository:
+#
+# > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+#
+# Then uncompress the third party packages (note this is using the MinGW tar
+# and unzip commands, the Windows utility 7-Zip could also be used):
+#
+# > tar zxvf glew-1.10.0.tgz
+# > tar zxvf ilmbase-2.2.0.tar.gz
+# > tar xzvf jpegsrc.v9.tar.gz
+# > tar zxvf libpng-1.6.8.tar.gz
+# > tar zxvf openexr-2.2.0.tar.gz
+# > tar zxvf tiff-4.0.3.tar.gz
+# > tar zxvf zlib-1.2.8.tar.gz
+# > unzip qt-everywhere-opensource-src-5.3.2.zip
+#
+# Apply the patch for OpenEXR (note this is using the MinGW patch command,
+# though the patch is simple enough you could also apply it by hand):
+#
+# > patch
+#       openexr-2.2.0/IlmImf/ImfCompressionAttribute.h
+#       patch/openexr.ImfCompressionAttribute.h.patch
+#
+# Create a new directory for the CMake build (I ususally make this a sibling
+# of the Git directory):
+#
+# > mkdir djv-git-third-party-Windows-64-cmake
+# > cd djv-git-third-party-Windows-64-cmake
+#
+# Run CMake giving it the path to the Git directory:
+#
+# > cmake -G "NMake Makefiles" ..\djv-git-third-party
+#
+# Then run NMake to build the third party packages:
+#
+# > nmake
+# > nmake package
+#
+# This will produce a file called "djv-git-third-party-Windows-64.zip" that
+# contains all of the third party files (except for Qt) that are needed to
+# build DJV. Choose a directory and unzip this file (I usually make this a
+# sibling of the Git and CMake directories).
+#
+# To build Qt enter the Qt source directory and run the configure script; set
+# the installation location, or prefix, to the same directory as where you
+# unzipped the files in the previous step:
+#
+# \todo Is there anything else that can be disabled for a minimal Qt build?
+# 
+# > configure
+#       -prefix C:\...\djv-git-third-party-Windows-64
+#       -opengl desktop
+#       -opensource
+#       -confirm-license
+#       -nomake examples
+#       -skip qtwebkit
+#       -skip qtmultimedia
+#       -skip qtdeclarative
+# > nmake
+# > nmake install
+#
+# Finally set some environment variables so that DJV can find the third party
+# packages (note that the CMake variables needs '/' instead of '\' for the
+# path delimeters):
+#
+# > set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
+# > set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
+#
+# For convenience these variables may be set permanently through the Windows
+# Control Panel or added to a batch script. See the files in the DJV source
+# directory under "etc\Windows" for an example.
 #
 #
 # Building DJV
