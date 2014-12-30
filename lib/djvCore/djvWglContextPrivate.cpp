@@ -37,22 +37,42 @@
 
 #include <djvDebug.h>
 #include <djvDebugLog.h>
-#include <djvError.h>
 
-#include <QStringList>
+#include <QCoreApplication>
+
+//------------------------------------------------------------------------------
+// djvWglContextPrivate::P
+//------------------------------------------------------------------------------
+
+struct djvWglContextPrivate::P
+{
+#   if defined(DJV_WINDOWS)
+
+    P() :
+        id     (0),
+        device (0),
+        context(0)
+    {}
+
+    HWND  id;
+    HDC   device;
+    HGLRC context;
+
+#   endif // DJV_WINDOWS
+};
 
 //------------------------------------------------------------------------------
 // djvWglContextPrivate
 //------------------------------------------------------------------------------
 
 djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
-    _id     (0),
-    _device (0),
-    _context(0)
+    _p(new P)
 {
+#   if defined(DJV_WINDOWS)
+
     //DJV_DEBUG("djvWglContextPrivate::djvWglContextPrivate");
 
-    // XXX Create a dummy window and OpenGL context for glewInit.
+    // Create a dummy window and OpenGL context for glewInit.
     // According to the docs, glewInit can be called just once per-process?
 
     DJV_LOG("djvWglContextPrivate", "Creating dummy window...");
@@ -90,18 +110,18 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
         }
     }
 
-    _id = CreateWindow(name, 0, 0, 0, 0, 0, 0, 0, 0, hinstance, 0);
+    _p->id = CreateWindow(name, 0, 0, 0, 0, 0, 0, 0, 0, hinstance, 0);
 
-    if (! _id)
+    if (! _p->id)
     {
         throw djvError(
             "djvWglContextPrivate",
             errorLabels()[ERROR_CREATE_WINDOW].arg(int(GetLastError())));
     }
 
-    _device = GetDC(_id);
+    _p->device = GetDC(_p->id);
 
-    if (! _device)
+    if (! _p->device)
     {
         throw djvError(
             "djvWglContextPrivate",
@@ -110,7 +130,7 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
 
     PIXELFORMATDESCRIPTOR pixelFormatInfo;
 
-    const int pixelFormatCount = DescribePixelFormat(_device, 0, 0, 0);
+    const int pixelFormatCount = DescribePixelFormat(_p->device, 0, 0, 0);
 
     //DJV_DEBUG_PRINT("pixel format count = " << pixelFormatCount);
 
@@ -119,7 +139,10 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
 
     for (int i = 1; i < pixelFormatCount; ++i)
     {
-        DescribePixelFormat(_device, i, sizeof(PIXELFORMATDESCRIPTOR),
+        DescribePixelFormat(
+            _p->device,
+            i,
+            sizeof(PIXELFORMATDESCRIPTOR),
             &pixelFormatInfo);
 
         //DJV_DEBUG_PRINT("  id " << i << ": " <<
@@ -171,7 +194,7 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
         0, 0, 0
     };
 
-    int pixelFormatId = ChoosePixelFormat(_device, &pixelFormat);
+    int pixelFormatId = ChoosePixelFormat(_p->device, &pixelFormat);
 
     //DJV_DEBUG_PRINT("pixel format = " << pixelFormatId);
 
@@ -185,7 +208,7 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
             errorLabels()[ERROR_GET_PIXEL_FORMAT].arg(int(GetLastError())));
     }
 
-    if (! SetPixelFormat(_device, pixelFormatId, &pixelFormat))
+    if (! SetPixelFormat(_p->device, pixelFormatId, &pixelFormat))
     {
         throw djvError(
             "djvWglContextPrivate",
@@ -196,16 +219,16 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
 
     DJV_LOG("djvWglContextPrivate", "Creating OpenGL context...");
 
-    _context = wglCreateContext(_device);
+    _p->context = wglCreateContext(_p->device);
 
-    if (! _context)
+    if (! _p->context)
     {
         throw djvError(
             "djvWglContextPrivate",
             errorLabels()[ERROR_CREATE_CONTEXT].arg(int(GetLastError())));
     }
 
-    if (! wglMakeCurrent(_device, _context))
+    if (! wglMakeCurrent(_p->device, _p->context))
     {
         throw djvError(
             "djvWglContextPrivate",
@@ -242,25 +265,33 @@ djvWglContextPrivate::djvWglContextPrivate() throw (djvError) :
     DJV_LOG("djvWglContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
     DJV_LOG("djvWglContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
     DJV_LOG("djvWglContextPrivate", QString("GL version: \"%1\"").arg(version()));
+
+#   endif // DJV_WINDOWS
 }
 
 djvWglContextPrivate::~djvWglContextPrivate()
 {
+#   if defined(DJV_WINDOWS)
+
     //DJV_DEBUG("djvWglContextPrivate::~djvWglContextPrivate");
   
-    if (_context)
+    if (_p->context)
     {
         //DJV_DEBUG_PRINT("context");
 
-        wglDeleteContext(_context);
+        wglDeleteContext(_p->context);
     }
   
-    if (_device)
+    if (_p->device)
     {
         //DJV_DEBUG_PRINT("device");
 
-        ReleaseDC(_id, _device);
+        ReleaseDC(_p->id, _p->device);
     }
+
+#   endif // DJV_WINDOWS
+
+    delete _p;
 }
 
 const QStringList & djvWglContextPrivate::errorLabels()
@@ -284,20 +315,29 @@ const QStringList & djvWglContextPrivate::errorLabels()
 
 void djvWglContextPrivate::bind() throw (djvError)
 {
-    if (! wglMakeCurrent(_device, _context))
+#   if defined(DJV_WINDOWS)
+
+    if (! wglMakeCurrent(_p->device, _p->context))
     {
         throw djvError(
             "djvWglContextPrivate",
             errorLabels()[ERROR_BIND_CONTEXT].arg(int(GetLastError())));
     }
+
+#   endif // DJV_WINDOWS
 }
 
 void djvWglContextPrivate::unbind()
 {
-    if (! wglMakeCurrent(_device, 0))
+#   if defined(DJV_WINDOWS)
+
+    if (! wglMakeCurrent(_p->device, 0))
     {
         throw djvError(
             "djvWglContextPrivate",
             errorLabels()[ERROR_UNBIND_CONTEXT].arg(int(GetLastError())));
     }
+
+#   endif // DJV_WINDOWS
 }
+

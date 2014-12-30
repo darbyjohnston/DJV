@@ -38,8 +38,6 @@
 
 #include <djvOpenGl.h>
 
-#include <OpenGL/OpenGL.h>
-
 //! \addtogroup djvCoreOpenGL
 //@{
 
@@ -87,7 +85,8 @@ protected:
 
 private:
 
-    CGLContextObj _context;
+    DJV_PRIVATE_COPY(djvCglContextPrivate);
+    DJV_PRIVATE_IMPLEMENTATION();
 
     friend class djvOpenGlContextFactory;
 };

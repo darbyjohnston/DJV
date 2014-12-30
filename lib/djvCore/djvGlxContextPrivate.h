@@ -38,11 +38,6 @@
 
 #include <djvOpenGl.h>
 
-#include <GL/glx.h>
-
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-
 //! \addtogroup djvCoreOpenGL
 //@{
 
@@ -94,13 +89,8 @@ protected:
 
 private:
 
-    Display *     _display;
-    int           _screen;
-    XVisualInfo * _visuals;
-    int           _visualsCount;
-    Colormap      _colormap;
-    Window        _window;
-    GLXContext    _context;
+    DJV_PRIVATE_COPY(djvGlxContextPrivate);
+    DJV_PRIVATE_IMPLEMENTATION();
 
     friend class djvOpenGlContextFactory;
 };

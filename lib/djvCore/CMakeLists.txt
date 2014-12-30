@@ -6,6 +6,7 @@ set(header
     djvBoxInline.h
     djvBoxUtil.h
     djvBoxUtilInline.h
+    djvCglContextPrivate.h
     djvColor.h
     djvColorInline.h
     djvColorUtil.h
@@ -24,6 +25,7 @@ set(header
     djvFileIo.h
     djvFileIoInline.h
     djvFileIoUtil.h
+    djvGlxContextPrivate.h
     djvImage.h
     djvImageApplication.h
     djvImageIo.h
@@ -75,11 +77,13 @@ set(header
     djvVector3Inline.h
     djvVectorInline.h
     djvVectorUtil.h
-    djvVectorUtilInline.h)
+    djvVectorUtilInline.h
+    djvWglContextPrivate.h)
 
 set(source
     djvAssert.cpp
     djvDebugLog.cpp
+    djvCglContextPrivate.cpp
     djvColor.cpp
     djvColorUtil.cpp
     djvColorProfile.cpp
@@ -91,6 +95,7 @@ set(source
     djvFileInfoUtil.cpp
     djvFileIo.cpp
     djvFileIoUtil.cpp
+    djvGlxContextPrivate.cpp
     djvImage.cpp
     djvImageApplication.cpp
     djvImageIo.cpp
@@ -117,39 +122,8 @@ set(source
     djvTime.cpp
     djvTimer.cpp
     djvUser.cpp
-    djvVectorUtil.cpp)
-
-if (APPLE)
-
-    set(header
-        ${header}
-        djvCglContextPrivate.h)
-
-    set(source
-        ${source}
-        djvCglContextPrivate.cpp)
-
-elseif (UNIX)
-
-    set(header
-        ${header}
-        djvGlxContextPrivate.h)
-
-    set(source
-        ${source}
-        djvGlxContextPrivate.cpp)
-
-elseif (WIN32)
-
-    set(header
-        ${header}
-        djvWglContextPrivate.h)
-
-    set(source
-        ${source}
-        djvWglContextPrivate.cpp)
-
-endif (APPLE)
+    djvVectorUtil.cpp
+    djvWglContextPrivate.cpp)
 
 if (Qt5Core_DIR)
     QT5_ADD_RESOURCES(rccSource djvCore.qrc)

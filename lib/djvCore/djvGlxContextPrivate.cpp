@@ -38,37 +38,68 @@
 
 #include <QCoreApplication>
 
+#if defined(DJV_LINUX)
+#include <GL/glx.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#endif // DJV_LINUX
+
+//------------------------------------------------------------------------------
+// djvGlxContextPrivate::P
+//------------------------------------------------------------------------------
+
+struct djvGlxContextPrivate::P
+{
+#   if defined(DJV_LINUX)
+
+    P() :
+        display     (0),
+        screen      (0),
+        visuals     (0),
+        visualsCount(0),
+        colormap    (0),
+        window      (0),
+        context     (0)
+    {}
+
+    Display *     display;
+    int           screen;
+    XVisualInfo * visuals;
+    int           visualsCount;
+    Colormap      colormap;
+    Window        window;
+    GLXContext    context;
+
+#   endif // DJV_LINUX
+};
+
 //------------------------------------------------------------------------------
 // djvGlxContextPrivate
 //------------------------------------------------------------------------------
 
 djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
-    _display     (0),
-    _screen      (0),
-    _visuals     (0),
-    _visualsCount(0),
-    _colormap    (0),
-    _window      (0),
-    _context     (0)
+    _p(new P)
 {
+#   if defined(DJV_LINUX)
+
     //DJV_DEBUG("djvGlxContextPrivate::djvGlxContextPrivate");
 
     // Open the X display.
     
     DJV_LOG("djvGlxContextPrivate", "Opening the X display...");
 
-    _display = XOpenDisplay(NULL);
+    _p->display = XOpenDisplay(NULL);
 
-    if (! _display)
+    if (! _p->display)
     {
         throw djvError(
             "djvGlxContextPrivate",
             errorLabels()[ERROR_X_DISPLAY]);
     }
     
-    _screen = DefaultScreen(_display);
+    _p->screen = DefaultScreen(_p->display);
 
-    DJV_LOG("djvGlxContextPrivate", QString("X screen: %1").arg(_screen));
+    DJV_LOG("djvGlxContextPrivate", QString("X screen: %1").arg(_p->screen));
 
     // Choose a visual.
 
@@ -80,7 +111,7 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
     static const int depthsCount = sizeof(depths) / sizeof(depths[0]);
 
     XVisualInfo visualInfo;
-    visualInfo.screen = _screen;
+    visualInfo.screen = _p->screen;
     
     for (int i = 0; i < depthsCount; ++i)
     {
@@ -90,19 +121,19 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
         visualInfo.depth = depths[i];
 
-        _visuals = XGetVisualInfo(
-            _display,
+        _p->visuals = XGetVisualInfo(
+            _p->display,
             VisualScreenMask | VisualDepthMask,
             &visualInfo,
-            &_visualsCount);
+            &_p->visualsCount);
         
-        if (_visuals && _visualsCount)
+        if (_p->visuals && _p->visualsCount)
             break;
     }
     
     //DJV_DEBUG_PRINT("depth = " << visualInfo.depth);
     
-    if (! _visuals || ! _visualsCount)
+    if (! _p->visuals || ! _p->visualsCount)
     {
         throw djvError(
             "djvGlxContextPrivate",
@@ -113,13 +144,13 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 	
 	DJV_LOG("djvGlxContextPrivate", "Creating the color map...");
 
-    _colormap = XCreateColormap(
-        _display,
-        RootWindow(_display, _screen),
-        _visuals[0].visual,
+    _p->colormap = XCreateColormap(
+        _p->display,
+        RootWindow(_p->display, _p->screen),
+        _p->visuals[0].visual,
         AllocNone);
 
-    if (! _colormap)
+    if (! _p->colormap)
     {
         throw djvError(
             "djvGlxContextPrivate",
@@ -130,7 +161,7 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
 	DJV_LOG("djvGlxContextPrivate", "Checking for GLX...");
 	
-    if (! glXQueryExtension(_display, 0, 0))
+    if (! glXQueryExtension(_p->display, 0, 0))
     {
         throw djvError(
             "djvGlxContextPrivate",
@@ -142,20 +173,20 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 	DJV_LOG("djvGlxContextPrivate", "Creating dummy window...");
 
     XSetWindowAttributes winAttrib;
-    winAttrib.colormap     = _colormap;
+    winAttrib.colormap     = _p->colormap;
     winAttrib.border_pixel = 0;
 
-    _window = XCreateWindow(
-        _display,
-        RootWindow(_display, _screen),
+    _p->window = XCreateWindow(
+        _p->display,
+        RootWindow(_p->display, _p->screen),
         0, 0, 1, 1, 0,
         visualInfo.depth,
         InputOutput,
-        _visuals[0].visual,
+        _p->visuals[0].visual,
         CWColormap | CWBorderPixel,
         &winAttrib);
 
-    if (! _window)
+    if (! _p->window)
     {
         throw djvError(
             "djvGlxContextPrivate",
@@ -166,13 +197,13 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
 
 	DJV_LOG("djvGlxContextPrivate", "Creating OpenGL context...");
 
-    _context = glXCreateContext(
-        _display,
-        &_visuals[0],
+    _p->context = glXCreateContext(
+        _p->display,
+        &_p->visuals[0],
         0,
         True);
 
-    if (! _context)
+    if (! _p->context)
     {
         throw djvError(
             "djvGlxContextPrivate",
@@ -220,42 +251,50 @@ djvGlxContextPrivate::djvGlxContextPrivate() throw (djvError) :
             "djvGlxContextPrivate",
             errorLabels()[ERROR_NO_FBO]);
     }
+
+#   endif // DJV_LINUX
 }
 
 djvGlxContextPrivate::~djvGlxContextPrivate()
 {
+#   if defined(DJV_LINUX)
+
     //DJV_DEBUG("djvGlxContextPrivate::~djvGlxContextPrivate");
 
-    if (_context)
+    if (_p->context)
     {
         //DJV_DEBUG_PRINT("context");
 
-        glXDestroyContext(_display, _context);
+        glXDestroyContext(_p->display, _p->context);
     }
 
-    if (_window)
+    if (_p->window)
     {
         //DJV_DEBUG_PRINT("window");
 
-        XDestroyWindow(_display, _window);
+        XDestroyWindow(_p->display, _p->window);
     }
 
-    if (_colormap)
+    if (_p->colormap)
     {
-        XFreeColormap(_display, _colormap);
+        XFreeColormap(_p->display, _p->colormap);
     }
 
-    if (_visuals)
+    if (_p->visuals)
     {
-        XFree(_visuals);
+        XFree(_p->visuals);
     }
 
-    if (_display)
+    if (_p->display)
     {
         //DJV_DEBUG_PRINT("display");
 
-        XCloseDisplay(_display);
+        XCloseDisplay(_p->display);
     }
+
+#   endif // DJV_LINUX
+    
+    delete _p;
 }
 
 const QStringList & djvGlxContextPrivate::errorLabels()
@@ -279,7 +318,9 @@ const QStringList & djvGlxContextPrivate::errorLabels()
 
 void djvGlxContextPrivate::bind() throw (djvError)
 {
-    if (! _context)
+#   if defined(DJV_LINUX)
+
+    if (! _p->context)
     {
         throw djvError(
             "djvGlxContextPrivate",
@@ -288,18 +329,24 @@ void djvGlxContextPrivate::bind() throw (djvError)
 
     //DJV_DEBUG("djvGlxContextPrivate::bind");
 
-    if (! glXMakeCurrent(_display, _window, _context))
+    if (! glXMakeCurrent(_p->display, _p->window, _p->context))
     {
         throw djvError(
             "djvGlxContextPrivate",
             errorLabels()[ERROR_BIND_CONTEXT]);
     }
+
+#   endif // DJV_LINUX
 }
 
 void djvGlxContextPrivate::unbind()
 {
+#   if defined(DJV_LINUX)
+
     //DJV_DEBUG("djvGlxContextPrivate::unbind");
 
-    glXMakeCurrent(_display, 0, 0);
+    glXMakeCurrent(_p->display, 0, 0);
+
+#   endif // DJV_LINUX
 }
 

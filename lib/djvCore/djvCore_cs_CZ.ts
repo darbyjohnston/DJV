@@ -386,32 +386,32 @@ Volby pro OpenGL
 <context>
     <name>djvCglContextPrivate</name>
     <message>
-        <location filename="djvCglContextPrivate.cpp" line="180"/>
+        <location filename="djvCglContextPrivate.cpp" line="215"/>
         <source>Cannot get pixel format: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCglContextPrivate.cpp" line="181"/>
+        <location filename="djvCglContextPrivate.cpp" line="216"/>
         <source>Cannot create OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCglContextPrivate.cpp" line="182"/>
+        <location filename="djvCglContextPrivate.cpp" line="217"/>
         <source>Cannot initialize GLEW: #%1</source>
         <translation type="unfinished">Nelze spustit GLEW: #%1</translation>
     </message>
     <message>
-        <location filename="djvCglContextPrivate.cpp" line="183"/>
+        <location filename="djvCglContextPrivate.cpp" line="218"/>
         <source>No OpenGL FBO support</source>
         <translation type="unfinished">Žádná podpora OpenGL FBO</translation>
     </message>
     <message>
-        <location filename="djvCglContextPrivate.cpp" line="184"/>
+        <location filename="djvCglContextPrivate.cpp" line="219"/>
         <source>Invalid OpenGL context</source>
         <translation type="unfinished">Neplatný kontext OpenGL</translation>
     </message>
     <message>
-        <location filename="djvCglContextPrivate.cpp" line="185"/>
+        <location filename="djvCglContextPrivate.cpp" line="220"/>
         <source>Cannot bind OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -589,44 +589,54 @@ Volby pro OpenGL
 <context>
     <name>djvGlxContextPrivate</name>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="303"/>
         <source>Cannot open X display</source>
-        <translation type="vanished">Nelze otevřít zobrazení X</translation>
+        <translation>Nelze otevřít zobrazení X</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="304"/>
         <source>No appropriate X visuals</source>
-        <translation type="vanished">Žádné vhodné názorné pomůcky X</translation>
+        <translation>Žádné vhodné názorné pomůcky X</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="305"/>
         <source>Cannot create X colormap</source>
-        <translation type="vanished">Nelze vytvořit mapu barev X</translation>
+        <translation>Nelze vytvořit mapu barev X</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="306"/>
         <source>No GLX extension</source>
-        <translation type="vanished">Žádné rozšíření GLX</translation>
+        <translation>Žádné rozšíření GLX</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="307"/>
         <source>Cannot create an X window</source>
-        <translation type="vanished">Nelze vytvořit okno X</translation>
+        <translation>Nelze vytvořit okno X</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="308"/>
         <source>Cannot create OpenGL context</source>
-        <translation type="vanished">Nelze vytvořit kontext OpenGL</translation>
+        <translation>Nelze vytvořit kontext OpenGL</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="309"/>
         <source>Cannot initialize GLEW: #%1</source>
-        <translation type="vanished">Nelze spustit GLEW: #%1</translation>
+        <translation>Nelze spustit GLEW: #%1</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="310"/>
         <source>No OpenGL FBO support</source>
-        <translation type="vanished">Žádná podpora OpenGL FBO</translation>
+        <translation>Žádná podpora OpenGL FBO</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="311"/>
         <source>Invalid OpenGL context</source>
-        <translation type="vanished">Neplatný kontext OpenGL</translation>
+        <translation>Neplatný kontext OpenGL</translation>
     </message>
     <message>
+        <location filename="djvGlxContextPrivate.cpp" line="312"/>
         <source>Cannot bind OpenGL context</source>
-        <translation type="vanished">Nelze navázat kontext OpenGL</translation>
+        <translation>Nelze navázat kontext OpenGL</translation>
     </message>
 </context>
 <context>
@@ -1162,6 +1172,59 @@ Volby pro OpenGL
         <location filename="djvTime.cpp" line="313"/>
         <source>Frames</source>
         <translation>Snímky</translation>
+    </message>
+</context>
+<context>
+    <name>djvWglContextPrivate</name>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="300"/>
+        <source>Cannot get module handle: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="301"/>
+        <source>Cannot register class: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="302"/>
+        <source>Cannot create window: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="303"/>
+        <source>Cannot get DC: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="304"/>
+        <source>Cannot get pixel format: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="305"/>
+        <source>Cannot set pixel format: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="306"/>
+        <source>Cannot create OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="307"/>
+        <source>Cannot bind OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="308"/>
+        <source>Cannot initialize GLEW: #%1</source>
+        <translation type="unfinished">Nelze spustit GLEW: #%1</translation>
+    </message>
+    <message>
+        <location filename="djvWglContextPrivate.cpp" line="309"/>
+        <source>Cannot unbind OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

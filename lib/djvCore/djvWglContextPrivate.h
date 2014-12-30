@@ -89,9 +89,8 @@ protected:
 
 private:
 
-    HWND  _id;
-    HDC   _device;
-    HGLRC _context;
+    DJV_PRIVATE_COPY(djvWglContextPrivate);
+    DJV_PRIVATE_IMPLEMENTATION();
 
     friend class djvOpenGlContextFactory;
 };

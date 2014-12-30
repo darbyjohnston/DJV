@@ -38,9 +38,15 @@
 
 #include <QCoreApplication>
 
+#if defined (DJV_OSX)
+#include <OpenGL/OpenGL.h>
+#endif // DJV_OSX
+
 //------------------------------------------------------------------------------
 // PixelFormat
 //------------------------------------------------------------------------------
+
+#if defined (DJV_OSX)
 
 namespace
 {
@@ -93,13 +99,34 @@ private:
 
 } // namespace
 
+#endif // DJV_OSX
+
+//------------------------------------------------------------------------------
+// djvCglContextPrivate::P
+//------------------------------------------------------------------------------
+
+struct djvCglContextPrivate::P
+{
+#   if defined (DJV_OSX)
+
+    P() :
+        context(0)
+    {}
+    
+    CGLContextObj context;
+
+#endif
+};
+
 //------------------------------------------------------------------------------
 // djvCglContextPrivate
 //------------------------------------------------------------------------------
 
 djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
-    _context(0)
+    _p(new P)
 {
+#   if defined (DJV_OSX)
+
     //DJV_DEBUG("djvCglContextPrivate::djvCglContextPrivate");
 
     // Create the pixel format.
@@ -110,9 +137,9 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
 	DJV_LOG("djvCglContextPrivate", "Creating OpenGL context...");
 
-    CGLError error = CGLCreateContext(pixelFormat.format(), 0, &_context);
+    CGLError error = CGLCreateContext(pixelFormat.format(), 0, &_p->context);
 
-    if (error != kCGLNoError || ! _context)
+    if (error != kCGLNoError || ! _p->context)
     {
         throw djvError(
             "djvCglContextPrivate",
@@ -160,18 +187,26 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
             "djvCglContextPrivate",
             errorLabels()[ERROR_NO_FBO]);
     }
+
+#   endif // DJV_OSX
 }
 
 djvCglContextPrivate::~djvCglContextPrivate()
 {
+#   if defined (DJV_OSX)
+
     //DJV_DEBUG("djvCglContextPrivate::~djvCglContextPrivate");
 
-    if (_context)
+    if (_p->context)
     {
         //DJV_DEBUG_PRINT("context");
 
-        CGLDestroyContext(_context);
+        CGLDestroyContext(_p->context);
     }
+    
+    delete _p;
+
+#   endif // DJV_OSX
 }
 
 const QStringList & djvCglContextPrivate::errorLabels()
@@ -191,7 +226,9 @@ const QStringList & djvCglContextPrivate::errorLabels()
 
 void djvCglContextPrivate::bind() throw (djvError)
 {
-    if (! _context)
+#   if defined (DJV_OSX)
+
+    if (! _p->context)
     {
         throw djvError(
             "djvCglContextPrivate",
@@ -200,7 +237,7 @@ void djvCglContextPrivate::bind() throw (djvError)
 
     //DJV_DEBUG("djvCglContextPrivate::bind");
 
-    CGLError error = CGLSetCurrentContext(_context);
+    CGLError error = CGLSetCurrentContext(_p->context);
 
     if (error != kCGLNoError)
     {
@@ -208,11 +245,18 @@ void djvCglContextPrivate::bind() throw (djvError)
             "djvCglContextPrivate",
             errorLabels()[ERROR_BIND_CONTEXT].arg(error));
     }
+
+#   endif // DJV_OSX
 }
 
 void djvCglContextPrivate::unbind()
 {
+#   if defined (DJV_OSX)
+
     //DJV_DEBUG("djvCglContextPrivate::unbind");
 
     CGLSetCurrentContext(0);
+
+#   endif // DJV_OSX
 }
+
