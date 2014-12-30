@@ -48,7 +48,7 @@
 //!
 //! This class provides the base functionality for plugins.
 //!
-//! \todo Describe the plugin naming conventions.
+//! \todo Document the plugin naming conventions.
 //------------------------------------------------------------------------------
 
 class DJV_CORE_EXPORT djvPlugin

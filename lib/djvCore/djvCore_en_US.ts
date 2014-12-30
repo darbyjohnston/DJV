@@ -4,7 +4,7 @@
 <context>
     <name>djvAbstractCoreApplication</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="227"/>
+        <location filename="djvCoreApplication.cpp" line="218"/>
         <source>General
 
     Version: %1
@@ -29,7 +29,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="253"/>
+        <location filename="djvCoreApplication.cpp" line="244"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -116,52 +116,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="412"/>
+        <location filename="djvCoreApplication.cpp" line="403"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="419"/>
+        <location filename="djvCoreApplication.cpp" line="410"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="426"/>
+        <location filename="djvCoreApplication.cpp" line="417"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="434"/>
+        <location filename="djvCoreApplication.cpp" line="425"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="440"/>
+        <location filename="djvCoreApplication.cpp" line="431"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="441"/>
+        <location filename="djvCoreApplication.cpp" line="432"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="446"/>
+        <location filename="djvCoreApplication.cpp" line="437"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="451"/>
+        <location filename="djvCoreApplication.cpp" line="442"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="459"/>
+        <location filename="djvCoreApplication.cpp" line="450"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="492"/>
+        <location filename="djvCoreApplication.cpp" line="483"/>
         <source>
 General Options
 
@@ -183,7 +183,7 @@ General Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="528"/>
+        <location filename="djvCoreApplication.cpp" line="519"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -418,43 +418,43 @@ OpenGL Options
 <context>
     <name>djvFileIo</name>
     <message>
-        <location filename="djvFileIo.cpp" line="687"/>
+        <location filename="djvFileIo.cpp" line="680"/>
         <source>Cannot open file: &quot;%1&quot;</source>
         <oldsource>Cannot open file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="689"/>
+        <location filename="djvFileIo.cpp" line="682"/>
         <source>Cannot create file mapping: &quot;%1&quot; (%2)</source>
         <oldsource>Cannot create file mapping: %1 (%2)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="690"/>
+        <location filename="djvFileIo.cpp" line="683"/>
         <source>Cannot memory-map file: &quot;%1&quot; (%2)</source>
         <oldsource>Cannot memory-map file: %1 (%2)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="692"/>
+        <location filename="djvFileIo.cpp" line="685"/>
         <source>Cannot memory-map file: &quot;%1&quot;</source>
         <oldsource>Cannot memory-map file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="694"/>
+        <location filename="djvFileIo.cpp" line="687"/>
         <source>Error reading file: &quot;%1&quot;</source>
         <oldsource>Error reading file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="695"/>
+        <location filename="djvFileIo.cpp" line="688"/>
         <source>Error writing file: &quot;%1&quot;</source>
         <oldsource>Error writing file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileIo.cpp" line="696"/>
+        <location filename="djvFileIo.cpp" line="689"/>
         <source>Cannot set file position: &quot;%1&quot;</source>
         <oldsource>Cannot set file position: %1</oldsource>
         <translation type="unfinished"></translation>

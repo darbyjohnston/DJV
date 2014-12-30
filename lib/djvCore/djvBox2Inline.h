@@ -38,7 +38,8 @@
 //------------------------------------------------------------------------------
 
 //! \todo Is this specialization for integer box types correct?
-//! \todo These specializations need to come first on Windows (error C2908)?
+//! \todo Why do these specializations need to come first on Windows (error
+//! C2908)?
 
 template<>
 inline djvVector<int, 2> djvBox<int, 2>::lowerRight() const

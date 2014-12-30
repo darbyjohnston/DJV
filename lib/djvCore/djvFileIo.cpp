@@ -523,23 +523,16 @@ void djvFileIo::readAhead()
 
     ::madvise((void *)_p->mmapStart, _p->size, MADV_WILLNEED);
 
-#else
-
-    //! \todo Will this force a read-ahead with memory mapped files?
-
-    for (const quint8 * p = _p->mmapStart; p < _p->mmapEnd; p += 4096)
-    {
-        _p->mmapReadAhead = *p;
-    }
-
-#endif
+#endif // DJV_LINUX
 
 #else // DJV_MMAP
 
 #if defined(DJV_LINUX)
+
     ::posix_fadvise(_p->f, 0, _p->size, POSIX_FADV_NOREUSE);
     ::posix_fadvise(_p->f, 0, _p->size, POSIX_FADV_WILLNEED);
-#endif
+
+#endif // DJV_LINUX
 
 #endif // DJV_MMAP
 }

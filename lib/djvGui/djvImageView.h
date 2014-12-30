@@ -36,10 +36,7 @@
 
 #include <djvOpenGlWidget.h>
 
-#include <djvUtil.h>
-
-class djvOpenGlImageOptions;
-class djvPixelData;
+#include <djvOpenGlImage.h>
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -63,14 +60,12 @@ class DJV_GUI_EXPORT djvImageView : public djvOpenGlWidget
         NOTIFY               dataChanged)
     
     //! This property holds the image options.
-    //!
-    //! \todo Fix this property.
-    
-    /*Q_PROPERTY(
+
+    Q_PROPERTY(
         djvOpenGlImageOptions options
         READ                  options
         WRITE                 setOptions
-        NOTIFY                optionsChanged)*/
+        NOTIFY                optionsChanged)
     
     //! This property holds the view position.
     

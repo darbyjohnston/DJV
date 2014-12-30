@@ -45,8 +45,6 @@
 //! \class djvDebugLog
 //!
 //! This class provides a log for debugging.
-//!
-//! \todo Can we consolidate this with the functionality in djvDebug.h/.cpp?
 //------------------------------------------------------------------------------
 
 class DJV_CORE_EXPORT djvDebugLog : public QObject

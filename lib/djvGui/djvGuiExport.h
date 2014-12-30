@@ -40,9 +40,6 @@
 //! \defgroup djvGui djvGui
 //!
 //! This library provides user interface functionality.
-//!
-//! \todo Add example code.
-//! \todo Add string translation markup.
 
 //@} // lib
 

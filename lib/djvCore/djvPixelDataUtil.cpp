@@ -328,7 +328,7 @@ QPixmap djvPixelDataUtil::toQt(
 
     //! \todo It looks like when RGB_U10 is being converted to RGBA_U8
     //! the alpha channel is 0 instead of 255. This is a hack to work
-    //! around this issue but how do we fix the underlying problem?
+    //! around the issue but how do we fix the underlying problem?
 
     const bool alpha = pixelData.pixel() != djvPixel::RGB_U10;
 

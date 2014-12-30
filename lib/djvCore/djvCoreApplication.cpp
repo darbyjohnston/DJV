@@ -201,9 +201,6 @@ const QString & djvAbstractCoreApplication::name()
 
 QString djvAbstractCoreApplication::docPath() const
 {
-    //! \todo Allow the use of an optional environment variable to override
-    //! the default documentation path.
-    
     const QString docPath =
 #if defined(DJV_WINDOWS)
         "../doc";
@@ -215,12 +212,6 @@ QString djvAbstractCoreApplication::docPath() const
 
     return djvFileInfoUtil::fixPath(qApp->applicationDirPath() + "/" + docPath);
 }
-
-namespace
-{
-
-
-} // namespace
 
 QString djvAbstractCoreApplication::info() const
 {

@@ -358,7 +358,7 @@ public:
 
     //! Calculate the average color.
     //!
-    //! \todo GPU implementation.
+    //! \todo Use a GPU implementation.
 
     static void average(
         const djvPixelData &   input,
@@ -367,7 +367,7 @@ public:
 
     //! Calculate the histogram.
     //!
-    //! \todo GPU implementation.
+    //! \todo Use a GPU implementation.
 
     static void histogram(
         const djvPixelData &   input,

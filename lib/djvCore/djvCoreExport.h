@@ -40,9 +40,6 @@
 //! \defgroup djvCore djvCore
 //!
 //! This library provides core functionality.
-//!
-//! \todo Add example code.
-//! \todo Add string translation markup.
 
 //@} // lib
 

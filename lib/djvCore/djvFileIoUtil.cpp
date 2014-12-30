@@ -70,7 +70,7 @@ void djvFileIoUtil::word(djvFileIo & in, char * out, int maxLen) throw (djvError
         //DJV_DEBUG_PRINT("parse = " << parse);
         //DJV_DEBUG_PRINT("i = " << i);
 
-        // Get next character.
+        // Get the next character.
 
         quint8 c;
         in.get(&c, 1);
@@ -79,21 +79,25 @@ void djvFileIoUtil::word(djvFileIo & in, char * out, int maxLen) throw (djvError
 
         switch (c)
         {
-                // Start comment.
+                // Start of a comment.
 
             case '#':
+            
                 parse = COMMENT;
+                
                 break;
 
-                // End comment or word.
+                // End of a comment or word.
 
             case '\0':
             case '\n':
             case '\r':
+            
                 parse = WORD;
 
             case ' ':
             case '\t':
+            
                 if (out[0])
                 {
                     parse = END;
@@ -101,12 +105,14 @@ void djvFileIoUtil::word(djvFileIo & in, char * out, int maxLen) throw (djvError
 
                 break;
 
-                // Add character to word.
+                // Add the character to the word.
 
             default:
+            
                 if (WORD == parse && i < (maxLen - 1))
                 {
                     out[i++] = c;
+                    
                     //out[i] = 0;
                     //DJV_DEBUG_PRINT("out = \"" << out << "\"");
                 }
@@ -140,6 +146,7 @@ void djvFileIoUtil::line(djvFileIo & in, char * out, int maxLen) throw (djvError
             c != '\r')
         {
             out[i++] = c;
+            
             //DJV_DEBUG_PRINT(QString(out, i));
         }
     }

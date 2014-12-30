@@ -40,9 +40,6 @@
 //! \defgroup djvViewLib djvViewLib
 //!
 //! This library provides functionality for the djv_view application.
-//!
-//! \todo Add example code.
-//! \todo Add string translation markup.
 
 //@} // lib
 
