@@ -1,0 +1,53 @@
+Introduction
+    Description
+    User Interface Overview
+
+Files
+    File Sequences
+    Opening Files
+    Saving Files
+    File Layers
+    Proxy Scaling
+    8-Bit Conversion
+    Memory Cache
+
+Windows
+    Opening and Closing Windows
+    Resizing Windows
+    Full Screen Mode
+    Window Controls
+
+Views
+    View Navigation
+    Grid
+    Heads Up Display (HUD)
+
+Images
+    Frame Store
+    Image Transforms
+    Color and Display Profiles
+    Image Channels
+
+Playback
+    Playback Controls
+    Frame Controls
+    In and Out Points
+    Playback Speed
+    Playback Layout
+    Frames and Timecode
+
+Tools
+    Magnify
+    Color Picker
+    Histogram
+    Information
+
+Miscellaneous
+    Reporting Bugs
+    Requesting Features
+    Online Resources
+    Command Line
+
+Troubleshooting
+    Problems Opening Files
+    QuickTime and Movie Files
