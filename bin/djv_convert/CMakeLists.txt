@@ -5,9 +5,13 @@ set(source
     djv_convert.cpp)
 
 if (Qt5Core_DIR)
-    QT5_CREATE_TRANSLATION(qmSource ${source} djv_convert_en_US.ts)
+    QT5_CREATE_TRANSLATION(qmSource ${source}
+        djv_convert_en_US.ts
+        djv_convert_cs_CZ.ts)
 else()
-    QT4_CREATE_TRANSLATION(qmSource ${source} djv_convert_en_US.ts)
+    QT4_CREATE_TRANSLATION(qmSource ${source}
+        djv_convert_en_US.ts
+        djv_convert_cs_CZ.ts)
 endif()
 
 include_directories(

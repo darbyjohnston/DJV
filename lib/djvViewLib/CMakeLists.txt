@@ -131,10 +131,14 @@ set(source
 
 if (Qt5Core_DIR)
     QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
-    QT5_CREATE_TRANSLATION(qmSource ${source} djvViewLib_en_US.ts)
+    QT5_CREATE_TRANSLATION(qmSource ${source}
+        djvViewLib_en_US.ts
+        djvViewLib_cs_CZ.ts)
 else()
     QT4_ADD_RESOURCES(rccSource djvViewLib.qrc)
-    QT4_CREATE_TRANSLATION(qmSource ${source} djvViewLib_en_US.ts)
+    QT4_CREATE_TRANSLATION(qmSource ${source}
+        djvViewLib_en_US.ts
+        djvViewLib_cs_CZ.ts)
 endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/djvViewLib ${djvGuiIncludeDirs})
