@@ -135,6 +135,9 @@ struct DJV_CORE_EXPORT djvImageIoFrameInfo
 //! \class djvImageLoad
 //!
 //! This class provides the base functionality for image loading.
+//!
+//! \todo Add comments about ensuring loaders are thread safe (ie. don't use
+//! OpenGL functionality, debug logging, etc.).
 //------------------------------------------------------------------------------
 
 class DJV_CORE_EXPORT djvImageLoad
