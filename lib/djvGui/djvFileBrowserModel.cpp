@@ -53,9 +53,10 @@
 
 #include <QAbstractItemView>
 #include <QDateTime>
+#include <QFutureWatcher>
 #include <QMimeData>
-#include <QPair>
 #include <QPixmap>
+#include <QtConcurrent/QtConcurrent>
 
 //------------------------------------------------------------------------------
 // djvFileBrowserItem
@@ -65,36 +66,45 @@ class djvFileBrowserItem
 {
 public:
 
-    djvFileBrowserItem(
-        const djvFileInfo &             fileInfo       = djvFileInfo(),
-        djvFileBrowserModel::THUMBNAILS thumbnails     =
-        static_cast<djvFileBrowserModel::THUMBNAILS>(0),
-            int                         thumbnailsSize = 0);
+    //! Constructor.
+    
+    djvFileBrowserItem(const djvFileInfo & fileInfo = djvFileInfo());
 
     //! Get the file information.
 
     const djvFileInfo & fileInfo() const;
 
-    //! Initialize the image I/O.
+    //! Get whether the image information has been requested.
+    
+    bool hasImageInfoRequest() const;
+    
+    //! Set that the image information has been requesetd.
+    
+    void setImageInfoRequest();
+    
+    //! Set the image information.
+    
+    void setImageInfo(
+        const djvImageIoInfo &          info,
+        djvFileBrowserModel::THUMBNAILS thumbnails,
+        int                             thumbnailsSize);
 
-    void imageIoInit();
+    //! Get the proxy scale.
+    
+    djvPixelDataInfo::PROXY proxy() const;
 
-    //! Get whether the image I/O has been initialized.
-
-    bool isImageIoInit() const;
-
-    //! Get whether the image I/O is valid.
-
-    bool isImageIoValid() const;
-
-    //! Load the image.
-
-    void loadImage();
-
-    //! Get whether the image is loaded.
-
-    bool isImageLoaded() const;
-
+    //! Get whether the image has been requested.
+    
+    bool hasImageRequest() const;
+    
+    //! Set that the image has been requesetd.
+    
+    void setImageRequest();
+    
+    //! Set the image.
+    
+    void setImage(const djvImage & image);
+    
     //! Get the thumbnail image.
 
     const QPixmap & thumbnail() const;
@@ -110,41 +120,33 @@ public:
 private:
 
     djvFileInfo                     _fileInfo;
+    bool                            _imageInfoRequest;
+    bool                            _imageRequest;
     djvFileBrowserModel::THUMBNAILS _thumbnails;
-    int                             _thumbnailsSize;
-
-    bool                    _imageIoInit;
-    bool                    _imageIoValid;
-    djvImageIoInfo          _imageIoInfo;
-    bool                    _imageLoaded;
-    djvPixelDataInfo::PROXY _proxy;
-    QPixmap                 _thumbnail;
+    QPixmap                         _thumbnail;
+    djvPixelDataInfo::PROXY         _proxy;
 
     QVariant _displayRole[djvFileBrowserModel::COLUMNS_COUNT];
-    QVariant _editRole[djvFileBrowserModel::COLUMNS_COUNT];
+    QVariant _editRole   [djvFileBrowserModel::COLUMNS_COUNT];
 };
 
-djvFileBrowserItem::djvFileBrowserItem(
-    const djvFileInfo &             fileInfo,
-    djvFileBrowserModel::THUMBNAILS thumbnails,
-    int                             thumbnailsSize) :
-    _fileInfo      (fileInfo),
-    _thumbnails    (thumbnails),
-    _thumbnailsSize(thumbnailsSize),
-    _imageIoInit   (false),
-    _imageIoValid  (false),
-    _imageLoaded   (false),
-    _proxy         (static_cast<djvPixelDataInfo::PROXY>(0))
+djvFileBrowserItem::djvFileBrowserItem(const djvFileInfo & fileInfo) :
+    _fileInfo        (fileInfo),
+    _imageInfoRequest(false),
+    _imageRequest    (false),
+    _thumbnails      (static_cast<djvFileBrowserModel::THUMBNAILS>(0)),
+    _proxy           (static_cast<djvPixelDataInfo::PROXY>(0))
 {
     // Initialize the display role data.
 
-    _displayRole[djvFileBrowserModel::NAME] = fileInfo.name();
+    _displayRole[djvFileBrowserModel::NAME] =
+        fileInfo.name();
     _displayRole[djvFileBrowserModel::SIZE] =
         djvMemory::sizeLabel(fileInfo.size());
 #if ! defined(DJV_WINDOWS)
     _displayRole[djvFileBrowserModel::USER] =
         djvUser::uidToString(fileInfo.user());
-#endif
+#endif // DJV_WINDOWS
     _displayRole[djvFileBrowserModel::PERMISSIONS] =
         djvFileInfo::permissionsLabel(fileInfo.permissions());
     _displayRole[djvFileBrowserModel::TIME] =
@@ -153,23 +155,37 @@ djvFileBrowserItem::djvFileBrowserItem(
     // Initialize the edit role data.
 
     _editRole[djvFileBrowserModel::NAME].setValue<djvFileInfo>(fileInfo);
-    _editRole[djvFileBrowserModel::SIZE] = fileInfo.size();
+    _editRole[djvFileBrowserModel::SIZE] =
+        fileInfo.size();
 #if ! defined(DJV_WINDOWS)
-    _editRole[djvFileBrowserModel::USER] = fileInfo.user();
-#endif
-    _editRole[djvFileBrowserModel::PERMISSIONS] = fileInfo.permissions();
-    _editRole[djvFileBrowserModel::TIME] = QDateTime::fromTime_t(fileInfo.time());
+    _editRole[djvFileBrowserModel::USER] =
+        fileInfo.user();
+#endif // DJV_WINDOWS
+    _editRole[djvFileBrowserModel::PERMISSIONS] =
+        fileInfo.permissions();
+    _editRole[djvFileBrowserModel::TIME] =
+        QDateTime::fromTime_t(fileInfo.time());
 }
 
 const djvFileInfo & djvFileBrowserItem::fileInfo() const
 {
     return _fileInfo;
 }
+    
+bool djvFileBrowserItem::hasImageInfoRequest() const
+{
+    return _imageInfoRequest;
+}
+
+void djvFileBrowserItem::setImageInfoRequest()
+{
+    _imageInfoRequest = true;
+}
 
 namespace
 {
 
-djvVector2i thumbnailsSize(
+djvVector2i _thumbnailsSize(
     djvFileBrowserModel::THUMBNAILS thumbnails,
     const djvVector2i &             in,
     int                             size,
@@ -208,135 +224,85 @@ djvVector2i thumbnailsSize(
 
 } // namespace
 
-void djvFileBrowserItem::imageIoInit()
+void djvFileBrowserItem::setImageInfo(
+    const djvImageIoInfo &          info,
+    djvFileBrowserModel::THUMBNAILS thumbnails,
+    int                             thumbnailsSize)
 {
-    if (! _imageIoInit)
-    {
-        //DJV_DEBUG("djvFileBrowserItem::imageIoInfo");
+    //DJV_DEBUG("djvFileBrowserItem::setImageInfo");
+    //DJV_DEBUG_PRINT("info = " << info);
+    
+    _thumbnails = thumbnails;
+    
+    _displayRole[djvFileBrowserModel::NAME] =
+        QString("%1\n%2x%3:%4 %5\n%6@%7").
+            arg(_fileInfo.name()).
+            arg(info.size.x).
+            arg(info.size.y).
+            arg(djvVectorUtil::aspect(info.size), 0, 'f', 2).
+            arg(djvStringUtil::label(info.pixel).join(", ")).
+            arg(djvTime::frameToString(
+                info.sequence.frames.count(),
+                info.sequence.speed)).
+            arg(djvSpeed::speedToFloat(info.sequence.speed));
 
-        QScopedPointer<djvImageLoad> load;
+    const djvVector2i size = _thumbnailsSize(
+        _thumbnails, info.size, thumbnailsSize, &_proxy);
 
-        try
-        {
-            load.reset(djvImageIoFactory::global()->load(_fileInfo, _imageIoInfo));
-        }
-        catch (const djvError & error)
-        {
-        }
+    //DJV_DEBUG_PRINT("size = " << size);
+    //DJV_DEBUG_PRINT("proxy = " << _proxy);
 
-        if (load.data())
-        {
-            //DJV_DEBUG_PRINT("info = " << _imageIoInfo);
-            
-            _displayRole[djvFileBrowserModel::NAME] =
-                QString("%1\n%2x%3:%4 %5\n%6@%7").
-                    arg(_fileInfo.name()).
-                    arg(_imageIoInfo.size.x).
-                    arg(_imageIoInfo.size.y).
-                    arg(djvVectorUtil::aspect(_imageIoInfo.size), 0, 'f', 2).
-                    arg(djvStringUtil::label(_imageIoInfo.pixel).join(", ")).
-                    arg(djvTime::frameToString(
-                        _imageIoInfo.sequence.frames.count(),
-                        _imageIoInfo.sequence.speed)).
-                    arg(djvSpeed::speedToFloat(_imageIoInfo.sequence.speed));
-
-            const djvVector2i size = thumbnailsSize(
-                _thumbnails, _imageIoInfo.size, _thumbnailsSize, &_proxy);
-
-            //DJV_DEBUG_PRINT("size = " << size);
-            //DJV_DEBUG_PRINT("proxy = " << _proxy);
-
-            _thumbnail = QPixmap(size.x, size.y);
-            _thumbnail.fill(Qt::transparent);
-
-            _imageIoValid = true;
-        }
-
-        _imageIoInit = true;
-    }
+    _thumbnail = QPixmap(size.x, size.y);
+    _thumbnail.fill(Qt::transparent);
 }
 
-bool djvFileBrowserItem::isImageIoInit() const
+djvPixelDataInfo::PROXY djvFileBrowserItem::proxy() const
 {
-    return _imageIoInit;
+    return _proxy;
 }
 
-bool djvFileBrowserItem::isImageIoValid() const
+bool djvFileBrowserItem::hasImageRequest() const
 {
-    return _imageIoValid;
+    return _imageRequest;
 }
 
-void djvFileBrowserItem::loadImage()
+void djvFileBrowserItem::setImageRequest()
 {
-    //DJV_DEBUG("djvFileBrowserItem::loadImage");
-    //DJV_DEBUG_PRINT("file = " << _fileInfo);
+    _imageRequest = true;
+}
+
+void djvFileBrowserItem::setImage(const djvImage & image)
+{
+    //DJV_DEBUG("djvFileBrowserItem::setImage");
+    //DJV_DEBUG_PRINT("image = " << image);
     //DJV_DEBUG_PRINT("size = " << _thumbnail.width() << " " << _thumbnail.height());
-
-    djvFileBrowserCache * cache = djvFileBrowserCache::global();
-
-    if (cache->contains(_fileInfo))
-    {
-        //DJV_DEBUG_PRINT("cached");
-        
-        _thumbnail = *(cache->object(_fileInfo));
-
-        _imageLoaded = true;
-        
-        return;
-    }
 
     try
     {
         //qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
 
-        // Get the image I/O load plugin.
+        // Scale the image.
         
-        QScopedPointer<djvImageLoad> load(
-            djvImageIoFactory::global()->load(_fileInfo, _imageIoInfo));
+        djvImage tmp(djvPixelDataInfo(
+            djvVector2i(_thumbnail.width(), _thumbnail.height()),
+            image.pixel()));
 
-        if (load.data())
+        djvOpenGlImageOptions options;
+
+        options.xform.scale =
+            djvVector2f(tmp.size()) /
+            (djvVector2f(image.size() * djvPixelDataUtil::proxyScale(image.info().proxy)));
+
+        options.colorProfile = image.colorProfile;
+        
+        if (djvFileBrowserModel::THUMBNAILS_HIGH == _thumbnails)
         {
-            //DJV_DEBUG_PRINT("info = " << _imageIoInfo);
-
-            // Read the image.
-            
-            djvImage image;
-
-            load->read(image, djvImageIoFrameInfo(-1, 0, _proxy));
-
-            //DJV_DEBUG_PRINT("image = " << image);
-
-            // Scale the image.
-            
-            djvImage tmp(djvPixelDataInfo(
-                djvVector2i(_thumbnail.width(), _thumbnail.height()), _imageIoInfo.pixel));
-
-            djvOpenGlImageOptions options;
-
-            options.xform.scale =
-                djvVector2f(tmp.size()) /
-                (djvVector2f(image.size() * djvPixelDataUtil::proxyScale(image.info().proxy)));
-
-            options.colorProfile = image.colorProfile;
-            
-            if (djvFileBrowserModel::THUMBNAILS_HIGH == _thumbnails)
-            {
-                options.filter = djvOpenGlImageFilter::filterHighQuality();
-            }
-
-            djvOpenGlImage::copy(image, tmp, options);
-
-            _thumbnail = djvPixelDataUtil::toQt(tmp);
-
-            _imageLoaded = true;
-            
-            cache->insert(
-                _fileInfo,
-                new QPixmap(_thumbnail),
-                _thumbnail.width() * _thumbnail.height() * 4);
-
-            //DJV_DEBUG_PRINT("cache size = " << cache->totalCost());
+            options.filter = djvOpenGlImageFilter::filterHighQuality();
         }
+
+        djvOpenGlImage::copy(image, tmp, options);
+
+        _thumbnail = djvPixelDataUtil::toQt(tmp);
 
         //qApp->restoreOverrideCursor();
     }
@@ -344,11 +310,6 @@ void djvFileBrowserItem::loadImage()
     {
         DJV_LOG("djvFileBrowserItem", djvErrorUtil::format(error).join("\n"));
     }
-}
-
-bool djvFileBrowserItem::isImageLoaded() const
-{
-    return _imageLoaded;
 }
 
 const QPixmap & djvFileBrowserItem::thumbnail() const
@@ -380,8 +341,7 @@ struct djvFileBrowserModel::P
         sortDirsFirst      (true),
         thumbnails         (THUMBNAILS_HIGH),
         thumbnailsSize     (THUMBNAILS_MEDIUM),
-        view               (0),
-        thumbnailQueueTimer(-1)
+        view               (0)
     {}
     
     QString               path;
@@ -395,14 +355,10 @@ struct djvFileBrowserModel::P
     THUMBNAILS_SIZE       thumbnailsSize;
     QAbstractItemView *   view;
     
-    djvFileInfoList                     list;
-    djvFileInfoList                     listTmp;
-    mutable QVector<djvFileBrowserItem> items;
-
-    typedef QPair<int, QModelIndex> Pair;
+    djvFileInfoList list;
+    djvFileInfoList listTmp;
     
-    mutable QVector<Pair> thumbnailQueue;
-    mutable int           thumbnailQueueTimer;
+    mutable QVector<djvFileBrowserItem> items;
 };
 
 //------------------------------------------------------------------------------
@@ -575,6 +531,147 @@ QVariant djvFileBrowserModel::headerData(
     return QVariant();
 }
 
+namespace
+{
+
+struct ImageIoInfo
+{
+    ImageIoInfo() :
+        item (0),
+        row  (0),
+        valid(false)
+    {}
+    
+    djvFileBrowserItem * item;
+    int                  row;
+    bool                 valid;
+    djvImageIoInfo       info;
+};
+
+ImageIoInfo imageIoInfo(
+    djvFileBrowserItem * item,
+    int                  row,
+    const djvFileInfo &  fileInfo)
+{
+    //DJV_DEBUG("imageIoInfo");
+    
+    ImageIoInfo out;
+    out.item = item;
+    out.row  = row;
+    
+    try
+    {
+        QScopedPointer<djvImageLoad> load(
+            djvImageIoFactory::global()->load(fileInfo, out.info));
+        
+        out.valid = true;
+    }
+    catch (const djvError & error)
+    {}
+
+    return out;
+}
+
+struct Image
+{
+    Image() :
+        item (0),
+        row  (0),
+        valid(false)
+    {}
+    
+    djvFileBrowserItem * item;
+    int                  row;
+    bool                 valid;
+    djvImage             image;
+};
+
+Image imageLoad(
+    djvFileBrowserItem *    item,
+    int                     row,
+    const djvFileInfo &     fileInfo,
+    djvPixelDataInfo::PROXY proxy)
+{
+    Image out;
+    out.item = item;
+    out.row  = row;
+    
+    try
+    {
+        djvImageIoInfo imageIoInfo;
+        
+        QScopedPointer<djvImageLoad> load(
+            djvImageIoFactory::global()->load(fileInfo, imageIoInfo));
+        
+        load->read(out.image, djvImageIoFrameInfo(-1, 0, proxy));
+
+        out.valid = true;
+    }
+    catch (const djvError & error)
+    {}
+
+    return out;
+}
+
+} // namespace
+
+void djvFileBrowserModel::imageIoInfoCallback()
+{
+    //DJV_DEBUG("djvFileBrowserModel::imageIoInfoCallback");
+    
+    QFutureWatcher<ImageIoInfo> * watcher =
+        dynamic_cast<QFutureWatcher<ImageIoInfo> *>(sender());
+    
+    const QFuture<ImageIoInfo> & future = watcher->future();
+    
+    const ImageIoInfo & info = future.result();
+    
+    //DJV_DEBUG_PRINT("info = " << info.info);
+    
+    if (info.row < _p->items.count() &&
+        info.item == &_p->items[info.row] &&
+        info.valid)
+    {
+        _p->items[info.row].setImageInfo(
+            info.info,
+            _p->thumbnails,
+            thumbnailsSizeValue(_p->thumbnailsSize));
+
+        const QModelIndex index = this->index(info.row, 0);
+
+        Q_EMIT dataChanged(index, index);
+    }
+    
+    watcher->deleteLater();
+}
+
+void djvFileBrowserModel::imageLoadCallback()
+{
+    //DJV_DEBUG("djvFileBrowserModel::imageLoadCallback");
+    
+    QFutureWatcher<Image> * watcher =
+        dynamic_cast<QFutureWatcher<Image> *>(sender());
+    
+    const QFuture<Image> & future = watcher->future();
+    
+    const Image & image = future.result();
+    
+    //DJV_DEBUG_PRINT("image = " << info.image);
+    
+    if (image.row < _p->items.count() &&
+        image.item == &_p->items[image.row] &&
+        image.valid)
+    {
+        _p->items[image.row].setImage(image.image);
+        
+        const QModelIndex index = this->index(image.row, 0);
+        
+        Q_EMIT dataChanged(index, index);
+    }
+    
+    watcher->deleteLater();
+}
+
 QVariant djvFileBrowserModel::data(
     const QModelIndex & index,
     int                 role) const
@@ -595,9 +692,9 @@ QVariant djvFileBrowserModel::data(
         column < 0 || column >= COLUMNS_COUNT)
         return QVariant();
     
-    djvFileBrowserItem * item = &_p->items[row];
+    djvFileBrowserItem & item = _p->items[row];
     
-    const djvFileInfo & fileInfo = item->fileInfo();
+    const djvFileInfo & fileInfo = item.fileInfo();
 
     static const QVector<QPixmap> pixmaps = QVector<QPixmap>() <<
         QPixmap(":djvFileIcon.png") <<
@@ -613,47 +710,48 @@ QVariant djvFileBrowserModel::data(
 
                     if (_p->thumbnails != THUMBNAILS_OFF)
                     {
-                        if (! item->isImageIoInit())
+                        if (! item.hasImageInfoRequest())
                         {
-                            const P::Pair pair(row, index);
-
-                            if (! _p->thumbnailQueue.contains(pair))
-                            {
-                                _p->thumbnailQueue += P::Pair(row, index);
-
-                                if (-1 == _p->thumbnailQueueTimer)
-                                {
-                                    _p->thumbnailQueueTimer =
-                                        const_cast<djvFileBrowserModel *>(this)->
-                                        startTimer(0);
-                                }
-                            }
-
-                            return pixmaps[fileInfo.type()];
+                            item.setImageInfoRequest();
+                        
+                            QFuture<ImageIoInfo> future = QtConcurrent::run(
+                                imageIoInfo,
+                                &item,
+                                row,
+                                item.fileInfo());
+                            
+                            QFutureWatcher<ImageIoInfo> * watcher =
+                                new QFutureWatcher<ImageIoInfo>;
+                            watcher->setFuture(future);
+                            
+                            connect(
+                                watcher,
+                                SIGNAL(finished()),
+                                SLOT(imageIoInfoCallback()));
                         }
-                        else
+                        else if (! item.hasImageRequest())
                         {
-                            if (item->isImageIoValid())
-                            {
-                                if (! item->isImageLoaded())
-                                {
-                                    const P::Pair pair(row, index);
+                            item.setImageRequest();
 
-                                    if (! _p->thumbnailQueue.contains(pair))
-                                    {
-                                        _p->thumbnailQueue += P::Pair(row, index);
-
-                                        if (-1 == _p->thumbnailQueueTimer)
-                                        {
-                                            _p->thumbnailQueueTimer =
-                                                const_cast<djvFileBrowserModel *>(this)->
-                                                startTimer(0);
-                                        }
-                                    }
-                                }
-
-                                return item->thumbnail();
-                            }
+                            QFuture<Image> future = QtConcurrent::run(
+                                imageLoad,
+                                &item,
+                                row,
+                                item.fileInfo(),
+                                item.proxy());
+                            
+                            QFutureWatcher<Image> * watcher =
+                                new QFutureWatcher<Image>;
+                            watcher->setFuture(future);
+                            
+                            connect(
+                                watcher,
+                                SIGNAL(finished()),
+                                SLOT(imageLoadCallback()));
+                        }
+                        else if (! item.thumbnail().isNull())
+                        {
+                            return item.thumbnail();
                         }
                     }
 
@@ -663,16 +761,16 @@ QVariant djvFileBrowserModel::data(
             }
             break;
         
-        case Qt::DisplayRole: return item->displayRole(column);
-        case Qt::EditRole:    return item->editRole(column);
+        case Qt::DisplayRole: return item.displayRole(column);
+        case Qt::EditRole:    return item.editRole(column);
 
         case Qt::SizeHintRole:
             
-            if (NAME == column && item->isImageIoValid())
+            if (NAME == column && ! item.thumbnail().isNull())
             {
                 const int margin = djvStyle::global()->sizeMetric().margin;
                 
-                return QSize(0, item->thumbnail().height() + margin * 2);
+                return QSize(0, item.thumbnail().height() + margin * 2);
             }
             
             break;
@@ -853,66 +951,6 @@ void djvFileBrowserModel::setThumbnailsSize(THUMBNAILS_SIZE size)
     Q_EMIT optionChanged();
 }
 
-void djvFileBrowserModel::timerEvent(QTimerEvent *)
-{
-    if (_p->view && _p->thumbnailQueue.count() > 0)
-    {
-        //DJV_DEBUG("djvFileBrowserModel::timerEvent");
-        //DJV_DEBUG_PRINT("count = " << _p->thumbnailQueue.count());
-
-        const QRect viewport(0, 0, _p->view->width(), _p->view->height());
-
-        //DJV_DEBUG_PRINT("viewport = " << djvBoxUtil::fromQt(viewport));
-
-        const P::Pair pair = _p->thumbnailQueue.first();
-
-        _p->thumbnailQueue.pop_front();
-
-        djvFileBrowserItem & item = _p->items[pair.first];
-
-        const QRect rect = _p->view->visualRect(pair.second);
-
-        //DJV_DEBUG_PRINT("rect = " << djvBoxUtil::fromQt(rect));
-
-        if (rect.intersects(viewport))
-        {
-            //DJV_DEBUG_PRINT("intersect");
-
-            if (! item.isImageIoInit())
-            {
-                item.imageIoInit();
-
-                if (item.isImageIoValid())
-                {
-                    Q_EMIT dataChanged(
-                        pair.second,
-                        pair.second);
-                        //QVector<int>() << Qt::DisplayRole << Qt::SizeHintRole);
-
-                    _p->thumbnailQueue += pair;
-                }
-            }
-            else
-            {
-                item.loadImage();
-            }
-
-            Q_EMIT dataChanged(
-                pair.second,
-                pair.second);
-                //QVector<int>() << Qt::DisplayRole);
-        }
-    }
-    else
-    {
-        killTimer(_p->thumbnailQueueTimer);
-
-        _p->thumbnailQueueTimer = -1;
-
-        _p->thumbnailQueue.clear();
-    }
-}
-
 void djvFileBrowserModel::dirUpdate()
 {
     //DJV_DEBUG("djvFileBrowserModel::dirUpdate");
@@ -990,10 +1028,7 @@ void djvFileBrowserModel::modelUpdate()
     
     for (int i = 0; i < _p->listTmp.count(); ++i)
     {
-        _p->items += djvFileBrowserItem(
-            _p->listTmp[i],
-            _p->thumbnails,
-            thumbnailsSizeValue(_p->thumbnailsSize));
+        _p->items += djvFileBrowserItem(_p->listTmp[i]);
     }
     
     endResetModel();

@@ -361,9 +361,10 @@ Q_SIGNALS:
     
     void optionChanged();
    
-protected:
+private Q_SLOTS:
 
-    virtual void timerEvent(QTimerEvent *);
+    void imageIoInfoCallback();
+    void imageLoadCallback();
 
 private:
 
