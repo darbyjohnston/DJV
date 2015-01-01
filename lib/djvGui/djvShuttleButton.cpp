@@ -167,7 +167,7 @@ void djvShuttleButton::mouseMoveEvent(QMouseEvent * event)
 
         update();
 
-        Q_EMIT valueChanged(djvMath::round<int>(_p->value / 5.0));
+        Q_EMIT valueChanged(djvMath::round(_p->value / 5.0));
     }
 }
 
@@ -179,7 +179,7 @@ void djvShuttleButton::paintEvent(QPaintEvent * event)
     
     // Draw the icon.
 
-    const int i = djvMath::mod(djvMath::round<int>(_p->value / 5.0), 8);
+    const int i = djvMath::mod(djvMath::round(_p->value / 5.0), 8);
     
     QIcon::Mode  mode  = QIcon::Normal;
     QIcon::State state = QIcon::Off;

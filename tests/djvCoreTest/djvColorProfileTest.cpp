@@ -115,7 +115,7 @@ void djvColorProfileTest::operators()
         QStringList s;
         s << exposure;
         
-        DJV_ASSERT(QStringList() << "1" << "2" << "3" << "4" == s);
+        DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4") == s);
     }
     
     {

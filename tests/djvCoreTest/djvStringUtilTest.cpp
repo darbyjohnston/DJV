@@ -173,7 +173,7 @@ void djvStringUtilTest::operators()
         
         tmp >> v;
         
-        DJV_ASSERT(QStringList() << "a" << "b" << "c" == v);
+        DJV_ASSERT((QStringList() << "a" << "b" << "c") == v);
     }
     
     {

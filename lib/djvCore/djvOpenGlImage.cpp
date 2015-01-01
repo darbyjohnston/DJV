@@ -646,7 +646,7 @@ void djvOpenGlImage::histogram(
     
     for (int i = 0; i < indexLutSize; ++i)
     {
-        indexLut[i] = djvMath::floor<int>(
+        indexLut[i] = djvMath::floor(
             i / static_cast<double>(indexLutSize - 1) * (size - 1));
     }
     

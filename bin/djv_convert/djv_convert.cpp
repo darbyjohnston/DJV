@@ -535,12 +535,12 @@ bool djvConvertApplication::work()
     {
         scaleSize = djvVector2i(
             _options.size.x,
-            djvMath::ceil<int>(_options.size.x / djvVectorUtil::aspect(loadInfo.size)));
+            djvMath::ceil(_options.size.x / djvVectorUtil::aspect(loadInfo.size)));
     }
     else if (_options.size.y)
     {
         scaleSize = djvVector2i(
-            djvMath::ceil<int>(_options.size.x * djvVectorUtil::aspect(loadInfo.size)),
+            djvMath::ceil(_options.size.x * djvVectorUtil::aspect(loadInfo.size)),
             _options.size.y);
     }
     else if (

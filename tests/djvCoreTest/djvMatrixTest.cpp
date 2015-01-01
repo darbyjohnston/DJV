@@ -482,10 +482,10 @@ void djvMatrixTest::operators()
         QStringList s;
         s << m;
         
-        DJV_ASSERT(QStringList() <<
+        DJV_ASSERT((QStringList() <<
             "0" << "1" << "2" <<
             "3" << "4" << "5" <<
-            "6" << "7" << "8" == s);
+            "6" << "7" << "8") == s);
     }
 }
 

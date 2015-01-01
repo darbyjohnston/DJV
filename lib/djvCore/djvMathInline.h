@@ -108,28 +108,6 @@ inline double djvMath::smoothStep(double value, double min, double max)
     return lerp(value * value * (3.0 - (2.0 * value)), min, max);
 }
 
-template<typename T>
-inline T djvMath::floor(double value)
-{
-    const T tmp = static_cast<T>(value);
-    
-    return tmp - (value < 0 && ! value != tmp);
-}
-
-template<typename T>
-inline T djvMath::ceil(double value)
-{
-    const T tmp = static_cast<T>(value);
-    
-    return tmp + (value > 0 && value != tmp);
-}
-
-template<typename T>
-T djvMath::round(double value)
-{
-    return static_cast<T>(value + 0.5);
-}
-
 inline double djvMath::fraction(double value)
 {
     return value - static_cast<int>(value);

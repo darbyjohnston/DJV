@@ -368,7 +368,7 @@ void djvColorTest::operators()
         QStringList s;
         s << color;
         
-        DJV_ASSERT(QStringList() << "RGB F32" << "1" << "0.5" << "0" == s);
+        DJV_ASSERT((QStringList() << "RGB F32" << "1" << "0.5" << "0") == s);
     }
     
     {

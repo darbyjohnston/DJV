@@ -911,7 +911,7 @@ void scaleContrib(
 
     // Initialize.
 
-    const int width = djvMath::ceil<int>(radius * 2.0 + 1.0);
+    const int width = djvMath::ceil(radius * 2.0 + 1.0);
 
     //DJV_DEBUG_PRINT("width = " << width);
 
@@ -922,8 +922,8 @@ void scaleContrib(
     for (int i = 0; i < output; ++i)
     {
         const double center = i / scale;
-        const int    left   = djvMath::ceil <int>(center - radius);
-        const int    right  = djvMath::floor<int>(center + radius);
+        const int    left   = djvMath::ceil (center - radius);
+        const int    right  = djvMath::floor(center + radius);
 
         //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 

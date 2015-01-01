@@ -172,7 +172,7 @@ djvSpeed djvSpeed::floatToSpeed(double value)
         }
     }
     
-    return djvSpeed(djvMath::round<int>(value));
+    return djvSpeed(djvMath::round(value));
 }
 
 djvSpeed::FPS djvSpeed::speedDefault()

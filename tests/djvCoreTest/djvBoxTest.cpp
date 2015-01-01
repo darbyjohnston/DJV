@@ -665,7 +665,7 @@ void djvBoxTest::operators()
         QStringList s;
         s << box;
         
-        DJV_ASSERT(QStringList() << "1" << "2" << "3" << "4" == s);
+        DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4") == s);
     }
     
     {
@@ -674,7 +674,7 @@ void djvBoxTest::operators()
         QStringList s;
         s << box;
         
-        DJV_ASSERT(QStringList() << "1" << "2" << "3" << "4" << "5" << "6" == s);
+        DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4" << "5" << "6") == s);
     }
     
     {

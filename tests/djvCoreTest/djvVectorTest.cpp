@@ -486,7 +486,7 @@ void djvVectorTest::operators()
         QStringList s;
         s << v;
         
-        DJV_ASSERT(QStringList() << "1" << "2" == s);
+        DJV_ASSERT((QStringList() << "1" << "2") == s);
     }
     
     {
@@ -495,7 +495,7 @@ void djvVectorTest::operators()
         QStringList s;
         s << v;
         
-        DJV_ASSERT(QStringList() << "1" << "2" << "3" == s);
+        DJV_ASSERT((QStringList() << "1" << "2" << "3") == s);
     }
 
     {

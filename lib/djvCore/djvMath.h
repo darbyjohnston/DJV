@@ -217,18 +217,15 @@ public:
 
     //! Round to the smallest integer value.
 
-    template<typename T>
-    static inline T floor(double);
+    static int floor(double);
 
     //! Round to the largest integer value.
 
-    template<typename T>
-    static inline T ceil(double);
+    static int ceil(double);
 
     //! Round to an integer value.
 
-    template<typename T>
-    static inline T round(double);
+    static int round(double);
 
     //! Get the value after the decimal.
 

@@ -450,7 +450,7 @@ void contribFnc(
     
     //DJV_DEBUG_PRINT("radius = " << radius);
 
-    const int width = djvMath::ceil<int>(radius * 2 + 1);
+    const int width = djvMath::ceil(radius * 2 + 1);
     
     //DJV_DEBUG_PRINT("width = " << width);
 
@@ -460,8 +460,8 @@ void contribFnc(
     {
         const double center = i / scale;
         
-        int left  = djvMath::ceil<int>(center - radius);
-        int right = djvMath::floor<int>(center + radius);
+        int left  = djvMath::ceil (center - radius);
+        int right = djvMath::floor(center + radius);
         
         //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 

@@ -866,7 +866,7 @@ qint64 djvViewFrameSlider::posToFrame(int pos) const
 
     const double v = pos / static_cast<double>(width() - fw);
     
-    return djvMath::floor<qint64>(v * end());
+    return static_cast<qint64>(v * end());
 }
 
 double djvViewFrameSlider::frameToPosF(qint64 frame) const

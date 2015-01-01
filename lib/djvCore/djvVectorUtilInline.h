@@ -194,7 +194,7 @@ inline djvVector<T2, D> djvVectorUtil::ceil(const djvVector<T, D> & in)
 
     for (int i = 0; i < in.dimension; ++i)
     {
-        out.e[i] = djvMath::ceil<T2>(in.e[i]);
+        out.e[i] = djvMath::ceil(in.e[i]);
     }
 
     return out;
@@ -207,7 +207,7 @@ inline djvVector<T2, D> djvVectorUtil::floor(const djvVector<T, D> & in)
 
     for (int i = 0; i < in.dimension; ++i)
     {
-        out.e[i] = djvMath::floor<T2>(in.e[i]);
+        out.e[i] = djvMath::floor(in.e[i]);
     }
 
     return out;

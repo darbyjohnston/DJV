@@ -128,7 +128,8 @@ void djvVectorUtilTest::convert()
     v2i = djvVectorUtil::floor<double, int, 2>(djvVector2f(0.5, 0.5));
     DJV_ASSERT(v2i == djvVector2i(0, 0));
 
-    DJV_ASSERT(QStringList() << "1" << "2" == djvStringUtil::label(djvVector2i(1, 2)));
+    DJV_ASSERT((QStringList() << "1" << "2") ==
+        djvStringUtil::label(djvVector2i(1, 2)));
 }
 
 

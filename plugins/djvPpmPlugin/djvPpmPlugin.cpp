@@ -128,7 +128,7 @@ quint64 djvPpmPlugin::scanlineByteCount(
             {
                 case 1:
                 
-                    out = djvMath::ceil<int>(width / 8.0);
+                    out = djvMath::ceil(width / 8.0);
                     
                     break;
 

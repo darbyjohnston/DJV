@@ -110,9 +110,9 @@ void djvMathTest::members()
     }
     
     {
-        DJV_ASSERT(1 == djvMath::floor<int>(1.5));
-        DJV_ASSERT(2 == djvMath::ceil <int>(1.5));
-        DJV_ASSERT(2 == djvMath::round<int>(1.5));
+        DJV_ASSERT(1 == djvMath::floor(1.5));
+        DJV_ASSERT(2 == djvMath::ceil (1.5));
+        DJV_ASSERT(2 == djvMath::round(1.5));
     }
     
     {

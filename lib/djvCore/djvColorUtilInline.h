@@ -73,7 +73,7 @@ inline void djvColorUtil::rgbToHsv(const double in[3], double out[3])
 inline void djvColorUtil::hsvToRgb(const double in[3], double out[3])
 {
     const double h = djvMath::mod(in[0] * 6.0, 6.0);
-    const int    i = djvMath::floor<int>(h);
+    const int    i = djvMath::floor(h);
     const double f = h - i;
     const double p = in[2] * (1.0 - in[1]);
     const double q = in[2] * (1.0 - (in[1] * f));
