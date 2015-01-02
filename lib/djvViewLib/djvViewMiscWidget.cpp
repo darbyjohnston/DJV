@@ -225,7 +225,7 @@ struct djvViewFrameWidget::P
 
 djvViewFrameWidget::djvViewFrameWidget(QWidget * parent) :
     QAbstractSpinBox(parent),
-_p(new P)
+    _p(new P)
 {
     // Initialize.
 
@@ -1040,7 +1040,6 @@ void djvViewFrameDisplay::widgetUpdate()
 
     _p->lineEdit->setText(_p->text);
 
-
     QPalette palette = this->palette();
     if (_p->inOutEnabled)
         palette.setColor(QPalette::Text, palette.color(QPalette::Highlight));
@@ -1332,7 +1331,7 @@ void djvViewSpeedDisplay::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->lineEdit);
 
-    QPalette palette(this->palette());
+    QPalette palette = this->palette();
     if (_p->droppedFrames)
         palette.setColor(QPalette::Text, palette.color(QPalette::Highlight));
     _p->lineEdit->setPalette(palette);
