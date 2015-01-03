@@ -1030,6 +1030,16 @@ const QString sourceVertex =
     "    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
     "}\n";
 
+const QString sourceClampNegative =
+    "    tmp[0] = max(tmp[0], 0.0);\n"
+    "    tmp[1] = max(tmp[1], 0.0);\n"
+    "    tmp[2] = max(tmp[2], 0.0);\n";
+
+const QString sourceGamma =
+    "    tmp[0] = pow(tmp[0], data.gamma);\n"
+    "    tmp[1] = pow(tmp[1], data.gamma);\n"
+    "    tmp[2] = pow(tmp[2], data.gamma);\n";
+
 //! \todo How should we handle negative numbers when making color adjustments?
 //! Should they be clamped to zero?
 
@@ -1087,14 +1097,19 @@ const QString sourceFragmentHeader =
     "\n"
     "vec4 levels(vec4 value, Levels data)\n"
     "{\n"
-    "    value[0] = pow(max(value[0] - data.in0, 0.0) / data.in1, data.gamma) *\n"
-    "        data.out1 + data.out0;\n"
+    "    vec4 tmp;\n"
     "\n"
-    "    value[1] = pow(max(value[1] - data.in0, 0.0) / data.in1, data.gamma) *\n"
-    "        data.out1 + data.out0;\n"
+    "    tmp[0] = (value[0] - data.in0) / data.in1;\n"
+    "    tmp[1] = (value[1] - data.in0) / data.in1;\n"
+    "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
     "\n"
-    "    value[2] = pow(max(value[2] - data.in0, 0.0) / data.in1, data.gamma) *\n"
-    "         data.out1 + data.out0;\n"
+    "%1"
+    "\n"
+    "%2"
+    "\n"
+    "    value[0] = tmp[0] * data.out1 + data.out0;\n"
+    "    value[1] = tmp[1] * data.out1 + data.out0;\n"
+    "    value[2] = tmp[2] * data.out1 + data.out0;\n"
     "\n"
     "    return value;\n"
     "}\n"
@@ -1238,7 +1253,10 @@ QString sourceFragment(
 
     // Initialize header.
 
-    header = sourceFragmentHeader;
+    header = sourceFragmentHeader.
+        arg(displayProfile.levels.clampNegative ? sourceClampNegative : "").
+        arg(! djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.0) ?
+            sourceGamma : "");
     header += "uniform sampler2D inTexture;\n";
 
     // Color profile.
