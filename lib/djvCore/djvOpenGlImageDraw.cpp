@@ -1160,7 +1160,7 @@ const QString sourceFragmentScaleX =
     "\n";
 
 const QString sourceFragmentScaleY =
-    "vec4 scale_y(sampler2D texture, sampler2D contrib)\n"
+    "vec4 scaleY(sampler2D texture, sampler2D contrib)\n"
     "{\n"
     "    vec4 value = vec4(0.0);\n"
     "\n"
@@ -1232,7 +1232,7 @@ QString sourceFragment(
     //DJV_DEBUG_PRINT("multipass filter = " << multipassFilter);
     //DJV_DEBUG_PRINT("scale size = " << scaleSize);
     //DJV_DEBUG_PRINT("scale x = " << scaleX);
-
+    
     QString header;
     QString main;
 
@@ -1313,7 +1313,7 @@ QString sourceFragment(
                 arg(scaleSize).
                 arg(scaleSize);
 
-            main += "color = scale_y(inTexture, inScaleContrib);\n";
+            main += "color = scaleY(inTexture, inScaleContrib);\n";
         }
     }
 
