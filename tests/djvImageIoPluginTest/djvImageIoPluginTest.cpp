@@ -37,6 +37,7 @@
 #include <djvError.h>
 #include <djvErrorUtil.h>
 #include <djvFileInfo.h>
+#include <djvFileIo.h>
 #include <djvImageApplication.h>
 #include <djvImage.h>
 #include <djvImageIo.h>
@@ -210,6 +211,19 @@ void djvImageIoPluginTest::runTest(djvImageIo * plugin, const djvImage & image)
     DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
     DJV_DEBUG_PRINT("image = " << image);
     
+    QString fileName = "djvImageIoPluginTest";
+    QString fileNamePartial = fileName + "Partial";
+    
+    const QStringList & extensions = plugin->extensions();
+                
+    if (extensions.count())
+    {
+        fileName += extensions[0];
+        fileNamePartial += extensions[0];
+    }
+    
+    DJV_DEBUG_PRINT("file name = " << fileName);
+    
     try
     {
         QScopedPointer<djvImageLoad> load(plugin->createLoad());
@@ -217,15 +231,6 @@ void djvImageIoPluginTest::runTest(djvImageIo * plugin, const djvImage & image)
         
         if (! load.data() || ! save.data())
             return;
-        
-        const QStringList & extensions = plugin->extensions();
-        
-        QString fileName = "djvImageIoPluginTest";
-        
-        if (extensions.count())
-        {
-            fileName += extensions[0];
-        }
         
         save->open(fileName, image.info());
         save->write(image);
@@ -264,6 +269,41 @@ void djvImageIoPluginTest::runTest(djvImageIo * plugin, const djvImage & image)
                 DJV_ASSERT(a == b);
             }
         }
+    }
+    catch (const djvError & error)
+    {
+        DJV_DEBUG_PRINT(djvErrorUtil::format(error));
+    }
+
+    try
+    {
+        djvFileInfo fileInfo(fileName);
+        
+        const quint64 size = fileInfo.size();
+        
+        djvMemoryBuffer<quint8> buf(size / 2);
+        
+        djvFileIo io;
+        io.open(fileName, djvFileIo::READ);
+        io.get(buf.data(), buf.size());
+        io.close();
+        
+        io.open(fileNamePartial, djvFileIo::WRITE);
+        io.set(buf.data(), buf.size());
+        io.close();
+
+        QScopedPointer<djvImageLoad> load(plugin->createLoad());
+        
+        if (! load.data())
+            return;
+        
+        djvImageIoInfo info;
+        load->open(fileNamePartial, info);
+        djvImage tmp;
+        load->read(tmp);
+        load->close();
+        
+        DJV_ASSERT(0);
     }
     catch (const djvError & error)
     {

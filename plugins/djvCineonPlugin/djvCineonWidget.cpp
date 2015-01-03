@@ -62,8 +62,7 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     _outputColorProfileWidget(0),
     _outputBlackPointWidget  (0),
     _outputWhitePointWidget  (0),
-    _outputGammaWidget       (0),
-    _convertWidget           (0)
+    _outputGammaWidget       (0)
 {
     //DJV_DEBUG("djvCineonWidget::djvCineonWidget");
 
@@ -100,8 +99,6 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     _outputGammaWidget = new djvFloatEditSlider;
     _outputGammaWidget->setRange(0.01, 4.0);
 
-    _convertWidget = new QCheckBox("Convert to 8-bits");
-
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -120,15 +117,6 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     _colorProfileLayout->addRow("Black:", _outputBlackPointWidget);
     _colorProfileLayout->addRow("White:", _outputWhitePointWidget);
     _colorProfileLayout->addRow("Gamma:", _outputGammaWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
-        "Conversion",
-        "Set whether the pixel data is converted to 8-bits when loading Cineon "
-        "images. This can help reduce memory usage at the expense of image "
-        "quality.");
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_convertWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
@@ -164,9 +152,6 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     tmp = _plugin->option(
         _plugin->options()[djvCineonPlugin::OUTPUT_FILM_PRINT_OPTION]);
     tmp >> _options.outputFilmPrint;
-    tmp = _plugin->option(
-        _plugin->options()[djvCineonPlugin::CONVERT_OPTION]);
-    tmp >> _options.convert;
 
     widgetUpdate();
 
@@ -221,11 +206,6 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
         _outputGammaWidget,
         SIGNAL(valueChanged(double)),
         SLOT(outputGammaCallback(double)));
-
-    connect(
-        _convertWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(convertCallback(bool)));
 }
 
 djvCineonWidget::~djvCineonWidget()
@@ -260,9 +240,6 @@ void djvCineonWidget::pluginCallback(const QString & option)
         else if (0 == option.compare(_plugin->options()[
             djvCineonPlugin::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.outputFilmPrint;
-        else if (0 == option.compare(_plugin->options()[
-            djvCineonPlugin::CONVERT_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.convert;
     }
     catch (const QString &)
     {}
@@ -333,13 +310,6 @@ void djvCineonWidget::outputGammaCallback(double in)
     pluginUpdate();
 }
 
-void djvCineonWidget::convertCallback(bool in)
-{
-    _options.convert = in;
-
-    pluginUpdate();
-}
-
 void djvCineonWidget::pluginUpdate()
 {
     //DJV_DEBUG("djvCineonWidget::pluginUpdate");
@@ -357,9 +327,6 @@ void djvCineonWidget::pluginUpdate()
     tmp << _options.outputFilmPrint;
     _plugin->setOption(
         _plugin->options()[djvCineonPlugin::OUTPUT_FILM_PRINT_OPTION], tmp);
-    tmp << _options.convert;
-    _plugin->setOption(
-        _plugin->options()[djvCineonPlugin::CONVERT_OPTION], tmp);
 }
 
 void djvCineonWidget::widgetUpdate()
@@ -375,8 +342,7 @@ void djvCineonWidget::widgetUpdate()
         _outputColorProfileWidget <<
         _outputBlackPointWidget <<
         _outputWhitePointWidget <<
-        _outputGammaWidget <<
-        _convertWidget);
+        _outputGammaWidget);
     
     _inputBlackPointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
@@ -432,6 +398,4 @@ void djvCineonWidget::widgetUpdate()
     _outputBlackPointWidget->setValue(_options.outputFilmPrint.black);
     _outputWhitePointWidget->setValue(_options.outputFilmPrint.white);
     _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
-
-    _convertWidget->setChecked(_options.convert);
 }

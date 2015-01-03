@@ -46,6 +46,9 @@
 //! \class djvIffLoad
 //!
 //! This class provides an IFF loader.
+//!
+//! \todo We need more careful error handling when using memory-mapping to
+//! read files; in some cases reading truncated files may cause crashes.
 //------------------------------------------------------------------------------
 
 class djvIffLoad : public djvImageLoad

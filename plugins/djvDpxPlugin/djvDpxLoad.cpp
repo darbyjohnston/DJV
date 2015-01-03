@@ -136,28 +136,71 @@ void djvDpxLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
     io->readAhead();
 
-    if (! frame.proxy && ! _options.convert)
-    {
-        image.set(info, io->mmapP(), io.data());
+    bool mmap = true;
 
-        io.take();
+    if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
+    {
+        mmap = false;
+    }
+    
+    //DJV_DEBUG_PRINT("mmap = " << mmap);
+    
+    if (mmap)
+    {
+        if (! frame.proxy)
+        {
+            image.set(info, io->mmapP(), io.data());
+
+            io.take();
+        }
+        else
+        {
+            _tmp.set(info, io->mmapP());
+
+            info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
+            info.proxy = frame.proxy;
+
+            image.set(info);
+
+            djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+        }
     }
     else
     {
-        _tmp.set(info, io->mmapP());
-
-        info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-        info.proxy = frame.proxy;
-
-        if (_options.convert)
+        djvPixelData * data = frame.proxy ? &_tmp : &image;
+        data->set(info);
+        
+        djvError error;
+        bool     errorValid = false;
+        
+        try
         {
-            info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), djvPixel::U8);
+            for (int y = 0; y < info.size.y; ++y)
+            {
+                io->get(
+                    data->data(0, y),
+                    info.size.x * djvPixel::byteCount(info.pixel));
+            }
         }
+        catch (const djvError & otherError)
+        {
+            error      = otherError;
+            errorValid = true;
+        }
+         if (frame.proxy)
+        {
+            info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
+            info.proxy = frame.proxy;
 
-        image.set(info);
+            image.set(info);
 
-        djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+            djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+        }
+        
+        if (errorValid)
+            throw error;
     }
-
+    
     //DJV_DEBUG_PRINT("image = " << image);
 }
+

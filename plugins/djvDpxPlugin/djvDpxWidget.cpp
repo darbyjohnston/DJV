@@ -62,7 +62,6 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
     _outputBlackPointWidget  (0),
     _outputWhitePointWidget  (0),
     _outputGammaWidget       (0),
-    _convertWidget           (0),
     _versionWidget           (0),
     _typeWidget              (0),
     _endianWidget            (0)
@@ -102,8 +101,6 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
     _outputGammaWidget = new djvFloatEditSlider;
     _outputGammaWidget->setRange(0.01, 4.0);
 
-    _convertWidget = new QCheckBox("Convert to 8-bits");
-
     _versionWidget = new QComboBox;
     _versionWidget->addItems(djvDpxPlugin::versionLabels());
     _versionWidget->setSizePolicy(
@@ -140,18 +137,9 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Conversion",
-        "Set whether the pixel data is converted to 8-bits when loading DPX "
-        "images. This can help reduce memory usage at the expense of image "
-        "quality.");
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_convertWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
         "Version",
         "Set the file format version used when saving DPX images.");
-    formLayout = prefsGroupBox->createLayout();
+    QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_versionWidget);
     layout->addWidget(prefsGroupBox);
 
@@ -203,9 +191,6 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
     tmp = _plugin->option(
         _plugin->options()[djvDpxPlugin::OUTPUT_FILM_PRINT_OPTION]);
     tmp >> _options.outputFilmPrint;
-    tmp = _plugin->option(
-        _plugin->options()[djvDpxPlugin::CONVERT_OPTION]);
-    tmp >> _options.convert;
     tmp = _plugin->option(
         _plugin->options()[djvDpxPlugin::VERSION_OPTION]);
     tmp >> _options.version;
@@ -271,11 +256,6 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
         SLOT(outputGammaCallback(double)));
 
     connect(
-        _convertWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(convertCallback(bool)));
-
-    connect(
         _versionWidget,
         SIGNAL(activated(int)),
         SLOT(versionCallback(int)));
@@ -329,9 +309,6 @@ void djvDpxWidget::pluginCallback(const QString & option)
         else if (0 == option.compare(_plugin->options()[
             djvDpxPlugin::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.outputFilmPrint;
-        else if (0 == option.compare(_plugin->options()[
-            djvDpxPlugin::CONVERT_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.convert;
         else if (0 == option.compare(_plugin->options()[
             djvDpxPlugin::VERSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.version;
@@ -411,13 +388,6 @@ void djvDpxWidget::outputGammaCallback(double in)
     pluginUpdate();
 }
 
-void djvDpxWidget::convertCallback(bool in)
-{
-    _options.convert = in;
-
-    pluginUpdate();
-}
-
 void djvDpxWidget::versionCallback(int in)
 {
     _options.version = static_cast<djvDpxPlugin::VERSION>(in);
@@ -454,9 +424,6 @@ void djvDpxWidget::pluginUpdate()
     tmp << _options.outputFilmPrint;
     _plugin->setOption(
         _plugin->options()[djvDpxPlugin::OUTPUT_FILM_PRINT_OPTION], tmp);
-    tmp << _options.convert;
-    _plugin->setOption(
-        _plugin->options()[djvDpxPlugin::CONVERT_OPTION], tmp);
     tmp << _options.version;
     _plugin->setOption(
         _plugin->options()[djvDpxPlugin::VERSION_OPTION], tmp);
@@ -482,7 +449,6 @@ void djvDpxWidget::widgetUpdate()
         _outputBlackPointWidget <<
         _outputWhitePointWidget <<
         _outputGammaWidget <<
-        _convertWidget <<
         _versionWidget <<
         _typeWidget <<
         _endianWidget);
@@ -544,8 +510,6 @@ void djvDpxWidget::widgetUpdate()
     _outputBlackPointWidget->setValue(_options.outputFilmPrint.black);
     _outputWhitePointWidget->setValue(_options.outputFilmPrint.white);
     _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
-
-    _convertWidget->setChecked(_options.convert);
 
     _versionWidget->setCurrentIndex(_options.version);
 

@@ -82,7 +82,6 @@ private Q_SLOTS:
     void outputBlackPointCallback(int);
     void outputWhitePointCallback(int);
     void outputGammaCallback(double);
-    void convertCallback(bool);
 
     void pluginUpdate();
     void widgetUpdate();
@@ -101,7 +100,6 @@ private:
     djvIntEditSlider *       _outputBlackPointWidget;
     djvIntEditSlider *       _outputWhitePointWidget;
     djvFloatEditSlider *     _outputGammaWidget;
-    QCheckBox *              _convertWidget;
 };
 
 //@} // djvCineonPlugin

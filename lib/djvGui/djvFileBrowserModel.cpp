@@ -608,7 +608,12 @@ Image imageLoad(
         out.valid = true;
     }
     catch (const djvError & error)
-    {}
+    {
+        if (out.image.isValid())
+        {
+            out.valid = true;
+        }
+    }
 
     return out;
 }

@@ -137,6 +137,16 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 else
                 {
                     const int size = info.size.x * channels * byteCount;
+                    
+                    if ((io.size() - io.pos()) <
+                        djvPixelDataUtil::dataByteCount(info))
+                    {
+                        throw djvError(
+                            djvPicPlugin::staticName,
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                            arg(fileName));
+                    }
+                    
                     djvMemory::copy(p, data->data(0, y), size);
 
                     p += size;
@@ -168,6 +178,16 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 else
                 {
                     const int size = info.size.x * 3 * byteCount;
+
+                    if ((io.size() - io.pos()) <
+                        djvPixelDataUtil::dataByteCount(info))
+                    {
+                        throw djvError(
+                            djvPicPlugin::staticName,
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                            arg(fileName));
+                    }
+
                     djvMemory::copy(p, data->data(0, y), size);
 
                     p += size;
@@ -195,6 +215,16 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 else
                 {
                     const int size = info.size.x * 1 * byteCount;
+
+                    if ((io.size() - io.pos()) <
+                        djvPixelDataUtil::dataByteCount(info))
+                    {
+                        throw djvError(
+                            djvPicPlugin::staticName,
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                            arg(fileName));
+                    }
+
                     djvMemory::copy(p, data->data(0, y), size);
 
                     p += size;

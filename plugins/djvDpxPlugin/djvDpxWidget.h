@@ -82,7 +82,6 @@ private Q_SLOTS:
     void outputBlackPointCallback(int);
     void outputWhitePointCallback(int);
     void outputGammaCallback(double);
-    void convertCallback(bool);
     void versionCallback(int);
     void typeCallback(int);
     void endianCallback(int);
@@ -105,7 +104,6 @@ private:
     djvIntEditSlider *    _outputBlackPointWidget;
     djvIntEditSlider *    _outputWhitePointWidget;
     djvFloatEditSlider *  _outputGammaWidget;
-    QCheckBox *           _convertWidget;
     QComboBox *           _versionWidget;
     QComboBox *           _typeWidget;
     QComboBox *           _endianWidget;

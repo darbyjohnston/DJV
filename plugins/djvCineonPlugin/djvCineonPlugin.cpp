@@ -56,8 +56,7 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 
 djvCineonPlugin::Options::Options() :
     inputColorProfile (djvCineon::COLOR_PROFILE_AUTO),
-    outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT),
-    convert           (false)
+    outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT)
 {}
 
 //------------------------------------------------------------------------------
@@ -70,8 +69,7 @@ const QStringList & djvCineonPlugin::optionsLabels()
         "Input Color Profile" <<
         "Input Film Print" <<
         "Output Color Profile" <<
-        "Output Film Print" <<
-        "Convert";
+        "Output Film Print";
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -119,10 +117,6 @@ QStringList djvCineonPlugin::option(const QString & in) const
     else if (0 == in.compare(options()[OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
     {
         out << _options.outputFilmPrint;
-    }
-    else if (0 == in.compare(options()[CONVERT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.convert;
     }
 
     return out;
@@ -192,19 +186,6 @@ bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[CONVERT_OPTION], Qt::CaseInsensitive))
-        {
-            bool convert = false;
-
-            data >> convert;
-
-            if (convert != _options.convert)
-            {
-                _options.convert = convert;
-
-                Q_EMIT optionChanged(in);
-            }
-        }
     }
     catch (const QString &)
     {
@@ -246,10 +227,6 @@ void djvCineonPlugin::commandLine(QStringList & in) throw (QString)
             {
                 in >> _options.outputFilmPrint;
             }
-            else if ("-cineon_convert" == arg)
-            {
-                in >> _options.convert;
-            }
             else
             {
                 tmp << arg;
@@ -281,15 +258,10 @@ QString djvCineonPlugin::commandLineHelp() const
 "Default = %5.\n"
 "    -cineon_output_film_print (black) (white) (gamma) (soft clip)\n"
 "        Set the film print values used when saving Cineon images. Default = "
-"%6.\n"
-"    -cineon_convert (value)\n"
-"        Set whether the pixel data is converted to 8-bits when loading "
-"Cineon images. Options = %7. Default = %8.\n").
+"%6.\n").
     arg(djvCineon::colorProfileLabels().join(", ")).
     arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
     arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
-    arg(djvStringUtil::boolLabels().join(", ")).
-    arg(djvStringUtil::label(_options.convert).join(", ")).
     arg(djvCineon::colorProfileLabels().join(", ")).
     arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
     arg(djvStringUtil::label(_options.outputFilmPrint).join(", "));

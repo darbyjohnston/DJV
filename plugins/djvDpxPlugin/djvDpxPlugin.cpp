@@ -58,7 +58,6 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 djvDpxPlugin::Options::Options() :
     inputColorProfile (djvCineon::COLOR_PROFILE_AUTO),
     outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT),
-    convert           (false),
     version           (djvDpxPlugin::VERSION_2_0),
     type              (djvDpxPlugin::TYPE_U10),
     endian            (djvDpxPlugin::ENDIAN_MSB)
@@ -149,7 +148,6 @@ const QStringList & djvDpxPlugin::optionsLabels()
         "Input Film Print" <<
         "Output Color Profile" <<
         "Output Film Print" <<
-        "Convert" <<
         "Version" <<
         "Type" <<
         "Endian";
@@ -197,10 +195,6 @@ QStringList djvDpxPlugin::option(const QString & in) const
     else if (0 == in.compare(options()[OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
     {
         out << _options.outputFilmPrint;
-    }
-    else if (0 == in.compare(options()[CONVERT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.convert;
     }
     else if (0 == in.compare(options()[VERSION_OPTION], Qt::CaseInsensitive))
     {
@@ -277,19 +271,6 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
             {
                 _options.outputFilmPrint = filmPrint;
             
-                Q_EMIT optionChanged(in);
-            }
-        }
-        else if (0 == in.compare(options()[CONVERT_OPTION], Qt::CaseInsensitive))
-        {
-            bool convert = false;
-
-            data >> convert;
-
-            if (convert != _options.convert)
-            {
-                _options.convert = convert;
-
                 Q_EMIT optionChanged(in);
             }
         }
@@ -373,10 +354,6 @@ void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
             {
                 in >> _options.outputFilmPrint;
             }
-            else if ("-dpx_convert" == arg)
-            {
-                in >> _options.convert;
-            }
             else if ("-dpx_version" == arg)
             {
                 in >> _options.version;
@@ -421,27 +398,22 @@ QString djvDpxPlugin::commandLineHelp() const
 "    -dpx_output_film_print (black) (white) (gamma) (soft clip)\n"
 "        Set the film print values used when saving DPX images. Default = "
 "%6.\n"
-"    -dpx_convert (value)\n"
-"        Set whether the pixel data is converted to 8-bits when loading DPX "
-"images. Options = %7. Default = %8.\n"
 "    -dpx_version (value)\n"
-"        Set the file format version used when saving DPX images. Options = %9. Default = "
-"%10.\n"
+"        Set the file format version used when saving DPX images. Options = %7. Default = "
+"%8.\n"
 "    -dpx_type (value)\n"
-"        Set the pixel type used when saving DPX images. Options = %11. "
-"Default = %12.\n"
+"        Set the pixel type used when saving DPX images. Options = %9. "
+"Default = %10.\n"
 "    -dpx_endian (value)\n"
 "        Set the endian used when saving DPX images. Setting the endian to "
-"\"Auto\" will use the endian of the current hardware. Options = %13. Default = "
-"%14.\n").
+"\"Auto\" will use the endian of the current hardware. Options = %11. Default = "
+"%12.\n").
     arg(djvCineon::colorProfileLabels().join(", ")).
     arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
     arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
-    arg(djvStringUtil::boolLabels().join(", ")).
     arg(djvCineon::colorProfileLabels().join(", ")).
     arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
     arg(djvStringUtil::label(_options.outputFilmPrint).join(", ")).
-    arg(djvStringUtil::label(_options.convert).join(", ")).
     arg(djvDpxPlugin::versionLabels().join(", ")).
     arg(djvStringUtil::label(_options.version).join(", ")).
     arg(djvDpxPlugin::typeLabels().join(", ")).

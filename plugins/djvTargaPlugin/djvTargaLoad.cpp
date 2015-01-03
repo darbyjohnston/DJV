@@ -91,6 +91,14 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
     if (! _compression)
     {
+        if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
+        {
+            throw djvError(
+                djvTargaPlugin::staticName,
+                djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
+                arg(fileName));
+        }
+
         data->set(info, io->mmapP(), io.data());
 
         io.take();

@@ -361,6 +361,19 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                         _p->layer,
                         _p->proxy));
 
+                //DJV_DEBUG_PRINT("image = " << *_p->image);
+            }
+            catch (djvError error)
+            {
+                error.add(
+                    djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
+                    arg(QDir::toNativeSeparators(_p->fileInfo)));
+
+                DJV_VIEW_APP->printError(error);
+            }
+
+            try
+            {
                 if (_p->u8Conversion)
                 {
                     //DJV_DEBUG_PRINT("u8 conversion");
@@ -379,10 +392,6 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
                     djvOpenGlImage::copy(_p->imageTmp2, that->_p->imageTmp, options);
                 }
-
-                that->_p->image = &_p->imageTmp;
-
-                //DJV_DEBUG_PRINT("image = " << *_p->image);
             }
             catch (djvError error)
             {
@@ -392,6 +401,8 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
                 DJV_VIEW_APP->printError(error);
             }
+
+            that->_p->image = &_p->imageTmp;
         }
 
         if (_p->image && _p->cacheEnabled)

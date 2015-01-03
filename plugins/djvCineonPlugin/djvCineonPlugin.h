@@ -83,7 +83,6 @@ public:
         INPUT_FILM_PRINT_OPTION,
         OUTPUT_COLOR_PROFILE_OPTION,
         OUTPUT_FILM_PRINT_OPTION,
-        CONVERT_OPTION,
 
         OPTIONS_COUNT
     };
@@ -104,7 +103,6 @@ public:
         djvCineon::FilmPrintToLinear inputFilmPrint;
         djvCineon::COLOR_PROFILE     outputColorProfile;
         djvCineon::LinearToFilmPrint outputFilmPrint;
-        bool                         convert;
     };
     
     //! Destructor.
