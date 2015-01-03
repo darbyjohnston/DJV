@@ -1069,7 +1069,7 @@ const QString sourceFragmentHeader =
     "    return value;\n"
     "}\n"
     "\n"
-    "vec4 displayProfile_color(vec4 value, mat4 color)\n"
+    "vec4 displayProfileColor(vec4 value, mat4 color)\n"
     "{\n"
     "    vec4 tmp;\n"
     "\n"
@@ -1328,7 +1328,7 @@ QString sourceFragment(
     if (displayProfile.color != djvOpenGlImageDisplayProfile().color)
     {
         header += "uniform mat4 inDisplayProfileColor;\n";
-        main += "color = displayProfile_color(color, inDisplayProfileColor);\n";
+        main += "color = displayProfileColor(color, inDisplayProfileColor);\n";
     }
 
     if (displayProfile.levels != djvOpenGlImageDisplayProfile().levels)
