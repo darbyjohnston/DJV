@@ -626,6 +626,8 @@ void djvOpenGlImage::histogram(
 
     if (in.info() != info)
     {
+        //DJV_DEBUG_PRINT("convert");
+        
         copy(in, tmp);
         
         data = &tmp;
@@ -634,7 +636,7 @@ void djvOpenGlImage::histogram(
     min = djvColor(info.pixel);
     max = djvColor(info.pixel);
 
-    // Create a LUT for mapping inpur pixel values to the output data
+    // Create a LUT for mapping input pixel values to the output data
     // pixel indexes.
 
     const int indexLutSize =
@@ -677,7 +679,8 @@ void djvOpenGlImage::histogram(
             djvPixel::U10_S * const maxP =
                 reinterpret_cast<djvPixel::U10_S *>(max.data());
 
-            // Initialize the minimum and maximum values.
+            // Initialize the minimum and maximum values with the first pixel
+            // in the input image.
             
             if (w && h)
             {
@@ -843,16 +846,15 @@ void djvOpenGlImage::histogram(
         default: break;
     }
     
+    //DJV_DEBUG_PRINT("min = " << min);
+    //DJV_DEBUG_PRINT("max = " << max);
+    
     delete [] indexLut;
 
-#if defined(DJV_DEBUG)
-/*
-    djvPixel::U16_T * const outP =
-        reinterpret_cast<djvPixel::U16_T *>(out.data());
-    for (int i = 0; i < size; ++i)
-        DJV_DEBUG_PRINT(i << " = " << outP[i * 3]);
-*/
-#endif // DJV_DEBUG
+    //djvPixel::U16_T * const outP =
+    //    reinterpret_cast<djvPixel::U16_T *>(out.data());
+    //for (int i = 0; i < size; ++i)
+    //    DJV_DEBUG_PRINT(i << " = " << outP[i * 3]);
 }
 
 djvColor djvOpenGlImage::pixel(const djvPixelData & data, int x, int y)
