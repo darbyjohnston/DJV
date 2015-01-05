@@ -71,8 +71,11 @@ djvOpenExrPlugin::Channel::Channel(
     sampling(sampling)
 {}
 
-djvOpenExrPlugin::Layer::Layer(const QVector<Channel> & channels) :
-    channels(channels)
+djvOpenExrPlugin::Layer::Layer(
+    const QVector<Channel> & channels,
+    bool                     luminanceChroma) :
+    channels       (channels),
+    luminanceChroma(luminanceChroma)
 {
     QStringList names;
 
@@ -351,12 +354,18 @@ QVector<djvOpenExrPlugin::Layer> _layer(
                 y << a;
         }
         else if (y && ry && by &&
-            compare(QVector<Imf::Channel>() << *y << *ry << *by))
+            1 ==  y->xSampling &&
+            1 ==  y->ySampling &&
+            2 == ry->xSampling &&
+            2 == ry->ySampling &&
+            2 == by->xSampling &&
+            2 == by->ySampling)
         {
             out += djvOpenExrPlugin::Layer(QVector<djvOpenExrPlugin::Channel>() <<
                 djvOpenExrPlugin::imfToChannel(yName, *y) <<
                 djvOpenExrPlugin::imfToChannel(ryName, *ry) <<
-                djvOpenExrPlugin::imfToChannel(byName, *by));
+                djvOpenExrPlugin::imfToChannel(byName, *by),
+                true);
 
             //DJV_DEBUG_PRINT("yc = " << out[out.count() - 1].name);
 

@@ -47,6 +47,8 @@
 //! \class djvOpenExrLoad
 //!
 //! This class provides an OpenEXR loader.
+//!
+//! \todo Add support for luminance/chroma images.
 //------------------------------------------------------------------------------
 
 class djvOpenExrLoad : public djvImageLoad
@@ -78,8 +80,10 @@ private:
     Imf::InputFile *                 _f;
     djvBox2i                         _displayWindow;
     djvBox2i                         _dataWindow;
+    djvBox2i                         _intersectedWindow;
     QVector<djvOpenExrPlugin::Layer> _layers;
     djvPixelData                     _tmp;
+    bool                             _fast;
 };
 
 //@} // djvOpenExrPlugin

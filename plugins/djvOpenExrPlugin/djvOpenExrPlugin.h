@@ -111,10 +111,13 @@ public:
     {
         //! Constructor.
 
-        Layer(const QVector<Channel> & = QVector<Channel>());
+        Layer(
+            const QVector<Channel> & channels        = QVector<Channel>(),
+            bool                     luminanceChroma = false);
 
         QString          name;
         QVector<Channel> channels;
+        bool             luminanceChroma;
     };
 
     //! This enumeration provides the color profiles.
