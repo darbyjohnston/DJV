@@ -49,6 +49,10 @@ class djvOpenGlImageShader;
 class djvOpenGlImageTexture;
 class djvOpenGlOffscreenBuffer;
 
+#if defined DJV_WINDOWS
+#undef ERROR
+#endif // DJV_WINDOWS
+
 //! \addtogroup djvCoreOpenGL
 //@{
 

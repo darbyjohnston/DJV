@@ -40,6 +40,10 @@
 #include <QObject>
 #include <QString>
 
+#if defined DJV_WINDOWS
+#undef ERROR
+#endif // DJV_WINDOWS
+
 //! \addtogroup djvCoreMisc
 //@{
 

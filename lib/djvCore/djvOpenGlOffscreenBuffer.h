@@ -38,6 +38,10 @@
 #include <djvOpenGl.h>
 #include <djvPixelData.h>
 
+#if defined DJV_WINDOWS
+#undef ERROR
+#endif // DJV_WINDOWS
+
 //! \addtogroup djvCoreOpenGL
 //@{
 

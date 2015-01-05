@@ -49,6 +49,10 @@ class djvAbstractPrefsWidget;
 class djvFileInfo;
 class djvImage;
 
+#if defined DJV_WINDOWS
+#undef ERROR
+#endif // DJV_WINDOWS
+
 //! \addtogroup djvCoreImage
 //@{
 

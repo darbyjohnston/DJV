@@ -56,8 +56,8 @@ const double djvMath::piDiv4 = 0.7853981;
 
 int djvMath::pow(int value, int power)
 {
-    return ::floor(
-        ::pow(static_cast<double>(value), static_cast<double>(power)));
+    return static_cast<int>(::floor(
+        ::pow(static_cast<double>(value), static_cast<double>(power))));
 }
 
 double djvMath::pow(double value, double power)
@@ -241,17 +241,17 @@ void djvMath::randSeed(unsigned int value)
 
 int djvMath::floor(double value)
 {
-    return ::floor(value);
+    return static_cast<int>(::floor(value));
 }
 
 int djvMath::ceil(double value)
 {
-    return ::ceil(value);
+    return static_cast<int>(::ceil(value));
 }
 
 int djvMath::round(double value)
 {
-    return ::round(value);
+    return static_cast<int>(::round(value));
 }
 
 bool djvMath::fuzzyCompare(float a, float b)

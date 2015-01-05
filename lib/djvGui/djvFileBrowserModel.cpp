@@ -592,6 +592,11 @@ Image imageLoad(
     const djvFileInfo &     fileInfo,
     djvPixelDataInfo::PROXY proxy)
 {
+    //DJV_DEBUG("imageLoad");
+    //DJV_DEBUG_PRINT("row = " << row);
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("proxy = " << proxy);
+
     Image out;
     out.item = item;
     out.row  = row;
@@ -604,6 +609,8 @@ Image imageLoad(
             djvImageIoFactory::global()->load(fileInfo, imageIoInfo));
         
         load->read(out.image, djvImageIoFrameInfo(-1, 0, proxy));
+
+        //DJV_DEBUG_PRINT("image = " << out.image);
 
         out.valid = true;
     }

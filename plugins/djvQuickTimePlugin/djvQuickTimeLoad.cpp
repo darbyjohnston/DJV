@@ -188,7 +188,7 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     if (err != qt::noErr)
     {
-        DJV_THROW_ERROR2(
+        throw djvError(
             djvQuickTimePlugin::staticName,
             QString("Cannot open: %1 (#%2)").
                 arg(QDir::toNativeSeparators(in)).
@@ -253,7 +253,7 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     if (err != qt::noErr)
     {
-        DJV_THROW_ERROR2(
+        throw djvError(
             djvQuickTimePlugin::staticName,
             QString("Cannot create GWorld: %1 (#%2)").
                 arg(QDir::toNativeSeparators(in)).
