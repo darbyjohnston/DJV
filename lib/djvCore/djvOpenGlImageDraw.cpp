@@ -1071,11 +1071,11 @@ const QString sourceFragmentHeader =
     "vec4 gamma(vec4 value, float gamma)\n"
     "{\n"
     "    if (value[0] >= 0.0)\n"
-    "        value[0] = pow(value[0], 1.0 / gamma);\n"
+    "        value[0] = pow(value[0], gamma);\n"
     "    if (value[1] >= 0.0)\n"
-    "        value[1] = pow(value[1], 1.0 / gamma);\n"
+    "        value[1] = pow(value[1], gamma);\n"
     "    if (value[2] >= 0.0)\n"
-    "        value[2] = pow(value[2], 1.0 / gamma);\n"
+    "        value[2] = pow(value[2], gamma);\n"
     "\n"
     "    return value;\n"
     "}\n"
@@ -1444,7 +1444,7 @@ void colorProfileInit(
             uniform1f(
                 program,
                 "inColorProfileGamma",
-                options.colorProfile.gamma);
+                1.0 / options.colorProfile.gamma);
         }
         break;
 
