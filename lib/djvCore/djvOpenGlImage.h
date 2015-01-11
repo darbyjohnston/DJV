@@ -134,7 +134,6 @@ public:
     double gamma;
     double outLow;
     double outHigh;
-    bool   clampNegative;
 
     //! Create a lookup table from color levels.
 

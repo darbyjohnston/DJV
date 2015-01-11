@@ -634,33 +634,33 @@ OpenGL Options
 <context>
     <name>djvOpenGlImage</name>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1877"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1875"/>
         <source>Cannot create texture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1878"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1876"/>
         <source>Cannot create texture: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1879"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1877"/>
         <source>Cannot create shader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1880"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1878"/>
         <source>Cannot compile shader:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1881"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1879"/>
         <source>Cannot create shader program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1882"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1880"/>
         <source>Cannot link shader:
 %1</source>
         <translation type="unfinished"></translation>
@@ -669,47 +669,47 @@ OpenGL Options
 <context>
     <name>djvOpenGlImageFilter</name>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="181"/>
+        <location filename="djvOpenGlImage.cpp" line="180"/>
         <source>Nearest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="182"/>
+        <location filename="djvOpenGlImage.cpp" line="181"/>
         <source>Linear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="183"/>
+        <location filename="djvOpenGlImage.cpp" line="182"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="184"/>
+        <location filename="djvOpenGlImage.cpp" line="183"/>
         <source>Triangle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="185"/>
+        <location filename="djvOpenGlImage.cpp" line="184"/>
         <source>Bell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="186"/>
+        <location filename="djvOpenGlImage.cpp" line="185"/>
         <source>B-Spline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="187"/>
+        <location filename="djvOpenGlImage.cpp" line="186"/>
         <source>Lanczos3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="188"/>
+        <location filename="djvOpenGlImage.cpp" line="187"/>
         <source>Cubic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="189"/>
+        <location filename="djvOpenGlImage.cpp" line="188"/>
         <source>Mitchell</source>
         <translation type="unfinished"></translation>
     </message>
@@ -717,27 +717,27 @@ OpenGL Options
 <context>
     <name>djvOpenGlImageOptions</name>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="264"/>
+        <location filename="djvOpenGlImage.cpp" line="263"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="265"/>
+        <location filename="djvOpenGlImage.cpp" line="264"/>
         <source>Red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="266"/>
+        <location filename="djvOpenGlImage.cpp" line="265"/>
         <source>Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="267"/>
+        <location filename="djvOpenGlImage.cpp" line="266"/>
         <source>Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImage.cpp" line="268"/>
+        <location filename="djvOpenGlImage.cpp" line="267"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>

@@ -126,12 +126,11 @@ djvMatrix4f djvOpenGlImageColor::colorMatrix(const djvOpenGlImageColor & in)
 //------------------------------------------------------------------------------
 
 djvOpenGlImageLevels::djvOpenGlImageLevels() :
-    inLow        (0.0),
-    inHigh       (1.0),
-    gamma        (1.0),
-    outLow       (0.0),
-    outHigh      (1.0),
-    clampNegative(false)
+    inLow  (0.0),
+    inHigh (1.0),
+    gamma  (1.0),
+    outLow (0.0),
+    outHigh(1.0)
 {}
 
 djvPixelData djvOpenGlImageLevels::colorLut(

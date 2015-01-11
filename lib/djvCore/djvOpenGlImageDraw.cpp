@@ -1030,15 +1030,13 @@ const QString sourceVertex =
     "    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
     "}\n";
 
-const QString sourceClampNegative =
-    "    tmp[0] = max(tmp[0], 0.0);\n"
-    "    tmp[1] = max(tmp[1], 0.0);\n"
-    "    tmp[2] = max(tmp[2], 0.0);\n";
-
 const QString sourceGamma =
-    "    tmp[0] = pow(tmp[0], data.gamma);\n"
-    "    tmp[1] = pow(tmp[1], data.gamma);\n"
-    "    tmp[2] = pow(tmp[2], data.gamma);\n";
+    "    if (tmp[0] >= 0.0)\n"
+    "        tmp[0] = pow(tmp[0], data.gamma);\n"
+    "    if (tmp[1] >= 0.0)\n"
+    "        tmp[1] = pow(tmp[1], data.gamma);\n"
+    "    if (tmp[2] >= 0.0)\n"
+    "        tmp[2] = pow(tmp[2], data.gamma);\n";
 
 //! \todo How should we handle negative numbers when making color adjustments?
 //! Should they be clamped to zero?
@@ -1072,9 +1070,12 @@ const QString sourceFragmentHeader =
     "\n"
     "vec4 gamma(vec4 value, float gamma)\n"
     "{\n"
-    "    value[0] = pow(value[0], 1.0 / gamma);\n"
-    "    value[1] = pow(value[1], 1.0 / gamma);\n"
-    "    value[2] = pow(value[2], 1.0 / gamma);\n"
+    "    if (value[0] >= 0.0)\n"
+    "        value[0] = pow(value[0], 1.0 / gamma);\n"
+    "    if (value[1] >= 0.0)\n"
+    "        value[1] = pow(value[1], 1.0 / gamma);\n"
+    "    if (value[2] >= 0.0)\n"
+    "        value[2] = pow(value[2], 1.0 / gamma);\n"
     "\n"
     "    return value;\n"
     "}\n"
@@ -1104,8 +1105,6 @@ const QString sourceFragmentHeader =
     "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
     "\n"
     "%1"
-    "\n"
-    "%2"
     "\n"
     "    value[0] = tmp[0] * data.out1 + data.out0;\n"
     "    value[1] = tmp[1] * data.out1 + data.out0;\n"
@@ -1254,7 +1253,6 @@ QString sourceFragment(
     // Initialize header.
 
     header = sourceFragmentHeader.
-        arg(displayProfile.levels.clampNegative ? sourceClampNegative : "").
         arg(! djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.0) ?
             sourceGamma : "");
     header += "uniform sampler2D inTexture;\n";
