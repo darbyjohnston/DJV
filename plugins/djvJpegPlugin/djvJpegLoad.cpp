@@ -220,16 +220,7 @@ bool jpegOpen(
 
     libjpeg::jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
 
-    //! \todo How do we fix the windows/libjpeg TRUE name clash?
-
-    libjpeg::boolean b =
-#if defined(DJV_WINDOWS)
-        1;
-#else
-        libjpeg::TRUE;
-#endif // DJV_WINDOWS
-
-    if (! libjpeg::jpeg_read_header(jpeg, b))
+    if (! libjpeg::jpeg_read_header(jpeg, static_cast<libjpeg::boolean>(1)))
     {
         return false;
     }

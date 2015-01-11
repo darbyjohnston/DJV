@@ -246,17 +246,8 @@ bool jpegOpen(
 
     libjpeg::jpeg_set_defaults(jpeg);
 
-    //! \todo How do we fix the windows/libjpeg TRUE name clash?
-
-    libjpeg::boolean b =
-#if defined(DJV_WINDOWS)
-        1;
-#else
-        libjpeg::TRUE;
-#endif // DJV_WINDOWS
-
-    libjpeg::jpeg_set_quality(jpeg, quality, b);
-    libjpeg::jpeg_start_compress(jpeg, b);
+    libjpeg::jpeg_set_quality(jpeg, quality, static_cast<libjpeg::boolean>(1));
+    libjpeg::jpeg_start_compress(jpeg, static_cast<libjpeg::boolean>(1));
 
     QString tag = info.tags[djvImageTags::tagLabels()[djvImageTags::DESCRIPTION]];
 
