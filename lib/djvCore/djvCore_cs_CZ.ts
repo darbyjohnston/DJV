@@ -423,12 +423,20 @@ Obrázek vstup/výstup
         <source>%1
 OpenGL Options
 
-    -render_filter (minify) (magnify)
+    -render_filter (zoom out) (zoom in)
         Set the render filter. Options = %2. Default = %3, %4.
     -render_filter_high
         Set the render filter to high quality settings (%5, %6).
 %7</source>
-        <translation>%1
+        <oldsource>%1
+OpenGL Options
+
+    -render_filter (minify) (magnify)
+        Set the render filter. Options = %2. Default = %3, %4.
+    -render_filter_high
+        Set the render filter to high quality settings (%5, %6).
+%7</oldsource>
+        <translation type="unfinished">%1
 Volby pro OpenGL
 
     -render_filter (minify) (magnify)

@@ -41,6 +41,7 @@
 
 #include <QComboBox>
 #include <QFormLayout>
+#include <QLabel>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
@@ -85,17 +86,16 @@ djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
         tr("Render Filter"),
         tr("Set the render filter quality. The filters \"Nearest\" and "
         "\"Linear\" are generally the fastest. The other filters can provide "
-        "higher quality but are generally slower. The minify filter is "
-        "used when zooming out, the magnify filter is used when zooming in."));
+        "higher quality but are generally slower."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Minify:"), _p->filterMinWidget);
-    formLayout->addRow(tr("Magnify:"), _p->filterMagWidget);
+    formLayout->addRow(tr("Zoom out:"), _p->filterMinWidget);
+    formLayout->addRow(tr("Zoom in:"), _p->filterMagWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
 
     // Initialize.
-
+    
     widgetUpdate();
 
     // Setup the callbacks.
@@ -129,6 +129,8 @@ void djvOpenGlPrefsWidget::filterMinCallback(int in)
         djvOpenGlImageFilter(
         static_cast<djvOpenGlImageFilter::FILTER>(in),
         djvOpenGlPrefs::global()->filter().mag));
+
+    widgetUpdate();
 }
 
 void djvOpenGlPrefsWidget::filterMagCallback(int in)
@@ -137,6 +139,8 @@ void djvOpenGlPrefsWidget::filterMagCallback(int in)
         djvOpenGlImageFilter(
         djvOpenGlPrefs::global()->filter().min,
         static_cast<djvOpenGlImageFilter::FILTER>(in)));
+
+    widgetUpdate();
 }
 
 void djvOpenGlPrefsWidget::widgetUpdate()
@@ -146,5 +150,7 @@ void djvOpenGlPrefsWidget::widgetUpdate()
         _p->filterMagWidget);
 
     _p->filterMinWidget->setCurrentIndex(djvOpenGlPrefs::global()->filter().min);
+    
     _p->filterMagWidget->setCurrentIndex(djvOpenGlPrefs::global()->filter().mag);
 }
+

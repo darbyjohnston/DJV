@@ -601,15 +601,15 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower. The minify filter is used when zooming out, the magnify filter is used when zooming in.</source>
+        <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Minify:</source>
+        <source>Zoom out:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Magnify:</source>
+        <source>Zoom in:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

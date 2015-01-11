@@ -618,15 +618,27 @@ Klávesová zkratka: %1</translation>
     </message>
     <message>
         <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower. The minify filter is used when zooming out, the magnify filter is used when zooming in.</source>
-        <translation>Nastavit kvalitu filtru vykreslování. Filtry &quot;Nejbližší&quot; a &quot;Lineární&quot; jsou obecně nejrychlejší. Ostatní filtry poskytují vyšší kvalitu, ale jsou pomalejší. Filtr pro zmenšení se používá na oddalování, filtr pro zvětšení se používá na přibližování.</translation>
+        <translation type="vanished">Nastavit kvalitu filtru vykreslování. Filtry &quot;Nejbližší&quot; a &quot;Lineární&quot; jsou obecně nejrychlejší. Ostatní filtry poskytují vyšší kvalitu, ale jsou pomalejší. Filtr pro zmenšení se používá na oddalování, filtr pro zvětšení se používá na přibližování.</translation>
     </message>
     <message>
         <source>Minify:</source>
-        <translation>Zmenšit:</translation>
+        <translation type="vanished">Zmenšit:</translation>
     </message>
     <message>
         <source>Magnify:</source>
-        <translation>Zvětšit:</translation>
+        <translation type="vanished">Zvětšit:</translation>
+    </message>
+    <message>
+        <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom out:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom in:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
