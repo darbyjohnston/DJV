@@ -17,7 +17,7 @@
 	<key>CFBundleVersion</key>
 	<string>@djvVersionMajor@.@djvVersionMinor@.@djvVersionPatch@</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright (c) 2004-2014 Darby Johnston</string>
+	<string>Copyright (c) 2004-2015 Darby Johnston</string>
 
     <key>CFBundleDocumentTypes</key>
     <array>

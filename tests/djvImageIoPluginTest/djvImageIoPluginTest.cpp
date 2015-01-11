@@ -1,5 +1,5 @@
  //------------------------------------------------------------------------------
-// Copyright (c) 2004-2014 Darby Johnston
+// Copyright (c) 2004-2015 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without

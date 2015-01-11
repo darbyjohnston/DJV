@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2004-2014 Darby Johnston
+// Copyright (c) 2004-2015 Darby Johnston
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -249,7 +249,7 @@ QString djvAbstractCoreApplication::about() const
 "\n"
 "Made in Berkeley, CA, USA\n"
 "\n"
-"Copyright (c) 2004-2014 Darby Johnston\n"
+"Copyright (c) 2004-2015 Darby Johnston\n"
 "All rights reserved.\n"
 "\n"
 "Redistribution and use in source and binary forms, with or without "
@@ -281,7 +281,7 @@ QString djvAbstractCoreApplication::about() const
 "\n"
 "Portions of this software are copyright (in alphabetical order):\n"
 "\n"
-"    Copyright (c) 2004-2014 Darby Johnston\n"
+"    Copyright (c) 2004-2015 Darby Johnston\n"
 "    All rights reserved.\n"
 "\n"
 "    Copyright (c) 2008 Alan Jones\n"
