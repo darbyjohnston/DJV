@@ -484,6 +484,11 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
 
     connect(
         djvFileBrowserPrefs::global(),
+        SIGNAL(thumbnailsSizeChanged(djvFileBrowserModel::THUMBNAILS_SIZE)),
+        SLOT(modelUpdate()));
+
+    connect(
+        djvFileBrowserPrefs::global(),
         SIGNAL(recentChanged(const QStringList &)),
         SLOT(menuUpdate()));
 
