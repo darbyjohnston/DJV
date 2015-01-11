@@ -116,6 +116,16 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
     
     return _p->icons[name];
 }
+
+QIcon djvIconLibrary::icon(const QString & off, const QString & on) const
+{
+    QIcon icon;
+    
+    icon.addPixmap(pixmap(off), QIcon::Normal, QIcon::Off);
+    icon.addPixmap(pixmap(on), QIcon::Normal, QIcon::On);
+    
+    return icon;
+}
     
 const QPixmap & djvIconLibrary::pixmap(const QString & name) const
 {

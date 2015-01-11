@@ -48,6 +48,7 @@
     <file alias="djvSubMenuIcon.png">images/djvSubMenuIcon.png</file>
     <file alias="djvTreeViewClosed.png">images/djvTreeViewClosed.png</file>
     <file alias="djvTreeViewOpen.png">images/djvTreeViewOpen.png</file>
+    <file alias="djvUnlockIcon.png">images/djvUnlockIcon.png</file>
     <file alias="djvUpIcon.png">images/djvUpIcon.png</file>
     <file alias="djvViewFitIcon.png">images/djvViewFitIcon.png</file>
     <file alias="djvViewZoomInIcon.png">images/djvViewZoomInIcon.png</file>

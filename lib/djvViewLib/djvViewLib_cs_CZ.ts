@@ -146,11 +146,15 @@ Volby pro přehrávání
     </message>
     <message>
         <source>Lock pixel</source>
-        <translation>Zamknout obrazový bod</translation>
+        <translation type="vanished">Zamknout obrazový bod</translation>
     </message>
     <message>
         <source>Color Picker</source>
         <translation>Kapátko</translation>
+    </message>
+    <message>
+        <source>Lock the pixel format and type</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

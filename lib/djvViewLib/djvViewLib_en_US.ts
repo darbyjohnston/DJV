@@ -106,11 +106,11 @@ Playback Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lock pixel</source>
+        <source>Color Picker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Color Picker</source>
+        <source>Lock the pixel format and type</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

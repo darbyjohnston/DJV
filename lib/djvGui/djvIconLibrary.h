@@ -71,6 +71,10 @@ public:
     
     const QIcon & icon(const QString &) const;
     
+    //! Get an icon.
+    
+    QIcon icon(const QString & off, const QString & on) const;
+    
     //! Get a pixmap.
     
     const QPixmap & pixmap(const QString &) const;

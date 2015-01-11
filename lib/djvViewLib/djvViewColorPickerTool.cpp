@@ -122,19 +122,19 @@ djvViewColorPickerTool::djvViewColorPickerTool(
     _p->sizeSlider->setToolTip(tr("Color picker sample size"));
 
     _p->colorProfileButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
+        djvIconLibrary::global()->pixmap("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
     _p->colorProfileButton->setToolTip(tr("Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
+        djvIconLibrary::global()->pixmap("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
     _p->displayProfileButton->setToolTip(tr("Set whether the display profile is enabled"));
 
     _p->lockWidget = new djvToolButton(
-        djvIconLibrary::global()->icon("djvLockIcon.png"));
+        djvIconLibrary::global()->icon("djvUnlockIcon.png", "djvLockIcon.png"));
     _p->lockWidget->setCheckable(true);
-    _p->lockWidget->setToolTip(tr("Lock pixel"));
+    _p->lockWidget->setToolTip(tr("Lock the pixel format and type"));
 
     // Layout the widgets.
 
