@@ -129,7 +129,7 @@ http://djv.sourceforge.net
 
 Made in Berkeley, CA, USA
 
-Copyright (c) 2004-2014 Darby Johnston
+Copyright (c) 2004-2015 Darby Johnston
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -144,7 +144,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
 Portions of this software are copyright (in alphabetical order):
 
-    Copyright (c) 2004-2014 Darby Johnston
+    Copyright (c) 2004-2015 Darby Johnston
     All rights reserved.
 
     Copyright (c) 2008 Alan Jones
@@ -212,7 +212,7 @@ http://djv.sourceforge.net
 
 Uděláno Berkeley, CA, USA
 
-Autorské právo (c) 2004-2014 Darby Johnston
+Autorské právo (c) 2004-2015 Darby Johnston
 Všechna práva vyhrazena.
 
 Další šíření a použití ve zdrojové a binární podobě, s úpravami a bez úprav, je povoleno za předpokladu splnění následujících podmínek:
@@ -227,7 +227,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
 
 Části tohoto software jsou chráněny autorským právem (v abecedním pořadí):
 
-    Autorské právo (c) 2004-2014 Darby Johnston
+    Autorské právo (c) 2004-2015 Darby Johnston
     Všechna práva vyhrazena.
 
     Autorské právo (c) 2008 Alan Jones
