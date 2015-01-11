@@ -246,8 +246,8 @@ bool jpegOpen(
 
     libjpeg::jpeg_set_defaults(jpeg);
 
-    libjpeg::jpeg_set_quality(jpeg, quality, static_cast<libjpeg::boolean>(1));
-    libjpeg::jpeg_start_compress(jpeg, static_cast<libjpeg::boolean>(1));
+    libjpeg::jpeg_set_quality(jpeg, quality, libjpeg::TRUE);
+    libjpeg::jpeg_start_compress(jpeg, libjpeg::TRUE);
 
     QString tag = info.tags[djvImageTags::tagLabels()[djvImageTags::DESCRIPTION]];
 

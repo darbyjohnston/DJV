@@ -220,7 +220,7 @@ bool jpegOpen(
 
     libjpeg::jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
 
-    if (! libjpeg::jpeg_read_header(jpeg, static_cast<libjpeg::boolean>(1)))
+    if (! libjpeg::jpeg_read_header(jpeg, libjpeg::TRUE))
     {
         return false;
     }
