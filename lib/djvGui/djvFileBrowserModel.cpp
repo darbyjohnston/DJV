@@ -56,7 +56,11 @@
 #include <QFutureWatcher>
 #include <QMimeData>
 #include <QPixmap>
-#include <QtConcurrent/QtConcurrent>
+#if QT_VERSION < 0x050000
+#include <QtConcurrentRun>
+#else
+#include <QtConcurrent/QtConcurrentRun>
+#endif
 
 //------------------------------------------------------------------------------
 // djvFileBrowserItem

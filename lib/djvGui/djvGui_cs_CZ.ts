@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<TS version="2.0" language="cs_CZ">
 <context>
     <name>djvAbstractApplication</name>
     <message>
@@ -618,15 +618,15 @@ Klávesová zkratka: %1</translation>
     </message>
     <message>
         <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower. The minify filter is used when zooming out, the magnify filter is used when zooming in.</source>
-        <translation type="vanished">Nastavit kvalitu filtru vykreslování. Filtry &quot;Nejbližší&quot; a &quot;Lineární&quot; jsou obecně nejrychlejší. Ostatní filtry poskytují vyšší kvalitu, ale jsou pomalejší. Filtr pro zmenšení se používá na oddalování, filtr pro zvětšení se používá na přibližování.</translation>
+        <translation type="obsolete">Nastavit kvalitu filtru vykreslování. Filtry &quot;Nejbližší&quot; a &quot;Lineární&quot; jsou obecně nejrychlejší. Ostatní filtry poskytují vyšší kvalitu, ale jsou pomalejší. Filtr pro zmenšení se používá na oddalování, filtr pro zvětšení se používá na přibližování.</translation>
     </message>
     <message>
         <source>Minify:</source>
-        <translation type="vanished">Zmenšit:</translation>
+        <translation type="obsolete">Zmenšit:</translation>
     </message>
     <message>
         <source>Magnify:</source>
-        <translation type="vanished">Zvětšit:</translation>
+        <translation type="obsolete">Zvětšit:</translation>
     </message>
     <message>
         <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
