@@ -38,6 +38,25 @@
 #include <djvMemory.h>
 
 //------------------------------------------------------------------------------
+// djvFileBrowserCacheItem
+//------------------------------------------------------------------------------
+
+djvFileBrowserCacheItem::djvFileBrowserCacheItem() :
+    thumbnailProxy(static_cast<djvPixelDataInfo::PROXY>(0))
+{}
+
+djvFileBrowserCacheItem::djvFileBrowserCacheItem(
+    const djvImageIoInfo &  imageInfo,
+    const djvVector2i &     thumbnailSize,
+    djvPixelDataInfo::PROXY thumbnailProxy,
+    const QPixmap &         thumbnail) :
+    imageInfo     (imageInfo),
+    thumbnailSize (thumbnailSize),
+    thumbnailProxy(thumbnailProxy),
+    thumbnail     (thumbnail)
+{}
+
+//------------------------------------------------------------------------------
 // djvFileBrowserCache
 //------------------------------------------------------------------------------
 

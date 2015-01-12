@@ -37,9 +37,32 @@
 #include <djvGuiExport.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 #include <QCache>
 #include <QPixmap>
+
+//------------------------------------------------------------------------------
+//! \struct djvFileBrowserCacheItem
+//!
+//! This struct provides a file browser thumbnail cache item.
+//------------------------------------------------------------------------------
+
+struct djvFileBrowserCacheItem
+{
+    djvFileBrowserCacheItem();
+    
+    djvFileBrowserCacheItem(
+        const djvImageIoInfo &  imageInfo,
+        const djvVector2i &     thumbnailSize,
+        djvPixelDataInfo::PROXY thumbnailProxy,
+        const QPixmap &         thumbnail);
+
+    djvImageIoInfo          imageInfo;
+    djvVector2i             thumbnailSize;
+    djvPixelDataInfo::PROXY thumbnailProxy;
+    QPixmap                 thumbnail;
+};
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserCache
@@ -47,7 +70,8 @@
 //! This class provides a file browser thumbnail cache.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserCache : public QCache<djvFileInfo, QPixmap>
+class DJV_GUI_EXPORT djvFileBrowserCache :
+    public QCache<djvFileInfo, djvFileBrowserCacheItem>
 {
 public:
 

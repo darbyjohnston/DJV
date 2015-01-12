@@ -133,7 +133,7 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     _p->thumbnailsSizeWidget->addItems(djvFileBrowserModel::thumbnailsSizeLabels());
 
     _p->thumbnailsCacheWidget = new djvIntEdit;
-    _p->thumbnailsCacheWidget->setRange(1, 128);
+    _p->thumbnailsCacheWidget->setRange(0, 4096);
     _p->thumbnailsCacheWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     _p->bookmarksWidget = new SmallListWidget;

@@ -225,7 +225,7 @@ djvFileBrowserModel::THUMBNAILS_SIZE djvFileBrowserPrefs::thumbnailsSize() const
 
 qint64 djvFileBrowserPrefs::thumbnailsCacheDefault()
 {
-    return 8 * djvMemory::megabyte;
+    return 128 * djvMemory::megabyte;
 }
 
 qint64 djvFileBrowserPrefs::thumbnailsCache() const
