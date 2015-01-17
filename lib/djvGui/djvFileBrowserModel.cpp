@@ -675,7 +675,7 @@ void djvFileBrowserModel::imageLoadCallback()
     
     const Image & image = future.result();
     
-    //DJV_DEBUG_PRINT("image = " << info.image);
+    //DJV_DEBUG_PRINT("image = " << image.image);
     
     if (image.row < _p->items.count() &&
         image.item == &_p->items[image.row] &&
