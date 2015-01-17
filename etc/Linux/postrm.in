@@ -1,3 +1,5 @@
+#!/bin/bash
+
 rm /usr/bin/djv_convert
 rm /usr/bin/djv_info
 rm /usr/bin/djv_ls
