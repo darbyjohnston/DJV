@@ -92,7 +92,9 @@ djvStyle::Fonts::Fonts() :
     normal(qApp->font()),
     fixed ("Monospace")
 {
+#if QT_VERSION >= 0x040800
     fixed.setStyleHint(QFont::Monospace);
+#endif // QT_VERSION
 }
 
 //------------------------------------------------------------------------------

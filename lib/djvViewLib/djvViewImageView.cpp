@@ -367,7 +367,7 @@ void djvViewImageView::mousePressEvent(QMouseEvent * event)
 
         Q_EMIT pickChanged(_p->mousePos);
     }
-    else if (Qt::MiddleButton == event->button() &&
+    else if (Qt::MidButton == event->button() &&
         event->modifiers() & Qt::ControlModifier)
     {
         setViewZoom(viewZoom() * 2.0, _p->mousePos);
@@ -377,7 +377,7 @@ void djvViewImageView::mousePressEvent(QMouseEvent * event)
     {
         setViewZoom(viewZoom() * 0.5, _p->mousePos);
     }
-    else if (Qt::MiddleButton == event->button())
+    else if (Qt::MidButton == event->button())
     {
         //setCursor(Qt::ClosedHandCursor);
     }
@@ -404,7 +404,7 @@ void djvViewImageView::mouseMoveEvent(QMouseEvent * event)
 
         Q_EMIT pickChanged(_p->mousePos);
     }
-    if (event->buttons() & Qt::MiddleButton)
+    if (event->buttons() & Qt::MidButton)
     {
         setViewPos(_p->viewPosTmp + (_p->mousePos - _p->mouseStartPos));
 
