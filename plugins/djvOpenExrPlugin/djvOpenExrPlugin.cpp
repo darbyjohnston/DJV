@@ -97,8 +97,11 @@ djvOpenExrPlugin::Options::Options() :
     inputColorProfile  (djvOpenExrPlugin::COLOR_PROFILE_GAMMA),
     inputGamma         (2.2),
     channels           (djvOpenExrPlugin::CHANNELS_GROUP_KNOWN),
-    compression        (djvOpenExrPlugin::COMPRESSION_NONE),
+    compression        (djvOpenExrPlugin::COMPRESSION_NONE)
+#if OPENEXR_VERSION_HEX >= 0x02020000
+    ,
     dwaCompressionLevel(45.0)
+#endif // OPENEXR_VERSION_HEX
 {}
 
 //------------------------------------------------------------------------------
@@ -129,9 +132,13 @@ const QStringList & djvOpenExrPlugin::compressionLabels()
         "PIZ" <<
         "PXR24" <<
         "B44" <<
-        "B44A" <<
+        "B44A"        
+#if OPENEXR_VERSION_HEX >= 0x02020000
+        <<
         "DWAA" <<
-        "DWAB";
+        "DWAB"
+#endif // OPENEXR_VERSION_HEX
+        ;
 
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
 
@@ -833,8 +840,12 @@ const QStringList & djvOpenExrPlugin::optionsLabels()
         "Input Gamma" <<
         "Input Exposure" <<
         "Channels" <<
-        "Compression" <<
+        "Compression"
+#if OPENEXR_VERSION_HEX >= 0x02020000
+        <<
         "DWA Compression Level";
+#endif // OPENEXR_VERSION_HEX
+        ;
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -932,10 +943,12 @@ QStringList djvOpenExrPlugin::option(const QString & in) const
     {
         out << _options.compression;
     }
+#if OPENEXR_VERSION_HEX >= 0x02020000
     else if (0 == in.compare(options()[DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
     {
         out << _options.dwaCompressionLevel;
     }
+#endif // OPENEXR_VERSION_HEX
 
     return out;
 }
@@ -1043,6 +1056,7 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
+#if OPENEXR_VERSION_HEX >= 0x02020000
         else if (0 == in.compare(options()[DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
         {
             double compressionLevel = 0.0;
@@ -1058,6 +1072,7 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
+#endif // OPENEXR_VERSION_HEX
     }
     catch (const QString &)
     {
@@ -1111,10 +1126,12 @@ void djvOpenExrPlugin::commandLine(QStringList & in) throw (QString)
             {
                 in >> _options.compression;
             }
+#if OPENEXR_VERSION_HEX >= 0x02020000
             else if ("-exr_dwa_compression_level" == arg)
             {
                 in >> _options.dwaCompressionLevel;
             }
+#endif // OPENEXR_VERSION_HEX
             else
             {
                 tmp << arg;
@@ -1154,9 +1171,12 @@ QString djvOpenExrPlugin::commandLineHelp() const
 "    -exr_compression (value)\n"
 "        Set the file compression used when saving OpenEXR images. Options = "
 "%9. Default = %10.\n"
+#if OPENEXR_VERSION_HEX >= 0x02020000
 "    -exr_dwa_compression_level (value)\n"
 "        Set the DWA compression level used when saving OpenEXR images. "
-"Default = %11.\n").
+"Default = %11.\n"
+#endif // OPENEXR_VERSION_HEX
+    ).
     arg(djvStringUtil::label(_options.threadsEnable).join(", ")).
     arg(djvStringUtil::label(_options.threadCount).join(", ")).
     arg(djvOpenExrPlugin::colorProfileLabels().join(", ")).
@@ -1166,8 +1186,12 @@ QString djvOpenExrPlugin::commandLineHelp() const
     arg(djvOpenExrPlugin::channelsLabels().join(", ")).
     arg(djvStringUtil::label(_options.channels).join(", ")).
     arg(djvOpenExrPlugin::compressionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.compression).join(", ")).
-    arg(_options.dwaCompressionLevel);
+    arg(djvStringUtil::label(_options.compression).join(", "))
+#if OPENEXR_VERSION_HEX >= 0x02020000
+    .
+    arg(_options.dwaCompressionLevel)
+#endif // OPENEXR_VERSION_HEX
+    ;
 }
 
 djvImageLoad * djvOpenExrPlugin::createLoad() const

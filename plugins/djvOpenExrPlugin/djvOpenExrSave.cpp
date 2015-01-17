@@ -243,6 +243,7 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
                 compression = Imf::B44A_COMPRESSION;
                 break;
 
+#if OPENEXR_VERSION_HEX >= 0x02020000
             case djvOpenExrPlugin::COMPRESSION_DWAA:
                 compression = Imf::DWAA_COMPRESSION;
                 break;
@@ -250,13 +251,16 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
             case djvOpenExrPlugin::COMPRESSION_DWAB:
                 compression = Imf::DWAB_COMPRESSION;
                 break;
+#endif // OPENEXR_VERSION_HEX
 
             default: break;
         }
 
         header.insert(Imf::CompressionAttribute::staticTypeName(), compression);
         
+#if OPENEXR_VERSION_HEX >= 0x02020000
         addDwaCompressionLevel(header, _options.dwaCompressionLevel);
+#endif // OPENEXR_VERSION_HEX
 
         // Set image tags.
 

@@ -151,8 +151,10 @@ public:
         COMPRESSION_PXR24,
         COMPRESSION_B44,
         COMPRESSION_B44A,
+#if OPENEXR_VERSION_HEX >= 0x02020000
         COMPRESSION_DWAA,
         COMPRESSION_DWAB,
+#endif // OPENEXR_VERSION_HEX
 
         COMPRESSION_COUNT
     };
@@ -254,7 +256,9 @@ public:
         INPUT_EXPOSURE_OPTION,
         CHANNELS_OPTION,
         COMPRESSION_OPTION,
+#if OPENEXR_VERSION_HEX >= 0x02020000
         DWA_COMPRESSION_LEVEL_OPTION,
+#endif // OPENEXR_VERSION_HEX
 
         OPTIONS_COUNT
     };
@@ -278,7 +282,9 @@ public:
         djvColorProfile::Exposure       inputExposure;
         djvOpenExrPlugin::CHANNELS      channels;
         djvOpenExrPlugin::COMPRESSION   compression;
+#if OPENEXR_VERSION_HEX >= 0x02020000
         double                          dwaCompressionLevel;
+#endif // OPENEXR_VERSION_HEX
     };
 
     virtual void initPlugin() throw (djvError);

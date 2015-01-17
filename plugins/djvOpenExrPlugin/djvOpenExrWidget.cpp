@@ -63,8 +63,11 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     _inputExposureKneeLowWidget (0),
     _inputExposureKneeHighWidget(0),
     _channelsWidget             (0),
-    _compressionWidget          (0),
+    _compressionWidget          (0)
+#if OPENEXR_VERSION_HEX >= 0x02020000
+    ,
     _dwaCompressionLevelWidget  (0)
+#endif // OPENEXR_VERSION_HEX
 {
     //DJV_DEBUG("djvOpenExrWidget::djvOpenExrWidget");
 
@@ -108,9 +111,11 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     _compressionWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
+#if OPENEXR_VERSION_HEX >= 0x02020000
     _dwaCompressionLevelWidget = new djvFloatEditSlider;
     _dwaCompressionLevelWidget->editObject()->setClamp(false);
     _dwaCompressionLevelWidget->sliderObject()->setRange(0.0, 200.0);
+#endif // OPENEXR_VERSION_HEX
 
     // Layout the widgets.
 
@@ -149,7 +154,9 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
         "Set the file compression used when saving OpenEXR images.");
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_compressionWidget);
+#if OPENEXR_VERSION_HEX >= 0x02020000
     formLayout->addRow("DWA compression level:", _dwaCompressionLevelWidget);
+#endif // OPENEXR_VERSION_HEX
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
@@ -194,9 +201,11 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     tmp = _plugin->option(
         _plugin->options()[djvOpenExrPlugin::COMPRESSION_OPTION]);
     tmp >> _options.compression;
+#if OPENEXR_VERSION_HEX >= 0x02020000
     tmp = _plugin->option(
         _plugin->options()[djvOpenExrPlugin::DWA_COMPRESSION_LEVEL_OPTION]);
     tmp >> _options.dwaCompressionLevel;
+#endif // OPENEXR_VERSION_HEX
 
     widgetUpdate();
 
@@ -257,10 +266,12 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
         SIGNAL(activated(int)),
         SLOT(compressionCallback(int)));
 
+#if OPENEXR_VERSION_HEX >= 0x02020000
     connect(
         _dwaCompressionLevelWidget,
         SIGNAL(valueChanged(double)),
         SLOT(dwaCompressionLevelCallback(double)));
+#endif // OPENEXR_VERSION_HEX
 }
 
 djvOpenExrWidget::~djvOpenExrWidget()
@@ -301,9 +312,11 @@ void djvOpenExrWidget::pluginCallback(const QString & option)
         else if (0 == option.compare(_plugin->options()[
             djvOpenExrPlugin::COMPRESSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.compression;
+#if OPENEXR_VERSION_HEX >= 0x02020000
         else if (0 == option.compare(_plugin->options()[
             djvOpenExrPlugin::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.dwaCompressionLevel;
+#endif // OPENEXR_VERSION_HEX
     }
     catch (const QString &)
     {
@@ -386,12 +399,14 @@ void djvOpenExrWidget::compressionCallback(int in)
     pluginUpdate();
 }
 
+#if OPENEXR_VERSION_HEX >= 0x02020000
 void djvOpenExrWidget::dwaCompressionLevelCallback(double in)
 {
     _options.dwaCompressionLevel = in;
 
     pluginUpdate();
 }
+#endif // OPENEXR_VERSION_HEX
 
 void djvOpenExrWidget::pluginUpdate()
 {
@@ -418,9 +433,11 @@ void djvOpenExrWidget::pluginUpdate()
     tmp << _options.compression;
     _plugin->setOption(_plugin->options()[
         djvOpenExrPlugin::COMPRESSION_OPTION], tmp);
+#if OPENEXR_VERSION_HEX >= 0x02020000
     tmp << _options.dwaCompressionLevel;
     _plugin->setOption(_plugin->options()[
         djvOpenExrPlugin::DWA_COMPRESSION_LEVEL_OPTION], tmp);
+#endif // OPENEXR_VERSION_HEX
 }
 
 void djvOpenExrWidget::widgetUpdate()
@@ -437,8 +454,12 @@ void djvOpenExrWidget::widgetUpdate()
         _inputExposureKneeLowWidget <<
         _inputExposureKneeHighWidget <<
         _channelsWidget <<
-        _compressionWidget <<
-        _dwaCompressionLevelWidget);
+        _compressionWidget
+#if OPENEXR_VERSION_HEX >= 0x02020000
+        <<
+        _dwaCompressionLevelWidget
+#endif // OPENEXR_VERSION_HEX
+        );
     
     _inputGammaWidget->setVisible(
         djvOpenExrPlugin::COLOR_PROFILE_GAMMA == _options.inputColorProfile);
@@ -471,7 +492,9 @@ void djvOpenExrWidget::widgetUpdate()
     _inputExposureKneeHighWidget->setValue(_options.inputExposure.kneeHigh);
     _channelsWidget->setCurrentIndex(_options.channels);
     
+#if OPENEXR_VERSION_HEX >= 0x02020000
     _compressionWidget->setCurrentIndex(_options.compression);
     _dwaCompressionLevelWidget->setValue(_options.dwaCompressionLevel);
+#endif // OPENEXR_VERSION_HEX
 }
 
