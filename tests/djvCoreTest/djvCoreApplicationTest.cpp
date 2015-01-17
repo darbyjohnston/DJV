@@ -34,8 +34,9 @@
 #include <djvCoreApplicationTest.h>
 
 #include <djvAssert.h>
-#include <djvDebug.h>
 #include <djvCoreApplication.h>
+#include <djvDebug.h>
+#include <djvErrorUtil.h>
 #include <djvMath.h>
 #include <djvSpeed.h>
 #include <djvTime.h>
@@ -44,76 +45,85 @@ void djvCoreApplicationTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvCoreApplicationTest::run");
     
-    djvCoreApplication app("test", argc, argv);
-
-    DJV_ASSERT("test" == app.name());
-    DJV_ASSERT(argv[0] == app.commandLineName());
-    DJV_ASSERT(app.global());
-    
-    DJV_DEBUG_PRINT("doc path = " << app.docPath());
-    
-    app.print("message", false);
-    app.printError(djvError("prefix", "string"));
-    app.printSeparator();
-    app.print("message 2");
-
-    QStringList args;
-    
-    args += "arg";
-    
-    app.commandLine(args);
-    
-    DJV_ASSERT(1 == args.count());
-
-    args += "-time_units";
-    args += "timecode";
-    
-    app.commandLine(args);
-
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvTime::UNITS_TIMECODE == djvTime::units());
-    
-    args += "-default_speed";
-    args += "12";
-    
-    app.commandLine(args);
-
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvSpeed(12) == djvSpeed::speed());
-    
-    args += "-time_units";
-
     try
-    {    
+    {
+        djvCoreApplication app("test", argc, argv);
+
+        DJV_ASSERT("test" == app.name());
+        DJV_ASSERT(argv[0] == app.commandLineName());
+        DJV_ASSERT(app.global());
+        
+        DJV_DEBUG_PRINT("doc path = " << app.docPath());
+        
+        app.print("message", false);
+        app.printError(djvError("prefix", "string"));
+        app.printSeparator();
+        app.print("message 2");
+
+        QStringList args;
+        
+        args += "arg";
+        
         app.commandLine(args);
+        
+        DJV_ASSERT(1 == args.count());
+
+        args += "-time_units";
+        args += "timecode";
+        
+        app.commandLine(args);
+
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvTime::UNITS_TIMECODE == djvTime::units());
+        
+        args += "-default_speed";
+        args += "12";
+        
+        app.commandLine(args);
+
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvSpeed(12) == djvSpeed::speed());
+        
+        args += "-time_units";
+
+        try
+        {    
+            app.commandLine(args);
+            
+            DJV_ASSERT(0);
+        }
+        catch (...)
+        {}
+        
+        args += "-help";
+        
+        app.commandLine(args);
+        app.run();
+        
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
+        
+        args += "-info";
+        
+        app.commandLine(args);
+        app.run();
+        
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
+        
+        args += "-about";
+        
+        app.commandLine(args);
+        app.run();
+        
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvApplicationEnum::EXIT_ABOUT == app.exitValue());
+    }
+    catch (const djvError & error)
+    {
+        djvErrorUtil::print(error);
         
         DJV_ASSERT(0);
     }
-    catch (...)
-    {}
-    
-    args += "-help";
-    
-    app.commandLine(args);
-    app.run();
-    
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
-    
-    args += "-info";
-    
-    app.commandLine(args);
-    app.run();
-    
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
-    
-    args += "-about";
-    
-    app.commandLine(args);
-    app.run();
-    
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvApplicationEnum::EXIT_ABOUT == app.exitValue());
 }
 

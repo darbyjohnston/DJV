@@ -35,6 +35,7 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvErrorUtil.h>
 #include <djvImageApplication.h>
 #include <djvOpenGlImage.h>
 
@@ -42,63 +43,72 @@ void djvImageApplicationTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvImageApplicationTest::run");
     
-    djvImageApplication app("test", argc, argv);
-
-    DJV_ASSERT("test" == app.name());
-    DJV_ASSERT(app.context());
-        
-    QStringList args;
-    
-    args += "arg";
-    
-    app.commandLine(args);
-    
-    DJV_ASSERT(1 == args.count());
-
-    args += "-render_filter";
-    args += "Box";
-    args += "Triangle";
-    
-    app.commandLine(args);
-
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvOpenGlImageFilter(
-        djvOpenGlImageFilter::BOX, djvOpenGlImageFilter::TRIANGLE) ==
-        djvOpenGlImageFilter::filter());
-    
-    args += "-render_filter_high";
-    
-    app.commandLine(args);
-
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvOpenGlImageFilter::filterHighQuality() ==
-        djvOpenGlImageFilter::filter());
-    
-    args += "-render_filter";
-
     try
-    {    
+    {
+        djvImageApplication app("test", argc, argv);
+
+        DJV_ASSERT("test" == app.name());
+        DJV_ASSERT(app.context());
+            
+        QStringList args;
+        
+        args += "arg";
+        
         app.commandLine(args);
+        
+        DJV_ASSERT(1 == args.count());
+
+        args += "-render_filter";
+        args += "Box";
+        args += "Triangle";
+        
+        app.commandLine(args);
+
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvOpenGlImageFilter(
+            djvOpenGlImageFilter::BOX, djvOpenGlImageFilter::TRIANGLE) ==
+            djvOpenGlImageFilter::filter());
+        
+        args += "-render_filter_high";
+        
+        app.commandLine(args);
+
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvOpenGlImageFilter::filterHighQuality() ==
+            djvOpenGlImageFilter::filter());
+        
+        args += "-render_filter";
+
+        try
+        {    
+            app.commandLine(args);
+            
+            DJV_ASSERT(0);
+        }
+        catch (...)
+        {}
+            
+        args += "-help";
+        
+        app.commandLine(args);
+        app.run();
+        
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
+        
+        args += "-info";
+        
+        app.commandLine(args);
+        app.run();
+        
+        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
+    }
+    catch (const djvError & error)
+    {
+        djvErrorUtil::print(error);
         
         DJV_ASSERT(0);
     }
-    catch (...)
-    {}
-        
-    args += "-help";
-    
-    app.commandLine(args);
-    app.run();
-    
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
-    
-    args += "-info";
-    
-    app.commandLine(args);
-    app.run();
-    
-    DJV_ASSERT(1 == args.count());
-    DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
 }
 
