@@ -83,9 +83,7 @@ private Q_SLOTS:
     void inputExposureKneeHighCallback(double);
     void channelsCallback(int);
     void compressionCallback(int);
-#if OPENEXR_VERSION_HEX >= 0x02020000
     void dwaCompressionLevelCallback(double);
-#endif // OPENEXR_VERSION_HEX
     void pluginUpdate();
     void widgetUpdate();
 

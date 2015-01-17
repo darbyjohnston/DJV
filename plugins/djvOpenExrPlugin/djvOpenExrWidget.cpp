@@ -399,14 +399,14 @@ void djvOpenExrWidget::compressionCallback(int in)
     pluginUpdate();
 }
 
-#if OPENEXR_VERSION_HEX >= 0x02020000
 void djvOpenExrWidget::dwaCompressionLevelCallback(double in)
 {
+#if OPENEXR_VERSION_HEX >= 0x02020000
     _options.dwaCompressionLevel = in;
 
     pluginUpdate();
-}
 #endif // OPENEXR_VERSION_HEX
+}
 
 void djvOpenExrWidget::pluginUpdate()
 {
