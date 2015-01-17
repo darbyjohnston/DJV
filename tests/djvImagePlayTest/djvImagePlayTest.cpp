@@ -91,7 +91,7 @@ djvImagePlayTestApplication::djvImagePlayTestApplication(
     char ** argv) :
     djvApplication("djvImagePlayTest", argc, argv),
     _load  (0),
-    _cache (true),
+    _cache (false),
     _widget(0),
     _frame (0)
 {
@@ -233,6 +233,8 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
         djvOpenGlImageOptions options;
         options.colorProfile = imageP->colorProfile;
         _widget->setOptions(options);
+
+        _widget->updateGL();
     }
 
     ++_frame;
