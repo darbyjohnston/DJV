@@ -80,7 +80,7 @@ set(header
     djvVectorUtilInline.h
     djvWglContextPrivate.h)
 
-set(headerMoc
+set(mocHeader
     djvColorProfile.h
     djvCoreApplication.h
     djvDebugLog.h
@@ -145,13 +145,13 @@ set(source
     djvWglContextPrivate.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
     QT5_ADD_RESOURCES(rccSource djvCore.qrc)
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djvCore_en_US.ts
         djvCore_cs_CZ.ts)
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
     QT4_ADD_RESOURCES(rccSource djvCore.qrc)
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djvCore_en_US.ts

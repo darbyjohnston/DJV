@@ -1,19 +1,19 @@
 set(header
     djv_ls.h)
 
-set(headerMoc
+set(mocHeader
     djv_ls.h)
 
 set(source
     djv_ls.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djv_ls_en_US.ts
         djv_ls_cs_CZ.ts)
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djv_ls_en_US.ts
         djv_ls_cs_CZ.ts)

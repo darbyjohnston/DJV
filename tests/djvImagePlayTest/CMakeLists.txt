@@ -1,16 +1,16 @@
 set(header
     djvImagePlayTest.h)
 
-set(headerMoc
+set(mocHeader
     djvImagePlayTest.h)
 
 set(source
     djvImagePlayTest.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
 endif()
 
 include_directories(

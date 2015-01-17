@@ -64,7 +64,7 @@ set(header
 	djvViewWindowPrefsWidget.h
 	djvViewWindowToolBar.h)
 
-set(headerMoc
+set(mocHeader
     djvViewAbstractActions.h
     djvViewAbstractGroup.h
     djvViewAbstractMenu.h
@@ -193,13 +193,13 @@ set(source
 	djvViewWindowToolBar.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
     QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djvViewLib_en_US.ts
         djvViewLib_cs_CZ.ts)
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
     QT4_ADD_RESOURCES(rccSource djvViewLib.qrc)
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djvViewLib_en_US.ts

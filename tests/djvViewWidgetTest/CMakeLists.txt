@@ -1,16 +1,16 @@
 set(header
     djvViewWidgetTest.h)
 
-set(headerMoc
+set(mocHeader
     djvViewWidgetTest.h)
 
 set(source
     djvViewWidgetTest.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
 endif()
 
 include_directories(

@@ -23,7 +23,7 @@ set(header
     djvVectorWidgetTest.h
     djvWidgetTest.h)
 
-set(headerMoc
+set(mocHeader
     djvApplicationAboutDialogTest.h
     djvApplicationInfoDialogTest.h
     djvApplicationMessageDialogTest.h
@@ -74,9 +74,9 @@ set(source
     djvWidgetTest.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
 endif()
 
 include_directories(

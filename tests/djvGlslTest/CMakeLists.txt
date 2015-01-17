@@ -11,7 +11,7 @@ set(header
     djvGlslTestUtil.h
     djvGlslTestWidget.h)
 
-set(headerMoc
+set(mocHeader
     djvGlslTestApplication.h
     djvGlslTestBlur.h
     djvGlslTestColor.h
@@ -35,9 +35,9 @@ set(source
     djvGlslTestWidget.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
 endif()
 
 include_directories(

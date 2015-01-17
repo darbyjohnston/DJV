@@ -62,7 +62,7 @@ set(header
     djvVector2iEditWidget.h
     djvWindowUtil.h)
 
-set(headerMoc
+set(mocHeader
     djvAbstractPrefsWidget.h
     djvAbstractToolButton.h
     djvApplicationAboutDialog.h
@@ -183,13 +183,13 @@ set(source
     djvWindowUtil.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
     QT5_ADD_RESOURCES(rccSource djvGui.qrc)
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djvGui_en_US.ts
         djvGui_cs_CZ.ts)
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
     QT4_ADD_RESOURCES(rccSource djvGui.qrc)
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djvGui_en_US.ts

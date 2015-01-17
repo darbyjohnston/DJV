@@ -40,7 +40,7 @@ set(header
     djvVectorTest.h
     djvVectorUtilTest.h)
 
-set(headerMoc
+set(mocHeader
     djvSignalBlockerTest.h)
 
 set(source
@@ -86,9 +86,9 @@ set(source
     djvVectorUtilTest.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${headerMoc})
+    QT5_WRAP_CPP(mocSource ${mocHeader})
 else()
-    QT4_WRAP_CPP(mocSource ${headerMoc})
+    QT4_WRAP_CPP(mocSource ${mocHeader})
 endif()
 
 include_directories(
