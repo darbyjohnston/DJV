@@ -4,11 +4,20 @@ set(header
     djvTiffSave.h
     djvTiffWidget.h)
 
+set(mocHeader
+    djvTiffWidget.h)
+
 set(source
     djvTiffLoad.cpp
     djvTiffPlugin.cpp
     djvTiffSave.cpp
     djvTiffWidget.cpp)
+
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${mocHeader})
+else()
+    QT4_WRAP_CPP(mocSource ${mocHeader})
+endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvTiffPlugin
@@ -17,7 +26,7 @@ include_directories(
     ${ZLIB_INCLUDE_DIRS}
     ${djvGuiIncludeDirs})
 
-add_library(djvTiffPlugin MODULE ${header} ${source})
+add_library(djvTiffPlugin MODULE ${header} ${source} ${mocSource})
 
 target_link_libraries(
     djvTiffPlugin

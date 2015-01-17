@@ -2,13 +2,23 @@ set(header
     djvAbstractTest.h
     djvTestLibExport.h)
 
-set(source)
+set(headerMoc
+    djvAbstractTest.h)
+
+set(source
+    djvTestLib.cpp)
+
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
+else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
+endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvTestLib
     ${djvCoreIncludeDirs})
 
-add_library(djvTestLib ${header} ${source})
+add_library(djvTestLib ${header} ${source} ${mocSource})
 
 target_link_libraries(djvTestLib ${djvCoreDeps})
 

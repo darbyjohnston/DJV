@@ -40,6 +40,9 @@ set(header
     djvVectorTest.h
     djvVectorUtilTest.h)
 
+set(headerMoc
+    djvSignalBlockerTest.h)
+
 set(source
     djvCoreApplicationTest.cpp
     djvBoxTest.cpp
@@ -82,12 +85,18 @@ set(source
     djvVectorTest.cpp
     djvVectorUtilTest.cpp)
 
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
+else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvCoreTest
     ${CMAKE_SOURCE_DIR}/tests/djvTestLib
     ${djvCoreIncludeDirs})
 
-add_library(djvCoreTest ${header} ${source})
+add_library(djvCoreTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvCoreTest djvTestLib ${djvCoreLibs})
 

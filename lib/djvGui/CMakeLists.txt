@@ -62,6 +62,64 @@ set(header
     djvVector2iEditWidget.h
     djvWindowUtil.h)
 
+set(headerMoc
+    djvAbstractPrefsWidget.h
+    djvAbstractToolButton.h
+    djvApplicationAboutDialog.h
+    djvApplication.h
+    djvApplicationInfoDialog.h
+    djvApplicationMessageDialog.h
+    djvChoiceButton.h
+    djvChoiceDialog.h
+    djvColorDialog.h
+    djvColorSwatch.h
+    djvColorWidget.h
+    djvDebugLogDialog.h
+    djvFileBrowser.h
+    djvFileBrowserModel.h
+    djvFileBrowserPrefs.h
+    djvFileBrowserPrefsWidget.h
+    djvFileEdit.h
+    djvFloatDisplay.h
+    djvFloatEdit.h
+    djvFloatEditSlider.h
+    djvFloatObject.h
+    djvFloatSlider.h
+    djvFormLayoutAlign.h
+    djvIconLibrary.h
+    djvImageIoPrefs.h
+    djvImageView.h
+    djvIndexShortcut.h
+    djvInputDialog.h
+    djvIntDisplay.h
+    djvIntEdit.h
+    djvIntEditSlider.h
+    djvIntObject.h
+    djvIntSlider.h
+    djvMiscPrefs.h
+    djvMiscPrefsWidget.h
+    djvMultiChoiceDialog.h
+    djvOpenGlPrefs.h
+    djvOpenGlPrefsWidget.h
+    djvOpenGlWidget.h
+    djvOsxMenuHack.h
+    djvPixelMaskWidget.h
+    djvPixelWidget.h
+    djvPrefs.h
+    djvPrefsDialog.h
+    djvPrefsGroupBox.h
+    djvProgressDialog.h
+    djvQuestionDialog.h
+    djvSearchBox.h
+    djvShortcutsModel.h
+    djvShortcutsWidget.h
+    djvShuttleButton.h
+    djvStyle.h
+    djvStylePrefsWidget.h
+    djvToolButton.h
+    djvVector2fEditWidget.h
+    djvVector2iEditWidget.h)
+
 set(source
     djvAbstractPrefsWidget.cpp
     djvAbstractToolButton.cpp
@@ -125,11 +183,13 @@ set(source
     djvWindowUtil.cpp)
 
 if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
     QT5_ADD_RESOURCES(rccSource djvGui.qrc)
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djvGui_en_US.ts
         djvGui_cs_CZ.ts)
 else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
     QT4_ADD_RESOURCES(rccSource djvGui.qrc)
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djvGui_en_US.ts
@@ -138,7 +198,7 @@ endif()
 
 include_directories(${djvGuiIncludeDirs})
 
-add_library(djvGui ${header} ${source} ${rccSource} ${qmSource})
+add_library(djvGui ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 
 target_link_libraries(djvGui ${djvGuiDeps})
 
@@ -165,3 +225,4 @@ install(
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
+

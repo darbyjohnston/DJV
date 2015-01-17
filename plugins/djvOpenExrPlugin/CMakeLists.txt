@@ -4,11 +4,20 @@ set(header
     djvOpenExrSave.h
     djvOpenExrWidget.h)
 
+set(mocHeader
+    djvOpenExrWidget.h)
+
 set(source
     djvOpenExrLoad.cpp
     djvOpenExrPlugin.cpp
     djvOpenExrSave.cpp
     djvOpenExrWidget.cpp)
+
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${mocHeader})
+else()
+    QT4_WRAP_CPP(mocSource ${mocHeader})
+endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvOpenExrPlugin
@@ -16,7 +25,7 @@ include_directories(
     ${ZLIB_INCLUDE_DIRS}
     ${djvGuiIncludeDirs})
 
-add_library(djvOpenExrPlugin MODULE ${header} ${source})
+add_library(djvOpenExrPlugin MODULE ${header} ${source} ${mocSource})
 
 target_link_libraries(
     djvOpenExrPlugin

@@ -1,7 +1,8 @@
 set(header
     djvGuiTestExport.h)
 
-set(source)
+set(source
+    djvGuiTest.cpp)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvGuiTest

@@ -89,11 +89,11 @@
     </message>
     <message>
         <source>Input</source>
-        <translation type="vanished">Vstup</translation>
+        <translation type="obsolete">Vstup</translation>
     </message>
     <message>
         <source>Output</source>
-        <translation type="vanished">Výstup</translation>
+        <translation type="obsolete">Výstup</translation>
     </message>
     <message>
         <source>Cannot open image: &quot;%1&quot;</source>

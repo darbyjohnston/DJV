@@ -1,14 +1,19 @@
 set(header
     djv_convert.h)
 
+set(headerMoc
+    djv_convert.h)
+
 set(source
     djv_convert.cpp)
 
 if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djv_convert_en_US.ts
         djv_convert_cs_CZ.ts)
 else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djv_convert_en_US.ts
         djv_convert_cs_CZ.ts)
@@ -18,7 +23,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_convert
     ${djvCoreIncludeDirs})
 
-add_executable(djv_convert ${header} ${source} ${qmSource})
+add_executable(djv_convert ${header} ${source} ${mocSource} ${qmSource})
 
 target_link_libraries(djv_convert ${djvCoreLibs})
 

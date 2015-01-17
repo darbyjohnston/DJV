@@ -80,6 +80,25 @@ set(header
     djvVectorUtilInline.h
     djvWglContextPrivate.h)
 
+set(headerMoc
+    djvColorProfile.h
+    djvCoreApplication.h
+    djvDebugLog.h
+    djvFileInfo.h
+    djvFileInfoUtil.h
+    djvFileIo.h
+    djvImageApplication.h
+    djvImageIo.h
+    djvImageTags.h
+    djvMemory.h
+    djvOpenGlImage.h
+    djvPixelData.h
+    djvPixel.h
+    djvPlugin.h
+    djvSequence.h
+    djvSpeed.h
+    djvTime.h)
+
 set(source
     djvAssert.cpp
     djvDebugLog.cpp
@@ -126,11 +145,13 @@ set(source
     djvWglContextPrivate.cpp)
 
 if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
     QT5_ADD_RESOURCES(rccSource djvCore.qrc)
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djvCore_en_US.ts
         djvCore_cs_CZ.ts)
 else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
     QT4_ADD_RESOURCES(rccSource djvCore.qrc)
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djvCore_en_US.ts
@@ -139,7 +160,7 @@ endif()
 
 include_directories(${djvCoreIncludeDirs})
 
-add_library(djvCore ${header} ${source} ${rccSource} ${qmSource})
+add_library(djvCore ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 
 target_link_libraries(djvCore ${djvCoreDeps})
 

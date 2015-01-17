@@ -23,6 +23,31 @@ set(header
     djvVectorWidgetTest.h
     djvWidgetTest.h)
 
+set(headerMoc
+    djvApplicationAboutDialogTest.h
+    djvApplicationInfoDialogTest.h
+    djvApplicationMessageDialogTest.h
+    djvChoiceDialogTest.h
+    djvColorDialogTest.h
+    djvColorWidgetTest.h
+    djvFileBrowserTest.h
+    djvFileEditTest.h
+    djvIconLibraryTest.h
+    djvInputDialogTest.h
+    djvIntSliderTest.h
+    djvMessageDialogTest.h
+    djvMultiChoiceDialogTest.h
+    djvNumWidgetTest.h
+    djvPixelWidgetTest.h
+    djvPrefsDialogTest.h
+    djvProgressDialogTest.h
+    djvQuestionDialogTest.h
+    djvSearchBoxTest.h
+    djvShortcutsWidgetTest.h
+    djvToolButtonTest.h
+    djvVectorWidgetTest.h
+    djvWidgetTest.h)
+
 set(source
     djvApplicationAboutDialogTest.cpp
     djvApplicationInfoDialogTest.cpp
@@ -48,11 +73,17 @@ set(source
     djvVectorWidgetTest.cpp
     djvWidgetTest.cpp)
 
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
+else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvWidgetTest
     ${djvGuiIncludeDirs})
 
-add_executable(djvWidgetTest ${header} ${source})
+add_executable(djvWidgetTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvWidgetTest ${djvGuiLibs})
 
@@ -63,3 +94,4 @@ if (djvImageIoPlugins)
     add_dependencies(djvWidgetTest ${djvImageIoPlugins})
 
 endif (djvImageIoPlugins)
+

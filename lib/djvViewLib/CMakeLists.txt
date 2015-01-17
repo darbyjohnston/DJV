@@ -64,6 +64,69 @@ set(header
 	djvViewWindowPrefsWidget.h
 	djvViewWindowToolBar.h)
 
+set(headerMoc
+    djvViewAbstractActions.h
+    djvViewAbstractGroup.h
+    djvViewAbstractMenu.h
+    djvViewAbstractPrefs.h
+    djvViewAbstractPrefsWidget.h
+    djvViewAbstractToolBar.h
+    djvViewAbstractTool.h
+    djvViewApplication.h
+    djvViewColorPickerTool.h
+    djvViewDisplayProfileWidget.h
+    djvViewFileActions.h
+    djvViewFileCache.h
+    djvViewFileGroup.h
+    djvViewFileMenu.h
+    djvViewFilePrefs.h
+    djvViewFilePrefsWidget.h
+    djvViewFileSave.h
+    djvViewFileToolBar.h
+    djvViewHelpActions.h
+    djvViewHelpGroup.h
+    djvViewHelpMenu.h
+    djvViewHistogramTool.h
+    djvViewImageActions.h
+    djvViewImageGroup.h
+    djvViewImageMenu.h
+    djvViewImagePrefs.h
+    djvViewImagePrefsWidget.h
+    djvViewImageToolBar.h
+    djvViewImageView.h
+    djvViewInfoTool.h
+    djvViewInputPrefs.h
+    djvViewInputPrefsWidget.h
+    djvViewMagnifyTool.h
+    djvViewMainWindow.h
+    djvViewMiscWidget.h
+    djvViewPlaybackActions.h
+    djvViewPlaybackGroup.h
+    djvViewPlaybackMenu.h
+    djvViewPlaybackPrefs.h
+    djvViewPlaybackPrefsWidget.h
+    djvViewPlaybackToolBar.h
+    djvViewPlaybackWidgets.h
+    djvViewShortcutPrefs.h
+    djvViewShortcutPrefsWidget.h
+    djvViewToolActions.h
+    djvViewToolGroup.h
+    djvViewToolMenu.h
+    djvViewToolToolBar.h
+    djvViewUtil.h
+    djvViewViewActions.h
+    djvViewViewGroup.h
+    djvViewViewMenu.h
+    djvViewViewPrefs.h
+    djvViewViewPrefsWidget.h
+    djvViewViewToolBar.h
+    djvViewWindowActions.h
+    djvViewWindowGroup.h
+    djvViewWindowMenu.h
+    djvViewWindowPrefs.h
+    djvViewWindowPrefsWidget.h
+    djvViewWindowToolBar.h)
+
 set(source
 	djvViewAbstractActions.cpp
 	djvViewAbstractGroup.cpp
@@ -130,11 +193,13 @@ set(source
 	djvViewWindowToolBar.cpp)
 
 if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
     QT5_ADD_RESOURCES(rccSource djvViewLib.qrc)
     QT5_CREATE_TRANSLATION(qmSource ${source}
         djvViewLib_en_US.ts
         djvViewLib_cs_CZ.ts)
 else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
     QT4_ADD_RESOURCES(rccSource djvViewLib.qrc)
     QT4_CREATE_TRANSLATION(qmSource ${source}
         djvViewLib_en_US.ts
@@ -143,7 +208,7 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/djvViewLib ${djvGuiIncludeDirs})
 
-add_library(djvViewLib ${header} ${source} ${rccSource} ${qmSource})
+add_library(djvViewLib ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 
 target_link_libraries(djvViewLib ${djvGuiLibs})
 

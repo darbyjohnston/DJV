@@ -905,8 +905,6 @@ endif (WIN32)
 
 # Qt
 
-set(CMAKE_AUTOMOC ON)
-
 find_package(Qt5Core)
 if (Qt5Core_DIR)
     find_package(Qt5Widgets REQUIRED)

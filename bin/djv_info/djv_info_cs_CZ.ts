@@ -53,11 +53,11 @@
     </message>
     <message>
         <source>Input</source>
-        <translation type="vanished">Vstup</translation>
+        <translation type="obsolete">Vstup</translation>
     </message>
     <message>
         <source>Cannot open directory: &quot;%1&quot;</source>
-        <translation type="vanished">Nelze otevřít adresář: &quot;%1&quot;</translation>
+        <translation type="obsolete">Nelze otevřít adresář: &quot;%1&quot;</translation>
     </message>
     <message>
         <source>%1x%2:%3 %4 %5@%6</source>

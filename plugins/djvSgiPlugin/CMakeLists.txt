@@ -4,17 +4,26 @@ set(header
     djvSgiSave.h
     djvSgiWidget.h)
 
+set(mocHeader
+    djvSgiWidget.h)
+
 set(source
     djvSgiLoad.cpp
     djvSgiPlugin.cpp
     djvSgiSave.cpp
     djvSgiWidget.cpp)
 
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${mocHeader})
+else()
+    QT4_WRAP_CPP(mocSource ${mocHeader})
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvSgiPlugin
     ${djvGuiIncludeDirs})
 
-add_library(djvSgiPlugin MODULE ${header} ${source})
+add_library(djvSgiPlugin MODULE ${header} ${source} ${mocSource})
 
 target_link_libraries(
     djvSgiPlugin

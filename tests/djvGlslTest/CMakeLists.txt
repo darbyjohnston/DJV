@@ -11,6 +11,16 @@ set(header
     djvGlslTestUtil.h
     djvGlslTestWidget.h)
 
+set(headerMoc
+    djvGlslTestApplication.h
+    djvGlslTestBlur.h
+    djvGlslTestColor.h
+    djvGlslTestExposure.h
+    djvGlslTestLevels.h
+    djvGlslTestOp.h
+    djvGlslTestScale.h
+    djvGlslTestSharpen.h)
+
 set(source
     djvGlslTestApplication.cpp
     djvGlslTestBlur.cpp
@@ -24,11 +34,17 @@ set(source
     djvGlslTestUtil.cpp
     djvGlslTestWidget.cpp)
 
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${headerMoc})
+else()
+    QT4_WRAP_CPP(mocSource ${headerMoc})
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvGlslTest
     ${djvGuiIncludeDirs})
 
-add_executable(djvGlslTest ${header} ${source})
+add_executable(djvGlslTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvGlslTest ${djvGuiLibs})
 
