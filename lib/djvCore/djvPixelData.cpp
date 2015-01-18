@@ -216,7 +216,7 @@ void djvPixelData::detach()
         
         djvMemory::copy(_p, _data(), _dataByteCount);
         
-        _p = data();
+        _p = _data();
 
         delete _fileIo;
 
