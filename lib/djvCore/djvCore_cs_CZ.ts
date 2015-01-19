@@ -4,7 +4,7 @@
 <context>
     <name>djvAbstractCoreApplication</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="218"/>
+        <location filename="djvCoreApplication.cpp" line="223"/>
         <source>General
 
     Version: %1
@@ -39,7 +39,7 @@
 </translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="244"/>
+        <location filename="djvCoreApplication.cpp" line="249"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -291,52 +291,52 @@ Tento software je zčásti založen na práci (v abecedním pořadí):
 </translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="403"/>
+        <location filename="djvCoreApplication.cpp" line="408"/>
         <source>-time_units</source>
         <translation>-time_units</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="410"/>
+        <location filename="djvCoreApplication.cpp" line="415"/>
         <source>-default_speed</source>
         <translation>-default_speed</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="417"/>
+        <location filename="djvCoreApplication.cpp" line="422"/>
         <source>-max_sequence_frames</source>
         <translation>-max_sequence_frames</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="425"/>
+        <location filename="djvCoreApplication.cpp" line="430"/>
         <source>-debug_log</source>
         <translation>-debug_log</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="431"/>
+        <location filename="djvCoreApplication.cpp" line="436"/>
         <source>-help</source>
         <translation>-help</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="432"/>
+        <location filename="djvCoreApplication.cpp" line="437"/>
         <source>-h</source>
         <translation>-h</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="437"/>
+        <location filename="djvCoreApplication.cpp" line="442"/>
         <source>-info</source>
         <translation>-info</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="442"/>
+        <location filename="djvCoreApplication.cpp" line="447"/>
         <source>-about</source>
         <translation>-about</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="450"/>
+        <location filename="djvCoreApplication.cpp" line="455"/>
         <source>-psn_</source>
         <translation>-psn_</translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="483"/>
+        <location filename="djvCoreApplication.cpp" line="488"/>
         <source>
 General Options
 
@@ -374,7 +374,7 @@ General Options
 </translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="519"/>
+        <location filename="djvCoreApplication.cpp" line="524"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation>Nelze zpracovat argument příkazového řádku: %1</translation>
     </message>

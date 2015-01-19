@@ -191,13 +191,7 @@ void djvAbstractApplication::setToolTips(bool toolTips)
 
 void djvAbstractApplication::help() const
 {
-    //DJV_DEBUG("djvAbstractApplication::help");
-
-    const QString url(docPath() + "djv_view.html");
-
-    //DJV_DEBUG_PRINT("url = " << url);
-
-    QDesktopServices::openUrl(QUrl::fromLocalFile(url));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(doc()));
 }
 
 int djvAbstractApplication::run()

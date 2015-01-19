@@ -116,6 +116,10 @@ public:
     //! Get the documentation path.
 
     QString docPath() const;
+    
+    //! Get the documentation URL.
+    
+    virtual QString doc() const;
 
     //! Get application information.
 

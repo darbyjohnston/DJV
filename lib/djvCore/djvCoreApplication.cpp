@@ -213,6 +213,11 @@ QString djvAbstractCoreApplication::docPath() const
     return djvFileInfoUtil::fixPath(qApp->applicationDirPath() + "/" + docPath);
 }
 
+QString djvAbstractCoreApplication::doc() const
+{
+    return docPath() + "djvHelp.html";
+}
+
 QString djvAbstractCoreApplication::info() const
 {
     static const QString label = qApp->translate(

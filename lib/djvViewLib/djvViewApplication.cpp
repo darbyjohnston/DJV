@@ -272,6 +272,11 @@ djvViewApplication::~djvViewApplication()
     delete _p;
 }
 
+QString djvViewApplication::doc() const
+{
+    return docPath() + "djv_view.html";
+}
+
 void djvViewApplication::commandLine(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvViewApplication::commandLine");

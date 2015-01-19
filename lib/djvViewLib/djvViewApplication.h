@@ -63,10 +63,10 @@ public:
 
     virtual ~djvViewApplication();
     
-    //! Parse the command line.
+    virtual QString doc() const;
 
-    void commandLine(QStringList &) throw (QString);
-
+    virtual void commandLine(QStringList &) throw (QString);
+    
     virtual QString commandLineHelp() const;
 
 protected:
