@@ -32,9 +32,8 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
-<title>DJV Imaging - IFF</title>
+<title>DJV Imaging - Installation</title>
 </head>
 
 <body>
@@ -50,11 +49,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -62,31 +61,54 @@
 <tr>
 <td>
 
-<h1>IFF</h1>
-
-<p>This plugin provides support for the Generic Interchange File Format (IFF).</p>
-<p>File extensions: .iff, .z</p>
-<p>Supported features:</p>
+<h1>Installation</h1>
 <ul>
-    <li>8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA</li>
-    <li>File compression</li>
-</ul>
-<p>References:</p>
-<ul>
-    <li><a href="http://affine.org">Affine Toolkit</a> - (Thomas E. Burge),
-    riff.h and riff.c</li>
-    <li>Autodesk Maya documentation, "Overview of Maya IFF"</li>
-</ul>
-<p>Implementation:</p>
-<ul>
-    <li>Mikael Sundell, mikael.sundell@gmail.com</li>
+    <li><a href="#Linux">Linux</a></li>
+    <li><a href="#OSX">OS X</a></li>
+    <li><a href="#Windows">Windows</a></li>
 </ul>
 
-<h2>Command Line Options</h2>
-<table>
-<tr><td width="200">-iff_compression (value)</td><td>Set the file compression used when
-saving IFF images. Options = None, RLE. Default = RLE.</td></tr>
-</table>
+<a name="Linux"><h2>Linux</h2></a>
+<p>Linux packages are compiled for CentOS 6.3 and may also work on other Linux
+distributions.</p>
+<p>
+
+<p>To install the RPM package:</p>
+<pre>
+> sudo rpm -iv djv-@djvVersion@-Linux-64.rpm
+</pre>
+<p>To uninstall the RPM package:</p>
+<pre>
+> sudo rpm -e djv-@djvVersion@-1.x86_64
+</pre>
+
+<p>To install the DEB package:</p>
+<pre>
+> sudo dpkg -i djv-@djvVersion@-Linux-64.deb
+</pre>
+<p>To uninstall the DEB package:</p>
+<pre>
+> sudo dpkg --remove djv
+</pre>
+
+<a name="OSX"><h2>OS X</h2></a>
+<p>OS X packages are compiled for OS X 10.7 and are compatible with later OS X
+versions.</p>
+<p>Shell scripts are provided to setup the proper environment and run the DJV
+applications from a terminal, they are located in the "Contents/Resources/bin"
+directory. For example if you installed DJV in the "/Applications" directory
+use this command to run djv_convert:</p>
+<pre>
+> /Applications/djv-@djvVersion@-OSX-64.app/Contents/Resources/bin/djv_convert.sh
+</pre>
+<p>You can add an alias in your startup script (eg., $HOME/.profile) to provide a shortcut:</p>
+<pre>
+alias djv_convert=/Applications/djv-@djvVersion@-OSX-64.app/Contents/Resources/bin/djv_convert.sh
+</pre>
+
+<a name="Windows"><h2>Windows</h2></a>
+<p>Windows packages are compiled for Windows 7. Note that only the 32-bit
+versions of the Windows packages support Apple QuickTime.</p>
 
 </td>
 </tr>

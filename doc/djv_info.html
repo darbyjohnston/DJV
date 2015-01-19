@@ -50,11 +50,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -62,20 +62,14 @@
 <tr>
 <td>
 
-<table>
-    <tr>
-        <td><img src="images/djvInfoThumbnail.png"/></td>
-        <td><h1>djv_info</h1></td>
-    </tr>
-</table>
+<h1>djv_info</h1>
 <ul>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#options">Options</a></li>
-    <li><a href="#imageIoOptions">Image I/O Options</a></li>
-    <li><a href="#generalOptions">General Options</a></li>
-    <li><a href="#examples">Examples</a></li>
+    <li><a href="#Overview">Overview</a></li>
+    <li><a href="#CommandLine">Command Line</a></li>
+    <li><a href="#Examples">Examples</a></li>
 </ul>
 
+<a name="Overview"><h2>Overview</h2></a>
 <p>
 This application provides a command line tool for displaying information about
 images and movies.</p>
@@ -100,12 +94,12 @@ render0001-1000.exr                                      00:00:41:16@24
     (layer): (name)             (width)x(height):(aspect ratio) (pixel)
 </pre>
 
-<a name="usage"><h2>Usage</h2></a>
+<a name="CommandLine"><h2>Command Line</h2></a>
+<p>Usage:</p>
 <pre>
 djv_info (image|directory)... [option]...
 </pre>
-
-<a name="options"><h2>Options</h2></a>
+<p>Options:</p>
 <table>
 <tr><td width="200">-x_info, -xi</td><td>Don't show image information, only
 file names.</td></tr>
@@ -117,16 +111,12 @@ Range. Default = Range.</td></tr>
 <tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
 output. A value of zero disables formatting.</td></tr>
 </table>
-
-<a name="imageIoOptions"><h2>Image I/O Options</h2></a>
 <p>Documentation for image I/O command line options is available
 <a href="djvImageIo.html">here</a>.<p>
-
-<a name="generalOptions"><h2>General Options</h2></a>
 <p>Documentation for general command line options is available
 <a href="djvCommandLine.html">here</a>.<p>
 
-<a name="examples"><h2>Examples</h2></a>
+<a name="Examples"><h2>Examples</h2></a>
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi

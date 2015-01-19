@@ -50,11 +50,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -68,57 +68,46 @@
     <li><a href="#2">How do I setup the DJV command line tools?</a></li>
     <li><a href="#3">How do I use a LUT (lookup table) with the DJV viewer?</a></li>
     <li><a href="#4">Are 3D LUTs supported?</a></li>
-    <li><a href="#5">How can I convert an image sequence to a movie?</a></li>
-    <li><a href="#6">How can I convert a movie to an image sequence?</a></li>
-    <li><a href="#7">What image and movie file formats are supported?</a></li>
-    <li><a href="#8">How can I change the timecode display to frames?</a></li>
+    <li><a href="#5">How can I convert an image sequence to a movie (or vice versa)?</a></li>
+    <li><a href="#6">What image and movie file formats are supported?</a></li>
+    <li><a href="#7">How can I enable timecode display?</a></li>
 </ol>
 
 <a name="1"><h2>Is DJV free?</h2></a>
 <p>The DJV source code is covered by an open source BSD style license. This
 means that DJV is essentially free to use, modify, and distribute. Note however
 that some of the third party software that DJV depends on may have different
-licensing requirements. See the legal page for more details
-<a href="djvLegal.html">here</a>.</p>
+licensing requirements. See the <a href="djvLegal.html">legal page</a> for more
+details.</p>
 
 <a name="2"><h2>How do I setup the DJV command line tools?</h2></a>
-<p>See the downloads page <a href="djvDownloads.html">here</a>.
+<p>See the <a href="djvInstall.html">installation instructions</a>.
 </p>
 
 <a name="3"><h2>How do I use a LUT (lookup table) with the DJV viewer?</h2></a>
-<p>\todo</p>
+<p>See the documentation for
+<a href="djv_view.html#ColorAndDisplayProfiles">color and display profiles</a>.</p>
  
 <a name="4"><h2>Are 3D LUTs supported?</h2></a>
 <p>Unfortunately 3D LUTs are not currently supported.</p>
 
-<a name="5"><h2>How can I convert an image sequence to a movie?</h2></a>
-<p>Either the DJV viewer or the command line tools can be used to perform the
-conversion.</p>
-<p>To use the viewer to perform the conversion, first open the image sequence
-you would like to convert. Then choose "Save" from the "File" menu and enter
-the name of the movie with a file extension like ".mov". Click the "Ok" button
-and a dialog will appear showing the progress of the conversion.</p>
-<p>To use the command line tools to perform the conversion, run the command
-"djv_convert" from a terminal with arguments similar to this:
+<a name="5"><h2>How can I convert an image sequence to a movie (or vice versa)?</h2></a>
+<p>Either the viewer application or command line tools can be used to perform
+the conversion.</p>
+<p>To use the viewer application see the documentation for
+<a href="djv_view.html#SavingFiles">saving files</a>.</p>
+<p>To use the command line tools see the documentation for
+<a href="djv_convert.html">djv_convert</a>. Here is an example command line:</p>
 <pre>
 > djv_convert input.1-100.sgi output.mov
 </pre>
 
-<a name="6"><h2>How can I convert a movie to an image sequence?</h2></a>
-<p>The steps are similar to the above question.</p>
-<p>When specifying the name of the output image sequence you only need to use
-the first frame, the other frames will be generated automatically. For
-example:</p>
-<pre>
-> djv_convert input.mov output.1.sgi
-</pre>
+<a name="6"><h2>What image and movie file formats are supported?</h2></a>
+<p>See the <a href="djvImageIo.html">image file formats page</a>.</p>
 
-<a name="7"><h2>What image and movie file formats are supported?</h2></a>
-<p>See the image I/O page located <a href="djvImageIo.html">here.</a></p>
-
-<a name="8"><h2>How can I change the timecode display to frames?</h2></a>
+<a name="7"><h2>How can I enable timecode display?</h2></a>
 <p>Open the preferences dialog from the "File" menu and click on "Miscellaneous"
-in the "General" section. Set the time units to "Frames".</p>
+in the "General" section. Set the time units to "Timecode".</p>
 <img src="images/djvTimecodeToFrames.png" align="middle">
 
 </td>

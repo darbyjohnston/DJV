@@ -34,7 +34,7 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
-<title>DJV Imaging - Image I/O</title>
+<title>DJV Imaging - Image File Formats</title>
 </head>
 
 <body>
@@ -50,11 +50,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -62,25 +62,339 @@
 <tr>
 <td>
 
-<h1>Image I/O</h1>
+<h1>Image File Formats</h1>
 <ul>
-    <li><a href="djvCineonPlugin.html">Cineon</a></li>
-    <li><a href="djvDpxPlugin.html">DPX</a></li>
-    <li><a href="djvIffPlugin.html">IFF</a></li>
-    <li><a href="djvIflPlugin.html">IFL</a></li>
-    <li><a href="djvJpegPlugin.html">JPEG</a></li>
-    <li><a href="djvLibquicktimePlugin.html">libquicktime</a></li>
-    <li><a href="djvLutPlugin.html">LUT</a></li>
-    <li><a href="djvOpenExrPlugin.html">OpenEXR</a></li>
-    <li><a href="djvPicPlugin.html">PIC</a></li>
-    <li><a href="djvPngPlugin.html">PNG</a></li>
-    <li><a href="djvPpmPlugin.html">PPM</a></li>
-    <li><a href="djvQuickTimePlugin.html">QuickTime</a></li>
-    <li><a href="djvRlaPlugin.html">RLA</a></li>
-    <li><a href="djvSgiPlugin.html">SGI</a></li>
-    <li><a href="djvTargaPlugin.html">Targa</a></li>
-    <li><a href="djvTiffPlugin.html">TIFF</a></li>
+    <li><a href="#Cineon">Cineon</a></li>
+    <li><a href="#Dpx">DPX</a></li>
+    <li><a href="#Iff">IFF</a></li>
+    <li><a href="#Ifl">IFL</a></li>
+    <li><a href="#Jpeg">JPEG</a></li>
+    <li><a href="#Libquicktime">libquicktime</a></li>
+    <li><a href="#Lut">LUT</a></li>
+    <li><a href="#OpenExr">OpenEXR</a></li>
+    <li><a href="#Pic">PIC</a></li>
+    <li><a href="#Png">PNG</a></li>
+    <li><a href="#Ppm">PPM</a></li>
+    <li><a href="#QuickTime">QuickTime</a></li>
+    <li><a href="#Rla">RLA</a></li>
+    <li><a href="#Sgi">SGI</a></li>
+    <li><a href="#Targa">Targa</a></li>
+    <li><a href="#Tiff">TIFF</a></li>
 </ul>
+
+<a name="Cineon"><h2>Cineon</h2></a>
+<p>This plugin provides support for the Kodak Cineon image file format. Cineon
+is a specialized image file format for working with motion picture film.</p>
+<p>File extensions: .cin</p>
+<p>Supported features:</p>
+<ul>
+    <li>10-bit RGB (the most common variety)</li>
+    <li>Interleaved channels only</li>
+</ul>
+<p>References:</p>
+<ul>
+    <li>Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-cineon_input_color_profile (value)</td><td>Set the color profile used
+when loading Cineon images. Options = Auto, None, Film Print. Default = Auto.
+</td></tr>
+<tr><td>-cineon_input_film_print (black) (white) (gamma) (soft clip)</td><td>
+Set the film print values used when loading Cineon images. Default = 95, 685,
+1.7, 0.</td></tr>
+<tr><td>-cineon_output_color_profile (value)</td><td>Set the color profile 
+used when saving Cineon images. Options = False, True. Default = False.</td></tr>
+<tr><td>-cineon_output_film_print (black) (white) (gamma) (soft clip)</td><td>
+Set the film print values used when saving Cineon images. Default = Auto, None,
+Film Print.</td></tr>
+<tr><td>-cineon_convert (value)</td><td>Set whether the pixel data is converted
+to 8-bits when loading Cineon images. Options = Film Print. Default = 95, 685,
+1.7.</td></tr>
+</table>
+
+<a name="Dpx"><h2>DPX</h2></a>
+<p>This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
+image file format. DPX is a specialized image file format for working with
+motion picture film. DPX is the successor to the Cineon file format with
+support for additional image and meta data.</p>
+<p>File extensions: .dpx</p>
+<p>Supported features:</p>
+<ul>
+    <li>10-bit RGB type "A" packing (the most common variety); 8-bit, 16-bit,
+    Luminance, RGB, RGBA</li>
+    <li>Interleaved channels only</li>
+</ul>
+<p>References:</p>
+<ul>
+    <li>SMPTE, "SMPTE 268M-2003"</li>
+    <li>Cinesite, "Conversion of 10-bit Log Film Data To 8-bit Linear or Video
+    Data"</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-dpx_input_color_profile (value)</td><td>Set the color profile used
+when loading DPX images. Options = Auto, None, Film Print. Default = Auto.
+</td></tr>
+<tr><td>-dpx_input_film_print (black) (white) (gamma) (soft clip)</td><td>
+Set the film print values used when loading DPX images. Default = 95, 685, 1.7,
+0.</td></tr>
+<tr><td>-dpx_output_color_profile (value)</td><td>Set the color profile used
+when saving DPX images. Options = False, True. Default = Auto, None, Film Print.
+</td></tr>
+<tr><td>-dpx_output_film_print (black) (white) (gamma) (soft clip)</td><td>
+Set the film print values used when saving DPX images. Default = Film Print.
+</td></tr>
+<tr><td>-dpx_convert (value)</td><td>Set whether the pixel data is converted to
+8-bits when loading DPX images. Options = 95, 685, 1.7. Default = False.</td></tr>
+<tr><td>-dpx_version (value)</td><td>Set the file format version used when
+saving DPX images. Options = 1.0, 2.0. Default = 2.0.</td></tr>
+<tr><td>-dpx_type (value)</td><td>Set the pixel type used when saving DPX
+images. Options = Auto, U10. Default = U10.</td></tr>
+<tr><td>-dpx_endian (value)</td><td>Set the endian used when saving DPX images.
+Setting the endian to "Auto" will use the endian of the current hardware.
+Options = Auto, MSB, LSB. Default = MSB.</td></tr>
+</table>
+
+<a name="Iff"><h2>IFF</h2></a>
+<p>This plugin provides support for the Generic Interchange File Format (IFF).</p>
+<p>File extensions: .iff, .z</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA</li>
+    <li>File compression</li>
+</ul>
+<p>References:</p>
+<ul>
+    <li><a href="http://affine.org">Affine Toolkit</a> - (Thomas E. Burge),
+    riff.h and riff.c</li>
+    <li>Autodesk Maya documentation, "Overview of Maya IFF"</li>
+</ul>
+<p>Implementation:</p>
+<ul>
+    <li>Mikael Sundell, mikael.sundell@gmail.com</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-iff_compression (value)</td><td>Set the file compression used when
+saving IFF images. Options = None, RLE. Default = RLE.</td></tr>
+</table>
+
+<a name="Ifl"><h2>IFL</h2></a>
+<p>This plugin provides support for the Autodesk Image File List (IFL) format.
+IFL is a file format for creating sequences or playlists of other image files.
+An IFL file simply consists of a list of image file names, one per line.</p>
+<p>File extensions: .ifl</p>
+<p>Supported features:</p>
+<ul>
+    <li>Read only</li>
+</ul>
+
+<a name="Jpeg"><h2>JPEG</h2></a>
+<p>This plugin provides support for the Joint Photographic Experts Group (JPEG)
+image file format.</p>
+<p>File extensions: .jpeg, .jpg, .jfif</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, Luminance, RGBA</li>
+    <li>File compression</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-jpeg_quality (value)</td><td>Set the quality used when saving JPEG
+images. Default = 90.</td></tr>
+</table>
+
+<a name="Libquicktime"><h2>libquicktime</h2></a>
+<p>This plugin provides support for libquicktime, an open source library for
+reading and writing movies.</p>
+<p>File extensions: .qt, .mov, .avi, .mp4</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit RGBA</li>
+    <li>File compression</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-libquicktime_codec (value)</td><td>Set the codec used when saving
+Libquicktime movies. Options = rtjpeg, raw, rawalpha, v308, v408, v410, yuv2,
+yuv4, yv12, 2vuy, v210, yuvs, jpeg, mjpa, png, pngalpha, ffmpeg_mpg4,
+ffmpeg_msmpeg4v3, ffmpeg_msmpeg4v3_wmp, ffmpeg_h263, ffmpeg_h263p, ffmpeg_mjpg,
+ffmpeg_rle, ffmpeg_dv, ffmpeg_dvcpro, ffmpeg_dv50, ffmpeg_ffvhuff, ffmpeg_ffv1,
+ffmpeg_dnxhd, ffmpeg_imx. Default = mjpa.</td></tr>
+</table>
+
+<a name="Lut"><h2>LUT</h2></a>
+<p>This plugin provides support for two-dimensional lookup table file formats.</p>
+<p>File extensions: .lut, .1dl</p>
+<p>Supported features:</p>
+<ul>
+    <li>Inferno and Kodak formats</li>
+    <li>8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA; 10-bit RGB</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-lut_type (value)</td><td>Set the pixel type used when loading LUTs.
+Options = Auto, U8, U10, U16. Default = Auto.</td></tr>
+</table>
+
+<a name="OpenExr"><h2>OpenEXR</h2></a>
+<p>This plugin provides support for the Industrial Light and Magic OpenEXR
+image file format.</p>
+<p>File extensions: .exr</p>
+<p>Supported features:</p>
+<ul>
+    <li>16-bit float, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA</li>
+    <li>Image layers</li>
+    <li>Display and data windows</li>
+    <li>File compression</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-exr_threads_enable (value)</td><td>Set whether threading is enabled.
+Default = True.</td><tr>
+<tr><td>-exr_thread_count (value)</td><td>Set the maximum number of threads to
+use. Default = 4.</td></td>
+<tr><td>-exr_input_color_profile (value)</td><td>Set the color profile used
+when loading OpenEXR images. Options = None, Gamma, Exposure. Default = Gamma.
+</td></tr>
+<tr><td>-exr_input_gamma (value)</td><td>Set the gamma values used when loading
+OpenEXR images. Default = 2.2.</td></tr>
+<tr><td>-exr_input_exposure (value) (defog) (knee low) (knee high)</td>
+<td>Set the exposure values used when loading OpenEXR images. Default = 0, 0,
+0, 5.</td></tr>
+<tr><td>-exr_channels (value)</td><td>Set how channels are grouped when loading
+OpenEXR images. Options = None, Known, All. Default = Known.</td></tr>
+<tr><td>-exr_compression (value)</td><td>Set the file compression used when
+saving OpenEXR images. Options = None, RLE, ZIPS, ZIP, PIZ, PXR24, B44, B44A,
+DWAA, DWAB. Default = None.</td></tr>
+<tr><td>-exr_dwa_compression_level (value)</td><td>Set the DWA compression
+level used when saving OpenEXR images. Default = 45.</td></tr>
+</table>
+
+<a name="Pic"><h2>PIC</h2></a>
+<p>This plugin provides support for the Softimage image file format.</p>
+<p>File extensions: .pic</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, RGB, RGBA, RGB plus Alpha</li>
+    <li>File compression</li>
+    <li>Read only</li>
+</ul>
+<p>References:</p>
+<ul>
+    <li>Softimage,
+    <a href="http://xsi.wiki.avid.com/index.php/INFO:_PIC_file_format">
+    "INFO: PIC file format"</a></li>
+</ul>
+
+<a name="Png"><h2>PNG</h2></a>
+<p>This plugin provides support for the Portable Network Graphics (PNG) image
+file format.</p>
+<p>File extensions: .png</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, 16-bit, Luminance, RGB, RGBA</li>
+    <li>File compression</li>
+</ul>
+
+<a name="Ppm"><h2>PPM</h2></a>
+<p>This plugin provides support for the NetPBM image file format.</p>
+<p>File extensions: .ppm, pnm, .pgm, .pbm</p>
+<p>Supported features:</p>
+<ul>
+    <li>1-bit, 8-bit, 16-bit, Luminance, RGB</li>
+    <li>Binary and ASCII data</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-ppm_type (value)</td><td>Set the file type used when saving PPM
+images. Options = Auto, U1. Default = Auto.</td><tr>
+<tr><td>-ppm_data (value)</td><td>Set the data type used when saving PPM
+images. Options = ASCII, Binary. Default = Binary.</td></tr>
+</table>
+
+<a name="QuickTime"><h2>QuickTime</h2></a>
+<p>This plugin provides support for the Apple QuickTime movie file format.
+Note that this plugin is only available for Apple OS X and Microsoft Windows
+32-bit builds.</p>
+<p>File extensions: .qt, .mov, .avi, .mp4</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit RGBA</li>
+    <li>File compression</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-quicktime_codec (value)</td><td>Set the codec used when
+saving QuickTime movies. Options = Raw, JPEG, MJPEG-A, MJPEG-B, H263, H264,
+DVC-NTSC, DVC-PAL. Default = MJPEG-A.</td></tr>
+<tr><td width="200">-quicktime_quality (value)</td><td>Set the quality used
+when saving QuickTime movies. Options = Lossless, Min, Max, Low, Normal,
+High. Default = Normal.</td></tr>
+</table>
+
+<a name="Rla"><h2>RLA</h2></a>
+<p>This plugin provides support for the Wavefront RLA image file format.</p>
+<p>File extensions: .rla, .rpf</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA</li>
+    <li>File compression</li>
+    <li>Read only</li>
+</ul>
+
+<a name="Sgi"><h2>SGI</h2></a>
+<p>This plugin provides support for the Silicon Graphics image file format.</p>
+<p>File extensions: .sgi, .rgba, .rgb, .bw</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA</li>
+    <li>File compression</li>
+</ul>
+<p>References:</p>
+<ul>
+    <li>Paul Haeberli, "The SGI Image File Format, Version 1.00"</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-sgi_compression (value)</td><td>Set the file compression used when
+saving SGI images. Options = None, RLE. Default = None.</td></tr>
+</table>
+
+<a name="Targa"><h2>Targa</h2></a>
+<p>This plugin provides support for the Targa image file format.</p>
+<p>File extensions: .tga</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit Luminance, Luminance Alpha, RGB, RGBA</li>
+    <li>File compression</li>
+</ul>
+<p>References:</p>
+<ul>
+    <li>James D. Murray, William vanRyper, "Encyclopedia of Graphics File
+    Formats, Second Edition"</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-targa_compression (value)</td><td>Set the file compression used when
+saving Targa images. Options = None, RLE. Default = None.</td></tr>
+</table>
+
+<a name="Tiff"><h2>TIFF</h2></a>
+<p>This plugin provides support for the Tagged Image File Format (TIFF).</p>
+<p>File extensions: .tiff, .tif</p>
+<p>Supported features:</p>
+<ul>
+    <li>8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA</li>
+    <li>Interleaved channels only</li>
+    <li>File compression</li>
+</ul>
+<p>Command line options:</p>
+<table>
+<tr><td width="200">-tiff_compression (value)</td><td>Set the file compression used when
+saving TIFF images. Options = None, RLE, LZW. Default = None.</td></tr>
+</table>
 
 </td>
 </tr>

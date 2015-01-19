@@ -49,11 +49,11 @@
 
 <div class="nav">
 <a class="navCurrent" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content"/>
@@ -61,56 +61,55 @@
 <tr>
 <td width=50% valign="top" rowspan="2">
 
-<p>DJV Imaging provides professional movie playback software for film
-production, VFX, and computer animation.</p>
-
-<h3>Features</h3>
+<p>DJV Imaging provides open source movie playback software for use in film
+production, VFX, and computer animation. Key features include:</p>
 <ul>
-    <li>Support for Linux, Apple OS X, and Microsoft Windows</li>
-    <li>Plays both image sequences and movies</li>
-    <li>Works with industry standard file formats including Cineon, DPX,
+    <li>Real-time playback of image sequences and movies</li>
+    <li>Support for industry standard file formats including Cineon, DPX,
         OpenEXR, and QuickTime</li>
-    <li>Includes command line utilities for batch processing</li>
+    <li>Command line utilities for batch processing</li>
+    <li>Cross platform support for Linux, Apple OS X, and Microsoft Windows</li>
 </ul>
 
 <h3>Downloads</h3>
 <ul>
     <li>
-        Linux 64-bit:
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.rpm/download">RPM</a>,
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.deb/download">DEB</a>,
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.tar.gz/download">TGZ</a>
+        Linux
+        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.rpm/download">RPM</a>
+        and
+        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.deb/download">DEB</a>
     </li>
     <li>
-        OSX 64-bit:
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-OSX-64.dmg/download">DMG</a>
+        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-OSX-64.dmg/download">OSX</a>
     </li>
     <li>
-        Windows 64-bit:
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.exe/download">EXE</a>,
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.zip/download">ZIP</a>
+        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.exe/download">Windows</a>
     </li>
     <li>
-        Windows 32-bit:
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-32.exe/download">EXE</a>,
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-32.zip/download">ZIP</a>
+        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-32.exe/download">Windows 32-bit version with QuickTime support</a>
+    </li>
+    <li>
+        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@">All downloads</a>
+    </li>
+    <li>
+        <a href="djvInstall.html">Installation instructions</a>
     </li>
 </ul>
 
 <h3>News</h3>
 <p>2014/09/28 - Version 1.0 Released</p>
 <ul>
-    <li>DJV is now built upon the <a href="http://qt-project.org/">Qt</a>
-        toolkit</li>
-    <li>Updated third party packages including OpenEXR 2.2</li>
-    <li>Source code is now available from <a href="http://sourceforge.net/p/djv/_list/git">Git</a></li>
+    <li>Built using the <a href="http://qt-project.org/">Qt</a> toolkit</li>
+    <li>Updated third party packages including <a href="http://www.openexr.com/">OpenEXR 2.2</a></li>
+    <li>Source code is available from <a href="http://sourceforge.net/p/djv/_list/git">Git</a></li>
 </ul>
 
 <h3>Help</h3>
 <ul>
-    <li><a href="http://sourceforge.net/p/djv/discussion/">Forums</a> - General help and discussion</li>
-    <li><a href="http://sourceforge.net/p/djv/_list/tickets">Tickets</a> - Feature requests and bug tracking</li>
-    <li><a href="djvFaq.html">FAQ</a> - Frequently asked questions</li>
+    <li><a href="djvHelp.html">Documentation</a></li>
+    <li><a href="djvFaq.html">FAQ</a></li>
+    <li><a href="http://sourceforge.net/p/djv/discussion/">Forums</a></li>
+    <li><a href="http://sourceforge.net/p/djv/_list/tickets">Feature requests and bug tracking</a></li>
 </ul>
 
 <h3>Testimonials</h3>

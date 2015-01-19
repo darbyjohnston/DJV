@@ -50,11 +50,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -62,33 +62,23 @@
 <tr>
 <td>
 
-<table>
-    <tr>
-        <td><img src="images/djvConvertThumbnail.png"/></td>
-        <td><h1>djv_convert</h1></td>
-    </tr>
-</table>
+<h1>djv_convert</h1>
 <ul>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#conversionOptions">Conversion Options</a></li>
-    <li><a href="#inputOptions">Input Options</a></li>
-    <li><a href="#outputOptions">Output Options</a></li>
-    <li><a href="#imageIoOptions">Image I/O Options</a></li>
-    <li><a href="#generalOptions">General Options</a></li>
-    <li><a href="#examples">Examples</a></li>
+    <li><a href="#Overview">Overview</a></li>
+    <li><a href="#CommandLine">Command Line</a></li>
+    <li><a href="#Examples">Examples</a></li>
 </ul>
 
+<a name="Overview"><h2>Overview</h2></a>
 <p>This application provides a command line tool for processing images and
 movies.</p>
 
-<a name="usage"><h2>Usage</h2></a>
-<div class="code">
+<a name="CommandLine"><h2>Command Line</h2></a>
+<p>Usage:</p>
 <pre>
 djv_convert (input) (output) [option]...
 </pre>
-</div>
-
-<a name="conversionOptions"><h2>Conversion Options</h2></a>
+<p>Conversion options:</p>
 <table>
 <tr><td width="200">-mirror_h<br>-mirror_v</td><td>Mirror the image
 horizontally or vertically.</td></tr>
@@ -104,8 +94,7 @@ Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 <tr><td>-seq (value)</td><td>Set whether file sequencing is enabled. Options =
 False, True. Default = True.</td></tr>
 </table>
-
-<a name="inputOptions"><h2>Input Options</h2></a>
+<p>Input options:</p>
 <table>
 <tr><td width="200">-layer (value)</td><td>Set the input layer.</td></tr>
 <tr><td>-proxy (value)</td><td>Set the proxy scale. Options = None, 1/2, 1/4,
@@ -115,8 +104,7 @@ False, True. Default = True.</td></tr>
 <tr><td>-timeout (value)</td><td>Set the maximum number of seconds to wait for
 each input frame. Default = 0.</td></tr>
 </table>
-
-<a name="outputOptions"><h2>Output Options</h2></a>
+<p>Output options:</p>
 <table>
 <tr><td width="200">-pixel (value)</td><td>Convert the pixel type. Options = L
 U8, L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB
@@ -127,20 +115,12 @@ U16, RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
 <tr><td>-tag_auto (value)</td><td>Automatically generate image tags (e.g.,
 timecode). Options = False, True. Default = True.</td></tr>
 </table>
+<p>Documentation for image I/O command line options is available
+<a href="djvImageIo.html">here</a>.<p>
+<p>Documentation for general command line options is available
+<a href="djvCommandLine.html">here</a>.<p>
 
-<a name="imageIoOptions"><h2>Image I/O Options</h2></a>
-<p>
-Documentation for image I/O command line options is available
-<a href="djvImageIo.html">here</a>.
-<p>
-
-<a name="generalOptions"><h2>General Options</h2></a>
-<p>
-Documentation for general command line options is available
-<a href="djvCommandLine.html">here</a>.
-<p>
-
-<a name="examples"><h2>Examples</h2></a>
+<a name="Examples"><h2>Examples</h2></a>
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi

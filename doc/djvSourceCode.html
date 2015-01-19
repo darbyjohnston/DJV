@@ -1,0 +1,269 @@
+<!-- ---------------------------------------------------------------------------
+  Copyright (c) 2004-2015 Darby Johnston
+  All rights reserved.
+  
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  
+  * Redistributions of source code must retain the above copyright notice,
+    this list of conditions, and the following disclaimer.
+  
+  * Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions, and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+  
+  * Neither the names of the copyright holders nor the names of any
+    contributors may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+  
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+---------------------------------------------------------------------------- -->
+
+<html>
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="djvStyle.css">
+<title>DJV Imaging - Source Code</title>
+</head>
+
+<body>
+
+<div class="header">
+<div style="position:absolute; top:10; left:10; height:50;">
+<a href="index.html"><img src="images/djvTitle.gif" align="middle"></a>
+</div>
+<div style="position:absolute; top:0; right:0;">
+<a href="index.html"><img src="images/djvLogo.gif"></a>
+</div>
+</div>
+
+<div class="nav">
+<a class="nav" href="index.html">Home</a>
+<a class="nav" href="djvScreenshots.html">Screenshots</a>
+<a class="nav" href="djvHelp.html">Help</a>
+<a class="nav" href="djvCredits.html">Credits</a>
+<a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
+</div>
+
+<div class="content">
+<table width="90%" align="center">
+<tr>
+<td>
+
+<h1>Source Code</h1>
+<ul>
+    <li><a href="#ThirdPartySoftware">Third Party Software</a></li>
+    <ul>
+        <li><a href="#ThirdPartyLinux">Linux</a></li>
+        <li><a href="#ThirdPartyOSX">OS X</a></li>
+        <li><a href="#ThirdPartyWindows">Windows</a></li>
+    </ul>
+    <li><a href="#Building">Building</a></li>
+    <ul>
+        <li><a href="#BuildingLinux">Linux</a></li>
+        <li><a href="#BuildingOSX">OS X</a></li>
+        <li><a href="#BuildingWindows">Windows</a></li>
+    </ul>
+    <li><a href="#Miscellaneous">Miscellaneous</a></li>
+    <ul>
+        <li><a href="#Versioning">Versioning</a></li>
+        <li><a href="#ImageIo">Image I/O</a></li>
+    </ul>
+</ul>
+
+<a name="ThirdPartySoftware"><h2>Third Party Software</h2></a>
+<p>DJV depends on a number of third party software packages that can be either
+installed on the system or built from source code. By default the third party
+software installed on the system will be used. You may override this behavior by
+building the software from source as described below and using the
+CMAKE_PREFIX_PATH environment variable. The CMake modules that are used for
+finding the third party software are located in "cmake/Modules".</p>
+
+<a name="ThirdPartyLinux"><h3>Linux</h3></a>
+<p>\todo Rewrite this section</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+> cd djv-git-third-party
+> sh Linux-64.sh
+> cd ..
+> export CMAKE_PREFIX_PATH=/.../djv-git-third-party-Linux-64
+</pre>
+
+<a name="ThirdPartyOSX"><h3>OS X</h3></a>
+<p>\todo Rewrite this section</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+> cd djv-git-third-party
+> sh OSX-64.sh
+</pre>
+<p>fix libquicktime-1.2.4/config.h as described in the third party build
+script and rebuild/install libquicktime</p>
+<pre>
+> cd ..
+> export CMAKE_PREFIX_PATH=/.../djv-git-third-party-OSX-64
+</pre>
+
+<a name="ThirdPartyWindows"><h3>Windows</h3></a>
+<p>First clone the DJV third party repository:</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+</pre>
+<p>Then uncompress the third party packages (note this is using the MinGW tar
+and unzip commands, the Windows utility 7-Zip could also be used):</p>
+<pre>
+> tar zxvf glew-1.10.0.tgz
+> tar zxvf ilmbase-2.2.0.tar.gz
+> tar xzvf jpegsrc.v9.tar.gz
+> tar zxvf libpng-1.6.8.tar.gz
+> tar zxvf openexr-2.2.0.tar.gz
+> tar zxvf tiff-4.0.3.tar.gz
+> tar zxvf zlib-1.2.8.tar.gz
+> unzip qt-everywhere-opensource-src-5.3.2.zip
+</pre>
+<p>Apply the patch for OpenEXR (note this is using the MinGW patch command,
+though the patch is simple enough you could also apply it by hand):</p>
+<pre>
+> patch
+      openexr-2.2.0/IlmImf/ImfCompressionAttribute.h
+      patch/openexr.ImfCompressionAttribute.h.patch
+</pre>
+<p>Create a new directory for the CMake build (I ususally make this a sibling
+of the Git directory):</p>
+<pre>
+> mkdir djv-git-third-party-Windows-64-cmake
+> cd djv-git-third-party-Windows-64-cmake
+</pre>
+<p>Run CMake giving it the path to the Git directory:</p>
+<pre>
+> cmake -G "NMake Makefiles" ..\djv-git-third-party
+</pre>
+<p>Then run NMake to build the third party packages:</p>
+<pre>
+> nmake
+> nmake package
+</pre>
+<p>This will produce a file called "djv-git-third-party-Windows-64.zip" that
+contains all of the third party files (except for Qt) that are needed to
+build DJV. Choose a directory and unzip this file (I usually make this a
+sibling of the Git and CMake directories).</p>
+<p>To build Qt enter the Qt source directory and run the configure script; set
+the installation location, or prefix, to the same directory as where you
+unzipped the files in the previous step:</p>
+<p>\todo Is there anything else that can be disabled for a minimal Qt build?</p>
+<pre>
+> configure
+      -prefix C:\...\djv-git-third-party-Windows-64
+      -opengl desktop
+      -opensource
+      -confirm-license
+      -nomake examples
+      -skip qtconnectivity
+      -skip qtdeclarative
+      -skip qtlocation
+      -skip qtmultimedia
+      -skip qtscript
+      -skip qtsensors
+      -skip qtserialport
+      -skip qtwebkit
+      -skip qtwebsockets
+      -skip qtwinextras
+      -skip qtxmlpatterns
+> nmake
+> nmake install
+</pre>
+<p>Finally set some environment variables so that DJV can find the third party
+packages (note that the CMake variables needs '/' instead of '\' for the
+path delimeters):</p>
+<pre>
+> set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
+> set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
+</pre>
+<p>For convenience these variables may be set permanently through the Windows
+Control Panel or added to a batch script. See the files in the DJV source
+directory under "etc\Windows" for an example.</p>
+
+<a name="Building"><h2>Building</h2></a>
+
+<a name="BuildingLinux"><h3>Linux</h3></a>
+<p>\todo Rewrite this section</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+> mkdir djv-git-Linux-64
+> cd djv-git-Linux-64
+> cmake ../djv-git
+> make
+> make test
+> make package
+</pre>
+
+<a name="BuildingOSX"><h3>OS X</h3></a>
+<p>\todo Rewrite this section</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+> mkdir djv-git-OSX-64
+> cd djv-git-OSX-64
+> cmake ../djv-git
+> make
+> make test
+> make package
+</pre>
+
+<a name="BuildingWindows"><h3>Windows</h3></a>
+<p>\todo Rewrite this section</p>
+<pre>
+> git clone git://git.code.sf.net/p/djv/git djv-git
+> mkdir djv-git-Windows-64
+> cd djv-git-Windows-64
+> cmake -G "NMake Makefiles" ..\djv-git
+> nmake
+> nmake test
+> nmake package
+</pre>
+
+<a name="Miscellaneous"><h2>Miscellaneous</h2></a>
+
+<a name="Versioning"><h3>Versioning</h3></a>
+<p>Files to update:</p>
+<ul>
+    <li>Set the new version in the top-level CMakeLists.txt file</li>
+    <li>Set the new version in the top-level Doxyfile</li>
+    <li>Add a change list description to doc/djvChangeList.html</li>
+</ul>
+<p>Git tag example:</p>
+<pre>
+> git tag -a 1.0.6 -m "Version 1.0.6" df2f2e21232ceeab85ca40fc988aba5591fe9e64
+> git push origin 1.0.6
+</pre>
+
+<a name="ImageIo"><h3>Image I/O</h3></a>
+<p>New image I/O file extensions need to be added to these files:</p>
+<ul>
+    <li>cmake/Modules/djvPackage.cmake</li>
+    <li>etc/Linux/djv_view.mime.xml</li>
+    <li>etc/OSX/Info.plist.in</li>
+</ul>
+
+</td>
+</tr>
+</table>
+</div>
+
+<div class="footer">
+Copyright (c) 2004-2015 Darby Johnston
+</div>
+
+</body>
+
+</html>

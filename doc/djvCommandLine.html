@@ -34,7 +34,7 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
-<title>DJV Imaging - Command Line</title>
+<title>DJV Imaging - Command Line Options</title>
 </head>
 
 <body>
@@ -50,11 +50,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -62,22 +62,28 @@
 <tr>
 <td>
 
-<h1>Command Line</h1>
+<h1>Command Line Options</h1>
 <ul>
-    <li><a href="#openGlOptions">OpenGL Options</a></li>
-    <li><a href="#generalOptions">General Options</a></li>
+    <li><a href="#UserInterface">User Interface</a></li>
+    <li><a href="#OpenGl">OpenGL</a></li>
+    <li><a href="#General">General</a></li>
 </ul>
 
-<a name="openGlOptions"><h2>OpenGL Options</h2></a>
+<a name="UserInterface"><h2>User Interface</h2></a>
 <table>
-<tr><td width="200">-render_filter (minify) (magnify)</td><td>Set the render
+<tr><td width="200">-reset_prefs</td><td>Do not load the preference at start up.</td></tr>
+</table>
+
+<a name="OpenGl"><h2>OpenGL</h2></a>
+<table>
+<tr><td width="200">-render_filter (zoom out) (zoom in)</td><td>Set the render
 filter. Options = Nearest, Linear, Box, Triangle, Bell, B-Spline, Lanczos3,
 Cubic, Mitchell. Default = Linear, Nearest.</td></tr>
 <tr><td>-render_filter_high</td><td>Set the render filter to high quality
 settings (Lanczos3, Mitchell).</td></tr>
 </table>
 
-<a name="generalOptions"><h2>General Options</h2></a>
+<a name="General"><h2>General</h2></a>
 <table>
 <tr><td width="200">-time_units (value)</td><td>Set the time units. Options =
 Timecode, Frames. Default = Frames.</td></tr>
@@ -86,7 +92,7 @@ Timecode, Frames. Default = Frames.</td></tr>
 </td></tr>
 <tr><td>-max_sequence_frames (value)</td><td>Set the maximum number of frames a
 sequence can hold. Default = 172800.</td></tr>
-<tr><td>-printLog</td><td>Print log messages.</td></tr>
+<tr><td>-debug_log</td><td>Print debug log messages.</td></tr>
 <tr><td>-help, -h</td><td>Show the help message.</td></tr>
 <tr><td>-info</td><td>Show the information message.</td><tr>
 <tr><td>-about</td><td>Show the about message.</td></tr>

@@ -3,64 +3,34 @@ configure_file(
     ${PROJECT_BINARY_DIR}/doc/index.html
     @ONLY)
 configure_file(
-    ${PROJECT_SOURCE_DIR}/doc/djvDownloads.html.in
-    ${PROJECT_BINARY_DIR}/doc/djvDownloads.html
+    ${PROJECT_SOURCE_DIR}/doc/djvInstall.html.in
+    ${PROJECT_BINARY_DIR}/doc/djvInstall.html
     @ONLY)
 
 set(html
     djvChangeList.html
-    djvCineonPlugin.html
     djvCommandLine.html
     djvCredits.html
-    ${PROJECT_BINARY_DIR}/doc/djvDownloads.html
-    djvDpxPlugin.html
     djvFaq.html
-    djvFileBrowser.html
     djvHelp.html
-    djvIffPlugin.html
-    djvIflPlugin.html
     djvImageIo.html
-    djvJpegPlugin.html
     djvLegal.html
-    djvLibquicktimePlugin.html
-    djvLutPlugin.html
-    djvOpenExrPlugin.html
-    djvPicPlugin.html
-    djvPngPlugin.html
-    djvPpmPlugin.html
-    djvQuickTimePlugin.html
-    djvRlaPlugin.html
     djvScreenshots.html
-    djvSgiPlugin.html
-    djvTargaPlugin.html
     djvTestimonials.html
-    djvTiffPlugin.html
-    djvViewFileGroup.html
-    djvViewImageGroup.html
-    djvViewPlaybackGroup.html
-    djvViewToolGroup.html
-    djvViewViewGroup.html
-    djvViewWindowGroup.html
     djv_convert.html
     djv_info.html
     djv_ls.html
     djv_view.html
+    djvStyle.css
     ${PROJECT_BINARY_DIR}/doc/index.html
-    djvStyle.css)
+    ${PROJECT_BINARY_DIR}/doc/djvInstall.html)
 
 set(images
     images/djvColorPickerIcon.png
-    images/djvConvert.png
-    images/djvConvertThumbnail.png
     images/djvDirPrevIcon.png
     images/djvDirReloadIcon.png
     images/djvDirUpIcon.png
     images/djvFileBrowser.png
-    images/djvFileBrowserBookmarksMenu.png
-    images/djvFileBrowserDiagram.png
-    images/djvFileBrowserDirectoryMenu.png
-    images/djvFileBrowserOptionsMenu.png
-    images/djvFileBrowserSmall.png
     images/djvFileCloseIcon.png
     images/djvFileOpenIcon.png
     images/djvFileReloadIcon.png
@@ -71,13 +41,9 @@ set(images
     images/djvHistogramIcon.png
     images/djvInPointMarkIcon.png
     images/djvInPointResetIcon.png
-    images/djvInfo.png
     images/djvInfoIcon.png
-    images/djvInfoThumbnail.png
     images/djvLockIcon.png
     images/djvLogo.gif
-    images/djvLs.png
-    images/djvLsThumbnail.png
     images/djvMagnifyIcon.png
     images/djvOutPointMarkIcon.png
     images/djvOutPointResetIcon.png
@@ -103,7 +69,6 @@ set(images
     images/djvViewMagnifyToolDiagram.png
     images/djvViewPlaybackDiagram.png
     images/djvViewPlaybackMenu.png
-    images/djvViewThumbnail.png
     images/djvViewToolMenu.png
     images/djvViewTools.png
     images/djvViewToolsSmall.png

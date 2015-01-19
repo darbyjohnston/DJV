@@ -50,11 +50,11 @@
 
 <div class="nav">
 <a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvDownloads.html">Downloads</a>
 <a class="nav" href="djvScreenshots.html">Screenshots</a>
 <a class="nav" href="djvHelp.html">Help</a>
 <a class="nav" href="djvCredits.html">Credits</a>
 <a class="nav" href="djvLegal.html">Legal</a>
+<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
@@ -62,20 +62,14 @@
 <tr>
 <td>
 
-<table>
-    <tr>
-        <td><img src="images/djvLsThumbnail.png"/></td>
-        <td><h1>djv_ls</h1></td>
-    </tr>
-</table>
+<h1>djv_ls</h1>
 <ul>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#options">Options</a></li>
-    <li><a href="#sortingOptions">Sorting Options</a></li>
-    <li><a href="#generalOptions">General Options</a></li>
-    <li><a href="#examples">Examples</a></li>
+    <li><a href="#Overview">Overview</a></li>
+    <li><a href="#CommandLine">Command Line</a></li>
+    <li><a href="#Examples">Examples</a></li>
 </ul>
 
+<a name="Overview"><h2>Overview</h2></a>
 <p>
 This application provides a command line tool for listing directories with
 file sequences.</p>
@@ -106,12 +100,12 @@ fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </table>
 </td></tr></table>
 
-<a name="usage"><h2>Usage</h2></a>
+<a name="CommandLine"><h2>Command Line</h2></a>
+<p>Usage:</p>
 <pre>
 djv_ls [file|directory]... [option]...
 </pre>
-
-<a name="options"><h2>Options</h2></a>
+<p>Options:</p>
 <table>
 <tr><td width="200">-x_info, -xi</td><td>Don't show information, only file
 names.</td></tr>
@@ -123,22 +117,17 @@ Range. Default = Range.</td></tr>
 <tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
 output. A value of zero disables formatting.</td></tr>
 </table>
-
-<a name="sortingOptions"><h2>Sorting Options</h2></a>
+<p>Sorting options:</p>
 <table>
 <tr><td width="200">-sort, -s (value)</td><td>Set the sorting. Options = Name,
 Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <tr><td>-reverse_sort, -rs</td><td>Reverse the sorting order.</td></tr>
 <tr><td>-x_sort_dirs, -xsd</td><td>Don't sort directories first.</td></tr>
 </table>
+<p>Documentation for general command line options is available
+<a href="djvCommandLine.html">here</a>.<p>
 
-<a name="generalOptions"><h2>General Options</h2></a>
-<p>
-Documentation for general command line options is available
-<a href="djvCommandLine.html">here</a>.
-<p>
-
-<a name="examples"><h2>Examples</h2></a>
+<a name="Examples"><h2>Examples</h2></a>
 <p>List the current directory:</p>
 <pre>
 > djv_ls
