@@ -6,7 +6,7 @@ The copyright and license are available here: http://djv.sourceforge.net/djvLega
 
 Source code is available from Git: git clone git://git.code.sf.net/p/djv/git djv-git
 
-Instructions for building DJV from source are in CMakeLists.txt.
+Instructions for building the source code are available here: http://djv.sourceforge.net/djvSourceCode.html
 
 To generate the developer documentation run Doxygen from the top-level
 directory.
