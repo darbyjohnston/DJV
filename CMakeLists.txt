@@ -173,7 +173,7 @@ set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
 
 # Setup third party dependencies.
 
-set(djvPackageThirdParty true)
+set(djvPackageThirdParty false)
 
 set(CMAKE_THREAD_PREFER_PTHREAD true)
 find_package(Threads REQUIRED)
