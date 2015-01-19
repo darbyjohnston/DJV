@@ -84,6 +84,11 @@ configure_file(
     ${PROJECT_BINARY_DIR}/djvConfig.h
     @ONLY)
 
+# Enable debug or release mode.
+
+#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release) 
+
 # Enable shared libraries.
 
 set(BUILD_SHARED_LIBS true)
