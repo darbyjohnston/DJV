@@ -43,7 +43,8 @@
 #include <djvStringUtil.h>
 #include <djvSystem.h>
 
-extern "C" {
+extern "C"
+{
 
 DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 {
