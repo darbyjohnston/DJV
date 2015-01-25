@@ -259,13 +259,20 @@ void djvImageView::paintGL()
     //DJV_DEBUG_PRINT("view pos = " << _viewPos);
     //DJV_DEBUG_PRINT("view zoom = " << _viewZoom);
 
-    const djvBox2i geom(width(), height());
+    const int devicePixelRatio = this->devicePixelRatio();
+
+    //DJV_DEBUG_PRINT("devicePixelRatio = " << devicePixelRatio);
+    
+    const djvBox2i geom(
+        width () * devicePixelRatio,
+        height() * devicePixelRatio);
 
     //DJV_DEBUG_PRINT("geom = " << geom.size);
-
+    
     //if (! valid())
     //{
         djvOpenGlUtil::ortho(djvVector2i(geom.w, geom.h));
+
         glViewport(0, 0, geom.w, geom.h);
     //}
 
@@ -286,7 +293,7 @@ void djvImageView::paintGL()
 
     djvOpenGlImageOptions options = _p->options;
     options.xform.position += _p->viewPos;
-    options.xform.scale *= _p->viewZoom * devicePixelRatio();
+    options.xform.scale *= _p->viewZoom * devicePixelRatio;
 
     try
     {
