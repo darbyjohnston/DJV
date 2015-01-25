@@ -286,7 +286,7 @@ void djvImageView::paintGL()
 
     djvOpenGlImageOptions options = _p->options;
     options.xform.position += _p->viewPos;
-    options.xform.scale *= _p->viewZoom;
+    options.xform.scale *= _p->viewZoom * devicePixelRatio();
 
     try
     {

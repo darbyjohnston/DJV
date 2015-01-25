@@ -334,7 +334,8 @@ void djvViewMagnifyTool::pixelDataUpdate()
 
             djvOpenGlImageOptions options = viewWidget()->options();
             options.xform.position -= pick;
-            options.xform.scale *= zoom * viewWidget()->viewZoom();
+            options.xform.scale *=
+                zoom * viewWidget()->viewZoom() * devicePixelRatio();
 
             if (! _p->colorProfile)
             {
