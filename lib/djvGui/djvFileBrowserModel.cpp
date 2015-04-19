@@ -52,6 +52,7 @@
 #include <djvVectorUtil.h>
 
 #include <QAbstractItemView>
+#include <QCoreApplication>
 #include <QDateTime>
 #include <QFutureWatcher>
 #include <QMimeData>
@@ -599,24 +600,27 @@ Image imageLoad(
     out.item = item;
     out.row  = row;
     
-    try
+    if (QCoreApplication::instance())
     {
-        djvImageIoInfo imageIoInfo;
-        
-        QScopedPointer<djvImageLoad> load(
-            djvImageIoFactory::global()->load(item->fileInfo(), imageIoInfo));
-        
-        load->read(out.image, djvImageIoFrameInfo(-1, 0, proxy));
-
-        //DJV_DEBUG_PRINT("image = " << out.image);
-
-        out.valid = true;
-    }
-    catch (const djvError & error)
-    {
-        if (out.image.isValid())
+        try
         {
+            djvImageIoInfo imageIoInfo;
+            
+            QScopedPointer<djvImageLoad> load(
+                djvImageIoFactory::global()->load(item->fileInfo(), imageIoInfo));
+            
+            load->read(out.image, djvImageIoFrameInfo(-1, 0, proxy));
+
+            //DJV_DEBUG_PRINT("image = " << out.image);
+
             out.valid = true;
+        }
+        catch (const djvError & error)
+        {
+            if (out.image.isValid())
+            {
+                out.valid = true;
+            }
         }
     }
 
@@ -773,12 +777,13 @@ QVariant djvFileBrowserModel::data(
                             
                             QFutureWatcher<ImageIoInfo> * watcher =
                                 new QFutureWatcher<ImageIoInfo>;
-                            watcher->setFuture(future);
                             
                             connect(
                                 watcher,
                                 SIGNAL(finished()),
                                 SLOT(imageIoInfoCallback()));
+
+                            watcher->setFuture(future);
                         }
                         else if (! item.hasThumbnailRequest())
                         {
@@ -795,12 +800,13 @@ QVariant djvFileBrowserModel::data(
                             
                             QFutureWatcher<Image> * watcher =
                                 new QFutureWatcher<Image>;
-                            watcher->setFuture(future);
                             
                             connect(
                                 watcher,
                                 SIGNAL(finished()),
                                 SLOT(imageLoadCallback()));
+
+                            watcher->setFuture(future);
                         }
                         else if (! item.thumbnail().isNull())
                         {
