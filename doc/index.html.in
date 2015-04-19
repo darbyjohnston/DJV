@@ -99,9 +99,9 @@ production, VFX, and computer animation. Key features include:</p>
 <h3>News</h3>
 <p>2014/09/28 - Version 1.0 Released</p>
 <ul>
-    <li>Built using the <a href="http://qt-project.org/">Qt</a> toolkit</li>
+    <li>Now built using the <a href="http://qt-project.org/">Qt</a> toolkit</li>
     <li>Updated third party packages including <a href="http://www.openexr.com/">OpenEXR 2.2</a></li>
-    <li>Source code is available from <a href="http://sourceforge.net/p/djv/_list/git">Git</a></li>
+    <li>Source code is now available from <a href="http://sourceforge.net/p/djv/_list/git">Git</a></li>
 </ul>
 
 <h3>Help</h3>

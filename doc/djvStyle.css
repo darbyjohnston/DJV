@@ -46,8 +46,13 @@ body
     margin:  0;
     padding: 0;
 
-    color:      #eeeeee;
+    color:      #cccccc;
     background: #333333;
+}
+
+h1
+{
+    color: #eeeeee;
 }
 
 h2
@@ -55,9 +60,15 @@ h2
     margin: 25 0 25 0;
     padding: 5;
 
+    color:      #eeeeee;
     background: #333333;
     
     border: 1px solid #222222;
+}
+
+h3
+{
+    color: #eeeeee;
 }
 
 pre, code
