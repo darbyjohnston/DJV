@@ -213,7 +213,9 @@ struct djvImageIoFactory::P
 // djvImageIoFactory
 //------------------------------------------------------------------------------
 
-djvImageIoFactory::djvImageIoFactory(const QStringList & searchPath, QObject * parent) :
+djvImageIoFactory::djvImageIoFactory(
+    const QStringList & searchPath,
+    QObject *           parent) :
     djvPluginFactory(searchPath, "djvImageIo", "djv", "Plugin", parent),
     _p(new P)
 {

@@ -640,7 +640,7 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="409"/>
+        <location filename="djvImageIo.cpp" line="411"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <oldsource>Unrecognized file: %1</oldsource>
         <translation type="unfinished"></translation>
