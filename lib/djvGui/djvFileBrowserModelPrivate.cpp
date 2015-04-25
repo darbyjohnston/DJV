@@ -197,6 +197,11 @@ ThumbnailThreadResult thumbnailThreadFunction(
     
     try
     {
+        // Create an OpenGL context.
+        
+        QScopedPointer<djvOpenGlContext> context;
+        context.reset(djvOpenGlContextFactory::create());
+        
         // Load the image.
         
         djvImage image;
@@ -209,11 +214,6 @@ ThumbnailThreadResult thumbnailThreadFunction(
         load->read(image, djvImageIoFrameInfo(-1, 0, proxy));
 
         //DJV_DEBUG_PRINT("image = " << image);
-        
-        // Create an OpenGL context.
-        
-        QScopedPointer<djvOpenGlContext> context;
-        context.reset(djvOpenGlContextFactory::create());
         
         // Scale the image.
         
