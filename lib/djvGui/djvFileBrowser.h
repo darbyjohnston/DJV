@@ -41,7 +41,8 @@
 
 #include <QDialog>
 
-class djvFileBrowserModel;
+class  djvFileBrowserModel;
+struct djvFileBrowserPrivate;
 
 class QModelIndex;
 
@@ -188,7 +189,8 @@ private:
     QVector<int> columnSizes() const;
 
     DJV_PRIVATE_COPY(djvFileBrowser);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFileBrowserPrivate * _p;
 };
 
 //@} // djvGuiDialog

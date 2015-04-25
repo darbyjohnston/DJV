@@ -46,6 +46,7 @@
 #include <ImfStandardAttributes.h>
 #include <ImfThreading.h>
 
+#include <QApplication>
 #include <QSet>
 
 extern "C"
@@ -113,9 +114,9 @@ const QString djvOpenExrPlugin::staticName = "OpenEXR";
 const QStringList & djvOpenExrPlugin::colorProfileLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "Gamma" <<
-        "Exposure";
+        qApp->translate("djvOpenExrPlugin", "None") <<
+        qApp->translate("djvOpenExrPlugin", "Gamma") <<
+        qApp->translate("djvOpenExrPlugin", "Exposure");
 
     DJV_ASSERT(data.count() == COLOR_PROFILE_COUNT);
 
@@ -125,18 +126,18 @@ const QStringList & djvOpenExrPlugin::colorProfileLabels()
 const QStringList & djvOpenExrPlugin::compressionLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "RLE" <<
-        "ZIPS" <<
-        "ZIP" <<
-        "PIZ" <<
-        "PXR24" <<
-        "B44" <<
-        "B44A"        
+        qApp->translate("djvOpenExrPlugin", "None") <<
+        qApp->translate("djvOpenExrPlugin", "RLE") <<
+        qApp->translate("djvOpenExrPlugin", "ZIPS") <<
+        qApp->translate("djvOpenExrPlugin", "ZIP") <<
+        qApp->translate("djvOpenExrPlugin", "PIZ") <<
+        qApp->translate("djvOpenExrPlugin", "PXR24") <<
+        qApp->translate("djvOpenExrPlugin", "B44") <<
+        qApp->translate("djvOpenExrPlugin", "B44A")
 #if OPENEXR_VERSION_HEX >= 0x02020000
         <<
-        "DWAA" <<
-        "DWAB"
+        qApp->translate("djvOpenExrPlugin", "DWAA") <<
+        qApp->translate("djvOpenExrPlugin", "DWAB")
 #endif // OPENEXR_VERSION_HEX
         ;
 
@@ -148,9 +149,9 @@ const QStringList & djvOpenExrPlugin::compressionLabels()
 const QStringList & djvOpenExrPlugin::channelsLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "Known" <<
-        "All";
+        qApp->translate("djvOpenExrPlugin", "None") <<
+        qApp->translate("djvOpenExrPlugin", "Known") <<
+        qApp->translate("djvOpenExrPlugin", "All");
 
     DJV_ASSERT(data.count() == CHANNELS_COUNT);
 
@@ -160,16 +161,16 @@ const QStringList & djvOpenExrPlugin::channelsLabels()
 const QStringList & djvOpenExrPlugin::tagLabels()
 {
     static const QStringList data = QStringList() <<
-        "Longitude" <<
-        "Latitude" <<
-        "Altitude" <<
-        "Focus" <<
-        "Exposure" <<
-        "Aperture" <<
-        "ISO Speed" <<
-        "Chromaticities" <<
-        "White Luminance" <<
-        "XDensity";
+        qApp->translate("djvOpenExrPlugin", "Longitude") <<
+        qApp->translate("djvOpenExrPlugin", "Latitude") <<
+        qApp->translate("djvOpenExrPlugin", "Altitude") <<
+        qApp->translate("djvOpenExrPlugin", "Focus") <<
+        qApp->translate("djvOpenExrPlugin", "Exposure") <<
+        qApp->translate("djvOpenExrPlugin", "Aperture") <<
+        qApp->translate("djvOpenExrPlugin", "ISO Speed") <<
+        qApp->translate("djvOpenExrPlugin", "Chromaticities") <<
+        qApp->translate("djvOpenExrPlugin", "White Luminance") <<
+        qApp->translate("djvOpenExrPlugin", "XDensity");
 
     DJV_ASSERT(data.count() == TAG_COUNT);
 
@@ -834,16 +835,16 @@ djvOpenExrPlugin::Channel djvOpenExrPlugin::imfToChannel(
 const QStringList & djvOpenExrPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Threads Enable" <<
-        "Thread Count" <<
-        "Input Color Profile" <<
-        "Input Gamma" <<
-        "Input Exposure" <<
-        "Channels" <<
-        "Compression"
+        qApp->translate("djvOpenExrPlugin", "Threads Enable") <<
+        qApp->translate("djvOpenExrPlugin", "Thread Count") <<
+        qApp->translate("djvOpenExrPlugin", "Input Color Profile") <<
+        qApp->translate("djvOpenExrPlugin", "Input Gamma") <<
+        qApp->translate("djvOpenExrPlugin", "Input Exposure") <<
+        qApp->translate("djvOpenExrPlugin", "Channels") <<
+        qApp->translate("djvOpenExrPlugin", "Compression")
 #if OPENEXR_VERSION_HEX >= 0x02020000
         <<
-        "DWA Compression Level";
+        qApp->translate("djvOpenExrPlugin", "DWA Compression Level");
 #endif // OPENEXR_VERSION_HEX
         ;
 
@@ -1098,36 +1099,44 @@ void djvOpenExrPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-exr_threads_enable" == arg)
+            if (
+                qApp->translate("djvOpenExrPlugin", "-exr_threads_enable") == arg)
             {
                 in >> _options.threadsEnable;
             }
-            else if ("-exr_thread_count" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_thread_count") == arg)
             {
                 in >> _options.threadCount;
             }
-            else if ("-exr_input_color_profile" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_input_color_profile") == arg)
             {
                 in >> _options.inputColorProfile;
             }
-            else if ("-exr_input_gamma" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_input_gamma") == arg)
             {
                 in >> _options.inputGamma;
             }
-            else if ("-exr_input_exposure" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_input_exposure") == arg)
             {
                 in >> _options.inputExposure;
             }
-            else if ("-exr_channels" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_channels") == arg)
             {
                 in >> _options.channels;
             }
-            else if ("-exr_compression" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_compression") == arg)
             {
                 in >> _options.compression;
             }
 #if OPENEXR_VERSION_HEX >= 0x02020000
-            else if ("-exr_dwa_compression_level" == arg)
+            else if (
+                qApp->translate("djvOpenExrPlugin", "-exr_dwa_compression_level") == arg)
             {
                 in >> _options.dwaCompressionLevel;
             }
@@ -1148,7 +1157,7 @@ void djvOpenExrPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvOpenExrPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvOpenExrPlugin",
 "\n"
 "OpenEXR Options\n"
 "\n"

@@ -43,6 +43,8 @@
 #include <djvStringUtil.h>
 #include <djvSystem.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -111,7 +113,7 @@ QStringList djvLibquicktimePlugin::codecTextLabels()
 const QStringList & djvLibquicktimePlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Save Codec";
+        qApp->translate("djvLibquicktimePlugin", "Save Codec");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -227,7 +229,7 @@ void djvLibquicktimePlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-libquicktime_codec" == arg)
+            if (qApp->translate("djvLibquicktimePlugin", "-libquicktime_codec") == arg)
             {
                 in >> _options.codec;
             }
@@ -247,7 +249,7 @@ void djvLibquicktimePlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvLibquicktimePlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvLibquicktimePlugin",
 "\n"
 "Libquicktime Options\n"
 "\n"

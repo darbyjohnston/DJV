@@ -40,12 +40,12 @@
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvVector2fEditWidget::P
+// djvVector2fEditWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvVector2fEditWidget::P
+struct djvVector2fEditWidgetPrivate
 {
-    P() :
+    djvVector2fEditWidgetPrivate() :
         widget (0),
         widget2(0)
     {}
@@ -60,7 +60,7 @@ struct djvVector2fEditWidget::P
 
 djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvVector2fEditWidgetPrivate)
 {
     _p->widget = new djvFloatEdit;
     _p->widget->setRange(djvFloatObject::floatMin, djvFloatObject::floatMax);

@@ -41,6 +41,7 @@
 
 #include <djvImageIo.h>
 
+#include <QApplication>
 #include <QDialogButtonBox>
 #include <QHeaderView>
 #include <QPushButton>
@@ -91,12 +92,12 @@ private:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvPrefsDialog::P
+// djvPrefsDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvPrefsDialog::P
+struct djvPrefsDialogPrivate
 {
-    P() :
+    djvPrefsDialogPrivate() :
         browser        (0),
         scrollArea     (0),
         buttonBox      (0),
@@ -119,7 +120,7 @@ struct djvPrefsDialog::P
 
 djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
     QDialog(parent),
-    _p(new P)
+    _p(new djvPrefsDialogPrivate)
 {
     //DJV_DEBUG("djvPrefsDialog::djvPrefsDialog");
     
@@ -134,12 +135,14 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     
-    _p->resetPageButton =
-        _p->buttonBox->addButton(tr("Reset Page"), QDialogButtonBox::ResetRole);
+    _p->resetPageButton = _p->buttonBox->addButton(
+        qApp->translate("djvPrefsDialog", "Reset Page"),
+        QDialogButtonBox::ResetRole);
     _p->resetPageButton->setAutoDefault(false);
 
-    _p->resetAllButton =
-        _p->buttonBox->addButton(tr("Reset All"), QDialogButtonBox::ResetRole);
+    _p->resetAllButton = _p->buttonBox->addButton(
+        qApp->translate("djvPrefsDialog", "Reset All"),
+        QDialogButtonBox::ResetRole);
     _p->resetAllButton->setAutoDefault(false);
 
     // Layout the widgets.
@@ -155,12 +158,20 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
     
     // Initialize.
     
-    setWindowTitle(tr("Preferences Dialog"));
+    setWindowTitle(qApp->translate("djvPrefsDialog", "Preferences Dialog"));
 
-    addWidget(new djvFileBrowserPrefsWidget, tr("General"));
-    addWidget(new djvMiscPrefsWidget, tr("General"));
-    addWidget(new djvOpenGlPrefsWidget, tr("General"));
-    addWidget(new djvStylePrefsWidget, tr("General"));
+    addWidget(
+        new djvFileBrowserPrefsWidget,
+        qApp->translate("djvPrefsDialog", "General"));
+    addWidget(
+        new djvMiscPrefsWidget,
+        qApp->translate("djvPrefsDialog", "General"));
+    addWidget(
+        new djvOpenGlPrefsWidget,
+        qApp->translate("djvPrefsDialog", "General"));
+    addWidget(
+        new djvStylePrefsWidget,
+        qApp->translate("djvPrefsDialog", "General"));
 
     const QList<djvPlugin *> & imageIo = djvImageIoFactory::global()->plugins();
 
@@ -170,7 +181,9 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
         {
             if (djvAbstractPrefsWidget * widget = plugin->createWidget())
             {
-                addWidget(widget, tr("Image I/O"));
+                addWidget(
+                    widget,
+                    qApp->translate("djvPrefsDialog", "Image I/O"));
             }
         }
     }
@@ -262,7 +275,7 @@ void djvPrefsDialog::buttonCallback(QAbstractButton * button)
     if (button == _p->resetAllButton)
     {
         djvQuestionDialog dialog(
-            tr("Are you sure you want to reset all of the preferences?"));
+            qApp->translate("djvPrefsDialog", "Are you sure you want to reset all of the preferences?"));
 
         if (QDialog::Accepted == dialog.exec())
         {
@@ -275,7 +288,7 @@ void djvPrefsDialog::buttonCallback(QAbstractButton * button)
     if (button == _p->resetPageButton)
     {
         djvQuestionDialog dialog(
-            tr("Are you sure you want to reset the preferences for the current page?"));
+            qApp->translate("djvPrefsDialog", "Are you sure you want to reset the preferences for the current page?"));
 
         if (QDialog::Accepted == dialog.exec())
         {

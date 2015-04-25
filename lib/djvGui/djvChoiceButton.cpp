@@ -45,12 +45,12 @@
 #include <QStyleOptionButton>
 
 //------------------------------------------------------------------------------
-// djvChoiceButton::P
+// djvChoiceButtonPrivate
 //------------------------------------------------------------------------------
 
-struct djvChoiceButton::P
+struct djvChoiceButtonPrivate
 {
-    P() :
+    djvChoiceButtonPrivate() :
         actionGroup (0),
         currentIndex(0),
         mousePress  (0)
@@ -67,7 +67,7 @@ struct djvChoiceButton::P
 
 djvChoiceButton::djvChoiceButton(QWidget * parent) :
     djvAbstractToolButton(parent),
-    _p(new P)
+    _p(new djvChoiceButtonPrivate)
 {
     connect(
         this,
@@ -77,7 +77,7 @@ djvChoiceButton::djvChoiceButton(QWidget * parent) :
 
 djvChoiceButton::djvChoiceButton(QActionGroup * actionGroup, QWidget * parent) :
     djvAbstractToolButton(parent),
-    _p(new P)
+    _p(new djvChoiceButtonPrivate)
 {
     setActionGroup(actionGroup);
 

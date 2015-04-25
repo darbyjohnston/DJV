@@ -41,12 +41,12 @@
 #include <QFormLayout>
 
 //------------------------------------------------------------------------------
-// djvPrefsGroupBox::P
+// djvPrefsGroupBoxPrivate
 //------------------------------------------------------------------------------
 
-struct djvPrefsGroupBox::P
+struct djvPrefsGroupBoxPrivate
 {
-    P(const QString & text) :
+    djvPrefsGroupBoxPrivate(const QString & text) :
         text  (text),
         label (0),
         layout(0)
@@ -68,7 +68,7 @@ djvPrefsGroupBox::djvPrefsGroupBox(
     const QString & text,
     QWidget *       parent) :
     QWidget(parent),
-    _p(new P(text))
+    _p(new djvPrefsGroupBoxPrivate(text))
 {
     const QFont font = this->font();
     

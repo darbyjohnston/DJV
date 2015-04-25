@@ -33,17 +33,18 @@
 
 #include <djvMessageDialog.h>
 
+#include <QApplication>
 #include <QLabel>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvMessageDialog::P
+// djvMessageDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvMessageDialog::P
+struct djvMessageDialogPrivate
 {
-    P(const QString & label) :
+    djvMessageDialogPrivate(const QString & label) :
         label      (label),
         labelWidget(0)
     {}
@@ -58,7 +59,7 @@ struct djvMessageDialog::P
 
 djvMessageDialog::djvMessageDialog(const QString & label, QWidget * parent) :
     QDialog(parent),
-    _p(new P(label))
+    _p(new djvMessageDialogPrivate(label))
 {
     _p->labelWidget = new QLabel;
     
@@ -72,7 +73,7 @@ djvMessageDialog::djvMessageDialog(const QString & label, QWidget * parent) :
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle(tr("Message Dialog"));
+    setWindowTitle(qApp->translate("djvMessageDialog", "Message Dialog"));
 
     widgetUpdate();
     

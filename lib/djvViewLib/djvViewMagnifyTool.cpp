@@ -107,12 +107,12 @@ void Widget::paintEvent(QPaintEvent *)
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewMagnifyTool::P
+// djvViewMagnifyToolPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewMagnifyTool::P
+struct djvViewMagnifyToolPrivate
 {
-    P() :
+    djvViewMagnifyToolPrivate() :
         zoom                (2),
         colorProfile        (true),
         displayProfile      (true),
@@ -148,7 +148,7 @@ djvViewMagnifyTool::djvViewMagnifyTool(
     djvViewMainWindow * mainWindow,
     QWidget *           parent) :
     djvViewAbstractTool(mainWindow, parent),
-    _p(new P)
+    _p(new djvViewMagnifyToolPrivate)
 {
     // Create the widgets.
 
@@ -162,13 +162,13 @@ djvViewMagnifyTool::djvViewMagnifyTool(
         djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
     _p->colorProfileButton->setToolTip(
-        tr("Set whether the color profile is enabled"));
+        qApp->translate("djvViewMagnifyTool", "Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
     _p->displayProfileButton->setToolTip(
-        tr("Set whether the display profile is enabled"));
+        qApp->translate("djvViewMagnifyTool", "Set whether the display profile is enabled"));
 
     // Layout the widgets.
 
@@ -198,7 +198,7 @@ djvViewMagnifyTool::djvViewMagnifyTool(
 
     // Initialize.
     
-    setWindowTitle(tr("Magnify"));
+    setWindowTitle(qApp->translate("djvViewMagnifyTool", "Magnify"));
 
     widgetUpdate();
 

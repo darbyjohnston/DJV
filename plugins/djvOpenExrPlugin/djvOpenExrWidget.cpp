@@ -41,6 +41,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
@@ -73,7 +74,8 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
 
     // Create the thread widgets.
 
-    _threadsEnableWidget = new QCheckBox("Enable");
+    _threadsEnableWidget = new QCheckBox(
+        qApp->translate("djvOpenExrWidget", "Enable"));
 
     _threadCountWidget = new djvIntEdit;
     _threadCountWidget->setRange(0, 1024);
@@ -122,40 +124,54 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox("Multithreading");
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvOpenExrWidget", "Multithreading"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_threadsEnableWidget);
-    formLayout->addRow("Thread count:", _threadCountWidget);
+    formLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Thread count:"),
+        _threadCountWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Color Profile",
-        "Set the color profile used when loading OpenEXR images.");
+        qApp->translate("djvOpenExrWidget", "Color Profile"),
+        qApp->translate("djvOpenExrWidget",
+        "Set the color profile used when loading OpenEXR images."));
     _inputColorProfileLayout = prefsGroupBox->createLayout();
-    _inputColorProfileLayout->addRow("Color profile:", _inputColorProfileWidget);
-    _inputColorProfileLayout->addRow("Gamma:", _inputGammaWidget);
-    _inputColorProfileLayout->addRow("Exposure:", _inputExposureWidget);
-    _inputColorProfileLayout->addRow("Defog:", _inputExposureDefogWidget);
-    _inputColorProfileLayout->addRow("Knee low:", _inputExposureKneeLowWidget);
-    _inputColorProfileLayout->addRow("Knee high:", _inputExposureKneeHighWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Color profile:"), _inputColorProfileWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Gamma:"), _inputGammaWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Exposure:"), _inputExposureWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Defog:"), _inputExposureDefogWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Knee low:"), _inputExposureKneeLowWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Knee high:"), _inputExposureKneeHighWidget);
     formLayout->addRow(prefsGroupBox);
     
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Channels",
-        "Set how channels are grouped when loading OpenEXR images.");
+        qApp->translate("djvOpenExrWidget", "Channels"),
+        qApp->translate("djvOpenExrWidget",
+        "Set how channels are grouped when loading OpenEXR images."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_channelsWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Compression",
-        "Set the file compression used when saving OpenEXR images.");
+        qApp->translate("djvOpenExrWidget", "Compression"),
+        qApp->translate("djvOpenExrWidget",
+        "Set the file compression used when saving OpenEXR images."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_compressionWidget);
 #if OPENEXR_VERSION_HEX >= 0x02020000
-    formLayout->addRow("DWA compression level:", _dwaCompressionLevelWidget);
+    formLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "DWA compression level:"),
+        _dwaCompressionLevelWidget);
 #endif // OPENEXR_VERSION_HEX
     layout->addWidget(prefsGroupBox);
 

@@ -39,6 +39,8 @@
 #include <djvImageIo.h>
 #include <djvPixel.h>
 
+struct djvViewFileGroupPrivate;
+
 class QAction;
 
 //! \addtogroup djvViewFile
@@ -174,7 +176,8 @@ private:
     void cacheDel();
 
     DJV_PRIVATE_COPY(djvViewFileGroup);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFileGroupPrivate * _p;
 };
 
 //@} // djvViewFile

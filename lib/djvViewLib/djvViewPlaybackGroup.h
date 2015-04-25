@@ -37,6 +37,8 @@
 #include <djvViewAbstractGroup.h>
 #include <djvViewUtil.h>
 
+struct djvViewPlaybackGroupPrivate;
+
 class djvSequence;
 class djvSpeed;
 
@@ -248,7 +250,8 @@ private:
     void layoutUpdate();
 
     DJV_PRIVATE_COPY(djvViewPlaybackGroup);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewPlaybackGroupPrivate * _p;
 };
 
 //@} // djvViewPlayback

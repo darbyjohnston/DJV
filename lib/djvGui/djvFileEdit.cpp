@@ -35,17 +35,18 @@
 
 #include <djvFileBrowser.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
 
 //------------------------------------------------------------------------------
-// djvFileEdit::P
+// djvFileEditPrivate
 //------------------------------------------------------------------------------
 
-struct djvFileEdit::P
+struct djvFileEditPrivate
 {
-    P() :
+    djvFileEditPrivate() :
         edit(0)
     {}
     
@@ -59,13 +60,14 @@ struct djvFileEdit::P
 
 djvFileEdit::djvFileEdit(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvFileEditPrivate)
 {
     // Create the widgets.
 
     _p->edit = new QLineEdit;
 
-    QPushButton * button = new QPushButton(tr("&Browse"));
+    QPushButton * button = new QPushButton(
+        qApp->translate("djvFileEdit", "&Browse"));
 
     // Layout the widgets.
 

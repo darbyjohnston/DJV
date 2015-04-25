@@ -40,6 +40,8 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -67,8 +69,8 @@ const QString djvSgiPlugin::staticName = "SGI";
 const QStringList & djvSgiPlugin::compressionLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "RLE";
+        qApp->translate("djvSgiPlugin", "None") <<
+        qApp->translate("djvSgiPlugin", "RLE");
 
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
 
@@ -469,7 +471,7 @@ quint64 djvSgiPlugin::writeRle(
 const QStringList & djvSgiPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Compression";
+        qApp->translate("djvSgiPlugin", "Compression");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -553,7 +555,7 @@ void djvSgiPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-sgi_compression" == arg)
+            if (qApp->translate("djvSgiPlugin", "-sgi_compression") == arg)
             {
                 in >> _options.compression;
             }
@@ -573,7 +575,7 @@ void djvSgiPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvSgiPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvSgiPlugin",
 "\n"
 "SGI Options\n"
 "\n"

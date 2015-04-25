@@ -39,12 +39,12 @@
 #include <QDoubleSpinBox>
 
 //------------------------------------------------------------------------------
-// djvFloatDisplay::P
+// djvFloatDisplayPrivate
 //------------------------------------------------------------------------------
 
-struct djvFloatDisplay::P
+struct djvFloatDisplayPrivate
 {
-    P() :
+    djvFloatDisplayPrivate() :
         value  (0.0),
         min    (0.0),
         max    (1.0),
@@ -63,7 +63,7 @@ struct djvFloatDisplay::P
 
 djvFloatDisplay::djvFloatDisplay(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvFloatDisplayPrivate)
 {
     _p->spinBox = new QDoubleSpinBox;
     _p->spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);

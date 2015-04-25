@@ -42,6 +42,7 @@
 #include <djvError.h>
 #include <djvFileIoUtil.h>
 
+#include <QApplication>
 #include <QRegExp>
 
 #include <stdio.h>
@@ -77,8 +78,8 @@ const QStringList djvLutPlugin::staticExtensions = QStringList() <<
 const QStringList & djvLutPlugin::formatLabels()
 {
     static const QStringList data = QStringList() <<
-        "Inferno" <<
-        "Kodak";
+        qApp->translate("djvLutPlugin", "Inferno") <<
+        qApp->translate("djvLutPlugin", "Kodak");
 
     DJV_ASSERT(data.count() == FORMAT_COUNT);
 
@@ -88,10 +89,10 @@ const QStringList & djvLutPlugin::formatLabels()
 const QStringList & djvLutPlugin::typeLabels()
 {
     static const QStringList data = QStringList() <<
-        "Auto" <<
-        "U8" <<
-        "U10" <<
-        "U16";
+        qApp->translate("djvLutPlugin", "Auto") <<
+        qApp->translate("djvLutPlugin", "U8") <<
+        qApp->translate("djvLutPlugin", "U10") <<
+        qApp->translate("djvLutPlugin", "U16");
 
     DJV_ASSERT(data.count() == TYPE_COUNT);
 
@@ -486,7 +487,7 @@ void djvLutPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-lut_type" == arg)
+            if (qApp->translate("djvLutPlugin", "-lut_type") == arg)
             {
                 in >> _options.type;
             }
@@ -506,7 +507,7 @@ void djvLutPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvLutPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvLutPlugin",
 "\n"
 "LUT Options\n"
 "\n"

@@ -41,6 +41,8 @@
 
 #include <QWidget>
 
+struct djvPixelMaskWidgetPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -100,7 +102,8 @@ private:
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvPixelMaskWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvPixelMaskWidgetPrivate * _p;
 };
 
 //@} // djvGuiWidget

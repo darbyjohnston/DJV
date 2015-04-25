@@ -51,6 +51,7 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 #include <QDockWidget>
 #include <QHBoxLayout>
 #include <QMenu>
@@ -58,12 +59,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewImageGroup::P
+// djvViewImageGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewImageGroup::P
+struct djvViewImageGroupPrivate
 {
-    P() :
+    djvViewImageGroupPrivate() :
         frameStore               (false),
         mirror                   (djvViewImagePrefs::global()->mirror()),
         scale                    (djvViewImagePrefs::global()->scale()),
@@ -101,7 +102,7 @@ djvViewImageGroup::djvViewImageGroup(
     djvViewMainWindow *       mainWindow,
     const djvViewImageGroup * copy) :
     djvViewAbstractGroup(mainWindow),
-    _p(new P)
+    _p(new djvViewImageGroupPrivate)
 {
     //DJV_DEBUG("djvViewImageGroup::djvViewImageGroup");
 
@@ -134,7 +135,8 @@ djvViewImageGroup::djvViewImageGroup(
     
     _p->displayProfileWidget =
         new djvViewDisplayProfileWidget(mainWindow->viewWidget());
-    _p->displayProfileDockWidget = new QDockWidget(tr("Display Profile"));
+    _p->displayProfileDockWidget = new QDockWidget(
+        qApp->translate("djvViewImageGroup", "Display Profile"));
     _p->displayProfileDockWidget->setWidget(_p->displayProfileWidget);
 
     mainWindow->addDockWidget(

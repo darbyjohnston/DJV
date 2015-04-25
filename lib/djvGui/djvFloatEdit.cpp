@@ -43,12 +43,12 @@
 #include <QKeyEvent>
 
 //------------------------------------------------------------------------------
-// djvFloatEdit::P
+// djvFloatEditPrivate
 //------------------------------------------------------------------------------
 
-struct djvFloatEdit::P
+struct djvFloatEditPrivate
 {
-    P() :
+    djvFloatEditPrivate() :
         object (0),
         spinBox(0)
     {}
@@ -63,7 +63,7 @@ struct djvFloatEdit::P
 
 djvFloatEdit::djvFloatEdit(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvFloatEditPrivate)
 {
     _p->object = new djvFloatObject(this);
 

@@ -35,13 +35,15 @@
 
 #include <djvViewImageActions.h>
 
+#include <QApplication>
+
 //------------------------------------------------------------------------------
-// djvViewImageMenu::P
+// djvViewImageMenuPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewImageMenu::P
+struct djvViewImageMenuPrivate
 {
-    P() :
+    djvViewImageMenuPrivate() :
         displayProfileMenu(0)
     {}
 
@@ -56,7 +58,7 @@ djvViewImageMenu::djvViewImageMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    _p(new djvViewImageMenuPrivate)
 {
     // Create the menus.
 
@@ -68,11 +70,13 @@ djvViewImageMenu::djvViewImageMenu(
     addAction(actions->action(djvViewImageActions::MIRROR_H));
     addAction(actions->action(djvViewImageActions::MIRROR_V));
 
-    QMenu * scaleMenu = addMenu(tr("&Scale"));
+    QMenu * scaleMenu = addMenu(
+        qApp->translate("djvViewImageMenu", "&Scale"));
     scaleMenu->addActions(
         actions->group(djvViewImageActions::SCALE_GROUP)->actions());
 
-    QMenu * rotateMenu = addMenu(tr("&Rotate"));
+    QMenu * rotateMenu = addMenu(
+        qApp->translate("djvViewImageMenu", "&Rotate"));
     rotateMenu->addActions(
         actions->group(djvViewImageActions::ROTATE_GROUP)->actions());
 
@@ -82,17 +86,19 @@ djvViewImageMenu::djvViewImageMenu(
 
     addAction(actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE));
 
-    _p->displayProfileMenu = addMenu(tr("&Display Profile"));
+    _p->displayProfileMenu = addMenu(
+        qApp->translate("djvViewImageMenu", "&Display Profile"));
 
     addSeparator();
 
-    QMenu * channelMenu = addMenu(tr("C&hannel"));
+    QMenu * channelMenu = addMenu(
+        qApp->translate("djvViewImageMenu", "C&hannel"));
     channelMenu->addActions(
         actions->group(djvViewImageActions::CHANNEL_GROUP)->actions());
 
     // Initialize.
 
-    setTitle(tr("&Image"));
+    setTitle(qApp->translate("djvViewImageMenu", "&Image"));
 
     menuUpdate();
 }

@@ -38,6 +38,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -64,8 +65,8 @@ djvSgiWidget::djvSgiWidget(djvSgiPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Compression",
-        "Set the file compression used when saving SGI images.");
+        qApp->translate("djvSgiWidget", "Compression"),
+        qApp->translate("djvSgiWidget", "Set the file compression used when saving SGI images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_compressionWidget);
     layout->addWidget(prefsGroupBox);

@@ -40,7 +40,8 @@
 
 #include <QObject>
 
-class djvViewMainWindow;
+struct djvViewAbstractGroupPrivate;
+class  djvViewMainWindow;
 
 class QToolBar;
 
@@ -78,7 +79,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractGroup);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewAbstractGroupPrivate * _p;
 };
 
 //@} // djvViewLib

@@ -48,12 +48,12 @@
 #include <QMenuBar>
 
 //------------------------------------------------------------------------------
-// djvViewHelpGroup::P
+// djvViewHelpGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewHelpGroup::P
+struct djvViewHelpGroupPrivate
 {
-    P() :
+    djvViewHelpGroupPrivate() :
         actions(0),
         menu   (0)
     {}
@@ -70,7 +70,7 @@ djvViewHelpGroup::djvViewHelpGroup(
     djvViewMainWindow *      mainWindow,
     const djvViewHelpGroup * copy) :
     djvViewAbstractGroup(mainWindow),
-    _p(new P)
+    _p(new djvViewHelpGroupPrivate)
 {
     //DJV_DEBUG("djvViewHelpGroup::djvViewHelpGroup");
 

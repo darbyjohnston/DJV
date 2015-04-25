@@ -46,8 +46,9 @@
 
 class djvAbstractPrefsWidget;
 
-class djvFileInfo;
-class djvImage;
+class  djvFileInfo;
+class  djvImage;
+struct djvImageIoFactoryPrivate;
 
 #if defined DJV_WINDOWS
 #undef ERROR
@@ -360,7 +361,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvImageIoFactory);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvImageIoFactoryPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

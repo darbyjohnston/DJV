@@ -40,6 +40,8 @@
 
 #include <QObject>
 
+struct djvIconLibraryPrivate;
+
 class QIcon;
 class QPixmap;
 class QSize;
@@ -94,7 +96,8 @@ public:
 private:
     
     DJV_PRIVATE_COPY(djvIconLibrary);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvIconLibraryPrivate * _p;
 };
 
 //@} // djvGuiMisc

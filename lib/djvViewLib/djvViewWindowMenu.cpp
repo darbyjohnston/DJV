@@ -35,12 +35,7 @@
 
 #include <djvViewWindowActions.h>
 
-//------------------------------------------------------------------------------
-// djvViewWindowMenu::P
-//------------------------------------------------------------------------------
-
-struct djvViewWindowMenu::P
-{};
+#include <QApplication>
 
 //------------------------------------------------------------------------------
 // djvViewWindowMenu
@@ -49,8 +44,7 @@ struct djvViewWindowMenu::P
 djvViewWindowMenu::djvViewWindowMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    djvViewAbstractMenu(actions, parent)
 {
     // Create the menus.
 
@@ -76,10 +70,8 @@ djvViewWindowMenu::djvViewWindowMenu(
 
     // Initialize.
 
-    setTitle(tr("&Window"));
+    setTitle(qApp->translate("djvViewWindowMenu", "&Window"));
 }
 
 djvViewWindowMenu::~djvViewWindowMenu()
-{
-    delete _p;
-}
+{}

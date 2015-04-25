@@ -35,12 +35,7 @@
 
 #include <djvViewViewActions.h>
 
-//------------------------------------------------------------------------------
-// djvViewViewMenu::P
-//------------------------------------------------------------------------------
-
-struct djvViewViewMenu::P
-{};
+#include <QApplication>
 
 //------------------------------------------------------------------------------
 // djvViewViewMenu
@@ -49,8 +44,7 @@ struct djvViewViewMenu::P
 djvViewViewMenu::djvViewViewMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    djvViewAbstractMenu(actions, parent)
 {
     // Create the menus.
 
@@ -73,7 +67,7 @@ djvViewViewMenu::djvViewViewMenu(
 
     addSeparator();
 
-    QMenu * gridMenu = addMenu(tr("&Grid"));
+    QMenu * gridMenu = addMenu(qApp->translate("djvViewViewMenu", "&Grid"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewViewActions::GRID_GROUP)->actions())
         gridMenu->addAction(action);
@@ -82,10 +76,8 @@ djvViewViewMenu::djvViewViewMenu(
 
     // Initialize.
 
-    setTitle(tr("&View"));
+    setTitle(qApp->translate("djvViewViewMenu", "&View"));
 }
 
 djvViewViewMenu::~djvViewViewMenu()
-{
-    delete _p;
-}
+{}

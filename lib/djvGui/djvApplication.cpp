@@ -79,11 +79,11 @@ protected:
 
 } // namespace
 
-struct djvAbstractApplication::P
+struct djvAbstractApplicationPrivate
 {
-    P() :
+    djvAbstractApplicationPrivate() :
         valid        (false),
-        toolTips     (toolTipsDefault()),
+        toolTips     (djvAbstractApplication::toolTipsDefault()),
         toolTipFilter(new ToolTipFilter)
     {}
         
@@ -101,7 +101,7 @@ djvAbstractApplication::djvAbstractApplication(
     int &           argc,
     char **         argv) throw (djvError) :
     djvAbstractImageApplication(name, argc, argv),
-    _p(new P)
+    _p(new djvAbstractApplicationPrivate)
 {
     //DJV_DEBUG("djvAbstractApplication::djvAbstractApplication");
 
@@ -221,7 +221,7 @@ QString djvAbstractApplication::info() const
         arg(djvPrefs(QString(), djvPrefs::SYSTEM).fileName());
 }
 
-void djvAbstractApplication::printMessage(const QString & message) const
+void djvAbstractApplication::printMessage(const QString & message, int indent) const
 {
     if (_p->valid)
     {
@@ -229,7 +229,7 @@ void djvAbstractApplication::printMessage(const QString & message) const
     }
     else
     {
-        djvAbstractImageApplication::printMessage(message);
+        djvAbstractImageApplication::printMessage(message, indent);
     }
 }
 

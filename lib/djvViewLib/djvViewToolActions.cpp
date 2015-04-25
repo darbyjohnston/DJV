@@ -41,12 +41,13 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewToolActions::P
+// djvViewToolActionsPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewToolActions::P
+struct djvViewToolActionsPrivate
 {
 };
 
@@ -56,7 +57,7 @@ struct djvViewToolActions::P
 
 djvViewToolActions::djvViewToolActions(QObject * parent) :
 	djvViewAbstractActions(parent),
-    _p(new P)
+    _p(new djvViewToolActionsPrivate)
 {
     // Create the action groups.
 
@@ -68,10 +69,10 @@ djvViewToolActions::djvViewToolActions(QObject * parent) :
     _groups[TOOL_GROUP]->setExclusive(false);
     
     const QStringList toolText = QStringList() <<
-        tr("&Magnify") <<
-        tr("&Color Picker") <<
-        tr("&Histogram") <<
-        tr("&Information");
+        qApp->translate("djvViewToolActions", "&Magnify") <<
+        qApp->translate("djvViewToolActions", "&Color Picker") <<
+        qApp->translate("djvViewToolActions", "&Histogram") <<
+        qApp->translate("djvViewToolActions", "&Information");
     
     const QList<bool> toolCheckable = QList<bool>() <<
         true <<
@@ -127,10 +128,10 @@ void djvViewToolActions::update()
         shortcuts[djvViewUtil::SHORTCUT_TOOL_INFO].value;
     
     const QStringList toolToolTips = QStringList() <<
-        tr("Toggle the magnify tool\n\nShortcut: %1") <<
-        tr("Toggle the color picker tool\n\nShortcut: %1") <<
-        tr("Toggle the histogram tool\n\nShortcut: %1") <<
-        tr("Toggle the information tool\n\nShortcut: %1");
+        qApp->translate("djvViewToolActions", "Toggle the magnify tool\n\nShortcut: %1") <<
+        qApp->translate("djvViewToolActions", "Toggle the color picker tool\n\nShortcut: %1") <<
+        qApp->translate("djvViewToolActions", "Toggle the histogram tool\n\nShortcut: %1") <<
+        qApp->translate("djvViewToolActions", "Toggle the information tool\n\nShortcut: %1");
     
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {

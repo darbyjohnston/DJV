@@ -39,18 +39,19 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvOpenGlPrefsWidget::P
+// djvOpenGlPrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvOpenGlPrefsWidget::P
+struct djvOpenGlPrefsWidgetPrivate
 {
-    P() :
+    djvOpenGlPrefsWidgetPrivate() :
        filterMinWidget(0),
        filterMagWidget(0)
     {}
@@ -64,8 +65,8 @@ struct djvOpenGlPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget(tr("OpenGL"), parent),
-    _p(new P)
+    djvAbstractPrefsWidget(qApp->translate("djvOpenGlPrefsWidget", "OpenGL"), parent),
+    _p(new djvOpenGlPrefsWidgetPrivate)
 {
     // Create the filter widgets.
 
@@ -83,13 +84,18 @@ djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        tr("Render Filter"),
-        tr("Set the render filter quality. The filters \"Nearest\" and "
+        qApp->translate("djvOpenGlPrefsWidget", "Render Filter"),
+        qApp->translate("djvOpenGlPrefsWidget",
+        "Set the render filter quality. The filters \"Nearest\" and "
         "\"Linear\" are generally the fastest. The other filters can provide "
         "higher quality but are generally slower."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Zoom out:"), _p->filterMinWidget);
-    formLayout->addRow(tr("Zoom in:"), _p->filterMagWidget);
+    formLayout->addRow(
+        qApp->translate("djvOpenGlPrefsWidget", "Zoom out:"),
+        _p->filterMinWidget);
+    formLayout->addRow(
+        qApp->translate("djvOpenGlPrefsWidget", "Zoom in:"),
+        _p->filterMagWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

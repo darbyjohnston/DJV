@@ -40,6 +40,8 @@
 
 #include <QAbstractItemModel>
 
+struct djvShortcutsModelPrivate;
+
 //! \addtogroup djvGuiMisc
 //@{
 
@@ -122,7 +124,8 @@ private:
     void collisionsUpdate();
 
     DJV_PRIVATE_COPY(djvShortcutsModel);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvShortcutsModelPrivate * _p;
 };
 
 //@} // djvGuiMisc

@@ -63,12 +63,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewFileGroup::P
+// djvViewFileGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFileGroup::P
+struct djvViewFileGroupPrivate
 {
-    P() :
+    djvViewFileGroupPrivate() :
         image       (0),
         autoSequence(djvViewFilePrefs::global()->hasAutoSequence()),
         layer       (0),
@@ -107,7 +107,7 @@ djvViewFileGroup::djvViewFileGroup(
     djvViewMainWindow *      mainWindow,
     const djvViewFileGroup * copy) :
     djvViewAbstractGroup(mainWindow),
-    _p(new P)
+    _p(new djvViewFileGroupPrivate)
 {
     if (copy)
     {
@@ -625,7 +625,8 @@ void djvViewFileGroup::setCacheEnabled(bool cache)
 
 void djvViewFileGroup::openCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global(tr("Open"));
+    djvFileBrowser * fileBrowser = djvFileBrowser::global(
+        qApp->translate("djvViewFileGroup", "Open"));
 
     fileBrowser->setPinnable(true);
     
@@ -733,7 +734,8 @@ void djvViewFileGroup::saveCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::saveCallback");
 
-    djvFileBrowser * fileBrowser = djvFileBrowser::global(tr("Save"));
+    djvFileBrowser * fileBrowser = djvFileBrowser::global(
+        qApp->translate("djvViewFileGroup", "Save"));
 
     if (fileBrowser->exec() == QDialog::Accepted)
     {
@@ -746,7 +748,7 @@ void djvViewFileGroup::saveCallback()
             //DJV_DEBUG_PRINT("exists");
 
             djvQuestionDialog dialog(
-                tr("Overwrite existing file \"%1\"?").
+                qApp->translate("djvViewFileGroup", "Overwrite existing file \"%1\"?").
                     arg(QDir::toNativeSeparators(fileInfo)));
 
             if (QDialog::Accepted == dialog.exec())
@@ -763,7 +765,8 @@ void djvViewFileGroup::saveCallback()
 
 void djvViewFileGroup::saveFrameCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global(tr("Save Frame"));
+    djvFileBrowser * fileBrowser = djvFileBrowser::global(
+        qApp->translate("djvViewFileGroup", "Save Frame"));
     
     if (fileBrowser->exec() == QDialog::Accepted)
     {
@@ -772,7 +775,7 @@ void djvViewFileGroup::saveFrameCallback()
         if (djvFileInfoUtil::exists(fileInfo))
         {
             djvQuestionDialog dialog(
-                tr("Overwrite existing file \"%1\"?").
+                qApp->translate("djvViewFileGroup", "Overwrite existing file \"%1\"?").
                     arg(QDir::toNativeSeparators(fileInfo)));
 
             if (QDialog::Accepted == dialog.exec())

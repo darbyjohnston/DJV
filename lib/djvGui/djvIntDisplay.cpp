@@ -39,12 +39,12 @@
 #include <QSpinBox>
 
 //------------------------------------------------------------------------------
-// djvIntDisplay::P
+// djvIntDisplayPrivate
 //------------------------------------------------------------------------------
 
-struct djvIntDisplay::P
+struct djvIntDisplayPrivate
 {
-    P() :
+    djvIntDisplayPrivate() :
         value  (0),
         min    (1),
         max    (100),
@@ -63,7 +63,7 @@ struct djvIntDisplay::P
 
 djvIntDisplay::djvIntDisplay(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvIntDisplayPrivate)
 {
     _p->spinBox = new QSpinBox;
     _p->spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);

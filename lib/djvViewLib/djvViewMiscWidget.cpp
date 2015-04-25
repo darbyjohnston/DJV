@@ -66,12 +66,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewCacheSizeWidget::P
+// djvViewCacheSizeWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewCacheSizeWidget::P
+struct djvViewCacheSizeWidgetPrivate
 {
-    P() :
+    djvViewCacheSizeWidgetPrivate() :
         cacheSize(0.0),
         edit     (0),
         button   (0)
@@ -90,7 +90,7 @@ struct djvViewCacheSizeWidget::P
 
 djvViewCacheSizeWidget::djvViewCacheSizeWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewCacheSizeWidgetPrivate)
 {
     // Create widgets.
 
@@ -204,12 +204,12 @@ void djvViewCacheSizeWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameWidget::P
+// djvViewFrameWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFrameWidget::P
+struct djvViewFrameWidgetPrivate
 {
-    P() :
+    djvViewFrameWidgetPrivate() :
         frame(0)
     {}
 
@@ -225,7 +225,7 @@ struct djvViewFrameWidget::P
 
 djvViewFrameWidget::djvViewFrameWidget(QWidget * parent) :
     QAbstractSpinBox(parent),
-    _p(new P)
+    _p(new djvViewFrameWidgetPrivate)
 {
     // Initialize.
 
@@ -397,12 +397,12 @@ void djvViewFrameWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameSlider::P
+// djvViewFrameSliderPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFrameSlider::P
+struct djvViewFrameSliderPrivate
 {
-    P() :
+    djvViewFrameSliderPrivate() :
         frame       (0),
         inOutEnabled(false),
         inPoint     (0),
@@ -424,7 +424,7 @@ struct djvViewFrameSlider::P
 
 djvViewFrameSlider::djvViewFrameSlider(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewFrameSliderPrivate)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
 
@@ -903,12 +903,12 @@ int djvViewFrameSlider::frameToPos(qint64 frame) const
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameDisplay::P
+// djvViewFrameDisplayPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFrameDisplay::P
+struct djvViewFrameDisplayPrivate
 {
-    P() :
+    djvViewFrameDisplayPrivate() :
         frame       (0),
         inOutEnabled(false)
     {}
@@ -927,7 +927,7 @@ struct djvViewFrameDisplay::P
 
 djvViewFrameDisplay::djvViewFrameDisplay(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewFrameDisplayPrivate)
 {
     // Create the widgets.
 
@@ -1047,12 +1047,12 @@ void djvViewFrameDisplay::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewSpeedButton::P
+// djvViewSpeedButtonPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewSpeedButton::P
+struct djvViewSpeedButtonPrivate
 {
-    P() :
+    djvViewSpeedButtonPrivate() :
         button(0)
     {}
     
@@ -1068,7 +1068,7 @@ struct djvViewSpeedButton::P
 
 djvViewSpeedButton::djvViewSpeedButton(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewSpeedButtonPrivate)
 {
     // Create the widgets.
     
@@ -1106,7 +1106,8 @@ void djvViewSpeedButton::pressedCallback()
     
     if (_p->defaultSpeed.isValid())
     {
-        const QString text = tr("Default: %1").
+        const QString text =
+            qApp->translate("djvViewSpeedButton", "Default: %1").
             arg(djvSpeed::speedToFloat(_p->defaultSpeed), 0, 'f', 2);
 
         QAction * action = menu.addAction(
@@ -1145,12 +1146,12 @@ void djvViewSpeedButton::menuCallback()
 }
 
 //------------------------------------------------------------------------------
-// djvViewSpeedWidget::P
+// djvViewSpeedWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewSpeedWidget::P
+struct djvViewSpeedWidgetPrivate
 {
-    P() :
+    djvViewSpeedWidgetPrivate() :
         floatEdit(0),
         button   (0)
     {}
@@ -1168,7 +1169,7 @@ struct djvViewSpeedWidget::P
 
 djvViewSpeedWidget::djvViewSpeedWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewSpeedWidgetPrivate)
 {
     // Create the widgets.
     
@@ -1259,12 +1260,12 @@ void djvViewSpeedWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewSpeedDisplay::P
+// djvViewSpeedDisplayPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewSpeedDisplay::P
+struct djvViewSpeedDisplayPrivate
 {
-    P() :
+    djvViewSpeedDisplayPrivate() :
         speed        (0.0),
         droppedFrames(false),
         lineEdit     (0)
@@ -1281,7 +1282,7 @@ struct djvViewSpeedDisplay::P
 
 djvViewSpeedDisplay::djvViewSpeedDisplay(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewSpeedDisplayPrivate)
 {
     _p->lineEdit = new QLineEdit;
     _p->lineEdit->setReadOnly(true);

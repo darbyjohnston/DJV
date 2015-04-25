@@ -40,6 +40,8 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -67,8 +69,8 @@ const QString djvTargaPlugin::staticName = "Targa";
 const QStringList & djvTargaPlugin::compressionLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "RLE";
+        qApp->translate("djvTargaPlugin", "None") <<
+        qApp->translate("djvTargaPlugin", "RLE");
 
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
 
@@ -470,7 +472,7 @@ quint64 djvTargaPlugin::writeRle(
 const QStringList & djvTargaPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Compression";
+        qApp->translate("djvTargaPlugin", "Compression");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -550,7 +552,7 @@ void djvTargaPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-targa_compression" == arg)
+            if (qApp->translate("djvTargaPlugin", "-targa_compression") == arg)
             {
                 in >> _options.compression;
             }
@@ -570,7 +572,7 @@ void djvTargaPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvTargaPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvTargaPlugin",
 "\n"
 "Targa Options\n"
 "\n"

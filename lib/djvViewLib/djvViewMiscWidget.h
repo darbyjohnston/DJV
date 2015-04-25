@@ -42,6 +42,14 @@
 
 #include <QAbstractSpinBox>
 
+struct djvViewCacheSizeWidgetPrivate;
+struct djvViewFrameDisplayPrivate;
+struct djvViewFrameSliderPrivate;
+struct djvViewFrameWidgetPrivate;
+struct djvViewSpeedButtonPrivate;
+struct djvViewSpeedDisplayPrivate;
+struct djvViewSpeedWidgetPrivate;
+
 class QAbstractButton;
 
 //! \addtogroup djvViewMisc
@@ -123,7 +131,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewCacheSizeWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewCacheSizeWidgetPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -219,7 +228,8 @@ protected:
 private:
 
     DJV_PRIVATE_COPY(djvViewFrameWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFrameWidgetPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -418,7 +428,8 @@ private:
     int frameToPos(qint64) const;
 
     DJV_PRIVATE_COPY(djvViewFrameSlider);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFrameSliderPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -500,7 +511,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewFrameDisplay);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFrameDisplayPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -541,7 +553,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewSpeedButton);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewSpeedButtonPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -612,7 +625,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewSpeedWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewSpeedWidgetPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -654,7 +668,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewSpeedDisplay);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewSpeedDisplayPrivate * _p;
 };
 
 //@} // djvViewMisc

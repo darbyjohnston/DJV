@@ -46,12 +46,12 @@ djvError::Message::Message(const QString & prefix, const QString & string) :
 {}
 
 //------------------------------------------------------------------------------
-// djvError::P
+// djvErrorPrivate
 //------------------------------------------------------------------------------
 
-struct djvError::P
+struct djvErrorPrivate
 {
-    QList<Message> messages;
+    QList<djvError::Message> messages;
 };
 
 //------------------------------------------------------------------------------
@@ -116,6 +116,6 @@ djvError & djvError::operator = (const djvError & other)
 
 void djvError::init()
 {
-    _p = new P;
+    _p = new djvErrorPrivate;
 }
 

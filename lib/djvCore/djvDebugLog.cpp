@@ -49,10 +49,10 @@ const int max = 10000;
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvDebugLog::P
+// djvDebugLogPrivate
 //------------------------------------------------------------------------------
 
-struct djvDebugLog::P
+struct djvDebugLogPrivate
 {
     QVector<QString> messages;
 };
@@ -63,7 +63,7 @@ struct djvDebugLog::P
 
 djvDebugLog::djvDebugLog(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvDebugLogPrivate)
 {}
 
 djvDebugLog::~djvDebugLog()

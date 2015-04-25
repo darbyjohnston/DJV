@@ -45,6 +45,7 @@
 #include <djvMemory.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
@@ -70,12 +71,12 @@ public:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvFileBrowserPrefsWidget::P
+// djvFileBrowserPrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserPrefsWidget::P
+struct djvFileBrowserPrefsWidgetPrivate
 {
-    P() :
+    djvFileBrowserPrefsWidgetPrivate() :
         seqWidget            (0),
         showHiddenWidget     (0),
         sortWidget           (0),
@@ -105,8 +106,9 @@ struct djvFileBrowserPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
-    djvAbstractPrefsWidget(tr("File Browser")),
-    _p(new P)
+    djvAbstractPrefsWidget(
+        qApp->translate("djvFileBrowserPrefsWidget", "File Browser")),
+    _p(new djvFileBrowserPrefsWidgetPrivate)
 {
     // Create the widgets.
 
@@ -114,15 +116,18 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     _p->seqWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->seqWidget->addItems(djvSequence::compressLabels());
 
-    _p->showHiddenWidget = new QCheckBox(tr("Show hidden files"));
+    _p->showHiddenWidget = new QCheckBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Show hidden files"));
 
     _p->sortWidget = new QComboBox;
     _p->sortWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->sortWidget->addItems(djvFileBrowserModel::columnsLabels());
 
-    _p->reverseSortWidget = new QCheckBox(tr("Reverse the sort direction"));
+    _p->reverseSortWidget = new QCheckBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Reverse the sort direction"));
 
-    _p->sortDirsFirstWidget = new QCheckBox(tr("Sort directories first"));
+    _p->sortDirsFirstWidget = new QCheckBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Sort directories first"));
 
     _p->thumbnailsWidget = new QComboBox;
     _p->thumbnailsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -140,22 +145,26 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     
     djvToolButton * addBookmarkButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvAddIcon.png"));
-    addBookmarkButton->setToolTip(tr("Add a new bookmark"));
+    addBookmarkButton->setToolTip(
+        qApp->translate("djvFileBrowserPrefsWidget", "Add a new bookmark"));
     
     djvToolButton * removeBookmarkButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvRemoveIcon.png"));
     removeBookmarkButton->setAutoRepeat(true);
-    removeBookmarkButton->setToolTip(tr("Remove the selected bookmark"));
+    removeBookmarkButton->setToolTip(
+        qApp->translate("djvFileBrowserPrefsWidget", "Remove the selected bookmark"));
     
     djvToolButton * moveBookmarkUpButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvUpIcon.png"));
     moveBookmarkUpButton->setAutoRepeat(true);
-    moveBookmarkUpButton->setToolTip(tr("Move the selected bookmark up"));
+    moveBookmarkUpButton->setToolTip(
+        qApp->translate("djvFileBrowserPrefsWidget", "Move the selected bookmark up"));
     
     djvToolButton * moveBookmarkDownButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvDownIcon.png"));
     moveBookmarkDownButton->setAutoRepeat(true);
-    moveBookmarkDownButton->setToolTip(tr("Move the selected bookmark down"));
+    moveBookmarkDownButton->setToolTip(
+        qApp->translate("djvFileBrowserPrefsWidget", "Move the selected bookmark down"));
 
     _p->shortcutsWidget = new djvShortcutsWidget;
 
@@ -164,30 +173,42 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("File sequencing:"), _p->seqWidget);
+    formLayout->addRow(
+        qApp->translate("djvFileBrowserPrefsWidget", "File sequencing:"),
+        _p->seqWidget);
     formLayout->addRow(_p->showHiddenWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Sorting"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Sorting"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Sort by:"), _p->sortWidget);
+    formLayout->addRow(
+        qApp->translate("djvFileBrowserPrefsWidget", "Sort by:"),
+        _p->sortWidget);
     formLayout->addRow(_p->reverseSortWidget);
     formLayout->addRow(_p->sortDirsFirstWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Thumbnails"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Thumbnails"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->thumbnailsWidget);
-    formLayout->addRow(tr("Size:"), _p->thumbnailsSizeWidget);
+    formLayout->addRow(
+        qApp->translate("djvFileBrowserPrefsWidget", "Size:"),
+        _p->thumbnailsSizeWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->thumbnailsCacheWidget);
-    hLayout->addWidget(new QLabel(tr("(MB)")));
-    formLayout->addRow(tr("Cache size:"), hLayout);
+    hLayout->addWidget(
+        new QLabel(qApp->translate("djvFileBrowserPrefsWidget", "(MB)")));
+    formLayout->addRow(
+        qApp->translate("djvFileBrowserPrefsWidget", "Cache size:"), hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Bookmarks"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Bookmarks"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->bookmarksWidget);
     hLayout = new QHBoxLayout;
@@ -199,7 +220,8 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     formLayout->addRow(hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Keyboard Shortcuts"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvFileBrowserPrefsWidget", "Keyboard Shortcuts"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->shortcutsWidget);
     layout->addWidget(prefsGroupBox);
@@ -368,7 +390,8 @@ void djvFileBrowserPrefsWidget::bookmarkCallback(QListWidgetItem * item)
 
 void djvFileBrowserPrefsWidget::addBookmarkCallback()
 {
-    djvInputDialog dialog(tr("Add bookmark:"));
+    djvInputDialog dialog(
+        qApp->translate("djvFileBrowserPrefsWidget", "Add bookmark:"));
 
     if (QDialog::Accepted == dialog.exec())
     {

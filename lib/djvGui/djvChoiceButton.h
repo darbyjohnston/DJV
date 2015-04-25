@@ -38,6 +38,8 @@
 
 #include <djvUtil.h>
 
+struct djvChoiceButtonPrivate;
+
 class QActionGroup;
 
 //! \addtogroup djvGuiWidget
@@ -109,7 +111,8 @@ private Q_SLOTS:
 private:
     
     DJV_PRIVATE_COPY(djvChoiceButton);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvChoiceButtonPrivate * _p;
 };
 
 //@} // djvGuiWidget

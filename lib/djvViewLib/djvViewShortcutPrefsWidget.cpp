@@ -40,16 +40,17 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewShortcutPrefsWidget::P
+// djvViewShortcutPrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewShortcutPrefsWidget::P
+struct djvViewShortcutPrefsWidgetPrivate
 {
-    P() :
+    djvViewShortcutPrefsWidgetPrivate() :
         shortcutsWidget(0)
     {}
     
@@ -61,8 +62,9 @@ struct djvViewShortcutPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget() :
-    djvViewAbstractPrefsWidget(tr("Shortcuts")),
-    _p(new P)
+    djvViewAbstractPrefsWidget(
+        qApp->translate("djvViewShortcutPrefsWidget", "Shortcuts")),
+    _p(new djvViewShortcutPrefsWidgetPrivate)
 {
     // Create the widgets.
 
@@ -72,7 +74,8 @@ djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Keyboard Shortcuts"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewShortcutPrefsWidget", "Keyboard Shortcuts"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->shortcutsWidget);
     layout->addWidget(prefsGroupBox);

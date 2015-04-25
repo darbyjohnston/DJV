@@ -38,6 +38,8 @@
 
 #include <QVector>
 
+struct djvDebugPrivate;
+
 class QString;
 class QStringList;
 
@@ -93,7 +95,8 @@ private:
     void init(const QString &);
 
     DJV_PRIVATE_COPY(djvDebug);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvDebugPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

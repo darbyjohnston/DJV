@@ -40,6 +40,7 @@
 #include <djvError.h>
 #include <djvErrorUtil.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -47,12 +48,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvApplicationMessageDialog::P
+// djvApplicationMessageDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvApplicationMessageDialog::P
+struct djvApplicationMessageDialogPrivate
 {
-    P() :
+    djvApplicationMessageDialogPrivate() :
         widget      (0),
         show        (true),
         showCheckBox(0),
@@ -71,7 +72,7 @@ struct djvApplicationMessageDialog::P
 //------------------------------------------------------------------------------
 
 djvApplicationMessageDialog::djvApplicationMessageDialog() :
-    _p(new P)
+    _p(new djvApplicationMessageDialogPrivate)
 {
     // Create the widgets.
     
@@ -79,9 +80,11 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
     _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
     
-    _p->showCheckBox = new QCheckBox(tr("Show"));
+    _p->showCheckBox = new QCheckBox(
+        qApp->translate("djvApplicationMessageDialog", "Show"));
     
-    QPushButton * clearButton = new QPushButton(tr("Clear"));
+    QPushButton * clearButton = new QPushButton(
+        qApp->translate("djvApplicationMessageDialog", "Clear"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(_p->showCheckBox, QDialogButtonBox::ActionRole);
@@ -100,7 +103,8 @@ djvApplicationMessageDialog::djvApplicationMessageDialog() :
 
     // Initialize.
     
-    setWindowTitle(tr("Messages Dialog"));
+    setWindowTitle(
+        qApp->translate("djvApplicationMessageDialog", "Messages Dialog"));
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     
     resize(400, 200);

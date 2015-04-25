@@ -40,17 +40,18 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewInputPrefsWidget::P
+// djvViewInputPrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewInputPrefsWidget::P
+struct djvViewInputPrefsWidgetPrivate
 {
-    P() :
+    djvViewInputPrefsWidgetPrivate() :
         mouseWheelWidget     (0),
         mouseWheelShiftWidget(0),
         mouseWheelCtrlWidget (0)
@@ -66,8 +67,9 @@ struct djvViewInputPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
-    djvViewAbstractPrefsWidget(tr("Input")),
-    _p(new P)
+    djvViewAbstractPrefsWidget(
+        qApp->translate("djvViewInputPrefsWidget", "Input")),
+    _p(new djvViewInputPrefsWidgetPrivate)
 {
     // Create the widgets.
 
@@ -89,11 +91,18 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
 
     djvFormLayoutAlign * align = new djvFormLayoutAlign(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Mouse Wheel"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewInputPrefsWidget", "Mouse Wheel"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Wheel:"), _p->mouseWheelWidget);
-    formLayout->addRow(tr("Shift + wheel:"), _p->mouseWheelShiftWidget);
-    formLayout->addRow(tr("Ctrl + wheel:"), _p->mouseWheelCtrlWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewInputPrefsWidget", "Wheel:"),
+        _p->mouseWheelWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewInputPrefsWidget", "Shift + wheel:"),
+        _p->mouseWheelShiftWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewInputPrefsWidget", "Ctrl + wheel:"),
+        _p->mouseWheelCtrlWidget);
     align->addLayout(formLayout);
     layout->addWidget(prefsGroupBox);
 

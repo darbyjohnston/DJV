@@ -40,6 +40,8 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -67,9 +69,9 @@ const QString djvTiffPlugin::staticName = "TIFF";
 const QStringList & djvTiffPlugin::compressionLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "RLE" <<
-        "LZW";
+        qApp->translate("djvTiffPlugin", "None") <<
+        qApp->translate("djvTiffPlugin", "RLE") <<
+        qApp->translate("djvTiffPlugin", "LZW");
 
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
 
@@ -124,7 +126,7 @@ void djvTiffPlugin::paletteLoad(
 const QStringList & djvTiffPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Compression";
+        qApp->translate("djvTiffPlugin", "Compression");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -212,7 +214,7 @@ void djvTiffPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-tiff_compression" == arg)
+            if (qApp->translate("djvTiffPlugin", "-tiff_compression") == arg)
             {
                 in >> _options.compression;
             }
@@ -232,7 +234,7 @@ void djvTiffPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvTiffPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvTiffPlugin",
 "\n"
 "TIFF Options\n"
 "\n"

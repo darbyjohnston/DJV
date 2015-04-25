@@ -73,12 +73,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewMainWindow::P
+// djvViewMainWindowPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewMainWindow::P
+struct djvViewMainWindowPrivate
 {
-    P() :
+    djvViewMainWindowPrivate() :
         mouseWheel      (static_cast<djvViewUtil::MOUSE_WHEEL>(0)),
         fileGroup       (0),
         windowGroup     (0),
@@ -134,7 +134,7 @@ QVector<djvViewMainWindow *> _mainWindowList;
 } // namespace
 
 djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
-    _p(new P)
+    _p(new djvViewMainWindowPrivate)
 {
     //DJV_DEBUG("djvViewMainWindow::djvViewMainWindow");
 
@@ -153,14 +153,15 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     _p->infoPixelLabel = new QLabel;
     _p->infoPixelLabel->setToolTip(
-        tr("Pixel information\n\nClick and drag inside the image."));
+        qApp->translate("djvViewMainWindow", "Pixel information\n\nClick and drag inside the image."));
 
     _p->infoImageLabel = new QLabel;
-    _p->infoImageLabel->setToolTip(tr("Image information."));
+    _p->infoImageLabel->setToolTip(
+        qApp->translate("djvViewMainWindow", "Image information."));
 
     _p->infoCacheLabel = new QLabel;
     _p->infoCacheLabel->setToolTip(
-        tr("File cache information."));
+        qApp->translate("djvViewMainWindow", "File cache information."));
 
     // Create the groups.
 
@@ -767,7 +768,7 @@ void djvViewMainWindow::fileUpdate()
     const djvFileInfo & fileInfo = _p->fileGroup->fileInfo();
 
     const QString title = ! fileInfo.fileName().isEmpty() ?
-        QString(tr("%1 - %2")).
+        qApp->translate("djvViewMainWindow", "%1 - %2").
             arg(DJV_VIEW_APP->name()).
             arg(QDir::toNativeSeparators(fileInfo)) :
         QString("%1").arg(DJV_VIEW_APP->name());
@@ -782,7 +783,8 @@ void djvViewMainWindow::fileCacheUpdate()
     const double totalSize = djvViewFileCache::global()->size();
     const double maxSize   = djvViewFileCache::global()->maxSize();
 
-    _p->infoCacheLabel->setText(QString(tr("Cache: %1% %2/%3GB")).
+    _p->infoCacheLabel->setText(
+        qApp->translate("djvViewMainWindow", "Cache: %1% %2/%3GB").
         arg(static_cast<int>(totalSize / maxSize * 100)).
         arg(totalSize, 0, 'f', 2).
         arg(maxSize,   0, 'f', 2));
@@ -814,7 +816,8 @@ void djvViewMainWindow::imageUpdate()
 
     //DJV_DEBUG_PRINT("info = " << info);
 
-    _p->infoImageLabel->setText(tr("Image: %1x%2:%3 %4").
+    _p->infoImageLabel->setText(
+        qApp->translate("djvViewMainWindow", "Image: %1x%2:%3 %4").
         arg(info.size.x).
         arg(info.size.y).
         arg(djvVectorUtil::aspect(info.size), 0, 'f', 2).
@@ -979,7 +982,8 @@ void djvViewMainWindow::viewPickUpdate()
 
     _p->infoSwatch->setColor(_p->imageSample);
 
-    _p->infoPixelLabel->setText(tr("Pixel: %1, %2, %3").
+    _p->infoPixelLabel->setText(
+        qApp->translate("djvViewMainWindow", "Pixel: %1, %2, %3").
         arg(pick.x).
         arg(pick.y).
         arg(djvStringUtil::label(_p->imageSample).join(" ")));

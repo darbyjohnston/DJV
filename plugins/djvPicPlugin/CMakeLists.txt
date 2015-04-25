@@ -6,11 +6,19 @@ set(source
     djvPicLoad.cpp
     djvPicPlugin.cpp)
 
+if (Qt5Core_DIR)
+    QT5_CREATE_TRANSLATION(qmSource ${source}
+        djvPicPlugin_en_US.ts)
+else()
+    QT4_CREATE_TRANSLATION(qmSource ${source}
+        djvPicPlugin_en_US.ts)
+endif()
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPicPlugin
     ${djvGuiIncludeDirs})
 
-add_library(djvPicPlugin MODULE ${header} ${source})
+add_library(djvPicPlugin MODULE ${header} ${source} ${qmSource})
 
 target_link_libraries(
     djvPicPlugin
@@ -25,6 +33,10 @@ if (djvInstallRpath)
         INSTALL_RPATH "${djvInstallRpath}")
 
 endif (djvInstallRpath)
+
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
 
 install(
     TARGETS djvPicPlugin

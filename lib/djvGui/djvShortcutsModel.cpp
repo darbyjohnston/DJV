@@ -33,14 +33,15 @@
 
 #include <djvShortcutsModel.h>
 
+#include <QApplication>
 #include <QBrush>
 #include <QColor>
 
 //------------------------------------------------------------------------------
-// djvShortcutsModel::P
+// djvShortcutsModelPrivate
 //------------------------------------------------------------------------------
 
-struct djvShortcutsModel::P
+struct djvShortcutsModelPrivate
 {
     QVector<djvShortcut> shortcuts;
     QVector<bool>        collisions;
@@ -52,7 +53,7 @@ struct djvShortcutsModel::P
 
 djvShortcutsModel::djvShortcutsModel(QObject * parent) :
     QAbstractItemModel(parent),
-    _p(new P)
+    _p(new djvShortcutsModelPrivate)
 {
     collisionsUpdate();
 }
@@ -207,8 +208,8 @@ QVariant djvShortcutsModel::headerData(
     int             role) const
 {
     static const QStringList data = QStringList() <<
-        tr("Name") <<
-        tr("Shortcut");
+        qApp->translate("djvShortcutsModel", "Name") <<
+        qApp->translate("djvShortcutsModel", "Shortcut");
 
     switch (role)
     {

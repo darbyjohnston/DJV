@@ -36,6 +36,8 @@
 
 #include <djvUtil.h>
 
+struct djvTimerPrivate;
+
 //! \addtogroup djvCoreMisc
 //@{
 
@@ -83,7 +85,7 @@ public:
 
 private:
 
-    DJV_PRIVATE_IMPLEMENTATION();
+    djvTimerPrivate * _p;
 };
 
 //@} // djvCoreMisc

@@ -51,12 +51,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewViewGroup::P
+// djvViewViewGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewViewGroup::P
+struct djvViewViewGroupPrivate
 {
-    P() :
+    djvViewViewGroupPrivate() :
         grid      (djvViewViewPrefs::global()->grid()),
         hudEnabled(djvViewViewPrefs::global()->isHudEnabled()),
         actions   (0),
@@ -79,7 +79,7 @@ djvViewViewGroup::djvViewViewGroup(
     djvViewMainWindow *      mainWindow,
     const djvViewViewGroup * copy) :
     djvViewAbstractGroup(mainWindow),
-    _p(new P)
+    _p(new djvViewViewGroupPrivate)
 {
     if (copy)
     {

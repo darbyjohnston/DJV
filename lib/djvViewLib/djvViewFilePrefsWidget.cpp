@@ -34,7 +34,6 @@
 #include <djvViewFilePrefsWidget.h>
 
 #include <djvViewFilePrefs.h>
-
 #include <djvViewMiscWidget.h>
 
 #include <djvPrefs.h>
@@ -44,18 +43,19 @@
 #include <djvListUtil.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewFilePrefsWidget::P
+// djvViewFilePrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFilePrefsWidget::P
+struct djvViewFilePrefsWidgetPrivate
 {
-    P() :
+    djvViewFilePrefsWidgetPrivate() :
         autoSequenceWidget      (0),
         proxyWidget             (0),
         u8ConversionWidget      (0),
@@ -77,13 +77,14 @@ struct djvViewFilePrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
-    djvViewAbstractPrefsWidget(tr("Files")),
-    _p(new P)
+    djvViewAbstractPrefsWidget(
+        qApp->translate("djvViewFilePrefsWidget", "Files")),
+    _p(new djvViewFilePrefsWidgetPrivate)
 {
     // Create the options widgets.
 
     _p->autoSequenceWidget = new QCheckBox(
-        tr("Automatically detect sequences when opening files"));
+        qApp->translate("djvViewFilePrefsWidget", "Automatically detect sequences when opening files"));
 
     // Create the proxy scale widgets.
 
@@ -93,29 +94,33 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
 
     // Create the convert to 8-bits widgets.
 
-    _p->u8ConversionWidget = new QCheckBox(tr("Enable 8-bit conversion"));
+    _p->u8ConversionWidget = new QCheckBox(
+        qApp->translate("djvViewFilePrefsWidget", "Enable 8-bit conversion"));
 
     // Create the file cache widgets.
 
-    _p->cacheWidget = new QCheckBox(tr("Enable the memory cache"));
+    _p->cacheWidget = new QCheckBox(
+        qApp->translate("djvViewFilePrefsWidget", "Enable the memory cache"));
 
     _p->cacheSizeWidget = new djvViewCacheSizeWidget;
 
     _p->cacheDisplayWidget = new QCheckBox(
-        tr("Display cached frames in timeline"));
+        qApp->translate("djvViewFilePrefsWidget", "Display cached frames in timeline"));
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewFilePrefsWidget", "General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoSequenceWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        tr("Proxy Scale"),
-        tr("Proxy scaling reduces the resolution when loading files to allow "
+        qApp->translate("djvViewFilePrefsWidget", "Proxy Scale"),
+        qApp->translate("djvViewFilePrefsWidget",
+        "Proxy scaling reduces the resolution when loading files to allow "
         "more images to be stored in the memory cache at the expense of image "
         "quality. Proxy scaling can also improve playback speed since the "
         "images are smaller."));
@@ -124,8 +129,9 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        tr("Conversion"),
-        tr("This option converts images to 8-bits when loading files to allow "
+        qApp->translate("djvViewFilePrefsWidget", "Conversion"),
+        qApp->translate("djvViewFilePrefsWidget",
+        "This option converts images to 8-bits when loading files to allow "
         "more images to be stored in the memory cache at the expense of image "
         "quality."));
     formLayout = prefsGroupBox->createLayout();
@@ -133,13 +139,16 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        tr("Memory Cache"),
-        tr("The memory cache allows the application to store images in memory "
+        qApp->translate("djvViewFilePrefsWidget", "Memory Cache"),
+        qApp->translate("djvViewFilePrefsWidget",
+        "The memory cache allows the application to store images in memory "
         "which can improve playback performance. When the memory cache is "
         "disabled the images are streamed directly from disk."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->cacheWidget);
-    formLayout->addRow(tr("Cache size (gigabytes):"), _p->cacheSizeWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewFilePrefsWidget", "Cache size (gigabytes):"),
+        _p->cacheSizeWidget);
     formLayout->addRow(_p->cacheDisplayWidget);
     layout->addWidget(prefsGroupBox);
 

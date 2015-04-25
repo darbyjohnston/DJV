@@ -35,11 +35,13 @@
 
 #include <djvViewPlaybackActions.h>
 
+#include <QApplication>
+
 //------------------------------------------------------------------------------
-// djvViewPlaybackMenu::P
+// djvViewPlaybackMenuPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackMenu::P
+struct djvViewPlaybackMenuPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -50,7 +52,7 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    _p(new djvViewPlaybackMenuPrivate)
 {
     // Create the menus.
 
@@ -60,7 +62,7 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
 
     addAction(actions->action(djvViewPlaybackActions::PLAYBACK_TOGGLE));
 
-    QMenu * loopMenu = addMenu(tr("&Loop"));
+    QMenu * loopMenu = addMenu(qApp->translate("djvViewPlaybackMenu", "&Loop"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LOOP_GROUP)->actions())
         loopMenu->addAction(action);
@@ -81,14 +83,14 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
 
     addSeparator();
 
-    QMenu * layoutMenu = addMenu(tr("Layout"));
+    QMenu * layoutMenu = addMenu(qApp->translate("djvViewPlaybackMenu", "Layout"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LAYOUT_GROUP)->actions())
         layoutMenu->addAction(action);
 
     // Initialize.
 
-    setTitle(tr("&Playback"));
+    setTitle(qApp->translate("djvViewPlaybackMenu", "&Playback"));
 }
 
 djvViewPlaybackMenu::~djvViewPlaybackMenu()

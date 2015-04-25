@@ -41,6 +41,8 @@
 
 #include <QWidget>
 
+struct djvPixelWidgetPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -97,7 +99,8 @@ private:
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvPixelWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvPixelWidgetPrivate * _p;
 };
 
 //@} // djvGuiWidget

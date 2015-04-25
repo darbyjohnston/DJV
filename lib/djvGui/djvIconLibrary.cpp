@@ -43,10 +43,10 @@
 #include <QPixmap>
 
 //------------------------------------------------------------------------------
-// djvIconLibrary::P
+// djvIconLibraryPrivate
 //------------------------------------------------------------------------------
 
-struct djvIconLibrary::P
+struct djvIconLibraryPrivate
 {
     QMap<QString, QIcon>   icons;
     QMap<QString, QPixmap> pixmaps;
@@ -58,7 +58,7 @@ struct djvIconLibrary::P
 
 djvIconLibrary::djvIconLibrary(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvIconLibraryPrivate)
 {}
 
 djvIconLibrary::~djvIconLibrary()
@@ -111,7 +111,7 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
             icon.addPixmap(tmp, QIcon::Disabled, QIcon::On);
         }*/
         
-        const_cast<djvIconLibrary::P *>(_p)->icons.insert(name, icon);
+        const_cast<djvIconLibraryPrivate *>(_p)->icons.insert(name, icon);
     }
     
     return _p->icons[name];
@@ -133,7 +133,7 @@ const QPixmap & djvIconLibrary::pixmap(const QString & name) const
     {
         QPixmap pixmap(QString(":%1").arg(name));
         
-        const_cast<djvIconLibrary::P *>(_p)->pixmaps.insert(name, pixmap);
+        const_cast<djvIconLibraryPrivate *>(_p)->pixmaps.insert(name, pixmap);
     }
     
     return _p->pixmaps[name];

@@ -40,6 +40,8 @@
 
 #include <QDialog>
 
+struct djvMessageDialogPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -76,7 +78,8 @@ private:
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvMessageDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvMessageDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

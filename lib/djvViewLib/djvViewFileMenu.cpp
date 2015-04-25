@@ -35,13 +35,15 @@
 
 #include <djvViewFileActions.h>
 
+#include <QApplication>
+
 //------------------------------------------------------------------------------
-// djvViewFileMenu::P
+// djvViewFileMenuPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFileMenu::P
+struct djvViewFileMenuPrivate
 {
-    P() :
+    djvViewFileMenuPrivate() :
         recent(0),
         layer (0)
     {}
@@ -58,13 +60,13 @@ djvViewFileMenu::djvViewFileMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    _p(new djvViewFileMenuPrivate)
 {
     // Create the menus.
 
     addAction(actions->action(djvViewFileActions::OPEN));
 
-    _p->recent = addMenu(tr("&Recent"));
+    _p->recent = addMenu(qApp->translate("djvViewFileMenu", "&Recent"));
 
     addAction(actions->action(djvViewFileActions::RELOAD));
 
@@ -80,13 +82,13 @@ djvViewFileMenu::djvViewFileMenu(
 
     addSeparator();
 
-    _p->layer = addMenu(tr("La&yer"));
+    _p->layer = addMenu(qApp->translate("djvViewFileMenu", "La&yer"));
 
     addAction(actions->action(djvViewFileActions::LAYER_PREV));
 
     addAction(actions->action(djvViewFileActions::LAYER_NEXT));
 
-    QMenu * proxyMenu = addMenu(tr("Pro&xy Scale"));
+    QMenu * proxyMenu = addMenu(qApp->translate("djvViewFileMenu", "Pro&xy Scale"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewFileActions::PROXY_GROUP)->actions())
         proxyMenu->addAction(action);
@@ -111,7 +113,7 @@ djvViewFileMenu::djvViewFileMenu(
 
     // Initialize.
 
-    setTitle(tr("&File"));
+    setTitle(qApp->translate("djvViewFileMenu", "&File"));
 
     menuUpdate();
 }

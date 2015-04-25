@@ -40,6 +40,8 @@
 
 #include <QDialog>
 
+struct djvMultiChoiceDialogPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -105,7 +107,8 @@ private:
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvMultiChoiceDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvMultiChoiceDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

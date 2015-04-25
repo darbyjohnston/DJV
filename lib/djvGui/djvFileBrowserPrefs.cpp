@@ -43,21 +43,21 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserPrefs::P
+// djvFileBrowserPrefsPrivate
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserPrefs::P
+struct djvFileBrowserPrefsPrivate
 {
-    P() :
-        sequence       (sequenceDefault()),
-        showHidden     (showHiddenDefault()),
-        sort           (sortDefault()),
-        reverseSort    (reverseSortDefault()),
-        sortDirsFirst  (sortDirsFirstDefault()),
-        thumbnails     (thumbnailsDefault()),
-        thumbnailsSize (thumbnailsSizeDefault()),
-        thumbnailsCache(thumbnailsCacheDefault()),
-        shortcuts      (shortcutsDefault())
+    djvFileBrowserPrefsPrivate() :
+        sequence       (djvFileBrowserPrefs::sequenceDefault()),
+        showHidden     (djvFileBrowserPrefs::showHiddenDefault()),
+        sort           (djvFileBrowserPrefs::sortDefault()),
+        reverseSort    (djvFileBrowserPrefs::reverseSortDefault()),
+        sortDirsFirst  (djvFileBrowserPrefs::sortDirsFirstDefault()),
+        thumbnails     (djvFileBrowserPrefs::thumbnailsDefault()),
+        thumbnailsSize (djvFileBrowserPrefs::thumbnailsSizeDefault()),
+        thumbnailsCache(djvFileBrowserPrefs::thumbnailsCacheDefault()),
+        shortcuts      (djvFileBrowserPrefs::shortcutsDefault())
     {}
     
     djvSequence::COMPRESS                sequence;
@@ -86,7 +86,7 @@ QString _pathDefault = ".";
 
 djvFileBrowserPrefs::djvFileBrowserPrefs(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvFileBrowserPrefsPrivate)
 {
     //DJV_DEBUG("djvFileBrowserPrefs::djvFileBrowserPrefs");
 
@@ -258,39 +258,39 @@ djvFileBrowserPrefs * djvFileBrowserPrefs::global()
 const QStringList & djvFileBrowserPrefs::shortcutLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Up") <<
-        tr("Previous") <<
-        tr("Current") <<
-        tr("Home") <<
-        tr("Desktop") <<
-        tr("Root") <<
-        tr("Reload") <<
-        tr("Sequence Off") <<
-        tr("Sequence Sparse") <<
-        tr("Sequence Range") <<
-        tr("Show Hidden") <<
-        tr("Sort Name") <<
-        tr("Sort Size") <<
+        qApp->translate("djvFileBrowserPrefs", "Up") <<
+        qApp->translate("djvFileBrowserPrefs", "Previous") <<
+        qApp->translate("djvFileBrowserPrefs", "Current") <<
+        qApp->translate("djvFileBrowserPrefs", "Home") <<
+        qApp->translate("djvFileBrowserPrefs", "Desktop") <<
+        qApp->translate("djvFileBrowserPrefs", "Root") <<
+        qApp->translate("djvFileBrowserPrefs", "Reload") <<
+        qApp->translate("djvFileBrowserPrefs", "Sequence Off") <<
+        qApp->translate("djvFileBrowserPrefs", "Sequence Sparse") <<
+        qApp->translate("djvFileBrowserPrefs", "Sequence Range") <<
+        qApp->translate("djvFileBrowserPrefs", "Show Hidden") <<
+        qApp->translate("djvFileBrowserPrefs", "Sort Name") <<
+        qApp->translate("djvFileBrowserPrefs", "Sort Size") <<
 #if ! defined(DJV_WINDOWS)
-        tr("SortUser") <<
+        qApp->translate("djvFileBrowserPrefs", "SortUser") <<
 #endif
-        tr("Sort Time") <<
-        tr("Sort Permissions") <<
-        tr("Reverse Sort") <<
-        tr("Sort Dirs First") <<
-        tr("Add Bookmark") <<
-        tr("Bookmark 1") <<
-        tr("Bookmark 2") <<
-        tr("Bookmark 3") <<
-        tr("Bookmark 4") <<
-        tr("Bookmark 5") <<
-        tr("Bookmark 6") <<
-        tr("Bookmark 7") <<
-        tr("Bookmark 8") <<
-        tr("Bookmark 9") <<
-        tr("Bookmark 10") <<
-        tr("Bookmark 11") <<
-        tr("Bookmark 12");
+        qApp->translate("djvFileBrowserPrefs", "Sort Time") <<
+        qApp->translate("djvFileBrowserPrefs", "Sort Permissions") <<
+        qApp->translate("djvFileBrowserPrefs", "Reverse Sort") <<
+        qApp->translate("djvFileBrowserPrefs", "Sort Dirs First") <<
+        qApp->translate("djvFileBrowserPrefs", "Add Bookmark") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 1") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 2") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 3") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 4") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 5") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 6") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 7") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 8") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 9") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 10") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 11") <<
+        qApp->translate("djvFileBrowserPrefs", "Bookmark 12");
 
     DJV_ASSERT(data.count() == SHORTCUT_COUNT);
 

@@ -35,11 +35,13 @@
 
 #include <djvViewHelpActions.h>
 
+#include <QApplication>
+
 //------------------------------------------------------------------------------
-// djvViewHelpMenu::P
+// djvViewHelpMenuPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewHelpMenu::P
+struct djvViewHelpMenuPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -50,7 +52,7 @@ djvViewHelpMenu::djvViewHelpMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    _p(new djvViewHelpMenuPrivate)
 {
     // Create the menus.
 
@@ -62,7 +64,7 @@ djvViewHelpMenu::djvViewHelpMenu(
 
     // Initialize.
 
-    setTitle(tr("&Help"));
+    setTitle(qApp->translate("djvViewHelpMenu", "&Help"));
 }
 
 djvViewHelpMenu::~djvViewHelpMenu()

@@ -38,6 +38,8 @@
 
 #include <djvUtil.h>
 
+struct djvOpenGlPrefsWidgetPrivate;
+
 //! \addtogroup djvGuiMisc
 //@{
 
@@ -73,7 +75,8 @@ private:
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvOpenGlPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvOpenGlPrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiMisc

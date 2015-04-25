@@ -40,15 +40,16 @@
 
 #include <djvIconLibrary.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackToolBar::P
+// djvViewPlaybackToolBarPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackToolBar::P
+struct djvViewPlaybackToolBarPrivate
 {
-    P() :
+    djvViewPlaybackToolBarPrivate() :
         layout             (static_cast<djvViewUtil::LAYOUT>(0)),
         widget             (0),
         widgetLayout       (0),
@@ -99,7 +100,7 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractToolBar(actions, parent),
-    _p(new P)
+    _p(new djvViewPlaybackToolBarPrivate)
 {
     // Create the playback widgets.
 
@@ -112,36 +113,44 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
     // Create the speed widgets.
 
     _p->speedWidget = new djvViewSpeedWidget;
-    _p->speedWidget->setToolTip(tr("Playback speed"));
+    _p->speedWidget->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Playback speed"));
 
     _p->realSpeedDisplay = new djvViewSpeedDisplay;
-    _p->realSpeedDisplay->setToolTip(tr("Real playback speed"));
+    _p->realSpeedDisplay->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Real playback speed"));
 
     _p->everyFrameButton = new djvToolButton;
     _p->everyFrameButton->setDefaultAction(
         actions->action(djvViewPlaybackActions::EVERY_FRAME));
     _p->everyFrameButton->setIconSize(QSize(20, 20));
-    _p->everyFrameButton->setToolTip(tr("Playback every frame"));
+    _p->everyFrameButton->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Playback every frame"));
 
     // Create the frame widgets.
 
     _p->frameWidget = new djvViewFrameWidget;
-    _p->frameWidget->setToolTip(tr("Current frame"));
+    _p->frameWidget->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Current frame"));
 
     _p->frameSlider = new djvViewFrameSlider;
-    _p->frameSlider->setToolTip(tr("Frame slider"));
+    _p->frameSlider->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Frame slider"));
 
     _p->startWidget = new djvViewFrameWidget;
-    _p->startWidget->setToolTip(tr("Start frame / in point"));
+    _p->startWidget->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Start frame / in point"));
 
     _p->frameButtons = new djvViewFrameButtons(
         actions->group(djvViewPlaybackActions::FRAME_GROUP));
 
     _p->endWidget = new djvViewFrameWidget;
-    _p->endWidget->setToolTip(tr("End frame / out point"));
+    _p->endWidget->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "End frame / out point"));
 
     _p->durationDisplay = new djvViewFrameDisplay;
-    _p->durationDisplay->setToolTip(tr("Playback duration"));
+    _p->durationDisplay->setToolTip(
+        qApp->translate("djvViewPlaybackToolBar", "Playback duration"));
 
     // Create the in/out point widgets.
 

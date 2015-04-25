@@ -63,12 +63,12 @@ qint64 sequenceEnd(const djvSequence & sequence)
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackGroup::P
+// djvViewPlaybackGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackGroup::P
+struct djvViewPlaybackGroupPrivate
 {
-    P() :
+    djvViewPlaybackGroupPrivate() :
         playback        (djvViewUtil::STOP),
         playbackPrev    (djvViewUtil::STOP),
         loop            (djvViewUtil::LOOP_REPEAT),
@@ -131,7 +131,7 @@ djvViewPlaybackGroup::djvViewPlaybackGroup(
     djvViewMainWindow *    mainWindow,
     djvViewPlaybackGroup * copy) :
     djvViewAbstractGroup(mainWindow),
-    _p(new P)
+    _p(new djvViewPlaybackGroupPrivate)
 {
     // Create the actions.
 

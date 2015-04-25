@@ -45,12 +45,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvDebugLogDialog::P
+// djvDebugLogDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvDebugLogDialog::P
+struct djvDebugLogDialogPrivate
 {
-    P() :
+    djvDebugLogDialogPrivate() :
         widget   (0),
         buttonBox(0)
     {}
@@ -64,7 +64,7 @@ struct djvDebugLogDialog::P
 //------------------------------------------------------------------------------
 
 djvDebugLogDialog::djvDebugLogDialog() :
-    _p(new P)
+    _p(new djvDebugLogDialogPrivate)
 {
     // Create the widgets.
     
@@ -73,8 +73,10 @@ djvDebugLogDialog::djvDebugLogDialog() :
     _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->document()->setMaximumBlockCount(10000);
     
-    QPushButton * copyButton = new QPushButton(tr("Copy"));
-    QPushButton * clearButton = new QPushButton(tr("Clear"));
+    QPushButton * copyButton = new QPushButton(
+        qApp->translate("djvDebugLogDialog", "Copy"));
+    QPushButton * clearButton = new QPushButton(
+        qApp->translate("djvDebugLogDialog", "Clear"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -88,7 +90,7 @@ djvDebugLogDialog::djvDebugLogDialog() :
 
     // Initialize.
     
-    setWindowTitle(tr("Debugging Log"));
+    setWindowTitle(qApp->translate("djvDebugLogDialog", "Debugging Log"));
     
     resize(800, 600);
     

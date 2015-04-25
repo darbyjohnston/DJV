@@ -40,6 +40,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
@@ -105,18 +106,28 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Color Profile",
-        "Set the color profile used when loading and saving Cineon images.");
+        qApp->translate("djvCineonWidget", "Color Profile"),
+        qApp->translate("djvCineonWidget",
+        "Set the color profile used when loading and saving Cineon images."));
     _colorProfileLayout = prefsGroupBox->createLayout();
-    _colorProfileLayout->addRow("Input profile:", _inputColorProfileWidget);
-    _colorProfileLayout->addRow("Black:", _inputBlackPointWidget);
-    _colorProfileLayout->addRow("White:", _inputWhitePointWidget);
-    _colorProfileLayout->addRow("Gamma:", _inputGammaWidget);
-    _colorProfileLayout->addRow("Soft clip:", _inputSoftClipWidget);
-    _colorProfileLayout->addRow("Output profile:", _outputColorProfileWidget);
-    _colorProfileLayout->addRow("Black:", _outputBlackPointWidget);
-    _colorProfileLayout->addRow("White:", _outputWhitePointWidget);
-    _colorProfileLayout->addRow("Gamma:", _outputGammaWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Input profile:"), _inputColorProfileWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Black:"), _inputBlackPointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "White:"), _inputWhitePointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Gamma:"), _inputGammaWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Soft clip:"), _inputSoftClipWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Output profile:"), _outputColorProfileWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Black:"), _outputBlackPointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "White:"), _outputWhitePointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Gamma:"), _outputGammaWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

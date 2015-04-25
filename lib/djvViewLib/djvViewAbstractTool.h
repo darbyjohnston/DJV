@@ -40,8 +40,9 @@
 
 #include <QWidget>
 
-class djvViewImageView;
-class djvViewMainWindow;
+struct djvViewAbstractToolPrivate;
+class  djvViewImageView;
+class  djvViewMainWindow;
 
 //! \addtogroup djvViewLib
 //@{
@@ -79,7 +80,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractTool);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewAbstractToolPrivate * _p;
 };
 
 //@} // djvViewLib

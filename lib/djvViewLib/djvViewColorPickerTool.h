@@ -38,6 +38,8 @@
 
 #include <djvVector.h>
 
+struct djvViewColorPickerToolPrivate;
+
 class djvColor;
 
 //! \addtogroup djvViewTool
@@ -84,7 +86,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewColorPickerTool);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewColorPickerToolPrivate * _p;
 };
 
 //@} // djvViewTool

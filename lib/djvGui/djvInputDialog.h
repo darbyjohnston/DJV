@@ -40,6 +40,8 @@
 
 #include <QDialog>
 
+struct djvInputDialogPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -91,7 +93,8 @@ private:
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvInputDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvInputDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

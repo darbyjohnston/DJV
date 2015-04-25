@@ -91,7 +91,6 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewWindowActions);
-    DJV_PRIVATE_IMPLEMENTATION();
 };
 
 //@} // djvViewWindow

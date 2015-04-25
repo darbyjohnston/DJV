@@ -40,6 +40,8 @@
 
 #include <QObject>
 
+struct djvOsxMenuHackPrivate;
+
 class QAction;
 class QMenu;
 
@@ -83,7 +85,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvOsxMenuHack);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvOsxMenuHackPrivate * _p;
 };
 
 //@} // djvGuiMisc

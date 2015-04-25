@@ -41,6 +41,8 @@
 
 #include <QWidget>
 
+struct djvFileEditPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -98,7 +100,8 @@ private:
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvFileEdit);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFileEditPrivate * _p;
 };
 
 //@} // djvGuiWidget

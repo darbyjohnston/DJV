@@ -36,12 +36,12 @@
 #include <djvViewAbstractActions.h>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractMenu::P
+// djvViewAbstractMenuPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractMenu::P
+struct djvViewAbstractMenuPrivate
 {
-    P(djvViewAbstractActions * actions) :
+    djvViewAbstractMenuPrivate(djvViewAbstractActions * actions) :
         actions(actions)
     {}
 
@@ -56,7 +56,7 @@ djvViewAbstractMenu::djvViewAbstractMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     QMenu(parent),
-    _p(new P(actions))
+    _p(new djvViewAbstractMenuPrivate(actions))
 {
     // Setup the callbacks.
 

@@ -44,12 +44,13 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewImageActions::P
+// djvViewImageActionsPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewImageActions::P
+struct djvViewImageActionsPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -58,7 +59,7 @@ struct djvViewImageActions::P
 
 djvViewImageActions::djvViewImageActions(QObject * parent) :
 	djvViewAbstractActions(parent),
-    _p(new P)
+    _p(new djvViewImageActionsPrivate)
 {
     // Create the actions.
 
@@ -67,22 +68,28 @@ djvViewImageActions::djvViewImageActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
-    _actions[FRAME_STORE]->setText(tr("Show &Frame Store"));
+    _actions[FRAME_STORE]->setText(
+        qApp->translate("djvViewImageActions", "Show &Frame Store"));
     _actions[FRAME_STORE]->setCheckable(true);
 
-    _actions[LOAD_FRAME_STORE]->setText(tr("&Load Frame Store"));
+    _actions[LOAD_FRAME_STORE]->setText(
+        qApp->translate("djvViewImageActions", "&Load Frame Store"));
 
-    _actions[MIRROR_H]->setText(tr("Mirror &Horizontal"));
+    _actions[MIRROR_H]->setText(
+        qApp->translate("djvViewImageActions", "Mirror &Horizontal"));
     _actions[MIRROR_H]->setCheckable(true);
 
-    _actions[MIRROR_V]->setText(tr("Mirror &Vertical"));
+    _actions[MIRROR_V]->setText(
+        qApp->translate("djvViewImageActions", "Mirror &Vertical"));
     _actions[MIRROR_V]->setCheckable(true);
 
-    _actions[COLOR_PROFILE]->setText(tr("&Color Profile"));
+    _actions[COLOR_PROFILE]->setText(
+        qApp->translate("djvViewImageActions", "&Color Profile"));
     _actions[COLOR_PROFILE]->setCheckable(true);
 
     _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
-    _actions[DISPLAY_PROFILE_VISIBLE]->setText(tr("Show Display Profile"));
+    _actions[DISPLAY_PROFILE_VISIBLE]->setText(
+        qApp->translate("djvViewImageActions", "Show Display Profile"));
     _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(djvIconLibrary::global()->icon(
         "djvDisplayProfileIcon.png"));
 
@@ -213,7 +220,7 @@ void djvViewImageActions::update()
         delete action;
 
     QStringList displayProfileNames;
-    displayProfileNames += tr("Reset");
+    displayProfileNames += qApp->translate("djvViewImageActions", "Reset");
     displayProfileNames += djvViewImagePrefs::global()->displayProfileNames();
 
     const QVector<QKeySequence> displayProfileShortcuts = QVector<QKeySequence>() <<

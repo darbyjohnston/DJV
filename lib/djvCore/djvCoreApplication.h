@@ -44,6 +44,8 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
+struct djvAbstractCoreApplicationPrivate;
+
 //! \addtogroup djvCoreMisc
 //@{
 
@@ -185,7 +187,7 @@ protected:
 
 private:
     
-    DJV_PRIVATE_IMPLEMENTATION();
+    struct djvAbstractCoreApplicationPrivate * _p;
     
     static QString _name;
 };

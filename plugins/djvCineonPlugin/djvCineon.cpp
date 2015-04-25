@@ -35,6 +35,8 @@
 
 #include <djvAssert.h>
 
+#include <QApplication>
+
 //------------------------------------------------------------------------------
 // djvCineon
 //------------------------------------------------------------------------------
@@ -44,9 +46,9 @@ const QString djvCineon::staticName = "Cineon";
 const QStringList & djvCineon::colorProfileLabels()
 {
     static const QStringList data = QStringList() <<
-        "Auto" <<
-        "None" <<
-        "Film Print";
+        qApp->translate("djvCineon", "Auto") <<
+        qApp->translate("djvCineon", "None") <<
+        qApp->translate("djvCineon", "Film Print");
 
     DJV_ASSERT(data.count() == COLOR_PROFILE_COUNT);
 
@@ -182,19 +184,19 @@ djvPixelData djvCineon::filmPrintToLinearLut(const FilmPrintToLinear & value)
 const QStringList & djvCineon::tagLabels()
 {
     static const QStringList data = QStringList() <<
-        "Source Offset" <<
-        "Source File" <<
-        "Source Time" <<
-        "Source Input Device" <<
-        "Source Input Model" <<
-        "Source Input Serial" <<
-        "Source Input Pitch" <<
-        "Source Gamma" <<
-        "Film Format" <<
-        "Film Frame" <<
-        "Film Frame Rate" <<
-        "Film Frame ID" <<
-        "Film Slate";
+        qApp->translate("djvCineon", "Source Offset") <<
+        qApp->translate("djvCineon", "Source File") <<
+        qApp->translate("djvCineon", "Source Time") <<
+        qApp->translate("djvCineon", "Source Input Device") <<
+        qApp->translate("djvCineon", "Source Input Model") <<
+        qApp->translate("djvCineon", "Source Input Serial") <<
+        qApp->translate("djvCineon", "Source Input Pitch") <<
+        qApp->translate("djvCineon", "Source Gamma") <<
+        qApp->translate("djvCineon", "Film Format") <<
+        qApp->translate("djvCineon", "Film Frame") <<
+        qApp->translate("djvCineon", "Film Frame Rate") <<
+        qApp->translate("djvCineon", "Film Frame ID") <<
+        qApp->translate("djvCineon", "Film Slate");
 
     DJV_ASSERT(data.count() == TAG_COUNT);
 

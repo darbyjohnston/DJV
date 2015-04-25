@@ -40,6 +40,8 @@
 
 #include <QDialog>
 
+struct djvApplicationMessageDialogPrivate;
+
 class djvError;
 
 //! \addtogroup djvGuiDialog
@@ -95,7 +97,8 @@ private Q_SLOTS:
 private:
     
     DJV_PRIVATE_COPY(djvApplicationMessageDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvApplicationMessageDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

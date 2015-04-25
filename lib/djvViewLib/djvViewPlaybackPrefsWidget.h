@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
+struct djvViewPlaybackPrefsWidgetPrivate;
+
 //! \addtogroup djvViewPlayback
 //@{
 
@@ -74,7 +76,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewPlaybackPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewPlaybackPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewPlayback

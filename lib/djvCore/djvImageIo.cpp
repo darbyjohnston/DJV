@@ -182,11 +182,11 @@ djvAbstractPrefsWidget * djvImageIo::createWidget()
 const QStringList & djvImageIo::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Unrecognized file: \"%1\"") <<
-        tr("Unsupported file: \"%1\"") <<
-        tr("Cannot open file: \"%1\"") <<
-        tr("Error reading file: \"%1\"") <<
-        tr("Error writing file: \"%1\"");
+        qApp->translate("djvImageIo", "Unrecognized file: \"%1\"") <<
+        qApp->translate("djvImageIo", "Unsupported file: \"%1\"") <<
+        qApp->translate("djvImageIo", "Cannot open file: \"%1\"") <<
+        qApp->translate("djvImageIo", "Error reading file: \"%1\"") <<
+        qApp->translate("djvImageIo", "Error writing file: \"%1\"");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -194,10 +194,10 @@ const QStringList & djvImageIo::errorLabels()
 }
 
 //------------------------------------------------------------------------------
-// djvImageIoFactory::P
+// djvImageIoFactoryPrivate
 //------------------------------------------------------------------------------
 
-struct djvImageIoFactory::P
+struct djvImageIoFactoryPrivate
 {
     // This map is used to lookup an image I/O plugin by it's name.
 
@@ -217,7 +217,7 @@ djvImageIoFactory::djvImageIoFactory(
     const QStringList & searchPath,
     QObject *           parent) :
     djvPluginFactory(searchPath, "djvImageIo", "djv", "Plugin", parent),
-    _p(new P)
+    _p(new djvImageIoFactoryPrivate)
 {
     //DJV_DEBUG("djvImageIoFactory::djvImageIoFactory");
 
@@ -408,7 +408,7 @@ djvImageIoFactory * djvImageIoFactory::global()
 const QStringList & djvImageIoFactory::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Unrecognized file: \"%1\"");
+        qApp->translate("djvImageIoFactory", "Unrecognized file: \"%1\"");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     

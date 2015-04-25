@@ -40,7 +40,8 @@
 
 #include <QToolBar>
 
-class djvViewAbstractActions;
+class  djvViewAbstractActions;
+struct djvViewAbstractToolBarPrivate;
 
 //! \addtogroup djvViewLib
 //@{
@@ -74,7 +75,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractToolBar);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewAbstractToolBarPrivate * _p;
 };
 
 //@} // djvViewLib

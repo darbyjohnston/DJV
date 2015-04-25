@@ -15,8 +15,12 @@ set(source
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})
+    QT5_CREATE_TRANSLATION(qmSource ${source}
+        djvQuickTimePlugin_en_US.ts)
 else()
     QT4_WRAP_CPP(mocSource ${mocHeader})
+    QT4_CREATE_TRANSLATION(qmSource ${source}
+        djvQuickTimePlugin_en_US.ts)
 endif()
 
 include_directories(
@@ -24,7 +28,7 @@ include_directories(
     ${QUICKTIME_INCLUDE_DIR}
     ${djvGuiIncludeDirs})
     
-add_library(djvQuickTimePlugin MODULE ${header} ${source} ${mocSource})
+add_library(djvQuickTimePlugin MODULE ${header} ${source} ${mocSource} ${qmSource})
 
 target_link_libraries(
     djvQuickTimePlugin
@@ -40,6 +44,10 @@ if (djvInstallRpath)
         INSTALL_RPATH "${djvInstallRpath}")
 
 endif (djvInstallRpath)
+
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
 
 install(
     TARGETS djvQuickTimePlugin

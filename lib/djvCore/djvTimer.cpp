@@ -43,10 +43,10 @@
 #include <time.h>
 
 //------------------------------------------------------------------------------
-// djvTimer::P
+// djvTimerPrivate
 //------------------------------------------------------------------------------
 
-struct djvTimer::P
+struct djvTimerPrivate
 {
 #if defined(DJV_WINDOWS)
     //DWORD t0;
@@ -65,7 +65,7 @@ struct djvTimer::P
 //------------------------------------------------------------------------------
 
 djvTimer::djvTimer() :
-    _p(new P)
+    _p(new djvTimerPrivate)
 {
 #if defined(DJV_WINDOWS)
 
@@ -86,7 +86,7 @@ djvTimer::djvTimer() :
 }
 
 djvTimer::djvTimer(const djvTimer & timer) :
-    _p(new P)
+    _p(new djvTimerPrivate)
 {
 #if defined(DJV_WINDOWS)
 

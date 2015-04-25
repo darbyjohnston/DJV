@@ -47,12 +47,12 @@
 #include "images/durant.xpm"
 
 //------------------------------------------------------------------------------
-// djvApplicationAboutDialog::P
+// djvApplicationAboutDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvApplicationAboutDialog::P
+struct djvApplicationAboutDialogPrivate
 {
-    P() :
+    djvApplicationAboutDialogPrivate() :
         widget   (0),
         buttonBox(0)
     {}
@@ -66,7 +66,7 @@ struct djvApplicationAboutDialog::P
 //------------------------------------------------------------------------------
 
 djvApplicationAboutDialog::djvApplicationAboutDialog() :
-    _p(new P)
+    _p(new djvApplicationAboutDialogPrivate)
 {
     // Create the widgets.
     
@@ -77,7 +77,8 @@ djvApplicationAboutDialog::djvApplicationAboutDialog() :
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     
-    QPushButton * copyButton = new QPushButton(tr("Copy"));
+    QPushButton * copyButton = new QPushButton(
+        qApp->translate("djvApplicationAboutDialog", "Copy"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -91,7 +92,7 @@ djvApplicationAboutDialog::djvApplicationAboutDialog() :
     
     // Initialize.
     
-    setWindowTitle(tr("About Dialog"));
+    setWindowTitle(qApp->translate("djvApplicationAboutDialog", "About Dialog"));
     
     resize(500, 400);
     

@@ -33,17 +33,18 @@
 
 #include <djvQuestionDialog.h>
 
+#include <QApplication>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvQuestionDialog::P
+// djvQuestionDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvQuestionDialog::P
+struct djvQuestionDialogPrivate
 {
-    P(const QString & label) :
+    djvQuestionDialogPrivate(const QString & label) :
         label      (label),
         labelWidget(0)
     {}
@@ -58,7 +59,7 @@ struct djvQuestionDialog::P
 
 djvQuestionDialog::djvQuestionDialog(const QString & label, QWidget * parent) :
     QDialog(parent),
-    _p(new P(label))
+    _p(new djvQuestionDialogPrivate(label))
 {
     _p->labelWidget = new QLabel(label);
     
@@ -73,7 +74,7 @@ djvQuestionDialog::djvQuestionDialog(const QString & label, QWidget * parent) :
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
 
-    setWindowTitle(tr("Question Dialog"));
+    setWindowTitle(qApp->translate("djvQuestionDialog", "Question Dialog"));
     
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));

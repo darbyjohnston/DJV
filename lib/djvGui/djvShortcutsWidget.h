@@ -40,6 +40,8 @@
 
 #include <QWidget>
 
+struct djvShortcutsWidgetPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -90,7 +92,8 @@ Q_SIGNALS:
 private:
 
     DJV_PRIVATE_COPY(djvShortcutsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvShortcutsWidgetPrivate * _p;
 };
 
 //@} // djvGuiWidget

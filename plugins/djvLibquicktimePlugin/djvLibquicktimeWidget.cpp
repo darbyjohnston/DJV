@@ -41,6 +41,7 @@
 #include <djvSignalBlocker.h>
 #include <djvStringUtil.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -67,8 +68,8 @@ djvLibquicktimeWidget::djvLibquicktimeWidget(djvLibquicktimePlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Codec",
-        "Set the codec used when saving movies.");
+        qApp->translate("djvLibquicktimeWidget", "Codec"),
+        qApp->translate("djvLibquicktimeWidget", "Set the codec used when saving movies."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_codecWidget);
     layout->addWidget(prefsGroupBox);

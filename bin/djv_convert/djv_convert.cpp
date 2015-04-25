@@ -154,101 +154,122 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
 
             // Parse the options.
 
-            if (tr("-mirror_h") == arg)
+            if (
+                qApp->translate("djvConvertApplication", "-mirror_h") == arg)
             {
                 _options.mirror.x = true;
             }
-            else if (tr("-mirror_v") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-mirror_v") == arg)
             {
                 _options.mirror.y = true;
             }
-            else if (tr("-scale") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-scale") == arg)
             {
                 in >> _options.scale.x;
                 _options.scale.y = _options.scale.x;
             }
-            else if (tr("-scale_xy") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-scale_xy") == arg)
             {
                 in >> _options.scale;
             }
-            else if (tr("-resize") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-resize") == arg)
             {
                 in >> _options.size;
             }
-            else if (tr("-width") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-width") == arg)
             {
                 in >> _options.size.x;
             }
-            else if (tr("-height") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-height") == arg)
             {
                 in >> _options.size.y;
             }
-            else if (tr("-crop") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-crop") == arg)
             {
                 in >> _options.crop;
             }
-            else if (tr("-crop_percent") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-crop_percent") == arg)
             {
                 in >> _options.cropPercent;
             }
-            else if (tr("-channel") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-channel") == arg)
             {
                 in >> _options.channel;
             }
-            else if (tr("-seq") == arg || tr("-q") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-seq") == arg ||
+                qApp->translate("djvConvertApplication", "-q") == arg)
             {
                 in >> _options.sequence;
             }
 
             // Parse the input options.
 
-            else if (tr("-layer") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-layer") == arg)
             {
                 in >> _input.layer;
             }
-            else if (tr("-proxy") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-proxy") == arg)
             {
                 in >> _input.proxy;
             }
-            else if (tr("-time") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-time") == arg)
             {
                 in >> _input.start;
                 in >> _input.end;
             }
-            else if (tr("-slate") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-slate") == arg)
             {
                 QString tmp;
                 in >> tmp;
                 _input.slate = tmp;
                 in >> _input.slateFrames;
             }
-            else if (tr("-timeout") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-timeout") == arg)
             {
                 in >> _input.timeout;
             }
 
             // Parse the output options.
 
-            else if (tr("-pixel") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-pixel") == arg)
             {
                 djvPixel::PIXEL value = static_cast<djvPixel::PIXEL>(0);
                 in >> value;
                 _output.pixel.reset(new djvPixel::PIXEL(value));
             }
-            else if (tr("-speed") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-speed") == arg)
             {
                 djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
                 _output.speed.reset(new djvSpeed::FPS(value));
             }
-            else if (tr("-tag") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-tag") == arg)
             {
                 QString name, value;
                 in >> name;
                 in >> value;
                 _output.tags[name] = value;
             }
-            else if (tr("-tags_auto") == arg)
+            else if (
+                qApp->translate("djvConvertApplication", "-tags_auto") == arg)
             {
                 in >> _output.tagsAuto;
             }
@@ -275,7 +296,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
 
     if (! args.count())
     {
-        throw QString(tr("input"));
+        throw QString(qApp->translate("djvConvertApplication", "input"));
     }
 
     _input.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
@@ -288,7 +309,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
 
     if (! args.count())
     {
-        throw QString(tr("output"));
+        throw QString(qApp->translate("djvConvertApplication", "output"));
     }
 
     _output.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
@@ -306,10 +327,10 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
 const QStringList & djvConvertApplication::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Cannot open image: \"%1\"") <<
-        tr("Cannot open slate: \"%1\"") <<
-        tr("Cannot read image: \"%1\"") <<
-        tr("Cannot write image: \"%1\"");
+        qApp->translate("djvConvertApplication", "Cannot open image: \"%1\"") <<
+        qApp->translate("djvConvertApplication", "Cannot open slate: \"%1\"") <<
+        qApp->translate("djvConvertApplication", "Cannot read image: \"%1\"") <<
+        qApp->translate("djvConvertApplication", "Cannot write image: \"%1\"");
 
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -318,7 +339,7 @@ const QStringList & djvConvertApplication::errorLabels()
 
 QString djvConvertApplication::commandLineHelp() const
 {
-    static const QString label = tr(
+    static const QString label = qApp->translate("djvConvertApplication",
 "djv_convert\n"
 "\n"
 "    This application provides a command line tool for processing images and "
@@ -466,7 +487,7 @@ bool djvConvertApplication::work()
 
         if (! load.data() && _input.timeout)
         {
-            print(tr("Timeout..."));
+            print(qApp->translate("djvConvertApplication", "Timeout..."));
             
             djvTime::sleep(1);
         }
@@ -515,7 +536,7 @@ bool djvConvertApplication::work()
     loadInfo.sequence.frames =
         loadInfo.sequence.frames.mid(start, end - start + 1);
 
-    print(tr("%1 %2").
+    print(qApp->translate("djvConvertApplication", "%1 %2").
         arg(QDir::toNativeSeparators(_input.file)).
         arg(labelImage(loadInfo, loadInfo.sequence)));
 
@@ -612,7 +633,7 @@ bool djvConvertApplication::work()
         return false;
     }
 
-    print(tr("%1 %2").
+    print(qApp->translate("djvConvertApplication", "%1 %2").
         arg(QDir::toNativeSeparators(_output.file)).
         arg(labelImage(saveInfo, saveInfo.sequence)));
 
@@ -624,7 +645,7 @@ bool djvConvertApplication::work()
     {
         try
         {
-            print(tr("Slating..."));
+            print(qApp->translate("djvConvertApplication", "Slating..."));
 
             djvImageIoInfo info;
             
@@ -831,7 +852,7 @@ bool djvConvertApplication::work()
                 progressAccum /
                 static_cast<double>(i + 1) * (length - (i + 1));
 
-            print(tr("[%1%] Estimated = %2 (%3 Frames/Second)").
+            print(qApp->translate("djvConvertApplication", "[%1%] Estimated = %2 (%3 Frames/Second)").
                 arg(static_cast<int>(
                     i / static_cast<double>(length) * 100.0), 3).
                 arg(djvTime::labelTime(estimate)).
@@ -843,7 +864,7 @@ bool djvConvertApplication::work()
 
     if (length > 1)
     {
-        print(tr("[100%] "), false);
+        print(qApp->translate("djvConvertApplication", "[100%] "), false);
     }
 
     try
@@ -861,7 +882,7 @@ bool djvConvertApplication::work()
         return false;
     }
 
-    print(QString(tr("Elapsed = %1")).
+    print(QString(qApp->translate("djvConvertApplication", "Elapsed = %1")).
         arg(djvTime::labelTime(timer.seconds())));
 
     return true;
@@ -871,7 +892,7 @@ QString djvConvertApplication::labelImage(
     const djvPixelDataInfo & in,
     const djvSequence &      sequence) const
 {
-    return tr("%1x%2:%3 %4 %5@%6").
+    return qApp->translate("djvConvertApplication", "%1x%2:%3 %4 %5@%6").
         arg(in.size.x).
         arg(in.size.y).
         arg(djvVectorUtil::aspect(in.size), 0, 'f', 2).

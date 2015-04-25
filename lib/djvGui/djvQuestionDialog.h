@@ -40,6 +40,8 @@
 
 #include <QDialog>
 
+struct djvQuestionDialogPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -76,7 +78,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvQuestionDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvQuestionDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

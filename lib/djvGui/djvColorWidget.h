@@ -41,6 +41,8 @@
 
 #include <QWidget>
 
+struct djvColorWidgetPrivate;
+
 class QHBoxLayout;
 
 //! \addtogroup djvGuiWidget
@@ -119,7 +121,8 @@ private:
     void valueUpdate();
     
     DJV_PRIVATE_COPY(djvColorWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvColorWidgetPrivate * _p;
 };
 
 //@} // djvGuiWidget

@@ -98,25 +98,25 @@ djvStyle::Fonts::Fonts() :
 }
 
 //------------------------------------------------------------------------------
-// djvStyle::P
+// djvStylePrivate
 //------------------------------------------------------------------------------
 
-struct djvStyle::P
+struct djvStylePrivate
 {
-    P() :
-        palettes               (palettesDefault()),
-        palettesIndex          (palettesIndexDefault()),
-        colorSwatchTransparency(colorSwatchTransparencyDefault()),
-        sizeMetrics            (sizeMetricsDefault()),
-        sizeMetricsIndex       (sizeMetricsIndexDefault())
+    djvStylePrivate() :
+        palettes               (djvStyle::palettesDefault()),
+        palettesIndex          (djvStyle::palettesIndexDefault()),
+        colorSwatchTransparency(djvStyle::colorSwatchTransparencyDefault()),
+        sizeMetrics            (djvStyle::sizeMetricsDefault()),
+        sizeMetricsIndex       (djvStyle::sizeMetricsIndexDefault())
     {}
 
-    QVector<Palette>    palettes;
-    int                 palettesIndex;
-    bool                colorSwatchTransparency;
-    QVector<SizeMetric> sizeMetrics;
-    int                 sizeMetricsIndex;
-    Fonts               fonts;
+    QVector<djvStyle::Palette>    palettes;
+    int                           palettesIndex;
+    bool                          colorSwatchTransparency;
+    QVector<djvStyle::SizeMetric> sizeMetrics;
+    int                           sizeMetricsIndex;
+    djvStyle::Fonts               fonts;
 };
 
 //------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ struct djvStyle::P
 
 djvStyle::djvStyle(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvStylePrivate)
 {
     //DJV_DEBUG("djvStyle::djvStyle");
     
@@ -250,28 +250,28 @@ const QVector<djvStyle::Palette> & djvStyle::palettesDefault()
 {
     static const QVector<djvStyle::Palette> data = QVector<djvStyle::Palette>() <<
         Palette(
-            tr("Dark"),
+            qApp->translate("djvStyle", "Dark"),
             djvColor(0.9f),
             djvColor(0.25f),
             djvColor(0.15f),
             djvColor(0.25f),
             djvColor(0.7f, 0.6f, 0.3f)) <<
         Palette(
-            tr("Light"),
+            qApp->translate("djvStyle", "Light"),
             djvColor(0.1f),
             djvColor(0.8f),
             djvColor(0.7f),
             djvColor(0.7f),
             djvColor(0.7f, 0.6f, 0.3f)) <<
         Palette(
-            tr("Default"),
+            qApp->translate("djvStyle", "Default"),
             djvColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
             djvColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
             djvColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
             djvColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
             djvColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))) <<
         Palette(
-            tr("Custom"),
+            qApp->translate("djvStyle", "Custom"),
             djvColor(0.9f),
             djvColor(0.0f, 0.3f, 0.0f),
             djvColor(0.3f, 0.4f, 0.3f),
@@ -366,10 +366,10 @@ void djvStyle::setColorSwatchTransparency(bool in)
 const QVector<djvStyle::SizeMetric> & djvStyle::sizeMetricsDefault()
 {
     static const QVector<SizeMetric> data = QVector<SizeMetric>() <<
-        SizeMetric(tr("Small"), 9) <<
-        SizeMetric(tr("Medium"), 12) <<
-        SizeMetric(tr("Large"), 16) <<
-        SizeMetric(tr("Custom"), 24);
+        SizeMetric(qApp->translate("djvStyle", "Small"), 9) <<
+        SizeMetric(qApp->translate("djvStyle", "Medium"), 12) <<
+        SizeMetric(qApp->translate("djvStyle", "Large"), 16) <<
+        SizeMetric(qApp->translate("djvStyle", "Custom"), 24);
     
     return data;
 }

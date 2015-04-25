@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractActions.h>
 
+struct djvViewHelpActionsPrivate;
+
 //! \addtogroup djvViewHelp
 //@{
 
@@ -74,7 +76,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewHelpActions);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewHelpActionsPrivate * _p;
 };
 
 //@} // djvViewHelp

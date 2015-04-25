@@ -40,6 +40,8 @@
 
 #include <QMetaType>
 
+struct djvFileIoPrivate;
+
 //! \addtogroup djvCoreFile
 //@{
 
@@ -186,7 +188,8 @@ private:
     void setPos(quint64, bool seek) throw (djvError);
 	
     DJV_PRIVATE_COPY(djvFileIo);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFileIoPrivate * _p;
 };
 
 //@} // djvCoreFile

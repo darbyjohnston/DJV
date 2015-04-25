@@ -40,6 +40,8 @@
 
 #include <QWidget>
 
+struct djvFloatDisplayPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -108,7 +110,8 @@ private:
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvFloatDisplay);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFloatDisplayPrivate * _p;
 };
 
 //@} // djvGuiWidget

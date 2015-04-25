@@ -33,18 +33,22 @@
 
 #include <djvChoiceDialog.h>
 
+#include <QApplication>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvChoiceDialog::P
+// djvChoiceDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvChoiceDialog::P
+struct djvChoiceDialogPrivate
 {
-    P(const QString & label, const QStringList & choices, int choice) :
+    djvChoiceDialogPrivate(
+        const QString &     label,
+        const QStringList & choices,
+        int                 choice) :
         choices     (choices),
         choice      (choice),
         buttonLayout(0),
@@ -70,7 +74,7 @@ djvChoiceDialog::djvChoiceDialog(
     int                 choice,
     QWidget *           parent) :
     QDialog(parent),
-    _p(new P(label, choices, choice))
+    _p(new djvChoiceDialogPrivate(label, choices, choice))
 {
     _p->labelWidget = new QLabel(label);
     
@@ -88,7 +92,7 @@ djvChoiceDialog::djvChoiceDialog(
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle(tr("Choice Dialog"));
+    setWindowTitle(qApp->translate("djvChoiceDialog", "Choice Dialog"));
 
     widgetUpdate();
     

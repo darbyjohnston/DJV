@@ -40,6 +40,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
@@ -122,38 +123,57 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Color Profile",
-        "Set the color profile used when loading and saving DPX images.");
+        qApp->translate("djvDpxWidget", "Color Profile"),
+        qApp->translate("djvDpxWidget", "Set the color profile used when loading and saving DPX images."));
     _colorProfileLayout = prefsGroupBox->createLayout();
-    _colorProfileLayout->addRow("Input profile:", _inputColorProfileWidget);
-    _colorProfileLayout->addRow("Black:", _inputBlackPointWidget);
-    _colorProfileLayout->addRow("White:", _inputWhitePointWidget);
-    _colorProfileLayout->addRow("Gamma:", _inputGammaWidget);
-    _colorProfileLayout->addRow("Soft clip:", _inputSoftClipWidget);
-    _colorProfileLayout->addRow("Output profile:", _outputColorProfileWidget);
-    _colorProfileLayout->addRow("Black:", _outputBlackPointWidget);
-    _colorProfileLayout->addRow("White:", _outputWhitePointWidget);
-    _colorProfileLayout->addRow("Gamma:", _outputGammaWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Input profile:"),
+        _inputColorProfileWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Black:"),
+        _inputBlackPointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "White:"),
+        _inputWhitePointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Gamma:"),
+        _inputGammaWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Soft clip:"),
+        _inputSoftClipWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Output profile:"),
+        _outputColorProfileWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Black:"),
+        _outputBlackPointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "White:"),
+        _outputWhitePointWidget);
+    _colorProfileLayout->addRow(
+        qApp->translate("djvDpxWidget", "Gamma:"),
+        _outputGammaWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Version",
-        "Set the file format version used when saving DPX images.");
+        qApp->translate("djvDpxWidget", "Version"),
+        qApp->translate("djvDpxWidget", "Set the file format version used when saving DPX images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_versionWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Pixel Type",
-        "Set the pixel type used when saving DPX images.");
+        qApp->translate("djvDpxWidget", "Pixel Type"),
+        qApp->translate("djvDpxWidget", "Set the pixel type used when saving DPX images."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_typeWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Endian",
+        qApp->translate("djvDpxWidget", "Endian"),
+        qApp->translate("djvDpxWidget",
         "Set the endian used when saving DPX images. Setting the endian to "
-        "\"Auto\" will use the endian of the current hardware.");
+        "\"Auto\" will use the endian of the current hardware."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_endianWidget);
     layout->addWidget(prefsGroupBox);

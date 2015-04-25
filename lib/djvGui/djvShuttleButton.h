@@ -38,6 +38,8 @@
 
 #include <djvUtil.h>
 
+struct djvShuttleButtonPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -101,7 +103,8 @@ private:
     void iconsUpdate();
     
     DJV_PRIVATE_COPY(djvShuttleButton);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvShuttleButtonPrivate * _p;
 };
 
 //@} // djvGuiWidget

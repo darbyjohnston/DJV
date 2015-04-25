@@ -73,9 +73,9 @@ public:
         if (error != kCGLNoError)
         {
             throw djvError(
-                "djvCglContextPrivate",
-                djvCglContextPrivate::errorLabels()[
-                    djvCglContextPrivate::ERROR_PIXEL_FORMAT].arg(error));
+                "djvCglContext",
+                djvCglContext::errorLabels()[
+                    djvCglContext::ERROR_PIXEL_FORMAT].arg(error));
         }
     }
 
@@ -102,14 +102,14 @@ private:
 #endif // DJV_OSX
 
 //------------------------------------------------------------------------------
-// djvCglContextPrivate::P
+// djvCglContextPrivate
 //------------------------------------------------------------------------------
 
-struct djvCglContextPrivate::P
+struct djvCglContextPrivate
 {
 #   if defined (DJV_OSX)
 
-    P() :
+    djvCglContextPrivate() :
         context(0)
     {}
     
@@ -119,15 +119,15 @@ struct djvCglContextPrivate::P
 };
 
 //------------------------------------------------------------------------------
-// djvCglContextPrivate
+// djvCglContext
 //------------------------------------------------------------------------------
 
-djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
-    _p(new P)
+djvCglContext::djvCglContext() throw (djvError) :
+    _p(new djvCglContextPrivate)
 {
 #   if defined (DJV_OSX)
 
-    //DJV_DEBUG("djvCglContextPrivate::djvCglContextPrivate");
+    //DJV_DEBUG("djvCglContext::djvCglContext");
 
     // Create the pixel format.
 
@@ -135,14 +135,14 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
     // Create the context.
 
-	DJV_LOG("djvCglContextPrivate", "Creating OpenGL context...");
+	DJV_LOG("djvCglContext", "Creating OpenGL context...");
 
     CGLError error = CGLCreateContext(pixelFormat.format(), 0, &_p->context);
 
     if (error != kCGLNoError || ! _p->context)
     {
         throw djvError(
-            "djvCglContextPrivate",
+            "djvCglContext",
             errorLabels()[ERROR_CREATE_CONTEXT].arg(error));
     }
 
@@ -152,14 +152,14 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
 
     // Initialize GLEW.
 	
-    DJV_LOG("djvCglContextPrivate", "Initializing GLEW...");
+    DJV_LOG("djvCglContext", "Initializing GLEW...");
 
     GLint glError = glewInit();
 
     if (glError != GLEW_OK)
     {
         throw djvError(
-            "djvCglContextPrivate",
+            "djvCglContext",
             errorLabels()[ERROR_INIT_GLEW].arg(glError));
     }
 
@@ -177,25 +177,25 @@ djvCglContextPrivate::djvCglContextPrivate() throw (djvError) :
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
 
-    DJV_LOG("djvCglContextPrivate", QString("GL vendor: \"%1\"").arg(vendor()));
-    DJV_LOG("djvCglContextPrivate", QString("GL renderer: \"%1\"").arg(renderer()));
-    DJV_LOG("djvCglContextPrivate", QString("GL version: \"%1\"").arg(version()));
+    DJV_LOG("djvCglContext", QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG("djvCglContext", QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG("djvCglContext", QString("GL version: \"%1\"").arg(version()));
 
     if (! GL_EXT_framebuffer_object)
     {
         throw djvError(
-            "djvCglContextPrivate",
+            "djvCglContext",
             errorLabels()[ERROR_NO_FBO]);
     }
 
 #   endif // DJV_OSX
 }
 
-djvCglContextPrivate::~djvCglContextPrivate()
+djvCglContext::~djvCglContext()
 {
 #   if defined (DJV_OSX)
 
-    //DJV_DEBUG("djvCglContextPrivate::~djvCglContextPrivate");
+    //DJV_DEBUG("djvCglContext::~djvCglContext");
 
     if (_p->context)
     {
@@ -209,51 +209,51 @@ djvCglContextPrivate::~djvCglContextPrivate()
 #   endif // DJV_OSX
 }
 
-const QStringList & djvCglContextPrivate::errorLabels()
+const QStringList & djvCglContext::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvCglContextPrivate", "Cannot get pixel format: #%1") <<
-        qApp->translate("djvCglContextPrivate", "Cannot create OpenGL context: #%1") <<
-        qApp->translate("djvCglContextPrivate", "Cannot initialize GLEW: #%1") <<
-        qApp->translate("djvCglContextPrivate", "No OpenGL FBO support") <<
-        qApp->translate("djvCglContextPrivate", "Invalid OpenGL context") <<
-        qApp->translate("djvCglContextPrivate", "Cannot bind OpenGL context: #%1");
+        qApp->translate("djvCglContext", "Cannot get pixel format: #%1") <<
+        qApp->translate("djvCglContext", "Cannot create OpenGL context: #%1") <<
+        qApp->translate("djvCglContext", "Cannot initialize GLEW: #%1") <<
+        qApp->translate("djvCglContext", "No OpenGL FBO support") <<
+        qApp->translate("djvCglContext", "Invalid OpenGL context") <<
+        qApp->translate("djvCglContext", "Cannot bind OpenGL context: #%1");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     
     return data;
 }
 
-void djvCglContextPrivate::bind() throw (djvError)
+void djvCglContext::bind() throw (djvError)
 {
 #   if defined (DJV_OSX)
 
     if (! _p->context)
     {
         throw djvError(
-            "djvCglContextPrivate",
+            "djvCglContext",
             errorLabels()[ERROR_INVALID_CONTEXT]);
     }
 
-    //DJV_DEBUG("djvCglContextPrivate::bind");
+    //DJV_DEBUG("djvCglContext::bind");
 
     CGLError error = CGLSetCurrentContext(_p->context);
 
     if (error != kCGLNoError)
     {
         throw djvError(
-            "djvCglContextPrivate",
+            "djvCglContext",
             errorLabels()[ERROR_BIND_CONTEXT].arg(error));
     }
 
 #   endif // DJV_OSX
 }
 
-void djvCglContextPrivate::unbind()
+void djvCglContext::unbind()
 {
 #   if defined (DJV_OSX)
 
-    //DJV_DEBUG("djvCglContextPrivate::unbind");
+    //DJV_DEBUG("djvCglContext::unbind");
 
     CGLSetCurrentContext(0);
 

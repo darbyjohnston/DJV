@@ -38,6 +38,8 @@
 
 #include <QWidget>
 
+struct djvViewFilePrefsWidgetPrivate;
+
 //! \addtogroup djvViewFile
 //@{
 
@@ -78,7 +80,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewFilePrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFilePrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewFile

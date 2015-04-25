@@ -64,7 +64,6 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewWindowToolBar);
-    DJV_PRIVATE_IMPLEMENTATION();
 };
 
 //@} // djvViewWindow

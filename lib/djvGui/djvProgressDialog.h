@@ -40,6 +40,8 @@
 
 #include <QDialog>
 
+struct djvProgressDialogPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -103,7 +105,8 @@ private:
     void stopTimer();
 
     DJV_PRIVATE_COPY(djvProgressDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvProgressDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

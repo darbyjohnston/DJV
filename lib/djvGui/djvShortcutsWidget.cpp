@@ -343,12 +343,12 @@ bool ShortcutDelegate::editorEvent(
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvShortcutsWidget::P
+// djvShortcutsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvShortcutsWidget::P
+struct djvShortcutsWidgetPrivate
 {
-    P() :
+    djvShortcutsWidgetPrivate() :
         model     (0),
         proxyModel(0),
         browser   (0),
@@ -367,7 +367,7 @@ struct djvShortcutsWidget::P
 
 djvShortcutsWidget::djvShortcutsWidget(QWidget * parent) :
     QWidget(parent),
-    _p     (new P)
+    _p     (new djvShortcutsWidgetPrivate)
 {
     _p->model = new djvShortcutsModel(this);
 

@@ -41,10 +41,10 @@
 #include <QActionGroup>
 
 //------------------------------------------------------------------------------
-// djvViewToolToolBar::P
+// djvViewToolToolBarPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewToolToolBar::P
+struct djvViewToolToolBarPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ djvViewToolToolBar::djvViewToolToolBar(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractToolBar(actions, parent),
-    _p(new P)
+    _p(new djvViewToolToolBarPrivate)
 {
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {

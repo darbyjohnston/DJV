@@ -44,6 +44,8 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
+struct djvPluginFactoryPrivate;
+
 //! \addtogroup djvCoreMisc
 //@{
 
@@ -134,7 +136,9 @@ public:
 private:
     
     DJV_PRIVATE_COPY(djvPluginFactory);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    
+    djvPluginFactoryPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

@@ -41,6 +41,7 @@
 #include <djvFileInfo.h>
 
 struct djvViewHudInfo;
+struct djvViewImageViewPrivate;
 
 //! \addtogroup djvViewImage
 //@{
@@ -163,7 +164,8 @@ private:
     QSize drawHudSize(const QString &) const;
 
     DJV_PRIVATE_COPY(djvViewImageView);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewImageViewPrivate * _p;
 };
 
 //@} // djvViewImage

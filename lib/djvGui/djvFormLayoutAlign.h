@@ -40,6 +40,8 @@
 
 #include <QObject>
 
+struct djvFormLayoutAlignPrivate;
+
 class QFormLayout;
 
 //! \addtogroup djvGuiMisc
@@ -83,7 +85,8 @@ public Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvFormLayoutAlign);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFormLayoutAlignPrivate * _p;
 };
 
 //@} // djvGuiMisc

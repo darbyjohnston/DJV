@@ -48,14 +48,6 @@
     \
     class & operator = (const class &);
 
-//! This macro provides a private implementation struct.
-
-#define DJV_PRIVATE_IMPLEMENTATION() \
-    \
-    struct P; \
-    \
-    P * _p;
-
 //! This macro provides comparison operators.
 
 #define DJV_COMPARISON_OPERATOR(EXPORT, TYPE) \

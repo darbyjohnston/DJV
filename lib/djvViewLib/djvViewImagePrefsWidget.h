@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
+struct djvViewImagePrefsWidgetPrivate;
+
 class QListWidgetItem;
 
 //! \addtogroup djvViewImage
@@ -84,7 +86,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewImagePrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewImagePrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewImage

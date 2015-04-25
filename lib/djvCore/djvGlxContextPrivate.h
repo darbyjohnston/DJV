@@ -42,22 +42,24 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
+struct djvGlxContextPrivate;
+
 //! \addtogroup djvCoreOpenGL
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvGlxContextPrivate
+//! \class djvGlxContext
 //!
 //! This class provides a X11 OpenGL context.
 //------------------------------------------------------------------------------
 
-class djvGlxContextPrivate : public djvOpenGlContext
+class djvGlxContext : public djvOpenGlContext
 {
 public:
 
     //! Destructor.
 
-    virtual ~djvGlxContextPrivate();
+    virtual ~djvGlxContext();
     
     //! This enumeration provides error codes.
     
@@ -89,12 +91,13 @@ protected:
 
     //! Constructor.
 
-    djvGlxContextPrivate() throw (djvError);
+    djvGlxContext() throw (djvError);
 
 private:
 
-    DJV_PRIVATE_COPY(djvGlxContextPrivate);
-    DJV_PRIVATE_IMPLEMENTATION();
+    DJV_PRIVATE_COPY(djvGlxContext);
+    
+    struct djvGlxContextPrivate * _p;
 
     friend class djvOpenGlContextFactory;
 };

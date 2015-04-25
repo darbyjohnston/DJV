@@ -42,12 +42,12 @@
 #include <QSpinBox>
 
 //------------------------------------------------------------------------------
-// djvIntEdit::P
+// djvIntEditPrivate
 //------------------------------------------------------------------------------
 
-struct djvIntEdit::P
+struct djvIntEditPrivate
 {
-    P() :
+    djvIntEditPrivate() :
         object (0),
         spinBox(0)
     {}
@@ -62,7 +62,7 @@ struct djvIntEdit::P
 
 djvIntEdit::djvIntEdit(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvIntEditPrivate)
 {
     _p->object = new djvIntObject(this);
 

@@ -37,6 +37,7 @@
 #include <djvSignalBlocker.h>
 #include <djvStyle.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -67,15 +68,15 @@ djvPpmWidget::djvPpmWidget(djvPpmPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "File Type",
-        "Set the file type used when saving PPM images.");
+        qApp->translate("djvPpmWidget", "File Type"),
+        qApp->translate("djvPpmWidget", "Set the file type used when saving PPM images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_typeWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        "Data Type",
-        "Set the data type used when saving PPM images.");
+        qApp->translate("djvPpmWidget", "Data Type"),
+        qApp->translate("djvPpmWidget", "Set the data type used when saving PPM images."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_dataWidget);
     layout->addWidget(prefsGroupBox);

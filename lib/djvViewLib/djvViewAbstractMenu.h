@@ -40,7 +40,8 @@
 
 #include <QMenu>
 
-class djvViewAbstractActions;
+class  djvViewAbstractActions;
+struct djvViewAbstractMenuPrivate;
 
 //! \addtogroup djvViewLib
 //@{
@@ -78,7 +79,8 @@ protected Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractMenu);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewAbstractMenuPrivate * _p;
 };
 
 //@} // djvViewLib

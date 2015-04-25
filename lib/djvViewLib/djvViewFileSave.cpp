@@ -70,12 +70,12 @@ djvViewFileSaveInfo::djvViewFileSaveInfo(
 {}
 
 //------------------------------------------------------------------------------
-// djvViewFileSave::P
+// djvViewFileSavePrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFileSave::P
+struct djvViewFileSavePrivate
 {
-    P() :
+    djvViewFileSavePrivate() :
         dialog(0)
     {}
     
@@ -92,7 +92,7 @@ struct djvViewFileSave::P
 
 djvViewFileSave::djvViewFileSave(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvViewFileSavePrivate)
 {
     _p->dialog = new djvProgressDialog;
 
@@ -208,7 +208,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
 
     // Start...
 
-    _p->dialog->setLabel(tr("Saving \"%1\":").
+    _p->dialog->setLabel(qApp->translate("djvViewFileSave", "Saving \"%1\":").
         arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
     _p->dialog->start(

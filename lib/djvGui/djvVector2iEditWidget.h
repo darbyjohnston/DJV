@@ -42,6 +42,8 @@
 
 #include <QWidget>
 
+struct djvVector2iEditWidgetPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -145,7 +147,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvVector2iEditWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvVector2iEditWidgetPrivate * _p;
 };
 
 //@} // djvGuiWidget

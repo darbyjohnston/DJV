@@ -34,12 +34,13 @@
 #include <djvViewHelpActions.h>
 
 #include <QAction>
+#include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewHelpActions::P
+// djvViewHelpActionsPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewHelpActions::P
+struct djvViewHelpActionsPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ struct djvViewHelpActions::P
 
 djvViewHelpActions::djvViewHelpActions(QObject * parent) :
 	djvViewAbstractActions(parent),
-    _p(new P)
+    _p(new djvViewHelpActionsPrivate)
 {
     // Create the actions.
 
@@ -57,11 +58,11 @@ djvViewHelpActions::djvViewHelpActions(QObject * parent) :
         _actions[i] = new QAction(this);
     }
 
-    _actions[HELP]->setText(tr("&Help"));
+    _actions[HELP]->setText(qApp->translate("djvViewHelpActions", "&Help"));
 
-    _actions[INFO]->setText(tr("&Information"));
+    _actions[INFO]->setText(qApp->translate("djvViewHelpActions", "&Information"));
 
-    _actions[ABOUT]->setText(tr("&About"));
+    _actions[ABOUT]->setText(qApp->translate("djvViewHelpActions", "&About"));
 }
 
 djvViewHelpActions::~djvViewHelpActions()

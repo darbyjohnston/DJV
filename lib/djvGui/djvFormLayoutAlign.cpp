@@ -41,10 +41,10 @@
 #include <QWidget>
 
 //------------------------------------------------------------------------------
-// djvFormLayoutAlign::P
+// djvFormLayoutAlignPrivate
 //------------------------------------------------------------------------------
 
-struct djvFormLayoutAlign::P
+struct djvFormLayoutAlignPrivate
 {
     QList<QFormLayout *> layouts;
 };
@@ -55,7 +55,7 @@ struct djvFormLayoutAlign::P
 
 djvFormLayoutAlign::djvFormLayoutAlign(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvFormLayoutAlignPrivate)
 {
     connect(
         djvStyle::global(),

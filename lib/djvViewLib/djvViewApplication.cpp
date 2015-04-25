@@ -60,12 +60,12 @@
 #include <QFileOpenEvent>
 
 //------------------------------------------------------------------------------
-// djvViewApplication::P
+// djvViewApplicationPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewApplication::P
+struct djvViewApplicationPrivate
 {
-    P() :
+    djvViewApplicationPrivate() :
         combine (false),
         sequence(djvSequence::COMPRESS_RANGE)
     {}
@@ -89,7 +89,7 @@ struct djvViewApplication::P
 
 djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError) :
     djvApplication("djv_view", argc, argv),
-    _p(new P)
+    _p(new djvViewApplicationPrivate)
 {
     //DJV_DEBUG("djvViewApplication::djvViewApplication");
     
@@ -297,37 +297,43 @@ void djvViewApplication::commandLine(QStringList & in) throw (QString)
 
             // Parse the options.
             
-            if (tr("-combine") == arg)
+            if (qApp->translate("djvViewApplication", "-combine") == arg)
             {
                 _p->combine = true;
             }
-            else if (tr("-seq") == arg || tr("-q") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-seq") == arg ||
+                qApp->translate("djvViewApplication", "-q") == arg)
             {
                 in >> _p->sequence;
             }
 
             // Parse the file options.
 
-            else if (tr("-file_seq_auto") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-file_seq_auto") == arg)
             {
                 bool value = 0;
                 in >> value;
                 _p->fileSequenceAuto.reset(new bool(value));
             }
-            else if (tr("-file_layer") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-file_layer") == arg)
             {
                 int value = 0;
                 in >> value;
                 _p->fileLayer.reset(new int(value));
             }
-            else if (tr("-file_proxy") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-file_proxy") == arg)
             {
                 djvPixelDataInfo::PROXY value =
                     static_cast<djvPixelDataInfo::PROXY>(0);
                 in >> value;
                 _p->fileProxy.reset(new djvPixelDataInfo::PROXY(value));
             }
-            else if (tr("-file_cache") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-file_cache") == arg)
             {
                 bool value = false;
                 in >> value;
@@ -336,27 +342,31 @@ void djvViewApplication::commandLine(QStringList & in) throw (QString)
 
             // Parse the window options.
 
-            else if (tr("-window_full_screen") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-window_full_screen") == arg)
             {
                 _p->windowFullScreen.reset(new bool(true));
             }
 
             // Parse the playback options.
 
-            else if (tr("-playback") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-playback") == arg)
             {
                 djvViewUtil::PLAYBACK value =
                     static_cast<djvViewUtil::PLAYBACK>(0);
                 in >> value;
                 _p->playback.reset(new djvViewUtil::PLAYBACK(value));
             }
-            else if (tr("-playback_frame") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-playback_frame") == arg)
             {
                 int value = 0;
                 in >> value;
                 _p->playbackFrame.reset(new int(value));
             }
-            else if (tr("-playback_speed") == arg)
+            else if (
+                qApp->translate("djvViewApplication", "-playback_speed") == arg)
             {
                 djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
@@ -379,7 +389,7 @@ void djvViewApplication::commandLine(QStringList & in) throw (QString)
 
 QString djvViewApplication::commandLineHelp() const
 {
-    static const QString label = tr(
+    static const QString label = qApp->translate("djvViewApplication",
 "djv_view\n"
 "\n"
 "    The djv_view application provides real-time image sequence and movie "

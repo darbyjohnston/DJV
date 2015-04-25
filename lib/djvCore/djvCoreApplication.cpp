@@ -67,12 +67,12 @@ const QStringList & djvApplicationEnum::exitValueLabels()
 }
 
 //------------------------------------------------------------------------------
-// djvAbstractCoreApplication::P
+// djvAbstractCoreApplicationPrivate
 //------------------------------------------------------------------------------
 
-struct djvAbstractCoreApplication::P
+struct djvAbstractCoreApplicationPrivate
 {
-    P() :
+    djvAbstractCoreApplicationPrivate() :
         exitValue(djvApplicationEnum::EXIT_DEFAULT),
         endline  (false),
         separator(false),
@@ -103,7 +103,7 @@ djvAbstractCoreApplication::djvAbstractCoreApplication(
     const QString & name,
     int &           argc,
     char **         argv) throw (djvError) :
-    _p(new P)
+    _p(new djvAbstractCoreApplicationPrivate)
 {
     _global = this;
     

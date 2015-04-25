@@ -87,12 +87,12 @@ protected:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvFloatSlider::P
+// djvFloatSliderPrivate
 //------------------------------------------------------------------------------
 
-struct djvFloatSlider::P
+struct djvFloatSliderPrivate
 {
-    P() :
+    djvFloatSliderPrivate() :
         object(0),
         slider(0)
     {}
@@ -114,7 +114,7 @@ const int steps = 10000;
 
 djvFloatSlider::djvFloatSlider(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvFloatSliderPrivate)
 {
     _p->object = new djvFloatObject(this);
 

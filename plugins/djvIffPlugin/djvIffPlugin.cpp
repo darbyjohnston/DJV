@@ -41,6 +41,8 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -68,8 +70,8 @@ const QString djvIffPlugin::staticName = "IFF";
 const QStringList & djvIffPlugin::compressionLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "RLE";
+        qApp->translate("djvIffPlugin", "None") <<
+        qApp->translate("djvIffPlugin", "RLE");
 
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
 
@@ -780,7 +782,7 @@ void djvIffPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-iff_compression" == arg)
+            if (qApp->translate("djvIffPlugin", "-iff_compression") == arg)
             {
                 in >> _options.compression;
             }
@@ -800,7 +802,7 @@ void djvIffPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvIffPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvIffPlugin",
 "\n"
 "IFF Options\n"
 "\n"

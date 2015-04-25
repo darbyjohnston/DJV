@@ -41,6 +41,8 @@
 #include <QMap>
 #include <QObject>
 
+struct djvViewAbstractActionsPrivate;
+
 class QAction;
 class QActionGroup;
 
@@ -98,7 +100,7 @@ protected:
 
 private:
 
-    DJV_PRIVATE_IMPLEMENTATION();
+    djvViewAbstractActionsPrivate * _p;
 };
 
 //@} // djvViewLib

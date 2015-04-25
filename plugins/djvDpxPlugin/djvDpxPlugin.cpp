@@ -41,6 +41,8 @@
 #include <djvError.h>
 #include <djvMemory.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -72,8 +74,8 @@ const QString djvDpxPlugin::staticName = "DPX";
 const QStringList & djvDpxPlugin::versionLabels()
 {
     static const QStringList data = QStringList() <<
-        "1.0" <<
-        "2.0";
+        qApp->translate("djvDpxPlugin", "1.0") <<
+        qApp->translate("djvDpxPlugin", "2.0");
 
     DJV_ASSERT(data.count() == VERSION_COUNT);
 
@@ -83,8 +85,8 @@ const QStringList & djvDpxPlugin::versionLabels()
 const QStringList & djvDpxPlugin::typeLabels()
 {
     static const QStringList data = QStringList() <<
-        "Auto" <<
-        "U10";
+        qApp->translate("djvDpxPlugin", "Auto") <<
+        qApp->translate("djvDpxPlugin", "U10");
 
     DJV_ASSERT(data.count() == TYPE_COUNT);
 
@@ -94,7 +96,7 @@ const QStringList & djvDpxPlugin::typeLabels()
 const QStringList & djvDpxPlugin::endianLabels()
 {
     static const QStringList data = QStringList() <<
-        "Auto" <<
+        qApp->translate("djvDpxPlugin", "Auto") <<
         djvMemory::endianLabels();
 
     DJV_ASSERT(data.count() == ENDIAN_COUNT);
@@ -105,36 +107,36 @@ const QStringList & djvDpxPlugin::endianLabels()
 const QStringList & djvDpxPlugin::tagLabels()
 {
     static const QStringList data = QStringList() <<
-        "Source Offset" <<
-        "Source Center" <<
-        "Source Size" <<
-        "Source File" <<
-        "Source Time" <<
-        "Source Input Device" <<
-        "Source Input Serial" <<
-        "Source Border" <<
-        "Source Pixel Aspect" <<
-        "Source ScanSize" <<
-        "Film Format" <<
-        "Film Frame" <<
-        "Film Sequence" <<
-        "Film Hold" <<
-        "Film Frame Rate" <<
-        "Film Shutter" <<
-        "Film Frame ID" <<
-        "Film Slate" <<
-        "TV Interlace" <<
-        "TV Field" <<
-        "TV Video Signal" <<
-        "TV Sample Rate" <<
-        "TV Frame Rate" <<
-        "TV Time Offset" <<
-        "TV Gamma" <<
-        "TV Black Level" <<
-        "TV Black Gain" <<
-        "TV Break Point" <<
-        "TV White Level" <<
-        "TV Integration Times";
+        qApp->translate("djvDpxPlugin", "Source Offset") <<
+        qApp->translate("djvDpxPlugin", "Source Center") <<
+        qApp->translate("djvDpxPlugin", "Source Size") <<
+        qApp->translate("djvDpxPlugin", "Source File") <<
+        qApp->translate("djvDpxPlugin", "Source Time") <<
+        qApp->translate("djvDpxPlugin", "Source Input Device") <<
+        qApp->translate("djvDpxPlugin", "Source Input Serial") <<
+        qApp->translate("djvDpxPlugin", "Source Border") <<
+        qApp->translate("djvDpxPlugin", "Source Pixel Aspect") <<
+        qApp->translate("djvDpxPlugin", "Source ScanSize") <<
+        qApp->translate("djvDpxPlugin", "Film Format") <<
+        qApp->translate("djvDpxPlugin", "Film Frame") <<
+        qApp->translate("djvDpxPlugin", "Film Sequence") <<
+        qApp->translate("djvDpxPlugin", "Film Hold") <<
+        qApp->translate("djvDpxPlugin", "Film Frame Rate") <<
+        qApp->translate("djvDpxPlugin", "Film Shutter") <<
+        qApp->translate("djvDpxPlugin", "Film Frame ID") <<
+        qApp->translate("djvDpxPlugin", "Film Slate") <<
+        qApp->translate("djvDpxPlugin", "TV Interlace") <<
+        qApp->translate("djvDpxPlugin", "TV Field") <<
+        qApp->translate("djvDpxPlugin", "TV Video Signal") <<
+        qApp->translate("djvDpxPlugin", "TV Sample Rate") <<
+        qApp->translate("djvDpxPlugin", "TV Frame Rate") <<
+        qApp->translate("djvDpxPlugin", "TV Time Offset") <<
+        qApp->translate("djvDpxPlugin", "TV Gamma") <<
+        qApp->translate("djvDpxPlugin", "TV Black Level") <<
+        qApp->translate("djvDpxPlugin", "TV Black Gain") <<
+        qApp->translate("djvDpxPlugin", "TV Break Point") <<
+        qApp->translate("djvDpxPlugin", "TV White Level") <<
+        qApp->translate("djvDpxPlugin", "TV Integration Times");
 
     DJV_ASSERT(data.count() == TAG_COUNT);
 
@@ -144,13 +146,13 @@ const QStringList & djvDpxPlugin::tagLabels()
 const QStringList & djvDpxPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Input Color Profile" <<
-        "Input Film Print" <<
-        "Output Color Profile" <<
-        "Output Film Print" <<
-        "Version" <<
-        "Type" <<
-        "Endian";
+        qApp->translate("djvDpxPlugin", "Input Color Profile") <<
+        qApp->translate("djvDpxPlugin", "Input Film Print") <<
+        qApp->translate("djvDpxPlugin", "Output Color Profile") <<
+        qApp->translate("djvDpxPlugin", "Output Film Print") <<
+        qApp->translate("djvDpxPlugin", "Version") <<
+        qApp->translate("djvDpxPlugin", "Type") <<
+        qApp->translate("djvDpxPlugin", "Endian");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -338,31 +340,38 @@ void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-dpx_input_color_profile" == arg)
+            if (
+                qApp->translate("djvDpxPlugin", "-dpx_input_color_profile") == arg)
             {
                 in >> _options.inputColorProfile;
             }
-            else if ("-dpx_input_film_print" == arg)
+            else if (
+                qApp->translate("djvDpxPlugin", "-dpx_input_film_print") == arg)
             {
                 in >> _options.inputFilmPrint;
             }
-            else if ("-dpx_output_color_profile" == arg)
+            else if (
+                qApp->translate("djvDpxPlugin", "-dpx_output_color_profile") == arg)
             {
                 in >> _options.outputColorProfile;
             }
-            else if ("-dpx_output_film_print" == arg)
+            else if (
+                qApp->translate("djvDpxPlugin", "-dpx_output_film_print") == arg)
             {
                 in >> _options.outputFilmPrint;
             }
-            else if ("-dpx_version" == arg)
+            else if (
+                qApp->translate("djvDpxPlugin", "-dpx_version") == arg)
             {
                 in >> _options.version;
             }
-            else if ("-dpx_type" == arg)
+            else if (
+                qApp->translate("djvDpxPlugin", "-dpx_type") == arg)
             {
                 in >> _options.type;
             }
-            else if ("-dpx_endian" == arg)
+            else if (
+                qApp->translate("djvDpxPlugin", "-dpx_endian") == arg)
             {
                 in >> _options.endian;
             }
@@ -382,7 +391,7 @@ void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvDpxPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvDpxPlugin",
 "\n"
 "DPX Options\n"
 "\n"

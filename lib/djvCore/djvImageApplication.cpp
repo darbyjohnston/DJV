@@ -42,12 +42,12 @@
 #include <QVector>
 
 //------------------------------------------------------------------------------
-// djvAbstractImageApplication::P
+// djvAbstractImageApplicationPrivate
 //------------------------------------------------------------------------------
 
-struct djvAbstractImageApplication::P
+struct djvAbstractImageApplicationPrivate
 {
-    P() :
+    djvAbstractImageApplicationPrivate() :
         context(0)
     {}
     
@@ -63,7 +63,7 @@ djvAbstractImageApplication::djvAbstractImageApplication(
     int &           argc,
     char **         argv) throw (djvError) :
     djvAbstractCoreApplication(name, argc, argv),
-    _p(new P)
+    _p(new djvAbstractImageApplicationPrivate)
 {
     //DJV_DEBUG("djvAbstractImageApplication::djvAbstractImageApplication");
     //DJV_DEBUG_PRINT("name = " << name);

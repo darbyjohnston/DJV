@@ -40,6 +40,8 @@
 
 #include <QObject>
 
+struct djvFileBrowserPrefsPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -399,7 +401,8 @@ Q_SIGNALS:
 private:
 
     DJV_PRIVATE_COPY(djvFileBrowserPrefs);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFileBrowserPrefsPrivate * _p;
 };
 
 //@} // djvGuiDialog

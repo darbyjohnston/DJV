@@ -108,8 +108,8 @@ djvImagePlay3TestCacheWidget::djvImagePlay3TestCacheWidget(
     QWidget *     parent) :
     QWidget(parent),
     _frames(frames),
-    _cache (cache),
-    _frame (0)
+    _frame (0),
+    _cache (cache)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     

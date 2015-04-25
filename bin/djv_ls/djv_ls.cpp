@@ -205,42 +205,59 @@ void djvLsApplication::commandLine(QStringList & in) throw (QString)
 
             // Parse the options.
 
-            if (tr("-x_info") == arg || tr("-xi") == arg)
+            if (
+                qApp->translate("djvLsApplication", "-x_info") == arg ||
+                qApp->translate("djvLsApplication", "-xi") == arg)
             {
                 _info = false;
             }
-            else if (tr("-file_path") == arg || tr("-fp") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-file_path") == arg ||
+                qApp->translate("djvLsApplication", "-fp") == arg)
             {
                 _filePath = true;
             }
-            else if (tr("-seq") == arg || tr("-q") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-seq") == arg ||
+                qApp->translate("djvLsApplication", "-q") == arg)
             {
                 in >> _sequence;
             }
-            else if (tr("-recurse") == arg || tr("-r") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-recurse") == arg ||
+                qApp->translate("djvLsApplication", "-r") == arg)
             {
                 _recurse = true;
             }
-            else if (tr("-hidden") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-hidden") == arg)
             {
                 _hidden = true;
             }
-            else if (tr("-columns") == arg || tr("-c") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-columns") == arg ||
+                qApp->translate("djvLsApplication", "-c") == arg)
             {
                 in >> _columns;
             }
 
             // Parse the sorting options.
 
-            else if (tr("-sort") == arg || tr("-s") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-sort") == arg ||
+                qApp->translate("djvLsApplication", "-s") == arg)
             {
                 in >> _sort;
             }
-            else if (tr("-reverse_sort") == arg || tr("-rs") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-reverse_sort") == arg ||
+                qApp->translate("djvLsApplication", "-rs") == arg)
             {
                 _reverseSort = true;
             }
-            else if (tr("-x_sort_dirs") == arg || tr("-xsd") == arg)
+            else if (
+                qApp->translate("djvLsApplication", "-x_sort_dirs") == arg ||
+                qApp->translate("djvLsApplication", "-xsd") == arg)
             {
                 _doNotSortDirs = false;
             }
@@ -262,7 +279,7 @@ void djvLsApplication::commandLine(QStringList & in) throw (QString)
 const QStringList & djvLsApplication::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Cannot open: \"%1\"");
+        qApp->translate("djvLsApplication", "Cannot open: \"%1\"");
 
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -271,7 +288,7 @@ const QStringList & djvLsApplication::errorLabels()
 
 QString djvLsApplication::commandLineHelp() const
 {
-    static const QString label = tr(
+    static const QString label = qApp->translate("djvLsApplication",
 "djv_ls\n"
 "\n"
 "    This application provides a command line tool for listing directories "
@@ -395,9 +412,9 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
     {
         const QString infoString =
 #if defined(DJV_WINDOWS)
-            tr("%1 %2 %3 %4").
+            qApp->translate("djvLsApplication", "%1 %2 %3 %4").
 #else
-            tr("%1 %2 %3 %4 %5").
+            qApp->translate("djvLsApplication", "%1 %2 %3 %4 %5").
 #endif
             arg(djvFileInfo::typeLabels()[in.type()], 4).
             arg(djvMemory::sizeLabel(in.size())).
@@ -428,7 +445,7 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
         }
 
         print(
-            tr("%1 %2").
+            qApp->translate("djvLsApplication", "%1 %2").
                 arg(QDir::toNativeSeparators(name)).
                 arg(infoString, _columns - name.length() - 2));
     }
@@ -458,7 +475,8 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (label)
     {
-        print(tr("%1:").arg(QDir::toNativeSeparators(in)));
+        print(qApp->translate("djvLsApplication", "%1:").
+            arg(QDir::toNativeSeparators(in)));
     }
 
     for (int i = 0; i < items.count(); ++i)

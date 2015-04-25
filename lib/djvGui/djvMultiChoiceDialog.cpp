@@ -33,18 +33,19 @@
 
 #include <djvMultiChoiceDialog.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvMultiChoiceDialog::P
+// djvMultiChoiceDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvMultiChoiceDialog::P
+struct djvMultiChoiceDialogPrivate
 {
-    P(
+    djvMultiChoiceDialogPrivate(
         const QString &       label,
         const QStringList &   choices,
         const QVector<bool> & values) :
@@ -73,7 +74,7 @@ djvMultiChoiceDialog::djvMultiChoiceDialog(
     const QVector<bool> & values,
     QWidget *             parent) :
     QDialog(parent),
-    _p(new P(label, choices, values))
+    _p(new djvMultiChoiceDialogPrivate(label, choices, values))
 {
     _p->labelWidget = new QLabel(label);
     
@@ -91,7 +92,7 @@ djvMultiChoiceDialog::djvMultiChoiceDialog(
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle(tr("Multi Choice Dialog"));
+    setWindowTitle(qApp->translate("djvMultiChoiceDialog", "Multi Choice Dialog"));
 
     widgetUpdate();
     

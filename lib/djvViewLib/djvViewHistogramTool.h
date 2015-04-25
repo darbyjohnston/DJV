@@ -38,6 +38,8 @@
 
 #include <djvPixel.h>
 
+struct djvViewHistogramToolPrivate;
+
 //! \addtogroup djvViewTool
 //@{
 
@@ -80,7 +82,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewHistogramTool);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewHistogramToolPrivate * _p;
 };
 
 //@} // djvViewTool

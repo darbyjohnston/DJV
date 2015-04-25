@@ -39,6 +39,8 @@
 
 #include <djvVector.h>
 
+struct djvViewViewGroupPrivate;
+
 class QAction;
 
 //! \addtogroup djvViewView
@@ -94,7 +96,8 @@ private:
     void viewZoom(double);
 
     DJV_PRIVATE_COPY(djvViewViewGroup);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewViewGroupPrivate * _p;
 };
 
 //@} // djvViewView

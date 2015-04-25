@@ -39,18 +39,19 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackPrefsWidget::P
+// djvViewPlaybackPrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackPrefsWidget::P
+struct djvViewPlaybackPrefsWidgetPrivate
 {
-    P() :
+    djvViewPlaybackPrefsWidgetPrivate() :
         autoStartWidget (0),
         loopWidget      (0),
         everyFrameWidget(0),
@@ -68,18 +69,21 @@ struct djvViewPlaybackPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
-    djvViewAbstractPrefsWidget(tr("Playback")),
-    _p(new P)
+    djvViewAbstractPrefsWidget(
+        qApp->translate("djvViewPlaybackPrefsWidget", "Playback")),
+    _p(new djvViewPlaybackPrefsWidgetPrivate)
 {
     // Create the widgets.
 
-    _p->autoStartWidget = new QCheckBox(tr("Start playback when opening files"));
+    _p->autoStartWidget = new QCheckBox(
+        qApp->translate("djvViewPlaybackPrefsWidget", "Start playback when opening files"));
 
     _p->loopWidget = new QComboBox;
     _p->loopWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->loopWidget->addItems(djvViewUtil::loopLabels());
 
-    _p->everyFrameWidget = new QCheckBox(tr("Play every frame"));
+    _p->everyFrameWidget = new QCheckBox(
+        qApp->translate("djvViewPlaybackPrefsWidget", "Play every frame"));
 
     _p->layoutWidget = new QComboBox;
     _p->layoutWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -89,16 +93,22 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewPlaybackPrefsWidget", "General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoStartWidget);
-    formLayout->addRow(tr("Loop mode:"), _p->loopWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewPlaybackPrefsWidget", "Loop mode:"),
+        _p->loopWidget);
     formLayout->addRow(_p->everyFrameWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Layout"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewPlaybackPrefsWidget", "Layout"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Playback controls:"), _p->layoutWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewPlaybackPrefsWidget", "Playback controls:"),
+        _p->layoutWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

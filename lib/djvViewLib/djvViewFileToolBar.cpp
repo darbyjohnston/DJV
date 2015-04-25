@@ -38,10 +38,10 @@
 #include <djvToolButton.h>
 
 //------------------------------------------------------------------------------
-// djvViewFileToolBar::P
+// djvViewFileToolBarPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFileToolBar::P
+struct djvViewFileToolBarPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ djvViewFileToolBar::djvViewFileToolBar(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractToolBar(actions, parent),
-    _p(new P)
+    _p(new djvViewFileToolBarPrivate)
 {
     djvToolButton * button = new djvToolButton;
     button->setDefaultAction(actions->action(djvViewFileActions::OPEN));

@@ -56,12 +56,12 @@
 #include <QWheelEvent>
 
 //------------------------------------------------------------------------------
-// djvViewImageView::P
+// djvViewImageViewPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewImageView::P
+struct djvViewImageViewPrivate
 {
-    P() :
+    djvViewImageViewPrivate() :
         viewZoomTmp       (0.0),
         grid              (djvViewViewPrefs::global()->grid()),
         gridColor         (djvViewViewPrefs::global()->gridColor()),
@@ -98,7 +98,7 @@ struct djvViewImageView::P
 
 djvViewImageView::djvViewImageView(QWidget * parent) :
     djvImageView(parent),
-    _p(new P)
+    _p(new djvViewImageViewPrivate)
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
@@ -658,17 +658,19 @@ void djvViewImageView::drawHud()
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_FILE_NAME])
     {
-        upperLeft += QString(tr("File  = %1")).arg(_p->hudInfo.info.fileName);
+        upperLeft += qApp->translate("djvViewImageView", "File  = %1").
+            arg(_p->hudInfo.info.fileName);
     }
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_LAYER])
     {
-        upperLeft += QString(tr("Layer = %1")).arg(_p->hudInfo.info.layerName);
+        upperLeft += qApp->translate("djvViewImageView", "Layer = %1").
+            arg(_p->hudInfo.info.layerName);
     }
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_SIZE])
     {
-        upperLeft += QString(tr("Size  = %1x%2:%3")).
+        upperLeft += qApp->translate("djvViewImageView", "Size  = %1x%2:%3").
             arg(_p->hudInfo.info.size.x).
             arg(_p->hudInfo.info.size.y).
             arg(djvVectorUtil::aspect(_p->hudInfo.info.size), 0, 'f', 2);
@@ -676,12 +678,13 @@ void djvViewImageView::drawHud()
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_PROXY])
     {
-        upperLeft += QString(tr("Proxy = %1")).arg(_p->hudInfo.info.proxy);
+        upperLeft += qApp->translate("djvViewImageView", "Proxy = %1").
+            arg(_p->hudInfo.info.proxy);
     }
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_PIXEL])
     {
-        upperLeft += QString(tr("Pixel = %1")).
+        upperLeft += qApp->translate("djvViewImageView", "Pixel = %1").
             arg(djvStringUtil::label(_p->hudInfo.info.pixel).join(", "));
     }
 
@@ -693,7 +696,8 @@ void djvViewImageView::drawHud()
 
         for (int i = 0; i < keys.count(); ++i)
         {
-            lowerLeft += QString(tr("%1 = %2")).arg(keys[i]).
+            lowerLeft += qApp->translate("djvViewImageView", "%1 = %2").
+                arg(keys[i]).
                 arg(_p->hudInfo.tags[keys[i]]);
         }
     }
@@ -702,13 +706,13 @@ void djvViewImageView::drawHud()
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_FRAME])
     {
-        upperRight += QString(tr("Frame = %1")).
+        upperRight += qApp->translate("djvViewImageView", "Frame = %1").
             arg(djvTime::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
     }
 
     if (_p->hudInfo.visible[djvViewUtil::HUD_SPEED])
     {
-        upperRight += QString(tr("Speed = %1/%2")).
+        upperRight += qApp->translate("djvViewImageView", "Speed = %1/%2").
             arg(djvSpeed::speedToFloat(_p->hudInfo.speed), 0, 'f', 2).
             arg(_p->hudInfo.realSpeed, 0, 'f', 2);
     }

@@ -41,6 +41,9 @@
 
 #include <QObject>
 
+struct djvViewFileCachePrivate;
+struct djvViewFileCacheRefPrivate;
+
 class djvImage;
 
 //! \addtogroup djvViewFile
@@ -95,7 +98,8 @@ public:
 private:
     
     DJV_PRIVATE_COPY(djvViewFileCacheRef);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFileCacheRefPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -196,7 +200,8 @@ private:
     void purge();
     
     DJV_PRIVATE_COPY(djvViewFileCache);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFileCachePrivate * _p;
 };
 
 //@} // djvViewFile

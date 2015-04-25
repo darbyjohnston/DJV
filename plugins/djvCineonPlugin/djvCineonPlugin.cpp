@@ -40,6 +40,8 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -66,10 +68,10 @@ djvCineonPlugin::Options::Options() :
 const QStringList & djvCineonPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Input Color Profile" <<
-        "Input Film Print" <<
-        "Output Color Profile" <<
-        "Output Film Print";
+        qApp->translate("djvCineonPlugin", "Input Color Profile") <<
+        qApp->translate("djvCineonPlugin", "Input Film Print") <<
+        qApp->translate("djvCineonPlugin", "Output Color Profile") <<
+        qApp->translate("djvCineonPlugin", "Output Film Print");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -211,19 +213,23 @@ void djvCineonPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-cineon_input_color_profile" == arg)
+            if (
+                qApp->translate("djvCineonPlugin", "-cineon_input_color_profile") == arg)
             {
                 in >> _options.inputColorProfile;
             }
-            else if ("-cineon_input_film_print" == arg)
+            else if (
+                qApp->translate("djvCineonPlugin", "-cineon_input_film_print") == arg)
             {
                 in >> _options.inputFilmPrint;
             }
-            else if ("-cineon_output_color_profile" == arg)
+            else if (
+                qApp->translate("djvCineonPlugin", "-cineon_output_color_profile") == arg)
             {
                 in >> _options.outputColorProfile;
             }
-            else if ("-cineon_output_film_print" == arg)
+            else if (
+                qApp->translate("djvCineonPlugin", "-cineon_output_film_print") == arg)
             {
                 in >> _options.outputFilmPrint;
             }
@@ -243,7 +249,7 @@ void djvCineonPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvCineonPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvCineonPlugin",
 "\n"
 "Cineon Options\n"
 "\n"

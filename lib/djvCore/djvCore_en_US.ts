@@ -248,7 +248,7 @@ OpenGL Options
     </message>
 </context>
 <context>
-    <name>djvCglContextPrivate</name>
+    <name>djvCglContext</name>
     <message>
         <location filename="djvCglContextPrivate.cpp" line="215"/>
         <source>Cannot get pixel format: #%1</source>
@@ -444,7 +444,7 @@ OpenGL Options
     </message>
 </context>
 <context>
-    <name>djvGlxContextPrivate</name>
+    <name>djvGlxContext</name>
     <message>
         <location filename="djvGlxContextPrivate.cpp" line="303"/>
         <source>Cannot open X display</source>
@@ -916,12 +916,12 @@ OpenGL Options
 <context>
     <name>djvPluginFactory</name>
     <message>
-        <location filename="djvPlugin.cpp" line="399"/>
+        <location filename="djvPlugin.cpp" line="400"/>
         <source>Cannot open plugin &quot;%1&quot;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPlugin.cpp" line="400"/>
+        <location filename="djvPlugin.cpp" line="401"/>
         <source>Cannot load plugin &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1024,7 +1024,7 @@ OpenGL Options
     </message>
 </context>
 <context>
-    <name>djvWglContextPrivate</name>
+    <name>djvWglContext</name>
     <message>
         <location filename="djvWglContextPrivate.cpp" line="300"/>
         <source>Cannot get module handle: #%1</source>

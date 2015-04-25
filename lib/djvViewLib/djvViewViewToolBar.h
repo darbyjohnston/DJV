@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractToolBar.h>
 
+struct djvViewViewToolBarPrivate;
+
 class djvFloatEdit;
 
 //! \addtogroup djvViewView
@@ -70,7 +72,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewViewToolBar);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewViewToolBarPrivate * _p;
 };
 
 //@} // djvViewView

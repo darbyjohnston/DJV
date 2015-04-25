@@ -40,6 +40,8 @@
 
 #include <QWidget>
 
+struct djvPrefsGroupBoxPrivate;
+
 class QFormLayout;
 
 //! \addtogroup djvGuiWidget
@@ -83,7 +85,8 @@ public:
 private:
     
     DJV_PRIVATE_COPY(djvPrefsGroupBox);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvPrefsGroupBoxPrivate * _p;
 };
 
 //@} // djvGuiWidget

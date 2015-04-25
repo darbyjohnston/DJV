@@ -36,12 +36,12 @@
 #include <djvViewMainWindow.h>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractGroup::P
+// djvViewAbstractGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractGroup::P
+struct djvViewAbstractGroupPrivate
 {
-    P(djvViewMainWindow * mainWindow) :
+    djvViewAbstractGroupPrivate(djvViewMainWindow * mainWindow) :
         mainWindow(mainWindow)
     {}
 
@@ -54,7 +54,7 @@ struct djvViewAbstractGroup::P
 
 djvViewAbstractGroup::djvViewAbstractGroup(djvViewMainWindow * mainWindow) :
     QObject(mainWindow),
-    _p(new P(mainWindow))
+    _p(new djvViewAbstractGroupPrivate(mainWindow))
 {}
 
 djvViewAbstractGroup::~djvViewAbstractGroup()

@@ -38,6 +38,8 @@
 
 #include <QMetaType>
 
+struct djvImageTagsPrivate;
+
 //! \addtogroup djvCoreImage
 //@{
 
@@ -126,7 +128,7 @@ public:
 
 private:
     
-    DJV_PRIVATE_IMPLEMENTATION();
+    djvImageTagsPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

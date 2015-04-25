@@ -42,22 +42,24 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
+struct djvWglContextPrivate;
+
 //! \addtogroup djvCoreOpenGL
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvWglContextPrivate
+//! \class djvWglContext
 //!
 //! This class provides a Microsoft Windows OpenGL context.
 //------------------------------------------------------------------------------
 
-class djvWglContextPrivate : public djvOpenGlContext
+class djvWglContext : public djvOpenGlContext
 {
 public:
 
     //! Destructor.
 
-    virtual ~djvWglContextPrivate();
+    virtual ~djvWglContext();
     
     //! This enumeration provides error codes.
     
@@ -89,12 +91,13 @@ protected:
 
     //! Constructor.
 
-    djvWglContextPrivate() throw (djvError);
+    djvWglContext() throw (djvError);
 
 private:
 
-    DJV_PRIVATE_COPY(djvWglContextPrivate);
-    DJV_PRIVATE_IMPLEMENTATION();
+    DJV_PRIVATE_COPY(djvWglContext);
+    
+    djvWglContextPrivate * _p;
 
     friend class djvOpenGlContextFactory;
 };

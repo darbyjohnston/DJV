@@ -41,17 +41,18 @@
 #include <djvListUtil.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvColorWidget::P
+// djvColorWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvColorWidget::P
+struct djvColorWidgetPrivate
 {
-    P() :
+    djvColorWidgetPrivate() :
         color       (djvPixel::RGB_U8),
         formatWidget(0),
         typeWidget  (0),
@@ -72,7 +73,7 @@ struct djvColorWidget::P
 
 djvColorWidget::djvColorWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvColorWidgetPrivate)
 {
     //DJV_DEBUG("djvColorWidget::djvColorWidget");
 
@@ -92,11 +93,11 @@ djvColorWidget::djvColorWidget(QWidget * parent) :
 
     _p->formatWidget = new QComboBox;
     _p->formatWidget->addItems(djvPixel::formatLabels());
-    _p->formatWidget->setToolTip(tr("Pixel format"));
+    _p->formatWidget->setToolTip(qApp->translate("djvColorWidget", "Pixel format"));
 
     _p->typeWidget = new QComboBox;
     _p->typeWidget->addItems(djvPixel::typeLabels());
-    _p->typeWidget->setToolTip(tr("Pixel type"));
+    _p->typeWidget->setToolTip(qApp->translate("djvColorWidget", "Pixel type"));
 
     // Layout the widgets.
 
@@ -273,16 +274,16 @@ void djvColorWidget::widgetUpdate()
 
     static const QString toolTip0[] =
     {
-        tr("Luminance channel"),
-        tr("Alpha channel")
+        qApp->translate("djvColorWidget", "Luminance channel"),
+        qApp->translate("djvColorWidget", "Alpha channel")
     };
 
     static const QString toolTip1[] =
     {
-        tr("Red channel"),
-        tr("Green channel"),
-        tr("Blue channel"),
-        tr("Alpha channel")
+        qApp->translate("djvColorWidget", "Red channel"),
+        qApp->translate("djvColorWidget", "Green channel"),
+        qApp->translate("djvColorWidget", "Blue channel"),
+        qApp->translate("djvColorWidget", "Alpha channel")
     };
 
     const QString * toolTip = 0;

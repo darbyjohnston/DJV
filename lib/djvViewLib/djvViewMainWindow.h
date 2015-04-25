@@ -40,7 +40,8 @@
 
 #include <QMainWindow>
 
-class djvViewImageView;
+class  djvViewImageView;
+struct djvViewMainWindowPrivate;
 
 class djvImageIoInfo;
 class djvOpenGlImageOptions;
@@ -161,7 +162,8 @@ private:
     djvOpenGlImageOptions imageOptions() const;
 
     DJV_PRIVATE_COPY(djvViewMainWindow);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewMainWindowPrivate * _p;
 };
 
 //@} // djvViewWindow

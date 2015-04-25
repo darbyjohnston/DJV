@@ -39,7 +39,8 @@
 
 #include <djvSequence.h>
 
-class djvViewPlaybackActions;
+class  djvViewPlaybackActions;
+struct djvViewPlaybackToolBarPrivate;
 
 //! \addtogroup djvViewPlayback
 //@{
@@ -195,7 +196,8 @@ private:
     void layoutUpdate();
 
     DJV_PRIVATE_COPY(djvViewPlaybackToolBar);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewPlaybackToolBarPrivate * _p;
 };
 
 //@} // djvViewPlayback

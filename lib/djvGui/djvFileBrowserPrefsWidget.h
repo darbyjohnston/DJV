@@ -38,6 +38,7 @@
 
 #include <djvUtil.h>
 
+struct djvFileBrowserPrefsWidgetPrivate;
 struct djvShortcut;
 
 class QListWidgetItem;
@@ -86,7 +87,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvFileBrowserPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFileBrowserPrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiDialog

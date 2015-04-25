@@ -43,6 +43,7 @@
 #include <djvImage.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QCheckBox>
 #include <QListWidget>
@@ -67,12 +68,12 @@ public:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewImagePrefsWidget::P
+// djvViewImagePrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewImagePrefsWidget::P
+struct djvViewImagePrefsWidgetPrivate
 {
-    P() :
+    djvViewImagePrefsWidgetPrivate() :
         frameStoreFileReloadWidget(0),
         mirrorHWidget             (0),
         mirrorVWidget             (0),
@@ -100,17 +101,20 @@ struct djvViewImagePrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
-    djvViewAbstractPrefsWidget(tr("Images")),
-    _p(new P)
+    djvViewAbstractPrefsWidget(
+        qApp->translate("djvViewImagePrefsWidget", "Images")),
+    _p(new djvViewImagePrefsWidgetPrivate)
 {
     // Create the widgets.
 
     _p->frameStoreFileReloadWidget = new QCheckBox(
-        tr("Automatically store the current frame when files are reloaded"));
+        qApp->translate("djvViewImagePrefsWidget", "Automatically store the current frame when files are reloaded"));
 
-    _p->mirrorHWidget = new QCheckBox(tr("Mirror horizontal"));
+    _p->mirrorHWidget = new QCheckBox(
+        qApp->translate("djvViewImagePrefsWidget", "Mirror horizontal"));
 
-    _p->mirrorVWidget = new QCheckBox(tr("Mirror vertical"));
+    _p->mirrorVWidget = new QCheckBox(
+        qApp->translate("djvViewImagePrefsWidget", "Mirror vertical"));
 
     _p->scaleWidget = new QComboBox;
     _p->scaleWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -120,7 +124,8 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     _p->rotateWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->rotateWidget->addItems(djvViewUtil::imageRotateLabels());
 
-    _p->colorProfileWidget = new QCheckBox(tr("Enable"));
+    _p->colorProfileWidget = new QCheckBox(
+        qApp->translate("djvViewImagePrefsWidget", "Enable"));
 
     _p->displayProfileWidget = new QComboBox;
     _p->displayProfileWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -129,25 +134,26 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
 
     djvToolButton * addDisplayProfileButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvAddIcon.png"));
-    addDisplayProfileButton->setToolTip(tr("Add a new display profile"));
+    addDisplayProfileButton->setToolTip(
+        qApp->translate("djvViewImagePrefsWidget", "Add a new display profile"));
 
     djvToolButton * removeDisplayProfileButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvRemoveIcon.png"));
     removeDisplayProfileButton->setAutoRepeat(true);
     removeDisplayProfileButton->setToolTip(
-        tr("Remove the selected display profile"));
+        qApp->translate("djvViewImagePrefsWidget", "Remove the selected display profile"));
 
     djvToolButton * moveDisplayProfileUpButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvUpIcon.png"));
     moveDisplayProfileUpButton->setAutoRepeat(true);
     moveDisplayProfileUpButton->setToolTip(
-        tr("Move the selected display profile up"));
+        qApp->translate("djvViewImagePrefsWidget", "Move the selected display profile up"));
 
     djvToolButton * moveDisplayProfileDownButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvDownIcon.png"));
     moveDisplayProfileDownButton->setAutoRepeat(true);
     moveDisplayProfileDownButton->setToolTip(
-        tr("Move the selected display profile down"));
+        qApp->translate("djvViewImagePrefsWidget", "Move the selected display profile down"));
 
     _p->channelWidget = new QComboBox;
     _p->channelWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -157,25 +163,33 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("General"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewImagePrefsWidget", "General"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->frameStoreFileReloadWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Transforms"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewImagePrefsWidget", "Transforms"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->mirrorHWidget);
     formLayout->addRow(_p->mirrorVWidget);
-    formLayout->addRow(tr("Scale:"), _p->scaleWidget);
-    formLayout->addRow(tr("Rotate:"), _p->rotateWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewImagePrefsWidget", "Scale:"),
+        _p->scaleWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewImagePrefsWidget", "Rotate:"),
+        _p->rotateWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Color Profile"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewImagePrefsWidget", "Color Profile"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->colorProfileWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Display Profile"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewImagePrefsWidget", "Display Profile"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->displayProfileWidget);
     formLayout->addRow(_p->displayProfileListWidget);
@@ -188,7 +202,8 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     formLayout->addRow(hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Channels"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvViewImagePrefsWidget", "Channels"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->channelWidget);
     layout->addWidget(prefsGroupBox);
@@ -354,7 +369,8 @@ void djvViewImagePrefsWidget::displayProfileCallback(QListWidgetItem * item)
 
 void djvViewImagePrefsWidget::addDisplayProfileCallback()
 {
-    djvInputDialog dialog(tr("Add display profile:"));
+    djvInputDialog dialog(
+        qApp->translate("djvViewImagePrefsWidget", "Add display profile:"));
 
     if (QDialog::Accepted == dialog.exec())
     {
@@ -482,7 +498,7 @@ void djvViewImagePrefsWidget::widgetUpdate()
 
     _p->displayProfileWidget->clear();
     _p->displayProfileWidget->addItems(QStringList() <<
-        tr("None") <<
+        qApp->translate("djvViewImagePrefsWidget", "None") <<
         djvViewImagePrefs::global()->displayProfileNames());
     _p->displayProfileWidget->setCurrentIndex(
         djvViewImagePrefs::global()->displayProfileIndex() + 1);

@@ -38,6 +38,8 @@
 
 #include <djvVector.h>
 
+struct djvViewWindowPrefsWidgetPrivate;
+
 //! \addtogroup djvViewWindow
 //@{
 
@@ -77,7 +79,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewWindowPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewWindowPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewWindow

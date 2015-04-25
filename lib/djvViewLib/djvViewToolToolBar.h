@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractToolBar.h>
 
+struct djvViewToolToolBarPrivate;
+
 //! \addtogroup djvViewTool
 //@{
 
@@ -64,7 +66,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewToolToolBar);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewToolToolBarPrivate * _p;
 };
 
 //@} // djvViewTool

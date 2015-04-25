@@ -38,6 +38,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -63,8 +64,8 @@ djvLutWidget::djvLutWidget(djvLutPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Pixel Type",
-        "Set the pixel type used when loading LUTs.");
+        qApp->translate("djvLutWidget", "Pixel Type"),
+        qApp->translate("djvLutWidget", "Set the pixel type used when loading LUTs."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_typeWidget);
     layout->addWidget(prefsGroupBox);

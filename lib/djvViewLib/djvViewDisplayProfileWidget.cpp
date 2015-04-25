@@ -46,18 +46,19 @@
 #include <djvImage.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewDisplayProfileWidget::P
+// djvViewDisplayProfileWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewDisplayProfileWidget::P
+struct djvViewDisplayProfileWidgetPrivate
 {
-    P(const djvViewImageView * viewWidget) :
+    djvViewDisplayProfileWidgetPrivate(const djvViewImageView * viewWidget) :
         viewWidget      (viewWidget),
         lutWidget       (0),
         brightnessWidget(0),
@@ -87,17 +88,19 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     const djvViewImageView * viewWidget,
     QWidget *                parent) :
     QWidget(parent),
-    _p(new P(viewWidget))
+    _p(new djvViewDisplayProfileWidgetPrivate(viewWidget))
 {
     // Create the LUT widgets.
 
-    QGroupBox * lutGroup = new QGroupBox(tr("Lookup Table"));
+    QGroupBox * lutGroup = new QGroupBox(
+        qApp->translate("djvViewDisplayProfileWidget", "Lookup Table"));
 
     _p->lutWidget = new djvFileEdit;
 
     // Create the color widgets.
 
-    QGroupBox * colorGroup = new QGroupBox(tr("Color"));
+    QGroupBox * colorGroup = new QGroupBox(
+        qApp->translate("djvViewDisplayProfileWidget", "Color"));
 
     _p->brightnessWidget = new djvFloatEditSlider;
     _p->brightnessWidget->setDefaultValue(_p->displayProfile.color.brightness);
@@ -116,7 +119,8 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
 
     // Create the levels widgets.
 
-    QGroupBox * levelsGroup = new QGroupBox(tr("Levels"));
+    QGroupBox * levelsGroup = new QGroupBox(
+        qApp->translate("djvViewDisplayProfileWidget", "Levels"));
 
     _p->levelsInWidget[0] = new djvFloatEditSlider;
     _p->levelsInWidget[0]->setDefaultValue(_p->displayProfile.levels.inLow);
@@ -152,11 +156,13 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
 
     djvToolButton * addButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvAddIcon.png"));
-    addButton->setToolTip(tr("Add this display profile to the favorites list"));
+    addButton->setToolTip(
+        qApp->translate("djvViewDisplayProfileWidget", "Add this display profile to the favorites list"));
 
     djvToolButton * resetButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvRemoveIcon.png"));
-    resetButton->setToolTip(tr("Reset the display profile"));
+    resetButton->setToolTip(
+        qApp->translate("djvViewDisplayProfileWidget", "Reset the display profile"));
 
     // Layout the widgets.
 
@@ -168,22 +174,36 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
 
     layout->addWidget(colorGroup);
     formLayout = new QFormLayout(colorGroup);
-    formLayout->addRow(tr("Brightness:"), _p->brightnessWidget);
-    formLayout->addRow(tr("Contrast:"), _p->contrastWidget);
-    formLayout->addRow(tr("Saturation:"), _p->saturationWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Brightness:"),
+        _p->brightnessWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Contrast:"),
+        _p->contrastWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Saturation:"),
+        _p->saturationWidget);
     
     layout->addWidget(levelsGroup);
     formLayout = new QFormLayout(levelsGroup);
     QVBoxLayout * vLayout = new QVBoxLayout;
     vLayout->addWidget(_p->levelsInWidget[0]);
     vLayout->addWidget(_p->levelsInWidget[1]);
-    formLayout->addRow(tr("Input:"), vLayout);
-    formLayout->addRow(tr("Gamma:"), _p->gammaWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Input:"),
+        vLayout);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Gamma:"),
+        _p->gammaWidget);
     vLayout = new QVBoxLayout;
     vLayout->addWidget(_p->levelsOutWidget[0]);
     vLayout->addWidget(_p->levelsOutWidget[1]);
-    formLayout->addRow(tr("Output:"), vLayout);
-    formLayout->addRow(tr("Soft clip:"), _p->softClipWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Output:"),
+        vLayout);
+    formLayout->addRow(
+        qApp->translate("djvViewDisplayProfileWidget", "Soft clip:"),
+        _p->softClipWidget);
 
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addStretch();
@@ -366,7 +386,8 @@ void djvViewDisplayProfileWidget::softClipCallback(double in)
 
 void djvViewDisplayProfileWidget::addCallback()
 {
-    djvInputDialog dialog(tr("Name this display profile:"));
+    djvInputDialog dialog(
+        qApp->translate("djvViewDisplayProfileWidget", "Name this display profile:"));
 
     if (QDialog::Accepted == dialog.exec())
     {

@@ -42,22 +42,24 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
+struct djvCglContextPrivate;
+
 //! \addtogroup djvCoreOpenGL
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvCglContextPrivate
+//! \class djvCglContext
 //!
 //! This class provides an Apple OS X OpenGL context.
 //------------------------------------------------------------------------------
 
-class djvCglContextPrivate : public djvOpenGlContext
+class djvCglContext : public djvOpenGlContext
 {
 public:
 
     //! Destructor.
 
-    virtual ~djvCglContextPrivate();
+    virtual ~djvCglContext();
     
     //! This enumeration provides error codes.
     
@@ -85,12 +87,13 @@ protected:
 
     //! Constructor.
 
-    djvCglContextPrivate() throw (djvError);
+    djvCglContext() throw (djvError);
 
 private:
 
-    DJV_PRIVATE_COPY(djvCglContextPrivate);
-    DJV_PRIVATE_IMPLEMENTATION();
+    DJV_PRIVATE_COPY(djvCglContext);
+    
+    djvCglContextPrivate * _p;
 
     friend class djvOpenGlContextFactory;
 };

@@ -40,6 +40,8 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -67,7 +69,7 @@ const QString djvJpegPlugin::staticName = "JPEG";
 const QStringList & djvJpegPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Quality";
+        qApp->translate("djvJpegPlugin", "Quality");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -150,7 +152,7 @@ void djvJpegPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-jpeg_quality" == arg)
+            if (qApp->translate("djvJpegPlugin", "-jpeg_quality") == arg)
             {
                 in >> _options.quality;
             }
@@ -170,7 +172,7 @@ void djvJpegPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvJpegPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvJpegPlugin",
 "\n"
 "JPEG Options\n"
 "\n"

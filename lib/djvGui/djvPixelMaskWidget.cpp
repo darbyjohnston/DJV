@@ -37,16 +37,17 @@
 #include <djvSignalBlocker.h>
 #include <djvToolButton.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QMenu>
 
 //------------------------------------------------------------------------------
-// djvPixelMaskWidget::P
+// djvPixelMaskWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvPixelMaskWidget::P
+struct djvPixelMaskWidgetPrivate
 {
-    P() :
+    djvPixelMaskWidgetPrivate() :
         button(0)
     {}
     
@@ -61,12 +62,13 @@ struct djvPixelMaskWidget::P
 
 djvPixelMaskWidget::djvPixelMaskWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvPixelMaskWidgetPrivate)
 {
     _p->button = new djvToolButton(
         djvIconLibrary::global()->icon("djvPixelMaskIcon.png"));
     _p->button->setCheckable(true);
-    _p->button->setToolTip(tr("Set the pixel mask"));
+    _p->button->setToolTip(
+        qApp->translate("djvPixelMaskWidget", "Set the pixel mask"));
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -109,10 +111,10 @@ void djvPixelMaskWidget::buttonCallback()
     
     static const QString text [] =
     {
-        tr("Solo red"),
-        tr("Solo green"),
-        tr("Solo blue"),
-        tr("Solo alpha")
+        qApp->translate("djvPixelMaskWidget", "Solo red"),
+        qApp->translate("djvPixelMaskWidget", "Solo green"),
+        qApp->translate("djvPixelMaskWidget", "Solo blue"),
+        qApp->translate("djvPixelMaskWidget", "Solo alpha")
     };
     
     int count = sizeof(text) / sizeof(text[0]);
@@ -131,10 +133,10 @@ void djvPixelMaskWidget::buttonCallback()
 
     static const QString text2 [] =
     {
-        tr("Red"),
-        tr("Green"),
-        tr("Blue"),
-        tr("Alpha")
+        qApp->translate("djvPixelMaskWidget", "Red"),
+        qApp->translate("djvPixelMaskWidget", "Green"),
+        qApp->translate("djvPixelMaskWidget", "Blue"),
+        qApp->translate("djvPixelMaskWidget", "Alpha")
     };
     
     count = sizeof(text) / sizeof(text[0]);
@@ -153,7 +155,8 @@ void djvPixelMaskWidget::buttonCallback()
     
     menu.addSeparator();
     
-    QAction * action = menu.addAction(tr("Reset"));
+    QAction * action = menu.addAction(
+        qApp->translate("djvPixelMaskWidget", "Reset"));
     
     connect(action, SIGNAL(triggered()), SLOT(resetCallback()));
     

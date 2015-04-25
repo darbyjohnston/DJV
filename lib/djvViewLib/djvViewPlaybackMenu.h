@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractMenu.h>
 
+struct djvViewPlaybackMenuPrivate;
+
 //! \addtogroup djvViewPlayback
 //@{
 
@@ -64,7 +66,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewPlaybackMenu);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewPlaybackMenuPrivate * _p;
 };
 
 //@} // djvViewPlayback

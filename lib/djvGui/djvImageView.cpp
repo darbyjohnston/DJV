@@ -43,12 +43,12 @@
 #include <djvPixelDataUtil.h>
 
 //------------------------------------------------------------------------------
-// djvImageView::P
+// djvImageViewPrivate
 //------------------------------------------------------------------------------
 
-struct djvImageView::P
+struct djvImageViewPrivate
 {
-    P() :
+    djvImageViewPrivate() :
         data    (0),
         viewZoom(1.0),
         viewFit (false)
@@ -71,7 +71,7 @@ djvImageView::djvImageView(
     const QGLWidget * shareWidget,
     Qt::WindowFlags   flags) :
     djvOpenGlWidget(parent, shareWidget, flags),
-    _p(new P)
+    _p(new djvImageViewPrivate)
 {}
 
 djvImageView::djvImageView(
@@ -80,7 +80,7 @@ djvImageView::djvImageView(
     const QGLWidget * shareWidget,
     Qt::WindowFlags   flags) :
     djvOpenGlWidget(context, parent, shareWidget, flags),
-    _p(new P)
+    _p(new djvImageViewPrivate)
 {}
 
 djvImageView::~djvImageView()

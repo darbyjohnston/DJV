@@ -40,6 +40,7 @@
 #include <djvErrorUtil.h>
 #include <djvFileInfoUtil.h>
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QMap>
 #include <QPair>
@@ -68,7 +69,7 @@ djvPlugin::~djvPlugin()
 {}
 
 //------------------------------------------------------------------------------
-// djvPluginFactory::P
+// djvPluginFactoryPrivate
 //------------------------------------------------------------------------------
 
 namespace
@@ -159,7 +160,7 @@ private:
 
 } // namespace
 
-struct djvPluginFactory::P
+struct djvPluginFactoryPrivate
 {
     typedef QPair<djvPlugin *, Handle *> Pair;
     
@@ -179,7 +180,7 @@ djvPluginFactory::djvPluginFactory(
     const QString &     pluginSuffix,
     QObject *           parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvPluginFactoryPrivate)
 {
     //DJV_DEBUG("djvPluginFactory::djvPluginFactory");
     //DJV_DEBUG_PRINT("search path = " << searchPath);
@@ -342,7 +343,7 @@ djvPluginFactory::djvPluginFactory(
         djvPlugin * p = plugin.take();
         Handle    * h = handle.take();
 
-        _p->plugins[p->pluginName()] = P::Pair(p, h);
+        _p->plugins[p->pluginName()] = djvPluginFactoryPrivate::Pair(p, h);
     }
     
     DJV_LOG("djvPluginFactory",
@@ -353,7 +354,7 @@ djvPluginFactory::~djvPluginFactory()
 {
     //DJV_DEBUG("djvPluginFactory::~djvPluginFactory");
 
-    Q_FOREACH(P::Pair pair, _p->plugins)
+    Q_FOREACH(djvPluginFactoryPrivate::Pair pair, _p->plugins)
     {
         pair.first->releasePlugin();
 
@@ -368,7 +369,7 @@ QList<djvPlugin *> djvPluginFactory::plugins() const
 {
     QList<djvPlugin *> list;
     
-    Q_FOREACH(P::Pair pair, _p->plugins)
+    Q_FOREACH(djvPluginFactoryPrivate::Pair pair, _p->plugins)
     {
         list += pair.first;
     }
@@ -396,8 +397,8 @@ QStringList djvPluginFactory::names() const
 const QStringList & djvPluginFactory::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Cannot open plugin \"%1\": %2") <<
-        tr("Cannot load plugin \"%1\"");
+        qApp->translate("djvPluginFactory", "Cannot open plugin \"%1\": %2") <<
+        qApp->translate("djvPluginFactory", "Cannot load plugin \"%1\"");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     

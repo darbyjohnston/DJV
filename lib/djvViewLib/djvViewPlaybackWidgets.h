@@ -38,6 +38,10 @@
 
 #include <QWidget>
 
+struct djvViewFrameButtonsPrivate;
+struct djvViewLoopWidgetPrivate;
+struct djvViewPlaybackButtonsPrivate;
+
 class QActionGroup;
 
 //! \addtogroup djvViewPlayback
@@ -76,7 +80,8 @@ Q_SIGNALS:
 private:
 
     DJV_PRIVATE_COPY(djvViewPlaybackButtons);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewPlaybackButtonsPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -106,7 +111,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewLoopWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewLoopWidgetPrivate * _p;
 };
 
 //------------------------------------------------------------------------------
@@ -150,7 +156,8 @@ Q_SIGNALS:
 private:
 
     DJV_PRIVATE_COPY(djvViewFrameButtons);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFrameButtonsPrivate * _p;
 };
 
 //@} // djvViewPlayback

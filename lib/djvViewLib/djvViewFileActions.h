@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractActions.h>
 
+struct djvViewFileActionsPrivate;
+
 //! \addtogroup djvViewFile
 //@{
 
@@ -119,7 +121,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewFileActions);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFileActionsPrivate * _p;
 };
 
 //@} // djvViewFile

@@ -52,12 +52,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvMiscPrefsWidget::P
+// djvMiscPrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvMiscPrefsWidget::P
+struct djvMiscPrefsWidgetPrivate
 {
-    P() :
+    djvMiscPrefsWidgetPrivate() :
         timeUnitsWidget        (0),
         speedWidget            (0),
         sequenceMaxFramesWidget(0),
@@ -75,8 +75,9 @@ struct djvMiscPrefsWidget::P
 //------------------------------------------------------------------------------
 
 djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget(tr("Miscellaneous"), parent),
-    _p(new P)
+    djvAbstractPrefsWidget(
+        qApp->translate("djvMiscPrefsWidget", "Miscellaneous"), parent),
+    _p(new djvMiscPrefsWidgetPrivate)
 {
     // Create the time widgets.
 
@@ -96,29 +97,38 @@ djvMiscPrefsWidget::djvMiscPrefsWidget(QWidget * parent) :
 
     // Create the help widgets.
 
-    _p->toolTipsWidget = new QCheckBox(tr("Enable tool tips"));
+    _p->toolTipsWidget = new QCheckBox(
+        qApp->translate("djvMiscPrefsWidget", "Enable tool tips"));
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(tr("Time"));
+    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvMiscPrefsWidget", "Time"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Time units:"), _p->timeUnitsWidget);
+    formLayout->addRow(
+        qApp->translate("djvMiscPrefsWidget", "Time units:"),
+        _p->timeUnitsWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->speedWidget);
-    hLayout->addWidget(new QLabel(tr("(frames per second)")));
-    formLayout->addRow(tr("Default speed:"), hLayout);
+    hLayout->addWidget(
+        new QLabel(qApp->translate("djvMiscPrefsWidget", "(frames per second)")));
+    formLayout->addRow(
+        qApp->translate("djvMiscPrefsWidget", "Default speed:"), hLayout);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("File Sequences"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvMiscPrefsWidget", "File Sequences"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(tr("Maximum number of frames:"),
+    formLayout->addRow(
+        qApp->translate("djvMiscPrefsWidget", "Maximum number of frames:"),
         _p->sequenceMaxFramesWidget);
     layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(tr("Help"));
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvMiscPrefsWidget", "Help"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->toolTipsWidget);
     layout->addWidget(prefsGroupBox);

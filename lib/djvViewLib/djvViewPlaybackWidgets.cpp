@@ -41,16 +41,17 @@
 #include <djvToolButton.h>
 
 #include <QActionGroup>
+#include <QApplication>
 #include <QButtonGroup>
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackButtons::P
+// djvViewPlaybackButtonsPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackButtons::P
+struct djvViewPlaybackButtonsPrivate
 {
-    P() :
+    djvViewPlaybackButtonsPrivate() :
         buttonGroup(0),
         shuttle(0)
     {}
@@ -67,7 +68,7 @@ djvViewPlaybackButtons::djvViewPlaybackButtons(
     QActionGroup * actionGroup,
     QWidget *      parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewPlaybackButtonsPrivate)
 {
     _p->buttonGroup = new QButtonGroup(this);
     _p->buttonGroup->setExclusive(true);
@@ -85,7 +86,7 @@ djvViewPlaybackButtons::djvViewPlaybackButtons(
 
     _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault());
     _p->shuttle->setToolTip(
-        tr("Playback shuttle\n\nClick and drag to start playback; the speed is "
+        qApp->translate("djvViewPlaybackButtons", "Playback shuttle\n\nClick and drag to start playback; the speed is "
         "determined by how far you drag."));
 
     QHBoxLayout * layout = new QHBoxLayout(this);
@@ -111,12 +112,12 @@ djvViewPlaybackButtons::~djvViewPlaybackButtons()
 }
 
 //------------------------------------------------------------------------------
-// djvViewLoopWidget::P
+// djvViewLoopWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewLoopWidget::P
+struct djvViewLoopWidgetPrivate
 {
-    P() :
+    djvViewLoopWidgetPrivate() :
         loop  (djvViewUtil::LOOP_REPEAT),
         button(0)
     {}
@@ -133,7 +134,7 @@ djvViewLoopWidget::djvViewLoopWidget(
     QActionGroup * actionGroup,
     QWidget *      parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewLoopWidgetPrivate)
 {
     _p->button = new djvChoiceButton(actionGroup);
 
@@ -168,19 +169,19 @@ void djvViewLoopWidget::widgetUpdate()
     // Update tool tips.
 
     _p->button->setToolTip(
-        tr("Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
+        qApp->translate("djvViewPlaybackButtons", "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
         arg(djvStringUtil::label(_p->loop).join(", ")).
         arg(djvViewUtil::loopLabels().join(", ")).
         arg(shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value.toString()));
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameButtons::P
+// djvViewFrameButtonsPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFrameButtons::P
+struct djvViewFrameButtonsPrivate
 {
-    P() :
+    djvViewFrameButtonsPrivate() :
         buttonGroup(0),
         shuttle(0)
     {}
@@ -197,7 +198,7 @@ djvViewFrameButtons::djvViewFrameButtons(
     QActionGroup * actionGroup,
     QWidget *      parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvViewFrameButtonsPrivate)
 {
     _p->buttonGroup = new QButtonGroup(this);
     _p->buttonGroup->setExclusive(false);
@@ -216,7 +217,7 @@ djvViewFrameButtons::djvViewFrameButtons(
 
     _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault());
     _p->shuttle->setToolTip(
-        tr("Frame shuttle\n\nClick and drag to change the current frame."));
+        qApp->translate("djvViewPlaybackButtons", "Frame shuttle\n\nClick and drag to change the current frame."));
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);

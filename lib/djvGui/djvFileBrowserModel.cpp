@@ -50,30 +50,30 @@
 #include <QMimeData>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserModel::P
+// djvFileBrowserModelPrivate
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserModel::P
+struct djvFileBrowserModelPrivate
 {
-    P() :
+    djvFileBrowserModelPrivate() :
         sequence      (djvSequence::COMPRESS_RANGE),
         showHidden    (false),
-        sort          (NAME),
+        sort          (djvFileBrowserModel::NAME),
         reverseSort   (false),
         sortDirsFirst (true),
-        thumbnails    (THUMBNAILS_HIGH),
-        thumbnailsSize(THUMBNAILS_MEDIUM)
+        thumbnails    (djvFileBrowserModel::THUMBNAILS_HIGH),
+        thumbnailsSize(djvFileBrowserModel::THUMBNAILS_MEDIUM)
     {}
     
-    QString               path;
-    djvSequence::COMPRESS sequence;
-    QString               filterText;
-    bool                  showHidden;
-    COLUMNS               sort;
-    bool                  reverseSort;
-    bool                  sortDirsFirst;
-    THUMBNAILS            thumbnails;
-    THUMBNAILS_SIZE       thumbnailsSize;
+    QString                              path;
+    djvSequence::COMPRESS                sequence;
+    QString                              filterText;
+    bool                                 showHidden;
+    djvFileBrowserModel::COLUMNS         sort;
+    bool                                 reverseSort;
+    bool                                 sortDirsFirst;
+    djvFileBrowserModel::THUMBNAILS      thumbnails;
+    djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize;
     
     djvFileInfoList list;
     djvFileInfoList listTmp;
@@ -88,13 +88,13 @@ struct djvFileBrowserModel::P
 const QStringList & djvFileBrowserModel::columnsLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Name") <<
-        tr("Size") <<
+        qApp->translate("djvFileBrowserModel", "Name") <<
+        qApp->translate("djvFileBrowserModel", "Size") <<
 #if ! defined(DJV_WINDOWS)
-        tr("User") <<
+        qApp->translate("djvFileBrowserModel", "User") <<
 #endif
-        tr("Permissions") <<
-        tr("Time");
+        qApp->translate("djvFileBrowserModel", "Permissions") <<
+        qApp->translate("djvFileBrowserModel", "Time");
 
     DJV_ASSERT(data.count() == COLUMNS_COUNT);
 
@@ -103,7 +103,7 @@ const QStringList & djvFileBrowserModel::columnsLabels()
 
 djvFileBrowserModel::djvFileBrowserModel(QObject * parent) :
     QAbstractItemModel(parent),
-    _p(new P)
+    _p(new djvFileBrowserModelPrivate)
 {
     //DJV_DEBUG("djvFileBrowserModel::djvFileBrowserModel");
     
@@ -183,9 +183,9 @@ bool djvFileBrowserModel::hasSortDirsFirst() const
 const QStringList & djvFileBrowserModel::thumbnailsLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Off") <<
-        tr("Low Quality") <<
-        tr("High Quality");
+        qApp->translate("djvFileBrowserModel", "Off") <<
+        qApp->translate("djvFileBrowserModel", "Low Quality") <<
+        qApp->translate("djvFileBrowserModel", "High Quality");
 
     DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
 
@@ -200,9 +200,9 @@ djvFileBrowserModel::THUMBNAILS djvFileBrowserModel::thumbnails() const
 const QStringList & djvFileBrowserModel::thumbnailsSizeLabels()
 {
     static const QStringList data = QStringList() <<
-        tr("Small") <<
-        tr("Medium") <<
-        tr("Large");
+        qApp->translate("djvFileBrowserModel", "Small") <<
+        qApp->translate("djvFileBrowserModel", "Medium") <<
+        qApp->translate("djvFileBrowserModel", "Large");
 
     DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
 

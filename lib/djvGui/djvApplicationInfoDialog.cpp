@@ -43,12 +43,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvApplicationInfoDialog::P
+// djvApplicationInfoDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvApplicationInfoDialog::P
+struct djvApplicationInfoDialogPrivate
 {
-    P() :
+    djvApplicationInfoDialogPrivate() :
         widget   (0),
         buttonBox(0)
     {}
@@ -62,7 +62,7 @@ struct djvApplicationInfoDialog::P
 //------------------------------------------------------------------------------
 
 djvApplicationInfoDialog::djvApplicationInfoDialog() :
-    _p(new P)
+    _p(new djvApplicationInfoDialogPrivate)
 {
     //DJV_DEBUG("djvApplicationInfoDialog::djvApplicationInfoDialog");
 
@@ -71,7 +71,8 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     
-    QPushButton * copyButton = new QPushButton(tr("Copy"));
+    QPushButton * copyButton = new QPushButton(
+        qApp->translate("djvApplicationInfoDialog", "Copy"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -84,7 +85,8 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
 
     // Initialize.
     
-    setWindowTitle(tr("Information Dialog"));
+    setWindowTitle(
+        qApp->translate("djvApplicationInfoDialog", "Information Dialog"));
     
     resize(500, 400);
     

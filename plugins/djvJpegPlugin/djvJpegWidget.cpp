@@ -39,6 +39,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
@@ -63,8 +64,8 @@ djvJpegWidget::djvJpegWidget(djvJpegPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Quality",
-        "Set the quality used when saving JPEG images.");
+        qApp->translate("djvJpegWidget", "Quality"),
+        qApp->translate("djvJpegWidget", "Set the quality used when saving JPEG images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_qualityWidget);
     layout->addWidget(prefsGroupBox);

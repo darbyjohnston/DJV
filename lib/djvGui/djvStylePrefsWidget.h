@@ -38,6 +38,8 @@
 
 #include <djvUtil.h>
 
+struct djvStylePrefsWidgetPrivate;
+
 class djvColor;
 
 //! \addtogroup djvGuiMisc
@@ -84,7 +86,8 @@ private:
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvStylePrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvStylePrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiMisc

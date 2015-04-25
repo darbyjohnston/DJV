@@ -39,12 +39,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvPixelWidget::P
+// djvPixelWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvPixelWidget::P
+struct djvPixelWidgetPrivate
 {
-    P() :
+    djvPixelWidgetPrivate() :
         pixel   (static_cast<djvPixel::PIXEL>(0)),
         comboBox(0)
     {}
@@ -59,7 +59,7 @@ struct djvPixelWidget::P
 
 djvPixelWidget::djvPixelWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvPixelWidgetPrivate)
 {
     _p->comboBox = new QComboBox;
     _p->comboBox->addItems(djvPixel::pixelLabels());

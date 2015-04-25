@@ -41,6 +41,8 @@
 
 #include <QDialog>
 
+struct djvColorDialogPrivate;
+
 //! \addtogroup djvGuiDialog
 //@{
 
@@ -97,7 +99,8 @@ private:
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvColorDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvColorDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

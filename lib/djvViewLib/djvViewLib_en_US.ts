@@ -9,57 +9,57 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="304"/>
+        <location filename="djvViewApplication.cpp" line="305"/>
         <source>-seq</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="304"/>
+        <location filename="djvViewApplication.cpp" line="306"/>
         <source>-q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="311"/>
+        <location filename="djvViewApplication.cpp" line="314"/>
         <source>-file_seq_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="317"/>
+        <location filename="djvViewApplication.cpp" line="321"/>
         <source>-file_layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="323"/>
+        <location filename="djvViewApplication.cpp" line="328"/>
         <source>-file_proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="330"/>
+        <location filename="djvViewApplication.cpp" line="336"/>
         <source>-file_cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="339"/>
+        <location filename="djvViewApplication.cpp" line="346"/>
         <source>-window_full_screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="346"/>
+        <location filename="djvViewApplication.cpp" line="354"/>
         <source>-playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="353"/>
+        <location filename="djvViewApplication.cpp" line="362"/>
         <source>-playback_frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="359"/>
+        <location filename="djvViewApplication.cpp" line="369"/>
         <source>-playback_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="382"/>
+        <location filename="djvViewApplication.cpp" line="392"/>
         <source>djv_view
 
     The djv_view application provides real-time image sequence and movie playback. It is intended as a professional tool for reviewing computer animation, film, and video footage.
@@ -106,27 +106,27 @@ Playback Options
 <context>
     <name>djvViewColorPickerTool</name>
     <message>
-        <location filename="djvViewColorPickerTool.cpp" line="122"/>
+        <location filename="djvViewColorPickerTool.cpp" line="123"/>
         <source>Color picker sample size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewColorPickerTool.cpp" line="127"/>
+        <location filename="djvViewColorPickerTool.cpp" line="129"/>
         <source>Set whether the color profile is enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewColorPickerTool.cpp" line="132"/>
+        <location filename="djvViewColorPickerTool.cpp" line="135"/>
         <source>Set whether the display profile is enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewColorPickerTool.cpp" line="137"/>
+        <location filename="djvViewColorPickerTool.cpp" line="141"/>
         <source>Lock the pixel format and type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewColorPickerTool.cpp" line="178"/>
+        <location filename="djvViewColorPickerTool.cpp" line="182"/>
         <source>Color Picker</source>
         <translation type="unfinished"></translation>
     </message>
@@ -134,67 +134,67 @@ Playback Options
 <context>
     <name>djvViewDisplayProfileWidget</name>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="94"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="96"/>
         <source>Lookup Table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="100"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="103"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="119"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="123"/>
         <source>Levels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="155"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="160"/>
         <source>Add this display profile to the favorites list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="159"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="165"/>
         <source>Reset the display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="171"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="178"/>
         <source>Brightness:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="172"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="181"/>
         <source>Contrast:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="173"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="184"/>
         <source>Saturation:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="180"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="193"/>
         <source>Input:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="181"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="196"/>
         <source>Gamma:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="185"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="202"/>
         <source>Output:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="186"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="205"/>
         <source>Soft clip:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewDisplayProfileWidget.cpp" line="369"/>
+        <location filename="djvViewDisplayProfileWidget.cpp" line="390"/>
         <source>Name this display profile:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -202,108 +202,108 @@ Playback Options
 <context>
     <name>djvViewFileActions</name>
     <message>
-        <location filename="djvViewFileActions.cpp" line="78"/>
+        <location filename="djvViewFileActions.cpp" line="79"/>
         <source>&amp;Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="82"/>
+        <location filename="djvViewFileActions.cpp" line="83"/>
         <source>Re&amp;load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="86"/>
+        <location filename="djvViewFileActions.cpp" line="87"/>
         <source>Reload Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="88"/>
+        <location filename="djvViewFileActions.cpp" line="89"/>
         <source>Clos&amp;e</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="92"/>
+        <location filename="djvViewFileActions.cpp" line="93"/>
         <source>&amp;Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="94"/>
+        <location filename="djvViewFileActions.cpp" line="95"/>
         <source>Save &amp;Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="96"/>
+        <location filename="djvViewFileActions.cpp" line="97"/>
         <source>&amp;Auto Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="99"/>
+        <location filename="djvViewFileActions.cpp" line="100"/>
         <source>Layer Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="101"/>
+        <location filename="djvViewFileActions.cpp" line="102"/>
         <source>Layer Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="103"/>
+        <location filename="djvViewFileActions.cpp" line="104"/>
         <source>&amp;8-bit Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="106"/>
+        <location filename="djvViewFileActions.cpp" line="107"/>
         <source>&amp;Memory Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="109"/>
+        <location filename="djvViewFileActions.cpp" line="110"/>
         <source>Clear Memory Cac&amp;he</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="111"/>
+        <location filename="djvViewFileActions.cpp" line="112"/>
         <source>Messa&amp;ges</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="113"/>
+        <location filename="djvViewFileActions.cpp" line="114"/>
         <source>&amp;Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="115"/>
+        <location filename="djvViewFileActions.cpp" line="116"/>
         <source>Debugging Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="117"/>
+        <location filename="djvViewFileActions.cpp" line="118"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="191"/>
+        <location filename="djvViewFileActions.cpp" line="193"/>
         <source>Open a new file
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="197"/>
+        <location filename="djvViewFileActions.cpp" line="199"/>
         <source>Reload the current file
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="203"/>
+        <location filename="djvViewFileActions.cpp" line="205"/>
         <source>Reload the current frame
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="209"/>
+        <location filename="djvViewFileActions.cpp" line="211"/>
         <source>Close the current file
 
 Shortcut: %1</source>
@@ -313,23 +313,23 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFileGroup</name>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="628"/>
+        <location filename="djvViewFileGroup.cpp" line="629"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="736"/>
+        <location filename="djvViewFileGroup.cpp" line="738"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="749"/>
-        <location filename="djvViewFileGroup.cpp" line="775"/>
+        <location filename="djvViewFileGroup.cpp" line="751"/>
+        <location filename="djvViewFileGroup.cpp" line="778"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="766"/>
+        <location filename="djvViewFileGroup.cpp" line="769"/>
         <source>Save Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -337,22 +337,22 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFileMenu</name>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="67"/>
+        <location filename="djvViewFileMenu.cpp" line="69"/>
         <source>&amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="83"/>
+        <location filename="djvViewFileMenu.cpp" line="85"/>
         <source>La&amp;yer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="89"/>
+        <location filename="djvViewFileMenu.cpp" line="91"/>
         <source>Pro&amp;xy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="114"/>
+        <location filename="djvViewFileMenu.cpp" line="116"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -360,67 +360,67 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFilePrefsWidget</name>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="80"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="81"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="86"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="87"/>
         <source>Automatically detect sequences when opening files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="96"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="98"/>
         <source>Enable 8-bit conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="100"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="103"/>
         <source>Enable the memory cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="105"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="108"/>
         <source>Display cached frames in timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="111"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="115"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="117"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="121"/>
         <source>Proxy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="118"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="122"/>
         <source>Proxy scaling reduces the resolution when loading files to allow more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="127"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="132"/>
         <source>Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="128"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="133"/>
         <source>This option converts images to 8-bits when loading files to allow more images to be stored in the memory cache at the expense of image quality.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="136"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="142"/>
         <source>Memory Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="137"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="143"/>
         <source>The memory cache allows the application to store images in memory which can improve playback performance. When the memory cache is disabled the images are streamed directly from disk.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="142"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="150"/>
         <source>Cache size (gigabytes):</source>
         <translation type="unfinished"></translation>
     </message>
@@ -434,29 +434,19 @@ Shortcut: %1</source>
     </message>
 </context>
 <context>
-    <name>djvViewFrameButtons</name>
-    <message>
-        <location filename="djvViewPlaybackWidgets.cpp" line="219"/>
-        <source>Frame shuttle
-
-Click and drag to change the current frame.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>djvViewHelpActions</name>
     <message>
-        <location filename="djvViewHelpActions.cpp" line="60"/>
+        <location filename="djvViewHelpActions.cpp" line="61"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHelpActions.cpp" line="62"/>
+        <location filename="djvViewHelpActions.cpp" line="63"/>
         <source>&amp;Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHelpActions.cpp" line="64"/>
+        <location filename="djvViewHelpActions.cpp" line="65"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -464,7 +454,7 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewHelpMenu</name>
     <message>
-        <location filename="djvViewHelpMenu.cpp" line="65"/>
+        <location filename="djvViewHelpMenu.cpp" line="67"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -472,32 +462,32 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewHistogramTool</name>
     <message>
-        <location filename="djvViewHistogramTool.cpp" line="295"/>
+        <location filename="djvViewHistogramTool.cpp" line="296"/>
         <source>The size of the histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHistogramTool.cpp" line="303"/>
+        <location filename="djvViewHistogramTool.cpp" line="304"/>
         <source>Set whether the color profile is enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHistogramTool.cpp" line="309"/>
+        <location filename="djvViewHistogramTool.cpp" line="310"/>
         <source>Set whether the display profile is enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHistogramTool.cpp" line="318"/>
+        <location filename="djvViewHistogramTool.cpp" line="320"/>
         <source>Min:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHistogramTool.cpp" line="319"/>
+        <location filename="djvViewHistogramTool.cpp" line="323"/>
         <source>Max:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewHistogramTool.cpp" line="343"/>
+        <location filename="djvViewHistogramTool.cpp" line="348"/>
         <source>Histogram</source>
         <translation type="unfinished"></translation>
     </message>
@@ -505,37 +495,37 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewImageActions</name>
     <message>
-        <location filename="djvViewImageActions.cpp" line="70"/>
+        <location filename="djvViewImageActions.cpp" line="72"/>
         <source>Show &amp;Frame Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageActions.cpp" line="73"/>
+        <location filename="djvViewImageActions.cpp" line="76"/>
         <source>&amp;Load Frame Store</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageActions.cpp" line="75"/>
+        <location filename="djvViewImageActions.cpp" line="79"/>
         <source>Mirror &amp;Horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageActions.cpp" line="78"/>
+        <location filename="djvViewImageActions.cpp" line="83"/>
         <source>Mirror &amp;Vertical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageActions.cpp" line="81"/>
+        <location filename="djvViewImageActions.cpp" line="87"/>
         <source>&amp;Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageActions.cpp" line="85"/>
+        <location filename="djvViewImageActions.cpp" line="92"/>
         <source>Show Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageActions.cpp" line="216"/>
+        <location filename="djvViewImageActions.cpp" line="223"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -543,7 +533,7 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewImageGroup</name>
     <message>
-        <location filename="djvViewImageGroup.cpp" line="137"/>
+        <location filename="djvViewImageGroup.cpp" line="139"/>
         <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -551,27 +541,27 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewImageMenu</name>
     <message>
-        <location filename="djvViewImageMenu.cpp" line="71"/>
+        <location filename="djvViewImageMenu.cpp" line="74"/>
         <source>&amp;Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageMenu.cpp" line="75"/>
+        <location filename="djvViewImageMenu.cpp" line="79"/>
         <source>&amp;Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageMenu.cpp" line="85"/>
+        <location filename="djvViewImageMenu.cpp" line="90"/>
         <source>&amp;Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageMenu.cpp" line="89"/>
+        <location filename="djvViewImageMenu.cpp" line="95"/>
         <source>C&amp;hannel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageMenu.cpp" line="95"/>
+        <location filename="djvViewImageMenu.cpp" line="101"/>
         <source>&amp;Image</source>
         <translation type="unfinished"></translation>
     </message>
@@ -579,92 +569,92 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewImagePrefsWidget</name>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="103"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="105"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="109"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="111"/>
         <source>Automatically store the current frame when files are reloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="111"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="114"/>
         <source>Mirror horizontal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="113"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="117"/>
         <source>Mirror vertical</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="123"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="128"/>
         <source>Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="132"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="138"/>
         <source>Add a new display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="138"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="144"/>
         <source>Remove the selected display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="144"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="150"/>
         <source>Move the selected display profile up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="150"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="156"/>
         <source>Move the selected display profile down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="160"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="167"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="165"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="173"/>
         <source>Transforms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="169"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="178"/>
         <source>Scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="170"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="181"/>
         <source>Rotate:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="173"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="186"/>
         <source>Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="178"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="192"/>
         <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="191"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="206"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="357"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="373"/>
         <source>Add display profile:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="485"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="501"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -677,37 +667,37 @@ Click and drag to change the current frame.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="666"/>
+        <location filename="djvViewImageView.cpp" line="667"/>
         <source>Layer = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="671"/>
+        <location filename="djvViewImageView.cpp" line="673"/>
         <source>Size  = %1x%2:%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="679"/>
+        <location filename="djvViewImageView.cpp" line="681"/>
         <source>Proxy = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="684"/>
+        <location filename="djvViewImageView.cpp" line="687"/>
         <source>Pixel = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="696"/>
+        <location filename="djvViewImageView.cpp" line="699"/>
         <source>%1 = %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="705"/>
+        <location filename="djvViewImageView.cpp" line="709"/>
         <source>Frame = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="711"/>
+        <location filename="djvViewImageView.cpp" line="715"/>
         <source>Speed = %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -715,52 +705,52 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewInfoTool</name>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="109"/>
+        <location filename="djvViewInfoTool.cpp" line="111"/>
         <source>File name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="110"/>
+        <location filename="djvViewInfoTool.cpp" line="114"/>
         <source>Layer:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="111"/>
+        <location filename="djvViewInfoTool.cpp" line="117"/>
         <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="112"/>
+        <location filename="djvViewInfoTool.cpp" line="120"/>
         <source>Pixel:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="113"/>
+        <location filename="djvViewInfoTool.cpp" line="123"/>
         <source>Time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="114"/>
+        <location filename="djvViewInfoTool.cpp" line="126"/>
         <source>Tags:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="124"/>
+        <location filename="djvViewInfoTool.cpp" line="137"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="163"/>
+        <location filename="djvViewInfoTool.cpp" line="177"/>
         <source>%1x%2:%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="171"/>
+        <location filename="djvViewInfoTool.cpp" line="186"/>
         <source>%1@%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInfoTool.cpp" line="183"/>
+        <location filename="djvViewInfoTool.cpp" line="198"/>
         <source>%1 = %2
 </source>
         <translation type="unfinished"></translation>
@@ -769,40 +759,28 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewInputPrefsWidget</name>
     <message>
-        <location filename="djvViewInputPrefsWidget.cpp" line="69"/>
+        <location filename="djvViewInputPrefsWidget.cpp" line="71"/>
         <source>Input</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInputPrefsWidget.cpp" line="92"/>
+        <location filename="djvViewInputPrefsWidget.cpp" line="95"/>
         <source>Mouse Wheel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInputPrefsWidget.cpp" line="94"/>
+        <location filename="djvViewInputPrefsWidget.cpp" line="98"/>
         <source>Wheel:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInputPrefsWidget.cpp" line="95"/>
+        <location filename="djvViewInputPrefsWidget.cpp" line="101"/>
         <source>Shift + wheel:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewInputPrefsWidget.cpp" line="96"/>
+        <location filename="djvViewInputPrefsWidget.cpp" line="104"/>
         <source>Ctrl + wheel:</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvViewLoopWidget</name>
-    <message>
-        <location filename="djvViewPlaybackWidgets.cpp" line="171"/>
-        <source>Loop mode: %1
-
-Click to cycle through values: %2
-
-Shortcut: %3</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -834,32 +812,32 @@ Click and drag inside the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="159"/>
+        <location filename="djvViewMainWindow.cpp" line="160"/>
         <source>Image information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="163"/>
+        <location filename="djvViewMainWindow.cpp" line="164"/>
         <source>File cache information.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="770"/>
+        <location filename="djvViewMainWindow.cpp" line="771"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="785"/>
+        <location filename="djvViewMainWindow.cpp" line="787"/>
         <source>Cache: %1% %2/%3GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="817"/>
+        <location filename="djvViewMainWindow.cpp" line="820"/>
         <source>Image: %1x%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="982"/>
+        <location filename="djvViewMainWindow.cpp" line="986"/>
         <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>
@@ -867,111 +845,111 @@ Click and drag inside the image.</source>
 <context>
     <name>djvViewPlaybackActions</name>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="68"/>
+        <location filename="djvViewPlaybackActions.cpp" line="71"/>
         <source>Toggle Playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="69"/>
+        <location filename="djvViewPlaybackActions.cpp" line="73"/>
         <source>Toggle playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="71"/>
+        <location filename="djvViewPlaybackActions.cpp" line="76"/>
         <source>Ever&amp;y Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="74"/>
+        <location filename="djvViewPlaybackActions.cpp" line="80"/>
         <source>Set whether every frame is played back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="209"/>
+        <location filename="djvViewPlaybackActions.cpp" line="215"/>
         <source>Toggle playback
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="220"/>
+        <location filename="djvViewPlaybackActions.cpp" line="227"/>
         <source>Start reverse playback
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="221"/>
+        <location filename="djvViewPlaybackActions.cpp" line="228"/>
         <source>Stop playback
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="222"/>
+        <location filename="djvViewPlaybackActions.cpp" line="229"/>
         <source>Start forward playback
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="259"/>
+        <location filename="djvViewPlaybackActions.cpp" line="266"/>
         <source>Go to the start frame or in point
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="261"/>
+        <location filename="djvViewPlaybackActions.cpp" line="268"/>
         <source>Go to the previous frame
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="264"/>
+        <location filename="djvViewPlaybackActions.cpp" line="271"/>
         <source>Go to the next frame
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="267"/>
+        <location filename="djvViewPlaybackActions.cpp" line="274"/>
         <source>Go to the end frame or out point
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="290"/>
+        <location filename="djvViewPlaybackActions.cpp" line="297"/>
         <source>Enable in/out points
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="291"/>
+        <location filename="djvViewPlaybackActions.cpp" line="298"/>
         <source>Set the current frame as the in point
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="292"/>
+        <location filename="djvViewPlaybackActions.cpp" line="299"/>
         <source>Set the current frame as the out point
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="293"/>
+        <location filename="djvViewPlaybackActions.cpp" line="300"/>
         <source>Reset the in point
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackActions.cpp" line="294"/>
+        <location filename="djvViewPlaybackActions.cpp" line="301"/>
         <source>Reset the out point
 
 Shortcut: %1</source>
@@ -981,27 +959,43 @@ Shortcut: %1</source>
 <context>
     <name>djvViewPlaybackButtons</name>
     <message>
-        <location filename="djvViewPlaybackWidgets.cpp" line="88"/>
+        <location filename="djvViewPlaybackWidgets.cpp" line="89"/>
         <source>Playback shuttle
 
 Click and drag to start playback; the speed is determined by how far you drag.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewPlaybackWidgets.cpp" line="172"/>
+        <source>Loop mode: %1
+
+Click to cycle through values: %2
+
+Shortcut: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewPlaybackWidgets.cpp" line="220"/>
+        <source>Frame shuttle
+
+Click and drag to change the current frame.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djvViewPlaybackMenu</name>
     <message>
-        <location filename="djvViewPlaybackMenu.cpp" line="63"/>
+        <location filename="djvViewPlaybackMenu.cpp" line="65"/>
         <source>&amp;Loop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackMenu.cpp" line="84"/>
+        <location filename="djvViewPlaybackMenu.cpp" line="86"/>
         <source>Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackMenu.cpp" line="91"/>
+        <location filename="djvViewPlaybackMenu.cpp" line="93"/>
         <source>&amp;Playback</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1009,37 +1003,37 @@ Click and drag to start playback; the speed is determined by how far you drag.</
 <context>
     <name>djvViewPlaybackPrefsWidget</name>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="71"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="73"/>
         <source>Playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="76"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="79"/>
         <source>Start playback when opening files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="82"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="86"/>
         <source>Play every frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="92"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="97"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="95"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="101"/>
         <source>Loop mode:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="99"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="107"/>
         <source>Layout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="101"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="110"/>
         <source>Playback controls:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1047,42 +1041,42 @@ Click and drag to start playback; the speed is determined by how far you drag.</
 <context>
     <name>djvViewPlaybackToolBar</name>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="115"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="117"/>
         <source>Playback speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="118"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="121"/>
         <source>Real playback speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="124"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="128"/>
         <source>Playback every frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="129"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="134"/>
         <source>Current frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="132"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="138"/>
         <source>Frame slider</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="135"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="142"/>
         <source>Start frame / in point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="141"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="149"/>
         <source>End frame / out point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewPlaybackToolBar.cpp" line="144"/>
+        <location filename="djvViewPlaybackToolBar.cpp" line="153"/>
         <source>Playback duration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1090,12 +1084,12 @@ Click and drag to start playback; the speed is determined by how far you drag.</
 <context>
     <name>djvViewShortcutPrefsWidget</name>
     <message>
-        <location filename="djvViewShortcutPrefsWidget.cpp" line="64"/>
+        <location filename="djvViewShortcutPrefsWidget.cpp" line="66"/>
         <source>Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewShortcutPrefsWidget.cpp" line="75"/>
+        <location filename="djvViewShortcutPrefsWidget.cpp" line="78"/>
         <source>Keyboard Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1103,7 +1097,7 @@ Click and drag to start playback; the speed is determined by how far you drag.</
 <context>
     <name>djvViewSpeedButton</name>
     <message>
-        <location filename="djvViewMiscWidget.cpp" line="1109"/>
+        <location filename="djvViewMiscWidget.cpp" line="1110"/>
         <source>Default: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1111,48 +1105,48 @@ Click and drag to start playback; the speed is determined by how far you drag.</
 <context>
     <name>djvViewToolActions</name>
     <message>
-        <location filename="djvViewToolActions.cpp" line="71"/>
+        <location filename="djvViewToolActions.cpp" line="72"/>
         <source>&amp;Magnify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="72"/>
+        <location filename="djvViewToolActions.cpp" line="73"/>
         <source>&amp;Color Picker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="73"/>
+        <location filename="djvViewToolActions.cpp" line="74"/>
         <source>&amp;Histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="74"/>
+        <location filename="djvViewToolActions.cpp" line="75"/>
         <source>&amp;Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="130"/>
+        <location filename="djvViewToolActions.cpp" line="131"/>
         <source>Toggle the magnify tool
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="131"/>
+        <location filename="djvViewToolActions.cpp" line="132"/>
         <source>Toggle the color picker tool
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="132"/>
+        <location filename="djvViewToolActions.cpp" line="133"/>
         <source>Toggle the histogram tool
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewToolActions.cpp" line="133"/>
+        <location filename="djvViewToolActions.cpp" line="134"/>
         <source>Toggle the information tool
 
 Shortcut: %1</source>
@@ -1162,7 +1156,7 @@ Shortcut: %1</source>
 <context>
     <name>djvViewToolMenu</name>
     <message>
-        <location filename="djvViewToolMenu.cpp" line="65"/>
+        <location filename="djvViewToolMenu.cpp" line="67"/>
         <source>&amp;Tools</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2136,132 +2130,132 @@ Shortcut: %1</source>
 <context>
     <name>djvViewViewActions</name>
     <message>
-        <location filename="djvViewViewActions.cpp" line="67"/>
+        <location filename="djvViewViewActions.cpp" line="68"/>
         <source>&amp;Left</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="69"/>
+        <location filename="djvViewViewActions.cpp" line="70"/>
         <source>&amp;Right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="71"/>
+        <location filename="djvViewViewActions.cpp" line="72"/>
         <source>&amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="73"/>
+        <location filename="djvViewViewActions.cpp" line="74"/>
         <source>&amp;Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="75"/>
+        <location filename="djvViewViewActions.cpp" line="76"/>
         <source>&amp;Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="77"/>
+        <location filename="djvViewViewActions.cpp" line="78"/>
         <source>Zoom &amp;In</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="81"/>
+        <location filename="djvViewViewActions.cpp" line="82"/>
         <source>Zoom &amp;Out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="85"/>
+        <location filename="djvViewViewActions.cpp" line="86"/>
         <source>Zoom Rese&amp;t</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="89"/>
+        <location filename="djvViewViewActions.cpp" line="90"/>
         <source>R&amp;eset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="91"/>
+        <location filename="djvViewViewActions.cpp" line="92"/>
         <source>&amp;Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="95"/>
+        <location filename="djvViewViewActions.cpp" line="96"/>
         <source>&amp;HUD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="143"/>
+        <location filename="djvViewViewActions.cpp" line="145"/>
         <source>Move the view left
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="148"/>
+        <location filename="djvViewViewActions.cpp" line="151"/>
         <source>Move the view right
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="153"/>
+        <location filename="djvViewViewActions.cpp" line="157"/>
         <source>Move the view up
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="158"/>
+        <location filename="djvViewViewActions.cpp" line="163"/>
         <source>Move the view down
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="163"/>
+        <location filename="djvViewViewActions.cpp" line="169"/>
         <source>Center the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="168"/>
+        <location filename="djvViewViewActions.cpp" line="175"/>
         <source>Zoom into the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="173"/>
+        <location filename="djvViewViewActions.cpp" line="181"/>
         <source>Zoom out of the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="178"/>
+        <location filename="djvViewViewActions.cpp" line="187"/>
         <source>Reset the zoom
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="183"/>
+        <location filename="djvViewViewActions.cpp" line="193"/>
         <source>Reset the position and zoom
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="188"/>
+        <location filename="djvViewViewActions.cpp" line="199"/>
         <source>Fit the image to the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="193"/>
+        <location filename="djvViewViewActions.cpp" line="205"/>
         <source>Toggle the HUD (Heads Up Display)
 
 Shortcut: %1</source>
@@ -2271,12 +2265,12 @@ Shortcut: %1</source>
 <context>
     <name>djvViewViewMenu</name>
     <message>
-        <location filename="djvViewViewMenu.cpp" line="76"/>
+        <location filename="djvViewViewMenu.cpp" line="70"/>
         <source>&amp;Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewMenu.cpp" line="85"/>
+        <location filename="djvViewViewMenu.cpp" line="79"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2284,53 +2278,53 @@ Shortcut: %1</source>
 <context>
     <name>djvViewViewPrefsWidget</name>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="99"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="101"/>
         <source>Views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="120"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="123"/>
         <source>Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="150"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="154"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="152"/>
-        <location filename="djvViewViewPrefsWidget.cpp" line="167"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="157"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="184"/>
         <source>Background color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="155"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="162"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="158"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="166"/>
         <source>Color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="161"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="171"/>
         <source>HUD (Heads Up Display)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="164"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="175"/>
         <source>Information:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="165"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="178"/>
         <source>Foreground color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="166"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="181"/>
         <source>Background style:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2338,72 +2332,72 @@ Shortcut: %1</source>
 <context>
     <name>djvViewWindowActions</name>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="67"/>
+        <location filename="djvViewWindowActions.cpp" line="61"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="71"/>
+        <location filename="djvViewWindowActions.cpp" line="66"/>
         <source>&amp;Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="75"/>
+        <location filename="djvViewWindowActions.cpp" line="71"/>
         <source>Clos&amp;e</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="79"/>
+        <location filename="djvViewWindowActions.cpp" line="76"/>
         <source>&amp;Fit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="83"/>
+        <location filename="djvViewWindowActions.cpp" line="81"/>
         <source>F&amp;ull Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="88"/>
+        <location filename="djvViewWindowActions.cpp" line="86"/>
         <source>Show &amp;Controls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="136"/>
+        <location filename="djvViewWindowActions.cpp" line="133"/>
         <source>Create a new window
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="141"/>
+        <location filename="djvViewWindowActions.cpp" line="139"/>
         <source>Copy the current window
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="146"/>
+        <location filename="djvViewWindowActions.cpp" line="145"/>
         <source>Close the current window
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="152"/>
+        <location filename="djvViewWindowActions.cpp" line="151"/>
         <source>Resize the window to fit the image
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="158"/>
+        <location filename="djvViewWindowActions.cpp" line="157"/>
         <source>Show the window full screen
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowActions.cpp" line="164"/>
+        <location filename="djvViewWindowActions.cpp" line="163"/>
         <source>Toggle the user interface controls visbility
 
 Shortcut: %1</source>
@@ -2413,7 +2407,7 @@ Shortcut: %1</source>
 <context>
     <name>djvViewWindowMenu</name>
     <message>
-        <location filename="djvViewWindowMenu.cpp" line="79"/>
+        <location filename="djvViewWindowMenu.cpp" line="73"/>
         <source>&amp;Window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2421,37 +2415,37 @@ Shortcut: %1</source>
 <context>
     <name>djvViewWindowPrefsWidget</name>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="75"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="77"/>
         <source>Windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="81"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="83"/>
         <source>Automatically fit the window to the image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="94"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="98"/>
         <source>Set whether the controls are visible in full screen mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="112"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="119"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="115"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="123"/>
         <source>Maximum view size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="119"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="129"/>
         <source>Full Screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewWindowPrefsWidget.cpp" line="124"/>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="135"/>
         <source>Tool Bars</source>
         <translation type="unfinished"></translation>
     </message>

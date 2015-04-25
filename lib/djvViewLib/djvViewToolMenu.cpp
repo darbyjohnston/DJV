@@ -36,11 +36,13 @@
 #include <djvViewUtil.h>
 #include <djvViewToolActions.h>
 
+#include <QApplication>
+
 //------------------------------------------------------------------------------
-// djvViewToolMenu::P
+// djvViewToolMenuPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewToolMenu::P
+struct djvViewToolMenuPrivate
 {};
 
 //------------------------------------------------------------------------------
@@ -51,7 +53,7 @@ djvViewToolMenu::djvViewToolMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new P)
+    _p(new djvViewToolMenuPrivate)
 {
     // Create the menus.
     
@@ -62,7 +64,7 @@ djvViewToolMenu::djvViewToolMenu(
 
     // Initialize.
 
-    setTitle(tr("&Tools"));
+    setTitle(qApp->translate("djvViewToolMenu", "&Tools"));
 }
 
 djvViewToolMenu::~djvViewToolMenu()

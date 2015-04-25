@@ -43,10 +43,10 @@
 #include <QVector>
 
 //------------------------------------------------------------------------------
-// djvImageTags::P
+// djvImageTagsPrivate
 //------------------------------------------------------------------------------
 
-struct djvImageTags::P
+struct djvImageTagsPrivate
 {
     typedef QPair<QString, QString> Pair;
 
@@ -58,11 +58,11 @@ struct djvImageTags::P
 //------------------------------------------------------------------------------
 
 djvImageTags::djvImageTags() :
-    _p(new P)
+    _p(new djvImageTagsPrivate)
 {}
 
 djvImageTags::djvImageTags(const djvImageTags & other) :
-    _p(new P)
+    _p(new djvImageTagsPrivate)
 {
     *_p = *(other._p);
 }
@@ -74,7 +74,7 @@ djvImageTags::~djvImageTags()
 
 void djvImageTags::add(const djvImageTags & in)
 {
-    Q_FOREACH(const P::Pair & pair, in._p->list)
+    Q_FOREACH(const djvImageTagsPrivate::Pair & pair, in._p->list)
     {
         add(pair.first, pair.second);
     }
@@ -92,12 +92,12 @@ void djvImageTags::add(const QString & key, const QString & value)
         }
     }
 
-    _p->list += P::Pair(key, value);
+    _p->list += djvImageTagsPrivate::Pair(key, value);
 }
 
 QString djvImageTags::tag(const QString & key) const
 {
-    Q_FOREACH(const P::Pair & pair, _p->list)
+    Q_FOREACH(const djvImageTagsPrivate::Pair & pair, _p->list)
     {
         if (key == pair.first)
         {
@@ -112,7 +112,7 @@ QStringList djvImageTags::keys() const
 {
     QStringList out;
 
-    Q_FOREACH(const P::Pair & pair, _p->list)
+    Q_FOREACH(const djvImageTagsPrivate::Pair & pair, _p->list)
     {
         out += pair.first;
     }
@@ -124,7 +124,7 @@ QStringList djvImageTags::values() const
 {
     QStringList out;
 
-    Q_FOREACH(const P::Pair & pair, _p->list)
+    Q_FOREACH(const djvImageTagsPrivate::Pair & pair, _p->list)
     {
         out += pair.second;
     }
@@ -139,7 +139,7 @@ int djvImageTags::count() const
 
 bool djvImageTags::isValid(const QString & key)
 {
-    Q_FOREACH(const P::Pair & pair, _p->list)
+    Q_FOREACH(const djvImageTagsPrivate::Pair & pair, _p->list)
     {
         if (key == pair.first)
         {
@@ -192,7 +192,7 @@ QString & djvImageTags::operator [] (const QString & key)
         }
     }
 
-    _p->list += P::Pair(key, QString());
+    _p->list += djvImageTagsPrivate::Pair(key, QString());
     
     return _p->list[_p->list.count() - 1].second;
 }

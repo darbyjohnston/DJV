@@ -48,10 +48,10 @@
 #endif
 
 //------------------------------------------------------------------------------
-// djvOpenGlContext::P
+// djvOpenGlContextPrivate
 //------------------------------------------------------------------------------
 
-struct djvOpenGlContext::P
+struct djvOpenGlContextPrivate
 {
     QString vendor;
     QString renderer;
@@ -63,7 +63,7 @@ struct djvOpenGlContext::P
 //------------------------------------------------------------------------------
 
 djvOpenGlContext::djvOpenGlContext() throw (djvError) :
-    _p(new P)
+    _p(new djvOpenGlContextPrivate)
 {
     //DJV_DEBUG("djvOpenGlContext::djvOpenGlContext");
 }
@@ -118,15 +118,15 @@ djvOpenGlContext * djvOpenGlContextFactory::create(bool bind) throw (djvError)
 
 #if defined(DJV_WINDOWS)
 
-    context = new djvWglContextPrivate;
+    context = new djvWglContext;
 
 #elif defined(DJV_OSX)
 
-    context = new djvCglContextPrivate;
+    context = new djvCglContext;
 
 #else // DJV_WINDOWS
 
-    context = new djvGlxContextPrivate;
+    context = new djvGlxContext;
 
 #endif // DJV_WINDOWS
 

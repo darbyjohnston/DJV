@@ -64,7 +64,6 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewViewMenu);
-    DJV_PRIVATE_IMPLEMENTATION();
 };
 
 //@} // djvViewView

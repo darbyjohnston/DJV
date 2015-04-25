@@ -39,16 +39,16 @@
 #include <QSettings>
 
 //------------------------------------------------------------------------------
-// djvPrefs::P
+// djvPrefsPrivate
 //------------------------------------------------------------------------------
 
-struct djvPrefs::P
+struct djvPrefsPrivate
 {
     //! \todo QSettings::SystemScope isn't working?
     //! \todo The organization name is hard-coded here since preferences can be
     //! created before the name is set in the application constructor.
     
-    P(SCOPE scope) :
+    djvPrefsPrivate(djvPrefs::SCOPE scope) :
         scope(scope),
         settings(
             QSettings::UserScope,
@@ -56,8 +56,8 @@ struct djvPrefs::P
             "djv.sourceforge.net")
     {}
 
-    SCOPE     scope;
-    QSettings settings;
+    djvPrefs::SCOPE scope;
+    QSettings       settings;
 };
 
 //------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ bool _reset = false;
 } // namespace
 
 djvPrefs::djvPrefs(const QString & group, SCOPE scope) :
-    _p(new P(scope))
+    _p(new djvPrefsPrivate(scope))
 {
     //DJV_DEBUG("djvPrefs::djvPrefs");
     //DJV_DEBUG_PRINT("file = " << _p->settings.fileName());

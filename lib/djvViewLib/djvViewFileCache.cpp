@@ -51,12 +51,12 @@ typedef QVector<djvViewFileCacheRef *> RefList;
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewFileCacheRef::P
+// djvViewFileCacheRefPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFileCacheRef::P
+struct djvViewFileCacheRefPrivate
 {
-    P(djvImage * in, const void * key, qint64 frame) :
+    djvViewFileCacheRefPrivate(djvImage * in, const void * key, qint64 frame) :
         image   (in),
         key     (key),
         frame   (frame),
@@ -81,7 +81,7 @@ int refAliveCount = 0;
 } // namespace
 
 djvViewFileCacheRef::djvViewFileCacheRef(djvImage * in, const void * key, qint64 frame) :
-    _p(new P(in, key, frame))
+    _p(new djvViewFileCacheRefPrivate(in, key, frame))
 {
     ++refAliveCount;
 
@@ -135,12 +135,12 @@ int djvViewFileCacheRef::refCount() const
 }
 
 //------------------------------------------------------------------------------
-// djvViewFileCache::P
+// djvViewFileCachePrivate
 //------------------------------------------------------------------------------
 
-struct djvViewFileCache::P
+struct djvViewFileCachePrivate
 {
-    P() :
+    djvViewFileCachePrivate() :
         maxSize  (static_cast<quint64>(
         djvViewFilePrefs::global()->cacheSize() * djvMemory::gigabyte)),
         cacheSize(0)
@@ -157,7 +157,7 @@ struct djvViewFileCache::P
 
 djvViewFileCache::djvViewFileCache(QObject * parent) :
     QObject(parent),
-    _p(new P)
+    _p(new djvViewFileCachePrivate)
 {
     //DJV_DEBUG("djvViewFileCache::djvViewFileCache");
     

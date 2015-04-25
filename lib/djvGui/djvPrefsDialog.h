@@ -40,7 +40,8 @@
 
 #include <QDialog>
 
-class djvAbstractPrefsWidget;
+class  djvAbstractPrefsWidget;
+struct djvPrefsDialogPrivate;
 
 class QAbstractButton;
 class QTreeWidgetItem;
@@ -84,7 +85,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvPrefsDialog);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvPrefsDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog

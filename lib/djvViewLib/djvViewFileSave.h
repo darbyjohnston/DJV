@@ -43,6 +43,8 @@
 
 #include <QObject>
 
+struct djvViewFileSavePrivate;
+
 //! \addtogroup djvViewFile
 //@{
 
@@ -127,7 +129,8 @@ private Q_SLOTS:
 private:
     
     DJV_PRIVATE_COPY(djvViewFileSave);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewFileSavePrivate * _p;
 };
 
 //@} // djvViewFile

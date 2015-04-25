@@ -38,6 +38,8 @@
 
 #include <QString>
 
+struct djvErrorPrivate;
+
 //! \addtogroup djvCoreMisc
 //@{
 
@@ -101,7 +103,7 @@ private:
 
     void init();
 
-    DJV_PRIVATE_IMPLEMENTATION();
+    djvErrorPrivate * _p;
 };
 
 //@} // djvCoreMisc

@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractMenu.h>
 
+struct djvViewToolMenuPrivate;
+
 //! \addtogroup djvViewTool
 //@{
 
@@ -64,7 +66,8 @@ public:
 private:
 
     DJV_PRIVATE_COPY(djvViewToolMenu);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewToolMenuPrivate * _p;
 };
 
 //@} // djvViewTool

@@ -41,7 +41,8 @@
 
 #include <QAbstractItemModel>
 
-class djvFileBrowserItem;
+class  djvFileBrowserItem;
+struct djvFileBrowserModelPrivate;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserModel
@@ -359,7 +360,8 @@ private:
     void modelUpdate();
 
     DJV_PRIVATE_COPY(djvFileBrowserModel);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvFileBrowserModelPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

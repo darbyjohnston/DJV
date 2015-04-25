@@ -33,18 +33,19 @@
 
 #include <djvInputDialog.h>
 
+#include <QApplication>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QLineEdit>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvInputDialog::P
+// djvInputDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvInputDialog::P
+struct djvInputDialogPrivate
 {
-    P(const QString & label, const QString & text) :
+    djvInputDialogPrivate(const QString & label, const QString & text) :
         label      (label),
         labelWidget(0),
         text       (text),
@@ -66,7 +67,7 @@ djvInputDialog::djvInputDialog(
     const QString & text,
     QWidget *       parent) :
     QDialog(parent),
-    _p(new P(label, text))
+    _p(new djvInputDialogPrivate(label, text))
 {
     _p->labelWidget = new QLabel;
     
@@ -84,7 +85,7 @@ djvInputDialog::djvInputDialog(
     layout->addLayout(vLayout);
     layout->addWidget(buttonBox);
     
-    setWindowTitle(tr("Input Dialog"));
+    setWindowTitle(qApp->translate("djvInputDialog", "Input Dialog"));
 
     widgetUpdate();
     

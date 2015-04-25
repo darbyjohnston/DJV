@@ -40,6 +40,8 @@
 
 #include <QWidget>
 
+struct djvSearchBoxPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -95,7 +97,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvSearchBox);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvSearchBoxPrivate * _p;
 };
 
 //@} // djvGuiWidget

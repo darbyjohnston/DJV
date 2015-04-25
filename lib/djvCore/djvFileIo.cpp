@@ -84,16 +84,16 @@
 #include <stdio.h>
 
 //------------------------------------------------------------------------------
-// djvFileIo::P
+// djvFileIoPrivate
 //------------------------------------------------------------------------------
 
-struct djvFileIo::P
+struct djvFileIoPrivate
 {
-    P() :
+    djvFileIoPrivate() :
 #if defined(DJV_WINDOWS)
 
         f        (INVALID_HANDLE_VALUE),
-        mode     (static_cast<MODE>(0)),
+        mode     (static_cast<<djvFileIo::MODE>(0)),
         pos      (0),
         size     (0),
         endian   (false),
@@ -106,7 +106,7 @@ struct djvFileIo::P
 #else // DJV_WINDOWS
 
         f        (-1),
-        mode     (static_cast<MODE>(0)),
+        mode     (static_cast<djvFileIo::MODE>(0)),
         pos      (0),
         size     (0),
         endian   (false),
@@ -118,20 +118,20 @@ struct djvFileIo::P
 
 #endif // DJV_WINDOWS
 #if defined(DJV_WINDOWS)
-    HANDLE         f;
+    HANDLE          f;
 #else // DJV_WINDOWS
-    int            f;
+    int             f;
 #endif // DJV_WINDOWS
-    QString        fileName;
-    MODE           mode;
-    quint64        pos;
-    quint64        size;
-    bool           endian;
-    void *         mmap;
-    const quint8 * mmapStart;
-    const quint8 * mmapEnd;
-    const quint8 * mmapP;
-    int            mmapReadAhead;
+    QString         fileName;
+    djvFileIo::MODE mode;
+    quint64         pos;
+    quint64         size;
+    bool            endian;
+    void *          mmap;
+    const quint8 *  mmapStart;
+    const quint8 *  mmapEnd;
+    const quint8 *  mmapP;
+    int             mmapReadAhead;
 };
 
 //------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ struct djvFileIo::P
 //------------------------------------------------------------------------------
 
 djvFileIo::djvFileIo() :
-    _p(new P)
+    _p(new djvFileIoPrivate)
 {}
 
 djvFileIo::~djvFileIo()

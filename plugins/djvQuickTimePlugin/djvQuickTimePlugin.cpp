@@ -49,6 +49,8 @@
 #include <djvDebug.h>
 #include <djvError.h>
 
+#include <QApplication>
+
 namespace qt
 {
 
@@ -122,14 +124,14 @@ const QString djvQuickTimePlugin::staticName = "QuickTime";
 const QStringList & djvQuickTimePlugin::codecLabels()
 {
     static const QStringList data = QStringList() <<
-        "Raw" <<
-        "JPEG" <<
-        "MJPEG-A" <<
-        "MJPEG-B" <<
-        "H263" <<
-        "H264" <<
-        "DVC-NTSC" <<
-        "DVC-PAL";
+        qApp->translate("djvQuickTimePlugin", "Raw") <<
+        qApp->translate("djvQuickTimePlugin", "JPEG") <<
+        qApp->translate("djvQuickTimePlugin", "MJPEG-A") <<
+        qApp->translate("djvQuickTimePlugin", "MJPEG-B") <<
+        qApp->translate("djvQuickTimePlugin", "H263") <<
+        qApp->translate("djvQuickTimePlugin", "H264") <<
+        qApp->translate("djvQuickTimePlugin", "DVC-NTSC") <<
+        qApp->translate("djvQuickTimePlugin", "DVC-PAL");
 
     DJV_ASSERT(data.count() == CODEC_COUNT);
 
@@ -139,12 +141,12 @@ const QStringList & djvQuickTimePlugin::codecLabels()
 const QStringList & djvQuickTimePlugin::qualityLabels()
 {
     static const QStringList data = QStringList() <<
-        "Lossless" <<
-        "Min" <<
-        "Max" <<
-        "Low" <<
-        "Normal" <<
-        "High";
+        qApp->translate("djvQuickTimePlugin", "Lossless") <<
+        qApp->translate("djvQuickTimePlugin", "Min") <<
+        qApp->translate("djvQuickTimePlugin", "Max") <<
+        qApp->translate("djvQuickTimePlugin", "Low") <<
+        qApp->translate("djvQuickTimePlugin", "Normal") <<
+        qApp->translate("djvQuickTimePlugin", "High");
 
     DJV_ASSERT(data.count() == QUALITY_COUNT);
 
@@ -190,8 +192,8 @@ qt::CodecQ djvQuickTimePlugin::toQuickTimeQuality(QUALITY in)
 const QStringList & djvQuickTimePlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Codec" <<
-        "Quality";
+        qApp->translate("djvQuickTimePlugin", "Codec") <<
+        qApp->translate("djvQuickTimePlugin", "Quality");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -228,7 +230,7 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
     {
         throw djvError(
             staticName,
-            QString("Cannot initialize (#%1)").arg(err));
+            qApp->translate("djvQuickTimePlugin", "Cannot initialize (#%1)").arg(err));
     }
 
     _qtmlInit = true;
@@ -245,7 +247,7 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
     {
         throw djvError(
             staticName,
-            QString("Incompatible version (#%1)").arg(err));
+            qApp->translate("djvQuickTimePlugin", "Incompatible version (#%1)").arg(err));
     }
 
     //DJV_DEBUG_PRINT("version = " << version);
@@ -258,7 +260,7 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
     {
         throw djvError(
             staticName,
-            QString("Cannot initialize (#%1)").arg(err));
+            qApp->translate("djvQuickTimePlugin", "Cannot initialize (#%1)").arg(err));
     }
 
     _enterMoviesInit = true;
@@ -395,11 +397,12 @@ void djvQuickTimePlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-quicktime_codec" == arg)
+            if (qApp->translate("djvQuickTimePlugin", "-quicktime_codec") == arg)
             {
                 in >> _options.codec;
             }
-            else if ("-quicktime_quality" == arg)
+            else if (
+                qApp->translate("djvQuickTimePlugin", "-quicktime_quality") == arg)
             {
                 in >> _options.quality;
             }
@@ -419,7 +422,7 @@ void djvQuickTimePlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvQuickTimePlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvQuickTimePlugin",
 "\n"
 "QuickTime Options\n"
 "\n"

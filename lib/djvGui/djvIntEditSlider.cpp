@@ -42,15 +42,16 @@
 #include <djvDebug.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvIntEditSlider::P
+// djvIntEditSliderPrivate
 //------------------------------------------------------------------------------
 
-struct djvIntEditSlider::P
+struct djvIntEditSliderPrivate
 {
-    P() :
+    djvIntEditSliderPrivate() :
         resetToDefault(true),
         edit          (0),
         slider        (0),
@@ -70,7 +71,7 @@ struct djvIntEditSlider::P
 
 djvIntEditSlider::djvIntEditSlider(QWidget * parent) :
     QWidget(parent),
-    _p(new P)
+    _p(new djvIntEditSliderPrivate)
 {
     _p->edit = new djvIntEdit;
     
@@ -80,7 +81,8 @@ djvIntEditSlider::djvIntEditSlider(QWidget * parent) :
     _p->defaultButton->setIconSize(QSize(16, 16));
     _p->defaultButton->setIcon(
         djvIconLibrary::global()->icon("djvResetIcon.png"));
-    _p->defaultButton->setToolTip(tr("Reset the value"));
+    _p->defaultButton->setToolTip(
+        qApp->translate("djvIntEditSlider", "Reset the value"));
     
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setSpacing(5);

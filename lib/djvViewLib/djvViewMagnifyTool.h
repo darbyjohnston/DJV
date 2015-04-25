@@ -38,6 +38,8 @@
 
 #include <djvVector.h>
 
+struct djvViewMagnifyToolPrivate;
+
 //! \addtogroup djvViewTool
 //@{
 
@@ -80,7 +82,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewMagnifyTool);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewMagnifyToolPrivate * _p;
 };
 
 //@} // djvViewTool

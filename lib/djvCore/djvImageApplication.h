@@ -36,7 +36,8 @@
 
 #include <djvCoreApplication.h>
 
-class djvOpenGlContext;
+struct djvAbstractImageApplicationPrivate;
+class  djvOpenGlContext;
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -73,7 +74,7 @@ public:
 
 private:
 
-    DJV_PRIVATE_IMPLEMENTATION();
+    djvAbstractImageApplicationPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

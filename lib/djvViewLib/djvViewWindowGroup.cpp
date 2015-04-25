@@ -47,12 +47,12 @@
 #include <QToolButton>
 
 //------------------------------------------------------------------------------
-// djvViewWindowGroup::P
+// djvViewWindowGroupPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewWindowGroup::P
+struct djvViewWindowGroupPrivate
 {
-    P() :
+    djvViewWindowGroupPrivate() :
         fullScreen     (false),
         controlsVisible(true),
         toolBarVisible (djvViewWindowPrefs::global()->toolBar()),
@@ -77,7 +77,7 @@ djvViewWindowGroup::djvViewWindowGroup(
     djvViewMainWindow *        mainWindow,
     const djvViewWindowGroup * copy) :
     djvViewAbstractGroup(mainWindow),
-    _p(new P)
+    _p(new djvViewWindowGroupPrivate)
 {
     //DJV_DEBUG("djvViewWindowGroup::djvViewWindowGroup");
 

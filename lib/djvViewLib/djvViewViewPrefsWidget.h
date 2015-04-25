@@ -38,6 +38,8 @@
 
 #include <djvColor.h>
 
+struct djvViewViewPrefsWidgetPrivate;
+
 class QListWidgetItem;
 
 //! \addtogroup djvViewView
@@ -82,7 +84,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewViewPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewViewPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewView

@@ -37,17 +37,18 @@
 #include <djvColorWidget.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvColorDialog::P
+// djvColorDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvColorDialog::P
+struct djvColorDialogPrivate
 {
-    P(const djvColor & color) :
+    djvColorDialogPrivate(const djvColor & color) :
         color (color),
         widget(0),
         swatch(0)
@@ -64,7 +65,7 @@ struct djvColorDialog::P
 
 djvColorDialog::djvColorDialog(const djvColor & color, QWidget * parent) :
     QDialog(parent),
-    _p(new P(color))
+    _p(new djvColorDialogPrivate(color))
 {
     // Create the widgets.
 
@@ -90,7 +91,7 @@ djvColorDialog::djvColorDialog(const djvColor & color, QWidget * parent) :
     
     // Initialize.
     
-    setWindowTitle(tr("Color Dialog"));
+    setWindowTitle(qApp->translate("djvColorDialog", "Color Dialog"));
     
     widgetUpdate();
 

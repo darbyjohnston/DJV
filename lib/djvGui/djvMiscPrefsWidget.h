@@ -38,6 +38,8 @@
 
 #include <djvUtil.h>
 
+struct djvMiscPrefsWidgetPrivate;
+
 class QAbstractButton;
 
 //! \addtogroup djvGuiMisc
@@ -77,7 +79,8 @@ private:
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvMiscPrefsWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvMiscPrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiMisc

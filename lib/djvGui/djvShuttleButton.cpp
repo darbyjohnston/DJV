@@ -45,12 +45,12 @@
 #include <QStyleOption>
 
 //------------------------------------------------------------------------------
-// djvShuttleButton::P
+// djvShuttleButtonPrivate
 //------------------------------------------------------------------------------
 
-struct djvShuttleButton::P
+struct djvShuttleButtonPrivate
 {
-    P() :
+    djvShuttleButtonPrivate() :
         value     (0.0),
         mousePress(false)
     {}
@@ -67,12 +67,12 @@ struct djvShuttleButton::P
 
 djvShuttleButton::djvShuttleButton(QWidget * parent) :
     djvAbstractToolButton(parent),
-    _p(new P)
+    _p(new djvShuttleButtonPrivate)
 {}
 
 djvShuttleButton::djvShuttleButton(const QVector<QIcon> & icons, QWidget * parent) :
     djvAbstractToolButton(parent),
-    _p(new P)
+    _p(new djvShuttleButtonPrivate)
 {
     setIcons(icons);
     

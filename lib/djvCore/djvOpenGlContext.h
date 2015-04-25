@@ -39,7 +39,8 @@
 
 #include <QString>
 
-class djvOpenGlContextFactory;
+class  djvOpenGlContextFactory;
+struct djvOpenGlContextPrivate;
 
 //! \addtogroup djvCoreOpenGL
 //@{
@@ -99,7 +100,8 @@ protected:
 private:
 
     DJV_PRIVATE_COPY(djvOpenGlContext);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvOpenGlContextPrivate * _p;
 
     friend class djvOpenGlContextFactory;
 };

@@ -38,6 +38,8 @@
 
 #include <QObject>
 
+struct djvDebugLogPrivate;
+
 //! \addtogroup djvCoreMisc
 //@{
 
@@ -83,7 +85,7 @@ Q_SIGNALS:
     
 private:
     
-    DJV_PRIVATE_IMPLEMENTATION();
+    djvDebugLogPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

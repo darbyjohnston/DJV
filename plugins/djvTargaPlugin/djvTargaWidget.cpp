@@ -38,6 +38,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -66,8 +67,8 @@ djvTargaWidget::djvTargaWidget(djvTargaPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Compression",
-        "Set the file compression used when saving Targa images.");
+        qApp->translate("djvTargaWidget", "Compression"),
+        qApp->translate("djvTargaWidget", "Set the file compression used when saving Targa images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_compressionWidget);
     layout->addWidget(prefsGroupBox);

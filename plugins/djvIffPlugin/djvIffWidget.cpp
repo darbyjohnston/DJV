@@ -39,6 +39,7 @@
 
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -67,8 +68,8 @@ djvIffWidget::djvIffWidget(djvIffPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        "Compression",
-        "Set the file compression used when saving IFF images.");
+        qApp->translate("djvIffWidget", "Compression"),
+        qApp->translate("djvIffWidget", "Set the file compression used when saving IFF images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_compressionWidget);
     layout->addWidget(prefsGroupBox);

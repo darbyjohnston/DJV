@@ -235,12 +235,12 @@ void djvViewHistogramWidget::updatePixmap()
 }
 
 //------------------------------------------------------------------------------
-// djvViewHistogramTool::P
+// djvViewHistogramToolPrivate
 //------------------------------------------------------------------------------
 
-struct djvViewHistogramTool::P
+struct djvViewHistogramToolPrivate
 {
-    P() :
+    djvViewHistogramToolPrivate() :
         size                (static_cast<djvViewUtil::HISTOGRAM>(0)),
         colorProfile        (true),
         displayProfile      (true),
@@ -278,7 +278,7 @@ djvViewHistogramTool::djvViewHistogramTool(
     djvViewMainWindow * mainWindow,
     QWidget *           parent) :
     djvViewAbstractTool(mainWindow, parent),
-    _p(new P)
+    _p(new djvViewHistogramToolPrivate)
 {
     // Create the widgets.
 
@@ -292,7 +292,8 @@ djvViewHistogramTool::djvViewHistogramTool(
 
     _p->sizeWidget = new QComboBox;
     _p->sizeWidget->addItems(djvViewUtil::histogramLabels());
-    _p->sizeWidget->setToolTip(tr("The size of the histogram"));
+    _p->sizeWidget->setToolTip(
+        qApp->translate("djvViewHistogramTool", "The size of the histogram"));
 
     _p->maskWidget = new djvPixelMaskWidget;
     
@@ -300,13 +301,13 @@ djvViewHistogramTool::djvViewHistogramTool(
         djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
     _p->colorProfileButton->setToolTip(
-        tr("Set whether the color profile is enabled"));
+        qApp->translate("djvViewHistogramTool", "Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
         djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
     _p->displayProfileButton->setToolTip(
-        tr("Set whether the display profile is enabled"));
+        qApp->translate("djvViewHistogramTool", "Set whether the display profile is enabled"));
 
     // Layout the widgets.
 
@@ -315,8 +316,12 @@ djvViewHistogramTool::djvViewHistogramTool(
     layout->addWidget(_p->widget, 1);
 
     QFormLayout * formLayout = new QFormLayout;
-    formLayout->addRow(tr("Min:"), _p->minWidget);
-    formLayout->addRow(tr("Max:"), _p->maxWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewHistogramTool", "Min:"),
+        _p->minWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewHistogramTool", "Max:"),
+        _p->maxWidget);
     layout->addLayout(formLayout);
     
     QHBoxLayout * hLayout = new QHBoxLayout;
@@ -340,7 +345,7 @@ djvViewHistogramTool::djvViewHistogramTool(
 
     // Initialize.
     
-    setWindowTitle(tr("Histogram"));
+    setWindowTitle(qApp->translate("djvViewHistogramTool", "Histogram"));
 
     widgetUpdate();
 

@@ -40,6 +40,8 @@
 
 #include <QMetaType>
 
+struct djvPrefsPrivate;
+
 class QString;
 class QStringList;
 
@@ -122,7 +124,8 @@ private:
     void _set(const QString &, const QStringList &);
     
     DJV_PRIVATE_COPY(djvPrefs);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvPrefsPrivate * _p;
 };
 
 //@} // djvGuiMisc

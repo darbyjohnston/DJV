@@ -42,6 +42,8 @@
 #include <djvFileIoUtil.h>
 #include <djvMath.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -70,8 +72,8 @@ const QString djvPpmPlugin::staticName = "PPM";
 const QStringList & djvPpmPlugin::typeLabels()
 {
     static const QStringList data = QStringList() <<
-        "Auto" <<
-        "U1";
+        qApp->translate("djvPpmPlugin", "Auto") <<
+        qApp->translate("djvPpmPlugin", "U1");
 
     DJV_ASSERT(data.count() == TYPE_COUNT);
 
@@ -81,8 +83,8 @@ const QStringList & djvPpmPlugin::typeLabels()
 const QStringList & djvPpmPlugin::dataLabels()
 {
     static const QStringList data = QStringList() <<
-        "ASCII" <<
-        "Binary";
+        qApp->translate("djvPpmPlugin", "ASCII") <<
+        qApp->translate("djvPpmPlugin", "Binary");
 
     DJV_ASSERT(data.count() == DATA_COUNT);
 
@@ -262,8 +264,8 @@ quint64 djvPpmPlugin::asciiSave(
 const QStringList & djvPpmPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        "Type" <<
-        "Data";
+        qApp->translate("djvPpmPlugin", "Type") <<
+        qApp->translate("djvPpmPlugin", "Data");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
@@ -364,11 +366,11 @@ void djvPpmPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if ("-ppm_type" == arg)
+            if (qApp->translate("djvPpmPlugin", "-ppm_type") == arg)
             {
                 in >> _options.type;
             }
-            else if ("-ppm_data" == arg)
+            else if (qApp->translate("djvPpmPlugin", "-ppm_data") == arg)
             {
                 in >> _options.data;
             }
@@ -388,7 +390,7 @@ void djvPpmPlugin::commandLine(QStringList & in) throw (QString)
 
 QString djvPpmPlugin::commandLineHelp() const
 {
-    return QString(
+    return qApp->translate("djvPpmPlugin",
 "\n"
 "PPM Options\n"
 "\n"

@@ -39,6 +39,8 @@
 #include <djvDebug.h>
 #include <djvMemory.h>
 
+#include <QApplication>
+
 extern "C"
 {
 
@@ -58,8 +60,8 @@ const QString djvPicPlugin::staticName = "PIC";
 const QStringList & djvPicPlugin::compressionLabels()
 {
     static const QStringList data = QStringList() <<
-        "None" <<
-        "RLE";
+        qApp->translate("djvPicPlugin", "None") <<
+        qApp->translate("djvPicPlugin", "RLE");
 
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
 

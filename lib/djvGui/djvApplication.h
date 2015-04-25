@@ -40,6 +40,8 @@
 
 #include <QApplication>
 
+struct djvAbstractApplicationPrivate;
+
 //! \addtogroup djvGuiMisc
 //@{
 
@@ -91,7 +93,7 @@ public:
 
     virtual QString info() const;
 
-    virtual void printMessage(const QString &) const;
+    virtual void printMessage(const QString &, int indent = 0) const;
 
     virtual void printError(const djvError &) const;
 
@@ -106,7 +108,8 @@ private:
     void toolTipsUpdate();
 
     DJV_PRIVATE_COPY(djvAbstractApplication);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvAbstractApplicationPrivate * _p;
 };
 
 //------------------------------------------------------------------------------

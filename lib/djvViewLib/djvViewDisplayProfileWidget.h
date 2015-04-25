@@ -40,7 +40,8 @@
 
 #include <QWidget>
 
-class djvViewImageView;
+struct djvViewDisplayProfileWidgetPrivate;
+class  djvViewImageView;
 
 //! \addtogroup djvViewImage
 //@{
@@ -103,7 +104,8 @@ private:
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvViewDisplayProfileWidget);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewDisplayProfileWidgetPrivate * _p;
 };
 
 //@} // djvViewImage

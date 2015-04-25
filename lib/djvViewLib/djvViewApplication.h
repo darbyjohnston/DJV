@@ -38,7 +38,8 @@
 
 #include <djvApplication.h>
 
-class djvViewMainWindow;
+struct djvViewApplicationPrivate;
+class  djvViewMainWindow;
 
 //! \addtogroup djvViewLib
 //@{
@@ -82,7 +83,8 @@ private:
     djvViewMainWindow * window() const;
     
     DJV_PRIVATE_COPY(djvViewApplication);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewApplicationPrivate * _p;
 };
 
 //! Get the global application instance.

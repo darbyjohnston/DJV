@@ -36,6 +36,8 @@
 
 #include <djvViewAbstractGroup.h>
 
+struct djvViewToolGroupPrivate;
+
 class QAction;
 
 //! \addtogroup djvViewTool
@@ -90,7 +92,8 @@ private Q_SLOTS:
 private:
 
     DJV_PRIVATE_COPY(djvViewToolGroup);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvViewToolGroupPrivate * _p;
 };
 
 //@} // djvViewTool

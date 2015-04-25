@@ -40,7 +40,8 @@
 
 #include <QWidget>
 
-class djvIntObject;
+class  djvIntObject;
+struct djvIntSliderPrivate;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -156,7 +157,8 @@ private Q_SLOTS:
 private:
     
     DJV_PRIVATE_COPY(djvIntSlider);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvIntSliderPrivate * _p;
 };
 
 //@} // djvGuiWidget

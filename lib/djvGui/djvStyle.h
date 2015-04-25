@@ -42,6 +42,8 @@
 #include <QObject>
 #include <QFont>
 
+struct djvStylePrivate;
+
 //! \addtogroup djvGuiMisc
 //@{
 
@@ -247,7 +249,8 @@ private:
     void fontsUpdate();
     
     DJV_PRIVATE_COPY(djvStyle);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvStylePrivate * _p;
 };
 
 //------------------------------------------------------------------------------

@@ -38,6 +38,8 @@
 
 #include <djvOpenGlImage.h>
 
+struct djvImageViewPrivate;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -205,7 +207,8 @@ private:
     djvBox2f bbox(const djvVector2i &, double) const;
     
     DJV_PRIVATE_COPY(djvImageView);
-    DJV_PRIVATE_IMPLEMENTATION();
+    
+    djvImageViewPrivate * _p;
 };
 
 //@} // djvGuiWidget

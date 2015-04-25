@@ -43,7 +43,7 @@
 // djvDebug::P
 //------------------------------------------------------------------------------
 
-struct djvDebug::P
+struct djvDebugPrivate
 {
     QString  tmp;
     djvTimer timer;
@@ -64,7 +64,7 @@ int indent = 0;
 
 void djvDebug::init(const QString & in)
 {
-    _p = new P;
+    _p = new djvDebugPrivate;
 
     *this << LINE_BEGIN << in << LINE_END;
     *this << LINE_BEGIN << "{" << LINE_END;
