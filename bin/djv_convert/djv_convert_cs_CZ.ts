@@ -4,106 +4,142 @@
 <context>
     <name>djvConvertApplication</name>
     <message>
+        <location filename="djv_convert.cpp" line="157"/>
         <source>-mirror_h</source>
-        <translation>-mirror_h</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="161"/>
         <source>-mirror_v</source>
-        <translation>-mirror_v</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="165"/>
         <source>-scale</source>
-        <translation>-scale</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="170"/>
         <source>-scale_xy</source>
-        <translation>-scale_xy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="174"/>
         <source>-resize</source>
-        <translation>-resize</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="178"/>
         <source>-width</source>
-        <translation>-width</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="182"/>
         <source>-height</source>
-        <translation>-height</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="186"/>
         <source>-crop</source>
-        <translation>-crop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="190"/>
         <source>-crop_percent</source>
-        <translation>-crop_percent</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="194"/>
         <source>-channel</source>
-        <translation>-channel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="198"/>
         <source>-seq</source>
-        <translation>-seq</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="198"/>
         <source>-q</source>
-        <translation>-q</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="205"/>
         <source>-layer</source>
-        <translation>-layer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="209"/>
         <source>-proxy</source>
-        <translation>-proxy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="213"/>
         <source>-time</source>
-        <translation>-time</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="218"/>
         <source>-slate</source>
-        <translation>-slate</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="225"/>
         <source>-timeout</source>
-        <translation>-timeout</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="232"/>
         <source>-pixel</source>
-        <translation>-pixel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="238"/>
         <source>-speed</source>
-        <translation>-speed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="244"/>
         <source>-tag</source>
-        <translation>-tag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="251"/>
         <source>-tags_auto</source>
-        <translation>-tags_auto</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Input</source>
-        <translation type="obsolete">Vstup</translation>
+        <location filename="djv_convert.cpp" line="278"/>
+        <source>input</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Output</source>
-        <translation type="obsolete">Výstup</translation>
+        <location filename="djv_convert.cpp" line="291"/>
+        <source>output</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="309"/>
         <source>Cannot open image: &quot;%1&quot;</source>
-        <translation>Nelze otevřít obrázek: &quot;%1&quot;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="310"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
-        <translation>Nelze otevřít údaje na klapce: &quot;%1&quot;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="311"/>
+        <source>Cannot read image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="312"/>
+        <source>Cannot write image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="321"/>
         <source>djv_convert
 
     This application provides a command line tool for processing images and movies.
@@ -193,47 +229,39 @@ Examples
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="469"/>
         <source>Timeout...</source>
-        <translation>Časové omezení...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="518"/>
+        <location filename="djv_convert.cpp" line="615"/>
         <source>%1 %2</source>
-        <translation>%1 %2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="627"/>
         <source>Slating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="834"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
-        <translation>[%1%] Odhadováno = %2 (%3 snímky/sekundy)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="846"/>
         <source>[100%] </source>
-        <translation>[100%] </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="864"/>
         <source>Elapsed = %1</source>
-        <translation>Uplynulo = %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="874"/>
         <source>%1x%2:%3 %4 %5@%6</source>
-        <translation>%1x%2:%3 %4 %5@%6</translation>
-    </message>
-    <message>
-        <source>input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot read image: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot write image: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

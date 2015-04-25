@@ -41,7 +41,7 @@
 
 #include <QAbstractItemModel>
 
-class QAbstractItemView;
+class djvFileBrowserItem;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserModel
@@ -235,19 +235,6 @@ public:
 
     THUMBNAILS_SIZE thumbnailsSize() const;
 
-    //! Set the view used for thumbnail generation.
-    //!
-    //! \todo This is a hack to get faster performance from the file browser.
-    //! It seems that the Qt item views are requesting more data than they
-    //! should by querying for items that are not visible. In directories
-    //! with large amounts of images this can kill performance for the user
-    //! as the file browser is generating image thumbnails for items that
-    //! are not currently visible. To alleviate this we use the given view
-    //! to determine which items are currently visible and only generate
-    //! image thumbnails for those.
-
-    void setView(QAbstractItemView *);
-
     virtual QModelIndex	index(
         int                 row,
         int                 column,
@@ -363,8 +350,8 @@ Q_SIGNALS:
    
 private Q_SLOTS:
 
-    void imageIoInfoCallback();
-    void imageLoadCallback();
+    void imageInfoCallback();
+    void thumbnailCallback();
 
 private:
 

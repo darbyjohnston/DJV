@@ -82,6 +82,7 @@ struct djvFileBrowser::P
             RECENT,
             DRIVES,
             THUMBNAILS,
+            THUMBNAILS_SIZE,
             SEQ,
             SORT,
             BOOKMARKS
@@ -115,6 +116,7 @@ struct djvFileBrowser::P
             RECENT_GROUP,
             DRIVES_GROUP,
             THUMBNAILS_GROUP,
+            THUMBNAILS_SIZE_GROUP,
             SEQ_GROUP,
             SORT_GROUP,
             BOOKMARKS_GROUP
@@ -226,6 +228,11 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
         optionsMenu->addMenu(tr("Thu&mbnails"));
     _p->actions.groups[P::Actions::THUMBNAILS_GROUP] = new QActionGroup(this);
     _p->actions.groups[P::Actions::THUMBNAILS_GROUP]->setExclusive(true);
+    
+    _p->menus.menus[P::Menus::THUMBNAILS_SIZE] =
+        optionsMenu->addMenu(tr("Thumbnails Size"));
+    _p->actions.groups[P::Actions::THUMBNAILS_SIZE_GROUP] = new QActionGroup(this);
+    _p->actions.groups[P::Actions::THUMBNAILS_SIZE_GROUP]->setExclusive(true);
     
     _p->menus.menus[P::Menus::SEQ] = optionsMenu->addMenu(tr("Se&quence"));
     _p->actions.groups[P::Actions::SEQ_GROUP] = new QActionGroup(this);
@@ -344,8 +351,8 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->model->setReverseSort(djvFileBrowserPrefs::global()->hasReverseSort());
     _p->model->setSortDirsFirst(djvFileBrowserPrefs::global()->hasSortDirsFirst());
     _p->model->setThumbnails(djvFileBrowserPrefs::global()->thumbnails());
+    _p->model->setThumbnailsSize(djvFileBrowserPrefs::global()->thumbnailsSize());
     _p->model->setPath(_p->fileInfo);
-    _p->model->setView(_p->widgets.browser);
     
     // Initialize.
     
@@ -429,6 +436,11 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
         SLOT(thumbnailsCallback(QAction *)));
 
     connect(
+        _p->actions.groups[P::Actions::THUMBNAILS_SIZE_GROUP],
+        SIGNAL(triggered(QAction *)),
+        SLOT(thumbnailsSizeCallback(QAction *)));
+
+    connect(
         _p->actions.groups[P::Actions::SEQ_GROUP],
         SIGNAL(triggered(QAction *)),
         SLOT(seqCallback(QAction *)));
@@ -484,6 +496,11 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
 
     connect(
         djvFileBrowserPrefs::global(),
+        SIGNAL(thumbnailsChanged(djvFileBrowserModel::THUMBNAILS)),
+        SLOT(modelUpdate()));
+
+    connect(
+        djvFileBrowserPrefs::global(),
         SIGNAL(thumbnailsSizeChanged(djvFileBrowserModel::THUMBNAILS_SIZE)),
         SLOT(modelUpdate()));
 
@@ -527,6 +544,7 @@ djvFileBrowser::~djvFileBrowser()
     djvFileBrowserPrefs::global()->setReverseSort(_p->model->hasReverseSort());
     djvFileBrowserPrefs::global()->setSortDirsFirst(_p->model->hasSortDirsFirst());
     djvFileBrowserPrefs::global()->setThumbnails(_p->model->thumbnails());
+    djvFileBrowserPrefs::global()->setThumbnailsSize(_p->model->thumbnailsSize());
 
     delete _p;
 }
@@ -737,8 +755,14 @@ void djvFileBrowser::reloadCallback()
 
 void djvFileBrowser::thumbnailsCallback(QAction * action)
 {
-    _p->model->setThumbnails(
+    djvFileBrowserPrefs::global()->setThumbnails(
         static_cast<djvFileBrowserModel::THUMBNAILS>(action->data().toInt()));
+}
+
+void djvFileBrowser::thumbnailsSizeCallback(QAction * action)
+{
+    djvFileBrowserPrefs::global()->setThumbnailsSize(
+        static_cast<djvFileBrowserModel::THUMBNAILS_SIZE>(action->data().toInt()));
 }
 
 void djvFileBrowser::showHiddenCallback(bool value)
@@ -978,6 +1002,7 @@ void djvFileBrowser::modelUpdate()
 
     setCursor(Qt::WaitCursor);
 
+    _p->model->setThumbnails(djvFileBrowserPrefs::global()->thumbnails());
     _p->model->setThumbnailsSize(djvFileBrowserPrefs::global()->thumbnailsSize());
     _p->model->setPath(_p->fileInfo.path());
 
@@ -1067,6 +1092,19 @@ void djvFileBrowser::menuUpdate()
         action->setChecked(_p->model ->thumbnails() == i);
         action->setData(i);
         _p->actions.groups[P::Actions::THUMBNAILS_GROUP]->addAction(action);
+    }
+
+    _p->menus.menus[P::Menus::THUMBNAILS_SIZE]->clear();
+    
+    const QStringList & thumbnailsSize = djvFileBrowserModel::thumbnailsSizeLabels();
+    
+    for (int i = 0; i < thumbnailsSize.count(); ++i)
+    {
+        QAction * action = _p->menus.menus[P::Menus::THUMBNAILS_SIZE]->addAction(thumbnailsSize[i]);
+        action->setCheckable(true);
+        action->setChecked(_p->model ->thumbnailsSize() == i);
+        action->setData(i);
+        _p->actions.groups[P::Actions::THUMBNAILS_SIZE_GROUP]->addAction(action);
     }
 
     _p->menus.menus[P::Menus::SEQ]->clear();

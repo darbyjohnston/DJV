@@ -4,98 +4,142 @@
 <context>
     <name>djvConvertApplication</name>
     <message>
+        <location filename="djv_convert.cpp" line="157"/>
         <source>-mirror_h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="161"/>
         <source>-mirror_v</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="165"/>
         <source>-scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="170"/>
         <source>-scale_xy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="174"/>
         <source>-resize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="178"/>
         <source>-width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="182"/>
         <source>-height</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="186"/>
         <source>-crop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="190"/>
         <source>-crop_percent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="194"/>
         <source>-channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="198"/>
         <source>-seq</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="198"/>
         <source>-q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="205"/>
         <source>-layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="209"/>
         <source>-proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="213"/>
         <source>-time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="218"/>
         <source>-slate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="225"/>
         <source>-timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="232"/>
         <source>-pixel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="238"/>
         <source>-speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="244"/>
         <source>-tag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="251"/>
         <source>-tags_auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="278"/>
+        <source>input</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="291"/>
+        <source>output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="309"/>
         <source>Cannot open image: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="310"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="311"/>
+        <source>Cannot read image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="312"/>
+        <source>Cannot write image: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="321"/>
         <source>djv_convert
 
     This application provides a command line tool for processing images and movies.
@@ -185,47 +229,39 @@ Examples
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="469"/>
         <source>Timeout...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="518"/>
+        <location filename="djv_convert.cpp" line="615"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="627"/>
         <source>Slating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="834"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="846"/>
         <source>[100%] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="864"/>
         <source>Elapsed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_convert.cpp" line="874"/>
         <source>%1x%2:%3 %4 %5@%6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot read image: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot write image: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>output</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

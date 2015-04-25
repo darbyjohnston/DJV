@@ -45,6 +45,7 @@
 
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QThreadPool>
 #include <QTranslator>
 
 //------------------------------------------------------------------------------
@@ -570,6 +571,13 @@ djvCoreApplication::djvCoreApplication(const QString & name, int & argc, char **
     setOrganizationName("djv.sourceforge.net");
 
     setApplicationName(name);
+}
+
+int djvCoreApplication::run()
+{
+    djvAbstractCoreApplication::run();
+
+    return exitValue();
 }
 
 //------------------------------------------------------------------------------

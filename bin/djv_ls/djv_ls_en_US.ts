@@ -4,78 +4,97 @@
 <context>
     <name>djvLsApplication</name>
     <message>
+        <location filename="djv_ls.cpp" line="208"/>
         <source>-x_info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="208"/>
         <source>-xi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="212"/>
         <source>-file_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="212"/>
         <source>-fp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="216"/>
         <source>-seq</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="216"/>
         <source>-q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="220"/>
         <source>-recurse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="220"/>
         <source>-r</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="224"/>
         <source>-hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="228"/>
         <source>-columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="228"/>
         <source>-c</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="235"/>
         <source>-sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="235"/>
         <source>-s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="239"/>
         <source>-reverse_sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="239"/>
         <source>-rs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="243"/>
         <source>-x_sort_dirs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="243"/>
         <source>-xsd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="265"/>
         <source>Cannot open: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="274"/>
         <source>djv_ls
 
     This application provides a command line tool for listing directories with file sequences.
@@ -138,18 +157,22 @@ Examples
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="398"/>
         <source>%1 %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="400"/>
         <source>%1 %2 %3 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="431"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djv_ls.cpp" line="461"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>

@@ -208,6 +208,8 @@ public:
 
     djvCoreApplication(const QString & name, int & argc, char ** argv)
         throw (djvError);
+    
+    virtual int run();
 };
 
 //------------------------------------------------------------------------------

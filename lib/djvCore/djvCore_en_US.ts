@@ -4,7 +4,7 @@
 <context>
     <name>djvAbstractCoreApplication</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="223"/>
+        <location filename="djvCoreApplication.cpp" line="224"/>
         <source>General
 
     Version: %1
@@ -16,20 +16,10 @@
     Default speed: %7
     Maximum sequence size: %8
 </source>
-        <oldsource>General
-
-    Version: %1
-    System: %2
-    Endian: %3
-    Search path: %4
-    Time units: %5
-    Default speed: %6
-    Maximum sequence size: %7
-</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="249"/>
+        <location filename="djvCoreApplication.cpp" line="250"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -113,138 +103,55 @@ This software is based in part on the works of (in alphabetical order):
     http://www.zlib.net/
     Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler
 </source>
-        <oldsource>DJV Imaging, Version: %1
-
-http://djv.sourceforge.net
-
-Made in Berkeley, CA, USA
-
-Copyright (c) 2004-2015 Darby Johnston
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-* Neither the names of the copyright holders nor the names of any contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Portions of this software are copyright (in alphabetical order):
-
-    Copyright (c) 2004-2015 Darby Johnston
-    All rights reserved.
-
-    Copyright (c) 2008 Alan Jones
-    All rights reserved.
-
-    Copyright (c) 2008-2009 Mikael Sundell
-    All rights reserved.
-
-This software is based in part on the works of (in alphabetical order):
-
-    CMake
-    http://www.cmake.org
-    Copyright 2000-2011 Kitware, Inc., Insight Software Consortium
-    All rights reserved.
-
-    FFmpeg
-    http://www.ffmpeg.org
-    Licensed under the LGPLv2.1
-    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
-
-    GLEW
-    http://glew.sourceforge.net
-    Copyright (c) 2002-2007, Milan Ikits &lt;milan ikits[]ieee org&gt;
-    Copyright (c) 2002-2007, Marcelo E. Magallon &lt;mmagallo[]debian org&gt;
-    Copyright (c) 2002, Lev Povalahev
-    All rights reserved.
-
-    libjpeg
-    http://www.ijg.org
-    Copyright (c) 1991-2012, Thomas G. Lane, Guido Vollbeding
-
-    libpng
-    http://www.libpng.org
-    Copyright (c) 2004, 2006-2012 Glenn Randers-Pehrson
-
-    libquicktime
-    http://libquicktime.sourceforge.net
-    Copyright (c) 2002 Heroine Virtual Ltd.
-    Copyright (c) 2002-2007 Members of the libquicktime project
-
-    libtiff
-    http://www.libtiff.org
-    Copyright (c) 1988-1997 Sam Leffler
-    Copyright (c) 1991-1997 Silicon Graphics, Inc.
-
-    OpenEXR
-    http://www.openexr.com
-    Copyright (c) 2006, Industrial Light &amp; Magic, a division of LucasfilmEntertainment Company Ltd.
-
-    PortAudio
-    http://www.portaudio.com
-    Copyright (c) 1999-2006 Ross Bencina and Phil Burk
-
-    Qt
-    http://qt-project.org
-    Copyright (c) 2013 Digia Plc and/or its subsidiary(-ies)
-
-    zlib
-    http://www.zlib.net/
-    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler
-</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="408"/>
+        <location filename="djvCoreApplication.cpp" line="409"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="415"/>
+        <location filename="djvCoreApplication.cpp" line="416"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="422"/>
+        <location filename="djvCoreApplication.cpp" line="423"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="430"/>
+        <location filename="djvCoreApplication.cpp" line="431"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="436"/>
+        <location filename="djvCoreApplication.cpp" line="437"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="437"/>
+        <location filename="djvCoreApplication.cpp" line="438"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="442"/>
+        <location filename="djvCoreApplication.cpp" line="443"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="447"/>
+        <location filename="djvCoreApplication.cpp" line="448"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="455"/>
+        <location filename="djvCoreApplication.cpp" line="456"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="488"/>
+        <location filename="djvCoreApplication.cpp" line="489"/>
         <source>
 General Options
 
@@ -266,7 +173,7 @@ General Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="524"/>
+        <location filename="djvCoreApplication.cpp" line="525"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -309,41 +216,33 @@ OpenGL Options
     -render_filter_high
         Set the render filter to high quality settings (%5, %6).
 %7</source>
-        <oldsource>%1
-OpenGL Options
-
-    -render_filter (minify) (magnify)
-        Set the render filter. Options = %2. Default = %3, %4.
-    -render_filter_high
-        Set the render filter to high quality settings (%5, %6).
-%7</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djvApplicationEnum</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="57"/>
+        <location filename="djvCoreApplication.cpp" line="58"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="58"/>
+        <location filename="djvCoreApplication.cpp" line="59"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="59"/>
+        <location filename="djvCoreApplication.cpp" line="60"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="60"/>
+        <location filename="djvCoreApplication.cpp" line="61"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="61"/>
+        <location filename="djvCoreApplication.cpp" line="62"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -511,43 +410,36 @@ OpenGL Options
     <message>
         <location filename="djvFileIo.cpp" line="680"/>
         <source>Cannot open file: &quot;%1&quot;</source>
-        <oldsource>Cannot open file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFileIo.cpp" line="682"/>
         <source>Cannot create file mapping: &quot;%1&quot; (%2)</source>
-        <oldsource>Cannot create file mapping: %1 (%2)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFileIo.cpp" line="683"/>
         <source>Cannot memory-map file: &quot;%1&quot; (%2)</source>
-        <oldsource>Cannot memory-map file: %1 (%2)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFileIo.cpp" line="685"/>
         <source>Cannot memory-map file: &quot;%1&quot;</source>
-        <oldsource>Cannot memory-map file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFileIo.cpp" line="687"/>
         <source>Error reading file: &quot;%1&quot;</source>
-        <oldsource>Error reading file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFileIo.cpp" line="688"/>
         <source>Error writing file: &quot;%1&quot;</source>
-        <oldsource>Error writing file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFileIo.cpp" line="689"/>
         <source>Cannot set file position: &quot;%1&quot;</source>
-        <oldsource>Cannot set file position: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -609,31 +501,26 @@ OpenGL Options
     <message>
         <location filename="djvImageIo.cpp" line="185"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
-        <oldsource>Unrecognized file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="186"/>
         <source>Unsupported file: &quot;%1&quot;</source>
-        <oldsource>Unsupported file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="187"/>
         <source>Cannot open file: &quot;%1&quot;</source>
-        <oldsource>Cannot open file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="188"/>
         <source>Error reading file: &quot;%1&quot;</source>
-        <oldsource>Error reading file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="189"/>
         <source>Error writing file: &quot;%1&quot;</source>
-        <oldsource>Error writing file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -642,7 +529,6 @@ OpenGL Options
     <message>
         <location filename="djvImageIo.cpp" line="411"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
-        <oldsource>Unrecognized file: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

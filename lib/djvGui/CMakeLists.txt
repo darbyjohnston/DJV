@@ -14,6 +14,7 @@ set(header
     djvFileBrowser.h
     djvFileBrowserCache.h
     djvFileBrowserModel.h
+    djvFileBrowserModelPrivate.h
     djvFileBrowserPrefs.h
     djvFileBrowserPrefsWidget.h
     djvFileEdit.h
@@ -77,6 +78,7 @@ set(mocHeader
     djvDebugLogDialog.h
     djvFileBrowser.h
     djvFileBrowserModel.h
+    djvFileBrowserModelPrivate.h
     djvFileBrowserPrefs.h
     djvFileBrowserPrefsWidget.h
     djvFileEdit.h
@@ -136,6 +138,7 @@ set(source
     djvFileBrowser.cpp
     djvFileBrowserCache.cpp
     djvFileBrowserModel.cpp
+    djvFileBrowserModelPrivate.cpp
     djvFileBrowserPrefs.cpp
     djvFileBrowserPrefsWidget.cpp
     djvFileEdit.cpp

@@ -155,6 +155,7 @@ private Q_SLOTS:
     void desktopCallback();
     void reloadCallback();
     void thumbnailsCallback(QAction *);
+    void thumbnailsSizeCallback(QAction *);
     void showHiddenCallback(bool);
     void showHiddenCallback();
     void seqCallback(QAction *);

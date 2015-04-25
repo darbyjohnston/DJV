@@ -52,6 +52,7 @@
 #include <QPlastiqueStyle>
 #endif
 #include <QScopedPointer>
+#include <QThreadPool>
 #include <QUrl>
 
 #include <algorithm>
@@ -199,7 +200,9 @@ int djvAbstractApplication::run()
     //DJV_DEBUG("djvAbstractApplication::run");
     //DJV_DEBUG_PRINT("valid = " << _valid);
 
-    return djvAbstractImageApplication::run();
+    int r = djvAbstractImageApplication::run();
+    
+    return r;
 }
 
 QString djvAbstractApplication::info() const
@@ -339,6 +342,8 @@ int djvApplication::run()
     {
         QApplication::exec();
     }
+
+    QThreadPool::globalInstance()->waitForDone();
     
     return exitValue();
 }

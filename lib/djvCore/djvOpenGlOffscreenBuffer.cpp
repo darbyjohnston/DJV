@@ -153,7 +153,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
             errorLabels()[ERROR_INIT_FBO].
             arg((char *)gluErrorString(error)));
     }
-
+    
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
 
     ++bufferCount;
