@@ -257,11 +257,6 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
             _pngError.msg);
     }
 
-    SNPRINTF(
-        _pngError.msg,
-        djvStringUtil::cStringLength,
-        QString("Error opening: %1").arg(in).toLatin1().data());
-
     // Open the file.
 
 #if defined(DJV_WINDOWS)
@@ -285,7 +280,7 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvPngPlugin::staticName,
-            _pngError.msg);
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
     }
 
     // Get file information.
