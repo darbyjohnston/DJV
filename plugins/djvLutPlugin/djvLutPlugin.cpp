@@ -341,7 +341,7 @@ void djvLutPlugin::infernoLoad(djvFileIo & io, djvImage & out)
 
             switch (djvPixel::type(out.pixel()))
             {
-                case djvPixel::U8:  color[x].setU8(v, c); break;
+                case djvPixel::U8:  color[x].setU8 (v, c); break;
                 case djvPixel::U10: color[x].setU10(v, c); break;
                 case djvPixel::U16: color[x].setU16(v, c); break;
 
