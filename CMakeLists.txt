@@ -194,6 +194,7 @@ include(djvThirdPartyJpeg)
 include(djvThirdPartyPng)
 include(djvThirdPartyTiff)
 include(djvThirdPartyOpenExr)
+include(djvThirdPartyFFmpeg)
 include(djvThirdPartyLibquicktime)
 include(djvThirdPartyQuickTime)
 
