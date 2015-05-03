@@ -38,6 +38,7 @@
 #include <djvFFmpegWidget.h>
 
 #include <djvAssert.h>
+#include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileIoUtil.h>
 #include <djvMath.h>
@@ -58,7 +59,8 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 // djvFFmpegPlugin::Options
 //------------------------------------------------------------------------------
 
-djvFFmpegPlugin::Options::Options()
+djvFFmpegPlugin::Options::Options() :
+    codec("h264")
 {}
 
 //------------------------------------------------------------------------------
@@ -67,20 +69,80 @@ djvFFmpegPlugin::Options::Options()
 
 const QString djvFFmpegPlugin::staticName = "FFmpeg";
 
+QStringList djvFFmpegPlugin::codecLabels()
+{
+    QStringList out;
+    
+    const AVCodecDescriptor * desc = 0;
+    
+    while ((desc = avcodec_descriptor_next(desc)))
+    {
+        if (AVMEDIA_TYPE_VIDEO == desc->type)
+        {
+            out += desc->name;
+        }
+    }
+
+    out.sort();
+    
+    return out;
+}
+
+QStringList djvFFmpegPlugin::codecTextLabels()
+{
+    QStringList out;
+
+    const AVCodecDescriptor * desc = 0;
+    
+    while ((desc = avcodec_descriptor_next(desc)))
+    {
+        if (AVMEDIA_TYPE_VIDEO == desc->type)
+        {
+            out += desc->long_name;
+        }
+    }
+
+    out.sort();
+
+    return out;
+}
+
 const QStringList & djvFFmpegPlugin::optionsLabels()
 {
-    static const QStringList data = QStringList();
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvFFmpegPlugin", "Codec");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
     return data;
 }
 
+namespace
+{
+
+void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
+{
+    if (level > av_log_get_level())
+        return;
+
+    char s [djvStringUtil::cStringLength];
+    
+    SNPRINTF(s, djvStringUtil::cStringLength, fmt, vl);
+    
+    DJV_LOG("djvFFmpegPlugin", s);
+}
+
+} // namespace
+
 void djvFFmpegPlugin::initPlugin() throw (djvError)
 {
     //DJV_DEBUG("djvFFmpegPlugin::initPlugin");
     
+    av_log_set_callback(avLogCallback);
+    
     av_register_all();
+
+    //DJV_DEBUG_PRINT("codec = " << codecLabels());
 }
 
 djvPlugin * djvFFmpegPlugin::copyPlugin() const
@@ -100,27 +162,53 @@ QString djvFFmpegPlugin::pluginName() const
 QStringList djvFFmpegPlugin::extensions() const
 {
     return QStringList() <<
-        ".mov" <<
-        ".avi" <<
-        ".mp4" <<
-        ".m4v" <<
-        ".mpg" <<
-        ".mpeg";
+        ".avi"  <<
+        ".dv"   <<
+        ".gif"  <<
+        ".flv"  <<
+        ".mkv"  <<
+        ".mov"  <<
+        ".mpg"  <<
+        ".mpeg" <<
+        ".mp4"  <<
+        ".m4v";
 }
 
 QStringList djvFFmpegPlugin::option(const QString & in) const
 {
+    const QStringList & list = options();
+
     QStringList out;
+
+    if (in.compare(list[CODEC], Qt::CaseInsensitive))
+    {
+        out << _options.codec;
+    }
 
     return out;
 }
 
 bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
 {
+    const QStringList & list = options();
+
     try
     {
+        if (in.compare(list[CODEC], Qt::CaseInsensitive))
+        {
+            QString codec;
+            
+            data >> codec;
+            
+            if (codec != _options.codec)
+            {
+                _options.codec = codec;
+                
+                Q_EMIT optionChanged(in);
+            }
+        }
     }
-    catch (const QString &)
+    catch (QString)
     {
         return false;
     }
@@ -144,8 +232,9 @@ void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if (0)
+            if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_codec") == arg)
             {
+                in >> _options.codec;
             }
             else
             {
@@ -166,7 +255,12 @@ QString djvFFmpegPlugin::commandLineHelp() const
     return qApp->translate("djvFFmpegPlugin",
 "\n"
 "FFmpeg Options\n"
-"\n");
+"\n"
+"    -ffmpeg_codec (value)\n"
+"        Set the codec used when saving FFmpeg movies. Options = %1. "
+"Default = %2.\n").
+    arg(codecLabels().join(", ")).
+    arg(djvStringUtil::label(_options.codec).join(", "));
 }
 
 djvImageLoad * djvFFmpegPlugin::createLoad() const

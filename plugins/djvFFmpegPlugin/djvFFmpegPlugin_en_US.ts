@@ -6,28 +6,27 @@
     <message>
         <location filename="djvFFmpegLoad.cpp" line="90"/>
         <source>Cannot find stream information: %1</source>
-        <oldsource>Cannot find stream information in: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="111"/>
+        <location filename="djvFFmpegLoad.cpp" line="113"/>
         <source>Cannot find video stream: %1</source>
         <oldsource>Cannot find video stream in: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="126"/>
+        <location filename="djvFFmpegLoad.cpp" line="128"/>
         <source>Cannot find codec: %1</source>
         <oldsource>Cannot find codec for: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="135"/>
+        <location filename="djvFFmpegLoad.cpp" line="137"/>
         <source>Cannot copy context: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="142"/>
+        <location filename="djvFFmpegLoad.cpp" line="144"/>
         <source>Cannot open codec: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -35,11 +34,36 @@
 <context>
     <name>djvFFmpegPlugin</name>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="166"/>
+        <location filename="djvFFmpegPlugin.cpp" line="113"/>
+        <source>Codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvFFmpegPlugin.cpp" line="235"/>
+        <source>-ffmpeg_codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvFFmpegPlugin.cpp" line="255"/>
         <source>
 FFmpeg Options
 
+    -ffmpeg_codec (value)
+        Set the codec used when saving FFmpeg movies. Options = %1. Default = %2.
 </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvFFmpegWidget</name>
+    <message>
+        <location filename="djvFFmpegWidget.cpp" line="67"/>
+        <source>Codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvFFmpegWidget.cpp" line="68"/>
+        <source>Set the codec used when saving movies.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

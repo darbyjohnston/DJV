@@ -48,7 +48,7 @@ extern "C"
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 
-}
+} // extern "C"
 
 //! \addtogroup plugins
 //@{
@@ -60,6 +60,16 @@ extern "C"
 //! File extensions: .mov, .avi
 //!
 //! Supported features:
+//!
+//! - 8-bit RGBA
+//! - File compression
+//!
+//! References:
+//!
+//! - An ffmpeg and SDL Tutorial
+//!   http://dranger.com/ffmpeg/
+//! - libavformat/output-example.c
+//!   https://libav.org/doxygen/release/0.8/libavformat_2output-example_8c-example.html
 
 //@} // plugins
 
@@ -80,10 +90,20 @@ public:
     
     static const QString staticName;
 
+    //! Get the codec labels.
+
+    static QStringList codecLabels();
+
+    //! Get the codec text labels.
+
+    static QStringList codecTextLabels();
+
     //! This enumeration provides the options.
 
     enum OPTIONS
     {
+        CODEC,
+
         OPTIONS_COUNT
     };
 
@@ -95,7 +115,11 @@ public:
 
     struct Options
     {
+        //! Constructor.
+        
         Options();
+
+        QString codec;
     };
     
     virtual void initPlugin() throw (djvError);

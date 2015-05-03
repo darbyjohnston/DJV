@@ -54,7 +54,7 @@ djvFFmpegLoad::djvFFmpegLoad() :
     _startFrame     ( 0),
     _frame          ( 0)
 {
-    djvMemory::zero(&_avPacket, sizeof(_avPacket));
+    av_init_packet(&_avPacket);
 }
 
 djvFFmpegLoad::~djvFFmpegLoad()
@@ -104,6 +104,8 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         }
     }
     
+    //DJV_DEBUG_PRINT("video stream = " << _avVideoStream);
+    
     if (-1 == _avVideoStream)
     {
         throw djvError(
@@ -111,11 +113,11 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
             qApp->translate("djvFFmpegLoad", "Cannot find video stream: %1").arg(in));
     }
 
+    // Find the codec for the video stream.
+    
     AVStream * stream = _avFormatContext->streams[_avVideoStream];
     
     AVCodecContext * codecContext = stream->codec;
-    
-    // Find the codec for the video stream.
     
     AVCodec * codec = avcodec_find_decoder(codecContext->codec_id);
     
@@ -142,30 +144,6 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
             qApp->translate("djvFFmpegLoad", "Cannot open codec: %1").arg(in));
     }
     
-    // Get file information.
-    
-    _info.fileName = in;
-    _info.size     = djvVector2i(_avCodecContext->width, _avCodecContext->height);
-    _info.pixel    = djvPixel::RGBA_U8;
-    _info.mirror.y = true;
-    
-    const int64_t duration = av_rescale_q(
-        stream->duration,
-        stream->time_base,
-        AV_TIME_BASE_Q);
-    
-    //DJV_DEBUG_PRINT("duration = " << duration);
-
-    const djvSpeed speed(stream->r_frame_rate.num, stream->r_frame_rate.den);
-    
-    _info.sequence = djvSequence(
-        0,
-        duration / static_cast<double>(AV_TIME_BASE) * djvSpeed::speedToFloat(speed),
-        0,
-        speed);
-
-    info = _info;
-    
     // Initialize the buffers.
     
     _avFrame = av_frame_alloc();
@@ -185,6 +163,71 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         0,
         0,
         0);
+    
+    // Get file information.
+    
+    _info.fileName = in;
+    _info.size     = djvVector2i(_avCodecContext->width, _avCodecContext->height);
+    _info.pixel    = djvPixel::RGBA_U8;
+    _info.mirror.y = true;
+    
+    int64_t duration = 0;
+    
+    if (stream->duration != AV_NOPTS_VALUE)
+    {
+        duration = av_rescale_q(
+            stream->duration,
+            stream->time_base,
+            AV_TIME_BASE_Q);
+    }
+    else if (_avFormatContext->duration != AV_NOPTS_VALUE)
+    {
+        duration = _avFormatContext->duration;
+    }
+    
+    const djvSpeed speed(stream->r_frame_rate.num, stream->r_frame_rate.den);
+    
+    //DJV_DEBUG_PRINT("duration = " << int(duration));
+    //DJV_DEBUG_PRINT("speed = " << speed);
+
+    int64_t nbFrames = 0;
+    
+    if (stream->nb_frames != 0)
+    {
+        nbFrames = stream->nb_frames;
+    }
+    else
+    {
+        nbFrames =
+            duration / static_cast<double>(AV_TIME_BASE) *
+            djvSpeed::speedToFloat(speed);
+    }
+    
+    if (! nbFrames)
+    {
+        //! \todo As a last resort count the number of frames manually. If
+        //! there are a lot of frames (like a two hour movie) this could take
+        //! a really long time.
+        
+        int64_t pts = 0;
+        
+        while (readFrame(pts) >= 0)
+        {
+            ++nbFrames;
+        }
+
+        av_seek_frame(
+            _avFormatContext,
+            _avVideoStream,
+            0,
+            AVSEEK_FLAG_BACKWARD);
+    }
+
+    //DJV_DEBUG_PRINT("nbFrames = " << int(nbFrames));
+
+    _info.sequence = djvSequence(0, nbFrames - 1, 0, speed);
+
+    info = _info;
 }
 
 void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
@@ -340,25 +383,48 @@ void djvFFmpegLoad::close() throw (djvError)
 
 int djvFFmpegLoad::readFrame(int64_t & pts)
 {
+    //DJV_DEBUG("djvFFmpegLoad::readFrame");
+    
     int r = -1;
     
     int finished = 0;
     
-    while ((r = av_read_frame(_avFormatContext, &_avPacket)) >= 0)
+    do
     {
+        r = av_read_frame(_avFormatContext, &_avPacket);
+        
+        //DJV_DEBUG_PRINT("packet");
+        //DJV_DEBUG_PRINT("  size = " << int(_avPacket.size));
+        //DJV_DEBUG_PRINT("  pos = " << int(_avPacket.pos));
+        //DJV_DEBUG_PRINT("  keyframe = " << (_avPacket.flags & AV_PKT_FLAG_KEY));
+        //DJV_DEBUG_PRINT("  corrupt = " << (_avPacket.flags & AV_PKT_FLAG_CORRUPT));
+    
         if (_avVideoStream == _avPacket.stream_index)
         {
-            avcodec_decode_video2(_avCodecContext, _avFrame, &finished, &_avPacket);
-            
-            if (finished)
+            if (avcodec_decode_video2(
+                _avCodecContext,
+                _avFrame,
+                &finished,
+                &_avPacket) <= 0)
+             {
                 break;
+             }
         }
     }
-        
+    while (! finished);
+
+    pts = _avFrame->pkt_pts;
+    
+    //DJV_DEBUG_PRINT("pts = " << int(pts));
+    
     pts = av_rescale_q(
-        _avFrame->pkt_pts,
+        pts,
         _avFormatContext->streams[_avVideoStream]->time_base,
         AV_TIME_BASE_Q);
+    
+    //DJV_DEBUG_PRINT("pts = " << int(pts));
+    //DJV_DEBUG_PRINT("finished = " << finished);
+    //DJV_DEBUG_PRINT("r = " << r);
     
     return r;
 }

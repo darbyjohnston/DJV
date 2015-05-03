@@ -68,6 +68,7 @@ public:
 private Q_SLOTS:
 
     void pluginCallback(const QString &);
+    void codecCallback(int);
 
     void pluginUpdate();
     void widgetUpdate();
@@ -76,6 +77,7 @@ private:
 
     djvFFmpegPlugin *        _plugin;
     djvFFmpegPlugin::Options _options;
+    QComboBox *              _codecWidget;
 };
 
 //@} // djvFFmpegPlugin
