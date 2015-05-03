@@ -52,7 +52,7 @@ struct djvGlxContextPrivate
 {
 #   if defined(DJV_LINUX)
 
-    djvGlxContext() :
+    djvGlxContextPrivate() :
         display     (0),
         screen      (0),
         visuals     (0),
