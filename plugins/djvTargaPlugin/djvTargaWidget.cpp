@@ -70,7 +70,9 @@ djvTargaWidget::djvTargaWidget(djvTargaPlugin * plugin) :
         qApp->translate("djvTargaWidget", "Compression"),
         qApp->translate("djvTargaWidget", "Set the file compression used when saving Targa images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_compressionWidget);
+    formLayout->addRow(
+        qApp->translate("djvTargaWidget", "Compression:"),
+        _compressionWidget);
     layout->addWidget(prefsGroupBox);
     
     layout->addStretch();

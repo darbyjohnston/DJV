@@ -56,9 +56,9 @@
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
+#include <djvImagePrefs.h>
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
-#include <djvOpenGlPrefs.h>
 
 #include <QDesktopWidget>
 #include <QDir>
@@ -338,7 +338,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
         SLOT(fileCacheUpdate()));
 
     connect(
-        djvOpenGlPrefs::global(),
+        djvImagePrefs::global(),
         SIGNAL(filterChanged(const djvOpenGlImageFilter &)),
         SLOT(imageUpdate()));
 

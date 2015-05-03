@@ -71,14 +71,18 @@ djvPpmWidget::djvPpmWidget(djvPpmPlugin * plugin) :
         qApp->translate("djvPpmWidget", "File Type"),
         qApp->translate("djvPpmWidget", "Set the file type used when saving PPM images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_typeWidget);
+    formLayout->addRow(
+        qApp->translate("djvPpmWidget", "File type:"),
+        _typeWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvPpmWidget", "Data Type"),
         qApp->translate("djvPpmWidget", "Set the data type used when saving PPM images."));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_dataWidget);
+    formLayout->addRow(
+        qApp->translate("djvPpmWidget", "Data type:"),
+        _dataWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

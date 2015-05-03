@@ -42,5 +42,10 @@ IFF Options
         <oldsource>Set the options used when saving IFF images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="djvIffWidget.cpp" line="75"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

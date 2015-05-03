@@ -165,7 +165,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
         qApp->translate("djvViewViewPrefsWidget", "Size:"),
         _p->gridWidget);
     formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Foreground color:"),
+        qApp->translate("djvViewViewPrefsWidget", "Color:"),
         _p->gridColorWidget);
     layout->addWidget(prefsGroupBox);
 

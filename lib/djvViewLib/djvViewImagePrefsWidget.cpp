@@ -47,6 +47,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QCheckBox>
+#include <QLabel>
 #include <QListWidget>
 #include <QFormLayout>
 #include <QVBoxLayout>
@@ -112,10 +113,10 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
         qApp->translate("djvViewImagePrefsWidget", "Automatically store the current frame when files are reloaded"));
 
     _p->mirrorHWidget = new QCheckBox(
-        qApp->translate("djvViewImagePrefsWidget", "Mirror the image horizontally"));
+        qApp->translate("djvViewImagePrefsWidget", "Mirror horizontally"));
 
     _p->mirrorVWidget = new QCheckBox(
-        qApp->translate("djvViewImagePrefsWidget", "Mirror the image vertically"));
+        qApp->translate("djvViewImagePrefsWidget", "Mirror vertically"));
 
     _p->scaleWidget = new QComboBox;
     _p->scaleWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -126,7 +127,7 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     _p->rotateWidget->addItems(djvViewUtil::imageRotateLabels());
 
     _p->colorProfileWidget = new QCheckBox(
-        qApp->translate("djvViewImagePrefsWidget", "Enable the color profile"));
+        qApp->translate("djvViewImagePrefsWidget", "Enable color profile"));
 
     _p->displayProfileWidget = new QComboBox;
     _p->displayProfileWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -171,30 +172,35 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewImagePrefsWidget", "Transforms"));
+        qApp->translate("djvViewImagePrefsWidget", "Transforms"),
+        qApp->translate("djvViewImagePrefsWidget", "Set how the image is transformed."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->mirrorHWidget);
     formLayout->addRow(_p->mirrorVWidget);
     formLayout->addRow(
-        qApp->translate("djvViewImagePrefsWidget", "Image scale:"),
+        qApp->translate("djvViewImagePrefsWidget", "Scale:"),
         _p->scaleWidget);
     formLayout->addRow(
-        qApp->translate("djvViewImagePrefsWidget", "Image rotation:"),
+        qApp->translate("djvViewImagePrefsWidget", "Rotation:"),
         _p->rotateWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewImagePrefsWidget", "Color Profile"));
+        qApp->translate("djvViewImagePrefsWidget", "Color Profile"),
+        qApp->translate("djvViewImagePrefsWidget",
+        "Set whether the image's color profile is enabled."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->colorProfileWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewImagePrefsWidget", "Display Profile"));
+        qApp->translate("djvViewImagePrefsWidget", "Display Profile"),
+        qApp->translate("djvViewImagePrefsWidget", "Set a custom display profile."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
-        qApp->translate("djvViewImagePrefsWidget", "Profile:"),
+        qApp->translate("djvViewImagePrefsWidget", "Current profile:"),
         _p->displayProfileWidget);
+    formLayout->addRow(new QLabel(qApp->translate("djvViewImagePrefsWidget", "Available profiles:")));
     formLayout->addRow(_p->displayProfileListWidget);
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addStretch();
@@ -206,10 +212,11 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewImagePrefsWidget", "Channels"));
+        qApp->translate("djvViewImagePrefsWidget", "Channels"),
+        qApp->translate("djvViewImagePrefsWidget", "Set which image channels are displayed."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
-        qApp->translate("djvViewImagePrefsWidget", "Channel:"),
+        qApp->translate("djvViewImagePrefsWidget", "Channels:"),
         _p->channelWidget);
     layout->addWidget(prefsGroupBox);
 

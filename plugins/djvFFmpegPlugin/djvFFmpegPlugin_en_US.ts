@@ -67,5 +67,10 @@ FFmpeg Options
         <oldsource>Set the options used when saving movies.</oldsource>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="djvFFmpegWidget.cpp" line="71"/>
+        <source>Codec:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -230,12 +230,13 @@ OpenEXR Options
     <name>djvOpenExrWidget</name>
     <message>
         <location filename="djvOpenExrWidget.cpp" line="78"/>
-        <source>Enable</source>
+        <source>Enable multi-threading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvOpenExrWidget.cpp" line="128"/>
-        <source>Multithreading</source>
+        <source>Multi-Threading</source>
+        <oldsource>Multithreading</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -297,17 +298,22 @@ OpenEXR Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrWidget.cpp" line="166"/>
+        <location filename="djvOpenExrWidget.cpp" line="163"/>
+        <source>Channels:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="168"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrWidget.cpp" line="167"/>
+        <location filename="djvOpenExrWidget.cpp" line="169"/>
         <source>Set the file compression used when saving OpenEXR images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrWidget.cpp" line="173"/>
+        <location filename="djvOpenExrWidget.cpp" line="177"/>
         <source>DWA compression level:</source>
         <translation type="unfinished"></translation>
     </message>

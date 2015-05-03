@@ -67,7 +67,9 @@ djvJpegWidget::djvJpegWidget(djvJpegPlugin * plugin) :
         qApp->translate("djvJpegWidget", "Quality"),
         qApp->translate("djvJpegWidget", "Set the quality used when saving JPEG images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_qualityWidget);
+    formLayout->addRow(
+        qApp->translate("djvJpegWidget", "Quality:"),
+        _qualityWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

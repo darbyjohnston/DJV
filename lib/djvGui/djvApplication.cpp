@@ -38,7 +38,7 @@
 #include <djvFileBrowserPrefs.h>
 #include <djvHelpPrefs.h>
 #include <djvImageIoPrefs.h>
-#include <djvOpenGlPrefs.h>
+#include <djvImagePrefs.h>
 #include <djvPrefs.h>
 #include <djvSequencePrefs.h>
 #include <djvStyle.h>
@@ -106,8 +106,8 @@ djvAbstractApplication::djvAbstractApplication(
     
     djvFileBrowserPrefs::global();
     djvHelpPrefs::global();
+    djvImagePrefs::global();
     djvImageIoPrefs::global();
-    djvOpenGlPrefs::global();
     djvSequencePrefs::global();
     djvTimePrefs::global();
 

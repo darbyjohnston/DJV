@@ -67,7 +67,9 @@ djvLutWidget::djvLutWidget(djvLutPlugin * plugin) :
         qApp->translate("djvLutWidget", "Pixel Type"),
         qApp->translate("djvLutWidget", "Set the pixel type used when loading LUTs."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_typeWidget);
+    formLayout->addRow(
+        qApp->translate("djvLutWidget", "Pixel type:"),
+        _typeWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

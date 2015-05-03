@@ -70,12 +70,22 @@ PPM Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmWidget.cpp" line="79"/>
+        <location filename="djvPpmWidget.cpp" line="75"/>
+        <source>File type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPpmWidget.cpp" line="81"/>
         <source>Set the data type used when saving PPM images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmWidget.cpp" line="78"/>
+        <location filename="djvPpmWidget.cpp" line="84"/>
+        <source>Data type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPpmWidget.cpp" line="80"/>
         <source>Data Type</source>
         <oldsource>Data type:</oldsource>
         <translation type="unfinished"></translation>

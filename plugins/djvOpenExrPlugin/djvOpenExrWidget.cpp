@@ -75,7 +75,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     // Create the thread widgets.
 
     _threadsEnableWidget = new QCheckBox(
-        qApp->translate("djvOpenExrWidget", "Enable"));
+        qApp->translate("djvOpenExrWidget", "Enable multi-threading"));
 
     _threadCountWidget = new djvIntEdit;
     _threadCountWidget->setRange(0, 1024);
@@ -125,7 +125,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvOpenExrWidget", "Multithreading"));
+        qApp->translate("djvOpenExrWidget", "Multi-Threading"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_threadsEnableWidget);
     formLayout->addRow(
@@ -159,7 +159,9 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
         qApp->translate("djvOpenExrWidget",
         "Set how channels are grouped when loading OpenEXR images."));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_channelsWidget);
+    formLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Channels:"),
+        _channelsWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
@@ -167,7 +169,9 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
         qApp->translate("djvOpenExrWidget",
         "Set the file compression used when saving OpenEXR images."));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_compressionWidget);
+    formLayout->addRow(
+        qApp->translate("djvOpenExrWidget", "Compression:"),
+        _compressionWidget);
 #if OPENEXR_VERSION_HEX >= 0x02020000
     formLayout->addRow(
         qApp->translate("djvOpenExrWidget", "DWA compression level:"),

@@ -83,10 +83,13 @@ djvSequencePrefsWidget::djvSequencePrefsWidget(QWidget * parent) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvSequencePrefsWidget", "Sequences"));
+        qApp->translate("djvSequencePrefsWidget", "Max Frames"),
+        qApp->translate("djvSequencePrefsWidget",
+        "Set the maximum number of frames allowed in a sequence. This is used "
+        "as a safety feature to prevent file sequences from becoming too large."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
-        qApp->translate("djvSequencePrefsWidget", "Maximum number of frames:"),
+        qApp->translate("djvSequencePrefsWidget", "Frames:"),
         _p->maxFramesWidget);
     layout->addWidget(prefsGroupBox);
 

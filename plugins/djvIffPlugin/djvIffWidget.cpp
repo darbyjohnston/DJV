@@ -71,7 +71,9 @@ djvIffWidget::djvIffWidget(djvIffPlugin * plugin) :
         qApp->translate("djvIffWidget", "Compression"),
         qApp->translate("djvIffWidget", "Set the file compression used when saving IFF images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_compressionWidget);
+    formLayout->addRow(
+        qApp->translate("djvIffWidget", "Compression:"),
+        _compressionWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

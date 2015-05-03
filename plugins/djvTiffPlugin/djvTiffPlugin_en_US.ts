@@ -53,5 +53,10 @@ TIFF Options
         <oldsource>Set the options used when saving TIFF images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="djvTiffWidget.cpp" line="74"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

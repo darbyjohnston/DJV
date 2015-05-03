@@ -70,7 +70,9 @@ djvTiffWidget::djvTiffWidget(djvTiffPlugin * plugin) :
         qApp->translate("djvTiffWidget", "Compression"),
         qApp->translate("djvTiffWidget", "Set the file compression used when saving TIFF images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_compressionWidget);
+    formLayout->addRow(
+        qApp->translate("djvTiffWidget", "Compression:"),
+        _compressionWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

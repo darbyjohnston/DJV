@@ -37,5 +37,10 @@ JPEG Options
         <oldsource>Set the options used when saving JPEG images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="djvJpegWidget.cpp" line="71"/>
+        <source>Quality:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -132,7 +132,8 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewWindowPrefsWidget", "Tool Bars"));
+        qApp->translate("djvViewWindowPrefsWidget", "Tool Bars"),
+        qApp->translate("djvViewWindowPrefsWidget", "Set which tool bars are visible."));
     formLayout = prefsGroupBox->createLayout();
     for (int i = 0; i < _p->toolBarButtonGroup->buttons().count(); ++i)
         formLayout->addRow(_p->toolBarButtonGroup->button(i));

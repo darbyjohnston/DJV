@@ -601,7 +601,8 @@ Shortcut: %1</source>
     </message>
     <message>
         <location filename="djvFileBrowserPrefsWidget.cpp" line="199"/>
-        <source>Thumbnails::</source>
+        <source>Thumbnails:</source>
+        <oldsource>Thumbnails::</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -655,13 +656,47 @@ Shortcut: %1</source>
     <name>djvHelpPrefsWidget</name>
     <message>
         <location filename="djvHelpPrefsWidget.cpp" line="68"/>
-        <location filename="djvHelpPrefsWidget.cpp" line="82"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvHelpPrefsWidget.cpp" line="74"/>
         <source>Enable tool tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvHelpPrefsWidget.cpp" line="82"/>
+        <source>Tool Tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvImagePrefsWidget</name>
+    <message>
+        <location filename="djvImagePrefsWidget.cpp" line="68"/>
+        <source>Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImagePrefsWidget.cpp" line="87"/>
+        <source>Scaling</source>
+        <oldsource>Image Scaling</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImagePrefsWidget.cpp" line="88"/>
+        <source>Set the image scaling quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
+        <oldsource>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImagePrefsWidget.cpp" line="94"/>
+        <source>Scale down:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImagePrefsWidget.cpp" line="97"/>
+        <source>Scale up:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -694,34 +729,6 @@ Shortcut: %1</source>
     <message>
         <location filename="djvMultiChoiceDialog.cpp" line="95"/>
         <source>Multi Choice Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvOpenGlPrefsWidget</name>
-    <message>
-        <location filename="djvOpenGlPrefsWidget.cpp" line="68"/>
-        <source>OpenGL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlPrefsWidget.cpp" line="87"/>
-        <source>Render Filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlPrefsWidget.cpp" line="88"/>
-        <source>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlPrefsWidget.cpp" line="94"/>
-        <source>Zoom out:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlPrefsWidget.cpp" line="97"/>
-        <source>Zoom in:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -864,14 +871,24 @@ Shortcut: %1</source>
     <name>djvSequencePrefsWidget</name>
     <message>
         <location filename="djvSequencePrefsWidget.cpp" line="71"/>
-        <location filename="djvSequencePrefsWidget.cpp" line="86"/>
         <source>Sequences</source>
         <oldsource>File Sequences</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="89"/>
-        <source>Maximum number of frames:</source>
+        <location filename="djvSequencePrefsWidget.cpp" line="86"/>
+        <source>Max Frames</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvSequencePrefsWidget.cpp" line="87"/>
+        <source>Set the maximum number of frames allowed in a sequence. This is used as a safety feature to prevent file sequences from becoming too large.</source>
+        <oldsource>Set the maximum number of frames allowed in a sequence. This is used as a safety feature to prevent sequence from becoming to large.</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvSequencePrefsWidget.cpp" line="92"/>
+        <source>Frames:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -970,22 +987,32 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="165"/>
+        <location filename="djvStylePrefsWidget.cpp" line="161"/>
+        <source>Color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvStylePrefsWidget.cpp" line="167"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="175"/>
+        <location filename="djvStylePrefsWidget.cpp" line="174"/>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvStylePrefsWidget.cpp" line="179"/>
         <source>Fonts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="178"/>
+        <location filename="djvStylePrefsWidget.cpp" line="182"/>
         <source>Normal:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="181"/>
+        <location filename="djvStylePrefsWidget.cpp" line="185"/>
         <source>Fixed:</source>
         <translation type="unfinished"></translation>
     </message>

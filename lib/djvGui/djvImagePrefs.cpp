@@ -29,24 +29,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlPrefs.cpp
+//! \file djvImagePrefs.cpp
 
-#include <djvOpenGlPrefs.h>
+#include <djvImagePrefs.h>
 
 #include <djvPrefs.h>
 
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvOpenGlPrefs
+// djvImagePrefs
 //------------------------------------------------------------------------------
 
-djvOpenGlPrefs::djvOpenGlPrefs(QObject * parent) :
+djvImagePrefs::djvImagePrefs(QObject * parent) :
     QObject(parent)
 {
-    //DJV_DEBUG("djvOpenGlPrefs::djvOpenGlPrefs");
+    //DJV_DEBUG("djvImagePrefs::djvImagePrefs");
 
-    djvPrefs prefs("djvOpenGlPrefs", djvPrefs::SYSTEM);
+    djvPrefs prefs("djvImagePrefs", djvPrefs::SYSTEM);
 
     djvOpenGlImageFilter filter;
 
@@ -56,33 +56,33 @@ djvOpenGlPrefs::djvOpenGlPrefs(QObject * parent) :
     }
 }
 
-djvOpenGlPrefs::~djvOpenGlPrefs()
+djvImagePrefs::~djvImagePrefs()
 {
-    //DJV_DEBUG("djvOpenGlPrefs::~djvOpenGlPrefs");
+    //DJV_DEBUG("djvImagePrefs::~djvImagePrefs");
 
-    djvPrefs prefs("djvOpenGlPrefs", djvPrefs::SYSTEM);
+    djvPrefs prefs("djvImagePrefs", djvPrefs::SYSTEM);
 
     prefs.set("filter", djvOpenGlImageFilter::filter());
 }
 
-const djvOpenGlImageFilter & djvOpenGlPrefs::filter() const
+const djvOpenGlImageFilter & djvImagePrefs::filter() const
 {
     return djvOpenGlImageFilter::filter();
 }
 
-djvOpenGlPrefs * djvOpenGlPrefs::global()
+djvImagePrefs * djvImagePrefs::global()
 {
-    static djvOpenGlPrefs * global = 0;
+    static djvImagePrefs * global = 0;
     
     if (! global)
     {
-        global = new djvOpenGlPrefs(qApp);
+        global = new djvImagePrefs(qApp);
     }
     
     return global;
 }
 
-void djvOpenGlPrefs::setFilter(const djvOpenGlImageFilter & filter)
+void djvImagePrefs::setFilter(const djvOpenGlImageFilter & filter)
 {
     if (filter == this->filter())
         return;

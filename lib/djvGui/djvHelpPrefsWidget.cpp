@@ -79,7 +79,7 @@ djvHelpPrefsWidget::djvHelpPrefsWidget(QWidget * parent) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvHelpPrefsWidget", "Help"));
+        qApp->translate("djvHelpPrefsWidget", "Tool Tips"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->toolTipsWidget);
     layout->addWidget(prefsGroupBox);

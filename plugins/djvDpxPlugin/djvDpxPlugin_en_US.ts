@@ -432,22 +432,37 @@ DPX Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="174"/>
+        <location filename="djvDpxWidget.cpp" line="170"/>
+        <source>Version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="176"/>
         <source>Set the pixel type used when saving DPX images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="181"/>
+        <location filename="djvDpxWidget.cpp" line="179"/>
+        <source>Pixel type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="185"/>
         <source>Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="173"/>
+        <location filename="djvDpxWidget.cpp" line="190"/>
+        <source>Endian:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="175"/>
         <source>Pixel Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="180"/>
+        <location filename="djvDpxWidget.cpp" line="184"/>
         <source>Endian</source>
         <translation type="unfinished"></translation>
     </message>

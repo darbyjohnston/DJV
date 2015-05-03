@@ -67,7 +67,9 @@ djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
         qApp->translate("djvFFmpegWidget", "Codec"),
         qApp->translate("djvFFmpegWidget", "Set the codec used when saving movies."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_codecWidget);
+    formLayout->addRow(
+        qApp->translate("djvFFmpegWidget", "Codec:"),
+        _codecWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

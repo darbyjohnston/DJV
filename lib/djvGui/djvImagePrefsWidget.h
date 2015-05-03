@@ -29,70 +29,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlPrefs.h
+//! \file djvImagePrefsWidget.h
 
-#ifndef DJV_OPEN_GL_PREFS_H
-#define DJV_OPEN_GL_PREFS_H
+#ifndef DJV_IMAGE_PREFS_WIDGET_H
+#define DJV_IMAGE_PREFS_WIDGET_H
 
-#include <djvGuiExport.h>
+#include <djvAbstractPrefsWidget.h>
 
-#include <djvOpenGlImage.h>
+#include <djvUtil.h>
 
-#include <QObject>
+struct djvImagePrefsWidgetPrivate;
 
 //! \addtogroup djvGuiMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvOpenGlPrefs
+//! \class djvImagePrefsWidget
 //!
-//! This class provides OpenGL preferences.
+//! This class provides an image preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvOpenGlPrefs : public QObject
+class DJV_GUI_EXPORT djvImagePrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
-    
-    //! This property holds the pixel.
-    
-    Q_PROPERTY(
-        djvOpenGlImageFilter filter
-        READ                 filter
-        WRITE                setFilter
-        NOTIFY               filterChanged)
-    
+
 public:
 
     //! Constructor.
 
-    explicit djvOpenGlPrefs(QObject * parent = 0);
+    explicit djvImagePrefsWidget(QWidget * parent = 0);
 
     //! Destructor.
 
-    ~djvOpenGlPrefs();
+    virtual ~djvImagePrefsWidget();
 
-    //! Get the image filter.
+    virtual void resetPreferences();
 
-    const djvOpenGlImageFilter & filter() const;
+    private Q_SLOTS:
 
-    //! Get the global preferences.
+    void filterMinCallback(int);
+    void filterMagCallback(int);
 
-    static djvOpenGlPrefs * global();
+private:
 
-public Q_SLOTS:
+    void widgetUpdate();
 
-    //! Set the image filter.
-
-    void setFilter(const djvOpenGlImageFilter &);
-
-Q_SIGNALS:
-
-    //! This signal is emitted when the image filter is changed.
+    DJV_PRIVATE_COPY(djvImagePrefsWidget);
     
-    void filterChanged(const djvOpenGlImageFilter &);
+    djvImagePrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiMisc
 
-#endif // DJV_OPEN_GL_PREFS_H
+#endif // DJV_IMAGE_PREFS_WIDGET_H
 

@@ -584,6 +584,16 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="116"/>
+        <source>Mirror horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="119"/>
+        <source>Mirror vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="djvViewImagePrefsWidget.cpp" line="140"/>
         <source>Add a new display profile</source>
         <translation type="unfinished"></translation>
@@ -604,18 +614,30 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="181"/>
+        <source>Scale:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="184"/>
+        <source>Rotation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="201"/>
+        <source>Current profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="203"/>
+        <source>Available profiles:</source>
+        <oldsource>Display profiles:</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="djvViewImagePrefsWidget.cpp" line="130"/>
-        <source>Enable the color profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="116"/>
-        <source>Mirror the image horizontally</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="119"/>
-        <source>Mirror the image vertically</source>
+        <source>Enable color profile</source>
+        <oldsource>Enable the color profile</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -624,52 +646,59 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="180"/>
-        <source>Image scale:</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="176"/>
+        <source>Set how the image is transformed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="183"/>
-        <source>Image rotation:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="188"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="189"/>
         <source>Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="194"/>
-        <source>Display Profile</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="190"/>
+        <source>Set whether the image&apos;s color profile is enabled.</source>
+        <oldsource>Set whether the image&apos;s color profile is used to alter the image colors.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewImagePrefsWidget.cpp" line="197"/>
-        <source>Profile:</source>
+        <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="211"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="198"/>
+        <source>Set a custom display profile.</source>
+        <oldsource>Set a custom display profile to alter the image colors.</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="215"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="214"/>
-        <source>Channel:</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="216"/>
+        <source>Set which image channels are displayed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="380"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="219"/>
+        <source>Channels:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="385"/>
         <source>Add a new display profile:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="408"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="413"/>
         <source>Are you sure you want to remove the display profile &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="516"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="521"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2320,6 +2349,10 @@ Shortcut: %1</source>
     </message>
     <message>
         <location filename="djvViewViewPrefsWidget.cpp" line="168"/>
+        <source>Color:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="djvViewViewPrefsWidget.cpp" line="178"/>
         <source>Foreground color:</source>
         <oldsource>Grid color:</oldsource>
@@ -2456,6 +2489,11 @@ Shortcut: %1</source>
     <message>
         <location filename="djvViewWindowPrefsWidget.cpp" line="135"/>
         <source>Tool Bars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewWindowPrefsWidget.cpp" line="136"/>
+        <source>Set which tool bars are visible.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

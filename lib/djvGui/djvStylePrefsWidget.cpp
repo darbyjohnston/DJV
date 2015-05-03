@@ -157,7 +157,9 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     hLayout->addWidget(_p->colorBackground2Widget);
     hLayout->addWidget(_p->colorButtonWidget);
     hLayout->addWidget(_p->colorSelectWidget);
-    formLayout->addRow(hLayout);
+    formLayout->addRow(
+        qApp->translate("djvStylePrefsWidget", "Color:"),
+        hLayout);
     formLayout->addRow(_p->colorSwatchTransparencyWidget);
     layout->addWidget(prefsGroupBox);
 
@@ -168,7 +170,9 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     hLayout->setMargin(0);
     hLayout->addWidget(_p->sizeWidget);
     hLayout->addWidget(_p->sizeValueWidget);
-    formLayout->addRow(hLayout);
+    formLayout->addRow(
+        qApp->translate("djvStylePrefsWidget", "Size:"),
+        hLayout);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(

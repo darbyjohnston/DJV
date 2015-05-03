@@ -29,6 +29,8 @@ set(header
 	djvHelpPrefsWidget.h
     djvIconLibrary.h
     djvImageIoPrefs.h
+    djvImagePrefs.h
+	djvImagePrefsWidget.h
     djvImageView.h
     djvIndexShortcut.h
     djvInputDialog.h
@@ -39,8 +41,6 @@ set(header
     djvIntSlider.h
     djvMessageDialog.h
     djvMultiChoiceDialog.h
-    djvOpenGlPrefs.h
-	djvOpenGlPrefsWidget.h
     djvOpenGlWidget.h
     djvOsxMenuHack.h
     djvPixelMaskWidget.h
@@ -96,6 +96,8 @@ set(mocHeader
     djvHelpPrefsWidget.h
     djvIconLibrary.h
     djvImageIoPrefs.h
+    djvImagePrefs.h
+    djvImagePrefsWidget.h
     djvImageView.h
     djvIndexShortcut.h
     djvInputDialog.h
@@ -105,8 +107,6 @@ set(mocHeader
     djvIntObject.h
     djvIntSlider.h
     djvMultiChoiceDialog.h
-    djvOpenGlPrefs.h
-    djvOpenGlPrefsWidget.h
     djvOpenGlWidget.h
     djvOsxMenuHack.h
     djvPixelMaskWidget.h
@@ -160,6 +160,8 @@ set(source
 	djvHelpPrefsWidget.cpp
     djvIconLibrary.cpp
     djvImageIoPrefs.cpp
+    djvImagePrefs.cpp
+	djvImagePrefsWidget.cpp
     djvImageView.cpp
     djvIndexShortcut.cpp
     djvInputDialog.cpp
@@ -170,8 +172,6 @@ set(source
     djvIntSlider.cpp
     djvMessageDialog.cpp
     djvMultiChoiceDialog.cpp
-    djvOpenGlPrefs.cpp
-	djvOpenGlPrefsWidget.cpp
     djvOpenGlWidget.cpp
     djvOsxMenuHack.cpp
     djvPixelMaskWidget.cpp

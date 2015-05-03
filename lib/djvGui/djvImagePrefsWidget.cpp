@@ -29,11 +29,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlPrefsWidget.cpp
+//! \file djvImagePrefsWidget.cpp
 
-#include <djvOpenGlPrefsWidget.h>
+#include <djvImagePrefsWidget.h>
 
-#include <djvOpenGlPrefs.h>
+#include <djvImagePrefs.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
 
@@ -46,12 +46,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvOpenGlPrefsWidgetPrivate
+// djvImagePrefsWidgetPrivate
 //------------------------------------------------------------------------------
 
-struct djvOpenGlPrefsWidgetPrivate
+struct djvImagePrefsWidgetPrivate
 {
-    djvOpenGlPrefsWidgetPrivate() :
+    djvImagePrefsWidgetPrivate() :
        filterMinWidget(0),
        filterMagWidget(0)
     {}
@@ -61,12 +61,12 @@ struct djvOpenGlPrefsWidgetPrivate
 };
 
 //------------------------------------------------------------------------------
-// djvOpenGlPrefsWidget
+// djvImagePrefsWidget
 //------------------------------------------------------------------------------
 
-djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget(qApp->translate("djvOpenGlPrefsWidget", "OpenGL"), parent),
-    _p(new djvOpenGlPrefsWidgetPrivate)
+djvImagePrefsWidget::djvImagePrefsWidget(QWidget * parent) :
+    djvAbstractPrefsWidget(qApp->translate("djvImagePrefsWidget", "Images"), parent),
+    _p(new djvImagePrefsWidgetPrivate)
 {
     // Create the filter widgets.
 
@@ -84,17 +84,17 @@ djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvOpenGlPrefsWidget", "Render Filter"),
-        qApp->translate("djvOpenGlPrefsWidget",
-        "Set the render filter quality. The filters \"Nearest\" and "
+        qApp->translate("djvImagePrefsWidget", "Scaling"),
+        qApp->translate("djvImagePrefsWidget",
+        "Set the image scaling quality. The filters \"Nearest\" and "
         "\"Linear\" are generally the fastest. The other filters can provide "
         "higher quality but are generally slower."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
-        qApp->translate("djvOpenGlPrefsWidget", "Zoom out:"),
+        qApp->translate("djvImagePrefsWidget", "Scale down:"),
         _p->filterMinWidget);
     formLayout->addRow(
-        qApp->translate("djvOpenGlPrefsWidget", "Zoom in:"),
+        qApp->translate("djvImagePrefsWidget", "Scale up:"),
         _p->filterMagWidget);
     layout->addWidget(prefsGroupBox);
 
@@ -117,46 +117,46 @@ djvOpenGlPrefsWidget::djvOpenGlPrefsWidget(QWidget * parent) :
         SLOT(filterMagCallback(int)));
 }
 
-djvOpenGlPrefsWidget::~djvOpenGlPrefsWidget()
+djvImagePrefsWidget::~djvImagePrefsWidget()
 {
     delete _p;
 }
 
-void djvOpenGlPrefsWidget::resetPreferences()
+void djvImagePrefsWidget::resetPreferences()
 {
-    djvOpenGlPrefs::global()->setFilter(djvOpenGlImageFilter::filter());
+    djvImagePrefs::global()->setFilter(djvOpenGlImageFilter::filter());
 
     widgetUpdate();
 }
 
-void djvOpenGlPrefsWidget::filterMinCallback(int in)
+void djvImagePrefsWidget::filterMinCallback(int in)
 {
-    djvOpenGlPrefs::global()->setFilter(
+    djvImagePrefs::global()->setFilter(
         djvOpenGlImageFilter(
         static_cast<djvOpenGlImageFilter::FILTER>(in),
-        djvOpenGlPrefs::global()->filter().mag));
+        djvImagePrefs::global()->filter().mag));
 
     widgetUpdate();
 }
 
-void djvOpenGlPrefsWidget::filterMagCallback(int in)
+void djvImagePrefsWidget::filterMagCallback(int in)
 {
-    djvOpenGlPrefs::global()->setFilter(
+    djvImagePrefs::global()->setFilter(
         djvOpenGlImageFilter(
-        djvOpenGlPrefs::global()->filter().min,
+        djvImagePrefs::global()->filter().min,
         static_cast<djvOpenGlImageFilter::FILTER>(in)));
 
     widgetUpdate();
 }
 
-void djvOpenGlPrefsWidget::widgetUpdate()
+void djvImagePrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->filterMinWidget <<
         _p->filterMagWidget);
 
-    _p->filterMinWidget->setCurrentIndex(djvOpenGlPrefs::global()->filter().min);
+    _p->filterMinWidget->setCurrentIndex(djvImagePrefs::global()->filter().min);
     
-    _p->filterMagWidget->setCurrentIndex(djvOpenGlPrefs::global()->filter().mag);
+    _p->filterMagWidget->setCurrentIndex(djvImagePrefs::global()->filter().mag);
 }
 

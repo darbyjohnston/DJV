@@ -62,5 +62,10 @@ LUT Options
         <oldsource>Set the options used when loading LUTs.</oldsource>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="djvLutWidget.cpp" line="71"/>
+        <source>Pixel type:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -166,14 +166,18 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
         qApp->translate("djvDpxWidget", "Version"),
         qApp->translate("djvDpxWidget", "Set the file version used when saving DPX images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_versionWidget);
+    formLayout->addRow(
+        qApp->translate("djvDpxWidget", "Version:"),
+        _versionWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvDpxWidget", "Pixel Type"),
         qApp->translate("djvDpxWidget", "Set the pixel type used when saving DPX images."));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_typeWidget);
+    formLayout->addRow(
+        qApp->translate("djvDpxWidget", "Pixel type:"),
+        _typeWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
@@ -182,7 +186,9 @@ djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
         "Set the endian used when saving DPX images. Setting the endian to "
         "\"Auto\" will use the endian of the current hardware."));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_endianWidget);
+    formLayout->addRow(
+        qApp->translate("djvDpxWidget", "Endian:"),
+        _endianWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();

@@ -196,7 +196,7 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
         qApp->translate("djvFileBrowserPrefsWidget", "Thumbnails"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
-        qApp->translate("djvFileBrowserPrefsWidget", "Thumbnails::"),
+        qApp->translate("djvFileBrowserPrefsWidget", "Thumbnails:"),
         _p->thumbnailsWidget);
     formLayout->addRow(
         qApp->translate("djvFileBrowserPrefsWidget", "Size:"),

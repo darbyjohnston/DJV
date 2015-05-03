@@ -35,7 +35,7 @@
 
 #include <djvFileBrowserPrefsWidget.h>
 #include <djvHelpPrefsWidget.h>
-#include <djvOpenGlPrefsWidget.h>
+#include <djvImagePrefsWidget.h>
 #include <djvQuestionDialog.h>
 #include <djvSequencePrefsWidget.h>
 #include <djvStylePrefsWidget.h>
@@ -169,7 +169,7 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
         new djvHelpPrefsWidget,
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvOpenGlPrefsWidget,
+        new djvImagePrefsWidget,
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
         new djvSequencePrefsWidget,

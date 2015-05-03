@@ -68,7 +68,9 @@ djvSgiWidget::djvSgiWidget(djvSgiPlugin * plugin) :
         qApp->translate("djvSgiWidget", "Compression"),
         qApp->translate("djvSgiWidget", "Set the file compression used when saving SGI images."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_compressionWidget);
+    formLayout->addRow(
+        qApp->translate("djvSgiWidget", "Compression:"),
+        _compressionWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
