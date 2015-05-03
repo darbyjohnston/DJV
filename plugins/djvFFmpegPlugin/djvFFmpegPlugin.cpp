@@ -103,6 +103,7 @@ QStringList djvFFmpegPlugin::extensions() const
         ".mov" <<
         ".avi" <<
         ".mp4" <<
+        ".m4v" <<
         ".mpg" <<
         ".mpeg";
 }

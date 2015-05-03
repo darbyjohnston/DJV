@@ -69,14 +69,16 @@ public:
 
 private:
 
+    int readFrame(int64_t & pts);
+
     djvImageIoInfo    _info;
     
-    AVFormatContext * _formatContext;
-    int               _videoStream;
-    AVCodecContext *  _codecContext;
+    AVFormatContext * _avFormatContext;
+    int               _avVideoStream;
+    AVCodecContext *  _avCodecContext;
     AVFrame *         _avFrame;
     AVFrame *         _avFrameRgb;
-    uint8_t *         _avFrameBuffer;
+    AVPacket          _avPacket;
     SwsContext *      _swsContext;
 
     int               _startFrame;
