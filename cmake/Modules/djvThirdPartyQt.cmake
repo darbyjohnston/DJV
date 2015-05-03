@@ -71,44 +71,44 @@ if (djvPackageThirdParty)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.5.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.5.4.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.5.4.1.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.5.3.2.dylib
                 DESTINATION lib)
 
             install(
@@ -155,48 +155,48 @@ if (djvPackageThirdParty)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Concurrent.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Core.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5DBus.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5DBus.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5DBus.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5DBus.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5DBus.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5DBus.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Gui.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Network.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5OpenGL.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5PrintSupport.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Widgets.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.so.5.4
-                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.so.5.4.1
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Xml.so.5.3.2
                 DESTINATION lib)
 
             install(
