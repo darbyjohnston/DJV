@@ -54,12 +54,13 @@
 djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     djvAbstractPrefsWidget(djvCineon::staticName),
     _plugin                  (plugin),
-    _colorProfileLayout      (0),
+    _inputColorProfileLayout (0),
     _inputColorProfileWidget (0),
     _inputBlackPointWidget   (0),
     _inputWhitePointWidget   (0),
     _inputGammaWidget        (0),
     _inputSoftClipWidget     (0),
+    _outputColorProfileLayout(0),
     _outputColorProfileWidget(0),
     _outputBlackPointWidget  (0),
     _outputWhitePointWidget  (0),
@@ -106,28 +107,42 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvCineonWidget", "Color Profile"),
-        qApp->translate("djvCineonWidget",
-        "Set the color profile used when loading and saving Cineon images."));
-    _colorProfileLayout = prefsGroupBox->createLayout();
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Input profile:"), _inputColorProfileWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Black:"), _inputBlackPointWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "White:"), _inputWhitePointWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Gamma:"), _inputGammaWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Soft clip:"), _inputSoftClipWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Output profile:"), _outputColorProfileWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Black:"), _outputBlackPointWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "White:"), _outputWhitePointWidget);
-    _colorProfileLayout->addRow(
-        qApp->translate("djvCineonWidget", "Gamma:"), _outputGammaWidget);
+        qApp->translate("djvCineonWidget", "Input Color Profile"),
+        qApp->translate("djvCineonWidget", "Set the color profile used when loading Cineon images."));
+    _inputColorProfileLayout = prefsGroupBox->createLayout();
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Profile:"),
+        _inputColorProfileWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Black:"),
+        _inputBlackPointWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "White:"),
+        _inputWhitePointWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Gamma:"),
+        _inputGammaWidget);
+    _inputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Soft clip:"),
+        _inputSoftClipWidget);
+    layout->addWidget(prefsGroupBox);
+    
+    prefsGroupBox = new djvPrefsGroupBox(
+        qApp->translate("djvCineonWidget", "Output Color Profile"),
+        qApp->translate("djvCineonWidget", "Set the color profile used when saving Cineon images."));
+    _outputColorProfileLayout = prefsGroupBox->createLayout();
+    _outputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Profile:"),
+        _outputColorProfileWidget);
+    _outputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Black:"),
+        _outputBlackPointWidget);
+    _outputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "White:"),
+        _outputWhitePointWidget);
+    _outputColorProfileLayout->addRow(
+        qApp->translate("djvCineonWidget", "Gamma:"),
+        _outputGammaWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
@@ -358,44 +373,44 @@ void djvCineonWidget::widgetUpdate()
     _inputBlackPointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _colorProfileLayout->labelForField(_inputBlackPointWidget)->setVisible(
+    _inputColorProfileLayout->labelForField(_inputBlackPointWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
     _inputWhitePointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _colorProfileLayout->labelForField(_inputWhitePointWidget)->setVisible(
+    _inputColorProfileLayout->labelForField(_inputWhitePointWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
     _inputGammaWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _colorProfileLayout->labelForField(_inputGammaWidget)->setVisible(
+    _inputColorProfileLayout->labelForField(_inputGammaWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
     _inputSoftClipWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _colorProfileLayout->labelForField(_inputSoftClipWidget)->setVisible(
+    _inputColorProfileLayout->labelForField(_inputSoftClipWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
 
     _outputBlackPointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _colorProfileLayout->labelForField(_outputBlackPointWidget)->setVisible(
+    _outputColorProfileLayout->labelForField(_outputBlackPointWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
     _outputWhitePointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _colorProfileLayout->labelForField(_outputWhitePointWidget)->setVisible(
+    _outputColorProfileLayout->labelForField(_outputWhitePointWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
     _outputGammaWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _colorProfileLayout->labelForField(_outputGammaWidget)->setVisible(
+    _outputColorProfileLayout->labelForField(_outputGammaWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
 

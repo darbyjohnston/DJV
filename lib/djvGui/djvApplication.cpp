@@ -36,11 +36,13 @@
 #include <djvApplicationMessageDialog.h>
 #include <djvFileBrowser.h>
 #include <djvFileBrowserPrefs.h>
+#include <djvHelpPrefs.h>
 #include <djvImageIoPrefs.h>
-#include <djvMiscPrefs.h>
 #include <djvOpenGlPrefs.h>
 #include <djvPrefs.h>
+#include <djvSequencePrefs.h>
 #include <djvStyle.h>
+#include <djvTimePrefs.h>
 
 #include <djvDebugLog.h>
 #include <djvError.h>
@@ -61,35 +63,13 @@
 // djvAbstractApplication::P
 //------------------------------------------------------------------------------
 
-namespace
-{
-
-class ToolTipFilter : public QObject
-{
-protected:
-
-    bool eventFilter(QObject * object, QEvent * event)
-    {
-        if (event->type() == QEvent::ToolTip)
-            return true;
-        
-        return QObject::eventFilter(object, event);
-    }
-};
-
-} // namespace
-
 struct djvAbstractApplicationPrivate
 {
     djvAbstractApplicationPrivate() :
-        valid        (false),
-        toolTips     (djvAbstractApplication::toolTipsDefault()),
-        toolTipFilter(new ToolTipFilter)
+        valid(false)
     {}
         
-    bool                          valid;
-    bool                          toolTips;
-    QScopedPointer<ToolTipFilter> toolTipFilter;
+    bool valid;
 };
 
 //------------------------------------------------------------------------------
@@ -125,12 +105,11 @@ djvAbstractApplication::djvAbstractApplication(
     DJV_LOG("djvAbstractApplication", "Load the preferences...");
     
     djvFileBrowserPrefs::global();
+    djvHelpPrefs::global();
     djvImageIoPrefs::global();
-    djvMiscPrefs::global();
     djvOpenGlPrefs::global();
-
-    djvPrefs prefs("djvAbstractApplication", djvPrefs::SYSTEM);
-    prefs.get("toolTips", _p->toolTips);
+    djvSequencePrefs::global();
+    djvTimePrefs::global();
 
     DJV_LOG("djvAbstractImageApplication", "");
 
@@ -138,8 +117,6 @@ djvAbstractApplication::djvAbstractApplication(
 
     djvStyle::global();
 
-    toolTipsUpdate();
-    
     DJV_LOG("djvAbstractApplication", "Information:");
     DJV_LOG("djvAbstractApplication", "");
     DJV_LOG("djvAbstractApplication", info());
@@ -150,9 +127,6 @@ djvAbstractApplication::~djvAbstractApplication()
     //DJV_DEBUG("djvAbstractApplication::~djvAbstractApplication");
     
     delete djvFileBrowser::global();
-
-    djvPrefs prefs("djvAbstractApplication", djvPrefs::SYSTEM);
-    prefs.set("toolTips", _p->toolTips);
 
     delete _p;
 }
@@ -168,26 +142,6 @@ void djvAbstractApplication::setValid(bool in)
     //DJV_DEBUG_PRINT("in = " << in);
 
     _p->valid = in;
-}
-
-bool djvAbstractApplication::toolTipsDefault()
-{
-    return true;
-}
-
-bool djvAbstractApplication::hasToolTips() const
-{
-    return _p->toolTips;
-}
-
-void djvAbstractApplication::setToolTips(bool toolTips)
-{
-    if (toolTips == _p->toolTips)
-        return;
-
-    _p->toolTips = toolTips;
-
-    toolTipsUpdate();
 }
 
 void djvAbstractApplication::help() const
@@ -300,18 +254,6 @@ void djvAbstractApplication::resetPreferencesCommandLine(QStringList & in)
     }
 
     in = tmp;
-}
-
-void djvAbstractApplication::toolTipsUpdate()
-{
-    if (! _p->toolTips)
-    {
-        qApp->installEventFilter(_p->toolTipFilter.data());
-    }
-    else
-    {
-        qApp->removeEventFilter(_p->toolTipFilter.data());
-    }
 }
 
 //------------------------------------------------------------------------------

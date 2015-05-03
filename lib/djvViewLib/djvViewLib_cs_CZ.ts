@@ -361,6 +361,7 @@ Shortcut: %1</source>
     <name>djvViewFilePrefsWidget</name>
     <message>
         <location filename="djvViewFilePrefsWidget.cpp" line="81"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="115"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -385,42 +386,45 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="115"/>
-        <source>General</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="djvViewFilePrefsWidget.cpp" line="121"/>
         <source>Proxy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewFilePrefsWidget.cpp" line="122"/>
-        <source>Proxy scaling reduces the resolution when loading files to allow more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</source>
+        <source>Set proxy scaling to reduce the resolution when loading images. This allows more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</source>
+        <oldsource>Proxy scaling reduces the resolution when loading files to allow more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="132"/>
-        <source>Conversion</source>
+        <location filename="djvViewFilePrefsWidget.cpp" line="129"/>
+        <source>Proxy scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="133"/>
-        <source>This option converts images to 8-bits when loading files to allow more images to be stored in the memory cache at the expense of image quality.</source>
+        <location filename="djvViewFilePrefsWidget.cpp" line="134"/>
+        <source>8-bit Conversion</source>
+        <oldsource>Conversion</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="142"/>
-        <source>Memory Cache</source>
+        <location filename="djvViewFilePrefsWidget.cpp" line="135"/>
+        <source>Set 8-bit conversion to allow more images to be stored in the memory cache at the expense of image quality.</source>
+        <oldsource>This option converts images to 8-bits when loading files to allow more images to be stored in the memory cache at the expense of image quality.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewFilePrefsWidget.cpp" line="143"/>
+        <source>Memory Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewFilePrefsWidget.cpp" line="144"/>
         <source>The memory cache allows the application to store images in memory which can improve playback performance. When the memory cache is disabled the images are streamed directly from disk.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="150"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="151"/>
         <source>Cache size (gigabytes):</source>
         <translation type="unfinished"></translation>
     </message>
@@ -569,92 +573,103 @@ Shortcut: %1</source>
 <context>
     <name>djvViewImagePrefsWidget</name>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="105"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="107"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="169"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="111"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="113"/>
         <source>Automatically store the current frame when files are reloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="114"/>
-        <source>Mirror horizontal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="117"/>
-        <source>Mirror vertical</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="128"/>
-        <source>Enable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="138"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="140"/>
         <source>Add a new display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="144"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="146"/>
         <source>Remove the selected display profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="150"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="152"/>
         <source>Move the selected display profile up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="156"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="158"/>
         <source>Move the selected display profile down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="167"/>
-        <source>General</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="130"/>
+        <source>Enable the color profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="173"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="116"/>
+        <source>Mirror the image horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="119"/>
+        <source>Mirror the image vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="175"/>
         <source>Transforms</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="178"/>
-        <source>Scale:</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="180"/>
+        <source>Image scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="181"/>
-        <source>Rotate:</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="183"/>
+        <source>Image rotation:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="186"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="188"/>
         <source>Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="192"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="194"/>
         <source>Display Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="206"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="197"/>
+        <source>Profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="211"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="373"/>
-        <source>Add display profile:</source>
+        <location filename="djvViewImagePrefsWidget.cpp" line="214"/>
+        <source>Channel:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImagePrefsWidget.cpp" line="501"/>
+        <location filename="djvViewImagePrefsWidget.cpp" line="380"/>
+        <source>Add a new display profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="408"/>
+        <source>Are you sure you want to remove the display profile &quot;%1&quot;?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewImagePrefsWidget.cpp" line="516"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1004,6 +1019,7 @@ Click and drag to change the current frame.</source>
     <name>djvViewPlaybackPrefsWidget</name>
     <message>
         <location filename="djvViewPlaybackPrefsWidget.cpp" line="73"/>
+        <location filename="djvViewPlaybackPrefsWidget.cpp" line="97"/>
         <source>Playback</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1015,11 +1031,6 @@ Click and drag to change the current frame.</source>
     <message>
         <location filename="djvViewPlaybackPrefsWidget.cpp" line="86"/>
         <source>Play every frame</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewPlaybackPrefsWidget.cpp" line="97"/>
-        <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1097,7 +1108,7 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewSpeedButton</name>
     <message>
-        <location filename="djvViewMiscWidget.cpp" line="1110"/>
+        <location filename="djvViewMiscWidget.cpp" line="1111"/>
         <source>Default: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2279,23 +2290,21 @@ Shortcut: %1</source>
     <name>djvViewViewPrefsWidget</name>
     <message>
         <location filename="djvViewViewPrefsWidget.cpp" line="101"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="154"/>
         <source>Views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewViewPrefsWidget.cpp" line="123"/>
-        <source>Enable</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="154"/>
-        <source>General</source>
+        <source>Enable the HUD</source>
+        <oldsource>Enable</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewViewPrefsWidget.cpp" line="157"/>
         <location filename="djvViewViewPrefsWidget.cpp" line="184"/>
         <source>Background color:</source>
+        <oldsource>View background color:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2304,28 +2313,27 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="166"/>
-        <source>Color:</source>
+        <location filename="djvViewViewPrefsWidget.cpp" line="165"/>
+        <source>Size:</source>
+        <oldsource>Grid size:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="171"/>
-        <source>HUD (Heads Up Display)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="175"/>
-        <source>Information:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+        <location filename="djvViewViewPrefsWidget.cpp" line="168"/>
         <location filename="djvViewViewPrefsWidget.cpp" line="178"/>
         <source>Foreground color:</source>
+        <oldsource>Grid color:</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewViewPrefsWidget.cpp" line="173"/>
+        <source>HUD (Heads Up Display)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewViewPrefsWidget.cpp" line="181"/>
         <source>Background style:</source>
+        <oldsource>HUD background style:</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2431,7 +2439,8 @@ Shortcut: %1</source>
     </message>
     <message>
         <location filename="djvViewWindowPrefsWidget.cpp" line="119"/>
-        <source>Size</source>
+        <source>Window Size</source>
+        <oldsource>Size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

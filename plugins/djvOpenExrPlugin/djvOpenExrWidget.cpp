@@ -139,7 +139,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
         "Set the color profile used when loading OpenEXR images."));
     _inputColorProfileLayout = prefsGroupBox->createLayout();
     _inputColorProfileLayout->addRow(
-        qApp->translate("djvOpenExrWidget", "Color profile:"), _inputColorProfileWidget);
+        qApp->translate("djvOpenExrWidget", "Profile:"), _inputColorProfileWidget);
     _inputColorProfileLayout->addRow(
         qApp->translate("djvOpenExrWidget", "Gamma:"), _inputGammaWidget);
     _inputColorProfileLayout->addRow(

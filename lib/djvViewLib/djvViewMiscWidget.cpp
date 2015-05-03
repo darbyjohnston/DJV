@@ -40,9 +40,9 @@
 #include <djvFloatEdit.h>
 #include <djvFloatObject.h>
 #include <djvIconLibrary.h>
-#include <djvMiscPrefs.h>
 #include <djvPrefs.h>
 #include <djvStyle.h>
+#include <djvTimePrefs.h>
 #include <djvToolButton.h>
 
 #include <djvBox.h>
@@ -55,6 +55,7 @@
 #include <djvSequence.h>
 #include <djvSequenceUtil.h>
 #include <djvSignalBlocker.h>
+#include <djvTime.h>
 
 #include <QCursor>
 #include <QHBoxLayout>
@@ -240,7 +241,7 @@ djvViewFrameWidget::djvViewFrameWidget(QWidget * parent) :
         SLOT(editingFinishedCallback()));
 
     connect(
-        djvMiscPrefs::global(),
+        djvTimePrefs::global(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
@@ -429,7 +430,7 @@ djvViewFrameSlider::djvViewFrameSlider(QWidget * parent) :
     setAttribute(Qt::WA_OpaquePaintEvent);
 
     connect(
-        djvMiscPrefs::global(),
+        djvTimePrefs::global(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
@@ -947,7 +948,7 @@ djvViewFrameDisplay::djvViewFrameDisplay(QWidget * parent) :
     // Setup the callbacks.
 
     connect(
-        djvMiscPrefs::global(),
+        djvTimePrefs::global(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }

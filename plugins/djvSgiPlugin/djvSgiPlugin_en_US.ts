@@ -44,6 +44,7 @@ SGI Options
     <message>
         <location filename="djvSgiWidget.cpp" line="69"/>
         <source>Set the file compression used when saving SGI images.</source>
+        <oldsource>Set the options used when saving SGI images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

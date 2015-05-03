@@ -90,12 +90,13 @@ private:
 
     djvCineonPlugin *        _plugin;
     djvCineonPlugin::Options _options;
-    QFormLayout *            _colorProfileLayout;
+    QFormLayout *            _inputColorProfileLayout;
     QComboBox *              _inputColorProfileWidget;
     djvIntEditSlider *       _inputBlackPointWidget;
     djvIntEditSlider *       _inputWhitePointWidget;
     djvFloatEditSlider *     _inputGammaWidget;
     djvIntEditSlider *       _inputSoftClipWidget;
+    QFormLayout *            _outputColorProfileLayout;
     QComboBox *              _outputColorProfileWidget;
     djvIntEditSlider *       _outputBlackPointWidget;
     djvIntEditSlider *       _outputWhitePointWidget;

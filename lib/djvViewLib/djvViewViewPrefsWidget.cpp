@@ -120,7 +120,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     // Create the HUD widgets.
 
     _p->hudEnabledWidget = new QCheckBox(
-        qApp->translate("djvViewViewPrefsWidget", "Enable"));
+        qApp->translate("djvViewViewPrefsWidget", "Enable the HUD"));
 
     _p->hudInfoWidget = new SmallListWidget;
     
@@ -151,7 +151,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "General"));
+        qApp->translate("djvViewViewPrefsWidget", "Views"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvViewViewPrefsWidget", "Background color:"),
@@ -161,9 +161,11 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvViewViewPrefsWidget", "Grid"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->gridWidget);
     formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Color:"),
+        qApp->translate("djvViewViewPrefsWidget", "Size:"),
+        _p->gridWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewViewPrefsWidget", "Foreground color:"),
         _p->gridColorWidget);
     layout->addWidget(prefsGroupBox);
 
@@ -171,9 +173,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
         qApp->translate("djvViewViewPrefsWidget", "HUD (Heads Up Display)"));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->hudEnabledWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Information:"),
-        _p->hudInfoWidget);
+    formLayout->addRow(_p->hudInfoWidget);
     formLayout->addRow(
         qApp->translate("djvViewViewPrefsWidget", "Foreground color:"),
         _p->hudColorWidget);

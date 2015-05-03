@@ -29,10 +29,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMiscPrefs.h
+//! \file djvTimePrefs.h
 
-#ifndef DJV_MISC_PREFS_H
-#define DJV_MISC_PREFS_H
+#ifndef DJV_TIME_PREFS_H
+#define DJV_TIME_PREFS_H
 
 #include <djvGuiExport.h>
 
@@ -44,12 +44,12 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvMiscPrefs
+//! \class djvTimePrefs
 //!
-//! This class provides miscellaneous preferences.
+//! This class provides time preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvMiscPrefs : public QObject
+class DJV_GUI_EXPORT djvTimePrefs : public QObject
 {
     Q_OBJECT
     
@@ -69,23 +69,15 @@ class DJV_GUI_EXPORT djvMiscPrefs : public QObject
         WRITE         setSpeed
         NOTIFY        speedChanged)
     
-    //! This property holds the maximum number of frames a sequence can hold.
-    
-    Q_PROPERTY(
-        qint64 sequenceMaxFrames
-        READ   sequenceMaxFrames
-        WRITE  setSequenceMaxFrames
-        NOTIFY sequenceMaxFramesChanged)
-    
 public:
 
     //! Constructor.
 
-    explicit djvMiscPrefs(QObject * parent = 0);
+    explicit djvTimePrefs(QObject * parent = 0);
 
     //! Destructor.
 
-    ~djvMiscPrefs();
+    ~djvTimePrefs();
 
     //! Get the global time units.
 
@@ -95,13 +87,9 @@ public:
 
     djvSpeed::FPS speed() const;
 
-    //! Get the maximum number of frames a sequence can hold.
-
-    qint64 sequenceMaxFrames() const;
-
     //! Get the global preferences.
 
-    static djvMiscPrefs * global();
+    static djvTimePrefs * global();
     
 public Q_SLOTS:
 
@@ -113,10 +101,6 @@ public Q_SLOTS:
 
     void setSpeed(djvSpeed::FPS);
 
-    //! Set the maximum number of frames a sequence can hold.
-
-    void setSequenceMaxFrames(qint64);
-
 Q_SIGNALS:
 
     //! This signal is emitted when the global time units are changed.
@@ -126,14 +110,9 @@ Q_SIGNALS:
     //! This signal is emitted when the global speed is changed.
 
     void speedChanged(djvSpeed::FPS);
-
-    //! This signal is emitted when the maximum number of frames in a sequence
-    //! is changed.
-
-    void sequenceMaxFramesChanged(qint64);
 };
 
 //@} // djvGuiMisc
 
-#endif // DJV_MISC_PREFS_H
+#endif // DJV_TIME_PREFS_H
 

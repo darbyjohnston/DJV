@@ -39,8 +39,8 @@
 #include <djvViewViewPrefs.h>
 #include <djvViewWindowPrefs.h>
 
-#include <djvMiscPrefs.h>
 #include <djvStyle.h>
+#include <djvTimePrefs.h>
 
 #include <djvAssert.h>
 #include <djvFileInfo.h>
@@ -131,7 +131,7 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
         SLOT(setHudBackgroundColor(const djvColor &)));
 
     connect(
-        djvMiscPrefs::global(),
+        djvTimePrefs::global(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(update()));
 }

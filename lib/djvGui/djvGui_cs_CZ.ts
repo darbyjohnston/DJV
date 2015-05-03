@@ -4,7 +4,7 @@
 <context>
     <name>djvAbstractApplication</name>
     <message>
-        <location filename="djvApplication.cpp" line="210"/>
+        <location filename="djvApplication.cpp" line="164"/>
         <source>%1
 Preferences
 
@@ -14,7 +14,7 @@ Preferences
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvApplication.cpp" line="250"/>
+        <location filename="djvApplication.cpp" line="204"/>
         <source>
 User Interface Options
 
@@ -24,7 +24,7 @@ User Interface Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvApplication.cpp" line="283"/>
+        <location filename="djvApplication.cpp" line="237"/>
         <source>-reset_prefs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -576,7 +576,7 @@ Shortcut: %1</source>
     </message>
     <message>
         <location filename="djvFileBrowserPrefsWidget.cpp" line="177"/>
-        <source>General</source>
+        <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -600,32 +600,37 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="200"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="199"/>
+        <source>Thumbnails::</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="202"/>
         <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="205"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="207"/>
         <source>(MB)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="207"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="209"/>
         <source>Cache size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="211"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="214"/>
         <source>Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="224"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="227"/>
         <source>Keyboard Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="394"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="397"/>
         <source>Add bookmark:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -643,6 +648,20 @@ Shortcut: %1</source>
     <message>
         <location filename="djvFloatEditSlider.cpp" line="85"/>
         <source>Reset the value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvHelpPrefsWidget</name>
+    <message>
+        <location filename="djvHelpPrefsWidget.cpp" line="68"/>
+        <location filename="djvHelpPrefsWidget.cpp" line="82"/>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvHelpPrefsWidget.cpp" line="74"/>
+        <source>Enable tool tips</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -667,54 +686,6 @@ Shortcut: %1</source>
     <message>
         <location filename="djvMessageDialog.cpp" line="76"/>
         <source>Message Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvMiscPrefsWidget</name>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="79"/>
-        <source>Miscellaneous</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="101"/>
-        <source>Enable tool tips</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="109"/>
-        <source>Time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="112"/>
-        <source>Time units:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="117"/>
-        <source>(frames per second)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="119"/>
-        <source>Default speed:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="123"/>
-        <source>File Sequences</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="126"/>
-        <source>Maximum number of frames:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvMiscPrefsWidget.cpp" line="131"/>
-        <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -810,40 +781,42 @@ Shortcut: %1</source>
 <context>
     <name>djvPrefsDialog</name>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="139"/>
+        <location filename="djvPrefsDialog.cpp" line="141"/>
         <source>Reset Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="144"/>
+        <location filename="djvPrefsDialog.cpp" line="146"/>
         <source>Reset All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="161"/>
+        <location filename="djvPrefsDialog.cpp" line="163"/>
         <source>Preferences Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="165"/>
-        <location filename="djvPrefsDialog.cpp" line="168"/>
-        <location filename="djvPrefsDialog.cpp" line="171"/>
-        <location filename="djvPrefsDialog.cpp" line="174"/>
+        <location filename="djvPrefsDialog.cpp" line="167"/>
+        <location filename="djvPrefsDialog.cpp" line="170"/>
+        <location filename="djvPrefsDialog.cpp" line="173"/>
+        <location filename="djvPrefsDialog.cpp" line="176"/>
+        <location filename="djvPrefsDialog.cpp" line="179"/>
+        <location filename="djvPrefsDialog.cpp" line="182"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="186"/>
+        <location filename="djvPrefsDialog.cpp" line="194"/>
         <source>Image I/O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="278"/>
+        <location filename="djvPrefsDialog.cpp" line="286"/>
         <source>Are you sure you want to reset all of the preferences?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="291"/>
+        <location filename="djvPrefsDialog.cpp" line="299"/>
         <source>Are you sure you want to reset the preferences for the current page?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -884,6 +857,21 @@ Shortcut: %1</source>
     <message>
         <location filename="djvSearchBox.cpp" line="79"/>
         <source>Reset the search</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvSequencePrefsWidget</name>
+    <message>
+        <location filename="djvSequencePrefsWidget.cpp" line="71"/>
+        <location filename="djvSequencePrefsWidget.cpp" line="86"/>
+        <source>Sequences</source>
+        <oldsource>File Sequences</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvSequencePrefsWidget.cpp" line="89"/>
+        <source>Maximum number of frames:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -999,6 +987,30 @@ Shortcut: %1</source>
     <message>
         <location filename="djvStylePrefsWidget.cpp" line="181"/>
         <source>Fixed:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvTimePrefsWidget</name>
+    <message>
+        <location filename="djvTimePrefsWidget.cpp" line="71"/>
+        <location filename="djvTimePrefsWidget.cpp" line="90"/>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvTimePrefsWidget.cpp" line="93"/>
+        <source>Time units:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvTimePrefsWidget.cpp" line="98"/>
+        <source>(frames per second)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvTimePrefsWidget.cpp" line="100"/>
+        <source>Default speed:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -29,96 +29,91 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplication.h
+//! \file djvTimePrefs.cpp
 
-#ifndef DJV_APPLICATION_H
-#define DJV_APPLICATION_H
+#include <djvTimePrefs.h>
 
-#include <djvGuiExport.h>
+#include <djvPrefs.h>
 
-#include <djvImageApplication.h>
+#include <djvDebug.h>
 
 #include <QApplication>
 
-struct djvAbstractApplicationPrivate;
-
-//! \addtogroup djvGuiMisc
-//@{
-
 //------------------------------------------------------------------------------
-//! \class djvAbstractApplication
-//!
-//! This class provides the base functionality for applications.
+// djvTimePrefs
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvAbstractApplication :
-    public djvAbstractImageApplication
+djvTimePrefs::djvTimePrefs(QObject * parent) :
+    QObject(parent)
 {
-public:
+    //DJV_DEBUG("djvTimePrefs::djvTimePrefs");
 
-    //! Constructor.
+    djvPrefs prefs("djvTimePrefs", djvPrefs::SYSTEM);
 
-    djvAbstractApplication(const QString & name, int & argc, char ** argv)
-        throw (djvError);
+    djvTime::UNITS timeUnits = djvTime::units();
 
-    //! Destructor.
+    if (prefs.get("timeUnits", timeUnits))
+    {
+        djvTime::setUnits(timeUnits);
+    }
 
-    virtual ~djvAbstractApplication();
+    djvSpeed::FPS speed = djvSpeed::speed();
 
-    //! Get whether the user-interface has started.
+    if (prefs.get("speed", speed))
+    {
+        djvSpeed::setSpeed(speed);
+    }
+}
 
-    bool isValid() const;
-
-    //! Set whether the user-interface has started.
-
-    void setValid(bool);
-    
-    //! Open the documentation.
-    
-    void help() const;
-    
-    virtual int run();
-
-    virtual QString info() const;
-
-    virtual void printMessage(const QString &, int indent = 0) const;
-
-    virtual void printError(const djvError &) const;
-
-    virtual QString commandLineHelp() const;
-
-protected:
-
-    void resetPreferencesCommandLine(QStringList &) throw (QString);
-
-private:
-
-    DJV_PRIVATE_COPY(djvAbstractApplication);
-    
-    djvAbstractApplicationPrivate * _p;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvApplication
-//!
-//! This class provides the base functionality for applications.
-//------------------------------------------------------------------------------
-
-class DJV_GUI_EXPORT djvApplication :
-    public QApplication,
-    public djvAbstractApplication
+djvTimePrefs::~djvTimePrefs()
 {
-    Q_OBJECT
+    //DJV_DEBUG("djvTimePrefs::~djvTimePrefs");
+
+    djvPrefs prefs("djvTimePrefs", djvPrefs::SYSTEM);
+
+    prefs.set("timeUnits", djvTime::units());
+    prefs.set("speed", djvSpeed::speed());
+}
+
+djvTime::UNITS djvTimePrefs::timeUnits() const
+{
+    return djvTime::units();
+}
+
+djvSpeed::FPS djvTimePrefs::speed() const
+{
+    return djvSpeed::speed();
+}
+
+djvTimePrefs * djvTimePrefs::global()
+{
+    static djvTimePrefs * global = 0;
     
-public:
-
-    //! Constructor.
-
-    djvApplication(const QString & name, int & argc, char ** argv) throw (djvError);
+    if (! global)
+    {
+        global = new djvTimePrefs(qApp);
+    }
     
-    virtual int run();
-};
+    return global;
+}
 
-//@} // djvGuiMisc
+void djvTimePrefs::setTimeUnits(djvTime::UNITS units)
+{
+    if (units == this->timeUnits())
+        return;
 
-#endif // DJV_APPLICATION_H
+    djvTime::setUnits(units);
+
+    Q_EMIT timeUnitsChanged(this->timeUnits());
+}
+
+void djvTimePrefs::setSpeed(djvSpeed::FPS speed)
+{
+    if (speed == this->speed())
+        return;
+
+    djvSpeed::setSpeed(speed);
+
+    Q_EMIT speedChanged(this->speed());
+}
+

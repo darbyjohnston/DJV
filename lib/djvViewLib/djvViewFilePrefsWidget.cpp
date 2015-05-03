@@ -112,7 +112,7 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewFilePrefsWidget", "General"));
+        qApp->translate("djvViewFilePrefsWidget", "Files"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoSequenceWidget);
     layout->addWidget(prefsGroupBox);
@@ -120,20 +120,21 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvViewFilePrefsWidget", "Proxy Scale"),
         qApp->translate("djvViewFilePrefsWidget",
-        "Proxy scaling reduces the resolution when loading files to allow "
-        "more images to be stored in the memory cache at the expense of image "
-        "quality. Proxy scaling can also improve playback speed since the "
+        "Set proxy scaling to reduce the resolution when loading images. This "
+        "allows more images to be stored in the memory cache at the expense of "
+        "image quality. Proxy scaling can also improve playback speed since the "
         "images are smaller."));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->proxyWidget);
+    formLayout->addRow(
+        qApp->translate("djvViewFilePrefsWidget", "Proxy scale:"),
+        _p->proxyWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewFilePrefsWidget", "Conversion"),
+        qApp->translate("djvViewFilePrefsWidget", "8-bit Conversion"),
         qApp->translate("djvViewFilePrefsWidget",
-        "This option converts images to 8-bits when loading files to allow "
-        "more images to be stored in the memory cache at the expense of image "
-        "quality."));
+        "Set 8-bit conversion to allow more images to be stored in the memory "
+        "cache at the expense of image quality."));
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->u8ConversionWidget);
     layout->addWidget(prefsGroupBox);

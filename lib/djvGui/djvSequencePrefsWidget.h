@@ -29,84 +29,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplication.h
+//! \file djvSequencePrefsWidget.h
 
-#ifndef DJV_APPLICATION_H
-#define DJV_APPLICATION_H
+#ifndef DJV_SEQUENCE_PREFS_WIDGET_H
+#define DJV_SEQUENCE_PREFS_WIDGET_H
 
-#include <djvGuiExport.h>
+#include <djvAbstractPrefsWidget.h>
 
-#include <djvImageApplication.h>
+#include <djvUtil.h>
 
-#include <QApplication>
-
-struct djvAbstractApplicationPrivate;
+struct djvSequencePrefsWidgetPrivate;
 
 //! \addtogroup djvGuiMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvAbstractApplication
+//! \class djvSequencePrefsWidget
 //!
-//! This class provides the base functionality for applications.
+//! This class provides a sequence preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvAbstractApplication :
-    public djvAbstractImageApplication
-{
-public:
-
-    //! Constructor.
-
-    djvAbstractApplication(const QString & name, int & argc, char ** argv)
-        throw (djvError);
-
-    //! Destructor.
-
-    virtual ~djvAbstractApplication();
-
-    //! Get whether the user-interface has started.
-
-    bool isValid() const;
-
-    //! Set whether the user-interface has started.
-
-    void setValid(bool);
-    
-    //! Open the documentation.
-    
-    void help() const;
-    
-    virtual int run();
-
-    virtual QString info() const;
-
-    virtual void printMessage(const QString &, int indent = 0) const;
-
-    virtual void printError(const djvError &) const;
-
-    virtual QString commandLineHelp() const;
-
-protected:
-
-    void resetPreferencesCommandLine(QStringList &) throw (QString);
-
-private:
-
-    DJV_PRIVATE_COPY(djvAbstractApplication);
-    
-    djvAbstractApplicationPrivate * _p;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvApplication
-//!
-//! This class provides the base functionality for applications.
-//------------------------------------------------------------------------------
-
-class DJV_GUI_EXPORT djvApplication :
-    public QApplication,
-    public djvAbstractApplication
+class DJV_GUI_EXPORT djvSequencePrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
     
@@ -114,11 +57,28 @@ public:
 
     //! Constructor.
 
-    djvApplication(const QString & name, int & argc, char ** argv) throw (djvError);
+    explicit djvSequencePrefsWidget(QWidget * parent = 0);
+
+    //! Destructor.
+
+    virtual ~djvSequencePrefsWidget();
+
+    virtual void resetPreferences();
+
+private Q_SLOTS:
+
+    void maxFramesCallback(int);
     
-    virtual int run();
+private:
+
+    void widgetUpdate();
+
+    DJV_PRIVATE_COPY(djvSequencePrefsWidget);
+    
+    djvSequencePrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiMisc
 
-#endif // DJV_APPLICATION_H
+#endif // DJV_SEQUENCE_PREFS_WIDGET_H
+

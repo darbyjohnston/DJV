@@ -64,6 +64,7 @@ FFmpeg Options
     <message>
         <location filename="djvFFmpegWidget.cpp" line="68"/>
         <source>Set the codec used when saving movies.</source>
+        <oldsource>Set the options used when saving movies.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -121,18 +121,6 @@ Cineon Options
 <context>
     <name>djvCineonWidget</name>
     <message>
-        <source>Color Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set the color profile used when loading and saving Cineon images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input profile:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Black:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -149,7 +137,23 @@ Cineon Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Output profile:</source>
+        <source>Input Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the color profile used when loading Cineon images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Output Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the color profile used when saving Cineon images.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

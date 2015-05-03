@@ -93,14 +93,14 @@ private:
 
     djvDpxPlugin *        _plugin;
     djvDpxPlugin::Options _options;
-    QFormLayout *         _colorProfileLayout;
+    QFormLayout *         _inputColorProfileLayout;
     QComboBox *           _inputColorProfileWidget;
     djvIntEditSlider *    _inputBlackPointWidget;
     djvIntEditSlider *    _inputWhitePointWidget;
     djvFloatEditSlider *  _inputGammaWidget;
     djvIntEditSlider *    _inputSoftClipWidget;
-    QComboBox *           _outputColorProfileWidget;
     QFormLayout *         _outputColorProfileLayout;
+    QComboBox *           _outputColorProfileWidget;
     djvIntEditSlider *    _outputBlackPointWidget;
     djvIntEditSlider *    _outputWhitePointWidget;
     djvFloatEditSlider *  _outputGammaWidget;

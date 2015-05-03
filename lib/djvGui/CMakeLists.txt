@@ -25,6 +25,8 @@ set(header
     djvFloatSlider.h
 	djvFormLayoutAlign.h
     djvGuiExport.h
+    djvHelpPrefs.h
+	djvHelpPrefsWidget.h
     djvIconLibrary.h
     djvImageIoPrefs.h
     djvImageView.h
@@ -36,8 +38,6 @@ set(header
     djvIntObject.h
     djvIntSlider.h
     djvMessageDialog.h
-    djvMiscPrefs.h
-	djvMiscPrefsWidget.h
     djvMultiChoiceDialog.h
     djvOpenGlPrefs.h
 	djvOpenGlPrefsWidget.h
@@ -52,12 +52,16 @@ set(header
     djvProgressDialog.h
     djvQuestionDialog.h
     djvSearchBox.h
+    djvSequencePrefs.h
+	djvSequencePrefsWidget.h
     djvShortcut.h
     djvShortcutsModel.h
     djvShortcutsWidget.h
     djvShuttleButton.h
     djvStyle.h
 	djvStylePrefsWidget.h
+    djvTimePrefs.h
+	djvTimePrefsWidget.h
     djvToolButton.h
     djvVector2fEditWidget.h
     djvVector2iEditWidget.h
@@ -88,6 +92,8 @@ set(mocHeader
     djvFloatObject.h
     djvFloatSlider.h
     djvFormLayoutAlign.h
+    djvHelpPrefs.h
+    djvHelpPrefsWidget.h
     djvIconLibrary.h
     djvImageIoPrefs.h
     djvImageView.h
@@ -98,8 +104,6 @@ set(mocHeader
     djvIntEditSlider.h
     djvIntObject.h
     djvIntSlider.h
-    djvMiscPrefs.h
-    djvMiscPrefsWidget.h
     djvMultiChoiceDialog.h
     djvOpenGlPrefs.h
     djvOpenGlPrefsWidget.h
@@ -113,11 +117,15 @@ set(mocHeader
     djvProgressDialog.h
     djvQuestionDialog.h
     djvSearchBox.h
+    djvSequencePrefs.h
+    djvSequencePrefsWidget.h
     djvShortcutsModel.h
     djvShortcutsWidget.h
     djvShuttleButton.h
     djvStyle.h
     djvStylePrefsWidget.h
+    djvTimePrefs.h
+    djvTimePrefsWidget.h
     djvToolButton.h
     djvVector2fEditWidget.h
     djvVector2iEditWidget.h)
@@ -148,6 +156,8 @@ set(source
     djvFloatObject.cpp
     djvFloatSlider.cpp
 	djvFormLayoutAlign.cpp
+    djvHelpPrefs.cpp
+	djvHelpPrefsWidget.cpp
     djvIconLibrary.cpp
     djvImageIoPrefs.cpp
     djvImageView.cpp
@@ -159,8 +169,6 @@ set(source
     djvIntObject.cpp
     djvIntSlider.cpp
     djvMessageDialog.cpp
-    djvMiscPrefs.cpp
-	djvMiscPrefsWidget.cpp
     djvMultiChoiceDialog.cpp
     djvOpenGlPrefs.cpp
 	djvOpenGlPrefsWidget.cpp
@@ -174,12 +182,16 @@ set(source
     djvProgressDialog.cpp
     djvQuestionDialog.cpp
     djvSearchBox.cpp
+    djvSequencePrefs.cpp
+	djvSequencePrefsWidget.cpp
     djvShortcut.cpp
     djvShortcutsModel.cpp
     djvShortcutsWidget.cpp
     djvShuttleButton.cpp
     djvStyle.cpp
 	djvStylePrefsWidget.cpp
+    djvTimePrefs.cpp
+	djvTimePrefsWidget.cpp
     djvToolButton.cpp
     djvVector2fEditWidget.cpp
     djvVector2iEditWidget.cpp

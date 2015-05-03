@@ -44,6 +44,7 @@ Targa Options
     <message>
         <location filename="djvTargaWidget.cpp" line="71"/>
         <source>Set the file compression used when saving Targa images.</source>
+        <oldsource>Set the options used when saving Targa images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

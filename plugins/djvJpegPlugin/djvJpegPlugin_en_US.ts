@@ -34,6 +34,7 @@ JPEG Options
     <message>
         <location filename="djvJpegWidget.cpp" line="68"/>
         <source>Set the quality used when saving JPEG images.</source>
+        <oldsource>Set the options used when saving JPEG images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

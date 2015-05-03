@@ -246,6 +246,7 @@ OpenEXR Options
     <message>
         <location filename="djvOpenExrWidget.cpp" line="137"/>
         <source>Color Profile</source>
+        <oldsource>Input Color Profile</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -255,7 +256,8 @@ OpenEXR Options
     </message>
     <message>
         <location filename="djvOpenExrWidget.cpp" line="142"/>
-        <source>Color profile:</source>
+        <source>Profile:</source>
+        <oldsource>Color profile:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -291,6 +293,7 @@ OpenEXR Options
     <message>
         <location filename="djvOpenExrWidget.cpp" line="159"/>
         <source>Set how channels are grouped when loading OpenEXR images.</source>
+        <oldsource>Set the optoins used when loading OpenEXR images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -94,7 +94,7 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "General"));
+        qApp->translate("djvViewPlaybackPrefsWidget", "Playback"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoStartWidget);
     formLayout->addRow(

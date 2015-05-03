@@ -408,7 +408,7 @@ QString djvDpxPlugin::commandLineHelp() const
 "        Set the film print values used when saving DPX images. Default = "
 "%6.\n"
 "    -dpx_version (value)\n"
-"        Set the file format version used when saving DPX images. Options = %7. Default = "
+"        Set the file version used when saving DPX images. Options = %7. Default = "
 "%8.\n"
 "    -dpx_type (value)\n"
 "        Set the pixel type used when saving DPX images. Options = %9. "

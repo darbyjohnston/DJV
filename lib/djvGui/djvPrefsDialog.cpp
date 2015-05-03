@@ -34,10 +34,12 @@
 #include <djvPrefsDialog.h>
 
 #include <djvFileBrowserPrefsWidget.h>
-#include <djvMiscPrefsWidget.h>
+#include <djvHelpPrefsWidget.h>
 #include <djvOpenGlPrefsWidget.h>
 #include <djvQuestionDialog.h>
+#include <djvSequencePrefsWidget.h>
 #include <djvStylePrefsWidget.h>
+#include <djvTimePrefsWidget.h>
 
 #include <djvImageIo.h>
 
@@ -164,13 +166,19 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
         new djvFileBrowserPrefsWidget,
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvMiscPrefsWidget,
+        new djvHelpPrefsWidget,
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
         new djvOpenGlPrefsWidget,
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
+        new djvSequencePrefsWidget,
+        qApp->translate("djvPrefsDialog", "General"));
+    addWidget(
         new djvStylePrefsWidget,
+        qApp->translate("djvPrefsDialog", "General"));
+    addWidget(
+        new djvTimePrefsWidget,
         qApp->translate("djvPrefsDialog", "General"));
 
     const QList<djvPlugin *> & imageIo = djvImageIoFactory::global()->plugins();

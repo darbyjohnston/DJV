@@ -44,11 +44,13 @@ TIFF Options
     <message>
         <location filename="djvTiffWidget.cpp" line="70"/>
         <source>Compression</source>
+        <oldsource>Compressionz</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvTiffWidget.cpp" line="71"/>
         <source>Set the file compression used when saving TIFF images.</source>
+        <oldsource>Set the options used when saving TIFF images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

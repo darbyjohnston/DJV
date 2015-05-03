@@ -59,6 +59,7 @@ LUT Options
     <message>
         <location filename="djvLutWidget.cpp" line="68"/>
         <source>Set the pixel type used when loading LUTs.</source>
+        <oldsource>Set the options used when loading LUTs.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

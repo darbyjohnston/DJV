@@ -174,7 +174,7 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvFileBrowserPrefsWidget", "General"));
+        qApp->translate("djvFileBrowserPrefsWidget", "Files"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvFileBrowserPrefsWidget", "File sequencing:"),
@@ -195,7 +195,9 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvFileBrowserPrefsWidget", "Thumbnails"));
     formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->thumbnailsWidget);
+    formLayout->addRow(
+        qApp->translate("djvFileBrowserPrefsWidget", "Thumbnails::"),
+        _p->thumbnailsWidget);
     formLayout->addRow(
         qApp->translate("djvFileBrowserPrefsWidget", "Size:"),
         _p->thumbnailsSizeWidget);
@@ -204,7 +206,8 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget() :
     hLayout->addWidget(
         new QLabel(qApp->translate("djvFileBrowserPrefsWidget", "(MB)")));
     formLayout->addRow(
-        qApp->translate("djvFileBrowserPrefsWidget", "Cache size:"), hLayout);
+        qApp->translate("djvFileBrowserPrefsWidget", "Cache size:"),
+        hLayout);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(

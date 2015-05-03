@@ -37,7 +37,7 @@
 
 #include <djvApplication.h>
 #include <djvIconLibrary.h>
-#include <djvMiscPrefs.h>
+#include <djvTimePrefs.h>
 #include <djvToolButton.h>
 
 #include <djvRangeUtil.h>
@@ -153,7 +153,7 @@ djvViewWidgetTest::djvViewWidgetTest() :
 
 void djvViewWidgetTest::timeUnitsCallback(int index)
 {
-    djvMiscPrefs::global()->setTimeUnits(static_cast<djvTime::UNITS>(index));
+    djvTimePrefs::global()->setTimeUnits(static_cast<djvTime::UNITS>(index));
 }
 
 void djvViewWidgetTest::frameCallback(qint64 frame)
@@ -196,7 +196,7 @@ void djvViewWidgetTest::widgetUpdate()
         _frameWidget <<
         _frameSlider);
     
-    _timeUnitsWidget->setCurrentIndex(djvMiscPrefs::global()->timeUnits());
+    _timeUnitsWidget->setCurrentIndex(djvTimePrefs::global()->timeUnits());
     
     _frameWidget->setFrameList(_frameList);
     _frameWidget->setSpeed(_speed);

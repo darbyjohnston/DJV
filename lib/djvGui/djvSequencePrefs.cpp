@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMiscPrefs.cpp
+//! \file djvSequencePrefs.cpp
 
-#include <djvMiscPrefs.h>
+#include <djvSequencePrefs.h>
 
 #include <djvPrefs.h>
 
@@ -41,102 +41,56 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvMiscPrefs
+// djvSequencePrefs
 //------------------------------------------------------------------------------
 
-djvMiscPrefs::djvMiscPrefs(QObject * parent) :
+djvSequencePrefs::djvSequencePrefs(QObject * parent) :
     QObject(parent)
 {
-    //DJV_DEBUG("djvMiscPrefs::djvMiscPrefs");
+    //DJV_DEBUG("djvSequencePrefs::djvSequencePrefs");
 
-    djvPrefs prefs("djvMiscPrefs", djvPrefs::SYSTEM);
+    djvPrefs prefs("djvSequencePrefs", djvPrefs::SYSTEM);
 
-    djvTime::UNITS timeUnits = djvTime::units();
+    qint64 maxFrames = djvSequence::maxFrames();
 
-    if (prefs.get("timeUnits", timeUnits))
+    if (prefs.get("maxFrames", maxFrames))
     {
-        djvTime::setUnits(timeUnits);
-    }
-
-    djvSpeed::FPS speed = djvSpeed::speed();
-
-    if (prefs.get("speed", speed))
-    {
-        djvSpeed::setSpeed(speed);
-    }
-
-    qint64 sequenceMaxFrames = djvSequence::maxFrames();
-
-    if (prefs.get("sequenceMaxFrames", sequenceMaxFrames))
-    {
-        djvSequence::setMaxFrames(sequenceMaxFrames);
+        djvSequence::setMaxFrames(maxFrames);
     }
 }
 
-djvMiscPrefs::~djvMiscPrefs()
+djvSequencePrefs::~djvSequencePrefs()
 {
-    //DJV_DEBUG("djvMiscPrefs::~djvMiscPrefs");
+    //DJV_DEBUG("djvSequencePrefs::~djvSequencePrefs");
 
-    djvPrefs prefs("djvMiscPrefs", djvPrefs::SYSTEM);
+    djvPrefs prefs("djvSequencePrefs", djvPrefs::SYSTEM);
 
-    prefs.set("timeUnits", djvTime::units());
-    prefs.set("speed", djvSpeed::speed());
-    prefs.set("sequenceMaxFrames", djvSequence::maxFrames());
+    prefs.set("maxFrames", djvSequence::maxFrames());
 }
 
-djvTime::UNITS djvMiscPrefs::timeUnits() const
-{
-    return djvTime::units();
-}
-
-djvSpeed::FPS djvMiscPrefs::speed() const
-{
-    return djvSpeed::speed();
-}
-
-qint64 djvMiscPrefs::sequenceMaxFrames() const
+qint64 djvSequencePrefs::maxFrames() const
 {
     return djvSequence::maxFrames();
 }
 
-djvMiscPrefs * djvMiscPrefs::global()
+djvSequencePrefs * djvSequencePrefs::global()
 {
-    static djvMiscPrefs * global = 0;
+    static djvSequencePrefs * global = 0;
     
     if (! global)
     {
-        global = new djvMiscPrefs(qApp);
+        global = new djvSequencePrefs(qApp);
     }
     
     return global;
 }
 
-void djvMiscPrefs::setTimeUnits(djvTime::UNITS units)
+void djvSequencePrefs::setMaxFrames(qint64 size)
 {
-    if (units == this->timeUnits())
-        return;
-
-    djvTime::setUnits(units);
-
-    Q_EMIT timeUnitsChanged(this->timeUnits());
-}
-
-void djvMiscPrefs::setSpeed(djvSpeed::FPS speed)
-{
-    if (speed == this->speed())
-        return;
-
-    djvSpeed::setSpeed(speed);
-
-    Q_EMIT speedChanged(this->speed());
-}
-
-void djvMiscPrefs::setSequenceMaxFrames(qint64 size)
-{
-    if (size == this->sequenceMaxFrames())
+    if (size == this->maxFrames())
         return;
 
     djvSequence::setMaxFrames(size);
 
-    Q_EMIT sequenceMaxFramesChanged(this->sequenceMaxFrames());
+    Q_EMIT maxFramesChanged(this->maxFrames());
 }

@@ -66,16 +66,18 @@ PPM Options
     <message>
         <location filename="djvPpmWidget.cpp" line="72"/>
         <source>Set the file type used when saving PPM images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvPpmWidget.cpp" line="78"/>
-        <source>Data Type</source>
+        <oldsource>Set the options used when saving PPM images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvPpmWidget.cpp" line="79"/>
         <source>Set the data type used when saving PPM images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPpmWidget.cpp" line="78"/>
+        <source>Data Type</source>
+        <oldsource>Data type:</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

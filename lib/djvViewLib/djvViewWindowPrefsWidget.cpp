@@ -116,7 +116,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewWindowPrefsWidget", "Size"));
+        qApp->translate("djvViewWindowPrefsWidget", "Window Size"));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoFitWidget);
     formLayout->addRow(

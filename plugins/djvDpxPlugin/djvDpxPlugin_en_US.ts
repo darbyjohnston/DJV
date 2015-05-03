@@ -341,88 +341,114 @@ DPX Options
     -dpx_output_film_print (black) (white) (gamma) (soft clip)
         Set the film print values used when saving DPX images. Default = %6.
     -dpx_version (value)
-        Set the file format version used when saving DPX images. Options = %7. Default = %8.
+        Set the file version used when saving DPX images. Options = %7. Default = %8.
     -dpx_type (value)
         Set the pixel type used when saving DPX images. Options = %9. Default = %10.
     -dpx_endian (value)
         Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware. Options = %11. Default = %12.
 </source>
+        <oldsource>
+DPX Options
+
+    -dpx_input_color_profile (value)
+        Set the color profile used when loading DPX images. Options = %1. Default = %2.
+    -dpx_input_film_print (black) (white) (gamma) (soft clip)
+        Set the film print values used when loading DPX images. Default = %3.
+    -dpx_output_color_profile (value)
+        Set the color profile used when saving DPX images. Options = %4. Default = %5.
+    -dpx_output_film_print (black) (white) (gamma) (soft clip)
+        Set the film print values used when saving DPX images. Default = %6.
+    -dpx_version (value)
+        Set the file format version used when saving DPX images. Options = %7. Default = %8.
+    -dpx_type (value)
+        Set the pixel type used when saving DPX images. Options = %9. Default = %10.
+    -dpx_endian (value)
+        Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware. Options = %11. Default = %12.
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djvDpxWidget</name>
     <message>
-        <location filename="djvDpxWidget.cpp" line="126"/>
-        <source>Color Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="djvDpxWidget.cpp" line="127"/>
-        <source>Set the color profile used when loading and saving DPX images.</source>
+        <source>Input Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="130"/>
-        <source>Input profile:</source>
+        <location filename="djvDpxWidget.cpp" line="128"/>
+        <source>Set the color profile used when loading DPX images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="133"/>
-        <location filename="djvDpxWidget.cpp" line="148"/>
+        <location filename="djvDpxWidget.cpp" line="131"/>
+        <location filename="djvDpxWidget.cpp" line="152"/>
+        <source>Profile:</source>
+        <oldsource>Input profile:</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="134"/>
+        <location filename="djvDpxWidget.cpp" line="155"/>
         <source>Black:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="136"/>
-        <location filename="djvDpxWidget.cpp" line="151"/>
+        <location filename="djvDpxWidget.cpp" line="137"/>
+        <location filename="djvDpxWidget.cpp" line="158"/>
         <source>White:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="139"/>
-        <location filename="djvDpxWidget.cpp" line="154"/>
+        <location filename="djvDpxWidget.cpp" line="140"/>
+        <location filename="djvDpxWidget.cpp" line="161"/>
         <source>Gamma:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="142"/>
+        <location filename="djvDpxWidget.cpp" line="143"/>
         <source>Soft clip:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="145"/>
-        <source>Output profile:</source>
+        <location filename="djvDpxWidget.cpp" line="148"/>
+        <source>Output Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxWidget.cpp" line="159"/>
-        <source>Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="160"/>
-        <source>Set the file format version used when saving DPX images.</source>
+        <location filename="djvDpxWidget.cpp" line="149"/>
+        <source>Set the color profile used when saving DPX images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvDpxWidget.cpp" line="166"/>
-        <source>Pixel Type</source>
+        <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvDpxWidget.cpp" line="167"/>
-        <source>Set the pixel type used when saving DPX images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="173"/>
-        <source>Endian</source>
+        <source>Set the file version used when saving DPX images.</source>
+        <oldsource>Set the file format version used when saving DPX images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvDpxWidget.cpp" line="174"/>
+        <source>Set the pixel type used when saving DPX images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="181"/>
         <source>Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="173"/>
+        <source>Pixel Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvDpxWidget.cpp" line="180"/>
+        <source>Endian</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

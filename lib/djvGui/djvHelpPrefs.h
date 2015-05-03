@@ -29,61 +29,80 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMiscPrefsWidget.h
+//! \file djvHelpPrefs.h
 
-#ifndef DJV_MISC_PREFS_WIDGET_H
-#define DJV_MISC_PREFS_WIDGET_H
+#ifndef DJV_HELPe_PREFS_H
+#define DJV_HELP_PREFS_H
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvGuiExport.h>
 
-#include <djvUtil.h>
+#include <QObject>
 
-struct djvMiscPrefsWidgetPrivate;
-
-class QAbstractButton;
+struct djvHelpPrefsPrivate;
 
 //! \addtogroup djvGuiMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvMiscPrefsWidget
+//! \class djvHelpPrefs
 //!
-//! This class provides a miscellaneous preferences widget.
+//! This class provides help preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvMiscPrefsWidget : public djvAbstractPrefsWidget
+class DJV_GUI_EXPORT djvHelpPrefs : public QObject
 {
     Q_OBJECT
+    
+    //! This property holds whether tool tips are enabled.
+    
+    Q_PROPERTY(
+        bool   toolTips
+        READ   hasToolTips
+        WRITE  setToolTips
+        NOTIFY toolTipsChanged)
     
 public:
 
     //! Constructor.
 
-    explicit djvMiscPrefsWidget(QWidget * parent = 0);
+    explicit djvHelpPrefs(QObject * parent = 0);
 
     //! Destructor.
 
-    virtual ~djvMiscPrefsWidget();
-
-    virtual void resetPreferences();
-
-private Q_SLOTS:
-
-    void timeUnitsCallback(int);
-    void speedCallback(int);
-    void sequenceMaxFramesCallback(int);
-    void helpToolTipsCallback(bool);
+    ~djvHelpPrefs();
     
+    //! The default for whether tool tips are enabled.
+    
+    static bool toolTipsDefault();
+
+    //! Get whether tool tips are enabled.
+
+    bool hasToolTips() const;
+
+    //! Get the global preferences.
+
+    static djvHelpPrefs * global();
+    
+public Q_SLOTS:
+
+    //! Set whether tool tips are enabled.
+
+    void setToolTips(bool);
+
+Q_SIGNALS:
+
+    //! This signal is emitted when the tool tips are changed.
+    
+    void toolTipsChanged(bool);
+
 private:
 
-    void widgetUpdate();
-
-    DJV_PRIVATE_COPY(djvMiscPrefsWidget);
+    void toolTipsUpdate();
     
-    djvMiscPrefsWidgetPrivate * _p;
+    djvHelpPrefsPrivate * _p;
 };
 
 //@} // djvGuiMisc
 
-#endif // DJV_MISC_PREFS_WIDGET_H
+#endif // DJV_HELP_PREFS_H
 

@@ -29,96 +29,69 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplication.h
+//! \file djvSequencePrefs.h
 
-#ifndef DJV_APPLICATION_H
-#define DJV_APPLICATION_H
+#ifndef DJV_SEQUENCE_PREFS_H
+#define DJV_SEQUENCE_PREFS_H
 
 #include <djvGuiExport.h>
 
-#include <djvImageApplication.h>
-
-#include <QApplication>
-
-struct djvAbstractApplicationPrivate;
+#include <QObject>
 
 //! \addtogroup djvGuiMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvAbstractApplication
+//! \class djvSequencePrefs
 //!
-//! This class provides the base functionality for applications.
+//! This class provides sequence preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvAbstractApplication :
-    public djvAbstractImageApplication
-{
-public:
-
-    //! Constructor.
-
-    djvAbstractApplication(const QString & name, int & argc, char ** argv)
-        throw (djvError);
-
-    //! Destructor.
-
-    virtual ~djvAbstractApplication();
-
-    //! Get whether the user-interface has started.
-
-    bool isValid() const;
-
-    //! Set whether the user-interface has started.
-
-    void setValid(bool);
-    
-    //! Open the documentation.
-    
-    void help() const;
-    
-    virtual int run();
-
-    virtual QString info() const;
-
-    virtual void printMessage(const QString &, int indent = 0) const;
-
-    virtual void printError(const djvError &) const;
-
-    virtual QString commandLineHelp() const;
-
-protected:
-
-    void resetPreferencesCommandLine(QStringList &) throw (QString);
-
-private:
-
-    DJV_PRIVATE_COPY(djvAbstractApplication);
-    
-    djvAbstractApplicationPrivate * _p;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvApplication
-//!
-//! This class provides the base functionality for applications.
-//------------------------------------------------------------------------------
-
-class DJV_GUI_EXPORT djvApplication :
-    public QApplication,
-    public djvAbstractApplication
+class DJV_GUI_EXPORT djvSequencePrefs : public QObject
 {
     Q_OBJECT
     
+    //! This property holds the maximum number of frames a sequence can hold.
+    
+    Q_PROPERTY(
+        qint64 maxFrames
+        READ   maxFrames
+        WRITE  setMaxFrames
+        NOTIFY maxFramesChanged)
+    
 public:
 
     //! Constructor.
 
-    djvApplication(const QString & name, int & argc, char ** argv) throw (djvError);
+    explicit djvSequencePrefs(QObject * parent = 0);
+
+    //! Destructor.
+
+    ~djvSequencePrefs();
+
+    //! Get the maximum number of frames a sequence can hold.
+
+    qint64 maxFrames() const;
+
+    //! Get the global preferences.
+
+    static djvSequencePrefs * global();
     
-    virtual int run();
+public Q_SLOTS:
+
+    //! Set the maximum number of frames a sequence can hold.
+
+    void setMaxFrames(qint64);
+
+Q_SIGNALS:
+
+    //! This signal is emitted when the maximum number of frames in a sequence
+    //! is changed.
+
+    void maxFramesChanged(qint64);
 };
 
 //@} // djvGuiMisc
 
-#endif // DJV_APPLICATION_H
+#endif // DJV_SEQUENCE_PREFS_H
+
