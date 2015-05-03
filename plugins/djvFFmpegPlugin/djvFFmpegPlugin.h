@@ -37,6 +37,10 @@
 #include <djvFileIo.h>
 #include <djvImageIo.h>
 
+#if defined(DJV_LINUX)
+#define __STDC_CONSTANT_MACROS
+#endif // DJV_LINUX
+
 extern "C"
 {
 
