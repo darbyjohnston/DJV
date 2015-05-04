@@ -96,12 +96,14 @@ djvFileBrowserItem::djvFileBrowserItem(
    if (djvFileBrowserCacheItem * item =
        djvFileBrowserCache::global()->object(_fileInfo))
    {
-        _imageInfoRequest = true;
         _thumbnailSize    = item->thumbnailSize;
         _thumbnailProxy   = item->thumbnailProxy;
 
+        _imageInfoRequest = true;
+        _imageInfo        = item->imageInfo;
+
         updateImageInfo();
-       
+
         _thumbnailRequest = true;
         _thumbnail        = item->thumbnail;
    }
