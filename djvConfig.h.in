@@ -41,7 +41,6 @@
 #define DJV_VERSION_PATCH "@djvVersionPatch@"
 
 #define DJV_PROJECT_NAME  "@djvProjectName@"
-#define DJV_PACKAGE_NAME  "@djvPackageName@"
 
 // Platform specific.
 

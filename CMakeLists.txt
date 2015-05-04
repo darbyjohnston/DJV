@@ -11,8 +11,8 @@ cmake_policy(SET CMP0020 OLD)
 # Set the DJV version number.
 
 set(djvVersionMajor "1")
-set(djvVersionMinor "0")
-set(djvVersionPatch "6")
+set(djvVersionMinor "1")
+set(djvVersionPatch "0")
 
 set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
 
@@ -178,7 +178,7 @@ set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
 
 # Setup third party dependencies.
 
-set(djvPackageThirdParty false)
+set(djvPackageThirdParty true)
 
 set(CMAKE_THREAD_PREFER_PTHREAD true)
 find_package(Threads REQUIRED)

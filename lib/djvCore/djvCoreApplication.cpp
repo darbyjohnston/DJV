@@ -235,7 +235,7 @@ QString djvAbstractCoreApplication::info() const
 "    Maximum sequence size: %8\n");
 
     return QString(label).
-        arg(DJV_PACKAGE_NAME).
+        arg(DJV_PROJECT_NAME).
         arg(djvSystem::info()).
         arg(djvStringUtil::label(djvMemory::endian()).join(", ")).
         arg(QLocale::system().name()).
@@ -350,7 +350,7 @@ QString djvAbstractCoreApplication::about() const
 "    http://www.zlib.net/\n"
 "    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n");
 
-    return QString(label).arg(DJV_PACKAGE_NAME);
+    return QString(label).arg(DJV_PROJECT_NAME);
 }
 
 void djvAbstractCoreApplication::printMessage(const QString & string, int indent) const
