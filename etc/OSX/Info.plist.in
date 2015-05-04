@@ -91,9 +91,16 @@
         <dict>
             <key>CFBundleTypeExtensions</key>
             <array>
-                <string>qt</string>
+                <string>avi</string>
+                <string>dv</string>
+                <string>gif</string>
+                <string>flv</string>
+                <string>mkv</string>
                 <string>mov</string>
+                <string>mpg</string>
+                <string>mpeg</string>
                 <string>mp4</string>
+                <string>m4v</string>
             </array>
         </dict>
         <dict>
