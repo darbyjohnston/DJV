@@ -191,11 +191,12 @@ public:
 
     static const QString dotDot;
     
-    //! Parse a command line file input.
+    //! Parse a file name.
     
-    static djvFileInfo commandLine(
+    static djvFileInfo parse(
         const QString &       fileName,
-        djvSequence::COMPRESS sequence);
+        djvSequence::COMPRESS sequence,
+        bool                  autoSequence = false);
 };
 
 //------------------------------------------------------------------------------

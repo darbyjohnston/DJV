@@ -382,13 +382,13 @@ QVector<djvViewMainWindow *> djvViewMainWindow::mainWindowList()
     return _mainWindowList;
 }
 
-void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
+void djvViewMainWindow::fileOpen(const djvFileInfo & fileInfo, bool init)
 {
     //DJV_DEBUG("djvViewMainWindow::fileOpen");
-    //DJV_DEBUG_PRINT("in = " << in);
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
     //DJV_DEBUG_PRINT("init = " << init);
 
-    DJV_LOG("djvViewMainWindow", QString("Open file = \"%1\"").arg(in));
+    DJV_LOG("djvViewMainWindow", QString("Open file = \"%1\"").arg(fileInfo));
 
     // Initialize.
 
@@ -399,7 +399,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
     // Open the file.
 
     {
-        _p->fileGroup->open(in);
+        _p->fileGroup->open(fileInfo);
 
         // Set playback.
 
@@ -446,11 +446,6 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & in, bool init)
             _p->viewWidget->viewFit();
         }
     }
-}
-
-void djvViewMainWindow::setAutoSequence(bool in)
-{
-    _p->fileGroup->setAutoSequence(in);
 }
 
 void djvViewMainWindow::setFileLayer(int in)

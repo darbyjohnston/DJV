@@ -66,14 +66,15 @@
 struct djvViewApplicationPrivate
 {
     djvViewApplicationPrivate() :
-        combine (false),
-        sequence(djvSequence::COMPRESS_RANGE)
+        combine     (false),
+        sequence    (djvSequence::COMPRESS_RANGE),
+        autoSequence(true)
     {}
     
     QStringList                             input;
     bool                                    combine;
     djvSequence::COMPRESS                   sequence;
-    QScopedPointer<bool>                    fileSequenceAuto;
+    bool                                    autoSequence;
     QScopedPointer<int>                     fileLayer;
     QScopedPointer<djvPixelDataInfo::PROXY> fileProxy;
     QScopedPointer<bool>                    fileCacheEnabled;
@@ -215,8 +216,8 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) throw (djvError
         {
             // Parse the input.
             
-            djvFileInfo fileInfo =
-                djvFileInfoUtil::commandLine(_p->input[i], _p->sequence);
+            const djvFileInfo fileInfo = djvFileInfoUtil::parse(
+                _p->input[i], _p->sequence, _p->autoSequence);
             
             DJV_LOG("djvViewApplication", QString("Input = \"%1\"").arg(fileInfo));
             
@@ -307,16 +308,14 @@ void djvViewApplication::commandLine(QStringList & in) throw (QString)
             {
                 in >> _p->sequence;
             }
+            else if (
+                qApp->translate("djvViewApplication", "-auto_seq") == arg)
+            {
+                in >> _p->autoSequence;
+            }
 
             // Parse the file options.
 
-            else if (
-                qApp->translate("djvViewApplication", "-file_seq_auto") == arg)
-            {
-                bool value = 0;
-                in >> value;
-                _p->fileSequenceAuto.reset(new bool(value));
-            }
             else if (
                 qApp->translate("djvViewApplication", "-file_layer") == arg)
             {
@@ -406,13 +405,13 @@ QString djvViewApplication::commandLineHelp() const
 "        Combine multiple command line arguments into a single sequence.\n"
 "    -seq, -q (value)\n"
 "        Set command line file sequencing. Options = %1. Default = %2.\n"
+"    -auto_seq (value)\n"
+"        Automatically detect sequences when opening files. Options = %3. Default = %4.\n"
 "\n"
 "File Options\n"
 "\n"
-"    -file_seq_auto (value)\n"
-"        Automatically detect sequences when opening files. Options = %3.\n"
 "    -file_layer (value)\n"
-"        Set the input layer. Default = %4.\n"
+"        Set the input layer.\n"
 "    -file_proxy (value)\n"
 "        Set the proxy scale. Options = %5.\n"
 "    -file_cache (value)\n"
@@ -437,7 +436,7 @@ QString djvViewApplication::commandLineHelp() const
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_p->sequence).join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
-        arg(0).
+        arg(djvStringUtil::label(_p->autoSequence).join(", ")).
         arg(djvPixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvViewUtil::playbackLabels().join(", ")).
@@ -480,11 +479,6 @@ djvViewMainWindow * djvViewApplication::window() const
     djvViewMainWindow * out = new djvViewMainWindow;
 
     // Apply command line file options.
-
-    if (_p->fileSequenceAuto.data())
-    {
-        out->setAutoSequence(*_p->fileSequenceAuto);
-    }
 
     if (_p->fileLayer.data())
     {

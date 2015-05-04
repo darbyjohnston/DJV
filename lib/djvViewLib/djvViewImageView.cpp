@@ -34,6 +34,7 @@
 #include <djvViewImageView.h>
 
 #include <djvViewApplication.h>
+#include <djvViewFilePrefs.h>
 #include <djvViewHudInfo.h>
 #include <djvViewInputPrefs.h>
 #include <djvViewViewPrefs.h>
@@ -44,6 +45,7 @@
 
 #include <djvAssert.h>
 #include <djvFileInfo.h>
+#include <djvFileInfoUtil.h>
 #include <djvOpenGl.h>
 #include <djvPixel.h>
 #include <djvTime.h>
@@ -511,11 +513,15 @@ void djvViewImageView::dropEvent(QDropEvent * event)
 
     event->acceptProposedAction();
 
-    djvFileInfo fileInfo;
+    const bool autoSequence = djvViewFilePrefs::global()->hasAutoSequence();
+    
+    //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
 
+    djvFileInfo fileInfo;
+    
     if (event->mimeData()->hasFormat("application/x-filebrowser"))
     {
-         //DJV_DEBUG_PRINT("application/x-filebrowser");
+        //DJV_DEBUG_PRINT("application/x-filebrowser");
 
         const QByteArray data = event->mimeData()->data("application/x-filebrowser");
         
@@ -524,13 +530,13 @@ void djvViewImageView::dropEvent(QDropEvent * event)
         QStringList tmp;
         stream >> tmp;
         
-         //DJV_DEBUG_PRINT("tmp = " << tmp);
+        //DJV_DEBUG_PRINT("tmp = " << tmp);
         
         tmp >> fileInfo;
     }
     else if (event->mimeData()->hasFormat("text/uri-list"))
     {
-         //DJV_DEBUG_PRINT("text/uri-list");
+        //DJV_DEBUG_PRINT("text/uri-list");
         
         QString fileName = QUrl(event->mimeData()->text()).toLocalFile();
         
@@ -546,16 +552,22 @@ void djvViewImageView::dropEvent(QDropEvent * event)
         
          //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");
          
-         fileInfo = fileName;
+         fileInfo = djvFileInfoUtil::parse(
+            fileName,
+            autoSequence ? djvSequence::COMPRESS_RANGE : djvSequence::COMPRESS_OFF,
+            autoSequence);
     }
     else if (event->mimeData()->hasFormat("text/plain"))
     {
-         //DJV_DEBUG_PRINT("text/plain");
+        //DJV_DEBUG_PRINT("text/plain");
 
-        fileInfo = event->mimeData()->text();
+        fileInfo = djvFileInfoUtil::parse(
+            event->mimeData()->text(),
+            autoSequence ? djvSequence::COMPRESS_RANGE : djvSequence::COMPRESS_OFF,
+            autoSequence);
     }
 
-     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
     Q_EMIT fileDropped(fileInfo);
 }

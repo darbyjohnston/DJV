@@ -88,10 +88,6 @@ public Q_SLOTS:
 
     void fileOpen(const djvFileInfo &, bool init = true);
 
-    //! Set whether automatic file sequencing is enabled.
-
-    void setAutoSequence(bool);
-
     //! Set the file layer to open.
 
     void setFileLayer(int);

@@ -72,10 +72,6 @@ public:
 
     const djvFileInfo & fileInfo() const;
 
-    //! Get whether to automatically open sequences.
-
-    bool hasAutoSequence() const;
-
     //! Get the layer to load.
 
     int layer() const;
@@ -107,10 +103,6 @@ public Q_SLOTS:
     //! Open a file.
 
     void open(const djvFileInfo &);
-
-    //! Set whether to automatically open sequences.
-
-    void setAutoSequence(bool);
 
     //! Set the layer to load.
 

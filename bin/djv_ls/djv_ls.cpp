@@ -106,8 +106,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     {
         // Parse the input.
         
-        djvFileInfo fileInfo =
-            djvFileInfoUtil::commandLine(_input[i], _sequence);
+        djvFileInfo fileInfo = djvFileInfoUtil::parse(_input[i], _sequence);
 
         //DJV_DEBUG_PRINT("input = " << fileInfo);
         

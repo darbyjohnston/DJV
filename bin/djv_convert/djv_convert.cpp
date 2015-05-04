@@ -299,7 +299,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
         throw QString(qApp->translate("djvConvertApplication", "input"));
     }
 
-    _input.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
+    _input.file = djvFileInfoUtil::parse(args.first(), _options.sequence);
     
     DJV_LOG("djv_convert", QString("Input = \"%1\"").arg(_input.file));
 
@@ -312,7 +312,7 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
         throw QString(qApp->translate("djvConvertApplication", "output"));
     }
 
-    _output.file = djvFileInfoUtil::commandLine(args.first(), _options.sequence);
+    _output.file = djvFileInfoUtil::parse(args.first(), _options.sequence);
 
     DJV_LOG("djv_convert", QString("Output = \"%1\"").arg(_output.file));
 

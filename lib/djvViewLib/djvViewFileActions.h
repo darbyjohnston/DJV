@@ -65,7 +65,6 @@ public:
         CLOSE,
         SAVE,
         SAVE_FRAME,
-        AUTO_SEQUENCE,
         LAYER_PREV,
         LAYER_NEXT,
         U8_CONVERSION,

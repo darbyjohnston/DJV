@@ -890,12 +890,15 @@ const QString djvFileInfoUtil::dot(".");
 
 const QString djvFileInfoUtil::dotDot("..");
 
-djvFileInfo djvFileInfoUtil::commandLine(
+djvFileInfo djvFileInfoUtil::parse(
     const QString &       fileName,
-    djvSequence::COMPRESS sequence)
+    djvSequence::COMPRESS sequence,
+    bool                  autoSequence)
 {
-    //DJV_DEBUG("djvFileInfoUtil::commandLine");
-    //DJV_DEBUG_PRINT("file name = " << fileName);
+    //DJV_DEBUG("djvFileInfoUtil::parse");
+    //DJV_DEBUG_PRINT("fileName = " << fileName);
+    //DJV_DEBUG_PRINT("sequence = " << sequence);
+    //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
     
     djvFileInfo fileInfo(fileName, false);
 
@@ -914,10 +917,32 @@ djvFileInfo djvFileInfoUtil::commandLine(
 
     if (sequence && fileInfo.isSequenceValid())
     {
-        fileInfo.setType(djvFileInfo::SEQUENCE);
+        //DJV_DEBUG_PRINT("sequence");
 
-        //DJV_DEBUG_PRINT("sequence = " << fileInfo);
+        fileInfo.setType(djvFileInfo::SEQUENCE);
     }
+    
+    // Find other files in the directory that match this sequence.
+
+    if (sequence && autoSequence)
+    {
+        const djvFileInfoList items = djvFileInfoUtil::list(fileInfo.path());
+        
+        for (int i = 0; i < items.count(); ++i)
+        {
+            if (items[i].isSequenceValid() &&
+                items[i].extension() == fileInfo.extension() &&
+                items[i].base()      == fileInfo.base())
+            {
+                fileInfo.setType(djvFileInfo::SEQUENCE);
+                fileInfo.setSequence(items[i].sequence());
+                
+                break;
+            }
+        }
+    }
+
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
     
     return fileInfo;
 }

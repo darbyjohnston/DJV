@@ -313,6 +313,11 @@ OpenEXR Options
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="djvOpenExrWidget.cpp" line="173"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="djvOpenExrWidget.cpp" line="177"/>
         <source>DWA compression level:</source>
         <translation type="unfinished"></translation>

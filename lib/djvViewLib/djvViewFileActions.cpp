@@ -94,9 +94,6 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
 
     _actions[SAVE_FRAME]->setText(qApp->translate("djvViewFileActions", "Save &Frame"));
 
-    _actions[AUTO_SEQUENCE]->setText(qApp->translate("djvViewFileActions", "&Auto Sequence"));
-    _actions[AUTO_SEQUENCE]->setCheckable(true);
-
     _actions[LAYER_PREV]->setText(qApp->translate("djvViewFileActions", "Layer Previous"));
 
     _actions[LAYER_NEXT]->setText(qApp->translate("djvViewFileActions", "Layer Next"));

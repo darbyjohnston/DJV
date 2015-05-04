@@ -4,62 +4,63 @@
 <context>
     <name>djvViewApplication</name>
     <message>
-        <location filename="djvViewApplication.cpp" line="300"/>
+        <location filename="djvViewApplication.cpp" line="301"/>
         <source>-combine</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="305"/>
+        <location filename="djvViewApplication.cpp" line="306"/>
         <source>-seq</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="306"/>
+        <location filename="djvViewApplication.cpp" line="307"/>
         <source>-q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="314"/>
-        <source>-file_seq_auto</source>
+        <location filename="djvViewApplication.cpp" line="312"/>
+        <source>-auto_seq</source>
+        <oldsource>-seq_auto</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="321"/>
+        <location filename="djvViewApplication.cpp" line="320"/>
         <source>-file_layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="328"/>
+        <location filename="djvViewApplication.cpp" line="327"/>
         <source>-file_proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="336"/>
+        <location filename="djvViewApplication.cpp" line="335"/>
         <source>-file_cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="346"/>
+        <location filename="djvViewApplication.cpp" line="345"/>
         <source>-window_full_screen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="354"/>
+        <location filename="djvViewApplication.cpp" line="353"/>
         <source>-playback</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="362"/>
+        <location filename="djvViewApplication.cpp" line="361"/>
         <source>-playback_frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="369"/>
+        <location filename="djvViewApplication.cpp" line="368"/>
         <source>-playback_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewApplication.cpp" line="392"/>
+        <location filename="djvViewApplication.cpp" line="391"/>
         <source>djv_view
 
     The djv_view application provides real-time image sequence and movie playback. It is intended as a professional tool for reviewing computer animation, film, and video footage.
@@ -74,13 +75,13 @@ Options
         Combine multiple command line arguments into a single sequence.
     -seq, -q (value)
         Set command line file sequencing. Options = %1. Default = %2.
+    -auto_seq (value)
+        Automatically detect sequences when opening files. Options = %3. Default = %4.
 
 File Options
 
-    -file_seq_auto (value)
-        Automatically detect sequences when opening files. Options = %3.
     -file_layer (value)
-        Set the input layer. Default = %4.
+        Set the input layer.
     -file_proxy (value)
         Set the proxy scale. Options = %5.
     -file_cache (value)
@@ -100,6 +101,46 @@ Playback Options
     -playback_speed (value)
         Set the playback speed. Options = %8.
 %9</source>
+        <oldsource>djv_view
+
+    The djv_view application provides real-time image sequence and movie playback. It is intended as a professional tool for reviewing computer animation, film, and video footage.
+
+Usage
+
+    djv_view [image]... [option]...
+
+Options
+
+    -combine
+        Combine multiple command line arguments into a single sequence.
+    -seq, -q (value)
+        Set command line file sequencing. Options = %1. Default = %2.
+
+File Options
+
+    -seq_auto (value)
+        Automatically detect sequences when opening files. Options = %3. Default = %4.
+    -file_layer (value)
+        Set the input layer.
+    -file_proxy (value)
+        Set the proxy scale. Options = %5.
+    -file_cache (value)
+        Set whether the file cache is enabled. Options = %6.
+
+Window Options
+
+    -window_full_screen
+        Set the window full screen.
+
+Playback Options
+
+    -playback (value)
+        Set the playback. Options = %7.
+    -playback_frame (value)
+        Set the playback frame.
+    -playback_speed (value)
+        Set the playback speed. Options = %8.
+%9</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -233,77 +274,72 @@ Playback Options
     </message>
     <message>
         <location filename="djvViewFileActions.cpp" line="97"/>
-        <source>&amp;Auto Sequence</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvViewFileActions.cpp" line="100"/>
         <source>Layer Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="102"/>
+        <location filename="djvViewFileActions.cpp" line="99"/>
         <source>Layer Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="104"/>
+        <location filename="djvViewFileActions.cpp" line="101"/>
         <source>&amp;8-bit Conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="107"/>
+        <location filename="djvViewFileActions.cpp" line="104"/>
         <source>&amp;Memory Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="110"/>
+        <location filename="djvViewFileActions.cpp" line="107"/>
         <source>Clear Memory Cac&amp;he</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="112"/>
+        <location filename="djvViewFileActions.cpp" line="109"/>
         <source>Messa&amp;ges</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="114"/>
+        <location filename="djvViewFileActions.cpp" line="111"/>
         <source>&amp;Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="116"/>
+        <location filename="djvViewFileActions.cpp" line="113"/>
         <source>Debugging Log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="118"/>
+        <location filename="djvViewFileActions.cpp" line="115"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="193"/>
+        <location filename="djvViewFileActions.cpp" line="190"/>
         <source>Open a new file
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="199"/>
+        <location filename="djvViewFileActions.cpp" line="196"/>
         <source>Reload the current file
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="205"/>
+        <location filename="djvViewFileActions.cpp" line="202"/>
         <source>Reload the current frame
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="211"/>
+        <location filename="djvViewFileActions.cpp" line="208"/>
         <source>Close the current file
 
 Shortcut: %1</source>
@@ -313,23 +349,23 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFileGroup</name>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="629"/>
+        <location filename="djvViewFileGroup.cpp" line="549"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="738"/>
+        <location filename="djvViewFileGroup.cpp" line="658"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="751"/>
-        <location filename="djvViewFileGroup.cpp" line="778"/>
+        <location filename="djvViewFileGroup.cpp" line="671"/>
+        <location filename="djvViewFileGroup.cpp" line="698"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="769"/>
+        <location filename="djvViewFileGroup.cpp" line="689"/>
         <source>Save Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -342,17 +378,17 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="85"/>
+        <location filename="djvViewFileMenu.cpp" line="83"/>
         <source>La&amp;yer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="91"/>
+        <location filename="djvViewFileMenu.cpp" line="89"/>
         <source>Pro&amp;xy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="116"/>
+        <location filename="djvViewFileMenu.cpp" line="114"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -706,42 +742,42 @@ Shortcut: %1</source>
 <context>
     <name>djvViewImageView</name>
     <message>
-        <location filename="djvViewImageView.cpp" line="661"/>
+        <location filename="djvViewImageView.cpp" line="673"/>
         <source>File  = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="667"/>
+        <location filename="djvViewImageView.cpp" line="679"/>
         <source>Layer = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="673"/>
+        <location filename="djvViewImageView.cpp" line="685"/>
         <source>Size  = %1x%2:%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="681"/>
+        <location filename="djvViewImageView.cpp" line="693"/>
         <source>Proxy = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="687"/>
+        <location filename="djvViewImageView.cpp" line="699"/>
         <source>Pixel = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="699"/>
+        <location filename="djvViewImageView.cpp" line="711"/>
         <source>%1 = %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="709"/>
+        <location filename="djvViewImageView.cpp" line="721"/>
         <source>Frame = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="715"/>
+        <location filename="djvViewImageView.cpp" line="727"/>
         <source>Speed = %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -866,22 +902,22 @@ Click and drag inside the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="771"/>
+        <location filename="djvViewMainWindow.cpp" line="766"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="787"/>
+        <location filename="djvViewMainWindow.cpp" line="782"/>
         <source>Cache: %1% %2/%3GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="820"/>
+        <location filename="djvViewMainWindow.cpp" line="815"/>
         <source>Image: %1x%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="986"/>
+        <location filename="djvViewMainWindow.cpp" line="981"/>
         <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>

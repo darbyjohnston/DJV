@@ -78,8 +78,6 @@ djvViewFileMenu::djvViewFileMenu(
 
     addAction(actions->action(djvViewFileActions::SAVE_FRAME));
 
-    addAction(actions->action(djvViewFileActions::AUTO_SEQUENCE));
-
     addSeparator();
 
     _p->layer = addMenu(qApp->translate("djvViewFileMenu", "La&yer"));

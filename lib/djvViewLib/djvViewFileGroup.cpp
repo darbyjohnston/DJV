@@ -70,7 +70,6 @@ struct djvViewFileGroupPrivate
 {
     djvViewFileGroupPrivate() :
         image       (0),
-        autoSequence(djvViewFilePrefs::global()->hasAutoSequence()),
         layer       (0),
         proxy       (djvViewFilePrefs::global()->proxy()),
         u8Conversion(djvViewFilePrefs::global()->hasU8Conversion()),
@@ -87,7 +86,6 @@ struct djvViewFileGroupPrivate
     djvImage                     imageTmp;
     djvImage                     imageTmp2;
     QScopedPointer<djvImageLoad> imageLoad;
-    bool                         autoSequence;
     int                          layer;
     QStringList                  layers;
     djvPixelDataInfo::PROXY      proxy;
@@ -112,7 +110,6 @@ djvViewFileGroup::djvViewFileGroup(
     if (copy)
     {
         _p->fileInfo     = copy->_p->fileInfo;
-        _p->autoSequence = copy->_p->autoSequence;
         _p->layer        = copy->_p->layer;
         _p->proxy        = copy->_p->proxy;
         _p->u8Conversion = copy->_p->u8Conversion;
@@ -175,11 +172,6 @@ djvViewFileGroup::djvViewFileGroup(
         _p->actions->action(djvViewFileActions::SAVE_FRAME),
         SIGNAL(triggered()),
         SLOT(saveFrameCallback()));
-
-    connect(
-        _p->actions->action(djvViewFileActions::AUTO_SEQUENCE),
-        SIGNAL(toggled(bool)),
-        SLOT(setAutoSequence(bool)));
 
     connect(
         _p->actions->action(djvViewFileActions::LAYER_PREV),
@@ -248,11 +240,6 @@ djvViewFileGroup::djvViewFileGroup(
 
     connect(
         djvViewFilePrefs::global(),
-        SIGNAL(autoSequenceChanged(bool)),
-        SLOT(setAutoSequence(bool)));
-
-    connect(
-        djvViewFilePrefs::global(),
         SIGNAL(proxyChanged(djvPixelDataInfo::PROXY)),
         SLOT(setProxy(djvPixelDataInfo::PROXY)));
 
@@ -293,11 +280,6 @@ djvViewFileGroup::~djvViewFileGroup()
 const djvFileInfo & djvViewFileGroup::fileInfo() const
 {
     return _p->fileInfo;
-}
-
-bool djvViewFileGroup::hasAutoSequence() const
-{
-    return _p->autoSequence;
 }
 
 int djvViewFileGroup::layer() const
@@ -439,21 +421,13 @@ QToolBar * djvViewFileGroup::toolBar() const
     return _p->toolBar;
 }
 
-void djvViewFileGroup::open(const djvFileInfo & in)
+void djvViewFileGroup::open(const djvFileInfo & fileInfo)
 {
     //DJV_DEBUG("djvViewFileGroup::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("in type = " << in.type());
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("type = " << fileInfo.type());
 
-    djvFileInfo fileInfo;
-    
-    if (! in.isEmpty())
-    {
-        fileInfo = djvFileInfoUtil::fixPath(in);
-        fileInfo.setType(in.type());
-    }
-
-    // Initialize.
+    DJV_LOG("djvViewFileGroup", QString("Open file = \"%1\"").arg(fileInfo));
 
     cacheDel();
 
@@ -461,51 +435,7 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     _p->imageIoInfo = djvImageIoInfo();
     _p->imageLoad.reset();
 
-    // Match wildcards.
-
-    if (fileInfo.isSequenceWildcard())
-    {
-        fileInfo = djvFileInfoUtil::sequenceWildcardMatch(
-            fileInfo,
-            djvFileInfoUtil::list(fileInfo.path()));
-        
-        DJV_LOG("djvViewFileGroup", QString("match wildcards = \"%1\"").arg(fileInfo));
-    }
-    
-    //DJV_DEBUG_PRINT("file = " << fileInfo);
-    //DJV_DEBUG_PRINT("file type = " << fileInfo.type());
-    //DJV_DEBUG_PRINT("sequence valid = " << fileInfo.isSequenceValid());
-    //DJV_DEBUG_PRINT("sequence = " << fileInfo.sequence());
-
-    DJV_LOG("djvViewFileGroup", QString("Open file = \"%1\"").arg(fileInfo));
-    
-    // Automatic sequence loading.
-
-    if (_p->autoSequence &&
-        fileInfo.isSequenceValid() &&
-        fileInfo.sequence().frames.count() == 1)
-    {
-        const djvFileInfoList items = djvFileInfoUtil::list(fileInfo.path());
-        
-        for (int i = 0; i < items.count(); ++i)
-        {
-            if (items[i].isSequenceValid() &&
-                items[i].extension() == fileInfo.extension() &&
-                items[i].base()      == fileInfo.base())
-            {
-                fileInfo.setType(djvFileInfo::SEQUENCE);
-                fileInfo.setSequence(items[i].sequence());
-                
-                break;
-            }
-        }
-
-        //DJV_DEBUG_PRINT("sequence = " << fileInfo);
-
-        DJV_LOG("djvViewFileGroup", QString("sequence = \"%1\"").arg(fileInfo));
-    }
-
-    // Load.
+    // Load the file.
 
     if (! fileInfo.fileName().isEmpty())
     {
@@ -542,16 +472,6 @@ void djvViewFileGroup::open(const djvFileInfo & in)
     {
         _p->layers += _p->imageIoInfo[i].layerName;
     }
-
-    update();
-}
-
-void djvViewFileGroup::setAutoSequence(bool autoSequence)
-{
-    if (autoSequence == _p->autoSequence)
-        return;
-
-    _p->autoSequence = autoSequence;
 
     update();
 }
@@ -846,9 +766,6 @@ void djvViewFileGroup::update()
 
     _p->actions->action(djvViewFileActions::SAVE_FRAME)->
         setEnabled(_p->imageLoad.data());
-
-    _p->actions->action(djvViewFileActions::AUTO_SEQUENCE)->
-        setChecked(_p->autoSequence);
 
     _p->actions->setLayers(_p->layers);
     _p->actions->setLayer(_p->layer);

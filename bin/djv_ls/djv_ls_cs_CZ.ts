@@ -4,97 +4,97 @@
 <context>
     <name>djvLsApplication</name>
     <message>
-        <location filename="djv_ls.cpp" line="209"/>
+        <location filename="djv_ls.cpp" line="208"/>
         <source>-x_info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="210"/>
+        <location filename="djv_ls.cpp" line="209"/>
         <source>-xi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="215"/>
+        <location filename="djv_ls.cpp" line="214"/>
         <source>-file_path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="216"/>
+        <location filename="djv_ls.cpp" line="215"/>
         <source>-fp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="221"/>
+        <location filename="djv_ls.cpp" line="220"/>
         <source>-seq</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="222"/>
+        <location filename="djv_ls.cpp" line="221"/>
         <source>-q</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="227"/>
+        <location filename="djv_ls.cpp" line="226"/>
         <source>-recurse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="228"/>
+        <location filename="djv_ls.cpp" line="227"/>
         <source>-r</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="233"/>
+        <location filename="djv_ls.cpp" line="232"/>
         <source>-hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="238"/>
+        <location filename="djv_ls.cpp" line="237"/>
         <source>-columns</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="239"/>
+        <location filename="djv_ls.cpp" line="238"/>
         <source>-c</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="247"/>
+        <location filename="djv_ls.cpp" line="246"/>
         <source>-sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="248"/>
+        <location filename="djv_ls.cpp" line="247"/>
         <source>-s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="253"/>
+        <location filename="djv_ls.cpp" line="252"/>
         <source>-reverse_sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="254"/>
+        <location filename="djv_ls.cpp" line="253"/>
         <source>-rs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="259"/>
+        <location filename="djv_ls.cpp" line="258"/>
         <source>-x_sort_dirs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="260"/>
+        <location filename="djv_ls.cpp" line="259"/>
         <source>-xsd</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="282"/>
+        <location filename="djv_ls.cpp" line="281"/>
         <source>Cannot open: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="291"/>
+        <location filename="djv_ls.cpp" line="290"/>
         <source>djv_ls
 
     This application provides a command line tool for listing directories with file sequences.
@@ -157,22 +157,22 @@ Examples
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="415"/>
+        <location filename="djv_ls.cpp" line="414"/>
         <source>%1 %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="417"/>
+        <location filename="djv_ls.cpp" line="416"/>
         <source>%1 %2 %3 %4 %5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="448"/>
+        <location filename="djv_ls.cpp" line="447"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_ls.cpp" line="478"/>
+        <location filename="djv_ls.cpp" line="477"/>
         <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>
