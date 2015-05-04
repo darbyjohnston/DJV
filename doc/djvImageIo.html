@@ -66,16 +66,15 @@
 <ul>
     <li><a href="#Cineon">Cineon</a></li>
     <li><a href="#Dpx">DPX</a></li>
+    <li><a href="#FFmpeg">FFmpeg</a></li>
     <li><a href="#Iff">IFF</a></li>
     <li><a href="#Ifl">IFL</a></li>
     <li><a href="#Jpeg">JPEG</a></li>
-    <li><a href="#Libquicktime">libquicktime</a></li>
     <li><a href="#Lut">LUT</a></li>
     <li><a href="#OpenExr">OpenEXR</a></li>
     <li><a href="#Pic">PIC</a></li>
     <li><a href="#Png">PNG</a></li>
     <li><a href="#Ppm">PPM</a></li>
-    <li><a href="#QuickTime">QuickTime</a></li>
     <li><a href="#Rla">RLA</a></li>
     <li><a href="#Sgi">SGI</a></li>
     <li><a href="#Targa">Targa</a></li>
@@ -205,25 +204,6 @@ image file format.</p>
 images. Default = 90.</td></tr>
 </table>
 
-<a name="Libquicktime"><h2>libquicktime</h2></a>
-<p>This plugin provides support for libquicktime, an open source library for
-reading and writing movies.</p>
-<p>File extensions: .qt, .mov, .avi, .mp4</p>
-<p>Supported features:</p>
-<ul>
-    <li>8-bit RGBA</li>
-    <li>File compression</li>
-</ul>
-<p>Command line options:</p>
-<table>
-<tr><td width="200">-libquicktime_codec (value)</td><td>Set the codec used when saving
-Libquicktime movies. Options = rtjpeg, raw, rawalpha, v308, v408, v410, yuv2,
-yuv4, yv12, 2vuy, v210, yuvs, jpeg, mjpa, png, pngalpha, ffmpeg_mpg4,
-ffmpeg_msmpeg4v3, ffmpeg_msmpeg4v3_wmp, ffmpeg_h263, ffmpeg_h263p, ffmpeg_mjpg,
-ffmpeg_rle, ffmpeg_dv, ffmpeg_dvcpro, ffmpeg_dv50, ffmpeg_ffvhuff, ffmpeg_ffv1,
-ffmpeg_dnxhd, ffmpeg_imx. Default = mjpa.</td></tr>
-</table>
-
 <a name="Lut"><h2>LUT</h2></a>
 <p>This plugin provides support for two-dimensional lookup table file formats.</p>
 <p>File extensions: .lut, .1dl</p>
@@ -314,11 +294,9 @@ images. Options = Auto, U1. Default = Auto.</td><tr>
 images. Options = ASCII, Binary. Default = Binary.</td></tr>
 </table>
 
-<a name="QuickTime"><h2>QuickTime</h2></a>
-<p>This plugin provides support for the Apple QuickTime movie file format.
-Note that this plugin is only available for Apple OS X and Microsoft Windows
-32-bit builds.</p>
-<p>File extensions: .qt, .mov, .avi, .mp4</p>
+<a name="FFmpeg"><h2>FFmpeg</h2></a>
+<p>This plugin provides support for the FFmmpeg library.</p>
+<p>File extensions: .avi, .dv, .gif, .flv, .mkv, .mov, .mpg, .mpeg, .mp4, .m4v</p>
 <p>Supported features:</p>
 <ul>
     <li>8-bit RGBA</li>
@@ -326,12 +304,8 @@ Note that this plugin is only available for Apple OS X and Microsoft Windows
 </ul>
 <p>Command line options:</p>
 <table>
-<tr><td width="200">-quicktime_codec (value)</td><td>Set the codec used when
-saving QuickTime movies. Options = Raw, JPEG, MJPEG-A, MJPEG-B, H263, H264,
-DVC-NTSC, DVC-PAL. Default = MJPEG-A.</td></tr>
-<tr><td width="200">-quicktime_quality (value)</td><td>Set the quality used
-when saving QuickTime movies. Options = Lossless, Min, Max, Low, Normal,
-High. Default = Normal.</td></tr>
+<tr><td width="200">-ffmpeg_codec (value)</td><td>Set the codec used when
+saving FFmpeg movies. Default = h264.</td></tr>
 </table>
 
 <a name="Rla"><h2>RLA</h2></a>

@@ -107,8 +107,7 @@ alias djv_convert=/Applications/djv-@djvVersion@-OSX-64.app/Contents/Resources/b
 </pre>
 
 <a name="Windows"><h2>Windows</h2></a>
-<p>Windows packages are compiled for Windows 7. Note that only the 32-bit
-versions of the Windows packages support Apple QuickTime.</p>
+<p>Windows packages are compiled for Windows 7.</p>
 
 </td>
 </tr>
