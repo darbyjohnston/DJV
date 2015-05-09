@@ -63,63 +63,48 @@
 <td>
 
 <h1>Source Code</h1>
+<p>The DJV source code is available for download and may be used to compile
+your own version or to make modifications. The source code is provided under
+a BSD-style open source <a href="djvLegal.html">license</a>. DJV also depends
+on a number of third party software packages which are covered by their own
+license terms, see the documentation of the individual packages for details.</p>
 <ul>
     <li><a href="#ThirdPartySoftware">Third Party Software</a></li>
     <ul>
-        <li><a href="#ThirdPartySoftwareRequired">Required Software</a></li>
-        <li><a href="#ThirdPartySoftwareOptional">Optional Software</a></li>
-        <li><a href="#ThirdPartySoftwareLinux">Building on Linux</a></li>
-        <li><a href="#ThirdPartySoftwareOSX">Building on OS X</a></li>
-        <li><a href="#ThirdPartySoftwareWindows">Building on Windows</a></li>
+        <li><a href="#ThirdPartySoftwareLinux">Linux</a></li>
+        <li><a href="#ThirdPartySoftwareOSX">OS X</a></li>
+        <li><a href="#ThirdPartySoftwareWindows">Windows</a></li>
     </ul>
-    <li><a href="#BuildingDJV">Building DJV</a></li>
+    <li><a href="#DJV">DJV</a></li>
     <ul>
-        <li><a href="#BuildingDJVLinux">Building on Linux</a></li>
-        <li><a href="#BuildingDJVOSX">Building on OS X</a></li>
-        <li><a href="#BuildingDJVWindows">Building on Windows</a></li>
-    </ul>
-    <li><a href="#Miscellaneous">Miscellaneous</a></li>
-    <ul>
-        <li><a href="#Versioning">Versioning</a></li>
-        <li><a href="#ImageIo">Image I/O</a></li>
+        <li><a href="#DJVLinux">Linux</a></li>
+        <li><a href="#DJVOSX">OS X</a></li>
+        <li><a href="#DJVWindows">Windows</a></li>
     </ul>
 </ul>
 
 <a name="ThirdPartySoftware"><h2>Third Party Software</h2></a>
-<p>DJV depends on a number of third party software packages that can either be
-installed on the system or built from source code. By default the third party
-software installed on the system will be used, however you may override this
-behavior by building the software from source as described below and setting
-the CMAKE_PREFIX_PATH environment variable.</p>
+<p>DJV depends on a number of third party software packages that need to be
+built before the DJV source code can be built. Some of these packages are
+required, like Qt, while others are optional, like FFmpeg.</p>
 
-<a name="ThirdPartySoftwareRequired"><h3>Required Software</h3></a>
-<p>The following third party software packages are required by DJV:</p>
 <table>
-    <tr>
-        <td><a href="http://www.opengl.org/">OpenGL</a></td>
-        <td>Used for image processing and display</td>
-    </tr>
-    <tr>
-        <td><a href="http://www.cmake.org/">CMake</a></td>
-        <td>Build system</td>
-    </tr>
+	<th colspan=2>Required</th>
     <tr>
         <td><a href="http://glew.sourceforge.net/">GLEW</a></td>
-        <td>Used for OpenGL extensions</td>
+        <td>OpenGL extension wrangling</td>
     </tr>
     <tr>
         <td><a href="http://www.openexr.com/">IlmBase</a></td>
-        <td>Used for the 16-bit half float type</td>
+        <td>16-bit half-float type</td>
     </tr>
     <tr>
         <td><a href="http://www.qt.io/">Qt</a></td>
-        <td>Used for user interface and other utitdties</td>
+        <td>User interface toolkit and system utilities</td>
     </tr>
 </table>
-
-<a name="ThirdPartySoftwareOptional"><h3>Optional Software</h3></a>
-<p>The following third party software packages are optional for DJV:</p>
 <table>
+	<th colspan=2>Optional</th>
     <tr>
         <td><a href="http://www.zlib.net/">zlib</a></td>
         <td>Compression library used by libtiff and OpenEXR</td>
@@ -146,65 +131,58 @@ the CMAKE_PREFIX_PATH environment variable.</p>
     </tr>
 </table>
 
-<a name="ThirdPartySoftwareLinux"><h3>Building on Linux</h3></a>
-<p>The following describes how to build the DJV third party software packages
-on Linux systems.</p>
-<p>First clone the DJV third party repository:</p>
+<a name="ThirdPartySoftwareLinux"><h3>Linux</h3></a>
+<p>The following instructions describe how to build the third party software
+packages on Linux systems.</p>
+<p>First clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-> cd djv-git-third-party
 </pre>
-<p>Then run the Linux build script:</p>
+<p>Then run the build script:</p>
 <pre>
+> cd djv-git-third-party
 > sh Linux-64.sh
 </pre>
-<p>Set the CMAKE_PREFIX_PATH environment variable:</p>
-<pre>
-> cd ..
-> export CMAKE_PREFIX_PATH=$PWD/djv-git-third-party-Linux-64
-</pre>
 
-<a name="ThirdPartySoftwareOSX"><h3>Building on OS X</h3></a>
-<p>The following describes how to build the DJV third party software packages
-on Apple OS X systems.</p>
-<p>First clone the DJV third party repository:</p>
+<a name="ThirdPartySoftwareOSX"><h3>OS X</h3></a>
+<p>The following instructions describe how to build the third party software
+packages on Apple OS X systems.</p>
+<p>First clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
-> cd djv-git-third-party
 </pre>
-<p>Then run the OS X build script:</p>
+<p>Then run the build script:</p>
 <pre>
+> cd djv-git-third-party
 > sh OSX-64.sh
 </pre>
-<p>Set the CMAKE_PREFIX_PATH environment variable:</p>
-<pre>
-> cd ..
-> export CMAKE_PREFIX_PATH=$PWD/djv-git-third-party-OSX-64
-</pre>
 
-<a name="ThirdPartySoftwareWindows"><h3>Building on Windows</h3></a>
-<p>The following describes how to build the DJV third party software packages
-on Microsoft Windows systems.</p>
-<p>First clone the DJV third party repository:</p>
+<a name="ThirdPartySoftwareWindows"><h3>Windows</h3></a>
+<p>The following instructions describe how to build the third party software
+packages on Microsoft Windows systems.</p>
+<p>First clone the repository:</p>
 <pre>
-> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
+mingw> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
 </pre>
-<p>Then uncompress the third party packages (note this is using the MinGW tar
-and unzip commands, the Windows utility 7-Zip could also be used):</p>
+<p>Then uncompress the third party packages:</p>
 <pre>
-> tar zxvf glew-1.10.0.tgz
-> tar zxvf ilmbase-2.2.0.tar.gz
-> tar xzvf jpegsrc.v9.tar.gz
-> tar zxvf libpng-1.6.8.tar.gz
-> tar zxvf openexr-2.2.0.tar.gz
-> tar zxvf tiff-4.0.3.tar.gz
-> tar zxvf zlib-1.2.8.tar.gz
-> unzip qt-everywhere-opensource-src-5.3.2.zip
+mingw> tar zxvf ffmpeg-2.6.2.tar.gz
+mingw> tar zxvf glew-1.10.0.tgz
+mingw> tar zxvf ilmbase-2.2.0.tar.gz
+mingw> tar xzvf jpegsrc.v9.tar.gz
+mingw> tar zxvf libpng-1.6.8.tar.gz
+mingw> tar zxvf openexr-2.2.0.tar.gz
+mingw> tar zxvf tiff-4.0.3.tar.gz
+mingw> tar zxvf yasm-1.3.0.tar.gz
+mingw> tar zxvf zlib-1.2.8.tar.gz
+mingw> unzip qt-everywhere-opensource-src-5.3.2.zip
+mingw> mv qt-everywhere-opensource-src-5.3.2 qt
 </pre>
+<p>Note that the Qt directory is renamed to avoid problems with long path names.</p>
 <p>Apply the patch for OpenEXR (note this is using the MinGW patch command,
 though the patch is simple enough you could also apply it by hand):</p>
 <pre>
-> patch
+mingw> patch
       openexr-2.2.0/IlmImf/ImfCompressionAttribute.h
       patch/openexr.ImfCompressionAttribute.h.patch
 </pre>
@@ -227,9 +205,36 @@ of the Git directory):</p>
 contains all of the third party files (except for Qt) that are needed to
 build DJV. Choose a directory and unzip this file (I usually make this a
 sibling of the Git and CMake directories).</p>
-<p>To build Qt enter the Qt source directory and run the configure script; set
-the installation location, or prefix, to the same directory as where you
-unzipped the files in the previous step:</p>
+<p>To build Yasm create a new directory for the CMake build (I ususally make
+this a sibling of the Git directory):</p>
+<pre>
+> mkdir yasm-Windows-64-cmake
+> cd yasm-Windows-64-cmake
+</pre>
+<p>Run CMake giving it the path to the Yasm directory and the installation
+path:</p>
+<pre>
+> cmake
+	-G "NMake Makefiles"
+	-DCMAKE_INSTALL_PREFIX=C:\...\djv-git-third-party-Windows-64
+	..\djv-git-third-party\yasm-1.3.0
+</pre>
+<p>Then run NMake to build and install Yasm:</p>
+<pre>
+> nmake
+> nmake install
+</pre>
+<p>To build FFmpeg first append the path with the installation path:</p>
+<pre>
+mingw> export PATH=$PATH:/c/.../djv-git-third-party-Windows-64/bin
+</pre>
+<p>Then enter the FFmpeg source directory and run the configure script,
+setting the installation path:</p>
+<pre>
+mingw> ./configure 
+</pre>
+<p>To build Qt enter the Qt source directory and run the configure script,
+setting the installation path:</p>
 <p>\todo Is there anything else that can be disabled for a minimal Qt build?</p>
 <pre>
 > configure
@@ -246,6 +251,7 @@ unzipped the files in the previous step:</p>
       -skip qtsensors
       -skip qtserialport
       -skip qtwebkit
+      -skip qtwebkit-examples
       -skip qtwebsockets
       -skip qtwinextras
       -skip qtxmlpatterns
@@ -263,13 +269,13 @@ path delimeters):</p>
 Control Panel or added to a batch script. See the files in the DJV source
 directory under "etc\Windows" for an example.</p>
 
-<a name="BuildingDJV"><h2>Building DJV</h2></a>
+<a name="DJV"><h2>DJV</h2></a>
 <p>The CMake modules used for locating the third party software are located in
 the directory "cmake/Modules".</p>
 
-<a name="BuildingDJVLinux"><h3>Building on Linux</h3></a>
-<p>The following describes how to build the DJV software on Linux systems.</p>
-<p>First clone the DJV repository:</p>
+<a name="DJVLinux"><h3>Linux</h3></a>
+<p>The following instructions describe how to build DJV on Linux systems.</p>
+<p>First clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
@@ -278,7 +284,13 @@ the directory "cmake/Modules".</p>
 > mkdir djv-git-Linux-64
 > cd djv-git-Linux-64
 </pre>
-<p>Run CMake and then Make:</p>
+<p>If you built the third party software packages from source then set the
+CMAKE_PREFIX_PATH environment variable and append the path:</p>
+<pre>
+> export CMAKE_PREFIX_PATH=/.../djv-git-third-party-Linux-64
+> export PATH=$PATH:/.../djv-git-third-party-Linux-64/bin
+</pre>
+<p>Run CMake and then start the build:</p>
 <pre>
 > cmake ../djv-git
 > make
@@ -286,9 +298,10 @@ the directory "cmake/Modules".</p>
 > make package
 </pre>
 
-<a name="BuildingDJVOSX"><h3>Building on OS X</h3></a>
-<p>The following describes how to build the DJV software on Apple OS X systems.</p>
-<p>First clone the DJV repository:</p>
+<a name="DJVOSX"><h3>OS X</h3></a>
+<p>The following instructions describe how to build DJV on Apple OS X
+systems.</p>
+<p>First clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
@@ -297,7 +310,13 @@ the directory "cmake/Modules".</p>
 > mkdir djv-git-OSX-64
 > cd djv-git-OSX-64
 </pre>
-<p>Run CMake and then Make:</p>
+<p>If you built the third party software packages from source then set the
+CMAKE_PREFIX_PATH environment variable and append the path:</p>
+<pre>
+> export CMAKE_PREFIX_PATH=/.../djv-git-third-party-OSX-64
+> export PATH=$PATH:/.../djv-git-third-party-OSX-64/bin
+</pre>
+<p>Run CMake and then start the build:</p>
 <pre>
 > cmake ../djv-git
 > make
@@ -305,10 +324,10 @@ the directory "cmake/Modules".</p>
 > make package
 </pre>
 
-<a name="BuildingDJVWindows"><h3>Building on Windows</h3></a>
-<p>The following describes how to build the DJV software on Microsoft Windows
-systems.</p>
-<p>First clone the DJV repository:</p>
+<a name="DJVWindows"><h3>Windows</h3></a>
+<p>The following instructions describe how to build DJV on Microsoft
+Windows systems.</p>
+<p>First clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
 </pre>
@@ -317,37 +336,19 @@ systems.</p>
 > mkdir djv-git-Windows-64
 > cd djv-git-Windows-64
 </pre>
-<p>Run CMake and then NMake:</p>
+<p>If you built the third party software packages from source then set the
+CMAKE_PREFIX_PATH environment variable and append the path:</p>
+<pre>
+> set CMAKE_PREFIX_PATH=C:\...\djv-git-third-party-OSX-64
+> set PATH=%PATH%;C:\...\djv-git-third-party-OSX-64\bin
+</pre>
+<p>Run CMake and then start the build:</p>
 <pre>
 > cmake -G "NMake Makefiles" ..\djv-git
 > nmake
 > nmake test
 > nmake package
 </pre>
-
-<a name="Miscellaneous"><h2>Miscellaneous</h2></a>
-
-<a name="Versioning"><h3>Versioning</h3></a>
-<p>When changing DJV versions the following files need to be updated:</p>
-<ul>
-    <li>Set the new version in the top-level CMakeLists.txt file</li>
-    <li>Set the new version in the top-level Doxyfile</li>
-    <li>Add a change list description to doc/djvChangeList.html</li>
-</ul>
-<p>Git example for tagging a version:</p>
-<pre>
-> git tag -a 1.1.0 -m "Version 1.1.0" df2f2e21232ceeab85ca40fc988aba5591fe9e64
-> git push origin 1.1.0
-</pre>
-
-<a name="ImageIo"><h3>Image I/O</h3></a>
-<p>When new image I/O file extensions are added to DJV the following files need
-to be updated:</p>
-<ul>
-    <li>cmake/Modules/djvPackage.cmake</li>
-    <li>etc/Linux/djv_view.mime.xml</li>
-    <li>etc/OSX/Info.plist.in</li>
-</ul>
 
 </td>
 </tr>

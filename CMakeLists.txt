@@ -3,6 +3,24 @@
 # build the source code follow this link:
 #
 # doc/djvSourceCode.html
+#
+# When changing DJV versions the following files need to be updated:
+#
+# * Set the new version in the top-level CMakeLists.txt file
+# * Set the new version in the top-level Doxyfile
+# * Add a change list description to doc/djvChangeList.html
+#
+# Git example for tagging a version:
+#
+# > git tag -a 1.1.0 -m "Version 1.1.0" df2f2e21232ceeab85ca40fc988aba5591fe9e64
+# > git push origin 1.1.0
+#
+# When new image I/O file extensions are added to DJV the following files need
+# to be updated:
+#
+# * cmake/Modules/djvPackage.cmake
+# * etc/Linux/djv_view.mime.xml
+# * etc/OSX/Info.plist.in
 
 cmake_minimum_required(VERSION 2.8)
 

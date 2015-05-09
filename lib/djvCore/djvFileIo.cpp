@@ -93,7 +93,7 @@ struct djvFileIoPrivate
 #if defined(DJV_WINDOWS)
 
         f        (INVALID_HANDLE_VALUE),
-        mode     (static_cast<<djvFileIo::MODE>(0)),
+        mode     (static_cast<djvFileIo::MODE>(0)),
         pos      (0),
         size     (0),
         endian   (false),

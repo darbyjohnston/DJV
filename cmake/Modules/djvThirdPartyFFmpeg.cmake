@@ -1,12 +1,10 @@
 if (WIN32)
 
-else (WIN32)
-
     find_package(FFmpeg)
 
-    message("FFMPEG_FOUND = " ${FFMPEG_FOUND})
-    message("FFMPEG_INCLUDE_DIRS = " ${FFMPEG_INCLUDE_DIRS})
-    message("FFMPEG_LIBRARIES = " ${FFMPEG_LIBRARIES})
+    #message("FFMPEG_FOUND = " ${FFMPEG_FOUND})
+    #message("FFMPEG_INCLUDE_DIRS = " ${FFMPEG_INCLUDE_DIRS})
+    #message("FFMPEG_LIBRARIES = " ${FFMPEG_LIBRARIES})
 
     if (FFMPEG_FOUND)
 
@@ -14,9 +12,25 @@ else (WIN32)
     
         if (djvPackageThirdParty)
         
-            if (WIN32)
+        endif (djvPackageThirdParty)
 
-            elseif (APPLE)
+    endif (FFMPEG_FOUND)
+
+else (WIN32)
+
+    find_package(FFmpeg)
+
+    #message("FFMPEG_FOUND = " ${FFMPEG_FOUND})
+    #message("FFMPEG_INCLUDE_DIRS = " ${FFMPEG_INCLUDE_DIRS})
+    #message("FFMPEG_LIBRARIES = " ${FFMPEG_LIBRARIES})
+
+    if (FFMPEG_FOUND)
+
+        set(djvImageIoPlugins ${djvImageIoPlugins} djvFFmpegPlugin)
+    
+        if (djvPackageThirdParty)
+        
+            if (APPLE)
             
                 install(
                     FILES
@@ -70,7 +84,7 @@ else (WIN32)
                     $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so.3.1.101
                     DESTINATION lib)
 
-            endif (WIN32)
+            endif (APPLE)
 
         endif (djvPackageThirdParty)
 

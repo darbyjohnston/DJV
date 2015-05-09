@@ -121,6 +121,10 @@ public:
 
         QString codec;
     };
+	
+	//! Get the internal time base represented as fractional value.
+	
+	static AVRational timeBaseQ();
     
     virtual void initPlugin() throw (djvError);
     

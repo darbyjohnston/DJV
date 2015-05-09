@@ -178,7 +178,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         duration = av_rescale_q(
             stream->duration,
             stream->time_base,
-            AV_TIME_BASE_Q);
+            djvFFmpegPlugin::timeBaseQ());
     }
     else if (_avFormatContext->duration != AV_NOPTS_VALUE)
     {
@@ -280,7 +280,7 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         r = av_seek_frame(
             _avFormatContext,
             _avVideoStream,
-            av_rescale_q(pos, AV_TIME_BASE_Q, stream->time_base),
+            av_rescale_q(pos, djvFFmpegPlugin::timeBaseQ(), stream->time_base),
             AVSEEK_FLAG_BACKWARD);
         
         //DJV_DEBUG_PRINT("seek = " << r);
@@ -420,7 +420,7 @@ int djvFFmpegLoad::readFrame(int64_t & pts)
     pts = av_rescale_q(
         pts,
         _avFormatContext->streams[_avVideoStream]->time_base,
-        AV_TIME_BASE_Q);
+        djvFFmpegPlugin::timeBaseQ());
     
     //DJV_DEBUG_PRINT("pts = " << int(pts));
     //DJV_DEBUG_PRINT("finished = " << finished);
