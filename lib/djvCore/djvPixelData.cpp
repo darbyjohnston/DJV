@@ -200,7 +200,9 @@ djvPixelData & djvPixelData::operator = (const djvPixelData & in)
 
 void djvPixelData::init()
 {
+    _info              = djvPixelDataInfo();
     _channels          = 0;
+    _data.setSize(0);
     _p                 = 0;
     _pixelByteCount    = 0;
     _scanlineByteCount = 0;

@@ -4,7 +4,7 @@
 <context>
     <name>djvAbstractCoreApplication</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="224"/>
+        <location filename="djvCoreApplication.cpp" line="223"/>
         <source>General
 
     Version: %1
@@ -19,7 +19,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="250"/>
+        <location filename="djvCoreApplication.cpp" line="249"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -106,52 +106,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="409"/>
+        <location filename="djvCoreApplication.cpp" line="408"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="416"/>
+        <location filename="djvCoreApplication.cpp" line="415"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="423"/>
+        <location filename="djvCoreApplication.cpp" line="422"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="431"/>
+        <location filename="djvCoreApplication.cpp" line="430"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="437"/>
+        <location filename="djvCoreApplication.cpp" line="436"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="438"/>
+        <location filename="djvCoreApplication.cpp" line="437"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="443"/>
+        <location filename="djvCoreApplication.cpp" line="442"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="448"/>
+        <location filename="djvCoreApplication.cpp" line="447"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="456"/>
+        <location filename="djvCoreApplication.cpp" line="455"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="489"/>
+        <location filename="djvCoreApplication.cpp" line="488"/>
         <source>
 General Options
 
@@ -173,7 +173,7 @@ General Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="525"/>
+        <location filename="djvCoreApplication.cpp" line="524"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -222,27 +222,27 @@ OpenGL Options
 <context>
     <name>djvApplicationEnum</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="58"/>
+        <location filename="djvCoreApplication.cpp" line="57"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="59"/>
+        <location filename="djvCoreApplication.cpp" line="58"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="60"/>
+        <location filename="djvCoreApplication.cpp" line="59"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="61"/>
+        <location filename="djvCoreApplication.cpp" line="60"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="62"/>
+        <location filename="djvCoreApplication.cpp" line="61"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
