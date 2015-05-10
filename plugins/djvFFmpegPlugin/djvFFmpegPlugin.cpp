@@ -130,14 +130,16 @@ namespace
 
 void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
 {
-    if (level > av_log_get_level())
+    //! \todo Add multi-thread safe logging.
+
+    /*if (level > av_log_get_level())
         return;
 
     char s [djvStringUtil::cStringLength];
     
     SNPRINTF(s, djvStringUtil::cStringLength, fmt, vl);
     
-    DJV_LOG("djvFFmpegPlugin", s);
+    DJV_LOG("djvFFmpegPlugin", s);*/
 }
 
 } // namespace

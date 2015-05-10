@@ -39,12 +39,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="243"/>
+        <location filename="djvFFmpegPlugin.cpp" line="245"/>
         <source>-ffmpeg_codec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="263"/>
+        <location filename="djvFFmpegPlugin.cpp" line="265"/>
         <source>
 FFmpeg Options
 
