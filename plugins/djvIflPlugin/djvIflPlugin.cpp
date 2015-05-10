@@ -66,6 +66,11 @@ QStringList djvIflPlugin::extensions() const
     return QStringList() << ".ifl";
 }
 
+bool djvIflPlugin::isSequence() const
+{
+    return false;
+}
+
 djvImageLoad * djvIflPlugin::createLoad() const
 {
     return new djvIflLoad;

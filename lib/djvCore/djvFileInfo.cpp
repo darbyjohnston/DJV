@@ -51,6 +51,8 @@
 // djvFileInfo
 //------------------------------------------------------------------------------
 
+QSet<QString> djvFileInfo::sequenceExtensions;
+
 void djvFileInfo::init()
 {
     _exists      = false;
@@ -127,13 +129,15 @@ void djvFileInfo::setFileName(const QString & in, bool stat)
     //DJV_DEBUG_PRINT("number = " << _number);
     //DJV_DEBUG_PRINT("extension = " << _extension);
 
-    // Information.
+    // Get information from the file system.
 
     if (stat)
     {
         this->stat();
     }
     
+    // Does this file start with a '.'?
+
     if (djvFileInfoUtil::dot == _base)
         ;
     else if (djvFileInfoUtil::dotDot == _base)
@@ -143,9 +147,12 @@ void djvFileInfo::setFileName(const QString & in, bool stat)
         _dotFile = _base[0] == '.';
     }
 
-    // Sequence.
+    // File sequencing.
 
-    _sequence = djvSequenceUtil::stringToSequence(_number);
+    if (sequenceExtensions.contains(_extension))
+    {
+        _sequence = djvSequenceUtil::stringToSequence(_number);
+    }
 
     //DJV_DEBUG_PRINT("sequence = " << _sequence);
 }

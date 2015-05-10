@@ -184,6 +184,11 @@ QStringList djvFFmpegPlugin::extensions() const
         ".m4v";
 }
 
+bool djvFFmpegPlugin::isSequence() const
+{
+    return false;
+}
+
 QStringList djvFFmpegPlugin::option(const QString & in) const
 {
     const QStringList & list = options();

@@ -926,6 +926,8 @@ djvFileInfo djvFileInfoUtil::parse(
 
     if (sequence && autoSequence)
     {
+        //DJV_DEBUG_PRINT("auto sequence");
+
         const djvFileInfoList items = djvFileInfoUtil::list(fileInfo.path());
         
         for (int i = 0; i < items.count(); ++i)

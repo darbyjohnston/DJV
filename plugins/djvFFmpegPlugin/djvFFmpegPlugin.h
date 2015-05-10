@@ -134,6 +134,8 @@ public:
 
     virtual QStringList extensions() const;
 
+    virtual bool isSequence() const;
+
     virtual QStringList option(const QString &) const;
 
     virtual bool setOption(const QString &, QStringList &);

@@ -221,9 +221,25 @@ djvImageIoFactory::djvImageIoFactory(
 {
     //DJV_DEBUG("djvImageIoFactory::djvImageIoFactory");
 
-    // Setup maps.
+    // Register file sequence extensions.
 
     const QList<djvPlugin *> & plugins = this->plugins();
+
+    Q_FOREACH(djvPlugin * plugin, plugins)
+    {
+        if (djvImageIo * imageIo = dynamic_cast<djvImageIo *>(plugin))
+        {
+            if (imageIo->isSequence())
+            {
+                Q_FOREACH(const QString & extension, imageIo->extensions())
+                {
+                    djvFileInfo::sequenceExtensions.insert(extension);
+                }
+            }
+        }
+    }
+
+    // Setup internal maps.
 
     Q_FOREACH(djvPlugin * plugin, plugins)
     {

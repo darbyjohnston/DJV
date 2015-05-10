@@ -319,55 +319,55 @@ OpenGL Options
 <context>
     <name>djvFileInfo</name>
     <message>
-        <location filename="djvFileInfo.cpp" line="176"/>
+        <location filename="djvFileInfo.cpp" line="183"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="177"/>
+        <location filename="djvFileInfo.cpp" line="184"/>
         <source>Seq</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="178"/>
+        <location filename="djvFileInfo.cpp" line="185"/>
         <source>Dir</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="203"/>
-        <location filename="djvFileInfo.cpp" line="217"/>
+        <location filename="djvFileInfo.cpp" line="210"/>
+        <location filename="djvFileInfo.cpp" line="224"/>
         <source>r</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="204"/>
-        <location filename="djvFileInfo.cpp" line="218"/>
+        <location filename="djvFileInfo.cpp" line="211"/>
+        <location filename="djvFileInfo.cpp" line="225"/>
         <source>w</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="205"/>
-        <location filename="djvFileInfo.cpp" line="220"/>
+        <location filename="djvFileInfo.cpp" line="212"/>
+        <location filename="djvFileInfo.cpp" line="227"/>
         <source>x</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="219"/>
+        <location filename="djvFileInfo.cpp" line="226"/>
         <source>rw</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="221"/>
+        <location filename="djvFileInfo.cpp" line="228"/>
         <source>rx</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="222"/>
+        <location filename="djvFileInfo.cpp" line="229"/>
         <source>wx</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="223"/>
+        <location filename="djvFileInfo.cpp" line="230"/>
         <source>rwx</source>
         <translation type="unfinished"></translation>
     </message>
@@ -527,7 +527,7 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="411"/>
+        <location filename="djvImageIo.cpp" line="427"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
