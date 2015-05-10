@@ -231,7 +231,12 @@ mingw> export PATH=$PATH:/c/.../djv-git-third-party-Windows-64/bin
 <p>Then enter the FFmpeg source directory and run the configure script,
 setting the installation path:</p>
 <pre>
-mingw> ./configure 
+mingw> ./configure --prefix=/c/.../djv-git-third-party-Windows-64 --toolchain=msvc --enable-shared
+</pre>
+<p>Then run Make to build and install FFmpeg:</p>
+<pre>
+mingw> make
+mingw> make install
 </pre>
 <p>To build Qt enter the Qt source directory and run the configure script,
 setting the installation path:</p>
@@ -255,6 +260,9 @@ setting the installation path:</p>
       -skip qtwebsockets
       -skip qtwinextras
       -skip qtxmlpatterns
+</pre>
+<p>Then run NMake to build and install Qt:</p>
+<pre>
 > nmake
 > nmake install
 </pre>

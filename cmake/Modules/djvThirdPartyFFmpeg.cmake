@@ -12,6 +12,17 @@ if (WIN32)
     
         if (djvPackageThirdParty)
         
+			install(
+				FILES
+				$ENV{CMAKE_PREFIX_PATH}/bin/avcodec-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avdevice-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avfilter-5.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avformat-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avutil-54.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/swresample-1.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/swscale-3.dll
+				DESTINATION bin)
+				
         endif (djvPackageThirdParty)
 
     endif (FFMPEG_FOUND)
