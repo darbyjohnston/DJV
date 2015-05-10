@@ -160,6 +160,9 @@ packages on Apple OS X systems.</p>
 <a name="ThirdPartySoftwareWindows"><h3>Windows</h3></a>
 <p>The following instructions describe how to build the third party software
 packages on Microsoft Windows systems.</p>
+<p>Note that Windows unfortunately has problems with long path names so it is
+a good idea to create the required directories near the root of the drive (for
+example in C:/Projects/djv).</p>
 <p>First clone the repository:</p>
 <pre>
 mingw> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
@@ -224,7 +227,8 @@ path:</p>
 > nmake
 > nmake install
 </pre>
-<p>To build FFmpeg first append the path with the installation path:</p>
+<p>To build FFmpeg first append the path with the installation path so that FFmpeg
+can find Yasm:</p>
 <pre>
 mingw> export PATH=$PATH:/c/.../djv-git-third-party-Windows-64/bin
 </pre>
@@ -266,16 +270,6 @@ setting the installation path:</p>
 > nmake
 > nmake install
 </pre>
-<p>Finally set some environment variables so that DJV can find the third party
-packages (note that the CMake variables needs '/' instead of '\' for the
-path delimeters):</p>
-<pre>
-> set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
-> set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
-</pre>
-<p>For convenience these variables may be set permanently through the Windows
-Control Panel or added to a batch script. See the files in the DJV source
-directory under "etc\Windows" for an example.</p>
 
 <a name="DJV"><h2>DJV</h2></a>
 <p>The CMake modules used for locating the third party software are located in
@@ -335,6 +329,9 @@ CMAKE_PREFIX_PATH environment variable and append the path:</p>
 <a name="DJVWindows"><h3>Windows</h3></a>
 <p>The following instructions describe how to build DJV on Microsoft
 Windows systems.</p>
+<p>Note that Windows unfortunately has problems with long path names so it is
+a good idea to create the required directories near the root of the drive (for
+example in C:/Projects/djv).</p>
 <p>First clone the repository:</p>
 <pre>
 > git clone git://git.code.sf.net/p/djv/git djv-git
@@ -345,17 +342,25 @@ Windows systems.</p>
 > cd djv-git-Windows-64
 </pre>
 <p>If you built the third party software packages from source then set the
-CMAKE_PREFIX_PATH environment variable and append the path:</p>
+CMAKE_PREFIX_PATH environment variable and append the path (note that the
+CMake variables needs '/' instead of '\' for the path delimeters):</p>
 <pre>
-> set CMAKE_PREFIX_PATH=C:\...\djv-git-third-party-OSX-64
-> set PATH=%PATH%;C:\...\djv-git-third-party-OSX-64\bin
+> set CMAKE_PREFIX_PATH=C:/.../djv-git-third-party-Windows-64
+> set PATH=%PATH%;C:\...\djv-git-third-party-Windows-64\bin
 </pre>
+<p>For convenience these variables may be set permanently through the Windows
+Control Panel or added to a batch script. See the files in the DJV source
+directory under "etc\Windows" for an example.</p>
 <p>Run CMake and then start the build:</p>
 <pre>
 > cmake -G "NMake Makefiles" ..\djv-git
 > nmake
 > nmake test
 > nmake package
+</pre>
+<p>Alternatively you can also have CMake generate a Visual Studio solution:</p>
+<pre>
+> cmake -G "Visual Studio 12 2013 Win64" ..\djv-git
 </pre>
 
 </td>
