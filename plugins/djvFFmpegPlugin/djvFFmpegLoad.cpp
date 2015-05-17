@@ -53,9 +53,7 @@ djvFFmpegLoad::djvFFmpegLoad() :
     _swsContext     ( 0),
     _startFrame     ( 0),
     _frame          ( 0)
-{
-    av_init_packet(&_avPacket);
-}
+{}
 
 djvFFmpegLoad::~djvFFmpegLoad()
 {
@@ -94,7 +92,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     // Find the first video stream.
     
-    for (int i = 0; i < _avFormatContext->nb_streams; ++i)
+    for (unsigned int i = 0; i < _avFormatContext->nb_streams; ++i)
     {
         if (_avFormatContext->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO)
         {
@@ -348,8 +346,6 @@ void djvFFmpegLoad::close() throw (djvError)
         _swsContext = 0;
     }
 
-    av_free_packet(&_avPacket);
-
     if (_avFrameRgb)
     {
         av_frame_free(&_avFrameRgb);
@@ -381,6 +377,34 @@ void djvFFmpegLoad::close() throw (djvError)
     }
 }
 
+namespace
+{
+
+class Packet
+{
+public:
+
+    Packet()
+    {
+        av_init_packet(&_p);
+    }
+
+    ~Packet()
+    {
+        av_free_packet(&_p);
+    }
+
+    AVPacket & operator () () { return _p; }
+
+    const AVPacket & operator () () const { return _p; }
+
+private:
+
+    AVPacket _p;
+};
+
+} // namespace
+
 int djvFFmpegLoad::readFrame(int64_t & pts)
 {
     //DJV_DEBUG("djvFFmpegLoad::readFrame");
@@ -389,9 +413,11 @@ int djvFFmpegLoad::readFrame(int64_t & pts)
     
     int finished = 0;
     
+    Packet packet;
+
     do
     {
-        r = av_read_frame(_avFormatContext, &_avPacket);
+        r = av_read_frame(_avFormatContext, &packet());
         
         //DJV_DEBUG_PRINT("packet");
         //DJV_DEBUG_PRINT("  size = " << int(_avPacket.size));
@@ -399,13 +425,13 @@ int djvFFmpegLoad::readFrame(int64_t & pts)
         //DJV_DEBUG_PRINT("  keyframe = " << (_avPacket.flags & AV_PKT_FLAG_KEY));
         //DJV_DEBUG_PRINT("  corrupt = " << (_avPacket.flags & AV_PKT_FLAG_CORRUPT));
     
-        if (_avVideoStream == _avPacket.stream_index)
+        if (_avVideoStream == packet().stream_index)
         {
             if (avcodec_decode_video2(
                 _avCodecContext,
                 _avFrame,
                 &finished,
-                &_avPacket) <= 0)
+                &packet()) <= 0)
              {
                 break;
              }

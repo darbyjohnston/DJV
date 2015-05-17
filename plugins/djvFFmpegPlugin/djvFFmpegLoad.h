@@ -78,7 +78,6 @@ private:
     AVCodecContext *  _avCodecContext;
     AVFrame *         _avFrame;
     AVFrame *         _avFrameRgb;
-    AVPacket          _avPacket;
     SwsContext *      _swsContext;
 
     int               _startFrame;
