@@ -47,12 +47,13 @@
 
 djvViewFilePrefs::djvViewFilePrefs(QObject * parent) :
     djvViewAbstractPrefs(parent),
-    _autoSequence      (autoSequenceDefault()),
-    _proxy             (proxyDefault()),
-    _u8Conversion      (u8ConversionDefault()),
-    _cacheEnabled      (cacheEnabledDefault()),
-    _cacheSize         (cacheSizeDefault()),
-    _cacheDisplay      (cacheDisplayDefault())
+    _autoSequence(autoSequenceDefault()),
+    _proxy       (proxyDefault()),
+    _u8Conversion(u8ConversionDefault()),
+    _cache       (cacheDefault()),
+    _cacheSize   (cacheSizeDefault()),
+    _preload     (preloadDefault()),
+    _displayCache(displayCacheDefault())
 {
     djvPrefs prefs("djvViewFilePrefs");
 
@@ -60,9 +61,10 @@ djvViewFilePrefs::djvViewFilePrefs(QObject * parent) :
     prefs.get("autoSequence", _autoSequence);
     prefs.get("proxy", _proxy);
     prefs.get("u8Conversion", _u8Conversion);
-    prefs.get("cacheEnabled", _cacheEnabled);
+    prefs.get("cache", _cache);
     prefs.get("cacheSize", _cacheSize);
-    prefs.get("cacheDisplay", _cacheDisplay);
+    prefs.get("preload", _preload);
+    prefs.get("displayCache", _displayCache);
 
     if (_recent.count() > djvFileInfoUtil::recentMax)
         _recent = _recent.mid(0, djvFileInfoUtil::recentMax);
@@ -76,9 +78,10 @@ djvViewFilePrefs::~djvViewFilePrefs()
     prefs.set("autoSequence", _autoSequence);
     prefs.set("proxy", _proxy);
     prefs.set("u8Conversion", _u8Conversion);
-    prefs.set("cacheEnabled", _cacheEnabled);
+    prefs.set("cache", _cache);
     prefs.set("cacheSize", _cacheSize);
-    prefs.set("cacheDisplay", _cacheDisplay);
+    prefs.set("preload", _preload);
+    prefs.set("displayCache", _displayCache);
 }
 
 void djvViewFilePrefs::addRecent(const djvFileInfo & in)
@@ -127,14 +130,14 @@ bool djvViewFilePrefs::hasU8Conversion() const
     return _u8Conversion;
 }
 
-bool djvViewFilePrefs::cacheEnabledDefault()
+bool djvViewFilePrefs::cacheDefault()
 {
     return true;
 }
 
-bool djvViewFilePrefs::isCacheEnabled() const
+bool djvViewFilePrefs::hasCache() const
 {
-    return _cacheEnabled;
+    return _cache;
 }
 
 double djvViewFilePrefs::cacheSizeDefault()
@@ -147,14 +150,24 @@ double djvViewFilePrefs::cacheSize() const
     return _cacheSize;
 }
 
-bool djvViewFilePrefs::cacheDisplayDefault()
+bool djvViewFilePrefs::preloadDefault()
 {
     return true;
 }
 
-bool djvViewFilePrefs::hasCacheDisplay() const
+bool djvViewFilePrefs::hasPreload() const
 {
-    return _cacheDisplay;
+    return _preload;
+}
+
+bool djvViewFilePrefs::displayCacheDefault()
+{
+    return true;
+}
+
+bool djvViewFilePrefs::hasDisplayCache() const
+{
+    return _displayCache;
 }
 
 djvViewFilePrefs * djvViewFilePrefs::global()
@@ -202,14 +215,14 @@ void djvViewFilePrefs::setU8Conversion(bool conversion)
     Q_EMIT prefChanged();
 }
 
-void djvViewFilePrefs::setCacheEnabled(bool cache)
+void djvViewFilePrefs::setCache(bool cache)
 {
-    if (cache == _cacheEnabled)
+    if (cache == _cache)
         return;
 
-    _cacheEnabled = cache;
+    _cache = cache;
 
-    Q_EMIT cacheEnabledChanged(_cacheEnabled);
+    Q_EMIT cacheChanged(_cache);
     Q_EMIT prefChanged();
 }
 
@@ -227,14 +240,25 @@ void djvViewFilePrefs::setCacheSize(double size)
     Q_EMIT prefChanged();
 }
 
-void djvViewFilePrefs::setCacheDisplay(bool display)
+void djvViewFilePrefs::setPreload(bool preload)
 {
-    if (display == _cacheDisplay)
+    if (preload == _preload)
         return;
 
-    _cacheDisplay = display;
+    _preload = preload;
 
-    Q_EMIT cacheDisplayChanged(_cacheDisplay);
+    Q_EMIT preloadChanged(_preload);
+    Q_EMIT prefChanged();
+}
+
+void djvViewFilePrefs::setDisplayCache(bool display)
+{
+    if (display == _displayCache)
+        return;
+
+    _displayCache = display;
+
+    Q_EMIT displayCacheChanged(_displayCache);
     Q_EMIT prefChanged();
 }
 

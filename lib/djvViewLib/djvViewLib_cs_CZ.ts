@@ -294,52 +294,58 @@ Playback Options
     </message>
     <message>
         <location filename="djvViewFileActions.cpp" line="107"/>
+        <source>Preloa&amp;d Cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewFileActions.cpp" line="110"/>
         <source>Clear Memory Cac&amp;he</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="109"/>
+        <location filename="djvViewFileActions.cpp" line="112"/>
         <source>Messa&amp;ges</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="111"/>
+        <location filename="djvViewFileActions.cpp" line="114"/>
         <source>&amp;Preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="113"/>
+        <location filename="djvViewFileActions.cpp" line="116"/>
         <source>Debugging Log</source>
+        <oldsource>Debu&amp;gging Log</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="115"/>
+        <location filename="djvViewFileActions.cpp" line="118"/>
         <source>E&amp;xit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="190"/>
+        <location filename="djvViewFileActions.cpp" line="193"/>
         <source>Open a new file
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="196"/>
+        <location filename="djvViewFileActions.cpp" line="199"/>
         <source>Reload the current file
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="202"/>
+        <location filename="djvViewFileActions.cpp" line="205"/>
         <source>Reload the current frame
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileActions.cpp" line="208"/>
+        <location filename="djvViewFileActions.cpp" line="211"/>
         <source>Close the current file
 
 Shortcut: %1</source>
@@ -349,23 +355,23 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFileGroup</name>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="549"/>
+        <location filename="djvViewFileGroup.cpp" line="765"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="658"/>
+        <location filename="djvViewFileGroup.cpp" line="874"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="671"/>
-        <location filename="djvViewFileGroup.cpp" line="698"/>
+        <location filename="djvViewFileGroup.cpp" line="887"/>
+        <location filename="djvViewFileGroup.cpp" line="914"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="689"/>
+        <location filename="djvViewFileGroup.cpp" line="905"/>
         <source>Save Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -388,7 +394,7 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileMenu.cpp" line="114"/>
+        <location filename="djvViewFileMenu.cpp" line="116"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -396,71 +402,76 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFilePrefsWidget</name>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="81"/>
-        <location filename="djvViewFilePrefsWidget.cpp" line="115"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="83"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="120"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="87"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="89"/>
         <source>Automatically detect sequences when opening files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="98"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="100"/>
         <source>Enable 8-bit conversion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="103"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="105"/>
         <source>Enable the memory cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="108"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="110"/>
+        <source>Pre-load cache frames</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewFilePrefsWidget.cpp" line="113"/>
         <source>Display cached frames in timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="121"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="126"/>
         <source>Proxy Scale</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="122"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="127"/>
         <source>Set proxy scaling to reduce the resolution when loading images. This allows more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</source>
         <oldsource>Proxy scaling reduces the resolution when loading files to allow more images to be stored in the memory cache at the expense of image quality. Proxy scaling can also improve playback speed since the images are smaller.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="129"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="134"/>
         <source>Proxy scale:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="134"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="139"/>
         <source>8-bit Conversion</source>
         <oldsource>Conversion</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="135"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="140"/>
         <source>Set 8-bit conversion to allow more images to be stored in the memory cache at the expense of image quality.</source>
         <oldsource>This option converts images to 8-bits when loading files to allow more images to be stored in the memory cache at the expense of image quality.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="143"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="148"/>
         <source>Memory Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="144"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="149"/>
         <source>The memory cache allows the application to store images in memory which can improve playback performance. When the memory cache is disabled the images are streamed directly from disk.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFilePrefsWidget.cpp" line="151"/>
+        <location filename="djvViewFilePrefsWidget.cpp" line="156"/>
         <source>Cache size (gigabytes):</source>
         <translation type="unfinished"></translation>
     </message>
@@ -902,22 +913,22 @@ Click and drag inside the image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="766"/>
+        <location filename="djvViewMainWindow.cpp" line="772"/>
         <source>%1 - %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="782"/>
+        <location filename="djvViewMainWindow.cpp" line="788"/>
         <source>Cache: %1% %2/%3GB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="815"/>
+        <location filename="djvViewMainWindow.cpp" line="823"/>
         <source>Image: %1x%2:%3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewMainWindow.cpp" line="981"/>
+        <location filename="djvViewMainWindow.cpp" line="993"/>
         <source>Pixel: %1, %2, %3</source>
         <translation type="unfinished"></translation>
     </message>

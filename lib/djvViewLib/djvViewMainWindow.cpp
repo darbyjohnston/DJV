@@ -204,7 +204,8 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     fileCacheUpdate();
     imageUpdate();
     controlsUpdate();
-    
+    playbackUpdate();
+
     // Setup the file group callbacks.
 
     connect(
@@ -272,6 +273,11 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
         SLOT(controlsUpdate()));
 
     // Setup the playback group callbacks.
+
+    connect(
+        _p->playbackGroup,
+        SIGNAL(playbackChanged(djvViewUtil::PLAYBACK)),
+        SLOT(playbackUpdate()));
 
     connect(
         _p->playbackGroup,
@@ -458,9 +464,9 @@ void djvViewMainWindow::setFileProxy(djvPixelDataInfo::PROXY in)
     _p->fileGroup->setProxy(in);
 }
 
-void djvViewMainWindow::setFileCacheEnabled(bool in)
+void djvViewMainWindow::setFileCache(bool in)
 {
-    _p->fileGroup->setCacheEnabled(in);
+    _p->fileGroup->setCache(in);
 }
 
 void djvViewMainWindow::fitWindow(bool move)
@@ -775,14 +781,14 @@ void djvViewMainWindow::fileCacheUpdate()
 {
     //DJV_DEBUG("djvViewMainWindow::cacheUpdate");
 
-    const double totalSize = djvViewFileCache::global()->size();
-    const double maxSize   = djvViewFileCache::global()->maxSize();
+    const double size    = djvViewFileCache::global()->size();
+    const double maxSize = djvViewFileCache::global()->maxSize();
 
     _p->infoCacheLabel->setText(
         qApp->translate("djvViewMainWindow", "Cache: %1% %2/%3GB").
-        arg(static_cast<int>(totalSize / maxSize * 100)).
-        arg(totalSize, 0, 'f', 2).
-        arg(maxSize,   0, 'f', 2));
+        arg(static_cast<int>(size / maxSize * 100)).
+        arg(size,    0, 'f', 2).
+        arg(maxSize, 0, 'f', 2));
 }
 
 void djvViewMainWindow::imageUpdate()
@@ -791,7 +797,9 @@ void djvViewMainWindow::imageUpdate()
 
     // Update the image.
 
-    _p->imageP = _p->fileGroup->image(_p->playbackGroup->frame());
+    const qint64 frame = _p->playbackGroup->frame();
+
+    _p->imageP = _p->fileGroup->image(frame);
 
     if (_p->imageP)
     {
@@ -826,6 +834,10 @@ void djvViewMainWindow::imageUpdate()
     viewOverlayUpdate();
 
     _p->viewWidget->update();
+
+    //! Update the file group.
+
+    _p->fileGroup->setPreloadFrame(frame);
 
     Q_EMIT imageChanged();
 }
@@ -984,6 +996,27 @@ void djvViewMainWindow::viewPickUpdate()
         arg(djvStringUtil::label(_p->imageSample).join(" ")));
 
     _p->sampleInit = false;
+}
+
+void djvViewMainWindow::playbackUpdate()
+{
+    switch (_p->playbackGroup->playback())
+    {
+        case djvViewUtil::FORWARD:
+        case djvViewUtil::REVERSE:
+
+            _p->fileGroup->setPreloadActive(false);
+
+            break;
+
+        case djvViewUtil::STOP:
+
+            _p->fileGroup->setPreloadActive(true);
+
+            break;
+
+        default: break;
+    }
 }
 
 const djvImage * djvViewMainWindow::image() const

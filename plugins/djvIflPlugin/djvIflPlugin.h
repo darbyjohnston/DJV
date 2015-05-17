@@ -76,6 +76,8 @@ public:
     virtual QString pluginName() const;
 
     virtual QStringList extensions() const;
+
+    virtual bool isSequence() const;
     
     virtual djvImageLoad * createLoad() const;
 };

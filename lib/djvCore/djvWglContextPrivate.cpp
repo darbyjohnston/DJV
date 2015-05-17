@@ -48,7 +48,7 @@ struct djvWglContextPrivate
 {
 #   if defined(DJV_WINDOWS)
 
-    P() :
+    djvWglContextPrivate() :
         id     (0),
         device (0),
         context(0)

@@ -38,6 +38,7 @@
 #include <djvUser.h>
 
 #include <QMetaType>
+#include <QSet>
 #include <QString>
 
 #include <sys/types.h>
@@ -285,6 +286,10 @@ public:
     //! compatible.
 
     inline bool addSequence(const djvFileInfo &);
+
+    //! This contains the set of file extensions that can be sequenced.
+
+    static QSet<QString> sequenceExtensions;
 
     inline bool operator == (const djvFileInfo &) const;
     

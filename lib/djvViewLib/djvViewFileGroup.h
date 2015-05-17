@@ -39,6 +39,7 @@
 #include <djvImageIo.h>
 #include <djvPixel.h>
 
+class  djvViewFileCacheRef;
 struct djvViewFileGroupPrivate;
 
 class QAction;
@@ -86,7 +87,19 @@ public:
 
     //! Get whether the cache is enabled.
 
-    bool isCacheEnabled() const;
+    bool hasCache() const;
+
+    //! Get whether the cache pre-load is enabled.
+
+    bool hasPreload() const;
+
+    //! Get whether the cache pre-load is active.
+
+    bool isPreloadActive() const;
+
+    //! Get the cache pre-load frame.
+
+    qint64 preloadFrame() const;
 
     //! Get an image.
 
@@ -118,7 +131,19 @@ public Q_SLOTS:
     
     //! Set whether the cache is enabled.
 
-    void setCacheEnabled(bool);
+    void setCache(bool);
+
+    //! Set whether the cache pre-load is enabled.
+
+    void setPreload(bool);
+
+    //! Set whether the cache pre-load is active.
+
+    void setPreloadActive(bool);
+
+    //! Set the cache pre-load frame.
+
+    void setPreloadFrame(qint64);
 
 Q_SIGNALS:
 
@@ -142,6 +167,10 @@ Q_SIGNALS:
 
     void saveFrame(const djvFileInfo &);
 
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
+
 private Q_SLOTS:
 
     void openCallback();
@@ -161,6 +190,7 @@ private Q_SLOTS:
     void prefsCallback();
     void debugLogCallback();
 
+    void preloadUpdate();
     void update();
 
 private:

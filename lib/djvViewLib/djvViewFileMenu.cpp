@@ -93,7 +93,9 @@ djvViewFileMenu::djvViewFileMenu(
 
     addAction(actions->action(djvViewFileActions::U8_CONVERSION));
 
-    addAction(actions->action(djvViewFileActions::CACHE_ENABLED));
+    addAction(actions->action(djvViewFileActions::CACHE));
+
+    addAction(actions->action(djvViewFileActions::PRELOAD));
 
     addAction(actions->action(djvViewFileActions::CLEAR_CACHE));
 

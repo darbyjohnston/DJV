@@ -34,7 +34,7 @@
 #ifndef DJV_LS_H
 #define DJV_LS_H
 
-#include <djvCoreApplication.h>
+#include <djvImageApplication.h>
 #include <djvFileInfo.h>
 #include <djvFileInfoUtil.h>
 
@@ -57,7 +57,7 @@
 //! This class provides the application.
 //------------------------------------------------------------------------------
 
-class djvLsApplication : public djvCoreApplication
+class djvLsApplication : public djvImageApplication
 {
     Q_OBJECT
     

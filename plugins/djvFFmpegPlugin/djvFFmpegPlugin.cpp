@@ -117,19 +117,29 @@ const QStringList & djvFFmpegPlugin::optionsLabels()
     return data;
 }
 
+AVRational djvFFmpegPlugin::timeBaseQ()
+{
+	AVRational r;
+	r.num = 1;
+	r.den = AV_TIME_BASE;
+	return r;
+}
+
 namespace
 {
 
 void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
 {
-    if (level > av_log_get_level())
+    //! \todo Add multi-thread safe logging.
+
+    /*if (level > av_log_get_level())
         return;
 
     char s [djvStringUtil::cStringLength];
     
     SNPRINTF(s, djvStringUtil::cStringLength, fmt, vl);
     
-    DJV_LOG("djvFFmpegPlugin", s);
+    DJV_LOG("djvFFmpegPlugin", s);*/
 }
 
 } // namespace
@@ -172,6 +182,11 @@ QStringList djvFFmpegPlugin::extensions() const
         ".mpeg" <<
         ".mp4"  <<
         ".m4v";
+}
+
+bool djvFFmpegPlugin::isSequence() const
+{
+    return false;
 }
 
 QStringList djvFFmpegPlugin::option(const QString & in) const

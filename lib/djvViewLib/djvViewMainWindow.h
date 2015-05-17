@@ -98,7 +98,7 @@ public Q_SLOTS:
 
     //! Set whether the file cache is enabled.
 
-    void setFileCacheEnabled(bool);
+    void setFileCache(bool);
 
     //! Fit the window to the image.
 
@@ -146,6 +146,7 @@ private Q_SLOTS:
     void controlsUpdate();
     void viewOverlayUpdate();
     void viewPickUpdate();
+    void playbackUpdate();
     
 private:
 

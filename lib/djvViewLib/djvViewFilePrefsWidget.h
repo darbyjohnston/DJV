@@ -73,8 +73,9 @@ private Q_SLOTS:
     void u8ConversionCallback(bool);
     void cacheCallback(bool);
     void cacheSizeCallback(double);
-    void cacheDisplayCallback(bool);
-    
+    void preloadCallback(bool);
+    void displayCacheCallback(bool);
+
     void widgetUpdate();
     
 private:

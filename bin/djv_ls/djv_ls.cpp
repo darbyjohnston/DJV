@@ -50,7 +50,7 @@
 //------------------------------------------------------------------------------
 
 djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
-    djvCoreApplication("djv_ls", argc, argv),
+    djvImageApplication("djv_ls", argc, argv),
     _info         (true),
     _filePath     (false),
     _sequence     (djvSequence::COMPRESS_RANGE),
@@ -74,7 +74,7 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     catch (const QString & error)
     {
         printError(
-            djvCoreApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
+            djvImageApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
         
         setExitValue(djvApplicationEnum::EXIT_ERROR);
     }
@@ -188,7 +188,7 @@ void djvLsApplication::commandLine(QStringList & in) throw (QString)
     //DJV_DEBUG("djvLsApplication::commandLine");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    djvCoreApplication::commandLine(in);
+    djvImageApplication::commandLine(in);
 
     if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
         return;
@@ -355,7 +355,7 @@ QString djvLsApplication::commandLineHelp() const
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvFileInfoUtil::sortLabels().join(", ")).
         arg(djvStringUtil::label(_sort).join(", ")).
-        arg(djvCoreApplication::commandLineHelp());
+        arg(djvImageApplication::commandLineHelp());
 }
 
 void djvLsApplication::debugLogCallback(const QString & in)

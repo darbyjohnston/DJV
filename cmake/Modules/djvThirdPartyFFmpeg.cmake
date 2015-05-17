@@ -1,5 +1,32 @@
 if (WIN32)
 
+    find_package(FFmpeg)
+
+    #message("FFMPEG_FOUND = " ${FFMPEG_FOUND})
+    #message("FFMPEG_INCLUDE_DIRS = " ${FFMPEG_INCLUDE_DIRS})
+    #message("FFMPEG_LIBRARIES = " ${FFMPEG_LIBRARIES})
+
+    if (FFMPEG_FOUND)
+
+        set(djvImageIoPlugins ${djvImageIoPlugins} djvFFmpegPlugin)
+    
+        if (djvPackageThirdParty)
+        
+			install(
+				FILES
+				$ENV{CMAKE_PREFIX_PATH}/bin/avcodec-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avdevice-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avfilter-5.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avformat-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avutil-54.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/swresample-1.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/swscale-3.dll
+				DESTINATION bin)
+				
+        endif (djvPackageThirdParty)
+
+    endif (FFMPEG_FOUND)
+
 else (WIN32)
 
     find_package(FFmpeg)
@@ -14,9 +41,7 @@ else (WIN32)
     
         if (djvPackageThirdParty)
         
-            if (WIN32)
-
-            elseif (APPLE)
+            if (APPLE)
             
                 install(
                     FILES
@@ -70,7 +95,7 @@ else (WIN32)
                     $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so.3.1.101
                     DESTINATION lib)
 
-            endif (WIN32)
+            endif (APPLE)
 
         endif (djvPackageThirdParty)
 

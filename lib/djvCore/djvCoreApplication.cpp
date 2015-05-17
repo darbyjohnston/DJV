@@ -45,7 +45,6 @@
 
 #include <QLibraryInfo>
 #include <QLocale>
-#include <QThreadPool>
 #include <QTranslator>
 
 //------------------------------------------------------------------------------

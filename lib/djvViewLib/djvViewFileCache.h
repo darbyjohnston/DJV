@@ -41,8 +41,8 @@
 
 #include <QObject>
 
+struct djvViewFileCacheItemPrivate;
 struct djvViewFileCachePrivate;
-struct djvViewFileCacheRefPrivate;
 
 class djvImage;
 
@@ -50,22 +50,30 @@ class djvImage;
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvViewFileCacheRef
+//! \class djvViewFileCacheItem
 //!
 //! This class provides a file cache reference.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileCacheRef
+class DJV_VIEW_LIB_EXPORT djvViewFileCacheItem
 {
 public:
 
     //! Constructor.
+    //!
+    //! \param image The image to be cached. Ownership of the image is passed
+    //! to the cache item.
+    //! \param key   A key to be associated with this cache item.
+    //! \param frame The frame number associated with this cache item.
 
-    djvViewFileCacheRef(djvImage *, const void * key, qint64 frame);
+    djvViewFileCacheItem(
+        djvImage *   image,
+        const void * key,
+        qint64       frame);
 
     //! Destructor.
 
-    ~djvViewFileCacheRef();
+    ~djvViewFileCacheItem();
 
     //! Get the image.
 
@@ -75,9 +83,9 @@ public:
 
     const void * key() const;
 
-    //! Set the key.
+    //! Set the key to null.
 
-    void setKey(const void *);
+    void resetKey();
 
     //! Get the frame.
 
@@ -85,22 +93,24 @@ public:
 
     //! Increment the reference count.
 
-    void refInc();
+    void increment();
 
     //! Decrement the reference count.
 
-    void refDec();
+    void decrement();
 
     //! Get the reference count.
 
-    int refCount() const;
+    int count() const;
 
 private:
     
-    DJV_PRIVATE_COPY(djvViewFileCacheRef);
+    DJV_PRIVATE_COPY(djvViewFileCacheItem);
     
-    djvViewFileCacheRefPrivate * _p;
+    djvViewFileCacheItemPrivate * _p;
 };
+
+typedef QVector<djvViewFileCacheItem *> djvViewFileCacheItemList;
 
 //------------------------------------------------------------------------------
 //! \class djvViewFileCache
@@ -122,33 +132,50 @@ public:
 
     virtual ~djvViewFileCache();
 
-    //! Create a cache reference.
+    //! Create a new cache item. The reference count on the item is
+    //! automatically set to one.
 
-    djvViewFileCacheRef * create(djvImage *, const void * key, qint64 frame);
+    djvViewFileCacheItem * create(djvImage *, const void * key, qint64 frame);
 
-    //! Get a cache reference.
+    //! Get a cache item. The reference count on the item is automatically
+    //! incremented.
 
-    djvViewFileCacheRef * get(const void * key, qint64 frame);
+    djvViewFileCacheItem * get(const void * key, qint64 frame);
 
-    //! Delete all null references matching the given key.
+    //! Get whether the cache contains the given item.
+
+    bool contains(const void * key, qint64 frame) const;
+
+    //! Delete all items matching the given key that have a reference count
+    //! of zero.
 
     void del(const void * key);
 
-    //! Delete all null references matching the given key and frame.
+    //! Delete all items matching the given key and frame that have a
+    //! reference count of zero.
 
     void del(const void * key, qint64 frame);
 
-    //! Delete all of the null references.
+    //! Delete all items that have a reference count of zero.
 
     void clear();
 
-    //! Get a list of frames for the given key.
+    //! Get the list of items for the given key.
+
+    djvViewFileCacheItemList items(const void * key);
+
+    //! Get the list of frames for the given key. The frames are sorted in
+    //! ascending order.
 
     djvFrameList frames(const void * key);
 
     //! Get the maximum cache size in gigabytes.
 
     double maxSize() const;
+
+    //! Get the maximum cache size in bytes.
+
+    quint64 maxByteCount() const;
 
     //! Get the size in gigabytes for the given key.
 
@@ -157,6 +184,10 @@ public:
     //! Get the cache size in gigabytes.
 
     double size() const;
+
+    //! Get the cache size in bytes.
+
+    quint64 byteCount() const;
 
     //! Get the cache size defaults.
 
@@ -188,12 +219,12 @@ Q_SIGNALS:
 
 private Q_SLOTS:
 
-    void cacheEnabledCallback(bool);
+    void cacheCallback(bool);
     void cacheSizeCallback(double);
     
 private:
 
-    void remove(int index);
+    void removeItem(int index);
     
     // Delete the null references only if the cache size exceeds the maximum.
 

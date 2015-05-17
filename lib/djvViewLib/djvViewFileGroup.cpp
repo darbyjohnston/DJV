@@ -55,6 +55,7 @@
 #include <djvError.h>
 #include <djvFileInfoUtil.h>
 #include <djvListUtil.h>
+#include <djvPixelDataUtil.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -69,15 +70,19 @@
 struct djvViewFileGroupPrivate
 {
     djvViewFileGroupPrivate() :
-        image       (0),
-        layer       (0),
-        proxy       (djvViewFilePrefs::global()->proxy()),
-        u8Conversion(djvViewFilePrefs::global()->hasU8Conversion()),
-        cacheEnabled(djvViewFilePrefs::global()->isCacheEnabled()),
-        cacheRef    (0),
-        actions     (0),
-        menu        (0),
-        toolBar     (0)
+        image        (0),
+        layer        (0),
+        proxy        (djvViewFilePrefs::global()->proxy()),
+        u8Conversion (djvViewFilePrefs::global()->hasU8Conversion()),
+        cache        (djvViewFilePrefs::global()->hasCache()),
+        cacheItem    (0),
+        preload      (djvViewFilePrefs::global()->hasPreload()),
+        preloadActive(false),
+        preloadTimer (0),
+        preloadFrame (0),
+        actions      (0),
+        menu         (0),
+        toolBar      (0)
     {}
 
     djvFileInfo                  fileInfo;
@@ -90,8 +95,12 @@ struct djvViewFileGroupPrivate
     QStringList                  layers;
     djvPixelDataInfo::PROXY      proxy;
     bool                         u8Conversion;
-    bool                         cacheEnabled;
-    djvViewFileCacheRef *        cacheRef;
+    bool                         cache;
+    djvViewFileCacheItem *       cacheItem;
+    bool                         preload;
+    bool                         preloadActive;
+    int                          preloadTimer;
+    qint64                       preloadFrame;
     djvViewFileActions *         actions;
     djvViewFileMenu *            menu;
     djvViewFileToolBar *         toolBar;
@@ -113,7 +122,8 @@ djvViewFileGroup::djvViewFileGroup(
         _p->layer        = copy->_p->layer;
         _p->proxy        = copy->_p->proxy;
         _p->u8Conversion = copy->_p->u8Conversion;
-        _p->cacheEnabled = copy->_p->cacheEnabled;
+        _p->cache        = copy->_p->cache;
+        _p->preload      = copy->_p->preload;
     }
 
     // Create the actions.
@@ -139,6 +149,7 @@ djvViewFileGroup::djvViewFileGroup(
         open(_p->fileInfo);
     }
 
+    preloadUpdate();
     update();
 
     // Setup the action callbacks.
@@ -189,9 +200,14 @@ djvViewFileGroup::djvViewFileGroup(
         SLOT(setU8Conversion(bool)));
 
     connect(
-        _p->actions->action(djvViewFileActions::CACHE_ENABLED),
+        _p->actions->action(djvViewFileActions::CACHE),
         SIGNAL(toggled(bool)),
-        SLOT(setCacheEnabled(bool)));
+        SLOT(setCache(bool)));
+
+    connect(
+        _p->actions->action(djvViewFileActions::PRELOAD),
+        SIGNAL(toggled(bool)),
+        SLOT(setPreload(bool)));
 
     connect(
         _p->actions->action(djvViewFileActions::CLEAR_CACHE),
@@ -250,8 +266,18 @@ djvViewFileGroup::djvViewFileGroup(
 
     connect(
         djvViewFilePrefs::global(),
-        SIGNAL(cacheEnabledChanged(bool)),
-        SLOT(setCacheEnabled(bool)));
+        SIGNAL(cacheChanged(bool)),
+        SLOT(setCache(bool)));
+
+    connect(
+        djvViewFilePrefs::global(),
+        SIGNAL(cacheSizeChanged(double)),
+        SLOT(preloadUpdate()));
+
+    connect(
+        djvViewFilePrefs::global(),
+        SIGNAL(preloadChanged(bool)),
+        SLOT(setPreload(bool)));
 
     // Setup other callbacks.
 
@@ -263,13 +289,20 @@ djvViewFileGroup::djvViewFileGroup(
 
 djvViewFileGroup::~djvViewFileGroup()
 {
+    if (_p->preloadTimer)
+    {
+        killTimer(_p->preloadTimer);
+
+        _p->preloadTimer = 0;
+    }
+    
     _p->image = 0;
 
     // Cleanup.
 
-    if (_p->cacheRef)
+    if (_p->cacheItem)
     {
-        _p->cacheRef->refDec();
+        _p->cacheItem->decrement();
     }
 
     cacheDel();
@@ -297,9 +330,24 @@ bool djvViewFileGroup::hasU8Conversion() const
     return _p->u8Conversion;
 }
 
-bool djvViewFileGroup::isCacheEnabled() const
+bool djvViewFileGroup::hasCache() const
 {
-    return _p->cacheEnabled;
+    return _p->cache;
+}
+
+bool djvViewFileGroup::hasPreload() const
+{
+    return _p->preload;
+}
+
+bool djvViewFileGroup::isPreloadActive() const
+{
+    return _p->preloadActive;
+}
+
+qint64 djvViewFileGroup::preloadFrame() const
+{
+    return _p->preloadFrame;
 }
 
 const djvImage * djvViewFileGroup::image(qint64 frame) const
@@ -311,20 +359,19 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
     that->mainWindow()->viewWidget()->makeCurrent();
 
+    djvViewFileCache * cache = djvViewFileCache::global();
+
     that->_p->image = 0;
 
-    djvViewFileCacheRef * prev = _p->cacheRef;
+    djvViewFileCacheItem * prev = _p->cacheItem;
 
-    that->_p->cacheRef =
-        _p->cacheEnabled ?
-        djvViewFileCache::global()->get(mainWindow(), frame) :
-        0;
+    that->_p->cacheItem = _p->cache ? cache->get(mainWindow(), frame) : 0;
 
-    if (_p->cacheRef)
+    if (_p->cacheItem)
     {
         //DJV_DEBUG_PRINT("cached image");
 
-        that->_p->image = _p->cacheRef->image();
+        that->_p->image = _p->cacheItem->image();
     }
     else
     {
@@ -342,8 +389,6 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                             -1,
                         _p->layer,
                         _p->proxy));
-
-                //DJV_DEBUG_PRINT("image = " << *_p->image);
             }
             catch (djvError error)
             {
@@ -385,18 +430,20 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
             }
 
             that->_p->image = &_p->imageTmp;
+
+            //DJV_DEBUG_PRINT("image = " << *that->_p->image);
         }
 
-        if (_p->image && _p->cacheEnabled)
+        if (_p->cache && _p->image)
         {
             //DJV_DEBUG_PRINT("cache image");
             
-            that->_p->cacheRef = djvViewFileCache::global()->create(
+            that->_p->cacheItem = cache->create(
                 new djvImage(*_p->image),
                 mainWindow(),
                 frame);
             
-            that->_p->image = _p->cacheRef->image();
+            that->_p->image = _p->cacheItem->image();
             
             _p->imageTmp.close();
             _p->imageTmp2.close();
@@ -405,7 +452,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
     if (prev)
     {
-        prev->refDec();
+        prev->decrement();
     }
 
     return _p->image;
@@ -473,6 +520,7 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
         _p->layers += _p->imageIoInfo[i].layerName;
     }
 
+    preloadUpdate();
     update();
 }
 
@@ -493,6 +541,7 @@ void djvViewFileGroup::setLayer(int layer)
     //DJV_DEBUG_PRINT("layer = " << _layer);
 
     cacheDel();
+    preloadUpdate();
     update();
 
     Q_EMIT imageChanged();
@@ -509,6 +558,7 @@ void djvViewFileGroup::setProxy(djvPixelDataInfo::PROXY proxy)
     _p->proxy = proxy;
 
     cacheDel();
+    preloadUpdate();
     update();
 
     Q_EMIT imageChanged();
@@ -522,25 +572,191 @@ void djvViewFileGroup::setU8Conversion(bool conversion)
     _p->u8Conversion = conversion;
 
     cacheDel();
+    preloadUpdate();
     update();
 
     Q_EMIT imageChanged();
 }
 
-void djvViewFileGroup::setCacheEnabled(bool cache)
+void djvViewFileGroup::setCache(bool cache)
 {
-    if (cache == _p->cacheEnabled)
+    if (cache == _p->cache)
         return;
 
-    //DJV_DEBUG("djvViewFileGroup::setCacheEnabled");
+    //DJV_DEBUG("djvViewFileGroup::setCache");
     //DJV_DEBUG_PRINT("cache = " << cache);
 
-    _p->cacheEnabled = cache;
+    _p->cache = cache;
 
     cacheDel();
+    preloadUpdate();
     update();
 
     Q_EMIT imageChanged();
+}
+
+void djvViewFileGroup::setPreload(bool preload)
+{
+    if (preload == _p->preload)
+        return;
+
+    //DJV_DEBUG("djvViewFileGroup::setPreload");
+    //DJV_DEBUG_PRINT("preload = " << preload);
+
+    _p->preload = preload;
+
+    preloadUpdate();
+    update();
+}
+
+void djvViewFileGroup::setPreloadActive(bool active)
+{
+    if (active == _p->preloadActive)
+        return;
+
+    //DJV_DEBUG("djvViewFileGroup::setPreloadActive");
+    //DJV_DEBUG_PRINT("active = " << active);
+
+    _p->preloadActive = active;
+
+    preloadUpdate();
+    update();
+}
+
+void djvViewFileGroup::setPreloadFrame(qint64 frame)
+{
+    if (frame == _p->preloadFrame)
+        return;
+
+    _p->preloadFrame = frame;
+
+    preloadUpdate();
+    update();
+}
+
+void djvViewFileGroup::timerEvent(QTimerEvent *)
+{
+    //DJV_DEBUG("djvViewFileGroup::timerEvent");
+    //DJV_DEBUG_PRINT("preload frame        = " << _p->preloadFrame);
+
+    djvViewFileCache * cache = djvViewFileCache::global();
+
+    //DJV_DEBUG_PRINT("cache byte count     = " << cache->byteCount());
+    //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxByteCount());
+
+    const djvViewFileCacheItemList items = cache->items(mainWindow());
+
+    // Search for the next frame that isn't in the cache. We then load the
+    // frame if it won't exceed the cache size.
+
+    bool      preload     = false;
+    quint64   byteCount   = 0;
+    qint64    frame       = _p->preloadFrame;
+    int       frameCount  = 0;
+    const int totalFrames = _p->imageIoInfo.sequence.frames.count();
+
+    for (;
+        byteCount <= cache->maxByteCount() &&
+        frameCount < totalFrames;
+        frame = djvMath::wrap<qint64>(frame + 1, 0, totalFrames - 1), ++frameCount)
+    {
+        if (djvViewFileCacheItem * item = cache->get(mainWindow(), frame))
+        {
+            byteCount += djvPixelDataUtil::dataByteCount(
+                item->image()->info());
+
+            item->decrement();
+        }
+        else
+        {
+            byteCount += djvPixelDataUtil::dataByteCount(_p->imageIoInfo);
+
+            if (byteCount <= cache->maxByteCount())
+            {
+                preload = true;
+            }
+
+            break;
+        }
+    }
+
+    //DJV_DEBUG_PRINT("byteCount            = " << byteCount);
+    //DJV_DEBUG_PRINT("preload              = " << preload);
+    //DJV_DEBUG_PRINT("frame                = " << frame);
+
+    if (preload)
+    {
+        mainWindow()->viewWidget()->makeCurrent();
+
+        djvImage * image = 0;
+
+        if (_p->imageLoad.data())
+        {
+            //DJV_DEBUG_PRINT("loading image");
+
+            try
+            {
+                _p->imageLoad->read(
+                    _p->u8Conversion ? _p->imageTmp2 : _p->imageTmp,
+                    djvImageIoFrameInfo(
+                    _p->imageIoInfo.sequence.frames.count() ?
+                    _p->imageIoInfo.sequence.frames[frame] :
+                    -1,
+                    _p->layer,
+                    _p->proxy));
+            }
+            catch (const djvError &)
+            {}
+
+            try
+            {
+                if (_p->u8Conversion)
+                {
+                    //DJV_DEBUG_PRINT("u8 conversion");
+                    //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
+
+                    djvPixelDataInfo info(_p->imageTmp2.info());
+                    info.pixel = djvPixel::pixel(
+                        djvPixel::format(info.pixel), djvPixel::U8);
+                    _p->imageTmp.set(info);
+                    _p->imageTmp.tags = _p->imageTmp2.tags;
+                    _p->imageTmp.colorProfile = djvColorProfile();
+
+                    djvOpenGlImageOptions options;
+                    options.colorProfile = _p->imageTmp2.colorProfile;
+                    options.proxyScale = false;
+
+                    djvOpenGlImage::copy(_p->imageTmp2, _p->imageTmp, options);
+                }
+            }
+            catch (const djvError &)
+            {}
+
+            image = &_p->imageTmp;
+        }
+
+        if (image)
+        {
+            //DJV_DEBUG_PRINT("image = " << *image);
+
+            if (djvViewFileCacheItem * item = cache->create(
+                new djvImage(*image),
+                mainWindow(),
+                frame))
+            {
+                item->decrement();
+            }
+
+            _p->imageTmp.close();
+            _p->imageTmp2.close();
+        }
+    }
+    else
+    {
+        killTimer(_p->preloadTimer);
+
+        _p->preloadTimer = 0;
+    }
 }
 
 void djvViewFileGroup::openCallback()
@@ -757,6 +973,26 @@ void djvViewFileGroup::debugLogCallback()
     djvDebugLogDialog::global()->raise();
 }
 
+void djvViewFileGroup::preloadUpdate()
+{
+    if (_p->cache && _p->preload && _p->preloadActive)
+    {
+        if (! _p->preloadTimer)
+        {
+            _p->preloadTimer = startTimer(0);
+        }
+    }
+    else
+    {
+        if (_p->preloadTimer)
+        {
+            killTimer(_p->preloadTimer);
+
+            _p->preloadTimer = 0;
+        }
+    }
+}
+
 void djvViewFileGroup::update()
 {
     // Update actions.
@@ -773,8 +1009,11 @@ void djvViewFileGroup::update()
     _p->actions->action(djvViewFileActions::U8_CONVERSION)->
         setChecked(_p->u8Conversion);
 
-    _p->actions->action(djvViewFileActions::CACHE_ENABLED)->
-        setChecked(_p->cacheEnabled);
+    _p->actions->action(djvViewFileActions::CACHE)->
+        setChecked(_p->cache);
+
+    _p->actions->action(djvViewFileActions::PRELOAD)->
+        setChecked(_p->preload);
 
     // Update action groups.
 
