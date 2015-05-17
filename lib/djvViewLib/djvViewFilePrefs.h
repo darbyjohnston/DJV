@@ -98,11 +98,11 @@ public:
 
     //! Get the default for whether the cache is enabled.
     
-    static bool cacheEnabledDefault();
+    static bool cacheDefault();
 
     //! Get whether the cache is enabled.
 
-    bool isCacheEnabled() const;
+    bool hasCache() const;
 
     //! Get the default cache size in gigabytes.
     
@@ -112,13 +112,21 @@ public:
 
     double cacheSize() const;
 
+    //! Get the default for whether the cache is pre-loaded.
+
+    static bool preloadDefault();
+
+    //! Get wheter the cache is pre-loaded.
+
+    bool hasPreload() const;
+
     //! Get the default for whether the cache is displayed in the timeline.
     
-    static bool cacheDisplayDefault();
+    static bool displayCacheDefault();
 
     //! Get whether the cache is displayed in the timeline.
 
-    bool hasCacheDisplay() const;
+    bool hasDisplayCache() const;
 
     //! Get the global preferences.
 
@@ -140,15 +148,19 @@ public Q_SLOTS:
     
     //! Set whether the cache is enabled.
 
-    void setCacheEnabled(bool);
+    void setCache(bool);
 
     //! Set the cache size in gigabytes.
 
     void setCacheSize(double);
     
+    //! Set whether the cache pre-load is enabled.
+
+    void setPreload(bool);
+
     //! Set whether the cache is displayed in the timeline.
 
-    void setCacheDisplay(bool);
+    void setDisplayCache(bool);
 
 Q_SIGNALS:
 
@@ -170,15 +182,19 @@ Q_SIGNALS:
     
     //! This signal is emitted when the cache is enabled or disabled.
 
-    void cacheEnabledChanged(bool);
+    void cacheChanged(bool);
     
     //! This signal is emitted when the cache size is changed.
     
     void cacheSizeChanged(double);
     
+    //! This signal is emitted when the cache pre-load is changed.
+
+    void preloadChanged(bool);
+
     //! This signal is emitted when the cache display is changed.
 
-    void cacheDisplayChanged(bool);
+    void displayCacheChanged(bool);
 
 private:
 
@@ -186,9 +202,10 @@ private:
     bool                    _autoSequence;
     djvPixelDataInfo::PROXY _proxy;
     bool                    _u8Conversion;
-    bool                    _cacheEnabled;
+    bool                    _cache;
     double                  _cacheSize;
-    bool                    _cacheDisplay;
+    bool                    _preload;
+    bool                    _displayCache;
 };
 
 //@} // djvViewFile

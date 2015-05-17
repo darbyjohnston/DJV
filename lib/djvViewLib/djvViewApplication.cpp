@@ -77,7 +77,7 @@ struct djvViewApplicationPrivate
     bool                                    autoSequence;
     QScopedPointer<int>                     fileLayer;
     QScopedPointer<djvPixelDataInfo::PROXY> fileProxy;
-    QScopedPointer<bool>                    fileCacheEnabled;
+    QScopedPointer<bool>                    fileCache;
     QScopedPointer<bool>                    windowFullScreen;
     QScopedPointer<djvViewUtil::PLAYBACK>   playback;
     QScopedPointer<int>                     playbackFrame;
@@ -336,7 +336,7 @@ void djvViewApplication::commandLine(QStringList & in) throw (QString)
             {
                 bool value = false;
                 in >> value;
-                _p->fileCacheEnabled.reset(new bool(value));
+                _p->fileCache.reset(new bool(value));
             }
 
             // Parse the window options.
@@ -490,9 +490,9 @@ djvViewMainWindow * djvViewApplication::window() const
         out->setFileProxy(*_p->fileProxy);
     }
 
-    if (_p->fileCacheEnabled.data())
+    if (_p->fileCache.data())
     {
-        out->setFileCacheEnabled(*_p->fileCacheEnabled);
+        out->setFileCache(*_p->fileCache);
     }
 
     // Apply command line window options.

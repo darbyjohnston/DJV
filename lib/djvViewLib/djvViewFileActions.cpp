@@ -101,8 +101,11 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
     _actions[U8_CONVERSION]->setText(qApp->translate("djvViewFileActions", "&8-bit Conversion"));
     _actions[U8_CONVERSION]->setCheckable(true);
 
-    _actions[CACHE_ENABLED]->setText(qApp->translate("djvViewFileActions", "&Memory Cache"));
-    _actions[CACHE_ENABLED]->setCheckable(true);
+    _actions[CACHE]->setText(qApp->translate("djvViewFileActions", "&Memory Cache"));
+    _actions[CACHE]->setCheckable(true);
+
+    _actions[PRELOAD]->setText(qApp->translate("djvViewFileActions", "Preloa&d Cache"));
+    _actions[PRELOAD]->setCheckable(true);
 
     _actions[CLEAR_CACHE]->setText(qApp->translate("djvViewFileActions", "Clear Memory Cac&he"));
 
