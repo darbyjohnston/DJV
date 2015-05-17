@@ -4,9 +4,9 @@ else (WIN32)
 
     find_package(FFmpeg)
 
-    message("FFMPEG_FOUND = " ${FFMPEG_FOUND})
-    message("FFMPEG_INCLUDE_DIRS = " ${FFMPEG_INCLUDE_DIRS})
-    message("FFMPEG_LIBRARIES = " ${FFMPEG_LIBRARIES})
+    #message("FFMPEG_FOUND = " ${FFMPEG_FOUND})
+    #message("FFMPEG_INCLUDE_DIRS = " ${FFMPEG_INCLUDE_DIRS})
+    #message("FFMPEG_LIBRARIES = " ${FFMPEG_LIBRARIES})
 
     if (FFMPEG_FOUND)
 
