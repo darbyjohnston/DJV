@@ -66,14 +66,20 @@ public:
     virtual void write(const djvImage &, const djvImageIoFrameInfo &)
         throw (djvError);
 
+    virtual void close() throw (djvError);
+
 private:
 
-    void _open(const QString &, djvFileIo &) throw (djvError);
-
     djvFFmpegPlugin::Options _options;
-    djvFileInfo              _file;
     djvPixelDataInfo         _info;
     djvImage                 _image;
+    
+    AVIOContext *            _avIoContext;
+    AVFormatContext *        _avFormatContext;
+    AVStream *               _avStream;
+    AVFrame *                _avFrame;
+    AVFrame *                _avFrameRgb;
+    SwsContext *             _swsContext;
 };
 
 //@} // djvFFmpegPlugin

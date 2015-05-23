@@ -2,6 +2,7 @@ set(header
     djvFFmpegLoad.h
     djvFFmpegPlugin.h
     djvFFmpegSave.h
+    djvFFmpegUtil.h
     djvFFmpegWidget.h)
 
 set(mocHeader

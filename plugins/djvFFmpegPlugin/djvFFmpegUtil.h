@@ -29,98 +29,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvError.cpp
+//! \file djvFFmpegUtil.h
 
-#include <djvError.h>
+#ifndef DJV_FFMPEG_UTIL_H
+#define DJV_FFMPEG_UTIL_H
 
-#include <QList>
-#include <QString>
+#if defined(DJV_LINUX)
+#define __STDC_CONSTANT_MACROS
+#endif // DJV_LINUX
+
+extern "C"
+{
+
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libswscale/swscale.h>
+
+} // extern "C"
+
+//! \addtogroup djvFFmpegPlugin
+//@{
 
 //------------------------------------------------------------------------------
-// djvError::Message
+//! \class djvFFmpegPacket
+//!
+//! This class provides a memory-managed wrapper for a Fmpeg packet.
 //------------------------------------------------------------------------------
 
-djvError::Message::Message(const QString & prefix, const QString & string) :
-    prefix(prefix),
-    string(string)
-{}
-
-//------------------------------------------------------------------------------
-// djvErrorPrivate
-//------------------------------------------------------------------------------
-
-struct djvErrorPrivate
+class djvFFmpegPacket
 {
-    QList<djvError::Message> messages;
-};
+public:
 
-//------------------------------------------------------------------------------
-// djvError
-//------------------------------------------------------------------------------
-
-djvError::djvError()
-{
-    init();
-}
-
-djvError::djvError(const QString & string)
-{
-    init();
-
-    _p->messages += Message(QString(), string);
-}
-
-djvError::djvError(const QString & prefix, const QString & string)
-{
-    init();
-
-    _p->messages += Message(prefix, string);
-}
-
-djvError::djvError(const djvError & other)
-{
-    init();
-
-    _p->messages = other._p->messages;
-}
-
-djvError::~djvError()
-{
-    delete _p;
-}
-
-const QList<djvError::Message> & djvError::messages() const
-{
-    return _p->messages;
-}
-
-int djvError::count() const
-{
-    return _p->messages.count();
-}
-    
-void djvError::add(const QString & string)
-{
-    _p->messages.append(Message(QString(), string));
-}
-
-void djvError::add(const QString & prefix, const QString & string)
-{
-    _p->messages.append(Message(prefix, string));
-}
-
-djvError & djvError::operator = (const djvError & other)
-{
-    if (this != &other)
+    djvFFmpegPacket()
     {
-        _p->messages = other._p->messages;
+        av_init_packet(&_p);
     }
 
-    return *this;
-}
+    ~djvFFmpegPacket()
+    {
+        av_free_packet(&_p);
+    }
 
-void djvError::init()
-{
-    _p = new djvErrorPrivate;
-}
+    AVPacket & operator () () { return _p; }
+
+    const AVPacket & operator () () const { return _p; }
+
+private:
+
+    AVPacket _p;
+};
+
+//@} // djvFFmpegPlugin
+
+#endif // DJV_FFMPEG_PLUGIN_H
 

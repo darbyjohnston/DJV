@@ -86,6 +86,7 @@ bool fixKey(int key)
 
 void djvOsxMenuHack::fix(const QList<QAction *> & actions)
 {
+#if (0)
 #if defined(DJV_OSX) && QT_VERSION >= 0x050100
 
     delete _p->mapper;
@@ -126,6 +127,7 @@ void djvOsxMenuHack::fix(const QList<QAction *> & actions)
     }
     
 #endif // DJV_OSX
+#endif // 0
 }
 
 void djvOsxMenuHack::actionCallback(QObject * object)

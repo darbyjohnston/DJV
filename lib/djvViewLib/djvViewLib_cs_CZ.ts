@@ -2272,77 +2272,77 @@ Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="145"/>
+        <location filename="djvViewViewActions.cpp" line="147"/>
         <source>Move the view left
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="151"/>
+        <location filename="djvViewViewActions.cpp" line="153"/>
         <source>Move the view right
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="157"/>
+        <location filename="djvViewViewActions.cpp" line="159"/>
         <source>Move the view up
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="163"/>
+        <location filename="djvViewViewActions.cpp" line="165"/>
         <source>Move the view down
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="169"/>
+        <location filename="djvViewViewActions.cpp" line="171"/>
         <source>Center the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="175"/>
+        <location filename="djvViewViewActions.cpp" line="177"/>
         <source>Zoom into the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="181"/>
+        <location filename="djvViewViewActions.cpp" line="183"/>
         <source>Zoom out of the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="187"/>
+        <location filename="djvViewViewActions.cpp" line="189"/>
         <source>Reset the zoom
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="193"/>
+        <location filename="djvViewViewActions.cpp" line="195"/>
         <source>Reset the position and zoom
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="199"/>
+        <location filename="djvViewViewActions.cpp" line="201"/>
         <source>Fit the image to the view
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewActions.cpp" line="205"/>
+        <location filename="djvViewViewActions.cpp" line="207"/>
         <source>Toggle the HUD (Heads Up Display)
 
 Shortcut: %1</source>

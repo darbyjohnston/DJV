@@ -4,29 +4,29 @@
 <context>
     <name>djvFFmpegLoad</name>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="88"/>
+        <location filename="djvFFmpegLoad.cpp" line="90"/>
         <source>Cannot find stream information: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="111"/>
+        <location filename="djvFFmpegLoad.cpp" line="113"/>
         <source>Cannot find video stream: %1</source>
         <oldsource>Cannot find video stream in: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="126"/>
+        <location filename="djvFFmpegLoad.cpp" line="128"/>
         <source>Cannot find codec: %1</source>
         <oldsource>Cannot find codec for: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="135"/>
+        <location filename="djvFFmpegLoad.cpp" line="137"/>
         <source>Cannot copy context: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="142"/>
+        <location filename="djvFFmpegLoad.cpp" line="144"/>
         <source>Cannot open codec: %1</source>
         <translation type="unfinished"></translation>
     </message>

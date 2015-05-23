@@ -71,11 +71,11 @@ public:
 
     //! Constructor.
 
-    djvError(const QString &);
+    djvError(const QString & string);
 
     //! Constructor.
 
-    djvError(const QString & prefix, const QString &);
+    djvError(const QString & prefix, const QString & string);
 
     //! Constructor.
 
@@ -89,13 +89,17 @@ public:
 
     const QList<Message> & messages() const;
     
+    //! Get the number of messages.
+    
+    int count() const;
+    
     //! Add a message to the list.
     
-    void add(const QString &);
+    void add(const QString & string);
     
     //! Add a message to the list.
     
-    void add(const QString & prefix, const QString &);
+    void add(const QString & prefix, const QString & string);
 
     djvError & operator = (const djvError &);
 

@@ -33,6 +33,8 @@
 
 #include <djvFFmpegLoad.h>
 
+#include <djvFFmpegUtil.h>
+
 #include <djvDebug.h>
 #include <djvFileIoUtil.h>
 #include <djvImage.h>
@@ -74,7 +76,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         &_avFormatContext,
         in.fileName().toLatin1().data(),
         0,
-        0) != 0)
+        0) < 0)
     {
         throw djvError(
             djvFFmpegPlugin::staticName,
@@ -128,7 +130,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     _avCodecContext = avcodec_alloc_context3(codec);
     
-    if (avcodec_copy_context(_avCodecContext, codecContext) != 0)
+    if (avcodec_copy_context(_avCodecContext, codecContext) < 0)
     {
         throw djvError(
             djvFFmpegPlugin::staticName,
@@ -377,34 +379,6 @@ void djvFFmpegLoad::close() throw (djvError)
     }
 }
 
-namespace
-{
-
-class Packet
-{
-public:
-
-    Packet()
-    {
-        av_init_packet(&_p);
-    }
-
-    ~Packet()
-    {
-        av_free_packet(&_p);
-    }
-
-    AVPacket & operator () () { return _p; }
-
-    const AVPacket & operator () () const { return _p; }
-
-private:
-
-    AVPacket _p;
-};
-
-} // namespace
-
 int djvFFmpegLoad::readFrame(int64_t & pts)
 {
     //DJV_DEBUG("djvFFmpegLoad::readFrame");
@@ -413,7 +387,7 @@ int djvFFmpegLoad::readFrame(int64_t & pts)
     
     int finished = 0;
     
-    Packet packet;
+    djvFFmpegPacket packet;
 
     do
     {
