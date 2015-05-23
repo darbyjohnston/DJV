@@ -49,6 +49,7 @@ djvFFmpegSave::djvFFmpegSave(const djvFFmpegPlugin::Options & options) :
     _avFormatContext(0),
     _avStream       (0),
     _avFrame        (0),
+    _avFrameBuf     (0),
     _avFrameRgb     (0),
     _swsContext     (0)
 {}
@@ -97,6 +98,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     codec->codec_type    = AVMEDIA_TYPE_VIDEO;
     codec->width         = info.size.x;
     codec->height        = info.size.y;
+    codec->pix_fmt       = PIX_FMT_YUV420P;
     codec->time_base.den = info.sequence.speed.scale();
     codec->time_base.num = info.sequence.speed.duration();
 
@@ -117,10 +119,24 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     // Initialize the buffers.
     
     _avFrame = av_frame_alloc();
-    
+
+    _avFrameBuf = (uint8_t *)av_malloc(
+        avpicture_get_size(codec->pix_fmt, codec->width, codec->height));
+
+    avpicture_fill(
+        (AVPicture *)_avFrame,
+        _avFrameBuf,
+        codec->pix_fmt,
+        codec->width,
+        codec->height);
+
     _avFrameRgb = av_frame_alloc();
     
     // Initialize the software scaler.
+
+    DJV_DEBUG_PRINT("width = " << codec->width);
+    DJV_DEBUG_PRINT("height = " << codec->height);
+    DJV_DEBUG_PRINT("pix_fmt = " << codec->pix_fmt);
     
     _swsContext = sws_getContext(
         codec->width,
@@ -166,19 +182,19 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
         p->w(),
         p->h());
     
-    sws_scale(
+    /*sws_scale(
         _swsContext,
         (uint8_t const * const *)_avFrameRgb->data,
         _avFrameRgb->linesize,
         0,
         p->h(),
         _avFrame->data,
-        _avFrame->linesize);
+        _avFrame->linesize);*/
     
     AVCodecContext * codec = _avStream->codec;
 
     djvFFmpegPacket packet;
-    packet().stream_index = _avStream->index;
+    //packet().stream_index = _avStream->index;
     
     int got_packet_ptr = 0;
     
@@ -233,6 +249,13 @@ void djvFFmpegSave::close() throw (djvError)
         av_frame_free(&_avFrameRgb);
         
         _avFrameRgb = 0;
+    }
+
+    if (_avFrameBuf)
+    {
+        av_free(_avFrameBuf);
+
+        _avFrameBuf = 0;
     }
 
     if (_avFrame)

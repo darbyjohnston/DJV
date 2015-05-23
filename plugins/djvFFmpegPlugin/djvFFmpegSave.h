@@ -78,6 +78,7 @@ private:
     AVFormatContext *        _avFormatContext;
     AVStream *               _avStream;
     AVFrame *                _avFrame;
+    uint8_t *                _avFrameBuf;
     AVFrame *                _avFrameRgb;
     SwsContext *             _swsContext;
 };
