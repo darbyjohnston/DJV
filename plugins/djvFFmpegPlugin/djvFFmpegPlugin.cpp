@@ -132,14 +132,14 @@ void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
 {
     //! \todo Add multi-thread safe logging.
 
-    /*if (level > av_log_get_level())
+    if (level > av_log_get_level())
         return;
 
     char s [djvStringUtil::cStringLength];
     
     SNPRINTF(s, djvStringUtil::cStringLength, fmt, vl);
     
-    DJV_LOG("djvFFmpegPlugin", s);*/
+    DJV_LOG("djvFFmpegPlugin", s);
 }
 
 } // namespace
@@ -148,7 +148,7 @@ void djvFFmpegPlugin::initPlugin() throw (djvError)
 {
     //DJV_DEBUG("djvFFmpegPlugin::initPlugin");
     
-    av_log_set_callback(avLogCallback);
+    //av_log_set_callback(avLogCallback);
     
     av_register_all();
 

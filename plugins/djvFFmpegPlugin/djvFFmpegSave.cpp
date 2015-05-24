@@ -66,6 +66,37 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     
     // Open the file.
     
+    AVOutputFormat * format = av_guess_format(
+        _options.codec.toLatin1().data(),
+        fileInfo.fileName().toLatin1().data(),
+        0);
+    
+    AVCodec * codec = avcodec_find_encoder(CODEC_ID_MPEG4);
+    
+    AVCodecContext * codecContext = avcodec_alloc_context3(codec);
+    
+    avcodec_get_context_defaults3(codecContext, codec);
+    codecContext->pix_fmt       = PIX_FMT_YUV420P;
+    codecContext->width         = info.size.x;
+    codecContext->height        = info.size.y;
+    codecContext->time_base.den = info.sequence.speed.scale();
+    codecContext->time_base.num = info.sequence.speed.duration();
+    
+    if (avcodec_open2(codecContext, codec, 0) < 0)
+    {
+        throw djvError(
+            djvFFmpegPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
+    }
+    
+    _avFormatContext = avformat_alloc_context();
+    _avFormatContext->oformat = format;
+
+    _avStream = avformat_new_stream(_avFormatContext, codecContext->codec);
+    _avStream->codec         = codecContext;
+    _avStream->time_base.den = info.sequence.speed.scale();
+    _avStream->time_base.num = info.sequence.speed.duration();
+    
     if (avio_open2(
         &_avIoContext,
         fileInfo.fileName().toLatin1().data(),
@@ -78,29 +109,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(fileInfo));
     }
     
-    if (avformat_alloc_output_context2(
-        &_avFormatContext,
-        0,
-        _options.codec.toLatin1().data(),
-        0) < 0)
-    {
-        throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
-    }
-    
     _avFormatContext->pb = _avIoContext;
-    
-    _avStream = avformat_new_stream(_avFormatContext, 0);
-    
-    AVCodecContext * codec = _avStream->codec;
-    codec->codec_id      = CODEC_ID_H264;
-    codec->codec_type    = AVMEDIA_TYPE_VIDEO;
-    codec->width         = info.size.x;
-    codec->height        = info.size.y;
-    codec->pix_fmt       = PIX_FMT_YUV420P;
-    codec->time_base.den = info.sequence.speed.scale();
-    codec->time_base.num = info.sequence.speed.duration();
 
     if (avformat_write_header(_avFormatContext, 0) < 0)
     {
@@ -113,38 +122,41 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     _info.fileName = fileInfo;
     _info.size     = info.size;
     _info.pixel    = djvPixel::RGBA_U8;
+    //_info.mirror.y = true;
 
     _image.set(_info);
     
     // Initialize the buffers.
     
     _avFrame = av_frame_alloc();
+    _avFrame->width  = info.size.x;
+    _avFrame->height = info.size.y;
+    _avFrame->format = PIX_FMT_YUV420P;
 
     _avFrameBuf = (uint8_t *)av_malloc(
-        avpicture_get_size(codec->pix_fmt, codec->width, codec->height));
+        avpicture_get_size(
+            codecContext->pix_fmt,
+            codecContext->width,
+            codecContext->height));
 
     avpicture_fill(
         (AVPicture *)_avFrame,
         _avFrameBuf,
-        codec->pix_fmt,
-        codec->width,
-        codec->height);
+        codecContext->pix_fmt,
+        codecContext->width,
+        codecContext->height);
 
     _avFrameRgb = av_frame_alloc();
     
     // Initialize the software scaler.
 
-    DJV_DEBUG_PRINT("width = " << codec->width);
-    DJV_DEBUG_PRINT("height = " << codec->height);
-    DJV_DEBUG_PRINT("pix_fmt = " << codec->pix_fmt);
-    
     _swsContext = sws_getContext(
-        codec->width,
-        codec->height,
+        codecContext->width,
+        codecContext->height,
         PIX_FMT_RGBA,
-        codec->width,
-        codec->height,
-        codec->pix_fmt,
+        codecContext->width,
+        codecContext->height,
+        codecContext->pix_fmt,
         SWS_BILINEAR,
         0,
         0,
@@ -174,7 +186,7 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     }
     
     // Encode the image.
-    
+
     avpicture_fill(
         (AVPicture *)_avFrameRgb,
         p->data(),
@@ -182,19 +194,20 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
         p->w(),
         p->h());
     
-    /*sws_scale(
+    sws_scale(
         _swsContext,
         (uint8_t const * const *)_avFrameRgb->data,
         _avFrameRgb->linesize,
         0,
         p->h(),
         _avFrame->data,
-        _avFrame->linesize);*/
+        _avFrame->linesize);
     
     AVCodecContext * codec = _avStream->codec;
 
     djvFFmpegPacket packet;
-    //packet().stream_index = _avStream->index;
+    packet().data = 0;
+    packet().size = 0;
     
     int got_packet_ptr = 0;
     
@@ -208,6 +221,15 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
             djvFFmpegPlugin::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(_info.fileName));
     }
+
+    DJV_DEBUG_PRINT("got_packet_ptr = " << got_packet_ptr);
+    DJV_DEBUG_PRINT("data = " << packet().data);
+    DJV_DEBUG_PRINT("size = " << packet().size);
+    
+    //packet().pts = AV_NOPTS_VALUE;
+    //packet().dts = AV_NOPTS_VALUE;
+    //packet().pts = av_rescale_q(codec->coded_frame->pts, codec->time_base, _avStream->time_base);
+    //packet().stream_index = _avStream->index;
 
     // Write the image.
     
@@ -227,8 +249,17 @@ void djvFFmpegSave::close() throw (djvError)
     
     if (_avFormatContext)
     {
-        DJV_DEBUG_PRINT("write trailer");
+        DJV_DEBUG_PRINT("frames = " << _avStream->nb_frames);
+        
+        if (av_interleaved_write_frame(_avFormatContext, 0) < 0)
+        {
+            error.add(
+                djvFFmpegPlugin::staticName,
+                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(_info.fileName));
+        }
     
+        DJV_DEBUG_PRINT("write trailer");
+
         if (av_write_trailer(_avFormatContext) < 0)
         {
             error.add(

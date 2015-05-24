@@ -90,7 +90,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
             qApp->translate("djvFFmpegLoad", "Cannot find stream information: %1").arg(in));
     }
     
-    //av_dump_format(_avFormatContext, 0, in.fileName().toLatin1().data(), 0);
+    av_dump_format(_avFormatContext, 0, in.fileName().toLatin1().data(), 0);
     
     // Find the first video stream.
     
