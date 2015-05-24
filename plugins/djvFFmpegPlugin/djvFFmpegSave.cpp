@@ -60,9 +60,9 @@ djvFFmpegSave::~djvFFmpegSave()
 void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & info)
     throw (djvError)
 {
-    DJV_DEBUG("djvFFmpegSave::open");
-    DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-    DJV_DEBUG_PRINT("info = " << info);
+    //DJV_DEBUG("djvFFmpegSave::open");
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("info = " << info);
     
     // Open the file.
     
@@ -74,7 +74,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     AVCodec * codec = avcodec_find_encoder(CODEC_ID_MPEG4);
     
     AVCodecContext * codecContext = avcodec_alloc_context3(codec);
-    
+
     avcodec_get_context_defaults3(codecContext, codec);
     codecContext->pix_fmt       = PIX_FMT_YUV420P;
     codecContext->width         = info.size.x;
@@ -82,11 +82,18 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     codecContext->time_base.den = info.sequence.speed.scale();
     codecContext->time_base.num = info.sequence.speed.duration();
     
-    if (avcodec_open2(codecContext, codec, 0) < 0)
+    int r = avcodec_open2(codecContext, codec, 0);
+    
+    if (r < 0)
     {
-        throw djvError(
+        djvError error;
+        error.add(
+            djvFFmpegPlugin::staticName,
+            djvFFmpegUtil::toString(r));
+        error.add(
             djvFFmpegPlugin::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
+        throw error;
     }
     
     _avFormatContext = avformat_alloc_context();
@@ -97,32 +104,46 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     _avStream->time_base.den = info.sequence.speed.scale();
     _avStream->time_base.num = info.sequence.speed.duration();
     
-    if (avio_open2(
+    r = avio_open2(
         &_avIoContext,
         fileInfo.fileName().toLatin1().data(),
-        AVIO_FLAG_WRITE,
+        AVIO_FLAG_READ_WRITE,
         0,
-        0) < 0)
+        0);
+    
+    if (r < 0)
     {
-        throw djvError(
+        djvError error;
+        error.add(
+            djvFFmpegPlugin::staticName,
+            djvFFmpegUtil::toString(r));
+        error.add(
             djvFFmpegPlugin::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(fileInfo));
+        throw error;
     }
     
     _avFormatContext->pb = _avIoContext;
 
-    if (avformat_write_header(_avFormatContext, 0) < 0)
+    r = avformat_write_header(_avFormatContext, 0);
+    
+    if (r < 0)
     {
-        throw djvError(
+        djvError error;
+        error.add(
+            djvFFmpegPlugin::staticName,
+            djvFFmpegUtil::toString(r));
+        error.add(
             djvFFmpegPlugin::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
+        throw error;
     }
-
+    
     _info = djvPixelDataInfo();
     _info.fileName = fileInfo;
     _info.size     = info.size;
     _info.pixel    = djvPixel::RGBA_U8;
-    //_info.mirror.y = true;
+    _info.mirror.y = true;
 
     _image.set(_info);
     
@@ -166,9 +187,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
 void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     throw (djvError)
 {
-    DJV_DEBUG("djvFFmpegSave::write");
-    DJV_DEBUG_PRINT("in = " << in);
-    DJV_DEBUG_PRINT("frame = " << frame);
+    //DJV_DEBUG("djvFFmpegSave::write");
+    //DJV_DEBUG_PRINT("in = " << in);
+    //DJV_DEBUG_PRINT("frame = " << frame);
 
     // Convert the image if necessary.
 
@@ -205,66 +226,97 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     
     AVCodecContext * codec = _avStream->codec;
 
-    djvFFmpegPacket packet;
+    djvFFmpegUtil::Packet packet;
     packet().data = 0;
     packet().size = 0;
     
-    int got_packet_ptr = 0;
+    _avFrame->pts = frame.frame;// * AV_TIME_BASE;
     
-    if (avcodec_encode_video2(
+    int finished = 0;
+    
+    int r = avcodec_encode_video2(
         codec,
         &packet(),
         _avFrame,
-        &got_packet_ptr) < 0)
+        &finished);
+    
+    if (r < 0)
     {
-        throw djvError(
+        djvError error;
+        error.add(
             djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(_info.fileName));
+            djvFFmpegUtil::toString(r));
+        error.add(
+            djvFFmpegPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
+                arg(_info.fileName));
+        throw error;
     }
 
-    DJV_DEBUG_PRINT("got_packet_ptr = " << got_packet_ptr);
-    DJV_DEBUG_PRINT("data = " << packet().data);
-    DJV_DEBUG_PRINT("size = " << packet().size);
-    
-    //packet().pts = AV_NOPTS_VALUE;
-    //packet().dts = AV_NOPTS_VALUE;
-    //packet().pts = av_rescale_q(codec->coded_frame->pts, codec->time_base, _avStream->time_base);
-    //packet().stream_index = _avStream->index;
+    //DJV_DEBUG_PRINT("finished = " << finished);
+    //DJV_DEBUG_PRINT("size = " << packet().size);
+    //DJV_DEBUG_PRINT("pts = " << static_cast<qint64>(packet().pts));
+    //DJV_DEBUG_PRINT("dts = " << static_cast<qint64>(packet().dts));
+    //DJV_DEBUG_PRINT("duration = " << static_cast<qint64>(packet().duration));
 
     // Write the image.
+
+    /*packet().pts = av_rescale_q(
+        packet().pts,
+        codec->time_base,
+        _avStream->time_base);
+    packet().dts = av_rescale_q(
+        packet().dts,
+        codec->time_base,
+        _avStream->time_base);
+    packet().duration = av_rescale_q(
+        packet().duration,
+        codec->time_base,
+        _avStream->time_base);*/
+    packet().stream_index = _avStream->index;
+
+    r = av_interleaved_write_frame(_avFormatContext, &packet());
     
-    if (av_interleaved_write_frame(_avFormatContext, &packet()) < 0)
+    if (r < 0)
     {
-        throw djvError(
+        djvError error;
+        error.add(
             djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(_info.fileName));
-    }
+            djvFFmpegUtil::toString(r));
+        error.add(
+            djvFFmpegPlugin::staticName,
+            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
+                arg(_info.fileName));
+        throw error;
+    }    
 }
 
 void djvFFmpegSave::close() throw (djvError)
 {
-    DJV_DEBUG("djvFFmpegSave::close");
+    //DJV_DEBUG("djvFFmpegSave::close");
     
     djvError error;
     
     if (_avFormatContext)
     {
-        DJV_DEBUG_PRINT("frames = " << _avStream->nb_frames);
-        
         if (av_interleaved_write_frame(_avFormatContext, 0) < 0)
         {
             error.add(
                 djvFFmpegPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(_info.fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
+                    arg(_info.fileName));
         }
     
-        DJV_DEBUG_PRINT("write trailer");
-
+        //DJV_DEBUG_PRINT("frames = " <<
+        //    static_cast<qint64>(_avStream->nb_frames));
+        //DJV_DEBUG_PRINT("write trailer");
+        
         if (av_write_trailer(_avFormatContext) < 0)
         {
             error.add(
                 djvFFmpegPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(_info.fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
+                    arg(_info.fileName));
         }
     }
 
@@ -296,22 +348,23 @@ void djvFFmpegSave::close() throw (djvError)
         _avFrame = 0;
     }
 
-    if (_avFormatContext)
-    {
-        avformat_free_context(_avFormatContext);
-        
-        _avFormatContext = 0;
-    }
-    
     if (_avIoContext)
     {
         avio_close(_avIoContext);
         
         _avIoContext = 0;
     }
-    
+
+    if (_avFormatContext)
+    {
+        avformat_free_context(_avFormatContext);
+        
+        _avFormatContext = 0;
+    }
+        
     if (error.count())
     {
         throw error;
     }
 }
+

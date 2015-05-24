@@ -29,66 +29,52 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegUtil.h
+//! \file djvFFmpegUtil.cpp
 
-#ifndef DJV_FFMPEG_UTIL_H
-#define DJV_FFMPEG_UTIL_H
+#include <djvFFmpegUtil.h>
 
-#include <QString>
-
-#if defined(DJV_LINUX)
-#define __STDC_CONSTANT_MACROS
-#endif // DJV_LINUX
-
-extern "C"
-{
-
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-
-} // extern "C"
-
-//! \addtogroup djvFFmpegPlugin
-//@{
+#include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
-//! \struct djvFFmpegUtil
-//!
-//! This struct provides utilites for working with FFmpeg.
+// djvFFmpegUtil::Packet
 //------------------------------------------------------------------------------
 
-struct djvFFmpegUtil
+djvFFmpegUtil::Packet::Packet()
 {
-    //! This class provides a memory-managed wrapper for a FFmpeg packet.
-    
-    class Packet
-    {
-    public:
+    av_init_packet(&_p);
+}
 
-        Packet();
-        
-        ~Packet();
+djvFFmpegUtil::Packet::~Packet()
+{
+    av_free_packet(&_p);
+}
 
-        AVPacket & operator () ();
+AVPacket & djvFFmpegUtil::Packet::operator () ()
+{
+    return _p;
+}
 
-        const AVPacket & operator () () const;
+const AVPacket & djvFFmpegUtil::Packet::operator () () const
+{
+    return _p;
+}
 
-    private:
+//------------------------------------------------------------------------------
+// djvFFmpegUtil
+//------------------------------------------------------------------------------
 
-        AVPacket _p;
-    };
+AVRational djvFFmpegUtil::timeBaseQ()
+{
+	AVRational r;
+	r.num = 1;
+	r.den = AV_TIME_BASE;
+	return r;
+}
 
-	//! Get the internal time base represented as fractional value.
-	
-	static AVRational timeBaseQ();
-    
-    //! Convert an FFmpeg return code to a string.
-    
-    static QString toString(int);
-};
-
-//@} // djvFFmpegPlugin
-
-#endif // DJV_FFMPEG_PLUGIN_H
+QString djvFFmpegUtil::toString(int r)
+{
+    char buf [djvStringUtil::cStringLength];
+    av_strerror(r, buf, djvStringUtil::cStringLength);
+    return QString(buf);
+}
 

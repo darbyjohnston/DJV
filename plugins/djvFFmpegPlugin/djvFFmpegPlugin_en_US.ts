@@ -4,29 +4,29 @@
 <context>
     <name>djvFFmpegLoad</name>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="90"/>
+        <location filename="djvFFmpegLoad.cpp" line="102"/>
         <source>Cannot find stream information: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="113"/>
+        <location filename="djvFFmpegLoad.cpp" line="131"/>
         <source>Cannot find video stream: %1</source>
         <oldsource>Cannot find video stream in: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="128"/>
+        <location filename="djvFFmpegLoad.cpp" line="152"/>
         <source>Cannot find codec: %1</source>
         <oldsource>Cannot find codec for: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="137"/>
+        <location filename="djvFFmpegLoad.cpp" line="168"/>
         <source>Cannot copy context: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="144"/>
+        <location filename="djvFFmpegLoad.cpp" line="182"/>
         <source>Cannot open codec: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -39,12 +39,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="250"/>
+        <location filename="djvFFmpegPlugin.cpp" line="242"/>
         <source>-ffmpeg_codec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="270"/>
+        <location filename="djvFFmpegPlugin.cpp" line="262"/>
         <source>
 FFmpeg Options
 

@@ -69,7 +69,7 @@ public:
 
 private:
 
-    int readFrame(int64_t & pts);
+    bool readFrame(int64_t & pts);
 
     djvImageIoInfo    _info;
     
@@ -80,7 +80,6 @@ private:
     AVFrame *         _avFrameRgb;
     SwsContext *      _swsContext;
 
-    int               _startFrame;
     int               _frame;
     djvPixelData      _tmp;
 };

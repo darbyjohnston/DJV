@@ -117,14 +117,6 @@ const QStringList & djvFFmpegPlugin::optionsLabels()
     return data;
 }
 
-AVRational djvFFmpegPlugin::timeBaseQ()
-{
-	AVRational r;
-	r.num = 1;
-	r.den = AV_TIME_BASE;
-	return r;
-}
-
 namespace
 {
 

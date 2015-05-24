@@ -12,6 +12,7 @@ set(source
     djvFFmpegLoad.cpp
     djvFFmpegPlugin.cpp
     djvFFmpegSave.cpp
+    djvFFmpegUtil.cpp
     djvFFmpegWidget.cpp)
 
 if (Qt5Core_DIR)
