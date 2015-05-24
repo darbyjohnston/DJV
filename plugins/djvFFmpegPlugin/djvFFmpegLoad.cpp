@@ -414,11 +414,14 @@ bool djvFFmpegLoad::readFrame(int64_t & pts)
         //DJV_DEBUG_PRINT("packet");
         //DJV_DEBUG_PRINT("  size = " << static_cast<qint64>(packet().size));
         //DJV_DEBUG_PRINT("  pos = " << static_cast<qint64>(packet().pos));
+        //DJV_DEBUG_PRINT("  pts = " << static_cast<qint64>(packet().pts));
+        //DJV_DEBUG_PRINT("  dts = " << static_cast<qint64>(packet().dts));
+        //DJV_DEBUG_PRINT("  duration = " << static_cast<qint64>(packet().duration));
         //DJV_DEBUG_PRINT("  keyframe = " <<
         //    (packet().flags & AV_PKT_FLAG_KEY));
         //DJV_DEBUG_PRINT("  corrupt = " <<
         //    (packet().flags & AV_PKT_FLAG_CORRUPT));
-        //DJV_DEBUG_PRINT("  r = " << djvFfmpegUtil::toString(r));
+        //DJV_DEBUG_PRINT("  r = " << djvFFmpegUtil::toString(r));
     
         if (r < 0)
         {
@@ -449,9 +452,6 @@ bool djvFFmpegLoad::readFrame(int64_t & pts)
         djvFFmpegUtil::timeBaseQ());
     
     //DJV_DEBUG_PRINT("pts = " << static_cast<qint64>(pts));
-    
-    //DJV_DEBUG_PRINT("finished = " << finished);
-    //DJV_DEBUG_PRINT("r = " << djvFfmpegUtil::toString(r));
-    
+        
     return finished;
 }
