@@ -120,26 +120,34 @@
     </message>
     <message>
         <location filename="djv_convert.cpp" line="330"/>
-        <source>Cannot open image: &quot;%1&quot;</source>
+        <source>Cannot open input: &quot;%1&quot;</source>
+        <oldsource>Cannot open image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="331"/>
+        <location filename="djv_convert.cpp" line="332"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djv_convert.cpp" line="332"/>
-        <source>Cannot read image: &quot;%1&quot;</source>
+        <source>Cannot open slate: &quot;%1&quot;</source>
+        <oldsource>Cannot read image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djv_convert.cpp" line="333"/>
-        <source>Cannot write image: &quot;%1&quot;</source>
+        <source>Cannot read input: &quot;%1&quot;</source>
+        <oldsource>Cannot write image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="342"/>
+        <location filename="djv_convert.cpp" line="334"/>
+        <source>Cannot write output: &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djv_convert.cpp" line="343"/>
         <source>djv_convert
 
     This application provides a command line tool for processing images and movies.
@@ -229,38 +237,38 @@ Examples
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="490"/>
+        <location filename="djv_convert.cpp" line="491"/>
         <source>Timeout...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="539"/>
-        <location filename="djv_convert.cpp" line="636"/>
+        <location filename="djv_convert.cpp" line="540"/>
+        <location filename="djv_convert.cpp" line="637"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="648"/>
+        <location filename="djv_convert.cpp" line="649"/>
         <source>Slating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="855"/>
+        <location filename="djv_convert.cpp" line="856"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="867"/>
+        <location filename="djv_convert.cpp" line="868"/>
         <source>[100%] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="885"/>
+        <location filename="djv_convert.cpp" line="886"/>
         <source>Elapsed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="895"/>
+        <location filename="djv_convert.cpp" line="896"/>
         <source>%1x%2:%3 %4 %5@%6</source>
         <translation type="unfinished"></translation>
     </message>

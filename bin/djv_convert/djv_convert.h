@@ -138,10 +138,11 @@ public:
     
     enum ERROR
     {
-        ERROR_OPEN,
+        ERROR_OPEN_INPUT,
+        ERROR_OPEN_OUTPUT,
         ERROR_OPEN_SLATE,
-        ERROR_READ,
-        ERROR_WRITE,
+        ERROR_READ_INPUT,
+        ERROR_WRITE_OUTPUT,
         
         ERROR_COUNT
     };

@@ -327,10 +327,11 @@ void djvConvertApplication::commandLine(QStringList & in) throw (QString)
 const QStringList & djvConvertApplication::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvConvertApplication", "Cannot open image: \"%1\"") <<
+        qApp->translate("djvConvertApplication", "Cannot open input: \"%1\"") <<
+        qApp->translate("djvConvertApplication", "Cannot open output: \"%1\"") <<
         qApp->translate("djvConvertApplication", "Cannot open slate: \"%1\"") <<
-        qApp->translate("djvConvertApplication", "Cannot read image: \"%1\"") <<
-        qApp->translate("djvConvertApplication", "Cannot write image: \"%1\"");
+        qApp->translate("djvConvertApplication", "Cannot read input: \"%1\"") <<
+        qApp->translate("djvConvertApplication", "Cannot write output: \"%1\"");
 
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -500,7 +501,7 @@ bool djvConvertApplication::work()
     if (! load.data())
     {
         error.add(
-            errorLabels()[ERROR_OPEN].
+            errorLabels()[ERROR_OPEN_INPUT].
             arg(QDir::toNativeSeparators(_input.file)));
         
         printError(error);
@@ -625,7 +626,7 @@ bool djvConvertApplication::work()
     catch (djvError error)
     {
         error.add(
-            errorLabels()[ERROR_OPEN].
+            errorLabels()[ERROR_OPEN_OUTPUT].
             arg(QDir::toNativeSeparators(_output.file)));
 
         printError(error);
@@ -696,7 +697,7 @@ bool djvConvertApplication::work()
         catch (djvError error)
         {
             error.add(
-                errorLabels()[ERROR_WRITE].
+                errorLabels()[ERROR_WRITE_OUTPUT].
                 arg(QDir::toNativeSeparators(_output.file)));
             
             printError(error);
@@ -759,7 +760,7 @@ bool djvConvertApplication::work()
         if (! image.isValid())
         {
             error.add(
-                errorLabels()[ERROR_READ].
+                errorLabels()[ERROR_READ_INPUT].
                 arg(QDir::toNativeSeparators(_input.file)));
 
             printError(error);
@@ -828,7 +829,7 @@ bool djvConvertApplication::work()
         catch (djvError error)
         {
             error.add(
-                errorLabels()[ERROR_WRITE].
+                errorLabels()[ERROR_WRITE_OUTPUT].
                 arg(QDir::toNativeSeparators(_output.file)));
 
             printError(error);
@@ -874,7 +875,7 @@ bool djvConvertApplication::work()
     catch (djvError error)
     {
         error.add(
-            errorLabels()[ERROR_WRITE].
+            errorLabels()[ERROR_WRITE_OUTPUT].
             arg(QDir::toNativeSeparators(_output.file)));
 
         printError(error);
