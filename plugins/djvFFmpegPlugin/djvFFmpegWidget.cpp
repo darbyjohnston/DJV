@@ -48,14 +48,20 @@
 
 djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
     djvAbstractPrefsWidget(djvFFmpegPlugin::staticName),
-    _plugin     (plugin),
-    _codecWidget(0)
+    _plugin       (plugin),
+    _codecWidget  (0),
+    _qualityWidget(0)
 {
     // Create the widgets.
 
     _codecWidget = new QComboBox;
     _codecWidget->addItems(djvFFmpegPlugin::codecLabels());
     _codecWidget->setSizePolicy(
+        QSizePolicy::Fixed, QSizePolicy::Fixed);
+    
+    _qualityWidget = new QComboBox;
+    _qualityWidget->addItems(djvFFmpegPlugin::qualityLabels());
+    _qualityWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     // Layout the widgets.
@@ -70,6 +76,9 @@ djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
     formLayout->addRow(
         qApp->translate("djvFFmpegWidget", "Codec:"),
         _codecWidget);
+    formLayout->addRow(
+        qApp->translate("djvFFmpegWidget", "Quality:"),
+        _qualityWidget);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
@@ -89,6 +98,11 @@ djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
         _codecWidget,
         SIGNAL(activated(int)),
         SLOT(codecCallback(int)));
+
+    connect(
+        _qualityWidget,
+        SIGNAL(activated(int)),
+        SLOT(qualityCallback(int)));
 }
 
 djvFFmpegWidget::~djvFFmpegWidget()
@@ -110,8 +124,11 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
         tmp = _plugin->option(option);
 
         if (0 == option.compare(_plugin->options()[
-            djvFFmpegPlugin::CODEC], Qt::CaseInsensitive))
+            djvFFmpegPlugin::OPTIONS_CODEC], Qt::CaseInsensitive))
                 tmp >> _options.codec;
+        else if (0 == option.compare(_plugin->options()[
+            djvFFmpegPlugin::OPTIONS_QUALITY], Qt::CaseInsensitive))
+                tmp >> _options.quality;
     }
     catch (const QString &)
     {}
@@ -121,7 +138,14 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
 
 void djvFFmpegWidget::codecCallback(int in)
 {
-    _options.codec = djvFFmpegPlugin::codecLabels()[in];
+    _options.codec = static_cast<djvFFmpegPlugin::CODEC>(in);
+
+    pluginUpdate();
+}
+
+void djvFFmpegWidget::qualityCallback(int in)
+{
+    _options.quality = static_cast<djvFFmpegPlugin::QUALITY>(in);
 
     pluginUpdate();
 }
@@ -131,24 +155,31 @@ void djvFFmpegWidget::pluginUpdate()
     QStringList tmp;
     tmp << _options.codec;
     _plugin->setOption(
-        _plugin->options()[djvFFmpegPlugin::CODEC], tmp);
+        _plugin->options()[djvFFmpegPlugin::OPTIONS_CODEC], tmp);
+    tmp << _options.quality;
+    _plugin->setOption(
+        _plugin->options()[djvFFmpegPlugin::OPTIONS_QUALITY], tmp);
 }
 
 void djvFFmpegWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
-        _codecWidget);
+        _codecWidget <<
+        _qualityWidget);
     
     try
     {
         QStringList tmp;
         tmp = _plugin->option(
-            _plugin->options()[djvFFmpegPlugin::CODEC]);
+            _plugin->options()[djvFFmpegPlugin::OPTIONS_CODEC]);
         tmp >> _options.codec;
+        tmp = _plugin->option(
+            _plugin->options()[djvFFmpegPlugin::OPTIONS_QUALITY]);
+        tmp >> _options.quality;
     }
     catch (QString)
     {}
 
-    _codecWidget->setCurrentIndex(
-        djvFFmpegPlugin::codecLabels().indexOf(_options.codec));
+    _codecWidget->setCurrentIndex(_options.codec);
+    _qualityWidget->setCurrentIndex(_options.quality);
 }
