@@ -177,7 +177,7 @@ QStringList djvLibquicktimePlugin::option(const QString & in) const
 
     QStringList out;
 
-    if (in.compare(list[CODEC], Qt::CaseInsensitive))
+    if (0 == in.compare(list[CODEC], Qt::CaseInsensitive))
     {
         out << _options.codec;
     }
@@ -191,7 +191,7 @@ bool djvLibquicktimePlugin::setOption(const QString & in, QStringList & data)
 
     try
     {
-        if (in.compare(list[CODEC], Qt::CaseInsensitive))
+        if (0 == in.compare(list[CODEC], Qt::CaseInsensitive))
         {
             QString codec;
             
