@@ -47,13 +47,13 @@
 //------------------------------------------------------------------------------
 
 djvFFmpegLoad::djvFFmpegLoad() :
+    _frame          ( 0),
     _avFormatContext( 0),
     _avVideoStream  (-1),
     _avCodecContext ( 0),
     _avFrame        ( 0),
     _avFrameRgb     ( 0),
-    _swsContext     ( 0),
-    _frame          ( 0)
+    _swsContext     ( 0)
 {}
 
 djvFFmpegLoad::~djvFFmpegLoad()
@@ -135,13 +135,13 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     // Find the codec for the video stream.
     
-    AVStream * stream = _avFormatContext->streams[_avVideoStream];
+    AVStream * avStream = _avFormatContext->streams[_avVideoStream];
     
-    AVCodecContext * codecContext = stream->codec;
+    AVCodecContext * avCodecContext = avStream->codec;
     
-    AVCodec * codec = avcodec_find_decoder(codecContext->codec_id);
+    AVCodec * avCodec = avcodec_find_decoder(avCodecContext->codec_id);
     
-    if (! codec)
+    if (! avCodec)
     {
         djvError error;
         error.add(
@@ -153,9 +153,9 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         throw error;
     }
     
-    _avCodecContext = avcodec_alloc_context3(codec);
+    _avCodecContext = avcodec_alloc_context3(avCodec);
     
-    r = avcodec_copy_context(_avCodecContext, codecContext);
+    r = avcodec_copy_context(_avCodecContext, avCodecContext);
     
     if (r < 0)
     {
@@ -169,7 +169,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         throw error;
     }
     
-    r = avcodec_open2(_avCodecContext, codec, 0);
+    r = avcodec_open2(_avCodecContext, avCodec, 0);
     
     if (r < 0)
     {
@@ -212,11 +212,11 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     int64_t duration = 0;
     
-    if (stream->duration != AV_NOPTS_VALUE)
+    if (avStream->duration != AV_NOPTS_VALUE)
     {
         duration = av_rescale_q(
-            stream->duration,
-            stream->time_base,
+            avStream->duration,
+            avStream->time_base,
             djvFFmpegUtil::timeBaseQ());
     }
     else if (_avFormatContext->duration != AV_NOPTS_VALUE)
@@ -224,16 +224,16 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         duration = _avFormatContext->duration;
     }
     
-    const djvSpeed speed(stream->r_frame_rate.num, stream->r_frame_rate.den);
+    const djvSpeed speed(avStream->r_frame_rate.num, avStream->r_frame_rate.den);
     
     //DJV_DEBUG_PRINT("duration = " << static_cast<qint64>(duration));
     //DJV_DEBUG_PRINT("speed = " << speed);
 
     int64_t nbFrames = 0;
     
-    if (stream->nb_frames != 0)
+    if (avStream->nb_frames != 0)
     {
-        nbFrames = stream->nb_frames;
+        nbFrames = avStream->nb_frames;
     }
     else
     {
@@ -299,7 +299,7 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     
     //DJV_DEBUG_PRINT("frame = " << f);
         
-    AVStream * stream = _avFormatContext->streams[_avVideoStream];
+    AVStream * avStream = _avFormatContext->streams[_avVideoStream];
     
     int64_t pts = 0;
         
@@ -315,7 +315,7 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         int r = av_seek_frame(
             _avFormatContext,
             _avVideoStream,
-            av_rescale_q(seek, djvFFmpegUtil::timeBaseQ(), stream->time_base),
+            av_rescale_q(seek, djvFFmpegUtil::timeBaseQ(), avStream->time_base),
             AVSEEK_FLAG_BACKWARD);
         
         //DJV_DEBUG_PRINT("r = " << djvFfmpegUtil::toString(r));

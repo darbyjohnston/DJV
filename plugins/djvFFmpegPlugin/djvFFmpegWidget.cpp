@@ -49,14 +49,14 @@
 djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
     djvAbstractPrefsWidget(djvFFmpegPlugin::staticName),
     _plugin       (plugin),
-    _codecWidget  (0),
+    _formatWidget (0),
     _qualityWidget(0)
 {
     // Create the widgets.
 
-    _codecWidget = new QComboBox;
-    _codecWidget->addItems(djvFFmpegPlugin::codecLabels());
-    _codecWidget->setSizePolicy(
+    _formatWidget = new QComboBox;
+    _formatWidget->addItems(djvFFmpegPlugin::formatLabels());
+    _formatWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     _qualityWidget = new QComboBox;
@@ -70,12 +70,12 @@ djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
     layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvFFmpegWidget", "Codec"),
-        qApp->translate("djvFFmpegWidget", "Set the codec used when saving movies."));
+        qApp->translate("djvFFmpegWidget", "Format"),
+        qApp->translate("djvFFmpegWidget", "Set the format used when saving movies."));
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
-        qApp->translate("djvFFmpegWidget", "Codec:"),
-        _codecWidget);
+        qApp->translate("djvFFmpegWidget", "Format:"),
+        _formatWidget);
     formLayout->addRow(
         qApp->translate("djvFFmpegWidget", "Quality:"),
         _qualityWidget);
@@ -95,9 +95,9 @@ djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
         SLOT(pluginCallback(const QString &)));
 
     connect(
-        _codecWidget,
+        _formatWidget,
         SIGNAL(activated(int)),
-        SLOT(codecCallback(int)));
+        SLOT(formatCallback(int)));
 
     connect(
         _qualityWidget,
@@ -124,8 +124,8 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
         tmp = _plugin->option(option);
 
         if (0 == option.compare(_plugin->options()[
-            djvFFmpegPlugin::OPTIONS_CODEC], Qt::CaseInsensitive))
-                tmp >> _options.codec;
+            djvFFmpegPlugin::OPTIONS_FORMAT], Qt::CaseInsensitive))
+                tmp >> _options.format;
         else if (0 == option.compare(_plugin->options()[
             djvFFmpegPlugin::OPTIONS_QUALITY], Qt::CaseInsensitive))
                 tmp >> _options.quality;
@@ -136,9 +136,9 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
     widgetUpdate();
 }
 
-void djvFFmpegWidget::codecCallback(int in)
+void djvFFmpegWidget::formatCallback(int in)
 {
-    _options.codec = static_cast<djvFFmpegPlugin::CODEC>(in);
+    _options.format = static_cast<djvFFmpegPlugin::FORMAT>(in);
 
     pluginUpdate();
 }
@@ -153,9 +153,9 @@ void djvFFmpegWidget::qualityCallback(int in)
 void djvFFmpegWidget::pluginUpdate()
 {
     QStringList tmp;
-    tmp << _options.codec;
+    tmp << _options.format;
     _plugin->setOption(
-        _plugin->options()[djvFFmpegPlugin::OPTIONS_CODEC], tmp);
+        _plugin->options()[djvFFmpegPlugin::OPTIONS_FORMAT], tmp);
     tmp << _options.quality;
     _plugin->setOption(
         _plugin->options()[djvFFmpegPlugin::OPTIONS_QUALITY], tmp);
@@ -164,15 +164,15 @@ void djvFFmpegWidget::pluginUpdate()
 void djvFFmpegWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
-        _codecWidget <<
+        _formatWidget <<
         _qualityWidget);
     
     try
     {
         QStringList tmp;
         tmp = _plugin->option(
-            _plugin->options()[djvFFmpegPlugin::OPTIONS_CODEC]);
-        tmp >> _options.codec;
+            _plugin->options()[djvFFmpegPlugin::OPTIONS_FORMAT]);
+        tmp >> _options.format;
         tmp = _plugin->option(
             _plugin->options()[djvFFmpegPlugin::OPTIONS_QUALITY]);
         tmp >> _options.quality;
@@ -180,6 +180,6 @@ void djvFFmpegWidget::widgetUpdate()
     catch (QString)
     {}
 
-    _codecWidget->setCurrentIndex(_options.codec);
+    _formatWidget->setCurrentIndex(_options.format);
     _qualityWidget->setCurrentIndex(_options.quality);
 }

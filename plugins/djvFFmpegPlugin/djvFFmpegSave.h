@@ -73,13 +73,15 @@ private:
     djvFFmpegPlugin::Options _options;
     djvPixelDataInfo         _info;
     djvImage                 _image;
+    int                      _frame;
     
-    AVIOContext *            _avIoContext;
     AVFormatContext *        _avFormatContext;
     AVStream *               _avStream;
+    AVIOContext *            _avIoContext;
     AVFrame *                _avFrame;
     uint8_t *                _avFrameBuf;
     AVFrame *                _avFrameRgb;
+    AVPixelFormat            _avFrameRgbPixel;
     SwsContext *             _swsContext;
 };
 

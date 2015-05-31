@@ -46,13 +46,15 @@
 //------------------------------------------------------------------------------
 
 djvFFmpegSave::djvFFmpegSave(const djvFFmpegPlugin::Options & options) :
-    _options(options),
+    _options        (options),
+    _frame          (0),
     _avIoContext    (0),
     _avFormatContext(0),
     _avStream       (0),
     _avFrame        (0),
     _avFrameBuf     (0),
     _avFrameRgb     (0),
+    _avFrameRgbPixel(static_cast<AVPixelFormat>(0)),
     _swsContext     (0)
 {}
 
@@ -62,126 +64,186 @@ djvFFmpegSave::~djvFFmpegSave()
 void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & info)
     throw (djvError)
 {
-    DJV_DEBUG("djvFFmpegSave::open");
-    DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-    DJV_DEBUG_PRINT("info = " << info);
+    //DJV_DEBUG("djvFFmpegSave::open");
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    //DJV_DEBUG_PRINT("info = " << info);
     
+    close();
+    
+    _frame = 0;
+        
     // Open the file.
     
-    QString codecName;
+    djvPixel::PIXEL pixel         = static_cast<djvPixel::PIXEL>(0);
+    bool            bgr           = false;
     
-    switch (_options.codec)
+    QString         avFormatName;
+    AVCodecID       avCodecId     = static_cast<AVCodecID>(0);
+    AVPixelFormat   avPixel       = static_cast<AVPixelFormat>(0);
+    double          avQScale      = -1.0;
+    
+    _avFrameRgbPixel = static_cast<AVPixelFormat>(0);
+
+    djvFFmpegUtil::Dictionary dictionary;
+    QString                   value;
+
+    switch (_options.format)
     {
-        case djvFFmpegPlugin::H264:  codecName = "x264"; break;
-        case djvFFmpegPlugin::MPEG4: codecName = "mp4";  break;
+        /*case djvFFmpegPlugin::H264:
+
+            pixel            = djvPixel::RGBA_U8;
+        
+            avFormatName     = "mov";
+            avCodecId        = AV_CODEC_ID_H264;
+            
+            switch (_options.quality)
+            {
+                case djvFFmpegPlugin::LOW:    value = "fast";   break;
+                case djvFFmpegPlugin::MEDIUM: value = "medium"; break;
+                case djvFFmpegPlugin::HIGH:   value = "slow";   break;
+
+                default: break;
+            }
+
+            av_dict_set(
+                dictionary(),
+                "preset",
+                value.toLatin1().data(),
+                0);
+
+            break;*/
+        
+        case djvFFmpegPlugin::MPEG4:
+
+            pixel            = djvPixel::RGBA_U8;
+            bgr              = info.bgr;
+
+            avFormatName     = "mp4";
+            avCodecId        = AV_CODEC_ID_MPEG4;
+            avPixel          = AV_PIX_FMT_YUV420P;
+            _avFrameRgbPixel = bgr ? AV_PIX_FMT_BGRA : AV_PIX_FMT_RGBA;
+
+            switch (_options.quality)
+            {
+                case djvFFmpegPlugin::LOW:    avQScale = 9.0; break;
+                case djvFFmpegPlugin::MEDIUM: avQScale = 3.0; break;
+                case djvFFmpegPlugin::HIGH:   avQScale = 1.0; break;
+
+                default: break;
+            }
+
+            break;
+        
+        case djvFFmpegPlugin::PRO_RES:
+
+            pixel            = djvPixel::RGB_U16;
+            bgr              = info.bgr;
+
+            avFormatName     = "mov";
+            avCodecId        = AV_CODEC_ID_PRORES;
+            avPixel          = AV_PIX_FMT_YUV422P10;
+            _avFrameRgbPixel = bgr ? AV_PIX_FMT_RGB48 : AV_PIX_FMT_BGR48;
+         
+            switch (_options.quality)
+            {
+                case djvFFmpegPlugin::LOW:    value = "1"; break;
+                case djvFFmpegPlugin::MEDIUM: value = "2"; break;
+                case djvFFmpegPlugin::HIGH:   value = "3"; break;
+
+                default: break;
+            }
+
+            av_dict_set(
+                dictionary(),
+                "profile",
+                value.toLatin1().data(),
+                0);
+
+            break;
+        
+        case djvFFmpegPlugin::MJPEG:
+
+            pixel            = djvPixel::RGBA_U8;
+            bgr              = info.bgr;
+
+            avFormatName     = "mov";
+            avCodecId        = AV_CODEC_ID_MJPEG;
+            avPixel          = AV_PIX_FMT_YUVJ422P;
+            _avFrameRgbPixel = bgr ? AV_PIX_FMT_BGRA : AV_PIX_FMT_RGBA;
+
+            switch (_options.quality)
+            {
+                case djvFFmpegPlugin::LOW:    avQScale = 9.0; break;
+                case djvFFmpegPlugin::MEDIUM: avQScale = 3.0; break;
+                case djvFFmpegPlugin::HIGH:   avQScale = 1.0; break;
+
+                default: break;
+            }
+
+            break;
         
         default: break;
     }
     
-    DJV_DEBUG_PRINT("codecName = " << codecName);
+    //DJV_DEBUG_PRINT("pixel = " << pixel);
+
+    //DJV_DEBUGBUG_PRINT("av format name = " << avFormatName);
+    //DJV_DEBUGBUG_PRINT("av codec id = " << avCodecId);
+    //DJV_DEBUGBUG_PRINT("av pixel = " << avPixel);
+    //DJV_DEBUGBUG_PRINT("av rgb pixel = " << _avFrameRgbPixel);
+    //DJV_DEBUGBUG_PRINT("av qscale = " << avQScale);
     
-    AVOutputFormat * format = av_guess_format(
-        codecName.toLatin1().data(),
+    AVOutputFormat * avFormat = av_guess_format(
+        avFormatName.toLatin1().data(),
         0, //fileInfo.fileName().toLatin1().data(),
         0);
     
-    if (! format)
+    if (! avFormat)
     {
         throw djvError(
             djvFFmpegPlugin::staticName,
             qApp->translate("djvFFmpegSave", "Cannot find format: %1").
-                arg(djvFFmpegPlugin::codecLabels()[_options.codec]));
+                arg(djvFFmpegPlugin::formatLabels()[_options.format]));
     }
     
-    DJV_DEBUG_PRINT("format = " << format->name << ", " << format->long_name);
-    DJV_DEBUG_PRINT("extensions = " << format->extensions);
-
+    //DJV_DEBUGBUG_PRINT("av format extensions = " << avFormat->extensions);
+    
     _avFormatContext = avformat_alloc_context();
-    _avFormatContext->oformat = format;
+    _avFormatContext->oformat = avFormat;
 
-    AVCodec * codec = avcodec_find_encoder(format->video_codec);
+    AVCodec * avCodec = avcodec_find_encoder(avCodecId);
 
-    if (! codec)
+    if (! avCodec)
     {
         throw djvError(
             djvFFmpegPlugin::staticName,
             qApp->translate("djvFFmpegSave", "Cannot find encoder: %1").
-                arg(format->name));
+                arg(avCodecId));
     }
 
-    AVCodecContext * codecContext = avcodec_alloc_context3(codec);
+    AVCodecContext * avCodecContext = avcodec_alloc_context3(avCodec);
     
-    avcodec_get_context_defaults3(codecContext, codec);
+    avcodec_get_context_defaults3(avCodecContext, avCodec);
     
-    DJV_DEBUG_PRINT("default bit rate = " << codecContext->bit_rate);
-    DJV_DEBUG_PRINT("default gop = " << codecContext->gop_size);
+    //DJV_DEBUGBUG_PRINT("default bit rate = " << avCodecContext->bit_rate);
+    //DJV_DEBUGBUG_PRINT("default gop = " << avCodecContext->gop_size);
     
-    codecContext->pix_fmt       = PIX_FMT_YUV420P;
-    codecContext->width         = info.size.x;
-    codecContext->height        = info.size.y;
-    codecContext->time_base.den = info.sequence.speed.scale();
-    codecContext->time_base.num = info.sequence.speed.duration();
+    avCodecContext->pix_fmt       = avPixel;
+    avCodecContext->width         = info.size.x;
+    avCodecContext->height        = info.size.y;
+    avCodecContext->time_base.den = info.sequence.speed.scale();
+    avCodecContext->time_base.num = info.sequence.speed.duration();
     
-    if (format->flags & AVFMT_GLOBALHEADER)
-        codecContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
+    if (avFormat->flags & AVFMT_GLOBALHEADER)
+        avCodecContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
 
-    QString preset;
-    
-    switch (_options.quality)
+    if (avQScale >= 0.0)
     {
-        case djvFFmpegPlugin::LOW:
-
-            switch (_options.codec)
-            {
-                case djvFFmpegPlugin::H264: preset = "fast"; break;
-                
-                default: break;
-            }
-
-            break;
-
-        case djvFFmpegPlugin::MEDIUM:
-
-            switch (_options.codec)
-            {
-                case djvFFmpegPlugin::H264: preset = "medium"; break;
-
-                default: break;
-            }
-
-            break;
-
-        case djvFFmpegPlugin::HIGH:
-
-            switch (_options.codec)
-            {
-                case djvFFmpegPlugin::H264: preset = "slow"; break;
-
-                default: break;
-            }
-
-            break;
-
-        default: break;
+        avCodecContext->flags |= CODEC_FLAG_QSCALE;
+        avCodecContext->global_quality = FF_QP2LAMBDA * avQScale;
     }
     
-    DJV_DEBUG_PRINT("preset = " << preset);
-    
-    //av_opt_set(codecContext->priv_data, "preset", preset.toLatin1().data(), 0);
-    
-    AVDictionary * dict = 0;
-    av_dict_set(&dict, "preset", preset.toLatin1().data(), 0);
-    
-    int r = avcodec_open2(codecContext, codec, &dict);
-    
-    AVDictionaryEntry * entry = 0;
-    
-    while ((entry = av_dict_get(dict, "", entry, AV_DICT_IGNORE_SUFFIX)))
-    {
-        DJV_DEBUG_PRINT("unused = " << entry->key << " " << entry->value);
-    }
-    
-    av_dict_free(&dict);
+    int r = avcodec_open2(avCodecContext, avCodec, dictionary());
     
     if (r < 0)
     {
@@ -195,7 +257,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
         throw error;
     }
 
-    _avStream = avformat_new_stream(_avFormatContext, codecContext->codec);
+    _avStream = avformat_new_stream(_avFormatContext, avCodecContext->codec);
 
     if (! _avStream)
     {
@@ -204,7 +266,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
             qApp->translate("djvFFmpegSave", "Cannot create stream"));
     }
     
-    _avStream->codec         = codecContext;
+    _avStream->codec         = avCodecContext;
     _avStream->time_base.den = info.sequence.speed.scale();
     _avStream->time_base.num = info.sequence.speed.duration();
     
@@ -243,45 +305,45 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
         throw error;
     }
     
-    _info = djvPixelDataInfo();
+    _info          = djvPixelDataInfo();
     _info.fileName = fileInfo;
     _info.size     = info.size;
-    _info.pixel    = djvPixel::RGBA_U8;
-    _info.mirror.y = true;
+    _info.pixel    = pixel;
+    _info.bgr      = info.bgr;
 
-    _image.set(_info);
-    
     // Initialize the buffers.
     
-    _avFrame = av_frame_alloc();
+    _image.set(_info);
+    
+    _avFrame         = av_frame_alloc();
     _avFrame->width  = info.size.x;
     _avFrame->height = info.size.y;
-    _avFrame->format = codecContext->pix_fmt;
+    _avFrame->format = avCodecContext->pix_fmt;
 
     _avFrameBuf = (uint8_t *)av_malloc(
         avpicture_get_size(
-            codecContext->pix_fmt,
-            codecContext->width,
-            codecContext->height));
+            avCodecContext->pix_fmt,
+            avCodecContext->width,
+            avCodecContext->height));
 
     avpicture_fill(
         (AVPicture *)_avFrame,
         _avFrameBuf,
-        codecContext->pix_fmt,
-        codecContext->width,
-        codecContext->height);
+        avCodecContext->pix_fmt,
+        avCodecContext->width,
+        avCodecContext->height);
 
     _avFrameRgb = av_frame_alloc();
     
     // Initialize the software scaler.
 
     _swsContext = sws_getContext(
-        codecContext->width,
-        codecContext->height,
-        PIX_FMT_RGBA,
-        codecContext->width,
-        codecContext->height,
-        codecContext->pix_fmt,
+        info.size.x,
+        info.size.y,
+        _avFrameRgbPixel,
+        avCodecContext->width,
+        avCodecContext->height,
+        avCodecContext->pix_fmt,
         SWS_BILINEAR,
         0,
         0,
@@ -322,31 +384,54 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     avpicture_fill(
         (AVPicture *)_avFrameRgb,
         p->data(),
-        PIX_FMT_RGBA,
+        _avFrameRgbPixel,
         p->w(),
         p->h());
     
+    quint64 pixelByteCount = p->pixelByteCount();
+    quint64 scanlineByteCount = p->scanlineByteCount();
+    quint64 dataByteCount = p->dataByteCount();
+    
+    const uint8_t * const data [] =
+    {
+        p->data() + dataByteCount - scanlineByteCount,
+        p->data() + dataByteCount - scanlineByteCount,
+        p->data() + dataByteCount - scanlineByteCount,
+        p->data() + dataByteCount - scanlineByteCount
+    };
+    
+    const int lineSize [] =
+    {
+        -scanlineByteCount,
+        -scanlineByteCount,
+        -scanlineByteCount,
+        -scanlineByteCount
+    };
+    
     sws_scale(
         _swsContext,
-        (uint8_t const * const *)_avFrameRgb->data,
-        _avFrameRgb->linesize,
+        //(uint8_t const * const *)_avFrameRgb->data,
+        //_avFrameRgb->linesize,
+        data,
+        lineSize,
         0,
         p->h(),
         _avFrame->data,
         _avFrame->linesize);
     
-    AVCodecContext * codec = _avStream->codec;
+    AVCodecContext * avCodecContext = _avStream->codec;
 
     djvFFmpegUtil::Packet packet;
     packet().data = 0;
     packet().size = 0;
     
-    _avFrame->pts = frame.frame;
+    _avFrame->pts     = _frame++;
+    _avFrame->quality = avCodecContext->global_quality;
     
     int finished = 0;
     
     int r = avcodec_encode_video2(
-        codec,
+        avCodecContext,
         &packet(),
         _avFrame,
         &finished);
@@ -374,15 +459,15 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     
     packet().pts = av_rescale_q(
         packet().pts,
-        codec->time_base,
+        avCodecContext->time_base,
         _avStream->time_base);
     packet().dts = av_rescale_q(
         packet().dts,
-        codec->time_base,
+        avCodecContext->time_base,
         _avStream->time_base);
     packet().duration = av_rescale_q(
         packet().duration,
-        codec->time_base,
+        avCodecContext->time_base,
         _avStream->time_base);
     packet().stream_index = _avStream->index;
 
@@ -472,7 +557,7 @@ void djvFFmpegSave::close() throw (djvError)
         
         _avFormatContext = 0;
     }
-        
+    
     if (error.count())
     {
         throw error;

@@ -36,6 +36,43 @@
 #include <djvStringUtil.h>
 
 //------------------------------------------------------------------------------
+// djvFFmpegUtil::Dictionary
+//------------------------------------------------------------------------------
+
+djvFFmpegUtil::Dictionary::Dictionary() :
+    _p(0)
+{}
+
+djvFFmpegUtil::Dictionary::~Dictionary()
+{
+    av_dict_free(&_p);
+}
+
+QMap<QString, QString> djvFFmpegUtil::Dictionary::map() const
+{
+    QMap<QString, QString> out;
+    
+    AVDictionaryEntry * entry = 0;
+    
+    while ((entry = av_dict_get(_p, "", entry, AV_DICT_IGNORE_SUFFIX)))
+    {
+        out.insert(entry->key, entry->value);
+    }
+    
+    return out;
+}
+
+AVDictionary ** djvFFmpegUtil::Dictionary::operator () ()
+{
+    return &_p;
+}
+
+const AVDictionary * const * djvFFmpegUtil::Dictionary::operator () () const
+{
+    return &_p;
+}
+
+//------------------------------------------------------------------------------
 // djvFFmpegUtil::Packet
 //------------------------------------------------------------------------------
 

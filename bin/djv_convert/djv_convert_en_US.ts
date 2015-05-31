@@ -125,14 +125,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="332"/>
-        <source>Cannot open slate: &quot;%1&quot;</source>
+        <location filename="djv_convert.cpp" line="331"/>
+        <source>Cannot open output: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djv_convert.cpp" line="332"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
-        <oldsource>Cannot read image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -253,22 +252,22 @@ Examples
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="856"/>
+        <location filename="djv_convert.cpp" line="866"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="868"/>
+        <location filename="djv_convert.cpp" line="878"/>
         <source>[100%] </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="886"/>
+        <location filename="djv_convert.cpp" line="896"/>
         <source>Elapsed = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_convert.cpp" line="896"/>
+        <location filename="djv_convert.cpp" line="906"/>
         <source>%1x%2:%3 %4 %5@%6</source>
         <translation type="unfinished"></translation>
     </message>

@@ -72,6 +72,8 @@ private:
     bool readFrame(int64_t & pts);
 
     djvImageIoInfo    _info;
+    int               _frame;
+    djvPixelData      _tmp;
     
     AVFormatContext * _avFormatContext;
     int               _avVideoStream;
@@ -79,9 +81,6 @@ private:
     AVFrame *         _avFrame;
     AVFrame *         _avFrameRgb;
     SwsContext *      _swsContext;
-
-    int               _frame;
-    djvPixelData      _tmp;
 };
 
 //@} // djvFFmpegPlugin

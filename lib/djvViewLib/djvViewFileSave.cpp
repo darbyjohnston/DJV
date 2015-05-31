@@ -286,34 +286,50 @@ void djvViewFileSave::callback(int in)
 
     // Process the frame.
 
-    djvImage tmp(_p->info.info);
-    tmp.tags = image.tags;
+    djvImage * p = &image;
+
+    djvImage tmp;
     
     djvOpenGlImageOptions options(_p->info.options);
-    
+
     if (_p->info.u8Conversion || _p->info.colorProfile)
     {
         options.colorProfile = image.colorProfile;
     }
 
-    try
+    //DJV_DEBUG_PRINT("convert = " << (p->info() != _p->info.info));
+    //DJV_DEBUG_PRINT("options = " << (options != djvOpenGlImageOptions()));
+    //DJV_DEBUG_PRINT("options = " << options);
+    //DJV_DEBUG_PRINT("def options = " << djvOpenGlImageOptions());
+    
+    if (p->info() != _p->info.info ||
+        options != djvOpenGlImageOptions())
     {
-        //DJV_DEBUG_PRINT("process");
+        tmp.set(_p->info.info);
+        
+        try
+        {
+            //DJV_DEBUG_PRINT("process");
 
-        djvOpenGlImage::copy(image, tmp, options);
+            djvOpenGlImage::copy(image, tmp, options);
+        }
+        catch (djvError error)
+        {
+            error.add(
+                djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
+                arg(QDir::toNativeSeparators(_p->info.outputFile)));
+
+            DJV_VIEW_APP->printError(error);
+
+            cancel();
+
+            return;
+        }
+
+        p = &tmp;
     }
-    catch (djvError error)
-    {
-        error.add(
-            djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
-            arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
-        DJV_VIEW_APP->printError(error);
-
-        cancel();
-
-        return;
-    }
+    tmp.tags = image.tags;
 
     // Save the frame.
 

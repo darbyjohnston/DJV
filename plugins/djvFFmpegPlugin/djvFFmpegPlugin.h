@@ -46,8 +46,6 @@ extern "C"
 
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
-#include <libavutil/dict.h>
-#include <libavutil/opt.h>
 #include <libswscale/swscale.h>
 
 } // extern "C"
@@ -92,27 +90,21 @@ public:
     
     static const QString staticName;
 
-    //! Get the FFmpeg codec labels.
+    //! This enumeration provides the formats.
 
-    static QStringList avCodecLabels();
-
-    //! Get the FFmpeg codec text labels.
-
-    static QStringList avCodecTextLabels();
-
-    //! This enumeration provides the codecs.
-
-    enum CODEC
+    enum FORMAT
     {
-        H264,
+        //H264,
         MPEG4,
+        PRO_RES,
+        MJPEG,
 
-        CODEC_COUNT
+        FORMAT_COUNT
     };
 
-    //! Get the codec labels.
+    //! Get the format labels.
 
-    static const QStringList & codecLabels();
+    static const QStringList & formatLabels();
 
     //! This enumeration provides the quality levels.
 
@@ -133,7 +125,7 @@ public:
 
     enum OPTIONS
     {
-        OPTIONS_CODEC,
+        OPTIONS_FORMAT,
         OPTIONS_QUALITY,
 
         OPTIONS_COUNT
@@ -151,7 +143,7 @@ public:
         
         Options();
 
-        CODEC   codec;
+        FORMAT  format;
         QUALITY quality;
     };
 	
@@ -188,7 +180,7 @@ private:
 
 //------------------------------------------------------------------------------
 
-DJV_STRING_OPERATOR(, djvFFmpegPlugin::CODEC);
+DJV_STRING_OPERATOR(, djvFFmpegPlugin::FORMAT);
 DJV_STRING_OPERATOR(, djvFFmpegPlugin::QUALITY);
 
 //@} // djvFFmpegPlugin

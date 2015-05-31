@@ -661,8 +661,8 @@ bool djvConvertApplication::work()
 
             djvOpenGlImageOptions options;
             options.xform.position = position;
-            options.xform.scale = djvVector2f(scaleSize) / djvVector2f(info.size);
-            options.colorProfile = image.colorProfile;
+            options.xform.scale    = djvVector2f(scaleSize) / djvVector2f(info.size);
+            options.colorProfile   = image.colorProfile;
 
             djvOpenGlImage::copy(image, slate, options);
         }
@@ -797,21 +797,31 @@ bool djvConvertApplication::work()
 
         // Convert.
 
-        djvImage tmp(saveInfo);
-        tmp.tags = tags;
+        djvImage * p = &image;
 
-        options.xform.position = position;
-        options.xform.scale = djvVector2f(scaleSize) /
-            djvVector2f(loadInfo.size);
+        djvImage tmp;
         
-        options.colorProfile = image.colorProfile;
+        options.xform.position = position;
+        options.xform.scale    = djvVector2f(scaleSize) /
+            djvVector2f(loadInfo.size);
+        options.colorProfile   = image.colorProfile;
 
-        djvOpenGlImage::copy(
-            image,
-            tmp,
-            options,
-            &_state,
-            _offscreenBuffer.data());
+        if (p->info() != static_cast<djvPixelDataInfo>(saveInfo) ||
+            options != djvOpenGlImageOptions())
+        {
+            tmp.set(saveInfo);
+
+            djvOpenGlImage::copy(
+                image,
+                tmp,
+                options,
+                &_state,
+                _offscreenBuffer.data());
+
+            p = &tmp;
+        }
+        
+        p->tags = tags;
 
         // Save the image.
 
@@ -820,7 +830,7 @@ bool djvConvertApplication::work()
         try
         {
             save->write(
-                tmp,
+                *p,
                 djvImageIoFrameInfo(
                     saveInfo.sequence.frames.count() ?
                     saveInfo.sequence.frames[i] :

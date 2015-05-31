@@ -34,6 +34,7 @@
 #ifndef DJV_FFMPEG_UTIL_H
 #define DJV_FFMPEG_UTIL_H
 
+#include <QMap>
 #include <QString>
 
 #if defined(DJV_LINUX)
@@ -45,6 +46,7 @@ extern "C"
 
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+#include <libavutil/dict.h>
 #include <libswscale/swscale.h>
 
 } // extern "C"
@@ -60,7 +62,28 @@ extern "C"
 
 struct djvFFmpegUtil
 {
-    //! This class provides a memory-managed wrapper for a FFmpeg packet.
+    //! This class provides a wrapper for a FFmpeg dictionary.
+    
+    class Dictionary
+    {
+    public:
+    
+        Dictionary();
+        
+        ~Dictionary();
+        
+        QMap<QString, QString> map() const;
+
+        AVDictionary ** operator () ();
+
+        const AVDictionary * const * operator () () const;
+    
+    private:
+    
+        AVDictionary * _p;
+    };
+    
+    //! This class provides a wrapper for a FFmpeg packet.
     
     class Packet
     {

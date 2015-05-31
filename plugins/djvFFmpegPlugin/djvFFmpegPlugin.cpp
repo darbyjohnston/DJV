@@ -60,7 +60,7 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 //------------------------------------------------------------------------------
 
 djvFFmpegPlugin::Options::Options() :
-    codec  (H264),
+    format (MPEG4),
     quality(HIGH)
 {}
 
@@ -70,51 +70,15 @@ djvFFmpegPlugin::Options::Options() :
 
 const QString djvFFmpegPlugin::staticName = "FFmpeg";
 
-QStringList djvFFmpegPlugin::avCodecLabels()
-{
-    QStringList out;
-    
-    const AVCodecDescriptor * desc = 0;
-    
-    while ((desc = avcodec_descriptor_next(desc)))
-    {
-        if (AVMEDIA_TYPE_VIDEO == desc->type)
-        {
-            out += desc->name;
-        }
-    }
-
-    out.sort();
-    
-    return out;
-}
-
-QStringList djvFFmpegPlugin::avCodecTextLabels()
-{
-    QStringList out;
-
-    const AVCodecDescriptor * desc = 0;
-    
-    while ((desc = avcodec_descriptor_next(desc)))
-    {
-        if (AVMEDIA_TYPE_VIDEO == desc->type)
-        {
-            out += desc->long_name;
-        }
-    }
-
-    out.sort();
-
-    return out;
-}
-
-const QStringList & djvFFmpegPlugin::codecLabels()
+const QStringList & djvFFmpegPlugin::formatLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvFFmpegPlugin", "H264") <<
-        qApp->translate("djvFFmpegPlugin", "MPEG4");
+        //qApp->translate("djvFFmpegPlugin", "H264") <<
+        qApp->translate("djvFFmpegPlugin", "MPEG4") <<
+        qApp->translate("djvFFmpegPlugin", "ProRes") <<
+        qApp->translate("djvFFmpegPlugin", "MJPEG");
 
-    DJV_ASSERT(data.count() == CODEC_COUNT);
+    DJV_ASSERT(data.count() == FORMAT_COUNT);
 
     return data;
 }
@@ -134,7 +98,7 @@ const QStringList & djvFFmpegPlugin::qualityLabels()
 const QStringList & djvFFmpegPlugin::optionsLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvFFmpegPlugin", "Codec") <<
+        qApp->translate("djvFFmpegPlugin", "Format") <<
         qApp->translate("djvFFmpegPlugin", "Quality");
 
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
@@ -163,13 +127,52 @@ void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
 
 void djvFFmpegPlugin::initPlugin() throw (djvError)
 {
-    //DJV_DEBUG("djvFFmpegPlugin::initPlugin");
+    //DJV_DEBUGBUG("djvFFmpegPlugin::initPlugin");
     
-    //av_log_set_callback(avLogCallback);
+    av_log_set_callback(avLogCallback);
     
     av_register_all();
 
-    //DJV_DEBUG_PRINT("codecs = " << avCodecLabels());
+    /*const AVOutputFormat * avFormat = 0;
+    
+    while ((avFormat = av_oformat_next(avFormat)))
+    {
+        DJV_DEBUG_PRINT("av format = " << avFormat->name << ", " <<
+            avFormat->long_name);
+    }*/
+
+    /*const AVCodecDescriptor * avCodec = 0;
+    
+    while ((avCodec = avcodec_descriptor_next(avCodec)))
+    {
+        if (AVMEDIA_TYPE_VIDEO == avCodec->type)
+        {
+            DJV_DEBUG_PRINT("av codec = " << avCodec->name);
+        }
+    }*/
+
+    /*AVOutputFormat * avFormat = av_oformat_next(0);
+    
+    while (avFormat)
+    {
+        DJV_DEBUG_PRINT("av format = " << avFormat->name);
+        
+        if (avFormat->codec_tag)
+        {
+            AVCodecID avCodec = static_cast<AVCodecID>(1);
+            
+            int i = 0;
+
+            while (avCodec != CODEC_ID_NONE)
+            {
+                avCodec = av_codec_get_id(format->codec_tag, i++);
+                
+                DJV_DEBUG_PRINT("    " << avCodecId);
+            }
+        }
+        
+        avFormat = av_oformat_next(avFormat);
+    }*/
 }
 
 djvPlugin * djvFFmpegPlugin::copyPlugin() const
@@ -198,7 +201,8 @@ QStringList djvFFmpegPlugin::extensions() const
         ".mpg"  <<
         ".mpeg" <<
         ".mp4"  <<
-        ".m4v";
+        ".m4v"  <<
+        ".mxf";
 }
 
 bool djvFFmpegPlugin::isSequence() const
@@ -212,9 +216,9 @@ QStringList djvFFmpegPlugin::option(const QString & in) const
 
     QStringList out;
 
-    if (0 == in.compare(list[OPTIONS_CODEC], Qt::CaseInsensitive))
+    if (0 == in.compare(list[OPTIONS_FORMAT], Qt::CaseInsensitive))
     {
-        out << _options.codec;
+        out << _options.format;
     }
     else if (0 == in.compare(list[OPTIONS_QUALITY], Qt::CaseInsensitive))
     {
@@ -230,22 +234,22 @@ bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
 
     try
     {
-        if (0 == in.compare(list[OPTIONS_CODEC], Qt::CaseInsensitive))
+        if (0 == in.compare(list[OPTIONS_FORMAT], Qt::CaseInsensitive))
         {
-            CODEC codec;
+            FORMAT format = static_cast<FORMAT>(0);
             
-            data >> codec;
+            data >> format;
             
-            if (codec != _options.codec)
+            if (format != _options.format)
             {
-                _options.codec = codec;
+                _options.format = format;
                 
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(list[OPTIONS_QUALITY], Qt::CaseInsensitive))
         {
-            QUALITY quality;
+            QUALITY quality = static_cast<QUALITY>(0);
             
             data >> quality;
             
@@ -281,9 +285,9 @@ void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
         {
             in >> arg;
 
-            if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_codec") == arg)
+            if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_format") == arg)
             {
-                in >> _options.codec;
+                in >> _options.format;
             }
             else if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_quality") == arg)
             {
@@ -309,15 +313,15 @@ QString djvFFmpegPlugin::commandLineHelp() const
 "\n"
 "FFmpeg Options\n"
 "\n"
-"    -ffmpeg_codec (value)\n"
-"        Set the codec used when saving FFmpeg movies. Options = %1. "
+"    -ffmpeg_format (value)\n"
+"        Set the format used when saving FFmpeg movies. Options = %1. "
 "Default = %2.\n"
 "    -ffmpeg_quality (value)\n"
 "        Set the quality used when saving FFmpeg movies. Options = %3. "
 "Default = %4.\n"
     ).
-    arg(codecLabels().join(", ")).
-    arg(djvStringUtil::label(_options.codec).join(", ")).
+    arg(formatLabels().join(", ")).
+    arg(djvStringUtil::label(_options.format).join(", ")).
     arg(qualityLabels().join(", ")).
     arg(djvStringUtil::label(_options.quality).join(", "));
 }
@@ -339,7 +343,7 @@ djvAbstractPrefsWidget * djvFFmpegPlugin::createWidget()
 
 //------------------------------------------------------------------------------
 
-_DJV_STRING_OPERATOR_LABEL(djvFFmpegPlugin::CODEC,
-    djvFFmpegPlugin::codecLabels())
+_DJV_STRING_OPERATOR_LABEL(djvFFmpegPlugin::FORMAT,
+    djvFFmpegPlugin::formatLabels())
 _DJV_STRING_OPERATOR_LABEL(djvFFmpegPlugin::QUALITY,
     djvFFmpegPlugin::qualityLabels())
