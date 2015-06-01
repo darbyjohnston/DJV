@@ -4,30 +4,14 @@
 <context>
     <name>djvFFmpegLoad</name>
     <message>
-        <location filename="djvFFmpegLoad.cpp" line="102"/>
-        <source>Cannot find stream information: %1</source>
+        <location filename="djvFFmpegLoad.cpp" line="116"/>
+        <source>Cannot find video stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvFFmpegLoad.cpp" line="131"/>
-        <source>Cannot find video stream: %1</source>
-        <oldsource>Cannot find video stream in: %1</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvFFmpegLoad.cpp" line="152"/>
-        <source>Cannot find codec: %1</source>
-        <oldsource>Cannot find codec for: %1</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvFFmpegLoad.cpp" line="168"/>
-        <source>Cannot copy context: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvFFmpegLoad.cpp" line="182"/>
-        <source>Cannot open codec: %1</source>
+        <source>Cannot find codec</source>
+        <oldsource>Cannot find video stream: %1</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -119,12 +103,12 @@ FFmpeg Options
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegSave.cpp" line="266"/>
+        <location filename="djvFFmpegSave.cpp" line="261"/>
         <source>Cannot create stream</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegSave.cpp" line="356"/>
+        <location filename="djvFFmpegSave.cpp" line="341"/>
         <source>Cannot create software scaler</source>
         <translation type="unfinished"></translation>
     </message>

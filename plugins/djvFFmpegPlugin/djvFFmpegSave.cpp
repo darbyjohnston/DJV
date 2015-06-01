@@ -247,14 +247,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
-        throw error;
     }
 
     _avStream = avformat_new_stream(_avFormatContext, avCodecContext->codec);
@@ -279,14 +274,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
-        throw error;
     }
     
     _avFormatContext->pb = _avIoContext;
@@ -295,14 +285,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].arg(fileInfo));
-        throw error;
     }
     
     _info          = djvPixelDataInfo();
@@ -438,15 +423,9 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
-                arg(_info.fileName));
-        throw error;
     }
 
     //DJV_DEBUG_PRINT("finished = " << finished);
@@ -475,16 +454,10 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
-                arg(_info.fileName));
-        throw error;
-    }    
+    }
 }
 
 void djvFFmpegSave::close() throw (djvError)
@@ -493,26 +466,30 @@ void djvFFmpegSave::close() throw (djvError)
     
     djvError error;
     
+    int r = 0;
+    
     if (_avFormatContext)
     {
-        if (av_interleaved_write_frame(_avFormatContext, 0) < 0)
+        r = av_interleaved_write_frame(_avFormatContext, 0);
+        
+        if (r < 0)
         {
-            error.add(
+            throw djvError(
                 djvFFmpegPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
-                    arg(_info.fileName));
+                djvFFmpegUtil::toString(r));
         }
     
         //DJV_DEBUG_PRINT("frames = " <<
         //    static_cast<qint64>(_avStream->nb_frames));
         //DJV_DEBUG_PRINT("write trailer");
         
-        if (av_write_trailer(_avFormatContext) < 0)
+        r = av_write_trailer(_avFormatContext);
+        
+        if (r < 0)
         {
-            error.add(
+            throw djvError(
                 djvFFmpegPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
-                    arg(_info.fileName));
+                djvFFmpegUtil::toString(r));
         }
     }
 

@@ -79,29 +79,18 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
-        throw error;
     }
     
     r = avformat_find_stream_info(_avFormatContext, 0);
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            qApp->translate("djvFFmpegLoad",
-                "Cannot find stream information: %1").arg(in));
-        throw error;
     }
     
     av_dump_format(_avFormatContext, 0, in.fileName().toLatin1().data(), 0);
@@ -122,15 +111,9 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     if (-1 == _avVideoStream)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            qApp->translate("djvFFmpegLoad",
-                "Cannot find video stream: %1").arg(in));
-        throw error;
+            qApp->translate("djvFFmpegLoad", "Cannot find video stream"));
     }
 
     // Find the codec for the video stream.
@@ -143,14 +126,9 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     if (! avCodec)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            qApp->translate("djvFFmpegLoad", "Cannot find codec: %1").arg(in));
-        throw error;
+            qApp->translate("djvFFmpegLoad", "Cannot find codec"));
     }
     
     _avCodecContext = avcodec_alloc_context3(avCodec);
@@ -159,28 +137,18 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            qApp->translate("djvFFmpegLoad", "Cannot copy context: %1").arg(in));
-        throw error;
     }
     
     r = avcodec_open2(_avCodecContext, avCodec, 0);
     
     if (r < 0)
     {
-        djvError error;
-        error.add(
+        throw djvError(
             djvFFmpegPlugin::staticName,
             djvFFmpegUtil::toString(r));
-        error.add(
-            djvFFmpegPlugin::staticName,
-            qApp->translate("djvFFmpegLoad", "Cannot open codec: %1").arg(in));
-        throw error;
     }
     
     // Initialize the buffers.
@@ -404,12 +372,7 @@ bool djvFFmpegLoad::readFrame(int64_t & pts)
     
     while (! finished)
     {
-        int r = 0;
-    
-        if (r >= 0)
-        {
-            r = av_read_frame(_avFormatContext, &packet());
-        }
+        int r = av_read_frame(_avFormatContext, &packet());
                         
         //DJV_DEBUG_PRINT("packet");
         //DJV_DEBUG_PRINT("  size = " << static_cast<qint64>(packet().size));
