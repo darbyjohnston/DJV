@@ -218,7 +218,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
         throw djvError(
             djvFFmpegPlugin::staticName,
             qApp->translate("djvFFmpegSave", "Cannot find encoder: %1").
-                arg(avCodecId));
+                arg(djvFFmpegPlugin::formatLabels()[_options.format]));
     }
 
     AVCodecContext * avCodecContext = avcodec_alloc_context3(avCodec);
