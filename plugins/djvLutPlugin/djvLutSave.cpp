@@ -100,8 +100,7 @@ void djvLutSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     {
         throw djvError(
             djvLutPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
-            arg(fileName));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
     _format = static_cast<djvLutPlugin::FORMAT>(index);

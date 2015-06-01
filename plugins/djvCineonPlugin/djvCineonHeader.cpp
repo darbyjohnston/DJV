@@ -108,8 +108,7 @@ void djvCineonHeader::load(
     {
         throw djvError(
             djvCineon::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
     io.get(&image, sizeof(Image));
@@ -163,8 +162,7 @@ void djvCineonHeader::load(
     {
         throw djvError(
             djvCineon::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     int i = 1;
@@ -187,8 +185,7 @@ void djvCineonHeader::load(
     {
         throw djvError(
             djvCineon::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     int pixel = -1;
@@ -210,8 +207,7 @@ void djvCineonHeader::load(
     {
         throw djvError(
             djvCineon::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     info.pixel = djvPixel::PIXEL(pixel);
@@ -224,16 +220,14 @@ void djvCineonHeader::load(
     {
         throw djvError(
             djvCineon::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     if (isValid(&image.channelPadding) && image.channelPadding)
     {
         throw djvError(
             djvCineon::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     filmPrint = DESCRIPTOR_R_FILM_PRINT == image.channel[0].descriptor[1];

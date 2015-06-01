@@ -56,8 +56,8 @@ djvLibquicktimeSave::~djvLibquicktimeSave()
 const QStringList & djvLibquicktimeSave::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvLibquicktimeSave", "Cannot set codec for: %1") <<
-        qApp->translate("djvLibquicktimeSave", "Cannot set color model for: %1");
+        qApp->translate("djvLibquicktimeSave", "Cannot set codec") <<
+        qApp->translate("djvLibquicktimeSave", "Cannot set color model");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -101,7 +101,7 @@ void djvLibquicktimeSave::open(const djvFileInfo & in, const djvImageIoInfo & in
     {
         throw djvError(
             djvLibquicktimePlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     CodecInfo codecInfo(_options.codec);
@@ -110,7 +110,7 @@ void djvLibquicktimeSave::open(const djvFileInfo & in, const djvImageIoInfo & in
     {
         throw djvError(
             djvLibquicktimePlugin::staticName,
-            errorLabels()[ERROR_SET_CODEC].arg(in));
+            errorLabels()[ERROR_SET_CODEC]);
     }
 
     _frame = 0;
@@ -157,7 +157,7 @@ void djvLibquicktimeSave::open(const djvFileInfo & in, const djvImageIoInfo & in
         
             throw djvError(
                 djvLibquicktimePlugin::staticName,
-                errorLabels()[ERROR_SET_COLOR_MODEL].arg(in));
+                errorLabels()[ERROR_SET_COLOR_MODEL]);
     }
 
     lqt_set_cmodel(_f, 0, cmodel);

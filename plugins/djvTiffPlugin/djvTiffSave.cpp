@@ -120,8 +120,7 @@ void djvTiffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         {
             throw djvError(
                 djvTiffPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE].
-                arg(fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE]);
         }
     }
 
@@ -154,8 +153,7 @@ void djvTiffSave::_open(const QString & in, const djvImageIoInfo & info)
     {
         throw djvError(
             djvTiffPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     // Write the header.

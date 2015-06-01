@@ -305,7 +305,7 @@ void djvJpegSave::_open(const QString & in, const djvImageIoInfo & info)
     {
         throw djvError(
             djvJpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! jpegOpen(_f, &_jpeg, info, _options.quality, &_jpegError))

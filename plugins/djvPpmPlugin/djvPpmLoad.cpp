@@ -97,8 +97,7 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             throw djvError(
                 djvPpmPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                arg(fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
         
         data->set(info, io->mmapP(), io.data());
@@ -184,8 +183,7 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvPpmPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
     switch (magic[1])
@@ -201,8 +199,7 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
             throw djvError(
                 djvPpmPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-                arg(in));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     const int ppmType = magic[1] - '0';
@@ -275,8 +272,7 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvPpmPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     _data =

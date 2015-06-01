@@ -34,12 +34,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvLutPlugin.cpp" line="490"/>
+        <location filename="djvLutPlugin.cpp" line="487"/>
         <source>-lut_type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvLutPlugin.cpp" line="510"/>
+        <location filename="djvLutPlugin.cpp" line="507"/>
         <source>
 LUT Options
 

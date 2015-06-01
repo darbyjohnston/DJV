@@ -130,8 +130,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     {
                         throw djvError(
                             djvPicPlugin::staticName,
-                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                            arg(fileName));
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                 }
                 else
@@ -143,8 +142,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     {
                         throw djvError(
                             djvPicPlugin::staticName,
-                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                            arg(fileName));
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                     
                     djvMemory::copy(p, data->data(0, y), size);
@@ -171,8 +169,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     {
                         throw djvError(
                             djvPicPlugin::staticName,
-                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                            arg(fileName));
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                 }
                 else
@@ -184,8 +181,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     {
                         throw djvError(
                             djvPicPlugin::staticName,
-                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                            arg(fileName));
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
 
                     djvMemory::copy(p, data->data(0, y), size);
@@ -208,8 +204,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     {
                         throw djvError(
                             djvPicPlugin::staticName,
-                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                            arg(fileName));
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                 }
                 else
@@ -221,8 +216,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     {
                         throw djvError(
                             djvPicPlugin::staticName,
-                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                            arg(fileName));
+                            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
 
                     djvMemory::copy(p, data->data(0, y), size);
@@ -325,8 +319,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvPicPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     io.getF32(&header.version);
@@ -351,8 +344,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvPicPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     // Information.
@@ -420,8 +412,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvPicPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     _type = static_cast<djvPicPlugin::TYPE>(type);

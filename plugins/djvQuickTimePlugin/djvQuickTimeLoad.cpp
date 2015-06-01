@@ -37,6 +37,7 @@
 #include <djvFileInfoUtil.h>
 #include <djvPixelDataUtil.h>
 
+#include <QCoreApplication>
 #include <QDir>
 
 namespace qt
@@ -190,9 +191,7 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvQuickTimePlugin::staticName,
-            QString("Cannot open: %1 (#%2)").
-                arg(QDir::toNativeSeparators(in)).
-                arg(err));
+            qApp->translate("djvQuickTimeSave", "Cannot open: %1").arg(err));
     }
 
     // Get the file information.
@@ -255,8 +254,7 @@ void djvQuickTimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvQuickTimePlugin::staticName,
-            QString("Cannot create GWorld: %1 (#%2)").
-                arg(QDir::toNativeSeparators(in)).
+            qApp->translate("djvQuickTimeSave", "Cannot create GWorld: %1").
                 arg(err));
     }
 

@@ -495,10 +495,10 @@ const QStringList & djvViewUtil::mouseWheelLabels()
 const QStringList & djvViewUtil::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvViewUtil", "Cannot open image: \"%1\"") <<
-        qApp->translate("djvViewUtil", "Cannot read image: \"%1\"") <<
-        qApp->translate("djvViewUtil", "Cannot write image: \"%1\"") <<
-        qApp->translate("djvViewUtil", "Cannot open LUT: \"%1\"") <<
+        qApp->translate("djvViewUtil", "Cannot open image: %1") <<
+        qApp->translate("djvViewUtil", "Cannot read image: %1") <<
+        qApp->translate("djvViewUtil", "Cannot write image: %1") <<
+        qApp->translate("djvViewUtil", "Cannot open LUT: %1") <<
         qApp->translate("djvViewUtil", "Cannot pick color") <<
         qApp->translate("djvViewUtil", "Cannot compute histogram") <<
         qApp->translate("djvViewUtil", "Cannot magnify");

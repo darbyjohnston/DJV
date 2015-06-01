@@ -14,17 +14,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSgiPlugin.cpp" line="474"/>
+        <location filename="djvSgiPlugin.cpp" line="475"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSgiPlugin.cpp" line="558"/>
+        <location filename="djvSgiPlugin.cpp" line="559"/>
         <source>-sgi_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSgiPlugin.cpp" line="578"/>
+        <location filename="djvSgiPlugin.cpp" line="579"/>
         <source>
 SGI Options
 

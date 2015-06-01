@@ -84,8 +84,11 @@ struct Header
 {
     Header();
 
-    void load(djvFileIo &, djvImageIoInfo &, bool * compression) throw (djvError);
-    void save(djvFileIo &, const djvImageIoInfo &, bool compression) throw (djvError);
+    void load(djvFileIo &, djvImageIoInfo &, bool * compression)
+        throw (djvError);
+    
+    void save(djvFileIo &, const djvImageIoInfo &, bool compression)
+        throw (djvError);
 
     void debug() const;
 
@@ -132,8 +135,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     {
         throw djvError(
             djvSgiPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
     io.getU8(&_data.storage);
@@ -161,8 +163,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     {
         throw djvError(
             djvSgiPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
     
     //DJV_DEBUG_PRINT("pixel = " << info.pixel);

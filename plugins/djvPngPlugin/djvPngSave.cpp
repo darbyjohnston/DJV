@@ -297,7 +297,7 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info)
     {
         throw djvError(
             djvPngPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! pngOpen(_f, _png, &_pngInfo, info))

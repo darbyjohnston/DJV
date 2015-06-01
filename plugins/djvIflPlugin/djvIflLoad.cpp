@@ -66,7 +66,7 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvIflPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
     }
 
     for (int i = 0; i < tmp.count(); ++i)

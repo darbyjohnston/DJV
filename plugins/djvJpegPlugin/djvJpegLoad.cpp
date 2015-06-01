@@ -275,7 +275,7 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvJpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! jpegOpen(_f, &_jpeg, &_jpegError))
@@ -296,7 +296,7 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvJpegPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     // Image tags.

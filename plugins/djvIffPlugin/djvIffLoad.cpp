@@ -195,9 +195,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         {
                             throw djvError(
                                 djvIffPlugin::staticName,
-                                djvImageIo::errorLabels()[
-                                    djvImageIo::ERROR_UNSUPPORTED].
-                                arg(fileName));
+                                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                         }
 
                         // NOTE: tile w = xmax - xmin + 1
@@ -210,9 +208,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         {
                             throw djvError(
                                 djvIffPlugin::staticName,
-                                djvImageIo::errorLabels()[
-                                    djvImageIo::ERROR_UNSUPPORTED].
-                                arg(fileName));
+                                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                         }
 
                         bool tile_compress = false;
@@ -287,9 +283,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 {
                                     throw djvError(
                                         djvIffPlugin::staticName,
-                                        djvImageIo::errorLabels()[
-                                            djvImageIo::ERROR_UNSUPPORTED].
-                                        arg(fileName));
+                                        djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                                 }
                             }
                             else
@@ -314,9 +308,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                         {
                                             throw djvError(
                                                 djvIffPlugin::staticName,
-                                                djvImageIo::errorLabels()[
-                                                    djvImageIo::ERROR_READ].
-                                                arg(fileName));
+                                                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                                         }
 
                                         size -= byteCount;
@@ -421,9 +413,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 {
                                     throw djvError(
                                         djvIffPlugin::staticName,
-                                        djvImageIo::errorLabels()[
-                                            djvImageIo::ERROR_UNSUPPORTED].
-                                        arg(fileName));
+                                        djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                                 }
                             }
                             else
@@ -449,9 +439,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                         {
                                             throw djvError(
                                                 djvIffPlugin::staticName,
-                                                djvImageIo::errorLabels()[
-                                                    djvImageIo::ERROR_READ].
-                                                arg(fileName));
+                                                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                                         }
 
                                         size -= byteCount;

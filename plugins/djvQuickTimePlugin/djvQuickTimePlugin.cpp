@@ -49,7 +49,7 @@
 #include <djvDebug.h>
 #include <djvError.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 namespace qt
 {
@@ -230,7 +230,8 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
     {
         throw djvError(
             staticName,
-            qApp->translate("djvQuickTimePlugin", "Cannot initialize (#%1)").arg(err));
+            qApp->translate("djvQuickTimePlugin", "Cannot initialize: %1").
+                arg(err));
     }
 
     _qtmlInit = true;
@@ -247,7 +248,8 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
     {
         throw djvError(
             staticName,
-            qApp->translate("djvQuickTimePlugin", "Incompatible version (#%1)").arg(err));
+            qApp->translate("djvQuickTimePlugin", "Incompatible version: %1").
+                arg(err));
     }
 
     //DJV_DEBUG_PRINT("version = " << version);
@@ -260,7 +262,8 @@ void djvQuickTimePlugin::initPlugin() throw (djvError)
     {
         throw djvError(
             staticName,
-            qApp->translate("djvQuickTimePlugin", "Cannot initialize (#%1)").arg(err));
+            qApp->translate("djvQuickTimePlugin", "Cannot initialize: %1").
+                arg(err));
     }
 
     _enterMoviesInit = true;

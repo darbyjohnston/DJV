@@ -188,9 +188,7 @@ void Header::load(
                         {
                             throw djvError(
                                 djvIffPlugin::staticName,
-                                djvImageIo::errorLabels()[
-                                    djvImageIo::ERROR_READ].
-                                arg(io.fileName()));
+                                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                         }
 
                         // Set data.
@@ -227,9 +225,7 @@ void Header::load(
 
                             throw djvError(
                                 djvIffPlugin::staticName,
-                                djvImageIo::errorLabels()[
-                                    djvImageIo::ERROR_UNSUPPORTED].
-                                arg(io.fileName()));
+                                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                         }
 
                         // Get compressed.

@@ -101,7 +101,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             throw djvError(
                 djvOpenExrPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_READ].arg(fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
 
         djvPixelDataInfo pixelDataInfo = info[frame.layer];
@@ -349,8 +349,7 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
             {
                 throw djvError(
                     djvOpenExrPlugin::staticName,
-                    djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-                    arg(in));
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
             }
             
             //DJV_DEBUG_PRINT("format = " << format);
@@ -362,8 +361,7 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
             {
                 throw djvError(
                     djvOpenExrPlugin::staticName,
-                    djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-                    arg(in));
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
             }
 
             //DJV_DEBUG_PRINT("pixel = " << pixelDataInfo.pixel);

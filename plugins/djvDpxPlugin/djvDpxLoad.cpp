@@ -187,7 +187,8 @@ void djvDpxLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             error      = otherError;
             errorValid = true;
         }
-         if (frame.proxy)
+        
+        if (frame.proxy)
         {
             info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
             info.proxy = frame.proxy;

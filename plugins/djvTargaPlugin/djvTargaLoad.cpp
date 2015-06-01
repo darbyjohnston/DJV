@@ -95,8 +95,7 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             throw djvError(
                 djvTargaPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                arg(fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
 
         data->set(info, io->mmapP(), io.data());
@@ -128,8 +127,7 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             {
                 throw djvError(
                     djvTargaPlugin::staticName,
-                    djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                    arg(fileName));
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
             }
         }
     }

@@ -60,7 +60,7 @@ djvLibquicktimeLoad::~djvLibquicktimeLoad()
 const QStringList & djvLibquicktimeLoad::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvLibquicktimeLoad", "No video tracks in: %1");
+        qApp->translate("djvLibquicktimeLoad", "No video tracks");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -83,21 +83,21 @@ void djvLibquicktimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvLibquicktimePlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! quicktime_has_video(_f))
     {
         throw djvError(
             djvLibquicktimePlugin::staticName,
-            errorLabels()[ERROR_NO_VIDEO_TRACKS].arg(in));
+            errorLabels()[ERROR_NO_VIDEO_TRACKS]);
     }
 
     if (! quicktime_supported_video(_f, 0))
     {
         throw djvError(
             djvLibquicktimePlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     // Get file information.
@@ -132,7 +132,7 @@ void djvLibquicktimeLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
         throw djvError(
             djvLibquicktimePlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     lqt_set_cmodel(_f, 0, cmodel);

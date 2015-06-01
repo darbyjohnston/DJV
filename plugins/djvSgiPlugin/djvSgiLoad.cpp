@@ -108,8 +108,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             {
                 throw djvError(
                     djvSgiPlugin::staticName,
-                    djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                    arg(fileName));
+                    djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
             }
         
             _tmp.set(info);
@@ -147,8 +146,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 {
                     throw djvError(
                         djvSgiPlugin::staticName,
-                        djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                        arg(fileName));
+                        djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                 }
             }
         }

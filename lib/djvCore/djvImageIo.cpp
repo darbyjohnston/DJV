@@ -182,11 +182,11 @@ djvAbstractPrefsWidget * djvImageIo::createWidget()
 const QStringList & djvImageIo::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvImageIo", "Unrecognized file: \"%1\"") <<
-        qApp->translate("djvImageIo", "Unsupported file: \"%1\"") <<
-        qApp->translate("djvImageIo", "Cannot open file: \"%1\"") <<
-        qApp->translate("djvImageIo", "Error reading file: \"%1\"") <<
-        qApp->translate("djvImageIo", "Error writing file: \"%1\"");
+        qApp->translate("djvImageIo", "Unrecognized file") <<
+        qApp->translate("djvImageIo", "Unsupported file") <<
+        qApp->translate("djvImageIo", "Cannot open file") <<
+        qApp->translate("djvImageIo", "Error reading file") <<
+        qApp->translate("djvImageIo", "Error writing file");
     
     DJV_ASSERT(ERROR_COUNT == data.count());
     
@@ -358,7 +358,7 @@ djvImageLoad * djvImageIoFactory::load(
 
     throw djvError(
         "djvImageIoFactory",
-        errorLabels()[ERROR_UNRECOGNIZED].
+        qApp->translate("djvImageIoFactory", "Unrecognized image: %1").
         arg(QDir::toNativeSeparators(fileInfo)));
 
     return 0;
@@ -399,7 +399,7 @@ djvImageSave * djvImageIoFactory::save(
 
     throw djvError(
         "djvImageIoFactory",
-        errorLabels()[ERROR_UNRECOGNIZED].
+        qApp->translate("djvImageIoFactory", "Unrecognized image: %1").
         arg(QDir::toNativeSeparators(fileInfo)));
     
     return 0;

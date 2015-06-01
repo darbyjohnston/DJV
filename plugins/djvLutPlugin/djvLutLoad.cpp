@@ -122,7 +122,7 @@ void djvLutLoad::_open(const djvFileInfo & in, djvImageIoInfo & info, djvFileIo 
     {
         throw djvError(
             djvLutPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
     _format = static_cast<djvLutPlugin::FORMAT>(index);

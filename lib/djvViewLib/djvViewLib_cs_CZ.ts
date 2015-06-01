@@ -2180,22 +2180,26 @@ Shortcut: %1</source>
     </message>
     <message>
         <location filename="djvViewUtil.cpp" line="498"/>
-        <source>Cannot open image: &quot;%1&quot;</source>
+        <source>Cannot open image: %1</source>
+        <oldsource>Cannot open image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewUtil.cpp" line="499"/>
-        <source>Cannot read image: &quot;%1&quot;</source>
+        <source>Cannot read image: %1</source>
+        <oldsource>Cannot read image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewUtil.cpp" line="500"/>
-        <source>Cannot write image: &quot;%1&quot;</source>
+        <source>Cannot write image: %1</source>
+        <oldsource>Cannot write image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvViewUtil.cpp" line="501"/>
-        <source>Cannot open LUT: &quot;%1&quot;</source>
+        <source>Cannot open LUT: %1</source>
+        <oldsource>Cannot open LUT: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

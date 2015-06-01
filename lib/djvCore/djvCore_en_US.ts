@@ -500,32 +500,43 @@ OpenGL Options
     <name>djvImageIo</name>
     <message>
         <location filename="djvImageIo.cpp" line="185"/>
-        <source>Unrecognized file: &quot;%1&quot;</source>
+        <source>Unrecognized file</source>
+        <oldsource>Unrecognized file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="186"/>
-        <source>Unsupported file: &quot;%1&quot;</source>
+        <source>Unsupported file</source>
+        <oldsource>Unsupported file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="187"/>
-        <source>Cannot open file: &quot;%1&quot;</source>
+        <source>Cannot open file</source>
+        <oldsource>Cannot open file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="188"/>
-        <source>Error reading file: &quot;%1&quot;</source>
+        <source>Error reading file</source>
+        <oldsource>Error reading file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvImageIo.cpp" line="189"/>
-        <source>Error writing file: &quot;%1&quot;</source>
+        <source>Error writing file</source>
+        <oldsource>Error writing file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djvImageIoFactory</name>
+    <message>
+        <location filename="djvImageIo.cpp" line="361"/>
+        <location filename="djvImageIo.cpp" line="402"/>
+        <source>Unrecognized image: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="djvImageIo.cpp" line="427"/>
         <source>Unrecognized file: &quot;%1&quot;</source>

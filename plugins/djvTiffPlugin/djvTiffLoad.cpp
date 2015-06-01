@@ -98,8 +98,7 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             throw djvError(
                 djvTiffPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-                arg(fileName));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
 
         if (_palette)
@@ -157,7 +156,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvTiffPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN].arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     // Read the Header.
@@ -205,8 +204,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvTiffPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
@@ -248,8 +246,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     {
         throw djvError(
             djvTiffPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     info.pixel = pixel;

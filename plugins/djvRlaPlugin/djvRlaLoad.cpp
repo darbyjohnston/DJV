@@ -87,8 +87,7 @@ void djvRlaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     {
         throw djvError(
             djvRlaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_READ].
-            arg(fileName));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
     }
 
     djvPixelDataInfo _info = info[frame.layer];
@@ -290,24 +289,21 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvRlaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     if (header.matteChannelType != header.colorChannelType)
     {
         throw djvError(
             djvRlaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     if (header.matteBitDepth != header.colorBitDepth)
     {
         throw djvError(
             djvRlaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     if (! djvPixel::pixel(
@@ -318,16 +314,14 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         throw djvError(
             djvRlaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     if (header.field)
     {
         throw djvError(
             djvRlaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(in));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     info = djvPixelDataInfo(in, size, pixel);

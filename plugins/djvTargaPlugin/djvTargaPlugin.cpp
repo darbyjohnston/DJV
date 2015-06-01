@@ -84,8 +84,11 @@ struct Header
 {
     Header();
 
-    void load(djvFileIo &, djvImageIoInfo &, bool * compression) throw (djvError);
-    void save(djvFileIo &, const djvImageIoInfo &, bool compression) throw (djvError);
+    void load(djvFileIo &, djvImageIoInfo &, bool * compression)
+        throw (djvError);
+
+    void save(djvFileIo &, const djvImageIoInfo &, bool compression)
+        throw (djvError);
 
     void debug() const;
 
@@ -167,8 +170,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
 
              throw djvError(
                 djvTargaPlugin::staticName,
-                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-                arg(io.fileName()));
+                djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     int pixel = -1;
@@ -209,8 +211,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     {
          throw djvError(
             djvTargaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     info.pixel = static_cast<djvPixel::PIXEL>(pixel);
@@ -223,8 +224,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     {
          throw djvError(
             djvTargaPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     *compression =

@@ -156,8 +156,7 @@ void djvLutPlugin::infernoOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE typ
     {
         throw djvError(
             djvLutPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
     djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
@@ -191,8 +190,7 @@ void djvLutPlugin::infernoOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE typ
     {
         throw djvError(
             djvLutPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 }
 
@@ -311,8 +309,7 @@ void djvLutPlugin::kodakOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE type)
     {
         throw djvError(
             djvLutPlugin::staticName,
-            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED].
-            arg(io.fileName()));
+            djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 }
 
