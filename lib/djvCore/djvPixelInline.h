@@ -406,24 +406,21 @@ inline bool djvPixel::pixel(int channels, int bitDepth, DATA data, PIXEL & pixel
 }
 
 // Note that we use a LUT in some cases because bit shifting doesn't seem to
-// preserve maximum values.
-
-#define _PIXEL_U8_MAX  u8Max
-#define _PIXEL_U10_MAX u10Max
-#define _PIXEL_U16_MAX u16Max
+// preserve maximum values?
 
 #define _PIXEL_LUT(IN, OUT, IN_MAX, OUT_MAX) \
     \
-    static OUT##_T lut [_PIXEL_##IN##_MAX + 1]; \
+    static OUT##_T lut [IN_MAX + 1]; \
     \
     static bool init = false; \
     \
-    if (!init) \
+    if (! init) \
     { \
         for (int i = 0; i <= IN_MAX; ++i) \
         { \
             lut[i] = OUT##_T(i / static_cast<float>(IN_MAX) * OUT_MAX); \
         } \
+        \
         init = true; \
     } \
     \

@@ -40,7 +40,6 @@
 #include <djvPixelData.h>
 #include <djvPixelDataUtil.h>
 
-#include <QApplication>
 #include <QPixmap>
 #include <QString>
 
@@ -48,10 +47,6 @@ void djvPixelDataUtilTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvPixelDataUtilTest::run");
 
-    // A QApplication must be created before any QPixmaps are created.
-    
-    QApplication app(argc, argv);
-    
     byteCount();
     proxy();
     interleave();

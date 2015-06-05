@@ -37,14 +37,11 @@
 #include <djvDebug.h>
 #include <djvSystem.h>
 
-#include <QCoreApplication>
 #include <QStringList>
 
 void djvSystemTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvSystemTest::run");
-    
-    QCoreApplication app(argc, argv);
     
     searchPath();
     drives();

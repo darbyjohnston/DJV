@@ -121,7 +121,7 @@ int main(int argc, char ** argv)
         new djvTimerTest <<
         new djvUserTest <<
         new djvVectorTest <<
-        new djvVectorUtilTest;	
+        new djvVectorUtilTest;
     
     //tests = QVector<djvAbstractTest *>() <<
     //    new djvFileInfoTest <<

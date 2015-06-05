@@ -377,52 +377,52 @@ General Options
 <context>
     <name>djvGlxContext</name>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="304"/>
+        <location filename="djvGlxContextPrivate.cpp" line="309"/>
         <source>Cannot open X display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="305"/>
+        <location filename="djvGlxContextPrivate.cpp" line="310"/>
         <source>No appropriate X visuals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="306"/>
+        <location filename="djvGlxContextPrivate.cpp" line="311"/>
         <source>Cannot create X colormap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="307"/>
+        <location filename="djvGlxContextPrivate.cpp" line="312"/>
         <source>No GLX extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="308"/>
+        <location filename="djvGlxContextPrivate.cpp" line="313"/>
         <source>Cannot create an X window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="309"/>
+        <location filename="djvGlxContextPrivate.cpp" line="314"/>
         <source>Cannot create OpenGL context</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="310"/>
+        <location filename="djvGlxContextPrivate.cpp" line="315"/>
         <source>Cannot initialize GLEW: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="311"/>
+        <location filename="djvGlxContextPrivate.cpp" line="316"/>
         <source>No OpenGL FBO support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="312"/>
+        <location filename="djvGlxContextPrivate.cpp" line="317"/>
         <source>Invalid OpenGL context</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="313"/>
+        <location filename="djvGlxContextPrivate.cpp" line="318"/>
         <source>Cannot bind OpenGL context</source>
         <translation type="unfinished"></translation>
     </message>

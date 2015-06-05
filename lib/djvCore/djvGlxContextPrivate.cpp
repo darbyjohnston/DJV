@@ -33,6 +33,7 @@
 
 #include <djvGlxContextPrivate.h>
 
+#include <djvCoreContext.h>
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 
@@ -87,7 +88,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
 
     // Open the X display.
     
-    DJV_LOG("djvGlxContext", "Opening the X display...");
+    DJV_LOG(context->debugLog(), "djvGlxContext", "Opening the X display...");
 
     _p->display = XOpenDisplay(NULL);
 
@@ -100,7 +101,8 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
     
     _p->screen = DefaultScreen(_p->display);
 
-    DJV_LOG("djvGlxContext", QString("X screen: %1").arg(_p->screen));
+    DJV_LOG(context->debugLog(), "djvGlxContext",
+        QString("X screen: %1").arg(_p->screen));
 
     // Choose a visual.
 
@@ -116,7 +118,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
     
     for (int i = 0; i < depthsCount; ++i)
     {
-        DJV_LOG("djvGlxContext",
+        DJV_LOG(context->debugLog(), "djvGlxContext",
             QString("Checking for a X visual with a depth of %1...").
             arg(depths[i]));
 
@@ -143,7 +145,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
 
     // Create the color map.
 	
-	DJV_LOG("djvGlxContext", "Creating the color map...");
+	DJV_LOG(context->debugLog(), "djvGlxContext", "Creating the color map...");
 
     _p->colormap = XCreateColormap(
         _p->display,
@@ -160,7 +162,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
 
     // Check for GLX support.
 
-	DJV_LOG("djvGlxContext", "Checking for GLX...");
+	DJV_LOG(context->debugLog(), "djvGlxContext", "Checking for GLX...");
 	
     if (! glXQueryExtension(_p->display, 0, 0))
     {
@@ -171,7 +173,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
 
     // Create a dummy window and OpenGL context for glewInit.
 
-	DJV_LOG("djvGlxContext", "Creating dummy window...");
+	DJV_LOG(context->debugLog(), "djvGlxContext", "Creating dummy window...");
 
     XSetWindowAttributes winAttrib;
     winAttrib.colormap     = _p->colormap;
@@ -196,7 +198,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
 
     // Create the OpenGL context.
 
-	DJV_LOG("djvGlxContext", "Creating OpenGL context...");
+	DJV_LOG(context->debugLog(), "djvGlxContext", "Creating OpenGL context...");
 
     _p->context = glXCreateContext(
         _p->display,
@@ -217,7 +219,7 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
 
     // Initialize GLEW.
 	
-    DJV_LOG("djvGlxContext", "Initializing GLEW...");
+    DJV_LOG(context->debugLog(), "djvGlxContext", "Initializing GLEW...");
 
     GLint glError = glewInit();
 
@@ -242,9 +244,12 @@ djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
 
-    DJV_LOG("djvGlxContext", QString("GL vendor: \"%1\"").arg(vendor()));
-    DJV_LOG("djvGlxContext", QString("GL renderer: \"%1\"").arg(renderer()));
-    DJV_LOG("djvGlxContext", QString("GL version: \"%1\"").arg(version()));
+    DJV_LOG(context->debugLog(), "djvGlxContext",
+        QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG(context->debugLog(), "djvGlxContext",
+        QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG(context->debugLog(), "djvGlxContext",
+        QString("GL version: \"%1\"").arg(version()));
 
     if (! GL_EXT_framebuffer_object)
     {

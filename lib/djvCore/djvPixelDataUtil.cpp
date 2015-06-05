@@ -83,6 +83,8 @@ void djvPixelDataUtil::proxyScale(
     if (! fast)
     {
         tmp.setSize(w * proxyScale * djvPixel::byteCount(in.pixel()));
+        
+        //DJV_DEBUG_PRINT("tmp size = " << tmp.size());
     }
 
     for (int y = 0; y < h; ++y)
@@ -136,6 +138,8 @@ void djvPixelDataUtil::proxyScale(
                 
                 inP = tmp();
             }
+            
+            //DJV_DEBUG_PRINT("convert");
 
             djvPixel::convert(
                 inP,
