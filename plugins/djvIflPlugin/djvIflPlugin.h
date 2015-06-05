@@ -34,25 +34,9 @@
 #ifndef DJV_IFL_PLUGIN_H
 #define DJV_IFL_PLUGIN_H
 
+#include <djvIfl.h>
+
 #include <djvImageIo.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvIflPlugin djvIflPlugin
-//!
-//! This plugin provides support for the Autodesk Image File List (IFL) format.
-//! IFL is a file format for creating sequences or playlists of other image
-//! files. An IFL file simply consists of a list of image file names, one per
-//! line.
-//!
-//! File extensions: .ifl
-//!
-//! Supported features:
-//!
-//! - Read only
-
-//@} // plugins
 
 //! \addtogroup djvIflPlugin
 //@{
@@ -67,9 +51,9 @@ class djvIflPlugin : public djvImageIo
 {
 public:
 
-    //! Plugin name.
+    //! Constructor.
     
-    static const QString staticName;
+    explicit djvIflPlugin(djvCoreContext *);
     
     virtual djvPlugin * copyPlugin() const;
 

@@ -54,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvPicLoad();
+    explicit djvPicLoad(djvImageContext *);
 
     //! Destructor.
 

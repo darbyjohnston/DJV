@@ -37,11 +37,16 @@
 #include <djvFileIoUtil.h>
 #include <djvFileInfoUtil.h>
 #include <djvImage.h>
+#include <djvImageContext.h>
 #include <djvPixel.h>
 
 //------------------------------------------------------------------------------
 // djvIflLoad
 //------------------------------------------------------------------------------
+
+djvIflLoad::djvIflLoad(djvImageContext * context) :
+    djvImageLoad(context)
+{}
 
 djvIflLoad::~djvIflLoad()
 {}
@@ -65,7 +70,7 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     catch (const djvError &)
     {
         throw djvError(
-            djvIflPlugin::staticName,
+            djvIfl::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
     }
 
@@ -97,7 +102,7 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 
     //DJV_DEBUG_PRINT("list = " << _list);
 
-    QScopedPointer<djvImageLoad> plugin(djvImageIoFactory::global()->load(
+    QScopedPointer<djvImageLoad> plugin(context()->imageIoFactory()->load(
         _list.count() ? _list[0] : QString(), info));
 
     info.sequence.frames.resize(_list.count());
@@ -138,7 +143,7 @@ void djvIflLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     djvImageIoInfo info;
 
     QScopedPointer<djvImageLoad> load(
-        djvImageIoFactory::global()->load(fileName, info));
+        context()->imageIoFactory()->load(fileName, info));
 
     load->read(image, djvImageIoFrameInfo(-1, frame.layer, frame.proxy));
 }

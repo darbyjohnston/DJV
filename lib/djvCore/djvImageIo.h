@@ -148,6 +148,10 @@ class DJV_CORE_EXPORT djvImageLoad
 {
 public:
 
+    //! Constructor.
+    
+    explicit djvImageLoad(djvImageContext *);
+    
     //! Destructor.
     
     virtual ~djvImageLoad() = 0;
@@ -169,6 +173,14 @@ public:
     //! Close the image.
   
     virtual void close() throw (djvError);
+    
+    //! Get the context.
+    
+    djvImageContext * context() const;
+
+private:
+
+    djvImageContext * _context;
 };
 
 //------------------------------------------------------------------------------
@@ -181,6 +193,10 @@ class DJV_CORE_EXPORT djvImageSave
 {
 public:
 
+    //! Constructor.
+    
+    explicit djvImageSave(djvImageContext *);
+    
     //! Destructor.
 
     virtual ~djvImageSave() = 0;
@@ -202,6 +218,14 @@ public:
     //! Close the image.
 
     virtual void close() throw (djvError);
+    
+    //! Get the context.
+    
+    djvImageContext * context() const;
+
+private:
+
+    djvImageContext * _context;
 };
 
 //------------------------------------------------------------------------------

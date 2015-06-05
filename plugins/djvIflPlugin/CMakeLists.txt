@@ -1,8 +1,10 @@
 set(header
+    djvIfl.h
     djvIflLoad.h
     djvIflPlugin.h)
 
 set(source
+    djvIfl.cpp
     djvIflLoad.cpp
     djvIflPlugin.cpp)
 

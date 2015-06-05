@@ -42,7 +42,8 @@
 // djvLutLoad
 //------------------------------------------------------------------------------
 
-djvLutLoad::djvLutLoad(const djvLut::Options & options) :
+djvLutLoad::djvLutLoad(const djvLut::Options & options, djvImageContext * context) :
+    djvImageLoad(context),
     _options(options)
 {}
 

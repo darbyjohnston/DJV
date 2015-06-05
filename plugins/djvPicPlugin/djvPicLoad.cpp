@@ -41,7 +41,8 @@
 // djvPicLoad
 //------------------------------------------------------------------------------
 
-djvPicLoad::djvPicLoad() :
+djvPicLoad::djvPicLoad(djvImageContext * context) :
+    djvImageLoad(context),
     _type(static_cast<djvPic::TYPE>(0))
 {
     _compression[0] = false;

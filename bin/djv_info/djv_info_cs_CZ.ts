@@ -4,72 +4,157 @@
 <context>
     <name>djvInfoApplication</name>
     <message>
-        <location filename="djv_info.cpp" line="192"/>
-        <source>-x_info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="193"/>
-        <source>-xi</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="198"/>
-        <source>-verbose</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="199"/>
-        <source>-v</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="204"/>
-        <source>-file_path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="205"/>
-        <source>-fp</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="210"/>
-        <source>-seq</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="211"/>
-        <source>-q</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="216"/>
-        <source>-recurse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="217"/>
-        <source>-r</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="222"/>
-        <source>-columns</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="223"/>
-        <source>-c</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="245"/>
+        <location filename="djvInfoApplication.cpp" line="200"/>
         <source>Cannot open image: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djv_info.cpp" line="254"/>
+        <location filename="djvInfoApplication.cpp" line="220"/>
+        <source>%1x%2:%3 %4 %5@%6</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="231"/>
+        <location filename="djvInfoApplication.cpp" line="245"/>
+        <location filename="djvInfoApplication.cpp" line="265"/>
+        <source>%1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="239"/>
+        <source>%1@%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="253"/>
+        <source>    %1. %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="258"/>
+        <source>%1x%2:%3 %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="279"/>
+        <source>Layer = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="281"/>
+        <source>  Width = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="283"/>
+        <source>  Height = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="285"/>
+        <source>  Aspect = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="287"/>
+        <source>  Pixel = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="291"/>
+        <source>Start = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="296"/>
+        <source>End = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="301"/>
+        <source>Duration = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="306"/>
+        <source>Speed = %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="313"/>
+        <source>Tag %1 = %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoApplication.cpp" line="346"/>
+        <source>%1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvInfoContext</name>
+    <message>
+        <location filename="djvInfoContext.cpp" line="119"/>
+        <source>-x_info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="120"/>
+        <source>-xi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="125"/>
+        <source>-verbose</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="126"/>
+        <source>-v</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="131"/>
+        <source>-file_path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="132"/>
+        <source>-fp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="137"/>
+        <source>-seq</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="138"/>
+        <source>-q</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="143"/>
+        <source>-recurse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="144"/>
+        <source>-r</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="149"/>
+        <source>-columns</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="150"/>
+        <source>-c</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoContext.cpp" line="173"/>
         <source>djv_info
 
     This application provides a command line tool for displaying information about images and movies.
@@ -124,88 +209,6 @@ Examples
     Display information about all images within a directory:
     &gt; djv_info ~/pics
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="358"/>
-        <source>%1x%2:%3 %4 %5@%6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="368"/>
-        <location filename="djv_info.cpp" line="382"/>
-        <location filename="djv_info.cpp" line="400"/>
-        <source>%1 %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="376"/>
-        <source>%1@%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="390"/>
-        <source>    %1. %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="394"/>
-        <source>%1x%2:%3 %4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="414"/>
-        <source>Layer = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="416"/>
-        <source>  Width = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="418"/>
-        <source>  Height = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="420"/>
-        <source>  Aspect = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="422"/>
-        <source>  Pixel = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="426"/>
-        <source>Start = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="431"/>
-        <source>End = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="436"/>
-        <source>Duration = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="441"/>
-        <source>Speed = %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="448"/>
-        <source>Tag %1 = %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djv_info.cpp" line="481"/>
-        <source>%1:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

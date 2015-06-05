@@ -106,21 +106,39 @@ djvImageIoFrameInfo::djvImageIoFrameInfo(
 // djvImageLoad
 //------------------------------------------------------------------------------
 
+djvImageLoad::djvImageLoad(djvImageContext * context) :
+    _context(context)
+{}
+
 djvImageLoad::~djvImageLoad()
 {}
 
 void djvImageLoad::close() throw (djvError)
 {}
 
+djvImageContext * djvImageLoad::context() const
+{
+    return _context;
+}
+
 //------------------------------------------------------------------------------
 // djvImageSave
 //------------------------------------------------------------------------------
+
+djvImageSave::djvImageSave(djvImageContext * context) :
+    _context(context)
+{}
 
 djvImageSave::~djvImageSave()
 {}
 
 void djvImageSave::close() throw (djvError)
 {}
+
+djvImageContext * djvImageSave::context() const
+{
+    return _context;
+}
 
 //------------------------------------------------------------------------------
 // djvImageIo

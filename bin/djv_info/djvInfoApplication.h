@@ -29,58 +29,66 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.h
+//! \file djvInfoApplication.h
 
-#ifndef DJV_PPM_PLUGIN_H
-#define DJV_PPM_PLUGIN_H
+#ifndef DJV_INFO_APPLICATION_H
+#define DJV_INFO_APPLICATION_H
 
-#include <djvPpm.h>
+#include <djvError.h>
+#include <djvFileInfo.h>
 
-#include <djvImageIo.h>
+#include <QCoreApplication>
 
-//! \addtogroup djvPpmPlugin
+class djvInfoContext;
+
+//! \addtogroup bin
+//@{
+
+//! \defgroup djv_info djv_info
+//!
+//! This program provides a command line tool for displaying information about
+//! images and movies.
+
+//@} // bin
+
+//! \addtogroup djv_info
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvPpmPlugin
+//! \class djvInfoApplication
 //!
-//! This class provides a PPM plugin.
+//! This class provides the application.
 //------------------------------------------------------------------------------
 
-class djvPpmPlugin : public djvImageIo
+class djvInfoApplication : public QCoreApplication
 {
+    Q_OBJECT
+    
 public:
-    
+
     //! Constructor.
+
+    djvInfoApplication(int, char **);
+
+    //! Destructor.
     
-    explicit djvPpmPlugin(djvCoreContext *);
+    virtual ~djvInfoApplication();
 
-    virtual djvPlugin * copyPlugin() const;
+private Q_SLOTS:
 
-    virtual QString pluginName() const;
-
-    virtual QStringList extensions() const;
-
-    virtual QStringList option(const QString &) const;
-
-    virtual bool setOption(const QString &, QStringList &);
-
-    virtual QStringList options() const;
-
-    virtual void commandLine(QStringList &) throw (QString);
-
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    
-    virtual djvImageSave * createSave() const;
+    void commandLineExit();
+    void work();
 
 private:
 
-    djvPpm::Options _options;
+    void printItem(const djvFileInfo &, bool path = false, bool info = true)
+        throw (djvError);
+
+    void printDirectory(const djvFileInfo &, bool label);
+
+    djvInfoContext * _context;
 };
 
-//@} // djvPpmPlugin
+//@} // djv_info
 
-#endif // DJV_PPM_PLUGIN_H
-
+#endif // DJV_INFO_APPLICATION_H

@@ -76,6 +76,6 @@ QStringList djvPicPlugin::extensions() const
     
 djvImageLoad * djvPicPlugin::createLoad() const
 {
-    return new djvPicLoad;
+    return new djvPicLoad(imageContext());
 }
 

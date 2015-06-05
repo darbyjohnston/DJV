@@ -104,8 +104,8 @@ configure_file(
 
 # Enable debug or release mode.
 
-set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release) 
+#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release) 
 
 # Enable shared libraries.
 
@@ -186,7 +186,7 @@ endif (APPLE)
 #set(djvImageIoPlugins ${djvImageIoPlugins} djvCineonPlugin)
 #set(djvImageIoPlugins ${djvImageIoPlugins} djvDpxPlugin)
 #set(djvImageIoPlugins ${djvImageIoPlugins} djvIffPlugin)
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvIflPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvIflPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvLutPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvPicPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvPpmPlugin)

@@ -41,6 +41,10 @@
 // djvPpmLoad
 //------------------------------------------------------------------------------
 
+djvPpmLoad::djvPpmLoad(djvImageContext * context) :
+    djvImageLoad(context)
+{}
+
 djvPpmLoad::~djvPpmLoad()
 {}
 

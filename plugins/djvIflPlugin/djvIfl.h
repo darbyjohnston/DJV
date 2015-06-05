@@ -29,58 +29,48 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.h
+//! \file djvIfl.h
 
-#ifndef DJV_PPM_PLUGIN_H
-#define DJV_PPM_PLUGIN_H
+#ifndef DJV_IFL_H
+#define DJV_IFL_H
 
-#include <djvPpm.h>
+#include <QString>
 
-#include <djvImageIo.h>
+//! \addtogroup plugins
+//@{
 
-//! \addtogroup djvPpmPlugin
+//! \defgroup djvIflPlugin djvIflPlugin
+//!
+//! This plugin provides support for the Autodesk Image File List (IFL) format.
+//! IFL is a file format for creating sequences or playlists of other image
+//! files. An IFL file simply consists of a list of image file names, one per
+//! line.
+//!
+//! File extensions: .ifl
+//!
+//! Supported features:
+//!
+//! - Read only
+
+//@} // plugins
+
+//! \addtogroup djvIflPlugin
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvPpmPlugin
+//! \struct djvIfl
 //!
-//! This class provides a PPM plugin.
+//! This struct provides IFL utilities.
 //------------------------------------------------------------------------------
 
-class djvPpmPlugin : public djvImageIo
+struct djvIfl
 {
-public:
+    //! Plugin name.
     
-    //! Constructor.
-    
-    explicit djvPpmPlugin(djvCoreContext *);
-
-    virtual djvPlugin * copyPlugin() const;
-
-    virtual QString pluginName() const;
-
-    virtual QStringList extensions() const;
-
-    virtual QStringList option(const QString &) const;
-
-    virtual bool setOption(const QString &, QStringList &);
-
-    virtual QStringList options() const;
-
-    virtual void commandLine(QStringList &) throw (QString);
-
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    
-    virtual djvImageSave * createSave() const;
-
-private:
-
-    djvPpm::Options _options;
+    static const QString staticName;
 };
 
-//@} // djvPpmPlugin
+//@} // djvIflPlugin
 
-#endif // DJV_PPM_PLUGIN_H
+#endif // DJV_IFL_PLUGIN_H
 

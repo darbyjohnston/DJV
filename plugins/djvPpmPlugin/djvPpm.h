@@ -61,15 +61,13 @@
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvPpm
+//! \struct djvPpm
 //!
-//! This class provides PPM utilities.
+//! This struct provides PPM utilities.
 //------------------------------------------------------------------------------
 
-class djvPpm
+struct djvPpm
 {
-public:
-
     //! Plugin name.
     
     static const QString staticName;

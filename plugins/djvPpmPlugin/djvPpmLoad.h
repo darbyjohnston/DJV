@@ -52,6 +52,10 @@ class djvPpmLoad : public djvImageLoad
 {
 public:
 
+    //! Constructor.
+    
+    explicit djvPpmLoad(djvImageContext *);
+    
     //! Destructor.
     
     virtual ~djvPpmLoad();

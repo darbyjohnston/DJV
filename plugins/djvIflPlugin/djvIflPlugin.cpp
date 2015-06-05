@@ -38,9 +38,9 @@
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvIflPlugin;
+    return new djvIflPlugin(context);
 }
 
 } // extern "C"
@@ -49,16 +49,18 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 // djvIflPlugin
 //------------------------------------------------------------------------------
 
-const QString djvIflPlugin::staticName = "IFL";
+djvIflPlugin::djvIflPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvIflPlugin::copyPlugin() const
 {
-    return new djvIflPlugin;
+    return new djvIflPlugin(context());
 }
 
 QString djvIflPlugin::pluginName() const
 {
-    return staticName;
+    return djvIfl::staticName;
 }
 
 QStringList djvIflPlugin::extensions() const
@@ -73,5 +75,5 @@ bool djvIflPlugin::isSequence() const
 
 djvImageLoad * djvIflPlugin::createLoad() const
 {
-    return new djvIflLoad;
+    return new djvIflLoad(imageContext());
 }

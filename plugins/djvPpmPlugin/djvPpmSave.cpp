@@ -41,7 +41,8 @@
 // djvPpmSave
 //------------------------------------------------------------------------------
 
-djvPpmSave::djvPpmSave(const djvPpm::Options & options) :
+djvPpmSave::djvPpmSave(const djvPpm::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options (options),
     _bitDepth(0)
 {}

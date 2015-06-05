@@ -55,7 +55,7 @@ public:
 
     //! Constructor.
     
-    djvLutSave(const djvLut::Options &);
+    djvLutSave(const djvLut::Options &, djvImageContext *);
     
     //! Destructor.
     

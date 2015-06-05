@@ -29,36 +29,37 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djv_info.h
+//! \file djvLsApplication.h
 
-#ifndef DJV_INFO_H
-#define DJV_INFO_H
+#ifndef DJV_LS_APPLICATION_H
+#define DJV_LS_APPLICATION_H
 
 #include <djvFileInfo.h>
-#include <djvImageApplication.h>
 
-#include <QStringList>
+#include <QCoreApplication>
+
+class djvLsContext;
 
 //! \addtogroup bin
 //@{
 
-//! \defgroup djv_info djv_info
+//! \defgroup djv_ls djv_ls
 //!
-//! This program provides a command line tool for displaying information about
-//! images and movies.
+//! This program provides a command line tool for listing directories with file
+//! sequences.
 
 //@} // bin
 
-//! \addtogroup djv_info
+//! \addtogroup djv_ls
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvInfoApplication
+//! \class djvLsApplication
 //!
 //! This class provides the application.
 //------------------------------------------------------------------------------
 
-class djvInfoApplication : public djvImageApplication
+class djvLsApplication : public QCoreApplication
 {
     Q_OBJECT
     
@@ -66,47 +67,29 @@ public:
 
     //! Constructor.
 
-    djvInfoApplication(int, char **) throw (djvError);
+    djvLsApplication(int &, char **);
 
-    //! Parse the command line.
-    
-    void commandLine(QStringList &) throw (QString);
-    
-    //! This enumeration provides error codes.
-    
-    enum ERROR
-    {
-        ERROR_OPEN,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    
-    static const QStringList & errorLabels();
+    //! Destructor.
 
-    virtual QString commandLineHelp() const;
+    virtual ~djvLsApplication();
 
 private Q_SLOTS:
 
-    void debugLogCallback(const QString &);
+    void commandLineExit();
+    void work();
 
 private:
 
-    void printItem(const djvFileInfo &, bool path = false, bool info = true)
-        throw (djvError);
+    void process(djvFileInfoList &);
 
-    void printDirectory(const djvFileInfo &, bool label);
+    void printItem(const djvFileInfo &, bool path = false, bool info = true);
 
-    QStringList           _input;
-    bool                  _info;
-    bool                  _verbose;
-    bool                  _filePath;
-    djvSequence::COMPRESS _sequence;
-    bool                  _recurse;
-    int                   _columns;
+    bool printDirectory(const djvFileInfo &, bool label);
+
+    djvLsContext * _context;
 };
 
-//@} // djv_info
+//@} // djv_ls
 
-#endif // DJV_INFO_H
+#endif // DJV_LS_APPLICATION_H
+

@@ -34,7 +34,9 @@
 #ifndef DJV_IFL_LOAD_H
 #define DJV_IFL_LOAD_H
 
-#include <djvIflPlugin.h>
+#include <djvIfl.h>
+
+#include <djvImageIo.h>
 
 //! \addtogroup djvIflPlugin
 //@{
@@ -48,6 +50,10 @@
 class djvIflLoad : public djvImageLoad
 {
 public:
+
+    //! Constructor.
+    
+    explicit djvIflLoad(djvImageContext *);
 
     //! Destructor.
     

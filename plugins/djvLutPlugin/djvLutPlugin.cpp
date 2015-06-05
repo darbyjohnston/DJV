@@ -164,10 +164,10 @@ QStringList djvLutPlugin::options() const
 
 djvImageLoad * djvLutPlugin::createLoad() const
 {
-    return new djvLutLoad(_options);
+    return new djvLutLoad(_options, imageContext());
 }
 
 djvImageSave * djvLutPlugin::createSave() const
 {
-    return new djvLutSave(_options);
+    return new djvLutSave(_options, imageContext());
 }

@@ -62,15 +62,13 @@ class djvFileIo;
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvLut
+//! \struct djvLut
 //!
-//! This class provides LUT utilities.
+//! This struct provides LUT utilities.
 //------------------------------------------------------------------------------
 
-class djvLut
+struct djvLut
 {
-public:
-
     //! Plugin name.
 
     static const QString staticName;

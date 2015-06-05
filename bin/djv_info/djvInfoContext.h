@@ -29,58 +29,82 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.h
+//! \file djvInfoContext.h
 
-#ifndef DJV_PPM_PLUGIN_H
-#define DJV_PPM_PLUGIN_H
+#ifndef DJV_INFO_CONTEXT_H
+#define DJV_INFO_CONTEXT_H
 
-#include <djvPpm.h>
+#include <djvImageContext.h>
+#include <djvSequence.h>
 
-#include <djvImageIo.h>
-
-//! \addtogroup djvPpmPlugin
+//! \addtogroup djv_info
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvPpmPlugin
+//! \class djvInfoContext
 //!
-//! This class provides a PPM plugin.
+//! This class provides global functionality for the application.
 //------------------------------------------------------------------------------
 
-class djvPpmPlugin : public djvImageIo
+class djvInfoContext : public djvImageContext
 {
+    Q_OBJECT
+
 public:
-    
+
     //! Constructor.
+
+    explicit djvInfoContext(QObject * parent = 0);
+
+    //! Denstructor.
+
+    virtual ~djvInfoContext();
+
+    //! Get the list of inputs.
     
-    explicit djvPpmPlugin(djvCoreContext *);
+    const QStringList & input() const;
+    
+    //! Get whether to show image information.
+    
+    bool hasInfo() const;
+    
+    //! Get whether to show verbose information.
+    
+    bool hasVerbose() const;
+    
+    //! Get whether to show file paths.
+    
+    bool hasFilePath() const;
+    
+    //! Get the file sequencing.
+    
+    djvSequence::COMPRESS sequence() const;
+    
+    // Get whether to descend into sub-directories.
+    
+    bool hasRecurse() const;
 
-    virtual djvPlugin * copyPlugin() const;
+    //! Get the number of columns for formatting the output.
+    
+    int columns() const;
 
-    virtual QString pluginName() const;
+protected:
 
-    virtual QStringList extensions() const;
-
-    virtual QStringList option(const QString &) const;
-
-    virtual bool setOption(const QString &, QStringList &);
-
-    virtual QStringList options() const;
-
-    virtual void commandLine(QStringList &) throw (QString);
+    virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    
-    virtual djvImageSave * createSave() const;
 
 private:
 
-    djvPpm::Options _options;
+    QStringList           _input;
+    bool                  _info;
+    bool                  _verbose;
+    bool                  _filePath;
+    djvSequence::COMPRESS _sequence;
+    bool                  _recurse;
+    int                   _columns;
 };
 
-//@} // djvPpmPlugin
+//@} // djv_info
 
-#endif // DJV_PPM_PLUGIN_H
-
+#endif // DJV_INFO_CONTEXT_H

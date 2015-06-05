@@ -51,6 +51,8 @@ class djvLutPlugin : public djvImageIo
 {
 public:
 
+    //! Constructor.
+    
     explicit djvLutPlugin(djvCoreContext *);
 
     virtual djvPlugin * copyPlugin() const;

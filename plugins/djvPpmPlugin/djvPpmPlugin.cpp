@@ -197,10 +197,10 @@ QString djvPpmPlugin::commandLineHelp() const
 
 djvImageLoad * djvPpmPlugin::createLoad() const
 {
-    return new djvPpmLoad;
+    return new djvPpmLoad(imageContext());
 }
 
 djvImageSave * djvPpmPlugin::createSave() const
 {
-    return new djvPpmSave(_options);
+    return new djvPpmSave(_options, imageContext());
 }

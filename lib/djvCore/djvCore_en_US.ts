@@ -471,31 +471,31 @@ OpenGL Options
 <context>
     <name>djvImageIo</name>
     <message>
-        <location filename="djvImageIo.cpp" line="187"/>
+        <location filename="djvImageIo.cpp" line="205"/>
         <source>Unrecognized file</source>
         <oldsource>Unrecognized file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="188"/>
+        <location filename="djvImageIo.cpp" line="206"/>
         <source>Unsupported file</source>
         <oldsource>Unsupported file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="189"/>
+        <location filename="djvImageIo.cpp" line="207"/>
         <source>Cannot open file</source>
         <oldsource>Cannot open file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="190"/>
+        <location filename="djvImageIo.cpp" line="208"/>
         <source>Error reading file</source>
         <oldsource>Error reading file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="191"/>
+        <location filename="djvImageIo.cpp" line="209"/>
         <source>Error writing file</source>
         <oldsource>Error writing file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
@@ -504,13 +504,13 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="364"/>
-        <location filename="djvImageIo.cpp" line="405"/>
+        <location filename="djvImageIo.cpp" line="382"/>
+        <location filename="djvImageIo.cpp" line="423"/>
         <source>Unrecognized image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="414"/>
+        <location filename="djvImageIo.cpp" line="432"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>

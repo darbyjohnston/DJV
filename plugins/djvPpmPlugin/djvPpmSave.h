@@ -55,7 +55,7 @@ public:
 
     //! Constructor.
 
-    djvPpmSave(const djvPpm::Options &);
+    djvPpmSave(const djvPpm::Options &, djvImageContext *);
 
     //! Destructor.
 

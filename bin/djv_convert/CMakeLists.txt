@@ -1,11 +1,15 @@
 set(header
-    djv_convert.h)
+    djvConvertApplication.h
+    djvConvertContext.h)
 
 set(mocHeader
-    djv_convert.h)
+    djvConvertApplication.h
+    djvConvertContext.h)
 
 set(source
-    djv_convert.cpp)
+    djvConvertApplication.cpp
+    djvConvertContext.cpp
+    djvConvertMain.cpp)
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})
@@ -46,7 +50,6 @@ endif (djvImageIoPlugins)
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djv_convert
     RUNTIME DESTINATION bin)

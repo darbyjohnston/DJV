@@ -29,58 +29,84 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.h
+//! \file djvConvertApplication.h
 
-#ifndef DJV_PPM_PLUGIN_H
-#define DJV_PPM_PLUGIN_H
+#ifndef DJV_CONVERT_APPLICATION_H
+#define DJV_CONVERT_APPLICATION_H
 
-#include <djvPpm.h>
+#include <djvOpenGlImage.h>
+#include <djvOpenGlOffscreenBuffer.h>
 
-#include <djvImageIo.h>
+#include <QCoreApplication>
 
-//! \addtogroup djvPpmPlugin
+class djvConvertContext;
+
+class djvSequence;
+
+//! \addtogroup bin
+//@{
+
+//! \defgroup djv_convert djv_convert
+//!
+//! This program provides a command line tool for image and movie conversion.
+
+//@} // bin
+
+//! \addtogroup djv_convert
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvPpmPlugin
+//! \class djvConvertApplication
 //!
-//! This class provides a PPM plugin.
+//! The class provides the application.
 //------------------------------------------------------------------------------
 
-class djvPpmPlugin : public djvImageIo
+class djvConvertApplication : public QCoreApplication
 {
+    Q_OBJECT
+    
 public:
-    
+
     //! Constructor.
+
+    djvConvertApplication(int &, char **);
     
-    explicit djvPpmPlugin(djvCoreContext *);
-
-    virtual djvPlugin * copyPlugin() const;
-
-    virtual QString pluginName() const;
-
-    virtual QStringList extensions() const;
-
-    virtual QStringList option(const QString &) const;
-
-    virtual bool setOption(const QString &, QStringList &);
-
-    virtual QStringList options() const;
-
-    virtual void commandLine(QStringList &) throw (QString);
-
-    virtual QString commandLineHelp() const;
+    //! Destructor.
     
-    virtual djvImageLoad * createLoad() const;
+    virtual ~djvConvertApplication();
+
+    //! This enumeration provides error codes.
     
-    virtual djvImageSave * createSave() const;
+    enum ERROR
+    {
+        ERROR_OPEN_INPUT,
+        ERROR_OPEN_OUTPUT,
+        ERROR_OPEN_SLATE,
+        ERROR_READ_INPUT,
+        ERROR_WRITE_OUTPUT,
+        
+        ERROR_COUNT
+    };
+    
+    //! Get the error code labels.
+    
+    static const QStringList & errorLabels();
+
+private Q_SLOTS:
+
+    void commandLineExit();
+    void work();
 
 private:
 
-    djvPpm::Options _options;
+    QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
+
+    QScopedPointer<djvOpenGlOffscreenBuffer> _offscreenBuffer;
+    djvOpenGlImageState                      _state;
+    djvConvertContext *                      _context;
 };
 
-//@} // djvPpmPlugin
+//@} // djv_convert
 
-#endif // DJV_PPM_PLUGIN_H
+#endif // DJV_CONVERT_APPLICATION_H
 

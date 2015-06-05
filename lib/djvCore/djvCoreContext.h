@@ -88,7 +88,7 @@ public:
     
     //! Print a string.
     
-    virtual void print(const QString &);
+    virtual void print(const QString &, bool newLine = true, int indent = 0);
 
     //! Print a separator.
     
@@ -116,7 +116,7 @@ protected:
 
     virtual QString commandLineHelp() const;
     
-    void consolePrint(const QString &, bool newline = true, int indent = 0);
+    void consolePrint(const QString &, bool newLine = true, int indent = 0);
 
 private Q_SLOTS:
 

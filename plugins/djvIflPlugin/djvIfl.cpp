@@ -29,58 +29,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.h
+//! \file djvIfl.cpp
 
-#ifndef DJV_PPM_PLUGIN_H
-#define DJV_PPM_PLUGIN_H
-
-#include <djvPpm.h>
-
-#include <djvImageIo.h>
-
-//! \addtogroup djvPpmPlugin
-//@{
+#include <djvIfl.h>
 
 //------------------------------------------------------------------------------
-//! \class djvPpmPlugin
-//!
-//! This class provides a PPM plugin.
+// djvIfl
 //------------------------------------------------------------------------------
 
-class djvPpmPlugin : public djvImageIo
-{
-public:
-    
-    //! Constructor.
-    
-    explicit djvPpmPlugin(djvCoreContext *);
-
-    virtual djvPlugin * copyPlugin() const;
-
-    virtual QString pluginName() const;
-
-    virtual QStringList extensions() const;
-
-    virtual QStringList option(const QString &) const;
-
-    virtual bool setOption(const QString &, QStringList &);
-
-    virtual QStringList options() const;
-
-    virtual void commandLine(QStringList &) throw (QString);
-
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    
-    virtual djvImageSave * createSave() const;
-
-private:
-
-    djvPpm::Options _options;
-};
-
-//@} // djvPpmPlugin
-
-#endif // DJV_PPM_PLUGIN_H
-
+const QString djvIfl::staticName = "IFL";

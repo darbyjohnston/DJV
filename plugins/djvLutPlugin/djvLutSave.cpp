@@ -41,7 +41,8 @@
 // djvLutSave
 //------------------------------------------------------------------------------
 
-djvLutSave::djvLutSave(const djvLut::Options & options) :
+djvLutSave::djvLutSave(const djvLut::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options)
 {}
 

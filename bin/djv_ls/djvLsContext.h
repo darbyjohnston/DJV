@@ -29,26 +29,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djv_ls.h
+//! \file djvLsContext.h
 
-#ifndef DJV_LS_H
-#define DJV_LS_H
+#ifndef DJV_LS_CONTEXT_H
+#define DJV_LS_CONTEXT_H
 
-#include <djvFileInfo.h>
 #include <djvFileInfoUtil.h>
 #include <djvImageContext.h>
-
-#include <QCoreApplication>
-
-//! \addtogroup bin
-//@{
-
-//! \defgroup djv_ls djv_ls
-//!
-//! This program provides a command line tool for listing directories with file
-//! sequences.
-
-//@} // bin
 
 //! \addtogroup djv_ls
 //@{
@@ -101,7 +88,7 @@ public:
     
     const QStringList & glob() const;
 
-    //! Get the number of columns for formatting output.
+    //! Get the number of columns for formatting the output.
     
     int columns() const;
 
@@ -138,43 +125,7 @@ private:
     bool                  _sortDirsFirst;
 };
 
-//------------------------------------------------------------------------------
-//! \class djvLsApplication
-//!
-//! This class provides the application.
-//------------------------------------------------------------------------------
-
-class djvLsApplication : public QCoreApplication
-{
-    Q_OBJECT
-    
-public:
-
-    //! Constructor.
-
-    djvLsApplication(int &, char **);
-
-    //! Destructor.
-
-    virtual ~djvLsApplication();
-
-private Q_SLOTS:
-
-    void commandLineExit();
-    void work();
-
-private:
-
-    void process(djvFileInfoList &);
-
-    void printItem(const djvFileInfo &, bool path = false, bool info = true);
-
-    bool printDirectory(const djvFileInfo &, bool label);
-
-    djvLsContext * _context;
-};
-
 //@} // djv_ls
 
-#endif // DJV_LS_H
+#endif // DJV_LS_CONTEXT_H
 

@@ -1,11 +1,15 @@
 set(header
-    djv_info.h)
+    djvInfoApplication.h
+    djvInfoContext.h)
 
 set(mocHeader
-    djv_info.h)
+    djvInfoApplication.h
+    djvInfoContext.h)
 
 set(source
-    djv_info.cpp)
+    djvInfoApplication.cpp
+    djvInfoContext.cpp
+    djvInfoMain.cpp)
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})
@@ -46,7 +50,6 @@ endif (djvImageIoPlugins)
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djv_info
     RUNTIME DESTINATION bin)

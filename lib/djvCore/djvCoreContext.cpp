@@ -269,9 +269,9 @@ QString djvCoreContext::about() const
     return QString(label).arg(DJV_PROJECT_NAME);
 }
     
-void djvCoreContext::print(const QString & string)
+void djvCoreContext::print(const QString & string, bool newLine, int indent)
 {
-    consolePrint(string);
+    consolePrint(string, newLine, indent);
 }
 
 void djvCoreContext::printSeparator()
@@ -377,21 +377,21 @@ bool djvCoreContext::commandLineParse(QStringList & in) throw (QString)
                 qApp->translate("djvCoreContext", "-help") == arg ||
                 qApp->translate("djvCoreContext", "-h") == arg)
             {
-                consolePrint("\n" + commandLineHelp());
+                print("\n" + commandLineHelp());
                 
                 return false;
             }
             else if (
                 qApp->translate("djvCoreContext", "-info") == arg)
             {
-                consolePrint("\n" + info());
+                print("\n" + info());
                 
                 return false;
             }
             else if (
                 qApp->translate("djvCoreContext", "-about") == arg)
             {
-                consolePrint("\n" + about());
+                print("\n" + about());
                 
                 return false;
             }

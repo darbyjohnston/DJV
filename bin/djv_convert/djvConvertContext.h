@@ -29,25 +29,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djv_convert.h
+//! \file djvConvertContext.h
 
-#ifndef DJV_CONVERT_H
-#define DJV_CONVERT_H
+#ifndef DJV_CONVERT_CONTEXT_H
+#define DJV_CONVERT_CONTEXT_H
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
-#include <djvImageApplication.h>
+#include <djvImageContext.h>
 #include <djvOpenGlImage.h>
-#include <djvOpenGlOffscreenBuffer.h>
-
-//! \addtogroup bin
-//@{
-
-//! \defgroup djv_convert djv_convert
-//!
-//! This program provides a command line tool for image and movie conversion.
-
-//@} // bin
 
 //! \addtogroup djv_convert
 //@{
@@ -115,12 +105,12 @@ struct djvConvertOutput
 };
 
 //------------------------------------------------------------------------------
-//! \class djvConvertApplication
+//! \class djvConvertContext
 //!
-//! The class provides the application.
+//! This class provides global functionality for the application.
 //------------------------------------------------------------------------------
 
-class djvConvertApplication : public djvImageApplication
+class djvConvertContext : public djvImageContext
 {
     Q_OBJECT
     
@@ -128,49 +118,38 @@ public:
 
     //! Constructor.
 
-    djvConvertApplication(int, char **) throw (djvError);
+    explicit djvConvertContext(QObject * parent = 0);
 
-    //! Parse the command line.
+    //! Destructor.
 
-    void commandLine(QStringList &) throw (QString);
+    virtual ~djvConvertContext();
     
-    //! This enumeration provides error codes.
+    //! Get the options.
+
+    const djvConvertOptions & options() const;
     
-    enum ERROR
-    {
-        ERROR_OPEN_INPUT,
-        ERROR_OPEN_OUTPUT,
-        ERROR_OPEN_SLATE,
-        ERROR_READ_INPUT,
-        ERROR_WRITE_OUTPUT,
-        
-        ERROR_COUNT
-    };
+    //! Get the input options.
     
-    //! Get the error code labels.
+    const djvConvertInput & input() const;
     
-    static const QStringList & errorLabels();
+    //! Get the output options.
+    
+    const djvConvertOutput & output() const;
+
+protected:
+
+    virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
 
-private Q_SLOTS:
-
-    void debugLogCallback(const QString &);
-
 private:
-
-    bool work();
-    
-    QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
 
     djvConvertOptions                        _options;
     djvConvertInput                          _input;
     djvConvertOutput                         _output;
-    QScopedPointer<djvOpenGlOffscreenBuffer> _offscreenBuffer;
-    djvOpenGlImageState                      _state;
 };
 
 //@} // djv_convert
 
-#endif // DJV_CONVERT_H
+#endif // DJV_CONVERT_CONTEXT_H
 
