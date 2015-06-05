@@ -36,74 +36,31 @@
 #include <djvFFmpegLoad.h>
 #include <djvFFmpegSave.h>
 
-#include <djvAssert.h>
+/*#include <djvAssert.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileIoUtil.h>
-#include <djvMath.h>
+#include <djvMath.h>*/
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvFFmpegPlugin;
+    return new djvFFmpegPlugin(context);
 }
 
 } // extern "C"
 
 //------------------------------------------------------------------------------
-// djvFFmpegPlugin::Options
-//------------------------------------------------------------------------------
-
-djvFFmpegPlugin::Options::Options() :
-    format (MPEG4),
-    quality(HIGH)
-{}
-
-//------------------------------------------------------------------------------
 // djvFFmpegPlugin
 //------------------------------------------------------------------------------
 
-const QString djvFFmpegPlugin::staticName = "FFmpeg";
-
-const QStringList & djvFFmpegPlugin::formatLabels()
-{
-    static const QStringList data = QStringList() <<
-        //qApp->translate("djvFFmpegPlugin", "H264") <<
-        qApp->translate("djvFFmpegPlugin", "MPEG4") <<
-        qApp->translate("djvFFmpegPlugin", "ProRes") <<
-        qApp->translate("djvFFmpegPlugin", "MJPEG");
-
-    DJV_ASSERT(data.count() == FORMAT_COUNT);
-
-    return data;
-}
-
-const QStringList & djvFFmpegPlugin::qualityLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFFmpegPlugin", "Low") <<
-        qApp->translate("djvFFmpegPlugin", "Medium") <<
-        qApp->translate("djvFFmpegPlugin", "High");
-
-    DJV_ASSERT(data.count() == QUALITY_COUNT);
-
-    return data;
-}
-
-const QStringList & djvFFmpegPlugin::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFFmpegPlugin", "Format") <<
-        qApp->translate("djvFFmpegPlugin", "Quality");
-
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
-    return data;
-}
+djvFFmpegPlugin::djvFFmpegPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 namespace
 {
@@ -176,7 +133,7 @@ void djvFFmpegPlugin::initPlugin() throw (djvError)
 
 djvPlugin * djvFFmpegPlugin::copyPlugin() const
 {
-    djvFFmpegPlugin * plugin = new djvFFmpegPlugin;
+    djvFFmpegPlugin * plugin = new djvFFmpegPlugin(context());
     
     plugin->_options = _options;
     
@@ -185,7 +142,7 @@ djvPlugin * djvFFmpegPlugin::copyPlugin() const
 
 QString djvFFmpegPlugin::pluginName() const
 {
-    return staticName;
+    return djvFFmpeg::staticName;
 }
 
 QStringList djvFFmpegPlugin::extensions() const
@@ -215,11 +172,11 @@ QStringList djvFFmpegPlugin::option(const QString & in) const
 
     QStringList out;
 
-    if (0 == in.compare(list[OPTIONS_FORMAT], Qt::CaseInsensitive))
+    if (0 == in.compare(list[djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
     {
         out << _options.format;
     }
-    else if (0 == in.compare(list[OPTIONS_QUALITY], Qt::CaseInsensitive))
+    else if (0 == in.compare(list[djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
     {
         out << _options.quality;
     }
@@ -233,9 +190,9 @@ bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
 
     try
     {
-        if (0 == in.compare(list[OPTIONS_FORMAT], Qt::CaseInsensitive))
+        if (0 == in.compare(list[djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
         {
-            FORMAT format = static_cast<FORMAT>(0);
+            djvFFmpeg::FORMAT format = static_cast<djvFFmpeg::FORMAT>(0);
             
             data >> format;
             
@@ -246,9 +203,9 @@ bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(list[OPTIONS_QUALITY], Qt::CaseInsensitive))
+        else if (0 == in.compare(list[djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
         {
-            QUALITY quality = static_cast<QUALITY>(0);
+            djvFFmpeg::QUALITY quality = static_cast<djvFFmpeg::QUALITY>(0);
             
             data >> quality;
             
@@ -270,7 +227,7 @@ bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
 
 QStringList djvFFmpegPlugin::options() const
 {
-    return optionsLabels();
+    return djvFFmpeg::optionsLabels();
 }
 
 void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
@@ -319,25 +276,18 @@ QString djvFFmpegPlugin::commandLineHelp() const
 "        Set the quality used when saving FFmpeg movies. Options = %3. "
 "Default = %4.\n"
     ).
-    arg(formatLabels().join(", ")).
+    arg(djvFFmpeg::formatLabels().join(", ")).
     arg(djvStringUtil::label(_options.format).join(", ")).
-    arg(qualityLabels().join(", ")).
+    arg(djvFFmpeg::qualityLabels().join(", ")).
     arg(djvStringUtil::label(_options.quality).join(", "));
 }
 
 djvImageLoad * djvFFmpegPlugin::createLoad() const
 {
-    return new djvFFmpegLoad;
+    return new djvFFmpegLoad(imageContext());
 }
 
 djvImageSave * djvFFmpegPlugin::createSave() const
 {
-    return new djvFFmpegSave(_options);
+    return new djvFFmpegSave(_options, imageContext());
 }
-
-//------------------------------------------------------------------------------
-
-_DJV_STRING_OPERATOR_LABEL(djvFFmpegPlugin::FORMAT,
-    djvFFmpegPlugin::formatLabels())
-_DJV_STRING_OPERATOR_LABEL(djvFFmpegPlugin::QUALITY,
-    djvFFmpegPlugin::qualityLabels())

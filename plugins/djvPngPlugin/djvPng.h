@@ -29,89 +29,69 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegUtil.cpp
+//! \file djvPng.h
 
-#include <djvFFmpegUtil.h>
+#ifndef DJV_PNG_H
+#define DJV_PNG_H
 
 #include <djvStringUtil.h>
 
+#include <png.h>
+
+//! \addtogroup plugins
+//@{
+
+//! \defgroup djvPngPlugin djvPngPlugin
+//!
+//! This plugin provides support for the Portable Network Graphics (PNG) image
+//! file format.
+//!
+//! Requires:
+//!
+//! - libpng - http://www.libpng.org
+//!
+//! File extensions: .png
+//!
+//! Supported features:
+//!
+//! - 8-bit, 16-bit, Luminance, RGB, RGBA
+//! - File compression
+
+//@} // plugins
+
+//! \addtogroup djvPngPlugin
+//@{
+
 //------------------------------------------------------------------------------
-// djvFFmpegUtil::Dictionary
+//! \struct djvPng
+//!
+//! This struct provides PNG utilities.
 //------------------------------------------------------------------------------
 
-djvFFmpegUtil::Dictionary::Dictionary() :
-    _p(0)
-{}
-
-djvFFmpegUtil::Dictionary::~Dictionary()
+struct djvPng
 {
-    av_dict_free(&_p);
-}
-
-QMap<QString, QString> djvFFmpegUtil::Dictionary::map() const
-{
-    QMap<QString, QString> out;
+    //! The plugin name.
     
-    AVDictionaryEntry * entry = 0;
-    
-    while ((entry = av_dict_get(_p, "", entry, AV_DICT_IGNORE_SUFFIX)))
-    {
-        out.insert(entry->key, entry->value);
-    }
-    
-    return out;
-}
-
-AVDictionary ** djvFFmpegUtil::Dictionary::operator () ()
-{
-    return &_p;
-}
-
-const AVDictionary * const * djvFFmpegUtil::Dictionary::operator () () const
-{
-    return &_p;
-}
+    static const QString staticName;
+};
 
 //------------------------------------------------------------------------------
-// djvFFmpegUtil::Packet
-//------------------------------------------------------------------------------
 
-djvFFmpegUtil::Packet::Packet()
+//! This struct provides libpng error handling.
+
+struct djvPngErrorStruct
 {
-    av_init_packet(&_p);
+    char msg[djvStringUtil::cStringLength];
+};
+
+extern "C" {
+
+void djvPngError(png_structp, png_const_charp);
+void djvPngWarning(png_structp, png_const_charp);
+
 }
 
-djvFFmpegUtil::Packet::~Packet()
-{
-    av_free_packet(&_p);
-}
+//@} // djvPngPlugin
 
-AVPacket & djvFFmpegUtil::Packet::operator () ()
-{
-    return _p;
-}
-
-const AVPacket & djvFFmpegUtil::Packet::operator () () const
-{
-    return _p;
-}
-
-//------------------------------------------------------------------------------
-// djvFFmpegUtil
-//------------------------------------------------------------------------------
-
-AVRational djvFFmpegUtil::timeBaseQ()
-{
-	AVRational r;
-	r.num = 1;
-	r.den = AV_TIME_BASE;
-	return r;
-}
-
-QString djvFFmpegUtil::toString(int r)
-{
-    char buf [djvStringUtil::cStringLength];
-    av_strerror(r, buf, djvStringUtil::cStringLength);
-    return QString(buf);
-}
+#endif // DJV_PNG_H
 

@@ -42,7 +42,8 @@
 // djvPngLoad
 //------------------------------------------------------------------------------
 
-djvPngLoad::djvPngLoad() :
+djvPngLoad::djvPngLoad(djvImageContext * context) :
+    djvImageLoad(context),
     _f         (0),
     _png       (0),
     _pngInfo   (0),
@@ -129,7 +130,7 @@ void djvPngLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         if (! pngScanline(_png, data->data(0,  data->h() - 1 - y)))
         {
             throw djvError(
-                djvPngPlugin::staticName,
+                djvPng::staticName,
                 _pngError.msg);
         }
     }
@@ -253,7 +254,7 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! _png)
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             _pngError.msg);
     }
 
@@ -272,14 +273,14 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! _f)
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
@@ -317,7 +318,7 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! djvPixel::pixel(channels, bitDepth, djvPixel::INTEGER, info.pixel))
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 

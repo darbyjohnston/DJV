@@ -34,9 +34,9 @@
 #ifndef DJV_TARGA_WIDGET_H
 #define DJV_TARGA_WIDGET_H
 
-#include <djvTargaPlugin.h>
+#include <djvTarga.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -49,7 +49,7 @@ class QComboBox;
 //! This class provides a Targa widget.
 //------------------------------------------------------------------------------
 
-class djvTargaWidget : public djvAbstractPrefsWidget
+class djvTargaWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvTargaWidget(djvTargaPlugin *, djvGuiContext *);
+    djvTargaWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -75,9 +75,25 @@ private Q_SLOTS:
 
 private:
 
-    djvTargaPlugin *        _plugin;
-    djvTargaPlugin::Options _options;
-    QComboBox *             _compressionWidget;
+    djvTarga::Options _options;
+    QComboBox *       _compressionWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvTargaWidgetPlugin
+//!
+//! This class provides a Targa widget plugin.
+//------------------------------------------------------------------------------
+
+class djvTargaWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvTargaWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvTargaPlugin

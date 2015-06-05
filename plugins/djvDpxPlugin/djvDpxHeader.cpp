@@ -104,7 +104,7 @@ void djvDpxHeader::load(
     else
     {
         throw djvError(
-            djvDpxPlugin::staticName,
+            djvDpx::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
@@ -129,7 +129,7 @@ void djvDpxHeader::load(
     if (image.elemSize != 1)
     {
         throw djvError(
-            djvDpxPlugin::staticName,
+            djvDpx::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -258,7 +258,7 @@ void djvDpxHeader::load(
     if (! found)
     {
         throw djvError(
-            djvDpxPlugin::staticName,
+            djvDpx::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -275,14 +275,14 @@ void djvDpxHeader::load(
     if (image.elem[0].encoding)
     {
         throw djvError(
-            djvDpxPlugin::staticName,
+            djvDpx::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     if (isValid(&image.elem[0].linePadding) && image.elem[0].linePadding)
     {
         throw djvError(
-            djvDpxPlugin::staticName,
+            djvDpx::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -291,7 +291,7 @@ void djvDpxHeader::load(
     // File image tags.
 
     const QStringList & tags = djvImageTags::tagLabels();
-    const QStringList & dpxTags = djvDpxPlugin::tagLabels();
+    const QStringList & dpxTags = djvDpx::tagLabels();
 
     if (isValid(file.time, 24))
     {
@@ -316,54 +316,54 @@ void djvDpxHeader::load(
     // Source image tags.
 
     if (isValid(&source.offset[0]) && isValid(&source.offset[1]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_OFFSET]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_OFFSET]] = (QStringList() <<
             QString::number(source.offset[0]) <<
             QString::number(source.offset[1])).join(" ");
 
     if (isValid(&source.center[0]) && isValid(&source.center[1]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_CENTER]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_CENTER]] = (QStringList() <<
             QString::number(source.center[0]) <<
             QString::number(source.center[1])).join(" ");
 
     if (isValid(&source.size[0]) && isValid(&source.size[1]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_SIZE]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_SIZE]] = (QStringList() <<
             QString::number(source.size[0]) <<
             QString::number(source.size[1])).join(" ");
 
     if (isValid(source.file, 100))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_FILE]] =
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_FILE]] =
             toString(source.file, 100);
     }
 
     if (isValid(source.time, 24))
     {
-        info.tags[tags[djvDpxPlugin::TAG_SOURCE_TIME]] = toString(source.time, 24);
+        info.tags[tags[djvDpx::TAG_SOURCE_TIME]] = toString(source.time, 24);
     }
 
     if (isValid(source.inputDevice, 32))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_INPUT_DEVICE]] =
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_INPUT_DEVICE]] =
             toString(source.inputDevice, 32);
 
     if (isValid(source.inputSerial, 32))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_INPUT_SERIAL]] =
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_INPUT_SERIAL]] =
             toString(source.inputSerial, 32);
 
     if (isValid(&source.border[0]) && isValid(&source.border[1]) &&
         isValid(&source.border[2]) && isValid(&source.border[3]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_BORDER]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_BORDER]] = (QStringList() <<
             QString::number(source.border[0]) <<
             QString::number(source.border[1]) <<
             QString::number(source.border[2]) <<
             QString::number(source.border[3])).join(" ");
 
     if (isValid(&source.pixelAspect[0]) && isValid(&source.pixelAspect[1]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_PIXEL_ASPECT]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_PIXEL_ASPECT]] = (QStringList() <<
             QString::number(source.pixelAspect[0]) <<
             QString::number(source.pixelAspect[1])).join(" ");
 
     if (isValid(&source.scanSize[0]) && isValid(&source.scanSize[1]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_SCAN_SIZE]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_SOURCE_SCAN_SIZE]] = (QStringList() <<
             QString::number(source.scanSize[0]) <<
             QString::number(source.scanSize[1])).join(" ");
 
@@ -382,21 +382,21 @@ void djvDpxHeader::load(
 
     if (isValid(film.format, 32))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FORMAT]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_FORMAT]] =
             toString(film.format, 32);
     }
 
     if (isValid(&film.frame))
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FRAME]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_FRAME]] =
             QString::number(film.frame);
 
     if (isValid(&film.sequence))
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_SEQUENCE]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_SEQUENCE]] =
             QString::number(film.sequence);
 
     if (isValid(&film.hold))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_HOLD]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_HOLD]] =
             QString::number(film.hold);
     }
 
@@ -405,23 +405,23 @@ void djvDpxHeader::load(
     {
         info.sequence.speed = djvSpeed::floatToSpeed(film.frameRate);
 
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FRAME_RATE]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_FRAME_RATE]] =
             QString::number(film.frameRate);
     }
 
     if (isValid(&film.shutter))
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_SHUTTER]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_SHUTTER]] =
             QString::number(film.shutter);
 
     if (isValid(film.frameId, 32))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FRAME_ID]] =
+        info.tags[dpxTags[djvDpx::TAG_FILM_FRAME_ID]] =
             toString(film.frameId, 32);
     }
 
     if (isValid(film.slate, 100))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_FILM_SLATE]] = toString(film.slate, 100);
+        info.tags[dpxTags[djvDpx::TAG_FILM_SLATE]] = toString(film.slate, 100);
     }
 
     // TV image tags.
@@ -431,21 +431,21 @@ void djvDpxHeader::load(
             djvTime::timecodeToString(tv.timecode);
 
     if (isValid(&tv.interlace))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_INTERLACE]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_INTERLACE]] =
             QString::number(tv.interlace);
 
     if (isValid(&tv.field))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_FIELD]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_FIELD]] =
             QString::number(tv.field);
     }
 
     if (isValid(&tv.videoSignal))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_VIDEO_SIGNAL]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_VIDEO_SIGNAL]] =
             QString::number(tv.videoSignal);
 
     if (isValid(&tv.sampleRate[0]) && isValid(&tv.sampleRate[1]))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_SAMPLE_RATE]] = (QStringList() <<
+        info.tags[dpxTags[djvDpx::TAG_TV_SAMPLE_RATE]] = (QStringList() <<
             QString::number(tv.sampleRate[0]) <<
             QString::number(tv.sampleRate[1])).join(" ");
 
@@ -454,38 +454,38 @@ void djvDpxHeader::load(
     {
         info.sequence.speed = djvSpeed::floatToSpeed(tv.frameRate);
 
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_FRAME_RATE]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_FRAME_RATE]] =
             QString::number(tv.frameRate);
     }
 
     if (isValid(&tv.timeOffset))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_TIME_OFFSET]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_TIME_OFFSET]] =
             QString::number(tv.timeOffset);
 
     if (isValid(&tv.gamma))
     {
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_GAMMA]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_GAMMA]] =
             QString::number(tv.gamma);
     }
 
     if (isValid(&tv.blackLevel))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_BLACK_LEVEL]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_BLACK_LEVEL]] =
             QString::number(tv.blackLevel);
 
     if (isValid(&tv.blackGain))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_BLACK_GAIN]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_BLACK_GAIN]] =
             QString::number(tv.blackGain);
 
     if (isValid(&tv.breakpoint))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_BREAK_POINT]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_BREAK_POINT]] =
             QString::number(tv.breakpoint);
 
     if (isValid(&tv.whiteLevel))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_WHITE_LEVEL]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_WHITE_LEVEL]] =
             QString::number(tv.whiteLevel);
 
     if (isValid(&tv.integrationTimes))
-        info.tags[dpxTags[djvDpxPlugin::TAG_TV_INTEGRATION_TIMES]] =
+        info.tags[dpxTags[djvDpx::TAG_TV_INTEGRATION_TIMES]] =
             QString::number(tv.integrationTimes);
 
     // End.
@@ -501,9 +501,9 @@ void djvDpxHeader::load(
 void djvDpxHeader::save(
     djvFileIo &              io,
     const djvImageIoInfo &   info,
-    djvDpxPlugin::ENDIAN     endian,
+    djvDpx::ENDIAN           endian,
     djvCineon::COLOR_PROFILE colorProfile,
-    djvDpxPlugin::VERSION    version) throw (djvError)
+    djvDpx::VERSION          version) throw (djvError)
 {
     //DJV_DEBUG("djvDpxHeader::save");
 
@@ -511,11 +511,11 @@ void djvDpxHeader::save(
 
     switch (version)
     {
-        case djvDpxPlugin::VERSION_1_0:
+        case djvDpx::VERSION_1_0:
             djvMemory::copy("V1.0", file.version, 4);
             break;
 
-        case djvDpxPlugin::VERSION_2_0:
+        case djvDpx::VERSION_2_0:
             djvMemory::copy("V2.0", file.version, 4);
             break;
 
@@ -606,7 +606,7 @@ void djvDpxHeader::save(
 
     switch (version)
     {
-        case djvDpxPlugin::VERSION_1_0:
+        case djvDpx::VERSION_1_0:
         
             if (djvCineon::COLOR_PROFILE_RAW == colorProfile)
             {
@@ -619,7 +619,7 @@ void djvDpxHeader::save(
 
             break;
 
-        case djvDpxPlugin::VERSION_2_0:
+        case djvDpx::VERSION_2_0:
         
             if (djvCineon::COLOR_PROFILE_RAW == colorProfile)
             {
@@ -643,7 +643,7 @@ void djvDpxHeader::save(
     // File image tags.
 
     const QStringList & tags = djvImageTags::tagLabels();
-    const QStringList & dpxTags = djvDpxPlugin::tagLabels();
+    const QStringList & dpxTags = djvDpx::tagLabels();
     QString tmp;
 
     djvStringUtil::cString(info.fileName, file.name, 100, false);
@@ -680,7 +680,7 @@ void djvDpxHeader::save(
 
     // Source image tags.
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_OFFSET]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_OFFSET]];
 
     if (tmp.length())
     {
@@ -693,7 +693,7 @@ void djvDpxHeader::save(
         }
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_CENTER]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_CENTER]];
 
     if (tmp.length())
     {
@@ -706,7 +706,7 @@ void djvDpxHeader::save(
         }
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_SIZE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_SIZE]];
 
     if (tmp.length())
     {
@@ -719,35 +719,35 @@ void djvDpxHeader::save(
         }
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_FILE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_FILE]];
 
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.file, 100, false);
     }
 
-    tmp = info.tags[tags[djvDpxPlugin::TAG_SOURCE_TIME]];
+    tmp = info.tags[tags[djvDpx::TAG_SOURCE_TIME]];
 
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.time, 24, false);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_INPUT_DEVICE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_INPUT_DEVICE]];
 
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.inputDevice, 32, false);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_INPUT_SERIAL]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_INPUT_SERIAL]];
 
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.inputSerial, 32, false);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_BORDER]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_BORDER]];
 
     if (tmp.length())
     {
@@ -762,7 +762,7 @@ void djvDpxHeader::save(
         }
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_PIXEL_ASPECT]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_PIXEL_ASPECT]];
 
     if (tmp.length())
     {
@@ -775,7 +775,7 @@ void djvDpxHeader::save(
         }
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_SOURCE_SCAN_SIZE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_SOURCE_SCAN_SIZE]];
 
     if (tmp.length())
     {
@@ -808,56 +808,56 @@ void djvDpxHeader::save(
             QString::number(count), film.count, 4, false);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FORMAT]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_FORMAT]];
 
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, film.format, 32, false);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FRAME]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_FRAME]];
 
     if (tmp.length())
     {
         film.frame = tmp.toInt();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_SEQUENCE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_SEQUENCE]];
 
     if (tmp.length())
     {
         film.sequence = tmp.toInt();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_HOLD]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_HOLD]];
 
     if (tmp.length())
     {
         film.hold = tmp.toInt();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FRAME_RATE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_FRAME_RATE]];
 
     if (tmp.length())
     {
         film.frameRate = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_SHUTTER]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_SHUTTER]];
 
     if (tmp.length())
     {
         film.shutter = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_FRAME_ID]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_FRAME_ID]];
 
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, film.frameId, 32, false);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_FILM_SLATE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_FILM_SLATE]];
 
     if (tmp.length())
     {
@@ -873,28 +873,28 @@ void djvDpxHeader::save(
         tv.timecode = djvTime::stringToTimecode(tmp);
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_INTERLACE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_INTERLACE]];
 
     if (tmp.length())
     {
         tv.interlace = tmp.toInt();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_FIELD]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_FIELD]];
 
     if (tmp.length())
     {
         tv.field = tmp.toInt();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_VIDEO_SIGNAL]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_VIDEO_SIGNAL]];
 
     if (tmp.length())
     {
         tv.videoSignal = tmp.toInt();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_SAMPLE_RATE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_SAMPLE_RATE]];
 
     if (tmp.length())
     {
@@ -907,56 +907,56 @@ void djvDpxHeader::save(
         }
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_FRAME_RATE]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_FRAME_RATE]];
 
     if (tmp.length())
     {
         tv.frameRate = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_TIME_OFFSET]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_TIME_OFFSET]];
 
     if (tmp.length())
     {
         tv.timeOffset = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_GAMMA]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_GAMMA]];
 
     if (tmp.length())
     {
         tv.gamma = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_BLACK_LEVEL]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_BLACK_LEVEL]];
 
     if (tmp.length())
     {
         tv.blackLevel = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_BLACK_GAIN]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_BLACK_GAIN]];
 
     if (tmp.length())
     {
         tv.blackGain = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_BREAK_POINT]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_BREAK_POINT]];
 
     if (tmp.length())
     {
         tv.breakpoint = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_WHITE_LEVEL]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_WHITE_LEVEL]];
 
     if (tmp.length())
     {
         tv.whiteLevel = tmp.toFloat();
     }
 
-    tmp = info.tags[dpxTags[djvDpxPlugin::TAG_TV_INTEGRATION_TIMES]];
+    tmp = info.tags[dpxTags[djvDpx::TAG_TV_INTEGRATION_TIMES]];
 
     if (tmp.length())
         tv.integrationTimes = tmp.toFloat();
@@ -967,11 +967,11 @@ void djvDpxHeader::save(
 
     djvMemory::ENDIAN file_endian = djvMemory::endian();
 
-    if (djvDpxPlugin::ENDIAN_MSB == endian)
+    if (djvDpx::ENDIAN_MSB == endian)
     {
         file_endian = djvMemory::MSB;
     }
-    else if (djvDpxPlugin::ENDIAN_LSB == endian)
+    else if (djvDpx::ENDIAN_LSB == endian)
     {
         file_endian = djvMemory::LSB;
     }

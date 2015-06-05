@@ -183,16 +183,16 @@ endif (APPLE)
 
 # Set the list of image I/O plugins used as build dependencies.
 
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvCineonPlugin)
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvDpxPlugin)
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvIffPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvCineonPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvDpxPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvIffPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvIflPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvLutPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvPicPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvPpmPlugin)
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvRlaPlugin)
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvSgiPlugin)
-#set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvRlaPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvSgiPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
 
 # Setup third party dependencies.
 
@@ -208,11 +208,11 @@ include(djvThirdPartyIlmBase)
 include(djvThirdPartyQt)
 
 include(djvThirdPartyZlib)
-#include(djvThirdPartyJpeg)
-#include(djvThirdPartyPng)
-#include(djvThirdPartyTiff)
-#include(djvThirdPartyOpenExr)
-#include(djvThirdPartyFFmpeg)
+include(djvThirdPartyJpeg)
+include(djvThirdPartyPng)
+include(djvThirdPartyTiff)
+include(djvThirdPartyOpenExr)
+include(djvThirdPartyFFmpeg)
 #include(djvThirdPartyLibquicktime)
 #include(djvThirdPartyQuickTime)
 

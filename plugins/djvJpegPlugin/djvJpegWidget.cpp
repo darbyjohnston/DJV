@@ -33,39 +33,51 @@
 
 #include <djvJpegWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvIntEditSlider.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
 
+#include <djvImageIo.h>
 #include <djvSignalBlocker.h>
 
 #include <QApplication>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
+extern "C"
+{
+
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoWidgetEntry(djvCoreContext * context)
+{
+    return new djvJpegWidgetPlugin(context);
+}
+
+} // extern "C"
+
 //------------------------------------------------------------------------------
 // djvJpegWidget
 //------------------------------------------------------------------------------
 
-djvJpegWidget::djvJpegWidget(djvJpegPlugin * plugin, djvGuiContext * context) :
-    djvAbstractPrefsWidget(djvJpegPlugin::staticName, context),
-    _plugin       (plugin),
+djvJpegWidget::djvJpegWidget(djvImageIo * plugin, djvGuiContext * context) :
+    djvImageIoWidget(plugin, context),
     _qualityWidget(0)
 {
     // Create the widgets.
 
-    _qualityWidget = new djvIntEditSlider;
+    _qualityWidget = new djvIntEditSlider(context);
     _qualityWidget->setRange(0, 100);
-    _qualityWidget->setDefaultValue(djvJpegPlugin::Options().quality);
+    _qualityWidget->setDefaultValue(djvJpeg::Options().quality);
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvJpegWidget", "Quality"),
-        qApp->translate("djvJpegWidget", "Set the quality used when saving JPEG images."));
+        qApp->translate("djvJpegWidget", "Set the quality used when saving JPEG images."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvJpegWidget", "Quality:"),
@@ -77,8 +89,8 @@ djvJpegWidget::djvJpegWidget(djvJpegPlugin * plugin, djvGuiContext * context) :
     // Initialize.
 
     QStringList tmp;
-    tmp = _plugin->option(
-        _plugin->options()[djvJpegPlugin::QUALITY_OPTION]);
+    tmp = plugin->option(
+        plugin->options()[djvJpeg::QUALITY_OPTION]);
     tmp >> _options.quality;
 
     widgetUpdate();
@@ -101,7 +113,7 @@ djvJpegWidget::~djvJpegWidget()
 
 void djvJpegWidget::resetPreferences()
 {
-    _options = djvJpegPlugin::Options();
+    _options = djvJpeg::Options();
     
     pluginUpdate();
     widgetUpdate();
@@ -112,10 +124,10 @@ void djvJpegWidget::pluginCallback(const QString & option)
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(option);
+        tmp = plugin()->option(option);
 
-        if (0 == option.compare(_plugin->options()[
-            djvJpegPlugin::QUALITY_OPTION], Qt::CaseInsensitive))
+        if (0 == option.compare(plugin()->options()[
+            djvJpeg::QUALITY_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.quality;
     }
     catch (const QString &)
@@ -136,8 +148,8 @@ void djvJpegWidget::pluginUpdate()
 {
     QStringList tmp;
     tmp << _options.quality;
-    _plugin->setOption(
-        djvJpegPlugin::optionsLabels()[djvJpegPlugin::QUALITY_OPTION], tmp);
+    plugin()->setOption(
+        djvJpeg::optionsLabels()[djvJpeg::QUALITY_OPTION], tmp);
 }
 
 void djvJpegWidget::widgetUpdate()
@@ -146,3 +158,22 @@ void djvJpegWidget::widgetUpdate()
 
     _qualityWidget->setValue(_options.quality);
 }
+
+//------------------------------------------------------------------------------
+// djvJpegWidgetPlugin
+//------------------------------------------------------------------------------
+
+djvJpegWidgetPlugin::djvJpegWidgetPlugin(djvCoreContext * context) :
+    djvImageIoWidgetPlugin(context)
+{}
+
+djvImageIoWidget * djvJpegWidgetPlugin::createWidget(djvImageIo * plugin) const
+{
+    return new djvJpegWidget(plugin, guiContext());
+}
+
+QString djvJpegWidgetPlugin::pluginName() const
+{
+    return djvJpeg::staticName;
+}
+

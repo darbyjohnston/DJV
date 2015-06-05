@@ -2,207 +2,210 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>djvOpenExrPlugin</name>
+    <name>djvOpenExr</name>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="116"/>
-        <location filename="djvOpenExrPlugin.cpp" line="128"/>
-        <location filename="djvOpenExrPlugin.cpp" line="151"/>
+        <location filename="djvOpenExr.cpp" line="103"/>
+        <location filename="djvOpenExr.cpp" line="115"/>
+        <location filename="djvOpenExr.cpp" line="138"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="117"/>
+        <location filename="djvOpenExr.cpp" line="104"/>
         <source>Gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="118"/>
-        <location filename="djvOpenExrPlugin.cpp" line="167"/>
+        <location filename="djvOpenExr.cpp" line="105"/>
+        <location filename="djvOpenExr.cpp" line="154"/>
         <source>Exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="129"/>
+        <location filename="djvOpenExr.cpp" line="116"/>
         <source>RLE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="130"/>
+        <location filename="djvOpenExr.cpp" line="117"/>
         <source>ZIPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="131"/>
+        <location filename="djvOpenExr.cpp" line="118"/>
         <source>ZIP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="132"/>
+        <location filename="djvOpenExr.cpp" line="119"/>
         <source>PIZ</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="133"/>
+        <location filename="djvOpenExr.cpp" line="120"/>
         <source>PXR24</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="134"/>
+        <location filename="djvOpenExr.cpp" line="121"/>
         <source>B44</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="135"/>
+        <location filename="djvOpenExr.cpp" line="122"/>
         <source>B44A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="138"/>
+        <location filename="djvOpenExr.cpp" line="125"/>
         <source>DWAA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="139"/>
+        <location filename="djvOpenExr.cpp" line="126"/>
         <source>DWAB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="152"/>
+        <location filename="djvOpenExr.cpp" line="139"/>
         <source>Known</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="153"/>
+        <location filename="djvOpenExr.cpp" line="140"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="163"/>
+        <location filename="djvOpenExr.cpp" line="150"/>
         <source>Longitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="164"/>
+        <location filename="djvOpenExr.cpp" line="151"/>
         <source>Latitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="165"/>
+        <location filename="djvOpenExr.cpp" line="152"/>
         <source>Altitude</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="166"/>
+        <location filename="djvOpenExr.cpp" line="153"/>
         <source>Focus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="168"/>
+        <location filename="djvOpenExr.cpp" line="155"/>
         <source>Aperture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="169"/>
+        <location filename="djvOpenExr.cpp" line="156"/>
         <source>ISO Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="170"/>
+        <location filename="djvOpenExr.cpp" line="157"/>
         <source>Chromaticities</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="171"/>
+        <location filename="djvOpenExr.cpp" line="158"/>
         <source>White Luminance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="172"/>
+        <location filename="djvOpenExr.cpp" line="159"/>
         <source>XDensity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="837"/>
+        <location filename="djvOpenExr.cpp" line="824"/>
         <source>Threads Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="838"/>
+        <location filename="djvOpenExr.cpp" line="825"/>
         <source>Thread Count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="839"/>
+        <location filename="djvOpenExr.cpp" line="826"/>
         <source>Input Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="840"/>
+        <location filename="djvOpenExr.cpp" line="827"/>
         <source>Input Gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="841"/>
+        <location filename="djvOpenExr.cpp" line="828"/>
         <source>Input Exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="842"/>
+        <location filename="djvOpenExr.cpp" line="829"/>
         <source>Channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="843"/>
+        <location filename="djvOpenExr.cpp" line="830"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="846"/>
+        <location filename="djvOpenExr.cpp" line="833"/>
         <source>DWA Compression Level</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>djvOpenExrPlugin</name>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1102"/>
+        <location filename="djvOpenExrPlugin.cpp" line="309"/>
         <source>-exr_threads_enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1107"/>
+        <location filename="djvOpenExrPlugin.cpp" line="314"/>
         <source>-exr_thread_count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1112"/>
+        <location filename="djvOpenExrPlugin.cpp" line="319"/>
         <source>-exr_input_color_profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1117"/>
+        <location filename="djvOpenExrPlugin.cpp" line="324"/>
         <source>-exr_input_gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1122"/>
+        <location filename="djvOpenExrPlugin.cpp" line="329"/>
         <source>-exr_input_exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1127"/>
+        <location filename="djvOpenExrPlugin.cpp" line="334"/>
         <source>-exr_channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1132"/>
+        <location filename="djvOpenExrPlugin.cpp" line="339"/>
         <source>-exr_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1138"/>
+        <location filename="djvOpenExrPlugin.cpp" line="345"/>
         <source>-exr_dwa_compression_level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="1159"/>
+        <location filename="djvOpenExrPlugin.cpp" line="366"/>
         <source>
 OpenEXR Options
 
@@ -223,6 +226,99 @@ OpenEXR Options
     -exr_dwa_compression_level (value)
         Set the DWA compression level used when saving OpenEXR images. Default = %11.
 </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvOpenExrWidget</name>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="89"/>
+        <source>Enable multi-threading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="139"/>
+        <source>Multi-Threading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="143"/>
+        <source>Thread count:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="148"/>
+        <source>Color Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="149"/>
+        <source>Set the color profile used when loading OpenEXR images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="154"/>
+        <source>Profile:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="156"/>
+        <source>Gamma:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="158"/>
+        <source>Exposure:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="160"/>
+        <source>Defog:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="162"/>
+        <source>Knee low:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="164"/>
+        <source>Knee high:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="170"/>
+        <source>Channels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="171"/>
+        <source>Set how channels are grouped when loading OpenEXR images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="176"/>
+        <source>Channels:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="181"/>
+        <source>Compression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="182"/>
+        <source>Set the file compression used when saving OpenEXR images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="187"/>
+        <source>Compression:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenExrWidget.cpp" line="191"/>
+        <source>DWA compression level:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

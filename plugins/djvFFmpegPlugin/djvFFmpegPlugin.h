@@ -34,44 +34,9 @@
 #ifndef DJV_FFMPEG_PLUGIN_H
 #define DJV_FFMPEG_PLUGIN_H
 
-#include <djvFileIo.h>
+#include <djvFFmpeg.h>
+
 #include <djvImageIo.h>
-
-#if defined(DJV_LINUX)
-#define __STDC_CONSTANT_MACROS
-#endif // DJV_LINUX
-
-extern "C"
-{
-
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libswscale/swscale.h>
-
-} // extern "C"
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvFFmpegPlugin djvFFmpegPlugin
-//!
-//! This plugin provides support for the FFmpeg library.
-//!
-//! File extensions: .mov, .avi
-//!
-//! Supported features:
-//!
-//! - 8-bit RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - An ffmpeg and SDL Tutorial
-//!   http://dranger.com/ffmpeg/
-//! - libavformat/output-example.c
-//!   https://libav.org/doxygen/release/0.8/libavformat_2output-example_8c-example.html
-
-//@} // plugins
 
 //! \addtogroup djvFFmpegPlugin
 //@{
@@ -86,67 +51,10 @@ class djvFFmpegPlugin : public djvImageIo
 {
 public:
 
-    //! Plugin name.
+    //! Constructor.
     
-    static const QString staticName;
-
-    //! This enumeration provides the formats.
-
-    enum FORMAT
-    {
-        //H264,
-        MPEG4,
-        PRO_RES,
-        MJPEG,
-
-        FORMAT_COUNT
-    };
-
-    //! Get the format labels.
-
-    static const QStringList & formatLabels();
-
-    //! This enumeration provides the quality levels.
-
-    enum QUALITY
-    {
-        LOW,
-        MEDIUM,
-        HIGH,
-
-        QUALITY_COUNT
-    };
-
-    //! Get the quality labels.
-
-    static const QStringList & qualityLabels();
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        OPTIONS_FORMAT,
-        OPTIONS_QUALITY,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get the option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        //! Constructor.
-        
-        Options();
-
-        FORMAT  format;
-        QUALITY quality;
-    };
-	
+    explicit djvFFmpegPlugin(djvCoreContext *);
+    
     virtual void initPlugin() throw (djvError);
     
     virtual djvPlugin * copyPlugin() const;
@@ -173,13 +81,8 @@ public:
 
 private:
 
-    Options _options;
+    djvFFmpeg::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-DJV_STRING_OPERATOR(, djvFFmpegPlugin::FORMAT);
-DJV_STRING_OPERATOR(, djvFFmpegPlugin::QUALITY);
 
 //@} // djvFFmpegPlugin
 

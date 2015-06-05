@@ -1,8 +1,10 @@
 set(header
+    djvRla.h
     djvRlaLoad.h
     djvRlaPlugin.h)
 
 set(source
+    djvRla.cpp
     djvRlaLoad.cpp
     djvRlaPlugin.cpp)
 

@@ -34,9 +34,10 @@
 #ifndef DJV_JPEG_LOAD_H
 #define DJV_JPEG_LOAD_H
 
-#include <djvJpegPlugin.h>
+#include <djvJpeg.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvJpegPlugin
 //@{
@@ -53,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvJpegLoad();
+    explicit djvJpegLoad(djvImageContext *);
 
     //! Destructor.
 

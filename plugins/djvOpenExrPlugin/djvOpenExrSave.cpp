@@ -46,7 +46,8 @@
 // djvOpenExrSave
 //------------------------------------------------------------------------------
 
-djvOpenExrSave::djvOpenExrSave(const djvOpenExrPlugin::Options & options) :
+djvOpenExrSave::djvOpenExrSave(const djvOpenExr::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options),
     _f      (0)
 {}
@@ -147,7 +148,7 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
             frameBuffer.insert(
                 channel.toLatin1().data(),
                 Imf::Slice(
-                    djvOpenExrPlugin::pixelTypeToImf(djvPixel::type(p->pixel())),
+                    djvOpenExr::pixelTypeToImf(djvPixel::type(p->pixel())),
                     (char *)p->data() + c * byteCount,
                     channels * byteCount,
                     w * channels * byteCount,
@@ -164,7 +165,7 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
     catch (const std::exception & error)
     {
         throw djvError(
-            djvOpenExrPlugin::staticName,
+            djvOpenExr::staticName,
             error.what());
     }
 
@@ -204,51 +205,51 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
         {
             header.channels().insert(
                 _channels[i].toLatin1().data(),
-                djvOpenExrPlugin::pixelTypeToImf(djvPixel::type(info.pixel)));
+                djvOpenExr::pixelTypeToImf(djvPixel::type(info.pixel)));
         }
 
         Imf::CompressionAttribute compression;
 
         switch (_options.compression)
         {
-            case djvOpenExrPlugin::COMPRESSION_NONE:
+            case djvOpenExr::COMPRESSION_NONE:
                 compression = Imf::NO_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_RLE:
+            case djvOpenExr::COMPRESSION_RLE:
                 compression = Imf::RLE_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_ZIPS:
+            case djvOpenExr::COMPRESSION_ZIPS:
                 compression = Imf::ZIPS_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_ZIP:
+            case djvOpenExr::COMPRESSION_ZIP:
                 compression = Imf::ZIP_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_PIZ:
+            case djvOpenExr::COMPRESSION_PIZ:
                 compression = Imf::PIZ_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_PXR24:
+            case djvOpenExr::COMPRESSION_PXR24:
                 compression = Imf::PXR24_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_B44:
+            case djvOpenExr::COMPRESSION_B44:
                 compression = Imf::B44_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_B44A:
+            case djvOpenExr::COMPRESSION_B44A:
                 compression = Imf::B44A_COMPRESSION;
                 break;
 
 #if OPENEXR_VERSION_HEX >= 0x02020000
-            case djvOpenExrPlugin::COMPRESSION_DWAA:
+            case djvOpenExr::COMPRESSION_DWAA:
                 compression = Imf::DWAA_COMPRESSION;
                 break;
 
-            case djvOpenExrPlugin::COMPRESSION_DWAB:
+            case djvOpenExr::COMPRESSION_DWAB:
                 compression = Imf::DWAB_COMPRESSION;
                 break;
 #endif // OPENEXR_VERSION_HEX
@@ -264,7 +265,7 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
 
         // Set image tags.
 
-        djvOpenExrPlugin::saveTags(info, header);
+        djvOpenExr::saveTags(info, header);
 
         // Open the file.
 
@@ -274,7 +275,7 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
     catch (const std::exception & error)
     {
         throw djvError(
-            djvOpenExrPlugin::staticName,
+            djvOpenExr::staticName,
             error.what());
     }
 }

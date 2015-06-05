@@ -49,7 +49,8 @@
 // djvOpenExrLoad
 //------------------------------------------------------------------------------
 
-djvOpenExrLoad::djvOpenExrLoad(const djvOpenExrPlugin::Options & options) :
+djvOpenExrLoad::djvOpenExrLoad(const djvOpenExr::Options & options, djvImageContext * context) :
+    djvImageLoad(context),
     _options(options),
     _f      (0),
     _fast   (false)
@@ -100,7 +101,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         if (frame.layer < 0 || frame.layer >= _layers.count())
         {
             throw djvError(
-                djvOpenExrPlugin::staticName,
+                djvOpenExr::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
 
@@ -120,13 +121,13 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
         //! Set the color profile.
 
-        if (_options.inputColorProfile != djvOpenExrPlugin::COLOR_PROFILE_NONE)
+        if (_options.inputColorProfile != djvOpenExr::COLOR_PROFILE_NONE)
         {
             //DJV_DEBUG_PRINT("color profile");
 
             switch (_options.inputColorProfile)
             {
-                case djvOpenExrPlugin::COLOR_PROFILE_GAMMA:
+                case djvOpenExr::COLOR_PROFILE_GAMMA:
 
                     //DJV_DEBUG_PRINT("gamma = " << _options.inputGamma);
 
@@ -134,7 +135,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
                     break;
 
-                case djvOpenExrPlugin::COLOR_PROFILE_EXPOSURE:
+                case djvOpenExr::COLOR_PROFILE_EXPOSURE:
                     image.colorProfile.type = djvColorProfile::EXPOSURE;
                     break;
 
@@ -182,7 +183,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 frameBuffer.insert(
                     channel.toLatin1().data(),
                     Imf::Slice(
-                    djvOpenExrPlugin::pixelTypeToImf(djvPixel::type(data->pixel())),
+                    djvOpenExr::pixelTypeToImf(djvPixel::type(data->pixel())),
                     (char *)data->data() + (c * byteCount),
                     cb,
                     scb,
@@ -216,7 +217,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 frameBuffer.insert(
                     channel.toLatin1().data(),
                     Imf::Slice(
-                        djvOpenExrPlugin::pixelTypeToImf(djvPixel::type(data->pixel())),
+                        djvOpenExr::pixelTypeToImf(djvPixel::type(data->pixel())),
                         buf.data() - (_dataWindow.x * cb) + (c * byteCount),
                         cb,
                         0,
@@ -274,7 +275,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     catch (const std::exception & error)
     {
         throw djvError(
-            djvOpenExrPlugin::staticName,
+            djvOpenExr::staticName,
             error.what());
     }
 
@@ -306,8 +307,8 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
 
         // Get the display and data windows.
 
-        _displayWindow = djvOpenExrPlugin::imfToBox(_f->header().displayWindow());
-        _dataWindow = djvOpenExrPlugin::imfToBox(_f->header().dataWindow());
+        _displayWindow = djvOpenExr::imfToBox(_f->header().displayWindow());
+        _dataWindow = djvOpenExr::imfToBox(_f->header().dataWindow());
         _intersectedWindow = djvBoxUtil::intersect(_displayWindow, _dataWindow);
 
         //DJV_DEBUG_PRINT("display window = " << _displayWindow);
@@ -318,9 +319,7 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
 
         // Get the layers.
 
-        _layers = djvOpenExrPlugin::layer(
-            _f->header().channels(),
-            _options.channels);
+        _layers = djvOpenExr::layer(_f->header().channels(), _options.channels);
         info.setLayerCount(_layers.count());
         
         //DJV_DEBUG_PRINT("layers = " << _layers.count());
@@ -348,7 +347,7 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
             if (! djvPixel::format(_layers[i].channels.count(), format))
             {
                 throw djvError(
-                    djvOpenExrPlugin::staticName,
+                    djvOpenExr::staticName,
                     djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
             }
             
@@ -360,7 +359,7 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
                 pixelDataInfo.pixel))
             {
                 throw djvError(
-                    djvOpenExrPlugin::staticName,
+                    djvOpenExr::staticName,
                     djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
             }
 
@@ -373,12 +372,12 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
 
         // Get the image tags.
 
-        djvOpenExrPlugin::loadTags(_f->header(), info);
+        djvOpenExr::loadTags(_f->header(), info);
     }
     catch (const std::exception & error)
     {
         throw djvError(
-            djvOpenExrPlugin::staticName,
+            djvOpenExr::staticName,
             error.what());
     }
 }

@@ -34,9 +34,10 @@
 #ifndef DJV_DPX_HEADER_H
 #define DJV_DPX_HEADER_H
 
-#include <djvDpxPlugin.h>
+#include <djvDpx.h>
 
 #include <djvFileIo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvDpxPlugin
 //@{
@@ -298,9 +299,9 @@ public:
     void save(
         djvFileIo &,
         const djvImageIoInfo &,
-        djvDpxPlugin::ENDIAN,
+        djvDpx::ENDIAN,
         djvCineon::COLOR_PROFILE,
-        djvDpxPlugin::VERSION) throw (djvError);
+        djvDpx::VERSION) throw (djvError);
 
     //! Update the header when saving is finished.
     

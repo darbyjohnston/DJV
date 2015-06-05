@@ -39,45 +39,29 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvJpegPlugin;
+    return new djvJpegPlugin(context);
 }
 
 } // extern "C"
 
 //------------------------------------------------------------------------------
-// djvJpegPlugin::Options
-//------------------------------------------------------------------------------
-
-djvJpegPlugin::Options::Options() :
-    quality(90)
-{}
-
-//------------------------------------------------------------------------------
 // djvJpegPlugin
 //------------------------------------------------------------------------------
 
-const QString djvJpegPlugin::staticName = "JPEG";
-
-const QStringList & djvJpegPlugin::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvJpegPlugin", "Quality");
-
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
-    return data;
-}
+djvJpegPlugin::djvJpegPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvJpegPlugin::copyPlugin() const
 {
-    djvJpegPlugin * plugin = new djvJpegPlugin;
+    djvJpegPlugin * plugin = new djvJpegPlugin(context());
     
     plugin->_options = _options;
     
@@ -86,7 +70,7 @@ djvPlugin * djvJpegPlugin::copyPlugin() const
 
 QString djvJpegPlugin::pluginName() const
 {
-    return staticName;
+    return djvJpeg::staticName;
 }
 
 QStringList djvJpegPlugin::extensions() const
@@ -101,7 +85,7 @@ QStringList djvJpegPlugin::option(const QString & in) const
 {
     QStringList out;
 
-    if (0 == in.compare(options()[QUALITY_OPTION], Qt::CaseInsensitive))
+    if (0 == in.compare(options()[djvJpeg::QUALITY_OPTION], Qt::CaseInsensitive))
     {
         out << _options.quality;
     }
@@ -113,7 +97,7 @@ bool djvJpegPlugin::setOption(const QString & in, QStringList & data)
 {
     try
     {
-        if (0 == in.compare(options()[QUALITY_OPTION], Qt::CaseInsensitive))
+        if (0 == in.compare(options()[djvJpeg::QUALITY_OPTION], Qt::CaseInsensitive))
         {
             int quality = 0;
             
@@ -137,7 +121,7 @@ bool djvJpegPlugin::setOption(const QString & in, QStringList & data)
 
 QStringList djvJpegPlugin::options() const
 {
-    return optionsLabels();
+    return djvJpeg::optionsLabels();
 }
 
 void djvJpegPlugin::commandLine(QStringList & in) throw (QString)
@@ -182,38 +166,10 @@ QString djvJpegPlugin::commandLineHelp() const
 
 djvImageLoad * djvJpegPlugin::createLoad() const
 {
-    return new djvJpegLoad;
+    return new djvJpegLoad(imageContext());
 }
 
 djvImageSave * djvJpegPlugin::createSave() const
 {
-    return new djvJpegSave(_options);
+    return new djvJpegSave(_options, imageContext());
 }
-
-//------------------------------------------------------------------------------
-
-extern "C"
-{
-
-void djvJpegError(libjpeg::j_common_ptr in)
-{
-    djvJpegErrorStruct * error = (djvJpegErrorStruct *)in->err;
-
-    in->err->format_message(in, error->msg);
-
-    ::longjmp(error->jump, 1);
-}
-
-void djvJpegWarning(libjpeg::j_common_ptr in, int level)
-{
-    if (level > 0)
-        return;
-
-    djvJpegErrorStruct * error = (djvJpegErrorStruct *)in->err;
-
-    in->err->format_message(in, error->msg);
-
-    ::longjmp(error->jump, 1);
-}
-
-} // extern "C"

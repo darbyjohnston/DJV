@@ -44,7 +44,8 @@
 // djvCineonLoad
 //------------------------------------------------------------------------------
 
-djvCineonLoad::djvCineonLoad(const djvCineonPlugin::Options & options) :
+djvCineonLoad::djvCineonLoad(const djvCineon::Options & options, djvImageContext * context) :
+    djvImageLoad(context),
     _options  (options),
     _filmPrint(false)
 {}

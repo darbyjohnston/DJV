@@ -33,15 +33,14 @@
 
 #include <djvDpxSave.h>
 
-#include <djvDpxHeader.h>
-
 #include <djvOpenGlImage.h>
 
 //------------------------------------------------------------------------------
 // djvDpxSave
 //------------------------------------------------------------------------------
 
-djvDpxSave::djvDpxSave(const djvDpxPlugin::Options & options) :
+djvDpxSave::djvDpxSave(const djvDpx::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options)
 {}
 
@@ -68,16 +67,16 @@ void djvDpxSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
 
     switch (_options.endian)
     {
-        case djvDpxPlugin::ENDIAN_AUTO: break;
-        case djvDpxPlugin::ENDIAN_MSB:  _info.endian = djvMemory::MSB; break;
-        case djvDpxPlugin::ENDIAN_LSB:  _info.endian = djvMemory::LSB; break;
+        case djvDpx::ENDIAN_AUTO: break;
+        case djvDpx::ENDIAN_MSB:  _info.endian = djvMemory::MSB; break;
+        case djvDpx::ENDIAN_LSB:  _info.endian = djvMemory::LSB; break;
 
         default: break;
     }
 
     switch (_options.type)
     {
-        case djvDpxPlugin::TYPE_U10: _info.pixel = djvPixel::RGB_U10; break;
+        case djvDpx::TYPE_U10: _info.pixel = djvPixel::RGB_U10; break;
 
         default:
         {

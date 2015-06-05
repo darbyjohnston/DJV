@@ -34,9 +34,9 @@
 #ifndef DJV_TIFF_WIDGET_H
 #define DJV_TIFF_WIDGET_H
 
-#include <djvTiffPlugin.h>
+#include <djvTiff.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -49,7 +49,7 @@ class QComboBox;
 //! This class provides a TIFF widget.
 //------------------------------------------------------------------------------
 
-class djvTiffWidget : public djvAbstractPrefsWidget
+class djvTiffWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvTiffWidget(djvTiffPlugin *, djvGuiContext *);
+    djvTiffWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -75,9 +75,25 @@ private Q_SLOTS:
 
 private:
 
-    djvTiffPlugin *        _plugin;
-    djvTiffPlugin::Options _options;
-    QComboBox *            _compressionWidget;
+    djvTiff::Options _options;
+    QComboBox *      _compressionWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvTiffWidgetPlugin
+//!
+//! This class provides a TIFF widget plugin.
+//------------------------------------------------------------------------------
+
+class djvTiffWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvTiffWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvTiffPlugin

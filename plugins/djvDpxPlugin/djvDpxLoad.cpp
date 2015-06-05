@@ -43,7 +43,8 @@
 // djvDpxLoad
 //------------------------------------------------------------------------------
 
-djvDpxLoad::djvDpxLoad(const djvDpxPlugin::Options & options) :
+djvDpxLoad::djvDpxLoad(const djvDpx::Options & options, djvImageContext * context) :
+    djvImageLoad(context),
     _options  (options),
     _filmPrint(false)
 {}

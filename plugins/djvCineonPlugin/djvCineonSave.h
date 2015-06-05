@@ -34,11 +34,12 @@
 #ifndef DJV_CINEON_SAVE_H
 #define DJV_CINEON_SAVE_H
 
+#include <djvCineon.h>
 #include <djvCineonHeader.h>
-#include <djvCineonPlugin.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvCineonPlugin
 //@{
@@ -55,7 +56,7 @@ public:
 
     //! Constructor.
     
-    djvCineonSave(const djvCineonPlugin::Options &);
+    djvCineonSave(const djvCineon::Options &, djvImageContext *);
     
     //! Destructor.
     
@@ -72,11 +73,11 @@ private:
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
-    djvCineonPlugin::Options _options;
-    djvFileInfo              _file;
-    djvCineonHeader          _header;
-    djvPixelDataInfo         _info;
-    djvImage                 _image;
+    djvCineon::Options _options;
+    djvFileInfo        _file;
+    djvCineonHeader    _header;
+    djvPixelDataInfo   _info;
+    djvImage           _image;
 };
 
 //@} // djvCineonPlugin

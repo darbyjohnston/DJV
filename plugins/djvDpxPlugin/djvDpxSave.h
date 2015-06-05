@@ -34,11 +34,12 @@
 #ifndef DJV_DPX_SAVE_H
 #define DJV_DPX_SAVE_H
 
+#include <djvDpx.h>
 #include <djvDpxHeader.h>
-#include <djvDpxPlugin.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvDpxPlugin
 //@{
@@ -55,7 +56,7 @@ public:
 
     //! Constructor.
 
-    djvDpxSave(const djvDpxPlugin::Options & options);
+    djvDpxSave(const djvDpx::Options &, djvImageContext *);
     
     //! Destructor.
     
@@ -72,11 +73,11 @@ private:
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
-    djvDpxPlugin::Options _options;
-    djvFileInfo           _file;
-    djvDpxHeader          _header;
-    djvPixelDataInfo      _info;
-    djvImage              _image;
+    djvDpx::Options  _options;
+    djvFileInfo      _file;
+    djvDpxHeader     _header;
+    djvPixelDataInfo _info;
+    djvImage         _image;
 };
 
 //@} // djvDpxPlugin

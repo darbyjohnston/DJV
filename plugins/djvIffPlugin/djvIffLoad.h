@@ -35,7 +35,7 @@
 #ifndef DJV_IFF_LOAD_H
 #define DJV_IFF_LOAD_H
 
-#include <djvIffPlugin.h>
+#include <djvIff.h>
 
 #include <djvFileInfo.h>
 
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvIffLoad();
+    explicit djvIffLoad(djvImageContext *);
     
     //! Destructor.
     

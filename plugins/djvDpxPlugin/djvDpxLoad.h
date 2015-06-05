@@ -34,9 +34,10 @@
 #ifndef DJV_DPX_LOAD_H
 #define DJV_DPX_LOAD_H
 
-#include <djvDpxPlugin.h>
+#include <djvDpx.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvDpxPlugin
 //@{
@@ -53,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvDpxLoad(const djvDpxPlugin::Options & options);
+    djvDpxLoad(const djvDpx::Options &, djvImageContext *);
     
     //! Destructor.
     
@@ -70,11 +71,11 @@ private:
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
-    djvDpxPlugin::Options _options;
-    bool                  _filmPrint;
-    djvPixelData          _filmPrintLut;
-    djvFileInfo           _file;
-    djvPixelData          _tmp;
+    djvDpx::Options _options;
+    bool            _filmPrint;
+    djvPixelData    _filmPrintLut;
+    djvFileInfo     _file;
+    djvPixelData    _tmp;
 };
 
 //@} // djvDpxPlugin

@@ -35,7 +35,7 @@
 #ifndef DJV_IFF_SAVE_H
 #define DJV_IFF_SAVE_H
 
-#include <djvIffPlugin.h>
+#include <djvIff.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
@@ -55,7 +55,7 @@ public:
 
     //! Constructor.
 
-    djvIffSave(const djvIffPlugin::Options & options);
+    djvIffSave(const djvIff::Options &, djvImageContext *);
     
     //! Destructor.
     
@@ -69,10 +69,10 @@ public:
 
 private:
 
-    djvIffPlugin::Options _options;
-    djvFileInfo           _file;
-    djvPixelDataInfo      _info;
-    djvImage              _image;
+    djvIff::Options  _options;
+    djvFileInfo      _file;
+    djvPixelDataInfo _info;
+    djvImage         _image;
 };
 
 //@} // djvIffPlugin

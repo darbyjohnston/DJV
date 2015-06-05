@@ -40,7 +40,8 @@
 // djvTiffLoad
 //------------------------------------------------------------------------------
 
-djvTiffLoad::djvTiffLoad() :
+djvTiffLoad::djvTiffLoad(djvImageContext * context) :
+    djvImageLoad(context),
     _f(0)
 {}
 
@@ -97,13 +98,13 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         if (TIFFReadScanline(_f, (tdata_t *)data->data(0, y), y) == -1)
         {
             throw djvError(
-                djvTiffPlugin::staticName,
+                djvTiff::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
 
         if (_palette)
         {
-            djvTiffPlugin::paletteLoad(
+            djvTiff::paletteLoad(
                 data->data(0, y),
                 info.size.x,
                 djvPixel::channelByteCount(info.pixel),
@@ -155,7 +156,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! _f)
     {
         throw djvError(
-            djvTiffPlugin::staticName,
+            djvTiff::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
@@ -203,7 +204,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     if (samples > 1 && PLANARCONFIG_SEPARATE == channels)
     {
         throw djvError(
-            djvTiffPlugin::staticName,
+            djvTiff::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -245,7 +246,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! found)
     {
         throw djvError(
-            djvTiffPlugin::staticName,
+            djvTiff::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 

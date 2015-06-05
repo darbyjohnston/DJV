@@ -40,6 +40,10 @@
 // djvTargaLoad
 //------------------------------------------------------------------------------
 
+djvTargaLoad::djvTargaLoad(djvImageContext * context) :
+    djvImageLoad(context)
+{}
+
 djvTargaLoad::~djvTargaLoad()
 {}
 
@@ -94,7 +98,7 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
         {
             throw djvError(
-                djvTargaPlugin::staticName,
+                djvTarga::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
 
@@ -116,7 +120,7 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             //DJV_DEBUG_PRINT("y = " << y);
 
-            p = djvTargaPlugin::readRle(
+            p = djvTarga::readRle(
                 p,
                 end,
                 data->data(0, y),
@@ -126,7 +130,7 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             if (! p)
             {
                 throw djvError(
-                    djvTargaPlugin::staticName,
+                    djvTarga::staticName,
                     djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
             }
         }
@@ -158,5 +162,5 @@ void djvTargaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & 
     io.open(in, djvFileIo::READ);
 
     info.fileName = in;
-    djvTargaPlugin::loadInfo(io, info, &_compression);
+    djvTarga::loadInfo(io, info, &_compression);
 }

@@ -33,8 +33,6 @@
 
 #include <djvFFmpegSave.h>
 
-#include <djvFFmpegUtil.h>
-
 #include <djvOpenGlImage.h>
 
 #include <QApplication>
@@ -45,7 +43,8 @@
 // djvFFmpegSave
 //------------------------------------------------------------------------------
 
-djvFFmpegSave::djvFFmpegSave(const djvFFmpegPlugin::Options & options) :
+djvFFmpegSave::djvFFmpegSave(const djvFFmpeg::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options        (options),
     _frame          (0),
     _avIoContext    (0),
@@ -84,12 +83,12 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     
     _avFrameRgbPixel = static_cast<AVPixelFormat>(0);
 
-    djvFFmpegUtil::Dictionary dictionary;
-    QString                   value;
+    djvFFmpeg::Dictionary dictionary;
+    QString               value;
 
     switch (_options.format)
     {
-        /*case djvFFmpegPlugin::H264:
+        /*case djvFFmpeg::H264:
 
             pixel            = djvPixel::RGBA_U8;
         
@@ -98,9 +97,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
             
             switch (_options.quality)
             {
-                case djvFFmpegPlugin::LOW:    value = "fast";   break;
-                case djvFFmpegPlugin::MEDIUM: value = "medium"; break;
-                case djvFFmpegPlugin::HIGH:   value = "slow";   break;
+                case djvFFmpeg::LOW:    value = "fast";   break;
+                case djvFFmpeg::MEDIUM: value = "medium"; break;
+                case djvFFmpeg::HIGH:   value = "slow";   break;
 
                 default: break;
             }
@@ -113,7 +112,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
 
             break;*/
         
-        case djvFFmpegPlugin::MPEG4:
+        case djvFFmpeg::MPEG4:
 
             pixel            = djvPixel::RGBA_U8;
             bgr              = info.bgr;
@@ -125,16 +124,16 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
 
             switch (_options.quality)
             {
-                case djvFFmpegPlugin::LOW:    avQScale = 9.0; break;
-                case djvFFmpegPlugin::MEDIUM: avQScale = 3.0; break;
-                case djvFFmpegPlugin::HIGH:   avQScale = 1.0; break;
+                case djvFFmpeg::LOW:    avQScale = 9.0; break;
+                case djvFFmpeg::MEDIUM: avQScale = 3.0; break;
+                case djvFFmpeg::HIGH:   avQScale = 1.0; break;
 
                 default: break;
             }
 
             break;
         
-        case djvFFmpegPlugin::PRO_RES:
+        case djvFFmpeg::PRO_RES:
 
             pixel            = djvPixel::RGB_U16;
             bgr              = info.bgr;
@@ -146,9 +145,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
          
             switch (_options.quality)
             {
-                case djvFFmpegPlugin::LOW:    value = "1"; break;
-                case djvFFmpegPlugin::MEDIUM: value = "2"; break;
-                case djvFFmpegPlugin::HIGH:   value = "3"; break;
+                case djvFFmpeg::LOW:    value = "1"; break;
+                case djvFFmpeg::MEDIUM: value = "2"; break;
+                case djvFFmpeg::HIGH:   value = "3"; break;
 
                 default: break;
             }
@@ -161,7 +160,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
 
             break;
         
-        case djvFFmpegPlugin::MJPEG:
+        case djvFFmpeg::MJPEG:
 
             pixel            = djvPixel::RGBA_U8;
             bgr              = info.bgr;
@@ -173,9 +172,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
 
             switch (_options.quality)
             {
-                case djvFFmpegPlugin::LOW:    avQScale = 9.0; break;
-                case djvFFmpegPlugin::MEDIUM: avQScale = 3.0; break;
-                case djvFFmpegPlugin::HIGH:   avQScale = 1.0; break;
+                case djvFFmpeg::LOW:    avQScale = 9.0; break;
+                case djvFFmpeg::MEDIUM: avQScale = 3.0; break;
+                case djvFFmpeg::HIGH:   avQScale = 1.0; break;
 
                 default: break;
             }
@@ -201,9 +200,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (! avFormat)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
+            djvFFmpeg::staticName,
             qApp->translate("djvFFmpegSave", "Cannot find format: %1").
-                arg(djvFFmpegPlugin::formatLabels()[_options.format]));
+                arg(djvFFmpeg::formatLabels()[_options.format]));
     }
     
     //DJV_DEBUGBUG_PRINT("av format extensions = " << avFormat->extensions);
@@ -216,9 +215,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (! avCodec)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
+            djvFFmpeg::staticName,
             qApp->translate("djvFFmpegSave", "Cannot find encoder: %1").
-                arg(djvFFmpegPlugin::formatLabels()[_options.format]));
+                arg(djvFFmpeg::formatLabels()[_options.format]));
     }
 
     AVCodecContext * avCodecContext = avcodec_alloc_context3(avCodec);
@@ -248,8 +247,8 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
 
     _avStream = avformat_new_stream(_avFormatContext, avCodecContext->codec);
@@ -257,7 +256,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (! _avStream)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
+            djvFFmpeg::staticName,
             qApp->translate("djvFFmpegSave", "Cannot create stream"));
     }
     
@@ -275,8 +274,8 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
     
     _avFormatContext->pb = _avIoContext;
@@ -286,8 +285,8 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
     
     _info          = djvPixelDataInfo();
@@ -337,7 +336,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (! _swsContext)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
+            djvFFmpeg::staticName,
             qApp->translate("djvFFmpegSave", "Cannot create software scaler"));
     }
 }
@@ -406,7 +405,7 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     
     AVCodecContext * avCodecContext = _avStream->codec;
 
-    djvFFmpegUtil::Packet packet;
+    djvFFmpeg::Packet packet;
     packet().data = 0;
     packet().size = 0;
     
@@ -424,8 +423,8 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
 
     //DJV_DEBUG_PRINT("finished = " << finished);
@@ -455,8 +454,8 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
 }
 
@@ -475,8 +474,8 @@ void djvFFmpegSave::close() throw (djvError)
         if (r < 0)
         {
             throw djvError(
-                djvFFmpegPlugin::staticName,
-                djvFFmpegUtil::toString(r));
+                djvFFmpeg::staticName,
+                djvFFmpeg::toString(r));
         }
     
         //DJV_DEBUG_PRINT("frames = " <<
@@ -488,8 +487,8 @@ void djvFFmpegSave::close() throw (djvError)
         if (r < 0)
         {
             throw djvError(
-                djvFFmpegPlugin::staticName,
-                djvFFmpegUtil::toString(r));
+                djvFFmpeg::staticName,
+                djvFFmpeg::toString(r));
         }
     }
 

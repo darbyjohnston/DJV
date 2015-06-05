@@ -34,45 +34,9 @@
 #ifndef DJV_JPEG_PLUGIN_H
 #define DJV_JPEG_PLUGIN_H
 
+#include <djvJpeg.h>
+
 #include <djvImageIo.h>
-
-#include <stdio.h>
-
-//! \todo This namespace is meant to resolve conflicts on Windows, is it still
-//! necessary?
-
-namespace libjpeg
-{
-extern "C"
-{
-#include <jpeglib.h>
-}
-}
-
-#include <setjmp.h>
-
-#undef TRUE
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvJpegPlugin djvJpegPlugin
-//!
-//! This plugin provides support for the Joint Photographic Experts Group
-//! (JPEG) image file format.
-//!
-//! Requires:
-//!
-//! - libjpeg - http://www.ijg.org
-//!
-//! File extensions: .jpeg, .jpg, .jfif
-//!
-//! Supported features:
-//!
-//! - 8-bit, Luminance, RGB
-//! - File compression
-
-//@} // plugins
 
 //! \addtogroup djvJpegPlugin
 //@{
@@ -87,31 +51,9 @@ class djvJpegPlugin : public djvImageIo
 {
 public:
 
-    //! The plugin name.
+    //! Constructor.
     
-    static const QString staticName;
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        QUALITY_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        Options();
-
-        int quality;
-    };
+    explicit djvJpegPlugin(djvCoreContext *);
     
     virtual djvPlugin * copyPlugin() const;
 
@@ -135,28 +77,8 @@ public:
 
 private:
 
-    Options _options;
+    djvJpeg::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-//! This struct provides libjpeg error handling.
-
-struct djvJpegErrorStruct
-{
-    struct libjpeg::jpeg_error_mgr pub;
-
-    char msg [JMSG_LENGTH_MAX];
-
-    jmp_buf jump;
-};
-
-extern "C" {
-
-void djvJpegError(libjpeg::j_common_ptr);
-void djvJpegWarning(libjpeg::j_common_ptr, int);
-
-}
 
 //@} // djvJpegPlugin
 

@@ -35,34 +35,7 @@
 #ifndef DJV_IFF_PLUGIN_H
 #define DJV_IFF_PLUGIN_H
 
-#include <djvFileIo.h>
-#include <djvImageIo.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvIffPlugin djvIffPlugin
-//!
-//! This plugin provides support for the Generic Interchange File Format (IFF).
-//!
-//! File extensions: .iff, .z
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
-//!   http://affine.org
-//! - Autodesk Maya documentation, "Overview of Maya IFF"
-//!
-//! Implementation:
-//!
-//! - Mikael Sundell, mikael.sundell@gmail.com
-
-//@} // plugins
+#include <djvIff.h>
 
 //! \addtogroup djvIffPlugin
 //@{
@@ -77,94 +50,9 @@ class djvIffPlugin : public djvImageIo
 {
 public:
 
-    //! Plugin name.
+    //! Constructor.
     
-    static const QString staticName;
-
-    //! This enumeration provides the file compression.
-
-    enum COMPRESSION
-    {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
-
-        COMPRESSION_COUNT
-    };
-
-    //! Get compression labels.
-
-    static const QStringList & compressionLabels();
-
-    //! Load information.
-
-    static void loadInfo(
-        djvFileIo   &    io,
-        djvImageIoInfo & info,
-        int *            tiles,
-        bool *           compression) throw (djvError);
-
-    //! Save information.
-
-    static void saveInfo(
-        djvFileIo &            io,
-        const djvImageIoInfo & info,
-        bool                   compression) throw (djvError);
-
-    //! Load RLE compressed data.
-
-    static int readRle(
-        const quint8 * in,
-        quint8 *       end,
-        int            size);
-
-    //! Save RLE compressed data.
-
-    static int writeRle (
-        const quint8 * in,
-        quint8 *       out,
-        int            size);
-
-    //! Get alignment size.
-
-    static quint32 alignSize(
-        quint32 size,
-        quint32 alignment);
-
-    //! Get tile size.
-
-    static djvVector2i tileSize(
-        quint32 width,
-        quint32 height);
-
-    //! Get tile width.
-
-    static int tileWidth();
-
-    //! Get tile height.
-
-    static int tileHeight();
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        Options();
-
-        djvIffPlugin::COMPRESSION compression;
-    };
+    explicit djvIffPlugin(djvCoreContext * context);
 
     virtual djvPlugin * copyPlugin() const;
 
@@ -188,12 +76,8 @@ public:
 
 private:
 
-    Options _options;
+    djvIff::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-DJV_STRING_OPERATOR(, djvIffPlugin::COMPRESSION);
 
 //@} // djvIffPlugin
 

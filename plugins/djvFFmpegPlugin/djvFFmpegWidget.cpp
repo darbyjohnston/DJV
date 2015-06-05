@@ -33,45 +33,59 @@
 
 #include <djvFFmpegWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvPrefsGroupBox.h>
 #include <djvSignalBlocker.h>
 #include <djvStyle.h>
+
+#include <djvImageIo.h>
+#include <djvSignalBlocker.h>
 
 #include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
+extern "C"
+{
+
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoWidgetEntry(djvCoreContext * context)
+{
+    return new djvFFmpegWidgetPlugin(context);
+}
+
+} // extern "C"
+
 //------------------------------------------------------------------------------
 // djvFFmpegWidget
 //------------------------------------------------------------------------------
 
-djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin, djvGuiContext * context) :
-    djvAbstractPrefsWidget(djvFFmpegPlugin::staticName, context),
-    _plugin       (plugin),
+djvFFmpegWidget::djvFFmpegWidget(djvImageIo * plugin, djvGuiContext * context) :
+    djvImageIoWidget(plugin, context),
     _formatWidget (0),
     _qualityWidget(0)
 {
     // Create the widgets.
 
     _formatWidget = new QComboBox;
-    _formatWidget->addItems(djvFFmpegPlugin::formatLabels());
+    _formatWidget->addItems(djvFFmpeg::formatLabels());
     _formatWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     _qualityWidget = new QComboBox;
-    _qualityWidget->addItems(djvFFmpegPlugin::qualityLabels());
+    _qualityWidget->addItems(djvFFmpeg::qualityLabels());
     _qualityWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvFFmpegWidget", "Format"),
-        qApp->translate("djvFFmpegWidget", "Set the format used when saving movies."));
+        qApp->translate("djvFFmpegWidget", "Set the format used when saving movies."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvFFmpegWidget", "Format:"),
@@ -110,7 +124,7 @@ djvFFmpegWidget::~djvFFmpegWidget()
 
 void djvFFmpegWidget::resetPreferences()
 {
-    _options = djvFFmpegPlugin::Options();
+    _options = djvFFmpeg::Options();
     
     pluginUpdate();
     widgetUpdate();
@@ -121,13 +135,13 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(option);
+        tmp = plugin()->option(option);
 
-        if (0 == option.compare(_plugin->options()[
-            djvFFmpegPlugin::OPTIONS_FORMAT], Qt::CaseInsensitive))
+        if (0 == option.compare(plugin()->options()[
+            djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
                 tmp >> _options.format;
-        else if (0 == option.compare(_plugin->options()[
-            djvFFmpegPlugin::OPTIONS_QUALITY], Qt::CaseInsensitive))
+        else if (0 == option.compare(plugin()->options()[
+            djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
                 tmp >> _options.quality;
     }
     catch (const QString &)
@@ -138,14 +152,14 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
 
 void djvFFmpegWidget::formatCallback(int in)
 {
-    _options.format = static_cast<djvFFmpegPlugin::FORMAT>(in);
+    _options.format = static_cast<djvFFmpeg::FORMAT>(in);
 
     pluginUpdate();
 }
 
 void djvFFmpegWidget::qualityCallback(int in)
 {
-    _options.quality = static_cast<djvFFmpegPlugin::QUALITY>(in);
+    _options.quality = static_cast<djvFFmpeg::QUALITY>(in);
 
     pluginUpdate();
 }
@@ -154,11 +168,11 @@ void djvFFmpegWidget::pluginUpdate()
 {
     QStringList tmp;
     tmp << _options.format;
-    _plugin->setOption(
-        _plugin->options()[djvFFmpegPlugin::OPTIONS_FORMAT], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvFFmpeg::OPTIONS_FORMAT], tmp);
     tmp << _options.quality;
-    _plugin->setOption(
-        _plugin->options()[djvFFmpegPlugin::OPTIONS_QUALITY], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvFFmpeg::OPTIONS_QUALITY], tmp);
 }
 
 void djvFFmpegWidget::widgetUpdate()
@@ -170,11 +184,11 @@ void djvFFmpegWidget::widgetUpdate()
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(
-            _plugin->options()[djvFFmpegPlugin::OPTIONS_FORMAT]);
+        tmp = plugin()->option(
+            plugin()->options()[djvFFmpeg::OPTIONS_FORMAT]);
         tmp >> _options.format;
-        tmp = _plugin->option(
-            _plugin->options()[djvFFmpegPlugin::OPTIONS_QUALITY]);
+        tmp = plugin()->option(
+            plugin()->options()[djvFFmpeg::OPTIONS_QUALITY]);
         tmp >> _options.quality;
     }
     catch (QString)
@@ -183,3 +197,22 @@ void djvFFmpegWidget::widgetUpdate()
     _formatWidget->setCurrentIndex(_options.format);
     _qualityWidget->setCurrentIndex(_options.quality);
 }
+
+//------------------------------------------------------------------------------
+// djvFFmpegWidgetPlugin
+//------------------------------------------------------------------------------
+
+djvFFmpegWidgetPlugin::djvFFmpegWidgetPlugin(djvCoreContext * context) :
+    djvImageIoWidgetPlugin(context)
+{}
+
+djvImageIoWidget * djvFFmpegWidgetPlugin::createWidget(djvImageIo * plugin) const
+{
+    return new djvFFmpegWidget(plugin, guiContext());
+}
+
+QString djvFFmpegWidgetPlugin::pluginName() const
+{
+    return djvFFmpeg::staticName;
+}
+

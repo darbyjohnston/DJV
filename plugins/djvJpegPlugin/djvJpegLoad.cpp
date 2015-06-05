@@ -41,7 +41,8 @@
 // djvJpegLoad
 //------------------------------------------------------------------------------
 
-djvJpegLoad::djvJpegLoad() :
+djvJpegLoad::djvJpegLoad(djvImageContext * context) :
+    djvImageLoad(context),
     _f       (0),
     _jpegInit(false)
 {}
@@ -144,7 +145,7 @@ void djvJpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             &_jpegError))
         {
             throw djvError(
-                djvJpegPlugin::staticName,
+                djvJpeg::staticName,
                 _jpegError.msg);
         }
     }
@@ -152,7 +153,7 @@ void djvJpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     if (! jpegEnd(&_jpeg, &_jpegError))
     {
         throw djvError(
-            djvJpegPlugin::staticName,
+            djvJpeg::staticName,
             _jpegError.msg);
     }
 
@@ -253,7 +254,7 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! jpegInit(&_jpeg, &_jpegError))
     {
         throw djvError(
-            djvJpegPlugin::staticName,
+            djvJpeg::staticName,
             _jpegError.msg);
     }
 
@@ -274,14 +275,14 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
     if (! _f)
     {
         throw djvError(
-            djvJpegPlugin::staticName,
+            djvJpeg::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! jpegOpen(_f, &_jpeg, &_jpegError))
     {
         throw djvError(
-            djvJpegPlugin::staticName,
+            djvJpeg::staticName,
             _jpegError.msg);
     }
 
@@ -295,7 +296,7 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
         _jpeg.out_color_components, 8, djvPixel::INTEGER, info.pixel))
     {
         throw djvError(
-            djvJpegPlugin::staticName,
+            djvJpeg::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 

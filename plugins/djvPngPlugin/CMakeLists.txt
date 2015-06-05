@@ -1,9 +1,11 @@
 set(header
+    djvPng.h
     djvPngLoad.h
     djvPngPlugin.h
     djvPngSave.h)
 
 set(source
+    djvPng.cpp
     djvPngLoad.cpp
     djvPngPlugin.cpp
     djvPngSave.cpp)

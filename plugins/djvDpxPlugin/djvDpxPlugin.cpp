@@ -38,129 +38,30 @@
 
 #include <djvAssert.h>
 #include <djvError.h>
-#include <djvMemory.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvDpxPlugin;
+    return new djvDpxPlugin(context);
 }
 
 } // extern "C"
 
 //------------------------------------------------------------------------------
-// djvDpxPlugin::Options
-//------------------------------------------------------------------------------
-
-djvDpxPlugin::Options::Options() :
-    inputColorProfile (djvCineon::COLOR_PROFILE_AUTO),
-    outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT),
-    version           (djvDpxPlugin::VERSION_2_0),
-    type              (djvDpxPlugin::TYPE_U10),
-    endian            (djvDpxPlugin::ENDIAN_MSB)
-{}
-
-//------------------------------------------------------------------------------
 // djvDpxPlugin
 //------------------------------------------------------------------------------
 
-const QString djvDpxPlugin::staticName = "DPX";
-
-const QStringList & djvDpxPlugin::versionLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDpxPlugin", "1.0") <<
-        qApp->translate("djvDpxPlugin", "2.0");
-
-    DJV_ASSERT(data.count() == VERSION_COUNT);
-
-    return data;
-}
-
-const QStringList & djvDpxPlugin::typeLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDpxPlugin", "Auto") <<
-        qApp->translate("djvDpxPlugin", "U10");
-
-    DJV_ASSERT(data.count() == TYPE_COUNT);
-
-    return data;
-}
-
-const QStringList & djvDpxPlugin::endianLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDpxPlugin", "Auto") <<
-        djvMemory::endianLabels();
-
-    DJV_ASSERT(data.count() == ENDIAN_COUNT);
-
-    return data;
-}
-
-const QStringList & djvDpxPlugin::tagLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDpxPlugin", "Source Offset") <<
-        qApp->translate("djvDpxPlugin", "Source Center") <<
-        qApp->translate("djvDpxPlugin", "Source Size") <<
-        qApp->translate("djvDpxPlugin", "Source File") <<
-        qApp->translate("djvDpxPlugin", "Source Time") <<
-        qApp->translate("djvDpxPlugin", "Source Input Device") <<
-        qApp->translate("djvDpxPlugin", "Source Input Serial") <<
-        qApp->translate("djvDpxPlugin", "Source Border") <<
-        qApp->translate("djvDpxPlugin", "Source Pixel Aspect") <<
-        qApp->translate("djvDpxPlugin", "Source ScanSize") <<
-        qApp->translate("djvDpxPlugin", "Film Format") <<
-        qApp->translate("djvDpxPlugin", "Film Frame") <<
-        qApp->translate("djvDpxPlugin", "Film Sequence") <<
-        qApp->translate("djvDpxPlugin", "Film Hold") <<
-        qApp->translate("djvDpxPlugin", "Film Frame Rate") <<
-        qApp->translate("djvDpxPlugin", "Film Shutter") <<
-        qApp->translate("djvDpxPlugin", "Film Frame ID") <<
-        qApp->translate("djvDpxPlugin", "Film Slate") <<
-        qApp->translate("djvDpxPlugin", "TV Interlace") <<
-        qApp->translate("djvDpxPlugin", "TV Field") <<
-        qApp->translate("djvDpxPlugin", "TV Video Signal") <<
-        qApp->translate("djvDpxPlugin", "TV Sample Rate") <<
-        qApp->translate("djvDpxPlugin", "TV Frame Rate") <<
-        qApp->translate("djvDpxPlugin", "TV Time Offset") <<
-        qApp->translate("djvDpxPlugin", "TV Gamma") <<
-        qApp->translate("djvDpxPlugin", "TV Black Level") <<
-        qApp->translate("djvDpxPlugin", "TV Black Gain") <<
-        qApp->translate("djvDpxPlugin", "TV Break Point") <<
-        qApp->translate("djvDpxPlugin", "TV White Level") <<
-        qApp->translate("djvDpxPlugin", "TV Integration Times");
-
-    DJV_ASSERT(data.count() == TAG_COUNT);
-
-    return data;
-}
-
-const QStringList & djvDpxPlugin::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDpxPlugin", "Input Color Profile") <<
-        qApp->translate("djvDpxPlugin", "Input Film Print") <<
-        qApp->translate("djvDpxPlugin", "Output Color Profile") <<
-        qApp->translate("djvDpxPlugin", "Output Film Print") <<
-        qApp->translate("djvDpxPlugin", "Version") <<
-        qApp->translate("djvDpxPlugin", "Type") <<
-        qApp->translate("djvDpxPlugin", "Endian");
-
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
-    return data;
-}
+djvDpxPlugin::djvDpxPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvDpxPlugin::copyPlugin() const
 {
-    djvDpxPlugin * plugin = new djvDpxPlugin;
+    djvDpxPlugin * plugin = new djvDpxPlugin(context());
     
     plugin->_options = _options;
     
@@ -169,7 +70,7 @@ djvPlugin * djvDpxPlugin::copyPlugin() const
 
 QString djvDpxPlugin::pluginName() const
 {
-    return staticName;
+    return djvDpx::staticName;
 }
 
 QStringList djvDpxPlugin::extensions() const
@@ -181,31 +82,31 @@ QStringList djvDpxPlugin::option(const QString & in) const
 {
     QStringList out;
 
-    if (0 == in.compare(options()[INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+    if (0 == in.compare(options()[djvDpx::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.inputColorProfile;
     }
-    else if (0 == in.compare(options()[INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvDpx::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
     {
         out << _options.inputFilmPrint;
     }
-    else if (0 == in.compare(options()[OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvDpx::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.outputColorProfile;
     }
-    else if (0 == in.compare(options()[OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvDpx::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
     {
         out << _options.outputFilmPrint;
     }
-    else if (0 == in.compare(options()[VERSION_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvDpx::VERSION_OPTION], Qt::CaseInsensitive))
     {
         out << _options.version;
     }
-    else if (0 == in.compare(options()[TYPE_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvDpx::TYPE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.type;
     }
-    else if (0 == in.compare(options()[ENDIAN_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvDpx::ENDIAN_OPTION], Qt::CaseInsensitive))
     {
         out << _options.endian;
     }
@@ -221,7 +122,7 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
     
     try
     {
-        if (0 == in.compare(options()[INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        if (0 == in.compare(options()[djvDpx::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::COLOR_PROFILE colorProfile =
                 static_cast<djvCineon::COLOR_PROFILE>(0);
@@ -235,7 +136,7 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvDpx::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::FilmPrintToLinear filmPrint;
             
@@ -248,7 +149,7 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvDpx::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::COLOR_PROFILE colorProfile =
                 static_cast<djvCineon::COLOR_PROFILE>(0);
@@ -262,7 +163,7 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvDpx::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::LinearToFilmPrint filmPrint;
             
@@ -275,9 +176,9 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[VERSION_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvDpx::VERSION_OPTION], Qt::CaseInsensitive))
         {
-            VERSION version = static_cast<VERSION>(0);
+            djvDpx::VERSION version = static_cast<djvDpx::VERSION>(0);
             
             data >> version;
             
@@ -288,9 +189,9 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[TYPE_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvDpx::TYPE_OPTION], Qt::CaseInsensitive))
         {
-            TYPE type = static_cast<TYPE>(0);
+            djvDpx::TYPE type = static_cast<djvDpx::TYPE>(0);
             
             data >> type;
             
@@ -301,9 +202,9 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[ENDIAN_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvDpx::ENDIAN_OPTION], Qt::CaseInsensitive))
         {
-            ENDIAN endian = static_cast<ENDIAN>(0);
+            djvDpx::ENDIAN endian = static_cast<djvDpx::ENDIAN>(0);
             
             data >> endian;
             
@@ -325,7 +226,7 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
 
 QStringList djvDpxPlugin::options() const
 {
-    return optionsLabels();
+    return djvDpx::optionsLabels();
 }
 
 void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
@@ -422,26 +323,20 @@ QString djvDpxPlugin::commandLineHelp() const
     arg(djvCineon::colorProfileLabels().join(", ")).
     arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
     arg(djvStringUtil::label(_options.outputFilmPrint).join(", ")).
-    arg(djvDpxPlugin::versionLabels().join(", ")).
+    arg(djvDpx::versionLabels().join(", ")).
     arg(djvStringUtil::label(_options.version).join(", ")).
-    arg(djvDpxPlugin::typeLabels().join(", ")).
+    arg(djvDpx::typeLabels().join(", ")).
     arg(djvStringUtil::label(_options.type).join(", ")).
-    arg(djvDpxPlugin::endianLabels().join(", ")).
+    arg(djvDpx::endianLabels().join(", ")).
     arg(djvStringUtil::label(_options.endian).join(", "));
 }
 
 djvImageLoad * djvDpxPlugin::createLoad() const
 {
-    return new djvDpxLoad(_options);
+    return new djvDpxLoad(_options, imageContext());
 }
 
 djvImageSave * djvDpxPlugin::createSave() const
 {
-    return new djvDpxSave(_options);
+    return new djvDpxSave(_options, imageContext());
 }
-
-//------------------------------------------------------------------------------
-
-_DJV_STRING_OPERATOR_LABEL(djvDpxPlugin::VERSION, djvDpxPlugin::versionLabels())
-_DJV_STRING_OPERATOR_LABEL(djvDpxPlugin::TYPE, djvDpxPlugin::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(djvDpxPlugin::ENDIAN, djvDpxPlugin::endianLabels())

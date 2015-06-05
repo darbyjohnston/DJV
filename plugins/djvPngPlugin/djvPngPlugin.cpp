@@ -39,9 +39,9 @@
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvPngPlugin;
+    return new djvPngPlugin(context);
 }
 
 } // extern "C"
@@ -50,16 +50,18 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 // djvPngPlugin
 //------------------------------------------------------------------------------
 
-const QString djvPngPlugin::staticName = "PNG";
+djvPngPlugin::djvPngPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvPngPlugin::copyPlugin() const
 {
-    return new djvPngPlugin;
+    return new djvPngPlugin(context());
 }
 
 QString djvPngPlugin::pluginName() const
 {
-    return staticName;
+    return djvPng::staticName;
 }
 
 QStringList djvPngPlugin::extensions() const
@@ -69,36 +71,10 @@ QStringList djvPngPlugin::extensions() const
 
 djvImageLoad * djvPngPlugin::createLoad() const
 {
-    return new djvPngLoad;
+    return new djvPngLoad(imageContext());
 }
 
 djvImageSave * djvPngPlugin::createSave() const
 {
-    return new djvPngSave;
+    return new djvPngSave(imageContext());
 }
-
-//------------------------------------------------------------------------------
-
-extern "C"
-{
-
-void djvPngError(png_structp in, png_const_charp msg)
-{
-    djvPngErrorStruct * error = (djvPngErrorStruct *)png_get_error_ptr(in);
-
-    SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
-
-    longjmp(png_jmpbuf(in), 1);
-}
-
-void djvPngWarning(png_structp in, png_const_charp msg)
-{
-    djvPngErrorStruct * error = (djvPngErrorStruct *)png_get_error_ptr(in);
-
-    SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
-
-    longjmp(png_jmpbuf(in), 1);
-}
-
-} // extern "C"
-

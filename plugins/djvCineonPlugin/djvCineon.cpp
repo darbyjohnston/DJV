@@ -38,6 +38,15 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
+// djvCineon::Options
+//------------------------------------------------------------------------------
+
+djvCineon::Options::Options() :
+    inputColorProfile (djvCineon::COLOR_PROFILE_AUTO),
+    outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT)
+{}
+
+//------------------------------------------------------------------------------
 // djvCineon
 //------------------------------------------------------------------------------
 
@@ -199,6 +208,19 @@ const QStringList & djvCineon::tagLabels()
         qApp->translate("djvCineon", "Film Slate");
 
     DJV_ASSERT(data.count() == TAG_COUNT);
+
+    return data;
+}
+
+const QStringList & djvCineon::optionsLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvCineon", "Input Color Profile") <<
+        qApp->translate("djvCineon", "Input Film Print") <<
+        qApp->translate("djvCineon", "Output Color Profile") <<
+        qApp->translate("djvCineon", "Output Film Print");
+
+    DJV_ASSERT(data.count() == OPTIONS_COUNT);
 
     return data;
 }

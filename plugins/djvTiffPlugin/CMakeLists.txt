@@ -1,28 +1,33 @@
 set(header
+    djvTiff.h
     djvTiffLoad.h
     djvTiffPlugin.h
-    djvTiffSave.h
-#    djvTiffWidget.h
-    )
-
-set(mocHeader
-#    djvTiffWidget.h
-    )
+    djvTiffSave.h)
 
 set(source
+    djvTiff.cpp
     djvTiffLoad.cpp
     djvTiffPlugin.cpp
-    djvTiffSave.cpp
-#    djvTiffWidget.cpp
-    )
+    djvTiffSave.cpp)
+
+set(widgetHeader
+    djvTiff.h
+    djvTiffWidget.h)
+
+set(widgetMocHeader
+    djvTiffWidget.h)
+
+set(widgetSource
+    djvTiff.cpp
+    djvTiffWidget.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-    QT5_CREATE_TRANSLATION(qmSource ${source}
+    QT5_WRAP_CPP(widgetMocSource ${widgetMocHeader})
+    QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
         djvTiffPlugin_en_US.ts)
 else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-    QT4_CREATE_TRANSLATION(qmSource ${source}
+    QT4_WRAP_CPP(widgetMocSource ${widgetMocHeader})
+    QT4_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
         djvTiffPlugin_en_US.ts)
 endif()
 
@@ -33,21 +38,32 @@ include_directories(
     ${ZLIB_INCLUDE_DIRS}
     ${djvGuiIncludeDirs})
 
-add_library(djvTiffPlugin MODULE ${header} ${source} ${mocSource} ${qmSource})
+add_library(djvTiffPlugin MODULE ${header} ${source} ${qmSource})
+add_library(djvTiffWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 
 target_link_libraries(
     djvTiffPlugin
     ${TIFF_LIBRARIES}
     ${JPEG_LIBRARIES}
     ${ZLIB_LIBRARIES}
+    ${djvCoreLibs})
+target_link_libraries(
+    djvTiffWidgetPlugin
+    ${TIFF_LIBRARIES}
+    ${JPEG_LIBRARIES}
+    ${ZLIB_LIBRARIES}
     ${djvGuiLibs})
 
 set_target_properties(djvTiffPlugin PROPERTIES FOLDER plugins)
+set_target_properties(djvTiffWidgetPlugin PROPERTIES FOLDER plugins)
 
 if (djvInstallRpath)
 
     set_target_properties(
         djvTiffPlugin PROPERTIES
+        INSTALL_RPATH "${djvInstallRpath}")
+    set_target_properties(
+        djvTiffWidgetPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
 
 endif (djvInstallRpath)
@@ -55,9 +71,13 @@ endif (djvInstallRpath)
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djvTiffPlugin
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib)
+install(
+    TARGETS djvTiffWidgetPlugin
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)

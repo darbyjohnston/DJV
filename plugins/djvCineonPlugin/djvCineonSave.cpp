@@ -41,7 +41,8 @@
 // djvCineonSave
 //------------------------------------------------------------------------------
 
-djvCineonSave::djvCineonSave(const djvCineonPlugin::Options & options) :
+djvCineonSave::djvCineonSave(const djvCineon::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options)
 {}
 

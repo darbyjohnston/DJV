@@ -34,30 +34,9 @@
 #ifndef DJV_TIFF_PLUGIN_H
 #define DJV_TIFF_PLUGIN_H
 
+#include <djvTiff.h>
+
 #include <djvImageIo.h>
-
-#include <tiffio.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvTiffPlugin djvTiffPlugin
-//!
-//! This plugin provides support for the Tagged Image File Format (TIFF).
-//!
-//! Requires:
-//!
-//! - libtiff - http://www.libtiff.org
-//!
-//! File extensions: .tiff, .tif
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
-//! - Interleaved channels only
-//! - File compression
-
-//@} // plugins
 
 //! \addtogroup djvTiffPlugin
 //@{
@@ -72,57 +51,9 @@ class djvTiffPlugin : public djvImageIo
 {
 public:
 
-    //! The plugin name.
+    //! Constructor.
     
-    static const QString staticName;
-
-    //! This enumeration provides the file compression. Note that libtiff
-    //! defines similar values so we prefix ours with "_".
-
-    enum COMPRESSION
-    {
-        _COMPRESSION_NONE,
-        _COMPRESSION_RLE,
-        _COMPRESSION_LZW,
-
-        COMPRESSION_COUNT
-    };
-
-    //! Get compression labels.
-
-    static const QStringList & compressionLabels();
-
-    //! Load a palette.
-
-   static void paletteLoad(
-        quint8 *  out,
-        int       size,
-        int       bytes,
-        quint16 * red,
-        quint16 * green,
-        quint16 * blue);
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        Options();
-
-        COMPRESSION compression;
-    };
+    explicit djvTiffPlugin(djvCoreContext *);
     
     virtual void initPlugin() throw (djvError);
 
@@ -148,12 +79,8 @@ public:
 
 private:
 
-    Options _options;
+    djvTiff::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-DJV_STRING_OPERATOR(, djvTiffPlugin::COMPRESSION);
 
 //@} // djvTiffPlugin
 

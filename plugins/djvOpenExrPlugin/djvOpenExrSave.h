@@ -34,10 +34,11 @@
 #ifndef DJV_OPENEXR_SAVE_H
 #define DJV_OPENEXR_SAVE_H
 
-#include <djvOpenExrPlugin.h>
+#include <djvOpenExr.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 #include <ImfOutputFile.h>
 
@@ -56,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvOpenExrSave(const djvOpenExrPlugin::Options &);
+    djvOpenExrSave(const djvOpenExr::Options &, djvImageContext *);
 
     //! Destructor.
 
@@ -75,13 +76,13 @@ private:
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
-    djvOpenExrPlugin::Options _options;
-    djvFileInfo               _file;
-    Imf::OutputFile *         _f;
-    djvPixelDataInfo          _info;
-    QStringList               _channels;
-    djvSpeed                  _speed;
-    djvPixelData              _tmp;
+    djvOpenExr::Options _options;
+    djvFileInfo         _file;
+    Imf::OutputFile *   _f;
+    djvPixelDataInfo    _info;
+    QStringList         _channels;
+    djvSpeed            _speed;
+    djvPixelData        _tmp;
 };
 
 //@} // djvOpenExrPlugin

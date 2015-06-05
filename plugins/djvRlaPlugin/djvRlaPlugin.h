@@ -34,30 +34,9 @@
 #ifndef DJV_RLA_PLUGIN_H
 #define DJV_RLA_PLUGIN_H
 
+#include <djvRla.h>
+
 #include <djvImageIo.h>
-#include <djvFileIo.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvRlaPlugin djvRlaPlugin
-//!
-//! This plugin provides support for the Wavefront RLA image file format.
-//!
-//! File extensions: .rla, .rpf
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//! - Read only
-//!
-//! References:
-//!
-//! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
-//!   Second Edition"
-
-//@} // plugins
 
 //! \addtogroup djvRlaPlugin
 //@{
@@ -72,30 +51,9 @@ class djvRlaPlugin : public djvImageIo
 {
 public:
 
-    //! Plugin name.
+    //! Constrcutor.
     
-    static const QString staticName;
-
-    //! Load RLE data.
-
-    static void readRle(
-        djvFileIo & io,
-        quint8 *    out,
-        int         size,
-        int         channels,
-        int         bytes) throw (djvError);
-
-    //! Load floating point data.
-
-    static void floatLoad(
-        djvFileIo & io,
-        quint8 *    out,
-        int         size,
-        int         channels) throw (djvError);
-
-    //! Skip file data.
-
-    static void skip(djvFileIo &) throw (djvError);
+    explicit djvRlaPlugin(djvCoreContext *);
     
     virtual djvPlugin * copyPlugin() const;
 

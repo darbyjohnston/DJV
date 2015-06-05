@@ -34,9 +34,9 @@
 #ifndef DJV_FFMPEG_WIDGET_H
 #define DJV_FFMPEG_WIDGET_H
 
-#include <djvFFmpegPlugin.h>
+#include <djvFFmpeg.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -49,7 +49,7 @@ class QComboBox;
 //! This class provides a FFmpeg widget.
 //------------------------------------------------------------------------------
 
-class djvFFmpegWidget : public djvAbstractPrefsWidget
+class djvFFmpegWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvFFmpegWidget(djvFFmpegPlugin *, djvGuiContext *);
+    djvFFmpegWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -76,10 +76,26 @@ private Q_SLOTS:
 
 private:
 
-    djvFFmpegPlugin *        _plugin;
-    djvFFmpegPlugin::Options _options;
-    QComboBox *              _formatWidget;
-    QComboBox *              _qualityWidget;
+    djvFFmpeg::Options _options;
+    QComboBox *        _formatWidget;
+    QComboBox *        _qualityWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvFFmpegWidgetPlugin
+//!
+//! This class provides a FFmpeg widget plugin.
+//------------------------------------------------------------------------------
+
+class djvFFmpegWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvFFmpegWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvFFmpegPlugin

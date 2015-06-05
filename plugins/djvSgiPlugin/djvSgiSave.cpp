@@ -40,7 +40,8 @@
 // djvSgiSave
 //------------------------------------------------------------------------------
 
-djvSgiSave::djvSgiSave(const djvSgiPlugin::Options & options) :
+djvSgiSave::djvSgiSave(const djvSgi::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options)
 {}
 
@@ -99,10 +100,10 @@ void djvSgiSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     io.open(fileName, djvFileIo::WRITE);
 
-    djvSgiPlugin::saveInfo(
+    djvSgi::saveInfo(
         io,
         _info,
-        _options.compression != djvSgiPlugin::COMPRESSION_NONE);
+        _options.compression != djvSgi::COMPRESSION_NONE);
 
     // Setup the scanline tables.
 
@@ -158,7 +159,7 @@ void djvSgiSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         {
             for (int y = 0; y < h; ++y)
             {
-                const quint64 size = djvSgiPlugin::writeRle(
+                const quint64 size = djvSgi::writeRle(
                     _tmp.data() + (c * h + y) * w * bytes,
                     scanline(),
                     w,

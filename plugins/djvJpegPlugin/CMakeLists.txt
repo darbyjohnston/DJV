@@ -1,28 +1,33 @@
 set(header
+    djvJpeg.h
     djvJpegLoad.h
     djvJpegPlugin.h
-    djvJpegSave.h
-#    djvJpegWidget.h
-    )
-
-set(mocHeader
-#    djvJpegWidget.h
-    )
+    djvJpegSave.h)
 
 set(source
+    djvJpeg.cpp
     djvJpegLoad.cpp
     djvJpegPlugin.cpp
-    djvJpegSave.cpp
-#    djvJpegWidget.cpp
-    )
+    djvJpegSave.cpp)
+
+set(widgetHeader
+    djvJpeg.h
+    djvJpegWidget.h)
+
+set(widgetMocHeader
+    djvJpegWidget.h)
+
+set(widgetSource
+    djvJpeg.cpp
+    djvJpegWidget.cpp)
 
 if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-    QT5_CREATE_TRANSLATION(qmSource ${source}
+    QT5_WRAP_CPP(widgetMocSource ${widgetMocHeader})
+    QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
         djvJpegPlugin_en_US.ts)
 else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-    QT4_CREATE_TRANSLATION(qmSource ${source}
+    QT4_WRAP_CPP(widgetMocSource ${widgetMocHeader})
+    QT4_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
         djvJpegPlugin_en_US.ts)
 endif()
 
@@ -32,18 +37,21 @@ include_directories(
     ${djvGuiIncludeDirs})
 
 add_library(djvJpegPlugin MODULE ${header} ${source} ${mocSource} ${qmSource})
+add_library(djvJpegWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 
-target_link_libraries(
-    djvJpegPlugin
-    ${JPEG_LIBRARIES}
-    ${djvGuiLibs})
+target_link_libraries(djvJpegPlugin ${JPEG_LIBRARIES} ${djvCoreLibs})
+target_link_libraries(djvJpegWidgetPlugin ${JPEG_LIBRARIES} ${djvGuiLibs})
 
 set_target_properties(djvJpegPlugin PROPERTIES FOLDER plugins)
+set_target_properties(djvJpegWidgetPlugin PROPERTIES FOLDER plugins)
 
 if (djvInstallRpath)
 
     set_target_properties(
         djvJpegPlugin PROPERTIES
+        INSTALL_RPATH "${djvInstallRpath}")
+    set_target_properties(
+        djvJpegWidgetPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
 
 endif (djvInstallRpath)
@@ -51,9 +59,13 @@ endif (djvInstallRpath)
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djvJpegPlugin
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib)
+install(
+    TARGETS djvJpegWidgetPlugin
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)

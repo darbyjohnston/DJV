@@ -39,7 +39,8 @@
 // djvTargaSave
 //------------------------------------------------------------------------------
 
-djvTargaSave::djvTargaSave(const djvTargaPlugin::Options & options) :
+djvTargaSave::djvTargaSave(const djvTarga::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options)
 {}
 
@@ -94,10 +95,10 @@ void djvTargaSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     io.open(fileName, djvFileIo::WRITE);
 
-    djvTargaPlugin::saveInfo(
+    djvTarga::saveInfo(
         io,
         _info,
-        _options.compression != djvTargaPlugin::COMPRESSION_NONE);
+        _options.compression != djvTarga::COMPRESSION_NONE);
 
     // Convert the image.
 
@@ -130,7 +131,7 @@ void djvTargaSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         for (int y = 0; y < h; ++y)
         {
             const quint64 size =
-                djvTargaPlugin::writeRle(p->data(0, y), scanline(), w, channels);
+                djvTarga::writeRle(p->data(0, y), scanline(), w, channels);
             
             io.set(scanline.data(), size);
         }

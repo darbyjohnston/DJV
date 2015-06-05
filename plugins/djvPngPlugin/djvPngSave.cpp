@@ -41,7 +41,8 @@
 // djvPngSave
 //------------------------------------------------------------------------------
 
-djvPngSave::djvPngSave() :
+djvPngSave::djvPngSave(djvImageContext * context) :
+    djvImageSave(context),
     _f      (0),
     _png    (0),
     _pngInfo(0)
@@ -150,7 +151,7 @@ void djvPngSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         if (! pngScanline(_png, p->data(0, h - 1 - y)))
         {
             throw djvError(
-                djvPngPlugin::staticName,
+                djvPng::staticName,
                 _pngError.msg);
         }
     }
@@ -158,7 +159,7 @@ void djvPngSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     if (! pngEnd(_png, _pngInfo))
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             _pngError.msg);
     }
 
@@ -272,7 +273,7 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info)
     if (! _png)
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             _pngError.msg);
     }
 
@@ -296,14 +297,14 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info)
     if (! _f)
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
     if (! pngOpen(_f, _png, &_pngInfo, info))
     {
         throw djvError(
-            djvPngPlugin::staticName,
+            djvPng::staticName,
             _pngError.msg);
     }
 

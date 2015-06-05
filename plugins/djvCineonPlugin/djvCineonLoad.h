@@ -34,9 +34,10 @@
 #ifndef DJV_CINEON_LOAD_H
 #define DJV_CINEON_LOAD_H
 
-#include <djvCineonPlugin.h>
+#include <djvCineon.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvCineonPlugin
 //@{
@@ -53,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvCineonLoad(const djvCineonPlugin::Options &);
+    djvCineonLoad(const djvCineon::Options &, djvImageContext *);
 
     //! Destructor.
 
@@ -70,11 +71,11 @@ private:
     void _open(const QString &, djvImageIoInfo &, djvFileIo & io)
         throw (djvError);
 
-    djvCineonPlugin::Options _options;
-    bool                     _filmPrint;
-    djvPixelData             _filmPrintLut;
-    djvFileInfo              _file;
-    djvPixelData             _tmp;
+    djvCineon::Options _options;
+    bool               _filmPrint;
+    djvPixelData       _filmPrintLut;
+    djvFileInfo        _file;
+    djvPixelData       _tmp;
 };
 
 //@} // djvCineonPlugin

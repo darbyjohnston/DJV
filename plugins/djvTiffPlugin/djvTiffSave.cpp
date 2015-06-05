@@ -39,7 +39,8 @@
 // djvTiffSave
 //------------------------------------------------------------------------------
 
-djvTiffSave::djvTiffSave(const djvTiffPlugin::Options & options) :
+djvTiffSave::djvTiffSave(const djvTiff::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options),
     _f      (0)
 {}
@@ -119,7 +120,7 @@ void djvTiffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         if (TIFFWriteScanline(_f, (tdata_t *)p->data(0, y), y) == -1)
         {
             throw djvError(
-                djvTiffPlugin::staticName,
+                djvTiff::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_WRITE]);
         }
     }
@@ -152,7 +153,7 @@ void djvTiffSave::_open(const QString & in, const djvImageIoInfo & info)
     if (! _f)
     {
         throw djvError(
-            djvTiffPlugin::staticName,
+            djvTiff::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
 
@@ -216,15 +217,15 @@ void djvTiffSave::_open(const QString & in, const djvImageIoInfo & info)
 
     switch (_options.compression)
     {
-        case djvTiffPlugin::_COMPRESSION_NONE:
+        case djvTiff::_COMPRESSION_NONE:
             compression = COMPRESSION_NONE;
             break;
 
-        case djvTiffPlugin::_COMPRESSION_RLE:
+        case djvTiff::_COMPRESSION_RLE:
             compression = COMPRESSION_PACKBITS;
             break;
 
-        case djvTiffPlugin::_COMPRESSION_LZW:
+        case djvTiff::_COMPRESSION_LZW:
             compression = COMPRESSION_LZW;
             break;
 

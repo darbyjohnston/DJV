@@ -34,10 +34,11 @@
 #ifndef DJV_TIFF_SAVE_H
 #define DJV_TIFF_SAVE_H
 
-#include <djvTiffPlugin.h>
+#include <djvTiff.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvTiffPlugin
 //@{
@@ -54,7 +55,7 @@ public:
 
     //! Constuctor.
 
-    djvTiffSave(const djvTiffPlugin::Options &);
+    djvTiffSave(const djvTiff::Options &, djvImageContext *);
 
     //! Destructor.
 
@@ -73,11 +74,11 @@ private:
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
-    djvTiffPlugin::Options _options;
-    djvFileInfo            _file;
-    TIFF *                 _f;
-    djvPixelDataInfo       _info;
-    djvImage               _image;
+    djvTiff::Options _options;
+    djvFileInfo      _file;
+    TIFF *           _f;
+    djvPixelDataInfo _info;
+    djvImage         _image;
 };
 
 //@} // djvTiff

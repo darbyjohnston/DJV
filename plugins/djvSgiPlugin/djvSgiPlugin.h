@@ -34,31 +34,7 @@
 #ifndef DJV_SGI_PLUGIN_H
 #define DJV_SGI_PLUGIN_H
 
-#include <djvFileIo.h>
-#include <djvImageIo.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvSgiPlugin djvSgiPlugin
-//!
-//! This plugin provides support for the Silicon Graphics image file format.
-//!
-//! File extensions: .sgi, .rgba, .rgb, .bw
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - Paul Haeberli, "The SGI Image File Format, Version 1.00"
-
-//@} // plugins
-
-//! \addtogroup djvSgiPlugin
-//@{
+#include <djvSgi.h>
 
 //------------------------------------------------------------------------------
 //! \class djvSgiPlugin
@@ -70,78 +46,9 @@ class djvSgiPlugin : public djvImageIo
 {
 public:
 
-    //! Plugin name.
+    //! Constructor.
     
-    static const QString staticName;
-
-    //! This enumeration provides the file compression.
-
-    enum COMPRESSION
-    {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
-
-        COMPRESSION_COUNT
-    };
-
-    //! Get compression labels.
-
-    static const QStringList & compressionLabels();
-
-    //! Load information.
-
-    static void loadInfo(
-        djvFileIo &      io,
-        djvImageIoInfo & info,
-        bool *           compression) throw (djvError);
-
-    //! Save information.
-
-    static void saveInfo(
-        djvFileIo &            io,
-        const djvImageIoInfo & info,
-        bool                   compression) throw (djvError);
-
-    //! Load RLE data.
-
-    static bool readRle(
-        const void * in,
-        const void * end,
-        void *       out,
-        int          size,
-        int          bytes,
-        bool         endian);
-
-    //! Save RLE data.
-
-    static quint64 writeRle(
-        const void * in,
-        void *       out,
-        int          size,
-        int          bytes,
-        bool         endian);
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        Options();
-
-        COMPRESSION compression;
-    };
+    explicit djvSgiPlugin(djvCoreContext *);
     
     virtual djvPlugin * copyPlugin() const;
 
@@ -165,12 +72,8 @@ public:
 
 private:
 
-    Options _options;
+    djvSgi::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-DJV_STRING_OPERATOR(, djvSgiPlugin::COMPRESSION);
 
 //@} // djvSgiPlugin
 

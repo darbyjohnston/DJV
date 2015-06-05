@@ -34,7 +34,7 @@
 #ifndef DJV_TARGA_SAVE_H
 #define DJV_TARGA_SAVE_H
 
-#include <djvTargaPlugin.h>
+#include <djvTarga.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
@@ -54,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvTargaSave(const djvTargaPlugin::Options &);
+    djvTargaSave(const djvTarga::Options &, djvImageContext *);
     
     //! Destructor.
     
@@ -70,10 +70,10 @@ private:
 
     void _open(const QString &) throw (djvError);
 
-    djvTargaPlugin::Options _options;
-    djvFileInfo             _file;
-    djvPixelDataInfo        _info;
-    djvImage                _image;
+    djvTarga::Options _options;
+    djvFileInfo       _file;
+    djvPixelDataInfo  _info;
+    djvImage          _image;
 };
 
 //@} // djvTargaPlugin

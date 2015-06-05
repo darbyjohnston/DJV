@@ -34,9 +34,11 @@
 #ifndef DJV_RLA_LOAD_H
 #define DJV_RLA_LOAD_H
 
-#include <djvRlaPlugin.h>
+#include <djvRla.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
+#include <djvMemoryBuffer.h>
 
 //! \addtogroup djvRlaPlugin
 //@{
@@ -50,6 +52,10 @@
 class djvRlaLoad : public djvImageLoad
 {
 public:
+
+    //! Constructor.
+
+    explicit djvRlaLoad(djvImageContext *);
 
     //! Destructor.
 

@@ -35,9 +35,9 @@
 #ifndef DJV_IFF_WIDGET_H
 #define DJV_IFF_WIDGET_H
 
-#include <djvIffPlugin.h>
+#include <djvIff.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -50,7 +50,7 @@ class QComboBox;
 //! This class provides an IFF widget.
 //------------------------------------------------------------------------------
 
-class djvIffWidget : public djvAbstractPrefsWidget
+class djvIffWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -58,7 +58,7 @@ public:
 
     //! Constructor.
 
-    djvIffWidget(djvIffPlugin *, djvGuiContext *);
+    djvIffWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -76,9 +76,25 @@ private Q_SLOTS:
 
 private:
 
-    djvIffPlugin *        _plugin;
-    djvIffPlugin::Options _options;
-    QComboBox *           _compressionWidget;
+    djvIff::Options _options;
+    QComboBox *     _compressionWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvIffWidgetPlugin
+//!
+//! This class provides an IFF widget plugin.
+//------------------------------------------------------------------------------
+
+class djvIffWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvIffWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvIffPlugin

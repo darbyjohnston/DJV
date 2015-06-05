@@ -34,29 +34,7 @@
 #ifndef DJV_TARGA_PLUGIN_H
 #define DJV_TARGA_PLUGIN_H
 
-#include <djvFileIo.h>
-#include <djvImageIo.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvTargaPlugin djvTargaPlugin
-//!
-//! This plugin provides support for the Targa image file format.
-//!
-//! File extensions: .tga
-//!
-//! Supported features:
-//!
-//! - 8-bit Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
-//!   Second Edition"
-
-//@} // plugins
+#include <djvTarga.h>
 
 //! \addtogroup djvTargaPlugin
 //@{
@@ -71,78 +49,9 @@ class djvTargaPlugin : public djvImageIo
 {
 public:
 
-    //! Plugin name.
+    //! Constructor.
     
-    static const QString staticName;
-
-    //! This enumeration provides the file compression.
-
-    enum COMPRESSION
-    {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
-
-        COMPRESSION_COUNT
-    };
-
-    //! Get compression labels.
-
-    static const QStringList & compressionLabels();
-
-    //! Load information.
-
-    static void loadInfo(
-        djvFileIo &      io,
-        djvImageIoInfo & info,
-        bool *           compression) throw (djvError);
-
-    //! Save information.
-
-    static void saveInfo(
-        djvFileIo &            io,
-        const djvImageIoInfo & info,
-        bool                   compression) throw (djvError);
-
-    //! Load RLE data.
-
-    static const quint8 * readRle(
-        const quint8 * in,
-        const quint8 * end,
-        quint8 *       out,
-        int            size,
-        int            channels);
-
-    //! Save RLE data.
-
-    static quint64 writeRle(
-        const quint8 * in,
-        quint8 *       out,
-        int            size,
-        int            channels);
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        //! Constructor.
-
-        Options();
-
-        COMPRESSION compression;
-    };
+    djvTargaPlugin(djvCoreContext *);
     
     virtual djvPlugin * copyPlugin() const;
 
@@ -166,12 +75,8 @@ public:
 
 private:
 
-    Options _options;
+    djvTarga::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-DJV_STRING_OPERATOR(, djvTargaPlugin::COMPRESSION);
 
 //@} // djvTargaPlugin
 

@@ -34,9 +34,10 @@
 #ifndef DJV_OPENEXR_LOAD_H
 #define DJV_OPENEXR_LOAD_H
 
-#include <djvOpenExrPlugin.h>
+#include <djvOpenExr.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 #include <ImfInputFile.h>
 
@@ -57,7 +58,7 @@ public:
 
     //! Constructor.
 
-    djvOpenExrLoad(const djvOpenExrPlugin::Options &);
+    djvOpenExrLoad(const djvOpenExr::Options &, djvImageContext *);
 
     //! Destructor.
 
@@ -75,15 +76,15 @@ private:
 
     void _open(const QString &, djvImageIoInfo &) throw (djvError);
 
-    djvOpenExrPlugin::Options        _options;
-    djvFileInfo                      _file;
-    Imf::InputFile *                 _f;
-    djvBox2i                         _displayWindow;
-    djvBox2i                         _dataWindow;
-    djvBox2i                         _intersectedWindow;
-    QVector<djvOpenExrPlugin::Layer> _layers;
-    djvPixelData                     _tmp;
-    bool                             _fast;
+    djvOpenExr::Options        _options;
+    djvFileInfo                _file;
+    Imf::InputFile *           _f;
+    djvBox2i                   _displayWindow;
+    djvBox2i                   _dataWindow;
+    djvBox2i                   _intersectedWindow;
+    QVector<djvOpenExr::Layer> _layers;
+    djvPixelData               _tmp;
+    bool                       _fast;
 };
 
 //@} // djvOpenExrPlugin

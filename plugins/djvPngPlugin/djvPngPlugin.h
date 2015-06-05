@@ -34,32 +34,9 @@
 #ifndef DJV_PNG_PLUGIN_H
 #define DJV_PNG_PLUGIN_H
 
+#include <djvPng.h>
+
 #include <djvImageIo.h>
-
-#include <djvStringUtil.h>
-
-#include <png.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvPngPlugin djvPngPlugin
-//!
-//! This plugin provides support for the Portable Network Graphics (PNG) image
-//! file format.
-//!
-//! Requires:
-//!
-//! - libpng - http://www.libpng.org
-//!
-//! File extensions: .png
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, Luminance, RGB, RGBA
-//! - File compression
-
-//@} // plugins
 
 //! \addtogroup djvPngPlugin
 //@{
@@ -74,9 +51,9 @@ class djvPngPlugin : public djvImageIo
 {
 public:
 
-    //! The plugin name.
+    //! Constructor.
     
-    static const QString staticName;
+    explicit djvPngPlugin(djvCoreContext *);
     
     virtual djvPlugin * copyPlugin() const;
 
@@ -89,23 +66,7 @@ public:
     virtual djvImageSave * createSave() const;
 };
 
-//------------------------------------------------------------------------------
-
-//! This struct provides libpng error handling.
-
-struct djvPngErrorStruct
-{
-    char msg[djvStringUtil::cStringLength];
-};
-
-extern "C" {
-
-void djvPngError(png_structp, png_const_charp);
-void djvPngWarning(png_structp, png_const_charp);
-
-}
-
 //@} // djvPngPlugin
 
-#endif // DJV_PNG_H
+#endif // DJV_PNG_PLUGIN_H
 

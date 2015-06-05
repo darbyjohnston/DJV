@@ -44,45 +44,27 @@
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvCineonPlugin;
+    return new djvCineonPlugin(context);
 }
 
 } // extern "C"
 
 //------------------------------------------------------------------------------
-// djvCineonPlugin::Options
-//------------------------------------------------------------------------------
-
-djvCineonPlugin::Options::Options() :
-    inputColorProfile (djvCineon::COLOR_PROFILE_AUTO),
-    outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT)
-{}
-
-//------------------------------------------------------------------------------
 // djvCineonPlugin
 //------------------------------------------------------------------------------
 
-const QStringList & djvCineonPlugin::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvCineonPlugin", "Input Color Profile") <<
-        qApp->translate("djvCineonPlugin", "Input Film Print") <<
-        qApp->translate("djvCineonPlugin", "Output Color Profile") <<
-        qApp->translate("djvCineonPlugin", "Output Film Print");
-
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
-    return data;
-}
+djvCineonPlugin::djvCineonPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvCineonPlugin::~djvCineonPlugin()
 {}
 
 djvPlugin * djvCineonPlugin::copyPlugin() const
 {
-    djvCineonPlugin * out = new djvCineonPlugin;
+    djvCineonPlugin * out = new djvCineonPlugin(context());
     
     out->_options = _options;
     
@@ -103,19 +85,19 @@ QStringList djvCineonPlugin::option(const QString & in) const
 {
     QStringList out;
 
-    if (0 == in.compare(options()[INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+    if (0 == in.compare(options()[djvCineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.inputColorProfile;
     }
-    else if (0 == in.compare(options()[INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvCineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
     {
         out << _options.inputFilmPrint;
     }
-    else if (0 == in.compare(options()[OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvCineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.outputColorProfile;
     }
-    else if (0 == in.compare(options()[OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvCineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
     {
         out << _options.outputFilmPrint;
     }
@@ -131,7 +113,7 @@ bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
 
     try
     {
-        if (0 == in.compare(options()[INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        if (0 == in.compare(options()[djvCineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::COLOR_PROFILE colorProfile =
                 static_cast<djvCineon::COLOR_PROFILE>(0);
@@ -147,7 +129,7 @@ bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvCineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::FilmPrintToLinear filmPrint;
             
@@ -160,7 +142,7 @@ bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvCineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::COLOR_PROFILE colorProfile =
                 static_cast<djvCineon::COLOR_PROFILE>(0);
@@ -174,7 +156,7 @@ bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvCineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::LinearToFilmPrint filmPrint;
             
@@ -198,7 +180,7 @@ bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
 
 QStringList djvCineonPlugin::options() const
 {
-    return optionsLabels();
+    return djvCineon::optionsLabels();
 }
 
 void djvCineonPlugin::commandLine(QStringList & in) throw (QString)
@@ -274,10 +256,10 @@ QString djvCineonPlugin::commandLineHelp() const
 
 djvImageLoad * djvCineonPlugin::createLoad() const
 {
-    return new djvCineonLoad(_options);
+    return new djvCineonLoad(_options, imageContext());
 }
 
 djvImageSave * djvCineonPlugin::createSave() const
 {
-    return new djvCineonSave(_options);
+    return new djvCineonSave(_options, imageContext());
 }

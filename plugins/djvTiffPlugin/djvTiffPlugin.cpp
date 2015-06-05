@@ -39,98 +39,25 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvTiffPlugin;
+    return new djvTiffPlugin(context);
 }
 
 } // extern "C"
 
 //------------------------------------------------------------------------------
-// djvTiffPlugin::Options
-//------------------------------------------------------------------------------
-
-djvTiffPlugin::Options::Options() :
-    compression(djvTiffPlugin::_COMPRESSION_NONE)
-{}
-
-//------------------------------------------------------------------------------
 // djvTiffPlugin
 //------------------------------------------------------------------------------
 
-const QString djvTiffPlugin::staticName = "TIFF";
-
-const QStringList & djvTiffPlugin::compressionLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvTiffPlugin", "None") <<
-        qApp->translate("djvTiffPlugin", "RLE") <<
-        qApp->translate("djvTiffPlugin", "LZW");
-
-    DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
-    return data;
-}
-
-void djvTiffPlugin::paletteLoad(
-    quint8 *  in,
-    int       size,
-    int       bytes,
-    quint16 * red,
-    quint16 * green,
-    quint16 * blue)
-{
-    switch (bytes)
-    {
-        case 1:
-        {
-            const quint8 * inP = in + size - 1;
-            quint8 * outP = in + (size - 1) * 3;
-
-            for (int x = 0; x < size; ++x, outP -= 3)
-            {
-                const quint8 index = *inP--;
-                outP[0] = static_cast<quint8>(red[index]);
-                outP[1] = static_cast<quint8>(green[index]);
-                outP[2] = static_cast<quint8>(blue[index]);
-            }
-        }
-        break;
-
-        case 2:
-        {
-            const quint16 * inP =
-                reinterpret_cast<const quint16 *>(in) + size - 1;
-            
-            quint16 * outP =
-                reinterpret_cast<quint16 *>(in) + (size - 1) * 3;
-
-            for (int x = 0; x < size; ++x, outP -= 3)
-            {
-                const quint16 index = *inP--;
-                outP[0] = red[index];
-                outP[1] = green[index];
-                outP[2] = blue[index];
-            }
-        }
-        break;
-    }
-}
-
-const QStringList & djvTiffPlugin::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvTiffPlugin", "Compression");
-
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
-    return data;
-}
+djvTiffPlugin::djvTiffPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 void djvTiffPlugin::initPlugin() throw (djvError)
 {
@@ -140,7 +67,7 @@ void djvTiffPlugin::initPlugin() throw (djvError)
 
 djvPlugin * djvTiffPlugin::copyPlugin() const
 {
-    djvTiffPlugin * plugin = new djvTiffPlugin;
+    djvTiffPlugin * plugin = new djvTiffPlugin(context());
     
     plugin->_options = _options;
     
@@ -149,7 +76,7 @@ djvPlugin * djvTiffPlugin::copyPlugin() const
 
 QString djvTiffPlugin::pluginName() const
 {
-    return staticName;
+    return djvTiff::staticName;
 }
 
 QStringList djvTiffPlugin::extensions() const
@@ -163,7 +90,7 @@ QStringList djvTiffPlugin::option(const QString & in) const
 {
     QStringList out;
 
-    if (0 == in.compare(options()[COMPRESSION_OPTION], Qt::CaseInsensitive))
+    if (0 == in.compare(options()[djvTiff::COMPRESSION_OPTION], Qt::CaseInsensitive))
     {
         out << _options.compression;
     }
@@ -175,9 +102,9 @@ bool djvTiffPlugin::setOption(const QString & in, QStringList & data)
 {
     try
     {
-        if (0 == in.compare(options()[COMPRESSION_OPTION], Qt::CaseInsensitive))
+        if (0 == in.compare(options()[djvTiff::COMPRESSION_OPTION], Qt::CaseInsensitive))
         {
-            COMPRESSION compression = static_cast<COMPRESSION>(0);
+            djvTiff::COMPRESSION compression = static_cast<djvTiff::COMPRESSION>(0);
             
             data >> compression;
             
@@ -199,7 +126,7 @@ bool djvTiffPlugin::setOption(const QString & in, QStringList & data)
 
 QStringList djvTiffPlugin::options() const
 {
-    return optionsLabels();
+    return djvTiff::optionsLabels();
 }
 
 void djvTiffPlugin::commandLine(QStringList & in) throw (QString)
@@ -240,21 +167,16 @@ QString djvTiffPlugin::commandLineHelp() const
 "    -tiff_compression (value)\n"
 "        Set the file compression used when saving TIFF images. Options = %1. "
 "Default = %2.\n").
-    arg(djvTiffPlugin::compressionLabels().join(", ")).
+    arg(djvTiff::compressionLabels().join(", ")).
     arg(djvStringUtil::label(_options.compression).join(", "));
 }
 
 djvImageLoad * djvTiffPlugin::createLoad() const
 {
-    return new djvTiffLoad;
+    return new djvTiffLoad(imageContext());
 }
 
 djvImageSave * djvTiffPlugin::createSave() const
 {
-    return new djvTiffSave(_options);
+    return new djvTiffSave(_options, imageContext());
 }
-
-//------------------------------------------------------------------------------
-
-_DJV_STRING_OPERATOR_LABEL(djvTiffPlugin::COMPRESSION,
-    djvTiffPlugin::compressionLabels())

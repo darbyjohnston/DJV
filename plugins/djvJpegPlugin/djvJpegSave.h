@@ -34,10 +34,11 @@
 #ifndef DJV_JPEG_SAVE_H
 #define DJV_JPEG_SAVE_H
 
-#include <djvJpegPlugin.h>
+#include <djvJpeg.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvJpegPlugin
 //@{
@@ -54,7 +55,7 @@ public:
 
     //! Constructor.
 
-    djvJpegSave(const djvJpegPlugin::Options &);
+    djvJpegSave(const djvJpeg::Options &, djvImageContext *);
 
     //! Destructor.
 
@@ -73,7 +74,7 @@ private:
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
-    djvJpegPlugin::Options        _options;
+    djvJpeg::Options              _options;
     djvFileInfo                   _file;
     FILE *                        _f;
     libjpeg::jpeg_compress_struct _jpeg;

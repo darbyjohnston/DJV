@@ -39,31 +39,8 @@
 #include <djvFileIo.h>
 #include <djvImageIo.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvCineonPlugin djvCineonPlugin
-//!
-//! This plugin provides support for the Kodak Cineon image file format. Cineon
-//! is a specialized image file format for working with motion picture film.
-//!
-//! File extensions: .cin
-//!
-//! Supported features:
-//!
-//! - 10-bit RGB (the most common variety)
-//! - Interleaved channels only
-//!
-//! References:
-//!
-//! - Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"
-
-//@} // plugins
-
 //! \addtogroup djvCineonPlugin
 //@{
-
-class djvCineonHeader;
 
 //------------------------------------------------------------------------------
 //! \class djvCineonPlugin
@@ -75,35 +52,9 @@ class djvCineonPlugin : public djvImageIo
 {
 public:
 
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        INPUT_COLOR_PROFILE_OPTION,
-        INPUT_FILM_PRINT_OPTION,
-        OUTPUT_COLOR_PROFILE_OPTION,
-        OUTPUT_FILM_PRINT_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get the option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        //! Constructor.
-
-        Options();
-
-        djvCineon::COLOR_PROFILE     inputColorProfile;
-        djvCineon::FilmPrintToLinear inputFilmPrint;
-        djvCineon::COLOR_PROFILE     outputColorProfile;
-        djvCineon::LinearToFilmPrint outputFilmPrint;
-    };
+    //! Constructor.
+    
+    explicit djvCineonPlugin(djvCoreContext *);
     
     //! Destructor.
 
@@ -131,7 +82,7 @@ public:
     
 private:
 
-    Options _options;
+    djvCineon::Options _options;
 };
 
 //@} // djvCineonPlugin

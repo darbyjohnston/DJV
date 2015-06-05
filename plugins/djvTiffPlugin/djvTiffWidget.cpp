@@ -33,9 +33,11 @@
 
 #include <djvTiffWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
 
+#include <djvImageIo.h>
 #include <djvSignalBlocker.h>
 
 #include <QApplication>
@@ -43,13 +45,22 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
+extern "C"
+{
+
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoWidgetEntry(djvCoreContext * context)
+{
+    return new djvTiffWidgetPlugin(context);
+}
+
+} // extern "C"
+
 //------------------------------------------------------------------------------
 // djvTiffWidget
 //------------------------------------------------------------------------------
 
-djvTiffWidget::djvTiffWidget(djvTiffPlugin * plugin, djvGuiContext * context) :
-    djvAbstractPrefsWidget(djvTiffPlugin::staticName, context),
-    _plugin           (plugin),
+djvTiffWidget::djvTiffWidget(djvImageIo * plugin, djvGuiContext * context) :
+    djvImageIoWidget(plugin, context),
     _compressionWidget(0)
 {
     //DJV_DEBUG("djvTiffWidget::djvTiffWidget");
@@ -57,18 +68,19 @@ djvTiffWidget::djvTiffWidget(djvTiffPlugin * plugin, djvGuiContext * context) :
     // Create the widgets.
     
     _compressionWidget = new QComboBox;
-    _compressionWidget->addItems(djvTiffPlugin::compressionLabels());
+    _compressionWidget->addItems(djvTiff::compressionLabels());
     _compressionWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvTiffWidget", "Compression"),
-        qApp->translate("djvTiffWidget", "Set the file compression used when saving TIFF images."));
+        qApp->translate("djvTiffWidget", "Set the file compression used when saving TIFF images."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvTiffWidget", "Compression:"),
@@ -80,8 +92,8 @@ djvTiffWidget::djvTiffWidget(djvTiffPlugin * plugin, djvGuiContext * context) :
     // Initialize.
 
     QStringList tmp;
-    tmp = _plugin->option(
-        _plugin->options()[djvTiffPlugin::COMPRESSION_OPTION]);
+    tmp = plugin->option(
+        plugin->options()[djvTiff::COMPRESSION_OPTION]);
     tmp >> _options.compression;
 
     widgetUpdate();
@@ -104,7 +116,7 @@ djvTiffWidget::~djvTiffWidget()
 
 void djvTiffWidget::resetPreferences()
 {
-    _options = djvTiffPlugin::Options();
+    _options = djvTiff::Options();
     
     pluginUpdate();
     widgetUpdate();
@@ -115,10 +127,10 @@ void djvTiffWidget::pluginCallback(const QString & option)
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(option);
+        tmp = plugin()->option(option);
 
-        if (0 == option.compare(_plugin->options()[
-            djvTiffPlugin::COMPRESSION_OPTION], Qt::CaseInsensitive))
+        if (0 == option.compare(plugin()->options()[
+            djvTiff::COMPRESSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.compression;
     }
     catch (const QString &)
@@ -129,7 +141,7 @@ void djvTiffWidget::pluginCallback(const QString & option)
 
 void djvTiffWidget::compressionCallback(int in)
 {
-    _options.compression = static_cast<djvTiffPlugin::COMPRESSION>(in);
+    _options.compression = static_cast<djvTiff::COMPRESSION>(in);
 
     pluginUpdate();
 }
@@ -138,8 +150,8 @@ void djvTiffWidget::pluginUpdate()
 {
     QStringList tmp;
     tmp << _options.compression;
-    _plugin->setOption(
-        _plugin->options()[djvTiffPlugin::COMPRESSION_OPTION], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvTiff::COMPRESSION_OPTION], tmp);
 }
 
 void djvTiffWidget::widgetUpdate()
@@ -148,3 +160,22 @@ void djvTiffWidget::widgetUpdate()
 
     _compressionWidget->setCurrentIndex(_options.compression);
 }
+
+//------------------------------------------------------------------------------
+// djvTiffWidgetPlugin
+//------------------------------------------------------------------------------
+
+djvTiffWidgetPlugin::djvTiffWidgetPlugin(djvCoreContext * context) :
+    djvImageIoWidgetPlugin(context)
+{}
+
+djvImageIoWidget * djvTiffWidgetPlugin::createWidget(djvImageIo * plugin) const
+{
+    return new djvTiffWidget(plugin, guiContext());
+}
+
+QString djvTiffWidgetPlugin::pluginName() const
+{
+    return djvTiff::staticName;
+}
+

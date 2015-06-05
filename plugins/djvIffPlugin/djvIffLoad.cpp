@@ -41,7 +41,8 @@
 // djvIffLoad
 //------------------------------------------------------------------------------
 
-djvIffLoad::djvIffLoad() :
+djvIffLoad::djvIffLoad(djvImageContext * context) :
+    djvImageLoad(context),
     _tiles      (0),
     _compression(false)
 {}
@@ -123,7 +124,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
         // Get length.
         io.getU32(&size, 1);
-        chunkSize = djvIffPlugin::alignSize(size, 4);
+        chunkSize = djvIff::alignSize(size, 4);
 
         if (type[0] == 'A' &&
                 type[1] == 'U' &&
@@ -169,7 +170,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
                     // Get length.
                     io.getU32(&size, 1);
-                    chunkSize = djvIffPlugin::alignSize(size, 4);
+                    chunkSize = djvIff::alignSize(size, 4);
 
                     // Tiles and RGBA.
                     if (tilesRgba &&
@@ -194,7 +195,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                             ymax >= info.size.y)
                         {
                             throw djvError(
-                                djvIffPlugin::staticName,
+                                djvIff::staticName,
                                 djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                         }
 
@@ -207,7 +208,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         if (!tw || !th)
                         {
                             throw djvError(
-                                djvIffPlugin::staticName,
+                                djvIff::staticName,
                                 djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                         }
 
@@ -255,7 +256,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
                                     // Uncompress.
 
-                                    p += djvIffPlugin::readRle (p, in(), tw * th);
+                                    p += djvIff::readRle (p, in(), tw * th);
 
                                     for (quint16 py = ymin; py <= ymax; py++)
                                     {
@@ -282,7 +283,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 if (p != io.mmapP())
                                 {
                                     throw djvError(
-                                        djvIffPlugin::staticName,
+                                        djvIff::staticName,
                                         djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                                 }
                             }
@@ -307,7 +308,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                         if (size < static_cast<quint32>(byteCount))
                                         {
                                             throw djvError(
-                                                djvIffPlugin::staticName,
+                                                djvIff::staticName,
                                                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                                         }
 
@@ -385,7 +386,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
                                     // Uncompress.
 
-                                    p += djvIffPlugin::readRle (p, in(), tw * th);
+                                    p += djvIff::readRle (p, in(), tw * th);
 
                                     for (quint16 py = ymin; py <= ymax; py++)
                                     {
@@ -412,7 +413,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 if (p != io.mmapP())
                                 {
                                     throw djvError(
-                                        djvIffPlugin::staticName,
+                                        djvIff::staticName,
                                         djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
                                 }
                             }
@@ -438,7 +439,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                         if (size < static_cast<quint32>(byteCount))
                                         {
                                             throw djvError(
-                                                djvIffPlugin::staticName,
+                                                djvIff::staticName,
                                                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                                         }
 
@@ -540,5 +541,5 @@ void djvIffLoad::_open(const djvFileInfo & in, djvImageIoInfo & info, djvFileIo 
 
     info.fileName = in;
     
-    djvIffPlugin::loadInfo(io, info, &_tiles, &_compression);
+    djvIff::loadInfo(io, info, &_tiles, &_compression);
 }

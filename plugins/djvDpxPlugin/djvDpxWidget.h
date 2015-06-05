@@ -34,9 +34,9 @@
 #ifndef DJV_DPX_WIDGET_H
 #define DJV_DPX_WIDGET_H
 
-#include <djvDpxPlugin.h>
+#include <djvDpx.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class djvFloatEditSlider;
 class djvIntEditSlider;
@@ -54,7 +54,7 @@ class QFormLayout;
 //! This class provides a DPX widget.
 //------------------------------------------------------------------------------
 
-class djvDpxWidget : public djvAbstractPrefsWidget
+class djvDpxWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -62,7 +62,7 @@ public:
 
     //! Constructor.
 
-    djvDpxWidget(djvDpxPlugin *, djvGuiContext *);
+    djvDpxWidget(djvImageIo *, djvGuiContext *);
     
     //! Destructor.
 
@@ -91,8 +91,7 @@ private Q_SLOTS:
 
 private:
 
-    djvDpxPlugin *        _plugin;
-    djvDpxPlugin::Options _options;
+    djvDpx::Options       _options;
     QFormLayout *         _inputColorProfileLayout;
     QComboBox *           _inputColorProfileWidget;
     djvIntEditSlider *    _inputBlackPointWidget;
@@ -107,6 +106,23 @@ private:
     QComboBox *           _versionWidget;
     QComboBox *           _typeWidget;
     QComboBox *           _endianWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvDpxWidgetPlugin
+//!
+//! This class provides a DPX widget plugin.
+//------------------------------------------------------------------------------
+
+class djvDpxWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvDpxWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvDpxPlugin

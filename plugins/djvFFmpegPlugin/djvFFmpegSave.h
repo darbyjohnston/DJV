@@ -34,10 +34,11 @@
 #ifndef DJV_FFMPEG_SAVE_H
 #define DJV_FFMPEG_SAVE_H
 
-#include <djvFFmpegPlugin.h>
+#include <djvFFmpeg.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvFFmpegPlugin
 //@{
@@ -54,7 +55,7 @@ public:
 
     //! Constructor.
 
-    djvFFmpegSave(const djvFFmpegPlugin::Options &);
+    djvFFmpegSave(const djvFFmpeg::Options &, djvImageContext *);
 
     //! Destructor.
 
@@ -70,19 +71,19 @@ public:
 
 private:
 
-    djvFFmpegPlugin::Options _options;
-    djvPixelDataInfo         _info;
-    djvImage                 _image;
-    int                      _frame;
+    djvFFmpeg::Options _options;
+    djvPixelDataInfo   _info;
+    djvImage           _image;
+    int                _frame;
     
-    AVFormatContext *        _avFormatContext;
-    AVStream *               _avStream;
-    AVIOContext *            _avIoContext;
-    AVFrame *                _avFrame;
-    uint8_t *                _avFrameBuf;
-    AVFrame *                _avFrameRgb;
-    AVPixelFormat            _avFrameRgbPixel;
-    SwsContext *             _swsContext;
+    AVFormatContext *  _avFormatContext;
+    AVStream *         _avStream;
+    AVIOContext *      _avIoContext;
+    AVFrame *          _avFrame;
+    uint8_t *          _avFrameBuf;
+    AVFrame *          _avFrameRgb;
+    AVPixelFormat      _avFrameRgbPixel;
+    SwsContext *       _swsContext;
 };
 
 //@} // djvFFmpegPlugin

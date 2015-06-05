@@ -29,89 +29,110 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegUtil.h
+//! \file djvJpeg.h
 
-#ifndef DJV_FFMPEG_UTIL_H
-#define DJV_FFMPEG_UTIL_H
+#ifndef DJV_JPEG_H
+#define DJV_JPEG_H
 
-#include <QMap>
-#include <QString>
+#include <QStringList>
 
-#if defined(DJV_LINUX)
-#define __STDC_CONSTANT_MACROS
-#endif // DJV_LINUX
+#include <stdio.h>
 
+//! \todo This namespace is meant to resolve conflicts on Windows, is it still
+//! necessary?
+
+namespace libjpeg
+{
 extern "C"
 {
+#include <jpeglib.h>
+}
+}
 
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavutil/dict.h>
-#include <libswscale/swscale.h>
+#include <setjmp.h>
 
-} // extern "C"
+#undef TRUE
 
-//! \addtogroup djvFFmpegPlugin
+//! \addtogroup plugins
+//@{
+
+//! \defgroup djvJpegPlugin djvJpegPlugin
+//!
+//! This plugin provides support for the Joint Photographic Experts Group
+//! (JPEG) image file format.
+//!
+//! Requires:
+//!
+//! - libjpeg - http://www.ijg.org
+//!
+//! File extensions: .jpeg, .jpg, .jfif
+//!
+//! Supported features:
+//!
+//! - 8-bit, Luminance, RGB
+//! - File compression
+
+//@} // plugins
+
+//! \addtogroup djvJpegPlugin
 //@{
 
 //------------------------------------------------------------------------------
-//! \struct djvFFmpegUtil
+//! \struct djvJpeg
 //!
-//! This struct provides utilites for working with FFmpeg.
+//! This class provides JPEG utilities.
 //------------------------------------------------------------------------------
 
-struct djvFFmpegUtil
+struct djvJpeg
 {
-    //! This class provides a wrapper for a FFmpeg dictionary.
+    //! The plugin name.
     
-    class Dictionary
+    static const QString staticName;
+
+    //! This enumeration provides the options.
+
+    enum OPTIONS
     {
-    public:
-    
-        Dictionary();
-        
-        ~Dictionary();
-        
-        QMap<QString, QString> map() const;
+        QUALITY_OPTION,
 
-        AVDictionary ** operator () ();
-
-        const AVDictionary * const * operator () () const;
-    
-    private:
-    
-        AVDictionary * _p;
-    };
-    
-    //! This class provides a wrapper for a FFmpeg packet.
-    
-    class Packet
-    {
-    public:
-
-        Packet();
-        
-        ~Packet();
-
-        AVPacket & operator () ();
-
-        const AVPacket & operator () () const;
-
-    private:
-
-        AVPacket _p;
+        OPTIONS_COUNT
     };
 
-	//! Get the internal time base represented as fractional value.
-	
-	static AVRational timeBaseQ();
-    
-    //! Convert an FFmpeg return code to a string.
-    
-    static QString toString(int);
+    //! Get option labels.
+
+    static const QStringList & optionsLabels();
+
+    //! This struct provides options.
+
+    struct Options
+    {
+        Options();
+
+        int quality;
+    };
 };
 
-//@} // djvFFmpegPlugin
+//------------------------------------------------------------------------------
 
-#endif // DJV_FFMPEG_PLUGIN_H
+//! This struct provides libjpeg error handling.
+
+struct djvJpegErrorStruct
+{
+    struct libjpeg::jpeg_error_mgr pub;
+
+    char msg [JMSG_LENGTH_MAX];
+
+    jmp_buf jump;
+};
+
+extern "C" {
+
+void djvJpegError(libjpeg::j_common_ptr);
+void djvJpegWarning(libjpeg::j_common_ptr, int);
+
+}
+
+//@} // djvJpegPlugin
+
+#endif // DJV_JPEG_H
 

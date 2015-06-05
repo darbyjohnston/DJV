@@ -34,7 +34,7 @@
 #ifndef DJV_TARGA_LOAD_H
 #define DJV_TARGA_LOAD_H
 
-#include <djvTargaPlugin.h>
+#include <djvTarga.h>
 
 #include <djvFileInfo.h>
 
@@ -50,6 +50,10 @@
 class djvTargaLoad : public djvImageLoad
 {
 public:
+
+    //! Constructor.
+    
+    explicit djvTargaLoad(djvImageContext *);
 
     //! Destructor.
     

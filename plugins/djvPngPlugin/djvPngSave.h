@@ -34,10 +34,11 @@
 #ifndef DJV_PNG_SAVE_H
 #define DJV_PNG_SAVE_H
 
-#include <djvPngPlugin.h>
+#include <djvPng.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvPngPlugin
 //@{
@@ -54,7 +55,7 @@ public:
 
     //! Constructor.
 
-    djvPngSave();
+    explicit djvPngSave(djvImageContext *);
 
     //! Destructor.
 

@@ -34,10 +34,12 @@
 #include <djvCineonWidget.h>
 
 #include <djvFloatEditSlider.h>
+#include <djvGuiContext.h>
 #include <djvIntEditSlider.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
 
+#include <djvImageIo.h>
 #include <djvSignalBlocker.h>
 
 #include <QApplication>
@@ -47,13 +49,22 @@
 #include <QGroupBox>
 #include <QVBoxLayout>
 
+extern "C"
+{
+
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoWidgetEntry(djvCoreContext * context)
+{
+    return new djvCineonWidgetPlugin(context);
+}
+
+} // extern "C"
+
 //------------------------------------------------------------------------------
 // djvCineonWidget
 //------------------------------------------------------------------------------
 
-djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin, djvGuiContext * context) :
-    djvAbstractPrefsWidget(djvCineon::staticName, context),
-    _plugin                  (plugin),
+djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
+    djvImageIoWidget(plugin, context),
     _inputColorProfileLayout (0),
     _inputColorProfileWidget (0),
     _inputBlackPointWidget   (0),
@@ -75,16 +86,16 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin, djvGuiContext * conte
     _inputColorProfileWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     
-    _inputBlackPointWidget = new djvIntEditSlider;
+    _inputBlackPointWidget = new djvIntEditSlider(context);
     _inputBlackPointWidget->setRange(0, 1023);
 
-    _inputWhitePointWidget = new djvIntEditSlider;
+    _inputWhitePointWidget = new djvIntEditSlider(context);
     _inputWhitePointWidget->setRange(0, 1023);
 
-    _inputGammaWidget = new djvFloatEditSlider;
+    _inputGammaWidget = new djvFloatEditSlider(context);
     _inputGammaWidget->setRange(0.01, 4.0);
 
-    _inputSoftClipWidget = new djvIntEditSlider;
+    _inputSoftClipWidget = new djvIntEditSlider(context);
     _inputSoftClipWidget->setRange(0, 50);
     
     _outputColorProfileWidget = new QComboBox;
@@ -92,23 +103,24 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin, djvGuiContext * conte
     _outputColorProfileWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    _outputBlackPointWidget = new djvIntEditSlider;
+    _outputBlackPointWidget = new djvIntEditSlider(context);
     _outputBlackPointWidget->setRange(0, 1023);
 
-    _outputWhitePointWidget = new djvIntEditSlider;
+    _outputWhitePointWidget = new djvIntEditSlider(context);
     _outputWhitePointWidget->setRange(0, 1023);
 
-    _outputGammaWidget = new djvFloatEditSlider;
+    _outputGammaWidget = new djvFloatEditSlider(context);
     _outputGammaWidget->setRange(0.01, 4.0);
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvCineonWidget", "Input Color Profile"),
-        qApp->translate("djvCineonWidget", "Set the color profile used when loading Cineon images."));
+        qApp->translate("djvCineonWidget", "Set the color profile used when loading Cineon images."),
+        context);
     _inputColorProfileLayout = prefsGroupBox->createLayout();
     _inputColorProfileLayout->addRow(
         qApp->translate("djvCineonWidget", "Profile:"),
@@ -129,7 +141,8 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin, djvGuiContext * conte
     
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvCineonWidget", "Output Color Profile"),
-        qApp->translate("djvCineonWidget", "Set the color profile used when saving Cineon images."));
+        qApp->translate("djvCineonWidget", "Set the color profile used when saving Cineon images."),
+        context);
     _outputColorProfileLayout = prefsGroupBox->createLayout();
     _outputColorProfileLayout->addRow(
         qApp->translate("djvCineonWidget", "Profile:"),
@@ -150,33 +163,33 @@ djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin, djvGuiContext * conte
     // Initialize.
 
     _inputBlackPointWidget->setDefaultValue(
-        djvCineonPlugin::Options().inputFilmPrint.black);
+        djvCineon::Options().inputFilmPrint.black);
     _inputWhitePointWidget->setDefaultValue(
-        djvCineonPlugin::Options().inputFilmPrint.white);
+        djvCineon::Options().inputFilmPrint.white);
     _inputGammaWidget->setDefaultValue(
-        djvCineonPlugin::Options().inputFilmPrint.gamma);
+        djvCineon::Options().inputFilmPrint.gamma);
     _inputSoftClipWidget->setDefaultValue(
-        djvCineonPlugin::Options().inputFilmPrint.softClip);
+        djvCineon::Options().inputFilmPrint.softClip);
 
     _outputBlackPointWidget->setDefaultValue(
-        djvCineonPlugin::Options().outputFilmPrint.black);
+        djvCineon::Options().outputFilmPrint.black);
     _outputWhitePointWidget->setDefaultValue(
-        djvCineonPlugin::Options().outputFilmPrint.white);
+        djvCineon::Options().outputFilmPrint.white);
     _outputGammaWidget->setDefaultValue(
-        djvCineonPlugin::Options().outputFilmPrint.gamma);
+        djvCineon::Options().outputFilmPrint.gamma);
 
     QStringList tmp;
-    tmp = _plugin->option(
-        _plugin->options()[djvCineonPlugin::INPUT_COLOR_PROFILE_OPTION]);
+    tmp = plugin->option(
+        plugin->options()[djvCineon::INPUT_COLOR_PROFILE_OPTION]);
     tmp >> _options.inputColorProfile;
-    tmp = _plugin->option(
-        _plugin->options()[djvCineonPlugin::INPUT_FILM_PRINT_OPTION]);
+    tmp = plugin->option(
+        plugin->options()[djvCineon::INPUT_FILM_PRINT_OPTION]);
     tmp >> _options.inputFilmPrint;
-    tmp = _plugin->option(
-        _plugin->options()[djvCineonPlugin::OUTPUT_COLOR_PROFILE_OPTION]);
+    tmp = plugin->option(
+        plugin->options()[djvCineon::OUTPUT_COLOR_PROFILE_OPTION]);
     tmp >> _options.outputColorProfile;
-    tmp = _plugin->option(
-        _plugin->options()[djvCineonPlugin::OUTPUT_FILM_PRINT_OPTION]);
+    tmp = plugin->option(
+        plugin->options()[djvCineon::OUTPUT_FILM_PRINT_OPTION]);
     tmp >> _options.outputFilmPrint;
 
     widgetUpdate();
@@ -241,7 +254,7 @@ djvCineonWidget::~djvCineonWidget()
 
 void djvCineonWidget::resetPreferences()
 {
-    _options = djvCineonPlugin::Options();
+    _options = djvCineon::Options();
     
     pluginUpdate();
     widgetUpdate();
@@ -252,19 +265,19 @@ void djvCineonWidget::pluginCallback(const QString & option)
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(option);
+        tmp = plugin()->option(option);
 
-        if (0 == option.compare(_plugin->options()[
-            djvCineonPlugin::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        if (0 == option.compare(plugin()->options()[
+            djvCineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.inputColorProfile;
-        else if (0 == option.compare(_plugin->options()[
-            djvCineonPlugin::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+        else if (0 == option.compare(plugin()->options()[
+            djvCineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.inputFilmPrint;
-        else if (0 == option.compare(_plugin->options()[
-            djvCineonPlugin::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        else if (0 == option.compare(plugin()->options()[
+            djvCineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.outputColorProfile;
-        else if (0 == option.compare(_plugin->options()[
-            djvCineonPlugin::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+        else if (0 == option.compare(plugin()->options()[
+            djvCineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.outputFilmPrint;
     }
     catch (const QString &)
@@ -342,17 +355,17 @@ void djvCineonWidget::pluginUpdate()
 
     QStringList tmp;
     tmp << _options.inputColorProfile;
-    _plugin->setOption(
-        _plugin->options()[djvCineonPlugin::INPUT_COLOR_PROFILE_OPTION], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvCineon::INPUT_COLOR_PROFILE_OPTION], tmp);
     tmp << _options.inputFilmPrint;
-    _plugin->setOption(
-        _plugin->options()[djvCineonPlugin::INPUT_FILM_PRINT_OPTION], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvCineon::INPUT_FILM_PRINT_OPTION], tmp);
     tmp << _options.outputColorProfile;
-    _plugin->setOption(
-        _plugin->options()[djvCineonPlugin::OUTPUT_COLOR_PROFILE_OPTION], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvCineon::OUTPUT_COLOR_PROFILE_OPTION], tmp);
     tmp << _options.outputFilmPrint;
-    _plugin->setOption(
-        _plugin->options()[djvCineonPlugin::OUTPUT_FILM_PRINT_OPTION], tmp);
+    plugin()->setOption(
+        plugin()->options()[djvCineon::OUTPUT_FILM_PRINT_OPTION], tmp);
 }
 
 void djvCineonWidget::widgetUpdate()
@@ -424,4 +437,22 @@ void djvCineonWidget::widgetUpdate()
     _outputBlackPointWidget->setValue(_options.outputFilmPrint.black);
     _outputWhitePointWidget->setValue(_options.outputFilmPrint.white);
     _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
+}
+
+//------------------------------------------------------------------------------
+// djvCineonWidgetPlugin
+//------------------------------------------------------------------------------
+
+djvCineonWidgetPlugin::djvCineonWidgetPlugin(djvCoreContext * context) :
+    djvImageIoWidgetPlugin(context)
+{}
+
+djvImageIoWidget * djvCineonWidgetPlugin::createWidget(djvImageIo * plugin) const
+{
+    return new djvCineonWidget(plugin, guiContext());
+}
+
+QString djvCineonWidgetPlugin::pluginName() const
+{
+    return djvCineon::staticName;
 }

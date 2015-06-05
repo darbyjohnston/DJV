@@ -34,7 +34,7 @@
 #ifndef DJV_SGI_LOAD_H
 #define DJV_SGI_LOAD_H
 
-#include <djvSgiPlugin.h>
+#include <djvSgi.h>
 
 #include <djvFileInfo.h>
 
@@ -50,6 +50,10 @@
 class djvSgiLoad : public djvImageLoad
 {
 public:
+
+    //! Constructor.
+    
+    explicit djvSgiLoad(djvImageContext *);
 
     //! Destructor.
     

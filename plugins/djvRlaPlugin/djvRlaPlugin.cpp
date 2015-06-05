@@ -35,15 +35,12 @@
 
 #include <djvRlaLoad.h>
 
-#include <djvDebug.h>
-#include <djvMemory.h>
-
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvRlaPlugin;
+    return new djvRlaPlugin(context);
 }
 
 } // extern "C"
@@ -52,129 +49,18 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 // djvRlaPlugin
 //------------------------------------------------------------------------------
 
-const QString djvRlaPlugin::staticName = "RLA";
-
-void djvRlaPlugin::readRle(
-    djvFileIo & io,
-    quint8 *    out,
-    int         size,
-    int         channels,
-    int         bytes) throw (djvError)
-{
-    //DJV_DEBUG("djvRlaPlugin::readRle");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("bytes = " << bytes);
-
-    qint16 _size = 0;
-    io.get16(&_size);
-    //DJV_DEBUG_PRINT("io size = " << _size);
-
-    const quint8 * start = io.mmapP();
-    const quint8 * p = start;
-    io.seek(_size);
-
-    for (int b = 0; b < bytes; ++b)
-    {
-        quint8 * outP =
-            out + (djvMemory::LSB == djvMemory::endian() ? (bytes - 1 - b) : b);
-        
-        const int outInc = channels * bytes;
-
-        for (int i = 0; i < size;)
-        {
-            int count = *((qint8 *)p);
-            ++p;
-            //DJV_DEBUG_PRINT("count = " << count);
-
-            if (count >= 0)
-            {
-                ++count;
-
-                for (int j = 0; j < count; ++j, outP += outInc)
-                {
-                    *outP = *p;
-                }
-
-                ++p;
-            }
-            else
-            {
-                count = -count;
-
-                for (int j = 0; j < count; ++j, ++p, outP += outInc)
-                {
-                    *outP = *p;
-                }
-            }
-
-            i += count;
-        }
-    }
-
-    //DJV_DEBUG_PRINT("out = " << p - start);
-}
-
-void djvRlaPlugin::floatLoad(
-    djvFileIo & io,
-    quint8 *    out,
-    int         size,
-    int         channels) throw (djvError)
-{
-
-    //DJV_DEBUG("djvRlaPlugin::floatLoad");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-
-    qint16 _size = 0;
-    io.get16(&_size);
-    //DJV_DEBUG_PRINT("io size = " << _size);
-
-    const quint8 * start = io.mmapP();
-    const quint8 * p = start;
-    io.seek(_size);
-
-    const int outInc = channels * 4;
-
-    if (djvMemory::LSB == djvMemory::endian())
-    {
-        for (int i = 0; i < size; ++i, p += 4, out += outInc)
-        {
-            out[0] = p[3];
-            out[1] = p[2];
-            out[2] = p[1];
-            out[3] = p[0];
-        }
-    }
-    else
-    {
-        for (int i = 0; i < size; ++i, p += 4, out += outInc)
-        {
-            out[0] = p[0];
-            out[1] = p[1];
-            out[2] = p[2];
-            out[3] = p[3];
-        }
-    }
-
-    //DJV_DEBUG_PRINT("out = " << p - start);
-}
-
-void djvRlaPlugin::skip(djvFileIo & io) throw (djvError)
-{
-    qint16 size = 0;
-    io.get16(&size);
-    io.seek(size);
-}
+djvRlaPlugin::djvRlaPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvRlaPlugin::copyPlugin() const
 {
-    return new djvRlaPlugin;
+    return new djvRlaPlugin(context());
 }
 
 QString djvRlaPlugin::pluginName() const
 {
-    return staticName;
+    return djvRla::staticName;
 }
 
 QStringList djvRlaPlugin::extensions() const
@@ -186,5 +72,5 @@ QStringList djvRlaPlugin::extensions() const
     
 djvImageLoad * djvRlaPlugin::createLoad() const
 {
-    return new djvRlaLoad;
+    return new djvRlaLoad(imageContext());
 }

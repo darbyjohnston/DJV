@@ -40,7 +40,8 @@
 // djvIffSave
 //------------------------------------------------------------------------------
 
-djvIffSave::djvIffSave(const djvIffPlugin::Options & options) :
+djvIffSave::djvIffSave(const djvIff::Options & options, djvImageContext * context) :
+    djvImageSave(context),
     _options(options)
 {}
 
@@ -107,10 +108,10 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     io.open(_file.fileName(frame.frame), djvFileIo::WRITE);
 
-    djvIffPlugin::saveInfo(
+    djvIff::saveInfo(
         io,
         _info,
-        _options.compression != djvIffPlugin::COMPRESSION_NONE);
+        _options.compression != djvIff::COMPRESSION_NONE);
 
     // Convert the image.
 
@@ -165,7 +166,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     // Write tiles.
 
-    djvVector2i size = djvIffPlugin::tileSize(w, h);
+    djvVector2i size = djvIff::tileSize(w, h);
 
     // Y order.
 
@@ -179,12 +180,12 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
             quint16 xmin, xmax, ymin, ymax;
 
             // Set xmin and xmax.
-            xmin = x * djvIffPlugin::tileWidth();
-            xmax = djvMath::min(xmin + djvIffPlugin::tileWidth(), w) - 1;
+            xmin = x * djvIff::tileWidth();
+            xmax = djvMath::min(xmin + djvIff::tileWidth(), w) - 1;
 
             // Set ymin and ymax.
-            ymin = y * djvIffPlugin::tileHeight();
-            ymax = djvMath::min(ymin + djvIffPlugin::tileHeight(), h) - 1;
+            ymin = y * djvIff::tileHeight();
+            ymax = djvMath::min(ymin + djvIff::tileHeight(), h) - 1;
 
             // Set width and height.
             quint32 tw = xmax - xmin + 1;
@@ -203,7 +204,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
             quint32 tileLength = length;
 
             // Align.
-            length = djvIffPlugin::alignSize(length, 4);
+            length = djvIff::alignSize(length, 4);
 
             // Append xmin, xmax, ymin and ymax.
             length += 8;
@@ -252,7 +253,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
                         // Compress
 
-                        size = djvIffPlugin::writeRle(in(), tmp() + index, tw * th);
+                        size = djvIff::writeRle(in(), tmp() + index, tw * th);
                         index += size;
                     }
 
@@ -269,7 +270,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         length = index + 8;
 
                         // Set length.
-                        quint32 align = djvIffPlugin::alignSize(length, 4);
+                        quint32 align = djvIff::alignSize(length, 4);
 
                         if (align > length)
                         {
@@ -385,7 +386,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
                         // Compress
 
-                        size = djvIffPlugin::writeRle(in(), tmp() + index, tw * th);
+                        size = djvIff::writeRle(in(), tmp() + index, tw * th);
                         index += size;
                     }
 
@@ -402,7 +403,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         length = index + 8;
 
                         // Set length.
-                        quint32 align = djvIffPlugin::alignSize(length, 4);
+                        quint32 align = djvIff::alignSize(length, 4);
 
                         if (align > length)
                         {

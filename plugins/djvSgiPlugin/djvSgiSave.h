@@ -34,7 +34,7 @@
 #ifndef DJV_SGI_SAVE_H
 #define DJV_SGI_SAVE_H
 
-#include <djvSgiPlugin.h>
+#include <djvSgi.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
@@ -54,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvSgiSave(const djvSgiPlugin::Options &);
+    djvSgiSave(const djvSgi::Options &, djvImageContext *);
     
     //! Destructor.
     
@@ -70,7 +70,7 @@ private:
 
     void _open(const QString &) throw (djvError);
 
-    djvSgiPlugin::Options    _options;
+    djvSgi::Options          _options;
     djvFileInfo              _file;
     djvMemoryBuffer<quint32> _rleOffset;
     djvMemoryBuffer<quint32> _rleSize;

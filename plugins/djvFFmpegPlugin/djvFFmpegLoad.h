@@ -34,9 +34,10 @@
 #ifndef DJV_FFMPEG_LOAD_H
 #define DJV_FFMPEG_LOAD_H
 
-#include <djvFFmpegPlugin.h>
+#include <djvFFmpeg.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvFFmpegPlugin
 //@{
@@ -53,7 +54,7 @@ public:
 
     //! Constructor.
     
-    djvFFmpegLoad();
+    explicit djvFFmpegLoad(djvImageContext *);
 
     //! Destructor.
     

@@ -33,8 +33,6 @@
 
 #include <djvFFmpegLoad.h>
 
-#include <djvFFmpegUtil.h>
-
 #include <djvDebug.h>
 #include <djvFileIoUtil.h>
 #include <djvImage.h>
@@ -46,7 +44,8 @@
 // djvFFmpegLoad
 //------------------------------------------------------------------------------
 
-djvFFmpegLoad::djvFFmpegLoad() :
+djvFFmpegLoad::djvFFmpegLoad(djvImageContext * context) :
+    djvImageLoad(context),
     _frame          ( 0),
     _avFormatContext( 0),
     _avVideoStream  (-1),
@@ -80,8 +79,8 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
     
     r = avformat_find_stream_info(_avFormatContext, 0);
@@ -89,8 +88,8 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
     
     av_dump_format(_avFormatContext, 0, in.fileName().toLatin1().data(), 0);
@@ -112,7 +111,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     if (-1 == _avVideoStream)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
+            djvFFmpeg::staticName,
             qApp->translate("djvFFmpegLoad", "Cannot find video stream"));
     }
 
@@ -127,7 +126,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     if (! avCodec)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
+            djvFFmpeg::staticName,
             qApp->translate("djvFFmpegLoad", "Cannot find codec"));
     }
     
@@ -138,8 +137,8 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
     
     r = avcodec_open2(_avCodecContext, avCodec, 0);
@@ -147,8 +146,8 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     if (r < 0)
     {
         throw djvError(
-            djvFFmpegPlugin::staticName,
-            djvFFmpegUtil::toString(r));
+            djvFFmpeg::staticName,
+            djvFFmpeg::toString(r));
     }
     
     // Initialize the buffers.
@@ -185,7 +184,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         duration = av_rescale_q(
             avStream->duration,
             avStream->time_base,
-            djvFFmpegUtil::timeBaseQ());
+            djvFFmpeg::timeBaseQ());
     }
     else if (_avFormatContext->duration != AV_NOPTS_VALUE)
     {
@@ -283,10 +282,10 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         int r = av_seek_frame(
             _avFormatContext,
             _avVideoStream,
-            av_rescale_q(seek, djvFFmpegUtil::timeBaseQ(), avStream->time_base),
+            av_rescale_q(seek, djvFFmpeg::timeBaseQ(), avStream->time_base),
             AVSEEK_FLAG_BACKWARD);
         
-        //DJV_DEBUG_PRINT("r = " << djvFfmpegUtil::toString(r));
+        //DJV_DEBUG_PRINT("r = " << djvFFmpeg::toString(r));
 
         avcodec_flush_buffers(_avCodecContext);
         
@@ -366,7 +365,7 @@ bool djvFFmpegLoad::readFrame(int64_t & pts)
 {
     //DJV_DEBUG("djvFFmpegLoad::readFrame");
         
-    djvFFmpegUtil::Packet packet;
+    djvFFmpeg::Packet packet;
 
     int finished = 0;
     
@@ -384,7 +383,7 @@ bool djvFFmpegLoad::readFrame(int64_t & pts)
         //    (packet().flags & AV_PKT_FLAG_KEY));
         //DJV_DEBUG_PRINT("  corrupt = " <<
         //    (packet().flags & AV_PKT_FLAG_CORRUPT));
-        //DJV_DEBUG_PRINT("  r = " << djvFFmpegUtil::toString(r));
+        //DJV_DEBUG_PRINT("  r = " << djvFFmpeg::toString(r));
     
         if (r < 0)
         {
@@ -412,7 +411,7 @@ bool djvFFmpegLoad::readFrame(int64_t & pts)
     pts = av_rescale_q(
         pts,
         _avFormatContext->streams[_avVideoStream]->time_base,
-        djvFFmpegUtil::timeBaseQ());
+        djvFFmpeg::timeBaseQ());
     
     //DJV_DEBUG_PRINT("pts = " << static_cast<qint64>(pts));
         

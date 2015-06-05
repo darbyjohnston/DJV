@@ -40,6 +40,10 @@
 // djvSgiLoad
 //------------------------------------------------------------------------------
 
+djvSgiLoad::djvSgiLoad(djvImageContext * context) :
+    djvImageLoad(context)
+{}
+
 djvSgiLoad::~djvSgiLoad()
 {}
 
@@ -107,7 +111,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             if (size != djvPixelDataUtil::dataByteCount(info))
             {
                 throw djvError(
-                    djvSgiPlugin::staticName,
+                    djvSgi::staticName,
                     djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
             }
         
@@ -136,7 +140,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             {
                 //DJV_DEBUG_PRINT("y = " << y);
 
-                if (! djvSgiPlugin::readRle(
+                if (! djvSgi::readRle(
                     inP + _rleOffset()[y + info.size.y * c] - pos,
                     end,
                     outP,
@@ -145,7 +149,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     io.endian()))
                 {
                     throw djvError(
-                        djvSgiPlugin::staticName,
+                        djvSgi::staticName,
                         djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                 }
             }
@@ -177,7 +181,7 @@ void djvSgiLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
     info.fileName = in;
     
-    djvSgiPlugin::loadInfo(io, info, &_compression);
+    djvSgi::loadInfo(io, info, &_compression);
 
     // Read the scanline tables.
 

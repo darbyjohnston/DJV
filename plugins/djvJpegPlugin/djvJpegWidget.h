@@ -34,9 +34,9 @@
 #ifndef DJV_JPEG_WIDGET_H
 #define DJV_JPEG_WIDGET_H
 
-#include <djvJpegPlugin.h>
+#include <djvJpeg.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class djvIntEditSlider;
 
@@ -49,7 +49,7 @@ class djvIntEditSlider;
 //! This class provides a JPEG widget.
 //------------------------------------------------------------------------------
 
-class djvJpegWidget : public djvAbstractPrefsWidget
+class djvJpegWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvJpegWidget(djvJpegPlugin *, djvGuiContext *);
+    djvJpegWidget(djvImageIo *, djvGuiContext *);
     
     //! Destructor.
     
@@ -75,9 +75,25 @@ private Q_SLOTS:
 
 private:
 
-    djvJpegPlugin *        _plugin;
-    djvJpegPlugin::Options _options;
-    djvIntEditSlider *     _qualityWidget;
+    djvJpeg::Options   _options;
+    djvIntEditSlider * _qualityWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvJpegWidgetPlugin
+//!
+//! This class provides a JPEG widget plugin.
+//------------------------------------------------------------------------------
+
+class djvJpegWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvJpegWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvJpegPlugin

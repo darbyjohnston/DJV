@@ -34,9 +34,10 @@
 #ifndef DJV_TIFF_LOAD_H
 #define DJV_TIFF_LOAD_H
 
-#include <djvTiffPlugin.h>
+#include <djvTiff.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvTiffPlugin
 //@{
@@ -53,7 +54,7 @@ public:
 
     //! Constructor.
 
-    djvTiffLoad();
+    explicit djvTiffLoad(djvImageContext *);
 
     //! Destructor.
 

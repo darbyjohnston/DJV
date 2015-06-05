@@ -36,7 +36,7 @@
 
 #include <djvSgiSave.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -49,7 +49,7 @@ class QComboBox;
 //! This class provides a SGI widget.
 //------------------------------------------------------------------------------
 
-class djvSgiWidget : public djvAbstractPrefsWidget
+class djvSgiWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvSgiWidget(djvSgiPlugin *, djvGuiContext *);
+    djvSgiWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -75,9 +75,25 @@ private Q_SLOTS:
 
 private:
 
-    djvSgiPlugin *        _plugin;
-    djvSgiPlugin::Options _options;
-    QComboBox *           _compressionWidget;
+    djvSgi::Options _options;
+    QComboBox *     _compressionWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvSgiWidgetPlugin
+//!
+//! This class provides a SGI widget plugin.
+//------------------------------------------------------------------------------
+
+class djvSgiWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvSgiWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvSgiPlugin
