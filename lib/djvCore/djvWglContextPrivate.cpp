@@ -35,6 +35,7 @@
 
 #include <djvWglContextPrivate.h>
 
+#include <djvCoreContext.h>
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 
@@ -76,7 +77,7 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
     // Create a dummy window and OpenGL context for glewInit.
     // According to the docs, glewInit can be called just once per-process?
 
-    DJV_LOG("djvWglContext", "Creating dummy window...");
+    DJV_LOG(context->debugLog(), "djvWglContext", "Creating dummy window...");
 
     HINSTANCE hinstance = GetModuleHandle(0);
 
@@ -135,7 +136,7 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
 
     //DJV_DEBUG_PRINT("pixel format count = " << pixelFormatCount);
 
-    DJV_LOG("djvWglContext",
+    DJV_LOG(context->debugLog(), "djvWglContext",
         QString("Pixel format count: %1").arg(pixelFormatCount));
 
     for (int i = 1; i < pixelFormatCount; ++i)
@@ -164,7 +165,7 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
         if (PFD_TYPE_RGBA == pixelFormatInfo.iPixelType)
             tmp += "rgba";
 
-        DJV_LOG("djvWglContext",
+        DJV_LOG(context->debugLog(), "djvWglContext",
             QString("Pixel format %1: %2 %3/%4/%5/%6/%7").
             arg(i).
             arg(tmp.join(" ")).
@@ -199,7 +200,7 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
 
     //DJV_DEBUG_PRINT("pixel format = " << pixelFormatId);
 
-    DJV_LOG("djvWglContext",
+    DJV_LOG(context->debugLog(), "djvWglContext",
         QString("Chosen pixel format: %1").arg(pixelFormatId));
 
     if (! pixelFormatId)
@@ -218,7 +219,7 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
 
     // Create OpengGL context.
 
-    DJV_LOG("djvWglContext", "Creating OpenGL context...");
+    DJV_LOG(context->debugLog(), "djvWglContext", "Creating OpenGL context...");
 
     _p->context = wglCreateContext(_p->device);
 
@@ -238,7 +239,7 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
 
     // Initialize GLEW.
 
-    DJV_LOG("djvWglContext", "Initializing GLEW...");
+    DJV_LOG(context->debugLog(), "djvWglContext", "Initializing GLEW...");
 
     GLenum err = glewInit();
 
@@ -263,9 +264,12 @@ djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
 
-    DJV_LOG("djvWglContext", QString("GL vendor: \"%1\"").arg(vendor()));
-    DJV_LOG("djvWglContext", QString("GL renderer: \"%1\"").arg(renderer()));
-    DJV_LOG("djvWglContext", QString("GL version: \"%1\"").arg(version()));
+    DJV_LOG(context->debugLog(), "djvWglContext",
+        QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG(context->debugLog(), "djvWglContext",
+        QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG(context->debugLog(), "djvWglContext",
+        QString("GL version: \"%1\"").arg(version()));
 
 #   endif // DJV_WINDOWS
 }

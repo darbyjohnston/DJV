@@ -107,7 +107,7 @@ endif (APPLE)
 
 if (WIN32)
 
-    add_executable(djv_view. ${header} ${source} djvViewMain.cpp)
+    add_executable(djv_view. ${header} ${source} ${mocSource} djvViewMain.cpp)
 
     target_link_libraries(djv_view. djvViewLib ${djvGuiLibs})
 

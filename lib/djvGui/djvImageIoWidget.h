@@ -120,7 +120,7 @@ public:
 //! This class provides a factory for image I/O widget plugins.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageIoWidgetFactory : public djvPluginFactory
+class DJV_GUI_EXPORT djvImageIoWidgetFactory : public djvPluginFactory
 {
     Q_OBJECT
     

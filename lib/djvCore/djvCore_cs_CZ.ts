@@ -1009,52 +1009,52 @@ OpenGL Options
 <context>
     <name>djvWglContext</name>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="301"/>
+        <location filename="djvWglContextPrivate.cpp" line="305"/>
         <source>Cannot get module handle: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="302"/>
+        <location filename="djvWglContextPrivate.cpp" line="306"/>
         <source>Cannot register class: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="303"/>
+        <location filename="djvWglContextPrivate.cpp" line="307"/>
         <source>Cannot create window: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="304"/>
+        <location filename="djvWglContextPrivate.cpp" line="308"/>
         <source>Cannot get DC: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="305"/>
+        <location filename="djvWglContextPrivate.cpp" line="309"/>
         <source>Cannot get pixel format: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="306"/>
+        <location filename="djvWglContextPrivate.cpp" line="310"/>
         <source>Cannot set pixel format: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="307"/>
+        <location filename="djvWglContextPrivate.cpp" line="311"/>
         <source>Cannot create OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="308"/>
+        <location filename="djvWglContextPrivate.cpp" line="312"/>
         <source>Cannot bind OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="309"/>
+        <location filename="djvWglContextPrivate.cpp" line="313"/>
         <source>Cannot initialize GLEW: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="310"/>
+        <location filename="djvWglContextPrivate.cpp" line="314"/>
         <source>Cannot unbind OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>

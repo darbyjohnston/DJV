@@ -52,7 +52,7 @@ class  djvViewMainWindow;
 //! This class provides the application.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewApplication : public QApplication
+class djvViewApplication : public QApplication
 {
     Q_OBJECT
     

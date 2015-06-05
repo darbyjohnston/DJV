@@ -41,6 +41,7 @@
 #include <djvFileInfoUtil.h>
 
 #include <QFileOpenEvent>
+#include <QScopedPointer>
 #include <QTimer>
 
 //------------------------------------------------------------------------------
@@ -49,11 +50,7 @@
 
 struct djvViewApplicationPrivate
 {
-    djvViewApplicationPrivate() :
-        context(0)
-    {}
-    
-    djvViewContext * context;
+    QScopedPointer<djvViewContext> context;
 };
 
 //------------------------------------------------------------------------------
@@ -72,7 +69,7 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) :
     
     // Create the context.
     
-    _p->context = new djvViewContext(this);
+    _p->context.reset(new djvViewContext(this));
     
     // Parse the command line.
     
@@ -90,7 +87,6 @@ djvViewApplication::~djvViewApplication()
 {
     //DJV_DEBUG("djvViewApplication::~djvViewApplication");
 
-    delete _p->context;
     delete _p;
 }
 
@@ -188,7 +184,7 @@ void djvViewApplication::work()
             // Initialize the window.
     
             djvViewMainWindow * window =
-                djvViewMainWindow::createWindow(_p->context);
+                djvViewMainWindow::createWindow(_p->context.data());
 
             window->fileOpen(fileInfo);
 
@@ -226,7 +222,7 @@ void djvViewApplication::work()
         
         DJV_LOG(_p->context->debugLog(), "djvViewApplication", "Show window...");
 
-        djvViewMainWindow::createWindow(_p->context)->show();
+        djvViewMainWindow::createWindow(_p->context.data())->show();
 
         DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
     }
