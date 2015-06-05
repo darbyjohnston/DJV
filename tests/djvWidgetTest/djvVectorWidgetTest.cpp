@@ -40,6 +40,10 @@
 
 #include <QFormLayout>
 
+djvVectorWidgetTest::djvVectorWidgetTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvVectorWidgetTest::name()
 {
     return "djvVectorWidgetTest";

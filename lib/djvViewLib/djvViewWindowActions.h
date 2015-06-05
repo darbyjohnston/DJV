@@ -78,7 +78,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewWindowActions(QObject * parent = 0);
+    explicit djvViewWindowActions(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 

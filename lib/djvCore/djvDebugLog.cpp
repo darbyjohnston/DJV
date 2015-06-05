@@ -76,18 +76,6 @@ const QVector<QString> & djvDebugLog::messages() const
     return _p->messages;
 }
 
-djvDebugLog * djvDebugLog::global()
-{
-    static QPointer<djvDebugLog> global;
-    
-    if (! global)
-    {
-        global = QPointer<djvDebugLog>(new djvDebugLog(qApp));
-    }
-    
-    return global.data();
-}
-
 void djvDebugLog::addMessage(const QString & context, const QString & message)
 {
     Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))

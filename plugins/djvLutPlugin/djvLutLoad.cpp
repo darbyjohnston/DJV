@@ -34,6 +34,7 @@
 #include <djvLutLoad.h>
 
 #include <djvAssert.h>
+#include <djvFileIo.h>
 #include <djvImage.h>
 #include <djvListUtil.h>
 
@@ -41,7 +42,7 @@
 // djvLutLoad
 //------------------------------------------------------------------------------
 
-djvLutLoad::djvLutLoad(const djvLutPlugin::Options & options) :
+djvLutLoad::djvLutLoad(const djvLut::Options & options) :
     _options(options)
 {}
 
@@ -92,12 +93,12 @@ void djvLutLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
     switch (_format)
     {
-        case djvLutPlugin::FORMAT_INFERNO:
-            djvLutPlugin::infernoLoad(io, image);
+        case djvLut::FORMAT_INFERNO:
+            djvLut::infernoLoad(io, image);
             break;
-
-        case djvLutPlugin::FORMAT_KODAK:
-            djvLutPlugin::kodakLoad(io, image);
+        
+        case djvLut::FORMAT_KODAK:
+            djvLut::kodakLoad(io, image);
             break;
 
         default: break;
@@ -116,25 +117,25 @@ void djvLutLoad::_open(const djvFileInfo & in, djvImageIoInfo & info, djvFileIo 
 
     info.fileName = in;
     
-    const int index = djvLutPlugin::staticExtensions.indexOf(in.extension());
+    const int index = djvLut::staticExtensions.indexOf(in.extension());
 
     if (-1 == index)
     {
         throw djvError(
-            djvLutPlugin::staticName,
+            djvLut::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
-    _format = static_cast<djvLutPlugin::FORMAT>(index);
+    _format = static_cast<djvLut::FORMAT>(index);
 
     switch (_format)
     {
-        case djvLutPlugin::FORMAT_INFERNO:
-            djvLutPlugin::infernoOpen(io, info, _options.type);
+        case djvLut::FORMAT_INFERNO:
+            djvLut::infernoOpen(io, info, _options.type);
             break;
 
-        case djvLutPlugin::FORMAT_KODAK:
-            djvLutPlugin::kodakOpen(io, info, _options.type);
+        case djvLut::FORMAT_KODAK:
+            djvLut::kodakOpen(io, info, _options.type);
             break;
 
         default: break;

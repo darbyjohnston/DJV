@@ -37,14 +37,12 @@
 #include <djvDebug.h>
 #include <djvFileInfo.h>
 #include <djvImage.h>
-#include <djvImageApplication.h>
+#include <djvImageContext.h>
 #include <djvImageIo.h>
 
 void djvImageIoTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvImageIoTest::run");
-    
-    djvImageApplication app("djvImageIoTest", argc, argv);
     
     info();
     plugin();
@@ -151,11 +149,13 @@ void djvImageIoTest::plugin()
 {
     DJV_DEBUG("djvImageIoTest::plugin");
     
-    djvImageIoFactory * factory = djvImageIoFactory::global();
+    djvImageContext context;
     
-    Q_FOREACH(QString plugin, QStringList() << "PPM" << "PIC")
+    djvImageIoFactory * factory = context.imageIoFactory();
+    
+    Q_FOREACH(QString plugin, QStringList() << "PPM")
     {
-        djvImageIo * io = static_cast<djvImageIo *>(factory->plugin("PPM"));
+        djvImageIo * io = static_cast<djvImageIo *>(factory->plugin(plugin));
         
         DJV_ASSERT(io);
         DJV_ASSERT(io->extensions().count());
@@ -194,15 +194,13 @@ void djvImageIoTest::io()
 {
     DJV_DEBUG("djvImageIoTest::io");
     
-    int argc = 0;
+    djvImageContext context;
     
     const djvFileInfo fileInfo("djvImageIoTest.ppm");
     
     const djvPixelDataInfo pixelDataInfo(1, 1, djvPixel::L_U8);
     
-    djvImageSave * save = djvImageIoFactory::global()->save(
-        fileInfo,
-        pixelDataInfo);
+    djvImageSave * save = context.imageIoFactory()->save(fileInfo, pixelDataInfo);
     
     DJV_ASSERT(save);
     
@@ -216,7 +214,7 @@ void djvImageIoTest::io()
     
     DJV_DEBUG_PRINT("!");
     
-    djvImageLoad * load = djvImageIoFactory::global()->load(fileInfo, info);
+    djvImageLoad * load = context.imageIoFactory()->load(fileInfo, info);
 
     DJV_ASSERT(load);
     

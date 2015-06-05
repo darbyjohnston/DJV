@@ -4,47 +4,28 @@
 <context>
     <name>djvIffPlugin</name>
     <message>
-        <location filename="djvIffPlugin.cpp" line="73"/>
+        <location filename="djvIffPlugin.cpp" line="72"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvIffPlugin.cpp" line="74"/>
+        <location filename="djvIffPlugin.cpp" line="73"/>
         <source>RLE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvIffPlugin.cpp" line="781"/>
+        <location filename="djvIffPlugin.cpp" line="780"/>
         <source>-iff_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvIffPlugin.cpp" line="801"/>
+        <location filename="djvIffPlugin.cpp" line="800"/>
         <source>
 IFF Options
 
     -iff_compression (value)
         Set the file compression used when saving IFF images. Options = %1. Default = %2.
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvIffWidget</name>
-    <message>
-        <location filename="djvIffWidget.cpp" line="71"/>
-        <source>Compression</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvIffWidget.cpp" line="72"/>
-        <source>Set the file compression used when saving IFF images.</source>
-        <oldsource>Set the options used when saving IFF images.</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvIffWidget.cpp" line="75"/>
-        <source>Compression:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

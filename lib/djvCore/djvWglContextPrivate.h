@@ -91,7 +91,7 @@ protected:
 
     //! Constructor.
 
-    djvWglContext() throw (djvError);
+    explicit djvWglContext(djvCoreContext *) throw (djvError);
 
 private:
 

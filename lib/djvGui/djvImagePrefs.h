@@ -75,10 +75,6 @@ public:
 
     const djvOpenGlImageFilter & filter() const;
 
-    //! Get the global preferences.
-
-    static djvImagePrefs * global();
-
 public Q_SLOTS:
 
     //! Set the image filter.

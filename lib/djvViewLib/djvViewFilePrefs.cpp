@@ -33,7 +33,6 @@
 
 #include <djvViewFilePrefs.h>
 
-#include <djvViewApplication.h>
 #include <djvViewFileCache.h>
 
 #include <djvPrefs.h>
@@ -45,8 +44,8 @@
 // djvViewFilePrefs
 //------------------------------------------------------------------------------
 
-djvViewFilePrefs::djvViewFilePrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewFilePrefs::djvViewFilePrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _autoSequence(autoSequenceDefault()),
     _proxy       (proxyDefault()),
     _u8Conversion(u8ConversionDefault()),
@@ -168,18 +167,6 @@ bool djvViewFilePrefs::displayCacheDefault()
 bool djvViewFilePrefs::hasDisplayCache() const
 {
     return _displayCache;
-}
-
-djvViewFilePrefs * djvViewFilePrefs::global()
-{
-    static djvViewFilePrefs * prefs = 0;
-
-    if (! prefs)
-    {
-        prefs = new djvViewFilePrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewFilePrefs::setAutoSequence(bool autoSequence)

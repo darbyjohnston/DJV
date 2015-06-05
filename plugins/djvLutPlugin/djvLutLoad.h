@@ -34,9 +34,10 @@
 #ifndef DJV_LUT_LOAD_H
 #define DJV_LUT_LOAD_H
 
-#include <djvLutPlugin.h>
+#include <djvLut.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvLutPlugin
 //@{
@@ -53,7 +54,7 @@ public:
 
     //! Constructor.
     
-    djvLutLoad(const djvLutPlugin::Options &);
+    djvLutLoad(const djvLut::Options &);
     
     //! Destructor.
     
@@ -70,9 +71,9 @@ private:
     void _open(const djvFileInfo &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
-    djvLutPlugin::Options _options;
-    djvFileInfo           _file;
-    djvLutPlugin::FORMAT  _format;
+    djvLut::Options _options;
+    djvFileInfo     _file;
+    djvLut::FORMAT  _format;
 };
 
 //@} // djvLutPlugin

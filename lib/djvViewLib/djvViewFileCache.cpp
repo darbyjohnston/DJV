@@ -33,7 +33,7 @@
 
 #include <djvViewFileCache.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewFilePrefs.h>
 
 #include <djvAssert.h>
@@ -136,34 +136,36 @@ int djvViewFileCacheItem::count() const
 
 struct djvViewFileCachePrivate
 {
-    djvViewFileCachePrivate() :
-        maxByteCount(static_cast<quint64>(
-            djvViewFilePrefs::global()->cacheSize() * djvMemory::gigabyte)),
-        cacheByteCount(0)
+    djvViewFileCachePrivate(djvViewContext * context) :
+        maxByteCount  (static_cast<quint64>(
+            context->filePrefs()->cacheSize() * djvMemory::gigabyte)),
+        cacheByteCount(0),
+        context       (context)
     {}
     
     djvViewFileCacheItemList items;
     quint64                  maxByteCount;
     quint64                  cacheByteCount;
+    djvViewContext *         context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewFileCache
 //------------------------------------------------------------------------------
 
-djvViewFileCache::djvViewFileCache(QObject * parent) :
+djvViewFileCache::djvViewFileCache(djvViewContext * context, QObject * parent) :
     QObject(parent),
-    _p(new djvViewFileCachePrivate)
+    _p(new djvViewFileCachePrivate(context))
 {
     //DJV_DEBUG("djvViewFileCache::djvViewFileCache");
     
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(cacheChanged(bool)),
         SLOT(cacheCallback(bool)));
     
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(cacheSizeChanged(double)),
         SLOT(cacheSizeCallback(double)));
 }
@@ -504,18 +506,6 @@ void djvViewFileCache::debug()
             reinterpret_cast<qint64>(_p->items[i]->key()) << " " <<
             _p->items[i]->frame());
 	}*/
-}
-
-djvViewFileCache * djvViewFileCache::global()
-{
-    static djvViewFileCache * cache = 0;
-
-    if (! cache)
-    {
-        cache = new djvViewFileCache(DJV_VIEW_APP);
-    }
-
-    return cache;
 }
 
 void djvViewFileCache::setMaxSize(double size)

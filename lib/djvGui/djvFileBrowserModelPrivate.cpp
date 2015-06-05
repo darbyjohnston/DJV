@@ -34,6 +34,7 @@
 #include <djvFileBrowserModelPrivate.h>
 
 #include <djvFileBrowserCache.h>
+#include <djvGuiContext.h>
 
 #include <djvImage.h>
 #include <djvOpenGlContext.h>
@@ -57,6 +58,7 @@ djvFileBrowserItem::djvFileBrowserItem(
     const djvFileInfo &                  fileInfo,
     djvFileBrowserModel::THUMBNAILS      thumbnails,
     djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
+    djvGuiContext *                      context,
     QObject *                            parent) :
     QObject          (parent),
     _fileInfo        (fileInfo),
@@ -64,7 +66,8 @@ djvFileBrowserItem::djvFileBrowserItem(
     _thumbnailsSize  (thumbnailsSize),
     _thumbnailProxy  (static_cast<djvPixelDataInfo::PROXY>(0)),
     _imageInfoRequest(false),
-    _thumbnailRequest(false)
+    _thumbnailRequest(false),
+    _context         (context)
 {
     // Initialize the display role data.
 
@@ -94,7 +97,7 @@ djvFileBrowserItem::djvFileBrowserItem(
    // Check the cache to see if this item already exists.
    
    if (djvFileBrowserCacheItem * item =
-       djvFileBrowserCache::global()->object(_fileInfo))
+       context->fileBrowserCache()->object(_fileInfo))
    {
         _thumbnailSize    = item->thumbnailSize;
         _thumbnailProxy   = item->thumbnailProxy;
@@ -148,7 +151,9 @@ struct ImageInfoThreadResult
     djvImageIoInfo info;
 };
 
-ImageInfoThreadResult imageInfoThreadFunction(const djvFileInfo & fileInfo)
+ImageInfoThreadResult imageInfoThreadFunction(
+    const djvFileInfo & fileInfo,
+    djvGuiContext *     context)
 {
     //DJV_DEBUG("imageInfoThreadFunction");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -159,7 +164,7 @@ ImageInfoThreadResult imageInfoThreadFunction(const djvFileInfo & fileInfo)
     try
     {
         QScopedPointer<djvImageLoad> load(
-            djvImageIoFactory::global()->load(fileInfo, out.info));
+            context->imageIoFactory()->load(fileInfo, out.info));
         
         //DJV_DEBUG_PRINT("info = " << out.info);
         
@@ -186,7 +191,8 @@ ThumbnailThreadResult thumbnailThreadFunction(
     const djvFileInfo &             fileInfo,
     djvFileBrowserModel::THUMBNAILS thumbnails,
     const djvVector2i &             thumbnailSize,
-    djvPixelDataInfo::PROXY         proxy)
+    djvPixelDataInfo::PROXY         proxy,
+    djvGuiContext *                 context)
 {
     //DJV_DEBUG("thumbnailThreadFunction");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -201,8 +207,8 @@ ThumbnailThreadResult thumbnailThreadFunction(
     {
         // Create an OpenGL context.
         
-        QScopedPointer<djvOpenGlContext> context;
-        context.reset(djvOpenGlContextFactory::create());
+        QScopedPointer<djvOpenGlContext> openGlContext;
+        openGlContext.reset(context->openGlContextFactory()->create());
         
         // Load the image.
         
@@ -211,7 +217,7 @@ ThumbnailThreadResult thumbnailThreadFunction(
         djvImageIoInfo imageIoInfo;
         
         QScopedPointer<djvImageLoad> load(
-            djvImageIoFactory::global()->load(fileInfo, imageIoInfo));
+            context->imageIoFactory()->load(fileInfo, imageIoInfo));
         
         load->read(image, djvImageIoFrameInfo(-1, 0, proxy));
 
@@ -267,7 +273,8 @@ void djvFileBrowserItem::requestImage()
                         
         QFuture<ImageInfoThreadResult> future = QtConcurrent::run(
             imageInfoThreadFunction,
-            _fileInfo);
+            _fileInfo,
+            _context);
         
         QFutureWatcher<ImageInfoThreadResult> * watcher =
             new QFutureWatcher<ImageInfoThreadResult>;
@@ -289,7 +296,8 @@ void djvFileBrowserItem::requestImage()
             _fileInfo,
             _thumbnails,
             _thumbnailSize,
-            _thumbnailProxy);
+            _thumbnailProxy,
+            _context);
         
         QFutureWatcher<ThumbnailThreadResult> * watcher =
             new QFutureWatcher<ThumbnailThreadResult>;
@@ -401,7 +409,7 @@ void djvFileBrowserItem::thumbnailCallback()
     {
         _thumbnail = result.thumbnail;
 
-        djvFileBrowserCache::global()->insert(
+        _context->fileBrowserCache()->insert(
             _fileInfo,
             new djvFileBrowserCacheItem(
                 _imageInfo,

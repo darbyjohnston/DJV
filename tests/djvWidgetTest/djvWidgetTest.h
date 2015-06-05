@@ -34,8 +34,12 @@
 #ifndef DJV_WIDGET_TEST_H
 #define DJV_WIDGET_TEST_H
 
+#include <djvApplication.h>
+
 #include <QAbstractListModel>
 #include <QWidget>
+
+class djvGuiContext;
 
 class QListView;
 class QSortFilterProxyModel;
@@ -46,19 +50,27 @@ class djvWidgetTest : public QObject
     
 public:
 
+    djvWidgetTest(djvGuiContext *);
+    
+    virtual ~djvWidgetTest() = 0;
+
     virtual QString name() = 0;
 
     virtual void run(const QStringList & args = QStringList()) = 0;
+
+    djvGuiContext * context() const;
+
+private:
+
+    djvGuiContext * _context;
 };
 
 class djvWidgetTestModel : public QAbstractListModel
 {
 public:
 
-    explicit djvWidgetTestModel(QObject * parent = 0);
+    djvWidgetTestModel(QVector<djvWidgetTest *> &);
     
-    const QVector<djvWidgetTest *> & list() const;
-
     virtual QModelIndex	index(
         int                 row,
         int                 column,
@@ -71,7 +83,7 @@ public:
 
 private:
 
-    QVector<djvWidgetTest *> _list;
+    QVector<djvWidgetTest *> & _tests;
 };
 
 class djvWidgetTestWindow : public QWidget
@@ -92,6 +104,24 @@ private:
     djvWidgetTestModel *    _model;
     QSortFilterProxyModel * _proxyModel;
     QListView *             _listView;
+};
+
+class djvWidgetTestApplication : public djvApplication
+{
+    Q_OBJECT
+    
+public:
+
+    djvWidgetTestApplication(int & argc, char ** argv);
+
+    virtual ~djvWidgetTestApplication();
+    
+private:
+
+    djvGuiContext *          _context;
+    QVector<djvWidgetTest *> _tests;
+    djvWidgetTestModel *     _model;
+    djvWidgetTestWindow *    _window;
 };
 
 #endif // DJV_WIDGET_TEST_H

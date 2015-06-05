@@ -33,6 +33,7 @@
 
 #include <djvIntEditSlider.h>
 
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvIntEdit.h>
 #include <djvIntObject.h>
@@ -69,7 +70,7 @@ struct djvIntEditSliderPrivate
 // djvIntEditSlider
 //------------------------------------------------------------------------------
 
-djvIntEditSlider::djvIntEditSlider(QWidget * parent) :
+djvIntEditSlider::djvIntEditSlider(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvIntEditSliderPrivate)
 {
@@ -80,7 +81,7 @@ djvIntEditSlider::djvIntEditSlider(QWidget * parent) :
     _p->defaultButton = new djvToolButton;
     _p->defaultButton->setIconSize(QSize(16, 16));
     _p->defaultButton->setIcon(
-        djvIconLibrary::global()->icon("djvResetIcon.png"));
+        context->iconLibrary()->icon("djvResetIcon.png"));
     _p->defaultButton->setToolTip(
         qApp->translate("djvIntEditSlider", "Reset the value"));
     

@@ -61,6 +61,7 @@ public:
 
     explicit djvViewPlaybackToolBar(
         djvViewAbstractActions * actions,
+        djvViewContext *         context,
         QWidget *                parent  = 0);
 
     //! Destructor.

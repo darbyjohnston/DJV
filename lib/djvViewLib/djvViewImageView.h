@@ -40,6 +40,7 @@
 
 #include <djvFileInfo.h>
 
+class  djvViewContext;
 struct djvViewHudInfo;
 struct djvViewImageViewPrivate;
 
@@ -60,7 +61,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewImageView(QWidget * parent = 0);
+    explicit djvViewImageView(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 

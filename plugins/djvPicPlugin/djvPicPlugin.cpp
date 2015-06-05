@@ -44,9 +44,9 @@
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvPicPlugin;
+    return new djvPicPlugin(context);
 }
 
 } // extern "C"
@@ -55,118 +55,18 @@ DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
 // djvPicPlugin
 //------------------------------------------------------------------------------
 
-const QString djvPicPlugin::staticName = "PIC";
-
-const QStringList & djvPicPlugin::compressionLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPicPlugin", "None") <<
-        qApp->translate("djvPicPlugin", "RLE");
-
-    DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
-    return data;
-}
-
-const quint8 * djvPicPlugin::readRle(
-    const quint8 * in,
-    const quint8 * end,
-    quint8 *       out,
-    int            size,
-    int            channels,
-    int            stride,
-    bool           endian)
-{
-    //DJV_DEBUG("readRle");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("stride = " << stride);
-
-    const quint8 * const outEnd = out + size * stride;
-
-    while (in < end && out < outEnd)
-    {
-        // Get RLE information.
-
-        quint16 count = *in++;
-
-        //DJV_DEBUG_PRINT("count = " << count);
-        
-        if (count >= 128)
-        {
-            if (128 == count)
-            {
-                if (endian)
-                {
-                    djvMemory::convertEndian(in, &count, 1, 2);
-                }
-                else
-                {
-                    djvMemory::copy(in, &count, 2);
-                }
-
-                in += 2;
-            }
-            else
-            {
-                count -= 127;
-            }
-
-            //DJV_DEBUG_PRINT("repeat = " << count);
-
-            const quint8 * p = in;
-            
-            in += channels;
-
-            if (in > end)
-            {
-                break;
-            }
-
-            for (quint16 i = 0; i < count; ++i, out += stride)
-            {
-                for (int j = 0; j < channels; ++j)
-                {
-                    out[j] = p[j];
-                }
-            }
-        }
-        else
-        {
-            ++count;
-            
-            //DJV_DEBUG_PRINT("raw = " << count);
-
-            const quint8 * p = in;
-            
-            in += count * channels;
-
-            if (in > end)
-            {
-                break;
-            }
-
-            for (quint16 i = 0; i < count; ++i, p += channels, out += stride)
-            {
-                for (int j = 0; j < channels; ++j)
-                {
-                    out[j] = p[j];
-                }
-            }
-        }
-    }
-
-    return in > end ? 0 : in;
-}
+djvPicPlugin::djvPicPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvPicPlugin::copyPlugin() const
 {
-    return new djvPicPlugin;
+    return new djvPicPlugin(context());
 }
 
 QString djvPicPlugin::pluginName() const
 {
-    return staticName;
+    return djvPic::staticName;
 }
 
 QStringList djvPicPlugin::extensions() const

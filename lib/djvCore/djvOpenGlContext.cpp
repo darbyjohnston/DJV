@@ -53,17 +53,22 @@
 
 struct djvOpenGlContextPrivate
 {
-    QString vendor;
-    QString renderer;
-    QString version;
+    djvOpenGlContextPrivate(djvCoreContext * context) :
+        context(context)
+    {}
+    
+    QString          vendor;
+    QString          renderer;
+    QString          version;
+    djvCoreContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvOpenGlContext
 //------------------------------------------------------------------------------
 
-djvOpenGlContext::djvOpenGlContext() throw (djvError) :
-    _p(new djvOpenGlContextPrivate)
+djvOpenGlContext::djvOpenGlContext(djvCoreContext * context) throw (djvError) :
+    _p(new djvOpenGlContextPrivate(context))
 {
     //DJV_DEBUG("djvOpenGlContext::djvOpenGlContext");
 }
@@ -89,6 +94,11 @@ const QString & djvOpenGlContext::version() const
 {
     return _p->version;
 }
+    
+djvCoreContext * djvOpenGlContext::context() const
+{
+    return _p->context;
+}
 
 void djvOpenGlContext::setVendor(const QString & vendor)
 {
@@ -109,7 +119,8 @@ void djvOpenGlContext::setVersion(const QString & version)
 // djvOpenGlContextFactory
 //------------------------------------------------------------------------------
 
-djvOpenGlContextFactory::~djvOpenGlContextFactory()
+djvOpenGlContextFactory::djvOpenGlContextFactory(djvCoreContext * context) :
+    _context(context)
 {}
 
 djvOpenGlContext * djvOpenGlContextFactory::create(bool bind) throw (djvError)
@@ -118,15 +129,15 @@ djvOpenGlContext * djvOpenGlContextFactory::create(bool bind) throw (djvError)
 
 #if defined(DJV_WINDOWS)
 
-    context = new djvWglContext;
+    context = new djvWglContext(_context);
 
 #elif defined(DJV_OSX)
 
-    context = new djvCglContext;
+    context = new djvCglContext(_context);
 
 #else // DJV_WINDOWS
 
-    context = new djvGlxContext;
+    context = new djvGlxContext(_context);
 
 #endif // DJV_WINDOWS
 

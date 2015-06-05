@@ -33,9 +33,11 @@
 
 #include <djvLutWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
 
+#include <djvImageIo.h>
 #include <djvSignalBlocker.h>
 
 #include <QApplication>
@@ -43,29 +45,39 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
+extern "C"
+{
+
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoWidgetEntry(djvCoreContext * context)
+{
+    return new djvLutWidgetPlugin(context);
+}
+
+} // extern "C"
+
 //------------------------------------------------------------------------------
 // djvLutWidget
 //------------------------------------------------------------------------------
 
-djvLutWidget::djvLutWidget(djvLutPlugin * plugin) :
-    djvAbstractPrefsWidget(djvLutPlugin::staticName),
-    _plugin    (plugin),
+djvLutWidget::djvLutWidget(djvImageIo * plugin, djvGuiContext * context) :
+    djvImageIoWidget(plugin, context),
     _typeWidget(0)
 {
     // Create the widgets.
 
     _typeWidget = new QComboBox;
-    _typeWidget->addItems(djvLutPlugin::typeLabels());
+    _typeWidget->addItems(djvLut::typeLabels());
     _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvLutWidget", "Pixel Type"),
-        qApp->translate("djvLutWidget", "Set the pixel type used when loading LUTs."));
+        qApp->translate("djvLutWidget", "Set the pixel type used when loading LUTs."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvLutWidget", "Pixel type:"),
@@ -77,8 +89,7 @@ djvLutWidget::djvLutWidget(djvLutPlugin * plugin) :
     // Initialize.
 
     QStringList tmp;
-    tmp = _plugin->option(
-        _plugin->options()[djvLutPlugin::TYPE_OPTION]);
+    tmp = plugin->option(plugin->options()[djvLut::TYPE_OPTION]);
     tmp >> _options.type;
 
     widgetUpdate();
@@ -101,7 +112,7 @@ djvLutWidget::~djvLutWidget()
 
 void djvLutWidget::resetPreferences()
 {
-    _options = djvLutPlugin::Options();
+    _options = djvLut::Options();
     
     pluginUpdate();
     widgetUpdate();
@@ -112,10 +123,10 @@ void djvLutWidget::pluginCallback(const QString & option)
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(option);
+        tmp = plugin()->option(option);
 
-        if (0 == option.compare(_plugin->options()[
-            djvLutPlugin::TYPE_OPTION], Qt::CaseInsensitive))
+        if (0 == option.compare(
+            plugin()->options()[djvLut::TYPE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.type;
     }
     catch (const QString &)
@@ -126,7 +137,7 @@ void djvLutWidget::pluginCallback(const QString & option)
 
 void djvLutWidget::typeCallback(int in)
 {
-    _options.type = static_cast<djvLutPlugin::TYPE>(in);
+    _options.type = static_cast<djvLut::TYPE>(in);
 
     pluginUpdate();
 }
@@ -135,7 +146,7 @@ void djvLutWidget::pluginUpdate()
 {
     QStringList tmp;
     tmp << _options.type;
-    _plugin->setOption(_plugin->options()[djvLutPlugin::TYPE_OPTION], tmp);
+    plugin()->setOption(plugin()->options()[djvLut::TYPE_OPTION], tmp);
 }
 
 void djvLutWidget::widgetUpdate()
@@ -144,4 +155,22 @@ void djvLutWidget::widgetUpdate()
         _typeWidget);
 
     _typeWidget->setCurrentIndex(_options.type);
+}
+
+//------------------------------------------------------------------------------
+// djvLutWidgetPlugin
+//------------------------------------------------------------------------------
+
+djvLutWidgetPlugin::djvLutWidgetPlugin(djvCoreContext * context) :
+    djvImageIoWidgetPlugin(context)
+{}
+
+djvImageIoWidget * djvLutWidgetPlugin::createWidget(djvImageIo * plugin) const
+{
+    return new djvLutWidget(plugin, guiContext());
+}
+
+QString djvLutWidgetPlugin::pluginName() const
+{
+    return djvLut::staticName;
 }

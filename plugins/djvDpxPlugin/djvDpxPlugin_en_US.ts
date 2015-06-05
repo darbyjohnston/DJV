@@ -87,248 +87,248 @@
 <context>
     <name>djvDpxPlugin</name>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="77"/>
+        <location filename="djvDpxPlugin.cpp" line="76"/>
         <source>1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="78"/>
+        <location filename="djvDpxPlugin.cpp" line="77"/>
         <source>2.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="88"/>
-        <location filename="djvDpxPlugin.cpp" line="99"/>
+        <location filename="djvDpxPlugin.cpp" line="87"/>
+        <location filename="djvDpxPlugin.cpp" line="98"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="89"/>
+        <location filename="djvDpxPlugin.cpp" line="88"/>
         <source>U10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="110"/>
+        <location filename="djvDpxPlugin.cpp" line="109"/>
         <source>Source Offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="111"/>
+        <location filename="djvDpxPlugin.cpp" line="110"/>
         <source>Source Center</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="112"/>
+        <location filename="djvDpxPlugin.cpp" line="111"/>
         <source>Source Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="113"/>
+        <location filename="djvDpxPlugin.cpp" line="112"/>
         <source>Source File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="114"/>
+        <location filename="djvDpxPlugin.cpp" line="113"/>
         <source>Source Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="115"/>
+        <location filename="djvDpxPlugin.cpp" line="114"/>
         <source>Source Input Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="116"/>
+        <location filename="djvDpxPlugin.cpp" line="115"/>
         <source>Source Input Serial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="117"/>
+        <location filename="djvDpxPlugin.cpp" line="116"/>
         <source>Source Border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="118"/>
+        <location filename="djvDpxPlugin.cpp" line="117"/>
         <source>Source Pixel Aspect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="119"/>
+        <location filename="djvDpxPlugin.cpp" line="118"/>
         <source>Source ScanSize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="120"/>
+        <location filename="djvDpxPlugin.cpp" line="119"/>
         <source>Film Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="121"/>
+        <location filename="djvDpxPlugin.cpp" line="120"/>
         <source>Film Frame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="122"/>
+        <location filename="djvDpxPlugin.cpp" line="121"/>
         <source>Film Sequence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="123"/>
+        <location filename="djvDpxPlugin.cpp" line="122"/>
         <source>Film Hold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="124"/>
+        <location filename="djvDpxPlugin.cpp" line="123"/>
         <source>Film Frame Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="125"/>
+        <location filename="djvDpxPlugin.cpp" line="124"/>
         <source>Film Shutter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="126"/>
+        <location filename="djvDpxPlugin.cpp" line="125"/>
         <source>Film Frame ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="127"/>
+        <location filename="djvDpxPlugin.cpp" line="126"/>
         <source>Film Slate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="128"/>
+        <location filename="djvDpxPlugin.cpp" line="127"/>
         <source>TV Interlace</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="129"/>
+        <location filename="djvDpxPlugin.cpp" line="128"/>
         <source>TV Field</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="130"/>
+        <location filename="djvDpxPlugin.cpp" line="129"/>
         <source>TV Video Signal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="131"/>
+        <location filename="djvDpxPlugin.cpp" line="130"/>
         <source>TV Sample Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="132"/>
+        <location filename="djvDpxPlugin.cpp" line="131"/>
         <source>TV Frame Rate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="133"/>
+        <location filename="djvDpxPlugin.cpp" line="132"/>
         <source>TV Time Offset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="134"/>
+        <location filename="djvDpxPlugin.cpp" line="133"/>
         <source>TV Gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="135"/>
+        <location filename="djvDpxPlugin.cpp" line="134"/>
         <source>TV Black Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="136"/>
+        <location filename="djvDpxPlugin.cpp" line="135"/>
         <source>TV Black Gain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="137"/>
+        <location filename="djvDpxPlugin.cpp" line="136"/>
         <source>TV Break Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="138"/>
+        <location filename="djvDpxPlugin.cpp" line="137"/>
         <source>TV White Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="139"/>
+        <location filename="djvDpxPlugin.cpp" line="138"/>
         <source>TV Integration Times</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="149"/>
+        <location filename="djvDpxPlugin.cpp" line="148"/>
         <source>Input Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="150"/>
+        <location filename="djvDpxPlugin.cpp" line="149"/>
         <source>Input Film Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="151"/>
+        <location filename="djvDpxPlugin.cpp" line="150"/>
         <source>Output Color Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="152"/>
+        <location filename="djvDpxPlugin.cpp" line="151"/>
         <source>Output Film Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="153"/>
+        <location filename="djvDpxPlugin.cpp" line="152"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="154"/>
+        <location filename="djvDpxPlugin.cpp" line="153"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="155"/>
+        <location filename="djvDpxPlugin.cpp" line="154"/>
         <source>Endian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="344"/>
+        <location filename="djvDpxPlugin.cpp" line="343"/>
         <source>-dpx_input_color_profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="349"/>
+        <location filename="djvDpxPlugin.cpp" line="348"/>
         <source>-dpx_input_film_print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="354"/>
+        <location filename="djvDpxPlugin.cpp" line="353"/>
         <source>-dpx_output_color_profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="359"/>
+        <location filename="djvDpxPlugin.cpp" line="358"/>
         <source>-dpx_output_film_print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="364"/>
+        <location filename="djvDpxPlugin.cpp" line="363"/>
         <source>-dpx_version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="369"/>
+        <location filename="djvDpxPlugin.cpp" line="368"/>
         <source>-dpx_type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="374"/>
+        <location filename="djvDpxPlugin.cpp" line="373"/>
         <source>-dpx_endian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="394"/>
+        <location filename="djvDpxPlugin.cpp" line="393"/>
         <source>
 DPX Options
 
@@ -365,105 +365,6 @@ DPX Options
     -dpx_endian (value)
         Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware. Options = %11. Default = %12.
 </oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvDpxWidget</name>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="127"/>
-        <source>Input Color Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="128"/>
-        <source>Set the color profile used when loading DPX images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="131"/>
-        <location filename="djvDpxWidget.cpp" line="152"/>
-        <source>Profile:</source>
-        <oldsource>Input profile:</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="134"/>
-        <location filename="djvDpxWidget.cpp" line="155"/>
-        <source>Black:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="137"/>
-        <location filename="djvDpxWidget.cpp" line="158"/>
-        <source>White:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="140"/>
-        <location filename="djvDpxWidget.cpp" line="161"/>
-        <source>Gamma:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="143"/>
-        <source>Soft clip:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="148"/>
-        <source>Output Color Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="149"/>
-        <source>Set the color profile used when saving DPX images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="166"/>
-        <source>Version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="167"/>
-        <source>Set the file version used when saving DPX images.</source>
-        <oldsource>Set the file format version used when saving DPX images.</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="170"/>
-        <source>Version:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="176"/>
-        <source>Set the pixel type used when saving DPX images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="179"/>
-        <source>Pixel type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="185"/>
-        <source>Set the endian used when saving DPX images. Setting the endian to &quot;Auto&quot; will use the endian of the current hardware.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="190"/>
-        <source>Endian:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="175"/>
-        <source>Pixel Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvDpxWidget.cpp" line="184"/>
-        <source>Endian</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -54,7 +54,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewPlaybackPrefs(QObject * parent = 0);
+    explicit djvViewPlaybackPrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -91,10 +91,6 @@ public:
     //! Get the playback layout.
 
     djvViewUtil::LAYOUT layout() const;
-
-    //! Get the global preferences.
-
-    static djvViewPlaybackPrefs * global();
 
 public Q_SLOTS:
 

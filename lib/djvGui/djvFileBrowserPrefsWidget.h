@@ -60,7 +60,7 @@ public:
 
     //! Constructor.
 
-    djvFileBrowserPrefsWidget();
+    explicit djvFileBrowserPrefsWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

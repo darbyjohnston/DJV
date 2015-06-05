@@ -55,21 +55,3 @@ djvFileBrowserCacheItem::djvFileBrowserCacheItem(
     thumbnailProxy(thumbnailProxy),
     thumbnail     (thumbnail)
 {}
-
-//------------------------------------------------------------------------------
-// djvFileBrowserCache
-//------------------------------------------------------------------------------
-
-djvFileBrowserCache * djvFileBrowserCache::global()
-{
-    static djvFileBrowserCache * cache = 0;
-    
-    if (! cache)
-    {
-        cache = new djvFileBrowserCache;
-        
-        cache->setMaxCost(djvFileBrowserPrefs::global()->thumbnailsCache());
-    }
-    
-    return cache;
-}

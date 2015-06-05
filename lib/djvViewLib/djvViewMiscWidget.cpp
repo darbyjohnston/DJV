@@ -33,9 +33,8 @@
 
 #include <djvViewMiscWidget.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewFileCache.h>
-#include <djvViewShortcutPrefs.h>
 
 #include <djvFloatEdit.h>
 #include <djvFloatObject.h>
@@ -57,6 +56,7 @@
 #include <djvSignalBlocker.h>
 #include <djvTime.h>
 
+#include <QApplication>
 #include <QCursor>
 #include <QHBoxLayout>
 #include <QLineEdit>
@@ -89,7 +89,7 @@ struct djvViewCacheSizeWidgetPrivate
 // djvViewCacheSizeWidget
 //------------------------------------------------------------------------------
 
-djvViewCacheSizeWidget::djvViewCacheSizeWidget(QWidget * parent) :
+djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvViewContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewCacheSizeWidgetPrivate)
 {
@@ -100,7 +100,7 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(QWidget * parent) :
     _p->edit->object()->setInc(1.0, 5.0);
 
     _p->button = new djvToolButton;
-    _p->button->setIcon(djvIconLibrary::global()->icon("djvSubMenuIcon.png"));
+    _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
     _p->button->setIconSize(QSize(20, 20));
 
     // Layout the widgets.
@@ -224,7 +224,7 @@ struct djvViewFrameWidgetPrivate
 // djvViewFrameWidget
 //------------------------------------------------------------------------------
 
-djvViewFrameWidget::djvViewFrameWidget(QWidget * parent) :
+djvViewFrameWidget::djvViewFrameWidget(djvViewContext * context, QWidget * parent) :
     QAbstractSpinBox(parent),
     _p(new djvViewFrameWidgetPrivate)
 {
@@ -241,7 +241,7 @@ djvViewFrameWidget::djvViewFrameWidget(QWidget * parent) :
         SLOT(editingFinishedCallback()));
 
     connect(
-        djvTimePrefs::global(),
+        context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
@@ -403,34 +403,36 @@ void djvViewFrameWidget::widgetUpdate()
 
 struct djvViewFrameSliderPrivate
 {
-    djvViewFrameSliderPrivate() :
+    djvViewFrameSliderPrivate(djvViewContext * context) :
         frame       (0),
         inOutEnabled(false),
         inPoint     (0),
-        outPoint    (0)
+        outPoint    (0),
+        context     (context)
     {}
 
-    qint64       frame;
-    djvFrameList frameList;
-    djvSpeed     speed;
-    bool         inOutEnabled;
-    qint64       inPoint;
-    qint64       outPoint;
-    djvFrameList cachedFrames;
+    qint64           frame;
+    djvFrameList     frameList;
+    djvSpeed         speed;
+    bool             inOutEnabled;
+    qint64           inPoint;
+    qint64           outPoint;
+    djvFrameList     cachedFrames;
+    djvViewContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewFrameSlider
 //------------------------------------------------------------------------------
 
-djvViewFrameSlider::djvViewFrameSlider(QWidget * parent) :
+djvViewFrameSlider::djvViewFrameSlider(djvViewContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewFrameSliderPrivate)
+    _p(new djvViewFrameSliderPrivate(context))
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
 
     connect(
-        djvTimePrefs::global(),
+        context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
@@ -785,7 +787,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     
     int labelWidthMax = 0;
 
-    const int spacing = djvStyle::global()->sizeMetric().spacing;
+    const int spacing = _p->context->style()->sizeMetric().spacing;
 
     for (int i = 0; i < ticks.count(); ++i)
     {
@@ -926,7 +928,7 @@ struct djvViewFrameDisplayPrivate
 // djvViewFrameDisplay
 //------------------------------------------------------------------------------
 
-djvViewFrameDisplay::djvViewFrameDisplay(QWidget * parent) :
+djvViewFrameDisplay::djvViewFrameDisplay(djvViewContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewFrameDisplayPrivate)
 {
@@ -948,7 +950,7 @@ djvViewFrameDisplay::djvViewFrameDisplay(QWidget * parent) :
     // Setup the callbacks.
 
     connect(
-        djvTimePrefs::global(),
+        context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(timeUnitsCallback()));
 }
@@ -1067,14 +1069,14 @@ struct djvViewSpeedButtonPrivate
 // djvViewSpeedButton
 //------------------------------------------------------------------------------
 
-djvViewSpeedButton::djvViewSpeedButton(QWidget * parent) :
+djvViewSpeedButton::djvViewSpeedButton(djvViewContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewSpeedButtonPrivate)
 {
     // Create the widgets.
     
     _p->button = new djvToolButton;
-    _p->button->setIcon(djvIconLibrary::global()->icon("djvSubMenuIcon.png"));
+    _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
     _p->button->setIconSize(QSize(20, 20));
 
     // Layout the widgets.
@@ -1168,7 +1170,7 @@ struct djvViewSpeedWidgetPrivate
 // djvViewSpeedWidget
 //------------------------------------------------------------------------------
 
-djvViewSpeedWidget::djvViewSpeedWidget(QWidget * parent) :
+djvViewSpeedWidget::djvViewSpeedWidget(djvViewContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewSpeedWidgetPrivate)
 {
@@ -1178,7 +1180,7 @@ djvViewSpeedWidget::djvViewSpeedWidget(QWidget * parent) :
     _p->floatEdit->setRange(1.0, 1000.0);
     _p->floatEdit->object()->setInc(1.0, 10.0);
     
-    _p->button = new djvViewSpeedButton;
+    _p->button = new djvViewSpeedButton(context);
     
     // Layout the widgets.
     

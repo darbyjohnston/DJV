@@ -62,13 +62,13 @@ public:
 
     static QStringList format(const djvError &);
 
-    //! Print an error to the console.
-
-    static void print(const djvError &);
-
     //! Return the last system error (Windows specific).
 
     static QString lastError();
+    
+    //! Print an error to the console.
+    
+    static void print(const djvError &);
 };
 
 //@} // djvCoreMisc

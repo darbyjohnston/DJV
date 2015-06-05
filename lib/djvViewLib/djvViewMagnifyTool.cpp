@@ -33,7 +33,7 @@
 
 #include <djvViewMagnifyTool.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewDisplayProfile.h>
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
@@ -49,6 +49,7 @@
 #include <djvPixelDataUtil.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QScopedPointer>
 #include <QTimer>
@@ -146,26 +147,27 @@ struct djvViewMagnifyToolPrivate
 
 djvViewMagnifyTool::djvViewMagnifyTool(
     djvViewMainWindow * mainWindow,
+    djvViewContext *    context,
     QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, parent),
+    djvViewAbstractTool(mainWindow, context, parent),
     _p(new djvViewMagnifyToolPrivate)
 {
     // Create the widgets.
 
     _p->widget = new Widget;
 
-    _p->slider = new djvIntEditSlider;
+    _p->slider = new djvIntEditSlider(context);
     _p->slider->setRange(1, 10);
     _p->slider->setResetToDefault(false);
 
     _p->colorProfileButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
+        context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
     _p->colorProfileButton->setToolTip(
         qApp->translate("djvViewMagnifyTool", "Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
+        context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
     _p->displayProfileButton->setToolTip(
         qApp->translate("djvViewMagnifyTool", "Set whether the display profile is enabled"));
@@ -365,7 +367,7 @@ void djvViewMagnifyTool::pixelDataUpdate()
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_MAGNIFY]);
 
-            DJV_VIEW_APP->printError(error);
+            context()->printError(error);
         }
     }
 

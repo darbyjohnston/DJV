@@ -44,7 +44,6 @@
 
 #include <djvQuickTimeLoad.h>
 #include <djvQuickTimeSave.h>
-#include <djvQuickTimeWidget.h>
 
 #include <djvDebug.h>
 #include <djvError.h>
@@ -449,11 +448,6 @@ djvImageLoad * djvQuickTimePlugin::createLoad() const
 djvImageSave * djvQuickTimePlugin::createSave() const
 {
     return new djvQuickTimeSave(_options);
-}
-
-djvAbstractPrefsWidget * djvQuickTimePlugin::createWidget()
-{
-    return new djvQuickTimeWidget(this);
 }
 
 //------------------------------------------------------------------------------

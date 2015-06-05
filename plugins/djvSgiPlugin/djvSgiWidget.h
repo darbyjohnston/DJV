@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvSgiWidget(djvSgiPlugin *);
+    djvSgiWidget(djvSgiPlugin *, djvGuiContext *);
 
     //! Destructor.
 

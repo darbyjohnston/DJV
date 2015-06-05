@@ -55,7 +55,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewImagePrefs(QObject * parent = 0);
+    explicit djvViewImagePrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -128,10 +128,6 @@ public:
     //! Get the image channel.
 
     djvOpenGlImageOptions::CHANNEL channel() const;
-
-    //! Get the global preferences.
-
-    static djvViewImagePrefs * global();
 
 public Q_SLOTS:
 

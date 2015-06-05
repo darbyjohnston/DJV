@@ -42,6 +42,7 @@
 #include <QWidget>
 
 struct djvColorWidgetPrivate;
+class  djvGuiContext;
 
 class QHBoxLayout;
 
@@ -70,7 +71,7 @@ public:
 
     //! Constructor.
 
-    explicit djvColorWidget(QWidget * parent = 0);
+    explicit djvColorWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

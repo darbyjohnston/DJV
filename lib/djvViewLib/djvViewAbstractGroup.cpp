@@ -33,6 +33,7 @@
 
 #include <djvViewAbstractGroup.h>
 
+#include <djvViewContext.h>
 #include <djvViewMainWindow.h>
 
 //------------------------------------------------------------------------------
@@ -41,20 +42,26 @@
 
 struct djvViewAbstractGroupPrivate
 {
-    djvViewAbstractGroupPrivate(djvViewMainWindow * mainWindow) :
-        mainWindow(mainWindow)
+    djvViewAbstractGroupPrivate(
+        djvViewMainWindow * mainWindow,
+        djvViewContext    * context) :
+        mainWindow(mainWindow),
+        context   (context)
     {}
 
     djvViewMainWindow * mainWindow;
+    djvViewContext    * context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewAbstractGroup
 //------------------------------------------------------------------------------
 
-djvViewAbstractGroup::djvViewAbstractGroup(djvViewMainWindow * mainWindow) :
+djvViewAbstractGroup::djvViewAbstractGroup(
+    djvViewMainWindow * mainWindow,
+    djvViewContext    * context) :
     QObject(mainWindow),
-    _p(new djvViewAbstractGroupPrivate(mainWindow))
+    _p(new djvViewAbstractGroupPrivate(mainWindow, context))
 {}
 
 djvViewAbstractGroup::~djvViewAbstractGroup()
@@ -70,4 +77,9 @@ djvViewMainWindow * djvViewAbstractGroup::mainWindow() const
 QToolBar * djvViewAbstractGroup::toolBar() const
 {
     return 0;
+}
+
+djvViewContext * djvViewAbstractGroup::context() const
+{
+    return _p->context;
 }

@@ -42,6 +42,7 @@
 
 struct djvFloatEditSliderPrivate;
 class  djvFloatObject;
+class  djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -92,7 +93,7 @@ public:
 
     //! Constructor.
 
-    explicit djvFloatEditSlider(QWidget * parent = 0);
+    explicit djvFloatEditSlider(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

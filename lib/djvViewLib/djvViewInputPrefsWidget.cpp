@@ -33,9 +33,9 @@
 
 #include <djvViewInputPrefsWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewInputPrefs.h>
 
-#include <djvFormLayoutAlign.h>
 #include <djvPrefsGroupBox.h>
 
 #include <djvSignalBlocker.h>
@@ -66,9 +66,9 @@ struct djvViewInputPrefsWidgetPrivate
 // djvViewInputPrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
+djvViewInputPrefsWidget::djvViewInputPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewInputPrefsWidget", "Input")),
+        qApp->translate("djvViewInputPrefsWidget", "Input"), context),
     _p(new djvViewInputPrefsWidgetPrivate)
 {
     // Create the widgets.
@@ -89,10 +89,8 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvFormLayoutAlign * align = new djvFormLayoutAlign(this);
-
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewInputPrefsWidget", "Mouse Wheel"));
+        qApp->translate("djvViewInputPrefsWidget", "Mouse Wheel"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvViewInputPrefsWidget", "Wheel:"),
@@ -103,7 +101,6 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget() :
     formLayout->addRow(
         qApp->translate("djvViewInputPrefsWidget", "Ctrl + wheel:"),
         _p->mouseWheelCtrlWidget);
-    align->addLayout(formLayout);
     layout->addWidget(prefsGroupBox);
 
     layout->addStretch();
@@ -137,11 +134,11 @@ djvViewInputPrefsWidget::~djvViewInputPrefsWidget()
 
 void djvViewInputPrefsWidget::resetPreferences()
 {
-    djvViewInputPrefs::global()->setMouseWheel(
+    context()->inputPrefs()->setMouseWheel(
         djvViewInputPrefs::mouseWheelDefault());
-    djvViewInputPrefs::global()->setMouseWheelShift(
+    context()->inputPrefs()->setMouseWheelShift(
         djvViewInputPrefs::mouseWheelShiftDefault());
-    djvViewInputPrefs::global()->setMouseWheelCtrl(
+    context()->inputPrefs()->setMouseWheelCtrl(
         djvViewInputPrefs::mouseWheelCtrlDefault());
     
     widgetUpdate();
@@ -149,19 +146,19 @@ void djvViewInputPrefsWidget::resetPreferences()
 
 void djvViewInputPrefsWidget::mouseWheelCallback(int in)
 {
-    djvViewInputPrefs::global()->setMouseWheel(
+    context()->inputPrefs()->setMouseWheel(
         static_cast<djvViewUtil::MOUSE_WHEEL>(in));
 }
 
 void djvViewInputPrefsWidget::mouseWheelShiftCallback(int in)
 {
-    djvViewInputPrefs::global()->setMouseWheelShift(
+    context()->inputPrefs()->setMouseWheelShift(
         static_cast<djvViewUtil::MOUSE_WHEEL>(in));
 }
 
 void djvViewInputPrefsWidget::mouseWheelCtrlCallback(int in)
 {
-    djvViewInputPrefs::global()->setMouseWheelCtrl(
+    context()->inputPrefs()->setMouseWheelCtrl(
         static_cast<djvViewUtil::MOUSE_WHEEL>(in));
 }
 
@@ -173,11 +170,11 @@ void djvViewInputPrefsWidget::widgetUpdate()
         _p->mouseWheelCtrlWidget);
 
     _p->mouseWheelWidget->setCurrentIndex(
-        djvViewInputPrefs::global()->mouseWheel());
+        context()->inputPrefs()->mouseWheel());
 
     _p->mouseWheelShiftWidget->setCurrentIndex(
-        djvViewInputPrefs::global()->mouseWheelShift());
+        context()->inputPrefs()->mouseWheelShift());
 
     _p->mouseWheelCtrlWidget->setCurrentIndex(
-        djvViewInputPrefs::global()->mouseWheelCtrl());
+        context()->inputPrefs()->mouseWheelCtrl());
 }

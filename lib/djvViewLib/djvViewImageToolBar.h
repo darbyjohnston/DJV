@@ -57,6 +57,7 @@ public:
 
     explicit djvViewImageToolBar(
         djvViewAbstractActions * actions,
+        djvViewContext *         context,
         QWidget *                parent  = 0);
 
     //! Destructor.

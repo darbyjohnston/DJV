@@ -85,18 +85,6 @@ djvSpeed::FPS djvTimePrefs::speed() const
     return djvSpeed::speed();
 }
 
-djvTimePrefs * djvTimePrefs::global()
-{
-    static djvTimePrefs * global = 0;
-    
-    if (! global)
-    {
-        global = new djvTimePrefs(qApp);
-    }
-    
-    return global;
-}
-
 void djvTimePrefs::setTimeUnits(djvTime::UNITS units)
 {
     if (units == this->timeUnits())

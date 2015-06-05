@@ -60,7 +60,10 @@ public:
 
     //! Constructor.
 
-    djvViewImageGroup(djvViewMainWindow *, const djvViewImageGroup * copy);
+    djvViewImageGroup(
+        const djvViewImageGroup * copy,
+        djvViewMainWindow *       mainWindow,
+        djvViewContext *          context);
 
     //! Destructor.
 

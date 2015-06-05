@@ -128,8 +128,6 @@ public:
     virtual djvImageLoad * createLoad() const;
     
     virtual djvImageSave * createSave() const;
-
-    virtual djvAbstractPrefsWidget * createWidget();
     
 private:
 

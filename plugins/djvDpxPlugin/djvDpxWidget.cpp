@@ -50,8 +50,8 @@
 // djvDpxWidget
 //------------------------------------------------------------------------------
 
-djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin) :
-    djvAbstractPrefsWidget(djvDpxPlugin::staticName),
+djvDpxWidget::djvDpxWidget(djvDpxPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvDpxPlugin::staticName, context),
     _plugin                  (plugin),
     _inputColorProfileLayout (0),
     _inputColorProfileWidget (0),

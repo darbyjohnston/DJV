@@ -62,7 +62,7 @@ public:
 
     //! Constructor.
 
-    djvCineonWidget(djvCineonPlugin *);
+    djvCineonWidget(djvCineonPlugin *, djvGuiContext *);
 
     //! Destructor.
 

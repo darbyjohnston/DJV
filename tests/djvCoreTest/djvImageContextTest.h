@@ -29,70 +29,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewApplication.h
+//! \file djvImageContextTest.h
 
-#ifndef DJV_VIEW_APPLICATION_H
-#define DJV_VIEW_APPLICATION_H
+#include <djvCoreTestExport.h>
 
-#include <djvViewLibExport.h>
+#include <djvAbstractTest.h>
 
-#include <djvApplication.h>
-
-struct djvViewApplicationPrivate;
-class  djvViewMainWindow;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewApplication
-//!
-//! This class provides the application.
-//------------------------------------------------------------------------------
-
-class DJV_VIEW_LIB_EXPORT djvViewApplication : public djvApplication
+class DJV_CORE_TEST_EXPORT djvImageContextTest : public djvAbstractTest
 {
-    Q_OBJECT
-    
 public:
 
-    //! Constructor.
-
-    djvViewApplication(int & argc, char ** argv) throw (djvError);
-
-    //! Destructor.
-
-    virtual ~djvViewApplication();
-    
-    virtual QString doc() const;
-
-    virtual void commandLine(QStringList &) throw (QString);
-    
-    virtual QString commandLineHelp() const;
-
-protected:
-
-    virtual bool event(QEvent *);
-
-private Q_SLOTS:
-
-    void debugLogCallback(const QString &);
-    
-private:
-
-    djvViewMainWindow * window() const;
-    
-    DJV_PRIVATE_COPY(djvViewApplication);
-    
-    djvViewApplicationPrivate * _p;
+    virtual void run(int &, char **);
 };
-
-//! Get the global application instance.
-
-#define DJV_VIEW_APP \
-    static_cast<djvViewApplication*>(djvCoreApplication::global())
-
-//@} // djvViewLib
-
-#endif // DJV_VIEW_APPLICATION_H
-

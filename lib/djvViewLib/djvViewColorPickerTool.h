@@ -61,6 +61,7 @@ public:
 
     explicit djvViewColorPickerTool(
         djvViewMainWindow * mainWindow,
+        djvViewContext *    context,
         QWidget *           parent = 0);
 
     //! Destructor.

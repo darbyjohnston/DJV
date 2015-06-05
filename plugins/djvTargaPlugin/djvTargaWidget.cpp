@@ -47,8 +47,8 @@
 // djvTargaWidget
 //------------------------------------------------------------------------------
 
-djvTargaWidget::djvTargaWidget(djvTargaPlugin * plugin) :
-    djvAbstractPrefsWidget(djvTargaPlugin::staticName),
+djvTargaWidget::djvTargaWidget(djvTargaPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvTargaPlugin::staticName, context),
     _plugin           (plugin),
     _compressionWidget(0)
 {

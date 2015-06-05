@@ -42,6 +42,7 @@
 #include <QDialog>
 
 struct djvColorDialogPrivate;
+class  djvGuiContext;
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -68,7 +69,16 @@ public:
 
     //! Constructor.
 
-    explicit djvColorDialog(const djvColor & = djvColor(), QWidget * parent = 0);
+    explicit djvColorDialog(
+        djvGuiContext *  context,
+        QWidget *        parent  = 0);
+
+    //! Constructor.
+
+    explicit djvColorDialog(
+        const djvColor & color,
+        djvGuiContext *  context,
+        QWidget *        parent  = 0);
 
     //! Destructor.
     
@@ -95,6 +105,8 @@ private Q_SLOTS:
     void widgetCallback(const djvColor &);
 
 private:
+
+    void init();
 
     void widgetUpdate();
     

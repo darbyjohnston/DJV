@@ -33,6 +33,7 @@
 
 #include <djvViewWindowPrefsWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewWindowPrefs.h>
 
 #include <djvPrefsGroupBox.h>
@@ -72,9 +73,9 @@ struct djvViewWindowPrefsWidgetPrivate
 // djvViewWindowPrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
+djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewWindowPrefsWidget", "Windows")),
+        qApp->translate("djvViewWindowPrefsWidget", "Windows"), context),
     _p(new djvViewWindowPrefsWidgetPrivate)
 {
     // Create the size widgets.
@@ -116,7 +117,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewWindowPrefsWidget", "Window Size"));
+        qApp->translate("djvViewWindowPrefsWidget", "Window Size"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoFitWidget);
     formLayout->addRow(
@@ -126,14 +127,15 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewWindowPrefsWidget", "Full Screen"));
+        qApp->translate("djvViewWindowPrefsWidget", "Full Screen"), context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->fullScreenControlsWidget);
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvViewWindowPrefsWidget", "Tool Bars"),
-        qApp->translate("djvViewWindowPrefsWidget", "Set which tool bars are visible."));
+        qApp->translate("djvViewWindowPrefsWidget", "Set which tool bars are visible."),
+        context);
     formLayout = prefsGroupBox->createLayout();
     for (int i = 0; i < _p->toolBarButtonGroup->buttons().count(); ++i)
         formLayout->addRow(_p->toolBarButtonGroup->button(i));
@@ -180,15 +182,15 @@ djvViewWindowPrefsWidget::~djvViewWindowPrefsWidget()
 
 void djvViewWindowPrefsWidget::resetPreferences()
 {
-    djvViewWindowPrefs::global()->setAutoFit(
+    context()->windowPrefs()->setAutoFit(
         djvViewWindowPrefs::autoFitDefault());
-    djvViewWindowPrefs::global()->setViewMax(
+    context()->windowPrefs()->setViewMax(
         djvViewWindowPrefs::viewMaxDefault());
-    djvViewWindowPrefs::global()->setViewMaxUser(
+    context()->windowPrefs()->setViewMaxUser(
         djvViewWindowPrefs::viewMaxUserDefault());
-    djvViewWindowPrefs::global()->setFullScreenControls(
+    context()->windowPrefs()->setFullScreenControls(
         djvViewWindowPrefs::fullScreenControlsDefault());
-    djvViewWindowPrefs::global()->setToolBar(
+    context()->windowPrefs()->setToolBar(
         djvViewWindowPrefs::toolBarDefault());
     
     widgetUpdate();
@@ -196,33 +198,33 @@ void djvViewWindowPrefsWidget::resetPreferences()
 
 void djvViewWindowPrefsWidget::autoFitCallback(bool in)
 {
-    djvViewWindowPrefs::global()->setAutoFit(in);
+    context()->windowPrefs()->setAutoFit(in);
 }
 
 void djvViewWindowPrefsWidget::viewMaxCallback(int in)
 {
-    djvViewWindowPrefs::global()->setViewMax(static_cast<djvViewUtil::VIEW_MAX>(in));
+    context()->windowPrefs()->setViewMax(static_cast<djvViewUtil::VIEW_MAX>(in));
     
     widgetUpdate();
 }
 
 void djvViewWindowPrefsWidget::viewMaxUserCallback(const djvVector2i & in)
 {
-    djvViewWindowPrefs::global()->setViewMaxUser(in);
+    context()->windowPrefs()->setViewMaxUser(in);
 }
 
 void djvViewWindowPrefsWidget::fullScreenControlsCallback(bool in)
 {
-    djvViewWindowPrefs::global()->setFullScreenControls(in);
+    context()->windowPrefs()->setFullScreenControls(in);
 }
 
 void djvViewWindowPrefsWidget::toolBarCallback(int id)
 {
-    QVector<bool> visible = djvViewWindowPrefs::global()->toolBar();
+    QVector<bool> visible = context()->windowPrefs()->toolBar();
     
     visible[id] = _p->toolBarButtonGroup->button(id)->isChecked();
 
-    djvViewWindowPrefs::global()->setToolBar(visible);
+    context()->windowPrefs()->setToolBar(visible);
 }
 
 void djvViewWindowPrefsWidget::widgetUpdate()
@@ -235,20 +237,20 @@ void djvViewWindowPrefsWidget::widgetUpdate()
         _p->toolBarButtonGroup);
 
     _p->autoFitWidget->setChecked(
-        djvViewWindowPrefs::global()->hasAutoFit());
+        context()->windowPrefs()->hasAutoFit());
     
     _p->viewMaxWidget->setCurrentIndex(
-        djvViewWindowPrefs::global()->viewMax());
+        context()->windowPrefs()->viewMax());
     
     _p->viewMaxUserWidget->setValue(
-        djvViewWindowPrefs::global()->viewMaxUser());
+        context()->windowPrefs()->viewMaxUser());
     _p->viewMaxUserWidget->setVisible(
-        djvViewUtil::VIEW_MAX_USER == djvViewWindowPrefs::global()->viewMax());
+        djvViewUtil::VIEW_MAX_USER == context()->windowPrefs()->viewMax());
     
     _p->fullScreenControlsWidget->setChecked(
-        djvViewWindowPrefs::global()->hasFullScreenControls());
+        context()->windowPrefs()->hasFullScreenControls());
 
-    const QVector<bool> & visible = djvViewWindowPrefs::global()->toolBar();
+    const QVector<bool> & visible = context()->windowPrefs()->toolBar();
     
     for (int i = 0; i < visible.count(); ++i)
     {

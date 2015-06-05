@@ -44,6 +44,7 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
+class  djvCoreContext;
 struct djvPluginFactoryPrivate;
 
 //! \addtogroup djvCoreMisc
@@ -61,6 +62,10 @@ class DJV_CORE_EXPORT djvPlugin
 {
 public:
 
+    //! Constructor.
+    
+    djvPlugin(djvCoreContext *);
+    
     //! Destructor.
 
     virtual ~djvPlugin() = 0;
@@ -80,6 +85,14 @@ public:
     //! Get the plugin name.
 
     virtual QString pluginName() const = 0;
+    
+    //! Get the context.
+    
+    djvCoreContext * context() const;
+
+private:
+
+    djvCoreContext * _context;
 };
 
 //------------------------------------------------------------------------------
@@ -97,6 +110,7 @@ public:
     //! Constructor.
 
     djvPluginFactory(
+        djvCoreContext *    context,
         const QStringList & searchPath,
         const QString &     pluginEntry,
         const QString &     pluginPrefix = "djv",
@@ -137,7 +151,6 @@ private:
     
     DJV_PRIVATE_COPY(djvPluginFactory);
     
-    
     djvPluginFactoryPrivate * _p;
 };
 
@@ -153,7 +166,7 @@ private:
 
 //! This typedef provides a plugin entry point.
 
-typedef djvPlugin * (djvPluginEntry)();
+typedef djvPlugin * (djvPluginEntry)(djvCoreContext *);
 
 //@} // djvCoreMisc
 

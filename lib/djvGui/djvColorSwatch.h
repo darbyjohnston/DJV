@@ -40,6 +40,8 @@
 
 #include <QWidget>
 
+class djvGuiContext;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -66,7 +68,7 @@ public:
 
     //! Constructor.
 
-    explicit djvColorSwatch(QWidget * parent = 0);
+    explicit djvColorSwatch(djvGuiContext *, QWidget * parent = 0);
 
     //! Get the color.
 
@@ -126,9 +128,10 @@ private Q_SLOTS:
 
 private:
 
-    djvColor    _color;
-    SWATCH_SIZE _swatchSize;
-    bool        _colorDialogEnabled;
+    djvColor        _color;
+    SWATCH_SIZE     _swatchSize;
+    bool            _colorDialogEnabled;
+    djvGuiContext * _context;
 };
 
 //@} // djvGuiWidget

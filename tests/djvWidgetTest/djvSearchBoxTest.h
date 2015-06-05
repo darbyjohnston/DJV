@@ -39,6 +39,8 @@ class djvSearchBoxTest : public djvWidgetTest
     
 public:
 
+    djvSearchBoxTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

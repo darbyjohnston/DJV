@@ -35,6 +35,10 @@
 
 #include <djvMessageDialog.h>
 
+djvMessageDialogTest::djvMessageDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvMessageDialogTest::name()
 {
     return "djvMessageDialogTest";

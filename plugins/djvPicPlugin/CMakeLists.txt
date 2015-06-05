@@ -1,8 +1,10 @@
 set(header
+    djvPic.h
     djvPicLoad.h
     djvPicPlugin.h)
 
 set(source
+    djvPic.cpp
     djvPicLoad.cpp
     djvPicPlugin.cpp)
 
@@ -37,7 +39,6 @@ endif (djvInstallRpath)
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djvPicPlugin
     RUNTIME DESTINATION bin

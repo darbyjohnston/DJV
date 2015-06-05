@@ -33,7 +33,7 @@
 
 #include <djvViewImageView.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewFilePrefs.h>
 #include <djvViewHudInfo.h>
 #include <djvViewInputPrefs.h>
@@ -50,6 +50,7 @@
 #include <djvPixel.h>
 #include <djvTime.h>
 
+#include <QApplication>
 #include <QDesktopWidget>
 #include <QDragEnterEvent>
 #include <QMimeData>
@@ -63,18 +64,19 @@
 
 struct djvViewImageViewPrivate
 {
-    djvViewImageViewPrivate() :
+    djvViewImageViewPrivate(djvViewContext * context) :
         viewZoomTmp       (0.0),
-        grid              (djvViewViewPrefs::global()->grid()),
-        gridColor         (djvViewViewPrefs::global()->gridColor()),
-        hudEnabled        (djvViewViewPrefs::global()->isHudEnabled()),
-        hudColor          (djvViewViewPrefs::global()->hudColor()),
-        hudBackground     (djvViewViewPrefs::global()->hudBackground()),
-        hudBackgroundColor(djvViewViewPrefs::global()->hudBackgroundColor()),
+        grid              (context->viewPrefs()->grid()),
+        gridColor         (context->viewPrefs()->gridColor()),
+        hudEnabled        (context->viewPrefs()->isHudEnabled()),
+        hudColor          (context->viewPrefs()->hudColor()),
+        hudBackground     (context->viewPrefs()->hudBackground()),
+        hudBackgroundColor(context->viewPrefs()->hudBackgroundColor()),
         inside            (false),
         mouseWheel        (false),
         mouseWheelTmp     (0),
-        timer             (-1)
+        timer             (-1),
+        context           (context)
     {}
     
     djvVector2i                 viewPosTmp;
@@ -92,15 +94,16 @@ struct djvViewImageViewPrivate
     bool                        mouseWheel;
     int                         mouseWheelTmp;
     int                         timer;
+    djvViewContext *            context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewImageView
 //------------------------------------------------------------------------------
 
-djvViewImageView::djvViewImageView(QWidget * parent) :
-    djvImageView(parent),
-    _p(new djvViewImageViewPrivate)
+djvViewImageView::djvViewImageView(djvViewContext * context, QWidget * parent) :
+    djvImageView(context, parent),
+    _p(new djvViewImageViewPrivate(context))
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
@@ -108,32 +111,32 @@ djvViewImageView::djvViewImageView(QWidget * parent) :
     setAcceptDrops(true);
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(gridColorChanged(const djvColor &)),
         SLOT(setGridColor(const djvColor &)));
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(hudInfoChanged(const QVector<bool> &)),
         SLOT(hudInfoCallback(const QVector<bool> &)));
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(hudColorChanged(const djvColor &)),
         SLOT(setHudColor(const djvColor &)));
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(hudBackgroundChanged(djvViewUtil::HUD_BACKGROUND)),
         SLOT(setHudBackground(djvViewUtil::HUD_BACKGROUND)));
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(hudBackgroundColorChanged(const djvColor &)),
         SLOT(setHudBackgroundColor(const djvColor &)));
 
     connect(
-        djvTimePrefs::global(),
+        context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
         SLOT(update()));
 }
@@ -172,7 +175,7 @@ QSize djvViewImageView::sizeHint() const
     const djvVector2i screenSize = djvVectorUtil::fromQSize(
         qApp->desktop()->availableGeometry().size());
     
-    switch (djvViewWindowPrefs::global()->viewMax())
+    switch (_p->context->windowPrefs()->viewMax())
     {
         case djvViewUtil::VIEW_MAX_25:
         case djvViewUtil::VIEW_MAX_50:
@@ -180,7 +183,7 @@ QSize djvViewImageView::sizeHint() const
         {
             double v = 0.0f;
             
-            switch (djvViewWindowPrefs::global()->viewMax())
+            switch (_p->context->windowPrefs()->viewMax())
             {
                 case djvViewUtil::VIEW_MAX_25: v = 0.25; break;
                 case djvViewUtil::VIEW_MAX_50: v = 0.5;  break;
@@ -195,7 +198,7 @@ QSize djvViewImageView::sizeHint() const
         
         case djvViewUtil::VIEW_MAX_USER:
         
-            maxSize = djvViewWindowPrefs::global()->viewMaxUser();
+            maxSize = _p->context->windowPrefs()->viewMaxUser();
             
             break;
             
@@ -424,15 +427,15 @@ void djvViewImageView::mouseMoveEvent(QMouseEvent * event)
 void djvViewImageView::wheelEvent(QWheelEvent * event)
 {
     djvViewUtil::MOUSE_WHEEL mouseWheel =
-        djvViewInputPrefs::global()->mouseWheel();
+        _p->context->inputPrefs()->mouseWheel();
 
     if (event->modifiers() & Qt::ShiftModifier)
     {
-        mouseWheel = djvViewInputPrefs::global()->mouseWheelShift();
+        mouseWheel = _p->context->inputPrefs()->mouseWheelShift();
     }
     if (event->modifiers() & Qt::ControlModifier)
     {
-        mouseWheel = djvViewInputPrefs::global()->mouseWheelCtrl();
+        mouseWheel = _p->context->inputPrefs()->mouseWheelCtrl();
     }
 
     const int delta =
@@ -513,7 +516,7 @@ void djvViewImageView::dropEvent(QDropEvent * event)
 
     event->acceptProposedAction();
 
-    const bool autoSequence = djvViewFilePrefs::global()->hasAutoSequence();
+    const bool autoSequence = _p->context->filePrefs()->hasAutoSequence();
     
     //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
 
@@ -750,7 +753,7 @@ void djvViewImageView::drawHud(
 
     const djvBox2i geom(width(), height());
 
-    const int   margin = djvStyle::global()->sizeMetric().widgetMargin;
+    const int   margin = _p->context->style()->sizeMetric().widgetMargin;
     QSize       size;
     djvVector2i p;
     QString     s;

@@ -39,6 +39,10 @@
 
 #include <QHBoxLayout>
 
+djvColorDialogTest::djvColorDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvColorDialogTest::name()
 {
     return "djvColorDialogTest";

@@ -118,43 +118,4 @@ Cineon Options
         <translation type="unfinished"></translation>
     </message>
 </context>
-<context>
-    <name>djvCineonWidget</name>
-    <message>
-        <source>Black:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>White:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gamma:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Soft clip:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Input Color Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set the color profile used when loading Cineon images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Profile:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Output Color Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set the color profile used when saving Cineon images.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
 </TS>

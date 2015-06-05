@@ -43,6 +43,7 @@
 
 class  djvFileBrowserItem;
 struct djvFileBrowserModelPrivate;
+class  djvGuiContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserModel
@@ -152,7 +153,7 @@ public:
     
     //! Constructor.
     
-    explicit djvFileBrowserModel(QObject * parent = 0);
+    explicit djvFileBrowserModel(djvGuiContext *, QObject * parent = 0);
 
     //! Destructor.
     

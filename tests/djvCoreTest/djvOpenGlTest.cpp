@@ -35,6 +35,7 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvImageContext.h>
 #include <djvOpenGl.h>
 #include <djvOpenGlContext.h>
 #include <djvOpenGlOffscreenBuffer.h>
@@ -53,9 +54,12 @@ void djvOpenGlTest::members()
 {
     DJV_DEBUG("djvOpenGlTest::members");
     
-    QScopedPointer<djvOpenGlContext> context(djvOpenGlContextFactory::create());
+    djvImageContext context;
     
-    djvOpenGlContextScope contextScope(context.data());
+    QScopedPointer<djvOpenGlContext> openGlContext(
+        context.openGlContextFactory()->create());
+    
+    djvOpenGlContextScope contextScope(openGlContext.data());
 
     QScopedPointer<djvOpenGlOffscreenBuffer> buffer(
         new djvOpenGlOffscreenBuffer(djvPixelDataInfo(100, 100, djvPixel::RGBA_U8)));

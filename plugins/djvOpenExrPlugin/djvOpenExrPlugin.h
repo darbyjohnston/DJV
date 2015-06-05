@@ -311,8 +311,6 @@ public:
     
     virtual djvImageSave * createSave() const;
 
-    virtual djvAbstractPrefsWidget * createWidget();
-
 private:
 
     void threadsUpdate();

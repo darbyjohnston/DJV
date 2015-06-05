@@ -40,6 +40,7 @@
 
 #include <QWidget>
 
+class  djvGuiContext;
 struct djvSearchBoxPrivate;
 
 //! \addtogroup djvGuiWidget
@@ -67,7 +68,7 @@ public:
 
     //! Constructor.
 
-    explicit djvSearchBox(QWidget * parent = 0);
+    explicit djvSearchBox(djvGuiContext *, QWidget * parent = 0);
     
     //! Destructor.
     

@@ -31,19 +31,19 @@
 
 //! \file djvTest.cpp
 
-#include <djvCoreApplicationTest.h>
 #include <djvBoxTest.h>
 #include <djvBoxUtilTest.h>
 #include <djvColorProfileTest.h>
 #include <djvColorTest.h>
 #include <djvColorUtilTest.h>
+#include <djvCoreContextTest.h>
 #include <djvDebugTest.h>
 #include <djvErrorTest.h>
 #include <djvFileInfoTest.h>
 #include <djvFileInfoUtilTest.h>
 #include <djvFileIoTest.h>
 #include <djvFileIoUtilTest.h>
-#include <djvImageApplicationTest.h>
+#include <djvImageContextTest.h>
 #include <djvImageIoTest.h>
 #include <djvImageIoPluginTest.h>
 #include <djvImageTagsTest.h>
@@ -73,24 +73,27 @@
 #include <djvVectorTest.h>
 #include <djvVectorUtilTest.h>
 
+#include <QApplication>
 #include <QVector>
 
 int main(int argc, char ** argv)
 {
+    QApplication app(argc, argv);
+    
     QVector<djvAbstractTest *> tests = QVector<djvAbstractTest *>() <<
-        new djvCoreApplicationTest <<
         new djvBoxTest <<
         new djvBoxUtilTest <<
         new djvColorProfileTest <<
         new djvColorTest <<
         new djvColorUtilTest <<
+        new djvCoreContextTest <<
         new djvDebugTest <<
         new djvErrorTest <<
         new djvFileInfoTest <<
         new djvFileInfoUtilTest <<
         new djvFileIoTest <<
         new djvFileIoUtilTest <<
-        new djvImageApplicationTest <<
+        new djvImageContextTest <<
         new djvImageIoTest <<
         new djvImageIoPluginTest <<
         new djvImageTagsTest <<

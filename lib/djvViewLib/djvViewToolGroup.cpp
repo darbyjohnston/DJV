@@ -83,16 +83,17 @@ struct djvViewToolGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewToolGroup::djvViewToolGroup(
+    const djvViewToolGroup * copy,
     djvViewMainWindow *      mainWindow,
-    const djvViewToolGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
+    djvViewContext *         context) :
+    djvViewAbstractGroup(mainWindow, context),
     _p(new djvViewToolGroupPrivate)
 {
     //DJV_DEBUG("djvViewToolGroup::djvViewToolGroup");
     
     // Create the actions.
 
-    _p->actions = new djvViewToolActions(this);
+    _p->actions = new djvViewToolActions(context, this);
     
     // Create the menus.
 
@@ -102,17 +103,17 @@ djvViewToolGroup::djvViewToolGroup(
 
     // Create the widgets.
 
-    _p->toolBar = new djvViewToolToolBar(_p->actions);
+    _p->toolBar = new djvViewToolToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
 
-    _p->magnifyTool = new djvViewMagnifyTool(mainWindow);
+    _p->magnifyTool = new djvViewMagnifyTool(mainWindow, context);
 
-    _p->colorPickerTool = new djvViewColorPickerTool(mainWindow);
+    _p->colorPickerTool = new djvViewColorPickerTool(mainWindow, context);
 
-    _p->histogramTool = new djvViewHistogramTool(mainWindow);
+    _p->histogramTool = new djvViewHistogramTool(mainWindow, context);
 
-    _p->infoTool = new djvViewInfoTool(mainWindow);
+    _p->infoTool = new djvViewInfoTool(mainWindow, context);
 
     QList<QWidget *> widgets = QList<QWidget *>() <<
         _p->magnifyTool <<

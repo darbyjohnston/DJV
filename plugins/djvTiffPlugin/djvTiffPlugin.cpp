@@ -35,7 +35,6 @@
 
 #include <djvTiffLoad.h>
 #include <djvTiffSave.h>
-#include <djvTiffWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -253,11 +252,6 @@ djvImageLoad * djvTiffPlugin::createLoad() const
 djvImageSave * djvTiffPlugin::createSave() const
 {
     return new djvTiffSave(_options);
-}
-
-djvAbstractPrefsWidget * djvTiffPlugin::createWidget()
-{
-    return new djvTiffWidget(this);
 }
 
 //------------------------------------------------------------------------------

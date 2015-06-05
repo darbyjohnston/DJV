@@ -47,8 +47,8 @@
 // djvSgiWidget
 //------------------------------------------------------------------------------
 
-djvSgiWidget::djvSgiWidget(djvSgiPlugin * plugin) :
-    djvAbstractPrefsWidget(djvSgiPlugin::staticName),
+djvSgiWidget::djvSgiWidget(djvSgiPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvSgiPlugin::staticName, context),
     _plugin           (plugin),
     _compressionWidget(0)
 {

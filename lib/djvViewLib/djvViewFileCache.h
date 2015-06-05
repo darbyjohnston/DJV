@@ -41,6 +41,7 @@
 
 #include <QObject>
 
+class  djvViewContext;
 struct djvViewFileCacheItemPrivate;
 struct djvViewFileCachePrivate;
 
@@ -126,7 +127,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFileCache(QObject * parent = 0);
+    explicit djvViewFileCache(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -200,10 +201,6 @@ public:
     //! Print debugging information.
 
     void debug();
-
-    //! Get the global file cache.
-
-    static djvViewFileCache * global();
 
 public Q_SLOTS:
 

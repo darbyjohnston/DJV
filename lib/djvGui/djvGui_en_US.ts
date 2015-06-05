@@ -2,74 +2,15 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>djvAbstractApplication</name>
+    <name>djvAboutDialog</name>
     <message>
-        <location filename="djvApplication.cpp" line="164"/>
-        <source>%1
-Preferences
-
-    User: %2
-    System: %3
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvApplication.cpp" line="204"/>
-        <source>
-User Interface Options
-
-    -reset_prefs
-        Do not load the preference at start up.
-%2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvApplication.cpp" line="237"/>
-        <source>-reset_prefs</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvApplicationAboutDialog</name>
-    <message>
-        <location filename="djvApplicationAboutDialog.cpp" line="81"/>
+        <location filename="djvAboutDialog.cpp" line="84"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvApplicationAboutDialog.cpp" line="95"/>
+        <location filename="djvAboutDialog.cpp" line="98"/>
         <source>About Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvApplicationInfoDialog</name>
-    <message>
-        <location filename="djvApplicationInfoDialog.cpp" line="75"/>
-        <source>Copy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvApplicationInfoDialog.cpp" line="89"/>
-        <source>Information Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvApplicationMessageDialog</name>
-    <message>
-        <location filename="djvApplicationMessageDialog.cpp" line="84"/>
-        <source>Show</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvApplicationMessageDialog.cpp" line="87"/>
-        <source>Clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvApplicationMessageDialog.cpp" line="107"/>
-        <source>Messages Dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -131,17 +72,17 @@ User Interface Options
 <context>
     <name>djvDebugLogDialog</name>
     <message>
-        <location filename="djvDebugLogDialog.cpp" line="77"/>
+        <location filename="djvDebugLogDialog.cpp" line="80"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDebugLogDialog.cpp" line="79"/>
+        <location filename="djvDebugLogDialog.cpp" line="82"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDebugLogDialog.cpp" line="93"/>
+        <location filename="djvDebugLogDialog.cpp" line="96"/>
         <source>Debugging Log</source>
         <translation type="unfinished"></translation>
     </message>
@@ -149,167 +90,166 @@ User Interface Options
 <context>
     <name>djvFileBrowser</name>
     <message>
-        <location filename="djvFileBrowser.cpp" line="196"/>
+        <location filename="djvFileBrowser.cpp" line="199"/>
         <source>&amp;Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="199"/>
+        <location filename="djvFileBrowser.cpp" line="202"/>
         <source>&amp;Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="204"/>
+        <location filename="djvFileBrowser.cpp" line="207"/>
         <source>&amp;Prev</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="209"/>
+        <location filename="djvFileBrowser.cpp" line="212"/>
         <source>&amp;Recent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="215"/>
+        <location filename="djvFileBrowser.cpp" line="218"/>
         <source>&amp;Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="218"/>
+        <location filename="djvFileBrowser.cpp" line="221"/>
         <source>&amp;Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="221"/>
+        <location filename="djvFileBrowser.cpp" line="224"/>
         <source>&amp;Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="224"/>
+        <location filename="djvFileBrowser.cpp" line="227"/>
         <source>&amp;Drives</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="230"/>
+        <location filename="djvFileBrowser.cpp" line="233"/>
         <source>Re&amp;load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="235"/>
+        <location filename="djvFileBrowser.cpp" line="238"/>
         <source>&amp;Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="238"/>
+        <location filename="djvFileBrowser.cpp" line="241"/>
         <source>Thu&amp;mbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="243"/>
+        <location filename="djvFileBrowser.cpp" line="246"/>
         <source>Thumbnails Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="248"/>
+        <location filename="djvFileBrowser.cpp" line="251"/>
         <source>Se&amp;quence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="253"/>
+        <location filename="djvFileBrowser.cpp" line="256"/>
         <source>Show &amp;Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="261"/>
+        <location filename="djvFileBrowser.cpp" line="264"/>
         <source>&amp;Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="266"/>
+        <location filename="djvFileBrowser.cpp" line="269"/>
         <source>&amp;Reverse Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="273"/>
+        <location filename="djvFileBrowser.cpp" line="276"/>
         <source>Sort &amp;Directories First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="279"/>
+        <location filename="djvFileBrowser.cpp" line="282"/>
         <source>&amp;Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="299"/>
+        <location filename="djvFileBrowser.cpp" line="302"/>
         <source>Sequence:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="316"/>
+        <location filename="djvFileBrowser.cpp" line="319"/>
         <source>Pin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="319"/>
+        <location filename="djvFileBrowser.cpp" line="322"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="322"/>
+        <location filename="djvFileBrowser.cpp" line="325"/>
         <source>Close</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="384"/>
-        <location filename="djvFileBrowser.cpp" line="606"/>
+        <location filename="djvFileBrowser.cpp" line="387"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="903"/>
+        <location filename="djvFileBrowser.cpp" line="885"/>
         <source>Delete bookmarks:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="935"/>
+        <location filename="djvFileBrowser.cpp" line="917"/>
         <source>Delete all bookmarks?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1196"/>
+        <location filename="djvFileBrowser.cpp" line="1179"/>
         <source>&amp;Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1203"/>
+        <location filename="djvFileBrowser.cpp" line="1186"/>
         <source>&amp;Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1208"/>
+        <location filename="djvFileBrowser.cpp" line="1191"/>
         <source>D&amp;elete All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1257"/>
+        <location filename="djvFileBrowser.cpp" line="1241"/>
         <source>File name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1260"/>
+        <location filename="djvFileBrowser.cpp" line="1244"/>
         <source>Go up a directory
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1264"/>
+        <location filename="djvFileBrowser.cpp" line="1248"/>
         <source>Go to the previous directory
 
 Shortcut: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowser.cpp" line="1268"/>
+        <location filename="djvFileBrowser.cpp" line="1252"/>
         <source>Reload the current directory
 
 Shortcut: %1</source>
@@ -319,57 +259,57 @@ Shortcut: %1</source>
 <context>
     <name>djvFileBrowserModel</name>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="91"/>
+        <location filename="djvFileBrowserModel.cpp" line="95"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="92"/>
+        <location filename="djvFileBrowserModel.cpp" line="96"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="94"/>
+        <location filename="djvFileBrowserModel.cpp" line="98"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="96"/>
+        <location filename="djvFileBrowserModel.cpp" line="100"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="97"/>
+        <location filename="djvFileBrowserModel.cpp" line="101"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="186"/>
+        <location filename="djvFileBrowserModel.cpp" line="190"/>
         <source>Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="187"/>
+        <location filename="djvFileBrowserModel.cpp" line="191"/>
         <source>Low Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="188"/>
+        <location filename="djvFileBrowserModel.cpp" line="192"/>
         <source>High Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="203"/>
+        <location filename="djvFileBrowserModel.cpp" line="207"/>
         <source>Small</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="204"/>
+        <location filename="djvFileBrowserModel.cpp" line="208"/>
         <source>Medium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserModel.cpp" line="205"/>
+        <location filename="djvFileBrowserModel.cpp" line="209"/>
         <source>Large</source>
         <translation type="unfinished"></translation>
     </message>
@@ -377,157 +317,157 @@ Shortcut: %1</source>
 <context>
     <name>djvFileBrowserPrefs</name>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="261"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="252"/>
         <source>Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="262"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="253"/>
         <source>Previous</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="263"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="254"/>
         <source>Current</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="264"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="255"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="265"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="256"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="266"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="257"/>
         <source>Root</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="267"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="258"/>
         <source>Reload</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="268"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="259"/>
         <source>Sequence Off</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="269"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="260"/>
         <source>Sequence Sparse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="270"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="261"/>
         <source>Sequence Range</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="271"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="262"/>
         <source>Show Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="272"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="263"/>
         <source>Sort Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="273"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="264"/>
         <source>Sort Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="275"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="266"/>
         <source>SortUser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="277"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="268"/>
         <source>Sort Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="278"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="269"/>
         <source>Sort Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="279"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="270"/>
         <source>Reverse Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="280"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="271"/>
         <source>Sort Dirs First</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="281"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="272"/>
         <source>Add Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="282"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="273"/>
         <source>Bookmark 1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="283"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="274"/>
         <source>Bookmark 2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="284"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="275"/>
         <source>Bookmark 3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="285"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="276"/>
         <source>Bookmark 4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="286"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="277"/>
         <source>Bookmark 5</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="287"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="278"/>
         <source>Bookmark 6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="288"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="279"/>
         <source>Bookmark 7</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="289"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="280"/>
         <source>Bookmark 8</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="290"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="281"/>
         <source>Bookmark 9</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="291"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="282"/>
         <source>Bookmark 10</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="292"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="283"/>
         <source>Bookmark 11</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefs.cpp" line="293"/>
+        <location filename="djvFileBrowserPrefs.cpp" line="284"/>
         <source>Bookmark 12</source>
         <translation type="unfinished"></translation>
     </message>
@@ -535,103 +475,103 @@ Shortcut: %1</source>
 <context>
     <name>djvFileBrowserPrefsWidget</name>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="110"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="113"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="120"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="123"/>
         <source>Show hidden files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="127"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="130"/>
         <source>Reverse the sort direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="130"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="133"/>
         <source>Sort directories first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="149"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="152"/>
         <source>Add a new bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="155"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="158"/>
         <source>Remove the selected bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="161"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="164"/>
         <source>Move the selected bookmark up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="167"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="170"/>
         <source>Move the selected bookmark down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="177"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="180"/>
         <source>Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="180"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="183"/>
         <source>File sequencing:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="186"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="189"/>
         <source>Sorting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="189"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="192"/>
         <source>Sort by:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="196"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="199"/>
         <source>Thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="199"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="202"/>
         <source>Thumbnails:</source>
         <oldsource>Thumbnails::</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="202"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="205"/>
         <source>Size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="207"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="210"/>
         <source>(MB)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="209"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="212"/>
         <source>Cache size:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="214"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="217"/>
         <source>Bookmarks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="227"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="230"/>
         <source>Keyboard Shortcuts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileBrowserPrefsWidget.cpp" line="397"/>
+        <location filename="djvFileBrowserPrefsWidget.cpp" line="400"/>
         <source>Add bookmark:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -639,7 +579,7 @@ Shortcut: %1</source>
 <context>
     <name>djvFileEdit</name>
     <message>
-        <location filename="djvFileEdit.cpp" line="70"/>
+        <location filename="djvFileEdit.cpp" line="73"/>
         <source>&amp;Browse</source>
         <translation type="unfinished"></translation>
     </message>
@@ -647,25 +587,59 @@ Shortcut: %1</source>
 <context>
     <name>djvFloatEditSlider</name>
     <message>
-        <location filename="djvFloatEditSlider.cpp" line="85"/>
+        <location filename="djvFloatEditSlider.cpp" line="86"/>
         <source>Reset the value</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvGuiContext</name>
+    <message>
+        <location filename="djvGuiContext.cpp" line="299"/>
+        <source>%1
+Preferences
+
+    User: %2
+    System: %3
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvGuiContext.cpp" line="110"/>
+        <location filename="djvGuiContext.cpp" line="330"/>
+        <source>-reset_prefs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvGuiContext.cpp" line="183"/>
+        <source>File Browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvGuiContext.cpp" line="352"/>
+        <source>
+User Interface Options
+
+    -reset_prefs
+        Do not load the preference at start up.
+%2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djvHelpPrefsWidget</name>
     <message>
-        <location filename="djvHelpPrefsWidget.cpp" line="68"/>
+        <location filename="djvHelpPrefsWidget.cpp" line="69"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvHelpPrefsWidget.cpp" line="74"/>
+        <location filename="djvHelpPrefsWidget.cpp" line="75"/>
         <source>Enable tool tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvHelpPrefsWidget.cpp" line="82"/>
+        <location filename="djvHelpPrefsWidget.cpp" line="83"/>
         <source>Tool Tips</source>
         <translation type="unfinished"></translation>
     </message>
@@ -673,30 +647,43 @@ Shortcut: %1</source>
 <context>
     <name>djvImagePrefsWidget</name>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="68"/>
+        <location filename="djvImagePrefsWidget.cpp" line="69"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="87"/>
+        <location filename="djvImagePrefsWidget.cpp" line="88"/>
         <source>Scaling</source>
         <oldsource>Image Scaling</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="88"/>
+        <location filename="djvImagePrefsWidget.cpp" line="89"/>
         <source>Set the image scaling quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</source>
         <oldsource>Set the render filter quality. The filters &quot;Nearest&quot; and &quot;Linear&quot; are generally the fastest. The other filters can provide higher quality but are generally slower.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="94"/>
+        <location filename="djvImagePrefsWidget.cpp" line="96"/>
         <source>Scale down:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImagePrefsWidget.cpp" line="97"/>
+        <location filename="djvImagePrefsWidget.cpp" line="99"/>
         <source>Scale up:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvInfoDialog</name>
+    <message>
+        <location filename="djvInfoDialog.cpp" line="78"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvInfoDialog.cpp" line="92"/>
+        <source>Information Dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -711,7 +698,7 @@ Shortcut: %1</source>
 <context>
     <name>djvIntEditSlider</name>
     <message>
-        <location filename="djvIntEditSlider.cpp" line="85"/>
+        <location filename="djvIntEditSlider.cpp" line="86"/>
         <source>Reset the value</source>
         <translation type="unfinished"></translation>
     </message>
@@ -721,6 +708,24 @@ Shortcut: %1</source>
     <message>
         <location filename="djvMessageDialog.cpp" line="76"/>
         <source>Message Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvMessagesDialog</name>
+    <message>
+        <location filename="djvMessagesDialog.cpp" line="89"/>
+        <source>Show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvMessagesDialog.cpp" line="92"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvMessagesDialog.cpp" line="112"/>
+        <source>Messages Dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -735,52 +740,52 @@ Shortcut: %1</source>
 <context>
     <name>djvPixelMaskWidget</name>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="71"/>
+        <location filename="djvPixelMaskWidget.cpp" line="72"/>
         <source>Set the pixel mask</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="114"/>
+        <location filename="djvPixelMaskWidget.cpp" line="115"/>
         <source>Solo red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="115"/>
+        <location filename="djvPixelMaskWidget.cpp" line="116"/>
         <source>Solo green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="116"/>
+        <location filename="djvPixelMaskWidget.cpp" line="117"/>
         <source>Solo blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="117"/>
+        <location filename="djvPixelMaskWidget.cpp" line="118"/>
         <source>Solo alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="136"/>
+        <location filename="djvPixelMaskWidget.cpp" line="137"/>
         <source>Red</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="137"/>
+        <location filename="djvPixelMaskWidget.cpp" line="138"/>
         <source>Green</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="138"/>
+        <location filename="djvPixelMaskWidget.cpp" line="139"/>
         <source>Blue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="139"/>
+        <location filename="djvPixelMaskWidget.cpp" line="140"/>
         <source>Alpha</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPixelMaskWidget.cpp" line="159"/>
+        <location filename="djvPixelMaskWidget.cpp" line="160"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -788,42 +793,42 @@ Shortcut: %1</source>
 <context>
     <name>djvPrefsDialog</name>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="141"/>
+        <location filename="djvPrefsDialog.cpp" line="143"/>
         <source>Reset Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="146"/>
+        <location filename="djvPrefsDialog.cpp" line="148"/>
         <source>Reset All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="163"/>
+        <location filename="djvPrefsDialog.cpp" line="165"/>
         <source>Preferences Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="167"/>
-        <location filename="djvPrefsDialog.cpp" line="170"/>
-        <location filename="djvPrefsDialog.cpp" line="173"/>
-        <location filename="djvPrefsDialog.cpp" line="176"/>
-        <location filename="djvPrefsDialog.cpp" line="179"/>
-        <location filename="djvPrefsDialog.cpp" line="182"/>
+        <location filename="djvPrefsDialog.cpp" line="169"/>
+        <location filename="djvPrefsDialog.cpp" line="172"/>
+        <location filename="djvPrefsDialog.cpp" line="175"/>
+        <location filename="djvPrefsDialog.cpp" line="178"/>
+        <location filename="djvPrefsDialog.cpp" line="181"/>
+        <location filename="djvPrefsDialog.cpp" line="184"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="194"/>
+        <location filename="djvPrefsDialog.cpp" line="197"/>
         <source>Image I/O</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="286"/>
+        <location filename="djvPrefsDialog.cpp" line="279"/>
         <source>Are you sure you want to reset all of the preferences?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPrefsDialog.cpp" line="299"/>
+        <location filename="djvPrefsDialog.cpp" line="292"/>
         <source>Are you sure you want to reset the preferences for the current page?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -857,12 +862,12 @@ Shortcut: %1</source>
 <context>
     <name>djvSearchBox</name>
     <message>
-        <location filename="djvSearchBox.cpp" line="72"/>
+        <location filename="djvSearchBox.cpp" line="73"/>
         <source>Enter a search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSearchBox.cpp" line="79"/>
+        <location filename="djvSearchBox.cpp" line="80"/>
         <source>Reset the search</source>
         <translation type="unfinished"></translation>
     </message>
@@ -870,24 +875,24 @@ Shortcut: %1</source>
 <context>
     <name>djvSequencePrefsWidget</name>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="71"/>
+        <location filename="djvSequencePrefsWidget.cpp" line="72"/>
         <source>Sequences</source>
         <oldsource>File Sequences</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="86"/>
+        <location filename="djvSequencePrefsWidget.cpp" line="87"/>
         <source>Max Frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="87"/>
+        <location filename="djvSequencePrefsWidget.cpp" line="88"/>
         <source>Set the maximum number of frames allowed in a sequence. This is used as a safety feature to prevent file sequences from becoming too large.</source>
         <oldsource>Set the maximum number of frames allowed in a sequence. This is used as a safety feature to prevent sequence from becoming to large.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSequencePrefsWidget.cpp" line="92"/>
+        <location filename="djvSequencePrefsWidget.cpp" line="94"/>
         <source>Frames:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -947,7 +952,7 @@ Shortcut: %1</source>
 <context>
     <name>djvStylePrefsWidget</name>
     <message>
-        <location filename="djvStylePrefsWidget.cpp" line="88"/>
+        <location filename="djvStylePrefsWidget.cpp" line="89"/>
         <source>Style</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1020,23 +1025,23 @@ Shortcut: %1</source>
 <context>
     <name>djvTimePrefsWidget</name>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="71"/>
-        <location filename="djvTimePrefsWidget.cpp" line="90"/>
+        <location filename="djvTimePrefsWidget.cpp" line="72"/>
+        <location filename="djvTimePrefsWidget.cpp" line="91"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="93"/>
+        <location filename="djvTimePrefsWidget.cpp" line="94"/>
         <source>Time units:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="98"/>
+        <location filename="djvTimePrefsWidget.cpp" line="99"/>
         <source>(frames per second)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTimePrefsWidget.cpp" line="100"/>
+        <location filename="djvTimePrefsWidget.cpp" line="101"/>
         <source>Default speed:</source>
         <translation type="unfinished"></translation>
     </message>

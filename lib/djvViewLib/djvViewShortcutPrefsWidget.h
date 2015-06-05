@@ -58,7 +58,7 @@ public:
 
     //! Constructor.
 
-    djvViewShortcutPrefsWidget();
+    djvViewShortcutPrefsWidget(djvViewContext *);
 
     //! Destructor.
 

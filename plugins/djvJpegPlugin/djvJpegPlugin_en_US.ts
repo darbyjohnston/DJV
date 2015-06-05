@@ -4,42 +4,23 @@
 <context>
     <name>djvJpegPlugin</name>
     <message>
-        <location filename="djvJpegPlugin.cpp" line="72"/>
+        <location filename="djvJpegPlugin.cpp" line="71"/>
         <source>Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvJpegPlugin.cpp" line="155"/>
+        <location filename="djvJpegPlugin.cpp" line="154"/>
         <source>-jpeg_quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvJpegPlugin.cpp" line="175"/>
+        <location filename="djvJpegPlugin.cpp" line="174"/>
         <source>
 JPEG Options
 
     -jpeg_quality (value)
         Set the quality used when saving JPEG images. Default = %1.
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvJpegWidget</name>
-    <message>
-        <location filename="djvJpegWidget.cpp" line="67"/>
-        <source>Quality</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvJpegWidget.cpp" line="68"/>
-        <source>Set the quality used when saving JPEG images.</source>
-        <oldsource>Set the options used when saving JPEG images.</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvJpegWidget.cpp" line="71"/>
-        <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

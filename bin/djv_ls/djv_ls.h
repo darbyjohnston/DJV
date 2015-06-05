@@ -34,9 +34,11 @@
 #ifndef DJV_LS_H
 #define DJV_LS_H
 
-#include <djvImageApplication.h>
 #include <djvFileInfo.h>
 #include <djvFileInfoUtil.h>
+#include <djvImageContext.h>
+
+#include <QCoreApplication>
 
 //! \addtogroup bin
 //@{
@@ -52,12 +54,97 @@
 //@{
 
 //------------------------------------------------------------------------------
+//! \class djvLsContext
+//!
+//! This class provides global functionality for the application.
+//------------------------------------------------------------------------------
+
+class djvLsContext : public djvImageContext
+{
+    Q_OBJECT
+
+public:
+
+    //! Constructor.
+
+    explicit djvLsContext(QObject * parent = 0);
+
+    //! Destructor.
+
+    virtual ~djvLsContext();
+    
+    //! Get the list of inputs.
+    
+    const QStringList & input() const;
+
+    //! Get whether to show file information.
+    
+    bool hasFileInfo() const;
+
+    //! Get whether to show file paths.
+    
+    bool hasFilePath() const;
+
+    //! Get the file sequencing.
+    
+    djvSequence::COMPRESS sequence() const;
+
+    //! Get whether to descend into sub-directories.
+    
+    bool hasRecurse() const;
+
+    //! Get whether to show hidden files.
+    
+    bool hasHidden() const;
+
+    //! Get the list of file globs.
+    
+    const QStringList & glob() const;
+
+    //! Get the number of columns for formatting output.
+    
+    int columns() const;
+
+    //! Get the sorting.
+    
+    djvFileInfoUtil::SORT sort() const;
+
+    //! Get whether to reverse the sorting order.
+    
+    bool hasReverseSort() const;
+
+    //! Get whether directories are sorted first.
+    
+    bool hasSortDirsFirst() const;
+
+protected:
+
+    virtual bool commandLineParse(QStringList &) throw (QString);
+
+    virtual QString commandLineHelp() const;
+    
+private:
+
+    QStringList           _input;
+    bool                  _fileInfo;
+    bool                  _filePath;
+    djvSequence::COMPRESS _sequence;
+    bool                  _recurse;
+    bool                  _hidden;
+    QStringList           _glob;
+    int                   _columns;
+    djvFileInfoUtil::SORT _sort;
+    bool                  _reverseSort;
+    bool                  _sortDirsFirst;
+};
+
+//------------------------------------------------------------------------------
 //! \class djvLsApplication
 //!
 //! This class provides the application.
 //------------------------------------------------------------------------------
 
-class djvLsApplication : public djvImageApplication
+class djvLsApplication : public QCoreApplication
 {
     Q_OBJECT
     
@@ -65,30 +152,16 @@ public:
 
     //! Constructor.
 
-    djvLsApplication(int, char **) throw (djvError);
-    
-    //! Parse the command line.
+    djvLsApplication(int &, char **);
 
-    void commandLine(QStringList &) throw (QString);
-    
-    //! This enumeration provides error codes.
-    
-    enum ERROR
-    {
-        ERROR_OPEN,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    
-    static const QStringList & errorLabels();
+    //! Destructor.
 
-    virtual QString commandLineHelp() const;
+    virtual ~djvLsApplication();
 
 private Q_SLOTS:
 
-    void debugLogCallback(const QString &);
+    void commandLineExit();
+    void work();
 
 private:
 
@@ -98,17 +171,7 @@ private:
 
     bool printDirectory(const djvFileInfo &, bool label);
 
-    QStringList           _input;
-    bool                  _info;
-    bool                  _filePath;
-    djvSequence::COMPRESS _sequence;
-    bool                  _recurse;
-    bool                  _hidden;
-    QStringList           _glob;
-    int                   _columns;
-    djvFileInfoUtil::SORT _sort;
-    bool                  _reverseSort;
-    bool                  _doNotSortDirs;
+    djvLsContext * _context;
 };
 
 //@} // djv_ls

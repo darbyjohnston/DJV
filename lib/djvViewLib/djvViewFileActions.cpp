@@ -33,6 +33,7 @@
 
 #include <djvViewFileActions.h>
 
+#include <djvViewContext.h>
 #include <djvViewFilePrefs.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvViewUtil.h>
@@ -65,8 +66,10 @@ struct djvViewFileActionsPrivate
 // djvViewFileActions
 //------------------------------------------------------------------------------
 
-djvViewFileActions::djvViewFileActions(QObject * parent) :
-	djvViewAbstractActions(parent),
+djvViewFileActions::djvViewFileActions(
+    djvViewContext * context,
+    QObject *        parent) :
+	djvViewAbstractActions(context, parent),
     _p(new djvViewFileActionsPrivate)
 {
     // Create the actions.
@@ -77,17 +80,17 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
     }
 
     _actions[OPEN]->setText(qApp->translate("djvViewFileActions", "&Open"));
-    _actions[OPEN]->setIcon(djvIconLibrary::global()->icon(
+    _actions[OPEN]->setIcon(context->iconLibrary()->icon(
         "djvFileOpenIcon.png"));
 
     _actions[RELOAD]->setText(qApp->translate("djvViewFileActions", "Re&load"));
-    _actions[RELOAD]->setIcon(djvIconLibrary::global()->icon(
+    _actions[RELOAD]->setIcon(context->iconLibrary()->icon(
         "djvFileReloadIcon.png"));
 
     _actions[RELOAD_FRAME]->setText(qApp->translate("djvViewFileActions", "Reload Frame"));
 
     _actions[CLOSE]->setText(qApp->translate("djvViewFileActions", "Clos&e"));
-    _actions[CLOSE]->setIcon(djvIconLibrary::global()->icon(
+    _actions[CLOSE]->setIcon(context->iconLibrary()->icon(
         "djvFileCloseIcon.png"));
 
     _actions[SAVE]->setText(qApp->translate("djvViewFileActions", "&Save"));
@@ -145,12 +148,12 @@ djvViewFileActions::djvViewFileActions(QObject * parent) :
     // Setup the callbacks.
 
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(recentChanged(const djvFileInfoList &)),
         SLOT(update()));
 
     connect(
-        djvViewShortcutPrefs::global(),
+        context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(update()));
 }
@@ -183,7 +186,7 @@ void djvViewFileActions::setLayer(int layer)
 void djvViewFileActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
-        djvViewShortcutPrefs::global()->shortcuts();
+        context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
 
@@ -231,7 +234,7 @@ void djvViewFileActions::update()
     Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())
         delete action;
 
-    const djvFileInfoList & recent = djvViewFilePrefs::global()->recentFiles();
+    const djvFileInfoList & recent = context()->filePrefs()->recentFiles();
 
     for (int i = 0; i < recent.count(); ++i)
     {

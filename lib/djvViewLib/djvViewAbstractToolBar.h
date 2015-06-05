@@ -42,6 +42,7 @@
 
 class  djvViewAbstractActions;
 struct djvViewAbstractToolBarPrivate;
+class  djvViewContext;
 
 //! \addtogroup djvViewLib
 //@{
@@ -62,6 +63,7 @@ public:
 
     explicit djvViewAbstractToolBar(
         djvViewAbstractActions * actions,
+        djvViewContext *         context,
         QWidget *                parent  = 0);
 
     //! Destructor.
@@ -72,6 +74,10 @@ public:
 
     djvViewAbstractActions * actions() const;
 
+    //! Get the context.
+    
+    djvViewContext * context() const;
+    
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractToolBar);

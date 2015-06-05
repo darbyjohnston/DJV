@@ -79,10 +79,6 @@ public:
 
     bool hasToolTips() const;
 
-    //! Get the global preferences.
-
-    static djvHelpPrefs * global();
-    
 public Q_SLOTS:
 
     //! Set whether tool tips are enabled.

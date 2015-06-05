@@ -33,6 +33,7 @@
 
 #include <djvViewShortcutPrefsWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvPrefsGroupBox.h>
@@ -61,21 +62,21 @@ struct djvViewShortcutPrefsWidgetPrivate
 // djvViewShortcutPrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget() :
+djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewShortcutPrefsWidget", "Shortcuts")),
+        qApp->translate("djvViewShortcutPrefsWidget", "Shortcuts"), context),
     _p(new djvViewShortcutPrefsWidgetPrivate)
 {
     // Create the widgets.
 
-    _p->shortcutsWidget = new djvShortcutsWidget;
+    _p->shortcutsWidget = new djvShortcutsWidget(context);
     
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewShortcutPrefsWidget", "Keyboard Shortcuts"));
+        qApp->translate("djvViewShortcutPrefsWidget", "Keyboard Shortcuts"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->shortcutsWidget);
     layout->addWidget(prefsGroupBox);
@@ -101,7 +102,7 @@ djvViewShortcutPrefsWidget::~djvViewShortcutPrefsWidget()
 
 void djvViewShortcutPrefsWidget::resetPreferences()
 {
-    djvViewShortcutPrefs::global()->setShortcuts(
+    context()->shortcutPrefs()->setShortcuts(
         djvViewShortcutPrefs::shortcutsDefault());
     
     widgetUpdate();
@@ -109,7 +110,7 @@ void djvViewShortcutPrefsWidget::resetPreferences()
 
 void djvViewShortcutPrefsWidget::shortcutsCallback(const QVector<djvShortcut> & in)
 {
-    djvViewShortcutPrefs::global()->setShortcuts(in);
+    context()->shortcutPrefs()->setShortcuts(in);
 }
 
 void djvViewShortcutPrefsWidget::widgetUpdate()
@@ -118,6 +119,6 @@ void djvViewShortcutPrefsWidget::widgetUpdate()
         _p->shortcutsWidget);
     
     _p->shortcutsWidget->setShortcuts(
-        djvViewShortcutPrefs::global()->shortcuts());
+        context()->shortcutPrefs()->shortcuts());
 }
 

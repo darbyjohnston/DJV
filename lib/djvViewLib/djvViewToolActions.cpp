@@ -33,6 +33,7 @@
 
 #include <djvViewToolActions.h>
 
+#include <djvViewContext.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvViewUtil.h>
 
@@ -55,8 +56,10 @@ struct djvViewToolActionsPrivate
 // djvViewToolActions
 //------------------------------------------------------------------------------
 
-djvViewToolActions::djvViewToolActions(QObject * parent) :
-	djvViewAbstractActions(parent),
+djvViewToolActions::djvViewToolActions(
+    djvViewContext * context,
+    QObject *        parent) :
+	djvViewAbstractActions(context, parent),
     _p(new djvViewToolActionsPrivate)
 {
     // Create the action groups.
@@ -81,10 +84,10 @@ djvViewToolActions::djvViewToolActions(QObject * parent) :
         true;
     
     const QList<QIcon> toolIcons = QList<QIcon>() <<
-        djvIconLibrary::global()->icon("djvMagnifyIcon.png") <<
-        djvIconLibrary::global()->icon("djvColorPickerIcon.png") <<
-        djvIconLibrary::global()->icon("djvHistogramIcon.png") <<
-        djvIconLibrary::global()->icon("djvInfoIcon.png");
+        context->iconLibrary()->icon("djvMagnifyIcon.png") <<
+        context->iconLibrary()->icon("djvColorPickerIcon.png") <<
+        context->iconLibrary()->icon("djvHistogramIcon.png") <<
+        context->iconLibrary()->icon("djvInfoIcon.png");
     
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
@@ -104,7 +107,7 @@ djvViewToolActions::djvViewToolActions(QObject * parent) :
     // Setup the callbacks.
 
     connect(
-        djvViewShortcutPrefs::global(),
+        context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(update()));
 }
@@ -117,7 +120,7 @@ djvViewToolActions::~djvViewToolActions()
 void djvViewToolActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
-        djvViewShortcutPrefs::global()->shortcuts();
+        context()->shortcutPrefs()->shortcuts();
 
     // Update the action groups.
     

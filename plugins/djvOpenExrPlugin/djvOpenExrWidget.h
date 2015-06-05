@@ -62,7 +62,7 @@ public:
 
     //! Constructor.
     
-    djvOpenExrWidget(djvOpenExrPlugin *);
+    djvOpenExrWidget(djvOpenExrPlugin *, djvGuiContext *);
     
     //! Destructor.
 

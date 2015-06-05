@@ -39,6 +39,7 @@
 
 #include <QString>
 
+class  djvCoreContext;
 class  djvOpenGlContextFactory;
 struct djvOpenGlContextPrivate;
 
@@ -78,12 +79,16 @@ public:
     //! Get the version.
 
     const QString & version() const;
+    
+    //! Get the context.
+    
+    djvCoreContext * context() const;
 
 protected:
 
     //! Constructor.
 
-    djvOpenGlContext() throw (djvError);
+    explicit djvOpenGlContext(djvCoreContext *) throw (djvError);
 
     //! Set the vendor.
 
@@ -116,13 +121,17 @@ class DJV_CORE_EXPORT djvOpenGlContextFactory
 {
 public:
 
-    //! Destructor.
+    //! Constructor.
     
-    virtual ~djvOpenGlContextFactory() = 0;
+    djvOpenGlContextFactory(djvCoreContext *);
 
     //! Create an OpenGL context.
 
-    static djvOpenGlContext * create(bool bind = true) throw (djvError);
+    djvOpenGlContext * create(bool bind = true) throw (djvError);
+
+private:
+
+    djvCoreContext * _context;
 };
 
 //------------------------------------------------------------------------------

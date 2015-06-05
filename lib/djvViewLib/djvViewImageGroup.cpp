@@ -33,6 +33,7 @@
 
 #include <djvViewImageGroup.h>
 
+#include <djvViewContext.h>
 #include <djvViewDisplayProfile.h>
 #include <djvViewDisplayProfileWidget.h>
 #include <djvViewImageActions.h>
@@ -64,14 +65,14 @@
 
 struct djvViewImageGroupPrivate
 {
-    djvViewImageGroupPrivate() :
+    djvViewImageGroupPrivate(djvViewContext * context) :
         frameStore               (false),
-        mirror                   (djvViewImagePrefs::global()->mirror()),
-        scale                    (djvViewImagePrefs::global()->scale()),
-        rotate                   (djvViewImagePrefs::global()->rotate()),
-        colorProfile             (djvViewImagePrefs::global()->hasColorProfile()),
-        displayProfile           (djvViewImagePrefs::global()->displayProfile()),
-        channel                  (djvViewImagePrefs::global()->channel()),
+        mirror                   (context->imagePrefs()->mirror()),
+        scale                    (context->imagePrefs()->scale()),
+        rotate                   (context->imagePrefs()->rotate()),
+        colorProfile             (context->imagePrefs()->hasColorProfile()),
+        displayProfile           (context->imagePrefs()->displayProfile()),
+        channel                  (context->imagePrefs()->channel()),
         actions                  (0),
         menu                     (0),
         toolBar                  (0),
@@ -99,10 +100,11 @@ struct djvViewImageGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewImageGroup::djvViewImageGroup(
+    const djvViewImageGroup * copy,
     djvViewMainWindow *       mainWindow,
-    const djvViewImageGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
-    _p(new djvViewImageGroupPrivate)
+    djvViewContext *          context) :
+    djvViewAbstractGroup(mainWindow, context),
+    _p(new djvViewImageGroupPrivate(context))
 {
     //DJV_DEBUG("djvViewImageGroup::djvViewImageGroup");
 
@@ -119,7 +121,7 @@ djvViewImageGroup::djvViewImageGroup(
 
     // Create the actions.
 
-    _p->actions = new djvViewImageActions(this);
+    _p->actions = new djvViewImageActions(context, this);
     
     // Create the menus.
 
@@ -129,12 +131,12 @@ djvViewImageGroup::djvViewImageGroup(
 
     // Create the widgets.
 
-    _p->toolBar = new djvViewImageToolBar(_p->actions);
+    _p->toolBar = new djvViewImageToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
     
     _p->displayProfileWidget =
-        new djvViewDisplayProfileWidget(mainWindow->viewWidget());
+        new djvViewDisplayProfileWidget(mainWindow->viewWidget(), context);
     _p->displayProfileDockWidget = new QDockWidget(
         qApp->translate("djvViewImageGroup", "Display Profile"));
     _p->displayProfileDockWidget->setWidget(_p->displayProfileWidget);
@@ -221,32 +223,32 @@ djvViewImageGroup::djvViewImageGroup(
     // Setup preferences callbacks.
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(mirrorChanged(djvPixelDataInfo::Mirror)),
         SLOT(mirrorCallback(djvPixelDataInfo::Mirror)));
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(scaleChanged(djvViewUtil::IMAGE_SCALE)),
         SLOT(scaleCallback(djvViewUtil::IMAGE_SCALE)));
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(rotateChanged(djvViewUtil::IMAGE_ROTATE)),
         SLOT(rotateCallback(djvViewUtil::IMAGE_ROTATE)));
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(colorProfileChanged(bool)),
         SLOT(colorProfileCallback(bool)));
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(displayProfileChanged(const djvViewDisplayProfile &)),
         SLOT(setDisplayProfile(const djvViewDisplayProfile &)));
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(channelChanged(djvOpenGlImageOptions::CHANNEL)),
         SLOT(channelCallback(djvOpenGlImageOptions::CHANNEL)));
 }
@@ -383,7 +385,7 @@ void djvViewImageGroup::displayProfileCallback(QAction * action)
 
     setDisplayProfile(
         index > 0 ?
-        djvViewImagePrefs::global()->displayProfiles()[index - 1] :
+        context()->imagePrefs()->displayProfiles()[index - 1] :
         djvViewDisplayProfile());
 }
 

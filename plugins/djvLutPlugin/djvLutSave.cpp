@@ -33,6 +33,7 @@
 
 #include <djvLutSave.h>
 
+#include <djvFileIo.h>
 #include <djvListUtil.h>
 #include <djvOpenGlImage.h>
 
@@ -40,7 +41,7 @@
 // djvLutSave
 //------------------------------------------------------------------------------
 
-djvLutSave::djvLutSave(const djvLutPlugin::Options & options) :
+djvLutSave::djvLutSave(const djvLut::Options & options) :
     _options(options)
 {}
 
@@ -94,25 +95,25 @@ void djvLutSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     io.open(fileName, djvFileIo::WRITE);
     
-    const int index = djvLutPlugin::staticExtensions.indexOf(_file.extension());
+    const int index = djvLut::staticExtensions.indexOf(_file.extension());
 
     if (-1 == index)
     {
         throw djvError(
-            djvLutPlugin::staticName,
+            djvLut::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
-    _format = static_cast<djvLutPlugin::FORMAT>(index);
+    _format = static_cast<djvLut::FORMAT>(index);
 
     switch (_format)
     {
-        case djvLutPlugin::FORMAT_INFERNO:
-            djvLutPlugin::infernoOpen(io, _info);
+        case djvLut::FORMAT_INFERNO:
+            djvLut::infernoOpen(io, _info);
             break;
 
-        case djvLutPlugin::FORMAT_KODAK:
-            djvLutPlugin::kodakOpen(io, _info);
+        case djvLut::FORMAT_KODAK:
+            djvLut::kodakOpen(io, _info);
             break;
 
         default: break;
@@ -137,12 +138,12 @@ void djvLutSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     switch (_format)
     {
-        case djvLutPlugin::FORMAT_INFERNO:
-            djvLutPlugin::infernoSave(io, p);
+        case djvLut::FORMAT_INFERNO:
+            djvLut::infernoSave(io, p);
             break;
 
-        case djvLutPlugin::FORMAT_KODAK:
-            djvLutPlugin::kodakSave(io, p);
+        case djvLut::FORMAT_KODAK:
+            djvLut::kodakSave(io, p);
             break;
 
         default: break;

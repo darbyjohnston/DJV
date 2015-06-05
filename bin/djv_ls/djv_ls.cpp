@@ -44,14 +44,15 @@
 #include <djvUser.h>
 
 #include <QDir>
+#include <QTimer>
 
 //------------------------------------------------------------------------------
-// djvLsApplication
+// djvLsContext
 //------------------------------------------------------------------------------
 
-djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
-    djvImageApplication("djv_ls", argc, argv),
-    _info         (true),
+djvLsContext::djvLsContext(QObject * parent) :
+    djvImageContext(parent),
+    _fileInfo     (true),
     _filePath     (false),
     _sequence     (djvSequence::COMPRESS_RANGE),
     _recurse      (false),
@@ -59,139 +60,82 @@ djvLsApplication::djvLsApplication(int argc, char ** argv) throw (djvError) :
     _columns      (djvSystem::terminalWidth()),
     _sort         (djvFileInfoUtil::SORT_NAME),
     _reverseSort  (false),
-    _doNotSortDirs(false)
+    _sortDirsFirst(true)
 {
-    //DJV_DEBUG("djvLsApplication::djvLsApplication");
+    //DJV_DEBUG("djvLsContext::djvLsContext");
+    
+    // Load translators.
     
     loadTranslator("djv_ls");
-
-    // Parse the command line.
-
-    try
-    {
-        commandLine(_commandLineArgs);
-    }
-    catch (const QString & error)
-    {
-        printError(
-            djvImageApplication::errorLabels()[ERROR_COMMAND_LINE].arg(error));
-        
-        setExitValue(djvApplicationEnum::EXIT_ERROR);
-    }
-
-    if (hasDebugLog())
-    {
-        Q_FOREACH(const QString & message, djvDebugLog::global()->messages())
-        {
-            printMessage(message);
-        }
-        
-        connect(
-            djvDebugLog::global(),
-            SIGNAL(message(const QString &)),
-            SLOT(debugLogCallback(const QString &)));
-    }
-
-    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
-        return;
-    
-    // Convert the command line inputs:
-    //
-    // * Match wildcards
-    // * Expand sequences
-
-    djvFileInfoList list;
-
-    for (int i = 0; i < _input.count(); ++i)
-    {
-        // Parse the input.
-        
-        djvFileInfo fileInfo = djvFileInfoUtil::parse(_input[i], _sequence);
-
-        //DJV_DEBUG_PRINT("input = " << fileInfo);
-        
-        DJV_LOG("djv_ls", QString("Input = \"%1\"").arg(fileInfo));
-        
-        // Expand the sequence.
-
-        QStringList tmp = djvFileInfoUtil::expandSequence(fileInfo);
-
-        for (int j = 0; j < tmp.count(); ++j)
-        {
-            fileInfo = djvFileInfo(tmp[j], false);
-
-            if (! fileInfo.stat())
-            {
-                printError(
-                    djvError(errorLabels()[ERROR_OPEN].
-                    arg(QDir::toNativeSeparators(fileInfo))));
-                
-                setExitValue(djvApplicationEnum::EXIT_ERROR);
-                
-                continue;
-            }
-
-            if (_sequence && fileInfo.isSequenceValid())
-            {
-                fileInfo.setType(djvFileInfo::SEQUENCE);
-            }
-
-            list += fileInfo;
-        }
-    }
-
-    //DJV_DEBUG_PRINT("list = " << list);
-    
-    DJV_LOG("djv_ls", QString("Input count = %1").arg(list.count()));
-
-    // Process the inputs.
-
-    process(list);
-
-    //DJV_DEBUG_PRINT("process = " << list);
-
-    DJV_LOG("djv_ls", QString("Processed count = %1").arg(list.count()));
-
-    // If there are no inputs list the current directory.
-
-    if (! list.count() && exitValue() != djvApplicationEnum::EXIT_ERROR)
-    {
-        list += djvFileInfo(".");
-    }
-
-    // Print the items.
-
-    for (int i = 0; i < list.count(); ++i)
-    {
-        if (djvFileInfo::DIRECTORY == list[i].type())
-        {
-            if (! printDirectory(
-                list[i],
-                ((list.count() > 1) || _recurse) && ! _filePath))
-            {
-                printError(
-                    djvError(errorLabels()[ERROR_OPEN].
-                    arg(QDir::toNativeSeparators(list[i]))));
-                
-                setExitValue(djvApplicationEnum::EXIT_ERROR);
-            }
-        }
-        else
-        {
-            printItem(list[i], true, _info);
-        }
-    }
 }
 
-void djvLsApplication::commandLine(QStringList & in) throw (QString)
+djvLsContext::~djvLsContext()
 {
-    //DJV_DEBUG("djvLsApplication::commandLine");
+    //DJV_DEBUG("djvLsContext::~djvLsContext");
+}
+
+const QStringList & djvLsContext::input() const
+{
+    return _input;
+}
+
+bool djvLsContext::hasFileInfo() const
+{
+    return _fileInfo;
+}
+
+bool djvLsContext::hasFilePath() const
+{
+    return _filePath;
+}
+
+djvSequence::COMPRESS djvLsContext::sequence() const
+{
+    return _sequence;
+}
+
+bool djvLsContext::hasRecurse() const
+{
+    return _recurse;
+}
+
+bool djvLsContext::hasHidden() const
+{
+    return _hidden;
+}
+
+const QStringList & djvLsContext::glob() const
+{
+    return _glob;
+}
+
+int djvLsContext::columns() const
+{
+    return _columns;
+}
+
+djvFileInfoUtil::SORT djvLsContext::sort() const
+{
+    return _sort;
+}
+
+bool djvLsContext::hasReverseSort() const
+{
+    return _reverseSort;
+}
+
+bool djvLsContext::hasSortDirsFirst() const
+{
+    return _sortDirsFirst;
+}
+
+bool djvLsContext::commandLineParse(QStringList & in) throw (QString)
+{
+    //DJV_DEBUG("djvLsContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    djvImageApplication::commandLine(in);
-
-    if (exitValue() != djvApplicationEnum::EXIT_DEFAULT)
-        return;
+    if (! djvImageContext::commandLineParse(in))
+        return false;
 
     QStringList args;
     QString     arg;
@@ -205,37 +149,37 @@ void djvLsApplication::commandLine(QStringList & in) throw (QString)
             // Parse the options.
 
             if (
-                qApp->translate("djvLsApplication", "-x_info") == arg ||
-                qApp->translate("djvLsApplication", "-xi") == arg)
+                qApp->translate("djvLsContext", "-x_info") == arg ||
+                qApp->translate("djvLsContext", "-xi") == arg)
             {
-                _info = false;
+                _fileInfo = false;
             }
             else if (
-                qApp->translate("djvLsApplication", "-file_path") == arg ||
-                qApp->translate("djvLsApplication", "-fp") == arg)
+                qApp->translate("djvLsContext", "-file_path") == arg ||
+                qApp->translate("djvLsContext", "-fp") == arg)
             {
                 _filePath = true;
             }
             else if (
-                qApp->translate("djvLsApplication", "-seq") == arg ||
-                qApp->translate("djvLsApplication", "-q") == arg)
+                qApp->translate("djvLsContext", "-seq") == arg ||
+                qApp->translate("djvLsContext", "-q") == arg)
             {
                 in >> _sequence;
             }
             else if (
-                qApp->translate("djvLsApplication", "-recurse") == arg ||
-                qApp->translate("djvLsApplication", "-r") == arg)
+                qApp->translate("djvLsContext", "-recurse") == arg ||
+                qApp->translate("djvLsContext", "-r") == arg)
             {
                 _recurse = true;
             }
             else if (
-                qApp->translate("djvLsApplication", "-hidden") == arg)
+                qApp->translate("djvLsContext", "-hidden") == arg)
             {
                 _hidden = true;
             }
             else if (
-                qApp->translate("djvLsApplication", "-columns") == arg ||
-                qApp->translate("djvLsApplication", "-c") == arg)
+                qApp->translate("djvLsContext", "-columns") == arg ||
+                qApp->translate("djvLsContext", "-c") == arg)
             {
                 in >> _columns;
             }
@@ -243,22 +187,22 @@ void djvLsApplication::commandLine(QStringList & in) throw (QString)
             // Parse the sorting options.
 
             else if (
-                qApp->translate("djvLsApplication", "-sort") == arg ||
-                qApp->translate("djvLsApplication", "-s") == arg)
+                qApp->translate("djvLsContext", "-sort") == arg ||
+                qApp->translate("djvLsContext", "-s") == arg)
             {
                 in >> _sort;
             }
             else if (
-                qApp->translate("djvLsApplication", "-reverse_sort") == arg ||
-                qApp->translate("djvLsApplication", "-rs") == arg)
+                qApp->translate("djvLsContext", "-reverse_sort") == arg ||
+                qApp->translate("djvLsContext", "-rs") == arg)
             {
                 _reverseSort = true;
             }
             else if (
-                qApp->translate("djvLsApplication", "-x_sort_dirs") == arg ||
-                qApp->translate("djvLsApplication", "-xsd") == arg)
+                qApp->translate("djvLsContext", "-x_sort_dirs") == arg ||
+                qApp->translate("djvLsContext", "-xsd") == arg)
             {
-                _doNotSortDirs = false;
+                _sortDirsFirst = false;
             }
 
             // Parse the arguments.
@@ -273,21 +217,13 @@ void djvLsApplication::commandLine(QStringList & in) throw (QString)
     {
         throw QString(arg);
     }
-}
     
-const QStringList & djvLsApplication::errorLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvLsApplication", "Cannot open: \"%1\"");
-
-    DJV_ASSERT(ERROR_COUNT == data.count());
-    
-    return data;
+    return true;
 }
 
-QString djvLsApplication::commandLineHelp() const
+QString djvLsContext::commandLineHelp() const
 {
-    static const QString label = qApp->translate("djvLsApplication",
+    static const QString label = qApp->translate("djvLsContext",
 "djv_ls\n"
 "\n"
 "    This application provides a command line tool for listing directories "
@@ -355,12 +291,147 @@ QString djvLsApplication::commandLineHelp() const
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvFileInfoUtil::sortLabels().join(", ")).
         arg(djvStringUtil::label(_sort).join(", ")).
-        arg(djvImageApplication::commandLineHelp());
+        arg(djvImageContext::commandLineHelp());
 }
 
-void djvLsApplication::debugLogCallback(const QString & in)
+//------------------------------------------------------------------------------
+// djvLsApplication
+//------------------------------------------------------------------------------
+
+djvLsApplication::djvLsApplication(int & argc, char ** argv) :
+    QCoreApplication(argc, argv),
+    _context(0)
 {
-    printMessage(in);
+    //DJV_DEBUG("djvLsApplication::djvLsApplication");
+    
+    setOrganizationName("djv.sourceforge.net");
+
+    setApplicationName("djv_ls");
+    
+    // Create the context.
+    
+    _context = new djvLsContext;
+
+    // Parse the command line.
+    
+    if (! _context->commandLine(argc, argv))
+    {
+        QTimer::singleShot(0, this, SLOT(commandLineExit()));
+    }
+    else
+    {
+        QTimer::singleShot(0, this, SLOT(work()));
+    }
+}
+
+djvLsApplication::~djvLsApplication()
+{
+    //DJV_DEBUG("djvLsApplication::~djvLsApplication");
+    
+    delete _context;
+}
+
+void djvLsApplication::commandLineExit()
+{
+    exit(1);
+}
+
+void djvLsApplication::work()
+{
+    //DJV_DEBUG("djvLsApplication::work");
+    
+    // Convert the command line inputs:
+    //
+    // * Match wildcards
+    // * Expand sequences
+
+    djvFileInfoList list;
+    
+    int error = 0;
+
+    Q_FOREACH(const QString & input, _context->input())
+    {
+        // Parse the input.
+        
+        djvFileInfo fileInfo = djvFileInfoUtil::parse(input, _context->sequence());
+
+        //DJV_DEBUG_PRINT("input = " << fileInfo);
+        
+        DJV_LOG(_context->debugLog(), "djv_ls",
+            QString("Input = \"%1\"").arg(fileInfo));
+        
+        // Expand the sequence.
+
+        Q_FOREACH(const QString & fileName,
+            djvFileInfoUtil::expandSequence(fileInfo))
+        {
+            fileInfo = djvFileInfo(fileName, false);
+
+            if (! fileInfo.stat())
+            {
+                _context->printError(
+                    qApp->translate("djvLsApplication", "Cannot open: \"%1\"").
+                        arg(QDir::toNativeSeparators(fileInfo)));
+                
+                error = 1;
+                
+                continue;
+            }
+
+            if (_context->sequence() && fileInfo.isSequenceValid())
+            {
+                fileInfo.setType(djvFileInfo::SEQUENCE);
+            }
+
+            list += fileInfo;
+        }
+    }
+
+    //DJV_DEBUG_PRINT("list = " << list);
+    
+    DJV_LOG(_context->debugLog(), "djv_ls",
+        QString("Input count = %1").arg(list.count()));
+
+    // Process the inputs.
+
+    process(list);
+
+    //DJV_DEBUG_PRINT("processed = " << list);
+
+    DJV_LOG(_context->debugLog(), "djv_ls",
+        QString("Processed count = %1").arg(list.count()));
+
+    // If there are no inputs list the current directory.
+
+    if (! list.count() && 0 == error)
+    {
+        list += djvFileInfo(".");
+    }
+
+    // Print the items.
+
+    for (int i = 0; i < list.count(); ++i)
+    {
+        if (djvFileInfo::DIRECTORY == list[i].type())
+        {
+            if (! printDirectory(
+                list[i],
+                ((list.count() > 1) || _context->hasRecurse()) && ! _context->hasFilePath()))
+            {
+                _context->printError(
+                    qApp->translate("djvLsApplication", "Cannot open: \"%1\"").
+                        arg(QDir::toNativeSeparators(list[i])));
+                
+                exit(1);
+            }
+        }
+        else
+        {
+            printItem(list[i], true, _context->hasFileInfo());
+        }
+    }
+    
+    exit(error);
 }
 
 void djvLsApplication::process(djvFileInfoList & in)
@@ -370,13 +441,13 @@ void djvLsApplication::process(djvFileInfoList & in)
 
     // Compress files into sequences.
 
-    djvFileInfoUtil::compressSequence(in, _sequence);
+    djvFileInfoUtil::compressSequence(in, _context->sequence());
 
     //DJV_DEBUG_PRINT("compress = " << in);
 
     // Remove hidden files.
 
-    if (! _hidden)
+    if (! _context->hasHidden())
     {
         djvFileInfoUtil::filter(in, djvFileInfoUtil::FILTER_HIDDEN);
 
@@ -385,11 +456,11 @@ void djvLsApplication::process(djvFileInfoList & in)
 
     // Sort.
 
-    djvFileInfoUtil::sort(in, _sort, _reverseSort);
+    djvFileInfoUtil::sort(in, _context->sort(), _context->hasReverseSort());
 
     //DJV_DEBUG_PRINT("sort = " << in);
 
-    if (! _doNotSortDirs)
+    if (_context->hasSortDirsFirst())
     {
         djvFileInfoUtil::sortDirsFirst(in);
 
@@ -425,9 +496,11 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
 
         // Elide the name if there isn't enough space.
 
-        if (_columns)
+        if (_context->columns())
         {
-            const int length = djvMath::max(_columns - infoString.length() - 2, 0);
+            const int length = djvMath::max(
+                _context->columns() - infoString.length() - 2,
+                0);
 
             if (name.length() > length)
             {
@@ -443,14 +516,14 @@ void djvLsApplication::printItem(const djvFileInfo & in, bool path, bool info)
             }
         }
 
-        print(
+        _context->print(
             qApp->translate("djvLsApplication", "%1 %2").
                 arg(QDir::toNativeSeparators(name)).
-                arg(infoString, _columns - name.length() - 2));
+                arg(infoString, _context->columns() - name.length() - 2));
     }
     else
     {
-        print(name);
+        _context->print(name);
     }
 }
 
@@ -464,7 +537,7 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
     if (! QDir(in.path()).exists())
         return false;
 
-    djvFileInfoList items = djvFileInfoUtil::list(in, _sequence);
+    djvFileInfoList items = djvFileInfoUtil::list(in, _context->sequence());
 
     // Process the items.
 
@@ -474,32 +547,32 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
 
     if (label)
     {
-        print(qApp->translate("djvLsApplication", "%1:").
+        _context->print(qApp->translate("djvLsApplication", "%1:").
             arg(QDir::toNativeSeparators(in)));
     }
 
     for (int i = 0; i < items.count(); ++i)
     {
-        printItem(items[i], _filePath, _info);
+        printItem(items[i], _context->hasFilePath(), _context->hasFileInfo());
     }
 
     if (label)
     {
-        printSeparator();
+        _context->printSeparator();
     }
 
     // Recurse.
 
     bool r = true;
 
-    if (_recurse)
+    if (_context->hasRecurse())
     {
-        djvFileInfoList items = djvFileInfoUtil::list(in, _sequence);
+        djvFileInfoList items = djvFileInfoUtil::list(in, _context->sequence());
 
         djvFileInfoUtil::filter(
             items,
             djvFileInfoUtil::FILTER_FILES |
-                (! _hidden ? djvFileInfoUtil::FILTER_HIDDEN : 0));
+                (! _context->hasHidden() ? djvFileInfoUtil::FILTER_HIDDEN : 0));
 
         for (int i = 0; i < items.count(); ++i)
         {
@@ -516,16 +589,5 @@ bool djvLsApplication::printDirectory(const djvFileInfo & in, bool label)
 
 int main(int argc, char ** argv)
 {
-    int r = 1;
-
-    try
-    {
-        r = djvLsApplication(argc, argv).run();
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-    }
-
-    return r;
+    return djvLsApplication(argc, argv).exec();
 }

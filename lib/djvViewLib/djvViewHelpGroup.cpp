@@ -33,13 +33,13 @@
 
 #include <djvViewHelpGroup.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewHelpActions.h>
 #include <djvViewHelpMenu.h>
 #include <djvViewMainWindow.h>
 
-#include <djvApplicationAboutDialog.h>
-#include <djvApplicationInfoDialog.h>
+#include <djvAboutDialog.h>
+#include <djvInfoDialog.h>
 
 #include <djvDebug.h>
 #include <djvFileInfoUtil.h>
@@ -67,16 +67,17 @@ struct djvViewHelpGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewHelpGroup::djvViewHelpGroup(
+    const djvViewHelpGroup * copy,
     djvViewMainWindow *      mainWindow,
-    const djvViewHelpGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
+    djvViewContext *         context) :
+    djvViewAbstractGroup(mainWindow, context),
     _p(new djvViewHelpGroupPrivate)
 {
     //DJV_DEBUG("djvViewHelpGroup::djvViewHelpGroup");
 
     // Create the actions.
 
-    _p->actions = new djvViewHelpActions(this);
+    _p->actions = new djvViewHelpActions(context, this);
     
     // Create the menus.
 
@@ -111,17 +112,17 @@ djvViewHelpGroup::~djvViewHelpGroup()
 
 void djvViewHelpGroup::helpCallback()
 {
-    //DJV_DEBUG("Application::help");
+    //DJV_DEBUG("djvViewHelpGroup::helpCallback");
 
-    DJV_VIEW_APP->help();
+    context()->help();
 }
 
 void djvViewHelpGroup::infoCallback()
 {
-    djvApplicationInfoDialog::global()->show();
+    context()->infoDialog()->show();
 }
 
 void djvViewHelpGroup::aboutCallback()
 {
-    djvApplicationAboutDialog::global()->show();
+    context()->aboutDialog()->show();
 }

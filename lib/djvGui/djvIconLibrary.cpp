@@ -33,6 +33,8 @@
 
 #include <djvIconLibrary.h>
 
+#include <djvDebug.h>
+
 #include <QApplication>
 #include <QDirIterator>
 #include <QIcon>
@@ -59,10 +61,14 @@ struct djvIconLibraryPrivate
 djvIconLibrary::djvIconLibrary(QObject * parent) :
     QObject(parent),
     _p(new djvIconLibraryPrivate)
-{}
+{
+    //DJV_DEBUG("djvIconLibrary::djvIconLibrary");
+}
 
 djvIconLibrary::~djvIconLibrary()
 {
+    //DJV_DEBUG("djvIconLibrary::~djvIconLibrary");
+
     delete _p;
 }
     
@@ -163,16 +169,4 @@ QStringList djvIconLibrary::names() const
 QSize djvIconLibrary::defaultSize() const
 {
     return QSize(25, 25);
-}
-    
-djvIconLibrary * djvIconLibrary::global()
-{
-    static djvIconLibrary * iconLibrary = 0;
-    
-    if (! iconLibrary)
-    {
-        iconLibrary = new djvIconLibrary(qApp);
-    }
-    
-    return iconLibrary;
 }

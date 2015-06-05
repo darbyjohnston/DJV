@@ -56,6 +56,7 @@ public:
         const djvFileInfo &                  fileInfo,
         djvFileBrowserModel::THUMBNAILS      thumbnails,
         djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
+        djvGuiContext *                      context,
         QObject *                            parent);
 
     //! Get the file information.
@@ -117,7 +118,5 @@ private:
     QVariant _displayRole[djvFileBrowserModel::COLUMNS_COUNT];
     QVariant _editRole   [djvFileBrowserModel::COLUMNS_COUNT];
 
-    djvFileBrowserItemHelper *           _helper;
-    
-    friend class djvFileBrowserItemHelper;
+    djvGuiContext *                      _context;
 };

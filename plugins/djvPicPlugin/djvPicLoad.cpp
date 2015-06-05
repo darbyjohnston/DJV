@@ -42,7 +42,7 @@
 //------------------------------------------------------------------------------
 
 djvPicLoad::djvPicLoad() :
-    _type(static_cast<djvPicPlugin::TYPE>(0))
+    _type(static_cast<djvPic::TYPE>(0))
 {
     _compression[0] = false;
     _compression[1] = false;
@@ -112,12 +112,12 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
         switch (_type)
         {
-            case djvPicPlugin::TYPE_RGB:
-            case djvPicPlugin::TYPE_RGBA:
+            case djvPic::TYPE_RGB:
+            case djvPic::TYPE_RGBA:
 
                 if (_compression[0])
                 {
-                    p = djvPicPlugin::readRle(
+                    p = djvPic::readRle(
                         p,
                         end,
                         data->data(0, y),
@@ -129,7 +129,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     if (! p)
                     {
                         throw djvError(
-                            djvPicPlugin::staticName,
+                            djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                 }
@@ -141,7 +141,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         djvPixelDataUtil::dataByteCount(info))
                     {
                         throw djvError(
-                            djvPicPlugin::staticName,
+                            djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                     
@@ -152,11 +152,11 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
                 break;
 
-            case djvPicPlugin::TYPE_RGB_A:
+            case djvPic::TYPE_RGB_A:
 
                 if (_compression[0])
                 {
-                    p = djvPicPlugin::readRle(
+                    p = djvPic::readRle(
                         p,
                         end,
                         data->data(0, y),
@@ -168,7 +168,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     if (! p)
                     {
                         throw djvError(
-                            djvPicPlugin::staticName,
+                            djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                 }
@@ -180,7 +180,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         djvPixelDataUtil::dataByteCount(info))
                     {
                         throw djvError(
-                            djvPicPlugin::staticName,
+                            djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
 
@@ -191,7 +191,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
                 if (_compression[1])
                 {
-                    p = djvPicPlugin::readRle(
+                    p = djvPic::readRle(
                         p,
                         end,
                         data->data(0, y) + 3 * byteCount,
@@ -203,7 +203,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     if (! p)
                     {
                         throw djvError(
-                            djvPicPlugin::staticName,
+                            djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                 }
@@ -215,7 +215,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         djvPixelDataUtil::dataByteCount(info))
                     {
                         throw djvError(
-                            djvPicPlugin::staticName,
+                            djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
 
@@ -318,7 +318,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     if (header.magic != 0x5380F634)
     {
         throw djvError(
-            djvPicPlugin::staticName,
+            djvPic::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -343,7 +343,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     if (QString::fromLatin1(header.id, sizeof(header.id)) != "PICT")
     {
         throw djvError(
-            djvPicPlugin::staticName,
+            djvPic::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -372,7 +372,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         8 == channel.size &&
         ! channel.chained)
     {
-        type = djvPicPlugin::TYPE_RGBA;
+        type = djvPic::TYPE_RGBA;
     }
     else if (
         (CHANNEL_R & channel.channel) &&
@@ -381,7 +381,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         8 == channel.size &&
         ! channel.chained)
     {
-        type = djvPicPlugin::TYPE_RGB;
+        type = djvPic::TYPE_RGB;
     }
     else if (
         (CHANNEL_R & channel.channel) &&
@@ -404,27 +404,27 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
             8 == channel.size &&
             ! channel.chained)
         {
-            type = djvPicPlugin::TYPE_RGB_A;
+            type = djvPic::TYPE_RGB_A;
         }
     }
 
     if (-1 == type)
     {
         throw djvError(
-            djvPicPlugin::staticName,
+            djvPic::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
-    _type = static_cast<djvPicPlugin::TYPE>(type);
+    _type = static_cast<djvPic::TYPE>(type);
 
     switch (_type)
     {
-        case djvPicPlugin::TYPE_RGB:
+        case djvPic::TYPE_RGB:
             info.pixel = djvPixel::RGB_U8;
             break;
 
-        case djvPicPlugin::TYPE_RGBA:
-        case djvPicPlugin::TYPE_RGB_A:
+        case djvPic::TYPE_RGBA:
+        case djvPic::TYPE_RGB_A:
             info.pixel = djvPixel::RGBA_U8;
             break;
 

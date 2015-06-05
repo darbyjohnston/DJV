@@ -71,7 +71,7 @@ struct djvColorWidgetPrivate
 // djvColorWidget
 //------------------------------------------------------------------------------
 
-djvColorWidget::djvColorWidget(QWidget * parent) :
+djvColorWidget::djvColorWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvColorWidgetPrivate)
 {
@@ -81,11 +81,11 @@ djvColorWidget::djvColorWidget(QWidget * parent) :
 
     for (int i = 0; i < djvPixel::channelsMax; ++i)
     {
-        djvIntEditSlider * intSlider = new djvIntEditSlider;
+        djvIntEditSlider * intSlider = new djvIntEditSlider(context);
         intSlider->setResetToDefault(false);
         _p->intWidgets += intSlider;
         
-        djvFloatEditSlider * floatSlider = new djvFloatEditSlider;
+        djvFloatEditSlider * floatSlider = new djvFloatEditSlider(context);
         floatSlider->setResetToDefault(false);
         floatSlider->editObject()->setClamp(false);
         _p->floatWidgets += floatSlider;

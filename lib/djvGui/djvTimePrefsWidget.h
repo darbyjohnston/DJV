@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    explicit djvTimePrefsWidget(QWidget * parent = 0);
+    explicit djvTimePrefsWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

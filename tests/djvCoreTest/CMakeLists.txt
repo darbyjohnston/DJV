@@ -1,17 +1,17 @@
 set(header
-    djvCoreApplicationTest.h
     djvBoxTest.h
     djvBoxUtilTest.h
     djvColorProfileTest.h
     djvColorTest.h
     djvColorUtilTest.h
+    djvCoreContextTest.h
     djvDebugTest.h
     djvErrorTest.h
     djvFileInfoTest.h
     djvFileInfoUtilTest.h
     djvFileIoTest.h
     djvFileIoUtilTest.h
-    djvImageApplicationTest.h
+    djvImageContextTest.h
     djvImageIoTest.h
     djvImageTagsTest.h
     djvImageTest.h
@@ -44,19 +44,19 @@ set(mocHeader
     djvSignalBlockerTest.h)
 
 set(source
-    djvCoreApplicationTest.cpp
     djvBoxTest.cpp
     djvBoxUtilTest.cpp
     djvColorProfileTest.cpp
     djvColorTest.cpp
     djvColorUtilTest.cpp
+    djvCoreContextTest.cpp
     djvDebugTest.cpp
     djvErrorTest.cpp
     djvFileInfoTest.cpp
     djvFileInfoUtilTest.cpp
     djvFileIoTest.cpp
     djvFileIoUtilTest.cpp
-    djvImageApplicationTest.cpp
+    djvImageContextTest.cpp
     djvImageIoTest.cpp
     djvImageTagsTest.cpp
     djvImageTest.cpp

@@ -12,7 +12,7 @@ set(header
     djvColorUtil.h
     djvColorUtilInline.h
     djvColorProfile.h
-    djvCoreApplication.h
+    djvCoreContext.h
     djvCoreExport.h
     djvDebug.h
     djvDebugInline.h
@@ -27,7 +27,7 @@ set(header
     djvFileIoUtil.h
     djvGlxContextPrivate.h
     djvImage.h
-    djvImageApplication.h
+    djvImageContext.h
     djvImageIo.h
     djvImageTags.h
     djvImageUtil.h
@@ -82,12 +82,11 @@ set(header
 
 set(mocHeader
     djvColorProfile.h
-    djvCoreApplication.h
+    djvCoreContext.h
     djvDebugLog.h
     djvFileInfo.h
     djvFileInfoUtil.h
     djvFileIo.h
-    djvImageApplication.h
     djvImageIo.h
     djvImageTags.h
     djvMemory.h
@@ -106,7 +105,7 @@ set(source
     djvColor.cpp
     djvColorUtil.cpp
     djvColorProfile.cpp
-    djvCoreApplication.cpp
+    djvCoreContext.cpp
     djvDebug.cpp
     djvError.cpp
     djvErrorUtil.cpp
@@ -116,7 +115,7 @@ set(source
     djvFileIoUtil.cpp
     djvGlxContextPrivate.cpp
     djvImage.cpp
-    djvImageApplication.cpp
+    djvImageContext.cpp
     djvImageIo.cpp
     djvImageTags.cpp
     djvImageUtil.cpp

@@ -39,6 +39,8 @@ class djvQuestionDialogTest : public djvWidgetTest
     
 public:
 
+    djvQuestionDialogTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

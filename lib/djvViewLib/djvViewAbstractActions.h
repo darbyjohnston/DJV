@@ -42,6 +42,7 @@
 #include <QObject>
 
 struct djvViewAbstractActionsPrivate;
+class  djvViewContext;
 
 class QAction;
 class QActionGroup;
@@ -63,7 +64,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewAbstractActions(QObject * parent = 0);
+    explicit djvViewAbstractActions(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -84,6 +85,10 @@ public:
     //! Get an action group by name.
 
     QActionGroup * group(int) const;
+    
+    //! Get the context.
+    
+    djvViewContext * context() const;
 
 Q_SIGNALS:
 
@@ -95,6 +100,7 @@ protected:
 
     QMap<int, QAction *>      _actions;
     QMap<int, QActionGroup *> _groups;
+    djvViewContext *          _context;
 
     void osxMenuHack();
 

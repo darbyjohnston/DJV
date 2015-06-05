@@ -2,16 +2,19 @@ set(header
     djvTargaLoad.h
     djvTargaPlugin.h
     djvTargaSave.h
-    djvTargaWidget.h)
+#    djvTargaWidget.h
+    )
 
 set(mocHeader
-    djvTargaWidget.h)
+#    djvTargaWidget.h
+    )
 
 set(source
     djvTargaLoad.cpp
     djvTargaPlugin.cpp
     djvTargaSave.cpp
-    djvTargaWidget.cpp)
+#    djvTargaWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

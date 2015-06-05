@@ -35,7 +35,6 @@
 
 #include <djvLibquicktimeLoad.h>
 #include <djvLibquicktimeSave.h>
-#include <djvLibquicktimeWidget.h>
 
 #include <djvAssert.h>
 #include <djvCoreApplication.h>
@@ -269,9 +268,3 @@ djvImageSave * djvLibquicktimePlugin::createSave() const
 {
     return new djvLibquicktimeSave(_options);
 }
-
-djvAbstractPrefsWidget * djvLibquicktimePlugin::createWidget()
-{
-    return new djvLibquicktimeWidget(this);
-}
-

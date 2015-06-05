@@ -34,9 +34,10 @@
 #ifndef DJV_PPM_LOAD_H
 #define DJV_PPM_LOAD_H
 
-#include <djvPpmPlugin.h>
+#include <djvPpm.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvPpmPlugin
 //@{
@@ -66,10 +67,10 @@ private:
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
-    djvFileInfo        _file;
-    int                _bitDepth;
-    djvPpmPlugin::DATA _data;
-    djvPixelData       _tmp;
+    djvFileInfo  _file;
+    int          _bitDepth;
+    djvPpm::DATA _data;
+    djvPixelData _tmp;
 };
 
 //@} // djvPpmPlugin

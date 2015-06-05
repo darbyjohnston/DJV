@@ -40,6 +40,8 @@
 
 #include <djvUtil.h>
 
+class djvViewContext;
+
 //! \addtogroup djvViewLib
 //@{
 
@@ -58,15 +60,21 @@ public:
 
     //! Constructor.
 
-    explicit djvViewAbstractPrefsWidget(const QString &);
+    explicit djvViewAbstractPrefsWidget(const QString &, djvViewContext *);
 
     //! Destructor.
 
     virtual ~djvViewAbstractPrefsWidget() = 0;
+    
+    //! Get the context.
+    
+    djvViewContext * context() const;
 
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractPrefsWidget);
+    
+    djvViewContext * _context;
 };
 
 //@} // djvViewLib

@@ -2,14 +2,12 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>djvPicPlugin</name>
+    <name>djvPic</name>
     <message>
-        <location filename="djvPicPlugin.cpp" line="63"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPicPlugin.cpp" line="64"/>
         <source>RLE</source>
         <translation type="unfinished"></translation>
     </message>

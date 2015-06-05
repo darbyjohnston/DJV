@@ -33,6 +33,7 @@
 
 #include <djvDebugLogDialog.h>
 
+#include <djvGuiContext.h>
 #include <djvStyle.h>
 
 #include <djvDebugLog.h>
@@ -50,21 +51,23 @@
 
 struct djvDebugLogDialogPrivate
 {
-    djvDebugLogDialogPrivate() :
+    djvDebugLogDialogPrivate(djvGuiContext * context) :
         widget   (0),
-        buttonBox(0)
+        buttonBox(0),
+        context  (context)
     {}
 
     QTextEdit *        widget;
     QDialogButtonBox * buttonBox;
+    djvGuiContext *    context;
 };
 
 //------------------------------------------------------------------------------
 // djvDebugLogDialog
 //------------------------------------------------------------------------------
 
-djvDebugLogDialog::djvDebugLogDialog() :
-    _p(new djvDebugLogDialogPrivate)
+djvDebugLogDialog::djvDebugLogDialog(djvGuiContext * context) :
+    _p(new djvDebugLogDialogPrivate(context))
 {
     // Create the widgets.
     
@@ -94,7 +97,7 @@ djvDebugLogDialog::djvDebugLogDialog() :
     
     resize(800, 600);
     
-    Q_FOREACH(const QString & message, djvDebugLog::global()->messages())
+    Q_FOREACH(const QString & message, context->debugLog()->messages())
     {
         _p->widget->append(message);
     }
@@ -110,12 +113,12 @@ djvDebugLogDialog::djvDebugLogDialog() :
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     
     connect(
-        djvDebugLog::global(),
+        context->debugLog(),
         SIGNAL(message(const QString &)),
         SLOT(messageCallback(const QString &)));
     
     connect(
-        djvStyle::global(),
+        context->style(),
         SIGNAL(fontsChanged()),
         SLOT(updateWidget()));
 }
@@ -123,18 +126,6 @@ djvDebugLogDialog::djvDebugLogDialog() :
 djvDebugLogDialog::~djvDebugLogDialog()
 {
     delete _p;
-}
-
-djvDebugLogDialog * djvDebugLogDialog::global()
-{
-    static djvDebugLogDialog * data = 0;
-    
-    if (! data)
-    {
-        data = new djvDebugLogDialog;
-    }
-    
-    return data;
 }
 
 void djvDebugLogDialog::showEvent(QShowEvent *)
@@ -160,6 +151,6 @@ void djvDebugLogDialog::clearCallback()
 
 void djvDebugLogDialog::updateWidget()
 {
-    _p->widget->setFont(djvStyle::global()->fonts().fixed);
+    _p->widget->setFont(_p->context->style()->fonts().fixed);
 }
 

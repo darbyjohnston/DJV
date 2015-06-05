@@ -40,6 +40,7 @@
 
 #include <QWidget>
 
+class  djvViewContext;
 struct djvViewDisplayProfileWidgetPrivate;
 class  djvViewImageView;
 
@@ -62,6 +63,7 @@ public:
 
     explicit djvViewDisplayProfileWidget(
         const djvViewImageView * viewWidget,
+        djvViewContext *         context,
         QWidget *                parent     = 0);
 
     //! Destructor.

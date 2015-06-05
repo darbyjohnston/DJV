@@ -33,7 +33,7 @@
 
 #include <djvSequencePrefsWidget.h>
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
 #include <djvIntEdit.h>
 #include <djvIntObject.h>
 #include <djvSequencePrefs.h>
@@ -44,6 +44,7 @@
 #include <djvSequence.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QLabel>
@@ -66,9 +67,9 @@ struct djvSequencePrefsWidgetPrivate
 // djvSequencePrefsWidget
 //------------------------------------------------------------------------------
 
-djvSequencePrefsWidget::djvSequencePrefsWidget(QWidget * parent) :
+djvSequencePrefsWidget::djvSequencePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
-        qApp->translate("djvSequencePrefsWidget", "Sequences"), parent),
+        qApp->translate("djvSequencePrefsWidget", "Sequences"), context, parent),
     _p(new djvSequencePrefsWidgetPrivate)
 {
     // Create the widgets.
@@ -80,13 +81,14 @@ djvSequencePrefsWidget::djvSequencePrefsWidget(QWidget * parent) :
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvSequencePrefsWidget", "Max Frames"),
         qApp->translate("djvSequencePrefsWidget",
         "Set the maximum number of frames allowed in a sequence. This is used "
-        "as a safety feature to prevent file sequences from becoming too large."));
+        "as a safety feature to prevent file sequences from becoming too large."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvSequencePrefsWidget", "Frames:"),
@@ -114,14 +116,14 @@ djvSequencePrefsWidget::~djvSequencePrefsWidget()
 
 void djvSequencePrefsWidget::resetPreferences()
 {
-    djvSequencePrefs::global()->setMaxFrames(djvSequence::maxFramesDefault());
+    context()->sequencePrefs()->setMaxFrames(djvSequence::maxFramesDefault());
 
     widgetUpdate();
 }
 
 void djvSequencePrefsWidget::maxFramesCallback(int size)
 {
-    djvSequencePrefs::global()->setMaxFrames(size);
+    context()->sequencePrefs()->setMaxFrames(size);
 }
 
 void djvSequencePrefsWidget::widgetUpdate()

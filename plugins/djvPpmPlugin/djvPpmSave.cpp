@@ -41,7 +41,7 @@
 // djvPpmSave
 //------------------------------------------------------------------------------
 
-djvPpmSave::djvPpmSave(const djvPpmPlugin::Options & options) :
+djvPpmSave::djvPpmSave(const djvPpm::Options & options) :
     _options (options),
     _bitDepth(0)
 {}
@@ -68,7 +68,7 @@ void djvPpmSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
 
     switch (_options.type)
     {
-        case djvPpmPlugin::TYPE_AUTO:
+        case djvPpm::TYPE_AUTO:
         {
             djvPixel::FORMAT format = djvPixel::format(info.pixel);
 
@@ -96,7 +96,7 @@ void djvPpmSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         }
         break;
 
-        case djvPpmPlugin::TYPE_U1:
+        case djvPpm::TYPE_U1:
         
             _info.pixel = djvPixel::L_U8;
             _bitDepth   = 1;
@@ -144,7 +144,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
     // Write the file.
 
-    if (djvPpmPlugin::DATA_BINARY == _options.data && _bitDepth != 1)
+    if (djvPpm::DATA_BINARY == _options.data && _bitDepth != 1)
     {
         io.set(p->data(), p->dataByteCount());
     }
@@ -154,7 +154,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         
         const int channels = djvPixel::channels(p->info().pixel);
         
-        const quint64 scanlineByteCount = djvPpmPlugin::scanlineByteCount(
+        const quint64 scanlineByteCount = djvPpm::scanlineByteCount(
             w,
             channels,
             _bitDepth,
@@ -166,7 +166,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
         for (int y = 0; y < h; ++y)
         {
-            if (djvPpmPlugin::DATA_BINARY == _options.data &&
+            if (djvPpm::DATA_BINARY == _options.data &&
                 1 == _bitDepth)
             {
                 const quint8 * inP = p->data(0, y);
@@ -190,7 +190,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
             }
             else
             {
-                const quint64 size = djvPpmPlugin::asciiSave(
+                const quint64 size = djvPpm::asciiSave(
                     p->data(0, y),
                     scanline(),
                     w * channels,
@@ -219,11 +219,11 @@ void djvPpmSave::_open(const QString & in, djvFileIo & io) throw (djvError)
 
     if (1 == _bitDepth)
     {
-        ppmType = djvPpmPlugin::DATA_ASCII == _options.data ? 1 : 4;
+        ppmType = djvPpm::DATA_ASCII == _options.data ? 1 : 4;
     }
     else
     {
-        ppmType = djvPpmPlugin::DATA_ASCII == _options.data ? 2 : 5;
+        ppmType = djvPpm::DATA_ASCII == _options.data ? 2 : 5;
 
         if (3 == _image.channels())
         {

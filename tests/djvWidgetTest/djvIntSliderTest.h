@@ -39,6 +39,8 @@ class djvIntSliderTest : public djvWidgetTest
     
 public:
 
+    djvIntSliderTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

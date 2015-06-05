@@ -83,7 +83,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewImageActions(QObject * parent = 0);
+    explicit djvViewImageActions(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 

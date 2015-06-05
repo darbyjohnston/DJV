@@ -33,6 +33,7 @@
 
 #include <djvViewWindowGroup.h>
 
+#include <djvViewContext.h>
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
 #include <djvViewWindowActions.h>
@@ -52,10 +53,10 @@
 
 struct djvViewWindowGroupPrivate
 {
-    djvViewWindowGroupPrivate() :
+    djvViewWindowGroupPrivate(djvViewContext * context) :
         fullScreen     (false),
         controlsVisible(true),
-        toolBarVisible (djvViewWindowPrefs::global()->toolBar()),
+        toolBarVisible (context->windowPrefs()->toolBar()),
         actions        (0),
         menu           (0),
         toolBar        (0)
@@ -74,10 +75,11 @@ struct djvViewWindowGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewWindowGroup::djvViewWindowGroup(
+    const djvViewWindowGroup * copy,
     djvViewMainWindow *        mainWindow,
-    const djvViewWindowGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
-    _p(new djvViewWindowGroupPrivate)
+    djvViewContext *           context) :
+    djvViewAbstractGroup(mainWindow, context),
+    _p(new djvViewWindowGroupPrivate(context))
 {
     //DJV_DEBUG("djvViewWindowGroup::djvViewWindowGroup");
 
@@ -89,7 +91,7 @@ djvViewWindowGroup::djvViewWindowGroup(
 
     // Create the actions.
 
-    _p->actions = new djvViewWindowActions(this);
+    _p->actions = new djvViewWindowActions(context, this);
     
     // Create the menus.
 
@@ -99,7 +101,7 @@ djvViewWindowGroup::djvViewWindowGroup(
 
     // Create the widgets.
 
-    _p->toolBar = new djvViewWindowToolBar(_p->actions);
+    _p->toolBar = new djvViewWindowToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
 
@@ -147,7 +149,7 @@ djvViewWindowGroup::djvViewWindowGroup(
     // Setup the preferences callbacks.
     
     connect(
-        djvViewWindowPrefs::global(),
+        context->windowPrefs(),
         SIGNAL(toolBarChanged(const QVector<bool> &)),
         SLOT(setToolBarVisible(const QVector<bool> &)));
 }
@@ -190,7 +192,7 @@ void djvViewWindowGroup::setFullScreen(bool fullScreen)
     {
         mainWindow()->showFullScreen();
 
-        if (! djvViewWindowPrefs::global()->hasFullScreenControls())
+        if (! context()->windowPrefs()->hasFullScreenControls())
         {
             setControlsVisible(false);
         }
@@ -199,7 +201,7 @@ void djvViewWindowGroup::setFullScreen(bool fullScreen)
     {
         mainWindow()->showNormal();
 
-        if (!djvViewWindowPrefs::global()->hasFullScreenControls())
+        if (! context()->windowPrefs()->hasFullScreenControls())
         {
             setControlsVisible(true);
         }
@@ -236,12 +238,12 @@ void djvViewWindowGroup::setToolBarVisible(const QVector<bool> & visible)
 
 void djvViewWindowGroup::newCallback()
 {
-    (new djvViewMainWindow)->show();
+    (new djvViewMainWindow(0, context()))->show();
 }
 
 void djvViewWindowGroup::copyCallback()
 {
-    (new djvViewMainWindow(mainWindow()))->show();
+    (new djvViewMainWindow(mainWindow(), context()))->show();
 }
 
 void djvViewWindowGroup::closeCallback()

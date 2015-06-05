@@ -58,8 +58,9 @@ struct djvViewViewToolBarPrivate
 
 djvViewViewToolBar::djvViewViewToolBar(
     djvViewAbstractActions * actions,
+    djvViewContext *         context,
     QWidget *                parent) :
-    djvViewAbstractToolBar(actions, parent),
+    djvViewAbstractToolBar(actions, context, parent),
     _p(new djvViewViewToolBarPrivate)
 {
     djvToolButton * button = new djvToolButton;

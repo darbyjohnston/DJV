@@ -40,6 +40,7 @@
 
 #include <QWidget>
 
+class  djvGuiContext;
 struct djvPrefsGroupBoxPrivate;
 
 class QFormLayout;
@@ -63,8 +64,16 @@ public:
 
     explicit djvPrefsGroupBox(
         const QString & title,
-        const QString & text   = QString(),
-        QWidget *       parent = 0);
+        djvGuiContext * context,
+        QWidget *       parent  = 0);
+
+    //! Constructor.
+
+    explicit djvPrefsGroupBox(
+        const QString & title,
+        const QString & text,
+        djvGuiContext * context,
+        QWidget *       parent  = 0);
 
     //! Destructor.
 
@@ -83,6 +92,8 @@ public:
     QFormLayout * createLayout();
     
 private:
+
+    void init(const QString & title);
     
     DJV_PRIVATE_COPY(djvPrefsGroupBox);
     

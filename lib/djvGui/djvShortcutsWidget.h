@@ -40,6 +40,7 @@
 
 #include <QWidget>
 
+class  djvGuiContext;
 struct djvShortcutsWidgetPrivate;
 
 //! \addtogroup djvGuiWidget
@@ -67,7 +68,7 @@ public:
 
     //! Constructor.
 
-    explicit djvShortcutsWidget(QWidget * parent = 0);
+    explicit djvShortcutsWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

@@ -73,18 +73,6 @@ qint64 djvSequencePrefs::maxFrames() const
     return djvSequence::maxFrames();
 }
 
-djvSequencePrefs * djvSequencePrefs::global()
-{
-    static djvSequencePrefs * global = 0;
-    
-    if (! global)
-    {
-        global = new djvSequencePrefs(qApp);
-    }
-    
-    return global;
-}
-
 void djvSequencePrefs::setMaxFrames(qint64 size)
 {
     if (size == this->maxFrames())

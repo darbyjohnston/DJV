@@ -3,17 +3,19 @@ set(header
     djvDpxLoad.h
     djvDpxPlugin.h
     djvDpxSave.h
-    djvDpxWidget.h)
+#    djvDpxWidget.h
+    )
 
 set(mocHeader
-    djvDpxWidget.h)
+#    djvDpxWidget.h
+    )
 
 set(source
     djvDpxHeader.cpp
     djvDpxLoad.cpp
     djvDpxPlugin.cpp
     djvDpxSave.cpp
-    djvDpxWidget.cpp
+#    djvDpxWidget.cpp
     ${CMAKE_SOURCE_DIR}/plugins/djvCineonPlugin/djvCineon.cpp
     ${CMAKE_SOURCE_DIR}/plugins/djvCineonPlugin/djvCineonHeader.cpp)
 

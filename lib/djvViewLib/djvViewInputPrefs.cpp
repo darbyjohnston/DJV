@@ -33,16 +33,14 @@
 
 #include <djvViewInputPrefs.h>
 
-#include <djvViewApplication.h>
-
 #include <djvPrefs.h>
 
 //------------------------------------------------------------------------------
 // djvViewInputPrefs
 //------------------------------------------------------------------------------
 
-djvViewInputPrefs::djvViewInputPrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewInputPrefs::djvViewInputPrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _mouseWheel     (mouseWheelDefault()),
     _mouseWheelShift(mouseWheelShiftDefault()),
     _mouseWheelCtrl (mouseWheelCtrlDefault())
@@ -93,18 +91,6 @@ djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrlDefault()
 djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrl() const
 {
     return _mouseWheelCtrl;
-}
-
-djvViewInputPrefs * djvViewInputPrefs::global()
-{
-    static djvViewInputPrefs * prefs = 0;
-
-    if (!prefs)
-    {
-        prefs = new djvViewInputPrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewInputPrefs::setMouseWheel(djvViewUtil::MOUSE_WHEEL in)

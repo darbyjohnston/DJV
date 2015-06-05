@@ -64,7 +64,7 @@ public:
 
     //! Constructor.
 
-    djvQuickTimeWidget(djvQuickTimePlugin *);
+    djvQuickTimeWidget(djvQuickTimePlugin *, djvGuiContext *);
 
     //! Destructor.
 

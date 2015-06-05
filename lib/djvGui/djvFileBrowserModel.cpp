@@ -34,6 +34,7 @@
 #include <djvFileBrowserModel.h>
 
 #include <djvFileBrowserModelPrivate.h>
+#include <djvGuiContext.h>
 
 #include <djvAssert.h>
 #include <djvDebug.h>
@@ -55,14 +56,15 @@
 
 struct djvFileBrowserModelPrivate
 {
-    djvFileBrowserModelPrivate() :
+    djvFileBrowserModelPrivate(djvGuiContext * context) :
         sequence      (djvSequence::COMPRESS_RANGE),
         showHidden    (false),
         sort          (djvFileBrowserModel::NAME),
         reverseSort   (false),
         sortDirsFirst (true),
         thumbnails    (djvFileBrowserModel::THUMBNAILS_HIGH),
-        thumbnailsSize(djvFileBrowserModel::THUMBNAILS_MEDIUM)
+        thumbnailsSize(djvFileBrowserModel::THUMBNAILS_MEDIUM),
+        context       (context)
     {}
     
     QString                              path;
@@ -79,6 +81,8 @@ struct djvFileBrowserModelPrivate
     djvFileInfoList listTmp;
     
     mutable QVector<djvFileBrowserItem *> items;
+    
+    djvGuiContext * context;
 };
 
 //------------------------------------------------------------------------------
@@ -101,9 +105,9 @@ const QStringList & djvFileBrowserModel::columnsLabels()
     return data;
 }
 
-djvFileBrowserModel::djvFileBrowserModel(QObject * parent) :
+djvFileBrowserModel::djvFileBrowserModel(djvGuiContext * context, QObject * parent) :
     QAbstractItemModel(parent),
-    _p(new djvFileBrowserModelPrivate)
+    _p(new djvFileBrowserModelPrivate(context))
 {
     //DJV_DEBUG("djvFileBrowserModel::djvFileBrowserModel");
     
@@ -343,7 +347,7 @@ QVariant djvFileBrowserModel::data(
             
             if (NAME == column && ! item->thumbnail().isNull())
             {
-                const int margin = djvStyle::global()->sizeMetric().margin;
+                const int margin = _p->context->style()->sizeMetric().margin;
                 
                 return QSize(0, item->thumbnail().height() + margin * 2);
             }
@@ -617,6 +621,7 @@ void djvFileBrowserModel::modelUpdate()
             _p->listTmp[i],
             _p->thumbnails,
             _p->thumbnailsSize,
+            _p->context,
             this);
         
         _p->items[i] = item;

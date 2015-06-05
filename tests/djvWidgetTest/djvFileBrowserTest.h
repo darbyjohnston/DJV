@@ -39,6 +39,8 @@ class djvFileBrowserTest : public djvWidgetTest
     
 public:
 
+    djvFileBrowserTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

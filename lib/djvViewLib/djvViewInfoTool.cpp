@@ -78,8 +78,9 @@ struct djvViewInfoToolPrivate
 
 djvViewInfoTool::djvViewInfoTool(
     djvViewMainWindow * mainWindow,
+    djvViewContext *    context,
     QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, parent),
+    djvViewAbstractTool(mainWindow, context, parent),
     _p(new djvViewInfoToolPrivate)
 {
     // Create the widgets.

@@ -34,6 +34,7 @@
 #include <djvFileBrowserPrefs.h>
 
 #include <djvFileBrowserCache.h>
+#include <djvGuiContext.h>
 #include <djvPrefs.h>
 
 #include <djvAssert.h>
@@ -48,7 +49,7 @@
 
 struct djvFileBrowserPrefsPrivate
 {
-    djvFileBrowserPrefsPrivate() :
+    djvFileBrowserPrefsPrivate(djvGuiContext * context) :
         sequence       (djvFileBrowserPrefs::sequenceDefault()),
         showHidden     (djvFileBrowserPrefs::showHiddenDefault()),
         sort           (djvFileBrowserPrefs::sortDefault()),
@@ -57,7 +58,8 @@ struct djvFileBrowserPrefsPrivate
         thumbnails     (djvFileBrowserPrefs::thumbnailsDefault()),
         thumbnailsSize (djvFileBrowserPrefs::thumbnailsSizeDefault()),
         thumbnailsCache(djvFileBrowserPrefs::thumbnailsCacheDefault()),
-        shortcuts      (djvFileBrowserPrefs::shortcutsDefault())
+        shortcuts      (djvFileBrowserPrefs::shortcutsDefault()),
+        context        (context)
     {}
     
     djvSequence::COMPRESS                sequence;
@@ -71,6 +73,7 @@ struct djvFileBrowserPrefsPrivate
     QStringList                          recent;
     QStringList                          bookmarks;
     QVector<djvShortcut>                 shortcuts;
+    djvGuiContext *                      context;
 };
 
 namespace
@@ -84,9 +87,9 @@ QString _pathDefault = ".";
 // djvFileBrowserPrefs
 //------------------------------------------------------------------------------
 
-djvFileBrowserPrefs::djvFileBrowserPrefs(QObject * parent) :
+djvFileBrowserPrefs::djvFileBrowserPrefs(djvGuiContext * context, QObject * parent) :
     QObject(parent),
-    _p(new djvFileBrowserPrefsPrivate)
+    _p(new djvFileBrowserPrefsPrivate(context))
 {
     //DJV_DEBUG("djvFileBrowserPrefs::djvFileBrowserPrefs");
 
@@ -241,18 +244,6 @@ const QStringList & djvFileBrowserPrefs::recent() const
 const QStringList & djvFileBrowserPrefs::bookmarks() const
 {
     return _p->bookmarks;
-}
-
-djvFileBrowserPrefs * djvFileBrowserPrefs::global()
-{
-    static djvFileBrowserPrefs * global = 0;
-    
-    if (! global)
-    {
-        global = new djvFileBrowserPrefs(qApp);
-    }
-    
-    return global;
 }
 
 const QStringList & djvFileBrowserPrefs::shortcutLabels()
@@ -412,7 +403,7 @@ void djvFileBrowserPrefs::setThumbnails(djvFileBrowserModel::THUMBNAILS thumbnai
 
     _p->thumbnails = thumbnails;
 
-    djvFileBrowserCache::global()->clear();
+    _p->context->fileBrowserCache()->clear();
     
     Q_EMIT thumbnailsChanged(_p->thumbnails);
     Q_EMIT prefChanged();
@@ -425,7 +416,7 @@ void djvFileBrowserPrefs::setThumbnailsSize(djvFileBrowserModel::THUMBNAILS_SIZE
 
     _p->thumbnailsSize = size;
 
-    djvFileBrowserCache::global()->clear();
+    _p->context->fileBrowserCache()->clear();
     
     Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
     Q_EMIT prefChanged();
@@ -438,7 +429,7 @@ void djvFileBrowserPrefs::setThumbnailsCache(qint64 size)
 
     _p->thumbnailsCache = size;
     
-    djvFileBrowserCache::global()->setMaxCost(_p->thumbnailsCache);
+    _p->context->fileBrowserCache()->setMaxCost(_p->thumbnailsCache);
 
     Q_EMIT thumbnailsCacheChanged(_p->thumbnailsCache);
     Q_EMIT prefChanged();

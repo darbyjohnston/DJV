@@ -41,6 +41,8 @@ class djvPixelWidgetTest : public djvWidgetTest
     
 public:
 
+    djvPixelWidgetTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

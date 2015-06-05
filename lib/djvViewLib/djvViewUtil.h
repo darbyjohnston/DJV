@@ -36,10 +36,13 @@
 
 #include <djvViewLibExport.h>
 
+#include <djvError.h>
 #include <djvStringUtil.h>
 #include <djvVector.h>
 
 #include <QMetaType>
+
+class djvViewContext;
 
 class djvFileInfo;
 class djvPixelData;
@@ -223,7 +226,10 @@ public:
 
     //! Load a LUT.
 
-    static void loadLut(const djvFileInfo &, djvPixelData & lut);
+    static void loadLut(
+        const djvFileInfo & fileInfo,
+        djvPixelData &      lut,
+        djvViewContext *    context) throw (djvError);
 
     //! This enumeration provides the playback modes.
 

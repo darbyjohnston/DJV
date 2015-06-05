@@ -77,7 +77,8 @@ struct djvGlxContextPrivate
 // djvGlxContext
 //------------------------------------------------------------------------------
 
-djvGlxContext::djvGlxContext() throw (djvError) :
+djvGlxContext::djvGlxContext(djvCoreContext * context) throw (djvError) :
+    djvOpenGlContext(context),
     _p(new djvGlxContextPrivate)
 {
 #   if defined(DJV_LINUX)

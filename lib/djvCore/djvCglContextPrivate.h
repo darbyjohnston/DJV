@@ -87,7 +87,7 @@ protected:
 
     //! Constructor.
 
-    djvCglContext() throw (djvError);
+    explicit djvCglContext(djvCoreContext *) throw (djvError);
 
 private:
 

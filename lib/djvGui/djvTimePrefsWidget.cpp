@@ -33,7 +33,7 @@
 
 #include <djvTimePrefsWidget.h>
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
 #include <djvTimePrefs.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
@@ -41,6 +41,7 @@
 #include <djvDebug.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QDialogButtonBox>
 #include <QComboBox>
 #include <QFormLayout>
@@ -66,9 +67,9 @@ struct djvTimePrefsWidgetPrivate
 // djvTimePrefsWidget
 //------------------------------------------------------------------------------
 
-djvTimePrefsWidget::djvTimePrefsWidget(QWidget * parent) :
+djvTimePrefsWidget::djvTimePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
-        qApp->translate("djvTimePrefsWidget", "Time"), parent),
+        qApp->translate("djvTimePrefsWidget", "Time"), context, parent),
     _p(new djvTimePrefsWidgetPrivate)
 {
     // Create the widgets.
@@ -84,10 +85,10 @@ djvTimePrefsWidget::djvTimePrefsWidget(QWidget * parent) :
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvTimePrefsWidget", "Time"));
+        qApp->translate("djvTimePrefsWidget", "Time"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvTimePrefsWidget", "Time units:"),
@@ -126,21 +127,21 @@ djvTimePrefsWidget::~djvTimePrefsWidget()
 
 void djvTimePrefsWidget::resetPreferences()
 {
-    djvTimePrefs::global()->setTimeUnits(djvTime::unitsDefault());
+    context()->timePrefs()->setTimeUnits(djvTime::unitsDefault());
     
-    djvTimePrefs::global()->setSpeed(djvSpeed::speedDefault());
+    context()->timePrefs()->setSpeed(djvSpeed::speedDefault());
 
     widgetUpdate();
 }
 
 void djvTimePrefsWidget::timeUnitsCallback(int index)
 {
-    djvTimePrefs::global()->setTimeUnits(static_cast<djvTime::UNITS>(index));
+    context()->timePrefs()->setTimeUnits(static_cast<djvTime::UNITS>(index));
 }
 
 void djvTimePrefsWidget::speedCallback(int index)
 {
-    djvTimePrefs::global()->setSpeed(static_cast<djvSpeed::FPS>(index));
+    context()->timePrefs()->setSpeed(static_cast<djvSpeed::FPS>(index));
 }
 
 void djvTimePrefsWidget::widgetUpdate()

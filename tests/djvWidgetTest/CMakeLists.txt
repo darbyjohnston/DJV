@@ -1,7 +1,6 @@
 set(header
     djvApplicationAboutDialogTest.h
     djvApplicationInfoDialogTest.h
-    djvApplicationMessageDialogTest.h
     djvChoiceDialogTest.h
     djvColorWidgetTest.h
     djvColorDialogTest.h
@@ -11,6 +10,7 @@ set(header
     djvFileEditTest.h
     djvIconLibraryTest.h
     djvMessageDialogTest.h
+    djvMessagesDialogTest.h
     djvMultiChoiceDialogTest.h
     djvNumWidgetTest.h
     djvPixelWidgetTest.h
@@ -26,7 +26,6 @@ set(header
 set(mocHeader
     djvApplicationAboutDialogTest.h
     djvApplicationInfoDialogTest.h
-    djvApplicationMessageDialogTest.h
     djvChoiceDialogTest.h
     djvColorDialogTest.h
     djvColorWidgetTest.h
@@ -36,6 +35,7 @@ set(mocHeader
     djvInputDialogTest.h
     djvIntSliderTest.h
     djvMessageDialogTest.h
+    djvMessagesDialogTest.h
     djvMultiChoiceDialogTest.h
     djvNumWidgetTest.h
     djvPixelWidgetTest.h
@@ -51,7 +51,6 @@ set(mocHeader
 set(source
     djvApplicationAboutDialogTest.cpp
     djvApplicationInfoDialogTest.cpp
-    djvApplicationMessageDialogTest.cpp
     djvChoiceDialogTest.cpp
     djvColorWidgetTest.cpp
     djvColorDialogTest.cpp
@@ -61,6 +60,7 @@ set(source
     djvInputDialogTest.cpp
     djvIntSliderTest.cpp
     djvMessageDialogTest.cpp
+    djvMessagesDialogTest.cpp
     djvMultiChoiceDialogTest.cpp
     djvNumWidgetTest.cpp
     djvPixelWidgetTest.cpp

@@ -33,6 +33,7 @@
 
 #include <djvSearchBox.h>
 
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvToolButton.h>
 
@@ -61,7 +62,7 @@ struct djvSearchBoxPrivate
 // djvSearchBox
 //------------------------------------------------------------------------------
 
-djvSearchBox::djvSearchBox(QWidget * parent) :
+djvSearchBox::djvSearchBox(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvSearchBoxPrivate)
 {
@@ -74,13 +75,13 @@ djvSearchBox::djvSearchBox(QWidget * parent) :
     _p->resetButton = new djvToolButton;
     _p->resetButton->setIconSize(QSize(16, 16));
     _p->resetButton->setIcon(
-        djvIconLibrary::global()->icon("djvResetIcon.png"));
+        context->iconLibrary()->icon("djvResetIcon.png"));
     _p->resetButton->setToolTip(
         qApp->translate("djvSearchBox", "Reset the search"));
 
     QLabel * label = new QLabel;
     label->setPixmap(
-        djvIconLibrary::global()->pixmap("djvMagnifyIcon.png"));
+        context->iconLibrary()->pixmap("djvMagnifyIcon.png"));
     
     // Layout the widgets.
     

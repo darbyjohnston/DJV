@@ -65,7 +65,8 @@ struct djvWglContextPrivate
 // djvWglContext
 //------------------------------------------------------------------------------
 
-djvWglContext::djvWglContext() throw (djvError) :
+djvWglContext::djvWglContext(djvCoreContext * context) throw (djvError) :
+    djvOpenGlContext(context),
     _p(new djvWglContextPrivate)
 {
 #   if defined(DJV_WINDOWS)

@@ -34,10 +34,11 @@
 #ifndef DJV_PPM_SAVE_H
 #define DJV_PPM_SAVE_H
 
-#include <djvPpmPlugin.h>
+#include <djvPpm.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvPpmPlugin
 //@{
@@ -54,7 +55,7 @@ public:
 
     //! Constructor.
 
-    djvPpmSave(const djvPpmPlugin::Options &);
+    djvPpmSave(const djvPpm::Options &);
 
     //! Destructor.
 
@@ -70,11 +71,11 @@ private:
 
     void _open(const QString &, djvFileIo &) throw (djvError);
 
-    djvPpmPlugin::Options _options;
-    djvFileInfo           _file;
-    int                   _bitDepth;
-    djvPixelDataInfo      _info;
-    djvImage              _image;
+    djvPpm::Options  _options;
+    djvFileInfo      _file;
+    int              _bitDepth;
+    djvPixelDataInfo _info;
+    djvImage         _image;
 };
 
 //@} // djvPpmPlugin

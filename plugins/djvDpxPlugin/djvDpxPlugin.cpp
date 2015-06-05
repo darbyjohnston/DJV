@@ -35,7 +35,6 @@
 
 #include <djvDpxLoad.h>
 #include <djvDpxSave.h>
-#include <djvDpxWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -439,11 +438,6 @@ djvImageLoad * djvDpxPlugin::createLoad() const
 djvImageSave * djvDpxPlugin::createSave() const
 {
     return new djvDpxSave(_options);
-}
-
-djvAbstractPrefsWidget * djvDpxPlugin::createWidget()
-{
-    return new djvDpxWidget(this);
 }
 
 //------------------------------------------------------------------------------

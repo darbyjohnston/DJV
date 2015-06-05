@@ -35,7 +35,7 @@
 
 #include <djvViewImageView.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewDisplayProfile.h>
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
@@ -49,6 +49,7 @@
 #include <djvError.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QLineEdit>
@@ -276,8 +277,9 @@ struct djvViewHistogramToolPrivate
 
 djvViewHistogramTool::djvViewHistogramTool(
     djvViewMainWindow * mainWindow,
+    djvViewContext *    context,
     QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, parent),
+    djvViewAbstractTool(mainWindow, context, parent),
     _p(new djvViewHistogramToolPrivate)
 {
     // Create the widgets.
@@ -295,16 +297,16 @@ djvViewHistogramTool::djvViewHistogramTool(
     _p->sizeWidget->setToolTip(
         qApp->translate("djvViewHistogramTool", "The size of the histogram"));
 
-    _p->maskWidget = new djvPixelMaskWidget;
+    _p->maskWidget = new djvPixelMaskWidget(context);
     
     _p->colorProfileButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
+        context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
     _p->colorProfileButton->setToolTip(
         qApp->translate("djvViewHistogramTool", "Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvDisplayProfileIcon.png"));
+        context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
     _p->displayProfileButton->setToolTip(
         qApp->translate("djvViewHistogramTool", "Set whether the display profile is enabled"));
@@ -490,7 +492,7 @@ void djvViewHistogramTool::widgetUpdate()
                 error.add(
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_HISTOGRAM]);
                 
-                DJV_VIEW_APP->printError(error);
+                context()->printError(error);
             }
         }
         else

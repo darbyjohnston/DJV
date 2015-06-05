@@ -2,16 +2,19 @@ set(header
     djvQuickTimeLoad.h
     djvQuickTimePlugin.h
     djvQuickTimeSave.h
-    djvQuickTimeWidget.h)
+#    djvQuickTimeWidget.h
+    )
 
 set(mocHeader
-    djvQuickTimeWidget.h)
+#    djvQuickTimeWidget.h
+    )
 
 set(source
     djvQuickTimeLoad.cpp
     djvQuickTimePlugin.cpp
     djvQuickTimeSave.cpp
-    djvQuickTimeWidget.cpp)
+#    djvQuickTimeWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

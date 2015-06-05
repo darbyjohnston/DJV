@@ -44,20 +44,24 @@
 
 struct djvViewAbstractActionsPrivate
 {
-    djvViewAbstractActionsPrivate() :
-        osxMenuHack(0)
+    djvViewAbstractActionsPrivate(djvViewContext * context) :
+        osxMenuHack(0),
+        context    (context)
     {}
     
     djvOsxMenuHack * osxMenuHack;
+    djvViewContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewAbstractActions
 //------------------------------------------------------------------------------
 
-djvViewAbstractActions::djvViewAbstractActions(QObject * parent) :
+djvViewAbstractActions::djvViewAbstractActions(
+    djvViewContext * context,
+    QObject *        parent) :
 	QObject(parent),
-    _p(new djvViewAbstractActionsPrivate)
+    _p(new djvViewAbstractActionsPrivate(context))
 {
     _p->osxMenuHack = new djvOsxMenuHack(this);
 }
@@ -85,6 +89,11 @@ const QList<QActionGroup *> djvViewAbstractActions::groups() const
 QActionGroup * djvViewAbstractActions::group(int index) const
 {
     return _groups.contains(index) ? _groups[index] : 0;
+}
+    
+djvViewContext * djvViewAbstractActions::context() const
+{
+    return _p->context;
 }
 
 void djvViewAbstractActions::osxMenuHack()

@@ -39,6 +39,10 @@
 
 #include <QVBoxLayout>
 
+djvPixelWidgetTest::djvPixelWidgetTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvPixelWidgetTest::name()
 {
     return "djvPixelWidgetTest";

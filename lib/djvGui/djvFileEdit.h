@@ -41,6 +41,7 @@
 
 #include <QWidget>
 
+class  djvGuiContext;
 struct djvFileEditPrivate;
 
 //! \addtogroup djvGuiWidget
@@ -68,7 +69,7 @@ public:
 
     //! Constructor.
 
-    explicit djvFileEdit(QWidget * parent = 0);
+    explicit djvFileEdit(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

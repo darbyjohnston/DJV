@@ -38,12 +38,15 @@
 #include <djvFileInfo.h>
 #include <djvFileInfoUtil.h>
 #include <djvFileIo.h>
+#include <djvImageContext.h>
 
 void djvFileInfoTest::run(int &, char **)
 {
     DJV_DEBUG("djvFileInfoTest::run");
     
-    ctors(); 
+    djvImageContext context;
+    
+    ctors();
     members();
     operators();
 }
@@ -72,7 +75,7 @@ void djvFileInfoTest::members()
     DJV_DEBUG("djvFileInfoTest::members");
     
     {
-        const QString fileName("image.0001-0100.dpx");
+        const QString fileName("image.0001-0100.ppm");
         
         djvFileInfo fileInfo(fileName);
         
@@ -82,29 +85,29 @@ void djvFileInfoTest::members()
         fileInfo.setType(djvFileInfo::SEQUENCE);
         
         DJV_ASSERT(fileName == fileInfo.fileName());
-        DJV_ASSERT("image.0001.dpx" == fileInfo.fileName(1));
+        DJV_ASSERT("image.0001.ppm" == fileInfo.fileName(1));
     }
 
     {
-        const QString fileName("image.1.dpx");
+        const QString fileName("image.1.ppm");
         
         djvFileInfo fileInfo(fileName);
         
         fileInfo.setPath("/");
         
-        DJV_ASSERT("/image.1.dpx" == fileInfo.fileName());
+        DJV_ASSERT("/image.1.ppm" == fileInfo.fileName());
         
         fileInfo.setBase("movie");
 
-        DJV_ASSERT("/movie1.dpx" == fileInfo.fileName());
+        DJV_ASSERT("/movie1.ppm" == fileInfo.fileName());
         
         fileInfo.setNumber("100");
 
-        DJV_ASSERT("/movie100.dpx" == fileInfo.fileName());
+        DJV_ASSERT("/movie100.ppm" == fileInfo.fileName());
         
-        fileInfo.setExtension(".cin");
+        fileInfo.setExtension(".pic");
 
-        DJV_ASSERT("/movie100.cin" == fileInfo.fileName());
+        DJV_ASSERT("/movie100.pic" == fileInfo.fileName());
     }
     
     {
@@ -136,7 +139,7 @@ void djvFileInfoTest::members()
     }
 
     {
-        djvFileInfo fileInfo("image.dpx");
+        djvFileInfo fileInfo("image.ppm");
         
         const djvSequence sequence(1, 3);
         
@@ -144,39 +147,39 @@ void djvFileInfoTest::members()
         
         DJV_ASSERT(sequence == fileInfo.sequence());
         DJV_ASSERT(fileInfo.isSequenceValid());
-        DJV_ASSERT("image1-3.dpx" == fileInfo.fileName());
+        DJV_ASSERT("image1-3.ppm" == fileInfo.fileName());
         
         fileInfo.setSequence(djvSequence(djvFrameList() << 3 << 2 << 1));
         fileInfo.sortSequence();
         
         DJV_ASSERT(sequence == fileInfo.sequence());
         DJV_ASSERT(fileInfo.isSequenceValid());
-        DJV_ASSERT("image1-3.dpx" == fileInfo.fileName());
+        DJV_ASSERT("image1-3.ppm" == fileInfo.fileName());
     }
 
     {
-        djvFileInfo fileInfo("image.dpx");
+        djvFileInfo fileInfo("image.ppm");
         
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image1.dpx")));
+        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image1.ppm")));
     }
     
     {
-        djvFileInfo fileInfo("image.1.dpx");
+        djvFileInfo fileInfo("image.1.ppm");
         
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image.cin")));
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("movie.dpx")));
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image.dpx")));
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image..dpx")));
+        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image.pic")));
+        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("movie.ppm")));
+        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image.ppm")));
+        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image..ppm")));
         
-        DJV_ASSERT(fileInfo.addSequence(djvFileInfo("image.2.dpx")));
+        DJV_ASSERT(fileInfo.addSequence(djvFileInfo("image.2.ppm")));
         
         DJV_ASSERT(djvSequence(1, 2) == fileInfo.sequence());
         
-        DJV_ASSERT(fileInfo.addSequence(djvFileInfo("image.0003.dpx")));
+        DJV_ASSERT(fileInfo.addSequence(djvFileInfo("image.0003.ppm")));
         
         DJV_ASSERT(djvSequence(1, 3, 4) == fileInfo.sequence());
         
-        djvFileInfo tmp("image.0004.dpx");
+        djvFileInfo tmp("image.0004.ppm");
         tmp.setSize(1);
         tmp.setUser(2);
         tmp.setTime(3);
@@ -197,7 +200,7 @@ void djvFileInfoTest::members()
     }
     
     {
-        const QString fileName("image.1.dpx");
+        const QString fileName("image.1.ppm");
         
         djvFileInfo fileInfo(fileName);
         

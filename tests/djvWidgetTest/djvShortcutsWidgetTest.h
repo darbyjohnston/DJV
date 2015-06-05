@@ -41,6 +41,8 @@ class djvShortcutsWidgetTest : public djvWidgetTest
     
 public:
 
+    djvShortcutsWidgetTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

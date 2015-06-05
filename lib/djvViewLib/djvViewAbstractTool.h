@@ -41,6 +41,7 @@
 #include <QWidget>
 
 struct djvViewAbstractToolPrivate;
+class  djvViewContext;
 class  djvViewImageView;
 class  djvViewMainWindow;
 
@@ -63,6 +64,7 @@ public:
 
     explicit djvViewAbstractTool(
         djvViewMainWindow * mainWindow,
+        djvViewContext *    context,
         QWidget *           parent     = 0);
 
     //! Destructor.
@@ -76,6 +78,10 @@ public:
     //! Get the view widget.
 
     djvViewImageView * viewWidget() const;
+    
+    //! Get the context.
+    
+    djvViewContext * context() const;
 
 private:
 

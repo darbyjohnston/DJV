@@ -33,6 +33,7 @@
 
 #include <djvViewWindowActions.h>
 
+#include <djvViewContext.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvViewUtil.h>
 
@@ -47,8 +48,10 @@
 // djvViewWindowActions
 //------------------------------------------------------------------------------
 
-djvViewWindowActions::djvViewWindowActions(QObject * parent) :
-	djvViewAbstractActions(parent)
+djvViewWindowActions::djvViewWindowActions(
+    djvViewContext * context,
+    QObject *        parent) :
+	djvViewAbstractActions(context, parent)
 {
     // Create the actions.
 
@@ -59,27 +62,27 @@ djvViewWindowActions::djvViewWindowActions(QObject * parent) :
 
     _actions[NEW]->setText(
         qApp->translate("djvViewWindowActions", "&New"));
-    _actions[NEW]->setIcon(djvIconLibrary::global()->icon(
+    _actions[NEW]->setIcon(context->iconLibrary()->icon(
         "djvWindowNewIcon.png"));
 
     _actions[COPY]->setText(
         qApp->translate("djvViewWindowActions", "&Copy"));
-    _actions[COPY]->setIcon(djvIconLibrary::global()->icon(
+    _actions[COPY]->setIcon(context->iconLibrary()->icon(
         "djvWindowCopyIcon.png"));
 
     _actions[CLOSE]->setText(
         qApp->translate("djvViewWindowActions", "Clos&e"));
-    _actions[CLOSE]->setIcon(djvIconLibrary::global()->icon(
+    _actions[CLOSE]->setIcon(context->iconLibrary()->icon(
         "djvWindowCloseIcon.png"));
 
     _actions[FIT]->setText(
         qApp->translate("djvViewWindowActions", "&Fit"));
-    _actions[FIT]->setIcon(djvIconLibrary::global()->icon(
+    _actions[FIT]->setIcon(context->iconLibrary()->icon(
         "djvWindowFitIcon.png"));
 
     _actions[FULL_SCREEN]->setText(
         qApp->translate("djvViewWindowActions", "F&ull Screen"));
-    _actions[FULL_SCREEN]->setIcon(djvIconLibrary::global()->icon(
+    _actions[FULL_SCREEN]->setIcon(context->iconLibrary()->icon(
         "djvWindowFullScreenIcon.png"));
     _actions[FULL_SCREEN]->setCheckable(true);
 
@@ -112,7 +115,7 @@ djvViewWindowActions::djvViewWindowActions(QObject * parent) :
     // Setup the callbacks.
 
     connect(
-        djvViewShortcutPrefs::global(),
+        context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(update()));
 }
@@ -123,7 +126,7 @@ djvViewWindowActions::~djvViewWindowActions()
 void djvViewWindowActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
-        djvViewShortcutPrefs::global()->shortcuts();
+        context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
 

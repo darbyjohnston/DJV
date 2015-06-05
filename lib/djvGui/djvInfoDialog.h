@@ -29,32 +29,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFormLayoutAlign.h
+//! \file djvInfoDialog.h
 
-#ifndef DJV_FORM_LAYOUT_ALIGN_H
-#define DJV_FORM_LAYOUT_ALIGN_H
+#ifndef DJV_INFO_DIALOG_H
+#define DJV_INFO_DIALOG_H
 
 #include <djvGuiExport.h>
 
 #include <djvUtil.h>
 
-#include <QObject>
+#include <QDialog>
 
-struct djvFormLayoutAlignPrivate;
+class  djvGuiContext;
+struct djvInfoDialogPrivate;
 
-class QFormLayout;
-
-//! \addtogroup djvGuiMisc
+//! \addtogroup djvGuiDialog
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvFormLayoutAlign
+//! \class djvInfoDialog
 //!
-//! This class provides functionality to align the items in multiple form
-//! layouts.
+//! This class provides a dialog for displaying information about DJV.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFormLayoutAlign : public QObject
+class DJV_GUI_EXPORT djvInfoDialog : public QDialog
 {
     Q_OBJECT
     
@@ -62,34 +60,30 @@ public:
 
     //! Constructor.
 
-    explicit djvFormLayoutAlign(QObject * parent = 0);
+    djvInfoDialog(const QString & text, djvGuiContext *);
 
     //! Destructor.
 
-    virtual ~djvFormLayoutAlign();
+    virtual ~djvInfoDialog();
+    
+protected:
 
-    //! Add a layout to align.
+    virtual void showEvent(QShowEvent *);
+    
+private Q_SLOTS:
 
-    void addLayout(QFormLayout *);
-
-    //! Clear the layouts.
-
-    void clear();
-
-public Q_SLOTS:
-
-    //! Align the layouts.
-
-    void align();
+    void copyCallback();
+    
+    void updateWidget();
 
 private:
 
-    DJV_PRIVATE_COPY(djvFormLayoutAlign);
+    DJV_PRIVATE_COPY(djvInfoDialog);
     
-    djvFormLayoutAlignPrivate * _p;
+    djvInfoDialogPrivate * _p;
 };
 
-//@} // djvGuiMisc
+//@} // djvGuiDialog
 
-#endif // DJV_FORM_LAYOUT_ALIGN_H
+#endif // DJV__INFO_DIALOG_H
 

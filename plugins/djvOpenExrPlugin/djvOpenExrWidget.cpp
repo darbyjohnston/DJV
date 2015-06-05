@@ -51,8 +51,8 @@
 // djvOpenExrWidget
 //------------------------------------------------------------------------------
 
-djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin) :
-    djvAbstractPrefsWidget(djvOpenExrPlugin::staticName),
+djvOpenExrWidget::djvOpenExrWidget(djvOpenExrPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvOpenExrPlugin::staticName, context),
     _plugin                     (plugin),
     _threadsEnableWidget        (0),
     _threadCountWidget          (0),

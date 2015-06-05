@@ -18,59 +18,59 @@
 <context>
     <name>djvFFmpegPlugin</name>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="77"/>
+        <location filename="djvFFmpegPlugin.cpp" line="76"/>
         <source>MPEG4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="78"/>
+        <location filename="djvFFmpegPlugin.cpp" line="77"/>
         <source>ProRes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="79"/>
+        <location filename="djvFFmpegPlugin.cpp" line="78"/>
         <source>MJPEG</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="89"/>
+        <location filename="djvFFmpegPlugin.cpp" line="88"/>
         <source>Low</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="90"/>
+        <location filename="djvFFmpegPlugin.cpp" line="89"/>
         <source>Medium</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="91"/>
+        <location filename="djvFFmpegPlugin.cpp" line="90"/>
         <source>High</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="101"/>
+        <location filename="djvFFmpegPlugin.cpp" line="100"/>
         <source>Format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="102"/>
+        <location filename="djvFFmpegPlugin.cpp" line="101"/>
         <source>Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="288"/>
+        <location filename="djvFFmpegPlugin.cpp" line="287"/>
         <source>-ffmpeg_format</source>
         <oldsource>-ffmpeg_codec</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="292"/>
+        <location filename="djvFFmpegPlugin.cpp" line="291"/>
         <source>-ffmpeg_quality</source>
         <oldsource>-ffmpeg_gop_size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="312"/>
+        <location filename="djvFFmpegPlugin.cpp" line="311"/>
         <source>
 FFmpeg Options
 
@@ -110,30 +110,6 @@ FFmpeg Options
     <message>
         <location filename="djvFFmpegSave.cpp" line="341"/>
         <source>Cannot create software scaler</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvFFmpegWidget</name>
-    <message>
-        <location filename="djvFFmpegWidget.cpp" line="73"/>
-        <source>Format</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvFFmpegWidget.cpp" line="74"/>
-        <source>Set the format used when saving movies.</source>
-        <oldsource>Set the codec used when saving movies.</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvFFmpegWidget.cpp" line="77"/>
-        <source>Format:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvFFmpegWidget.cpp" line="80"/>
-        <source>Quality:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,11 +1,11 @@
-configure_file(
-    ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in
-    ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
-    @ONLY)
+set(header
+	djvViewApplication.h)
 
-set(header)
+set(mocHeader
+	djvViewApplication.h)
 
-set(source)
+set(source
+	djvViewApplication.cpp)
 
 if (WIN32)
 
@@ -19,12 +19,23 @@ if (WIN32)
 
 endif (WIN32)
 
+if (Qt5Core_DIR)
+    QT5_WRAP_CPP(mocSource ${mocHeader})
+else()
+    QT4_WRAP_CPP(mocSource ${mocHeader})
+endif()
+
+configure_file(
+    ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in
+    ${PROJECT_BINARY_DIR}/etc/Linux/djv_view.desktop
+    @ONLY)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_view
     ${CMAKE_SOURCE_DIR}/lib/djvViewLib
     ${djvGuiIncludeDirs})
 
-add_executable(djv_view WIN32 ${header} ${source} djvViewMain.cpp)
+add_executable(djv_view WIN32 ${header} ${source} ${mocSource} djvViewMain.cpp)
 
 target_link_libraries(djv_view djvViewLib ${djvGuiLibs})
 

@@ -36,6 +36,10 @@
 #include <djvApplication.h>
 #include <djvApplicationInfoDialog.h>
 
+djvApplicationInfoDialogTest::djvApplicationInfoDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvApplicationInfoDialogTest::name()
 {
     return "djvApplicationInfoDialogTest";

@@ -56,7 +56,7 @@ public:
 
     //! Constructor.
 
-    djvViewPlaybackPrefsWidget();
+    djvViewPlaybackPrefsWidget(djvViewContext *);
 
     //! Destructor.
 

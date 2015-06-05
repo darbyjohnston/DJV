@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvTargaWidget(djvTargaPlugin *);
+    djvTargaWidget(djvTargaPlugin *, djvGuiContext *);
 
     //! Destructor.
 

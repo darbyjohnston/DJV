@@ -33,6 +33,7 @@
 
 #include <djvViewDisplayProfileWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewImagePrefs.h>
 #include <djvViewUtil.h>
 
@@ -58,14 +59,17 @@
 
 struct djvViewDisplayProfileWidgetPrivate
 {
-    djvViewDisplayProfileWidgetPrivate(const djvViewImageView * viewWidget) :
+    djvViewDisplayProfileWidgetPrivate(
+        const djvViewImageView * viewWidget,
+        djvViewContext *         context) :
         viewWidget      (viewWidget),
         lutWidget       (0),
         brightnessWidget(0),
         contrastWidget  (0),
         saturationWidget(0),
         gammaWidget     (0),
-        softClipWidget  (0)
+        softClipWidget  (0),
+        context         (context)
     {}
     
     const djvViewImageView * viewWidget;
@@ -78,6 +82,7 @@ struct djvViewDisplayProfileWidgetPrivate
     djvFloatEditSlider *     gammaWidget;
     djvFloatEditSlider *     levelsOutWidget[2];
     djvFloatEditSlider *     softClipWidget;
+    djvViewContext *         context;
 };
 
 //------------------------------------------------------------------------------
@@ -86,33 +91,34 @@ struct djvViewDisplayProfileWidgetPrivate
 
 djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     const djvViewImageView * viewWidget,
+    djvViewContext *         context,
     QWidget *                parent) :
     QWidget(parent),
-    _p(new djvViewDisplayProfileWidgetPrivate(viewWidget))
+    _p(new djvViewDisplayProfileWidgetPrivate(viewWidget, context))
 {
     // Create the LUT widgets.
 
     QGroupBox * lutGroup = new QGroupBox(
         qApp->translate("djvViewDisplayProfileWidget", "Lookup Table"));
 
-    _p->lutWidget = new djvFileEdit;
+    _p->lutWidget = new djvFileEdit(context);
 
     // Create the color widgets.
 
     QGroupBox * colorGroup = new QGroupBox(
         qApp->translate("djvViewDisplayProfileWidget", "Color"));
 
-    _p->brightnessWidget = new djvFloatEditSlider;
+    _p->brightnessWidget = new djvFloatEditSlider(context);
     _p->brightnessWidget->setDefaultValue(_p->displayProfile.color.brightness);
     _p->brightnessWidget->editObject()->setClamp(false);
     _p->brightnessWidget->sliderObject()->setRange(0.0, 4.0);
 
-    _p->contrastWidget = new djvFloatEditSlider;
+    _p->contrastWidget = new djvFloatEditSlider(context);
     _p->contrastWidget->setDefaultValue(_p->displayProfile.color.contrast);
     _p->contrastWidget->editObject()->setClamp(false);
     _p->contrastWidget->sliderObject()->setRange(0.0, 4.0);
 
-    _p->saturationWidget = new djvFloatEditSlider;
+    _p->saturationWidget = new djvFloatEditSlider(context);
     _p->saturationWidget->setDefaultValue(_p->displayProfile.color.saturation);
     _p->saturationWidget->editObject()->setClamp(false);
     _p->saturationWidget->sliderObject()->setRange(0.0, 4.0);
@@ -122,32 +128,32 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     QGroupBox * levelsGroup = new QGroupBox(
         qApp->translate("djvViewDisplayProfileWidget", "Levels"));
 
-    _p->levelsInWidget[0] = new djvFloatEditSlider;
+    _p->levelsInWidget[0] = new djvFloatEditSlider(context);
     _p->levelsInWidget[0]->setDefaultValue(_p->displayProfile.levels.inLow);
     _p->levelsInWidget[0]->editObject()->setClamp(false);
     _p->levelsInWidget[0]->sliderObject()->setRange(0.0, 1.0);
 
-    _p->levelsInWidget[1] = new djvFloatEditSlider;
+    _p->levelsInWidget[1] = new djvFloatEditSlider(context);
     _p->levelsInWidget[1]->setDefaultValue(_p->displayProfile.levels.inHigh);
     _p->levelsInWidget[1]->editObject()->setClamp(false);
     _p->levelsInWidget[1]->sliderObject()->setRange(0.0, 1.0);
 
-    _p->gammaWidget = new djvFloatEditSlider;
+    _p->gammaWidget = new djvFloatEditSlider(context);
     _p->gammaWidget->setDefaultValue(_p->displayProfile.levels.gamma);
     _p->gammaWidget->editObject()->setClamp(false);
     _p->gammaWidget->sliderObject()->setRange(0.0, 4.0);
 
-    _p->levelsOutWidget[0] = new djvFloatEditSlider;
+    _p->levelsOutWidget[0] = new djvFloatEditSlider(context);
     _p->levelsOutWidget[0]->setDefaultValue(_p->displayProfile.levels.outLow);
     _p->levelsOutWidget[0]->editObject()->setClamp(false);
     _p->levelsOutWidget[0]->sliderObject()->setRange(0.0, 1.0);
 
-    _p->levelsOutWidget[1] = new djvFloatEditSlider;
+    _p->levelsOutWidget[1] = new djvFloatEditSlider(context);
     _p->levelsOutWidget[1]->setDefaultValue(_p->displayProfile.levels.outHigh);
     _p->levelsOutWidget[1]->editObject()->setClamp(false);
     _p->levelsOutWidget[1]->sliderObject()->setRange(0.0, 1.0);
 
-    _p->softClipWidget = new djvFloatEditSlider;
+    _p->softClipWidget = new djvFloatEditSlider(context);
     _p->softClipWidget->setDefaultValue(_p->displayProfile.softClip);
     _p->softClipWidget->editObject()->setClamp(false);
     _p->softClipWidget->sliderObject()->setRange(0.0, 1.0);
@@ -155,12 +161,12 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     // Create the other widgets.
 
     djvToolButton * addButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvAddIcon.png"));
+        context->iconLibrary()->icon("djvAddIcon.png"));
     addButton->setToolTip(
         qApp->translate("djvViewDisplayProfileWidget", "Add this display profile to the favorites list"));
 
     djvToolButton * resetButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvRemoveIcon.png"));
+        context->iconLibrary()->icon("djvRemoveIcon.png"));
     resetButton->setToolTip(
         qApp->translate("djvViewDisplayProfileWidget", "Reset the display profile"));
 
@@ -313,7 +319,17 @@ void djvViewDisplayProfileWidget::lutCallback(const djvFileInfo & in)
 {
     _p->displayProfile.lutFile = in;
     
-    djvViewUtil::loadLut(_p->displayProfile.lutFile, _p->displayProfile.lut);
+    try
+    {
+        djvViewUtil::loadLut(
+            _p->displayProfile.lutFile,
+            _p->displayProfile.lut,
+            _p->context);
+    }
+    catch (const djvError & error)
+    {
+        _p->context->printError(error);
+    }
 
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
@@ -392,13 +408,13 @@ void djvViewDisplayProfileWidget::addCallback()
     if (QDialog::Accepted == dialog.exec())
     {
         QVector<djvViewDisplayProfile> displayProfiles =
-            djvViewImagePrefs::global()->displayProfiles();
+            _p->context->imagePrefs()->displayProfiles();
 
         djvViewDisplayProfile displayProfile(_p->displayProfile);
         displayProfile.name = dialog.text();
         displayProfiles += displayProfile;
 
-        djvViewImagePrefs::global()->setDisplayProfiles(displayProfiles);
+        _p->context->imagePrefs()->setDisplayProfiles(displayProfiles);
     }
 }
 

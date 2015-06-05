@@ -33,6 +33,7 @@
 
 #include <djvViewViewPrefsWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewViewPrefs.h>
 
 #include <djvColorSwatch.h>
@@ -96,14 +97,14 @@ struct djvViewViewPrefsWidgetPrivate
 // djvViewViewPrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
+djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewViewPrefsWidget", "Views")),
+        qApp->translate("djvViewViewPrefsWidget", "Views"), context),
     _p(new djvViewViewPrefsWidgetPrivate)
 {
     // Create the options widgets.
 
-    _p->backgroundColorWidget = new djvColorSwatch;
+    _p->backgroundColorWidget = new djvColorSwatch(context);
     _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->backgroundColorWidget->setColorDialogEnabled(true);
 
@@ -113,7 +114,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->gridWidget->addItems(djvViewUtil::gridLabels());
 
-    _p->gridColorWidget = new djvColorSwatch();
+    _p->gridColorWidget = new djvColorSwatch(context);
     _p->gridColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->gridColorWidget->setColorDialogEnabled(true);
 
@@ -134,7 +135,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
             Qt::ItemIsEnabled);
     }
 
-    _p->hudColorWidget = new djvColorSwatch;
+    _p->hudColorWidget = new djvColorSwatch(context);
     _p->hudColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->hudColorWidget->setColorDialogEnabled(true);
 
@@ -142,7 +143,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->hudBackgroundWidget->addItems(djvViewUtil::hudBackgroundLabels());
 
-    _p->hudBackgroundColorWidget = new djvColorSwatch;
+    _p->hudBackgroundColorWidget = new djvColorSwatch(context);
     _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->hudBackgroundColorWidget->setColorDialogEnabled(true);
 
@@ -151,7 +152,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "Views"));
+        qApp->translate("djvViewViewPrefsWidget", "Views"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvViewViewPrefsWidget", "Background color:"),
@@ -159,7 +160,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "Grid"));
+        qApp->translate("djvViewViewPrefsWidget", "Grid"), context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvViewViewPrefsWidget", "Size:"),
@@ -170,7 +171,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "HUD (Heads Up Display)"));
+        qApp->translate("djvViewViewPrefsWidget", "HUD (Heads Up Display)"), context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->hudEnabledWidget);
     formLayout->addRow(_p->hudInfoWidget);
@@ -241,21 +242,21 @@ djvViewViewPrefsWidget::~djvViewViewPrefsWidget()
 
 void djvViewViewPrefsWidget::resetPreferences()
 {
-    djvViewViewPrefs::global()->setBackground(
+    context()->viewPrefs()->setBackground(
         djvViewViewPrefs::backgroundDefault());
-    djvViewViewPrefs::global()->setGrid(
+    context()->viewPrefs()->setGrid(
         djvViewViewPrefs::gridDefault());
-    djvViewViewPrefs::global()->setGridColor(
+    context()->viewPrefs()->setGridColor(
         djvViewViewPrefs::gridColorDefault());
-    djvViewViewPrefs::global()->setHudEnabled(
+    context()->viewPrefs()->setHudEnabled(
         djvViewViewPrefs::hudEnabledDefault());
-    djvViewViewPrefs::global()->setHudInfo(
+    context()->viewPrefs()->setHudInfo(
         djvViewViewPrefs::hudInfoDefault());
-    djvViewViewPrefs::global()->setHudColor(
+    context()->viewPrefs()->setHudColor(
         djvViewViewPrefs::hudColorDefault());
-    djvViewViewPrefs::global()->setHudBackground(
+    context()->viewPrefs()->setHudBackground(
         djvViewViewPrefs::hudBackgroundDefault());
-    djvViewViewPrefs::global()->setHudBackgroundColor(
+    context()->viewPrefs()->setHudBackgroundColor(
         djvViewViewPrefs::hudBackgroundColorDefault());
 
     widgetUpdate();
@@ -265,12 +266,12 @@ void djvViewViewPrefsWidget::backgroundCallback(const djvColor & in)
 {
     _p->backgroundColorWidget->setColor(in);
 
-    djvViewViewPrefs::global()->setBackground(in);
+    context()->viewPrefs()->setBackground(in);
 }
 
 void djvViewViewPrefsWidget::gridCallback(int in)
 {
-    djvViewViewPrefs::global()->setGrid(
+    context()->viewPrefs()->setGrid(
         static_cast<djvViewUtil::GRID>(in));
 }
 
@@ -278,35 +279,35 @@ void djvViewViewPrefsWidget::gridColorCallback(const djvColor & in)
 {
     _p->gridColorWidget->setColor(in);
 
-    djvViewViewPrefs::global()->setGridColor(in);
+    context()->viewPrefs()->setGridColor(in);
 }
 
 void djvViewViewPrefsWidget::hudEnabledCallback(bool in)
 {
-    djvViewViewPrefs::global()->setHudEnabled(in);
+    context()->viewPrefs()->setHudEnabled(in);
 }
 
 void djvViewViewPrefsWidget::hudInfoCallback(QListWidgetItem * item)
 {
     const int row = _p->hudInfoWidget->row(item);
 
-    QVector<bool> info = djvViewViewPrefs::global()->hudInfo();
+    QVector<bool> info = context()->viewPrefs()->hudInfo();
 
     info[row] = ! info[row];
 
-    djvViewViewPrefs::global()->setHudInfo(info);
+    context()->viewPrefs()->setHudInfo(info);
 }
 
 void djvViewViewPrefsWidget::hudColorCallback(const djvColor & in)
 {
     _p->hudColorWidget->setColor(in);
 
-    djvViewViewPrefs::global()->setHudColor(in);
+    context()->viewPrefs()->setHudColor(in);
 }
 
 void djvViewViewPrefsWidget::hudBackgroundCallback(int in)
 {
-    djvViewViewPrefs::global()->setHudBackground(
+    context()->viewPrefs()->setHudBackground(
         static_cast<djvViewUtil::HUD_BACKGROUND>(in));
 }
 
@@ -314,7 +315,7 @@ void djvViewViewPrefsWidget::hudBackgroundColorCallback(const djvColor & in)
 {
     _p->hudBackgroundColorWidget->setColor(in);
 
-    djvViewViewPrefs::global()->setHudBackgroundColor(in);
+    context()->viewPrefs()->setHudBackgroundColor(in);
 }
 
 void djvViewViewPrefsWidget::widgetUpdate()
@@ -330,18 +331,18 @@ void djvViewViewPrefsWidget::widgetUpdate()
         _p->hudBackgroundColorWidget);
 
     _p->backgroundColorWidget->setColor(
-        djvViewViewPrefs::global()->background());
+        context()->viewPrefs()->background());
 
     _p->gridWidget->setCurrentIndex(
-        djvViewViewPrefs::global()->grid());
+        context()->viewPrefs()->grid());
 
     _p->gridColorWidget->setColor(
-        djvViewViewPrefs::global()->gridColor());
+        context()->viewPrefs()->gridColor());
 
     _p->hudEnabledWidget->setChecked(
-        djvViewViewPrefs::global()->isHudEnabled());
+        context()->viewPrefs()->isHudEnabled());
 
-    QVector<bool> hudInfo = djvViewViewPrefs::global()->hudInfo();
+    QVector<bool> hudInfo = context()->viewPrefs()->hudInfo();
 
     for (int i = 0; i < djvViewUtil::HUD_COUNT; ++i)
     {
@@ -351,12 +352,12 @@ void djvViewViewPrefsWidget::widgetUpdate()
     }
 
     _p->hudColorWidget->setColor(
-        djvViewViewPrefs::global()->hudColor());
+        context()->viewPrefs()->hudColor());
 
     _p->hudBackgroundWidget->setCurrentIndex(
-        djvViewViewPrefs::global()->hudBackground());
+        context()->viewPrefs()->hudBackground());
 
     _p->hudBackgroundColorWidget->setColor(
-        djvViewViewPrefs::global()->hudBackgroundColor());
+        context()->viewPrefs()->hudBackgroundColor());
 }
 

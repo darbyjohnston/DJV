@@ -29,19 +29,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationMessageDialogTest.cpp
+//! \file djvMessagesDialogTest.cpp
 
-#include <djvApplicationMessageDialogTest.h>
+#include <djvMessagesDialogTest.h>
 
-#include <djvApplicationMessageDialog.h>
+#include <djvMessagesDialog.h>
 
-QString djvApplicationMessageDialogTest::name()
+#include <djvGuiContext.h>
+
+djvMessagesDialogTest::djvMessagesDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
+QString djvMessagesDialogTest::name()
 {
-    return "djvApplicationMessageDialogTest";
+    return "djvMessagesDialogTest";
 }
 
-void djvApplicationMessageDialogTest::run(const QStringList & args)
+void djvMessagesDialogTest::run(const QStringList & args)
 {
-    djvApplicationMessageDialog::global()->message("This is a message");
+    context()->messagesDialog()->message("This is a message");
 }
 

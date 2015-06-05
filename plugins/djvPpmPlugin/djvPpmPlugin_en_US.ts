@@ -2,49 +2,52 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
-    <name>djvPpmPlugin</name>
+    <name>djvPpm</name>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="75"/>
+        <location filename="djvPpm.cpp" line="61"/>
         <source>Auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="76"/>
+        <location filename="djvPpm.cpp" line="62"/>
         <source>U1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="86"/>
+        <location filename="djvPpm.cpp" line="72"/>
         <source>ASCII</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="87"/>
+        <location filename="djvPpm.cpp" line="73"/>
         <source>Binary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="267"/>
+        <location filename="djvPpm.cpp" line="253"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="268"/>
+        <location filename="djvPpm.cpp" line="254"/>
         <source>Data</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>djvPpmPlugin</name>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="369"/>
+        <location filename="djvPpmPlugin.cpp" line="158"/>
         <source>-ppm_type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="373"/>
+        <location filename="djvPpmPlugin.cpp" line="162"/>
         <source>-ppm_data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="393"/>
+        <location filename="djvPpmPlugin.cpp" line="182"/>
         <source>
 PPM Options
 
@@ -59,35 +62,33 @@ PPM Options
 <context>
     <name>djvPpmWidget</name>
     <message>
-        <location filename="djvPpmWidget.cpp" line="71"/>
+        <location filename="djvPpmWidget.cpp" line="83"/>
         <source>File Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmWidget.cpp" line="72"/>
+        <location filename="djvPpmWidget.cpp" line="84"/>
         <source>Set the file type used when saving PPM images.</source>
-        <oldsource>Set the options used when saving PPM images.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmWidget.cpp" line="75"/>
+        <location filename="djvPpmWidget.cpp" line="88"/>
         <source>File type:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmWidget.cpp" line="81"/>
+        <location filename="djvPpmWidget.cpp" line="93"/>
+        <source>Data Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPpmWidget.cpp" line="94"/>
         <source>Set the data type used when saving PPM images.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmWidget.cpp" line="84"/>
+        <location filename="djvPpmWidget.cpp" line="98"/>
         <source>Data type:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvPpmWidget.cpp" line="80"/>
-        <source>Data Type</source>
-        <oldsource>Data type:</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -63,7 +63,10 @@ public:
 
     //! Constructor.
 
-    djvViewFileGroup(djvViewMainWindow *, const djvViewFileGroup * copy);
+    djvViewFileGroup(
+        const djvViewFileGroup * copy,
+        djvViewMainWindow *      mainWindow,
+        djvViewContext *         context);
 
     //! Destructor.
 

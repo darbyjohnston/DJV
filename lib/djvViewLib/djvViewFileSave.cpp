@@ -33,7 +33,7 @@
 
 #include <djvViewFileSave.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewUtil.h>
 
 #include <djvProgressDialog.h>
@@ -42,6 +42,7 @@
 #include <djvImage.h>
 #include <djvPixelDataUtil.h>
 
+#include <QApplication>
 #include <QDir>
 
 //------------------------------------------------------------------------------
@@ -75,8 +76,9 @@ djvViewFileSaveInfo::djvViewFileSaveInfo(
 
 struct djvViewFileSavePrivate
 {
-    djvViewFileSavePrivate() :
-        dialog(0)
+    djvViewFileSavePrivate(djvViewContext * context) :
+        dialog (0),
+        context(context)
     {}
     
     djvViewFileSaveInfo          info;
@@ -84,15 +86,16 @@ struct djvViewFileSavePrivate
     QScopedPointer<djvImageLoad> load;
     QScopedPointer<djvImageSave> save;
     djvProgressDialog *          dialog;
+    djvViewContext *             context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewFileSave
 //------------------------------------------------------------------------------
 
-djvViewFileSave::djvViewFileSave(QObject * parent) :
+djvViewFileSave::djvViewFileSave(djvViewContext * context, QObject * parent) :
     QObject(parent),
-    _p(new djvViewFileSavePrivate)
+    _p(new djvViewFileSavePrivate(context))
 {
     _p->dialog = new djvProgressDialog;
 
@@ -113,18 +116,6 @@ djvViewFileSave::~djvViewFileSave()
 
     delete _p->dialog;
     delete _p;
-}
-
-djvViewFileSave * djvViewFileSave::global()
-{
-    static djvViewFileSave * save = 0;
-
-    if (! save)
-    {
-        save = new djvViewFileSave(DJV_VIEW_APP);
-    }
-
-    return save;
 }
 
 void djvViewFileSave::save(const djvViewFileSaveInfo & info)
@@ -171,7 +162,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     try
     {
         _p->load.reset(
-            djvImageIoFactory::global()->load(_p->info.inputFile, loadInfo));
+            _p->context->imageIoFactory()->load(_p->info.inputFile, loadInfo));
     }
     catch (djvError error)
     {
@@ -179,7 +170,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.inputFile)));
 
-        DJV_VIEW_APP->printError(error);
+        _p->context->printError(error);
 
         return;
     }
@@ -193,7 +184,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     try
     {
         _p->save.reset(
-            djvImageIoFactory::global()->save(_p->info.outputFile, saveInfo));
+            _p->context->imageIoFactory()->save(_p->info.outputFile, saveInfo));
     }
     catch (djvError error)
     {
@@ -201,7 +192,7 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.outputFile)));
         
-        DJV_VIEW_APP->printError(error);
+        _p->context->printError(error);
 
         return;
     }
@@ -240,7 +231,7 @@ void djvViewFileSave::cancel()
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
-            DJV_VIEW_APP->printError(error);
+            _p->context->printError(error);
         }
     }
 
@@ -277,7 +268,7 @@ void djvViewFileSave::callback(int in)
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.inputFile)));
 
-        DJV_VIEW_APP->printError(error);
+        _p->context->printError(error);
 
         cancel();
 
@@ -319,7 +310,7 @@ void djvViewFileSave::callback(int in)
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
-            DJV_VIEW_APP->printError(error);
+            _p->context->printError(error);
 
             cancel();
 
@@ -348,7 +339,7 @@ void djvViewFileSave::callback(int in)
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
-        DJV_VIEW_APP->printError(error);
+        _p->context->printError(error);
 
         cancel();
 
@@ -369,7 +360,7 @@ void djvViewFileSave::callback(int in)
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
-            DJV_VIEW_APP->printError(error);
+            _p->context->printError(error);
         }
     }
 
@@ -391,7 +382,7 @@ void djvViewFileSave::finishedCallback()
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.outputFile)));
 
-        DJV_VIEW_APP->printError(error);
+        _p->context->printError(error);
     }
 
     Q_EMIT finished();

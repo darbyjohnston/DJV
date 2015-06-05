@@ -33,7 +33,7 @@
 
 #include <djvViewColorPickerTool.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewDisplayProfile.h>
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
@@ -52,6 +52,7 @@
 #include <djvSignalBlocker.h>
 #include <djvStyle.h>
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QScopedPointer>
 #include <QTimer>
@@ -103,39 +104,40 @@ struct djvViewColorPickerToolPrivate
 
 djvViewColorPickerTool::djvViewColorPickerTool(
     djvViewMainWindow * mainWindow,
+    djvViewContext *    context,
     QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, parent),
+    djvViewAbstractTool(mainWindow, context, parent),
     _p(new djvViewColorPickerToolPrivate)
 {
     //DJV_DEBUG(gdjvViewColorPickerTool::djvViewColorPickerTool");
 
     // Create the widgets.
 
-    _p->widget = new djvColorWidget;
+    _p->widget = new djvColorWidget(context);
 
-    _p->swatch = new djvColorSwatch;
+    _p->swatch = new djvColorSwatch(context);
     _p->swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    _p->sizeSlider = new djvIntEditSlider;
+    _p->sizeSlider = new djvIntEditSlider(context);
     _p->sizeSlider->setRange(1, 100);
     _p->sizeSlider->setResetToDefault(false);
     _p->sizeSlider->setToolTip(
         qApp->translate("djvViewColorPickerTool", "Color picker sample size"));
 
     _p->colorProfileButton = new djvToolButton(
-        djvIconLibrary::global()->pixmap("djvDisplayProfileIcon.png"));
+        context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"));
     _p->colorProfileButton->setCheckable(true);
     _p->colorProfileButton->setToolTip(
         qApp->translate("djvViewColorPickerTool", "Set whether the color profile is enabled"));
 
     _p->displayProfileButton = new djvToolButton(
-        djvIconLibrary::global()->pixmap("djvDisplayProfileIcon.png"));
+        context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"));
     _p->displayProfileButton->setCheckable(true);
     _p->displayProfileButton->setToolTip(
         qApp->translate("djvViewColorPickerTool", "Set whether the display profile is enabled"));
 
     _p->lockWidget = new djvToolButton(
-        djvIconLibrary::global()->icon("djvUnlockIcon.png", "djvLockIcon.png"));
+        context->iconLibrary()->icon("djvUnlockIcon.png", "djvLockIcon.png"));
     _p->lockWidget->setCheckable(true);
     _p->lockWidget->setToolTip(
         qApp->translate("djvViewColorPickerTool", "Lock the pixel format and type"));
@@ -146,7 +148,7 @@ djvViewColorPickerTool::djvViewColorPickerTool(
 
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->setMargin(0);
-    hLayout->setSpacing(djvStyle::global()->sizeMetric().spacing);
+    hLayout->setSpacing(context->style()->sizeMetric().spacing);
     hLayout->addWidget(_p->swatch);
     hLayout->addWidget(_p->widget, 1);
     layout->addLayout(hLayout);
@@ -391,7 +393,7 @@ void djvViewColorPickerTool::swatchUpdate()
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_PICK_COLOR]);
 
-            DJV_VIEW_APP->printError(error);
+            context()->printError(error);
         }
 
         //DJV_DEBUG_PRINT("value = " << _p->value);

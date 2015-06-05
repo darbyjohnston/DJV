@@ -41,6 +41,8 @@ class djvColorWidgetTest : public djvWidgetTest
     
 public:
 
+    djvColorWidgetTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

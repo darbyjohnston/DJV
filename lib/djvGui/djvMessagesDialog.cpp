@@ -29,122 +29,170 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationAboutDialog.cpp
+//! \file djvMessagesDialog.cpp
 
-#include <djvApplicationAboutDialog.h>
+#include <djvMessagesDialog.h>
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
+#include <djvPrefs.h>
 #include <djvStyle.h>
 
-#include <QClipboard>
+#include <djvDebug.h>
+#include <djvError.h>
+#include <djvErrorUtil.h>
+
+#include <QApplication>
+#include <QCheckBox>
 #include <QDialogButtonBox>
-#include <QLabel>
-#include <QPixmap>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
-#include "images/durant.xpm"
-
 //------------------------------------------------------------------------------
-// djvApplicationAboutDialogPrivate
+// djvMessagesDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvApplicationAboutDialogPrivate
+struct djvMessagesDialogPrivate
 {
-    djvApplicationAboutDialogPrivate() :
-        widget   (0),
-        buttonBox(0)
+    djvMessagesDialogPrivate(djvGuiContext * context) :
+        widget      (0),
+        show        (true),
+        showCheckBox(0),
+        buttonBox   (0),
+        context     (context)
     {}
 
+    QStringList        list;
     QTextEdit *        widget;
+    bool               show;
+    QCheckBox *        showCheckBox;
     QDialogButtonBox * buttonBox;
+    djvGuiContext *    context;
 };
 
 //------------------------------------------------------------------------------
-// djvApplicationAboutDialog
+// djvMessagesDialog
 //------------------------------------------------------------------------------
 
-djvApplicationAboutDialog::djvApplicationAboutDialog() :
-    _p(new djvApplicationAboutDialogPrivate)
+djvMessagesDialog::djvMessagesDialog(djvGuiContext * context) :
+    _p(new djvMessagesDialogPrivate(context))
 {
+    //DJV_DEBUG("djvMessagesDialog::djvMessagesDialog");
+    
     // Create the widgets.
     
-    QLabel * imageLabel = new QLabel;
-    imageLabel->setPixmap(QPixmap(durantXpm));
-    imageLabel->setAlignment(Qt::AlignCenter);
-    
     _p->widget = new QTextEdit;
+    _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
     
-    QPushButton * copyButton = new QPushButton(
-        qApp->translate("djvApplicationAboutDialog", "Copy"));
+    _p->showCheckBox = new QCheckBox(
+        qApp->translate("djvMessagesDialog", "Show"));
+    
+    QPushButton * clearButton = new QPushButton(
+        qApp->translate("djvMessagesDialog", "Clear"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-    _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
+    _p->buttonBox->addButton(_p->showCheckBox, QDialogButtonBox::ActionRole);
+    _p->buttonBox->addButton(clearButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->addWidget(imageLabel);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
-    
+
+    // Preferences.
+
+    djvPrefs prefs("djvMessagesDialog", djvPrefs::SYSTEM);
+    prefs.get("show", _p->show);
+
     // Initialize.
     
-    setWindowTitle(qApp->translate("djvApplicationAboutDialog", "About Dialog"));
+    setWindowTitle(
+        qApp->translate("djvMessagesDialog", "Messages Dialog"));
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
     
-    resize(500, 400);
+    resize(400, 200);
     
     updateWidget();
+
+    // Setup the callbacks.
     
-    // Setup callbacks.
+    connect(_p->showCheckBox, SIGNAL(toggled(bool)), SLOT(showCallback(bool)));
     
-    connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
+    connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
     
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     
     connect(
-        djvStyle::global(),
+        context->style(),
         SIGNAL(fontsChanged()),
         SLOT(updateWidget()));
 }
 
-djvApplicationAboutDialog::~djvApplicationAboutDialog()
+djvMessagesDialog::~djvMessagesDialog()
 {
+    //DJV_DEBUG("djvMessagesDialog::~djvMessagesDialog");
+    
+    djvPrefs prefs("djvMessagesDialog", djvPrefs::SYSTEM);
+    prefs.set("show", _p->show);
+    
     delete _p;
 }
 
-djvApplicationAboutDialog * djvApplicationAboutDialog::global()
+void djvMessagesDialog::message(const QString & in)
 {
-    static djvApplicationAboutDialog * data = 0;
-    
-    if (! data)
+    _p->list.push_front(in);
+
+    if (_p->list.count() > 100)
     {
-        data = new djvApplicationAboutDialog;
+        _p->list.pop_back();
     }
-    
-    return data;
+
+    updateWidget();
+
+    if (_p->show)
+    {
+        show();
+    }
 }
 
-void djvApplicationAboutDialog::showEvent(QShowEvent *)
+void djvMessagesDialog::message(const djvError & in)
+{
+    message(djvErrorUtil::format(in).join("\n"));
+}
+
+void djvMessagesDialog::showEvent(QShowEvent *)
 {
     _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
         Qt::PopupFocusReason);
 }
 
-void djvApplicationAboutDialog::copyCallback()
+void djvMessagesDialog::clearCallback()
 {
-    QApplication::clipboard()->setText(_p->widget->toPlainText());
+    _p->list.clear();
+
+    updateWidget();
 }
 
-void djvApplicationAboutDialog::updateWidget()
+void djvMessagesDialog::showCallback(bool value)
 {
-    _p->widget->setFont(djvStyle::global()->fonts().fixed);
+    _p->show = value;
+}
+
+void djvMessagesDialog::updateWidget()
+{
+    //DJV_DEBUG("djvMessagesDialog::updateWidget");
     
-    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
-    {
-        _p->widget->setText(app->about());
-    }
-}
+    _p->widget->setFont(_p->context->style()->fonts().fixed);
+    
+    const QString text = _p->list.join("\n");
+    
+    //DJV_DEBUG_PRINT("text = " << text);
+    
+    _p->widget->setText(text);
+    
+    //DJV_DEBUG_PRINT("show = " << _p->show);
 
+    _p->showCheckBox->setChecked(_p->show);
+}

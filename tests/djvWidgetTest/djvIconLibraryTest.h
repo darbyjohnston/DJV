@@ -39,6 +39,8 @@ class djvIconLibraryTest : public djvWidgetTest
     
 public:
 
+    djvIconLibraryTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

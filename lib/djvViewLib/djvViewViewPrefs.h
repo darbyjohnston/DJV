@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewViewPrefs(QObject * parent = 0);
+    explicit djvViewViewPrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -130,10 +130,6 @@ public:
     //! Get the HUD background color.
 
     const djvColor & hudBackgroundColor() const;
-
-    //! Get the global preferences.
-
-    static djvViewViewPrefs * global();
 
 public Q_SLOTS:
 

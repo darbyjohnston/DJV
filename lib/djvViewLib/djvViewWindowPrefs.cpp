@@ -33,16 +33,14 @@
 
 #include <djvViewWindowPrefs.h>
 
-#include <djvViewApplication.h>
-
 #include <djvPrefs.h>
 
 //------------------------------------------------------------------------------
 // djvViewWindowPrefs
 //------------------------------------------------------------------------------
 
-djvViewWindowPrefs::djvViewWindowPrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewWindowPrefs::djvViewWindowPrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _autoFit           (autoFitDefault()),
     _viewMax           (viewMaxDefault()),
     _viewMaxUser       (viewMaxUserDefault()),
@@ -124,18 +122,6 @@ QVector<bool> djvViewWindowPrefs::toolBarDefault()
 const QVector<bool> & djvViewWindowPrefs::toolBar() const
 {
     return _toolBar;
-}
-
-djvViewWindowPrefs * djvViewWindowPrefs::global()
-{
-    static djvViewWindowPrefs * prefs = 0;
-
-    if (!prefs)
-    {
-        prefs = new djvViewWindowPrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewWindowPrefs::setAutoFit(bool in)

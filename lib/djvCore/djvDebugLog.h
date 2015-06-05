@@ -67,10 +67,6 @@ public:
     
     const QVector<QString> & messages() const;
     
-    //! Get the global debugging log.
-    
-    static djvDebugLog * global();
-
 public Q_SLOTS:
 
     //! Add a message.
@@ -92,9 +88,9 @@ private:
 
 //! Add a message to the log.
 
-#define DJV_LOG(context, message) \
+#define DJV_LOG(log, context, message) \
     \
-    djvDebugLog::global()->addMessage(context, message)
+    log->addMessage(context, message)
 
 //@} // djvCoreMisc
 

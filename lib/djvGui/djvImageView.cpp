@@ -33,6 +33,8 @@
 
 #include <djvImageView.h>
 
+#include <djvGuiContext.h>
+
 #include <djvColorUtil.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
@@ -48,10 +50,11 @@
 
 struct djvImageViewPrivate
 {
-    djvImageViewPrivate() :
+    djvImageViewPrivate(djvGuiContext * context) :
         data    (0),
         viewZoom(1.0),
-        viewFit (false)
+        viewFit (false),
+        context (context)
     {}
     
     const djvPixelData *  data;
@@ -60,6 +63,7 @@ struct djvImageViewPrivate
     double                viewZoom;
     bool                  viewFit;
     djvOpenGlImageState   state;
+    djvGuiContext *       context;
 };
 
 //------------------------------------------------------------------------------
@@ -67,20 +71,22 @@ struct djvImageViewPrivate
 //------------------------------------------------------------------------------
 
 djvImageView::djvImageView(
+    djvGuiContext *   context,
     QWidget *         parent,
     const QGLWidget * shareWidget,
     Qt::WindowFlags   flags) :
     djvOpenGlWidget(parent, shareWidget, flags),
-    _p(new djvImageViewPrivate)
+    _p(new djvImageViewPrivate(context))
 {}
 
 djvImageView::djvImageView(
-    QGLContext *      context,
+    QGLContext *      glContext,
+    djvGuiContext *   context,
     QWidget *         parent,
     const QGLWidget * shareWidget,
     Qt::WindowFlags   flags) :
-    djvOpenGlWidget(context, parent, shareWidget, flags),
-    _p(new djvImageViewPrivate)
+    djvOpenGlWidget(glContext, parent, shareWidget, flags),
+    _p(new djvImageViewPrivate(context))
 {}
 
 djvImageView::~djvImageView()
@@ -301,7 +307,8 @@ void djvImageView::paintGL()
     }
     catch (const djvError & error)
     {
-        DJV_LOG("djvImageView", djvErrorUtil::format(error).join("\n"));
+        DJV_LOG(_p->context->debugLog(), "djvImageView",
+            djvErrorUtil::format(error).join("\n"));
     }
 }
 

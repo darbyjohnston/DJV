@@ -58,7 +58,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFilePrefs(QObject * parent = 0);
+    explicit djvViewFilePrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -127,10 +127,6 @@ public:
     //! Get whether the cache is displayed in the timeline.
 
     bool hasDisplayCache() const;
-
-    //! Get the global preferences.
-
-    static djvViewFilePrefs * global();
 
 public Q_SLOTS:
 

@@ -35,7 +35,6 @@
 
 #include <djvFFmpegLoad.h>
 #include <djvFFmpegSave.h>
-#include <djvFFmpegWidget.h>
 
 #include <djvAssert.h>
 #include <djvDebugLog.h>
@@ -334,11 +333,6 @@ djvImageLoad * djvFFmpegPlugin::createLoad() const
 djvImageSave * djvFFmpegPlugin::createSave() const
 {
     return new djvFFmpegSave(_options);
-}
-
-djvAbstractPrefsWidget * djvFFmpegPlugin::createWidget()
-{
-    return new djvFFmpegWidget(this);
 }
 
 //------------------------------------------------------------------------------

@@ -34,6 +34,7 @@
 #include <djvStylePrefsWidget.h>
 
 #include <djvColorSwatch.h>
+#include <djvGuiContext.h>
 #include <djvIntEdit.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
@@ -83,43 +84,42 @@ struct djvStylePrefsWidgetPrivate
 // djvStylePrefsWidget
 //------------------------------------------------------------------------------
 
-djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
+djvStylePrefsWidget::djvStylePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
-        qApp->translate("djvStylePrefsWidget", "Style"),
-        parent),
+        qApp->translate("djvStylePrefsWidget", "Style"), context, parent),
     _p(new djvStylePrefsWidgetPrivate)
 {
     // Create the widgets.
     
     _p->colorWidget = new QComboBox;
     _p->colorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->colorWidget->addItems(djvStyle::global()->paletteNames());
+    _p->colorWidget->addItems(context->style()->paletteNames());
 
-    _p->colorForegroundWidget = new djvColorSwatch;
+    _p->colorForegroundWidget = new djvColorSwatch(context);
     _p->colorForegroundWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorForegroundWidget->setColorDialogEnabled(true);
     _p->colorForegroundWidget->setToolTip(
         qApp->translate("djvStylePrefsWidget", "Foreground"));
 
-    _p->colorBackgroundWidget = new djvColorSwatch;
+    _p->colorBackgroundWidget = new djvColorSwatch(context);
     _p->colorBackgroundWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorBackgroundWidget->setColorDialogEnabled(true);
     _p->colorBackgroundWidget->setToolTip(
         qApp->translate("djvStylePrefsWidget", "Background"));
 
-    _p->colorBackground2Widget = new djvColorSwatch;
+    _p->colorBackground2Widget = new djvColorSwatch(context);
     _p->colorBackground2Widget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorBackground2Widget->setColorDialogEnabled(true);
     _p->colorBackground2Widget->setToolTip(
         qApp->translate("djvStylePrefsWidget", "Background 2"));
 
-    _p->colorButtonWidget = new djvColorSwatch;
+    _p->colorButtonWidget = new djvColorSwatch(context);
     _p->colorButtonWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorButtonWidget->setColorDialogEnabled(true);
     _p->colorButtonWidget->setToolTip(
         qApp->translate("djvStylePrefsWidget", "Button"));
 
-    _p->colorSelectWidget = new djvColorSwatch;
+    _p->colorSelectWidget = new djvColorSwatch(context);
     _p->colorSelectWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->colorSelectWidget->setColorDialogEnabled(true);
     _p->colorSelectWidget->setToolTip(
@@ -130,7 +130,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
 
     _p->sizeWidget = new QComboBox;
     _p->sizeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->sizeWidget->addItems(djvStyle::global()->sizeMetricNames());
+    _p->sizeWidget->addItems(context->style()->sizeMetricNames());
 
     _p->sizeValueWidget = new djvIntEdit;
     _p->sizeValueWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -145,10 +145,10 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvStylePrefsWidget", "Colors"));
+        qApp->translate("djvStylePrefsWidget", "Colors"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     QHBoxLayout * hLayout = new QHBoxLayout;
     hLayout->addWidget(_p->colorWidget);
@@ -164,7 +164,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvStylePrefsWidget", "Size"));
+        qApp->translate("djvStylePrefsWidget", "Size"), context);
     formLayout = prefsGroupBox->createLayout();
     hLayout = new QHBoxLayout;
     hLayout->setMargin(0);
@@ -176,7 +176,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(QWidget * parent) :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvStylePrefsWidget", "Fonts"));
+        qApp->translate("djvStylePrefsWidget", "Fonts"), context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvStylePrefsWidget", "Normal:"),
@@ -257,17 +257,17 @@ djvStylePrefsWidget::~djvStylePrefsWidget()
 
 void djvStylePrefsWidget::resetPreferences()
 {
-    djvStyle::global()->setPalettes(
+    context()->style()->setPalettes(
         djvStyle::palettesDefault());
-    djvStyle::global()->setPalettesIndex(
+    context()->style()->setPalettesIndex(
         djvStyle::palettesIndexDefault());
-    djvStyle::global()->setColorSwatchTransparency(
+    context()->style()->setColorSwatchTransparency(
         djvStyle::colorSwatchTransparencyDefault());
-    djvStyle::global()->setSizeMetrics(
+    context()->style()->setSizeMetrics(
         djvStyle::sizeMetricsDefault());
-    djvStyle::global()->setSizeMetricsIndex(
+    context()->style()->setSizeMetricsIndex(
         djvStyle::sizeMetricsIndexDefault());
-    djvStyle::global()->setFonts(
+    context()->style()->setFonts(
         djvStyle::fontsDefault());
     
     widgetUpdate();
@@ -275,76 +275,76 @@ void djvStylePrefsWidget::resetPreferences()
 
 void djvStylePrefsWidget::colorCallback(int index)
 {
-    djvStyle::global()->setPalettesIndex(index);
+    context()->style()->setPalettesIndex(index);
 
     widgetUpdate();
 }
 
 void djvStylePrefsWidget::colorForegroundCallback(const djvColor & color)
 {
-    djvStyle::Palette tmp = djvStyle::global()->palette();
+    djvStyle::Palette tmp = context()->style()->palette();
     tmp.foreground = color;
-    djvStyle::global()->setPalette(tmp);
+    context()->style()->setPalette(tmp);
 }
 
 void djvStylePrefsWidget::colorBackgroundCallback(const djvColor & color)
 {
-    djvStyle::Palette tmp = djvStyle::global()->palette();
+    djvStyle::Palette tmp = context()->style()->palette();
     tmp.background = color;
-    djvStyle::global()->setPalette(tmp);
+    context()->style()->setPalette(tmp);
 }
 
 void djvStylePrefsWidget::colorBackground2Callback(const djvColor & color)
 {
-    djvStyle::Palette tmp = djvStyle::global()->palette();
+    djvStyle::Palette tmp = context()->style()->palette();
     tmp.background2 = color;
-    djvStyle::global()->setPalette(tmp);
+    context()->style()->setPalette(tmp);
 }
 
 void djvStylePrefsWidget::colorButtonCallback(const djvColor & color)
 {
-    djvStyle::Palette tmp = djvStyle::global()->palette();
+    djvStyle::Palette tmp = context()->style()->palette();
     tmp.button = color;
-    djvStyle::global()->setPalette(tmp);
+    context()->style()->setPalette(tmp);
 }
 
 void djvStylePrefsWidget::colorSelectCallback(const djvColor & color)
 {
-    djvStyle::Palette tmp = djvStyle::global()->palette();
+    djvStyle::Palette tmp = context()->style()->palette();
     tmp.select = color;
-    djvStyle::global()->setPalette(tmp);
+    context()->style()->setPalette(tmp);
 }
 
 void djvStylePrefsWidget::colorSwatchTransparencyCallback(bool in)
 {
-    djvStyle::global()->setColorSwatchTransparency(in);
+    context()->style()->setColorSwatchTransparency(in);
 }
 
 void djvStylePrefsWidget::sizeCallback(int index)
 {
-    djvStyle::global()->setSizeMetricsIndex(index);
+    context()->style()->setSizeMetricsIndex(index);
 
     widgetUpdate();
 }
 
 void djvStylePrefsWidget::sizeValueCallback(int size)
 {
-    djvStyle::global()->setSizeMetric(
-        djvStyle::SizeMetric(djvStyle::global()->sizeMetric().name, size));
+    context()->style()->setSizeMetric(
+        djvStyle::SizeMetric(context()->style()->sizeMetric().name, size));
 }
 
 void djvStylePrefsWidget::fontNormalCallback(const QFont & font)
 {
-    djvStyle::Fonts fonts = djvStyle::global()->fonts();
+    djvStyle::Fonts fonts = context()->style()->fonts();
     fonts.normal = font;
-    djvStyle::global()->setFonts(fonts);
+    context()->style()->setFonts(fonts);
 }
 
 void djvStylePrefsWidget::fontFixedCallback(const QFont & font)
 {
-    djvStyle::Fonts fonts = djvStyle::global()->fonts();
+    djvStyle::Fonts fonts = context()->style()->fonts();
     fonts.fixed = font;
-    djvStyle::global()->setFonts(fonts);
+    context()->style()->setFonts(fonts);
 }
 
 void djvStylePrefsWidget::widgetUpdate()
@@ -362,21 +362,21 @@ void djvStylePrefsWidget::widgetUpdate()
         _p->fontNormalWidget <<
         _p->fontFixedWidget);
 
-    _p->colorWidget->setCurrentIndex(djvStyle::global()->palettesIndex());
+    _p->colorWidget->setCurrentIndex(context()->style()->palettesIndex());
 
-    _p->colorForegroundWidget->setColor(djvStyle::global()->palette().foreground);
-    _p->colorBackgroundWidget->setColor(djvStyle::global()->palette().background);
-    _p->colorBackground2Widget->setColor(djvStyle::global()->palette().background2);
-    _p->colorButtonWidget->setColor(djvStyle::global()->palette().button);
-    _p->colorSelectWidget->setColor(djvStyle::global()->palette().select);
+    _p->colorForegroundWidget->setColor(context()->style()->palette().foreground);
+    _p->colorBackgroundWidget->setColor(context()->style()->palette().background);
+    _p->colorBackground2Widget->setColor(context()->style()->palette().background2);
+    _p->colorButtonWidget->setColor(context()->style()->palette().button);
+    _p->colorSelectWidget->setColor(context()->style()->palette().select);
 
     _p->colorSwatchTransparencyWidget->setChecked(
-        djvStyle::global()->hasColorSwatchTransparency());
+        context()->style()->hasColorSwatchTransparency());
 
-    _p->sizeWidget->setCurrentIndex(djvStyle::global()->sizeMetricsIndex());
-    _p->sizeValueWidget->setValue(djvStyle::global()->sizeMetric().fontSize);
+    _p->sizeWidget->setCurrentIndex(context()->style()->sizeMetricsIndex());
+    _p->sizeValueWidget->setValue(context()->style()->sizeMetric().fontSize);
     
-    _p->fontNormalWidget->setCurrentFont(djvStyle::global()->fonts().normal);
-    _p->fontFixedWidget->setCurrentFont(djvStyle::global()->fonts().fixed);
+    _p->fontNormalWidget->setCurrentFont(context()->style()->fonts().normal);
+    _p->fontFixedWidget->setCurrentFont(context()->style()->fonts().fixed);
 }
 

@@ -146,8 +146,6 @@ public:
     
     virtual djvImageSave * createSave() const;
 
-    virtual djvAbstractPrefsWidget * createWidget();
-
 private:
 
     Options _options;

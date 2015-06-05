@@ -48,8 +48,8 @@
 // djvIffWidget
 //------------------------------------------------------------------------------
 
-djvIffWidget::djvIffWidget(djvIffPlugin * plugin) :
-    djvAbstractPrefsWidget(djvIffPlugin::staticName),
+djvIffWidget::djvIffWidget(djvIffPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvIffPlugin::staticName, context),
     _plugin           (plugin),
     _compressionWidget(0)
 {

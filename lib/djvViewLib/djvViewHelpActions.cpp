@@ -47,8 +47,10 @@ struct djvViewHelpActionsPrivate
 // djvViewHelpActions
 //------------------------------------------------------------------------------
 
-djvViewHelpActions::djvViewHelpActions(QObject * parent) :
-	djvViewAbstractActions(parent),
+djvViewHelpActions::djvViewHelpActions(
+    djvViewContext * context,
+    QObject *        parent) :
+	djvViewAbstractActions(context, parent),
     _p(new djvViewHelpActionsPrivate)
 {
     // Create the actions.

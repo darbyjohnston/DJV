@@ -58,7 +58,7 @@ public:
 
     //! Constructor.
 
-    djvIffWidget(djvIffPlugin *);
+    djvIffWidget(djvIffPlugin *, djvGuiContext *);
 
     //! Destructor.
 

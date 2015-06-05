@@ -67,7 +67,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewHelpActions(QObject * parent = 0);
+    explicit djvViewHelpActions(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 

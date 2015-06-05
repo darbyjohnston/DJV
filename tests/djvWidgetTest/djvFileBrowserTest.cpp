@@ -37,6 +37,10 @@
 
 #include <djvSystem.h>
 
+djvFileBrowserTest::djvFileBrowserTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvFileBrowserTest::name()
 {
     return "djvFileBrowserTest";

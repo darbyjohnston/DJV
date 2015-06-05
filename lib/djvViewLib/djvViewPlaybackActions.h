@@ -58,14 +58,6 @@ class djvViewPlaybackActions : public djvViewAbstractActions
 
 public:
 
-    //! Constructor.
-
-    explicit djvViewPlaybackActions(QObject * parent = 0);
-
-    //! Destructor.
-
-    virtual ~djvViewPlaybackActions();
-
     //! This enumeration provides the actions.
 
     enum ACTION
@@ -88,6 +80,14 @@ public:
 
         GROUP_COUNT
     };
+
+    //! Constructor.
+
+    explicit djvViewPlaybackActions(djvViewContext *, QObject * parent = 0);
+
+    //! Destructor.
+
+    virtual ~djvViewPlaybackActions();
 
 private Q_SLOTS:
 

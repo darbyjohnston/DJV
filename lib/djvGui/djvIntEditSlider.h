@@ -40,6 +40,7 @@
 
 #include <QWidget>
 
+class  djvGuiContext;
 struct djvIntEditSliderPrivate;
 class  djvIntObject;
 
@@ -92,7 +93,7 @@ public:
 
     //! Constructor.
 
-    explicit djvIntEditSlider(QWidget * parent = 0);
+    explicit djvIntEditSlider(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

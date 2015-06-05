@@ -33,22 +33,34 @@
 
 #include <djvPpmWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvPrefsGroupBox.h>
-#include <djvSignalBlocker.h>
 #include <djvStyle.h>
+
+#include <djvImageIo.h>
+#include <djvSignalBlocker.h>
 
 #include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>
 
+extern "C"
+{
+
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoWidgetEntry(djvCoreContext * context)
+{
+    return new djvPpmWidgetPlugin(context);
+}
+
+} // extern "C"
+
 //------------------------------------------------------------------------------
 // djvPpmWidget
 //------------------------------------------------------------------------------
 
-djvPpmWidget::djvPpmWidget(djvPpmPlugin * plugin) :
-    djvAbstractPrefsWidget(djvPpmPlugin::staticName),
-    _plugin    (plugin),
+djvPpmWidget::djvPpmWidget(djvImageIo * plugin, djvGuiContext * context) :
+    djvImageIoWidget(plugin, context),
     _typeWidget(0),
     _dataWidget(0)
 {
@@ -56,20 +68,21 @@ djvPpmWidget::djvPpmWidget(djvPpmPlugin * plugin) :
     
     _typeWidget = new QComboBox;
     _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _typeWidget->addItems(djvPpmPlugin::typeLabels());
+    _typeWidget->addItems(djvPpm::typeLabels());
     
     _dataWidget = new QComboBox;
     _dataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _dataWidget->addItems(djvPpmPlugin::dataLabels());
+    _dataWidget->addItems(djvPpm::dataLabels());
 
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvPpmWidget", "File Type"),
-        qApp->translate("djvPpmWidget", "Set the file type used when saving PPM images."));
+        qApp->translate("djvPpmWidget", "Set the file type used when saving PPM images."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvPpmWidget", "File type:"),
@@ -78,7 +91,8 @@ djvPpmWidget::djvPpmWidget(djvPpmPlugin * plugin) :
 
     prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvPpmWidget", "Data Type"),
-        qApp->translate("djvPpmWidget", "Set the data type used when saving PPM images."));
+        qApp->translate("djvPpmWidget", "Set the data type used when saving PPM images."),
+        context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvPpmWidget", "Data type:"),
@@ -90,11 +104,9 @@ djvPpmWidget::djvPpmWidget(djvPpmPlugin * plugin) :
     // Initialize.
 
     QStringList tmp;
-    tmp = _plugin->option(
-        _plugin->options()[djvPpmPlugin::TYPE_OPTION]);
+    tmp = plugin->option(plugin->options()[djvPpm::TYPE_OPTION]);
     tmp >> _options.type;
-    tmp = _plugin->option(
-        _plugin->options()[djvPpmPlugin::DATA_OPTION]);
+    tmp = plugin->option(plugin->options()[djvPpm::DATA_OPTION]);
     tmp >> _options.data;
 
     widgetUpdate();
@@ -122,7 +134,7 @@ djvPpmWidget::~djvPpmWidget()
 
 void djvPpmWidget::resetPreferences()
 {
-    _options = djvPpmPlugin::Options();
+    _options = djvPpm::Options();
     
     pluginUpdate();
     widgetUpdate();
@@ -133,13 +145,13 @@ void djvPpmWidget::pluginCallback(const QString & option)
     try
     {
         QStringList tmp;
-        tmp = _plugin->option(option);
+        tmp = plugin()->option(option);
 
-        if (0 == option.compare(_plugin->options()[
-            djvPpmPlugin::TYPE_OPTION], Qt::CaseInsensitive))
+        if (0 == option.compare(plugin()->options()[
+            djvPpm::TYPE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.type;
-        else if (0 == option.compare(_plugin->options()[
-            djvPpmPlugin::DATA_OPTION], Qt::CaseInsensitive))
+        else if (0 == option.compare(plugin()->options()[
+            djvPpm::DATA_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.data;
     }
     catch (const QString &)
@@ -150,14 +162,14 @@ void djvPpmWidget::pluginCallback(const QString & option)
 
 void djvPpmWidget::typeCallback(int in)
 {
-    _options.type = static_cast<djvPpmPlugin::TYPE>(in);
+    _options.type = static_cast<djvPpm::TYPE>(in);
 
     pluginUpdate();
 }
 
 void djvPpmWidget::dataCallback(int in)
 {
-    _options.data = static_cast<djvPpmPlugin::DATA>(in);
+    _options.data = static_cast<djvPpm::DATA>(in);
 
     pluginUpdate();
 }
@@ -166,9 +178,9 @@ void djvPpmWidget::pluginUpdate()
 {
     QStringList tmp;
     tmp << _options.type;
-    _plugin->setOption(_plugin->options()[djvPpmPlugin::TYPE_OPTION], tmp);
+    plugin()->setOption(plugin()->options()[djvPpm::TYPE_OPTION], tmp);
     tmp << _options.data;
-    _plugin->setOption(_plugin->options()[djvPpmPlugin::DATA_OPTION], tmp);
+    plugin()->setOption(plugin()->options()[djvPpm::DATA_OPTION], tmp);
 }
 
 void djvPpmWidget::widgetUpdate()
@@ -180,4 +192,22 @@ void djvPpmWidget::widgetUpdate()
     _typeWidget->setCurrentIndex(_options.type);
 
     _dataWidget->setCurrentIndex(_options.data);
+}
+
+//------------------------------------------------------------------------------
+// djvPpmWidgetPlugin
+//------------------------------------------------------------------------------
+
+djvPpmWidgetPlugin::djvPpmWidgetPlugin(djvCoreContext * context) :
+    djvImageIoWidgetPlugin(context)
+{}
+
+djvImageIoWidget * djvPpmWidgetPlugin::createWidget(djvImageIo * plugin) const
+{
+    return new djvPpmWidget(plugin, guiContext());
+}
+
+QString djvPpmWidgetPlugin::pluginName() const
+{
+    return djvPpm::staticName;
 }

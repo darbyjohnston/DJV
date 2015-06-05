@@ -34,10 +34,11 @@
 #ifndef DJV_LUT_SAVE_H
 #define DJV_LUT_SAVE_H
 
-#include <djvLutPlugin.h>
+#include <djvLut.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvLutPlugin
 //@{
@@ -54,7 +55,7 @@ public:
 
     //! Constructor.
     
-    djvLutSave(const djvLutPlugin::Options &);
+    djvLutSave(const djvLut::Options &);
     
     //! Destructor.
     
@@ -70,11 +71,11 @@ private:
 
     void _open(const djvFileInfo &) throw (djvError);
 
-    djvLutPlugin::Options _options;
-    djvFileInfo           _file;
-    djvLutPlugin::FORMAT  _format;
-    djvPixelDataInfo      _info;
-    djvImage              _image;
+    djvLut::Options  _options;
+    djvFileInfo      _file;
+    djvLut::FORMAT   _format;
+    djvPixelDataInfo _info;
+    djvImage         _image;
 };
 
 //@} // djvLutPlugin

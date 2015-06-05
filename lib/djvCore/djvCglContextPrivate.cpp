@@ -33,6 +33,7 @@
 
 #include <djvCglContextPrivate.h>
 
+#include <djvCoreContext.h>
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 
@@ -122,7 +123,8 @@ struct djvCglContextPrivate
 // djvCglContext
 //------------------------------------------------------------------------------
 
-djvCglContext::djvCglContext() throw (djvError) :
+djvCglContext::djvCglContext(djvCoreContext * context) throw (djvError) :
+    djvOpenGlContext(context),
     _p(new djvCglContextPrivate)
 {
 #   if defined (DJV_OSX)
@@ -135,7 +137,7 @@ djvCglContext::djvCglContext() throw (djvError) :
 
     // Create the context.
 
-	DJV_LOG("djvCglContext", "Creating OpenGL context...");
+	DJV_LOG(context->debugLog(), "djvCglContext", "Creating OpenGL context...");
 
     CGLError error = CGLCreateContext(pixelFormat.format(), 0, &_p->context);
 
@@ -152,7 +154,7 @@ djvCglContext::djvCglContext() throw (djvError) :
 
     // Initialize GLEW.
 	
-    DJV_LOG("djvCglContext", "Initializing GLEW...");
+    DJV_LOG(context->debugLog(), "djvCglContext", "Initializing GLEW...");
 
     GLint glError = glewInit();
 
@@ -177,9 +179,12 @@ djvCglContext::djvCglContext() throw (djvError) :
     //DJV_DEBUG_PRINT("glu extensions = " <<
     //    (const char *)gluGetString(GLU_EXTENSIONS));
 
-    DJV_LOG("djvCglContext", QString("GL vendor: \"%1\"").arg(vendor()));
-    DJV_LOG("djvCglContext", QString("GL renderer: \"%1\"").arg(renderer()));
-    DJV_LOG("djvCglContext", QString("GL version: \"%1\"").arg(version()));
+    DJV_LOG(context->debugLog(), "djvCglContext",
+        QString("GL vendor: \"%1\"").arg(vendor()));
+    DJV_LOG(context->debugLog(), "djvCglContext",
+        QString("GL renderer: \"%1\"").arg(renderer()));
+    DJV_LOG(context->debugLog(), "djvCglContext",
+        QString("GL version: \"%1\"").arg(version()));
 
     if (! GL_EXT_framebuffer_object)
     {

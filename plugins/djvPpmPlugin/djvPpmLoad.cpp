@@ -91,12 +91,12 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
     djvPixelData * data = frame.proxy ? &_tmp : &image;
 
-    if (djvPpmPlugin::DATA_BINARY == _data && _bitDepth != 1)
+    if (djvPpm::DATA_BINARY == _data && _bitDepth != 1)
     {
         if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
         {
             throw djvError(
-                djvPpmPlugin::staticName,
+                djvPpm::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
         
@@ -110,9 +110,9 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         
         const int channels = djvPixel::channels(info.pixel);
 
-        if (djvPpmPlugin::DATA_BINARY == _data && 1 == _bitDepth)
+        if (djvPpm::DATA_BINARY == _data && 1 == _bitDepth)
         {
-            const quint64 scanlineByteCount = djvPpmPlugin::scanlineByteCount(
+            const quint64 scanlineByteCount = djvPpm::scanlineByteCount(
                 info.size.x, channels, _bitDepth, _data);
             
             djvMemoryBuffer<quint8> scanline(scanlineByteCount);
@@ -138,7 +138,7 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             for (int y = 0; y < info.size.y; ++y)
             {
-                djvPpmPlugin::asciiLoad(
+                djvPpm::asciiLoad(
                     *io,
                     data->data(0, y),
                     info.size.x * channels,
@@ -182,7 +182,7 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     if (magic[0] != 'P')
     {
         throw djvError(
-            djvPpmPlugin::staticName,
+            djvPpm::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
 
@@ -198,7 +198,7 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         default:
 
             throw djvError(
-                djvPpmPlugin::staticName,
+                djvPpm::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
@@ -271,16 +271,16 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         info.pixel))
     {
         throw djvError(
-            djvPpmPlugin::staticName,
+            djvPpm::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
 
     _data =
         (1 == ppmType || 2 == ppmType || 3 == ppmType) ?
-        djvPpmPlugin::DATA_ASCII :
-        djvPpmPlugin::DATA_BINARY;
+        djvPpm::DATA_ASCII :
+        djvPpm::DATA_BINARY;
 
-    if (djvPpmPlugin::DATA_BINARY == _data)
+    if (djvPpm::DATA_BINARY == _data)
     {
         info.endian = djvMemory::MSB;
     }

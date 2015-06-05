@@ -35,6 +35,10 @@
 
 #include <djvPrefsDialog.h>
 
+djvPrefsDialogTest::djvPrefsDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvPrefsDialogTest::name()
 {
     return "djvPrefsDialogTest";

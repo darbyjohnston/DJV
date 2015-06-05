@@ -34,9 +34,9 @@
 #ifndef DJV_PPM_WIDGET_H
 #define DJV_PPM_WIDGET_H
 
-#include <djvPpmPlugin.h>
+#include <djvPpm.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -49,7 +49,7 @@ class QComboBox;
 //! This class provides a PPM widget.
 //------------------------------------------------------------------------------
 
-class djvPpmWidget : public djvAbstractPrefsWidget
+class djvPpmWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvPpmWidget(djvPpmPlugin *);
+    djvPpmWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -76,10 +76,26 @@ private Q_SLOTS:
 
 private:
 
-    djvPpmPlugin *        _plugin;
-    djvPpmPlugin::Options _options;
-    QComboBox *           _typeWidget;
-    QComboBox *           _dataWidget;
+    djvPpm::Options _options;
+    QComboBox *     _typeWidget;
+    QComboBox *     _dataWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvPpmWidgetPlugin
+//!
+//! This class provides a PPM widget plugin.
+//------------------------------------------------------------------------------
+
+class djvPpmWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvPpmWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvPpmPlugin

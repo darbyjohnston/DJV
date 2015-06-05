@@ -33,7 +33,7 @@
 
 #include <djvViewImagePrefs.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 
 #include <djvPrefs.h>
 
@@ -43,8 +43,8 @@
 // djvViewImagePrefs
 //------------------------------------------------------------------------------
 
-djvViewImagePrefs::djvViewImagePrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewImagePrefs::djvViewImagePrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _frameStoreFileReload(frameStoreFileReloadDefault()),
     _mirror              (mirrorDefault()),
     _scale               (scaleDefault()),
@@ -70,7 +70,16 @@ djvViewImagePrefs::djvViewImagePrefs(QObject * parent) :
     {
         djvViewDisplayProfile value;
         displayProfilePrefs.get(QString("%1").arg(i), value);
-        djvViewUtil::loadLut(value.lutFile, value.lut);
+        
+        try
+        {
+            djvViewUtil::loadLut(value.lutFile, value.lut, context);
+        }
+        catch (const djvError & error)
+        {
+            context->printError(error);
+        }
+        
         _displayProfiles += value;
     }
 
@@ -193,18 +202,6 @@ djvOpenGlImageOptions::CHANNEL djvViewImagePrefs::channelDefault()
 djvOpenGlImageOptions::CHANNEL djvViewImagePrefs::channel() const
 {
     return _channel;
-}
-
-djvViewImagePrefs * djvViewImagePrefs::global()
-{
-    static djvViewImagePrefs * prefs = 0;
-
-    if (!prefs)
-    {
-        prefs = new djvViewImagePrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewImagePrefs::setFrameStoreFileReload(bool in)

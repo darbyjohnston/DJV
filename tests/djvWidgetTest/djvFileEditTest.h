@@ -41,6 +41,8 @@ class djvFileEditTest : public djvWidgetTest
     
 public:
 
+    djvFileEditTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

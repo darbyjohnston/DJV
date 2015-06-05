@@ -3,17 +3,20 @@ set(header
     djvFFmpegPlugin.h
     djvFFmpegSave.h
     djvFFmpegUtil.h
-    djvFFmpegWidget.h)
+#    djvFFmpegWidget.h
+    )
 
 set(mocHeader
-    djvFFmpegWidget.h)
+#    djvFFmpegWidget.h
+    )
 
 set(source
     djvFFmpegLoad.cpp
     djvFFmpegPlugin.cpp
     djvFFmpegSave.cpp
     djvFFmpegUtil.cpp
-    djvFFmpegWidget.cpp)
+#    djvFFmpegWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

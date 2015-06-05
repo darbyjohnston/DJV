@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageApplication.cpp
+//! \file djvImageContext.cpp
 
-#include <djvImageApplication.h>
+#include <djvImageContext.h>
 
 #include <djvDebugLog.h>
 #include <djvError.h>
@@ -39,80 +39,79 @@
 #include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
 
+#include <QCoreApplication>
+#include <QScopedPointer>
 #include <QVector>
 
 //------------------------------------------------------------------------------
-// djvAbstractImageApplicationPrivate
+// djvImageContextPrivate
 //------------------------------------------------------------------------------
 
-struct djvAbstractImageApplicationPrivate
+struct djvImageContextPrivate
 {
-    djvAbstractImageApplicationPrivate() :
-        context(0)
-    {}
-    
-    djvOpenGlContext * context;
+    QScopedPointer<djvOpenGlContextFactory> openGlContextFactory;
+    QScopedPointer<djvOpenGlContext>        openGlContext;
+    QScopedPointer<djvImageIoFactory>       imageIoFactory;
 };
 
 //------------------------------------------------------------------------------
-// djvAbstractImageApplication
+// djvImageContext
 //------------------------------------------------------------------------------
 
-djvAbstractImageApplication::djvAbstractImageApplication(
-    const QString & name,
-    int &           argc,
-    char **         argv) throw (djvError) :
-    djvAbstractCoreApplication(name, argc, argv),
-    _p(new djvAbstractImageApplicationPrivate)
+djvImageContext::djvImageContext(QObject * parent) :
+    djvCoreContext(parent),
+    _p(new djvImageContextPrivate)
 {
-    //DJV_DEBUG("djvAbstractImageApplication::djvAbstractImageApplication");
-    //DJV_DEBUG_PRINT("name = " << name);
+    //DJV_DEBUG("djvImageContext::djvImageContext");
     
     // Create the default OpenGL context.
 
-    DJV_LOG("djvAbstractImageApplication",
+    DJV_LOG(debugLog(), "djvImageContext",
         "Creating the default OpenGL context...");
 
-    _p->context = djvOpenGlContextFactory::create();
+    _p->openGlContextFactory.reset(new djvOpenGlContextFactory(this));
 
-    DJV_LOG("djvAbstractImageApplication", "");
+    _p->openGlContext.reset(_p->openGlContextFactory->create());
+
+    DJV_LOG(debugLog(), "djvImageContext", "");
 
     //! Force image I/O plugin loading.
 
-    DJV_LOG("djvAbstractImageApplication", "Loading image I/O plugins...");
+    DJV_LOG(debugLog(), "djvImageContext", "Loading image I/O plugins...");
 
-    djvImageIoFactory::global();
+    _p->imageIoFactory.reset(new djvImageIoFactory(this));
 
-    //DJV_DEBUG_PRINT("image I/O base = " <<
-    //    djvImageIoBaseFactory::global()->plugins().count());
-    //DJV_DEBUG_PRINT("image load = " <<
-    //    ImageLoadFactory::global()->plugins().count());
-    //DJV_DEBUG_PRINT("image save = " <<
-    //    ImageSaveFactory::global()->plugins().count());
-
-    DJV_LOG("djvAbstractImageApplication", "");
-    DJV_LOG("djvAbstractImageApplication", "Information:");
-    DJV_LOG("djvAbstractImageApplication", "");
-    DJV_LOG("djvAbstractImageApplication", info());
+    DJV_LOG(debugLog(), "djvImageContext", "");
+    DJV_LOG(debugLog(), "djvImageContext", "Information:");
+    DJV_LOG(debugLog(), "djvImageContext", "");
+    DJV_LOG(debugLog(), "djvImageContext", info());
 }
 
-djvAbstractImageApplication::~djvAbstractImageApplication()
+djvImageContext::~djvImageContext()
 {
-    //DJV_DEBUG("djvAbstractImageApplication::~djvAbstractImageApplication");
+    //DJV_DEBUG("djvImageContext::~djvImageContext");
 
-    delete _p->context;
-    
     delete _p;
 }
 
-djvOpenGlContext * djvAbstractImageApplication::context()
+djvImageIoFactory * djvImageContext::imageIoFactory() const
 {
-    return _p->context;
+    return _p->imageIoFactory.data();
+}
+    
+djvOpenGlContextFactory * djvImageContext::openGlContextFactory() const
+{
+    return _p->openGlContextFactory.data();
 }
 
-QString djvAbstractImageApplication::info() const
+djvOpenGlContext * djvImageContext::openGlContext() const
 {
-    static const QString label = qApp->translate("djvAbstractImageApplication",
+    return _p->openGlContext.data();
+}
+
+QString djvImageContext::info() const
+{
+    static const QString label = qApp->translate("djvImageContext",
 "%1"
 "\n"
 "OpenGL\n"
@@ -127,27 +126,24 @@ QString djvAbstractImageApplication::info() const
 "    Plugins: %7\n");
 
     return QString(label).
-        arg(djvAbstractCoreApplication::info()).
-        arg(_p->context->vendor()).
-        arg(_p->context->renderer()).
-        arg(_p->context->version()).
+        arg(djvCoreContext::info()).
+        arg(_p->openGlContext->vendor()).
+        arg(_p->openGlContext->renderer()).
+        arg(_p->openGlContext->version()).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filter().min).join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filter().mag).join(", ")).
-        arg(djvImageIoFactory::global()->names().join(", "));
+        arg(_p->imageIoFactory->names().join(", "));
 }
 
-void djvAbstractImageApplication::commandLine(QStringList & in) throw (QString)
+bool djvImageContext::commandLineParse(QStringList & in) throw (QString)
 {
-    //DJV_DEBUG("djvAbstractImageApplication::commandLine");
+    //DJV_DEBUG("djvImageContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    djvAbstractCoreApplication::commandLine(in);
+    if (! djvCoreContext::commandLineParse(in))
+        return false;
 
-    if (djvAbstractCoreApplication::exitValue() !=
-        djvApplicationEnum::EXIT_DEFAULT)
-        return;
-    
-    Q_FOREACH (djvPlugin * plugin, djvImageIoFactory::global()->plugins())
+    Q_FOREACH (djvPlugin * plugin, _p->imageIoFactory->plugins())
     {
         djvImageIo * io = static_cast<djvImageIo *>(plugin);
         
@@ -165,15 +161,14 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (QString)
 
             // OpenGL options.
 
-            if (
-                qApp->translate("djvAbstractImageApplication", "-render_filter") == arg)
+            if (qApp->translate("djvImageContext", "-render_filter") == arg)
             {
                 djvOpenGlImageFilter value;
                 in >> value;
                 djvOpenGlImageFilter::setFilter(value);
             }
 
-            else if (qApp->translate("djvAbstractImageApplication", "-render_filter_high") == arg)
+            else if (qApp->translate("djvImageContext", "-render_filter_high") == arg)
             {
                 djvOpenGlImageFilter::setFilter(
                     djvOpenGlImageFilter::filterHighQuality());
@@ -195,20 +190,22 @@ void djvAbstractImageApplication::commandLine(QStringList & in) throw (QString)
     }
 
     in = tmp;
+    
+    return true;
 }
 
-QString djvAbstractImageApplication::commandLineHelp() const
+QString djvImageContext::commandLineHelp() const
 {
     QString imageIoHelp;
 
-    Q_FOREACH(djvPlugin * plugin, djvImageIoFactory::global()->plugins())
+    Q_FOREACH(djvPlugin * plugin, _p->imageIoFactory->plugins())
     {
         djvImageIo * io = static_cast<djvImageIo *>(plugin);
         
         imageIoHelp += io->commandLineHelp();
     }
 
-    static const QString label = qApp->translate("djvAbstractImageApplication",
+    static const QString label = qApp->translate("djvImageContext",
 "%1"
 "\n"
 "OpenGL Options\n"
@@ -226,20 +223,5 @@ QString djvAbstractImageApplication::commandLineHelp() const
         arg(djvStringUtil::label(djvOpenGlImageFilter::filter().mag).join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filterHighQuality().min).join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filterHighQuality().mag).join(", ")).
-        arg(djvAbstractCoreApplication::commandLineHelp());
+        arg(djvCoreContext::commandLineHelp());
 }
-
-//------------------------------------------------------------------------------
-// djvImageApplication
-//------------------------------------------------------------------------------
-
-djvImageApplication::djvImageApplication(const QString & name, int & argc, char ** argv)
-    throw (djvError) :
-    QCoreApplication(argc, argv),
-    djvAbstractImageApplication(name, argc, argv)
-{
-    setOrganizationName("djv.sourceforge.net");
-    
-    setApplicationName(name);
-}
-

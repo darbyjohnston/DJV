@@ -33,7 +33,7 @@
 
 #include <djvViewUtil.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -42,6 +42,7 @@
 #include <djvImageIo.h>
 #include <djvVectorUtil.h>
 
+#include <QApplication>
 #include <QDir>
 
 //------------------------------------------------------------------------------
@@ -206,19 +207,23 @@ double djvViewUtil::imageRotate(IMAGE_ROTATE in)
     return data[in];
 }
 
-void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
+void djvViewUtil::loadLut(
+    const djvFileInfo & fileInfo,
+    djvPixelData &      lut,
+    djvViewContext *    context)
+    throw (djvError)
 {
-    if (in.fileName().isEmpty())
+    if (fileInfo.fileName().isEmpty())
         return;
 
     //DJV_DEBUG("djvViewUtil::loadLut");
-    //DJV_DEBUG_PRINT("in = " << in);
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
 
-    djvFileInfo file(in);
+    djvFileInfo fileInfoTmp(fileInfo);
 
-    if (file.isSequenceValid())
+    if (fileInfoTmp.isSequenceValid())
     {
-        file.setType(djvFileInfo::SEQUENCE);
+        fileInfoTmp.setType(djvFileInfo::SEQUENCE);
     }
 
     try
@@ -226,7 +231,7 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
         djvImageIoInfo info;
 
         QScopedPointer<djvImageLoad> load(
-            djvImageIoFactory::global()->load(file, info));
+            context->imageIoFactory()->load(fileInfoTmp, info));
     
         djvImage image;
         
@@ -240,9 +245,9 @@ void djvViewUtil::loadLut(const djvFileInfo & in, djvPixelData & lut)
     {
         error.add(
             errorLabels()[ERROR_OPEN_LUT].
-            arg(QDir::toNativeSeparators(file)));
+            arg(QDir::toNativeSeparators(fileInfoTmp)));
 
-        DJV_VIEW_APP->printError(error);
+        throw error;
     }
 }
 

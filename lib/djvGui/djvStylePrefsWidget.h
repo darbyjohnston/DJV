@@ -59,7 +59,7 @@ public:
 
     //! Constructor.
 
-    explicit djvStylePrefsWidget(QWidget * parent = 0);
+    explicit djvStylePrefsWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

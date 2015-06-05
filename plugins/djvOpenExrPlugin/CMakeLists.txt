@@ -2,16 +2,20 @@ set(header
     djvOpenExrLoad.h
     djvOpenExrPlugin.h
     djvOpenExrSave.h
-    djvOpenExrWidget.h)
+#    djvOpenExrWidget.h
+    )
 
 set(mocHeader
-    djvOpenExrWidget.h)
+#    djvOpenExrWidget.h
+    )
 
 set(source
     djvOpenExrLoad.cpp
     djvOpenExrPlugin.cpp
     djvOpenExrSave.cpp
-    djvOpenExrWidget.cpp)
+#    djvOpenExrWidget.cpp
+    )
+
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

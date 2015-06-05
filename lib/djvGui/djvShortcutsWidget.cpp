@@ -33,6 +33,7 @@
 
 #include <djvShortcutsWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvSearchBox.h>
 #include <djvShortcutsModel.h>
@@ -63,7 +64,7 @@ class ShortcutDelegateEdit : public QWidget
 {
 public:
 
-    ShortcutDelegateEdit(QWidget * parent);
+    ShortcutDelegateEdit(djvGuiContext *, QWidget * parent);
     
     const djvShortcut & shortcut() const;
     
@@ -79,11 +80,13 @@ protected:
 
 private:
 
-    djvShortcut _shortcut;
+    djvShortcut     _shortcut;
+    djvGuiContext * _context;
 };
 
-ShortcutDelegateEdit::ShortcutDelegateEdit(QWidget * parent) :
-    QWidget(parent)
+ShortcutDelegateEdit::ShortcutDelegateEdit(djvGuiContext * context, QWidget * parent) :
+    QWidget(parent),
+    _context(context)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
 
@@ -108,7 +111,7 @@ void ShortcutDelegateEdit::setShortcut(const djvShortcut & shortcut)
 
 QSize ShortcutDelegateEdit::sizeHint() const
 {
-    const int margin = djvStyle::global()->sizeMetric().margin;
+    const int margin = _context->style()->sizeMetric().margin;
     
     const QSize size =
         fontMetrics().size(Qt::TextSingleLine, _shortcut.value.toString());
@@ -122,7 +125,7 @@ void ShortcutDelegateEdit::paintEvent(QPaintEvent * event)
     
     const int w      = width ();
     const int h      = height();
-    const int margin = djvStyle::global()->sizeMetric().margin;
+    const int margin = _context->style()->sizeMetric().margin;
     
     painter.fillRect(0, 0, w, h, palette().color(QPalette::Base));
     
@@ -170,7 +173,7 @@ class ShortcutDelegate : public QStyledItemDelegate
 {
 public:
     
-    explicit ShortcutDelegate(QObject * parent = 0);
+    explicit ShortcutDelegate(djvGuiContext *, QObject * parent = 0);
 
     virtual QWidget * createEditor(
         QWidget *                    parent,
@@ -208,13 +211,15 @@ public:
 
 private:
 
-    QPixmap _clearPixmap;
+    QPixmap         _clearPixmap;
+    djvGuiContext * _context;
 };
 
-ShortcutDelegate::ShortcutDelegate(QObject * parent) :
-    QStyledItemDelegate(parent)
+ShortcutDelegate::ShortcutDelegate(djvGuiContext * context, QObject * parent) :
+    QStyledItemDelegate(parent),
+    _context(context)
 {
-    _clearPixmap = djvIconLibrary::global()->pixmap("djvResetIcon.png");
+    _clearPixmap = context->iconLibrary()->pixmap("djvResetIcon.png");
 }
 
 QWidget * ShortcutDelegate::createEditor(
@@ -222,7 +227,7 @@ QWidget * ShortcutDelegate::createEditor(
     const QStyleOptionViewItem & option,
     const QModelIndex &          index) const
 {
-    return new ShortcutDelegateEdit(parent);
+    return new ShortcutDelegateEdit(_context, parent);
 }
 
 void ShortcutDelegate::setEditorData(
@@ -266,7 +271,7 @@ QSize ShortcutDelegate::sizeHint(
     {
         case 1:
         {
-            const int spacing = djvStyle::global()->sizeMetric().spacing;
+            const int spacing = _context->style()->sizeMetric().spacing;
     
             size = QSize(
                 size.width() + spacing + _clearPixmap.width(),
@@ -365,7 +370,7 @@ struct djvShortcutsWidgetPrivate
 // djvShortcutsWidget
 //------------------------------------------------------------------------------
 
-djvShortcutsWidget::djvShortcutsWidget(QWidget * parent) :
+djvShortcutsWidget::djvShortcutsWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p     (new djvShortcutsWidgetPrivate)
 {
@@ -379,13 +384,13 @@ djvShortcutsWidget::djvShortcutsWidget(QWidget * parent) :
     _p->browser = new QTreeView;
     _p->browser->setSortingEnabled(true);
     _p->browser->setRootIsDecorated(false);
-    _p->browser->setItemDelegate(new ShortcutDelegate(this));
+    _p->browser->setItemDelegate(new ShortcutDelegate(context, this));
     _p->browser->setModel(_p->proxyModel);
     _p->browser->setMinimumHeight(200);
 
     _p->browser->header()->setSortIndicator(0, Qt::AscendingOrder);
 
-    _p->searchBox = new djvSearchBox;
+    _p->searchBox = new djvSearchBox(context);
 
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setMargin(0);

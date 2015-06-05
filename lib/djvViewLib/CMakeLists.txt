@@ -6,8 +6,8 @@ set(header
 	djvViewAbstractPrefsWidget.h
 	djvViewAbstractTool.h
 	djvViewAbstractToolBar.h
-    djvViewApplication.h
 	djvViewColorPickerTool.h
+    djvViewContext.h
     djvViewDisplayProfile.h
     djvViewDisplayProfileWidget.h
     djvViewFileActions.h
@@ -72,8 +72,8 @@ set(mocHeader
     djvViewAbstractPrefsWidget.h
     djvViewAbstractToolBar.h
     djvViewAbstractTool.h
-    djvViewApplication.h
     djvViewColorPickerTool.h
+    djvViewContext.h
     djvViewDisplayProfileWidget.h
     djvViewFileActions.h
     djvViewFileCache.h
@@ -135,8 +135,8 @@ set(source
 	djvViewAbstractPrefsWidget.cpp
 	djvViewAbstractTool.cpp
 	djvViewAbstractToolBar.cpp
-    djvViewApplication.cpp
 	djvViewColorPickerTool.cpp
+    djvViewContext.cpp
     djvViewDisplayProfile.cpp
     djvViewDisplayProfileWidget.cpp
     djvViewFileActions.cpp

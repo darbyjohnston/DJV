@@ -4,58 +4,38 @@
 <context>
     <name>djvTiffPlugin</name>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="72"/>
+        <location filename="djvTiffPlugin.cpp" line="71"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="73"/>
+        <location filename="djvTiffPlugin.cpp" line="72"/>
         <source>RLE</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="74"/>
+        <location filename="djvTiffPlugin.cpp" line="73"/>
         <source>LZW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="129"/>
+        <location filename="djvTiffPlugin.cpp" line="128"/>
         <source>Compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="217"/>
+        <location filename="djvTiffPlugin.cpp" line="216"/>
         <source>-tiff_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="237"/>
+        <location filename="djvTiffPlugin.cpp" line="236"/>
         <source>
 TIFF Options
 
     -tiff_compression (value)
         Set the file compression used when saving TIFF images. Options = %1. Default = %2.
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvTiffWidget</name>
-    <message>
-        <location filename="djvTiffWidget.cpp" line="70"/>
-        <source>Compression</source>
-        <oldsource>Compressionz</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvTiffWidget.cpp" line="71"/>
-        <source>Set the file compression used when saving TIFF images.</source>
-        <oldsource>Set the options used when saving TIFF images.</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvTiffWidget.cpp" line="74"/>
-        <source>Compression:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

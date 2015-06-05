@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreApplication.cpp
+//! \file djvCoreContext.cpp
 
-#include <djvCoreApplication.h>
+#include <djvCoreContext.h>
 
 #include <djvAssert.h>
 #include <djvDebugLog.h>
@@ -43,185 +43,102 @@
 #include <djvSystem.h>
 #include <djvTime.h>
 
+#include <QCoreApplication>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QScopedPointer>
 #include <QTranslator>
 
 //------------------------------------------------------------------------------
-// djvApplicationEnum
+// djvCoreContextPrivate
 //------------------------------------------------------------------------------
 
-const QStringList & djvApplicationEnum::exitValueLabels()
+struct djvCoreContextPrivate
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvApplicationEnum", "Default") <<
-        qApp->translate("djvApplicationEnum", "Error") <<
-        qApp->translate("djvApplicationEnum", "Help") <<
-        qApp->translate("djvApplicationEnum", "Info") <<
-        qApp->translate("djvApplicationEnum", "About");
-    
-    DJV_ASSERT(EXIT_VALUE_COUNT == data.count());
-    
-    return data;
-}
-
-//------------------------------------------------------------------------------
-// djvAbstractCoreApplicationPrivate
-//------------------------------------------------------------------------------
-
-struct djvAbstractCoreApplicationPrivate
-{
-    djvAbstractCoreApplicationPrivate() :
-        exitValue(djvApplicationEnum::EXIT_DEFAULT),
+    djvCoreContextPrivate() :
         endline  (false),
         separator(false),
-        debugLog (false)
+        debugLog (new djvDebugLog)
     {}
 
-    djvApplicationEnum::EXIT_VALUE exitValue;
-    QString                        commandLineName;
-    bool                           endline;
-    bool                           separator;
-    bool                           debugLog;
+    bool                        endline;
+    bool                        separator;
+    QScopedPointer<djvDebugLog> debugLog;
 };
 
 //------------------------------------------------------------------------------
-// AbstractCoreApplication
+// djvCoreContext
 //------------------------------------------------------------------------------
 
-QString djvAbstractCoreApplication::_name;
-
-namespace
+djvCoreContext::djvCoreContext(QObject * parent) :
+    QObject(parent),
+    _p(new djvCoreContextPrivate)
 {
-
-djvAbstractCoreApplication * _global = 0;
-
-} // namespace
-
-djvAbstractCoreApplication::djvAbstractCoreApplication(
-    const QString & name,
-    int &           argc,
-    char **         argv) throw (djvError) :
-    _p(new djvAbstractCoreApplicationPrivate)
-{
-    _global = this;
+    //DJV_DEBUG("djvCoreContext::djvCoreContext");
     
-    _name = name;
-
-    //DJV_DEBUG("djvAbstractCoreApplication::djvAbstractCoreApplication");
-    //DJV_DEBUG_PRINT("name = " << _p->name);
+    // Load translators.
     
-    QTranslator * qtTranslator = new QTranslator(qApp);
+    QTranslator * qtTranslator = new QTranslator(this);
     qtTranslator->load("qt_" + QLocale::system().name(),
         QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     qApp->installTranslator(qtTranslator);
-
+    
     loadTranslator("djvCore");
-
-    // Store the command line arguments.
-
-    if (argc > 0)
-    {
-        _p->commandLineName = argv[0];
-    }
-
-    for (int i = 1; i < argc; ++i)
-    {
-        _commandLineArgs << QString(argv[i]);
-    }
-
-    //DJV_DEBUG_PRINT("commandLine = " << _commandLineArgs);
-
-    DJV_LOG("djvAbstractCoreApplication",
-        QString("Command line name: \"%1\"").arg(_p->commandLineName));
-    DJV_LOG("djvAbstractCoreApplication",
-        QString("Command line arguments: %1").
-            arg(djvStringUtil::addQuotes(_commandLineArgs).join(", ")));
-    DJV_LOG("djvAbstractCoreApplication", "");
-
-    DJV_LOG("djvAbstractCoreApplication", "Information:");
-    DJV_LOG("djvAbstractCoreApplication", "");
-    DJV_LOG("djvAbstractCoreApplication", info());
 }
 
-djvAbstractCoreApplication::~djvAbstractCoreApplication()
+djvCoreContext::~djvCoreContext()
 {
-    //DJV_DEBUG("djvAbstractCoreApplication::~djvAbstractCoreApplication");
+    //DJV_DEBUG("djvCoreContext::~djvCoreContext");
     
     delete _p;
 }
 
-int djvAbstractCoreApplication::run()
+bool djvCoreContext::commandLine(int & argc, char ** argv)
 {
-    switch (_p->exitValue)
+    QStringList args;
+    
+    for (int i = 1; i < argc; ++i)
     {
-        case djvApplicationEnum::EXIT_HELP:
-        
-            printMessage("\n" + commandLineHelp(), 1);
-            
-            break;
+        args += argv[i];
+    }
 
-        case djvApplicationEnum::EXIT_INFO:
-        
-            printMessage("\n" + info(), 1);
-            
-            break;
+    DJV_LOG(debugLog(), "djvCoreContext",
+        QString("Command line: %1").arg(djvStringUtil::addQuotes(args).join(", ")));
+    DJV_LOG(debugLog(), "djvCoreContext", "");
 
-        case djvApplicationEnum::EXIT_ABOUT:
+    try
+    {
+        if (! commandLineParse(args))
+        {
+            return false;
+        }
+    }
+    catch (const QString & error)
+    {
+        printError(
+            qApp->translate("djvCoreContext",
+                "Cannot parse the command line argument: %1").arg(error));
         
-            printMessage("\n" + about(), 1);
-            
-            break;
-
-        default: break;
+        return false;
     }
     
-    QStringList tmp;
-    tmp << _p->exitValue;
-    DJV_LOG("djvAbstractCoreApplication",
-        QString("Exit value: %1").arg(tmp.join(", ")));
+    DJV_LOG(debugLog(), "djvCoreContext", "Information:");
+    DJV_LOG(debugLog(), "djvCoreContext", "");
+    DJV_LOG(debugLog(), "djvCoreContext", info());
     
-    return _p->exitValue;
+    return true;
 }
 
-djvApplicationEnum::EXIT_VALUE djvAbstractCoreApplication::exitValue() const
+QString djvCoreContext::doc() const
 {
-    return _p->exitValue;
+    return djvFileInfoUtil::fixPath(qApp->applicationDirPath() + "/doc/" +
+        "djvHelp.html");
 }
 
-void djvAbstractCoreApplication::setExitValue(djvApplicationEnum::EXIT_VALUE in)
-{
-    _p->exitValue = in;
-}
-
-const QString & djvAbstractCoreApplication::name()
-{
-    return _name;
-}
-
-QString djvAbstractCoreApplication::docPath() const
-{
-    const QString docPath =
-#if defined(DJV_WINDOWS)
-        "../doc";
-#elif defined(DJV_OSX)
-        "../doc";
-#else
-        "../doc";
-#endif
-
-    return djvFileInfoUtil::fixPath(qApp->applicationDirPath() + "/" + docPath);
-}
-
-QString djvAbstractCoreApplication::doc() const
-{
-    return docPath() + "djvHelp.html";
-}
-
-QString djvAbstractCoreApplication::info() const
+QString djvCoreContext::info() const
 {
     static const QString label = qApp->translate(
-        "djvAbstractCoreApplication",
+        "djvCoreContext",
 "General\n"
 "\n"
 "    Version: %1\n"
@@ -244,10 +161,10 @@ QString djvAbstractCoreApplication::info() const
         arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
 }
 
-QString djvAbstractCoreApplication::about() const
+QString djvCoreContext::about() const
 {
     static const QString label = qApp->translate(
-        "djvAbstractCoreApplication",
+        "djvCoreContext",
 "DJV Imaging, Version: %1\n"
 "\n"
 "http://djv.sourceforge.net\n"
@@ -351,46 +268,62 @@ QString djvAbstractCoreApplication::about() const
 
     return QString(label).arg(DJV_PROJECT_NAME);
 }
-
-void djvAbstractCoreApplication::printMessage(const QString & string, int indent) const
+    
+void djvCoreContext::print(const QString & string)
 {
-    print(string, true, indent);
+    consolePrint(string);
 }
 
-void djvAbstractCoreApplication::printError(const djvError & error) const
+void djvCoreContext::printSeparator()
 {
-    if (_p->endline)
+    const_cast<djvCoreContext *>(this)->_p->separator = true;
+}
+    
+djvDebugLog * djvCoreContext::debugLog() const
+{
+    return _p->debugLog.data();
+}
+
+void djvCoreContext::printMessage(const QString & string)
+{
+    print(string);
+}
+
+void djvCoreContext::printError(const djvError & error)
+{
+    const QStringList list = djvErrorUtil::format(error);
+    
+    for (int i = list.count() - 1; i >= 0; --i)
     {
-        djvSystem::print("");
-
-        const_cast<djvAbstractCoreApplication *>(this)->_p->endline = false;
+        print(list[i]);
     }
-
-    djvErrorUtil::print(error);
 }
 
-void djvAbstractCoreApplication::print(const QString & string, bool newline, int indent) const
+void djvCoreContext::loadTranslator(const QString & baseName)
 {
-    if (_p->separator)
+    DJV_LOG(debugLog(), "djvCoreContext",
+        QString("Searching for translator: \"%1\"").arg(baseName));
+
+    const QString fileName = djvSystem::findFile(
+        QString("%1_%2.qm").arg(baseName).arg(QLocale::system().name()));
+    
+    if (! fileName.isEmpty())
     {
-        djvSystem::print("");
+        DJV_LOG(debugLog(), "djvCoreContext",
+            QString("Found translator: \"%1\"").arg(fileName));
 
-        const_cast<djvAbstractCoreApplication *>(this)->_p->separator = false;
+        QTranslator * qTranslator = new QTranslator(qApp);
+        qTranslator->load(fileName);
+        
+        qApp->installTranslator(qTranslator);
     }
-
-    djvSystem::print(string, newline, indent);
-
-    const_cast<djvAbstractCoreApplication *>(this)->_p->endline = ! newline;
+    
+    DJV_LOG(debugLog(), "djvCoreContext", "");
 }
 
-void djvAbstractCoreApplication::printSeparator() const
+bool djvCoreContext::commandLineParse(QStringList & in) throw (QString)
 {
-    const_cast<djvAbstractCoreApplication *>(this)->_p->separator = true;
-}
-
-void djvAbstractCoreApplication::commandLine(QStringList & in) throw (QString)
-{
-    //DJV_DEBUG("djvAbstractCoreApplication::commandLine");
+    //DJV_DEBUG("djvCoreContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
     QStringList tmp;
@@ -405,21 +338,21 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (QString)
             // General options.
 
             if (
-                qApp->translate("djvAbstractCoreApplication", "-time_units") == arg)
+                qApp->translate("djvCoreContext", "-time_units") == arg)
             {
                 djvTime::UNITS value = static_cast<djvTime::UNITS>(0);
                 in >> value;
                 djvTime::setUnits(value);
             }
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-default_speed") == arg)
+                qApp->translate("djvCoreContext", "-default_speed") == arg)
             {
                 djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
                 in >> value;
                 djvSpeed::setSpeed(value);
             }
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-max_sequence_frames") == arg)
+                qApp->translate("djvCoreContext", "-max_sequence_frames") == arg)
             {
                 qint64 value = static_cast<qint64>(0);
                 in >> value;
@@ -427,32 +360,46 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (QString)
             }
 
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-debug_log") == arg)
+                qApp->translate("djvCoreContext", "-debug_log") == arg)
             {
-                _p->debugLog = true;
+                Q_FOREACH(const QString & message, debugLog()->messages())
+                {
+                    printMessage(message);
+                }
+                
+                connect(
+                    debugLog(),
+                    SIGNAL(message(const QString &)),
+                    SLOT(debugLogCallback(const QString &)));
             }
 
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-help") == arg ||
-                qApp->translate("djvAbstractCoreApplication", "-h") == arg)
+                qApp->translate("djvCoreContext", "-help") == arg ||
+                qApp->translate("djvCoreContext", "-h") == arg)
             {
-                setExitValue(djvApplicationEnum::EXIT_HELP);
+                consolePrint("\n" + commandLineHelp());
+                
+                return false;
             }
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-info") == arg)
+                qApp->translate("djvCoreContext", "-info") == arg)
             {
-                setExitValue(djvApplicationEnum::EXIT_INFO);
+                consolePrint("\n" + info());
+                
+                return false;
             }
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-about") == arg)
+                qApp->translate("djvCoreContext", "-about") == arg)
             {
-                setExitValue(djvApplicationEnum::EXIT_ABOUT);
+                consolePrint("\n" + about());
+                
+                return false;
             }
 
 #if defined(DJV_OSX)
 
             else if (
-                qApp->translate("djvAbstractCoreApplication", "-psn_") == arg.mid(0, 5))
+                qApp->translate("djvCoreContext", "-psn_") == arg.mid(0, 5))
             {
                 //! \todo Ignore the Mac OS process id command line argument.
                 //! Is this still necessary?
@@ -476,17 +423,14 @@ void djvAbstractCoreApplication::commandLine(QStringList & in) throw (QString)
     }
 
     in = tmp;
+    
+    return true;
 }
 
-const QString & djvAbstractCoreApplication::commandLineName() const
-{
-    return _p->commandLineName;
-}
-
-QString djvAbstractCoreApplication::commandLineHelp() const
+QString djvCoreContext::commandLineHelp() const
 {
     static const QString label = qApp->translate(
-        "djvAbstractCoreApplication",
+        "djvCoreContext",
 "\n"
 "General Options\n"
 "\n"
@@ -513,75 +457,23 @@ QString djvAbstractCoreApplication::commandLineHelp() const
         arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
 }
 
-djvAbstractCoreApplication * djvAbstractCoreApplication::global()
+void djvCoreContext::consolePrint(const QString & string, bool newline, int indent)
 {
-    return _global;
-}
-
-const QStringList & djvAbstractCoreApplication::errorLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvAbstractCoreApplication",
-            "Cannot parse the command line argument: %1");
-    
-    DJV_ASSERT(ERROR_COUNT == data.count());
-    
-    return data;
-}
-
-void djvAbstractCoreApplication::loadTranslator(const QString & baseName)
-{
-    DJV_LOG("djvAbstractCoreApplication",
-        QString("Searching for translator: \"%1\"").arg(baseName));
-
-    const QString fileName = djvSystem::findFile(
-        QString("%1_%2.qm").arg(baseName).arg(QLocale::system().name()));
-    
-    if (! fileName.isEmpty())
+    if (_p->separator)
     {
-        DJV_LOG("djvAbstractCoreApplication",
-            QString("Found translator: \"%1\"").arg(fileName));
+        djvSystem::print("");
 
-        QTranslator * qTranslator = new QTranslator(qApp);
-        qTranslator->load(fileName);
-        
-        qApp->installTranslator(qTranslator);
+        const_cast<djvCoreContext *>(this)->_p->separator = false;
     }
-    
-    DJV_LOG("djvAbstractCoreApplication", "");
+
+    djvSystem::print(string, newline, indent);
+
+    const_cast<djvCoreContext *>(this)->_p->endline = ! newline;
 }
 
-bool djvAbstractCoreApplication::hasDebugLog() const
+void djvCoreContext::debugLogCallback(const QString & string)
 {
-    return _p->debugLog;
+    consolePrint(string);
 }
 
-//------------------------------------------------------------------------------
-// djvCoreApplication
-//------------------------------------------------------------------------------
-
-djvCoreApplication::djvCoreApplication(const QString & name, int & argc, char ** argv)
-    throw (djvError) :
-    QCoreApplication(argc, argv),
-    djvAbstractCoreApplication(name, argc, argv)
-{
-    //DJV_DEBUG("djvCoreApplication");
-    
-    setOrganizationName("djv.sourceforge.net");
-
-    setApplicationName(name);
-}
-
-int djvCoreApplication::run()
-{
-    djvAbstractCoreApplication::run();
-
-    return exitValue();
-}
-
-//------------------------------------------------------------------------------
-
-_DJV_STRING_OPERATOR_LABEL(
-    djvApplicationEnum::EXIT_VALUE,
-    djvApplicationEnum::exitValueLabels())
 

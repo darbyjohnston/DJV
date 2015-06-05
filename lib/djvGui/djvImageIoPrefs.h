@@ -40,6 +40,8 @@
 
 #include <QObject>
 
+class djvGuiContext;
+
 //! \addtogroup djvGuiMisc
 //@{
 
@@ -57,15 +59,15 @@ public:
 
     //! Constructor.
 
-    explicit djvImageIoPrefs(QObject * parent = 0);
+    explicit djvImageIoPrefs(djvGuiContext *, QObject * parent = 0);
 
     //! Destructor.
 
     ~djvImageIoPrefs();
 
-    //! Get the global preferences.
+private:
 
-    static djvImageIoPrefs * global();
+    djvGuiContext * _context;
 };
 
 //@} // djvGuiMisc

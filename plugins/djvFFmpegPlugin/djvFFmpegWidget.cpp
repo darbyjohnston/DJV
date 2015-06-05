@@ -46,8 +46,8 @@
 // djvFFmpegWidget
 //------------------------------------------------------------------------------
 
-djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin) :
-    djvAbstractPrefsWidget(djvFFmpegPlugin::staticName),
+djvFFmpegWidget::djvFFmpegWidget(djvFFmpegPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvFFmpegPlugin::staticName, context),
     _plugin       (plugin),
     _formatWidget (0),
     _qualityWidget(0)

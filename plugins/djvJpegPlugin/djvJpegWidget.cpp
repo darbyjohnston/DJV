@@ -47,8 +47,8 @@
 // djvJpegWidget
 //------------------------------------------------------------------------------
 
-djvJpegWidget::djvJpegWidget(djvJpegPlugin * plugin) :
-    djvAbstractPrefsWidget(djvJpegPlugin::staticName),
+djvJpegWidget::djvJpegWidget(djvJpegPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvJpegPlugin::staticName, context),
     _plugin       (plugin),
     _qualityWidget(0)
 {

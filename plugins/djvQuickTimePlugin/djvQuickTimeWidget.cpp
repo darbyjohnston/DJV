@@ -59,8 +59,8 @@ using namespace djv;
 // djvQuickTimeWidget
 //------------------------------------------------------------------------------
 
-djvQuickTimeWidget::djvQuickTimeWidget(djvQuickTimePlugin * plugin) :
-    djvAbstractPrefsWidget(djvQuickTimePlugin::staticName),
+djvQuickTimeWidget::djvQuickTimeWidget(djvQuickTimePlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvQuickTimePlugin::staticName, context),
     _plugin       (plugin),
     _codecWidget  (0),
     _qualityWidget(0)

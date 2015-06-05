@@ -33,16 +33,14 @@
 
 #include <djvViewViewPrefs.h>
 
-#include <djvViewApplication.h>
-
 #include <djvPrefs.h>
 
 //------------------------------------------------------------------------------
 // djvViewViewPrefs
 //------------------------------------------------------------------------------
 
-djvViewViewPrefs::djvViewViewPrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewViewPrefs::djvViewViewPrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _background        (backgroundDefault()),
     _grid              (gridDefault()),
     _gridColor         (gridColorDefault()),
@@ -172,18 +170,6 @@ djvColor djvViewViewPrefs::hudBackgroundColorDefault()
 const djvColor & djvViewViewPrefs::hudBackgroundColor() const
 {
     return _hudBackgroundColor;
-}
-
-djvViewViewPrefs * djvViewViewPrefs::global()
-{
-    static djvViewViewPrefs * prefs = 0;
-
-    if (! prefs)
-    {
-        prefs = new djvViewViewPrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewViewPrefs::setBackground(const djvColor & in)

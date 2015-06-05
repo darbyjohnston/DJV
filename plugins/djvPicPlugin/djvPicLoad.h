@@ -34,9 +34,10 @@
 #ifndef DJV_PIC_LOAD_H
 #define DJV_PIC_LOAD_H
 
-#include <djvPicPlugin.h>
+#include <djvPic.h>
 
 #include <djvFileInfo.h>
+#include <djvImageIo.h>
 
 //! \addtogroup djvPicPlugin
 //@{
@@ -70,10 +71,10 @@ private:
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
-    djvFileInfo        _file;
-    djvPicPlugin::TYPE _type;
-    bool               _compression [2];
-    djvPixelData       _tmp;
+    djvFileInfo  _file;
+    djvPic::TYPE _type;
+    bool         _compression [2];
+    djvPixelData _tmp;
 };
 
 //@} // djvPicPlugin

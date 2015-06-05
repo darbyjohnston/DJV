@@ -33,7 +33,6 @@
 
 #include <djvViewShortcutPrefs.h>
 
-#include <djvViewApplication.h>
 #include <djvViewUtil.h>
 
 #include <djvPrefs.h>
@@ -44,8 +43,8 @@
 // djvViewShortcutPrefs
 //------------------------------------------------------------------------------
 
-djvViewShortcutPrefs::djvViewShortcutPrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewShortcutPrefs::djvViewShortcutPrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _shortcuts(shortcutsDefault())
 {
     djvPrefs prefs("djvViewShortcutPrefs");
@@ -303,18 +302,6 @@ const QVector<djvShortcut> & djvViewShortcutPrefs::shortcutsDefault()
 const QVector<djvShortcut> & djvViewShortcutPrefs::shortcuts() const
 {
     return _shortcuts;
-}
-
-djvViewShortcutPrefs * djvViewShortcutPrefs::global()
-{
-    static djvViewShortcutPrefs * prefs = 0;
-
-    if (! prefs)
-    {
-        prefs = new djvViewShortcutPrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewShortcutPrefs::setShortcuts(const QVector<djvShortcut> & in)

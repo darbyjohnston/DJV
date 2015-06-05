@@ -33,6 +33,7 @@
 
 #include <djvViewViewGroup.h>
 
+#include <djvViewContext.h>
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
 #include <djvViewShortcutPrefs.h>
@@ -56,9 +57,9 @@
 
 struct djvViewViewGroupPrivate
 {
-    djvViewViewGroupPrivate() :
-        grid      (djvViewViewPrefs::global()->grid()),
-        hudEnabled(djvViewViewPrefs::global()->isHudEnabled()),
+    djvViewViewGroupPrivate(djvViewContext * context) :
+        grid      (context->viewPrefs()->grid()),
+        hudEnabled(context->viewPrefs()->isHudEnabled()),
         actions   (0),
         menu      (0),
         toolBar   (0)
@@ -76,10 +77,12 @@ struct djvViewViewGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewViewGroup::djvViewViewGroup(
+    const djvViewViewGroup * copy,
     djvViewMainWindow *      mainWindow,
-    const djvViewViewGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
-    _p(new djvViewViewGroupPrivate)
+    djvViewContext *         context) :
+    
+    djvViewAbstractGroup(mainWindow, context),
+    _p(new djvViewViewGroupPrivate(context))
 {
     if (copy)
     {
@@ -89,7 +92,7 @@ djvViewViewGroup::djvViewViewGroup(
 
     // Create the actions.
 
-    _p->actions = new djvViewViewActions(this);
+    _p->actions = new djvViewViewActions(context, this);
 
     // Create the menus.
 
@@ -99,7 +102,7 @@ djvViewViewGroup::djvViewViewGroup(
 
     // Create the widgets.
 
-    _p->toolBar = new djvViewViewToolBar(_p->actions);
+    _p->toolBar = new djvViewViewToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
 
@@ -186,12 +189,12 @@ djvViewViewGroup::djvViewViewGroup(
     // Setup the preferences callbacks.
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(gridChanged(djvViewUtil::GRID)),
         SLOT(gridCallback(djvViewUtil::GRID)));
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(hudEnabledChanged(bool)),
         SLOT(hudEnabledCallback(bool)));
 }

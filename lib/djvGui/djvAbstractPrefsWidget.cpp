@@ -37,9 +37,13 @@
 // djvAbstractPrefsWidget
 //------------------------------------------------------------------------------
 
-djvAbstractPrefsWidget::djvAbstractPrefsWidget(const QString & name, QWidget * parent) :
+djvAbstractPrefsWidget::djvAbstractPrefsWidget(
+    const QString & name,
+    djvGuiContext * context,
+    QWidget *       parent) :
     QWidget(parent),
-    _name(name)
+    _name   (name),
+    _context(context)
 {}
 
 djvAbstractPrefsWidget::~djvAbstractPrefsWidget()
@@ -53,3 +57,7 @@ const QString & djvAbstractPrefsWidget::name() const
 void djvAbstractPrefsWidget::resetPreferences()
 {}
 
+djvGuiContext * djvAbstractPrefsWidget::context() const
+{
+    return _context;
+}

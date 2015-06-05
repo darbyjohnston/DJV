@@ -34,9 +34,9 @@
 #ifndef DJV_LUT_WIDGET_H
 #define DJV_LUT_WIDGET_H
 
-#include <djvLutPlugin.h>
+#include <djvLut.h>
 
-#include <djvAbstractPrefsWidget.h>
+#include <djvImageIoWidget.h>
 
 class QComboBox;
 
@@ -49,7 +49,7 @@ class QComboBox;
 //! This class provides a LUT widget.
 //------------------------------------------------------------------------------
 
-class djvLutWidget : public djvAbstractPrefsWidget
+class djvLutWidget : public djvImageIoWidget
 {
     Q_OBJECT
     
@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvLutWidget(djvLutPlugin *);
+    djvLutWidget(djvImageIo *, djvGuiContext *);
 
     //! Destructor.
 
@@ -75,9 +75,25 @@ private Q_SLOTS:
 
 private:
 
-    djvLutPlugin *        _plugin;
-    djvLutPlugin::Options _options;
-    QComboBox *           _typeWidget;
+    djvLut::Options _options;
+    QComboBox *     _typeWidget;
+};
+
+//------------------------------------------------------------------------------
+//! \class djvLutWidgetPlugin
+//!
+//! This class provides a LUT widget plugin.
+//------------------------------------------------------------------------------
+
+class djvLutWidgetPlugin : public djvImageIoWidgetPlugin
+{
+public:
+    
+    djvLutWidgetPlugin(djvCoreContext *);
+    
+    virtual djvImageIoWidget * createWidget(djvImageIo *) const;
+
+    virtual QString pluginName() const;
 };
 
 //@} // djvLutPlugin

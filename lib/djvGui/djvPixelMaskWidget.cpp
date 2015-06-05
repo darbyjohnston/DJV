@@ -33,6 +33,7 @@
 
 #include <djvPixelMaskWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvSignalBlocker.h>
 #include <djvToolButton.h>
@@ -60,12 +61,12 @@ struct djvPixelMaskWidgetPrivate
 // djvPixelMaskWidget
 //------------------------------------------------------------------------------
 
-djvPixelMaskWidget::djvPixelMaskWidget(QWidget * parent) :
+djvPixelMaskWidget::djvPixelMaskWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvPixelMaskWidgetPrivate)
 {
     _p->button = new djvToolButton(
-        djvIconLibrary::global()->icon("djvPixelMaskIcon.png"));
+        context->iconLibrary()->icon("djvPixelMaskIcon.png"));
     _p->button->setCheckable(true);
     _p->button->setToolTip(
         qApp->translate("djvPixelMaskWidget", "Set the pixel mask"));

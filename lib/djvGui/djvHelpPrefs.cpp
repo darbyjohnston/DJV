@@ -108,18 +108,6 @@ bool djvHelpPrefs::hasToolTips() const
     return _p->toolTips;
 }
 
-djvHelpPrefs * djvHelpPrefs::global()
-{
-    static djvHelpPrefs * global = 0;
-    
-    if (! global)
-    {
-        global = new djvHelpPrefs(qApp);
-    }
-    
-    return global;
-}
-
 void djvHelpPrefs::setToolTips(bool toolTips)
 {
     if (toolTips == _p->toolTips)

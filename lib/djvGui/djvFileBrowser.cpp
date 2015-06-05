@@ -35,6 +35,7 @@
 
 #include <djvFileBrowserModel.h>
 #include <djvFileBrowserPrefs.h>
+#include <djvGuiContext.h>
 #include <djvIndexShortcut.h>
 #include <djvMultiChoiceDialog.h>
 
@@ -155,12 +156,13 @@ struct Widgets
 
 struct djvFileBrowserPrivate
 {
-    djvFileBrowserPrivate() :
+    djvFileBrowserPrivate(djvGuiContext * context) :
         pinnable   (false),
         pinned     (false),
         shown      (false),
         model      (0),
-        osxMenuHack(0)
+        osxMenuHack(0),
+        context    (context)
     {}
     
     bool                  pinnable;
@@ -173,15 +175,16 @@ struct djvFileBrowserPrivate
     Actions               actions;
     Widgets               widgets;
     djvOsxMenuHack *      osxMenuHack;
+    djvGuiContext *       context;
 };
 
 //------------------------------------------------------------------------------
 // djvFileBrowser
 //------------------------------------------------------------------------------
 
-djvFileBrowser::djvFileBrowser(QWidget * parent) :
+djvFileBrowser::djvFileBrowser(djvGuiContext * context, QWidget * parent) :
     QDialog(parent),
-    _p(new djvFileBrowserPrivate)
+    _p(new djvFileBrowserPrivate(context))
 {
     //DJV_DEBUG("djvFileBrowser::djvFileBrowser");
     
@@ -198,12 +201,12 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->actions.actions[Actions::UP] = directoryMenu->addAction(
         qApp->translate("djvFileBrowser", "&Up"), this, SLOT(upCallback()));
     _p->actions.actions[Actions::UP]->setIcon(
-        djvIconLibrary::global()->icon("djvDirUpIcon.png"));
+        context->iconLibrary()->icon("djvDirUpIcon.png"));
 
     _p->actions.actions[Actions::PREV] = directoryMenu->addAction(
         qApp->translate("djvFileBrowser", "&Prev"), this, SLOT(prevCallback()));
     _p->actions.actions[Actions::PREV]->setIcon(
-        djvIconLibrary::global()->icon("djvDirPrevIcon.png"));
+        context->iconLibrary()->icon("djvDirPrevIcon.png"));
 
     _p->menus.menus[Menus::RECENT] = directoryMenu->addMenu(
         qApp->translate("djvFileBrowser", "&Recent"));
@@ -229,7 +232,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     _p->actions.actions[Actions::RELOAD] = directoryMenu->addAction(
         qApp->translate("djvFileBrowser", "Re&load"), this, SLOT(reloadCallback()));
     _p->actions.actions[Actions::RELOAD]->setIcon(
-        djvIconLibrary::global()->icon("djvDirReloadIcon.png"));
+        context->iconLibrary()->icon("djvDirReloadIcon.png"));
     
     QMenu * optionsMenu = _p->menus.menuBar->addMenu(
         qApp->translate("djvFileBrowser", "&Options"));
@@ -298,7 +301,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     QLabel * seqLabel = new QLabel(
         qApp->translate("djvFileBrowser", "Sequence:"));
 
-    _p->widgets.search = new djvSearchBox;
+    _p->widgets.search = new djvSearchBox(context);
     _p->widgets.search->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     _p->widgets.browser = new QTreeView;
@@ -328,7 +331,7 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     layout->setMenuBar(_p->menus.menuBar);
     
     QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    hLayout->setSpacing(context->style()->sizeMetric().largeSpacing);
     
     QHBoxLayout * hLayout2 = new QHBoxLayout;
     hLayout2->setMargin(0);
@@ -369,14 +372,14 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     
     // Load the preferences.
 
-    _p->model = new djvFileBrowserModel(this);
-    _p->model->setSequence(djvFileBrowserPrefs::global()->sequence());
-    _p->model->setShowHidden(djvFileBrowserPrefs::global()->hasShowHidden());
-    _p->model->setSort(djvFileBrowserPrefs::global()->sort());
-    _p->model->setReverseSort(djvFileBrowserPrefs::global()->hasReverseSort());
-    _p->model->setSortDirsFirst(djvFileBrowserPrefs::global()->hasSortDirsFirst());
-    _p->model->setThumbnails(djvFileBrowserPrefs::global()->thumbnails());
-    _p->model->setThumbnailsSize(djvFileBrowserPrefs::global()->thumbnailsSize());
+    _p->model = new djvFileBrowserModel(context, this);
+    _p->model->setSequence(context->fileBrowserPrefs()->sequence());
+    _p->model->setShowHidden(context->fileBrowserPrefs()->hasShowHidden());
+    _p->model->setSort(context->fileBrowserPrefs()->sort());
+    _p->model->setReverseSort(context->fileBrowserPrefs()->hasReverseSort());
+    _p->model->setSortDirsFirst(context->fileBrowserPrefs()->hasSortDirsFirst());
+    _p->model->setThumbnails(context->fileBrowserPrefs()->thumbnails());
+    _p->model->setThumbnailsSize(context->fileBrowserPrefs()->thumbnailsSize());
     _p->model->setPath(_p->fileInfo);
     
     // Initialize.
@@ -421,27 +424,27 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
         SLOT(menuUpdate()));
 
     _p->model->connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(sequenceChanged(djvSequence::COMPRESS)),
         SLOT(setSequence(djvSequence::COMPRESS)));
 
     _p->model->connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(showHiddenChanged(bool)),
         SLOT(setShowHidden(bool)));
 
     _p->model->connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(sortChanged(djvFileBrowserModel::COLUMNS)),
         SLOT(setSort(djvFileBrowserModel::COLUMNS)));
 
     _p->model->connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(reverseSortChanged(bool)),
         SLOT(setReverseSort(bool)));
 
     _p->model->connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(sortDirsFirstChanged(bool)),
         SLOT(setSortDirsFirst(bool)));
 
@@ -520,56 +523,58 @@ djvFileBrowser::djvFileBrowser(QWidget * parent) :
     connect(closeButton, SIGNAL(clicked()), this, SLOT(reject()));
 
     connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(thumbnailsChanged(djvFileBrowserModel::THUMBNAILS)),
         SLOT(modelUpdate()));
 
     connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(thumbnailsSizeChanged(djvFileBrowserModel::THUMBNAILS_SIZE)),
         SLOT(modelUpdate()));
 
     connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(recentChanged(const QStringList &)),
         SLOT(menuUpdate()));
 
     connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(bookmarksChanged(const QStringList &)),
         SLOT(menuUpdate()));
 
     connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(menuUpdate()));
 
     connect(
-        djvFileBrowserPrefs::global(),
+        context->fileBrowserPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(toolTipUpdate()));
 
     connect(
-        djvStyle::global(),
+        context->style(),
         SIGNAL(sizeMetricsChanged()),
         SLOT(modelUpdate()));
 }
 
 djvFileBrowser::~djvFileBrowser()
 {
+    //DJV_DEBUG("djvFileBrowser::~djvFileBrowser");
+    
     // Remember the last used path.
 
     djvFileBrowserPrefs::setPathDefault(_p->model->path());
 
     // Save the preferences.
 
-    djvFileBrowserPrefs::global()->setSequence(_p->model->sequence());
-    djvFileBrowserPrefs::global()->setShowHidden(_p->model->hasShowHidden());
-    djvFileBrowserPrefs::global()->setSort(_p->model->sort());
-    djvFileBrowserPrefs::global()->setReverseSort(_p->model->hasReverseSort());
-    djvFileBrowserPrefs::global()->setSortDirsFirst(_p->model->hasSortDirsFirst());
-    djvFileBrowserPrefs::global()->setThumbnails(_p->model->thumbnails());
-    djvFileBrowserPrefs::global()->setThumbnailsSize(_p->model->thumbnailsSize());
+    _p->context->fileBrowserPrefs()->setSequence(_p->model->sequence());
+    _p->context->fileBrowserPrefs()->setShowHidden(_p->model->hasShowHidden());
+    _p->context->fileBrowserPrefs()->setSort(_p->model->sort());
+    _p->context->fileBrowserPrefs()->setReverseSort(_p->model->hasReverseSort());
+    _p->context->fileBrowserPrefs()->setSortDirsFirst(_p->model->hasSortDirsFirst());
+    _p->context->fileBrowserPrefs()->setThumbnails(_p->model->thumbnails());
+    _p->context->fileBrowserPrefs()->setThumbnailsSize(_p->model->thumbnailsSize());
 
     delete _p;
 }
@@ -587,29 +592,6 @@ bool djvFileBrowser::isPinnable() const
 bool djvFileBrowser::isPinned() const
 {
     return _p->pinned;
-}
-
-djvFileBrowser * djvFileBrowser::global(const QString & title)
-{
-    static QPointer<djvFileBrowser> fileBrowser;
-    
-    if (! fileBrowser)
-    {
-        fileBrowser = QPointer<djvFileBrowser>(new djvFileBrowser);
-    }
-    
-    fileBrowser->close();
-
-    fileBrowser->setWindowTitle(
-        ! title.isEmpty() ?
-            title :
-            qApp->translate("djvFileBrowser", "File Browser"));
-    
-    fileBrowser->setPinnable(false);
-    
-    fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djvFileInfo &)));
-
-    return fileBrowser;
 }
 
 void djvFileBrowser::setFileInfo(const djvFileInfo & fileInfo)
@@ -783,13 +765,13 @@ void djvFileBrowser::reloadCallback()
 
 void djvFileBrowser::thumbnailsCallback(QAction * action)
 {
-    djvFileBrowserPrefs::global()->setThumbnails(
+    _p->context->fileBrowserPrefs()->setThumbnails(
         static_cast<djvFileBrowserModel::THUMBNAILS>(action->data().toInt()));
 }
 
 void djvFileBrowser::thumbnailsSizeCallback(QAction * action)
 {
-    djvFileBrowserPrefs::global()->setThumbnailsSize(
+    _p->context->fileBrowserPrefs()->setThumbnailsSize(
         static_cast<djvFileBrowserModel::THUMBNAILS_SIZE>(action->data().toInt()));
 }
 
@@ -886,12 +868,12 @@ void djvFileBrowser::pinnedCallback(bool pinned)
 
 void djvFileBrowser::addBookmarkCallback()
 {
-    djvFileBrowserPrefs::global()->addBookmark(_p->fileInfo.path());
+    _p->context->fileBrowserPrefs()->addBookmark(_p->fileInfo.path());
 }
 
 void djvFileBrowser::deleteBookmarkCallback()
 {
-    const QStringList & bookmarks = djvFileBrowserPrefs::global()->bookmarks();
+    const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
 
     if (! bookmarks.count())
         return;
@@ -920,13 +902,13 @@ void djvFileBrowser::deleteBookmarkCallback()
         
         //DJV_DEBUG_PRINT("bookmarks = " << tmp);
         
-        djvFileBrowserPrefs::global()->setBookmarks(tmp);
+        _p->context->fileBrowserPrefs()->setBookmarks(tmp);
     }
 }
 
 void djvFileBrowser::deleteAllBookmarksCallback()
 {
-    const QStringList & bookmarks = djvFileBrowserPrefs::global()->bookmarks();
+    const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
 
     if (! bookmarks.count())
         return;
@@ -936,7 +918,7 @@ void djvFileBrowser::deleteAllBookmarksCallback()
     
     if (QDialog::Accepted == dialog.exec())
     {
-        djvFileBrowserPrefs::global()->setBookmarks(QStringList());
+        _p->context->fileBrowserPrefs()->setBookmarks(QStringList());
     }
 }
 
@@ -949,7 +931,7 @@ void djvFileBrowser::bookmarksCallback()
 {
     if (djvIndexShortcut * shortcut = qobject_cast<djvIndexShortcut *>(sender()))
     {
-        const QStringList & bookmarks = djvFileBrowserPrefs::global()->bookmarks();
+        const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
     
         setFileInfo(bookmarks[shortcut->index()]);
     }
@@ -957,7 +939,7 @@ void djvFileBrowser::bookmarksCallback()
 
 void djvFileBrowser::bookmarkDelCallback(const QVector<int> & list)
 {
-    const QStringList & bookmarks = djvFileBrowserPrefs::global()->bookmarks();
+    const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
 
     QStringList tmp;
 
@@ -977,14 +959,14 @@ void djvFileBrowser::bookmarkDelCallback(const QVector<int> & list)
         tmp += bookmarks[i];
     }
 
-    djvFileBrowserPrefs::global()->setBookmarks(tmp);
+    _p->context->fileBrowserPrefs()->setBookmarks(tmp);
 
     menuUpdate();
 }
 
 void djvFileBrowser::bookmarkDelAllCallback()
 {
-    djvFileBrowserPrefs::global()->setBookmarks(QStringList());
+    _p->context->fileBrowserPrefs()->setBookmarks(QStringList());
 
     menuUpdate();
 }
@@ -1014,7 +996,7 @@ void djvFileBrowser::acceptedCallback()
 
     if (fileInfo.type() != djvFileInfo::DIRECTORY)
     {
-        djvFileBrowserPrefs::global()->addRecent(_p->fileInfo.path());
+        _p->context->fileBrowserPrefs()->addRecent(_p->fileInfo.path());
 
         if (! _p->pinnable || (_p->pinnable && ! _p->pinned))
         {
@@ -1032,8 +1014,8 @@ void djvFileBrowser::modelUpdate()
 
     setCursor(Qt::WaitCursor);
 
-    _p->model->setThumbnails(djvFileBrowserPrefs::global()->thumbnails());
-    _p->model->setThumbnailsSize(djvFileBrowserPrefs::global()->thumbnailsSize());
+    _p->model->setThumbnails(_p->context->fileBrowserPrefs()->thumbnails());
+    _p->model->setThumbnailsSize(_p->context->fileBrowserPrefs()->thumbnailsSize());
     _p->model->setPath(_p->fileInfo.path());
 
     setCursor(QCursor());
@@ -1067,7 +1049,8 @@ void djvFileBrowser::menuUpdate()
 {
     //DJV_DEBUG("djvFileBrowser::menuUpdate");
 
-    const QVector<djvShortcut> & shortcuts = djvFileBrowserPrefs::global()->shortcuts();
+    const QVector<djvShortcut> & shortcuts =
+        _p->context->fileBrowserPrefs()->shortcuts();
 
     _p->actions.actions[Actions::UP]->setShortcut(
         shortcuts[djvFileBrowserPrefs::UP].value);
@@ -1077,7 +1060,7 @@ void djvFileBrowser::menuUpdate()
 
     _p->menus.menus[Menus::RECENT]->clear();
     
-    const QStringList & recent = djvFileBrowserPrefs::global()->recent();
+    const QStringList & recent = _p->context->fileBrowserPrefs()->recent();
     
     for (int i = 0; i < recent.count(); ++i)
     {
@@ -1157,13 +1140,13 @@ void djvFileBrowser::menuUpdate()
         shortcuts[djvFileBrowserPrefs::SHOW_HIDDEN].value);
 
     QVector<djvShortcut> sortShortcuts = QVector<djvShortcut>() <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::SORT_NAME] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::SORT_SIZE] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::SORT_NAME] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::SORT_SIZE] <<
 #if ! defined(DJV_WINDOWS)
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::SORT_USER] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::SORT_USER] <<
 #endif
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::SORT_PERMISSIONS] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::SORT_TIME];
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::SORT_PERMISSIONS] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::SORT_TIME];
 
     _p->menus.menus[Menus::SORT]->clear();
 
@@ -1212,20 +1195,20 @@ void djvFileBrowser::menuUpdate()
     _p->menus.menus[Menus::BOOKMARKS]->addSeparator();
 
     QVector<djvShortcut> bookmarkShortcuts = QVector<djvShortcut>() <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_1] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_2] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_3] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_4] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_5] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_6] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_7] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_8] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_9] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_10] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_11] <<
-        djvFileBrowserPrefs::global()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_12];
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_1] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_2] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_3] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_4] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_5] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_6] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_7] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_8] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_9] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_10] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_11] <<
+        _p->context->fileBrowserPrefs()->shortcuts()[djvFileBrowserPrefs::BOOKMARK_12];
 
-    const QStringList & bookmarks = djvFileBrowserPrefs::global()->bookmarks();
+    const QStringList & bookmarks = _p->context->fileBrowserPrefs()->bookmarks();
 
     for (int i = 0; i < bookmarks.count(); ++i)
     {
@@ -1252,7 +1235,8 @@ void djvFileBrowser::toolTipUpdate()
 {
     //DJV_DEBUG("djvFileBrowser::toolTipUpdate");
 
-    const QVector<djvShortcut> & shortcuts = djvFileBrowserPrefs::global()->shortcuts();
+    const QVector<djvShortcut> & shortcuts =
+        _p->context->fileBrowserPrefs()->shortcuts();
 
     _p->widgets.file->setToolTip(qApp->translate("djvFileBrowser", "File name"));
 

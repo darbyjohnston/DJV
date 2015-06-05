@@ -1,10 +1,7 @@
 set(header
+    djvAboutDialog.h
     djvAbstractPrefsWidget.h
     djvAbstractToolButton.h
-    djvApplication.h
-    djvApplicationAboutDialog.h
-    djvApplicationInfoDialog.h
-    djvApplicationMessageDialog.h
     djvChoiceButton.h
     djvChoiceDialog.h
     djvColorDialog.h
@@ -23,16 +20,18 @@ set(header
     djvFloatEditSlider.h
     djvFloatObject.h
     djvFloatSlider.h
-	djvFormLayoutAlign.h
+    djvGuiContext.h
     djvGuiExport.h
     djvHelpPrefs.h
 	djvHelpPrefsWidget.h
     djvIconLibrary.h
     djvImageIoPrefs.h
+    djvImageIoWidget.h
     djvImagePrefs.h
 	djvImagePrefsWidget.h
     djvImageView.h
     djvIndexShortcut.h
+    djvInfoDialog.h
     djvInputDialog.h
     djvIntDisplay.h
     djvIntEdit.h
@@ -40,6 +39,7 @@ set(header
     djvIntObject.h
     djvIntSlider.h
     djvMessageDialog.h
+    djvMessagesDialog.h
     djvMultiChoiceDialog.h
     djvOpenGlWidget.h
     djvOsxMenuHack.h
@@ -68,12 +68,9 @@ set(header
     djvWindowUtil.h)
 
 set(mocHeader
+    djvAboutDialog.h
     djvAbstractPrefsWidget.h
     djvAbstractToolButton.h
-    djvApplicationAboutDialog.h
-    djvApplication.h
-    djvApplicationInfoDialog.h
-    djvApplicationMessageDialog.h
     djvChoiceButton.h
     djvChoiceDialog.h
     djvColorDialog.h
@@ -91,21 +88,24 @@ set(mocHeader
     djvFloatEditSlider.h
     djvFloatObject.h
     djvFloatSlider.h
-    djvFormLayoutAlign.h
+    djvGuiContext.h
     djvHelpPrefs.h
     djvHelpPrefsWidget.h
     djvIconLibrary.h
     djvImageIoPrefs.h
+    djvImageIoWidget.h
     djvImagePrefs.h
     djvImagePrefsWidget.h
     djvImageView.h
     djvIndexShortcut.h
+    djvInfoDialog.h
     djvInputDialog.h
     djvIntDisplay.h
     djvIntEdit.h
     djvIntEditSlider.h
     djvIntObject.h
     djvIntSlider.h
+    djvMessagesDialog.h
     djvMultiChoiceDialog.h
     djvOpenGlWidget.h
     djvOsxMenuHack.h
@@ -131,12 +131,9 @@ set(mocHeader
     djvVector2iEditWidget.h)
 
 set(source
+    djvAboutDialog.cpp
     djvAbstractPrefsWidget.cpp
     djvAbstractToolButton.cpp
-    djvApplication.cpp
-    djvApplicationAboutDialog.cpp
-    djvApplicationInfoDialog.cpp
-    djvApplicationMessageDialog.cpp
     djvChoiceButton.cpp
     djvChoiceDialog.cpp
     djvColorDialog.cpp
@@ -155,15 +152,17 @@ set(source
     djvFloatEditSlider.cpp
     djvFloatObject.cpp
     djvFloatSlider.cpp
-	djvFormLayoutAlign.cpp
+    djvGuiContext.cpp
     djvHelpPrefs.cpp
 	djvHelpPrefsWidget.cpp
     djvIconLibrary.cpp
     djvImageIoPrefs.cpp
+    djvImageIoWidget.cpp
     djvImagePrefs.cpp
 	djvImagePrefsWidget.cpp
     djvImageView.cpp
     djvIndexShortcut.cpp
+    djvInfoDialog.cpp
     djvInputDialog.cpp
     djvIntDisplay.cpp
     djvIntEdit.cpp
@@ -171,6 +170,7 @@ set(source
     djvIntObject.cpp
     djvIntSlider.cpp
     djvMessageDialog.cpp
+    djvMessagesDialog.cpp
     djvMultiChoiceDialog.cpp
     djvOpenGlWidget.cpp
     djvOsxMenuHack.cpp

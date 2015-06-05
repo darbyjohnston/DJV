@@ -33,6 +33,7 @@
 
 #include <djvViewPlaybackPrefsWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewPlaybackPrefs.h>
 
 #include <djvPrefsGroupBox.h>
@@ -68,9 +69,9 @@ struct djvViewPlaybackPrefsWidgetPrivate
 // djvViewPlaybackPrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
+djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Playback")),
+        qApp->translate("djvViewPlaybackPrefsWidget", "Playback"), context),
     _p(new djvViewPlaybackPrefsWidgetPrivate)
 {
     // Create the widgets.
@@ -94,7 +95,7 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Playback"));
+        qApp->translate("djvViewPlaybackPrefsWidget", "Playback"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoStartWidget);
     formLayout->addRow(
@@ -104,7 +105,7 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget() :
     layout->addWidget(prefsGroupBox);
 
     prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Layout"));
+        qApp->translate("djvViewPlaybackPrefsWidget", "Layout"), context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvViewPlaybackPrefsWidget", "Playback controls:"),
@@ -147,13 +148,13 @@ djvViewPlaybackPrefsWidget::~djvViewPlaybackPrefsWidget()
 
 void djvViewPlaybackPrefsWidget::resetPreferences()
 {
-    djvViewPlaybackPrefs::global()->setAutoStart(
+    context()->playbackPrefs()->setAutoStart(
         djvViewPlaybackPrefs::autoStartDefault());
-    djvViewPlaybackPrefs::global()->setLoop(
+    context()->playbackPrefs()->setLoop(
         djvViewPlaybackPrefs::loopDefault());
-    djvViewPlaybackPrefs::global()->setEveryFrame(
+    context()->playbackPrefs()->setEveryFrame(
         djvViewPlaybackPrefs::everyFrameDefault());
-    djvViewPlaybackPrefs::global()->setLayout(
+    context()->playbackPrefs()->setLayout(
         djvViewPlaybackPrefs::layoutDefault());
     
     widgetUpdate();
@@ -161,23 +162,23 @@ void djvViewPlaybackPrefsWidget::resetPreferences()
 
 void djvViewPlaybackPrefsWidget::autoStartCallback(bool in)
 {
-    djvViewPlaybackPrefs::global()->setAutoStart(in);
+    context()->playbackPrefs()->setAutoStart(in);
 }
 
 void djvViewPlaybackPrefsWidget::loopCallback(int in)
 {
-    djvViewPlaybackPrefs::global()->setLoop(
+    context()->playbackPrefs()->setLoop(
         static_cast<djvViewUtil::LOOP>(in));
 }
 
 void djvViewPlaybackPrefsWidget::everyFrameCallback(bool in)
 {
-    djvViewPlaybackPrefs::global()->setEveryFrame(in);
+    context()->playbackPrefs()->setEveryFrame(in);
 }
 
 void djvViewPlaybackPrefsWidget::layoutCallback(int in)
 {
-    djvViewPlaybackPrefs::global()->setLayout(
+    context()->playbackPrefs()->setLayout(
         static_cast<djvViewUtil::LAYOUT>(in));
 }
 
@@ -190,15 +191,15 @@ void djvViewPlaybackPrefsWidget::widgetUpdate()
         _p->layoutWidget);
     
     _p->autoStartWidget->setChecked(
-        djvViewPlaybackPrefs::global()->hasAutoStart());
+        context()->playbackPrefs()->hasAutoStart());
     
     _p->loopWidget->setCurrentIndex(
-        djvViewPlaybackPrefs::global()->loop());
+        context()->playbackPrefs()->loop());
     
     _p->everyFrameWidget->setChecked(
-        djvViewPlaybackPrefs::global()->hasEveryFrame());
+        context()->playbackPrefs()->hasEveryFrame());
     
     _p->layoutWidget->setCurrentIndex(
-        djvViewPlaybackPrefs::global()->layout());
+        context()->playbackPrefs()->layout());
 }
 

@@ -29,29 +29,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationAboutDialog.h
+//! \file djvViewApplication.h
 
-#ifndef DJV_APPLICATION_ABOUT_DIALOG_H
-#define DJV_APPLICATION_ABOUT_DIALOG_H
+#ifndef DJV_VIEW_APPLICATION_H
+#define DJV_VIEW_APPLICATION_H
 
-#include <djvGuiExport.h>
+#include <djvViewLibExport.h>
 
 #include <djvUtil.h>
 
-#include <QDialog>
+#include <QApplication>
 
-struct djvApplicationAboutDialogPrivate;
+struct djvViewApplicationPrivate;
+class  djvViewMainWindow;
 
-//! \addtogroup djvGuiDialog
+//! \addtogroup djvViewLib
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvApplicationAboutDialog
+//! \class djvViewApplication
 //!
-//! This class provides a dialog for displaying application about information.
+//! This class provides the application.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvApplicationAboutDialog : public QDialog
+class DJV_VIEW_LIB_EXPORT djvViewApplication : public QApplication
 {
     Q_OBJECT
     
@@ -59,34 +60,29 @@ public:
 
     //! Constructor.
 
-    djvApplicationAboutDialog();
+    djvViewApplication(int & argc, char ** argv);
 
     //! Destructor.
 
-    virtual ~djvApplicationAboutDialog();
-    
-    //! Get the global about dialog.
-    
-    static djvApplicationAboutDialog * global();
-    
+    virtual ~djvViewApplication();
+
 protected:
 
-    virtual void showEvent(QShowEvent *);
+    virtual bool event(QEvent *);
     
 private Q_SLOTS:
 
-    void copyCallback();
+    void commandLineExit();
+    void work();
     
-    void updateWidget();
-
 private:
-
-    DJV_PRIVATE_COPY(djvApplicationAboutDialog);
     
-    djvApplicationAboutDialogPrivate * _p;
+    DJV_PRIVATE_COPY(djvViewApplication);
+    
+    djvViewApplicationPrivate * _p;
 };
 
-//@} // djvGuiDialog
+//@} // djvViewLib
 
-#endif // DJV_APPLICATION_ABOUT_DIALOG_H
+#endif // DJV_VIEW_APPLICATION_H
 

@@ -29,15 +29,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationMessageDialogTest.h
+//! \file djvMessagesDialogTest.h
 
 #include <djvWidgetTest.h>
 
-class djvApplicationMessageDialogTest : public djvWidgetTest
+class djvMessagesDialogTest : public djvWidgetTest
 {
     Q_OBJECT
     
 public:
+
+    djvMessagesDialogTest(djvGuiContext *);
 
     virtual QString name();
 

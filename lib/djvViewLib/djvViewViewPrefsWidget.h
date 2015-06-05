@@ -60,7 +60,7 @@ public:
 
     //! Constructor.
 
-    djvViewViewPrefsWidget();
+    djvViewViewPrefsWidget(djvViewContext *);
 
     //! Destructor.
 

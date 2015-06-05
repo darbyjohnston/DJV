@@ -33,6 +33,7 @@
 
 #include <djvViewAbstractTool.h>
 
+#include <djvViewContext.h>
 #include <djvViewMainWindow.h>
 
 //------------------------------------------------------------------------------
@@ -41,13 +42,17 @@
 
 struct djvViewAbstractToolPrivate
 {
-    djvViewAbstractToolPrivate(djvViewMainWindow * mainWindow) :
+    djvViewAbstractToolPrivate(
+        djvViewMainWindow * mainWindow,
+        djvViewContext *    context) :
         mainWindow(mainWindow),
-        viewWidget(mainWindow->viewWidget())
+        viewWidget(mainWindow->viewWidget()),
+        context   (context)
     {}
 
     djvViewMainWindow * mainWindow;
     djvViewImageView  * viewWidget;
+    djvViewContext *    context;
 };
 
 //------------------------------------------------------------------------------
@@ -56,9 +61,10 @@ struct djvViewAbstractToolPrivate
 
 djvViewAbstractTool::djvViewAbstractTool(
     djvViewMainWindow * mainWindow,
+    djvViewContext *    context,
     QWidget *           parent) :
     QWidget(parent),
-    _p(new djvViewAbstractToolPrivate(mainWindow))
+    _p(new djvViewAbstractToolPrivate(mainWindow, context))
 {}
 
 djvViewAbstractTool::~djvViewAbstractTool()
@@ -74,4 +80,9 @@ djvViewMainWindow * djvViewAbstractTool::mainWindow() const
 djvViewImageView * djvViewAbstractTool::viewWidget() const
 {
     return _p->viewWidget;
+}
+
+djvViewContext * djvViewAbstractTool::context() const
+{
+    return _p->context;
 }

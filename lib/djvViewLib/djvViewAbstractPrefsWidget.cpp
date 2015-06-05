@@ -33,13 +33,23 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
+#include <djvViewContext.h>
+
 //------------------------------------------------------------------------------
 // djvViewAbstractPrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewAbstractPrefsWidget::djvViewAbstractPrefsWidget(const QString & title) :
-    djvAbstractPrefsWidget(title)
+djvViewAbstractPrefsWidget::djvViewAbstractPrefsWidget(
+    const QString &  name,
+    djvViewContext * context) :
+    djvAbstractPrefsWidget(name, context),
+    _context(context)
 {}
 
 djvViewAbstractPrefsWidget::~djvViewAbstractPrefsWidget()
 {}
+
+djvViewContext * djvViewAbstractPrefsWidget::context() const
+{
+    return _context;
+}

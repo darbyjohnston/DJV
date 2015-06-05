@@ -58,7 +58,10 @@ public:
 
     //! Constructor.
 
-    djvViewHelpGroup(djvViewMainWindow *, const djvViewHelpGroup * copy);
+    djvViewHelpGroup(
+        const djvViewHelpGroup * copy,
+        djvViewMainWindow *      mainWindow,
+        djvViewContext *         context);
 
     //! Destructor.
 

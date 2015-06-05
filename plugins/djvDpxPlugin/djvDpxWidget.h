@@ -62,7 +62,7 @@ public:
 
     //! Constructor.
 
-    djvDpxWidget(djvDpxPlugin *);
+    djvDpxWidget(djvDpxPlugin *, djvGuiContext *);
     
     //! Destructor.
 

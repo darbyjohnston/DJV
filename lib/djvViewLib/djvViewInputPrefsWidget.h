@@ -56,7 +56,7 @@ public:
 
     //! Constructor.
 
-    djvViewInputPrefsWidget();
+    djvViewInputPrefsWidget(djvViewContext *);
     
     //! Destructor.
     

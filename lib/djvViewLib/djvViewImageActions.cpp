@@ -33,6 +33,7 @@
 
 #include <djvViewImageActions.h>
 
+#include <djvViewContext.h>
 #include <djvViewImagePrefs.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvViewUtil.h>
@@ -57,8 +58,10 @@ struct djvViewImageActionsPrivate
 // djvViewImageActions
 //------------------------------------------------------------------------------
 
-djvViewImageActions::djvViewImageActions(QObject * parent) :
-	djvViewAbstractActions(parent),
+djvViewImageActions::djvViewImageActions(
+    djvViewContext * context,
+    QObject *        parent) :
+	djvViewAbstractActions(context, parent),
     _p(new djvViewImageActionsPrivate)
 {
     // Create the actions.
@@ -90,7 +93,7 @@ djvViewImageActions::djvViewImageActions(QObject * parent) :
     _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
     _actions[DISPLAY_PROFILE_VISIBLE]->setText(
         qApp->translate("djvViewImageActions", "Show Display Profile"));
-    _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(djvIconLibrary::global()->icon(
+    _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context->iconLibrary()->icon(
         "djvDisplayProfileIcon.png"));
 
     // Create the action groups.
@@ -143,12 +146,12 @@ djvViewImageActions::djvViewImageActions(QObject * parent) :
     // Setup the callbacks.
 
     connect(
-        djvViewImagePrefs::global(),
+        context->imagePrefs(),
         SIGNAL(displayProfilesChanged(const QVector<djvViewDisplayProfile> &)),
         SLOT(update()));
 
     connect(
-        djvViewShortcutPrefs::global(),
+        context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(update()));
 }
@@ -161,7 +164,7 @@ djvViewImageActions::~djvViewImageActions()
 void djvViewImageActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
-        djvViewShortcutPrefs::global()->shortcuts();
+        context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
 
@@ -221,7 +224,7 @@ void djvViewImageActions::update()
 
     QStringList displayProfileNames;
     displayProfileNames += qApp->translate("djvViewImageActions", "Reset");
-    displayProfileNames += djvViewImagePrefs::global()->displayProfileNames();
+    displayProfileNames += context()->imagePrefs()->displayProfileNames();
 
     const QVector<QKeySequence> displayProfileShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET].value <<

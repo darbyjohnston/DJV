@@ -34,6 +34,7 @@
 #include <djvColorSwatch.h>
 
 #include <djvColorDialog.h>
+#include <djvGuiContext.h>
 #include <djvStyle.h>
 
 #include <djvColorUtil.h>
@@ -44,22 +45,23 @@
 // djvColorSwatch
 //------------------------------------------------------------------------------
 
-djvColorSwatch::djvColorSwatch(QWidget * parent) :
+djvColorSwatch::djvColorSwatch(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _swatchSize        (SWATCH_MEDIUM),
-    _colorDialogEnabled(false)
+    _colorDialogEnabled(false),
+    _context           (context)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     connect(
-        djvStyle::global(),
+        context->style(),
         SIGNAL(colorSwatchTransparencyChanged(bool)),
         SLOT(update()));
 
     connect(
-        djvStyle::global(),
+        context->style(),
         SIGNAL(sizeMetricsChanged()),
         SLOT(sizeMetricsCallback()));
 }
@@ -96,7 +98,7 @@ void djvColorSwatch::setColorDialogEnabled(bool value)
 
 QSize djvColorSwatch::sizeHint() const
 {
-    int size = djvStyle::global()->sizeMetric().swatchSize;
+    int size = _context->style()->sizeMetric().swatchSize;
 
     switch (_swatchSize)
     {
@@ -127,7 +129,7 @@ void djvColorSwatch::mousePressEvent(QMouseEvent *)
 {
     if (_colorDialogEnabled)
     {
-        djvColorDialog dialog(color());
+        djvColorDialog dialog(color(), _context);
         
         connect(
             &dialog,
@@ -146,7 +148,7 @@ void djvColorSwatch::paintEvent(QPaintEvent *)
     
     QRect rect(this->rect());
 
-    if (djvStyle::global()->hasColorSwatchTransparency())
+    if (_context->style()->hasColorSwatchTransparency())
     {
         djvColor tmp(djvPixel::RGBA_U8);
         djvColorUtil::convert(_color, tmp);

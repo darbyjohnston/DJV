@@ -34,6 +34,7 @@
 #include <djvErrorUtil.h>
 
 #include <djvError.h>
+#include <djvSystem.h>
 
 #include <QCoreApplication>
 #include <QString>
@@ -41,8 +42,6 @@
 #if defined(DJV_WINDOWS)
 #include <windows.h>
 #endif // DJV_WINDOWS
-
-#include <stdio.h>
 
 //------------------------------------------------------------------------------
 // djvErrorUtil
@@ -67,16 +66,6 @@ QStringList djvErrorUtil::format(const djvError & error)
     }
     
     return out;
-}
-
-void djvErrorUtil::print(const djvError & in)
-{
-    const QStringList list = format(in);
-    
-    Q_FOREACH(const QString & string, list)
-    {
-        ::printf("%s\n", string.toLatin1().data());
-    }
 }
 
 QString djvErrorUtil::lastError()
@@ -116,4 +105,14 @@ QString djvErrorUtil::lastError()
 #endif // DJV_WINDOWS
 
     return out;
+}
+
+void djvErrorUtil::print(const djvError & error)
+{
+    const QStringList list = format(error);
+    
+    for (int i = list.count() - 1; i >= 0; --i)
+    {
+        djvSystem::print(list[i]);
+    }
 }

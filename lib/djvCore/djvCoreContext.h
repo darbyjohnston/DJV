@@ -29,29 +29,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationInfoDialog.h
+//! \file djvCoreContext.h
 
-#ifndef DJV_APPLICATION_INFO_DIALOG_H
-#define DJV_APPLICATION_INFO_DIALOG_H
+#ifndef DJV_CORE_CONTEXT_H
+#define DJV_CORE_CONTEXT_H
 
-#include <djvGuiExport.h>
+#include <djvError.h>
+#include <djvStringUtil.h>
 
-#include <djvUtil.h>
+#include <QObject>
+#include <QStringList>
 
-#include <QDialog>
+#if defined DJV_WINDOWS
+#undef ERROR
+#endif // DJV_WINDOWS
 
-struct djvApplicationInfoDialogPrivate;
+struct djvCoreContextPrivate;
+class  djvDebugLog;
 
-//! \addtogroup djvGuiDialog
+//! \addtogroup djvCoreMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvApplicationInfoDialog
+//! \class djvCoreContext
 //!
-//! This class provides a dialog for displaying application information.
+//! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvApplicationInfoDialog : public QDialog
+class DJV_CORE_EXPORT djvCoreContext : public QObject
 {
     Q_OBJECT
     
@@ -59,34 +64,70 @@ public:
 
     //! Constructor.
 
-    djvApplicationInfoDialog();
+    explicit djvCoreContext(QObject * parent = 0);
 
     //! Destructor.
 
-    virtual ~djvApplicationInfoDialog();
+    virtual ~djvCoreContext();
+
+    //! Parse the command line.
+
+    bool commandLine(int & argc, char ** argv);
     
-    //! Get the global information dialog.
+    //! Get the documentation URL.
     
-    static djvApplicationInfoDialog * global();
+    virtual QString doc() const;
+
+    //! Get the application information.
+
+    virtual QString info() const;
+
+    //! Get the application about information.
+
+    virtual QString about() const;
     
+    //! Print a string.
+    
+    virtual void print(const QString &);
+
+    //! Print a separator.
+    
+    virtual void printSeparator();
+    
+    //! Get the debugging log.
+    
+    djvDebugLog * debugLog() const;
+
+public Q_SLOTS:
+
+    //! Print a message.
+
+    void printMessage(const QString &);
+
+    //! Print an error.
+
+    void printError(const djvError &);
+
 protected:
 
-    virtual void showEvent(QShowEvent *);
+    void loadTranslator(const QString & baseName);
+
+    virtual bool commandLineParse(QStringList &) throw (QString);
+
+    virtual QString commandLineHelp() const;
     
+    void consolePrint(const QString &, bool newline = true, int indent = 0);
+
 private Q_SLOTS:
 
-    void copyCallback();
+    void debugLogCallback(const QString &);
     
-    void updateWidget();
-
 private:
-
-    DJV_PRIVATE_COPY(djvApplicationInfoDialog);
     
-    djvApplicationInfoDialogPrivate * _p;
+    struct djvCoreContextPrivate * _p;
 };
 
-//@} // djvGuiDialog
+//@} // djvCoreMisc
 
-#endif // DJV_APPLICATION_INFO_DIALOG_H
+#endif // DJV_CORE_APPLICATION_H
 

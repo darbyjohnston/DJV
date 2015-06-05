@@ -41,6 +41,7 @@
 #include <QObject>
 
 struct djvFileBrowserPrefsPrivate;
+class  djvGuiContext;
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -147,7 +148,7 @@ public:
 
     //! Constructor.
 
-    explicit djvFileBrowserPrefs(QObject * parent = 0);
+    explicit djvFileBrowserPrefs(djvGuiContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -281,10 +282,6 @@ public:
     //! Get the shortcuts.
 
     const QVector<djvShortcut> & shortcuts() const;
-
-    //! Get the global preferences.
-
-    static djvFileBrowserPrefs * global();
 
 public Q_SLOTS:
 

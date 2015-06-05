@@ -2,16 +2,19 @@ set(header
     djvTiffLoad.h
     djvTiffPlugin.h
     djvTiffSave.h
-    djvTiffWidget.h)
+#    djvTiffWidget.h
+    )
 
 set(mocHeader
-    djvTiffWidget.h)
+#    djvTiffWidget.h
+    )
 
 set(source
     djvTiffLoad.cpp
     djvTiffPlugin.cpp
     djvTiffSave.cpp
-    djvTiffWidget.cpp)
+#    djvTiffWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

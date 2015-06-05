@@ -33,6 +33,7 @@
 
 #include <djvViewPlaybackActions.h>
 
+#include <djvViewContext.h>
 #include <djvViewShortcutPrefs.h>
 
 #include <djvIconLibrary.h>
@@ -56,8 +57,10 @@ struct djvViewPlaybackActionsPrivate
 // djvViewPlaybackActions
 //------------------------------------------------------------------------------
 
-djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
-    djvViewAbstractActions(parent),
+djvViewPlaybackActions::djvViewPlaybackActions(
+    djvViewContext * context,
+    QObject *        parent) :
+    djvViewAbstractActions(context, parent),
     _p(new djvViewPlaybackActionsPrivate)
 {
     // Create the actions.
@@ -75,7 +78,7 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     _actions[EVERY_FRAME]->setText(
         qApp->translate("djvViewPlaybackActions", "Ever&y Frame"));
     _actions[EVERY_FRAME]->setCheckable(true);
-    _actions[EVERY_FRAME]->setIcon(djvIconLibrary::global()->icon("djvLockIcon.png"));
+    _actions[EVERY_FRAME]->setIcon(context->iconLibrary()->icon("djvLockIcon.png"));
     _actions[EVERY_FRAME]->setToolTip(
         qApp->translate("djvViewPlaybackActions", "Set whether every frame is played back"));
     
@@ -90,9 +93,9 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     _groups[PLAYBACK_GROUP]->setExclusive(true);
 
     const QVector<QIcon> playbackIcons = QVector<QIcon>() <<
-        djvIconLibrary::global()->icon("djvPlayReverseIcon.png") <<
-        djvIconLibrary::global()->icon("djvPlayStopIcon.png") <<
-        djvIconLibrary::global()->icon("djvPlayForwardIcon.png");
+        context->iconLibrary()->icon("djvPlayReverseIcon.png") <<
+        context->iconLibrary()->icon("djvPlayStopIcon.png") <<
+        context->iconLibrary()->icon("djvPlayForwardIcon.png");
 
     for (int i = 0; i < djvViewUtil::PLAYBACK_COUNT; ++i)
     {
@@ -108,9 +111,9 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     _groups[LOOP_GROUP]->setExclusive(true);
     
     const QVector<QIcon> loopIcons = QVector<QIcon>() <<
-        djvIconLibrary::global()->icon("djvPlayLoopOnceIcon.png") <<
-        djvIconLibrary::global()->icon("djvPlayLoopRepeatIcon.png") <<
-        djvIconLibrary::global()->icon("djvPlayLoopPingPongIcon.png");
+        context->iconLibrary()->icon("djvPlayLoopOnceIcon.png") <<
+        context->iconLibrary()->icon("djvPlayLoopRepeatIcon.png") <<
+        context->iconLibrary()->icon("djvPlayLoopPingPongIcon.png");
 
     for (int i = 0; i < djvViewUtil::LOOP_COUNT; ++i)
     {
@@ -126,15 +129,15 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     _groups[FRAME_GROUP]->setExclusive(false);
 
     const QVector<QIcon> frameIcons = QVector<QIcon>() <<
-        djvIconLibrary::global()->icon("djvFrameStartIcon.png") <<
+        context->iconLibrary()->icon("djvFrameStartIcon.png") <<
         QIcon() <<
-        djvIconLibrary::global()->icon("djvFramePrevIcon.png") <<
-        QIcon() <<
-        QIcon() <<
-        djvIconLibrary::global()->icon("djvFrameNextIcon.png") <<
+        context->iconLibrary()->icon("djvFramePrevIcon.png") <<
         QIcon() <<
         QIcon() <<
-        djvIconLibrary::global()->icon("djvFrameEndIcon.png") <<
+        context->iconLibrary()->icon("djvFrameNextIcon.png") <<
+        QIcon() <<
+        QIcon() <<
+        context->iconLibrary()->icon("djvFrameEndIcon.png") <<
         QIcon();
 
     for (int i = 0; i < djvViewUtil::FRAME_COUNT; ++i)
@@ -150,11 +153,11 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     _groups[IN_OUT_GROUP]->setExclusive(false);
 
     const QVector<QIcon> inOutIcons = QVector<QIcon>() <<
-        djvIconLibrary::global()->icon("djvPlayInOutIcon.png") <<
-        djvIconLibrary::global()->icon("djvInPointMarkIcon.png") <<
-        djvIconLibrary::global()->icon("djvOutPointMarkIcon.png") <<
-        djvIconLibrary::global()->icon("djvInPointResetIcon.png") <<
-        djvIconLibrary::global()->icon("djvOutPointResetIcon.png") <<
+        context->iconLibrary()->icon("djvPlayInOutIcon.png") <<
+        context->iconLibrary()->icon("djvInPointMarkIcon.png") <<
+        context->iconLibrary()->icon("djvOutPointMarkIcon.png") <<
+        context->iconLibrary()->icon("djvInPointResetIcon.png") <<
+        context->iconLibrary()->icon("djvOutPointResetIcon.png") <<
         QIcon();
 
     for (int i = 0; i < djvViewUtil::IN_OUT_COUNT; ++i)
@@ -191,7 +194,7 @@ djvViewPlaybackActions::djvViewPlaybackActions(QObject * parent) :
     // Setup the callbacks.
 
     connect(
-        djvViewShortcutPrefs::global(),
+        context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(update()));
 }
@@ -204,7 +207,7 @@ djvViewPlaybackActions::~djvViewPlaybackActions()
 void djvViewPlaybackActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
-        djvViewShortcutPrefs::global()->shortcuts();
+        context()->shortcutPrefs()->shortcuts();
     
     // Update the actions.
     

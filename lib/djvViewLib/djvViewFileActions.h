@@ -92,7 +92,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFileActions(QObject * parent = 0);
+    explicit djvViewFileActions(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 

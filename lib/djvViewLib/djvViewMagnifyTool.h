@@ -59,6 +59,7 @@ public:
 
     explicit djvViewMagnifyTool(
         djvViewMainWindow * mainWindow,
+        djvViewContext *    context,
         QWidget *           parent = 0);
 
     //! Destructor.

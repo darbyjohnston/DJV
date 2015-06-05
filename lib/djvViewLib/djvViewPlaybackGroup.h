@@ -63,7 +63,10 @@ public:
 
     //! Constructor.
 
-    djvViewPlaybackGroup(djvViewMainWindow *, djvViewPlaybackGroup * copy);
+    djvViewPlaybackGroup(
+        djvViewPlaybackGroup * copy,
+        djvViewMainWindow *    mainWindow,
+        djvViewContext *       context);
 
     //! Destructor.
 

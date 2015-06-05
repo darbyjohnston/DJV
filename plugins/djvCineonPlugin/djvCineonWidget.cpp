@@ -51,8 +51,8 @@
 // djvCineonWidget
 //------------------------------------------------------------------------------
 
-djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin) :
-    djvAbstractPrefsWidget(djvCineon::staticName),
+djvCineonWidget::djvCineonWidget(djvCineonPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvCineon::staticName, context),
     _plugin                  (plugin),
     _inputColorProfileLayout (0),
     _inputColorProfileWidget (0),

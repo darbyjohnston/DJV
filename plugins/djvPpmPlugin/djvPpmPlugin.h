@@ -34,29 +34,9 @@
 #ifndef DJV_PPM_PLUGIN_H
 #define DJV_PPM_PLUGIN_H
 
-#include <djvFileIo.h>
+#include <djvPpm.h>
+
 #include <djvImageIo.h>
-
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvPpmPlugin djvPpmPlugin
-//!
-//! This plugin provides support for the NetPBM image file format.
-//!
-//! File extensions: .ppm, pnm, .pgm, .pbm
-//!
-//! Supported features:
-//!
-//! - 1-bit, 8-bit, 16-bit, Luminance, RGB
-//! - Binary and ASCII data
-//!
-//! References:
-//!
-//! - Netpbm, "PPM Format Specification"
-//!   http://netpbm.sourceforge.net/doc/ppm.html
-
-//@} // plugins
 
 //! \addtogroup djvPpmPlugin
 //@{
@@ -70,87 +50,9 @@
 class djvPpmPlugin : public djvImageIo
 {
 public:
-
-    //! Plugin name.
     
-    static const QString staticName;
+    djvPpmPlugin(djvCoreContext *);
 
-    //! This enumeration provides the file types.
-
-    enum TYPE
-    {
-        TYPE_AUTO,
-        TYPE_U1,
-
-        TYPE_COUNT
-    };
-
-    //! Get the type labels.
-
-    static const QStringList & typeLabels();
-
-    //! This enumeration provides the file data types.
-
-    enum DATA
-    {
-        DATA_ASCII,
-        DATA_BINARY,
-
-        DATA_COUNT
-    };
-
-    //! Get the data labels.
-
-    static const QStringList & dataLabels();
-
-    //! Get the number of bytes in a scanline.
-
-    static quint64 scanlineByteCount(
-        int  width,
-        int  channels,
-        int  bitDepth,
-        DATA data);
-
-    //! Load ASCII data.
-
-    static void asciiLoad(
-        djvFileIo & io,
-        void *      out,
-        int         size,
-        int         bitDepth) throw (djvError);
-
-    //! Save ASCII data.
-
-    static quint64 asciiSave(
-        const void * in,
-        void *       out,
-        int          size,
-        int          bitDepth);
-
-    //! This enumeration provides the options.
-
-    enum OPTIONS
-    {
-        TYPE_OPTION,
-        DATA_OPTION,
-
-        OPTIONS_COUNT
-    };
-
-    //! Get the option labels.
-
-    static const QStringList & optionsLabels();
-
-    //! This struct provides options.
-
-    struct Options
-    {
-        Options();
-
-        TYPE type;
-        DATA data;
-    };
-    
     virtual djvPlugin * copyPlugin() const;
 
     virtual QString pluginName() const;
@@ -171,17 +73,10 @@ public:
     
     virtual djvImageSave * createSave() const;
 
-    virtual djvAbstractPrefsWidget * createWidget();
-
 private:
 
-    Options _options;
+    djvPpm::Options _options;
 };
-
-//------------------------------------------------------------------------------
-
-DJV_STRING_OPERATOR(, djvPpmPlugin::TYPE);
-DJV_STRING_OPERATOR(, djvPpmPlugin::DATA);
 
 //@} // djvPpmPlugin
 

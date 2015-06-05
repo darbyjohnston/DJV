@@ -39,6 +39,8 @@ class djvToolButtonTest : public djvWidgetTest
     
 public:
 
+    djvToolButtonTest(djvGuiContext *);
+
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());

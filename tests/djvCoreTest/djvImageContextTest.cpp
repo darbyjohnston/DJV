@@ -29,80 +29,147 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageApplicationTest.cpp
+//! \file djvImageContextTest.cpp
 
-#include <djvImageApplicationTest.h>
+#include <djvImageContextTest.h>
 
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvErrorUtil.h>
-#include <djvImageApplication.h>
+#include <djvImageContext.h>
 #include <djvOpenGlImage.h>
 
-void djvImageApplicationTest::run(int & argc, char ** argv)
+void djvImageContextTest::run(int & argc, char ** argv)
 {
-    DJV_DEBUG("djvImageApplicationTest::run");
+    DJV_DEBUG("djvImageContextTest::run");
+    
+    {
+        djvImageContext context;
+
+        DJV_ASSERT(context.openGlContext());
+    }
     
     try
     {
-        djvImageApplication app("test", argc, argv);
+        djvImageContext context;
+        
+        char * args [256] =
+        {
+            "djvTest",
+            "arg"
+        };
+        
+        int argsCount = 2;
+        
+        DJV_ASSERT(context.commandLine(argsCount, args));
+    }
+    catch (const djvError & error)
+    {
+        djvErrorUtil::print(error);
+        
+        DJV_ASSERT(0);
+    }
+    
+    try
+    {
+        djvImageContext context;
+        
+        char * args [256] =
+        {
+            "djvTest",
+            "-render_filter", "Box", "Triangle"
+        };
+        
+        int argsCount = 4;
 
-        DJV_ASSERT("test" == app.name());
-        DJV_ASSERT(app.context());
-            
-        QStringList args;
-        
-        args += "arg";
-        
-        app.commandLine(args);
-        
-        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(context.commandLine(argsCount, args));
 
-        args += "-render_filter";
-        args += "Box";
-        args += "Triangle";
-        
-        app.commandLine(args);
-
-        DJV_ASSERT(1 == args.count());
         DJV_ASSERT(djvOpenGlImageFilter(
             djvOpenGlImageFilter::BOX, djvOpenGlImageFilter::TRIANGLE) ==
             djvOpenGlImageFilter::filter());
+    }
+    catch (const djvError & error)
+    {
+        djvErrorUtil::print(error);
         
-        args += "-render_filter_high";
+        DJV_ASSERT(0);
+    }
+    
+    try
+    {
+        djvImageContext context;
         
-        app.commandLine(args);
+        char * args [256] =
+        {
+            "djvTest",
+            "-render_filter_high"
+        };
+        
+        int argsCount = 2;
 
-        DJV_ASSERT(1 == args.count());
+        DJV_ASSERT(context.commandLine(argsCount, args));
+
         DJV_ASSERT(djvOpenGlImageFilter::filterHighQuality() ==
             djvOpenGlImageFilter::filter());
+    }
+    catch (const djvError & error)
+    {
+        djvErrorUtil::print(error);
         
-        args += "-render_filter";
+        DJV_ASSERT(0);
+    }
+    
+    try
+    {
+        djvImageContext context;
+        
+        char * args [256] =
+        {
+            "djvTest",
+            "-render_filter"
+        };
+        
+        int argsCount = 2;
 
-        try
-        {    
-            app.commandLine(args);
-            
-            DJV_ASSERT(0);
-        }
-        catch (...)
-        {}
-            
-        args += "-help";
+        DJV_ASSERT(! context.commandLine(argsCount, args));
+    }
+    catch (...)
+    {}
+
+    try
+    {
+        djvImageContext context;
         
-        app.commandLine(args);
-        app.run();
+        char * args [256] =
+        {
+            "djvTest",
+            "-help",
+        };
         
-        DJV_ASSERT(1 == args.count());
-        DJV_ASSERT(djvApplicationEnum::EXIT_HELP == app.exitValue());
+        int argsCount = 2;
         
-        args += "-info";
+        DJV_ASSERT(! context.commandLine(argsCount, args));
+    }
+    catch (const djvError & error)
+    {
+        djvErrorUtil::print(error);
         
-        app.commandLine(args);
-        app.run();
+        DJV_ASSERT(0);
+    }
         
-        DJV_ASSERT(1 == args.count());
-        DJV_ASSERT(djvApplicationEnum::EXIT_INFO == app.exitValue());
+    try
+    {
+        djvImageContext context;
+        
+        char * args [256] =
+        {
+            "djvTest",
+            "-info",
+        };
+        
+        int argsCount = 2;
+
+        DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {

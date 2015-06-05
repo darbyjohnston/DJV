@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    explicit djvSequencePrefsWidget(QWidget * parent = 0);
+    explicit djvSequencePrefsWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

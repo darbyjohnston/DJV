@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvFFmpegWidget(djvFFmpegPlugin *);
+    djvFFmpegWidget(djvFFmpegPlugin *, djvGuiContext *);
 
     //! Destructor.
 

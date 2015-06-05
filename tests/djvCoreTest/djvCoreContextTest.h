@@ -29,79 +29,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationMessageDialog.h
+//! \file djvCoreContextTest.h
 
-#ifndef DJV_APPLICATION_MESSAGE_DIALOG_H
-#define DJV_APPLICATION_MESSAGE_DIALOG_H
+#include <djvCoreTestExport.h>
 
-#include <djvGuiExport.h>
+#include <djvAbstractTest.h>
 
-#include <djvUtil.h>
-
-#include <QDialog>
-
-struct djvApplicationMessageDialogPrivate;
-
-class djvError;
-
-//! \addtogroup djvGuiDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvApplicationMessageDialog
-//!
-//! This class provides a dialog for displaying application messages.
-//------------------------------------------------------------------------------
-
-class DJV_GUI_EXPORT djvApplicationMessageDialog : public QDialog
+class DJV_CORE_TEST_EXPORT djvCoreContextTest : public djvAbstractTest
 {
-    Q_OBJECT
-    
 public:
 
-    //! Constructor.
-
-    djvApplicationMessageDialog();
-
-    //! Destructor.
-
-    virtual ~djvApplicationMessageDialog();
-
-    //! Add a message to the dialog.
-
-    void message(const QString &);
-
-    //! Add an error to the dialog.
-
-    void message(const djvError &);
-
-    //! Clear the messages.
-
-    void clear();
-    
-    //! Get the global message dialog.
-    
-    static djvApplicationMessageDialog * global();
-
-protected:
-
-    virtual void showEvent(QShowEvent *);
-    
-private Q_SLOTS:
-
-    void clearCallback();
-    void showCallback(bool);
-
-    void updateWidget();
-    
-private:
-    
-    DJV_PRIVATE_COPY(djvApplicationMessageDialog);
-    
-    djvApplicationMessageDialogPrivate * _p;
+    virtual void run(int &, char **);
 };
-
-//@} // djvGuiDialog
-
-#endif // DJV_APPLICATION_MESSAGE_DIALOG_H
-

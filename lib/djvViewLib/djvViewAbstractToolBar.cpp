@@ -34,6 +34,7 @@
 #include <djvViewAbstractToolBar.h>
 
 #include <djvViewAbstractActions.h>
+#include <djvViewContext.h>
 
 #include <djvIconLibrary.h>
 
@@ -43,11 +44,15 @@
 
 struct djvViewAbstractToolBarPrivate
 {
-    djvViewAbstractToolBarPrivate(djvViewAbstractActions * actions) :
-        actions(actions)
+    djvViewAbstractToolBarPrivate(
+        djvViewAbstractActions * actions,
+        djvViewContext *         context) :
+        actions(actions),
+        context(context)
     {}
 
     djvViewAbstractActions * actions;
+    djvViewContext *         context;
 };
 
 //------------------------------------------------------------------------------
@@ -56,9 +61,10 @@ struct djvViewAbstractToolBarPrivate
 
 djvViewAbstractToolBar::djvViewAbstractToolBar(
     djvViewAbstractActions * actions,
+    djvViewContext *         context,
     QWidget *                parent) :
     QToolBar(parent),
-    _p(new djvViewAbstractToolBarPrivate(actions))
+    _p(new djvViewAbstractToolBarPrivate(actions, context))
 {
     setAllowedAreas(
         Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
@@ -67,7 +73,7 @@ djvViewAbstractToolBar::djvViewAbstractToolBar(
     
     //setMovable(false);
     
-    setIconSize(djvIconLibrary::global()->defaultSize());
+    setIconSize(context->iconLibrary()->defaultSize());
 }
 
 djvViewAbstractToolBar::~djvViewAbstractToolBar()
@@ -78,4 +84,9 @@ djvViewAbstractToolBar::~djvViewAbstractToolBar()
 djvViewAbstractActions * djvViewAbstractToolBar::actions() const
 {
     return _p->actions;
+}
+    
+djvViewContext * djvViewAbstractToolBar::context() const
+{
+    return _p->context;
 }

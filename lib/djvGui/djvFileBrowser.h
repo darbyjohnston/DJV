@@ -43,6 +43,7 @@
 
 class  djvFileBrowserModel;
 struct djvFileBrowserPrivate;
+class  djvGuiContext;
 
 class QModelIndex;
 
@@ -88,7 +89,7 @@ public:
 
     //! Constructor.
 
-    explicit djvFileBrowser(QWidget * parent = 0);
+    explicit djvFileBrowser(djvGuiContext *, QWidget * parent = 0);
     
     //! Destructor.
     
@@ -105,11 +106,7 @@ public:
     //! Get whether the file browser is currently pinned.
     
     bool isPinned() const;
-    
-    //! Get the global file browser.
-    
-    static djvFileBrowser * global(const QString & title = QString());
-    
+
 public Q_SLOTS:
 
     //! Set the file information.

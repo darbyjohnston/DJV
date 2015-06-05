@@ -39,6 +39,10 @@
 
 #include <QVBoxLayout>
 
+djvIntSliderTest::djvIntSliderTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvIntSliderTest::name()
 {
     return "djvIntSliderTest";

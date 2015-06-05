@@ -224,10 +224,6 @@ public:
     
     void setFonts(const Fonts &);
 
-    //! Get the global style.
-
-    static djvStyle * global();
-
 Q_SIGNALS:
 
     //! This signal is emitted when color swatch transparency is changed.

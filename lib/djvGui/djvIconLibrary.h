@@ -89,10 +89,6 @@ public:
 
     QSize defaultSize() const;
     
-    //! Get the global icon library.
-    
-    static djvIconLibrary * global();
-    
 private:
     
     DJV_PRIVATE_COPY(djvIconLibrary);

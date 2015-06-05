@@ -33,6 +33,7 @@
 
 #include <djvViewPlaybackGroup.h>
 
+#include <djvViewContext.h>
 #include <djvViewFileCache.h>
 #include <djvViewMainWindow.h>
 #include <djvViewPlaybackActions.h>
@@ -68,14 +69,14 @@ qint64 sequenceEnd(const djvSequence & sequence)
 
 struct djvViewPlaybackGroupPrivate
 {
-    djvViewPlaybackGroupPrivate() :
+    djvViewPlaybackGroupPrivate(djvViewContext * context) :
         playback        (djvViewUtil::STOP),
         playbackPrev    (djvViewUtil::STOP),
         loop            (djvViewUtil::LOOP_REPEAT),
         realSpeed       (0.0),
         droppedFrames   (false),
         droppedFramesTmp(false),
-        everyFrame      (djvViewPlaybackPrefs::global()->hasEveryFrame()),
+        everyFrame      (context->playbackPrefs()->hasEveryFrame()),
         frame           (0),
         frameTmp        (0),
         shuttle         (false),
@@ -88,7 +89,7 @@ struct djvViewPlaybackGroupPrivate
         idleInit        (true),
         idleFrame       (0),
         speedCounter    (0),
-        layout          (djvViewPlaybackPrefs::global()->layout()),
+        layout          (context->playbackPrefs()->layout()),
         actions         (0),
         menu            (0),
         toolBar         (0)
@@ -128,14 +129,15 @@ struct djvViewPlaybackGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewPlaybackGroup::djvViewPlaybackGroup(
+    djvViewPlaybackGroup * copy,
     djvViewMainWindow *    mainWindow,
-    djvViewPlaybackGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
-    _p(new djvViewPlaybackGroupPrivate)
+    djvViewContext *       context) :
+    djvViewAbstractGroup(mainWindow, context),
+    _p(new djvViewPlaybackGroupPrivate(context))
 {
     // Create the actions.
 
-    _p->actions = new djvViewPlaybackActions(this);
+    _p->actions = new djvViewPlaybackActions(context, this);
 
     // Create the menus.
 
@@ -145,7 +147,7 @@ djvViewPlaybackGroup::djvViewPlaybackGroup(
     
     // Create the widgets.
 
-    _p->toolBar = new djvViewPlaybackToolBar(_p->actions);
+    _p->toolBar = new djvViewPlaybackToolBar(_p->actions, context);
 
     mainWindow->addToolBar(Qt::BottomToolBarArea, _p->toolBar);
 
@@ -276,19 +278,19 @@ djvViewPlaybackGroup::djvViewPlaybackGroup(
     // Setup the preferences callbacks.
 
     connect(
-        djvViewPlaybackPrefs::global(),
+        context->playbackPrefs(),
         SIGNAL(everyFrameChanged(bool)),
         SLOT(setEveryFrame(bool)));
     
     connect(
-        djvViewPlaybackPrefs::global(),
+        context->playbackPrefs(),
         SIGNAL(layoutChanged(djvViewUtil::LAYOUT)),
         SLOT(setLayout(djvViewUtil::LAYOUT)));
 
     // Setup other callbacks.
 
     connect(
-        djvViewFileCache::global(),
+        context->fileCache(),
         SIGNAL(cacheChanged()),
         SLOT(cacheCallback()));
 }
@@ -905,7 +907,7 @@ void djvViewPlaybackGroup::frameUpdate()
     _p->toolBar->setFrame(_p->frame);
 
     _p->toolBar->setCachedFrames(
-        djvViewFileCache::global()->frames(mainWindow()));
+        context()->fileCache()->frames(mainWindow()));
 }
 
 void djvViewPlaybackGroup::timeUpdate()

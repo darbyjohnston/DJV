@@ -38,6 +38,10 @@
 #include <djvSystem.h>
 #include <djvTime.h>
 
+djvProgressDialogTest::djvProgressDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvProgressDialogTest::name()
 {
     return "djvProgressDialogTest";

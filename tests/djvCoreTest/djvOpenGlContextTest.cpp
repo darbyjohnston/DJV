@@ -35,20 +35,23 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvImageContext.h>
 #include <djvOpenGlContext.h>
 
 void djvOpenGlContextTest::run(int &, char **)
 {
     DJV_DEBUG("djvOpenGlContextTest::run");
     
-    djvOpenGlContext * context = djvOpenGlContextFactory::create();
+    djvImageContext context;
     
-    DJV_ASSERT(context);
+    djvOpenGlContext * openGlContext = context.openGlContextFactory()->create();
+    
+    DJV_ASSERT(openGlContext);
     
     {
-        djvOpenGlContextScope scope(context);
+        djvOpenGlContextScope scope(openGlContext);
     }
     
-    delete context;
+    delete openGlContext;
 }
 

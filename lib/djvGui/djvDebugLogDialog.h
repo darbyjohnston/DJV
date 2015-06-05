@@ -41,6 +41,7 @@
 #include <QDialog>
 
 struct djvDebugLogDialogPrivate;
+class  djvGuiContext;
 
 class djvError;
 
@@ -61,7 +62,7 @@ public:
 
     //! Constructor.
 
-    djvDebugLogDialog();
+    djvDebugLogDialog(djvGuiContext *);
 
     //! Destructor.
 
@@ -70,10 +71,6 @@ public:
     //! Clear the log.
 
     void clear();
-    
-    //! Get the global debugging log dialog.
-    
-    static djvDebugLogDialog * global();
 
 protected:
 

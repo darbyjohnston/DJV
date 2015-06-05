@@ -43,8 +43,9 @@
 
 djvViewWindowToolBar::djvViewWindowToolBar(
     djvViewAbstractActions * actions,
+    djvViewContext *         context,
     QWidget *                parent) :
-    djvViewAbstractToolBar(actions, parent)
+    djvViewAbstractToolBar(actions, context, parent)
 {
     djvToolButton * button = new djvToolButton;
     button->setDefaultAction(actions->action(djvViewWindowActions::NEW));

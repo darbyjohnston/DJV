@@ -54,7 +54,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewWindowPrefs(QObject * parent = 0);
+    explicit djvViewWindowPrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -101,10 +101,6 @@ public:
     //! Get the tool bar visibility.
 
     const QVector<bool> & toolBar() const;
-
-    //! Get the global preferences.
-
-    static djvViewWindowPrefs * global();
 
 public Q_SLOTS:
 

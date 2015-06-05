@@ -41,6 +41,7 @@
 #include <QDialog>
 
 class  djvAbstractPrefsWidget;
+class  djvGuiContext;
 struct djvPrefsDialogPrivate;
 
 class QAbstractButton;
@@ -63,7 +64,7 @@ public:
 
     //! Constructor.
 
-    explicit djvPrefsDialog(QWidget * parent = 0);
+    explicit djvPrefsDialog(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -72,10 +73,6 @@ public:
     //! Add a preferences widget.
 
     void addWidget(djvAbstractPrefsWidget *, const QString & group);
-    
-    //! Get the global about dialog.
-    
-    static djvPrefsDialog * global();
     
 private Q_SLOTS:
 

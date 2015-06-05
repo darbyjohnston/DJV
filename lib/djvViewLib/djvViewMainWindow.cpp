@@ -33,7 +33,7 @@
 
 #include <djvViewMainWindow.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewFileCache.h>
 #include <djvViewFileGroup.h>
 #include <djvViewFilePrefs.h>
@@ -41,6 +41,7 @@
 #include <djvViewHelpGroup.h>
 #include <djvViewHudInfo.h>
 #include <djvViewImageGroup.h>
+#include <djvViewImagePrefs.h>
 #include <djvViewImageView.h>
 #include <djvViewPlaybackGroup.h>
 #include <djvViewPlaybackPrefs.h>
@@ -60,6 +61,7 @@
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
 
+#include <QApplication>
 #include <QDesktopWidget>
 #include <QDir>
 #include <QHBoxLayout>
@@ -78,7 +80,7 @@
 
 struct djvViewMainWindowPrivate
 {
-    djvViewMainWindowPrivate() :
+    djvViewMainWindowPrivate(djvViewContext * context) :
         mouseWheel      (static_cast<djvViewUtil::MOUSE_WHEEL>(0)),
         fileGroup       (0),
         windowGroup     (0),
@@ -94,7 +96,8 @@ struct djvViewMainWindowPrivate
         viewWidget      (0),
         infoSwatch      (0),
         infoPixelLabel  (0),
-        menuBarHeight   (0)
+        menuBarHeight   (0),
+        context         (context)
     {}
 
     djvViewUtil::MOUSE_WHEEL                 mouseWheel;
@@ -120,6 +123,7 @@ struct djvViewMainWindowPrivate
     QLabel *                                 infoImageLabel;
     QLabel *                                 infoCacheLabel;
     int                                      menuBarHeight;
+    djvViewContext *                         context;
 };
 
 //------------------------------------------------------------------------------
@@ -133,8 +137,10 @@ QVector<djvViewMainWindow *> _mainWindowList;
 
 } // namespace
 
-djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
-    _p(new djvViewMainWindowPrivate)
+djvViewMainWindow::djvViewMainWindow(
+    const djvViewMainWindow * copy,
+    djvViewContext *          context) :
+    _p(new djvViewMainWindowPrivate(context))
 {
     //DJV_DEBUG("djvViewMainWindow::djvViewMainWindow");
 
@@ -146,9 +152,9 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     // Create the widgets.
 
-    _p->viewWidget = new djvViewImageView;
+    _p->viewWidget = new djvViewImageView(context);
 
-    _p->infoSwatch = new djvColorSwatch;
+    _p->infoSwatch = new djvColorSwatch(context);
     _p->infoSwatch->setFixedSize(20, 20);
 
     _p->infoPixelLabel = new QLabel;
@@ -165,13 +171,20 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     // Create the groups.
 
-    _p->fileGroup = new djvViewFileGroup(this, copy ? copy->_p->fileGroup : 0);
-    _p->windowGroup = new djvViewWindowGroup(this, copy ? copy->_p->windowGroup : 0);
-    _p->viewGroup = new djvViewViewGroup(this, copy ? copy->_p->viewGroup : 0);
-    _p->imageGroup = new djvViewImageGroup(this, copy ? copy->_p->imageGroup : 0);
-    _p->playbackGroup = new djvViewPlaybackGroup(this, copy ? copy->_p->playbackGroup : 0);
-    _p->toolGroup = new djvViewToolGroup(this, copy ? copy->_p->toolGroup : 0);
-    _p->helpGroup = new djvViewHelpGroup(this, copy ? copy->_p->helpGroup : 0);
+    _p->fileGroup = new djvViewFileGroup(
+        copy ? copy->_p->fileGroup : 0, this, context);
+    _p->windowGroup = new djvViewWindowGroup(
+        copy ? copy->_p->windowGroup : 0, this, context);
+    _p->viewGroup = new djvViewViewGroup(
+        copy ? copy->_p->viewGroup : 0, this, context);
+    _p->imageGroup = new djvViewImageGroup(
+        copy ? copy->_p->imageGroup : 0, this, context);
+    _p->playbackGroup = new djvViewPlaybackGroup(
+        copy ? copy->_p->playbackGroup : 0, this, context);
+    _p->toolGroup = new djvViewToolGroup(
+        copy ? copy->_p->toolGroup : 0, this, context);
+    _p->helpGroup = new djvViewHelpGroup(
+        copy ? copy->_p->helpGroup : 0, this, context);
 
     // Layout the widgets.
     
@@ -185,7 +198,7 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
 
     // Initialize.
 
-    setWindowTitle(DJV_VIEW_APP->name());
+    setWindowTitle(qApp->applicationName());
 
     setAttribute(Qt::WA_DeleteOnClose);
     
@@ -339,17 +352,17 @@ djvViewMainWindow::djvViewMainWindow(const djvViewMainWindow * copy) :
     // Setup the preferences callbacks.
 
     connect(
-        djvViewFileCache::global(),
+        context->fileCache(),
         SIGNAL(cacheChanged()),
         SLOT(fileCacheUpdate()));
 
     connect(
-        djvImagePrefs::global(),
+        context->djvGuiContext::imagePrefs(),
         SIGNAL(filterChanged(const djvOpenGlImageFilter &)),
         SLOT(imageUpdate()));
 
     connect(
-        djvViewViewPrefs::global(),
+        context->viewPrefs(),
         SIGNAL(backgroundChanged(const djvColor &)),
         SLOT(imageUpdate()));
 }
@@ -388,13 +401,62 @@ QVector<djvViewMainWindow *> djvViewMainWindow::mainWindowList()
     return _mainWindowList;
 }
 
+djvViewMainWindow * djvViewMainWindow::createWindow(djvViewContext * context)
+{
+    djvViewMainWindow * out = new djvViewMainWindow(0, context);
+
+    // Apply command line file options.
+
+    if (context->fileLayer().data())
+    {
+        out->setFileLayer(*context->fileLayer());
+    }
+
+    if (context->fileProxy().data())
+    {
+        out->setFileProxy(*context->fileProxy());
+    }
+
+    if (context->hasFileCache().data())
+    {
+        out->setFileCache(*context->hasFileCache());
+    }
+
+    // Apply command line window options.
+
+    if (context->isWindowFullScreen().data() && *context->isWindowFullScreen())
+    {
+        out->showFullScreen();
+    }
+
+    // Apply command line playback options.
+
+    if (context->playback().data())
+    {
+        out->setPlayback(*context->playback());
+    }
+
+    if (context->playbackFrame().data())
+    {
+        out->setPlaybackFrame(*context->playbackFrame());
+    }
+
+    if (context->playbackSpeed().data())
+    {
+        out->setPlaybackSpeed(*context->playbackSpeed());
+    }
+
+    return out;
+}
+
 void djvViewMainWindow::fileOpen(const djvFileInfo & fileInfo, bool init)
 {
     //DJV_DEBUG("djvViewMainWindow::fileOpen");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
     //DJV_DEBUG_PRINT("init = " << init);
 
-    DJV_LOG("djvViewMainWindow", QString("Open file = \"%1\"").arg(fileInfo));
+    DJV_LOG(_p->context->debugLog(), "djvViewMainWindow",
+        QString("Open file = \"%1\"").arg(fileInfo));
 
     // Initialize.
 
@@ -421,7 +483,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & fileInfo, bool init)
 
             _p->playbackGroup->setPlayback(
                 (sequence.frames.count() > 1 &&
-                    djvViewPlaybackPrefs::global()->hasAutoStart()) ?
+                    _p->context->playbackPrefs()->hasAutoStart()) ?
                     djvViewUtil::FORWARD :
                     djvViewUtil::STOP);
         }
@@ -434,7 +496,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & fileInfo, bool init)
 
     if (init && isVisible())
     {
-        if (djvViewWindowPrefs::global()->hasAutoFit())
+        if (_p->context->windowPrefs()->hasAutoFit())
         {
             if (! isFullScreen())
             {
@@ -594,7 +656,7 @@ void djvViewMainWindow::windowResizeCallback()
     
     setUpdatesEnabled(false);
     
-    if (djvViewWindowPrefs::global()->hasAutoFit())
+    if (_p->context->windowPrefs()->hasAutoFit())
     {
         if (! isFullScreen())
         {
@@ -626,7 +688,7 @@ void djvViewMainWindow::reloadFrameCallback()
     
     //DJV_DEBUG_PRINT("frame = " << frame);
     
-    djvViewFileCache::global()->del(this, frame);
+    _p->context->fileCache()->del(this, frame);
 }
 
 void djvViewMainWindow::saveCallback(const djvFileInfo & in)
@@ -658,7 +720,7 @@ void djvViewMainWindow::saveCallback(const djvFileInfo & in)
         _p->imageGroup->hasColorProfile(),
         imageOptions());
 
-    djvViewFileSave::global()->save(info);
+    _p->context->fileSave()->save(info);
 }
 
 void djvViewMainWindow::saveFrameCallback(const djvFileInfo & in)
@@ -690,7 +752,7 @@ void djvViewMainWindow::saveFrameCallback(const djvFileInfo & in)
         _p->imageGroup->hasColorProfile(),
         imageOptions());
 
-    djvViewFileSave::global()->save(info);
+    _p->context->fileSave()->save(info);
 }
 
 void djvViewMainWindow::loadFrameStoreCallback()
@@ -770,9 +832,9 @@ void djvViewMainWindow::fileUpdate()
 
     const QString title = ! fileInfo.fileName().isEmpty() ?
         qApp->translate("djvViewMainWindow", "%1 - %2").
-            arg(DJV_VIEW_APP->name()).
+            arg(qApp->applicationName()).
             arg(QDir::toNativeSeparators(fileInfo)) :
-        QString("%1").arg(DJV_VIEW_APP->name());
+        QString("%1").arg(qApp->applicationName());
 
     setWindowTitle(title);
 }
@@ -781,8 +843,8 @@ void djvViewMainWindow::fileCacheUpdate()
 {
     //DJV_DEBUG("djvViewMainWindow::cacheUpdate");
 
-    const double size    = djvViewFileCache::global()->size();
-    const double maxSize = djvViewFileCache::global()->maxSize();
+    const double size    = _p->context->fileCache()->size();
+    const double maxSize = _p->context->fileCache()->maxSize();
 
     _p->infoCacheLabel->setText(
         qApp->translate("djvViewMainWindow", "Cache: %1% %2/%3GB").
@@ -925,7 +987,7 @@ void djvViewMainWindow::viewOverlayUpdate()
     hudInfo.speed         = _p->playbackGroup->speed();
     hudInfo.realSpeed     = _p->playbackGroup->realSpeed();
     hudInfo.droppedFrames = _p->playbackGroup->hasDroppedFrames();
-    hudInfo.visible       = djvViewViewPrefs::global()->hudInfo();
+    hudInfo.visible       = _p->context->viewPrefs()->hudInfo();
     
     _p->viewWidget->setHudInfo(hudInfo);
 }
@@ -981,7 +1043,7 @@ void djvViewMainWindow::viewPickUpdate()
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_PICK_COLOR]);
 
-            DJV_VIEW_APP->printError(error);
+            _p->context->printError(error);
         }
     }
 
@@ -1048,8 +1110,8 @@ djvOpenGlImageOptions djvViewMainWindow::imageOptions() const
     }
 
     out.displayProfile = _p->imageGroup->displayProfile();
-    out.channel = _p->imageGroup->channel();
-    out.background = djvViewViewPrefs::global()->background();
+    out.channel        = _p->imageGroup->channel();
+    out.background     = _p->context->viewPrefs()->background();
 
     return out;
 }

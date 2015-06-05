@@ -50,8 +50,8 @@
 // djvLibquicktimeWidget
 //------------------------------------------------------------------------------
 
-djvLibquicktimeWidget::djvLibquicktimeWidget(djvLibquicktimePlugin * plugin) :
-    djvAbstractPrefsWidget(djvLibquicktimePlugin::staticName),
+djvLibquicktimeWidget::djvLibquicktimeWidget(djvLibquicktimePlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvLibquicktimePlugin::staticName, context),
     _plugin     (plugin),
     _codecWidget(0)
 {

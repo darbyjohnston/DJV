@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvTiffWidget(djvTiffPlugin *);
+    djvTiffWidget(djvTiffPlugin *, djvGuiContext *);
 
     //! Destructor.
 

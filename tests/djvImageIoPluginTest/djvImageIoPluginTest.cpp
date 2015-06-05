@@ -38,8 +38,8 @@
 #include <djvErrorUtil.h>
 #include <djvFileInfo.h>
 #include <djvFileIo.h>
-#include <djvImageApplication.h>
 #include <djvImage.h>
+#include <djvImageContext.h>
 #include <djvImageIo.h>
 #include <djvMemory.h>
 #include <djvOpenGlImage.h>
@@ -54,11 +54,11 @@ void djvImageIoPluginTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvImageIoPluginTest::run");
 
-    djvImageApplication app("djvImageIoPluginTest", argc, argv);
+    djvImageContext context;
     
     initData();
     initImages();
-    initPlugins();
+    initPlugins(&context);
 
     typedef QPair<QString, djvPixel::PIXEL> Disable;
     
@@ -97,21 +97,21 @@ void djvImageIoPluginTest::run(int & argc, char ** argv)
     }
 }
 
-void djvImageIoPluginTest::initPlugins()
+void djvImageIoPluginTest::initPlugins(djvImageContext * context)
 {
     DJV_DEBUG("djvImageIoPluginTest::initPlugins");
 
     QStringList option;
     option << "None";
-    djvImageIoFactory::global()->setOption("Cineon", "Input Color Profile", option);
+    context->imageIoFactory()->setOption("Cineon", "Input Color Profile", option);
     option << "None";
-    djvImageIoFactory::global()->setOption("Cineon", "Output Color Profile", option);
+    context->imageIoFactory()->setOption("Cineon", "Output Color Profile", option);
     option << "None";
-    djvImageIoFactory::global()->setOption("DPX", "Input Color Profile", option);
+    context->imageIoFactory()->setOption("DPX", "Input Color Profile", option);
     option << "None";
-    djvImageIoFactory::global()->setOption("DPX", "Output Color Profile", option);
+    context->imageIoFactory()->setOption("DPX", "Output Color Profile", option);
     option << "None";
-    djvImageIoFactory::global()->setOption("OpenEXR", "Input Color Profile", option);
+    context->imageIoFactory()->setOption("OpenEXR", "Input Color Profile", option);
 
     //! \todo Fix libquicktime and QuickTime image I/O testing.
     
@@ -123,7 +123,7 @@ void djvImageIoPluginTest::initPlugins()
     
     disable += "JPEG";
 
-    const QList<djvPlugin *> & pluginsTmp = djvImageIoFactory::global()->plugins();
+    const QList<djvPlugin *> & pluginsTmp = context->imageIoFactory()->plugins();
     
     for (int i = 0; i < pluginsTmp.count(); ++i)
     {

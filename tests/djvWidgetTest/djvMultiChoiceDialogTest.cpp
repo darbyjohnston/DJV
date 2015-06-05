@@ -38,6 +38,10 @@
 #include <djvSystem.h>
 #include <djvStringUtil.h>
 
+djvMultiChoiceDialogTest::djvMultiChoiceDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvMultiChoiceDialogTest::name()
 {
     return "djvMultiChoiceDialogTest";

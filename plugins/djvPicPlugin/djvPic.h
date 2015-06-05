@@ -29,15 +29,90 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreApplicationTest.h
+//! \file djvPic.h
 
-#include <djvCoreTestExport.h>
+#ifndef DJV_PIC_H
+#define DJV_PIC_H
 
-#include <djvAbstractTest.h>
+#include <QString>
 
-class DJV_CORE_TEST_EXPORT djvCoreApplicationTest : public djvAbstractTest
+//! \addtogroup plugins
+//@{
+
+//!\defgroup djvPicPlugin djvPicPlugin
+//!
+//! This plugin provides support for the Softimage image file format.
+//!
+//! File extensions: .pic
+//!
+//! Supported features:
+//!
+//! - 8-bit, RGB, RGBA, RGB plus Alpha
+//! - File compression
+//! - Read only
+//!
+//! References:
+//!
+//! - Softimage, "INFO: PIC file format"
+//!   http://xsi.wiki.avid.com/index.php/INFO:_PIC_file_format
+
+//@} // plugins
+
+//! \addtogroup djvPicPlugin
+//@{
+
+//------------------------------------------------------------------------------
+//! \class djvPic
+//!
+//! This class provides PIC utilities.
+//------------------------------------------------------------------------------
+
+class djvPic
 {
 public:
 
-    virtual void run(int &, char **);
+    //! The plugin name.
+
+    static const QString staticName;
+
+    //! This enumeration provides the file types.
+
+    enum TYPE
+    {
+        TYPE_RGB,
+        TYPE_RGBA,
+        TYPE_RGB_A,
+
+        TYPE_COUNT
+    };
+
+    //! This enumeration provides the file compression.
+
+    enum COMPRESSION
+    {
+        COMPRESSION_NONE,
+        COMPRESSION_RLE,
+
+        COMPRESSION_COUNT
+    };
+
+    //! Get the compression labels.
+
+    static const QStringList & compressionLabels();
+
+    //! Load RLE data.
+
+    static const quint8 * readRle(
+        const quint8 * in,
+        const quint8 * end,
+        quint8 *       out,
+        int            size,
+        int            channels,
+        int            stride,
+        bool           endian);
 };
+
+//@} // djvPicPlugin
+
+#endif // DJV_PIC_PLUGIN_H
+

@@ -63,7 +63,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewShortcutPrefs(QObject * parent = 0);
+    explicit djvViewShortcutPrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -76,10 +76,6 @@ public:
     //! Get the shortcuts.
 
     const QVector<djvShortcut> & shortcuts() const;
-
-    //! Get the global preferences.
-
-    static djvViewShortcutPrefs * global();
 
 public Q_SLOTS:
 

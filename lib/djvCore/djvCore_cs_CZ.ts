@@ -2,9 +2,70 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="cs_CZ">
 <context>
-    <name>djvAbstractCoreApplication</name>
+    <name>djvCglContext</name>
     <message>
-        <location filename="djvCoreApplication.cpp" line="223"/>
+        <location filename="djvCglContextPrivate.cpp" line="220"/>
+        <source>Cannot get pixel format: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="221"/>
+        <source>Cannot create OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="222"/>
+        <source>Cannot initialize GLEW: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="223"/>
+        <source>No OpenGL FBO support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="224"/>
+        <source>Invalid OpenGL context</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCglContextPrivate.cpp" line="225"/>
+        <source>Cannot bind OpenGL context: #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvColorProfile</name>
+    <message>
+        <location filename="djvColorProfile.cpp" line="68"/>
+        <source>Raw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvColorProfile.cpp" line="69"/>
+        <source>Gamma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvColorProfile.cpp" line="70"/>
+        <source>LUT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvColorProfile.cpp" line="71"/>
+        <source>Exposure</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvCoreContext</name>
+    <message>
+        <location filename="djvCoreContext.cpp" line="119"/>
+        <source>Cannot parse the command line argument: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvCoreContext.cpp" line="140"/>
         <source>General
 
     Version: %1
@@ -19,7 +80,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="249"/>
+        <location filename="djvCoreContext.cpp" line="166"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -106,52 +167,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="408"/>
+        <location filename="djvCoreContext.cpp" line="341"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="415"/>
+        <location filename="djvCoreContext.cpp" line="348"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="422"/>
+        <location filename="djvCoreContext.cpp" line="355"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="430"/>
+        <location filename="djvCoreContext.cpp" line="363"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="436"/>
+        <location filename="djvCoreContext.cpp" line="377"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="437"/>
+        <location filename="djvCoreContext.cpp" line="378"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="442"/>
+        <location filename="djvCoreContext.cpp" line="385"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="447"/>
+        <location filename="djvCoreContext.cpp" line="392"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="455"/>
+        <location filename="djvCoreContext.cpp" line="402"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreApplication.cpp" line="488"/>
+        <location filename="djvCoreContext.cpp" line="432"/>
         <source>
 General Options
 
@@ -172,146 +233,16 @@ General Options
 </source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="djvCoreApplication.cpp" line="524"/>
-        <source>Cannot parse the command line argument: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvAbstractImageApplication</name>
-    <message>
-        <location filename="djvImageApplication.cpp" line="115"/>
-        <source>%1
-OpenGL
-
-    Vendor: %2
-    Renderer: %3
-    Version: %4
-    Render filter: %5, %6
-
-Image I/O
-
-    Plugins: %7
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvImageApplication.cpp" line="169"/>
-        <source>-render_filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvImageApplication.cpp" line="176"/>
-        <source>-render_filter_high</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvImageApplication.cpp" line="211"/>
-        <source>%1
-OpenGL Options
-
-    -render_filter (zoom out) (zoom in)
-        Set the render filter. Options = %2. Default = %3, %4.
-    -render_filter_high
-        Set the render filter to high quality settings (%5, %6).
-%7</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvApplicationEnum</name>
-    <message>
-        <location filename="djvCoreApplication.cpp" line="57"/>
-        <source>Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCoreApplication.cpp" line="58"/>
-        <source>Error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCoreApplication.cpp" line="59"/>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCoreApplication.cpp" line="60"/>
-        <source>Info</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCoreApplication.cpp" line="61"/>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvCglContext</name>
-    <message>
-        <location filename="djvCglContextPrivate.cpp" line="215"/>
-        <source>Cannot get pixel format: #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCglContextPrivate.cpp" line="216"/>
-        <source>Cannot create OpenGL context: #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCglContextPrivate.cpp" line="217"/>
-        <source>Cannot initialize GLEW: #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCglContextPrivate.cpp" line="218"/>
-        <source>No OpenGL FBO support</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCglContextPrivate.cpp" line="219"/>
-        <source>Invalid OpenGL context</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvCglContextPrivate.cpp" line="220"/>
-        <source>Cannot bind OpenGL context: #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>djvColorProfile</name>
-    <message>
-        <location filename="djvColorProfile.cpp" line="68"/>
-        <source>Raw</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvColorProfile.cpp" line="69"/>
-        <source>Gamma</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvColorProfile.cpp" line="70"/>
-        <source>LUT</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvColorProfile.cpp" line="71"/>
-        <source>Exposure</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>djvErrorUtil</name>
     <message>
-        <location filename="djvErrorUtil.cpp" line="59"/>
+        <location filename="djvErrorUtil.cpp" line="58"/>
         <source>[ERROR] %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvErrorUtil.cpp" line="60"/>
+        <location filename="djvErrorUtil.cpp" line="59"/>
         <source>[ERROR %1] %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -446,84 +377,125 @@ OpenGL Options
 <context>
     <name>djvGlxContext</name>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="303"/>
+        <location filename="djvGlxContextPrivate.cpp" line="304"/>
         <source>Cannot open X display</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="304"/>
+        <location filename="djvGlxContextPrivate.cpp" line="305"/>
         <source>No appropriate X visuals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="305"/>
+        <location filename="djvGlxContextPrivate.cpp" line="306"/>
         <source>Cannot create X colormap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="306"/>
+        <location filename="djvGlxContextPrivate.cpp" line="307"/>
         <source>No GLX extension</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="307"/>
+        <location filename="djvGlxContextPrivate.cpp" line="308"/>
         <source>Cannot create an X window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="308"/>
+        <location filename="djvGlxContextPrivate.cpp" line="309"/>
         <source>Cannot create OpenGL context</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="309"/>
+        <location filename="djvGlxContextPrivate.cpp" line="310"/>
         <source>Cannot initialize GLEW: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="310"/>
+        <location filename="djvGlxContextPrivate.cpp" line="311"/>
         <source>No OpenGL FBO support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="311"/>
+        <location filename="djvGlxContextPrivate.cpp" line="312"/>
         <source>Invalid OpenGL context</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGlxContextPrivate.cpp" line="312"/>
+        <location filename="djvGlxContextPrivate.cpp" line="313"/>
         <source>Cannot bind OpenGL context</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvImageContext</name>
+    <message>
+        <location filename="djvImageContext.cpp" line="114"/>
+        <source>%1
+OpenGL
+
+    Vendor: %2
+    Renderer: %3
+    Version: %4
+    Render filter: %5, %6
+
+Image I/O
+
+    Plugins: %7
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImageContext.cpp" line="164"/>
+        <source>-render_filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImageContext.cpp" line="171"/>
+        <source>-render_filter_high</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvImageContext.cpp" line="208"/>
+        <source>%1
+OpenGL Options
+
+    -render_filter (zoom out) (zoom in)
+        Set the render filter. Options = %2. Default = %3, %4.
+    -render_filter_high
+        Set the render filter to high quality settings (%5, %6).
+%7</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>djvImageIo</name>
     <message>
-        <location filename="djvImageIo.cpp" line="185"/>
+        <location filename="djvImageIo.cpp" line="187"/>
         <source>Unrecognized file</source>
         <oldsource>Unrecognized file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="186"/>
+        <location filename="djvImageIo.cpp" line="188"/>
         <source>Unsupported file</source>
         <oldsource>Unsupported file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="187"/>
+        <location filename="djvImageIo.cpp" line="189"/>
         <source>Cannot open file</source>
         <oldsource>Cannot open file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="188"/>
+        <location filename="djvImageIo.cpp" line="190"/>
         <source>Error reading file</source>
         <oldsource>Error reading file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="189"/>
+        <location filename="djvImageIo.cpp" line="191"/>
         <source>Error writing file</source>
         <oldsource>Error writing file: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
@@ -532,13 +504,13 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="361"/>
-        <location filename="djvImageIo.cpp" line="402"/>
+        <location filename="djvImageIo.cpp" line="364"/>
+        <location filename="djvImageIo.cpp" line="405"/>
         <source>Unrecognized image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="427"/>
+        <location filename="djvImageIo.cpp" line="414"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -927,12 +899,12 @@ OpenGL Options
 <context>
     <name>djvPluginFactory</name>
     <message>
-        <location filename="djvPlugin.cpp" line="400"/>
+        <location filename="djvPlugin.cpp" line="419"/>
         <source>Cannot open plugin &quot;%1&quot;: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPlugin.cpp" line="401"/>
+        <location filename="djvPlugin.cpp" line="420"/>
         <source>Cannot load plugin &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1037,52 +1009,52 @@ OpenGL Options
 <context>
     <name>djvWglContext</name>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="300"/>
+        <location filename="djvWglContextPrivate.cpp" line="301"/>
         <source>Cannot get module handle: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="301"/>
+        <location filename="djvWglContextPrivate.cpp" line="302"/>
         <source>Cannot register class: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="302"/>
+        <location filename="djvWglContextPrivate.cpp" line="303"/>
         <source>Cannot create window: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="303"/>
+        <location filename="djvWglContextPrivate.cpp" line="304"/>
         <source>Cannot get DC: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="304"/>
+        <location filename="djvWglContextPrivate.cpp" line="305"/>
         <source>Cannot get pixel format: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="305"/>
+        <location filename="djvWglContextPrivate.cpp" line="306"/>
         <source>Cannot set pixel format: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="306"/>
+        <location filename="djvWglContextPrivate.cpp" line="307"/>
         <source>Cannot create OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="307"/>
+        <location filename="djvWglContextPrivate.cpp" line="308"/>
         <source>Cannot bind OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="308"/>
+        <location filename="djvWglContextPrivate.cpp" line="309"/>
         <source>Cannot initialize GLEW: #%1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvWglContextPrivate.cpp" line="309"/>
+        <location filename="djvWglContextPrivate.cpp" line="310"/>
         <source>Cannot unbind OpenGL context: #%1</source>
         <translation type="unfinished"></translation>
     </message>

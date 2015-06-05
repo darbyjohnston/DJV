@@ -35,7 +35,6 @@
 
 #include <djvTargaLoad.h>
 #include <djvTargaSave.h>
-#include <djvTargaWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -591,11 +590,6 @@ djvImageLoad * djvTargaPlugin::createLoad() const
 djvImageSave * djvTargaPlugin::createSave() const
 {
     return new djvTargaSave(_options);
-}
-
-djvAbstractPrefsWidget * djvTargaPlugin::createWidget()
-{
-    return new djvTargaWidget(this);
 }
 
 //------------------------------------------------------------------------------

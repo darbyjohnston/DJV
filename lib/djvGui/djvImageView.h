@@ -38,6 +38,7 @@
 
 #include <djvOpenGlImage.h>
 
+class  djvGuiContext;
 struct djvImageViewPrivate;
 
 //! \addtogroup djvGuiWidget
@@ -90,6 +91,7 @@ public:
     //! Constructor.
 
     explicit djvImageView(
+        djvGuiContext *   context,
         QWidget *         parent      = 0,
         const QGLWidget * shareWidget = 0,
         Qt::WindowFlags   flags       = 0);
@@ -97,7 +99,8 @@ public:
     //! Constructor.
 
     explicit djvImageView(
-        QGLContext *      context,
+        QGLContext *      glContext,
+        djvGuiContext *   context,
         QWidget *         parent      = 0,
         const QGLWidget * shareWidget = 0,
         Qt::WindowFlags   flags       = 0);

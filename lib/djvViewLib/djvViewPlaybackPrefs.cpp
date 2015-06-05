@@ -33,16 +33,14 @@
 
 #include <djvViewPlaybackPrefs.h>
 
-#include  <djvViewApplication.h>
-
 #include <djvPrefs.h>
 
 //------------------------------------------------------------------------------
 // djvViewPlaybackPrefs
 //------------------------------------------------------------------------------
 
-djvViewPlaybackPrefs::djvViewPlaybackPrefs(QObject * parent) :
-    djvViewAbstractPrefs(parent),
+djvViewPlaybackPrefs::djvViewPlaybackPrefs(djvViewContext * context, QObject * parent) :
+    djvViewAbstractPrefs(context, parent),
     _autoStart (autoStartDefault()),
     _loop      (loopDefault()),
     _everyFrame(everyFrameDefault()),
@@ -102,18 +100,6 @@ djvViewUtil::LAYOUT djvViewPlaybackPrefs::layoutDefault()
 djvViewUtil::LAYOUT djvViewPlaybackPrefs::layout() const
 {
     return _layout;
-}
-
-djvViewPlaybackPrefs * djvViewPlaybackPrefs::global()
-{
-    static djvViewPlaybackPrefs * prefs = 0;
-
-    if (!prefs)
-    {
-        prefs = new djvViewPlaybackPrefs(DJV_VIEW_APP);
-    }
-
-    return prefs;
 }
 
 void djvViewPlaybackPrefs::setAutoStart(bool in)

@@ -41,6 +41,7 @@
 #include <QObject>
 
 struct djvViewAbstractGroupPrivate;
+class  djvViewContext;
 class  djvViewMainWindow;
 
 class QToolBar;
@@ -62,7 +63,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewAbstractGroup(djvViewMainWindow *);
+    explicit djvViewAbstractGroup(djvViewMainWindow *, djvViewContext *);
 
     //! Destructor.
 
@@ -75,6 +76,10 @@ public:
     //! Get the tool bar.
 
     virtual QToolBar * toolBar() const;
+    
+    //! Get the context.
+    
+    djvViewContext * context() const;
 
 private:
 

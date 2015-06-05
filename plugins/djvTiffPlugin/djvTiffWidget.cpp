@@ -47,8 +47,8 @@
 // djvTiffWidget
 //------------------------------------------------------------------------------
 
-djvTiffWidget::djvTiffWidget(djvTiffPlugin * plugin) :
-    djvAbstractPrefsWidget(djvTiffPlugin::staticName),
+djvTiffWidget::djvTiffWidget(djvTiffPlugin * plugin, djvGuiContext * context) :
+    djvAbstractPrefsWidget(djvTiffPlugin::staticName, context),
     _plugin           (plugin),
     _compressionWidget(0)
 {

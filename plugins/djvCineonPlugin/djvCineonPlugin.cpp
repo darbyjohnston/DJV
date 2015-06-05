@@ -35,7 +35,6 @@
 
 #include <djvCineonLoad.h>
 #include <djvCineonSave.h>
-#include <djvCineonWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -281,9 +280,4 @@ djvImageLoad * djvCineonPlugin::createLoad() const
 djvImageSave * djvCineonPlugin::createSave() const
 {
     return new djvCineonSave(_options);
-}
-
-djvAbstractPrefsWidget * djvCineonPlugin::createWidget()
-{
-    return new djvCineonWidget(this);
 }

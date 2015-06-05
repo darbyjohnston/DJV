@@ -35,6 +35,7 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvImageContext.h>
 #include <djvOpenGlContext.h>
 #include <djvPixelData.h>
 #include <djvPixelDataUtil.h>
@@ -181,10 +182,13 @@ void djvPixelDataUtilTest::gradient()
 void djvPixelDataUtilTest::qt()
 {
     DJV_DEBUG("djvPixelDataUtilTest::qt");
+
+    djvImageContext context;
     
-    QScopedPointer<djvOpenGlContext> context(djvOpenGlContextFactory::create());
+    QScopedPointer<djvOpenGlContext> openGlContext(
+        context.openGlContextFactory()->create());
         
-    djvOpenGlContextScope contextScope(context.data());
+    djvOpenGlContextScope contextScope(openGlContext.data());
     
     djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
     

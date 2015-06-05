@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    explicit djvImagePrefsWidget(QWidget * parent = 0);
+    explicit djvImagePrefsWidget(djvGuiContext * context, QWidget * parent = 0);
 
     //! Destructor.
 

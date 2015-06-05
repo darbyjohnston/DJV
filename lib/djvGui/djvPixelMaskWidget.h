@@ -41,6 +41,7 @@
 
 #include <QWidget>
 
+class  djvGuiContext;
 struct djvPixelMaskWidgetPrivate;
 
 //! \addtogroup djvGuiWidget
@@ -68,7 +69,7 @@ public:
 
     //! Constructor.
 
-    explicit djvPixelMaskWidget(QWidget * parent = 0);
+    explicit djvPixelMaskWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

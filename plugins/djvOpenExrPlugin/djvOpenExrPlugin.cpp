@@ -35,7 +35,6 @@
 
 #include <djvOpenExrLoad.h>
 #include <djvOpenExrSave.h>
-#include <djvOpenExrWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -1211,11 +1210,6 @@ djvImageLoad * djvOpenExrPlugin::createLoad() const
 djvImageSave * djvOpenExrPlugin::createSave() const
 {
     return new djvOpenExrSave(_options);
-}
-
-djvAbstractPrefsWidget * djvOpenExrPlugin::createWidget()
-{
-    return new djvOpenExrWidget(this);
 }
 
 void djvOpenExrPlugin::threadsUpdate()

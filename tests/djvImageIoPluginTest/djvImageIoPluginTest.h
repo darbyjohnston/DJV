@@ -38,6 +38,8 @@
 #include <djvImage.h>
 #include <djvImageIo.h>
 
+class djvImageContext;
+
 class DJV_IMAGE_IO_PLUGIN_TEST_EXPORT djvImageIoPluginTest : public djvAbstractTest
 {
 public:
@@ -46,7 +48,7 @@ public:
 
 private:
 
-    void initPlugins();
+    void initPlugins(djvImageContext *);
     void initData();
     void initImages();
     void runTest(djvImageIo *, const djvImage &);

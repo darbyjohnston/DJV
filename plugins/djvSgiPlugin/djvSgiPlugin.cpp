@@ -35,7 +35,6 @@
 
 #include <djvSgiLoad.h>
 #include <djvSgiSave.h>
-#include <djvSgiWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -595,11 +594,6 @@ djvImageLoad * djvSgiPlugin::createLoad() const
 djvImageSave * djvSgiPlugin::createSave() const
 {
     return new djvSgiSave(_options);
-}
-
-djvAbstractPrefsWidget * djvSgiPlugin::createWidget()
-{
-    return new djvSgiWidget(this);
 }
 
 //------------------------------------------------------------------------------

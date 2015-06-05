@@ -36,7 +36,6 @@
 
 #include <djvIffLoad.h>
 #include <djvIffSave.h>
-#include <djvIffWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -817,11 +816,6 @@ djvImageLoad * djvIffPlugin::createLoad() const
 djvImageSave * djvIffPlugin::createSave() const
 {
     return new djvIffSave(_options);
-}
-
-djvAbstractPrefsWidget * djvIffPlugin::createWidget()
-{
-    return new djvIffWidget(this);
 }
 
 //------------------------------------------------------------------------------

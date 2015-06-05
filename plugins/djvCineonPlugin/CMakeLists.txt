@@ -4,10 +4,12 @@ set(header
     djvCineonLoad.h
     djvCineonPlugin.h
     djvCineonSave.h
-    djvCineonWidget.h)
+#    djvCineonWidget.h
+    )
 
 set(mocHeader
-    djvCineonWidget.h)
+#    djvCineonWidget.h
+    )
 
 set(source
     djvCineon.cpp
@@ -15,7 +17,8 @@ set(source
     djvCineonLoad.cpp
     djvCineonPlugin.cpp
     djvCineonSave.cpp
-    djvCineonWidget.cpp)
+#    djvCineonWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

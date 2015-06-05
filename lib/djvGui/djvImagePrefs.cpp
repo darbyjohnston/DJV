@@ -70,18 +70,6 @@ const djvOpenGlImageFilter & djvImagePrefs::filter() const
     return djvOpenGlImageFilter::filter();
 }
 
-djvImagePrefs * djvImagePrefs::global()
-{
-    static djvImagePrefs * global = 0;
-    
-    if (! global)
-    {
-        global = new djvImagePrefs(qApp);
-    }
-    
-    return global;
-}
-
 void djvImagePrefs::setFilter(const djvOpenGlImageFilter & filter)
 {
     if (filter == this->filter())

@@ -29,105 +29,93 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFormLayoutAlign.cpp
+//! \file djvImageIoWidget.cpp
 
-#include <djvFormLayoutAlign.h>
+#include <djvImageIoWidget.h>
 
-#include <djvStyle.h>
+#include <djvGuiContext.h>
 
-#include <djvMath.h>
-
-#include <QFormLayout>
-#include <QWidget>
+#include <djvImageIo.h>
 
 //------------------------------------------------------------------------------
-// djvFormLayoutAlignPrivate
+// djvImageIoWidget
 //------------------------------------------------------------------------------
 
-struct djvFormLayoutAlignPrivate
+djvImageIoWidget::djvImageIoWidget(
+    djvImageIo *    plugin,
+    djvGuiContext * context,
+    QWidget *       parent) :
+    djvAbstractPrefsWidget(plugin->pluginName(), context, parent),
+    _plugin (plugin),
+    _context(context)
+{}
+
+djvImageIoWidget::~djvImageIoWidget()
+{}
+
+djvImageIo * djvImageIoWidget::plugin() const
 {
-    QList<QFormLayout *> layouts;
-};
+    return _plugin;
+}
+
+djvGuiContext * djvImageIoWidget::context() const
+{
+    return _context;
+}
 
 //------------------------------------------------------------------------------
-// djvFormLayoutAlign
+// djvImageIoWidgetPlugin
 //------------------------------------------------------------------------------
 
-djvFormLayoutAlign::djvFormLayoutAlign(QObject * parent) :
-    QObject(parent),
-    _p(new djvFormLayoutAlignPrivate)
+djvImageIoWidgetPlugin::djvImageIoWidgetPlugin(djvCoreContext * context) :
+    djvPlugin(context)
+{}
+
+djvImageIoWidgetPlugin::~djvImageIoWidgetPlugin()
+{}
+    
+djvGuiContext * djvImageIoWidgetPlugin::guiContext() const
 {
-    connect(
-        djvStyle::global(),
-        SIGNAL(sizeMetricsChanged()),
-        SLOT(align()));
+    return dynamic_cast<djvGuiContext *>(context());
 }
 
-djvFormLayoutAlign::~djvFormLayoutAlign()
+djvPlugin * djvImageIoWidgetPlugin::copyPlugin() const
 {
-    delete _p;
+    return 0;
 }
 
-void djvFormLayoutAlign::addLayout(QFormLayout * layout)
+//------------------------------------------------------------------------------
+// djvImageIoWidgetFactory
+//------------------------------------------------------------------------------
+
+djvImageIoWidgetFactory::djvImageIoWidgetFactory(
+    djvGuiContext *     context,
+    const QStringList & searchPath,
+    QObject *           parent) :
+    djvPluginFactory(context, searchPath, "djvImageIoWidgetEntry", "djv", "Plugin", parent),
+    _context(context)
 {
-    if (_p->layouts.contains(layout))
-        return;
-
-    _p->layouts += layout;
-
-    align();
+    //DJV_DEBUG("djvImageIoWidgetFactory::djvImageIoWidgetFactory");
 }
 
-void djvFormLayoutAlign::clear()
+djvImageIoWidgetFactory::~djvImageIoWidgetFactory()
 {
-    _p->layouts.clear();
-
-    align();
+    //DJV_DEBUG("djvImageIoWidgetFactory::~djvImageIoWidgetFactory");
 }
 
-void djvFormLayoutAlign::align()
+djvImageIoWidget * djvImageIoWidgetFactory::createWidget(djvImageIo * imageIoPlugin) const
 {
-    int width = 0;
-
-    Q_FOREACH(QFormLayout * layout, _p->layouts)
+    Q_FOREACH(djvPlugin * plugin, plugins())
     {
-        for (int i = 0; i < layout->rowCount(); ++i)
+        if (djvImageIoWidgetPlugin * imageIoWidgetPlugin =
+            dynamic_cast<djvImageIoWidgetPlugin *>(plugin))
         {
-            if (QWidget * widget = layout->itemAt(i)->widget())
+            if (imageIoWidgetPlugin->pluginName() == imageIoPlugin->pluginName())
             {
-                if (QWidget * label = layout->labelForField(widget))
-                {
-                    label->setFixedSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
-                }
+                return imageIoWidgetPlugin->createWidget(imageIoPlugin);
             }
         }
     }
-
-    Q_FOREACH(QFormLayout * layout, _p->layouts)
-    {
-        for (int i = 0; i < layout->rowCount(); ++i)
-        {
-            if (QWidget * widget = layout->itemAt(i)->widget())
-            {
-                if (QWidget * label = layout->labelForField(widget))
-                {
-                    width = djvMath::max(width, label->sizeHint().width());
-                }
-            }
-        }
-    }
-
-    Q_FOREACH(QFormLayout * layout, _p->layouts)
-    {
-        for (int i = 0; i < layout->rowCount(); ++i)
-        {
-            if (QWidget * widget = layout->itemAt(i)->widget())
-            {
-                if (QWidget * label = layout->labelForField(widget))
-                {
-                    label->setFixedWidth(width);
-                }
-            }
-        }
-    }
+    
+    return 0;
 }

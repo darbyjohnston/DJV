@@ -43,6 +43,7 @@
 #include <QAbstractSpinBox>
 
 struct djvViewCacheSizeWidgetPrivate;
+class  djvViewContext;
 struct djvViewFrameDisplayPrivate;
 struct djvViewFrameSliderPrivate;
 struct djvViewFrameWidgetPrivate;
@@ -85,7 +86,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewCacheSizeWidget(QWidget * parent = 0);
+    explicit djvViewCacheSizeWidget(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -171,7 +172,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFrameWidget(QWidget * parent = 0);
+    explicit djvViewFrameWidget(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -292,7 +293,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFrameSlider(QWidget * parent = 0);
+    explicit djvViewFrameSlider(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -467,7 +468,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFrameDisplay(QWidget * parent = 0);
+    explicit djvViewFrameDisplay(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -529,7 +530,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewSpeedButton(QWidget * parent = 0);
+    explicit djvViewSpeedButton(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -586,7 +587,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewSpeedWidget(QWidget * parent = 0);
+    explicit djvViewSpeedWidget(djvViewContext *, QWidget * parent = 0);
 
     //! Destructor.
 

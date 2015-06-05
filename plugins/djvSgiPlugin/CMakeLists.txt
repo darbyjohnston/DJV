@@ -2,16 +2,19 @@ set(header
     djvSgiLoad.h
     djvSgiPlugin.h
     djvSgiSave.h
-    djvSgiWidget.h)
+#    djvSgiWidget.h
+    )
 
 set(mocHeader
-    djvSgiWidget.h)
+#    djvSgiWidget.h
+    )
 
 set(source
     djvSgiLoad.cpp
     djvSgiPlugin.cpp
     djvSgiSave.cpp
-    djvSgiWidget.cpp)
+#    djvSgiWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

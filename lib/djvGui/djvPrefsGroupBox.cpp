@@ -33,6 +33,7 @@
 
 #include <djvPrefsGroupBox.h>
 
+#include <djvGuiContext.h>
 #include <djvStyle.h>
 
 #include <QGroupBox>
@@ -46,38 +47,34 @@
 
 struct djvPrefsGroupBoxPrivate
 {
-    djvPrefsGroupBoxPrivate(const QString & text) :
-        text  (text),
-        label (0),
-        layout(0)
+    djvPrefsGroupBoxPrivate(const QString & text, djvGuiContext * context) :
+        text   (text),
+        label  (0),
+        layout (0),
+        context(context)
     {}
     
-    QString       text;
-
-    QGroupBox *   groupBox;
-    QLabel *      label;
-    QVBoxLayout * layout;
+    QString         text;
+    QGroupBox *     groupBox;
+    QLabel *        label;
+    QVBoxLayout *   layout;
+    djvGuiContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvPrefsGroupBox
 //------------------------------------------------------------------------------
 
-djvPrefsGroupBox::djvPrefsGroupBox(
-    const QString & title,
-    const QString & text,
-    QWidget *       parent) :
-    QWidget(parent),
-    _p(new djvPrefsGroupBoxPrivate(text))
+void djvPrefsGroupBox::init(const QString & title)
 {
     const QFont font = this->font();
     
     _p->groupBox = new QGroupBox(title);
     _p->groupBox->setStyleSheet("QGroupBox { font-weight: bold; }");
 
-    _p->label = new QLabel(text);
+    _p->label = new QLabel(_p->text);
     _p->label->setWordWrap(true);
-    if (0 == text.length())
+    if (0 == _p->text.length())
         _p->label->hide();
     
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -86,8 +83,29 @@ djvPrefsGroupBox::djvPrefsGroupBox(
     layout->addWidget(_p->groupBox);
     
     _p->layout = new QVBoxLayout(_p->groupBox);
-    _p->layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    _p->layout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
     _p->layout->addWidget(_p->label);
+}
+
+djvPrefsGroupBox::djvPrefsGroupBox(
+    const QString & title,
+    djvGuiContext * context,
+    QWidget *       parent) :
+    QWidget(parent),
+    _p(new djvPrefsGroupBoxPrivate(QString(), context))
+{
+    init(title);
+}
+
+djvPrefsGroupBox::djvPrefsGroupBox(
+    const QString & title,
+    const QString & text,
+    djvGuiContext * context,
+    QWidget *       parent) :
+    QWidget(parent),
+    _p(new djvPrefsGroupBoxPrivate(text, context))
+{
+    init(title);
 }
 
 djvPrefsGroupBox::~djvPrefsGroupBox()
@@ -109,7 +127,7 @@ void djvPrefsGroupBox::setText(const QString & text)
 QFormLayout * djvPrefsGroupBox::createLayout()
 {
     QFormLayout * formLayout = new QFormLayout;
-    formLayout->setSpacing(djvStyle::global()->sizeMetric().spacing);
+    formLayout->setSpacing(_p->context->style()->sizeMetric().spacing);
     
     _p->layout->addLayout(formLayout);
     

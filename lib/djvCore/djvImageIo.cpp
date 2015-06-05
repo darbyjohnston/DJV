@@ -37,6 +37,7 @@
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfo.h>
+#include <djvImageContext.h>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -125,7 +126,8 @@ void djvImageSave::close() throw (djvError)
 // djvImageIo
 //------------------------------------------------------------------------------
 
-djvImageIo::djvImageIo()
+djvImageIo::djvImageIo(djvCoreContext * context) :
+    djvPlugin(context)
 {}
 
 djvImageIo::~djvImageIo()
@@ -173,10 +175,10 @@ djvImageSave * djvImageIo::createSave() const
 {
     return 0;
 }
-
-djvAbstractPrefsWidget * djvImageIo::createWidget()
+    
+djvImageContext * djvImageIo::imageContext() const
 {
-    return 0;
+    return dynamic_cast<djvImageContext *>(context());
 }
 
 const QStringList & djvImageIo::errorLabels()
@@ -214,9 +216,10 @@ struct djvImageIoFactoryPrivate
 //------------------------------------------------------------------------------
 
 djvImageIoFactory::djvImageIoFactory(
+    djvImageContext *   context,
     const QStringList & searchPath,
     QObject *           parent) :
-    djvPluginFactory(searchPath, "djvImageIo", "djv", "Plugin", parent),
+    djvPluginFactory(context, searchPath, "djvImageIoEntry", "djv", "Plugin", parent),
     _p(new djvImageIoFactoryPrivate)
 {
     //DJV_DEBUG("djvImageIoFactory::djvImageIoFactory");
@@ -403,22 +406,6 @@ djvImageSave * djvImageIoFactory::save(
         arg(QDir::toNativeSeparators(fileInfo)));
     
     return 0;
-}
-
-djvImageIoFactory * djvImageIoFactory::global()
-{
-    static QPointer<djvImageIoFactory> factory;
-
-    if (! factory.data())
-    {
-        //! \todo Parenting the image I/O factory to the application is
-        //! causing issues when the application exits on Windows.
-
-        //factory = new djvImageIoFactory(djvSystem::searchPath(), qApp);
-        factory = new djvImageIoFactory;
-    }
-
-    return factory.data();
 }
 
 const QStringList & djvImageIoFactory::errorLabels()

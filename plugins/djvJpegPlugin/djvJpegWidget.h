@@ -57,7 +57,7 @@ public:
 
     //! Constructor.
 
-    djvJpegWidget(djvJpegPlugin *);
+    djvJpegWidget(djvJpegPlugin *, djvGuiContext *);
     
     //! Destructor.
     

@@ -519,18 +519,6 @@ void djvStyle::colorUpdate()
     qApp->setPalette(palette);
 }
 
-djvStyle * djvStyle::global()
-{
-    static djvStyle * global = 0;
-    
-    if (! global)
-    {
-        global = new djvStyle(qApp);
-    }
-    
-    return global;
-}
-
 void djvStyle::sizeUpdate()
 {
     //DJV_DEBUG("djvStyle::sizeUpdate");

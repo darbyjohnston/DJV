@@ -34,6 +34,7 @@
 #include <djvPlugin.h>
 
 #include <djvAssert.h>
+#include <djvCoreContext.h>
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
@@ -65,8 +66,17 @@
 // djvPlugin
 //------------------------------------------------------------------------------
 
+djvPlugin::djvPlugin(djvCoreContext * context) :
+    _context(context)
+{}
+
 djvPlugin::~djvPlugin()
 {}
+    
+djvCoreContext * djvPlugin::context() const
+{
+    return _context;
+}
 
 //------------------------------------------------------------------------------
 // djvPluginFactoryPrivate
@@ -162,11 +172,16 @@ private:
 
 struct djvPluginFactoryPrivate
 {
+    djvPluginFactoryPrivate(djvCoreContext * context) :
+        context(context)
+    {}
+    
     typedef QPair<djvPlugin *, Handle *> Pair;
     
     QString             pluginPrefix;
     QString             pluginEntry;
     QMap<QString, Pair> plugins;
+    djvCoreContext *    context;
 };
 
 //------------------------------------------------------------------------------
@@ -174,13 +189,14 @@ struct djvPluginFactoryPrivate
 //------------------------------------------------------------------------------
 
 djvPluginFactory::djvPluginFactory(
+    djvCoreContext *    context,
     const QStringList & searchPath,
     const QString &     pluginEntry,
     const QString &     pluginPrefix,
     const QString &     pluginSuffix,
     QObject *           parent) :
     QObject(parent),
-    _p(new djvPluginFactoryPrivate)
+    _p(new djvPluginFactoryPrivate(context))
 {
     //DJV_DEBUG("djvPluginFactory::djvPluginFactory");
     //DJV_DEBUG_PRINT("search path = " << searchPath);
@@ -206,8 +222,8 @@ djvPluginFactory::djvPluginFactory(
     
     // Find plugins.
 
-    DJV_LOG("djvPluginFactory", "Searching for plugins...");
-    DJV_LOG("djvPluginFactory",
+    DJV_LOG(context->debugLog(), "djvPluginFactory", "Searching for plugins...");
+    DJV_LOG(context->debugLog(), "djvPluginFactory",
         QString("Plugin search pattern: \"%1\"").arg(glob.join(", ")));
 
     djvFileInfoList fileInfoList;
@@ -216,7 +232,7 @@ djvPluginFactory::djvPluginFactory(
     {
         //DJV_DEBUG_PRINT("searching = " << path);
 
-        DJV_LOG("djvPluginFactory",
+        DJV_LOG(context->debugLog(), "djvPluginFactory",
             QString("Checking search path: \"%1\"").arg(path));
 
         djvFileInfoList tmp = djvFileInfoUtil::list(
@@ -235,7 +251,7 @@ djvPluginFactory::djvPluginFactory(
         {
             //DJV_DEBUG_PRINT("found = " << fileInfo);
 
-            DJV_LOG("djvPluginFactory",
+            DJV_LOG(context->debugLog(), "djvPluginFactory",
                 QString("Found plugin: \"%1\"").arg(fileInfo));
 
             fileInfoList += fileInfo;
@@ -252,7 +268,7 @@ djvPluginFactory::djvPluginFactory(
 
         //DJV_DEBUG_PRINT("loading = " << fileInfo);
 
-        DJV_LOG("djvPluginFactory",
+        DJV_LOG(context->debugLog(), "djvPluginFactory",
             QString("Loading plugin: \"%1\"...").arg(fileInfo));
 
         QScopedPointer<Handle> handle(new Handle);
@@ -263,7 +279,7 @@ djvPluginFactory::djvPluginFactory(
         }
         catch (const QString & error)
         {
-            DJV_LOG(
+            DJV_LOG(context->debugLog(),
                 "djvPluginFactory",         
                 errorLabels()[ERROR_OPEN].
                 arg(QDir::toNativeSeparators(fileInfo)).
@@ -276,7 +292,8 @@ djvPluginFactory::djvPluginFactory(
 
         if (! entry)
         {
-            DJV_LOG("djvPluginFactory", "No plugin entry point");
+            DJV_LOG(context->debugLog(), "djvPluginFactory",
+                "No plugin entry point");
             
             continue;
         }
@@ -285,28 +302,28 @@ djvPluginFactory::djvPluginFactory(
 
         try
         {
-            plugin.reset(entry());
+            plugin.reset(entry(_p->context));
         }
         catch (const djvError & error)
         {
-            DJV_LOG("djvPluginFactory", djvErrorUtil::format(error).join("\n"));
+            DJV_LOG(context->debugLog(), "djvPluginFactory",
+                djvErrorUtil::format(error).join("\n"));
 
             plugin.reset();
         }
 
         if (! plugin.data())
         {
-            DJV_LOG(
-                "djvPluginFactory",
+            DJV_LOG(context->debugLog(), "djvPluginFactory",
                 errorLabels()[ERROR_LOAD].
-                arg(QDir::toNativeSeparators(fileInfo)));
+                    arg(QDir::toNativeSeparators(fileInfo)));
 
             continue;
         }
 
         //DJV_DEBUG_PRINT("name = " << plugin->pluginName());
 
-        DJV_LOG("djvPluginFactory",
+        DJV_LOG(context->debugLog(), "djvPluginFactory",
             QString("Plugin name: \"%1\"").arg(plugin->pluginName()));
 
         // Check for duplicates.
@@ -315,7 +332,8 @@ djvPluginFactory::djvPluginFactory(
         {
             //DJV_DEBUG_PRINT("duplicate");
             
-            DJV_LOG("djvPluginFactory", "Duplicate plugin, discarding");
+            DJV_LOG(context->debugLog(), "djvPluginFactory",
+                "Duplicate plugin, discarding");
 
             plugin.reset();
 
@@ -330,7 +348,8 @@ djvPluginFactory::djvPluginFactory(
         }
         catch (const djvError & error)
         {
-            DJV_LOG("djvPluginFactory", djvErrorUtil::format(error).join("\n"));
+            DJV_LOG(context->debugLog(), "djvPluginFactory",
+                djvErrorUtil::format(error).join("\n"));
 
             plugin->releasePlugin();
             plugin.reset();
@@ -346,7 +365,7 @@ djvPluginFactory::djvPluginFactory(
         _p->plugins[p->pluginName()] = djvPluginFactoryPrivate::Pair(p, h);
     }
     
-    DJV_LOG("djvPluginFactory",
+    DJV_LOG(context->debugLog(), "djvPluginFactory",
         QString("Plugins loaded: %1").arg(_p->plugins.count()));
 }
 

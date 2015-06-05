@@ -35,6 +35,7 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvImageContext.h>
 #include <djvOpenGl.h>
 #include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
@@ -86,7 +87,7 @@ void djvOpenGlImageTest::ctors()
 void djvOpenGlImageTest::members()
 {
     DJV_DEBUG("djvOpenGlImageTest::members");
-        
+
     {
         DJV_DEBUG_PRINT(djvOpenGlImageXform::xformMatrix(djvOpenGlImageXform()));
     }
@@ -109,9 +110,12 @@ void djvOpenGlImageTest::members()
     }
 
     {
-        QScopedPointer<djvOpenGlContext> context(djvOpenGlContextFactory::create());
+        djvImageContext context;
+    
+        QScopedPointer<djvOpenGlContext> openGlContext(
+            context.openGlContextFactory()->create());
         
-        djvOpenGlContextScope contextScope(context.data());
+        djvOpenGlContextScope contextScope(openGlContext.data());
         
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
         {

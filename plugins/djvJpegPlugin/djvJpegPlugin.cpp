@@ -35,7 +35,6 @@
 
 #include <djvJpegLoad.h>
 #include <djvJpegSave.h>
-#include <djvJpegWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -189,11 +188,6 @@ djvImageLoad * djvJpegPlugin::createLoad() const
 djvImageSave * djvJpegPlugin::createSave() const
 {
     return new djvJpegSave(_options);
-}
-
-djvAbstractPrefsWidget * djvJpegPlugin::createWidget()
-{
-    return new djvJpegWidget(this);
 }
 
 //------------------------------------------------------------------------------

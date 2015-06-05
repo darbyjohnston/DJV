@@ -73,10 +73,6 @@ public:
 
     qint64 maxFrames() const;
 
-    //! Get the global preferences.
-
-    static djvSequencePrefs * global();
-    
 public Q_SLOTS:
 
     //! Set the maximum number of frames a sequence can hold.

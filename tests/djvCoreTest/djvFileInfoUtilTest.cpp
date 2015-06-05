@@ -69,18 +69,18 @@ void djvFileInfoUtilTest::split()
     }
         data [] =
     {
-        { "/tmp/image.1-100.tiff", "/tmp/", "image.", "1-100", ".tiff" },
-        { "image.1-100.tiff", "", "image.", "1-100", ".tiff" },
-        { "image.001-100.tiff", "", "image.", "001-100", ".tiff" },
-        { "image1-100.tiff", "", "image", "1-100", ".tiff" },
-        { "image001-100.tiff", "", "image", "001-100", ".tiff" },
-        { "image_01-100.tiff", "", "image_01-", "100", ".tiff" },
-        { "image.-100--1.tiff", "", "image.", "-100--1", ".tiff" },
-        { "image-100--1.tiff", "", "image", "-100--1", ".tiff" },
-        { "1-100.tiff", "", "", "1-100", ".tiff" },
-        { "1--100.tiff", "", "", "1--100", ".tiff" },
-        { "-1--100.tiff", "", "", "-1--100", ".tiff" },
-        { "-1.tiff", "", "", "-1", ".tiff" },
+        { "/tmp/image.1-100.ppm", "/tmp/", "image.", "1-100", ".ppm" },
+        { "image.1-100.ppm", "", "image.", "1-100", ".ppm" },
+        { "image.001-100.ppm", "", "image.", "001-100", ".ppm" },
+        { "image1-100.ppm", "", "image", "1-100", ".ppm" },
+        { "image001-100.ppm", "", "image", "001-100", ".ppm" },
+        { "image_01-100.ppm", "", "image_01-", "100", ".ppm" },
+        { "image.-100--1.ppm", "", "image.", "-100--1", ".ppm" },
+        { "image-100--1.ppm", "", "image", "-100--1", ".ppm" },
+        { "1-100.ppm", "", "", "1-100", ".ppm" },
+        { "1--100.ppm", "", "", "1--100", ".ppm" },
+        { "-1--100.ppm", "", "", "-1--100", ".ppm" },
+        { "-1.ppm", "", "", "-1", ".ppm" },
         { "1-100", "", "", "1-100", "" },
         { "1", "", "", "1", "" },
         { ".hidden", "", ".hidden", "", "" },
@@ -127,11 +127,11 @@ void djvFileInfoUtilTest::exists()
 
         DJV_ASSERT(djvFileInfoUtil::exists(djvFileInfo(fileName)));
 
-        DJV_ASSERT(! djvFileInfoUtil::exists(djvFileInfo(fileName + ".test")));
+        DJV_ASSERT(! djvFileInfoUtil::exists(djvFileInfo(fileName + ".ppm")));
     }
     
     {
-        const QString fileName("djvFileInfoUtilTest.%1.test");
+        const QString fileName("djvFileInfoUtilTest.%1.ppm");
         
         {
             djvFileIo io;
@@ -181,7 +181,7 @@ void djvFileInfoUtilTest::match()
 {
     DJV_DEBUG("djvFileInfoUtilTest::match");
     
-    const QString fileName("image.%1.dpx");
+    const QString fileName("image.%1.ppm");
     
     const djvFileInfoList list = djvFileInfoList() <<
         djvFileInfo(fileName.arg("1")) <<
@@ -190,7 +190,7 @@ void djvFileInfoUtilTest::match()
         
     DJV_ASSERT(list[0] == djvFileInfoUtil::sequenceWildcardMatch(list[2], list));
     
-    const djvFileInfo tmp("image.1.cin");
+    const djvFileInfo tmp("image.1.pic");
     
     DJV_ASSERT(tmp == djvFileInfoUtil::sequenceWildcardMatch(tmp, list));
 }
@@ -199,7 +199,7 @@ void djvFileInfoUtilTest::compress()
 {
     DJV_DEBUG("djvFileInfoUtilTest::compress");
     
-    const QString fileName("image.%1.dpx");
+    const QString fileName("image.%1.ppm");
     
     const djvFileInfoList list = djvFileInfoList() <<
         djvFileInfo(fileName.arg(1)) <<
@@ -229,7 +229,7 @@ void djvFileInfoUtilTest::expand()
 {
     DJV_DEBUG("djvFileInfoUtilTest::expand");
     
-    const QString fileName("image.%1.dpx");
+    const QString fileName("image.%1.ppm");
     
     djvFileInfo fileInfo(fileName.arg("1,3"));
     
@@ -250,7 +250,7 @@ void djvFileInfoUtilTest::filter()
 {
     DJV_DEBUG("djvFileInfoUtilTest::filter");
     
-    const QString fileName("image.%1.dpx");
+    const QString fileName("image.%1.ppm");
     
     const djvFileInfoList list = djvFileInfoList() <<
         djvFileInfo(fileName.arg(1)) <<
@@ -301,7 +301,7 @@ void djvFileInfoUtilTest::sort()
 {
     DJV_DEBUG("djvFileInfoUtilTest::sort");
     
-    const QString fileName("image.%1.dpx");
+    const QString fileName("image.%1.ppm");
     
     const djvFileInfoList list = djvFileInfoList() <<
         djvFileInfo(fileName.arg(4)) <<
@@ -385,7 +385,7 @@ void djvFileInfoUtilTest::recent()
 {
     DJV_DEBUG("djvFileInfoUtilTest::recent");
     
-    const QString fileName("image.%1.dpx");
+    const QString fileName("image.%1.ppm");
     
     const djvFileInfoList list = djvFileInfoList() <<
         fileName.arg(4) <<

@@ -29,96 +29,65 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplication.h
+//! \file djvImageContext.h
 
-#ifndef DJV_APPLICATION_H
-#define DJV_APPLICATION_H
+#ifndef DJV_IMAGE_CONTEXT_H
+#define DJV_IMAGE_CONTEXT_H
 
-#include <djvGuiExport.h>
+#include <djvCoreContext.h>
 
-#include <djvImageApplication.h>
+struct djvImageContextPrivate;
+class  djvImageIoFactory;
+class  djvOpenGlContext;
+class  djvOpenGlContextFactory;
 
-#include <QApplication>
-
-struct djvAbstractApplicationPrivate;
-
-//! \addtogroup djvGuiMisc
+//! \addtogroup djvCoreMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvAbstractApplication
+//! \class djvImageContext
 //!
-//! This class provides the base functionality for applications.
+//! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvAbstractApplication :
-    public djvAbstractImageApplication
+class DJV_CORE_EXPORT djvImageContext : public djvCoreContext
 {
 public:
 
     //! Constructor.
 
-    djvAbstractApplication(const QString & name, int & argc, char ** argv)
-        throw (djvError);
+    explicit djvImageContext(QObject * parent = 0);
 
     //! Destructor.
 
-    virtual ~djvAbstractApplication();
+    virtual ~djvImageContext();
 
-    //! Get whether the user-interface has started.
-
-    bool isValid() const;
-
-    //! Set whether the user-interface has started.
-
-    void setValid(bool);
+    //! Get the image I/O factory.
     
-    //! Open the documentation.
+    djvImageIoFactory * imageIoFactory() const;
     
-    void help() const;
+    //! Get the OpenGL context factory.
     
-    virtual int run();
+    djvOpenGlContextFactory * openGlContextFactory() const;
+    
+    //! Get the default OpenGL context.
 
+    djvOpenGlContext * openGlContext() const;
+    
     virtual QString info() const;
-
-    virtual void printMessage(const QString &, int indent = 0) const;
-
-    virtual void printError(const djvError &) const;
-
-    virtual QString commandLineHelp() const;
 
 protected:
 
-    void resetPreferencesCommandLine(QStringList &) throw (QString);
+    virtual bool commandLineParse(QStringList &) throw (QString);
+
+    virtual QString commandLineHelp() const;
 
 private:
 
-    DJV_PRIVATE_COPY(djvAbstractApplication);
-    
-    djvAbstractApplicationPrivate * _p;
+    djvImageContextPrivate * _p;
 };
 
-//------------------------------------------------------------------------------
-//! \class djvApplication
-//!
-//! This class provides the base functionality for applications.
-//------------------------------------------------------------------------------
+//@} // djvCoreMisc
 
-class DJV_GUI_EXPORT djvApplication :
-    public QApplication,
-    public djvAbstractApplication
-{
-    Q_OBJECT
-    
-public:
+#endif // DJV_IMAGE_APPLICATION_H
 
-    //! Constructor.
-
-    djvApplication(const QString & name, int & argc, char ** argv) throw (djvError);
-    
-    virtual int run();
-};
-
-//@} // djvGuiMisc
-
-#endif // DJV_APPLICATION_H

@@ -37,9 +37,18 @@
 // djvViewAbstractPrefs
 //------------------------------------------------------------------------------
 
-djvViewAbstractPrefs::djvViewAbstractPrefs(QObject * parent) :
-    QObject(parent)
+djvViewAbstractPrefs::djvViewAbstractPrefs(
+    djvViewContext * context,
+    QObject *        parent) :
+    QObject(parent),
+    _context(context)
 {}
 
 djvViewAbstractPrefs::~djvViewAbstractPrefs()
 {}
+
+djvViewContext * djvViewAbstractPrefs::context() const
+{
+    return _context;
+}
+

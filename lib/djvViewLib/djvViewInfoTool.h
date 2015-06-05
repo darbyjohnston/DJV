@@ -57,6 +57,7 @@ public:
 
     explicit djvViewInfoTool(
         djvViewMainWindow * mainWindow,
+        djvViewContext *    context,
         QWidget *           parent = 0);
 
     //! Destructor.

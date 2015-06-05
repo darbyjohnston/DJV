@@ -33,6 +33,7 @@
 
 #include <djvViewFilePrefsWidget.h>
 
+#include <djvViewContext.h>
 #include <djvViewFilePrefs.h>
 #include <djvViewMiscWidget.h>
 
@@ -78,9 +79,9 @@ struct djvViewFilePrefsWidgetPrivate
 // djvViewFilePrefsWidget
 //------------------------------------------------------------------------------
 
-djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
+djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewFilePrefsWidget", "Files")),
+        qApp->translate("djvViewFilePrefsWidget", "Files"), context),
     _p(new djvViewFilePrefsWidgetPrivate)
 {
     // Create the options widgets.
@@ -104,7 +105,7 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     _p->cacheWidget = new QCheckBox(
         qApp->translate("djvViewFilePrefsWidget", "Enable the memory cache"));
 
-    _p->cacheSizeWidget = new djvViewCacheSizeWidget;
+    _p->cacheSizeWidget = new djvViewCacheSizeWidget(context);
 
     _p->preloadWidget = new QCheckBox(
         qApp->translate("djvViewFilePrefsWidget", "Pre-load cache frames"));
@@ -117,7 +118,7 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewFilePrefsWidget", "Files"));
+        qApp->translate("djvViewFilePrefsWidget", "Files"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->autoSequenceWidget);
     layout->addWidget(prefsGroupBox);
@@ -128,7 +129,8 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
         "Set proxy scaling to reduce the resolution when loading images. This "
         "allows more images to be stored in the memory cache at the expense of "
         "image quality. Proxy scaling can also improve playback speed since the "
-        "images are smaller."));
+        "images are smaller."),
+        context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvViewFilePrefsWidget", "Proxy scale:"),
@@ -139,7 +141,8 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
         qApp->translate("djvViewFilePrefsWidget", "8-bit Conversion"),
         qApp->translate("djvViewFilePrefsWidget",
         "Set 8-bit conversion to allow more images to be stored in the memory "
-        "cache at the expense of image quality."));
+        "cache at the expense of image quality."),
+        context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->u8ConversionWidget);
     layout->addWidget(prefsGroupBox);
@@ -149,7 +152,8 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget() :
         qApp->translate("djvViewFilePrefsWidget",
         "The memory cache allows the application to store images in memory "
         "which can improve playback performance. When the memory cache is "
-        "disabled the images are streamed directly from disk."));
+        "disabled the images are streamed directly from disk."),
+        context);
     formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->cacheWidget);
     formLayout->addRow(
@@ -210,19 +214,19 @@ djvViewFilePrefsWidget::~djvViewFilePrefsWidget()
 
 void djvViewFilePrefsWidget::resetPreferences()
 {
-    djvViewFilePrefs::global()->setAutoSequence(
+    context()->filePrefs()->setAutoSequence(
         djvViewFilePrefs::autoSequenceDefault());
-    djvViewFilePrefs::global()->setProxy(
+    context()->filePrefs()->setProxy(
         djvViewFilePrefs::proxyDefault());
-    djvViewFilePrefs::global()->setU8Conversion(
+    context()->filePrefs()->setU8Conversion(
         djvViewFilePrefs::u8ConversionDefault());
-    djvViewFilePrefs::global()->setCache(
+    context()->filePrefs()->setCache(
         djvViewFilePrefs::cacheDefault());
-    djvViewFilePrefs::global()->setCacheSize(
+    context()->filePrefs()->setCacheSize(
         djvViewFilePrefs::cacheSizeDefault());
-    djvViewFilePrefs::global()->setPreload(
+    context()->filePrefs()->setPreload(
         djvViewFilePrefs::preloadDefault());
-    djvViewFilePrefs::global()->setDisplayCache(
+    context()->filePrefs()->setDisplayCache(
         djvViewFilePrefs::displayCacheDefault());
 
     widgetUpdate();
@@ -230,37 +234,37 @@ void djvViewFilePrefsWidget::resetPreferences()
 
 void djvViewFilePrefsWidget::autoSequenceCallback(bool in)
 {
-    djvViewFilePrefs::global()->setAutoSequence(in);
+    context()->filePrefs()->setAutoSequence(in);
 }
 
 void djvViewFilePrefsWidget::proxyCallback(int in)
 {
-    djvViewFilePrefs::global()->setProxy(static_cast<djvPixelDataInfo::PROXY>(in));
+    context()->filePrefs()->setProxy(static_cast<djvPixelDataInfo::PROXY>(in));
 }
 
 void djvViewFilePrefsWidget::u8ConversionCallback(bool in)
 {
-    djvViewFilePrefs::global()->setU8Conversion(in);
+    context()->filePrefs()->setU8Conversion(in);
 }
 
 void djvViewFilePrefsWidget::cacheCallback(bool in)
 {
-    djvViewFilePrefs::global()->setCache(in);
+    context()->filePrefs()->setCache(in);
 }
 
 void djvViewFilePrefsWidget::cacheSizeCallback(double in)
 {
-    djvViewFilePrefs::global()->setCacheSize(in);
+    context()->filePrefs()->setCacheSize(in);
 }
 
 void djvViewFilePrefsWidget::preloadCallback(bool in)
 {
-    djvViewFilePrefs::global()->setPreload(in);
+    context()->filePrefs()->setPreload(in);
 }
 
 void djvViewFilePrefsWidget::displayCacheCallback(bool in)
 {
-    djvViewFilePrefs::global()->setDisplayCache(in);
+    context()->filePrefs()->setDisplayCache(in);
 }
 
 void djvViewFilePrefsWidget::widgetUpdate()
@@ -275,23 +279,23 @@ void djvViewFilePrefsWidget::widgetUpdate()
         _p->displayCacheWidget);
     
     _p->autoSequenceWidget->setChecked(
-        djvViewFilePrefs::global()->hasAutoSequence());
+        context()->filePrefs()->hasAutoSequence());
     
     _p->proxyWidget->setCurrentIndex(
-        djvViewFilePrefs::global()->proxy());
+        context()->filePrefs()->proxy());
     
     _p->u8ConversionWidget->setChecked(
-        djvViewFilePrefs::global()->hasU8Conversion());
+        context()->filePrefs()->hasU8Conversion());
     
     _p->cacheWidget->setChecked(
-        djvViewFilePrefs::global()->hasCache());
+        context()->filePrefs()->hasCache());
     
     _p->cacheSizeWidget->setCacheSize(
-        djvViewFilePrefs::global()->cacheSize());
+        context()->filePrefs()->cacheSize());
 
     _p->preloadWidget->setChecked(
-        djvViewFilePrefs::global()->hasPreload());
+        context()->filePrefs()->hasPreload());
 
     _p->displayCacheWidget->setChecked(
-        djvViewFilePrefs::global()->hasDisplayCache());
+        context()->filePrefs()->hasDisplayCache());
 }

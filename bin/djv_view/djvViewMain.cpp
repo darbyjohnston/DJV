@@ -47,18 +47,7 @@
 
 int main(int argc, char ** argv)
 {
-    int r = 1;
-
-    try
-    {
-        r = djvViewApplication(argc, argv).run();
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-    }
-
-    return r;
+    return djvViewApplication(argc, argv).exec();
 }
 
 //------------------------------------------------------------------------------

@@ -33,6 +33,7 @@
 
 #include <djvShuttleButton.h>
 
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 
 #include <djvMath.h>
@@ -97,17 +98,17 @@ void djvShuttleButton::setIcons(const QVector<QIcon> & icons)
     update();
 }
 
-const QVector<QIcon> djvShuttleButton::iconsDefault()
+const QVector<QIcon> & djvShuttleButton::iconsDefault(djvGuiContext * context)
 {
     static const QVector<QIcon> data = QVector<QIcon>() <<
-        djvIconLibrary::global()->icon("djvShuttle0Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle1Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle2Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle3Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle4Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle5Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle6Icon.png") <<
-        djvIconLibrary::global()->icon("djvShuttle7Icon.png");
+        context->iconLibrary()->icon("djvShuttle0Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle1Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle2Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle3Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle4Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle5Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle6Icon.png") <<
+        context->iconLibrary()->icon("djvShuttle7Icon.png");
 
     return data;
 }

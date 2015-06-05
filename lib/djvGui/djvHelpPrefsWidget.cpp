@@ -33,7 +33,7 @@
 
 #include <djvHelpPrefsWidget.h>
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
 #include <djvHelpPrefs.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
@@ -41,6 +41,7 @@
 #include <djvDebug.h>
 #include <djvSignalBlocker.h>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLabel>
@@ -63,9 +64,9 @@ struct djvHelpPrefsWidgetPrivate
 // djvHelpPrefsWidget
 //------------------------------------------------------------------------------
 
-djvHelpPrefsWidget::djvHelpPrefsWidget(QWidget * parent) :
+djvHelpPrefsWidget::djvHelpPrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
-        qApp->translate("djvHelpPrefsWidget", "Help"), parent),
+        qApp->translate("djvHelpPrefsWidget", "Help"), context, parent),
     _p(new djvHelpPrefsWidgetPrivate)
 {
     // Create the widgets.
@@ -76,10 +77,10 @@ djvHelpPrefsWidget::djvHelpPrefsWidget(QWidget * parent) :
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvHelpPrefsWidget", "Tool Tips"));
+        qApp->translate("djvHelpPrefsWidget", "Tool Tips"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(_p->toolTipsWidget);
     layout->addWidget(prefsGroupBox);
@@ -105,14 +106,14 @@ djvHelpPrefsWidget::~djvHelpPrefsWidget()
 
 void djvHelpPrefsWidget::resetPreferences()
 {
-    djvHelpPrefs::global()->setToolTips(djvHelpPrefs::toolTipsDefault());
+    context()->helpPrefs()->setToolTips(djvHelpPrefs::toolTipsDefault());
 
     widgetUpdate();
 }
 
 void djvHelpPrefsWidget::toolTipsCallback(bool toolTips)
 {
-    djvHelpPrefs::global()->setToolTips(toolTips);
+    context()->helpPrefs()->setToolTips(toolTips);
 }
 
 void djvHelpPrefsWidget::widgetUpdate()
@@ -120,6 +121,6 @@ void djvHelpPrefsWidget::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->toolTipsWidget);
 
-    _p->toolTipsWidget->setChecked(djvHelpPrefs::global()->hasToolTips());
+    _p->toolTipsWidget->setChecked(context()->helpPrefs()->hasToolTips());
 }
 

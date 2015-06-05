@@ -38,6 +38,7 @@
 
 #include <djvUtil.h>
 
+class  djvGuiContext;
 struct djvShuttleButtonPrivate;
 
 //! \addtogroup djvGuiWidget
@@ -61,7 +62,7 @@ public:
 
     //! Constructor.
 
-    explicit djvShuttleButton(const QVector<QIcon> &, QWidget * parent = 0);
+    explicit djvShuttleButton(const QVector<QIcon> & icons, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -77,7 +78,7 @@ public:
 
     //! Get the default shuttle icons.
 
-    static const QVector<QIcon> iconsDefault();
+    static const QVector<QIcon> & iconsDefault(djvGuiContext *);
 
     virtual QSize sizeHint() const;
 

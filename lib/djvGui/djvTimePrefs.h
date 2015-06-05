@@ -87,10 +87,6 @@ public:
 
     djvSpeed::FPS speed() const;
 
-    //! Get the global preferences.
-
-    static djvTimePrefs * global();
-    
 public Q_SLOTS:
 
     //! Set the global time units.

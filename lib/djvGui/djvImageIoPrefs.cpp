@@ -33,6 +33,7 @@
 
 #include <djvImageIoPrefs.h>
 
+#include <djvGuiContext.h>
 #include <djvPrefs.h>
 
 #include <djvImageIo.h>
@@ -85,12 +86,13 @@ void _save(const djvImageIo * plugin)
 
 } // namespace
 
-djvImageIoPrefs::djvImageIoPrefs(QObject * parent) :
-    QObject(parent)
+djvImageIoPrefs::djvImageIoPrefs(djvGuiContext * context, QObject * parent) :
+    QObject(parent),
+    _context(context)
 {
     //DJV_DEBUG("djvImageIoPrefs::djvImageIoPrefs");
 
-    const QList<djvPlugin *> & plugins = djvImageIoFactory::global()->plugins();
+    const QList<djvPlugin *> & plugins = context->imageIoFactory()->plugins();
 
     for (int i = 0; i < plugins.count(); ++i)
     {
@@ -105,7 +107,7 @@ djvImageIoPrefs::~djvImageIoPrefs()
 {
     //DJV_DEBUG("djvImageIoPrefs::~djvImageIoPrefs");
 
-    const QList<djvPlugin *> & plugins = djvImageIoFactory::global()->plugins();
+    const QList<djvPlugin *> & plugins = _context->imageIoFactory()->plugins();
     
     for (int i = 0; i < plugins.count(); ++i)
     {
@@ -114,16 +116,4 @@ djvImageIoPrefs::~djvImageIoPrefs()
             _save(plugin);
         }
     }
-}
-
-djvImageIoPrefs * djvImageIoPrefs::global()
-{
-    static djvImageIoPrefs * global = 0;
-    
-    if (! global)
-    {
-        global = new djvImageIoPrefs(qApp);
-    }
-    
-    return global;
 }

@@ -34,7 +34,9 @@
 #include <djvPrefsDialog.h>
 
 #include <djvFileBrowserPrefsWidget.h>
+#include <djvGuiContext.h>
 #include <djvHelpPrefsWidget.h>
+#include <djvImageIoWidget.h>
 #include <djvImagePrefsWidget.h>
 #include <djvQuestionDialog.h>
 #include <djvSequencePrefsWidget.h>
@@ -120,7 +122,7 @@ struct djvPrefsDialogPrivate
 // djvPrefsDialog
 //------------------------------------------------------------------------------
 
-djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
+djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
     QDialog(parent),
     _p(new djvPrefsDialogPrivate)
 {
@@ -163,31 +165,32 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
     setWindowTitle(qApp->translate("djvPrefsDialog", "Preferences Dialog"));
 
     addWidget(
-        new djvFileBrowserPrefsWidget,
+        new djvFileBrowserPrefsWidget(context),
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvHelpPrefsWidget,
+        new djvHelpPrefsWidget(context),
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvImagePrefsWidget,
+        new djvImagePrefsWidget(context),
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvSequencePrefsWidget,
+        new djvSequencePrefsWidget(context),
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvStylePrefsWidget,
+        new djvStylePrefsWidget(context),
         qApp->translate("djvPrefsDialog", "General"));
     addWidget(
-        new djvTimePrefsWidget,
+        new djvTimePrefsWidget(context),
         qApp->translate("djvPrefsDialog", "General"));
 
-    const QList<djvPlugin *> & imageIo = djvImageIoFactory::global()->plugins();
+    const QList<djvPlugin *> & imageIoPlugins = context->imageIoFactory()->plugins();
 
-    for (int i = 0; i < imageIo.count(); ++i)
+    for (int i = 0; i < imageIoPlugins.count(); ++i)
     {
-        if (djvImageIo * plugin = dynamic_cast<djvImageIo *>(imageIo[i]))
+        if (djvImageIo * imageIoPlugin = dynamic_cast<djvImageIo *>(imageIoPlugins[i]))
         {
-            if (djvAbstractPrefsWidget * widget = plugin->createWidget())
+            if (djvAbstractPrefsWidget * widget =
+                context->imageIoWidgetFactory()->createWidget(imageIoPlugin))
             {
                 addWidget(
                     widget,
@@ -215,6 +218,8 @@ djvPrefsDialog::djvPrefsDialog(QWidget * parent) :
 
 djvPrefsDialog::~djvPrefsDialog()
 {
+    //DJV_DEBUG("djvPrefsDialog::~djvPrefsDialog");
+    
     delete _p;
 }
 
@@ -246,18 +251,6 @@ void djvPrefsDialog::addWidget(djvAbstractPrefsWidget * widget, const QString & 
     }
 
     new TreeWidgetItem(widget, groupItem);
-}
-
-djvPrefsDialog * djvPrefsDialog::global()
-{
-    static djvPrefsDialog * data = 0;
-    
-    if (! data)
-    {
-        data = new djvPrefsDialog;
-    }
-    
-    return data;
 }
 
 void djvPrefsDialog::browserCallback(QTreeWidgetItem * current, QTreeWidgetItem *)

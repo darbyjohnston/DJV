@@ -40,6 +40,7 @@
 
 #include <QMainWindow>
 
+class  djvViewContext;
 class  djvViewImageView;
 struct djvViewMainWindowPrivate;
 
@@ -64,7 +65,9 @@ public:
 
     //! Constructor.
 
-    explicit djvViewMainWindow(const djvViewMainWindow * copy = 0);
+    explicit djvViewMainWindow(
+        const djvViewMainWindow * copy,
+        djvViewContext *          context);
 
     //! Destructor.
 
@@ -81,6 +84,12 @@ public:
     //! Get the list of main windows.
     
     static QVector<djvViewMainWindow *> mainWindowList();
+
+    //! Create a new main window.
+    //!
+    //! \todo Can we remove this function?
+    
+    static djvViewMainWindow * createWindow(djvViewContext *);
 
 public Q_SLOTS:
 

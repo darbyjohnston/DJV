@@ -40,6 +40,8 @@
 
 #include <QObject>
 
+class djvViewContext;
+
 //! \addtogroup djvViewLib
 //@{
 
@@ -57,11 +59,15 @@ public:
 
     //! Constructor.
 
-    explicit djvViewAbstractPrefs(QObject * parent = 0);
+    explicit djvViewAbstractPrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
     virtual ~djvViewAbstractPrefs() = 0;
+    
+    //! Get the context.
+
+    djvViewContext * context() const;
 
 Q_SIGNALS:
 
@@ -72,6 +78,8 @@ Q_SIGNALS:
 private:
 
     DJV_PRIVATE_COPY(djvViewAbstractPrefs);
+    
+    djvViewContext * _context;
 };
 
 //@} // djvViewLib

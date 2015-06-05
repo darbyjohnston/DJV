@@ -33,6 +33,7 @@
 
 #include <djvFileEdit.h>
 
+#include <djvGuiContext.h>
 #include <djvFileBrowser.h>
 
 #include <QApplication>
@@ -46,21 +47,23 @@
 
 struct djvFileEditPrivate
 {
-    djvFileEditPrivate() :
-        edit(0)
+    djvFileEditPrivate(djvGuiContext * context) :
+        edit   (0),
+        context(context)
     {}
     
-    djvFileInfo fileInfo;
-    QLineEdit * edit;
+    djvFileInfo     fileInfo;
+    QLineEdit *     edit;
+    djvGuiContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvFileEdit
 //------------------------------------------------------------------------------
 
-djvFileEdit::djvFileEdit(QWidget * parent) :
+djvFileEdit::djvFileEdit(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvFileEditPrivate)
+    _p(new djvFileEditPrivate(context))
 {
     // Create the widgets.
 
@@ -116,7 +119,7 @@ void djvFileEdit::editCallback()
 
 void djvFileEdit::buttonCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global();
+    djvFileBrowser * fileBrowser = _p->context->fileBrowser();
     
     if (QDialog::Accepted == fileBrowser->exec())
     {

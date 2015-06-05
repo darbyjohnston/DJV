@@ -44,10 +44,9 @@
 #include <QObject>
 #include <QStringList>
 
-class djvAbstractPrefsWidget;
-
 class  djvFileInfo;
 class  djvImage;
+class  djvImageContext;
 struct djvImageIoFactoryPrivate;
 
 #if defined DJV_WINDOWS
@@ -219,7 +218,7 @@ public:
 
     //! Constructor.
     
-    djvImageIo();
+    explicit djvImageIo(djvCoreContext *);
     
     //! Destructor.
 
@@ -260,10 +259,10 @@ public:
     //! Get an image saver.
     
     virtual djvImageSave * createSave() const;
-
-    //! Create a widget.
     
-    virtual djvAbstractPrefsWidget * createWidget();
+    //! Get the image context.
+    
+    djvImageContext * imageContext() const;
 
     //! This enumeration provides error codes.
     
@@ -304,6 +303,7 @@ public:
     //! Constructor.
 
     explicit djvImageIoFactory(
+        djvImageContext *   context,
         const QStringList & searchPath = djvSystem::searchPath(),
         QObject *           parent     = 0);
 
@@ -330,10 +330,6 @@ public:
     djvImageSave * save(
         const djvFileInfo &    fileInfo,
         const djvImageIoInfo & imageIoInfo) const throw (djvError);
-
-    //! Get the global factory.
-
-    static djvImageIoFactory * global();
 
     //! This enumeration provides error codes.
     

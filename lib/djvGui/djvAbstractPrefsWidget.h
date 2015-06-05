@@ -38,6 +38,8 @@
 
 #include <QWidget>
 
+class djvGuiContext;
+
 //! \addtogroup djvGuiWidget
 //@{
 
@@ -55,7 +57,10 @@ public:
 
     //! Constructor.
     
-    djvAbstractPrefsWidget(const QString & name, QWidget * parent = 0);
+    djvAbstractPrefsWidget(
+        const QString & name,
+        djvGuiContext * context,
+        QWidget *       parent  = 0);
     
     //! Destructor.
     
@@ -69,9 +74,14 @@ public:
     
     virtual void resetPreferences() = 0;
     
+    //! Get the context.
+    
+    djvGuiContext * context() const;
+    
 private:
 
-    QString _name;
+    QString         _name;
+    djvGuiContext * _context;
 };
 
 //@} // djvGuiWidget

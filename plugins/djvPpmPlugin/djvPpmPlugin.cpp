@@ -35,7 +35,6 @@
 
 #include <djvPpmLoad.h>
 #include <djvPpmSave.h>
-#include <djvPpmWidget.h>
 
 #include <djvAssert.h>
 #include <djvError.h>
@@ -47,234 +46,24 @@
 extern "C"
 {
 
-DJV_PLUGIN_EXPORT djvPlugin * djvImageIo()
+DJV_PLUGIN_EXPORT djvPlugin * djvImageIoEntry(djvCoreContext * context)
 {
-    return new djvPpmPlugin;
+    return new djvPpmPlugin(context);
 }
 
 } // extern "C"
 
 //------------------------------------------------------------------------------
-// djvPpmPlugin::Options
-//------------------------------------------------------------------------------
-
-djvPpmPlugin::Options::Options() :
-    type(TYPE_AUTO),
-    data(DATA_BINARY)
-{}
-
-//------------------------------------------------------------------------------
 // djvPpmPlugin
 //------------------------------------------------------------------------------
 
-const QString djvPpmPlugin::staticName = "PPM";
-
-const QStringList & djvPpmPlugin::typeLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPpmPlugin", "Auto") <<
-        qApp->translate("djvPpmPlugin", "U1");
-
-    DJV_ASSERT(data.count() == TYPE_COUNT);
-
-    return data;
-}
-
-const QStringList & djvPpmPlugin::dataLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPpmPlugin", "ASCII") <<
-        qApp->translate("djvPpmPlugin", "Binary");
-
-    DJV_ASSERT(data.count() == DATA_COUNT);
-
-    return data;
-}
-
-quint64 djvPpmPlugin::scanlineByteCount(
-    int  width,
-    int  channels,
-    int  bitDepth,
-    DATA data)
-{
-    //DJV_DEBUG("djvPpmPlugin::scanlineByteCount");
-    //DJV_DEBUG_PRINT("width = " << width);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-    //DJV_DEBUG_PRINT("data = " << data);
-
-    quint64 out = 0;
-
-    switch (data)
-    {
-        case DATA_ASCII:
-        {
-            int chars = 0;
-
-            switch (bitDepth)
-            {
-                case  1: chars = 1; break;
-                case  8: chars = 3; break;
-                case 16: chars = 5; break;
-
-                default: break;
-            }
-
-            out = (chars + 1) * width * channels + 1;
-        }
-        break;
-
-        case DATA_BINARY:
-        {
-            switch (bitDepth)
-            {
-                case 1:
-                
-                    out = djvMath::ceil(width / 8.0);
-                    
-                    break;
-
-                case  8:
-                case 16:
-                
-                    out = width * channels;
-                    
-                    break;
-
-                default: break;
-            }
-        }
-        break;
-
-        default: break;
-    }
-
-    //DJV_DEBUG_PRINT("out = " << static_cast<int>(out));
-
-    return out;
-}
-
-void djvPpmPlugin::asciiLoad(djvFileIo & io, void * out, int size, int bitDepth)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPpmPlugin::asciiLoad");
-
-    char tmp[djvStringUtil::cStringLength] = "";
-    
-    int i = 0;
-
-    switch (bitDepth)
-    {
-        case 1:
-        {
-            quint8 * outP = reinterpret_cast<quint8 *>(out);
-
-            for (; i < size; ++i)
-            {
-                djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
-                outP[i] = QString(tmp).toInt() ? 0 : 255;
-            }
-        }
-        break;
-
-#define _LOAD(TYPE) \
-  \
-    TYPE * outP = reinterpret_cast<TYPE *>(out); \
-    for (; i < size; ++i) \
-    { \
-        djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength); \
-        outP[i] = QString(tmp).toInt(); \
-    }
-
-        case 8:
-        {
-            _LOAD(quint8)
-        }
-        break;
-
-        case 16:
-        {
-            _LOAD(quint16)
-        }
-        break;
-
-        default: break;
-    }
-}
-
-quint64 djvPpmPlugin::asciiSave(
-    const void * in,
-    void *       out,
-    int          size,
-    int          bitDepth)
-{
-    char * outP = reinterpret_cast<char *>(out);
-
-    switch (bitDepth)
-    {
-        case 1:
-        {
-            const quint8 * inP = reinterpret_cast<const quint8 *>(in);
-
-            for (int i = 0; i < size; ++i)
-            {
-                outP[0] = '0' + (! inP[i]);
-                outP[1] = ' ';
-                outP += 2;
-            }
-        }
-            break;
-
-#define _SAVE(TYPE) \
-    \
-    const TYPE * inP = reinterpret_cast<const TYPE *>(in); \
-    \
-    for (int i = 0; i < size; ++i) \
-    { \
-        QString s = QString::number(inP[i]); \
-        \
-        const char * c = s.toLatin1().data(); \
-        \
-        for (int j = 0; j < s.count(); ++j) \
-            *outP++ = c[j]; \
-        \
-        *outP++ = ' '; \
-    }
-
-        case 8:
-        {
-            _SAVE(quint8)
-        }
-        break;
-
-        case 16:
-        {
-            _SAVE(quint16)
-        }
-        break;
-
-        default: break;
-    }
-
-    *outP++ = '\n';
-
-    return outP - reinterpret_cast<char *>(out);
-}
-
-const QStringList & djvPpmPlugin::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPpmPlugin", "Type") <<
-        qApp->translate("djvPpmPlugin", "Data");
-
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
-    return data;
-}
+djvPpmPlugin::djvPpmPlugin(djvCoreContext * context) :
+    djvImageIo(context)
+{}
 
 djvPlugin * djvPpmPlugin::copyPlugin() const
 {
-    djvPpmPlugin * plugin = new djvPpmPlugin;
+    djvPpmPlugin * plugin = new djvPpmPlugin(context());
     
     plugin->_options = _options;
     
@@ -283,7 +72,7 @@ djvPlugin * djvPpmPlugin::copyPlugin() const
 
 QString djvPpmPlugin::pluginName() const
 {
-    return staticName;
+    return djvPpm::staticName;
 }
 
 QStringList djvPpmPlugin::extensions() const
@@ -299,11 +88,11 @@ QStringList djvPpmPlugin::option(const QString & in) const
 {
     QStringList out;
 
-    if (0 == in.compare(options()[TYPE_OPTION], Qt::CaseInsensitive))
+    if (0 == in.compare(options()[djvPpm::TYPE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.type;
     }
-    else if (0 == in.compare(options()[DATA_OPTION], Qt::CaseInsensitive))
+    else if (0 == in.compare(options()[djvPpm::DATA_OPTION], Qt::CaseInsensitive))
     {
         out << _options.data;
     }
@@ -315,9 +104,9 @@ bool djvPpmPlugin::setOption(const QString & in, QStringList & data)
 {
     try
     {
-        if (0 == in.compare(options()[TYPE_OPTION], Qt::CaseInsensitive))
+        if (0 == in.compare(options()[djvPpm::TYPE_OPTION], Qt::CaseInsensitive))
         {
-            TYPE type = static_cast<TYPE>(0);
+            djvPpm::TYPE type = static_cast<djvPpm::TYPE>(0);
             
             data >> type;
             
@@ -328,9 +117,9 @@ bool djvPpmPlugin::setOption(const QString & in, QStringList & data)
                 Q_EMIT optionChanged(in);
             }
         }
-        else if (0 == in.compare(options()[DATA_OPTION], Qt::CaseInsensitive))
+        else if (0 == in.compare(options()[djvPpm::DATA_OPTION], Qt::CaseInsensitive))
         {
-            DATA tmp = static_cast<DATA>(0);
+            djvPpm::DATA tmp = static_cast<djvPpm::DATA>(0);
             
             data >> tmp;
             
@@ -352,7 +141,7 @@ bool djvPpmPlugin::setOption(const QString & in, QStringList & data)
 
 QStringList djvPpmPlugin::options() const
 {
-    return optionsLabels();
+    return djvPpm::optionsLabels();
 }
 
 void djvPpmPlugin::commandLine(QStringList & in) throw (QString)
@@ -400,9 +189,9 @@ QString djvPpmPlugin::commandLineHelp() const
 "    -ppm_data (value)\n"
 "        Set the data type used when saving PPM images. Options = %3. "
 "Default = %4.\n").
-    arg(djvPpmPlugin::typeLabels().join(", ")).
+    arg(djvPpm::typeLabels().join(", ")).
     arg(djvStringUtil::label(_options.type).join(", ")).
-    arg(djvPpmPlugin::dataLabels().join(", ")).
+    arg(djvPpm::dataLabels().join(", ")).
     arg(djvStringUtil::label(_options.data).join(", "));
 }
 
@@ -415,13 +204,3 @@ djvImageSave * djvPpmPlugin::createSave() const
 {
     return new djvPpmSave(_options);
 }
-
-djvAbstractPrefsWidget * djvPpmPlugin::createWidget()
-{
-    return new djvPpmWidget(this);
-}
-
-//------------------------------------------------------------------------------
-
-_DJV_STRING_OPERATOR_LABEL(djvPpmPlugin::TYPE, djvPpmPlugin::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(djvPpmPlugin::DATA, djvPpmPlugin::dataLabels())

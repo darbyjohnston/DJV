@@ -43,6 +43,7 @@
 
 #include <QObject>
 
+class  djvViewContext;
 struct djvViewFileSavePrivate;
 
 //! \addtogroup djvViewFile
@@ -95,15 +96,11 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFileSave(QObject * parent = 0);
+    explicit djvViewFileSave(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
     virtual ~djvViewFileSave();
-
-    //! Get the global file save.
-
-    static djvViewFileSave * global();
 
 public Q_SLOTS:
 

@@ -33,6 +33,7 @@
 
 #include <djvViewViewActions.h>
 
+#include <djvViewContext.h>
 #include <djvViewShortcutPrefs.h>
 #include <djvViewUtil.h>
 
@@ -54,8 +55,10 @@ struct djvViewViewActionsPrivate
 // djvViewViewActions
 //------------------------------------------------------------------------------
 
-djvViewViewActions::djvViewViewActions(QObject * parent) :
-    djvViewAbstractActions(parent),
+djvViewViewActions::djvViewViewActions(
+    djvViewContext * context,
+    QObject *        parent) :
+    djvViewAbstractActions(context, parent),
     _p(new djvViewViewActionsPrivate)
 {
     // Create the actions.
@@ -76,21 +79,21 @@ djvViewViewActions::djvViewViewActions(QObject * parent) :
     _actions[CENTER]->setText(qApp->translate("djvViewViewActions", "&Center"));
 
     _actions[ZOOM_IN]->setText(qApp->translate("djvViewViewActions", "Zoom &In"));
-    _actions[ZOOM_IN]->setIcon(djvIconLibrary::global()->icon(
+    _actions[ZOOM_IN]->setIcon(context->iconLibrary()->icon(
         "djvViewZoomInIcon.png"));
 
     _actions[ZOOM_OUT]->setText(qApp->translate("djvViewViewActions", "Zoom &Out"));
-    _actions[ZOOM_OUT]->setIcon(djvIconLibrary::global()->icon(
+    _actions[ZOOM_OUT]->setIcon(context->iconLibrary()->icon(
         "djvViewZoomOutIcon.png"));
 
     _actions[ZOOM_RESET]->setText(qApp->translate("djvViewViewActions", "Zoom Rese&t"));
-    _actions[ZOOM_RESET]->setIcon(djvIconLibrary::global()->icon(
+    _actions[ZOOM_RESET]->setIcon(context->iconLibrary()->icon(
         "djvViewZoomResetIcon.png"));
 
     _actions[RESET]->setText(qApp->translate("djvViewViewActions", "R&eset"));
 
     _actions[FIT]->setText(qApp->translate("djvViewViewActions", "&Fit"));
-    _actions[FIT]->setIcon(djvIconLibrary::global()->icon(
+    _actions[FIT]->setIcon(context->iconLibrary()->icon(
         "djvViewFitIcon.png"));
 
     _actions[HUD]->setText(qApp->translate("djvViewViewActions", "&HUD"));
@@ -122,7 +125,7 @@ djvViewViewActions::djvViewViewActions(QObject * parent) :
     // Setup the callbacks.
 
     connect(
-        djvViewShortcutPrefs::global(),
+        context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(update()));
 }
@@ -135,7 +138,7 @@ djvViewViewActions::~djvViewViewActions()
 void djvViewViewActions::update()
 {
     const QVector<djvShortcut> & shortcuts =
-        djvViewShortcutPrefs::global()->shortcuts();
+        context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
 

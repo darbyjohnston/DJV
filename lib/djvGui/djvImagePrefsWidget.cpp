@@ -33,6 +33,7 @@
 
 #include <djvImagePrefsWidget.h>
 
+#include <djvGuiContext.h>
 #include <djvImagePrefs.h>
 #include <djvPrefsGroupBox.h>
 #include <djvStyle.h>
@@ -64,8 +65,8 @@ struct djvImagePrefsWidgetPrivate
 // djvImagePrefsWidget
 //------------------------------------------------------------------------------
 
-djvImagePrefsWidget::djvImagePrefsWidget(QWidget * parent) :
-    djvAbstractPrefsWidget(qApp->translate("djvImagePrefsWidget", "Images"), parent),
+djvImagePrefsWidget::djvImagePrefsWidget(djvGuiContext * context, QWidget * parent) :
+    djvAbstractPrefsWidget(qApp->translate("djvImagePrefsWidget", "Images"), context, parent),
     _p(new djvImagePrefsWidgetPrivate)
 {
     // Create the filter widgets.
@@ -81,14 +82,15 @@ djvImagePrefsWidget::djvImagePrefsWidget(QWidget * parent) :
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(djvStyle::global()->sizeMetric().largeSpacing);
+    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
         qApp->translate("djvImagePrefsWidget", "Scaling"),
         qApp->translate("djvImagePrefsWidget",
         "Set the image scaling quality. The filters \"Nearest\" and "
         "\"Linear\" are generally the fastest. The other filters can provide "
-        "higher quality but are generally slower."));
+        "higher quality but are generally slower."),
+        context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
         qApp->translate("djvImagePrefsWidget", "Scale down:"),
@@ -124,26 +126,28 @@ djvImagePrefsWidget::~djvImagePrefsWidget()
 
 void djvImagePrefsWidget::resetPreferences()
 {
-    djvImagePrefs::global()->setFilter(djvOpenGlImageFilter::filter());
+    //DJV_DEBUG("djvImagePrefsWidget::resetPreferences");
+    
+    context()->imagePrefs()->setFilter(djvOpenGlImageFilter::filterDefault());
 
     widgetUpdate();
 }
 
 void djvImagePrefsWidget::filterMinCallback(int in)
 {
-    djvImagePrefs::global()->setFilter(
+    context()->imagePrefs()->setFilter(
         djvOpenGlImageFilter(
         static_cast<djvOpenGlImageFilter::FILTER>(in),
-        djvImagePrefs::global()->filter().mag));
+        context()->imagePrefs()->filter().mag));
 
     widgetUpdate();
 }
 
 void djvImagePrefsWidget::filterMagCallback(int in)
 {
-    djvImagePrefs::global()->setFilter(
+    context()->imagePrefs()->setFilter(
         djvOpenGlImageFilter(
-        djvImagePrefs::global()->filter().min,
+        context()->imagePrefs()->filter().min,
         static_cast<djvOpenGlImageFilter::FILTER>(in)));
 
     widgetUpdate();
@@ -151,12 +155,16 @@ void djvImagePrefsWidget::filterMagCallback(int in)
 
 void djvImagePrefsWidget::widgetUpdate()
 {
+    //DJV_DEBUG("djvImagePrefsWidget::widgetUpdate");
+    
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->filterMinWidget <<
         _p->filterMagWidget);
 
-    _p->filterMinWidget->setCurrentIndex(djvImagePrefs::global()->filter().min);
+    //DJV_DEBUG_PRINT("filter = " << context()->imagePrefs()->filter());
+
+    _p->filterMinWidget->setCurrentIndex(context()->imagePrefs()->filter().min);
     
-    _p->filterMagWidget->setCurrentIndex(djvImagePrefs::global()->filter().mag);
+    _p->filterMagWidget->setCurrentIndex(context()->imagePrefs()->filter().mag);
 }
 

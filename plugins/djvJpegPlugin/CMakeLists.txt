@@ -2,16 +2,19 @@ set(header
     djvJpegLoad.h
     djvJpegPlugin.h
     djvJpegSave.h
-    djvJpegWidget.h)
+#    djvJpegWidget.h
+    )
 
 set(mocHeader
-    djvJpegWidget.h)
+#    djvJpegWidget.h
+    )
 
 set(source
     djvJpegLoad.cpp
     djvJpegPlugin.cpp
     djvJpegSave.cpp
-    djvJpegWidget.cpp)
+#    djvJpegWidget.cpp
+    )
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

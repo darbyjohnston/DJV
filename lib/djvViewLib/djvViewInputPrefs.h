@@ -54,7 +54,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewInputPrefs(QObject * parent = 0);
+    explicit djvViewInputPrefs(djvViewContext *, QObject * parent = 0);
 
     //! Destructor.
 
@@ -83,10 +83,6 @@ public:
     //! Get the control + mouse wheel action.
 
     djvViewUtil::MOUSE_WHEEL mouseWheelCtrl() const;
-
-    //! Get the global preferences.
-
-    static djvViewInputPrefs * global();
 
 public Q_SLOTS:
 

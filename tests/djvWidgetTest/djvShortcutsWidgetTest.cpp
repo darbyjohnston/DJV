@@ -39,6 +39,10 @@
 
 #include <QHBoxLayout>
 
+djvShortcutsWidgetTest::djvShortcutsWidgetTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
+
 QString djvShortcutsWidgetTest::name()
 {
     return "djvShortcutsWidgetTest";

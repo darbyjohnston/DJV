@@ -35,7 +35,6 @@
 
 #include <djvApplicationAboutDialogTest.h>
 #include <djvApplicationInfoDialogTest.h>
-#include <djvApplicationMessageDialogTest.h>
 #include <djvChoiceDialogTest.h>
 #include <djvColorWidgetTest.h>
 #include <djvColorDialogTest.h>
@@ -45,6 +44,7 @@
 #include <djvInputDialogTest.h>
 #include <djvIntSliderTest.h>
 #include <djvMessageDialogTest.h>
+#include <djvMessagesDialogTest.h>
 #include <djvMultiChoiceDialogTest.h>
 #include <djvNumWidgetTest.h>
 #include <djvPixelWidgetTest.h>
@@ -56,45 +56,29 @@
 #include <djvToolButtonTest.h>
 #include <djvVectorWidgetTest.h>
 
-#include <djvApplication.h>
 #include <djvSearchBox.h>
+#include <djvGuiContext.h>
 
 #include <QListView>
 #include <QPushButton>
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 
-djvWidgetTestModel::djvWidgetTestModel(QObject * parent) :
-    QAbstractListModel(parent),
-    _list(QVector<djvWidgetTest *>() <<
-        new djvApplicationAboutDialogTest <<
-        new djvApplicationInfoDialogTest <<
-        new djvApplicationMessageDialogTest <<
-        new djvChoiceDialogTest <<
-        new djvColorWidgetTest <<
-        new djvColorDialogTest <<
-        new djvFileBrowserTest <<
-        new djvFileEditTest <<
-        new djvIconLibraryTest <<
-        new djvInputDialogTest <<
-        new djvIntSliderTest <<
-        new djvMessageDialogTest <<
-        new djvMultiChoiceDialogTest <<
-        new djvNumWidgetTest <<
-        new djvPixelWidgetTest <<
-        new djvPrefsDialogTest <<
-        new djvProgressDialogTest <<
-        new djvQuestionDialogTest <<
-        new djvSearchBoxTest <<
-        new djvShortcutsWidgetTest <<
-        new djvToolButtonTest <<
-        new djvVectorWidgetTest)
+djvWidgetTest::djvWidgetTest(djvGuiContext * context) :
+    _context(context)
 {}
 
-const QVector<djvWidgetTest *> & djvWidgetTestModel::list() const
+djvWidgetTest::~djvWidgetTest()
+{}
+
+djvGuiContext * djvWidgetTest::context() const
 {
-    return _list;
+    return _context;
 }
+
+djvWidgetTestModel::djvWidgetTestModel(QVector<djvWidgetTest *> & tests) :
+    _tests(tests)
+{}
 
 QModelIndex	djvWidgetTestModel::index(
     int                 row,
@@ -104,12 +88,12 @@ QModelIndex	djvWidgetTestModel::index(
     if (! hasIndex(row, column, parent))
         return QModelIndex();
 
-    return createIndex(row, column, _list[row]);
+    return createIndex(row, column, _tests[row]);
 }
 
 int djvWidgetTestModel::rowCount(const QModelIndex & parent) const
 {
-    return _list.count();
+    return _tests.count();
 }
 
 QVariant djvWidgetTestModel::data(const QModelIndex & index, int role) const
@@ -118,7 +102,7 @@ QVariant djvWidgetTestModel::data(const QModelIndex & index, int role) const
         return QVariant();
     
     if (Qt::DisplayRole == role)
-        return _list[index.row()]->name();
+        return _tests[index.row()]->name();
     
     return QVariant();
 }
@@ -181,15 +165,43 @@ void djvWidgetTestWindow::runCallback()
     }
 }
 
-int main(int argc, char ** argv)
+djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
+    djvApplication("djvWidgetTest", argc, argv),
+    _context(0),
+    _model  (0),
+    _window (0)
 {
-    djvApplication app("djvWidgetTest", argc, argv);
-    app.setValid(true);
+    _context = new djvGuiContext;
+
+    setValid(true);
     
-    djvWidgetTestModel * model = new djvWidgetTestModel;
+    _tests += new djvApplicationAboutDialogTest(_context);
+    _tests += new djvApplicationInfoDialogTest(_context);
+    _tests += new djvChoiceDialogTest(_context);
+    _tests += new djvColorWidgetTest(_context);
+    _tests += new djvColorDialogTest(_context);
+    _tests += new djvFileBrowserTest(_context);
+    _tests += new djvFileEditTest(_context);
+    _tests += new djvIconLibraryTest(_context);
+    _tests += new djvInputDialogTest(_context);
+    _tests += new djvIntSliderTest(_context);
+    _tests += new djvMessageDialogTest(_context);
+    _tests += new djvMessagesDialogTest(_context);
+    _tests += new djvMultiChoiceDialogTest(_context);
+    _tests += new djvNumWidgetTest(_context);
+    _tests += new djvPixelWidgetTest(_context);
+    _tests += new djvPrefsDialogTest(_context);
+    _tests += new djvProgressDialogTest(_context);
+    _tests += new djvQuestionDialogTest(_context);
+    _tests += new djvSearchBoxTest(_context);
+    _tests += new djvShortcutsWidgetTest(_context);
+    _tests += new djvToolButtonTest(_context);
+    _tests += new djvVectorWidgetTest(_context);
+
+    _model = new djvWidgetTestModel(_tests);
     
-    djvWidgetTestWindow * window = new djvWidgetTestWindow(model);
-    window->show();
+    _window = new djvWidgetTestWindow(_model);
+    _window->show();
     
     if (argc > 1)
     {
@@ -200,19 +212,33 @@ int main(int argc, char ** argv)
             args += QString(argv[i]);
         }
         
-        const QVector<djvWidgetTest *> & tests = model->list();
-        
-        for (int i = 0; i < tests.count(); ++i)
+        for (int i = 0; i < _tests.count(); ++i)
         {
-            if (argv[1] == tests[i]->name())
+            if (argv[1] == _tests[i]->name())
             {
-                tests[i]->run(args);
+                _tests[i]->run(args);
                 
                 break;
             }
         }
     }
+}
+
+djvWidgetTestApplication::~djvWidgetTestApplication()
+{
+    delete _window;
+    delete _model;
     
-    return app.run();
+    Q_FOREACH(djvWidgetTest * test, _tests)
+    {
+        delete test;
+    }
+    
+    delete _context;
+}
+
+int main(int argc, char ** argv)
+{
+    return (djvWidgetTestApplication(argc, argv)).run();
 }
 

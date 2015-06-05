@@ -33,7 +33,7 @@
 
 #include <djvViewFileGroup.h>
 
-#include <djvViewApplication.h>
+#include <djvViewContext.h>
 #include <djvViewFileActions.h>
 #include <djvViewFileCache.h>
 #include <djvViewFileMenu.h>
@@ -43,10 +43,10 @@
 #include <djvViewImageView.h>
 #include <djvViewMainWindow.h>
 
-#include <djvApplicationMessageDialog.h>
 #include <djvDebugLogDialog.h>
 #include <djvFileBrowser.h>
 #include <djvFileBrowserPrefs.h>
+#include <djvMessagesDialog.h>
 #include <djvPrefs.h>
 #include <djvPrefsDialog.h>
 #include <djvQuestionDialog.h>
@@ -59,6 +59,7 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 #include <QDir>
 #include <QMenuBar>
 #include <QToolBar>
@@ -69,14 +70,14 @@
 
 struct djvViewFileGroupPrivate
 {
-    djvViewFileGroupPrivate() :
+    djvViewFileGroupPrivate(djvViewContext * context) :
         image        (0),
         layer        (0),
-        proxy        (djvViewFilePrefs::global()->proxy()),
-        u8Conversion (djvViewFilePrefs::global()->hasU8Conversion()),
-        cache        (djvViewFilePrefs::global()->hasCache()),
+        proxy        (context->filePrefs()->proxy()),
+        u8Conversion (context->filePrefs()->hasU8Conversion()),
+        cache        (context->filePrefs()->hasCache()),
         cacheItem    (0),
-        preload      (djvViewFilePrefs::global()->hasPreload()),
+        preload      (context->filePrefs()->hasPreload()),
         preloadActive(false),
         preloadTimer (0),
         preloadFrame (0),
@@ -111,10 +112,11 @@ struct djvViewFileGroupPrivate
 //------------------------------------------------------------------------------
 
 djvViewFileGroup::djvViewFileGroup(
+    const djvViewFileGroup * copy,
     djvViewMainWindow *      mainWindow,
-    const djvViewFileGroup * copy) :
-    djvViewAbstractGroup(mainWindow),
-    _p(new djvViewFileGroupPrivate)
+    djvViewContext *         context) :
+    djvViewAbstractGroup(mainWindow, context),
+    _p(new djvViewFileGroupPrivate(context))
 {
     if (copy)
     {
@@ -128,7 +130,7 @@ djvViewFileGroup::djvViewFileGroup(
 
     // Create the actions.
 
-    _p->actions = new djvViewFileActions(this);
+    _p->actions = new djvViewFileActions(context, this);
     
     // Create the menus.
 
@@ -138,7 +140,7 @@ djvViewFileGroup::djvViewFileGroup(
 
     // Create the widgets.
 
-    _p->toolBar = new djvViewFileToolBar(_p->actions);
+    _p->toolBar = new djvViewFileToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
 
@@ -255,34 +257,34 @@ djvViewFileGroup::djvViewFileGroup(
     // Setup the preferences callbacks.
 
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(proxyChanged(djvPixelDataInfo::PROXY)),
         SLOT(setProxy(djvPixelDataInfo::PROXY)));
 
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(u8ConversionChanged(bool)),
         SLOT(setU8Conversion(bool)));
 
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(cacheChanged(bool)),
         SLOT(setCache(bool)));
 
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(cacheSizeChanged(double)),
         SLOT(preloadUpdate()));
 
     connect(
-        djvViewFilePrefs::global(),
+        context->filePrefs(),
         SIGNAL(preloadChanged(bool)),
         SLOT(setPreload(bool)));
 
     // Setup other callbacks.
 
     connect(
-        djvImageIoFactory::global(),
+        context->imageIoFactory(),
         SIGNAL(optionChanged()),
         SLOT(reloadCallback()));
 }
@@ -359,7 +361,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
 
     that->mainWindow()->viewWidget()->makeCurrent();
 
-    djvViewFileCache * cache = djvViewFileCache::global();
+    djvViewFileCache * cache = context()->fileCache();
 
     that->_p->image = 0;
 
@@ -396,7 +398,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-                DJV_VIEW_APP->printError(error);
+                context()->printError(error);
             }
 
             try
@@ -426,7 +428,7 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-                DJV_VIEW_APP->printError(error);
+                context()->printError(error);
             }
 
             that->_p->image = &_p->imageTmp;
@@ -474,7 +476,8 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
     //DJV_DEBUG_PRINT("type = " << fileInfo.type());
 
-    DJV_LOG("djvViewFileGroup", QString("Open file = \"%1\"").arg(fileInfo));
+    DJV_LOG(context()->debugLog(), "djvViewFileGroup",
+        QString("Open file = \"%1\"").arg(fileInfo));
 
     cacheDel();
 
@@ -491,11 +494,11 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
         try
         {
             _p->imageLoad.reset(
-                djvImageIoFactory::global()->load(fileInfo, _p->imageIoInfo));
+                context()->imageIoFactory()->load(fileInfo, _p->imageIoInfo));
 
             _p->fileInfo = fileInfo;
 
-            djvViewFilePrefs::global()->addRecent(_p->fileInfo);
+            context()->filePrefs()->addRecent(_p->fileInfo);
         }
         catch (djvError error)
         {
@@ -503,7 +506,7 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(fileInfo)));
 
-            DJV_VIEW_APP->printError(error);
+            context()->printError(error);
         }
     }
     else
@@ -639,7 +642,7 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
     //DJV_DEBUG("djvViewFileGroup::timerEvent");
     //DJV_DEBUG_PRINT("preload frame        = " << _p->preloadFrame);
 
-    djvViewFileCache * cache = djvViewFileCache::global();
+    djvViewFileCache * cache = context()->fileCache();
 
     //DJV_DEBUG_PRINT("cache byte count     = " << cache->byteCount());
     //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxByteCount());
@@ -761,7 +764,7 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
 
 void djvViewFileGroup::openCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global(
+    djvFileBrowser * fileBrowser = context()->fileBrowser(
         qApp->translate("djvViewFileGroup", "Open"));
 
     fileBrowser->setPinnable(true);
@@ -786,7 +789,7 @@ void djvViewFileGroup::recentCallback(QAction * action)
     
     const int index = action->data().toInt();
 
-    djvFileInfo fileInfo = djvViewFilePrefs::global()->recentFiles()[index];
+    djvFileInfo fileInfo = context()->filePrefs()->recentFiles()[index];
     
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
 
@@ -797,7 +800,7 @@ void djvViewFileGroup::reloadCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::reloadCallback");
 
-    if (djvViewImagePrefs::global()->hasFrameStoreFileReload())
+    if (context()->imagePrefs()->hasFrameStoreFileReload())
     {
         Q_EMIT loadFrameStore();
     }
@@ -811,7 +814,7 @@ void djvViewFileGroup::reloadCallback()
         try
         {
             _p->imageLoad.reset(
-                djvImageIoFactory::global()->load(_p->fileInfo, _p->imageIoInfo));
+                context()->imageIoFactory()->load(_p->fileInfo, _p->imageIoInfo));
         }
         catch (djvError error)
         {
@@ -819,7 +822,7 @@ void djvViewFileGroup::reloadCallback()
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-            DJV_VIEW_APP->printError(error);
+            context()->printError(error);
         }
     }
 
@@ -830,7 +833,7 @@ void djvViewFileGroup::reloadFrameCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::reloadFrameCallback");
 
-    if (djvViewImagePrefs::global()->hasFrameStoreFileReload())
+    if (context()->imagePrefs()->hasFrameStoreFileReload())
     {
         Q_EMIT loadFrameStore();
     }
@@ -844,7 +847,7 @@ void djvViewFileGroup::reloadFrameCallback()
         try
         {
             _p->imageLoad.reset(
-                djvImageIoFactory::global()->load(_p->fileInfo, _p->imageIoInfo));
+                context()->imageIoFactory()->load(_p->fileInfo, _p->imageIoInfo));
         }
         catch (djvError error)
         {
@@ -852,7 +855,7 @@ void djvViewFileGroup::reloadFrameCallback()
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(_p->fileInfo)));
 
-            DJV_VIEW_APP->printError(error);
+            context()->printError(error);
         }
     }
 
@@ -870,7 +873,7 @@ void djvViewFileGroup::saveCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::saveCallback");
 
-    djvFileBrowser * fileBrowser = djvFileBrowser::global(
+    djvFileBrowser * fileBrowser = context()->fileBrowser(
         qApp->translate("djvViewFileGroup", "Save"));
 
     if (fileBrowser->exec() == QDialog::Accepted)
@@ -901,7 +904,7 @@ void djvViewFileGroup::saveCallback()
 
 void djvViewFileGroup::saveFrameCallback()
 {
-    djvFileBrowser * fileBrowser = djvFileBrowser::global(
+    djvFileBrowser * fileBrowser = context()->fileBrowser(
         qApp->translate("djvViewFileGroup", "Save Frame"));
     
     if (fileBrowser->exec() == QDialog::Accepted)
@@ -952,25 +955,25 @@ void djvViewFileGroup::proxyCallback(QAction * action)
 
 void djvViewFileGroup::cacheClearCallback()
 {
-    djvViewFileCache::global()->clear();
+    context()->fileCache()->clear();
 }
 
 void djvViewFileGroup::messagesCallback()
 {
-    djvApplicationMessageDialog::global()->show();
-    djvApplicationMessageDialog::global()->raise();
+    context()->messagesDialog()->show();
+    context()->messagesDialog()->raise();
 }
 
 void djvViewFileGroup::prefsCallback()
 {
-    djvPrefsDialog::global()->show();
-    djvPrefsDialog::global()->raise();
+    context()->prefsDialog()->show();
+    context()->prefsDialog()->raise();
 }
 
 void djvViewFileGroup::debugLogCallback()
 {
-    djvDebugLogDialog::global()->show();
-    djvDebugLogDialog::global()->raise();
+    context()->debugLogDialog()->show();
+    context()->debugLogDialog()->raise();
 }
 
 void djvViewFileGroup::preloadUpdate()
@@ -1029,5 +1032,5 @@ void djvViewFileGroup::cacheDel()
 {
     //DJV_DEBUG("djvViewFileGroup::cacheDel");
 
-    djvViewFileCache::global()->del(mainWindow());
+    context()->fileCache()->del(mainWindow());
 }

@@ -29,50 +29,59 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationInfoDialog.cpp
+//! \file djvAboutDialog.cpp
 
-#include <djvApplicationInfoDialog.h>
+#include <djvAboutDialog.h>
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
 #include <djvStyle.h>
 
+#include <QApplication>
 #include <QClipboard>
 #include <QDialogButtonBox>
+#include <QLabel>
+#include <QPixmap>
 #include <QPushButton>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
+#include "images/durant.xpm"
+
 //------------------------------------------------------------------------------
-// djvApplicationInfoDialogPrivate
+// djvAboutDialogPrivate
 //------------------------------------------------------------------------------
 
-struct djvApplicationInfoDialogPrivate
+struct djvAboutDialogPrivate
 {
-    djvApplicationInfoDialogPrivate() :
+    djvAboutDialogPrivate(djvGuiContext * context) :
         widget   (0),
-        buttonBox(0)
+        buttonBox(0),
+        context  (context)
     {}
 
     QTextEdit *        widget;
     QDialogButtonBox * buttonBox;
+    djvGuiContext *    context;
 };
 
 //------------------------------------------------------------------------------
-// djvApplicationInfoDialog
+// djvAboutDialog
 //------------------------------------------------------------------------------
 
-djvApplicationInfoDialog::djvApplicationInfoDialog() :
-    _p(new djvApplicationInfoDialogPrivate)
+djvAboutDialog::djvAboutDialog(const QString & text, djvGuiContext * context) :
+    _p(new djvAboutDialogPrivate(context))
 {
-    //DJV_DEBUG("djvApplicationInfoDialog::djvApplicationInfoDialog");
-
     // Create the widgets.
+    
+    QLabel * imageLabel = new QLabel;
+    imageLabel->setPixmap(QPixmap(durantXpm));
+    imageLabel->setAlignment(Qt::AlignCenter);
     
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     
     QPushButton * copyButton = new QPushButton(
-        qApp->translate("djvApplicationInfoDialog", "Copy"));
+        qApp->translate("djvAboutDialog", "Copy"));
     
     _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
@@ -80,16 +89,18 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     // Layout the widgets.
 
     QVBoxLayout * layout = new QVBoxLayout(this);
+    layout->addWidget(imageLabel);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
-
+    
     // Initialize.
     
-    setWindowTitle(
-        qApp->translate("djvApplicationInfoDialog", "Information Dialog"));
+    setWindowTitle(qApp->translate("djvAboutDialog", "About Dialog"));
+    
+    _p->widget->setText(text);
     
     resize(500, 400);
-    
+
     updateWidget();
     
     // Setup callbacks.
@@ -99,46 +110,29 @@ djvApplicationInfoDialog::djvApplicationInfoDialog() :
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     
     connect(
-        djvStyle::global(),
+        context->style(),
         SIGNAL(fontsChanged()),
         SLOT(updateWidget()));
 }
 
-djvApplicationInfoDialog::~djvApplicationInfoDialog()
+djvAboutDialog::~djvAboutDialog()
 {
     delete _p;
 }
 
-djvApplicationInfoDialog * djvApplicationInfoDialog::global()
-{
-    static djvApplicationInfoDialog * data = 0;
-    
-    if (! data)
-    {
-        data = new djvApplicationInfoDialog;
-    }
-    
-    return data;
-}
-
-void djvApplicationInfoDialog::showEvent(QShowEvent *)
+void djvAboutDialog::showEvent(QShowEvent *)
 {
     _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
         Qt::PopupFocusReason);
 }
 
-void djvApplicationInfoDialog::copyCallback()
+void djvAboutDialog::copyCallback()
 {
     QApplication::clipboard()->setText(_p->widget->toPlainText());
 }
 
-void djvApplicationInfoDialog::updateWidget()
+void djvAboutDialog::updateWidget()
 {
-    _p->widget->setFont(djvStyle::global()->fonts().fixed);
-
-    if (djvApplication * app = dynamic_cast<djvApplication *>(qApp))
-    {
-        _p->widget->setText(app->info());    
-    }
+    _p->widget->setFont(_p->context->style()->fonts().fixed);
 }
 
