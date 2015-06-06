@@ -59,15 +59,6 @@ djvJpegPlugin::djvJpegPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvJpegPlugin::copyPlugin() const
-{
-    djvJpegPlugin * plugin = new djvJpegPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvJpegPlugin::pluginName() const
 {
     return djvJpeg::staticName;

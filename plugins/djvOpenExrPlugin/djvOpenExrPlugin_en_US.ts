@@ -165,47 +165,47 @@
 <context>
     <name>djvOpenExrPlugin</name>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="309"/>
+        <location filename="djvOpenExrPlugin.cpp" line="300"/>
         <source>-exr_threads_enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="314"/>
+        <location filename="djvOpenExrPlugin.cpp" line="305"/>
         <source>-exr_thread_count</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="319"/>
+        <location filename="djvOpenExrPlugin.cpp" line="310"/>
         <source>-exr_input_color_profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="324"/>
+        <location filename="djvOpenExrPlugin.cpp" line="315"/>
         <source>-exr_input_gamma</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="329"/>
+        <location filename="djvOpenExrPlugin.cpp" line="320"/>
         <source>-exr_input_exposure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="334"/>
+        <location filename="djvOpenExrPlugin.cpp" line="325"/>
         <source>-exr_channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="339"/>
+        <location filename="djvOpenExrPlugin.cpp" line="330"/>
         <source>-exr_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="345"/>
+        <location filename="djvOpenExrPlugin.cpp" line="336"/>
         <source>-exr_dwa_compression_level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenExrPlugin.cpp" line="366"/>
+        <location filename="djvOpenExrPlugin.cpp" line="357"/>
         <source>
 OpenEXR Options
 

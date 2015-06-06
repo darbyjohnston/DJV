@@ -53,11 +53,6 @@ djvRlaPlugin::djvRlaPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvRlaPlugin::copyPlugin() const
-{
-    return new djvRlaPlugin(context());
-}
-
 QString djvRlaPlugin::pluginName() const
 {
     return djvRla::staticName;

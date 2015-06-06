@@ -37,17 +37,17 @@
 <context>
     <name>djvPpmPlugin</name>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="158"/>
+        <location filename="djvPpmPlugin.cpp" line="149"/>
         <source>-ppm_type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="162"/>
+        <location filename="djvPpmPlugin.cpp" line="153"/>
         <source>-ppm_data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvPpmPlugin.cpp" line="182"/>
+        <location filename="djvPpmPlugin.cpp" line="173"/>
         <source>
 PPM Options
 

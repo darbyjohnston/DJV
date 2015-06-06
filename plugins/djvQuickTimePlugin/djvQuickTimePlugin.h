@@ -199,8 +199,6 @@ public:
     
     virtual void releasePlugin();
 
-    virtual djvPlugin * copyPlugin() const;
-
     virtual QString pluginName() const;
 
     virtual QStringList extensions() const;

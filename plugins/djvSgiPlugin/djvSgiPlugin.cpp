@@ -59,15 +59,6 @@ djvSgiPlugin::djvSgiPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvSgiPlugin::copyPlugin() const
-{
-    djvSgiPlugin * plugin = new djvSgiPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvSgiPlugin::pluginName() const
 {
     return djvSgi::staticName;

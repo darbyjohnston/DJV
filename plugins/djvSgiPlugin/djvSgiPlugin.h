@@ -50,8 +50,6 @@ public:
     
     explicit djvSgiPlugin(djvCoreContext *);
     
-    virtual djvPlugin * copyPlugin() const;
-
     virtual QString pluginName() const;
 
     virtual QStringList extensions() const;

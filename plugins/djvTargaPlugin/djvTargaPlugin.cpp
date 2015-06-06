@@ -59,15 +59,6 @@ djvTargaPlugin::djvTargaPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvTargaPlugin::copyPlugin() const
-{
-    djvTargaPlugin * plugin = new djvTargaPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvTargaPlugin::pluginName() const
 {
     return djvTarga::staticName;

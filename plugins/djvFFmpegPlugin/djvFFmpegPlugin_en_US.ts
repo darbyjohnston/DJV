@@ -61,19 +61,19 @@
 <context>
     <name>djvFFmpegPlugin</name>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="244"/>
+        <location filename="djvFFmpegPlugin.cpp" line="235"/>
         <source>-ffmpeg_format</source>
         <oldsource>-ffmpeg_codec</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="248"/>
+        <location filename="djvFFmpegPlugin.cpp" line="239"/>
         <source>-ffmpeg_quality</source>
         <oldsource>-ffmpeg_gop_size</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFFmpegPlugin.cpp" line="268"/>
+        <location filename="djvFFmpegPlugin.cpp" line="259"/>
         <source>
 FFmpeg Options
 

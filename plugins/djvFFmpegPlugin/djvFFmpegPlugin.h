@@ -57,8 +57,6 @@ public:
     
     virtual void initPlugin() throw (djvError);
     
-    virtual djvPlugin * copyPlugin() const;
-
     virtual QString pluginName() const;
 
     virtual QStringList extensions() const;

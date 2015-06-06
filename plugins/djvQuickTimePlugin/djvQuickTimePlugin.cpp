@@ -300,15 +300,6 @@ void djvQuickTimePlugin::releasePlugin()
 # endif // DJV_WINDOWS
 }
 
-djvPlugin * djvQuickTimePlugin::copyPlugin() const
-{
-    djvQuickTimePlugin * plugin = new djvQuickTimePlugin;
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvQuickTimePlugin::pluginName() const
 {
     return staticName;

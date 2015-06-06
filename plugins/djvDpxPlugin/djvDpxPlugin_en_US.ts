@@ -316,42 +316,42 @@
 <context>
     <name>djvDpxPlugin</name>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="244"/>
+        <location filename="djvDpxPlugin.cpp" line="235"/>
         <source>-dpx_input_color_profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="249"/>
+        <location filename="djvDpxPlugin.cpp" line="240"/>
         <source>-dpx_input_film_print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="254"/>
+        <location filename="djvDpxPlugin.cpp" line="245"/>
         <source>-dpx_output_color_profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="259"/>
+        <location filename="djvDpxPlugin.cpp" line="250"/>
         <source>-dpx_output_film_print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="264"/>
+        <location filename="djvDpxPlugin.cpp" line="255"/>
         <source>-dpx_version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="269"/>
+        <location filename="djvDpxPlugin.cpp" line="260"/>
         <source>-dpx_type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="274"/>
+        <location filename="djvDpxPlugin.cpp" line="265"/>
         <source>-dpx_endian</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvDpxPlugin.cpp" line="294"/>
+        <location filename="djvDpxPlugin.cpp" line="285"/>
         <source>
 DPX Options
 

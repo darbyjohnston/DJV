@@ -99,15 +99,6 @@ void djvOpenExrPlugin::releasePlugin()
 #endif // DJV_WINDOWS
 }
 
-djvPlugin * djvOpenExrPlugin::copyPlugin() const
-{
-    djvOpenExrPlugin * plugin = new djvOpenExrPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvOpenExrPlugin::pluginName() const
 {
     return djvOpenExr::staticName;

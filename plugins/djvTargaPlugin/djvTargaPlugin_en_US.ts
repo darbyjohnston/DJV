@@ -22,12 +22,12 @@
 <context>
     <name>djvTargaPlugin</name>
     <message>
-        <location filename="djvTargaPlugin.cpp" line="135"/>
+        <location filename="djvTargaPlugin.cpp" line="126"/>
         <source>-targa_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTargaPlugin.cpp" line="155"/>
+        <location filename="djvTargaPlugin.cpp" line="146"/>
         <source>
 Targa Options
 

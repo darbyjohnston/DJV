@@ -22,12 +22,12 @@
 <context>
     <name>djvSgiPlugin</name>
     <message>
-        <location filename="djvSgiPlugin.cpp" line="139"/>
+        <location filename="djvSgiPlugin.cpp" line="130"/>
         <source>-sgi_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvSgiPlugin.cpp" line="159"/>
+        <location filename="djvSgiPlugin.cpp" line="150"/>
         <source>
 SGI Options
 

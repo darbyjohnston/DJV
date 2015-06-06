@@ -53,11 +53,6 @@ djvIflPlugin::djvIflPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvIflPlugin::copyPlugin() const
-{
-    return new djvIflPlugin(context());
-}
-
 QString djvIflPlugin::pluginName() const
 {
     return djvIfl::staticName;

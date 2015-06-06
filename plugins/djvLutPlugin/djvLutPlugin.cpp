@@ -100,15 +100,6 @@ QString djvLutPlugin::commandLineHelp() const
     arg(djvStringUtil::label(_options.type).join(", "));
 }
 
-djvPlugin * djvLutPlugin::copyPlugin() const
-{
-    djvLutPlugin * plugin = new djvLutPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvLutPlugin::pluginName() const
 {
     return djvLut::staticName;

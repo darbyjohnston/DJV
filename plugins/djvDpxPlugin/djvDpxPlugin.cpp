@@ -59,15 +59,6 @@ djvDpxPlugin::djvDpxPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvDpxPlugin::copyPlugin() const
-{
-    djvDpxPlugin * plugin = new djvDpxPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvDpxPlugin::pluginName() const
 {
     return djvDpx::staticName;

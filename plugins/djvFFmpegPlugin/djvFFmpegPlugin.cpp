@@ -131,15 +131,6 @@ void djvFFmpegPlugin::initPlugin() throw (djvError)
     }*/
 }
 
-djvPlugin * djvFFmpegPlugin::copyPlugin() const
-{
-    djvFFmpegPlugin * plugin = new djvFFmpegPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvFFmpegPlugin::pluginName() const
 {
     return djvFFmpeg::staticName;

@@ -61,15 +61,6 @@ djvPpmPlugin::djvPpmPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvPpmPlugin::copyPlugin() const
-{
-    djvPpmPlugin * plugin = new djvPpmPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvPpmPlugin::pluginName() const
 {
     return djvPpm::staticName;

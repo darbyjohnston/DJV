@@ -60,15 +60,6 @@ djvIffPlugin::djvIffPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvIffPlugin::copyPlugin() const
-{
-    djvIffPlugin * plugin = new djvIffPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvIffPlugin::pluginName() const
 {
     return djvIff::staticName;

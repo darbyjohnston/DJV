@@ -12,12 +12,12 @@
 <context>
     <name>djvJpegPlugin</name>
     <message>
-        <location filename="djvJpegPlugin.cpp" line="138"/>
+        <location filename="djvJpegPlugin.cpp" line="129"/>
         <source>-jpeg_quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvJpegPlugin.cpp" line="158"/>
+        <location filename="djvJpegPlugin.cpp" line="149"/>
         <source>
 JPEG Options
 

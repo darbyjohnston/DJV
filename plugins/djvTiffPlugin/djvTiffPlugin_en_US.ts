@@ -27,12 +27,12 @@
 <context>
     <name>djvTiffPlugin</name>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="143"/>
+        <location filename="djvTiffPlugin.cpp" line="134"/>
         <source>-tiff_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvTiffPlugin.cpp" line="163"/>
+        <location filename="djvTiffPlugin.cpp" line="154"/>
         <source>
 TIFF Options
 

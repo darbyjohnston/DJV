@@ -54,11 +54,6 @@ djvPngPlugin::djvPngPlugin(djvCoreContext * context) :
     djvImageIo(context)
 {}
 
-djvPlugin * djvPngPlugin::copyPlugin() const
-{
-    return new djvPngPlugin(context());
-}
-
 QString djvPngPlugin::pluginName() const
 {
     return djvPng::staticName;

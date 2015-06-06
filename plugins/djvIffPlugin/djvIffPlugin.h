@@ -54,8 +54,6 @@ public:
     
     explicit djvIffPlugin(djvCoreContext * context);
 
-    virtual djvPlugin * copyPlugin() const;
-
     virtual QString pluginName() const;
 
     virtual QStringList extensions() const;

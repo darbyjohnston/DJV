@@ -17,12 +17,12 @@
 <context>
     <name>djvIffPlugin</name>
     <message>
-        <location filename="djvIffPlugin.cpp" line="138"/>
+        <location filename="djvIffPlugin.cpp" line="129"/>
         <source>-iff_compression</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvIffPlugin.cpp" line="158"/>
+        <location filename="djvIffPlugin.cpp" line="149"/>
         <source>
 IFF Options
 

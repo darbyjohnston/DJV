@@ -78,10 +78,6 @@ public:
 
     virtual void releasePlugin() {}
 
-    //! Copy the plugin.
-
-    virtual djvPlugin * copyPlugin() const = 0;
-
     //! Get the plugin name.
 
     virtual QString pluginName() const = 0;

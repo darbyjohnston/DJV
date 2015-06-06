@@ -142,15 +142,6 @@ void djvLibquicktimePlugin::initPlugin() throw (djvError)
     //DJV_DEBUG_PRINT("codec = " << codecLabels());
 }
 
-djvPlugin * djvLibquicktimePlugin::copyPlugin() const
-{
-    djvLibquicktimePlugin * plugin = new djvLibquicktimePlugin;
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvLibquicktimePlugin::pluginName() const
 {
     return staticName;

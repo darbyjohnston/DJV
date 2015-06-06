@@ -62,15 +62,6 @@ djvCineonPlugin::djvCineonPlugin(djvCoreContext * context) :
 djvCineonPlugin::~djvCineonPlugin()
 {}
 
-djvPlugin * djvCineonPlugin::copyPlugin() const
-{
-    djvCineonPlugin * out = new djvCineonPlugin(context());
-    
-    out->_options = _options;
-    
-    return out;
-}
-
 QString djvCineonPlugin::pluginName() const
 {
     return djvCineon::staticName;

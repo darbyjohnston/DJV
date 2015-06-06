@@ -65,15 +65,6 @@ void djvTiffPlugin::initPlugin() throw (djvError)
     TIFFSetWarningHandler(0);
 }
 
-djvPlugin * djvTiffPlugin::copyPlugin() const
-{
-    djvTiffPlugin * plugin = new djvTiffPlugin(context());
-    
-    plugin->_options = _options;
-    
-    return plugin;
-}
-
 QString djvTiffPlugin::pluginName() const
 {
     return djvTiff::staticName;
