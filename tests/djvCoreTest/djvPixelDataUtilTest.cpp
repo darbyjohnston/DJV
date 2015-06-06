@@ -51,7 +51,6 @@ void djvPixelDataUtilTest::run(int & argc, char ** argv)
     proxy();
     interleave();
     gradient();
-    qt();
 }
 
 void djvPixelDataUtilTest::byteCount()
@@ -172,21 +171,5 @@ void djvPixelDataUtilTest::gradient()
     djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
     
     djvPixelDataUtil::gradient(data);
-}
-
-void djvPixelDataUtilTest::qt()
-{
-    DJV_DEBUG("djvPixelDataUtilTest::qt");
-
-    djvImageContext context;
-    
-    QScopedPointer<djvOpenGlContext> openGlContext(
-        context.openGlContextFactory()->create());
-        
-    djvOpenGlContextScope contextScope(openGlContext.data());
-    
-    djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
-    
-    djvPixelDataUtil::toQt(data);
 }
 

@@ -29,75 +29,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelDataUtil.h
+//! \file djvPixmapUtil.h
 
-#ifndef DJV_PIXEL_DATA_UTIL_H
-#define DJV_PIXEL_DATA_UTIL_H
+#ifndef DJV_PIXMAP_UTIL_H
+#define DJV_PIXMAP_UTIL_H
+
+#include <djvGuiExport.h>
 
 #include <djvOpenGlImage.h>
-#include <djvPixelData.h>
 
-//! \addtogroup djvCoreImage
+class QPixmap;
+
+//! \addtogroup djvGuiMisc
 //@{
 
 //------------------------------------------------------------------------------
-//! \class djvPixelDataUtil
+//! \struct djvPixmapUtil
 //!
-//! This class provides pixel data utilities.
+//! This struct provides pixmap utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPixelDataUtil
+struct DJV_GUI_EXPORT djvPixmapUtil
 {
-public:
-
-    //! Destructor.
+    //! Convert pixel data to Qt.
     
-    virtual ~djvPixelDataUtil();
-    
-    //! Get the number of bytes in a scanline.
-
-    static quint64 scanlineByteCount(const djvPixelDataInfo &);
-
-    //! Get the number of bytes in the data.
-
-    static quint64 dataByteCount(const djvPixelDataInfo &);
-
-    //! Proxy scale pixel data.
-
-    static void proxyScale(
-        const djvPixelData &,
-        djvPixelData &,
-        djvPixelDataInfo::PROXY);
-
-    //! Calculate the proxy scale.
-
-    static int proxyScale(djvPixelDataInfo::PROXY);
-
-    //! Calculate the size of a proxy scale.
-
-    static djvVector2i proxyScale(const djvVector2i &, djvPixelDataInfo::PROXY);
-
-    //! Calculate the size of a proxy scale.
-
-    static djvBox2i proxyScale(const djvBox2i &, djvPixelDataInfo::PROXY);
-
-    //! Interleave pixel data channels.
-
-    static void planarInterleave(
-        const djvPixelData &,
-        djvPixelData &,
-        djvPixelDataInfo::PROXY = djvPixelDataInfo::PROXY_NONE);
-
-    //! De-interleave pixel data channels.
-
-    static void planarDeinterleave(const djvPixelData &, djvPixelData &);
-
-    //! Create a linear gradient.
-
-    static void gradient(djvPixelData &);
+    static QPixmap toQt(
+        const djvPixelData &          pixelData,
+        const djvOpenGlImageOptions & options   = djvOpenGlImageOptions(),
+        djvOpenGlImageState *         state     = 0,
+        djvOpenGlOffscreenBuffer *    buffer    = 0);
 };
 
-//@} // djvCoreImage
+//@} // djvGuiMisc
 
-#endif // DJV_PIXEL_DATA_UTIL_H
+#endif // DJV_PIXMAP_UTIL_H
 

@@ -31,6 +31,8 @@
 
 //! \file djvTest.cpp
 
+#include <djvPixmapUtilTest.h>
+
 #include <djvBoxTest.h>
 #include <djvBoxUtilTest.h>
 #include <djvColorProfileTest.h>
@@ -121,8 +123,10 @@ int main(int argc, char ** argv)
         new djvTimerTest <<
         new djvUserTest <<
         new djvVectorTest <<
-        new djvVectorUtilTest;
+        new djvVectorUtilTest <<
     
+        new djvPixmapUtilTest;
+
     //tests = QVector<djvAbstractTest *>() <<
     //    new djvFileInfoTest <<
     //    new djvFileInfoUtilTest <<

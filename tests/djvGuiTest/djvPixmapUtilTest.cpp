@@ -29,75 +29,40 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelDataUtil.h
+//! \file djvPixmapUtilTest.cpp
 
-#ifndef DJV_PIXEL_DATA_UTIL_H
-#define DJV_PIXEL_DATA_UTIL_H
+#include <djvPixmapUtilTest.h>
 
-#include <djvOpenGlImage.h>
+#include <djvPixmapUtil.h>
+
+#include <djvAssert.h>
+#include <djvDebug.h>
+#include <djvImageContext.h>
+#include <djvOpenGlContext.h>
 #include <djvPixelData.h>
 
-//! \addtogroup djvCoreImage
-//@{
+#include <QPixmap>
 
-//------------------------------------------------------------------------------
-//! \class djvPixelDataUtil
-//!
-//! This class provides pixel data utilities.
-//------------------------------------------------------------------------------
-
-class DJV_CORE_EXPORT djvPixelDataUtil
+void djvPixmapUtilTest::run(int & argc, char ** argv)
 {
-public:
+    DJV_DEBUG("djvPixmapUtilTest::run");
 
-    //! Destructor.
+    qt();
+}
+
+void djvPixmapUtilTest::qt()
+{
+    DJV_DEBUG("djvPixmapUtilTest::qt");
+
+    djvImageContext context;
     
-    virtual ~djvPixelDataUtil();
+    QScopedPointer<djvOpenGlContext> openGlContext(
+        context.openGlContextFactory()->create());
+        
+    djvOpenGlContextScope contextScope(openGlContext.data());
     
-    //! Get the number of bytes in a scanline.
-
-    static quint64 scanlineByteCount(const djvPixelDataInfo &);
-
-    //! Get the number of bytes in the data.
-
-    static quint64 dataByteCount(const djvPixelDataInfo &);
-
-    //! Proxy scale pixel data.
-
-    static void proxyScale(
-        const djvPixelData &,
-        djvPixelData &,
-        djvPixelDataInfo::PROXY);
-
-    //! Calculate the proxy scale.
-
-    static int proxyScale(djvPixelDataInfo::PROXY);
-
-    //! Calculate the size of a proxy scale.
-
-    static djvVector2i proxyScale(const djvVector2i &, djvPixelDataInfo::PROXY);
-
-    //! Calculate the size of a proxy scale.
-
-    static djvBox2i proxyScale(const djvBox2i &, djvPixelDataInfo::PROXY);
-
-    //! Interleave pixel data channels.
-
-    static void planarInterleave(
-        const djvPixelData &,
-        djvPixelData &,
-        djvPixelDataInfo::PROXY = djvPixelDataInfo::PROXY_NONE);
-
-    //! De-interleave pixel data channels.
-
-    static void planarDeinterleave(const djvPixelData &, djvPixelData &);
-
-    //! Create a linear gradient.
-
-    static void gradient(djvPixelData &);
-};
-
-//@} // djvCoreImage
-
-#endif // DJV_PIXEL_DATA_UTIL_H
+    djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
+    
+    djvPixmapUtil::toQt(data);
+}
 

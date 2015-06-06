@@ -104,8 +104,8 @@ configure_file(
 
 # Enable debug or release mode.
 
-#set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release) 
+set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release) 
 
 # Enable shared libraries.
 
@@ -230,7 +230,6 @@ set(djvCoreIncludeDirs
 if (Qt5Core_DIR)
 
     set(djvCoreDeps
-        Qt5::Widgets
         Qt5::OpenGL
         Qt5::Core
         ${ILMBASE_LIBRARIES}
@@ -241,7 +240,6 @@ if (Qt5Core_DIR)
 else()
 
     set(djvCoreDeps
-        Qt4::QtGui
         Qt4::QtOpenGL
         Qt4::QtCore
         ${ILMBASE_LIBRARIES}

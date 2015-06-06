@@ -1,7 +1,7 @@
 #add_subdirectory(djvAudioTest)
 add_subdirectory(djvCoreTest)
 #add_subdirectory(djvGlslTest)
-#add_subdirectory(djvGuiTest)
+add_subdirectory(djvGuiTest)
 add_subdirectory(djvImageIoPluginTest)
 #add_subdirectory(djvImagePlayTest)
 #add_subdirectory(djvImagePlay2Test)

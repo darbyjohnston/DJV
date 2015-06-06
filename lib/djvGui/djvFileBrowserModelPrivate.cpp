@@ -35,6 +35,7 @@
 
 #include <djvFileBrowserCache.h>
 #include <djvGuiContext.h>
+#include <djvPixmapUtil.h>
 
 #include <djvImage.h>
 #include <djvOpenGlContext.h>
@@ -245,7 +246,7 @@ ThumbnailThreadResult thumbnailThreadFunction(
 
         djvOpenGlImage::copy(image, tmp, options);
 
-        out.thumbnail = djvPixelDataUtil::toQt(tmp);
+        out.thumbnail = djvPixmapUtil::toQt(tmp);
 
         out.valid = true;
     }

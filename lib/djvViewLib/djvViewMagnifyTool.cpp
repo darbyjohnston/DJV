@@ -40,13 +40,13 @@
 
 #include <djvIconLibrary.h>
 #include <djvIntEditSlider.h>
+#include <djvPixmapUtil.h>
 #include <djvPrefs.h>
 #include <djvToolButton.h>
 
 #include <djvDebug.h>
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
-#include <djvPixelDataUtil.h>
 #include <djvSignalBlocker.h>
 
 #include <QApplication>
@@ -356,7 +356,7 @@ void djvViewMagnifyTool::pixelDataUpdate()
                 _p->magnifyBuffer.data());
             
             _p->widget->setPixmap(
-                djvPixelDataUtil::toQt(
+                djvPixmapUtil::toQt(
                     tmp,
                     djvOpenGlImageOptions(),
                     &_p->convertState,

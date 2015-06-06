@@ -45,6 +45,7 @@ set(header
     djvOsxMenuHack.h
     djvPixelMaskWidget.h
     djvPixelWidget.h
+    djvPixmapUtil.h
     djvPrefs.h
     djvPrefsDialog.h
     djvPrefsGroupBox.h
@@ -176,6 +177,7 @@ set(source
     djvOsxMenuHack.cpp
     djvPixelMaskWidget.cpp
     djvPixelWidget.cpp
+    djvPixmapUtil.cpp
     djvPrefs.cpp
     djvPrefsDialog.cpp
     djvPrefsGroupBox.cpp
