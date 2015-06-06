@@ -38,7 +38,7 @@
 #include <djvImage.h>
 #include <djvPixelDataUtil.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 //------------------------------------------------------------------------------
 // djvFFmpegLoad

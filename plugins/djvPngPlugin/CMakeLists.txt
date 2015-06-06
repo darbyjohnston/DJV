@@ -14,7 +14,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPngPlugin
     ${PNG_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS}
-    ${djvGuiIncludeDirs})
+    ${djvCoreIncludeDirs})
 
 add_library(djvPngPlugin MODULE ${header} ${source})
 
@@ -22,7 +22,7 @@ target_link_libraries(
     djvPngPlugin
     ${PNG_LIBRARIES}
     ${ZLIB_LIBRARIES}
-    ${djvGuiLibs})
+    ${djvCoreLibs})
 
 set_target_properties(djvPngPlugin PROPERTIES FOLDER plugins)
 

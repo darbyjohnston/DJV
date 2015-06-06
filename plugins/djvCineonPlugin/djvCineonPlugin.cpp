@@ -39,7 +39,7 @@
 #include <djvAssert.h>
 #include <djvError.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {

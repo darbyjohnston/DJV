@@ -10,13 +10,11 @@ set(source
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvIflPlugin
-    ${djvGuiIncludeDirs})
+    ${djvCoreIncludeDirs})
 
 add_library(djvIflPlugin MODULE ${header} ${source})
 
-target_link_libraries(
-    djvIflPlugin
-    ${djvGuiLibs})
+target_link_libraries(djvIflPlugin ${djvCoreLibs})
 
 set_target_properties(djvIflPlugin PROPERTIES FOLDER plugins)
 

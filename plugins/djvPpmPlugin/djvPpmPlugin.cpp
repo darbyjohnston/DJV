@@ -41,7 +41,7 @@
 #include <djvFileIoUtil.h>
 #include <djvMath.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {

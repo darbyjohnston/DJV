@@ -39,7 +39,7 @@
 #include <djvDebug.h>
 #include <djvMemory.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {

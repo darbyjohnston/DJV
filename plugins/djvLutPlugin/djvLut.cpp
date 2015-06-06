@@ -39,7 +39,7 @@
 #include <djvFileIoUtil.h>
 #include <djvImageIo.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QRegExp>
 
 #include <stdio.h>

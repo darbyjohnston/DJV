@@ -18,13 +18,11 @@ endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPicPlugin
-    ${djvGuiIncludeDirs})
+    ${djvCoreIncludeDirs})
 
 add_library(djvPicPlugin MODULE ${header} ${source} ${qmSource})
 
-target_link_libraries(
-    djvPicPlugin
-    ${djvGuiLibs})
+target_link_libraries(djvPicPlugin ${djvCoreLibs})
 
 set_target_properties(djvPicPlugin PROPERTIES FOLDER plugins)
 

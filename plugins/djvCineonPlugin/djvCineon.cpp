@@ -35,7 +35,7 @@
 
 #include <djvAssert.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 //------------------------------------------------------------------------------
 // djvCineon::Options

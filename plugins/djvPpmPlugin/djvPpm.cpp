@@ -38,7 +38,7 @@
 #include <djvFileIoUtil.h>
 #include <djvMath.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 //------------------------------------------------------------------------------
 // djvPpm::Options

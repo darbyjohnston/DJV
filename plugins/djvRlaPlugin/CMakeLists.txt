@@ -10,13 +10,11 @@ set(source
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvRlaPlugin
-    ${djvGuiIncludeDirs})
+    ${djvCoreIncludeDirs})
 
 add_library(djvRlaPlugin MODULE ${header} ${source})
 
-target_link_libraries(
-    djvRlaPlugin
-    ${djvGuiLibs})
+target_link_libraries(djvRlaPlugin ${djvCoreLibs})
 
 set_target_properties(djvRlaPlugin PROPERTIES FOLDER plugins)
 

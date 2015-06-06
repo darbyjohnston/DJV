@@ -40,7 +40,7 @@
 
 #include <djvSignalBlocker.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 #include <QComboBox>
 #include <QFormLayout>
 #include <QVBoxLayout>

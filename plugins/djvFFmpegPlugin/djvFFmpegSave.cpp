@@ -35,7 +35,7 @@
 
 #include <djvOpenGlImage.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 #include <stdio.h>
 

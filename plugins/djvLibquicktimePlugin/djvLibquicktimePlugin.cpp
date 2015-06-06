@@ -42,7 +42,7 @@
 #include <djvStringUtil.h>
 #include <djvSystem.h>
 
-#include <QApplication>
+#include <QCoreApplication>
 
 extern "C"
 {
