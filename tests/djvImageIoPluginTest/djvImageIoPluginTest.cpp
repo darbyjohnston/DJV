@@ -113,11 +113,10 @@ void djvImageIoPluginTest::initPlugins(djvImageContext * context)
     option << "None";
     context->imageIoFactory()->setOption("OpenEXR", "Input Color Profile", option);
 
-    //! \todo Fix libquicktime and QuickTime image I/O testing.
+    //! \todo Fix FFmpeg image I/O testing.
     
     QStringList disable = QStringList() <<
-        "libquicktime" <<
-        "QuickTime";
+        "FFmpeg";
     
     //! \todo JPEG is lossy which will cause the pixel comparison tests to fail.
     

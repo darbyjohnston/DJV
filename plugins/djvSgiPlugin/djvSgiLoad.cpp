@@ -68,8 +68,8 @@ void djvSgiLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     throw (djvError)
 {
-    DJV_DEBUG("djvSgiLoad::read");
-    DJV_DEBUG_PRINT("frame = " << frame);
+    //DJV_DEBUG("djvSgiLoad::read");
+    //DJV_DEBUG_PRINT("frame = " << frame);
 
     image.colorProfile = djvColorProfile();
     image.tags = djvImageTags();
@@ -79,7 +79,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
 
-    DJV_DEBUG_PRINT("file name = " << fileName);
+    //DJV_DEBUG_PRINT("file name = " << fileName);
 
     djvImageIoInfo info;
     
