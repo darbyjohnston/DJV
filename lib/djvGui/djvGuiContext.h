@@ -94,67 +94,67 @@ public:
     
     //! Get the file browser.
     
-    djvFileBrowser * fileBrowser(const QString & title = QString());
+    djvFileBrowser * fileBrowser(const QString & title = QString()) const;
     
     //! Get the image I/O widget plugin factory.
     
-    djvImageIoWidgetFactory * imageIoWidgetFactory();
+    djvImageIoWidgetFactory * imageIoWidgetFactory() const;
     
     //! Get the preferences dialog.
     
-    djvPrefsDialog * prefsDialog();
+    djvPrefsDialog * prefsDialog() const;
 
     //! Get the information dialog.
 
-    djvInfoDialog * infoDialog();
+    djvInfoDialog * infoDialog() const;
 
     //! Get the about dialog.
 
-    djvAboutDialog * aboutDialog();
+    djvAboutDialog * aboutDialog() const;
 
     //! Get the messages dialog.
 
-    djvMessagesDialog * messagesDialog();
+    djvMessagesDialog * messagesDialog() const;
     
     //! Get the debugging dialog.
     
-    djvDebugLogDialog * debugLogDialog();
+    djvDebugLogDialog * debugLogDialog() const;
     
     //! Get the file browser preferences.
     
-    djvFileBrowserPrefs * fileBrowserPrefs();
+    djvFileBrowserPrefs * fileBrowserPrefs() const;
 
     //! Get the help preferences.
     
-    djvHelpPrefs * helpPrefs();
+    djvHelpPrefs * helpPrefs() const;
 
     //! Get the image preferences.
     
-    djvImagePrefs * imagePrefs();
+    djvImagePrefs * imagePrefs() const;
 
     //! Get the image I/O preferences.
     
-    djvImageIoPrefs * imageIoPrefs();
+    djvImageIoPrefs * imageIoPrefs() const;
 
     //! Get the sequence preferences.
     
-    djvSequencePrefs * sequencePrefs();
+    djvSequencePrefs * sequencePrefs() const;
 
     //! Get the time preferences.
     
-    djvTimePrefs * timePrefs();
+    djvTimePrefs * timePrefs() const;
 
     //! Get the file browser cache.
     
-    djvFileBrowserCache * fileBrowserCache();
+    djvFileBrowserCache * fileBrowserCache() const;
 
     //! Get the icon library.
     
-    djvIconLibrary * iconLibrary();
+    djvIconLibrary * iconLibrary() const;
 
     //! Get the style.
     
-    djvStyle * style();
+    djvStyle * style() const;
 
     virtual QString info() const;
 

@@ -168,11 +168,13 @@ void djvGuiContext::help()
     QDesktopServices::openUrl(QUrl::fromLocalFile(doc()));
 }
 
-djvFileBrowser * djvGuiContext::fileBrowser(const QString & title)
+djvFileBrowser * djvGuiContext::fileBrowser(const QString & title) const
 {
     if (! _p->fileBrowser)
     {
-        _p->fileBrowser.reset(new djvFileBrowser(this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->fileBrowser.reset(new djvFileBrowser(that));
     }
     
     _p->fileBrowser->close();
@@ -189,107 +191,119 @@ djvFileBrowser * djvGuiContext::fileBrowser(const QString & title)
     return _p->fileBrowser.data();
 }
 
-djvImageIoWidgetFactory * djvGuiContext::imageIoWidgetFactory()
+djvImageIoWidgetFactory * djvGuiContext::imageIoWidgetFactory() const
 {
     if (! _p->imageIoWidgetFactory)
     {
-        _p->imageIoWidgetFactory.reset(new djvImageIoWidgetFactory(this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->imageIoWidgetFactory.reset(new djvImageIoWidgetFactory(that));
     }
     
     return _p->imageIoWidgetFactory.data();
 }
 
-djvPrefsDialog * djvGuiContext::prefsDialog()
+djvPrefsDialog * djvGuiContext::prefsDialog() const
 {
     if (! _p->prefsDialog)
     {
-        _p->prefsDialog.reset(new djvPrefsDialog(this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->prefsDialog.reset(new djvPrefsDialog(that));
     }
     
     return _p->prefsDialog.data();
 }
 
-djvInfoDialog * djvGuiContext::infoDialog()
+djvInfoDialog * djvGuiContext::infoDialog() const
 {
     if (! _p->infoDialog)
     {
-        _p->infoDialog.reset(new djvInfoDialog(info(), this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->infoDialog.reset(new djvInfoDialog(info(), that));
     }
     
     return _p->infoDialog.data();
 }
 
-djvAboutDialog * djvGuiContext::aboutDialog()
+djvAboutDialog * djvGuiContext::aboutDialog() const
 {
     if (! _p->aboutDialog)
     {
-        _p->aboutDialog.reset(new djvAboutDialog(about(), this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->aboutDialog.reset(new djvAboutDialog(about(), that));
     }
     
     return _p->aboutDialog.data();
 }
 
-djvMessagesDialog * djvGuiContext::messagesDialog()
+djvMessagesDialog * djvGuiContext::messagesDialog() const
 {
     if (! _p->messagesDialog)
     {
-        _p->messagesDialog.reset(new djvMessagesDialog(this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->messagesDialog.reset(new djvMessagesDialog(that));
     }
     
     return _p->messagesDialog.data();
 }
 
-djvDebugLogDialog * djvGuiContext::debugLogDialog()
+djvDebugLogDialog * djvGuiContext::debugLogDialog() const
 {
     if (! _p->debugLogDialog)
     {
-        _p->debugLogDialog.reset(new djvDebugLogDialog(this));
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);
+        
+        _p->debugLogDialog.reset(new djvDebugLogDialog(that));
     }
     
     return _p->debugLogDialog.data();
 }
 
-djvFileBrowserPrefs * djvGuiContext::fileBrowserPrefs()
+djvFileBrowserPrefs * djvGuiContext::fileBrowserPrefs() const
 {
     return _p->fileBrowserPrefs.data();
 }
 
-djvHelpPrefs * djvGuiContext::helpPrefs()
+djvHelpPrefs * djvGuiContext::helpPrefs() const
 {
     return _p->helpPrefs.data();
 }
 
-djvImagePrefs * djvGuiContext::imagePrefs()
+djvImagePrefs * djvGuiContext::imagePrefs() const
 {
     return _p->imagePrefs.data();
 }
 
-djvImageIoPrefs * djvGuiContext::imageIoPrefs()
+djvImageIoPrefs * djvGuiContext::imageIoPrefs() const
 {
     return _p->imageIoPrefs.data();
 }
 
-djvSequencePrefs * djvGuiContext::sequencePrefs()
+djvSequencePrefs * djvGuiContext::sequencePrefs() const
 {
     return _p->sequencePrefs.data();
 }
 
-djvTimePrefs * djvGuiContext::timePrefs()
+djvTimePrefs * djvGuiContext::timePrefs() const
 {
     return _p->timePrefs.data();
 }
     
-djvIconLibrary * djvGuiContext::iconLibrary()
+djvIconLibrary * djvGuiContext::iconLibrary() const
 {
     return _p->iconLibrary.data();
 }
 
-djvStyle * djvGuiContext::style()
+djvStyle * djvGuiContext::style() const
 {
     return _p->style.data();
 }
 
-djvFileBrowserCache * djvGuiContext::fileBrowserCache()
+djvFileBrowserCache * djvGuiContext::fileBrowserCache() const
 {
     return _p->fileBrowserCache.data();
 }
@@ -299,13 +313,18 @@ QString djvGuiContext::info() const
     static const QString label = qApp->translate("djvGuiContext",
 "%1"
 "\n"
+"Image I/O Widgets\n"
+"\n"
+"    %2\n"
+"\n"
 "Preferences\n"
 "\n"
-"    User: %2\n"
-"    System: %3\n");
+"    User: %3\n"
+"    System: %4\n");
 
     return QString(label).
         arg(djvImageContext::info()).
+        arg(imageIoWidgetFactory()->names().join(", ")).
         arg(djvPrefs(QString(), djvPrefs::USER).fileName()).
         arg(djvPrefs(QString(), djvPrefs::SYSTEM).fileName());
 }

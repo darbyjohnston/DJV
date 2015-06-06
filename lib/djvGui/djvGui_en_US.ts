@@ -595,28 +595,42 @@ Shortcut: %1</source>
 <context>
     <name>djvGuiContext</name>
     <message>
-        <location filename="djvGuiContext.cpp" line="299"/>
+        <location filename="djvGuiContext.cpp" line="313"/>
         <source>%1
+Image I/O Widgets
+
+    %2
+
 Preferences
 
-    User: %2
-    System: %3
+    User: %3
+    System: %4
 </source>
+        <oldsource>%1
+Image I/O Widgets
+
+    Plugins: %2
+
+Preferences
+
+    User: %3
+    System: %4
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="djvGuiContext.cpp" line="110"/>
-        <location filename="djvGuiContext.cpp" line="330"/>
+        <location filename="djvGuiContext.cpp" line="349"/>
         <source>-reset_prefs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="183"/>
+        <location filename="djvGuiContext.cpp" line="185"/>
         <source>File Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="352"/>
+        <location filename="djvGuiContext.cpp" line="371"/>
         <source>
 User Interface Options
 

@@ -69,18 +69,36 @@
         <source>General
 
     Version: %1
-    System: %2
-    Endian: %3
-    Locale: %4
-    Search path: %5
-    Time units: %6
-    Default speed: %7
-    Maximum sequence size: %8
+    Time units: %2
+    Default speed: %3
+    Maximum sequence size: %4
+
+System
+
+    %5
+    Endian: %6
+    Locale: %7
+    Search path: %8
+    Qt version: %9
 </source>
+        <oldsource>General
+
+    Version: %1
+    Time units: %2
+    Default speed: %3
+    Maximum sequence size: %4
+
+System
+
+    %5
+    Endian: %6
+    Locale: %7
+    Search path: %8
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="166"/>
+        <location filename="djvCoreContext.cpp" line="171"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -167,52 +185,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="341"/>
+        <location filename="djvCoreContext.cpp" line="346"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="348"/>
+        <location filename="djvCoreContext.cpp" line="353"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="355"/>
+        <location filename="djvCoreContext.cpp" line="360"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="363"/>
+        <location filename="djvCoreContext.cpp" line="368"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="377"/>
+        <location filename="djvCoreContext.cpp" line="382"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="378"/>
+        <location filename="djvCoreContext.cpp" line="383"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="385"/>
+        <location filename="djvCoreContext.cpp" line="390"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="392"/>
+        <location filename="djvCoreContext.cpp" line="397"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="402"/>
+        <location filename="djvCoreContext.cpp" line="407"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="432"/>
+        <location filename="djvCoreContext.cpp" line="437"/>
         <source>
 General Options
 
@@ -441,8 +459,20 @@ OpenGL
 
 Image I/O
 
-    Plugins: %7
+    %7
 </source>
+        <oldsource>%1
+OpenGL
+
+    %2
+    Renderer: %3
+    Version: %4
+    Render filter: %5, %6
+
+Image I/O
+
+    %7
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>

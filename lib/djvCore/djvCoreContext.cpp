@@ -142,23 +142,28 @@ QString djvCoreContext::info() const
 "General\n"
 "\n"
 "    Version: %1\n"
-"    System: %2\n"
-"    Endian: %3\n"
-"    Locale: %4\n"
-"    Search path: %5\n"
-"    Time units: %6\n"
-"    Default speed: %7\n"
-"    Maximum sequence size: %8\n");
+"    Time units: %2\n"
+"    Default speed: %3\n"
+"    Maximum sequence size: %4\n"
+"\n"
+"System\n"
+"\n"
+"    %5\n"
+"    Endian: %6\n"
+"    Locale: %7\n"
+"    Search path: %8\n"
+"    Qt version: %9\n");
 
     return QString(label).
         arg(DJV_PROJECT_NAME).
+        arg(djvStringUtil::label(djvTime::units()).join(", ")).
+        arg(djvStringUtil::label(djvSpeed::speed()).join(", ")).
+        arg(djvStringUtil::label(djvSequence::maxFrames()).join(", ")).
         arg(djvSystem::info()).
         arg(djvStringUtil::label(djvMemory::endian()).join(", ")).
         arg(QLocale::system().name()).
         arg(djvStringUtil::addQuotes(djvSystem::searchPath()).join(", ")).
-        arg(djvStringUtil::label(djvTime::units()).join(", ")).
-        arg(djvStringUtil::label(djvSpeed::speed()).join(", ")).
-        arg(djvStringUtil::label(djvSequence::maxFrames()).join(", "));
+        arg(qVersion());
 }
 
 QString djvCoreContext::about() const

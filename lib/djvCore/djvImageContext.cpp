@@ -123,7 +123,7 @@ QString djvImageContext::info() const
 "\n"
 "Image I/O\n"
 "\n"
-"    Plugins: %7\n");
+"    %7\n");
 
     return QString(label).
         arg(djvCoreContext::info()).
