@@ -63,6 +63,14 @@ public:
 
     virtual ~djvViewViewPrefs();
     
+    //! Get the default mouse wheel zoom factor.
+    
+    static djvViewUtil::ZOOM_FACTOR zoomFactorDefault();
+    
+    //! Get the mouse wheel zoom factor.
+    
+    djvViewUtil::ZOOM_FACTOR zoomFactor() const;
+    
     //! Get the default background color.
     
     static djvColor backgroundDefault();
@@ -133,6 +141,10 @@ public:
 
 public Q_SLOTS:
 
+    //! Set the mouse wheel zoom factor.
+    
+    void setZoomFactor(djvViewUtil::ZOOM_FACTOR);
+
     //! Set the background color.
 
     void setBackground(const djvColor &);
@@ -170,6 +182,10 @@ public Q_SLOTS:
     void setHudBackgroundColor(const djvColor &);
 
 Q_SIGNALS:
+
+    //! This signal is emitted when the mouse wheel zoom factor is changed.
+    
+    void zoomFactorChanged(djvViewUtil::ZOOM_FACTOR);
 
     //! This signal is emitted when the background color is changed.
     
@@ -209,6 +225,7 @@ Q_SIGNALS:
     
 private:
 
+    djvViewUtil::ZOOM_FACTOR    _zoomFactor;
     djvColor                    _background;
     djvViewUtil::GRID           _grid;
     djvColor                    _gridColor;

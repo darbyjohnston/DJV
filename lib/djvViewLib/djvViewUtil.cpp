@@ -497,6 +497,34 @@ const QStringList & djvViewUtil::mouseWheelLabels()
     return data;
 }
 
+const QStringList & djvViewUtil::zoomFactorLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvViewUtil", "10%") <<
+        qApp->translate("djvViewUtil", "50%") <<
+        qApp->translate("djvViewUtil", "100%");
+
+    DJV_ASSERT(data.count() == ZOOM_FACTOR_COUNT);
+
+    return data;
+}
+
+double djvViewUtil::zoomFactor(ZOOM_FACTOR zoomFactor)
+{
+    static const double data [] =
+    {
+        1.1,
+        1.5,
+        2.0
+    };
+    
+    static const int dataCount = sizeof(data) / sizeof(data[0]);
+
+    DJV_ASSERT(dataCount == ZOOM_FACTOR_COUNT);
+
+    return data[zoomFactor];
+}
+
 const QStringList & djvViewUtil::errorLabels()
 {
     static const QStringList data = QStringList() <<
@@ -533,4 +561,5 @@ _DJV_STRING_OPERATOR_LABEL(djvViewUtil::HISTOGRAM,
     djvViewUtil::histogramLabels())
 _DJV_STRING_OPERATOR_LABEL(djvViewUtil::MOUSE_WHEEL,
     djvViewUtil::mouseWheelLabels())
-
+_DJV_STRING_OPERATOR_LABEL(djvViewUtil::ZOOM_FACTOR,
+    djvViewUtil::zoomFactorLabels())

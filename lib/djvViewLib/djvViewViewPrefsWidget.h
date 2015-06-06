@@ -70,6 +70,7 @@ public:
 
 private Q_SLOTS:
 
+    void zoomFactorCallback(int);
     void backgroundCallback(const djvColor &);
     void gridCallback(int);
     void gridColorCallback(const djvColor &);

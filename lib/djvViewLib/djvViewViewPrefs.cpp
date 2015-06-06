@@ -41,6 +41,7 @@
 
 djvViewViewPrefs::djvViewViewPrefs(djvViewContext * context, QObject * parent) :
     djvViewAbstractPrefs(context, parent),
+    _zoomFactor        (zoomFactorDefault()),
     _background        (backgroundDefault()),
     _grid              (gridDefault()),
     _gridColor         (gridColorDefault()),
@@ -53,6 +54,7 @@ djvViewViewPrefs::djvViewViewPrefs(djvViewContext * context, QObject * parent) :
     //DJV_DEBUG("djvViewViewPrefs::djvViewViewPrefs");
 
     djvPrefs prefs("djvViewViewPrefs");
+    prefs.get("zoomFactor", _zoomFactor);
     prefs.get("background", _background);
     prefs.get("grid", _grid);
     prefs.get("gridColor", _gridColor);
@@ -77,6 +79,7 @@ djvViewViewPrefs::~djvViewViewPrefs()
     //DJV_DEBUG_PRINT("hudInfo = " << _hudInfo);
 
     djvPrefs prefs("djvViewViewPrefs");
+    prefs.set("zoomFactor", _zoomFactor);
     prefs.set("background", _background);
     prefs.set("grid", _grid);
     prefs.set("gridColor", _gridColor);
@@ -85,6 +88,16 @@ djvViewViewPrefs::~djvViewViewPrefs()
     prefs.set("hudColor", _hudColor);
     prefs.set("hudBackground", _hudBackground);
     prefs.set("hudBackgroundColor", _hudBackgroundColor);
+}
+
+djvViewUtil::ZOOM_FACTOR djvViewViewPrefs::zoomFactorDefault()
+{
+    return djvViewUtil::ZOOM_FACTOR_10;
+}
+
+djvViewUtil::ZOOM_FACTOR djvViewViewPrefs::zoomFactor() const
+{
+    return _zoomFactor;
 }
 
 djvColor djvViewViewPrefs::backgroundDefault()
@@ -170,6 +183,18 @@ djvColor djvViewViewPrefs::hudBackgroundColorDefault()
 const djvColor & djvViewViewPrefs::hudBackgroundColor() const
 {
     return _hudBackgroundColor;
+}
+
+void djvViewViewPrefs::setZoomFactor(djvViewUtil::ZOOM_FACTOR in)
+{
+    if (in == _zoomFactor)
+        return;
+
+    _zoomFactor = in;
+
+    Q_EMIT zoomFactorChanged(_zoomFactor);
+    Q_EMIT prefChanged();
+
 }
 
 void djvViewViewPrefs::setBackground(const djvColor & in)

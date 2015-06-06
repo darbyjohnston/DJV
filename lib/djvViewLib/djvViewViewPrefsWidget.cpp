@@ -37,6 +37,7 @@
 #include <djvViewViewPrefs.h>
 
 #include <djvColorSwatch.h>
+#include <djvFloatEdit.h>
 #include <djvPrefsGroupBox.h>
 
 #include <djvSignalBlocker.h>
@@ -73,6 +74,7 @@ public:
 struct djvViewViewPrefsWidgetPrivate
 {
     djvViewViewPrefsWidgetPrivate() :
+        zoomFactorWidget        (0),
         backgroundColorWidget   (0),
         gridWidget              (0),
         gridColorWidget         (0),
@@ -83,14 +85,15 @@ struct djvViewViewPrefsWidgetPrivate
         hudBackgroundColorWidget(0)
     {}
 
-    djvColorSwatch *        backgroundColorWidget;
-    QComboBox *             gridWidget;
-    djvColorSwatch *        gridColorWidget;
-    QCheckBox *             hudEnabledWidget;
-    QListWidget *           hudInfoWidget;
-    djvColorSwatch *        hudColorWidget;
-    QComboBox *             hudBackgroundWidget;
-    djvColorSwatch *        hudBackgroundColorWidget;
+    QComboBox *      zoomFactorWidget;
+    djvColorSwatch * backgroundColorWidget;
+    QComboBox *      gridWidget;
+    djvColorSwatch * gridColorWidget;
+    QCheckBox *      hudEnabledWidget;
+    QListWidget *    hudInfoWidget;
+    djvColorSwatch * hudColorWidget;
+    QComboBox *      hudBackgroundWidget;
+    djvColorSwatch * hudBackgroundColorWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -102,8 +105,12 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
         qApp->translate("djvViewViewPrefsWidget", "Views"), context),
     _p(new djvViewViewPrefsWidgetPrivate)
 {
-    // Create the options widgets.
+    // Create the general widgets.
 
+    _p->zoomFactorWidget = new QComboBox;
+    _p->zoomFactorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _p->zoomFactorWidget->addItems(djvViewUtil::zoomFactorLabels());
+    
     _p->backgroundColorWidget = new djvColorSwatch(context);
     _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
     _p->backgroundColorWidget->setColorDialogEnabled(true);
@@ -155,6 +162,9 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
         qApp->translate("djvViewViewPrefsWidget", "Views"), context);
     QFormLayout * formLayout = prefsGroupBox->createLayout();
     formLayout->addRow(
+        qApp->translate("djvViewViewPrefsWidget", "Mouse wheel zoom factor:"),
+        _p->zoomFactorWidget);
+    formLayout->addRow(
         qApp->translate("djvViewViewPrefsWidget", "Background color:"),
         _p->backgroundColorWidget);
     layout->addWidget(prefsGroupBox);
@@ -193,6 +203,11 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
+
+    connect(
+        _p->zoomFactorWidget,
+        SIGNAL(currentIndexChanged(int)),
+        SLOT(zoomFactorCallback(int)));
 
     connect(
         _p->backgroundColorWidget,
@@ -242,6 +257,8 @@ djvViewViewPrefsWidget::~djvViewViewPrefsWidget()
 
 void djvViewViewPrefsWidget::resetPreferences()
 {
+    context()->viewPrefs()->setZoomFactor(
+        djvViewViewPrefs::zoomFactorDefault());
     context()->viewPrefs()->setBackground(
         djvViewViewPrefs::backgroundDefault());
     context()->viewPrefs()->setGrid(
@@ -260,6 +277,12 @@ void djvViewViewPrefsWidget::resetPreferences()
         djvViewViewPrefs::hudBackgroundColorDefault());
 
     widgetUpdate();
+}
+
+void djvViewViewPrefsWidget::zoomFactorCallback(int in)
+{
+    context()->viewPrefs()->setZoomFactor(
+        static_cast<djvViewUtil::ZOOM_FACTOR>(in));
 }
 
 void djvViewViewPrefsWidget::backgroundCallback(const djvColor & in)
@@ -321,6 +344,7 @@ void djvViewViewPrefsWidget::hudBackgroundColorCallback(const djvColor & in)
 void djvViewViewPrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
+        _p->zoomFactorWidget <<
         _p->backgroundColorWidget <<
         _p->gridWidget <<
         _p->gridColorWidget <<
@@ -330,6 +354,9 @@ void djvViewViewPrefsWidget::widgetUpdate()
         _p->hudBackgroundWidget <<
         _p->hudBackgroundColorWidget);
 
+    _p->zoomFactorWidget->setCurrentIndex(
+        context()->viewPrefs()->zoomFactor());
+    
     _p->backgroundColorWidget->setColor(
         context()->viewPrefs()->background());
 

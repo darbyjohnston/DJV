@@ -143,7 +143,7 @@ djvViewMainWindow::djvViewMainWindow(
     _p(new djvViewMainWindowPrivate(context))
 {
     //DJV_DEBUG("djvViewMainWindow::djvViewMainWindow");
-
+    
     _mainWindowList.append(this);
 
     //! \todo The native menu bar on OS X causes issues with keyboard shortcuts.

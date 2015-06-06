@@ -82,6 +82,8 @@ class DJV_VIEW_LIB_EXPORT djvViewUtil
     Q_ENUMS(HISTOGRAM)
     Q_ENUMS(SHORTCUT)
     Q_ENUMS(MOUSE_WHEEL)
+    Q_ENUMS(ZOOM_FACTOR)
+    Q_ENUMS(ERROR)
     
 public:
 
@@ -493,7 +495,26 @@ public:
     //! Get the mouse wheel action labels.
 
     static const QStringList & mouseWheelLabels();
+
+    //! This enumeration provides the mouse wheel zoom factors.
+
+    enum ZOOM_FACTOR
+    {
+        ZOOM_FACTOR_10,
+        ZOOM_FACTOR_50,
+        ZOOM_FACTOR_100,
+
+        ZOOM_FACTOR_COUNT
+    };
+
+    //! Get the mouse wheel zoom factor labels.
+
+    static const QStringList & zoomFactorLabels();
     
+    //! Get the mouse wheel zoom factor.
+    
+    static double zoomFactor(ZOOM_FACTOR);
+
     //! This enumeration provides error codes.
     
     enum ERROR
@@ -530,6 +551,7 @@ DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::TOOL);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::HISTOGRAM);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::SHORTCUT);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::MOUSE_WHEEL);
+DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::ZOOM_FACTOR);
 
 //@} // djvViewLib
 

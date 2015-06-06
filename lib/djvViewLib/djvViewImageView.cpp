@@ -438,6 +438,9 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
         mouseWheel = _p->context->inputPrefs()->mouseWheelCtrl();
     }
 
+    const double speed = djvViewUtil::zoomFactor(
+        _p->context->viewPrefs()->zoomFactor());
+    
     const int delta =
 #       if QT_VERSION < 0x050000
         event->delta();
@@ -449,7 +452,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
     {
         case djvViewUtil::MOUSE_WHEEL_VIEW_ZOOM:
 
-            setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? 1.1 : 0.9));
+            setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? speed : (1.0 / speed)));
 
             break;
 

@@ -314,23 +314,23 @@ Shortcut: %1</source>
 <context>
     <name>djvViewFileGroup</name>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="768"/>
+        <location filename="djvViewFileGroup.cpp" line="772"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="877"/>
+        <location filename="djvViewFileGroup.cpp" line="881"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="890"/>
-        <location filename="djvViewFileGroup.cpp" line="917"/>
+        <location filename="djvViewFileGroup.cpp" line="894"/>
+        <location filename="djvViewFileGroup.cpp" line="921"/>
         <source>Overwrite existing file &quot;%1&quot;?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewFileGroup.cpp" line="908"/>
+        <location filename="djvViewFileGroup.cpp" line="912"/>
         <source>Save Frame</source>
         <translation type="unfinished"></translation>
     </message>
@@ -712,42 +712,42 @@ Shortcut: %1</source>
 <context>
     <name>djvViewImageView</name>
     <message>
-        <location filename="djvViewImageView.cpp" line="676"/>
+        <location filename="djvViewImageView.cpp" line="679"/>
         <source>File  = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="682"/>
+        <location filename="djvViewImageView.cpp" line="685"/>
         <source>Layer = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="688"/>
+        <location filename="djvViewImageView.cpp" line="691"/>
         <source>Size  = %1x%2:%3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="696"/>
+        <location filename="djvViewImageView.cpp" line="699"/>
         <source>Proxy = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="702"/>
+        <location filename="djvViewImageView.cpp" line="705"/>
         <source>Pixel = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="714"/>
+        <location filename="djvViewImageView.cpp" line="717"/>
         <source>%1 = %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="724"/>
+        <location filename="djvViewImageView.cpp" line="727"/>
         <source>Frame = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewImageView.cpp" line="730"/>
+        <location filename="djvViewImageView.cpp" line="733"/>
         <source>Speed = %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2139,40 +2139,55 @@ Shortcut: %1</source>
     </message>
     <message>
         <location filename="djvViewUtil.cpp" line="503"/>
+        <source>10%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewUtil.cpp" line="504"/>
+        <source>50%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewUtil.cpp" line="505"/>
+        <source>100%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewUtil.cpp" line="531"/>
         <source>Cannot open image: %1</source>
         <oldsource>Cannot open image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewUtil.cpp" line="504"/>
+        <location filename="djvViewUtil.cpp" line="532"/>
         <source>Cannot read image: %1</source>
         <oldsource>Cannot read image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewUtil.cpp" line="505"/>
+        <location filename="djvViewUtil.cpp" line="533"/>
         <source>Cannot write image: %1</source>
         <oldsource>Cannot write image: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewUtil.cpp" line="506"/>
+        <location filename="djvViewUtil.cpp" line="534"/>
         <source>Cannot open LUT: %1</source>
         <oldsource>Cannot open LUT: &quot;%1&quot;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewUtil.cpp" line="507"/>
+        <location filename="djvViewUtil.cpp" line="535"/>
         <source>Cannot pick color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewUtil.cpp" line="508"/>
+        <location filename="djvViewUtil.cpp" line="536"/>
         <source>Cannot compute histogram</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewUtil.cpp" line="509"/>
+        <location filename="djvViewUtil.cpp" line="537"/>
         <source>Cannot magnify</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2328,53 +2343,58 @@ Shortcut: %1</source>
 <context>
     <name>djvViewViewPrefsWidget</name>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="102"/>
-        <location filename="djvViewViewPrefsWidget.cpp" line="155"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="105"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="162"/>
         <source>Views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="124"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="131"/>
         <source>Enable the HUD</source>
         <oldsource>Enable</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="158"/>
-        <location filename="djvViewViewPrefsWidget.cpp" line="185"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="165"/>
+        <source>Mouse wheel zoom factor:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvViewViewPrefsWidget.cpp" line="168"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="195"/>
         <source>Background color:</source>
         <oldsource>View background color:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="163"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="173"/>
         <source>Grid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="166"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="176"/>
         <source>Size:</source>
         <oldsource>Grid size:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="169"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="179"/>
         <source>Color:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="179"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="189"/>
         <source>Foreground color:</source>
         <oldsource>Grid color:</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="174"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="184"/>
         <source>HUD (Heads Up Display)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvViewViewPrefsWidget.cpp" line="182"/>
+        <location filename="djvViewViewPrefsWidget.cpp" line="192"/>
         <source>Background style:</source>
         <oldsource>HUD background style:</oldsource>
         <translation type="unfinished"></translation>
