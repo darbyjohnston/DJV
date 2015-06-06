@@ -118,6 +118,8 @@ djvViewFileGroup::djvViewFileGroup(
     djvViewAbstractGroup(mainWindow, context),
     _p(new djvViewFileGroupPrivate(context))
 {
+    //DJV_DEBUG("djvViewFileGroup::djvViewFileGroup");
+    
     if (copy)
     {
         _p->fileInfo     = copy->_p->fileInfo;
@@ -481,22 +483,24 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
 
     cacheDel();
 
+    djvFileInfo tmp = fileInfo;
+
     _p->fileInfo = djvFileInfo();
     _p->imageIoInfo = djvImageIoInfo();
     _p->imageLoad.reset();
 
     // Load the file.
 
-    if (! fileInfo.fileName().isEmpty())
+    if (! tmp.fileName().isEmpty())
     {
         //DJV_DEBUG_PRINT("loading...");
 
         try
         {
             _p->imageLoad.reset(
-                context()->imageIoFactory()->load(fileInfo, _p->imageIoInfo));
+                context()->imageIoFactory()->load(tmp, _p->imageIoInfo));
 
-            _p->fileInfo = fileInfo;
+            _p->fileInfo = tmp;
 
             context()->filePrefs()->addRecent(_p->fileInfo);
         }
@@ -504,7 +508,7 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
         {
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
-                arg(QDir::toNativeSeparators(fileInfo)));
+                arg(QDir::toNativeSeparators(tmp)));
 
             context()->printError(error);
         }
