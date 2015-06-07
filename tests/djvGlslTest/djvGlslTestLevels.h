@@ -86,11 +86,11 @@ public:
         bool   _init;
     };
 
-    djvGlslTestLevelsOp();
+    explicit djvGlslTestLevelsOp(djvGuiContext *);
 
-    QString name() const { return "Levels"; }
+    virtual QString name() const { return "Levels"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private Q_SLOTS:
 

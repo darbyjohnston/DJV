@@ -33,12 +33,19 @@
 
 #include <djvGlslTestWidget.h>
 
+#include <djvGuiContext.h>
+
 #include <djvDebugLog.h>
 #include <djvErrorUtil.h>
 
-djvGlslTestWidget::djvGlslTestWidget() :
-    _op   (0),
-    _image(0)
+//------------------------------------------------------------------------------
+// djvGlslTestWidget
+//------------------------------------------------------------------------------
+
+djvGlslTestWidget::djvGlslTestWidget(djvGuiContext * context) :
+    _op     (0),
+    _image  (0),
+    _context(context)
 {}
 
 void djvGlslTestWidget::set(djvGlslTestOp * op, const djvImage * image)
@@ -62,8 +69,7 @@ void djvGlslTestWidget::paintGL()
         }
         catch (const djvError & error)
         {
-            DJV_LOG(
-                "djvGlslTestWidget",
+            DJV_LOG(_context->debugLog(), "djvGlslTestWidget",
                 djvErrorUtil::format(error).join("\n"));
         }
     }

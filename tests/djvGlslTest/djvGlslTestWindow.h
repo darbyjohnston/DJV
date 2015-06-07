@@ -29,38 +29,58 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestWindow.h
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#ifndef DJV_GLSL_TEST_WINDOW_H
+#define DJV_GLSL_TEST_WINDOW_H
 
-#include <djvGlslTestOp.h>
+#include <QWidget>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+class djvGlslTestContext;
+class djvGlslTestImageLoad;
+class djvGlslTestOpManager;
+class djvGlslTestPlayback;
+class djvGlslTestPlaybackWidget;
+
+class djvImageView;
+
+class djvImage;
+
+class QSplitter;
+class QStackedWidget;
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestWindow
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+class djvGlslTestWindow : public QWidget
 {
+    Q_OBJECT
+
 public:
 
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    djvGlslTestWindow(
+        djvGlslTestImageLoad *,
+        djvGlslTestOpManager *,
+        djvGlslTestPlayback *,
+        djvGlslTestContext *,
+        QWidget *              parent = 0);
     
-protected:
+    void setImage(djvImage *);
 
-    virtual void paintGL();
+private Q_SLOTS:
+
+    void frameCallback(qint64);
 
 private:
 
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
+    djvGlslTestImageLoad *      _imageLoad;
+    djvGlslTestOpManager *      _opManager;
+    djvGlslTestPlayback *       _playback;
+    djvImageView *              _view;
+    djvGlslTestPlaybackWidget * _playbackWidget;
+    QStackedWidget *            _stackWidget;
+    QSplitter *                 _splitter;
 };
 
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+#endif // DJV_GLSL_TEST_WINDOW_H

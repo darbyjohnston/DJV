@@ -33,6 +33,7 @@
 
 #include <djvIconLibraryTest.h>
 
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvSearchBox.h>
 
@@ -64,7 +65,7 @@ class IconLibraryModel : public QAbstractListModel
 {
 public:
 
-    explicit IconLibraryModel(QObject * parent = 0);
+    explicit IconLibraryModel(djvGuiContext *, QObject * parent = 0);
 
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
@@ -81,16 +82,16 @@ private:
     QVector<IconLibraryItem> _items;
 };
 
-IconLibraryModel::IconLibraryModel(QObject * parent) :
+IconLibraryModel::IconLibraryModel(djvGuiContext * context, QObject * parent) :
     QAbstractListModel(parent)
 {
-    const QStringList names = djvIconLibrary::global()->names();
+    const QStringList names = context->iconLibrary()->names();
 
     for (int i = 0; i < names.count(); ++i)
     {
-        const QPixmap & pixmap = djvIconLibrary::global()->pixmap(names[i]);
+        const QPixmap & pixmap = context->iconLibrary()->pixmap(names[i]);
 
-        const QSize & defaultSize = djvIconLibrary::global()->defaultSize();
+        const QSize & defaultSize = context->iconLibrary()->defaultSize();
 
         QSize size(
             djvMath::max(pixmap.width(), defaultSize.width()),
@@ -208,7 +209,7 @@ void djvIconLibraryTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
 
-    IconLibraryModel * model = new IconLibraryModel(window);
+    IconLibraryModel * model = new IconLibraryModel(context(), window);
 
     QSortFilterProxyModel * proxyModel = new QSortFilterProxyModel(window);
     proxyModel->setSourceModel(model);
@@ -217,14 +218,14 @@ void djvIconLibraryTest::run(const QStringList & args)
 
     QTreeView * view = new QTreeView;
     view->setRootIsDecorated(false);
-    view->setIconSize(djvIconLibrary::global()->defaultSize());
+    view->setIconSize(context()->iconLibrary()->defaultSize());
     view->setModel(proxyModel);
     view->setSortingEnabled(true);
 
     view->header()->resizeSections(QHeaderView::ResizeToContents);
     view->header()->setSortIndicator(0, Qt::AscendingOrder);
 
-    djvSearchBox * searchBox = new djvSearchBox;
+    djvSearchBox * searchBox = new djvSearchBox(context());
 
     QVBoxLayout * layout = new QVBoxLayout(window);
     layout->addWidget(searchBox);

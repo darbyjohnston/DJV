@@ -142,11 +142,11 @@ public:
         bool          _init;
     };
 
-    djvGlslTestScaleOp();
+    explicit djvGlslTestScaleOp(djvGuiContext *);
 
-    QString name() const { return "Scale"; }
+    virtual QString name() const { return "Scale"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
     static int edge(int, int size);
 

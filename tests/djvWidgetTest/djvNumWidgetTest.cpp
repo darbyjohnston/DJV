@@ -56,10 +56,10 @@ QString djvNumWidgetTest::name()
 
 void djvNumWidgetTest::run(const QStringList & args)
 {
-    (new djvNumWidgetTestWidget)->show();
+    (new djvNumWidgetTestWidget(context()))->show();
 }
 
-djvNumWidgetTestWidget::djvNumWidgetTestWidget() :
+djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvGuiContext * context) :
     _intValue    (0),
     _floatValue  (0.0),
     _intEdit     (0),
@@ -73,13 +73,13 @@ djvNumWidgetTestWidget::djvNumWidgetTestWidget() :
     
     _intDisplay = new djvIntDisplay;
     
-    _intSlider = new djvIntEditSlider;
+    _intSlider = new djvIntEditSlider(context);
     
     _floatEdit = new djvFloatEdit;
     
     _floatDisplay = new djvFloatDisplay;
     
-    _floatSlider = new djvFloatEditSlider;
+    _floatSlider = new djvFloatEditSlider(context);
     
     QFormLayout * layout = new QFormLayout(this);
     layout->addRow("djvIntEdit", _intEdit);

@@ -34,9 +34,8 @@
 #ifndef DJV_WIDGET_TEST_H
 #define DJV_WIDGET_TEST_H
 
-#include <djvApplication.h>
-
 #include <QAbstractListModel>
+#include <QApplication.h>
 #include <QWidget>
 
 class djvGuiContext;
@@ -92,7 +91,7 @@ class djvWidgetTestWindow : public QWidget
     
 public:
 
-    djvWidgetTestWindow(djvWidgetTestModel *);
+    djvWidgetTestWindow(djvWidgetTestModel *, djvGuiContext *);
 
 private Q_SLOTS:
 
@@ -106,7 +105,7 @@ private:
     QListView *             _listView;
 };
 
-class djvWidgetTestApplication : public djvApplication
+class djvWidgetTestApplication : public QApplication
 {
     Q_OBJECT
     

@@ -35,6 +35,7 @@
 
 #include <djvIntEditSlider.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
 
 #include <QComboBox>
@@ -67,13 +68,14 @@ bool djvGlslTestBlurOp::State::operator != (const State & in) const
         ! _init;
 }
 
-djvGlslTestBlurOp::djvGlslTestBlurOp()
+djvGlslTestBlurOp::djvGlslTestBlurOp(djvGuiContext * context) :
+    djvGlslTestOp(context)
 {
     // Create the widgets.
 
     QGroupBox * radiusGroup = new QGroupBox("Radius");
     
-    djvIntEditSlider * radius = new djvIntEditSlider;
+    djvIntEditSlider * radius = new djvIntEditSlider(context);
     radius->setRange(0, 127);
     radius->setDefaultValue(0);
 

@@ -33,6 +33,7 @@
 
 #include <djvPrefsDialogTest.h>
 
+#include <djvGuiContext.h>
 #include <djvPrefsDialog.h>
 
 djvPrefsDialogTest::djvPrefsDialogTest(djvGuiContext * context) :
@@ -46,5 +47,5 @@ QString djvPrefsDialogTest::name()
 
 void djvPrefsDialogTest::run(const QStringList & args)
 {
-    djvPrefsDialog::global()->show();
+    context()->prefsDialog()->show();
 }

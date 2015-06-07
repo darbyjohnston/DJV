@@ -50,7 +50,7 @@ QString djvColorDialogTest::name()
 
 void djvColorDialogTest::run(const QStringList & args)
 {
-    djvColorDialog dialog;
+    djvColorDialog dialog(context());
     
     if (QDialog::Accepted == dialog.exec())
     {

@@ -52,7 +52,7 @@ void djvFileEditTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvFileEdit * fileEdit = new djvFileEdit;
+    djvFileEdit * fileEdit = new djvFileEdit(context());
     
     QVBoxLayout * layout = new QVBoxLayout(window);
     layout->addWidget(fileEdit);

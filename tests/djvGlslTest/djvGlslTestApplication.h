@@ -34,55 +34,67 @@
 #ifndef DJV_GLSL_TEST_APPLICATION_H
 #define DJV_GLSL_TEST_APPLICATION_H
 
-#include <djvGlslTestOp.h>
-#include <djvGlslTestWidget.h>
+#include <djvGlslTestContext.h>
+#include <djvGlslTestImageLoad.h>
+#include <djvGlslTestOpManager.h>
+#include <djvGlslTestPlayback.h>
+#include <djvGlslTestWindow.h>
 
-#include <djvApplication.h>
-#include <djvIntSlider.h>
-#include <djvToolButton.h>
+#include <QApplication>
 
-#include <djvImageIo.h>
+class djvGlslTestOp;
+class djvGlslTestWidget;
+
+class djvIntSlider;
+class djvToolButton;
 
 //------------------------------------------------------------------------------
 // djvGlslTestApplication
 //------------------------------------------------------------------------------
 
-class djvGlslTestApplication : public djvApplication
+class djvGlslTestApplication : public QApplication
 {
     Q_OBJECT
     
 public:
 
-    djvGlslTestApplication(int argc, char ** argv);
-
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
+    djvGlslTestApplication(int & argc, char ** argv);
     
 private Q_SLOTS:
 
-    void playCallback(bool);
+    void commandLineExit();
+    void work();
+    /*void playCallback(bool);
     void frameCallback(int);
-    void opCallback(int);
-    void updateCallback();
+    void currentImageOpCallback(int);
+    void updateCallback();*/
 
 private:
 
-    void playUpdate();
+    /*void playUpdate();
     void frameUpdate();
-    void update();
+    void update();*/
 
-    QScopedPointer<djvImageLoad> _load;
-    djvImageIoInfo               _info;
-    djvImage                     _image;
-    bool                         _play;
-    int                          _frame;
-    int                          _timerId;
-    QVector<djvGlslTestOp *>     _ops;
-    int                          _op;
-    djvGlslTestWidget *          _view;
-    djvToolButton *              _playWidget;
-    djvIntSlider *               _slider;
+    QScopedPointer<djvGlslTestContext>   _context;
+    QScopedPointer<djvGlslTestImageLoad> _imageLoad;
+    QScopedPointer<djvGlslTestOpManager> _opManager;
+    QScopedPointer<djvGlslTestPlayback>  _playback;
+    QScopedPointer<djvGlslTestWindow>    _window;
+    
+    djvImage _image;
+    
+    /*QScopedPointer<djvImageLoad>  _imageLoad;
+    djvImageIoInfo                _imageLoadInfo;
+    djvImage                      _image;
+    bool                          _play;
+    int                           _frame;
+    int                           _timerId;
+    QVector<djvGlslTestOp *>      _imageOpList;
+    int                           _currentImageOp;
+    QWidget *                     _window;
+    djvGlslTestWidget *           _view;
+    djvToolButton *               _playWidget;
+    djvIntSlider *                _slider;*/
 };
 
 #endif // DJV_GLSL_TEST_APPLICATION_H

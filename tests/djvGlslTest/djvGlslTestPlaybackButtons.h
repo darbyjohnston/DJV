@@ -29,38 +29,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestPlaybackButtons.h
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#ifndef DJV_GLSL_TEST_PLAYBACK_BUTTONS_H
+#define DJV_GLSL_TEST_PLAYBACK_BUTTONS_H
 
-#include <djvGlslTestOp.h>
+#include <djvGlslTestPlayback.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <QWidget>
+
+class djvGlslTestContext;
+
+class QButtonGroup;
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestPlaybackButtons
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+class djvGlslTestPlaybackButtons : public QWidget
 {
+    Q_OBJECT
+
 public:
 
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    explicit djvGlslTestPlaybackButtons(djvGlslTestContext *, QWidget * parent = 0);
     
-protected:
+    djvGlslTestPlayback::PLAYBACK playback() const;
 
-    virtual void paintGL();
+public Q_SLOTS:
 
+    void setPlayback(djvGlslTestPlayback::PLAYBACK);
+    
+Q_SIGNALS:
+
+    void playbackChanged(djvGlslTestPlayback::PLAYBACK);
+
+private Q_SLOTS:
+
+    void buttonCallback(int);
+    
 private:
-
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
+    
+    djvGlslTestPlayback::PLAYBACK _playback;
+    
+    QButtonGroup * _buttonGroup;
 };
 
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+#endif // DJV_GLSL_TEST_PLAYBACK_BUTTONS_H

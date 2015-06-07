@@ -29,19 +29,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationInfoDialogTest.h
+//! \file djvGlslTestImageLoad.cpp
 
-#include <djvWidgetTest.h>
+#include <djvGlslTestImageLoad.h>
 
-class djvApplicationInfoDialogTest : public djvWidgetTest
+#include <djvGlslTestContext.h>
+
+//------------------------------------------------------------------------------
+// djvGlslTestImageLoad
+//------------------------------------------------------------------------------
+
+djvGlslTestImageLoad::djvGlslTestImageLoad(
+    djvGlslTestContext * context,
+    QObject *            parent) :
+    QObject(parent),
+    _context(context)
+{}
+
+void djvGlslTestImageLoad::load(const djvFileInfo & fileInfo) throw (djvError)
 {
-    Q_OBJECT
+    _load.reset(_context->imageIoFactory()->load(fileInfo, _info));
+}
+
+const djvImageIoInfo & djvGlslTestImageLoad::info() const
+{
+    return _info;
+}
+
+const djvImage * djvGlslTestImageLoad::image(qint64 frame) const
+{
+    //DJV_DEBUG("djvGlslTestImageLoad::image");
+    //DJV_DEBUG_PRINT("frame = " << frame);
     
-public:
-
-    djvApplicationInfoDialogTest(djvGuiContext *);
-
-    virtual QString name();
-
-    virtual void run(const QStringList & args = QStringList());
-};
+    try
+    {
+        djvGlslTestImageLoad * that = const_cast<djvGlslTestImageLoad  *>(this);
+        
+        _load->read(that->_image, frame);
+    }
+    catch (const djvError &)
+    {}
+    
+    return &_image;
+}

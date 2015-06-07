@@ -29,38 +29,72 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestOpManager.cpp
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#include <djvGlslTestOpManager.h>
 
+#include <djvGlslTestContext.h>
 #include <djvGlslTestOp.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <djvGlslTestColor.h>
+#include <djvGlslTestLevels.h>
+#include <djvGlslTestExposure.h>
+#include <djvGlslTestBlur.h>
+#include <djvGlslTestSharpen.h>
+#include <djvGlslTestEdge.h>
+#include <djvGlslTestScale.h>
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestOpManager
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+djvGlslTestOpManager::djvGlslTestOpManager(
+    djvGlslTestContext * context,
+    QObject *            parent) :
+    QObject(parent),
+    _currentIndex(-1)
 {
-public:
+    _list += new djvGlslTestNullOp(context);
+    _list += new djvGlslTestColorOp(context);
+    _list += new djvGlslTestLevelsOp(context);
+    _list += new djvGlslTestExposureOp(context);
+    _list += new djvGlslTestBlurOp(context);
+    _list += new djvGlslTestSharpenOp(context);
+    _list += new djvGlslTestEdgeOp(context);
+    _list += new djvGlslTestScaleOp(context);
+}
 
-    explicit djvGlslTestWidget(djvGuiContext *);
+djvGlslTestOpManager::~djvGlslTestOpManager()
+{
+    Q_FOREACH(djvGlslTestOp * op, _list)
+    {
+        delete op;
+    }
+}
 
-    void set(djvGlslTestOp *, const djvImage *);
+const QList<djvGlslTestOp *> djvGlslTestOpManager::list() const
+{
+    return _list;
+}
+
+int djvGlslTestOpManager::currentIndex() const
+{
+    return _currentIndex;
+}
+
+djvGlslTestOp * djvGlslTestOpManager::currentOp() const
+{
+    return (_currentIndex >= 0 && _currentIndex < _list.count()) ?
+        _list[_currentIndex] :
+        0;
+}
+
+void djvGlslTestOpManager::setCurrentIndex(int index)
+{
+    if (_currentIndex == index)
+        return;
     
-protected:
-
-    virtual void paintGL();
-
-private:
-
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
-};
-
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+    _currentIndex = index;
+    
+    Q_EMIT currentIndexChanged(_currentIndex);
+}

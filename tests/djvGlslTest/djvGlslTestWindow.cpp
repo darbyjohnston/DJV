@@ -29,38 +29,79 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestWindow.cpp
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#include <djvGlslTestWindow.h>
 
+#include <djvGlslTestImageLoad.h>
+#include <djvGlslTestPlayback.h>
+#include <djvGlslTestPlaybackWidget.h>
+
+#include <djvGlslTestContext.h>
 #include <djvGlslTestOp.h>
+#include <djvGlslTestOpManager.h>
+
+#include <djvImageView.h>
 
 #include <djvImage.h>
-#include <djvOpenGlWidget.h>
+
+#include <QSplitter>
+#include <QStackedWidget>
+#include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestWindow
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+djvGlslTestWindow::djvGlslTestWindow(
+    djvGlslTestImageLoad * imageLoad,
+    djvGlslTestOpManager * opManager,
+    djvGlslTestPlayback *  playback,
+    djvGlslTestContext *   context,
+    QWidget *              parent) :
+    QWidget(parent),
+    _imageLoad     (imageLoad),
+    _opManager     (opManager),
+    _playback      (playback),
+    _view          (0),
+    _playbackWidget(0),
+    _stackWidget   (0),
+    _splitter      (0)
 {
-public:
-
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    _view = new djvImageView(context);
     
-protected:
+    _playbackWidget = new djvGlslTestPlaybackWidget(playback, context);
+    
+    _stackWidget = new QStackedWidget;
+    Q_FOREACH(djvGlslTestOp * op, opManager->list())
+        _stackWidget->addWidget(op);
+    
+    _splitter = new QSplitter;
+    _splitter->addWidget(_stackWidget);
+    _splitter->addWidget(_view);
+    
+    QVBoxLayout * layout = new QVBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->addWidget(_splitter, 1);
+    layout->addWidget(_playbackWidget);
 
-    virtual void paintGL();
+    _view->setData(imageLoad->image(playback->frame()));
+    
+    connect(
+        playback,
+        SIGNAL(frameChanged(qint64)),
+        SLOT(frameCallback(qint64)));
+}
 
-private:
+void djvGlslTestWindow::setImage(djvImage * image)
+{
+    _view->setData(image);
+    _view->updateGL();
+}
 
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
-};
-
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+void djvGlslTestWindow::frameCallback(qint64 frame)
+{
+    _view->setData(_imageLoad->image(frame));
+    _view->updateGL();
+}

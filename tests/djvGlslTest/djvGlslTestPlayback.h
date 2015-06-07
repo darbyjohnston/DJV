@@ -29,38 +29,81 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestPlayback.h
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#ifndef DJV_GLSL_TEST_PLAYBACK_H
+#define DJV_GLSL_TEST_PLAYBACK_H
 
-#include <djvGlslTestOp.h>
+#include <djvSpeed.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <QObject>
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestPlayback
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+class djvGlslTestPlayback : public QObject
 {
+    Q_OBJECT
+    Q_ENUMS(PLAYBACK)
+    
 public:
 
-    explicit djvGlslTestWidget(djvGuiContext *);
+    enum PLAYBACK
+    {
+        REVERSE,
+        STOP,
+        FORWARD
+    };
+    
+    explicit djvGlslTestPlayback(QObject * parent = 0);
+    
+    virtual ~djvGlslTestPlayback();
 
-    void set(djvGlslTestOp *, const djvImage *);
+    qint64 start() const;
+    
+    qint64 end() const;
+    
+    qint64 frame() const;
+
+    const djvSpeed & speed() const;
+
+    PLAYBACK playback() const;
+    
+public Q_SLOTS:
+
+    void setPlayback(djvGlslTestPlayback::PLAYBACK);
+    
+    void setRange(qint64 start, qint64 end);
+    
+    void setFrame(qint64);
+    
+    void setSpeed(const djvSpeed &);
+    
+Q_SIGNALS:
+
+    void playbackChanged(djvGlslTestPlayback::PLAYBACK);
+    
+    void rangeChanged(qint64 start, qint64 end);
+    
+    void frameChanged(qint64);
+    
+    void speedChanged(const djvSpeed &);
     
 protected:
 
-    virtual void paintGL();
-
+    virtual void timerEvent(QTimerEvent *);
+    
 private:
 
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
+    void playbackUpdate();
+    
+    qint64   _start;
+    qint64   _end;
+    qint64   _frame;
+    djvSpeed _speed;
+    PLAYBACK _playback;
+    int      _timerId;
 };
 
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+#endif // DJV_GLSL_TEST_PLAYBACK_H

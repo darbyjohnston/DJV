@@ -52,7 +52,7 @@ void djvShortcutsWidgetTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvShortcutsWidget * widget = new djvShortcutsWidget;
+    djvShortcutsWidget * widget = new djvShortcutsWidget(context());
     
     QHBoxLayout * layout = new QHBoxLayout(window);
     layout->addWidget(widget);

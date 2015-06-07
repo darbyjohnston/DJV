@@ -45,6 +45,8 @@ class djvViewFrameDisplay;
 class djvViewSpeedWidget;
 class djvViewSpeedDisplay;
 
+class djvViewContext;
+
 class QComboBox;
 
 class djvViewWidgetTest : public QWidget
@@ -53,7 +55,7 @@ class djvViewWidgetTest : public QWidget
     
 public:
 
-    djvViewWidgetTest();
+    djvViewWidgetTest(djvViewContext *);
 
 private Q_SLOTS:
 
@@ -80,6 +82,7 @@ private:
     djvViewFrameDisplay * _frameDisplay;
     djvViewSpeedWidget *  _speedWidget;
     djvViewSpeedDisplay * _speedDisplay;
+    djvViewContext *      _context;
 };
 
 #endif // DJV_VIEW_WIDGET_TEST_H

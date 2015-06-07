@@ -29,38 +29,81 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestPlaybackButtons.cpp
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#include <djvGlslTestPlaybackButtons.h>
 
-#include <djvGlslTestOp.h>
+#include <djvGlslTestContext.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <djvIconLibrary.h>
+
+#include <QButtonGroup>
+#include <QHBoxLayout>
+#include <QToolButton>
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestPlaybackButtons
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+djvGlslTestPlaybackButtons::djvGlslTestPlaybackButtons(
+    djvGlslTestContext * context,
+    QWidget *            parent) :
+    QWidget(parent),
+    _playback   (djvGlslTestPlayback::STOP),
+    _buttonGroup(0)
 {
-public:
-
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    _buttonGroup = new QButtonGroup(this);
+    _buttonGroup->setExclusive(true);
     
-protected:
+    const QStringList icons = QStringList() <<
+        "djvPlayReverseIcon.png" <<
+        "djvPlayStopIcon.png" <<
+        "djvPlayForwardIcon.png";
+    
+    QHBoxLayout * layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
 
-    virtual void paintGL();
+    for (int i = 0; i < icons.count(); ++i)
+    {
+        QToolButton * button = new QToolButton;
+        button->setCheckable(true);
+        button->setIcon(context->iconLibrary()->icon(icons[i]));
+        button->setIconSize(context->iconLibrary()->defaultSize());
+        button->setAutoRaise(true);
+        
+        _buttonGroup->addButton(button, i);
 
-private:
+        layout->addWidget(button);
+    }
+    
+    _buttonGroup->buttons()[_playback]->setChecked(true);
+    
+    connect(
+        _buttonGroup,
+        SIGNAL(buttonClicked(int)),
+        SLOT(buttonCallback(int)));
+}
 
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
-};
+djvGlslTestPlayback::PLAYBACK djvGlslTestPlaybackButtons::playback() const
+{
+    return _playback;
+}
 
-#endif // DJV_GLSL_TEST_WIDGET_H
+void djvGlslTestPlaybackButtons::setPlayback(djvGlslTestPlayback::PLAYBACK playback)
+{
+    if (playback == _playback)
+        return;
+    
+    _playback = playback;
+    
+    _buttonGroup->buttons()[_playback]->setChecked(true);
+    
+    Q_EMIT playbackChanged(_playback);
+}
+
+void djvGlslTestPlaybackButtons::buttonCallback(int id)
+{
+    setPlayback(static_cast<djvGlslTestPlayback::PLAYBACK>(id));
+}
 

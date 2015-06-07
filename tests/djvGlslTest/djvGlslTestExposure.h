@@ -63,11 +63,11 @@ public:
         double gamma;
     };
 
-    djvGlslTestExposureOp();
+    explicit djvGlslTestExposureOp(djvGuiContext *);
 
-    QString name() const { return "Exposure"; }
+    virtual QString name() const { return "Exposure"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private Q_SLOTS:
 

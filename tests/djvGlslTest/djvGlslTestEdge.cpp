@@ -33,9 +33,15 @@
 
 #include <djvGlslTestEdge.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
 
-djvGlslTestEdgeOp::djvGlslTestEdgeOp() :
+//------------------------------------------------------------------------------
+// djvGlslTestEdgeOp
+//------------------------------------------------------------------------------
+
+djvGlslTestEdgeOp::djvGlslTestEdgeOp(djvGuiContext * context) :
+    djvGlslTestOp(context),
     _init(false)
 {}
 

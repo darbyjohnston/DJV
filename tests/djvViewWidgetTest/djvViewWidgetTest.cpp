@@ -33,9 +33,9 @@
 
 #include <djvViewWidgetTest.h>
 
+#include <djvViewContext.h>
 #include <djvViewMiscWidget.h>
 
-#include <djvApplication.h>
 #include <djvIconLibrary.h>
 #include <djvTimePrefs.h>
 #include <djvToolButton.h>
@@ -44,10 +44,11 @@
 #include <djvSignalBlocker.h>
 #include <djvTime.h>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QFormLayout>
 
-djvViewWidgetTest::djvViewWidgetTest() :
+djvViewWidgetTest::djvViewWidgetTest(djvViewContext * context) :
     _frame          (0),
     _inOutEnabled   (true),
     _inPoint        (100),
@@ -62,28 +63,29 @@ djvViewWidgetTest::djvViewWidgetTest() :
     _frameSlider    (0),
     _frameDisplay   (0),
     _speedWidget    (0),
-    _speedDisplay   (0)
+    _speedDisplay   (0),
+    _context        (context)
 {
     _timeUnitsWidget = new QComboBox;
     _timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _timeUnitsWidget->addItems(djvTime::unitsLabels());
     
-    _frameWidget = new djvViewFrameWidget;
+    _frameWidget = new djvViewFrameWidget(context);
     
-    _frameSlider = new djvViewFrameSlider;
+    _frameSlider = new djvViewFrameSlider(context);
 
     djvToolButton * markInPointButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvInPointMarkIcon.png"));
+        context->iconLibrary()->icon("djvInPointMarkIcon.png"));
     djvToolButton * markOutPointButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvOutPointMarkIcon.png"));
+        context->iconLibrary()->icon("djvOutPointMarkIcon.png"));
     djvToolButton * resetInPointButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvInPointResetIcon.png"));
+        context->iconLibrary()->icon("djvInPointResetIcon.png"));
     djvToolButton * resetOutPointButton = new djvToolButton(
-        djvIconLibrary::global()->icon("djvOutPointResetIcon.png"));
+        context->iconLibrary()->icon("djvOutPointResetIcon.png"));
 
-    _frameDisplay = new djvViewFrameDisplay;
+    _frameDisplay = new djvViewFrameDisplay(context);
     
-    _speedWidget = new djvViewSpeedWidget;
+    _speedWidget = new djvViewSpeedWidget(context);
     
     _speedDisplay = new djvViewSpeedDisplay;
     
@@ -153,7 +155,7 @@ djvViewWidgetTest::djvViewWidgetTest() :
 
 void djvViewWidgetTest::timeUnitsCallback(int index)
 {
-    djvTimePrefs::global()->setTimeUnits(static_cast<djvTime::UNITS>(index));
+    _context->timePrefs()->setTimeUnits(static_cast<djvTime::UNITS>(index));
 }
 
 void djvViewWidgetTest::frameCallback(qint64 frame)
@@ -196,7 +198,7 @@ void djvViewWidgetTest::widgetUpdate()
         _frameWidget <<
         _frameSlider);
     
-    _timeUnitsWidget->setCurrentIndex(djvTimePrefs::global()->timeUnits());
+    _timeUnitsWidget->setCurrentIndex(_context->timePrefs()->timeUnits());
     
     _frameWidget->setFrameList(_frameList);
     _frameWidget->setSpeed(_speed);
@@ -217,9 +219,17 @@ void djvViewWidgetTest::widgetUpdate()
 
 int main(int argc, char ** argv)
 {
-    djvApplication app("djvViewWidgetTest", argc, argv);
+    QApplication app(argc, argv);
     
-    (new djvViewWidgetTest)->show();
+#   if QT_VERSION < 0x050000
+    app.setStyle(new QPlastiqueStyle);
+#   else
+    app.setStyle("fusion");
+#   endif
+    
+    djvViewContext context;
+    
+    (new djvViewWidgetTest(&context))->show();
     
     return app.exec();
 }

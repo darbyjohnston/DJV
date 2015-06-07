@@ -29,24 +29,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationInfoDialogTest.cpp
+//! \file djvGlslTestImageLoad.h
 
-#include <djvApplicationInfoDialogTest.h>
+#ifndef DJV_GLSL_TEST_IMAGE_LOAD_H
+#define DJV_GLSL_TEST_IMAGE_LOAD_H
 
-#include <djvApplication.h>
-#include <djvApplicationInfoDialog.h>
+#include <djvImage.h>
+#include <djvImageIo.h>
 
-djvApplicationInfoDialogTest::djvApplicationInfoDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
-{}
+#include <QObject>
 
-QString djvApplicationInfoDialogTest::name()
+class djvGlslTestContext;
+
+//------------------------------------------------------------------------------
+// djvGlslTestImageLoad
+//------------------------------------------------------------------------------
+
+class djvGlslTestImageLoad : public QObject
 {
-    return "djvApplicationInfoDialogTest";
-}
+    Q_OBJECT
 
-void djvApplicationInfoDialogTest::run(const QStringList & args)
-{
-    djvApplicationInfoDialog::global()->show();
-}
+public:
 
+    explicit djvGlslTestImageLoad(djvGlslTestContext *, QObject * parent = 0);
+    
+    void load(const djvFileInfo &) throw (djvError);
+
+    const djvImageIoInfo & info() const;
+
+    const djvImage * image(qint64 frame) const;
+    
+private:
+
+    djvGlslTestContext *         _context;
+    djvImageIoInfo               _info;
+    QScopedPointer<djvImageLoad> _load;
+    djvImage                     _image;
+};
+
+#endif // DJV_GLSL_TEST_IMAGE_LOAD_H

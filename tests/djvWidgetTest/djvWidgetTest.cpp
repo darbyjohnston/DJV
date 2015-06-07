@@ -33,14 +33,14 @@
 
 #include <djvWidgetTest.h>
 
-#include <djvApplicationAboutDialogTest.h>
-#include <djvApplicationInfoDialogTest.h>
+#include <djvAboutDialogTest.h>
 #include <djvChoiceDialogTest.h>
 #include <djvColorWidgetTest.h>
 #include <djvColorDialogTest.h>
 #include <djvFileBrowserTest.h>
 #include <djvFileEditTest.h>
 #include <djvIconLibraryTest.h>
+#include <djvInfoDialogTest.h>
 #include <djvInputDialogTest.h>
 #include <djvIntSliderTest.h>
 #include <djvMessageDialogTest.h>
@@ -107,12 +107,12 @@ QVariant djvWidgetTestModel::data(const QModelIndex & index, int role) const
     return QVariant();
 }
 
-djvWidgetTestWindow::djvWidgetTestWindow(djvWidgetTestModel * model) :
+djvWidgetTestWindow::djvWidgetTestWindow(djvWidgetTestModel * model, djvGuiContext * context) :
     _model     (model),
     _proxyModel(0),
     _listView  (0)
 {
-    djvSearchBox * searchBox = new djvSearchBox;
+    djvSearchBox * searchBox = new djvSearchBox(context);
     
     _listView = new QListView;
     
@@ -166,23 +166,28 @@ void djvWidgetTestWindow::runCallback()
 }
 
 djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
-    djvApplication("djvWidgetTest", argc, argv),
+    QApplication(argc, argv),
     _context(0),
     _model  (0),
     _window (0)
 {
-    _context = new djvGuiContext;
+#   if QT_VERSION < 0x050000
+    setStyle(new QPlastiqueStyle);
+#   else
+    setStyle("fusion");
+#   endif
 
-    setValid(true);
+    _context = new djvGuiContext;
+    _context->setValid(true);
     
-    _tests += new djvApplicationAboutDialogTest(_context);
-    _tests += new djvApplicationInfoDialogTest(_context);
+    _tests += new djvAboutDialogTest(_context);
     _tests += new djvChoiceDialogTest(_context);
     _tests += new djvColorWidgetTest(_context);
     _tests += new djvColorDialogTest(_context);
     _tests += new djvFileBrowserTest(_context);
     _tests += new djvFileEditTest(_context);
     _tests += new djvIconLibraryTest(_context);
+    _tests += new djvInfoDialogTest(_context);
     _tests += new djvInputDialogTest(_context);
     _tests += new djvIntSliderTest(_context);
     _tests += new djvMessageDialogTest(_context);
@@ -200,7 +205,7 @@ djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
 
     _model = new djvWidgetTestModel(_tests);
     
-    _window = new djvWidgetTestWindow(_model);
+    _window = new djvWidgetTestWindow(_model, _context);
     _window->show();
     
     if (argc > 1)
@@ -239,6 +244,6 @@ djvWidgetTestApplication::~djvWidgetTestApplication()
 
 int main(int argc, char ** argv)
 {
-    return (djvWidgetTestApplication(argc, argv)).run();
+    return (djvWidgetTestApplication(argc, argv)).exec();
 }
 

@@ -52,7 +52,7 @@ void djvSearchBoxTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvSearchBox * widget = new djvSearchBox;
+    djvSearchBox * widget = new djvSearchBox(context());
     
     QHBoxLayout * layout = new QHBoxLayout(window);
     layout->addWidget(widget);

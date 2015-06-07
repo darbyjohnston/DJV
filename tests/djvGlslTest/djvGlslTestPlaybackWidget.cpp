@@ -29,38 +29,57 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestPlaybackWidget.cpp
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#include <djvGlslTestPlaybackWidget.h>
 
-#include <djvGlslTestOp.h>
+#include <djvGlslTestContext.h>
+#include <djvGlslTestPlaybackButtons.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <djvIntEditSlider.h>
+
+#include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestPlaybackWidget
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+djvGlslTestPlaybackWidget::djvGlslTestPlaybackWidget(
+    djvGlslTestPlayback * playback,
+    djvGlslTestContext *  context,
+    QWidget *             parent) :
+    QWidget(parent),
+    _playback(playback),
+    _buttons(0),
+    _slider (0)
 {
-public:
-
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    _buttons = new djvGlslTestPlaybackButtons(context);
     
-protected:
+    _slider = new djvIntEditSlider(context);
+    
+    QHBoxLayout * layout = new QHBoxLayout(this);
+    layout->setMargin(5);
+    layout->setSpacing(5);
+    layout->addWidget(_buttons);
+    layout->addWidget(_slider);
+    
+    _buttons->setPlayback(playback->playback());
+    
+    _slider->setRange(playback->start(), playback->end());
+    _slider->setValue(playback->frame());
+    
+    _playback->connect(
+        _buttons,
+        SIGNAL(playbackChanged(djvGlslTestPlayback::PLAYBACK)),
+        SLOT(setPlayback(djvGlslTestPlayback::PLAYBACK)));
+    
+    connect(
+        _slider,
+        SIGNAL(valueChanged(int)),
+        SLOT(sliderCallback(int)));
+}
 
-    virtual void paintGL();
-
-private:
-
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
-};
-
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+void djvGlslTestPlaybackWidget::sliderCallback(int value)
+{
+    _playback->setFrame(value);
+}

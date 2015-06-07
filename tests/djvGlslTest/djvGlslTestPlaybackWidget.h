@@ -29,38 +29,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestPlaybackWidget.h
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#ifndef DJV_GLSL_TEST_PLAYBACK_WIDGET_H
+#define DJV_GLSL_TEST_PLAYBACK_WIDGET_H
 
-#include <djvGlslTestOp.h>
+#include <djvGlslTestPlayback.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <QWidget>
+
+class djvGlslTestContext;
+class djvGlslTestPlayback;
+class djvGlslTestPlaybackButtons;
+
+class djvIntEditSlider;
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestPlaybackWidget
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+class djvGlslTestPlaybackWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
 
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    explicit djvGlslTestPlaybackWidget(
+        djvGlslTestPlayback *,
+        djvGlslTestContext *,
+        QWidget *             parent = 0);
     
-protected:
+private Q_SLOTS:
 
-    virtual void paintGL();
-
+    void sliderCallback(int);
+    
 private:
-
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
+    
+    djvGlslTestPlayback *        _playback;
+    djvGlslTestPlaybackButtons * _buttons;
+    djvIntEditSlider *           _slider;
 };
 
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+#endif // DJV_GLSL_TEST_PLAYBACK_WIDGET_H

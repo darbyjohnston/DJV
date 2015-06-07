@@ -35,37 +35,43 @@
 
 #include <djvFloatEditSlider.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
 
 #include <QGroupBox>
 #include <QVBoxLayout>
 
-djvGlslTestExposureOp::djvGlslTestExposureOp() :
+//------------------------------------------------------------------------------
+// djvGlslTestExposureOp
+//------------------------------------------------------------------------------
+
+djvGlslTestExposureOp::djvGlslTestExposureOp(djvGuiContext * context) :
+    djvGlslTestOp(context),
     _init(false)
 {
     // Create the widgets.
 
     QGroupBox * exposureGroup = new QGroupBox("Exposure");
-    djvFloatEditSlider * exposure = new djvFloatEditSlider;
+    djvFloatEditSlider * exposure = new djvFloatEditSlider(context);
     exposure->setRange(-10.0, 10.0);
     exposure->setDefaultValue(0.0);
     
     QGroupBox * defogGroup = new QGroupBox("Defog");
-    djvFloatEditSlider * defog = new djvFloatEditSlider;
+    djvFloatEditSlider * defog = new djvFloatEditSlider(context);
     defog->setRange(0.0, 0.01);
     defog->setDefaultValue(0.0);
     
     QGroupBox * kneeGroup = new QGroupBox("Knee");
-    djvFloatEditSlider * kneeLow = new djvFloatEditSlider;
+    djvFloatEditSlider * kneeLow = new djvFloatEditSlider(context);
     kneeLow->setRange(-3.0, 3.0);
     kneeLow->setDefaultValue(0.0);
     
-    djvFloatEditSlider * kneeHigh = new djvFloatEditSlider;
+    djvFloatEditSlider * kneeHigh = new djvFloatEditSlider(context);
     kneeHigh->setRange(3.5, 7.5);
     kneeHigh->setDefaultValue(3.5);
     
     QGroupBox * gammaGroup = new QGroupBox("Gamma");
-    djvFloatEditSlider * gamma = new djvFloatEditSlider;
+    djvFloatEditSlider * gamma = new djvFloatEditSlider(context);
     gamma->setRange(0.1, 4.0);
     gamma->setDefaultValue(1.0);
 

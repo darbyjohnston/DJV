@@ -35,10 +35,15 @@
 
 #include <djvFloatEditSlider.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
 
 #include <QGroupBox>
 #include <QVBoxLayout>
+
+//------------------------------------------------------------------------------
+// djvGlslTestLevelsOp
+//------------------------------------------------------------------------------
 
 djvGlslTestLevelsOp::State::State() :
     _init(false)
@@ -56,33 +61,34 @@ bool djvGlslTestLevelsOp::State::operator != (const State & in) const
         ! _init;
 }
 
-djvGlslTestLevelsOp::djvGlslTestLevelsOp()
+djvGlslTestLevelsOp::djvGlslTestLevelsOp(djvGuiContext * context) :
+    djvGlslTestOp(context)
 {
     // Create the widgets.
 
     QGroupBox * inputGroup = new QGroupBox("Input");
-    djvFloatEditSlider * inputMin = new djvFloatEditSlider;
+    djvFloatEditSlider * inputMin = new djvFloatEditSlider(context);
     inputMin->setRange(0.0, 1.0);
     inputMin->setDefaultValue(0.0);
-    djvFloatEditSlider * inputMax = new djvFloatEditSlider;
+    djvFloatEditSlider * inputMax = new djvFloatEditSlider(context);
     inputMax->setRange(0.0, 1.0);
     inputMax->setDefaultValue(1.0);
     
     QGroupBox * gammaGroup = new QGroupBox("Gamma");
-    djvFloatEditSlider * gamma = new djvFloatEditSlider;
+    djvFloatEditSlider * gamma = new djvFloatEditSlider(context);
     gamma->setRange(0.0, 4.0);
     gamma->setDefaultValue(1.0);
     
     QGroupBox * outputGroup = new QGroupBox("Output");
-    djvFloatEditSlider * outputMin = new djvFloatEditSlider;
+    djvFloatEditSlider * outputMin = new djvFloatEditSlider(context);
     outputMin->setRange(0.0, 1.0);
     outputMin->setDefaultValue(0.0);
-    djvFloatEditSlider * outputMax = new djvFloatEditSlider;
+    djvFloatEditSlider * outputMax = new djvFloatEditSlider(context);
     outputMax->setRange(0.0, 1.0);
     outputMax->setDefaultValue(1.0);
     
     QGroupBox * softClipGroup = new QGroupBox("Soft Clip");
-    djvFloatEditSlider * softClip = new djvFloatEditSlider;
+    djvFloatEditSlider * softClip = new djvFloatEditSlider(context);
     softClip->setRange(0.0, 1.0);
     softClip->setDefaultValue(0.0);
 

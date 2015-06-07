@@ -29,23 +29,34 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvApplicationAboutDialogTest.cpp
+//! \file djvGlslTestContext.cpp
 
-#include <djvApplicationAboutDialogTest.h>
+#include <djvGlslTestContext.h>
 
-#include <djvApplicationAboutDialog.h>
+//------------------------------------------------------------------------------
+// djvGlslTestContext
+//------------------------------------------------------------------------------
 
-djvApplicationAboutDialogTest::djvApplicationAboutDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+djvGlslTestContext::djvGlslTestContext(QObject * parent) :
+    djvGuiContext(parent)
 {}
 
-QString djvApplicationAboutDialogTest::name()
+const djvFileInfo & djvGlslTestContext::fileInfo() const
 {
-    return "djvApplicationAboutDialogTest";
+    return _fileInfo;
 }
 
-void djvApplicationAboutDialogTest::run(const QStringList & args)
+bool djvGlslTestContext::commandLine(int & argc, char ** argv)
 {
-    djvApplicationAboutDialog::global()->show();
+    if (argc != 2)
+    {
+        printMessage("Usage: djvGlslTest (image)");
+        
+        return false;
+    }
+    
+    _fileInfo = djvFileInfo(argv[1]);
+    
+    return true;
 }
 

@@ -55,11 +55,11 @@ public:
         double value;
     };
 
-    djvGlslTestSharpenOp();
+    explicit djvGlslTestSharpenOp(djvGuiContext *);
 
-    QString name() const { return "Sharpen"; }
+    virtual QString name() const { return "Sharpen"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private Q_SLOTS:
 

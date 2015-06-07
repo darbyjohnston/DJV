@@ -59,11 +59,11 @@ public:
         double saturation;
     };
 
-    djvGlslTestColorOp();
+    explicit djvGlslTestColorOp(djvGuiContext *);
 
-    QString name() const { return "Color"; }
+    virtual QString name() const { return "Color"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private Q_SLOTS:
 

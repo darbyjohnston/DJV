@@ -48,7 +48,7 @@ QString djvFileBrowserTest::name()
 
 void djvFileBrowserTest::run(const QStringList & args)
 {
-    djvFileBrowser fileBrowser;
+    djvFileBrowser fileBrowser(context());
 
     if (args.count() > 0)
     {

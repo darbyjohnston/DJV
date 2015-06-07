@@ -72,7 +72,7 @@ public:
 
     //! Parse the command line.
 
-    bool commandLine(int & argc, char ** argv);
+    virtual bool commandLine(int & argc, char ** argv);
     
     //! Get the documentation URL.
     

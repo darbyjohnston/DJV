@@ -29,38 +29,24 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvAboutDialogTest.cpp
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#include <djvAboutDialogTest.h>
 
-#include <djvGlslTestOp.h>
+#include <djvAboutDialog.h>
+#include <djvGuiContext.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+djvAboutDialogTest::djvAboutDialogTest(djvGuiContext * context) :
+    djvWidgetTest(context)
+{}
 
-//------------------------------------------------------------------------------
-// djvGlslTestWidget
-//------------------------------------------------------------------------------
-
-class djvGlslTestWidget : public djvOpenGlWidget
+QString djvAboutDialogTest::name()
 {
-public:
+    return "djvAboutDialogTest";
+}
 
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
-    
-protected:
-
-    virtual void paintGL();
-
-private:
-
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
-};
-
-#endif // DJV_GLSL_TEST_WIDGET_H
+void djvAboutDialogTest::run(const QStringList & args)
+{
+    context()->aboutDialog()->show();
+}
 

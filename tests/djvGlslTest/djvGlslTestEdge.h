@@ -44,11 +44,11 @@ class djvGlslTestEdgeOp : public djvGlslTestOp
 {
 public:
 
-    djvGlslTestEdgeOp();
+    explicit djvGlslTestEdgeOp(djvGuiContext *);
 
-    QString name() const { return "Edge"; }
+    virtual QString name() const { return "Edge"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private:
 

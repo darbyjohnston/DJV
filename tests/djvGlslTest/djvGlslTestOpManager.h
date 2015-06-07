@@ -29,38 +29,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestWidget.h
+//! \file djvGlslTestOpManager.h
 
-#ifndef DJV_GLSL_TEST_WIDGET_H
-#define DJV_GLSL_TEST_WIDGET_H
+#ifndef DJV_GLSL_TEST_OP_MANAGER_H
+#define DJV_GLSL_TEST_OP_MANAGER_H
 
-#include <djvGlslTestOp.h>
+#include <djvSpeed.h>
 
-#include <djvImage.h>
-#include <djvOpenGlWidget.h>
+#include <QObject>
+
+class djvGlslTestContext;
+class djvGlslTestOp;
 
 //------------------------------------------------------------------------------
-// djvGlslTestWidget
+// djvGlslTestOpManager
 //------------------------------------------------------------------------------
 
-class djvGlslTestWidget : public djvOpenGlWidget
+class djvGlslTestOpManager : public QObject
 {
+    Q_OBJECT
+    
 public:
 
-    explicit djvGlslTestWidget(djvGuiContext *);
-
-    void set(djvGlslTestOp *, const djvImage *);
+    explicit djvGlslTestOpManager(djvGlslTestContext *, QObject * parent = 0);
     
-protected:
+    virtual ~djvGlslTestOpManager();
 
-    virtual void paintGL();
+    const QList<djvGlslTestOp *> list() const;
+    
+    int currentIndex() const;
+    
+    djvGlslTestOp * currentOp() const;
+    
+public Q_SLOTS:
+
+    void setCurrentIndex(int);
+    
+Q_SIGNALS:
+
+    void currentIndexChanged(int);
 
 private:
 
-    djvGlslTestOp *  _op;
-    const djvImage * _image;
-    djvGuiContext *  _context;
+    QList<djvGlslTestOp *> _list;
+    int                    _currentIndex;
 };
 
-#endif // DJV_GLSL_TEST_WIDGET_H
-
+#endif // DJV_GLSL_TEST_OP_MANAGER_H

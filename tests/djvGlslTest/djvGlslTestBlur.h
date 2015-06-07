@@ -90,11 +90,11 @@ public:
         bool  _init;
     };
 
-    djvGlslTestBlurOp();
+    explicit djvGlslTestBlurOp(djvGuiContext *);
 
-    QString name() const { return "Blur"; }
+    virtual QString name() const { return "Blur"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private Q_SLOTS:
 

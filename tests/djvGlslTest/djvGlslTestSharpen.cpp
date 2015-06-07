@@ -35,18 +35,24 @@
 
 #include <djvFloatEditSlider.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
 
 #include <QGroupBox>
 #include <QVBoxLayout>
 
-djvGlslTestSharpenOp::djvGlslTestSharpenOp() :
+//------------------------------------------------------------------------------
+// djvGlslTestSharpenOp
+//------------------------------------------------------------------------------
+
+djvGlslTestSharpenOp::djvGlslTestSharpenOp(djvGuiContext * context) :
+    djvGlslTestOp(context),
     _init(false)
 {
     // Create the widgets.
 
     QGroupBox * valueGroup = new QGroupBox("Value");
-    djvFloatEditSlider * value = new djvFloatEditSlider;
+    djvFloatEditSlider * value = new djvFloatEditSlider(context);
     value->setRange(0.0, 2.0);
     value->setDefaultValue(1.0);
 

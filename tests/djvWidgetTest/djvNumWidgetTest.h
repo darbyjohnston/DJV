@@ -60,7 +60,7 @@ class djvNumWidgetTestWidget : public QWidget
 
 public:
 
-    djvNumWidgetTestWidget();
+    djvNumWidgetTestWidget(djvGuiContext *);
     
 private Q_SLOTS:
 

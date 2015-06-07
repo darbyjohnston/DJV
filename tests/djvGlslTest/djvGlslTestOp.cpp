@@ -33,10 +33,24 @@
 
 #include <djvGlslTestOp.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
+
+//------------------------------------------------------------------------------
+// djvGlslTestOp
+//------------------------------------------------------------------------------
+
+djvGlslTestOp::djvGlslTestOp(djvGuiContext * context) :
+    _context(context)
+{}
 
 djvGlslTestOp::~djvGlslTestOp()
 {}
+
+djvGuiContext * djvGlslTestOp::context() const
+{
+    return _context;
+}
 
 void djvGlslTestOp::begin()
 {
@@ -59,7 +73,12 @@ void djvGlslTestOp::end()
     djvGlslTestShader::unbind();
 }
 
-djvGlslTestNullOp::djvGlslTestNullOp() :
+//------------------------------------------------------------------------------
+// djvGlslTestNullOp
+//------------------------------------------------------------------------------
+
+djvGlslTestNullOp::djvGlslTestNullOp(djvGuiContext * context) :
+    djvGlslTestOp(context),
     _init(false)
 {}
 

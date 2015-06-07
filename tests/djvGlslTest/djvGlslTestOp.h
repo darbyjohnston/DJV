@@ -36,9 +36,11 @@
 
 #include <djvGlslTestUtil.h>
 
-#include <djvImage.h>
-
 #include <QWidget>
+
+class djvImage;
+
+class djvGuiContext;
 
 //------------------------------------------------------------------------------
 // djvGlslTestOp
@@ -50,11 +52,15 @@ class djvGlslTestOp : public QWidget
     
 public:
 
+    explicit djvGlslTestOp(djvGuiContext *);
+    
     virtual ~djvGlslTestOp();
 
     virtual QString name() const = 0;
 
     virtual void render(const djvImage &) throw (djvError) = 0;
+
+    djvGuiContext * context() const;
 
 Q_SIGNALS:
 
@@ -66,6 +72,7 @@ protected:
     void end();
 
     djvGlslTestTexture _texture;
+    djvGuiContext *    _context;
 };
 
 //------------------------------------------------------------------------------
@@ -76,11 +83,11 @@ class djvGlslTestNullOp : public djvGlslTestOp
 {
 public:
 
-    djvGlslTestNullOp();
+    explicit djvGlslTestNullOp(djvGuiContext *);
 
-    QString name() const { return "Null"; }
+    virtual QString name() const { return "Null"; }
 
-    void render(const djvImage &) throw (djvError);
+    virtual void render(const djvImage &) throw (djvError);
 
 private:
 

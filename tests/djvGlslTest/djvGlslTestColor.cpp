@@ -35,32 +35,34 @@
 
 #include <djvFloatEditSlider.h>
 
+#include <djvImage.h>
 #include <djvOpenGlImage.h>
 #include <djvMatrixUtil.h>
 
 #include <QGroupBox>
 #include <QVBoxLayout>
 
-djvGlslTestColorOp::djvGlslTestColorOp() :
+djvGlslTestColorOp::djvGlslTestColorOp(djvGuiContext * context) :
+    djvGlslTestOp(context),
     _init(false)
 {
     // Create the widgets.
     
     QGroupBox * brightnessGroup = new QGroupBox("Brightness");
     
-    djvFloatEditSlider * brightness = new djvFloatEditSlider;
+    djvFloatEditSlider * brightness = new djvFloatEditSlider(context);
     brightness->setRange(0.0, 5.0);
     brightness->setDefaultValue(1.0);
     
     QGroupBox * contrastGroup = new QGroupBox("Contrast");
 
-    djvFloatEditSlider * contrast = new djvFloatEditSlider;
+    djvFloatEditSlider * contrast = new djvFloatEditSlider(context);
     contrast->setRange(0.0, 5.0);
     contrast->setDefaultValue(1.0);
     
     QGroupBox * saturationGroup = new QGroupBox("Saturation");
 
-    djvFloatEditSlider * saturation = new djvFloatEditSlider;
+    djvFloatEditSlider * saturation = new djvFloatEditSlider(context);
     saturation->setRange(0.0, 5.0);
     saturation->setDefaultValue(1.0);
 

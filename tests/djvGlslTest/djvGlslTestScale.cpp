@@ -35,11 +35,17 @@
 
 #include <djvIntEditSlider.h>
 
+#include <djvImage.h>
+
 #include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QVBoxLayout>
+
+//------------------------------------------------------------------------------
+// djvGlslTestScaleOp
+//------------------------------------------------------------------------------
 
 const QStringList & djvGlslTestScaleOp::typeLabels()
 {
@@ -113,13 +119,14 @@ bool djvGlslTestScaleOp::StateCustom::operator != (const StateCustom & in)
         ! _init;
 }
 
-djvGlslTestScaleOp::djvGlslTestScaleOp()
+djvGlslTestScaleOp::djvGlslTestScaleOp(djvGuiContext * context) :
+    djvGlslTestOp(context)
 {
     // Create the widgets.
 
     QGroupBox * sizeGroup = new QGroupBox("Size");
-    djvIntEditSlider * width = new djvIntEditSlider;
-    djvIntEditSlider * height = new djvIntEditSlider;
+    djvIntEditSlider * width = new djvIntEditSlider(context);
+    djvIntEditSlider * height = new djvIntEditSlider(context);
 
     QGroupBox * filterGroup = new QGroupBox("Filter");
     
