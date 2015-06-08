@@ -38,7 +38,7 @@
 #include <djvSystem.h>
 
 djvFileBrowserTest::djvFileBrowserTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvFileBrowserTest::name()

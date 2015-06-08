@@ -31,11 +31,11 @@
 
 //! \file djvColorWidgetTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
 #include <djvColor.h>
 
-class djvColorWidgetTest : public djvWidgetTest
+class djvColorWidgetTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

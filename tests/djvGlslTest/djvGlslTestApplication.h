@@ -36,17 +36,11 @@
 
 #include <djvGlslTestContext.h>
 #include <djvGlslTestImageLoad.h>
-#include <djvGlslTestOpManager.h>
+#include <djvGlslTestMainWindow.h>
+#include <djvGlslTestOpsManager.h>
 #include <djvGlslTestPlayback.h>
-#include <djvGlslTestWindow.h>
 
 #include <QApplication>
-
-class djvGlslTestOp;
-class djvGlslTestWidget;
-
-class djvIntSlider;
-class djvToolButton;
 
 //------------------------------------------------------------------------------
 // djvGlslTestApplication
@@ -64,37 +58,14 @@ private Q_SLOTS:
 
     void commandLineExit();
     void work();
-    /*void playCallback(bool);
-    void frameCallback(int);
-    void currentImageOpCallback(int);
-    void updateCallback();*/
 
 private:
 
-    /*void playUpdate();
-    void frameUpdate();
-    void update();*/
-
-    QScopedPointer<djvGlslTestContext>   _context;
-    QScopedPointer<djvGlslTestImageLoad> _imageLoad;
-    QScopedPointer<djvGlslTestOpManager> _opManager;
-    QScopedPointer<djvGlslTestPlayback>  _playback;
-    QScopedPointer<djvGlslTestWindow>    _window;
-    
-    djvImage _image;
-    
-    /*QScopedPointer<djvImageLoad>  _imageLoad;
-    djvImageIoInfo                _imageLoadInfo;
-    djvImage                      _image;
-    bool                          _play;
-    int                           _frame;
-    int                           _timerId;
-    QVector<djvGlslTestOp *>      _imageOpList;
-    int                           _currentImageOp;
-    QWidget *                     _window;
-    djvGlslTestWidget *           _view;
-    djvToolButton *               _playWidget;
-    djvIntSlider *                _slider;*/
+    QScopedPointer<djvGlslTestContext>    _context;
+    QScopedPointer<djvGlslTestImageLoad>  _imageLoad;
+    QScopedPointer<djvGlslTestOpsManager> _opsManager;
+    QScopedPointer<djvGlslTestPlayback>   _playback;
+    QScopedPointer<djvGlslTestMainWindow> _mainWindow;
 };
 
 #endif // DJV_GLSL_TEST_APPLICATION_H

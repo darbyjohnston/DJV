@@ -31,11 +31,9 @@
 
 //! \file djvColorDialogTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-#include <djvColor.h>
-
-class djvColorDialogTest : public djvWidgetTest
+class djvColorDialogTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

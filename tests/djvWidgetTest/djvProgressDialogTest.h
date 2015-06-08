@@ -31,9 +31,9 @@
 
 //! \file djvProgressDialogTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvProgressDialogTest : public djvWidgetTest
+class djvProgressDialogTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

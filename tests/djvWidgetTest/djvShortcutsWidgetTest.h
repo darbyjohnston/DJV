@@ -31,11 +31,11 @@
 
 //! \file djvShortcutsWidgetTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
 #include <djvShortcut.h>
 
-class djvShortcutsWidgetTest : public djvWidgetTest
+class djvShortcutsWidgetTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

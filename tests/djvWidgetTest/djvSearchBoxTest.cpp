@@ -40,7 +40,7 @@
 #include <QHBoxLayout>
 
 djvSearchBoxTest::djvSearchBoxTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvSearchBoxTest::name()

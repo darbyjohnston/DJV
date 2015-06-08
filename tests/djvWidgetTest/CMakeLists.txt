@@ -1,4 +1,5 @@
 set(header
+    djvAbstractWidgetTest.h
     djvAboutDialogTest.h
     djvChoiceDialogTest.h
     djvColorWidgetTest.h
@@ -22,9 +23,14 @@ set(header
     djvShortcutsWidgetTest.h
     djvToolButtonTest.h
     djvVectorWidgetTest.h
-    djvWidgetTest.h)
+    djvViewWidgetTest.h
+    djvWidgetTestApplication.h
+    djvWidgetTestModel.h
+    djvWidgetTestManager.h
+    djvWidgetTestWindow.h)
 
 set(mocHeader
+    djvAbstractWidgetTest.h
     djvAboutDialogTest.h
     djvChoiceDialogTest.h
     djvColorDialogTest.h
@@ -47,9 +53,14 @@ set(mocHeader
     djvShortcutsWidgetTest.h
     djvToolButtonTest.h
     djvVectorWidgetTest.h
-    djvWidgetTest.h)
+    djvViewWidgetTest.h
+    djvWidgetTestApplication.h
+    djvWidgetTestModel.h
+    djvWidgetTestManager.h
+    djvWidgetTestWindow.h)
 
 set(source
+    djvAbstractWidgetTest.cpp
     djvAboutDialogTest.cpp
     djvChoiceDialogTest.cpp
     djvColorWidgetTest.cpp
@@ -72,7 +83,11 @@ set(source
     djvShortcutsWidgetTest.cpp
     djvToolButtonTest.cpp
     djvVectorWidgetTest.cpp
-    djvWidgetTest.cpp)
+    djvViewWidgetTest.cpp
+    djvWidgetTestApplication.cpp
+    djvWidgetTestModel.cpp
+    djvWidgetTestManager.cpp
+    djvWidgetTestWindow.cpp)
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})
@@ -82,11 +97,12 @@ endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvWidgetTest
+    ${CMAKE_SOURCE_DIR}/lib/djvViewLib
     ${djvGuiIncludeDirs})
 
 add_executable(djvWidgetTest ${header} ${source} ${mocSource})
 
-target_link_libraries(djvWidgetTest ${djvGuiLibs})
+target_link_libraries(djvWidgetTest ${djvGuiLibs} djvViewLib)
 
 set_target_properties(djvWidgetTest PROPERTIES FOLDER tests)
 

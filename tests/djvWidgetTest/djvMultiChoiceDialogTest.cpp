@@ -39,7 +39,7 @@
 #include <djvStringUtil.h>
 
 djvMultiChoiceDialogTest::djvMultiChoiceDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvMultiChoiceDialogTest::name()

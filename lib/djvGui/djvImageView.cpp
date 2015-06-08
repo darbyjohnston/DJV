@@ -124,11 +124,6 @@ bool djvImageView::hasViewFit() const
     return _p->viewFit;
 }
 
-void djvImageView::updateGL()
-{
-    djvOpenGlWidget::updateGL();
-}
-
 QSize djvImageView::sizeHint() const
 {
     return QSize(200, 200);
@@ -314,7 +309,7 @@ void djvImageView::paintGL()
 
 djvBox2f djvImageView::bbox(const djvVector2i & pos, double zoom) const
 {
-    if (!_p->data)
+    if (! _p->data)
         return djvBox2f();
 
     //DJV_DEBUG("djvImageView::bbox");
@@ -327,7 +322,7 @@ djvBox2f djvImageView::bbox(const djvVector2i & pos, double zoom) const
 
     djvOpenGlImageXform xform = _p->options.xform;
     xform.position += pos;
-    xform.scale *= zoom;
+    xform.scale    *= zoom;
 
     //DJV_DEBUG_PRINT("xform = " << xform);
 

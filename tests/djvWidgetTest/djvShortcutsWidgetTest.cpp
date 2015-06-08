@@ -40,7 +40,7 @@
 #include <QHBoxLayout>
 
 djvShortcutsWidgetTest::djvShortcutsWidgetTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvShortcutsWidgetTest::name()

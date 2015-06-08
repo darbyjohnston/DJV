@@ -33,12 +33,11 @@
 
 #include <djvMessagesDialogTest.h>
 
+#include <djvGuiContext.h>
 #include <djvMessagesDialog.h>
 
-#include <djvGuiContext.h>
-
 djvMessagesDialogTest::djvMessagesDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvMessagesDialogTest::name()

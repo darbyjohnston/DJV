@@ -132,8 +132,6 @@ public:
     //! Get whether the view has been fitted.
     
     bool hasViewFit() const;
-    
-    virtual void updateGL();
 
     virtual QSize sizeHint() const;
 

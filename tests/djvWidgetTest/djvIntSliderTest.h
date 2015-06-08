@@ -31,9 +31,9 @@
 
 //! \file djvIntSliderTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvIntSliderTest : public djvWidgetTest
+class djvIntSliderTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

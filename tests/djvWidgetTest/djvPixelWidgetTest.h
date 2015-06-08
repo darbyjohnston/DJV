@@ -31,11 +31,11 @@
 
 //! \file djvPixelWidgetTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
 #include <djvPixel.h>
 
-class djvPixelWidgetTest : public djvWidgetTest
+class djvPixelWidgetTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

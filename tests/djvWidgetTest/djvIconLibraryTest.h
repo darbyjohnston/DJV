@@ -31,9 +31,9 @@
 
 //! \file djvIconLibraryTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvIconLibraryTest : public djvWidgetTest
+class djvIconLibraryTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

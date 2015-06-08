@@ -40,7 +40,7 @@
 #include <QVBoxLayout>
 
 djvIntSliderTest::djvIntSliderTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvIntSliderTest::name()

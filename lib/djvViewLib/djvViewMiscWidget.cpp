@@ -33,11 +33,11 @@
 
 #include <djvViewMiscWidget.h>
 
-#include <djvViewContext.h>
 #include <djvViewFileCache.h>
 
 #include <djvFloatEdit.h>
 #include <djvFloatObject.h>
+#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvPrefs.h>
 #include <djvStyle.h>
@@ -89,7 +89,7 @@ struct djvViewCacheSizeWidgetPrivate
 // djvViewCacheSizeWidget
 //------------------------------------------------------------------------------
 
-djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvViewContext * context, QWidget * parent) :
+djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewCacheSizeWidgetPrivate)
 {
@@ -224,7 +224,7 @@ struct djvViewFrameWidgetPrivate
 // djvViewFrameWidget
 //------------------------------------------------------------------------------
 
-djvViewFrameWidget::djvViewFrameWidget(djvViewContext * context, QWidget * parent) :
+djvViewFrameWidget::djvViewFrameWidget(djvGuiContext * context, QWidget * parent) :
     QAbstractSpinBox(parent),
     _p(new djvViewFrameWidgetPrivate)
 {
@@ -403,7 +403,7 @@ void djvViewFrameWidget::widgetUpdate()
 
 struct djvViewFrameSliderPrivate
 {
-    djvViewFrameSliderPrivate(djvViewContext * context) :
+    djvViewFrameSliderPrivate(djvGuiContext * context) :
         frame       (0),
         inOutEnabled(false),
         inPoint     (0),
@@ -411,25 +411,27 @@ struct djvViewFrameSliderPrivate
         context     (context)
     {}
 
-    qint64           frame;
-    djvFrameList     frameList;
-    djvSpeed         speed;
-    bool             inOutEnabled;
-    qint64           inPoint;
-    qint64           outPoint;
-    djvFrameList     cachedFrames;
-    djvViewContext * context;
+    qint64          frame;
+    djvFrameList    frameList;
+    djvSpeed        speed;
+    bool            inOutEnabled;
+    qint64          inPoint;
+    qint64          outPoint;
+    djvFrameList    cachedFrames;
+    djvGuiContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewFrameSlider
 //------------------------------------------------------------------------------
 
-djvViewFrameSlider::djvViewFrameSlider(djvViewContext * context, QWidget * parent) :
+djvViewFrameSlider::djvViewFrameSlider(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewFrameSliderPrivate(context))
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     connect(
         context->timePrefs(),
@@ -928,7 +930,7 @@ struct djvViewFrameDisplayPrivate
 // djvViewFrameDisplay
 //------------------------------------------------------------------------------
 
-djvViewFrameDisplay::djvViewFrameDisplay(djvViewContext * context, QWidget * parent) :
+djvViewFrameDisplay::djvViewFrameDisplay(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewFrameDisplayPrivate)
 {
@@ -1069,7 +1071,7 @@ struct djvViewSpeedButtonPrivate
 // djvViewSpeedButton
 //------------------------------------------------------------------------------
 
-djvViewSpeedButton::djvViewSpeedButton(djvViewContext * context, QWidget * parent) :
+djvViewSpeedButton::djvViewSpeedButton(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewSpeedButtonPrivate)
 {
@@ -1170,7 +1172,7 @@ struct djvViewSpeedWidgetPrivate
 // djvViewSpeedWidget
 //------------------------------------------------------------------------------
 
-djvViewSpeedWidget::djvViewSpeedWidget(djvViewContext * context, QWidget * parent) :
+djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new djvViewSpeedWidgetPrivate)
 {

@@ -31,9 +31,9 @@
 
 //! \file djvSearchBoxTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvSearchBoxTest : public djvWidgetTest
+class djvSearchBoxTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

@@ -41,7 +41,7 @@
 #include <QFormLayout>
 
 djvVectorWidgetTest::djvVectorWidgetTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvVectorWidgetTest::name()

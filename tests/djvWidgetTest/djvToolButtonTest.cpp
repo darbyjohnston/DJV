@@ -48,7 +48,7 @@
 #include <QVBoxLayout>
 
 djvToolButtonTest::djvToolButtonTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvToolButtonTest::name()

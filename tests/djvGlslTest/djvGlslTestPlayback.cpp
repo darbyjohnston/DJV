@@ -41,8 +41,6 @@
 
 djvGlslTestPlayback::djvGlslTestPlayback(QObject * parent) :
     QObject(parent),
-    _start   (0),
-    _end     (0),
     _frame   (0),
     _playback(STOP),
     _timerId (0)
@@ -60,14 +58,9 @@ djvGlslTestPlayback::~djvGlslTestPlayback()
     }
 }
 
-qint64 djvGlslTestPlayback::start() const
+const djvSequence & djvGlslTestPlayback::sequence() const
 {
-    return _start;
-}
-
-qint64 djvGlslTestPlayback::end() const
-{
-    return _end;
+    return _sequence;
 }
 
 qint64 djvGlslTestPlayback::frame() const
@@ -75,14 +68,33 @@ qint64 djvGlslTestPlayback::frame() const
     return _frame;
 }
 
-const djvSpeed & djvGlslTestPlayback::speed() const
-{
-    return _speed;
-}
-
 djvGlslTestPlayback::PLAYBACK djvGlslTestPlayback::playback() const
 {
     return _playback;
+}
+
+void djvGlslTestPlayback::setSequence(const djvSequence & sequence)
+{
+    if (sequence == _sequence)
+        return;
+    
+    _sequence = sequence;
+    
+    playbackUpdate();
+    
+    Q_EMIT sequenceChanged(_sequence);
+}
+    
+void djvGlslTestPlayback::setFrame(qint64 frame)
+{
+    qint64 f = djvMath::wrap<qint64>(frame, 0, _sequence.frames.count() - 1);
+    
+    if (f == _frame)
+        return;
+    
+    _frame = f;
+    
+    Q_EMIT frameChanged(_frame);
 }
 
 void djvGlslTestPlayback::setPlayback(PLAYBACK playback)
@@ -95,41 +107,6 @@ void djvGlslTestPlayback::setPlayback(PLAYBACK playback)
     playbackUpdate();
     
     Q_EMIT playbackChanged(_playback);
-}
-
-void djvGlslTestPlayback::setRange(qint64 start, qint64 end)
-{
-    if (start == _start && end == _end)
-        return;
-    
-    _start = start;
-    _end   = end;
-    
-    Q_EMIT rangeChanged(_start, _end);
-}
-    
-void djvGlslTestPlayback::setFrame(qint64 frame)
-{
-    qint64 f = djvMath::wrap<qint64>(frame, _start, _end);
-    
-    if (f == _frame)
-        return;
-    
-    _frame = f;
-    
-    Q_EMIT frameChanged(_frame);
-}
-
-void djvGlslTestPlayback::setSpeed(const djvSpeed & speed)
-{
-    if (speed == _speed)
-        return;
-    
-    _speed = speed;
-    
-    playbackUpdate();
-
-    Q_EMIT speedChanged(_speed);
 }
 
 void djvGlslTestPlayback::timerEvent(QTimerEvent *)
@@ -164,7 +141,7 @@ void djvGlslTestPlayback::playbackUpdate()
         case FORWARD:
         case REVERSE:
         
-            _timerId = startTimer(1000 * 1 / djvSpeed::speedToFloat(_speed));
+            _timerId = startTimer(1000 * 1 / djvSpeed::speedToFloat(_sequence.speed));
             
             break;
         

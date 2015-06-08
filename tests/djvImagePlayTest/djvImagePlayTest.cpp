@@ -43,6 +43,11 @@
 #include <QCursor>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QTimer>
+
+djvImagePlayTestWidget::djvImagePlayTestWidget(djvGuiContext * context) :
+    djvImageView(context)
+{}
 
 void djvImagePlayTestWidget::showEvent(QShowEvent *)
 {
@@ -86,85 +91,61 @@ void djvImagePlayTestWidget::keyPressEvent(QKeyEvent * event)
     }
 }
 
-djvImagePlayTestApplication::djvImagePlayTestApplication(
-    int     argc,
-    char ** argv) :
-    djvApplication("djvImagePlayTest", argc, argv),
-    _load  (0),
-    _cache (false),
-    _widget(0),
-    _frame (0)
+djvImagePlayTestApplication::djvImagePlayTestApplication(int & argc, char ** argv) :
+    QApplication(argc, argv),
+    _cache(false),
+    _frame(0)
 {
-    // Command line.
+    _context.reset(new djvGuiContext);
 
     if (argc != 2)
     {
-        print("Usage: djvImagePlayTest (input)");
+        _context->printMessage("Usage: djvImagePlayTest (input)");
         
-        setExitValue(djvApplicationEnum::EXIT_ERROR);
-        
-        return;
+        QTimer::singleShot(0, this, SLOT(commandLineExit()));
     }
-
-    _file.setFileName(argv[1]);
-
-    if (_file.isSequenceValid())
+    else
     {
-        _file.setType(djvFileInfo::SEQUENCE);
+        _fileInfo = djvFileInfo(argv[1]);
+        
+        QTimer::singleShot(0, this, SLOT(work()));
+    }
+}
+
+void djvImagePlayTestApplication::commandLineExit()
+{
+    exit(1);
+}
+
+void djvImagePlayTestApplication::work()
+{
+    if (_fileInfo.isSequenceValid())
+    {
+        _fileInfo.setType(djvFileInfo::SEQUENCE);
     }
 
     try
     {
-        _load = djvImageIoFactory::global()->load(_file, _info);
-        
-        if (! _load)
-            throw djvError(QString("Cannot open image \"%1\"").arg(_file));
+        _load.reset(_context->imageIoFactory()->load(_fileInfo, _info));
     }
     catch (const djvError & error)
     {
-        printError(error);
+        _context->printError(error);
         
-        setExitValue(djvApplicationEnum::EXIT_ERROR);
-        
+        exit(1);
+
         return;
     }
 
-    setValid(true);
-
-    // Widgets.
-
-    _widget = new djvImagePlayTestWidget;
-
-    // Initialize.
-    
+    _widget.reset(new djvImagePlayTestWidget(_context.data()));
     _widget->setWindowTitle("djvImagePlayTest");
-
     //_widget->zoom(0.5);
 
     const djvVector2i size = djvWindowUtil::resize(_info.size);
-    
     _widget->resize(size.x, size.y);
-
     _widget->show();
     
     startTimer(0);
-}
-
-djvImagePlayTestApplication::~djvImagePlayTestApplication()
-{
-    if (_widget)
-    {
-        delete _widget;
-        
-        _widget = 0;
-    }
-    
-    if (_load)
-    {
-        delete _load;
-        
-        _load = 0;
-    }
 }
 
 void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
@@ -191,7 +172,7 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
         ++accum;
     }
 
-    print(QString("FPS = %1 (%2)").
+    _context->printMessage(QString("FPS = %1 (%2)").
         arg(fps).
         arg(accum ? (average / static_cast<double>(accum)) : 0.0));
 
@@ -247,6 +228,6 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
 
 int main(int argc, char ** argv)
 {
-    return djvImagePlayTestApplication(argc, argv).run();
+    return djvImagePlayTestApplication(argc, argv).exec();
 }
 

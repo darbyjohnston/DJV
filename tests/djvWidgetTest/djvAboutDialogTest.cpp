@@ -37,7 +37,7 @@
 #include <djvGuiContext.h>
 
 djvAboutDialogTest::djvAboutDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvAboutDialogTest::name()

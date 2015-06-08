@@ -36,13 +36,17 @@
 #include <djvWindowUtil.h>
 
 #include <djvError.h>
-#include <djvFileInfo.h>
 #include <djvOpenGlImage.h>
 #include <djvPixel.h>
 
 #include <QCursor>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QTimer>
+
+djvImageViewTestWidget::djvImageViewTestWidget(djvGuiContext * context) :
+    djvImageView(context)
+{}
 
 void djvImageViewTestWidget::mousePressEvent(QMouseEvent * event)
 {
@@ -81,69 +85,64 @@ void djvImageViewTestWidget::keyPressEvent(QKeyEvent * event)
     }
 }
 
-djvImageViewTestApplication::djvImageViewTestApplication(
-    int &   argc,
-    char ** argv) :
-    djvApplication("djvImageViewTest", argc, argv),
-    _widget(0)
+djvImageViewTestApplication::djvImageViewTestApplication(int & argc, char ** argv) :
+    QApplication(argc, argv)
 {
-    // Command line.
-
+    _context.reset(new djvGuiContext);
+    
     if (argc != 2)
     {
-        print("Usage: djvImageViewTest (input)");
+        _context->printMessage("Usage: djvImageViewTest (input)");
         
-        setExitValue(djvApplicationEnum::EXIT_ERROR);
-        
-        return;
+        QTimer::singleShot(0, this, SLOT(commandLineExit()));
     }
+    else
+    {
+        _fileInfo = djvFileInfo(argv[1]);
+        
+        QTimer::singleShot(0, this, SLOT(work()));
+    }
+}
 
-    djvFileInfo file(argv[1]);
+void djvImageViewTestApplication::commandLineExit()
+{
+    exit(1);
+}
 
+void djvImageViewTestApplication::work()
+{
     try
     {
         djvImageIoInfo info;
         
-        _load = djvImageIoFactory::global()->load(file, info);
-        
-        if (! _load)
-            throw djvError(QString("Cannot open image \"%1\"").arg(file));
+        _load.reset(_context->imageIoFactory()->load(_fileInfo, info));
         
         _load->read(_image);
     }
     catch (const djvError & error)
     {
-        printError(error);
+        _context->printError(error);
         
-        setExitValue(djvApplicationEnum::EXIT_ERROR);
+        exit(1);
         
         return;
     }
-
-    setValid(true);
-
-    // Widgets.
-
-    _widget = new djvImageViewTestWidget;
+    
+    _widget.reset(new djvImageViewTestWidget(_context.data()));
+    _widget->setWindowTitle("djvImageViewTest");
     _widget->setData(&_image);
 
     djvOpenGlImageOptions options;
     options.colorProfile = _image.colorProfile;
     _widget->setOptions(options);
 
-    // Initialize.
-    
-    _widget->setWindowTitle("djvImageViewTest");
-
     const djvVector2i size = djvWindowUtil::resize(_image.size());
-    
     _widget->resize(size.x, size.y);
-    
     _widget->show();
 }
 
 int main(int argc, char ** argv)
 {
-    return djvImageViewTestApplication(argc, argv).run();
+    return djvImageViewTestApplication(argc, argv).exec();
 }
 

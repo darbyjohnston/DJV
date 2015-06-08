@@ -31,9 +31,9 @@
 
 //! \file djvFileBrowserTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvFileBrowserTest : public djvWidgetTest
+class djvFileBrowserTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

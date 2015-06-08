@@ -37,7 +37,7 @@
 #include <djvPrefsDialog.h>
 
 djvPrefsDialogTest::djvPrefsDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvPrefsDialogTest::name()

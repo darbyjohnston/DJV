@@ -38,7 +38,7 @@
 #include <djvSystem.h>
 
 djvChoiceDialogTest::djvChoiceDialogTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvChoiceDialogTest::name()

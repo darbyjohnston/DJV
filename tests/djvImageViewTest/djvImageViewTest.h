@@ -31,15 +31,23 @@
 
 //! \file djvImageViewTest.h
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
 #include <djvImageView.h>
 
+#include <djvFileInfo.h>
 #include <djvImage.h>
 #include <djvImageIo.h>
+
+#include <QApplication>
+#include <QScopedPointer>
 
 class djvImageViewTestWidget : public djvImageView
 {
     Q_OBJECT
+
+public:
+
+    explicit djvImageViewTestWidget(djvGuiContext *);
     
 protected:
 
@@ -53,17 +61,24 @@ private:
     djvVector2i _mousePress;
 };
 
-class djvImageViewTestApplication : public djvApplication
+class djvImageViewTestApplication : public QApplication
 {
+    Q_OBJECT
+    
 public:
 
     djvImageViewTestApplication(int & argc, char ** argv);
 
+private Q_SLOTS:
+
+    void commandLineExit();
+    void work();
+
 private:
 
-    void open(const djvFileInfo &);
-
-    djvImageLoad *           _load;
-    djvImage                 _image;
-    djvImageViewTestWidget * _widget;
+    QScopedPointer<djvGuiContext>          _context;
+    djvFileInfo                            _fileInfo;
+    QScopedPointer<djvImageLoad>           _load;
+    djvImage                               _image;
+    QScopedPointer<djvImageViewTestWidget> _widget;
 };

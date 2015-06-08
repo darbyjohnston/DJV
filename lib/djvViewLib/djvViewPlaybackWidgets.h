@@ -43,6 +43,8 @@ struct djvViewFrameButtonsPrivate;
 struct djvViewLoopWidgetPrivate;
 struct djvViewPlaybackButtonsPrivate;
 
+class djvGuiContext;
+
 class QActionGroup;
 
 //! \addtogroup djvViewPlayback
@@ -63,9 +65,9 @@ public:
     //! Constructor.
 
     explicit djvViewPlaybackButtons(
-        QActionGroup *   actionGroup,
-        djvViewContext * context,
-        QWidget *        parent      = 0);
+        QActionGroup *  actionGroup,
+        djvGuiContext * context,
+        QWidget *       parent      = 0);
 
     //! Destructor.
 
@@ -103,9 +105,9 @@ public:
     //! Constructor.
 
     explicit djvViewLoopWidget(
-        QActionGroup *    actionGroup,
-        djvViewContext  * context,
-        QWidget *         parent      = 0);
+        QActionGroup *   actionGroup,
+        djvViewContext * context,
+        QWidget *        parent      = 0);
 
     //! Destructor.
 
@@ -137,9 +139,9 @@ public:
     //! Constructor.
 
     explicit djvViewFrameButtons(
-        QActionGroup *   actionGroup,
-        djvViewContext * context,
-        QWidget *        parent      = 0);
+        QActionGroup *  actionGroup,
+        djvGuiContext * context,
+        QWidget *       parent      = 0);
 
     //! Destructor.
 

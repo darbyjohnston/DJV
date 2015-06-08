@@ -1143,7 +1143,7 @@ Click and drag to change the current frame.</source>
 <context>
     <name>djvViewSpeedButton</name>
     <message>
-        <location filename="djvViewMiscWidget.cpp" line="1113"/>
+        <location filename="djvViewMiscWidget.cpp" line="1115"/>
         <source>Default: %1</source>
         <translation type="unfinished"></translation>
     </message>

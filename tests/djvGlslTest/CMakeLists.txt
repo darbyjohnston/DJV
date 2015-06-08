@@ -1,60 +1,70 @@
 set(header
+    djvGlslTestAbstractOp.h
     djvGlslTestApplication.h
-    djvGlslTestBlur.h
-    djvGlslTestColor.h
+    djvGlslTestBlurOp.h
+    djvGlslTestColorOp.h
     djvGlslTestContext.h
-    djvGlslTestEdge.h
-    djvGlslTestExposure.h
+    djvGlslTestEdgeOp.h
+    djvGlslTestExposureOp.h
     djvGlslTestImageLoad.h
-    djvGlslTestLevels.h
-    djvGlslTestOp.h
-    djvGlslTestOpManager.h
+    djvGlslTestLevelsOp.h
+    djvGlslTestMainWindow.h
+    djvGlslTestNullOp.h
+    djvGlslTestOpDockWidget.h
+    djvGlslTestOpListDockWidget.h
+    djvGlslTestOpsManager.h
     djvGlslTestPlayback.h
     djvGlslTestPlaybackButtons.h
-    djvGlslTestPlaybackWidget.h
-    djvGlslTestScale.h
-    djvGlslTestSharpen.h
+    djvGlslTestPlaybackToolBar.h
+    djvGlslTestScaleOp.h
+    djvGlslTestSharpenOp.h
     djvGlslTestUtil.h
-    djvGlslTestWidget.h
-    djvGlslTestWindow.h)
+    djvGlslTestViewWidget.h)
 
 set(mocHeader
+    djvGlslTestAbstractOp.h
     djvGlslTestApplication.h
-    djvGlslTestBlur.h
-    djvGlslTestColor.h
+    djvGlslTestBlurOp.h
+    djvGlslTestColorOp.h
     djvGlslTestContext.h
-    djvGlslTestExposure.h
+    djvGlslTestEdgeOp.h
+    djvGlslTestExposureOp.h
     djvGlslTestImageLoad.h
-    djvGlslTestLevels.h
-    djvGlslTestOp.h
-    djvGlslTestOpManager.h
+    djvGlslTestLevelsOp.h
+    djvGlslTestMainWindow.h
+    djvGlslTestNullOp.h
+    djvGlslTestOpDockWidget.h
+    djvGlslTestOpListDockWidget.h
+    djvGlslTestOpsManager.h
     djvGlslTestPlayback.h
     djvGlslTestPlaybackButtons.h
-    djvGlslTestPlaybackWidget.h
-    djvGlslTestScale.h
-    djvGlslTestSharpen.h
-    djvGlslTestWidget.h
-    djvGlslTestWindow.h)
+    djvGlslTestPlaybackToolBar.h
+    djvGlslTestScaleOp.h
+    djvGlslTestSharpenOp.h
+    djvGlslTestViewWidget.h)
 
 set(source
+    djvGlslTestAbstractOp.cpp
     djvGlslTestApplication.cpp
-    djvGlslTestBlur.cpp
-    djvGlslTestColor.cpp
+    djvGlslTestBlurOp.cpp
+    djvGlslTestColorOp.cpp
     djvGlslTestContext.cpp
-    djvGlslTestEdge.cpp
-    djvGlslTestExposure.cpp
+    djvGlslTestEdgeOp.cpp
+    djvGlslTestExposureOp.cpp
     djvGlslTestImageLoad.cpp
-    djvGlslTestLevels.cpp
-    djvGlslTestOp.cpp
-    djvGlslTestOpManager.cpp
+    djvGlslTestLevelsOp.cpp
+    djvGlslTestMainWindow.cpp
+    djvGlslTestNullOp.cpp
+    djvGlslTestOpDockWidget.cpp
+    djvGlslTestOpListDockWidget.cpp
+    djvGlslTestOpsManager.cpp
     djvGlslTestPlayback.cpp
     djvGlslTestPlaybackButtons.cpp
-    djvGlslTestPlaybackWidget.cpp
-    djvGlslTestScale.cpp
-    djvGlslTestSharpen.cpp
+    djvGlslTestPlaybackToolBar.cpp
+    djvGlslTestScaleOp.cpp
+    djvGlslTestSharpenOp.cpp
     djvGlslTestUtil.cpp
-    djvGlslTestWidget.cpp
-    djvGlslTestWindow.cpp)
+    djvGlslTestViewWidget.cpp)
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})
@@ -64,11 +74,12 @@ endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvGlslTest
+    ${CMAKE_SOURCE_DIR}/lib/djvViewLib
     ${djvGuiIncludeDirs})
 
 add_executable(djvGlslTest ${header} ${source} ${mocSource})
 
-target_link_libraries(djvGlslTest ${djvGuiLibs})
+target_link_libraries(djvGlslTest djvViewLib ${djvGuiLibs})
 
 set_target_properties(djvGlslTest PROPERTIES FOLDER tests)
 

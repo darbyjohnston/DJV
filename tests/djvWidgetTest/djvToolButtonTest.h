@@ -31,9 +31,9 @@
 
 //! \file djvToolButtonTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvToolButtonTest : public djvWidgetTest
+class djvToolButtonTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

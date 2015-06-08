@@ -31,17 +31,18 @@
 
 //! \file djvNumWidgetTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
+
+#include <QWidget>
 
 class djvFloatDisplay;
-
 class djvFloatEdit;
 class djvFloatEditSlider;
 class djvIntDisplay;
 class djvIntEdit;
 class djvIntEditSlider;
 
-class djvNumWidgetTest : public djvWidgetTest
+class djvNumWidgetTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

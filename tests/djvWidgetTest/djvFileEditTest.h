@@ -31,11 +31,11 @@
 
 //! \file djvFileEditTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
 #include <djvFileEdit.h>
 
-class djvFileEditTest : public djvWidgetTest
+class djvFileEditTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

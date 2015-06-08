@@ -31,9 +31,9 @@
 
 //! \file djvChoiceDialogTest.h
 
-#include <djvWidgetTest.h>
+#include <djvAbstractWidgetTest.h>
 
-class djvChoiceDialogTest : public djvWidgetTest
+class djvChoiceDialogTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     

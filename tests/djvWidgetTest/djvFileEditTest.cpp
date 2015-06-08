@@ -40,7 +40,7 @@
 #include <QVBoxLayout>
 
 djvFileEditTest::djvFileEditTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvFileEditTest::name()

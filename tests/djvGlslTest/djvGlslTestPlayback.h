@@ -34,7 +34,7 @@
 #ifndef DJV_GLSL_TEST_PLAYBACK_H
 #define DJV_GLSL_TEST_PLAYBACK_H
 
-#include <djvSpeed.h>
+#include <djvSequence.h>
 
 #include <QObject>
 
@@ -60,36 +60,28 @@ public:
     
     virtual ~djvGlslTestPlayback();
 
-    qint64 start() const;
-    
-    qint64 end() const;
+    const djvSequence & sequence() const;
     
     qint64 frame() const;
-
-    const djvSpeed & speed() const;
 
     PLAYBACK playback() const;
     
 public Q_SLOTS:
 
-    void setPlayback(djvGlslTestPlayback::PLAYBACK);
-    
-    void setRange(qint64 start, qint64 end);
+    void setSequence(const djvSequence &);
     
     void setFrame(qint64);
     
-    void setSpeed(const djvSpeed &);
+    void setPlayback(djvGlslTestPlayback::PLAYBACK);
     
 Q_SIGNALS:
 
+    void sequenceChanged(const djvSequence &);
+
     void playbackChanged(djvGlslTestPlayback::PLAYBACK);
     
-    void rangeChanged(qint64 start, qint64 end);
-    
     void frameChanged(qint64);
-    
-    void speedChanged(const djvSpeed &);
-    
+
 protected:
 
     virtual void timerEvent(QTimerEvent *);
@@ -98,12 +90,10 @@ private:
 
     void playbackUpdate();
     
-    qint64   _start;
-    qint64   _end;
-    qint64   _frame;
-    djvSpeed _speed;
-    PLAYBACK _playback;
-    int      _timerId;
+    djvSequence _sequence;
+    qint64      _frame;
+    PLAYBACK    _playback;
+    int         _timerId;
 };
 
 #endif // DJV_GLSL_TEST_PLAYBACK_H

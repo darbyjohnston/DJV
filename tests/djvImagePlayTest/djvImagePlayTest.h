@@ -31,16 +31,23 @@
 
 //! \file djvImagePlayTest.h
 
-#include <djvApplication.h>
+#include <djvGuiContext.h>
 #include <djvImageView.h>
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
 #include <djvImageIo.h>
 
+#include <QApplication>
+#include <QScopedPointer>
+
 class djvImagePlayTestWidget : public djvImageView
 {
     Q_OBJECT
+
+public:
+
+    explicit djvImagePlayTestWidget(djvGuiContext *);
     
 protected:
 
@@ -55,26 +62,32 @@ private:
     djvVector2i _mousePress;
 };
 
-class djvImagePlayTestApplication : public djvApplication
+class djvImagePlayTestApplication : public QApplication
 {
+    Q_OBJECT
+    
 public:
 
-    djvImagePlayTestApplication(int argc, char ** argv);
-
-    virtual ~djvImagePlayTestApplication();
+    djvImagePlayTestApplication(int & argc, char ** argv);
 
 protected:
 
     void timerEvent(QTimerEvent *);
 
+private Q_SLOTS:
+
+    void commandLineExit();
+    void work();
+
 private:
 
-    djvFileInfo              _file;
-    djvImageLoad *           _load;
-    djvImageIoInfo           _info;
-    djvImage                 _image;
-    bool                     _cache;
-    QVector<djvImage *>      _cachedImages;
-    djvImagePlayTestWidget * _widget;
-    int                      _frame;
+    QScopedPointer<djvGuiContext>          _context;
+    djvFileInfo                            _fileInfo;
+    QScopedPointer<djvImageLoad>           _load;
+    djvImageIoInfo                         _info;
+    djvImage                               _image;
+    bool                                   _cache;
+    QVector<djvImage *>                    _cachedImages;
+    QScopedPointer<djvImagePlayTestWidget> _widget;
+    int                                    _frame;
 };

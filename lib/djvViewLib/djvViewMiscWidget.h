@@ -43,13 +43,14 @@
 #include <QAbstractSpinBox>
 
 struct djvViewCacheSizeWidgetPrivate;
-class  djvViewContext;
 struct djvViewFrameDisplayPrivate;
 struct djvViewFrameSliderPrivate;
 struct djvViewFrameWidgetPrivate;
 struct djvViewSpeedButtonPrivate;
 struct djvViewSpeedDisplayPrivate;
 struct djvViewSpeedWidgetPrivate;
+
+class djvGuiContext;
 
 class QAbstractButton;
 
@@ -86,7 +87,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewCacheSizeWidget(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewCacheSizeWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -172,7 +173,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFrameWidget(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewFrameWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -250,7 +251,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
         READ         frameList
         WRITE        setFrameList)
 
-    //! This property holds the frame.
+    //! This property holds the current frame.
     
     Q_PROPERTY(
         qint64 frame
@@ -293,7 +294,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFrameSlider(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewFrameSlider(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -303,7 +304,7 @@ public:
 
     const djvFrameList & frameList() const;
 
-    //! Get the frame.
+    //! Get the current frame.
 
     qint64 frame() const;
 
@@ -331,7 +332,7 @@ public Q_SLOTS:
 
     void setFrameList(const djvFrameList &);
 
-    //! Set the frame.
+    //! Set the current frame.
 
     void setFrame(qint64);
 
@@ -468,7 +469,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewFrameDisplay(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewFrameDisplay(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -530,7 +531,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewSpeedButton(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewSpeedButton(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 
@@ -587,7 +588,7 @@ public:
 
     //! Constructor.
 
-    explicit djvViewSpeedWidget(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewSpeedWidget(djvGuiContext *, QWidget * parent = 0);
 
     //! Destructor.
 

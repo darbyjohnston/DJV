@@ -197,7 +197,7 @@ void IconLibraryModel::sort(int column, Qt::SortOrder order)
 }
 
 djvIconLibraryTest::djvIconLibraryTest(djvGuiContext * context) :
-    djvWidgetTest(context)
+    djvAbstractWidgetTest(context)
 {}
 
 QString djvIconLibraryTest::name()
