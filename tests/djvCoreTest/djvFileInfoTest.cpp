@@ -74,6 +74,8 @@ void djvFileInfoTest::members()
 {
     DJV_DEBUG("djvFileInfoTest::members");
     
+    djvFileInfo::sequenceExtensions.insert(".ppm");
+
     {
         const QString fileName("image.0001-0100.ppm");
         

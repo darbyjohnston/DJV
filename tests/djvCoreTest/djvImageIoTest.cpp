@@ -35,6 +35,7 @@
 
 #include <djvAssert.h>
 #include <djvDebug.h>
+#include <djvErrorUtil.h>
 #include <djvFileInfo.h>
 #include <djvImage.h>
 #include <djvImageContext.h>
@@ -155,38 +156,40 @@ void djvImageIoTest::plugin()
     
     Q_FOREACH(QString plugin, QStringList() << "PPM")
     {
-        djvImageIo * io = static_cast<djvImageIo *>(factory->plugin(plugin));
-        
-        DJV_ASSERT(io);
-        DJV_ASSERT(io->extensions().count());
-        DJV_ASSERT(io->isSequence());
-        DJV_ASSERT(io->options().count());
-        
-        DJV_ASSERT(factory->option("", "") == QStringList());
-
-        QStringList tmp;
-        
-        DJV_ASSERT(! factory->setOption("", "", tmp));
-
-        djvImageIoInfo info;
-        
-        try
+        if (djvImageIo * io = static_cast<djvImageIo *>(factory->plugin(plugin)))
         {
-            factory->load(djvFileInfo(), info);
-        
-            DJV_ASSERT(0);
+            DJV_ASSERT(io->extensions().count());
+            DJV_ASSERT(io->isSequence());
+            DJV_ASSERT(io->options().count());
+
+            DJV_ASSERT(factory->option("", "") == QStringList());
+
+            QStringList tmp;
+
+            DJV_ASSERT(! factory->setOption("", "", tmp));
+
+            djvImageIoInfo info;
+
+            try
+            {
+                factory->load(djvFileInfo(), info);
+
+                DJV_ASSERT(0);
+            }
+            catch (...)
+            {
+            }
+
+            try
+            {
+                factory->save(djvFileInfo(), info);
+
+                DJV_ASSERT(0);
+            }
+            catch (...)
+            {
+            }
         }
-        catch (...)
-        {}
-        
-        try
-        {
-            factory->save(djvFileInfo(), info);
-        
-            DJV_ASSERT(0);
-        }
-        catch (...)
-        {}
     }
 }
 
@@ -195,39 +198,41 @@ void djvImageIoTest::io()
     DJV_DEBUG("djvImageIoTest::io");
     
     djvImageContext context;
-    
-    const djvFileInfo fileInfo("djvImageIoTest.ppm");
-    
-    const djvPixelDataInfo pixelDataInfo(1, 1, djvPixel::L_U8);
-    
-    djvImageSave * save = context.imageIoFactory()->save(fileInfo, pixelDataInfo);
-    
-    DJV_ASSERT(save);
-    
-    save->write(djvImage(pixelDataInfo));
-    
-    save->close();
-    
-    delete save;
-    
-    djvImageIoInfo info;
-    
-    DJV_DEBUG_PRINT("!");
-    
-    djvImageLoad * load = context.imageIoFactory()->load(fileInfo, info);
 
-    DJV_ASSERT(load);
+    QScopedPointer<djvImageLoad> load;
+    QScopedPointer<djvImageSave> save;
+
+    try
+    {
+        const djvFileInfo fileInfo("djvImageIoTest.ppm");
+
+        const djvPixelDataInfo pixelDataInfo(1, 1, djvPixel::L_U8);
+
+        save.reset(context.imageIoFactory()->save(fileInfo, pixelDataInfo));
+
+        DJV_ASSERT(save);
+
+        save->write(djvImage(pixelDataInfo));
+
+        save->close();
+
+        djvImageIoInfo info;
+
+        load.reset(context.imageIoFactory()->load(fileInfo, info));
+
+        DJV_ASSERT(load);
+        
+        djvImage image;
     
-    DJV_DEBUG_PRINT("!");
+        load->read(image);
     
-    djvImage image;
+        DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
     
-    load->read(image);
-    
-    DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
-    
-    load->close();
-    
-    delete load;
+        load->close();
+    }
+    catch (const djvError & error)
+    {
+        DJV_DEBUG_PRINT("error = " << djvErrorUtil::format(error));
+    }
 }
 
