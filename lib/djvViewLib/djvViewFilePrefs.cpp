@@ -151,7 +151,7 @@ double djvViewFilePrefs::cacheSize() const
 
 bool djvViewFilePrefs::preloadDefault()
 {
-    return true;
+    return false;
 }
 
 bool djvViewFilePrefs::hasPreload() const
