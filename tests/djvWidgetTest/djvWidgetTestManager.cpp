@@ -43,9 +43,9 @@
 #include <djvInfoDialogTest.h>
 #include <djvInputDialogTest.h>
 #include <djvIntSliderTest.h>
-#include <djvMessageDialogTest.h>
 #include <djvMessagesDialogTest.h>
 #include <djvMultiChoiceDialogTest.h>
+#include <djvNoticeDialogTest.h>
 #include <djvNumWidgetTest.h>
 #include <djvPixelWidgetTest.h>
 #include <djvPrefsDialogTest.h>
@@ -75,9 +75,9 @@ djvWidgetTestManager::djvWidgetTestManager(djvGuiContext * context)
     _tests += new djvInfoDialogTest(context);
     _tests += new djvInputDialogTest(context);
     _tests += new djvIntSliderTest(context);
-    _tests += new djvMessageDialogTest(context);
     _tests += new djvMessagesDialogTest(context);
     _tests += new djvMultiChoiceDialogTest(context);
+    _tests += new djvNoticeDialogTest(context);
     _tests += new djvNumWidgetTest(context);
     _tests += new djvPixelWidgetTest(context);
     _tests += new djvPrefsDialogTest(context);

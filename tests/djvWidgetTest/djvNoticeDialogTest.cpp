@@ -29,19 +29,23 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMessageDialogTest.h
+//! \file djvNoticeDialogTest.cpp
 
-#include <djvAbstractWidgetTest.h>
+#include <djvNoticeDialogTest.h>
 
-class djvMessageDialogTest : public djvAbstractWidgetTest
+#include <djvNoticeDialog.h>
+
+djvNoticeDialogTest::djvNoticeDialogTest(djvGuiContext * context) :
+    djvAbstractWidgetTest(context)
+{}
+
+QString djvNoticeDialogTest::name()
 {
-    Q_OBJECT
-    
-public:
+    return "djvNoticeDialogTest";
+}
 
-    djvMessageDialogTest(djvGuiContext *);
+void djvNoticeDialogTest::run(const QStringList & args)
+{
+    djvNoticeDialog("File saved succesfully").exec();
+}
 
-    virtual QString name();
-
-    virtual void run(const QStringList & args = QStringList());
-};

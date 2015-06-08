@@ -38,9 +38,9 @@ set(header
     djvIntEditSlider.h
     djvIntObject.h
     djvIntSlider.h
-    djvMessageDialog.h
     djvMessagesDialog.h
     djvMultiChoiceDialog.h
+    djvNoticeDialog.h
     djvOpenGlWidget.h
     djvOsxMenuHack.h
     djvPixelMaskWidget.h
@@ -108,6 +108,7 @@ set(mocHeader
     djvIntSlider.h
     djvMessagesDialog.h
     djvMultiChoiceDialog.h
+    djvNoticeDialog.h
     djvOpenGlWidget.h
     djvOsxMenuHack.h
     djvPixelMaskWidget.h
@@ -170,9 +171,9 @@ set(source
     djvIntEditSlider.cpp
     djvIntObject.cpp
     djvIntSlider.cpp
-    djvMessageDialog.cpp
     djvMessagesDialog.cpp
     djvMultiChoiceDialog.cpp
+    djvNoticeDialog.cpp
     djvOpenGlWidget.cpp
     djvOsxMenuHack.cpp
     djvPixelMaskWidget.cpp

@@ -29,60 +29,76 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMessageDialog.h
+//! \file djvNoticeDialog.cpp
 
-#ifndef DJV_MESSAGE_DIALOG_H
-#define DJV_MESSAGE_DIALOG_H
+#include <djvNoticeDialog.h>
 
-#include <djvGuiExport.h>
-
-#include <djvUtil.h>
-
-#include <QDialog>
-
-struct djvMessageDialogPrivate;
-
-//! \addtogroup djvGuiDialog
-//@{
+#include <QApplication>
+#include <QLabel>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-//! \class djvMessageDialog
-//!
-//! This class provides a message dialog.
+// djvNoticeDialogPrivate
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvMessageDialog : public QDialog
+struct djvNoticeDialogPrivate
 {
-public:
-
-    //! Constructor.
-
-    explicit djvMessageDialog(
-        const QString & label  = QString(),
-        QWidget *       parent = 0);
-
-    //! Destructor.
-
-    virtual ~djvMessageDialog();
-
-    //! Get the label.
-
-    const QString & label() const;
-
-    //! Set the label.
-
-    void setLabel(const QString &);
-
-private:
-
-    void widgetUpdate();
-
-    DJV_PRIVATE_COPY(djvMessageDialog);
+    djvNoticeDialogPrivate(const QString & label) :
+        label      (label),
+        labelWidget(0)
+    {}
     
-    djvMessageDialogPrivate * _p;
+    QString  label;
+    QLabel * labelWidget;
 };
 
-//@} // djvGuiDialog
+//------------------------------------------------------------------------------
+// djvNoticeDialog
+//------------------------------------------------------------------------------
 
-#endif // DJV_MESSAGE_DIALOG_H
+djvNoticeDialog::djvNoticeDialog(const QString & label, QWidget * parent) :
+    QDialog(parent),
+    _p(new djvNoticeDialogPrivate(label))
+{
+    _p->labelWidget = new QLabel;
+    
+    QDialogButtonBox * buttonBox = new QDialogButtonBox(
+        QDialogButtonBox::Ok);
 
+    QVBoxLayout * layout = new QVBoxLayout(this);
+    QVBoxLayout * vLayout = new QVBoxLayout;
+    vLayout->setMargin(20);
+    vLayout->addWidget(_p->labelWidget);
+    layout->addLayout(vLayout);
+    layout->addWidget(buttonBox);
+    
+    setWindowTitle(qApp->translate("djvNoticeDialog", "Notice Dialog"));
+
+    widgetUpdate();
+    
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+djvNoticeDialog::~djvNoticeDialog()
+{
+    delete _p;
+}
+
+const QString & djvNoticeDialog::label() const
+{
+    return _p->label;
+}
+
+void djvNoticeDialog::setLabel(const QString & label)
+{
+    _p->label = label;
+    
+    widgetUpdate();
+}
+
+void djvNoticeDialog::widgetUpdate()
+{
+    _p->labelWidget->setText(_p->label);
+}

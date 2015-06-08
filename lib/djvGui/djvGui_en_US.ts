@@ -718,14 +718,6 @@ User Interface Options
     </message>
 </context>
 <context>
-    <name>djvMessageDialog</name>
-    <message>
-        <location filename="djvMessageDialog.cpp" line="76"/>
-        <source>Message Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>djvMessagesDialog</name>
     <message>
         <location filename="djvMessagesDialog.cpp" line="89"/>
@@ -748,6 +740,14 @@ User Interface Options
     <message>
         <location filename="djvMultiChoiceDialog.cpp" line="95"/>
         <source>Multi Choice Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvNoticeDialog</name>
+    <message>
+        <location filename="djvNoticeDialog.cpp" line="76"/>
+        <source>Notice Dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
