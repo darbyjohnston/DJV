@@ -5,7 +5,7 @@ set(source
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvTest
-#    ${CMAKE_SOURCE_DIR}/tests/djvViewLibTest
+    ${CMAKE_SOURCE_DIR}/tests/djvViewLibTest
     ${CMAKE_SOURCE_DIR}/tests/djvGuiTest
     ${CMAKE_SOURCE_DIR}/tests/djvImageIoPluginTest
     ${CMAKE_SOURCE_DIR}/tests/djvCoreTest
@@ -16,7 +16,7 @@ add_executable(djvTest ${header} ${source})
 
 target_link_libraries(
     djvTest
-#    djvViewLibTest
+    djvViewLibTest
     djvGuiTest
     djvImageIoPluginTest
     djvCoreTest
