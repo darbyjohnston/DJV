@@ -526,7 +526,7 @@ General Options
 <context>
     <name>djvImageContext</name>
     <message>
-        <location filename="djvImageContext.cpp" line="114"/>
+        <location filename="djvImageContext.cpp" line="116"/>
         <source>%1
 OpenGL
 
@@ -554,17 +554,17 @@ Image I/O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="164"/>
+        <location filename="djvImageContext.cpp" line="166"/>
         <source>-render_filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="171"/>
+        <location filename="djvImageContext.cpp" line="173"/>
         <source>-render_filter_high</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="208"/>
+        <location filename="djvImageContext.cpp" line="210"/>
         <source>%1
 OpenGL Options
 

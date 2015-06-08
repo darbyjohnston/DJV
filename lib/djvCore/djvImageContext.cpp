@@ -75,7 +75,7 @@ djvImageContext::djvImageContext(QObject * parent) :
 
     DJV_LOG(debugLog(), "djvImageContext", "");
 
-    //! Force image I/O plugin loading.
+    //! Create the image I/O plugins.
 
     DJV_LOG(debugLog(), "djvImageContext", "Loading image I/O plugins...");
 
@@ -90,6 +90,15 @@ djvImageContext::djvImageContext(QObject * parent) :
 djvImageContext::~djvImageContext()
 {
     //DJV_DEBUG("djvImageContext::~djvImageContext");
+
+#if defined(DJV_WINDOWS)
+
+    //! \todo On Windows deleting the image factory causes the application
+    //! to hang on exit.
+
+    _p->imageIoFactory.take();
+
+#endif // DJV_WINDOWS
 
     delete _p;
 }
