@@ -167,8 +167,9 @@ example in C:/Projects/djv).</p>
 <pre>
 mingw> git clone git://git.code.sf.net/p/djv/git-third-party djv-git-third-party
 </pre>
-<p>Then uncompress the third party packages:</p>
+<p>Then enter the directory and uncompress the third party packages:</p>
 <pre>
+mingw> cd djv-git-third-party
 mingw> tar zxvf ffmpeg-2.6.2.tar.gz
 mingw> tar zxvf glew-1.10.0.tgz
 mingw> tar zxvf ilmbase-2.2.0.tar.gz
@@ -205,8 +206,8 @@ of the Git directory):</p>
 > nmake package
 </pre>
 <p>This will produce a file called "djv-git-third-party-Windows-64.zip" that
-contains all of the third party files (except for Qt) that are needed to
-build DJV. Choose a directory and unzip this file (I usually make this a
+contains all of the third party files (except for FFmpeg and Qt) that are needed
+to build DJV. Choose a directory and unzip this file (I usually make this a
 sibling of the Git and CMake directories).</p>
 <p>To build Yasm create a new directory for the CMake build (I ususally make
 this a sibling of the Git directory):</p>
