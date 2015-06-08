@@ -93,7 +93,6 @@ set(legal
     ../LICENSE.GLEW
     ../LICENSE.libjpeg
     ../LICENSE.libpng
-    ../LICENSE.libquicktime
     ../LICENSE.libtiff
     ../LICENSE.OpenEXR
     ../LICENSE.Qt

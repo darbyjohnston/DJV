@@ -98,7 +98,7 @@ production, VFX, and computer animation. Key features include:</p>
 <ul>
     <li>QuickTime is now supported on all 64-bit platforms</li>
     <li>New multi-threaded file browser</li>
-    <li>Support for pre-caching frames</li>
+    <li>Experimental support for pre-caching frames</li>
 </ul>
 <p><b>2014/09/28 - Version 1.0 Released</b></p>
 <ul>
