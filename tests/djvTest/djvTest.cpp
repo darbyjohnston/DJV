@@ -33,6 +33,8 @@
 
 #include <djvPixmapUtilTest.h>
 
+#include <djvImageIoPluginTest.h>
+
 #include <djvBoxTest.h>
 #include <djvBoxUtilTest.h>
 #include <djvColorProfileTest.h>
@@ -47,7 +49,6 @@
 #include <djvFileIoUtilTest.h>
 #include <djvImageContextTest.h>
 #include <djvImageIoTest.h>
-#include <djvImageIoPluginTest.h>
 #include <djvImageTagsTest.h>
 #include <djvImageTest.h>
 #include <djvListUtilTest.h>
@@ -97,7 +98,6 @@ int main(int argc, char ** argv)
         new djvFileIoUtilTest <<
         new djvImageContextTest <<
         new djvImageIoTest <<
-        new djvImageIoPluginTest <<
         new djvImageTagsTest <<
         new djvImageTest <<
         new djvListUtilTest <<
@@ -125,6 +125,8 @@ int main(int argc, char ** argv)
         new djvVectorTest <<
         new djvVectorUtilTest <<
     
+       new djvImageIoPluginTest <<
+        
         new djvPixmapUtilTest;
 
     //tests = QVector<djvAbstractTest *>() <<
