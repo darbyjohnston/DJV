@@ -213,8 +213,6 @@ include(djvThirdPartyPng)
 include(djvThirdPartyTiff)
 include(djvThirdPartyOpenExr)
 include(djvThirdPartyFFmpeg)
-#include(djvThirdPartyLibquicktime)
-#include(djvThirdPartyQuickTime)
 
 # Set convenience variables for include directories and libraries.
 
