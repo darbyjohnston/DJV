@@ -173,7 +173,7 @@ QString djvInfoContext::commandLineHelp() const
     static const QString label = qApp->translate("djvInfoContext",
 "djv_info\n"
 "\n"
-"    This application provides a command line tool for displaying information "
+"    The djv_info application is a command line tool for displaying information "
 "about images and movies.\n"
 "\n"
 "    Example output:\n"
@@ -200,6 +200,13 @@ QString djvInfoContext::commandLineHelp() const
 "\n"
 "    djv_info [image|directory]... [option]...\n"
 "\n"
+"    image     - One or more images, image sequences, or movies\n"
+"    directory - One or more directories\n"
+"    option    - Additional options (see below)\n"
+"\n"
+"    If no images or directories are given then the current directory will be "
+"used.\n"
+"\n"
 "Options\n"
 "\n"
 "    -x_info, -xi\n"
@@ -220,12 +227,15 @@ QString djvInfoContext::commandLineHelp() const
 "Examples\n"
 "\n"
 "    Display image information:\n"
+"\n"
 "    > djv_info image.sgi image2.sgi\n"
 "\n"
 "    Display image sequence information:\n"
+"\n"
 "    > djv_info image.1-100.sgi\n"
 "\n"
 "    Display information about all images within a directory:\n"
+"\n"
 "    > djv_info ~/pics\n");
 
     return QString(label).

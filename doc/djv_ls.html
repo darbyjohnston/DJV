@@ -73,8 +73,7 @@
 
 <td class="content" valign="top">
 
-<p>
-This application provides a command line tool for listing directories with
+<p>The djv_ls application is a command line tool for listing directories with
 file sequences.</p>
 <h4>Example output:</h4>
 <pre>
@@ -108,25 +107,35 @@ fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 <pre>
 djv_ls [file|directory]... [option]...
 </pre>
+<table>
+<tr><td width="200"><i>image</i></td><td>One or more files or image sequences</td></tr>
+<tr><td><i>directory</i></td><td>One or more directories</td></tr>
+<tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
+</table>
+<p>If no files or directories are given then the current directory will be
+used.</p>
+
 <h4>Options:</h4>
 <table>
-<tr><td width="200">-x_info, -xi</td><td>Don't show information, only file
-names.</td></tr>
-<tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
-<tr><td>-seq, -q (value)</td><td>Set file sequencing. Options = Off, Sparse,
-Range. Default = Range.</td></tr>
-<tr><td>-recurse, -r</td><td>Descend into sub-directories.</td></tr>
-<tr><td>-hidden</td><td>Show hidden files.</td></tr>
-<tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
-output. A value of zero disables formatting.</td></tr>
+<tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show information, only
+file names.</td></tr>
+<tr><td><i>-file_path, -fp</i></td><td>Show file path names.</td></tr>
+<tr><td><i>-seq, -q (value)</i></td><td>Set file sequencing. Options = Off,
+Sparse, Range. Default = Range.</td></tr>
+<tr><td><i>-recurse, -r</i></td><td>Descend into sub-directories.</td></tr>
+<tr><td><i>-hidden</i></td><td>Show hidden files.</td></tr>
+<tr><td><i>-columns, -c (value)</i></td><td>Set the number of columns for
+formatting output. A value of zero disables formatting.</td></tr>
 </table>
+
 <h4>Sorting options:</h4>
 <table>
-<tr><td width="200">-sort, -s (value)</td><td>Set the sorting. Options = Name,
-Type, Size, User, Permissions, Time. Default = Name.</td></tr>
-<tr><td>-reverse_sort, -rs</td><td>Reverse the sorting order.</td></tr>
-<tr><td>-x_sort_dirs, -xsd</td><td>Don't sort directories first.</td></tr>
+<tr><td width="200"><i>-sort, -s (value)</i></td><td>Set the sorting. Options =
+Name, Type, Size, User, Permissions, Time. Default = Name.</td></tr>
+<tr><td><i>-reverse_sort, -rs</i></td><td>Reverse the sorting order.</td></tr>
+<tr><td><i>-x_sort_dirs, -xsd</i></td><td>Don't sort directories first.</td></tr>
 </table>
+
 <p>Documentation for image I/O command line options is available
 <a href="djvImageIo.html">here</a>.<p>
 <p>Documentation for general command line options is available

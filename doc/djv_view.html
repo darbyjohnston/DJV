@@ -824,36 +824,48 @@ memory cache is shown in the information bar.</p>
 <pre>
 djv_view [image]... [option]...
 </pre>
+<table>
+<tr><td width="200"><i>image</i></td><td>One or more images, image sequences,
+or movies</td></tr>
+<tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
+</table>
+
 <h4>Options:</h4>
 <table>
-<tr><td width="200">-combine</td><td>Combine multiple command line arguments
-into a single sequence.</td></tr>
-<tr><td>-seq, -q (value)</td><td>Set command line file sequencing. Options =
-Off, Sparse, Range. Default = Range.</td></tr>
-<tr><td width="200">-auto_seq (value)</td><td>Automatically detect
-sequences when opening files. Options = False, True. Default = True.</td></tr>
+<tr><td width="200"><i>-combine</i></td><td>Combine multiple command line
+arguments into a single sequence.</td></tr>
+<tr><td><i>-seq, -q (value)</i></td><td>Set command line file sequencing.
+Options = Off, Sparse, Range. Default = Range.</td></tr>
+<tr><td><i>-auto_seq (value)</i></td><td>Automatically detect sequences when
+opening files. Options = False, True. Default = True.</td></tr>
 </table>
+
 <h4>File options:</h4>
 <table>
-<tr><td>-file_layer (value)</td><td>Set the input layer. Default = 0.</td></tr>
-<tr><td>-file_proxy (value)</td><td>Set the proxy scale. Options = None, 1/2,
-1/4, 1/8.</td></tr>
-<tr><td>-file_cache (value)</td><td>Set whether the file cache is enabled.
+<tr><td width="200"><i>-file_layer (value)</i></td><td>Set the input layer.
+Default = 0.</td></tr>
+<tr><td><i>-file_proxy (value)</i></td><td>Set the proxy scale. Options = None,
+1/2, 1/4, 1/8.</td></tr>
+<tr><td><i>-file_cache (value)</i></td><td>Set whether the file cache is enabled.
 Options = False, True.</td></tr>
-
 </table>
+
 <h4>Window options:</h4>
 <table>
-<tr><td width="200">-window_full_screen</td><td>Set the window full screen.</td></tr>
+<tr><td width="200"><i>-window_full_screen</i></td><td>Set the window full
+screen.</td></tr>
 </table>
+
 <h4>Playback options:</h4>
 <table>
-<tr><td width="200">-playback (value)</td><td>Set the playback. Options =
+<tr><td width="200"><i>-playback (value)</i></td><td>Set the playback. Options =
 Reverse, Stop, Forward.</td></tr>
-<tr><td>-playback_frame (value)</td><td>Set the playback frame.</td></tr>
-<tr><td>-playback_speed (value)</td><td>Set the playback speed. Options = 1, 3,
-6, 12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
+<tr><td><i>-playback_frame (value)</i></td><td>Set the playback frame.</td></tr>
+<tr><td><i>-playback_speed (value)</i></td><td>Set the playback speed.
+Options = 1, 3, 6, 12, 15, 16, 18, 23.976, 24, 25, 29.97, 30, 50, 59.94, 60,
+120.</td></tr>
 </table>
+
 <p>Documentation for image I/O command line options is available
 <a href="djvImageIo.html">here</a>.<p>
 <p>Documentation for general command line options is available

@@ -96,6 +96,9 @@ Usage
 
     djv_view [image]... [option]...
 
+    image  - One or more images, image sequences, or movies
+    option - Additional options (see below)
+
 Options
 
     -combine
@@ -128,6 +131,46 @@ Playback Options
     -playback_speed (value)
         Set the playback speed. Options = %8.
 %9</source>
+        <oldsource>djv_view
+
+    The djv_view application provides real-time image sequence and movie playback. It is intended as a professional tool for reviewing computer animation, film, and video footage.
+
+Usage
+
+    djv_view [image]... [option]...
+
+Options
+
+    -combine
+        Combine multiple command line arguments into a single sequence.
+    -seq, -q (value)
+        Set command line file sequencing. Options = %1. Default = %2.
+    -auto_seq (value)
+        Automatically detect sequences when opening files. Options = %3. Default = %4.
+
+File Options
+
+    -file_layer (value)
+        Set the input layer.
+    -file_proxy (value)
+        Set the proxy scale. Options = %5.
+    -file_cache (value)
+        Set whether the file cache is enabled. Options = %6.
+
+Window Options
+
+    -window_full_screen
+        Set the window full screen.
+
+Playback Options
+
+    -playback (value)
+        Set the playback. Options = %7.
+    -playback_frame (value)
+        Set the playback frame.
+    -playback_speed (value)
+        Set the playback speed. Options = %8.
+%9</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

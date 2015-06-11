@@ -72,8 +72,8 @@
 <td class="content" valign="top">
 
 <p>
-This application provides a command line tool for displaying information about
-images and movies.</p>
+The djv_info application is a command line tool for displaying information
+about images and movies.</p>
 <h4>Example output:</h4>
 <pre>
 yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
@@ -100,18 +100,28 @@ render0001-1000.exr                                      00:00:41:16@24
 <pre>
 djv_info (image|directory)... [option]...
 </pre>
+<table>
+<tr><td width="200"><i>image</i></td><td>One or more images, image sequences,
+or movies</td></tr>
+<tr><td><i>directory</i></td><td>One or more directories</td></tr>
+<tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
+</table>
+<p>If no images or directories are given then the current directory will be
+used.</p>
+
 <h4>Options:</h4>
 <table>
-<tr><td width="200">-x_info, -xi</td><td>Don't show image information, only
-file names.</td></tr>
-<tr><td>-verbose, -v</td><td>Show verbose image information.</td></tr>
-<tr><td>-file_path, -fp</td><td>Show file path names.</td></tr>
-<tr><td>-seq, -q (value)</td><td>Set file sequencing. Options = Off, Sparse,
-Range. Default = Range.</td></tr>
-<tr><td>-recurse, -r</td><td>Descend into sub-directories.</td></tr>
-<tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
-output. A value of zero disables formatting.</td></tr>
+<tr><td width="200"><i>-x_info, -xi</i></td><td>Don't show image information,
+only file names.</td></tr>
+<tr><td><i>-verbose, -v</i></td><td>Show verbose image information.</td></tr>
+<tr><td><i>-file_path, -fp</i></td><td>Show file path names.</td></tr>
+<tr><td><i>-seq, -q (value)</i></td><td>Set file sequencing. Options = Off,
+Sparse, Range. Default = Range.</td></tr>
+<tr><td><i>-recurse, -r<i></td><td>Descend into sub-directories.</td></tr>
+<tr><td><i>-columns, -c (value)<i></td><td>Set the number of columns for
+formatting output. A value of zero disables formatting.</td></tr>
 </table>
+
 <p>Documentation for image I/O command line options is available
 <a href="djvImageIo.html">here</a>.<p>
 <p>Documentation for general command line options is available

@@ -157,7 +157,7 @@
         <location filename="djvInfoContext.cpp" line="173"/>
         <source>djv_info
 
-    This application provides a command line tool for displaying information about images and movies.
+    The djv_info application is a command line tool for displaying information about images and movies.
 
     Example output:
 
@@ -183,6 +183,12 @@ Usage
 
     djv_info [image|directory]... [option]...
 
+    image     - One or more images, image sequences, or movies
+    directory - One or more directories
+    option    - Additional options (see below)
+
+    If no images or directories are given then the current directory will be used.
+
 Options
 
     -x_info, -xi
@@ -201,14 +207,80 @@ Options
 Examples
 
     Display image information:
+
     &gt; djv_info image.sgi image2.sgi
 
     Display image sequence information:
+
     &gt; djv_info image.1-100.sgi
 
     Display information about all images within a directory:
+
     &gt; djv_info ~/pics
 </source>
+        <oldsource>djv_info
+
+    The djv_info application is a command line tool for displaying information about images and movies.
+
+    Example output:
+
+    yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
+    dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24
+    render0001-1000.exr                                      00:00:41:16@24
+        0: A,B,G,R                                     720x480:1.5 RGBA F16
+        1: Ambient                                      720x480:1.5 RGB F16
+        2: Diffuse                                      720x480:1.5 RGB F16
+        3: Specular                                     720x480:1.5 RGB F16
+        4: Z                                              720x480:1.5 L F32
+
+    Key:
+
+    (name)     (width)x(height):(aspect) (format) (type) (duration)@(speed)
+
+    Layer key:
+
+    (name)                                               (duration)@(speed)
+        (layer): (name)           (width)x(height):(aspect) (format) (type)
+
+Usage
+
+    djv_info [image|directory]... [option]...
+
+    image     - One or more input images
+    directory - One or more input directories
+    option    - Options for the information (see below)
+
+    If no input images or directories are given then the current directory will be used.
+
+Options
+
+    -x_info, -xi
+        Don&apos;t show image information, only file names.
+    -verbose, -v
+        Show verbose image information.
+    -file_path, -fp
+        Show file path names.
+    -seq, -q (value)
+        Set file sequencing. Options = %1. Default = %2.
+    -recurse, -r
+        Descend into sub-directories.
+    -columns, -c (value)
+        Set the number of columns for formatting output. A value of zero disables formatting.
+%3
+Examples
+
+    Display image information:
+
+    &gt; djv_info image.sgi image2.sgi
+
+    Display image sequence information:
+
+    &gt; djv_info image.1-100.sgi
+
+    Display information about all images within a directory:
+
+    &gt; djv_info ~/pics
+</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

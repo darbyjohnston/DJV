@@ -98,20 +98,20 @@ is a specialized image file format for working with motion picture film.</p>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-cineon_input_color_profile (value)</td><td>Set the color profile used
-when loading Cineon images. Options = Auto, None, Film Print. Default = Auto.
-</td></tr>
-<tr><td>-cineon_input_film_print (black) (white) (gamma) (soft clip)</td><td>
+<tr><td width="200"><i>-cineon_input_color_profile (value)</i></td><td>Set the
+color profile used when loading Cineon images. Options = Auto, None, Film Print.
+Default = Auto.</td></tr>
+<tr><td><i>-cineon_input_film_print (black) (white) (gamma) (soft clip)</i></td><td>
 Set the film print values used when loading Cineon images. Default = 95, 685,
 1.7, 0.</td></tr>
-<tr><td>-cineon_output_color_profile (value)</td><td>Set the color profile 
+<tr><td><i>-cineon_output_color_profile (value)</i></td><td>Set the color profile
 used when saving Cineon images. Options = False, True. Default = False.</td></tr>
-<tr><td>-cineon_output_film_print (black) (white) (gamma) (soft clip)</td><td>
+<tr><td><i>-cineon_output_film_print (black) (white) (gamma) (soft clip)</i></td><td>
 Set the film print values used when saving Cineon images. Default = Auto, None,
 Film Print.</td></tr>
-<tr><td>-cineon_convert (value)</td><td>Set whether the pixel data is converted
-to 8-bits when loading Cineon images. Options = Film Print. Default = 95, 685,
-1.7.</td></tr>
+<tr><td><i>-cineon_convert (value)</i></td><td>Set whether the pixel data is
+converted to 8-bits when loading Cineon images. Options = Film Print.
+Default = 95, 685, 1.7.</td></tr>
 </table>
 
 <h2><a name="Dpx">DPX</a></h2>
@@ -134,26 +134,27 @@ support for additional image and meta data.</p>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-dpx_input_color_profile (value)</td><td>Set the color profile used
-when loading DPX images. Options = Auto, None, Film Print. Default = Auto.
-</td></tr>
-<tr><td>-dpx_input_film_print (black) (white) (gamma) (soft clip)</td><td>
+<tr><td width="200"><i>-dpx_input_color_profile (value)</i></td><td>Set the color
+profile used when loading DPX images. Options = Auto, None, Film Print.
+Default = Auto.</td></tr>
+<tr><td><i>-dpx_input_film_print (black) (white) (gamma) (soft clip)</i></td><td>
 Set the film print values used when loading DPX images. Default = 95, 685, 1.7,
 0.</td></tr>
-<tr><td>-dpx_output_color_profile (value)</td><td>Set the color profile used
-when saving DPX images. Options = False, True. Default = Auto, None, Film Print.
-</td></tr>
-<tr><td>-dpx_output_film_print (black) (white) (gamma) (soft clip)</td><td>
+<tr><td><i>-dpx_output_color_profile (value)</i></td><td>Set the color profile
+used when saving DPX images. Options = False, True. Default = Auto, None, Film
+Print.</td></tr>
+<tr><td><i>-dpx_output_film_print (black) (white) (gamma) (soft clip)</i></td><td>
 Set the film print values used when saving DPX images. Default = Film Print.
 </td></tr>
-<tr><td>-dpx_convert (value)</td><td>Set whether the pixel data is converted to
-8-bits when loading DPX images. Options = 95, 685, 1.7. Default = False.</td></tr>
-<tr><td>-dpx_version (value)</td><td>Set the file format version used when
-saving DPX images. Options = 1.0, 2.0. Default = 2.0.</td></tr>
-<tr><td>-dpx_type (value)</td><td>Set the pixel type used when saving DPX
+<tr><td><i>-dpx_convert (value)</i></td><td>Set whether the pixel data is
+converted to 8-bits when loading DPX images. Options = 95, 685, 1.7.
+Default = False.</td></tr>
+<tr><td><i>-dpx_version (value)</i></td><td>Set the file format version used
+when saving DPX images. Options = 1.0, 2.0. Default = 2.0.</td></tr>
+<tr><td><i>-dpx_type (value)</i></td><td>Set the pixel type used when saving DPX
 images. Options = Auto, U10. Default = U10.</td></tr>
-<tr><td>-dpx_endian (value)</td><td>Set the endian used when saving DPX images.
-Setting the endian to "Auto" will use the endian of the current hardware.
+<tr><td><i>-dpx_endian (value)</i></td><td>Set the endian used when saving DPX
+images. Setting the endian to "Auto" will use the endian of the current hardware.
 Options = Auto, MSB, LSB. Default = MSB.</td></tr>
 </table>
 
@@ -177,8 +178,9 @@ Options = Auto, MSB, LSB. Default = MSB.</td></tr>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-iff_compression (value)</td><td>Set the file compression used when
-saving IFF images. Options = None, RLE. Default = RLE.</td></tr>
+<tr><td width="200"><i>-iff_compression (value)</i></td><td>Set the file
+compression used when saving IFF images. Options = None, RLE. Default = RLE.
+</td></tr>
 </table>
 
 <h2><a name="Ifl">IFL</a></h2>
@@ -202,8 +204,8 @@ image file format.</p>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-jpeg_quality (value)</td><td>Set the quality used when saving JPEG
-images. Default = 90.</td></tr>
+<tr><td width="200"><i>-jpeg_quality (value)</i></td><td>Set the quality used
+when saving JPEG images. Default = 90.</td></tr>
 </table>
 
 <h2><a name="Lut">LUT</a></h2>
@@ -216,8 +218,8 @@ images. Default = 90.</td></tr>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-lut_type (value)</td><td>Set the pixel type used when loading LUTs.
-Options = Auto, U8, U10, U16. Default = Auto.</td></tr>
+<tr><td width="200"><i>-lut_type (value)</i></td><td>Set the pixel type used when
+loading LUTs. Options = Auto, U8, U10, U16. Default = Auto.</td></tr>
 </table>
 
 <h2><a name="OpenExr">OpenEXR</a></h2>
@@ -233,25 +235,25 @@ image file format.</p>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-exr_threads_enable (value)</td><td>Set whether threading is enabled.
-Default = True.</td><tr>
-<tr><td>-exr_thread_count (value)</td><td>Set the maximum number of threads to
-use. Default = 4.</td></td>
-<tr><td>-exr_input_color_profile (value)</td><td>Set the color profile used
+<tr><td width="200"><i>-exr_threads_enable (value)</i></td><td>Set whether
+threading is enabled. Default = True.</td><tr>
+<tr><td><i>-exr_thread_count (value)</i></td><td>Set the maximum number of
+threads to use. Default = 4.</td></td>
+<tr><td><i>-exr_input_color_profile (value)</i></td><td>Set the color profile used
 when loading OpenEXR images. Options = None, Gamma, Exposure. Default = Gamma.
 </td></tr>
-<tr><td>-exr_input_gamma (value)</td><td>Set the gamma values used when loading
-OpenEXR images. Default = 2.2.</td></tr>
-<tr><td>-exr_input_exposure (value) (defog) (knee low) (knee high)</td>
+<tr><td><i>-exr_input_gamma (value)</i></td><td>Set the gamma values used when
+loading OpenEXR images. Default = 2.2.</td></tr>
+<tr><td><i>-exr_input_exposure (value) (defog) (knee low) (knee high)</i></td>
 <td>Set the exposure values used when loading OpenEXR images. Default = 0, 0,
 0, 5.</td></tr>
-<tr><td>-exr_channels (value)</td><td>Set how channels are grouped when loading
-OpenEXR images. Options = None, Known, All. Default = Known.</td></tr>
-<tr><td>-exr_compression (value)</td><td>Set the file compression used when
-saving OpenEXR images. Options = None, RLE, ZIPS, ZIP, PIZ, PXR24, B44, B44A,
-DWAA, DWAB. Default = None.</td></tr>
-<tr><td>-exr_dwa_compression_level (value)</td><td>Set the DWA compression
-level used when saving OpenEXR images. Default = 45.</td></tr>
+<tr><td><i>-exr_channels (value)</i></td><td>Set how channels are grouped when
+loading OpenEXR images. Options = None, Known, All. Default = Known.</td></tr>
+<tr><td><i>-exr_compression (value)</i></td><td>Set the file compression used
+when saving OpenEXR images. Options = None, RLE, ZIPS, ZIP, PIZ, PXR24, B44,
+B44A, DWAA, DWAB. Default = None.</td></tr>
+<tr><td><i>-exr_dwa_compression_level (value)</i></td><td>Set the DWA
+compression level used when saving OpenEXR images. Default = 45.</td></tr>
 </table>
 
 <h2><a name="Pic">PIC</a></h2>
@@ -290,9 +292,9 @@ file format.</p>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-ppm_type (value)</td><td>Set the file type used when saving PPM
-images. Options = Auto, U1. Default = Auto.</td><tr>
-<tr><td>-ppm_data (value)</td><td>Set the data type used when saving PPM
+<tr><td width="200"><i>-ppm_type (value)</i></td><td>Set the file type used when
+saving PPM images. Options = Auto, U1. Default = Auto.</td><tr>
+<tr><td><i>-ppm_data (value)</i></td><td>Set the data type used when saving PPM
 images. Options = ASCII, Binary. Default = Binary.</td></tr>
 </table>
 
@@ -305,9 +307,9 @@ images. Options = ASCII, Binary. Default = Binary.</td></tr>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-ffmpeg_format (value)</td><td>Set the format used when
+<tr><td width="200"><i>-ffmpeg_format (value)</i></td><td>Set the format used when
 saving FFmpeg movies. Options = MPEG4, ProRes, MJPEG. Default = MPEG4.</td></tr>
-<tr><td>-ffmpeg_quality (value)</td><td>Set the quality used when
+<tr><td><i>-ffmpeg_quality (value)</i></td><td>Set the quality used when
 saving FFmpeg movies. Options = Low, Medium, High. Default = High.</td></tr>
 </table>
 
@@ -335,8 +337,9 @@ saving FFmpeg movies. Options = Low, Medium, High. Default = High.</td></tr>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-sgi_compression (value)</td><td>Set the file compression used when
-saving SGI images. Options = None, RLE. Default = None.</td></tr>
+<tr><td width="200"><i>-sgi_compression (value)</i></td><td>Set the file
+compression used when saving SGI images. Options = None, RLE. Default = None.
+</td></tr>
 </table>
 
 <h2><a name="Targa">Targa</a></h2>
@@ -354,8 +357,9 @@ saving SGI images. Options = None, RLE. Default = None.</td></tr>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-targa_compression (value)</td><td>Set the file compression used when
-saving Targa images. Options = None, RLE. Default = None.</td></tr>
+<tr><td width="200"><i>-targa_compression (value)</td><td>Set the file
+ompression used when saving Targa images. Options = None, RLE. Default = None.
+</td></tr>
 </table>
 
 <h2><a name="Tiff">TIFF</a></h2>
@@ -369,8 +373,9 @@ saving Targa images. Options = None, RLE. Default = None.</td></tr>
 </ul>
 <h4>Command line options:</h4>
 <table>
-<tr><td width="200">-tiff_compression (value)</td><td>Set the file compression used when
-saving TIFF images. Options = None, RLE, LZW. Default = None.</td></tr>
+<tr><td width="200"><i>-tiff_compression (value)</i></td><td>Set the file
+compression used when saving TIFF images. Options = None, RLE, LZW.
+Default = None.</td></tr>
 </table>
 
 </td>

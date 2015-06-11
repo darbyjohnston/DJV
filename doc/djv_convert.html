@@ -71,91 +71,115 @@
 
 <td class="content" valign="top">
 
-<p>This application provides a command line tool for processing images and
-movies.</p>
+<p>The djv_convert application is a command line tool for batch processing
+images and movies. Common uses include resizing images and converting
+sequences of images to a QuickTime movie.<p>
+<p>Here is an example of how to resize a sequence of images:</p>
+<pre>
+> djv_convert input.1-100.tga output.1.tga -resize 2048 1556
+</pre>
+<p>Note that only the first frame of the output sequence needs to be
+specified, the remaining frames will be added automatically. See below for
+more examples.</p>
+<p>Note also that the djv_convert application uses OpenGL for image processing
+so it needs to be run on a machine with graphics resources.</p>
 
 <h2><a name="CommandLine">Command Line</a></h2>
 <h4>Usage:</h4>
 <pre>
 djv_convert (input) (output) [option]...
 </pre>
+<table>
+<tr><td width="200"><i>input</i></td><td>Input image, image sequence, or
+movie</td></tr>
+<tr><td><i>output</i></td><td>Output image, image sequence, or movie</td></tr>
+<tr><td><i>option</i></td><td>Additional options (see below)</td></tr>
+</table>
+
 <h4>Conversion options:</h4>
 <table>
-<tr><td width="200">-mirror_h<br>-mirror_v</td><td>Mirror the image
-horizontally or vertically.</td></tr>
-<tr><td>-scale (value)<br>-scale_xy (x) (y)</td><td>Scale the image.</td></tr>
-<tr><td>-resize (width) (height)</td><td>Resize the image.</td></tr>
-<tr><td>-width (value)<br>-height (value)</td><td>Resize the width or height of
-the image maintaining the aspectratio.</td></tr>
-<tr><td>-crop (x) (y) (width) (height)</td><td>Crop the image.</td></tr>
-<tr><td>-crop_percent (x) (y) (width) (height)</td><td>Crop the image as a
-percentage.</td></tr>
-<tr><td>-channel (value)</td><td>Show only specific image channels. Options =
-Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
-<tr><td>-seq (value)</td><td>Set whether file sequencing is enabled. Options =
-False, True. Default = True.</td></tr>
+<tr><td width="200"><i>-mirror_h</i></td><td>Mirror the image horizontally.</td></tr>
+<tr><td><i>-mirror_v</i></td><td>Mirror the image vertically.</td></tr>
+<tr><td><i>-scale (value)</i></td><td>Scale the image width and height using a
+floating point value (1.0 = 100%).</td></tr>
+<tr><td><i>-scale_separate (width) (height)</i></td><td>Scale the image width
+and height separately using a floating point value (1.0 = 100%).</td></tr>
+<tr><td><i>-resize (width) (height)</i></td><td>Resize the image width and
+height to the given resolution.</td></tr>
+<tr><td><i>-width (value)</i></td><td>Resize the image width to the given
+resolution maintaining the aspect ratio.</td></tr>
+<tr><td><i>-height (value)</i></td><td>Resize the image height to the given
+resolution maintaining the aspect ratio.</td></tr>
+<tr><td><i>-crop (x) (y) (width) (height)</i></td><td>Crop the image.</td></tr>
+<tr><td><i>-crop_percent (x) (y) (width) (height)</i></td><td>Crop the image
+using floating point values (1.0 = 100%).</td></tr>
+<tr><td><i>-channel (value)</i></td><td>Show only specific image channels.
+Options = Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
+<tr><td><i>-seq (value)</i></td><td>Set whether file sequencing is enabled.
+Options = False, True. Default = True.</td></tr>
 </table>
+
 <h4>Input options:</h4>
 <table>
-<tr><td width="200">-layer (value)</td><td>Set the input layer.</td></tr>
-<tr><td>-proxy (value)</td><td>Set the proxy scale. Options = None, 1/2, 1/4,
-1/8. Default = None.</td></tr>
-<tr><td>-time (start) (end)</td><td>Set the start and end time.</td></tr>
-<tr><td>-slate (input) (frames)</td><td>Set the slate.</td></tr>
-<tr><td>-timeout (value)</td><td>Set the maximum number of seconds to wait for
-each input frame. Default = 0.</td></tr>
+<tr><td width="200"><i>-layer (value)</i></td><td>Set the input layer.</td></tr>
+<tr><td><i>-proxy (value)</i></td><td>Set the proxy scale. Options = None, 1/2,
+1/4, 1/8. Default = None.</td></tr>
+<tr><td><i>-time (start) (end)</i></td><td>Set the start and end time.</td></tr>
+<tr><td><i>-slate (input) (frames)</i></td><td>Set the slate.</td></tr>
+<tr><td><i>-timeout (value)</i></td><td>Set the maximum number of seconds to
+wait for each input frame. Default = 0.</td></tr>
 </table>
+
 <h4>Output options:</h4>
 <table>
-<tr><td width="200">-pixel (value)</td><td>Convert the pixel type. Options = L
-U8, L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB
-U16, RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.</td></tr>
-<tr><td>-speed (value)</td><td>Set the speed. Options = 1, 3, 6, 12, 15, 16,
-18, 23.98, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
-<tr><td>-tag (name) (value)</td><td>Set an image tag.</td></tr>
-<tr><td>-tag_auto (value)</td><td>Automatically generate image tags (e.g.,
-timecode). Options = False, True. Default = True.</td></tr>
+<tr><td width="200"><i>-pixel (value)</i></td><td>Convert the pixel type.
+Options = L U8, L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8,
+RGB U10, RGB U16, RGB F16, RGB F32, RGBA U8, RGBA U16, RGBA F16, RGBA F32.
+</td></tr>
+<tr><td><i>-speed (value)</i></td><td>Set the speed. Options = 1, 3, 6, 12, 15,
+16, 18, 23.98, 24, 25, 29.97, 30, 50, 59.94, 60, 120.</td></tr>
+<tr><td><i>-tag (name) (value)</i></td><td>Set an image tag.</td></tr>
+<tr><td><i>-tag_auto (value)</i></td><td>Automatically generate image tags
+(e.g., timecode). Options = False, True. Default = True.</td></tr>
 </table>
+
 <p>Documentation for image I/O command line options is available
 <a href="djvImageIo.html">here</a>.<p>
 <p>Documentation for general command line options is available
 <a href="djvCommandLine.html">here</a>.<p>
 
 <h2><a name="Examples">Examples</a></h2>
-<p>Display image information:</p>
-<pre>
-> djv_info image.sgi image2.sgi
-</pre>
-
 <p>Convert an image:</p>
 <pre>
 > djv_convert input.sgi output.tga
 </pre>
 
-<p>Convert an image sequence. Note that only the first frame of the output is
-specified:</p>
+<p>Convert an image sequence. Note that only the first frame of the output 
+sequence needs to be specified, the remaining frames will be added
+automatically:</p>
 <pre>
 > djv_convert input.1-100.sgi output.1.tga
 </pre>
 
 <p>Create an RLE compressed image sequence:</p>
 <pre>
-> djv_convert input.1-100.sgi output.1.tga -targa_compression rle
+> djv_convert input.1-100.sgi output.1.tga -targa_compression RLE
 </pre>
 
 <p>Convert an image sequence to a movie:</p>
 <pre>
-> djv_convert input.0001-0100.dpx output.mov
+> djv_convert input.0001-0100.dpx output.m4v
 </pre>
 
 <p>Convert a movie to an image sequence:</p>
 <pre>
-> djv_convert input.mov output.1.tga
+> djv_convert input.m4v output.1.tga
 </pre>
 
-<p>Convert the pixel type:</p>
+<p>Convert the pixel type. Note the use of the quotes around the pixel type
+option:</p>
 <pre>
-> djv_convert input.sgi output.sgi -pixel "rgb u16"
+> djv_convert input.sgi output.sgi -pixel "RGB U16"
 </pre>
 
 <p>Scale an image by half:</p>
@@ -176,7 +200,7 @@ specified:</p>
 <p>Convert a Cineon file to a linear format using custom print settings (black
 point, white point, gamma, and soft clip):</p>
 <pre>
-> djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 10
+> djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2
 </pre>
 
 </td>
