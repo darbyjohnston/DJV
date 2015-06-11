@@ -131,8 +131,8 @@ bool djvCoreContext::commandLine(int & argc, char ** argv)
 
 QString djvCoreContext::doc() const
 {
-    return djvFileInfoUtil::fixPath(qApp->applicationDirPath() + "/doc/" +
-        "djvHelp.html");
+    return djvFileInfoUtil::fixPath(qApp->applicationDirPath() + "/../doc/" +
+        "djvDocumentation.html");
 }
 
 QString djvCoreContext::info() const

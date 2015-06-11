@@ -165,6 +165,9 @@ void djvGuiContext::setValid(bool in)
 
 void djvGuiContext::help()
 {
+    //DJV_DEBUG("djvGuiContext::help");
+    //DJV_DEBUG_PRINT("url = " << doc());
+    
     QDesktopServices::openUrl(QUrl::fromLocalFile(doc()));
 }
 
