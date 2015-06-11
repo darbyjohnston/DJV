@@ -45,22 +45,59 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="navCurrent" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content"/>
-<table width="90%" align="center" border="0">
+<table width="100%" height="100%">
 <tr>
-<td width=50% valign="top" rowspan="2">
+<td align="center" valign="bottom">
+    <a class="navCurrent" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
+<table width="100%" height="600">
+<tr>
+
+<td class="sidebar" valign="top">
+
+<h3>Downloads</h3>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.rpm/download">Linux&nbsp;RPM</a></li>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.deb/download">Linux&nbsp;DEB</a></li>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-OSX-64.dmg/download">OS&nbsp;X</a></li>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.exe/download">Windows</a></li>
+
+<h3>News</h3>
+<p><b>Version 1.1 Released</b> 2015/06/02</p>
+<li>Movie playback is now supported for all 64-bit platforms</li>
+<li>Faster multi-threaded file browser</li>
+<li>Experimental support for pre-caching frames</li>
+
+<h3>Help</h3>
+<li><a href="djvDocumentation.html">Documentation</a></li>
+<li><a href="djvFaq.html">FAQ</a></li>
+<li><a href="http://sourceforge.net/p/djv/discussion/">Forums</a></li>
+<li><a href="http://sourceforge.net/p/djv/_list/tickets">Feature Requests and Bug Tracking</a></li>
+
+<h3>Links</h3>
+<li><a href="http://sourceforge.net/p/djv/git/ci/master/tree">Git Source Code Repository</a></li>
+<li><a href="http://sourceforge.net/projects/djv">Sourceforge Site</a></li>
+
+<h3>About</h3>
+<li><a href="djvCredits.html">Credits</a></li>
+<li><a href="djvLegal.html">Legal</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
+<div align="center">
+<a href="djvScreenshots.html"><img src="images/indexSmall.png"></a>
+</div>
+
+<div>
 <p>DJV Imaging provides open source movie playback software for use in film
 production, VFX, and computer animation. Key features include:</p>
 <ul>
@@ -70,50 +107,7 @@ production, VFX, and computer animation. Key features include:</p>
     <li>Command line utilities for batch processing</li>
     <li>Cross platform support for Linux, Apple OS X, and Microsoft Windows</li>
 </ul>
-
-<h3>Downloads</h3>
-<ul>
-    <li>
-        Linux
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.rpm/download">RPM</a>
-        and
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.deb/download">DEB</a>
-    </li>
-    <li>
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-OSX-64.dmg/download">OSX</a>
-    </li>
-    <li>
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.exe/download">Windows</a>
-    </li>
-    <li>
-        <a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@">All downloads</a>
-    </li>
-    <li>
-        <a href="djvInstall.html">Installation instructions</a>
-    </li>
-</ul>
-
-<h3>News</h3>
-<p><b>2015/06/02 - Version 1.1 Released</b></p>
-<ul>
-    <li>QuickTime is now supported on all 64-bit platforms</li>
-    <li>New multi-threaded file browser</li>
-    <li>Experimental support for pre-caching frames</li>
-</ul>
-<p><b>2014/09/28 - Version 1.0 Released</b></p>
-<ul>
-    <li>Now based on the <a href="http://qt-project.org/">Qt</a> toolkit</li>
-    <li>Updated third party packages including <a href="http://www.openexr.com/">OpenEXR 2.2</a></li>
-    <li>Source code is available from <a href="http://sourceforge.net/p/djv/_list/git">Git</a></li>
-</ul>
-
-<h3>Help</h3>
-<ul>
-    <li><a href="djvHelp.html">Documentation</a></li>
-    <li><a href="djvFaq.html">FAQ</a></li>
-    <li><a href="http://sourceforge.net/p/djv/discussion/">Forums</a></li>
-    <li><a href="http://sourceforge.net/p/djv/_list/tickets">Feature requests and bug tracking</a></li>
-</ul>
+</div>
 
 <h3>Testimonials</h3>
 
@@ -125,6 +119,7 @@ default tool for artists to review their work with...<br>
 3D Supervisor<br>
 Gramercy Park Studios</i></b>
 </p>
+
 <p>...The DJV Imaging suite of tools are the backbone of our transcoding
 pipeline...<br>
 <br>
@@ -134,26 +129,20 @@ Zoic Studios</i></b>
 </p>
 <p><a href="djvTestimonials.html">(More...)</a></p>
 
-</td>
-<td valign="top">
-
-<a href="djvScreenshots.html"><img src="images/indexSmall.png"></a>
-
-</td>
-</tr>
+<table align="right">
 <tr>
-<td align="center">
-
-<p>Author: Darby Johnston (darbyjohnston@yahoo.com)</p>
-
-<a href="http://www.opengl.org"><img src="images/OpenGL.png"></a>
-<a href="http://sourceforge.net/projects/djv"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=118244&amp;type=1"></a>
+<td>
+    <a href="http://sourceforge.net/projects/djv"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=118244&amp;type=1"></a>
+</td>
+<td>
+    <a href="http://www.opengl.org"><img src="images/OpenGL.png"></a>
+</td>
+</tr>
+</table>
 
 </td>
 </tr>
-
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

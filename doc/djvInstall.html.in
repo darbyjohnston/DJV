@@ -45,30 +45,34 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>Installation</h1>
-<ul>
-    <li><a href="#Linux">Linux</a></li>
-    <li><a href="#OSX">OS X</a></li>
-    <li><a href="#Windows">Windows</a></li>
-</ul>
+<table width="100%" height="600">
+<tr>
 
-<a name="Linux"><h2>Linux</h2></a>
+<td class="sidebar" valign="top">
+
+<h3>Installation</h3>
+<li><a href="#Linux">Linux</a></li>
+<li><a href="#OSX">OS X</a></li>
+<li><a href="#Windows">Windows</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
+<h3><a name="Linux">Linux</a></h3>
 <p>Linux packages are compiled for CentOS 6.3 and may also work on other Linux
 distributions.</p>
 <p>
@@ -91,7 +95,7 @@ distributions.</p>
 > sudo dpkg --remove djv
 </pre>
 
-<a name="OSX"><h2>OS X</h2></a>
+<h3><a name="OSX">OS X</a></h3>
 <p>OS X packages are compiled for OS X 10.7 and are compatible with later OS X
 versions.</p>
 <p>Shell scripts are provided to setup the proper environment and run the DJV
@@ -106,13 +110,13 @@ use this command to run djv_convert:</p>
 alias djv_convert=/Applications/djv-@djvVersion@-OSX-64.app/Contents/Resources/bin/djv_convert.sh
 </pre>
 
-<a name="Windows"><h2>Windows</h2></a>
+<h3><a name="Windows">Windows</a></h3>
 <p>Windows packages are compiled for Windows 7.</p>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

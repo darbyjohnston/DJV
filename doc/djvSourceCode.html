@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - Source Code</title>
 </head>
@@ -46,44 +45,49 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>Source Code</h1>
+<table width="100%" height="600">
+<tr>
+
+<td class="sidebar" valign="top">
+
+<h3>Building the Source Code</h3>
+<li><a href="#ThirdPartySoftware">Third Party Software</a></li>
+<ul>
+    <li><a href="#ThirdPartySoftwareLinux">Linux</a></li>
+    <li><a href="#ThirdPartySoftwareOSX">OS X</a></li>
+    <li><a href="#ThirdPartySoftwareWindows">Windows</a></li>
+</ul>
+<li><a href="#DJVSourceCode">DJV Source Code</a></li>
+<ul>
+    <li><a href="#DJVLinux">Linux</a></li>
+    <li><a href="#DJVOSX">OS X</a></li>
+    <li><a href="#DJVWindows">Windows</a></li>
+</ul>
+
+</td>
+
+<td class="content" valign="top">
+
 <p>The DJV source code is available for download and may be used to compile
 your own version or to make modifications. The source code is provided under
 a BSD-style open source <a href="djvLegal.html">license</a>. DJV also depends
 on a number of third party software packages which are covered by their own
 license terms, see the documentation of the individual packages for details.</p>
-<ul>
-    <li><a href="#ThirdPartySoftware">Third Party Software</a></li>
-    <ul>
-        <li><a href="#ThirdPartySoftwareLinux">Linux</a></li>
-        <li><a href="#ThirdPartySoftwareOSX">OS X</a></li>
-        <li><a href="#ThirdPartySoftwareWindows">Windows</a></li>
-    </ul>
-    <li><a href="#DJV">DJV</a></li>
-    <ul>
-        <li><a href="#DJVLinux">Linux</a></li>
-        <li><a href="#DJVOSX">OS X</a></li>
-        <li><a href="#DJVWindows">Windows</a></li>
-    </ul>
-</ul>
 
-<a name="ThirdPartySoftware"><h2>Third Party Software</h2></a>
+<h2><a name="ThirdPartySoftware">Third Party Software</a></h2>
 <p>DJV depends on a number of third party software packages that need to be
 built before the DJV source code can be built. Some of these packages are
 required, like Qt, while others are optional, like FFmpeg.</p>
@@ -272,7 +276,7 @@ setting the installation path:</p>
 > nmake install
 </pre>
 
-<a name="DJV"><h2>DJV</h2></a>
+<h2><a name="DJVSourceCode">DJV Source Code</a></h2>
 <p>The CMake modules used for locating the third party software are located in
 the directory "cmake/Modules".</p>
 
@@ -365,9 +369,9 @@ directory under "etc\Windows" for an example.</p>
 </pre>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - djv_convert</title>
 </head>
@@ -46,39 +45,41 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>djv_convert</h1>
-<ul>
-    <li><a href="#Overview">Overview</a></li>
-    <li><a href="#CommandLine">Command Line</a></li>
-    <li><a href="#Examples">Examples</a></li>
-</ul>
+<table width="100%" height="600">
+<tr>
 
-<a name="Overview"><h2>Overview</h2></a>
+<td class="sidebar" valign="top">
+
+<h3>djv_convert</h3>
+<li><a href="#CommandLine">Command Line</a></li>
+<li><a href="#Examples">Examples</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
 <p>This application provides a command line tool for processing images and
 movies.</p>
 
-<a name="CommandLine"><h2>Command Line</h2></a>
-<p>Usage:</p>
+<h2><a name="CommandLine">Command Line</a></h2>
+<h4>Usage:</h4>
 <pre>
 djv_convert (input) (output) [option]...
 </pre>
-<p>Conversion options:</p>
+<h4>Conversion options:</h4>
 <table>
 <tr><td width="200">-mirror_h<br>-mirror_v</td><td>Mirror the image
 horizontally or vertically.</td></tr>
@@ -94,7 +95,7 @@ Default, Red, Green, Blue, Alpha. Default = Default.</td></tr>
 <tr><td>-seq (value)</td><td>Set whether file sequencing is enabled. Options =
 False, True. Default = True.</td></tr>
 </table>
-<p>Input options:</p>
+<h4>Input options:</h4>
 <table>
 <tr><td width="200">-layer (value)</td><td>Set the input layer.</td></tr>
 <tr><td>-proxy (value)</td><td>Set the proxy scale. Options = None, 1/2, 1/4,
@@ -104,7 +105,7 @@ False, True. Default = True.</td></tr>
 <tr><td>-timeout (value)</td><td>Set the maximum number of seconds to wait for
 each input frame. Default = 0.</td></tr>
 </table>
-<p>Output options:</p>
+<h4>Output options:</h4>
 <table>
 <tr><td width="200">-pixel (value)</td><td>Convert the pixel type. Options = L
 U8, L U16, L F16, L F32, LA U8, LA U16, LA F16, LA F32, RGB U8, RGB U10, RGB
@@ -120,7 +121,7 @@ timecode). Options = False, True. Default = True.</td></tr>
 <p>Documentation for general command line options is available
 <a href="djvCommandLine.html">here</a>.<p>
 
-<a name="Examples"><h2>Examples</h2></a>
+<h2><a name="Examples">Examples</a></h2>
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi
@@ -179,9 +180,9 @@ point, white point, gamma, and soft clip):</p>
 </pre>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

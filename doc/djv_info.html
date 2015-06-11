@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - djv_info</title>
 </head>
@@ -46,34 +45,36 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>djv_info</h1>
-<ul>
-    <li><a href="#Overview">Overview</a></li>
-    <li><a href="#CommandLine">Command Line</a></li>
-    <li><a href="#Examples">Examples</a></li>
-</ul>
+<table width="100%">
+<tr>
 
-<a name="Overview"><h2>Overview</h2></a>
+<td class="sidebar" valign="top">
+
+<h3>djv_info</h3>
+<li><a href="#CommandLine">Command Line</a></li>
+<li><a href="#Examples">Examples</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
 <p>
 This application provides a command line tool for displaying information about
 images and movies.</p>
-<p>Example output:
+<h4>Example output:</h4>
 <pre>
 yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12
 dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24
@@ -84,22 +85,22 @@ render0001-1000.exr                                      00:00:41:16@24
     3: Specular                                     720x480:1.5 RGB F16
     4: Z                                              720x480:1.5 L F32
 </pre>
-<p>Key:</p>
+<h4>Key:</h4>
 <pre>
 (name)       (width)x(height):(aspect ratio) (pixel) (duration)@(speed)
 </pre>
-<p>Layer key:</p>
+<h4>Layer key:</h4>
 <pre>
 (name)                                               (duration)@(speed)
     (layer): (name)             (width)x(height):(aspect ratio) (pixel)
 </pre>
 
-<a name="CommandLine"><h2>Command Line</h2></a>
-<p>Usage:</p>
+<h2><a name="CommandLine">Command Line</a></h2>
+<h4>Usage:</h4>
 <pre>
 djv_info (image|directory)... [option]...
 </pre>
-<p>Options:</p>
+<h4>Options:</h4>
 <table>
 <tr><td width="200">-x_info, -xi</td><td>Don't show image information, only
 file names.</td></tr>
@@ -116,7 +117,7 @@ output. A value of zero disables formatting.</td></tr>
 <p>Documentation for general command line options is available
 <a href="djvCommandLine.html">here</a>.<p>
 
-<a name="Examples"><h2>Examples</h2></a>
+<h2><a name="Examples">Examples</a></h2>
 <p>Display image information:</p>
 <pre>
 > djv_info image.sgi image2.sgi
@@ -131,9 +132,9 @@ output. A value of zero disables formatting.</td></tr>
 </pre>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

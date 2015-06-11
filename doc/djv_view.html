@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - djv_view</title>
 </head>
@@ -46,82 +45,84 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>djv_view</h1>
+<table width="100%" height="600">
+<tr>
+
+<td class="sidebar" valign="top">
+
+<h3>djv_view</h3>
+<li><a href="#Files">Files</a></li>
 <ul>
-    <li><a href="#Overview">Overview</a></li>
-    <li><a href="#Files">Files</a></li>
-    <ul>
-        <li><a href="#FileFormats">File Formats</a></li>
-        <li><a href="#FileSequences">File Sequences</a></li>
-        <li><a href="#OpeningFiles">Opening Files</a></li>
-        <li><a href="#SavingFiles">Saving Files</a></li>
-        <li><a href="#FileLayers">File Layers</a></li>
-        <li><a href="#ProxyScaling">Proxy Scaling</a></li>
-        <li><a href="#8BitConversion">8-Bit Conversion</a></li>
-        <li><a href="#MemoryCache">Memory Cache</a></li>
-        <li><a href="#FileMenu">File Menu</a></li>
-    </ul>
-    <li><a href="#Windows">Windows</a></li>
-    <ul>
-        <li><a href="#OpeningAndClosingWindows">Opening and Closing Windows</a></li>
-        <li><a href="#ResizingWindows">Resizing Windows</a></li>
-        <li><a href="#FullScreenMode">Full Screen Mode</a></li>
-        <li><a href="#WindowControls">Window Controls</a></li>
-        <li><a href="#WindowMenu">Window Menu</a></li>
-    </ul>
-    <li><a href="#Views">Views</a></li>
-    <ul>
-        <li><a href="#ViewNavigation">View Navigation</a></li>
-        <li><a href="#Grid">Grid</a></li>
-        <li><a href="#HeadsUpDisplay">Heads Up Display (HUD)</a></li>
-        <li><a href="#ViewMenu">View Menu</a></li>
-    </ul>
-    <li><a href="#Images">Images</a></li>
-    <ul>
-        <li><a href="#FrameStore">Frame Store</a></li>
-        <li><a href="#ImageTransforms">Image Transforms</a></li>
-        <li><a href="#ColorAndDisplayProfiles">Color and Display Profiles</a></li>
-        <li><a href="#ImageChannels">Image Channels</a></li>
-        <li><a href="#ImageMenu">Image Menu</a></li>
-    </ul>
-    <li><a href="#Playback">Playback</a></li>
-    <ul>
-        <li><a href="#PlaybackControls">Playback Controls</a></li>
-        <li><a href="#FrameControls">Frame Controls</a></li>
-        <li><a href="#InAndOutPoints">In and Out Points</a></li>
-        <li><a href="#PlaybackSpeed">Playback Speed</a></li>
-        <li><a href="#PlaybackLayout">Playback Layout</a></li>
-        <li><a href="#FramesAndTimecode">Frames and Timecode</a></li>
-        <li><a href="#PlaybackMenu">Playback Menu</a></li>
-    </ul>
-    <li><a href="#Tools">Tools</a></li>
-    <ul>
-        <li><a href="#Magnify">Magnify</a></li>
-        <li><a href="#ColorPicker">Color Picker</a></li>
-        <li><a href="#Histogram">Histogram</a></li>
-        <li><a href="#Information">Information</a></li>
-        <li><a href="#ToolsMenu">Tools Menu</a></li>
-    </ul>
-    <li><a href="#CommandLine">Command Line</a></li>
+    <li><a href="#FileFormats">File Formats</a></li>
+    <li><a href="#FileSequences">File Sequences</a></li>
+    <li><a href="#OpeningFiles">Opening Files</a></li>
+    <li><a href="#SavingFiles">Saving Files</a></li>
+    <li><a href="#FileLayers">File Layers</a></li>
+    <li><a href="#ProxyScaling">Proxy Scaling</a></li>
+    <li><a href="#8BitConversion">8-Bit Conversion</a></li>
+    <li><a href="#MemoryCache">Memory Cache</a></li>
+    <li><a href="#FileMenu">File Menu</a></li>
 </ul>
+<li><a href="#Windows">Windows</a></li>
+<ul>
+    <li><a href="#OpeningAndClosingWindows">Opening and Closing Windows</a></li>
+    <li><a href="#ResizingWindows">Resizing Windows</a></li>
+    <li><a href="#FullScreenMode">Full Screen Mode</a></li>
+    <li><a href="#WindowControls">Window Controls</a></li>
+    <li><a href="#WindowMenu">Window Menu</a></li>
+</ul>
+<li><a href="#Views">Views</a></li>
+<ul>
+    <li><a href="#ViewNavigation">View Navigation</a></li>
+    <li><a href="#Grid">Grid</a></li>
+    <li><a href="#HeadsUpDisplay">Heads Up Display (HUD)</a></li>
+    <li><a href="#ViewMenu">View Menu</a></li>
+</ul>
+<li><a href="#Images">Images</a></li>
+<ul>
+    <li><a href="#FrameStore">Frame Store</a></li>
+    <li><a href="#ImageTransforms">Image Transforms</a></li>
+    <li><a href="#ColorAndDisplayProfiles">Color and Display Profiles</a></li>
+    <li><a href="#ImageChannels">Image Channels</a></li>
+    <li><a href="#ImageMenu">Image Menu</a></li>
+</ul>
+<li><a href="#Playback">Playback</a></li>
+<ul>
+    <li><a href="#PlaybackControls">Playback Controls</a></li>
+    <li><a href="#FrameControls">Frame Controls</a></li>
+    <li><a href="#InAndOutPoints">In and Out Points</a></li>
+    <li><a href="#PlaybackSpeed">Playback Speed</a></li>
+    <li><a href="#PlaybackLayout">Playback Layout</a></li>
+    <li><a href="#FramesAndTimecode">Frames and Timecode</a></li>
+    <li><a href="#PlaybackMenu">Playback Menu</a></li>
+</ul>
+<li><a href="#Tools">Tools</a></li>
+<ul>
+    <li><a href="#Magnify">Magnify</a></li>
+    <li><a href="#ColorPicker">Color Picker</a></li>
+    <li><a href="#Histogram">Histogram</a></li>
+    <li><a href="#Information">Information</a></li>
+    <li><a href="#ToolsMenu">Tools Menu</a></li>
+</ul>
+<li><a href="#CommandLine">Command Line</a></li>
 
-<a name="Overview"><h2>Overview</h2></a>
+</td>
+
+<td class="content" valign="top">
+
 <p>The djv_view application provides real-time image sequence and movie
 playback. It is intended as a professional tool for reviewing computer
 animation, film, and video footage.</p>
@@ -129,6 +130,7 @@ animation, film, and video footage.</p>
 <table align="center">
     <tr><td><img src="images/djvViewDiagram.png"/></td></tr>
 </table>
+<h4>Key:</h4>
 <ol>
     <li>Menu bar</li>
     <li>Tool bar</li>
@@ -139,11 +141,11 @@ animation, film, and video footage.</p>
     <li>Information about the memory cache</li>
 </ol>
 
-<a name="Files"><h2>Files</h2></a>
+<h2><a name="Files">Files</a></h2>
 
 <a name="FileFormats"><h3>File Formats</h3></a>
-<p>For the list of supported file formats see the
-<a href="djvImageIo.html">image file formats page</a>.</p>
+<p>For the list of supported file formats see the image formats
+<a href="djvImageIo.html">page</a>.</p>
 
 <a name="FileSequences"><h3>File Sequences</h3></a>
 
@@ -177,9 +179,12 @@ memory cache is shown in the information bar.</p>
 
 <a name="FileMenu"><h3>File Menu</h3></a>
 <table align="center">
-    <tr><th></th><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
+<tr>
+<td><img src="images/djvViewFileMenu.png"/></td>
+<td>
+<table>
+    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
     <tr>
-        <td rowspan="17"><img src="images/djvViewFileMenu.png"/></td>
         <td><img src="images/djvFileOpenIcon.png"/></td>
         <td>Open</td>
         <td>Open a new file</td>
@@ -288,8 +293,11 @@ memory cache is shown in the information bar.</p>
         <td>Ctrl+Q</td>
     </tr>
 </table>
+</td>
+</tr>
+</table>
 
-<a name="Windows"><h2>Windows</h2></a>
+<h2><a name="Windows">Windows</a></h2>
 
 <a name="OpeningAndClosingWindows"><h3>Opening and Closing Windows</h3></a>
 
@@ -301,9 +309,12 @@ memory cache is shown in the information bar.</p>
 
 <a name="WindowMenu"><h3>Window Menu</h3></a>
 <table align="center">
-    <tr><th></th><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
+<tr>
+<td><img src="images/djvViewWindowMenu.png"/></td>
+<td>
+<table>
+    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
     <tr>
-        <td rowspan="9"><img src="images/djvViewWindowMenu.png"/></td>
         <td><img src="images/djvWindowNewIcon.png"/></td>
         <td>New</td>
         <td>Create a new window</td>
@@ -359,8 +370,11 @@ memory cache is shown in the information bar.</p>
         <td></td>
     </tr>
 </table>
+</td>
+</tr>
+</table>
 
-<a name="Views"><h2>Views</h2></a>
+<h2><a name="Views">Views</a></h2>
 
 <a name="ViewNavigation"><h3>View Navigation</h3></a>
 
@@ -370,9 +384,12 @@ memory cache is shown in the information bar.</p>
 
 <a name="ViewMenu"><h3>View Menu</h3></a>
 <table align="center">
-    <tr><th></th><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
+<tr>
+<td><img src="images/djvViewViewMenu.png"/></td>
+<td>
+<table>
+    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
     <tr>
-        <td rowspan="12"><img src="images/djvViewViewMenu.png"/></td>
         <td></td>
         <td>Left</td>
         <td>Move the view left</td>
@@ -445,8 +462,11 @@ memory cache is shown in the information bar.</p>
         <td>H</td>
     </tr>
 </table>
+</td>
+</tr>
+</table>
 
-<a name="Images"><h2>Images</h2></a>
+<h2><a name="Images">Images</a></h2>
 
 <a name="FrameStore"><h3>Frame Store</h3></a>
 
@@ -458,9 +478,12 @@ memory cache is shown in the information bar.</p>
 
 <a name="ImageMenu"><h3>Image Menu</h3></a>
 <table align="center">
-    <tr><th></th><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
+<tr>
+<td><img src="images/djvViewImageMenu.png"/></td>
+<td>
+<table>
+    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
     <tr>
-        <td rowspan="10"><img src="images/djvViewImageMenu.png"/></td>
         <td></td>
         <td>Show Frame Store</td>
         <td>Show the currently loaded frame store</td>
@@ -521,11 +544,15 @@ memory cache is shown in the information bar.</p>
         <td></td>
     </tr>
 </table>
+</td>
+</tr>
+</table>
 
-<a name="Playback"><h2>Playback</h2></a>
+<h2><a name="Playback">Playback</a></h2>
 <table align="center">
     <tr><td><img src="images/djvViewPlaybackDiagram.png"/></td></tr>
 </table>
+<h4>Key:</h4>
 <ol>
     <li>Playback controls: reverse, stop, and forward</li>
     <li>Playback shuttle wheel</li>
@@ -558,11 +585,13 @@ memory cache is shown in the information bar.</p>
 <a name="FramesAndTimecode"><h3>Frames and Timecode</h3></a>
 
 <a name="PlaybackMenu"><h3>Playback Menu</h3></a>
-<a name="PlaybackMenu"><h2>Playback Menu</h2></a>
 <table align="center">
-    <tr><th></th><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
+<tr>
+<td><img src="images/djvViewPlaybackMenu.png"/></td>
+<td>
+<table>
+    <tr><th></th><th>Name</th><th>Description</th><th>Shortcut</th></tr>
     <tr>
-        <td rowspan="22"><img src="images/djvViewPlaybackMenu.png"/></td>
         <td><img src="images/djvPlayReverseIcon.png"/></td>
         <td>Reverse</td>
         <td>Start reverse playback</td>
@@ -695,14 +724,18 @@ memory cache is shown in the information bar.</p>
         <td></td>
     </tr>
 </table>
+</td>
+</tr>
+</table>
 
-<a name="Tools"><h2>Tools</h2></a>
+<h2><a name="Tools">Tools</a></h2>
 
 <a name="Magnify"><h3>Magnify</h3></a>
 <p>This tool provides image magnification.</p>
 <table align="center">
     <tr><td><img src="images/djvViewMagnifyToolDiagram.png"/></td></tr>
 </table>
+<h4>Key:</h4>
 <ol>
     <li>Magnification view</li>
     <li>Magnification slider</li>
@@ -715,6 +748,7 @@ memory cache is shown in the information bar.</p>
 <table align="center">
     <tr><td><img src="images/djvViewColorPickerToolDiagram.png"/></td></tr>
 </table>
+<h4>Key:</h4>
 <ol>
     <li>Color swatch</li>
     <li>Color sliders</li>
@@ -729,6 +763,7 @@ memory cache is shown in the information bar.</p>
 <table align="center">
     <tr><td><img src="images/djvViewHistogramToolDiagram.png"/></td></tr>
 </table>
+<h4>Key:</h4>
 <ol>
     <li>Histogram view</li>
     <li>Minimum pixel value</li>
@@ -744,6 +779,7 @@ memory cache is shown in the information bar.</p>
 <table align="center">
     <tr><td><img src="images/djvViewInfoToolDiagram.png"/></td></tr>
 </table>
+<h4>Key:</h4>
 <ol>
     <li>File name</li>
     <li>Current file layer</li>
@@ -783,12 +819,12 @@ memory cache is shown in the information bar.</p>
     </tr>
 </table>
 
-<a name="CommandLine"><h2>Command Line</h2></a>
-<p>Usage:</p>
+<h2><a name="CommandLine">Command Line</a></h2>
+<h4>Usage:</h4>
 <pre>
 djv_view [image]... [option]...
 </pre>
-<p>Options:</p>
+<h4>Options:</h4>
 <table>
 <tr><td width="200">-combine</td><td>Combine multiple command line arguments
 into a single sequence.</td></tr>
@@ -797,7 +833,7 @@ Off, Sparse, Range. Default = Range.</td></tr>
 <tr><td width="200">-auto_seq (value)</td><td>Automatically detect
 sequences when opening files. Options = False, True. Default = True.</td></tr>
 </table>
-<p>File options:</p>
+<h4>File options:</h4>
 <table>
 <tr><td>-file_layer (value)</td><td>Set the input layer. Default = 0.</td></tr>
 <tr><td>-file_proxy (value)</td><td>Set the proxy scale. Options = None, 1/2,
@@ -806,11 +842,11 @@ sequences when opening files. Options = False, True. Default = True.</td></tr>
 Options = False, True.</td></tr>
 
 </table>
-<p>Window options:</p>
+<h4>Window options:</h4>
 <table>
 <tr><td width="200">-window_full_screen</td><td>Set the window full screen.</td></tr>
 </table>
-<p>Playback options:</p>
+<h4>Playback options:</h4>
 <table>
 <tr><td width="200">-playback (value)</td><td>Set the playback. Options =
 Reverse, Stop, Forward.</td></tr>
@@ -824,9 +860,9 @@ Reverse, Stop, Forward.</td></tr>
 <a href="djvCommandLine.html">here</a>.<p>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

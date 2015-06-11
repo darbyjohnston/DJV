@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - FAQ</title>
 </head>
@@ -46,52 +45,56 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>FAQ</h1>
-<ol>
-    <li><a href="#1">Is DJV free?</a></li>
-    <li><a href="#2">How do I setup the DJV command line tools?</a></li>
-    <li><a href="#3">How do I use a LUT (lookup table) with the DJV viewer?</a></li>
-    <li><a href="#4">Are 3D LUTs supported?</a></li>
-    <li><a href="#5">How can I convert an image sequence to a movie (or vice versa)?</a></li>
-    <li><a href="#6">What image and movie file formats are supported?</a></li>
-    <li><a href="#7">How can I enable timecode display?</a></li>
-</ol>
+<table width="100%" height="600">
+<tr>
 
-<a name="1"><h2>Is DJV free?</h2></a>
+<td class="sidebar" valign="top">
+
+<h3>Frequently Asked Questions</h3>
+<li><a href="#1">Is DJV free?</a></li>
+<li><a href="#2">How do I setup the DJV command line tools?</a></li>
+<li><a href="#3">How do I use a LUT (lookup table) with the DJV viewer?</a></li>
+<li><a href="#4">Are 3D LUTs supported?</a></li>
+<li><a href="#5">How can I convert an image sequence to a movie (or vice versa)?</a></li>
+<li><a href="#6">What image and movie file formats are supported?</a></li>
+<li><a href="#7">How can I enable timecode display?</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
+<h3><a name="1">Is DJV free?</a></h3>
 <p>The DJV source code is covered by an open source BSD style license. This
 means that DJV is essentially free to use, modify, and distribute. Note however
 that some of the third party software that DJV depends on may have different
 licensing requirements. See the <a href="djvLegal.html">legal page</a> for more
 details.</p>
 
-<a name="2"><h2>How do I setup the DJV command line tools?</h2></a>
+<h3><a name="2">How do I setup the DJV command line tools?</a></h3>
 <p>See the <a href="djvInstall.html">installation instructions</a>.
 </p>
 
-<a name="3"><h2>How do I use a LUT (lookup table) with the DJV viewer?</h2></a>
+<h3><a name="3">How do I use a LUT (lookup table) with the DJV viewer?</a></h3>
 <p>See the documentation for
 <a href="djv_view.html#ColorAndDisplayProfiles">color and display profiles</a>.</p>
  
-<a name="4"><h2>Are 3D LUTs supported?</h2></a>
+<h3><a name="4">Are 3D LUTs supported?</a></h3>
 <p>Unfortunately 3D LUTs are not currently supported.</p>
 
-<a name="5"><h2>How can I convert an image sequence to a movie (or vice versa)?</h2></a>
+<h3><a name="5">How can I convert an image sequence to a movie (or vice versa)?</a></h3>
 <p>Either the viewer application or command line tools can be used to perform
 the conversion.</p>
 <p>To use the viewer application see the documentation for
@@ -102,18 +105,18 @@ the conversion.</p>
 > djv_convert input.1-100.sgi output.mov
 </pre>
 
-<a name="6"><h2>What image and movie file formats are supported?</h2></a>
+<h3><a name="6">What image and movie file formats are supported?</a></h3>
 <p>See the <a href="djvImageIo.html">image file formats page</a>.</p>
 
-<a name="7"><h2>How can I enable timecode display?</h2></a>
+<h3><a name="7">How can I enable timecode display?</a></h3>
 <p>Open the preferences dialog from the "File" menu and click on "Miscellaneous"
 in the "General" section. Set the time units to "Timecode".</p>
 <img src="images/djvTimecodeToFrames.png" align="middle">
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

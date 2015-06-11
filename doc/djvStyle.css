@@ -47,7 +47,7 @@ body
     padding: 0;
 
     color:      #cccccc;
-    background: #333333;
+    background: #000000;
 }
 
 h1
@@ -105,8 +105,6 @@ th
 div.header
 {
     height: 50;
-    
-    background: #000000;
 }
 
 div.nav
@@ -145,22 +143,32 @@ div.footer
 {
     padding: 5;
     
-    color: #aaaaaa;
+    color: #777777;
     
     font-size:  12;
     text-align: center;
+}
+
+td.sidebar
+{
+    width: 150px;
+    
+    background: #333333;
+    
+    padding: 20;
     
     border-style: solid;
     border-color: #000000;
-    border-width: 1 0 0 0;
+    border-width: 0 1 0 0;
 }
 
-div.content
+td.content
 {
     background: #444444;
 
-    padding: 10;
+    padding: 20;
     
     font-size: 12;
 }
+
 

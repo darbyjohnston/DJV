@@ -11,8 +11,8 @@ set(html
     djvChangeList.html
     djvCommandLine.html
     djvCredits.html
+    djvDocumentation.html
     djvFaq.html
-    djvHelp.html
     djvImageIo.html
     djvLegal.html
     djvScreenshots.html

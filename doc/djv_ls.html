@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - djv_ls</title>
 </head>
@@ -46,40 +45,44 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
+<table width="100%" height="100%">
+<tr>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
 </div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
 </div>
 
 <div class="content">
-<table width="90%" align="center">
+<table width="100%" height="600">
 <tr>
-<td>
 
-<h1>djv_ls</h1>
-<ul>
-    <li><a href="#Overview">Overview</a></li>
-    <li><a href="#CommandLine">Command Line</a></li>
-    <li><a href="#Examples">Examples</a></li>
-</ul>
+<td class="sidebar" valign="top">
 
-<a name="Overview"><h2>Overview</h2></a>
+<h3>djv_ls</h3>
+<li><a href="#CommandLine">Command Line</a></li>
+<li><a href="#Examples">Examples</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
 <p>
 This application provides a command line tool for listing directories with
 file sequences.</p>
-<p>Example output:
+<h4>Example output:</h4>
 <pre>
 el_cerrito_bart.1k.tiff   File 2.23MB darby rw Mon Jun 12 21:21:55 2006
 richmond_train.2k.tiff    File 8.86MB darby rw Mon Jun 12 21:21:58 2006
 fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </pre>
-<p>Key:</p>
+<h4>Key:</h4>
 <pre>
 (name)                        (type) (size) (user) (permissions) (time)
 </pre>
@@ -100,12 +103,12 @@ fishpond.1-749.png       Seq 293.17MB darby rw Thu Aug 17 16:47:43 2006
 </table>
 </td></tr></table>
 
-<a name="CommandLine"><h2>Command Line</h2></a>
-<p>Usage:</p>
+<h2><a name="CommandLine">Command Line</a></h2>
+<h4>Usage:</h4>
 <pre>
 djv_ls [file|directory]... [option]...
 </pre>
-<p>Options:</p>
+<h4>Options:</h4>
 <table>
 <tr><td width="200">-x_info, -xi</td><td>Don't show information, only file
 names.</td></tr>
@@ -117,7 +120,7 @@ Range. Default = Range.</td></tr>
 <tr><td>-columns, -c (value)</td><td>Set the number of columns for formatting
 output. A value of zero disables formatting.</td></tr>
 </table>
-<p>Sorting options:</p>
+<h4>Sorting options:</h4>
 <table>
 <tr><td width="200">-sort, -s (value)</td><td>Set the sorting. Options = Name,
 Type, Size, User, Permissions, Time. Default = Name.</td></tr>
@@ -129,7 +132,7 @@ Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 <p>Documentation for general command line options is available
 <a href="djvCommandLine.html">here</a>.<p>
 
-<a name="Examples"><h2>Examples</h2></a>
+<h2><a name="Examples">Examples</a></h2>
 <p>List the current directory:</p>
 <pre>
 > djv_ls
@@ -144,9 +147,9 @@ Type, Size, User, Permissions, Time. Default = Name.</td></tr>
 </pre>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston

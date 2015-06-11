@@ -32,7 +32,6 @@
 <html>
 
 <head>
-
 <link rel="stylesheet" type="text/css" href="djvStyle.css">
 <title>DJV Imaging - Change List</title>
 </head>
@@ -46,37 +45,63 @@
 <div style="position:absolute; top:0; right:0;">
 <a href="index.html"><img src="images/djvLogo.gif"></a>
 </div>
-</div>
-
-<div class="nav">
-<a class="nav" href="index.html">Home</a>
-<a class="nav" href="djvScreenshots.html">Screenshots</a>
-<a class="nav" href="djvHelp.html">Help</a>
-<a class="nav" href="djvCredits.html">Credits</a>
-<a class="nav" href="djvLegal.html">Legal</a>
-<a class="nav" href="http://sourceforge.net/projects/djv/">Sourceforge</a>
-</div>
-
-<div class="content">
-<table width="90%" align="center">
+<table width="100%" height="100%">
 <tr>
-<td>
+<td align="center" valign="bottom">
+    <a class="nav" href="index.html">Home</a>
+    <a class="nav" href="djvScreenshots.html">Screenshots</a>
+    <a class="nav" href="djvDocumentation.html">Documentation</a>
+    <a class="nav" href="djvCredits.html">Credits</a>
+    <a class="nav" href="djvLegal.html">Legal</a>
+</td>
+</tr>
+</table>
+</div>
 
-<h1>Change List</h1>
+<table width="100%">
+<tr>
+
+<td class="sidebar" valign="top">
+
+<h3>Change List</h3>
+<li><a href="#1.1.0">1.1.0</a></li>
+<li><a href="#1.0.5">1.0.5</a></li>
+<li><a href="#1.0.4">1.0.4</a></li>
+<li><a href="#1.0.3">1.0.3</a></li>
+<li><a href="#1.0.2">1.0.2</a></li>
+<li><a href="#1.0.1">1.0.1</a></li>
+<li><a href="#1.0.0">1.0.0</a></li>
+
+</td>
+
+<td class="content" valign="top">
+
+<h3><a name="1.1.0">Version 1.1.0</a></h3>
+<h4>Features:</h4>
 <ul>
-    <li><a href="#1.0.6">1.0.6</a></li>
-    <li><a href="#1.0.5">1.0.5</a></li>
-    <li><a href="#1.0.4">1.0.4</a></li>
-    <li><a href="#1.0.3">1.0.3</a></li>
-    <li><a href="#1.0.2">1.0.2</a></li>
-    <li><a href="#1.0.1">1.0.1</a></li>
-    <li><a href="#1.0.0">1.0.0</a></li>
+    <li>Add the ability to pre-cache frames
+    (feature request <a href="https://sourceforge.net/p/djv/feature-requests/49/">#49</a>)</li>
+    <li>Debian package: missing interpreter string in postinst/​postrm scripts
+    (feature request <a href="https://sourceforge.net/p/djv/feature-requests/46/">#46</a>)</li>
+    <li>Add support for internationalization
+    (feature request <a href="https://sourceforge.net/p/djv/feature-requests/44/">#44</a>)</li>
+    <li>Add support for multi-threading
+    (feature request <a href="https://sourceforge.net/p/djv/feature-requests/33/">#33</a>)</li>
+</ul>
+<h4>Bug fixes:</h4>
+<ul>
+    <li>Mouse wheel zoom behavior is different from 0.8.3
+    (bug <a href="https://sourceforge.net/p/djv/bugs/37/">#37</a>)</li>
+    <li>Sequence detection in video files
+    (buf <a href="https://sourceforge.net/p/djv/bugs/30/">#30</a>)</li>
+    <li>Color levels do not work with negative numbers
+    (buf <a href="https://sourceforge.net/p/djv/bugs/29/">#29</a>)</li>
+    <li>QuickTime is only supported in the 32-bit Windows version of DJV
+    (buf <a href="https://sourceforge.net/p/djv/bugs/16/">#16</a>)</li>
 </ul>
 
-<a name="1.0.6"><h2>Version 1.0.6</h2></a>
-
-<a name="1.0.5"><h2>Version 1.0.5</h2></a>
-<p>Features:</p>
+<h3><a name="1.0.5">Version 1.0.5</a></h3>
+<h4>Features:</h4>
 <ul>
 	<li>Always opening djv window in a certain size
 	(feature request <a href="http://sourceforge.net/p/djv/feature-requests/42/">#42</a>)</li>
@@ -89,7 +114,7 @@
 	<li>.desktop - wrong path to binary
 	(feature request <a href="http://sourceforge.net/p/djv/feature-requests/36/">#36</a>)</li>
 </ul>
-<p>Bug fixes:</p>
+<h4>Bug fixes:</h4>
 <ul>
 	<li>Errors opening QuickTime files on Windows
 	(bug <a href="http://sourceforge.net/p/djv/bugs/28/">#28</a>)</li>
@@ -101,8 +126,8 @@
 	(bug <a href="http://sourceforge.net/p/djv/bugs/15/">#25</a>)</li>
 </ul>
 
-<a name="1.0.4"><h2>Version 1.0.4</h2></a>
-<p>Features:</p>
+<h3><a name="1.0.4">Version 1.0.4</a></h3>
+<h4>Features:</h4>
 <ul>
 	<li>DJV always offset/off screen
 	(feature request <a href="http://sourceforge.net/p/djv/feature-requests/24/">#24</a>)</li>
@@ -111,7 +136,7 @@
 	<li>Add time/frame ticks to the djv_view timeline
 	(feature request <a href="http://sourceforge.net/p/djv/feature-requests/21/">#21</a>)</li>
 </ul>
-<p>Bug fixes:</p>
+<h4>Bug fixes:</h4>
 <ul>
 	<li>Improve file browser performance
 	(bug <a href="http://sourceforge.net/p/djv/bugs/24/">#24</a>)</li>
@@ -121,8 +146,8 @@
 	(bug <a href="http://sourceforge.net/p/djv/bugs/18/">#18</a>)</li>
 </ul>
 
-<a name="1.0.3"><h2>Version 1.0.3</h2></a>
-<p>Features:</p>
+<h3><a name="1.0.3">Version 1.0.3</a></h3>
+<h4>Features:</h4>
 <ul>
     <li>Add file type associations on OS X
     (feature request <a href="http://sourceforge.net/p/djv/feature-requests/22/">#22</a>)</li>
@@ -133,7 +158,7 @@
     <li>Add file type associations on Windows
     (feature request <a href="http://sourceforge.net/p/djv/feature-requests/17/">#17</a>)</li>
 </ul>
-<p>Bug fixes:</p>
+<h4>Bug fixes:</h4>
 <ul>
     <li>File names with very large numbers are causing a crash
     (bug <a href="http://sourceforge.net/p/djv/bugs/20/">#20</a>)</li>
@@ -143,15 +168,15 @@
     (bug <a href="http://sourceforge.net/p/djv/bugs/17/">#17</a>)</li>
 </ul>
 
-<a name="1.0.2"><h2>Version 1.0.2</h2></a>
-<p>Features:</p>
+<h3><a name="1.0.2">Version 1.0.2</a></h3>
+<h4>Features:</h4>
 <ul>
     <li>Add an action to toggle playback in djv_view
     (feature request <a href="http://sourceforge.net/p/djv/feature-requests/16/">#16</a>)</li>
     <li>Add an action for reloading the current frame in djv_view
     (feature request <a href="http://sourceforge.net/p/djv/feature-requests/12/">#12</a>)</li>
 </ul>
-<p>Bug fixes:</p>
+<h4>Bug fixes:</h4>
 <ul>
 	<li>The djv_view icon has an aliased appearance on Windows
 	(bug <a href="http://sourceforge.net/p/djv/bugs/14/">#14</a>)</li>
@@ -166,22 +191,22 @@
     (bug <a href="http://sourceforge.net/p/djv/bugs/8/">#8</a>)</li>
 </ul>
 
-<a name="1.0.1"><h2>Version 1.0.1</h2></a>
-<p>Bug fixes:</p>
+<h3><a name="1.0.1">Version 1.0.1</a></h3>
+<h4>Bug fixes:</h4>
 <ul>
 	<li>Fix for 16-bit PNG images</li>
 	<li>Fix for bug <a href="http://sourceforge.net/p/djv/bugs/11">#11</a></li>
 </ul>
 
-<a name="1.0.0"><h2>Version 1.0.0</h2></a>
+<h3><a name="1.0.0">Version 1.0.0</a></h3>
 <ul>
 	<li>Initial release</ul>
 </ul>
 
 </td>
+
 </tr>
 </table>
-</div>
 
 <div class="footer">
 Copyright (c) 2004-2015 Darby Johnston
