@@ -31,6 +31,7 @@ set(images
     images/djvDirReloadIcon.png
     images/djvDirUpIcon.png
     images/djvFileBrowser.png
+    images/djvFileBrowserSmall.png
     images/djvFileCloseIcon.png
     images/djvFileOpenIcon.png
     images/djvFileReloadIcon.png
