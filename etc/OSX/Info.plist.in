@@ -101,6 +101,7 @@
                 <string>mpeg</string>
                 <string>mp4</string>
                 <string>m4v</string>
+                <string>mxf</string>
             </array>
         </dict>
         <dict>

@@ -70,6 +70,7 @@ if (WIN32)
 		WriteRegStr HKCR '.mpeg' '' 'djv_view'
 		WriteRegStr HKCR '.mp4' '' 'djv_view'
 		WriteRegStr HKCR '.m4v' '' 'djv_view'
+		WriteRegStr HKCR '.mxf' '' 'djv_view'
 
 		WriteRegStr HKCR '.rla' '' 'djv_view'
 		WriteRegStr HKCR '.rpf' '' 'djv_view'
