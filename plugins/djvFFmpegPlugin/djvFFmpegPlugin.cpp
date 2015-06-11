@@ -36,12 +36,6 @@
 #include <djvFFmpegLoad.h>
 #include <djvFFmpegSave.h>
 
-/*#include <djvAssert.h>
-#include <djvDebugLog.h>
-#include <djvError.h>
-#include <djvFileIoUtil.h>
-#include <djvMath.h>*/
-
 #include <QCoreApplication>
 
 extern "C"
