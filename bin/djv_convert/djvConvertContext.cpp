@@ -352,7 +352,7 @@ QString djvConvertContext::commandLineHelp() const
 "    -crop (x) (y) (width) (height)\n"
 "        Crop the image.\n"
 "    -crop_percent (x) (y) (width) (height)\n"
-"        Crop the image using floating point values (1.0 = 100%).\n"
+"        Crop the image using percentages.\n"
 "    -channel (value)\n"
 "        Show only specific image channels. Options = %1. Default = %2.\n"
 "    -seq, -q (value)\n"
