@@ -66,8 +66,10 @@
 <h3>Downloads</h3>
 <li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.rpm/download">Linux&nbsp;RPM</a></li>
 <li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.deb/download">Linux&nbsp;DEB</a></li>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Linux-64.tar.gz/download">Linux&nbsp;TAR&nbsp;GZ</a></li>
 <li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-OSX-64.dmg/download">OS&nbsp;X</a></li>
-<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.exe/download">Windows</a></li>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.exe/download">Windows&nbsp;EXE</a></li>
+<li><a href="http://sourceforge.net/projects/djv/files/djv-stable/@djvVersion@/djv-@djvVersion@-Windows-64.zip/download">Windows&nbsp;ZIP</a></li>
 
 <h3>News</h3>
 <p><b>Version 1.1 Released</b> 2015/06/02</p>
