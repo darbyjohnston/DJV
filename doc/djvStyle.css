@@ -71,6 +71,11 @@ h3
     color: #eeeeee;
 }
 
+h4
+{
+    color: #cccccc;
+}
+
 pre, code
 {
     padding: 5;
