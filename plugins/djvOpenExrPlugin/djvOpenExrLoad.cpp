@@ -183,13 +183,13 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 frameBuffer.insert(
                     channel.toLatin1().data(),
                     Imf::Slice(
-                    djvOpenExr::pixelTypeToImf(djvPixel::type(data->pixel())),
-                    (char *)data->data() + (c * byteCount),
-                    cb,
-                    scb,
-                    sampling.x,
-                    sampling.y,
-                    0.0));
+                        djvOpenExr::pixelTypeToImf(djvPixel::type(data->pixel())),
+                        (char *)data->data() + (c * byteCount),
+                        cb,
+                        scb,
+                        sampling.x,
+                        sampling.y,
+                        0.0));
             }
 
             _f->setFrameBuffer(frameBuffer);

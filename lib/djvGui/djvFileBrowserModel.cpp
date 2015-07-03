@@ -323,6 +323,7 @@ QVariant djvFileBrowserModel::data(
     switch (role)
     {
         case Qt::DecorationRole:
+        
             switch (column)
             {
                 case NAME:
@@ -338,6 +339,7 @@ QVariant djvFileBrowserModel::data(
 
                 default: break;
             }
+            
             break;
         
         case Qt::DisplayRole: return item->displayRole(column);
