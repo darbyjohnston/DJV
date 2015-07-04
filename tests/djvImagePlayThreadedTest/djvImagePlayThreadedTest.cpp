@@ -33,6 +33,8 @@
 
 #include <djvImagePlayThreadedTest.h>
 
+#include <djvViewMiscWidget.h>
+
 #include <djvWindowUtil.h>
 
 #include <djvDebug.h>
@@ -41,6 +43,7 @@
 #include <djvPixel.h>
 #include <djvTimer.h>
 
+#include <QCoreApplication>
 #include <QCursor>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -55,8 +58,11 @@
 //------------------------------------------------------------------------------
 
 djvImagePlayThreadedTestLoad::djvImagePlayThreadedTestLoad(djvImageContext * context) :
-    _context(context)
-{}
+    _context(context),
+    _frame  (0)
+{
+    startTimer(1);
+}
 
 void djvImagePlayThreadedTestLoad::open(const djvFileInfo & fileInfo)
 {
@@ -76,9 +82,24 @@ void djvImagePlayThreadedTestLoad::open(const djvFileInfo & fileInfo)
 
 void djvImagePlayThreadedTestLoad::read(qint64 frame)
 {
+    _frame = frame;
+}
+
+void djvImagePlayThreadedTestLoad::timerEvent(QTimerEvent *)
+{
+    qApp->processEvents();
+    
+    readInternal(_frame);
+}
+
+void djvImagePlayThreadedTestLoad::readInternal(qint64 frame)
+{
+    if (! _imageLoad.data())
+        return;
+
     try
     {
-        _imageLoad->read(_image, frame);
+        _imageLoad->read(_image, _frame);
     }
     catch (const djvError & error)
     {
@@ -290,7 +311,7 @@ void djvImagePlayThreadedTestView::setImage(const djvImage & image)
 
 void djvImagePlayThreadedTestView::initializeGL()
 {
-    DJV_DEBUG("djvImagePlayThreadedTestView::initializeGL");
+    //DJV_DEBUG("djvImagePlayThreadedTestView::initializeGL");
     
     _shader->init(
         "void main(void)\n"
@@ -349,18 +370,70 @@ void djvImagePlayThreadedTestView::paintGL()
 }
 
 //------------------------------------------------------------------------------
+// djvImagePlayThreadedTestWindow
+//------------------------------------------------------------------------------
+
+djvImagePlayThreadedTestWindow::djvImagePlayThreadedTestWindow(
+    djvImagePlayThreadedTestLoad * load,
+    djvGuiContext *                context) :
+    _context    (context),
+    _load       (load),
+    _view       (0),
+    _frameSlider(0)
+{
+    _view = new djvImagePlayThreadedTestView(_context);
+    
+    _frameSlider = new djvViewFrameSlider(_context);
+    
+    QGridLayout * layout = new QGridLayout(this);
+    layout->setMargin(0);
+    layout->addWidget(_view, 1, 1);
+    layout->addWidget(_frameSlider, 2, 0, 1, 3);
+    layout->setRowStretch(1, 1);
+    layout->setColumnStretch(1, 1);
+    
+    connect(
+        _load,
+        SIGNAL(fileChanged(const djvImageIoInfo &)),
+        SLOT(fileCallback(const djvImageIoInfo &)));
+    
+    connect(
+        _load,
+        SIGNAL(imageRead(const djvImage &)),
+        SLOT(imageCallback(const djvImage &)));
+    
+    _load->connect(
+        _frameSlider,
+        SIGNAL(frameChanged(qint64)),
+        SLOT(read(qint64)));
+}
+
+djvImagePlayThreadedTestWindow::~djvImagePlayThreadedTestWindow()
+{
+}
+
+void djvImagePlayThreadedTestWindow::fileCallback(const djvImageIoInfo & info)
+{
+    resize(info.size.x, info.size.y);
+    
+    _frameSlider->setFrameList(info.sequence.frames);
+    _frameSlider->setSpeed(info.sequence.speed);
+}
+
+void djvImagePlayThreadedTestWindow::imageCallback(const djvImage & image)
+{
+    _view->setImage(image);
+}
+
+//------------------------------------------------------------------------------
 // djvImagePlayThreadedTestApplication
 //------------------------------------------------------------------------------
 
 djvImagePlayThreadedTestApplication::djvImagePlayThreadedTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv),
-    _load    (0),
-    _frame   (0),
-    _frameTmp(0),
-    _view    (0)
-
+    _load(0)
 {
-    DJV_DEBUG("djvImagePlayThreadedTestApplication");
+    //DJV_DEBUG("djvImagePlayThreadedTestApplication");
     
     _context.reset(new djvGuiContext);
 
@@ -378,51 +451,14 @@ djvImagePlayThreadedTestApplication::djvImagePlayThreadedTestApplication(int & a
         setStyle("fusion");
 #       endif
 
-        _widget.reset(new QWidget);
-        
-        QWidget * toolBar = new QWidget;
-        
-        QToolButton * toggleButton = new QToolButton;
-        toggleButton->setText("Toggle");
-        toggleButton->setCheckable(true);
-        
-        QSlider * slider = new QSlider(Qt::Horizontal);
-        
-        _view = new djvImagePlayThreadedTestView(_context.data());
-        
-        QGridLayout * layout = new QGridLayout(_widget.data());
-        layout->addWidget(toolBar, 0, 0, 1, 3);
-        layout->addWidget(_view, 1, 1);
-        layout->setRowStretch(1, 1);
-        layout->setColumnStretch(1, 1);
-    
-        QHBoxLayout * hLayout = new QHBoxLayout(toolBar);
-        hLayout->addWidget(toggleButton);
-        hLayout->addWidget(slider);
-    
-        _widget->setWindowTitle("djvImagePlayThreadedTest");
-        _widget->show();
-
         _load = new djvImagePlayThreadedTestLoad(_context.data());
-        
         _load->moveToThread(&_thread);
         _thread.start();
         
-        connect(
-            _load,
-            SIGNAL(fileChanged(const djvImageIoInfo &)),
-            SLOT(fileCallback(const djvImageIoInfo &)));
-        
-        connect(
-            _load,
-            SIGNAL(imageRead(const djvImage &)),
-            SLOT(imageCallback(const djvImage &)));
-        
-        _load->connect(
-            this,
-            SIGNAL(frameChanged(qint64)),
-            SLOT(read(qint64)));
-            
+        _window.reset(new djvImagePlayThreadedTestWindow(_load, _context.data()));
+        _window->setWindowTitle("djvImagePlayThreadedTest");
+        _window->show();
+
         djvFileInfo fileInfo(argv[1]);
     
         if (fileInfo.isSequenceValid())
@@ -431,8 +467,6 @@ djvImagePlayThreadedTestApplication::djvImagePlayThreadedTestApplication(int & a
         }
         
         _load->open(fileInfo);
-
-        //startTimer(0);
     }
 }
 
@@ -445,50 +479,6 @@ djvImagePlayThreadedTestApplication::~djvImagePlayThreadedTestApplication()
 void djvImagePlayThreadedTestApplication::commandLineExit()
 {
     exit(1);
-}
-
-void djvImagePlayThreadedTestApplication::fileCallback(const djvImageIoInfo & imageIoInfo)
-{
-    _info = imageIoInfo;
-    
-    _frame = 0;
-
-    _load->read(_frame);
-
-    _widget->resize(_info.size.x, _info.size.y);
-}
-
-void djvImagePlayThreadedTestApplication::imageCallback(const djvImage & image)
-{
-    //DJV_DEBUG("djvImagePlayThreadedTestApplication::imageCallback");
-    //DJV_DEBUG_PRINT("frame = " << _frame);
-    
-    _view->setImage(image);
-    
-    _frame += 1;
-
-    if (_frame >= _info.sequence.frames.count())
-    {
-        _frame = 0;
-    }
-    
-    Q_EMIT frameChanged(_frame);
-}
-
-void djvImagePlayThreadedTestApplication::timerEvent(QTimerEvent * event)
-{
-    //DJV_DEBUG("djvImagePlayThreadedTestApplication::timerEvent");
-    //DJV_DEBUG_PRINT("frame = " << _frame);
-    
-    _widget->setWindowTitle(
-        QString("%1 Frame: %2").arg("djvImagePlayThreadedTest").arg(_frame));
-    
-    if (_frame != _frameTmp)
-    {
-        _frameTmp = _frame;
-        
-        _load->read(_frame);
-    }
 }
 
 int main(int argc, char ** argv)

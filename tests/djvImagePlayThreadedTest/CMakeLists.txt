@@ -15,11 +15,12 @@ endif()
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvImagePlayThreadedTest
+    ${CMAKE_SOURCE_DIR}/lib/djvViewLib
     ${djvGuiIncludeDirs})
 
 add_executable(djvImagePlayThreadedTest ${header} ${source} ${mocSource})
 
-target_link_libraries(djvImagePlayThreadedTest ${djvGuiLibs})
+target_link_libraries(djvImagePlayThreadedTest djvViewLib ${djvGuiLibs})
 
 set_target_properties(djvImagePlayThreadedTest PROPERTIES FOLDER tests)
 

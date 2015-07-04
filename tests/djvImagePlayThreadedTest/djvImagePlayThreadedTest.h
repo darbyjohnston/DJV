@@ -42,6 +42,8 @@
 #include <QScopedPointer>
 #include <QThread>
 
+class djvViewFrameSlider;
+
 //------------------------------------------------------------------------------
 // djvImagePlayThreadedTestLoad
 //------------------------------------------------------------------------------
@@ -53,7 +55,7 @@ class djvImagePlayThreadedTestLoad : public QObject
 public:
 
     explicit djvImagePlayThreadedTestLoad(djvImageContext *);
-
+    
 public Q_SLOTS:
 
     void open(const djvFileInfo &);
@@ -66,13 +68,20 @@ Q_SIGNALS:
 
     void imageRead(const djvImage &);
 
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
+    
 private:
+    
+    void readInternal(qint64);
 
     djvImageContext *            _context;
     djvFileInfo                  _fileInfo;
     QScopedPointer<djvImageLoad> _imageLoad;
     djvImageIoInfo               _imageIoInfo;
     djvImage                     _image;
+    qint64                       _frame;
 };
 
 //------------------------------------------------------------------------------
@@ -105,7 +114,7 @@ private:
 };
 
 //------------------------------------------------------------------------------
-// djvImagePlayThreadedTestViewt
+// djvImagePlayThreadedTestView
 //------------------------------------------------------------------------------
 
 class djvImagePlayThreadedTestView : public djvOpenGlWidget
@@ -136,6 +145,35 @@ private:
 };
 
 //------------------------------------------------------------------------------
+// djvImagePlayThreadedTestWindow
+//------------------------------------------------------------------------------
+
+class djvImagePlayThreadedTestWindow : public QWidget
+{
+    Q_OBJECT
+
+public:
+
+    explicit djvImagePlayThreadedTestWindow(
+        djvImagePlayThreadedTestLoad *,
+        djvGuiContext *);
+    
+    virtual ~djvImagePlayThreadedTestWindow();
+
+private Q_SLOTS:
+
+    void fileCallback(const djvImageIoInfo &);
+    void imageCallback(const djvImage &);
+
+private:
+
+    djvGuiContext *                _context;
+    djvImagePlayThreadedTestLoad * _load;
+    djvImagePlayThreadedTestView * _view;
+    djvViewFrameSlider *           _frameSlider;
+};
+
+//------------------------------------------------------------------------------
 // djvImagePlayThreadedTestApplication
 //------------------------------------------------------------------------------
 
@@ -153,24 +191,14 @@ Q_SIGNALS:
 
     void frameChanged(qint64);
 
-protected:
-
-    void timerEvent(QTimerEvent *);
-
 private Q_SLOTS:
 
     void commandLineExit();
-    void fileCallback(const djvImageIoInfo &);
-    void imageCallback(const djvImage &);
 
 private:
 
-    QScopedPointer<djvGuiContext>  _context;
-    djvImagePlayThreadedTestLoad * _load;
-    djvImageIoInfo                 _info;
-    int                            _frame;
-    int                            _frameTmp;
-    QThread                        _thread;
-    QScopedPointer<QWidget>        _widget;
-    djvImagePlayThreadedTestView * _view;
+    QScopedPointer<djvGuiContext>                  _context;
+    djvImagePlayThreadedTestLoad *                 _load;
+    QThread                                        _thread;
+    QScopedPointer<djvImagePlayThreadedTestWindow> _window;
 };
