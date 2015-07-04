@@ -526,7 +526,7 @@ General Options
 <context>
     <name>djvImageContext</name>
     <message>
-        <location filename="djvImageContext.cpp" line="123"/>
+        <location filename="djvImageContext.cpp" line="129"/>
         <source>%1
 OpenGL
 
@@ -554,17 +554,17 @@ Image I/O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="173"/>
+        <location filename="djvImageContext.cpp" line="179"/>
         <source>-render_filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="180"/>
+        <location filename="djvImageContext.cpp" line="186"/>
         <source>-render_filter_high</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="217"/>
+        <location filename="djvImageContext.cpp" line="223"/>
         <source>%1
 OpenGL Options
 
@@ -702,33 +702,33 @@ OpenGL Options
 <context>
     <name>djvOpenGlImage</name>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1875"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1873"/>
         <source>Cannot create texture</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1876"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1874"/>
         <source>Cannot create texture: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1877"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1875"/>
         <source>Cannot create shader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1878"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1876"/>
         <source>Cannot compile shader:
 %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1879"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1877"/>
         <source>Cannot create shader program</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1880"/>
+        <location filename="djvOpenGlImageDraw.cpp" line="1878"/>
         <source>Cannot link shader:
 %1</source>
         <translation type="unfinished"></translation>

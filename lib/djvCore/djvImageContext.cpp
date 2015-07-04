@@ -35,11 +35,13 @@
 
 #include <djvDebugLog.h>
 #include <djvError.h>
+#include <djvImage.h>
 #include <djvImageIo.h>
 #include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
 
 #include <QCoreApplication>
+#include <QMetaType>
 #include <QScopedPointer>
 #include <QVector>
 
@@ -63,6 +65,10 @@ djvImageContext::djvImageContext(QObject * parent) :
     _p(new djvImageContextPrivate)
 {
     //DJV_DEBUG("djvImageContext::djvImageContext");
+    
+    // Register meta types.
+    
+    qRegisterMetaType<djvImage>("djvImage");
     
     // Create the default OpenGL context.
 

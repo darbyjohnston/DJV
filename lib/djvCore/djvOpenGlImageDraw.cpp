@@ -355,9 +355,7 @@ void djvOpenGlImageTexture::init(
 void djvOpenGlImageTexture::copy(const djvPixelData & in)
 {
     //DJV_DEBUG("djvOpenGlImageTexture::copy");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _id));
+    //DJV_DEBUG_PRINT("in = " << in);=
 
     const djvPixelDataInfo & info = in.info();
 
@@ -989,8 +987,8 @@ void quad(
 {
     //DJV_DEBUG("quad");
 
-    double u [] = { 0, 0 };
-    double v [] = { 0, 0 };
+    double u [] = { 0.0, 0.0 };
+    double v [] = { 0.0, 0.0 };
 
     u[! mirror.x] = 1.0;
     v[! mirror.y] = 1.0;
