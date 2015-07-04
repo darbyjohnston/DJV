@@ -58,10 +58,12 @@
 //------------------------------------------------------------------------------
 
 djvImagePlayThreadedTestLoad::djvImagePlayThreadedTestLoad(djvImageContext * context) :
-    _context(context),
-    _frame  (0)
+    _context (context),
+    _frame   (0),
+    _frameTmp(0),
+    _accum   (0)
 {
-    startTimer(1);
+    startTimer(0);
 }
 
 void djvImagePlayThreadedTestLoad::open(const djvFileInfo & fileInfo)
@@ -82,14 +84,21 @@ void djvImagePlayThreadedTestLoad::open(const djvFileInfo & fileInfo)
 
 void djvImagePlayThreadedTestLoad::read(qint64 frame)
 {
-    _frame = frame;
+    _frameTmp = frame;
+    
+    ++_accum;
 }
 
 void djvImagePlayThreadedTestLoad::timerEvent(QTimerEvent *)
 {
     qApp->processEvents();
     
-    readInternal(_frame);
+    if (_frameTmp != _frame)
+    {
+        _frame = _frameTmp;
+        
+        readInternal(_frame);
+    }
 }
 
 void djvImagePlayThreadedTestLoad::readInternal(qint64 frame)
@@ -97,6 +106,10 @@ void djvImagePlayThreadedTestLoad::readInternal(qint64 frame)
     if (! _imageLoad.data())
         return;
 
+    //DJV_DEBUG("djvImagePlayThreadedTestLoad::readInternal");
+    //DJV_DEBUG_PRINT("frame = " << frame);
+    //DJV_DEBUG_PRINT("accum = " << _accum);
+    
     try
     {
         _imageLoad->read(_image, _frame);
@@ -105,7 +118,33 @@ void djvImagePlayThreadedTestLoad::readInternal(qint64 frame)
     {
     }
     
+    _accum = 0;
+    
     Q_EMIT imageRead(_image);
+}
+
+//------------------------------------------------------------------------------
+// djvImagePlayThreadedTestPlayback
+//------------------------------------------------------------------------------
+
+djvImagePlayThreadedTestPlayback::djvImagePlayThreadedTestPlayback(QObject * parent) :
+    QObject(parent),
+    _frame(0)
+{}
+
+qint64 djvImagePlayThreadedTestPlayback::frame() const
+{
+    return _frame;
+}
+    
+void djvImagePlayThreadedTestPlayback::setFrame(qint64 frame)
+{
+    if (frame == _frame)
+        return;
+
+    _frame = frame;
+    
+    Q_EMIT frameChanged(_frame);
 }
 
 //------------------------------------------------------------------------------
@@ -374,38 +413,56 @@ void djvImagePlayThreadedTestView::paintGL()
 //------------------------------------------------------------------------------
 
 djvImagePlayThreadedTestWindow::djvImagePlayThreadedTestWindow(
-    djvImagePlayThreadedTestLoad * load,
-    djvGuiContext *                context) :
+    djvImagePlayThreadedTestLoad *     load,
+    djvImagePlayThreadedTestPlayback * playback,
+    djvGuiContext *                    context) :
     _context    (context),
-    _load       (load),
     _view       (0),
+    _frameWidget(0),
     _frameSlider(0)
 {
     _view = new djvImagePlayThreadedTestView(_context);
     
+    _frameWidget = new djvViewFrameWidget(_context);
+    
     _frameSlider = new djvViewFrameSlider(_context);
+    
+    QWidget * playBar = new QWidget;
+    QHBoxLayout * hLayout = new QHBoxLayout(playBar);
+    hLayout->addWidget(_frameWidget);
+    hLayout->addWidget(_frameSlider);
     
     QGridLayout * layout = new QGridLayout(this);
     layout->setMargin(0);
     layout->addWidget(_view, 1, 1);
-    layout->addWidget(_frameSlider, 2, 0, 1, 3);
+    layout->addWidget(playBar, 2, 0, 1, 3);
     layout->setRowStretch(1, 1);
     layout->setColumnStretch(1, 1);
     
     connect(
-        _load,
+        load,
         SIGNAL(fileChanged(const djvImageIoInfo &)),
         SLOT(fileCallback(const djvImageIoInfo &)));
     
     connect(
-        _load,
+        load,
         SIGNAL(imageRead(const djvImage &)),
         SLOT(imageCallback(const djvImage &)));
     
-    _load->connect(
+    connect(
+        playback,
+        SIGNAL(frameChanged(qint64)),
+        SLOT(updateWidget(qint64)));
+    
+    playback->connect(
+        _frameWidget,
+        SIGNAL(frameChanged(qint64)),
+        SLOT(setFrame(qint64)));
+    
+    playback->connect(
         _frameSlider,
         SIGNAL(frameChanged(qint64)),
-        SLOT(read(qint64)));
+        SLOT(setFrame(qint64)));
 }
 
 djvImagePlayThreadedTestWindow::~djvImagePlayThreadedTestWindow()
@@ -416,6 +473,9 @@ void djvImagePlayThreadedTestWindow::fileCallback(const djvImageIoInfo & info)
 {
     resize(info.size.x, info.size.y);
     
+    _frameWidget->setFrameList(info.sequence.frames);
+    _frameWidget->setSpeed(info.sequence.speed);
+
     _frameSlider->setFrameList(info.sequence.frames);
     _frameSlider->setSpeed(info.sequence.speed);
 }
@@ -423,6 +483,12 @@ void djvImagePlayThreadedTestWindow::fileCallback(const djvImageIoInfo & info)
 void djvImagePlayThreadedTestWindow::imageCallback(const djvImage & image)
 {
     _view->setImage(image);
+}
+
+void djvImagePlayThreadedTestWindow::updateWidget(qint64 frame)
+{
+    _frameWidget->setFrame(frame);
+    _frameSlider->setFrame(frame);
 }
 
 //------------------------------------------------------------------------------
@@ -455,9 +521,17 @@ djvImagePlayThreadedTestApplication::djvImagePlayThreadedTestApplication(int & a
         _load->moveToThread(&_thread);
         _thread.start();
         
-        _window.reset(new djvImagePlayThreadedTestWindow(_load, _context.data()));
+        _playback.reset(new djvImagePlayThreadedTestPlayback);
+        
+        _window.reset(new djvImagePlayThreadedTestWindow(
+            _load, _playback.data(), _context.data()));
         _window->setWindowTitle("djvImagePlayThreadedTest");
         _window->show();
+        
+        _load->connect(
+            _playback.data(),
+            SIGNAL(frameChanged(qint64)),
+            SLOT(read(qint64)));
 
         djvFileInfo fileInfo(argv[1]);
     

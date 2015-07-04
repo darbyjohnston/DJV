@@ -43,6 +43,8 @@
 #include <QThread>
 
 class djvViewFrameSlider;
+class djvViewFrameWidget;
+class djvViewPlaybackButtons;
 
 //------------------------------------------------------------------------------
 // djvImagePlayThreadedTestLoad
@@ -82,6 +84,35 @@ private:
     djvImageIoInfo               _imageIoInfo;
     djvImage                     _image;
     qint64                       _frame;
+    qint64                       _frameTmp;
+    qint64                       _accum;
+};
+
+//------------------------------------------------------------------------------
+// djvImagePlayThreadedTestPlayback
+//------------------------------------------------------------------------------
+
+class djvImagePlayThreadedTestPlayback : public QObject
+{
+    Q_OBJECT
+
+public:
+
+    explicit djvImagePlayThreadedTestPlayback(QObject * parent = 0);
+
+    qint64 frame() const;
+    
+public Q_SLOTS:
+
+    void setFrame(qint64);
+
+Q_SIGNALS:
+
+    void frameChanged(qint64);
+    
+private:
+
+    qint64 _frame;
 };
 
 //------------------------------------------------------------------------------
@@ -156,6 +187,7 @@ public:
 
     explicit djvImagePlayThreadedTestWindow(
         djvImagePlayThreadedTestLoad *,
+        djvImagePlayThreadedTestPlayback *,
         djvGuiContext *);
     
     virtual ~djvImagePlayThreadedTestWindow();
@@ -165,11 +197,13 @@ private Q_SLOTS:
     void fileCallback(const djvImageIoInfo &);
     void imageCallback(const djvImage &);
 
+    void updateWidget(qint64);
+    
 private:
 
     djvGuiContext *                _context;
-    djvImagePlayThreadedTestLoad * _load;
     djvImagePlayThreadedTestView * _view;
+    djvViewFrameWidget *           _frameWidget;
     djvViewFrameSlider *           _frameSlider;
 };
 
@@ -197,8 +231,9 @@ private Q_SLOTS:
 
 private:
 
-    QScopedPointer<djvGuiContext>                  _context;
-    djvImagePlayThreadedTestLoad *                 _load;
-    QThread                                        _thread;
-    QScopedPointer<djvImagePlayThreadedTestWindow> _window;
+    QScopedPointer<djvGuiContext>                    _context;
+    djvImagePlayThreadedTestLoad *                   _load;
+    QThread                                          _thread;
+    QScopedPointer<djvImagePlayThreadedTestPlayback> _playback;
+    QScopedPointer<djvImagePlayThreadedTestWindow>   _window;
 };
