@@ -46,6 +46,8 @@ set(header
     djvPixelMaskWidget.h
     djvPixelWidget.h
     djvPixmapUtil.h
+    djvPlaybackButtons.h
+    djvPlaybackUtil.h
     djvPrefs.h
     djvPrefsDialog.h
     djvPrefsGroupBox.h
@@ -113,6 +115,8 @@ set(mocHeader
     djvOsxMenuHack.h
     djvPixelMaskWidget.h
     djvPixelWidget.h
+    djvPlaybackButtons.h
+    djvPlaybackUtil.h
     djvPrefs.h
     djvPrefsDialog.h
     djvPrefsGroupBox.h
@@ -179,6 +183,8 @@ set(source
     djvPixelMaskWidget.cpp
     djvPixelWidget.cpp
     djvPixmapUtil.cpp
+    djvPlaybackButtons.cpp
+    djvPlaybackUtil.cpp
     djvPrefs.cpp
     djvPrefsDialog.cpp
     djvPrefsGroupBox.cpp

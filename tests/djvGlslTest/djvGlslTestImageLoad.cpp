@@ -35,6 +35,8 @@
 
 #include <djvGlslTestContext.h>
 
+#include <djvErrorUtil.h>
+
 //------------------------------------------------------------------------------
 // djvGlslTestImageLoad
 //------------------------------------------------------------------------------
@@ -66,9 +68,13 @@ const djvImage * djvGlslTestImageLoad::image(qint64 frame) const
         djvGlslTestImageLoad * that = const_cast<djvGlslTestImageLoad  *>(this);
         
         _load->read(that->_image, frame);
+        
+        //DJV_DEBUG_PRINT("image = " << _image);
     }
-    catch (const djvError &)
-    {}
+    catch (const djvError & error)
+    {
+        //DJV_DEBUG_PRINT("error = " << djvErrorUtil::format(error));
+    }
     
     return &_image;
 }

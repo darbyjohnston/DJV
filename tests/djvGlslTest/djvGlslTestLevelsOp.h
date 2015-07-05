@@ -36,6 +36,8 @@
 
 #include <djvGlslTestAbstractOp.h>
 
+#include <djvOpenGlShader.h>
+
 //------------------------------------------------------------------------------
 // djvGlslTestLevelsOp
 //------------------------------------------------------------------------------
@@ -78,7 +80,7 @@ public:
 
     struct Render
     {
-        djvGlslTestShader shader;
+        djvOpenGlShader shader;
     };
 
     class State

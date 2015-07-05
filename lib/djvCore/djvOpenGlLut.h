@@ -29,65 +29,64 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvOpenGlLut.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_OPEN_GL_LUT_H
+#define DJV_OPEN_GL_LUT_H
 
-#include <djvGlslTestContext.h>
-
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <djvError.h>
+#include <djvOpenGl.h>
+#include <djvPixelData.h>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+//! \class djvOpenGlLut
+//!
+//! This class proivides an OpenGL LUT.
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class DJV_CORE_EXPORT djvOpenGlLut
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+public:
+
+    //! Constructor.
     
-    _buttons = new djvPlaybackButtons(context);
+    djvOpenGlLut();
+
+    //! Destructor.
     
-    _slider = new djvViewFrameSlider(context);
+    ~djvOpenGlLut();
+
+    //! Initialize the LUT.
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+    void init(const djvPixelDataInfo &) throw (djvError);
+
+    //! Initialize the LUT.
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    void init(const djvPixelData &) throw (djvError);
+
+    //! Get the pixel information.
     
-    _buttons->setPlayback(playback->playback());
+    const djvPixelDataInfo & info() const;
+
+    //! Get the texture ID.
     
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
+    GLuint id() const;
+
+    //! Bind the LUT.
     
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+    void bind();
+
+    //! Copy pixel data to the LUT.
     
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    void copy(const djvPixelData &);
+
+private:
+
+    void del();
+
+    djvPixelDataInfo _info;
+    int              _size;
+    GLuint           _id;
+};
+
+#endif // DJV_OPEN_GL_LUT_H

@@ -60,7 +60,15 @@ const djvGlslTestExposureOp::Values & djvGlslTestExposureOp::values() const
 namespace
 {
 
-const QString src =
+const QString vertexSource =
+"void main(void)\n"
+"{\n"
+"    gl_FrontColor  = gl_Color;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+"    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}\n";
+
+const QString fragmentSource =
 "struct Exposure { float v, d, k, f, g; };\n""\n"
 "\n"
 "float knee(float value, float f)\n"
@@ -144,11 +152,11 @@ void djvGlslTestExposureOp::render(const djvImage & in) throw (djvError)
 
     begin();
 
-    _texture.init(in);
+    _texture.init(in, GL_TEXTURE_RECTANGLE);
 
     if (! _init)
     {
-        _shader.init(src);
+        _shader.init(vertexSource, fragmentSource);
 
         _init = true;
     }

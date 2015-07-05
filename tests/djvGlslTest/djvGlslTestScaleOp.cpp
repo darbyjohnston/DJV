@@ -483,7 +483,15 @@ void contribFnc(
     }
 }
 
-const QString srcDefault =
+const QString vertexSource =
+"void main(void)\n"
+"{\n"
+"    gl_FrontColor  = gl_Color;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+"    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}\n";
+
+const QString fragmentSourceDefault =
 "uniform sampler2DRect texture;\n"
 "uniform vec2          scaleInput;\n"
 "uniform vec2          scaleOutput;\n"
@@ -495,7 +503,7 @@ const QString srcDefault =
 "        gl_TexCoord[0].st / scaleOutput * scaleInput);\n"
 "}\n";
 
-const QString srcX =
+const QString fragmentSourceX =
 "    tmp = texture2DRect(\n"
 "        contrib,\n"
 "        vec2(gl_TexCoord[0].s, float(i)));\n"
@@ -503,7 +511,7 @@ const QString srcX =
 "        texture,\n"
 "        vec2(tmp[0] + 0.5, gl_TexCoord[0].t));\n";
 
-const QString srcY =
+const QString fragmentSourceY =
 "    tmp = texture2DRect(\n"
 "        contrib,\n"
 "        vec2(gl_TexCoord[0].t, float(i)));\n"
@@ -511,7 +519,7 @@ const QString srcY =
 "        texture,\n"
 "        vec2(gl_TexCoord[0].s, tmp[0] + 0.5));\n";
 
-const QString srcCustom =
+const QString fragmentSourceCustom =
 "const int scale_width = %1;\n"
 "\n"
 "vec4 scale(sampler2DRect texture, sampler2DRect contrib)\n"
@@ -552,6 +560,7 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
     {
         _texture.init(
             info,
+            GL_TEXTURE_RECTANGLE,
             filterToGl(_values.defaultMin),
             filterToGl(_values.defaultMag));
 
@@ -561,17 +570,18 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
         {
             //DJV_DEBUG_PRINT("init");
 
-            _render.shader.init(srcDefault);
+            _render.shader.init(vertexSource, fragmentSourceDefault);
 
             _stateDefault = state;
         }
     }
     else
     {
-        _texture.init(info);
+        _texture.init(info, GL_TEXTURE_RECTANGLE);
 
         _render.textureTmp.init(
-            djvPixelDataInfo(_values.size.x, in.h(), info.pixel));
+            djvPixelDataInfo(_values.size.x, in.h(), info.pixel),
+            GL_TEXTURE_RECTANGLE);
 
         const StateCustom state(_values);
 
@@ -588,10 +598,12 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
                 _values.customMin,
                 _values.customMag,
                 &contrib);
-            _render.contribX.init(contrib);
-            _render.shaderX.init(QString(srcCustom).
-                arg(contrib.h()).
-                arg(srcX));
+            _render.contribX.init(contrib, GL_TEXTURE_RECTANGLE);
+            _render.shaderX.init(
+                vertexSource,
+                QString(fragmentSourceCustom).
+                    arg(contrib.h()).
+                    arg(fragmentSourceX));
 
             contribFnc(
                 in.h(),
@@ -599,10 +611,12 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
                 _values.customMin,
                 _values.customMag,
                 &contrib);
-            _render.contribY.init(contrib);
-            _render.shaderY.init(QString(srcCustom).
-                arg(contrib.h()).
-                arg(srcY));
+            _render.contribY.init(contrib, GL_TEXTURE_RECTANGLE);
+            _render.shaderY.init(
+                vertexSource,
+                QString(fragmentSourceCustom).
+                    arg(contrib.h()).
+                    arg(fragmentSourceY));
 
             _stateCustom = state;
         }

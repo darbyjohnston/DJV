@@ -36,6 +36,8 @@
 
 #include <djvGlslTestAbstractOp.h>
 
+#include <djvOpenGlShader.h>
+
 //------------------------------------------------------------------------------
 // djvGlslTestColorOp
 //------------------------------------------------------------------------------
@@ -79,9 +81,9 @@ public Q_SLOTS:
 
 private:
 
-    Values            _values;
-    djvGlslTestShader _shader;
-    bool              _init;
+    Values          _values;
+    djvOpenGlShader _shader;
+    bool            _init;
 };
 
 //------------------------------------------------------------------------------

@@ -37,6 +37,7 @@
 #include <djvGlslTestUtil.h>
 
 #include <djvError.h>
+#include <djvOpenGlTexture.h>
 
 #include <QWidget>
 
@@ -71,7 +72,7 @@ protected:
     void begin();
     void end();
 
-    djvGlslTestTexture   _texture;
+    djvOpenGlTexture     _texture;
     djvGlslTestContext * _context;
 };
 

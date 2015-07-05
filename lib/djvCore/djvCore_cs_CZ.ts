@@ -700,41 +700,6 @@ OpenGL Options
     </message>
 </context>
 <context>
-    <name>djvOpenGlImage</name>
-    <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1873"/>
-        <source>Cannot create texture</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1874"/>
-        <source>Cannot create texture: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1875"/>
-        <source>Cannot create shader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1876"/>
-        <source>Cannot compile shader:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1877"/>
-        <source>Cannot create shader program</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1878"/>
-        <source>Cannot link shader:
-%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>djvOpenGlImageFilter</name>
     <message>
         <location filename="djvOpenGlImage.cpp" line="180"/>
@@ -811,6 +776,14 @@ OpenGL Options
     </message>
 </context>
 <context>
+    <name>djvOpenGlLut</name>
+    <message>
+        <location filename="djvOpenGlLut.cpp" line="76"/>
+        <source>Cannot create texture</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djvOpenGlOffscreenBuffer</name>
     <message>
         <location filename="djvOpenGlOffscreenBuffer.cpp" line="229"/>
@@ -830,6 +803,44 @@ OpenGL Options
     <message>
         <location filename="djvOpenGlOffscreenBuffer.cpp" line="232"/>
         <source>Cannot initialize FBO: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvOpenGlShader</name>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="71"/>
+        <source>Cannot create shader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="107"/>
+        <source>Cannot compile shader:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="144"/>
+        <source>Cannot create shader program</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="163"/>
+        <source>Cannot link shader:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvOpenGlTexture</name>
+    <message>
+        <location filename="djvOpenGlTexture.cpp" line="84"/>
+        <source>Cannot create texture</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlTexture.cpp" line="130"/>
+        <source>Cannot create texture: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

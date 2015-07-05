@@ -39,7 +39,7 @@
 
 #include <djvError.h>
 
-class djvGlslTestTexture;
+class djvOpenGlTexture;
 
 //------------------------------------------------------------------------------
 // djvGlslTestOffscreen
@@ -59,88 +59,11 @@ public:
 
     static void unbind();
 
-    void set(const djvGlslTestTexture &);
+    void set(const djvOpenGlTexture &);
 
 private:
 
     GLuint _id;
-};
-
-//------------------------------------------------------------------------------
-// djvGlslTestShader
-//------------------------------------------------------------------------------
-
-class djvGlslTestShader
-{
-public:
-
-    djvGlslTestShader();
-
-    ~djvGlslTestShader();
-
-    void init(const QString &) throw (djvError);
-
-    void bind();
-
-    static void unbind();
-
-    GLuint program() const;
-
-private:
-
-    void del();
-
-    GLuint _vertex;
-    GLuint _fragment;
-    GLuint _program;
-};
-
-//------------------------------------------------------------------------------
-// djvGlslTestTexture
-//------------------------------------------------------------------------------
-
-class djvGlslTestTexture
-{
-public:
-
-    djvGlslTestTexture();
-
-    ~djvGlslTestTexture();
-
-    void init(
-        const djvPixelDataInfo &,
-        GLenum min = GL_LINEAR,
-        GLenum mag = GL_LINEAR) throw (djvError);
-
-    void init(
-        const djvPixelData &,
-        GLenum min = GL_LINEAR,
-        GLenum mag = GL_LINEAR) throw (djvError);
-
-    void copy(const djvPixelData &);
-
-    void copy(const djvPixelData &, const djvBox2i &);
-
-    void copy(const djvVector2i &);
-
-    void bind();
-
-    const djvPixelDataInfo & info() const;
-
-    GLenum min() const;
-
-    GLenum mag() const;
-
-    GLuint id() const;
-
-private:
-
-    void del();
-
-    djvPixelDataInfo _info;
-    GLenum           _min;
-    GLenum           _mag;
-    GLuint           _id;
 };
 
 //------------------------------------------------------------------------------

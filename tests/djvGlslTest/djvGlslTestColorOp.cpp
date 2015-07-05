@@ -61,7 +61,15 @@ const djvGlslTestColorOp::Values & djvGlslTestColorOp::values() const
 namespace
 {
 
-const QString src =
+const QString vertexSource =
+"void main(void)\n"
+"{\n"
+"    gl_FrontColor  = gl_Color;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+"    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}\n";
+
+const QString fragmentSource =
 "vec4 colorFnc(vec4 value, mat4 color)\n"
 "{\n"
 "    vec4 tmp;\n"
@@ -94,11 +102,11 @@ void djvGlslTestColorOp::render(const djvImage & in) throw (djvError)
 
     begin();
 
-    _texture.init(in);
+    _texture.init(in, GL_TEXTURE_RECTANGLE);
 
     if (! _init)
     {
-        _shader.init(src);
+        _shader.init(vertexSource, fragmentSource);
 
         _init = true;
     }

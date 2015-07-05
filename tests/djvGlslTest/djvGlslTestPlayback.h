@@ -34,6 +34,8 @@
 #ifndef DJV_GLSL_TEST_PLAYBACK_H
 #define DJV_GLSL_TEST_PLAYBACK_H
 
+#include <djvPlaybackUtil.h>
+
 #include <djvSequence.h>
 
 #include <QObject>
@@ -49,13 +51,6 @@ class djvGlslTestPlayback : public QObject
     
 public:
 
-    enum PLAYBACK
-    {
-        REVERSE,
-        STOP,
-        FORWARD
-    };
-    
     explicit djvGlslTestPlayback(QObject * parent = 0);
     
     virtual ~djvGlslTestPlayback();
@@ -64,7 +59,7 @@ public:
     
     qint64 frame() const;
 
-    PLAYBACK playback() const;
+    djvPlaybackUtil::PLAYBACK playback() const;
     
 public Q_SLOTS:
 
@@ -72,13 +67,13 @@ public Q_SLOTS:
     
     void setFrame(qint64);
     
-    void setPlayback(djvGlslTestPlayback::PLAYBACK);
+    void setPlayback(djvPlaybackUtil::PLAYBACK);
     
 Q_SIGNALS:
 
     void sequenceChanged(const djvSequence &);
 
-    void playbackChanged(djvGlslTestPlayback::PLAYBACK);
+    void playbackChanged(djvPlaybackUtil::PLAYBACK);
     
     void frameChanged(qint64);
 
@@ -90,10 +85,10 @@ private:
 
     void playbackUpdate();
     
-    djvSequence _sequence;
-    qint64      _frame;
-    PLAYBACK    _playback;
-    int         _timerId;
+    djvSequence               _sequence;
+    qint64                    _frame;
+    djvPlaybackUtil::PLAYBACK _playback;
+    int                       _timerId;
 };
 
 #endif // DJV_GLSL_TEST_PLAYBACK_H

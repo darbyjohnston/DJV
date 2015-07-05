@@ -29,65 +29,66 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvImagePlay2TestWindow.cpp
 
-#include <djvGlslTestPlaybackToolBar.h>
+#include <djvImagePlay2TestWindow.h>
 
-#include <djvGlslTestContext.h>
+#include <djvImagePlay2TestContext.h>
+#include <djvImagePlay2TestLoad.h>
+#include <djvImagePlay2TestPlayback.h>
+#include <djvImagePlay2TestPlayBar.h>
+#include <djvImagePlay2TestView.h>
 
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QMutexLocker>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvImagePlay2TestWindow
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+djvImagePlay2TestWindow::djvImagePlay2TestWindow(djvImagePlay2TestContext * context) :
+    _view   (0),
+    _playBar(0),
+    _context(context)
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    _view = new djvImagePlay2TestView(context);
     
-    _buttons = new djvPlaybackButtons(context);
+    _playBar = new djvImagePlay2TestPlayBar(context);
     
-    _slider = new djvViewFrameSlider(context);
+    QGridLayout * layout = new QGridLayout(this);
+    layout->setMargin(0);
+    layout->addWidget(_view, 1, 1);
+    layout->addWidget(_playBar, 2, 0, 1, 3);
+    layout->setRowStretch(1, 1);
+    layout->setColumnStretch(1, 1);
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+    connect(
+        context->load(),
+        SIGNAL(fileChanged(const djvImageIoInfo &)),
+        SLOT(fileCallback(const djvImageIoInfo &)));
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    connect(
+        context->load(),
+        SIGNAL(imageRead()),
+        SLOT(imageCallback()));
+}
+
+QOpenGLContext * djvImagePlay2TestWindow::glContext() const
+{
+    return _view->context();
+}
+
+void djvImagePlay2TestWindow::fileCallback(const djvImageIoInfo & info)
+{
+    resize(info.size.x, info.size.y);
     
-    _buttons->setPlayback(playback->playback());
+    _view->setInfo(info);
     
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+    _context->playback()->setFrameList(info.sequence.frames);
+    _context->playback()->setSpeed(info.sequence.speed);
+}
+
+void djvImagePlay2TestWindow::imageCallback()
+{
+    _view->update();
 }

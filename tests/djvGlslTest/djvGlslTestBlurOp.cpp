@@ -106,7 +106,15 @@ const djvGlslTestBlurOp::Values & djvGlslTestBlurOp::values() const
 namespace
 {
 
-const QString src =
+const QString vertexSource =
+"void main(void)\n"
+"{\n"
+"    gl_FrontColor  = gl_Color;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+"    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}\n";
+
+const QString fragmentSource =
 "%1"
 "\n"
 "uniform sampler2DRect texture;\n"
@@ -127,8 +135,10 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
 
     begin();
 
-    _texture.init(in);
-    _render.textureTmp.init(djvPixelDataInfo(in.size(), in.pixel()));
+    _texture.init(in, GL_TEXTURE_RECTANGLE);
+    _render.textureTmp.init(
+        djvPixelDataInfo(in.size(), in.pixel()),
+        GL_TEXTURE_RECTANGLE);
 
     const int size = _values.radius * 2 + 1;
 
@@ -138,7 +148,9 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
     {
         _render.offscreen.init();
         _render.kernel.init(size);
-        _render.shader.init(QString(src).arg(_render.kernel.src()));
+        _render.shader.init(
+            vertexSource,
+            QString(fragmentSource).arg(_render.kernel.src()));
         _render.shader.bind();
 
         // Kernel weights.

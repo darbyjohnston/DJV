@@ -48,7 +48,15 @@ djvGlslTestEdgeOp::djvGlslTestEdgeOp(djvGlslTestContext * context) :
 namespace
 {
 
-const QString src =
+const QString vertexSource =
+"void main(void)\n"
+"{\n"
+"    gl_FrontColor  = gl_Color;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+"    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}\n";
+
+const QString fragmentSource =
 "%1"
 "\n"
 "uniform sampler2DRect texture;\n"
@@ -69,7 +77,7 @@ void djvGlslTestEdgeOp::render(const djvImage & in) throw (djvError)
 
     begin();
 
-    _texture.init(in);
+    _texture.init(in, GL_TEXTURE_RECTANGLE);
 
     if (! _init)
     {
@@ -78,7 +86,9 @@ void djvGlslTestEdgeOp::render(const djvImage & in) throw (djvError)
         djvGlslTestKernel kernel;
         kernel.init(9);
 
-        _shader.init(QString(src).arg(kernel.src()));
+        _shader.init(
+            vertexSource,
+            QString(fragmentSource).arg(kernel.src()));
         _shader.bind();
 
         const float value [] =

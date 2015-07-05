@@ -36,6 +36,8 @@
 
 #include <djvGlslTestAbstractOp.h>
 
+#include <djvOpenGlShader.h>
+
 //------------------------------------------------------------------------------
 // djvGlslTestBlurOp
 //------------------------------------------------------------------------------
@@ -68,9 +70,9 @@ public:
     {
 
         djvGlslTestOffscreen offscreen;
-        djvGlslTestShader    shader;
+        djvOpenGlShader      shader;
         djvGlslTestKernel    kernel;
-        djvGlslTestTexture   textureTmp;
+        djvOpenGlTexture     textureTmp;
     };
 
     class State

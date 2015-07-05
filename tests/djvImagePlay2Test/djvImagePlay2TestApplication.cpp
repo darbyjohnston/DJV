@@ -29,65 +29,72 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvImagePlay2TestApplication.cpp
 
-#include <djvGlslTestPlaybackToolBar.h>
+#include <djvImagePlay2TestApplication.h>
 
-#include <djvGlslTestContext.h>
+#include <djvImagePlay2TestLoad.h>
+#include <djvImagePlay2TestPlayback.h>
 
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <QTimer>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvImagePlay2TestApplication
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+djvImagePlay2TestApplication::djvImagePlay2TestApplication(int & argc, char ** argv) :
+    QApplication(argc, argv),
+    _context(new djvImagePlay2TestContext)
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    //DJV_DEBUG("djvImagePlay2TestApplication");
     
-    _buttons = new djvPlaybackButtons(context);
+    if (argc != 2)
+    {
+        _context->printMessage("Usage: djvImagePlay2Test (input)");
+        
+        QTimer::singleShot(0, this, SLOT(commandLineExit()));
+    }
+    else
+    {
+#       if QT_VERSION < 0x050000
+        setStyle(new QPlastiqueStyle);
+#       else
+        setStyle("fusion");
+#       endif
+        
+        _window.reset(new djvImagePlay2TestWindow(_context.data()));
+        _window->setWindowTitle("djvImagePlay2Test");
+        _window->show();
+
+        _context->glContext()->setShareContext(_window->glContext());
+        _context->glContext()->create();
+        
+        djvFileInfo fileInfo(argv[1]);
     
-    _slider = new djvViewFrameSlider(context);
-    
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
-    
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
-    
-    _buttons->setPlayback(playback->playback());
-    
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+        if (fileInfo.isSequenceValid())
+        {
+            fileInfo.setType(djvFileInfo::SEQUENCE);
+        }
+        
+        _context->load()->open(fileInfo);
+        _context->load()->read(0);
+    }
 }
+
+djvImagePlay2TestApplication::~djvImagePlay2TestApplication()
+{}
+
+void djvImagePlay2TestApplication::commandLineExit()
+{
+    exit(1);
+}
+
+//------------------------------------------------------------------------------
+// main
+//------------------------------------------------------------------------------
+
+int main(int argc, char ** argv)
+{
+    return djvImagePlay2TestApplication(argc, argv).exec();
+}
+

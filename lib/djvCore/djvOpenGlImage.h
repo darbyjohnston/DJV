@@ -44,10 +44,10 @@
 
 #include <QMetaType>
 
-class djvOpenGlImageLut;
-class djvOpenGlImageShader;
-class djvOpenGlImageTexture;
+class djvOpenGlLut;
 class djvOpenGlOffscreenBuffer;
+class djvOpenGlTexture;
+class djvOpenGlShader;
 
 #if defined DJV_WINDOWS
 #undef ERROR
@@ -291,17 +291,17 @@ private:
 
     DJV_PRIVATE_COPY(djvOpenGlImageState);
 
-    bool                    _init;
-    djvPixelDataInfo        _info;
-    djvOpenGlImageOptions   _options;
-    djvOpenGlImageTexture * _texture;
-    djvOpenGlImageShader  * _shader;
-    djvOpenGlImageTexture * _scaleXContrib;
-    djvOpenGlImageTexture * _scaleYContrib;
-    djvOpenGlImageShader  * _scaleXShader;
-    djvOpenGlImageShader  * _scaleYShader;
-    djvOpenGlImageLut *     _lutColorProfile;
-    djvOpenGlImageLut *     _lutDisplayProfile;
+    bool                  _init;
+    djvPixelDataInfo      _info;
+    djvOpenGlImageOptions _options;
+    djvOpenGlTexture *    _texture;
+    djvOpenGlShader *     _shader;
+    djvOpenGlTexture *    _scaleXContrib;
+    djvOpenGlTexture *    _scaleYContrib;
+    djvOpenGlShader *     _scaleXShader;
+    djvOpenGlShader *     _scaleYShader;
+    djvOpenGlLut *        _lutColorProfile;
+    djvOpenGlLut *        _lutDisplayProfile;
 
     friend class djvOpenGlImage;
 };
@@ -391,11 +391,7 @@ public:
     {
         ERROR_CREATE_TEXTURE,
         ERROR_CREATE_TEXTURE2,
-        ERROR_CREATE_SHADER,
-        ERROR_COMPILE_SHADER,
-        ERROR_CREATE_PROGRAM,
-        ERROR_LINK_PROGRAM,
-            
+        
         ERROR_COUNT
     };
     

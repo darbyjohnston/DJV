@@ -580,7 +580,7 @@ void djvViewImageView::dropEvent(QDropEvent * event)
 
 void djvViewImageView::paintGL()
 {
-    //DJV_DEBUG("djvViewImageView::draw");
+    //DJV_DEBUG("djvViewImageView::paintGL");
 
     djvImageView::paintGL();
 

@@ -29,79 +29,94 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlayback.cpp
+//! \file djvImagePlay2TestPlayback.cpp
 
-#include <djvGlslTestPlayback.h>
+#include <djvImagePlay2TestPlayback.h>
 
+#include <djvDebug.h>
 #include <djvMath.h>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlayback
+// djvImagePlay2TestPlayback
 //------------------------------------------------------------------------------
 
-djvGlslTestPlayback::djvGlslTestPlayback(QObject * parent) :
+djvImagePlay2TestPlayback::djvImagePlay2TestPlayback(QObject * parent) :
     QObject(parent),
+    _playback(djvPlaybackUtil::FORWARD),
     _frame   (0),
-    _playback(djvPlaybackUtil::STOP),
-    _timerId (0)
+    _timer   (0)
 {
     playbackUpdate();
 }
 
-djvGlslTestPlayback::~djvGlslTestPlayback()
+djvImagePlay2TestPlayback::~djvImagePlay2TestPlayback()
 {
-    if (_timerId)
+    if (_timer)
     {
-        killTimer(_timerId);
+        killTimer(_timer);
         
-        _timerId = 0;
+        _timer = 0;
     }
 }
 
-const djvSequence & djvGlslTestPlayback::sequence() const
+const djvFrameList & djvImagePlay2TestPlayback::frameList() const
 {
-    return _sequence;
+    return _frameList;
 }
 
-qint64 djvGlslTestPlayback::frame() const
+const djvSpeed & djvImagePlay2TestPlayback::speed() const
 {
-    return _sequence.frames[_frame];
+    return _speed;
 }
 
-djvPlaybackUtil::PLAYBACK djvGlslTestPlayback::playback() const
+qint64 djvImagePlay2TestPlayback::frame() const
+{
+    return _frameList[_frame];
+}
+    
+djvPlaybackUtil::PLAYBACK djvImagePlay2TestPlayback::playback() const
 {
     return _playback;
 }
 
-void djvGlslTestPlayback::setSequence(const djvSequence & sequence)
+void djvImagePlay2TestPlayback::setFrameList(const djvFrameList & frameList)
 {
-    if (sequence == _sequence)
+    if (frameList == _frameList)
         return;
+
+    _frameList = frameList;
     
-    _sequence = sequence;
-    
-    playbackUpdate();
-    
-    Q_EMIT sequenceChanged(_sequence);
+    Q_EMIT frameListChanged(_frameList);
 }
-    
-void djvGlslTestPlayback::setFrame(qint64 frame)
+
+void djvImagePlay2TestPlayback::setSpeed(const djvSpeed & speed)
 {
-    qint64 f = djvMath::wrap<qint64>(frame, 0, _sequence.frames.count() - 1);
-    
-    if (f == _frame)
+    if (speed == _speed)
         return;
+
+    _speed = speed;
     
-    _frame = f;
+    Q_EMIT speedChanged(_speed);
+}
+
+void djvImagePlay2TestPlayback::setFrame(qint64 frame)
+{
+    if (frame == _frame)
+        return;
+
+    //DJV_DEBUG("djvImagePlay2TestPlayback::setFrame");
+    //DJV_DEBUG_PRINT("frame = " << frame);
+    
+    _frame = frame;
     
     Q_EMIT frameChanged(_frame);
 }
 
-void djvGlslTestPlayback::setPlayback(djvPlaybackUtil::PLAYBACK playback)
+void djvImagePlay2TestPlayback::setPlayback(djvPlaybackUtil::PLAYBACK playback)
 {
     if (playback == _playback)
         return;
-        
+    
     _playback = playback;
     
     playbackUpdate();
@@ -109,40 +124,41 @@ void djvGlslTestPlayback::setPlayback(djvPlaybackUtil::PLAYBACK playback)
     Q_EMIT playbackChanged(_playback);
 }
 
-void djvGlslTestPlayback::timerEvent(QTimerEvent *)
+void djvImagePlay2TestPlayback::timerEvent(QTimerEvent *)
 {
-    //DJV_DEBUG("djvGlslTestPlayback::timerEvent");
-    //DJV_DEBUG_PRINT("frame = " << _frame);
-    
-    int inc = 0;
+    qint64 frame = _frame;
     
     switch (_playback)
     {
-        case djvPlaybackUtil::FORWARD: inc =  1; break;
-        case djvPlaybackUtil::REVERSE: inc = -1; break;
+        case djvPlaybackUtil::REVERSE: --frame; break;
+        case djvPlaybackUtil::FORWARD: ++frame; break;
         
         default: break;
     }
     
-    setFrame(_frame + inc);
+    setFrame(frame);
 }
 
-void djvGlslTestPlayback::playbackUpdate()
+void djvImagePlay2TestPlayback::playbackUpdate()
 {
-    if (_timerId)
-    {
-        killTimer(_timerId);
-        
-        _timerId = 0;
-    }
-    
     switch (_playback)
     {
-        case djvPlaybackUtil::FORWARD:
-        case djvPlaybackUtil::REVERSE:
+        case djvPlaybackUtil::STOP:
         
-            _timerId = startTimer(1000 * 1 / djvSpeed::speedToFloat(_sequence.speed));
+            if (_timer)
+            {
+                killTimer(_timer);
             
+                _timer = 0;
+            }
+        
+            break;
+
+        case djvPlaybackUtil::REVERSE:
+        case djvPlaybackUtil::FORWARD:
+
+            _timer = startTimer(0);
+
             break;
         
         default: break;

@@ -70,7 +70,7 @@ void djvGlslTestAbstractOp::end()
 
     glPopAttrib();
     
-    djvGlslTestShader::unbind();
+    glUseProgram(0);
 }
 
 //------------------------------------------------------------------------------

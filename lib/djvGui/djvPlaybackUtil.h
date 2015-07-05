@@ -29,65 +29,41 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvPlaybackUtil.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_PLAYBACK_UTIL_H
+#define DJV_PLAYBACK_UTIL_H
 
-#include <djvGlslTestContext.h>
+#include <djvGuiExport.h>
 
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <QStringList>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+//! \struct djvPlaybackUtil
+//!
+//! This struct provides playback utilities.
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+struct DJV_GUI_EXPORT djvPlaybackUtil
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    //! This enumeration provides playback states.
     
-    _buttons = new djvPlaybackButtons(context);
+    enum PLAYBACK
+    {
+        REVERSE,
+        STOP,
+        FORWARD,
+        
+        PLAYBACK_COUNT
+    };
     
-    _slider = new djvViewFrameSlider(context);
+    //! Get the playback state labels.
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+    static const QStringList & playbackLabels();
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    //! Get the playback state icon names.
     
-    _buttons->setPlayback(playback->playback());
-    
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    static const QStringList & playbackIcons();
+};
+
+#endif // DJV_PLAYBACK_UTIL_H

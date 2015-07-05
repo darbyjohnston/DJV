@@ -38,580 +38,13 @@
 #include <djvDebug.h>
 #include <djvError.h>
 #include <djvMatrixUtil.h>
+#include <djvOpenGlLut.h>
+#include <djvOpenGlShader.h>
+#include <djvOpenGlTexture.h>
 #include <djvPixelDataUtil.h>
 #include <djvVector.h>
 
 #include <QCoreApplication>
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGlImageLut
-//!
-//! This class provides an OpenGL lookup table.
-//------------------------------------------------------------------------------
-
-class djvOpenGlImageLut
-{
-public:
-
-    djvOpenGlImageLut();
-
-    ~djvOpenGlImageLut();
-
-    void init(const djvPixelDataInfo &) throw (djvError);
-
-    void init(const djvPixelData &) throw (djvError);
-
-    void copy(const djvPixelData &);
-
-    void bind();
-
-    void unbind();
-
-    const djvPixelDataInfo & info() const;
-
-    GLuint id() const;
-
-private:
-
-    void del();
-
-    djvPixelDataInfo _info;
-    int              _size;
-    GLuint           _id;
-};
-
-djvOpenGlImageLut::djvOpenGlImageLut() :
-    _size(0),
-    _id  (0)
-{}
-
-djvOpenGlImageLut::~djvOpenGlImageLut()
-{
-    del();
-}
-
-void djvOpenGlImageLut::init(const djvPixelDataInfo & info) throw (djvError)
-{
-    if (info == _info)
-        return;
-
-    //DJV_DEBUG("djvOpenGlImageLut::init");
-    //DJV_DEBUG_PRINT("info = " << info);
-
-    del();
-
-    _info = info;
-    _size = djvMath::toPow2(_info.size.x);
-
-    //DJV_DEBUG_PRINT("size = " << _size);
-
-    DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
-
-    if (! _id)
-    {
-        throw djvError(
-            "djvOpenGlImageLut",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_CREATE_TEXTURE]);
-    }
-
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_1D, _id));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-
-    GLenum format = GL_RGBA;
-
-    if (djvPixel::F16 == djvPixel::type(_info.pixel))
-    {
-        format = GL_RGBA16F;
-    }
-    else if (djvPixel::F32 == djvPixel::type(_info.pixel))
-    {
-        format = GL_RGBA32F;
-    }
-
-    DJV_DEBUG_OPEN_GL(
-        glTexImage1D(
-            GL_TEXTURE_1D,
-            0,
-            format,
-            _size,
-            0,
-            djvOpenGlUtil::format(_info.pixel, _info.bgr),
-            djvOpenGlUtil::type(_info.pixel),
-            0));
-}
-
-void djvOpenGlImageLut::init(const djvPixelData & data) throw (djvError)
-{
-    init(data.info());
-
-    bind();
-
-    copy(data);
-}
-
-void djvOpenGlImageLut::copy(const djvPixelData & in)
-{
-    //DJV_DEBUG("djvOpenGlImageLut::copy");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    const djvPixelDataInfo & info = in.info();
-
-    djvOpenGlImage::stateUnpack(in.info());
-
-    DJV_DEBUG_OPEN_GL(
-        glTexSubImage1D(
-            GL_TEXTURE_1D,
-            0,
-            0,
-            info.size.x,
-            djvOpenGlUtil::format(info.pixel, info.bgr),
-            djvOpenGlUtil::type(info.pixel),
-            in.data()));
-}
-
-void djvOpenGlImageLut::bind()
-{
-    //DJV_DEBUG("djvOpenGlImageLut::bind");
-
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_1D, _id));
-}
-
-const djvPixelDataInfo & djvOpenGlImageLut::info() const
-{
-    return _info;
-}
-
-GLuint djvOpenGlImageLut::id() const
-{
-    return _id;
-}
-
-void djvOpenGlImageLut::del()
-{
-    if (_id)
-    {
-        glDeleteTextures(1, &_id);
-
-        _id = 0;
-    }
-}
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGlImageTexture
-//!
-//! This class provides an OpenGL texture.
-//------------------------------------------------------------------------------
-
-class djvOpenGlImageTexture
-{
-public:
-
-    djvOpenGlImageTexture();
-
-    ~djvOpenGlImageTexture();
-
-    void init(
-        const djvPixelDataInfo &,
-        GLenum = GL_LINEAR,
-        GLenum = GL_LINEAR) throw (djvError);
-
-    void init(const djvPixelData &, GLenum = GL_LINEAR, GLenum = GL_LINEAR)
-        throw (djvError);
-
-    void copy(const djvPixelData &);
-
-    void copy(const djvVector2i &);
-
-    void bind();
-
-    const djvPixelDataInfo & info() const;
-
-    GLenum min() const;
-
-    GLenum mag() const;
-
-    GLuint id() const;
-
-private:
-
-    void del();
-
-    djvPixelDataInfo _info;
-    GLenum           _min;
-    GLenum           _mag;
-    GLuint           _id;
-};
-
-djvOpenGlImageTexture::djvOpenGlImageTexture() :
-    _min(GL_LINEAR),
-    _mag(GL_LINEAR),
-    _id (0)
-{}
-
-djvOpenGlImageTexture::~djvOpenGlImageTexture()
-{
-    del();
-}
-
-void djvOpenGlImageTexture::init(
-    const djvPixelDataInfo & info,
-    GLenum                   min,
-    GLenum                   mag) throw (djvError)
-{
-    if (info == _info && min == _min && mag == _mag)
-        return;
-
-    del();
-
-    //DJV_DEBUG("djvOpenGlImageTexture::init");
-    //DJV_DEBUG_PRINT("info = " << info);
-
-    _info = info;
-    _min  = min;
-    _mag  = mag;
-
-    DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
-
-    //DJV_DEBUG_PRINT("id = " << int(_id));
-
-    if (! _id)
-    {
-        throw djvError(
-            "djvOpenGlImageTexture",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_CREATE_TEXTURE]);
-    }
-
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _id));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, _min));
-    DJV_DEBUG_OPEN_GL(
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _mag));
-
-    GLenum format = GL_RGBA;
-
-    if (djvPixel::F16 == djvPixel::type(_info.pixel))
-    {
-        format = GL_RGBA16F;
-    }
-    else if (djvPixel::F32 == djvPixel::type(_info.pixel))
-    {
-        format = GL_RGBA32F;
-    }
-
-    glTexImage2D(
-        GL_TEXTURE_2D,
-        0,
-        format,
-        _info.size.x,
-        _info.size.y,
-        0,
-        djvOpenGlUtil::format(_info.pixel, _info.bgr),
-        djvOpenGlUtil::type(_info.pixel),
-        0);
-    
-    GLenum error = glGetError();
-    
-#if ! defined(DJV_OSX)
-
-    //! \todo On OS X this error is triggered the first time djv_view is
-    //! started, though it doesn't actually seem to be a problem? If we
-    //! throw here the image is not displayed (start djv_view from the
-    //! command line with an image), but if we igore the error the image is
-    //! displayed OK? Is this related to the "invalid drawable" message we
-    //! are also getting on start up?
-    
-    if (error != GL_NO_ERROR)
-    {
-        throw djvError(
-            "djvOpenGlImageTexture",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_CREATE_TEXTURE2].
-            arg((char *)gluErrorString(error)));
-    }
-    
-#endif // DJV_OSX
-}
-
-void djvOpenGlImageTexture::init(
-    const djvPixelData & data,
-    GLenum               min,
-    GLenum               mag) throw (djvError)
-{
-    init(data.info(), min, mag);
-
-    bind();
-
-    copy(data);
-}
-
-void djvOpenGlImageTexture::copy(const djvPixelData & in)
-{
-    //DJV_DEBUG("djvOpenGlImageTexture::copy");
-    //DJV_DEBUG_PRINT("in = " << in);=
-
-    const djvPixelDataInfo & info = in.info();
-
-    djvOpenGlImage::stateUnpack(in.info());
-
-    DJV_DEBUG_OPEN_GL(
-        glTexSubImage2D(
-            GL_TEXTURE_2D,
-            0,
-            0,
-            0,
-            info.size.x,
-            info.size.y,
-            djvOpenGlUtil::format(info.pixel, info.bgr),
-            djvOpenGlUtil::type(info.pixel),
-            in.data()));
-}
-
-void djvOpenGlImageTexture::copy(const djvVector2i & in)
-{
-    //DJV_DEBUG("djvOpenGlImageTexture::copy");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _id));
-
-    DJV_DEBUG_OPEN_GL(
-        glCopyTexSubImage2D(
-            GL_TEXTURE_2D,
-            0,
-            0,
-            0,
-            0,
-            0,
-            in.x,
-            in.y));
-}
-
-void djvOpenGlImageTexture::bind()
-{
-    //DJV_DEBUG("djvOpenGlImageTexture::bind");
-
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _id));
-}
-
-const djvPixelDataInfo & djvOpenGlImageTexture::info() const
-{
-    return _info;
-}
-
-GLenum djvOpenGlImageTexture::min() const
-{
-    return _min;
-}
-
-GLenum djvOpenGlImageTexture::mag() const
-{
-    return _mag;
-}
-
-GLuint djvOpenGlImageTexture::id() const
-{
-    return _id;
-}
-
-void djvOpenGlImageTexture::del()
-{
-    if (_id)
-    {
-        glDeleteTextures(1, &_id);
-
-        _id = 0;
-    }
-}
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGlImageShader
-//!
-//! This class provides an OpenGL shader.
-//------------------------------------------------------------------------------
-
-class djvOpenGlImageShader
-{
-public:
-
-    djvOpenGlImageShader();
-
-    ~djvOpenGlImageShader();
-
-    void init(const QString & vertex, const QString & fragment) throw (djvError);
-
-    void bind();
-
-    GLuint program() const;
-
-private:
-
-    void del();
-
-    QString _vertex;
-    QString _fragment;
-
-    GLuint _vertexId;
-    GLuint _fragmentId;
-    GLuint _program;
-};
-
-djvOpenGlImageShader::djvOpenGlImageShader() :
-    _vertexId  (0),
-    _fragmentId(0),
-    _program   (0)
-{}
-
-djvOpenGlImageShader::~djvOpenGlImageShader()
-{
-    del();
-}
-
-namespace
-{
-
-GLuint shaderCreate(GLenum type) throw (djvError)
-{
-    //DJV_DEBUG("shaderCreate");
-
-    GLuint r = 0;
-
-    DJV_DEBUG_OPEN_GL(r = glCreateShader(type));
-
-    if (! r)
-    {
-        throw djvError(
-            "djvOpenGlImageShader",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_CREATE_SHADER]);
-    }
-
-    return r;
-}
-
-void shaderCompile(GLuint id, const QString & source) throw (djvError)
-{
-    //DJV_DEBUG("shaderCompile");
-    //DJV_DEBUG_PRINT("source = " << source);
-
-    djvMemoryBuffer<char> buf(source.length());
-    djvMemory::copy(source.toLatin1().data(), buf.data(), buf.size());
-
-    const char * sources       [] = { buf.data() };
-    const GLint  sourceLengths [] = { buf.size() };
-
-    DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
-
-    DJV_DEBUG_OPEN_GL(glCompileShader(id));
-
-    GLint error = GL_FALSE;
-
-    glGetShaderiv(id, GL_COMPILE_STATUS, &error);
-
-    char log [4096] = "";
-    GLsizei logSize = 0;
-    glGetShaderInfoLog(id, 4096, &logSize, log);
-
-    //DJV_DEBUG_PRINT("log = " << QString(log));
-
-    if (error != GL_TRUE)
-    {
-        throw djvError(
-            "djvOpenGlImageShader",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_COMPILE_SHADER].
-            arg(log));
-    }
-}
-
-} // namespace
-
-void djvOpenGlImageShader::init(
-    const QString & vertex,
-    const QString & fragment) throw (djvError)
-{
-    if (vertex == _vertex && fragment == _fragment)
-        return;
-
-    //DJV_DEBUG("djvOpenGlImageShader::init");
-    //DJV_DEBUG_PRINT("fragment = " << fragment);
-
-    del();
-
-    _vertex   = vertex;
-    _fragment = fragment;
-
-    GLint error = GL_FALSE;
-
-    _vertexId   = shaderCreate(GL_VERTEX_SHADER);
-    _fragmentId = shaderCreate(GL_FRAGMENT_SHADER);
-
-    shaderCompile(_vertexId,   _vertex);
-    shaderCompile(_fragmentId, _fragment);
-
-    DJV_DEBUG_OPEN_GL(_program = glCreateProgram());
-
-    if (! _program)
-    {
-        throw djvError(
-            "djvOpenGlImageShader",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_CREATE_PROGRAM]);
-    }
-
-    DJV_DEBUG_OPEN_GL(glAttachShader(_program, _vertexId));
-    DJV_DEBUG_OPEN_GL(glAttachShader(_program, _fragmentId));
-    DJV_DEBUG_OPEN_GL(glLinkProgram (_program));
-
-    glGetProgramiv(_program, GL_LINK_STATUS, &error);
-
-    char log [4096] = "";
-    GLsizei logSize = 0;
-    glGetProgramInfoLog(_program, 4096, &logSize, log);
-
-    //DJV_DEBUG_PRINT("log = " << QString(log));
-
-    if (error != GL_TRUE)
-    {
-        throw djvError(
-            "djvOpenGlImageShader",
-            djvOpenGlImage::errorLabels()[djvOpenGlImage::ERROR_CREATE_PROGRAM].
-            arg(log));
-    }
-}
-
-void djvOpenGlImageShader::bind()
-{
-    //DJV_DEBUG("djvOpenGlImageShader::bind");
-
-    DJV_DEBUG_OPEN_GL(glUseProgram(_program));
-}
-
-GLuint djvOpenGlImageShader::program() const
-{
-    return _program;
-}
-
-void djvOpenGlImageShader::del()
-{
-    if (_vertexId)
-    {
-        glDeleteShader(_vertexId);
-    }
-
-    if (_fragmentId)
-    {
-        glDeleteShader(_fragmentId);
-    }
-
-    if (_program)
-    {
-        glDeleteProgram(_program);
-    }
-}
 
 //------------------------------------------------------------------------------
 // djvOpenGlImageState
@@ -619,14 +52,14 @@ void djvOpenGlImageShader::del()
 
 djvOpenGlImageState::djvOpenGlImageState() :
     _init             (false),
-    _texture          (new djvOpenGlImageTexture),
-    _shader           (new djvOpenGlImageShader),
-    _scaleXContrib    (new djvOpenGlImageTexture),
-    _scaleYContrib    (new djvOpenGlImageTexture),
-    _scaleXShader     (new djvOpenGlImageShader),
-    _scaleYShader     (new djvOpenGlImageShader),
-    _lutColorProfile  (new djvOpenGlImageLut),
-    _lutDisplayProfile(new djvOpenGlImageLut)
+    _texture          (new djvOpenGlTexture),
+    _shader           (new djvOpenGlShader),
+    _scaleXContrib    (new djvOpenGlTexture),
+    _scaleYContrib    (new djvOpenGlTexture),
+    _scaleXShader     (new djvOpenGlShader),
+    _scaleYShader     (new djvOpenGlShader),
+    _lutColorProfile  (new djvOpenGlLut),
+    _lutDisplayProfile(new djvOpenGlLut)
 {}
 
 djvOpenGlImageState::~djvOpenGlImageState()
@@ -1420,7 +853,7 @@ double knee2(double x, double y)
 void colorProfileInit(
     const djvOpenGlImageOptions & options,
     GLuint                        program,
-    djvOpenGlImageLut &           colorProfile)
+    djvOpenGlLut &                colorProfile)
 {
     //DJV_DEBUG("colorProfileInit");
     //DJV_DEBUG_PRINT("type = " << options.colorProfile.type);
@@ -1498,7 +931,7 @@ namespace
 void displayProfileInit(
     const djvOpenGlImageOptions & options,
     GLuint                        program,
-    djvOpenGlImageLut &           displayProfile)
+    djvOpenGlLut &                displayProfile)
 {
     //DJV_DEBUG("displayProfileInit");
 
@@ -1636,6 +1069,7 @@ void djvOpenGlImage::draw(
 
                 state->_texture->init(
                     data.info(),
+                    GL_TEXTURE_2D,
                     djvOpenGlImageFilter::toGl(filter),
                     djvOpenGlImageFilter::toGl(filter));
 
@@ -1663,6 +1097,7 @@ void djvOpenGlImage::draw(
 
                 state->_texture->init(
                     data.info(),
+                    GL_TEXTURE_2D,
                     GL_NEAREST,
                     GL_NEAREST);
 
@@ -1678,6 +1113,7 @@ void djvOpenGlImage::draw(
 
                 state->_scaleXContrib->init(
                     contrib,
+                    GL_TEXTURE_2D,
                     GL_NEAREST,
                     GL_NEAREST);
 
@@ -1701,6 +1137,7 @@ void djvOpenGlImage::draw(
 
                 state->_scaleYContrib->init(
                     contrib,
+                    GL_TEXTURE_2D,
                     GL_NEAREST,
                     GL_NEAREST);
 
@@ -1760,7 +1197,6 @@ void djvOpenGlImage::draw(
             uniform1i(state->_shader->program(), "inTexture", 0);
 
             state->_texture->copy(data);
-            state->_texture->bind();
 
             DJV_DEBUG_OPEN_GL(glPushMatrix());
             const djvMatrix3f m = djvOpenGlImageXform::xformMatrix(options.xform);
@@ -1866,19 +1302,3 @@ void djvOpenGlImage::draw(
         default: break;
     }
 }
-
-const QStringList & djvOpenGlImage::errorLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvOpenGlImage", "Cannot create texture") <<
-        qApp->translate("djvOpenGlImage", "Cannot create texture: %1") <<
-        qApp->translate("djvOpenGlImage", "Cannot create shader") <<
-        qApp->translate("djvOpenGlImage", "Cannot compile shader:\n%1") <<
-        qApp->translate("djvOpenGlImage", "Cannot create shader program") <<
-        qApp->translate("djvOpenGlImage", "Cannot link shader:\n%1");
-
-    DJV_ASSERT(ERROR_COUNT == data.count());
-    
-    return data;
-}
-

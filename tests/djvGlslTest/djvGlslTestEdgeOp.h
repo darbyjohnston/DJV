@@ -36,6 +36,8 @@
 
 #include <djvGlslTestAbstractOp.h>
 
+#include <djvOpenGlShader.h>
+
 //------------------------------------------------------------------------------
 // djvGlslTestEdgeOp
 //------------------------------------------------------------------------------
@@ -50,8 +52,8 @@ public:
 
 private:
 
-    djvGlslTestShader _shader;
-    bool              _init;
+    djvOpenGlShader _shader;
+    bool            _init;
 };
 
 //------------------------------------------------------------------------------

@@ -79,15 +79,23 @@ const djvGlslTestLevelsOp::Values & djvGlslTestLevelsOp::values() const
 namespace
 {
 
-const QString levelsSrc =
+const QString vertexSource =
+"void main(void)\n"
+"{\n"
+"    gl_FrontColor  = gl_Color;\n"
+"    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+"    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"}\n";
+
+const QString levelsSource =
 "    gl_FragColor = levelsFnc(\n"
 "        texture2DRect(texture, gl_TexCoord[0].st), levels);\n";
 
-const QString levelsSoftClipSrc =
+const QString levelsSoftClipSource =
 "    gl_FragColor = softClipFnc(levelsFnc(\n"
 "        texture2DRect(texture, gl_TexCoord[0].st), levels), softClip);\n";
 
-const QString src =
+const QString fragmentSource =
 "struct Levels\n"
 "{\n"
 "    float inputMin, inputMax;\n"
@@ -142,7 +150,7 @@ void djvGlslTestLevelsOp::render(const djvImage & in) throw (djvError)
 
     begin();
 
-    _texture.init(in);
+    _texture.init(in, GL_TEXTURE_RECTANGLE);
 
     const State state(_values);
 
@@ -150,8 +158,10 @@ void djvGlslTestLevelsOp::render(const djvImage & in) throw (djvError)
     {
         //DJV_DEBUG_PRINT("init");
 
-        _render.shader.init(QString(src).
-            arg(_values.softClip > 0.0 ? levelsSoftClipSrc : levelsSrc));
+        _render.shader.init(
+            vertexSource,
+            QString(fragmentSource).
+                arg(_values.softClip > 0.0 ? levelsSoftClipSource : levelsSource));
 
         _state = state;
     }

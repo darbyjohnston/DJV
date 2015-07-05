@@ -29,65 +29,47 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvImagePlay2TestPlayBar.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_IMAGE_PLAY2_TEST_PLAY_BAR_H
+#define DJV_IMAGE_PLAY2_TEST_PLAY_BAR_H
 
-#include <djvGlslTestContext.h>
+#include <QWidget>
 
-#include <djvViewMiscWidget.h>
+class djvImagePlay2TestContext;
 
-#include <djvPlaybackButtons.h>
+class djvViewFrameSlider;
+class djvViewFrameWidget;
 
-#include <QHBoxLayout>
+class djvGuiContext;
+class djvPlaybackButtons;
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvImagePlay2TestPlayBar
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class djvImagePlay2TestPlayBar : public QWidget
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    Q_OBJECT
+
+public:
+
+    explicit djvImagePlay2TestPlayBar(djvImagePlay2TestContext *);
+
+private Q_SLOTS:
+
+    void sliderPressedCallback(bool);
     
-    _buttons = new djvPlaybackButtons(context);
+    void updateSequence();
+    void updateFrame();
+    void updatePlayback();
     
-    _slider = new djvViewFrameSlider(context);
-    
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
-    
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
-    
-    _buttons->setPlayback(playback->playback());
-    
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+private:
+
+    djvPlaybackButtons *       _playbackButtons;
+    djvViewFrameWidget *       _frameWidget;
+    djvViewFrameSlider *       _frameSlider;
+    djvImagePlay2TestContext * _context;
+};
+
+#endif // DJV_IMAGE_PLAY2_TEST_PLAY_BAR_H

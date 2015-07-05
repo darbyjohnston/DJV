@@ -14,7 +14,6 @@ set(header
     djvGlslTestOpListDockWidget.h
     djvGlslTestOpsManager.h
     djvGlslTestPlayback.h
-    djvGlslTestPlaybackButtons.h
     djvGlslTestPlaybackToolBar.h
     djvGlslTestScaleOp.h
     djvGlslTestSharpenOp.h
@@ -37,7 +36,6 @@ set(mocHeader
     djvGlslTestOpListDockWidget.h
     djvGlslTestOpsManager.h
     djvGlslTestPlayback.h
-    djvGlslTestPlaybackButtons.h
     djvGlslTestPlaybackToolBar.h
     djvGlslTestScaleOp.h
     djvGlslTestSharpenOp.h
@@ -59,7 +57,6 @@ set(source
     djvGlslTestOpListDockWidget.cpp
     djvGlslTestOpsManager.cpp
     djvGlslTestPlayback.cpp
-    djvGlslTestPlaybackButtons.cpp
     djvGlslTestPlaybackToolBar.cpp
     djvGlslTestScaleOp.cpp
     djvGlslTestSharpenOp.cpp

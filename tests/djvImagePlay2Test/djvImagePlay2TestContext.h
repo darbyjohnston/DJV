@@ -29,65 +29,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvImagePlay2TestContext.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_IMAGE_PLAY2_TEST_CONTEXT_H
+#define DJV_IMAGE_PLAY2_TEST_CONTEXT_H
 
-#include <djvGlslTestContext.h>
+#include <djvImagePlay2TestPlayback.h>
 
-#include <djvViewMiscWidget.h>
+#include <djvGuiContext.h>
 
-#include <djvPlaybackButtons.h>
+#include <QOpenGLContext>
+#include <QOffscreenSurface>
+#include <QScopedPointer>
+#include <QThread>
 
-#include <QHBoxLayout>
+class djvImagePlay2TestLoad;
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvImagePlay2TestContext
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class djvImagePlay2TestContext : public djvGuiContext
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    
-    _buttons = new djvPlaybackButtons(context);
-    
-    _slider = new djvViewFrameSlider(context);
-    
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
-    
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
-    
-    _buttons->setPlayback(playback->playback());
-    
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    Q_OBJECT
+
+public:
+
+    explicit djvImagePlay2TestContext(QObject * parent = 0);
+
+    virtual ~djvImagePlay2TestContext();
+
+    QOffscreenSurface * surface() const;
+
+    QOpenGLContext * glContext() const;
+
+    unsigned int texture() const;
+
+    djvImagePlay2TestLoad * load() const;
+
+    djvImagePlay2TestPlayback * playback() const;
+
+private:
+
+    QScopedPointer<QOffscreenSurface>         _surface;
+    QScopedPointer<QOpenGLContext>            _glContext;
+    unsigned int                              _texture;
+    djvImagePlay2TestLoad *                   _load;
+    QThread                                   _thread;
+    QScopedPointer<djvImagePlay2TestPlayback> _playback;
+};
+
+#endif // DJV_IMAGE_PLAY2_TEST_CONTEXT_H

@@ -29,50 +29,42 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackButtons.h
+//! \file djvImagePlay2TestApplication.h
 
-#ifndef DJV_GLSL_TEST_PLAYBACK_BUTTONS_H
-#define DJV_GLSL_TEST_PLAYBACK_BUTTONS_H
+#ifndef DJV_IMAGE_PLAY2_TEST_APPLICATION_H
+#define DJV_IMAGE_PLAY2_TEST_APPLICATION_H
 
-#include <djvGlslTestPlayback.h>
+#include <djvImagePlay2TestContext.h>
+#include <djvImagePlay2TestWindow.h>
 
-#include <QWidget>
-
-class djvGlslTestContext;
-
-class QButtonGroup;
+#include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackButtons
+// djvImagePlay2TestApplication
 //------------------------------------------------------------------------------
 
-class djvGlslTestPlaybackButtons : public QWidget
+class djvImagePlay2TestApplication : public QApplication
 {
     Q_OBJECT
-
+    
 public:
 
-    explicit djvGlslTestPlaybackButtons(djvGlslTestContext *, QWidget * parent = 0);
+    djvImagePlay2TestApplication(int & argc, char ** argv);
     
-    djvGlslTestPlayback::PLAYBACK playback() const;
+    virtual ~djvImagePlay2TestApplication();
 
-public Q_SLOTS:
-
-    void setPlayback(djvGlslTestPlayback::PLAYBACK);
-    
 Q_SIGNALS:
 
-    void playbackChanged(djvGlslTestPlayback::PLAYBACK);
+    void frameChanged(qint64);
 
 private Q_SLOTS:
 
-    void buttonCallback(int);
-    
+    void commandLineExit();
+
 private:
-    
-    djvGlslTestPlayback::PLAYBACK _playback;
-    
-    QButtonGroup * _buttonGroup;
+
+    QScopedPointer<djvImagePlay2TestContext> _context;
+    QScopedPointer<djvImagePlay2TestWindow>  _window;
 };
 
-#endif // DJV_GLSL_TEST_PLAYBACK_BUTTONS_H
+#endif // DJV_IMAGE_PLAY2_TEST_APPLICATION_H

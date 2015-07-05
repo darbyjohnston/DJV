@@ -67,11 +67,11 @@ public:
 
     const djvPixelDataInfo & info() const;
 
-    //! Get the offscreen buffer id.
+    //! Get the offscreen buffer ID.
 
     GLuint id() const;
 
-    //! Get the offscreen buffer texture.
+    //! Get the offscreen buffer texture ID.
 
     GLuint texture() const;
 

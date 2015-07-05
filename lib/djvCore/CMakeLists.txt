@@ -49,6 +49,9 @@ set(header
     djvOpenGlContext.h
     djvOpenGlImage.h
     djvOpenGlOffscreenBuffer.h
+    djvOpenGlLut.h
+    djvOpenGlShader.h
+    djvOpenGlTexture.h
     djvPixel.h
     djvPixelData.h
     djvPixelDataInline.h
@@ -126,6 +129,9 @@ set(source
     djvOpenGlImage.cpp
     djvOpenGlImageDraw.cpp
     djvOpenGlOffscreenBuffer.cpp
+    djvOpenGlLut.cpp
+    djvOpenGlShader.cpp
+    djvOpenGlTexture.cpp
     djvPixel.cpp
     djvPixelConvert.cpp
     djvPixelData.cpp

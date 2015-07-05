@@ -29,65 +29,81 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
-
-#include <djvGlslTestPlaybackToolBar.h>
-
-#include <djvGlslTestContext.h>
-
-#include <djvViewMiscWidget.h>
+//! \file djvPlaybackButtons.cpp
 
 #include <djvPlaybackButtons.h>
 
+#include <djvGuiContext.h>
+#include <djvIconLibrary.h>
+
+#include <QApplication>
+#include <QButtonGroup>
 #include <QHBoxLayout>
+#include <QToolButton>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvPlaybackButtons
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+djvPlaybackButtons::djvPlaybackButtons(djvGuiContext * context, QWidget * parent) :
+    QWidget(parent),
+    _playback   (djvPlaybackUtil::STOP),
+    _buttonGroup(0)
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    _buttonGroup = new QButtonGroup(this);
+    _buttonGroup->setExclusive(true);
     
-    _buttons = new djvPlaybackButtons(context);
+    const QStringList toolTips = QStringList() <<
+        qApp->translate("djvPlaybackButtons", "Reverse playback") <<
+        qApp->translate("djvPlaybackButtons", "Stop playback") <<
+        qApp->translate("djvPlaybackButtons", "Forward playback");
     
-    _slider = new djvViewFrameSlider(context);
+    QHBoxLayout * layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+
+    for (int i = 0; i < djvPlaybackUtil::PLAYBACK_COUNT; ++i)
+    {
+        QToolButton * button = new QToolButton;
+        button->setCheckable(true);
+        button->setIcon(context->iconLibrary()->icon(
+            djvPlaybackUtil::playbackIcons()[i]));
+        button->setIconSize(context->iconLibrary()->defaultSize());
+        button->setAutoRaise(true);
+        button->setToolTip(toolTips[i]);
+        
+        _buttonGroup->addButton(button, i);
+
+        layout->addWidget(button);
+    }
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+    _buttonGroup->buttons()[_playback]->setChecked(true);
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
-    
-    _buttons->setPlayback(playback->playback());
-    
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+    connect(
+        _buttonGroup,
+        SIGNAL(buttonClicked(int)),
+        SLOT(buttonCallback(int)));
 }
+
+djvPlaybackUtil::PLAYBACK djvPlaybackButtons::playback() const
+{
+    return _playback;
+}
+
+void djvPlaybackButtons::setPlayback(djvPlaybackUtil::PLAYBACK playback)
+{
+    if (playback == _playback)
+        return;
+    
+    _playback = playback;
+    
+    _buttonGroup->buttons()[_playback]->setChecked(true);
+    
+    Q_EMIT playbackChanged(_playback);
+}
+
+void djvPlaybackButtons::buttonCallback(int id)
+{
+    setPlayback(static_cast<djvPlaybackUtil::PLAYBACK>(id));
+}
+

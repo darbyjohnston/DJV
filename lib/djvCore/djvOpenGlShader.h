@@ -29,65 +29,63 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvOpenGlShader.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_OPEN_GL_SHADER_H
+#define DJV_OPEN_GL_SHADER_H
 
-#include <djvGlslTestContext.h>
-
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <djvError.h>
+#include <djvOpenGl.h>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+//! \class djvOpenGlShader
+//!
+//! This class encapsulates an OpenGL shader.
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class DJV_CORE_EXPORT djvOpenGlShader
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+public:
+
+    //! Constructor.
     
-    _buttons = new djvPlaybackButtons(context);
+    djvOpenGlShader();
+
+    //! Destructor.
     
-    _slider = new djvViewFrameSlider(context);
+    ~djvOpenGlShader();
+
+    //! Initialize the shader.
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+    void init(
+        const QString & vertexSource,
+        const QString & fragmentSource) throw (djvError);
+
+    //! Bind the shader.
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    void bind();
     
-    _buttons->setPlayback(playback->playback());
+    //! Get the shader vertex source.
     
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
+    const QString & vertexSource() const;
     
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+    //! Get the shader fragment source.
+
+    const QString & fragmentSource() const;
+
+    //! Get the shader program ID.
     
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    GLuint program() const;
+
+private:
+
+    void del();
+
+    QString _vertexSource;
+    QString _fragmentSource;
+    GLuint  _vertexId;
+    GLuint  _fragmentId;
+    GLuint  _programId;
+};
+
+#endif // DJV_OPEN_GL_SHADER_H

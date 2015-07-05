@@ -855,7 +855,7 @@ void djvViewMainWindow::fileCacheUpdate()
 
 void djvViewMainWindow::imageUpdate()
 {
-    //DJV_DEBUG("djvViewWindow::imageUpdate");
+    //DJV_DEBUG("djvViewMainWindow::imageUpdate");
 
     // Update the image.
 
@@ -906,7 +906,7 @@ void djvViewMainWindow::imageUpdate()
 
 void djvViewMainWindow::controlsUpdate()
 {
-    //DJV_DEBUG("djvViewWindow::controlsUpdate");
+    //DJV_DEBUG("djvViewMainWindow::controlsUpdate");
     
     // Temporarily disable updates to try and minimize flickering.
     
@@ -959,7 +959,7 @@ void djvViewMainWindow::controlsUpdate()
 
 void djvViewMainWindow::viewOverlayUpdate()
 {
-    //DJV_DEBUG("djvViewWindow::viewOverlayUpdate");
+    //DJV_DEBUG("djvViewMainWindow::viewOverlayUpdate");
 
     //! Update the HUD.
 
@@ -994,7 +994,7 @@ void djvViewMainWindow::viewOverlayUpdate()
 
 void djvViewMainWindow::viewPickUpdate()
 {
-    //DJV_DEBUG("djvViewWindow::viewPickUpdate");
+    //DJV_DEBUG("djvViewMainWindow::viewPickUpdate");
 
     // Update the info bar with pixel information.
 

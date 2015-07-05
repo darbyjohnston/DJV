@@ -29,65 +29,95 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvOpenGlTexture.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_OPEN_GL_TEXTURE_H
+#define DJV_OPEN_GL_TEXTURE_H
 
-#include <djvGlslTestContext.h>
-
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <djvError.h>
+#include <djvOpenGl.h>
+#include <djvPixelData.h>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+//! \class djvOpenGlTexture
+//!
+//! This class proivides an OpenGL texture.
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class DJV_CORE_EXPORT djvOpenGlTexture
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+public:
+
+    //! Constructor.
     
-    _buttons = new djvPlaybackButtons(context);
+    djvOpenGlTexture();
+
+    //! Destructor.
     
-    _slider = new djvViewFrameSlider(context);
+    ~djvOpenGlTexture();
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+    //! Initialize the texture.
+
+    void init(
+        const djvPixelDataInfo &,
+        GLenum                   target = GL_TEXTURE_2D,
+        GLenum                   min    = GL_LINEAR,
+        GLenum                   mag    = GL_LINEAR) throw (djvError);
+
+    //! Initialize the texture.
+
+    void init(
+        const djvPixelData &,
+        GLenum               target = GL_TEXTURE_2D,
+        GLenum               min    = GL_LINEAR,
+        GLenum               mag    = GL_LINEAR) throw (djvError);
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    //! Get the pixel information.
+
+    const djvPixelDataInfo & info() const;
+
+    //! Get the target.
     
-    _buttons->setPlayback(playback->playback());
+    GLenum target() const;
+
+    //! Get the minify filter.
     
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
+    GLenum min() const;
+
+    //! Get the magnify filter.
     
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+    GLenum mag() const;
+
+    //! Get the texture ID.
     
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
+    GLuint id() const;
+
+    //! Bind the texture.
     
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    void bind();
+
+    //! Copy pixel data to the texture.
+    
+    void copy(const djvPixelData &);
+
+    //! Copy pixel data to the texture.
+
+    void copy(const djvPixelData &, const djvBox2i &);
+
+    //! Copy the current read buffer to the texture.
+    
+    void copy(const djvVector2i &);
+
+private:
+
+    void del();
+
+    djvPixelDataInfo _info;
+    GLenum           _target;
+    GLenum           _min;
+    GLenum           _mag;
+    GLuint           _id;
+
+};
+
+#endif // DJV_OPEN_GL_TEXTURE_H

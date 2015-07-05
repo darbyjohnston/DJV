@@ -29,81 +29,38 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackButtons.cpp
+//! \file djvPlaybackUtil.cpp
 
-#include <djvGlslTestPlaybackButtons.h>
+#include <djvPlaybackUtil.h>
 
-#include <djvGlslTestContext.h>
+#include <djvAssert.h>
 
-#include <djvIconLibrary.h>
-
-#include <QButtonGroup>
-#include <QHBoxLayout>
-#include <QToolButton>
+#include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackButtons
+// djvPlaybackUtil
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackButtons::djvGlslTestPlaybackButtons(
-    djvGlslTestContext * context,
-    QWidget *            parent) :
-    QWidget(parent),
-    _playback   (djvGlslTestPlayback::STOP),
-    _buttonGroup(0)
+const QStringList & djvPlaybackUtil::playbackLabels()
 {
-    _buttonGroup = new QButtonGroup(this);
-    _buttonGroup->setExclusive(true);
-    
-    const QStringList icons = QStringList() <<
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvPlaybackUtil", "Reverse") <<
+        qApp->translate("djvPlaybackUtil", "Stop") <<
+        qApp->translate("djvPlaybackUtil", "Forward");
+
+    DJV_ASSERT(data.count() == PLAYBACK_COUNT);
+
+    return data;
+}
+
+const QStringList & djvPlaybackUtil::playbackIcons()
+{
+    static const QStringList data = QStringList() <<
         "djvPlayReverseIcon.png" <<
         "djvPlayStopIcon.png" <<
         "djvPlayForwardIcon.png";
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
 
-    for (int i = 0; i < icons.count(); ++i)
-    {
-        QToolButton * button = new QToolButton;
-        button->setCheckable(true);
-        button->setIcon(context->iconLibrary()->icon(icons[i]));
-        button->setIconSize(context->iconLibrary()->defaultSize());
-        button->setAutoRaise(true);
-        
-        _buttonGroup->addButton(button, i);
+    DJV_ASSERT(data.count() == PLAYBACK_COUNT);
 
-        layout->addWidget(button);
-    }
-    
-    _buttonGroup->buttons()[_playback]->setChecked(true);
-    
-    connect(
-        _buttonGroup,
-        SIGNAL(buttonClicked(int)),
-        SLOT(buttonCallback(int)));
+    return data;
 }
-
-djvGlslTestPlayback::PLAYBACK djvGlslTestPlaybackButtons::playback() const
-{
-    return _playback;
-}
-
-void djvGlslTestPlaybackButtons::setPlayback(djvGlslTestPlayback::PLAYBACK playback)
-{
-    if (playback == _playback)
-        return;
-    
-    _playback = playback;
-    
-    _buttonGroup->buttons()[_playback]->setChecked(true);
-    
-    Q_EMIT playbackChanged(_playback);
-}
-
-void djvGlslTestPlaybackButtons::buttonCallback(int id)
-{
-    setPlayback(static_cast<djvGlslTestPlayback::PLAYBACK>(id));
-}
-

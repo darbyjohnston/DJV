@@ -29,65 +29,69 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvPlaybackButtons.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_PLAYBACK_BUTTONS_H
+#define DJV_PLAYBACK_BUTTONS_H
 
-#include <djvGlslTestContext.h>
+#include <djvPlaybackUtil.h>
 
-#include <djvViewMiscWidget.h>
+#include <QWidget>
 
-#include <djvPlaybackButtons.h>
+class djvGuiContext;
 
-#include <QHBoxLayout>
+class QButtonGroup;
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+//! \class djvPlaybackButtons
+//!
+//! This class provides playback buttons.
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class DJV_GUI_EXPORT djvPlaybackButtons : public QWidget
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    Q_OBJECT
+    Q_ENUMS(PLAYBACK)
     
-    _buttons = new djvPlaybackButtons(context);
+    //! This property holds the current playback state.
     
-    _slider = new djvViewFrameSlider(context);
+    Q_PROPERTY(
+        djvPlaybackUtil::PLAYBACK playback
+        READ                      playback
+        WRITE                     setPlayback
+        NOTIFY                    playbackChanged)
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+public:
+
+    //! Constructor.
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    explicit djvPlaybackButtons(djvGuiContext *, QWidget * parent = 0);
     
-    _buttons->setPlayback(playback->playback());
+    //! Get the current playback state.
     
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
+    djvPlaybackUtil::PLAYBACK playback() const;
+
+public Q_SLOTS:
+
+    //! Set the current playback state.
     
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+    void setPlayback(djvPlaybackUtil::PLAYBACK);
     
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
+Q_SIGNALS:
+
+    //! This signal is emitted when the current playback state is changed.
     
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    void playbackChanged(djvPlaybackUtil::PLAYBACK);
+
+private Q_SLOTS:
+
+    void buttonCallback(int);
+    
+private:
+    
+    djvGuiContext *           _context;
+    djvPlaybackUtil::PLAYBACK _playback;
+    QButtonGroup *            _buttonGroup;
+};
+
+#endif // DJV_PLAYBACK_BUTTONS_H

@@ -29,65 +29,67 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvImagePlay2TestContext.cpp
 
-#include <djvGlslTestPlaybackToolBar.h>
+#include <djvImagePlay2TestContext.h>
 
-#include <djvGlslTestContext.h>
-
-#include <djvViewMiscWidget.h>
-
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+#include <djvImagePlay2TestLoad.h>
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvImagePlay2TestContext
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+djvImagePlay2TestContext::djvImagePlay2TestContext(QObject * parent) :
+    djvGuiContext(parent),
+    _texture   (0),
+    _load      (0)
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    _surface.reset(new QOffscreenSurface);
     
-    _buttons = new djvPlaybackButtons(context);
+    _glContext.reset(new QOpenGLContext);
     
-    _slider = new djvViewFrameSlider(context);
-    
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
-    
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
-    
-    _buttons->setPlayback(playback->playback());
-    
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
-    
-    _slider->connect(
-        _playback,
+    _load = new djvImagePlay2TestLoad(this);
+
+    _playback.reset(new djvImagePlay2TestPlayback(this));
+
+    _load->connect(
+        _playback.data(),
         SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-    
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+        SLOT(read(qint64)));
+
+    _thread.start();
+    _glContext->moveToThread(&_thread);
+    _load->moveToThread(&_thread);
 }
+
+djvImagePlay2TestContext::~djvImagePlay2TestContext()
+{
+    _thread.quit();
+    _thread.wait();
+}
+
+QOffscreenSurface * djvImagePlay2TestContext::surface() const
+{
+    return _surface.data();
+}
+
+QOpenGLContext * djvImagePlay2TestContext::glContext() const
+{
+    return _glContext.data();
+}
+
+unsigned int djvImagePlay2TestContext::texture() const
+{
+    return _texture;
+}
+
+djvImagePlay2TestLoad * djvImagePlay2TestContext::load() const
+{
+    return _load;
+}
+
+djvImagePlay2TestPlayback * djvImagePlay2TestContext::playback() const
+{
+    return _playback.data();
+}
+

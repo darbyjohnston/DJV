@@ -805,6 +805,42 @@ User Interface Options
     </message>
 </context>
 <context>
+    <name>djvPlaybackButtons</name>
+    <message>
+        <location filename="djvPlaybackButtons.cpp" line="57"/>
+        <source>Reverse playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackButtons.cpp" line="58"/>
+        <source>Stop playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackButtons.cpp" line="59"/>
+        <source>Forward playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvPlaybackUtil</name>
+    <message>
+        <location filename="djvPlaybackUtil.cpp" line="47"/>
+        <source>Reverse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackUtil.cpp" line="48"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackUtil.cpp" line="49"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>djvPrefsDialog</name>
     <message>
         <location filename="djvPrefsDialog.cpp" line="143"/>

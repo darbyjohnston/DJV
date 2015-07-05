@@ -39,9 +39,10 @@
 #include <QToolBar>
 
 class djvGlslTestContext;
-class djvGlslTestPlaybackButtons;
 
 class djvViewFrameSlider;
+
+class djvPlaybackButtons;
 
 //------------------------------------------------------------------------------
 // djvGlslTestPlaybackToolBar
@@ -60,9 +61,9 @@ public:
     
 private:
     
-    djvGlslTestPlayback *        _playback;
-    djvGlslTestPlaybackButtons * _buttons;
-    djvViewFrameSlider *         _slider;
+    djvGlslTestPlayback * _playback;
+    djvPlaybackButtons *  _buttons;
+    djvViewFrameSlider *  _slider;
 };
 
 #endif // DJV_GLSL_TEST_PLAYBACK_TOOL_BAR_H

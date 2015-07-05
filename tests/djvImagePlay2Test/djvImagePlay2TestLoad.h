@@ -29,65 +29,69 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
+//! \file djvImagePlay2TestLoad.h
 
-#include <djvGlslTestPlaybackToolBar.h>
+#ifndef DJV_IMAGE_PLAY2_TEST_LOAD_H
+#define DJV_IMAGE_PLAY2_TEST_LOAD_H
 
-#include <djvGlslTestContext.h>
+#include <djvFileInfo.h>
+#include <djvImage.h>
+#include <djvImageIo.h>
 
-#include <djvViewMiscWidget.h>
+#include <QObject>
 
-#include <djvPlaybackButtons.h>
-
-#include <QHBoxLayout>
+class djvImagePlay2TestContext;
 
 //------------------------------------------------------------------------------
-// djvGlslTestPlaybackToolBar
+// djvImagePlay2TestLoad
 //------------------------------------------------------------------------------
 
-djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
-    djvGlslTestPlayback * playback,
-    djvGlslTestContext *  context,
-    QWidget *             parent) :
-    QToolBar(parent),
-    _playback(playback),
-    _buttons(0),
-    _slider (0)
+class djvImagePlay2TestLoad : public QObject
 {
-    QWidget * widget = new QWidget;
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    Q_OBJECT
+
+public:
+
+    explicit djvImagePlay2TestLoad(djvImagePlay2TestContext *);
     
-    _buttons = new djvPlaybackButtons(context);
+    virtual ~djvImagePlay2TestLoad();
     
-    _slider = new djvViewFrameSlider(context);
+    bool hasEveryFrame() const;
     
-    QHBoxLayout * layout = new QHBoxLayout(widget);
-    layout->setMargin(5);
-    layout->setSpacing(5);
-    layout->addWidget(_buttons);
-    layout->addWidget(_slider);
+public Q_SLOTS:
+
+    void open(const djvFileInfo &);
     
-    addWidget(widget);
-    setMovable(false);
-    setFloatable(false);
+    void read(qint64);
     
-    _buttons->setPlayback(playback->playback());
+    void setEveryFrame(bool);
+
+Q_SIGNALS:
+
+    void fileChanged(const djvImageIoInfo &);
+
+    void imageRead();
     
-    _slider->setFrameList(playback->sequence().frames);
-    _slider->setSpeed(playback->sequence().speed);
+    void everyFrameChanged(bool);
+
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
     
-    _slider->connect(
-        _playback,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
+private:
     
-    _playback->connect(
-        _buttons,
-        SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
-        SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
-    _playback->connect(
-        _slider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(setFrame(qint64)));
-}
+    void readInternal(qint64);
+
+    djvFileInfo                  _fileInfo;
+    QScopedPointer<djvImageLoad> _imageLoad;
+    djvImageIoInfo               _imageIoInfo;
+    djvImage                     _image;
+    qint64                       _frame;
+    qint64                       _frameTmp;
+    qint64                       _accum;
+    bool                         _everyFrame;
+    int                          _timer;
+    djvImagePlay2TestContext *   _context;
+};
+
+#endif // DJV_IMAGE_PLAY2_TEST_LOAD_H

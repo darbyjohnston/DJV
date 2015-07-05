@@ -36,6 +36,8 @@
 
 #include <djvGlslTestAbstractOp.h>
 
+#include <djvOpenGlShader.h>
+
 class QRadioButton;
 
 //------------------------------------------------------------------------------
@@ -94,12 +96,12 @@ public:
     struct Render
     {
         djvGlslTestOffscreen offscreen;
-        djvGlslTestTexture   textureTmp;
-        djvGlslTestTexture   contribX;
-        djvGlslTestTexture   contribY;
-        djvGlslTestShader    shader;
-        djvGlslTestShader    shaderX;
-        djvGlslTestShader    shaderY;
+        djvOpenGlTexture     textureTmp;
+        djvOpenGlTexture     contribX;
+        djvOpenGlTexture     contribY;
+        djvOpenGlShader      shader;
+        djvOpenGlShader      shaderX;
+        djvOpenGlShader      shaderY;
     };
 
     class StateDefault
