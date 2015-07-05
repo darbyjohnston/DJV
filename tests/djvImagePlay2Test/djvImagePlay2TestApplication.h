@@ -55,7 +55,7 @@ public:
 
 Q_SIGNALS:
 
-    void frameChanged(qint64);
+    void open(const djvFileInfo &);
 
 private Q_SLOTS:
 

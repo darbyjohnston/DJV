@@ -69,6 +69,7 @@ djvImageContext::djvImageContext(QObject * parent) :
     // Register meta types.
     
     qRegisterMetaType<djvImage>("djvImage");
+    qRegisterMetaType<djvImageIoInfo>("djvImageIoInfo");
     
     // Create the default OpenGL context.
 

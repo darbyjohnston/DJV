@@ -110,7 +110,9 @@ void djvImagePlay2TestView::paintGL()
         glGetUniformLocation(_shader->programId(), "inTexture"),
         0);
     
-    glBindTexture(GL_TEXTURE_2D, _context->texture());
+    //_context->texture()->bind();
+
+    djvBox2i box(_info.size);
 
     double u [] = { 0.0, 1.0 };
     double v [] = { 1.0, 0.0 };
@@ -125,7 +127,14 @@ void djvImagePlay2TestView::paintGL()
 
     glBegin(GL_QUADS);
 
-    //djvOpenGlUtil::drawBox(_info.size, uv);
+    glTexCoord2d(uv[0].x, uv[0].y);
+    glVertex2i(box.x, box.y);
+    glTexCoord2d(uv[1].x, uv[1].y);
+    glVertex2i(box.x, box.y + box.h);
+    glTexCoord2d(uv[2].x, uv[2].y);
+    glVertex2i(box.x + box.w, box.y + box.h);
+    glTexCoord2d(uv[3].x, uv[3].y);
+    glVertex2i(box.x + box.w, box.y);
 
     glEnd();
 }

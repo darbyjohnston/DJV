@@ -35,20 +35,28 @@
 
 #include <djvImagePlay2TestLoad.h>
 
+#include <djvDebug.h>
+
 //------------------------------------------------------------------------------
 // djvImagePlay2TestContext
 //------------------------------------------------------------------------------
 
 djvImagePlay2TestContext::djvImagePlay2TestContext(QObject * parent) :
     djvGuiContext(parent),
-    _texture   (0),
-    _load      (0)
+    _load(0)
 {
+    DJV_DEBUG("djvImagePlay2TestContext::djvImagePlay2TestContext");
+    
     _surface.reset(new QOffscreenSurface);
+    _surface->create();
     
     _glContext.reset(new QOpenGLContext);
+    _glContext->moveToThread(&_thread);
+    
+    //_texture.reset(new QOpenGLTexture(QOpenGLTexture::TargetRectangle));
     
     _load = new djvImagePlay2TestLoad(this);
+    _load->moveToThread(&_thread);
 
     _playback.reset(new djvImagePlay2TestPlayback(this));
 
@@ -58,8 +66,6 @@ djvImagePlay2TestContext::djvImagePlay2TestContext(QObject * parent) :
         SLOT(read(qint64)));
 
     _thread.start();
-    _glContext->moveToThread(&_thread);
-    _load->moveToThread(&_thread);
 }
 
 djvImagePlay2TestContext::~djvImagePlay2TestContext()
@@ -78,9 +84,17 @@ QOpenGLContext * djvImagePlay2TestContext::glContext() const
     return _glContext.data();
 }
 
-unsigned int djvImagePlay2TestContext::texture() const
+QOpenGLTexture * djvImagePlay2TestContext::texture() const
 {
-    return _texture;
+    if (! _texture.data())
+    {
+        djvImagePlay2TestContext * that =
+            const_cast<djvImagePlay2TestContext *>(this);
+        
+        that->_texture.reset(new QOpenGLTexture(QOpenGLTexture::TargetRectangle));
+    }
+    
+    return _texture.data();
 }
 
 djvImagePlay2TestLoad * djvImagePlay2TestContext::load() const

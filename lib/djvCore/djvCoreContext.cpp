@@ -76,6 +76,10 @@ djvCoreContext::djvCoreContext(QObject * parent) :
 {
     //DJV_DEBUG("djvCoreContext::djvCoreContext");
     
+    // Register meta types.
+    
+    qRegisterMetaType<djvFileInfo>("djvFileInfo");
+    
     // Load translators.
     
     QTranslator * qtTranslator = new QTranslator(this);

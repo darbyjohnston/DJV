@@ -42,7 +42,7 @@
 
 djvImagePlay2TestPlayback::djvImagePlay2TestPlayback(QObject * parent) :
     QObject(parent),
-    _playback(djvPlaybackUtil::FORWARD),
+    _playback(djvPlaybackUtil::STOP),
     _frame   (0),
     _timer   (0)
 {

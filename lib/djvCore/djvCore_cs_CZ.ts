@@ -60,12 +60,12 @@
 <context>
     <name>djvCoreContext</name>
     <message>
-        <location filename="djvCoreContext.cpp" line="119"/>
+        <location filename="djvCoreContext.cpp" line="123"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="140"/>
+        <location filename="djvCoreContext.cpp" line="144"/>
         <source>General
 
     Version: %1
@@ -98,7 +98,7 @@ System
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="171"/>
+        <location filename="djvCoreContext.cpp" line="175"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -263,52 +263,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="341"/>
+        <location filename="djvCoreContext.cpp" line="345"/>
         <source>-time_units</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="348"/>
+        <location filename="djvCoreContext.cpp" line="352"/>
         <source>-default_speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="355"/>
+        <location filename="djvCoreContext.cpp" line="359"/>
         <source>-max_sequence_frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="363"/>
+        <location filename="djvCoreContext.cpp" line="367"/>
         <source>-debug_log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="377"/>
+        <location filename="djvCoreContext.cpp" line="381"/>
         <source>-help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="378"/>
+        <location filename="djvCoreContext.cpp" line="382"/>
         <source>-h</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="385"/>
+        <location filename="djvCoreContext.cpp" line="389"/>
         <source>-info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="392"/>
+        <location filename="djvCoreContext.cpp" line="396"/>
         <source>-about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="402"/>
+        <location filename="djvCoreContext.cpp" line="406"/>
         <source>-psn_</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="432"/>
+        <location filename="djvCoreContext.cpp" line="436"/>
         <source>
 General Options
 
@@ -526,7 +526,7 @@ General Options
 <context>
     <name>djvImageContext</name>
     <message>
-        <location filename="djvImageContext.cpp" line="129"/>
+        <location filename="djvImageContext.cpp" line="130"/>
         <source>%1
 OpenGL
 
@@ -554,17 +554,17 @@ Image I/O
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="179"/>
+        <location filename="djvImageContext.cpp" line="180"/>
         <source>-render_filter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="186"/>
+        <location filename="djvImageContext.cpp" line="187"/>
         <source>-render_filter_high</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="223"/>
+        <location filename="djvImageContext.cpp" line="224"/>
         <source>%1
 OpenGL Options
 

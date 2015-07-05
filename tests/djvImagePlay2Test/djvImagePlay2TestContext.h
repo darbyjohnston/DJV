@@ -39,6 +39,7 @@
 #include <djvGuiContext.h>
 
 #include <QOpenGLContext>
+#include <QOpenGLTexture>
 #include <QOffscreenSurface>
 #include <QScopedPointer>
 #include <QThread>
@@ -63,7 +64,7 @@ public:
 
     QOpenGLContext * glContext() const;
 
-    unsigned int texture() const;
+    QOpenGLTexture * texture() const;
 
     djvImagePlay2TestLoad * load() const;
 
@@ -73,7 +74,7 @@ private:
 
     QScopedPointer<QOffscreenSurface>         _surface;
     QScopedPointer<QOpenGLContext>            _glContext;
-    unsigned int                              _texture;
+    QScopedPointer<QOpenGLTexture>            _texture;
     djvImagePlay2TestLoad *                   _load;
     QThread                                   _thread;
     QScopedPointer<djvImagePlay2TestPlayback> _playback;

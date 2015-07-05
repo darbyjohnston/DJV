@@ -80,6 +80,8 @@ void djvImagePlay2TestLoad::open(const djvFileInfo & fileInfo)
     }
 
     Q_EMIT fileChanged(_imageIoInfo);
+    
+    read(0);
 }
 
 void djvImagePlay2TestLoad::read(qint64 frame)
@@ -135,17 +137,23 @@ void djvImagePlay2TestLoad::readInternal(qint64 frame)
     if (! _imageLoad.data())
         return;
 
-    //DJV_DEBUG("djvImagePlay2TestLoad::readInternal");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-    //DJV_DEBUG_PRINT("accum = " << _accum);
+    DJV_DEBUG("djvImagePlay2TestLoad::readInternal");
+    DJV_DEBUG_PRINT("frame = " << frame);
+    DJV_DEBUG_PRINT("accum = " << _accum);
     
     try
     {
         _imageLoad->read(_image, frame);
+    
+        _context->glContext()->makeCurrent(_context->surface());
         
-        //_context->glContext()->makeCurrent(_context->surface());
-        
-        //_texture->init(_image);
+        _context->texture()->bind();
+        _context->texture()->setData(
+            0,
+            0,
+            QOpenGLTexture::RGB,
+            QOpenGLTexture::UInt8,
+            _image.data());
     }
     catch (const djvError & error)
     {

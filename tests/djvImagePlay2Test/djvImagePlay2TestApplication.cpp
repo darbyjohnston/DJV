@@ -65,10 +65,10 @@ djvImagePlay2TestApplication::djvImagePlay2TestApplication(int & argc, char ** a
         _window.reset(new djvImagePlay2TestWindow(_context.data()));
         _window->setWindowTitle("djvImagePlay2Test");
         _window->show();
-
+        
         _context->glContext()->setShareContext(_window->glContext());
         _context->glContext()->create();
-        
+
         djvFileInfo fileInfo(argv[1]);
     
         if (fileInfo.isSequenceValid())
@@ -76,8 +76,12 @@ djvImagePlay2TestApplication::djvImagePlay2TestApplication(int & argc, char ** a
             fileInfo.setType(djvFileInfo::SEQUENCE);
         }
         
-        _context->load()->open(fileInfo);
-        _context->load()->read(0);
+        _context->load()->connect(
+            this,
+            SIGNAL(open(const djvFileInfo &)),
+            SLOT(open(const djvFileInfo &)));
+        
+        Q_EMIT open(fileInfo);
     }
 }
 
