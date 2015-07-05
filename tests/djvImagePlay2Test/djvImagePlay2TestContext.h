@@ -38,6 +38,7 @@
 
 #include <djvGuiContext.h>
 
+#include <QMutex>
 #include <QOpenGLContext>
 #include <QOpenGLTexture>
 #include <QOffscreenSurface>
@@ -60,24 +61,20 @@ public:
 
     virtual ~djvImagePlay2TestContext();
 
-    QOffscreenSurface * surface() const;
-
-    QOpenGLContext * glContext() const;
-
-    QOpenGLTexture * texture() const;
-
     djvImagePlay2TestLoad * load() const;
 
     djvImagePlay2TestPlayback * playback() const;
+    
+    QThread * thread();
+    
+    QMutex * mutex();
 
 private:
 
-    QScopedPointer<QOffscreenSurface>         _surface;
-    QScopedPointer<QOpenGLContext>            _glContext;
-    QScopedPointer<QOpenGLTexture>            _texture;
     djvImagePlay2TestLoad *                   _load;
-    QThread                                   _thread;
     QScopedPointer<djvImagePlay2TestPlayback> _playback;
+    QThread                                   _thread;
+    QMutex                                    _mutex;
 };
 
 #endif // DJV_IMAGE_PLAY2_TEST_CONTEXT_H

@@ -39,8 +39,12 @@
 #include <djvImageIo.h>
 
 #include <QObject>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
 
 class djvImagePlay2TestContext;
+
+class QOpenGLTexture;
 
 //------------------------------------------------------------------------------
 // djvImagePlay2TestLoad
@@ -58,8 +62,16 @@ public:
     
     bool hasEveryFrame() const;
     
+    void setShareContext(QOpenGLContext *);
+    
+    QOpenGLTexture * frontTexture() const;
+    
+    QOpenGLTexture * backTexture() const;
+    
 public Q_SLOTS:
 
+    void start();
+    
     void open(const djvFileInfo &);
     
     void read(qint64);
@@ -77,21 +89,25 @@ Q_SIGNALS:
 protected:
 
     virtual void timerEvent(QTimerEvent *);
-    
+
 private:
     
     void readInternal(qint64);
 
-    djvFileInfo                  _fileInfo;
-    QScopedPointer<djvImageLoad> _imageLoad;
-    djvImageIoInfo               _imageIoInfo;
-    djvImage                     _image;
-    qint64                       _frame;
-    qint64                       _frameTmp;
-    qint64                       _accum;
-    bool                         _everyFrame;
-    int                          _timer;
-    djvImagePlay2TestContext *   _context;
+    djvFileInfo                       _fileInfo;
+    QScopedPointer<djvImageLoad>      _imageLoad;
+    djvImageIoInfo                    _imageIoInfo;
+    djvImage                          _image;
+    qint64                            _frame;
+    bool                              _everyFrame;
+    int                               _accum;
+    QScopedPointer<QOffscreenSurface> _surface;
+    QOpenGLContext *                  _shareContext;
+    QScopedPointer<QOpenGLContext>    _glContext;
+    QOpenGLTexture *                  _textures [2];
+    QOpenGLTexture *                  _frontTexture;
+    QOpenGLTexture *                  _backTexture;
+    djvImagePlay2TestContext *        _context;
 };
 
 #endif // DJV_IMAGE_PLAY2_TEST_LOAD_H

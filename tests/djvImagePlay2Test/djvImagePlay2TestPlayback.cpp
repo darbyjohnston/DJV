@@ -71,7 +71,7 @@ const djvSpeed & djvImagePlay2TestPlayback::speed() const
 
 qint64 djvImagePlay2TestPlayback::frame() const
 {
-    return _frameList[_frame];
+    return _frame >= 0 && _frame < _frameList.count() ? _frameList[_frame] : 0;
 }
     
 djvPlaybackUtil::PLAYBACK djvImagePlay2TestPlayback::playback() const

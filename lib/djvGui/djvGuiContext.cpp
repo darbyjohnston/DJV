@@ -45,6 +45,7 @@
 #include <djvImagePrefs.h>
 #include <djvInfoDialog.h>
 #include <djvMessagesDialog.h>
+#include <djvPlaybackUtil.h>
 #include <djvPrefs.h>
 #include <djvPrefsDialog.h>
 #include <djvSequencePrefs.h>
@@ -98,6 +99,10 @@ djvGuiContext::djvGuiContext(QObject * parent) :
     _p(new djvGuiContextPrivate)
 {
     //DJV_DEBUG("djvGuiContext::djvGuiContext");
+
+    // Register meta types.
+    
+    qRegisterMetaType<djvPlaybackUtil::PLAYBACK>("djvPlaybackUtil::PLAYBACK");
 
     // Load translators.
 

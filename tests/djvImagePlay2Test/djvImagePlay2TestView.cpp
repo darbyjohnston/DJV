@@ -34,10 +34,12 @@
 #include <djvImagePlay2TestView.h>
 
 #include <djvImagePlay2TestContext.h>
+#include <djvImagePlay2TestLoad.h>
 
 #include <djvError.h>
 
 #include <QOpenGLFunctions>
+#include <QMutexLocker>
 
 //------------------------------------------------------------------------------
 // djvImagePlay2TestView
@@ -90,6 +92,10 @@ void djvImagePlay2TestView::initializeGL()
 
 void djvImagePlay2TestView::paintGL()
 {
+    //DJV_DEBUG("djvImagePlay2TestView::paintGL");
+
+    //QMutexLocker locker(_context->mutex());
+    
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -103,14 +109,18 @@ void djvImagePlay2TestView::paintGL()
     glViewport(0, 0, width(), height());
 
     _shader->bind();
-
-    glActiveTexture(GL_TEXTURE0);
-
-    glUniform1f(
-        glGetUniformLocation(_shader->programId(), "inTexture"),
-        0);
     
-    //_context->texture()->bind();
+    if (_context->load()->frontTexture() &&
+        _context->load()->frontTexture()->isCreated())
+    {
+        glActiveTexture(GL_TEXTURE0);
+
+        glUniform1f(
+            glGetUniformLocation(_shader->programId(), "inTexture"),
+            0);
+    
+        _context->load()->frontTexture()->bind();
+    }
 
     djvBox2i box(_info.size);
 
@@ -128,13 +138,15 @@ void djvImagePlay2TestView::paintGL()
     glBegin(GL_QUADS);
 
     glTexCoord2d(uv[0].x, uv[0].y);
-    glVertex2i(box.x, box.y);
+    glVertex2i  (box.x, box.y);
     glTexCoord2d(uv[1].x, uv[1].y);
-    glVertex2i(box.x, box.y + box.h);
+    glVertex2i  (box.x, box.y + box.h);
     glTexCoord2d(uv[2].x, uv[2].y);
-    glVertex2i(box.x + box.w, box.y + box.h);
+    glVertex2i  (box.x + box.w, box.y + box.h);
     glTexCoord2d(uv[3].x, uv[3].y);
-    glVertex2i(box.x + box.w, box.y);
+    glVertex2i  (box.x + box.w, box.y);
 
     glEnd();
+    
+    //glFlush();
 }

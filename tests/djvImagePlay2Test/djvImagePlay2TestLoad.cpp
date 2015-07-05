@@ -36,28 +36,39 @@
 #include <djvImagePlay2TestContext.h>
 
 #include <QCoreApplication>
-#include <QOpenGLContext>
+#include <QOpenGLTexture>
+#include <QMutexLocker>
 
 //------------------------------------------------------------------------------
 // djvImagePlay2TestLoad
 //------------------------------------------------------------------------------
 
 djvImagePlay2TestLoad::djvImagePlay2TestLoad(djvImagePlay2TestContext * context) :
-    _frame     (0),
-    _frameTmp  (-1),
-    _accum     (0),
-    _everyFrame(true),
-    _timer     (0),
-    _context   (context)
-{}
+    _frame       (0),
+    _everyFrame  (true),
+    _accum       (0),
+    _shareContext(0),
+    _frontTexture(0),
+    _backTexture (0),
+    _context     (context)
+{
+    _surface.reset(new QOffscreenSurface);
+    _surface->create();
+    
+    startTimer(0);
+}
 
 djvImagePlay2TestLoad::~djvImagePlay2TestLoad()
 {
-    if (_timer)
+    _glContext->makeCurrent(_surface.data());
+    
+    for (int i = 0; i < 2; ++i)
     {
-        killTimer(_timer);
+        _textures[i]->destroy();
         
-        _timer = 0;
+        delete _textures[i];
+        
+        _textures[0] = 0;
     }
 }
 
@@ -65,15 +76,61 @@ bool djvImagePlay2TestLoad::hasEveryFrame() const
 {
     return _everyFrame;
 }
+    
+void djvImagePlay2TestLoad::setShareContext(QOpenGLContext * context)
+{
+    _shareContext = context;
+}
+
+QOpenGLTexture * djvImagePlay2TestLoad::frontTexture() const
+{
+    return _frontTexture;
+}
+
+QOpenGLTexture * djvImagePlay2TestLoad::backTexture() const
+{
+    return _backTexture;
+}
+
+void djvImagePlay2TestLoad::start()
+{
+    //DJV_DEBUG("djvImagePlay2TestLoad::start");
+    
+    _glContext.reset(new QOpenGLContext);
+    _glContext->setShareContext(_shareContext);
+    _glContext->create();
+
+    for (int i = 0; i < 2; ++i)
+    {
+        _textures[i] = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    }
+    
+    _backTexture  = _textures[0];
+    _frontTexture = _textures[1];
+}
 
 void djvImagePlay2TestLoad::open(const djvFileInfo & fileInfo)
 {
+    //DJV_DEBUG("djvImagePlay2TestLoad::open");
+    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
+    
     try
     {
+        _glContext->makeCurrent(_surface.data());
+
         _imageLoad.reset(
             _context->imageIoFactory()->load(fileInfo, _imageIoInfo));
         
         _fileInfo = fileInfo;
+
+        for (int i = 0; i < 2; ++i)
+        {
+            _textures[i]->destroy();
+            _textures[i]->create();
+            _textures[i]->setSize(_imageIoInfo.size.x, _imageIoInfo.size.y);
+            _textures[i]->setFormat(QOpenGLTexture::RGBA8_UNorm);
+            _textures[i]->allocateStorage();
+        }
     }
     catch (const djvError & error)
     {
@@ -86,20 +143,18 @@ void djvImagePlay2TestLoad::open(const djvFileInfo & fileInfo)
 
 void djvImagePlay2TestLoad::read(qint64 frame)
 {
+    //DJV_DEBUG("djvImagePlay2TestLoad::read");
+    //DJV_DEBUG_PRINT("pending events = " << qApp->hasPendingEvents());
+    
     if (_everyFrame)
-    {
+    {    
         readInternal(frame);
     }
     else
     {
-        _frameTmp = frame;
-    
-        ++_accum;
+        _frame = frame;
         
-        if (! _timer)
-        {
-            _timer = startTimer(0);
-        }
+        ++_accum;
     }
 }
     
@@ -110,25 +165,16 @@ void djvImagePlay2TestLoad::setEveryFrame(bool everyFrame)
     
     _everyFrame = everyFrame;
     
-    if (_timer)
-    {
-        killTimer(_timer);
-        
-        _timer = 0;
-    }
-    
     Q_EMIT everyFrameChanged(_everyFrame);
 }
 
 void djvImagePlay2TestLoad::timerEvent(QTimerEvent *)
 {
-    qApp->processEvents();
-    
-    if (_frameTmp != _frame)
+    if (_accum > 0)
     {
-        _frame = _frameTmp;
-        
         readInternal(_frame);
+        
+        _accum = 0;
     }
 }
 
@@ -137,35 +183,36 @@ void djvImagePlay2TestLoad::readInternal(qint64 frame)
     if (! _imageLoad.data())
         return;
 
-    DJV_DEBUG("djvImagePlay2TestLoad::readInternal");
-    DJV_DEBUG_PRINT("frame = " << frame);
-    DJV_DEBUG_PRINT("accum = " << _accum);
+    //DJV_DEBUG("djvImagePlay2TestLoad::readInternal");
+    //DJV_DEBUG_PRINT("frame = " << frame);
+        
+    //QMutexLocker locker(_context->mutex());
     
     try
     {
-        _imageLoad->read(_image, frame);
-    
-        _context->glContext()->makeCurrent(_context->surface());
+        _glContext->makeCurrent(_surface.data());
         
-        _context->texture()->bind();
-        _context->texture()->setData(
+        _imageLoad->read(_image, frame);
+        
+        //DJV_DEBUG_PRINT("image = " << _image);
+    
+        _backTexture->setData(
             0,
             0,
-            QOpenGLTexture::RGB,
+            QOpenGLTexture::RGBA,
             QOpenGLTexture::UInt8,
             _image.data());
+        
+        //glFlush();
+        
+        QOpenGLTexture * tmp = _frontTexture;
+        
+        _frontTexture = _backTexture;
+        
+        _backTexture = tmp;
     }
     catch (const djvError & error)
     {
-    }
-    
-    _accum = 0;
-    
-    if (_timer)
-    {
-        killTimer(_timer);
-        
-        _timer = 0;
     }
     
     Q_EMIT imageRead();
