@@ -612,13 +612,13 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="382"/>
-        <location filename="djvImageIo.cpp" line="423"/>
+        <location filename="djvImageIo.cpp" line="383"/>
+        <location filename="djvImageIo.cpp" line="424"/>
         <source>Unrecognized image: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="432"/>
+        <location filename="djvImageIo.cpp" line="433"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>

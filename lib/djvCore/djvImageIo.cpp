@@ -254,7 +254,8 @@ djvImageIoFactory::djvImageIoFactory(
             {
                 Q_FOREACH(const QString & extension, imageIo->extensions())
                 {
-                    djvFileInfo::sequenceExtensions.insert(extension);
+                    djvFileInfo::sequenceExtensions.insert(extension.toLower());
+                    djvFileInfo::sequenceExtensions.insert(extension.toUpper());
                 }
             }
         }
