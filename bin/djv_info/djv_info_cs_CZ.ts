@@ -1,94 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<TS version="2.0" language="cs_CZ">
 <context>
     <name>djvInfoApplication</name>
     <message>
         <location filename="djvInfoApplication.cpp" line="200"/>
         <source>Cannot open image: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít obrázek: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="220"/>
         <source>%1x%2:%3 %4 %5@%6</source>
-        <translation type="unfinished"></translation>
+        <translation>%1x%2:%3 %4 %5@%6</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="231"/>
         <location filename="djvInfoApplication.cpp" line="245"/>
         <location filename="djvInfoApplication.cpp" line="265"/>
         <source>%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="239"/>
         <source>%1@%2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1@%2</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="253"/>
         <source>    %1. %2</source>
-        <translation type="unfinished"></translation>
+        <translation>    %1. %2</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="258"/>
         <source>%1x%2:%3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1x%2:%3 %4</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="279"/>
         <source>Layer = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrstva = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="281"/>
         <source>  Width = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>  Šířka = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="283"/>
         <source>  Height = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>  Výška = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="285"/>
         <source>  Aspect = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>  Poměr = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="287"/>
         <source>  Pixel = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>  Pixel = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="291"/>
         <source>Start = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>  Začátek = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="296"/>
         <source>End = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>  Konec = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="301"/>
         <source>Duration = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Doba trvání = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="306"/>
         <source>Speed = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlost = %1</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="313"/>
         <source>Tag %1 = %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Značka %1 = %2</translation>
     </message>
     <message>
         <location filename="djvInfoApplication.cpp" line="346"/>
         <source>%1:</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:</translation>
     </message>
 </context>
 <context>
@@ -96,62 +96,62 @@
     <message>
         <location filename="djvInfoContext.cpp" line="119"/>
         <source>-x_info</source>
-        <translation type="unfinished"></translation>
+        <translation>-x_info</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="120"/>
         <source>-xi</source>
-        <translation type="unfinished"></translation>
+        <translation>-xi</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="125"/>
         <source>-verbose</source>
-        <translation type="unfinished"></translation>
+        <translation>-verbose</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="126"/>
         <source>-v</source>
-        <translation type="unfinished"></translation>
+        <translation>-v</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="131"/>
         <source>-file_path</source>
-        <translation type="unfinished"></translation>
+        <translation>-file_path</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="132"/>
         <source>-fp</source>
-        <translation type="unfinished"></translation>
+        <translation>-fp</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="137"/>
         <source>-seq</source>
-        <translation type="unfinished"></translation>
+        <translation>-seq</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="138"/>
         <source>-q</source>
-        <translation type="unfinished"></translation>
+        <translation>-q</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="143"/>
         <source>-recurse</source>
-        <translation type="unfinished"></translation>
+        <translation>-recurse</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="144"/>
         <source>-r</source>
-        <translation type="unfinished"></translation>
+        <translation>-r</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="149"/>
         <source>-columns</source>
-        <translation type="unfinished"></translation>
+        <translation>-columns</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="150"/>
         <source>-c</source>
-        <translation type="unfinished"></translation>
+        <translation>-c</translation>
     </message>
     <message>
         <location filename="djvInfoContext.cpp" line="173"/>

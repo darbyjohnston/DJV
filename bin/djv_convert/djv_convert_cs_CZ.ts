@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<TS version="2.0" language="cs_CZ">
 <context>
     <name>djvConvertApplication</name>
     <message>
         <location filename="djvConvertApplication.cpp" line="84"/>
         <source>Cannot open input: &quot;%1&quot;</source>
         <oldsource>Cannot open image: &quot;%1&quot;</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít vstup: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="85"/>
         <source>Cannot open output: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít výstup: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="86"/>
         <source>Cannot open slate: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít údaje na klapce: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="87"/>
         <source>Cannot read input: &quot;%1&quot;</source>
         <oldsource>Cannot write image: &quot;%1&quot;</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>Nelze přečíst vstup: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="88"/>
         <source>Cannot write output: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze přečíst výstup: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="139"/>
         <source>Timeout...</source>
-        <translation type="unfinished"></translation>
+        <translation>Časové omezení...</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="190"/>
         <location filename="djvConvertApplication.cpp" line="291"/>
         <source>%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="303"/>
         <source>Slating...</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="528"/>
         <source>[%1%] Estimated = %2 (%3 Frames/Second)</source>
-        <translation type="unfinished"></translation>
+        <translation>[%1%] Odhadováno = %2 (%3 snímky/sekundy)</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="541"/>
         <source>[100%] </source>
-        <translation type="unfinished"></translation>
+        <translation>[100%] </translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="561"/>
         <source>Elapsed = %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Uplynulo = %1</translation>
     </message>
     <message>
         <location filename="djvConvertApplication.cpp" line="571"/>
         <source>%1x%2:%3 %4 %5@%6</source>
-        <translation type="unfinished"></translation>
+        <translation>%1x%2:%3 %4 %5@%6</translation>
     </message>
 </context>
 <context>
@@ -72,118 +72,118 @@
     <message>
         <location filename="djvConvertContext.cpp" line="131"/>
         <source>-mirror_h</source>
-        <translation type="unfinished"></translation>
+        <translation>-mirror_h</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="136"/>
         <source>-mirror_v</source>
-        <translation type="unfinished"></translation>
+        <translation>-mirror_v</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="141"/>
         <source>-scale</source>
-        <translation type="unfinished"></translation>
+        <translation>-scale</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="147"/>
         <source>-scale_separate</source>
         <oldsource>-scale_xy</oldsource>
-        <translation type="unfinished"></translation>
+        <translation>-scale_separate</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="152"/>
         <source>-resize</source>
-        <translation type="unfinished"></translation>
+        <translation>-resize</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="157"/>
         <source>-width</source>
-        <translation type="unfinished"></translation>
+        <translation>-width</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="162"/>
         <source>-height</source>
-        <translation type="unfinished"></translation>
+        <translation>-height</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="167"/>
         <source>-crop</source>
-        <translation type="unfinished"></translation>
+        <translation>-crop</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="172"/>
         <source>-crop_percent</source>
-        <translation type="unfinished"></translation>
+        <translation>-crop_percent</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="177"/>
         <source>-channel</source>
-        <translation type="unfinished"></translation>
+        <translation>-channel</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="182"/>
         <source>-seq</source>
-        <translation type="unfinished"></translation>
+        <translation>-seq</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="183"/>
         <source>-q</source>
-        <translation type="unfinished"></translation>
+        <translation>-q</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="191"/>
         <source>-layer</source>
-        <translation type="unfinished"></translation>
+        <translation>-layer</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="196"/>
         <source>-proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>-proxy</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="201"/>
         <source>-time</source>
-        <translation type="unfinished"></translation>
+        <translation>-time</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="207"/>
         <source>-slate</source>
-        <translation type="unfinished"></translation>
+        <translation>-slate</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="215"/>
         <source>-timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>-timeout</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="223"/>
         <source>-pixel</source>
-        <translation type="unfinished"></translation>
+        <translation>-pixel</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="230"/>
         <source>-speed</source>
-        <translation type="unfinished"></translation>
+        <translation>-speed</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="237"/>
         <source>-tag</source>
-        <translation type="unfinished"></translation>
+        <translation>-tag</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="245"/>
         <source>-tags_auto</source>
-        <translation type="unfinished"></translation>
+        <translation>-tags_auto</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="272"/>
         <source>input</source>
-        <translation type="unfinished"></translation>
+        <translation>vstup</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="286"/>
         <source>output</source>
-        <translation type="unfinished"></translation>
+        <translation>výstup</translation>
     </message>
     <message>
         <location filename="djvConvertContext.cpp" line="306"/>
@@ -226,7 +226,7 @@ Conversion Options
     -crop (x) (y) (width) (height)
         Crop the image.
     -crop_percent (x) (y) (width) (height)
-        Crop the image using percentages.
+        Crop the image using floating point values (1.0 = 100%).
     -channel (value)
         Show only specific image channels. Options = %1. Default = %2.
     -seq, -q (value)
@@ -316,7 +316,7 @@ Usage
 
     input  - Input image, image sequence, or movie
     output - Output image, image sequence, or movie
-    option - Additional options (see below)
+    option - Options for the conversion (see below)
 
 Conversion Options
 

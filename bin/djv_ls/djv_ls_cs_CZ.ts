@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<TS version="2.0" language="cs_CZ">
 <context>
     <name>djvLsApplication</name>
     <message>
         <location filename="djvLsApplication.cpp" line="122"/>
         <location filename="djvLsApplication.cpp" line="172"/>
         <source>Cannot open: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze otevřít: &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="djvLsApplication.cpp" line="235"/>
         <source>%1 %2 %3 %4</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2 %3 %4</translation>
     </message>
     <message>
         <location filename="djvLsApplication.cpp" line="237"/>
         <source>%1 %2 %3 %4 %5</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2 %3 %4 %5</translation>
     </message>
     <message>
         <location filename="djvLsApplication.cpp" line="270"/>
         <source>%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %2</translation>
     </message>
     <message>
         <location filename="djvLsApplication.cpp" line="300"/>
         <source>%1:</source>
-        <translation type="unfinished"></translation>
+        <translation>%1:</translation>
     </message>
 </context>
 <context>
@@ -35,87 +35,87 @@
     <message>
         <location filename="djvLsContext.cpp" line="143"/>
         <source>-x_info</source>
-        <translation type="unfinished"></translation>
+        <translation>-x_info</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="144"/>
         <source>-xi</source>
-        <translation type="unfinished"></translation>
+        <translation>-xi</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="149"/>
         <source>-file_path</source>
-        <translation type="unfinished"></translation>
+        <translation>-file_path</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="150"/>
         <source>-fp</source>
-        <translation type="unfinished"></translation>
+        <translation>-fp</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="155"/>
         <source>-seq</source>
-        <translation type="unfinished"></translation>
+        <translation>-seq</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="156"/>
         <source>-q</source>
-        <translation type="unfinished"></translation>
+        <translation>-q</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="161"/>
         <source>-recurse</source>
-        <translation type="unfinished"></translation>
+        <translation>-recurse</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="162"/>
         <source>-r</source>
-        <translation type="unfinished"></translation>
+        <translation>-r</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="167"/>
         <source>-hidden</source>
-        <translation type="unfinished"></translation>
+        <translation>-hidden</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="172"/>
         <source>-columns</source>
-        <translation type="unfinished"></translation>
+        <translation>-columns</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="173"/>
         <source>-c</source>
-        <translation type="unfinished"></translation>
+        <translation>-c</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="181"/>
         <source>-sort</source>
-        <translation type="unfinished"></translation>
+        <translation>-sort</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="182"/>
         <source>-s</source>
-        <translation type="unfinished"></translation>
+        <translation>-s</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="187"/>
         <source>-reverse_sort</source>
-        <translation type="unfinished"></translation>
+        <translation>-reverse_sort</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="188"/>
         <source>-rs</source>
-        <translation type="unfinished"></translation>
+        <translation>-rs</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="193"/>
         <source>-x_sort_dirs</source>
-        <translation type="unfinished"></translation>
+        <translation>-x_sort_dirs</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="194"/>
         <source>-xsd</source>
-        <translation type="unfinished"></translation>
+        <translation>-xsd</translation>
     </message>
     <message>
         <location filename="djvLsContext.cpp" line="217"/>
