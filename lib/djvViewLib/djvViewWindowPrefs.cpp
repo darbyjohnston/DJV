@@ -47,7 +47,8 @@ djvViewWindowPrefs::djvViewWindowPrefs(djvViewContext * context, QObject * paren
     _fullScreenControls(fullScreenControlsDefault()),
     _toolBar           (toolBarDefault())
 {
-    //DJV_DEBUG("djvViewWindowPrefs");
+    //DJV_DEBUG("djvViewWindowPrefs::djvViewWindowPrefs");
+    //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
 
     djvPrefs prefs("djvViewWindowPrefs");
     prefs.get("autoFit", _autoFit);
@@ -60,10 +61,15 @@ djvViewWindowPrefs::djvViewWindowPrefs(djvViewContext * context, QObject * paren
         prefs.get("toolBar", _toolBar);
         _toolBar.resize(djvViewUtil::TOOL_BAR_COUNT);
     }
+
+    //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
 }
 
 djvViewWindowPrefs::~djvViewWindowPrefs()
 {
+    //DJV_DEBUG("djvViewWindowPrefs::~djvViewWindowPrefs");
+    //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
+    
     djvPrefs prefs("djvViewWindowPrefs");
     prefs.set("autoFit", _autoFit);
     prefs.set("viewMax", _viewMax);

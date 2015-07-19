@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>djvAboutDialog</name>
     <message>
@@ -600,18 +600,18 @@ Klávesová zkratka: %1</translation>
 <context>
     <name>djvGuiContext</name>
     <message>
-        <location filename="djvGuiContext.cpp" line="110"/>
-        <location filename="djvGuiContext.cpp" line="352"/>
+        <location filename="djvGuiContext.cpp" line="115"/>
+        <location filename="djvGuiContext.cpp" line="357"/>
         <source>-reset_prefs</source>
         <translation>-reset_prefs</translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="188"/>
+        <location filename="djvGuiContext.cpp" line="193"/>
         <source>File Browser</source>
         <translation>Prohlížeč souborů</translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="316"/>
+        <location filename="djvGuiContext.cpp" line="321"/>
         <source>%1
 Image I/O Widgets
 
@@ -644,7 +644,7 @@ Nastavení
 </translation>
     </message>
     <message>
-        <location filename="djvGuiContext.cpp" line="374"/>
+        <location filename="djvGuiContext.cpp" line="379"/>
         <source>
 User Interface Options
 
@@ -819,6 +819,42 @@ Volby pro uživatelské rozhraní
         <location filename="djvPixelMaskWidget.cpp" line="160"/>
         <source>Reset</source>
         <translation>Nastavit znovu</translation>
+    </message>
+</context>
+<context>
+    <name>djvPlaybackButtons</name>
+    <message>
+        <location filename="djvPlaybackButtons.cpp" line="57"/>
+        <source>Reverse playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackButtons.cpp" line="58"/>
+        <source>Stop playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackButtons.cpp" line="59"/>
+        <source>Forward playback</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>djvPlaybackUtil</name>
+    <message>
+        <location filename="djvPlaybackUtil.cpp" line="47"/>
+        <source>Reverse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackUtil.cpp" line="48"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="djvPlaybackUtil.cpp" line="49"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

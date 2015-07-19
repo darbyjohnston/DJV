@@ -35,6 +35,8 @@
 
 #include <djvFileInfoUtil.h>
 
+#include <djvSystem.h>
+
 #include <QApplication>
 #include <QSettings>
 
@@ -53,7 +55,9 @@ struct djvPrefsPrivate
         settings(
             QSettings::UserScope,
 //            USER == scope ? QSettings::UserScope : QSettings::SystemScope,
-            "djv.sourceforge.net")
+            djvSystem::env("LANG").isEmpty() ?
+                QString("djv.sourceforge.net") :
+                QString("djv.sourceforge.net.%1").arg(djvSystem::env("LANG")))
     {}
 
     djvPrefs::SCOPE scope;
@@ -146,6 +150,8 @@ bool djvPrefs::_get(const QString & name, QStringList & out) const
         
         Q_FOREACH(QString string, list)
         {
+            //DJV_DEBUG_PRINT("string = " << string);
+        
             out += string;
         }
         
