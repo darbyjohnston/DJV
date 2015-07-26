@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>djvConvertApplication</name>
     <message>
@@ -226,7 +226,7 @@ Conversion Options
     -crop (x) (y) (width) (height)
         Crop the image.
     -crop_percent (x) (y) (width) (height)
-        Crop the image using floating point values (1.0 = 100%).
+        Crop the image using percentages.
     -channel (value)
         Show only specific image channels. Options = %1. Default = %2.
     -seq, -q (value)
@@ -316,7 +316,7 @@ Usage
 
     input  - Input image, image sequence, or movie
     output - Output image, image sequence, or movie
-    option - Options for the conversion (see below)
+    option - Additional options (see below)
 
 Conversion Options
 

@@ -402,32 +402,32 @@ General Options
 <context>
     <name>djvFileInfoUtil</name>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="647"/>
+        <location filename="djvFileInfoUtil.cpp" line="739"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="648"/>
+        <location filename="djvFileInfoUtil.cpp" line="740"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="649"/>
+        <location filename="djvFileInfoUtil.cpp" line="741"/>
         <source>Size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="650"/>
+        <location filename="djvFileInfoUtil.cpp" line="742"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="651"/>
+        <location filename="djvFileInfoUtil.cpp" line="743"/>
         <source>Permissions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="652"/>
+        <location filename="djvFileInfoUtil.cpp" line="744"/>
         <source>Time</source>
         <translation type="unfinished"></translation>
     </message>

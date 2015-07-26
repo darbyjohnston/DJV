@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>djvCglContext</name>
     <message>
@@ -60,12 +60,12 @@
 <context>
     <name>djvCoreContext</name>
     <message>
-        <location filename="djvCoreContext.cpp" line="119"/>
+        <location filename="djvCoreContext.cpp" line="123"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation>Nelze zpracovat argument příkazového řádku: %1</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="140"/>
+        <location filename="djvCoreContext.cpp" line="144"/>
         <source>General
 
     Version: %1
@@ -112,7 +112,7 @@ Systém
 </translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="171"/>
+        <location filename="djvCoreContext.cpp" line="175"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -277,52 +277,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="341"/>
+        <location filename="djvCoreContext.cpp" line="345"/>
         <source>-time_units</source>
         <translation>-time_units</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="348"/>
+        <location filename="djvCoreContext.cpp" line="352"/>
         <source>-default_speed</source>
         <translation>-default_speed</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="355"/>
+        <location filename="djvCoreContext.cpp" line="359"/>
         <source>-max_sequence_frames</source>
         <translation>-max_sequence_frames</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="363"/>
+        <location filename="djvCoreContext.cpp" line="367"/>
         <source>-debug_log</source>
         <translation>-debug_log</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="377"/>
+        <location filename="djvCoreContext.cpp" line="381"/>
         <source>-help</source>
         <translation>-help</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="378"/>
+        <location filename="djvCoreContext.cpp" line="382"/>
         <source>-h</source>
         <translation>-h</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="385"/>
+        <location filename="djvCoreContext.cpp" line="389"/>
         <source>-info</source>
         <translation>-info</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="392"/>
+        <location filename="djvCoreContext.cpp" line="396"/>
         <source>-about</source>
         <translation>-about</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="402"/>
+        <location filename="djvCoreContext.cpp" line="406"/>
         <source>-psn_</source>
         <translation>-psn_</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="432"/>
+        <location filename="djvCoreContext.cpp" line="436"/>
         <source>
 General Options
 
@@ -416,32 +416,32 @@ General Options
 <context>
     <name>djvFileInfoUtil</name>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="647"/>
+        <location filename="djvFileInfoUtil.cpp" line="739"/>
         <source>Name</source>
         <translation>Název</translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="648"/>
+        <location filename="djvFileInfoUtil.cpp" line="740"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="649"/>
+        <location filename="djvFileInfoUtil.cpp" line="741"/>
         <source>Size</source>
         <translation>Velikost</translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="650"/>
+        <location filename="djvFileInfoUtil.cpp" line="742"/>
         <source>User</source>
         <translation>Uživatel</translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="651"/>
+        <location filename="djvFileInfoUtil.cpp" line="743"/>
         <source>Permissions</source>
         <translation>Oprávnění</translation>
     </message>
     <message>
-        <location filename="djvFileInfoUtil.cpp" line="652"/>
+        <location filename="djvFileInfoUtil.cpp" line="744"/>
         <source>Time</source>
         <translation>Čas</translation>
     </message>
@@ -540,7 +540,7 @@ General Options
 <context>
     <name>djvImageContext</name>
     <message>
-        <location filename="djvImageContext.cpp" line="123"/>
+        <location filename="djvImageContext.cpp" line="130"/>
         <source>%1
 OpenGL
 
@@ -579,17 +579,17 @@ Vstup/Výstup obrázku
 </translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="173"/>
+        <location filename="djvImageContext.cpp" line="180"/>
         <source>-render_filter</source>
         <translation>-render_filter</translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="180"/>
+        <location filename="djvImageContext.cpp" line="187"/>
         <source>-render_filter_high</source>
         <translation>-render_filter_high</translation>
     </message>
     <message>
-        <location filename="djvImageContext.cpp" line="217"/>
+        <location filename="djvImageContext.cpp" line="224"/>
         <source>%1
 OpenGL Options
 
@@ -637,13 +637,13 @@ OpenGL Options
 <context>
     <name>djvImageIoFactory</name>
     <message>
-        <location filename="djvImageIo.cpp" line="382"/>
-        <location filename="djvImageIo.cpp" line="423"/>
+        <location filename="djvImageIo.cpp" line="383"/>
+        <location filename="djvImageIo.cpp" line="424"/>
         <source>Unrecognized image: %1</source>
         <translation>Nerozpoznaný obrázek: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="djvImageIo.cpp" line="432"/>
+        <location filename="djvImageIo.cpp" line="433"/>
         <source>Unrecognized file: &quot;%1&quot;</source>
         <translation>Nerozpoznaný soubor: &quot;%1&quot;</translation>
     </message>
@@ -727,37 +727,31 @@ OpenGL Options
 <context>
     <name>djvOpenGlImage</name>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1875"/>
         <source>Cannot create texture</source>
-        <translation>Nelze vytvořit povrch</translation>
+        <translation type="vanished">Nelze vytvořit povrch</translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1876"/>
         <source>Cannot create texture: %1</source>
-        <translation>Nelze vytvořit povrch: %1</translation>
+        <translation type="vanished">Nelze vytvořit povrch: %1</translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1877"/>
         <source>Cannot create shader</source>
-        <translation>Nelze vytvořit tónovač</translation>
+        <translation type="vanished">Nelze vytvořit tónovač</translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1878"/>
         <source>Cannot compile shader:
 %1</source>
-        <translation>Nelze vytvořit tónovač:
+        <translation type="vanished">Nelze vytvořit tónovač:
 %1</translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1879"/>
         <source>Cannot create shader program</source>
-        <translation>Nelze vytvořit tónovací program</translation>
+        <translation type="vanished">Nelze vytvořit tónovací program</translation>
     </message>
     <message>
-        <location filename="djvOpenGlImageDraw.cpp" line="1880"/>
         <source>Cannot link shader:
 %1</source>
-        <translation>Nelze odkázat na tónovač:
+        <translation type="vanished">Nelze odkázat na tónovač:
 %1</translation>
     </message>
 </context>
@@ -838,6 +832,14 @@ OpenGL Options
     </message>
 </context>
 <context>
+    <name>djvOpenGlLut</name>
+    <message>
+        <location filename="djvOpenGlLut.cpp" line="76"/>
+        <source>Cannot create texture</source>
+        <translation type="unfinished">Nelze vytvořit povrch</translation>
+    </message>
+</context>
+<context>
     <name>djvOpenGlOffscreenBuffer</name>
     <message>
         <location filename="djvOpenGlOffscreenBuffer.cpp" line="229"/>
@@ -858,6 +860,46 @@ OpenGL Options
         <location filename="djvOpenGlOffscreenBuffer.cpp" line="232"/>
         <source>Cannot initialize FBO: %1</source>
         <translation>Nelze spustit FBO: %1</translation>
+    </message>
+</context>
+<context>
+    <name>djvOpenGlShader</name>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="71"/>
+        <source>Cannot create shader</source>
+        <translation type="unfinished">Nelze vytvořit tónovač</translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="107"/>
+        <source>Cannot compile shader:
+%1</source>
+        <translation type="unfinished">Nelze vytvořit tónovač:
+%1</translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="144"/>
+        <source>Cannot create shader program</source>
+        <translation type="unfinished">Nelze vytvořit tónovací program</translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlShader.cpp" line="163"/>
+        <source>Cannot link shader:
+%1</source>
+        <translation type="unfinished">Nelze odkázat na tónovač:
+%1</translation>
+    </message>
+</context>
+<context>
+    <name>djvOpenGlTexture</name>
+    <message>
+        <location filename="djvOpenGlTexture.cpp" line="84"/>
+        <source>Cannot create texture</source>
+        <translation type="unfinished">Nelze vytvořit povrch</translation>
+    </message>
+    <message>
+        <location filename="djvOpenGlTexture.cpp" line="130"/>
+        <source>Cannot create texture: %1</source>
+        <translation type="unfinished">Nelze vytvořit povrch: %1</translation>
     </message>
 </context>
 <context>

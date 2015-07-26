@@ -40,6 +40,7 @@
 #include <djvListUtil.h>
 #include <djvMath.h>
 #include <djvMemory.h>
+#include <djvMemoryBuffer.h>
 #include <djvSequenceUtil.h>
 
 #include <QCoreApplication>
@@ -51,6 +52,12 @@
 
 #if defined(DJV_WINDOWS)
 #include <windows.h>
+/*#elif defined(DJV_LINUX)
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <fcntl.h>
+*/
 #else // DJV_WINDOWS
 #include <dirent.h>
 #endif // DJV_WINDOWS
@@ -281,7 +288,9 @@ djvFileInfoList djvFileInfoUtil::list(
         size_t l = strlen(p);
 
         if (! isDotDir(p, l))
-            out += djvFileInfo(fixedPath + QString(p));
+        {
+            out.append(djvFileInfo(fixedPath + QString(p)));
+        }
 
         while (FindNextFile(h, &data))
         {
@@ -292,7 +301,7 @@ djvFileInfoList djvFileInfoUtil::list(
             {
                 if (! out.count())
                 {
-                    out += djvFileInfo(fixedPath + QString(p));
+                    out.append(djvFileInfo(fixedPath + QString(p)));
                 }
                 else
                 {
@@ -322,7 +331,9 @@ djvFileInfoList djvFileInfoUtil::list(
                     }
 
                     if (! compress || i == out.count())
-                        out += tmp;
+                    {
+                        out.append(tmp);
+                    }
                 }
             }
         }
@@ -330,6 +341,92 @@ djvFileInfoList djvFileInfoUtil::list(
         FindClose(h);
     }
 
+/*#elif defined(DJV_LINUX)
+
+    struct linux_dirent64
+    {
+       ino64_t        d_ino;
+       off64_t        d_off;
+       unsigned short d_reclen;
+       unsigned char  d_type;
+       char           d_name[];
+    };
+
+    int fd = open(path.toLatin1().data(), O_RDONLY | O_DIRECTORY);
+        
+    if (fd != -1)
+    {
+        djvMemoryBuffer<quint8> buf(djvMemory::megabyte);
+
+        quint8 * p = buf.data();
+
+        while (1)
+        {
+            int readCount = syscall(SYS_getdents64, fd, p, buf.size());
+                                    
+            if (-1 == readCount)
+                break;
+
+            if (0 == readCount)
+                break;
+            
+            for (int i = 0; i < readCount;)
+            {
+                struct linux_dirent64 * de = (struct linux_dirent64 *)(p + i);
+                
+                if (de->d_ino != DT_UNKNOWN)
+                {
+                    size_t l = strlen(de->d_name);
+
+                    if (! isDotDir(de->d_name, l))
+                    {
+                        if (! out.count())
+                        {
+                            out.append(djvFileInfo(fixedPath + de->d_name));
+                        }
+                        else
+                        {
+                            const djvFileInfo tmp(fixedPath + de->d_name);
+
+                            int i = 0;
+
+                            if (compress && cache)
+                            {
+                                if (! cache->addSequence(tmp))
+                                {
+                                    cache = 0;
+                                }
+                            }
+
+                            if (compress && ! cache)
+                            {
+                                for (; i < out.count(); ++i)
+                                {
+                                    if (out[i].addSequence(tmp))
+                                    {
+                                        cache = &out[i];
+
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (! compress || i == out.count())
+                            {
+                                out.append(tmp);
+                            }
+                        }
+                    }
+                }
+                
+                i += de->d_reclen;
+            }
+        }
+        
+        close (fd);
+    }
+
+*/
 #else // DJV_WINDOWS
 
     DIR * dir = opendir(path.toLatin1().data());
@@ -343,18 +440,11 @@ djvFileInfoList djvFileInfoUtil::list(
             const char * p = de->d_name;
             const int l = strlen(p);
             
-            //if (1 == l && '.' == p[0] && 0 == p[1])
-            //    ;
-            //else if (2 == l && '.' == p[0] && '.' == p[1] && 0 == p[2])
-            //    ;
-            //else
-            //    out += djvFileInfo(tmp + QString(p));
-
             if (! isDotDir(p, l))
             {
                 if (! out.count())
                 {
-                    out += djvFileInfo(fixedPath + QString(p));
+                    out.append(djvFileInfo(fixedPath + QString(p)));
                 }
                 else
                 {
@@ -384,7 +474,9 @@ djvFileInfoList djvFileInfoUtil::list(
                     }
 
                     if (! compress || i == out.count())
-                        out += tmp;
+                    {
+                        out.append(tmp);
+                    }
                 }
             }
         }
