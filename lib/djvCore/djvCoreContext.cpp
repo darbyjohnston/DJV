@@ -40,6 +40,7 @@
 #include <djvFileInfoUtil.h>
 #include <djvMath.h>
 #include <djvMemory.h>
+#include <djvSequence.h>
 #include <djvSystem.h>
 #include <djvTime.h>
 
@@ -79,6 +80,9 @@ djvCoreContext::djvCoreContext(QObject * parent) :
     // Register meta types.
     
     qRegisterMetaType<djvFileInfo>("djvFileInfo");
+    qRegisterMetaType<djvFileInfoList>("djvFileInfoList");
+    qRegisterMetaType<djvSequence>("djvSequence");
+    qRegisterMetaType<djvSequence::COMPRESS>("djvSequence::COMPRESS");
     
     // Load translators.
     

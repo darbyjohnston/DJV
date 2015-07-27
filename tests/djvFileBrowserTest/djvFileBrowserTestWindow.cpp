@@ -29,91 +29,56 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryBuffer.h
+//! \file djvFileBrowserTestWindow.cpp
 
-#ifndef DJV_MEMORY_BUFFER_H
-#define DJV_MEMORY_BUFFER_H
+#include <djvFileBrowserTestWindow.h>
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <QComboBox>
+#include <QToolBar>
+#include <QToolButton>
+#include <QTreeView>
 
-#include <Qt>
-
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMemoryBuffer
-//!
-//! This class provides functionality for managing a block of memory.
-//------------------------------------------------------------------------------
-
-template<typename T>
-class djvMemoryBuffer
+djvFileBrowserTestWindow::djvFileBrowserTestWindow(
+    djvGuiContext * context,
+    const QString & path,
+    QWidget *       parent) :
+    QMainWindow(parent),
+    _context       (context),
+    _model         (new djvFileBrowserTestModel(context)),
+    _upAction      (0),
+    _backAction    (0),
+    _reloadAction  (0),
+    _sequenceWidget(0),
+    _view          (0)
 {
-public:
-
-    //! Constructor.
-
-    inline djvMemoryBuffer();
-
-    //! Constructor.
-
-    inline djvMemoryBuffer(const djvMemoryBuffer &);
-
-    //! Constructor.
-
-    inline djvMemoryBuffer(quint64);
-
-    //! Destructor.
-
-    inline ~djvMemoryBuffer();
-
-    //! Get the size.
-
-    inline quint64 size() const;
-
-    //! Set the size.
-
-    inline void setSize(quint64, bool zero = false);
-
-    //! Get a const pointer to the memory.
-
-    inline const T * data() const;
-
-    //! Get a const pointer to the memory.
-
-    inline const T * operator () () const;
-
-    //! Get a pointer to the memory.
-
-    inline T * data();
-
-    //! Get a pointer to the memory.
-
-    inline T * operator () ();
-
-    //! Zero the memory.
-
-    inline void zero();
-
-    //! Copy operator.
+    _sequenceWidget = new QComboBox;
+    _sequenceWidget->addItems(djvSequence::compressLabels());	
     
-    inline djvMemoryBuffer & operator = (const djvMemoryBuffer &);
+    _view = new QTreeView;
+    
+    _view->setModel(_model.data());
 
-private:
+    QToolBar * toolBar = addToolBar("Tool Bar");
+    toolBar->addWidget(_sequenceWidget);
 
-    inline void del();
+    setCentralWidget(_view);
+    
+    _model->setPath(path);
+    
+    connect(
+        _sequenceWidget,
+        SIGNAL(activated(int)),
+        SLOT(sequenceCallback(int)));
+}
 
-    T *     _data;
-    quint64 _size;
-};
+djvFileBrowserTestWindow::~djvFileBrowserTestWindow()
+{
+    _view->setModel(0);
+}
 
-//------------------------------------------------------------------------------
+void djvFileBrowserTestWindow::sequenceCallback(int index)
+{
+    _model->setSequence(static_cast<djvSequence::COMPRESS>(index));
+}
 
-//@} // djvCoreMisc
-
-#include <djvMemoryBufferInline.h>
-
-#endif // DJV_MEMORY_BUFFER_H
 

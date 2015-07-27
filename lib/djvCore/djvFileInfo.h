@@ -44,6 +44,7 @@
 #include <sys/types.h>
 
 class djvFileInfoUtil;
+class djvFileBrowserTestDir;
 
 //! \addtogroup djvCoreFile
 //@{
@@ -317,6 +318,7 @@ private:
     djvSequence _sequence;
 
     friend class djvFileInfoUtil;
+    friend class djvFileBrowserTestDir;
 };
 
 //------------------------------------------------------------------------------

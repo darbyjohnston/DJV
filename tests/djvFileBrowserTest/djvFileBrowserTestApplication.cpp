@@ -29,31 +29,26 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTest.cpp
+//! \file djvFileBrowserTestApplication.cpp
 
-#define _GNU_SOURCE
+#include <djvFileBrowserTestApplication.h>
 
-#include <djvFileBrowserTest.h>
+#include <djvFileBrowserTestWindow.h>
 
 #include <djvError.h>
-#include <djvMemoryBuffer.h>
 
 #include <QTimer>
 
-#include <sys/stat.h>
-#include <sys/syscall.h>
-#include <sys/types.h>
-
-#include <dirent.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char ** argv) :
-    QCoreApplication(argc, argv)
+    QApplication(argc, argv)
 {
-    _context.reset(new djvCoreContext);
+#   if QT_VERSION < 0x050000
+    setStyle(new QPlastiqueStyle);
+#   else
+    setStyle("fusion");
+#   endif
+
+    _context.reset(new djvGuiContext);
     
     if (argc != 2)
     {
@@ -74,72 +69,11 @@ void djvFileBrowserTestApplication::commandLineExit()
     exit(1);
 }
 
-struct linux_dirent64
-{
-   ino64_t        d_ino;
-   off64_t        d_off;
-   unsigned short d_reclen;
-   unsigned char  d_type;
-   char           d_name[];
-};
-
 void djvFileBrowserTestApplication::work()
 {
-    int r = 0;
+    _window.reset(new djvFileBrowserTestWindow(_context.data(), _path));
     
-    djvMemoryBuffer<quint8> buf(djvMemory::megabyte);
-    
-    int fd = 0;
-    
-    do
-    {
-        fd = open(_path.toLatin1().data(), O_RDONLY | O_DIRECTORY);
-        
-        if (-1 == fd)
-        {
-            printf("Cannot open: %s\n", _path.toLatin1().data());
-            
-            r = 1;
-            
-            break;
-        }
-
-        quint8 * p = buf.data();
-
-        while (1)
-        {
-            int readCount = syscall(SYS_getdents64, fd, p, buf.size());
-                                    
-            if (-1 == readCount)
-            {
-                printf("Error reading: %s\n", _path.toLatin1().data());
-                
-                r = 1;
-                
-                break;
-            }
-            
-            if (0 == readCount)
-                break;
-            
-            for (int i = 0; i < readCount;)
-            {
-                struct linux_dirent64 * de = (struct linux_dirent64 *)(p + i);
-                
-                if (de->d_ino != DT_UNKNOWN)
-                {
-                    printf("%s\n", de->d_name);
-                }
-                
-                i += de->d_reclen;
-            }
-        }
-
-    } while (0);
-    
-    close(fd);
-    
-    exit(r);
+    _window->show();
 }
 
 int main(int argc, char ** argv)

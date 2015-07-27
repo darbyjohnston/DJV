@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-    
+
 struct linux_dirent64
 {
    ino64_t        d_ino;

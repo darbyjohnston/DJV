@@ -130,6 +130,7 @@ public:
 //------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvSequence)
+Q_DECLARE_METATYPE(djvSequence::COMPRESS)
 
 inline bool operator == (const djvSequence &, const djvSequence &);
 

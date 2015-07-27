@@ -29,91 +29,32 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryBuffer.h
+//! \file djvFileBrowserTestApplication.h
 
-#ifndef DJV_MEMORY_BUFFER_H
-#define DJV_MEMORY_BUFFER_H
+#include <djvFileBrowserTestWindow.h>
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <djvGuiContext.h>
 
-#include <Qt>
+#include <QApplication>
+#include <QScopedPointer>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMemoryBuffer
-//!
-//! This class provides functionality for managing a block of memory.
-//------------------------------------------------------------------------------
-
-template<typename T>
-class djvMemoryBuffer
+class djvFileBrowserTestApplication : public QApplication
 {
+    Q_OBJECT
+    
 public:
 
-    //! Constructor.
+    djvFileBrowserTestApplication(int & argc, char ** argv);
 
-    inline djvMemoryBuffer();
+private Q_SLOTS:
 
-    //! Constructor.
-
-    inline djvMemoryBuffer(const djvMemoryBuffer &);
-
-    //! Constructor.
-
-    inline djvMemoryBuffer(quint64);
-
-    //! Destructor.
-
-    inline ~djvMemoryBuffer();
-
-    //! Get the size.
-
-    inline quint64 size() const;
-
-    //! Set the size.
-
-    inline void setSize(quint64, bool zero = false);
-
-    //! Get a const pointer to the memory.
-
-    inline const T * data() const;
-
-    //! Get a const pointer to the memory.
-
-    inline const T * operator () () const;
-
-    //! Get a pointer to the memory.
-
-    inline T * data();
-
-    //! Get a pointer to the memory.
-
-    inline T * operator () ();
-
-    //! Zero the memory.
-
-    inline void zero();
-
-    //! Copy operator.
-    
-    inline djvMemoryBuffer & operator = (const djvMemoryBuffer &);
+    void commandLineExit();
+    void work();
 
 private:
 
-    inline void del();
-
-    T *     _data;
-    quint64 _size;
+    QScopedPointer<djvGuiContext>            _context;
+    QString                                  _path;
+    QScopedPointer<djvFileBrowserTestWindow> _window;
 };
-
-//------------------------------------------------------------------------------
-
-//@} // djvCoreMisc
-
-#include <djvMemoryBufferInline.h>
-
-#endif // DJV_MEMORY_BUFFER_H
 

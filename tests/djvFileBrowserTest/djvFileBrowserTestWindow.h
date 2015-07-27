@@ -29,29 +29,49 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTest.h
+//! \file djvFileBrowserTestWindow.h
 
-#include <djvCoreContext.h>
+#ifndef DJV_FILE_BROWSER_TEST_WINDOW_H
+#define DJV_FILE_BROWSER_TEST_WINDOW_H
 
-#include <QCoreApplication>
+#include <djvFileBrowserTestModel.h>
+
+#include <QMainWindow>
 #include <QScopedPointer>
 
-class djvFileBrowserTestApplication : public QCoreApplication
+class djvGuiContext;
+
+class QAction;
+class QComboBox;
+class QTreeView;
+
+class djvFileBrowserTestWindow : public QMainWindow
 {
     Q_OBJECT
     
 public:
 
-    djvFileBrowserTestApplication(int & argc, char ** argv);
+    explicit djvFileBrowserTestWindow(
+        djvGuiContext * context,
+        const QString & path,
+        QWidget *       parent = 0);
+    
+    virtual ~djvFileBrowserTestWindow();
 
 private Q_SLOTS:
 
-    void commandLineExit();
-    void work();
-
+    void sequenceCallback(int);
+    
 private:
 
-    QScopedPointer<djvCoreContext> _context;
-    QString                        _path;
+    djvGuiContext *                         _context;
+    QScopedPointer<djvFileBrowserTestModel> _model;
+    QAction *                               _upAction;
+    QAction *                               _backAction;
+    QAction *                               _reloadAction;
+    QComboBox *                             _sequenceWidget;
+    QTreeView *                             _view;
 };
+
+#endif // DJV_FILE_BROWSER_TEST_WINDOW_H
 

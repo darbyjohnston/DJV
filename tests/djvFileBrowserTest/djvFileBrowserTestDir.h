@@ -29,91 +29,51 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryBuffer.h
+//! \file djvFileBrowserTestDir.h
 
-#ifndef DJV_MEMORY_BUFFER_H
-#define DJV_MEMORY_BUFFER_H
+#ifndef DJV_FILE_BROWSER_TEST_DIR_H
+#define DJV_FILE_BROWSER_TEST_DIR_H
 
-#include <djvConfig.h>
-#include <djvCoreExport.h>
+#include <djvFileInfo.h>
+#include <djvMemoryBuffer.h>
 
-#include <Qt>
+#include <QObject>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMemoryBuffer
-//!
-//! This class provides functionality for managing a block of memory.
-//------------------------------------------------------------------------------
-
-template<typename T>
-class djvMemoryBuffer
+class djvFileBrowserTestDir : public QObject
 {
+    Q_OBJECT
+    
 public:
 
-    //! Constructor.
-
-    inline djvMemoryBuffer();
-
-    //! Constructor.
-
-    inline djvMemoryBuffer(const djvMemoryBuffer &);
-
-    //! Constructor.
-
-    inline djvMemoryBuffer(quint64);
-
-    //! Destructor.
-
-    inline ~djvMemoryBuffer();
-
-    //! Get the size.
-
-    inline quint64 size() const;
-
-    //! Set the size.
-
-    inline void setSize(quint64, bool zero = false);
-
-    //! Get a const pointer to the memory.
-
-    inline const T * data() const;
-
-    //! Get a const pointer to the memory.
-
-    inline const T * operator () () const;
-
-    //! Get a pointer to the memory.
-
-    inline T * data();
-
-    //! Get a pointer to the memory.
-
-    inline T * operator () ();
-
-    //! Zero the memory.
-
-    inline void zero();
-
-    //! Copy operator.
+    explicit djvFileBrowserTestDir(QObject * parent = 0);
     
-    inline djvMemoryBuffer & operator = (const djvMemoryBuffer &);
+    virtual ~djvFileBrowserTestDir();
+    
+    const QString & path() const;
 
+public Q_SLOTS:
+
+    void setPath(const QString &, djvSequence::COMPRESS);
+
+Q_SIGNALS:
+
+    void pathChanged(const QString &, const djvFileInfoList &);
+
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
+    
 private:
 
-    inline void del();
-
-    T *     _data;
-    quint64 _size;
+    QString                 _path;
+    QString                 _fixedPath;
+    djvSequence::COMPRESS   _compress;
+    djvFileInfoList         _list;
+    int                     _fd;
+    djvMemoryBuffer<quint8> _buf;
+    int                     _timer;
+    djvFileInfo *           _cache;
 };
 
-//------------------------------------------------------------------------------
-
-//@} // djvCoreMisc
-
-#include <djvMemoryBufferInline.h>
-
-#endif // DJV_MEMORY_BUFFER_H
+#endif // DJV_FILE_BROWSER_TEST_DIR_H
 

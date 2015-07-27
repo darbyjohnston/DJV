@@ -60,12 +60,12 @@
 <context>
     <name>djvCoreContext</name>
     <message>
-        <location filename="djvCoreContext.cpp" line="123"/>
+        <location filename="djvCoreContext.cpp" line="127"/>
         <source>Cannot parse the command line argument: %1</source>
         <translation>Nelze zpracovat argument příkazového řádku: %1</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="144"/>
+        <location filename="djvCoreContext.cpp" line="148"/>
         <source>General
 
     Version: %1
@@ -112,7 +112,7 @@ Systém
 </translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="175"/>
+        <location filename="djvCoreContext.cpp" line="179"/>
         <source>DJV Imaging, Version: %1
 
 http://djv.sourceforge.net
@@ -277,52 +277,52 @@ This software is based in part on the works of (in alphabetical order):
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="345"/>
+        <location filename="djvCoreContext.cpp" line="349"/>
         <source>-time_units</source>
         <translation>-time_units</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="352"/>
+        <location filename="djvCoreContext.cpp" line="356"/>
         <source>-default_speed</source>
         <translation>-default_speed</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="359"/>
+        <location filename="djvCoreContext.cpp" line="363"/>
         <source>-max_sequence_frames</source>
         <translation>-max_sequence_frames</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="367"/>
+        <location filename="djvCoreContext.cpp" line="371"/>
         <source>-debug_log</source>
         <translation>-debug_log</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="381"/>
+        <location filename="djvCoreContext.cpp" line="385"/>
         <source>-help</source>
         <translation>-help</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="382"/>
+        <location filename="djvCoreContext.cpp" line="386"/>
         <source>-h</source>
         <translation>-h</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="389"/>
+        <location filename="djvCoreContext.cpp" line="393"/>
         <source>-info</source>
         <translation>-info</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="396"/>
+        <location filename="djvCoreContext.cpp" line="400"/>
         <source>-about</source>
         <translation>-about</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="406"/>
+        <location filename="djvCoreContext.cpp" line="410"/>
         <source>-psn_</source>
         <translation>-psn_</translation>
     </message>
     <message>
-        <location filename="djvCoreContext.cpp" line="436"/>
+        <location filename="djvCoreContext.cpp" line="440"/>
         <source>
 General Options
 
