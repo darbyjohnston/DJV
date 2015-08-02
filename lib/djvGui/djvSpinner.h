@@ -29,53 +29,72 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWindow.h
+//! \file djvSpinner.h
 
-#ifndef DJV_FILE_BROWSER_TEST_WINDOW_H
-#define DJV_FILE_BROWSER_TEST_WINDOW_H
+#ifndef DJV_SPINNER_H
+#define DJV_SPINNER_H
 
-#include <djvFileBrowserTestModel.h>
+#include <djvGuiExport.h>
 
-#include <QScopedPointer>
 #include <QWidget>
 
 class djvGuiContext;
-class djvSpinner;
 
-class QAction;
-class QComboBox;
-class QLineEdit;
-class QTreeView;
+//! \addtogroup djvGuiWidget
+//@{
 
-class djvFileBrowserTestWindow : public QWidget
+//------------------------------------------------------------------------------
+//! \class djvSpinner
+//!
+//! This class provides a spinner widget.
+//------------------------------------------------------------------------------
+
+class djvSpinner : public QWidget
 {
     Q_OBJECT
     
 public:
 
-    explicit djvFileBrowserTestWindow(
+    //! Constructor.
+
+    explicit djvSpinner(
         djvGuiContext * context,
-        const QString & path,
         QWidget *       parent = 0);
+
+    //! Destructor.
+        
+    virtual ~djvSpinner();
+
+    //! Get whether the spinner is spinning.
     
-    virtual ~djvFileBrowserTestWindow();
+    bool isSpinning() const;
 
-private Q_SLOTS:
+    virtual QSize sizeHint() const;
+    
+public Q_SLOTS:
 
-    void sequenceCallback(int);
+    //! Start the spinner.
+    
+    void start();
+    
+    //! Stop the spinner.
+    
+    void stop();
+    
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
+    virtual void paintEvent(QPaintEvent *);
     
 private:
 
-    djvGuiContext *                         _context;
-    QScopedPointer<djvFileBrowserTestModel> _model;
-    QAction *                               _upAction;
-    QAction *                               _backAction;
-    QAction *                               _reloadAction;
-    QComboBox *                             _sequenceWidget;
-    djvSpinner *                            _spinner;
-    QLineEdit *                             _pathWidget;
-    QTreeView *                             _view;
+    djvGuiContext *  _context;
+    QVector<QPixmap> _pixmaps;
+    int              _current;
+    int              _timer;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_WINDOW_H
+//@} // djvGuiWidget
+
+#endif // DJV_SPINNER_H
 

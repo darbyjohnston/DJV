@@ -33,42 +33,132 @@
 
 #include <djvFileBrowserTestWindow.h>
 
+#include <djvSpinner.h>
+
+#include <QAction>
 #include <QComboBox>
-#include <QToolBar>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QLineEdit>
 #include <QToolButton>
 #include <QTreeView>
+#include <QVBoxLayout>
 
 djvFileBrowserTestWindow::djvFileBrowserTestWindow(
     djvGuiContext * context,
     const QString & path,
     QWidget *       parent) :
-    QMainWindow(parent),
+    QWidget(parent),
     _context       (context),
     _model         (new djvFileBrowserTestModel(context)),
     _upAction      (0),
     _backAction    (0),
     _reloadAction  (0),
     _sequenceWidget(0),
+    _spinner       (0),
+    _pathWidget    (0),
     _view          (0)
 {
+    _upAction = new QAction(this);
+    _upAction->setText("Up");
+    
+    _backAction = new QAction(this);
+    _backAction->setText("Back");
+    
+    _reloadAction = new QAction(this);
+    _reloadAction->setText("Reload");
+    
+    QToolButton * upButton = new QToolButton;
+    upButton->setAutoRaise(true);
+    upButton->setDefaultAction(_upAction);
+    
+    QToolButton * backButton = new QToolButton;
+    backButton->setAutoRaise(true);
+    backButton->setDefaultAction(_backAction);
+    
+    QToolButton * reloadButton = new QToolButton;
+    reloadButton->setAutoRaise(true);
+    reloadButton->setDefaultAction(_reloadAction);
+    
     _sequenceWidget = new QComboBox;
-    _sequenceWidget->addItems(djvSequence::compressLabels());	
+    _sequenceWidget->addItems(djvSequence::compressLabels());
+    
+    _spinner = new djvSpinner(context);
+    
+    _pathWidget = new QLineEdit;
     
     _view = new QTreeView;
-    
+    _view->setRootIsDecorated(false);
+    _view->setItemsExpandable(false);
+    _view->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    _view->setAlternatingRowColors(true);
     _view->setModel(_model.data());
-
-    QToolBar * toolBar = addToolBar("Tool Bar");
-    toolBar->addWidget(_sequenceWidget);
-
-    setCentralWidget(_view);
     
-    _model->setPath(path);
+    QVBoxLayout * layout = new QVBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
     
+    QHBoxLayout * hLayout = new QHBoxLayout;
+    hLayout->setMargin(5);
+    hLayout->setSpacing(5);
+    
+    QHBoxLayout * hLayout2 = new QHBoxLayout;
+    hLayout2->setMargin(0);
+    hLayout2->setSpacing(0);
+    hLayout2->addWidget(upButton);
+    hLayout2->addWidget(backButton);
+    hLayout2->addWidget(reloadButton);
+    hLayout->addLayout(hLayout2);
+    
+    hLayout->addWidget(new QLabel("Sequence:"));
+    hLayout->addWidget(_sequenceWidget);
+    hLayout->addStretch();
+    hLayout->addWidget(_spinner);
+    layout->addLayout(hLayout);
+    
+    layout->addWidget(_view);
+
+    hLayout = new QHBoxLayout;
+    hLayout->setMargin(5);
+    hLayout->addWidget(_pathWidget);
+    layout->addLayout(hLayout);
+    
+    _model->connect(
+        _upAction,
+        SIGNAL(triggered()),
+        SLOT(up()));
+    
+    _model->connect(
+        _backAction,
+        SIGNAL(triggered()),
+        SLOT(back()));
+    
+    _model->connect(
+        _reloadAction,
+        SIGNAL(triggered()),
+        SLOT(reload()));
+    
+    _spinner->connect(
+        _model.data(),
+        SIGNAL(requestDir(const QString &, djvSequence::COMPRESS, quint64)),
+        SLOT(start()));
+    
+    _spinner->connect(
+        _model.data(),
+        SIGNAL(requestDirFinished()),
+        SLOT(stop()));
+    
+    _pathWidget->connect(
+        _model.data(),
+        SIGNAL(pathChanged(const QString &)),
+        SLOT(setText(const QString &)));
+
     connect(
         _sequenceWidget,
         SIGNAL(activated(int)),
         SLOT(sequenceCallback(int)));
+
+    _model->setPath(path);
 }
 
 djvFileBrowserTestWindow::~djvFileBrowserTestWindow()

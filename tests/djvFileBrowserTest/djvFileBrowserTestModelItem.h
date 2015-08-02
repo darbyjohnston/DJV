@@ -29,53 +29,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWindow.h
+//! \file djvFileBrowserTestModelItem.h
 
-#ifndef DJV_FILE_BROWSER_TEST_WINDOW_H
-#define DJV_FILE_BROWSER_TEST_WINDOW_H
+#ifndef DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
+#define DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
 
-#include <djvFileBrowserTestModel.h>
+#include <djvFileInfo.h>
 
-#include <QScopedPointer>
-#include <QWidget>
+#include <QSize>
+#include <QVariant>
 
-class djvGuiContext;
-class djvSpinner;
-
-class QAction;
-class QComboBox;
-class QLineEdit;
-class QTreeView;
-
-class djvFileBrowserTestWindow : public QWidget
+struct djvFileBrowserTestModelItem
 {
-    Q_OBJECT
+    djvFileBrowserTestModelItem() :
+        imageInfoInit(false),
+        thumbnailInit(false)
+    {}
     
-public:
-
-    explicit djvFileBrowserTestWindow(
-        djvGuiContext * context,
-        const QString & path,
-        QWidget *       parent = 0);
-    
-    virtual ~djvFileBrowserTestWindow();
-
-private Q_SLOTS:
-
-    void sequenceCallback(int);
-    
-private:
-
-    djvGuiContext *                         _context;
-    QScopedPointer<djvFileBrowserTestModel> _model;
-    QAction *                               _upAction;
-    QAction *                               _backAction;
-    QAction *                               _reloadAction;
-    QComboBox *                             _sequenceWidget;
-    djvSpinner *                            _spinner;
-    QLineEdit *                             _pathWidget;
-    QTreeView *                             _view;
+    djvFileInfo fileInfo;
+    QVariant    text;
+    bool        imageInfoInit;
+    bool        thumbnailInit;
+    QVariant    thumbnail;
+    QSize       sizeHint;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_WINDOW_H
+#endif // DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
 

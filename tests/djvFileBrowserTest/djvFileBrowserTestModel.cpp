@@ -33,40 +33,104 @@
 
 #include <djvFileBrowserTestModel.h>
 
+#include <djvFileBrowserTestImageInfoRequester.h>
+#include <djvFileBrowserTestImageInfoWorker.h>
+
+#include <djvGuiContext.h>
+
 #include <djvDebug.h>
 
-#include <QToolButton>
+#include <QApplication>
 
 djvFileBrowserTestModel::djvFileBrowserTestModel(djvGuiContext * context, QObject * parent) :
     QAbstractItemModel(parent),
-    _context (context),
-    _sequence(static_cast<djvSequence::COMPRESS>(0)),
-    _dir     (new djvFileBrowserTestDir)
+    _context         (context),
+    //_sequence        (static_cast<djvSequence::COMPRESS>(0)),
+    _sequence        (djvSequence::COMPRESS_RANGE),
+    _id              (0),
+    _dirWorker       (new djvFileBrowserTestDirWorker),
+    _imageInfoCurrent(0),
+    _fontMetrics     (qApp->font())
 {
-    _dir->moveToThread(&_thread);
-
-    connect(
-        _dir,
-        SIGNAL(pathChanged(const QString &, const djvFileInfoList &)),
-        SLOT(pathCallback(const QString &, const djvFileInfoList &)));
-   
-    _dir->connect(
-        this,
-        SIGNAL(requestPath(const QString &, djvSequence::COMPRESS)),
-        SLOT(setPath(const QString &, djvSequence::COMPRESS)));
+    //DJV_DEBUG("djvFileBrowserTestModel::djvFileBrowserTestModel");
+    //DJV_DEBUG_PRINT("thread = " << qint64(thread()));
     
-    _thread.start();
+    for (int i = 0; i < 6; ++i)
+    {
+        _imageInfoRequesters.append(new djvFileBrowserTestImageInfoRequester);
+        _imageInfoWorkers.append(new djvFileBrowserTestImageInfoWorker(context));
+        _imageInfoThreads.append(new QThread);
+    }
+    
+    connect(
+        _dirWorker.data(),
+        SIGNAL(dirFinished(const djvFileInfoList &, quint64)),
+        SLOT(dirCallback(const djvFileInfoList &, quint64)));
+   
+    _dirWorker->connect(
+        this,
+        SIGNAL(requestDir(const QString &, djvSequence::COMPRESS, quint64)),
+        SLOT(dir(const QString &, djvSequence::COMPRESS, quint64)));
+   
+    _dirWorker->connect(
+        &_dirWorkerThread,
+        SIGNAL(finished()),
+        SLOT(finish()));
+
+    for (int i = 0; i < _imageInfoRequesters.count(); ++i)
+    {
+        connect(
+            _imageInfoWorkers[i],
+            SIGNAL(infoFinished(const djvImageIoInfo &, int, quint64)),
+            SLOT(imageInfoCallback(const djvImageIoInfo &, int, quint64)));
+
+        _imageInfoWorkers[i]->connect(
+            _imageInfoRequesters[i],
+            SIGNAL(request(const djvFileInfo &, int, quint64)),
+            SLOT(info(const djvFileInfo &,int, quint64)));
+
+        _imageInfoWorkers[i]->connect(
+            _imageInfoThreads[i],
+            SIGNAL(finished()),
+            SLOT(finish()));
+    }
+    
+    _dirWorker->moveToThread(&_dirWorkerThread);
+    _dirWorkerThread.start();
+
+    for (int i = 0; i < _imageInfoWorkers.count(); ++i)
+    {
+        _imageInfoWorkers[i]->moveToThread(_imageInfoThreads[i]);
+        _imageInfoThreads[i]->start();
+
+        //DJV_DEBUG_PRINT("thread = " << qint64(_imageInfoWorkers[i]->thread()));
+    }
 }
 
 djvFileBrowserTestModel::~djvFileBrowserTestModel()
 {
-    _thread.quit();
-    _thread.wait();
+    _dirWorkerThread.quit();
+    _dirWorkerThread.wait();
+
+    for (int i = 0; i < _imageInfoThreads.count(); ++i)
+    {
+        _imageInfoThreads[i]->quit();
+        _imageInfoThreads[i]->wait();
+        
+        delete _imageInfoThreads[i];
+        delete _imageInfoWorkers[i];
+        delete _imageInfoRequesters[i];
+    }
 }
 
-const QString & djvFileBrowserTestModel::path() const
+const QDir & djvFileBrowserTestModel::dir() const
 {
-    return _path;
+    return _dir;
+}
+
+QString djvFileBrowserTestModel::path() const
+{
+    return _dir.absolutePath();
 }
 
 djvSequence::COMPRESS djvFileBrowserTestModel::sequence() const
@@ -99,7 +163,33 @@ QVariant djvFileBrowserTestModel::data(const QModelIndex & index, int role) cons
 
     switch (role)
     {
-        case Qt::DisplayRole: return _displayRoles[row];
+        case Qt::DisplayRole:
+        
+            if (! _data[row].imageInfoInit)
+            {
+                djvFileBrowserTestModel * that =
+                    const_cast<djvFileBrowserTestModel *>(this);
+                
+                that->_data[row].imageInfoInit = true;
+                
+                Q_EMIT that->_imageInfoRequesters[_imageInfoCurrent]->request(
+                    _data[row].fileInfo, row, _id);
+                
+                ++that->_imageInfoCurrent;
+                
+                if (_imageInfoCurrent >= _imageInfoRequesters.count())
+                {
+                    that->_imageInfoCurrent = 0;
+                }
+            }
+        
+            return _data[row].text;
+
+        case Qt::SizeHintRole:
+        
+            return _data[row].sizeHint;
+        
+        default: break;
     }
     
     return QVariant();
@@ -144,43 +234,132 @@ int djvFileBrowserTestModel::rowCount(const QModelIndex & parent) const
     return parent.isValid() ? 0 : _list.count();
 }
 
+void djvFileBrowserTestModel::setDir(const QDir & dir)
+{
+    if (dir == _dir)
+        return;
+    
+    //DJV_DEBUG("djvFileBrowserTestModel::setDir");
+    //DJV_DEBUG_PRINT("dir = " << dir.absolutePath());
+    
+    _dirPrev = _dir;
+    
+    _dir = dir;
+    
+    ++_id;
+
+    beginResetModel();
+    
+    _list.clear();
+    
+    _data.clear();
+    
+    endResetModel();
+
+    Q_EMIT dirChanged(_dir);
+    Q_EMIT pathChanged(_dir.absolutePath());
+    Q_EMIT requestDir(_dir.absolutePath(), _sequence, _id);
+}
+
 void djvFileBrowserTestModel::setPath(const QString & path)
 {
-    //DJV_DEBUG("djvFileBrowserTestModel::setPath");
-    //DJV_DEBUG_PRINT("path = " << path);
-    
-    Q_EMIT requestPath(path, _sequence);
+    setDir(path);
 }
 
 void djvFileBrowserTestModel::setSequence(djvSequence::COMPRESS sequence)
 {
-    DJV_DEBUG("djvFileBrowserTestModel::setSequence");
-    DJV_DEBUG_PRINT("sequence = " << sequence);
+    if (sequence == _sequence)
+        return;
+
+    //DJV_DEBUG("djvFileBrowserTestModel::setSequence");
+    //DJV_DEBUG_PRINT("sequence = " << sequence);
     
-    Q_EMIT requestPath(_path, sequence);
+    _sequence = sequence;
+    
+    ++_id;
+
+    Q_EMIT requestDir(_dir.absolutePath(), _sequence, _id);
 }
 
-void djvFileBrowserTestModel::pathCallback(const QString & path, const djvFileInfoList & list)
+void djvFileBrowserTestModel::up()
 {
-    //DJV_DEBUG("djvFileBrowserTestModel::pathCallback");
-    //DJV_DEBUG_PRINT("path = " << path);
+    QDir tmp(_dir);
+    
+    if (tmp.cdUp())
+    {
+        setDir(tmp);
+    }
+}
+
+void djvFileBrowserTestModel::back()
+{
+    const QDir tmp(_dirPrev);
+    
+    setDir(tmp);
+}
+
+void djvFileBrowserTestModel::reload()
+{
+    ++_id;
+
+    Q_EMIT requestDir(_dir.absolutePath(), _sequence, _id);
+}
+
+void djvFileBrowserTestModel::dirCallback(
+    const djvFileInfoList & list,
+    quint64                 id)
+{
+    if (id != _id)
+        return;
+
+    //DJV_DEBUG("djvFileBrowserTestModel::dirCallback");
     //DJV_DEBUG_PRINT("list = " << list);
+    //DJV_DEBUG_PRINT("id = " << id);
     
     beginResetModel();
     
-    _path = path;
-    
     _list = list;
     
-    _displayRoles.clear();
+    _data.clear();
     
     for (int i = 0; i < _list.count(); ++i)
     {
-        _displayRoles.append(_list[i].fileName());
+        const QString text = _list[i].name();
+        
+        djvFileBrowserTestModelItem item;
+        item.fileInfo = _list[i];
+        item.text     = text;
+        item.sizeHint = _fontMetrics.boundingRect(QRect(), Qt::AlignLeft, text).size();
+
+        _data.append(item);
     }
 
     endResetModel();
     
-    Q_EMIT pathChanged(_path);
+    Q_EMIT requestDirFinished();
+}
+
+void djvFileBrowserTestModel::imageInfoCallback(
+    const djvImageIoInfo & info,
+    int                    row,
+    quint64                id)
+{
+    if (id != _id)
+        return;
+
+    //DJV_DEBUG("djvFileBrowserTestModel::imageInfoCallback");
+    //DJV_DEBUG_PRINT("info = " << info);
+    //DJV_DEBUG_PRINT("row = " << row);
+    //DJV_DEBUG_PRINT("id = " << id);
+
+    const QString text = QString("%1\n%2x%3").
+        arg(_data[row].fileInfo.name()).
+        arg(info.size.x).
+        arg(info.size.y);
+    
+    _data[row].text     = text;
+    _data[row].sizeHint = _fontMetrics.boundingRect(QRect(), Qt::AlignLeft, text).size();
+
+    Q_EMIT dataChanged(index(row, 0), index(row, 0));
 }
 

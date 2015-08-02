@@ -61,6 +61,7 @@ set(header
     djvShortcutsModel.h
     djvShortcutsWidget.h
     djvShuttleButton.h
+    djvSpinner.h
     djvStyle.h
 	djvStylePrefsWidget.h
     djvTimePrefs.h
@@ -128,6 +129,7 @@ set(mocHeader
     djvShortcutsModel.h
     djvShortcutsWidget.h
     djvShuttleButton.h
+    djvSpinner.h
     djvStyle.h
     djvStylePrefsWidget.h
     djvTimePrefs.h
@@ -197,6 +199,7 @@ set(source
     djvShortcutsModel.cpp
     djvShortcutsWidget.cpp
     djvShuttleButton.cpp
+    djvSpinner.cpp
     djvStyle.cpp
 	djvStylePrefsWidget.cpp
     djvTimePrefs.cpp

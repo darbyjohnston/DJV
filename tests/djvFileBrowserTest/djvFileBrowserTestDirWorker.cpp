@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDir.cpp
+//! \file djvFileBrowserTestDirWorker.cpp
 
-#include <djvFileBrowserTestDir.h>
+#include <djvFileBrowserTestDirWorker.h>
 
 #include <djvDebug.h>
 #include <djvFileInfoUtil.h>
@@ -48,50 +48,45 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-djvFileBrowserTestDir::djvFileBrowserTestDir(QObject * parent) :
+djvFileBrowserTestDirWorker::djvFileBrowserTestDirWorker(QObject * parent) :
     QObject(parent),
-    _compress(static_cast<djvSequence::COMPRESS>(0)),
-    _fd      (0),
+    _sequence(static_cast<djvSequence::COMPRESS>(0)),
+    _id      (0),
+    _fd      (-1),
     _buf     (djvMemory::megabyte),
     _timer   (0),
     _cache   (0)
 {}
     
-djvFileBrowserTestDir::~djvFileBrowserTestDir()
+djvFileBrowserTestDirWorker::~djvFileBrowserTestDirWorker()
+{}
+
+void djvFileBrowserTestDirWorker::dir(
+    const QString &       path,
+    djvSequence::COMPRESS sequence,
+    quint64               id)
 {
-    if (_timer)
-    {
-        killTimer(_timer);
-
-        _timer = 0;
-    }
+    //DJV_DEBUG("djvFileBrowserTestDirWorker::dir");
+    //DJV_DEBUG_PRINT("path = " << path);
+    //DJV_DEBUG_PRINT("sequence = " << sequence);
+    //DJV_DEBUG_PRINT("id = " << id);
     
-    close(_fd);
-}
+    _path = djvFileInfoUtil::fixPath(path);
 
-const QString & djvFileBrowserTestDir::path() const
-{
-    return _path;
-}
-
-void djvFileBrowserTestDir::setPath(const QString & path, djvSequence::COMPRESS compress)
-{
-    if (path == _path && compress == _compress)
-        return;
+    _sequence = sequence;
     
-    DJV_DEBUG("djvFileBrowserTestDir::setPath");
-    DJV_DEBUG_PRINT("path = " << path);
-    DJV_DEBUG_PRINT("compress = " << compress);
+    _id = id;
     
-    _path = path;
-    
-    _fixedPath = djvFileInfoUtil::fixPath(_path);
-
-    _compress = compress;
+    // Clean up.
 
     _list.clear();
 
-    close(_fd);
+    if (_fd != -1)
+    {
+        close(_fd);
+    
+        _fd = -1;
+    }
 
     if (_timer)
     {
@@ -102,11 +97,32 @@ void djvFileBrowserTestDir::setPath(const QString & path, djvSequence::COMPRESS 
     
     _cache = 0;
 
-    _fd = open(_fixedPath.toLatin1().data(), O_RDONLY | O_DIRECTORY);
+    // Open the new directory.
+    
+    _fd = open(_path.toLatin1().data(), O_RDONLY | O_DIRECTORY);
     
     if (_fd != -1)
     {
         _timer = startTimer(0);
+    }
+}
+
+void djvFileBrowserTestDirWorker::finish()
+{
+    //DJV_DEBUG("djvFileBrowserTestDirWorker::finish");
+
+    if (_timer)
+    {
+        killTimer(_timer);
+
+        _timer = 0;
+    }
+    
+    if (_fd != -1)
+    {
+        close(_fd);
+        
+        _fd = -1;
     }
 }
 
@@ -133,17 +149,19 @@ inline bool isDotDir(const char * p, size_t l)
 
 } // namespace
 
-void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
+void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
 {
-    DJV_DEBUG("djvFileBrowserTestDir::timerEvent");
+    //DJV_DEBUG("djvFileBrowserTestDirWorker::timerEvent");
 
+    // Get the next block of directory entries from the OS.
+    
     quint8 * bp = _buf.data();
     
     int count = 0;
     
     count = syscall(SYS_getdents64, _fd, bp, _buf.size());
     
-    DJV_DEBUG_PRINT("count = " << count);
+    //DJV_DEBUG_PRINT("count = " << count);
     
     if (-1 == count)
     {
@@ -154,6 +172,9 @@ void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
         return;
     }
     
+    // If there are no more directory entries we are finished, so process
+    // the entries we have collected and emit a signal that we are done.
+    
     if (0 == count)
     {        
         for (int i = 0; i < _list.count(); ++i)
@@ -161,7 +182,7 @@ void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
             _list[i]._sequence.sort();
         }
 
-        if (djvSequence::COMPRESS_RANGE == _compress)
+        if (djvSequence::COMPRESS_RANGE == _sequence)
         {
             for (int i = 0; i < _list.count(); ++i)
             {
@@ -186,10 +207,12 @@ void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
         
         _timer = 0;
 
-        Q_EMIT pathChanged(_path, _list);
+        Q_EMIT dirFinished(_list, _id);
         
         return;
     }
+    
+    // Add the block of directory entries to our list.
     
     for (int i = 0; i < count;)
     {
@@ -203,15 +226,15 @@ void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
             {
                 if (! _list.count())
                 {
-                    _list.append(djvFileInfo(_fixedPath + de->d_name));
+                    _list.append(djvFileInfo(_path + de->d_name));
                 }
                 else
                 {
-                    const djvFileInfo tmp(_fixedPath + de->d_name);
+                    const djvFileInfo tmp(_path + de->d_name);
 
                     int i = 0;
 
-                    if (_compress && _cache)
+                    if (_sequence && _cache)
                     {
                         if (! _cache->addSequence(tmp))
                         {
@@ -219,7 +242,7 @@ void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
                         }
                     }
 
-                    if (_compress && ! _cache)
+                    if (_sequence && ! _cache)
                     {
                         for (; i < _list.count(); ++i)
                         {
@@ -232,7 +255,7 @@ void djvFileBrowserTestDir::timerEvent(QTimerEvent *)
                         }
                     }
 
-                    if (! _compress || i == _list.count())
+                    if (! _sequence || i == _list.count())
                     {
                         _list.append(tmp);
                     }

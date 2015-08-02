@@ -29,53 +29,52 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWindow.h
+//! \file djvFileBrowserTestDirWorker.h
 
-#ifndef DJV_FILE_BROWSER_TEST_WINDOW_H
-#define DJV_FILE_BROWSER_TEST_WINDOW_H
+#ifndef DJV_FILE_BROWSER_TEST_DIR_WORKER_H
+#define DJV_FILE_BROWSER_TEST_DIR_WORKER_H
 
-#include <djvFileBrowserTestModel.h>
+#include <djvFileInfo.h>
+#include <djvMemoryBuffer.h>
 
-#include <QScopedPointer>
-#include <QWidget>
+#include <QDir>
+#include <QObject>
 
-class djvGuiContext;
-class djvSpinner;
-
-class QAction;
-class QComboBox;
-class QLineEdit;
-class QTreeView;
-
-class djvFileBrowserTestWindow : public QWidget
+class djvFileBrowserTestDirWorker : public QObject
 {
     Q_OBJECT
     
 public:
 
-    explicit djvFileBrowserTestWindow(
-        djvGuiContext * context,
-        const QString & path,
-        QWidget *       parent = 0);
+    explicit djvFileBrowserTestDirWorker(QObject * parent = 0);
     
-    virtual ~djvFileBrowserTestWindow();
+    virtual ~djvFileBrowserTestDirWorker();
+    
+public Q_SLOTS:
 
-private Q_SLOTS:
+    void dir(const QString &, djvSequence::COMPRESS, quint64 id);
+    
+    void finish();
 
-    void sequenceCallback(int);
+Q_SIGNALS:
+
+    void dirFinished(const djvFileInfoList &, quint64 id);
+
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
     
 private:
 
-    djvGuiContext *                         _context;
-    QScopedPointer<djvFileBrowserTestModel> _model;
-    QAction *                               _upAction;
-    QAction *                               _backAction;
-    QAction *                               _reloadAction;
-    QComboBox *                             _sequenceWidget;
-    djvSpinner *                            _spinner;
-    QLineEdit *                             _pathWidget;
-    QTreeView *                             _view;
+    QString                 _path;
+    djvSequence::COMPRESS   _sequence;
+    quint64                 _id;
+    djvFileInfoList         _list;
+    int                     _fd;
+    djvMemoryBuffer<quint8> _buf;
+    int                     _timer;
+    djvFileInfo *           _cache;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_WINDOW_H
+#endif // DJV_FILE_BROWSER_TEST_DIR_WORKER_H
 

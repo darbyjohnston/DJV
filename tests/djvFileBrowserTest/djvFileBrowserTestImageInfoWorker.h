@@ -29,53 +29,44 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWindow.h
+//! \file djvFileBrowserTestImageInfoWorker.h
 
-#ifndef DJV_FILE_BROWSER_TEST_WINDOW_H
-#define DJV_FILE_BROWSER_TEST_WINDOW_H
+#ifndef DJV_FILE_BROWSER_TEST_IMAGE_INFO_WORKER_H
+#define DJV_FILE_BROWSER_TEST_IMAGE_INFO_WORKER_H
 
-#include <djvFileBrowserTestModel.h>
+#include <djvFileInfo.h>
+#include <djvImageIo.h>
 
-#include <QScopedPointer>
-#include <QWidget>
+#include <QObject>
 
-class djvGuiContext;
-class djvSpinner;
+class djvImageContext;
 
-class QAction;
-class QComboBox;
-class QLineEdit;
-class QTreeView;
-
-class djvFileBrowserTestWindow : public QWidget
+class djvFileBrowserTestImageInfoWorker : public QObject
 {
     Q_OBJECT
     
 public:
 
-    explicit djvFileBrowserTestWindow(
-        djvGuiContext * context,
-        const QString & path,
-        QWidget *       parent = 0);
+    explicit djvFileBrowserTestImageInfoWorker(
+        djvImageContext *,
+        QObject *         parent = 0);
     
-    virtual ~djvFileBrowserTestWindow();
+    virtual ~djvFileBrowserTestImageInfoWorker();
+    
+public Q_SLOTS:
 
-private Q_SLOTS:
+    void info(const djvFileInfo &, int row, quint64 id);
+    
+    void finish();
 
-    void sequenceCallback(int);
+Q_SIGNALS:
+
+    void infoFinished(const djvImageIoInfo &, int row, quint64 id);
     
 private:
 
-    djvGuiContext *                         _context;
-    QScopedPointer<djvFileBrowserTestModel> _model;
-    QAction *                               _upAction;
-    QAction *                               _backAction;
-    QAction *                               _reloadAction;
-    QComboBox *                             _sequenceWidget;
-    djvSpinner *                            _spinner;
-    QLineEdit *                             _pathWidget;
-    QTreeView *                             _view;
+    djvImageContext * _context;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_WINDOW_H
+#endif // DJV_FILE_BROWSER_TEST_IMAGE_INFO_WORKER_H
 

@@ -29,53 +29,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWindow.h
+//! \file djvFileBrowserTestImageInfoRequester.cpp
 
-#ifndef DJV_FILE_BROWSER_TEST_WINDOW_H
-#define DJV_FILE_BROWSER_TEST_WINDOW_H
+#include <djvFileBrowserTestImageInfoRequester.h>
 
-#include <djvFileBrowserTestModel.h>
-
-#include <QScopedPointer>
-#include <QWidget>
-
-class djvGuiContext;
-class djvSpinner;
-
-class QAction;
-class QComboBox;
-class QLineEdit;
-class QTreeView;
-
-class djvFileBrowserTestWindow : public QWidget
-{
-    Q_OBJECT
+djvFileBrowserTestImageInfoRequester::djvFileBrowserTestImageInfoRequester(
+    QObject * parent) :
+    QObject(parent)
+{}
     
-public:
-
-    explicit djvFileBrowserTestWindow(
-        djvGuiContext * context,
-        const QString & path,
-        QWidget *       parent = 0);
-    
-    virtual ~djvFileBrowserTestWindow();
-
-private Q_SLOTS:
-
-    void sequenceCallback(int);
-    
-private:
-
-    djvGuiContext *                         _context;
-    QScopedPointer<djvFileBrowserTestModel> _model;
-    QAction *                               _upAction;
-    QAction *                               _backAction;
-    QAction *                               _reloadAction;
-    QComboBox *                             _sequenceWidget;
-    djvSpinner *                            _spinner;
-    QLineEdit *                             _pathWidget;
-    QTreeView *                             _view;
-};
-
-#endif // DJV_FILE_BROWSER_TEST_WINDOW_H
+djvFileBrowserTestImageInfoRequester::~djvFileBrowserTestImageInfoRequester()
+{}
 

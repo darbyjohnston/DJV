@@ -34,11 +34,19 @@
 #ifndef DJV_FILE_BROWSER_TEST_MODEL_H
 #define DJV_FILE_BROWSER_TEST_MODEL_H
 
-#include <djvFileBrowserTestDir.h>
+#include <djvFileBrowserTestDirWorker.h>
+#include <djvFileBrowserTestModelItem.h>
+
+#include <djvImageIo.h>
 
 #include <QAbstractItemModel>
+#include <QDir>
+#include <QFontMetrics>
 #include <QScopedPointer>
 #include <QThread>
+
+class djvFileBrowserTestImageInfoRequester;
+class djvFileBrowserTestImageInfoWorker;
 
 class djvGuiContext;
 
@@ -52,7 +60,9 @@ public:
     
     virtual ~djvFileBrowserTestModel();
     
-    const QString & path() const;
+    const QDir & dir() const;
+    
+    QString path() const;
     
     djvSequence::COMPRESS sequence() const;
 
@@ -83,31 +93,53 @@ public:
 
 public Q_SLOTS:
 
+    void setDir(const QDir &);
+    
     void setPath(const QString &);
     
     void setSequence(djvSequence::COMPRESS);
+    
+    void up();
+    
+    void back();
+    
+    void reload();
 
 Q_SIGNALS:
 
-    void requestPath(const QString &, djvSequence::COMPRESS);
+    void dirChanged(const QDir &);
 
     void pathChanged(const QString &);
 
     void sequenceChanged(djvSequence::COMPRESS);
     
+    void requestDir(const QString &, djvSequence::COMPRESS, quint64 id);
+    
+    void requestDirFinished();
+    
+    void requestImageInfo(const djvFileInfo &, int, quint64 id);
+    
 private Q_SLOTS:
 
-    void pathCallback(const QString &, const djvFileInfoList &);
+    void dirCallback(const djvFileInfoList &, quint64 id);
+    void imageInfoCallback(const djvImageIoInfo &, int row, quint64 id);
 
 private:
 
-    djvGuiContext *                       _context;
-    QString                               _path;
-    djvSequence::COMPRESS                 _sequence;
-    djvFileInfoList                       _list;
-    djvFileBrowserTestDir *               _dir;
-    QThread                               _thread;
-    QVector<QVariant>                     _displayRoles;
+    djvGuiContext *                                 _context;
+    QDir                                            _dir;
+    QDir                                            _dirPrev;
+    djvSequence::COMPRESS                           _sequence;
+    djvFileInfoList                                 _list;
+    quint64                                         _id;
+    QVector<djvFileBrowserTestModelItem>            _data;
+    QScopedPointer<djvFileBrowserTestDirWorker>     _dirWorker;
+    QThread                                         _dirWorkerThread;
+    int                                             _imageInfoCurrent;
+    QVector<djvFileBrowserTestImageInfoRequester *> _imageInfoRequesters;
+    QVector<djvFileBrowserTestImageInfoWorker *>    _imageInfoWorkers;
+    QVector<QThread *>                              _imageInfoThreads;
+    QFontMetrics                                    _fontMetrics;
 };
 
 #endif // DJV_FILE_BROWSER_TEST_MODEL_H

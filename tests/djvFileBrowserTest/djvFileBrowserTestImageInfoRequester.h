@@ -29,51 +29,29 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDir.h
+//! \file djvFileBrowserTestImageInfoRequester.h
 
-#ifndef DJV_FILE_BROWSER_TEST_DIR_H
-#define DJV_FILE_BROWSER_TEST_DIR_H
+#ifndef DJV_FILE_BROWSER_TEST_IMAGE_INFO_REQUESTER_H
+#define DJV_FILE_BROWSER_TEST_IMAGE_INFO_REQUESTER_H
 
 #include <djvFileInfo.h>
-#include <djvMemoryBuffer.h>
 
 #include <QObject>
 
-class djvFileBrowserTestDir : public QObject
+class djvFileBrowserTestImageInfoRequester : public QObject
 {
     Q_OBJECT
     
 public:
 
-    explicit djvFileBrowserTestDir(QObject * parent = 0);
+    explicit djvFileBrowserTestImageInfoRequester(QObject * parent = 0);
     
-    virtual ~djvFileBrowserTestDir();
+    virtual ~djvFileBrowserTestImageInfoRequester();
     
-    const QString & path() const;
-
-public Q_SLOTS:
-
-    void setPath(const QString &, djvSequence::COMPRESS);
-
 Q_SIGNALS:
 
-    void pathChanged(const QString &, const djvFileInfoList &);
-
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    
-private:
-
-    QString                 _path;
-    QString                 _fixedPath;
-    djvSequence::COMPRESS   _compress;
-    djvFileInfoList         _list;
-    int                     _fd;
-    djvMemoryBuffer<quint8> _buf;
-    int                     _timer;
-    djvFileInfo *           _cache;
+    void request(const djvFileInfo &, int row, quint64 id);
 };
 
-#endif // DJV_FILE_BROWSER_TEST_DIR_H
+#endif // DJV_FILE_BROWSER_TEST_IMAGE_INFO_REQUESTER_H
 

@@ -1,18 +1,24 @@
 set(header
     djvFileBrowserTestApplication.h
-    djvFileBrowserTestDir.h
+    djvFileBrowserTestDirWorker.h
+    djvFileBrowserTestImageInfoRequester.h
+    djvFileBrowserTestImageInfoWorker.h
     djvFileBrowserTestModel.h
     djvFileBrowserTestWindow.h)
 
 set(mocHeader
     djvFileBrowserTestApplication.h
-    djvFileBrowserTestDir.h
+    djvFileBrowserTestDirWorker.h
+    djvFileBrowserTestImageInfoRequester.h
+    djvFileBrowserTestImageInfoWorker.h
     djvFileBrowserTestModel.h
     djvFileBrowserTestWindow.h)
 
 set(source
     djvFileBrowserTestApplication.cpp
-    djvFileBrowserTestDir.cpp
+    djvFileBrowserTestDirWorker.cpp
+    djvFileBrowserTestImageInfoRequester.cpp
+    djvFileBrowserTestImageInfoWorker.cpp
     djvFileBrowserTestModel.cpp
     djvFileBrowserTestWindow.cpp)
 
