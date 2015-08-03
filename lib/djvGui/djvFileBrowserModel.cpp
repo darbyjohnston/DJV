@@ -571,10 +571,10 @@ void djvFileBrowserModel::modelUpdate()
 
     // Filter directory contents.
 
-    if (_p->filterText.length() > 0 || !_p->showHidden)
+    if (_p->filterText.length() > 0 || ! _p->showHidden)
     {
         const djvFileInfoUtil::FILTER filter =
-            !_p->showHidden ?
+            ! _p->showHidden ?
             djvFileInfoUtil::FILTER_HIDDEN :
             djvFileInfoUtil::FILTER_NONE;
 
