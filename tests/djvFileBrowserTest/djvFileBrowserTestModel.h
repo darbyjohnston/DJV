@@ -36,35 +36,157 @@
 
 #include <djvFileBrowserTestDirWorker.h>
 #include <djvFileBrowserTestModelItem.h>
+#include <djvFileBrowserTestThumbnailWorker.h>
+#include <djvFileBrowserTestUtil.h>
 
 #include <djvImageIo.h>
 
 #include <QAbstractItemModel>
 #include <QDir>
-#include <QFontMetrics>
 #include <QScopedPointer>
 #include <QThread>
 
-class djvFileBrowserTestImageInfoRequester;
-class djvFileBrowserTestImageInfoWorker;
-
 class djvGuiContext;
+
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestModel
+//!
+//! This class provides the data model for a file browser.
+//------------------------------------------------------------------------------
 
 class djvFileBrowserTestModel : public QAbstractItemModel
 {
     Q_OBJECT
     
+    //! This property holds the current directory.
+    
+    Q_PROPERTY(
+        QDir   dir
+        READ   dir
+        WRITE  setDir
+        NOTIFY dirChanged)
+    
+    //! This property holds the current directory's path.
+    
+    Q_PROPERTY(
+        QString path
+        READ    path
+        WRITE   setPath
+        NOTIFY  pathChanged)
+    
+    //! This property holds the file sequencing.
+    
+    Q_PROPERTY(
+        djvSequence::COMPRESS sequence
+        READ                  sequence
+        WRITE                 setSequence
+        NOTIFY                sequenceChanged)
+    
+    //! This property holds the filter text.
+    
+    Q_PROPERTY(
+        QString filterText
+        READ    filterText
+        WRITE   setFilterText
+        NOTIFY  filterTextChanged)
+    
+    //! This property holds whether hidden files are shown.
+    
+    Q_PROPERTY(
+        bool   showHidden
+        READ   hasShowHidden
+        WRITE  setShowHidden
+        NOTIFY showHiddenChanged)
+    
+    //! This property holds the sorting.
+    
+    Q_PROPERTY(
+        djvFileBrowserTestUtil::COLUMNS sort
+        READ                            sort
+        WRITE                           setSort
+        NOTIFY                          sortChanged)
+    
+    //! This property holds whether sorting is reversed.
+    
+    Q_PROPERTY(
+        bool   reverseSort
+        READ   hasReverseSort
+        WRITE  setReverseSort
+        NOTIFY reverseSortChanged)
+    
+    //! This property holds whether directories are sorted first.
+    
+    Q_PROPERTY(
+        bool   sortDirsFirst
+        READ   hasSortDirsFirst
+        WRITE  setSortDirsFirst
+        NOTIFY sortDirsFirstChanged)
+    
+    //! This property holds the image thumbnail mode.
+    
+    Q_PROPERTY(
+        djvFileBrowserTestUtil::THUMBNAILS thumbnails
+        READ                               thumbnails
+        WRITE                              setThumbnails
+        NOTIFY                             thumbnailsChanged)
+    
+    //! This property holds the image thumbnail size.
+    
+    Q_PROPERTY(
+        djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize
+        READ                                   thumbnailSize
+        WRITE                                  setThumbnailSize
+        NOTIFY                                 thumbnailSizeChanged)
+    
 public:
+
+    //! Constructor.
 
     explicit djvFileBrowserTestModel(djvGuiContext *, QObject * parent = 0);
     
+    //! Destructor.
+    
     virtual ~djvFileBrowserTestModel();
+    
+    //! Get the current directory.
     
     const QDir & dir() const;
     
+    //! Get the current directory's path.
+    
     QString path() const;
     
+    //! Get the file sequencing.
+    
     djvSequence::COMPRESS sequence() const;
+    
+    //! Get the filter text.
+    
+    const QString & filterText() const;
+
+    //! Get whether hidden files are shown.
+
+    bool hasShowHidden() const;
+
+    //! Get the sorting.
+
+    djvFileBrowserTestUtil::COLUMNS sort() const;
+
+    //! Get whether sorting is reversed.
+
+    bool hasReverseSort() const;
+
+    //! Get whether directories are sorted first.
+
+    bool hasSortDirsFirst() const;
+
+    //! Get the image thumbnail mode.
+
+    djvFileBrowserTestUtil::THUMBNAILS thumbnails() const;
+
+    //! Get the image thumbnail size.
+
+    djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize() const;
 
     virtual int columnCount(
         const QModelIndex & parent = QModelIndex()) const;
@@ -93,53 +215,147 @@ public:
 
 public Q_SLOTS:
 
+    //! Set the current directory.
+
     void setDir(const QDir &);
+    
+    //! Set the current directory's path.
     
     void setPath(const QString &);
     
+    //! Set the file sequencing.
+    
     void setSequence(djvSequence::COMPRESS);
+    
+    //! Go up a directory.
     
     void up();
     
+    //! Go to the previous directory.
+    
     void back();
     
+    //! Reload the current directory.
+    
     void reload();
+    
+    //! Set the filter text.
+    
+    void setFilterText(const QString &);
+
+    //! Set whether hidden files are shown.
+
+    void setShowHidden(bool);
+
+    //! Set the sorting.
+
+    void setSort(djvFileBrowserTestUtil::COLUMNS);
+
+    //! Set whether sorting is reversed.
+
+    void setReverseSort(bool);
+
+    //! Set whether directories are sorted first.
+
+    void setSortDirsFirst(bool);
+
+    //! Set the image thumbnail mode.
+
+    void setThumbnails(djvFileBrowserTestUtil::THUMBNAILS);
+
+    //! Set the image thumbnail size.
+
+    void setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE);
 
 Q_SIGNALS:
 
+    //! This signal is emitted when the current directory is changed.
+    
     void dirChanged(const QDir &);
 
+    //! This signal is emitted when the current directory's path is changed.
+    
     void pathChanged(const QString &);
 
+    //! This signal is emitted when the file sequencing is changed.
+    
     void sequenceChanged(djvSequence::COMPRESS);
     
-    void requestDir(const QString &, djvSequence::COMPRESS, quint64 id);
+    //! This signal is emitted when the filter text is changed.
     
-    void requestDirFinished();
+    void filterTextChanged(const QString &);
+
+    //! This signal is emitted when the hidden files are changed.
     
-    void requestImageInfo(const djvFileInfo &, int, quint64 id);
+    void showHiddenChanged(bool);
+    
+    //! This signal is emitted when the sorting is changed.
+    
+    void sortChanged(djvFileBrowserTestUtil::COLUMNS);
+    
+    //! This signal is emitted when reverse sorting is changed.
+    
+    void reverseSortChanged(bool);
+    
+    //! This signal is emitted when sort directories first is changed.
+    
+    void sortDirsFirstChanged(bool);
+
+    //! This signal is emitted when the thumbnail mode is changed.
+
+    void thumbnailsChanged(djvFileBrowserTestUtil::THUMBNAILS);
+
+    //! This signal is emitted when the thumbnail size is changed.
+
+    void thumbnailSizeChanged(djvFileBrowserTestUtil::THUMBNAIL_SIZE);
+    
+    //! This signal is emitted to request a directory's contents.
+    
+    void requestDir(const djvFileBrowserTestDirRequest &);
+    
+    //! This signal is emitted when the request for a directory's contents is
+    //! completed.
+    
+    void requestDirComplete();
     
 private Q_SLOTS:
 
-    void dirCallback(const djvFileInfoList &, quint64 id);
-    void imageInfoCallback(const djvImageIoInfo &, int row, quint64 id);
+    void dirCallback(const djvFileBrowserTestDirResult &);
+    
+    void thumbnailCallback(const djvFileBrowserTestThumbnailResult &);
 
 private:
 
+    void nextId();
+
+    djvFileBrowserTestDirRequest dirRequest() const;
+    
+    djvFileBrowserTestThumbnailRequest thumbnailRequest(
+        const djvFileInfo & fileInfo,
+        int                 row) const;
+    
+    djvFileBrowserTestThumbnailRequester * nextThumbnailRequester();
+    
     djvGuiContext *                                 _context;
     QDir                                            _dir;
     QDir                                            _dirPrev;
     djvSequence::COMPRESS                           _sequence;
-    djvFileInfoList                                 _list;
+    QString                                         _filterText;
+    bool                                            _showHidden;
+    djvFileBrowserTestUtil::COLUMNS                 _sort;
+    bool                                            _reverseSort;
+    bool                                            _sortDirsFirst;            
     quint64                                         _id;
-    QVector<djvFileBrowserTestModelItem>            _data;
+    QVector<djvFileBrowserTestModelItem>            _items;
     QScopedPointer<djvFileBrowserTestDirWorker>     _dirWorker;
     QThread                                         _dirWorkerThread;
-    int                                             _imageInfoCurrent;
-    QVector<djvFileBrowserTestImageInfoRequester *> _imageInfoRequesters;
-    QVector<djvFileBrowserTestImageInfoWorker *>    _imageInfoWorkers;
-    QVector<QThread *>                              _imageInfoThreads;
-    QFontMetrics                                    _fontMetrics;
+    djvFileBrowserTestUtil::THUMBNAILS              _thumbnails;
+    djvFileBrowserTestUtil::THUMBNAIL_SIZE          _thumbnailSize;
+    QVector<djvFileBrowserTestThumbnailRequester *> _thumbnailRequesters;
+    QVector<djvFileBrowserTestThumbnailWorker *>    _thumbnailWorkers;
+    QVector<QThread *>                              _thumbnailThreads;
+    int                                             _thumbnailThreadIndex;
+    QVariant                                        _sizeHint;
 };
 
 #endif // DJV_FILE_BROWSER_TEST_MODEL_H

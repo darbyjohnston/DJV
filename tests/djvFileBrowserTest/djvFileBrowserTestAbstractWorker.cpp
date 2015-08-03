@@ -29,29 +29,40 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestImageInfoRequester.h
+//! \file djvFileBrowserTestAbstractWorker.cpp
 
-#ifndef DJV_FILE_BROWSER_TEST_IMAGE_INFO_REQUESTER_H
-#define DJV_FILE_BROWSER_TEST_IMAGE_INFO_REQUESTER_H
+#include <djvFileBrowserTestAbstractWorker.h>
 
-#include <djvFileInfo.h>
+//------------------------------------------------------------------------------
+// djvFileBrowserTestAbstractWorker
+//------------------------------------------------------------------------------
 
-#include <QObject>
+djvFileBrowserTestAbstractWorker::djvFileBrowserTestAbstractWorker(QObject * parent) :
+    QObject(parent),
+    _id(0)
+{}
+    
+djvFileBrowserTestAbstractWorker::~djvFileBrowserTestAbstractWorker()
+{}
 
-class djvFileBrowserTestImageInfoRequester : public QObject
+int djvFileBrowserTestAbstractWorker::id() const
 {
-    Q_OBJECT
-    
-public:
+    return _id;
+}
 
-    explicit djvFileBrowserTestImageInfoRequester(QObject * parent = 0);
-    
-    virtual ~djvFileBrowserTestImageInfoRequester();
-    
-Q_SIGNALS:
+void djvFileBrowserTestAbstractWorker::setId(int id)
+{
+    _id = id;
+}
 
-    void request(const djvFileInfo &, int row, quint64 id);
-};
+QMutex * djvFileBrowserTestAbstractWorker::mutex()
+{
+    return &_mutex;
+}
 
-#endif // DJV_FILE_BROWSER_TEST_IMAGE_INFO_REQUESTER_H
+void djvFileBrowserTestAbstractWorker::start()
+{}
+
+void djvFileBrowserTestAbstractWorker::finish()
+{}
 

@@ -29,51 +29,61 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestImageInfoWorker.cpp
+//! \file djvFileBrowserTestAbstractWorker.h
 
-#include <djvFileBrowserTestImageInfoWorker.h>
+#ifndef DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
+#define DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
 
-#include <djvDebug.h>
-#include <djvImageContext.h>
+#include <QMutex>
+#include <QObject>
 
-#include <QScopedPointer>
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestAbstractWorker
+//!
+//! This class provides the base functionality for workers.
+//------------------------------------------------------------------------------
 
-djvFileBrowserTestImageInfoWorker::djvFileBrowserTestImageInfoWorker(
-    djvImageContext * context,
-    QObject *         parent) :
-    QObject(parent),
-    _context(context)
-{}
-    
-djvFileBrowserTestImageInfoWorker::~djvFileBrowserTestImageInfoWorker()
-{}
-
-void djvFileBrowserTestImageInfoWorker::info(
-    const djvFileInfo & fileInfo,
-    int                 row,
-    quint64             id)
+class djvFileBrowserTestAbstractWorker : public QObject
 {
-    //DJV_DEBUG("djvFileBrowserTestImageInfoWorker::info");
-    //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-    //DJV_DEBUG_PRINT("row = " << row);
-    //DJV_DEBUG_PRINT("id = " << id);
-
-    djvImageIoInfo info;
-
-    QScopedPointer<djvImageLoad> load;
+    Q_OBJECT
     
-    try
-    {
-        load.reset(_context->imageIoFactory()->load(fileInfo, info));
-    }
-    catch (djvError error)
-    {}
+public:
 
-    Q_EMIT infoFinished(info, row, id);
-}
+    //! Constructor.
+    
+    explicit djvFileBrowserTestAbstractWorker(QObject * parent = 0);
+    
+    //! Destructor.
+    
+    virtual ~djvFileBrowserTestAbstractWorker() = 0;
+    
+    //! Get the current ID.
+    
+    int id() const;
+    
+    //! Set the current ID.
+    
+    void setId(int);
+    
+    //! Get the mutex.
+    
+    QMutex * mutex();
+    
+public Q_SLOTS:
 
-void djvFileBrowserTestImageInfoWorker::finish()
-{
-    //DJV_DEBUG("djvFileBrowserTestImageInfoWorker::finish");
-}
+    //! Initialize resources.
+
+    virtual void start();
+    
+    //! Cleanup resources.
+    
+    virtual void finish();
+
+private:
+
+    int    _id;
+    QMutex _mutex;
+};
+
+#endif // DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
 

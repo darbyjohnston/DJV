@@ -29,38 +29,93 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestModelItem.h
+//! \file djvFileBrowserTestUtil.h
 
-#ifndef DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
-#define DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
+#ifndef DJV_FILE_BROWSER_TEST_UTIL_H
+#define DJV_FILE_BROWSER_TEST_UTIL_H
 
-#include <djvFileInfo.h>
+#include <djvPixelData.h>
+#include <djvVector.h>
 
-#include <QSize>
-#include <QVariant>
+#include <QMetaType>
+#include <QStringList>
 
 //------------------------------------------------------------------------------
-//! \struct djvFileBrowserTestModelItem
+//! \class djvFileBrowserTestUtil
 //!
-//! This struct provides a file browser data model item.
+//! This class provides enumerations and utilities.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestModelItem
+class djvFileBrowserTestUtil
 {
-    //! Constructor.
+    Q_GADGET
+    Q_ENUMS(COLUMNS)
+    Q_ENUMS(THUMBNAILS)
+    Q_ENUMS(THUMBNAIL_SIZE)
     
-    djvFileBrowserTestModelItem() :
-        infoInit     (false),
-        thumbnailInit(false)
-    {}
+public:
+
+    //! This enumeration provides the image thumbnail mode.
+
+    enum THUMBNAILS
+    {
+        THUMBNAILS_OFF,
+        THUMBNAILS_LOW,
+        THUMBNAILS_HIGH,
+
+        THUMBNAILS_COUNT
+    };
+
+    //! Get the image thumbnail mode labels.
+
+    static const QStringList & thumbnailsLabels();
+
+    //! This enumeration provides the image thumbnail size.
+
+    enum THUMBNAIL_SIZE
+    {
+        THUMBNAIL_SMALL,
+        THUMBNAIL_MEDIUM,
+        THUMBNAIL_LARGE,
+
+        THUMBNAIL_SIZE_COUNT
+    };
+
+    //! Get the image thumbnail size labels.
+
+    static const QStringList & thumbnailSizeLabels();
+
+    //! Get an image thumbnail size.
+
+    static int thumbnailSize(THUMBNAIL_SIZE);
+
+    //! Get an image thumbnail size.
+
+    static djvVector2i thumbnailSize(
+        THUMBNAILS                thumbnails,
+        int                       thumbnailSize,
+        const djvVector2i &       imageSize,
+        djvPixelDataInfo::PROXY * proxy         = 0);
+
+    //! This enumeration provides the columns.
     
-    djvFileInfo fileInfo;
-    QVariant    text;
-    bool        infoInit;
-    bool        thumbnailInit;
-    QVariant    thumbnail;
-    QSize       thumbnailSize;
+    enum COLUMNS
+    {
+        NAME,
+        SIZE,
+#if ! defined(DJV_WINDOWS)
+        USER,
+#endif
+        PERMISSIONS,
+        TIME,
+        
+        COLUMNS_COUNT
+    };
+
+    //! Get the column labels.
+
+    static const QStringList & columnsLabels();
 };
 
-#endif // DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
+#endif // DJV_FILE_BROWSER_TEST_UTIL_H
 

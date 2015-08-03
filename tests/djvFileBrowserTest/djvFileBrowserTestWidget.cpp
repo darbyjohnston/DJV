@@ -29,9 +29,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWindow.cpp
+//! \file djvFileBrowserTestWidget.cpp
 
-#include <djvFileBrowserTestWindow.h>
+#include <djvFileBrowserTestWidget.h>
 
 #include <djvSpinner.h>
 
@@ -44,7 +44,11 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-djvFileBrowserTestWindow::djvFileBrowserTestWindow(
+//------------------------------------------------------------------------------
+// djvFileBrowserTestWidget
+//------------------------------------------------------------------------------
+
+djvFileBrowserTestWidget::djvFileBrowserTestWidget(
     djvGuiContext * context,
     const QString & path,
     QWidget *       parent) :
@@ -55,6 +59,7 @@ djvFileBrowserTestWindow::djvFileBrowserTestWindow(
     _backAction    (0),
     _reloadAction  (0),
     _sequenceWidget(0),
+    _filterWidget  (0),
     _spinner       (0),
     _pathWidget    (0),
     _view          (0)
@@ -82,6 +87,8 @@ djvFileBrowserTestWindow::djvFileBrowserTestWindow(
     
     _sequenceWidget = new QComboBox;
     _sequenceWidget->addItems(djvSequence::compressLabels());
+    
+    _filterWidget = new QLineEdit;
     
     _spinner = new djvSpinner(context);
     
@@ -113,6 +120,7 @@ djvFileBrowserTestWindow::djvFileBrowserTestWindow(
     hLayout->addWidget(new QLabel("Sequence:"));
     hLayout->addWidget(_sequenceWidget);
     hLayout->addStretch();
+    hLayout->addWidget(_filterWidget);
     hLayout->addWidget(_spinner);
     layout->addLayout(hLayout);
     
@@ -138,14 +146,19 @@ djvFileBrowserTestWindow::djvFileBrowserTestWindow(
         SIGNAL(triggered()),
         SLOT(reload()));
     
+    _model->connect(
+        _filterWidget,
+        SIGNAL(textChanged(const QString &)),
+        SLOT(setFilterText(const QString &)));
+
     _spinner->connect(
         _model.data(),
-        SIGNAL(requestDir(const QString &, djvSequence::COMPRESS, quint64)),
+        SIGNAL(requestDir(const djvFileBrowserTestDirRequest &)),
         SLOT(start()));
     
     _spinner->connect(
         _model.data(),
-        SIGNAL(requestDirFinished()),
+        SIGNAL(requestDirComplete()),
         SLOT(stop()));
     
     _pathWidget->connect(
@@ -161,12 +174,12 @@ djvFileBrowserTestWindow::djvFileBrowserTestWindow(
     _model->setPath(path);
 }
 
-djvFileBrowserTestWindow::~djvFileBrowserTestWindow()
+djvFileBrowserTestWidget::~djvFileBrowserTestWidget()
 {
     _view->setModel(0);
 }
 
-void djvFileBrowserTestWindow::sequenceCallback(int index)
+void djvFileBrowserTestWidget::sequenceCallback(int index)
 {
     _model->setSequence(static_cast<djvSequence::COMPRESS>(index));
 }

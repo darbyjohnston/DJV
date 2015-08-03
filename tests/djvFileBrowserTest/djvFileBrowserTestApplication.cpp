@@ -33,11 +33,18 @@
 
 #include <djvFileBrowserTestApplication.h>
 
-#include <djvFileBrowserTestWindow.h>
+#include <djvFileBrowserTestDirWorker.h>
+#include <djvFileBrowserTestThumbnailWorker.h>
+#include <djvFileBrowserTestUtil.h>
+#include <djvFileBrowserTestWidget.h>
 
 #include <djvError.h>
 
 #include <QTimer>
+
+//------------------------------------------------------------------------------
+// djvFileBrowserTestApplication
+//------------------------------------------------------------------------------
 
 djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
@@ -47,6 +54,19 @@ djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char **
 #   else
     setStyle("fusion");
 #   endif
+
+    qRegisterMetaType<djvFileBrowserTestDirRequest>(
+        "djvFileBrowserTestDirRequest");
+    qRegisterMetaType<djvFileBrowserTestDirResult>(
+        "djvFileBrowserTestDirResult");
+    qRegisterMetaType<djvFileBrowserTestThumbnailRequest>(
+        "djvFileBrowserTestThumbnailRequest");
+    qRegisterMetaType<djvFileBrowserTestThumbnailResult>(
+        "djvFileBrowserTestThumbnailResult");
+    qRegisterMetaType<djvFileBrowserTestUtil::THUMBNAILS>(
+        "djvFileBrowserTestUtil::THUMBNAILS");
+    qRegisterMetaType<djvFileBrowserTestUtil::THUMBNAIL_SIZE>(
+        "djvFileBrowserTestUtil::THUMBNAIL_SIZE");
 
     _context.reset(new djvGuiContext);
     
@@ -71,10 +91,14 @@ void djvFileBrowserTestApplication::commandLineExit()
 
 void djvFileBrowserTestApplication::work()
 {
-    _window.reset(new djvFileBrowserTestWindow(_context.data(), _path));
+    _widget.reset(new djvFileBrowserTestWidget(_context.data(), _path));
     
-    _window->show();
+    _widget->show();
 }
+
+//------------------------------------------------------------------------------
+// main
+//------------------------------------------------------------------------------
 
 int main(int argc, char ** argv)
 {

@@ -31,12 +31,21 @@
 
 //! \file djvFileBrowserTestApplication.h
 
-#include <djvFileBrowserTestWindow.h>
+#ifndef DJV_FILE_BROWSER_TEST_APPLICATION_H
+#define DJV_FILE_BROWSER_TEST_APPLICATION_H
+
+#include <djvFileBrowserTestWidget.h>
 
 #include <djvGuiContext.h>
 
 #include <QApplication>
 #include <QScopedPointer>
+
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestApplication
+//!
+//! This class provides the application.
+//------------------------------------------------------------------------------
 
 class djvFileBrowserTestApplication : public QApplication
 {
@@ -55,6 +64,8 @@ private:
 
     QScopedPointer<djvGuiContext>            _context;
     QString                                  _path;
-    QScopedPointer<djvFileBrowserTestWindow> _window;
+    QScopedPointer<djvFileBrowserTestWidget> _widget;
 };
+
+#endif // DJV_FILE_BROWSER_TEST_APPLICATION_H
 

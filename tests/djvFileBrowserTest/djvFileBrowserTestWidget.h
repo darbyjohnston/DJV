@@ -29,44 +29,64 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestImageInfoWorker.h
+//! \file djvFileBrowserTestWidget.h
 
-#ifndef DJV_FILE_BROWSER_TEST_IMAGE_INFO_WORKER_H
-#define DJV_FILE_BROWSER_TEST_IMAGE_INFO_WORKER_H
+#ifndef DJV_FILE_BROWSER_TEST_WIDGET_H
+#define DJV_FILE_BROWSER_TEST_WIDGET_H
 
-#include <djvFileInfo.h>
-#include <djvImageIo.h>
+#include <djvFileBrowserTestModel.h>
 
-#include <QObject>
+#include <QScopedPointer>
+#include <QWidget>
 
-class djvImageContext;
+class djvGuiContext;
+class djvSpinner;
 
-class djvFileBrowserTestImageInfoWorker : public QObject
+class QAction;
+class QComboBox;
+class QLineEdit;
+class QTreeView;
+
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestWidget
+//!
+//! This class provides the file browser widget.
+//------------------------------------------------------------------------------
+
+class djvFileBrowserTestWidget : public QWidget
 {
     Q_OBJECT
     
 public:
 
-    explicit djvFileBrowserTestImageInfoWorker(
-        djvImageContext *,
-        QObject *         parent = 0);
+    //! Constructor.
     
-    virtual ~djvFileBrowserTestImageInfoWorker();
+    explicit djvFileBrowserTestWidget(
+        djvGuiContext * context,
+        const QString & path,
+        QWidget *       parent  = 0);
     
-public Q_SLOTS:
-
-    void info(const djvFileInfo &, int row, quint64 id);
+    //! Destructor.
     
-    void finish();
+    virtual ~djvFileBrowserTestWidget();
 
-Q_SIGNALS:
+private Q_SLOTS:
 
-    void infoFinished(const djvImageIoInfo &, int row, quint64 id);
+    void sequenceCallback(int);
     
 private:
 
-    djvImageContext * _context;
+    djvGuiContext *                         _context;
+    QScopedPointer<djvFileBrowserTestModel> _model;
+    QAction *                               _upAction;
+    QAction *                               _backAction;
+    QAction *                               _reloadAction;
+    QComboBox *                             _sequenceWidget;
+    QLineEdit *                             _filterWidget;
+    djvSpinner *                            _spinner;
+    QLineEdit *                             _pathWidget;
+    QTreeView *                             _view;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_IMAGE_INFO_WORKER_H
+#endif // DJV_FILE_BROWSER_TEST_WIDGET_H
 

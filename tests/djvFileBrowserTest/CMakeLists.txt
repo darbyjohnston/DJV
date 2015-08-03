@@ -1,26 +1,29 @@
 set(header
+    djvFileBrowserTestAbstractWorker.h
     djvFileBrowserTestApplication.h
     djvFileBrowserTestDirWorker.h
-    djvFileBrowserTestImageInfoRequester.h
-    djvFileBrowserTestImageInfoWorker.h
     djvFileBrowserTestModel.h
-    djvFileBrowserTestWindow.h)
+    djvFileBrowserTestThumbnailWorker.h
+    djvFileBrowserTestUtil.h
+    djvFileBrowserTestWidget.h)
 
 set(mocHeader
+    djvFileBrowserTestAbstractWorker.h
     djvFileBrowserTestApplication.h
     djvFileBrowserTestDirWorker.h
-    djvFileBrowserTestImageInfoRequester.h
-    djvFileBrowserTestImageInfoWorker.h
     djvFileBrowserTestModel.h
-    djvFileBrowserTestWindow.h)
+    djvFileBrowserTestThumbnailWorker.h
+    djvFileBrowserTestUtil.h
+    djvFileBrowserTestWidget.h)
 
 set(source
+    djvFileBrowserTestAbstractWorker.cpp
     djvFileBrowserTestApplication.cpp
     djvFileBrowserTestDirWorker.cpp
-    djvFileBrowserTestImageInfoRequester.cpp
-    djvFileBrowserTestImageInfoWorker.cpp
     djvFileBrowserTestModel.cpp
-    djvFileBrowserTestWindow.cpp)
+    djvFileBrowserTestThumbnailWorker.cpp
+    djvFileBrowserTestUtil.cpp
+    djvFileBrowserTestWidget.cpp)
 
 if (Qt5Core_DIR)
     QT5_WRAP_CPP(mocSource ${mocHeader})

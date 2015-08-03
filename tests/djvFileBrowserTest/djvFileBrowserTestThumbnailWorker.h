@@ -29,65 +29,50 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDirWorker.h
+//! \file djvFileBrowserTestThumbnailWorker.h
 
-#ifndef DJV_FILE_BROWSER_TEST_DIR_WORKER_H
-#define DJV_FILE_BROWSER_TEST_DIR_WORKER_H
+#ifndef DJV_FILE_BROWSER_TEST_THUMBNAIL_WORKER_H
+#define DJV_FILE_BROWSER_TEST_THUMBNAIL_WORKER_H
 
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
 
 #include <djvFileInfo.h>
-#include <djvMemoryBuffer.h>
+#include <djvImageIo.h>
+#include <djvOpenGlContext.h>
 
-#include <QDir>
 #include <QObject>
+#include <QPixmap>
+#include <QScopedPointer>
+
+class djvImageContext;
 
 //------------------------------------------------------------------------------
-//! \struct djvFileBrowserTestDirRequest
+//! \struct djvFileBrowserTestThumbnailRequest
 //!
-//! This struct provides a directory request.
+//! This struct provides an image thumbnail request.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestDirRequest
+struct djvFileBrowserTestThumbnailRequest
 {
     //! Constructor.
     
-    djvFileBrowserTestDirRequest();
+    djvFileBrowserTestThumbnailRequest();
     
-    QString                         path;
-    djvSequence::COMPRESS           sequence;
-    QString                         filterText;
-    bool                            showHidden;
-    djvFileBrowserTestUtil::COLUMNS sort;
-    bool                            reverseSort;
-    bool                            sortDirsFirst;
-    quint64                         id;
+    djvFileInfo                            fileInfo;
+    djvFileBrowserTestUtil::THUMBNAILS     thumbnails;
+    djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize;
+    int                                    row;
+    quint64                                id;
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvFileBrowserTestDirResult
+//! \class djvFileBrowserTestThumbnailRequester
 //!
-//! This struct provides a directory result.
+//! This class provides functionality for requesting an image thumbnail.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestDirResult
-{
-    //! Constructor.
-    
-    djvFileBrowserTestDirResult();
-    
-    djvFileInfoList list;
-    quint64         id;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvFileBrowserTestDirWorker
-//!
-//! This class provides functionality for listing the contents of a directory.
-//------------------------------------------------------------------------------
-
-class djvFileBrowserTestDirWorker : public djvFileBrowserTestAbstractWorker
+class djvFileBrowserTestThumbnailRequester : public QObject
 {
     Q_OBJECT
     
@@ -95,21 +80,70 @@ public:
 
     //! Constructor.
     
-    explicit djvFileBrowserTestDirWorker(QObject * parent = 0);
+    explicit djvFileBrowserTestThumbnailRequester(QObject * parent = 0);
     
+Q_SIGNALS:
+
+    //! Request image information.
+    
+    void info(const djvFileBrowserTestThumbnailRequest &);
+
+    //! Request an image thumbnail.
+    
+    void thumbnail(const djvFileBrowserTestThumbnailRequest &);
+};
+
+//------------------------------------------------------------------------------
+//! \struct djvFileBrowserTestThumbnailResult
+//!
+//! This struct provides an image thumbnail result.
+//------------------------------------------------------------------------------
+
+struct djvFileBrowserTestThumbnailResult
+{
+    //! Constructor.
+    
+    djvFileBrowserTestThumbnailResult();
+    
+    QPixmap        pixmap;
+    djvImageIoInfo info;
+    int            row;
+    quint64        id;
+};
+        
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestThumbnailWorker
+//!
+//! This class provides functionality for generating image thumbnails.
+//------------------------------------------------------------------------------
+
+class djvFileBrowserTestThumbnailWorker : public djvFileBrowserTestAbstractWorker
+{
+    Q_OBJECT
+    
+public:
+
+    //! Constructor.
+    
+    explicit djvFileBrowserTestThumbnailWorker(
+        djvImageContext * context,
+        QObject *         parent = 0);
+
     //! Destructor.
     
-    virtual ~djvFileBrowserTestDirWorker();
-    
-    //! Set options.
-    
-    void setOptions(const QString & filterText);
+    virtual ~djvFileBrowserTestThumbnailWorker();
     
 public Q_SLOTS:
 
-    //! Request the contents of a directory.
+    //! Request image information.
     
-    void request(const djvFileBrowserTestDirRequest &);
+    void info(const djvFileBrowserTestThumbnailRequest &);
+    
+    //! Request an image thumbnail.
+    
+    void thumbnail(const djvFileBrowserTestThumbnailRequest &);
+    
+    virtual void start();
     
     virtual void finish();
 
@@ -117,23 +151,13 @@ Q_SIGNALS:
 
     //! This signal is emitted when a request has been completed.
 
-    void result(const djvFileBrowserTestDirResult &);
+    void result(const djvFileBrowserTestThumbnailResult &);
 
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    
 private:
 
-    void process();
-
-    djvFileBrowserTestDirRequest _request;
-    djvFileInfoList              _list;
-    int                          _fd;
-    djvMemoryBuffer<quint8>      _buf;
-    int                          _timer;
-    djvFileInfo *                _cache;
+    djvImageContext *                _context;
+    QScopedPointer<djvOpenGlContext> _gl;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_DIR_WORKER_H
+#endif // DJV_FILE_BROWSER_TEST_THUMBNAIL_WORKER_H
 
