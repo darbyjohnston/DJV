@@ -127,7 +127,7 @@ void djvSequence::sort()
 
 qint64 djvSequence::maxFramesDefault()
 {
-    return 120 * 60 * 24;
+    return 4 * 60 * 60 * 24;
 }
 
 qint64 djvSequence::maxFrames()
