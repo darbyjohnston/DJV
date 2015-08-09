@@ -34,18 +34,13 @@
 #ifndef DJV_FILE_BROWSER_TEST_WIDGET_H
 #define DJV_FILE_BROWSER_TEST_WIDGET_H
 
-#include <djvFileBrowserTestModel.h>
+#include <djvUtil.h>
 
-#include <QScopedPointer>
 #include <QWidget>
 
-class djvGuiContext;
-class djvSpinner;
+struct djvFileBrowserTestWidgetPrivate;
 
-class QAction;
-class QComboBox;
-class QLineEdit;
-class QTreeView;
+class djvGuiContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestWidget
@@ -73,19 +68,15 @@ public:
 private Q_SLOTS:
 
     void sequenceCallback(int);
+    void thumbnailsCallback(int);
+    void thumbnailSizeCallback(int);
+    void viewCallback(int);
     
 private:
 
-    djvGuiContext *                         _context;
-    QScopedPointer<djvFileBrowserTestModel> _model;
-    QAction *                               _upAction;
-    QAction *                               _backAction;
-    QAction *                               _reloadAction;
-    QComboBox *                             _sequenceWidget;
-    QLineEdit *                             _filterWidget;
-    djvSpinner *                            _spinner;
-    QLineEdit *                             _pathWidget;
-    QTreeView *                             _view;
+    DJV_PRIVATE_COPY(djvFileBrowserTestWidget)
+    
+    djvFileBrowserTestWidgetPrivate * _p;
 };
 
 #endif // DJV_FILE_BROWSER_TEST_WIDGET_H

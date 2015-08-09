@@ -116,3 +116,30 @@ djvVector2i djvFileBrowserTestUtil::thumbnailSize(
     return djvVectorUtil::ceil<double, int>(djvVector2f(imageSize) / proxyScale * scale);
 }
 
+const QStringList & djvFileBrowserTestUtil::viewLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvFileBrowserTestUtil", "Details") <<
+        qApp->translate("djvFileBrowserTestUtil", "Contact Sheet");
+
+    DJV_ASSERT(data.count() == VIEW_COUNT);
+
+    return data;
+}
+
+const QStringList & djvFileBrowserTestUtil::columnsLabels()
+{
+    static const QStringList data = QStringList() <<
+        qApp->translate("djvFileBrowserTestUtil", "Name") <<
+        qApp->translate("djvFileBrowserTestUtil", "Size") <<
+#if ! defined(DJV_WINDOWS)
+        qApp->translate("djvFileBrowserTestUtil", "User") <<
+#endif // DJV_WINDOWS
+        qApp->translate("djvFileBrowserTestUtil", "Permissions") <<
+        qApp->translate("djvFileBrowserTestUtil", "Time");
+
+    DJV_ASSERT(data.count() == COLUMNS_COUNT);
+
+    return data;
+}
+

@@ -50,16 +50,20 @@ struct djvFileBrowserTestModelItem
     //! Constructor.
     
     djvFileBrowserTestModelItem() :
-        infoInit     (false),
-        thumbnailInit(false)
+        infoInit         (false),
+        infoComplete     (false),
+        thumbnailInit    (false),
+        thumbnailComplete(false)
     {}
     
-    djvFileInfo fileInfo;
-    QVariant    text;
-    bool        infoInit;
-    bool        thumbnailInit;
-    QVariant    thumbnail;
-    QSize       thumbnailSize;
+    djvFileInfo fileInfo;          //!< File information.
+    QVariant    text;              //!< Display role text.
+    bool        infoInit;          //!< Whether the image info is initialized.
+    bool        infoComplete;      //!< Whether the image info is complete.
+    bool        thumbnailInit;     //!< Whether the image thumbnail is initialized.
+    bool        thumbnailComplete; //!< Whether the image thumbnail is complete.
+    QVariant    thumbnail;         //!< Image thumbnail.
+    QSize       thumbnailSize;     //!< Image thumbnail size.
 };
 
 #endif // DJV_FILE_BROWSER_TEST_MODEL_ITEM_H

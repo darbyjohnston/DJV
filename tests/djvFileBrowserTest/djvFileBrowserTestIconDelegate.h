@@ -29,58 +29,52 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestAbstractWorker.cpp
+//! \file djvFileBrowserTestIconDelegate.h
 
-#include <djvFileBrowserTestAbstractWorker.h>
+#ifndef DJV_FILE_BROWSER_TEST_ICON_DELEGATE_H
+#define DJV_FILE_BROWSER_TEST_ICON_DELEGATE_H
 
-#include <QMutex>
+#include <djvFileBrowserTestUtil.h>
+
+#include <QAbstractItemDelegate>
+
+class djvGuiContext;
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestAbstractWorkerPrivate
+//! \class djvFileBrowserTestIconDelegate
+//!
+//! This class provides a file browser item delegate.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestAbstractWorkerPrivate
+class djvFileBrowserTestIconDelegate : public QAbstractItemDelegate
 {
-    djvFileBrowserTestAbstractWorkerPrivate() :
-        id(0)
-    {}
+    Q_OBJECT
     
-    int    id;
-    QMutex mutex;
+public:
+
+    //! Constructor.
+    
+    explicit djvFileBrowserTestIconDelegate(djvGuiContext *, QObject * parent);
+
+    //! Get the thumbnail size.
+        
+    djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize() const;
+    
+    virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const;
+
+    virtual void paint(QPainter *, const QStyleOptionViewItem &, const QModelIndex &) const;
+
+public Q_SLOTS:
+
+    //! Set the thumbnail size.
+    
+    void setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE);
+    
+private:
+
+    djvGuiContext *                        _context;
+    djvFileBrowserTestUtil::THUMBNAIL_SIZE _thumbnailSize;
 };
 
-//------------------------------------------------------------------------------
-// djvFileBrowserTestAbstractWorker
-//------------------------------------------------------------------------------
-
-djvFileBrowserTestAbstractWorker::djvFileBrowserTestAbstractWorker(QObject * parent) :
-    QObject(parent),
-    _p(new djvFileBrowserTestAbstractWorkerPrivate)
-{}
-    
-djvFileBrowserTestAbstractWorker::~djvFileBrowserTestAbstractWorker()
-{
-    delete _p;
-}
-
-int djvFileBrowserTestAbstractWorker::id() const
-{
-    return _p->id;
-}
-
-void djvFileBrowserTestAbstractWorker::setId(int id)
-{
-    _p->id = id;
-}
-
-QMutex * djvFileBrowserTestAbstractWorker::mutex()
-{
-    return &_p->mutex;
-}
-
-void djvFileBrowserTestAbstractWorker::start()
-{}
-
-void djvFileBrowserTestAbstractWorker::finish()
-{}
+#endif // DJV_FILE_BROWSER_TEST_ICON_DELEGATE_H
 

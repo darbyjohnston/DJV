@@ -49,13 +49,14 @@
 class djvFileBrowserTestUtil
 {
     Q_GADGET
-    Q_ENUMS(COLUMNS)
     Q_ENUMS(THUMBNAILS)
     Q_ENUMS(THUMBNAIL_SIZE)
+    Q_ENUMS(VIEW)
+    Q_ENUMS(COLUMNS)
     
 public:
 
-    //! This enumeration provides the image thumbnail mode.
+    //! This enumeration provides the image thumbnails mode.
 
     enum THUMBNAILS
     {
@@ -66,7 +67,7 @@ public:
         THUMBNAILS_COUNT
     };
 
-    //! Get the image thumbnail mode labels.
+    //! Get the image thumbnails mode labels.
 
     static const QStringList & thumbnailsLabels();
 
@@ -97,6 +98,20 @@ public:
         const djvVector2i &       imageSize,
         djvPixelDataInfo::PROXY * proxy         = 0);
 
+    //! This enumeration provides the view mode.
+
+    enum VIEW
+    {
+        VIEW_DETAILS,
+        VIEW_CONTACT_SHEET,
+
+        VIEW_COUNT
+    };
+
+    //! Get the view mode labels.
+
+    static const QStringList & viewLabels();
+
     //! This enumeration provides the columns.
     
     enum COLUMNS
@@ -105,7 +120,7 @@ public:
         SIZE,
 #if ! defined(DJV_WINDOWS)
         USER,
-#endif
+#endif // DJV_WINDOWS
         PERMISSIONS,
         TIME,
         

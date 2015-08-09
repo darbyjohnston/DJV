@@ -34,8 +34,13 @@
 #ifndef DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
 #define DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
 
-#include <QMutex>
+#include <djvUtil.h>
+
 #include <QObject>
+
+struct djvFileBrowserTestAbstractWorkerPrivate;
+
+class QMutex;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestAbstractWorker
@@ -81,8 +86,9 @@ public Q_SLOTS:
 
 private:
 
-    int    _id;
-    QMutex _mutex;
+    DJV_PRIVATE_COPY(djvFileBrowserTestAbstractWorker);
+    
+    djvFileBrowserTestAbstractWorkerPrivate * _p;
 };
 
 #endif // DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H

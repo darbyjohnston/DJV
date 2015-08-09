@@ -38,15 +38,13 @@
 #include <djvFileBrowserTestUtil.h>
 
 #include <djvFileInfo.h>
-#include <djvMemoryBuffer.h>
 
-#include <QDir>
-#include <QObject>
+struct djvFileBrowserTestDirWorkerPrivate;
 
 //------------------------------------------------------------------------------
 //! \struct djvFileBrowserTestDirRequest
 //!
-//! This struct provides a directory request.
+//! This struct is used to request data from djvFileBrowserTestDirWorker.
 //------------------------------------------------------------------------------
 
 struct djvFileBrowserTestDirRequest
@@ -55,20 +53,25 @@ struct djvFileBrowserTestDirRequest
     
     djvFileBrowserTestDirRequest();
     
-    QString                         path;
-    djvSequence::COMPRESS           sequence;
-    QString                         filterText;
-    bool                            showHidden;
-    djvFileBrowserTestUtil::COLUMNS sort;
-    bool                            reverseSort;
-    bool                            sortDirsFirst;
-    quint64                         id;
+    QString                         path;          //!< File system path.
+    djvSequence::COMPRESS           sequence;      //!< File sequencing.
+    QString                         filterText;    //!< Filter text.
+    bool                            showHidden;    //!< Whether to show hidden
+                                                   //!< files.
+    djvFileBrowserTestUtil::COLUMNS sort;          //!< Sorting.
+    bool                            reverseSort;   //!< Whether to reverse the
+                                                   //!< sort.
+    bool                            sortDirsFirst; //!< Whether to list
+                                                   //!< directories first.
+    bool                            reload;        //!< Reload the current
+                                                   //!< directory.
+    quint64                         id;            //!< Request ID.
 };
 
 //------------------------------------------------------------------------------
 //! \struct djvFileBrowserTestDirResult
 //!
-//! This struct provides a directory result.
+//! This struct is used to return data from djvFileBrowserTestDirWorker.
 //------------------------------------------------------------------------------
 
 struct djvFileBrowserTestDirResult
@@ -77,14 +80,14 @@ struct djvFileBrowserTestDirResult
     
     djvFileBrowserTestDirResult();
     
-    djvFileInfoList list;
-    quint64         id;
+    djvFileInfoList list; //!< List of files.
+    quint64         id;   //!< Request ID.
 };
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestDirWorker
 //!
-//! This class provides functionality for listing the contents of a directory.
+//! This class provides the contents of a directory.
 //------------------------------------------------------------------------------
 
 class djvFileBrowserTestDirWorker : public djvFileBrowserTestAbstractWorker
@@ -100,11 +103,7 @@ public:
     //! Destructor.
     
     virtual ~djvFileBrowserTestDirWorker();
-    
-    //! Set options.
-    
-    void setOptions(const QString & filterText);
-    
+
 public Q_SLOTS:
 
     //! Request the contents of a directory.
@@ -115,7 +114,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
 
-    //! This signal is emitted when a request has been completed.
+    //! This signal is emitted when the directory contents are available.
 
     void result(const djvFileBrowserTestDirResult &);
 
@@ -125,14 +124,13 @@ protected:
     
 private:
 
-    void process();
-
-    djvFileBrowserTestDirRequest _request;
-    djvFileInfoList              _list;
-    int                          _fd;
-    djvMemoryBuffer<quint8>      _buf;
-    int                          _timer;
-    djvFileInfo *                _cache;
+    void process(djvFileBrowserTestDirResult &);
+    
+    djvFileBrowserTestDirResult result() const;
+    
+    DJV_PRIVATE_COPY(djvFileBrowserTestDirWorker)
+    
+    djvFileBrowserTestDirWorkerPrivate * _p;
 };
 
 #endif // DJV_FILE_BROWSER_TEST_DIR_WORKER_H

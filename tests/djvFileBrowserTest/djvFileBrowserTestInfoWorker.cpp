@@ -29,26 +29,25 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestThumbnailWorker.cpp
+//! \file djvFileBrowserTestInfoWorker.cpp
 
-#include <djvFileBrowserTestThumbnailWorker.h>
+#include <djvFileBrowserTestInfoWorker.h>
 
 #include <djvPixmapUtil.h>
 
 #include <djvDebug.h>
 #include <djvImage.h>
 #include <djvImageContext.h>
-#include <djvOpenGlContext.h>
 #include <djvPixelDataUtil.h>
 
 #include <QMutex>
 #include <QScopedPointer>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestThumbnailRequest
+// djvFileBrowserTestInfoRequest
 //------------------------------------------------------------------------------
 
-djvFileBrowserTestThumbnailRequest::djvFileBrowserTestThumbnailRequest() :
+djvFileBrowserTestInfoRequest::djvFileBrowserTestInfoRequest() :
     thumbnails   (static_cast<djvFileBrowserTestUtil::THUMBNAILS>(0)),
     thumbnailSize(static_cast<djvFileBrowserTestUtil::THUMBNAIL_SIZE>(0)),
     row          (0),
@@ -56,58 +55,39 @@ djvFileBrowserTestThumbnailRequest::djvFileBrowserTestThumbnailRequest() :
 {}
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestThumbnailRequester
+// djvFileBrowserTestInfoRequester
 //------------------------------------------------------------------------------
 
-djvFileBrowserTestThumbnailRequester::djvFileBrowserTestThumbnailRequester(
+djvFileBrowserTestInfoRequester::djvFileBrowserTestInfoRequester(
     QObject * parent) :
     QObject(parent)
 {}
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestThumbnailResult
+// djvFileBrowserTestInfoResult
 //------------------------------------------------------------------------------
 
-djvFileBrowserTestThumbnailResult::djvFileBrowserTestThumbnailResult() :
-    pixmapEmpty(false),
-    row        (0),
-    id         (0)
+djvFileBrowserTestInfoResult::djvFileBrowserTestInfoResult() :
+    row(0),
+    id (0)
 {}
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestThumbnailWorkerPrivate
+// djvFileBrowserTestInfoWorker
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestThumbnailWorkerPrivate
-{
-    djvFileBrowserTestThumbnailWorkerPrivate(djvImageContext * context) :
-        context(context)
-    {}
-    
-    djvImageContext *                context;
-    QScopedPointer<djvOpenGlContext> gl;
-    djvImage                         image;
-    djvImage                         imageScaled;
-};
-
-//------------------------------------------------------------------------------
-// djvFileBrowserTestThumbnailWorker
-//------------------------------------------------------------------------------
-
-djvFileBrowserTestThumbnailWorker::djvFileBrowserTestThumbnailWorker(
+djvFileBrowserTestInfoWorker::djvFileBrowserTestInfoWorker(
     djvImageContext * context,
     QObject *         parent) :
     djvFileBrowserTestAbstractWorker(parent),
-    _p(new djvFileBrowserTestThumbnailWorkerPrivate(context))
+    _context(context)
 {}
     
-djvFileBrowserTestThumbnailWorker::~djvFileBrowserTestThumbnailWorker()
-{
-    delete _p;
-}
+djvFileBrowserTestInfoWorker::~djvFileBrowserTestInfoWorker()
+{}
 
-void djvFileBrowserTestThumbnailWorker::request(
-    const djvFileBrowserTestThumbnailRequest & request)
+void djvFileBrowserTestInfoWorker::request(
+    const djvFileBrowserTestInfoRequest & request)
 {
     {
         QMutexLocker locker(mutex());
@@ -116,26 +96,24 @@ void djvFileBrowserTestThumbnailWorker::request(
             return;
     }
 
-    //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::request");
+    //DJV_DEBUG("djvFileBrowserTestInfoWorker::request");
     //DJV_DEBUG_PRINT("fileInfo = " << request.fileInfo);
     //DJV_DEBUG_PRINT("thumbnails = " << request.thumbnails);
     //DJV_DEBUG_PRINT("thumbnailSize = " << request.thumbnailSize);
     //DJV_DEBUG_PRINT("row = " << request.row);
     //DJV_DEBUG_PRINT("id = " << request.id);
     
-    djvFileBrowserTestThumbnailResult result;
+    djvFileBrowserTestInfoResult result;
     result.row = request.row;
     result.id  = request.id;
-
+    
     try
     {
-        _p->gl->bind();
-        
         // Load the image.
         
         QScopedPointer<djvImageLoad> load;
         
-        load.reset(_p->context->imageIoFactory()->load(request.fileInfo, result.info));
+        load.reset(_context->imageIoFactory()->load(request.fileInfo, result.info));
         
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
 
@@ -146,52 +124,14 @@ void djvFileBrowserTestThumbnailWorker::request(
             &proxy);
         
         //DJV_DEBUG_PRINT("size = " << size);
-
-        load->read(_p->image, djvImageIoFrameInfo(-1, 0, proxy));
+        //DJV_DEBUG_PRINT("proxy = " << proxy);
         
-        //DJV_DEBUG_PRINT("image = " << _p->image);
-        
-        // Scale the image.
-        
-        _p->imageScaled.set(djvPixelDataInfo(size, _p->image.pixel()));
-
-        djvOpenGlImageOptions options;
-
-        options.xform.scale =
-            djvVector2f(_p->imageScaled.size()) /
-            (djvVector2f(_p->image.size() *
-                djvPixelDataUtil::proxyScale(_p->image.info().proxy)));
-
-        //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
-
-        options.colorProfile = _p->image.colorProfile;
-        
-        if (djvFileBrowserTestUtil::THUMBNAILS_HIGH == request.thumbnails)
-        {
-            options.filter = djvOpenGlImageFilter::filterHighQuality();
-        }
-
-        djvOpenGlImage::copy(_p->image, _p->imageScaled, options);
-
-        result.pixmap = djvPixmapUtil::toQt(_p->imageScaled);
+        result.pixmap = QPixmap(size.x, size.y);
+        result.pixmap.fill(Qt::transparent);
     }
     catch (djvError error)
     {}
 
     Q_EMIT this->result(result);
-}
-
-void djvFileBrowserTestThumbnailWorker::start()
-{
-    //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::start");
-    
-    _p->gl.reset(_p->context->openGlContextFactory()->create());
-}
-
-void djvFileBrowserTestThumbnailWorker::finish()
-{
-    //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::finish");
-    
-    _p->gl.reset();
 }
 

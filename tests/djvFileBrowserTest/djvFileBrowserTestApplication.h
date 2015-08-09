@@ -53,6 +53,8 @@ class djvFileBrowserTestApplication : public QApplication
     
 public:
 
+    //! Constructor.
+    
     djvFileBrowserTestApplication(int & argc, char ** argv);
 
 private Q_SLOTS:

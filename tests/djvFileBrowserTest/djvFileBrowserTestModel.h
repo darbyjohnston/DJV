@@ -35,7 +35,7 @@
 #define DJV_FILE_BROWSER_TEST_MODEL_H
 
 #include <djvFileBrowserTestDirWorker.h>
-#include <djvFileBrowserTestModelItem.h>
+#include <djvFileBrowserTestInfoWorker.h>
 #include <djvFileBrowserTestThumbnailWorker.h>
 #include <djvFileBrowserTestUtil.h>
 
@@ -43,8 +43,8 @@
 
 #include <QAbstractItemModel>
 #include <QDir>
-#include <QScopedPointer>
-#include <QThread>
+
+struct djvFileBrowserTestModelPrivate;
 
 class djvGuiContext;
 
@@ -318,10 +318,14 @@ Q_SIGNALS:
     
     void requestDirComplete();
     
+protected:
+
+    virtual void timerEvent(QTimerEvent *);
+    
 private Q_SLOTS:
 
     void dirCallback(const djvFileBrowserTestDirResult &);
-    
+    void infoCallback(const djvFileBrowserTestInfoResult &);
     void thumbnailCallback(const djvFileBrowserTestThumbnailResult &);
 
 private:
@@ -330,32 +334,23 @@ private:
 
     djvFileBrowserTestDirRequest dirRequest() const;
     
+    djvFileBrowserTestInfoRequest infoRequest(
+        const djvFileInfo & fileInfo,
+        int                 row) const;
+    
+    djvFileBrowserTestInfoRequester * nextInfoRequester();
+
     djvFileBrowserTestThumbnailRequest thumbnailRequest(
         const djvFileInfo & fileInfo,
         int                 row) const;
     
     djvFileBrowserTestThumbnailRequester * nextThumbnailRequester();
     
-    djvGuiContext *                                 _context;
-    QDir                                            _dir;
-    QDir                                            _dirPrev;
-    djvSequence::COMPRESS                           _sequence;
-    QString                                         _filterText;
-    bool                                            _showHidden;
-    djvFileBrowserTestUtil::COLUMNS                 _sort;
-    bool                                            _reverseSort;
-    bool                                            _sortDirsFirst;            
-    quint64                                         _id;
-    QVector<djvFileBrowserTestModelItem>            _items;
-    QScopedPointer<djvFileBrowserTestDirWorker>     _dirWorker;
-    QThread                                         _dirWorkerThread;
-    djvFileBrowserTestUtil::THUMBNAILS              _thumbnails;
-    djvFileBrowserTestUtil::THUMBNAIL_SIZE          _thumbnailSize;
-    QVector<djvFileBrowserTestThumbnailRequester *> _thumbnailRequesters;
-    QVector<djvFileBrowserTestThumbnailWorker *>    _thumbnailWorkers;
-    QVector<QThread *>                              _thumbnailThreads;
-    int                                             _thumbnailThreadIndex;
-    QVariant                                        _sizeHint;
+    static QString formatText(const djvFileInfo &, const djvImageIoInfo &);
+    
+    DJV_PRIVATE_COPY(djvFileBrowserTestModel);
+    
+    djvFileBrowserTestModelPrivate * _p;
 };
 
 #endif // DJV_FILE_BROWSER_TEST_MODEL_H

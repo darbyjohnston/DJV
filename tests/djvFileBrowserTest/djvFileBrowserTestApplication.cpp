@@ -34,6 +34,7 @@
 #include <djvFileBrowserTestApplication.h>
 
 #include <djvFileBrowserTestDirWorker.h>
+#include <djvFileBrowserTestInfoWorker.h>
 #include <djvFileBrowserTestThumbnailWorker.h>
 #include <djvFileBrowserTestUtil.h>
 #include <djvFileBrowserTestWidget.h>
@@ -59,6 +60,10 @@ djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char **
         "djvFileBrowserTestDirRequest");
     qRegisterMetaType<djvFileBrowserTestDirResult>(
         "djvFileBrowserTestDirResult");
+    qRegisterMetaType<djvFileBrowserTestInfoRequest>(
+        "djvFileBrowserTestInfoRequest");
+    qRegisterMetaType<djvFileBrowserTestInfoResult>(
+        "djvFileBrowserTestInfoResult");
     qRegisterMetaType<djvFileBrowserTestThumbnailRequest>(
         "djvFileBrowserTestThumbnailRequest");
     qRegisterMetaType<djvFileBrowserTestThumbnailResult>(

@@ -33,6 +33,8 @@
 
 #include <djvFileBrowserTestModel.h>
 
+#include <djvFileBrowserTestModelItem.h>
+
 #include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 
@@ -42,6 +44,56 @@
 #include <djvVectorUtil.h>
 
 #include <QMutexLocker>
+#include <QScopedPointer>
+#include <QThread>
+
+//------------------------------------------------------------------------------
+// djvFileBrowserTestModelPrivate
+//------------------------------------------------------------------------------
+
+struct djvFileBrowserTestModelPrivate
+{
+    djvFileBrowserTestModelPrivate(djvGuiContext * context) :
+        context             (context),
+        sequence            (static_cast<djvSequence::COMPRESS>(0)),
+        showHidden          (false),
+        sort                (static_cast<djvFileBrowserTestUtil::COLUMNS>(0)),
+        reverseSort         (false),
+        sortDirsFirst       (true),
+        id                  (0),
+        dirWorker           (new djvFileBrowserTestDirWorker),
+        thumbnails          (djvFileBrowserTestUtil::THUMBNAILS_LOW),
+        thumbnailSize       (djvFileBrowserTestUtil::THUMBNAIL_MEDIUM),    
+        infoThreadIndex     (0),
+        thumbnailThreadIndex(0),
+        sizeHint            (context->iconLibrary()->pixmap("djvFileIcon.png").size())
+    {}
+    
+    djvGuiContext *                                 context;
+    QDir                                            dir;
+    QDir                                            dirPrev;
+    djvSequence::COMPRESS                           sequence;
+    QString                                         filterText;
+    bool                                            showHidden;
+    djvFileBrowserTestUtil::COLUMNS                 sort;
+    bool                                            reverseSort;
+    bool                                            sortDirsFirst;            
+    quint64                                         id;
+    QVector<djvFileBrowserTestModelItem>            items;
+    QScopedPointer<djvFileBrowserTestDirWorker>     dirWorker;
+    QThread                                         dirWorkerThread;
+    djvFileBrowserTestUtil::THUMBNAILS              thumbnails;
+    djvFileBrowserTestUtil::THUMBNAIL_SIZE          thumbnailSize;
+    QVector<djvFileBrowserTestInfoRequester *>      infoRequesters;
+    QVector<djvFileBrowserTestInfoWorker *>         infoWorkers;
+    QVector<QThread *>                              infoThreads;
+    int                                             infoThreadIndex;
+    QVector<djvFileBrowserTestThumbnailRequester *> thumbnailRequesters;
+    QVector<djvFileBrowserTestThumbnailWorker *>    thumbnailWorkers;
+    QVector<QThread *>                              thumbnailThreads;
+    int                                             thumbnailThreadIndex;
+    QVariant                                        sizeHint;
+};
 
 //------------------------------------------------------------------------------
 // djvFileBrowserTestModel
@@ -51,163 +103,208 @@ djvFileBrowserTestModel::djvFileBrowserTestModel(
     djvGuiContext * context,
     QObject *       parent) :
     QAbstractItemModel(parent),
-    _context             (context),
-    _sequence            (static_cast<djvSequence::COMPRESS>(0)),
-    _showHidden          (false),
-    _sort                (static_cast<djvFileBrowserTestUtil::COLUMNS>(0)),
-    _reverseSort         (false),
-    _sortDirsFirst       (true),
-    _id                  (0),
-    _dirWorker           (new djvFileBrowserTestDirWorker),
-    _thumbnails          (djvFileBrowserTestUtil::THUMBNAILS_HIGH),
-    _thumbnailSize       (djvFileBrowserTestUtil::THUMBNAIL_MEDIUM),
-    _thumbnailThreadIndex(0),
-    _sizeHint            (_context->iconLibrary()->pixmap("djvFileIcon.png").size())
+    _p(new djvFileBrowserTestModelPrivate(context))
 {
     //DJV_DEBUG("djvFileBrowserTestModel::djvFileBrowserTestModel");
     //DJV_DEBUG_PRINT("thread = " << qint64(thread()));
     
-    for (int i = 0; i < 6; ++i)
+    static const int threads = 12;
+    
+    for (int i = 0; i < threads; ++i)
     {
-        _thumbnailRequesters.append(new djvFileBrowserTestThumbnailRequester);
-        _thumbnailWorkers.append(new djvFileBrowserTestThumbnailWorker(context));
-        _thumbnailThreads.append(new QThread);
+        _p->infoRequesters.append(new djvFileBrowserTestInfoRequester);
+        _p->infoWorkers.append(new djvFileBrowserTestInfoWorker(context));
+        _p->infoThreads.append(new QThread);
+    }
+    
+    for (int i = 0; i < threads; ++i)
+    {
+        _p->thumbnailRequesters.append(new djvFileBrowserTestThumbnailRequester);
+        _p->thumbnailWorkers.append(new djvFileBrowserTestThumbnailWorker(context));
+        _p->thumbnailThreads.append(new QThread);
     }
     
     connect(
-        _dirWorker.data(),
+        _p->dirWorker.data(),
         SIGNAL(result(const djvFileBrowserTestDirResult &)),
         SLOT(dirCallback(const djvFileBrowserTestDirResult &)));
 
-    _dirWorker->connect(
+    _p->dirWorker->connect(
         this,
         SIGNAL(requestDir(const djvFileBrowserTestDirRequest &)),
         SLOT(request(const djvFileBrowserTestDirRequest &)));
    
-    _dirWorker->connect(
-        &_dirWorkerThread,
+    _p->dirWorker->connect(
+        &_p->dirWorkerThread,
         SIGNAL(started()),
         SLOT(start()));
 
-    _dirWorker->connect(
-        &_dirWorkerThread,
+    _p->dirWorker->connect(
+        &_p->dirWorkerThread,
         SIGNAL(finished()),
         SLOT(finish()));
 
-    for (int i = 0; i < _thumbnailRequesters.count(); ++i)
+    for (int i = 0; i < _p->infoWorkers.count(); ++i)
     {
         connect(
-            _thumbnailWorkers[i],
-            SIGNAL(result(const djvFileBrowserTestThumbnailResult &)),
-            SLOT(thumbnailCallback(const djvFileBrowserTestThumbnailResult &)));
+            _p->infoWorkers[i],
+            SIGNAL(result(const djvFileBrowserTestInfoResult &)),
+            SLOT(infoCallback(const djvFileBrowserTestInfoResult &)));
 
-        _thumbnailWorkers[i]->connect(
-            _thumbnailRequesters[i],
-            SIGNAL(info(const djvFileBrowserTestThumbnailRequest &)),
-            SLOT(info(const djvFileBrowserTestThumbnailRequest &)));
+        _p->infoWorkers[i]->connect(
+            _p->infoRequesters[i],
+            SIGNAL(request(const djvFileBrowserTestInfoRequest &)),
+            SLOT(request(const djvFileBrowserTestInfoRequest &)));
 
-        _thumbnailWorkers[i]->connect(
-            _thumbnailRequesters[i],
-            SIGNAL(thumbnail(const djvFileBrowserTestThumbnailRequest &)),
-            SLOT(thumbnail(const djvFileBrowserTestThumbnailRequest &)));
-
-        _thumbnailWorkers[i]->connect(
-            _thumbnailThreads[i],
+        _p->infoWorkers[i]->connect(
+            _p->infoThreads[i],
             SIGNAL(started()),
             SLOT(start()));
 
-        _thumbnailWorkers[i]->connect(
-            _thumbnailThreads[i],
+        _p->infoWorkers[i]->connect(
+            _p->infoThreads[i],
             SIGNAL(finished()),
             SLOT(finish()));
     }
     
-    _dirWorker->moveToThread(&_dirWorkerThread);
-    _dirWorkerThread.start();
-
-    for (int i = 0; i < _thumbnailWorkers.count(); ++i)
+    for (int i = 0; i < _p->thumbnailWorkers.count(); ++i)
     {
-        _thumbnailWorkers[i]->moveToThread(_thumbnailThreads[i]);
-        _thumbnailThreads[i]->start();
+        connect(
+            _p->thumbnailWorkers[i],
+            SIGNAL(result(const djvFileBrowserTestThumbnailResult &)),
+            SLOT(thumbnailCallback(const djvFileBrowserTestThumbnailResult &)));
 
-        //DJV_DEBUG_PRINT("thread = " << qint64(_thumbnailWorkers[i]->thread()));
+        _p->thumbnailWorkers[i]->connect(
+            _p->thumbnailRequesters[i],
+            SIGNAL(request(const djvFileBrowserTestThumbnailRequest &)),
+            SLOT(request(const djvFileBrowserTestThumbnailRequest &)));
+
+        _p->thumbnailWorkers[i]->connect(
+            _p->thumbnailThreads[i],
+            SIGNAL(started()),
+            SLOT(start()));
+
+        _p->thumbnailWorkers[i]->connect(
+            _p->thumbnailThreads[i],
+            SIGNAL(finished()),
+            SLOT(finish()));
     }
+    
+    _p->dirWorker->moveToThread(&_p->dirWorkerThread);
+    _p->dirWorkerThread.start();
+
+    for (int i = 0; i < _p->infoWorkers.count(); ++i)
+    {
+        _p->infoWorkers[i]->moveToThread(_p->infoThreads[i]);
+        _p->infoThreads[i]->start();
+
+        //DJV_p->DEBUG_p->PRINT("thread = " << qint64(_p->infoWorkers[i]->thread()));
+    }
+    
+    for (int i = 0; i < _p->infoWorkers.count(); ++i)
+    {
+        _p->thumbnailWorkers[i]->moveToThread(_p->thumbnailThreads[i]);
+        _p->thumbnailThreads[i]->start();
+
+        //DJV_p->DEBUG_p->PRINT("thread = " << qint64(_p->thumbnailWorkers[i]->thread()));
+    }
+    
+    //startTimer(1000);
 }
 
 djvFileBrowserTestModel::~djvFileBrowserTestModel()
 {
     nextId();
     
-    _dirWorkerThread.quit();
+    _p->dirWorkerThread.quit();
 
-    for (int i = 0; i < _thumbnailThreads.count(); ++i)
+    for (int i = 0; i < _p->infoThreads.count(); ++i)
     {
-        _thumbnailThreads[i]->quit();
+        _p->infoThreads[i]->quit();
     }
 
-    _dirWorkerThread.wait();
-
-    for (int i = 0; i < _thumbnailThreads.count(); ++i)
+    for (int i = 0; i < _p->thumbnailThreads.count(); ++i)
     {
-        _thumbnailThreads[i]->wait();
+        _p->thumbnailThreads[i]->quit();
+    }
+
+    _p->dirWorkerThread.wait();
+
+    for (int i = 0; i < _p->infoThreads.count(); ++i)
+    {
+        _p->infoThreads[i]->wait();
     }
     
-    for (int i = 0; i < _thumbnailThreads.count(); ++i)
+    for (int i = 0; i < _p->thumbnailThreads.count(); ++i)
     {
-        delete _thumbnailThreads[i];
-        delete _thumbnailWorkers[i];
-        delete _thumbnailRequesters[i];
+        _p->thumbnailThreads[i]->wait();
     }
+    
+    for (int i = 0; i < _p->infoThreads.count(); ++i)
+    {
+        delete _p->infoThreads[i];
+        delete _p->infoWorkers[i];
+        delete _p->infoRequesters[i];
+    }
+
+    for (int i = 0; i < _p->thumbnailThreads.count(); ++i)
+    {
+        delete _p->thumbnailThreads[i];
+        delete _p->thumbnailWorkers[i];
+        delete _p->thumbnailRequesters[i];
+    }
+    
+    delete _p;
 }
 
 const QDir & djvFileBrowserTestModel::dir() const
 {
-    return _dir;
+    return _p->dir;
 }
 
 QString djvFileBrowserTestModel::path() const
 {
-    return _dir.absolutePath();
+    return _p->dir.absolutePath();
 }
 
 djvSequence::COMPRESS djvFileBrowserTestModel::sequence() const
 {
-    return _sequence;
+    return _p->sequence;
 }
 
 const QString & djvFileBrowserTestModel::filterText() const
 {
-    return _filterText;
+    return _p->filterText;
 }
 
 bool djvFileBrowserTestModel::hasShowHidden() const
 {
-    return _showHidden;
+    return _p->showHidden;
 }
 
 djvFileBrowserTestUtil::COLUMNS djvFileBrowserTestModel::sort() const
 {
-    return _sort;
+    return _p->sort;
 }
 
 bool djvFileBrowserTestModel::hasReverseSort() const
 {
-    return _reverseSort;
+    return _p->reverseSort;
 }
 
 bool djvFileBrowserTestModel::hasSortDirsFirst() const
 {
-    return _sortDirsFirst;
+    return _p->sortDirsFirst;
 }
 
 djvFileBrowserTestUtil::THUMBNAILS djvFileBrowserTestModel::thumbnails() const
 {
-    return _thumbnails;
+    return _p->thumbnails;
 }
 
 djvFileBrowserTestUtil::THUMBNAIL_SIZE djvFileBrowserTestModel::thumbnailSize() const
 {
-    return _thumbnailSize;
+    return _p->thumbnailSize;
 }
 
 int djvFileBrowserTestModel::columnCount(const QModelIndex & parent) const
@@ -229,7 +326,7 @@ QVariant djvFileBrowserTestModel::data(const QModelIndex & index, int role) cons
     const int row    = index.row();
     const int column = index.column();
 
-    if (row    < 0 || row    >= _items.count() ||
+    if (row    < 0 || row    >= _p->items.count() ||
         column < 0 || column >= 1)
         return QVariant();
 
@@ -240,12 +337,12 @@ QVariant djvFileBrowserTestModel::data(const QModelIndex & index, int role) cons
     djvFileBrowserTestModel * that =
         const_cast<djvFileBrowserTestModel *>(this);
 
-    djvFileBrowserTestModelItem & item = that->_items[row];
+    djvFileBrowserTestModelItem & item = that->_p->items[row];
 
     static const QVector<QPixmap> pixmaps = QVector<QPixmap>() <<
-        _context->iconLibrary()->pixmap("djvFileIcon.png") <<
-        _context->iconLibrary()->pixmap("djvSeqIcon.png") <<
-        _context->iconLibrary()->pixmap("djvDirIcon.png");
+        _p->context->iconLibrary()->pixmap("djvFileIcon.png") <<
+        _p->context->iconLibrary()->pixmap("djvSeqIcon.png") <<
+        _p->context->iconLibrary()->pixmap("djvDirIcon.png");
 
     switch (role)
     {
@@ -255,20 +352,21 @@ QVariant djvFileBrowserTestModel::data(const QModelIndex & index, int role) cons
             {
                 case djvFileBrowserTestUtil::NAME:
 
-                    if (_thumbnails != djvFileBrowserTestUtil::THUMBNAILS_OFF)
+                    if (_p->thumbnails != djvFileBrowserTestUtil::THUMBNAILS_OFF)
                     {
                         if (! item.infoInit)
                         {
                             item.infoInit = true;
 
-                            Q_EMIT that->nextThumbnailRequester()->info(
-                                thumbnailRequest(item.fileInfo, row));
+                            Q_EMIT that->nextInfoRequester()->request(
+                                infoRequest(item.fileInfo, row));
                         }
-                        else if (! item.thumbnailInit)
+                        
+                        if (! item.thumbnailInit)
                         {
                             item.thumbnailInit = true;
 
-                            Q_EMIT that->nextThumbnailRequester()->thumbnail(
+                            Q_EMIT that->nextThumbnailRequester()->request(
                                 thumbnailRequest(item.fileInfo, row));
                         }
                         
@@ -293,8 +391,8 @@ QVariant djvFileBrowserTestModel::data(const QModelIndex & index, int role) cons
             {
                 return item.thumbnailSize;
             }
-        
-            return _sizeHint;
+
+            return _p->sizeHint;
 
         default: break;
     }
@@ -328,7 +426,7 @@ QModelIndex	djvFileBrowserTestModel::index(
     if (! hasIndex(row, column, parent))
         return QModelIndex();
 
-    return createIndex(row, column, (void *)&_items[row]);
+    return createIndex(row, column, (void *)&_p->items[row]);
 }
 
 QModelIndex	djvFileBrowserTestModel::parent(const QModelIndex &) const
@@ -338,31 +436,31 @@ QModelIndex	djvFileBrowserTestModel::parent(const QModelIndex &) const
 
 int djvFileBrowserTestModel::rowCount(const QModelIndex & parent) const
 {
-    return parent.isValid() ? 0 : _items.count();
+    return parent.isValid() ? 0 : _p->items.count();
 }
 
 void djvFileBrowserTestModel::setDir(const QDir & dir)
 {
-    if (dir == _dir)
+    if (dir == _p->dir)
         return;
     
     //DJV_DEBUG("djvFileBrowserTestModel::setDir");
     //DJV_DEBUG_PRINT("dir = " << dir.absolutePath());
     
-    _dirPrev = _dir;
+    _p->dirPrev = _p->dir;
     
-    _dir = dir;
+    _p->dir = dir;
     
     nextId();
 
     beginResetModel();
     
-    _items.clear();
+    _p->items.clear();
     
     endResetModel();
 
-    Q_EMIT dirChanged(_dir);
-    Q_EMIT pathChanged(_dir.absolutePath());
+    Q_EMIT dirChanged(_p->dir);
+    Q_EMIT pathChanged(_p->dir.absolutePath());
     Q_EMIT requestDir(dirRequest());
 }
 
@@ -373,13 +471,13 @@ void djvFileBrowserTestModel::setPath(const QString & path)
 
 void djvFileBrowserTestModel::setSequence(djvSequence::COMPRESS sequence)
 {
-    if (sequence == _sequence)
+    if (sequence == _p->sequence)
         return;
 
     //DJV_DEBUG("djvFileBrowserTestModel::setSequence");
     //DJV_DEBUG_PRINT("sequence = " << sequence);
     
-    _sequence = sequence;
+    _p->sequence = sequence;
     
     nextId();
 
@@ -388,7 +486,7 @@ void djvFileBrowserTestModel::setSequence(djvSequence::COMPRESS sequence)
 
 void djvFileBrowserTestModel::up()
 {
-    QDir tmp(_dir);
+    QDir tmp(_p->dir);
     
     if (tmp.cdUp())
     {
@@ -398,7 +496,7 @@ void djvFileBrowserTestModel::up()
 
 void djvFileBrowserTestModel::back()
 {
-    const QDir tmp(_dirPrev);
+    const QDir tmp(_p->dirPrev);
     
     setDir(tmp);
 }
@@ -407,96 +505,134 @@ void djvFileBrowserTestModel::reload()
 {
     nextId();
 
-    Q_EMIT requestDir(dirRequest());
+    djvFileBrowserTestDirRequest request = dirRequest();
+    request.reload = true;
+
+    Q_EMIT requestDir(request);
 }
 
 void djvFileBrowserTestModel::setFilterText(const QString & text)
 {
-    if (text == _filterText)
+    if (text == _p->filterText)
         return;
 
-    _filterText = text;
+    _p->filterText = text;
 
-    reload();
-    
-    Q_EMIT filterTextChanged(_filterText);
+    nextId();
+
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT filterTextChanged(_p->filterText);
 }
 
 void djvFileBrowserTestModel::setShowHidden(bool show)
 {
-    if (show == _showHidden)
+    if (show == _p->showHidden)
         return;
 
-    _showHidden = show;
+    _p->showHidden = show;
     
-    reload();
+    nextId();
 
-    Q_EMIT showHiddenChanged(_showHidden);
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT showHiddenChanged(_p->showHidden);
 }
 
 void djvFileBrowserTestModel::setSort(djvFileBrowserTestUtil::COLUMNS sort)
 {
-    if (sort == _sort)
+    if (sort == _p->sort)
         return;
 
-    _sort = sort;
+    _p->sort = sort;
 
-    reload();
+    nextId();
 
-    Q_EMIT sortChanged(_sort);
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT sortChanged(_p->sort);
 }
 
 void djvFileBrowserTestModel::setReverseSort(bool value)
 {
-    if (value == _reverseSort)
+    if (value == _p->reverseSort)
         return;
 
-    _reverseSort = value;
+    _p->reverseSort = value;
 
-    reload();
+    nextId();
 
-    Q_EMIT reverseSortChanged(_reverseSort);
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT reverseSortChanged(_p->reverseSort);
 }
 
 void djvFileBrowserTestModel::setSortDirsFirst(bool sort)
 {
-    if (sort == _sortDirsFirst)
+    if (sort == _p->sortDirsFirst)
         return;
 
-    _sortDirsFirst = sort;
+    _p->sortDirsFirst = sort;
 
-    reload();
+    nextId();
 
-    Q_EMIT sortDirsFirstChanged(_sortDirsFirst);
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT sortDirsFirstChanged(_p->sortDirsFirst);
 }
 
 void djvFileBrowserTestModel::setThumbnails(djvFileBrowserTestUtil::THUMBNAILS thumbnails)
 {
-    if (thumbnails == _thumbnails)
+    if (thumbnails == _p->thumbnails)
         return;
 
-    _thumbnails = thumbnails;
+    _p->thumbnails = thumbnails;
 
-    reload();
+    nextId();
 
-    Q_EMIT thumbnailsChanged(_thumbnails);
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT thumbnailsChanged(_p->thumbnails);
 }
 
 void djvFileBrowserTestModel::setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE size)
 {
-    if (size == _thumbnailSize)
+    if (size == _p->thumbnailSize)
         return;
 
-    _thumbnailSize = size;
+    _p->thumbnailSize = size;
 
-    reload();
+    nextId();
 
-    Q_EMIT thumbnailSizeChanged(_thumbnailSize);
+    Q_EMIT requestDir(dirRequest());
+    Q_EMIT thumbnailSizeChanged(_p->thumbnailSize);
+}
+
+void djvFileBrowserTestModel::timerEvent(QTimerEvent * event)
+{
+    /*DJV_DEBUG("djvFileBrowserTestModel::timerEvent");
+    DJV_DEBUG_PRINT("items = " << _p->items.count());
+    
+    int infoInit          = 0;
+    int infoComplete      = 0;
+    int thumbnailInit     = 0;
+    int thumbnailComplete = 0;
+    
+    for (int i = 0; i < _p->items.count(); ++i)
+    {
+        if (_p->items[i].infoInit)
+            ++infoInit;
+        if (_p->items[i].infoComplete)
+            ++infoComplete;
+        if (_p->items[i].thumbnailInit)
+            ++thumbnailInit;
+        if (_p->items[i].thumbnailComplete)
+            ++thumbnailComplete;
+    }
+    
+    DJV_DEBUG_PRINT("infoInit          = " << infoInit);
+    DJV_DEBUG_PRINT("infoComplete      = " << infoComplete);
+    DJV_DEBUG_PRINT("thumbnailInit     = " << thumbnailInit);
+    DJV_DEBUG_PRINT("thumbnailComplete = " << thumbnailComplete);*/
 }
 
 void djvFileBrowserTestModel::dirCallback(const djvFileBrowserTestDirResult & result)
 {
-    if (result.id != _id)
+    if (result.id != _p->id)
         return;
 
     //DJV_DEBUG("djvFileBrowserTestModel::dirCallback");
@@ -505,25 +641,61 @@ void djvFileBrowserTestModel::dirCallback(const djvFileBrowserTestDirResult & re
     
     beginResetModel();
     
-    _items.resize(result.list.count());
+    _p->items.clear();
     
     for (int i = 0; i < result.list.count(); ++i)
     {
-        djvFileBrowserTestModelItem & item = _items[i];
+        const djvFileInfo & fileInfo = result.list[i];
         
-        item.fileInfo = result.list[i];
-        item.text     = result.list[i].name();
+        djvFileBrowserTestModelItem item;
+        item.fileInfo = fileInfo;
+        item.text     = fileInfo.name();
+        
+        _p->items.append(item);
     }
 
     endResetModel();    
     
     Q_EMIT requestDirComplete();
 }
+    
+void djvFileBrowserTestModel::infoCallback(
+    const djvFileBrowserTestInfoResult & result)
+{
+    if (result.id != _p->id || result.pixmap.isNull())
+        return;
+
+    //DJV_DEBUG("djvFileBrowserTestModel::infoCallback");
+    //DJV_DEBUG_PRINT("info = " << result.info);
+    //DJV_DEBUG_PRINT("row = " << result.row);
+    //DJV_DEBUG_PRINT("id = " << result.id);
+
+    _p->items[result.row].text = formatText(
+        _p->items[result.row].fileInfo,
+        result.info);
+    
+    _p->items[result.row].infoComplete = true;
+        
+    if (_p->items[result.row].thumbnail.isNull())
+    {
+        _p->items[result.row].thumbnail     = result.pixmap;
+        _p->items[result.row].thumbnailSize = result.pixmap.size();
+    }
+    
+    Q_EMIT dataChanged(
+        index(result.row, 0),
+        index(result.row, 0),
+        QVector<int>() <<
+            Qt::DecorationRole <<
+            Qt::DisplayRole <<
+            Qt::SizeHintRole <<
+            Qt::EditRole);
+}
 
 void djvFileBrowserTestModel::thumbnailCallback(
     const djvFileBrowserTestThumbnailResult & result)
 {
-    if (result.id != _id || result.pixmap.isNull())
+    if (result.id != _p->id || result.pixmap.isNull())
         return;
 
     //DJV_DEBUG("djvFileBrowserTestModel::thumbnailCallback");
@@ -531,19 +703,14 @@ void djvFileBrowserTestModel::thumbnailCallback(
     //DJV_DEBUG_PRINT("row = " << result.row);
     //DJV_DEBUG_PRINT("id = " << result.id);
 
-    _items[result.row].text = QString("%1\n%2x%3:%4 %5\n%6@%7").
-        arg(_items[result.row].fileInfo.name()).
-        arg(result.info.size.x).
-        arg(result.info.size.y).
-        arg(djvVectorUtil::aspect(result.info.size), 0, 'f', 2).
-        arg(djvStringUtil::label(result.info.pixel).join(", ")).
-        arg(djvTime::frameToString(
-            result.info.sequence.frames.count(),
-            result.info.sequence.speed)).
-        arg(djvSpeed::speedToFloat(result.info.sequence.speed));
+    _p->items[result.row].text = formatText(
+        _p->items[result.row].fileInfo,
+        result.info);
 
-    _items[result.row].thumbnail     = result.pixmap;
-    _items[result.row].thumbnailSize = result.pixmap.size();
+    _p->items[result.row].thumbnailComplete = true;    
+
+    _p->items[result.row].thumbnail     = result.pixmap;
+    _p->items[result.row].thumbnailSize = result.pixmap.size();
     
     Q_EMIT dataChanged(
         index(result.row, 0),
@@ -557,19 +724,26 @@ void djvFileBrowserTestModel::thumbnailCallback(
 
 void djvFileBrowserTestModel::nextId()
 {
-    ++_id;
+    ++_p->id;
 
     {
-        QMutexLocker locker(_dirWorker->mutex());
+        QMutexLocker locker(_p->dirWorker->mutex());
         
-        _dirWorker->setId(_id);
+        _p->dirWorker->setId(_p->id);
     }
     
-    for (int i = 0; i < _thumbnailWorkers.count(); ++i)
+    for (int i = 0; i < _p->infoWorkers.count(); ++i)
     {
-        QMutexLocker locker(_thumbnailWorkers[i]->mutex());
+        QMutexLocker locker(_p->infoWorkers[i]->mutex());
         
-        _thumbnailWorkers[i]->setId(_id);
+        _p->infoWorkers[i]->setId(_p->id);
+    }
+
+    for (int i = 0; i < _p->thumbnailWorkers.count(); ++i)
+    {
+        QMutexLocker locker(_p->thumbnailWorkers[i]->mutex());
+        
+        _p->thumbnailWorkers[i]->setId(_p->id);
     }
 }
 
@@ -577,16 +751,47 @@ djvFileBrowserTestDirRequest djvFileBrowserTestModel::dirRequest() const
 {
     djvFileBrowserTestDirRequest r;
     
-    r.path          = _dir.absolutePath();
-    r.sequence      = _sequence;
-    r.filterText    = _filterText;
-    r.showHidden    = _showHidden;
-    r.sort          = _sort;
-    r.reverseSort   = _reverseSort;
-    r.sortDirsFirst = _sortDirsFirst;
-    r.id            = _id;
+    r.path          = _p->dir.absolutePath();
+    r.sequence      = _p->sequence;
+    r.filterText    = _p->filterText;
+    r.showHidden    = _p->showHidden;
+    r.sort          = _p->sort;
+    r.reverseSort   = _p->reverseSort;
+    r.sortDirsFirst = _p->sortDirsFirst;
+    r.id            = _p->id;
     
     return r;
+}
+
+djvFileBrowserTestInfoRequest djvFileBrowserTestModel::infoRequest(
+    const djvFileInfo & fileInfo,
+    int                 row) const
+{
+    djvFileBrowserTestInfoRequest r;
+    
+    r.fileInfo      = fileInfo;
+    r.thumbnails    = _p->thumbnails;
+    r.thumbnailSize = _p->thumbnailSize;
+    r.row           = row;
+    r.id            = _p->id;
+    
+    return r;
+}
+
+djvFileBrowserTestInfoRequester *
+djvFileBrowserTestModel::nextInfoRequester()
+{
+    djvFileBrowserTestInfoRequester * requester =
+        _p->infoRequesters[_p->infoThreadIndex];
+
+    ++_p->infoThreadIndex;
+    
+    if (_p->infoThreadIndex >= _p->infoRequesters.count())
+    {
+        _p->infoThreadIndex = 0;
+    }
+    
+    return requester;
 }
 
 djvFileBrowserTestThumbnailRequest djvFileBrowserTestModel::thumbnailRequest(
@@ -596,10 +801,10 @@ djvFileBrowserTestThumbnailRequest djvFileBrowserTestModel::thumbnailRequest(
     djvFileBrowserTestThumbnailRequest r;
     
     r.fileInfo      = fileInfo;
-    r.thumbnails    = _thumbnails;
-    r.thumbnailSize = _thumbnailSize;
+    r.thumbnails    = _p->thumbnails;
+    r.thumbnailSize = _p->thumbnailSize;
     r.row           = row;
-    r.id            = _id;
+    r.id            = _p->id;
     
     return r;
 }
@@ -608,15 +813,31 @@ djvFileBrowserTestThumbnailRequester *
 djvFileBrowserTestModel::nextThumbnailRequester()
 {
     djvFileBrowserTestThumbnailRequester * requester =
-        _thumbnailRequesters[_thumbnailThreadIndex];
+        _p->thumbnailRequesters[_p->thumbnailThreadIndex];
 
-    ++_thumbnailThreadIndex;
+    ++_p->thumbnailThreadIndex;
     
-    if (_thumbnailThreadIndex >= _thumbnailRequesters.count())
+    if (_p->thumbnailThreadIndex >= _p->thumbnailRequesters.count())
     {
-        _thumbnailThreadIndex = 0;
+        _p->thumbnailThreadIndex = 0;
     }
     
     return requester;
+}
+
+QString djvFileBrowserTestModel::formatText(
+    const djvFileInfo &    fileInfo,
+    const djvImageIoInfo & info)
+{
+    return QString("%1\n%2x%3:%4 %5\n%6@%7").
+        arg(fileInfo.name()).
+        arg(info.size.x).
+        arg(info.size.y).
+        arg(djvVectorUtil::aspect(info.size), 0, 'f', 2).
+        arg(djvStringUtil::label(info.pixel).join(", ")).
+        arg(djvTime::frameToString(
+            info.sequence.frames.count(),
+            info.sequence.speed)).
+        arg(djvSpeed::speedToFloat(info.sequence.speed));
 }
 
