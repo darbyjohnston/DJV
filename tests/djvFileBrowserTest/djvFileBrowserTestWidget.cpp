@@ -33,20 +33,23 @@
 
 #include <djvFileBrowserTestWidget.h>
 
+#include <djvFileBrowserTestActions.h>
+#include <djvFileBrowserTestControls.h>
 #include <djvFileBrowserTestModel.h>
-#include <djvFileBrowserTestIconDelegate.h>
+#include <djvFileBrowserTestView.h>
 
-#include <djvSpinner.h>
+#include <djvSearchBox.h>
 
 #include <QAction>
+#include <QApplication>
 #include <QComboBox>
+#include <QDockWidget>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QListView>
-#include <QStackedWidget>
+#include <QSlider>
+#include <QToolBar>
 #include <QToolButton>
-#include <QTreeView>
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
@@ -61,35 +64,46 @@ struct djvFileBrowserTestWidgetPrivate
         upAction           (0),
         backAction         (0),
         reloadAction       (0),
-        sequenceWidget     (0),
-        thumbnailsWidget   (0),
-        thumbnailSizeWidget(0),
+        sequenceActionGroup(0),
+        viewActionGroup    (0),
+        leftDockAction     (0),
+        rightDockAction    (0),
+        thumbnailSlider    (0),
+        searchBox          (0),
         viewWidget         (0),
-        filterWidget       (0),
-        spinner            (0),
         pathWidget         (0),
-        treeView           (0),
-        listView           (0),
-        delegate           (0),
-        stackedWidget      (0)
+        dirToolBar         (0),
+        sequenceToolBar    (0),
+        viewToolBar        (0),
+        searchToolBar      (0),
+        fileToolBar        (0),
+        leftDockWidget     (0),
+        rightDockWidget    (0)
     {}
     
     djvGuiContext *                         context;
     QScopedPointer<djvFileBrowserTestModel> model;
+    
     QAction *                               upAction;
     QAction *                               backAction;
     QAction *                               reloadAction;
-    QComboBox *                             sequenceWidget;
-    QComboBox *                             thumbnailsWidget;
-    QComboBox *                             thumbnailSizeWidget;
-    QComboBox *                             viewWidget;
-    QLineEdit *                             filterWidget;
-    djvSpinner *                            spinner;
+    QActionGroup *                          sequenceActionGroup;
+    QActionGroup *                          viewActionGroup;
+    QAction *                               leftDockAction;
+    QAction *                               rightDockAction;
+    
+    QSlider *                               thumbnailSlider;
+    djvSearchBox *                          searchBox;
+    djvFileBrowserTestView *                viewWidget;
     QLineEdit *                             pathWidget;
-    QTreeView *                             treeView;
-    QListView *                             listView;
-    djvFileBrowserTestIconDelegate *        delegate;
-    QStackedWidget *                        stackedWidget;
+    
+    QToolBar *                              dirToolBar;
+    QToolBar *                              sequenceToolBar;
+    QToolBar *                              viewToolBar;
+    QToolBar *                              searchToolBar;
+    QToolBar *                              fileToolBar;
+    QDockWidget *                           leftDockWidget;
+    QDockWidget *                           rightDockWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -98,108 +112,86 @@ struct djvFileBrowserTestWidgetPrivate
 
 djvFileBrowserTestWidget::djvFileBrowserTestWidget(
     djvGuiContext * context,
-    const QString & path,
     QWidget *       parent) :
-    QWidget(parent),
+    QMainWindow(parent),
     _p(new djvFileBrowserTestWidgetPrivate(context))
 {
-    _p->upAction = new QAction(this);
-    _p->upAction->setText("Up");
+    // Create the actions.
     
-    _p->backAction = new QAction(this);
-    _p->backAction->setText("Back");
+    _p->upAction = djvFileBrowserTestActions::upAction(this);
+    _p->backAction = djvFileBrowserTestActions::backAction(this);
+    _p->reloadAction = djvFileBrowserTestActions::reloadAction(this);    
+    _p->sequenceActionGroup = djvFileBrowserTestActions::sequenceActionGroup(this);
+    _p->viewActionGroup = djvFileBrowserTestActions::viewActionGroup(this);
+    _p->leftDockAction = djvFileBrowserTestActions::leftDockAction(this);
+    _p->rightDockAction = djvFileBrowserTestActions::rightDockAction(this);
     
-    _p->reloadAction = new QAction(this);
-    _p->reloadAction->setText("Reload");
+    // Create the widgets.
     
-    QToolButton * upButton = new QToolButton;
-    upButton->setAutoRaise(true);
-    upButton->setDefaultAction(_p->upAction);
+    _p->thumbnailSlider = new QSlider;
+    _p->thumbnailSlider->setOrientation(Qt::Horizontal);
+    _p->thumbnailSlider->setRange(100, 300);
+    _p->thumbnailSlider->setToolTip(
+        qApp->translate("djvFileBrowserTestWidget", "Set the thumbnail size"));
     
-    QToolButton * backButton = new QToolButton;
-    backButton->setAutoRaise(true);
-    backButton->setDefaultAction(_p->backAction);
+    _p->searchBox = new djvSearchBox(context);
     
-    QToolButton * reloadButton = new QToolButton;
-    reloadButton->setAutoRaise(true);
-    reloadButton->setDefaultAction(_p->reloadAction);
-    
-    _p->sequenceWidget = new QComboBox;
-    _p->sequenceWidget->addItems(djvSequence::compressLabels());
-    
-    _p->thumbnailsWidget = new QComboBox;
-    _p->thumbnailsWidget->addItems(djvFileBrowserTestUtil::thumbnailsLabels());
-    
-    _p->thumbnailSizeWidget = new QComboBox;
-    _p->thumbnailSizeWidget->addItems(djvFileBrowserTestUtil::thumbnailSizeLabels());
-    
-    _p->viewWidget = new QComboBox;
-    _p->viewWidget->addItems(djvFileBrowserTestUtil::viewLabels());
-    
-    _p->filterWidget = new QLineEdit;
-    
-    _p->spinner = new djvSpinner(context);
+    _p->viewWidget = new djvFileBrowserTestView(_p->model.data(), context);
     
     _p->pathWidget = new QLineEdit;
     
-    _p->treeView = new QTreeView;
-    _p->treeView->setRootIsDecorated(false);
-    _p->treeView->setItemsExpandable(false);
-    _p->treeView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-    _p->treeView->setAlternatingRowColors(true);
+    // Create the tool bars.
     
-    _p->listView = new QListView;
-    _p->listView->setViewMode(QListView::IconMode);
-    _p->listView->setResizeMode(QListView::Adjust);
-    _p->listView->setSpacing(2);
-    _p->listView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    _p->dirToolBar = djvFileBrowserTestControls::toolBar();
+    _p->dirToolBar->addAction(_p->upAction);
+    _p->dirToolBar->addAction(_p->backAction);
+    _p->dirToolBar->addAction(_p->reloadAction);
+    addToolBar(Qt::TopToolBarArea, _p->dirToolBar);
     
-    _p->delegate = new djvFileBrowserTestIconDelegate(context, this);
+    _p->sequenceToolBar = djvFileBrowserTestControls::toolBar();
+    Q_FOREACH(QAction * action, _p->sequenceActionGroup->actions())
+        _p->sequenceToolBar->addAction(action);
+    addToolBar(Qt::TopToolBarArea, _p->sequenceToolBar);
 
-    _p->stackedWidget = new QStackedWidget;
-    _p->stackedWidget->addWidget(_p->treeView);
-    _p->stackedWidget->addWidget(_p->listView);
-    
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->setMargin(5);
-    hLayout->setSpacing(5);
-    
-    QHBoxLayout * hLayout2 = new QHBoxLayout;
-    hLayout2->setMargin(0);
-    hLayout2->setSpacing(0);
-    hLayout2->addWidget(upButton);
-    hLayout2->addWidget(backButton);
-    hLayout2->addWidget(reloadButton);
-    hLayout->addLayout(hLayout2);
-    
-    hLayout->addWidget(_p->sequenceWidget);
-    hLayout->addWidget(_p->thumbnailsWidget);
-    hLayout->addWidget(_p->thumbnailSizeWidget);
-    hLayout->addWidget(_p->viewWidget);
-    hLayout->addStretch();
-    hLayout->addWidget(_p->filterWidget);
-    hLayout->addWidget(_p->spinner);
-    layout->addLayout(hLayout);
-    
-    layout->addWidget(_p->stackedWidget);
+    _p->viewToolBar = djvFileBrowserTestControls::toolBar();
+    Q_FOREACH(QAction * action, _p->viewActionGroup->actions())
+        _p->viewToolBar->addAction(action);
+    _p->viewToolBar->addWidget(_p->thumbnailSlider);
+    _p->viewToolBar->addAction(_p->leftDockAction);
+    _p->viewToolBar->addAction(_p->rightDockAction);
+    addToolBar(Qt::TopToolBarArea, _p->viewToolBar);
+     
+    _p->searchToolBar = djvFileBrowserTestControls::toolBar();
+    _p->searchToolBar->addWidget(_p->searchBox);
+    addToolBar(Qt::TopToolBarArea, _p->searchToolBar);
 
-    hLayout = new QHBoxLayout;
-    hLayout->setMargin(5);
-    hLayout->addWidget(_p->pathWidget);
-    layout->addLayout(hLayout);
+    _p->fileToolBar = djvFileBrowserTestControls::toolBar();
+    _p->fileToolBar->addWidget(_p->pathWidget);
+    addToolBar(Qt::BottomToolBarArea, _p->fileToolBar);
     
-    _p->sequenceWidget->setCurrentIndex(_p->model->sequence());
-    _p->thumbnailsWidget->setCurrentIndex(_p->model->thumbnails());
-    _p->thumbnailSizeWidget->setCurrentIndex(_p->model->thumbnailSize());
+    // Create the docks.
     
-    _p->treeView->setModel(_p->model.data());
-    _p->delegate->setThumbnailSize(_p->model->thumbnailSize());
-    _p->listView->setItemDelegate(_p->delegate);
-    _p->listView->setModel(_p->model.data());
+    _p->leftDockWidget = djvFileBrowserTestControls::dockWidget();
+    _p->leftDockWidget->hide();
+    addDockWidget(Qt::LeftDockWidgetArea, _p->leftDockWidget);
+    
+    _p->rightDockWidget = djvFileBrowserTestControls::dockWidget();
+    _p->rightDockWidget->hide();
+    addDockWidget(Qt::RightDockWidgetArea, _p->rightDockWidget);
+    
+    // Layout the widgets.
+    
+    setCentralWidget(_p->viewWidget);
+        
+    // Initialize.
+    
+    _p->sequenceActionGroup->actions()[_p->model->sequence()]->setChecked(true);
+
+    _p->viewActionGroup->actions()[_p->viewWidget->mode()]->setChecked(true);
+
+    _p->thumbnailSlider->setValue(_p->model->thumbnailSize());
+    
+    // Setup callbacks.
     
     _p->model->connect(
         _p->upAction,
@@ -217,79 +209,86 @@ djvFileBrowserTestWidget::djvFileBrowserTestWidget(
         SLOT(reload()));
     
     _p->model->connect(
-        _p->filterWidget,
+        _p->thumbnailSlider,
+        SIGNAL(valueChanged(int)),
+        SLOT(setThumbnailSize(int)));
+
+    _p->model->connect(
+        _p->searchBox,
         SIGNAL(textChanged(const QString &)),
         SLOT(setFilterText(const QString &)));
-
-    _p->spinner->connect(
-        _p->model.data(),
-        SIGNAL(requestDir(const djvFileBrowserTestDirRequest &)),
-        SLOT(start()));
-    
-    _p->spinner->connect(
-        _p->model.data(),
-        SIGNAL(requestDirComplete()),
-        SLOT(stop()));
     
     _p->pathWidget->connect(
         _p->model.data(),
         SIGNAL(pathChanged(const QString &)),
         SLOT(setText(const QString &)));
 
-    connect(
-        _p->sequenceWidget,
-        SIGNAL(activated(int)),
-        SLOT(sequenceCallback(int)));
+    _p->leftDockWidget->connect(
+        _p->leftDockAction,
+        SIGNAL(toggled(bool)),
+        SLOT(setVisible(bool)));
+
+    _p->rightDockWidget->connect(
+        _p->rightDockAction,
+        SIGNAL(toggled(bool)),
+        SLOT(setVisible(bool)));
 
     connect(
-        _p->thumbnailsWidget,
-        SIGNAL(activated(int)),
-        SLOT(thumbnailsCallback(int)));
-
-    connect(
-        _p->thumbnailSizeWidget,
-        SIGNAL(activated(int)),
-        SLOT(thumbnailSizeCallback(int)));
-
-    connect(
-        _p->viewWidget,
-        SIGNAL(activated(int)),
-        SLOT(viewCallback(int)));
-
-    _p->delegate->connect(
         _p->model.data(),
-        SIGNAL(thumbnailSizeChanged(djvFileBrowserTestUtil::THUMBNAIL_SIZE)),
-        SLOT(setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE)));
+        SIGNAL(dirChanged(const QDir &)),
+        SIGNAL(dirChanged(const QDir &)));
 
-    _p->model->setPath(path);
+    connect(
+        _p->model.data(),
+        SIGNAL(pathChanged(const QString &)),
+        SIGNAL(pathChanged(const QString &)));
+
+    connect(
+        _p->sequenceActionGroup,
+        SIGNAL(triggered(QAction *)),
+        SLOT(sequenceCallback(QAction *)));
+
+    connect(
+        _p->viewActionGroup,
+        SIGNAL(triggered(QAction *)),
+        SLOT(viewModeCallback(QAction *)));
 }
 
 djvFileBrowserTestWidget::~djvFileBrowserTestWidget()
 {
-    _p->treeView->setModel(0);
-    _p->listView->setModel(0);
-    
     delete _p;
 }
-
-void djvFileBrowserTestWidget::sequenceCallback(int index)
+    
+const QDir & djvFileBrowserTestWidget::dir() const
 {
-    _p->model->setSequence(static_cast<djvSequence::COMPRESS>(index));
+    return _p->model->dir();
 }
 
-void djvFileBrowserTestWidget::thumbnailsCallback(int index)
+QString djvFileBrowserTestWidget::path() const
 {
-    _p->model->setThumbnails(static_cast<djvFileBrowserTestUtil::THUMBNAILS>(index));
+    return _p->model->path();
 }
 
-void djvFileBrowserTestWidget::thumbnailSizeCallback(int index)
+void djvFileBrowserTestWidget::setDir(const QDir & dir)
 {
-    _p->model->setThumbnailSize(static_cast<djvFileBrowserTestUtil::THUMBNAIL_SIZE>(index));
+    _p->model->setDir(dir);
 }
 
-void djvFileBrowserTestWidget::viewCallback(int index)
+void djvFileBrowserTestWidget::setPath(const QString & path)
 {
-    _p->stackedWidget->setCurrentIndex(index);
+    _p->model->setPath(path);
+}
+
+void djvFileBrowserTestWidget::sequenceCallback(QAction * action)
+{
+    _p->model->setSequence(static_cast<djvSequence::COMPRESS>(
+        _p->sequenceActionGroup->actions().indexOf(action)));
+}
+
+void djvFileBrowserTestWidget::viewModeCallback(QAction * action)
+{
+    _p->viewWidget->setMode(static_cast<djvFileBrowserTestView::MODE>(
+        _p->viewActionGroup->actions().indexOf(action)));
 }
 
 

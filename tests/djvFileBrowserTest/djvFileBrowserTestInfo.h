@@ -29,10 +29,10 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestThumbnailWorker.h
+//! \file djvFileBrowserTestInfo.h
 
-#ifndef DJV_FILE_BROWSER_TEST_THUMBNAIL_WORKER_H
-#define DJV_FILE_BROWSER_TEST_THUMBNAIL_WORKER_H
+#ifndef DJV_FILE_BROWSER_TEST_INFO_H
+#define DJV_FILE_BROWSER_TEST_INFO_H
 
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
@@ -43,37 +43,34 @@
 #include <QObject>
 #include <QPixmap>
 
-struct djvFileBrowserTestThumbnailWorkerPrivate;
-
 class djvImageContext;
 
 //------------------------------------------------------------------------------
-//! \struct djvFileBrowserTestThumbnailRequest
+//! \struct djvFileBrowserTestInfoRequest
 //!
-//! This struct is used to request data from
-//! djvFileBrowserTestThumbnailRequester.
+//! This struct is used to request data from djvFileBrowserTestInfoRequester.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestThumbnailRequest
+struct djvFileBrowserTestInfoRequest
 {
     //! Constructor.
     
-    djvFileBrowserTestThumbnailRequest();
+    djvFileBrowserTestInfoRequest();
     
-    djvFileInfo                            fileInfo;      //!< File information.
-    djvFileBrowserTestUtil::THUMBNAILS     thumbnails;    //!< Thumbnails mode.
-    djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize; //!< Thumbnail size.
-    int                                    row;           //!< Model row.
-    quint64                                id;            //!< Request ID.
+    djvFileInfo                        fileInfo;      //!< File information.
+    djvFileBrowserTestUtil::THUMBNAILS thumbnails;    //!< Thumbnails mode.
+    int                                thumbnailSize; //!< Thumbnail size.
+    int                                row;           //!< Model row.
+    quint64                            id;            //!< Request ID.
 };
 
 //------------------------------------------------------------------------------
-//! \class djvFileBrowserTestThumbnailRequester
+//! \class djvFileBrowserTestInfoRequester
 //!
-//! This class is used to request an image thumbnail.
+//! This class is used to request image information.
 //------------------------------------------------------------------------------
 
-class djvFileBrowserTestThumbnailRequester : public QObject
+class djvFileBrowserTestInfoRequester : public QObject
 {
     Q_OBJECT
     
@@ -81,41 +78,40 @@ public:
 
     //! Constructor.
     
-    explicit djvFileBrowserTestThumbnailRequester(QObject * parent = 0);
+    explicit djvFileBrowserTestInfoRequester(QObject * parent = 0);
     
 Q_SIGNALS:
 
-    //! Request an image thumbnail.
+    //! Request image information.
     
-    void request(const djvFileBrowserTestThumbnailRequest &);
+    void request(const djvFileBrowserTestInfoRequest &);
 };
 
 //------------------------------------------------------------------------------
-//! \struct djvFileBrowserTestThumbnailResult
+//! \struct djvFileBrowserTestInfoResult
 //!
-//! This struct is used to return data from djvFileBrowserTestThumbnailWorker.
+//! This struct is used to return data from djvFileBrowserTestInfoWorker.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestThumbnailResult
+struct djvFileBrowserTestInfoResult
 {
     //! Constructor.
     
-    djvFileBrowserTestThumbnailResult();
+    djvFileBrowserTestInfoResult();
     
-    djvImageIoInfo info;        //!< Image I/O information.
-    QPixmap        pixmap;      //!< Thumbnail.
-    bool           pixmapEmpty; //!< Whether the thumbnail is empty.
-    int            row;         //!< Model row.
-    quint64        id;          //!< Request ID.
+    djvImageIoInfo info;   //!< Image I/O information.
+    QPixmap        pixmap; //!< Thumbnail.
+    int            row;    //!< Model row.
+    quint64        id;     //!< Request ID.
 };
-        
+
 //------------------------------------------------------------------------------
-//! \class djvFileBrowserTestThumbnailWorker
+//! \class djvFileBrowserTestInfoWorker
 //!
-//! This class provides image thumbnails.
+//! This class provides an image information worker.
 //------------------------------------------------------------------------------
 
-class djvFileBrowserTestThumbnailWorker : public djvFileBrowserTestAbstractWorker
+class djvFileBrowserTestInfoWorker : public djvFileBrowserTestAbstractWorker
 {
     Q_OBJECT
     
@@ -123,36 +119,77 @@ public:
 
     //! Constructor.
     
-    explicit djvFileBrowserTestThumbnailWorker(
+    explicit djvFileBrowserTestInfoWorker(
         djvImageContext * context,
         QObject *         parent = 0);
 
     //! Destructor.
     
-    virtual ~djvFileBrowserTestThumbnailWorker();
+    virtual ~djvFileBrowserTestInfoWorker();
     
 public Q_SLOTS:
 
-    //! Request an image thumbnail.
+    //! Request image information.
     
-    void request(const djvFileBrowserTestThumbnailRequest &);
+    void request(const djvFileBrowserTestInfoRequest &);
     
-    virtual void start();
-    
-    virtual void finish();
-
 Q_SIGNALS:
 
     //! This signal is emitted when a request has been completed.
 
-    void result(const djvFileBrowserTestThumbnailResult &);
+    void result(const djvFileBrowserTestInfoResult &);
 
 private:
 
-    DJV_PRIVATE_COPY(djvFileBrowserTestThumbnailWorker)
-    
-    djvFileBrowserTestThumbnailWorkerPrivate * _p;
+    djvImageContext * _context;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_THUMBNAIL_WORKER_H
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestInfo
+//!
+//! This class provides image information.
+//------------------------------------------------------------------------------
+
+class djvFileBrowserTestInfo : public QObject
+{
+    Q_OBJECT
+    
+public:
+
+    //! Constructor.
+    
+    explicit djvFileBrowserTestInfo(djvImageContext *, QObject * parent = 0);
+    
+    //! Destructor.
+    
+    virtual ~djvFileBrowserTestInfo();
+    
+public Q_SLOTS:
+
+    //! Request image information.
+    
+    void request(const djvFileBrowserTestInfoRequest &);
+    
+    //! Set the request ID.
+    
+    void setId(quint64);
+    
+Q_SIGNALS:
+
+    //! This signal is emitted when a request has been completed.
+
+    void result(const djvFileBrowserTestInfoResult &);
+    
+private:
+
+    djvFileBrowserTestInfoRequester * nextRequester();
+
+    djvImageContext *                          _context;
+    QVector<djvFileBrowserTestInfoRequester *> _requesters;
+    QVector<djvFileBrowserTestInfoWorker *>    _workers;
+    QVector<QThread *>                         _threads;
+    int                                        _threadIndex;
+};
+
+#endif // DJV_FILE_BROWSER_TEST_INFO_H
 

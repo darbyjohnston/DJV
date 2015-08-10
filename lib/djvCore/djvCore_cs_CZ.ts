@@ -375,40 +375,40 @@ General Options
         <translation>Adresář</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="210"/>
-        <location filename="djvFileInfo.cpp" line="224"/>
+        <location filename="djvFileInfo.cpp" line="234"/>
+        <location filename="djvFileInfo.cpp" line="248"/>
         <source>r</source>
         <translation>n</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="211"/>
-        <location filename="djvFileInfo.cpp" line="225"/>
+        <location filename="djvFileInfo.cpp" line="235"/>
+        <location filename="djvFileInfo.cpp" line="249"/>
         <source>w</source>
         <translation>w</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="212"/>
-        <location filename="djvFileInfo.cpp" line="227"/>
+        <location filename="djvFileInfo.cpp" line="236"/>
+        <location filename="djvFileInfo.cpp" line="251"/>
         <source>x</source>
         <translation>x</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="226"/>
+        <location filename="djvFileInfo.cpp" line="250"/>
         <source>rw</source>
         <translation>rw</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="228"/>
+        <location filename="djvFileInfo.cpp" line="252"/>
         <source>rx</source>
         <translation>rx</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="229"/>
+        <location filename="djvFileInfo.cpp" line="253"/>
         <source>wx</source>
         <translation>wx</translation>
     </message>
     <message>
-        <location filename="djvFileInfo.cpp" line="230"/>
+        <location filename="djvFileInfo.cpp" line="254"/>
         <source>rwx</source>
         <translation>rwx</translation>
     </message>

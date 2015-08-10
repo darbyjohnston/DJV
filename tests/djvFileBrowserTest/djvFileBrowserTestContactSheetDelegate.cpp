@@ -29,11 +29,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestIconDelegate.cpp
+//! \file djvFileBrowserTestContactSheetDelegate.cpp
 
-#include <djvFileBrowserTestIconDelegate.h>
+#include <djvFileBrowserTestContactSheetDelegate.h>
 
-#include <djvFileBrowserTestModelItem.h>
+#include <djvFileBrowserTestModel.h>
 
 #include <djvGuiContext.h>
 #include <djvStyle.h>
@@ -42,49 +42,76 @@
 
 #include <QPainter>
 #include <QPixmap>
+#include <QPixmapCache>
+#include <QSvgRenderer>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestIconDelegate
+// djvFileBrowserTestContactSheetDelegatePrivate
 //------------------------------------------------------------------------------
 
-djvFileBrowserTestIconDelegate::djvFileBrowserTestIconDelegate(
+struct djvFileBrowserTestContactSheetDelegatePrivate
+{
+    djvFileBrowserTestContactSheetDelegatePrivate(djvGuiContext * context) :
+        context      (context),
+        thumbnailSize(0)
+    {}
+        
+    djvGuiContext * context;
+    int             thumbnailSize;
+};
+
+//------------------------------------------------------------------------------
+// djvFileBrowserTestContactSheetDelegate
+//------------------------------------------------------------------------------
+
+djvFileBrowserTestContactSheetDelegate::djvFileBrowserTestContactSheetDelegate(
     djvGuiContext * context,
     QObject *       parent) :
     QAbstractItemDelegate(parent),
-    _context      (context),
-    _thumbnailSize(static_cast<djvFileBrowserTestUtil::THUMBNAIL_SIZE>(0))
+    _p(new djvFileBrowserTestContactSheetDelegatePrivate(context))
 {}
 
-djvFileBrowserTestUtil::THUMBNAIL_SIZE djvFileBrowserTestIconDelegate::thumbnailSize() const
+djvFileBrowserTestContactSheetDelegate::~djvFileBrowserTestContactSheetDelegate()
 {
-    return _thumbnailSize;
+    delete _p;
 }
 
-QSize djvFileBrowserTestIconDelegate::sizeHint(
+int djvFileBrowserTestContactSheetDelegate::thumbnailSize() const
+{
+    return _p->thumbnailSize;
+}
+
+QSize djvFileBrowserTestContactSheetDelegate::sizeHint(
     const QStyleOptionViewItem & option,
     const QModelIndex &          index) const
 {
-    const int size = djvFileBrowserTestUtil::thumbnailSize(_thumbnailSize);
-    
-    return QSize(size, size);
+    return QSize(_p->thumbnailSize, _p->thumbnailSize);
 }
 
-void djvFileBrowserTestIconDelegate::paint(
+void djvFileBrowserTestContactSheetDelegate::paint(
     QPainter *                   painter,
     const QStyleOptionViewItem & option,
     const QModelIndex &          index) const
 {
-    //DJV_DEBUG("djvFileBrowserTestIconDelegate::paint");
+    //DJV_DEBUG("djvFileBrowserTestContactSheetDelegate::paint");
     
-    const int margin = _context->style()->sizeMetric().margin;
+    painter->save();
+    painter->setClipRect(option.rect);
     
     //painter->fillRect(option.rect, Qt::red);
+    
+    const int margin = _p->context->style()->sizeMetric().margin;
     
     const QString & text =
         index.model()->data(index, Qt::DisplayRole).toString();
     const QPixmap & pixmap =
         index.model()->data(index, Qt::DecorationRole).value<QPixmap>();
-
+    const QString & svg =
+        index.model()->data(index, djvFileBrowserTestModel::SvgRole).toString();
+    
+    //DJV_DEBUG_PRINT("text = " << text);
+    //DJV_DEBUG_PRINT("svg = " << svg);
+        
     QStringList lines = text.split('\n');
     
     for (int i = 0; i < lines.count(); ++i)
@@ -99,10 +126,39 @@ void djvFileBrowserTestIconDelegate::paint(
     int textHeight = lines.count() * lineHeight;
     
     QPointF p;
-    p.setX(option.rect.x() + option.rect.width () / 2 - pixmap.width () / 2);
-    p.setY(option.rect.y() + option.rect.height() / 2 - pixmap.height() / 2);
     
-    painter->drawPixmap(p, pixmap);
+    if (! svg.isNull())
+    {
+        const QString key = QString("%1%2").arg(svg).arg(_p->thumbnailSize);
+        
+        QPixmap tmp;
+        
+        if (! QPixmapCache::find(key, &tmp))
+        {
+            const int size = _p->thumbnailSize * 0.4;
+
+            tmp = QPixmap(size, size);
+            tmp.fill(Qt::transparent);
+
+            QPainter painterTmp(&tmp);
+            
+            QSvgRenderer(svg).render(&painterTmp, QRectF(p, QSizeF(size, size)));
+            
+            QPixmapCache::insert(key, tmp);
+        }
+
+        p.setX(option.rect.x() + option.rect.width () / 2 - tmp.width () / 2);
+        p.setY(option.rect.y() + option.rect.height() / 2 - tmp.height() / 2);
+        
+        painter->drawPixmap(p, tmp);
+    }
+    else if (! pixmap.isNull())
+    {
+        p.setX(option.rect.x() + option.rect.width () / 2 - pixmap.width () / 2);
+        p.setY(option.rect.y() + option.rect.height() / 2 - pixmap.height() / 2);
+    
+        painter->drawPixmap(p, pixmap);
+    }
     
     p.setX(option.rect.x());
     p.setY(option.rect.y() + option.rect.height() - textHeight - margin * 2);
@@ -132,10 +188,15 @@ void djvFileBrowserTestIconDelegate::paint(
             p.y() + i * lineHeight + option.fontMetrics.ascent(),
             lines[i]);
     }
+    
+    painter->restore();
 }
 
-void djvFileBrowserTestIconDelegate::setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE size)
+void djvFileBrowserTestContactSheetDelegate::setThumbnailSize(int size)
 {
-    _thumbnailSize = size;
+    if (size == _p->thumbnailSize)
+        return;
+
+    _p->thumbnailSize = size;
 }
 

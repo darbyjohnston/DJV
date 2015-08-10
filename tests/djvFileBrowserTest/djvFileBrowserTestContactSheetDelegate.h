@@ -29,42 +29,59 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestModelItem.h
+//! \file djvFileBrowserTestContactSheetDelegate.h
 
-#ifndef DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
-#define DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
+#ifndef DJV_FILE_BROWSER_TEST_CONTACT_SHEET_DELEGATE_H
+#define DJV_FILE_BROWSER_TEST_CONTACT_SHEET_DELEGATE_H
 
-#include <djvFileInfo.h>
+#include <djvFileBrowserTestUtil.h>
 
-#include <QSize>
-#include <QVariant>
+#include <QAbstractItemDelegate>
+
+struct djvFileBrowserTestContactSheetDelegatePrivate;
+
+class djvGuiContext;
 
 //------------------------------------------------------------------------------
-//! \struct djvFileBrowserTestModelItem
+//! \class djvFileBrowserTestContactSheetDelegate
 //!
-//! This struct provides a file browser data model item.
+//! This class provides a file browser item delegate.
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestModelItem
+class djvFileBrowserTestContactSheetDelegate : public QAbstractItemDelegate
 {
+    Q_OBJECT
+    
+public:
+
     //! Constructor.
     
-    djvFileBrowserTestModelItem() :
-        infoInit         (false),
-        infoComplete     (false),
-        thumbnailInit    (false),
-        thumbnailComplete(false)
-    {}
+    explicit djvFileBrowserTestContactSheetDelegate(djvGuiContext *, QObject * parent = 0);
+
+    //! Destructor.
     
-    djvFileInfo fileInfo;          //!< File information.
-    QVariant    text;              //!< Display role text.
-    bool        infoInit;          //!< Whether the image info is initialized.
-    bool        infoComplete;      //!< Whether the image info is complete.
-    bool        thumbnailInit;     //!< Whether the image thumbnail is initialized.
-    bool        thumbnailComplete; //!< Whether the image thumbnail is complete.
-    QVariant    thumbnail;         //!< Image thumbnail.
-    QSize       thumbnailSize;     //!< Image thumbnail size.
+    virtual ~djvFileBrowserTestContactSheetDelegate();
+    
+    //! Get the thumbnail size.
+        
+    int thumbnailSize() const;
+    
+    virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const;
+
+    virtual void paint(QPainter *, const QStyleOptionViewItem &, const QModelIndex &) const;
+
+public Q_SLOTS:
+
+    //! Set the thumbnail size.
+    
+    void setThumbnailSize(int);
+    
+private:
+
+    DJV_PRIVATE_COPY(djvFileBrowserTestContactSheetDelegate)
+    
+    djvFileBrowserTestContactSheetDelegatePrivate * _p;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_MODEL_ITEM_H
+#endif // DJV_FILE_BROWSER_TEST_CONTACT_SHEET_DELEGATE_H
 

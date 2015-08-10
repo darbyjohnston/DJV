@@ -29,76 +29,28 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestItem.cpp
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#include <djvFileBrowserTestItem.h>
 
-#include <djvGuiExport.h>
-
-#include <djvUtil.h>
-
-#include <QWidget>
-
-class  djvGuiContext;
-struct djvSpinnerPrivate;
-
-//! \addtogroup djvGuiWidget
-//@{
+#include <djvTime.h>
+#include <djvVectorUtil.h>
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
-//!
-//! This class provides a spinner widget.
+// djvFileBrowserTestItem
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+QString djvFileBrowserTestItem::formatText() const
 {
-    Q_OBJECT
-    
-public:
-
-    //! Constructor.
-
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
-    
-    bool isSpinning() const;
-    
-public Q_SLOTS:
-
-    //! Start the spinner.
-    
-    void start();
-
-    //! Start the spinner after the given delay.
-    
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    
-    void stop();
-    
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
-private:
-
-    DJV_PRIVATE_COPY(djvSpinner)
-    
-    djvSpinnerPrivate * _p;
-};
-
-//@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
+    return QString("%1\n%2x%3:%4 %5\n%6@%7").
+        arg(fileInfo.name()).
+        arg(info.size.x).
+        arg(info.size.y).
+        arg(djvVectorUtil::aspect(info.size), 0, 'f', 2).
+        arg(djvStringUtil::label(info.pixel).join(", ")).
+        arg(djvTime::frameToString(
+            info.sequence.frames.count(),
+            info.sequence.speed)).
+        arg(djvSpeed::speedToFloat(info.sequence.speed));
+}
 

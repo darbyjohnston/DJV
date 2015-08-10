@@ -33,9 +33,9 @@
 
 #include <djvFileBrowserTestApplication.h>
 
-#include <djvFileBrowserTestDirWorker.h>
-#include <djvFileBrowserTestInfoWorker.h>
-#include <djvFileBrowserTestThumbnailWorker.h>
+#include <djvFileBrowserTestDir.h>
+#include <djvFileBrowserTestInfo.h>
+#include <djvFileBrowserTestThumbnail.h>
 #include <djvFileBrowserTestUtil.h>
 #include <djvFileBrowserTestWidget.h>
 
@@ -70,8 +70,6 @@ djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char **
         "djvFileBrowserTestThumbnailResult");
     qRegisterMetaType<djvFileBrowserTestUtil::THUMBNAILS>(
         "djvFileBrowserTestUtil::THUMBNAILS");
-    qRegisterMetaType<djvFileBrowserTestUtil::THUMBNAIL_SIZE>(
-        "djvFileBrowserTestUtil::THUMBNAIL_SIZE");
 
     _context.reset(new djvGuiContext);
     
@@ -96,8 +94,8 @@ void djvFileBrowserTestApplication::commandLineExit()
 
 void djvFileBrowserTestApplication::work()
 {
-    _widget.reset(new djvFileBrowserTestWidget(_context.data(), _path));
-    
+    _widget.reset(new djvFileBrowserTestWidget(_context.data()));
+    _widget->setPath(_path);
     _widget->show();
 }
 

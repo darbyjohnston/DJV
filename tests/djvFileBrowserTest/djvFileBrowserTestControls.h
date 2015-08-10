@@ -29,76 +29,39 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestControls.h
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
-
-#include <djvGuiExport.h>
-
-#include <djvUtil.h>
+#ifndef DJV_FILE_BROWSER_TEST_CONTROLS_H
+#define DJV_FILE_BROWSER_TEST_CONTROLS_H
 
 #include <QWidget>
 
-class  djvGuiContext;
-struct djvSpinnerPrivate;
-
-//! \addtogroup djvGuiWidget
-//@{
+class QAction;
+class QComboBox;
+class QDockWidget;
+class QToolBar;
+class QToolButton;
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
+//! \struct djvFileBrowserTestControls
 //!
-//! This class provides a spinner widget.
+//! This struct provides the file browser controls.
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+struct djvFileBrowserTestControls
 {
-    Q_OBJECT
+    //! Create a tool button.
     
-public:
-
-    //! Constructor.
-
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
+    static QToolButton * toolButton(QAction *);
     
-    bool isSpinning() const;
+    //! Create a tool bar.
     
-public Q_SLOTS:
-
-    //! Start the spinner.
+    static QToolBar * toolBar();
     
-    void start();
-
-    //! Start the spinner after the given delay.
+    //! Create a dock widget.
     
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    
-    void stop();
-    
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
-private:
-
-    DJV_PRIVATE_COPY(djvSpinner)
-    
-    djvSpinnerPrivate * _p;
+    static QDockWidget * dockWidget();
 };
 
-//@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
+#endif // DJV_FILE_BROWSER_TEST_CONTROLS_H
 

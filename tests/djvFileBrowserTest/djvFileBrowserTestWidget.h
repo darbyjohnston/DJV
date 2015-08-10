@@ -36,7 +36,8 @@
 
 #include <djvUtil.h>
 
-#include <QWidget>
+#include <QDir>
+#include <QMainWindow>
 
 struct djvFileBrowserTestWidgetPrivate;
 
@@ -48,9 +49,25 @@ class djvGuiContext;
 //! This class provides the file browser widget.
 //------------------------------------------------------------------------------
 
-class djvFileBrowserTestWidget : public QWidget
+class djvFileBrowserTestWidget : public QMainWindow
 {
     Q_OBJECT
+    
+    //! This property holds the current directory.
+    
+    Q_PROPERTY(
+        QDir   dir
+        READ   dir
+        WRITE  setDir
+        NOTIFY dirChanged)
+    
+    //! This property holds the current directory's path.
+    
+    Q_PROPERTY(
+        QString path
+        READ    path
+        WRITE   setPath
+        NOTIFY  pathChanged)
     
 public:
 
@@ -58,19 +75,44 @@ public:
     
     explicit djvFileBrowserTestWidget(
         djvGuiContext * context,
-        const QString & path,
         QWidget *       parent  = 0);
     
     //! Destructor.
     
     virtual ~djvFileBrowserTestWidget();
+    
+    //! Get the current directory.
+    
+    const QDir & dir() const;
+    
+    //! Get the current directory's path.
+    
+    QString path() const;
 
+public Q_SLOTS:
+
+    //! Set the current directory.
+
+    void setDir(const QDir &);
+    
+    //! Set the current directory's path.
+    
+    void setPath(const QString &);
+
+Q_SIGNALS:
+
+    //! This signal is emitted when the current directory is changed.
+    
+    void dirChanged(const QDir &);
+
+    //! This signal is emitted when the current directory's path is changed.
+    
+    void pathChanged(const QString &);
+    
 private Q_SLOTS:
 
-    void sequenceCallback(int);
-    void thumbnailsCallback(int);
-    void thumbnailSizeCallback(int);
-    void viewCallback(int);
+    void sequenceCallback(QAction *);
+    void viewModeCallback(QAction *);
     
 private:
 

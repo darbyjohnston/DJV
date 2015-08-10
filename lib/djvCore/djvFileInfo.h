@@ -200,6 +200,14 @@ public:
 
     static const QStringList & typeLabels();
 
+    //! Get the file type icons.
+
+    static const QStringList & typeIcons();
+
+    //! Get the file type images.
+
+    static const QStringList & typeImages();
+
     //! This enumeration provides the file permissions.
 
     enum PERMISSIONS

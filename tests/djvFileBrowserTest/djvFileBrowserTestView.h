@@ -29,76 +29,105 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestView.h
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#ifndef DJV_FILE_BROWSER_TEST_VIEW_H
+#define DJV_FILE_BROWSER_TEST_VIEW_H
 
-#include <djvGuiExport.h>
+#include <djvFileBrowserTestActionData.h>
 
 #include <djvUtil.h>
 
 #include <QWidget>
 
-class  djvGuiContext;
-struct djvSpinnerPrivate;
+class  djvFileBrowserTestModel;
+struct djvFileBrowserTestViewPrivate;
 
-//! \addtogroup djvGuiWidget
-//@{
+class djvGuiContext;
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
+//! \class djvFileBrowserTestView
 //!
-//! This class provides a spinner widget.
+//! This class provides the file browser view.
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+class djvFileBrowserTestView : public QWidget
 {
     Q_OBJECT
+    Q_ENUMS(MODE)
     
+    //! This property holds the view mode.
+    
+    Q_PROPERTY(
+        MODE   mode
+        READ   mode
+        WRITE  setMode
+        NOTIFY modeChanged)
+        
 public:
 
+    //! This enumeration provides the view mode.
+
+    enum MODE
+    {
+        DETAILS,
+        CONTACT_SHEET,
+
+        MODE_COUNT
+    };
+
+    //! Get the view mode data.
+
+    static const djvFileBrowserTestActionDataList & modeData();
+
     //! Constructor.
-
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
     
-    bool isSpinning() const;
+    djvFileBrowserTestView(
+        djvFileBrowserTestModel * model,
+        djvGuiContext *           context,
+        QWidget *                 parent  = 0);
+    
+    //! Destructor.
+    
+    virtual ~djvFileBrowserTestView();
+    
+    //! Get the current view mode.
+    
+    MODE mode() const;
+    
+    virtual QSize sizeHint() const;
     
 public Q_SLOTS:
 
-    //! Start the spinner.
+    //! Set the current view mode.
     
-    void start();
+    void setMode(djvFileBrowserTestView::MODE);
+    
+Q_SIGNALS:
 
-    //! Start the spinner after the given delay.
+    //! This signal is emitted when the view mode is changed.
     
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    
-    void stop();
-    
+    void modeChanged(djvFileBrowserTestView::MODE);
+
 protected:
 
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
+    virtual void showEvent(QShowEvent *);
+    virtual void hideEvent(QHideEvent *);
+    virtual void resizeEvent(QResizeEvent *);
+
+private Q_SLOTS:
+
+    void startCallback();
+    void thumbnailSizeCallback(int);
+
 private:
 
-    DJV_PRIVATE_COPY(djvSpinner)
+    void updateWidget();
     
-    djvSpinnerPrivate * _p;
+    DJV_PRIVATE_COPY(djvFileBrowserTestView)
+    
+    djvFileBrowserTestViewPrivate * _p;
 };
 
-//@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
+#endif // DJV_FILE_BROWSER_TEST_VIEW_H
 

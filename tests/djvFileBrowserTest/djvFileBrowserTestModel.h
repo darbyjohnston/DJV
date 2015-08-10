@@ -34,9 +34,9 @@
 #ifndef DJV_FILE_BROWSER_TEST_MODEL_H
 #define DJV_FILE_BROWSER_TEST_MODEL_H
 
-#include <djvFileBrowserTestDirWorker.h>
-#include <djvFileBrowserTestInfoWorker.h>
-#include <djvFileBrowserTestThumbnailWorker.h>
+#include <djvFileBrowserTestDir.h>
+#include <djvFileBrowserTestInfo.h>
+#include <djvFileBrowserTestThumbnail.h>
 #include <djvFileBrowserTestUtil.h>
 
 #include <djvImageIo.h>
@@ -133,13 +133,17 @@ class djvFileBrowserTestModel : public QAbstractItemModel
     //! This property holds the image thumbnail size.
     
     Q_PROPERTY(
-        djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize
-        READ                                   thumbnailSize
-        WRITE                                  setThumbnailSize
-        NOTIFY                                 thumbnailSizeChanged)
+        int    thumbnailSize
+        READ   thumbnailSize
+        WRITE  setThumbnailSize
+        NOTIFY thumbnailSizeChanged)
     
 public:
 
+    //! This constant provides a role for SVG file names.
+    
+    static const int SvgRole = Qt::UserRole + 1;
+    
     //! Constructor.
 
     explicit djvFileBrowserTestModel(djvGuiContext *, QObject * parent = 0);
@@ -186,7 +190,7 @@ public:
 
     //! Get the image thumbnail size.
 
-    djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize() const;
+    int thumbnailSize() const;
 
     virtual int columnCount(
         const QModelIndex & parent = QModelIndex()) const;
@@ -210,6 +214,8 @@ public:
     virtual QModelIndex	parent(
         const QModelIndex & = QModelIndex()) const;
 
+    virtual QHash<int, QByteArray> roleNames() const;
+    
     virtual int rowCount(
         const QModelIndex & parent = QModelIndex()) const;
 
@@ -265,7 +271,7 @@ public Q_SLOTS:
 
     //! Set the image thumbnail size.
 
-    void setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE);
+    void setThumbnailSize(int);
 
 Q_SIGNALS:
 
@@ -307,7 +313,7 @@ Q_SIGNALS:
 
     //! This signal is emitted when the thumbnail size is changed.
 
-    void thumbnailSizeChanged(djvFileBrowserTestUtil::THUMBNAIL_SIZE);
+    void thumbnailSizeChanged(int);
     
     //! This signal is emitted to request a directory's contents.
     
@@ -333,20 +339,14 @@ private:
     void nextId();
 
     djvFileBrowserTestDirRequest dirRequest() const;
-    
+
     djvFileBrowserTestInfoRequest infoRequest(
         const djvFileInfo & fileInfo,
         int                 row) const;
     
-    djvFileBrowserTestInfoRequester * nextInfoRequester();
-
     djvFileBrowserTestThumbnailRequest thumbnailRequest(
         const djvFileInfo & fileInfo,
         int                 row) const;
-    
-    djvFileBrowserTestThumbnailRequester * nextThumbnailRequester();
-    
-    static QString formatText(const djvFileInfo &, const djvImageIoInfo &);
     
     DJV_PRIVATE_COPY(djvFileBrowserTestModel);
     

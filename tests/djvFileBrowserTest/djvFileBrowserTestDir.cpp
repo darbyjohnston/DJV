@@ -29,15 +29,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDirWorker.cpp
+//! \file djvFileBrowserTestDir.cpp
 
-#include <djvFileBrowserTestDirWorker.h>
+#include <djvFileBrowserTestDir.h>
 
 #include <djvDebug.h>
 #include <djvFileInfoUtil.h>
 #include <djvMemory.h>
 #include <djvMemoryBuffer.h>
 #include <djvSequenceUtil.h>
+
+#include <QMutexLocker>
 
 #include <sys/stat.h>
 #include <sys/syscall.h>
@@ -408,3 +410,54 @@ djvFileBrowserTestDirResult djvFileBrowserTestDirWorker::result() const
     return result; 
 }
 
+//------------------------------------------------------------------------------
+// djvFileBrowserTestDir
+//------------------------------------------------------------------------------
+
+djvFileBrowserTestDir::djvFileBrowserTestDir(QObject * parent) :
+    QObject(parent),
+    _worker(new djvFileBrowserTestDirWorker)
+{
+    connect(
+        _worker.data(),
+        SIGNAL(result(const djvFileBrowserTestDirResult &)),
+        SIGNAL(result(const djvFileBrowserTestDirResult &)));
+
+    _worker->connect(
+        this,
+        SIGNAL(requestDir(const djvFileBrowserTestDirRequest &)),
+        SLOT(request(const djvFileBrowserTestDirRequest &)));
+   
+    _worker->connect(
+        &_thread,
+        SIGNAL(started()),
+        SLOT(start()));
+
+    _worker->connect(
+        &_thread,
+        SIGNAL(finished()),
+        SLOT(finish()));
+
+    _worker->moveToThread(&_thread);
+    _thread.start();
+}
+
+djvFileBrowserTestDir::~djvFileBrowserTestDir()
+{
+    _thread.quit();
+    _thread.wait();
+}
+
+void djvFileBrowserTestDir::request(const djvFileBrowserTestDirRequest & request)
+{
+    Q_EMIT requestDir(request);
+}
+
+void djvFileBrowserTestDir::setId(quint64 id)
+{
+    QMutexLocker locker(_worker->mutex());
+    
+    _worker->setId(id);
+}
+
+    

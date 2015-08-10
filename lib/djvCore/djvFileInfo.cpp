@@ -189,6 +189,30 @@ const QStringList & djvFileInfo::typeLabels()
     return data;
 }
 
+const QStringList & djvFileInfo::typeIcons()
+{
+    static const QStringList data = QStringList() <<
+        ":djvFileIcon.png" <<
+        ":djvSequenceIcon.png" <<
+        ":djvDirIcon.png";
+
+    DJV_ASSERT(data.count() == djvFileInfo::TYPE_COUNT);
+
+    return data;
+}
+
+const QStringList & djvFileInfo::typeImages()
+{
+    static const QStringList data = QStringList() <<
+        ":djvFile.svg" <<
+        ":djvSequence.svg" <<
+        ":djvDir.svg";
+
+    DJV_ASSERT(data.count() == djvFileInfo::TYPE_COUNT);
+
+    return data;
+}
+
 void djvFileInfo::setType(TYPE in)
 {
     _type = in;

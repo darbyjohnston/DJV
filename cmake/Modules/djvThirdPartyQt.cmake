@@ -1,8 +1,9 @@
 find_package(Qt5Core)
 if (Qt5Core_DIR)
-    find_package(Qt5Widgets REQUIRED)
-    find_package(Qt5OpenGL REQUIRED)
     find_package(Qt5LinguistTools REQUIRED)
+    find_package(Qt5OpenGL REQUIRED)
+    find_package(Qt5Svg REQUIRED)
+    find_package(Qt5Widgets REQUIRED)
 else()
     find_package(Qt4 REQUIRED)
 endif()
@@ -22,6 +23,7 @@ if (djvPackageThirdParty)
                 $ENV{CMAKE_PREFIX_PATH}/bin/Qt5OpenGL.dll
                 $ENV{CMAKE_PREFIX_PATH}/bin/Qt5PrintSupport.dll
                 $ENV{CMAKE_PREFIX_PATH}/bin/Qt5Sql.dll
+                $ENV{CMAKE_PREFIX_PATH}/bin/Qt5Svg.dll
                 $ENV{CMAKE_PREFIX_PATH}/bin/Qt5Test.dll
                 $ENV{CMAKE_PREFIX_PATH}/bin/Qt5Widgets.dll
                 $ENV{CMAKE_PREFIX_PATH}/bin/Qt5Xml.dll
@@ -97,6 +99,10 @@ if (djvPackageThirdParty)
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.3.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.5.3.2.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.5.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.5.3.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.5.3.2.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.5.3.dylib
@@ -185,6 +191,10 @@ if (djvPackageThirdParty)
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5.3
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Sql.so.5.3.2
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.so
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.so.5
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.so.5.3
+                $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Svg.so.5.3.2
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5
                 $ENV{CMAKE_PREFIX_PATH}/lib/libQt5Test.so.5.3

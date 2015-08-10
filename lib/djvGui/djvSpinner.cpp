@@ -36,7 +36,32 @@
 #include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 
+#include <djvMath.h>
+
 #include <QPainter>
+#include <QSvgRenderer>
+#include <QTimerEvent>
+
+//------------------------------------------------------------------------------
+// djvSpinnerPrivate
+//------------------------------------------------------------------------------
+
+struct djvSpinnerPrivate
+{
+    djvSpinnerPrivate(djvGuiContext * context) :
+        context(context),
+        tick      (0),
+        timer     (0),
+        startTimer(0),
+        svg       (0)
+    {}
+
+    djvGuiContext *  context;
+    int              tick;
+    int              timer;
+    int              startTimer;
+    QSvgRenderer *   svg;
+};
 
 //------------------------------------------------------------------------------
 // djvSpinner
@@ -46,89 +71,110 @@ djvSpinner::djvSpinner(
     djvGuiContext * context,
     QWidget *       parent) :
     QWidget(parent),
-    _current(0),
-    _timer  (0)
+    _p(new djvSpinnerPrivate(context))
 {
-    const QString name("djvSpinner%1Icon.png");
+    _p->svg = new QSvgRenderer(QString(":djvSpinner.svg"), this);
     
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 0));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 1));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 2));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 3));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 4));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 5));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 6));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 7));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 8));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg( 9));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg(10));
-    _pixmaps += context->iconLibrary()->pixmap(name.arg(11));
+    setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 djvSpinner::~djvSpinner()
 {
-    if (_timer != 0)
+    if (_p->timer != 0)
     {
-        killTimer(_timer);
+        killTimer(_p->timer);
         
-        _timer = 0;
+        _p->timer = 0;
     }
+    
+    if (_p->startTimer != 0)
+    {
+        killTimer(_p->startTimer);
+        
+        _p->startTimer = 0;
+    }
+    
+    delete _p;
 }
 
 bool djvSpinner::isSpinning() const
 {
-    return _timer != 0;
-}
-
-QSize djvSpinner::sizeHint() const
-{
-    return _pixmaps[0].size();
+    return _p->timer != 0;
 }
 
 void djvSpinner::start()
 {
-    if (! _timer)
-    {
-        _timer = startTimer(75);
+    stop();
+    
+    _p->tick = 0;
+        
+    _p->timer = startTimer(10);
 
-        update();
-    }
+    update();
+}
+
+void djvSpinner::startDelayed(int msec)
+{
+    stop();
+    
+    _p->startTimer = startTimer(msec);
 }
 
 void djvSpinner::stop()
 {
-    if (_timer != 0)
+    if (_p->timer != 0)
     {
-        killTimer(_timer);
+        killTimer(_p->timer);
         
-        _timer = 0;
+        _p->timer = 0;
 
         update();
     }
+    
+    if (_p->startTimer != 0)
+    {
+        killTimer(_p->startTimer);
+        
+        _p->startTimer = 0;
+    }
 }
 
-void djvSpinner::timerEvent(QTimerEvent *)
+void djvSpinner::timerEvent(QTimerEvent * event)
 {
-    ++_current;
+    const int id = event->timerId();
     
-    if (_current >= _pixmaps.count())
+    if (id == _p->timer)
     {
-        _current = 0;
-    }
+        ++_p->tick;
     
-    update();
+        update();
+    }
+    else if (id == _p->startTimer)
+    {
+        killTimer(_p->startTimer);
+        
+        _p->startTimer = 0;
+        
+        start();
+    }
 }
 
 void djvSpinner::paintEvent(QPaintEvent *)
 {
-    if (! _timer)
+    if (! _p->timer)
         return;
 
     QPainter painter(this);
     
-    painter.drawPixmap(
-        width () / 2 - _pixmaps[_current].width () / 2,
-        height() / 2 - _pixmaps[_current].height() / 2,
-        _pixmaps[_current]);
+    const int w = width ();
+    const int h = height();
+    
+    painter.translate(w / 2, h / 2);
+    painter.rotate(-_p->tick);
+    painter.translate(-w / 2, -h / 2);
+    
+    const int s = djvMath::min<int>(w, h) / 2;
+    
+    _p->svg->render(&painter, QRectF(w / 2 - s / 2, h / 2 - s / 2, s, s));
 }
 

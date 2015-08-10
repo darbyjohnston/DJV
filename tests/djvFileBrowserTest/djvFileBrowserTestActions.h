@@ -29,76 +29,51 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestActions.h
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#ifndef DJV_FILE_BROWSER_TEST_ACTIONS_H
+#define DJV_FILE_BROWSER_TEST_ACTIONS_H
 
-#include <djvGuiExport.h>
-
-#include <djvUtil.h>
-
-#include <QWidget>
-
-class  djvGuiContext;
-struct djvSpinnerPrivate;
-
-//! \addtogroup djvGuiWidget
-//@{
+class QAction;
+class QActionGroup;
+class QObject;
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
+//! \struct djvFileBrowserTestActions
 //!
-//! This class provides a spinner widget.
+//! This struct provides the file browser actions.
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+struct djvFileBrowserTestActions
 {
-    Q_OBJECT
+    //! Create the up action.
     
-public:
+    static QAction * upAction(QObject * parent);
 
-    //! Constructor.
+    //! Create the back action.
+    
+    static QAction * backAction(QObject * parent);
 
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
+    //! Create the reload action.
     
-    bool isSpinning() const;
+    static QAction * reloadAction(QObject * parent);
     
-public Q_SLOTS:
-
-    //! Start the spinner.
+    //! Create the file sequencing action group.
     
-    void start();
-
-    //! Start the spinner after the given delay.
+    static QActionGroup * sequenceActionGroup(QObject * parent);
     
-    void startDelayed(int msec);
+    //! Create the view action group.
     
-    //! Stop the spinner.
+    static QActionGroup * viewActionGroup(QObject * parent);
     
-    void stop();
+    //! Create the left dock action.
     
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
+    static QAction * leftDockAction(QObject * parent);
     
-private:
-
-    DJV_PRIVATE_COPY(djvSpinner)
+    //! Create the right dock action.
     
-    djvSpinnerPrivate * _p;
+    static QAction * rightDockAction(QObject * parent);
 };
 
-//@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
+#endif // DJV_FILE_BROWSER_TEST_ACTIONS_H
 

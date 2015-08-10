@@ -29,15 +29,17 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDirWorker.h
+//! \file djvFileBrowserTestDir.h
 
-#ifndef DJV_FILE_BROWSER_TEST_DIR_WORKER_H
-#define DJV_FILE_BROWSER_TEST_DIR_WORKER_H
+#ifndef DJV_FILE_BROWSER_TEST_DIR_H
+#define DJV_FILE_BROWSER_TEST_DIR_H
 
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
 
 #include <djvFileInfo.h>
+
+#include <QThread>
 
 struct djvFileBrowserTestDirWorkerPrivate;
 
@@ -87,7 +89,7 @@ struct djvFileBrowserTestDirResult
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestDirWorker
 //!
-//! This class provides the contents of a directory.
+//! This class provides a directory worker.
 //------------------------------------------------------------------------------
 
 class djvFileBrowserTestDirWorker : public djvFileBrowserTestAbstractWorker
@@ -133,5 +135,51 @@ private:
     djvFileBrowserTestDirWorkerPrivate * _p;
 };
 
-#endif // DJV_FILE_BROWSER_TEST_DIR_WORKER_H
+//------------------------------------------------------------------------------
+//! \class djvFileBrowserTestDir
+//!
+//! This class provides directory contents.
+//------------------------------------------------------------------------------
+
+class djvFileBrowserTestDir : public QObject
+{
+    Q_OBJECT
+    
+public:
+
+    //! Constructor.
+    
+    explicit djvFileBrowserTestDir(QObject * parent = 0);
+    
+    //! Destructor.
+    
+    virtual ~djvFileBrowserTestDir();
+    
+public Q_SLOTS:
+
+    //! Request directory contents.
+    
+    void request(const djvFileBrowserTestDirRequest &);
+    
+    //! Set the request ID.
+    
+    void setId(quint64);
+    
+Q_SIGNALS:
+
+    //! This signal is emitted when a request has been completed.
+
+    void result(const djvFileBrowserTestDirResult &);
+    
+    //! This signal is emitted to request a directory's contents.
+    
+    void requestDir(const djvFileBrowserTestDirRequest &);
+    
+private:
+
+    QScopedPointer<djvFileBrowserTestDirWorker> _worker;
+    QThread                                     _thread;
+};
+
+#endif // DJV_FILE_BROWSER_TEST_DIR_H
 

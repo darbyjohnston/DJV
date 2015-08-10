@@ -316,9 +316,9 @@ QVariant djvFileBrowserModel::data(
     const djvFileInfo & fileInfo = item->fileInfo();
 
     static const QVector<QPixmap> pixmaps = QVector<QPixmap>() <<
-        QPixmap(":djvFileIcon.png") <<
-        QPixmap(":djvSeqIcon.png") <<
-        QPixmap(":djvDirIcon.png");
+        QPixmap(djvFileInfo::typeIcons()[djvFileInfo::FILE]) <<
+        QPixmap(djvFileInfo::typeIcons()[djvFileInfo::SEQUENCE]) <<
+        QPixmap(djvFileInfo::typeIcons()[djvFileInfo::DIRECTORY]);
     
     switch (role)
     {

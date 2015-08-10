@@ -1,34 +1,49 @@
 set(header
     djvFileBrowserTestAbstractWorker.h
+    djvFileBrowserTestActionData.h
+    djvFileBrowserTestActions.h
     djvFileBrowserTestApplication.h
-    djvFileBrowserTestDirWorker.h
-    djvFileBrowserTestIconDelegate.h
-    djvFileBrowserTestInfoWorker.h
+    djvFileBrowserTestContactSheetDelegate.h
+    djvFileBrowserTestControls.h
+    djvFileBrowserTestDir.h
+    djvFileBrowserTestInfo.h
+    djvFileBrowserTestItem.h
     djvFileBrowserTestModel.h
-    djvFileBrowserTestThumbnailWorker.h
+    djvFileBrowserTestThumbnail.h
     djvFileBrowserTestUtil.h
+    djvFileBrowserTestView.h
     djvFileBrowserTestWidget.h)
 
 set(mocHeader
     djvFileBrowserTestAbstractWorker.h
+    djvFileBrowserTestActionData.h
+    djvFileBrowserTestActions.h
     djvFileBrowserTestApplication.h
-    djvFileBrowserTestDirWorker.h
-    djvFileBrowserTestIconDelegate.h
-    djvFileBrowserTestInfoWorker.h
+    djvFileBrowserTestContactSheetDelegate.h
+    djvFileBrowserTestControls.h
+    djvFileBrowserTestDir.h
+    djvFileBrowserTestInfo.h
+    djvFileBrowserTestItem.h
     djvFileBrowserTestModel.h
-    djvFileBrowserTestThumbnailWorker.h
+    djvFileBrowserTestThumbnail.h
     djvFileBrowserTestUtil.h
+    djvFileBrowserTestView.h
     djvFileBrowserTestWidget.h)
 
 set(source
     djvFileBrowserTestAbstractWorker.cpp
+    djvFileBrowserTestActionData.cpp
+    djvFileBrowserTestActions.cpp
     djvFileBrowserTestApplication.cpp
-    djvFileBrowserTestDirWorker.cpp
-    djvFileBrowserTestIconDelegate.cpp
-    djvFileBrowserTestInfoWorker.cpp
+    djvFileBrowserTestContactSheetDelegate.cpp
+    djvFileBrowserTestControls.cpp
+    djvFileBrowserTestDir.cpp
+    djvFileBrowserTestInfo.cpp
+    djvFileBrowserTestItem.cpp
     djvFileBrowserTestModel.cpp
-    djvFileBrowserTestThumbnailWorker.cpp
+    djvFileBrowserTestThumbnail.cpp
     djvFileBrowserTestUtil.cpp
+    djvFileBrowserTestView.cpp
     djvFileBrowserTestWidget.cpp)
 
 if (Qt5Core_DIR)

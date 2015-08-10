@@ -43,6 +43,28 @@
 // djvFileBrowserTestUtil
 //------------------------------------------------------------------------------
 
+const djvFileBrowserTestActionDataList & djvFileBrowserTestUtil::sequenceData()
+{
+    static const djvFileBrowserTestActionDataList data =
+        djvFileBrowserTestActionDataList() <<
+        djvFileBrowserTestActionData(
+            djvSequence::compressLabels()[djvSequence::COMPRESS_OFF],
+            qApp->translate("djvFileBrowserTestUtil", "Disable file sequencing"),
+            ":djvFileIcon.png") <<
+        djvFileBrowserTestActionData(
+            djvSequence::compressLabels()[djvSequence::COMPRESS_SPARSE],
+            qApp->translate("djvFileBrowserTestUtil", "Enable sparse file sequencing"),
+            ":djvSequenceIcon.png") <<
+        djvFileBrowserTestActionData(
+            djvSequence::compressLabels()[djvSequence::COMPRESS_RANGE],
+            qApp->translate("djvFileBrowserTestUtil", "Enable range file sequencing"),
+            ":djvSequenceRangeIcon.png");
+
+    DJV_ASSERT(data.count() == djvSequence::COMPRESS_COUNT);
+
+    return data;
+}
+
 const QStringList & djvFileBrowserTestUtil::thumbnailsLabels()
 {
     static const QStringList data = QStringList() <<
@@ -53,30 +75,6 @@ const QStringList & djvFileBrowserTestUtil::thumbnailsLabels()
     DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
 
     return data;
-}
-
-const QStringList & djvFileBrowserTestUtil::thumbnailSizeLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileBrowserTestUtil", "Small") <<
-        qApp->translate("djvFileBrowserTestUtil", "Medium") <<
-        qApp->translate("djvFileBrowserTestUtil", "Large");
-
-    DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
-
-    return data;
-}
-
-int djvFileBrowserTestUtil::thumbnailSize(THUMBNAIL_SIZE size)
-{
-    static const QVector<int> data = QVector<int>() <<
-        100 <<
-        200 <<
-        300;
-
-    DJV_ASSERT(data.count() == THUMBNAIL_SIZE_COUNT);
-
-    return data[size];
 }
 
 djvVector2i djvFileBrowserTestUtil::thumbnailSize(
@@ -114,17 +112,6 @@ djvVector2i djvFileBrowserTestUtil::thumbnailSize(
     const double scale = thumbnailSize / static_cast<double>(tmp / proxyScale);
     
     return djvVectorUtil::ceil<double, int>(djvVector2f(imageSize) / proxyScale * scale);
-}
-
-const QStringList & djvFileBrowserTestUtil::viewLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileBrowserTestUtil", "Details") <<
-        qApp->translate("djvFileBrowserTestUtil", "Contact Sheet");
-
-    DJV_ASSERT(data.count() == VIEW_COUNT);
-
-    return data;
 }
 
 const QStringList & djvFileBrowserTestUtil::columnsLabels()

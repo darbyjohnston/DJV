@@ -29,76 +29,46 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestItem.h
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#ifndef DJV_FILE_BROWSER_TEST_ITEM_H
+#define DJV_FILE_BROWSER_TEST_ITEM_H
 
-#include <djvGuiExport.h>
+#include <djvFileInfo.h>
+#include <djvImageIo.h>
 
-#include <djvUtil.h>
-
-#include <QWidget>
-
-class  djvGuiContext;
-struct djvSpinnerPrivate;
-
-//! \addtogroup djvGuiWidget
-//@{
+#include <QSize>
+#include <QVariant>
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
+//! \struct djvFileBrowserTestItem
 //!
-//! This class provides a spinner widget.
+//! This struct provides a file browser item.
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+struct djvFileBrowserTestItem
 {
-    Q_OBJECT
-    
-public:
-
     //! Constructor.
+    
+    djvFileBrowserTestItem() :
+        infoInit         (false),
+        infoComplete     (false),
+        thumbnailInit    (false),
+        thumbnailComplete(false)
+    {}
+    
+    djvFileInfo    fileInfo;          //!< File information.
+    QVariant       text;              //!< Display role text.
+    bool           infoInit;          //!< Whether the image info is initialized.
+    bool           infoComplete;      //!< Whether the image info is complete.
+    djvImageIoInfo info;              //!< Image information.
+    bool           thumbnailInit;     //!< Whether the image thumbnail is initialized.
+    bool           thumbnailComplete; //!< Whether the image thumbnail is complete.
+    QVariant       thumbnail;         //!< Image thumbnail.
+    QSize          thumbnailSize;     //!< Image thumbnail size.
 
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
-    
-    bool isSpinning() const;
-    
-public Q_SLOTS:
-
-    //! Start the spinner.
-    
-    void start();
-
-    //! Start the spinner after the given delay.
-    
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    
-    void stop();
-    
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
-private:
-
-    DJV_PRIVATE_COPY(djvSpinner)
-    
-    djvSpinnerPrivate * _p;
+    QString formatText() const;
 };
 
-//@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
+#endif // DJV_FILE_BROWSER_TEST_ITEM_H
 

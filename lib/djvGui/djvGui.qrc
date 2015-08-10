@@ -2,7 +2,10 @@
 <qresource>
     <file alias="djvAddIcon.png">images/djvAddIcon.png</file>
     <file alias="djvColorPickerIcon.png">images/djvColorPickerIcon.png</file>
+    <file alias="djvContactSheetViewIcon.png">images/djvContactSheetViewIcon.png</file>
+    <file alias="djvDetailsViewIcon.png">images/djvDetailsViewIcon.png</file>
     <file alias="djvDirIcon.png">images/djvDirIcon.png</file>
+    <file alias="djvDir.svg">images/djvDir.svg</file>
     <file alias="djvDirPrevIcon.png">images/djvDirPrevIcon.png</file>
     <file alias="djvDirReloadIcon.png">images/djvDirReloadIcon.png</file>
     <file alias="djvDirUpIcon.png">images/djvDirUpIcon.png</file>
@@ -10,6 +13,7 @@
     <file alias="djvDownIcon.png">images/djvDownIcon.png</file>
     <file alias="djvFileCloseIcon.png">images/djvFileCloseIcon.png</file>
     <file alias="djvFileIcon.png">images/djvFileIcon.png</file>
+    <file alias="djvFile.svg">images/djvFile.svg</file>
     <file alias="djvFileOpenIcon.png">images/djvFileOpenIcon.png</file>
     <file alias="djvFileReloadIcon.png">images/djvFileReloadIcon.png</file>
     <file alias="djvFrameEndIcon.png">images/djvFrameEndIcon.png</file>
@@ -20,6 +24,7 @@
     <file alias="djvInfoIcon.png">images/djvInfoIcon.png</file>
     <file alias="djvInPointMarkIcon.png">images/djvInPointMarkIcon.png</file>
     <file alias="djvInPointResetIcon.png">images/djvInPointResetIcon.png</file>
+    <file alias="djvLeftDockIcon.png">images/djvLeftDockIcon.png</file>
     <file alias="djvLeftIcon.png">images/djvLeftIcon.png</file>
     <file alias="djvLockIcon.png">images/djvLockIcon.png</file>
     <file alias="djvMagnifyIcon.png">images/djvMagnifyIcon.png</file>
@@ -35,8 +40,11 @@
     <file alias="djvPlayStopIcon.png">images/djvPlayStopIcon.png</file>
     <file alias="djvRemoveIcon.png">images/djvRemoveIcon.png</file>
     <file alias="djvResetIcon.png">images/djvResetIcon.png</file>
+    <file alias="djvRightDockIcon.png">images/djvRightDockIcon.png</file>
     <file alias="djvRightIcon.png">images/djvRightIcon.png</file>
-    <file alias="djvSeqIcon.png">images/djvSeqIcon.png</file>
+    <file alias="djvSequence.svg">images/djvSequence.svg</file>
+    <file alias="djvSequenceIcon.png">images/djvSequenceIcon.png</file>
+    <file alias="djvSequenceRangeIcon.png">images/djvSequenceRangeIcon.png</file>
     <file alias="djvShuttle0Icon.png">images/djvShuttle0Icon.png</file>
     <file alias="djvShuttle1Icon.png">images/djvShuttle1Icon.png</file>
     <file alias="djvShuttle2Icon.png">images/djvShuttle2Icon.png</file>
@@ -45,6 +53,7 @@
     <file alias="djvShuttle5Icon.png">images/djvShuttle5Icon.png</file>
     <file alias="djvShuttle6Icon.png">images/djvShuttle6Icon.png</file>
     <file alias="djvShuttle7Icon.png">images/djvShuttle7Icon.png</file>
+    <file alias="djvSpinner.svg">images/djvSpinner.svg</file>
     <file alias="djvSpinner0Icon.png">images/djvSpinner0Icon.png</file>
     <file alias="djvSpinner1Icon.png">images/djvSpinner1Icon.png</file>
     <file alias="djvSpinner2Icon.png">images/djvSpinner2Icon.png</file>

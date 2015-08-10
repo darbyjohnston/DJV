@@ -29,76 +29,45 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestControls.cpp
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#include <djvFileBrowserTestControls.h>
 
-#include <djvGuiExport.h>
-
-#include <djvUtil.h>
-
-#include <QWidget>
-
-class  djvGuiContext;
-struct djvSpinnerPrivate;
-
-//! \addtogroup djvGuiWidget
-//@{
+#include <QApplication>
+#include <QComboBox>
+#include <QDockWidget>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QToolBar>
+#include <QToolButton>
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
-//!
-//! This class provides a spinner widget.
+// djvFileBrowserTestControls
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+QToolButton * djvFileBrowserTestControls::toolButton(QAction * action)
 {
-    Q_OBJECT
-    
-public:
+    QToolButton * button = new QToolButton;
+    button->setAutoRaise(true);
+    button->setDefaultAction(action);
+    button->setIconSize(QSize(25, 25));
+    return button;
+}
 
-    //! Constructor.
-
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
+QToolBar * djvFileBrowserTestControls::toolBar()
+{
+    QToolBar * toolBar = new QToolBar;
+    toolBar->setIconSize(QSize(25, 25));
+    toolBar->setFloatable(false);
+    toolBar->setMovable(false);
+    return toolBar;
+}
     
-    bool isSpinning() const;
-    
-public Q_SLOTS:
+QDockWidget * djvFileBrowserTestControls::dockWidget()
+{
+    QDockWidget * dockWidget = new QDockWidget;
+    dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    return dockWidget;
+}
 
-    //! Start the spinner.
-    
-    void start();
-
-    //! Start the spinner after the given delay.
-    
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    
-    void stop();
-    
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
-private:
-
-    DJV_PRIVATE_COPY(djvSpinner)
-    
-    djvSpinnerPrivate * _p;
-};
-
-//@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
 

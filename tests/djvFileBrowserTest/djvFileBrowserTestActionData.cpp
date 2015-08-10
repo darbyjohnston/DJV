@@ -29,52 +29,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestIconDelegate.h
+//! \file djvFileBrowserTestActionData.cpp
 
-#ifndef DJV_FILE_BROWSER_TEST_ICON_DELEGATE_H
-#define DJV_FILE_BROWSER_TEST_ICON_DELEGATE_H
-
-#include <djvFileBrowserTestUtil.h>
-
-#include <QAbstractItemDelegate>
-
-class djvGuiContext;
+#include <djvFileBrowserTestActionData.h>
 
 //------------------------------------------------------------------------------
-//! \class djvFileBrowserTestIconDelegate
-//!
-//! This class provides a file browser item delegate.
+// djvFileBrowserTestActionData
 //------------------------------------------------------------------------------
 
-class djvFileBrowserTestIconDelegate : public QAbstractItemDelegate
-{
-    Q_OBJECT
-    
-public:
-
-    //! Constructor.
-    
-    explicit djvFileBrowserTestIconDelegate(djvGuiContext *, QObject * parent);
-
-    //! Get the thumbnail size.
-        
-    djvFileBrowserTestUtil::THUMBNAIL_SIZE thumbnailSize() const;
-    
-    virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const;
-
-    virtual void paint(QPainter *, const QStyleOptionViewItem &, const QModelIndex &) const;
-
-public Q_SLOTS:
-
-    //! Set the thumbnail size.
-    
-    void setThumbnailSize(djvFileBrowserTestUtil::THUMBNAIL_SIZE);
-    
-private:
-
-    djvGuiContext *                        _context;
-    djvFileBrowserTestUtil::THUMBNAIL_SIZE _thumbnailSize;
-};
-
-#endif // DJV_FILE_BROWSER_TEST_ICON_DELEGATE_H
+djvFileBrowserTestActionData::djvFileBrowserTestActionData(
+    const QString & text,
+    const QString & toolTip,
+    const QString & icon,
+    const QString & image) :
+    text   (text),
+    toolTip(toolTip),
+    icon   (icon),
+    image  (image)
+{}
 

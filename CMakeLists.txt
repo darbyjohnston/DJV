@@ -263,6 +263,7 @@ if (Qt5Core_DIR)
         djvCore
         Qt5::Widgets
         Qt5::OpenGL
+        Qt5::Svg
         Qt5::Core
         ${ILMBASE_LIBRARIES}
         ${GLEW_LIBRARIES}
@@ -275,6 +276,7 @@ else()
         djvCore
         Qt4::QtGui
         Qt4::QtOpenGL
+        Qt4::QtSvg
         Qt4::QtCore
         ${ILMBASE_LIBRARIES}
         ${GLEW_LIBRARIES}

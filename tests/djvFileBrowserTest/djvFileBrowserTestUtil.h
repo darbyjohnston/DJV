@@ -34,6 +34,8 @@
 #ifndef DJV_FILE_BROWSER_TEST_UTIL_H
 #define DJV_FILE_BROWSER_TEST_UTIL_H
 
+#include <djvFileBrowserTestActionData.h>
+
 #include <djvPixelData.h>
 #include <djvVector.h>
 
@@ -50,11 +52,13 @@ class djvFileBrowserTestUtil
 {
     Q_GADGET
     Q_ENUMS(THUMBNAILS)
-    Q_ENUMS(THUMBNAIL_SIZE)
-    Q_ENUMS(VIEW)
     Q_ENUMS(COLUMNS)
     
 public:
+
+    //! Get the file sequencing data.
+    
+    static const djvFileBrowserTestActionDataList & sequenceData();
 
     //! This enumeration provides the image thumbnails mode.
 
@@ -71,25 +75,6 @@ public:
 
     static const QStringList & thumbnailsLabels();
 
-    //! This enumeration provides the image thumbnail size.
-
-    enum THUMBNAIL_SIZE
-    {
-        THUMBNAIL_SMALL,
-        THUMBNAIL_MEDIUM,
-        THUMBNAIL_LARGE,
-
-        THUMBNAIL_SIZE_COUNT
-    };
-
-    //! Get the image thumbnail size labels.
-
-    static const QStringList & thumbnailSizeLabels();
-
-    //! Get an image thumbnail size.
-
-    static int thumbnailSize(THUMBNAIL_SIZE);
-
     //! Get an image thumbnail size.
 
     static djvVector2i thumbnailSize(
@@ -97,20 +82,6 @@ public:
         int                       thumbnailSize,
         const djvVector2i &       imageSize,
         djvPixelDataInfo::PROXY * proxy         = 0);
-
-    //! This enumeration provides the view mode.
-
-    enum VIEW
-    {
-        VIEW_DETAILS,
-        VIEW_CONTACT_SHEET,
-
-        VIEW_COUNT
-    };
-
-    //! Get the view mode labels.
-
-    static const QStringList & viewLabels();
 
     //! This enumeration provides the columns.
     

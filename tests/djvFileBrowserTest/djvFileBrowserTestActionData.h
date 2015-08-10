@@ -29,76 +29,35 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
+//! \file djvFileBrowserTestActionData.h
 
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#ifndef DJV_FILE_BROWSER_TEST_ACTION_DATA_H
+#define DJV_FILE_BROWSER_TEST_ACTION_DATA_H
 
-#include <djvGuiExport.h>
-
-#include <djvUtil.h>
-
-#include <QWidget>
-
-class  djvGuiContext;
-struct djvSpinnerPrivate;
-
-//! \addtogroup djvGuiWidget
-//@{
+#include <QString>
+#include <QVector>
 
 //------------------------------------------------------------------------------
-//! \class djvSpinner
+//! \struct djvFileBrowserTestActionData
 //!
-//! This class provides a spinner widget.
+//! This struct provides data for a QAction.
 //------------------------------------------------------------------------------
 
-class djvSpinner : public QWidget
+struct djvFileBrowserTestActionData
 {
-    Q_OBJECT
+    explicit djvFileBrowserTestActionData(
+        const QString & text    = QString(),
+        const QString & toolTip = QString(),
+        const QString & icon    = QString(),
+        const QString & image   = QString());
     
-public:
-
-    //! Constructor.
-
-    explicit djvSpinner(
-        djvGuiContext * context,
-        QWidget *       parent = 0);
-
-    //! Destructor.
-        
-    virtual ~djvSpinner();
-
-    //! Get whether the spinner is spinning.
-    
-    bool isSpinning() const;
-    
-public Q_SLOTS:
-
-    //! Start the spinner.
-    
-    void start();
-
-    //! Start the spinner after the given delay.
-    
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    
-    void stop();
-    
-protected:
-
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
-private:
-
-    DJV_PRIVATE_COPY(djvSpinner)
-    
-    djvSpinnerPrivate * _p;
+    QString text;
+    QString toolTip;
+    QString icon;
+    QString image;
 };
 
-//@} // djvGuiWidget
+typedef QVector<djvFileBrowserTestActionData> djvFileBrowserTestActionDataList;
 
-#endif // DJV_SPINNER_H
+#endif // DJV_FILE_BROWSER_TEST_ACTION_DATA_H
 
