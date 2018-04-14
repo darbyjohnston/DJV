@@ -188,7 +188,23 @@ elseif (UNIX)
     # Set RPM options.
     
     set(CPACK_RPM_PACKAGE_NAME djv)
-    #set(CPACK_RPM_PACKAGE_RELOCATABLE true)
+    set(CPACK_RPM_PACKAGE_RELOCATABLE false)
+    set(CPACK_RPM_PACKAGE_AUTOREQPROV false)
+    set(CPACK_RPM_EXCLUDE_FROM_AUTO_FILELIST
+        /usr
+        /usr/local
+        /usr/share
+        /usr/share/applications
+        /usr/share/icons
+        /usr/share/mime
+        /usr/share/mime/packages
+        /usr/share/icons/hicolor
+        /usr/share/icons/hicolor/16x16
+        /usr/share/icons/hicolor/32x32
+        /usr/share/icons/hicolor/48x48
+        /usr/share/icons/hicolor/16x16/apps
+        /usr/share/icons/hicolor/32x32/apps
+        /usr/share/icons/hicolor/48x48/apps)
     configure_file(
         ${PROJECT_SOURCE_DIR}/etc/Linux/install.sh.in
         ${PROJECT_BINARY_DIR}/etc/Linux/install.sh

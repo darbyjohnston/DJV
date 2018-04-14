@@ -30,7 +30,7 @@ cmake_policy(SET CMP0020 OLD)
 
 set(djvVersionMajor "1")
 set(djvVersionMinor "1")
-set(djvVersionPatch "1")
+set(djvVersionPatch "2")
 
 set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
 
