@@ -27,15 +27,15 @@ if (djvPackageThirdParty)
         install(
             FILES
             $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.12.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.23.dylib
             $ENV{CMAKE_PREFIX_PATH}/lib/libIex.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIex-2_2.12.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIex-2_2.23.dylib
             $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath-2_2.12.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath-2_2.23.dylib
             $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread-2_2.12.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread-2_2.23.dylib
             $ENV{CMAKE_PREFIX_PATH}/lib/libImath.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libImath-2_2.12.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libImath-2_2.23.dylib
             DESTINATION lib)
 
     elseif (UNIX)
@@ -43,20 +43,20 @@ if (djvPackageThirdParty)
         install(
             FILES
             $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.so
-            $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.so.12
-            $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.so.12.0.0
+            $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.so.23
+            $ENV{CMAKE_PREFIX_PATH}/lib/libHalf.so.23.0.0
             $ENV{CMAKE_PREFIX_PATH}/lib/libIex.so
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIex-2_2.so.12
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIex-2_2.so.12.0.0
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIex-2_2.so.23
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIex-2_2.so.23.0.0
             $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath.so
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath-2_2.so.12
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath-2_2.so.12.0.0
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath-2_2.so.23
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIexMath-2_2.so.23.0.0
             $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread.so
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread-2_2.so.12
-            $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread-2_2.so.12.0.0
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread-2_2.so.23
+            $ENV{CMAKE_PREFIX_PATH}/lib/libIlmThread-2_2.so.23.0.0
             $ENV{CMAKE_PREFIX_PATH}/lib/libImath.so
-            $ENV{CMAKE_PREFIX_PATH}/lib/libImath-2_2.so.12
-            $ENV{CMAKE_PREFIX_PATH}/lib/libImath-2_2.so.12.0.0
+            $ENV{CMAKE_PREFIX_PATH}/lib/libImath-2_2.so.23
+            $ENV{CMAKE_PREFIX_PATH}/lib/libImath-2_2.so.23.0.0
             DESTINATION lib)
 
     endif (WIN32)

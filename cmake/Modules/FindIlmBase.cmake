@@ -25,10 +25,10 @@ find_library(
     ILMBASE_IMATH_LIBRARY
     NAMES Imath Imath-2_2
     PATH_SUFFIXES lib64)
-#find_library(
-#    ILMBASE_IEX_MATH_LIBRARY
-#    NAMES IexMath IexMath-2_2
-#    PATH_SUFFIXES lib64)
+find_library(
+    ILMBASE_IEX_MATH_LIBRARY
+    NAMES IexMath IexMath-2_2
+    PATH_SUFFIXES lib64)
 find_library(
     ILMBASE_ILM_THREAD_LIBRARY
     NAMES IlmThread IlmThread-2_2
@@ -38,7 +38,7 @@ set(ILMBASE_LIBRARIES
     ${ILMBASE_IEX_LIBRARY}
     ${ILMBASE_HALF_LIBRARY}
     ${ILMBASE_IMATH_LIBRARY}
-#    ${ILMBASE_IEX_MATH_LIBRARY}
+    ${ILMBASE_IEX_MATH_LIBRARY}
     ${ILMBASE_ILM_THREAD_LIBRARY})
 
 include(FindPackageHandleStandardArgs)
@@ -50,7 +50,7 @@ find_package_handle_standard_args(
         ILMBASE_IEX_LIBRARY
         ILMBASE_HALF_LIBRARY
         ILMBASE_IMATH_LIBRARY
-#        ILMBASE_IEX_MATH_LIBRARY
+        ILMBASE_IEX_MATH_LIBRARY
         ILMBASE_ILM_THREAD_LIBRARY)
 
 mark_as_advanced(ILMBASE_INCLUDE_DIR ILMBASE_LIBRARY)

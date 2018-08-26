@@ -17,8 +17,8 @@ if (djvPackageThirdParty)
         install(
             FILES
             $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.1.10.dylib
-            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.1.10.0.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.2.1.dylib
+            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.2.1.0.dylib
             DESTINATION lib)
 
     elseif (UNIX)
@@ -26,8 +26,8 @@ if (djvPackageThirdParty)
         install(
             FILES
             $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.so
-            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.so.1.10
-            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.so.1.10.0
+            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.so.2.1
+            $ENV{CMAKE_PREFIX_PATH}/lib/libGLEW.so.2.1.0
             DESTINATION lib)
 
     endif (WIN32)

@@ -14,13 +14,13 @@ if (WIN32)
         
 			install(
 				FILES
-				$ENV{CMAKE_PREFIX_PATH}/bin/avcodec-56.dll
-				$ENV{CMAKE_PREFIX_PATH}/bin/avdevice-56.dll
-				$ENV{CMAKE_PREFIX_PATH}/bin/avfilter-5.dll
-				$ENV{CMAKE_PREFIX_PATH}/bin/avformat-56.dll
-				$ENV{CMAKE_PREFIX_PATH}/bin/avutil-54.dll
-				$ENV{CMAKE_PREFIX_PATH}/bin/swresample-1.dll
-				$ENV{CMAKE_PREFIX_PATH}/bin/swscale-3.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avcodec-58.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avdevice-58.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avfilter-7.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avformat-58.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/avutil-56.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/swresample-3.dll
+				$ENV{CMAKE_PREFIX_PATH}/bin/swscale-5.dll
 				DESTINATION bin)
 				
         endif (djvPackageThirdParty)
@@ -46,26 +46,26 @@ else (WIN32)
                 install(
                     FILES
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.56.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.56.26.100.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.58.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.58.18.100.dylib
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.56.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.56.4.100.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.58.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.58.3.100.dylib
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.5.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.5.11.102.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.7.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.7.16.100.dylib
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.56.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.56.25.101.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.58.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.58.12.100.dylib
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.54.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.54.20.100.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.56.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.56.14.100.dylib
                     $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.1.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.1.1.100.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.3.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.3.1.100.dylib
                     $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.3.dylib
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.3.1.101.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.5.dylib
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.5.1.100.dylib
                     DESTINATION lib)
             
             elseif (UNIX)
@@ -73,26 +73,26 @@ else (WIN32)
                 install(
                     FILES
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.so.56
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.so.56.26.100
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.so.58
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavcodec.so.58.18.100
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.so.56
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.so.56.4.100
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.so.58
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavdevice.so.58.3.100
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.so.5
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.so.5.11.102
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.so.7
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavfilter.so.7.16.100
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.so.56
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.so.56.25.101
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.so.58
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavformat.so.58.12.100
                     $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.so.54
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.so.54.20.100
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.so.56
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libavutil.so.56.14.100
                     $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.so.1
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.so.1.1.100
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.so.3
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswresample.so.3.1.100
                     $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so.3
-                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so.3.1.101
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so.5
+                    $ENV{CMAKE_PREFIX_PATH}/lib/libswscale.so.5.1.100
                     DESTINATION lib)
 
             endif (APPLE)

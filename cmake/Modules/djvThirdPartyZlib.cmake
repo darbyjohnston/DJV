@@ -27,7 +27,7 @@ if (ZLIB_FOUND)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libz.dylib
                 $ENV{CMAKE_PREFIX_PATH}/lib/libz.1.dylib
-                $ENV{CMAKE_PREFIX_PATH}/lib/libz.1.2.8.dylib
+                $ENV{CMAKE_PREFIX_PATH}/lib/libz.1.2.11.dylib
                 DESTINATION lib)
 
         elseif (UNIX)
@@ -36,7 +36,7 @@ if (ZLIB_FOUND)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libz.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libz.so.1
-                $ENV{CMAKE_PREFIX_PATH}/lib/libz.so.1.2.8
+                $ENV{CMAKE_PREFIX_PATH}/lib/libz.so.1.2.11
                 DESTINATION lib)
 
         endif (WIN32)

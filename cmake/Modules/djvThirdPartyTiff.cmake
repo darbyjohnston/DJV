@@ -31,7 +31,7 @@ if (TIFF_FOUND)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libtiff.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libtiff.so.5
-                $ENV{CMAKE_PREFIX_PATH}/lib/libtiff.so.5.2.0
+                $ENV{CMAKE_PREFIX_PATH}/lib/libtiff.so.5.3.0
                 DESTINATION lib)
 
         endif (WIN32)

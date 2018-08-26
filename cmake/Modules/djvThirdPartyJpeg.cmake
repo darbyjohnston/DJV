@@ -31,7 +31,7 @@ if (JPEG_FOUND)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libjpeg.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libjpeg.so.9
-                $ENV{CMAKE_PREFIX_PATH}/lib/libjpeg.so.9.0.0
+                $ENV{CMAKE_PREFIX_PATH}/lib/libjpeg.so.9.2.0
                 DESTINATION lib)
 
         endif (WIN32)

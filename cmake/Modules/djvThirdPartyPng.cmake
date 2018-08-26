@@ -37,7 +37,7 @@ if (PNG_FOUND)
                 FILES
                 $ENV{CMAKE_PREFIX_PATH}/lib/libpng16.so
                 $ENV{CMAKE_PREFIX_PATH}/lib/libpng16.so.16
-                $ENV{CMAKE_PREFIX_PATH}/lib/libpng16.so.16.8.0
+                $ENV{CMAKE_PREFIX_PATH}/lib/libpng16.so.16.34.0
                 DESTINATION lib)
 
         endif (WIN32)

@@ -164,7 +164,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
         _avCodecContext->pix_fmt,
         _avCodecContext->width,
         _avCodecContext->height,
-        PIX_FMT_RGBA,
+        AV_PIX_FMT_RGBA,
         SWS_BILINEAR,
         0,
         0,
@@ -253,7 +253,7 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     avpicture_fill(
         (AVPicture *)_avFrameRgb,
         data->data(),
-        PIX_FMT_RGBA,
+        AV_PIX_FMT_RGBA,
         data->w(),
         data->h());
 

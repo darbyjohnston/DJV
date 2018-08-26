@@ -234,11 +234,11 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     avCodecContext->time_base.num = info.sequence.speed.duration();
     
     if (avFormat->flags & AVFMT_GLOBALHEADER)
-        avCodecContext->flags |= CODEC_FLAG_GLOBAL_HEADER;
+        avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
     if (avQScale >= 0.0)
     {
-        avCodecContext->flags |= CODEC_FLAG_QSCALE;
+        avCodecContext->flags |= AV_CODEC_FLAG_QSCALE;
         avCodecContext->global_quality = FF_QP2LAMBDA * avQScale;
     }
     
