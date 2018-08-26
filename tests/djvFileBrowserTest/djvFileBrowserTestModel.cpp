@@ -91,6 +91,8 @@ struct djvFileBrowserTestModelPrivate
 // djvFileBrowserTestModel
 //------------------------------------------------------------------------------
 
+const int djvFileBrowserTestModel::SvgRole = Qt::UserRole + 1;
+
 djvFileBrowserTestModel::djvFileBrowserTestModel(
     djvGuiContext * context,
     QObject *       parent) :

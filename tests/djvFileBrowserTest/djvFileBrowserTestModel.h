@@ -142,7 +142,7 @@ public:
 
     //! This constant provides a role for SVG file names.
     
-    static const int SvgRole = Qt::UserRole + 1;
+    static const int SvgRole;
     
     //! Constructor.
 
