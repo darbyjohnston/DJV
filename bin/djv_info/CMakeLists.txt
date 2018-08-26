@@ -11,17 +11,10 @@ set(source
     djvInfoContext.cpp
     djvInfoMain.cpp)
 
-if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-    QT5_CREATE_TRANSLATION(qmSource ${source}
-        djv_info_en_US.ts
-        djv_info_cs_CZ.ts)
-else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-    QT4_CREATE_TRANSLATION(qmSource ${source}
-        djv_info_en_US.ts
-        djv_info_cs_CZ.ts)
-endif()
+QT5_WRAP_CPP(mocSource ${mocHeader})
+QT5_CREATE_TRANSLATION(qmSource ${source}
+    djv_info_en_US.ts
+    djv_info_cs_CZ.ts)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_info

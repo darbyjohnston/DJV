@@ -209,19 +209,11 @@ set(source
     djvVector2iEditWidget.cpp
     djvWindowUtil.cpp)
 
-if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-    QT5_ADD_RESOURCES(rccSource djvGui.qrc)
-    QT5_CREATE_TRANSLATION(qmSource ${source}
-        djvGui_en_US.ts
-        djvGui_cs_CZ.ts)
-else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-    QT4_ADD_RESOURCES(rccSource djvGui.qrc)
-    QT4_CREATE_TRANSLATION(qmSource ${source}
-        djvGui_en_US.ts
-        djvGui_cs_CZ.ts)
-endif()
+QT5_WRAP_CPP(mocSource ${mocHeader})
+QT5_ADD_RESOURCES(rccSource djvGui.qrc)
+QT5_CREATE_TRANSLATION(qmSource ${source}
+    djvGui_en_US.ts
+    djvGui_cs_CZ.ts)
 
 include_directories(${djvGuiIncludeDirs})
 

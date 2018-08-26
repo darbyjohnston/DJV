@@ -8,13 +8,8 @@ set(source
     djvPicLoad.cpp
     djvPicPlugin.cpp)
 
-if (Qt5Core_DIR)
-    QT5_CREATE_TRANSLATION(qmSource ${source}
-        djvPicPlugin_en_US.ts)
-else()
-    QT4_CREATE_TRANSLATION(qmSource ${source}
-        djvPicPlugin_en_US.ts)
-endif()
+QT5_CREATE_TRANSLATION(qmSource ${source}
+    djvPicPlugin_en_US.ts)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPicPlugin

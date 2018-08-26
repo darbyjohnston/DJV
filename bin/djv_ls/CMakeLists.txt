@@ -11,17 +11,10 @@ set(source
     djvLsContext.cpp
     djvLsMain.cpp)
 
-if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-    QT5_CREATE_TRANSLATION(qmSource ${source}
-        djv_ls_en_US.ts
-        djv_ls_cs_CZ.ts)
-else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-    QT4_CREATE_TRANSLATION(qmSource ${source}
-        djv_ls_en_US.ts
-        djv_ls_cs_CZ.ts)
-endif()
+QT5_WRAP_CPP(mocSource ${mocHeader})
+QT5_CREATE_TRANSLATION(qmSource ${source}
+    djv_ls_en_US.ts
+    djv_ls_cs_CZ.ts)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_ls

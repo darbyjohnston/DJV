@@ -8,11 +8,7 @@ set(mocHeader
 set(source
     djvTestLib.cpp)
 
-if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-endif()
+QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvTestLib

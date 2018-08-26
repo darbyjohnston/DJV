@@ -19,11 +19,7 @@ if (WIN32)
 
 endif (WIN32)
 
-if (Qt5Core_DIR)
-    QT5_WRAP_CPP(mocSource ${mocHeader})
-else()
-    QT4_WRAP_CPP(mocSource ${mocHeader})
-endif()
+QT5_WRAP_CPP(mocSource ${mocHeader})
 
 configure_file(
     ${PROJECT_SOURCE_DIR}/etc/Linux/djv_view.desktop.in

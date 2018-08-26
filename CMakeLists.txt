@@ -225,27 +225,13 @@ set(djvCoreIncludeDirs
     ${GLEW_INCLUDE_DIR}
     ${OPENGL_INCLUDE_DIR})
 
-if (Qt5Core_DIR)
-
-    set(djvCoreDeps
-        Qt5::OpenGL
-        Qt5::Core
-        ${ILMBASE_LIBRARIES}
-        ${GLEW_LIBRARIES}
-        ${OPENGL_LIBRARIES}
-        ${CMAKE_DL_LIBS})
-
-else()
-
-    set(djvCoreDeps
-        Qt4::QtOpenGL
-        Qt4::QtCore
-        ${ILMBASE_LIBRARIES}
-        ${GLEW_LIBRARIES}
-        ${OPENGL_LIBRARIES}
-        ${CMAKE_DL_LIBS})
-
-endif()
+set(djvCoreDeps
+    Qt5::OpenGL
+    Qt5::Core
+    ${ILMBASE_LIBRARIES}
+    ${GLEW_LIBRARIES}
+    ${OPENGL_LIBRARIES}
+    ${CMAKE_DL_LIBS})
 
 set(djvCoreLibs djvCore ${djvCoreDeps})
 
@@ -257,33 +243,16 @@ set(djvGuiIncludeDirs
     ${GLEW_INCLUDE_DIR}
     ${OPENGL_INCLUDE_DIR})
 
-if (Qt5Core_DIR)
-
-    set(djvGuiDeps
-        djvCore
-        Qt5::Widgets
-        Qt5::OpenGL
-        Qt5::Svg
-        Qt5::Core
-        ${ILMBASE_LIBRARIES}
-        ${GLEW_LIBRARIES}
-        ${OPENGL_LIBRARIES}
-        ${CMAKE_DL_LIBS})
-
-else()
-
-    set(djvGuiDeps
-        djvCore
-        Qt4::QtGui
-        Qt4::QtOpenGL
-        Qt4::QtSvg
-        Qt4::QtCore
-        ${ILMBASE_LIBRARIES}
-        ${GLEW_LIBRARIES}
-        ${OPENGL_LIBRARIES}
-        ${CMAKE_DL_LIBS})
-
-endif()
+set(djvGuiDeps
+    djvCore
+    Qt5::Widgets
+    Qt5::OpenGL
+    Qt5::Svg
+    Qt5::Core
+    ${ILMBASE_LIBRARIES}
+    ${GLEW_LIBRARIES}
+    ${OPENGL_LIBRARIES}
+    ${CMAKE_DL_LIBS})
 
 set(djvGuiLibs djvGui ${djvGuiDeps})
 

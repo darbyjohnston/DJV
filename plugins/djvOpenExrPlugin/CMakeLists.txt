@@ -21,15 +21,9 @@ set(widgetSource
     djvOpenExr.cpp
     djvOpenExrWidget.cpp)
 
-if (Qt5Core_DIR)
-    QT5_WRAP_CPP(widgetMocSource ${widgetMocHeader})
-    QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
-        djvOpenExrPlugin_en_US.ts)
-else()
-    QT4_WRAP_CPP(widgetMocSource ${widgetMocHeader})
-    QT4_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
-        djvOpenExrPlugin_en_US.ts)
-endif()
+QT5_WRAP_CPP(widgetMocSource ${widgetMocHeader})
+QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
+    djvOpenExrPlugin_en_US.ts)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvOpenExrPlugin
