@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvHelpPrefs.cpp
-
 #include <djvHelpPrefs.h>
 
 #include <djvPrefs.h>
@@ -45,11 +43,9 @@
 
 namespace
 {
-
 class ToolTipFilter : public QObject
 {
 protected:
-
     bool eventFilter(QObject * object, QEvent * event)
     {
         if (event->type() == QEvent::ToolTip)
@@ -81,20 +77,16 @@ djvHelpPrefs::djvHelpPrefs(QObject * parent) :
     _p(new djvHelpPrefsPrivate)
 {
     //DJV_DEBUG("djvHelpPrefs::djvHelpPrefs");
-
     djvPrefs prefs("djvHelpPrefs", djvPrefs::SYSTEM);
     prefs.get("toolTips", _p->toolTips);
-
     toolTipsUpdate();
 }
 
 djvHelpPrefs::~djvHelpPrefs()
 {
     //DJV_DEBUG("djvHelpPrefs::~djvHelpPrefs");
-
     djvPrefs prefs("djvHelpPrefs", djvPrefs::SYSTEM);
     prefs.set("toolTips", _p->toolTips);
-    
     delete _p;
 }
 
@@ -112,11 +104,8 @@ void djvHelpPrefs::setToolTips(bool toolTips)
 {
     if (toolTips == _p->toolTips)
         return;
-
     _p->toolTips = toolTips;
-
     toolTipsUpdate();
-
     Q_EMIT toolTipsChanged(_p->toolTips);
 }
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvChoiceButton.h
-
-#ifndef DJV_CHOICE_BUTTON_H
-#define DJV_CHOICE_BUTTON_H
+#pragma once
 
 #include <djvAbstractToolButton.h>
 
@@ -57,59 +54,41 @@ class DJV_GUI_EXPORT djvChoiceButton : public djvAbstractToolButton
     Q_OBJECT
     
 public:
-    
-    //! Constructor.
-    
     explicit djvChoiceButton(QWidget * parent = 0);
-    
-    //! Constructor.
-    
     explicit djvChoiceButton(QActionGroup *, QWidget * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvChoiceButton();
     
     //! Get the associated action group.
-
     QActionGroup * actionGroup() const;
 
     //! Get the current index.
-    
     int currentIndex() const;
     
     virtual QSize sizeHint() const;
 
 public slots:
-
     //! Set the action group. The ownership of the action group is not
     //! transferred to the button.
-
     void setActionGroup(QActionGroup *);
 
     //! Set the current index.
-
     void setCurrentIndex(int);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the current index is changed.
-    
     void currentIndexChanged(int);
     
 protected:
-
     virtual void mousePressEvent(QMouseEvent *);
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void paintEvent(QPaintEvent *);
 
 private Q_SLOTS:
-
     void actionGroupCallback(QAction *);
     void clickedCallback();
 
-private:
-    
+private:    
     DJV_PRIVATE_COPY(djvChoiceButton);
     
     djvChoiceButtonPrivate * _p;
@@ -117,4 +96,3 @@ private:
 
 //@} // djvGuiWidget
 
-#endif // DJV_CHOICE_BUTTON_H

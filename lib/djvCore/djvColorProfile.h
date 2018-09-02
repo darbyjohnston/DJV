@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorProfile.h
-
-#ifndef DJV_COLOR_PROFILE_H
-#define DJV_COLOR_PROFILE_H
+#pragma once
 
 #include <djvPixelData.h>
 
@@ -55,11 +52,8 @@ class DJV_CORE_EXPORT djvColorProfile
 public:
 
     //! This struct provides exposure values.
-
     struct DJV_CORE_EXPORT Exposure
     {
-        //! Constructor.
-        
         Exposure(
             double value    = 0.0,
             double defog    = 0.0,
@@ -73,7 +67,6 @@ public:
     };
 
     //! This enumeration provides the color profiles.
-
     enum PROFILE
     {
         RAW,
@@ -85,10 +78,7 @@ public:
     };
 
     //! Get the color profile labels.
-
     static const QStringList & profileLabels();
-
-    //! Constructor.
 
     djvColorProfile();
 
@@ -97,8 +87,6 @@ public:
     djvPixelData lut;
     Exposure     exposure;
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvColorProfile)
 
@@ -113,6 +101,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile);
 
 //@} // djvCoreImage
-
-#endif // DJV_COLOR_PROFILE_H
 

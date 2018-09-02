@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefsDialog.cpp
-
 #include <djvPrefsDialog.h>
 
 #include <djvFileBrowserPrefsWidget.h>
@@ -64,14 +62,12 @@ namespace
 class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
-
     explicit TreeWidgetItem(TreeWidgetItem * parent = 0) :
         QTreeWidgetItem(parent),
         _widget(0)
     {
         init();
     }
-
     explicit TreeWidgetItem(djvAbstractPrefsWidget * widget, TreeWidgetItem * parent = 0) :
         QTreeWidgetItem(parent),
         _widget(widget)
@@ -84,7 +80,6 @@ public:
     djvAbstractPrefsWidget * widget() const { return _widget; }
 
 private:
-
     void init()
     {
         setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
@@ -129,7 +124,6 @@ djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
     //DJV_DEBUG("djvPrefsDialog::djvPrefsDialog");
     
     // Create the widgets.
-
     _p->browser = new QTreeWidget;
     _p->browser->setColumnCount(1);
     _p->browser->header()->hide();
@@ -150,7 +144,6 @@ djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
     _p->resetAllButton->setAutoDefault(false);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     QSplitter * splitter = new QSplitter;
@@ -161,7 +154,6 @@ djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
     layout->addWidget(_p->buttonBox);
     
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvPrefsDialog", "Preferences Dialog"));
 
     addWidget(
@@ -204,12 +196,10 @@ djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
     splitter->setSizes(QList<int>() << 160 << 440);
 
     // Setup the callbacks.
-    
     connect(
         _p->browser,
         SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
         SLOT(browserCallback(QTreeWidgetItem *, QTreeWidgetItem *)));
-
     connect(
         _p->buttonBox,
         SIGNAL(clicked(QAbstractButton *)),
@@ -219,7 +209,6 @@ djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
 djvPrefsDialog::~djvPrefsDialog()
 {
     //DJV_DEBUG("djvPrefsDialog::~djvPrefsDialog");
-    
     delete _p;
 }
 
@@ -234,7 +223,6 @@ void djvPrefsDialog::addWidget(djvAbstractPrefsWidget * widget, const QString & 
     widget->hide();
 
     TreeWidgetItem * groupItem = 0;
-
     if (_p->browserGroups.contains(group))
     {
         groupItem = _p->browserGroups[group];
@@ -243,13 +231,10 @@ void djvPrefsDialog::addWidget(djvAbstractPrefsWidget * widget, const QString & 
     {
         groupItem = new TreeWidgetItem;
         groupItem->setText(0, group);
-
         _p->browser->addTopLevelItem(groupItem);
         _p->browser->expandItem(groupItem);
-
         _p->browserGroups[group] = groupItem;
     }
-
     new TreeWidgetItem(widget, groupItem);
 }
 
@@ -262,7 +247,6 @@ void djvPrefsDialog::browserCallback(QTreeWidgetItem * current, QTreeWidgetItem 
             oldWidget->setParent(this);
             oldWidget->hide();
         }
-
         if (djvAbstractPrefsWidget * widget = item->widget())
         {
             _p->scrollArea->setWidget(widget);
@@ -277,7 +261,6 @@ void djvPrefsDialog::buttonCallback(QAbstractButton * button)
     {
         djvQuestionDialog dialog(
             qApp->translate("djvPrefsDialog", "Are you sure you want to reset all of the preferences?"));
-
         if (QDialog::Accepted == dialog.exec())
         {
             Q_FOREACH(djvAbstractPrefsWidget * widget, _p->widgets)

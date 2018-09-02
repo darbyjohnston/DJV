@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMessagesDialog.cpp
-
 #include <djvMessagesDialog.h>
 
 #include <djvGuiContext.h>
@@ -80,7 +78,6 @@ djvMessagesDialog::djvMessagesDialog(djvGuiContext * context) :
     //DJV_DEBUG("djvMessagesDialog::djvMessagesDialog");
     
     // Create the widgets.
-    
     _p->widget = new QTextEdit;
     _p->widget->setLineWrapMode(QTextEdit::NoWrap);
     _p->widget->setReadOnly(true);
@@ -96,18 +93,15 @@ djvMessagesDialog::djvMessagesDialog(djvGuiContext * context) :
     _p->buttonBox->addButton(clearButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
 
     // Preferences.
-
     djvPrefs prefs("djvMessagesDialog", djvPrefs::SYSTEM);
     prefs.get("show", _p->show);
 
     // Initialize.
-    
     setWindowTitle(
         qApp->translate("djvMessagesDialog", "Messages Dialog"));
     setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
@@ -117,13 +111,9 @@ djvMessagesDialog::djvMessagesDialog(djvGuiContext * context) :
     updateWidget();
 
     // Setup the callbacks.
-    
     connect(_p->showCheckBox, SIGNAL(toggled(bool)), SLOT(showCallback(bool)));
-    
     connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
-    
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    
     connect(
         context->style(),
         SIGNAL(fontsChanged()),
@@ -133,24 +123,19 @@ djvMessagesDialog::djvMessagesDialog(djvGuiContext * context) :
 djvMessagesDialog::~djvMessagesDialog()
 {
     //DJV_DEBUG("djvMessagesDialog::~djvMessagesDialog");
-    
     djvPrefs prefs("djvMessagesDialog", djvPrefs::SYSTEM);
     prefs.set("show", _p->show);
-    
     delete _p;
 }
 
 void djvMessagesDialog::message(const QString & in)
 {
     _p->list.push_front(in);
-
     if (_p->list.count() > 100)
     {
         _p->list.pop_back();
     }
-
     updateWidget();
-
     if (_p->show)
     {
         show();
@@ -171,7 +156,6 @@ void djvMessagesDialog::showEvent(QShowEvent *)
 void djvMessagesDialog::clearCallback()
 {
     _p->list.clear();
-
     updateWidget();
 }
 
@@ -183,16 +167,10 @@ void djvMessagesDialog::showCallback(bool value)
 void djvMessagesDialog::updateWidget()
 {
     //DJV_DEBUG("djvMessagesDialog::updateWidget");
-    
     _p->widget->setFont(_p->context->style()->fonts().fixed);
-    
     const QString text = _p->list.join("\n");
-    
     //DJV_DEBUG_PRINT("text = " << text);
-    
     _p->widget->setText(text);
-    
     //DJV_DEBUG_PRINT("show = " << _p->show);
-
     _p->showCheckBox->setChecked(_p->show);
 }

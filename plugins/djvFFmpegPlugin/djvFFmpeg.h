@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpeg.h
-
-#ifndef DJV_FFMPEG_H
-#define DJV_FFMPEG_H
+#pragma once
 
 #include <djvStringUtil.h>
 
@@ -88,11 +85,9 @@ extern "C"
 struct djvFFmpeg
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the formats.
-
     enum FORMAT
     {
         //H264,
@@ -104,11 +99,9 @@ struct djvFFmpeg
     };
 
     //! Get the format labels.
-
     static const QStringList & formatLabels();
 
     //! This enumeration provides the quality levels.
-
     enum QUALITY
     {
         LOW,
@@ -119,11 +112,9 @@ struct djvFFmpeg
     };
 
     //! Get the quality labels.
-
     static const QStringList & qualityLabels();
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         OPTIONS_FORMAT,
@@ -133,11 +124,9 @@ struct djvFFmpeg
     };
     
     //! This class provides a wrapper for a FFmpeg dictionary.
-    
     class Dictionary
     {
     public:
-    
         Dictionary();
         
         ~Dictionary();
@@ -149,16 +138,13 @@ struct djvFFmpeg
         const AVDictionary * const * operator () () const;
     
     private:
-    
         AVDictionary * _p;
     };
     
     //! This class provides a wrapper for a FFmpeg packet.
-    
     class Packet
     {
     public:
-
         Packet();
         
         ~Packet();
@@ -168,28 +154,21 @@ struct djvFFmpeg
         const AVPacket & operator () () const;
 
     private:
-
         AVPacket _p;
     };
 
 	//! Get the internal time base represented as fractional value.
-	
 	static AVRational timeBaseQ();
     
     //! Convert an FFmpeg return code to a string.
-    
     static QString toString(int);
 
     //! Get the option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
-        //! Constructor.
-        
         Options();
 
         FORMAT  format;
@@ -197,12 +176,8 @@ struct djvFFmpeg
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvFFmpeg::FORMAT);
 DJV_STRING_OPERATOR(, djvFFmpeg::QUALITY);
 
 //@} // djvFFmpegPlugin
-
-#endif // DJV_FFMPEG_H
 

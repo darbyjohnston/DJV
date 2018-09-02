@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSystem.h
-
-#ifndef DJV_SYSTEM_H
-#define DJV_SYSTEM_H
+#pragma once
 
 #include <djvConfig.h>
 #include <djvCoreExport.h>
@@ -52,21 +49,15 @@ class QStringList;
 class DJV_CORE_EXPORT djvSystem
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvSystem() = 0;
     
     //! Get system information.
-
     static QString info();
     
     //! Get the DJV_PATH environment variable name.
-    
     static const QString & djvPathEnv();
     
     //! Get the LD_LIBRARY_PATH environment variable name.
-    
     static const QString & ldLibPathEnv();
 
     //! Get the search path. The default search path consists of:
@@ -75,40 +66,30 @@ public:
     //! - The LD_LIBRARY_PATH environment variable
     //! - The application path
     //! - The current directory
-
     static QStringList searchPath();
     
     //! Find a file in the search path. If the file is found the path to the
     //! file is returned, otherwise an empty string is returned.
-    
     static QString findFile(const QString & fileName);
 
     //! Get the width of the terminal.
-
     static int terminalWidth();
 
     //! Print a message to the terminal.
-
     static void print(const QString &, bool newline = true, int indent = 0);
 
     //! Execute a command.
-
     static int exec(const QString &);
 
     //! Get an environment variable.
-
     static QString env(const QString &);
 
     //! Set an environment variable.
-
     static bool setEnv(const QString & var, const QString & value);
     
     //! Get the list of drives.
-    
     static QStringList drives();
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_SYSTEM_H
 

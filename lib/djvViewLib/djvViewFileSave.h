@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFileSave.h
-
-#ifndef DJV_VIEW_FILE_SAVE_H
-#define DJV_VIEW_FILE_SAVE_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -57,8 +54,6 @@ struct djvViewFileSavePrivate;
 
 struct DJV_VIEW_LIB_EXPORT djvViewFileSaveInfo
 {
-    //! Constructor.
-
     djvViewFileSaveInfo(
         const djvFileInfo &           inputFile    = djvFileInfo(),
         const djvFileInfo &           outputFile   = djvFileInfo(),
@@ -93,44 +88,30 @@ class DJV_VIEW_LIB_EXPORT djvViewFileSave : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewFileSave(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewFileSave();
 
 public Q_SLOTS:
-
     //! Save a file.
-
     void save(const djvViewFileSaveInfo &);
 
     //! Cancel an in progress save.
-
     void cancel();
 
 Q_SIGNALS:
-
     //! This signal is emitted when the save is finished.
-
     void finished();
 
 private Q_SLOTS:
-
     void callback(int);
     void finishedCallback();
 
-private:
-    
+private:    
     DJV_PRIVATE_COPY(djvViewFileSave);
     
     djvViewFileSavePrivate * _p;
 };
 
 //@} // djvViewFile
-
-#endif // DJV_VIEW_FILE_SAVE_H
 

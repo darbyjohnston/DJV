@@ -29,21 +29,15 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewShortcutPrefs.h
-
-#ifndef DJV_VIEW_SHORTCUT_PREFS_H
-#define DJV_VIEW_SHORTCUT_PREFS_H
+#pragma once
 
 #include <djvViewAbstractPrefs.h>
 
 #include <djvShortcut.h>
 
 #if defined(DJV_WINDOWS)
-
 //! \todo Windows defines the macro "FILE_OPEN".
-
 #undef FILE_OPEN
-
 #endif
 
 //! \addtogroup djvViewMisc
@@ -60,45 +54,30 @@ class DJV_VIEW_LIB_EXPORT djvViewShortcutPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewShortcutPrefs(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvViewShortcutPrefs();
     
     //! Get the default shortcuts.
-    
     static const QVector<djvShortcut> & shortcutsDefault();
 
     //! Get the shortcuts.
-
     const QVector<djvShortcut> & shortcuts() const;
 
 public Q_SLOTS:
-
     //! Set the shortcuts.
-
     void setShortcuts(const QVector<djvShortcut> &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the shortcuts are changed.
-    
     void shortcutsChanged(const QVector<djvShortcut> &);
 
     //! This signal is emitted when a preference is changed.
-
     void prefChanged();
     
 private:
-
     QVector<djvShortcut> _shortcuts;
 };
 
 //@} // djvViewMisc
-
-#endif // DJV_VIEW_SHORTCUT_PREFS_H
 

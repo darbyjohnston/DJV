@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowActions.cpp
-
 #include <djvViewWindowActions.h>
 
 #include <djvViewContext.h>
@@ -54,66 +52,43 @@ djvViewWindowActions::djvViewWindowActions(
 	djvViewAbstractActions(context, parent)
 {
     // Create the actions.
-
     for (int i = 0; i < ACTION_COUNT; ++i)
     {
         _actions[i] = new QAction(this);
     }
-
-    _actions[NEW]->setText(
-        qApp->translate("djvViewWindowActions", "&New"));
-    _actions[NEW]->setIcon(context->iconLibrary()->icon(
-        "djvWindowNewIcon.png"));
-
-    _actions[COPY]->setText(
-        qApp->translate("djvViewWindowActions", "&Copy"));
-    _actions[COPY]->setIcon(context->iconLibrary()->icon(
-        "djvWindowCopyIcon.png"));
-
-    _actions[CLOSE]->setText(
-        qApp->translate("djvViewWindowActions", "Clos&e"));
-    _actions[CLOSE]->setIcon(context->iconLibrary()->icon(
-        "djvWindowCloseIcon.png"));
-
-    _actions[FIT]->setText(
-        qApp->translate("djvViewWindowActions", "&Fit"));
-    _actions[FIT]->setIcon(context->iconLibrary()->icon(
-        "djvWindowFitIcon.png"));
-
-    _actions[FULL_SCREEN]->setText(
-        qApp->translate("djvViewWindowActions", "F&ull Screen"));
-    _actions[FULL_SCREEN]->setIcon(context->iconLibrary()->icon(
-        "djvWindowFullScreenIcon.png"));
+    _actions[NEW]->setText(qApp->translate("djvViewWindowActions", "&New"));
+    _actions[NEW]->setIcon(context->iconLibrary()->icon("djvWindowNewIcon.png"));
+    _actions[COPY]->setText(qApp->translate("djvViewWindowActions", "&Copy"));
+    _actions[COPY]->setIcon(context->iconLibrary()->icon("djvWindowCopyIcon.png"));
+    _actions[CLOSE]->setText(qApp->translate("djvViewWindowActions", "Clos&e"));
+    _actions[CLOSE]->setIcon(context->iconLibrary()->icon("djvWindowCloseIcon.png"));
+    _actions[FIT]->setText(qApp->translate("djvViewWindowActions", "&Fit"));
+    _actions[FIT]->setIcon(context->iconLibrary()->icon("djvWindowFitIcon.png"));
+    _actions[FULL_SCREEN]->setText(qApp->translate("djvViewWindowActions", "F&ull Screen"));
+    _actions[FULL_SCREEN]->setIcon(context->iconLibrary()->icon("djvWindowFullScreenIcon.png"));
     _actions[FULL_SCREEN]->setCheckable(true);
-
     _actions[CONTROLS_VISIBLE]->setText(qApp->translate("djvViewWindowActions", "Show &Controls"));
     _actions[CONTROLS_VISIBLE]->setCheckable(true);
 
     // Create the action groups.
-
     for (int i = 0; i < GROUP_COUNT; ++i)
     {
         _groups[i] = new QActionGroup(this);
     }
-
     _groups[TOOL_BAR_VISIBLE_GROUP]->setExclusive(false);
-
     for (int i = 0; i < djvViewUtil::toolBarLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
         action->setText(djvViewUtil::toolBarLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
-
         _groups[TOOL_BAR_VISIBLE_GROUP]->addAction(action);
     }
 
     // Initialize.
-
     update();
 
     // Setup the callbacks.
-
     connect(
         context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -129,53 +104,44 @@ void djvViewWindowActions::update()
         context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
-
     _actions[NEW]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_WINDOW_NEW].value);
     _actions[NEW]->setToolTip(
         qApp->translate("djvViewWindowActions", "Create a new window\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_NEW].value.toString()));
-
     _actions[COPY]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_WINDOW_COPY].value);
     _actions[COPY]->setToolTip(
         qApp->translate("djvViewWindowActions", "Copy the current window\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_COPY].value.toString()));
-
     _actions[CLOSE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_WINDOW_CLOSE].value);
     _actions[CLOSE]->setToolTip(
         qApp->translate("djvViewWindowActions", "Close the current window\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_CLOSE].value.toString()));
-
     _actions[FIT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_WINDOW_FIT].value);
     _actions[FIT]->setToolTip(
         qApp->translate("djvViewWindowActions", "Resize the window to fit the image\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_FIT].value.toString()));
-
     _actions[FULL_SCREEN]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_WINDOW_FULL_SCREEN].value);
     _actions[FULL_SCREEN]->setToolTip(
         qApp->translate("djvViewWindowActions", "Show the window full screen\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_FULL_SCREEN].value.toString()));
-
     _actions[CONTROLS_VISIBLE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value);
     _actions[CONTROLS_VISIBLE]->setToolTip(
         qApp->translate("djvViewWindowActions", "Toggle the user interface controls visbility\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_WINDOW_CONTROLS_VISIBLE].value.toString()));
-
     const djvViewUtil::SHORTCUT toolBarShortcuts[] =
     {
         djvViewUtil::SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
         djvViewUtil::SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
         djvViewUtil::SHORTCUT_WINDOW_INFO_VISIBLE
     };
-
     const int toolBarShortcutsCount =
         sizeof(toolBarShortcuts) / sizeof(toolBarShortcuts[0]);
-
     for (int i = 0; i < toolBarShortcutsCount; ++i)
     {
         _groups[TOOL_BAR_VISIBLE_GROUP]->actions()[i]->setShortcut(
@@ -183,6 +149,6 @@ void djvViewWindowActions::update()
     }
 
     // Fix up the actions.
-    
     osxMenuHack();
 }
+

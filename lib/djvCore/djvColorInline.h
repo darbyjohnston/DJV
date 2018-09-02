@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorInline.h
-
 #include <djvAssert.h>
 
 //------------------------------------------------------------------------------
@@ -58,15 +56,11 @@ inline const quint8 * djvColor::data() const
 }
 
 #define _COLOR_SET_WORK(TYPE) \
-    \
     switch (djvPixel::type(_pixel)) \
     { \
-        \
         case djvPixel::U8: \
-            (reinterpret_cast<djvPixel::U8_T *>(_data))[c] = \
-                PIXEL_##TYPE##_TO_U8(in); \
+            (reinterpret_cast<djvPixel::U8_T *>(_data))[c] = PIXEL_##TYPE##_TO_U8(in); \
             break; \
-        \
         case djvPixel::U10: \
         { \
             djvPixel::U10_S * p = reinterpret_cast<djvPixel::U10_S *>(_data); \
@@ -78,27 +72,19 @@ inline const quint8 * djvColor::data() const
             } \
         } \
         break; \
-        \
         case djvPixel::U16: \
-            (reinterpret_cast<djvPixel::U16_T *>(_data))[c] = \
-                PIXEL_##TYPE##_TO_U16(in); \
+            (reinterpret_cast<djvPixel::U16_T *>(_data))[c] = PIXEL_##TYPE##_TO_U16(in); \
             break; \
-        \
         case djvPixel::F16: \
-            (reinterpret_cast<djvPixel::F16_T *>(_data))[c] = \
-                PIXEL_##TYPE##_TO_F16(in); \
+            (reinterpret_cast<djvPixel::F16_T *>(_data))[c] = PIXEL_##TYPE##_TO_F16(in); \
             break; \
-        \
         case djvPixel::F32: \
-            (reinterpret_cast<djvPixel::F32_T *>(_data))[c] = \
-                PIXEL_##TYPE##_TO_F32(in); \
+            (reinterpret_cast<djvPixel::F32_T *>(_data))[c] = PIXEL_##TYPE##_TO_F32(in); \
             break; \
-        \
         default: break; \
     }
 
 #define _COLOR_SET(NAME, TYPE) \
-    \
     inline void djvColor::set##NAME(djvPixel::TYPE##_T in, int c) \
     { \
         if (-1 == c) \
@@ -111,7 +97,6 @@ inline const quint8 * djvColor::data() const
         else \
         { \
             DJV_ASSERT(c >= 0 && c < djvPixel::channels(_pixel)); \
-            \
             _COLOR_SET_WORK(TYPE) \
         } \
     }
@@ -123,22 +108,16 @@ _COLOR_SET(F16, F16)
 _COLOR_SET(F32, F32)
 
 #define _COLOR_GET(NAME, TYPE) \
-    \
     inline djvPixel::TYPE##_T djvColor::NAME(int c) const \
     { \
         DJV_ASSERT(c >= 0 && c < djvPixel::channels(_pixel)); \
-        \
         switch (djvPixel::type(_pixel)) \
         { \
-            \
             case djvPixel::U8: \
-                return PIXEL_U8_TO_##TYPE( \
-                    (reinterpret_cast<const djvPixel::U8_T *>(_data))[c]); \
-            \
+                return PIXEL_U8_TO_##TYPE((reinterpret_cast<const djvPixel::U8_T *>(_data))[c]); \
             case djvPixel::U10: \
             { \
-                const djvPixel::U10_S * p = \
-                    reinterpret_cast<const djvPixel::U10_S *>(_data); \
+                const djvPixel::U10_S * p = reinterpret_cast<const djvPixel::U10_S *>(_data); \
                 switch (c) \
                 { \
                     case 0: return PIXEL_U10_TO_##TYPE(p->r); \
@@ -149,20 +128,16 @@ _COLOR_SET(F32, F32)
             break; \
             \
             case djvPixel::U16: \
-                return PIXEL_U16_TO_##TYPE( \
-                    (reinterpret_cast<const djvPixel::U16_T *>(_data))[c]); \
+                return PIXEL_U16_TO_##TYPE((reinterpret_cast<const djvPixel::U16_T *>(_data))[c]); \
             \
             case djvPixel::F16: \
-                return PIXEL_F16_TO_##TYPE( \
-                    (reinterpret_cast<const djvPixel::F16_T *>(_data))[c]); \
+                return PIXEL_F16_TO_##TYPE((reinterpret_cast<const djvPixel::F16_T *>(_data))[c]); \
             \
             case djvPixel::F32: \
-                return PIXEL_F32_TO_##TYPE( \
-                    (reinterpret_cast<const djvPixel::F32_T *>(_data))[c]); \
+                return PIXEL_F32_TO_##TYPE((reinterpret_cast<const djvPixel::F32_T *>(_data))[c]); \
             \
             default: break; \
         } \
-        \
         return 0; \
     }
 
@@ -171,3 +146,4 @@ _COLOR_GET(u10, U10)
 _COLOR_GET(u16, U16)
 _COLOR_GET(f16, F16)
 _COLOR_GET(f32, F32)
+

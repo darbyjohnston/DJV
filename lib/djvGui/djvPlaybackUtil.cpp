@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPlaybackUtil.cpp
-
 #include <djvPlaybackUtil.h>
 
 #include <djvAssert.h>
@@ -47,9 +45,7 @@ const QStringList & djvPlaybackUtil::playbackLabels()
         qApp->translate("djvPlaybackUtil", "Reverse") <<
         qApp->translate("djvPlaybackUtil", "Stop") <<
         qApp->translate("djvPlaybackUtil", "Forward");
-
     DJV_ASSERT(data.count() == PLAYBACK_COUNT);
-
     return data;
 }
 
@@ -59,8 +55,6 @@ const QStringList & djvPlaybackUtil::playbackIcons()
         "djvPlayReverseIcon.png" <<
         "djvPlayStopIcon.png" <<
         "djvPlayForwardIcon.png";
-
     DJV_ASSERT(data.count() == PLAYBACK_COUNT);
-
     return data;
 }

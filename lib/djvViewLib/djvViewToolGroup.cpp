@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolGroup.cpp
-
 #include <djvViewToolGroup.h>
 
 #include <djvViewColorPickerTool.h>
@@ -92,17 +90,13 @@ djvViewToolGroup::djvViewToolGroup(
     //DJV_DEBUG("djvViewToolGroup::djvViewToolGroup");
     
     // Create the actions.
-
     _p->actions = new djvViewToolActions(context, this);
     
     // Create the menus.
-
     _p->menu = new djvViewToolMenu(_p->actions, mainWindow->menuBar());
-
     mainWindow->menuBar()->addMenu(_p->menu);
 
     // Create the widgets.
-
     _p->toolBar = new djvViewToolToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
@@ -136,23 +130,19 @@ djvViewToolGroup::djvViewToolGroup(
     }
 
     // Initialize.
-
     if (copy)
     {
         _p->tools = copy->_p->tools;
     }
-
     update();
 
     // Setup the action group callbacks.
-
     connect(
         _p->actions->group(djvViewToolActions::TOOL_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(toolsCallback(QAction *)));
 
     // Setup widget callbacks.
-    
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         _p->actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]->connect(
@@ -165,7 +155,6 @@ djvViewToolGroup::djvViewToolGroup(
 djvViewToolGroup::~djvViewToolGroup()
 {
     //DJV_DEBUG("djvViewToolGroup::~djvViewToolGroup");
-
     delete _p;
 }
     
@@ -183,31 +172,25 @@ void djvViewToolGroup::setTools(const QVector<bool> & tools)
 {
     if (tools == _p->tools)
         return;
-
     _p->tools = tools;
-    
     update();
-    
     Q_EMIT toolsChanged(_p->tools);
 }
 
 void djvViewToolGroup::toolsCallback(QAction *)
 {
     QVector<bool> tools;
-    
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         tools += _p->actions->group(djvViewToolActions::TOOL_GROUP)->
             actions()[i]->isChecked();
     }
-
     setTools(tools);
 }
 
 void djvViewToolGroup::update()
 {
     // Update action groups.
-
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         _p->actions->group(djvViewToolActions::TOOL_GROUP)->
@@ -215,7 +198,6 @@ void djvViewToolGroup::update()
     }
     
     // Update widgets.
-
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         _p->dockWidgets[i]->setVisible(_p->tools[i]);

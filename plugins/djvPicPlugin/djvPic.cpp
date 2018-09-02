@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPic.cpp
-
 #include <djvPic.h>
 
 #include <djvAssert.h>
@@ -50,9 +48,7 @@ const QStringList & djvPic::compressionLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvPic", "None") <<
         qApp->translate("djvPic", "RLE");
-
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
     return data;
 }
 
@@ -69,17 +65,12 @@ const quint8 * djvPic::readRle(
     //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("channels = " << channels);
     //DJV_DEBUG_PRINT("stride = " << stride);
-
     const quint8 * const outEnd = out + size * stride;
-
     while (in < end && out < outEnd)
     {
         // Get RLE information.
-
         quint16 count = *in++;
-
         //DJV_DEBUG_PRINT("count = " << count);
-        
         if (count >= 128)
         {
             if (128 == count)
@@ -92,25 +83,19 @@ const quint8 * djvPic::readRle(
                 {
                     djvMemory::copy(in, &count, 2);
                 }
-
                 in += 2;
             }
             else
             {
                 count -= 127;
             }
-
             //DJV_DEBUG_PRINT("repeat = " << count);
-
             const quint8 * p = in;
-            
             in += channels;
-
             if (in > end)
             {
                 break;
             }
-
             for (quint16 i = 0; i < count; ++i, out += stride)
             {
                 for (int j = 0; j < channels; ++j)
@@ -122,18 +107,13 @@ const quint8 * djvPic::readRle(
         else
         {
             ++count;
-            
             //DJV_DEBUG_PRINT("raw = " << count);
-
             const quint8 * p = in;
-            
             in += count * channels;
-
             if (in > end)
             {
                 break;
             }
-
             for (quint16 i = 0; i < count; ++i, p += channels, out += stride)
             {
                 for (int j = 0; j < channels; ++j)
@@ -143,6 +123,5 @@ const quint8 * djvPic::readRle(
             }
         }
     }
-
     return in > end ? 0 : in;
 }

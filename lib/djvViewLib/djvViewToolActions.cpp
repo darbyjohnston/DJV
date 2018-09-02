@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolActions.cpp
-
 #include <djvViewToolActions.h>
 
 #include <djvViewContext.h>
@@ -63,32 +61,26 @@ djvViewToolActions::djvViewToolActions(
     _p(new djvViewToolActionsPrivate)
 {
     // Create the action groups.
-
     for (int i = 0; i < GROUP_COUNT; ++i)
     {
         _groups[i] = new QActionGroup(this);
     }
-
     _groups[TOOL_GROUP]->setExclusive(false);
-    
     const QStringList toolText = QStringList() <<
         qApp->translate("djvViewToolActions", "&Magnify") <<
         qApp->translate("djvViewToolActions", "&Color Picker") <<
         qApp->translate("djvViewToolActions", "&Histogram") <<
         qApp->translate("djvViewToolActions", "&Information");
-    
     const QList<bool> toolCheckable = QList<bool>() <<
         true <<
         true <<
         true <<
         true;
-    
     const QList<QIcon> toolIcons = QList<QIcon>() <<
         context->iconLibrary()->icon("djvMagnifyIcon.png") <<
         context->iconLibrary()->icon("djvColorPickerIcon.png") <<
         context->iconLibrary()->icon("djvHistogramIcon.png") <<
         context->iconLibrary()->icon("djvInfoIcon.png");
-    
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         QAction * action = new QAction(this);
@@ -101,11 +93,9 @@ djvViewToolActions::djvViewToolActions(
     }
 
     // Initialize.
-
     update();
 
     // Setup the callbacks.
-
     connect(
         context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -123,19 +113,16 @@ void djvViewToolActions::update()
         context()->shortcutPrefs()->shortcuts();
 
     // Update the action groups.
-    
     const QVector<QKeySequence> toolShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewUtil::SHORTCUT_TOOL_MAGNIFY].value <<
         shortcuts[djvViewUtil::SHORTCUT_TOOL_COLOR_PICKER].value <<
         shortcuts[djvViewUtil::SHORTCUT_TOOL_HISTOGRAM].value <<
         shortcuts[djvViewUtil::SHORTCUT_TOOL_INFO].value;
-    
     const QStringList toolToolTips = QStringList() <<
         qApp->translate("djvViewToolActions", "Toggle the magnify tool\n\nShortcut: %1") <<
         qApp->translate("djvViewToolActions", "Toggle the color picker tool\n\nShortcut: %1") <<
         qApp->translate("djvViewToolActions", "Toggle the histogram tool\n\nShortcut: %1") <<
         qApp->translate("djvViewToolActions", "Toggle the information tool\n\nShortcut: %1");
-    
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
          _groups[TOOL_GROUP]->actions()[i]->setShortcut(toolShortcuts[i]);
@@ -144,10 +131,9 @@ void djvViewToolActions::update()
     }
 
     // Fix up the actions.
-    
     osxMenuHack();
 
     // Emit changed signal.
-
     Q_EMIT changed();
 }
+

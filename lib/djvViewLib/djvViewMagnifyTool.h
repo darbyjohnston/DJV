@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewMagnifyTool.h
-
-#ifndef DJV_VIEW_MAGNIFY_TOOL_H
-#define DJV_VIEW_MAGNIFY_TOOL_H
+#pragma once
 
 #include <djvViewAbstractTool.h>
 
@@ -54,24 +51,17 @@ class DJV_VIEW_LIB_EXPORT djvViewMagnifyTool : public djvViewAbstractTool
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewMagnifyTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
         QWidget *           parent = 0);
 
-    //! Destructor.
-
     virtual ~djvViewMagnifyTool();
 
 protected:
-
     virtual void showEvent(QShowEvent *);
 
 private Q_SLOTS:
-
     void pickCallback(const djvVector2i &);
     void sliderCallback(int);
     void colorProfileCallback(bool);
@@ -81,13 +71,10 @@ private Q_SLOTS:
     void pixelDataUpdate();
     
 private:
-
     DJV_PRIVATE_COPY(djvViewMagnifyTool);
     
     djvViewMagnifyToolPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_MAGNIFY_TOOL_H
 

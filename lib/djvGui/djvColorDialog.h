@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorDialog.h
-
-#ifndef DJV_COLOR_DIALOG_H
-#define DJV_COLOR_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,8 +54,7 @@ class DJV_GUI_EXPORT djvColorDialog : public QDialog
 {
     Q_OBJECT
     
-    //! This property holds the color.
-    
+    //! This property holds the color.    
     Q_PROPERTY(
         djvColor color
         READ     color
@@ -66,48 +62,32 @@ class DJV_GUI_EXPORT djvColorDialog : public QDialog
         NOTIFY   colorChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvColorDialog(
         djvGuiContext *  context,
         QWidget *        parent  = 0);
-
-    //! Constructor.
-
     explicit djvColorDialog(
         const djvColor & color,
         djvGuiContext *  context,
         QWidget *        parent  = 0);
 
-    //! Destructor.
-    
     virtual ~djvColorDialog();
     
     //! Get the color.
-
     const djvColor & color() const;
 
 public Q_SLOTS:
-
     //! Set the color.
-
     void setColor(const djvColor &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the color is changed.
-
     void colorChanged(const djvColor &);
 
 private Q_SLOTS:
-
     void widgetCallback(const djvColor &);
 
 private:
-
     void init();
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvColorDialog);
@@ -116,6 +96,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_COLOR_DIALOG_H
 

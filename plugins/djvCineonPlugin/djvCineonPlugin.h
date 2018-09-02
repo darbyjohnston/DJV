@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonPlugin.h
-
-#ifndef DJV_CINEON_PLUGIN_H
-#define DJV_CINEON_PLUGIN_H
+#pragma once
 
 #include <djvCineon.h>
 
@@ -51,39 +48,26 @@
 class djvCineonPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvCineonPlugin(djvCoreContext *);
     
-    //! Destructor.
-
     virtual ~djvCineonPlugin();
 
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
-
+    
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
     
 private:
-
     djvCineon::Options _options;
 };
 
 //@} // djvCineonPlugin
-
-#endif // DJV_CINEON_PLUGIN_H
 

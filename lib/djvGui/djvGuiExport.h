@@ -29,65 +29,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGuiExport.h
-
-#ifndef DJV_GUI_EXPORT_H
-#define DJV_GUI_EXPORT_H
-
-//! \addtogroup lib
-//@{
-
-//! \defgroup djvGui djvGui
-//!
-//! This library provides user interface functionality.
-
-//@} // lib
-
-//! \addtogroup djvGui
-//@{
-
-//! \defgroup djvGuiDialog djvGuiDialog
-//!
-//! This module provides user interface dialogs.
-
-//! \defgroup djvGuiMisc djvGuiMisc
-//!
-//! This module provides miscellaneous user interface functionality.
-
-//! \defgroup djvGuiWidget djvGuiWidget
-//!
-//! This module provides user interface widgets.
-
-//@} // djvGui
+#pragma once
 
 //! \addtogroup djvGuiMisc
 //@{
 
-//! Library export.
-
 #if defined(DJV_WINDOWS)
-
 #if defined(djvGui_EXPORTS)
-
-//! This define provides the library export.
-
 #define DJV_GUI_EXPORT __declspec(dllexport)
-
 #else // djvGui_EXPORTS
-
-//! This define provides the library export.
-
 #define DJV_GUI_EXPORT __declspec(dllimport)
-
 #endif // djvGui_EXPORTS
-
 #else // DJV_WINDOWS
-
 #define DJV_GUI_EXPORT
-
 #endif // DJV_WINDOWS
 
 //@} // djvGuiMisc
-
-#endif // DJV_GUI_EXPORT_H
 

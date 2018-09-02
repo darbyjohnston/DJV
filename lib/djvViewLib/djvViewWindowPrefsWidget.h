@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowPrefsWidget.h
-
-#ifndef DJV_VIEW_WINDOW_PREFS_WIDGET_H
-#define DJV_VIEW_WINDOW_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -55,19 +52,13 @@ class DJV_VIEW_LIB_EXPORT djvViewWindowPrefsWidget :
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewWindowPrefsWidget(djvViewContext *);
-    
-    //! Destructor.
     
     virtual ~djvViewWindowPrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void autoFitCallback(bool);
     void viewMaxCallback(int);
     void viewMaxUserCallback(const djvVector2i &);
@@ -77,13 +68,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewWindowPrefsWidget);
     
     djvViewWindowPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewWindow
-
-#endif // DJV_VIEW_WINDOW_PREFS_H
 

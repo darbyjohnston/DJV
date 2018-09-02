@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvBox3Inline.h
-
 #include <djvVectorUtil.h>
 
 //------------------------------------------------------------------------------
@@ -57,7 +55,6 @@ template<typename T>
 const int djvBox<T, 3>::dimension = 3;
 
 #define _BOX3_INIT() \
-    \
     x(djvBox::position.e[0]), \
     y(djvBox::position.e[1]), \
     z(djvBox::position.e[2]), \
@@ -144,7 +141,6 @@ inline djvBox<T, 3> & djvBox<T, 3>::operator = (const djvBox<T, 3> & in)
         position = in.position;
         size     = in.size;
     }
-
     return *this;
 }
 
@@ -153,7 +149,6 @@ inline djvBox<T, 3> & djvBox<T, 3>::operator *= (const djvVector<T, 3> & in)
 {
     position *= in;
     size *= in;
-
     return *this;
 }
 
@@ -162,7 +157,6 @@ inline djvBox<T, 3> & djvBox<T, 3>::operator /= (const djvVector<T, 3> & in)
 {
     position /= in;
     size /= in;
-
     return *this;
 }
 
@@ -171,7 +165,6 @@ inline djvBox<T, 3> & djvBox<T, 3>::operator *= (T in)
 {
     position *= in;
     size *= in;
-
     return *this;
 }
 
@@ -180,7 +173,6 @@ inline djvBox<T, 3> & djvBox<T, 3>::operator /= (T in)
 {
     position /= in;
     size /= in;
-
     return *this;
 }
 
@@ -199,3 +191,4 @@ inline djvBox<T, 3>::operator djvBox<double, 3>() const
         static_cast<double>(x), static_cast<double>(y), static_cast<double>(z),
         static_cast<double>(w), static_cast<double>(h), static_cast<double>(d));
 }
+

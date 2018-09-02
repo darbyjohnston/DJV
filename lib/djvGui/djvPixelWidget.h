@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelWidget.h
-
-#ifndef DJV_PIXEL_WIDGET_H
-#define DJV_PIXEL_WIDGET_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,7 +54,6 @@ class DJV_GUI_EXPORT djvPixelWidget : public QWidget
     Q_OBJECT
     
     //! This property holds the pixel.
-    
     Q_PROPERTY(
         djvPixel::PIXEL pixel
         READ            pixel
@@ -65,37 +61,25 @@ class DJV_GUI_EXPORT djvPixelWidget : public QWidget
         NOTIFY          pixelChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvPixelWidget(QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvPixelWidget();
 
     //! Get the pixel.
-
     djvPixel::PIXEL pixel() const;
 
 public Q_SLOTS:
-
     //! Set the pixel.
-
     void setPixel(djvPixel::PIXEL);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the pixel is changed.
-
     void pixelChanged(djvPixel::PIXEL);
 
 private Q_SLOTS:
-
     void widgetCallback(int);
 
 private:
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvPixelWidget);
@@ -104,6 +88,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_PIXEL_WIDGET_H
 

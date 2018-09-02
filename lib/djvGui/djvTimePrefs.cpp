@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimePrefs.cpp
-
 #include <djvTimePrefs.h>
 
 #include <djvPrefs.h>
@@ -49,16 +47,12 @@ djvTimePrefs::djvTimePrefs(QObject * parent) :
     //DJV_DEBUG("djvTimePrefs::djvTimePrefs");
 
     djvPrefs prefs("djvTimePrefs", djvPrefs::SYSTEM);
-
     djvTime::UNITS timeUnits = djvTime::units();
-
     if (prefs.get("timeUnits", timeUnits))
     {
         djvTime::setUnits(timeUnits);
     }
-
     djvSpeed::FPS speed = djvSpeed::speed();
-
     if (prefs.get("speed", speed))
     {
         djvSpeed::setSpeed(speed);
@@ -70,7 +64,6 @@ djvTimePrefs::~djvTimePrefs()
     //DJV_DEBUG("djvTimePrefs::~djvTimePrefs");
 
     djvPrefs prefs("djvTimePrefs", djvPrefs::SYSTEM);
-
     prefs.set("timeUnits", djvTime::units());
     prefs.set("speed", djvSpeed::speed());
 }
@@ -89,9 +82,7 @@ void djvTimePrefs::setTimeUnits(djvTime::UNITS units)
 {
     if (units == this->timeUnits())
         return;
-
     djvTime::setUnits(units);
-
     Q_EMIT timeUnitsChanged(this->timeUnits());
 }
 
@@ -99,9 +90,7 @@ void djvTimePrefs::setSpeed(djvSpeed::FPS speed)
 {
     if (speed == this->speed())
         return;
-
     djvSpeed::setSpeed(speed);
-
     Q_EMIT speedChanged(this->speed());
 }
 

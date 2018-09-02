@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequencePrefs.cpp
-
 #include <djvSequencePrefs.h>
 
 #include <djvPrefs.h>
@@ -48,11 +46,8 @@ djvSequencePrefs::djvSequencePrefs(QObject * parent) :
     QObject(parent)
 {
     //DJV_DEBUG("djvSequencePrefs::djvSequencePrefs");
-
     djvPrefs prefs("djvSequencePrefs", djvPrefs::SYSTEM);
-
     qint64 maxFrames = djvSequence::maxFrames();
-
     if (prefs.get("maxFrames", maxFrames))
     {
         djvSequence::setMaxFrames(maxFrames);
@@ -62,9 +57,7 @@ djvSequencePrefs::djvSequencePrefs(QObject * parent) :
 djvSequencePrefs::~djvSequencePrefs()
 {
     //DJV_DEBUG("djvSequencePrefs::~djvSequencePrefs");
-
     djvPrefs prefs("djvSequencePrefs", djvPrefs::SYSTEM);
-
     prefs.set("maxFrames", djvSequence::maxFrames());
 }
 
@@ -77,8 +70,6 @@ void djvSequencePrefs::setMaxFrames(qint64 size)
 {
     if (size == this->maxFrames())
         return;
-
     djvSequence::setMaxFrames(size);
-
     Q_EMIT maxFramesChanged(this->maxFrames());
 }

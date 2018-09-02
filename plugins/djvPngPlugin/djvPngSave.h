@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPngSave.h
-
-#ifndef DJV_PNG_SAVE_H
-#define DJV_PNG_SAVE_H
+#pragma once
 
 #include <djvPng.h>
 
@@ -52,12 +49,7 @@
 class djvPngSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     explicit djvPngSave(djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvPngSave();
 
@@ -70,7 +62,6 @@ public:
     virtual void close() throw (djvError);
 
 private:
-
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
@@ -84,6 +75,4 @@ private:
 };
 
 //@} // djvPngPlugin
-
-#endif // DJV_PNG_SAVE_H
 

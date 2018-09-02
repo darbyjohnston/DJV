@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoPrefs.h
-
-#ifndef DJV_IMAGE_IO_PREFS_H
-#define DJV_IMAGE_IO_PREFS_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,21 +53,13 @@ class DJV_GUI_EXPORT djvImageIoPrefs : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvImageIoPrefs(djvGuiContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvImageIoPrefs();
 
 private:
-
     djvGuiContext * _context;
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_IMAGE_IO_PREFS_H
 

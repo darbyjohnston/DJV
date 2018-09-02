@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegWidget.h
-
-#ifndef DJV_FFMPEG_WIDGET_H
-#define DJV_FFMPEG_WIDGET_H
+#pragma once
 
 #include <djvFFmpeg.h>
 
@@ -54,19 +51,13 @@ class djvFFmpegWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvFFmpegWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
 
     virtual ~djvFFmpegWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void formatCallback(int);
     void qualityCallback(int);
@@ -75,7 +66,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvFFmpeg::Options _options;
     QComboBox *        _formatWidget;
     QComboBox *        _qualityWidget;
@@ -90,7 +80,6 @@ private:
 class djvFFmpegWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvFFmpegWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -99,6 +88,4 @@ public:
 };
 
 //@} // djvFFmpegPlugin
-
-#endif // DJV_FFMPEG_WIDGET_H
 

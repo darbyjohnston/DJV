@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorProfile.cpp
-
 #include <djvColorProfile.h>
 
 #include <djvAssert.h>
@@ -74,8 +72,6 @@ const QStringList & djvColorProfile::profileLabels()
 
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 bool operator == (
     const djvColorProfile::Exposure & a,

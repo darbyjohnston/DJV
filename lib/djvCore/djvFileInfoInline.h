@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileInfoInline.h
-
 //------------------------------------------------------------------------------
 // djvFileInfo
 //------------------------------------------------------------------------------
@@ -128,32 +126,23 @@ inline bool djvFileInfo::isSequenceWildcard() const
 inline bool djvFileInfo::addSequence(const djvFileInfo & in)
 {
     // Compare.
-
     if (_extension != in._extension)
         return false;
-
     if (_base != in._base)
         return false;
-
     if (! isSequenceValid() || ! in.isSequenceValid())
         return false;
 
     // Update sequence.
-
     _type = SEQUENCE;
-
     _sequence.frames += in._sequence.frames;
-    
     if (in._sequence.pad > _sequence.pad)
         _sequence.pad = in._sequence.pad;
 
     // Update information.
-
     _size += in._size;
-    
     if (in._user > _user)
         _user = in._user;
-    
     if (in._time > _time)
         _time = in._time;
 

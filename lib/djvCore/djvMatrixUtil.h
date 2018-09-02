@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMatrixUtil.h
-
-#ifndef DJV_MATRIX_UTIL_H
-#define DJV_MATRIX_UTIL_H
+#pragma once
 
 #include <djvMatrix.h>
 
@@ -48,45 +45,34 @@
 class DJV_CORE_EXPORT djvMatrixUtil
 {
 public:
-
-    //! Destructor.
-    
     inline virtual ~djvMatrixUtil() = 0;
     
     //! Transpose a matrix.
-
     template<typename T, int D>
     static inline djvMatrix<T, D> transpose(const djvMatrix<T, D> &);
 
     //! Create a translation matrix.
-
     template<typename T, int D, int D2>
     static inline djvMatrix<T, D> translate(const djvVector<T, D2> &);
 
     //! Create a translation matrix.
-
     static inline djvMatrix3f translate3f(const djvVector2f &);
 
     //! Create a scale matrix.
-
     template<typename T, int D, int D2>
     static inline djvMatrix<T, D> scale(const djvVector<T, D2> &);
 
     //! Create a scale matrix.
-
     static inline djvMatrix3f scale3f(const djvVector2f &);
 
     //! Create a rotation matrix.
-
     static inline djvMatrix3f rotate3f(double);
 
     //! Convert matrix types.
-
     template <typename T, typename T2, int D>
     static inline djvMatrix<T2, D> convert(const djvMatrix<T, D> &);
 
     //! Convert a 3x3 matrix to a 4x4 matrix.
-
     template <typename T>
     static inline djvMatrix<T, 4> matrix4(const djvMatrix<T, 3> &);
 };
@@ -95,4 +81,3 @@ public:
 
 #include <djvMatrixUtilInline.h>
 
-#endif // DJV_MATRIX_UTIL_H

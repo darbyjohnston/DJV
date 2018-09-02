@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlTexture.h
-
-#ifndef DJV_OPEN_GL_TEXTURE_H
-#define DJV_OPEN_GL_TEXTURE_H
+#pragma once
 
 #include <djvError.h>
 #include <djvOpenGl.h>
@@ -47,17 +44,11 @@
 class DJV_CORE_EXPORT djvOpenGlTexture
 {
 public:
-
-    //! Constructor.
-    
     djvOpenGlTexture();
 
-    //! Destructor.
-    
     ~djvOpenGlTexture();
     
     //! Initialize the texture.
-
     void init(
         const djvPixelDataInfo &,
         gl::GLenum                   target = gl::GL_TEXTURE_2D,
@@ -65,7 +56,6 @@ public:
         gl::GLenum                   mag    = gl::GL_LINEAR) throw (djvError);
 
     //! Initialize the texture.
-
     void init(
         const djvPixelData &,
         gl::GLenum           target = gl::GL_TEXTURE_2D,
@@ -73,43 +63,33 @@ public:
         gl::GLenum           mag    = gl::GL_LINEAR) throw (djvError);
     
     //! Get the pixel information.
-
     const djvPixelDataInfo & info() const;
 
     //! Get the target.
-    
     gl::GLenum target() const;
 
     //! Get the minify filter.
-    
     gl::GLenum min() const;
 
     //! Get the magnify filter.
-    
     gl::GLenum mag() const;
 
     //! Get the texture ID.
-    
     gl::GLuint id() const;
 
     //! Bind the texture.
-    
     void bind();
 
     //! Copy pixel data to the texture.
-    
     void copy(const djvPixelData &);
 
     //! Copy pixel data to the texture.
-
     void copy(const djvPixelData &, const djvBox2i &);
 
     //! Copy the current read buffer to the texture.
-    
     void copy(const djvVector2i &);
 
 private:
-
     void del();
 
     djvPixelDataInfo _info;
@@ -119,4 +99,3 @@ private:
     gl::GLuint       _id;
 };
 
-#endif // DJV_OPEN_GL_TEXTURE_H

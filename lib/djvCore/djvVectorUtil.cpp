@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVectorUtil.cpp
-
 #include <djvVectorUtil.h>
 
 #include <djvMath.h>
@@ -48,7 +46,6 @@ djvVectorUtil::~djvVectorUtil()
 void djvVectorUtil::sphericalToCartesian(const djvVector3f & in, djvVector3f * out)
 {
     const double tmp = djvMath::sin(in.x);
-
     out->x = in.z * tmp * djvMath::cos(in.y);
     out->y = in.z * tmp * djvMath::sin(in.y);
     out->z = in.z * djvMath::cos(in.x);

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHelpActions.cpp
-
 #include <djvViewHelpActions.h>
 
 #include <QAction>
@@ -54,16 +52,12 @@ djvViewHelpActions::djvViewHelpActions(
     _p(new djvViewHelpActionsPrivate)
 {
     // Create the actions.
-
     for (int i = 0; i < ACTION_COUNT; ++i)
     {
         _actions[i] = new QAction(this);
     }
-
     _actions[HELP]->setText(qApp->translate("djvViewHelpActions", "&Help"));
-
     _actions[INFO]->setText(qApp->translate("djvViewHelpActions", "&Information"));
-
     _actions[ABOUT]->setText(qApp->translate("djvViewHelpActions", "&About"));
 }
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSearchBox.h
-
-#ifndef DJV_SEARCH_BOX_H
-#define DJV_SEARCH_BOX_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,7 +54,6 @@ class DJV_GUI_EXPORT djvSearchBox : public QWidget
     Q_OBJECT
     
     //! This property holds the test.
-    
     Q_PROPERTY(
         QString text
         READ    text
@@ -65,44 +61,30 @@ class DJV_GUI_EXPORT djvSearchBox : public QWidget
         NOTIFY  textChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvSearchBox(djvGuiContext *, QWidget * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvSearchBox();
 
     //! Get the text.
-
     const QString & text() const;
     
 public Q_SLOTS:
-
     //! Set the text.
-
     void setText(const QString &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the text is changed.
-
     void textChanged(const QString &);
     
 private Q_SLOTS:
-
     void textCallback(const QString &);
     void resetCallback();
 
 private:
-
     DJV_PRIVATE_COPY(djvSearchBox);
     
     djvSearchBoxPrivate * _p;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_SEARCH_BOX_H
 

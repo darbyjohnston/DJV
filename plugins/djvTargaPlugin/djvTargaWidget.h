@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaWidget.h
-
-#ifndef DJV_TARGA_WIDGET_H
-#define DJV_TARGA_WIDGET_H
+#pragma once
 
 #include <djvTarga.h>
 
@@ -54,19 +51,13 @@ class djvTargaWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvTargaWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
-
+    
     virtual ~djvTargaWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void compressionCallback(int);
 
@@ -74,7 +65,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvTarga::Options _options;
     QComboBox *       _compressionWidget;
 };
@@ -88,7 +78,6 @@ private:
 class djvTargaWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvTargaWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -97,6 +86,4 @@ public:
 };
 
 //@} // djvTargaPlugin
-
-#endif // DJV_TARGA_WIDGET_H
 

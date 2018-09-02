@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmWidget.h
-
-#ifndef DJV_PPM_WIDGET_H
-#define DJV_PPM_WIDGET_H
+#pragma once
 
 #include <djvPpm.h>
 
@@ -54,19 +51,13 @@ class djvPpmWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvPpmWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
-
+    
     virtual ~djvPpmWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void typeCallback(int);
     void dataCallback(int);
@@ -75,7 +66,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvPpm::Options _options;
     QComboBox *     _typeWidget;
     QComboBox *     _dataWidget;
@@ -90,7 +80,6 @@ private:
 class djvPpmWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvPpmWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -99,6 +88,4 @@ public:
 };
 
 //@} // djvPpmPlugin
-
-#endif // DJV_PPM_WIDGET_H
 

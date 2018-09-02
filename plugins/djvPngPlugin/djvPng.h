@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPng.h
-
-#ifndef DJV_PNG_H
-#define DJV_PNG_H
+#pragma once
 
 #include <djvStringUtil.h>
 
@@ -70,15 +67,11 @@
 
 struct djvPng
 {
-    //! The plugin name.
-    
     static const QString staticName;
 };
 
-//------------------------------------------------------------------------------
 
 //! This struct provides libpng error handling.
-
 struct djvPngErrorStruct
 {
     char msg[djvStringUtil::cStringLength];
@@ -92,6 +85,4 @@ void djvPngWarning(png_structp, png_const_charp);
 }
 
 //@} // djvPngPlugin
-
-#endif // DJV_PNG_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExr.cpp
-
 #include <djvOpenExr.h>
 
 #include <djvAssert.h>
@@ -65,12 +63,10 @@ djvOpenExr::Layer::Layer(
     luminanceChroma(luminanceChroma)
 {
     QStringList names;
-
     for (int i = 0; i < channels.count(); ++i)
     {
         names += channels[i].name;
     }
-
     name = layerName(names);
 }
 
@@ -103,9 +99,7 @@ const QStringList & djvOpenExr::colorProfileLabels()
         qApp->translate("djvOpenExr", "None") <<
         qApp->translate("djvOpenExr", "Gamma") <<
         qApp->translate("djvOpenExr", "Exposure");
-
     DJV_ASSERT(data.count() == COLOR_PROFILE_COUNT);
-
     return data;
 }
 
@@ -126,9 +120,7 @@ const QStringList & djvOpenExr::compressionLabels()
         qApp->translate("djvOpenExr", "DWAB")
 #endif // OPENEXR_VERSION_HEX
         ;
-
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
     return data;
 }
 
@@ -138,9 +130,7 @@ const QStringList & djvOpenExr::channelsLabels()
         qApp->translate("djvOpenExr", "None") <<
         qApp->translate("djvOpenExr", "Known") <<
         qApp->translate("djvOpenExr", "All");
-
     DJV_ASSERT(data.count() == CHANNELS_COUNT);
-
     return data;
 }
 
@@ -159,7 +149,6 @@ const QStringList & djvOpenExr::tagLabels()
         qApp->translate("djvOpenExr", "XDensity");
 
     DJV_ASSERT(data.count() == TAG_COUNT);
-
     return data;
 }
 
@@ -168,16 +157,12 @@ QString djvOpenExr::layerName(const QStringList & in)
     QString out;
 
     // Split into a prefix and suffix.
-
     QSet<QString> prefixSet;
     QStringList   suffixes;
-
     for (int i = 0; i < in.count(); ++i)
     {
         const QString & name = in[i];
-
         const int index = name.lastIndexOf('.');
-
         if (index != -1 && index != 0 && index != name.length() - 1)
         {
             prefixSet += name.mid(0, index);
@@ -190,32 +175,26 @@ QString djvOpenExr::layerName(const QStringList & in)
     }
 
     // Join pieces.
-
     QList<QString> list = prefixSet.toList();
-
     out = QStringList(list).join(",");
-
     if (suffixes.count())
     {
         out += "." + suffixes.join(",");
     }
-
+    
     return out;
 }
 
 Imf::ChannelList djvOpenExr::defaultLayer(const Imf::ChannelList & in)
 {
     Imf::ChannelList out;
-
     for (
         Imf::ChannelList::ConstIterator i = in.begin();
         i != in.end();
         ++i)
     {
         const QString tmp = i.name();
-
         const int index = tmp.indexOf('.');
-
         if (index != -1)
         {
             if (index != 0 || index != tmp.length() - 1)
@@ -223,10 +202,8 @@ Imf::ChannelList djvOpenExr::defaultLayer(const Imf::ChannelList & in)
                 continue;
             }
         }
-
         out.insert(i.name(), i.channel());
     }
-
     return out;
 }
 
@@ -236,23 +213,18 @@ const Imf::Channel * djvOpenExr::find(
 {
     //DJV_DEBUG("djvOpenExr::find");
     //DJV_DEBUG_PRINT("channel = " << channel);
-
     const QString channelLower = channel.toLower();
-
     for (
         Imf::ChannelList::ConstIterator i = in.begin();
         i != in.end();
         ++i)
     {
         const QString & inName = i.name();
-
         const int index = inName.lastIndexOf('.');
-
         const QString tmp =
             (index != -1) ?
             inName.mid(index + 1, inName.length() - index - 1) :
             inName;
-
         if (channelLower == tmp.toLower())
         {
             //DJV_DEBUG_PRINT("found = " << inName);
@@ -260,39 +232,31 @@ const Imf::Channel * djvOpenExr::find(
             return &i.channel();
         }
     }
-
     return 0;
 }
 
 namespace
 {
-
 QVector<djvOpenExr::Layer> _layer(
     const Imf::ChannelList & in,
     djvOpenExr::CHANNELS     channels)
 {
     //DJV_DEBUG("_layer");
-
     QVector<djvOpenExr::Layer> out;
-
     QVector<const Imf::Channel *> reserved;
-
     if (channels != djvOpenExr::CHANNELS_GROUP_NONE)
     {
         // Look for known channel configurations then convert the remainder.
 
         // RGB / RGBA.
-
         QString rName = "r";
         QString gName = "g";
         QString bName = "b";
         QString aName = "a";
-
         const Imf::Channel * r = djvOpenExr::find (in, rName);
         const Imf::Channel * g = djvOpenExr::find (in, gName);
         const Imf::Channel * b = djvOpenExr::find (in, bName);
         const Imf::Channel * a = djvOpenExr::find (in, aName);
-
         if (r && g && b && a &&
             compare(QVector<Imf::Channel>() << *r << *g << *b << *a))
         {
@@ -301,9 +265,7 @@ QVector<djvOpenExr::Layer> _layer(
                 djvOpenExr::imfToChannel(gName, *g) <<
                 djvOpenExr::imfToChannel(bName, *b) <<
                 djvOpenExr::imfToChannel(aName, *a));
-
             //DJV_DEBUG_PRINT("rgba = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 r << g << b << a;
         }
@@ -315,35 +277,28 @@ QVector<djvOpenExr::Layer> _layer(
                 djvOpenExr::imfToChannel(rName, *r) <<
                 djvOpenExr::imfToChannel(gName, *g) <<
                 djvOpenExr::imfToChannel(bName, *b));
-
             //DJV_DEBUG_PRINT("rgb = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 r << g << b;
         }
 
         // Luminance, XYZ.
-
         QString yName  = "y";
         QString ryName = "ry";
         QString byName = "by";
         QString xName  = "x";
         QString zName  = "z";
-
         const Imf::Channel * y  = djvOpenExr::find (in, yName);
         const Imf::Channel * ry = djvOpenExr::find (in, ryName);
         const Imf::Channel * by = djvOpenExr::find (in, byName);
         const Imf::Channel * x  = djvOpenExr::find (in, xName);
         const Imf::Channel * z  = djvOpenExr::find (in, zName);
-
         if (y && a && compare(QVector<Imf::Channel>() << *y << *a))
         {
             out += djvOpenExr::Layer(QVector<djvOpenExr::Channel>() <<
                 djvOpenExr::imfToChannel(yName, *y) <<
                 djvOpenExr::imfToChannel(aName, *a));
-
             //DJV_DEBUG_PRINT("ya = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 y << a;
         }
@@ -360,9 +315,7 @@ QVector<djvOpenExr::Layer> _layer(
                 djvOpenExr::imfToChannel(ryName, *ry) <<
                 djvOpenExr::imfToChannel(byName, *by),
                 true);
-
             //DJV_DEBUG_PRINT("yc = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 y << ry << by;
         }
@@ -374,9 +327,7 @@ QVector<djvOpenExr::Layer> _layer(
                 djvOpenExr::imfToChannel(xName, *x) <<
                 djvOpenExr::imfToChannel(yName, *y) <<
                 djvOpenExr::imfToChannel(zName, *z));
-
             //DJV_DEBUG_PRINT("xyz = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 x << y << z;
         }
@@ -387,9 +338,7 @@ QVector<djvOpenExr::Layer> _layer(
             out += djvOpenExr::Layer(QVector<djvOpenExr::Channel>() <<
                 djvOpenExr::imfToChannel(xName, *x) <<
                 djvOpenExr::imfToChannel(yName, *y));
-
             //DJV_DEBUG_PRINT("xy = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 x << y;
         }
@@ -397,9 +346,7 @@ QVector<djvOpenExr::Layer> _layer(
         {
             out += djvOpenExr::Layer(QVector<djvOpenExr::Channel>() <<
                 djvOpenExr::imfToChannel(xName, *x));
-
             //DJV_DEBUG_PRINT("x = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 x;
         }
@@ -407,9 +354,7 @@ QVector<djvOpenExr::Layer> _layer(
         {
             out += djvOpenExr::Layer(QVector<djvOpenExr::Channel>() <<
                 djvOpenExr::imfToChannel(yName, *y));
-
             //DJV_DEBUG_PRINT("y = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 y;
         }
@@ -417,23 +362,18 @@ QVector<djvOpenExr::Layer> _layer(
         {
             out += djvOpenExr::Layer(QVector<djvOpenExr::Channel>() <<
                 djvOpenExr::imfToChannel(zName, *z));
-
             //DJV_DEBUG_PRINT("z = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 z;
         }
 
         // Colored mattes.
-
         QString arName = "ar";
         QString agName = "ag";
         QString abName = "ab";
-
         const Imf::Channel * ar = djvOpenExr::find (in, arName);
         const Imf::Channel * ag = djvOpenExr::find (in, agName);
         const Imf::Channel * ab = djvOpenExr::find (in, abName);
-
         if (ar && ag && ab &&
             compare(QVector<Imf::Channel>() << *ar << *ag << *ab))
         {
@@ -441,18 +381,14 @@ QVector<djvOpenExr::Layer> _layer(
                 djvOpenExr::imfToChannel(arName, *ar) <<
                 djvOpenExr::imfToChannel(agName, *ag) <<
                 djvOpenExr::imfToChannel(abName, *ab));
-
             //DJV_DEBUG_PRINT("matte = " << out[out.count() - 1].name);
-
             reserved += QVector<const Imf::Channel *>() <<
                 ar << ag << ab;
         }
     }
 
     // Convert the remainder.
-
     //DJV_DEBUG_PRINT("reserved list = " << reserved.count());
-
     for (
         Imf::ChannelList::ConstIterator i = in.begin();
         i != in.end();)
@@ -460,22 +396,17 @@ QVector<djvOpenExr::Layer> _layer(
         QVector<djvOpenExr::Channel> list;
 
         // Add the first channel.
-
         const QString & name = i.name();
         const Imf::Channel & channel = i.channel();
         ++i;
-
         if (reserved.contains(&channel))
         {
             continue;
         }
-
         list += djvOpenExr::imfToChannel(name, channel);
-
         if (djvOpenExr::CHANNELS_GROUP_ALL == channels)
         {
             // Group as many additional channels as possible.
-
             for (
                 ;
                 i != in.end() &&
@@ -488,9 +419,7 @@ QVector<djvOpenExr::Layer> _layer(
         }
 
         // Add the layer.
-
         out += djvOpenExr::Layer(list);
-
         //DJV_DEBUG_PRINT("layer = " << out[out.count() - 1].name);
     }
 
@@ -508,11 +437,9 @@ QVector<djvOpenExr::Layer> djvOpenExr::layer(
     QVector<Layer> out;
 
     // Default layer.
-
     out += _layer(defaultLayer(in), channels);
 
     // Additional layers.
-
     std::set<std::string> layers;
     in.layers(layers);
 
@@ -524,15 +451,12 @@ QVector<djvOpenExr::Layer> djvOpenExr::layer(
         Imf::ChannelList list;
         Imf::ChannelList::ConstIterator f, l;
         in.channelsInLayer(*i, f, l);
-
         for (Imf::ChannelList::ConstIterator j = f; j != l; ++j)
         {
             list.insert(j.name(), j.channel());
         }
-
         out += _layer(list, channels);
     }
-
     //for (int i = 0; i < out.count(); ++i)
     //    DJV_DEBUG_PRINT("layer[" << i << "] = " << out[i].name);
 
@@ -543,59 +467,46 @@ void djvOpenExr::loadTags(const Imf::Header & in, djvImageIoInfo & out)
 {
     const QStringList & openexrTags = tagLabels();
     const QStringList & tags = djvImageTags::tagLabels();
-
     if (hasOwner(in))
     {
         out.tags[tags[djvImageTags::CREATOR]] = ownerAttribute(in).value().c_str();
     }
-
     if (hasComments(in))
     {
         out.tags[tags[djvImageTags::DESCRIPTION]] =
             commentsAttribute(in).value().c_str();
     }
-
     if (hasCapDate(in))
     {
         out.tags[tags[djvImageTags::TIME]] = capDateAttribute(in).value().c_str();
     }
-
     if (hasUtcOffset(in))
         out.tags[tags[djvImageTags::UTC_OFFSET]] =
             QString::number(utcOffsetAttribute(in).value());
-
     if (hasLongitude(in))
         out.tags[openexrTags[TAG_LONGITUDE]] =
             QString::number(longitudeAttribute(in).value());
-
     if (hasLatitude(in))
         out.tags[openexrTags[TAG_LATITUDE]] =
             QString::number(latitudeAttribute(in).value());
-
     if (hasAltitude(in))
         out.tags[openexrTags[TAG_ALTITUDE]] =
             QString::number(altitudeAttribute(in).value());
-
     if (hasFocus(in))
         out.tags[openexrTags[TAG_FOCUS]] =
             QString::number(focusAttribute(in).value());
-
     if (hasExpTime(in))
         out.tags[openexrTags[TAG_EXPOSURE]] =
             QString::number(expTimeAttribute(in).value());
-
     if (hasAperture(in))
         out.tags[openexrTags[TAG_APERTURE]] =
             QString::number(apertureAttribute(in).value());
-
     if (hasIsoSpeed(in))
         out.tags[openexrTags[TAG_ISO_SPEED]] =
             QString::number(isoSpeedAttribute(in).value());
-
     if (hasChromaticities(in))
     {
         const Imf::Chromaticities data = chromaticitiesAttribute(in).value();
-
         out.tags[openexrTags[TAG_CHROMATICITIES]] = (QStringList() <<
             QString::number(data.red.x) <<
             QString::number(data.red.y) <<
@@ -606,19 +517,15 @@ void djvOpenExr::loadTags(const Imf::Header & in, djvImageIoInfo & out)
             QString::number(data.white.x) <<
             QString::number(data.white.y)).join(" ");
     }
-
     if (hasWhiteLuminance(in))
         out.tags[openexrTags[TAG_WHITE_LUMINANCE]] =
             QString::number(whiteLuminanceAttribute(in).value());
-
     if (hasXDensity(in))
         out.tags[openexrTags[TAG_X_DENSITY]] =
             QString::number(xDensityAttribute(in).value());
-
     if (hasKeyCode(in))
     {
         const Imf::KeyCode data = keyCodeAttribute(in).value();
-
         out.tags[tags[djvImageTags::KEYCODE]] =
             djvTime::keycodeToString(
                 data.filmMfcCode(),
@@ -627,15 +534,12 @@ void djvOpenExr::loadTags(const Imf::Header & in, djvImageIoInfo & out)
                 data.count(),
                 data.perfOffset());
     }
-
     if (hasTimeCode(in))
         out.tags[tags[djvImageTags::TIMECODE]] = djvTime::timecodeToString(
                 timeCodeAttribute(in).value().timeAndFlags());
-
     if (hasFramesPerSecond(in))
     {
         const Imf::Rational data = framesPerSecondAttribute(in).value();
-
         out.sequence.speed = djvSpeed(data.n, data.d);
     }
 }
@@ -644,90 +548,65 @@ void djvOpenExr::saveTags(const djvImageIoInfo & in, Imf::Header & out)
 {
     const QStringList & openexrTags = tagLabels();
     const QStringList & tags = djvImageTags::tagLabels();
-
     QString tmp = in.tags[tags[djvImageTags::CREATOR]];
-
     if (tmp.length())
     {
         addOwner(out, tmp.toLatin1().data());
     }
-
     tmp = in.tags[tags[djvImageTags::DESCRIPTION]];
-
     if (tmp.length())
     {
         addComments(out, tmp.toLatin1().data());
     }
-
     tmp = in.tags[tags[djvImageTags::TIME]];
-
     if (tmp.length())
     {
         addCapDate(out, tmp.toLatin1().data());
     }
-
     tmp = in.tags[tags[djvImageTags::UTC_OFFSET]];
-
     if (tmp.length())
     {
         addUtcOffset(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_LONGITUDE]];
-
     if (tmp.length())
     {
         addLongitude(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_LATITUDE]];
-
     if (tmp.length())
     {
         addLatitude(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_ALTITUDE]];
-
     if (tmp.length())
     {
         addAltitude(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_FOCUS]];
-
     if (tmp.length())
     {
         addFocus(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_EXPOSURE]];
-
     if (tmp.length())
     {
         addExpTime(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_APERTURE]];
-
     if (tmp.length())
     {
         addAperture(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_ISO_SPEED]];
-
     if (tmp.length())
     {
         addIsoSpeed(out, tmp.toFloat());
     }
-
     tmp = in.tags[openexrTags[TAG_CHROMATICITIES]];
-
     if (tmp.length())
     {
         const QStringList list = tmp.split(' ', QString::SkipEmptyParts);
-
         if (8 == list.count())
         {
             addChromaticities(
@@ -739,36 +618,26 @@ void djvOpenExr::saveTags(const djvImageIoInfo & in, Imf::Header & out)
                     Imath::V2f(list[6].toFloat(), list[7].toFloat())));
         }
     }
-
     tmp = in.tags[openexrTags[TAG_WHITE_LUMINANCE]];
-
     if (tmp.length())
         addWhiteLuminance(out, tmp.toFloat());
-
     tmp = in.tags[openexrTags[TAG_X_DENSITY]];
-
     if (tmp.length())
     {
         addXDensity(out, tmp.toFloat());
     }
-
     tmp = in.tags[tags[djvImageTags::KEYCODE]];
-
     if (tmp.length())
     {
         int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
         djvTime::stringToKeycode(tmp, id, type, prefix, count, offset);
-
         addKeyCode(out, Imf::KeyCode(id, type, prefix, count, offset));
     }
-
     tmp = in.tags[tags[djvImageTags::TIMECODE]];
-
     if (tmp.length())
     {
         addTimeCode(out, djvTime::stringToTimecode(tmp));
     }
-
     addFramesPerSecond(
         out,
         Imf::Rational(in.sequence.speed.scale(), in.sequence.speed.duration()));
@@ -789,10 +658,8 @@ Imf::PixelType djvOpenExr::pixelTypeToImf(djvPixel::TYPE in)
         case djvPixel::U10:
         case djvPixel::U16:
         case djvPixel::F16: return Imf::HALF;
-
         default: break;
     }
-
     return Imf::FLOAT;
 }
 
@@ -801,10 +668,8 @@ djvPixel::TYPE djvOpenExr::imfToPixelType(Imf::PixelType in)
     switch (in)
     {
         case Imf::HALF: return djvPixel::F16;
-
         default: break;
     }
-
     return djvPixel::F32;
 }
 
@@ -833,13 +698,9 @@ const QStringList & djvOpenExr::optionsLabels()
         qApp->translate("djvOpenExr", "DWA Compression Level");
 #endif // OPENEXR_VERSION_HEX
         ;
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvOpenExr::COLOR_PROFILE,
     djvOpenExr::colorProfileLabels())
@@ -857,6 +718,5 @@ bool compare(const QVector<Imf::Channel> & in)
             return false;
         }
     }
-
     return true;
 }

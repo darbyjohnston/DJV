@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFileSave.cpp
-
 #include <djvViewFileSave.h>
 
 #include <djvViewContext.h>
@@ -103,7 +101,6 @@ djvViewFileSave::djvViewFileSave(djvViewContext * context, QObject * parent) :
         _p->dialog,
         SIGNAL(progressSignal(int)),
         SLOT(callback(int)));
-
     connect(
         _p->dialog,
         SIGNAL(finishedSignal()),
@@ -113,7 +110,6 @@ djvViewFileSave::djvViewFileSave(djvViewContext * context, QObject * parent) :
 djvViewFileSave::~djvViewFileSave()
 {
     //DJV_DEBUG("djvViewFileSave::~djvViewFileSave");
-
     delete _p->dialog;
     delete _p;
 }
@@ -128,7 +124,6 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     cancel();
 
     _p->info = info;
-
     if (_p->info.outputFile.isSequenceValid())
     {
         _p->saveSequence = djvSequence(
@@ -143,22 +138,16 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     }
     
     //! \todo Why do we need to reverse the rotation here?
-    
     _p->info.options.xform.rotate = -_p->info.options.xform.rotate;
-
     const djvBox2f bbox =
         djvOpenGlImageXform::xformMatrix(_p->info.options.xform) *
         djvBox2f(_p->info.info.size * djvPixelDataUtil::proxyScale(_p->info.info.proxy));
-
     //DJV_DEBUG_PRINT("bbox = " << bbox);
-
     _p->info.options.xform.position = -bbox.position;
     _p->info.info.size = bbox.size;
 
     // Open input.
-
     djvImageIoInfo loadInfo;
-
     try
     {
         _p->load.reset(
@@ -169,18 +158,14 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
         error.add(
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.inputFile)));
-
         _p->context->printError(error);
-
         return;
     }
 
     // Open output.
-
     djvImageIoInfo saveInfo(_p->info.info);
     saveInfo.tags     = loadInfo.tags;
     saveInfo.sequence = _p->saveSequence;
-
     try
     {
         _p->save.reset(
@@ -198,25 +183,20 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     }
 
     // Start...
-
     _p->dialog->setLabel(qApp->translate("djvViewFileSave", "Saving \"%1\":").
         arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
     _p->dialog->start(
         _p->info.sequence.frames.count() ? _p->info.sequence.frames.count() : 1);
-
     _p->dialog->show();
 }
 
 void djvViewFileSave::cancel()
 {
     //DJV_DEBUG("djvViewFileSave::cancel");
-
     if (_p->dialog->isVisible())
     {
         _p->dialog->reject();
     }
-
     if (_p->save.data())
     {
         try
@@ -234,7 +214,6 @@ void djvViewFileSave::cancel()
             _p->context->printError(error);
         }
     }
-
     _p->info = djvViewFileSaveInfo();
     _p->load.reset();
     _p->save.reset();
@@ -246,13 +225,10 @@ void djvViewFileSave::callback(int in)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Load the frame.
-
     djvImage image;
-
     try
     {
         //DJV_DEBUG_PRINT("load");
-
         _p->load->read(
             image,
             djvImageIoFrameInfo(
@@ -267,41 +243,30 @@ void djvViewFileSave::callback(int in)
         error.add(
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.inputFile)));
-
         _p->context->printError(error);
-
         cancel();
-
         return;
     }
 
     // Process the frame.
-
     djvImage * p = &image;
-
     djvImage tmp;
-    
     djvOpenGlImageOptions options(_p->info.options);
-
     if (_p->info.u8Conversion || _p->info.colorProfile)
     {
         options.colorProfile = image.colorProfile;
     }
-
     //DJV_DEBUG_PRINT("convert = " << (p->info() != _p->info.info));
     //DJV_DEBUG_PRINT("options = " << (options != djvOpenGlImageOptions()));
     //DJV_DEBUG_PRINT("options = " << options);
     //DJV_DEBUG_PRINT("def options = " << djvOpenGlImageOptions());
-    
     if (p->info() != _p->info.info ||
         options != djvOpenGlImageOptions())
     {
         tmp.set(_p->info.info);
-        
         try
         {
             //DJV_DEBUG_PRINT("process");
-
             djvOpenGlImage::copy(image, tmp, options);
         }
         catch (djvError error)
@@ -309,25 +274,18 @@ void djvViewFileSave::callback(int in)
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
             _p->context->printError(error);
-
             cancel();
-
             return;
         }
-
         p = &tmp;
     }
-
     tmp.tags = image.tags;
 
     // Save the frame.
-
     try
     {
         //DJV_DEBUG_PRINT("save");
-
         _p->save->write(
             tmp,
             djvImageIoFrameInfo(
@@ -338,20 +296,15 @@ void djvViewFileSave::callback(int in)
         error.add(
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
         _p->context->printError(error);
-
         cancel();
-
         return;
     }
-
     if ((_p->saveSequence.frames.count() - 1) == in)
     {
         try
         {
             //DJV_DEBUG_PRINT("close");
-
             _p->save->close();
         }
         catch (djvError error)
@@ -359,21 +312,17 @@ void djvViewFileSave::callback(int in)
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
                 arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
             _p->context->printError(error);
         }
     }
-
 }
 
 void djvViewFileSave::finishedCallback()
 {
     //DJV_DEBUG("djvViewFileSave::finishedCallback");
-
     try
     {
         //DJV_DEBUG_PRINT("close");
-
         _p->save->close();
     }
     catch (djvError error)
@@ -381,9 +330,7 @@ void djvViewFileSave::finishedCallback()
         error.add(
             djvViewUtil::errorLabels()[djvViewUtil::ERROR_WRITE_IMAGE].
             arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
         _p->context->printError(error);
     }
-
     Q_EMIT finished();
 }

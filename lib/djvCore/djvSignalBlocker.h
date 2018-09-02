@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSignalBlocker.h
-
-#ifndef DJV_SIGNAL_BLOCKER_H
-#define DJV_SIGNAL_BLOCKER_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -51,33 +48,19 @@
 class DJV_CORE_EXPORT djvSignalBlocker
 {
 public:
-
-    //! Constructor.
-    
     djvSignalBlocker(QObject *);
-
-    //! Constructor.
-    
     djvSignalBlocker(const QObjectList &);
-
-    //! Constructor.
-    
     djvSignalBlocker(const QVector<QObject *> &);
 
-    //! Destructor.
-    
     ~djvSignalBlocker();
     
-    //! Add an object.
-    
+    //! Add an object.    
     void add(QObject *);
     
     //! Add a list of objects.
-
     void add(const QObjectList &);
     
     //! Add a list of objects.
-
     void add(const QVector<QObject *> &);
     
 private:
@@ -89,4 +72,3 @@ private:
 
 //@} // djvCoreMisc
 
-#endif // DJV_SIGNAL_BLOCKER_H

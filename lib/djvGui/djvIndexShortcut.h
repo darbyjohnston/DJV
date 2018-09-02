@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIndexShortcut.h
-
-#ifndef DJV_INDEX_SHORTCUT_H
-#define DJV_INDEX_SHORTCUT_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -52,12 +49,7 @@ class DJV_GUI_EXPORT djvIndexShortcut : public QShortcut
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvIndexShortcut(QWidget * parent);
-    
-    //! Constructor.
 
     djvIndexShortcut(
         const QKeySequence & key,
@@ -67,21 +59,14 @@ public:
         const char *         ambiguousMember = 0);
 
     //! Get the index.
-    
     int index() const;
     
     //! Set the index.
-    
     void setIndex(int);
 
 private:
-
     int _index;
 };
 
-//------------------------------------------------------------------------------
-
 //@} // djvGuiMisc
-
-#endif // DJV_INDEX_SHORTCUT_H
 

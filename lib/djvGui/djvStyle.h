@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvStyle.h
-
-#ifndef DJV_STYLE_H
-#define DJV_STYLE_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -61,21 +58,13 @@ class DJV_GUI_EXPORT djvStyle : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvStyle(QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvStyle();
 
     //! This struct provides a color palette.
-
     struct DJV_GUI_EXPORT Palette
     {
-        //! Constructor.
-
         explicit Palette(
             const QString &  name        = QString(),
             const djvColor & foreground  = djvColor(),
@@ -93,59 +82,44 @@ public:
     };
     
     //! Get the default color palettes.
-    
     static const QVector<Palette> & palettesDefault();
     
     //! Get the list of color palettes.
-    
     const QVector<Palette> & palettes();
 
     //! Set the list of color palettes.
-    
     void setPalettes(const QVector<Palette> &);
 
     //! Get the default palette index.
-    
     static int palettesIndexDefault();
     
     //! Get the current color palette index.
-    
     int palettesIndex() const;
     
     //! Set the current color palette index.
-    
     void setPalettesIndex(int);
     
     //! Get the current color palette.
-    
     const Palette & palette() const;
     
     //! Set the current color palette.
-    
     void setPalette(const Palette &);
     
     //! Get the list of color palette names.
-    
     QStringList paletteNames() const;
 
     //! Get the default color swatch transparency.
-
     static bool colorSwatchTransparencyDefault();
 
     //! Get whether color swatches show transparency.
-
     bool hasColorSwatchTransparency() const;
 
     //! Set whether color swatches show transparency.
-
     void setColorSwatchTransparency(bool);
 
     //! This struct provides size metrics.
-    
     struct DJV_GUI_EXPORT SizeMetric
     {
-        //! Constructor.
-        
         explicit SizeMetric(const QString & name = QString(), int fontSize = 0);
     
         QString name;
@@ -167,43 +141,33 @@ public:
     };
     
     //! Get the default size metrics.
-    
     static const QVector<SizeMetric> & sizeMetricsDefault();
     
     //! Get the list of size metrics.
-    
     const QVector<SizeMetric> & sizeMetrics();
     
     //! Set the list of size metrics.
-    
     void setSizeMetrics(const QVector<SizeMetric> &);
     
     //! Get the current size metric.
-    
     const SizeMetric & sizeMetric() const;
     
     //! Set the current size metric.
-    
     void setSizeMetric(const SizeMetric &);
 
     //! Get the default size metric index.
-    
     static int sizeMetricsIndexDefault();
     
     //! Get the current size metric index.
-    
     int sizeMetricsIndex() const;
     
     //! Set the current size metric index.
-    
     void setSizeMetricsIndex(int);
     
     //! Get the list of size metric names.
-    
     QStringList sizeMetricNames() const;
 
     //! This struct provides the fonts.
-    
     struct DJV_GUI_EXPORT Fonts
     {
         Fonts();
@@ -212,34 +176,26 @@ public:
         QFont fixed;
     };
     
-    //! Get the default fonts.
-    
+    //! Get the default fonts.    
     static const Fonts & fontsDefault();
 
     //! Get the fonts.
-
     const Fonts & fonts() const;
 
     //! Set the fonts.
-    
     void setFonts(const Fonts &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when color swatch transparency is changed.
-
     void colorSwatchTransparencyChanged(bool);
 
     //! This signal is emitted when the size metrics are changed.
-    
     void sizeMetricsChanged();
     
     //! This signal is emitted when the fonts are changed.
-    
     void fontsChanged();
 
 private:
-
     void colorUpdate();
     void sizeUpdate();
     void fontsUpdate();
@@ -248,8 +204,6 @@ private:
     
     djvStylePrivate * _p;
 };
-
-//------------------------------------------------------------------------------
 
 DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);
 DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
@@ -260,6 +214,4 @@ DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
 DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::Fonts);
 
 //@} // djvGuiMisc
-
-#endif // DJV_STYLE_H
 

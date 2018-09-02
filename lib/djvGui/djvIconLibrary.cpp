@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIconLibrary.cpp
-
 #include <djvIconLibrary.h>
 
 #include <djvDebug.h>
@@ -77,10 +75,8 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
     if (! _p->icons.contains(name))
     {
         QPixmap pixmap(QString(":%1").arg(name));
-        
         QIcon icon;
         icon.addPixmap(pixmap, QIcon::Normal, QIcon::Off);
-        
         /*{
             QPixmap tmp(pixmap);
             QPainter painter(&tmp);
@@ -90,8 +86,7 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
                 QColor(255, 255, 255, 50));
             
             icon.addPixmap(tmp, QIcon::Disabled, QIcon::Off);
-        }*/
-        
+        }*/        
         /*{
             QPixmap tmp(pixmap);
             QPainter painter(&tmp);
@@ -102,7 +97,6 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
             
             icon.addPixmap(tmp, QIcon::Normal, QIcon::On);
         }*/
-        
         /*{
             QPixmap tmp(pixmap);
             QPainter painter(&tmp);
@@ -116,20 +110,16 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
 
             icon.addPixmap(tmp, QIcon::Disabled, QIcon::On);
         }*/
-        
         const_cast<djvIconLibraryPrivate *>(_p)->icons.insert(name, icon);
     }
-    
     return _p->icons[name];
 }
 
 QIcon djvIconLibrary::icon(const QString & off, const QString & on) const
 {
     QIcon icon;
-    
     icon.addPixmap(pixmap(off), QIcon::Normal, QIcon::Off);
     icon.addPixmap(pixmap(on), QIcon::Normal, QIcon::On);
-    
     return icon;
 }
     
@@ -138,31 +128,24 @@ const QPixmap & djvIconLibrary::pixmap(const QString & name) const
     if (! _p->pixmaps.contains(name))
     {
         QPixmap pixmap(QString(":%1").arg(name));
-        
         const_cast<djvIconLibraryPrivate *>(_p)->pixmaps.insert(name, pixmap);
     }
-    
     return _p->pixmaps[name];
 }
 
 QStringList djvIconLibrary::names() const
 {
     QStringList names;
-
     QDirIterator it(":");
-
     while (it.hasNext())
     {
         QFileInfo fileInfo(it.fileInfo());
-
         if (0 == fileInfo.suffix().compare("png", Qt::CaseInsensitive))
         {
             names += fileInfo.fileName();
         }
-
         it.next();
     }
-
     return names;
 }
 

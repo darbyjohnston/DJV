@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackPrefs.h
-
-#ifndef DJV_VIEW_PLAYBACK_PREFS_H
-#define DJV_VIEW_PLAYBACK_PREFS_H
+#pragma once
 
 #include <djvViewAbstractPrefs.h>
 #include <djvViewUtil.h>
@@ -51,89 +48,64 @@ class DJV_VIEW_LIB_EXPORT djvViewPlaybackPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewPlaybackPrefs(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewPlaybackPrefs();
     
     //! Get the default for whether playback is started automatically.
-    
     static bool autoStartDefault();
 
     //! Get whether playback is started automatically.
-
     bool hasAutoStart() const;
 
     //! Get the default playback loop.
-    
     static djvViewUtil::LOOP loopDefault();
 
     //! Get the playback loop.
-
     djvViewUtil::LOOP loop() const;
 
     //! Get the default for whether every frame is played.
-    
     static bool everyFrameDefault();
 
     //! Get whether every frame is played.
-
     bool hasEveryFrame() const;
 
     //! Get the default playback layout.
-    
     static djvViewUtil::LAYOUT layoutDefault();
 
     //! Get the playback layout.
-
     djvViewUtil::LAYOUT layout() const;
 
 public Q_SLOTS:
-
     //! Set whether playback is started automatically.
-
     void setAutoStart(bool);
     
     //! Set the playback loop.
-
     void setLoop(djvViewUtil::LOOP);
 
     //! Set whether every frame is played.
-
     void setEveryFrame(bool);
 
     //! Set the playback layout.
-
     void setLayout(djvViewUtil::LAYOUT);
 
 Q_SIGNALS:
-
     //! This signal is emitted when playback auto start is changed.
-
     void autoStartChanged(bool);
 
     //! This signal is emitted when the playback loop is changed.
-
     void loopChanged(djvViewUtil::LOOP);
     
     //! This signal is emitted when every frame played is changed.
-
     void everyFrameChanged(bool);
     
     //! This signal is emitted when the playback layout is changed.
-
     void layoutChanged(djvViewUtil::LAYOUT);
 
     //! This signal is emitted when a preference is changed.
-
     void prefChanged();
 
 private:
-
     bool                _autoStart;
     djvViewUtil::LOOP   _loop;
     bool                _everyFrame;
@@ -141,6 +113,4 @@ private:
 };
 
 //@} // djvViewPlayback
-
-#endif // DJV_VIEW_PLAYBACK_PREFS_H
 

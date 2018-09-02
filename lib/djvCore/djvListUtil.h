@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvListUtil.h
-
-#ifndef DJV_LIST_UTIL_H
-#define DJV_LIST_UTIL_H
+#pragma once
 
 #include <djvConfig.h>
 #include <djvCoreExport.h>
@@ -51,23 +48,17 @@
 class DJV_CORE_EXPORT djvListUtil
 {
 public:
-
-    //! Destructor.
-    
     inline virtual ~djvListUtil() = 0;
     
     //! Convert list types.
-
     template<typename A, typename B>
     static inline void convert(const QVector<A> &, QVector<B> &);
 
     //! Convert list types.
-
     template<typename A, typename B>
     static inline QVector<B> convert(const QVector<A> &);
 
     //! Convert and append list types.
-
     template<typename A, typename B>
     static inline void convertAndAppend(const QVector<A> &, QVector<B> &);
 };
@@ -75,6 +66,4 @@ public:
 //@} // djvCoreMisc
 
 #include <djvListUtilInline.h>
-
-#endif // DJV_LIST_UTIL_H
 

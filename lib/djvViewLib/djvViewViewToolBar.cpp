@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewToolBar.cpp
-
 #include <djvViewViewToolBar.h>
 
 #include <djvViewViewActions.h>

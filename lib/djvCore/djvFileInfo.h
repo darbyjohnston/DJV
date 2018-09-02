@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileInfo.h
-
-#ifndef DJV_FILE_INFO_H
-#define DJV_FILE_INFO_H
+#pragma once
 
 #include <djvSequence.h>
 #include <djvUser.h>
@@ -115,34 +112,24 @@ class DJV_CORE_EXPORT djvFileInfo
     Q_FLAGS(PERMISSIONS)
     
 public:
-
-    //! Constructor.
-
     djvFileInfo();
-
-    //! Constructor.
-
     djvFileInfo(const QString &, bool stat = true);
 
     //! Get the file name.
     //
     //! \param frame Specify a frame number or -1 for the entire sequence.
     //! \param path Include the path in the file name.
-
     QString fileName(qint64 frame = -1, bool path = true) const;
 
     //! Set the file name.
     //
     //! \param stat Get information from the file system.
-
     void setFileName(const QString &, bool stat = true);
 
     //! Get the file name without the path.
-
     inline QString name() const;
 
     //! Get the path.
-
     inline const QString & path() const;
 
     //! Set the path.
@@ -150,43 +137,33 @@ public:
     void setPath(const QString &);
 
     //! Get the base.
-
     inline const QString & base() const;
 
     //! Set the base.
-
     void setBase(const QString &);
 
     //! Get the number.
-
     inline const QString & number() const;
 
     //! Set the number.
-
     void setNumber(const QString &);
 
     //! Get the extension.
-
     inline const QString & extension() const;
 
     //! Set the extension.
-
     void setExtension(const QString &);
     
     //! Get whether the file is empty.
-    
     inline bool isEmpty() const;
     
     //! Get whether this file exists.
-    
     inline bool exists() const;
     
     //! Get whether this is a dot file (name starts with a ".").
-    
     inline bool isDotFile() const;
 
     //! This enumeration provides the file types.
-
     enum TYPE
     {
         FILE,      //!< Regular file
@@ -197,19 +174,15 @@ public:
     };
 
     //! Get the file type labels.
-
     static const QStringList & typeLabels();
 
     //! Get the file type icons.
-
     static const QStringList & typeIcons();
 
     //! Get the file type images.
-
     static const QStringList & typeImages();
 
     //! This enumeration provides the file permissions.
-
     enum PERMISSIONS
     {
         READ  = 1, //!< Readable
@@ -220,84 +193,64 @@ public:
     static const int PERMISSIONS_COUNT = 3;
 
     //! Get the file permissions labels.
-
     static const QStringList & permissionsLabels();
 
     //! Get a file permissions label.
-
     static const QString & permissionsLabel(int);
 
     //! Get the type.
-
     inline TYPE type() const;
 
     //! Set the type.
-
     void setType(TYPE);
 
     //! Get the size.
-
     inline quint64 size() const;
 
     //! Set the size.
-
     void setSize(quint64);
 
     //! Get the user.
-
     inline uid_t user() const;
 
     //! Set the user.
-
     void setUser(uid_t);
 
     //! Get the permissions.
-
     inline int permissions() const;
 
     //! Set the permissions.
-
     void setPermissions(int);
 
     //! Get the time.
-
     inline time_t time() const;
 
     //! Set the time.
-
     void setTime(time_t);
 
     //! Get information from the file system.
-
     bool stat(const QString & path = QString());
 
     //! Get the sequence.
-
     inline const djvSequence & sequence() const;
 
     //! Set the sequence.
-
     void setSequence(const djvSequence &);
 
     //! Sort the sequence.
-    
     void sortSequence();
     
     //! Is the sequence valid?
-
     inline bool isSequenceValid() const;
 
     //! Is the sequence a wildcard?
-
     inline bool isSequenceWildcard() const;
 
     //! Add a file to the sequence. The file is checked to see whether it is
     //! compatible.
-
     inline bool addSequence(const djvFileInfo &);
 
     //! This contains the set of file extensions that can be sequenced.
-
     static QSet<QString> sequenceExtensions;
 
     inline bool operator == (const djvFileInfo &) const;
@@ -307,7 +260,6 @@ public:
     inline operator QString() const;
 
 private:
-
     void init();
 
     QString     _path;
@@ -329,10 +281,6 @@ private:
     friend class djvFileBrowserTestDirWorker;
 };
 
-//------------------------------------------------------------------------------
-
-//! This typedef provides a file information list.
-
 typedef QVector<djvFileInfo> djvFileInfoList;
 
 Q_DECLARE_METATYPE(djvFileInfo)
@@ -346,6 +294,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
 //@} // djvCoreFile
 
 #include <djvFileInfoInline.h>
-
-#endif // DJV_FILE_INFO_H
 

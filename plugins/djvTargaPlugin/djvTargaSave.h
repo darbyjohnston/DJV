@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaSave.h
-
-#ifndef DJV_TARGA_SAVE_H
-#define DJV_TARGA_SAVE_H
+#pragma once
 
 #include <djvTarga.h>
 
@@ -51,12 +48,7 @@
 class djvTargaSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     djvTargaSave(const djvTarga::Options &, djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvTargaSave();
 
@@ -67,7 +59,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &) throw (djvError);
 
     djvTarga::Options _options;
@@ -77,6 +68,4 @@ private:
 };
 
 //@} // djvTargaPlugin
-
-#endif // DJV_TARGA_SAVE_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvBoxInline.h
-
 #include <djvVectorUtil.h>
 
 //------------------------------------------------------------------------------
@@ -113,10 +111,7 @@ inline djvBox<T, D> & djvBox<T, D>::operator /= (T in)
     size /= in;
 }
 
-//------------------------------------------------------------------------------
-
 #define _BOX_FNC_OP(IN) \
-    \
     template<typename T, int D> \
     inline djvBox<T, D> operator IN (const djvBox<T, D> & a, T b) \
     { \
@@ -129,7 +124,6 @@ _BOX_FNC_OP(*)
 _BOX_FNC_OP(/)
 
 #define _BOX_FNC_OP2(IN) \
-    \
     template<typename T, int D> \
     inline djvBox<T, D> operator IN (const djvBox<T, D> & a, const djvVector<T, D> & b) \
     { \
@@ -170,3 +164,4 @@ inline djvDebug & operator << (djvDebug & debug, const djvBox<T, D> & in)
 {
     return debug << in.position << " " << in.size;
 }
+

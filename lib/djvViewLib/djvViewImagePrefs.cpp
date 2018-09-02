@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImagePrefs.cpp
-
 #include <djvViewImagePrefs.h>
 
 #include <djvViewContext.h>
@@ -54,23 +52,19 @@ djvViewImagePrefs::djvViewImagePrefs(djvViewContext * context, QObject * parent)
     _channel             (channelDefault())
 {
     djvPrefs prefs("djvViewImagePrefs");
-
     prefs.get("frameStoreFileReload", _frameStoreFileReload);
     prefs.get("mirror", _mirror);
     prefs.get("scale", _scale);
     prefs.get("rotate", _rotate);
     prefs.get("colorProfile", _colorProfile);
-
     djvPrefs displayProfilePrefs("djvViewImagePrefs.displayProfile");
     displayProfilePrefs.get("index", _displayProfileIndex);
     int displayProfilesCount = 0;
     displayProfilePrefs.get("size", displayProfilesCount);
-
     for (int i = 0; i < displayProfilesCount; ++i)
     {
         djvViewDisplayProfile value;
         displayProfilePrefs.get(QString("%1").arg(i), value);
-        
         try
         {
             djvViewUtil::loadLut(value.lutFile, value.lut, context);
@@ -79,32 +73,26 @@ djvViewImagePrefs::djvViewImagePrefs(djvViewContext * context, QObject * parent)
         {
             context->printError(error);
         }
-        
         _displayProfiles += value;
     }
-
     prefs.get("channel", _channel);
 }
 
 djvViewImagePrefs::~djvViewImagePrefs()
 {
     djvPrefs prefs("djvViewImagePrefs");
-
     prefs.set("frameStoreFileReload", _frameStoreFileReload);
     prefs.set("mirror", _mirror);
     prefs.set("scale", _scale);
     prefs.set("rotate", _rotate);
     prefs.set("colorProfile", _colorProfile);
-
     djvPrefs displayProfilePrefs("djvViewImagePrefs.displayProfile");
     displayProfilePrefs.set("index", _displayProfileIndex);
     displayProfilePrefs.set("size", _displayProfiles.count());
-
     for (int i = 0; i < _displayProfiles.count(); ++i)
     {
         displayProfilePrefs.set(QString("%1").arg(i), _displayProfiles[i]);
     }
-
     prefs.set("channel", _channel);
 }
 
@@ -185,12 +173,10 @@ const QVector<djvViewDisplayProfile> & djvViewImagePrefs::displayProfiles() cons
 QStringList djvViewImagePrefs::displayProfileNames() const
 {
     QStringList out;
-
     for (int i = 0; i < _displayProfiles.count(); ++i)
     {
         out += _displayProfiles[i].name;
     }
-
     return out;
 }
 
@@ -213,9 +199,7 @@ void djvViewImagePrefs::setMirror(const djvPixelDataInfo::Mirror & mirror)
 {
     if (mirror == _mirror)
         return;
-
     _mirror = mirror;
-
     Q_EMIT mirrorChanged(_mirror);
     Q_EMIT prefChanged();
 }
@@ -224,9 +208,7 @@ void djvViewImagePrefs::setScale(djvViewUtil::IMAGE_SCALE in)
 {
     if (in == _scale)
         return;
-
     _scale = in;
-
     Q_EMIT scaleChanged(_scale);
     Q_EMIT prefChanged();
 }
@@ -235,9 +217,7 @@ void djvViewImagePrefs::setRotate(djvViewUtil::IMAGE_ROTATE in)
 {
     if (in == _rotate)
         return;
-
     _rotate = in;
-
     Q_EMIT rotateChanged(_rotate);
     Q_EMIT prefChanged();
 }
@@ -246,9 +226,7 @@ void djvViewImagePrefs::setColorProfile(bool in)
 {
     if (in == _colorProfile)
         return;
-
     _colorProfile = in;
-
     Q_EMIT colorProfileChanged(_colorProfile);
     Q_EMIT prefChanged();
 }
@@ -257,14 +235,10 @@ void djvViewImagePrefs::setDisplayProfileIndex(int index)
 {
     if (index == _displayProfileIndex)
         return;
-
     //DJV_DEBUG("setDisplayProfileIndex");
     //DJV_DEBUG_PRINT("index = " << index);
-
     _displayProfileIndex = index;
-
     djvViewDisplayProfile tmp;
-
     Q_EMIT displayProfileChanged(displayProfile());
     Q_EMIT prefChanged();
 }
@@ -274,16 +248,12 @@ void djvViewImagePrefs::setDisplayProfiles(
 {
     if (in == _displayProfiles)
         return;
-
     //DJV_DEBUG("setDisplayProfiles");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _displayProfiles = in;
-
     setDisplayProfileIndex(djvMath::min(
         _displayProfileIndex,
         _displayProfiles.count() - 1));
-
     Q_EMIT displayProfilesChanged(_displayProfiles);
     Q_EMIT prefChanged();
 }
@@ -292,9 +262,7 @@ void djvViewImagePrefs::setChannel(djvOpenGlImageOptions::CHANNEL in)
 {
     if (in == _channel)
         return;
-
     _channel = in;
-
     Q_EMIT channelChanged(_channel);
     Q_EMIT prefChanged();
 }

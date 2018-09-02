@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaWidget.cpp
-
 #include <djvTargaWidget.h>
 
 #include <djvGuiContext.h>
@@ -64,15 +62,13 @@ djvTargaWidget::djvTargaWidget(djvImageIo * plugin, djvGuiContext * context) :
 {
     //DJV_DEBUG("djvTargaWidget::djvTargaWidget");
 
-    // Create the output widgets.
-    
+    // Create the output widgets.    
     _compressionWidget = new QComboBox;
     _compressionWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     _compressionWidget->addItems(djvTarga::compressionLabels());
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -89,7 +85,6 @@ djvTargaWidget::djvTargaWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(
         plugin->options()[djvTarga::COMPRESSION_OPTION]);
@@ -98,12 +93,10 @@ djvTargaWidget::djvTargaWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _compressionWidget,
         SIGNAL(activated(int)),
@@ -116,7 +109,6 @@ djvTargaWidget::~djvTargaWidget()
 void djvTargaWidget::resetPreferences()
 {
     _options = djvTarga::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -127,21 +119,18 @@ void djvTargaWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.compression;
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvTargaWidget::compressionCallback(int index)
 {
     _options.compression = static_cast<djvTarga::COMPRESSION>(index);
-
     pluginUpdate();
 }
 
@@ -156,7 +145,6 @@ void djvTargaWidget::pluginUpdate()
 void djvTargaWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_compressionWidget);
-
     _compressionWidget->setCurrentIndex(_options.compression);
 }
 

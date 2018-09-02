@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImage.cpp
-
 #include <djvImage.h>
 
 //------------------------------------------------------------------------------
@@ -46,8 +44,6 @@ djvImage::djvImage(const djvPixelDataInfo & in, const quint8 * p, djvFileIo * fi
 
 djvImage::~djvImage()
 {}
-
-//------------------------------------------------------------------------------
 
 bool operator == (const djvImage & a, const djvImage & b)
 {

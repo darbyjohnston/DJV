@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewColorPickerTool.h
-
-#ifndef DJV_VIEW_COLOR_PICKER_TOOL_H
-#define DJV_VIEW_COLOR_PICKER_TOOL_H
+#pragma once
 
 #include <djvViewAbstractTool.h>
 
@@ -56,24 +53,17 @@ class DJV_VIEW_LIB_EXPORT djvViewColorPickerTool : public djvViewAbstractTool
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewColorPickerTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
         QWidget *           parent = 0);
 
-    //! Destructor.
-
     virtual ~djvViewColorPickerTool();
 
 protected:
-
     virtual void showEvent(QShowEvent *);
 
 private Q_SLOTS:
-
     void pickCallback(const djvVector2i &);
     void widgetCallback(const djvColor &);
     void sizeCallback(int);
@@ -85,7 +75,6 @@ private Q_SLOTS:
     void swatchUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewColorPickerTool);
     
     djvViewColorPickerToolPrivate * _p;
@@ -93,5 +82,4 @@ private:
 
 //@} // djvViewTool
 
-#endif // DJV_VIEW_COLOR_PICKER_TOOL_H
 

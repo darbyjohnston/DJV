@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvInputDialog.cpp
-
 #include <djvInputDialog.h>
 
 #include <QApplication>
@@ -108,9 +106,7 @@ void djvInputDialog::setLabel(const QString & label)
 {
     if (label == _p->label)
         return;
-    
     _p->label = label;
-    
     widgetUpdate();
 }
 
@@ -123,9 +119,7 @@ void djvInputDialog::setText(const QString & text)
 {
     if (text == _p->text)
         return;
-    
     _p->text = text;
-    
     widgetUpdate();
 }
 
@@ -137,6 +131,5 @@ void djvInputDialog::textCallback()
 void djvInputDialog::widgetUpdate()
 {
     _p->labelWidget->setText(_p->label);
-    
     _p->textEdit->setText(_p->text);
 }

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryInline.h
-
 //------------------------------------------------------------------------------
 // djvMemory
 //------------------------------------------------------------------------------
@@ -39,7 +37,6 @@ template<typename T>
 inline void djvMemory::fill(T value, void * out, quint64 size)
 {
     T * p = reinterpret_cast<T *>(out);
-
     for (quint64 i = 0; i < size; ++i)
     {
         p[i] = value;
@@ -57,80 +54,59 @@ inline void djvMemory::convertEndian(
     int     wordSize)
 {
     quint8 * p = reinterpret_cast<quint8 *>(in);
-    
-    quint8 tmp;
-
+    quint8 tmp = 0;
     switch (wordSize)
     {
         case 2:
-        
             while (size--)
             {
                 tmp  = p[0];
                 p[0] = p[1];
                 p[1] = tmp;
-
                 p += 2;
             }
-
             break;
-
         case 4:
-        
             while (size--)
             {
                 tmp  = p[0];
                 p[0] = p[3];
                 p[3] = tmp;
-
                 tmp  = p[1];
                 p[1] = p[2];
                 p[2] = tmp;
-
                 p += 4;
             }
-
             break;
-
         case 8:
-        
             while (size--)
             {
                 tmp  = p[0];
                 p[0] = p[7];
                 p[7] = tmp;
-
                 tmp  = p[1];
                 p[1] = p[6];
                 p[6] = tmp;
-
                 tmp  = p[2];
                 p[2] = p[5];
                 p[5] = tmp;
-
                 tmp  = p[3];
                 p[3] = p[4];
                 p[4] = tmp;
-
                 tmp  = p[4];
                 p[4] = p[3];
                 p[3] = tmp;
-
                 tmp  = p[5];
                 p[5] = p[2];
                 p[2] = tmp;
-
                 tmp  = p[6];
                 p[6] = p[1];
                 p[1] = tmp;
-
                 tmp  = p[7];
                 p[7] = p[0];
                 p[0] = tmp;
-
                 p += 8;
             }
-
             break;
     }
 }
@@ -142,41 +118,30 @@ inline void djvMemory::convertEndian(
     int          wordSize)
 {
     const quint8 * inP = reinterpret_cast<const quint8 *>(in);
-    
     quint8 * outP = reinterpret_cast<quint8 *>(out);
-
     switch (wordSize)
     {
         case 2:
-        
             while (size--)
             {
                 outP[0] = inP[1];
                 outP[1] = inP[0];
-
                 inP  += 2;
                 outP += 2;
             }
-
             break;
-
         case 4:
-        
             while (size--)
             {
                 outP[0] = inP[3];
                 outP[1] = inP[2];
                 outP[2] = inP[1];
                 outP[3] = inP[0];
-
                 inP  += 4;
                 outP += 4;
             }
-
             break;
-
         case 8:
-        
             while (size--)
             {
                 outP[0] = inP[7];
@@ -187,17 +152,12 @@ inline void djvMemory::convertEndian(
                 outP[5] = inP[2];
                 outP[6] = inP[1];
                 outP[7] = inP[0];
-
                 inP  += 8;
                 outP += 8;
             }
-
             break;
-
         default:
-        
             djvMemory::copy(in, out, size * wordSize);
-            
             break;
     }
 }

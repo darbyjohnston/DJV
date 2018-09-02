@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlImage.cpp
-
 #include <djvOpenGlImage.h>
 
 #include <djvColorUtil.h>
@@ -107,7 +105,6 @@ djvMatrix4f djvOpenGlImageColor::saturationMatrix(double r, double g, double b)
         (1.0 - g) * 0.6094,
         (1.0 - b) * 0.0820
     };
-
     return djvMatrix4f(
         s[0] + r, s[0],     s[0],     0.0,
         s[1],     s[1] + g, s[1],     0.0,
@@ -140,14 +137,11 @@ djvPixelData djvOpenGlImageLevels::colorLut(
     double                       softClip)
 {
     djvPixelData out(djvPixelDataInfo(1024, 1, djvPixel::L_F32));
-
     const double inTmp  = in.inHigh - in.inLow;
     const double gamma  = 1.0 / in.gamma;
     const double outTmp = in.outHigh - in.outLow;
-
     djvPixel::F32_T * p = reinterpret_cast<djvPixel::F32_T *>(out.data());
     const int size = out.size().x;
-
     for (int i = 0; i < size; ++i, ++p)
     {
         *p = static_cast<djvPixel::F32_T>(
@@ -160,7 +154,6 @@ djvPixelData djvOpenGlImageLevels::colorLut(
                     gamma) * outTmp + in.outLow,
                 softClip));
     }
-
     return out;
 }
 
@@ -188,9 +181,7 @@ const QStringList & djvOpenGlImageFilter::filterLabels()
         qApp->translate("djvOpenGlImageFilter", "Lanczos3") <<
         qApp->translate("djvOpenGlImageFilter", "Cubic") <<
         qApp->translate("djvOpenGlImageFilter", "Mitchell");
-
     DJV_ASSERT(data.count() == FILTER_COUNT);
-
     return data;
 }
 
@@ -210,10 +201,8 @@ GLenum djvOpenGlImageFilter::toGl(FILTER in)
     {
         case NEAREST: return GL_NEAREST;
         case LINEAR:  return GL_LINEAR;
-
         default: break;
     }
-
     return GL_NONE;
 }
 
@@ -222,7 +211,6 @@ const djvOpenGlImageFilter & djvOpenGlImageFilter::filterHighQuality()
     static const djvOpenGlImageFilter data(
         djvOpenGlImageFilter::LANCZOS3,
         djvOpenGlImageFilter::MITCHELL);
-
     return data;
 }
 
@@ -267,9 +255,7 @@ const QStringList & djvOpenGlImageOptions::channelLabels()
         qApp->translate("djvOpenGlImageOptions", "Green") <<
         qApp->translate("djvOpenGlImageOptions", "Blue") <<
         qApp->translate("djvOpenGlImageOptions", "Alpha");
-
     DJV_ASSERT(data.count() == CHANNEL_COUNT);
-
     return data;
 }
 
@@ -290,9 +276,8 @@ void djvOpenGlImage::read(djvPixelData & output, const djvBox2i & area)
     //DJV_DEBUG("djvOpenGlImage::read");
     //DJV_DEBUG_PRINT("output = " << output);
     //DJV_DEBUG_PRINT("area = " << area);
-
+    
     const djvPixelDataInfo & info = output.info();
-
     DJV_DEBUG_OPEN_GL(glPushAttrib(
         GL_CURRENT_BIT |
         GL_ENABLE_BIT |
@@ -300,7 +285,6 @@ void djvOpenGlImage::read(djvPixelData & output, const djvBox2i & area)
     DJV_DEBUG_OPEN_GL(glDisable(GL_DITHER));
 
     //! \todo What is the correct way to convert from RGB to luminance?
-
     switch (djvPixel::format(info.pixel))
     {
         case djvPixel::L:
@@ -322,15 +306,12 @@ void djvOpenGlImage::read(djvPixelData & output, const djvBox2i & area)
     }
 
     statePack(info, area.position);
-
     DJV_DEBUG_OPEN_GL(glReadPixels(
         0, 0, area.w, area.h,
         djvOpenGlUtil::format(info.pixel, info.bgr),
         djvOpenGlUtil::type(info.pixel),
         output.data()));
-
     //stateReset();
-
     DJV_DEBUG_OPEN_GL(glPopAttrib());
 }
 
@@ -343,26 +324,20 @@ bool initAlpha(const djvPixel::PIXEL & input, const djvPixel::PIXEL & output)
     {
         case djvPixel::L:
         case djvPixel::RGB:
-        
             switch (djvPixel::format(output))
             {
                 case djvPixel::LA:
-                case djvPixel::RGBA:
-                
+                case djvPixel::RGBA:                
                     return true;
-                    
                 default: break;
             }
-            
             break;
-        
         default: break;
     }
-    
     return false;
 }
 
-}
+} // namespace
 
 void djvOpenGlImage::copy(
     const djvPixelData &          input,
@@ -377,55 +352,41 @@ void djvOpenGlImage::copy(
     //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
 
     const djvVector2i & size = output.info().size;
-    
     QScopedPointer<djvOpenGlOffscreenBuffer> _buffer;
-
     if (! buffer)
     {
         //DJV_DEBUG_PRINT("create buffer");
-
         _buffer.reset(
             new djvOpenGlOffscreenBuffer(djvPixelDataInfo(size, output.pixel())));
-
         buffer = _buffer.data();
     }
 
     try
     {
         djvOpenGlOffscreenBufferScope bufferScope(buffer);
-
         djvOpenGlUtil::ortho(size);
-
         DJV_DEBUG_OPEN_GL(glViewport(0, 0, size.x, size.y));
-
         //DJV_DEBUG_OPEN_GL(glClearColor(0, 1, 0, 0));
-
         djvColor background(djvPixel::RGB_F32);
-
         djvColorUtil::convert(options.background, background);
-
         DJV_DEBUG_OPEN_GL(glClearColor(
             background.f32(0),
             background.f32(1),
             background.f32(2),
             initAlpha(input.pixel(), output.pixel()) ? 1.0 : 0.0));
-
         DJV_DEBUG_OPEN_GL(glClear(GL_COLOR_BUFFER_BIT));
-
+        
         djvOpenGlImageOptions _options = options;
-
         if (output.info().mirror.x)
         {
             _options.xform.mirror.x = ! _options.xform.mirror.x;
         }
-
         if (output.info().mirror.y)
         {
             _options.xform.mirror.y = ! _options.xform.mirror.y;
         }
 
         draw(input, _options, state);
-
         read(output);
     }
     catch (const djvError & error)
@@ -456,9 +417,7 @@ void djvOpenGlImage::stateReset()
 {
     statePack(djvPixelDataInfo());
     stateUnpack(djvPixelDataInfo());
-
     glUseProgram(0);
-
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
@@ -476,22 +435,16 @@ void djvOpenGlImage::average(
     const int    h        = in.h();
     const double area     = w * h;
     const int    channels = djvPixel::channels(in.pixel());
-
     switch (djvPixel::type(in.pixel()))
     {
-
 #define _AVERAGE(TYPE) \
-    \
     const djvPixel::TYPE * p = reinterpret_cast< \
         const djvPixel::TYPE *>(in.data()); \
-    \
     double accum [djvPixel::channelsMax]; \
-    \
     for (int c = 0; c < channels; ++c) \
     { \
         accum[c] = 0.0; \
     } \
-    \
     for (int y = 0; y < h; ++y) \
     { \
         for (int x = 0; x < w; ++x, p += channels) \
@@ -505,58 +458,47 @@ void djvOpenGlImage::average(
             } \
         } \
     }
-
         case djvPixel::U8:
         {
             _AVERAGE(U8_T)
-
             for (int c = 0; c < channels; ++c)
             {
                 out.setU8(int(accum[c]), c);
             }
         }
         break;
-
         case djvPixel::U16:
         {
             _AVERAGE(U16_T)
-
             for (int c = 0; c < channels; ++c)
             {
                 out.setU16(int(accum[c]), c);
             }
         }
         break;
-
         case djvPixel::F16:
         {
             _AVERAGE(F16_T)
-
             for (int c = 0; c < channels; ++c)
             {
                 out.setF16(static_cast<djvPixel::F16_T>(accum[c]), c);
             }
         }
         break;
-
         case djvPixel::F32:
         {
             _AVERAGE(F32_T)
-
             for (int c = 0; c < channels; ++c)
             {
                 out.setF32(static_cast<djvPixel::F32_T>(accum[c]), c);
             }
         }
         break;
-
         case djvPixel::U10:
         {
             const djvPixel::U10_S * p =
                 reinterpret_cast <const djvPixel::U10_S * > (in.data());
-            
             double accum [3] = { 0.0, 0.0, 0.0 };
-
             for (int y = 0; y < h; ++y)
             {
                 for (int x = 0; x < w; ++x, ++p)
@@ -569,17 +511,14 @@ void djvOpenGlImage::average(
                         accum[2] += p->b / area;
                 }
             }
-            
             for (int c = 0; c < 3; ++c)
             {
                 out.setU10(static_cast<int>(accum[c]), c);
             }
         }
         break;
-
         default: break;
     }
-
     //DJV_DEBUG_PRINT("out = " << out);
 }
 
@@ -596,9 +535,7 @@ void djvOpenGlImage::histogram(
     //DJV_DEBUG_PRINT("size = " << size);
 
     // Create the output data using a pixel type of U16.
-    
-    djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
-    
+    djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);    
     switch (in.channels())
     {
         case 4:
@@ -610,25 +547,19 @@ void djvOpenGlImage::histogram(
     }
     
     const int outChannels = djvPixel::channels(pixel);
-    
     out.set(djvPixelDataInfo(size, 1, pixel));
     out.zero();
-
     //DJV_DEBUG_PRINT("out = " << out);
     
     // We may need to convert the input data if it's in a weird format so
     // that we can work directly with the pixels.
-    
     const djvPixelData * data = &in;
     djvPixelData tmp;
     djvPixelDataInfo info(in.size(), in.pixel());
-
     if (in.info() != info)
     {
         //DJV_DEBUG_PRINT("convert");
-        
         copy(in, tmp);
-        
         data = &tmp;
     }
 
@@ -637,50 +568,37 @@ void djvOpenGlImage::histogram(
 
     // Create a LUT for mapping input pixel values to the output data
     // pixel indexes.
-
-    const int indexLutSize =
-        djvPixel::RGB_U10 == info.pixel ? 1024 : (djvPixel::u16Max + 1);
-    
-    //DJV_DEBUG_PRINT("index lut size = " << indexLutSize);
-    
+    const int indexLutSize = djvPixel::RGB_U10 == info.pixel ? 1024 : (djvPixel::u16Max + 1);
+    //DJV_DEBUG_PRINT("index lut size = " << indexLutSize);    
     int * indexLut = new int [indexLutSize];
-    
     for (int i = 0; i < indexLutSize; ++i)
     {
         indexLut[i] = djvMath::floor(
             i / static_cast<double>(indexLutSize - 1) * (size - 1));
     }
     
-    // Iterate over the input pixels counting their values.
-    
+    // Iterate over the input pixels counting their values.    
     const int w        = info.size.x;
     const int h        = info.size.y;
     const int channels = djvPixel::channels(info.pixel);
     const int pixelMax = djvPixel::u16Max;
-
     switch (info.pixel)
     {
         case djvPixel::RGB_U10:
         {
             // Setup data pointers.
-            
             const djvPixel::U10_S * inP =
                 reinterpret_cast<const djvPixel::U10_S *>(data->data());
-
             const djvPixel::U10_S * const end = inP + w * h;
-
             djvPixel::U16_T * const outP =
                 reinterpret_cast<djvPixel::U16_T *>(out.data());
-
             djvPixel::U10_S * const minP =
                 reinterpret_cast<djvPixel::U10_S *>(min.data());
-
             djvPixel::U10_S * const maxP =
                 reinterpret_cast<djvPixel::U10_S *>(max.data());
 
             // Initialize the minimum and maximum values with the first pixel
-            // in the input image.
-            
+            // in the input image.            
             if (w && h)
             {
                 if (mask[0])
@@ -692,58 +610,43 @@ void djvOpenGlImage::histogram(
             }
     
             // Go...
-            
             for (; inP < end; ++inP)
             {
                 int i = 0;
-                
                 if (mask[0])
                 {
                     i = indexLut[inP->r] * outChannels + 0;
                     outP[i] = djvMath::min(outP[i] + 1, pixelMax);
-
                     minP->r = djvMath::min(inP->r, minP->r);
                     maxP->r = djvMath::max(inP->r, maxP->r);
                 }
-                
                 if (mask[1])
                 {
                     i = indexLut[inP->g] * outChannels + 1;
                     outP[i] = djvMath::min(outP[i] + 1, pixelMax);
-
                     minP->g = djvMath::min(inP->g, minP->g);
                     maxP->g = djvMath::max(inP->g, maxP->g);
                 }
-                
                 if (mask[2])
                 {
                     i = indexLut[inP->b] * outChannels + 2;
                     outP[i] = djvMath::min(outP[i] + 1, pixelMax);
-
                     minP->b = djvMath::min(inP->b, minP->b);
                     maxP->b = djvMath::max(inP->b, maxP->b);
                 }
             }
-
         }
         break;
-
 #define _HISTOGRAM(TYPE) \
-    \
     const djvPixel::TYPE##_T * inP = \
         reinterpret_cast<const djvPixel::TYPE##_T *>(data->data()); \
-    \
     const djvPixel::TYPE##_T * const end = inP + w * h * channels; \
-    \
     djvPixel::U16_T * const outP = \
         reinterpret_cast<djvPixel::U16_T *>(out.data()); \
-    \
     djvPixel::TYPE##_T * const minP = \
         reinterpret_cast<djvPixel::TYPE##_T *>(min.data()); \
-    \
     djvPixel::TYPE##_T * const maxP = \
         reinterpret_cast<djvPixel::TYPE##_T *>(max.data()); \
-    \
     if (w && h) \
     { \
         for (int c = 0; c < channels; ++c) \
@@ -754,23 +657,18 @@ void djvOpenGlImage::histogram(
             } \
         } \
     } \
-    \
     for (; inP < end; inP += channels) \
     { \
         int i = 0; \
-        \
         switch (outChannels) \
         { \
             case 4: \
-                \
                 if (mask[3]) \
                 { \
                     minP[3] = djvMath::min(inP[3], minP[3]); \
                     maxP[3] = djvMath::max(inP[3], maxP[3]); \
                 } \
-            \
             case 3: \
-                \
                 if (mask[2]) \
                 { \
                     i = indexLut[PIXEL_##TYPE##_TO_U16(inP[2])] * outChannels + 2; \
@@ -781,31 +679,24 @@ void djvOpenGlImage::histogram(
                 } \
             \
             case 2: \
-                \
                 if (mask[1]) \
                 { \
                     i = indexLut[PIXEL_##TYPE##_TO_U16(inP[1])] * outChannels + 1; \
                     outP[i] = djvMath::min(outP[i] + 1, pixelMax); \
-                    \
                     minP[1] = djvMath::min(inP[1], minP[1]); \
                     maxP[1] = djvMath::max(inP[1], maxP[1]); \
                 } \
-            \
             case 1: \
-                \
                 if (mask[0]) \
                 { \
                     i = indexLut[PIXEL_##TYPE##_TO_U16(inP[0])] * outChannels + 0; \
                     outP[i] = djvMath::min(outP[i] + 1, pixelMax); \
-                    \
                     minP[0] = djvMath::min(inP[0], minP[0]); \
                     maxP[0] = djvMath::max(inP[0], maxP[0]); \
                 } \
-                \
                 break; \
         } \
     }
-
         case djvPixel::L_U8:
         case djvPixel::LA_U8:
         case djvPixel::RGB_U8:
@@ -814,7 +705,6 @@ void djvOpenGlImage::histogram(
             _HISTOGRAM(U8);
         }
         break;
-
         case djvPixel::L_U16:
         case djvPixel::LA_U16:
         case djvPixel::RGB_U16:
@@ -823,7 +713,6 @@ void djvOpenGlImage::histogram(
             _HISTOGRAM(U16);
         }
         break;
-
         case djvPixel::L_F16:
         case djvPixel::LA_F16:
         case djvPixel::RGB_F16:
@@ -832,7 +721,6 @@ void djvOpenGlImage::histogram(
             _HISTOGRAM(F16);
         }
         break;
-
         case djvPixel::L_F32:
         case djvPixel::LA_F32:
         case djvPixel::RGB_F32:
@@ -841,10 +729,8 @@ void djvOpenGlImage::histogram(
             _HISTOGRAM(F32);
         }
         break;
-
         default: break;
     }
-    
     //DJV_DEBUG_PRINT("min = " << min);
     //DJV_DEBUG_PRINT("max = " << max);
     
@@ -859,16 +745,11 @@ void djvOpenGlImage::histogram(
 djvColor djvOpenGlImage::pixel(const djvPixelData & data, int x, int y)
 {
     djvPixelData p(djvPixelDataInfo(1, 1, data.pixel()));
-    
     djvOpenGlImageOptions options;
     options.xform.position = djvVector2f(-x, -y);
-
     djvOpenGlImage::copy(data, p, options);
-    
     return djvColor(p.data(), p.pixel());
 }
-
-//------------------------------------------------------------------------------
 
 bool operator == (const djvOpenGlImageXform & a, const djvOpenGlImageXform & b)
 {

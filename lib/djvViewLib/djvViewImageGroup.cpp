@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageGroup.cpp
-
 #include <djvViewImageGroup.h>
 
 #include <djvViewContext.h>
@@ -120,17 +118,13 @@ djvViewImageGroup::djvViewImageGroup(
     }
 
     // Create the actions.
-
     _p->actions = new djvViewImageActions(context, this);
     
     // Create the menus.
-
     _p->menu = new djvViewImageMenu(_p->actions, mainWindow->menuBar());
-
     mainWindow->menuBar()->addMenu(_p->menu);
 
     // Create the widgets.
-
     _p->toolBar = new djvViewImageToolBar(_p->actions, context);
 
     mainWindow->addToolBar(_p->toolBar);
@@ -146,107 +140,87 @@ djvViewImageGroup::djvViewImageGroup(
         _p->displayProfileDockWidget);
     
     // Initialize.
-    
     update();
 
     // Setup action callbacks.
-
     connect(
         _p->actions->action(djvViewImageActions::FRAME_STORE),
         SIGNAL(toggled(bool)),
         SLOT(frameStoreCallback(bool)));
-
     connect(
         _p->actions->action(djvViewImageActions::LOAD_FRAME_STORE),
         SIGNAL(triggered()),
         SIGNAL(loadFrameStore()));
-
     connect(
         _p->actions->action(djvViewImageActions::MIRROR_H),
         SIGNAL(toggled(bool)),
         SLOT(mirrorHCallback(bool)));
-
     connect(
         _p->actions->action(djvViewImageActions::MIRROR_V),
         SIGNAL(toggled(bool)),
         SLOT(mirrorVCallback(bool)));
-
     connect(
         _p->actions->action(djvViewImageActions::COLOR_PROFILE),
         SIGNAL(toggled(bool)),
         SLOT(colorProfileCallback(bool)));
-
     connect(
         _p->actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE),
         SIGNAL(toggled(bool)),
         SLOT(update()));
 
     // Setup action group callbacks.
-
     connect(
         _p->actions->group(djvViewImageActions::SCALE_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(scaleCallback(QAction *)));
-
     connect(
         _p->actions->group(djvViewImageActions::ROTATE_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(rotateCallback(QAction *)));
-
     connect(
         _p->actions->group(djvViewImageActions::DISPLAY_PROFILE_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(displayProfileCallback(QAction *)));
-
     connect(
         _p->actions->group(djvViewImageActions::CHANNEL_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(channelCallback(QAction *)));
 
     // Setup widget callbacks.
-
     _p->actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE)->connect(
         _p->displayProfileDockWidget,
         SIGNAL(visibilityChanged(bool)),
         SLOT(setChecked(bool)));
-
     connect(
         _p->displayProfileWidget,
         SIGNAL(displayProfileChanged(const djvViewDisplayProfile &)),
         SLOT(setDisplayProfile(const djvViewDisplayProfile &)));
-
     _p->displayProfileWidget->connect(
         this,
         SIGNAL(displayProfileChanged(const djvViewDisplayProfile &)),
         SLOT(setDisplayProfile(const djvViewDisplayProfile &)));
 
     // Setup preferences callbacks.
-
     connect(
         context->imagePrefs(),
         SIGNAL(mirrorChanged(djvPixelDataInfo::Mirror)),
         SLOT(mirrorCallback(djvPixelDataInfo::Mirror)));
-
     connect(
         context->imagePrefs(),
         SIGNAL(scaleChanged(djvViewUtil::IMAGE_SCALE)),
         SLOT(scaleCallback(djvViewUtil::IMAGE_SCALE)));
-
     connect(
         context->imagePrefs(),
         SIGNAL(rotateChanged(djvViewUtil::IMAGE_ROTATE)),
         SLOT(rotateCallback(djvViewUtil::IMAGE_ROTATE)));
-
     connect(
         context->imagePrefs(),
         SIGNAL(colorProfileChanged(bool)),
         SLOT(colorProfileCallback(bool)));
-
     connect(
         context->imagePrefs(),
         SIGNAL(displayProfileChanged(const djvViewDisplayProfile &)),
         SLOT(setDisplayProfile(const djvViewDisplayProfile &)));
-
     connect(
         context->imagePrefs(),
         SIGNAL(channelChanged(djvOpenGlImageOptions::CHANNEL)),
@@ -292,9 +266,7 @@ void djvViewImageGroup::setDisplayProfile(const djvViewDisplayProfile & in)
 {
     if (in == _p->displayProfile)
         return;
-    
     _p->displayProfile = in;
-    
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
@@ -312,16 +284,13 @@ void djvViewImageGroup::frameStoreCallback(bool in)
 {
     //DJV_DEBUG("djvViewImageGroup::frameStoreCallback");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _p->frameStore = in;
-
     Q_EMIT frameStoreChanged(_p->frameStore);
 }
 
 void djvViewImageGroup::mirrorCallback(const djvPixelDataInfo::Mirror & in)
 {
     _p->mirror = in;
-
     Q_EMIT redrawNeeded();
 }
 
@@ -356,33 +325,27 @@ void djvViewImageGroup::rotateCallback(djvViewUtil::IMAGE_ROTATE rotate)
 {
     //DJV_DEBUG("djvViewImageGroup::rotateCallback");
     //DJV_DEBUG_PRINT("rotate = " << rotate);
-
     _p->rotate = rotate;
-
     Q_EMIT redrawNeeded();
     Q_EMIT resizeNeeded();
 }
 
 void djvViewImageGroup::rotateCallback(QAction * action)
 {
-    rotateCallback(
-        static_cast<djvViewUtil::IMAGE_ROTATE>(action->data().toInt()));
+    rotateCallback(static_cast<djvViewUtil::IMAGE_ROTATE>(action->data().toInt()));
 }
 
 void djvViewImageGroup::colorProfileCallback(bool in)
 {
     //DJV_DEBUG("djvViewImageGroup::colorProfileCallback");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _p->colorProfile = in;
-
     Q_EMIT redrawNeeded();
 }
 
 void djvViewImageGroup::displayProfileCallback(QAction * action)
 {
     const int index = action->data().toInt();
-
     setDisplayProfile(
         index > 0 ?
         context()->imagePrefs()->displayProfiles()[index - 1] :
@@ -412,35 +375,28 @@ void djvViewImageGroup::channelCallback(QAction * action)
 void djvViewImageGroup::update()
 {
     // Update actions.
-
     _p->actions->action(djvViewImageActions::FRAME_STORE)->
         setChecked(_p->frameStore);
-
     _p->actions->action(djvViewImageActions::MIRROR_H)->
         setChecked(_p->mirror.x);
-
     _p->actions->action(djvViewImageActions::MIRROR_V)->
         setChecked(_p->mirror.y);
-
     _p->actions->action(djvViewImageActions::COLOR_PROFILE)->
         setChecked(_p->colorProfile);
 
     // Update action groups.
-
     if (! _p->actions->group(djvViewImageActions::SCALE_GROUP)->
         actions()[_p->scale]->isChecked())
     {
         _p->actions->group(djvViewImageActions::SCALE_GROUP)->
             actions()[_p->scale]->trigger();
     }
-
     if (! _p->actions->group(djvViewImageActions::ROTATE_GROUP)->
         actions()[_p->rotate]->isChecked())
     {
         _p->actions->group(djvViewImageActions::ROTATE_GROUP)->
             actions()[_p->rotate]->trigger();
     }
-
     if (! _p->actions->group(djvViewImageActions::CHANNEL_GROUP)->
         actions()[_p->channel]->isChecked())
     {
@@ -449,11 +405,9 @@ void djvViewImageGroup::update()
     }
 
     // Update widgets.
-
     _p->displayProfileDockWidget->setVisible(
         _p->actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE)->
         isChecked());
-
     _p->displayProfileWidget->setDisplayProfile(
         _p->displayProfile);
 }

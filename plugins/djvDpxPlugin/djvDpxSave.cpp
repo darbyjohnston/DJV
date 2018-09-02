@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpxSave.cpp
-
 #include <djvDpxSave.h>
 
 #include <djvOpenGlImage.h>
@@ -70,26 +68,21 @@ void djvDpxSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         case djvDpx::ENDIAN_AUTO: break;
         case djvDpx::ENDIAN_MSB:  _info.endian = djvMemory::MSB; break;
         case djvDpx::ENDIAN_LSB:  _info.endian = djvMemory::LSB; break;
-
         default: break;
     }
 
     switch (_options.type)
     {
         case djvDpx::TYPE_U10: _info.pixel = djvPixel::RGB_U10; break;
-
         default:
         {
             djvPixel::TYPE type = djvPixel::type(info.pixel);
-
             switch (type)
             {
                 case djvPixel::F16:
                 case djvPixel::F32: type = djvPixel::U16; break;
-
                 default: break;
             }
-
             _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
         }
         break;
@@ -100,7 +93,6 @@ void djvDpxSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         case 8:
         case 10: _info.align = 4; break;
     }
-
     //DJV_DEBUG_PRINT("info = " << _info);
 
     _image.set(_info);
@@ -113,32 +105,24 @@ void djvDpxSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Set the color profile.
-
     djvColorProfile colorProfile;
-
     if (djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile)
     {
         //DJV_DEBUG_PRINT("color profile");
-
         colorProfile.type = djvColorProfile::LUT;
         colorProfile.lut  = djvCineon::linearToFilmPrintLut(
             _options.outputFilmPrint);
     }
 
     // Open the file.
-
     const QString fileName = _file.fileName(frame.frame);
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info(_info);
     info.fileName = fileName;
     info.tags = in.tags;
-
     djvFileIo io;
     io.open(fileName, djvFileIo::WRITE);
-
     _header = djvDpxHeader();
     _header.save(
         io,
@@ -148,28 +132,21 @@ void djvDpxSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         _options.version);
 
     // Convert the image.
-
     const djvPixelData * p = &in;
-
     if (in.info() != _info ||
         in.colorProfile.type != djvColorProfile::RAW ||
         colorProfile.type != djvColorProfile::RAW)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
-
         _image.zero();
-
         djvOpenGlImageOptions options;
         options.colorProfile = colorProfile;
         djvOpenGlImage::copy(*p, _image, options);
-
         p = &_image;
     }
 
     // Write the file.
-
     io.set(p->data(), p->dataByteCount());
-
     _header.saveEnd(io);
 }
 

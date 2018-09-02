@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvJpegPlugin.cpp
-
 #include <djvJpegPlugin.h>
 
 #include <djvJpegLoad.h>
@@ -75,12 +73,10 @@ QStringList djvJpegPlugin::extensions() const
 QStringList djvJpegPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvJpeg::QUALITY_OPTION], Qt::CaseInsensitive))
     {
         out << _options.quality;
     }
-
     return out;
 }
 
@@ -91,13 +87,10 @@ bool djvJpegPlugin::setOption(const QString & in, QStringList & data)
         if (0 == in.compare(options()[djvJpeg::QUALITY_OPTION], Qt::CaseInsensitive))
         {
             int quality = 0;
-            
             data >> quality;
-            
             if (quality != _options.quality)
             {
                 _options.quality = quality;
-            
                 Q_EMIT optionChanged(in);
             }
         }
@@ -106,7 +99,6 @@ bool djvJpegPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -119,13 +111,11 @@ void djvJpegPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvJpegPlugin", "-jpeg_quality") == arg)
             {
                 in >> _options.quality;
@@ -140,7 +130,6 @@ void djvJpegPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 

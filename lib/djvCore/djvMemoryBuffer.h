@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryBuffer.h
-
-#ifndef DJV_MEMORY_BUFFER_H
-#define DJV_MEMORY_BUFFER_H
+#pragma once
 
 #include <djvConfig.h>
 #include <djvCoreExport.h>
@@ -52,68 +49,44 @@ template<typename T>
 class djvMemoryBuffer
 {
 public:
-
-    //! Constructor.
-
     inline djvMemoryBuffer();
-
-    //! Constructor.
-
     inline djvMemoryBuffer(const djvMemoryBuffer &);
-
-    //! Constructor.
-
     inline djvMemoryBuffer(quint64);
-
-    //! Destructor.
 
     inline ~djvMemoryBuffer();
 
     //! Get the size.
-
     inline quint64 size() const;
 
     //! Set the size.
-
     inline void setSize(quint64, bool zero = false);
 
     //! Get a const pointer to the memory.
-
     inline const T * data() const;
 
     //! Get a const pointer to the memory.
-
     inline const T * operator () () const;
 
     //! Get a pointer to the memory.
-
     inline T * data();
 
     //! Get a pointer to the memory.
-
     inline T * operator () ();
 
     //! Zero the memory.
-
     inline void zero();
 
     //! Copy operator.
-    
     inline djvMemoryBuffer & operator = (const djvMemoryBuffer &);
 
 private:
-
     inline void del();
 
     T *     _data;
     quint64 _size;
 };
 
-//------------------------------------------------------------------------------
-
 //@} // djvCoreMisc
 
 #include <djvMemoryBufferInline.h>
-
-#endif // DJV_MEMORY_BUFFER_H
 

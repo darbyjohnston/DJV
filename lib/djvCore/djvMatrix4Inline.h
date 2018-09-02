@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMatrix4Inline.h
-
 //------------------------------------------------------------------------------
 // djvMatrix<T, 4>
 //------------------------------------------------------------------------------
@@ -81,8 +79,7 @@ inline void djvMatrix<T, 4>::set(
     T  _8,  T _9, T _10, T _11,
     T _12, T _13, T _14, T _15)
 {
-    T * p = djvMatrix<T, 4>::e;
-    
+    T * p = djvMatrix<T, 4>::e;    
     p[ 0] =  _0;
     p[ 1] =  _1;
     p[ 2] =  _2;
@@ -115,7 +112,6 @@ inline void djvMatrix<T, 4>::identity()
 {
     static const T zero = static_cast<T>(0.0);
     static const T one  = static_cast<T>(1.0);
-
     for (int i = 0; i < 4; ++i)
     {
         for (int j = 0; j < 4; ++j)
@@ -129,7 +125,6 @@ template<typename T>
 inline void djvMatrix<T, 4>::zero()
 {
     static const T zero = static_cast<T>(0.0);
-
     for (int i = 0; i < dimensionX2; ++i)
     {
         e[i] = zero;
@@ -146,6 +141,5 @@ inline djvMatrix<T, 4> & djvMatrix<T, 4>::operator = (const djvMatrix<T, 4> & in
             e[i] = in.e[i];
         }
     }
-
     return *this;
 }

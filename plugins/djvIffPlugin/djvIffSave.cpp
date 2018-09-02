@@ -30,8 +30,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffSave.cpp
-
 #include <djvIffSave.h>
 
 #include <djvOpenGlImage.h>
@@ -55,7 +53,6 @@ void djvIffSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
     //DJV_DEBUG_PRINT("in = " << in);
 
     _file = in;
-
     if (info.sequence.frames.count() > 1)
     {
         _file.setType(djvFileInfo::SEQUENCE);
@@ -66,29 +63,24 @@ void djvIffSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
     _info.endian = djvMemory::MSB;
 
     djvPixel::FORMAT format = djvPixel::format(info.pixel);
-
     switch (format)
     {
         case djvPixel::L:  format = djvPixel::RGB;  break;
         case djvPixel::LA: format = djvPixel::RGBA; break;
-
         default: break;
     }
 
     djvPixel::TYPE type = djvPixel::type(info.pixel);
-
     switch (type)
     {
         case djvPixel::U10:
         case djvPixel::F16:
         case djvPixel::F32: type = djvPixel::U16; break;
-
         default: break;
     }
 
     _info.pixel = djvPixel::pixel(format, type);
     _info.endian = djvMemory::MSB;
-
     //DJV_DEBUG_PRINT("info = " << _info);
 
     _image.set(_info);
@@ -101,35 +93,25 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-
     djvFileIo io;
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-
     io.open(_file.fileName(frame.frame), djvFileIo::WRITE);
-
     djvIff::saveInfo(
         io,
         _info,
         _options.compression != djvIff::COMPRESSION_NONE);
 
     // Convert the image.
-
     const djvPixelData * p = &in;
-
     if (in.info() != _info)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
-
         _image.zero();
-
         djvOpenGlImage::copy(in, _image);
-
         p = &_image;
     }
 
     // Write the file.
-
     const int w = p->w(), h = p->h();
     const int channels = djvPixel::channels(p->info().pixel);
     const int channelByteCount = djvPixel::channelByteCount(p->info().pixel);
@@ -165,15 +147,12 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     io.setU8('P');
 
     // Write tiles.
-
     djvVector2i size = djvIff::tileSize(w, h);
 
     // Y order.
-
     for (int y = 0; y < size.y; y++)
     {
         // X order.
-
         for (int x = 0; x < size.x; x++)
         {
             // Set tile coordinates.
@@ -235,7 +214,6 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         quint8 * inP = in();
 
                         // Data.
-
                         for (quint16 py = ymin; py <= ymax; py++)
                         {
                             const quint8 * inDy = p->data(0, py);
@@ -252,13 +230,11 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         }
 
                         // Compress
-
                         size = djvIff::writeRle(in(), tmp() + index, tw * th);
                         index += size;
                     }
 
                     // If size exceeds tile length use uncompressed.
-
                     if (index < tileLength)
                     {
                         djvMemory::copy(tmp(), tile(), index);
@@ -368,7 +344,6 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         quint8 * inP = in();
 
                         // Data.
-
                         for (quint16 py = ymin; py <= ymax; py++)
                         {
                             const quint8 * inDy = p->data(0, py);
@@ -385,13 +360,11 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         }
 
                         // Compress
-
                         size = djvIff::writeRle(in(), tmp() + index, tw * th);
                         index += size;
                     }
 
                     // If size exceeds tile length use uncompressed.
-
                     if (index < tileLength)
                     {
                         djvMemory::copy(tmp(), tile(), index);

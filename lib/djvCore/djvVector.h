@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVector.h
-
-#ifndef DJV_VECTOR_H
-#define DJV_VECTOR_H
+#pragma once
 
 #include <djvDebug.h>
 #include <djvStringUtil.h>
@@ -53,32 +50,18 @@
 template<typename T, int D>
 struct djvVector
 {
-    //! Constructor.
-
     inline djvVector();
-
-    //! Constructor.
-
     inline djvVector(const djvVector<T, D> &);
-
-    //! Constructor.
-
     inline djvVector(T);
 
-    //! Dimension.
-
     static const int dimension;
-
-    //! Components.
 
     T e [D];
 
     //! Set the components to the same value.
-
     inline void set(T);
 
     //! Zero the components.
-
     inline void zero();
 
     djvVector<T, D> & operator = (const djvVector<T, D> &);
@@ -103,40 +86,22 @@ struct djvVector
 template<typename T>
 struct djvVector<T, 2>
 {
-    //! Constructor.
-
     inline djvVector();
-
-    //! Constructor.
-
     inline djvVector(const djvVector<T, 2> &);
-
-    //! Constructor.
-
     inline djvVector(T, T);
-
-    //! Constructor.
-
     inline djvVector(T);
-
-    //! Dimension.
 
     static const int dimension;
 
-    //! Components.
-
     T e [2];
 
-    //! Components.
-
+    //! Component access.
     T & x, & y;
 
     //! Set the components to the same value.
-
     inline void set(T);
 
     //! Zero the components.
-
     inline void zero();
 
     inline djvVector<T, 2> & operator = (const djvVector<T, 2> &);
@@ -164,40 +129,22 @@ struct djvVector<T, 2>
 template<typename T>
 struct djvVector<T, 3>
 {
-    //! Constructor.
-
     inline djvVector();
-
-    //! Constructor.
-
     inline djvVector(const djvVector<T, 3> &);
-
-    //! Constructor.
-
     inline djvVector(T, T, T);
-
-    //! Constructor.
-
     inline djvVector(T);
-
-    //! Dimension.
 
     static const int dimension;
 
-    //! Components.
-
     T e [3];
 
-    //! Components.
-
+    //! Component access.
     T & x, & y, & z;
 
     //! Set the components to the same value.
-
     inline void set(T);
 
     //! Zero the components.
-
     inline void zero();
 
     inline djvVector<T, 3> & operator = (const djvVector<T, 3> &);
@@ -216,22 +163,9 @@ struct djvVector<T, 3>
     inline operator djvVector<double, 3>() const;
 };
 
-//------------------------------------------------------------------------------
-
-//! This typedef provides a two-dimensional integer vector.
-
 typedef djvVector<int, 2> djvVector2i;
-
-//! This typedef provides a two-dimensional floating-point vector.
-
 typedef djvVector<double, 2> djvVector2f;
-
-//! This typedef provides a three-dimensional integer vector.
-
 typedef djvVector<int, 3> djvVector3i;
-
-//! This typedef provides a three-dimensional floating-point vector.
-
 typedef djvVector<double, 3> djvVector3f;
 
 Q_DECLARE_METATYPE(djvVector2i)
@@ -290,6 +224,4 @@ inline djvDebug & operator << (djvDebug &, const djvVector<T, D> &);
 #include <djvVectorInline.h>
 #include <djvVector2Inline.h>
 #include <djvVector3Inline.h>
-
-#endif // DJV_VECTOR_H
 

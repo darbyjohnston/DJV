@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewGroup.cpp
-
 #include <djvViewViewGroup.h>
 
 #include <djvViewContext.h>
@@ -91,108 +89,86 @@ djvViewViewGroup::djvViewViewGroup(
     }
 
     // Create the actions.
-
     _p->actions = new djvViewViewActions(context, this);
 
     // Create the menus.
-
     _p->menu = new djvViewViewMenu(_p->actions, mainWindow->menuBar());
-
     mainWindow->menuBar()->addMenu(_p->menu);
 
     // Create the widgets.
-
     _p->toolBar = new djvViewViewToolBar(_p->actions, context);
-
     mainWindow->addToolBar(_p->toolBar);
 
     // Initialize.
-
     update();
 
     // Setup the action callbacks.
-
     connect(
         _p->actions->action(djvViewViewActions::LEFT),
         SIGNAL(triggered()),
         SLOT(leftCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::RIGHT),
         SIGNAL(triggered()),
         SLOT(rightCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::UP),
         SIGNAL(triggered()),
         SLOT(upCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::DOWN),
         SIGNAL(triggered()),
         SLOT(downCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::CENTER),
         SIGNAL(triggered()),
         SLOT(centerCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::ZOOM_IN),
         SIGNAL(triggered()),
         SLOT(zoomInCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::ZOOM_OUT),
         SIGNAL(triggered()),
         SLOT(zoomOutCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::ZOOM_RESET),
         SIGNAL(triggered()),
         SLOT(zoomResetCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::RESET),
         SIGNAL(triggered()),
         SLOT(resetCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::FIT),
         SIGNAL(triggered()),
         SLOT(fitCallback()));
-
     connect(
         _p->actions->action(djvViewViewActions::HUD),
         SIGNAL(toggled(bool)),
         SLOT(hudEnabledCallback(bool)));
 
     // Setup the action group callbacks.
-
     connect(
         _p->actions->group(djvViewViewActions::GRID_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(gridCallback(QAction *)));
 
     // Setup the widget callbacks.
-
     mainWindow->viewWidget()->connect(
         _p->toolBar->zoomEdit(),
         SIGNAL(valueChanged(double)),
         SLOT(setZoomFocus(double)));
-
     _p->toolBar->zoomEdit()->connect(
         mainWindow->viewWidget(),
         SIGNAL(viewZoomChanged(double)),
         SLOT(setValue(double)));
 
     // Setup the preferences callbacks.
-
     connect(
         context->viewPrefs(),
         SIGNAL(gridChanged(djvViewUtil::GRID)),
         SLOT(gridCallback(djvViewUtil::GRID)));
-
     connect(
         context->viewPrefs(),
         SIGNAL(hudEnabledChanged(bool)),
@@ -272,7 +248,6 @@ void djvViewViewGroup::fitCallback()
 void djvViewViewGroup::gridCallback(djvViewUtil::GRID grid)
 {
     _p->grid = grid;
-
     update();
 }
 
@@ -284,47 +259,34 @@ void djvViewViewGroup::gridCallback(QAction * action)
 void djvViewViewGroup::hudEnabledCallback(bool value)
 {
     _p->hudEnabled = value;
-
     update();
 }
 
 void djvViewViewGroup::update()
 {
     // Update the actions.
-
-    _p->actions->action(djvViewViewActions::HUD)->
-        setChecked(_p->hudEnabled);
+    _p->actions->action(djvViewViewActions::HUD)->setChecked(_p->hudEnabled);
 
     // Update the action groups.
-
-    if (! _p->actions->group(djvViewViewActions::GRID_GROUP)->
-        actions()[_p->grid]->isChecked())
+    if (! _p->actions->group(djvViewViewActions::GRID_GROUP)->actions()[_p->grid]->isChecked())
     {
-        _p->actions->group(djvViewViewActions::GRID_GROUP)->
-            actions()[_p->grid]->trigger();
+        _p->actions->group(djvViewViewActions::GRID_GROUP)->actions()[_p->grid]->trigger();
     }
 
     // Update the widgets.
-
     mainWindow()->viewWidget()->setGrid(_p->grid);
-
     mainWindow()->viewWidget()->setHudEnabled(_p->hudEnabled);
-
-    _p->toolBar->zoomEdit()->setValue(
-        mainWindow()->viewWidget()->viewZoom());
+    _p->toolBar->zoomEdit()->setValue(mainWindow()->viewWidget()->viewZoom());
 }
 
 void djvViewViewGroup::viewMove(const djvVector2i & offset)
 {
-    mainWindow()->viewWidget()->setViewPos(
-        mainWindow()->viewWidget()->viewPos() + offset);
+    mainWindow()->viewWidget()->setViewPos(mainWindow()->viewWidget()->viewPos() + offset);
 }
 
 void djvViewViewGroup::viewZoom(double zoom)
 {
     //DJV_DEBUG("djvViewViewGroup::viewZoom");
     //DJV_DEBUG_PRINT("zoom = " << zoom);
-    
-    mainWindow()->viewWidget()->setZoomFocus(
-        mainWindow()->viewWidget()->viewZoom() * zoom);
+    mainWindow()->viewWidget()->setZoomFocus(mainWindow()->viewWidget()->viewZoom() * zoom);
 }

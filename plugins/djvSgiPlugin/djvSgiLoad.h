@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiLoad.h
-
-#ifndef DJV_SGI_LOAD_H
-#define DJV_SGI_LOAD_H
+#pragma once
 
 #include <djvSgi.h>
 
@@ -50,13 +47,8 @@
 class djvSgiLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-    
     explicit djvSgiLoad(djvImageContext *);
 
-    //! Destructor.
-    
     virtual ~djvSgiLoad();
 
     virtual void open(const djvFileInfo &, djvImageIoInfo &) throw (djvError);
@@ -65,7 +57,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
@@ -77,6 +68,4 @@ private:
 };
 
 //@} // djvSgiPlugin
-
-#endif // DJV_SGI_LOAD_H
 

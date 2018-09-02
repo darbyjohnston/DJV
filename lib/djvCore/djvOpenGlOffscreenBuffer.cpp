@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlOffscreenBuffer.cpp
-
 #include <djvOpenGlOffscreenBuffer.h>
 
 #include <djvDebug.h>
@@ -60,22 +58,17 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
 {
     //DJV_DEBUG("djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer");
     //DJV_DEBUG_PRINT("info = " << info);
-
     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
     // Create the texture.
-
     DJV_DEBUG_OPEN_GL(glGenTextures(1, &_texture));
-
     if (! _texture)
     {
         throw djvError(
             "djvOpenGlOffscreenBuffer",
             errorLabels()[ERROR_CREATE_TEXTURE]);
     }
-
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _texture));
-
     DJV_DEBUG_OPEN_GL(glTexParameteri(
         GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
     DJV_DEBUG_OPEN_GL(glTexParameteri(
@@ -84,9 +77,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
     DJV_DEBUG_OPEN_GL(glTexParameteri(
         GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
-
     GLenum format = GL_RGBA;
-
     if (djvPixel::F16 == djvPixel::type(_info.pixel))
     {
         format = GL_RGBA16F;
@@ -95,7 +86,6 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
     {
         format = GL_RGBA32F;
     }
-
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
@@ -106,14 +96,11 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         djvOpenGlUtil::format(_info.pixel, _info.bgr),
         djvOpenGlUtil::type(_info.pixel),
         0);
-    
     GLenum error = glGetError();
-    
 #if ! defined(DJV_OSX)
 
     //! \todo On OS X this error is triggered in djv_view when a new file is
     //! loaded, though it doesn't actually seem to be a problem?
-    
     if (error != GL_NO_ERROR)
     {
         throw djvError(
@@ -121,33 +108,25 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
             errorLabels()[ERROR_INIT_TEXTURE].
             arg(djvOpenGlUtil::errorString(error)));
     }
-
 #endif // DJV_OSX
-
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, 0));
 
     // Create the FBO.
-
     DJV_DEBUG_OPEN_GL(glGenFramebuffers(1, &_id));
-
     if (! _id)
     {
         throw djvError(
             "djvOpenGlOffscreenBuffer",
             errorLabels()[ERROR_CREATE_FBO]);
     }
-
     djvOpenGlOffscreenBufferScope scope(this);
-
     DJV_DEBUG_OPEN_GL(glFramebufferTexture2D(
         GL_FRAMEBUFFER,
         GL_COLOR_ATTACHMENT0,
         GL_TEXTURE_2D,
         _texture,
         0));
-
     error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
     if (error != GL_FRAMEBUFFER_COMPLETE)
     {
         throw djvError(
@@ -155,7 +134,6 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
             errorLabels()[ERROR_INIT_FBO].
             arg(djvOpenGlUtil::errorString(error)));
     }
-    
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
 
     ++bufferCount;
@@ -167,14 +145,12 @@ djvOpenGlOffscreenBuffer::~djvOpenGlOffscreenBuffer()
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
 
     --bufferCount;
-
     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
     if (_id)
     {
         DJV_DEBUG_OPEN_GL(glDeleteFramebuffers(1, &_id));
     }
-
     if (_texture)
     {
         DJV_DEBUG_OPEN_GL(glDeleteTextures(1, &_texture));
@@ -200,14 +176,10 @@ void djvOpenGlOffscreenBuffer::bind()
 {
     if (! _id)
         return;
-
     //DJV_DEBUG("djvOpenGlOffscreenBuffer::bind");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
-
     DJV_DEBUG_OPEN_GL(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore));
-
     //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-
     DJV_DEBUG_OPEN_GL(glBindFramebuffer(GL_FRAMEBUFFER, _id));
 }
 
@@ -215,13 +187,10 @@ void djvOpenGlOffscreenBuffer::unbind()
 {
     if (! _id)
         return;
-
     //DJV_DEBUG("djvOpenGlOffscreenBuffer::unbind");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
     //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-
     DJV_DEBUG_OPEN_GL(glBindFramebuffer(GL_FRAMEBUFFER, _restore));
-
     _restore = 0;
 }
 
@@ -232,9 +201,7 @@ const QStringList & djvOpenGlOffscreenBuffer::errorLabels()
         qApp->translate("djvOpenGlOffscreenBuffer", "Cannot initialize texture: %1") <<
         qApp->translate("djvOpenGlOffscreenBuffer", "Cannot create FBO") <<
         qApp->translate("djvOpenGlOffscreenBuffer", "Cannot initialize FBO: %1");
-
     DJV_ASSERT(ERROR_COUNT == data.count());
-    
     return data;
 }
 
@@ -253,3 +220,4 @@ djvOpenGlOffscreenBufferScope::~djvOpenGlOffscreenBufferScope()
 {
     _buffer->unbind();
 }
+

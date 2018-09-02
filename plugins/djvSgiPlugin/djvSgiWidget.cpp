@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiWidget.cpp
-
 #include <djvSgiWidget.h>
 
 #include <djvGuiContext.h>
@@ -62,15 +60,13 @@ djvSgiWidget::djvSgiWidget(djvImageIo * plugin, djvGuiContext * context) :
     djvImageIoWidget(plugin, context),
     _compressionWidget(0)
 {
-    // Create the output widgets.
-    
+    // Create the output widgets.    
     _compressionWidget = new QComboBox;
     _compressionWidget->addItems(djvSgi::compressionLabels());
     _compressionWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -87,7 +83,6 @@ djvSgiWidget::djvSgiWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(
         plugin->options()[djvSgi::COMPRESSION_OPTION]);
@@ -96,12 +91,10 @@ djvSgiWidget::djvSgiWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _compressionWidget,
         SIGNAL(activated(int)),
@@ -114,7 +107,6 @@ djvSgiWidget::~djvSgiWidget()
 void djvSgiWidget::resetPreferences()
 {
     _options = djvSgi::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -125,21 +117,18 @@ void djvSgiWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvSgi::COMPRESSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.compression;
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvSgiWidget::compressionCallback(int in)
 {
     _options.compression = static_cast<djvSgi::COMPRESSION>(in);
-
     pluginUpdate();
 }
 
@@ -154,7 +143,6 @@ void djvSgiWidget::pluginUpdate()
 void djvSgiWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_compressionWidget);
-
     _compressionWidget->setCurrentIndex(_options.compression);
 }
 

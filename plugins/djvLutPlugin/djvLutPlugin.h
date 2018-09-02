@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutPlugin.h
-
-#ifndef DJV_LUT_PLUGIN_H
-#define DJV_LUT_PLUGIN_H
+#pragma once
 
 #include <djvLut.h>
 
@@ -50,35 +47,24 @@
 class djvLutPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvLutPlugin(djvCoreContext *);
 
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     djvLut::Options _options;
 };
 
 //@} // djvLutPlugin
-
-#endif // DJV_LUT_PLUGIN_H
 

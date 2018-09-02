@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackMenu.cpp
-
 #include <djvViewPlaybackMenu.h>
 
 #include <djvViewPlaybackActions.h>
@@ -55,41 +53,30 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
     _p(new djvViewPlaybackMenuPrivate)
 {
     // Create the menus.
-
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::PLAYBACK_GROUP)->actions())
         addAction(action);
-
     addAction(actions->action(djvViewPlaybackActions::PLAYBACK_TOGGLE));
-
     QMenu * loopMenu = addMenu(qApp->translate("djvViewPlaybackMenu", "&Loop"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LOOP_GROUP)->actions())
         loopMenu->addAction(action);
-
     addAction(actions->action(djvViewPlaybackActions::EVERY_FRAME));
-
     addSeparator();
-
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::FRAME_GROUP)->actions())
         addAction(action);
-
     addSeparator();
-
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions())
         addAction(action);
-
     addSeparator();
-
     QMenu * layoutMenu = addMenu(qApp->translate("djvViewPlaybackMenu", "Layout"));
     Q_FOREACH(QAction * action,
         actions->group(djvViewPlaybackActions::LAYOUT_GROUP)->actions())
         layoutMenu->addAction(action);
 
     // Initialize.
-
     setTitle(qApp->translate("djvViewPlaybackMenu", "&Playback"));
 }
 

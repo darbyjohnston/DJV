@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaPlugin.cpp
-
 #include <djvTargaPlugin.h>
 
 #include <djvTargaLoad.h>
@@ -72,12 +70,10 @@ QStringList djvTargaPlugin::extensions() const
 QStringList djvTargaPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
     {
         out << _options.compression;
     }
-
     return out;
 }
 
@@ -88,13 +84,10 @@ bool djvTargaPlugin::setOption(const QString & in, QStringList & data)
         if (0 == in.compare(options()[djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
         {
             djvTarga::COMPRESSION compression = static_cast<djvTarga::COMPRESSION>(0);
-            
             data >> compression;
-            
             if (compression != _options.compression)
             {
                 _options.compression = compression;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -103,7 +96,6 @@ bool djvTargaPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -116,13 +108,11 @@ void djvTargaPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvTargaPlugin", "-targa_compression") == arg)
             {
                 in >> _options.compression;
@@ -137,7 +127,6 @@ void djvTargaPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 

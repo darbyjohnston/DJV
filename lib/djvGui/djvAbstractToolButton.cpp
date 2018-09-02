@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAbstractToolButton.cpp
-
 #include <djvAbstractToolButton.h>
 
 #include <djvAssert.h>
@@ -59,19 +57,14 @@ void djvAbstractToolButton::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     
-    // Draw the button.
-
     if (underMouse() || isChecked())
     {
         QStyleOptionButton styleOption;
-
         styleOption.rect = this->rect();
-
         if (underMouse())
             styleOption.state = QStyle::State_Raised;
         if (isDown() || isChecked())
             styleOption.state |= QStyle::State_On;
-
         style()->drawControl(QStyle::CE_PushButton, &styleOption, &painter);
     }
 }
@@ -85,13 +78,9 @@ bool djvAbstractToolButton::event(QEvent * event)
         case QEvent::MouseButtonPress:
         case QEvent::MouseButtonRelease:
         case QEvent::MouseButtonDblClick:
-        
             update();
-            
             break;
-        
         default: break;
     }
-        
     return QAbstractButton::event(event);
 }

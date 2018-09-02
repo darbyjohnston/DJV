@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlShader.cpp
-
 #include <djvOpenGlShader.h>
 
 #include <djvDebug.h>
@@ -57,22 +55,17 @@ djvOpenGlShader::~djvOpenGlShader()
 
 namespace
 {
-
 GLuint shaderCreate(GLenum type) throw (djvError)
 {
     //DJV_DEBUG("shaderCreate");
-
     GLuint r = 0;
-
     DJV_DEBUG_OPEN_GL(r = glCreateShader(type));
-
     if (! r)
     {
         throw djvError(
             "djvOpenGlShader",
             qApp->translate("djvOpenGlShader", "Cannot create shader"));
     }
-
     return r;
 }
 
@@ -80,28 +73,18 @@ void shaderCompile(GLuint id, const QString & source)
 {
     //DJV_DEBUG("shaderCompile");
     //DJV_DEBUG_PRINT("source = " << source);
-
     djvMemoryBuffer<char> buf(source.length());
     djvMemory::copy(source.toLatin1().data(), buf.data(), buf.size());
-
     const char * sources       [] = { buf.data() };
     const GLint  sourceLengths [] = { static_cast<GLint>(buf.size()) };
-
     DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
-
     DJV_DEBUG_OPEN_GL(glCompileShader(id));
-
     GLboolean error = GL_FALSE;
-
     glGetShaderiv(id, GL_COMPILE_STATUS, &error);
-
     char    log [4096] = "";
     GLsizei logSize    = 0;
-    
     glGetShaderInfoLog(id, 4096, &logSize, log);
-
     //DJV_DEBUG_PRINT("log = " << QString(log));
-
     if (error != GL_TRUE)
     {
         throw djvError(
@@ -130,34 +113,25 @@ void djvOpenGlShader::init(
     _fragmentSource = fragmentSource;
 
     GLboolean error = GL_FALSE;
-
     _vertexId   = glCreateShader(GL_VERTEX_SHADER);
     _fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
-
     shaderCompile(_vertexId,   _vertexSource);
     shaderCompile(_fragmentId, _fragmentSource);
-
     DJV_DEBUG_OPEN_GL(_programId = glCreateProgram());
-
     if (! _programId)
     {
         throw djvError(
             "djvOpenGlShader",
             qApp->translate("djvOpenGlShader", "Cannot create shader program"));
     }
-
     DJV_DEBUG_OPEN_GL(glAttachShader(_programId, _vertexId));
     DJV_DEBUG_OPEN_GL(glAttachShader(_programId, _fragmentId));
     DJV_DEBUG_OPEN_GL(glLinkProgram (_programId));
-
     glGetProgramiv(_programId, GL_LINK_STATUS, &error);
-
     char log [4096] = "";
     GLsizei logSize = 0;
     glGetProgramInfoLog(_programId, 4096, &logSize, log);
-
     //DJV_DEBUG_PRINT("log = " << QString(log));
-
     if (error != GL_TRUE)
     {
         throw djvError(
@@ -170,7 +144,6 @@ void djvOpenGlShader::init(
 void djvOpenGlShader::bind()
 {
     //DJV_DEBUG("djvOpenGlShader::bind");
-
     DJV_DEBUG_OPEN_GL(glUseProgram(_programId));
 }
     
@@ -194,21 +167,16 @@ void djvOpenGlShader::del()
     if (_vertexId)
     {
         glDeleteShader(_vertexId);
-        
         _vertexId = 0;
     }
-
     if (_fragmentId)
     {
         glDeleteShader(_fragmentId);
-        
         _fragmentId = 0;
     }
-
     if (_programId)
     {
         glDeleteProgram(_programId);
-        
         _programId = 0;
     }
 }

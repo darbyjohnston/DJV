@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPicPlugin.cpp
-
 #include <djvPicPlugin.h>
 
 #include <djvPicLoad.h>

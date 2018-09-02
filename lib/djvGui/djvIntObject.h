@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntObject.h
-
-#ifndef DJV_INT_OBJECT_H
-#define DJV_INT_OBJECT_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -52,7 +49,6 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         int    value
         READ   value
@@ -60,7 +56,6 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
         NOTIFY valueChanged)
     
     //! This property holds the default value.
-    
     Q_PROPERTY(
         int    defaultValue
         READ   defaultValue
@@ -68,14 +63,12 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
         NOTIFY defaultValueChanged)
     
     //! This property holds whether the default value is valid.
-    
     Q_PROPERTY(
         bool   defaultValid
         READ   isDefaultValid
         NOTIFY defaultValidChanged)
     
     //! This property holds the minimum value.
-    
     Q_PROPERTY(
         int    min
         READ   min
@@ -83,7 +76,6 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
         NOTIFY minChanged)
     
     //! This property holds the maximum value.
-    
     Q_PROPERTY(
         int    max
         READ   max
@@ -91,7 +83,6 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
         NOTIFY maxChanged)
     
     //! This property holds the small increment.
-    
     Q_PROPERTY(
         int    smallInc
         READ   smallInc
@@ -99,7 +90,6 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
         NOTIFY smallIncChanged)
     
     //! This property holds the large increment.
-    
     Q_PROPERTY(
         int    largeInc
         READ   largeInc
@@ -107,14 +97,12 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
         NOTIFY largeIncChanged)
     
     //! This property holds whether clamping is enabled.
-    
     Q_PROPERTY(
         bool  clamp
         READ  hasClamp
         WRITE setClamp)
     
     //! This property holds the size string.
-    
     Q_PROPERTY(
         QString sizeString
         READ    sizeString
@@ -124,167 +112,124 @@ class DJV_GUI_EXPORT djvIntObject : public QObject
 public:
 
     //! The minimum integer value.
-
     static const int intMin;
 
     //! The maximum integer value.
-
     static const int intMax;
 
-    //! Constructor.
-
     explicit djvIntObject(QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvIntObject();
 
     //! Get the value.
-
     int value() const;
 
     //! Get the default value.
-
     int defaultValue() const;
 
     //! Get whether the default value is valid.
-
     bool isDefaultValid() const;
 
     //! Get the minimum value.
-
     int min() const;
 
     //! Get the maximum value.
-
     int max() const;
 
     //! Get the small increment.
-
     int smallInc() const;
 
     //! Get the large increment.
-
     int largeInc() const;
 
     //! Get whether clamping is enabled.
-
     bool hasClamp() const;
 
     //! Get the size string.
-
     const QString & sizeString() const;
 
 public Q_SLOTS:
 
     //! Set the value.
-
     void setValue(int);
 
     //! Set the default value.
-
     void setDefaultValue(int);
 
     //! Set the minimum value.
-
     void setMin(int);
 
     //! Set the maximum value.
-
     void setMax(int);
 
     //! Set the value range.
-
     void setRange(int min, int max);
 
     //! Set the value to the minimum.
-
     void setToMin();
 
     //! Set the value to the maximum.
-
     void setToMax();
 
     //! Set the small increment.
-
     void setSmallInc(int);
 
     //! Set the large increment.
-
     void setLargeInc(int);
 
     //! Set the value increment.
-
     void setInc(int smallInc, int largeInc);
 
     //! Increment the value.
-
     void smallIncAction();
 
     //! Increment the value.
-
     void largeIncAction();
 
     //! Decrement the value.
-
     void smallDecAction();
 
     //! Decrement the value.
-
     void largeDecAction();
 
     //! Set whether clamping is enabled.
-
     void setClamp(bool);
 
     //! Set the size string.
-
     void setSizeString(const QString &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-
     void valueChanged(int);
 
     //! This signal is emitted when the default value is changed.
-
     void defaultValueChanged(int);
 
     //! This signal is emitted when the default value is valid is changed.
-
     void defaultValidChanged(bool);
 
     //! This signal is emitted when the minimum value is changed.
-
     void minChanged(int);
 
     //! This signal is emitted when the maximum value is changed.
-
     void maxChanged(int);
 
     //! This signal is emitted when the value range is changed.
-
     void rangeChanged(int min, int max);
 
     //! This signal is emitted when the small increment is changed.
-
     void smallIncChanged(int);
 
     //! This signal is emitted when the large increment is changed.
-
     void largeIncChanged(int);
 
     //! This signal is emitted when the increment is changed.
-
     void incChanged(int small, int large);
 
     //! This signal is emitted when the size string is changed.
-
     void sizeStringChanged(const QString &);
 
 private:
-
     void defaultValidUpdate();
 
     int     _value;
@@ -299,6 +244,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_INT_OBJECT_H
 

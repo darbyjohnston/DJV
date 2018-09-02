@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageUtil.h
-
-#ifndef DJV_IMAGE_UTIL_H
-#define DJV_IMAGE_UTIL_H
+#pragma once
 
 #include <djvImage.h>
 
@@ -48,13 +45,8 @@
 class DJV_CORE_EXPORT djvImageUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvImageUtil() = 0;
 };
 
 //@} // djvCoreImage
-
-#endif // DJV_IMAGE_UTIL_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractGroup.h
-
-#ifndef DJV_VIEW_ABSTRACT_GROUP_H
-#define DJV_VIEW_ABSTRACT_GROUP_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -60,35 +57,24 @@ class DJV_VIEW_LIB_EXPORT djvViewAbstractGroup : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewAbstractGroup(djvViewMainWindow *, djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewAbstractGroup() = 0;
 
     //! Get the main window.
-
     djvViewMainWindow * mainWindow() const;
 
     //! Get the tool bar.
-
     virtual QToolBar * toolBar() const;
     
     //! Get the context.
-    
     djvViewContext * context() const;
 
 private:
-
     DJV_PRIVATE_COPY(djvViewAbstractGroup);
     
     djvViewAbstractGroupPrivate * _p;
 };
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_ABSTRACT_GROUP_H
 

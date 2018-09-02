@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackWidgets.h
-
-#ifndef DJV_VIEW_PLAYBACK_WIDGETS_H
-#define DJV_VIEW_PLAYBACK_WIDGETS_H
+#pragma once
 
 #include <djvViewUtil.h>
 
@@ -61,30 +58,21 @@ class djvViewPlaybackButtons : public QWidget
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewPlaybackButtons(
         QActionGroup *  actionGroup,
         djvGuiContext * context,
         QWidget *       parent      = 0);
 
-    //! Destructor.
-
     virtual ~djvViewPlaybackButtons();
 
 Q_SIGNALS:
-
     //! This signal is emitted when the shuttle is pressed.
-
     void shuttlePressed(bool);
 
     //! This signal is emitted when the shuttle value is changed.
-
     void shuttleChanged(int);
 
 private:
-
     DJV_PRIVATE_COPY(djvViewPlaybackButtons);
     
     djvViewPlaybackButtonsPrivate * _p;
@@ -101,24 +89,17 @@ class djvViewLoopWidget : public QWidget
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewLoopWidget(
         QActionGroup *   actionGroup,
         djvViewContext * context,
         QWidget *        parent      = 0);
 
-    //! Destructor.
-
     virtual ~djvViewLoopWidget();
 
 private Q_SLOTS:
-
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewLoopWidget);
     
     djvViewLoopWidgetPrivate * _p;
@@ -135,44 +116,31 @@ class djvViewFrameButtons : public QWidget
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewFrameButtons(
         QActionGroup *  actionGroup,
         djvGuiContext * context,
         QWidget *       parent      = 0);
 
-    //! Destructor.
-
     virtual ~djvViewFrameButtons();
 
 Q_SIGNALS:
-
     //! This signal is emitted when the shuttle is pressed.
-
     void shuttlePressed(bool);
 
     //! This signal is emitted when the shuttle value is changed.
-
     void shuttleChanged(int);
 
     //! This signal is emitted when the buttons are pressed.
-
     void pressed();
 
     //! This signal is emitted when the buttons are released.
-
     void released();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewFrameButtons);
     
     djvViewFrameButtonsPrivate * _p;
 };
 
 //@} // djvViewPlayback
-
-#endif // DJV_VIEW_PLAYBACK_WIDGETS_H
 

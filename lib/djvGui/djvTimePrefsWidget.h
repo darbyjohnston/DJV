@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimePrefsWidget.h
-
-#ifndef DJV_TIME_PREFS_WIDGET_H
-#define DJV_TIME_PREFS_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -54,24 +51,17 @@ class DJV_GUI_EXPORT djvTimePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvTimePrefsWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvTimePrefsWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void timeUnitsCallback(int);
     void speedCallback(int);
     
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvTimePrefsWidget);
@@ -80,6 +70,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_TIME_PREFS_WIDGET_H
 

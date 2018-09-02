@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIflPlugin.h
-
-#ifndef DJV_IFL_PLUGIN_H
-#define DJV_IFL_PLUGIN_H
+#pragma once
 
 #include <djvIfl.h>
 
@@ -50,21 +47,14 @@
 class djvIflPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvIflPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
-
     virtual bool isSequence() const;
     
     virtual djvImageLoad * createLoad() const;
 };
 
 //@} // djvIflPlugin
-
-#endif // DJV_IFL_PLUGIN_H
 

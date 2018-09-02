@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvQuestionDialog.cpp
-
 #include <djvQuestionDialog.h>
 
 #include <QApplication>
@@ -93,6 +91,5 @@ const QString & djvQuestionDialog::label() const
 void djvQuestionDialog::setLabel(const QString & label)
 {
     _p->label = label;
-    
     _p->labelWidget->setText(label);
 }

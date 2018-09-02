@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebugInline.h
-
 template<class T>
 inline djvDebug & operator << (djvDebug & debug, const QVector<T> & list)
 {
@@ -40,11 +38,8 @@ inline djvDebug & operator << (djvDebug & debug, const QVector<T> & list)
         {
             debug << " ";
         }
-
         debug << list[i];
     }
-
     return debug;
 }
-
 

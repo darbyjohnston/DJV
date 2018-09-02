@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExrWidget.cpp
-
 #include <djvOpenExrWidget.h>
 
 #include <djvGuiContext.h>
@@ -84,7 +82,6 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
     //DJV_DEBUG("djvOpenExrWidget::djvOpenExrWidget");
 
     // Create the thread widgets.
-
     _threadsEnableWidget = new QCheckBox(
         qApp->translate("djvOpenExrWidget", "Enable multi-threading"));
 
@@ -93,7 +90,6 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
     _threadCountWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Create the widgets.
-    
     _inputColorProfileWidget = new QComboBox;
     _inputColorProfileWidget->addItems(djvOpenExr::colorProfileLabels());
     _inputColorProfileWidget->setSizePolicy(
@@ -131,7 +127,6 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
 #endif // OPENEXR_VERSION_HEX
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -196,7 +191,6 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
     layout->addStretch();
 
     // Initialize.
-
     _inputExposureWidget->setInc(0.1, 1.0);
     _inputExposureDefogWidget->setInc(0.0001, 0.001);
     _inputExposureKneeLowWidget->setInc(0.1, 1.0);
@@ -244,62 +238,50 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-    
     connect(
         _threadsEnableWidget,
         SIGNAL(toggled(bool)),
         SLOT(threadsEnableCallback(bool)));
-
     connect(
         _threadCountWidget,
         SIGNAL(valueChanged(int)),
         SLOT(threadCountCallback(int)));
-
     connect(
         _inputColorProfileWidget,
         SIGNAL(activated(int)),
         SLOT(inputColorProfileCallback(int)));
-
     connect(
         _inputGammaWidget,
         SIGNAL(valueChanged(double)),
         SLOT(inputGammaCallback(double)));
-
     connect(
         _inputExposureWidget,
         SIGNAL(valueChanged(double)),
         SLOT(inputExposureCallback(double)));
-
     connect(
         _inputExposureDefogWidget,
         SIGNAL(valueChanged(double)),
         SLOT(inputExposureDefogCallback(double)));
-
     connect(
         _inputExposureKneeLowWidget,
         SIGNAL(valueChanged(double)),
         SLOT(inputExposureKneeLowCallback(double)));
-
     connect(
         _inputExposureKneeHighWidget,
         SIGNAL(valueChanged(double)),
         SLOT(inputExposureKneeHighCallback(double)));
-
     connect(
         _channelsWidget,
         SIGNAL(activated(int)),
         SLOT(channelsCallback(int)));
-
     connect(
         _compressionWidget,
         SIGNAL(activated(int)),
         SLOT(compressionCallback(int)));
-
 #if OPENEXR_VERSION_HEX >= 0x02020000
     connect(
         _dwaCompressionLevelWidget,
@@ -314,7 +296,6 @@ djvOpenExrWidget::~djvOpenExrWidget()
 void djvOpenExrWidget::resetPreferences()
 {
     _options = djvOpenExr::Options();
-    
     pluginUpdate();
 }
 
@@ -324,7 +305,6 @@ void djvOpenExrWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvOpenExr::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.threadsEnable;
@@ -355,21 +335,18 @@ void djvOpenExrWidget::pluginCallback(const QString & option)
     catch (const QString &)
     {
     }
-
     widgetUpdate();
 }
 
 void djvOpenExrWidget::threadsEnableCallback(bool in)
 {
     _options.threadsEnable = in;
-
     pluginUpdate();
 }
 
 void djvOpenExrWidget::threadCountCallback(int in)
 {
     _options.threadCount = in;
-
     pluginUpdate();
 }
 
@@ -387,49 +364,42 @@ void djvOpenExrWidget::inputColorProfileCallback(int in)
 void djvOpenExrWidget::inputGammaCallback(double in)
 {
     _options.inputGamma = in;
-
     pluginUpdate();
 }
 
 void djvOpenExrWidget::inputExposureCallback(double in)
 {
     _options.inputExposure.value = in;
-
     pluginUpdate();
 }
 
 void djvOpenExrWidget::inputExposureDefogCallback(double in)
 {
     _options.inputExposure.defog = in;
-    
     pluginUpdate();
 }
 
 void djvOpenExrWidget::inputExposureKneeLowCallback(double in)
 {
     _options.inputExposure.kneeLow = in;
-    
     pluginUpdate();
 }
 
 void djvOpenExrWidget::inputExposureKneeHighCallback(double in)
 {
     _options.inputExposure.kneeHigh = in;
-    
     pluginUpdate();
 }
 
 void djvOpenExrWidget::channelsCallback(int in)
 {
     _options.channels = static_cast<djvOpenExr::CHANNELS>(in);
-
     pluginUpdate();
 }
 
 void djvOpenExrWidget::compressionCallback(int in)
 {
     _options.compression = static_cast<djvOpenExr::COMPRESSION>(in);
-
     pluginUpdate();
 }
 
@@ -437,7 +407,6 @@ void djvOpenExrWidget::dwaCompressionLevelCallback(double in)
 {
 #if OPENEXR_VERSION_HEX >= 0x02020000
     _options.dwaCompressionLevel = in;
-
     pluginUpdate();
 #endif // OPENEXR_VERSION_HEX
 }
@@ -445,7 +414,6 @@ void djvOpenExrWidget::dwaCompressionLevelCallback(double in)
 void djvOpenExrWidget::pluginUpdate()
 {
     QStringList tmp;
-
     tmp << _options.threadsEnable;
     plugin()->setOption(plugin()->options()[
         djvOpenExr::THREADS_ENABLE_OPTION], tmp);
@@ -477,7 +445,6 @@ void djvOpenExrWidget::pluginUpdate()
 void djvOpenExrWidget::widgetUpdate()
 {
     //DJV_DEBUG("djvOpenExrWidget::widgetUpdate()");
-    
     djvSignalBlocker signalBlocker(QObjectList() <<
         _threadsEnableWidget <<
         _threadCountWidget <<
@@ -494,7 +461,6 @@ void djvOpenExrWidget::widgetUpdate()
         _dwaCompressionLevelWidget
 #endif // OPENEXR_VERSION_HEX
         );
-    
     _inputGammaWidget->setVisible(
         djvOpenExr::COLOR_PROFILE_GAMMA == _options.inputColorProfile);
     _inputColorProfileLayout->labelForField(_inputGammaWidget)->setVisible(
@@ -515,7 +481,6 @@ void djvOpenExrWidget::widgetUpdate()
         djvOpenExr::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
     _inputColorProfileLayout->labelForField(_inputExposureKneeHighWidget)->setVisible(
         djvOpenExr::COLOR_PROFILE_EXPOSURE == _options.inputColorProfile);
-    
     _threadsEnableWidget->setChecked(_options.threadsEnable);
     _threadCountWidget->setValue(_options.threadCount);
     _inputColorProfileWidget->setCurrentIndex(_options.inputColorProfile);
@@ -525,7 +490,6 @@ void djvOpenExrWidget::widgetUpdate()
     _inputExposureKneeLowWidget->setValue(_options.inputExposure.kneeLow);
     _inputExposureKneeHighWidget->setValue(_options.inputExposure.kneeHigh);
     _channelsWidget->setCurrentIndex(_options.channels);
-    
 #if OPENEXR_VERSION_HEX >= 0x02020000
     _compressionWidget->setCurrentIndex(_options.compression);
     _dwaCompressionLevelWidget->setValue(_options.dwaCompressionLevel);

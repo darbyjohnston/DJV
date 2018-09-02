@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvConvertContext.cpp
-
 #include <djvConvertContext.h>
 
 #include <djvDebugLog.h>
@@ -77,7 +75,6 @@ djvConvertContext::djvConvertContext(QObject * parent) :
     //DJV_DEBUG("djvConvertContext::djvConvertContext");
     
     // Load translators.
-    
     loadTranslator("djv_convert");
 }
 
@@ -112,13 +109,11 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
     if (in.isEmpty())
     {
         print("\n" + commandLineHelp());
-        
         return false;
     }
 
     QStringList args;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
@@ -126,7 +121,6 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
             in >> arg;
 
             // Parse the options.
-
             if (
                 qApp->translate("djvConvertContext", "-mirror_h") == arg)
             {
@@ -186,7 +180,6 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the input options.
-
             else if (
                 qApp->translate("djvConvertContext", "-layer") == arg)
             {
@@ -218,7 +211,6 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the output options.
-
             else if (
                 qApp->translate("djvConvertContext", "-pixel") == arg)
             {
@@ -248,7 +240,6 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the arguments.
-
             else
             {
                 args += arg;
@@ -266,33 +257,22 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
         QString("Args = %1").arg(djvStringUtil::addQuotes(args).join(", ")));
 
     // Parse the input file.
-
     if (! args.count())
     {
         throw QString(qApp->translate("djvConvertContext", "input"));
     }
-
     _input.file = djvFileInfoUtil::parse(args.first(), _options.sequence);
-    
-    DJV_LOG(debugLog(), "djv_convert",
-        QString("Input = \"%1\"").arg(_input.file));
-
+    DJV_LOG(debugLog(), "djv_convert", QString("Input = \"%1\"").arg(_input.file));
     args.pop_front();
 
     // Parse the output file.
-
     if (! args.count())
     {
         throw QString(qApp->translate("djvConvertContext", "output"));
     }
-
     _output.file = djvFileInfoUtil::parse(args.first(), _options.sequence);
-
-    DJV_LOG(debugLog(), "djv_convert",
-        QString("Output = \"%1\"").arg(_output.file));
-
+    DJV_LOG(debugLog(), "djv_convert",QString("Output = \"%1\"").arg(_output.file));
     args.pop_front();
-
     if (! args.isEmpty())
     {
         throw QString(args[0]);
@@ -430,7 +410,6 @@ QString djvConvertContext::commandLineHelp() const
 "(black point, white point, gamma, and soft clip):\n"
 "\n"
 "    > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2\n");
-
     return QString(label).
         arg(djvOpenGlImageOptions::channelLabels().join(", ")).
         arg(djvStringUtil::label(_options.channel).join(", ")).

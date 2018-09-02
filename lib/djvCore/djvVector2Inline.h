@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVector2Inline.h
-
 //------------------------------------------------------------------------------
 // djvVector<T, 2>
 //------------------------------------------------------------------------------
@@ -39,7 +37,6 @@ template<typename T>
 const int djvVector<T, 2>::dimension = 2;
 
 #define _VEC2_INIT() \
-    \
     x(djvVector<T, 2>::e[0]), \
     y(djvVector<T, 2>::e[1])
 
@@ -81,7 +78,6 @@ inline djvVector<T, 2> & djvVector<T, 2>::operator = (const djvVector<T, 2> & in
         x = in.x;
         y = in.y;
     }
-
     return *this;
 }
 
@@ -98,7 +94,6 @@ inline void djvVector<T, 2>::zero()
 }
 
 #define _VEC2_OP(IN) \
-    \
     template<typename T> \
     inline djvVector<T, 2> & djvVector<T, 2>::operator IN (const djvVector<T, 2> & in) \
     { \
@@ -113,7 +108,6 @@ _VEC2_OP(*=)
 _VEC2_OP(/=)
 
 #define _VEC2_OP2(IN) \
-    \
     template<typename T> \
     inline djvVector<T, 2> & djvVector<T, 2>::operator IN (T in) \
     { \

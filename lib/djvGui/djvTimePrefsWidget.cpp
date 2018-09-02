@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimePrefsWidget.cpp
-
 #include <djvTimePrefsWidget.h>
 
 #include <djvGuiContext.h>
@@ -73,7 +71,6 @@ djvTimePrefsWidget::djvTimePrefsWidget(djvGuiContext * context, QWidget * parent
     _p(new djvTimePrefsWidgetPrivate)
 {
     // Create the widgets.
-
     _p->timeUnitsWidget = new QComboBox;
     _p->timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->timeUnitsWidget->addItems(djvTime::unitsLabels());
@@ -83,7 +80,6 @@ djvTimePrefsWidget::djvTimePrefsWidget(djvGuiContext * context, QWidget * parent
     _p->speedWidget->addItems(djvSpeed::fpsLabels());
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -104,16 +100,13 @@ djvTimePrefsWidget::djvTimePrefsWidget(djvGuiContext * context, QWidget * parent
     layout->addStretch();
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->timeUnitsWidget,
         SIGNAL(activated(int)),
         SLOT(timeUnitsCallback(int)));
-
     connect(
         _p->speedWidget,
         SIGNAL(activated(int)),
@@ -128,9 +121,7 @@ djvTimePrefsWidget::~djvTimePrefsWidget()
 void djvTimePrefsWidget::resetPreferences()
 {
     context()->timePrefs()->setTimeUnits(djvTime::unitsDefault());
-    
     context()->timePrefs()->setSpeed(djvSpeed::speedDefault());
-
     widgetUpdate();
 }
 
@@ -149,8 +140,6 @@ void djvTimePrefsWidget::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->timeUnitsWidget <<
         _p->speedWidget);
-
     _p->timeUnitsWidget->setCurrentIndex(djvTime::units());
-    
     _p->speedWidget->setCurrentIndex(djvSpeed::speed());
 }

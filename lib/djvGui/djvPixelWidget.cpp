@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelWidget.cpp
-
 #include <djvPixelWidget.h>
 
 #include <djvSignalBlocker.h>
@@ -87,11 +85,8 @@ void djvPixelWidget::setPixel(djvPixel::PIXEL pixel)
 {
     if (pixel == _p->pixel)
         return;
-
     _p->pixel = pixel;
-
     widgetUpdate();
-
     Q_EMIT pixelChanged(_p->pixel);
 }
 
@@ -103,7 +98,6 @@ void djvPixelWidget::widgetCallback(int in)
 void djvPixelWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->comboBox);
-
     _p->comboBox->setCurrentIndex(_p->pixel);
 }
 

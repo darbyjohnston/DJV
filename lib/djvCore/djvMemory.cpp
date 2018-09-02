@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemory.cpp
-
 #include <djvMemory.h>
 
 #include <djvAssert.h>
@@ -86,9 +84,7 @@ const QStringList & djvMemory::endianLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvMemory", "MSB") <<
         qApp->translate("djvMemory", "LSB");
-
     DJV_ASSERT(data.count() == ENDIAN_COUNT);
-
     return data;
 }
 
@@ -110,13 +106,9 @@ int djvMemory::compare(const void * a, const void * b, quint64 size)
 djvMemory::ENDIAN djvMemory::endian()
 {
     static const int tmp = 1;
-
     static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
-
     return *p ? LSB : MSB;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvMemory::ENDIAN, djvMemory::endianLabels())
 

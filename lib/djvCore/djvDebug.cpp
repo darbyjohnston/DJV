@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebug.cpp
-
 #include <djvDebug.h>
 
 #include <djvStringUtil.h>
@@ -57,7 +55,6 @@ namespace
 {
 
 // Note that the indentation level is a global variable.
-
 int indent = 0;
 
 } // namespace
@@ -65,10 +62,8 @@ int indent = 0;
 void djvDebug::init(const QString & in)
 {
     _p = new djvDebugPrivate;
-
     *this << LINE_BEGIN << in << LINE_END;
     *this << LINE_BEGIN << "{" << LINE_END;
-
     indent += 4;
 }
 
@@ -80,9 +75,7 @@ djvDebug::djvDebug(const QString & prefix, const QString & in)
 djvDebug::~djvDebug()
 {
     _p->timer.check();
-
     indent -= 4;
-
     *this <<
         LINE_BEGIN <<
         "} (" <<
@@ -91,7 +84,6 @@ djvDebug::~djvDebug()
         _p->timer.fps() <<
         " fps)" <<
         LINE_END;
-
     delete _p;
 }
 
@@ -106,12 +98,10 @@ namespace
 QString bits(quint32 in, int size)
 {
     QString out;
-
     for (int i = 0; i < size; ++i)
     {
         out += ((in >> i) & 1) ? '1' : '0';
     }
-
     return out;
 }
 
@@ -137,36 +127,25 @@ djvDebug & djvDebug::operator << (LINE in)
     switch (in)
     {
         case LINE_BEGIN:
-        
             _p->tmp = "debug " + QString(indent, ' ');
-            
             break;
-
         case LINE_END:
-        
             ::printf("%s\n", _p->tmp.toLatin1().data());
-            
             ::fflush(stdout);
-            
             break;
     }
-
     return *this;
 }
-
-//------------------------------------------------------------------------------
 
 djvDebug & operator << (djvDebug & debug, const char * in)
 {
     debug.add(in);
-
     return debug;
 }
 
 djvDebug & operator << (djvDebug & debug, bool in)
 {
     static const QStringList label = djvStringUtil::boolLabels();
-
     return debug << label[in];
 }
 
@@ -198,7 +177,6 @@ djvDebug & operator << (djvDebug & debug, double in)
 djvDebug & operator << (djvDebug & debug, const QString & in)
 {
     debug.add(in);
-
     return debug;
 }
 

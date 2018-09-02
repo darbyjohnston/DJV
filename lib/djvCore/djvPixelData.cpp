@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelData.cpp
-
 #include <djvPixelData.h>
 
 #include <djvPixelDataUtil.h>
@@ -57,9 +55,7 @@ djvPixelDataInfo::Mirror::Mirror(bool x, bool y) :
 
 void djvPixelDataInfo::init()
 {
-    static const QString defaultLayerName =
-        qApp->translate("djvPixelDataInfo", "Default");
-    
+    static const QString defaultLayerName = qApp->translate("djvPixelDataInfo", "Default");
     layerName = defaultLayerName;
     proxy     = PROXY_NONE;
     pixel     = static_cast<djvPixel::PIXEL>(0);
@@ -78,7 +74,6 @@ djvPixelDataInfo::djvPixelDataInfo(
     djvPixel::PIXEL     pixel)
 {
     init();
-
     this->size  = size;
     this->pixel = pixel;
 }
@@ -89,7 +84,6 @@ djvPixelDataInfo::djvPixelDataInfo(
     djvPixel::PIXEL pixel)
 {
     init();
-
     this->size   = djvVector2i(width, height);
     this->pixel  = pixel;
 }
@@ -100,7 +94,6 @@ djvPixelDataInfo::djvPixelDataInfo(
     djvPixel::PIXEL     pixel)
 {
     init();
-
     this->fileName = fileName;
     this->size     = size;
     this->pixel    = pixel;
@@ -113,7 +106,6 @@ djvPixelDataInfo::djvPixelDataInfo(
     djvPixel::PIXEL pixel)
 {
     init();
-
     this->fileName = fileName;
     this->size     = djvVector2i(width, height);
     this->pixel    = pixel;
@@ -126,9 +118,7 @@ const QStringList & djvPixelDataInfo::proxyLabels()
         qApp->translate("djvPixelDataInfo", "1/2") <<
         qApp->translate("djvPixelDataInfo", "1/4") <<
         qApp->translate("djvPixelDataInfo", "1/8");
-
     DJV_ASSERT(data.count() == djvPixelDataInfo::PROXY_COUNT);
-
     return data;
 }
 
@@ -139,16 +129,13 @@ const QStringList & djvPixelDataInfo::proxyLabels()
 djvPixelData::djvPixelData()
 {
     //DJV_DEBUG("djvPixelData::djvPixelData");
-
     init();
 }
 
 djvPixelData::djvPixelData(const djvPixelData & in)
 {
     //DJV_DEBUG("djvPixelData::djvPixelData");
-
     init();
-
     copy(in);
 }
 
@@ -158,9 +145,7 @@ djvPixelData::djvPixelData(
     djvFileIo *              fileIo)
 {
     //DJV_DEBUG("djvPixelData::djvPixelData");
-
     init();
-
     set(in, p, fileIo);
 }
 
@@ -172,18 +157,15 @@ djvPixelData::~djvPixelData()
 void djvPixelData::zero()
 {
     //DJV_DEBUG("djvPixelData::zero");
-
     _data.zero();
 }
 
 void djvPixelData::close()
 {
     //DJV_DEBUG("djvPixelData::close");
-    
     if (_fileIo)
     {
         delete _fileIo;
-        
         init();
     }
 }
@@ -194,7 +176,6 @@ djvPixelData & djvPixelData::operator = (const djvPixelData & in)
     {
         copy(in);
     }
-
     return *this;
 }
 
@@ -215,13 +196,9 @@ void djvPixelData::detach()
     if (_fileIo)
     {
         _data.setSize(_dataByteCount);
-        
         djvMemory::copy(_p, _data(), _dataByteCount);
-        
         _p = _data();
-
         delete _fileIo;
-
         _fileIo = 0;
     }
 }
@@ -235,16 +212,14 @@ void djvPixelData::set(
     //DJV_DEBUG_PRINT("in = " << in);
     
 	delete _fileIo;
-	
     _fileIo = 0;
 
     _info = in;
-
+    
     _channels          = djvPixel::channels(_info.pixel);
     _pixelByteCount    = djvPixel::byteCount(_info.pixel);
     _scanlineByteCount = djvPixelDataUtil::scanlineByteCount(_info);
     _dataByteCount     = djvPixelDataUtil::dataByteCount(_info);
-
     //DJV_DEBUG_PRINT("channels = " << _channels);
     //DJV_DEBUG_PRINT("bytes pixel = " << _pixelByteCount);
     //DJV_DEBUG_PRINT("bytes scanline = " << _scanlineByteCount);
@@ -255,36 +230,28 @@ void djvPixelData::set(
         if (fileIo)
         {
             _data.setSize(0);
-            
             _p = p;
-            
             _fileIo = fileIo;
         }
         else
         {
             _data.setSize(_dataByteCount);
-            
             _p = _data.data();
-    
             djvMemory::copy(p, _data(), _dataByteCount);
         }
     }
     else
     {
         _data.setSize(_dataByteCount);
-
         _p = _data.data();
     }
 }
 
 void djvPixelData::copy(const djvPixelData & in)
 {
-    set(in._info);
-    
+    set(in._info);    
     djvMemory::copy(in._p, _data(), _dataByteCount);
 }
-
-//------------------------------------------------------------------------------
 
 bool operator == (const djvPixelDataInfo::Mirror & a,
     const djvPixelDataInfo::Mirror & b)
@@ -337,8 +304,7 @@ _DJV_STRING_OPERATOR_LABEL(
 QStringList & operator >> (QStringList & in, djvPixelDataInfo::Mirror & out) throw (QString)
 {
     in >> out.x;
-    in >> out.y;
-    
+    in >> out.y;    
     return in;
 }
 
@@ -346,7 +312,6 @@ QStringList & operator << (QStringList & out, const djvPixelDataInfo::Mirror & i
 {
     out << in.x;
     out << in.y;
-    
     return out;
 }
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageView.cpp
-
 #include <djvViewImageView.h>
 
 #include <djvViewContext.h>
@@ -114,27 +112,22 @@ djvViewImageView::djvViewImageView(djvViewContext * context, QWidget * parent) :
         context->viewPrefs(),
         SIGNAL(gridColorChanged(const djvColor &)),
         SLOT(setGridColor(const djvColor &)));
-
     connect(
         context->viewPrefs(),
         SIGNAL(hudInfoChanged(const QVector<bool> &)),
         SLOT(hudInfoCallback(const QVector<bool> &)));
-
     connect(
         context->viewPrefs(),
         SIGNAL(hudColorChanged(const djvColor &)),
         SLOT(setHudColor(const djvColor &)));
-
     connect(
         context->viewPrefs(),
         SIGNAL(hudBackgroundChanged(djvViewUtil::HUD_BACKGROUND)),
         SLOT(setHudBackground(djvViewUtil::HUD_BACKGROUND)));
-
     connect(
         context->viewPrefs(),
         SIGNAL(hudBackgroundColorChanged(const djvColor &)),
         SLOT(setHudBackgroundColor(const djvColor &)));
-
     connect(
         context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
@@ -144,7 +137,6 @@ djvViewImageView::djvViewImageView(djvViewContext * context, QWidget * parent) :
 djvViewImageView::~djvViewImageView()
 {
     //DJV_DEBUG("djvViewImageView::~djvViewImageView");
-
     delete _p;
 }
 
@@ -162,19 +154,14 @@ QSize djvViewImageView::sizeHint() const
 {
     //DJV_DEBUG("djvViewImageView::sizeHint");
     //DJV_DEBUG_PRINT("zoom = " << viewZoom());
-
     djvVector2i size = djvVectorUtil::ceil<double, int>(bbox().size);
-        
     if (! djvVectorUtil::isSizeValid(size))
     {
         size = djvVector2i(640, 300);
     }
-
     djvVector2i maxSize;
-    
     const djvVector2i screenSize = djvVectorUtil::fromQSize(
         qApp->desktop()->availableGeometry().size());
-    
     switch (_p->context->windowPrefs()->viewMax())
     {
         case djvViewUtil::VIEW_MAX_25:
@@ -182,44 +169,32 @@ QSize djvViewImageView::sizeHint() const
         case djvViewUtil::VIEW_MAX_75:
         {
             double v = 0.0f;
-            
             switch (_p->context->windowPrefs()->viewMax())
             {
                 case djvViewUtil::VIEW_MAX_25: v = 0.25; break;
                 case djvViewUtil::VIEW_MAX_50: v = 0.5;  break;
                 case djvViewUtil::VIEW_MAX_75: v = 0.75; break;
-                
                 default: break;
             }
-            
             maxSize = djvVectorUtil::ceil<double, int>(djvVector2f(screenSize) * v);
         }
         break;
-        
         case djvViewUtil::VIEW_MAX_USER:
-        
             maxSize = _p->context->windowPrefs()->viewMaxUser();
-            
             break;
-            
         default: break;
     }
-    
     if (djvVectorUtil::isSizeValid(maxSize))
     {
         if (size.x > maxSize.x || size.y > maxSize.y)
         {
             const double aspect = size.x / static_cast<double>(size.y);
-            
             const djvVector2i a(maxSize.x, maxSize.x / aspect);
             const djvVector2i b(maxSize.y * aspect, maxSize.y);
-
             size = a < b ? a : b;
         }
     }
-
     //DJV_DEBUG_PRINT("size = " << size);
-
     return QSize(size.x, size.y);
 }
 
@@ -231,8 +206,7 @@ QSize djvViewImageView::minimumSizeHint() const
 void djvViewImageView::setZoomFocus(double in)
 {
     //DJV_DEBUG("djvViewImageView::setZoomFocus");
-    //DJV_DEBUG_PRINT("in = " << in);
-    
+    //DJV_DEBUG_PRINT("in = " << in);    
     setViewZoom(
         in,
         _p->inside ? _p->mousePos : (djvVector2i(width(), height()) / 2));
@@ -242,9 +216,7 @@ void djvViewImageView::setGrid(djvViewUtil::GRID grid)
 {
     if (grid == _p->grid)
         return;
-
     _p->grid = grid;
-
     update();
 }
 
@@ -252,9 +224,7 @@ void djvViewImageView::setGridColor(const djvColor & color)
 {
     if (color == _p->gridColor)
         return;
-
     _p->gridColor = color;
-
     update();
 }
 
@@ -262,9 +232,7 @@ void djvViewImageView::setHudEnabled(bool in)
 {
     if (in == _p->hudEnabled)
         return;
-
     _p->hudEnabled = in;
-
     update();
 }
 
@@ -272,9 +240,7 @@ void djvViewImageView::setHudInfo(const djvViewHudInfo & info)
 {
     if (info == _p->hudInfo)
         return;
-
     _p->hudInfo = info;
-
     update();
 }
 
@@ -282,9 +248,7 @@ void djvViewImageView::setHudColor(const djvColor & color)
 {
     if (color == _p->hudColor)
         return;
-
     _p->hudColor = color;
-
     update();
 }
 
@@ -292,9 +256,7 @@ void djvViewImageView::setHudBackground(djvViewUtil::HUD_BACKGROUND background)
 {
     if (background == _p->hudBackground)
         return;
-
     _p->hudBackground = background;
-
     update();
 }
 
@@ -302,56 +264,45 @@ void djvViewImageView::setHudBackgroundColor(const djvColor & color)
 {
     if (color == _p->hudBackgroundColor)
         return;
-
     _p->hudBackgroundColor = color;
-
     update();
 }
 
 void djvViewImageView::timerEvent(QTimerEvent *)
 {
     // Reset cursor.
-
     setCursor(QCursor());
 
     // Reset mouse wheel.
-
     if (_p->mouseWheel)
     {
         _p->mouseWheelTmp = 0;
-
         _p->mouseWheel = false;
     }
 
     killTimer(_p->timer);
-
     _p->timer = -1;
 }
 
 void djvViewImageView::enterEvent(QEvent * event)
 {
     djvImageView::enterEvent(event);
-
     _p->inside = true;
 }
 
 void djvViewImageView::leaveEvent(QEvent * event)
 {
     djvImageView::leaveEvent(event);
-
     _p->inside = false;
 }
 
 void djvViewImageView::resizeEvent(QResizeEvent * event)
 {
     //DJV_DEBUG("djvViewImageView::resizeEvent");
-
     djvImageView::resizeEvent(event);
-
     if (hasViewFit())
     {
         //DJV_DEBUG_PRINT("fit");
-    
         viewFit();
     }
 }
@@ -359,17 +310,13 @@ void djvViewImageView::resizeEvent(QResizeEvent * event)
 void djvViewImageView::mousePressEvent(QMouseEvent * event)
 {
     setFocus(Qt::MouseFocusReason);
-    
     _p->viewPosTmp  = viewPos();
     _p->viewZoomTmp = viewZoom();
-
     _p->mousePos      = djvVector2i(event->pos().x(), height() - event->pos().y() - 1);
     _p->mouseStartPos = _p->mousePos;
-
     if (Qt::LeftButton == event->button())
     {
         setCursor(Qt::CrossCursor);
-
         Q_EMIT pickChanged(_p->mousePos);
     }
     else if (Qt::MidButton == event->button() &&
@@ -389,7 +336,6 @@ void djvViewImageView::mousePressEvent(QMouseEvent * event)
     else if (Qt::RightButton == event->button())
     {
         setCursor(Qt::SizeHorCursor);
-        
         Q_EMIT mouseWheelChanged(djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE);
     }
 }
@@ -402,25 +348,20 @@ void djvViewImageView::mouseReleaseEvent(QMouseEvent *)
 void djvViewImageView::mouseMoveEvent(QMouseEvent * event)
 {
     _p->mousePos = djvVector2i(event->pos().x(), height() - event->pos().y() - 1);
-
     if (event->buttons() & Qt::LeftButton)
     {
         setCursor(Qt::CrossCursor);
-
         Q_EMIT pickChanged(_p->mousePos);
     }
     if (event->buttons() & Qt::MidButton)
     {
         setViewPos(_p->viewPosTmp + (_p->mousePos - _p->mouseStartPos));
-
         setCursor(Qt::ClosedHandCursor);
     }
     else if (event->buttons() & Qt::RightButton)
     {
         setCursor(Qt::SizeHorCursor);
-
-        Q_EMIT mouseWheelValueChanged(
-            (_p->mousePos.x - _p->mouseStartPos.x) / 5);
+        Q_EMIT mouseWheelValueChanged((_p->mousePos.x - _p->mouseStartPos.x) / 5);
     }
 }
 
@@ -428,7 +369,6 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
 {
     djvViewUtil::MOUSE_WHEEL mouseWheel =
         _p->context->inputPrefs()->mouseWheel();
-
     if (event->modifiers() & Qt::ShiftModifier)
     {
         mouseWheel = _p->context->inputPrefs()->mouseWheelShift();
@@ -437,54 +377,35 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
     {
         mouseWheel = _p->context->inputPrefs()->mouseWheelCtrl();
     }
-
-    const double speed = djvViewUtil::zoomFactor(
-        _p->context->viewPrefs()->zoomFactor());
+    const double speed = djvViewUtil::zoomFactor(_p->context->viewPrefs()->zoomFactor());
     const int delta = event->angleDelta().y();
-
     switch (mouseWheel)
     {
         case djvViewUtil::MOUSE_WHEEL_VIEW_ZOOM:
-
             setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? speed : (1.0 / speed)));
-
             break;
-
         case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
             if (! _p->mouseWheel)
             {
                 setCursor(Qt::SizeHorCursor);
-
                 Q_EMIT mouseWheelChanged(mouseWheel);
-
                 _p->mouseWheel = true;
             }
-
             _p->mouseWheelTmp += delta / 120.0;
-
             Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
-
             break;
-
         case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED:
-
             if (! _p->mouseWheel)
             {
                 Q_EMIT mouseWheelChanged(mouseWheel);
-
                 _p->mouseWheel = true;
             }
-
             _p->mouseWheelTmp += delta / 120.0;
-
             Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
-
             break;
-
         default: break;
     }
-
     if (_p->timer == -1)
     {
         _p->timer = startTimer(0);
@@ -496,7 +417,6 @@ void djvViewImageView::dragEnterEvent(QDragEnterEvent * event)
     //DJV_DEBUG("djvViewImageView::dragEnterEvent");
     //Q_FOREACH(const QString & format, event->mimeData()->formats())
     //    DJV_DEBUG_PRINT("mime = " << format);
-
     if (event->mimeData()->hasFormat("application/x-filebrowser") ||
         event->mimeData()->hasFormat("text/uri-list") ||
         event->mimeData()->hasFormat("text/plain"))
@@ -510,49 +430,34 @@ void djvViewImageView::dropEvent(QDropEvent * event)
     //DJV_DEBUG("djvViewImageView::dropEvent");
     //Q_FOREACH(const QString & format, event->mimeData()->formats())
     //    DJV_DEBUG_PRINT("mime = " << format);
-
     event->acceptProposedAction();
-
     const bool autoSequence = _p->context->filePrefs()->hasAutoSequence();
-    
     //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
-
     djvFileInfo fileInfo;
-    
     if (event->mimeData()->hasFormat("application/x-filebrowser"))
     {
         //DJV_DEBUG_PRINT("application/x-filebrowser");
-
         const QByteArray data = event->mimeData()->data("application/x-filebrowser");
-        
         QDataStream stream(data);
-        
         QStringList tmp;
         stream >> tmp;
-        
         //DJV_DEBUG_PRINT("tmp = " << tmp);
-        
         tmp >> fileInfo;
     }
     else if (event->mimeData()->hasFormat("text/uri-list"))
     {
         //DJV_DEBUG_PRINT("text/uri-list");
-        
         QString fileName = QUrl(event->mimeData()->text()).toLocalFile();
-        
         //! \todo Why do we have to strip new-lines off the end of the URI?
-
         while (
             fileName.count() &&
             ('\n' == fileName[fileName.count() - 1] ||
              '\r' == fileName[fileName.count() - 1]))
         {
             fileName.chop(1);
-        }
-        
-         //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");
-         
-         fileInfo = djvFileInfoUtil::parse(
+        }        
+        //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");         
+        fileInfo = djvFileInfoUtil::parse(
             fileName,
             autoSequence ? djvSequence::COMPRESS_RANGE : djvSequence::COMPRESS_OFF,
             autoSequence);
@@ -560,29 +465,23 @@ void djvViewImageView::dropEvent(QDropEvent * event)
     else if (event->mimeData()->hasFormat("text/plain"))
     {
         //DJV_DEBUG_PRINT("text/plain");
-
         fileInfo = djvFileInfoUtil::parse(
             event->mimeData()->text(),
             autoSequence ? djvSequence::COMPRESS_RANGE : djvSequence::COMPRESS_OFF,
             autoSequence);
     }
-
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-
     Q_EMIT fileDropped(fileInfo);
 }
 
 void djvViewImageView::paintGL()
 {
     //DJV_DEBUG("djvViewImageView::paintGL");
-
     djvImageView::paintGL();
-
     if (_p->grid)
     {
         drawGrid();
     }
-
     if (_p->hudEnabled)
     {
         drawHud();
@@ -592,7 +491,6 @@ void djvViewImageView::paintGL()
 void djvViewImageView::hudInfoCallback(const QVector<bool> & info)
 {
     _p->hudInfo.visible = info;
-
     update();
 }
 
@@ -601,59 +499,45 @@ void djvViewImageView::drawGrid()
     //DJV_DEBUG("djvViewImageView::drawGrid");
     //DJV_DEBUG_PRINT("size = " << geom().size);
     //DJV_DEBUG_PRINT("grid = " << labelGrid()[_p->grid]);
-
     int inc = 0;
-
     switch (_p->grid)
     {
         case djvViewUtil::GRID_1x1:     inc = 1;   break;
         case djvViewUtil::GRID_10x10:   inc = 10;  break;
         case djvViewUtil::GRID_100x100: inc = 100; break;
-
         default: break;
     }
 
     // Bail if too small.
-
     if ((inc * viewZoom()) <= 2)
         return;
 
     // Compute the view area.
-
     djvBox2i area(
         djvVectorUtil::floor<double, int>(
             djvVector2f(-viewPos()) / viewZoom() / static_cast<double>(inc)) - 1,
         djvVectorUtil::ceil<double, int>(
             djvVector2f(width(), height()) / viewZoom() / static_cast<double>(inc)) + 2);
-
     area *= inc;
-    
     //DJV_DEBUG_PRINT("area = " << area);
 
     // Draw.
-
     djvOpenGlUtil::color(_p->gridColor);
-
     glPushMatrix();
     glTranslated(viewPos().x, viewPos().y, 0);
     glScaled(viewZoom(), viewZoom(), 1.0);
-
     glBegin(GL_LINES);
-
     for (int y = 0; y <= area.h; y += inc)
     {
         glVertex2i(area.x, area.y + y);
         glVertex2i(area.x + area.w, area.y + y);
     }
-
     for (int x = 0; x <= area.w; x += inc)
     {
         glVertex2i(area.x + x, area.y);
         glVertex2i(area.x + x, area.y + area.h);
     }
-
     glEnd();
-
     glPopMatrix();
 }
 
@@ -667,19 +551,16 @@ void djvViewImageView::drawHud()
     QStringList lowerRight;
 
     // Generate the upper left contents.
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_FILE_NAME])
     {
         upperLeft += qApp->translate("djvViewImageView", "File  = %1").
             arg(_p->hudInfo.info.fileName);
     }
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_LAYER])
     {
         upperLeft += qApp->translate("djvViewImageView", "Layer = %1").
             arg(_p->hudInfo.info.layerName);
     }
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_SIZE])
     {
         upperLeft += qApp->translate("djvViewImageView", "Size  = %1x%2:%3").
@@ -687,13 +568,11 @@ void djvViewImageView::drawHud()
             arg(_p->hudInfo.info.size.y).
             arg(djvVectorUtil::aspect(_p->hudInfo.info.size), 0, 'f', 2);
     }
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_PROXY])
     {
         upperLeft += qApp->translate("djvViewImageView", "Proxy = %1").
             arg(_p->hudInfo.info.proxy);
     }
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_PIXEL])
     {
         upperLeft += qApp->translate("djvViewImageView", "Pixel = %1").
@@ -701,11 +580,9 @@ void djvViewImageView::drawHud()
     }
 
     // Generate the lower left contents.
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_TAG] && _p->hudInfo.tags.count())
     {
         const QStringList keys = _p->hudInfo.tags.keys();
-
         for (int i = 0; i < keys.count(); ++i)
         {
             lowerLeft += qApp->translate("djvViewImageView", "%1 = %2").
@@ -715,13 +592,11 @@ void djvViewImageView::drawHud()
     }
 
     // Generate the upper right contents.
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_FRAME])
     {
         upperRight += qApp->translate("djvViewImageView", "Frame = %1").
             arg(djvTime::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
     }
-
     if (_p->hudInfo.visible[djvViewUtil::HUD_SPEED])
     {
         upperRight += qApp->translate("djvViewImageView", "Speed = %1/%2").
@@ -730,7 +605,6 @@ void djvViewImageView::drawHud()
     }
 
     // Draw the HUD.
-
     drawHud(
         upperLeft,
         lowerLeft,
@@ -747,16 +621,13 @@ void djvViewImageView::drawHud(
     //DJV_DEBUG("djvViewImageView::drawHud");
     
     // Setup.
-
     const djvBox2i geom(width(), height());
-
     const int   margin = _p->context->style()->sizeMetric().widgetMargin;
     QSize       size;
     djvVector2i p;
     QString     s;
 
     // Draw the upper left contents.
-
     p = djvVector2i(margin, margin);
 
     for (int i = 0; i < upperLeft.count(); ++i)
@@ -769,7 +640,6 @@ void djvViewImageView::drawHud(
     }
 
     // Draw the lower left contents.
-
     p = djvVector2i(margin, height() - size.height() * lowerLeft.count() - margin);
     
     for (int i = 0; i < lowerLeft.count(); ++i)
@@ -782,7 +652,6 @@ void djvViewImageView::drawHud(
     }
 
     // Draw the upper right contents.
-
     p = djvVector2i(geom.w - margin, margin);
 
     for (int i = 0; i < upperRight.count(); ++i)
@@ -797,10 +666,9 @@ void djvViewImageView::drawHud(
 
 namespace
 {
-
 const int margin = 2;
 
-}
+} // namespace
 
 djvBox2i djvViewImageView::drawHud(
     const QString &     in,
@@ -810,49 +678,36 @@ djvBox2i djvViewImageView::drawHud(
     const int w = fontMetrics().width(in);
     const int a = fontMetrics().ascent();
     const int d = fontMetrics().descent();
-
     djvBox2i box(position.x, position.y, w + margin * 2, a + d + margin * 2);
 
     // Draw the background.
-
     djvOpenGlUtil::color(_p->hudBackgroundColor);
-
     switch (_p->hudBackground)
     {
         case djvViewUtil::HUD_BACKGROUND_NONE: break;
-
         case djvViewUtil::HUD_BACKGROUND_SOLID:
-
             glEnable(GL_BLEND);
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
             glBegin(GL_QUADS);
             glVertex2i(box.x,         h - box.y - box.h);
             glVertex2i(box.x + box.w, h - box.y - box.h);
             glVertex2i(box.x + box.w, h - box.y + box.h - box.h);
             glVertex2i(box.x,         h - box.y + box.h - box.h);
             glEnd();
-
             glDisable(GL_BLEND);
-
             break;
-
         case djvViewUtil::HUD_BACKGROUND_SHADOW:
-        
             //! \todo
             //renderText(
             //    position.x + margin + 1,
             //    position.y + margin + a + 1,
             //    in,
             //    font());
-            
             break;
-
         default: break;
     }
 
     // Draw the foreground.
-
     djvOpenGlUtil::color(_p->hudColor);
 
     //! \todo
@@ -868,7 +723,5 @@ djvBox2i djvViewImageView::drawHud(
 QSize djvViewImageView::drawHudSize(const QString & s) const
 {
     const QSize size = fontMetrics().size(Qt::TextSingleLine, s);
-
     return QSize(size.width() + margin * 2, size.height() + margin * 2);
-
 }

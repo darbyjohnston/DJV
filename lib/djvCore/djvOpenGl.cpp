@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGl.cpp
-
 #include <djvOpenGl.h>
 
 #include <djvColorUtil.h>
@@ -50,7 +48,6 @@ void djvOpenGlUtil::ortho(const djvVector2i & size, const djvVector2f & minMax)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, size.x, 0, size.y, minMax.x, minMax.y);
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -63,27 +60,21 @@ GLenum djvOpenGlUtil::format(djvPixel::PIXEL in, bool bgr)
         case djvPixel::L_U16:
         case djvPixel::L_F16:
         case djvPixel::L_F32:    return GL_LUMINANCE;
-
         case djvPixel::LA_U8:
         case djvPixel::LA_U16:
         case djvPixel::LA_F16:
         case djvPixel::LA_F32:   return GL_LUMINANCE_ALPHA;
-
         case djvPixel::RGB_U8:
         case djvPixel::RGB_U16:
         case djvPixel::RGB_F16:
         case djvPixel::RGB_F32:  return bgr ? GL_BGR : GL_RGB;
-
         case djvPixel::RGB_U10:  return bgr ? GL_BGRA : GL_RGBA;
-
         case djvPixel::RGBA_U8:
         case djvPixel::RGBA_U16:
         case djvPixel::RGBA_F16:
         case djvPixel::RGBA_F32: return bgr ? GL_BGRA : GL_RGBA;
-
         default: break;
     }
-
     return GL_NONE;
 }
 
@@ -95,36 +86,28 @@ GLenum djvOpenGlUtil::type(djvPixel::PIXEL in)
         case djvPixel::LA_U8:
         case djvPixel::RGB_U8:
         case djvPixel::RGBA_U8:  return GL_UNSIGNED_BYTE;
-
         case djvPixel::RGB_U10:  return GL_UNSIGNED_INT_10_10_10_2;
-
         case djvPixel::L_U16:
         case djvPixel::LA_U16:
         case djvPixel::RGB_U16:
         case djvPixel::RGBA_U16: return GL_UNSIGNED_SHORT;
-
         case djvPixel::L_F16:
         case djvPixel::LA_F16:
         case djvPixel::RGB_F16:
         case djvPixel::RGBA_F16: return GL_HALF_FLOAT;
-
         case djvPixel::L_F32:
         case djvPixel::LA_F32:
         case djvPixel::RGB_F32:
         case djvPixel::RGBA_F32: return GL_FLOAT;
-
         default: break;
     }
-
     return GL_NONE;
 }
 
 void djvOpenGlUtil::color(const djvColor & in)
 {
     djvColor tmp(djvPixel::RGBA_F32);
-
     djvColorUtil::convert(in, tmp);
-
     glColor4f(
         tmp.f32(0),
         tmp.f32(1),

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvShortcut.h
-
-#ifndef DJV_SHORTCUT_H
-#define DJV_SHORTCUT_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -50,8 +47,6 @@
 
 struct DJV_GUI_EXPORT djvShortcut
 {
-    //! Constructor.
-
     djvShortcut(
         const QString &      name  = QString(),
         const QKeySequence & value = QKeySequence());
@@ -66,9 +61,5 @@ struct DJV_GUI_EXPORT djvShortcut
     static QStringList serialize(const QKeySequence &);
 };
 
-//------------------------------------------------------------------------------
-
 //@} // djvGuiMisc
-
-#endif // DJV_SHORTCUT_H
 

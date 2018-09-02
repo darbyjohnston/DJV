@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileIoUtil.h
-
-#ifndef DJV_FILE_IO_UTIL_H
-#define DJV_FILE_IO_UTIL_H
+#pragma once
 
 #include <djvError.h>
 #include <djvStringUtil.h>
@@ -52,31 +49,23 @@ class djvFileIo;
 class DJV_CORE_EXPORT djvFileIoUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvFileIoUtil() = 0;
     
     //! Read a word from a file.
-
     static void word(
         djvFileIo &,
         char *,
         int maxLen = djvStringUtil::cStringLength) throw (djvError);
 
     //! Read a line from a file.
-
     static void line(
         djvFileIo &,
         char *,
         int maxLen = djvStringUtil::cStringLength) throw (djvError);
 
     //! Read all the lines from a file.
-
     static QStringList lines(const QString & fileName) throw (djvError);
 };
 
 //@} // djvCoreFile
-
-#endif // DJV_FILE_IO_UTIL_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvInfoContext.cpp
-
 #include <djvInfoContext.h>
 
 #include <djvSystem.h>
@@ -53,7 +51,6 @@ djvInfoContext::djvInfoContext(QObject * parent) :
     //DJV_DEBUG("djvInfoContext::djvInfoContext");
     
     // Load translators.
-    
     loadTranslator("djv_info");
 }
 
@@ -106,7 +103,6 @@ bool djvInfoContext::commandLineParse(QStringList & in) throw (QString)
         return false;
 
     QString arg;
-
     try
     {
         while (! in.isEmpty())
@@ -114,7 +110,6 @@ bool djvInfoContext::commandLineParse(QStringList & in) throw (QString)
             in >> arg;
 
             // Parse the options.
-
             if (
                 qApp->translate("djvInfoContext", "-x_info") == arg ||
                 qApp->translate("djvInfoContext", "-xi") == arg)
@@ -153,7 +148,6 @@ bool djvInfoContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the arguments.
-
             else
             {
                 _input += arg;
@@ -237,7 +231,6 @@ QString djvInfoContext::commandLineHelp() const
 "    Display information about all images within a directory:\n"
 "\n"
 "    > djv_info ~/pics\n");
-
     return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).

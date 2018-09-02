@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAssert.cpp
-
 #include <djvAssert.h>
 
 #include <stdio.h>
@@ -42,9 +40,8 @@
 
 void _djvAssert(const char * file, int line)
 {
-    ::printf("ASSERT: File \"%s\", line %d.\n", file, line);
-    
+    ::printf("ASSERT: File \"%s\", line %d.\n", file, line);    
     ::fflush(stdout);
-
     ::abort();
 }
+

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackPrefsWidget.h
-
-#ifndef DJV_VIEW_PLAYBACK_PREFS_WIDGET_H
-#define DJV_VIEW_PLAYBACK_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -53,19 +50,13 @@ class DJV_VIEW_LIB_EXPORT djvViewPlaybackPrefsWidget :
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewPlaybackPrefsWidget(djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewPlaybackPrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void autoStartCallback(bool);
     void loopCallback(int);
     void everyFrameCallback(bool);
@@ -74,13 +65,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewPlaybackPrefsWidget);
     
     djvViewPlaybackPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewPlayback
-
-#endif // DJV_VIEW_PLAYBACK_PREFS_WIDGET_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonLoad.h
-
-#ifndef DJV_CINEON_LOAD_H
-#define DJV_CINEON_LOAD_H
+#pragma once
 
 #include <djvCineon.h>
 
@@ -51,12 +48,7 @@
 class djvCineonLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-
     djvCineonLoad(const djvCineon::Options &, djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvCineonLoad();
 
@@ -67,7 +59,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &, djvImageIoInfo &, djvFileIo & io)
         throw (djvError);
 
@@ -79,6 +70,4 @@ private:
 };
 
 //@} // djvCineonPlugin
-
-#endif // DJV_CINEON_LOAD_H
 

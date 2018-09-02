@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIo.h
-
-#ifndef DJV_IMAGE_IO_H
-#define DJV_IMAGE_IO_H
+#pragma once
 
 #include <djvImageTags.h>
 #include <djvPixelData.h>
@@ -65,37 +62,25 @@ struct djvImageIoFactoryPrivate;
 class DJV_CORE_EXPORT djvImageIoInfo : public djvPixelDataInfo
 {
 public:
-
-    //! Constructor.
-
     djvImageIoInfo();
-
-    //! Constructor.
-
     djvImageIoInfo(const djvPixelDataInfo &);
 
     //! Add a layer.
-
     void addLayer(const djvPixelDataInfo &);
 
     //! Get the number of layers.
-
     int layerCount() const;
 
     //! Set the number of layers.
-
     void setLayerCount(int);
 
     //! Remove all the layers.
-
     void clearLayers();
 
     //! The image tags.
-
     djvImageTags tags;
 
     //! The frame sequence.
-
     djvSequence sequence;
 
     djvPixelDataInfo & operator [] (int);
@@ -115,23 +100,18 @@ private:
 
 struct DJV_CORE_EXPORT djvImageIoFrameInfo
 {
-    //! Constructor.
-
     djvImageIoFrameInfo(
         qint64                  frame = -1,
         int                     layer = 0,
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE);
 
     //! The frame number.
-
     qint64 frame;
 
     //! The image layer.
-
     int layer;
 
     //! The proxy scale.
-
     djvPixelDataInfo::PROXY proxy;
 };
 
@@ -147,35 +127,26 @@ struct DJV_CORE_EXPORT djvImageIoFrameInfo
 class DJV_CORE_EXPORT djvImageLoad
 {
 public:
-
-    //! Constructor.
-    
     explicit djvImageLoad(djvImageContext *);
-    
-    //! Destructor.
-    
+        
     virtual ~djvImageLoad() = 0;
 
     //! Open an image.
-
     virtual void open(
         const djvFileInfo & fileInfo,
         djvImageIoInfo &    imageIoInfo)
         throw (djvError) = 0;
 
     //! Load an image.
-
     virtual void read(
         djvImage &                  image,
         const djvImageIoFrameInfo & frameInfo = djvImageIoFrameInfo())
         throw (djvError) = 0;
   
     //! Close the image.
-  
     virtual void close() throw (djvError);
     
     //! Get the context.
-    
     djvImageContext * context() const;
 
 private:
@@ -192,35 +163,26 @@ private:
 class DJV_CORE_EXPORT djvImageSave
 {
 public:
-
-    //! Constructor.
-    
     explicit djvImageSave(djvImageContext *);
     
-    //! Destructor.
-
     virtual ~djvImageSave() = 0;
 
     //! Open an image.
-
     virtual void open(
         const djvFileInfo &    fileInfo,
         const djvImageIoInfo & imageIoInfo)
         throw (djvError) = 0;
 
     //! Save an image.
-
     virtual void write(
         const djvImage &            image,
         const djvImageIoFrameInfo & frameInfo = djvImageIoFrameInfo())
         throw (djvError) = 0;
 
     //! Close the image.
-
     virtual void close() throw (djvError);
     
     //! Get the context.
-    
     djvImageContext * context() const;
 
 private:
@@ -239,57 +201,41 @@ class DJV_CORE_EXPORT djvImageIo : public QObject, public djvPlugin
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvImageIo(djvCoreContext *);
     
-    //! Destructor.
-
     virtual ~djvImageIo() = 0;
     
     //! Get the list of supported file extensions.
-
     virtual QStringList extensions() const;
 
     //! Does the plugin use file sequences?
-
     virtual bool isSequence() const;
 
     //! Get an option.
-
     virtual QStringList option(const QString &) const;
 
     //! Set an option.
-
     virtual bool setOption(const QString &, QStringList &);
     
     //! Get the list of options.
-
     virtual QStringList options() const;
 
     //! Parse the command line.
-
     virtual void commandLine(QStringList &) throw (QString);
 
     //! Get the command line help.
-
     virtual QString commandLineHelp() const;
     
     //! Get an image loader.
-    
     virtual djvImageLoad * createLoad() const;
     
     //! Get an image saver.
-    
     virtual djvImageSave * createSave() const;
     
     //! Get the image context.
-    
     djvImageContext * imageContext() const;
 
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_UNRECOGNIZED,
@@ -302,13 +248,10 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 
 Q_SIGNALS:
-
     //! This signal is emitted when an option is changed.
-    
     void optionChanged(const QString &);
 };
 
@@ -324,39 +267,30 @@ class DJV_CORE_EXPORT djvImageIoFactory : public djvPluginFactory
     
 public:
 
-    //! Constructor.
-
     explicit djvImageIoFactory(
         djvImageContext *   context,
         const QStringList & searchPath = djvSystem::searchPath(),
         QObject *           parent     = 0);
 
-    //! Destructor.
-
     virtual ~djvImageIoFactory();
 
     //! Get a plugin option.
-
     QStringList option(const QString & name, const QString &) const;
 
     //! Set a plugin option.
-
     bool setOption(const QString & name, const QString &, QStringList &);
     
     //! Open an image for loading.
-  
     djvImageLoad * load(
         const djvFileInfo & fileInfo,
         djvImageIoInfo &    imageIoInfo) const throw (djvError);
     
     //! Open an image for saving.
-  
     djvImageSave * save(
         const djvFileInfo &    fileInfo,
         const djvImageIoInfo & imageIoInfo) const throw (djvError);
 
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_UNRECOGNIZED,
@@ -365,13 +299,10 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 
 Q_SIGNALS:
-
     //! This signal is emitted when a plugin option is changed.
-    
     void optionChanged();
     
 private Q_SLOTS:
@@ -385,8 +316,6 @@ private:
     djvImageIoFactoryPrivate * _p;
 };
 
-//------------------------------------------------------------------------------
-
 Q_DECLARE_METATYPE(djvImageIoInfo)
 Q_DECLARE_METATYPE(djvImageIoFrameInfo)
 
@@ -397,6 +326,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageIoInfo);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageIoFrameInfo);
 
 //@} // djvCoreImage
-
-#endif // DJV_IMAGE_IO_H
 

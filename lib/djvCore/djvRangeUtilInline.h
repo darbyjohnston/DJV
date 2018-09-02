@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRangeUtilInline.h
-
 #include <djvMath.h>
 
 //------------------------------------------------------------------------------
@@ -83,12 +81,10 @@ inline void djvRangeUtil::bound(
 inline djvFrameRangeList djvRangeUtil::range(const djvFrameList & in)
 {
     djvFrameRangeList out;
-
     if (in.count())
     {
         out += djvFrameRange(in[0], in[0]);
     }
-
     for (int i = 1; i < in.count(); ++i)
     {
         if (in[i] - 1 != out[out.count() - 1].max)
@@ -100,30 +96,26 @@ inline djvFrameRangeList djvRangeUtil::range(const djvFrameList & in)
             out[out.count() - 1].max = in[i];
         }
     }
-
     return out;
 }
 
 inline djvFrameList djvRangeUtil::frames(const djvFrameRange & in)
 {
     djvFrameList out;
-    
     for (qint64 i = in.min; i <= in.max; ++i)
     {
         out += i;
     }
-    
     return out;
 }
 
 inline djvFrameList djvRangeUtil::frames(const djvFrameRangeList & in)
 {
     djvFrameList out;
-    
     for (int i = 0; i < in.count(); ++i)
     {
         out += frames(in[i]);
     }
-    
     return out;
 }
+

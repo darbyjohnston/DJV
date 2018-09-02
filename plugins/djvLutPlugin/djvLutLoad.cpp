@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutLoad.cpp
-
 #include <djvLutLoad.h>
 
 #include <djvAssert.h>
@@ -55,13 +53,9 @@ void djvLutLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvLutLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-
     djvFileIo io;
-    
     _open(_file.fileName(_file.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -78,33 +72,24 @@ void djvLutLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     djvImageIoInfo info;
-    
     djvFileIo io;
-    
     _open(fileName, info, io);
 
     // Read the file.
-
     image.set(info);
-
     switch (_format)
     {
         case djvLut::FORMAT_INFERNO:
             djvLut::infernoLoad(io, image);
             break;
-        
         case djvLut::FORMAT_KODAK:
             djvLut::kodakLoad(io, image);
             break;
-
         default: break;
     }
-
     //DJV_DEBUG_PRINT("image = " << image);
 }
 
@@ -113,32 +98,24 @@ void djvLutLoad::_open(const djvFileInfo & in, djvImageIoInfo & info, djvFileIo 
 {
     //DJV_DEBUG("djvLutLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     io.open(in, djvFileIo::READ);
-
     info.fileName = in;
-    
     const int index = djvLut::staticExtensions.indexOf(in.extension());
-
     if (-1 == index)
     {
         throw djvError(
             djvLut::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
-
     _format = static_cast<djvLut::FORMAT>(index);
-
     switch (_format)
     {
         case djvLut::FORMAT_INFERNO:
             djvLut::infernoOpen(io, info, _options.type);
             break;
-
         case djvLut::FORMAT_KODAK:
             djvLut::kodakOpen(io, info, _options.type);
             break;
-
         default: break;
     }
 }

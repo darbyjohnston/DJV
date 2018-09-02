@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebugLog.cpp
-
 #include <djvDebugLog.h>
 
 #include <djvDebug.h>
@@ -80,15 +78,12 @@ void djvDebugLog::addMessage(const QString & context, const QString & message)
 {
     Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))
     {
-        QString s = QString("[%1] %2").arg(context, -30).arg(line);
-        
+        QString s = QString("[%1] %2").arg(context, -30).arg(line);        
         _p->messages.append(s);
-        
         if (_p->messages.count() > max)
         {
             _p->messages.pop_front();
         }
-        
         Q_EMIT this->message(s);
     }
 }

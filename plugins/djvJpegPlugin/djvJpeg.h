@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvJpeg.h
-
-#ifndef DJV_JPEG_H
-#define DJV_JPEG_H
+#pragma once
 
 #include <QStringList>
 
@@ -40,7 +37,6 @@
 
 //! \todo This namespace is meant to resolve conflicts on Windows, is it still
 //! necessary?
-
 namespace libjpeg
 {
 extern "C"
@@ -86,11 +82,9 @@ extern "C"
 struct djvJpeg
 {
     //! The plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         QUALITY_OPTION,
@@ -99,11 +93,9 @@ struct djvJpeg
     };
 
     //! Get option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
         Options();
@@ -112,16 +104,11 @@ struct djvJpeg
     };
 };
 
-//------------------------------------------------------------------------------
-
 //! This struct provides libjpeg error handling.
-
 struct djvJpegErrorStruct
 {
     struct libjpeg::jpeg_error_mgr pub;
-
     char msg [JMSG_LENGTH_MAX];
-
     jmp_buf jump;
 };
 
@@ -133,6 +120,4 @@ void djvJpegWarning(libjpeg::j_common_ptr, int);
 }
 
 //@} // djvJpegPlugin
-
-#endif // DJV_JPEG_H
 

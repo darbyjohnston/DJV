@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewMainWindow.h
-
-#ifndef DJV_VIEW_MAIN_WINDOW_H
-#define DJV_VIEW_MAIN_WINDOW_H
+#pragma once
 
 #include <djvViewUtil.h>
 
@@ -62,83 +59,61 @@ class DJV_VIEW_LIB_EXPORT djvViewMainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewMainWindow(
         const djvViewMainWindow * copy,
         djvViewContext *          context);
 
-    //! Destructor.
-
     virtual ~djvViewMainWindow();
 
     //! Get the image I/O information.
-
     const djvImageIoInfo & imageIoInfo() const;
     
     //! Get the view widget.
-    
     djvViewImageView * viewWidget() const;
     
     //! Get the list of main windows.
-    
     static QVector<djvViewMainWindow *> mainWindowList();
 
     //! Create a new main window.
     //!
     //! \todo Can we remove this function?
-    
     static djvViewMainWindow * createWindow(djvViewContext *);
 
 public Q_SLOTS:
-
     //! Open a file.
-
     void fileOpen(const djvFileInfo &, bool init = true);
 
     //! Set the file layer to open.
-
     void setFileLayer(int);
 
     //! Set the file proxy scale.
-
     void setFileProxy(djvPixelDataInfo::PROXY);
 
     //! Set whether the file cache is enabled.
-
     void setFileCache(bool);
 
     //! Fit the window to the image.
-
     void fitWindow(bool move = true);
 
     //! Set the playback.
-
     void setPlayback(djvViewUtil::PLAYBACK);
 
     //! Set the playback frame.
-
     void setPlaybackFrame(qint64);
 
     //! Set the playback speed.
-
     void setPlaybackSpeed(const djvSpeed &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the image is changed.
-
     void imageChanged();
 
 protected:
-
     virtual void showEvent(QShowEvent *);
     virtual void closeEvent(QCloseEvent *);
     virtual void keyPressEvent(QKeyEvent *);
     
 private Q_SLOTS:
-
     void windowResizeCallback();
     void enableUpdatesCallback();
     void reloadFrameCallback();
@@ -158,13 +133,10 @@ private Q_SLOTS:
     void playbackUpdate();
     
 private:
-
     //! Get the current image.
-
     const djvImage * image() const;
 
     //! Get the image drawing options.
-
     djvOpenGlImageOptions imageOptions() const;
 
     DJV_PRIVATE_COPY(djvViewMainWindow);
@@ -173,6 +145,4 @@ private:
 };
 
 //@} // djvViewWindow
-
-#endif // DJV_VIEW_MAIN_WINDOW_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvShortcutsModel.h
-
-#ifndef DJV_SHORTCUTS_MODEL_H
-#define DJV_SHORTCUTS_MODEL_H
+#pragma once
 
 #include <djvShortcut.h>
 
@@ -56,7 +53,6 @@ class DJV_GUI_EXPORT djvShortcutsModel : public QAbstractItemModel
     Q_OBJECT
     
     //! This property holds the list of shortcuts.
-    
     Q_PROPERTY(
         QVector<djvShortcut> shortcuts
         READ                 shortcuts
@@ -64,17 +60,11 @@ class DJV_GUI_EXPORT djvShortcutsModel : public QAbstractItemModel
         NOTIFY               shortcutsChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvShortcutsModel(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvShortcutsModel();
 
     //! Get the list of shortcuts.
-
     const QVector<djvShortcut> & shortcuts() const;
 
     virtual QModelIndex	index(
@@ -108,19 +98,14 @@ public:
         const QModelIndex & parent = QModelIndex()) const;
 
 public Q_SLOTS:
-
     //! Set the list of shortcuts.
-
     void setShortcuts(const QVector<djvShortcut> &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the list of shortcuts are changed.
-
     void shortcutsChanged(const QVector<djvShortcut> &);
 
 private:
-
     void collisionsUpdate();
 
     DJV_PRIVATE_COPY(djvShortcutsModel);
@@ -129,6 +114,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_SHORTCUTS_MODEL_H
 

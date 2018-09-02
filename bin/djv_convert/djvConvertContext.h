@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvConvertContext.h
-
-#ifndef DJV_CONVERT_CONTEXT_H
-#define DJV_CONVERT_CONTEXT_H
+#pragma once
 
 #include <djvFileInfo.h>
 #include <djvImage.h>
@@ -50,8 +47,6 @@
 
 struct djvConvertOptions
 {
-    //! Constructor.
-
     djvConvertOptions();
 
     djvPixelDataInfo::Mirror       mirror;
@@ -71,8 +66,6 @@ struct djvConvertOptions
 
 struct djvConvertInput
 {
-    //! Constructor.
-
     djvConvertInput();
 
     djvFileInfo             file;
@@ -93,8 +86,6 @@ struct djvConvertInput
 
 struct djvConvertOutput
 {
-    //! Constructor.
-
     djvConvertOutput();
 
     djvFileInfo                     file;
@@ -115,41 +106,29 @@ class djvConvertContext : public djvImageContext
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvConvertContext(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvConvertContext();
     
     //! Get the options.
-
     const djvConvertOptions & options() const;
     
     //! Get the input options.
-    
     const djvConvertInput & input() const;
     
     //! Get the output options.
-    
     const djvConvertOutput & output() const;
 
 protected:
-
     virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
 
 private:
-
     djvConvertOptions                        _options;
     djvConvertInput                          _input;
     djvConvertOutput                         _output;
 };
 
 //@} // djv_convert
-
-#endif // DJV_CONVERT_CONTEXT_H
 

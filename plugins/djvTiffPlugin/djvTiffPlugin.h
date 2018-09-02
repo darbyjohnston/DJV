@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffPlugin.h
-
-#ifndef DJV_TIFF_PLUGIN_H
-#define DJV_TIFF_PLUGIN_H
+#pragma once
 
 #include <djvTiff.h>
 
@@ -50,37 +47,25 @@
 class djvTiffPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvTiffPlugin(djvCoreContext *);
     
     virtual void initPlugin() throw (djvError);
-
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     djvTiff::Options _options;
 };
 
 //@} // djvTiffPlugin
-
-#endif // DJV_TIFF_PLUGIN_H
 

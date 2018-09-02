@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewDisplayProfile.cpp
-
 #include <djvViewDisplayProfile.h>
 
 #include <djvDebug.h>
@@ -56,15 +54,12 @@ QStringList & operator >> (QStringList & in, djvViewDisplayProfile & out)
     throw (QString)
 {
     in >> out.name;
-
     QString tmp;
     in >> tmp;
     out.lutFile = tmp;
-
     in >> out.color;
     in >> out.levels;
     in >> out.softClip;
-
     return in;
 }
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaLoad.h
-
-#ifndef DJV_TARGA_LOAD_H
-#define DJV_TARGA_LOAD_H
+#pragma once
 
 #include <djvTarga.h>
 
@@ -49,14 +46,9 @@
 
 class djvTargaLoad : public djvImageLoad
 {
-public:
-
-    //! Constructor.
-    
+public:    
     explicit djvTargaLoad(djvImageContext *);
 
-    //! Destructor.
-    
     virtual ~djvTargaLoad();
 
     virtual void open(const djvFileInfo &, djvImageIoInfo &)
@@ -66,7 +58,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
@@ -76,6 +67,4 @@ private:
 };
 
 //@} // djvTargaPlugin
-
-#endif // DJV_TARGA_LOAD_H
 

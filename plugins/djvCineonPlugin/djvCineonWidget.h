@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonWidget.h
-
-#ifndef DJV_CINEON_WIDGET_H
-#define DJV_CINEON_WIDGET_H
+#pragma once
 
 #include <djvCineon.h>
 
@@ -59,19 +56,13 @@ class djvCineonWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvCineonWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
 
     virtual ~djvCineonWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void inputColorProfileCallback(int);
     void inputBlackPointCallback(int);
@@ -87,7 +78,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvCineon::Options   _options;
     QFormLayout *        _inputColorProfileLayout;
     QComboBox *          _inputColorProfileWidget;
@@ -111,7 +101,6 @@ private:
 class djvCineonWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvCineonWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -120,6 +109,4 @@ public:
 };
 
 //@} // djvCineonPlugin
-
-#endif // DJV_CINEON_WIDGET_H
 

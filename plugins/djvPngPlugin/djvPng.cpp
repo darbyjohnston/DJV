@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPng.cpp
-
 #include <djvPng.h>
 
 //------------------------------------------------------------------------------
@@ -39,26 +37,20 @@
 
 const QString djvPng::staticName = "PNG";
 
-//------------------------------------------------------------------------------
-
 extern "C"
 {
 
 void djvPngError(png_structp in, png_const_charp msg)
 {
     djvPngErrorStruct * error = (djvPngErrorStruct *)png_get_error_ptr(in);
-
     SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
-
     longjmp(png_jmpbuf(in), 1);
 }
 
 void djvPngWarning(png_structp in, png_const_charp msg)
 {
     djvPngErrorStruct * error = (djvPngErrorStruct *)png_get_error_ptr(in);
-
     SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
-
     longjmp(png_jmpbuf(in), 1);
 }
 

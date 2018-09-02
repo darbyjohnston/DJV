@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvJpegPlugin.h
-
-#ifndef DJV_JPEG_PLUGIN_H
-#define DJV_JPEG_PLUGIN_H
+#pragma once
 
 #include <djvJpeg.h>
 
@@ -50,35 +47,24 @@
 class djvJpegPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvJpegPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     djvJpeg::Options _options;
 };
 
 //@} // djvJpegPlugin
-
-#endif // DJV_JPEG_PLUGIN_H
 

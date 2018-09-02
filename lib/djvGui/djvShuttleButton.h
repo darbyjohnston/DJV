@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvShuttleButton.h
-
-#ifndef DJV_SHUTTLE_BUTTON_H
-#define DJV_SHUTTLE_BUTTON_H
+#pragma once
 
 #include <djvAbstractToolButton.h>
 
@@ -55,52 +52,36 @@ class DJV_GUI_EXPORT djvShuttleButton : public djvAbstractToolButton
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvShuttleButton(QWidget * parent = 0);
-
-    //! Constructor.
-
     explicit djvShuttleButton(const QVector<QIcon> & icons, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvShuttleButton();
     
-    //! Get the icons.
-    
+    //! Get the icons.    
     const QVector<QIcon> & icons() const;
 
     //! Set the icons.
-    
     void setIcons(const QVector<QIcon> &);
 
     //! Get the default shuttle icons.
-
     static const QVector<QIcon> & iconsDefault(djvGuiContext *);
 
     virtual QSize sizeHint() const;
 
 Q_SIGNALS:
-
     //! This signal is emitted when the shuttle is pressed.
-
     void mousePressed(bool);
 
     //! This signal is emitted when the shuttle is changed.
-
     void valueChanged(int);
     
 protected:
-
     virtual void mousePressEvent(QMouseEvent *);
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void mouseMoveEvent(QMouseEvent *);
     virtual void paintEvent(QPaintEvent *);
 
 private:
-
     void iconsUpdate();
     
     DJV_PRIVATE_COPY(djvShuttleButton);
@@ -109,6 +90,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_SHUTTLE_BUTTON_H
 

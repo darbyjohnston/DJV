@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIconLibrary.h
-
-#ifndef DJV_ICON_LIBRARY_H
-#define DJV_ICON_LIBRARY_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -60,37 +57,26 @@ class DJV_GUI_EXPORT djvIconLibrary : public QObject
     Q_OBJECT
     
 public:
-    
-    //! Constructor.
-    
     explicit djvIconLibrary(QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvIconLibrary();
     
     //! Get an icon.
-    
     const QIcon & icon(const QString &) const;
     
     //! Get an icon.
-    
     QIcon icon(const QString & off, const QString & on) const;
     
     //! Get a pixmap.
-    
     const QPixmap & pixmap(const QString &) const;
 
     //! Get the list of icon names.
-
     QStringList names() const;
 
     //! Get the default icon size.
-
     QSize defaultSize() const;
     
 private:
-    
     DJV_PRIVATE_COPY(djvIconLibrary);
     
     djvIconLibraryPrivate * _p;
@@ -98,4 +84,3 @@ private:
 
 //@} // djvGuiMisc
 
-#endif // DJV_ICON_LIBRARY_H

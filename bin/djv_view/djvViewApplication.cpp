@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewApplication.cpp
-
 #include <djvViewApplication.h>
 
 #include <djvViewContext.h>
@@ -64,15 +62,12 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) :
     //DJV_DEBUG("djvViewApplication::djvViewApplication");
     
     setOrganizationName("djv.sourceforge.net");
-
     setApplicationName("djv_view");
     
     // Create the context.
-    
     _p->context.reset(new djvViewContext(this));
     
     // Parse the command line.
-    
     if (! _p->context->commandLine(argc, argv))
     {
         QTimer::singleShot(0, this, SLOT(commandLineExit()));
@@ -86,7 +81,6 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) :
 djvViewApplication::~djvViewApplication()
 {
     //DJV_DEBUG("djvViewApplication::~djvViewApplication");
-
     delete _p;
 }
 
@@ -97,21 +91,16 @@ bool djvViewApplication::event(QEvent * event)
         case QEvent::FileOpen:
         {
             QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
-            
             QVector<djvViewMainWindow *> mainWindowList =
                 djvViewMainWindow::mainWindowList();
-        
             if (mainWindowList.count())
             {
                 mainWindowList[0]->fileOpen(e->file());
                 mainWindowList[0]->raise();
             }
-        
         } return true;
-        
         default: break;
     }
-    
     return QApplication::event(event);
 }
 
@@ -125,100 +114,74 @@ void djvViewApplication::work()
     //DJV_DEBUG("djvViewApplication::work");
 
     // Initialize user interface.
-    
     DJV_LOG(_p->context->debugLog(), "djvViewApplication",
         "Initialize user interface...");
-    
     _p->context->setValid(true);
-
     setStyle("fusion");
     setWindowIcon(QPixmap(":projector32x32.png"));
-    
     DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
 
     // Show main window(s).
-
     QStringList input = _p->context->input();
-
     if (input.count())
     {
         // Combine command line arguments.
-
         if (_p->context->hasCombine())
         {
             djvFileInfo fileInfo(input[0]);
-
             if (fileInfo.isSequenceValid())
             {
                 fileInfo.setType(djvFileInfo::SEQUENCE);
             }
-
             for (int i = 1; i < input.count(); ++i)
             {
                 fileInfo.addSequence(input[i]);
             }
-
             fileInfo.sortSequence();
-
             input.clear();
             input += fileInfo;
         }
 
         // Create and show a window for each input.
-
         for (int i = 0; i < input.count(); ++i)
         {
             // Parse the input.
-            
             const djvFileInfo fileInfo = djvFileInfoUtil::parse(
                 input[i], _p->context->sequence(), _p->context->hasAutoSequence());
-            
             DJV_LOG(_p->context->debugLog(), "djvViewApplication",
                 QString("Input = \"%1\"").arg(fileInfo));
             
             // Initialize the window.
-    
             djvViewMainWindow * window =
                 djvViewMainWindow::createWindow(_p->context.data());
-
             window->fileOpen(fileInfo);
-
             if (_p->context->fileLayer().data())
             {
                 window->setFileLayer(*_p->context->fileLayer());
             }
-
             if (_p->context->playback().data())
             {
                 window->setPlayback(*_p->context->playback());
             }
-
             if (_p->context->playbackFrame().data())
             {
                 window->setPlaybackFrame(*_p->context->playbackFrame());
             }
-
             if (_p->context->playbackSpeed().data())
             {
                 window->setPlaybackSpeed(*_p->context->playbackSpeed());
-            }
-            
+            }            
             DJV_LOG(_p->context->debugLog(), "djvViewApplication",
                 "Show window...");
-
             window->show();
-            
             DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
         }
     }
     else
     {
         // Create and show an empty window.
-        
         DJV_LOG(_p->context->debugLog(), "djvViewApplication", "Show window...");
-
         djvViewMainWindow::createWindow(_p->context.data())->show();
-
         DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
     }
 }

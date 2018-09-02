@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageTags.h
-
-#ifndef DJV_IMAGE_TAGS_H
-#define DJV_IMAGE_TAGS_H
+#pragma once
 
 #include <djvDebug.h>
 
@@ -55,53 +52,36 @@ class DJV_CORE_EXPORT djvImageTags
     Q_ENUMS(TAGS)
     
 public:
-
-    //! Constructor.
-
     djvImageTags();
-
-    //! Constructor.
-
     djvImageTags(const djvImageTags &);
-
-    //! Destructor.
 
     ~djvImageTags();
 
     //! Add image tags.
-
     void add(const djvImageTags &);
 
     //! Add an image tag.
-
     void add(const QString & key, const QString & value);
 
     //! Get an image tag.
-
     QString tag(const QString & key) const;
 
     //! Get the list of keys.
-
     QStringList keys() const;
 
     //! Get the list of values.
-
     QStringList values() const;
 
     //! Get the number of tags.
-
     int count() const;
 
     //! Get whether the given key is valid.
-
     bool isValid(const QString & key);
 
     //! Remove all the tags.
-
     void clear();
 
     //! This enumeration provides the standard image tags.
-
     enum TAGS
     {
         PROJECT,
@@ -117,7 +97,6 @@ public:
     };
 
     //! Get the image tag labels.
-
     static const QStringList & tagLabels();
 
     djvImageTags & operator = (const djvImageTags &);
@@ -127,11 +106,8 @@ public:
     QString operator [] (const QString & key) const;
 
 private:
-    
     djvImageTagsPrivate * _p;
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvImageTags)
 
@@ -140,6 +116,4 @@ DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
 
 //@} // djvCoreImage
-
-#endif // DJV_IMAGE_TAGS_H
 

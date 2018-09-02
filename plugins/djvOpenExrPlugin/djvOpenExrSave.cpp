@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExrSave.cpp
-
 #include <djvOpenExrSave.h>
 
 #include <djvError.h>
@@ -64,38 +62,28 @@ void djvOpenExrSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // File information.
-
     _file = in;
-
     if (info.sequence.frames.count() > 1)
     {
         _file.setType(djvFileInfo::SEQUENCE);
     }
 
     // Image information.
-
     _info = djvPixelDataInfo();
     _info.size = info.size;
     _info.mirror.y = true;
-
     djvPixel::FORMAT format = djvPixel::format(info.pixel);
     djvPixel::TYPE type = djvPixel::TYPE(0);
-
     switch (djvPixel::type(info.pixel))
     {
         case djvPixel::F32: type = djvPixel::F32; break;
-        
         default: type = djvPixel::F16; break;
     }
-
     _info.pixel = djvPixel::pixel(format, type);
-
     //DJV_DEBUG_PRINT("info = " << _info);
-
     _speed = info.sequence.speed;
 
     // Initialize temporary image buffer.
-
     _tmp.set(_info);
 }
 
@@ -108,43 +96,31 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
     try
     {
         // Open the file.
-
         djvImageIoInfo info(_info);
         info.tags           = in.tags;
         info.sequence.speed = _speed;
-
         _open(_file.fileName(frame.frame), info);
         
         // Convert the image.
-
         const djvPixelData * p = &in;
-
         if (p->info() != _info)
         {
             //DJV_DEBUG_PRINT("convert = " << _tmp);
-
             _tmp.zero();
-
             djvOpenGlImage::copy(in, _tmp);
-
             p = &_tmp;
         }
         
         // Write the file.
-
         const int w         = p->w();
         const int h         = p->h();
         const int channels  = p->channels();
         const int byteCount = djvPixel::channelByteCount(p->pixel());
-
         Imf::FrameBuffer frameBuffer;
-
         for (int c = 0; c < channels; ++c)
         {
             const QString & channel = _channels[c];
-
             //DJV_DEBUG_PRINT("channel = " << channel);
-
             frameBuffer.insert(
                 channel.toLatin1().data(),
                 Imf::Slice(
@@ -156,9 +132,7 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
                     1,
                     0.0));
         }
-
         _f->setFrameBuffer(frameBuffer);
-
         _f->writePixels(h);
 
     }
@@ -168,14 +142,13 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
             djvOpenExr::staticName,
             error.what());
     }
-
+    
     close();
 }
 
 void djvOpenExrSave::close() throw (djvError)
 {
     delete _f;
-    
     _f = 0;
 }
 
@@ -190,9 +163,7 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
         close();
 
         // Set the header.
-
         Imf::Header header(info.size.x, info.size.y);
-
         switch (djvPixel::channels(info.pixel))
         {
             case 1: _channels = QStringList() << "Y"; break;
@@ -200,75 +171,58 @@ void djvOpenExrSave::_open(const QString & in, const djvImageIoInfo & info)
             case 3: _channels = QStringList() << "R" << "G" << "B"; break;
             case 4: _channels = QStringList() << "R" << "G" << "B" << "A"; break;
         }
-
         for (int i = 0; i < _channels.count(); ++i)
         {
             header.channels().insert(
                 _channels[i].toLatin1().data(),
                 djvOpenExr::pixelTypeToImf(djvPixel::type(info.pixel)));
         }
-
         Imf::CompressionAttribute compression;
-
         switch (_options.compression)
         {
             case djvOpenExr::COMPRESSION_NONE:
                 compression = Imf::NO_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_RLE:
                 compression = Imf::RLE_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_ZIPS:
                 compression = Imf::ZIPS_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_ZIP:
                 compression = Imf::ZIP_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_PIZ:
                 compression = Imf::PIZ_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_PXR24:
                 compression = Imf::PXR24_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_B44:
                 compression = Imf::B44_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_B44A:
                 compression = Imf::B44A_COMPRESSION;
                 break;
-
 #if OPENEXR_VERSION_HEX >= 0x02020000
             case djvOpenExr::COMPRESSION_DWAA:
                 compression = Imf::DWAA_COMPRESSION;
                 break;
-
             case djvOpenExr::COMPRESSION_DWAB:
                 compression = Imf::DWAB_COMPRESSION;
                 break;
 #endif // OPENEXR_VERSION_HEX
-
             default: break;
         }
-
         header.insert(Imf::CompressionAttribute::staticTypeName(), compression);
-        
 #if OPENEXR_VERSION_HEX >= 0x02020000
         addDwaCompressionLevel(header, _options.dwaCompressionLevel);
 #endif // OPENEXR_VERSION_HEX
 
         // Set image tags.
-
         djvOpenExr::saveTags(info, header);
 
         // Open the file.
-
         _f = new Imf::OutputFile(in.toLatin1().data(), header);
 
     }

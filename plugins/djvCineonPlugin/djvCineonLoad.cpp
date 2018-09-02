@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonLoad.cpp
-
 #include <djvCineonLoad.h>
 
 #include <djvCineonHeader.h>
@@ -60,11 +58,8 @@ void djvCineonLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     //DJV_DEBUG_PRINT("in = " << in);
 
     _file = in;
-    
     djvFileIo io;
-    
     _open(_file.fileName(_file.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -78,36 +73,26 @@ void djvCineonLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("frame = " << frame);
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     QScopedPointer<djvFileIo> io(new djvFileIo);
-    
     _open(fileName, info, *io);
-    
     image.tags = info.tags;
 
     //! Set the color profile.
-    
     if ((djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile) ||
         (djvCineon::COLOR_PROFILE_AUTO ==
             _options.inputColorProfile && _filmPrint))
     {
         //DJV_DEBUG_PRINT("color profile");
-
         image.colorProfile.type = djvColorProfile::LUT;
-
         if (! _filmPrintLut.isValid())
         {
             _filmPrintLut = djvCineon::filmPrintToLinearLut(
                 _options.inputFilmPrint);
         }
-
         image.colorProfile.lut = _filmPrintLut;
     }
     else
@@ -116,35 +101,26 @@ void djvCineonLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
 
     // Read the file.
-
     io->readAhead();
-
     bool mmap = true;
-
     if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
     {
         mmap = false;
     }
-    
     //DJV_DEBUG_PRINT("mmap = " << mmap);
-    
     if (mmap)
     {
         if (! frame.proxy)
         {
             image.set(info, io->mmapP(), io.data());
-
             io.take();
         }
         else
         {
             _tmp.set(info, io->mmapP());
-
             info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
             info.proxy = frame.proxy;
-
             image.set(info);
-
             djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
         }
     }
@@ -152,10 +128,8 @@ void djvCineonLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     {
         djvPixelData * data = frame.proxy ? &_tmp : &image;
         data->set(info);
-        
         djvError error;
         bool     errorValid = false;
-        
         try
         {
             for (int y = 0; y < info.size.y; ++y)
@@ -174,16 +148,12 @@ void djvCineonLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
             info.proxy = frame.proxy;
-
             image.set(info);
-
             djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
         }
-        
         if (errorValid)
             throw error;
     }
-    
     //DJV_DEBUG_PRINT("image = " << image);
 }
 
@@ -194,16 +164,11 @@ void djvCineonLoad::_open(
 {
     //DJV_DEBUG("djvCineonLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     io.open(in, djvFileIo::READ);
-
     info.fileName = in;
-    
     _filmPrint = false;
-    
     djvCineonHeader header;
     header.load(io, info, _filmPrint);
-
     //DJV_DEBUG_PRINT("info = " << info);
     //DJV_DEBUG_PRINT("film print = " << _filmPrint);
 }

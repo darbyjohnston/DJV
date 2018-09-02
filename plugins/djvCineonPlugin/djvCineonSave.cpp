@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonSave.cpp
-
 #include <djvCineonSave.h>
 
 #include <djvCineonHeader.h>
@@ -83,58 +81,43 @@ void djvCineonSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     //DJV_DEBUG_PRINT("frame = " << frame);
 
     // Set the color profile.
-
     djvColorProfile colorProfile;
-
     if (djvCineon::COLOR_PROFILE_FILM_PRINT ==  _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile)
     {
         //DJV_DEBUG_PRINT("color profile");
-
         colorProfile.type = djvColorProfile::LUT;
         colorProfile.lut  = djvCineon::linearToFilmPrintLut(
             _options.outputFilmPrint);
     }
 
     // Open the file.
-
     const QString fileName = _file.fileName(frame.frame);
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info(_info);
     info.fileName = fileName;
     info.tags = in.tags;
-
     djvFileIo io;
     io.open(fileName, djvFileIo::WRITE);
-
     _header = djvCineonHeader();
     _header.save(io, info, _options.outputColorProfile);
 
     // Convert.
-
     const djvPixelData * p = &in;
-
     if (
         in.info() != _info ||
         in.colorProfile.type != djvColorProfile::RAW ||
         colorProfile.type != djvColorProfile::RAW)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
-
         _image.zero();
-
         djvOpenGlImageOptions options;
         options.colorProfile = colorProfile;
         djvOpenGlImage::copy(*p, _image, options);
-
         p = &_image;
     }
 
     // Write the file.
-
     io.set(p->data(), p->dataByteCount());
-    
     _header.saveEnd(io);
 }

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAbstractToolButton.h
-
-#ifndef DJV_ABSTRACT_TOOL_BUTTON_H
-#define DJV_ABSTRACT_TOOL_BUTTON_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -54,25 +51,16 @@ class DJV_GUI_EXPORT djvAbstractToolButton : public QAbstractButton
     Q_OBJECT
     
 public:
-    
-    //! Constructor.
-    
     explicit djvAbstractToolButton(QWidget * parent = 0);
-    
-    //! Destructor.
-    
     virtual ~djvAbstractToolButton() = 0;
 
 protected:
-
     virtual void paintEvent(QPaintEvent *);
     virtual bool event(QEvent*);
 
 private:
-    
     DJV_PRIVATE_COPY(djvAbstractToolButton);
 };
 
 //@} // djvGuiWidget
 
-#endif // DJV_TOOL_BUTTON_H

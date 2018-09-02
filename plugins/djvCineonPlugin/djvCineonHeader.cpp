@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonHeader.cpp
-
 #include <djvCineonHeader.h>
 
 #include <djvFileIo.h>
@@ -89,15 +87,11 @@ void djvCineonHeader::load(
     djvImageIoInfo & info,
     bool &           filmPrint) throw (djvError)
 {
-
     //DJV_DEBUG("djvCineonHeader::load");
 
     // Read.
-
     io.get(&file, sizeof(File));
-
     bool endian = false;
-
     if (magic[0] == file.magic)
         ;
     else if (magic[1] == file.magic)
@@ -110,54 +104,42 @@ void djvCineonHeader::load(
             djvCineon::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
-
     io.get(&image, sizeof(Image));
     io.get(&source, sizeof(Source));
     io.get(&film, sizeof(Film));
-
     if (endian)
     {
         //DJV_DEBUG_PRINT("endian");
-        
         io.setEndian(true);
-        
         this->endian();
-        
         info.endian = djvMemory::endianOpposite(djvMemory::endian());
     }
 
     // Information.
-
     if (file.imageOffset)
     {
         io.setPos(file.imageOffset);
     }
-
     switch (image.orient)
     {
         case ORIENT_LEFT_RIGHT_TOP_BOTTOM:
             info.mirror.y = true;
             break;
-
         case ORIENT_LEFT_RIGHT_BOTTOM_TOP:
             break;
-
         case ORIENT_RIGHT_LEFT_TOP_BOTTOM:
             info.mirror.x = true;
             break;
-
         case ORIENT_RIGHT_LEFT_BOTTOM_TOP:
             info.mirror.x = true;
             info.mirror.y = true;
             break;
-
         case ORIENT_TOP_BOTTOM_LEFT_RIGHT:
         case ORIENT_TOP_BOTTOM_RIGHT_LEFT:
         case ORIENT_BOTTOM_TOP_LEFT_RIGHT:
         case ORIENT_BOTTOM_TOP_RIGHT_LEFT:
             break;
     }
-
     if (! image.channels)
     {
         throw djvError(
@@ -166,7 +148,6 @@ void djvCineonHeader::load(
     }
 
     int i = 1;
-
     for (; i < image.channels; ++i)
     {
         if ((image.channel[i].size[0] != image.channel[0].size[0]) ||
@@ -174,13 +155,11 @@ void djvCineonHeader::load(
         {
             break;
         }
-
         if (image.channel[i].bitDepth != image.channel[0].bitDepth)
         {
             break;
         }
     }
-
     if (i < image.channels)
     {
         throw djvError(
@@ -189,7 +168,6 @@ void djvCineonHeader::load(
     }
 
     int pixel = -1;
-
     switch (image.channels)
     {
         case 3:
@@ -199,10 +177,8 @@ void djvCineonHeader::load(
                     pixel = djvPixel::RGB_U10;
                     break;
             }
-
             break;
     }
-
     if (-1 == pixel)
     {
         throw djvError(
@@ -211,7 +187,6 @@ void djvCineonHeader::load(
     }
 
     info.pixel = djvPixel::PIXEL(pixel);
-
     info.size = djvVector2i(
         image.channel[0].size[0],
         image.channel[0].size[1]);
@@ -233,57 +208,46 @@ void djvCineonHeader::load(
     filmPrint = DESCRIPTOR_R_FILM_PRINT == image.channel[0].descriptor[1];
 
     // File image tags.
-
     const QStringList & tags = djvImageTags::tagLabels();
     const QStringList & cineonTags = djvCineon::tagLabels();
-
     if (isValid(file.time, 24))
     {
         info.tags[tags[djvImageTags::TIME]] = toString(file.time, 24);
     }
 
     // Source image tags.
-
     if (isValid(&source.offset[0]) && isValid(&source.offset[1]))
         info.tags[cineonTags[djvCineon::TAG_SOURCE_OFFSET]] = (QStringList() <<
             QString::number(source.offset[0]) <<
             QString::number(source.offset[1])).join(" ");
-
     if (isValid(source.file, 100))
     {
         info.tags[cineonTags[djvCineon::TAG_SOURCE_FILE]] =
             toString(source.file, 100);
     }
-
     if (isValid(source.time, 24))
     {
         info.tags[cineonTags[djvCineon::TAG_SOURCE_TIME]] =
             toString(source.time, 24);
     }
-
     if (isValid(source.inputDevice, 64))
         info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_DEVICE]] =
             toString(source.inputDevice, 64);
-
     if (isValid(source.inputModel, 32))
         info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_MODEL]] =
             toString(source.inputModel, 32);
-
     if (isValid(source.inputSerial, 32))
         info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_SERIAL]] =
             toString(source.inputSerial, 32);
-
     if (isValid(&source.inputPitch[0]) && isValid(&source.inputPitch[1]))
         info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_PITCH]] = (QStringList() <<
             QString::number(source.inputPitch[0]) <<
             QString::number(source.inputPitch[1])).join(" ");
-
     if (isValid(&source.gamma))
         info.tags[cineonTags[djvCineon::TAG_SOURCE_GAMMA]] =
             QString::number(source.gamma);
 
     // Film image tags.
-
     if (isValid(&film.id) &&
         isValid(&film.type) &&
         isValid(&film.offset) &&
@@ -293,19 +257,16 @@ void djvCineonHeader::load(
         info.tags[tags[djvImageTags::KEYCODE]] = djvTime::keycodeToString(
             film.id, film.type, film.prefix, film.count, film.offset);
     }
-
     if (isValid(film.format, 32))
     {
         info.tags[cineonTags[djvCineon::TAG_FILM_FORMAT]] =
             toString(film.format, 32);
     }
-
     if (isValid(&film.frame))
     {
         info.tags[cineonTags[djvCineon::TAG_FILM_FRAME]] =
             QString::number(film.frame);
     }
-    
     if (isValid(&film.frameRate) && film.frameRate >= minSpeed)
     {
         info.sequence.speed = djvSpeed::floatToSpeed(film.frameRate);
@@ -313,13 +274,11 @@ void djvCineonHeader::load(
         info.tags[cineonTags[djvCineon::TAG_FILM_FRAME_RATE]] =
             QString::number(film.frameRate);
     }
-
     if (isValid(film.frameId, 32))
     {
         info.tags[cineonTags[djvCineon::TAG_FILM_FRAME_ID]] =
             toString(film.frameId, 32);
     }
-
     if (isValid(film.slate, 200))
     {
         info.tags[cineonTags[djvCineon::TAG_FILM_SLATE]] =
@@ -334,11 +293,9 @@ void djvCineonHeader::save(
     const djvImageIoInfo &   info,
     djvCineon::COLOR_PROFILE colorProfile) throw (djvError)
 {
-
     //DJV_DEBUG("djvCineonHeader::save");
 
     // Information.
-
     file.imageOffset = 2048;
     file.headerSize = 1024;
     file.industryHeaderSize = 1024;
@@ -362,7 +319,6 @@ void djvCineonHeader::save(
     }
 
     const int bitDepth = 10;
-
     for (int i = 0; i < image.channels; ++i)
     {
         image.channel[i].descriptor[0] = 0;
@@ -400,18 +356,14 @@ void djvCineonHeader::save(
     image.channelPadding = 0;
 
     // File image tags.
-
     const QStringList & tags = djvImageTags::tagLabels();
     const QStringList & cineonTags = djvCineon::tagLabels();
     QString tmp;
-
     djvStringUtil::cString(info.fileName, file.name, 100, false);
     djvStringUtil::cString(info.tags[tags[djvImageTags::TIME]], file.time, 24, false);
 
     // Source image tags.
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_OFFSET]];
-
     if (tmp.length())
     {
         const QStringList list = tmp.split(' ', QString::SkipEmptyParts);
@@ -422,66 +374,49 @@ void djvCineonHeader::save(
             source.offset[1] = list[1].toInt();
         }
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_FILE]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.file, 100, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_TIME]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.time, 24, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_DEVICE]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.inputDevice, 64, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_MODEL]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.inputModel, 32, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_SERIAL]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, source.inputSerial, 32, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_INPUT_PITCH]];
-
     if (tmp.length())
     {
         const QStringList list = tmp.split(' ', QString::SkipEmptyParts);
-
         if (2 == list.count())
         {
             source.offset[0] = list[0].toInt();
             source.offset[1] = list[1].toInt();
         }
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_SOURCE_GAMMA]];
-
     if (tmp.length())
     {
         source.gamma = static_cast<float>(tmp.toDouble());
     }
 
     // Film image tags.
-
     tmp = info.tags[tags[djvImageTags::KEYCODE]];
-
     if (tmp.length())
     {
         int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
@@ -492,50 +427,36 @@ void djvCineonHeader::save(
         film.prefix = prefix;
         film.count = count;
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_FILM_FORMAT]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, film.format, 32, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_FILM_FRAME]];
-
     if (tmp.length())
     {
         film.frame = tmp.toInt();
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_FILM_FRAME_RATE]];
-
     if (tmp.length())
     {
         film.frameRate = static_cast<float>(tmp.toDouble());
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_FILM_FRAME_ID]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, film.frameId, 32, false);
     }
-
     tmp = info.tags[cineonTags[djvCineon::TAG_FILM_SLATE]];
-
     if (tmp.length())
     {
         djvStringUtil::cString(tmp, film.slate, 200, false);
     }
 
     // Write.
-
     debug();
-
     const bool endian = djvMemory::endian() != djvMemory::MSB;
-    
     io.setEndian(endian);
-
     if (endian)
     {
         //DJV_DEBUG_PRINT("endian");
@@ -546,7 +467,6 @@ void djvCineonHeader::save(
     {
         file.magic = magic[0];
     }
-
     io.set(&file, sizeof(File));
     io.set(&image, sizeof(Image));
     io.set(&source, sizeof(Source));
@@ -621,7 +541,6 @@ bool djvCineonHeader::isValid(const quint16 * in)
 
 namespace
 {
-
 // These constants are used to catch uninitialized values.
 
 const qint32 _intMax   = 1000000;
@@ -674,10 +593,8 @@ QString djvCineonHeader::toString(const char * in, int size)
 {
     const char * p = in;
     const char * const end = p + size;
-
     for (; *p && p < end; ++p)
         ;
-
     return QString::fromLatin1(in, p - in);
 }
 
@@ -713,7 +630,6 @@ QString djvCineonHeader::debug(const char * in, int size)
 
 namespace
 {
-
 const QString debugFile =
     "File\n"
     "  Image offset = %1\n"

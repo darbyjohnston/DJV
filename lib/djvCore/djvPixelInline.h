@@ -29,14 +29,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelInline.h
-
 #include <djvMath.h>
 
 //------------------------------------------------------------------------------
 // djvPixel::Mask
 //------------------------------------------------------------------------------
-
 
 inline djvPixel::Mask::Mask()
 {
@@ -83,8 +80,7 @@ inline djvPixel::Mask & djvPixel::Mask::operator = (const Mask & mask)
     for (int i = 0; i < channelsMax; ++i)
     {
         this->mask[i] = mask[i];
-    }
-    
+    }    
     return *this;
 }
 
@@ -111,7 +107,6 @@ inline djvPixel::FORMAT djvPixel::format(PIXEL in)
         RGB,  RGB,  RGB,  RGB,  RGB,
         RGBA,       RGBA, RGBA, RGBA
     };
-
     return data[in];
 }
 
@@ -124,7 +119,6 @@ inline bool djvPixel::format(int channels, FORMAT & format)
         case 3: format = RGB;  return true;
         case 4: format = RGBA; return true;
     }
-
     return false;
 }
 
@@ -137,7 +131,6 @@ inline djvPixel::TYPE djvPixel::type(PIXEL in)
         U8, U10, U16, F16, F32,
         U8,      U16, F16, F32
     };
-
     return data[in];
 }
 
@@ -146,40 +139,30 @@ inline bool djvPixel::type(int bitDepth, DATA data, TYPE & type)
     switch (data)
     {
         case INTEGER:
-            
             switch (bitDepth)
             {
                 case  8: type =  U8; return true;
                 case 10: type = U10; return true;
                 case 16: type = U16; return true;
-
                 default: return false;
             }
-            
             break;
-        
         case FLOAT:
-
             switch (bitDepth)
             {
                 case 16: type = F16; return true;
                 case 32: type = F32; return true;
-
                 default: return false;
             }
-
             break;
-
         default: break;
     }
-    
     return false;
 }
 
 inline int djvPixel::channels(FORMAT in)
 {
     static const int data [] = { 1, 2, 3, 4 };
-
     return data[in];
 }
 
@@ -192,7 +175,6 @@ inline int djvPixel::channels(PIXEL in)
         3, 3, 3, 3, 3,
         4, 4,    4, 4
     };
-
     return data[in];
 }
 
@@ -205,7 +187,6 @@ inline int djvPixel::channelByteCount(PIXEL in)
         1, 0, 2, 2, 4,
         1, 2,    2, 4
     };
-
     return data[in];
 }
 
@@ -218,7 +199,6 @@ inline int djvPixel::byteCount(PIXEL in)
         3, 4, 6, 6, 12,
         4, 8,    8, 16
     };
-
     return data[in];
 }
 
@@ -228,7 +208,6 @@ inline int djvPixel::bitDepth(TYPE in)
     {
         8, 10, 16, 16, 32
     };
-
     return data[in];
 }
 
@@ -241,7 +220,6 @@ inline int djvPixel::bitDepth(PIXEL in)
         8, 10, 16, 16, 32,
         8,     16, 16, 32
     };
-
     return data[in];
 }
 
@@ -254,14 +232,12 @@ inline int djvPixel::max(PIXEL in)
         u8Max, u10Max, u16Max, 1, 1,
         u8Max,         u16Max, 1, 1
     };
-
     return data[in];
 }
 
 inline djvPixel::PIXEL djvPixel::pixel(FORMAT format, TYPE type)
 {
     PIXEL out = static_cast<PIXEL>(0);
-
     switch (format)
     {
         case L:
@@ -272,12 +248,9 @@ inline djvPixel::PIXEL djvPixel::pixel(FORMAT format, TYPE type)
                 case U16: out = L_U16; break;
                 case F16: out = L_F16; break;
                 case F32: out = L_F32; break;
-
                 default: break;
             }
-
             break;
-
         case LA:
             switch (type)
             {
@@ -286,12 +259,9 @@ inline djvPixel::PIXEL djvPixel::pixel(FORMAT format, TYPE type)
                 case U16: out = LA_U16; break;
                 case F16: out = LA_F16; break;
                 case F32: out = LA_F32; break;
-
                 default: break;
             }
-
             break;
-
         case RGB:
             switch (type)
             {
@@ -300,12 +270,9 @@ inline djvPixel::PIXEL djvPixel::pixel(FORMAT format, TYPE type)
                 case U16: out = RGB_U16; break;
                 case F16: out = RGB_F16; break;
                 case F32: out = RGB_F32; break;
-
                 default: break;
             }
-
             break;
-
         case RGBA:
             switch (type)
             {
@@ -314,15 +281,11 @@ inline djvPixel::PIXEL djvPixel::pixel(FORMAT format, TYPE type)
                 case U16: out = RGBA_U16; break;
                 case F16: out = RGBA_F16; break;
                 case F32: out = RGBA_F32; break;
-
                 default: break;
             }
-
             break;
-
         default: break;
     }
-
     return out;
 }
 
@@ -337,12 +300,9 @@ inline bool djvPixel::pixel(FORMAT format, TYPE type, PIXEL & out)
                 case U16: out = L_U16; break;
                 case F16: out = L_F16; break;
                 case F32: out = L_F32; break;
-
                 default: return false;
             }
-
             break;
-
         case LA:
             switch (type)
             {
@@ -350,12 +310,9 @@ inline bool djvPixel::pixel(FORMAT format, TYPE type, PIXEL & out)
                 case U16: out = LA_U16; break;
                 case F16: out = LA_F16; break;
                 case F32: out = LA_F32; break;
-
                 default: return false;
             }
-
             break;
-
         case RGB:
             switch (type)
             {
@@ -364,12 +321,9 @@ inline bool djvPixel::pixel(FORMAT format, TYPE type, PIXEL & out)
                 case U16: out = RGB_U16; break;
                 case F16: out = RGB_F16; break;
                 case F32: out = RGB_F32; break;
-
                 default: return false;
             }
-
             break;
-
         case RGBA:
             switch (type)
             {
@@ -377,53 +331,39 @@ inline bool djvPixel::pixel(FORMAT format, TYPE type, PIXEL & out)
                 case U16: out = RGBA_U16; break;
                 case F16: out = RGBA_F16; break;
                 case F32: out = RGBA_F32; break;
-
                 default: return false;
             }
-
             break;
-
         default:
             return false;
     }
-
     return true;
 }
 
 inline bool djvPixel::pixel(int channels, int bitDepth, DATA data, PIXEL & pixel)
 {
     FORMAT format = static_cast<FORMAT>(0);
-    
     if (! djvPixel::format(channels, format))
         return false;
-    
     TYPE type = static_cast<TYPE>(0);
-    
     if (! djvPixel::type(bitDepth, data, type))
         return false;
-    
     return djvPixel::pixel(format, type, pixel);
 }
 
 // Note that we use a LUT in some cases because bit shifting doesn't seem to
 // preserve maximum values?
-
 #define _PIXEL_LUT(IN, OUT, IN_MAX, OUT_MAX) \
-    \
     static OUT##_T lut [IN_MAX + 1]; \
-    \
     static bool init = false; \
-    \
     if (! init) \
     { \
         for (int i = 0; i <= IN_MAX; ++i) \
         { \
             lut[i] = OUT##_T(i / static_cast<float>(IN_MAX) * OUT_MAX); \
         } \
-        \
         init = true; \
     } \
-    \
     return lut[in];
 
 inline djvPixel::U10_T djvPixel::u8ToU10(U8_T in)
@@ -568,8 +508,6 @@ inline djvPixel::F16_T djvPixel::f32ToF16(F32_T in)
     return in;
 }
 
-//------------------------------------------------------------------------------
-
 inline bool operator == (const djvPixel::Mask & a, const djvPixel::Mask & b)
 {
     for (int i = 0; i < djvPixel::channelsMax; ++i)
@@ -578,8 +516,7 @@ inline bool operator == (const djvPixel::Mask & a, const djvPixel::Mask & b)
         {
             return false;
         }
-    }
-    
+    }    
     return true;
 }
 
@@ -587,3 +524,4 @@ inline bool operator != (const djvPixel::Mask & a, const djvPixel::Mask & b)
 {
     return ! (a == b);
 }
+

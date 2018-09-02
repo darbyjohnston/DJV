@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIflPlugin.cpp
-
 #include <djvIflPlugin.h>
 
 #include <djvIflLoad.h>

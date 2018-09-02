@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmLoad.h
-
-#ifndef DJV_PPM_LOAD_H
-#define DJV_PPM_LOAD_H
+#pragma once
 
 #include <djvPpm.h>
 
@@ -51,12 +48,7 @@
 class djvPpmLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-    
     explicit djvPpmLoad(djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvPpmLoad();
 
@@ -67,7 +59,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
@@ -78,6 +69,4 @@ private:
 };
 
 //@} // djvPpmPlugin
-
-#endif // DJV_PPM_LOAD_H
 

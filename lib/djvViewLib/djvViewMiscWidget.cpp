@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewMiscWidget.cpp
-
 #include <djvViewMiscWidget.h>
 
 #include <djvViewFileCache.h>
@@ -94,7 +92,6 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
     _p(new djvViewCacheSizeWidgetPrivate)
 {
     // Create widgets.
-
     _p->edit = new djvFloatEdit;
     _p->edit->setRange(0.0, 1024.0);
     _p->edit->object()->setInc(1.0, 5.0);
@@ -104,7 +101,6 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
     _p->button->setIconSize(QSize(20, 20));
 
     // Layout the widgets.
-
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QHBoxLayout * layout = new QHBoxLayout(this);
@@ -113,16 +109,13 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
     layout->addWidget(_p->button);
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->edit,
         SIGNAL(valueChanged(double)),
         SLOT(setCacheSize(double)));
-
     connect(
         _p->button,
         SIGNAL(pressed()),
@@ -148,11 +141,8 @@ void djvViewCacheSizeWidget::setCacheSizes(const QVector<double> & in)
 {
     if (in == _p->cacheSizes)
         return;
-
     _p->cacheSizes = in;
-
     widgetUpdate();
-
     Q_EMIT cacheSizesChanged(_p->cacheSizes);
 }
 
@@ -160,20 +150,15 @@ void djvViewCacheSizeWidget::setCacheSize(double size)
 {
     if (size == _p->cacheSize)
         return;
-
     _p->cacheSize = size;
-
     widgetUpdate();
-
     Q_EMIT cacheSizeChanged(_p->cacheSize);
 }
 
 void djvViewCacheSizeWidget::buttonCallback()
 {
     QMenu menu;
-
     const QStringList & labels = djvViewFileCache::sizeLabels();
-
     for (int i = 0; i < labels.count(); ++i)
     {
         QAction * action = menu.addAction(
@@ -182,17 +167,14 @@ void djvViewCacheSizeWidget::buttonCallback()
             SLOT(menuCallback()));
         action->setData(djvViewFileCache::sizeDefaults()[i]);
     }
-
     menu.exec(mapToGlobal(
         QPoint(_p->button->x(), _p->button->y() + _p->button->height())));
-
     _p->button->setDown(false);
 }
 
 void djvViewCacheSizeWidget::menuCallback()
 {
     QAction * action = qobject_cast<QAction *>(sender());
-
     setCacheSize(action->data().toInt());
 }
 
@@ -200,7 +182,6 @@ void djvViewCacheSizeWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->edit);
-
     _p->edit->setValue(_p->cacheSize);
 }
 
@@ -229,17 +210,14 @@ djvViewFrameWidget::djvViewFrameWidget(djvGuiContext * context, QWidget * parent
     _p(new djvViewFrameWidgetPrivate)
 {
     // Initialize.
-
     textUpdate();
     widgetUpdate();
 
     // Setup callbacks.
-
     connect(
         this,
         SIGNAL(editingFinished()),
         SLOT(editingFinishedCallback()));
-
     connect(
         context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
@@ -274,15 +252,12 @@ void djvViewFrameWidget::stepBy(int steps)
 QSize djvViewFrameWidget::sizeHint() const
 {
     QString sizeString;
-
     switch (djvTime::units())
     {
         case djvTime::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
         case djvTime::UNITS_FRAMES:   sizeString = "000000";      break;
-
         default: break;
     }
-
     return QSize(
         fontMetrics().width(sizeString) + 25,
         QAbstractSpinBox::sizeHint().height());
@@ -292,11 +267,8 @@ void djvViewFrameWidget::setFrameList(const djvFrameList & in)
 {
     if (in == _p->frameList)
         return;
-
     _p->frameList = in;
-
     setFrame(_p->frame);
-
     textUpdate();
     widgetUpdate();
 }
@@ -306,19 +278,14 @@ void djvViewFrameWidget::setFrame(qint64 frame)
     const int tmp = djvMath::min(
         frame,
         static_cast<qint64>(_p->frameList.count() - 1));
-
     if (tmp == _p->frame)
         return;
-
     //DJV_DEBUG("djvViewFrameWidget::setFrame");
     //DJV_DEBUG_PRINT("frame = " << tmp);
-
     _p->frame = tmp;
-
     textUpdate();
     widgetUpdate();
     update();
-
     Q_EMIT frameChanged(_p->frame);
 }
 
@@ -326,9 +293,7 @@ void djvViewFrameWidget::setSpeed(const djvSpeed & in)
 {
     if (in == _p->speed)
         return;
-
     _p->speed = in;
-
     textUpdate();
     widgetUpdate();
 }
@@ -336,36 +301,28 @@ void djvViewFrameWidget::setSpeed(const djvSpeed & in)
 QAbstractSpinBox::StepEnabled djvViewFrameWidget::stepEnabled() const
 {
     QAbstractSpinBox::StepEnabled step = QAbstractSpinBox::StepNone;
-
     const int count = _p->frameList.count();
-
     if (count > 0)
     {
         if (_p->frame > 0)
         {
             step |= QAbstractSpinBox::StepDownEnabled;
         }
-
         if (_p->frame < count - 1)
         {
             step |= QAbstractSpinBox::StepUpEnabled;
         }
     }
-
     return step;
 }
 
 void djvViewFrameWidget::editingFinishedCallback()
 {
     //DJV_DEBUG("djvViewFrameWidget::editingFinishedCallback");
-
     const QString text = lineEdit()->text();
-
     //DJV_DEBUG_PRINT("text = " << text);
-
     setFrame(djvSequenceUtil::findClosest(
         djvTime::stringToFrame(text, _p->speed), _p->frameList));
-
     lineEdit()->setText(_p->text);
 }
 
@@ -373,27 +330,23 @@ void djvViewFrameWidget::timeUnitsCallback()
 {
     textUpdate();
     widgetUpdate();
-
     updateGeometry();
 }
 
 void djvViewFrameWidget::textUpdate()
 {
     qint64 frame = 0;
-
     if (_p->frame >= 0 &&
         _p->frame < static_cast<qint64>(_p->frameList.count()))
     {
         frame = _p->frameList[_p->frame];
     }
-
     _p->text = djvTime::frameToString(frame, _p->speed);
 }
 
 void djvViewFrameWidget::widgetUpdate()
 {
     //djvSignalBlocker signalBlocker(lineEdit());
-
     lineEdit()->setText(_p->text);
 }
 
@@ -430,7 +383,6 @@ djvViewFrameSlider::djvViewFrameSlider(djvGuiContext * context, QWidget * parent
     _p(new djvViewFrameSliderPrivate(context))
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     connect(
@@ -483,11 +435,8 @@ void djvViewFrameSlider::setFrameList(const djvFrameList & in)
 {
     if (in == _p->frameList)
         return;
-
     _p->frameList = in;
-    
     setFrame(_p->frame);
-
     update();
 }
 
@@ -497,17 +446,12 @@ void djvViewFrameSlider::setFrame(qint64 frame)
         frame,
         static_cast<qint64>(0),
         end());
-    
     if (tmp == _p->frame)
         return;
-    
     //DJV_DEBUG("djvViewFrameSlider::setFrame");
     //DJV_DEBUG_PRINT("frame = " << tmp);
-
     _p->frame = tmp;
-
     update();
-
     Q_EMIT frameChanged(_p->frame);
 }
 
@@ -515,9 +459,7 @@ void djvViewFrameSlider::setSpeed(const djvSpeed & in)
 {
     if (in == _p->speed)
         return;
-
     _p->speed = in;
-
     update();
 }
 
@@ -525,11 +467,8 @@ void djvViewFrameSlider::setInOutEnabled(bool in)
 {
     if (in == _p->inOutEnabled)
         return;
-    
     _p->inOutEnabled = in;
-
     update();
-
     Q_EMIT inOutEnabledChanged(_p->inOutEnabled);
 }
 
@@ -537,12 +476,9 @@ void djvViewFrameSlider::setInOutPoints(qint64 inPoint, qint64 outPoint)
 {
     if (inPoint == _p->inPoint && outPoint == _p->outPoint)
         return;
-    
     _p->inPoint  = inPoint;
     _p->outPoint = outPoint;
-
     update();
-
     Q_EMIT inPointChanged(_p->inPoint);
     Q_EMIT outPointChanged(_p->outPoint);
 }
@@ -596,16 +532,13 @@ void djvViewFrameSlider::setCachedFrames(const djvFrameList & in)
 {
     if (in == _p->cachedFrames)
         return;
-    
     _p->cachedFrames = in;
-
     update();
 }
 
 void djvViewFrameSlider::mousePressEvent(QMouseEvent * event)
 {
     setFrame(posToFrame(event->pos().x()));
-    
     Q_EMIT pressed(true);
 }
 
@@ -621,7 +554,6 @@ void djvViewFrameSlider::mouseMoveEvent(QMouseEvent * event)
 
 namespace
 {
-    
 struct Tick
 {
     enum TYPE
@@ -646,18 +578,14 @@ struct Tick
         switch (type)
         {
             case FRAME:
-
                 painter->setPen(djvColorUtil::lerp(
                     0.2,
                     palette.color(QPalette::Base),
                     palette.color(QPalette::Text)));
                 painter->drawLine(x, 0, x, 5);
                 painter->drawLine(x, h - 5, x, h - 1);
-
                 break;
-
             case SECOND:
-
                 if (label.isEmpty())
                 {
                     painter->setPen(djvColorUtil::lerp(
@@ -680,15 +608,11 @@ struct Tick
                         palette.color(QPalette::Text)));
                     painter->drawText(labelRect, label);
                 }
-
                 break;
-
             case CURRENT:
-
                 painter->setPen(palette.color(QPalette::Text));
                 painter->drawLine(x, 0, x, h - 1);
                 painter->drawText(labelRect, label);
-
                 break;
         }
     }
@@ -701,14 +625,11 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     //DJV_DEBUG("djvViewFrameSlider::paintEvent");
 
     const djvBox2i box(0, 0, width(), height());
-    
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-
     const QPalette palette(this->palette());
 
     // Fill the background.
-    
     painter.fillRect(
         box.x,
         box.y,
@@ -717,7 +638,6 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         palette.color(QPalette::Base));
 
     // Draw the in/out points.
-
     if (_p->inPoint != 0 || _p->outPoint != end())
     {
         const QRectF r(
@@ -725,18 +645,14 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
             0,
             frameToPosF(_p->outPoint - _p->inPoint + 1),
             2);
-
         painter.fillRect(r, palette.color(QPalette::Highlight));
     }
 
     // Draw the cached frames.
-
     if (_p->cachedFrames.count())
     {
         //DJV_DEBUG_PRINT("cached frames = " << _p->cachedFrames.count());
-
         const djvFrameRangeList list = djvRangeUtil::range(_p->cachedFrames);
-
         for (int i = 0; i < list.count(); ++i)
         {
             const QRectF r(
@@ -744,76 +660,59 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
                 box.h - 2,
                 frameToPosF(list[i].max - list[i].min + 1),
                 2);
-
             painter.fillRect(r, QColor(90, 90, 255));
         }
     }
 
     // Draw the frame ticks.
-    
     QVector<Tick> ticks;
-
     const double speed       = djvSpeed::speedToFloat(_p->speed);
     const bool   drawFrames  = frameToPosF(1) > 3;
     const bool   drawSeconds = frameToPosF(static_cast<int>(speed)) > 3;
-    
     for (int i = 0; i < _p->frameList.count(); ++i)
     {
         Tick tick;
         tick.type = Tick::FRAME;
-
         bool drawTick = drawFrames;
         bool drawLabel = false;
-
         if (speed > 0.0 && 0 == i % static_cast<int>(speed))
         {
             drawTick  = drawSeconds;
             drawLabel = true;
             tick.type = Tick::SECOND;
         }
-
         if (drawTick)
         {
             tick.x = (frameToPosF(i) + frameToPosF(i + 1)) / 2.0;
-            
             if (drawLabel)
             {
                 tick.label = djvTime::frameToString(
                     _p->frameList[i],
                     _p->speed);
             }
-            
             ticks.append(tick);
         }
     }
-    
     int labelWidthMax = 0;
-
     const int spacing = _p->context->style()->sizeMetric().spacing;
-
     for (int i = 0; i < ticks.count(); ++i)
     {
         const QRect labelBounds =
             fontMetrics().boundingRect(ticks[i].label);
-
         ticks[i].labelRect = QRect(
             ticks[i].x + spacing,
             box.h / 2,
             labelBounds.width(),
             labelBounds.height());
-
         labelWidthMax = djvMath::max(
             labelWidthMax,
             ticks[i].labelRect.width());
     }
-
     for (int i = 0; i < ticks.count(); ++i)
     {
         ticks[i].labelRect.setWidth(labelWidthMax);
     }
-    
     int j = 0;
-    
     for (int i = 1; i < ticks.count(); ++i)
     {
         if (! ticks[i].label.isEmpty())
@@ -829,14 +728,12 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
             }
         }
     }
-    
     for (int i = 0; i < ticks.count(); ++i)
     {
         ticks[i].draw(&painter, palette, box.h);
     }
 
-    // Draw the current frame.
-    
+    // Draw the current frame.    
     Tick current;
     current.type = Tick::CURRENT;
     current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.0;
@@ -880,14 +777,11 @@ double djvViewFrameSlider::frameToPosF(qint64 frame) const
         _p->frameList.count() ?
         (width() / static_cast<double>(_p->frameList.count())) :
         0.0;
-
     const qint64 end = this->end();
-
     const double v =
         end ?
         (frame / static_cast<double>(end)) :
         0.0;
-
     return v * (width() - fw);
 }
 
@@ -896,14 +790,11 @@ int djvViewFrameSlider::frameToPos(qint64 frame) const
     const double fw = _p->frameList.count() ?
         width() / static_cast<double>(_p->frameList.count()) :
         0.0;
-
     const qint64 end = this->end();
-
     const double v =
         end ?
         frame / static_cast<double>(end) :
         0.0;
-
     return static_cast<int>(v * (width() - fw));
 }
 
@@ -935,22 +826,18 @@ djvViewFrameDisplay::djvViewFrameDisplay(djvGuiContext * context, QWidget * pare
     _p(new djvViewFrameDisplayPrivate)
 {
     // Create the widgets.
-
     _p->lineEdit = new QLineEdit;
 
     // Layout the widgets.
-
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(_p->lineEdit);
 
     // Initialize.
-
     textUpdate();
     widgetUpdate();
     
     // Setup the callbacks.
-
     connect(
         context->timePrefs(),
         SIGNAL(timeUnitsChanged(djvTime::UNITS)),
@@ -980,7 +867,6 @@ bool djvViewFrameDisplay::isInOutEnabled() const
 QSize djvViewFrameDisplay::sizeHint() const
 {
     QString sizeString;
-
     switch (djvTime::units())
     {
         case djvTime::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
@@ -988,7 +874,6 @@ QSize djvViewFrameDisplay::sizeHint() const
 
         default: break;
     }
-    
     return QSize(
         fontMetrics().width(sizeString) + 10,
         QWidget::sizeHint().height());
@@ -998,9 +883,7 @@ void djvViewFrameDisplay::setFrame(qint64 in)
 {
     if (in == _p->frame)
         return;
-
     _p->frame = in;
-
     textUpdate();
     widgetUpdate();
 }
@@ -1009,9 +892,7 @@ void djvViewFrameDisplay::setSpeed(const djvSpeed & in)
 {
     if (in == _p->speed)
         return;
-
     _p->speed = in;
-
     textUpdate();
     widgetUpdate();
 }
@@ -1020,9 +901,7 @@ void djvViewFrameDisplay::setInOutEnabled(bool in)
 {
     if (in == _p->inOutEnabled)
         return;
-
     _p->inOutEnabled = in;
-
     widgetUpdate();
 }
 
@@ -1030,7 +909,6 @@ void djvViewFrameDisplay::timeUnitsCallback()
 {
     textUpdate();
     widgetUpdate();
-
     updateGeometry();
 }
 
@@ -1042,9 +920,7 @@ void djvViewFrameDisplay::textUpdate()
 void djvViewFrameDisplay::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->lineEdit);
-
     _p->lineEdit->setText(_p->text);
-
     QPalette palette = this->palette();
     if (_p->inOutEnabled)
         palette.setColor(QPalette::Text, palette.color(QPalette::Highlight));
@@ -1076,19 +952,16 @@ djvViewSpeedButton::djvViewSpeedButton(djvGuiContext * context, QWidget * parent
     _p(new djvViewSpeedButtonPrivate)
 {
     // Create the widgets.
-    
     _p->button = new djvToolButton;
     _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
     _p->button->setIconSize(QSize(20, 20));
 
     // Layout the widgets.
-    
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(_p->button);
 
     // Setup the callbacks.
-    
     connect(
         _p->button,
         SIGNAL(pressed()),
@@ -1108,24 +981,19 @@ void djvViewSpeedButton::setDefaultSpeed(const djvSpeed & in)
 void djvViewSpeedButton::pressedCallback()
 {
     QMenu menu;
-    
     if (_p->defaultSpeed.isValid())
     {
         const QString text =
             qApp->translate("djvViewSpeedButton", "Default: %1").
             arg(djvSpeed::speedToFloat(_p->defaultSpeed), 0, 'f', 2);
-
         QAction * action = menu.addAction(
             text,
             this,
             SLOT(menuCallback()));
         action->setData(-1);
-        
         menu.addSeparator();
     }
-    
     const QStringList & labels = djvSpeed::fpsLabels();
-
     for (int i = 0; i < labels.count(); ++i)
     {
         QAction * action = menu.addAction(
@@ -1134,20 +1002,15 @@ void djvViewSpeedButton::pressedCallback()
             SLOT(menuCallback()));
         action->setData(i);
     }
-    
     menu.exec(mapToGlobal(QPoint(0, height())));
-    
     _p->button->setDown(false);
 }
 
 void djvViewSpeedButton::menuCallback()
 {
     QAction * action = qobject_cast<QAction *>(sender());
-    
     const int index = action->data().toInt();
-    
-    Q_EMIT speedChanged(
-        -1 == index ? _p->defaultSpeed : static_cast<djvSpeed::FPS>(index));
+    Q_EMIT speedChanged(-1 == index ? _p->defaultSpeed : static_cast<djvSpeed::FPS>(index));
 }
 
 //------------------------------------------------------------------------------
@@ -1177,7 +1040,6 @@ djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent
     _p(new djvViewSpeedWidgetPrivate)
 {
     // Create the widgets.
-    
     _p->floatEdit = new djvFloatEdit;
     _p->floatEdit->setRange(1.0, 1000.0);
     _p->floatEdit->object()->setInc(1.0, 10.0);
@@ -1185,7 +1047,6 @@ djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent
     _p->button = new djvViewSpeedButton(context);
     
     // Layout the widgets.
-    
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setSpacing(0);
     layout->setMargin(0);
@@ -1193,16 +1054,13 @@ djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent
     layout->addWidget(_p->button);
 
     // Initialize.
-    
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         _p->floatEdit,
         SIGNAL(valueChanged(double)),
         SLOT(editCallback(double)));
-    
     connect(
         _p->button,
         SIGNAL(speedChanged(const djvSpeed &)),
@@ -1228,11 +1086,8 @@ void djvViewSpeedWidget::setSpeed(const djvSpeed & in)
 {
     if (in == _p->speed)
         return;
-
     _p->speed = in;
-
     widgetUpdate();
-
     Q_EMIT speedChanged(_p->speed);
 }
 
@@ -1240,27 +1095,21 @@ void djvViewSpeedWidget::setDefaultSpeed(const djvSpeed & in)
 {
     if (in == _p->defaultSpeed)
         return;
-
     _p->defaultSpeed = in;
-    
     widgetUpdate();
 }
 
 void djvViewSpeedWidget::editCallback(double in)
 {
     const djvSpeed speed = djvSpeed::floatToSpeed(in);
-
     setSpeed(speed);
-    
     widgetUpdate();
 }
 
 void djvViewSpeedWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->floatEdit);
-    
     _p->floatEdit->setValue(djvSpeed::speedToFloat(_p->speed));
-    
     _p->button->setDefaultSpeed(_p->defaultSpeed);
 }
 
@@ -1307,7 +1156,6 @@ djvViewSpeedDisplay::~djvViewSpeedDisplay()
 QSize djvViewSpeedDisplay::sizeHint() const
 {
     QString sizeString("000.00");
-
     return QSize(
         fontMetrics().width(sizeString) + 10,
         QWidget::sizeHint().height());
@@ -1317,9 +1165,7 @@ void djvViewSpeedDisplay::setSpeed(double speed)
 {
     if (djvMath::fuzzyCompare(speed, _p->speed))
         return;
-
     _p->speed = speed;
-
     widgetUpdate();
 }
 
@@ -1327,20 +1173,16 @@ void djvViewSpeedDisplay::setDroppedFrames(bool in)
 {
     if (in == _p->droppedFrames)
         return;
-
     _p->droppedFrames = in;
-
     widgetUpdate();
 }
 
 void djvViewSpeedDisplay::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->lineEdit);
-
     QPalette palette = this->palette();
     if (_p->droppedFrames)
         palette.setColor(QPalette::Text, palette.color(QPalette::Highlight));
     _p->lineEdit->setPalette(palette);
-
     _p->lineEdit->setText(QString("%1").arg(_p->speed, 0, 'f', 2));
 }

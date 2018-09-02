@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExrPlugin.cpp
-
 #include <djvOpenExrPlugin.h>
 
 #include <djvOpenExrLoad.h>
@@ -61,7 +59,6 @@ djvOpenExrPlugin::djvOpenExrPlugin(djvCoreContext * context) :
 
 namespace
 {
-
 int refCount = 0;
 
 } // namespace
@@ -69,33 +66,24 @@ int refCount = 0;
 void djvOpenExrPlugin::initPlugin() throw (djvError)
 {
     ++refCount;
-
     if (refCount > 1)
         return;
-
     //DJV_DEBUG("djvOpenExrPlugin::initPlugin");
     //DJV_DEBUG_PRINT("ref count = " << refCount);
-    
     threadsUpdate();
 }
 
 void djvOpenExrPlugin::releasePlugin()
 {
     --refCount;
-
     if (refCount)
         return;
-
     //DJV_DEBUG("djvOpenExrPlugin::releasePlugin");
     //DJV_DEBUG_PRINT("ref count = " << refCount);
-
 #if defined(DJV_WINDOWS)
-
     //! \todo Is is still necessary to reset the global thread cound on
     //! Windows?
-
     //Imf::setGlobalThreadCount(0);
-
 #endif // DJV_WINDOWS
 }
 
@@ -112,7 +100,6 @@ QStringList djvOpenExrPlugin::extensions() const
 QStringList djvOpenExrPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvOpenExr::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.threadsEnable;
@@ -147,7 +134,6 @@ QStringList djvOpenExrPlugin::option(const QString & in) const
         out << _options.dwaCompressionLevel;
     }
 #endif // OPENEXR_VERSION_HEX
-
     return out;
 }
 
@@ -156,101 +142,77 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
     //DJV_DEBUG("djvOpenExrPlugin::setOption");
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("data = " << data);
-    
     try
     {
         if (0 == in.compare(options()[djvOpenExr::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
         {
             bool enable = false;
-            
             data >> enable;
-            
             if (enable != _options.threadsEnable)
             {
                 _options.threadsEnable = enable;
-                
                 threadsUpdate();
-
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvOpenExr::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
         {
             int threadCount = 0;
-            
             data >> threadCount;
-            
             if (threadCount != _options.threadCount)
             {
                 _options.threadCount = threadCount;
-
                 threadsUpdate();
-
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvOpenExr::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
         {
             djvOpenExr::COLOR_PROFILE colorProfile = static_cast<djvOpenExr::COLOR_PROFILE>(0);
-            
             data >> colorProfile;
-            
             if (colorProfile != _options.inputColorProfile)
             {
                 _options.inputColorProfile = colorProfile;
-
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvOpenExr::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
         {
             double gamma = 0.0;
-            
             data >> gamma;
-            
             if (gamma != _options.inputGamma)
             {
                 _options.inputGamma = gamma;
-
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvOpenExr::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
         {
             djvColorProfile::Exposure exposure;
-            
             data >> exposure;
-            
             if (exposure != _options.inputExposure)
             {
                 _options.inputExposure = exposure;
-
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvOpenExr::CHANNELS_OPTION], Qt::CaseInsensitive))
         {
             djvOpenExr::CHANNELS channels = static_cast<djvOpenExr::CHANNELS>(0);
-            
             data >> channels;
-            
             if (channels != _options.channels)
             {
                 _options.channels = channels;
-
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvOpenExr::COMPRESSION_OPTION], Qt::CaseInsensitive))
         {
             djvOpenExr::COMPRESSION compression = static_cast<djvOpenExr::COMPRESSION>(0);
-            
             data >> compression;
-            
             if (compression != _options.compression)
             {
                 _options.compression = compression;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -258,15 +220,12 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
         else if (0 == in.compare(options()[djvOpenExr::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
         {
             double compressionLevel = 0.0;
-            
             data >> compressionLevel;
-            
             if (! djvMath::fuzzyCompare(
                 compressionLevel,
                 _options.dwaCompressionLevel))
             {
                 _options.dwaCompressionLevel = compressionLevel;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -276,7 +235,6 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -289,13 +247,11 @@ void djvOpenExrPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (
                 qApp->translate("djvOpenExrPlugin", "-exr_threads_enable") == arg)
             {
@@ -348,7 +304,6 @@ void djvOpenExrPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 
@@ -416,7 +371,6 @@ void djvOpenExrPlugin::threadsUpdate()
     //DJV_DEBUG_PRINT("this = " << uint64_t(this));
     //DJV_DEBUG_PRINT("threads = " << _options.threadsEnable);
     //DJV_DEBUG_PRINT("thread count = " << _options.threadsCount);
-
     Imf::setGlobalThreadCount(
         _options.threadsEnable ? _options.threadCount : 0);
 }

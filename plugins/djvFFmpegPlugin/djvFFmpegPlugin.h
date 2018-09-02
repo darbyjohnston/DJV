@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegPlugin.h
-
-#ifndef DJV_FFMPEG_PLUGIN_H
-#define DJV_FFMPEG_PLUGIN_H
+#pragma once
 
 #include <djvFFmpeg.h>
 
@@ -50,39 +47,26 @@
 class djvFFmpegPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvFFmpegPlugin(djvCoreContext *);
     
     virtual void initPlugin() throw (djvError);
-    
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
-
     virtual bool isSequence() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     djvFFmpeg::Options _options;
 };
 
 //@} // djvFFmpegPlugin
-
-#endif // DJV_FFMPEG_PLUGIN_H
 

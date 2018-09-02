@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSignalBlocker.cpp
-
 #include <djvSignalBlocker.h>
 
 //------------------------------------------------------------------------------
@@ -63,8 +61,7 @@ djvSignalBlocker::~djvSignalBlocker()
 {
     Q_FOREACH (QObject * object, _objects)
     {
-        allObjects.removeOne(object);
-        
+        allObjects.removeOne(object);        
         if (allObjects.indexOf(object) == -1)
         {
             object->blockSignals(false);
@@ -75,9 +72,7 @@ djvSignalBlocker::~djvSignalBlocker()
 void djvSignalBlocker::add(QObject * object)
 {
     object->blockSignals(true);
-        
     _objects += object;
-    
     allObjects += object;
 }
 
@@ -86,9 +81,7 @@ void djvSignalBlocker::add(const QObjectList & objects)
     Q_FOREACH (QObject * object, objects)
     {
         object->blockSignals(true);
-        
         _objects += object;
-        
         allObjects += object;
     }
 }
@@ -98,9 +91,7 @@ void djvSignalBlocker::add(const QVector<QObject *> & objects)
     for (int i = 0; i < objects.count(); ++i)
     {
         objects[i]->blockSignals(true);
-        
         _objects += objects[i];
-        
         allObjects += objects[i];
     }
 }

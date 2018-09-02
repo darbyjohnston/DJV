@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatObject.cpp
-
 #include <djvFloatObject.h>
 
 #include <djvDebug.h>
@@ -56,11 +54,8 @@ djvFloatObject::djvFloatObject(QObject * parent) :
     _sizeString    ("00000")
 {
     setValue(0.0);
-
     setDefaultValue(0.0);
-
     setInc(0.1, 1.0);
-
     defaultValidUpdate();
 }
 
@@ -115,14 +110,10 @@ const QString & djvFloatObject::sizeString() const
 void djvFloatObject::setValue(double in)
 {
     const double tmp = _clamp ? djvMath::clamp(in, _min, _max) : in;
-
     if (djvMath::fuzzyCompare(tmp, _value))
         return;
-
     _value = tmp;
-
     defaultValidUpdate();
-
     Q_EMIT valueChanged(_value);
 }
 
@@ -130,14 +121,10 @@ void djvFloatObject::setDefaultValue(double in)
 {
     if (djvMath::fuzzyCompare(in, _defaultValue))
         return;
-
     //DJV_DEBUG("djvFloatObject::setDefaultValue");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _defaultValue = in;
-
     defaultValidUpdate();
-
     Q_EMIT defaultValueChanged(_defaultValue);
 }
 
@@ -155,15 +142,11 @@ void djvFloatObject::setRange(double min, double max)
 {
     const bool minChange = ! djvMath::fuzzyCompare(min, _min);
     const bool maxChange = ! djvMath::fuzzyCompare(max, _max);
-    
     if (! (minChange || maxChange))
         return;
-
     _min = min;
     _max = max;
-
     setValue(_value);
-
     if (minChange)
         Q_EMIT minChanged(_min);
     if (maxChange)
@@ -195,13 +178,10 @@ void djvFloatObject::setInc(double smallInc, double largeInc)
 {
     const bool smallChange = ! djvMath::fuzzyCompare(smallInc, _smallInc);
     const bool largeChange = ! djvMath::fuzzyCompare(largeInc, _largeInc);
-    
     if (! (smallChange || largeChange))
         return;
-
     _smallInc = smallInc;
     _largeInc = largeInc;
-
     if (smallChange)
         Q_EMIT smallIncChanged(_smallInc);
     if (largeChange)
@@ -233,9 +213,7 @@ void djvFloatObject::setClamp(bool in)
 {
     if (in == _clamp)
         return;
-
     _clamp = in;
-
     setValue(_value);
 }
 
@@ -243,20 +221,16 @@ void djvFloatObject::setSizeString(const QString & string)
 {
     if (string == _sizeString)
         return;
-
     _sizeString = string;
-
     Q_EMIT sizeStringChanged(_sizeString);
 }
 
 void djvFloatObject::defaultValidUpdate()
 {
     const bool defaultValid = djvMath::fuzzyCompare(_value, _defaultValue);
-
     if (defaultValid != _isDefaultValid)
     {
         _isDefaultValid = defaultValid;
-
         Q_EMIT defaultValidChanged(_isDefaultValid);
     }
 }

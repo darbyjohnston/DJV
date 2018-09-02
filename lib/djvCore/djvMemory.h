@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemory.h
-
-#ifndef DJV_MEMORY_H
-#define DJV_MEMORY_H
+#pragma once
 
 #include <djvStringUtil.h>
 
@@ -54,8 +51,6 @@ class DJV_CORE_EXPORT djvMemory
 
 public:
 
-    //! Destructor.
-    
     virtual ~djvMemory() = 0;
 
     static const quint64 kilobyte; //!< The number of bytes in a kilobyte.
@@ -64,11 +59,9 @@ public:
     static const quint64 terabyte; //!< The number of bytes in a terabyte.
 
     //! Convert a byte count to a human readable string.
-
     static QString sizeLabel(quint64);
 
     //! This enumeration provides the machine endian.
-
     enum ENDIAN
     {
         MSB, //!< Most siginificant byte first
@@ -78,43 +71,34 @@ public:
     };
 
     //! Get the machine endian labels.
-
     static const QStringList & endianLabels();
 
     //! Copy a block of memory.
-
     static void copy(const void * in, void * out, quint64 size);
 
     //! Fill a block of memory with a value.
-
     template<typename T>
     static inline void fill(T value, void * in, quint64 size);
 
     //! Fill a block of memory with zeroes.
-
     static void zero(void * in, quint64 size);
 
     //! Compare a block of memory.
-
     static int compare(const void *, const void *, quint64 size);
 
     //! Get the current machine's endian.
-
     static ENDIAN endian();
 
     //! Get the opposite of the given endian.
-
     static inline ENDIAN endianOpposite(ENDIAN);
 
     //! Convert the endianness of a block of memory in place.
-
     static inline void convertEndian(
         void *  in,
         quint64 size,
         int     wordSize);
 
     //! Convert the endianness of a block of memory.
-
     static inline void convertEndian(
         const void * in,
         void *       out,
@@ -122,13 +106,9 @@ public:
         int          wordSize);
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvMemory::ENDIAN);
 
 //@} // djvCoreMisc
 
 #include <djvMemoryInline.h>
-
-#endif // DJV_MEMORY_H
 

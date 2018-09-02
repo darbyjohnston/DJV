@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageContext.cpp
-
 #include <djvImageContext.h>
 
 #include <djvDebugLog.h>
@@ -70,12 +68,10 @@ djvImageContext::djvImageContext(QObject * parent) :
     //DJV_DEBUG("djvImageContext::djvImageContext");
     
     // Register meta types.
-    
     qRegisterMetaType<djvImage>("djvImage");
     qRegisterMetaType<djvImageIoInfo>("djvImageIoInfo");
     
     // Create the default OpenGL context.
-
     DJV_LOG(debugLog(), "djvImageContext",
         "Creating the default OpenGL context...");
 
@@ -100,7 +96,6 @@ djvImageContext::djvImageContext(QObject * parent) :
     DJV_LOG(debugLog(), "djvImageContext", "");
 
     //! Create the image I/O plugins.
-
     DJV_LOG(debugLog(), "djvImageContext", "Loading image I/O plugins...");
 
     _p->imageIoFactory.reset(new djvImageIoFactory(this));
@@ -116,12 +111,9 @@ djvImageContext::~djvImageContext()
     //DJV_DEBUG("djvImageContext::~djvImageContext");
 
 #if defined(DJV_WINDOWS)
-
     //! \todo On Windows deleting the image factory causes the application
     //! to hang on exit.
-
     _p->imageIoFactory.take();
-
 #endif // DJV_WINDOWS
 
     delete _p;
@@ -150,7 +142,6 @@ QString djvImageContext::info() const
 "Image I/O\n"
 "\n"
 "    %6\n");
-
     return QString(label).
         arg(djvCoreContext::info()).
         arg(_p->openGlContext->format().majorVersion()).
@@ -171,13 +162,11 @@ bool djvImageContext::commandLineParse(QStringList & in) throw (QString)
     Q_FOREACH (djvPlugin * plugin, _p->imageIoFactory->plugins())
     {
         djvImageIo * io = static_cast<djvImageIo *>(plugin);
-        
         io->commandLine(in);
     }
 
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
@@ -185,14 +174,12 @@ bool djvImageContext::commandLineParse(QStringList & in) throw (QString)
             in >> arg;
 
             // OpenGL options.
-
             if (qApp->translate("djvImageContext", "-render_filter") == arg)
             {
                 djvOpenGlImageFilter value;
                 in >> value;
                 djvOpenGlImageFilter::setFilter(value);
             }
-
             else if (qApp->translate("djvImageContext", "-render_filter_high") == arg)
             {
                 djvOpenGlImageFilter::setFilter(
@@ -200,7 +187,6 @@ bool djvImageContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Leftovers.
-
             else
             {
                 tmp << arg;
@@ -210,26 +196,22 @@ bool djvImageContext::commandLineParse(QStringList & in) throw (QString)
     catch (const QString &)
     {
         in = tmp;
-
         throw QString(arg);
     }
 
     in = tmp;
-    
     return true;
 }
 
 QString djvImageContext::commandLineHelp() const
 {
     QString imageIoHelp;
-
     Q_FOREACH(djvPlugin * plugin, _p->imageIoFactory->plugins())
     {
         djvImageIo * io = static_cast<djvImageIo *>(plugin);
         
         imageIoHelp += io->commandLineHelp();
     }
-
     static const QString label = qApp->translate("djvImageContext",
 "%1"
 "\n"
@@ -240,7 +222,6 @@ QString djvImageContext::commandLineHelp() const
 "    -render_filter_high\n"
 "        Set the render filter to high quality settings (%5, %6).\n"
 "%7");
-    
     return QString(label).
         arg(imageIoHelp).
         arg(djvOpenGlImageFilter::filterLabels().join(", ")).
@@ -250,3 +231,4 @@ QString djvImageContext::commandLineHelp() const
         arg(djvStringUtil::label(djvOpenGlImageFilter::filterHighQuality().mag).join(", ")).
         arg(djvCoreContext::commandLineHelp());
 }
+

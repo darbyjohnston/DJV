@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractToolBar.cpp
-
 #include <djvViewAbstractToolBar.h>
 
 #include <djvViewAbstractActions.h>
@@ -67,12 +65,9 @@ djvViewAbstractToolBar::djvViewAbstractToolBar(
     _p(new djvViewAbstractToolBarPrivate(actions, context))
 {
     setAllowedAreas(
-        Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
-    
+        Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);    
     setFloatable(false);
-    
     //setMovable(false);
-    
     setIconSize(context->iconLibrary()->defaultSize());
 }
 

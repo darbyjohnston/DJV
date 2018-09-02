@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTime.h
-
-#ifndef DJV_TIME_H
-#define DJV_TIME_H
+#pragma once
 
 #include <djvSpeed.h>
 
@@ -59,29 +56,21 @@ class DJV_CORE_EXPORT djvTime
     Q_ENUMS(UNITS)
     
 public:
-
-    //! Destructor.
-    
     virtual ~djvTime() = 0;
 
     //! Get the current time.
-
     static ::time_t current();
 
     //! Sleep for the given number of seconds.
-
     static void sleep(unsigned long seconds);
 
     //! Sleep for the given number of milliseconds.
-
     static void msleep(unsigned long msecs);
 
     //! Sleep for the given number of microseconds.
-
     static void usleep(unsigned long usecs);
 
     //! Convert the given number of seconds to hours, minutes, and seconds.
-
     static void secondsToTime(
         double,
         int &    hours,
@@ -89,15 +78,12 @@ public:
         double & seconds);
 
     //! Convert a time to a string.
-
     static QString timeToString(::time_t);
 
     //! Convert seconds to a human readable string.
-
     static QString labelTime(double seconds);
 
     //! Convert timecode to time.
-
     static void timecodeToTime(
         quint32,
         int & hour,
@@ -106,7 +92,6 @@ public:
         int & frame);
 
     //! Convert time to timecode.
-
     static quint32 timeToTimecode(
         int hour,
         int minute,
@@ -114,23 +99,18 @@ public:
         int frame);
 
     //! Convert timecode to a frame.
-
     static qint64 timecodeToFrame(quint32 timecode, const djvSpeed &);
 
     //! Convert a frame to timecode.
-
     static quint32 frameToTimecode(qint64 frame, const djvSpeed &);
 
     //! Convert timecode to a string.
-
     static QString timecodeToString(quint32);
 
     //! Convert a string to timecode.
-
     static quint32 stringToTimecode(const QString &, bool * ok = 0);
 
     //! Convert a keycode to a string.
-
     static QString keycodeToString(
         int id,
         int type,
@@ -139,7 +119,6 @@ public:
         int offset);
 
     //! Convert a string to a keycode.
-
     static bool stringToKeycode(
         const QString &,
         int & id,
@@ -149,7 +128,6 @@ public:
         int & offset);
 
     //! This enumeration provides the time units.
-
     enum UNITS
     {
         UNITS_TIMECODE,
@@ -159,35 +137,25 @@ public:
     };
 
     //! Get the time units labels.
-
     static const QStringList & unitsLabels();
 
     //! Get the time units default.
-    
     static UNITS unitsDefault();
     
     //! Get the global time units.
-
     static UNITS units();
 
     //! Set the global time units.
-
     static void setUnits(UNITS);
     
     //! Convert a frame to a string using the global time units.
-
     static QString frameToString(qint64 frame, const djvSpeed &);
 
     //! Convert a string to a frame using the global time units.
-
     static qint64 stringToFrame(const QString &, const djvSpeed &, bool * ok = 0);
 };
-
-//------------------------------------------------------------------------------
 
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvTime::UNITS);
 
 //@} // djvCoreMisc
-
-#endif // DJV_TIME_H
 

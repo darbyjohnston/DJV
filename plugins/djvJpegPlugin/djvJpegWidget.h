@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvJpegWidget.h
-
-#ifndef DJV_JPEG_WIDGET_H
-#define DJV_JPEG_WIDGET_H
+#pragma once
 
 #include <djvJpeg.h>
 
@@ -54,19 +51,13 @@ class djvJpegWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvJpegWidget(djvImageIo *, djvGuiContext *);
-    
-    //! Destructor.
     
     virtual ~djvJpegWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void qualityCallback(int);
 
@@ -74,7 +65,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvJpeg::Options   _options;
     djvIntEditSlider * _qualityWidget;
 };
@@ -88,7 +78,6 @@ private:
 class djvJpegWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvJpegWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -97,6 +86,4 @@ public:
 };
 
 //@} // djvJpegPlugin
-
-#endif // DJV_JPEG_WIDGET_H
 

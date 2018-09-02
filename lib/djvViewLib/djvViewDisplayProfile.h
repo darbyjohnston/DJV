@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewDisplayProfile.h
-
-#ifndef DJV_VIEW_DISPLAY_PROFILE_H
-#define DJV_VIEW_DISPLAY_PROFILE_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -55,8 +52,6 @@ struct DJV_VIEW_LIB_EXPORT djvViewDisplayProfile :
     djvFileInfo lutFile;
 };
 
-//------------------------------------------------------------------------------
-
 DJV_COMPARISON_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
@@ -64,6 +59,4 @@ DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 DJV_DEBUG_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_DISPLAY_PROFILE_H
 

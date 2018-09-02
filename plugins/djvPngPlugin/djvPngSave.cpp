@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPngSave.cpp
-
 #include <djvPngSave.h>
 
 #include <djvError.h>
@@ -58,32 +56,23 @@ void djvPngSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvPngSave::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-
     if (info.sequence.frames.count() > 1)
     {
         _file.setType(djvFileInfo::SEQUENCE);
     }
-
     _info = djvPixelDataInfo();
     _info.size = info.size;
-
     djvPixel::TYPE type = djvPixel::type(info.pixel);
-
     switch (type)
     {
         case djvPixel::U10:
         case djvPixel::F16:
         case djvPixel::F32: type = djvPixel::U16; break;
-
         default: break;
     }
-
     _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
-
     //DJV_DEBUG_PRINT("info = " << _info);
-
     _image.set(_info);
 }
 
@@ -94,9 +83,7 @@ bool pngScanline(png_structp png, const quint8 * in)
 {
     if (setjmp(png_jmpbuf(png)))
         return false;
-
     png_write_row(png, (png_byte *)in);
-
     return true;
 }
 
@@ -104,9 +91,7 @@ bool pngEnd(png_structp png, png_infop pngInfo)
 {
     if (setjmp(png_jmpbuf(png)))
         return false;
-
     png_write_end(png, pngInfo);
-
     return true;
 }
 
@@ -119,33 +104,23 @@ void djvPngSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-
     const QString fileName = _file.fileName(frame.frame);
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info(_info);
     info.tags = in.tags;
-
     _open(fileName, info);
 
     // Convert the image.
-
     const djvPixelData * p = &in;
-
     if (in.info() != _image.info())
     {
         _image.zero();
-        
         djvOpenGlImage::copy(in, _image);
-        
         p = &_image;
     }
 
     // Write the file.
-
     const int h = p->h();
-
     for (int y = 0; y < h; ++y)
     {
         if (! pngScanline(_png, p->data(0, h - 1 - y)))
@@ -155,7 +130,6 @@ void djvPngSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                 _pngError.msg);
         }
     }
-
     if (! pngEnd(_png, _pngInfo))
     {
         throw djvError(
@@ -172,23 +146,19 @@ void djvPngSave::close() throw (djvError)
     {
         png_destroy_write_struct(
             _png ? &_png : 0,
-            _pngInfo ? &_pngInfo : 0);
-        
+            _pngInfo ? &_pngInfo : 0);        
         _png     = 0;
         _pngInfo = 0;
     }
-
     if (_f)
     {
-        ::fclose(_f);
-        
+        ::fclose(_f);   
         _f = 0;
     }
 }
 
 namespace
 {
-
 bool pngOpen(
     FILE *                 f,
     png_structp            png,
@@ -199,43 +169,33 @@ bool pngOpen(
     {
         return false;
     }
-
     *pngInfo = png_create_info_struct(png);
-
     if (! *pngInfo)
     {
         return false;
     }
-
     png_init_io(png, f);
-
     int colorType = 0;
-
     switch (info.pixel)
     {
         case djvPixel::L_U8:
         case djvPixel::L_U16:
             colorType = PNG_COLOR_TYPE_GRAY;
             break;
-
         case djvPixel::LA_U8:
         case djvPixel::LA_U16:
             colorType = PNG_COLOR_TYPE_GRAY_ALPHA;
             break;
-
         case djvPixel::RGB_U8:
         case djvPixel::RGB_U16:
             colorType = PNG_COLOR_TYPE_RGB;
             break;
-
         case djvPixel::RGBA_U8:
         case djvPixel::RGBA_U16:
             colorType = PNG_COLOR_TYPE_RGB_ALPHA;
             break;
-
         default: break;
     }
-
     png_set_IHDR(
         png,
         *pngInfo,
@@ -246,9 +206,7 @@ bool pngOpen(
         PNG_INTERLACE_NONE,
         PNG_COMPRESSION_TYPE_DEFAULT,
         PNG_FILTER_TYPE_DEFAULT);
-
     png_write_info(png, *pngInfo);
-
     return true;
 }
 
@@ -263,44 +221,34 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info)
     close();
 
     // Initialize libpng.
-
     _png = png_create_write_struct(
         PNG_LIBPNG_VER_STRING,
         &_pngError,
         djvPngError,
         djvPngWarning);
-
     if (! _png)
     {
         throw djvError(
             djvPng::staticName,
             _pngError.msg);
     }
-
     SNPRINTF(
         _pngError.msg,
         djvStringUtil::cStringLength,
         QString("Error opening: %1").arg(in).toLatin1().data());
 
     // Open the file.
-
 #if defined(DJV_WINDOWS)
-
     ::fopen_s(&_f, in.toLatin1().data(), "wb");
-
 #else
-
     _f = ::fopen(in.toLatin1().data(), "wb");
-
 #endif
-
     if (! _f)
     {
         throw djvError(
             djvPng::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_OPEN]);
     }
-
     if (! pngOpen(_f, _png, &_pngInfo, info))
     {
         throw djvError(
@@ -309,7 +257,6 @@ void djvPngSave::_open(const QString & in, const djvImageIoInfo & info)
     }
 
     // Set the endian.
-    
     if (djvPixel::bitDepth(info.pixel) >= 16 &&
         djvMemory::LSB == djvMemory::endian())
     {

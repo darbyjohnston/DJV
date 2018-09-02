@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpm.h
-
-#ifndef DJV_PPM_H
-#define DJV_PPM_H
+#pragma once
 
 #include <djvFileIo.h>
 
@@ -69,11 +66,9 @@
 struct djvPpm
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the file types.
-
     enum TYPE
     {
         TYPE_AUTO,
@@ -83,11 +78,9 @@ struct djvPpm
     };
 
     //! Get the type labels.
-
     static const QStringList & typeLabels();
 
     //! This enumeration provides the file data types.
-
     enum DATA
     {
         DATA_ASCII,
@@ -97,11 +90,9 @@ struct djvPpm
     };
 
     //! Get the data labels.
-
     static const QStringList & dataLabels();
 
     //! Get the number of bytes in a scanline.
-
     static quint64 scanlineByteCount(
         int  width,
         int  channels,
@@ -109,7 +100,6 @@ struct djvPpm
         DATA data);
 
     //! Load ASCII data.
-
     static void asciiLoad(
         djvFileIo & io,
         void *      out,
@@ -117,7 +107,6 @@ struct djvPpm
         int         bitDepth) throw (djvError);
 
     //! Save ASCII data.
-
     static quint64 asciiSave(
         const void * in,
         void *       out,
@@ -125,7 +114,6 @@ struct djvPpm
         int          bitDepth);
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         TYPE_OPTION,
@@ -135,11 +123,9 @@ struct djvPpm
     };
 
     //! Get the option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
         Options();
@@ -149,12 +135,8 @@ struct djvPpm
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvPpm::TYPE);
 DJV_STRING_OPERATOR(, djvPpm::DATA);
 
 //@} // djvPpmPlugin
-
-#endif // DJV_PPM_H
 

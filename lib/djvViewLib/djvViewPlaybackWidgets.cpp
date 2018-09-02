@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackWidgets.cpp
-
 #include <djvViewPlaybackWidgets.h>
 
 #include <djvViewContext.h>
@@ -82,7 +80,6 @@ djvViewPlaybackButtons::djvViewPlaybackButtons(
         djvToolButton* button = new djvToolButton;
         button->setDefaultAction(actions[i]);
         button->setIconSize(context->iconLibrary()->defaultSize());
-
         _p->buttonGroup->addButton(button);
     }
 
@@ -164,15 +161,12 @@ djvViewLoopWidget::~djvViewLoopWidget()
 void djvViewLoopWidget::widgetUpdate()
 {
     // Update shortcuts.
-
     const QVector<djvShortcut> & shortcuts =
         _p->context->shortcutPrefs()->shortcuts();
-
     _p->button->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value);
 
     // Update tool tips.
-
     _p->button->setToolTip(
         qApp->translate("djvViewPlaybackButtons", "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
         arg(djvStringUtil::label(_p->loop).join(", ")).
@@ -216,7 +210,6 @@ djvViewFrameButtons::djvViewFrameButtons(
             djvToolButton* button = new djvToolButton;
             button->setDefaultAction(action);
             button->setIconSize(context->iconLibrary()->defaultSize());
-
             _p->buttonGroup->addButton(button);
         }
     }
@@ -237,19 +230,15 @@ djvViewFrameButtons::djvViewFrameButtons(
         connect(button, SIGNAL(pressed()), SIGNAL(pressed()));
         connect(button, SIGNAL(released()), SIGNAL(released()));
     }
-
     connect(
         _p->shuttle,
         SIGNAL(mousePressed(bool)),
         SIGNAL(shuttlePressed(bool)));
-
     connect(
         _p->shuttle,
         SIGNAL(valueChanged(int)),
         SIGNAL(shuttleChanged(int)));
-
     connect(_p->shuttle, SIGNAL(pressed()), SIGNAL(pressed()));
-
     connect(_p->shuttle, SIGNAL(released()), SIGNAL(released()));
 }
 

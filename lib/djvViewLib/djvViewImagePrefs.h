@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImagePrefs.h
-
-#ifndef DJV_VIEW_IMAGE_PREFS_H
-#define DJV_VIEW_IMAGE_PREFS_H
+#pragma once
 
 #include <djvViewAbstractPrefs.h>
 #include <djvViewDisplayProfile.h>
@@ -52,150 +49,110 @@ class DJV_VIEW_LIB_EXPORT djvViewImagePrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewImagePrefs(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewImagePrefs();
     
-    //! Get the default for whether to store the frame when reloading files.
-    
+    //! Get the default for whether to store the frame when reloading files.    
     static bool frameStoreFileReloadDefault();
 
     //! Get whether to store the frame when reloading files.
-
     bool hasFrameStoreFileReload() const;
 
     //! Get the default mirror.
-    
     static djvPixelDataInfo::Mirror mirrorDefault();
     
     //! Get the mirror.
-
     const djvPixelDataInfo::Mirror & mirror() const;
 
     //! Get the default scale.
-    
     static djvViewUtil::IMAGE_SCALE scaleDefault();
 
     //! Get the scale.
-
     djvViewUtil::IMAGE_SCALE scale() const;
 
     //! Get the default rotation.
-    
     static djvViewUtil::IMAGE_ROTATE rotateDefault();
 
     //! Get the rotation.
-
     djvViewUtil::IMAGE_ROTATE rotate() const;
 
     //! Get the default for whether the color profile is enabled.
-    
     static bool colorProfileDefault();
 
     //! Get whether the color profile is enabled.
-
     bool hasColorProfile() const;
 
     //! Get the default display profile index.
-
     static int displayProfileIndexDefault();
 
     //! Get the display profile index.
-
     int displayProfileIndex() const;
 
     //! Get the current display profile.
-
     djvViewDisplayProfile displayProfile() const;
 
     //! Get the list of display profiles.
-
     const QVector<djvViewDisplayProfile> & displayProfiles() const;
 
     //! Get the display profile names.
-
     QStringList displayProfileNames() const;
 
     //! Get the default image channel.
-    
     static djvOpenGlImageOptions::CHANNEL channelDefault();
 
     //! Get the image channel.
-
     djvOpenGlImageOptions::CHANNEL channel() const;
 
 public Q_SLOTS:
-
     //! Set whether to store the frame when reloading files.
-
     void setFrameStoreFileReload(bool);
 
     //! Set the mirror.
-
     void setMirror(const djvPixelDataInfo::Mirror &);
 
     //! Set the scale.
-
     void setScale(djvViewUtil::IMAGE_SCALE);
 
     //! Set the rotation.
-
     void setRotate(djvViewUtil::IMAGE_ROTATE);
 
     //! Set whether the color profile is enabled.
-
     void setColorProfile(bool);
 
     //! Set the current display profile index.
-
     void setDisplayProfileIndex(int);
 
     //! Set the list of display profiles.
-
     void setDisplayProfiles(const QVector<djvViewDisplayProfile> &);
 
     //! Set the image channel.
-
     void setChannel(djvOpenGlImageOptions::CHANNEL);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the mirror is changed.
-
     void mirrorChanged(djvPixelDataInfo::Mirror);
     
     //! This signal is emitted when the scale is changed.
-
     void scaleChanged(djvViewUtil::IMAGE_SCALE);
     
     //! This signal is emitted when the rotation is changed.
-
     void rotateChanged(djvViewUtil::IMAGE_ROTATE);
     
     //! This signal is emitted when the color profile is changed.
-
     void colorProfileChanged(bool);
     
     //! This signal is emitted when the current display profile is
     //! changed.
-
     void displayProfileChanged(const djvViewDisplayProfile &);
 
     //! This signal is emitted the the display profiles are changed.
-
     void displayProfilesChanged(const QVector<djvViewDisplayProfile> &);
 
     //! This signal is emitted when the image channel is changed.
-
     void channelChanged(djvOpenGlImageOptions::CHANNEL);
 
 private:
-
     bool                           _frameStoreFileReload;
     djvPixelDataInfo::Mirror       _mirror;
     djvViewUtil::IMAGE_SCALE       _scale;
@@ -207,6 +164,4 @@ private:
 };
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_IMAGE_PREFS_H
 

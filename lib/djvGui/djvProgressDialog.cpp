@@ -27,9 +27,7 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//------------------------------------------------------------------------------
-
-//! \file djvProgressDialog.cpp
+//------------------------------------------------------------------------------s
 
 #include <djvProgressDialog.h>
 
@@ -66,9 +64,7 @@ public:
     {
         if (value == _value)
             return;
-        
         _value = value;
-        
         update();
     }
     
@@ -76,41 +72,30 @@ public:
     {
         if (maxValue == _maxValue)
             return;
-        
         _maxValue = maxValue;
-        
         update();
     }
     
     virtual QSize sizeHint() const { return QSize(200, 20); }
     
 protected:
-
     virtual void paintEvent(QPaintEvent *)
     {
         QPainter painter(this);
-        
         const QPalette & palette = this->palette();
-        
         painter.fillRect(
             0, 0, width(), height(),
-            palette.color(QPalette::Base));
-        
+            palette.color(QPalette::Base));        
         float v = 0.0;
-        
         if (_maxValue != 0)
         {
             v = _value / static_cast<double>(_maxValue);
         }
-        
         int w = static_cast<int>(v * width());
-        
         painter.fillRect(
             0, 0, w, height(),
             palette.color(QPalette::Highlight));
-        
         painter.setPen(palette.color(QPalette::Text));
-        
         painter.drawText(
             QRect(0, 0, width(), height()),
             Qt::AlignCenter,
@@ -118,7 +103,6 @@ protected:
     }
 
 private:
-
     int _value;
     int _maxValue;
 };
@@ -164,7 +148,6 @@ djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
     _p(new djvProgressDialogPrivate)
 {
     // Create the widgets.
-
     _p->widget = new ProgressWidget;
 
     _p->labelWidget = new QLabel;
@@ -177,7 +160,6 @@ djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
         QDialogButtonBox::Cancel);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     QVBoxLayout * vLayout = new QVBoxLayout;
     vLayout->setMargin(20);
@@ -189,30 +171,25 @@ djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
     layout->addWidget(buttonBox);
 
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvProgressDialog", "Progress Dialog"));
     
     _p->labelWidget->setText(label);
 
     // Setup the callbacks.
-    
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectedCallback()));
-
     connect(this, SIGNAL(rejected()), SIGNAL(finishedSignal()));
 }
 
 djvProgressDialog::~djvProgressDialog()
 {
     stopTimer();
-
     delete _p;
 }
 
 void djvProgressDialog::rejectedCallback()
 {
     stopTimer();
-    
     Q_EMIT finishedSignal();
 }
 
@@ -225,27 +202,19 @@ void djvProgressDialog::setLabel(const QString & label)
 {
     if (label == _p->label)
         return;
-    
     _p->label = label;
-    
     _p->labelWidget->setText(label);
 }
 
 void djvProgressDialog::start(int totalTicks)
 {
     _p->totalTicks = totalTicks;
-    
     _p->currentTick = 0;
-    
     _p->time.start();
-    
     _p->timeAccum = 0.0;
-    
     _p->elapsed.start();
-
     _p->widget->setMaxValue(static_cast<float>(_p->totalTicks));
     _p->widget->setValue(static_cast<float>(_p->currentTick));
-    
     _p->timerId = startTimer(0);
 }
 
@@ -258,13 +227,10 @@ void djvProgressDialog::timerEvent(QTimerEvent *)
 {
     // If the progress is finished then hide the dialog otherwise emit the
     // progress signal.
-    
     if (_p->currentTick >= _p->totalTicks)
     {
         hide();
-        
         stopTimer();
-
         Q_EMIT finishedSignal();
     }
     else
@@ -273,11 +239,9 @@ void djvProgressDialog::timerEvent(QTimerEvent *)
     }
     
     // Update the progress widget.
-
     _p->widget->setValue(static_cast<float>(_p->currentTick));
 
     // Update the labels.
-    
     _p->time.check();
     _p->elapsed.check();
 
@@ -309,8 +273,7 @@ void djvProgressDialog::stopTimer()
 {
     if (_p->timerId != 0)
     {
-        killTimer(_p->timerId);
-        
+        killTimer(_p->timerId);        
         _p->timerId = 0;
     }
 }

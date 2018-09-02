@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiSave.cpp
-
 #include <djvSgiSave.h>
 
 #include <djvOpenGlImage.h>
@@ -53,33 +51,24 @@ void djvSgiSave::open(const djvFileInfo & file, const djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvSgiSave::open");
     //DJV_DEBUG_PRINT("file = " << file);
-
     _file = file;
-
     if (info.sequence.frames.count() > 1)
     {
         _file.setType(djvFileInfo::SEQUENCE);
     }
-
     _info = djvPixelDataInfo();
     _info.size = info.size;
-
     djvPixel::TYPE type = djvPixel::type(info.pixel);
-
     switch (type)
     {
         case djvPixel::U10:
         case djvPixel::F16:
         case djvPixel::F32: type = djvPixel::U16; break;
-
         default: break;
     }
-
     _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
     _info.endian = djvMemory::MSB;
-
     //DJV_DEBUG_PRINT("info = " << _info);
-
     _image.set(_info);
 }
 
@@ -91,62 +80,44 @@ void djvSgiSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("compression = " << _options.compression);
 
     // Open the file.
-    
     const QString fileName = _file.fileName(frame.frame);
-
     djvFileIo io;
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-
     io.open(fileName, djvFileIo::WRITE);
-
     djvSgi::saveInfo(
         io,
         _info,
         _options.compression != djvSgi::COMPRESSION_NONE);
 
     // Setup the scanline tables.
-
     if (_options.compression)
     {
         const int tableSize = _info.size.y * djvPixel::channels(_info.pixel);
-        
         //DJV_DEBUG_PRINT("rle table size = " << tableSize);
-
         _rleOffset.setSize(tableSize);
         _rleSize.setSize  (tableSize);
-
         io.seek(tableSize * 2 * 4);
     }
 
     // Convert the image.
-
     const djvPixelData * p = &in;
-
     if (in.info() != _info)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
-
         _image.zero();
-
         djvOpenGlImage::copy(in, _image);
-
         p = &_image;
     }
-
     _tmp.set(p->info());
-
     const int w        = _tmp.w();
     const int h        = _tmp.h();
     const int channels = djvPixel::channels(_tmp.pixel());
     const int bytes    = djvPixel::channelByteCount(_tmp.pixel());
 
     // Deinterleave the image channels.
-
     djvPixelDataUtil::planarDeinterleave(*p, _tmp);
 
     // Write the file.
-
     if (! _options.compression)
     {
         io.set(_tmp.data(), _tmp.dataByteCount() / bytes, bytes);
@@ -154,7 +125,6 @@ void djvSgiSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     else
     {
         djvMemoryBuffer<quint8> scanline(w * bytes * 2);
-
         for (int c = 0; c < channels; ++c)
         {
             for (int y = 0; y < h; ++y)
@@ -165,14 +135,11 @@ void djvSgiSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                     w,
                     bytes,
                     io.endian());
-
                 _rleOffset()[y + c * h] = quint32(io.pos());
                 _rleSize  ()[y + c * h] = quint32(size);
-
                 io.set(scanline.data(), size / bytes, bytes);
             }
         }
-        
         io.setPos(512);
         io.setU32(_rleOffset(), h * channels);
         io.setU32(_rleSize(), h * channels);

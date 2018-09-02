@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntEditSlider.cpp
-
 #include <djvIntEditSlider.h>
 
 #include <djvGuiContext.h>
@@ -102,37 +100,30 @@ djvIntEditSlider::djvIntEditSlider(djvGuiContext * context, QWidget * parent) :
         _p->edit,
         SIGNAL(valueChanged(int)),
         SLOT(valueCallback()));
-
     connect(
         _p->edit,
         SIGNAL(minChanged(int)),
         SIGNAL(minChanged(int)));
-
     connect(
         _p->edit,
         SIGNAL(maxChanged(int)),
         SIGNAL(maxChanged(int)));
-
     connect(
         _p->edit,
         SIGNAL(rangeChanged(int, int)),
         SIGNAL(rangeChanged(int, int)));
-
     connect(
         _p->edit->object(),
         SIGNAL(defaultValidChanged(bool)),
         SLOT(widgetUpdate()));
-
     connect(
         _p->edit->object(),
         SIGNAL(defaultValueChanged(int)),
         SIGNAL(defaultValueChanged(int)));
-
     connect(
         _p->slider,
         SIGNAL(valueChanged(int)),
         SLOT(sliderCallback(int)));
-
     connect(
         _p->defaultButton,
         SIGNAL(clicked()),
@@ -193,9 +184,7 @@ void djvIntEditSlider::setResetToDefault(bool value)
 {
     if (value == _p->resetToDefault)
         return;
-
     _p->resetToDefault = value;
-
     widgetUpdate();
 }
 
@@ -220,7 +209,6 @@ void djvIntEditSlider::setRange(int min, int max)
 void djvIntEditSlider::valueCallback()
 {
     widgetUpdate();
-    
     Q_EMIT valueChanged(_p->edit->value());
 }
 
@@ -239,14 +227,11 @@ void djvIntEditSlider::widgetUpdate()
     //DJV_DEBUG("djvIntEditSlider::widgetUpdate");
     //DJV_DEBUG_PRINT("value = " << value());
     //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
-    
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->edit <<
         _p->slider <<
         _p->defaultButton);
-    
     _p->slider->setValue(_p->edit->value());
-
     _p->defaultButton->setVisible(_p->resetToDefault);
     _p->defaultButton->setDisabled(_p->edit->object()->isDefaultValid());
 }

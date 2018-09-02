@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractGroup.cpp
-
 #include <djvViewAbstractGroup.h>
 
 #include <djvViewContext.h>

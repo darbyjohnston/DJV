@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackMenu.h
-
-#ifndef DJV_VIEW_PLAYBACK_MENU_H
-#define DJV_VIEW_PLAYBACK_MENU_H
+#pragma once
 
 #include <djvViewAbstractMenu.h>
 
@@ -52,19 +49,13 @@ class djvViewPlaybackMenu : public djvViewAbstractMenu
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewPlaybackMenu(
         djvViewAbstractActions * actions,
         QWidget *                parent  = 0);
 
-    //! Destructor.
-
     virtual ~djvViewPlaybackMenu();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewPlaybackMenu);
     
     djvViewPlaybackMenuPrivate * _p;
@@ -72,4 +63,3 @@ private:
 
 //@} // djvViewPlayback
 
-#endif // DJV_VIEW_PLAYBACK_MENU_H

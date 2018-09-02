@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorWidget.h
-
-#ifndef DJV_COLOR_WIDGET_H
-#define DJV_COLOR_WIDGET_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -59,8 +56,7 @@ class DJV_GUI_EXPORT djvColorWidget : public QWidget
 {
     Q_OBJECT
     
-    //! This property holds the color.
-    
+    //! This property holds the color.    
     Q_PROPERTY(
         djvColor color
         READ     color
@@ -68,56 +64,40 @@ class DJV_GUI_EXPORT djvColorWidget : public QWidget
         NOTIFY   colorChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvColorWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvColorWidget();
 
     //! Get the color.
-
     const djvColor & color() const;
 
     //! Get the minimum floating point value.
-
     double floatMin() const;
 
     //! Get the maximum floating point value.
-
     double floatMax() const;
 
     //! Set the floating point range.
-
     void setFloatRange(double min, double max);
 
     //! Get the bottom layout.
-
     QHBoxLayout * bottomLayout();
 
 public Q_SLOTS:
-
     //! Set the color.
-
     void setColor(const djvColor &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the color is changed.
-
     void colorChanged(const djvColor &);
 
 private Q_SLOTS:
-
     void intCallback(int);
     void floatCallback(double);
     void formatCallback(int);
     void typeCallback(int);
 
 private:
-
     void widgetUpdate();
     void valueUpdate();
     
@@ -127,6 +107,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_COLOR_WIDGET_H
 

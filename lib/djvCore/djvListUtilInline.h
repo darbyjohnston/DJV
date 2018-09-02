@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvListUtilInline.h
-
 #include <algorithm>
 
 //------------------------------------------------------------------------------
@@ -44,9 +42,7 @@ template<typename A, typename B>
 inline void djvListUtil::convert(const QVector<A> & in, QVector<B> & out)
 {
     const int count = in.count();
-
     out.resize(count);
-
     for (int i = 0; i < count; ++i)
     {
         out[i] = static_cast<B>(in[i]);
@@ -57,16 +53,12 @@ template<typename A, typename B>
 inline QVector<B> djvListUtil::convert(const QVector<A> & in)
 {
     QVector<B> out;
-    
     const int count = in.count();
-
     out.resize(count);
-
     for (int i = 0; i < count; ++i)
     {
         out[i] = static_cast<B>(in[i]);
     }
-    
     return out;
 }
 
@@ -75,11 +67,10 @@ inline void djvListUtil::convertAndAppend(const QVector<A> & in, QVector<B> & ou
 {
     const int inCount  = in.count();
     const int outCount = out.count();
-
     out.resize(inCount + outCount);
-
     for (int i = 0; i < inCount; ++i)
     {
         out[outCount + i] = static_cast<B>(in[i]);
     }
 }
+

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIflLoad.h
-
-#ifndef DJV_IFL_LOAD_H
-#define DJV_IFL_LOAD_H
+#pragma once
 
 #include <djvIfl.h>
 
@@ -50,13 +47,8 @@
 class djvIflLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-    
     explicit djvIflLoad(djvImageContext *);
 
-    //! Destructor.
-    
     virtual ~djvIflLoad();
 
     virtual void open(const djvFileInfo &, djvImageIoInfo &)
@@ -66,11 +58,8 @@ public:
         throw (djvError);
 
 private:
-
     QStringList _list;
 };
 
 //@} // djvIflPlugin
-
-#endif // DJV_IFL_LOAD_H
 

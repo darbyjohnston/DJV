@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffSave.h
-
-#ifndef DJV_TIFF_SAVE_H
-#define DJV_TIFF_SAVE_H
+#pragma once
 
 #include <djvTiff.h>
 
@@ -52,12 +49,7 @@
 class djvTiffSave : public djvImageSave
 {
 public:
-
-    //! Constuctor.
-
     djvTiffSave(const djvTiff::Options &, djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvTiffSave();
 
@@ -70,7 +62,6 @@ public:
     virtual void close() throw (djvError);
 
 private:
-
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
@@ -82,6 +73,4 @@ private:
 };
 
 //@} // djvTiff
-
-#endif
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegLoad.h
-
-#ifndef DJV_FFMPEG_LOAD_H
-#define DJV_FFMPEG_LOAD_H
+#pragma once
 
 #include <djvFFmpeg.h>
 
@@ -51,13 +48,8 @@
 class djvFFmpegLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-    
     explicit djvFFmpegLoad(djvImageContext *);
 
-    //! Destructor.
-    
     virtual ~djvFFmpegLoad();
 
     virtual void open(const djvFileInfo &, djvImageIoInfo &)
@@ -69,7 +61,6 @@ public:
     virtual void close() throw (djvError);
 
 private:
-
     bool readFrame(int64_t & pts);
 
     djvImageIoInfo    _info;
@@ -85,6 +76,4 @@ private:
 };
 
 //@} // djvFFmpegPlugin
-
-#endif // DJV_FFMPEG_LOAD_H
 

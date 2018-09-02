@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePrefs.h
-
-#ifndef DJV_IMAGE_PREFS_H
-#define DJV_IMAGE_PREFS_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -54,7 +51,6 @@ class DJV_GUI_EXPORT djvImagePrefs : public QObject
     Q_OBJECT
     
     //! This property holds the pixel.
-    
     Q_PROPERTY(
         djvOpenGlImageFilter filter
         READ                 filter
@@ -62,33 +58,21 @@ class DJV_GUI_EXPORT djvImagePrefs : public QObject
         NOTIFY               filterChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvImagePrefs(QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvImagePrefs();
 
     //! Get the image filter.
-
     const djvOpenGlImageFilter & filter() const;
 
 public Q_SLOTS:
-
     //! Set the image filter.
-
     void setFilter(const djvOpenGlImageFilter &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the image filter is changed.
-    
     void filterChanged(const djvOpenGlImageFilter &);
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_IMAGE_PREFS_H
 

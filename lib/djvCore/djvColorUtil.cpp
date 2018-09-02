@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorUtil.cpp
-
 #include <djvColorUtil.h>
 
 #include <djvColor.h>
@@ -48,14 +46,11 @@ void djvColorUtil::scale(double value, const djvColor & in, djvColor & out)
 {
     djvColor in_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
     convert(in, in_);
-
     const int channels = djvPixel::channels(out.pixel());
-
     for (int c = 0; c < channels; ++c)
     {
         in_.setF32(in_.f32(c) * static_cast<float>(value), c);
     }
-
     convert(in_, out);
 }
 
@@ -76,16 +71,13 @@ void djvColorUtil::lerp(
     djvColor max_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
     convert(min, min_);
     convert(max, max_);
-
     const int channels = djvPixel::channels(out.pixel());
-
     for (int c = 0; c < channels; ++c)
     {
         min_.setF32(
             djvMath::lerp(value, min_.f32(c), max_.f32(c)),
             c);
     }
-
     convert(min_, out);
 }
 
@@ -126,20 +118,16 @@ void djvColorUtil::convert(const djvColor & in, djvColor & out)
 QColor djvColorUtil::toQt(const djvColor & in)
 {
     djvColor tmp(djvPixel::RGBA_U8);
-
     djvColorUtil::convert(in, tmp);
-
     return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
 }
 
 djvColor djvColorUtil::fromQt(const QColor & in)
 {
     djvColor out(djvPixel::RGBA_U8);
-
     out.setU8(in.red(), 0);
     out.setU8(in.green(), 1);
     out.setU8(in.blue(), 2);
     out.setU8(in.alpha(), 3);
-
     return out;
 }

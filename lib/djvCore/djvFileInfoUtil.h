@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileInfoUtil.h
-
-#ifndef DJV_FILE_INFO_UTIL_H
-#define DJV_FILE_INFO_UTIL_H
+#pragma once
 
 #include <djvFileInfo.h>
 
@@ -55,13 +52,9 @@ class DJV_CORE_EXPORT djvFileInfoUtil
     Q_ENUMS(SORT)
     
 public:
-
-    //! Destructor.
-    
     virtual ~djvFileInfoUtil() = 0;
     
     //! Split a file name into pieces.
-
     static void split(
         const QString &,
         QString & path,
@@ -70,11 +63,9 @@ public:
         QString & extension);
 
     //! Check if a file exists.
-
     static bool exists(const djvFileInfo &);
 
     //! Get a file list from a directory.
-    
     static djvFileInfoList list(
         const QString &       path,
         djvSequence::COMPRESS sequence = djvSequence::COMPRESS_RANGE);
@@ -83,23 +74,19 @@ public:
     //! returned.
     //!
     //! Example wildcard: render.#.exr
-
     static const djvFileInfo & sequenceWildcardMatch(
         const djvFileInfo &,
         const djvFileInfoList &);
 
     //! Compress a list of files into a sequence.
-
     static void compressSequence(
         djvFileInfoList &,
         djvSequence::COMPRESS = djvSequence::COMPRESS_RANGE);
 
     //! Expand a sequence into a list of file names.
-
     static QStringList expandSequence(const djvFileInfo &);
 
     //! This enumeration provides file filters.
-
     enum FILTER
     {
         FILTER_NONE        = 0,
@@ -109,7 +96,6 @@ public:
     };
 
     //! Filter a list of files.
-
     static void filter(
         djvFileInfoList &,
         int                 filter,
@@ -117,7 +103,6 @@ public:
         const QStringList & glob       = QStringList());
 
     //! This enumeration provides file sorting.
-
     enum SORT
     {
         SORT_NAME,        //!< Sort by name
@@ -131,78 +116,59 @@ public:
     };
 
     //! Get the file sorting labels.
-
     static const QStringList & sortLabels();
 
     //! Sort a list of files.
-
     static void sort(
         djvFileInfoList &,
         SORT,
         bool reverse = false);
 
     //! Sort the list so directories are first.
-
     static void sortDirsFirst(djvFileInfoList &);
 
     //! The maximum number of recent files.
-
     static const int recentMax = 10;
 
     //! Update a recent files list.
-
     static void recent(
         const djvFileInfo & fileInfo,
         djvFileInfoList &   list,
         int                 max = recentMax);
 
     //! Update a recent files list.
-
     static void recent(
         const QString & fileName,
         QStringList &   list,
         int             max = recentMax);
 
     //! Fix a path.
-
     static QString fixPath(const QString &);
 
     //! Path list separators.
-
     static QList<QChar> listSeparators;
 
     //! Path list separator.
-
 #if defined(DJV_WINDOWS)
-
     static const QChar & listSeparator;
-
 #else // DJV_WINDOWS
-
     static const QChar & listSeparator;
-
 #endif // DJV_WINDOWS
 
     //! Dot directory.
-
     static const QString dot;
 
     //! Dot dot directory.
-
     static const QString dotDot;
     
     //! Parse a file name.
-    
     static djvFileInfo parse(
         const QString &       fileName,
         djvSequence::COMPRESS sequence,
         bool                  autoSequence = false);
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfoUtil::SORT);
 
 //@} // djvCoreFile
 
-#endif // DJV_FILE_INFO_UTIL_H

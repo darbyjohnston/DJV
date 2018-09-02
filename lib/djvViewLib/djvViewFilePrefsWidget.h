@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFilePrefsWidget.h
-
-#ifndef DJV_VIEW_FILE_PREFS_WIDGET_H
-#define DJV_VIEW_FILE_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -56,18 +53,13 @@ class DJV_VIEW_LIB_EXPORT djvViewFilePrefsWidget :
     
 public:
 
-    //! Constructor.
-
     djvViewFilePrefsWidget(djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewFilePrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void autoSequenceCallback(bool);
     void proxyCallback(int);
     void u8ConversionCallback(bool);
@@ -79,13 +71,10 @@ private Q_SLOTS:
     void widgetUpdate();
     
 private:
-
     DJV_PRIVATE_COPY(djvViewFilePrefsWidget);
     
     djvViewFilePrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewFile
-
-#endif // DJV_VIEW_FILE_PREFS_WIDGET_H
 

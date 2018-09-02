@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHudInfo.h
-
-#ifndef DJV_VIEW_HUD_INFO_H
-#define DJV_VIEW_HUD_INFO_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -51,8 +48,6 @@
 
 struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
 {
-    //! Constructor.
-
     djvViewHudInfo() :
         frame        (0),
         realSpeed    (0.0),
@@ -68,11 +63,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
     QVector<bool>    visible;
 };
 
-//------------------------------------------------------------------------------
-
 DJV_COMPARISON_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewHudInfo);
 
 //@} // djvViewView
-
-#endif // DJV_VIEW_HUD_INFO_H
 

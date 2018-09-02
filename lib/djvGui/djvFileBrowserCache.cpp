@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserCache.cpp
-
 #include <djvFileBrowserCache.h>
 
 #include <djvFileBrowserPrefs.h>
@@ -55,3 +53,4 @@ djvFileBrowserCacheItem::djvFileBrowserCacheItem(
     thumbnailProxy(thumbnailProxy),
     thumbnail     (thumbnail)
 {}
+

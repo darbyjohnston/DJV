@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegPlugin.cpp
-
 #include <djvFFmpegPlugin.h>
 
 #include <djvFFmpegLoad.h>
@@ -65,11 +63,8 @@ void avLogCallback(void * ptr, int level, const char * fmt, va_list vl)
         return;
 
     //! \todo Add multi-thread safe logging.
-
     /*char s [djvStringUtil::cStringLength];
-    
     SNPRINTF(s, djvStringUtil::cStringLength, fmt, vl);
-    
     DJV_LOG("djvFFmpegPlugin", s);*/
 }
 
@@ -80,19 +75,14 @@ void djvFFmpegPlugin::initPlugin() throw (djvError)
     //DJV_DEBUGBUG("djvFFmpegPlugin::initPlugin");
     
     av_log_set_callback(avLogCallback);
-    
     av_register_all();
-
     /*const AVOutputFormat * avFormat = 0;
-    
     while ((avFormat = av_oformat_next(avFormat)))
     {
         DJV_DEBUG_PRINT("av format = " << avFormat->name << ", " <<
             avFormat->long_name);
     }*/
-
     /*const AVCodecDescriptor * avCodec = 0;
-    
     while ((avCodec = avcodec_descriptor_next(avCodec)))
     {
         if (AVMEDIA_TYPE_VIDEO == avCodec->type)
@@ -100,27 +90,20 @@ void djvFFmpegPlugin::initPlugin() throw (djvError)
             DJV_DEBUG_PRINT("av codec = " << avCodec->name);
         }
     }*/
-
     /*AVOutputFormat * avFormat = av_oformat_next(0);
-    
     while (avFormat)
     {
         DJV_DEBUG_PRINT("av format = " << avFormat->name);
-        
         if (avFormat->codec_tag)
         {
             AVCodecID avCodec = static_cast<AVCodecID>(1);
-            
             int i = 0;
-
             while (avCodec != CODEC_ID_NONE)
             {
                 avCodec = av_codec_get_id(format->codec_tag, i++);
-                
                 DJV_DEBUG_PRINT("    " << avCodecId);
             }
         }
-        
         avFormat = av_oformat_next(avFormat);
     }*/
 }
@@ -154,9 +137,7 @@ bool djvFFmpegPlugin::isSequence() const
 QStringList djvFFmpegPlugin::option(const QString & in) const
 {
     const QStringList & list = options();
-
     QStringList out;
-
     if (0 == in.compare(list[djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
     {
         out << _options.format;
@@ -165,39 +146,31 @@ QStringList djvFFmpegPlugin::option(const QString & in) const
     {
         out << _options.quality;
     }
-
     return out;
 }
 
 bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
 {
     const QStringList & list = options();
-
     try
     {
         if (0 == in.compare(list[djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
         {
             djvFFmpeg::FORMAT format = static_cast<djvFFmpeg::FORMAT>(0);
-            
             data >> format;
-            
             if (format != _options.format)
             {
                 _options.format = format;
-                
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(list[djvFFmpeg::OPTIONS_QUALITY], Qt::CaseInsensitive))
         {
             djvFFmpeg::QUALITY quality = static_cast<djvFFmpeg::QUALITY>(0);
-            
             data >> quality;
-            
             if (quality != _options.quality)
             {
                 _options.quality = quality;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -206,7 +179,6 @@ bool djvFFmpegPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -219,13 +191,11 @@ void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvFFmpegPlugin", "-ffmpeg_format") == arg)
             {
                 in >> _options.format;
@@ -244,7 +214,6 @@ void djvFFmpegPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvBox.h
-
-#ifndef DJV_BOX_H
-#define DJV_BOX_H
+#pragma once
 
 #include <djvVector.h>
 
@@ -48,48 +45,25 @@
 template<typename T, int D>
 struct djvBox
 {
-    //! Constructor.
-
     inline djvBox();
-
-    //! Constructor.
-
     inline djvBox(const djvBox<T, D> &);
-
-    //! Constructor.
-
     inline djvBox(const djvVector<T, D> & position, const djvVector<T, D> & size);
-
-    //! Constructor.
-
     inline djvBox(const djvVector<T, D> & size);
 
-    //! Dimension.
-
     static const int dimension;
-
-    //! Position.
-
     djvVector<T, D> position;
-
-    //! Size.
-
     djvVector<T, D> size;
 
-    //! Is the box valid (width and height are greater than zero).
-    
+    //! Is the box valid (width and height are greater than zero).    
     inline bool isValid() const;
     
     //! Zero the box.
-
     inline void zero();
 
     //! Get the lower right hand corner.
-
     inline djvVector<T, D> lowerRight() const;
 
     //! Set the lower right hand corner.
-
     inline void setLowerRight(const djvVector<T, D> &);
 
     inline djvBox<T, D> & operator *= (const djvVector<T, D> &);
@@ -108,60 +82,30 @@ struct djvBox
 template<typename T>
 struct djvBox<T, 2>
 {
-    //! Constructor.
-
     inline djvBox();
-
-    //! Constructor.
-
     inline djvBox(const djvBox<T, 2> &);
-
-    //! Constructor.
-
     inline djvBox(const djvVector<T, 2> & position, const djvVector<T, 2> & size);
-
-    //! Constructor.
-
     inline djvBox(const djvVector<T, 2> & size);
-
-    //! Constructor.
-
     inline djvBox(T x, T y, T w, T h);
-
-    //! Constructor.
-
     inline djvBox(T w, T h);
 
-    //! Dimension.
-
     static const int dimension;
-
-    //! Position.
-
     djvVector<T, 2> position;
-
-    //! Size.
-
     djvVector<T, 2> size;
 
-    //! Components.
-
+    //! Component access.
     T & x, & y, & w, & h;
 
     //! Is the box valid (width and height are greater than zero).
-    
     inline bool isValid() const;
     
     //! Zero the box.
-
     inline void zero();
 
     //! Get the lower right hand corner.
-
     inline djvVector<T, 2> lowerRight() const;
 
     //! Set the lower right hand corner.
-
     inline void setLowerRight(const djvVector<T, 2> &);
 
     inline djvBox<T, 2> & operator = (const djvBox<T, 2> &);
@@ -185,60 +129,30 @@ struct djvBox<T, 2>
 template<typename T>
 struct djvBox<T, 3>
 {
-    //! Constructor.
-
     inline djvBox();
-
-    //! Constructor.
-
     inline djvBox(const djvBox<T, 3> &);
-
-    //! Constructor.
-
     inline djvBox(const djvVector<T, 3> & position, const djvVector<T, 3> & size);
-
-    //! Constructor.
-
     inline djvBox(const djvVector<T, 3> & size);
-
-    //! Constructor.
-
     inline djvBox(T x, T y, T z, T w, T h, T d);
-
-    //! Constructor.
-
     inline djvBox(T w, T h, T d);
 
-    //! Dimension.
-
     static const int dimension;
-
-    //! Position.
-
     djvVector<T, 3> position;
-
-    //! Size.
-
     djvVector<T, 3> size;
 
-    //! Components.
-
+    //! Component access.
     T & x, & y, & z, & w, & h, & d;
 
     //! Is the box valid (width and height are greater than zero).
-    
     inline bool isValid() const;
     
     //! Zero the box.
-
     inline void zero();
 
     //! Get the lower right hand corner.
-
     inline djvVector<T, 3> lowerRight() const;
 
     //! Set the lower right hand corner.
-
     inline void setLowerRight(const djvVector<T, 3> &);
 
     inline djvBox<T, 3> & operator = (const djvBox<T, 3> &);
@@ -253,22 +167,9 @@ struct djvBox<T, 3>
     inline operator djvBox<double, 3>() const;
 };
 
-//------------------------------------------------------------------------------
-
-//! This typedef provides a two-dimensional integer axis-aligned box.
-
 typedef djvBox<int, 2> djvBox2i;
-
-//! This typedef provides a two-dimensional floating-point axis-aligned box.
-
 typedef djvBox<double, 2> djvBox2f;
-
-//! This typedef provides a three-dimensional integer axis-aligned box.
-
 typedef djvBox<int, 3> djvBox3i;
-
-//! This typedef provides a three-dimensional floating-point axis-aligned box.
-
 typedef djvBox<double, 3> djvBox3f;
 
 Q_DECLARE_METATYPE(djvBox2i)
@@ -314,6 +215,4 @@ inline djvDebug & operator << (djvDebug &, const djvBox<T, D> &);
 #include <djvBoxInline.h>
 #include <djvBox2Inline.h>
 #include <djvBox3Inline.h>
-
-#endif // DJV_BOX_H
 

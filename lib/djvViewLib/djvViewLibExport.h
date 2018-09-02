@@ -29,83 +29,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewLibExport.h
-
-#ifndef DJV_VIEW_LIB_EXPORT_H
-#define DJV_VIEW_LIB_EXPORT_H
-
-//! \addtogroup lib
-//@{
-
-//! \defgroup djvViewLib djvViewLib
-//!
-//! This library provides functionality for the djv_view application.
-
-//@} // lib
-
-//! \addtogroup djvViewLib
-//@{
-
-//! \defgroup djvViewFile djvViewFile
-//!
-//! This module provides file functionality.
-
-//! \defgroup djvViewHelp djvViewHelp
-//!
-//! This module provides help functionality.
-
-//! \defgroup djvViewImage djvViewImage
-//!
-//! This module provides image functionality.
-
-//! \defgroup djvViewMisc djvViewMisc
-//!
-//! This module provides miscellaneous functionality.
-
-//! \defgroup djvViewPlayback djvViewPlayback
-//!
-//! This module provides playback functionality.
-
-//! \defgroup djvViewTool djvViewTool
-//!
-//! This module provides tool functionality.
-
-//! \defgroup djvViewView djvViewView
-//!
-//! This module provides view functionality.
-
-//! \defgroup djvViewWindow djvViewWindow
-//!
-//! This module provides window functionality.
-
-//@} // djvCore
+#pragma once
 
 //! \addtogroup djvViewLib
 //@{
 
 #if defined(DJV_WINDOWS)
-
 #if defined(djvViewLib_EXPORTS)
-
-//! This define provides the Windows template export.
-
 #define DJV_VIEW_LIB_EXPORT __declspec(dllexport)
-
 #else // djvViewLib_EXPORTS
-
-//! This define provides the Windows template export.
-
 #define DJV_VIEW_LIB_EXPORT __declspec(dllimport)
-
 #endif // djvViewLib_EXPORTS
-
 #else // DJV_WINDOWS
-
 #define DJV_VIEW_LIB_EXPORT
-
 #endif // DJV_WINDOWS
 
 //@} // djvViewLibMisc
-
-#endif // DJV_VIEW_LIB_EXPORT_H
 

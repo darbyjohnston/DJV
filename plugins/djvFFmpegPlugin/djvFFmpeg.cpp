@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpeg.cpp
-
 #include <djvFFmpeg.h>
 
 #include <djvAssert.h>
@@ -58,14 +56,11 @@ djvFFmpeg::Dictionary::~Dictionary()
 QMap<QString, QString> djvFFmpeg::Dictionary::map() const
 {
     QMap<QString, QString> out;
-    
     AVDictionaryEntry * entry = 0;
-    
     while ((entry = av_dict_get(_p, "", entry, AV_DICT_IGNORE_SUFFIX)))
     {
         out.insert(entry->key, entry->value);
     }
-    
     return out;
 }
 
@@ -125,9 +120,7 @@ const QStringList & djvFFmpeg::formatLabels()
         qApp->translate("djvFFmpeg", "MPEG4") <<
         qApp->translate("djvFFmpeg", "ProRes") <<
         qApp->translate("djvFFmpeg", "MJPEG");
-
     DJV_ASSERT(data.count() == FORMAT_COUNT);
-
     return data;
 }
 
@@ -137,9 +130,7 @@ const QStringList & djvFFmpeg::qualityLabels()
         qApp->translate("djvFFmpeg", "Low") <<
         qApp->translate("djvFFmpeg", "Medium") <<
         qApp->translate("djvFFmpeg", "High");
-
     DJV_ASSERT(data.count() == QUALITY_COUNT);
-
     return data;
 }
 
@@ -163,13 +154,9 @@ const QStringList & djvFFmpeg::optionsLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvFFmpeg", "Format") <<
         qApp->translate("djvFFmpeg", "Quality");
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvFFmpeg::FORMAT, djvFFmpeg::formatLabels())
 _DJV_STRING_OPERATOR_LABEL(djvFFmpeg::QUALITY, djvFFmpeg::qualityLabels())

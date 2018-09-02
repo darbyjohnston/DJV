@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIfl.h
-
-#ifndef DJV_IFL_H
-#define DJV_IFL_H
+#pragma once
 
 #include <QString>
 
@@ -65,12 +62,8 @@
 
 struct djvIfl
 {
-    //! Plugin name.
-    
     static const QString staticName;
 };
 
 //@} // djvIflPlugin
-
-#endif // DJV_IFL_PLUGIN_H
 

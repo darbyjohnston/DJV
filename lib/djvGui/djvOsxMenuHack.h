@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOsxMenuHack.h
-
-#ifndef DJV_OSX_MENU_HACK_H
-#define DJV_OSX_MENU_HACK_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -65,31 +62,21 @@ class DJV_GUI_EXPORT djvOsxMenuHack : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvOsxMenuHack(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvOsxMenuHack();
     
-    //! Fix the list of actions.
-    
+    //! Fix the list of actions.    
     void fix(const QList<QAction *> &);
 
 private Q_SLOTS:
-
     void actionCallback(QObject *);
 
 private:
-
     DJV_PRIVATE_COPY(djvOsxMenuHack);
     
     djvOsxMenuHackPrivate * _p;
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_OSX_MENU_HACK_H
 

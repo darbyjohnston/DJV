@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractPrefsWidget.h
-
-#ifndef DJV_VIEW_ABSTRACT_PREFS_WIDGET_H
-#define DJV_VIEW_ABSTRACT_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -57,27 +54,18 @@ class DJV_VIEW_LIB_EXPORT djvViewAbstractPrefsWidget :
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewAbstractPrefsWidget(const QString &, djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewAbstractPrefsWidget() = 0;
     
     //! Get the context.
-    
     djvViewContext * context() const;
 
 private:
-
     DJV_PRIVATE_COPY(djvViewAbstractPrefsWidget);
     
     djvViewContext * _context;
 };
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_ABSTRACT_PREFS_WIDGET_H
 

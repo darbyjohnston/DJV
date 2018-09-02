@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatDisplay.h
-
-#ifndef DJV_FLOAT_DISPLAY_H
-#define DJV_FLOAT_DISPLAY_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,7 +53,6 @@ class DJV_GUI_EXPORT djvFloatDisplay : public QWidget
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         double value
         READ   value
@@ -64,49 +60,34 @@ class DJV_GUI_EXPORT djvFloatDisplay : public QWidget
         NOTIFY valueChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvFloatDisplay(QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvFloatDisplay();
 
     //! Get the value.
-
     double value() const;
     
     //! Get the minimum value.
-    
     double min() const;
     
     //! Get the maximum value.
-    
     double max() const;
 
 public Q_SLOTS:
-
     //! Set the value.
-
     void setValue(double);
 
     //! Set the value range.
-    
     void setRange(double min, double max);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-    
     void valueChanged(double);
 
     //! This signal is emitted when the range is changed.
-    
     void rangeChanged(double min, double max);
     
 private:
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvFloatDisplay);
@@ -115,6 +96,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_FLOAT_DISPLAY_H
 

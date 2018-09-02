@@ -34,6 +34,7 @@ set(header
     djvViewInputPrefs.h
     djvViewInputPrefsWidget.h
     djvViewLibExport.h
+    djvViewLib.h
 	djvViewMagnifyTool.h
     djvViewMainWindow.h
     djvViewMiscWidget.h

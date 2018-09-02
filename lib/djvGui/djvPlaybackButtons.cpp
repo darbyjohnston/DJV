@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPlaybackButtons.cpp
-
 #include <djvPlaybackButtons.h>
 
 #include <djvGuiContext.h>
@@ -94,11 +92,8 @@ void djvPlaybackButtons::setPlayback(djvPlaybackUtil::PLAYBACK playback)
 {
     if (playback == _playback)
         return;
-    
     _playback = playback;
-    
     _buttonGroup->buttons()[_playback]->setChecked(true);
-    
     Q_EMIT playbackChanged(_playback);
 }
 

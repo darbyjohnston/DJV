@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAssert.h
-
-#ifndef DJV_ASSERT_H
-#define DJV_ASSERT_H
+#pragma once
 
 #include <djvConfig.h>
 #include <djvCoreExport.h>
@@ -40,28 +37,16 @@
 //! \addtogroup djvCoreMisc
 //@{
 
-//! Assert macro.
-
 #if defined(DJV_ASSERT)
-
 #undef DJV_ASSERT
-
-//! Assert macro.
-
 #define DJV_ASSERT(IN) \
-    \
     if (! (IN)) \
         _djvAssert(__FILE__, __LINE__)
-
 #else
-
 #define DJV_ASSERT(IN)
-
 #endif
 
 DJV_CORE_EXPORT void _djvAssert(const char * file, int line);
 
 //@} // djvCoreMisc
-
-#endif // DJV_ASSERT_H
 

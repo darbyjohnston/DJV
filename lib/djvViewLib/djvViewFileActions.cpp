@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFileActions.cpp
-
 #include <djvViewFileActions.h>
 
 #include <djvViewContext.h>
@@ -73,7 +71,6 @@ djvViewFileActions::djvViewFileActions(
     _p(new djvViewFileActionsPrivate)
 {
     // Create the actions.
-
     for (int i = 0; i < ACTION_COUNT; ++i)
     {
         _actions[i] = new QAction(this);
@@ -121,7 +118,6 @@ djvViewFileActions::djvViewFileActions(
     _actions[EXIT]->setText(qApp->translate("djvViewFileActions", "E&xit"));
 
     // Create the action groups.
-
     for (int i = 0; i < GROUP_COUNT; ++i)
     {
         _groups[i] = new QActionGroup(this);
@@ -142,16 +138,13 @@ djvViewFileActions::djvViewFileActions(
     }
 
     // Initialize.
-
     update();
 
     // Setup the callbacks.
-
     connect(
         context->filePrefs(),
         SIGNAL(recentChanged(const djvFileInfoList &)),
         SLOT(update()));
-
     connect(
         context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -167,9 +160,7 @@ void djvViewFileActions::setLayers(const QStringList & layers)
 {
     if (layers == _p->layers)
         return;
-
     _p->layers = layers;
-
     update();
 }
 
@@ -177,9 +168,7 @@ void djvViewFileActions::setLayer(int layer)
 {
     if (layer == _p->layer)
         return;
-
     _p->layer = layer;
-
     update();
 }
 
@@ -189,53 +178,41 @@ void djvViewFileActions::update()
         context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
-
     _actions[OPEN]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_OPEN].value);
     _actions[OPEN]->setToolTip(
         qApp->translate("djvViewFileActions", "Open a new file\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_OPEN].value.toString()));
-
     _actions[RELOAD]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD].value);
     _actions[RELOAD]->setToolTip(
         qApp->translate("djvViewFileActions", "Reload the current file\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD].value.toString()));
-
     _actions[RELOAD_FRAME]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD_FRAME].value);
     _actions[RELOAD_FRAME]->setToolTip(
         qApp->translate("djvViewFileActions", "Reload the current frame\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_RELOAD_FRAME].value.toString()));
-
     _actions[CLOSE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_CLOSE].value);
     _actions[CLOSE]->setToolTip(
         qApp->translate("djvViewFileActions", "Close the current file\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_FILE_CLOSE].value.toString()));
-
     _actions[SAVE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_SAVE].value);
-
     _actions[SAVE_FRAME]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_SAVE_FRAME].value);
-
     _actions[LAYER_PREV]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_PREV].value);
-
     _actions[LAYER_NEXT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_NEXT].value);
-
     _actions[EXIT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_EXIT].value);
 
     // Update the action groups.
-
     Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())
         delete action;
-
     const djvFileInfoList & recent = context()->filePrefs()->recentFiles();
-
     for (int i = 0; i < recent.count(); ++i)
     {
         QAction * action = new QAction(this);
@@ -244,10 +221,8 @@ void djvViewFileActions::update()
 
         _groups[RECENT_GROUP]->addAction(action);
     }
-
     Q_FOREACH(QAction * action, _groups[LAYER_GROUP]->actions())
         delete action;
-
     const QVector<QKeySequence> layerShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_DEFAULT].value <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_1].value <<
@@ -260,7 +235,6 @@ void djvViewFileActions::update()
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_8].value <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_9].value <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_LAYER_10].value;
-
     for (int i = 0; i < _p->layers.count(); ++i)
     {
         QAction * action = new QAction(this);
@@ -270,26 +244,21 @@ void djvViewFileActions::update()
         action->setShortcut(
             i < layerShortcuts.count() ? layerShortcuts[i] : QKeySequence());
         action->setData(i);
-
         _groups[LAYER_GROUP]->addAction(action);
     }
-    
     const QVector<QKeySequence> proxyShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_PROXY_NONE].value <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_PROXY_1_2].value <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_PROXY_1_4].value <<
         shortcuts[djvViewUtil::SHORTCUT_FILE_PROXY_1_8].value;
-
     for (int i = 0; i < _groups[PROXY_GROUP]->actions().count(); ++i)
     {
         _groups[PROXY_GROUP]->actions()[i]->setShortcut(proxyShortcuts[i]);
     }
 
     // Fix up the actions.
-    
     osxMenuHack();
 
     // Emit changed signal.
-
     Q_EMIT changed();
 }

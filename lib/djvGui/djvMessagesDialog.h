@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMessagesDialog.h
-
-#ifndef DJV_MESSAGES_DIALOG_H
-#define DJV_MESSAGES_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -59,46 +56,33 @@ class DJV_GUI_EXPORT djvMessagesDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvMessagesDialog(djvGuiContext *);
-
-    //! Destructor.
 
     virtual ~djvMessagesDialog();
 
     //! Add a message to the dialog.
-
     void message(const QString &);
 
     //! Add an error to the dialog.
-
     void message(const djvError &);
 
     //! Clear the messages.
-
     void clear();
     
 protected:
-
     virtual void showEvent(QShowEvent *);
     
 private Q_SLOTS:
-
     void clearCallback();
     void showCallback(bool);
 
     void updateWidget();
     
 private:
-    
     DJV_PRIVATE_COPY(djvMessagesDialog);
     
     djvMessagesDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_MESSAGES_DIALOG_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractActions.cpp
-
 #include <djvViewAbstractActions.h>
 
 #include <djvOsxMenuHack.h>
@@ -98,12 +96,11 @@ djvViewContext * djvViewAbstractActions::context() const
 
 void djvViewAbstractActions::osxMenuHack()
 {
-    QList<QAction *> actions = _actions.values();
-    
+    QList<QAction *> actions = _actions.values();    
     Q_FOREACH(QActionGroup * group, _groups)
     {
         actions += group->actions();
     }
-    
     _p->osxMenuHack->fix(actions);
 }
+

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffLoad.h
-
-#ifndef DJV_TIFF_LOAD_H
-#define DJV_TIFF_LOAD_H
+#pragma once
 
 #include <djvTiff.h>
 
@@ -51,12 +48,7 @@
 class djvTiffLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-
     explicit djvTiffLoad(djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvTiffLoad();
 
@@ -69,7 +61,6 @@ public:
     virtual void close() throw (djvError);
 
 private:
-
     void _open(const QString &, djvImageIoInfo &) throw (djvError);
 
     djvFileInfo  _file;
@@ -81,6 +72,4 @@ private:
 };
 
 //@} // djvTiffPlugin
-
-#endif // DJV_TIFF_LOAD_H
 

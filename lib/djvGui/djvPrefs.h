@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefs.h
-
-#ifndef DJV_PREFS_H
-#define DJV_PREFS_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -61,66 +58,50 @@ class DJV_GUI_EXPORT djvPrefs
     
 public:
 
-    //! This enumeration provides the preferences scope.
-    
+    //! This enumeration provides the preferences scope.    
     enum SCOPE
     {
         USER,
         SYSTEM
     };
 
-    //! Constructor.
-
     djvPrefs(const QString & group, SCOPE = USER);
-
-    //! Destructor.
 
     ~djvPrefs();
 
     //! Get the preferences scope.
-
     SCOPE scope() const;
 
     //! Get a preference.
-
     template<typename T>
     inline bool get(const QString &, T &) const;
 
     //! Set a preference.
-
     template<typename T>
     inline void set(const QString &, const T &);
 
     //! Remove a preference.
-
     void remove(const QString &);
 
     //! Check whether a preference exists.
-
     bool contains(const QString &) const;
 
     //! Get the list of preferences.
-
     QStringList list() const;
 
     //! Get the preferences file name.
-
     QString fileName() const;
 
     //! Get whether preferences are in reset mode. Reset mode disables the
     //! reading of preferences.
-
     static bool hasReset();
 
     //! Set whether preferences are in reset mode. Reset mode disables the
     //! reading of preferences.
-
     static void setReset(bool);
 
 private:
-
     bool _get(const QString &, QStringList &) const;
-
     void _set(const QString &, const QStringList &);
     
     DJV_PRIVATE_COPY(djvPrefs);
@@ -131,6 +112,4 @@ private:
 //@} // djvGuiMisc
 
 #include <djvPrefsInline.h>
-
-#endif // DJV_PREFS_H
 

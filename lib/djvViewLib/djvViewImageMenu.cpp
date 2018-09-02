@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageMenu.cpp
-
 #include <djvViewImageMenu.h>
 
 #include <djvViewImageActions.h>
@@ -61,7 +59,6 @@ djvViewImageMenu::djvViewImageMenu(
     _p(new djvViewImageMenuPrivate)
 {
     // Create the menus.
-
     addAction(actions->action(djvViewImageActions::FRAME_STORE));
     addAction(actions->action(djvViewImageActions::LOAD_FRAME_STORE));
 
@@ -97,9 +94,7 @@ djvViewImageMenu::djvViewImageMenu(
         actions->group(djvViewImageActions::CHANNEL_GROUP)->actions());
 
     // Initialize.
-
     setTitle(qApp->translate("djvViewImageMenu", "&Image"));
-
     menuUpdate();
 }
 
@@ -111,7 +106,7 @@ djvViewImageMenu::~djvViewImageMenu()
 void djvViewImageMenu::menuUpdate()
 {
     _p->displayProfileMenu->clear();
-
     _p->displayProfileMenu->addActions(
         actions()->group(djvViewImageActions::DISPLAY_PROFILE_GROUP)->actions());
 }
+

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMatrix3Inline.h
-
 //------------------------------------------------------------------------------
 // djvMatrix<T, 3>
 //------------------------------------------------------------------------------
@@ -104,7 +102,6 @@ inline void djvMatrix<T, 3>::identity()
 {
     static const T zero = static_cast<T>(0.0);
     static const T one  = static_cast<T>(1.0);
-
     for (int i = 0; i < 3; ++i)
     {
         for (int j = 0; j < 3; ++j)
@@ -118,7 +115,6 @@ template<typename T>
 inline void djvMatrix<T, 3>::zero()
 {
     static const T zero = static_cast<T>(0.0);
-
     for (int i = 0; i < dimensionX2; ++i)
     {
         e[i] = zero;
@@ -135,6 +131,5 @@ inline djvMatrix<T, 3> & djvMatrix<T, 3>::operator = (const djvMatrix<T, 3> & in
             e[i] = in.e[i];
         }
     }
-
     return *this;
 }

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVectorInline.h
-
 #include <djvDebug.h>
 
 //------------------------------------------------------------------------------
@@ -71,7 +69,6 @@ inline djvVector<T, D> & djvVector<T, D>::operator = (const djvVector<T, D> & in
             djvVector<T, D>::e[i] = in.e[i];
         }
     }
-
     return *this;
 }
 
@@ -94,7 +91,6 @@ inline void djvVector<T, D>::zero()
 }
 
 #define _VEC_OP(IN) \
-    \
     template<typename T, int D> \
     inline djvVector<T, D> & djvVector<T, D>::operator IN (const djvVector<T, D> & in) \
     { \
@@ -102,7 +98,6 @@ inline void djvVector<T, D>::zero()
         { \
             djvVector<T, D>::e[i] IN in.e[i]; \
         } \
-        \
         return *this; \
     }
 
@@ -112,7 +107,6 @@ _VEC_OP(*=)
 _VEC_OP(/=)
 
 #define _VEC_OP2(IN) \
-    \
     template<typename T, int D> \
     inline djvVector<T, D> & djvVector<T, D>::operator IN (T in) \
     { \
@@ -120,7 +114,6 @@ _VEC_OP(/=)
         { \
             djvVector<T, D>::e[i] IN in; \
         } \
-        \
         return *this; \
     }
 
@@ -129,10 +122,7 @@ _VEC_OP2(-=)
 _VEC_OP2(*=)
 _VEC_OP2(/=)
 
-//------------------------------------------------------------------------------
-
 #define _VEC_FNC_OP(IN) \
-    \
     template<typename T, int D> \
     inline djvVector<T, D> operator IN (const djvVector<T, D> & a, const djvVector<T, D> & b) \
     { \
@@ -142,7 +132,6 @@ _VEC_OP2(/=)
         { \
             out.e[i] = a.e[i] IN b.e[i]; \
         } \
-        \
         return out; \
     }
 
@@ -152,17 +141,14 @@ _VEC_FNC_OP(*)
 _VEC_FNC_OP(/)
 
 #define _VEC_FNC_OP2(IN) \
-    \
     template<typename T, int D> \
     inline djvVector<T, D> operator IN (const djvVector<T, D> & a, T b) \
     { \
         djvVector<T, D> out; \
-        \
         for (int i = 0; i < a.dimension; ++i) \
         { \
             out.e[i] = a.e[i] IN b; \
         } \
-        \
         return out; \
     }
 
@@ -175,12 +161,10 @@ template<typename T, int D>
 inline djvVector<T, D> operator - (const djvVector<T, D> & in)
 {
     djvVector<T, D> out;
-
     for (int i = 0; i < in.dimension; ++i)
     {
         out.e[i] = -in.e[i];
     }
-
     return out;
 }
 
@@ -191,7 +175,6 @@ inline QStringList & operator << (QStringList & out, const djvVector<T, D> & in)
     {
         out << in.e[i];
     }
-
     return out;
 }
 
@@ -202,12 +185,10 @@ inline QStringList & operator >> (QStringList & in, djvVector<T, D> & out) throw
     {
         in >> out.e[i];
     }
-
     return in;
 }
 
 #define _VEC_COMPARE(IN) \
-    \
     template<typename T, int D> \
     inline bool operator IN (const djvVector<T, D> & a, const djvVector<T, D> & b) \
     { \
@@ -218,7 +199,6 @@ inline QStringList & operator >> (QStringList & in, djvVector<T, D> & out) throw
                 return false; \
             } \
         } \
-        \
         return true; \
     }
 
@@ -240,11 +220,9 @@ inline djvDebug & operator << (djvDebug & debug, const djvVector<T, D> & in)
     for (int i = 0; i < in.dimension; ++i)
     {
         debug << in.e[i];
-
         if (i < in.dimension - 1)
             debug << " ";
     }
-
     return debug;
 }
 

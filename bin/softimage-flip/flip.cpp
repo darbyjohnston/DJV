@@ -215,7 +215,6 @@ void processNew( int argc, char **argv )
 
 int main( int argc, char **argv )
 {
-
     if (argc == 1)
     {
         //there were no argument supplied so just launch djv_view without any
@@ -223,9 +222,7 @@ int main( int argc, char **argv )
         system("djv_view");
         return 0;
     }
-
     string firstArg(argv[1]);
-
     if (firstArg == "-m")
     {
         processNew(argc, argv);
@@ -234,7 +231,6 @@ int main( int argc, char **argv )
     {
         processOld(argc, argv);
     }
-
     return 0;
 }
 

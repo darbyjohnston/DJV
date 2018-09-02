@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvProgressDialog.h
-
-#ifndef DJV_PROGRESS_DIALOG_H
-#define DJV_PROGRESS_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,52 +53,37 @@ class DJV_GUI_EXPORT djvProgressDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvProgressDialog(
         const QString & label  = QString(),
         QWidget *       parent = 0);
 
-    //! Destructor.
-
     virtual ~djvProgressDialog();
 
     //! Get the label.
-
     const QString & label() const;
 
     //! Set the label.
-
     void setLabel(const QString &);
 
 public Q_SLOTS:
-
     //! Start the progress.
-
     void start(int);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the progress is changed.
-
     void progressSignal(int);
 
     //! This signal is emitted when the progress is finished or cancelled.
-
     void finishedSignal();
 
 protected:
-
     virtual void hideEvent(QHideEvent *);
     virtual void timerEvent(QTimerEvent *);
 
 private Q_SLOTS:
-
     void rejectedCallback();
     
 private:
-    
     void stopTimer();
 
     DJV_PRIVATE_COPY(djvProgressDialog);
@@ -110,6 +92,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_PROGRESS_DIALOG_H
 

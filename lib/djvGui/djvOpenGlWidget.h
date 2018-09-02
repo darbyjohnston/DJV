@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlWidget.h
-
-#ifndef DJV_OPEN_GL_WIDGET_H
-#define DJV_OPEN_GL_WIDGET_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -54,19 +51,12 @@ class DJV_GUI_EXPORT djvOpenGlWidget : public QOpenGLWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvOpenGlWidget(
         QWidget *         parent      = 0,
         Qt::WindowFlags   flags       = 0);
-
-    //! Destructor.
 
     virtual ~djvOpenGlWidget();    
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_OPEN_GL_WIDGET_H
 

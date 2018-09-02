@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageActions.h
-
-#ifndef DJV_VIEW_IMAGE_ACTIONS_H
-#define DJV_VIEW_IMAGE_ACTIONS_H
+#pragma once
 
 #include <djvViewAbstractActions.h>
 
@@ -54,9 +51,7 @@ class DJV_VIEW_LIB_EXPORT djvViewImageActions : public djvViewAbstractActions
     Q_ENUMS(GROUP)
     
 public:
-
     //! This enumeration provides the actions.
-
     enum ACTION
     {
         FRAME_STORE,
@@ -70,7 +65,6 @@ public:
     };
 
     //! This enumeration provides the action groups.
-
     enum GROUP
     {
         SCALE_GROUP,
@@ -81,26 +75,18 @@ public:
         GROUP_COUNT
     };
 
-    //! Constructor.
-
     explicit djvViewImageActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewImageActions();
 
 private Q_SLOTS:
-
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewImageActions);
     
     djvViewImageActionsPrivate * _p;
 };
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_IMAGE_ACTIONS_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLsContext.h
-
-#ifndef DJV_LS_CONTEXT_H
-#define DJV_LS_CONTEXT_H
+#pragma once
 
 #include <djvFileInfoUtil.h>
 #include <djvImageContext.h>
@@ -51,67 +48,49 @@ class djvLsContext : public djvImageContext
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvLsContext(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvLsContext();
     
-    //! Get the list of inputs.
-    
+    //! Get the list of inputs.    
     const QStringList & input() const;
 
     //! Get whether to show file information.
-    
     bool hasFileInfo() const;
 
     //! Get whether to show file paths.
-    
     bool hasFilePath() const;
 
     //! Get the file sequencing.
-    
     djvSequence::COMPRESS sequence() const;
 
     //! Get whether to descend into sub-directories.
-    
     bool hasRecurse() const;
 
     //! Get whether to show hidden files.
-    
     bool hasHidden() const;
 
     //! Get the list of file globs.
-    
     const QStringList & glob() const;
 
     //! Get the number of columns for formatting the output.
-    
     int columns() const;
 
     //! Get the sorting.
-    
     djvFileInfoUtil::SORT sort() const;
 
     //! Get whether to reverse the sorting order.
-    
     bool hasReverseSort() const;
 
     //! Get whether directories are sorted first.
-    
     bool hasSortDirsFirst() const;
 
 protected:
-
     virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
     
 private:
-
     QStringList           _input;
     bool                  _fileInfo;
     bool                  _filePath;
@@ -126,6 +105,4 @@ private:
 };
 
 //@} // djv_ls
-
-#endif // DJV_LS_CONTEXT_H
 

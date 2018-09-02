@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewPrefsWidget.h
-
-#ifndef DJV_VIEW_VIEW_PREFS_WIDGET_H
-#define DJV_VIEW_VIEW_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -57,19 +54,13 @@ class DJV_VIEW_LIB_EXPORT djvViewViewPrefsWidget :
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewViewPrefsWidget(djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewViewPrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void zoomFactorCallback(int);
     void backgroundCallback(const djvColor &);
     void gridCallback(int);
@@ -83,13 +74,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewViewPrefsWidget);
     
     djvViewViewPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewView
-
-#endif // DJV_VIEW_VIEW_PREFS_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFileGroup.cpp
-
 #include <djvViewFileGroup.h>
 
 #include <djvViewContext.h>
@@ -131,108 +129,85 @@ djvViewFileGroup::djvViewFileGroup(
     }
 
     // Create the actions.
-
     _p->actions = new djvViewFileActions(context, this);
     
     // Create the menus.
-
     _p->menu = new djvViewFileMenu(_p->actions, mainWindow->menuBar());
-
     mainWindow->menuBar()->addMenu(_p->menu);
 
     // Create the widgets.
-
     _p->toolBar = new djvViewFileToolBar(_p->actions, context);
-
     mainWindow->addToolBar(_p->toolBar);
 
     // Initialize.
-
     if (copy)
     {
         open(_p->fileInfo);
     }
-
     preloadUpdate();
     update();
 
     // Setup the action callbacks.
-
     connect(
         _p->actions->action(djvViewFileActions::OPEN),
         SIGNAL(triggered()),
         SLOT(openCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::RELOAD),
         SIGNAL(triggered()),
         SLOT(reloadCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::RELOAD_FRAME),
         SIGNAL(triggered()),
         SLOT(reloadFrameCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::CLOSE),
         SIGNAL(triggered()),
         SLOT(closeCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::SAVE),
         SIGNAL(triggered()),
         SLOT(saveCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::SAVE_FRAME),
         SIGNAL(triggered()),
         SLOT(saveFrameCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::LAYER_PREV),
         SIGNAL(triggered()),
         SLOT(layerPrevCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::LAYER_NEXT),
         SIGNAL(triggered()),
         SLOT(layerNextCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::U8_CONVERSION),
         SIGNAL(toggled(bool)),
         SLOT(setU8Conversion(bool)));
-
     connect(
         _p->actions->action(djvViewFileActions::CACHE),
         SIGNAL(toggled(bool)),
         SLOT(setCache(bool)));
-
     connect(
         _p->actions->action(djvViewFileActions::PRELOAD),
         SIGNAL(toggled(bool)),
         SLOT(setPreload(bool)));
-
     connect(
         _p->actions->action(djvViewFileActions::CLEAR_CACHE),
         SIGNAL(triggered()),
         SLOT(cacheClearCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::MESSAGES),
         SIGNAL(triggered()),
         SLOT(messagesCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::PREFS),
         SIGNAL(triggered()),
         SLOT(prefsCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::DEBUG_LOG),
         SIGNAL(triggered()),
         SLOT(debugLogCallback()));
-
     connect(
         _p->actions->action(djvViewFileActions::EXIT),
         SIGNAL(triggered()),
@@ -240,51 +215,42 @@ djvViewFileGroup::djvViewFileGroup(
         SLOT(quit()));
 
     // Setup the action group callbacks.
-
     connect(
         _p->actions->group(djvViewFileActions::RECENT_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(recentCallback(QAction *)));
-
     connect(
         _p->actions->group(djvViewFileActions::LAYER_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(layerCallback(QAction *)));
-
     connect(
         _p->actions->group(djvViewFileActions::PROXY_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(proxyCallback(QAction *)));
 
     // Setup the preferences callbacks.
-
     connect(
         context->filePrefs(),
         SIGNAL(proxyChanged(djvPixelDataInfo::PROXY)),
         SLOT(setProxy(djvPixelDataInfo::PROXY)));
-
     connect(
         context->filePrefs(),
         SIGNAL(u8ConversionChanged(bool)),
         SLOT(setU8Conversion(bool)));
-
     connect(
         context->filePrefs(),
         SIGNAL(cacheChanged(bool)),
         SLOT(setCache(bool)));
-
     connect(
         context->filePrefs(),
         SIGNAL(cacheSizeChanged(double)),
         SLOT(preloadUpdate()));
-
     connect(
         context->filePrefs(),
         SIGNAL(preloadChanged(bool)),
         SLOT(setPreload(bool)));
 
     // Setup other callbacks.
-
     connect(
         context->imageIoFactory(),
         SIGNAL(optionChanged()),
@@ -296,19 +262,15 @@ djvViewFileGroup::~djvViewFileGroup()
     if (_p->preloadTimer)
     {
         killTimer(_p->preloadTimer);
-
         _p->preloadTimer = 0;
     }
-    
     _p->image = 0;
 
     // Cleanup.
-
     if (_p->cacheItem)
     {
         _p->cacheItem->decrement();
     }
-
     cacheDel();
 
     delete _p;
@@ -360,21 +322,14 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
     //DJV_DEBUG_PRINT("frame = " << frame);
 
     djvViewFileGroup * that = const_cast<djvViewFileGroup *>(this);
-
     that->mainWindow()->viewWidget()->makeCurrent();
-
     djvViewFileCache * cache = context()->fileCache();
-
     that->_p->image = 0;
-
     djvViewFileCacheItem * prev = _p->cacheItem;
-
     that->_p->cacheItem = _p->cache ? cache->get(mainWindow(), frame) : 0;
-
     if (_p->cacheItem)
     {
         //DJV_DEBUG_PRINT("cached image");
-
         that->_p->image = _p->cacheItem->image();
     }
     else
@@ -382,7 +337,6 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
         if (_p->imageLoad.data())
         {
             //DJV_DEBUG_PRINT("loading image");
-
             try
             {
                 _p->imageLoad->read(
@@ -399,7 +353,6 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                 error.add(
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
-
                 context()->printError(error);
             }
 
@@ -409,18 +362,15 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                 {
                     //DJV_DEBUG_PRINT("u8 conversion");
                     //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
-
                     djvPixelDataInfo info(_p->imageTmp2.info());
                     info.pixel = djvPixel::pixel(
                         djvPixel::format(info.pixel), djvPixel::U8);
                     that->_p->imageTmp.set(info);
                     that->_p->imageTmp.tags = _p->imageTmp2.tags;
                     that->_p->imageTmp.colorProfile = djvColorProfile();
-
                     djvOpenGlImageOptions options;
                     options.colorProfile = _p->imageTmp2.colorProfile;
                     options.proxyScale = false;
-
                     djvOpenGlImage::copy(_p->imageTmp2, that->_p->imageTmp, options);
                 }
             }
@@ -429,36 +379,27 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                 error.add(
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_READ_IMAGE].
                     arg(QDir::toNativeSeparators(_p->fileInfo)));
-
                 context()->printError(error);
             }
-
             that->_p->image = &_p->imageTmp;
-
             //DJV_DEBUG_PRINT("image = " << *that->_p->image);
         }
-
         if (_p->cache && _p->image)
         {
-            //DJV_DEBUG_PRINT("cache image");
-            
+            //DJV_DEBUG_PRINT("cache image");   
             that->_p->cacheItem = cache->create(
                 new djvImage(*_p->image),
                 mainWindow(),
                 frame);
-            
             that->_p->image = _p->cacheItem->image();
-            
             _p->imageTmp.close();
             _p->imageTmp2.close();
         }
     }
-
     if (prev)
     {
         prev->decrement();
     }
-
     return _p->image;
 }
 
@@ -482,26 +423,20 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
         QString("Open file = \"%1\"").arg(fileInfo));
 
     cacheDel();
-
     djvFileInfo tmp = fileInfo;
-
     _p->fileInfo = djvFileInfo();
     _p->imageIoInfo = djvImageIoInfo();
     _p->imageLoad.reset();
 
     // Load the file.
-
     if (! tmp.fileName().isEmpty())
     {
         //DJV_DEBUG_PRINT("loading...");
-
         try
         {
             _p->imageLoad.reset(
                 context()->imageIoFactory()->load(tmp, _p->imageIoInfo));
-
             _p->fileInfo = tmp;
-
             context()->filePrefs()->addRecent(_p->fileInfo);
         }
         catch (djvError error)
@@ -509,7 +444,6 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_OPEN_IMAGE].
                 arg(QDir::toNativeSeparators(tmp)));
-
             context()->printError(error);
         }
     }
@@ -521,7 +455,6 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
 
     _p->layer = 0;
     _p->layers.clear();
-
     for (int i = 0; i < _p->imageIoInfo.layerCount(); ++i)
     {
         _p->layers += _p->imageIoInfo[i].layerName;
@@ -535,22 +468,15 @@ void djvViewFileGroup::setLayer(int layer)
 {
     if (layer == _p->layer)
         return;
-
     //DJV_DEBUG("djvViewFileGroup::setLayer");
     //DJV_DEBUG_PRINT("layer = " << layer);
-
     const int count = _p->layers.count();
-
     //DJV_DEBUG_PRINT("layer list = " << size);
-
     _p->layer = djvMath::wrap(layer, 0, count - 1);
-
     //DJV_DEBUG_PRINT("layer = " << _layer);
-
     cacheDel();
     preloadUpdate();
     update();
-
     Q_EMIT imageChanged();
 }
 
@@ -558,16 +484,12 @@ void djvViewFileGroup::setProxy(djvPixelDataInfo::PROXY proxy)
 {
     if (proxy == _p->proxy)
         return;
-
     //DJV_DEBUG("djvViewFileGroup::setProxy");
     //DJV_DEBUG_PRINT("proxy = " << proxy);
-
     _p->proxy = proxy;
-
     cacheDel();
     preloadUpdate();
     update();
-
     Q_EMIT imageChanged();
 }
 
@@ -575,13 +497,10 @@ void djvViewFileGroup::setU8Conversion(bool conversion)
 {
     if (conversion == _p->u8Conversion)
         return;
-        
     _p->u8Conversion = conversion;
-
     cacheDel();
     preloadUpdate();
     update();
-
     Q_EMIT imageChanged();
 }
 
@@ -589,16 +508,12 @@ void djvViewFileGroup::setCache(bool cache)
 {
     if (cache == _p->cache)
         return;
-
     //DJV_DEBUG("djvViewFileGroup::setCache");
     //DJV_DEBUG_PRINT("cache = " << cache);
-
     _p->cache = cache;
-
     cacheDel();
     preloadUpdate();
     update();
-
     Q_EMIT imageChanged();
 }
 
@@ -606,12 +521,9 @@ void djvViewFileGroup::setPreload(bool preload)
 {
     if (preload == _p->preload)
         return;
-
     //DJV_DEBUG("djvViewFileGroup::setPreload");
     //DJV_DEBUG_PRINT("preload = " << preload);
-
     _p->preload = preload;
-
     preloadUpdate();
     update();
 }
@@ -620,12 +532,9 @@ void djvViewFileGroup::setPreloadActive(bool active)
 {
     if (active == _p->preloadActive)
         return;
-
     //DJV_DEBUG("djvViewFileGroup::setPreloadActive");
     //DJV_DEBUG_PRINT("active = " << active);
-
     _p->preloadActive = active;
-
     preloadUpdate();
     update();
 }
@@ -634,9 +543,7 @@ void djvViewFileGroup::setPreloadFrame(qint64 frame)
 {
     if (frame == _p->preloadFrame)
         return;
-
     _p->preloadFrame = frame;
-
     preloadUpdate();
     update();
 }
@@ -645,9 +552,8 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
 {
     //DJV_DEBUG("djvViewFileGroup::timerEvent");
     //DJV_DEBUG_PRINT("preload frame        = " << _p->preloadFrame);
-
+    
     djvViewFileCache * cache = context()->fileCache();
-
     //DJV_DEBUG_PRINT("cache byte count     = " << cache->byteCount());
     //DJV_DEBUG_PRINT("cache max byte count = " << cache->maxByteCount());
 
@@ -655,13 +561,11 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
 
     // Search for the next frame that isn't in the cache. We then load the
     // frame if it won't exceed the cache size.
-
     bool      preload     = false;
     quint64   byteCount   = 0;
     qint64    frame       = _p->preloadFrame;
     int       frameCount  = 0;
     const int totalFrames = _p->imageIoInfo.sequence.frames.count();
-
     for (;
         byteCount <= cache->maxByteCount() &&
         frameCount < totalFrames;
@@ -669,24 +573,19 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
     {
         if (djvViewFileCacheItem * item = cache->get(mainWindow(), frame))
         {
-            byteCount += djvPixelDataUtil::dataByteCount(
-                item->image()->info());
-
+            byteCount += djvPixelDataUtil::dataByteCount(item->image()->info());
             item->decrement();
         }
         else
         {
             byteCount += djvPixelDataUtil::dataByteCount(_p->imageIoInfo);
-
             if (byteCount <= cache->maxByteCount())
             {
                 preload = true;
             }
-
             break;
         }
     }
-
     //DJV_DEBUG_PRINT("byteCount            = " << byteCount);
     //DJV_DEBUG_PRINT("preload              = " << preload);
     //DJV_DEBUG_PRINT("frame                = " << frame);
@@ -694,13 +593,10 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
     if (preload)
     {
         mainWindow()->viewWidget()->makeCurrent();
-
         djvImage * image = 0;
-
         if (_p->imageLoad.data())
         {
             //DJV_DEBUG_PRINT("loading image");
-
             try
             {
                 _p->imageLoad->read(
@@ -714,14 +610,12 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
             }
             catch (const djvError &)
             {}
-
             try
             {
                 if (_p->u8Conversion)
                 {
                     //DJV_DEBUG_PRINT("u8 conversion");
                     //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
-
                     djvPixelDataInfo info(_p->imageTmp2.info());
                     info.pixel = djvPixel::pixel(
                         djvPixel::format(info.pixel), djvPixel::U8);
@@ -738,14 +632,11 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
             }
             catch (const djvError &)
             {}
-
             image = &_p->imageTmp;
         }
-
         if (image)
         {
             //DJV_DEBUG_PRINT("image = " << *image);
-
             if (djvViewFileCacheItem * item = cache->create(
                 new djvImage(*image),
                 mainWindow(),
@@ -753,7 +644,6 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
             {
                 item->decrement();
             }
-
             _p->imageTmp.close();
             _p->imageTmp2.close();
         }
@@ -761,7 +651,6 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
     else
     {
         killTimer(_p->preloadTimer);
-
         _p->preloadTimer = 0;
     }
 }
@@ -770,14 +659,11 @@ void djvViewFileGroup::openCallback()
 {
     djvFileBrowser * fileBrowser = context()->fileBrowser(
         qApp->translate("djvViewFileGroup", "Open"));
-
     fileBrowser->setPinnable(true);
-    
     connect(
         fileBrowser,
         SIGNAL(fileInfoChanged(const djvFileInfo &)),
         SLOT(openCallback(const djvFileInfo &)));
-    
     fileBrowser->show();
     fileBrowser->raise();
 }
@@ -790,29 +676,21 @@ void djvViewFileGroup::openCallback(const djvFileInfo & fileInfo)
 void djvViewFileGroup::recentCallback(QAction * action)
 {
     //DJV_DEBUG("djvViewFileGroup::recentCallback");
-    
     const int index = action->data().toInt();
-
     djvFileInfo fileInfo = context()->filePrefs()->recentFiles()[index];
-    
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
-
     mainWindow()->fileOpen(fileInfo);
 }
 
 void djvViewFileGroup::reloadCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::reloadCallback");
-
     if (context()->imagePrefs()->hasFrameStoreFileReload())
     {
         Q_EMIT loadFrameStore();
     }
-
     cacheDel();
-
     _p->imageLoad.reset();
-
     if (! _p->fileInfo.fileName().isEmpty())
     {
         try
@@ -829,23 +707,18 @@ void djvViewFileGroup::reloadCallback()
             context()->printError(error);
         }
     }
-
     Q_EMIT imageChanged();
 }
 
 void djvViewFileGroup::reloadFrameCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::reloadFrameCallback");
-
     if (context()->imagePrefs()->hasFrameStoreFileReload())
     {
         Q_EMIT loadFrameStore();
     }
-    
     Q_EMIT reloadFrame();
-    
     _p->imageLoad.reset();
-
     if (! _p->fileInfo.fileName().isEmpty())
     {
         try
@@ -862,38 +735,30 @@ void djvViewFileGroup::reloadFrameCallback()
             context()->printError(error);
         }
     }
-
     Q_EMIT imageChanged();
 }
 
 void djvViewFileGroup::closeCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::closeCallback");
-
     mainWindow()->fileOpen(djvFileInfo());
 }
 
 void djvViewFileGroup::saveCallback()
 {
     //DJV_DEBUG("djvViewFileGroup::saveCallback");
-
     djvFileBrowser * fileBrowser = context()->fileBrowser(
         qApp->translate("djvViewFileGroup", "Save"));
-
     if (fileBrowser->exec() == QDialog::Accepted)
     {
         const djvFileInfo & fileInfo = fileBrowser->fileInfo();
-
         //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-
         if (djvFileInfoUtil::exists(fileInfo))
         {
             //DJV_DEBUG_PRINT("exists");
-
             djvQuestionDialog dialog(
                 qApp->translate("djvViewFileGroup", "Overwrite existing file \"%1\"?").
                     arg(QDir::toNativeSeparators(fileInfo)));
-
             if (QDialog::Accepted == dialog.exec())
             {
                 Q_EMIT save(fileInfo);
@@ -909,18 +774,15 @@ void djvViewFileGroup::saveCallback()
 void djvViewFileGroup::saveFrameCallback()
 {
     djvFileBrowser * fileBrowser = context()->fileBrowser(
-        qApp->translate("djvViewFileGroup", "Save Frame"));
-    
+        qApp->translate("djvViewFileGroup", "Save Frame"));    
     if (fileBrowser->exec() == QDialog::Accepted)
     {
         const djvFileInfo & fileInfo = fileBrowser->fileInfo();
-
         if (djvFileInfoUtil::exists(fileInfo))
         {
             djvQuestionDialog dialog(
                 qApp->translate("djvViewFileGroup", "Overwrite existing file \"%1\"?").
                     arg(QDir::toNativeSeparators(fileInfo)));
-
             if (QDialog::Accepted == dialog.exec())
             {
                 Q_EMIT saveFrame(fileInfo);
@@ -936,7 +798,6 @@ void djvViewFileGroup::saveFrameCallback()
 void djvViewFileGroup::layerCallback(QAction * action)
 {
     const int index = action->data().toInt();
-
     setLayer(index);
 }
 
@@ -953,7 +814,6 @@ void djvViewFileGroup::layerNextCallback()
 void djvViewFileGroup::proxyCallback(QAction * action)
 {
     const int index = action->data().toInt();
-    
     setProxy(static_cast<djvPixelDataInfo::PROXY>(index));
 }
 
@@ -1003,27 +863,20 @@ void djvViewFileGroup::preloadUpdate()
 void djvViewFileGroup::update()
 {
     // Update actions.
-
     _p->actions->action(djvViewFileActions::SAVE)->
         setEnabled(_p->imageLoad.data());
-
     _p->actions->action(djvViewFileActions::SAVE_FRAME)->
         setEnabled(_p->imageLoad.data());
-
     _p->actions->setLayers(_p->layers);
     _p->actions->setLayer(_p->layer);
-
     _p->actions->action(djvViewFileActions::U8_CONVERSION)->
         setChecked(_p->u8Conversion);
-
     _p->actions->action(djvViewFileActions::CACHE)->
         setChecked(_p->cache);
-
     _p->actions->action(djvViewFileActions::PRELOAD)->
         setChecked(_p->preload);
 
     // Update action groups.
-
     if (! _p->actions->group(djvViewFileActions::PROXY_GROUP)->
         actions()[_p->proxy]->isChecked())
     {
@@ -1035,6 +888,5 @@ void djvViewFileGroup::update()
 void djvViewFileGroup::cacheDel()
 {
     //DJV_DEBUG("djvViewFileGroup::cacheDel");
-
     context()->fileCache()->del(mainWindow());
 }

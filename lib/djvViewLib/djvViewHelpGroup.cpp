@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHelpGroup.cpp
-
 #include <djvViewHelpGroup.h>
 
 #include <djvViewContext.h>
@@ -76,27 +74,22 @@ djvViewHelpGroup::djvViewHelpGroup(
     //DJV_DEBUG("djvViewHelpGroup::djvViewHelpGroup");
 
     // Create the actions.
-
     _p->actions = new djvViewHelpActions(context, this);
     
     // Create the menus.
-
     _p->menu = new djvViewHelpMenu(_p->actions, mainWindow->menuBar());
 
     mainWindow->menuBar()->addMenu(_p->menu);
 
     // Setup the action callbacks.
-
     connect(
         _p->actions->action(djvViewHelpActions::HELP),
         SIGNAL(triggered()),
         SLOT(helpCallback()));
-
     connect(
         _p->actions->action(djvViewHelpActions::INFO),
         SIGNAL(triggered()),
         SLOT(infoCallback()));
-
     connect(
         _p->actions->action(djvViewHelpActions::ABOUT),
         SIGNAL(triggered()),
@@ -106,14 +99,12 @@ djvViewHelpGroup::djvViewHelpGroup(
 djvViewHelpGroup::~djvViewHelpGroup()
 {
     //DJV_DEBUG("djvViewHelpGroup::~djvViewHelpGroup");
-
     delete _p;
 }
 
 void djvViewHelpGroup::helpCallback()
 {
     //DJV_DEBUG("djvViewHelpGroup::helpCallback");
-
     context()->help();
 }
 

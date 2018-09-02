@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntDisplay.h
-
-#ifndef DJV_INT_DISPLAY_H
-#define DJV_INT_DISPLAY_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,7 +53,6 @@ class DJV_GUI_EXPORT djvIntDisplay : public QWidget
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         int    value
         READ   value
@@ -64,49 +60,34 @@ class DJV_GUI_EXPORT djvIntDisplay : public QWidget
         NOTIFY valueChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvIntDisplay(QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvIntDisplay();
 
     //! Get the value.
-
     int value() const;
     
     //! Get the minimum value.
-    
     int min() const;
     
     //! Get the maximum value.
-    
     int max() const;
 
 public Q_SLOTS:
-
     //! Set the value.
-
     void setValue(int);
 
     //! Set the value range.
-    
     void setRange(int min, int max);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-    
     void valueChanged(int);
 
     //! This signal is emitted when the range is changed.
-    
     void rangeChanged(int min, int max);
     
 private:
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvIntDisplay);
@@ -115,6 +96,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_INT_DISPLAY_H
 

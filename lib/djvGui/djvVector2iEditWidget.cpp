@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVector2iEditWidget.cpp
-
 #include <djvVector2iEditWidget.h>
 
 #include <djvIntEdit.h>
@@ -79,7 +77,6 @@ djvVector2iEditWidget::djvVector2iEditWidget(QWidget * parent) :
     connect(_p->widget,
         SIGNAL(rangeChanged(int, int)),
         SLOT(rangeCallback()));
-    
     connect(_p->widget2,
         SIGNAL(valueChanged(int)),
         SLOT(valueCallback()));

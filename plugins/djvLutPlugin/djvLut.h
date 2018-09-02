@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLut.h
-
-#ifndef DJV_LUT_H
-#define DJV_LUT_H
+#pragma once
 
 #include <djvError.h>
 #include <djvImage.h>
@@ -70,15 +67,12 @@ class djvFileIo;
 struct djvLut
 {
     //! Plugin name.
-
     static const QString staticName;
     
     //! Plugin extensions.
-    
     static const QStringList staticExtensions;
 
-    //! This enumeration provides the file formats.
-
+    //! This enumeration provides the file formats
     enum FORMAT
     {
         FORMAT_INFERNO,
@@ -88,11 +82,9 @@ struct djvLut
     };
 
     //! Get the file format labels.
-
     static const QStringList & formatLabels();
 
     //! This enumeration provides the file types.
-
     enum TYPE
     {
         TYPE_AUTO,
@@ -104,49 +96,39 @@ struct djvLut
     };
 
     //! Get the file type labels.
-
     static const QStringList & typeLabels();
 
     //! Open an Inferno LUT.
-
     static void infernoOpen(djvFileIo &, djvPixelDataInfo &, TYPE)
         throw (djvError);
 
     //! Load an Inferno LUT.
-
     static void infernoLoad(djvFileIo &, djvImage &) throw (djvError);
 
     //! Open a Kodak LUT.
-
     static void kodakOpen(djvFileIo &, djvPixelDataInfo &, TYPE)
         throw (djvError);
 
     //! Load a Kodak LUT.
-
     static void kodakLoad(djvFileIo &, djvImage &) throw (djvError);
 
     //! Open an Inferno LUT.
-
     static void infernoOpen(djvFileIo &, const djvPixelDataInfo &)
         throw (djvError);
 
     //! Save an Inferno LUT.
-
     static void infernoSave(djvFileIo & io, const djvPixelData *)
         throw (djvError);
 
     //! Open a Kodak LUT.
-
     static void kodakOpen(djvFileIo &, const djvPixelDataInfo &)
         throw (djvError);
 
     //! Save a Kodak LUT.
-
     static void kodakSave(djvFileIo &, const djvPixelData *)
         throw (djvError);
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         TYPE_OPTION,
@@ -155,27 +137,19 @@ struct djvLut
     };
 
     //! Get the option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
-        //! Constructor.
-
         Options();
 
         TYPE type;
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvLut::FORMAT);
 DJV_STRING_OPERATOR(, djvLut::TYPE);
 
 //@} // djvLutPlugin
-
-#endif // DJV_LUT_H
 

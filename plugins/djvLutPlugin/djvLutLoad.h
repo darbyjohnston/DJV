@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutLoad.h
-
-#ifndef DJV_LUT_LOAD_H
-#define DJV_LUT_LOAD_H
+#pragma once
 
 #include <djvLut.h>
 
@@ -51,23 +48,16 @@
 class djvLutLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-    
     djvLutLoad(const djvLut::Options &, djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvLutLoad();
 
     virtual void open(const djvFileInfo &, djvImageIoInfo &)
         throw (djvError);
-
     virtual void read(djvImage &, const djvImageIoFrameInfo &)
         throw (djvError);
 
 private:
-
     void _open(const djvFileInfo &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
@@ -77,6 +67,4 @@ private:
 };
 
 //@} // djvLutPlugin
-
-#endif // DJV_LUT_LOAD_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRlaLoad.cpp
-
 #include <djvRlaLoad.h>
 
 #include <djvImage.h>
@@ -52,13 +50,9 @@ void djvRlaLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvRlaLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-    
     djvFileIo io;
-    
     _open(_file.fileName(_file.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -70,54 +64,38 @@ void djvRlaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 {
     //DJV_DEBUG("djvRlaLoad::read");
     //DJV_DEBUG_PRINT("frame = " << frame);
-
     image.colorProfile = djvColorProfile();
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     djvFileIo io;
-    
     _open(fileName, info, io);
-
     if (frame.layer < 0 || frame.layer >= info.layerCount())
     {
         throw djvError(
             djvRla::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
     }
-
     djvPixelDataInfo _info = info[frame.layer];
 
     // Read the file.
-
     io.readAhead();
-
     djvPixelData * p = frame.proxy ? &_tmp : &image;
-    
     p->set(_info);
-
     const int w        = _info.size.x;
     const int h        = _info.size.y;
     const int channels = djvPixel::channels(_info.pixel);
     const int bytes    = djvPixel::channelByteCount(_info.pixel);
-
     //DJV_DEBUG_PRINT("channels = " << channels);
     //DJV_DEBUG_PRINT("bytes = " << bytes);
-
     quint8 * data_p = p->data();
-
     for (int y = 0; y < h; ++y, data_p += w * channels * bytes)
     {
         io.setPos(_rleOffset()[y]);
-
         for (int c = 0; c < channels; ++c)
         {
             if (djvPixel::F32 == djvPixel::type(_info.pixel))
@@ -132,14 +110,11 @@ void djvRlaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
 
     // Proxy scale the image.
-    
     if (frame.proxy)
     {
         _info.size = djvPixelDataUtil::proxyScale(_info.size, frame.proxy);
         _info.proxy = frame.proxy;
-        
         image.set(_info);
-
         djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
     }
 
@@ -148,7 +123,6 @@ void djvRlaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
 namespace
 {
-
 struct Header
 {
     qint16 dimensions [4]; // Left, right, bottom, top.
@@ -254,62 +228,46 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-
     io.open(in, djvFileIo::READ);
 
     // Read the header.
-
     Header header;
-
     //DJV_DEBUG_PRINT("header size = " << static_cast<int>(sizeof(Header)));
-
     io.get(&header, sizeof(Header));
-
     if (io.endian())
     {
         endian(&header);
     }
-
     debug(header);
-
     const int w = header.active[1] - header.active[0] + 1;
     const int h = header.active[3] - header.active[2] + 1;
 
     // Read the scanline table.
-
     _rleOffset.setSize(h);
-    
     io.get32(_rleOffset(), h);
 
     // Get file information.
-
     const djvVector2i size(w, h);
-    
     djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
-
     if (header.matteChannels > 1)
     {
         throw djvError(
             djvRla::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     if (header.matteChannelType != header.colorChannelType)
     {
         throw djvError(
             djvRla::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     if (header.matteBitDepth != header.colorBitDepth)
     {
         throw djvError(
             djvRla::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     if (! djvPixel::pixel(
         header.colorChannels + header.matteChannels,
         header.colorBitDepth,
@@ -320,14 +278,12 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
             djvRla::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     if (header.field)
     {
         throw djvError(
             djvRla::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     info = djvPixelDataInfo(in, size, pixel);
 }
 

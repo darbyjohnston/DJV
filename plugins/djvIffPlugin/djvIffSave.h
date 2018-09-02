@@ -30,10 +30,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffSave.h
-
-#ifndef DJV_IFF_SAVE_H
-#define DJV_IFF_SAVE_H
+#pragma once
 
 #include <djvIff.h>
 
@@ -52,12 +49,7 @@
 class djvIffSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     djvIffSave(const djvIff::Options &, djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvIffSave();
 
@@ -68,7 +60,6 @@ public:
         throw (djvError);
 
 private:
-
     djvIff::Options  _options;
     djvFileInfo      _file;
     djvPixelDataInfo _info;
@@ -77,4 +68,3 @@ private:
 
 //@} // djvIffPlugin
 
-#endif // DJV_IFF_SAVE_H

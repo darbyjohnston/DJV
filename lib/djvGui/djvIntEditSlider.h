@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntEditSlider.h
-
-#ifndef DJV_INT_EDIT_SLIDER_H
-#define DJV_INT_EDIT_SLIDER_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -58,7 +55,6 @@ class DJV_GUI_EXPORT djvIntEditSlider : public QWidget
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         int    value
         READ   value
@@ -66,7 +62,6 @@ class DJV_GUI_EXPORT djvIntEditSlider : public QWidget
         NOTIFY valueChanged)
     
     //! This property holds the default value.
-    
     Q_PROPERTY(
         int    defaultValue
         READ   defaultValue
@@ -74,7 +69,6 @@ class DJV_GUI_EXPORT djvIntEditSlider : public QWidget
         NOTIFY defaultValueChanged)
     
     //! This property holds the minimum value.
-    
     Q_PROPERTY(
         int    min
         READ   min
@@ -82,7 +76,6 @@ class DJV_GUI_EXPORT djvIntEditSlider : public QWidget
         NOTIFY minChanged)
     
     //! This property holds the maximum value.
-    
     Q_PROPERTY(
         int    max
         READ   max
@@ -90,93 +83,67 @@ class DJV_GUI_EXPORT djvIntEditSlider : public QWidget
         NOTIFY maxChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvIntEditSlider(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvIntEditSlider();
 
     //! Get the value.
-
     int value() const;
 
     //! Get the default value.
-
     int defaultValue() const;
 
     //! Get whether a reset to default control is shown.
-
     bool hasResetToDefault() const;
 
     //! Get the minimum value.
-
     int min() const;
 
     //! Get the maximum value.
-
     int max() const;
 
     //! Get the edit integer object.
-
     djvIntObject * editObject() const;
 
     //! Get the slider integer object.
-
     djvIntObject * sliderObject() const;
 
 public Q_SLOTS:
-
     //! Set the value.
-
     void setValue(int);
 
     //! Set the default value.
-
     void setDefaultValue(int);
 
     //! Set whether a reset to default control is shown.
-
     void setResetToDefault(bool);
 
     //! Set the minimum value.
-
     void setMin(int);
 
     //! Set the maximum value.
-
     void setMax(int);
 
     //! Set the value range.
-
     void setRange(int min, int max);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-
     void valueChanged(int);
 
     //! This signal is emitted when the default value is changed.
-
     void defaultValueChanged(int);
 
     //! This signal is emitted when the minimum value is changed.
-
     void minChanged(int);
 
     //! This signal is emitted when the maximum value is changed.
-
     void maxChanged(int);
 
     //! This signal is emitted when the value range is changed.
-
     void rangeChanged(int, int);
 
 private Q_SLOTS:
-
     void valueCallback();
     void sliderCallback(int);
     void defaultCallback();
@@ -184,13 +151,10 @@ private Q_SLOTS:
     void widgetUpdate();
     
 private:
-
     DJV_PRIVATE_COPY(djvIntEditSlider);
     
     djvIntEditSliderPrivate * _p;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_INT_EDIT_SLIDER_H
 

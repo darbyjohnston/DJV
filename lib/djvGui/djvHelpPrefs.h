@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvHelpPrefs.h
-
-#ifndef DJV_HELPe_PREFS_H
-#define DJV_HELP_PREFS_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -53,8 +50,7 @@ class DJV_GUI_EXPORT djvHelpPrefs : public QObject
 {
     Q_OBJECT
     
-    //! This property holds whether tool tips are enabled.
-    
+    //! This property holds whether tool tips are enabled.    
     Q_PROPERTY(
         bool   toolTips
         READ   hasToolTips
@@ -62,33 +58,22 @@ class DJV_GUI_EXPORT djvHelpPrefs : public QObject
         NOTIFY toolTipsChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvHelpPrefs(QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvHelpPrefs();
     
-    //! The default for whether tool tips are enabled.
-    
+    //! The default for whether tool tips are enabled.    
     static bool toolTipsDefault();
 
     //! Get whether tool tips are enabled.
-
     bool hasToolTips() const;
 
 public Q_SLOTS:
-
     //! Set whether tool tips are enabled.
-
     void setToolTips(bool);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the tool tips are changed.
-    
     void toolTipsChanged(bool);
 
 private:
@@ -99,6 +84,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_HELP_PREFS_H
 

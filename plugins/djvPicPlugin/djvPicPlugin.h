@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPicPlugin.h
-
-#ifndef DJV_PIC_PLUGIN_H
-#define DJV_PIC_PLUGIN_H
+#pragma once
 
 #include <djvImageIo.h>
 
@@ -48,17 +45,13 @@
 class djvPicPlugin : public djvImageIo
 {
 public:
-
     explicit djvPicPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
     
     virtual djvImageLoad * createLoad() const;
 };
 
 //@} // djvPicPlugin
-
-#endif // DJV_PIC_PLUGIN_H
 

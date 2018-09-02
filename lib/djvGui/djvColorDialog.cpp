@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorDialog.cpp
-
 #include <djvColorDialog.h>
 
 #include <djvColorSwatch.h>
@@ -68,7 +66,6 @@ struct djvColorDialogPrivate
 void djvColorDialog::init()
 {
     // Create the widgets.
-
     _p->widget = new djvColorWidget(_p->context);
 
     _p->swatch = new djvColorSwatch(_p->context);
@@ -78,7 +75,6 @@ void djvColorDialog::init()
         QDialogButtonBox::Ok);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     QHBoxLayout * hLayout = new QHBoxLayout;
@@ -90,18 +86,14 @@ void djvColorDialog::init()
     layout->addWidget(buttonBox);
     
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvColorDialog", "Color Dialog"));
-    
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->widget,
         SIGNAL(colorChanged(const djvColor &)),
         SLOT(widgetCallback(const djvColor &)));
-
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 }
 
@@ -138,11 +130,8 @@ void djvColorDialog::setColor(const djvColor & in)
 {
     if (in == _p->color)
         return;
-
     _p->color = in;
-
     widgetUpdate();
-
     Q_EMIT colorChanged(_p->color);
 }
 
@@ -156,8 +145,7 @@ void djvColorDialog::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->widget <<
         _p->swatch);
-    
     _p->widget->setColor(_p->color);
-    
     _p->swatch->setColor(_p->color);
 }
+

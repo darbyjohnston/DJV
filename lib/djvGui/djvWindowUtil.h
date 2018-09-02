@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWindowUtil.h
-
-#ifndef DJV_WINDOW_UTIL_H
-#define DJV_WINDOW_UTIL_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -50,17 +47,11 @@
 class DJV_GUI_EXPORT djvWindowUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvWindowUtil() = 0;
     
-    //! Resize a window taking into account the screen size.
-    
+    //! Resize a window taking into account the screen size.    
     static djvVector2i resize(const djvVector2i &, double maxPercent = 0.9);
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_WINDOW_UTIL_H
 

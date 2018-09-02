@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmWidget.cpp
-
 #include <djvPpmWidget.h>
 
 #include <djvGuiContext.h>
@@ -65,7 +63,6 @@ djvPpmWidget::djvPpmWidget(djvImageIo * plugin, djvGuiContext * context) :
     _dataWidget(0)
 {
     // Create the widgets.
-    
     _typeWidget = new QComboBox;
     _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _typeWidget->addItems(djvPpm::typeLabels());
@@ -75,7 +72,6 @@ djvPpmWidget::djvPpmWidget(djvImageIo * plugin, djvGuiContext * context) :
     _dataWidget->addItems(djvPpm::dataLabels());
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -102,7 +98,6 @@ djvPpmWidget::djvPpmWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(plugin->options()[djvPpm::TYPE_OPTION]);
     tmp >> _options.type;
@@ -112,17 +107,14 @@ djvPpmWidget::djvPpmWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _typeWidget,
         SIGNAL(activated(int)),
         SLOT(typeCallback(int)));
-
     connect(
         _dataWidget,
         SIGNAL(activated(int)),
@@ -135,7 +127,6 @@ djvPpmWidget::~djvPpmWidget()
 void djvPpmWidget::resetPreferences()
 {
     _options = djvPpm::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -146,7 +137,6 @@ void djvPpmWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvPpm::TYPE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.type;
@@ -156,21 +146,18 @@ void djvPpmWidget::pluginCallback(const QString & option)
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvPpmWidget::typeCallback(int in)
 {
     _options.type = static_cast<djvPpm::TYPE>(in);
-
     pluginUpdate();
 }
 
 void djvPpmWidget::dataCallback(int in)
 {
     _options.data = static_cast<djvPpm::DATA>(in);
-
     pluginUpdate();
 }
 
@@ -188,9 +175,7 @@ void djvPpmWidget::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _typeWidget <<
         _dataWidget);
-
     _typeWidget->setCurrentIndex(_options.type);
-
     _dataWidget->setCurrentIndex(_options.data);
 }
 

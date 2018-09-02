@@ -27,9 +27,7 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//------------------------------------------------------------------------------
-
-//! \file djvInfoDialog.cpp
+//------------------------------------------------------------------------------s
 
 #include <djvInfoDialog.h>
 
@@ -70,7 +68,6 @@ djvInfoDialog::djvInfoDialog(const QString & text, djvGuiContext * context) :
     //DJV_DEBUG("djvInfoDialog::djvInfoDialog");
 
     // Create the widgets.
-    
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     
@@ -81,13 +78,11 @@ djvInfoDialog::djvInfoDialog(const QString & text, djvGuiContext * context) :
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
 
     // Initialize.
-    
     setWindowTitle(
         qApp->translate("djvInfoDialog", "Information Dialog"));
     
@@ -98,11 +93,8 @@ djvInfoDialog::djvInfoDialog(const QString & text, djvGuiContext * context) :
     updateWidget();
     
     // Setup callbacks.
-    
     connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
-    
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    
     connect(
         context->style(),
         SIGNAL(fontsChanged()),
@@ -112,7 +104,6 @@ djvInfoDialog::djvInfoDialog(const QString & text, djvGuiContext * context) :
 djvInfoDialog::~djvInfoDialog()
 {
     //DJV_DEBUG("djvInfoDialog::~djvInfoDialog");
-    
     delete _p;
 }
 

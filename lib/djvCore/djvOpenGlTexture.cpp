@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlTexture.cpp
-
 #include <djvOpenGlTexture.h>
 
 #include <djvDebug.h>
@@ -74,11 +72,8 @@ void djvOpenGlTexture::init(
     _target = target;
     _min    = min;
     _mag    = mag;
-
     DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
-
     //DJV_DEBUG_PRINT("id = " << int(_id));
-
     if (! _id)
     {
         throw djvError(
@@ -93,7 +88,6 @@ void djvOpenGlTexture::init(
     DJV_DEBUG_OPEN_GL(glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, _mag));
 
     GLenum format = GL_RGBA;
-
     if (djvPixel::F16 == djvPixel::type(_info.pixel))
     {
         format = GL_RGBA16F;
@@ -113,18 +107,14 @@ void djvOpenGlTexture::init(
         djvOpenGlUtil::format(_info.pixel, _info.bgr),
         djvOpenGlUtil::type(_info.pixel),
         0);
-    
     GLenum error = glGetError();
-    
 #if ! defined(DJV_OSX)
-
     //! \todo On OS X this error is triggered the first time djv_view is
     //! started, though it doesn't actually seem to be a problem? If we
     //! throw here the image is not displayed (start djv_view from the
     //! command line with an image), but if we igore the error the image is
     //! displayed OK? Is this related to the "invalid drawable" message we
     //! are also getting on start up?
-    
     if (error != GL_NO_ERROR)
     {
         throw djvError(
@@ -132,7 +122,6 @@ void djvOpenGlTexture::init(
             qApp->translate("djvOpenGlTexture", "Cannot create texture: %1").
             arg(djvOpenGlUtil::errorString(error)));
     }
-    
 #endif // DJV_OSX
 }
 
@@ -143,7 +132,6 @@ void djvOpenGlTexture::init(
     GLenum               mag) throw (djvError)
 {
     init(data.info(), target, min, mag);
-
     copy(data);
 }
 
@@ -151,13 +139,9 @@ void djvOpenGlTexture::copy(const djvPixelData & in)
 {
     //DJV_DEBUG("djvOpenGlTexture::copy");
     //DJV_DEBUG_PRINT("in = " << in);
-
     bind();
-    
     const djvPixelDataInfo & info = in.info();
-
     djvOpenGlImage::stateUnpack(in.info());
-
     DJV_DEBUG_OPEN_GL(
         glTexSubImage2D(
             _target,
@@ -176,25 +160,18 @@ void djvOpenGlTexture::copy(const djvPixelData & in, const djvBox2i & area)
     //DJV_DEBUG("djvOpenGlTexture::copy");
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("area = " << area);
-
     bind();
-
     const djvPixelDataInfo & info = in.info();
-
     djvVector2i position = area.position;
-
     if (info.mirror.x)
     {
         position.x = info.size.x - area.position.x - area.size.x;
     }
-
     if (info.mirror.y)
     {
         position.y = info.size.y - area.position.y - area.size.y;
     }
-
     djvOpenGlImage::stateUnpack(in.info(), position);
-
     DJV_DEBUG_OPEN_GL(glTexSubImage2D(
         _target,
         0,
@@ -211,9 +188,7 @@ void djvOpenGlTexture::copy(const djvVector2i & in)
 {
     //DJV_DEBUG("djvOpenGlTexture::copy");
     //DJV_DEBUG_PRINT("in = " << in);
-
     DJV_DEBUG_OPEN_GL(glBindTexture(_target, _id));
-
     DJV_DEBUG_OPEN_GL(
         glCopyTexSubImage2D(
             _target,
@@ -229,7 +204,6 @@ void djvOpenGlTexture::copy(const djvVector2i & in)
 void djvOpenGlTexture::bind()
 {
     //DJV_DEBUG("djvOpenGlTexture::bind");
-
     DJV_DEBUG_OPEN_GL(glBindTexture(_target, _id));
 }
 
@@ -263,7 +237,6 @@ void djvOpenGlTexture::del()
     if (_id)
     {
         glDeleteTextures(1, &_id);
-
         _id = 0;
     }
 }

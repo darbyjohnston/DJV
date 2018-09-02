@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelConvert.cpp
-
 #include <djvPixel.h>
 
 #include <djvMemory.h>
@@ -40,7 +38,6 @@
 //------------------------------------------------------------------------------
 
 // Luminance.
-
 #define _L_L_(IN0, IN_T, OUT0, OUT_T) \
     OUT0 = PIXEL_##IN_T##_TO_##OUT_T(IN0);
 #define _L_LA_(IN0, IN_T, OUT0, OUT1, OUT_T) \
@@ -64,7 +61,6 @@
     _L_RGBA_(IN[0], IN_T, OUT[0], OUT[1], OUT[2], OUT[3], OUT_T)
 
 // Luminance alpha.
-
 #define _LA_L_(IN0, IN1, IN_T, OUT0, OUT_T) \
     OUT0 = PIXEL_##IN_T##_TO_##OUT_T(IN0);
 #define _LA_LA_(IN0, IN1, IN_T, OUT0, OUT1, OUT_T) \
@@ -88,7 +84,6 @@
     _LA_RGBA_(IN[0], IN[1], IN_T, OUT[0], OUT[1], OUT[2], OUT[3], OUT_T)
 
 // RGB.
-
 #define _RGB_L_(IN0, IN1, IN2, IN_T, OUT0, OUT_T) \
     OUT0 = PIXEL_##IN_T##_TO_##OUT_T((IN0 + IN1 + IN2) / djvPixel::IN_T##_T(3));
 #define _RGB_LA_(IN0, IN1, IN2, IN_T, OUT0, OUT1, OUT_T) \
@@ -130,7 +125,6 @@
         OUT[0], OUT[1], OUT[2], OUT[3], OUT_T)
 
 // RGBA.
-
 #define _RGBA_L_(IN0, IN1, IN2, IN3, IN_T, OUT0, OUT_T) \
     OUT0 = PIXEL_##IN_T##_TO_##OUT_T((IN0 + IN1 + IN2) / djvPixel::IN_T##_T(3));
 #define _RGBA_LA_(IN0, IN1, IN2, IN3, IN_T, OUT0, OUT1, OUT_T) \
@@ -167,26 +161,20 @@
 
 namespace
 {
-
 #define _FNC_ARGS \
-    \
     const void * in, void * out, int size, int stride, bool bgr
 
 typedef void (Fnc)(_FNC_ARGS);
 
 #define _FNC(IN_FORMAT, IN_TYPE, OUT_FORMAT, OUT_TYPE) \
-    \
     void _##IN_FORMAT##_##IN_TYPE##_##OUT_FORMAT##_##OUT_TYPE(_FNC_ARGS) \
     { \
         const djvPixel::IN_TYPE##_T * inP = \
             reinterpret_cast<const djvPixel::IN_TYPE##_T *>(in); \
-        \
         djvPixel::OUT_TYPE##_T * outP = \
             reinterpret_cast<djvPixel::OUT_TYPE##_T *>(out); \
-        \
         const int inStride  = stride * djvPixel::channels(djvPixel::IN_FORMAT); \
         const int outStride = djvPixel::channels(djvPixel::OUT_FORMAT); \
-        \
         for (int i = 0; i < size; ++i, inP += inStride, outP += outStride) \
         { \
             _##IN_FORMAT##_##OUT_FORMAT(inP, IN_TYPE, outP, OUT_TYPE) \
@@ -194,7 +182,6 @@ typedef void (Fnc)(_FNC_ARGS);
     }
 
 #define _FNC_DEFINE(OUT_FORMAT, OUT_TYPE) \
-    \
     _FNC(L, U8, OUT_FORMAT, OUT_TYPE) \
     _FNC(L, U16, OUT_FORMAT, OUT_TYPE) \
     _FNC(L, F16, OUT_FORMAT, OUT_TYPE) \
@@ -232,26 +219,19 @@ _FNC_DEFINE(RGBA, F32)
 void _RGB_U10_RGB_U10(_FNC_ARGS)
 {
     const djvPixel::U10_S * inP = reinterpret_cast<const djvPixel::U10_S *>(in);
-
     djvPixel::U10_S * outP = reinterpret_cast<djvPixel::U10_S *>(out);
-
-    _RGB_RGB_(
-        inP->r, inP->g, inP->b, U10, outP->r, outP->g, outP->b, U10);
+    _RGB_RGB_(inP->r, inP->g, inP->b, U10, outP->r, outP->g, outP->b, U10);
 }
 
 #define _FNC_RGB_U10(OUT_FORMAT, OUT_TYPE) \
-    \
     void _RGB_U10_##OUT_FORMAT##_##OUT_TYPE(_FNC_ARGS) \
     { \
         const djvPixel::U10_S * inP = \
             reinterpret_cast<const djvPixel::U10_S *>(in); \
-        \
         djvPixel::OUT_TYPE##_T * outP = \
             reinterpret_cast<djvPixel::OUT_TYPE##_T *>(out); \
-        \
         const int inStride  = stride; \
         const int outStride = djvPixel::channels(djvPixel::OUT_FORMAT); \
-        \
         for (int i = 0; i < size; ++i, inP += inStride, outP += outStride) \
         { \
             _RGB_U10_##OUT_FORMAT(inP, U10, outP, OUT_TYPE) \
@@ -276,16 +256,12 @@ _FNC_RGB_U10(RGBA, F16)
 _FNC_RGB_U10(RGBA, F32)
 
 #define _FNC2_RGB_U10(IN_FORMAT, IN_TYPE) \
-    \
     void _##IN_FORMAT##_##IN_TYPE##_RGB_U10(_FNC_ARGS) \
     { \
         const djvPixel::IN_TYPE##_T * inP = \
             reinterpret_cast<const djvPixel::IN_TYPE##_T *>(in); \
-        \
         djvPixel::U10_S * outP = reinterpret_cast<djvPixel::U10_S *>(out); \
-        \
         const int inStride = stride * djvPixel::channels(djvPixel::IN_FORMAT); \
-        \
         for (int i = 0; i < size; ++i, inP += inStride, ++outP) \
         { \
             _##IN_FORMAT##_RGB_U10(inP, IN_TYPE, outP, U10) \
@@ -310,9 +286,7 @@ _FNC2_RGB_U10(RGBA, F16)
 _FNC2_RGB_U10(RGBA, F32)
 
 // Function table.
-
 #define _FNC_TABLE(FORMAT) \
-    \
     { \
         _##FORMAT##_L_U8, \
         _##FORMAT##_L_U16, \
@@ -375,7 +349,6 @@ void djvPixel::convert(
     //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("stride = " << stride);
     //DJV_DEBUG_PRINT("bgr = " << bgr);
-
     if (inPixel == outPixel && 1 == stride && ! bgr)
     {
         djvMemory::copy(in, out, size * byteCount(outPixel));
@@ -385,3 +358,4 @@ void djvPixel::convert(
         fnc_tbl[inPixel][outPixel](in, out, size, stride, bgr);
     }
 }
+

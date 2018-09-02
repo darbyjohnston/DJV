@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMathInline.h
-
 //------------------------------------------------------------------------------
 // djvMath
 //------------------------------------------------------------------------------
@@ -45,17 +43,14 @@ template<class T>
 inline T djvMath::mod(T value, T mod)
 {
     T tmp = value;
-
     if (mod != T(0))
     {
         tmp = value - (static_cast<int>(value / mod) * mod);
-
         if (tmp < T(0))
         {
             tmp += mod;
         }
     }
-
     return tmp;
 }
 
@@ -116,24 +111,20 @@ inline double djvMath::fraction(double value)
 inline int djvMath::toPow2(int value)
 {
     int i = 0;
-
     for (; value > (1 << i); ++i)
         ;
-
     return 1 << i;
 }
 
 inline double djvMath::degreesToRadians(double value)
 {
     static const double m = 1.0 / 360.0 * piX2;
-    
     return value * m;
 }
 
 inline double djvMath::radiansToDegrees(double value)
 {
     static const double m = 1.0 / piX2 * 360.0;
-    
     return value * m;
 }
 

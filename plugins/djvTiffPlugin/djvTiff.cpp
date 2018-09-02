@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiff.cpp
-
 #include <djvTiff.h>
 
 #include <djvAssert.h>
@@ -58,9 +56,7 @@ const QStringList & djvTiff::compressionLabels()
         qApp->translate("djvTiff", "None") <<
         qApp->translate("djvTiff", "RLE") <<
         qApp->translate("djvTiff", "LZW");
-
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
     return data;
 }
 
@@ -78,7 +74,6 @@ void djvTiff::paletteLoad(
         {
             const quint8 * inP = in + size - 1;
             quint8 * outP = in + (size - 1) * 3;
-
             for (int x = 0; x < size; ++x, outP -= 3)
             {
                 const quint8 index = *inP--;
@@ -88,15 +83,12 @@ void djvTiff::paletteLoad(
             }
         }
         break;
-
         case 2:
         {
             const quint16 * inP =
                 reinterpret_cast<const quint16 *>(in) + size - 1;
-            
             quint16 * outP =
                 reinterpret_cast<quint16 *>(in) + (size - 1) * 3;
-
             for (int x = 0; x < size; ++x, outP -= 3)
             {
                 const quint16 index = *inP--;
@@ -113,12 +105,8 @@ const QStringList & djvTiff::optionsLabels()
 {
     static const QStringList data = QStringList() <<
         qApp->translate("djvTiff", "Compression");
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvTiff::COMPRESSION, djvTiff::compressionLabels())

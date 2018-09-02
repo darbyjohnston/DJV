@@ -29,71 +29,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreExport.h
-
-#ifndef DJV_CORE_EXPORT_H
-#define DJV_CORE_EXPORT_H
-
-//! \addtogroup lib
-//@{
-
-//! \defgroup djvCore djvCore
-//!
-//! This library provides core functionality.
-
-//@} // lib
-
-//! \addtogroup djvCore
-//@{
-
-//! \defgroup djvCoreFile djvCoreFile
-//!
-//! This module provides core file functionality.
-
-//! \defgroup djvCoreImage djvCoreImage
-//!
-//! This module provides core image functionality.
-
-//! \defgroup djvCoreMath djvCoreMath
-//!
-//! This module provides core math functionality.
-
-//! \defgroup djvCoreMisc djvCoreMisc
-//!
-//! This module provides miscellaneous core functionality.
-
-//! \defgroup djvCoreOpenGL djvCoreOpenGL
-//!
-//! This module provides core OpenGL functionality.
-
-//@} // djvCore
+#pragma once
 
 //! \addtogroup djvCoreMisc
 //@{
 
 #if defined(DJV_WINDOWS)
-
 #if defined(djvCore_EXPORTS)
-
-//! This define provides the library export.
-
 #define DJV_CORE_EXPORT __declspec(dllexport)
-
 #else // djvCore_EXPORTS
-
-//! This define provides the library export.
-
 #define DJV_CORE_EXPORT __declspec(dllimport)
-
 #endif // djvCore_EXPORTS
-
 #else // DJV_WINDOWS
-
 #define DJV_CORE_EXPORT
-
 #endif // DJV_WINDOWS
 
 //@} // djvCoreMisc
-
-#endif // DJV_CORE_EXPORT_H
 

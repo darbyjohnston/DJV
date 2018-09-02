@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpeed.h
-
-#ifndef DJV_SPEED_H
-#define DJV_SPEED_H
+#pragma once
 
 #include <djvDebug.h>
 #include <djvStringUtil.h>
@@ -54,9 +51,7 @@ class DJV_CORE_EXPORT djvSpeed
     Q_ENUMS(FPS)
     
 public:
-
     //! This enumeration provides the frames per second.
-
     enum FPS
     {
         FPS_1,
@@ -80,64 +75,43 @@ public:
     };
 
     //! Get the frames per second labels.
-
     static const QStringList & fpsLabels();
 
-    //! Constructor.
-
     djvSpeed();
-
-    //! Constructor.
-
     djvSpeed(int scale, int duration = 1);
-
-    //! Constructor.
-
     djvSpeed(FPS);
     
-    //! Get the time scale.
-    
+    //! Get the time scale.    
     int scale() const;
     
     //! Get the time duration.
-    
     int duration() const;
 
     //! Set the frames per second.
-
     void set(FPS);
 
     //! Get whether the speed is valid.
-
     bool isValid() const;
 
     //! Convert a speed to a floating point value.
-
     static double speedToFloat(const djvSpeed &);
 
     //! Convert a floating point value to a speed.
-
     static djvSpeed floatToSpeed(double);
 
     //! Get the speed default.
-
     static FPS speedDefault();
 
     //! Get the global speed.
-
     static FPS speed();
 
     //! Set the global speed.
-
     static void setSpeed(FPS);
 
 private:
-
     int _scale;
     int _duration;
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvSpeed)
 
@@ -150,4 +124,3 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
 
 //@} // djvCoreMisc
 
-#endif // DJV_SPEED_H

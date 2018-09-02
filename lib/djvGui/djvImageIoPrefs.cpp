@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoPrefs.cpp
-
 #include <djvImageIoPrefs.h>
 
 #include <djvGuiContext.h>
@@ -51,19 +49,14 @@ void _load(djvImageIo * plugin)
 {
     //DJV_DEBUG("_load");
     //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
-    
     djvPrefs prefs(plugin->pluginName(), djvPrefs::SYSTEM);
-
     const QStringList & options = plugin->options();
-
     for (int i = 0; i < options.count(); ++i)
     {
         QStringList tmp;
-
         if (prefs.get(options[i], tmp))
         {
             //DJV_DEBUG_PRINT("tmp = " << tmp);
-
             plugin->setOption(options[i], tmp);
         }
     }
@@ -73,11 +66,8 @@ void _save(const djvImageIo * plugin)
 {
     //DJV_DEBUG("_save");
     //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
-    
     djvPrefs prefs(plugin->pluginName(), djvPrefs::SYSTEM);
-
     const QStringList & options = plugin->options();
-
     for (int i = 0; i < options.count(); ++i)
     {
         prefs.set(options[i], plugin->option(options[i]));
@@ -91,9 +81,7 @@ djvImageIoPrefs::djvImageIoPrefs(djvGuiContext * context, QObject * parent) :
     _context(context)
 {
     //DJV_DEBUG("djvImageIoPrefs::djvImageIoPrefs");
-
     const QList<djvPlugin *> & plugins = context->imageIoFactory()->plugins();
-
     for (int i = 0; i < plugins.count(); ++i)
     {
         if (djvImageIo * plugin = dynamic_cast<djvImageIo *>(plugins[i]))
@@ -106,9 +94,7 @@ djvImageIoPrefs::djvImageIoPrefs(djvGuiContext * context, QObject * parent) :
 djvImageIoPrefs::~djvImageIoPrefs()
 {
     //DJV_DEBUG("djvImageIoPrefs::~djvImageIoPrefs");
-
     const QList<djvPlugin *> & plugins = _context->imageIoFactory()->plugins();
-    
     for (int i = 0; i < plugins.count(); ++i)
     {
         if (djvImageIo * plugin = dynamic_cast<djvImageIo *>(plugins[i]))

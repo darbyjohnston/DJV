@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelDataInline.h
-
 #include <djvColorUtil.h>
 #include <djvVectorUtil.h>
 
@@ -92,8 +90,7 @@ inline const quint8 * djvPixelData::data() const
 
 inline quint8 * djvPixelData::data(int x, int y)
 {
-    detach();
-    
+    detach();   
     return _data() + (y * _info.size.x + x) * _pixelByteCount;
 }
 
@@ -116,3 +113,4 @@ inline quint64 djvPixelData::dataByteCount() const
 {
     return _dataByteCount;
 }
+

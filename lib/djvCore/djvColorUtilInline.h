@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorUtilInline.h
-
 #include <djvMath.h>
 
 //------------------------------------------------------------------------------
@@ -44,7 +42,6 @@ inline void djvColorUtil::rgbToHsv(const double in[3], double out[3])
     out[2] = max;
     out[1] = max != 0.0 ? (1.0 - min / max) : 0.0;
     const double v = (max - min) * 6.0;
-
     if (max == min)
     {
         out[0] = 0.0;
@@ -78,7 +75,6 @@ inline void djvColorUtil::hsvToRgb(const double in[3], double out[3])
     const double p = in[2] * (1.0 - in[1]);
     const double q = in[2] * (1.0 - (in[1] * f));
     const double t = in[2] * (1.0 - (in[1] * (1.0 - f)));
-
     switch (i)
     {
         case 0:
@@ -86,31 +82,26 @@ inline void djvColorUtil::hsvToRgb(const double in[3], double out[3])
             out[1] = t;
             out[2] = p;
             break;
-
         case 1:
             out[0] = q;
             out[1] = in[2];
             out[2] = p;
             break;
-
         case 2:
             out[0] = p;
             out[1] = in[2];
             out[2] = t;
             break;
-
         case 3:
             out[0] = p;
             out[1] = q;
             out[2] = in[2];
             break;
-
         case 4:
             out[0] = t;
             out[1] = p;
             out[2] = in[2];
             break;
-
         case 5:
             out[0] = in[2];
             out[1] = p;
@@ -118,3 +109,4 @@ inline void djvColorUtil::hsvToRgb(const double in[3], double out[3])
             break;
     }
 }
+

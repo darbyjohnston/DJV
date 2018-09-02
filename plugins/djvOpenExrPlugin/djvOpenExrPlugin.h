@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExrPlugin.h
-
-#ifndef DJV_OPENEXR_PLUGIN_H
-#define DJV_OPENEXR_PLUGIN_H
+#pragma once
 
 #include <djvOpenExr.h>
 
@@ -50,41 +47,28 @@
 class djvOpenExrPlugin : public djvImageIo
 {
 public:
-
-    //! Contructor.
-    
     explicit djvOpenExrPlugin(djvCoreContext *);
     
     virtual void initPlugin() throw (djvError);
-
     virtual void releasePlugin();
-    
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     void threadsUpdate();
 
     djvOpenExr::Options _options;
 };
 
 //@} // djvOpenExrPlugin
-
-#endif // DJV_OPENEXR_PLUGIN_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlLut.cpp
-
 #include <djvOpenGlLut.h>
 
 #include <djvDebug.h>
@@ -66,11 +64,9 @@ void djvOpenGlLut::init(const djvPixelDataInfo & info) throw (djvError)
 
     _info = info;
     _size = djvMath::toPow2(_info.size.x);
-
     //DJV_DEBUG_PRINT("size = " << _size);
 
     DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
-
     if (! _id)
     {
         throw djvError(
@@ -87,7 +83,6 @@ void djvOpenGlLut::init(const djvPixelDataInfo & info) throw (djvError)
         glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
     GLenum format = GL_RGBA;
-
     if (djvPixel::F16 == djvPixel::type(_info.pixel))
     {
         format = GL_RGBA16F;
@@ -112,9 +107,7 @@ void djvOpenGlLut::init(const djvPixelDataInfo & info) throw (djvError)
 void djvOpenGlLut::init(const djvPixelData & data) throw (djvError)
 {
     init(data.info());
-
     bind();
-
     copy(data);
 }
 
@@ -131,7 +124,6 @@ GLuint djvOpenGlLut::id() const
 void djvOpenGlLut::bind()
 {
     //DJV_DEBUG("djvOpenGlLut::bind");
-
     DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_1D, _id));
 }
 
@@ -139,11 +131,8 @@ void djvOpenGlLut::copy(const djvPixelData & in)
 {
     //DJV_DEBUG("djvOpenGlLut::copy");
     //DJV_DEBUG_PRINT("in = " << in);
-
     const djvPixelDataInfo & info = in.info();
-
     djvOpenGlImage::stateUnpack(in.info());
-
     DJV_DEBUG_OPEN_GL(
         glTexSubImage1D(
             GL_TEXTURE_1D,
@@ -160,7 +149,6 @@ void djvOpenGlLut::del()
     if (_id)
     {
         glDeleteTextures(1, &_id);
-
         _id = 0;
     }
 }

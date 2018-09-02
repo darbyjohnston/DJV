@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFileActions.h
-
-#ifndef DJV_VIEW_FILE_ACTIONS_H
-#define DJV_VIEW_FILE_ACTIONS_H
+#pragma once
 
 #include <djvViewAbstractActions.h>
 
@@ -54,9 +51,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFileActions : public djvViewAbstractActions
     Q_ENUMS(GROUP)
     
 public:
-
     //! This enumeration provides the actions.
-
     enum ACTION
     {
         OPEN,
@@ -80,7 +75,6 @@ public:
     };
 
     //! This enumeration provides the action groups.
-
     enum GROUP
     {
         RECENT_GROUP,
@@ -90,42 +84,29 @@ public:
         GROUP_COUNT
     };
 
-    //! Constructor.
-
     explicit djvViewFileActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewFileActions();
 
 public Q_SLOTS:
-
     //! Set the layers.
-
     void setLayers(const QStringList &);
 
     //! Set the current layer.
-
     void setLayer(int);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the recently opened action group changes.
-
     void recentChanged();
 
 private Q_SLOTS:
-
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewFileActions);
     
     djvViewFileActionsPrivate * _p;
 };
 
 //@} // djvViewFile
-
-#endif // DJV_VIEW_FILE_ACTIONS_H
 

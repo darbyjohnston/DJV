@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlLut.h
-
-#ifndef DJV_OPEN_GL_LUT_H
-#define DJV_OPEN_GL_LUT_H
+#pragma once
 
 #include <djvError.h>
 #include <djvOpenGl.h>
@@ -47,41 +44,29 @@
 class DJV_CORE_EXPORT djvOpenGlLut
 {
 public:
-
-    //! Constructor.
-    
     djvOpenGlLut();
 
-    //! Destructor.
-    
     ~djvOpenGlLut();
 
     //! Initialize the LUT.
-    
     void init(const djvPixelDataInfo &) throw (djvError);
 
     //! Initialize the LUT.
-    
     void init(const djvPixelData &) throw (djvError);
 
     //! Get the pixel information.
-    
     const djvPixelDataInfo & info() const;
 
     //! Get the texture ID.
-    
     gl::GLuint id() const;
 
     //! Bind the LUT.
-    
     void bind();
 
     //! Copy pixel data to the LUT.
-    
     void copy(const djvPixelData &);
 
 private:
-
     void del();
 
     djvPixelDataInfo _info;
@@ -89,4 +74,3 @@ private:
     gl::GLuint       _id;
 };
 
-#endif // DJV_OPEN_GL_LUT_H

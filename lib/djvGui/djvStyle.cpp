@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvStyle.cpp
-
 #include <djvStyle.h>
 
 #include <djvPrefs.h>
@@ -130,80 +128,57 @@ djvStyle::djvStyle(QObject * parent) :
     //DJV_DEBUG("djvStyle::djvStyle");
     
     // Load preferences.
-    
     djvPrefs prefs("djvStyle", djvPrefs::SYSTEM);
-    
     int paletteCount = 0;
-    
     prefs.get("paletteCount", paletteCount);
-    
     //DJV_DEBUG_PRINT("paletteCount = " << paletteCount);
-    
     for (int i = 0; i < paletteCount; ++i)
     {
         Palette palette;
-        prefs.get(QString("palette%1").arg(i), palette);
-        
+        prefs.get(QString("palette%1").arg(i), palette);        
         //DJV_DEBUG_PRINT("palette = " << palette.name);
-        
         int j = 0;
-        
         for (; j < _p->palettes.count(); ++j)
         {
             if (palette.name == _p->palettes[j].name)
             {
                 _p->palettes[j] = palette;
-                
                 break;
             }
         }
-        
         if (j == _p->palettes.count())
         {
             _p->palettes += palette;
         }
     }
-    
     prefs.get("palettesIndex", _p->palettesIndex);
-    
     //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
 
     int sizeMetricsCount = 0;
-    
     prefs.get("sizeMetricsCount", sizeMetricsCount);
-    
     for (int i = 0; i < sizeMetricsCount; ++i)
     {
         SizeMetric sizeMetric;
-        
         prefs.get(QString("sizeMetric%1").arg(i), sizeMetric);
-        
         int j = 0;
-        
         for (; j < _p->sizeMetrics.count(); ++j)
         {
             if (sizeMetric.name == _p->sizeMetrics[j].name)
             {
                 _p->sizeMetrics[j] = sizeMetric;
-                
                 break;
             }
         }
-        
         if (j == _p->sizeMetrics.count())
         {
             _p->sizeMetrics += sizeMetric;
         }
     }
-    
     prefs.get("sizeMetricsIndex", _p->sizeMetricsIndex);
-    
     prefs.get("fonts", _p->fonts);
-    
     //DJV_DEBUG_PRINT("sizeMetricsIndex = " << _p->sizeMetricsIndex);
 
     // Initialize.
-    
     colorUpdate();
     sizeUpdate();
     fontsUpdate();
@@ -214,31 +189,22 @@ djvStyle::~djvStyle()
     //DJV_DEBUG("djvStyle::~djvStyle");
 
     // Save preferences.
-    
     djvPrefs prefs("djvStyle", djvPrefs::SYSTEM);
-    
     const int paletteCount = _p->palettes.count();
-    
     prefs.set("paletteCount", paletteCount);
-    
     for (int i = 0; i < paletteCount; ++i)
     {
         prefs.set(QString("palette%1").arg(i), _p->palettes[i]);
     }
-    
     //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
-    
     prefs.set("palettesIndex", _p->palettesIndex);
 
     const int sizeMetricsCount = _p->sizeMetrics.count();
-    
     prefs.set("sizeMetricsCount", sizeMetricsCount);
-    
     for (int i = 0; i < sizeMetricsCount; ++i)
     {
         prefs.set(QString("sizeMetric%1").arg(i), _p->sizeMetrics[i]);
     }
-
     prefs.set("sizeMetricsIndex", _p->sizeMetricsIndex);
 
     prefs.set("fonts", _p->fonts);
@@ -277,7 +243,6 @@ const QVector<djvStyle::Palette> & djvStyle::palettesDefault()
             djvColor(0.3f, 0.4f, 0.3f),
             djvColor(0.0f, 0.4f, 0.0f),
             djvColor(0.7f, 0.9f, 0.7f));
-
     return data;
 }
 
@@ -290,9 +255,7 @@ void djvStyle::setPalettes(const QVector<Palette> & palettes)
 {
     if (palettes == _p->palettes)
         return;
-    
     _p->palettes = palettes;
-    
     colorUpdate();
 }
 
@@ -310,9 +273,7 @@ void djvStyle::setPalettesIndex(int index)
 {
     if (index == _p->palettesIndex)
         return;
-    
     _p->palettesIndex = index;
-    
     colorUpdate();
 }
 
@@ -325,21 +286,17 @@ void djvStyle::setPalette(const Palette & palette)
 {
     if (palette == _p->palettes[_p->palettesIndex])
         return;
-    
     _p->palettes[_p->palettesIndex] = palette;
-    
     colorUpdate();
 }
 
 QStringList djvStyle::paletteNames() const
 {
     QStringList names;
-    
     for (int i = 0; i < _p->palettes.count(); ++i)
     {
         names += _p->palettes[i].name;
     }
-    
     return names;
 }
 
@@ -357,9 +314,7 @@ void djvStyle::setColorSwatchTransparency(bool in)
 {
     if (in == _p->colorSwatchTransparency)
         return;
-
     _p->colorSwatchTransparency = in;
-
     Q_EMIT colorSwatchTransparencyChanged(_p->colorSwatchTransparency);
 }
 
@@ -370,7 +325,6 @@ const QVector<djvStyle::SizeMetric> & djvStyle::sizeMetricsDefault()
         SizeMetric(qApp->translate("djvStyle", "Medium"), 12) <<
         SizeMetric(qApp->translate("djvStyle", "Large"), 16) <<
         SizeMetric(qApp->translate("djvStyle", "Custom"), 24);
-    
     return data;
 }
 
@@ -383,11 +337,8 @@ void djvStyle::setSizeMetrics(const QVector<SizeMetric> & sizeMetrics)
 {
     if (sizeMetrics == _p->sizeMetrics)
         return;
-    
     _p->sizeMetrics = sizeMetrics;
-    
     sizeUpdate();
-
     Q_EMIT sizeMetricsChanged();
 }
 
@@ -405,11 +356,8 @@ void djvStyle::setSizeMetricsIndex(int index)
 {
     if (index == _p->sizeMetricsIndex)
         return;
-    
-    _p->sizeMetricsIndex = index;
-    
+    _p->sizeMetricsIndex = index;    
     sizeUpdate();
-    
     Q_EMIT sizeMetricsChanged();
 }
 
@@ -422,30 +370,24 @@ void djvStyle::setSizeMetric(const SizeMetric & sizeMetric)
 {
     if (sizeMetric == _p->sizeMetrics[_p->sizeMetricsIndex])
         return;
-    
     _p->sizeMetrics[_p->sizeMetricsIndex] = sizeMetric;
-    
     sizeUpdate();
-    
     Q_EMIT sizeMetricsChanged();
 }
 
 QStringList djvStyle::sizeMetricNames() const
 {
     QStringList names;
-    
     for (int i = 0; i < _p->sizeMetrics.count(); ++i)
     {
         names += _p->sizeMetrics[i].name;
     }
-    
     return names;
 }
 
 const djvStyle::Fonts & djvStyle::fontsDefault()
 {
     static const djvStyle::Fonts data;
-    
     return data;
 }
 
@@ -458,11 +400,8 @@ void djvStyle::setFonts(const Fonts & fonts)
 {
     if (fonts == _p->fonts)
         return;
-    
     _p->fonts = fonts;
-    
     fontsUpdate();
-    
     Q_EMIT fontsChanged();
 }
 
@@ -473,7 +412,6 @@ QColor toQColor(const djvColor & color)
 {
     djvColor tmp(djvPixel::RGBA_U8);
     djvColorUtil::convert(color, tmp);
-    
     return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
 }
 
@@ -490,7 +428,6 @@ void djvStyle::colorUpdate()
     //    _p->palettes[_p->palettesIndex].background2);
     
     QPalette palette;
-    
     palette.setColor(
         QPalette::Window,
         toQColor(_p->palettes[_p->palettesIndex].background));
@@ -514,15 +451,13 @@ void djvStyle::colorUpdate()
         toQColor(_p->palettes[_p->palettesIndex].foreground));
     palette.setColor(
         QPalette::Highlight,
-        toQColor(_p->palettes[_p->palettesIndex].select));
-    
+        toQColor(_p->palettes[_p->palettesIndex].select));    
     qApp->setPalette(palette);
 }
 
 void djvStyle::sizeUpdate()
 {
     //DJV_DEBUG("djvStyle::sizeUpdate");
-    
     QFont font = _p->fonts.normal;
     font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
     qApp->setFont(font);
@@ -531,13 +466,10 @@ void djvStyle::sizeUpdate()
 void djvStyle::fontsUpdate()
 {
     //DJV_DEBUG("djvStyle::fontsUpdate");
-    
     QFont font = _p->fonts.normal;
     font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
     qApp->setFont(font);
 }
-
-//------------------------------------------------------------------------------
 
 bool operator == (const djvStyle::Palette & a, const djvStyle::Palette & b)
 {
@@ -604,8 +536,7 @@ QStringList & operator >> (QStringList & in, djvStyle::Palette & out) throw (QSt
     in >> tmp;
     in >> out.button;
     in >> tmp;
-    in >> out.select;
-    
+    in >> out.select;    
     return in;
 }
 
@@ -622,7 +553,6 @@ QStringList & operator << (QStringList & out, const djvStyle::Palette & in)
     out << in.button;
     out << QString("select");
     out << in.select;
-    
     return out;
 }
 
@@ -661,7 +591,6 @@ QStringList & operator >> (QStringList & in, djvStyle::SizeMetric & out)
     in >> out.swatchSize;
     in >> tmp;
     in >> out.thumbnailSize;
-    
     return in;
 }
 
@@ -698,7 +627,6 @@ QStringList & operator << (QStringList & out, const djvStyle::SizeMetric & in)
     out << in.swatchSize;
     out << QString("thumbnailSize");
     out << in.thumbnailSize;
-    
     return out;
 }
 
@@ -712,7 +640,6 @@ QStringList & operator >> (QStringList & in, djvStyle::Fonts & out)
     in >> tmp;
     in >> tmp2;
     out.fixed.setFamily(tmp2);
-
     return in;
 }
 
@@ -722,6 +649,5 @@ QStringList & operator << (QStringList & out, const djvStyle::Fonts & in)
     out << in.normal.family();
     out << QString("fixed");
     out << in.fixed.family();
-    
     return out;
 }

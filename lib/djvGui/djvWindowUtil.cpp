@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWindowUtil.cpp
-
 #include <djvWindowUtil.h>
 
 #include <djvVectorUtil.h>
@@ -48,7 +46,6 @@ djvWindowUtil::~djvWindowUtil()
 djvVector2i djvWindowUtil::resize(const djvVector2i & size, double maxPercent)
 {
     const QSize qSize = qApp->desktop()->availableGeometry().size();
-
     return djvVectorUtil::min(
         size,
         djvVector2i(djvVector2f(qSize.width(), qSize.height()) * maxPercent));

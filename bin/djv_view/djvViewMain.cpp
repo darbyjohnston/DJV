@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewMain.cpp
-
 #include <djvViewApplication.h>
 
 #include <djvError.h>
@@ -55,7 +53,6 @@ int main(int argc, char ** argv)
 //------------------------------------------------------------------------------
 
 #if defined(DJV_WINDOWS)
-
 int WINAPI WinMain(
     HINSTANCE hInstance,
     HINSTANCE,
@@ -64,5 +61,4 @@ int WINAPI WinMain(
 {
     return main(__argc, __argv);
 }
-
 #endif // DJV_WINDOWS

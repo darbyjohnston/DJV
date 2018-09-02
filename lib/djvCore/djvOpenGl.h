@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGl.h
-
-#ifndef DJV_OPEN_GL_H
-#define DJV_OPEN_GL_H
+#pragma once
 
 #include <djvBox.h>
 #include <djvColor.h>
@@ -54,51 +51,37 @@
 class DJV_CORE_EXPORT djvOpenGlUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvOpenGlUtil() = 0;
     
-    //! Setup an orthographic camera.
-    
+    //! Setup an orthographic camera.    
     static void ortho(
         const djvVector2i & size,
         const djvVector2f & minMax = djvVector2f(-1.0, 1.0));
 
     //! Convert a pixel format to OpenGL.
-
     static gl::GLenum format(djvPixel::PIXEL, bool bgr = false);
 
     //! Convert a pixel type to OpenGL.
-
     static gl::GLenum type(djvPixel::PIXEL);
 
     //! Set the current OpenGL color.
-
     static void color(const djvColor &);
 
     //! Draw a box.
-
     static void drawBox(const djvBox2i &);
 
     //! Draw a box.
-
     static void drawBox(const djvBox2f &);
 
     //! Draw a box.
-
     static void drawBox(const djvBox2i &, const djvVector2f uv[4]);
 
     //! Draw a box.
-
     static void drawBox(const djvBox2f &, const djvVector2f uv[4]);
     
     //! Get an OpenGL error string.
-    
     static QString errorString(gl::GLenum);
 };
-
-//------------------------------------------------------------------------------
 
 //! This macro provides OpenGL debugging functionality.
 //!
@@ -106,16 +89,11 @@ public:
 //!
 //! - Dave Shreiner, "Performance OpenGL: Platform Independent Techniques"
 //!   SIGGRAPH 2001
-
 #if 0
-
 #define DJV_DEBUG_OPEN_GL(cmd) \
-    \
     cmd; \
-    \
     { \
         gl::GLenum error = gl::GL_NO_ERROR; \
-        \
         if ((error = gl::glGetError()) != gl::GL_NO_ERROR) \
         { \
             DJV_DEBUG_PRINT(QString("%1 = %2 (%3, line %4)"). \
@@ -125,16 +103,10 @@ public:
                 arg(__LINE__)); \
         } \
     }
-
 #else
-
 #define DJV_DEBUG_OPEN_GL(cmd) \
-    \
     cmd;
-
 #endif
 
 //@} // djvCoreOpenGL
-
-#endif // DJV_OPEN_GL_H
 

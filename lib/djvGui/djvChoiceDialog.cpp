@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvChoiceDialog.cpp
-
 #include <djvChoiceDialog.h>
 
 #include <QApplication>
@@ -112,8 +110,7 @@ const QStringList & djvChoiceDialog::choices() const
 
 void djvChoiceDialog::setChoices(const QStringList & choices)
 {
-    _p->choices = choices;
-    
+    _p->choices = choices;    
     widgetUpdate();
 }
 
@@ -126,9 +123,7 @@ void djvChoiceDialog::setChoice(int choice)
 {
     if (choice == _p->choice)
         return;
-    
     _p->choice = choice;
-    
     choiceUpdate();
 }
 
@@ -140,7 +135,6 @@ const QString & djvChoiceDialog::label() const
 void djvChoiceDialog::setLabel(const QString & label)
 {
     _p->label = label;
-    
     widgetUpdate();
 }
 
@@ -151,7 +145,6 @@ void djvChoiceDialog::buttonCallback()
         if (_p->buttons[i]->isChecked())
         {
             setChoice(i);
-            
             break;
         }
     }
@@ -172,8 +165,7 @@ void djvChoiceDialog::widgetUpdate()
     for (int i = 0; i < _p->buttons.count(); ++i)
     {
         delete _p->buttons[i];
-    }
-    
+    }   
     _p->buttons.clear();
     
     for (int i = 0; i < _p->choices.count(); ++i)

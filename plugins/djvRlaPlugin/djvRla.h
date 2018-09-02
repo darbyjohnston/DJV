@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRla.h
-
-#ifndef DJV_RLA_H
-#define DJV_RLA_H
+#pragma once
 
 #include <djvFileIo.h>
 
@@ -70,11 +67,9 @@
 struct djvRla
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! Load RLE data.
-
     static void readRle(
         djvFileIo & io,
         quint8 *    out,
@@ -83,7 +78,6 @@ struct djvRla
         int         bytes) throw (djvError);
 
     //! Load floating point data.
-
     static void floatLoad(
         djvFileIo & io,
         quint8 *    out,
@@ -91,11 +85,8 @@ struct djvRla
         int         channels) throw (djvError);
 
     //! Skip file data.
-
     static void skip(djvFileIo &) throw (djvError);
 };
 
 //@} // djvRlaPlugin
-
-#endif // DJV_RLA_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffLoad.cpp
-
 #include <djvTiffLoad.h>
 
 #include <djvImage.h>
@@ -55,11 +53,8 @@ void djvTiffLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvTiffLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-    
     _open(_file.fileName(_file.sequence().start()), info);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -76,23 +71,16 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName = _file.fileName(
         frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     _open(fileName, info);
-    
     image.tags = info.tags;
 
     // Read the file.
-
     djvPixelData * data = frame.proxy ? &_tmp : &image;
     data->set(info);
-
     for (int y = 0; y < info.size.y; ++y)
     {
         if (TIFFReadScanline(_f, (tdata_t *)data->data(0, y), y) == -1)
@@ -101,7 +89,6 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 djvTiff::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
-
         if (_palette)
         {
             djvTiff::paletteLoad(
@@ -113,21 +100,16 @@ void djvTiffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
     
     // Proxy scaling.
-
     if (frame.proxy)
     {
         info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
         info.proxy = frame.proxy;
-        
         image.set(info);
-
         djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
     }
 
     // Close the file.
-    
     //DJV_DEBUG_PRINT("image = " << image);
-    
     close();
 }
 
@@ -136,7 +118,6 @@ void djvTiffLoad::close() throw (djvError)
     if (_f)
     {
         TIFFClose(_f);
-        
         _f = 0;
     }
 }
@@ -150,9 +131,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     close();
 
     // Open the file.
-
     _f = TIFFOpen(in.toLatin1().data(), "r");
-
     if (! _f)
     {
         throw djvError(
@@ -161,7 +140,6 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     }
 
     // Read the Header.
-
     uint32   width            = 0;
     uint32   height           = 0;
     uint16   photometric      = 0;
@@ -173,7 +151,6 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     uint16   orient           = 0;
     uint16   compression      = 0;
     uint16   channels         = 0;
-
     TIFFGetFieldDefaulted(_f, TIFFTAG_IMAGEWIDTH, &width);
     TIFFGetFieldDefaulted(_f, TIFFTAG_IMAGELENGTH, &height);
     TIFFGetFieldDefaulted(_f, TIFFTAG_PHOTOMETRIC, &photometric);
@@ -194,41 +171,28 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     //DJV_DEBUG_PRINT("tiff sample depth = " << sampleDepth);
     //DJV_DEBUG_PRINT("tiff channels = " << channels);
     
-
     // Get file information.
-
     info.fileName = in;
-
     info.size = djvVector2i(width, height);
-
     if (samples > 1 && PLANARCONFIG_SEPARATE == channels)
     {
         throw djvError(
             djvTiff::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
-    
     bool found = false;
-    
     switch (photometric)
     {
         case PHOTOMETRIC_PALETTE:
-        
             pixel = djvPixel::RGB_U8;
-            
             found = true;
-            
             break;
-
         case PHOTOMETRIC_MINISWHITE:
         case PHOTOMETRIC_MINISBLACK:
         case PHOTOMETRIC_RGB:
-
             if (32 == sampleDepth && sampleFormat != SAMPLEFORMAT_IEEEFP)
                 break;
-        
             found = djvPixel::pixel(
                 samples,
                 sampleDepth,
@@ -236,25 +200,19 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
                     djvPixel::FLOAT :
                     djvPixel::INTEGER,
                 pixel);
-            
             break;
     }
-    
     //DJV_DEBUG_PRINT("found = " << found);
     //DJV_DEBUG_PRINT("pixel = " << pixel);
-
     if (! found)
     {
         throw djvError(
             djvTiff::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     info.pixel = pixel;
-
     _compression = compression != COMPRESSION_NONE;
     _palette = PHOTOMETRIC_PALETTE == photometric;
-
     switch (orient)
     {
         case ORIENTATION_TOPLEFT:  info.mirror.y = true;                 break;
@@ -264,25 +222,20 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     }
 
     // Get image tags.
-
     const QStringList & tags = djvImageTags::tagLabels();
     char * tag = 0;
-
     if (TIFFGetField(_f, TIFFTAG_ARTIST, &tag))
     {
         info.tags[tags[djvImageTags::CREATOR]] = tag;
     }
-
     if (TIFFGetField(_f, TIFFTAG_IMAGEDESCRIPTION, &tag))
     {
         info.tags[tags[djvImageTags::DESCRIPTION]] = tag;
     }
-
     if (TIFFGetField(_f, TIFFTAG_COPYRIGHT, &tag))
     {
         info.tags[tags[djvImageTags::COPYRIGHT]] = tag;
     }
-
     if (TIFFGetField(_f, TIFFTAG_DATETIME, &tag))
     {
         info.tags[tags[djvImageTags::TIME]] = tag;

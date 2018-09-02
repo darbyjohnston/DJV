@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageContext.h
-
-#ifndef DJV_IMAGE_CONTEXT_H
-#define DJV_IMAGE_CONTEXT_H
+#pragma once
 
 #include <djvCoreContext.h>
 
@@ -53,21 +50,14 @@ class QOpenGLContext;
 class DJV_CORE_EXPORT djvImageContext : public djvCoreContext
 {
 public:
-
-    //! Constructor.
-
     explicit djvImageContext(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvImageContext();
 
-    //! Get the image I/O factory.
-    
+    //! Get the image I/O factory.    
     djvImageIoFactory * imageIoFactory() const;
         
     //! Get the default OpenGL context.
-
     QOpenGLContext * openGlContext() const;
     
     virtual QString info() const;
@@ -84,6 +74,4 @@ private:
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_IMAGE_APPLICATION_H
 

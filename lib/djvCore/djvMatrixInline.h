@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMatrixInline.h
-
 #include <djvBoxUtil.h>
 
 //------------------------------------------------------------------------------
@@ -94,15 +92,11 @@ inline void djvMatrix<T, D>::zero()
     }
 }
 
-//------------------------------------------------------------------------------
-
 template<typename T, int D>
 inline djvMatrix<T, D> operator * (const djvMatrix<T, D> & a, const djvMatrix<T, D> & b)
 {
     djvMatrix<T, D> out;
-
     out.zero();
-
     for (int i = 0; i < D; ++i)
     {
         for (int j = 0; j < D; ++j)
@@ -113,7 +107,6 @@ inline djvMatrix<T, D> operator * (const djvMatrix<T, D> & a, const djvMatrix<T,
             }
         }
     }
-
     return out;
 }
 
@@ -121,21 +114,16 @@ template<typename T, int D, int D2>
 inline djvVector<T, D2> operator * (const djvMatrix<T, D> & a, const djvVector<T, D2> & b)
 {
     //DJV_ASSERT((D - 1) == D2);
-
     djvVector<T, D2> out;
-
     for (int i = 0; i < D2; ++i)
     {
         int j = 0;
-
         for (; j < D2; ++j)
         {
             out.e[i] += a.e[j * D + i] * b.e[j];
         }
-
         out.e[i] += a.e[j * D + i];
     }
-
     return out;
 }
 
@@ -143,7 +131,6 @@ template<typename T>
 inline djvBox<T, 2> operator * (const djvMatrix<T, 3> & a, const djvBox<T, 2> & b)
 {
     const djvVector<T, 2> lowerRight = b.lowerRight();
-
     djvVector<T, 2> pt[] =
     {
         b.position,
@@ -153,13 +140,10 @@ inline djvBox<T, 2> operator * (const djvMatrix<T, 3> & a, const djvBox<T, 2> & 
     };
     pt[1].y = lowerRight.y;
     pt[3].x = lowerRight.x;
-
     djvBox<T, 2> out;
-
     for (int i = 0; i < 4; ++i)
     {
         pt[i] = a * pt[i];
-
         if (0 == i)
         {
             out.position = pt[i];
@@ -169,7 +153,6 @@ inline djvBox<T, 2> operator * (const djvMatrix<T, 3> & a, const djvBox<T, 2> & 
             out = djvBoxUtil::expand(out, pt[i]);
         }
     }
-
     return out;
 }
 
@@ -180,7 +163,6 @@ inline QStringList & operator << (QStringList & out, const djvMatrix<T, D> & in)
     {
         out << in.e[i];
     }
-
     return out;
 }
 
@@ -191,7 +173,6 @@ inline QStringList & operator >> (QStringList & in, djvMatrix<T, D> & out) throw
     {
         in >> out.e[i];
     }
-
     return in;
 }
 
@@ -205,7 +186,6 @@ inline bool operator == (const djvMatrix<T, D> & a, const djvMatrix<T, D> & b)
             return false;
         }
     }
-
     return true;
 }
 
@@ -219,7 +199,6 @@ template<typename T, int D>
 inline djvDebug & operator << (djvDebug & debug, const djvMatrix<T, D> & in)
 {
     debug << "\n";
-
     for (int i = 0; i < D; ++i)
     {
         for (int j = 0; j < D; ++j)
@@ -231,12 +210,10 @@ inline djvDebug & operator << (djvDebug & debug, const djvMatrix<T, D> & in)
                 debug << " ";
             }
         }
-
         if (i < D - 1)
         {
             debug << "\n";
         }
     }
-
     return debug;
 }

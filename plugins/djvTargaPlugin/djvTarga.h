@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTarga.h
-
-#ifndef DJV_TARGA_H
-#define DJV_TARGA_H
+#pragma once
 
 #include <djvFileIo.h>
 #include <djvImageIo.h>
@@ -70,11 +67,9 @@
 struct djvTarga
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the file compression.
-
     enum COMPRESSION
     {
         COMPRESSION_NONE,
@@ -84,25 +79,21 @@ struct djvTarga
     };
 
     //! Get compression labels.
-
     static const QStringList & compressionLabels();
 
     //! Load information.
-
     static void loadInfo(
         djvFileIo &      io,
         djvImageIoInfo & info,
         bool *           compression) throw (djvError);
 
     //! Save information.
-
     static void saveInfo(
         djvFileIo &            io,
         const djvImageIoInfo & info,
         bool                   compression) throw (djvError);
 
     //! Load RLE data.
-
     static const quint8 * readRle(
         const quint8 * in,
         const quint8 * end,
@@ -111,7 +102,6 @@ struct djvTarga
         int            channels);
 
     //! Save RLE data.
-
     static quint64 writeRle(
         const quint8 * in,
         quint8 *       out,
@@ -119,7 +109,6 @@ struct djvTarga
         int            channels);
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         COMPRESSION_OPTION,
@@ -128,26 +117,18 @@ struct djvTarga
     };
 
     //! Get option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
-        //! Constructor.
-
         Options();
 
         COMPRESSION compression;
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvTarga::COMPRESSION);
 
 //@} // djvTargaPlugin
-
-#endif // DJV_TARGA_H
 

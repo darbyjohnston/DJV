@@ -30,8 +30,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffWidget.cpp
-
 #include <djvIffWidget.h>
 
 #include <djvGuiContext.h>
@@ -66,14 +64,12 @@ djvIffWidget::djvIffWidget(djvImageIo * plugin, djvGuiContext * context) :
     //DJV_DEBUG("djvIffWidget::djvIffWidget");
 
     // Create the widgets.
-    
     _compressionWidget = new QComboBox;
     _compressionWidget->addItems(djvIff::compressionLabels());
     _compressionWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -90,7 +86,6 @@ djvIffWidget::djvIffWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(
         plugin->options()[djvIff::COMPRESSION_OPTION]);
@@ -99,12 +94,10 @@ djvIffWidget::djvIffWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _compressionWidget,
         SIGNAL(activated(int)),
@@ -117,7 +110,6 @@ djvIffWidget::~djvIffWidget()
 void djvIffWidget::resetPreferences()
 {
     _options = djvIff::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -128,21 +120,18 @@ void djvIffWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvIff::COMPRESSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.compression;
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvIffWidget::compressionCallback(int in)
 {
     _options.compression = static_cast<djvIff::COMPRESSION>(in);
-
     QStringList tmp;
     tmp << _options.compression;
     plugin()->setOption(
@@ -160,7 +149,6 @@ void djvIffWidget::pluginUpdate()
 void djvIffWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_compressionWidget);
-
     _compressionWidget->setCurrentIndex(_options.compression);
 }
 

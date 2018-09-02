@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonWidget.cpp
-
 #include <djvCineonWidget.h>
 
 #include <djvFloatEditSlider.h>
@@ -80,7 +78,6 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
     //DJV_DEBUG("djvCineonWidget::djvCineonWidget");
 
     // Create the widgets.
-
     _inputColorProfileWidget = new QComboBox;
     _inputColorProfileWidget->addItems(djvCineon::colorProfileLabels());
     _inputColorProfileWidget->setSizePolicy(
@@ -113,7 +110,6 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
     _outputGammaWidget->setRange(0.01, 4.0);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -161,7 +157,6 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     _inputBlackPointWidget->setDefaultValue(
         djvCineon::Options().inputFilmPrint.black);
     _inputWhitePointWidget->setDefaultValue(
@@ -195,52 +190,42 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-    
     connect(
         _inputColorProfileWidget,
         SIGNAL(activated(int)),
         SLOT(inputColorProfileCallback(int)));
-
     connect(
         _inputBlackPointWidget,
         SIGNAL(valueChanged(int)),
         SLOT(inputBlackPointCallback(int)));
-
     connect(
         _inputWhitePointWidget,
         SIGNAL(valueChanged(int)),
         SLOT(inputWhitePointCallback(int)));
-
     connect(
         _inputGammaWidget,
         SIGNAL(valueChanged(double)),
         SLOT(inputGammaCallback(double)));
-
     connect(
         _inputSoftClipWidget,
         SIGNAL(valueChanged(int)),
         SLOT(inputSoftClipCallback(int)));
-
     connect(
         _outputColorProfileWidget,
         SIGNAL(activated(int)),
         SLOT(outputColorProfileCallback(int)));
-
     connect(
         _outputBlackPointWidget,
         SIGNAL(valueChanged(int)),
         SLOT(outputBlackPointCallback(int)));
-
     connect(
         _outputWhitePointWidget,
         SIGNAL(valueChanged(int)),
         SLOT(outputWhitePointCallback(int)));
-
     connect(
         _outputGammaWidget,
         SIGNAL(valueChanged(double)),
@@ -255,7 +240,6 @@ djvCineonWidget::~djvCineonWidget()
 void djvCineonWidget::resetPreferences()
 {
     _options = djvCineon::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -266,7 +250,6 @@ void djvCineonWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvCineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.inputColorProfile;
@@ -282,77 +265,66 @@ void djvCineonWidget::pluginCallback(const QString & option)
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvCineonWidget::inputColorProfileCallback(int in)
 {
     _options.inputColorProfile = static_cast<djvCineon::COLOR_PROFILE>(in);
-
     pluginUpdate();
 }
 
 void djvCineonWidget::inputBlackPointCallback(int in)
 {
     _options.inputFilmPrint.black = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::inputWhitePointCallback(int in)
 {
     _options.inputFilmPrint.white = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::inputGammaCallback(double in)
 {
     _options.inputFilmPrint.gamma = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::inputSoftClipCallback(int in)
 {
     _options.inputFilmPrint.softClip = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::outputColorProfileCallback(int in)
 {
     _options.outputColorProfile = static_cast<djvCineon::COLOR_PROFILE>(in);
-
     pluginUpdate();
 }
 
 void djvCineonWidget::outputBlackPointCallback(int in)
 {
     _options.outputFilmPrint.black = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::outputWhitePointCallback(int in)
 {
     _options.outputFilmPrint.white = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::outputGammaCallback(double in)
 {
     _options.outputFilmPrint.gamma = in;
-
     pluginUpdate();
 }
 
 void djvCineonWidget::pluginUpdate()
 {
     //DJV_DEBUG("djvCineonWidget::pluginUpdate");
-
     QStringList tmp;
     tmp << _options.inputColorProfile;
     plugin()->setOption(
@@ -371,7 +343,6 @@ void djvCineonWidget::pluginUpdate()
 void djvCineonWidget::widgetUpdate()
 {
     //DJV_DEBUG("djvCineonWidget::widgetUpdate");
-
     djvSignalBlocker signalBlocker(QObjectList() <<
         _inputColorProfileWidget <<
         _inputBlackPointWidget <<
@@ -382,7 +353,6 @@ void djvCineonWidget::widgetUpdate()
         _outputBlackPointWidget <<
         _outputWhitePointWidget <<
         _outputGammaWidget);
-    
     _inputBlackPointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
@@ -407,7 +377,6 @@ void djvCineonWidget::widgetUpdate()
     _inputColorProfileLayout->labelForField(_inputSoftClipWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-
     _outputBlackPointWidget->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
@@ -426,13 +395,11 @@ void djvCineonWidget::widgetUpdate()
     _outputColorProfileLayout->labelForField(_outputGammaWidget)->setVisible(
         djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
         djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-
     _inputColorProfileWidget->setCurrentIndex(_options.inputColorProfile);
     _inputBlackPointWidget->setValue(_options.inputFilmPrint.black);
     _inputWhitePointWidget->setValue(_options.inputFilmPrint.white);
     _inputGammaWidget->setValue(_options.inputFilmPrint.gamma);
     _inputSoftClipWidget->setValue(_options.inputFilmPrint.softClip);
-
     _outputColorProfileWidget->setCurrentIndex(_options.outputColorProfile);
     _outputBlackPointWidget->setValue(_options.outputFilmPrint.black);
     _outputWhitePointWidget->setValue(_options.outputFilmPrint.white);

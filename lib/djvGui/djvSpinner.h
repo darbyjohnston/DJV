@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.h
-
-#ifndef DJV_SPINNER_H
-#define DJV_SPINNER_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,48 +54,34 @@ class djvSpinner : public QWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvSpinner(
         djvGuiContext * context,
         QWidget *       parent = 0);
 
-    //! Destructor.
-        
     virtual ~djvSpinner();
 
-    //! Get whether the spinner is spinning.
-    
+    //! Get whether the spinner is spinning.    
     bool isSpinning() const;
     
 public Q_SLOTS:
-
     //! Start the spinner.
-    
     void start();
 
     //! Start the spinner after the given delay.
-    
     void startDelayed(int msec);
     
     //! Stop the spinner.
-    
     void stop();
     
 protected:
-
     virtual void timerEvent(QTimerEvent *);
     virtual void paintEvent(QPaintEvent *);
     
 private:
-
     DJV_PRIVATE_COPY(djvSpinner)
     
     djvSpinnerPrivate * _p;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_SPINNER_H
 

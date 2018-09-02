@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRla.cpp
-
 #include <djvRla.h>
 
 #include <djvDebug.h>
@@ -53,53 +51,42 @@ void djvRla::readRle(
     //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("channels = " << channels);
     //DJV_DEBUG_PRINT("bytes = " << bytes);
-
     qint16 _size = 0;
     io.get16(&_size);
     //DJV_DEBUG_PRINT("io size = " << _size);
-
     const quint8 * start = io.mmapP();
     const quint8 * p = start;
     io.seek(_size);
-
     for (int b = 0; b < bytes; ++b)
     {
         quint8 * outP =
             out + (djvMemory::LSB == djvMemory::endian() ? (bytes - 1 - b) : b);
-        
         const int outInc = channels * bytes;
-
         for (int i = 0; i < size;)
         {
             int count = *((qint8 *)p);
             ++p;
             //DJV_DEBUG_PRINT("count = " << count);
-
             if (count >= 0)
             {
                 ++count;
-
                 for (int j = 0; j < count; ++j, outP += outInc)
                 {
                     *outP = *p;
                 }
-
                 ++p;
             }
             else
             {
                 count = -count;
-
                 for (int j = 0; j < count; ++j, ++p, outP += outInc)
                 {
                     *outP = *p;
                 }
             }
-
             i += count;
         }
     }
-
     //DJV_DEBUG_PRINT("out = " << p - start);
 }
 
@@ -109,21 +96,16 @@ void djvRla::floatLoad(
     int         size,
     int         channels) throw (djvError)
 {
-
     //DJV_DEBUG("djvRla::floatLoad");
     //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("channels = " << channels);
-
     qint16 _size = 0;
     io.get16(&_size);
     //DJV_DEBUG_PRINT("io size = " << _size);
-
     const quint8 * start = io.mmapP();
     const quint8 * p = start;
     io.seek(_size);
-
     const int outInc = channels * 4;
-
     if (djvMemory::LSB == djvMemory::endian())
     {
         for (int i = 0; i < size; ++i, p += 4, out += outInc)
@@ -144,7 +126,6 @@ void djvRla::floatLoad(
             out[3] = p[3];
         }
     }
-
     //DJV_DEBUG_PRINT("out = " << p - start);
 }
 

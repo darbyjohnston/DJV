@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvErrorUtil.h
-
-#ifndef DJV_ERROR_UTIL_H
-#define DJV_ERROR_UTIL_H
+#pragma once
 
 #include <djvConfig.h>
 #include <djvCoreExport.h>
@@ -53,25 +50,17 @@ class djvError;
 class DJV_CORE_EXPORT djvErrorUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvErrorUtil() = 0;
     
     //! Convert an error into a printable format.
-
     static QStringList format(const djvError &);
 
     //! Return the last system error (Windows specific).
-
     static QString lastError();
     
     //! Print an error to the console.
-    
     static void print(const djvError &);
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_ERROR_UTIL_H
 

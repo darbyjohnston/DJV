@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageTags.cpp
-
 #include <djvImageTags.h>
 
 #include <djvAssert.h>
@@ -49,7 +47,6 @@
 struct djvImageTagsPrivate
 {
     typedef QPair<QString, QString> Pair;
-
     QVector<Pair> list;
 };
 
@@ -87,7 +84,6 @@ void djvImageTags::add(const QString & key, const QString & value)
         if (key == _p->list[i].first)
         {
             _p->list[i].second = value;
-            
             return;
         }
     }
@@ -104,31 +100,26 @@ QString djvImageTags::tag(const QString & key) const
             return pair.second;
         }
     }
-
     return QString();
 }
 
 QStringList djvImageTags::keys() const
 {
     QStringList out;
-
     Q_FOREACH(const djvImageTagsPrivate::Pair & pair, _p->list)
     {
         out += pair.first;
     }
-
     return out;
 }
 
 QStringList djvImageTags::values() const
 {
     QStringList out;
-
     Q_FOREACH(const djvImageTagsPrivate::Pair & pair, _p->list)
     {
         out += pair.second;
     }
-
     return out;
 }
 
@@ -146,7 +137,6 @@ bool djvImageTags::isValid(const QString & key)
             return true;
         }
     }
-
     return false;
 }
 
@@ -166,9 +156,7 @@ const QStringList & djvImageTags::tagLabels()
         qApp->translate("djvImageTags", "UTC Offset") <<
         qApp->translate("djvImageTags", "Keycode") <<
         qApp->translate("djvImageTags", "Timecode");
-
     DJV_ASSERT(data.count() == TAGS_COUNT);
-
     return data;
 }
 
@@ -178,7 +166,6 @@ djvImageTags & djvImageTags::operator = (const djvImageTags & other)
     {
         *_p = *(other._p);
     }
-
     return *this;
 }
 
@@ -191,9 +178,7 @@ QString & djvImageTags::operator [] (const QString & key)
             return _p->list[i].second;
         }
     }
-
     _p->list += djvImageTagsPrivate::Pair(key, QString());
-    
     return _p->list[_p->list.count() - 1].second;
 }
 
@@ -202,20 +187,16 @@ QString djvImageTags::operator [] (const QString & key) const
     return tag(key);
 }
 
-//------------------------------------------------------------------------------
-
 bool operator == (const djvImageTags & a, const djvImageTags & b)
 {
     if (a.keys() != b.keys())
     {
         return false;
     }
-
     if (a.values() != b.values())
     {
         return false;
     }
-
     return true;
 }
 
@@ -227,12 +208,10 @@ bool operator != (const djvImageTags & a, const djvImageTags & b)
 djvDebug & operator << (djvDebug & debug, const djvImageTags & tags)
 {
     QStringList tmp;
-
     Q_FOREACH(const QString & key, tags.keys())
     {
         tmp += QString("\"%1 = %2\"").arg(key).arg(tags[key]);
-    }
-    
+    }    
     return debug << tmp.join(", ");
 }
 

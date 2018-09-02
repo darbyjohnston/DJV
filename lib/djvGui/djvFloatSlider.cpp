@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatSlider.cpp
-
 #include <djvFloatSlider.h>
 
 #include <djvFloatObject.h>
@@ -47,20 +45,16 @@
 
 namespace
 {
-
 //! \todo Should we implement our own slider for better control of the position
 //! and value?
-
 class Slider : public QSlider
 {
 public:
-
     Slider() :
         QSlider(Qt::Horizontal)
     {}
 
 protected:
-
     virtual void mousePressEvent(QMouseEvent * event)
     {
         const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
@@ -134,22 +128,18 @@ djvFloatSlider::djvFloatSlider(QWidget * parent) :
         _p->object,
         SIGNAL(valueChanged(double)),
         SLOT(valueCallback()));
-
     connect(
         _p->object,
         SIGNAL(minChanged(double)),
         SLOT(rangeCallback()));
-
     connect(
         _p->object,
         SIGNAL(maxChanged(double)),
         SLOT(rangeCallback()));
-
     connect(
         _p->object,
         SIGNAL(rangeChanged(double, double)),
         SLOT(rangeCallback()));
-    
     connect(
         _p->slider,
         SIGNAL(valueChanged(int)),
@@ -213,7 +203,6 @@ void djvFloatSlider::keyPressEvent(QKeyEvent * event)
         case Qt::Key_Up:       _p->object->smallIncAction(); break;
         case Qt::Key_PageDown: _p->object->largeDecAction(); break;
         case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
-
         default: break;
     }
 }
@@ -221,14 +210,12 @@ void djvFloatSlider::keyPressEvent(QKeyEvent * event)
 void djvFloatSlider::valueCallback()
 {
     widgetUpdate();
-
     Q_EMIT valueChanged(_p->object->value());
 }
 
 void djvFloatSlider::rangeCallback()
 {
     widgetUpdate();
-
     Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
 }
 
@@ -245,10 +232,9 @@ void djvFloatSlider::widgetUpdate()
     //DJV_DEBUG_PRINT("value = " << value());
     //DJV_DEBUG_PRINT("min = " << min());
     //DJV_DEBUG_PRINT("max = " << max());
-    
     djvSignalBlocker signalBlocker(_p->slider);
-    
     _p->slider->setValue(static_cast<int>(
         ((_p->object->value() - _p->object->min()) /
          (_p->object->max() - _p->object->min())) * steps));
 }
+

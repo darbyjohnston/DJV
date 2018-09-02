@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefsGroupBox.cpp
-
 #include <djvPrefsGroupBox.h>
 
 #include <djvGuiContext.h>
@@ -128,9 +126,7 @@ QFormLayout * djvPrefsGroupBox::createLayout()
 {
     QFormLayout * formLayout = new QFormLayout;
     formLayout->setSpacing(_p->context->style()->sizeMetric().spacing);
-    
     _p->layout->addLayout(formLayout);
-    
     return formLayout;
 }
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutPlugin.cpp
-
 #include <djvLutPlugin.h>
 
 #include <djvLutLoad.h>
@@ -62,13 +60,11 @@ void djvLutPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvLutPlugin", "-lut_type") == arg)
             {
                 in >> _options.type;
@@ -83,7 +79,6 @@ void djvLutPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 
@@ -113,12 +108,10 @@ QStringList djvLutPlugin::extensions() const
 QStringList djvLutPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvLut::TYPE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.type;
     }
-
     return out;
 }
 
@@ -129,13 +122,10 @@ bool djvLutPlugin::setOption(const QString & in, QStringList & data)
         if (0 == in.compare(options()[djvLut::TYPE_OPTION], Qt::CaseInsensitive))
         {
             djvLut::TYPE type = static_cast<djvLut::TYPE>(0);
-
             data >> type;
-
             if (type != _options.type)
             {
                 _options.type = type;
-
                 Q_EMIT optionChanged(in);
             }
         }
@@ -144,7 +134,6 @@ bool djvLutPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 

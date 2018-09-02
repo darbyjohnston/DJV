@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileIo.h
-
-#ifndef DJV_FILE_IO_H
-#define DJV_FILE_IO_H
+#pragma once
 
 #include <djvError.h>
 #include <djvStringUtil.h>
@@ -57,17 +54,11 @@ class DJV_CORE_EXPORT djvFileIo
     Q_ENUMS(MODE)
     
 public:
-
-    //! Constructor.
-
     djvFileIo();
-
-    //! Destructor.
 
     ~djvFileIo();
 
     //! This enumeration provides the file modes.
-
     enum MODE
     {
         READ,
@@ -75,27 +66,21 @@ public:
     };
 
     //! Open a file.
-
     void open(const QString & fileName, MODE) throw (djvError);
 
     //! Close the file.
-
     void close();
-
+    
     //! Get the file name.
-
     const QString & fileName() const;
 
     //! Get whether the file is open.
-
     bool isValid() const;
 
     //! Get the file size.
-
     quint64 size() const;
 
     //! Get data.
-
     void get(void *, quint64, int wordSize = 1) throw (djvError);
 
     inline void get8  (qint8 *,   quint64 = 1) throw (djvError);
@@ -107,7 +92,6 @@ public:
     inline void getF32(float *,   quint64 = 1) throw (djvError);
 
     //! Set data.
-
     void set(const void *, quint64, int wordSize = 1) throw (djvError);
 
     inline void set8  (const qint8 *,   quint64) throw (djvError);
@@ -128,41 +112,32 @@ public:
 
     //! Start an asynchronous read-ahead. This allows the operating system to
     //! cache the file by the time we need it.
-
     void readAhead();
 
     //! Get the current memory-map position.
-
     const quint8 * mmapP() const;
 
     //! Get a pointer to the end of the memory-map.
-
     const quint8 * mmapEnd() const;
 
     //! Get the file position.
-
     quint64 pos() const;
 
     //! Set the file position.
-
     void setPos(quint64) throw (djvError);
 
     //! Move the file position.
-
     void seek(quint64) throw (djvError);
 
     //! Get whether endian conversion is performed when using the data
     //! functions.
-
     bool endian() const;
 
     //! Set whether endian conversion is performed when using the data
     //! functions.
-
     void setEndian(bool);
     
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_OPEN,
@@ -180,11 +155,9 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 
 private:
-
     void setPos(quint64, bool seek) throw (djvError);
 	
     DJV_PRIVATE_COPY(djvFileIo);
@@ -195,6 +168,4 @@ private:
 //@} // djvCoreFile
 
 #include <djvFileIoInline.h>
-
-#endif // DJV_FILE_IO_H
 

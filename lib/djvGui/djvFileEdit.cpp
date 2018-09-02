@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileEdit.cpp
-
 #include <djvFileEdit.h>
 
 #include <djvGuiContext.h>
@@ -66,27 +64,22 @@ djvFileEdit::djvFileEdit(djvGuiContext * context, QWidget * parent) :
     _p(new djvFileEditPrivate(context))
 {
     // Create the widgets.
-
     _p->edit = new QLineEdit;
 
     QPushButton * button = new QPushButton(
         qApp->translate("djvFileEdit", "&Browse"));
 
     // Layout the widgets.
-
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(_p->edit, 1);
     layout->addWidget(button);
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(_p->edit, SIGNAL(editingFinished()), SLOT(editCallback()));
-    
     connect(button, SIGNAL(clicked()), SLOT(buttonCallback()));
 }
 
@@ -104,11 +97,8 @@ void djvFileEdit::setFileInfo(const djvFileInfo & file)
 {
     if (file == _p->fileInfo)
         return;
-
     _p->fileInfo = file;
-
     widgetUpdate();
-
     Q_EMIT fileInfoChanged(_p->fileInfo);
 }
 
@@ -120,7 +110,6 @@ void djvFileEdit::editCallback()
 void djvFileEdit::buttonCallback()
 {
     djvFileBrowser * fileBrowser = _p->context->fileBrowser();
-    
     if (QDialog::Accepted == fileBrowser->exec())
     {
         setFileInfo(fileBrowser->fileInfo());

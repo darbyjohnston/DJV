@@ -30,8 +30,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffLoad.cpp
-
 #include <djvIffLoad.h>
 
 #include <djvImage.h>
@@ -85,35 +83,23 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     quint32 tilesRgba;
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     djvFileIo io;
-    
     _open(fileName, info, io);
-    
     image.tags = info.tags;
 
     // Read the file.
-
     const int channelByteCount = djvPixel::channelByteCount(info.pixel);
     const uint byteCount = djvPixel::byteCount(info.pixel);
-
     //DJV_DEBUG_PRINT("channels = " << channels);
     //DJV_DEBUG_PRINT("channelByteCount = " << channelByteCount);
     //DJV_DEBUG_PRINT("byteCount = " << byteCount);
-
     io.readAhead();
-
     djvPixelData * data = frame.proxy ? &_tmp : &image;
-
     data->set(info);
-
     tilesRgba = _tiles;
 
     // Read FOR4 <size> TBMP block
@@ -240,7 +226,6 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         {
 
                             // Tile compress.
-
                             if (tile_compress)
                             {
                                 // Set bytes.
@@ -255,7 +240,6 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     quint8 * inP = in ();
 
                                     // Uncompress.
-
                                     p += djvIff::readRle (p, in(), tw * th);
 
                                     for (quint16 py = ymin; py <= ymax; py++)
@@ -275,11 +259,9 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 }
 
                                 // Seek
-
                                 io.seek(imageSize - 8);
 
                                 // Test.
-
                                 if (p != io.mmapP())
                                 {
                                     throw djvError(
@@ -294,12 +276,10 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     quint8 * out_dy = data->data(xmin, py);
 
                                     // Tile scanline.
-
                                     djvMemoryBuffer<quint8> scanline(tw * byteCount);
                                     quint8 * outP = scanline();
 
                                     // Set bytes.
-
                                     for (quint16 px = xmin; px <= xmax; px++)
                                     {
                                         // Get pixels.
@@ -385,7 +365,6 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     quint8 * inP = in ();
 
                                     // Uncompress.
-
                                     p += djvIff::readRle (p, in(), tw * th);
 
                                     for (quint16 py = ymin; py <= ymax; py++)
@@ -405,11 +384,9 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 }
 
                                 // Seek
-
                                 io.seek(imageSize - 8);
 
                                 // Test.
-
                                 if (p != io.mmapP())
                                 {
                                     throw djvError(
@@ -424,13 +401,11 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     quint8 * out_dy = data->data(xmin, py);
 
                                     // Tile scanline.
-
                                     djvMemoryBuffer<quint16> scanline(
                                         tw * byteCount);
                                     quint16 * outP = scanline();
 
                                     // Set bytes.
-
                                     for (quint16 px = xmin; px <= xmax; px++)
                                     {
                                         // Get pixels.
@@ -534,12 +509,8 @@ void djvIffLoad::_open(const djvFileInfo & in, djvImageIoInfo & info, djvFileIo 
 {
     //DJV_DEBUG("djvIffLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-    
     io.open(in, djvFileIo::READ);
-
     info.fileName = in;
-    
     djvIff::loadInfo(io, info, &_tiles, &_compression);
 }

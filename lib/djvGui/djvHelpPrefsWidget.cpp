@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvHelpPrefsWidget.cpp
-
 #include <djvHelpPrefsWidget.h>
 
 #include <djvGuiContext.h>
@@ -57,7 +55,7 @@ struct djvHelpPrefsWidgetPrivate
         toolTipsWidget(0)
     {}
 
-    QCheckBox *  toolTipsWidget;
+    QCheckBox * toolTipsWidget;
 };
 
 //------------------------------------------------------------------------------
@@ -70,12 +68,10 @@ djvHelpPrefsWidget::djvHelpPrefsWidget(djvGuiContext * context, QWidget * parent
     _p(new djvHelpPrefsWidgetPrivate)
 {
     // Create the widgets.
-
     _p->toolTipsWidget = new QCheckBox(
         qApp->translate("djvHelpPrefsWidget", "Enable tool tips"));
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -88,11 +84,9 @@ djvHelpPrefsWidget::djvHelpPrefsWidget(djvGuiContext * context, QWidget * parent
     layout->addStretch();
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->toolTipsWidget,
         SIGNAL(toggled(bool)),
@@ -120,7 +114,6 @@ void djvHelpPrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->toolTipsWidget);
-
     _p->toolTipsWidget->setChecked(context()->helpPrefs()->hasToolTips());
 }
 

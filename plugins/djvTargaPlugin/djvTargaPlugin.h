@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaPlugin.h
-
-#ifndef DJV_TARGA_PLUGIN_H
-#define DJV_TARGA_PLUGIN_H
+#pragma once
 
 #include <djvTarga.h>
 
@@ -48,27 +45,19 @@
 class djvTargaPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     djvTargaPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
-
+    
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
@@ -77,6 +66,4 @@ private:
 };
 
 //@} // djvTargaPlugin
-
-#endif // DJV_TARGA_PLUGIN_H
 

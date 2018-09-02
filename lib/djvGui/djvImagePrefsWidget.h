@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePrefsWidget.h
-
-#ifndef DJV_IMAGE_PREFS_WIDGET_H
-#define DJV_IMAGE_PREFS_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -54,24 +51,17 @@ class DJV_GUI_EXPORT djvImagePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvImagePrefsWidget(djvGuiContext * context, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvImagePrefsWidget();
 
     virtual void resetPreferences();
 
-    private Q_SLOTS:
-
+private Q_SLOTS:
     void filterMinCallback(int);
     void filterMagCallback(int);
 
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvImagePrefsWidget);
@@ -80,6 +70,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_IMAGE_PREFS_WIDGET_H
 

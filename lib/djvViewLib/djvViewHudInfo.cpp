@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHudInfo.cpp
-
 #include <djvViewHudInfo.h>
 
 #include <djvMath.h>

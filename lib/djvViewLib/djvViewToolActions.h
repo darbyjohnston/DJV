@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolActions.h
-
-#ifndef DJV_VIEW_TOOL_ACTIONS_H
-#define DJV_VIEW_TOOL_ACTIONS_H
+#pragma once
 
 #include <djvViewAbstractActions.h>
 
@@ -55,7 +52,6 @@ class DJV_VIEW_LIB_EXPORT djvViewToolActions : public djvViewAbstractActions
 public:
 
     //! This enumeration provides the action groups.
-
     enum GROUP
     {
         TOOL_GROUP,
@@ -63,26 +59,18 @@ public:
         GROUP_COUNT
     };
 
-    //! Constructor.
-
     explicit djvViewToolActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewToolActions();
 
 private Q_SLOTS:
-
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewToolActions);
     
     djvViewToolActionsPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_TOOL_ACTIONS_H
 

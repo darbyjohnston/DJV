@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiLoad.cpp
-
 #include <djvSgiLoad.h>
 
 #include <djvImage.h>
@@ -52,13 +50,9 @@ void djvSgiLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvSgiLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-    
     djvFileIo io;
-
     _open(_file.fileName(_file.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -75,35 +69,25 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     djvFileIo io;
-    
     _open(fileName, info, io);
 
     // Read the file.
-
     io.readAhead();
-
     const quint64 pos      = io.pos();
     const quint64 size     = io.size() - pos;
     const int     channels = djvPixel::channels(info.pixel);
     const int     bytes    = djvPixel::channelByteCount(info.pixel);
-
     if (! _compression)
     {
         if (1 == bytes)
         {
             const quint8 * p = io.mmapP();
-            
             io.seek(djvPixelDataUtil::dataByteCount(info));
-            
             _tmp.set(info, p);
         }
         else
@@ -114,32 +98,24 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     djvSgi::staticName,
                     djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
             }
-        
             _tmp.set(info);
-            
             io.get(_tmp.data(), size / bytes, bytes);
         }
     }
     else
     {
         _tmp.set(info);
-
         djvMemoryBuffer<quint8> tmp(size);
-        
         io.get(tmp(), size / bytes, bytes);
-
         const quint8 * inP  = tmp();
         const quint8 * end  = inP + size;
         quint8 *       outP = _tmp.data();
-
         for (int c = 0; c < channels; ++c)
         {
             //DJV_DEBUG_PRINT("channel = " << c);
-
             for (int y = 0; y < info.size.y; ++y, outP += info.size.x * bytes)
             {
                 //DJV_DEBUG_PRINT("y = " << y);
-
                 if (! djvSgi::readRle(
                     inP + _rleOffset()[y + info.size.y * c] - pos,
                     end,
@@ -157,11 +133,9 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
 
     // Interleave the image channels.
-
     info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
     info.proxy = frame.proxy;
     image.set(info);
-
     djvPixelDataUtil::planarInterleave(_tmp, image, frame.proxy);
 
     //DJV_DEBUG_PRINT("image = " << image);
@@ -174,25 +148,18 @@ void djvSgiLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-    
     io.open(in, djvFileIo::READ);
-
     info.fileName = in;
-    
     djvSgi::loadInfo(io, info, &_compression);
 
     // Read the scanline tables.
-
     if (_compression)
     {
         const int tableSize = info.size.y * djvPixel::channels(info.pixel);
         //DJV_DEBUG_PRINT("rle table size = " << tableSize);
-
         _rleOffset.setSize(tableSize);
         _rleSize.setSize(tableSize);
-
         io.getU32(_rleOffset(), tableSize);
         io.getU32(_rleSize(),   tableSize);
     }

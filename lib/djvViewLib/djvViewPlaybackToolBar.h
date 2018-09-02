@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackToolBar.h
-
-#ifndef DJV_VIEW_PLAYBACK_TOOL_BAR_H
-#define DJV_VIEW_PLAYBACK_TOOL_BAR_H
+#pragma once
 
 #include <djvViewAbstractToolBar.h>
 #include <djvViewUtil.h>
@@ -56,144 +53,106 @@ class djvViewPlaybackToolBar : public djvViewAbstractToolBar
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewPlaybackToolBar(
         djvViewAbstractActions * actions,
         djvViewContext *         context,
         QWidget *                parent  = 0);
 
-    //! Destructor.
-
     virtual ~djvViewPlaybackToolBar();
 
 public Q_SLOTS:
-
     //! Set the playback speed.
-
     void setSpeed(const djvSpeed &);
 
     //! Set the default playback speed.
-
     void setDefaultSpeed(const djvSpeed &);
 
     //! Set the real playback speed.
-
     void setRealSpeed(double);
 
     //! Set whether frames are being dropped.
-
     void setDroppedFrames(bool);
 
     //! Set the frame list.
-
     void setFrameList(const djvFrameList &);
 
     //! Set the frame.
-
     void setFrame(qint64);
 
     //! Set the cached frames.
-
     void setCachedFrames(const djvFrameList &);
 
     //! Set the start frame.
-
     void setStart(qint64);
 
     //! Set the end frame.
-
     void setEnd(qint64);
 
     //! Set the duration.
-
     void setDuration(qint64, bool inOutEnabled);
 
     //! Set whether the in/out points are enabled.
-
     void setInOutEnabled(bool);
 
     //! Set the in point.
-
     void setInPoint(qint64);
 
     //! Set the out point.
-
     void setOutPoint(qint64);
 
     //! Mark the in point.
-
     void markInPoint();
 
     //! Mark the out point.
-
     void markOutPoint();
 
     //! Reset the in point.
-
     void resetInPoint();
 
     //! Reset the out point.
-
     void resetOutPoint();
 
     //! Set the layout.
-
     void setLayout(djvViewUtil::LAYOUT);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the playback shuttle is pressed.
-
     void playbackShuttlePressed(bool);
 
     //! This signal is emitted when the playback shuttle is changed.
-
     void playbackShuttleValue(int);
 
     //! This signal is emitted when the speed is changed.
-
     void speedChanged(const djvSpeed &);
 
     //! This signal is emitted when the frame is changed.
-
     void frameChanged(qint64);
 
     //! This signal is emitted when the frame shuttle is pressed.
-
     void frameShuttlePressed(bool);
 
     //! This signal is emitted when the frame shuttle is changed.
-
     void frameShuttleValue(int);
 
     //! This signal is emitted when the frame slider is pressed.
-
     void frameSliderPressed(bool);
 
     //! This signal is emitted when the frame slider is changed.
-
     void frameSliderChanged(qint64);
 
     //! This signal is emitted when the frame buttons are pressed.
-
     void frameButtonsPressed();
 
     //! This signal is emitted when the frame buttons are released.
-
     void frameButtonsReleased();
 
     //! This signal is emitted when the in point is changed.
-
     void inPointChanged(qint64);
 
     //! This signal is emitted when the out point is changed.
-
     void outPointChanged(qint64);
 
 private:
-
     void layoutUpdate();
 
     DJV_PRIVATE_COPY(djvViewPlaybackToolBar);
@@ -203,4 +162,3 @@ private:
 
 //@} // djvViewPlayback
 
-#endif // DJV_VIEW_PLAYBACK_TOOL_BAR_H

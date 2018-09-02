@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffPlugin.cpp
-
 #include <djvTiffPlugin.h>
 
 #include <djvTiffLoad.h>
@@ -80,12 +78,10 @@ QStringList djvTiffPlugin::extensions() const
 QStringList djvTiffPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvTiff::COMPRESSION_OPTION], Qt::CaseInsensitive))
     {
         out << _options.compression;
     }
-
     return out;
 }
 
@@ -96,13 +92,10 @@ bool djvTiffPlugin::setOption(const QString & in, QStringList & data)
         if (0 == in.compare(options()[djvTiff::COMPRESSION_OPTION], Qt::CaseInsensitive))
         {
             djvTiff::COMPRESSION compression = static_cast<djvTiff::COMPRESSION>(0);
-            
             data >> compression;
-            
             if (compression != _options.compression)
             {
                 _options.compression = compression;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -111,7 +104,6 @@ bool djvTiffPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -124,13 +116,11 @@ void djvTiffPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvTiffPlugin", "-tiff_compression") == arg)
             {
                 in >> _options.compression;
@@ -145,7 +135,6 @@ void djvTiffPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 

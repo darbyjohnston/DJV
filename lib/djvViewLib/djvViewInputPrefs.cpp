@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewInputPrefs.cpp
-
 #include <djvViewInputPrefs.h>
 
 #include <djvPrefs.h>
@@ -97,9 +95,7 @@ void djvViewInputPrefs::setMouseWheel(djvViewUtil::MOUSE_WHEEL in)
 {
     if (in == _mouseWheel)
         return;
-
     _mouseWheel = in;
-
     Q_EMIT prefChanged();
 }
 
@@ -107,9 +103,7 @@ void djvViewInputPrefs::setMouseWheelShift(djvViewUtil::MOUSE_WHEEL in)
 {
     if (in == _mouseWheelShift)
         return;
-
     _mouseWheelShift = in;
-
     Q_EMIT prefChanged();
 }
 
@@ -117,9 +111,7 @@ void djvViewInputPrefs::setMouseWheelCtrl(djvViewUtil::MOUSE_WHEEL in)
 {
     if (in == _mouseWheelCtrl)
         return;
-
     _mouseWheelCtrl = in;
-
     Q_EMIT prefChanged();
 }
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvJpegWidget.cpp
-
 #include <djvJpegWidget.h>
 
 #include <djvGuiContext.h>
@@ -64,13 +62,11 @@ djvJpegWidget::djvJpegWidget(djvImageIo * plugin, djvGuiContext * context) :
     _qualityWidget(0)
 {
     // Create the widgets.
-
     _qualityWidget = new djvIntEditSlider(context);
     _qualityWidget->setRange(0, 100);
     _qualityWidget->setDefaultValue(djvJpeg::Options().quality);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -87,7 +83,6 @@ djvJpegWidget::djvJpegWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(
         plugin->options()[djvJpeg::QUALITY_OPTION]);
@@ -96,12 +91,10 @@ djvJpegWidget::djvJpegWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _qualityWidget,
         SIGNAL(valueChanged(int)),
@@ -114,7 +107,6 @@ djvJpegWidget::~djvJpegWidget()
 void djvJpegWidget::resetPreferences()
 {
     _options = djvJpeg::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -125,7 +117,6 @@ void djvJpegWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvJpeg::QUALITY_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.quality;
@@ -133,14 +124,12 @@ void djvJpegWidget::pluginCallback(const QString & option)
     catch (const QString &)
     {
     }
-
     widgetUpdate();
 }
 
 void djvJpegWidget::qualityCallback(int in)
 {
     _options.quality = in;
-
     pluginUpdate();
 }
 
@@ -155,7 +144,6 @@ void djvJpegWidget::pluginUpdate()
 void djvJpegWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_qualityWidget);
-
     _qualityWidget->setValue(_options.quality);
 }
 

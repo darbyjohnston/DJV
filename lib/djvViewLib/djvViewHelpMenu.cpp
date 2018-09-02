@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHelpMenu.cpp
-
 #include <djvViewHelpMenu.h>
 
 #include <djvViewHelpActions.h>
@@ -54,16 +52,12 @@ djvViewHelpMenu::djvViewHelpMenu(
     djvViewAbstractMenu(actions, parent),
     _p(new djvViewHelpMenuPrivate)
 {
-    // Create the menus.
-
+    // Create the actions.
     addAction(actions->action(djvViewHelpActions::HELP));
-
     addAction(actions->action(djvViewHelpActions::INFO));
-
     addAction(actions->action(djvViewHelpActions::ABOUT));
 
     // Initialize.
-
     setTitle(qApp->translate("djvViewHelpMenu", "&Help"));
 }
 

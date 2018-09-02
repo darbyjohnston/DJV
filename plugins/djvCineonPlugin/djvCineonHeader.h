@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineonHeader.h
-
-#ifndef DJV_CINEON_HEADER_H
-#define DJV_CINEON_HEADER_H
+#pragma once
 
 #include <djvCineonPlugin.h>
 
@@ -50,15 +47,12 @@ class djvCineonHeader
 public:
 
     //! The Cineon file magic numbers.
-    
     static const quint32 magic[];
     
     // This constant is used to catch invalid values.
-
     static const float minSpeed;
 
     //! This enumeration provides the image orientation.
-
     enum ORIENT
     {
         ORIENT_LEFT_RIGHT_TOP_BOTTOM,
@@ -72,7 +66,6 @@ public:
     };
 
     //! This enumeration provides the descriptor.
-
     enum DESCRIPTOR
     {
         DESCRIPTOR_L = 0,
@@ -85,7 +78,6 @@ public:
     };
 
     //! This struct provides file information.
-
     struct File
     {
         quint32 magic;
@@ -101,7 +93,6 @@ public:
     };
 
     //! This struct provides image information.
-
     struct Image
     {
         quint8 orient;
@@ -109,7 +100,6 @@ public:
         quint8 pad[2];
 
         //! This struct provides channel information.
-
         struct Channel
         {
             quint8  descriptor[2];
@@ -139,7 +129,6 @@ public:
     };
     
     //! This struct provides source information.
-
     struct Source
     {
         qint32 offset [2];
@@ -155,7 +144,6 @@ public:
     };
 
     //! This struct provides film information.
-
     struct Film
     {
         quint8  id;
@@ -170,10 +158,7 @@ public:
         char    frameId [32];
         char    slate [200];
         char    pad2 [740];
-
     };
-
-    //! Constructor.
 
     djvCineonHeader();
 
@@ -183,61 +168,48 @@ public:
     Film   film;
 
     //! Load the header.
-
     void load(
         djvFileIo &,
         djvImageIoInfo &,
         bool & filmPrint) throw (djvError);
 
     //! Save the header.
-
     void save(
         djvFileIo &,
         const djvImageIoInfo &,
         djvCineon::COLOR_PROFILE) throw (djvError);
     
     //! Update the header when saving is finished.
-    
     void saveEnd(djvFileIo &) throw (djvError);
 
     //! Zero memory.
-
     static void zero(qint32 *);
 
     //! Zero memory.
-
     static void zero(float *);
 
     //! Zero memory.
-
     static void zero(char *, int size);
 
     //! Get whether the value is valid.
-
     static bool isValid(const quint8 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const quint16 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const quint32 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const qint32 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const float *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const char *, int size);
 
     //! Convert to a string.
-
     static QString toString(const char *, int size);
 
     QString debug() const;
@@ -250,11 +222,8 @@ public:
     static QString debug(const char *, int size);
 
 private:
-
     void endian();
 };
 
 //@} // djvCineon
-
-#endif // DJV_CINEON_HEADER_H
 

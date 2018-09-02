@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPlaybackButtons.h
-
-#ifndef DJV_PLAYBACK_BUTTONS_H
-#define DJV_PLAYBACK_BUTTONS_H
+#pragma once
 
 #include <djvPlaybackUtil.h>
 
@@ -53,8 +50,7 @@ class DJV_GUI_EXPORT djvPlaybackButtons : public QWidget
     Q_OBJECT
     Q_ENUMS(PLAYBACK)
     
-    //! This property holds the current playback state.
-    
+    //! This property holds the current playback state.    
     Q_PROPERTY(
         djvPlaybackUtil::PLAYBACK playback
         READ                      playback
@@ -62,36 +58,25 @@ class DJV_GUI_EXPORT djvPlaybackButtons : public QWidget
         NOTIFY                    playbackChanged)
     
 public:
-
-    //! Constructor.
-    
     explicit djvPlaybackButtons(djvGuiContext *, QWidget * parent = 0);
     
-    //! Get the current playback state.
-    
+    //! Get the current playback state.    
     djvPlaybackUtil::PLAYBACK playback() const;
 
 public Q_SLOTS:
-
     //! Set the current playback state.
-    
     void setPlayback(djvPlaybackUtil::PLAYBACK);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the current playback state is changed.
-    
     void playbackChanged(djvPlaybackUtil::PLAYBACK);
 
 private Q_SLOTS:
-
     void buttonCallback(int);
     
-private:
-    
+private:    
     djvGuiContext *           _context;
     djvPlaybackUtil::PLAYBACK _playback;
     QButtonGroup *            _buttonGroup;
 };
 
-#endif // DJV_PLAYBACK_BUTTONS_H

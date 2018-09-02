@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHistogramTool.h
-
-#ifndef DJV_VIEW_HISTOGRAM_TOOL_H
-#define DJV_VIEW_HISTOGRAM_TOOL_H
+#pragma once
 
 #include <djvViewAbstractTool.h>
 
@@ -54,25 +51,18 @@ class DJV_VIEW_LIB_EXPORT djvViewHistogramTool : public djvViewAbstractTool
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewHistogramTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
         QWidget *           parent = 0);
 
-    //! Destructor.
-
     virtual ~djvViewHistogramTool();
 
 protected:
-
     virtual void showEvent(QShowEvent *);
     virtual void resizeEvent(QResizeEvent *);
 
 private Q_SLOTS:
-
     void sizeCallback(int);
     void maskCallback(const djvPixel::Mask &);
     void colorProfileCallback(bool);
@@ -81,13 +71,10 @@ private Q_SLOTS:
     void widgetUpdate();
     
 private:
-
     DJV_PRIVATE_COPY(djvViewHistogramTool);
     
     djvViewHistogramToolPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_HISTOGRAM_TOOL_H
 

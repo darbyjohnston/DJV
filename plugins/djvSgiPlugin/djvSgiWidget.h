@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiWidget.h
-
-#ifndef DJV_SGI_WIDGET_H
-#define DJV_SGI_WIDGET_H
+#pragma once
 
 #include <djvSgiSave.h>
 
@@ -54,19 +51,13 @@ class djvSgiWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvSgiWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
 
     virtual ~djvSgiWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void compressionCallback(int);
 
@@ -74,7 +65,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvSgi::Options _options;
     QComboBox *     _compressionWidget;
 };
@@ -88,7 +78,6 @@ private:
 class djvSgiWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvSgiWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -98,4 +87,3 @@ public:
 
 //@} // djvSgiPlugin
 
-#endif // DJV_SGI_WIDGET_H

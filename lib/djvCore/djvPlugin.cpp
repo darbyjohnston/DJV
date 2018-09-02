@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPlugin.cpp
-
 #include <djvPlugin.h>
 
 #include <djvAssert.h>
@@ -48,13 +46,9 @@
 #include <QStringList>
 
 #if defined(DJV_WINDOWS)
-
 #define WIN32_LEAN_AND_MEAN
-
 #define NOMINMAX
-
 #include <windows.h>
-
 #endif // DJV_WINDOWS
 
 #include <algorithm>
@@ -84,11 +78,9 @@ djvCoreContext * djvPlugin::context() const
 
 namespace
 {
-
 class Handle
 {
 public:
-
     Handle() :
         _p(0)
     {}
@@ -96,48 +88,33 @@ public:
     ~Handle()
     {
 #if defined(DJV_WINDOWS)
-
         if (_p)
         {
             ::FreeLibrary(_p);
         }
-
 #else // DJV_WINDOWS
-
         if (_p)
         {
             ::dlclose(_p);
         }
-
 #endif // DJV_WINDOWS
     }
 
     void open(const QString & in) throw (QString)
     {
 #if defined(DJV_WINDOWS)
-
         _p = ::LoadLibrary(in.toLatin1().data());
-
 #else // DJV_WINDOWS
-
         _p = ::dlopen(in.toLatin1().data(), RTLD_LAZY);
-
 #endif // DJV_WINDOWS
-
         if (! _p)
         {
             QString error;
-
 #if defined(DJV_WINDOWS)
-
             error = djvErrorUtil::lastError();
-
 #else // DJV_WINDOWS
-
             error = ::dlerror();
-
 #endif // DJV_WINDOWS
-
             throw error;
         }
     }
@@ -145,26 +122,17 @@ public:
     void * fnc(const QString & in) const
     {
 #if defined(DJV_WINDOWS)
-
         return (void *)::GetProcAddress(_p, in.toLatin1().data());
-
 #else // DJV_WINDOWS
-
         return ::dlsym(_p, in.toLatin1().data());
-
 #endif // DJV_WINDOWS
     }
 
 private:
-
 #if defined(DJV_WINDOWS)
-
     HINSTANCE _p;
-
 #else // DJV_WINDOWS
-
     void * _p;
-
 #endif // DJV_WINDOWS
 };
 
@@ -205,74 +173,51 @@ djvPluginFactory::djvPluginFactory(
     //DJV_DEBUG_PRINT("plugin suffix = " << pluginSuffix);
 
     //! \todo Hard-coded OS specific shared library file extensions.
-
     QStringList glob;
-
 #if defined(DJV_WINDOWS)
-
     glob += pluginPrefix + "*" + pluginSuffix + ".dll";
-
 #else // DJV_WINDOWS
-
     glob += "lib" + pluginPrefix + "*" + pluginSuffix + ".so";
-
 #endif // DJV_WINDOWS
-
     //DJV_DEBUG_PRINT("glob = " << glob);
     
     // Find plugins.
-
     DJV_LOG(context->debugLog(), "djvPluginFactory", "Searching for plugins...");
     DJV_LOG(context->debugLog(), "djvPluginFactory",
         QString("Plugin search pattern: \"%1\"").arg(glob.join(", ")));
-
     djvFileInfoList fileInfoList;
-
     Q_FOREACH(const QString & path, searchPath)
     {
         //DJV_DEBUG_PRINT("searching = " << path);
-
         DJV_LOG(context->debugLog(), "djvPluginFactory",
             QString("Checking search path: \"%1\"").arg(path));
-
         djvFileInfoList tmp = djvFileInfoUtil::list(
             path,
             djvSequence::COMPRESS_OFF);
-        
         djvFileInfoUtil::filter(
             tmp,
             djvFileInfoUtil::FILTER_NONE,
             QString(),
             glob);
-
         //DJV_DEBUG_PRINT("tmp = " << tmp.count());
-        
         Q_FOREACH(const djvFileInfo & fileInfo, tmp)
         {
             //DJV_DEBUG_PRINT("found = " << fileInfo);
-
             DJV_LOG(context->debugLog(), "djvPluginFactory",
                 QString("Found plugin: \"%1\"").arg(fileInfo));
-
             fileInfoList += fileInfo;
         }
     }
 
     // Load plugins.
-
     //DJV_DEBUG_PRINT("fileInfoList = " << fileInfoList.count());
-    
     Q_FOREACH(const djvFileInfo & fileInfo, fileInfoList)
     {
         // Open.
-
         //DJV_DEBUG_PRINT("loading = " << fileInfo);
-
         DJV_LOG(context->debugLog(), "djvPluginFactory",
             QString("Loading plugin: \"%1\"...").arg(fileInfo));
-
         QScopedPointer<Handle> handle(new Handle);
-
         try
         {
             handle->open(fileInfo);
@@ -284,22 +229,16 @@ djvPluginFactory::djvPluginFactory(
                 errorLabels()[ERROR_OPEN].
                 arg(QDir::toNativeSeparators(fileInfo)).
                 arg(error));
-
             continue;
         }
-
         djvPluginEntry * entry = (djvPluginEntry *)handle->fnc(pluginEntry);
-
         if (! entry)
         {
             DJV_LOG(context->debugLog(), "djvPluginFactory",
                 "No plugin entry point");
-            
             continue;
         }
-
         QScopedPointer<djvPlugin> plugin;
-
         try
         {
             plugin.reset(entry(_p->context));
@@ -311,7 +250,6 @@ djvPluginFactory::djvPluginFactory(
 
             plugin.reset();
         }
-
         if (! plugin.data())
         {
             DJV_LOG(context->debugLog(), "djvPluginFactory",
@@ -320,28 +258,21 @@ djvPluginFactory::djvPluginFactory(
 
             continue;
         }
-
         //DJV_DEBUG_PRINT("name = " << plugin->pluginName());
-
         DJV_LOG(context->debugLog(), "djvPluginFactory",
             QString("Plugin name: \"%1\"").arg(plugin->pluginName()));
 
         // Check for duplicates.
-
         if (_p->plugins.contains(plugin->pluginName()))
         {
             //DJV_DEBUG_PRINT("duplicate");
-            
             DJV_LOG(context->debugLog(), "djvPluginFactory",
                 "Duplicate plugin, discarding");
-
             plugin.reset();
-
             continue;
         }
 
         // Initialize.
-
         try
         {
             plugin->initPlugin();
@@ -350,18 +281,14 @@ djvPluginFactory::djvPluginFactory(
         {
             DJV_LOG(context->debugLog(), "djvPluginFactory",
                 djvErrorUtil::format(error).join("\n"));
-
             plugin->releasePlugin();
             plugin.reset();
-
             continue;
         }
 
         // Add.
-
         djvPlugin * p = plugin.take();
         Handle    * h = handle.take();
-
         _p->plugins[p->pluginName()] = djvPluginFactoryPrivate::Pair(p, h);
     }
     
@@ -372,27 +299,22 @@ djvPluginFactory::djvPluginFactory(
 djvPluginFactory::~djvPluginFactory()
 {
     //DJV_DEBUG("djvPluginFactory::~djvPluginFactory");
-
     Q_FOREACH(djvPluginFactoryPrivate::Pair pair, _p->plugins)
     {
         pair.first->releasePlugin();
-
         delete pair.first;
         delete pair.second;
     }
-
     delete _p;
 }
 
 QList<djvPlugin *> djvPluginFactory::plugins() const
 {
     QList<djvPlugin *> list;
-    
     Q_FOREACH(djvPluginFactoryPrivate::Pair pair, _p->plugins)
     {
         list += pair.first;
     }
-    
     return list;
 }
     
@@ -404,12 +326,10 @@ djvPlugin * djvPluginFactory::plugin(const QString & name) const
 QStringList djvPluginFactory::names() const
 {
     QStringList out;
-
     Q_FOREACH(QString name, _p->plugins.keys())
     {
         out += name;
     }
-
     return out;
 }
 
@@ -417,10 +337,8 @@ const QStringList & djvPluginFactory::errorLabels()
 {
     static const QStringList data = QStringList() <<
         qApp->translate("djvPluginFactory", "Cannot open plugin \"%1\": %2") <<
-        qApp->translate("djvPluginFactory", "Cannot load plugin \"%1\"");
-    
+        qApp->translate("djvPluginFactory", "Cannot load plugin \"%1\"");    
     DJV_ASSERT(ERROR_COUNT == data.count());
-    
     return data;
 }
 

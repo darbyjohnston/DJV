@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequenceInline.h
-
 //------------------------------------------------------------------------------
 // djvSequence
 //------------------------------------------------------------------------------
@@ -45,8 +43,6 @@ inline qint64 djvSequence::end() const
     return frames.count() ? frames[frames.count() - 1] : 0;
 }
 
-//------------------------------------------------------------------------------
-
 inline bool operator == (const djvSequence & a, const djvSequence & b)
 {
     return a.frames == b.frames && a.pad == b.pad && a.speed == b.speed;
@@ -56,3 +52,4 @@ inline bool operator != (const djvSequence & a, const djvSequence & b)
 {
     return ! (a == b);
 }
+

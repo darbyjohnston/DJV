@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewMagnifyTool.cpp
-
 #include <djvViewMagnifyTool.h>
 
 #include <djvViewContext.h>
@@ -62,44 +60,36 @@
 
 namespace
 {
-
 class Widget : public QWidget
 {
 public:
-
     Widget();
 
     void setPixmap(const QPixmap &);
-
+    
 protected:
-
     virtual void paintEvent(QPaintEvent *);
 
 private:
-
     QPixmap _pixmap;
 };
 
 Widget::Widget()
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void Widget::setPixmap(const QPixmap & pixmap)
 {
     _pixmap = pixmap;
-
     update();
 }
 
 void Widget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-
     painter.fillRect(rect(), Qt::black);
-
     if (! _pixmap.isNull())
     {
         painter.drawPixmap(0, 0, _pixmap);
@@ -154,7 +144,6 @@ djvViewMagnifyTool::djvViewMagnifyTool(
     _p(new djvViewMagnifyToolPrivate)
 {
     // Create the widgets.
-
     _p->widget = new Widget;
 
     _p->slider = new djvIntEditSlider(context);
@@ -174,7 +163,6 @@ djvViewMagnifyTool::djvViewMagnifyTool(
         qApp->translate("djvViewMagnifyTool", "Set whether the display profile is enabled"));
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     layout->addWidget(_p->widget, 1);
@@ -193,40 +181,32 @@ djvViewMagnifyTool::djvViewMagnifyTool(
     layout->addLayout(hLayout);
 
     // Preferences.
-
     djvPrefs prefs("djvViewMagnifyTool");
     prefs.get("zoom", _p->zoom);
     prefs.get("colorProfile", _p->colorProfile);
     prefs.get("displayProfile", _p->displayProfile);
 
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvViewMagnifyTool", "Magnify"));
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         mainWindow,
         SIGNAL(imageChanged()),
         SLOT(widgetUpdate()));
-
     connect(
         mainWindow->viewWidget(),
         SIGNAL(pickChanged(const djvVector2i &)),
         SLOT(pickCallback(const djvVector2i &)));
-
     connect(
         _p->slider,
         SIGNAL(valueChanged(int)),
         SLOT(sliderCallback(int)));
-    
     connect(
         _p->colorProfileButton,
         SIGNAL(toggled(bool)),
         SLOT(colorProfileCallback(bool)));
-    
     connect(
         _p->displayProfileButton,
         SIGNAL(toggled(bool)),
@@ -236,12 +216,10 @@ djvViewMagnifyTool::djvViewMagnifyTool(
 djvViewMagnifyTool::~djvViewMagnifyTool()
 {
     //DJV_DEBUG("djvViewMagnifyTool::~djvViewMagnifyTool");
-
     djvPrefs prefs("djvViewMagnifyTool");
     prefs.set("zoom", _p->zoom);
     prefs.set("colorProfile", _p->colorProfile);
     prefs.set("displayProfile", _p->displayProfile);
-    
     viewWidget()->makeCurrent();
     
     delete _p;
@@ -250,28 +228,24 @@ djvViewMagnifyTool::~djvViewMagnifyTool()
 void djvViewMagnifyTool::pickCallback(const djvVector2i & in)
 {
     _p->pick = in;
-
     widgetUpdate();
 }
 
 void djvViewMagnifyTool::sliderCallback(int in)
 {
     _p->zoom = in - 1;
-
     widgetUpdate();
 }
 
 void djvViewMagnifyTool::colorProfileCallback(bool in)
 {
     _p->colorProfile = in;
-
     widgetUpdate();
 }
 
 void djvViewMagnifyTool::displayProfileCallback(bool in)
 {
     _p->displayProfile = in;
-
     widgetUpdate();
 }
 
@@ -283,20 +257,16 @@ void djvViewMagnifyTool::showEvent(QShowEvent *)
 void djvViewMagnifyTool::widgetUpdate()
 {
     //DJV_DEBUG("djvViewMagnifyTool::widgetUpdate");
-
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->slider <<
         _p->colorProfileButton <<
         _p->displayProfileButton);
-
     _p->slider->setValue(_p->zoom + 1);
     _p->colorProfileButton->setChecked(_p->colorProfile);
     _p->displayProfileButton->setChecked(_p->displayProfile);
-
     if (! _p->pixelDataInit && isVisible())
     {
         _p->pixelDataInit = true;
-
         QTimer::singleShot(0, this, SLOT(pixelDataUpdate()));
     }
 }
@@ -304,58 +274,45 @@ void djvViewMagnifyTool::widgetUpdate()
 void djvViewMagnifyTool::pixelDataUpdate()
 {
     //DJV_DEBUG("djvViewMagnifyTool::pixelDataUpdate");
-
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->widget);
-
     djvPixelData tmp(djvPixelDataInfo(
         _p->widget->width(),
         _p->widget->height(),
         djvPixel::RGB_U8));
-
     if (const djvPixelData * data = viewWidget()->data())
     {
         //DJV_DEBUG_PRINT("data = " << *data);
-
         const double zoom = djvMath::pow(2, _p->zoom);
-
         djvVector2i pick = djvVectorUtil::floor<double, int>(
             djvVector2f(_p->pick - viewWidget()->viewPos()) * zoom -
             djvVector2f(tmp.info().size) / 2.0);
-
         //DJV_DEBUG_PRINT("zoom = " << zoom);
         //DJV_DEBUG_PRINT("pick = " << pick);
-
         try
         {
             viewWidget()->makeCurrent();
-
             if (! _p->magnifyBuffer || _p->magnifyBuffer->info() != tmp.info())
             {
                 _p->magnifyBuffer.reset(new djvOpenGlOffscreenBuffer(tmp.info()));
             }
-
             djvOpenGlImageOptions options = viewWidget()->options();
             options.xform.position -= pick;
             options.xform.scale *= zoom * viewWidget()->viewZoom();
-
             if (! _p->colorProfile)
             {
                 options.colorProfile = djvColorProfile();
             }
-
             if (! _p->displayProfile)
             {
                 options.displayProfile = djvViewDisplayProfile();
             }
-
             djvOpenGlImage::copy(
                 *data,
                 tmp,
                 options,
                 &_p->magnifyState,
                 _p->magnifyBuffer.data());
-            
             _p->widget->setPixmap(
                 djvPixmapUtil::toQt(
                     tmp,
@@ -367,13 +324,10 @@ void djvViewMagnifyTool::pixelDataUpdate()
         {
             error.add(
                 djvViewUtil::errorLabels()[djvViewUtil::ERROR_MAGNIFY]);
-
             context()->printError(error);
         }
     }
-
     //_p->widget->setPixelData(tmp);
-
     _p->pixelDataInit = false;
 }
 

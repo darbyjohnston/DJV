@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHistogramTool.cpp
-
 #include <djvViewHistogramTool.h>
 
 #include <djvViewImageView.h>
@@ -63,7 +61,6 @@
 class djvViewHistogramWidget : public QWidget
 {
 public:
-
     djvViewHistogramWidget();
 
     void set(
@@ -74,12 +71,10 @@ public:
     virtual QSize sizeHint() const;
     
 protected:
-
     virtual void resizeEvent(QResizeEvent *);
     virtual void paintEvent(QPaintEvent *);
 
 private:
-
     void updatePixmap();
 
     const djvPixelData * _data;
@@ -105,7 +100,6 @@ void djvViewHistogramWidget::set(
     _min   = min;
     _max   = max;
     _dirty = true;
-
     update();
 }
 
@@ -128,15 +122,12 @@ void djvViewHistogramWidget::paintEvent(QPaintEvent *)
     {
         updatePixmap();
     }
-
     QPainter painter(this);
-
     painter.drawPixmap(0, 0, _pixmap);
 }
 
 namespace
 {
-
 void drawHistrogramBar(
     QPainter &     painter,
     int            width,
@@ -148,12 +139,10 @@ void drawHistrogramBar(
 {
     const int x = djvMath::floor(
         index / static_cast<double>(dataWidth)* width);
-
     const int w = djvMath::max(
         djvMath::floor(
             (index + 1) / static_cast<double>(dataWidth)* width) - x,
         1);
-
     painter.fillRect(x, height - 1 - y, w, y, color);
 }
 
@@ -169,27 +158,21 @@ void djvViewHistogramWidget::updatePixmap()
 
     const int width  = this->width();
     const int height = this->height();
-
     //DJV_DEBUG_PRINT("size = " << w << " " << h);
-
     _pixmap = QPixmap(width, height);
 
     QPainter painter(&_pixmap);
     painter.setRenderHint(QPainter::Antialiasing);
-
     painter.fillRect(0, 0, width, height, palette().color(QPalette::Background));
 
     const djvPixel::U16_T * p =
         reinterpret_cast<const djvPixel::U16_T *>(_data->data());
-
     const int dataW = _data->w();
     const int dataC = _data->channels();
-
     //DJV_DEBUG_PRINT("dataW = " << dataW);
     //DJV_DEBUG_PRINT("dataC = " << dataC);
 
     int dataMax = 0;
-
     for (int i = 0; i < dataW; ++i, p += dataC)
     {
         for (int c = 0; c < dataC; ++c)
@@ -197,37 +180,28 @@ void djvViewHistogramWidget::updatePixmap()
             dataMax = djvMath::max(static_cast<int>(p[c]), dataMax);
         }
     }
-
     //DJV_DEBUG_PRINT("dataMax = " << dataMax);
 
     p = reinterpret_cast<const djvPixel::U16_T *>(_data->data());
-
     const QColor colors[] =
     {
         QColor(255,   0,   0),
         QColor(  0, 255,   0),
         QColor(  0,   0, 255)
     };
-
     for (int i = 0; i < dataW; ++i, p += dataC)
     {
         int yC [djvPixel::channelsMax] = { 0, 0, 0, 0 };
         int yMax = 0;
-
         for (int c = dataC - 1; c >= 0; --c)
         {
             const int y = djvMath::floor(
                 p[c] / static_cast<double>(dataMax) * (height - 1));
-
             yC[c] = y;
-
             yMax = djvMath::max(y, yMax);
         }
-
         drawHistrogramBar(painter, width, height, dataW, i, yMax, Qt::black);
-
         painter.setCompositionMode(QPainter::CompositionMode_Plus);
-
         for (int c = dataC - 1; c >= 0; --c)
         {
             drawHistrogramBar(painter, width, height, dataW, i, yC[c], colors[c]);
@@ -283,7 +257,6 @@ djvViewHistogramTool::djvViewHistogramTool(
     _p(new djvViewHistogramToolPrivate)
 {
     // Create the widgets.
-
     _p->widget = new djvViewHistogramWidget;
 
     _p->minWidget = new QLineEdit;
@@ -312,7 +285,6 @@ djvViewHistogramTool::djvViewHistogramTool(
         qApp->translate("djvViewHistogramTool", "Set whether the display profile is enabled"));
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     layout->addWidget(_p->widget, 1);
@@ -340,39 +312,31 @@ djvViewHistogramTool::djvViewHistogramTool(
     layout->addLayout(hLayout);
 
     // Preferences.
-
     djvPrefs prefs("djvViewHistogramTool");
     prefs.get("colorProfile", _p->colorProfile);
     prefs.get("displayProfile", _p->displayProfile);
 
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvViewHistogramTool", "Histogram"));
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         mainWindow,
         SIGNAL(imageChanged()),
         SLOT(widgetUpdate()));
-
     connect(
         _p->sizeWidget,
         SIGNAL(activated(int)),
         SLOT(sizeCallback(int)));
-
     connect(
         _p->maskWidget,
         SIGNAL(maskChanged(const djvPixel::Mask &)),
         SLOT(maskCallback(const djvPixel::Mask &)));
-    
     connect(
         _p->colorProfileButton,
         SIGNAL(toggled(bool)),
         SLOT(colorProfileCallback(bool)));
-    
     connect(
         _p->displayProfileButton,
         SIGNAL(toggled(bool)),
@@ -391,49 +355,42 @@ djvViewHistogramTool::~djvViewHistogramTool()
 void djvViewHistogramTool::sizeCallback(int in)
 {
     _p->size = static_cast<djvViewUtil::HISTOGRAM>(in);
-    
     widgetUpdate();
 }
 
 void djvViewHistogramTool::maskCallback(const djvPixel::Mask & mask)
 {
     _p->mask = mask;
-    
     widgetUpdate();
 }
 
 void djvViewHistogramTool::colorProfileCallback(bool in)
 {
     _p->colorProfile = in;
-
     widgetUpdate();
 }
 
 void djvViewHistogramTool::displayProfileCallback(bool in)
 {
     _p->displayProfile = in;
-
     widgetUpdate();
 }
 
 void djvViewHistogramTool::showEvent(QShowEvent * event)
 {
     djvViewAbstractTool::showEvent(event);
-    
     widgetUpdate();
 }
 
 void djvViewHistogramTool::resizeEvent(QResizeEvent * event)
 {
     djvViewAbstractTool::resizeEvent(event);
-    
     widgetUpdate();
 }
 
 void djvViewHistogramTool::widgetUpdate()
 {
     //DJV_DEBUG("djvViewHistogramTool::widgetUpdate");
-
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->widget <<
         _p->minWidget <<
@@ -442,7 +399,6 @@ void djvViewHistogramTool::widgetUpdate()
         _p->maskWidget <<
         _p->colorProfileButton <<
         _p->displayProfileButton);
-
     if (isVisible())
     {
         if (const djvPixelData * data = viewWidget()->data())
@@ -450,35 +406,24 @@ void djvViewHistogramTool::widgetUpdate()
             try
             {
                 viewWidget()->makeCurrent();
-
                 djvOpenGlImageOptions options = viewWidget()->options();
-    
                 //! \todo Why do we need to reverse the rotation here?
-                
                 options.xform.rotate = options.xform.rotate;
-
                 const djvBox2f bbox =
                     djvOpenGlImageXform::xformMatrix(options.xform) *
                     djvBox2f(data->size());
-
                 //DJV_DEBUG_PRINT("bbox = " << bbox);
-
                 options.xform.position = -bbox.position;
-                
                 if (! _p->colorProfile)
                 {
                     options.colorProfile = djvColorProfile();
                 }
-
                 if (! _p->displayProfile)
                 {
                     options.displayProfile = djvViewDisplayProfile();
                 }
-            
                 djvPixelData tmp(djvPixelDataInfo(bbox.size, data->pixel()));
-
                 djvOpenGlImage::copy(*data, tmp, options);
-                
                 djvOpenGlImage::histogram(
                     tmp,
                     _p->histogram,
@@ -491,7 +436,6 @@ void djvViewHistogramTool::widgetUpdate()
             {
                 error.add(
                     djvViewUtil::errorLabels()[djvViewUtil::ERROR_HISTOGRAM]);
-                
                 context()->printError(error);
             }
         }
@@ -502,7 +446,6 @@ void djvViewHistogramTool::widgetUpdate()
             _p->max.zero();
         }
     }
-
     _p->widget->set(&_p->histogram, _p->min, _p->max);
     _p->minWidget->setText(djvStringUtil::label(_p->min).join(", "));
     _p->maxWidget->setText(djvStringUtil::label(_p->max).join(", "));

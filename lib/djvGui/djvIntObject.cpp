@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntObject.cpp
-
 #include <djvIntObject.h>
 
 #include <djvDebug.h>
@@ -56,11 +54,8 @@ djvIntObject::djvIntObject(QObject * parent) :
     _sizeString    ("00000")
 {
     setValue(0);
-    
     setDefaultValue(0);
-    
     setInc(1, 10);
-
     defaultValidUpdate();
 }
 
@@ -115,14 +110,10 @@ const QString & djvIntObject::sizeString() const
 void djvIntObject::setValue(int in)
 {
     const int tmp = _clamp ? djvMath::clamp(in, _min, _max) : in;
-
     if (tmp == _value)
         return;
-
     _value = tmp;
-
     defaultValidUpdate();
-
     Q_EMIT valueChanged(_value);
 }
 
@@ -130,11 +121,8 @@ void djvIntObject::setDefaultValue(int in)
 {
     if (in == _defaultValue)
         return;
-
     _defaultValue = in;
-
     defaultValidUpdate();
-
     Q_EMIT defaultValueChanged(_defaultValue);
 }
 
@@ -152,19 +140,14 @@ void djvIntObject::setRange(int min, int max)
 {
     const bool minChange = min != _min;
     const bool maxChange = max != _max;
-    
     if (! (minChange || maxChange))
         return;
-
     //DJV_DEBUG("djvIntObject::setRange");
     //DJV_DEBUG_PRINT("min = " << min);
     //DJV_DEBUG_PRINT("max = " << max);
-
     _min = min;
     _max = max;
-
     setValue(_value);
-
     if (minChange)
         Q_EMIT minChanged(_min);
     if (maxChange)
@@ -196,13 +179,10 @@ void djvIntObject::setInc(int smallInc, int largeInc)
 {
     const bool smallChange = smallInc != _smallInc;
     const bool largeChange = largeInc != _largeInc;
-    
     if (! (smallChange || largeChange))
         return;
-
     _smallInc = smallInc;
     _largeInc = largeInc;
-
     if (smallChange)
         Q_EMIT smallIncChanged(_smallInc);
     if (largeChange)
@@ -234,9 +214,7 @@ void djvIntObject::setClamp(bool in)
 {
     if (in == _clamp)
         return;
-
     _clamp = in;
-
     setValue(_value);
 }
 
@@ -244,20 +222,16 @@ void djvIntObject::setSizeString(const QString & string)
 {
     if (string == _sizeString)
         return;
-
     _sizeString = string;
-
     Q_EMIT sizeStringChanged(_sizeString);
 }
 
 void djvIntObject::defaultValidUpdate()
 {
     const bool defaultValid = _value == _defaultValue;
-
     if (defaultValid != _isDefaultValid)
     {
         _isDefaultValid = defaultValid;
-
         Q_EMIT defaultValidChanged(_isDefaultValid);
     }
 }

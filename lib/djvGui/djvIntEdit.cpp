@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntEdit.cpp
-
 #include <djvIntEdit.h>
 
 #include <djvIntObject.h>
@@ -82,27 +80,22 @@ djvIntEdit::djvIntEdit(QWidget * parent) :
         _p->object,
         SIGNAL(valueChanged(int)),
         SLOT(valueCallback()));
-
     connect(
         _p->object,
         SIGNAL(minChanged(int)),
         SLOT(rangeCallback()));
-
     connect(
         _p->object,
         SIGNAL(maxChanged(int)),
         SLOT(rangeCallback()));
-
     connect(
         _p->object,
         SIGNAL(rangeChanged(int, int)),
         SLOT(rangeCallback()));
-
     connect(
         _p->object,
         SIGNAL(incChanged(int, int)),
         SLOT(widgetUpdate()));
-    
     connect(
         _p->spinBox,
         SIGNAL(valueChanged(int)),
@@ -166,7 +159,6 @@ void djvIntEdit::keyPressEvent(QKeyEvent * event)
         case Qt::Key_Up:       _p->object->smallIncAction(); break;
         case Qt::Key_PageDown: _p->object->largeDecAction(); break;
         case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
-
         default: break;
     }
 }
@@ -174,14 +166,12 @@ void djvIntEdit::keyPressEvent(QKeyEvent * event)
 void djvIntEdit::valueCallback()
 {
     widgetUpdate();
-
     Q_EMIT valueChanged(_p->object->value());
 }
 
 void djvIntEdit::rangeCallback()
 {
     widgetUpdate();
-
     Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
 }
 
@@ -193,7 +183,6 @@ void djvIntEdit::spinBoxCallback(int value)
 void djvIntEdit::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->spinBox);
-    
     _p->spinBox->setRange(_p->object->min(), _p->object->max());
     _p->spinBox->setSingleStep(_p->object->smallInc());
     _p->spinBox->setValue(_p->object->value());

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewShortcutPrefsWidget.cpp
-
 #include <djvViewShortcutPrefsWidget.h>
 
 #include <djvViewContext.h>
@@ -68,11 +66,9 @@ djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget(djvViewContext * context)
     _p(new djvViewShortcutPrefsWidgetPrivate)
 {
     // Create the widgets.
-
     _p->shortcutsWidget = new djvShortcutsWidget(context);
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
@@ -84,11 +80,9 @@ djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget(djvViewContext * context)
     layout->addStretch();
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->shortcutsWidget,
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -102,9 +96,7 @@ djvViewShortcutPrefsWidget::~djvViewShortcutPrefsWidget()
 
 void djvViewShortcutPrefsWidget::resetPreferences()
 {
-    context()->shortcutPrefs()->setShortcuts(
-        djvViewShortcutPrefs::shortcutsDefault());
-    
+    context()->shortcutPrefs()->setShortcuts(djvViewShortcutPrefs::shortcutsDefault());
     widgetUpdate();
 }
 
@@ -117,8 +109,6 @@ void djvViewShortcutPrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->shortcutsWidget);
-    
-    _p->shortcutsWidget->setShortcuts(
-        context()->shortcutPrefs()->shortcuts());
+    _p->shortcutsWidget->setShortcuts(context()->shortcutPrefs()->shortcuts());
 }
 

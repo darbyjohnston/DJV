@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVector2fEditWidget.cpp
-
 #include <djvVector2fEditWidget.h>
 
 #include <djvFloatEdit.h>
@@ -81,7 +79,6 @@ djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
         _p->widget,
         SIGNAL(rangeChanged(double, double)),
         SLOT(rangeCallback()));
-    
     connect(
         _p->widget2,
         SIGNAL(valueChanged(double)),

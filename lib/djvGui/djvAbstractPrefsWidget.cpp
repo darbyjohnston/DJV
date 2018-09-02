@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAbstractPrefsWidget.cpp
-
 #include <djvAbstractPrefsWidget.h>
 
 //------------------------------------------------------------------------------

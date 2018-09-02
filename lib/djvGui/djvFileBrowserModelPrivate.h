@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserModelPrivate.h
+#pragma once
 
 #include <djvFileBrowserModel.h>
 
@@ -120,3 +120,4 @@ private:
 
     djvGuiContext *                      _context;
 };
+

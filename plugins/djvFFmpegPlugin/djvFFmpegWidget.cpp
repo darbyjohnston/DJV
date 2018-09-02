@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegWidget.cpp
-
 #include <djvFFmpegWidget.h>
 
 #include <djvGuiContext.h>
@@ -66,7 +64,6 @@ djvFFmpegWidget::djvFFmpegWidget(djvImageIo * plugin, djvGuiContext * context) :
     _qualityWidget(0)
 {
     // Create the widgets.
-
     _formatWidget = new QComboBox;
     _formatWidget->addItems(djvFFmpeg::formatLabels());
     _formatWidget->setSizePolicy(
@@ -78,7 +75,6 @@ djvFFmpegWidget::djvFFmpegWidget(djvImageIo * plugin, djvGuiContext * context) :
         QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -98,21 +94,17 @@ djvFFmpegWidget::djvFFmpegWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _formatWidget,
         SIGNAL(activated(int)),
         SLOT(formatCallback(int)));
-
     connect(
         _qualityWidget,
         SIGNAL(activated(int)),
@@ -125,7 +117,7 @@ djvFFmpegWidget::~djvFFmpegWidget()
 void djvFFmpegWidget::resetPreferences()
 {
     _options = djvFFmpeg::Options();
-    
+   
     pluginUpdate();
     widgetUpdate();
 }
@@ -136,7 +128,6 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvFFmpeg::OPTIONS_FORMAT], Qt::CaseInsensitive))
                 tmp >> _options.format;
@@ -146,21 +137,18 @@ void djvFFmpegWidget::pluginCallback(const QString & option)
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvFFmpegWidget::formatCallback(int in)
 {
     _options.format = static_cast<djvFFmpeg::FORMAT>(in);
-
     pluginUpdate();
 }
 
 void djvFFmpegWidget::qualityCallback(int in)
 {
     _options.quality = static_cast<djvFFmpeg::QUALITY>(in);
-
     pluginUpdate();
 }
 
@@ -180,7 +168,6 @@ void djvFFmpegWidget::widgetUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _formatWidget <<
         _qualityWidget);
-    
     try
     {
         QStringList tmp;
@@ -193,7 +180,6 @@ void djvFFmpegWidget::widgetUpdate()
     }
     catch (QString)
     {}
-
     _formatWidget->setCurrentIndex(_options.format);
     _qualityWidget->setCurrentIndex(_options.quality);
 }

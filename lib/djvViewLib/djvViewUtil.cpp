@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewUtil.cpp
-
 #include <djvViewUtil.h>
 
 #include <djvViewContext.h>
@@ -60,9 +58,7 @@ const QStringList & djvViewUtil::viewMaxLabels()
         qApp->translate("djvViewUtil", "50% of screen") <<
         qApp->translate("djvViewUtil", "75% of screen") <<
         qApp->translate("djvViewUtil", "User specified");
-
     DJV_ASSERT(data.count() == VIEW_MAX_COUNT);
-
     return data;
 }
 
@@ -72,9 +68,7 @@ const QStringList & djvViewUtil::toolBarLabels()
         qApp->translate("djvViewUtil", "Tool Bars") <<
         qApp->translate("djvViewUtil", "Playback Bar") <<
         qApp->translate("djvViewUtil", "Information Bar");
-
     DJV_ASSERT(data.count() == TOOL_BAR_COUNT);
-
     return data;
 }
 
@@ -85,9 +79,7 @@ const QStringList & djvViewUtil::gridLabels()
         qApp->translate("djvViewUtil", "1x1") <<
         qApp->translate("djvViewUtil", "10x10") <<
         qApp->translate("djvViewUtil", "100x100");
-
     DJV_ASSERT(data.count() == GRID_COUNT);
-
     return data;
 }
 
@@ -102,9 +94,7 @@ const QStringList & djvViewUtil::hudInfoLabels()
         qApp->translate("djvViewUtil", "Tags") <<
         qApp->translate("djvViewUtil", "Playback Frame") <<
         qApp->translate("djvViewUtil", "Playback Speed");
-
     DJV_ASSERT(data.count() == HUD_COUNT);
-
     return data;
 }
 
@@ -114,9 +104,7 @@ const QStringList & djvViewUtil::hudBackgroundLabels()
         qApp->translate("djvViewUtil", "None") <<
         qApp->translate("djvViewUtil", "Solid") <<
         qApp->translate("djvViewUtil", "Shadow");
-
     DJV_ASSERT(data.count() == HUD_BACKGROUND_COUNT);
-
     return data;
 }
 
@@ -139,9 +127,7 @@ const QStringList & djvViewUtil::imageScaleLabels()
         qApp->translate("djvViewUtil", "4:3") <<
         qApp->translate("djvViewUtil", "5:3") <<
         qApp->translate("djvViewUtil", "5:4");
-
     DJV_ASSERT(data.count() == IMAGE_SCALE_COUNT);
-
     return data;
 }
 
@@ -166,24 +152,16 @@ djvVector2f djvViewUtil::imageScale(IMAGE_SCALE in, const djvVector2i & size)
         5.0 / 3.0,
         5.0 / 4.0
     };
-    
     static const int dataCount = sizeof(data) / sizeof(data[0]);
-
     DJV_ASSERT(dataCount == IMAGE_SCALE_COUNT);
-
     djvVector2f out(1.0);
-
     switch (in)
     {
         case IMAGE_SCALE_NONE: break;
-
         default:
-        
             out.x = data[in] / djvVectorUtil::aspect(size);
-            
             break;
     }
-
     return out;
 }
 
@@ -194,16 +172,13 @@ const QStringList & djvViewUtil::imageRotateLabels()
         qApp->translate("djvViewUtil", "90") <<
         qApp->translate("djvViewUtil", "180") <<
         qApp->translate("djvViewUtil", "270");
-
     DJV_ASSERT(data.count() == IMAGE_ROTATE_COUNT);
-
     return data;
 }
 
 double djvViewUtil::imageRotate(IMAGE_ROTATE in)
 {
     static const double data [] = { 0, 90, 180, 270 };
-
     return data[in];
 }
 
@@ -215,30 +190,21 @@ void djvViewUtil::loadLut(
 {
     if (fileInfo.fileName().isEmpty())
         return;
-
     //DJV_DEBUG("djvViewUtil::loadLut");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-
     djvFileInfo fileInfoTmp(fileInfo);
-
     if (fileInfoTmp.isSequenceValid())
     {
         fileInfoTmp.setType(djvFileInfo::SEQUENCE);
     }
-
     try
     {
         djvImageIoInfo info;
-
         QScopedPointer<djvImageLoad> load(
             context->imageIoFactory()->load(fileInfoTmp, info));
-    
         djvImage image;
-        
         load->read(image);
-        
         lut = image;
-
         //DJV_DEBUG_PRINT("lut = " << lut);
     }
     catch (djvError error)
@@ -246,7 +212,6 @@ void djvViewUtil::loadLut(
         error.add(
             errorLabels()[ERROR_OPEN_LUT].
             arg(QDir::toNativeSeparators(fileInfoTmp)));
-
         throw error;
     }
 }
@@ -257,9 +222,7 @@ const QStringList & djvViewUtil::playbackLabels()
         qApp->translate("djvViewUtil", "Reverse") <<
         qApp->translate("djvViewUtil", "Stop") <<
         qApp->translate("djvViewUtil", "Forward");
-
     DJV_ASSERT(data.count() == PLAYBACK_COUNT);
-
     return data;
 }
 
@@ -276,9 +239,7 @@ const QStringList & djvViewUtil::frameLabels()
         qApp->translate("djvViewUtil", "Next X100") <<
         qApp->translate("djvViewUtil", "End") <<
         qApp->translate("djvViewUtil", "End Absolute");
-    
     DJV_ASSERT(data.count() == FRAME_COUNT);
-
     return data;
 }
 
@@ -288,9 +249,7 @@ const QStringList & djvViewUtil::loopLabels()
         qApp->translate("djvViewUtil", "Once") <<
         qApp->translate("djvViewUtil", "Repeat") <<
         qApp->translate("djvViewUtil", "PingPong");
-
     DJV_ASSERT(data.count() == LOOP_COUNT);
-
     return data;
 }
 
@@ -302,9 +261,7 @@ const QStringList & djvViewUtil::inOutLabels()
         qApp->translate("djvViewUtil", "Mar&k Out Point") <<
         qApp->translate("djvViewUtil", "Reset In Point") <<
         qApp->translate("djvViewUtil", "Reset Out Point");
-
     DJV_ASSERT(data.count() == IN_OUT_COUNT);
-
     return data;
 }
 
@@ -315,9 +272,7 @@ const QStringList & djvViewUtil::layoutLabels()
         qApp->translate("djvViewUtil", "Left") <<
         qApp->translate("djvViewUtil", "Center") <<
         qApp->translate("djvViewUtil", "Minimal");
-
     DJV_ASSERT(data.count() == LAYOUT_COUNT);
-
     return data;
 }
 
@@ -328,9 +283,7 @@ const QStringList & djvViewUtil::toolLabels()
         qApp->translate("djvViewUtil", "Color Picker Tool") <<
         qApp->translate("djvViewUtil", "Histogram Tool") <<
         qApp->translate("djvViewUtil", "Information Tool");
-
     DJV_ASSERT(data.count() == TOOL_COUNT);
-
     return data;
 }
 
@@ -341,9 +294,7 @@ const QStringList & djvViewUtil::histogramLabels()
         qApp->translate("djvViewUtil", "1024") <<
         qApp->translate("djvViewUtil", "2048") <<
         qApp->translate("djvViewUtil", "4096");
-
     DJV_ASSERT(data.count() == HISTOGRAM_COUNT);
-
     return data;
 }
 
@@ -354,9 +305,7 @@ const int djvViewUtil::histogramSize(HISTOGRAM histogram)
         1024 <<
         2048 <<
         4096;
-    
     DJV_ASSERT(data.count() == HISTOGRAM_COUNT);
-
     return data[histogram];
 }
 
@@ -479,9 +428,7 @@ const QStringList & djvViewUtil::shortcutLabels()
         qApp->translate("djvViewUtil", "Tool Color Picker") <<
         qApp->translate("djvViewUtil", "Tool Histogram") <<
         qApp->translate("djvViewUtil", "Tool Information");
-
     DJV_ASSERT(data.count() == SHORTCUT_COUNT);
-
     return data;
 }
 
@@ -491,9 +438,7 @@ const QStringList & djvViewUtil::mouseWheelLabels()
         qApp->translate("djvViewUtil", "View Zoom") <<
         qApp->translate("djvViewUtil", "Playback Shuttle") <<
         qApp->translate("djvViewUtil", "Playback Speed");
-
     DJV_ASSERT(data.count() == MOUSE_WHEEL_COUNT);
-
     return data;
 }
 
@@ -503,9 +448,7 @@ const QStringList & djvViewUtil::zoomFactorLabels()
         qApp->translate("djvViewUtil", "10%") <<
         qApp->translate("djvViewUtil", "50%") <<
         qApp->translate("djvViewUtil", "100%");
-
     DJV_ASSERT(data.count() == ZOOM_FACTOR_COUNT);
-
     return data;
 }
 
@@ -517,11 +460,8 @@ double djvViewUtil::zoomFactor(ZOOM_FACTOR zoomFactor)
         1.5,
         2.0
     };
-    
     static const int dataCount = sizeof(data) / sizeof(data[0]);
-
     DJV_ASSERT(dataCount == ZOOM_FACTOR_COUNT);
-
     return data[zoomFactor];
 }
 
@@ -535,13 +475,9 @@ const QStringList & djvViewUtil::errorLabels()
         qApp->translate("djvViewUtil", "Cannot pick color") <<
         qApp->translate("djvViewUtil", "Cannot compute histogram") <<
         qApp->translate("djvViewUtil", "Cannot magnify");
-
     DJV_ASSERT(ERROR_COUNT == data.count());
-    
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvViewUtil::VIEW_MAX, djvViewUtil::viewMaxLabels())
 _DJV_STRING_OPERATOR_LABEL(djvViewUtil::TOOL_BAR, djvViewUtil::toolBarLabels())

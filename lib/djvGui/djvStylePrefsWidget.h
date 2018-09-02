@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvStylePrefsWidget.h
-
-#ifndef DJV_STYLE_PREFS_WIDGET_H
-#define DJV_STYLE_PREFS_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -56,19 +53,13 @@ class DJV_GUI_EXPORT djvStylePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvStylePrefsWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvStylePrefsWidget();
 
     virtual void resetPreferences();
 
-    private Q_SLOTS:
-
+private Q_SLOTS:
     void colorCallback(int);
     void colorForegroundCallback(const djvColor &);
     void colorBackgroundCallback(const djvColor &);
@@ -82,7 +73,6 @@ public:
     void fontFixedCallback(const QFont &);
 
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvStylePrefsWidget);
@@ -91,6 +81,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_STYLE_PREFS_WIDGET_H
 

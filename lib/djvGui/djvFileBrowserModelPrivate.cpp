@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserModelPrivate.cpp
-
 #include <djvFileBrowserModelPrivate.h>
 
 #include <djvFileBrowserCache.h>
@@ -68,7 +66,6 @@ djvFileBrowserItem::djvFileBrowserItem(
     _context         (context)
 {
     // Initialize the display role data.
-
     _displayRole[djvFileBrowserModel::NAME] = fileInfo.name();
     _displayRole[djvFileBrowserModel::SIZE] =
         djvMemory::sizeLabel(fileInfo.size());
@@ -82,7 +79,6 @@ djvFileBrowserItem::djvFileBrowserItem(
         djvTime::timeToString(fileInfo.time());
 
     // Initialize the edit role data.
-
     _editRole[djvFileBrowserModel::NAME].setValue<djvFileInfo>(fileInfo);
     _editRole[djvFileBrowserModel::SIZE] = fileInfo.size();
 #if ! defined(DJV_WINDOWS)
@@ -93,7 +89,6 @@ djvFileBrowserItem::djvFileBrowserItem(
         QDateTime::fromTime_t(fileInfo.time());
 
    // Check the cache to see if this item already exists.
-   
    if (djvFileBrowserCacheItem * item =
        context->fileBrowserCache()->object(_fileInfo))
    {
@@ -155,22 +150,17 @@ ImageInfoThreadResult imageInfoThreadFunction(
 {
     //DJV_DEBUG("imageInfoThreadFunction");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-    
     ImageInfoThreadResult out;
     out.fileInfo = fileInfo;
-    
     try
     {
         QScopedPointer<djvImageLoad> load(
             context->imageIoFactory()->load(fileInfo, out.info));
-        
         //DJV_DEBUG_PRINT("info = " << out.info);
-        
         out.valid = true;
     }
     catch (const djvError & error)
     {}
-
     return out;
 }
 
@@ -200,18 +190,15 @@ ThumbnailThreadResult thumbnailThreadFunction(
 
     ThumbnailThreadResult out;
     out.fileInfo = fileInfo;
-    
     try
     {
-        // Create an OpenGL context.
-        
+        // Create an OpenGL context.        
         QScopedPointer<QOffscreenSurface> offscreenSurface;
         offscreenSurface.reset(new QOffscreenSurface);
         QSurfaceFormat surfaceFormat;
         surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
         offscreenSurface->setFormat(surfaceFormat);
-        offscreenSurface->create();
-        
+        offscreenSurface->create();        
         QScopedPointer<QOpenGLContext> openGlContext;
         openGlContext.reset(new QOpenGLContext);
         openGlContext->setFormat(surfaceFormat);
@@ -219,49 +206,35 @@ ThumbnailThreadResult thumbnailThreadFunction(
         openGlContext->makeCurrent(offscreenSurface.data());    
         
         // Load the image.
-        
         djvImage image;
-        
         djvImageIoInfo imageIoInfo;
-        
         QScopedPointer<djvImageLoad> load(
             context->imageIoFactory()->load(fileInfo, imageIoInfo));
-        
         load->read(image, djvImageIoFrameInfo(-1, 0, proxy));
-
         //DJV_DEBUG_PRINT("image = " << image);
         
         // Scale the image.
-        
         djvImage tmp(djvPixelDataInfo(
             thumbnailSize,
             image.pixel()));
-
         djvOpenGlImageOptions options;
-
         options.xform.scale =
             djvVector2f(tmp.size()) /
             (djvVector2f(image.size() *
                 djvPixelDataUtil::proxyScale(image.info().proxy)));
-
         options.colorProfile = image.colorProfile;
-        
         if (djvFileBrowserModel::THUMBNAILS_HIGH == thumbnails)
         {
             options.filter = djvOpenGlImageFilter::filterHighQuality();
         }
-
         djvOpenGlImage::copy(image, tmp, options);
-
         out.thumbnail = djvPixmapUtil::toQt(tmp);
-
         out.valid = true;
     }
     catch (const djvError & error)
     {
         //for (int i = 0; i < error.messages().count(); ++i)
         //    DJV_DEBUG_PRINT("error = " << error.messages()[i].string);
-        
         if (! out.thumbnail.isNull())
         {
             out.valid = true;
@@ -278,27 +251,22 @@ void djvFileBrowserItem::requestImage()
     if (! _imageInfoRequest)
     {
         _imageInfoRequest = true;
-                        
         QFuture<ImageInfoThreadResult> future = QtConcurrent::run(
             imageInfoThreadFunction,
             _fileInfo,
             _context);
-        
         QFutureWatcher<ImageInfoThreadResult> * watcher =
             new QFutureWatcher<ImageInfoThreadResult>;
-        
         connect(
             watcher,
             SIGNAL(finished()),
             SLOT(imageInfoCallback()));
-
         watcher->setFuture(future);
     }
     
     if (! _thumbnailRequest && _thumbnailSize > djvVector2i(0, 0))
     {
         _thumbnailRequest = true;
-
         QFuture<ThumbnailThreadResult> future = QtConcurrent::run(
             thumbnailThreadFunction,
             _fileInfo,
@@ -306,15 +274,12 @@ void djvFileBrowserItem::requestImage()
             _thumbnailSize,
             _thumbnailProxy,
             _context);
-        
         QFutureWatcher<ThumbnailThreadResult> * watcher =
             new QFutureWatcher<ThumbnailThreadResult>;
-        
         connect(
             watcher,
             SIGNAL(finished()),
             SLOT(thumbnailCallback()));
-
         watcher->setFuture(future);
     }
 }
@@ -329,15 +294,11 @@ djvVector2i thumbnailSize(
     djvPixelDataInfo::PROXY *       proxy = 0)
 {
     const int imageSize = djvMath::max(in.x, in.y);
-
     if (imageSize <= 0)
         return djvVector2i();
-
     int _proxy = 0;
-    
     double proxyScale = static_cast<double>(
         djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(_proxy)));
-
     if (djvFileBrowserModel::THUMBNAILS_LOW == thumbnails)
     {
         while (
@@ -348,14 +309,11 @@ djvVector2i thumbnailSize(
                 djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(++_proxy)));
         }
     }
-    
     if (proxy)
     {
         *proxy = djvPixelDataInfo::PROXY(_proxy);
     }
-
     const double scale = size / static_cast<double>(imageSize / proxyScale);
-    
     return djvVectorUtil::ceil<double, int>(djvVector2f(in) / proxyScale * scale);
 }
 
@@ -368,11 +326,8 @@ void djvFileBrowserItem::imageInfoCallback()
     
     QFutureWatcher<ImageInfoThreadResult> * watcher =
         dynamic_cast<QFutureWatcher<ImageInfoThreadResult> *>(sender());
-    
     const QFuture<ImageInfoThreadResult> & future = watcher->future();
-    
     const ImageInfoThreadResult & result = future.result();
-    
     //DJV_DEBUG_PRINT("info = " << result.info);
     //DJV_DEBUG_PRINT("valid = " << result.valid);
     
@@ -380,19 +335,14 @@ void djvFileBrowserItem::imageInfoCallback()
     {
         djvPixelDataInfo::PROXY thumbnailProxy =
             static_cast<djvPixelDataInfo::PROXY>(0);
-        
         _thumbnailSize = thumbnailSize(
             _thumbnails,
             result.info.size,
             djvFileBrowserModel::thumbnailsSizeValue(_thumbnailsSize),
             &thumbnailProxy);
-        
         //DJV_DEBUG_PRINT("thumbnailSize = " << _thumbnailSize);
-            
         _imageInfo = result.info;
-        
         updateImageInfo();
-        
         Q_EMIT imageInfoAvailable();
     }
     
@@ -407,16 +357,13 @@ void djvFileBrowserItem::thumbnailCallback()
         dynamic_cast<QFutureWatcher<ThumbnailThreadResult> *>(sender());
     
     const QFuture<ThumbnailThreadResult> & future = watcher->future();
-    
     const ThumbnailThreadResult & result = future.result();
-    
     //DJV_DEBUG_PRINT("file = " << result.fileInfo);
     //DJV_DEBUG_PRINT("valid = " << result.valid);
     
     if (result.valid)
     {
         _thumbnail = result.thumbnail;
-
         _context->fileBrowserCache()->insert(
             _fileInfo,
             new djvFileBrowserCacheItem(
@@ -426,9 +373,7 @@ void djvFileBrowserItem::thumbnailCallback()
                 _thumbnail),
             _thumbnail.width() * _thumbnail.height() * 4);
     }
-    
     Q_EMIT thumbnailAvailable();
-    
     watcher->deleteLater();
 }
 
@@ -445,7 +390,7 @@ void djvFileBrowserItem::updateImageInfo()
                 _imageInfo.sequence.frames.count(),
                 _imageInfo.sequence.speed)).
             arg(djvSpeed::speedToFloat(_imageInfo.sequence.speed));
-
     _thumbnail = QPixmap(_thumbnailSize.x, _thumbnailSize.y);
     _thumbnail.fill(Qt::transparent);
 }
+

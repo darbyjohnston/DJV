@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimer.h
-
-#ifndef DJV_TIMER_H
-#define DJV_TIMER_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -50,35 +47,22 @@ struct djvTimerPrivate;
 class DJV_CORE_EXPORT djvTimer
 {
 public:
-
-    //! Constructor.
-
     djvTimer();
-
-    //! Constructor.
-
     djvTimer(const djvTimer &);
-
-    //! Destructor.
-
     ~djvTimer();
 
     //! Start the timer.
-
     void start();
 
     //! Check the timer.
-
     void check();
 
     //! Get elapsed time in seconds. You should call check() before calling
     //! this function.
-
     double seconds() const;
 
     //! Get elapsed time in frames per second. You should call check() before
     //! calling this function.
-
     double fps() const;
     
     djvTimer & operator = (const djvTimer &);
@@ -89,6 +73,4 @@ private:
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_TIMER_H
 

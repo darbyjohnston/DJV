@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewMiscWidget.h
-
-#ifndef DJV_VIEW_MISC_WIDGET_H
-#define DJV_VIEW_MISC_WIDGET_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -68,7 +65,6 @@ class DJV_VIEW_LIB_EXPORT djvViewCacheSizeWidget : public QWidget
     Q_OBJECT
 
     //! This property holds the cache sizes.
-    
     Q_PROPERTY(
         QVector<double> cacheSizes
         READ            cacheSizes
@@ -76,7 +72,6 @@ class DJV_VIEW_LIB_EXPORT djvViewCacheSizeWidget : public QWidget
         NOTIFY          cacheSizesChanged)
 
     //! This property holds the cache size.
-    
     Q_PROPERTY(
         double cacheSize
         READ   cacheSize
@@ -84,54 +79,38 @@ class DJV_VIEW_LIB_EXPORT djvViewCacheSizeWidget : public QWidget
         NOTIFY cacheSizeChanged)
 
 public:
-
-    //! Constructor.
-
     explicit djvViewCacheSizeWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewCacheSizeWidget();
 
     //! Get the cache sizes.
-
     const QVector<double> & cacheSizes() const;
 
     //! Get the current cache size.
-
     double cacheSize() const;
 
 public Q_SLOTS:
-
     //! Set the cache sizes.
-
     void setCacheSizes(const QVector<double> &);
 
     //! Set the current cache size.
-
     void setCacheSize(double);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the cache sizes are changed.
-
     void cacheSizesChanged(const QVector<double> &);
 
     //! This signal is emitted when the current cache size is changed.
-
     void cacheSizeChanged(double);
 
 private Q_SLOTS:
-
     void buttonCallback();
     void menuCallback();
 
 private Q_SLOTS:
-
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewCacheSizeWidget);
     
     djvViewCacheSizeWidgetPrivate * _p;
@@ -148,14 +127,12 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameWidget : public QAbstractSpinBox
     Q_OBJECT
 
     //! This property holds the frame list.
-    
     Q_PROPERTY(
         djvFrameList frameList
         READ         frameList
         WRITE        setFrameList)
 
     //! This property holds the frame.
-    
     Q_PROPERTY(
         qint64 frame
         READ   frame
@@ -163,32 +140,23 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameWidget : public QAbstractSpinBox
         NOTIFY frameChanged)
 
     //! This property holds the speed.
-    
     Q_PROPERTY(
         djvSpeed speed
         READ     speed
         WRITE    setSpeed)
 
 public:
-
-    //! Constructor.
-
     explicit djvViewFrameWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewFrameWidget();
 
     //! Get the frame list.
-
     const djvFrameList & frameList() const;
 
     //! Get the frame.
-
     qint64 frame() const;
 
     //! Get the speed.
-
     const djvSpeed & speed() const;
 
     virtual void stepBy(int);
@@ -196,31 +164,23 @@ public:
     virtual QSize sizeHint() const;
 
 public Q_SLOTS:
-
     //! Set the frame list.
-
     void setFrameList(const djvFrameList &);
 
     //! Set the frame.
-
     void setFrame(qint64);
 
     //! Set the speed.
-
     void setSpeed(const djvSpeed &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the frame is changed.
-
     void frameChanged(qint64);
 
 protected:
-
     virtual QAbstractSpinBox::StepEnabled stepEnabled() const;
 
-    private Q_SLOTS:
-
+private Q_SLOTS:
     void editingFinishedCallback();
     void timeUnitsCallback();
 
@@ -228,7 +188,6 @@ protected:
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewFrameWidget);
     
     djvViewFrameWidgetPrivate * _p;
@@ -245,14 +204,12 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
     Q_OBJECT
 
     //! This property holds the frame list.
-    
     Q_PROPERTY(
         djvFrameList frameList
         READ         frameList
         WRITE        setFrameList)
 
     //! This property holds the current frame.
-    
     Q_PROPERTY(
         qint64 frame
         READ   frame
@@ -260,14 +217,12 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
         NOTIFY frameChanged)
 
     //! This property holds the speed.
-    
     Q_PROPERTY(
         djvSpeed speed
         READ     speed
         WRITE    setSpeed)
 
     //! This property holds whether in/out points are enabled.
-    
     Q_PROPERTY(
         bool   inOutEnabled
         READ   isInOutEnabled
@@ -275,7 +230,6 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
         NOTIFY inOutEnabledChanged)
     
     //! This property holds the in point.
-    
     Q_PROPERTY(
         qint64 inPoint
         READ   inPoint
@@ -283,7 +237,6 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
         NOTIFY inPointChanged)
     
     //! This property holds the out point.
-    
     Q_PROPERTY(
         qint64 outPoint
         READ   outPoint
@@ -291,138 +244,102 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
         NOTIFY outPointChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvViewFrameSlider(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewFrameSlider();
 
     //! Get the frame list.
-
     const djvFrameList & frameList() const;
 
     //! Get the current frame.
-
     qint64 frame() const;
 
     //! Get the speed.
-
     const djvSpeed & speed() const;
 
     //! Get whether the in/out points are enabled.
-
     bool isInOutEnabled() const;
 
     //! Get the in point.
-
     qint64 inPoint() const;
 
     //! Get the out point.
-
     qint64 outPoint() const;
     
     virtual QSize sizeHint() const;
 
 public Q_SLOTS:
-
     //! Set the frame list.
-
     void setFrameList(const djvFrameList &);
 
     //! Set the current frame.
-
     void setFrame(qint64);
 
     //! Set the speed.
-
     void setSpeed(const djvSpeed &);
 
     //! Set whether the in/out points are enabled.
-
     void setInOutEnabled(bool);
 
     //! Set the in/out points.
-
     void setInOutPoints(qint64, qint64);
 
     //! Set the in point.
-
     void setInPoint(qint64);
 
     //! Set the out point.
-
     void setOutPoint(qint64);
 
     //! Mark the in point. This sets the in point to the current frame.
-
     void markInPoint();
 
     //! Mark the out point. This sets the out point to the current frame.
-
     void markOutPoint();
 
     //! Reset the in/out points.
-
     void resetInOutPoints();
 
     //! Reset the in point.
-
     void resetInPoint();
 
     //! Reset the out point.
-
     void resetOutPoint();
 
     //! Go to the start frame.
-
     void gotoStartFrame();
 
     //! Go to the end frame.
-
     void gotoEndFrame();
 
     //! Set the list of cached frames.
-
     void setCachedFrames(const djvFrameList &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the frame is changed.
-
     void frameChanged(qint64);
 
     //! This signal is emitted when the in/out points are enabled or disabled.
-
     void inOutEnabledChanged(bool);
 
     //! This signal is emitted when the in point is changed.
-
     void inPointChanged(qint64);
 
     //! This signal is emitted when the out point is changed.
-
     void outPointChanged(qint64);
 
     //! This signal is emitted when the slider is pressed.
-
     void pressed(bool);
 
 protected:
-
     virtual void mousePressEvent(QMouseEvent *);
     virtual void mouseReleaseEvent(QMouseEvent *);
     virtual void mouseMoveEvent(QMouseEvent *);
     virtual void paintEvent(QPaintEvent *);
 
 private Q_SLOTS:
-
     void timeUnitsCallback();
     
 private:
-
     qint64 end() const;
 
     qint64 posToFrame(int) const;
@@ -445,73 +362,56 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameDisplay : public QWidget
     Q_OBJECT
 
     //! This property holds the frame.
-    
     Q_PROPERTY(
         qint64 frame
         READ   frame
         WRITE  setFrame)
 
     //! This property holds the speed.
-    
     Q_PROPERTY(
         djvSpeed speed
         READ     speed
         WRITE    setSpeed)
 
     //! This property holds whether in/out points are enabled.
-    
     Q_PROPERTY(
         bool   inOutEnabled
         READ   isInOutEnabled
         WRITE  setInOutEnabled)
     
 public:
-
-    //! Constructor.
-
     explicit djvViewFrameDisplay(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewFrameDisplay();
 
     //! Get the frame.
-
     qint64 frame() const;
 
     //! Get the speed.
-
     const djvSpeed & speed() const;
 
     //! Get whether the in/out points are enabled.
-
     bool isInOutEnabled() const;
 
     virtual QSize sizeHint() const;
 
 public Q_SLOTS:
-
     //! Set the frame.
-
     void setFrame(qint64);
 
     //! Set the speed.
-
     void setSpeed(const djvSpeed &);
 
     //! Set whether in/out points are enabled.
-
     void setInOutEnabled(bool);
 
 private Q_SLOTS:
-
     void timeUnitsCallback();
     
     void textUpdate();
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewFrameDisplay);
     
     djvViewFrameDisplayPrivate * _p;
@@ -528,23 +428,15 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedButton : public QWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewSpeedButton(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewSpeedButton();
 
     //! Set the default speed.
-
     void setDefaultSpeed(const djvSpeed &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the speed is changed.
-
     void speedChanged(const djvSpeed &);
 
 private Q_SLOTS:
@@ -570,7 +462,6 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedWidget : public QWidget
     Q_OBJECT
 
     //! This property holds the speed.
-    
     Q_PROPERTY(
         djvSpeed speed
         READ     speed
@@ -578,54 +469,39 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedWidget : public QWidget
         NOTIFY   speedChanged)
 
     //! This property holds the default speed.
-    
     Q_PROPERTY(
         djvSpeed defaultSpeed
         READ     defaultSpeed
         WRITE    setDefaultSpeed)
     
 public:
-
-    //! Constructor.
-
     explicit djvViewSpeedWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewSpeedWidget();
 
     //! Get the speed.
-
     const djvSpeed & speed() const;
 
     //! Get the default speed.
-
     const djvSpeed & defaultSpeed() const;
 
 public Q_SLOTS:
-
     //! Set the speed.
-
     void setSpeed(const djvSpeed &);
 
     //! Set the default speed.
-
     void setDefaultSpeed(const djvSpeed &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the speed is changed.
-
     void speedChanged(const djvSpeed &);
 
 private Q_SLOTS:
-
     void editCallback(double);
 
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewSpeedWidget);
     
     djvViewSpeedWidgetPrivate * _p;
@@ -642,39 +518,27 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedDisplay : public QWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewSpeedDisplay(QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewSpeedDisplay();
 
     virtual QSize sizeHint() const;
 
 public Q_SLOTS:
-
     //! Set the speed.
-
     void setSpeed(double);
 
     //! Set whether frames were dropped.
-
     void setDroppedFrames(bool);
 
 private Q_SLOTS:
-
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewSpeedDisplay);
     
     djvViewSpeedDisplayPrivate * _p;
 };
 
 //@} // djvViewMisc
-
-#endif // DJV_VIEW_MISC_WIDGET_H
 

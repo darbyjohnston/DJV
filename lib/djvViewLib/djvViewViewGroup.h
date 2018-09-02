@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewGroup.h
-
-#ifndef DJV_VIEW_VIEW_GROUP_H
-#define DJV_VIEW_VIEW_GROUP_H
+#pragma once
 
 #include <djvViewAbstractGroup.h>
 #include <djvViewUtil.h>
@@ -59,22 +56,16 @@ class DJV_VIEW_LIB_EXPORT djvViewViewGroup : public djvViewAbstractGroup
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewViewGroup(
         const djvViewViewGroup * copy,
         djvViewMainWindow *      mainWindow,
         djvViewContext *         context);
-
-    //! Destructor.
 
     virtual ~djvViewViewGroup();
 
     virtual QToolBar * toolBar() const;
 
 private Q_SLOTS:
-
     void leftCallback();
     void rightCallback();
     void upCallback();
@@ -94,7 +85,6 @@ private Q_SLOTS:
     void update();
 
 private:
-
     void viewMove(const djvVector2i &);
     void viewZoom(double);
 
@@ -104,6 +94,4 @@ private:
 };
 
 //@} // djvViewView
-
-#endif // DJV_VIEW_VIEW_GROUP_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntSlider.h
-
-#ifndef DJV_INT_SLIDER_H
-#define DJV_INT_SLIDER_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,7 +54,6 @@ class DJV_GUI_EXPORT djvIntSlider : public QWidget
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         int    value
         READ   value
@@ -65,7 +61,6 @@ class DJV_GUI_EXPORT djvIntSlider : public QWidget
         NOTIFY valueChanged)
     
     //! This property holds the minimum value.
-    
     Q_PROPERTY(
         int    min
         READ   min
@@ -73,7 +68,6 @@ class DJV_GUI_EXPORT djvIntSlider : public QWidget
         NOTIFY minChanged)
     
     //! This property holds the maximum value.
-    
     Q_PROPERTY(
         int    max
         READ   max
@@ -81,73 +75,52 @@ class DJV_GUI_EXPORT djvIntSlider : public QWidget
         NOTIFY maxChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvIntSlider(QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvIntSlider();
 
     //! Get the value.
-
     int value() const;
 
     //! Get the minimum value.
-
     int min() const;
 
     //! Get the maximum value.
-
     int max() const;
 
     //! Get the integer object.
-
     djvIntObject * object() const;
 
 public Q_SLOTS:
-
     //! Set the value.
-
     void setValue(int);
 
     //! Set the minimum value.
-
     void setMin(int);
 
     //! Set the maximum value.
-
     void setMax(int);
 
     //! Set the value range.
-
     void setRange(int min, int max);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-
     void valueChanged(int);
 
     //! This signal is emitted when the minimum value is changed.
-
     void minChanged(int);
 
     //! This signal is emitted when the maximum value is changed.
-
     void maxChanged(int);
 
     //! This signal is emitted when the range is changed.
-
     void rangeChanged(int, int);
     
 protected:
-
     virtual void keyPressEvent(QKeyEvent *);
 
 private Q_SLOTS:
-
     void valueCallback();
     void rangeCallback();
     void sliderCallback(int);
@@ -155,13 +128,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-    
     DJV_PRIVATE_COPY(djvIntSlider);
     
     djvIntSliderPrivate * _p;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_INT_SLIDER_H
 

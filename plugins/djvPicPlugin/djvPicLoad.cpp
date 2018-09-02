@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPicLoad.cpp
-
 #include <djvPicLoad.h>
 
 #include <djvFileIo.h>
@@ -57,13 +55,9 @@ void djvPicLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvPicLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-    
     djvFileIo io;
-    
     _open(_file.fileName(_file.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -80,42 +74,29 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-
     djvFileIo io;
-    
     _open(fileName, info, io);
-
     image.tags = info.tags;
 
     // Read the file.
-
     io.readAhead();
-
     djvPixelData * data = frame.proxy ? &_tmp : &image;
     data->set(info);
-
     const int  channels  = djvPixel::channels(info.pixel);
     const int  byteCount = djvPixel::channelByteCount(info.pixel);
     const bool endian    = io.endian();
-
     const quint8 * p = io.mmapP(), * const end = io.mmapEnd();
-
     for (int y = 0; y < info.size.y; ++y)
     {
         //DJV_DEBUG_PRINT("y = " << y);
-
         switch (_type)
         {
             case djvPic::TYPE_RGB:
             case djvPic::TYPE_RGBA:
-
                 if (_compression[0])
                 {
                     p = djvPic::readRle(
@@ -126,7 +107,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         channels,
                         channels * byteCount,
                         endian);
-
                     if (! p)
                     {
                         throw djvError(
@@ -137,7 +117,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 else
                 {
                     const int size = info.size.x * channels * byteCount;
-                    
                     if ((io.size() - io.pos()) <
                         djvPixelDataUtil::dataByteCount(info))
                     {
@@ -147,12 +126,9 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     }
                     
                     djvMemory::copy(p, data->data(0, y), size);
-
                     p += size;
                 }
-
                 break;
-
             case djvPic::TYPE_RGB_A:
 
                 if (_compression[0])
@@ -165,7 +141,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         3,
                         channels * byteCount,
                         endian);
-
                     if (! p)
                     {
                         throw djvError(
@@ -176,7 +151,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 else
                 {
                     const int size = info.size.x * 3 * byteCount;
-
                     if ((io.size() - io.pos()) <
                         djvPixelDataUtil::dataByteCount(info))
                     {
@@ -184,12 +158,9 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                             djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
-
                     djvMemory::copy(p, data->data(0, y), size);
-
                     p += size;
                 }
-
                 if (_compression[1])
                 {
                     p = djvPic::readRle(
@@ -200,7 +171,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         1,
                         channels * byteCount,
                         endian);
-
                     if (! p)
                     {
                         throw djvError(
@@ -211,7 +181,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 else
                 {
                     const int size = info.size.x * 1 * byteCount;
-
                     if ((io.size() - io.pos()) <
                         djvPixelDataUtil::dataByteCount(info))
                     {
@@ -219,12 +188,9 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                             djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
-
                     djvMemory::copy(p, data->data(0, y), size);
-
                     p += size;
                 }
-
                 break;
 
             default: break;
@@ -232,7 +198,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
 
     // Proxy scale the image.
-    
     if (frame.proxy)
     {
         info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
@@ -247,7 +212,6 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 
 namespace
 {
-
 struct Header
 {
     quint32 magic;
@@ -304,25 +268,19 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-
     io.open(in, djvFileIo::READ);
 
     // Read the header.
-
     Header header;
     djvMemory::zero(&header, sizeof(Header));
-
     io.getU32(&header.magic);
-
     if (header.magic != 0x5380F634)
     {
         throw djvError(
             djvPic::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     io.getF32(&header.version);
     io.get(header.comment, sizeof(header.comment));
     io.get(header.id, sizeof(header.id));
@@ -331,7 +289,6 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     io.getF32(&header.ratio);
     io.getU16(&header.fields);
     io.seek(sizeof(header.pad));
-
     //DJV_DEBUG_PRINT("version = " << header.version);
     //DJV_DEBUG_PRINT("comment = " <<
     //    String(header.comment, sizeof(header.comment)));
@@ -340,7 +297,6 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     //DJV_DEBUG_PRINT("height = " << header.height);
     //DJV_DEBUG_PRINT("ratio = " << header.ratio);
     //DJV_DEBUG_PRINT("fields = " << header.fields);
-
     if (QString::fromLatin1(header.id, sizeof(header.id)) != "PICT")
     {
         throw djvError(
@@ -349,23 +305,15 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     }
 
     // Information.
-
     info.fileName = in;
-
     info.size = djvVector2i(header.width, header.height);
-
     info.mirror.y = true;
-
     Channel channel;
     djvMemory::zero(&channel, sizeof(Channel));
     _channel(io, &channel);
-    
     _compression[0] = 2 == channel.type;
-
     //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
-
     int type = -1;
-
     if ((CHANNEL_R & channel.channel) &&
         (CHANNEL_G & channel.channel) &&
         (CHANNEL_B & channel.channel) &&
@@ -393,11 +341,8 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         djvMemory::zero(&channel, sizeof(Channel));
         _channel(io, &channel);
-        
         _compression[1] = 2 == channel.type;
-
         //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
-
         if (! (CHANNEL_R & channel.channel) &&
             ! (CHANNEL_G & channel.channel) &&
             ! (CHANNEL_B & channel.channel) &&
@@ -408,32 +353,26 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
             type = djvPic::TYPE_RGB_A;
         }
     }
-
     if (-1 == type)
     {
         throw djvError(
             djvPic::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     _type = static_cast<djvPic::TYPE>(type);
-
     switch (_type)
     {
         case djvPic::TYPE_RGB:
             info.pixel = djvPixel::RGB_U8;
             break;
-
         case djvPic::TYPE_RGBA:
         case djvPic::TYPE_RGB_A:
             info.pixel = djvPixel::RGBA_U8;
             break;
-
         default: break;
     }
 
     // Read image tags.
-
     if (header.comment[0])
         info.tags[djvImageTags::tagLabels()[djvImageTags::DESCRIPTION]] =
             QString::fromLatin1(header.comment, sizeof(header.comment));

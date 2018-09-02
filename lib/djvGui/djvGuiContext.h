@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGuiContext.h
-
-#ifndef DJV_GUI_CONTEXT_H
-#define DJV_GUI_CONTEXT_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -71,109 +68,81 @@ class DJV_GUI_EXPORT djvGuiContext : public djvImageContext
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvGuiContext(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvGuiContext();
     
     //! Get whether the user-interface has started.
-
     bool isValid() const;
 
     //! Set whether the user-interface has started.
-
     virtual void setValid(bool);
     
     //! Open the documentation.
-    
     void help();
     
     //! Get the file browser.
-    
     djvFileBrowser * fileBrowser(const QString & title = QString()) const;
     
     //! Get the image I/O widget plugin factory.
-    
     djvImageIoWidgetFactory * imageIoWidgetFactory() const;
     
     //! Get the preferences dialog.
-    
     djvPrefsDialog * prefsDialog() const;
 
     //! Get the information dialog.
-
     djvInfoDialog * infoDialog() const;
 
     //! Get the about dialog.
-
     djvAboutDialog * aboutDialog() const;
 
     //! Get the messages dialog.
-
     djvMessagesDialog * messagesDialog() const;
     
     //! Get the debugging dialog.
-    
     djvDebugLogDialog * debugLogDialog() const;
     
     //! Get the file browser preferences.
-    
     djvFileBrowserPrefs * fileBrowserPrefs() const;
 
     //! Get the help preferences.
-    
     djvHelpPrefs * helpPrefs() const;
 
     //! Get the image preferences.
-    
     djvImagePrefs * imagePrefs() const;
 
     //! Get the image I/O preferences.
-    
     djvImageIoPrefs * imageIoPrefs() const;
 
     //! Get the sequence preferences.
-    
     djvSequencePrefs * sequencePrefs() const;
 
     //! Get the time preferences.
-    
     djvTimePrefs * timePrefs() const;
 
     //! Get the file browser cache.
-    
     djvFileBrowserCache * fileBrowserCache() const;
 
     //! Get the icon library.
-    
     djvIconLibrary * iconLibrary() const;
 
     //! Get the style.
-    
     djvStyle * style() const;
 
     virtual QString info() const;
 
 protected:
-
     virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
     
     virtual void print(const QString &);
     
-private:
-    
+private:    
     DJV_PRIVATE_COPY(djvGuiContext);
     
     djvGuiContextPrivate * _p;
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_GUI_CONTEXT_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoWidget.h
-
-#ifndef DJV_IMAGE_IO_WIDGET_H
-#define DJV_IMAGE_IO_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -59,28 +56,20 @@ class DJV_GUI_EXPORT djvImageIoWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvImageIoWidget(
         djvImageIo *    plugin,
         djvGuiContext * context,
         QWidget *       parent  = 0);
 
-    //! Destructor.
-
     virtual ~djvImageIoWidget() = 0;
 
     //! Get the plugin.
-    
     djvImageIo * plugin() const;
 
     //! Get the context.
-    
     djvGuiContext * context() const;
     
 private:
-
     djvImageIo *    _plugin;
     djvGuiContext * _context;
 };
@@ -94,21 +83,14 @@ private:
 class DJV_GUI_EXPORT djvImageIoWidgetPlugin : public djvPlugin
 {
 public:
-
-    //! Constructor.
-
     djvImageIoWidgetPlugin(djvCoreContext *);
-
-    //! Destructor.
 
     virtual ~djvImageIoWidgetPlugin() = 0;
 
-    //! Create a widget.
-    
+    //! Create a widget.    
     virtual djvImageIoWidget * createWidget(djvImageIo * plugin) const = 0;
     
     //! Get the context.
-    
     djvGuiContext * guiContext() const;
 
     virtual djvPlugin * copyPlugin() const;
@@ -125,30 +107,21 @@ class DJV_GUI_EXPORT djvImageIoWidgetFactory : public djvPluginFactory
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvImageIoWidgetFactory(
         djvGuiContext *     context,
         const QStringList & searchPath = djvSystem::searchPath(),
         QObject *           parent     = 0);
 
-    //! Destructor.
-
     virtual ~djvImageIoWidgetFactory();
 
-    //! Create a widget.
-    
+    //! Create a widget.    
     djvImageIoWidget * createWidget(djvImageIo *) const;
     
 private:
-
     DJV_PRIVATE_COPY(djvImageIoWidgetFactory);
     
     djvGuiContext * _context;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_IMAGE_IO_WIDGET_H
 

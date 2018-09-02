@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvError.h
-
-#ifndef DJV_ERROR_H
-#define DJV_ERROR_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -53,8 +50,7 @@ class DJV_CORE_EXPORT djvError
 {
 public:
 
-    //! This struct provides an error message.
-    
+    //! This struct provides an error message.    
     struct Message
     {
         Message(
@@ -65,52 +61,32 @@ public:
         QString string;
     };
 
-    //! Constructor.
-
     djvError();
-
-    //! Constructor.
-
     djvError(const QString & string);
-
-    //! Constructor.
-
     djvError(const QString & prefix, const QString & string);
-
-    //! Constructor.
-
     djvError(const djvError &);
-
-    //! Destructor.
 
     virtual ~djvError();
 
     //! Get the message list.
-
     const QList<Message> & messages() const;
     
     //! Get the number of messages.
-    
     int count() const;
     
     //! Add a message to the list.
-    
     void add(const QString & string);
     
     //! Add a message to the list.
-    
     void add(const QString & prefix, const QString & string);
 
     djvError & operator = (const djvError &);
 
 private:
-
     void init();
 
     djvErrorPrivate * _p;
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_ERROR_H
 

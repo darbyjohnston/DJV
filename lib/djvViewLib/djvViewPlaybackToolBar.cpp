@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackToolBar.cpp
-
 #include <djvViewPlaybackToolBar.h>
 
 #include <djvViewContext.h>
@@ -105,7 +103,6 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
     _p(new djvViewPlaybackToolBarPrivate)
 {
     // Create the playback widgets.
-
     _p->playbackButtons = new djvViewPlaybackButtons(
         actions->group(djvViewPlaybackActions::PLAYBACK_GROUP),
         context);
@@ -115,7 +112,6 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
         context);
 
     // Create the speed widgets.
-
     _p->speedWidget = new djvViewSpeedWidget(context);
     _p->speedWidget->setToolTip(
         qApp->translate("djvViewPlaybackToolBar", "Playback speed"));
@@ -132,7 +128,6 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
         qApp->translate("djvViewPlaybackToolBar", "Playback every frame"));
 
     // Create the frame widgets.
-
     _p->frameWidget = new djvViewFrameWidget(context);
     _p->frameWidget->setToolTip(
         qApp->translate("djvViewPlaybackToolBar", "Current frame"));
@@ -158,7 +153,6 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
         qApp->translate("djvViewPlaybackToolBar", "Playback duration"));
 
     // Create the in/out point widgets.
-
     _p->inOutEnabledButton = new djvToolButton;
     _p->inOutEnabledButton->setDefaultAction(
         actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions()[
@@ -190,89 +184,71 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
     _p->resetOutPointButton->setIconSize(QSize(20, 20));
 
     // Layout the widgets.
-
     _p->widget = new QWidget;
-
     addWidget(_p->widget);
 
     // Initialize.
-
     setAllowedAreas(Qt::BottomToolBarArea);
     setFloatable(false);
     setMovable(false);
     setIconSize(context->iconLibrary()->defaultSize());
-
     layoutUpdate();
 
     // Setup callbacks.
-
     connect(
         _p->playbackButtons,
         SIGNAL(shuttlePressed(bool)),
         SIGNAL(playbackShuttlePressed(bool)));
-
     connect(
         _p->playbackButtons,
         SIGNAL(shuttleChanged(int)),
         SIGNAL(playbackShuttleValue(int)));
-
     connect(
         _p->speedWidget,
         SIGNAL(speedChanged(const djvSpeed &)),
         SIGNAL(speedChanged(const djvSpeed &)));
-
     connect(
         _p->frameWidget,
         SIGNAL(frameChanged(qint64)),
         SIGNAL(frameChanged(qint64)));
-
     connect(
         _p->frameSlider,
         SIGNAL(pressed(bool)),
         SIGNAL(frameSliderPressed(bool)));
-
     connect(
         _p->frameSlider,
         SIGNAL(frameChanged(qint64)),
         SIGNAL(frameSliderChanged(qint64)));
-
     connect(
         _p->frameSlider,
         SIGNAL(inPointChanged(qint64)),
         SIGNAL(inPointChanged(qint64)));
-
     connect(
         _p->frameSlider,
         SIGNAL(outPointChanged(qint64)),
         SIGNAL(outPointChanged(qint64)));
-
     connect(
         _p->startWidget,
         SIGNAL(frameChanged(qint64)),
         _p->frameSlider,
         SLOT(setInPoint(qint64)));
-
     connect(
         _p->endWidget,
         SIGNAL(frameChanged(qint64)),
         _p->frameSlider,
         SLOT(setOutPoint(qint64)));
-
     connect(
         _p->frameButtons,
         SIGNAL(shuttlePressed(bool)),
         SIGNAL(frameShuttlePressed(bool)));
-
     connect(
         _p->frameButtons,
         SIGNAL(shuttleChanged(int)),
         SIGNAL(frameShuttleValue(int)));
-
     connect(
         _p->frameButtons,
         SIGNAL(pressed()),
         SIGNAL(frameButtonsPressed()));
-
     connect(
         _p->frameButtons,
         SIGNAL(released()),
@@ -287,15 +263,10 @@ djvViewPlaybackToolBar::~djvViewPlaybackToolBar()
 void djvViewPlaybackToolBar::setSpeed(const djvSpeed & speed)
 {
     _p->speedWidget->setSpeed(speed);
-
     _p->frameWidget->setSpeed(speed);
-
     _p->frameSlider->setSpeed(speed);
-
     _p->startWidget->setSpeed(speed);
-
     _p->endWidget->setSpeed(speed);
-
     _p->durationDisplay->setSpeed(speed);
 }
 
@@ -317,18 +288,14 @@ void djvViewPlaybackToolBar::setDroppedFrames(bool in)
 void djvViewPlaybackToolBar::setFrameList(const djvFrameList & in)
 {
     _p->frameWidget->setFrameList(in);
-
     _p->frameSlider->setFrameList(in);
-
     _p->startWidget->setFrameList(in);
-
     _p->endWidget->setFrameList(in);
 }
 
 void djvViewPlaybackToolBar::setFrame(qint64 in)
 {
     _p->frameWidget->setFrame(in);
-
     _p->frameSlider->setFrame(in);
 }
 
@@ -350,7 +317,6 @@ void djvViewPlaybackToolBar::setEnd(qint64 in)
 void djvViewPlaybackToolBar::setDuration(qint64 in, bool inOutEnabled)
 {
     _p->durationDisplay->setFrame(in);
-
     _p->durationDisplay->setInOutEnabled(inOutEnabled);
 }
 
@@ -393,16 +359,13 @@ void djvViewPlaybackToolBar::setLayout(djvViewUtil::LAYOUT layout)
 {
     if (layout == _p->layout)
         return;
-
     _p->layout = layout;
-
     layoutUpdate();
 }
 
 void djvViewPlaybackToolBar::layoutUpdate()
 {
     //DJV_DEBUG("djvViewPlaybackToolBar::layoutUpdate");
-
     delete _p->widgetLayout;
     _p->widgetLayout = new QHBoxLayout(_p->widget);
     _p->widgetLayout->setMargin(0);
@@ -472,7 +435,6 @@ void djvViewPlaybackToolBar::layoutUpdate()
             _p->widgetLayout->addLayout(rightLayout, 1);
         }
         break;
-
         case djvViewUtil::LAYOUT_CENTER:
         {
             QVBoxLayout * layout = new QVBoxLayout;
@@ -500,14 +462,12 @@ void djvViewPlaybackToolBar::layoutUpdate()
             _p->widgetLayout->addLayout(layout, 1);
         }
         break;
-
         case djvViewUtil::LAYOUT_MINIMAL:
         {
             _p->widgetLayout->addWidget(_p->playbackButtons);
             _p->widgetLayout->addWidget(_p->frameSlider, 1);
         }
         break;
-
         default: break;
     }
 
@@ -515,7 +475,6 @@ void djvViewPlaybackToolBar::layoutUpdate()
     {
         case djvViewUtil::LAYOUT_DEFAULT:
         case djvViewUtil::LAYOUT_LEFT:
-
             _p->speedWidget->show();
             _p->realSpeedDisplay->show();
             _p->everyFrameButton->show();
@@ -531,17 +490,14 @@ void djvViewPlaybackToolBar::layoutUpdate()
             _p->markOutPointButton->show();
             _p->resetOutPointButton->show();
             _p->durationDisplay->show();
-
             break;
 
         case djvViewUtil::LAYOUT_CENTER:
-
             _p->speedWidget->hide();
             _p->realSpeedDisplay->hide();
             _p->everyFrameButton->hide();
             _p->loopWidget->hide();
             _p->inOutEnabledButton->hide();
-
             _p->frameSlider->show();
             _p->frameWidget->show();
             _p->frameButtons->show();
@@ -552,11 +508,9 @@ void djvViewPlaybackToolBar::layoutUpdate()
             _p->markOutPointButton->show();
             _p->resetOutPointButton->show();
             _p->durationDisplay->show();
-
             break;
 
         case djvViewUtil::LAYOUT_MINIMAL:
-
             _p->speedWidget->hide();
             _p->realSpeedDisplay->hide();
             _p->everyFrameButton->hide();
@@ -564,7 +518,6 @@ void djvViewPlaybackToolBar::layoutUpdate()
             _p->inOutEnabledButton->hide();
             _p->frameWidget->hide();
             _p->frameButtons->hide();
-
             _p->startWidget->hide();
             _p->endWidget->hide();
             _p->markInPointButton->hide();
@@ -572,9 +525,7 @@ void djvViewPlaybackToolBar::layoutUpdate()
             _p->markOutPointButton->hide();
             _p->resetOutPointButton->hide();
             _p->durationDisplay->hide();
-
             break;
-
         default: break;
     }
 }

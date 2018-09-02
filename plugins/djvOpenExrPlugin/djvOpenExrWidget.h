@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExrWidget.h
-
-#ifndef DJV_OPENEXR_WIDGET_H
-#define DJV_OPENEXR_WIDGET_H
+#pragma once
 
 #include <djvOpenExr.h>
 
@@ -59,19 +56,13 @@ class djvOpenExrWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     djvOpenExrWidget(djvImageIo *, djvGuiContext *);
-    
-    //! Destructor.
 
     virtual ~djvOpenExrWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void threadsEnableCallback(bool);
     void threadCountCallback(int);
@@ -88,7 +79,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvOpenExr::Options  _options;
     QCheckBox *          _threadsEnableWidget;
     djvIntEdit *         _threadCountWidget;
@@ -115,7 +105,6 @@ private:
 class djvOpenExrWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvOpenExrWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -124,6 +113,4 @@ public:
 };
 
 //@} // djvOpenExrPlugin
-
-#endif // DJV_OPENEXR_WIDGET_H
 

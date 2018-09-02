@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimer.cpp
-
 #include <djvTimer.h>
 
 #if defined(DJV_WINDOWS)
@@ -68,20 +66,14 @@ djvTimer::djvTimer() :
     _p(new djvTimerPrivate)
 {
 #if defined(DJV_WINDOWS)
-
     //_p->t0 = _p->t1 = 0;
-    
     _p->t0.QuadPart = 0;
     _p->t1.QuadPart = 0;
     ::QueryPerformanceFrequency(&_p->frequency);
-
 #else // DJV_WINDOWS
-
     _p->t0.tv_sec = _p->t0.tv_usec = 0;
     _p->t1.tv_sec = _p->t1.tv_usec = 0;
-
 #endif // DJV_WINDOWS
-
     start();
 }
 
@@ -89,16 +81,12 @@ djvTimer::djvTimer(const djvTimer & timer) :
     _p(new djvTimerPrivate)
 {
 #if defined(DJV_WINDOWS)
-
     _p->t0 = timer._p->t0;
     _p->t1 = timer._p->t1;
     _p->frequency = timer._p->frequency;
-
 #else // DJV_WINDOWS
-
     _p->t0 = timer._p->t0;
     _p->t1 = timer._p->t1;
-
 #endif // DJV_WINDOWS
 }
 
@@ -110,49 +98,34 @@ djvTimer::~djvTimer()
 void djvTimer::start()
 {
 #if defined(DJV_WINDOWS)
-
     //_p->t0 = ::GetTickCount();
-    
     ::QueryPerformanceCounter(&_p->t0);
-
 #else // DJV_WINDOWS
-
     ::gettimeofday(&_p->t0, 0);
-
 #endif // DJV_WINDOWS
-
     _p->t1 = _p->t0;
 }
 
 void djvTimer::check()
 {
 #if defined(DJV_WINDOWS)
-
     //_p->t1 = ::GetTickCount();
-    
     ::QueryPerformanceCounter(&_p->t1);
-
 #else // DJV_WINDOWS
-
     ::gettimeofday(&_p->t1, 0);
-
 #endif // DJV_WINDOWS
 }
 
 #if ! defined(DJV_WINDOWS)
-
 namespace
 {
-
 inline void timediff(const timeval & a, const timeval & b, timeval & out)
 {
     out.tv_sec  = a.tv_sec  - b.tv_sec;
     out.tv_usec = a.tv_usec - b.tv_usec;
-
     if (out.tv_usec < 0)
     {
         --out.tv_sec;
-        
         out.tv_usec += 1000000;
     }
 }
@@ -164,32 +137,24 @@ inline void timediff(const timeval & a, const timeval & b, timeval & out)
 double djvTimer::seconds() const
 {
     double out = 0.0;
-
 #if defined(DJV_WINDOWS)
-
     //out = (_p->t1 - _p->t0) / 1000.0;
-    
     if (_p->frequency.QuadPart)
     {
         out = (_p->t1.QuadPart - _p->t0.QuadPart) /
             static_cast<double>(_p->frequency.QuadPart);
     }
-
 #else // DJV_WINDOWS
-
     timeval t;
     timediff(_p->t1, _p->t0, t);
     out = t.tv_sec + t.tv_usec / 1000000.0;
-
 #endif // DJV_WINDOWS
-
     return out;
 }
 
 double djvTimer::fps() const
 {
-    const double seconds = this->seconds();
-    
+    const double seconds = this->seconds();    
     return (seconds != 0.0) ? (1.0 / seconds) : 0.0;
 }
 
@@ -198,19 +163,14 @@ djvTimer & djvTimer::operator = (const djvTimer & timer)
     if (&timer != this)
     {
 #if defined(DJV_WINDOWS)
-
         _p->t0 = timer._p->t0;
         _p->t1 = timer._p->t1;
         _p->frequency = timer._p->frequency;
-
 #else // DJV_WINDOWS
-
         _p->t0 = timer._p->t0;
         _p->t1 = timer._p->t1;
-
 #endif // DJV_WINDOWS
     }
-    
     return *this;
 }
 

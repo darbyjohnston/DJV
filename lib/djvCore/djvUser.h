@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvUser.h
-
-#ifndef DJV_USER_H
-#define DJV_USER_H
+#pragma once
 
 #include <djvConfig.h>
 #include <djvCoreExport.h>
@@ -59,21 +56,14 @@ typedef int uid_t;
 class DJV_CORE_EXPORT djvUser
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvUser() = 0;
     
     //! Get the current user name.
-
     static QString current();
 
     //! Covert a user id to a string.
-
     static QString uidToString(uid_t);
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_USER_H
 

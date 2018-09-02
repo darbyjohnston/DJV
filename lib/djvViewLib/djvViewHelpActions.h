@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHelpActions.h
-
-#ifndef DJV_VIEW_HELP_ACTIONS_H
-#define DJV_VIEW_HELP_ACTIONS_H
+#pragma once
 
 #include <djvViewAbstractActions.h>
 
@@ -53,9 +50,7 @@ class DJV_VIEW_LIB_EXPORT djvViewHelpActions : public djvViewAbstractActions
     Q_ENUMS(ACTION)
     
 public:
-
     //! This enumeration provides the actions.
-
     enum ACTION
     {
         HELP,
@@ -65,22 +60,15 @@ public:
         ACTION_COUNT
     };
 
-    //! Constructor.
-
     explicit djvViewHelpActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewHelpActions();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewHelpActions);
     
     djvViewHelpActionsPrivate * _p;
 };
 
 //@} // djvViewHelp
-
-#endif // DJV_VIEW_HELP_ACTIONS_H
 

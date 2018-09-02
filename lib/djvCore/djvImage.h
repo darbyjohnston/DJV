@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImage.h
-
-#ifndef DJV_IMAGE_H
-#define DJV_IMAGE_H
+#pragma once
 
 #include <djvColorProfile.h>
 #include <djvImageTags.h>
@@ -50,24 +47,14 @@
 class DJV_CORE_EXPORT djvImage : public djvPixelData
 {
 public:
-
-    //! Constructor.
-
     djvImage();
-
-    //! Constructor.
-
     djvImage(const djvPixelDataInfo & in, const quint8 * = 0, djvFileIo * = 0);
-
-    //! Destructor.
 
     virtual ~djvImage();
 
     djvImageTags    tags;
     djvColorProfile colorProfile;
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvImage)
 
@@ -77,4 +64,3 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImage);
 
 //@} // djvCoreImage
 
-#endif // DJV_IMAGE_H

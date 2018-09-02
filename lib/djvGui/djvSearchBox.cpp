@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSearchBox.cpp
-
 #include <djvSearchBox.h>
 
 #include <djvGuiContext.h>
@@ -67,7 +65,6 @@ djvSearchBox::djvSearchBox(djvGuiContext * context, QWidget * parent) :
     _p(new djvSearchBoxPrivate)
 {
     // Create the widgets.
-    
     _p->lineEdit = new QLineEdit;
     _p->lineEdit->setToolTip(
         qApp->translate("djvSearchBox", "Enter a search"));
@@ -84,7 +81,6 @@ djvSearchBox::djvSearchBox(djvGuiContext * context, QWidget * parent) :
         context->iconLibrary()->pixmap("djvMagnifyIcon.png"));
     
     // Layout the widgets.
-    
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(label);
@@ -92,12 +88,10 @@ djvSearchBox::djvSearchBox(djvGuiContext * context, QWidget * parent) :
     layout->addWidget(_p->resetButton);
     
     // Setup callbacks.
-    
     connect(
         _p->lineEdit,
         SIGNAL(textChanged(const QString &)),
         SLOT(textCallback(const QString &)));
-    
     connect(
         _p->resetButton,
         SIGNAL(clicked()),
@@ -118,11 +112,8 @@ void djvSearchBox::setText(const QString & text)
 {
     if (text == _p->text)
         return;
-
     _p->text = text;
-
     _p->lineEdit->setText(_p->text);
-
     Q_EMIT textChanged(_p->text);
     Q_EMIT textChanged(_p->text);
 }

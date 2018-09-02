@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebugLogDialog.h
-
-#ifndef DJV_DEBUG_LOG_DIALOG_H
-#define DJV_DEBUG_LOG_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -59,25 +56,16 @@ class DJV_GUI_EXPORT djvDebugLogDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvDebugLogDialog(djvGuiContext *);
 
-    //! Destructor.
-
     virtual ~djvDebugLogDialog();
-
-    //! Clear the log.
 
     void clear();
 
 protected:
-
     virtual void showEvent(QShowEvent *);
     
 private Q_SLOTS:
-
     void messageCallback(const QString &);
     void copyCallback();
     void clearCallback();
@@ -85,13 +73,10 @@ private Q_SLOTS:
     void updateWidget();
     
 private:
-    
     DJV_PRIVATE_COPY(djvDebugLogDialog);
     
     djvDebugLogDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_DEBUG_LOG_DIALOG_H
 

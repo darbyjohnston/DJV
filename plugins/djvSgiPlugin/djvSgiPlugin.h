@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiPlugin.h
-
-#ifndef DJV_SGI_PLUGIN_H
-#define DJV_SGI_PLUGIN_H
+#pragma once
 
 #include <djvSgi.h>
 
@@ -45,27 +42,19 @@
 class djvSgiPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvSgiPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
@@ -74,6 +63,4 @@ private:
 };
 
 //@} // djvSgiPlugin
-
-#endif // DJV_SGI_PLUGIN_H
 

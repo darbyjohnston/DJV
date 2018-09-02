@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMultiChoiceDialog.cpp
-
 #include <djvMultiChoiceDialog.h>
 
 #include <QApplication>
@@ -113,9 +111,7 @@ const QStringList & djvMultiChoiceDialog::choices() const
 void djvMultiChoiceDialog::setChoices(const QStringList & choices)
 {
     _p->choices = choices;
-    
     _p->values = QVector<bool>(choices.count());
-    
     widgetUpdate();
 }
 
@@ -127,7 +123,6 @@ const QVector<bool> & djvMultiChoiceDialog::values() const
 QVector<int> djvMultiChoiceDialog::indices() const
 {
     QVector<int> out;
-
     for (int i = 0; i < _p->values.count(); ++i)
     {
         if (_p->values[i])
@@ -135,7 +130,6 @@ QVector<int> djvMultiChoiceDialog::indices() const
             out += i;
         }
     }
-
     return out;
 }
 
@@ -143,9 +137,7 @@ void djvMultiChoiceDialog::setValues(const QVector<bool> & values)
 {
     if (values == _p->values)
         return;
-    
     _p->values = values;
-    
     valuesUpdate();
 }
 
@@ -157,19 +149,16 @@ const QString & djvMultiChoiceDialog::label() const
 void djvMultiChoiceDialog::setLabel(const QString & label)
 {
     _p->label = label;
-    
     widgetUpdate();
 }
 
 void djvMultiChoiceDialog::buttonCallback()
 {
     QVector<bool> values;
-    
     for (int i = 0; i < _p->buttons.count(); ++i)
     {
         values += _p->buttons[i]->isChecked();
     }
-    
     setValues(values);
 }
 
@@ -184,22 +173,16 @@ void djvMultiChoiceDialog::valuesUpdate()
 void djvMultiChoiceDialog::widgetUpdate()
 {
     _p->labelWidget->setText(_p->label);
-    
     for (int i = 0; i < _p->buttons.count(); ++i)
     {
         delete _p->buttons[i];
     }
-    
     _p->buttons.clear();
-    
     for (int i = 0; i < _p->choices.count(); ++i)
     {
         QCheckBox * button = new QCheckBox(_p->choices[i]);
-        
-        button->setChecked(i < _p->values.count() ? _p->values[i] : false);
-        
+        button->setChecked(i < _p->values.count() ? _p->values[i] : false);        
         connect(button, SIGNAL(toggled(bool)), SLOT(buttonCallback()));
-        
         _p->buttons += button;
         _p->buttonLayout->addWidget(button);
     }

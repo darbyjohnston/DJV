@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffWidget.h
-
-#ifndef DJV_TIFF_WIDGET_H
-#define DJV_TIFF_WIDGET_H
+#pragma once
 
 #include <djvTiff.h>
 
@@ -54,19 +51,13 @@ class djvTiffWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvTiffWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
 
     virtual ~djvTiffWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void compressionCallback(int);
 
@@ -74,7 +65,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvTiff::Options _options;
     QComboBox *      _compressionWidget;
 };
@@ -88,7 +78,6 @@ private:
 class djvTiffWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvTiffWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -97,6 +86,4 @@ public:
 };
 
 //@} // djvTiffPlugin
-
-#endif // DJV_TIFF_WIDGET_H
 

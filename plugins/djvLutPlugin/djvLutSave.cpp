@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutSave.cpp
-
 #include <djvLutSave.h>
 
 #include <djvFileIo.h>
@@ -54,30 +52,22 @@ void djvLutSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvLutSave::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-
     if (info.sequence.frames.count() > 1)
     {
         _file.setType(djvFileInfo::SEQUENCE);
     }
-
     _info = djvPixelDataInfo();
     _info.size = djvVector2i(info.size.x, 1);
     djvPixel::TYPE type = djvPixel::type(info.pixel);
-
     switch (type)
     {
         case djvPixel::F16:
         case djvPixel::F32: type = djvPixel::U16; break;
-
         default: break;
     }
-
     _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
-
     //DJV_DEBUG_PRINT("info = " << _info);
-
     _image.set(_info);
 }
 
@@ -89,64 +79,48 @@ void djvLutSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("frame = " << frame);
 
     // Open the file.
-    
     const QString fileName = _file.fileName(frame.frame);
-    
     djvFileIo io;
-
     io.open(fileName, djvFileIo::WRITE);
-    
     const int index = djvLut::staticExtensions.indexOf(_file.extension());
-
     if (-1 == index)
     {
         throw djvError(
             djvLut::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
-
     _format = static_cast<djvLut::FORMAT>(index);
-
     switch (_format)
     {
         case djvLut::FORMAT_INFERNO:
             djvLut::infernoOpen(io, _info);
             break;
-
         case djvLut::FORMAT_KODAK:
             djvLut::kodakOpen(io, _info);
             break;
-
         default: break;
     }
 
     // Convert the image.
-
     const djvPixelData * p = &in;
-
     if (in.info() != _info)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
-
         _image.zero();
-
         djvOpenGlImage::copy(in, _image);
-
         p = &_image;
     }
 
     // Write the file.
-
     switch (_format)
     {
         case djvLut::FORMAT_INFERNO:
             djvLut::infernoSave(io, p);
             break;
-
         case djvLut::FORMAT_KODAK:
             djvLut::kodakSave(io, p);
             break;
-
         default: break;
     }
 }
+

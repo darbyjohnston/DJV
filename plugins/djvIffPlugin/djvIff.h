@@ -30,10 +30,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIff.h
-
-#ifndef DJV_IFF_H
-#define DJV_IFF_H
+#pragma once
 
 #include <djvFileIo.h>
 #include <djvImageIo.h>
@@ -76,11 +73,9 @@
 struct djvIff
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the file compression.
-
     enum COMPRESSION
     {
         COMPRESSION_NONE,
@@ -90,11 +85,9 @@ struct djvIff
     };
 
     //! Get compression labels.
-
     static const QStringList & compressionLabels();
 
     //! Load information.
-
     static void loadInfo(
         djvFileIo   &    io,
         djvImageIoInfo & info,
@@ -102,48 +95,40 @@ struct djvIff
         bool *           compression) throw (djvError);
 
     //! Save information.
-
     static void saveInfo(
         djvFileIo &            io,
         const djvImageIoInfo & info,
         bool                   compression) throw (djvError);
 
     //! Load RLE compressed data.
-
     static int readRle(
         const quint8 * in,
         quint8 *       end,
         int            size);
 
     //! Save RLE compressed data.
-
     static int writeRle (
         const quint8 * in,
         quint8 *       out,
         int            size);
 
     //! Get alignment size.
-
     static quint32 alignSize(
         quint32 size,
         quint32 alignment);
 
     //! Get tile size.
-
     static djvVector2i tileSize(
         quint32 width,
         quint32 height);
 
     //! Get tile width.
-
     static int tileWidth();
 
     //! Get tile height.
-
     static int tileHeight();
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         COMPRESSION_OPTION,
@@ -152,11 +137,9 @@ struct djvIff
     };
 
     //! Get option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
         Options();
@@ -165,10 +148,7 @@ struct djvIff
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvIff::COMPRESSION);
 
 //@} // djvIffPlugin
 
-#endif // DJV_IFF_H

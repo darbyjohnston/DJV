@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvConvertApplication.cpp
-
 #include <djvConvertApplication.h>
 
 #include <djvConvertContext.h>
@@ -54,15 +52,12 @@ djvConvertApplication::djvConvertApplication(int & argc, char ** argv) :
     //DJV_DEBUG("djvConvertApplication::djvConvertApplication");
     
     setOrganizationName("djv.sourceforge.net");
-
     setApplicationName("djv_convert");
     
     // Create the context.
-    
     _context = new djvConvertContext;
 
     // Parse the command line.
-    
     if (! _context->commandLine(argc, argv))
     {
         QTimer::singleShot(0, this, SLOT(commandLineExit()));
@@ -86,9 +81,7 @@ const QStringList & djvConvertApplication::errorLabels()
         qApp->translate("djvConvertApplication", "Cannot open slate: \"%1\"") <<
         qApp->translate("djvConvertApplication", "Cannot read input: \"%1\"") <<
         qApp->translate("djvConvertApplication", "Cannot write output: \"%1\"");
-
     DJV_ASSERT(ERROR_COUNT == data.count());
-    
     return data;
 }
 
@@ -117,12 +110,9 @@ void djvConvertApplication::work()
     imageOptions.channel      = options.channel;
 
     // Open the input file.
-
     QScopedPointer<djvImageLoad> load;
     djvImageIoInfo               loadInfo;
-
     djvError error;
-
     while (! load.data())
     {
         try
@@ -133,7 +123,6 @@ void djvConvertApplication::work()
         {
             error = in;
         }
-
         if (! load.data() && input.timeout)
         {
             _context->print(qApp->translate("djvConvertApplication", "Timeout..."));
@@ -145,62 +134,48 @@ void djvConvertApplication::work()
             break;
         }
     }
-
     if (! load.data())
     {
         error.add(
             errorLabels()[ERROR_OPEN_INPUT].
             arg(QDir::toNativeSeparators(input.file)));
-        
         _context->printError(error);
-
         exit(1);
-        
         return;
     }
 
     const int layer = djvMath::clamp(input.layer, 0, loadInfo.layerCount() - 1);
-
     qint64 start = 0;
     qint64 end =
         loadInfo.sequence.frames.count() ?
         (static_cast<qint64>(loadInfo.sequence.frames.count()) - 1) :
         0;
-    
     if (! input.start.isEmpty())
     {
         start = djvSequenceUtil::findClosest(
             djvTime::stringToFrame(input.start, loadInfo.sequence.speed),
             loadInfo.sequence.frames);
     }
-    
     if (! input.end.isEmpty())
     {
         end = djvSequenceUtil::findClosest(
             djvTime::stringToFrame(input.end, loadInfo.sequence.speed),
             loadInfo.sequence.frames);
     }
-    
     //DJV_DEBUG_PRINT("start = " << start);
     //DJV_DEBUG_PRINT("end = " << end);
 
     loadInfo.sequence.frames =
         loadInfo.sequence.frames.mid(start, end - start + 1);
-
     _context->print(qApp->translate("djvConvertApplication", "%1 %2").
         arg(QDir::toNativeSeparators(input.file)).
         arg(labelImage(loadInfo, loadInfo.sequence)));
 
     // Open the output file.
-
     QScopedPointer<djvImageSave> save;
-
     djvImageIoInfo saveInfo(loadInfo[layer]);
-    
     djvVector2i scaleSize = loadInfo.size;
-
     djvVector2i size = options.size;
-    
     if (djvVectorUtil::isSizeValid(size))
     {
         scaleSize = size;
@@ -224,9 +199,7 @@ void djvConvertApplication::work()
         scaleSize = djvVectorUtil::ceil<double, int>(
             djvVector2f(loadInfo.size) * imageOptions.xform.scale);
     }
-    
     djvVector2f position;
-    
     if (options.crop.isValid())
     {
         position = -options.crop.position;
@@ -245,14 +218,11 @@ void djvConvertApplication::work()
     {
         saveInfo.size = scaleSize;
     }
-    
     if (output.pixel.data())
     {
         saveInfo.pixel = *output.pixel;
     }
-
     saveInfo.tags = output.tags;
-
     saveInfo.sequence = djvSequence(
         output.file.sequence().start(),
         output.file.sequence().start() +
@@ -262,62 +232,44 @@ void djvConvertApplication::work()
             0),
         output.file.sequence().pad,
         loadInfo.sequence.speed);
-
     if (output.speed.data())
     {
         saveInfo.sequence.speed = *output.speed;
     }
-    
     //DJV_DEBUG_PRINT("save sequence = " << saveInfo.sequence);
-
     try
     {
-        save.reset(
-            _context->imageIoFactory()->save(output.file, saveInfo));
+        save.reset(_context->imageIoFactory()->save(output.file, saveInfo));
     }
     catch (djvError error)
     {
         error.add(
             errorLabels()[ERROR_OPEN_OUTPUT].
             arg(QDir::toNativeSeparators(output.file)));
-
         _context->printError(error);
-        
         exit(1);
-        
         return;
     }
-
     _context->print(qApp->translate("djvConvertApplication", "%1 %2").
         arg(QDir::toNativeSeparators(output.file)).
         arg(labelImage(saveInfo, saveInfo.sequence)));
 
     // Add the slate.
-
     djvImage slate;
-
     if (! input.slate.name().isEmpty())
     {
         try
         {
             _context->print(qApp->translate("djvConvertApplication", "Slating..."));
-
             djvImageIoInfo info;
-            
-            QScopedPointer<djvImageLoad> load(
-                _context->imageIoFactory()->load(input.slate, info));
-
+            QScopedPointer<djvImageLoad> load(_context->imageIoFactory()->load(input.slate, info));
             djvImage image;
-            
             load->read(image);
-
             slate.set(saveInfo);
-
             djvOpenGlImageOptions imageOptions;
             imageOptions.xform.position = position;
             imageOptions.xform.scale    = djvVector2f(scaleSize) / djvVector2f(info.size);
             imageOptions.colorProfile   = image.colorProfile;
-
             djvOpenGlImage::copy(image, slate, imageOptions);
         }
         catch (djvError error)
@@ -325,21 +277,15 @@ void djvConvertApplication::work()
             error.add(
                 errorLabels()[ERROR_OPEN_SLATE].
                 arg(QDir::toNativeSeparators(input.slate)));
-
             _context->printError(error);
-            
             save->close();
-
             exit(1);
-            
             return;
         }
     }
 
     // Convert the images.
-
     _offscreenBuffer.reset(new djvOpenGlOffscreenBuffer(saveInfo));
-    
     for (qint64 i = 0; i < input.slateFrames; ++i)
     {
         try
@@ -347,7 +293,6 @@ void djvConvertApplication::work()
             save->write(
                 slate,
                 djvImageIoFrameInfo(saveInfo.sequence.frames.first()));
-
             saveInfo.sequence.frames.pop_front();
         }
         catch (djvError error)
@@ -355,34 +300,24 @@ void djvConvertApplication::work()
             error.add(
                 errorLabels()[ERROR_WRITE_OUTPUT].
                 arg(QDir::toNativeSeparators(output.file)));
-            
             _context->printError(error);
-
             save->close();
-            
             exit(1);
-            
             return;
         }
     }
-
     const qint64 length = static_cast<qint64>(saveInfo.sequence.frames.count());
-
     double   progressAccum = 0.0;
     djvTimer progressTimer;
     progressTimer.start();
-
     for (qint64 i = 0; i < length; ++i)
     {
         djvTimer frameTimer;
         frameTimer.start();
 
         // Load the current image.
-
         djvImage image;
-
         int timeout = input.timeout;
-
         while (! image.isValid())
         {
             try
@@ -400,13 +335,10 @@ void djvConvertApplication::work()
             {
                 error = in;
             }
-
             if (! image.isValid() && timeout > 0)
             {
                 //print("Timeout...");
-                
                 --timeout;
-                
                 djvTime::sleep(1);
             }
             else
@@ -414,38 +346,27 @@ void djvConvertApplication::work()
                 break;
             }
         }
-
         if (! image.isValid())
         {
             error.add(
                 errorLabels()[ERROR_READ_INPUT].
                 arg(QDir::toNativeSeparators(input.file)));
-
             _context->printError(error);
-
             save->close();
-            
             exit(1);
-            
             return;
         }
-
         //DJV_DEBUG_PRINT("image = " << *image);
 
         // Process the image tags.
-
         djvImageTags tags = output.tags;
-
         tags.add(image.tags);
-
         if (output.tagsAuto)
         {
             tags[djvImageTags::tagLabels()[djvImageTags::CREATOR]] =
                 djvUser::current();
-
             tags[djvImageTags::tagLabels()[djvImageTags::TIME]] =
                 djvTime::timeToString(djvTime::current());
-
             tags[djvImageTags::tagLabels()[djvImageTags::TIMECODE]] =
                 djvTime::timecodeToString(
                     djvTime::frameToTimecode(
@@ -456,37 +377,27 @@ void djvConvertApplication::work()
         }
 
         // Convert.
-
         djvImage * p = &image;
-
         djvImage tmp;
-        
         imageOptions.xform.position = position;
-        imageOptions.xform.scale    = djvVector2f(scaleSize) /
-            djvVector2f(loadInfo.size);
+        imageOptions.xform.scale    = djvVector2f(scaleSize) / djvVector2f(loadInfo.size);
         imageOptions.colorProfile   = image.colorProfile;
-
         if (p->info() != static_cast<djvPixelDataInfo>(saveInfo) ||
             imageOptions != djvOpenGlImageOptions())
         {
             tmp.set(saveInfo);
-
             djvOpenGlImage::copy(
                 image,
                 tmp,
                 imageOptions,
                 &_state,
                 _offscreenBuffer.data());
-
             p = &tmp;
         }
-        
         p->tags = tags;
 
         // Save the image.
-
         //DJV_DEBUG_PRINT("output = " << tmp);
-
         try
         {
             save->write(
@@ -501,46 +412,37 @@ void djvConvertApplication::work()
             error.add(
                 errorLabels()[ERROR_WRITE_OUTPUT].
                 arg(QDir::toNativeSeparators(output.file)));
-
             _context->printError(error);
-
             save->close();
-
             exit(1);
-            
             return;
         }
 
         // Statistics.
-
         timer.check();
         frameTimer.check();
-
         progressAccum += frameTimer.seconds();
         progressTimer.check();
-
         if (length > 1 && progressTimer.seconds() > 3.0)
         {
             const double estimate =
                 progressAccum /
                 static_cast<double>(i + 1) * (length - (i + 1));
-
             _context->print(qApp->translate("djvConvertApplication",
                 "[%1%] Estimated = %2 (%3 Frames/Second)").
                 arg(static_cast<int>(
                     i / static_cast<double>(length) * 100.0), 3).
                 arg(djvTime::labelTime(estimate)).
                 arg(i / timer.seconds(), 0, 'f', 2));
-
             progressTimer.start();
         }
     }
-
+    
     if (length > 1)
     {
         _context->print(qApp->translate("djvConvertApplication", "[100%] "), false);
     }
-
+    
     try
     {
         save->close();
@@ -550,14 +452,11 @@ void djvConvertApplication::work()
         error.add(
             errorLabels()[ERROR_WRITE_OUTPUT].
             arg(QDir::toNativeSeparators(output.file)));
-
         _context->printError(error);
-
         exit(1);
-        
         return;
     }
-
+    
     _context->print(QString(qApp->translate("djvConvertApplication", "Elapsed = %1")).
         arg(djvTime::labelTime(timer.seconds())));
 

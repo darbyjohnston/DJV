@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowMenu.cpp
-
 #include <djvViewWindowMenu.h>
 
 #include <djvViewWindowActions.h>
@@ -47,29 +45,19 @@ djvViewWindowMenu::djvViewWindowMenu(
     djvViewAbstractMenu(actions, parent)
 {
     // Create the menus.
-
     addAction(actions->action(djvViewWindowActions::NEW));
-
     addAction(actions->action(djvViewWindowActions::COPY));
-
     addAction(actions->action(djvViewWindowActions::CLOSE));
-
     addSeparator();
-
     addAction(actions->action(djvViewWindowActions::FIT));
-
     addAction(actions->action(djvViewWindowActions::FULL_SCREEN));
-
     addSeparator();
-
     addAction(actions->action(djvViewWindowActions::CONTROLS_VISIBLE));
-
     Q_FOREACH(QAction * action,
         actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
         addAction(action);
 
     // Initialize.
-
     setTitle(qApp->translate("djvViewWindowMenu", "&Window"));
 }
 

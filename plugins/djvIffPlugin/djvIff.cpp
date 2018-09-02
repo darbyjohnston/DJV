@@ -30,8 +30,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIff.cpp
-
 #include <djvIff.h>
 
 #include <djvAssert.h>
@@ -58,18 +56,15 @@ const QStringList & djvIff::compressionLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvIff", "None") <<
         qApp->translate("djvIff", "RLE");
-
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
     return data;
 }
 
 namespace
 {
-
 struct Header
 {
-    Header ();
+    Header();
 
     void load(djvFileIo &, djvImageIoInfo &, int * tiles, bool * compression)
         throw (djvError);
@@ -79,7 +74,6 @@ struct Header
     void debug() const;
 
 private:
-
     struct Data
     {
         quint32 x;
@@ -507,17 +501,14 @@ int djvIff::readRle(
     while (out < end)
     {
         // Information.
-
         const quint8 count = (*in & 0x7f) + 1;
         const bool run = (*in & 0x80) ? true : false;
         ++in;
 
         // Find runs.
-
         if (!run)
         {
             // Verbatim.
-
             for (int i = 0; i < count; i++)
             {
                 *out++ = *in++;
@@ -526,7 +517,6 @@ int djvIff::readRle(
         else
         {
             // Duplicate.
-
             const quint8 p = *in++;
 
             for (int i = 0; i < count; i++)
@@ -553,7 +543,6 @@ void saveVerbatim (
     unsigned char byte = 0;
 
     // Two in a row or count.
-
     for (; count < size; ++count)
     {
         if (in[count - 1] == in[count])
@@ -569,7 +558,6 @@ void saveVerbatim (
     }
 
     // Information.
-
     *out++ = count - 1;
     djvMemory::copy(in, out, count);
 
@@ -596,7 +584,6 @@ void saveDuplicate (
     const int length = run ? 1 : count;
 
     // Information.
-
     *out++ = ((count - 1) & 0x7f) | (run << 7);
     *out = *in;
 
@@ -620,7 +607,6 @@ int djvIff::writeRle (
     while (in < end)
     {
         // Find runs.
-
         const int max = djvMath::min(0x7f + 1, static_cast<int>(end - in));
 
         if (max > 0)
@@ -628,13 +614,11 @@ int djvIff::writeRle (
             if (in[0] != in[1])
             {
                 // Verbatim.
-
                 saveVerbatim (in, out, max);
             }
             else
             {
                 // Duplicate.
-
                 saveDuplicate (in, out, max);
             }
         }
@@ -688,8 +672,6 @@ const QStringList & djvIff::optionsLabels()
 
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvIff::COMPRESSION,
     djvIff::compressionLabels())

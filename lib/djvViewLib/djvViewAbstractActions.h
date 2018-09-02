@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractActions.h
-
-#ifndef DJV_VIEW_ABSTRACT_ACTIONS_H
-#define DJV_VIEW_ABSTRACT_ACTIONS_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -61,43 +58,30 @@ class DJV_VIEW_LIB_EXPORT djvViewAbstractActions : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewAbstractActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewAbstractActions() = 0;
 
     //! Get the list of actions.
-
     const QList<QAction *> actions() const;
 
     //! Get an action by name.
-
     QAction * action(int) const;
 
     //! Get the list of action groups.
-
     const QList<QActionGroup *> groups() const;
 
     //! Get an action group by name.
-
     QActionGroup * group(int) const;
     
     //! Get the context.
-    
     djvViewContext * context() const;
 
 Q_SIGNALS:
-
     //! This signal is emitted when actions or action groups are changed.
-
     void changed();
 
 protected:
-
     QMap<int, QAction *>      _actions;
     QMap<int, QActionGroup *> _groups;
     djvViewContext *          _context;
@@ -105,11 +89,8 @@ protected:
     void osxMenuHack();
 
 private:
-
     djvViewAbstractActionsPrivate * _p;
 };
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_ABSTRACT_ACTIONS_H
 

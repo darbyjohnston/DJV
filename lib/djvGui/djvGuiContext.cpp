@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGuiContext.cpp
-
 #include <djvGuiContext.h>
 
 #include <djvAboutDialog.h>
@@ -103,43 +101,34 @@ djvGuiContext::djvGuiContext(QObject * parent) :
     Q_INIT_RESOURCE(djvGui);
     
     // Register meta types.
-    
     qRegisterMetaType<djvPlaybackUtil::PLAYBACK>("djvPlaybackUtil::PLAYBACK");
 
     // Load translators.
-
     loadTranslator("djvGui");
     
     //! \todo Check the command line for whether to reset the preferences.
-    
     Q_FOREACH(const QString & arg, qApp->arguments())
     {
         if (qApp->translate("djvGuiContext", "-reset_prefs") == arg)
         {
             DJV_LOG(debugLog(), "djvGuiContext", "Reset the preferences...");
-            
             djvPrefs::setReset(true);
         }
     }
 
     // Load preferences.
-    
     DJV_LOG(debugLog(), "djvAbstractApplication", "Load the preferences...");
-    
     _p->fileBrowserPrefs.reset(new djvFileBrowserPrefs(this));
     _p->helpPrefs.reset(new djvHelpPrefs);
     _p->imagePrefs.reset(new djvImagePrefs);
     _p->imageIoPrefs.reset(new djvImageIoPrefs(this));
     _p->sequencePrefs.reset(new djvSequencePrefs);
     _p->timePrefs.reset(new djvTimePrefs);
-
     DJV_LOG(debugLog(), "djvAbstractImageApplication", "");
 
     // Initialize objects.
-    
     _p->fileBrowserCache.reset(new djvFileBrowserCache);
     _p->fileBrowserCache->setMaxCost(fileBrowserPrefs()->thumbnailsCache());
-    
     _p->iconLibrary.reset(new djvIconLibrary);
     _p->style.reset(new djvStyle);
 
@@ -151,9 +140,7 @@ djvGuiContext::djvGuiContext(QObject * parent) :
 djvGuiContext::~djvGuiContext()
 {
     //DJV_DEBUG("djvGuiContext::~djvGuiContext");
-    
-    QThreadPool::globalInstance()->waitForDone();
-    
+    QThreadPool::globalInstance()->waitForDone();    
     delete _p;
 }
 
@@ -166,7 +153,6 @@ void djvGuiContext::setValid(bool in)
 {
     //DJV_DEBUG("djvGuiContext::setValid");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _p->valid = in;
 }
 
@@ -174,7 +160,6 @@ void djvGuiContext::help()
 {
     //DJV_DEBUG("djvGuiContext::help");
     //DJV_DEBUG_PRINT("url = " << doc());
-    
     QDesktopServices::openUrl(QUrl::fromLocalFile(doc()));
 }
 
@@ -183,21 +168,15 @@ djvFileBrowser * djvGuiContext::fileBrowser(const QString & title) const
     if (! _p->fileBrowser)
     {
         djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
         _p->fileBrowser.reset(new djvFileBrowser(that));
     }
-    
     _p->fileBrowser->close();
-
     _p->fileBrowser->setWindowTitle(
         ! title.isEmpty() ?
             title :
             qApp->translate("djvGuiContext", "File Browser"));
-    
     _p->fileBrowser->setPinnable(false);
-    
     _p->fileBrowser->disconnect(SIGNAL(fileInfoChanged(const djvFileInfo &)));
-
     return _p->fileBrowser.data();
 }
 
@@ -205,11 +184,9 @@ djvImageIoWidgetFactory * djvGuiContext::imageIoWidgetFactory() const
 {
     if (! _p->imageIoWidgetFactory)
     {
-        djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);        
         _p->imageIoWidgetFactory.reset(new djvImageIoWidgetFactory(that));
     }
-    
     return _p->imageIoWidgetFactory.data();
 }
 
@@ -218,10 +195,8 @@ djvPrefsDialog * djvGuiContext::prefsDialog() const
     if (! _p->prefsDialog)
     {
         djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
         _p->prefsDialog.reset(new djvPrefsDialog(that));
     }
-    
     return _p->prefsDialog.data();
 }
 
@@ -230,10 +205,8 @@ djvInfoDialog * djvGuiContext::infoDialog() const
     if (! _p->infoDialog)
     {
         djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
         _p->infoDialog.reset(new djvInfoDialog(info(), that));
     }
-    
     return _p->infoDialog.data();
 }
 
@@ -242,10 +215,8 @@ djvAboutDialog * djvGuiContext::aboutDialog() const
     if (! _p->aboutDialog)
     {
         djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
         _p->aboutDialog.reset(new djvAboutDialog(about(), that));
     }
-    
     return _p->aboutDialog.data();
 }
 
@@ -253,11 +224,9 @@ djvMessagesDialog * djvGuiContext::messagesDialog() const
 {
     if (! _p->messagesDialog)
     {
-        djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
+        djvGuiContext * that = const_cast<djvGuiContext *>(this);        
         _p->messagesDialog.reset(new djvMessagesDialog(that));
     }
-    
     return _p->messagesDialog.data();
 }
 
@@ -266,10 +235,8 @@ djvDebugLogDialog * djvGuiContext::debugLogDialog() const
     if (! _p->debugLogDialog)
     {
         djvGuiContext * that = const_cast<djvGuiContext *>(this);
-        
         _p->debugLogDialog.reset(new djvDebugLogDialog(that));
     }
-    
     return _p->debugLogDialog.data();
 }
 
@@ -331,7 +298,6 @@ QString djvGuiContext::info() const
 "\n"
 "    User: %3\n"
 "    System: %4\n");
-
     return QString(label).
         arg(djvImageContext::info()).
         arg(imageIoWidgetFactory()->names().join(", ")).
@@ -343,19 +309,15 @@ bool djvGuiContext::commandLineParse(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvGuiContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
-
     if (! djvImageContext::commandLineParse(in))
         return false;
-
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (!in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvGuiContext", "-reset_prefs") == arg)
             {}
             else
@@ -367,12 +329,9 @@ bool djvGuiContext::commandLineParse(QStringList & in) throw (QString)
     catch (const QString &)
     {
         in = tmp;
-        
         throw QString(arg);
     }
-
     in = tmp;
-    
     return true;
 }
 
@@ -385,7 +344,6 @@ QString djvGuiContext::commandLineHelp() const
 "    -reset_prefs\n"
 "        Do not load the preference at start up.\n"
 "%2");
-
     return QString(label).
         arg(djvImageContext::commandLineHelp());
 }

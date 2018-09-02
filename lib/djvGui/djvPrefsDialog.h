@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefsDialog.h
-
-#ifndef DJV_PREFS_DIALOG_H
-#define DJV_PREFS_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -61,32 +58,22 @@ class DJV_GUI_EXPORT djvPrefsDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvPrefsDialog(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvPrefsDialog();
 
     //! Add a preferences widget.
-
     void addWidget(djvAbstractPrefsWidget *, const QString & group);
     
 private Q_SLOTS:
-
     void browserCallback(QTreeWidgetItem *, QTreeWidgetItem *);
     void buttonCallback(QAbstractButton *);
 
 private:
-
     DJV_PRIVATE_COPY(djvPrefsDialog);
     
     djvPrefsDialogPrivate * _p;
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_PREFS_DIALOG_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmLoad.cpp
-
 #include <djvPpmLoad.h>
 
 #include <djvFileIoUtil.h>
@@ -54,13 +52,9 @@ void djvPpmLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     //DJV_DEBUG("djvPpmLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("type = " << in.type());
-
     _file = in;
-    
     djvFileIo io;
-    
     _open(in.fileName(in.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -72,29 +66,20 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 {
     //DJV_DEBUG("djvPpmLoad::read");
     //DJV_DEBUG_PRINT("frame = " << frame);
-
     image.colorProfile = djvColorProfile();
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     QScopedPointer<djvFileIo> io(new djvFileIo);
-    
     _open(fileName, info, *io);
 
     // Read the file.
-
     io->readAhead();
-
     djvPixelData * data = frame.proxy ? &_tmp : &image;
-
     if (djvPpm::DATA_BINARY == _data && _bitDepth != 1)
     {
         if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
@@ -103,35 +88,25 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 djvPpm::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
-        
         data->set(info, io->mmapP(), io.data());
-
         io.take();
     }
     else
     {
         data->set(info);
-        
         const int channels = djvPixel::channels(info.pixel);
-
         if (djvPpm::DATA_BINARY == _data && 1 == _bitDepth)
         {
             const quint64 scanlineByteCount = djvPpm::scanlineByteCount(
                 info.size.x, channels, _bitDepth, _data);
-            
             djvMemoryBuffer<quint8> scanline(scanlineByteCount);
-
             //DJV_DEBUG_PRINT("scanline = " <<
             //    static_cast<int>(scanlineByteCount));
-
             for (int y = 0; y < info.size.y; ++y)
             {
                 io->get(scanline(), scanlineByteCount);
-                
                 const quint8 * inP = scanline();
-                
                 quint8 * outP = data->data(0, y);
-
                 for (int i = info.size.x - 1; i >= 0; --i)
                 {
                     outP[i] = (inP[i / 8] >> (7 - (i % 8))) & 1 ? 0 : 255;
@@ -152,14 +127,11 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
 
     // Proxy scale the image.
-    
     if (frame.proxy)
     {
         info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
         info.proxy = frame.proxy;
-        
         image.set(info);
-
         djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
     }
 
@@ -173,23 +145,17 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-
     io.setEndian(djvMemory::endian() != djvMemory::MSB);
-
     io.open(in, djvFileIo::READ);
-
     char magic [] = { 0, 0, 0 };
     io.get(magic, 2);
-
     //DJV_DEBUG_PRINT("magic = " << magic);
-
     if (magic[0] != 'P')
     {
         throw djvError(
             djvPpm::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
-
     switch (magic[1])
     {
         case '1':
@@ -198,52 +164,34 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         case '4':
         case '5':
         case '6': break;
-
         default:
-
             throw djvError(
                 djvPpm::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     const int ppmType = magic[1] - '0';
-
     //DJV_DEBUG_PRINT("ppm type = " << ppmType);
 
     // Read the header.
-
     char tmp[djvStringUtil::cStringLength] = "";
-
     int width  = 0;
     int height = 0;
-    
     djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
-    
     width = QString(tmp).toInt();
-    
     djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
-    
     height = QString(tmp).toInt();
-
     int maxValue = 0;
-
     if (ppmType != 1 && ppmType != 4)
     {
         djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
-        
         maxValue = QString(tmp).toInt();
     }
-
     //DJV_DEBUG_PRINT("max value = " << maxValue);
 
     // Information.
-
     info.fileName = in;
-
     info.size = djvVector2i(width, height);
-
     info.mirror.y = true;
-
     if (1 == ppmType || 4 == ppmType)
     {
         _bitDepth = 1;
@@ -252,22 +200,17 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         _bitDepth = maxValue < 256 ? 8 : 16;
     }
-
     //DJV_DEBUG_PRINT("bit depth = " << _bitDepth);
-
     int channels = 0;
-
     switch (ppmType)
     {
         case 1:
         case 2:
         case 4:
         case 5: channels = 1; break;
-
         case 3:
         case 6: channels = 3; break;
     }
-
     if (! djvPixel::pixel(
         channels,
         _bitDepth != 1 ? _bitDepth : 8,
@@ -278,7 +221,6 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
             djvPpm::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-
     _data =
         (1 == ppmType || 2 == ppmType || 3 == ppmType) ?
         djvPpm::DATA_ASCII :

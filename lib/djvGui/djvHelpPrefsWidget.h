@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvHelpPrefsWidget.h
-
-#ifndef DJV_HELP_PREFS_WIDGET_H
-#define DJV_HELP_PREFS_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -54,23 +51,16 @@ class DJV_GUI_EXPORT djvHelpPrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvHelpPrefsWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvHelpPrefsWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void toolTipsCallback(bool);
     
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvHelpPrefsWidget);
@@ -79,6 +69,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_HELP_PREFS_WIDGET_H
 

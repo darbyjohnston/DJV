@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatEditSlider.h
-
-#ifndef DJV_FLOAT_EDIT_SLIDER_H
-#define DJV_FLOAT_EDIT_SLIDER_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -58,7 +55,6 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         double value
         READ   value
@@ -66,7 +62,6 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
         NOTIFY valueChanged)
     
     //! This property holds the default value.
-    
     Q_PROPERTY(
         double defaultValue
         READ   defaultValue
@@ -74,7 +69,6 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
         NOTIFY defaultValueChanged)
     
     //! This property holds the minimum value.
-    
     Q_PROPERTY(
         double min
         READ   min
@@ -82,7 +76,6 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
         NOTIFY minChanged)
     
     //! This property holds the maximum value.
-    
     Q_PROPERTY(
         double max
         READ   max
@@ -90,105 +83,76 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
         NOTIFY maxChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvFloatEditSlider(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvFloatEditSlider();
 
     //! Get the value.
-
     double value() const;
 
     //! Get the default value.
-
     double defaultValue() const;
 
     //! Get whether a reset to default control is shown.
-
     bool hasResetToDefault() const;
 
     //! Get the minimum value.
-
     double min() const;
 
     //! Get the maximum value.
-
     double max() const;
 
     //! Get the small increment.
-
     double smallInc() const;
 
     //! Get the large increment.
-
     double largeInc() const;
 
     //! Get the edit floating-point object.
-
     djvFloatObject * editObject() const;
 
     //! Get the slider floating-point object.
-
     djvFloatObject * sliderObject() const;
     
 public Q_SLOTS:
-
     //! Set the value.
-
     void setValue(double);
 
     //! Set the default value.
-
     void setDefaultValue(double);
 
     //! Set whether a reset to default control is shown.
-
     void setResetToDefault(bool);
 
     //! Set the minimum value.
-
     void setMin(double);
 
     //! Set the maximum value.
-
     void setMax(double);
 
     //! Set the value range.
-
     void setRange(double min, double max);
 
     //! Set the value increment.
-
     void setInc(double smallInc, double largeInc);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-
     void valueChanged(double);
 
-    //! This signal is emitted when the default value is changed.
-
+    //! This signal is emitted when the default value is changed
     void defaultValueChanged(double);
 
     //! This signal is emitted when the minimum value is changed.
-
     void minChanged(double);
 
     //! This signal is emitted when the maximum value is changed.
-
     void maxChanged(double);
 
     //! This signal is emitted when the value range is changed.
-
     void rangeChanged(double, double);
 
 private Q_SLOTS:
-
     void valueCallback();
     void sliderCallback(double);
     void defaultCallback();
@@ -196,13 +160,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-    
     DJV_PRIVATE_COPY(djvFloatEditSlider);
     
     djvFloatEditSliderPrivate * _p;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_FLOAT_EDIT_SLIDER_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewShortcutPrefsWidget.h
-
-#ifndef DJV_VIEW_SHORTCUT_PREFS_WIDGET_H
-#define DJV_VIEW_SHORTCUT_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -55,31 +52,22 @@ class DJV_VIEW_LIB_EXPORT djvViewShortcutPrefsWidget :
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewShortcutPrefsWidget(djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewShortcutPrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void shortcutsCallback(const QVector<djvShortcut> &);
     
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewShortcutPrefsWidget);
     
     djvViewShortcutPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewMisc
-
-#endif // DJV_VIEW_SHORTCUT_PREFS_WIDGET_H
 

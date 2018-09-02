@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageToolBar.cpp
-
 #include <djvViewImageToolBar.h>
 
 #include <djvViewImageActions.h>
@@ -56,8 +54,7 @@ djvViewImageToolBar::djvViewImageToolBar(
     _p(new djvViewImageToolBarPrivate)
 {
     djvToolButton * button = new djvToolButton;
-    button->setDefaultAction(
-        actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE));
+    button->setDefaultAction(actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE));
     addWidget(button);
 }
 

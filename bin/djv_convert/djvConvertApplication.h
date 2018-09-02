@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvConvertApplication.h
-
-#ifndef DJV_CONVERT_APPLICATION_H
-#define DJV_CONVERT_APPLICATION_H
+#pragma once
 
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
@@ -66,17 +63,11 @@ class djvConvertApplication : public QCoreApplication
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvConvertApplication(int &, char **);
-    
-    //! Destructor.
-    
+        
     virtual ~djvConvertApplication();
 
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_OPEN_INPUT,
@@ -89,16 +80,13 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 
 private Q_SLOTS:
-
     void commandLineExit();
     void work();
 
 private:
-
     QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
 
     QScopedPointer<djvOpenGlOffscreenBuffer> _offscreenBuffer;
@@ -107,6 +95,4 @@ private:
 };
 
 //@} // djv_convert
-
-#endif // DJV_CONVERT_APPLICATION_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAbstractPrefsWidget.h
-
-#ifndef DJV_ABSTRACT_PREFS_WIDGET_H
-#define DJV_ABSTRACT_PREFS_WIDGET_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -54,37 +51,26 @@ class DJV_GUI_EXPORT djvAbstractPrefsWidget : public QWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     djvAbstractPrefsWidget(
         const QString & name,
         djvGuiContext * context,
         QWidget *       parent  = 0);
     
-    //! Destructor.
-    
     virtual ~djvAbstractPrefsWidget() = 0;
         
-    //! Get the preferences name.
-    
+    //! Get the preferences name.    
     const QString & name() const;
     
     //! Reset the preferences.
-    
     virtual void resetPreferences() = 0;
     
     //! Get the context.
-    
     djvGuiContext * context() const;
     
 private:
-
     QString         _name;
     djvGuiContext * _context;
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_ABSTRACT_PREFS_WIDGET_H
 

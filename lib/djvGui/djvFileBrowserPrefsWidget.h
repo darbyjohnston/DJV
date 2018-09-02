@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserPrefsWidget.h
-
-#ifndef DJV_FILE_BROWSER_PREFS_WIDGET_H
-#define DJV_FILE_BROWSER_PREFS_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -57,19 +54,13 @@ class DJV_GUI_EXPORT djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvFileBrowserPrefsWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvFileBrowserPrefsWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void seqCallback(int);
     void sortCallback(int);
     void thumbnailsCallback(int);
@@ -85,13 +76,10 @@ private Q_SLOTS:
     void widgetUpdate();
     
 private:
-
     DJV_PRIVATE_COPY(djvFileBrowserPrefsWidget);
     
     djvFileBrowserPrefsWidgetPrivate * _p;
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_FILE_BROWSER_PREFS_WIDGET_H
 

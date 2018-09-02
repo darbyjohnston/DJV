@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColor.h
-
-#ifndef DJV_COLOR_H
-#define DJV_COLOR_H
+#pragma once
 
 #include <djvPixel.h>
 
@@ -50,115 +47,72 @@
 class DJV_CORE_EXPORT djvColor
 {
 public:
-
-    //! Constructor.
-
     djvColor();
-
-    //! Constructor.
-
     djvColor(const djvColor &);
-
-    //! Constructor.
-
     djvColor(djvPixel::PIXEL);
-
-    //! Constructor.
-
     djvColor(djvPixel::F32_T l);
-
-    //! Constructor.
-
     djvColor(djvPixel::F32_T l, djvPixel::F32_T a);
-
-    //! Constructor.
-
     djvColor(djvPixel::F32_T r, djvPixel::F32_T g, djvPixel::F32_T b);
-
-    //! Constructor.
-
     djvColor(djvPixel::F32_T r, djvPixel::F32_T g, djvPixel::F32_T b, djvPixel::F32_T a);
-
-    //! Constructor.
-
     djvColor(const quint8 *, djvPixel::PIXEL);
 
     //! Get the pixel type.
-
     inline djvPixel::PIXEL pixel() const;
 
     //! Set the pixel type.
-
     void setPixel(djvPixel::PIXEL);
 
-    //! Get the channel couunt.
-
+    //! Get the channel count.
     inline int channels() const;
 
     //! Get a channel.
-
     inline djvPixel::U8_T u8(int) const;
 
     //! Get a channel.
-
     inline djvPixel::U10_T u10(int) const;
 
     //! Get a channel.
-
     inline djvPixel::U16_T u16(int) const;
 
     //! Get a channel.
-
     inline djvPixel::F16_T f16(int) const;
 
     //! Get a channel.
-
     inline djvPixel::F32_T f32(int) const;
 
     //! Set a channel.
-
     inline void setU8(djvPixel::U8_T, int);
 
     //! Set a channel.
-
     inline void setU10(djvPixel::U10_T, int);
 
     //! Set a channel.
-
     inline void setU16(djvPixel::U16_T, int);
 
     //! Set a channel.
-
     inline void setF16(djvPixel::F16_T, int);
 
     //! Set a channel.
-
     inline void setF32(djvPixel::F32_T, int);
 
     //! Zero the channels.
-
     void zero();
 
     //! Get a pointer to the color data.
-
     inline quint8 * data();
 
     //! Get a const pointer to the color data.
-
     inline const quint8 * data() const;
 
     djvColor & operator = (const djvColor &);
 
 private:
-
     void init();
 
     djvPixel::PIXEL _pixel;
     int             _channels;
     quint8          _data[djvPixel::channelsMax * djvPixel::bytesMax];
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvColor)
 
@@ -171,6 +125,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColor);
 //@} // djvCoreImage
 
 #include <djvColorInline.h>
-
-#endif // DJV_COLOR_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequencePrefsWidget.cpp
-
 #include <djvSequencePrefsWidget.h>
 
 #include <djvGuiContext.h>
@@ -73,13 +71,11 @@ djvSequencePrefsWidget::djvSequencePrefsWidget(djvGuiContext * context, QWidget 
     _p(new djvSequencePrefsWidgetPrivate)
 {
     // Create the widgets.
-
     _p->maxFramesWidget = new djvIntEdit;
     _p->maxFramesWidget->setMax(djvIntObject::intMax);
     _p->maxFramesWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -98,11 +94,9 @@ djvSequencePrefsWidget::djvSequencePrefsWidget(djvGuiContext * context, QWidget 
     layout->addStretch();
 
     // Initialize.
-
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->maxFramesWidget,
         SIGNAL(valueChanged(int)),
@@ -117,7 +111,6 @@ djvSequencePrefsWidget::~djvSequencePrefsWidget()
 void djvSequencePrefsWidget::resetPreferences()
 {
     context()->sequencePrefs()->setMaxFrames(djvSequence::maxFramesDefault());
-
     widgetUpdate();
 }
 
@@ -130,6 +123,5 @@ void djvSequencePrefsWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->maxFramesWidget);
-
     _p->maxFramesWidget->setValue(djvSequence::maxFrames());
 }

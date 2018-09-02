@@ -30,8 +30,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequence.cpp
-
 #include <djvSequence.h>
 
 #include <djvAssert.h>
@@ -52,9 +50,7 @@ const QStringList & djvSequence::compressLabels()
         qApp->translate("djvSequence", "Off") <<
         qApp->translate("djvSequence", "Sparse") <<
         qApp->translate("djvSequence", "Range");
-
     DJV_ASSERT(data.count() == COMPRESS_COUNT);
-
     return data;
 }
 
@@ -77,7 +73,6 @@ djvSequence::djvSequence(qint64 start, qint64 end, int pad, const djvSpeed & spe
 
 namespace
 {
-
 // Set the maximum number of frames large enough for a two hour movie.
 
 qint64 _maxFrames = djvSequence::maxFramesDefault();
@@ -89,9 +84,7 @@ void djvSequence::setFrames(qint64 start, qint64 end)
     if (start < end)
     {
         const qint64 size = djvMath::min<qint64>(end - start + 1, _maxFrames);
-
         frames.resize(size);
-
         for (qint64 i = start, j = 0; i <= end && j < size; ++i, ++j)
         {
             frames[j] = i;
@@ -100,9 +93,7 @@ void djvSequence::setFrames(qint64 start, qint64 end)
     else
     {
         const qint64 size = djvMath::min<qint64>(start - end + 1, _maxFrames);
-
         frames.resize(size);
-
         for (qint64 i = start, j = 0; i >= end && j < size; --i, ++j)
         {
             frames[j] = i;
@@ -139,8 +130,6 @@ void djvSequence::setMaxFrames(qint64 size)
 {
     _maxFrames = size;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvSequence::COMPRESS, djvSequence::compressLabels())
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpx.cpp
-
 #include <djvDpx.h>
 
 #include <djvAssert.h>
@@ -62,9 +60,7 @@ const QStringList & djvDpx::versionLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvDpx", "1.0") <<
         qApp->translate("djvDpx", "2.0");
-
     DJV_ASSERT(data.count() == VERSION_COUNT);
-
     return data;
 }
 
@@ -73,9 +69,7 @@ const QStringList & djvDpx::typeLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvDpx", "Auto") <<
         qApp->translate("djvDpx", "U10");
-
     DJV_ASSERT(data.count() == TYPE_COUNT);
-
     return data;
 }
 
@@ -84,9 +78,7 @@ const QStringList & djvDpx::endianLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvDpx", "Auto") <<
         djvMemory::endianLabels();
-
     DJV_ASSERT(data.count() == ENDIAN_COUNT);
-
     return data;
 }
 
@@ -123,9 +115,7 @@ const QStringList & djvDpx::tagLabels()
         qApp->translate("djvDpx", "TV Break Point") <<
         qApp->translate("djvDpx", "TV White Level") <<
         qApp->translate("djvDpx", "TV Integration Times");
-
     DJV_ASSERT(data.count() == TAG_COUNT);
-
     return data;
 }
 
@@ -139,13 +129,9 @@ const QStringList & djvDpx::optionsLabels()
         qApp->translate("djvDpx", "Version") <<
         qApp->translate("djvDpx", "Type") <<
         qApp->translate("djvDpx", "Endian");
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvDpx::VERSION, djvDpx::versionLabels())
 _DJV_STRING_OPERATOR_LABEL(djvDpx::TYPE, djvDpx::typeLabels())

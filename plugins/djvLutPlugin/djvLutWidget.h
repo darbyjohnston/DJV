@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutWidget.h
-
-#ifndef DJV_LUT_WIDGET_H
-#define DJV_LUT_WIDGET_H
+#pragma once
 
 #include <djvLut.h>
 
@@ -54,19 +51,13 @@ class djvLutWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvLutWidget(djvImageIo *, djvGuiContext *);
-
-    //! Destructor.
 
     virtual ~djvLutWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void typeCallback(int);
 
@@ -74,7 +65,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvLut::Options _options;
     QComboBox *     _typeWidget;
 };
@@ -88,7 +78,6 @@ private:
 class djvLutWidgetPlugin : public djvImageIoWidgetPlugin
 {
 public:
-    
     djvLutWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -97,6 +86,4 @@ public:
 };
 
 //@} // djvLutPlugin
-
-#endif // DJV_LUT_WIDGET_H
 

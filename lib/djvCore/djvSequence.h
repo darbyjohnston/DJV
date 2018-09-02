@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequence.h
-
-#ifndef DJV_SEQUENCE_H
-#define DJV_SEQUENCE_H
+#pragma once
 
 #include <djvSpeed.h>
 
@@ -43,7 +40,6 @@
 //@{
 
 //! This typedef provides a frame number list.
-
 typedef QVector<qint64> djvFrameList;
 
 //------------------------------------------------------------------------------
@@ -60,7 +56,6 @@ class DJV_CORE_EXPORT djvSequence
 public:
 
     //! This enumeration provides the sequence compression.
-
     enum COMPRESS
     {
         COMPRESS_OFF,     //!< No sequence compression
@@ -71,63 +66,37 @@ public:
     };
 
     //! Get the compression labels.
-
     static const QStringList & compressLabels();    
 
-    //! Constructor.
-
     djvSequence();
-
-    //! Constructor.
-
     explicit djvSequence(const djvFrameList &, int pad = 0, const djvSpeed & = djvSpeed());
-
-    //! Constructor.
-
     djvSequence(qint64 start, qint64 end, int pad = 0, const djvSpeed & = djvSpeed());
 
-    //! The list of frame numbers.
-
     djvFrameList frames;
-
-    //! The frame number padding; e.g., 0010.
-
     int pad;
-
-    //! The speed.
-
     djvSpeed speed;
 
     //! Set the list of frame numbers.
-
     void setFrames(qint64 start, qint64 end);
 
     //! Get the start frame.
-
     inline qint64 start() const;
 
     //! Get the end frame.
-
     inline qint64 end() const;
 
     //! Sort the frame numbers in a sequence.
-
     void sort();
     
     //! Get the maximum number of frames default.
-
     static qint64 maxFramesDefault();
 
     //! Get the maximum number of frames a sequence can hold.
-
     static qint64 maxFrames();
 
     //! Set the maximum number of frames a sequence can hold.
-
     static void setMaxFrames(qint64);
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvSequence)
 Q_DECLARE_METATYPE(djvSequence::COMPRESS)
@@ -145,6 +114,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequence::COMPRESS);
 //@} // djvCoreMisc
 
 #include <djvSequenceInline.h>
-
-#endif // DJV_SEQUENCE_H
 

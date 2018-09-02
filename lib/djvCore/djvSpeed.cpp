@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpeed.cpp
-
 #include <djvSpeed.h>
 
 #include <djvAssert.h>
@@ -60,9 +58,7 @@ const QStringList & djvSpeed::fpsLabels()
         "59.94" <<
         "60" <<
         "120";
-
     DJV_ASSERT(data.count() == FPS_COUNT);
-
     return data;
 }
 
@@ -119,9 +115,7 @@ void djvSpeed::set(FPS fps)
         60,
         120
     };
-    
     DJV_ASSERT(sizeof(scale) / sizeof(scale[0]) == FPS_COUNT);
-    
     static const int duration[] =
     {
         1,
@@ -141,9 +135,7 @@ void djvSpeed::set(FPS fps)
         1,
         1
     };
-
     DJV_ASSERT(sizeof(duration) / sizeof(duration[0]) == FPS_COUNT);
-    
     _scale    = scale   [fps];
     _duration = duration[fps];
 }
@@ -160,18 +152,15 @@ double djvSpeed::speedToFloat(const djvSpeed & speed)
 
 djvSpeed djvSpeed::floatToSpeed(double value)
 {
-    //! \todo Implement a proper floating-point to rational number conversion.
-    
+    //! \todo Implement a proper floating-point to rational number conversion.    
     for (int i = 0; i < FPS_COUNT; ++i)
     {
         const FPS fps = static_cast<FPS>(i);
-        
         if (djvMath::abs(value - speedToFloat(fps)) < 0.001)
         {
             return fps;
         }
     }
-    
     return djvSpeed(djvMath::round(value));
 }
 
@@ -190,8 +179,6 @@ void djvSpeed::setSpeed(FPS fps)
     _speed = fps;
 }
 
-//------------------------------------------------------------------------------
-
 bool operator == (const djvSpeed & a, const djvSpeed & b)
 {
     return a.scale() == b.scale() && a.duration() == b.duration();
@@ -207,13 +194,10 @@ _DJV_STRING_OPERATOR_LABEL(djvSpeed::FPS, djvSpeed::fpsLabels())
 QStringList & operator >> (QStringList & string, djvSpeed & out) throw (QString)
 {
     int scale    = 0;
-    int duration = 0;
-    
+    int duration = 0;    
     string >> scale;
     string >> duration;
-    
     out = djvSpeed(scale, duration);
-
     return string;
 }
 

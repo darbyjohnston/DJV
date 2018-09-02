@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebug.h
-
-#ifndef DJV_DEBUG_H
-#define DJV_DEBUG_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -55,21 +52,14 @@ class QStringList;
 class DJV_CORE_EXPORT djvDebug
 {
 public:
-
-    //! Constructor.
-
     djvDebug(const QString & prefix, const QString &);
-
-    //! Destructor.
 
     ~djvDebug();
 
     //! Add a message.
-
     void add(const QString &);
 
     //! This enumeration provides the line beginning and ending.
-
     enum LINE
     {
         LINE_BEGIN,
@@ -77,21 +67,17 @@ public:
     };
 
     //! Convert bits to a string.
-
     static QString bitsU8(quint8);
 
     //! Convert bits to a string.
-
     static QString bitsU16(quint16);
 
     //! Convert bits to a string.
-
     static QString bitsU32(quint32);
 
     djvDebug & operator << (LINE);
 
 private:
-
     void init(const QString &);
 
     DJV_PRIVATE_COPY(djvDebug);
@@ -99,24 +85,16 @@ private:
     djvDebugPrivate * _p;
 };
 
-//------------------------------------------------------------------------------
-
 //! Start a debugging message block.
-
 #define DJV_DEBUG(in) \
-    \
     djvDebug _debug(__FILE__, in)
 
 //! Print a debugging message.
-
 #define DJV_DEBUG_PRINT(in) \
-    \
     _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
 
 //! Convenience macro for declaring debugging operators.
-
 #define DJV_DEBUG_OPERATOR(EXPORT, TYPE) \
-    \
     EXPORT djvDebug & operator << (djvDebug &, const TYPE &)
 
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
@@ -134,6 +112,4 @@ inline djvDebug & operator << (djvDebug &, const QVector<T> &);
 //@} // djvCoreMisc
 
 #include <djvDebugInline.h>
-
-#endif // DJV_DEBUG_H
 

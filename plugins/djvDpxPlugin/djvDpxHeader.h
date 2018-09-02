@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpxHeader.h
-
-#ifndef DJV_DPX_HEADER_H
-#define DJV_DPX_HEADER_H
+#pragma once
 
 #include <djvDpx.h>
 
@@ -53,11 +50,9 @@ class djvDpxHeader
 public:
 
     //! The DPX file magic numbers.
-    
     static const char magic [][5];
 
     //! This enumeration provides the image orientation.
-
     enum ORIENT
     {
         ORIENT_LEFT_RIGHT_TOP_BOTTOM,
@@ -71,7 +66,6 @@ public:
     };
 
     //! This enumeration provides the descriptor.
-
     enum DESCRIPTOR
     {
         DESCRIPTOR_USER            = 0,
@@ -100,7 +94,6 @@ public:
     };
 
     //! This enumeration provides the transfer information.
-
     enum TRANSFER
     {
         TRANSFER_USER,
@@ -120,7 +113,6 @@ public:
 
     //! This enumeration provides the colorimetric information for vesion
     //! 1.0.
-
     enum COLORIMETRIC_1_0
     {
         COLORIMETRIC_1_0_USER               = 0,
@@ -135,7 +127,6 @@ public:
     };
 
     //! This enumeration provides the colorimetric information vesion 2.0.
-
     enum COLORIMETRIC_2_0
     {
         COLORIMETRIC_2_0_USER               = 0,
@@ -150,7 +141,6 @@ public:
     };
 
     //! This enumeration provides how the data components are ordered.
-
     enum COMPONENTS
     {
         PACK,
@@ -159,7 +149,6 @@ public:
     };
 
     //! This struct provides file information.
-
     struct File
     {
         quint32 magic;
@@ -181,15 +170,13 @@ public:
     };
 
     //! This struct provides image information.
-
     struct Image
     {
         quint16 orient;
         quint16 elemSize;
         quint32 size [2];
 
-        //! This struct provides image element information.
-
+        //! This struct provides image element information
         struct Elem
         {
             quint32 dataSign;
@@ -216,7 +203,6 @@ public:
     };
 
     //! This struct provides source information.
-
     struct Source
     {
         quint32 offset [2];
@@ -234,7 +220,6 @@ public:
     };
 
     //! This struct provides film information.
-
     struct Film
     {
         char    id [2];
@@ -255,7 +240,6 @@ public:
     };
 
     //! This struct provides TV information.
-
     struct Tv
     {
         quint32 timecode;
@@ -277,8 +261,6 @@ public:
 
     };
 
-    //! Constructor.
-
     djvDpxHeader();
 
     File   file;
@@ -288,14 +270,12 @@ public:
     Tv     tv;
 
     //! Load the header.
-
     void load(
         djvFileIo &,
         djvImageIoInfo &,
         bool & filmPrint) throw (djvError);
 
     //! Save the header.
-
     void save(
         djvFileIo &,
         const djvImageIoInfo &,
@@ -304,35 +284,27 @@ public:
         djvDpx::VERSION) throw (djvError);
 
     //! Update the header when saving is finished.
-    
     void saveEnd(djvFileIo &) throw (djvError);
 
     //! Zero memory.
-
     static void zero(char *, int size);
 
     //! Get whether the value is valid.
-
     static bool isValid(const quint8 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const quint16 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const quint32 *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const float *);
 
     //! Get whether the value is valid.
-
     static bool isValid(const char *, int size);
 
     //! Get whether the value is valid.
-
     static QString toString(const char *, int size);
 
     QString debug() const;
@@ -349,6 +321,4 @@ private:
 };
 
 //@} // djvDpxPlugin
-
-#endif // DJV_DPX_HEADER_H
 

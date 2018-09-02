@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvUser.cpp
-
 #include <djvUser.h>
 
 #include <djvStringUtil.h>
@@ -52,38 +50,27 @@ djvUser::~djvUser()
 QString djvUser::current()
 {
     QString out;
-
 #if defined(DJV_WINDOWS)
-
     TCHAR tmp[djvStringUtil::cStringLength] = { 0 };
     DWORD size = djvStringUtil::cStringLength;
     ::GetUserName(tmp, &size);
     out = QString(tmp);
-
 #else // DJV_WINDOWS
-
     out = uidToString(::getuid());
-
 #endif // DJV_WINDOWS
-
     return out;
 }
 
 QString djvUser::uidToString(uid_t value)
 {
     QString out;
-
 #if ! defined(DJV_WINDOWS)
-
     struct passwd * buf = ::getpwuid(value);
-
     if (buf)
     {
         out = buf->pw_name;
     }
-
 #endif // ! DJV_WINDOWS
-
     return out;
 }
 

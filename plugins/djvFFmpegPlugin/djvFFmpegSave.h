@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFFmpegSave.h
-
-#ifndef DJV_FFMPEG_SAVE_H
-#define DJV_FFMPEG_SAVE_H
+#pragma once
 
 #include <djvFFmpeg.h>
 
@@ -52,12 +49,7 @@
 class djvFFmpegSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     djvFFmpegSave(const djvFFmpeg::Options &, djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvFFmpegSave();
 
@@ -70,7 +62,6 @@ public:
     virtual void close() throw (djvError);
 
 private:
-
     djvFFmpeg::Options _options;
     djvPixelDataInfo   _info;
     djvImage           _image;
@@ -87,6 +78,4 @@ private:
 };
 
 //@} // djvFFmpegPlugin
-
-#endif // DJV_FFMPEG_SAVE_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewActions.cpp
-
 #include <djvViewViewActions.h>
 
 #include <djvViewContext.h>
@@ -62,52 +60,33 @@ djvViewViewActions::djvViewViewActions(
     _p(new djvViewViewActionsPrivate)
 {
     // Create the actions.
-
     for (int i = 0; i < ACTION_COUNT; ++i)
     {
         _actions[i] = new QAction(this);
     }
-
     _actions[LEFT]->setText(qApp->translate("djvViewViewActions", "&Left"));
-
     _actions[RIGHT]->setText(qApp->translate("djvViewViewActions", "&Right"));
-
     _actions[UP]->setText(qApp->translate("djvViewViewActions", "&Up"));
-
     _actions[DOWN]->setText(qApp->translate("djvViewViewActions", "&Down"));
-
     _actions[CENTER]->setText(qApp->translate("djvViewViewActions", "&Center"));
-
     _actions[ZOOM_IN]->setText(qApp->translate("djvViewViewActions", "Zoom &In"));
-    _actions[ZOOM_IN]->setIcon(context->iconLibrary()->icon(
-        "djvViewZoomInIcon.png"));
-
+    _actions[ZOOM_IN]->setIcon(context->iconLibrary()->icon(        "djvViewZoomInIcon.png"));
     _actions[ZOOM_OUT]->setText(qApp->translate("djvViewViewActions", "Zoom &Out"));
-    _actions[ZOOM_OUT]->setIcon(context->iconLibrary()->icon(
-        "djvViewZoomOutIcon.png"));
-
+    _actions[ZOOM_OUT]->setIcon(context->iconLibrary()->icon("djvViewZoomOutIcon.png"));
     _actions[ZOOM_RESET]->setText(qApp->translate("djvViewViewActions", "Zoom Rese&t"));
-    _actions[ZOOM_RESET]->setIcon(context->iconLibrary()->icon(
-        "djvViewZoomResetIcon.png"));
-
+    _actions[ZOOM_RESET]->setIcon(context->iconLibrary()->icon("djvViewZoomResetIcon.png"));
     _actions[RESET]->setText(qApp->translate("djvViewViewActions", "R&eset"));
-
     _actions[FIT]->setText(qApp->translate("djvViewViewActions", "&Fit"));
-    _actions[FIT]->setIcon(context->iconLibrary()->icon(
-        "djvViewFitIcon.png"));
-
+    _actions[FIT]->setIcon(context->iconLibrary()->icon("djvViewFitIcon.png"));
     _actions[HUD]->setText(qApp->translate("djvViewViewActions", "&HUD"));
     _actions[HUD]->setCheckable(true);
 
     // Create the action groups.
-
     for (int i = 0; i < GROUP_COUNT; ++i)
     {
         _groups[i] = new QActionGroup(this);
     }
-
     _groups[GRID_GROUP]->setExclusive(true);
-
     for (int i = 0; i < djvViewUtil::gridLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
@@ -119,11 +98,9 @@ djvViewViewActions::djvViewViewActions(
     }
 
     // Initialize.
-
     update();
-
+    
     // Setup the callbacks.
-
     connect(
         context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -141,67 +118,56 @@ void djvViewViewActions::update()
         context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
-
     _actions[LEFT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_LEFT].value);
     _actions[LEFT]->setToolTip(
         qApp->translate("djvViewViewActions", "Move the view left\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_LEFT].value.toString()));
-
     _actions[RIGHT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_RIGHT].value);
     _actions[RIGHT]->setToolTip(
         qApp->translate("djvViewViewActions", "Move the view right\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_RIGHT].value.toString()));
-
     _actions[UP]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_UP].value);
     _actions[UP]->setToolTip(
         qApp->translate("djvViewViewActions", "Move the view up\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_UP].value.toString()));
-
     _actions[DOWN]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_DOWN].value);
     _actions[DOWN]->setToolTip(
         qApp->translate("djvViewViewActions", "Move the view down\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_DOWN].value.toString()));
-
     _actions[CENTER]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_CENTER].value);
     _actions[CENTER]->setToolTip(
         qApp->translate("djvViewViewActions", "Center the view\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_CENTER].value.toString()));
-
     _actions[ZOOM_IN]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_ZOOM_IN].value);
     _actions[ZOOM_IN]->setToolTip(
         qApp->translate("djvViewViewActions", "Zoom into the view\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_ZOOM_IN].value.toString()));
-
     _actions[ZOOM_OUT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_ZOOM_OUT].value);
     _actions[ZOOM_OUT]->setToolTip(
         qApp->translate("djvViewViewActions", "Zoom out of the view\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_ZOOM_OUT].value.toString()));
-
     _actions[ZOOM_RESET]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_ZOOM_RESET].value);
     _actions[ZOOM_RESET]->setToolTip(
         qApp->translate("djvViewViewActions", "Reset the zoom\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_ZOOM_RESET].value.toString()));
-
     _actions[RESET]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_RESET].value);
     _actions[RESET]->setToolTip(
         qApp->translate("djvViewViewActions", "Reset the position and zoom\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_RESET].value.toString()));
-
     _actions[FIT]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_FIT].value);
     _actions[FIT]->setToolTip(
         qApp->translate("djvViewViewActions", "Fit the image to the view\n\nShortcut: %1").
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_FIT].value.toString()));
-
     _actions[HUD]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_VIEW_HUD].value);
     _actions[HUD]->setToolTip(
@@ -209,10 +175,8 @@ void djvViewViewActions::update()
         arg(shortcuts[djvViewUtil::SHORTCUT_VIEW_HUD].value.toString()));
 
     // Fix up the actions.
-    
     osxMenuHack();
 
     // Emit changed signal.
-
     Q_EMIT changed();
 }

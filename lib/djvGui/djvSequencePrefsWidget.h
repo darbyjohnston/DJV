@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequencePrefsWidget.h
-
-#ifndef DJV_SEQUENCE_PREFS_WIDGET_H
-#define DJV_SEQUENCE_PREFS_WIDGET_H
+#pragma once
 
 #include <djvAbstractPrefsWidget.h>
 
@@ -54,23 +51,16 @@ class DJV_GUI_EXPORT djvSequencePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvSequencePrefsWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvSequencePrefsWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void maxFramesCallback(int);
     
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvSequencePrefsWidget);
@@ -79,6 +69,4 @@ private:
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_SEQUENCE_PREFS_WIDGET_H
 

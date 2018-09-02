@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAboutDialog.cpp
-
 #include <djvAboutDialog.h>
 
 #include <djvGuiContext.h>
@@ -72,7 +70,6 @@ djvAboutDialog::djvAboutDialog(const QString & text, djvGuiContext * context) :
     _p(new djvAboutDialogPrivate(context))
 {
     // Create the widgets.
-    
     QLabel * imageLabel = new QLabel;
     imageLabel->setPixmap(QPixmap(durantXpm));
     imageLabel->setAlignment(Qt::AlignCenter);
@@ -87,28 +84,22 @@ djvAboutDialog::djvAboutDialog(const QString & text, djvGuiContext * context) :
     _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->addWidget(imageLabel);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
     
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvAboutDialog", "About Dialog"));
     
     _p->widget->setText(text);
     
     resize(500, 400);
-
     updateWidget();
     
     // Setup callbacks.
-    
     connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
-    
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    
     connect(
         context->style(),
         SIGNAL(fontsChanged()),

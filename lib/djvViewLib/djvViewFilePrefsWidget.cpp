@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFilePrefsWidget.cpp
-
 #include <djvViewFilePrefsWidget.h>
 
 #include <djvViewContext.h>
@@ -85,23 +83,19 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
     _p(new djvViewFilePrefsWidgetPrivate)
 {
     // Create the options widgets.
-
     _p->autoSequenceWidget = new QCheckBox(
         qApp->translate("djvViewFilePrefsWidget", "Automatically detect sequences when opening files"));
 
     // Create the proxy scale widgets.
-
     _p->proxyWidget = new QComboBox;
     _p->proxyWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->proxyWidget->addItems(djvPixelDataInfo::proxyLabels());
 
     // Create the convert to 8-bits widgets.
-
     _p->u8ConversionWidget = new QCheckBox(
         qApp->translate("djvViewFilePrefsWidget", "Enable 8-bit conversion"));
 
     // Create the file cache widgets.
-
     _p->cacheWidget = new QCheckBox(
         qApp->translate("djvViewFilePrefsWidget", "Enable the memory cache"));
 
@@ -114,7 +108,6 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
         qApp->translate("djvViewFilePrefsWidget", "Display cached frames in timeline"));
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
@@ -166,41 +159,34 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
     layout->addStretch();
 
     // Initialize.
-    
+   
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->autoSequenceWidget,
         SIGNAL(toggled(bool)),
         SLOT(autoSequenceCallback(bool)));
-
     connect(
         _p->proxyWidget,
         SIGNAL(activated(int)),
         SLOT(proxyCallback(int)));
-
     connect(
         _p->u8ConversionWidget,
         SIGNAL(toggled(bool)),
         SLOT(u8ConversionCallback(bool)));
-
     connect(
         _p->cacheWidget,
         SIGNAL(toggled(bool)),
         SLOT(cacheCallback(bool)));
-
     connect(
         _p->cacheSizeWidget,
         SIGNAL(cacheSizeChanged(double)),
         SLOT(cacheSizeCallback(double)));
-
     connect(
         _p->preloadWidget,
         SIGNAL(toggled(bool)),
         SLOT(preloadCallback(bool)));
-
     connect(
         _p->displayCacheWidget,
         SIGNAL(toggled(bool)),
@@ -228,7 +214,6 @@ void djvViewFilePrefsWidget::resetPreferences()
         djvViewFilePrefs::preloadDefault());
     context()->filePrefs()->setDisplayCache(
         djvViewFilePrefs::displayCacheDefault());
-
     widgetUpdate();
 }
 
@@ -277,25 +262,11 @@ void djvViewFilePrefsWidget::widgetUpdate()
         _p->cacheSizeWidget <<
         _p->preloadWidget <<
         _p->displayCacheWidget);
-    
-    _p->autoSequenceWidget->setChecked(
-        context()->filePrefs()->hasAutoSequence());
-    
-    _p->proxyWidget->setCurrentIndex(
-        context()->filePrefs()->proxy());
-    
-    _p->u8ConversionWidget->setChecked(
-        context()->filePrefs()->hasU8Conversion());
-    
-    _p->cacheWidget->setChecked(
-        context()->filePrefs()->hasCache());
-    
-    _p->cacheSizeWidget->setCacheSize(
-        context()->filePrefs()->cacheSize());
-
-    _p->preloadWidget->setChecked(
-        context()->filePrefs()->hasPreload());
-
-    _p->displayCacheWidget->setChecked(
-        context()->filePrefs()->hasDisplayCache());
+    _p->autoSequenceWidget->setChecked(context()->filePrefs()->hasAutoSequence());
+    _p->proxyWidget->setCurrentIndex(context()->filePrefs()->proxy());
+    _p->u8ConversionWidget->setChecked(context()->filePrefs()->hasU8Conversion());
+    _p->cacheWidget->setChecked(context()->filePrefs()->hasCache());
+    _p->cacheSizeWidget->setCacheSize(context()->filePrefs()->cacheSize());
+    _p->preloadWidget->setChecked(context()->filePrefs()->hasPreload());
+    _p->displayCacheWidget->setChecked(context()->filePrefs()->hasDisplayCache());
 }

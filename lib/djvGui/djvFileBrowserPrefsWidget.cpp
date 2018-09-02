@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserPrefsWidget.cpp
-
 #include <djvFileBrowserPrefsWidget.h>
 
 #include <djvFileBrowserPrefs.h>
@@ -60,11 +58,9 @@ namespace
 class SmallListWidget : public QListWidget
 {
 public:
-
     QSize sizeHint() const
     {
         const QSize size = QListWidget::sizeHint();
-
         return QSize(size.width(), size.height() / 2);
     }
 };
@@ -114,7 +110,6 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget(
     _p(new djvFileBrowserPrefsWidgetPrivate)
 {
     // Create the widgets.
-
     _p->seqWidget = new QComboBox;
     _p->seqWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->seqWidget->addItems(djvSequence::compressLabels());
@@ -172,7 +167,6 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget(
     _p->shortcutsWidget = new djvShortcutsWidget(context);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -233,84 +227,68 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget(
     layout->addWidget(prefsGroupBox);
     
     // Initialize.
-    
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->seqWidget,
         SIGNAL(activated(int)),
         SLOT(seqCallback(int)));
-
     connect(
         _p->showHiddenWidget,
         SIGNAL(toggled(bool)),
         context->fileBrowserPrefs(),
         SLOT(setShowHidden(bool)));
-
     connect(
         _p->sortWidget,
         SIGNAL(activated(int)),
         SLOT(sortCallback(int)));
-
     connect(
         _p->reverseSortWidget,
         SIGNAL(toggled(bool)),
         context->fileBrowserPrefs(),
         SLOT(setReverseSort(bool)));
-
     connect(
         _p->sortDirsFirstWidget,
         SIGNAL(toggled(bool)),
         context->fileBrowserPrefs(),
         SLOT(setSortDirsFirst(bool)));
-
     connect(
         _p->thumbnailsWidget,
         SIGNAL(activated(int)),
         SLOT(thumbnailsCallback(int)));
-
     connect(
         _p->thumbnailsSizeWidget,
         SIGNAL(activated(int)),
         SLOT(thumbnailsSizeCallback(int)));
-
     connect(
         _p->thumbnailsCacheWidget,
         SIGNAL(valueChanged(int)),
         SLOT(thumbnailsCacheCallback(int)));
-
     connect(
         _p->bookmarksWidget,
         SIGNAL(itemChanged(QListWidgetItem *)),
         SLOT(bookmarkCallback(QListWidgetItem *)));
-
     connect(
         addBookmarkButton,
         SIGNAL(clicked()),
         SLOT(addBookmarkCallback()));
-
     connect(
         removeBookmarkButton,
         SIGNAL(clicked()),
         SLOT(removeBookmarkCallback()));
-
     connect(
         moveBookmarkUpButton,
         SIGNAL(clicked()),
         SLOT(moveBookmarkUpCallback()));
-
     connect(
         moveBookmarkDownButton,
         SIGNAL(clicked()),
         SLOT(moveBookmarkDownCallback()));
-
     connect(
         _p->shortcutsWidget,
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
         SLOT(shortcutsCallback(const QVector<djvShortcut> &)));
-
     connect(
         context->fileBrowserPrefs(),
         SIGNAL(prefChanged()),
@@ -326,31 +304,22 @@ void djvFileBrowserPrefsWidget::resetPreferences()
 {
     context()->fileBrowserPrefs()->setSequence(
         djvFileBrowserPrefs::sequenceDefault());
-
     context()->fileBrowserPrefs()->setShowHidden(
         djvFileBrowserPrefs::showHiddenDefault());
-
     context()->fileBrowserPrefs()->setSort(
         djvFileBrowserPrefs::sortDefault());
-
     context()->fileBrowserPrefs()->setReverseSort(
         djvFileBrowserPrefs::reverseSortDefault());
-
     context()->fileBrowserPrefs()->setSortDirsFirst(
         djvFileBrowserPrefs::sortDirsFirstDefault());
-
     context()->fileBrowserPrefs()->setThumbnails(
         djvFileBrowserPrefs::thumbnailsDefault());
-
     context()->fileBrowserPrefs()->setThumbnailsSize(
         djvFileBrowserPrefs::thumbnailsSizeDefault());
-
     context()->fileBrowserPrefs()->setThumbnailsCache(
         djvFileBrowserPrefs::thumbnailsCacheDefault());
-
     context()->fileBrowserPrefs()->setShortcuts(
         djvFileBrowserPrefs::shortcutsDefault());
-    
     widgetUpdate();
 }
 
@@ -387,10 +356,8 @@ void djvFileBrowserPrefsWidget::thumbnailsCacheCallback(int value)
 void djvFileBrowserPrefsWidget::bookmarkCallback(QListWidgetItem * item)
 {
     QStringList bookmarks = context()->fileBrowserPrefs()->bookmarks();
-
     bookmarks[_p->bookmarksWidget->row(item)] =
         item->data(Qt::EditRole).toString();
-
     context()->fileBrowserPrefs()->setBookmarks(bookmarks);
 }
 
@@ -398,7 +365,6 @@ void djvFileBrowserPrefsWidget::addBookmarkCallback()
 {
     djvInputDialog dialog(
         qApp->translate("djvFileBrowserPrefsWidget", "Add bookmark:"));
-
     if (QDialog::Accepted == dialog.exec())
     {
         context()->fileBrowserPrefs()->addBookmark(dialog.text());
@@ -408,18 +374,13 @@ void djvFileBrowserPrefsWidget::addBookmarkCallback()
 void djvFileBrowserPrefsWidget::removeBookmarkCallback()
 {
     int index = _p->bookmarksWidget->currentRow();
-
     QStringList bookmarks = context()->fileBrowserPrefs()->bookmarks();
-
     if (-1 == index)
         index = bookmarks.count() - 1;
-
     if (index != -1)
     {
         bookmarks.removeAt(index);
-
         context()->fileBrowserPrefs()->setBookmarks(bookmarks);
-
         _p->bookmarksWidget->setCurrentRow(
             index >= bookmarks.count() ? (index - 1) : index);
     }
@@ -428,22 +389,15 @@ void djvFileBrowserPrefsWidget::removeBookmarkCallback()
 void djvFileBrowserPrefsWidget::moveBookmarkUpCallback()
 {
     int index = _p->bookmarksWidget->currentRow();
-
     if (index != -1)
     {
         QStringList bookmarks = context()->fileBrowserPrefs()->bookmarks();
-
         QString bookmark = bookmarks[index];
-
         bookmarks.removeAt(index);
-
         if (index > 0)
             --index;
-        
         bookmarks.insert(index, bookmark);
-
         context()->fileBrowserPrefs()->setBookmarks(bookmarks);
-
         _p->bookmarksWidget->setCurrentRow(index);
     }
 }
@@ -451,22 +405,15 @@ void djvFileBrowserPrefsWidget::moveBookmarkUpCallback()
 void djvFileBrowserPrefsWidget::moveBookmarkDownCallback()
 {
     int index = _p->bookmarksWidget->currentRow();
-
     if (index != -1)
     {
         QStringList bookmarks = context()->fileBrowserPrefs()->bookmarks();
-
         QString bookmark = bookmarks[index];
-
         bookmarks.removeAt(index);
-
         if (index < bookmarks.count())
             ++index;
-
         bookmarks.insert(index, bookmark);
-
         context()->fileBrowserPrefs()->setBookmarks(bookmarks);
-
         _p->bookmarksWidget->setCurrentRow(index);
     }
 }
@@ -489,31 +436,22 @@ void djvFileBrowserPrefsWidget::widgetUpdate()
         _p->thumbnailsCacheWidget <<
         _p->bookmarksWidget <<
         _p->shortcutsWidget);
-
     _p->seqWidget->setCurrentIndex(
         context()->fileBrowserPrefs()->sequence());
-
     _p->showHiddenWidget->setChecked(
         context()->fileBrowserPrefs()->hasShowHidden());
-
     _p->sortWidget->setCurrentIndex(
         context()->fileBrowserPrefs()->sort());
-
     _p->reverseSortWidget->setChecked(
         context()->fileBrowserPrefs()->hasReverseSort());
-
     _p->sortDirsFirstWidget->setChecked(
         context()->fileBrowserPrefs()->hasSortDirsFirst());
-
     _p->thumbnailsWidget->setCurrentIndex(
         context()->fileBrowserPrefs()->thumbnails());
-
     _p->thumbnailsSizeWidget->setCurrentIndex(
         context()->fileBrowserPrefs()->thumbnailsSize());
-
     _p->thumbnailsCacheWidget->setValue(
         context()->fileBrowserPrefs()->thumbnailsCache() / djvMemory::megabyte);
-
     _p->bookmarksWidget->clear();
     const QStringList & bookmarks = context()->fileBrowserPrefs()->bookmarks();
     for (int i = 0; i < bookmarks.count(); ++i)
@@ -526,7 +464,6 @@ void djvFileBrowserPrefsWidget::widgetUpdate()
         item->setData(Qt::DisplayRole, bookmarks[i]);
         item->setData(Qt::EditRole, bookmarks[i]);
     }
-
     _p->shortcutsWidget->setShortcuts(
         context()->fileBrowserPrefs()->shortcuts());
 }

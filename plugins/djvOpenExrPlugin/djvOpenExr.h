@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExr.h
-
-#ifndef DJV_OPENEXR_H
-#define DJV_OPENEXR_H
+#pragma once
 
 #include <djvColorProfile.h>
 #include <djvImageIo.h>
@@ -82,21 +79,14 @@
 struct djvOpenExr
 {
     //! The plugin name.
-    
     static const QString staticName;
 
     //! This struct provides an image channel.
-
     struct Channel
     {
-        //! Constructor.
-
         Channel() :
             sampling(1)
         {}
-
-        //! Constructor.
-
         Channel(
             const QString &     name,
             djvPixel::TYPE      type,
@@ -108,11 +98,8 @@ struct djvOpenExr
     };
 
     //! This struct provides an image layer.
-
     struct Layer
     {
-        //! Constructor.
-
         Layer(
             const QVector<Channel> & channels        = QVector<Channel>(),
             bool                     luminanceChroma = false);
@@ -123,7 +110,6 @@ struct djvOpenExr
     };
 
     //! This enumeration provides the color profiles.
-
     enum COLOR_PROFILE
     {
         COLOR_PROFILE_NONE,
@@ -134,11 +120,9 @@ struct djvOpenExr
     };
 
     //! Get the color profile labels.
-
     static const QStringList & colorProfileLabels();
 
     //! This enumeration provides the file compression.
-
     enum COMPRESSION
     {
         COMPRESSION_NONE,
@@ -158,11 +142,9 @@ struct djvOpenExr
     };
 
     //! Get the compression labels.
-
     static const QStringList & compressionLabels();
 
     //! This enumeration provides the channels.
-
     enum CHANNELS
     {
         CHANNELS_GROUP_NONE,
@@ -173,11 +155,9 @@ struct djvOpenExr
     };
 
     //! Get the channel labels.
-
     static const QStringList & channelsLabels();
 
     //! This enumeration provides the image tags.
-
     enum TAG
     {
         TAG_LONGITUDE,
@@ -195,7 +175,6 @@ struct djvOpenExr
     };
 
     //! Get the image tag labels.
-
     static const QStringList & tagLabels();
 
     //! Create a layer name from a list of channel names.
@@ -204,47 +183,36 @@ struct djvOpenExr
     //!
     //! - R, G, B - R,G,B
     //! - normal.X, normal.Y, normal.Z - normal.X,Y,Z
-
     static QString layerName(const QStringList &);
 
     //! Find channels that aren't in any layer.
-
     static Imf::ChannelList defaultLayer(const Imf::ChannelList &);
 
     //! Find a channel by name.
-
     static const Imf::Channel * find(const Imf::ChannelList &, QString &);
 
     //! Build a list of layers from Imf channels.
-
     static QVector<Layer> layer(const Imf::ChannelList &, CHANNELS);
 
     //! Load image tags.
-
     static void loadTags(const Imf::Header &, djvImageIoInfo &);
 
     //! Save image tags.
-
     static void saveTags(const djvImageIoInfo &, Imf::Header &);
 
     //! Convert from an OpenEXR box type.
-
     static djvBox2i imfToBox(const Imath::Box2i &);
 
     //! Convert to a OpenEXR pixel type.
-
     static Imf::PixelType pixelTypeToImf(djvPixel::TYPE);
 
     //! Convert from an OpenEXR pixel type.
-
     static djvPixel::TYPE imfToPixelType(Imf::PixelType);
 
     //! Convert from an OpenEXR channel.
-
     static Channel imfToChannel(const QString & name, const Imf::Channel &);
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         THREADS_ENABLE_OPTION,
@@ -262,15 +230,11 @@ struct djvOpenExr
     };
 
     //! Get the option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
-        //! Constructor.
-
         Options();
 
         bool                      threadsEnable;
@@ -286,8 +250,6 @@ struct djvOpenExr
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvOpenExr::COLOR_PROFILE);
 DJV_STRING_OPERATOR(, djvOpenExr::COMPRESSION);
 DJV_STRING_OPERATOR(, djvOpenExr::CHANNELS);
@@ -295,6 +257,4 @@ DJV_STRING_OPERATOR(, djvOpenExr::CHANNELS);
 bool compare(const QVector<Imf::Channel> &);
 
 //@} // djvOpenExrPlugin
-
-#endif // DJV_OPENEXR_H
 

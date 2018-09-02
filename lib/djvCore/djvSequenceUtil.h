@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequenceUtil.h
-
-#ifndef DJV_SEQUENUCE_UTIL_H
-#define DJV_SEQUENUCE_UTIL_H
+#pragma once
 
 #include <djvSequence.h>
 
@@ -48,35 +45,25 @@
 class DJV_CORE_EXPORT djvSequenceUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvSequenceUtil() = 0;
     
     //! Find the closest frame in a sequence.
-
     static qint64 findClosest(qint64, const djvFrameList &);
 
     //! Convert a frame to a string.
-
     static QString frameToString(qint64, int pad = 0);
 
     //! Convert a string to a frame.
-
     static inline qint64 stringToFrame(const QString &, int * pad = 0);
 
     //! Convert a sequence to a string.
-
     static QString sequenceToString(const djvSequence &);
 
     //! Convert a string to a sequence.
-
     static djvSequence stringToSequence(const QString &);
 };
 
 //@} // djvCoreMisc
 
 #include <djvSequenceUtilInline.h>
-
-#endif // DJV_SEQUENUCE_UTIL_H
 

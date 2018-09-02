@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefs.cpp
-
 #include <djvPrefs.h>
 
 #include <djvFileInfoUtil.h>
@@ -49,7 +47,6 @@ struct djvPrefsPrivate
     //! \todo QSettings::SystemScope isn't working?
     //! \todo The organization name is hard-coded here since preferences can be
     //! created before the name is set in the application constructor.
-    
     djvPrefsPrivate(djvPrefs::SCOPE scope) :
         scope(scope),
         settings(
@@ -70,7 +67,6 @@ struct djvPrefsPrivate
 
 namespace
 {
-
 bool _reset = false;
 
 } // namespace
@@ -88,7 +84,6 @@ djvPrefs::djvPrefs(const QString & group, SCOPE scope) :
 djvPrefs::~djvPrefs()
 {
     _p->settings.endGroup();
-    
     delete _p;
 }
 
@@ -110,12 +105,10 @@ bool djvPrefs::contains(const QString & name) const
 QStringList djvPrefs::list() const
 {
     QStringList out;
-
     Q_FOREACH(QString key, _p->settings.allKeys())
     {
         out += key;
     }
-
     return out;
 }
 
@@ -138,28 +131,21 @@ bool djvPrefs::_get(const QString & name, QStringList & out) const
 {
     if (_reset)
         return false;
-
     //DJV_DEBUG("djvPrefs::_get");
     //DJV_DEBUG_PRINT("name = " << name);
-    
+   
     if (_p->settings.contains(name))
     {
         QStringList list = _p->settings.value(name).toStringList();
-
         //DJV_DEBUG_PRINT("list = " << list.count());
-        
         Q_FOREACH(QString string, list)
         {
             //DJV_DEBUG_PRINT("string = " << string);
-        
             out += string;
         }
-        
         return true;
     }
-    
     //DJV_DEBUG_PRINT("out = " << out);
-    
     return false;
 }
 

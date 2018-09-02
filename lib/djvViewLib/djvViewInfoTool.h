@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewInfoTool.h
-
-#ifndef DJV_VIEW_INFO_TOOL_H
-#define DJV_VIEW_INFO_TOOL_H
+#pragma once
 
 #include <djvViewAbstractTool.h>
 
@@ -52,34 +49,24 @@ class DJV_VIEW_LIB_EXPORT djvViewInfoTool : public djvViewAbstractTool
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewInfoTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
         QWidget *           parent = 0);
 
-    //! Destructor.
-
     virtual ~djvViewInfoTool();
 
 protected:
-
     virtual void showEvent(QShowEvent *);
 
 private Q_SLOTS:
-
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewInfoTool);
     
     djvViewInfoToolPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_INFO_TOOL_H
 

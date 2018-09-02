@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgi.h
-
-#ifndef DJV_SGI_H
-#define DJV_SGI_H
+#pragma once
 
 #include <djvFileIo.h>
 #include <djvImageIo.h>
@@ -69,11 +66,9 @@
 struct djvSgi
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the file compression.
-
     enum COMPRESSION
     {
         COMPRESSION_NONE,
@@ -83,25 +78,21 @@ struct djvSgi
     };
 
     //! Get compression labels.
-
     static const QStringList & compressionLabels();
 
     //! Load information.
-
     static void loadInfo(
         djvFileIo &      io,
         djvImageIoInfo & info,
         bool *           compression) throw (djvError);
 
     //! Save information.
-
     static void saveInfo(
         djvFileIo &            io,
         const djvImageIoInfo & info,
         bool                   compression) throw (djvError);
 
     //! Load RLE data.
-
     static bool readRle(
         const void * in,
         const void * end,
@@ -111,7 +102,6 @@ struct djvSgi
         bool         endian);
 
     //! Save RLE data.
-
     static quint64 writeRle(
         const void * in,
         void *       out,
@@ -120,7 +110,6 @@ struct djvSgi
         bool         endian);
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         COMPRESSION_OPTION,
@@ -129,11 +118,9 @@ struct djvSgi
     };
 
     //! Get option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
         Options();
@@ -142,11 +129,7 @@ struct djvSgi
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvSgi::COMPRESSION);
 
 //@} // djvSgiPlugin
-
-#endif // DJV_SGI_H
 

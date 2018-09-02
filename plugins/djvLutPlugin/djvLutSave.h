@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutSave.h
-
-#ifndef DJV_LUT_SAVE_H
-#define DJV_LUT_SAVE_H
+#pragma once
 
 #include <djvLut.h>
 
@@ -52,12 +49,7 @@
 class djvLutSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-    
     djvLutSave(const djvLut::Options &, djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvLutSave();
 
@@ -68,7 +60,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const djvFileInfo &) throw (djvError);
 
     djvLut::Options  _options;
@@ -80,4 +71,3 @@ private:
 
 //@} // djvLutPlugin
 
-#endif // DJV_LUT_SAVE_H

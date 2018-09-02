@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatDisplay.cpp
-
 #include <djvFloatDisplay.h>
 
 #include <djvSignalBlocker.h>
@@ -101,11 +99,8 @@ void djvFloatDisplay::setValue(double value)
 {
     if (value == _p->value)
         return;
-    
     _p->value = value;
-
     Q_EMIT valueChanged(_p->value);
-
     widgetUpdate();
 }
 
@@ -113,19 +108,15 @@ void djvFloatDisplay::setRange(double min, double max)
 {
     if (min == _p->min && max == _p->max)
         return;
-    
     _p->min = min;
     _p->max = max;
-
     Q_EMIT rangeChanged(_p->min, _p->max);
-
     widgetUpdate();
 }
 
 void djvFloatDisplay::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->spinBox);
-    
     _p->spinBox->setRange(_p->min, _p->max);
     _p->spinBox->setValue(_p->value);
 }

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractPrefs.h
-
-#ifndef DJV_VIEW_ABSTRACT_PREFS_H
-#define DJV_VIEW_ABSTRACT_PREFS_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -56,33 +53,22 @@ class DJV_VIEW_LIB_EXPORT djvViewAbstractPrefs : public QObject
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewAbstractPrefs(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewAbstractPrefs() = 0;
     
     //! Get the context.
-
     djvViewContext * context() const;
 
 Q_SIGNALS:
-
     //! This signal is emitted when a preference is changed.
-
     void prefChanged();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewAbstractPrefs);
     
     djvViewContext * _context;
 };
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_ABSTRACT_PREFS_H
 

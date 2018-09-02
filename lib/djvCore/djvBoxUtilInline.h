@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvBoxUtilInline.h
-
 #include <djvRangeUtil.h>
 #include <djvVectorUtil.h>
 
@@ -51,27 +49,22 @@ inline djvBox<T, D> djvBoxUtil::corners(
 {
     const djvVector<T, D> & a = djvVectorUtil::min(upperLeft, lowerRight);
     const djvVector<T, D> & b = djvVectorUtil::max(upperLeft, lowerRight);
-
     djvBox<T, D> out;
-
     out.position = a;
     out.setLowerRight(b);
-
     return out;
 }
 
 template<typename T, int D>
 inline djvBox<T, D> djvBoxUtil::swap(const djvBox<T, D> & in)
 {
-    return djvBox<T, D>(
-        djvVectorUtil::swap(in.position), djvVectorUtil::swap(in.size));
+    return djvBox<T, D>(djvVectorUtil::swap(in.position), djvVectorUtil::swap(in.size));
 }
 
 template<typename T, int D>
 inline bool djvBoxUtil::intersect(const djvBox<T, D> & a, const djvVector<T, D> & b)
 {
     const djvVector<T, D> a1 = a.lowerRight();
-
     for (int i = 0; i < a.dimension; ++i)
     {
         if (! djvRangeUtil::intersect(b.e[i], djvRange<T>(a.position.e[i], a1.e[i])))
@@ -79,7 +72,6 @@ inline bool djvBoxUtil::intersect(const djvBox<T, D> & a, const djvVector<T, D> 
             return false;
         }
     }
-
     return true;
 }
 
@@ -88,10 +80,8 @@ inline djvBox<T, D> djvBoxUtil::intersect(const djvBox<T, D> & a, const djvBox<T
 {
     const djvVector<T, D> a1 = a.lowerRight();
     const djvVector<T, D> b1 = b.lowerRight();
-
     djvBox<T, D>    out;
     djvVector<T, D> lowerRight;
-
     for (int i = 0; i < a.dimension; ++i)
     {
         djvRange<T> tmp;
@@ -104,9 +94,7 @@ inline djvBox<T, D> djvBoxUtil::intersect(const djvBox<T, D> & a, const djvBox<T
         out.position.e[i] = tmp.min;
         lowerRight.e[i] = tmp.max;
     }
-
     out.setLowerRight(lowerRight);
-
     return out;
 }
 
@@ -115,25 +103,19 @@ inline djvBox<T, D> djvBoxUtil::bound(const djvBox<T, D> & a, const djvBox<T, D>
 {
     const djvVector<T, D> a1 = a.lowerRight();
     const djvVector<T, D> b1 = b.lowerRight();
-
     djvBox<T, D>    out;
     djvVector<T, D> lowerRight;
-
     for (int i = 0; i < a.dimension; ++i)
     {
         djvRange<T> tmp;
-        
         djvRangeUtil::bound(
             djvRange<T>(a.position.e[i], a1.e[i]),
             djvRange<T>(b.position.e[i], b1.e[i]),
             &tmp);
-        
         out.position.e[i] = tmp.min;
         lowerRight.e[i] = tmp.max;
     }
-
     out.setLowerRight(lowerRight);
-
     return out;
 }
 
@@ -161,10 +143,8 @@ template<typename T, typename T2, int D>
 inline djvBox<T2, D> djvBoxUtil::convert(const djvBox<T, D> & in)
 {
     djvBox<T2, D> out;
-
     out.position = djvVectorUtil::convert<T, T2, D>(in.position);
     out.size     = djvVectorUtil::convert<T, T2, D>(in.size);
-
     return out;
 }
 
@@ -187,3 +167,4 @@ inline djvBox2f djvBoxUtil::fromQt(const QRectF & in)
 {
     return djvBox2f(in.x(), in.y(), in.width(), in.height());
 }
+

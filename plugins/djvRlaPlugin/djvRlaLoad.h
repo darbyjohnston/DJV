@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRlaLoad.h
-
-#ifndef DJV_RLA_LOAD_H
-#define DJV_RLA_LOAD_H
+#pragma once
 
 #include <djvRla.h>
 
@@ -52,12 +49,7 @@
 class djvRlaLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-
     explicit djvRlaLoad(djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvRlaLoad();
 
@@ -68,7 +60,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
@@ -78,6 +69,4 @@ private:
 };
 
 //@} // djvRlaPlugin
-
-#endif // DJV_RLA_LOAD_H
 

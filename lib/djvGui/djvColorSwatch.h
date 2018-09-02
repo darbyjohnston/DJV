@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorSwatch.h
-
-#ifndef DJV_COLOR_SWATCH_H
-#define DJV_COLOR_SWATCH_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,8 +53,7 @@ class DJV_GUI_EXPORT djvColorSwatch : public QWidget
     Q_OBJECT
     Q_ENUMS(SWATCH_SIZE)
     
-    //! This property holds the color.
-    
+    //! This property holds the color.    
     Q_PROPERTY(
         djvColor color
         READ     color
@@ -65,17 +61,12 @@ class DJV_GUI_EXPORT djvColorSwatch : public QWidget
         NOTIFY   colorChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvColorSwatch(djvGuiContext *, QWidget * parent = 0);
 
     //! Get the color.
-
     const djvColor & color() const;
     
     //! This enumeration provides the swatch size.
-    
     enum SWATCH_SIZE
     {
         SWATCH_SMALL,
@@ -83,51 +74,39 @@ public:
         SWATCH_LARGE,
     };
     
-    //! Get the size.
-    
+    //! Get the size.    
     SWATCH_SIZE swatchSize() const;
     
     //! Set the swatch size.
-    
     void setSwatchSize(SWATCH_SIZE);
     
     //! Get whether the color dialog is enabled.
-    
     bool isColorDialogEnabled() const;
     
     //! Set whether the color dialog is enabled.
-    
     void setColorDialogEnabled(bool);
     
     virtual QSize sizeHint() const;
 
 public Q_SLOTS:
-
     //! Set the color.
-
     void setColor(const djvColor &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the color is changed.
-
     void colorChanged(const djvColor &);
 
     //! This signal is emitted when the swatch is clicked.
-
     void clicked();
     
 protected:
-
     virtual void mousePressEvent(QMouseEvent *);
     virtual void paintEvent(QPaintEvent *);
 
 private Q_SLOTS:
-
     void sizeMetricsCallback();
 
 private:
-
     djvColor        _color;
     SWATCH_SIZE     _swatchSize;
     bool            _colorDialogEnabled;
@@ -135,6 +114,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_COLOR_SWATCH_H
 

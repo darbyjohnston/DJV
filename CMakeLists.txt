@@ -94,8 +94,6 @@ set(djvThirdParty
     GLM
     OpenAL
     IlmBase
-    JPEG
-    PNG
     Qt)
 set(djvThirdPartyPackage true)
 
@@ -118,9 +116,11 @@ foreach(PACKAGE ${djvThirdParty})
     add_definitions(-DDJV_THIRD_PARTY_${PACKAGE})
 endforeach()
 
+find_package(JPEG)
+find_package(PNG)
+find_package(TIFF)
 find_package(OpenEXR)
 find_package(FFmpeg)
-find_package(TIFF)
 
 #-------------------------------------------------------------------------------
 # Dependencies
@@ -136,17 +136,21 @@ set(djvImageIoPlugins ${djvImageIoPlugins} djvPpmPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvRlaPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvSgiPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvJpegPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvPngPlugin)
 
+if(JPEG_FOUND)
+    set(djvImageIoPlugins ${djvImageIoPlugins} djvJpegPlugin)
+endif()
+if(PNG_FOUND)
+    set(djvImageIoPlugins ${djvImageIoPlugins} djvPngPlugin)
+endif()
+if(TIFF_FOUND)
+    set(djvImageIoPlugins ${djvImageIoPlugins} djvTiffPlugin)
+endif()
 if(OPENEXR_FOUND)
     set(djvImageIoPlugins ${djvImageIoPlugins} djvOpenExrPlugin)
 endif()
 if(FFMPEG_FOUND)
     set(djvImageIoPlugins ${djvImageIoPlugins} djvFFmpegPlugin)
-endif()
-if(TIFF_FOUND)
-    set(djvImageIoPlugins ${djvImageIoPlugins} djvTiffPlugin)
 endif()
 
 set(djvCoreIncludeDirs

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPic.h
-
-#ifndef DJV_PIC_H
-#define DJV_PIC_H
+#pragma once
 
 #include <QString>
 
@@ -70,13 +67,10 @@
 class djvPic
 {
 public:
-
     //! The plugin name.
-
     static const QString staticName;
 
     //! This enumeration provides the file types.
-
     enum TYPE
     {
         TYPE_RGB,
@@ -87,7 +81,6 @@ public:
     };
 
     //! This enumeration provides the file compression.
-
     enum COMPRESSION
     {
         COMPRESSION_NONE,
@@ -97,11 +90,9 @@ public:
     };
 
     //! Get the compression labels.
-
     static const QStringList & compressionLabels();
 
     //! Load RLE data.
-
     static const quint8 * readRle(
         const quint8 * in,
         const quint8 * end,
@@ -113,6 +104,4 @@ public:
 };
 
 //@} // djvPicPlugin
-
-#endif // DJV_PIC_PLUGIN_H
 

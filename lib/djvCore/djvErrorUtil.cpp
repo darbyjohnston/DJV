@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvErrorUtil.cpp
-
 #include <djvErrorUtil.h>
 
 #include <djvError.h>
@@ -53,27 +51,22 @@ djvErrorUtil::~djvErrorUtil()
 QStringList djvErrorUtil::format(const djvError & error)
 {
     QStringList out;
-    
     static const QStringList data = QStringList() <<
         qApp->translate("djvErrorUtil", "[ERROR] %1") <<
         qApp->translate("djvErrorUtil", "[ERROR %1] %2");
-    
     Q_FOREACH(const djvError::Message & message, error.messages())
     {
         out += message.prefix.isEmpty() ?
             data[0].arg(message.string) :
             data[1].arg(message.prefix).arg(message.string);
     }
-    
     return out;
 }
 
 QString djvErrorUtil::lastError()
 {
     QString out;
-
 #if defined(DJV_WINDOWS)
-
     struct Buffer
     {
         Buffer() :
@@ -101,16 +94,13 @@ QString djvErrorUtil::lastError()
         0);
 
     out = QString((LPCTSTR)buffer.p);
-
 #endif // DJV_WINDOWS
-
     return out;
 }
 
 void djvErrorUtil::print(const djvError & error)
 {
     const QStringList list = format(error);
-    
     for (int i = list.count() - 1; i >= 0; --i)
     {
         djvSystem::print(list[i]);

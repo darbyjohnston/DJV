@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowser.h
-
-#ifndef DJV_FILE_BROWSER_H
-#define DJV_FILE_BROWSER_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -61,8 +58,7 @@ class DJV_GUI_EXPORT djvFileBrowser : public QDialog
 {
     Q_OBJECT
     
-    //! This property holds the file information.
-    
+    //! This property holds the file information.    
     Q_PROPERTY(
         djvFileInfo fileInfo
         READ        fileInfo
@@ -70,7 +66,6 @@ class DJV_GUI_EXPORT djvFileBrowser : public QDialog
         NOTIFY      fileInfoChanged)
     
     //! This property holds whether the file browser is pinnable.
-    
     Q_PROPERTY(
         bool   pinnable
         READ   isPinnable
@@ -78,7 +73,6 @@ class DJV_GUI_EXPORT djvFileBrowser : public QDialog
         NOTIFY pinnableChanged)
     
     //! This property holds whether the file browser is currently pinned.
-    
     Q_PROPERTY(
         bool   pinned
         READ   isPinned
@@ -86,61 +80,45 @@ class DJV_GUI_EXPORT djvFileBrowser : public QDialog
         NOTIFY pinnedChanged)
 
 public:
-
-    //! Constructor.
-
     explicit djvFileBrowser(djvGuiContext *, QWidget * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvFileBrowser();
 
     //! Get the file information.
-
     const djvFileInfo & fileInfo() const;
     
     //! Get whether the file browser is pinnable.
-    
     bool isPinnable() const;
     
     //! Get whether the file browser is currently pinned.
-    
     bool isPinned() const;
 
 public Q_SLOTS:
 
     //! Set the file information.
-
     void setFileInfo(const djvFileInfo &);
     
     //! Set whether the file browser is pinnable.
-    
     void setPinnable(bool);
     
     //! Set whether the file browser is currently pinned.
-    
     void setPinned(bool);
 
 Q_SIGNALS:
 
     //! This signal is emitted when the file information is changed.
-
     void fileInfoChanged(const djvFileInfo &);
 
     //! This signal is emitted when the pinnable state is changed.
-    
     void pinnableChanged(bool);
     
     //! This signal is emitted when the pinned state is changed.
-    
     void pinnedChanged(bool);
     
 protected:
-
     virtual void showEvent(QShowEvent *);
 
 private Q_SLOTS:
-
     void fileCallback();
     void browserCallback(const QModelIndex &);
     void browserCurrentCallback(const QModelIndex &, const QModelIndex &);
@@ -182,7 +160,6 @@ private Q_SLOTS:
     void toolTipUpdate();
     
 private:
-
     QVector<int> columnSizes() const;
 
     DJV_PRIVATE_COPY(djvFileBrowser);
@@ -191,6 +168,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_FILE_BROWSER_H
 

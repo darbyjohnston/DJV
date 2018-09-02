@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixmapUtil.h
-
-#ifndef DJV_PIXMAP_UTIL_H
-#define DJV_PIXMAP_UTIL_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -51,8 +48,7 @@ class QPixmap;
 
 struct DJV_GUI_EXPORT djvPixmapUtil
 {
-    //! Convert pixel data to Qt.
-    
+    //! Convert pixel data to Qt.    
     static QPixmap toQt(
         const djvPixelData &          pixelData,
         const djvOpenGlImageOptions & options   = djvOpenGlImageOptions(),
@@ -61,6 +57,4 @@ struct DJV_GUI_EXPORT djvPixmapUtil
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_PIXMAP_UTIL_H
 

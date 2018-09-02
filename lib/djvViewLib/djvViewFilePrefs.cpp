@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFilePrefs.cpp
-
 #include <djvViewFilePrefs.h>
 
 #include <djvViewFileCache.h>
@@ -55,7 +53,6 @@ djvViewFilePrefs::djvViewFilePrefs(djvViewContext * context, QObject * parent) :
     _displayCache(displayCacheDefault())
 {
     djvPrefs prefs("djvViewFilePrefs");
-
     prefs.get("recent", _recent);
     prefs.get("autoSequence", _autoSequence);
     prefs.get("proxy", _proxy);
@@ -64,7 +61,6 @@ djvViewFilePrefs::djvViewFilePrefs(djvViewContext * context, QObject * parent) :
     prefs.get("cacheSize", _cacheSize);
     prefs.get("preload", _preload);
     prefs.get("displayCache", _displayCache);
-
     if (_recent.count() > djvFileInfoUtil::recentMax)
         _recent = _recent.mid(0, djvFileInfoUtil::recentMax);
 }
@@ -72,7 +68,6 @@ djvViewFilePrefs::djvViewFilePrefs(djvViewContext * context, QObject * parent) :
 djvViewFilePrefs::~djvViewFilePrefs()
 {
     djvPrefs prefs("djvViewFilePrefs");
-
     prefs.set("recent", _recent);
     prefs.set("autoSequence", _autoSequence);
     prefs.set("proxy", _proxy);
@@ -87,9 +82,7 @@ void djvViewFilePrefs::addRecent(const djvFileInfo & in)
 {
     //DJV_DEBUG("djvViewFilePrefs::addRecent");
     //DJV_DEBUG_PRINT("in = " << in);
-
     djvFileInfoUtil::recent(in, _recent);
-
     Q_EMIT recentChanged(_recent);
     Q_EMIT prefChanged();
 }
@@ -173,9 +166,7 @@ void djvViewFilePrefs::setAutoSequence(bool autoSequence)
 {
     if (autoSequence == _autoSequence)
         return;
-
     _autoSequence = autoSequence;
-
     Q_EMIT autoSequenceChanged(_autoSequence);
     Q_EMIT prefChanged();
 }
@@ -184,9 +175,7 @@ void djvViewFilePrefs::setProxy(djvPixelDataInfo::PROXY proxy)
 {
     if (proxy == _proxy)
         return;
-
     _proxy = proxy;
-
     Q_EMIT proxyChanged(_proxy);
     Q_EMIT prefChanged();
 }
@@ -195,9 +184,7 @@ void djvViewFilePrefs::setU8Conversion(bool conversion)
 {
     if (conversion == _u8Conversion)
         return;
-
     _u8Conversion = conversion;
-
     Q_EMIT u8ConversionChanged(_u8Conversion);
     Q_EMIT prefChanged();
 }
@@ -206,9 +193,7 @@ void djvViewFilePrefs::setCache(bool cache)
 {
     if (cache == _cache)
         return;
-
     _cache = cache;
-
     Q_EMIT cacheChanged(_cache);
     Q_EMIT prefChanged();
 }
@@ -217,12 +202,9 @@ void djvViewFilePrefs::setCacheSize(double size)
 {
     if (size == _cacheSize)
         return;
-
     //DJV_DEBUG("djvViewFilePrefs::cacheSize");
     //DJV_DEBUG_PRINT("size = " << size);
-
     _cacheSize = size;
-
     Q_EMIT cacheSizeChanged(_cacheSize);
     Q_EMIT prefChanged();
 }
@@ -231,9 +213,7 @@ void djvViewFilePrefs::setPreload(bool preload)
 {
     if (preload == _preload)
         return;
-
     _preload = preload;
-
     Q_EMIT preloadChanged(_preload);
     Q_EMIT prefChanged();
 }
@@ -242,9 +222,7 @@ void djvViewFilePrefs::setDisplayCache(bool display)
 {
     if (display == _displayCache)
         return;
-
     _displayCache = display;
-
     Q_EMIT displayCacheChanged(_displayCache);
     Q_EMIT prefChanged();
 }

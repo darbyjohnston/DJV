@@ -27,9 +27,7 @@
 // CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
-//------------------------------------------------------------------------------
-
-//! \file djvViewFileCache.cpp
+//------------------------------------------------------------------------------s
 
 #include <djvViewFileCache.h>
 
@@ -68,7 +66,6 @@ struct djvViewFileCacheItemPrivate
 
 namespace
 {
-
 int refAliveCount = 0;
 
 } // namespace
@@ -162,8 +159,7 @@ djvViewFileCache::djvViewFileCache(djvViewContext * context, QObject * parent) :
     connect(
         context->filePrefs(),
         SIGNAL(cacheChanged(bool)),
-        SLOT(cacheCallback(bool)));
-    
+        SLOT(cacheCallback(bool)));   
     connect(
         context->filePrefs(),
         SIGNAL(cacheSizeChanged(double)),
@@ -177,9 +173,7 @@ djvViewFileCache::~djvViewFileCache()
     //debug();
 
     // Cleanup.
-    
     const int count = _p->items.count();
-    
     for (int i = 0; i < count; ++i)
     {
         delete _p->items[i];
@@ -201,26 +195,20 @@ djvViewFileCacheItem * djvViewFileCache::create(
     //debug();
 
     // Create a new reference.
-
     djvViewFileCacheItem * out = new djvViewFileCacheItem(image, key, frame);
 
     // Add the reference to the end of the list.
-
     _p->items += out;
 
     // Update the cache size.
-
     _p->cacheByteCount += out->image()->dataByteCount();
-
     if (_p->cacheByteCount > _p->maxByteCount)
     {
         purge();
     }
-
     Q_EMIT cacheChanged();
-
     //debug();
-
+    
     return out;
 }
 
@@ -233,45 +221,35 @@ djvViewFileCacheItem * djvViewFileCache::get(const void * key, qint64 frame)
     //debug();
 
     // Search for the requested item.
-
     djvViewFileCacheItem * item = 0;
-
     const int count = _p->items.count();
-
     for (int i = 0; i < count; ++i)
     {
         if (key == _p->items[i]->key() && frame == _p->items[i]->frame())
         {
             // Found it.
-
             item = _p->items[i];
 
             // Increment the reference count.
-
             item->increment();
 
             // Move the item to the end of the list.
-
             _p->items.remove(i);
-
             _p->items.push_back(item);
-
+            
             break;
         }
     }
-
     //debug();
 
     //DJV_DEBUG_PRINT("out = " <<
     //  (out ? reinterpret_cast<qint64>(out->key()) : 0));
-
     return item;
 }
 
 bool djvViewFileCache::contains(const void * key, qint64 frame) const
 {
     const int count = _p->items.count();
-
     for (int i = 0; i < count; ++i)
     {
         if (key == _p->items[i]->key() && frame == _p->items[i]->frame())
@@ -279,7 +257,6 @@ bool djvViewFileCache::contains(const void * key, qint64 frame) const
             return true;
         }
     }
-
     return false;
 }
 
@@ -291,16 +268,13 @@ void djvViewFileCache::del(const void * key)
     debug();
 
     // Search for all items that match the given key.
-	
     for (int i = _p->items.count() - 1; i >= 0; --i)
     {
         djvViewFileCacheItem * item = _p->items[i];
-
         if (key == item->key())
 		{
             // If the item has a reference count of zero we can delete it now,
             // otherwise we will have to wait and delete it later.
-
             if (! item->count())
             {
                 removeItem(i);
@@ -313,7 +287,6 @@ void djvViewFileCache::del(const void * key)
     }
 
     // Emit a signal that the cache has changed.
-
     Q_EMIT cacheChanged();
 
     debug();
@@ -328,16 +301,13 @@ void djvViewFileCache::del(const void * key, qint64 frame)
     debug();
 
     // Search for all items that match the given key and frame.
-
     for (int i = _p->items.count() - 1; i >= 0; --i)
     {
         djvViewFileCacheItem * item = _p->items[i];
-
         if (key == item->key() && frame == item->frame())
         {
             // If the item has a reference count of zero we can delete it now,
             // otherwise we will have to wait and delete it later.
-
             if (! item->count())
             {
                 removeItem(i);
@@ -350,7 +320,6 @@ void djvViewFileCache::del(const void * key, qint64 frame)
     }
 
     // Emit a signal that the cache has changed.
-
     Q_EMIT cacheChanged();
 
     debug();
@@ -363,7 +332,6 @@ void djvViewFileCache::clear()
     debug();
 
     // Delete all the items with a reference count of zero.
-    
     for (int i = _p->items.count() - 1; i >= 0; --i)
     {
         if (! _p->items[i]->count())
@@ -373,7 +341,6 @@ void djvViewFileCache::clear()
     }
 
     // Emit a signal that the cache has changed.
-
     Q_EMIT cacheChanged();
 
     debug();
@@ -382,9 +349,7 @@ void djvViewFileCache::clear()
 djvViewFileCacheItemList djvViewFileCache::items(const void * key)
 {
     djvViewFileCacheItemList items;
-
     const int count = _p->items.count();
-
     for (int i = 0; i < count; ++i)
     {
         if (key == _p->items[i]->key())
@@ -392,7 +357,6 @@ djvViewFileCacheItemList djvViewFileCache::items(const void * key)
             items.append(_p->items[i]);
         }
     }
-
     return items;
 }
 
@@ -409,9 +373,7 @@ bool compare(qint64 a, qint64 b)
 djvFrameList djvViewFileCache::frames(const void * key)
 {
     djvFrameList frames;
-    
     const int count = _p->items.count();
-    
     for (int i = 0; i < count; ++i)
     {
         if (key == _p->items[i]->key())
@@ -419,9 +381,7 @@ djvFrameList djvViewFileCache::frames(const void * key)
             frames.append(_p->items[i]->frame());
         }
     }
-    
     qSort(frames.begin(), frames.end(), compare);
-
     return frames;
 }
 
@@ -438,9 +398,7 @@ quint64 djvViewFileCache::maxByteCount() const
 double djvViewFileCache::size(const void * key) const
 {
     quint64 size = 0;
-    
     const int count = _p->items.count();
-    
     for (int i = 0; i < count; ++i)
     {
         if (key == _p->items[i]->key())
@@ -448,7 +406,6 @@ double djvViewFileCache::size(const void * key) const
             size += _p->items[i]->image()->dataByteCount();
         }    
     }
-
     return size / static_cast<double>(djvMemory::gigabyte);
 }
 
@@ -473,7 +430,6 @@ const QVector<double> & djvViewFileCache::sizeDefaults()
         24.0 <<
         48.0 <<
         96.0;
-
     return data;
 }
 
@@ -488,7 +444,6 @@ const QStringList & djvViewFileCache::sizeLabels()
         "24" <<
         "48" <<
         "96";
-
     return data;
 }
 
@@ -516,7 +471,6 @@ void djvViewFileCache::setMaxSize(double size)
     //debug();
 
     _p->maxByteCount = static_cast<quint64>(size * djvMemory::gigabyte);
-
     //if (_p->cacheByteCount > _p->maxByteCount)
         purge();
 
@@ -526,11 +480,8 @@ void djvViewFileCache::setMaxSize(double size)
 void djvViewFileCache::removeItem(int index)
 {
     djvViewFileCacheItem * item = _p->items[index];
-	
     _p->items.remove(index);
-
     _p->cacheByteCount -= item->image()->dataByteCount();
-
     delete item;
 }
 
@@ -542,23 +493,17 @@ void djvViewFileCache::purge()
 
     // Delete as many items as possible to bring the cache size below
     // the maximum size.
-
     QVector<int> itemsToDelete;
-
     const int count = _p->items.count();
-
     quint64 byteCountTmp = _p->cacheByteCount;
-
     for (int i = 0; i < count; ++i)
     {
         if (! _p->items[i]->count() && byteCountTmp > _p->maxByteCount)
         {
             itemsToDelete += i;
-
             byteCountTmp -= _p->items[i]->image()->dataByteCount();
         }
     }
-
     //DJV_DEBUG_PRINT("zombies = " << zombies.count());
 
     for (int i = itemsToDelete.count() - 1; i >= 0; --i)
@@ -567,7 +512,6 @@ void djvViewFileCache::purge()
     }
 
     // Emit a signal that the cache has changed.
-
     Q_EMIT cacheChanged();
 
     debug();

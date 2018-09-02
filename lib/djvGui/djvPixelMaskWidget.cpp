@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelMaskWidget.cpp
-
 #include <djvPixelMaskWidget.h>
 
 #include <djvGuiContext.h>
@@ -98,18 +96,14 @@ void djvPixelMaskWidget::setMask(const djvPixel::Mask & mask)
 {
     if (mask == _p->mask)
         return;
-
     _p->mask = mask;
-
     widgetUpdate();
-
     Q_EMIT maskChanged(_p->mask);
 }
 
 void djvPixelMaskWidget::buttonCallback()
 {
     QMenu menu;
-    
     static const QString text [] =
     {
         qApp->translate("djvPixelMaskWidget", "Solo red"),
@@ -117,19 +111,15 @@ void djvPixelMaskWidget::buttonCallback()
         qApp->translate("djvPixelMaskWidget", "Solo blue"),
         qApp->translate("djvPixelMaskWidget", "Solo alpha")
     };
-    
     int count = sizeof(text) / sizeof(text[0]);
-    
     int data = 0;
-    
     for (int i = 0; i < count; ++i)
     {
         QAction * action = menu.addAction(text[i]);
         action->setData(data++);
-        
         connect(action, SIGNAL(triggered()), SLOT(soloCallback()));
     }
-    
+
     menu.addSeparator();
 
     static const QString text2 [] =
@@ -139,18 +129,14 @@ void djvPixelMaskWidget::buttonCallback()
         qApp->translate("djvPixelMaskWidget", "Blue"),
         qApp->translate("djvPixelMaskWidget", "Alpha")
     };
-    
     count = sizeof(text) / sizeof(text[0]);
-    
     data = 0;
-    
     for (int i = 0; i < count; ++i)
     {
         QAction * action = menu.addAction(text2[i]);
         action->setCheckable(true);
         action->setChecked(_p->mask[i]);
-        action->setData(data++);
-        
+        action->setData(data++);        
         connect(action, SIGNAL(toggled(bool)), SLOT(toggleCallback(bool)));
     }
     
@@ -158,9 +144,8 @@ void djvPixelMaskWidget::buttonCallback()
     
     QAction * action = menu.addAction(
         qApp->translate("djvPixelMaskWidget", "Reset"));
-    
     connect(action, SIGNAL(triggered()), SLOT(resetCallback()));
-    
+
     menu.exec(mapToGlobal(
         QPoint(_p->button->x(), _p->button->y() + _p->button->height())));
 
@@ -170,22 +155,16 @@ void djvPixelMaskWidget::buttonCallback()
 void djvPixelMaskWidget::soloCallback()
 {
     QAction * action = qobject_cast<QAction *>(sender());
-
     djvPixel::Mask mask(false);
-    
     mask[action->data().toInt()] = true;
-    
     setMask(mask);
 }
 
 void djvPixelMaskWidget::toggleCallback(bool checked)
 {
     QAction * action = qobject_cast<QAction *>(sender());
-
     djvPixel::Mask mask = _p->mask;
-    
     mask[action->data().toInt()] = checked;
-    
     setMask(mask);
 }
 
@@ -197,18 +176,14 @@ void djvPixelMaskWidget::resetCallback()
 void djvPixelMaskWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_p->button);
-   
     bool checked = false;
-    
     for (int i = 0; i < djvPixel::channelsMax; ++i)
     {
         if (! _p->mask[i])
         {
             checked = true;
-            
             break;
         }
     }
-
     _p->button->setChecked(checked);
 }

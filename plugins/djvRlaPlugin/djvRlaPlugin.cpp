@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRlaPlugin.cpp
-
 #include <djvRlaPlugin.h>
 
 #include <djvRlaLoad.h>

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCineon.h
-
-#ifndef DJV_CINEON_H
-#define DJV_CINEON_H
+#pragma once
 
 #include <djvPixelData.h>
 
@@ -68,12 +65,10 @@
 
 struct djvCineon
 {
-    //! Plugin name.
-    
+    //! Plugin name.    
     static const QString staticName;
 
     //! This enumeration provides the color profiles.
-
     enum COLOR_PROFILE
     {
         COLOR_PROFILE_AUTO,
@@ -84,7 +79,6 @@ struct djvCineon
     };
 
     //! Get the color profile labels.
-
     static const QStringList & colorProfileLabels();
 
     //! This struct provides options to convert from a linear color space to
@@ -93,11 +87,8 @@ struct djvCineon
     //! - Black point range = 0 - 1023, default value = 95
     //! - White point range = 0 - 1023, default value = 685
     //! - Gamma range = 0.01 - 4.0, default value = 1.7
-
     struct LinearToFilmPrint
     {
-        //! Constructor.
-
         LinearToFilmPrint() :
             black(95),
             white(685),
@@ -110,7 +101,6 @@ struct djvCineon
     };
 
     //! Create a linear color space to Cineon film print color space LUT.
-
     static djvPixelData linearToFilmPrintLut(const LinearToFilmPrint &);
 
     //! This struct provides options to convert from the Cineon film print
@@ -120,11 +110,8 @@ struct djvCineon
     //! - White point range = 0 - 1023, default value = 685
     //! - Gamma range = 0.01 - 4.0, default value = 1.7
     //! - Soft clip range = 0 - 50, default value = 0
-
     struct FilmPrintToLinear
     {
-        //! Constructor.
-
         FilmPrintToLinear() :
             black   (95),
             white   (685),
@@ -139,11 +126,9 @@ struct djvCineon
     };
 
     //! Create a Cineon film print color space to linear space LUT.
-
     static djvPixelData filmPrintToLinearLut(const FilmPrintToLinear &);
 
     //! This enumeration provides additional image tags for Cineon files.
-
     enum TAG
     {
         TAG_SOURCE_OFFSET,
@@ -164,11 +149,9 @@ struct djvCineon
     };
 
     //! Get the image tag labels.
-
     static const QStringList & tagLabels();
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         INPUT_COLOR_PROFILE_OPTION,
@@ -180,15 +163,11 @@ struct djvCineon
     };
 
     //! Get the option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
-        //! Constructor.
-
         Options();
 
         djvCineon::COLOR_PROFILE     inputColorProfile;
@@ -197,8 +176,6 @@ struct djvCineon
         djvCineon::LinearToFilmPrint outputFilmPrint;
     };
 };
-
-//------------------------------------------------------------------------------
 
 bool operator == (const djvCineon::LinearToFilmPrint &,
     const djvCineon::LinearToFilmPrint &);
@@ -215,6 +192,4 @@ DJV_STRING_OPERATOR(, djvCineon::FilmPrintToLinear);
 DJV_STRING_OPERATOR(, djvCineon::COLOR_PROFILE);
 
 //@} // djvCineonPlugin
-
-#endif // DJV_CINEON_H
 

@@ -22,6 +22,7 @@ set(header
     djvFloatSlider.h
     djvGuiContext.h
     djvGuiExport.h
+    djvGui.h
     djvHelpPrefs.h
 	djvHelpPrefsWidget.h
     djvIconLibrary.h

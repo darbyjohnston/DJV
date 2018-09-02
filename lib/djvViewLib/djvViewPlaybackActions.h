@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackActions.h
-
-#ifndef DJV_VIEW_PLAYBACK_ACTIONS_H
-#define DJV_VIEW_PLAYBACK_ACTIONS_H
+#pragma once
 
 #include <djvViewAbstractActions.h>
 #include <djvViewUtil.h>
@@ -57,9 +54,7 @@ class djvViewPlaybackActions : public djvViewAbstractActions
     Q_ENUMS(GROUP)
 
 public:
-
     //! This enumeration provides the actions.
-
     enum ACTION
     {
         PLAYBACK_TOGGLE,
@@ -69,7 +64,6 @@ public:
     };
 
     //! This enumeration provides the action groups.
-
     enum GROUP
     {
         PLAYBACK_GROUP,
@@ -81,20 +75,14 @@ public:
         GROUP_COUNT
     };
 
-    //! Constructor.
-
     explicit djvViewPlaybackActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewPlaybackActions();
 
 private Q_SLOTS:
-
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewPlaybackActions);
     
     djvViewPlaybackActionsPrivate * _p;
@@ -102,4 +90,3 @@ private:
 
 //@} // djvViewPlayback
 
-#endif // DJV_VIEW_PLAYBACK_ACTIONS_H

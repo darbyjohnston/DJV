@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebugLogDialog.cpp
-
 #include <djvDebugLogDialog.h>
 
 #include <djvGuiContext.h>
@@ -70,7 +68,6 @@ djvDebugLogDialog::djvDebugLogDialog(djvGuiContext * context) :
     _p(new djvDebugLogDialogPrivate(context))
 {
     // Create the widgets.
-    
     _p->widget = new QTextEdit;
     _p->widget->setReadOnly(true);
     _p->widget->setLineWrapMode(QTextEdit::NoWrap);
@@ -86,15 +83,12 @@ djvDebugLogDialog::djvDebugLogDialog(djvGuiContext * context) :
     _p->buttonBox->addButton(clearButton, QDialogButtonBox::ActionRole);
     
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->addWidget(_p->widget);
     layout->addWidget(_p->buttonBox);
 
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvDebugLogDialog", "Debugging Log"));
-    
     resize(800, 600);
     
     Q_FOREACH(const QString & message, context->debugLog()->messages())
@@ -105,18 +99,13 @@ djvDebugLogDialog::djvDebugLogDialog(djvGuiContext * context) :
     updateWidget();
 
     // Setup the callbacks.
-    
     connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
-    
     connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
-    
     connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    
     connect(
         context->debugLog(),
         SIGNAL(message(const QString &)),
         SLOT(messageCallback(const QString &)));
-    
     connect(
         context->style(),
         SIGNAL(fontsChanged()),

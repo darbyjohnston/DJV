@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewApplication.h
-
-#ifndef DJV_VIEW_APPLICATION_H
-#define DJV_VIEW_APPLICATION_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -57,32 +54,22 @@ class djvViewApplication : public QApplication
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewApplication(int & argc, char ** argv);
-
-    //! Destructor.
 
     virtual ~djvViewApplication();
 
 protected:
-
     virtual bool event(QEvent *);
     
 private Q_SLOTS:
-
     void commandLineExit();
     void work();
     
 private:
-    
     DJV_PRIVATE_COPY(djvViewApplication);
     
     djvViewApplicationPrivate * _p;
 };
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_APPLICATION_H
 

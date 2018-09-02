@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPngPlugin.cpp
-
 #include <djvPngPlugin.h>
 
 #include <djvPngLoad.h>

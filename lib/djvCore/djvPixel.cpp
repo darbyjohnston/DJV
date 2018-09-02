@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixel.cpp
-
 #include <djvPixel.h>
 
 #include <djvAssert.h>
@@ -52,9 +50,7 @@ const QStringList & djvPixel::formatLabels()
         qApp->translate("djvPixel", "LA") <<
         qApp->translate("djvPixel", "RGB") <<
         qApp->translate("djvPixel", "RGBA");
-
     DJV_ASSERT(data.count() == FORMAT_COUNT);
-
     return data;
 }
 
@@ -66,9 +62,7 @@ const QStringList & djvPixel::typeLabels()
         qApp->translate("djvPixel", "U16") <<
         qApp->translate("djvPixel", "F16") <<
         qApp->translate("djvPixel", "F32");
-
     DJV_ASSERT(data.count() == TYPE_COUNT);
-
     return data;
 }
 
@@ -77,9 +71,7 @@ const QStringList & djvPixel::dataLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvPixel", "Integer") <<
         qApp->translate("djvPixel", "Float");
-
     DJV_ASSERT(data.count() == DATA_COUNT);
-
     return data;
 }
 
@@ -103,19 +95,14 @@ const QStringList & djvPixel::pixelLabels()
         qApp->translate("djvPixel", "RGBA U16") <<
         qApp->translate("djvPixel", "RGBA F16") <<
         qApp->translate("djvPixel", "RGBA F32");
-
     DJV_ASSERT(data.count() == PIXEL_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvPixel::FORMAT, djvPixel::formatLabels())
 _DJV_STRING_OPERATOR_LABEL(djvPixel::TYPE, djvPixel::typeLabels())
 _DJV_STRING_OPERATOR_LABEL(djvPixel::DATA, djvPixel::dataLabels())
 _DJV_STRING_OPERATOR_LABEL(djvPixel::PIXEL, djvPixel::pixelLabels())
-
 
 QStringList & operator >> (QStringList & in, djvPixel::Mask & out) throw (QString)
 {
@@ -123,7 +110,6 @@ QStringList & operator >> (QStringList & in, djvPixel::Mask & out) throw (QStrin
     {
         in >> out[i];
     }
-    
     return in;
 }
 
@@ -133,7 +119,6 @@ QStringList & operator << (QStringList & out, const djvPixel::Mask & in)
     {
         out << in[i];
     }
-    
     return out;
 }
 
@@ -163,7 +148,6 @@ djvDebug & operator << (djvDebug & debug, const djvPixel::Mask & in)
     {
         debug << static_cast<int>(in[i]);
     }
-    
     return debug;
 }
 

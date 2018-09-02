@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.h
-
-#ifndef DJV_PPM_PLUGIN_H
-#define DJV_PPM_PLUGIN_H
+#pragma once
 
 #include <djvPpm.h>
 
@@ -50,27 +47,19 @@
 class djvPpmPlugin : public djvImageIo
 {
 public:
-    
-    //! Constructor.
-    
     explicit djvPpmPlugin(djvCoreContext *);
 
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
@@ -79,6 +68,4 @@ private:
 };
 
 //@} // djvPpmPlugin
-
-#endif // DJV_PPM_PLUGIN_H
 

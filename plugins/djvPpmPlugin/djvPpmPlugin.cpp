@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpmPlugin.cpp
-
 #include <djvPpmPlugin.h>
 
 #include <djvPpmLoad.h>
@@ -78,7 +76,6 @@ QStringList djvPpmPlugin::extensions() const
 QStringList djvPpmPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvPpm::TYPE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.type;
@@ -87,7 +84,6 @@ QStringList djvPpmPlugin::option(const QString & in) const
     {
         out << _options.data;
     }
-
     return out;
 }
 
@@ -98,26 +94,20 @@ bool djvPpmPlugin::setOption(const QString & in, QStringList & data)
         if (0 == in.compare(options()[djvPpm::TYPE_OPTION], Qt::CaseInsensitive))
         {
             djvPpm::TYPE type = static_cast<djvPpm::TYPE>(0);
-            
             data >> type;
-            
             if (type != _options.type)
             {
                 _options.type = type;
-            
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvPpm::DATA_OPTION], Qt::CaseInsensitive))
         {
             djvPpm::DATA tmp = static_cast<djvPpm::DATA>(0);
-            
             data >> tmp;
-            
             if (tmp != _options.data)
             {
                 _options.data = tmp;
-
                 Q_EMIT optionChanged(in);
             }
         }
@@ -126,7 +116,6 @@ bool djvPpmPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -139,13 +128,11 @@ void djvPpmPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvPpmPlugin", "-ppm_type") == arg)
             {
                 in >> _options.type;
@@ -164,7 +151,6 @@ void djvPpmPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 

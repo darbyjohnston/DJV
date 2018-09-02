@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserCache.h
-
-#ifndef DJV_FILE_BROWSER_CACHE_H
-#define DJV_FILE_BROWSER_CACHE_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -73,6 +70,4 @@ struct djvFileBrowserCacheItem
 class DJV_GUI_EXPORT djvFileBrowserCache :
     public QCache<djvFileInfo, djvFileBrowserCacheItem>
 {};
-
-#endif // DJV_FILE_BROWSER_CACHE_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePrefs.cpp
-
 #include <djvImagePrefs.h>
 
 #include <djvPrefs.h>
@@ -45,11 +43,8 @@ djvImagePrefs::djvImagePrefs(QObject * parent) :
     QObject(parent)
 {
     //DJV_DEBUG("djvImagePrefs::djvImagePrefs");
-
     djvPrefs prefs("djvImagePrefs", djvPrefs::SYSTEM);
-
     djvOpenGlImageFilter filter;
-
     if (prefs.get("filter", filter))
     {
         djvOpenGlImageFilter::setFilter(filter);
@@ -59,9 +54,7 @@ djvImagePrefs::djvImagePrefs(QObject * parent) :
 djvImagePrefs::~djvImagePrefs()
 {
     //DJV_DEBUG("djvImagePrefs::~djvImagePrefs");
-
     djvPrefs prefs("djvImagePrefs", djvPrefs::SYSTEM);
-
     prefs.set("filter", djvOpenGlImageFilter::filter());
 }
 
@@ -74,8 +67,6 @@ void djvImagePrefs::setFilter(const djvOpenGlImageFilter & filter)
 {
     if (filter == this->filter())
         return;
-
     djvOpenGlImageFilter::setFilter(filter);
-
     Q_EMIT filterChanged(filter);
 }

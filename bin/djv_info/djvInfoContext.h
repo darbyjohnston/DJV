@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvInfoContext.h
-
-#ifndef DJV_INFO_CONTEXT_H
-#define DJV_INFO_CONTEXT_H
+#pragma once
 
 #include <djvImageContext.h>
 #include <djvSequence.h>
@@ -51,51 +48,37 @@ class djvInfoContext : public djvImageContext
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvInfoContext(QObject * parent = 0);
-
-    //! Denstructor.
 
     virtual ~djvInfoContext();
 
-    //! Get the list of inputs.
-    
+    //! Get the list of inputs.    
     const QStringList & input() const;
     
     //! Get whether to show image information.
-    
     bool hasInfo() const;
     
     //! Get whether to show verbose information.
-    
     bool hasVerbose() const;
     
     //! Get whether to show file paths.
-    
     bool hasFilePath() const;
     
     //! Get the file sequencing.
-    
     djvSequence::COMPRESS sequence() const;
     
     // Get whether to descend into sub-directories.
-    
     bool hasRecurse() const;
 
     //! Get the number of columns for formatting the output.
-    
     int columns() const;
 
 protected:
-
     virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
 
 private:
-
     QStringList           _input;
     bool                  _info;
     bool                  _verbose;
@@ -107,4 +90,3 @@ private:
 
 //@} // djv_info
 
-#endif // DJV_INFO_CONTEXT_H

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequencePrefs.h
-
-#ifndef DJV_SEQUENCE_PREFS_H
-#define DJV_SEQUENCE_PREFS_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -51,8 +48,7 @@ class DJV_GUI_EXPORT djvSequencePrefs : public QObject
 {
     Q_OBJECT
     
-    //! This property holds the maximum number of frames a sequence can hold.
-    
+    //! This property holds the maximum number of frames a sequence can hold.    
     Q_PROPERTY(
         qint64 maxFrames
         READ   maxFrames
@@ -60,34 +56,22 @@ class DJV_GUI_EXPORT djvSequencePrefs : public QObject
         NOTIFY maxFramesChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvSequencePrefs(QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvSequencePrefs();
 
     //! Get the maximum number of frames a sequence can hold.
-
     qint64 maxFrames() const;
 
 public Q_SLOTS:
-
     //! Set the maximum number of frames a sequence can hold.
-
     void setMaxFrames(qint64);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the maximum number of frames in a sequence
     //! is changed.
-
     void maxFramesChanged(qint64);
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_SEQUENCE_PREFS_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolMenu.h
-
-#ifndef DJV_VIEW_TOOL_MENU_H
-#define DJV_VIEW_TOOL_MENU_H
+#pragma once
 
 #include <djvViewAbstractMenu.h>
 
@@ -52,25 +49,17 @@ class DJV_VIEW_LIB_EXPORT djvViewToolMenu : public djvViewAbstractMenu
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewToolMenu(
         djvViewAbstractActions * actions,
         QWidget *                parent  = 0);
 
-    //! Destructor.
-
     virtual ~djvViewToolMenu();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewToolMenu);
     
     djvViewToolMenuPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_TOOL_MENU_H
 

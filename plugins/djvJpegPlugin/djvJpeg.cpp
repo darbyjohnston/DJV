@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvJpeg.cpp
-
 #include <djvJpeg.h>
 
 #include <djvAssert.h>
@@ -56,9 +54,7 @@ const QStringList & djvJpeg::optionsLabels()
 {
     static const QStringList data = QStringList() <<
         qApp->translate("djvJpeg", "Quality");
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
 
@@ -70,9 +66,7 @@ extern "C"
 void djvJpegError(libjpeg::j_common_ptr in)
 {
     djvJpegErrorStruct * error = (djvJpegErrorStruct *)in->err;
-
     in->err->format_message(in, error->msg);
-
     ::longjmp(error->jump, 1);
 }
 
@@ -80,11 +74,8 @@ void djvJpegWarning(libjpeg::j_common_ptr in, int level)
 {
     if (level > 0)
         return;
-
     djvJpegErrorStruct * error = (djvJpegErrorStruct *)in->err;
-
     in->err->format_message(in, error->msg);
-
     ::longjmp(error->jump, 1);
 }
 

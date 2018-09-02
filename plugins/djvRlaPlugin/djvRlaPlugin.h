@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRlaPlugin.h
-
-#ifndef DJV_RLA_PLUGIN_H
-#define DJV_RLA_PLUGIN_H
+#pragma once
 
 #include <djvRla.h>
 
@@ -50,19 +47,13 @@
 class djvRlaPlugin : public djvImageIo
 {
 public:
-
-    //! Constrcutor.
-    
     explicit djvRlaPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
     
     virtual djvImageLoad * createLoad() const;
 };
 
 //@} // djvRlaPlugin
-
-#endif // DJV_RLA_PLUGIN_H
 

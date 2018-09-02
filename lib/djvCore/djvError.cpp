@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvError.cpp
-
 #include <djvError.h>
 
 #include <QList>
@@ -66,21 +64,18 @@ djvError::djvError()
 djvError::djvError(const QString & string)
 {
     init();
-
     _p->messages += Message(QString(), string);
 }
 
 djvError::djvError(const QString & prefix, const QString & string)
 {
     init();
-
     _p->messages += Message(prefix, string);
 }
 
 djvError::djvError(const djvError & other)
 {
     init();
-
     _p->messages = other._p->messages;
 }
 
@@ -115,7 +110,6 @@ djvError & djvError::operator = (const djvError & other)
     {
         _p->messages = other._p->messages;
     }
-
     return *this;
 }
 

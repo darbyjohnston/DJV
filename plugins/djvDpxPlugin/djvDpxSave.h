@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpxSave.h
-
-#ifndef DJV_DPX_SAVE_H
-#define DJV_DPX_SAVE_H
+#pragma once
 
 #include <djvDpx.h>
 #include <djvDpxHeader.h>
@@ -53,12 +50,7 @@
 class djvDpxSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     djvDpxSave(const djvDpx::Options &, djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvDpxSave();
 
@@ -69,7 +61,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
@@ -81,6 +72,4 @@ private:
 };
 
 //@} // djvDpxPlugin
-
-#endif // DJV_DPX_SAVE_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSystem.cpp
-
 #include <djvSystem.h>
 
 #include <djvAssert.h>
@@ -74,7 +72,6 @@ djvSystem::~djvSystem()
 
 namespace
 {
-
 enum WINDOWS
 {
     WINDOWS_UNKNOWN,
@@ -100,14 +97,11 @@ WINDOWS windowsVersion()
     WINDOWS out = WINDOWS_UNKNOWN;
 
     // Get OS version information.
-
     ::OSVERSIONINFOEX info;
     djvMemory::zero(&info, sizeof(::OSVERSIONINFOEX));
     info.dwOSVersionInfoSize = sizeof(::OSVERSIONINFOEX);
-
     if (! ::GetVersionEx((::OSVERSIONINFO *)&info))
         return out;
-
     //DJV_DEBUG_PRINT("version major = " <<
     //    static_cast<int>(info.dwMajorVersion));
     //DJV_DEBUG_PRINT("version minor = " <<
@@ -116,10 +110,8 @@ WINDOWS windowsVersion()
     //    (info.wProductType == VER_NT_WORKSTATION ? 1 : 0));
 
     // Get system informaion.
-
     ::SYSTEM_INFO systemInfo;
     djvMemory::zero(&systemInfo, sizeof(::SYSTEM_INFO));
-
     if (PGNSI pGNSI = (PGNSI)::GetProcAddress(
         ::GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"))
     {
@@ -131,18 +123,14 @@ WINDOWS windowsVersion()
     }
 
     // Use OS version and system information to determnine the version name.
-
     switch (info.dwMajorVersion)
     {
         case 5:
-
             switch (info.dwMinorVersion)
             {
                 case 0: out = WINDOWS_2000; break;
                 case 1: out = WINDOWS_XP;   break;
-
                 case 2:
-
                     if (
                         VER_NT_WORKSTATION == info.wProductType &&
                         PROCESSOR_ARCHITECTURE_AMD64 ==
@@ -152,7 +140,6 @@ WINDOWS windowsVersion()
                         
                         break;
                     }
-
                     if (GetSystemMetrics(SM_SERVERR2) == 0)
                     {
                         out = WINDOWS_SERVER_2003;
@@ -161,18 +148,13 @@ WINDOWS windowsVersion()
                     {
                         out = WINDOWS_SERVER_2003_R2;
                     }
-
                     break;
             }
-
             break;
-
         case 6:
-
             switch (info.dwMinorVersion)
             {
                 case 0:
-                
                     if (info.wProductType == VER_NT_WORKSTATION)
                     {
                         out = WINDOWS_VISTA;
@@ -181,11 +163,8 @@ WINDOWS windowsVersion()
                     {
                         out = WINDOWS_SERVER_2008;
                     }
-
                     break;
-                
                 case 1:
-                
                     if (info.wProductType == VER_NT_WORKSTATION)
                     {
                         out = WINDOWS_7;
@@ -194,15 +173,11 @@ WINDOWS windowsVersion()
                     {
                         out = WINDOWS_SERVER_2008_R2;
                     }
-
                     break;
             }
-
             break;
     }
-
     //DJV_DEBUG_PRINT("out = " << out);
-
     return out;
 }
 
@@ -219,9 +194,7 @@ const QStringList & windowsLabels()
         qApp->translate("djvSystem", "Windows Server 2008") <<
         qApp->translate("djvSystem", "Windows 7") <<
         qApp->translate("djvSystem", "Windows Server 2008 R2");
-
     DJV_ASSERT(data.count() == _WINDOWS_SIZE);
-
     return data;
 }
 
@@ -232,37 +205,28 @@ const QStringList & windowsLabels()
 QString djvSystem::info()
 {
     QString out;
-
 #if defined(DJV_WINDOWS)
-
     out = windowsLabels()[windowsVersion()];
-
 #else // DJV_WINDOWS
-
     ::utsname info;
     uname(&info);
-
     out = QString("%1 %2 %3").
         arg(info.sysname).
         arg(info.release).
         arg(info.machine);
-
 #endif // DJV_WINDOWS
-
     return out;
 }
     
 const QString & djvSystem::djvPathEnv()
 {
     static const QString var = "DJV_PATH";
-    
     return var;
 }
 
 const QString & djvSystem::ldLibPathEnv()
 {
     static const QString var = "LD_LIBRARY_PATH";
-    
     return var;
 }
 
@@ -273,65 +237,46 @@ QStringList djvSystem::searchPath()
     QStringList out;
 
     // Add paths from environment variables.
-
     QString path = env(djvPathEnv());
-
     if (! path.isEmpty())
     {
         //DJV_DEBUG_PRINT("DJV_PATH = " << path);
-
         QString match;
         Q_FOREACH(QChar c, djvFileInfoUtil::listSeparators)
             match += c;
-        
         out += path.split(
             QRegExp(QString("[%1]+").arg(match)),
             QString::SkipEmptyParts);
     }
-
     path = env(ldLibPathEnv());
-
     if (! path.isEmpty())
     {
         //DJV_DEBUG_PRINT("LD_LIBRARY_PATH = " << path);
-
         QString match;
         Q_FOREACH(QChar c, djvFileInfoUtil::listSeparators)
             match += c;
-        
         //DJV_DEBUG_PRINT("match = " << match);
-
         out += path.split(
             QRegExp(QString("[%1]+").arg(match)),
             QString::SkipEmptyParts);
     }
 
     // Add the application path.
-    
     //DJV_DEBUG_PRINT("qApp = " << qApp);
-        
     const QString applicationPath = qApp->applicationDirPath();
-
     //DJV_DEBUG_PRINT("application path = " << applicationPath);
-
     out += applicationPath;
     
     // Add library and translation paths.
-
     out += QDir(applicationPath + "/../lib").absolutePath();
     out += QDir(applicationPath + "/../translations").absolutePath();
-
 #if defined(DJV_WINDOWS) || defined(DJV_OSX)
-
     const QString dirName = QDir(qApp->applicationDirPath()).dirName();
-
     out += QDir(applicationPath + "/../../lib/" + dirName).absolutePath();
     out += QDir(applicationPath + "/../../translations/" + dirName).absolutePath();
-
 #endif
 
-    // Add the build directories.
-    
+    // Add the build directories.    
     out += QDir("lib/djvCore").absolutePath();
     out += QDir("lib/djvGui").absolutePath();
     out += QDir("lib/djvViewLib").absolutePath();
@@ -340,22 +285,16 @@ QStringList djvSystem::searchPath()
     out += QDir("bin/djv_convert").absolutePath();
 
     // Add the current directory.
-
     out += ".";
-
+    
     //DJV_DEBUG_PRINT("out = " << out);
-
     QSet<QString> set;
-
     for (int i = 0; i < out.count(); ++i)
         set.insert(out[i]);
-
     QList<QString> list = set.toList();
-
     out.clear();
     Q_FOREACH(const QString & s, list)
         out += s;
-
     return out;
 }
 
@@ -364,48 +303,36 @@ QString djvSystem::findFile(const QString & fileName)
     Q_FOREACH(const QString & path, searchPath())
     {
         QFileInfo fileInfo(path + "/" + fileName);
-        
         if (fileInfo.exists())
         {
             return fileInfo.absoluteFilePath();
         }
     }
-    
     return QString();
 }
 
 int djvSystem::terminalWidth()
 {
     int out = 80;
-
 #if defined(DJV_WINDOWS)
-
     HANDLE h = ::GetStdHandle(STD_OUTPUT_HANDLE);
-
     if (h != INVALID_HANDLE_VALUE)
     {
         CONSOLE_SCREEN_BUFFER_INFO info;
-
         if (::GetConsoleScreenBufferInfo(h, &info))
         {
             out = info.dwSize.X;
         }
     }
-
 #else // DJV_WINDOWS
-
     struct winsize ws;
     ws.ws_col = 0;
-
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1)
     {
         ws.ws_col = 80;
     }
-
     out = ws.ws_col;
-
 #endif // DJV_WINDOWS
-
     return out;
 }
 
@@ -413,20 +340,16 @@ void djvSystem::print(const QString & in, bool newline, int indent)
 {
     //DJV_DEBUG("djvSystem::print");
     //DJV_DEBUG_PRINT("newline = " << newline);
-    
-    const QStringList lines = in.split('\n');
-    
-    const int width = terminalWidth() - 1 - indent;
 
+    const QStringList lines = in.split('\n');
+    const int width = terminalWidth() - 1 - indent;
     //DJV_DEBUG_PRINT("lines = " << lines.count());
     //DJV_DEBUG_PRINT("width = " << width);
 
     for (int i = 0; i < lines.count(); ++i)
     {
         QString line = lines[i];
-        
         QStringList chunks;
-        
         if (line.length() > width)
         {
             int indent = 0;
@@ -437,23 +360,17 @@ void djvSystem::print(const QString & in, bool newline, int indent)
                 ' ' == line[indent];
                 ++indent)
                 ;
-            
             line.remove(0, indent);
-            
             while (line.length() > 0)
             {
                 //DJV_DEBUG_PRINT("line = \"" << line << "\"");
-                
                 int l = djvMath::min(width - indent, line.length());
                 if (l < line.length())
                     for (; l > 0 && ' ' != line[l - 1]; --l)
                         ;
-                
                 const int r = l > 0 ? l : (width - indent);
                 const QString chunk = line.mid(0, r);
-                
                 //DJV_DEBUG_PRINT("chunk = \"" << chunk << "\"");
-                
                 chunks += QString(indent, ' ') + chunk;
                 line.remove(0, r);
             }
@@ -463,8 +380,7 @@ void djvSystem::print(const QString & in, bool newline, int indent)
             chunks += line;
         }
         
-        /*::printf("%s", chunks.join("\n").toLatin1().data());
-        
+        /*::printf("%s", chunks.join("\n").toLatin1().data());        
         if (i < lines.count() - 1)
         {
             ::printf("\n");
@@ -475,13 +391,11 @@ void djvSystem::print(const QString & in, bool newline, int indent)
             ::printf("%s", QString("%1%2").
                 arg("", -indent).
                 arg(chunks[j]).toLatin1().data());
-
             if (j < chunks.count() - 1)
             {
                 ::printf("\n");
             }
         }
-
         if (i < lines.count() - 1)
         {
             ::printf("\n");
@@ -506,71 +420,52 @@ int djvSystem::exec(const QString & in)
 QString djvSystem::env(const QString & in)
 {
     QString out;
-
 #   if defined(DJV_WINDOWS)
-
     size_t size = 0;
-
     char * p = 0;
-
     if (0 == _dupenv_s(&p, &size, in.toLatin1().data()))
     {
         out = p;
     }
-
     if (p)
     {
         free(p);
     }
-
 #   else // DJV_WINDOWS
-
     if (const char * p = ::getenv(in.toLatin1().data()))
     {
         out = p;
     }
-
 #   endif // DJV_WINDOWS
-
     return out;
 }
 
 bool djvSystem::setEnv(const QString & var, const QString & value)
 {
 #if defined(DJV_WINDOWS)
-
     return ::_putenv_s(var.toLatin1().data(), value.toLatin1().data()) == 0;
-
 #else // DJV_WINDOWS
-
     return ::setenv(var.toLatin1().data(), value.toLatin1().data(), 1) == 0;
-
 #endif // DJV_WINDOWS
 }
 
 QStringList djvSystem::drives()
 {
     QStringList out;
-    
     Q_FOREACH(const QFileInfo & fileInfo, QDir::drives())
     {
         out += fileInfo.absoluteFilePath();
     }
-    
 #if defined(DJV_OSX)
-
     Q_FOREACH(const QFileInfo & fileInfo, QDir("/Volumes").entryInfoList())
     {
         const QString & path = fileInfo.absoluteFilePath();
-        
         if (! out.contains(path))
         {
             out += path;
         }
     }
-
 #endif // DJV_OSX
-    
     return out;
 }
 

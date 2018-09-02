@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMatrixUtilInline.h
-
 //------------------------------------------------------------------------------
 // djvMatrixUtil
 //------------------------------------------------------------------------------
@@ -42,7 +40,6 @@ template<typename T, int D>
 inline djvMatrix<T, D> djvMatrixUtil::transpose(const djvMatrix<T, D> & in)
 {
     djvMatrix<T, D> out;
-
     for (int i = 0; i < D; ++i)
     {
         for (int j = 0; j < D; ++j)
@@ -50,7 +47,6 @@ inline djvMatrix<T, D> djvMatrixUtil::transpose(const djvMatrix<T, D> & in)
             out.e[j * D + i] = in.e[i * D + j];
         }
     }
-
     return out;
 }
 
@@ -58,14 +54,11 @@ template<typename T, int D, int D2>
 inline djvMatrix<T, D> djvMatrixUtil::translate(const djvVector<T, D2> & in)
 {
     //DJV_ASSERT((D - 1) == D2);
-
     djvMatrix<T, D> out;
-
     for (int i = 0; i < D2; ++i)
     {
         out.e[(D - 1) * D + i] = in.e[i];
     }
-
     return out;
 }
 
@@ -78,14 +71,11 @@ template<typename T, int D, int D2>
 inline djvMatrix<T, D> djvMatrixUtil::scale(const djvVector<T, D2> & in)
 {
     //DJV_ASSERT((D - 1) == D2);
-
     djvMatrix<T, D> out;
-
     for (int i = 0; i < D2; ++i)
     {
         out.e[i * D + i] = in.e[i];
     }
-
     return out;
 }
 
@@ -98,7 +88,6 @@ inline djvMatrix3f djvMatrixUtil::rotate3f(double in)
 {
     const double cos = djvMath::cos(djvMath::degreesToRadians(in));
     const double sin = djvMath::sin(djvMath::degreesToRadians(in));
-
     return djvMatrix3f(
         cos,  sin, 0,
         -sin, cos, 0,
@@ -109,17 +98,14 @@ template <typename T, typename T2, int D>
 inline djvMatrix<T2, D> djvMatrixUtil::convert(const djvMatrix<T, D> & in)
 {
     djvMatrix<T2, D> out;
-
     for (int i = 0; i < out.dimensionX2; ++i)
     {
         out.e[i] = T2(in.e[i]);
     }
-
     return out;
 }
 
 //! \todo This matrix conversion is probably wrong.
-
 template <typename T>
 inline djvMatrix<T, 4> djvMatrixUtil::matrix4(const djvMatrix<T, 3> & in)
 {
@@ -129,3 +115,4 @@ inline djvMatrix<T, 4> djvMatrixUtil::matrix4(const djvMatrix<T, 3> & in)
         0.0,     0.0,     in.e[8], 0.0,
         in.e[6], in.e[7], 0.0,     1.0);
 }
+

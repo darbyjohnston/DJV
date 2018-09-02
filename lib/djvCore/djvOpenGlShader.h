@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlShader.h
-
-#ifndef DJV_OPEN_GL_SHADER_H
-#define DJV_OPEN_GL_SHADER_H
+#pragma once
 
 #include <djvError.h>
 #include <djvOpenGl.h>
@@ -46,39 +43,28 @@
 class DJV_CORE_EXPORT djvOpenGlShader
 {
 public:
-
-    //! Constructor.
-    
     djvOpenGlShader();
 
-    //! Destructor.
-    
     ~djvOpenGlShader();
 
     //! Initialize the shader.
-    
     void init(
         const QString & vertexSource,
         const QString & fragmentSource) throw (djvError);
 
     //! Bind the shader.
-    
     void bind();
     
     //! Get the shader vertex source.
-    
     const QString & vertexSource() const;
     
     //! Get the shader fragment source.
-
     const QString & fragmentSource() const;
 
     //! Get the shader program ID.
-    
     gl::GLuint program() const;
 
 private:
-
     void del();
 
     QString    _vertexSource;
@@ -88,4 +74,3 @@ private:
     gl::GLuint _programId;
 };
 
-#endif // DJV_OPEN_GL_SHADER_H

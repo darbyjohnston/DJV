@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractTool.cpp
-
 #include <djvViewAbstractTool.h>
 
 #include <djvViewContext.h>
@@ -86,3 +84,4 @@ djvViewContext * djvViewAbstractTool::context() const
 {
     return _p->context;
 }
+

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelData.h
-
-#ifndef DJV_PIXEL_DATA_H
-#define DJV_PIXEL_DATA_H
+#pragma once
 
 #include <djvPixel.h>
 
@@ -62,33 +59,18 @@ class DJV_CORE_EXPORT djvPixelDataInfo
     Q_ENUMS(PROXY)
     
 public:
-
-    //! Constructor.
-
     djvPixelDataInfo();
-
-    //! Constructor.
-
     djvPixelDataInfo(
         const djvVector2i & size,
         djvPixel::PIXEL     pixel);
-
-    //! Constructor.
-
     djvPixelDataInfo(
         int             width,
         int             height,
         djvPixel::PIXEL pixel);
-
-    //! Constructor.
-
     djvPixelDataInfo(
         const QString &     fileName,
         const djvVector2i & size,
         djvPixel::PIXEL     pixel);
-
-    //! Constructor.
-
     djvPixelDataInfo(
         const QString & fileName,
         int             width,
@@ -96,7 +78,6 @@ public:
         djvPixel::PIXEL pixel);
 
     //! This enumeration provides the proxy scale.
-
     enum PROXY
     {
         PROXY_NONE,
@@ -108,11 +89,9 @@ public:
     };
 
     //! Get the proxy scale labels.
-
     static const QStringList & proxyLabels();
     
     //! This struct provides mirroring.
-    
     struct DJV_CORE_EXPORT Mirror
     {
         Mirror(bool x = false, bool y = false);
@@ -132,7 +111,6 @@ public:
     djvMemory::ENDIAN endian;
 
 private:
-
     void init();
 };
 
@@ -145,100 +123,70 @@ private:
 class DJV_CORE_EXPORT djvPixelData
 {
 public:
-
-    //! Constructor.
-
     djvPixelData();
-
-    //! Constructor.
-
     djvPixelData(const djvPixelData &);
-
-    //! Constructor.
-
     djvPixelData(const djvPixelDataInfo &, const quint8 * = 0, djvFileIo * = 0);
-
-    //! Destructor.
 
     virtual ~djvPixelData();
 
     //! Set the pixel data.
-
     void set(const djvPixelDataInfo &, const quint8 * = 0, djvFileIo * = 0);
 
     //! Zero the pixel data.
-
     void zero();
 
     //! Get the pixel data information.
-
     inline const djvPixelDataInfo & info() const;
 
     //! Get the dimensions.
-
     inline const djvVector2i & size() const;
 
     //! Get the proxy scale.
-
     inline djvPixelDataInfo::PROXY proxy() const;
 
     //! Get the width.
-
     inline int w() const;
 
     //! Get the height.
-
     inline int h() const;
 
     //! Get the pixel type.
-
     inline djvPixel::PIXEL pixel() const;
 
     //! Get the number of channels.
-
     inline int channels() const;
 
     //! Get whether the pixel data is valid.
-
     inline bool isValid() const;
 
     //! Get a pointer to the data.
-
     inline quint8 * data();
 
     //! Get a pointer to the data.
-
     inline const quint8 * data() const;
 
     //! Get a pointer to the data.
-
     inline quint8 * data(int x, int y);
 
     //! Get a pointer to the data.
-
     inline const quint8 * data(int x, int y) const;
 
     //! Get the number of bytes in a pixel.
-
     inline quint64 pixelByteCount() const;
 
     //! Get the number of bytes in a scanline.
-
     inline quint64 scanlineByteCount() const;
 
     //! Get the number of bytes in the data.
-
     inline quint64 dataByteCount() const;
     
     //! Close the file I/O associated with the pixel data. This will initialize
     //! the image.
-    
     void close();
 
     djvPixelData & operator = (const djvPixelData &);
 
 private:
-
     void init();
     void detach();
     void copy(const djvPixelData &);
@@ -252,8 +200,6 @@ private:
     quint64                 _dataByteCount;
     djvFileIo *             _fileIo;
 };
-
-//------------------------------------------------------------------------------
 
 Q_DECLARE_METATYPE(djvPixelDataInfo)
 Q_DECLARE_METATYPE(djvPixelData)
@@ -273,6 +219,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelData);
 //@} // djvCoreImage
 
 #include <djvPixelDataInline.h>
-
-#endif // DJV_PIXEL_DATA_H
 

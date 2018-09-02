@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreContext.cpp
-
 #include <djvCoreContext.h>
 
 #include <djvAssert.h>
@@ -78,14 +76,12 @@ djvCoreContext::djvCoreContext(QObject * parent) :
     //DJV_DEBUG("djvCoreContext::djvCoreContext");
     
     // Register meta types.
-    
     qRegisterMetaType<djvFileInfo>("djvFileInfo");
     qRegisterMetaType<djvFileInfoList>("djvFileInfoList");
     qRegisterMetaType<djvSequence>("djvSequence");
     qRegisterMetaType<djvSequence::COMPRESS>("djvSequence::COMPRESS");
     
     // Load translators.
-    
     QTranslator * qtTranslator = new QTranslator(this);
     qtTranslator->load("qt_" + QLocale::system().name(),
         QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -96,20 +92,17 @@ djvCoreContext::djvCoreContext(QObject * parent) :
 
 djvCoreContext::~djvCoreContext()
 {
-    //DJV_DEBUG("djvCoreContext::~djvCoreContext");
-    
+    //DJV_DEBUG("djvCoreContext::~djvCoreContext");    
     delete _p;
 }
 
 bool djvCoreContext::commandLine(int & argc, char ** argv)
 {
     QStringList args;
-    
     for (int i = 1; i < argc; ++i)
     {
         args += argv[i];
     }
-
     DJV_LOG(debugLog(), "djvCoreContext",
         QString("Command line: %1").arg(djvStringUtil::addQuotes(args).join(", ")));
     DJV_LOG(debugLog(), "djvCoreContext", "");
@@ -133,7 +126,6 @@ bool djvCoreContext::commandLine(int & argc, char ** argv)
     DJV_LOG(debugLog(), "djvCoreContext", "Information:");
     DJV_LOG(debugLog(), "djvCoreContext", "");
     DJV_LOG(debugLog(), "djvCoreContext", info());
-    
     return true;
 }
 
@@ -161,7 +153,6 @@ QString djvCoreContext::info() const
 "    Locale: %7\n"
 "    Search path: %8\n"
 "    Qt version: %9\n");
-
     return QString(label).
         arg(DJV_PROJECT_NAME).
         arg(djvStringUtil::label(djvTime::units()).join(", ")).
@@ -273,7 +264,6 @@ QString djvCoreContext::about() const
 "    zlib\n"
 "    http://www.zlib.net/\n"
 "    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n");
-
     return QString(label).arg(DJV_PROJECT_NAME);
 }
     
@@ -300,7 +290,6 @@ void djvCoreContext::printMessage(const QString & string)
 void djvCoreContext::printError(const djvError & error)
 {
     const QStringList list = djvErrorUtil::format(error);
-    
     for (int i = list.count() - 1; i >= 0; --i)
     {
         print(list[i]);
@@ -311,21 +300,16 @@ void djvCoreContext::loadTranslator(const QString & baseName)
 {
     DJV_LOG(debugLog(), "djvCoreContext",
         QString("Searching for translator: \"%1\"").arg(baseName));
-
     const QString fileName = djvSystem::findFile(
         QString("%1_%2.qm").arg(baseName).arg(QLocale::system().name()));
-    
     if (! fileName.isEmpty())
     {
         DJV_LOG(debugLog(), "djvCoreContext",
             QString("Found translator: \"%1\"").arg(fileName));
-
         QTranslator * qTranslator = new QTranslator(qApp);
         qTranslator->load(fileName);
-        
         qApp->installTranslator(qTranslator);
     }
-    
     DJV_LOG(debugLog(), "djvCoreContext", "");
 }
 
@@ -333,10 +317,8 @@ bool djvCoreContext::commandLineParse(QStringList & in) throw (QString)
 {
     //DJV_DEBUG("djvCoreContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
-
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
@@ -344,7 +326,6 @@ bool djvCoreContext::commandLineParse(QStringList & in) throw (QString)
             in >> arg;
 
             // General options.
-
             if (
                 qApp->translate("djvCoreContext", "-time_units") == arg)
             {
@@ -405,18 +386,15 @@ bool djvCoreContext::commandLineParse(QStringList & in) throw (QString)
             }
 
 #if defined(DJV_OSX)
-
             else if (
                 qApp->translate("djvCoreContext", "-psn_") == arg.mid(0, 5))
             {
                 //! \todo Ignore the Mac OS process id command line argument.
                 //! Is this still necessary?
             }
-
 #endif
 
             // Leftovers.
-
             else
             {
                 tmp << arg;
@@ -426,12 +404,9 @@ bool djvCoreContext::commandLineParse(QStringList & in) throw (QString)
     catch (const QString &)
     {
         in = tmp;
-        
         throw QString(arg);
     }
-
     in = tmp;
-    
     return true;
 }
 
@@ -456,7 +431,6 @@ QString djvCoreContext::commandLineHelp() const
 "        Show the information message.\n"
 "    -about\n"
 "        Show the about message.\n");
-
     return QString(label).
         arg(djvTime::unitsLabels().join(", ")).
         arg(djvStringUtil::label(djvTime::units()).join(", ")).
@@ -470,12 +444,9 @@ void djvCoreContext::consolePrint(const QString & string, bool newline, int inde
     if (_p->separator)
     {
         djvSystem::print("");
-
         const_cast<djvCoreContext *>(this)->_p->separator = false;
     }
-
     djvSystem::print(string, newline, indent);
-
     const_cast<djvCoreContext *>(this)->_p->endline = ! newline;
 }
 

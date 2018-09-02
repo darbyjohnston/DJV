@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvToolButton.cpp
-
 #include <djvToolButton.h>
 
 #include <djvSignalBlocker.h>
@@ -71,7 +69,6 @@ djvToolButton::djvToolButton(const QIcon & icon, QWidget * parent) :
     _p(new djvToolButtonPrivate)
 {
     setIcon(icon);
-
     widgetUpdate();
 }
 
@@ -84,7 +81,6 @@ void djvToolButton::setDefaultAction(QAction * action)
 {
     if (action == _p->defaultAction)
         return;
-
     if (_p->defaultAction)
     {
         disconnect(
@@ -92,13 +88,11 @@ void djvToolButton::setDefaultAction(QAction * action)
             SIGNAL(toggled(bool)),
             this,
             SLOT(setChecked(bool)));
-
         disconnect(
             _p->defaultAction,
             SIGNAL(changed()),
             this,
             SLOT(widgetUpdate()));
-
         disconnect(
             this,
             SIGNAL(toggled(bool)),
@@ -116,12 +110,10 @@ void djvToolButton::setDefaultAction(QAction * action)
             _p->defaultAction,
             SIGNAL(toggled(bool)),
             SLOT(setChecked(bool)));
-
         connect(
             _p->defaultAction,
             SIGNAL(changed()),
             SLOT(widgetUpdate()));
-
         connect(
             this,
             SIGNAL(toggled(bool)),
@@ -133,15 +125,11 @@ void djvToolButton::setDefaultAction(QAction * action)
 QSize djvToolButton::sizeHint() const
 {
     QSize sizeHint(25, 25);
-
     const int margin = 2;
-
     QStyleOptionToolButton opt;
     opt.iconSize = icon().actualSize(sizeHint);
     opt.iconSize += QSize(margin * 2, margin * 2);
-
     sizeHint = opt.iconSize.expandedTo(QApplication::globalStrut());
-
     return sizeHint;
 }
 
@@ -162,19 +150,13 @@ void djvToolButton::paintEvent(QPaintEvent * event)
     djvAbstractToolButton::paintEvent(event);
     
     QPainter painter(this);
-    
-    // Draw the icon.
-
     QIcon::Mode  mode  = QIcon::Normal;
     QIcon::State state = QIcon::Off;
-
     if (! isEnabled())
         mode = QIcon::Disabled;
     if (isChecked())
         state = QIcon::On;
-
     const QPixmap & pixmap = icon().pixmap(width(), height(), mode, state);
-
     painter.drawPixmap(
         width () / 2 - pixmap.width () / 2,
         height() / 2 - pixmap.height() / 2,
@@ -184,16 +166,13 @@ void djvToolButton::paintEvent(QPaintEvent * event)
 void djvToolButton::widgetUpdate()
 {
     //djvSignalBlocker signalBlocker(this);
-
     if (_p->defaultAction)
     {
         setText(_p->defaultAction->text());
         setIcon(_p->defaultAction->icon());
         setToolTip(_p->defaultAction->toolTip());
-
         setCheckable(_p->defaultAction->isCheckable());
         setChecked(_p->defaultAction->isChecked());
-
         setAutoRepeat(_p->defaultAction->autoRepeat());
     }
 }

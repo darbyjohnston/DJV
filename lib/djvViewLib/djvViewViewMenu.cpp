@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewMenu.cpp
-
 #include <djvViewViewMenu.h>
 
 #include <djvViewViewActions.h>
@@ -47,7 +45,6 @@ djvViewViewMenu::djvViewViewMenu(
     djvViewAbstractMenu(actions, parent)
 {
     // Create the menus.
-
     addAction(actions->action(djvViewViewActions::LEFT));
     addAction(actions->action(djvViewViewActions::RIGHT));
     addAction(actions->action(djvViewViewActions::UP));
@@ -75,7 +72,6 @@ djvViewViewMenu::djvViewViewMenu(
     addAction(actions->action(djvViewViewActions::HUD));
 
     // Initialize.
-
     setTitle(qApp->translate("djvViewViewMenu", "&View"));
 }
 

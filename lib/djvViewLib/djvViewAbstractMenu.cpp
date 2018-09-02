@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractMenu.cpp
-
 #include <djvViewAbstractMenu.h>
 
 #include <djvViewAbstractActions.h>
@@ -58,8 +56,6 @@ djvViewAbstractMenu::djvViewAbstractMenu(
     QMenu(parent),
     _p(new djvViewAbstractMenuPrivate(actions))
 {
-    // Setup the callbacks.
-
     connect(
         actions,
         SIGNAL(changed()),
@@ -78,3 +74,4 @@ djvViewAbstractActions * djvViewAbstractMenu::actions() const
 
 void djvViewAbstractMenu::menuUpdate()
 {}
+

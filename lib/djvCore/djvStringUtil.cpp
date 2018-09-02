@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvStringUtil.cpp
-
 #include <djvStringUtil.h>
 
 #include <djvAssert.h>
@@ -51,13 +49,11 @@ djvStringUtil::~djvStringUtil()
 
 QStringList djvStringUtil::addQuotes(const QStringList & list)
 {
-    QStringList tmp;
-    
+    QStringList tmp;    
     Q_FOREACH(const QString & s, list)
     {
         tmp += QString("\"%1\"").arg(s);
     }
-    
     return tmp;
 }
 
@@ -66,7 +62,6 @@ const QStringList & djvStringUtil::boolLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvStringUtil", "False") <<
         qApp->translate("djvStringUtil", "True");
-
     return data;
 }
 
@@ -77,70 +72,51 @@ int djvStringUtil::cString(
     bool            terminate)
 {
     DJV_ASSERT(maxLen >= 0);
-    
     const QByteArray & b = string.toLatin1();
-
     const char * c = b.data();
-
     const int length =
         maxLen ?
         djvMath::min(
             string.length(),
             maxLen - static_cast<int>(terminate)) :
         (string.length() + static_cast<int>(terminate));
-
     int i = 0;
-
     for (; i < length; ++i)
     {
         out[i] = c[i];
     }
-
     if (terminate)
     {
         out[i++] = 0;
     }
-
     return i;
 }
-
-//------------------------------------------------------------------------------
 
 bool djvSerialize(QStringList & in, QString & out)
 {
     const int count = in.count();
-
     if (! count)
         return false;
-
     out = in.first();
-
     in.pop_front();
-
     return true;
 }
 
 bool djvSerialize(QStringList & in, unsigned int & out, const QStringList & labels)
 {
     const int count = in.count();
-
     if (! count)
         return false;
-
     const int labelCount = labels.count();
-
     for (int i = 0; i < labelCount; ++i)
     {
         if (0 == in[0].compare(labels[i], Qt::CaseInsensitive))
         {
             in.pop_front();
-
             out = static_cast<unsigned int>(i);
-
             return true;
         }
     }
-
     return false;
 }
 
@@ -148,28 +124,22 @@ QStringList & operator >> (QStringList & in, QString & out) throw (QString)
 {
     if (! djvSerialize(in, out))
         throw in.join(" ");
-
     return in;
 }
 
 QStringList & operator >> (QStringList & in, QStringList & out) throw (QString)
 {
     out = in;
-
     in.clear();
-
     return in;
 }
 
 QStringList & operator >> (QStringList & in, bool & out) throw (QString)
 {
     unsigned int i = 0;
-
     if (! djvSerialize(in, i, djvStringUtil::boolLabels()))
         throw in.join(" ");
-
     out = i != 0;
-
     return in;
 }
 
@@ -216,65 +186,50 @@ QStringList & operator >> (QStringList & in, double & out) throw (QString)
 QStringList & operator << (QStringList & out, const char * in)
 {
     out += QString(in);
-
     return out;
 }
 
 QStringList & operator << (QStringList & out, bool in)
 {
     out += djvStringUtil::boolLabels()[in];
-
     return out;
 }
 
 QStringList & operator << (QStringList & out, int in)
 {
     char tmp[djvStringUtil::cStringLength];
-
     djvStringUtil::intToString<int>(in, tmp);
-
     out += tmp;
-
     return out;
 }
 
 QStringList & operator << (QStringList & out, unsigned int in)
 {
     char tmp[djvStringUtil::cStringLength];
-
     djvStringUtil::intToString<unsigned int>(in, tmp);
-
     out += tmp;
-
     return out;
 }
 
 QStringList & operator << (QStringList & out, qint64 in)
 {
     char tmp[djvStringUtil::cStringLength];
-
     djvStringUtil::intToString<qint64>(in, tmp);
-
     out += tmp;
-
     return out;
 }
 
 QStringList & operator << (QStringList & out, quint64 in)
 {
     char tmp[djvStringUtil::cStringLength];
-
     djvStringUtil::intToString<quint64>(in, tmp);
-
     out += tmp;
-
     return out;
 }
 
 QStringList & operator << (QStringList & out, double in)
 {
     out += QString::number(in);
-
     return out;
 }
 

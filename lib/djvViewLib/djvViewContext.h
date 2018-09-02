@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewContext.h
-
-#ifndef DJV_VIEW_CONTEXT_H
-#define DJV_VIEW_CONTEXT_H
+#pragma once
 
 #include <djvViewUtil.h>
 
@@ -68,111 +65,82 @@ class DJV_VIEW_LIB_EXPORT djvViewContext : public djvGuiContext
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvViewContext(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewContext();
     
     //! Get the list of inputs.
-    
     const QStringList & input() const;
 
     //! Get whether to combine the inputs.
-    
     bool hasCombine() const;
 
     //! Get the file sequencing.
-    
     djvSequence::COMPRESS sequence() const;
     
     //! Get whether to automatically detext sequences.
-
     bool hasAutoSequence() const;
     
     //! Get the file layer.
-
     const QScopedPointer<int> & fileLayer() const;
 
     //! Get the file proxy.
-    
     const QScopedPointer<djvPixelDataInfo::PROXY> & fileProxy() const;
 
     //! Get whether the file cache is enabled.
-    
     const QScopedPointer<bool> & hasFileCache() const;
 
     //! Get whether the window is full screen.
-    
     const QScopedPointer<bool> & isWindowFullScreen() const;
 
     //! Get the playback.
-    
     const QScopedPointer<djvViewUtil::PLAYBACK> & playback() const;
 
     //! Get the playback frame.
-    
     const QScopedPointer<int> & playbackFrame() const;
 
     //! Get the playback speed.
-    
     const QScopedPointer<djvSpeed> & playbackSpeed() const;
     
     //! Get the file preferences.
-    
     djvViewFilePrefs * filePrefs() const;
     
     //! Get the image preferences.
-    
     djvViewImagePrefs * imagePrefs() const;
     
     //! Get the input preferences.
-    
     djvViewInputPrefs * inputPrefs() const;
     
     //! Get the playback preferences.
-    
     djvViewPlaybackPrefs * playbackPrefs() const;
     
     //! Get the shortcut preferences.
-    
     djvViewShortcutPrefs * shortcutPrefs() const;
     
     //! Get the view preferences.
-    
     djvViewViewPrefs * viewPrefs() const;
     
     //! Get the window preferences.
-    
     djvViewWindowPrefs * windowPrefs() const;
     
     //! Get the file cache.
-    
     djvViewFileCache * fileCache() const;
     
     //! Get the file save.
-    
     djvViewFileSave * fileSave() const;
 
     virtual void setValid(bool);
 
 protected:
-
     virtual bool commandLineParse(QStringList &) throw (QString);
     
     virtual QString commandLineHelp() const;
 
 private:
-
     DJV_PRIVATE_COPY(djvViewContext);
     
     djvViewContextPrivate * _p;
 };
 
 //@} // djvViewHelp
-
-#endif // DJV_VIEW_CONTEXT_H
 

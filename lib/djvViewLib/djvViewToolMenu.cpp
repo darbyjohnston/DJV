@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolMenu.cpp
-
 #include <djvViewToolMenu.h>
 
 #include <djvViewUtil.h>
@@ -56,14 +54,12 @@ djvViewToolMenu::djvViewToolMenu(
     _p(new djvViewToolMenuPrivate)
 {
     // Create the menus.
-    
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
     {
         addAction(actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]);
     }
 
     // Initialize.
-
     setTitle(qApp->translate("djvViewToolMenu", "&Tools"));
 }
 

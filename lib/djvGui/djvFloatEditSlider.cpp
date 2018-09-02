@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatEditSlider.cpp
-
 #include <djvFloatEditSlider.h>
 
 #include <djvIconLibrary.h>
@@ -102,37 +100,30 @@ djvFloatEditSlider::djvFloatEditSlider(djvGuiContext * context, QWidget * parent
         _p->edit,
         SIGNAL(valueChanged(double)),
         SLOT(valueCallback()));
-
     connect(
         _p->edit,
         SIGNAL(minChanged(double)),
         SIGNAL(minChanged(double)));
-
     connect(
         _p->edit,
         SIGNAL(maxChanged(double)),
         SIGNAL(maxChanged(double)));
-
     connect(
         _p->edit,
         SIGNAL(rangeChanged(double, double)),
         SIGNAL(rangeChanged(double, double)));
-
     connect(
         _p->edit->object(),
         SIGNAL(defaultValidChanged(bool)),
         SLOT(widgetUpdate()));
-
     connect(
         _p->edit->object(),
         SIGNAL(defaultValueChanged(double)),
         SIGNAL(defaultValueChanged(double)));
-    
     connect(
         _p->slider,
         SIGNAL(valueChanged(double)),
         SLOT(sliderCallback(double)));
-    
     connect(
         _p->defaultButton,
         SIGNAL(clicked()),
@@ -198,7 +189,6 @@ void djvFloatEditSlider::setDefaultValue(double value)
 {
     //DJV_DEBUG("djvFloatEditSlider::setDefaultValue");
     //DJV_DEBUG_PRINT("in = " << value);
-    
     _p->edit->object()->setDefaultValue(value);
 }
 
@@ -206,9 +196,7 @@ void djvFloatEditSlider::setResetToDefault(bool value)
 {
     if (value == _p->resetToDefault)
         return;
-
     _p->resetToDefault = value;
-
     widgetUpdate();
 }
 
@@ -239,7 +227,6 @@ void djvFloatEditSlider::setInc(double smallInc, double largeInc)
 void djvFloatEditSlider::valueCallback()
 {
     widgetUpdate();
-    
     Q_EMIT valueChanged(_p->edit->value());
 }
 
@@ -260,14 +247,11 @@ void djvFloatEditSlider::widgetUpdate()
     //DJV_DEBUG_PRINT("min = " << min());
     //DJV_DEBUG_PRINT("max = " << max());
     //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
-    
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->edit <<
         _p->slider <<
         _p->defaultButton);
-    
     _p->slider->setValue(_p->edit->value());
-
     _p->defaultButton->setVisible(_p->resetToDefault);
     _p->defaultButton->setDisabled(_p->edit->object()->isDefaultValid());
 }

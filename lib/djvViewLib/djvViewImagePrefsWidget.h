@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImagePrefsWidget.h
-
-#ifndef DJV_VIEW_IMAGE_PREFS_WIDGET_H
-#define DJV_VIEW_IMAGE_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -54,19 +51,13 @@ class djvViewImagePrefsWidget : public djvViewAbstractPrefsWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewImagePrefsWidget(djvViewContext *);
-
-    //! Destructor.
 
     virtual ~djvViewImagePrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void frameStoreFileReloadCallback(bool);
     void mirrorHCallback(bool);
     void mirrorVCallback(bool);
@@ -84,13 +75,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewImagePrefsWidget);
     
     djvViewImagePrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_IMAGE_PREFS_WIDGET_H
 

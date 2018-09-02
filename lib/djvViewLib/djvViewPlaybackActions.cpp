@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackActions.cpp
-
 #include <djvViewPlaybackActions.h>
 
 #include <djvViewContext.h>
@@ -64,17 +62,14 @@ djvViewPlaybackActions::djvViewPlaybackActions(
     _p(new djvViewPlaybackActionsPrivate)
 {
     // Create the actions.
-
     for (int i = 0; i < ACTION_COUNT; ++i)
     {
         _actions[i] = new QAction(this);
     }
-
     _actions[PLAYBACK_TOGGLE]->setText(
         qApp->translate("djvViewPlaybackActions", "Toggle Playback"));
     _actions[PLAYBACK_TOGGLE]->setToolTip(
         qApp->translate("djvViewPlaybackActions", "Toggle playback"));
-    
     _actions[EVERY_FRAME]->setText(
         qApp->translate("djvViewPlaybackActions", "Ever&y Frame"));
     _actions[EVERY_FRAME]->setCheckable(true);
@@ -83,20 +78,17 @@ djvViewPlaybackActions::djvViewPlaybackActions(
         qApp->translate("djvViewPlaybackActions", "Set whether every frame is played back"));
     
     // Create the action groups.
-
     for (int i = 0; i < GROUP_COUNT; ++i)
     {
         _groups[i] = new QActionGroup(this);
     }
-
+    
     _groups[PLAYBACK_GROUP] = new QActionGroup(this);
     _groups[PLAYBACK_GROUP]->setExclusive(true);
-
     const QVector<QIcon> playbackIcons = QVector<QIcon>() <<
         context->iconLibrary()->icon("djvPlayReverseIcon.png") <<
         context->iconLibrary()->icon("djvPlayStopIcon.png") <<
         context->iconLibrary()->icon("djvPlayForwardIcon.png");
-
     for (int i = 0; i < djvViewUtil::PLAYBACK_COUNT; ++i)
     {
         QAction * action = new QAction(
@@ -109,12 +101,10 @@ djvViewPlaybackActions::djvViewPlaybackActions(
 
     _groups[LOOP_GROUP] = new QActionGroup(this);
     _groups[LOOP_GROUP]->setExclusive(true);
-    
     const QVector<QIcon> loopIcons = QVector<QIcon>() <<
         context->iconLibrary()->icon("djvPlayLoopOnceIcon.png") <<
         context->iconLibrary()->icon("djvPlayLoopRepeatIcon.png") <<
         context->iconLibrary()->icon("djvPlayLoopPingPongIcon.png");
-
     for (int i = 0; i < djvViewUtil::LOOP_COUNT; ++i)
     {
         QAction * action = new QAction(
@@ -127,7 +117,6 @@ djvViewPlaybackActions::djvViewPlaybackActions(
 
     _groups[FRAME_GROUP] = new QActionGroup(this);
     _groups[FRAME_GROUP]->setExclusive(false);
-
     const QVector<QIcon> frameIcons = QVector<QIcon>() <<
         context->iconLibrary()->icon("djvFrameStartIcon.png") <<
         QIcon() <<
@@ -139,7 +128,6 @@ djvViewPlaybackActions::djvViewPlaybackActions(
         QIcon() <<
         context->iconLibrary()->icon("djvFrameEndIcon.png") <<
         QIcon();
-
     for (int i = 0; i < djvViewUtil::FRAME_COUNT; ++i)
     {
         QAction * action = new QAction(
@@ -151,7 +139,6 @@ djvViewPlaybackActions::djvViewPlaybackActions(
 
     _groups[IN_OUT_GROUP] = new QActionGroup(this);
     _groups[IN_OUT_GROUP]->setExclusive(false);
-
     const QVector<QIcon> inOutIcons = QVector<QIcon>() <<
         context->iconLibrary()->icon("djvPlayInOutIcon.png") <<
         context->iconLibrary()->icon("djvInPointMarkIcon.png") <<
@@ -159,7 +146,6 @@ djvViewPlaybackActions::djvViewPlaybackActions(
         context->iconLibrary()->icon("djvInPointResetIcon.png") <<
         context->iconLibrary()->icon("djvOutPointResetIcon.png") <<
         QIcon();
-
     for (int i = 0; i < djvViewUtil::IN_OUT_COUNT; ++i)
     {
         QAction * action = new QAction(
@@ -167,7 +153,6 @@ djvViewPlaybackActions::djvViewPlaybackActions(
             djvViewUtil::inOutLabels()[i],
             _groups[IN_OUT_GROUP]);
         action->setData(i);
-        
         if (djvViewUtil::IN_OUT_ENABLE == i)
         {
             action->setCheckable(true);
@@ -176,23 +161,19 @@ djvViewPlaybackActions::djvViewPlaybackActions(
 
     _groups[LAYOUT_GROUP] = new QActionGroup(this);
     _groups[LAYOUT_GROUP]->setExclusive(true);
-
     for (int i = 0; i < djvViewUtil::LAYOUT_COUNT; ++i)
     {
         QAction * action = new QAction(this);
         action->setText(djvViewUtil::layoutLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
-
         _groups[LAYOUT_GROUP]->addAction(action);
     }
 
     // Initialize.
-
     update();
 
     // Setup the callbacks.
-
     connect(
         context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -210,31 +191,25 @@ void djvViewPlaybackActions::update()
         context()->shortcutPrefs()->shortcuts();
     
     // Update the actions.
-    
     QKeySequence key = shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_TOGGLE].value;
-    
     _actions[PLAYBACK_TOGGLE]->setShortcut(key);
     _actions[PLAYBACK_TOGGLE]->setToolTip(
         qApp->translate("djvViewPlaybackActions", "Toggle playback\n\nShortcut: %1").
         arg(key.toString()));
     
     // Update the action groups.
-    
     const QVector<djvViewUtil::SHORTCUT> playbackShortcuts =
         QVector<djvViewUtil::SHORTCUT>() <<
         djvViewUtil::SHORTCUT_PLAYBACK_REVERSE <<
         djvViewUtil::SHORTCUT_PLAYBACK_STOP <<
         djvViewUtil::SHORTCUT_PLAYBACK_FORWARD;
-
     const QStringList playbackToolTips = QStringList() <<
         qApp->translate("djvViewPlaybackActions", "Start reverse playback\n\nShortcut: %1") <<
         qApp->translate("djvViewPlaybackActions", "Stop playback\n\nShortcut: %1") <<
         qApp->translate("djvViewPlaybackActions", "Start forward playback\n\nShortcut: %1");
-
     for (int i = 0; i < djvViewUtil::PLAYBACK_COUNT; ++i)
     {
         const QKeySequence key = shortcuts[playbackShortcuts[i]].value;
-
         _groups[PLAYBACK_GROUP]->actions()[i]->setShortcut(key);
         _groups[PLAYBACK_GROUP]->actions()[i]->setToolTip(
             playbackToolTips[i].arg(key.toString()));
@@ -251,7 +226,6 @@ void djvViewPlaybackActions::update()
         true  <<
         false <<
         false;
-
     const QVector<djvViewUtil::SHORTCUT> frameShortcuts =
         QVector<djvViewUtil::SHORTCUT>() <<
         djvViewUtil::SHORTCUT_PLAYBACK_START <<
@@ -264,7 +238,6 @@ void djvViewPlaybackActions::update()
         djvViewUtil::SHORTCUT_PLAYBACK_NEXT_100 <<
         djvViewUtil::SHORTCUT_PLAYBACK_END <<
         djvViewUtil::SHORTCUT_PLAYBACK_END_ABS;
-
     const QStringList frameToolTips = QStringList() <<
         qApp->translate("djvViewPlaybackActions", "Go to the start frame or in point\n\nShortcut: %1") <<
         QString() <<
@@ -276,11 +249,9 @@ void djvViewPlaybackActions::update()
         QString() <<
         qApp->translate("djvViewPlaybackActions", "Go to the end frame or out point\n\nShortcut: %1") <<
         QString();
-
     for (int i = 0; i < djvViewUtil::FRAME_COUNT; ++i)
     {
         const QKeySequence key = shortcuts[frameShortcuts[i]].value;
-
         _groups[FRAME_GROUP]->actions()[i]->setAutoRepeat(frameAutoRepeat[i]);
         _groups[FRAME_GROUP]->actions()[i]->setShortcut(key);
         if (! frameToolTips[i].isEmpty())
@@ -295,28 +266,23 @@ void djvViewPlaybackActions::update()
         djvViewUtil::SHORTCUT_PLAYBACK_MARK_OUT <<
         djvViewUtil::SHORTCUT_PLAYBACK_RESET_IN <<
         djvViewUtil::SHORTCUT_PLAYBACK_RESET_OUT;
-
     const QStringList inOutToolTips = QStringList() <<
         qApp->translate("djvViewPlaybackActions", "Enable in/out points\n\nShortcut: %1") <<
         qApp->translate("djvViewPlaybackActions", "Set the current frame as the in point\n\nShortcut: %1") <<
         qApp->translate("djvViewPlaybackActions", "Set the current frame as the out point\n\nShortcut: %1") <<
         qApp->translate("djvViewPlaybackActions", "Reset the in point\n\nShortcut: %1") <<
         qApp->translate("djvViewPlaybackActions", "Reset the out point\n\nShortcut: %1");
-
     for (int i = 0; i < djvViewUtil::IN_OUT_COUNT; ++i)
     {
         const QKeySequence key = shortcuts[inOutShortcuts[i]].value;
-
         _groups[IN_OUT_GROUP]->actions()[i]->setShortcut(key);
         _groups[IN_OUT_GROUP]->actions()[i]->setToolTip(
             inOutToolTips[i].arg(key.toString()));
     }
 
     // Fix up the actions.
-    
     osxMenuHack();
 
     // Emit changed signal.
-
     Q_EMIT changed();
 }

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewFilePrefs.h
-
-#ifndef DJV_VIEW_FILE_PREFS_H
-#define DJV_VIEW_FILE_PREFS_H
+#pragma once
 
 #include <djvViewAbstractPrefs.h>
 
@@ -55,145 +52,106 @@ class DJV_VIEW_LIB_EXPORT djvViewFilePrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewFilePrefs(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewFilePrefs();
 
     //! Add a recent file.
-
     void addRecent(const djvFileInfo &);
 
     //! Get the recent files.
-
     const djvFileInfoList & recentFiles() const;
 
     //! Get the default for whether sequences are automatically opened.
-    
     static bool autoSequenceDefault();
 
     //! Get whether sequences are automatically opened.
-
     bool hasAutoSequence() const;
 
     //! Get the default proxy scale.
-    
     static djvPixelDataInfo::PROXY proxyDefault();
 
     //! Get the proxy scale.
-
     djvPixelDataInfo::PROXY proxy() const;
 
     //! Get the default for whether images are converted to 8-bits.
-    
     static bool u8ConversionDefault();
     
     //! Get whether images are converted to 8-bits.
-    
     bool hasU8Conversion() const;
 
     //! Get the default for whether the cache is enabled.
-    
     static bool cacheDefault();
 
     //! Get whether the cache is enabled.
-
     bool hasCache() const;
 
     //! Get the default cache size in gigabytes.
-    
     static double cacheSizeDefault();
 
     //! Get the cache size in gigabytes.
-
     double cacheSize() const;
 
     //! Get the default for whether the cache is pre-loaded.
-
     static bool preloadDefault();
 
     //! Get wheter the cache is pre-loaded.
-
     bool hasPreload() const;
 
     //! Get the default for whether the cache is displayed in the timeline.
-    
     static bool displayCacheDefault();
 
     //! Get whether the cache is displayed in the timeline.
-
     bool hasDisplayCache() const;
 
 public Q_SLOTS:
-
     //! Set whether sequences are automatically opened.
-
     void setAutoSequence(bool);
 
     //! Set the proxy scale.
-
     void setProxy(djvPixelDataInfo::PROXY);
 
     //! Set whether images are converted to 8-bits.
-    
     void setU8Conversion(bool);
     
     //! Set whether the cache is enabled.
-
     void setCache(bool);
 
     //! Set the cache size in gigabytes.
-
     void setCacheSize(double);
     
     //! Set whether the cache pre-load is enabled.
-
     void setPreload(bool);
 
     //! Set whether the cache is displayed in the timeline.
-
     void setDisplayCache(bool);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the recent files are changed.
-
     void recentChanged(const djvFileInfoList &);
     
     //! This signal is emitted when automatic sequences is changed.
-
     void autoSequenceChanged(bool);
     
     //! This signal is emitted when the proxy scale is changed.
-
     void proxyChanged(djvPixelDataInfo::PROXY);
     
     //! This signal is emitted when 8-bit conversion is changed.
-
     void u8ConversionChanged(bool);
     
     //! This signal is emitted when the cache is enabled or disabled.
-
     void cacheChanged(bool);
     
     //! This signal is emitted when the cache size is changed.
-    
     void cacheSizeChanged(double);
     
     //! This signal is emitted when the cache pre-load is changed.
-
     void preloadChanged(bool);
 
     //! This signal is emitted when the cache display is changed.
-
     void displayCacheChanged(bool);
 
 private:
-
     djvFileInfoList         _recent;
     bool                    _autoSequence;
     djvPixelDataInfo::PROXY _proxy;
@@ -205,6 +163,4 @@ private:
 };
 
 //@} // djvViewFile
-
-#endif // DJV_VIEW_FILE_PREFS_H
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackPrefsWidget.cpp
-
 #include <djvViewPlaybackPrefsWidget.h>
 
 #include <djvViewContext.h>
@@ -75,7 +73,6 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context)
     _p(new djvViewPlaybackPrefsWidgetPrivate)
 {
     // Create the widgets.
-
     _p->autoStartWidget = new QCheckBox(
         qApp->translate("djvViewPlaybackPrefsWidget", "Start playback when opening files"));
 
@@ -91,7 +88,6 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context)
     _p->layoutWidget->addItems(djvViewUtil::layoutLabels());
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
@@ -115,26 +111,21 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context)
     layout->addStretch();
 
     // Initialize.
-    
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->autoStartWidget,
         SIGNAL(toggled(bool)),
         SLOT(autoStartCallback(bool)));
-
     connect(
         _p->loopWidget,
         SIGNAL(activated(int)),
         SLOT(loopCallback(int)));
-
     connect(
         _p->everyFrameWidget,
         SIGNAL(toggled(bool)),
         SLOT(everyFrameCallback(bool)));
-
     connect(
         _p->layoutWidget,
         SIGNAL(activated(int)),
@@ -156,7 +147,6 @@ void djvViewPlaybackPrefsWidget::resetPreferences()
         djvViewPlaybackPrefs::everyFrameDefault());
     context()->playbackPrefs()->setLayout(
         djvViewPlaybackPrefs::layoutDefault());
-    
     widgetUpdate();
 }
 
@@ -167,8 +157,7 @@ void djvViewPlaybackPrefsWidget::autoStartCallback(bool in)
 
 void djvViewPlaybackPrefsWidget::loopCallback(int in)
 {
-    context()->playbackPrefs()->setLoop(
-        static_cast<djvViewUtil::LOOP>(in));
+    context()->playbackPrefs()->setLoop(static_cast<djvViewUtil::LOOP>(in));
 }
 
 void djvViewPlaybackPrefsWidget::everyFrameCallback(bool in)
@@ -178,8 +167,7 @@ void djvViewPlaybackPrefsWidget::everyFrameCallback(bool in)
 
 void djvViewPlaybackPrefsWidget::layoutCallback(int in)
 {
-    context()->playbackPrefs()->setLayout(
-        static_cast<djvViewUtil::LAYOUT>(in));
+    context()->playbackPrefs()->setLayout(static_cast<djvViewUtil::LAYOUT>(in));
 }
 
 void djvViewPlaybackPrefsWidget::widgetUpdate()
@@ -189,16 +177,12 @@ void djvViewPlaybackPrefsWidget::widgetUpdate()
         _p->loopWidget <<
         _p->everyFrameWidget <<
         _p->layoutWidget);
-    
     _p->autoStartWidget->setChecked(
         context()->playbackPrefs()->hasAutoStart());
-    
     _p->loopWidget->setCurrentIndex(
         context()->playbackPrefs()->loop());
-    
     _p->everyFrameWidget->setChecked(
         context()->playbackPrefs()->hasEveryFrame());
-    
     _p->layoutWidget->setCurrentIndex(
         context()->playbackPrefs()->layout());
 }

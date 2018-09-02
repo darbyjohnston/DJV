@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiff.h
-
-#ifndef DJV_TIFF_H
-#define DJV_TIFF_H
+#pragma once
 
 #include <djvStringUtil.h>
 
@@ -71,12 +68,10 @@
 struct djvTiff
 {
     //! The plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the file compression. Note that libtiff
     //! defines similar values so we prefix ours with "_".
-
     enum COMPRESSION
     {
         _COMPRESSION_NONE,
@@ -87,12 +82,10 @@ struct djvTiff
     };
 
     //! Get compression labels.
-
     static const QStringList & compressionLabels();
 
     //! Load a palette.
-
-   static void paletteLoad(
+    static void paletteLoad(
         quint8 *  out,
         int       size,
         int       bytes,
@@ -101,7 +94,6 @@ struct djvTiff
         quint16 * blue);
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         COMPRESSION_OPTION,
@@ -110,11 +102,9 @@ struct djvTiff
     };
 
     //! Get option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
         Options();
@@ -123,11 +113,7 @@ struct djvTiff
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvTiff::COMPRESSION);
 
 //@} // djvTiffPlugin
-
-#endif // DJV_TIFF_H
 

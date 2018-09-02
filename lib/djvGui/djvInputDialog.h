@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvInputDialog.h
-
-#ifndef DJV_INPUT_DIALOG_H
-#define DJV_INPUT_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,40 +53,29 @@ class DJV_GUI_EXPORT djvInputDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvInputDialog(
         const QString & label  = QString(),
         const QString & text   = QString(),
         QWidget *       parent = 0);
 
-    //! Destructor.
-
     virtual ~djvInputDialog();
 
     //! Get the label.
-
     const QString & label() const;
 
     //! Set the label.
-
     void setLabel(const QString &);
 
     //! Get the text.
-
     const QString & text() const;
 
     //! Set the text.
-
     void setText(const QString &);
     
 private Q_SLOTS:
-
     void textCallback();
     
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvInputDialog);
@@ -98,6 +84,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_INPUT_DIALOG_H
 

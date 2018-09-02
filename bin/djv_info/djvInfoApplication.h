@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvInfoApplication.h
-
-#ifndef DJV_INFO_APPLICATION_H
-#define DJV_INFO_APPLICATION_H
+#pragma once
 
 #include <djvError.h>
 #include <djvFileInfo.h>
@@ -65,22 +62,15 @@ class djvInfoApplication : public QCoreApplication
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvInfoApplication(int, char **);
 
-    //! Destructor.
-    
     virtual ~djvInfoApplication();
 
 private Q_SLOTS:
-
     void commandLineExit();
     void work();
 
 private:
-
     void printItem(const djvFileInfo &, bool path = false, bool info = true)
         throw (djvError);
 
@@ -91,4 +81,3 @@ private:
 
 //@} // djv_info
 
-#endif // DJV_INFO_APPLICATION_H

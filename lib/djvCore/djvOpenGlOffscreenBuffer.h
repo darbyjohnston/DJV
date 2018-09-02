@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlOffscreenBuffer.h
-
-#ifndef DJV_OPEN_GL_OFFSCREEN_BUFFER_H
-#define DJV_OPEN_GL_OFFSCREEN_BUFFER_H
+#pragma once
 
 #include <djvError.h>
 #include <djvOpenGl.h>
@@ -54,37 +51,26 @@
 class DJV_CORE_EXPORT djvOpenGlOffscreenBuffer
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlOffscreenBuffer(const djvPixelDataInfo &) throw (djvError);
-
-    //! Destructor.
 
     ~djvOpenGlOffscreenBuffer();
 
     //! Get the offscreen buffer information.
-
     const djvPixelDataInfo & info() const;
 
     //! Get the offscreen buffer ID.
-
     gl::GLuint id() const;
 
     //! Get the offscreen buffer texture ID.
-
     gl::GLuint texture() const;
 
     //! Bind the offscreen buffer.
-
     void bind();
 
     //! Unbind the offscreen buffer.
-
     void unbind();
     
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_CREATE_TEXTURE,
@@ -96,11 +82,9 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 
 private:
-
     DJV_PRIVATE_COPY(djvOpenGlOffscreenBuffer);
 
     djvPixelDataInfo _info;
@@ -118,17 +102,11 @@ private:
 class DJV_CORE_EXPORT djvOpenGlOffscreenBufferScope
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlOffscreenBufferScope(djvOpenGlOffscreenBuffer *);
-
-    //! Destructor.
 
     ~djvOpenGlOffscreenBufferScope();
 
 private:
-
     DJV_PRIVATE_COPY(djvOpenGlOffscreenBufferScope);
 
     djvOpenGlOffscreenBuffer * _buffer;
@@ -136,4 +114,3 @@ private:
 
 //@} // djvCoreOpenGL
 
-#endif // DJV_OPEN_GL_OFFSCREEN_BUFFER_H

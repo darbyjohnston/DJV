@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLutWidget.cpp
-
 #include <djvLutWidget.h>
 
 #include <djvGuiContext.h>
@@ -64,13 +62,11 @@ djvLutWidget::djvLutWidget(djvImageIo * plugin, djvGuiContext * context) :
     _typeWidget(0)
 {
     // Create the widgets.
-
     _typeWidget = new QComboBox;
     _typeWidget->addItems(djvLut::typeLabels());
     _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -87,20 +83,16 @@ djvLutWidget::djvLutWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(plugin->options()[djvLut::TYPE_OPTION]);
     tmp >> _options.type;
-
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _typeWidget,
         SIGNAL(activated(int)),
@@ -113,7 +105,6 @@ djvLutWidget::~djvLutWidget()
 void djvLutWidget::resetPreferences()
 {
     _options = djvLut::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -124,21 +115,18 @@ void djvLutWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(
             plugin()->options()[djvLut::TYPE_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.type;
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvLutWidget::typeCallback(int in)
 {
     _options.type = static_cast<djvLut::TYPE>(in);
-
     pluginUpdate();
 }
 
@@ -153,7 +141,6 @@ void djvLutWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(QObjectList() <<
         _typeWidget);
-
     _typeWidget->setCurrentIndex(_options.type);
 }
 

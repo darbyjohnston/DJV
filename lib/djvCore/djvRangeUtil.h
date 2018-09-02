@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRangeUtil.h
-
-#ifndef DJV_RANGE_UTIL_H
-#define DJV_RANGE_UTIL_H
+#pragma once
 
 #include <djvRange.h>
 #include <djvSequence.h>
@@ -49,22 +46,16 @@
 class DJV_CORE_EXPORT djvRangeUtil
 {
 public:
-
-    //! Destructor.
-    
     inline virtual ~djvRangeUtil() = 0;
     
     //! Get whether a value is inside a range.
-
     template<typename T>
     static inline bool intersect(T, const djvRange<T> &);
 
     //! Get whether a value is inside a range.
-
     static inline bool intersect(int, const djvRange<int> &);
 
     //! Get the intersection of two ranges.
-
     template<typename T>
     static inline bool intersect(
         const djvRange<T> &,
@@ -72,33 +63,26 @@ public:
         djvRange<T> *);
 
     //! Get the intersection of two ranges.
-
     static inline bool intersect(
         const djvRange<int> &,
         const djvRange<int> &,
         djvRange<int> *);
 
     //! Get the bound of two ranges.
-
     template<typename T>
     static inline void bound(const djvRange<T> &, const djvRange<T> &, djvRange<T> *);
 
     //! Convert a sorted list of frames into ranges.
-
     static inline djvFrameRangeList range(const djvFrameList &);
     
     //! Convert a range into frames.
-
     static inline djvFrameList frames(const djvFrameRange &);
     
     //! Convert a list of ranges into frames.
-
     static inline djvFrameList frames(const djvFrameRangeList &);
 };
 
 //@} // djvCoreMath
 
 #include <djvRangeUtilInline.h>
-
-#endif // DJV_RANGE_UTIL_H
 

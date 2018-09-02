@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewShortcutPrefs.cpp
-
 #include <djvViewShortcutPrefs.h>
 
 #include <djvViewUtil.h>
@@ -48,11 +46,9 @@ djvViewShortcutPrefs::djvViewShortcutPrefs(djvViewContext * context, QObject * p
     _shortcuts(shortcutsDefault())
 {
     djvPrefs prefs("djvViewShortcutPrefs");
-
     for (int i = 0; i < _shortcuts.count(); ++i)
     {
         QStringList tmp;
-        
         if (prefs.get(_shortcuts[i].name, tmp))
         {
             djvShortcut::serialize(tmp, _shortcuts[i].value);
@@ -63,7 +59,6 @@ djvViewShortcutPrefs::djvViewShortcutPrefs(djvViewContext * context, QObject * p
 djvViewShortcutPrefs::~djvViewShortcutPrefs()
 {
     djvPrefs prefs("djvViewShortcutPrefs");
-
     for (int i = 0; i < _shortcuts.count(); ++i)
     {
         prefs.set(
@@ -293,9 +288,7 @@ const QVector<djvShortcut> & djvViewShortcutPrefs::shortcutsDefault()
             djvViewUtil::SHORTCUT_TOOL_HISTOGRAM], QKeySequence("3")) <<
         djvShortcut(djvViewUtil::shortcutLabels()[
             djvViewUtil::SHORTCUT_TOOL_INFO], QKeySequence("4"));
-
     DJV_ASSERT(data.count() == djvViewUtil::SHORTCUT_COUNT);
-
     return data;
 }
 
@@ -308,9 +301,7 @@ void djvViewShortcutPrefs::setShortcuts(const QVector<djvShortcut> & in)
 {
     if (in == _shortcuts)
         return;
-
     _shortcuts = in;
-
     Q_EMIT shortcutsChanged(_shortcuts);
     Q_EMIT prefChanged();
 }

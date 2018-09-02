@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOsxMenuHack.cpp
-
 #include <djvOsxMenuHack.h>
 
 #include <QAction>
@@ -67,7 +65,6 @@ djvOsxMenuHack::~djvOsxMenuHack()
     {
         delete shortcut;
     }
-    
     delete _p;
 }
 
@@ -86,52 +83,40 @@ bool fixKey(int key)
 
 void djvOsxMenuHack::fix(const QList<QAction *> & actions)
 {
+//! \todo
 #if defined(DJV_OSX) && QT_VERSION >= 0x050100 && QT_VERSION < 0x050400
-
     delete _p->mapper;
-
     _p->mapper = new QSignalMapper(this);
-
     connect(
         _p->mapper,
         SIGNAL(mapped(QObject *)),
         SLOT(actionCallback(QObject *)));
-    
     Q_FOREACH(QAction * action, actions)
     {
         QKeySequence key = action->shortcut();
-        
         bool fix = false;
-        
         for (int i = 0; i < key.count(); ++i)
         {
             fix |= fixKey(key[i]);
         }
-        
         if (fix)
         {
             QShortcut * shortcut = new QShortcut(key, action->parentWidget());
-            
             _p->mapper->setMapping(shortcut, action);
-
             _p->mapper->connect(
                 shortcut,
                 SIGNAL(activated()),
                 SLOT(map()));
-            
             //action->setShortcut(QKeySequence());
-            
             _p->shortcuts += shortcut;
         }
     }
-    
 #endif // DJV_OSX
 }
 
 void djvOsxMenuHack::actionCallback(QObject * object)
 {
     QAction * action = qobject_cast<QAction *>(object);
-    
     if (action && action->isEnabled())
     {
         action->trigger();

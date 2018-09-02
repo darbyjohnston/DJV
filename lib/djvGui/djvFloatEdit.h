@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFloatEdit.h
-
-#ifndef DJV_FLOAT_EDIT_H
-#define DJV_FLOAT_EDIT_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,7 +54,6 @@ class DJV_GUI_EXPORT djvFloatEdit : public QWidget
     Q_OBJECT
     
     //! This property holds the value.
-    
     Q_PROPERTY(
         double value
         READ   value
@@ -65,79 +61,57 @@ class DJV_GUI_EXPORT djvFloatEdit : public QWidget
         NOTIFY valueChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvFloatEdit(QWidget * parent = 0);
 
-    //! Destructor.
-    
     virtual ~djvFloatEdit();
 
     //! Get the value.
-
     double value() const;
 
     //! Get the minimum value.
-
     double min() const;
 
     //! Get the maximum value.
-
     double max() const;
 
     //! Get the floating-point object.
-
     djvFloatObject * object() const;
 
 public Q_SLOTS:
-
     //! Set the value.
-
     void setValue(double);
 
     //! Set the minimum value.
-
     void setMin(double);
 
     //! Set the maximum value.
-
     void setMax(double);
 
     //! Set the value range.
-
     void setRange(double min, double max);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the value is changed.
-
     void valueChanged(double);
 
     //! This signal is emitted when the minimum value is changed.
-
     void minChanged(double);
 
     //! This signal is emitted when the maximum value is changed.
-
     void maxChanged(double);
 
     //! This signal is emitted when the value range is changed.
-
     void rangeChanged(double, double);
     
 protected:
-
     virtual void keyPressEvent(QKeyEvent *);
 
 private Q_SLOTS:
-
     void valueCallback();
     void rangeCallback();
     void spinBoxCallback(double);
 
     void widgetUpdate();
-
 private:
 
     DJV_PRIVATE_COPY(djvFloatEdit);
@@ -146,6 +120,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_FLOAT_EDIT_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageView.h
-
-#ifndef DJV_VIEW_IMAGE_VIEW_H
-#define DJV_VIEW_IMAGE_VIEW_H
+#pragma once
 
 #include <djvViewUtil.h>
 
@@ -58,21 +55,14 @@ class DJV_VIEW_LIB_EXPORT djvViewImageView : public djvImageView
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewImageView(djvViewContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewImageView();
 
     //! Get whether the mouse is inside the view.
-
     bool isMouseInside() const;
 
     //! Get the mouse position.
-
     const djvVector2i & mousePos() const;
     
     virtual QSize sizeHint() const;
@@ -80,59 +70,44 @@ public:
     virtual QSize minimumSizeHint() const;
 
 public Q_SLOTS:
-
     //! Set the zoom using the mouse pointer for focus.
-
     void setZoomFocus(double);
 
     //! Set the grid.
-
     void setGrid(djvViewUtil::GRID);
 
     //! Set the grid color.
-
     void setGridColor(const djvColor &);
 
     //! Set whether the HUD is enabled.
-
     void setHudEnabled(bool);
 
     //! Set the HUD information.
-
     void setHudInfo(const djvViewHudInfo &);
 
     //! Set the HUD color.
-
     void setHudColor(const djvColor &);
 
     //! Set the HUD background.
-
     void setHudBackground(djvViewUtil::HUD_BACKGROUND);
 
     //! Set the HUD background color.
-
     void setHudBackgroundColor(const djvColor &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the view is picked.
-
     void pickChanged(const djvVector2i &);
 
     //! This signal is emitted when the mouse wheel is changed.
-
     void mouseWheelChanged(djvViewUtil::MOUSE_WHEEL);
 
     //! This signal is emitted when the mouse wheel value is changed.
-
     void mouseWheelValueChanged(int);
 
     //! This signal is emitted when a file is dropped on the view.
-
     void fileDropped(const djvFileInfo &);
 
 protected:
-
     virtual void timerEvent(QTimerEvent *);
     virtual void enterEvent(QEvent *);
     virtual void leaveEvent(QEvent *);
@@ -146,13 +121,10 @@ protected:
     virtual void paintGL();
 
 private Q_SLOTS:
-
     void hudInfoCallback(const QVector<bool> &);
 
 private:
-
     void drawGrid();
-
     void drawHud();
     void drawHud(
         const QStringList & upperLeft,
@@ -170,6 +142,4 @@ private:
 };
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_IMAGE_VIEW_H
 

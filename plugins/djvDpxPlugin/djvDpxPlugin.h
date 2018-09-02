@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpxPlugin.h
-
-#ifndef DJV_DPX_PLUGIN_H
-#define DJV_DPX_PLUGIN_H
+#pragma once
 
 #include <djvDpx.h>
 
@@ -50,35 +47,24 @@
 class djvDpxPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvDpxPlugin(djvCoreContext *);
     
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     djvDpx::Options _options;
 };
 
 //@} // djvDpxPlugin
-
-#endif // DJV_DPX_PLUGIN_H
 

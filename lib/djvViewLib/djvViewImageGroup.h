@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageGroup.h
-
-#ifndef DJV_VIEW_IMAGE_GROUP_H
-#define DJV_VIEW_IMAGE_GROUP_H
+#pragma once
 
 #include <djvViewAbstractGroup.h>
 #include <djvViewDisplayProfile.h>
@@ -57,78 +54,57 @@ class DJV_VIEW_LIB_EXPORT djvViewImageGroup : public djvViewAbstractGroup
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewImageGroup(
         const djvViewImageGroup * copy,
         djvViewMainWindow *       mainWindow,
         djvViewContext *          context);
 
-    //! Destructor.
-
     virtual ~djvViewImageGroup();
 
     //! Get whether the frame store is enabled.
-
     bool hasFrameStore() const;
 
     //! Get the mirror.
-
     const djvPixelDataInfo::Mirror & mirror() const;
 
     //! Get the scale.
-
     djvViewUtil::IMAGE_SCALE scale() const;
 
     //! Get the rotation.
-
     djvViewUtil::IMAGE_ROTATE rotate() const;
 
     //! Get whether the color profile is enabled.
-
     bool hasColorProfile() const;
 
     //! Get the display profile.
-
     const djvViewDisplayProfile & displayProfile() const;
 
     //! Get the image channel.
-
     djvOpenGlImageOptions::CHANNEL channel() const;
 
     virtual QToolBar * toolBar() const;
 
 public Q_SLOTS:
-
     //! Set the display profile.
-
     void setDisplayProfile(const djvViewDisplayProfile &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the frame store is changed.
-
     void frameStoreChanged(bool);
 
     //! This signal is emitted to store the current frame.
-
     void loadFrameStore();
 
     //! This signal is emitted when the display profile is changed.
-
     void displayProfileChanged(const djvViewDisplayProfile &);
 
     //! This signal is emitted when a redraw is needed.
-
     void redrawNeeded();
 
     //! This signal is emitted when a resize is needed.
-
     void resizeNeeded();
 
 private Q_SLOTS:
-
     void frameStoreCallback(bool);
     void mirrorCallback(const djvPixelDataInfo::Mirror &);
     void mirrorHCallback(bool);
@@ -145,13 +121,10 @@ private Q_SLOTS:
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewImageGroup);
     
     djvViewImageGroupPrivate * _p;
 };
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_IMAGE_GROUP_H
 

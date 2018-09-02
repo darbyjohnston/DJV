@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlImage.h
-
-#ifndef DJV_OPEN_GL_IMAGE_H
-#define DJV_OPEN_GL_IMAGE_H
+#pragma once
 
 #include <djvBox.h>
 #include <djvColor.h>
@@ -65,9 +62,6 @@ class djvOpenGlShader;
 class DJV_CORE_EXPORT djvOpenGlImageXform
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlImageXform();
 
     djvPixelDataInfo::Mirror mirror;
@@ -76,7 +70,6 @@ public:
     double                   rotate;
 
     //! Create a transform matrix.
-
     static djvMatrix3f xformMatrix(const djvOpenGlImageXform &);
 };
 
@@ -89,9 +82,6 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageColor
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlImageColor();
 
     double brightness;
@@ -99,19 +89,15 @@ public:
     double saturation;
 
     //! Create a brightness matrix.
-
     static djvMatrix4f brightnessMatrix(double r, double g, double b);
 
     //! Create a contrast matrix.
-
     static djvMatrix4f contrastMatrix(double r, double g, double b);
 
     //! Create a saturation matrix.
-
     static djvMatrix4f saturationMatrix(double r, double g, double b);
 
     //! Create a color matrix.
-
     static djvMatrix4f colorMatrix(const djvOpenGlImageColor &);
 };
 
@@ -124,9 +110,6 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageLevels
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlImageLevels();
 
     double inLow;
@@ -136,7 +119,6 @@ public:
     double outHigh;
 
     //! Create a lookup table from color levels.
-
     static djvPixelData colorLut(const djvOpenGlImageLevels &, double softClip);
 };
 
@@ -149,9 +131,6 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageDisplayProfile
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlImageDisplayProfile();
 
     djvPixelData         lut;
@@ -172,9 +151,7 @@ class DJV_CORE_EXPORT djvOpenGlImageFilter
     Q_ENUMS(FILTER)
     
 public:
-
     //! This enumeration provides the image filters.
-
     enum FILTER
     {
         NEAREST,
@@ -191,38 +168,27 @@ public:
     };
 
     //! Get the image filter labels.
-
     static const QStringList & filterLabels();
 
-    //! Constructor.
-
     djvOpenGlImageFilter();
-
-    //! Constructor.
-
     djvOpenGlImageFilter(FILTER min, FILTER mag);
 
     FILTER min;
     FILTER mag;
 
     //! Convert an image filter to OpenGL.
-
     static gl::GLenum toGl(FILTER);
 
     //! Get the default image filter.
-
     static djvOpenGlImageFilter filterDefault();
 
     //! Get the high quality image filter.
-
     static const djvOpenGlImageFilter & filterHighQuality();
 
     //! Get the global image filter.
-
     static const djvOpenGlImageFilter & filter();
 
     //! Set the global image filter.
-
     static void setFilter(const djvOpenGlImageFilter &);
 };
 
@@ -238,9 +204,7 @@ class DJV_CORE_EXPORT djvOpenGlImageOptions
     Q_ENUMS(CHANNEL)
 
 public:
-
     //! This enumeration provides the channels to display.
-
     enum CHANNEL
     {
         CHANNEL_DEFAULT,
@@ -253,10 +217,7 @@ public:
     };
 
     //! Get the channel labels.
-
     static const QStringList & channelLabels();
-
-    //! Constructor.
 
     djvOpenGlImageOptions();
 
@@ -278,17 +239,10 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageState
 {
 public:
-
-    //! Constructor.
-
     djvOpenGlImageState();
-
-    //! Destructor.
-
     ~djvOpenGlImageState();
 
 private:
-
     DJV_PRIVATE_COPY(djvOpenGlImageState);
 
     bool                  _init;
@@ -315,28 +269,21 @@ private:
 class DJV_CORE_EXPORT djvOpenGlImage
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvOpenGlImage() = 0;
 
     //! Draw pixel data.
-
     static void draw(
         const djvPixelData &          data,
         const djvOpenGlImageOptions & options = djvOpenGlImageOptions(),
         djvOpenGlImageState *         state = 0) throw (djvError);
 
     //! Read pixel data.
-
     static void read(djvPixelData &);
 
     //! Read pixel data.
-
     static void read(djvPixelData &, const djvBox2i &);
 
     //! Copy pixel data.
-
     static void copy(
         const djvPixelData &          input,
         djvPixelData &                output,
@@ -345,25 +292,21 @@ public:
         djvOpenGlOffscreenBuffer *    buffer  = 0) throw (djvError);
 
     //! Setup OpenGL state for image drawing.
-
     static void stateUnpack(
         const djvPixelDataInfo & info,
         const djvVector2i &      offset = djvVector2i());
 
     //! Setup OpenGL state for image reading.
-
     static void statePack(
         const djvPixelDataInfo & info,
         const djvVector2i &      offset = djvVector2i());
 
     //! Reset OpenGL state.
-
     static void stateReset();
 
     //! Calculate the average color.
     //!
     //! \todo Use a GPU implementation.
-
     static void average(
         const djvPixelData &   input,
         djvColor &             output,
@@ -372,7 +315,6 @@ public:
     //! Calculate the histogram.
     //!
     //! \todo Use a GPU implementation.
-
     static void histogram(
         const djvPixelData &   input,
         djvPixelData &         output,
@@ -382,11 +324,9 @@ public:
         const djvPixel::Mask & mask = djvPixel::Mask()) throw (djvError);
     
     //! Get a pixel.
-    
     static djvColor pixel(const djvPixelData &, int x, int y);
     
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_CREATE_TEXTURE,
@@ -396,11 +336,8 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 };
-
-//------------------------------------------------------------------------------
 
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
 DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
@@ -426,6 +363,4 @@ DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions::CHANNEL);
 
 //@} // djvCoreOpenGL
-
-#endif // DJV_OPEN_GL_IMAGE_H
 

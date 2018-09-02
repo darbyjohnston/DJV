@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebugLog.h
-
-#ifndef DJV_DEBUG_LOG_H
-#define DJV_DEBUG_LOG_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -54,45 +51,28 @@ class DJV_CORE_EXPORT djvDebugLog : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvDebugLog(QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvDebugLog();
     
-    //! Get the messages.
-    
+    //! Get the messages.    
     const QVector<QString> & messages() const;
     
 public Q_SLOTS:
-
     //! Add a message.
-    
     void addMessage(const QString & context, const QString & message);
     
 Q_SIGNALS:
-
     //! This signal is emitted when a message is added.
-    
     void message(const QString &);
     
 private:
-    
     djvDebugLogPrivate * _p;
 };
 
-//------------------------------------------------------------------------------
-
 //! Add a message to the log.
-
 #define DJV_LOG(log, context, message) \
-    \
     log->addMessage(context, message)
 
 //@} // djvCoreMisc
-
-#endif // DJV_DEBUG_LOG_H
 

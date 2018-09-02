@@ -30,10 +30,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffPlugin.h
-
-#ifndef DJV_IFF_PLUGIN_H
-#define DJV_IFF_PLUGIN_H
+#pragma once
 
 #include <djvIff.h>
 
@@ -49,34 +46,24 @@
 class djvIffPlugin : public djvImageIo
 {
 public:
-
-    //! Constructor.
-    
     explicit djvIffPlugin(djvCoreContext * context);
 
     virtual QString pluginName() const;
-
     virtual QStringList extensions() const;
 
     virtual QStringList option(const QString &) const;
-
     virtual bool setOption(const QString &, QStringList &);
-
     virtual QStringList options() const;
 
     virtual void commandLine(QStringList &) throw (QString);
-
     virtual QString commandLineHelp() const;
     
     virtual djvImageLoad * createLoad() const;
-    
     virtual djvImageSave * createSave() const;
 
 private:
-
     djvIff::Options _options;
 };
 
 //@} // djvIffPlugin
 
-#endif // DJV_IFF_PLUGIN_H

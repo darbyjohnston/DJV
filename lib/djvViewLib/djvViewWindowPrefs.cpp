@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowPrefs.cpp
-
 #include <djvViewWindowPrefs.h>
 
 #include <djvPrefs.h>
@@ -61,8 +59,6 @@ djvViewWindowPrefs::djvViewWindowPrefs(djvViewContext * context, QObject * paren
         prefs.get("toolBar", _toolBar);
         _toolBar.resize(djvViewUtil::TOOL_BAR_COUNT);
     }
-
-    //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
 }
 
 djvViewWindowPrefs::~djvViewWindowPrefs()
@@ -100,8 +96,7 @@ djvViewUtil::VIEW_MAX djvViewWindowPrefs::viewMax() const
 
 const djvVector2i & djvViewWindowPrefs::viewMaxUserDefault()
 {
-    static const djvVector2i size(640, 300);
-    
+    static const djvVector2i size(640, 300);    
     return size;
 }
 
@@ -134,9 +129,7 @@ void djvViewWindowPrefs::setAutoFit(bool in)
 {
     if (in == _autoFit)
         return;
-    
     _autoFit = in;
-
     Q_EMIT autoFitChanged(_autoFit);
     Q_EMIT prefChanged();
 }
@@ -145,9 +138,7 @@ void djvViewWindowPrefs::setViewMax(djvViewUtil::VIEW_MAX in)
 {
     if (in == _viewMax)
         return;
-
     _viewMax = in;
-
     Q_EMIT viewMaxChanged(_viewMax);
     Q_EMIT prefChanged();
 }
@@ -156,9 +147,7 @@ void djvViewWindowPrefs::setViewMaxUser(const djvVector2i & size)
 {
     if (size == _viewMaxUser)
         return;
-    
     _viewMaxUser = size;
-    
     Q_EMIT viewMaxUserChanged(_viewMaxUser);
     Q_EMIT prefChanged();
 }
@@ -167,9 +156,7 @@ void djvViewWindowPrefs::setFullScreenControls(bool in)
 {
     if (in == _fullScreenControls)
         return;
-
     _fullScreenControls = in;
-
     Q_EMIT fullScreenControlsChanged(_fullScreenControls);
     Q_EMIT prefChanged();
 }
@@ -178,9 +165,7 @@ void djvViewWindowPrefs::setToolBar(const QVector<bool> & in)
 {
     if (in == _toolBar)
         return;
-
     _toolBar = in;
-
     Q_EMIT toolBarChanged(_toolBar);
     Q_EMIT prefChanged();
 }

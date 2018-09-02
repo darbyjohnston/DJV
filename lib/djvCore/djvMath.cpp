@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMath.cpp
-
 #include <djvMath.h>
 
 #if defined(DJV_WINDOWS)
@@ -113,9 +111,7 @@ double djvMath::gain(double value, double gain)
     {
         return 1.0;
     }
-
     const double tmp = log(1.0 - gain) / log(0.5);
-
     if (value < 0.5)
     {
         return pow(2.0 * value, tmp) / 2.0;
@@ -129,12 +125,10 @@ double djvMath::gain(double value, double gain)
 double djvMath::softClip(double value, double softClip)
 {
     const double tmp = 1.0 - softClip;
-
     if (value > tmp)
     {
         value = tmp + (1.0 - exp(-(value - tmp) / softClip)) * softClip;
     }
-
     return value;
 }
 
@@ -170,25 +164,21 @@ double djvMath::arcTan(double a, double b)
 
 //! \todo What is the correct way to handle zero values for the trigonometry
 //! functions?
-
 double djvMath::sec(double value)
 {
     const double tmp = cos(value);
-    
     return tmp != 0.0 ? (1.0 / tmp) : 0.0;
 }
 
 double djvMath::coSec(double value)
 {
     const double tmp = sin(value);
-    
     return tmp != 0.0 ? (1.0 / tmp) : 0.0;
 }
 
 double djvMath::coTan(double value)
 {
     const double tmp = tan(value);
-    
     return tmp != 0.0 ? (1.0 / tmp) : 0.0;
 }
 
@@ -222,20 +212,14 @@ void djvMath::randSeed(unsigned int value)
     if (! value)
     {
         //! Seed the random number generator with the current time.
-
 #if defined(DJV_WINDOWS)
-
         value = ::GetTickCount();
-
 #else // DJV_WINDOWS
-
         struct ::timeval tmp = { 0, 0 };
         ::gettimeofday(&tmp, 0);
         value = tmp.tv_usec;
-
 #endif // DJV_WINDOWS
     }
-
     ::srand(value);
 }
 

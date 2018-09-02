@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowGroup.h
-
-#ifndef DJV_VIEW_WINDOW_GROUP_H
-#define DJV_VIEW_WINDOW_GROUP_H
+#pragma once
 
 #include <djvViewAbstractGroup.h>
 
@@ -56,63 +53,46 @@ class DJV_VIEW_LIB_EXPORT djvViewWindowGroup : public djvViewAbstractGroup
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewWindowGroup(
         const djvViewWindowGroup * copy,
         djvViewMainWindow *        mainWindow,
         djvViewContext *           context);
 
-    //! Destructor.
-
     virtual ~djvViewWindowGroup();
     
-    //! Get whether full screen is enabled.
-    
+    //! Get whether full screen is enabled.    
     bool hasFullScreen() const;
 
     //! Get the user interface controls visibility.
-
     bool hasControlsVisible() const;
 
     //! Get the tool bar visibility.
-
     const QVector<bool> & toolBarVisible() const;
 
     virtual QToolBar * toolBar() const;
 
 public Q_SLOTS:
-
     //! Set whether full screen is enabled.
-
     void setFullScreen(bool);
 
     //! Set the user interface controls visibility.
-
     void setControlsVisible(bool);
 
     //! Set the tool bar visibility.
-
     void setToolBarVisible(const QVector<bool> &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when full screen is changed.
-
     void fullScreenChanged(bool);
 
     //! This signal is emitted when the user interface control visibility
     //! is changed.
-
     void controlsVisibleChanged(bool);
     
     //! This signal is emitted when the tool bar visibility is changed.
-    
     void toolBarVisibleChanged(const QVector<bool> &);
 
 private Q_SLOTS:
-
     void newCallback();
     void copyCallback();
     void closeCallback();
@@ -122,13 +102,10 @@ private Q_SLOTS:
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewWindowGroup);
     
     djvViewWindowGroupPrivate * _p;
 };
 
 //@} // djvViewWindow
-
-#endif // DJV_VIEW_WINDOW_GROUP_H
 

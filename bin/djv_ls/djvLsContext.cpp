@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvLsContext.cpp
-
 #include <djvLsContext.h>
 
 #include <djvSystem.h>
@@ -56,7 +54,6 @@ djvLsContext::djvLsContext(QObject * parent) :
     //DJV_DEBUG("djvLsContext::djvLsContext");
     
     // Load translators.
-    
     loadTranslator("djv_ls");
 }
 
@@ -130,7 +127,6 @@ bool djvLsContext::commandLineParse(QStringList & in) throw (QString)
 
     QStringList args;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
@@ -138,7 +134,6 @@ bool djvLsContext::commandLineParse(QStringList & in) throw (QString)
             in >> arg;
 
             // Parse the options.
-
             if (
                 qApp->translate("djvLsContext", "-x_info") == arg ||
                 qApp->translate("djvLsContext", "-xi") == arg)
@@ -176,7 +171,6 @@ bool djvLsContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the sorting options.
-
             else if (
                 qApp->translate("djvLsContext", "-sort") == arg ||
                 qApp->translate("djvLsContext", "-s") == arg)
@@ -197,7 +191,6 @@ bool djvLsContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the arguments.
-
             else
             {
                 _input += arg;
@@ -286,7 +279,6 @@ QString djvLsContext::commandLineHelp() const
 "    Sort by time with the most recent first:\n"
 "\n"
 "    > djv_ls -sort time -reverse_sort\n");
-
     return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).

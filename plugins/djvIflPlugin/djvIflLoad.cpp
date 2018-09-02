@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIflLoad.cpp
-
 #include <djvIflLoad.h>
 
 #include <djvError.h>
@@ -56,15 +54,11 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvIflLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _list.clear();
-
     QStringList tmp;
-
     try
     {
         tmp = djvFileIoUtil::lines(in);
-
         //DJV_DEBUG_PRINT("list = " << tmp);
     }
     catch (const djvError &)
@@ -73,21 +67,17 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
             djvIfl::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
     }
-
     for (int i = 0; i < tmp.count(); ++i)
     {
         if (tmp[i].isEmpty())
         {
             continue;
         }
-
         djvFileInfo file(tmp[i]);
-
         if (file.path().isEmpty())
         {
             file.setPath(in.path());
         }
-
         if (file.isSequenceValid())
         {
             file.setType(djvFileInfo::SEQUENCE);
@@ -99,14 +89,10 @@ void djvIflLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
             _list += tmp[i];
         }
     }
-
     //DJV_DEBUG_PRINT("list = " << _list);
-
     QScopedPointer<djvImageLoad> plugin(context()->imageIoFactory()->load(
         _list.count() ? _list[0] : QString(), info));
-
     info.sequence.frames.resize(_list.count());
-
     for (int i = 0; i < _list.count(); ++i)
     {
         info.sequence.frames[i] = i;
@@ -118,12 +104,9 @@ void djvIflLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
 {
     //DJV_DEBUG("djvIflLoad::read");
     //DJV_DEBUG_PRINT("frame = " << frame);
-
     image.colorProfile = djvColorProfile();
     image.tags = djvImageTags();
-
     QString fileName;
-
     if (_list.count())
     {
         if (-1 == frame.frame)
@@ -137,13 +120,9 @@ void djvIflLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             fileName = _list[frame.frame];
         }
     }
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-
     QScopedPointer<djvImageLoad> load(
         context()->imageIoFactory()->load(fileName, info));
-
     load->read(image, djvImageIoFrameInfo(-1, frame.layer, frame.proxy));
 }

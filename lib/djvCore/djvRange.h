@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRange.h
-
-#ifndef DJV_RANGE_H
-#define DJV_RANGE_H
+#pragma once
 
 #include <djvDebug.h>
 
@@ -48,31 +45,17 @@
 template<typename T>
 struct djvRange
 {
-    //! Constructor.
-
     inline djvRange(T = T(0));
-
-    //! Constructor.
-
     inline djvRange(T min, T max);
 
-    //! Minimum value.
-
     T min;
-
-    //! Maximum value.
-
     T max;
 };
 
-//------------------------------------------------------------------------------
-
 //! This typedef provides a frame range.
-
 typedef djvRange<qint64> djvFrameRange;
 
 //! This typedef provides a frame range list.
-
 typedef QVector<djvFrameRange> djvFrameRangeList;
 
 template<typename T>
@@ -87,6 +70,4 @@ inline djvDebug & operator << (djvDebug &, const djvRange<T> &);
 //@} // djvCoreMath
 
 #include <djvRangeInline.h>
-
-#endif // DJV_RANGE_H
 

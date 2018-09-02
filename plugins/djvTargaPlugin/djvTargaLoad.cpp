@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaLoad.cpp
-
 #include <djvTargaLoad.h>
 
 #include <djvImage.h>
@@ -52,13 +50,9 @@ void djvTargaLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvTargaLoad::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-    
     djvFileIo io;
-    
     _open(_file.fileName(_file.sequence().start()), info, io);
-
     if (djvFileInfo::SEQUENCE == _file.type())
     {
         info.sequence.frames = _file.sequence().frames;
@@ -75,24 +69,16 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     image.tags = djvImageTags();
 
     // Open the file.
-
     const QString fileName =
         _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-
     //DJV_DEBUG_PRINT("file name = " << fileName);
-
     djvImageIoInfo info;
-    
     QScopedPointer<djvFileIo> io(new djvFileIo);
-    
     _open(fileName, info, *io);
 
     // Read the file.
-
     io->readAhead();
-
     djvPixelData * data = frame.proxy ? &_tmp : &image;
-
     if (! _compression)
     {
         if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
@@ -101,32 +87,24 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                 djvTarga::staticName,
                 djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
         }
-
         data->set(info, io->mmapP(), io.data());
-
         io.take();
     }
     else
     {
         data->set(info);
-
         const quint8 * p = io->mmapP();
-        
         const quint8 * const end = io->mmapEnd();
-        
         const int channels = djvPixel::channels(info.pixel);
-
         for (int y = 0; y < info.size.y; ++y)
         {
             //DJV_DEBUG_PRINT("y = " << y);
-
             p = djvTarga::readRle(
                 p,
                 end,
                 data->data(0, y),
                 info.size.x,
                 channels);
-
             if (! p)
             {
                 throw djvError(
@@ -137,14 +115,11 @@ void djvTargaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     }
 
     // Proxy scale the image.
-    
     if (frame.proxy)
     {
         info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
         info.proxy = frame.proxy;
-        
         image.set(info);
-
         djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
     }
 
@@ -156,11 +131,8 @@ void djvTargaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & 
 {
     //DJV_DEBUG("djvTargaLoad::_open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     io.setEndian(djvMemory::endian() != djvMemory::LSB);
-
     io.open(in, djvFileIo::READ);
-
     info.fileName = in;
     djvTarga::loadInfo(io, info, &_compression);
 }

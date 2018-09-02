@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewDisplayProfileWidget.h
-
-#ifndef DJV_VIEW_DISPLAY_PROFILE_WIDGET_H
-#define DJV_VIEW_DISPLAY_PROFILE_WIDGET_H
+#pragma once
 
 #include <djvViewDisplayProfile.h>
 
@@ -58,36 +55,25 @@ class DJV_VIEW_LIB_EXPORT djvViewDisplayProfileWidget : public QWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewDisplayProfileWidget(
         const djvViewImageView * viewWidget,
         djvViewContext *         context,
         QWidget *                parent     = 0);
 
-    //! Destructor.
-
     virtual ~djvViewDisplayProfileWidget();
     
     //! Get the display profile.
-    
     const djvViewDisplayProfile & displayProfile() const;
     
 public Q_SLOTS:
-
-    //! Set the display profile.
-    
+    //! Set the display profile.    
     void setDisplayProfile(const djvViewDisplayProfile &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the display profile is changed.
-
     void displayProfileChanged(const djvViewDisplayProfile &);
 
 private Q_SLOTS:
-
     void lutCallback(const djvFileInfo &);
     void brightnessCallback(double);
     void contrastCallback(double);
@@ -102,7 +88,6 @@ private Q_SLOTS:
     void resetCallback();
 
 private:
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvViewDisplayProfileWidget);
@@ -111,6 +96,4 @@ private:
 };
 
 //@} // djvViewImage
-
-#endif // DJV_VIEW_DISPLAY_PROFILE_WIDGET_H
 

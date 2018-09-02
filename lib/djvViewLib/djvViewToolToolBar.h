@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolToolBar.h
-
-#ifndef DJV_VIEW_TOOL_TOOL_BAR_H
-#define DJV_VIEW_TOOL_TOOL_BAR_H
+#pragma once
 
 #include <djvViewAbstractToolBar.h>
 
@@ -52,26 +49,18 @@ class DJV_VIEW_LIB_EXPORT djvViewToolToolBar : public djvViewAbstractToolBar
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewToolToolBar(
         djvViewAbstractActions * actions,
         djvViewContext *         context,
         QWidget *                parent  = 0);
 
-    //! Destructor.
-
     virtual ~djvViewToolToolBar();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewToolToolBar);
     
     djvViewToolToolBarPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_TOOL_TOOL_BAR_H
 

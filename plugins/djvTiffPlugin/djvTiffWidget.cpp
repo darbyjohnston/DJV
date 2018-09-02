@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTiffWidget.cpp
-
 #include <djvTiffWidget.h>
 
 #include <djvGuiContext.h>
@@ -66,14 +64,12 @@ djvTiffWidget::djvTiffWidget(djvImageIo * plugin, djvGuiContext * context) :
     //DJV_DEBUG("djvTiffWidget::djvTiffWidget");
 
     // Create the widgets.
-    
     _compressionWidget = new QComboBox;
     _compressionWidget->addItems(djvTiff::compressionLabels());
     _compressionWidget->setSizePolicy(
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -90,7 +86,6 @@ djvTiffWidget::djvTiffWidget(djvImageIo * plugin, djvGuiContext * context) :
     layout->addStretch();
 
     // Initialize.
-
     QStringList tmp;
     tmp = plugin->option(
         plugin->options()[djvTiff::COMPRESSION_OPTION]);
@@ -99,12 +94,10 @@ djvTiffWidget::djvTiffWidget(djvImageIo * plugin, djvGuiContext * context) :
     widgetUpdate();
 
     // Setup the callbacks.
-    
     connect(
         plugin,
         SIGNAL(optionChanged(const QString &)),
         SLOT(pluginCallback(const QString &)));
-
     connect(
         _compressionWidget,
         SIGNAL(activated(int)),
@@ -117,7 +110,6 @@ djvTiffWidget::~djvTiffWidget()
 void djvTiffWidget::resetPreferences()
 {
     _options = djvTiff::Options();
-    
     pluginUpdate();
     widgetUpdate();
 }
@@ -128,21 +120,18 @@ void djvTiffWidget::pluginCallback(const QString & option)
     {
         QStringList tmp;
         tmp = plugin()->option(option);
-
         if (0 == option.compare(plugin()->options()[
             djvTiff::COMPRESSION_OPTION], Qt::CaseInsensitive))
                 tmp >> _options.compression;
     }
     catch (const QString &)
     {}
-
     widgetUpdate();
 }
 
 void djvTiffWidget::compressionCallback(int in)
 {
     _options.compression = static_cast<djvTiff::COMPRESSION>(in);
-
     pluginUpdate();
 }
 
@@ -157,7 +146,6 @@ void djvTiffWidget::pluginUpdate()
 void djvTiffWidget::widgetUpdate()
 {
     djvSignalBlocker signalBlocker(_compressionWidget);
-
     _compressionWidget->setCurrentIndex(_options.compression);
 }
 

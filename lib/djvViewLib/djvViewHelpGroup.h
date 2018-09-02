@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewHelpGroup.h
-
-#ifndef DJV_VIEW_HELP_GROUP_H
-#define DJV_VIEW_HELP_GROUP_H
+#pragma once
 
 #include <djvViewAbstractGroup.h>
 
@@ -55,32 +52,23 @@ class DJV_VIEW_LIB_EXPORT djvViewHelpGroup : public djvViewAbstractGroup
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewHelpGroup(
         const djvViewHelpGroup * copy,
         djvViewMainWindow *      mainWindow,
         djvViewContext *         context);
 
-    //! Destructor.
-
     virtual ~djvViewHelpGroup();
 
 private Q_SLOTS:
-
     void helpCallback();
     void infoCallback();
     void aboutCallback();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewHelpGroup);
     
     djvViewHelpGroupPrivate * _p;
 };
 
 //@} // djvViewHelp
-
-#endif // DJV_VIEW_HELP_GROUP_H
 

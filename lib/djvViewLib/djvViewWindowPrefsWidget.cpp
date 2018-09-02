@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowPrefsWidget.cpp
-
 #include <djvViewWindowPrefsWidget.h>
 
 #include <djvViewContext.h>
@@ -79,7 +77,6 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     _p(new djvViewWindowPrefsWidgetPrivate)
 {
     // Create the size widgets.
-
     _p->autoFitWidget = new QCheckBox(
         qApp->translate(
             "djvViewWindowPrefsWidget",
@@ -94,14 +91,12 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     _p->viewMaxUserWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     // Create the full screen widgets.
-
     _p->fullScreenControlsWidget = new QCheckBox(
         qApp->translate(
             "djvViewWindowPrefsWidget",
             "Set whether the controls are visible in full screen mode"));
 
     // Create the tool bar widgets.
-
     _p->toolBarButtonGroup = new QButtonGroup(this);
     _p->toolBarButtonGroup->setExclusive(false);
     
@@ -113,7 +108,6 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     }
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
@@ -144,31 +138,25 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     layout->addStretch();
 
     // Initialize.
-    
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->autoFitWidget,
         SIGNAL(toggled(bool)),
         SLOT(autoFitCallback(bool)));
-    
     connect(
         _p->viewMaxWidget,
         SIGNAL(activated(int)),
         SLOT(viewMaxCallback(int)));
-
     connect(
         _p->viewMaxUserWidget,
         SIGNAL(valueChanged(const djvVector2i &)),
         SLOT(viewMaxUserCallback(const djvVector2i &)));
-    
     connect(
         _p->fullScreenControlsWidget,
         SIGNAL(toggled(bool)),
         SLOT(fullScreenControlsCallback(bool)));
-    
     connect(
         _p->toolBarButtonGroup,
         SIGNAL(buttonClicked(int)),
@@ -192,7 +180,6 @@ void djvViewWindowPrefsWidget::resetPreferences()
         djvViewWindowPrefs::fullScreenControlsDefault());
     context()->windowPrefs()->setToolBar(
         djvViewWindowPrefs::toolBarDefault());
-    
     widgetUpdate();
 }
 
@@ -221,9 +208,7 @@ void djvViewWindowPrefsWidget::fullScreenControlsCallback(bool in)
 void djvViewWindowPrefsWidget::toolBarCallback(int id)
 {
     QVector<bool> visible = context()->windowPrefs()->toolBar();
-    
     visible[id] = _p->toolBarButtonGroup->button(id)->isChecked();
-
     context()->windowPrefs()->setToolBar(visible);
 }
 
@@ -235,23 +220,12 @@ void djvViewWindowPrefsWidget::widgetUpdate()
         _p->viewMaxUserWidget <<
         _p->fullScreenControlsWidget <<
         _p->toolBarButtonGroup);
-
-    _p->autoFitWidget->setChecked(
-        context()->windowPrefs()->hasAutoFit());
-    
-    _p->viewMaxWidget->setCurrentIndex(
-        context()->windowPrefs()->viewMax());
-    
-    _p->viewMaxUserWidget->setValue(
-        context()->windowPrefs()->viewMaxUser());
-    _p->viewMaxUserWidget->setVisible(
-        djvViewUtil::VIEW_MAX_USER == context()->windowPrefs()->viewMax());
-    
-    _p->fullScreenControlsWidget->setChecked(
-        context()->windowPrefs()->hasFullScreenControls());
-
+    _p->autoFitWidget->setChecked(context()->windowPrefs()->hasAutoFit());
+    _p->viewMaxWidget->setCurrentIndex(context()->windowPrefs()->viewMax());
+    _p->viewMaxUserWidget->setValue(context()->windowPrefs()->viewMaxUser());
+    _p->viewMaxUserWidget->setVisible(djvViewUtil::VIEW_MAX_USER == context()->windowPrefs()->viewMax());
+    _p->fullScreenControlsWidget->setChecked(context()->windowPrefs()->hasFullScreenControls());
     const QVector<bool> & visible = context()->windowPrefs()->toolBar();
-    
     for (int i = 0; i < visible.count(); ++i)
     {
         _p->toolBarButtonGroup->button(i)->setChecked(visible[i]);

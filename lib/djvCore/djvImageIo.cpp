@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIo.cpp
-
 #include <djvImageIo.h>
 
 #include <djvDebug.h>
@@ -206,10 +204,8 @@ const QStringList & djvImageIo::errorLabels()
         qApp->translate("djvImageIo", "Unsupported file") <<
         qApp->translate("djvImageIo", "Cannot open file") <<
         qApp->translate("djvImageIo", "Error reading file") <<
-        qApp->translate("djvImageIo", "Error writing file");
-    
+        qApp->translate("djvImageIo", "Error writing file");    
     DJV_ASSERT(ERROR_COUNT == data.count());
-    
     return data;
 }
 
@@ -220,12 +216,10 @@ const QStringList & djvImageIo::errorLabels()
 struct djvImageIoFactoryPrivate
 {
     // This map is used to lookup an image I/O plugin by it's name.
-
     QMap<QString, djvImageIo *> nameMap;
 
     // This map is used to lookup an image I/O plugin for a given file
     // extension.
-
     QMap<QString, djvImageIo *> extensionMap;
 };
 
@@ -243,9 +237,7 @@ djvImageIoFactory::djvImageIoFactory(
     //DJV_DEBUG("djvImageIoFactory::djvImageIoFactory");
 
     // Register file sequence extensions.
-
     const QList<djvPlugin *> & plugins = this->plugins();
-
     Q_FOREACH(djvPlugin * plugin, plugins)
     {
         if (djvImageIo * imageIo = dynamic_cast<djvImageIo *>(plugin))
@@ -262,16 +254,13 @@ djvImageIoFactory::djvImageIoFactory(
     }
 
     // Setup internal maps.
-
     Q_FOREACH(djvPlugin * plugin, plugins)
     {
         if (djvImageIo * imageIo = dynamic_cast<djvImageIo *>(plugin))
         {
             //DJV_DEBUG_PRINT("imageIo = " << imageIo->pluginName());
             //DJV_DEBUG_PRINT("extensions = " << imageIo->extensions());
-
             _p->nameMap[plugin->pluginName().toLower()] = imageIo;
-
             Q_FOREACH(const QString & extension, imageIo->extensions())
             {
                 _p->extensionMap[extension.toLower()] = imageIo;
@@ -280,14 +269,12 @@ djvImageIoFactory::djvImageIoFactory(
     }
 
     // Setup callbacks for image I/O plugins.
-
     for (int i = 0; i < plugins.count(); ++i)
     {
         if (djvImageIo * plugin = dynamic_cast<djvImageIo *>(plugins[i]))
         {
             // This callback listens to option changes in the image I/O
             // plugins.
-
             connect(
                 plugin,
                 SIGNAL(optionChanged(const QString &)),
@@ -299,7 +286,6 @@ djvImageIoFactory::djvImageIoFactory(
 djvImageIoFactory::~djvImageIoFactory()
 {
     //DJV_DEBUG("djvImageIoFactory::~djvImageIoFactory");
-
     delete _p;
 }
 
@@ -308,18 +294,14 @@ QStringList djvImageIoFactory::option(
     const QString & option) const
 {
     const QString nameLower = name.toLower();
-    
     if (_p->nameMap.contains(nameLower))
     {
         //DJV_DEBUG("djvImageIoFactory::option");
         //DJV_DEBUG_PRINT("name   = " << name);
         //DJV_DEBUG_PRINT("option = " << option);
-
         djvImageIo * imageIo = _p->nameMap[nameLower];
-
         return imageIo->option(option);
     }
-
     return QStringList();
 }
 
@@ -329,19 +311,15 @@ bool djvImageIoFactory::setOption(
     QStringList &   data)
 {
     const QString nameLower = name.toLower();
-    
     if (_p->nameMap.contains(nameLower))
     {
         //DJV_DEBUG("djvImageIoFactory::setOption");
         //DJV_DEBUG_PRINT("name   = " << name);
         //DJV_DEBUG_PRINT("option = " << option);
         //DJV_DEBUG_PRINT("data   = " << data);
-
         djvImageIo * imageIo = _p->nameMap[nameLower];
-
         return imageIo->setOption(option, data);
     }
-
     return false;
 }
 
@@ -351,38 +329,29 @@ djvImageLoad * djvImageIoFactory::load(
 {
     //DJV_DEBUG("djvImageIoFactory::load");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-    
     //DJV_LOG("djvImageIoFactory", QString("Loading: \"%1\"...").arg(fileInfo));
-
     const QString extensionLower = fileInfo.extension().toLower();
-
     if (_p->extensionMap.contains(extensionLower))
     {
         djvImageIo * imageIo = _p->extensionMap[extensionLower];
-        
         //DJV_LOG("djvImageIoFactory",
         //    QString("Using plugin: \"%1\"").arg(imageIo->pluginName()));
-
         if (djvImageLoad * imageLoad = imageIo->createLoad())
         {
             imageLoad->open(fileInfo, imageIoInfo);
-
             //QStringList tmp;
             //tmp << imageIoInfo.size;
             //DJV_LOG("djvImageIoFactory", QString("Size: %1").arg(tmp.join(", ")));
             //tmp.clear();
             //tmp << imageIoInfo.pixel;
             //DJV_LOG("djvImageIoFactory", QString("Pixel: %1").arg(tmp.join(", ")));
-
             return imageLoad;
         }
     }
-
     throw djvError(
         "djvImageIoFactory",
         qApp->translate("djvImageIoFactory", "Unrecognized image: %1").
         arg(QDir::toNativeSeparators(fileInfo)));
-
     return 0;
 }
     
@@ -393,7 +362,6 @@ djvImageSave * djvImageIoFactory::save(
     //DJV_DEBUG("djvImageIoFactory::save");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
     //DJV_DEBUG_PRINT("imageIoInfo = " << imageIoInfp);
-
     //DJV_LOG("djvImageIoFactory", QString("Saving: \"%1\"").arg(fileInfo));
     //QStringList tmp;
     //tmp << imageIoInfo.size;
@@ -401,39 +369,30 @@ djvImageSave * djvImageIoFactory::save(
     //tmp.clear();
     //tmp << imageIoInfo.pixel;
     //DJV_LOG("djvImageIoFactory", QString("Pixel: %1").arg(tmp.join(", ")));
-
     const QString extensionLower = fileInfo.extension().toLower();
-
     if (_p->extensionMap.contains(extensionLower))
     {
         djvImageIo * imageIo = _p->extensionMap[extensionLower];
-        
         //DJV_LOG("djvImageIoFactory",
         //    QString("Using plugin: \"%1\"").arg(imageIo->pluginName()));
-
         if (djvImageSave * imageSave = imageIo->createSave())
         {
             imageSave->open(fileInfo, imageIoInfo);
-
             return imageSave;
         }
     }
-
     throw djvError(
         "djvImageIoFactory",
         qApp->translate("djvImageIoFactory", "Unrecognized image: %1").
         arg(QDir::toNativeSeparators(fileInfo)));
-    
     return 0;
 }
 
 const QStringList & djvImageIoFactory::errorLabels()
 {
     static const QStringList data = QStringList() <<
-        qApp->translate("djvImageIoFactory", "Unrecognized file: \"%1\"");
-    
+        qApp->translate("djvImageIoFactory", "Unrecognized file: \"%1\"");    
     DJV_ASSERT(ERROR_COUNT == data.count());
-    
     return data;
 }
 
@@ -442,17 +401,13 @@ void djvImageIoFactory::pluginOptionCallback(const QString &)
     Q_EMIT optionChanged();
 }
 
-//------------------------------------------------------------------------------
-
 bool operator == (const djvImageIoInfo & a, const djvImageIoInfo & b)
 {
     if (a.layerCount() != b.layerCount())
         return false;
-
     for (int i = 0; i < a.layerCount(); ++i)
         if (a[i] != b[i])
             return false;
-
     return
         operator == (
             static_cast<const djvPixelDataInfo &>(a),

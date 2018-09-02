@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePrefsWidget.cpp
-
 #include <djvImagePrefsWidget.h>
 
 #include <djvGuiContext.h>
@@ -70,7 +68,6 @@ djvImagePrefsWidget::djvImagePrefsWidget(djvGuiContext * context, QWidget * pare
     _p(new djvImagePrefsWidgetPrivate)
 {
     // Create the filter widgets.
-
     _p->filterMinWidget = new QComboBox;
     _p->filterMinWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _p->filterMinWidget->addItems(djvOpenGlImageFilter::filterLabels());
@@ -80,7 +77,6 @@ djvImagePrefsWidget::djvImagePrefsWidget(djvGuiContext * context, QWidget * pare
     _p->filterMagWidget->addItems(djvOpenGlImageFilter::filterLabels());
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
@@ -103,16 +99,13 @@ djvImagePrefsWidget::djvImagePrefsWidget(djvGuiContext * context, QWidget * pare
     layout->addStretch();
 
     // Initialize.
-    
     widgetUpdate();
 
     // Setup the callbacks.
-
     connect(
         _p->filterMinWidget,
         SIGNAL(activated(int)),
         SLOT(filterMinCallback(int)));
-
     connect(
         _p->filterMagWidget,
         SIGNAL(activated(int)),
@@ -127,9 +120,7 @@ djvImagePrefsWidget::~djvImagePrefsWidget()
 void djvImagePrefsWidget::resetPreferences()
 {
     //DJV_DEBUG("djvImagePrefsWidget::resetPreferences");
-    
     context()->imagePrefs()->setFilter(djvOpenGlImageFilter::filterDefault());
-
     widgetUpdate();
 }
 
@@ -139,7 +130,6 @@ void djvImagePrefsWidget::filterMinCallback(int in)
         djvOpenGlImageFilter(
         static_cast<djvOpenGlImageFilter::FILTER>(in),
         context()->imagePrefs()->filter().mag));
-
     widgetUpdate();
 }
 
@@ -149,22 +139,17 @@ void djvImagePrefsWidget::filterMagCallback(int in)
         djvOpenGlImageFilter(
         context()->imagePrefs()->filter().min,
         static_cast<djvOpenGlImageFilter::FILTER>(in)));
-
     widgetUpdate();
 }
 
 void djvImagePrefsWidget::widgetUpdate()
 {
     //DJV_DEBUG("djvImagePrefsWidget::widgetUpdate");
-    
     djvSignalBlocker signalBlocker(QObjectList() <<
         _p->filterMinWidget <<
         _p->filterMagWidget);
-
     //DJV_DEBUG_PRINT("filter = " << context()->imagePrefs()->filter());
-
     _p->filterMinWidget->setCurrentIndex(context()->imagePrefs()->filter().min);
-    
     _p->filterMagWidget->setCurrentIndex(context()->imagePrefs()->filter().mag);
 }
 

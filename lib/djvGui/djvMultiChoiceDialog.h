@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMultiChoiceDialog.h
-
-#ifndef DJV_MULTI_CHOICE_DIALOG_H
-#define DJV_MULTI_CHOICE_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,53 +53,39 @@ class DJV_GUI_EXPORT djvMultiChoiceDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvMultiChoiceDialog(
         const QString &       label   = QString(),
         const QStringList &   choices = QStringList(),
         const QVector<bool> & values  = QVector<bool>(),
         QWidget *             parent  = 0);
 
-    //! Destructor.
-    
     virtual ~djvMultiChoiceDialog();
     
     //! Get the label.
-
     const QString & label() const;
 
     //! Set the label.
-
     void setLabel(const QString &);
     
     //! Get the choices.
-    
     const QStringList & choices() const;
 
     //! Set the choices.
-
     void setChoices(const QStringList &);
 
     //! Get the choice values.
-
     const QVector<bool> & values() const;
 
     //! Get the choice indices.
-
     QVector<int> indices() const;
     
     //! Set the choice values.
-
     void setValues(const QVector<bool> &);
 
 private Q_SLOTS:
-
     void buttonCallback();
 
 private:
-
     void valuesUpdate();
     void widgetUpdate();
 
@@ -112,6 +95,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_MULTI_CHOICE_DIALOG_H
 

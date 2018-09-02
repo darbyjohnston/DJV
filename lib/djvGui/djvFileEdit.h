@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileEdit.h
-
-#ifndef DJV_FILE_EDIT_H
-#define DJV_FILE_EDIT_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,8 +54,7 @@ class DJV_GUI_EXPORT djvFileEdit : public QWidget
 {
     Q_OBJECT
     
-    //! This property holds the file information.
-    
+    //! This property holds the file information.    
     Q_PROPERTY(
         djvFileInfo fileInfo
         READ        fileInfo
@@ -66,38 +62,26 @@ class DJV_GUI_EXPORT djvFileEdit : public QWidget
         NOTIFY      fileInfoChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvFileEdit(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvFileEdit();
 
     //! Get the file information.
-
     const djvFileInfo & fileInfo() const;
 
 public Q_SLOTS:
-
     //! Set the file information.
-
     void setFileInfo(const djvFileInfo &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the file information is changed.
-
     void fileInfoChanged(const djvFileInfo &);
 
 private Q_SLOTS:
-
     void editCallback();
     void buttonCallback();
 
 private:
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvFileEdit);
@@ -106,6 +90,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_FILE_EDIT_H
 

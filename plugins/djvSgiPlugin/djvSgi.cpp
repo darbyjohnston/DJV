@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgi.cpp
-
 #include <djvSgi.h>
 
 #include <djvAssert.h>
@@ -57,15 +55,12 @@ const QStringList & djvSgi::compressionLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvSgi", "None") <<
         qApp->translate("djvSgi", "RLE");
-
     DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-
     return data;
 }
 
 namespace
 {
-
 struct Header
 {
     Header();
@@ -79,7 +74,6 @@ struct Header
     void debug() const;
 
 private:
-
     struct Data
     {
         quint16 magic;
@@ -114,16 +108,13 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     //DJV_DEBUG("Header::load");
 
     // Read.
-
     io.getU16(&_data.magic);
-
     if (_data.magic != 474)
     {
         throw djvError(
             djvSgi::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNRECOGNIZED]);
     }
-
     io.getU8(&_data.storage);
     io.getU8(&_data.bytes);
     io.getU16(&_data.dimension);
@@ -132,15 +123,11 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     io.getU16(&_data.channels);
     io.getU32(&_data.pixelMin);
     io.getU32(&_data.pixelMax);
-
     io.setPos(512);
-
     //DJV_DEBUG_PRINT("bytes = " << _data.bytes);
 
     // Information.
-
     info.size = djvVector2i(_data.width, _data.height);
-    
     if (! djvPixel::pixel(
         _data.channels,
         1 == _data.bytes ? 8 : 16,
@@ -151,9 +138,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
             djvSgi::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-    
     //DJV_DEBUG_PRINT("pixel = " << info.pixel);
-
     info.endian = djvMemory::MSB;
 
     *compression = _data.storage ? true : false;
@@ -165,25 +150,18 @@ void Header::save(djvFileIo & io, const djvImageIoInfo & info, bool compression)
     //DJV_DEBUG("Header::save");
 
     // Information.
-
     const int channels = djvPixel::channels(info.pixel);
     const int bytes    = djvPixel::channelByteCount(info.pixel);
-
     _data.width = info.size.x;
     _data.height = info.size.y;
-
     _data.channels = channels;
     _data.bytes = bytes;
-
     _data.dimension = 1 == channels ? (1 == info.size.y ? 1 : 2) : 3;
-
     _data.pixelMin = 0;
     _data.pixelMax = 1 == bytes ? 255 : 65535;
-
     _data.storage = compression;
 
     // Write.
-
     io.setU16(_data.magic);
     io.setU8(_data.storage);
     io.setU8(_data.bytes);
@@ -228,7 +206,6 @@ void djvSgi::saveInfo(djvFileIo & io, const djvImageIoInfo & info, bool compress
 
 namespace
 {
-
 template<typename T>
 bool load(
     const void * in,
@@ -240,41 +217,31 @@ bool load(
     //DJV_DEBUG("load");
     //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("endian = " << endian);
-
     const quint64 bytes = sizeof(T);
-    
     //DJV_DEBUG_PRINT("bytes = " << bytes);
-
     const T * inP = reinterpret_cast<const T *>(in);
     T * outP = reinterpret_cast<T *>(out);
     const T * const outEnd = outP + size;
-
     while (outP < outEnd)
     {
         // Information.
-
         if (inP > end)
         {
             return false;
         }
-
         const int  count  = *inP & 0x7f;
         const bool run    = ! (*inP & 0x80);
         const int  length = run ? 1 : count;
-        
         //DJV_DEBUG_PRINT("count = " << count);
         //DJV_DEBUG_PRINT("  run = " << run);
         //DJV_DEBUG_PRINT("  length = " << length);
-
         ++inP;
 
         // Unpack.
-
         if (inP + length > end)
         {
             return false;
         }
-
         if (run)
         {
             if (! endian)
@@ -287,15 +254,12 @@ bool load(
             else
             {
                 djvMemory::convertEndian(inP, outP, 1, bytes);
-
                 if (count > 1)
                 {
                     djvMemory::fill<T>(*outP, outP + 1, count - 1);
                 }
-
                 outP += count;
             }
-
             ++inP;
         }
         else
@@ -310,13 +274,11 @@ bool load(
             else
             {
                 djvMemory::convertEndian(inP, outP, length, bytes);
-                
                 inP += length;
                 outP += length;
             }
         }
     }
-
     return true;
 }
 
@@ -333,16 +295,13 @@ bool djvSgi::readRle(
     switch (bytes)
     {
         case 1: return load<quint8>(in, end, out, size, false);
-
         case 2: return load<quint16>(in, end, out, size, endian);
     }
-
     return false;
 }
 
 namespace
 {
-
 template<typename T>
 quint64 save(
     const void * in,
@@ -353,29 +312,22 @@ quint64 save(
     //DJV_DEBUG("save");
     //DJV_DEBUG_PRINT("size = " << size);
     //DJV_DEBUG_PRINT("endian = " << endian);
-
     const quint64 bytes = sizeof(T);
-    
     //DJV_DEBUG_PRINT("bytes = " << bytes);
-
     const T * inP = reinterpret_cast<const T *>(in);
     T * outP = reinterpret_cast<T *>(out);
     const T * const end = inP + size;
-
     while (inP < end)
     {
         // Pixel runs.
-
         const int min = 3;
         const int max = djvMath::min(0x7f, static_cast<int>(end - inP));
         int count = 1, match = 1;
-
         for (; count < max; ++count)
         {
             if (inP[count] == inP[count - 1])
             {
                 ++match;
-
                 if (min == match && count >= min)
                 {
                     count -= min - 1;
@@ -389,24 +341,19 @@ quint64 save(
                 {
                     break;
                 }
-
                 match = 1;
             }
         }
-
         const bool run    = match > min;
         const int  length = run ? 1 : count;
-        
         //DJV_DEBUG_PRINT("count = " << count);
         //DJV_DEBUG_PRINT("  run = " << run);
         //DJV_DEBUG_PRINT("  length = " << length);
 
         // Information.
-
         *outP++ = (count & 0x7f) | ((! run) << 7);
 
         // Pack.
-
         if (! endian)
         {
             for (int i = 0; i < length; ++i)
@@ -418,19 +365,14 @@ quint64 save(
         {
             djvMemory::convertEndian(inP, outP, length, bytes);
         }
-
         outP += length;
         inP += count;
     }
 
     // Cap the end.
-
     *outP++ = 0;
-
     const quint64 r = (outP - reinterpret_cast<T *>(out)) * bytes;
-    
     //DJV_DEBUG_PRINT("r = " << r);
-    
     return r;
 }
 
@@ -446,12 +388,9 @@ quint64 djvSgi::writeRle(
     switch (bytes)
     {
         case 1: return save<quint8>(in, out, size, false);
-
         case 2: return save<quint16>(in, out, size, endian);
-
         default: break;
     }
-
     return 0;
 }
 
@@ -459,12 +398,8 @@ const QStringList & djvSgi::optionsLabels()
 {
     static const QStringList data = QStringList() <<
         qApp->translate("djvSgi", "Compression");
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvSgi::COMPRESSION, djvSgi::compressionLabels())

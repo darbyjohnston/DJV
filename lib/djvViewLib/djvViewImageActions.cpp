@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewImageActions.cpp
-
 #include <djvViewImageActions.h>
 
 #include <djvViewContext.h>
@@ -65,31 +63,24 @@ djvViewImageActions::djvViewImageActions(
     _p(new djvViewImageActionsPrivate)
 {
     // Create the actions.
-
     for (int i = 0; i < ACTION_COUNT; ++i)
     {
         _actions[i] = new QAction(this);
     }
-
     _actions[FRAME_STORE]->setText(
         qApp->translate("djvViewImageActions", "Show &Frame Store"));
     _actions[FRAME_STORE]->setCheckable(true);
-
     _actions[LOAD_FRAME_STORE]->setText(
         qApp->translate("djvViewImageActions", "&Load Frame Store"));
-
     _actions[MIRROR_H]->setText(
         qApp->translate("djvViewImageActions", "Mirror &Horizontal"));
     _actions[MIRROR_H]->setCheckable(true);
-
     _actions[MIRROR_V]->setText(
         qApp->translate("djvViewImageActions", "Mirror &Vertical"));
     _actions[MIRROR_V]->setCheckable(true);
-
     _actions[COLOR_PROFILE]->setText(
         qApp->translate("djvViewImageActions", "&Color Profile"));
     _actions[COLOR_PROFILE]->setCheckable(true);
-
     _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
     _actions[DISPLAY_PROFILE_VISIBLE]->setText(
         qApp->translate("djvViewImageActions", "Show Display Profile"));
@@ -97,59 +88,46 @@ djvViewImageActions::djvViewImageActions(
         "djvDisplayProfileIcon.png"));
 
     // Create the action groups.
-
     for (int i = 0; i < GROUP_COUNT; ++i)
     {
         _groups[i] = new QActionGroup(this);
     }
-
     _groups[SCALE_GROUP]->setExclusive(true);
-
     for (int i = 0; i < djvViewUtil::imageScaleLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
         action->setText(djvViewUtil::imageScaleLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
-
         _groups[SCALE_GROUP]->addAction(action);
     }
-
     _groups[ROTATE_GROUP]->setExclusive(true);
-
     for (int i = 0; i < djvViewUtil::imageRotateLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
         action->setText(djvViewUtil::imageRotateLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
-
         _groups[ROTATE_GROUP]->addAction(action);
     }
-
     _groups[CHANNEL_GROUP]->setExclusive(true);
-
     for (int i = 0; i < djvOpenGlImageOptions::channelLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
         action->setText(djvOpenGlImageOptions::channelLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
-
         _groups[CHANNEL_GROUP]->addAction(action);
     }
 
     // Initialize.
-
     update();
 
     // Setup the callbacks.
-
     connect(
         context->imagePrefs(),
         SIGNAL(displayProfilesChanged(const QVector<djvViewDisplayProfile> &)),
         SLOT(update()));
-
     connect(
         context->shortcutPrefs(),
         SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
@@ -167,24 +145,18 @@ void djvViewImageActions::update()
         context()->shortcutPrefs()->shortcuts();
 
     // Update the actions.
-
     _actions[FRAME_STORE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_FRAME_STORE].value);
-
     _actions[LOAD_FRAME_STORE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_FRAME_STORE_LOAD].value);
-
     _actions[MIRROR_H]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
-
     _actions[MIRROR_V]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
-
     _actions[COLOR_PROFILE]->setShortcut(
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_COLOR_PROFILE].value);
 
     // Update the action groups.
-
     const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_SCALE_NONE].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_SCALE_16_9].value <<
@@ -202,23 +174,20 @@ void djvViewImageActions::update()
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_SCALE_4_3].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_SCALE_5_3].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_SCALE_5_4].value;
-
     for (int i = 0; i < djvViewUtil::imageScaleLabels().count(); ++i)
     {
         _groups[SCALE_GROUP]->actions()[i]->setShortcut(scaleShortcuts[i]);
     }
-
+    
     const QVector<QKeySequence> rotateShortcuts = QVector<QKeySequence>() <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_ROTATE_0].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_ROTATE_90].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_ROTATE_180].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_ROTATE_270].value;
-
     for (int i = 0; i < djvViewUtil::imageRotateLabels().count(); ++i)
     {
         _groups[ROTATE_GROUP]->actions()[i]->setShortcut(rotateShortcuts[i]);
     }
-
     Q_FOREACH(QAction * action, _groups[DISPLAY_PROFILE_GROUP]->actions())
         delete action;
 
@@ -238,7 +207,6 @@ void djvViewImageActions::update()
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_DISPLAY_PROFILE_8].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_DISPLAY_PROFILE_9].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_DISPLAY_PROFILE_10].value;
-
     for (int i = 0; i < displayProfileNames.count(); ++i)
     {
         QAction * action = new QAction(this);
@@ -246,7 +214,6 @@ void djvViewImageActions::update()
         if (i < displayProfileShortcuts.count())
             action->setShortcut(displayProfileShortcuts[i]);
         action->setData(i);
-
         _groups[DISPLAY_PROFILE_GROUP]->addAction(action);
     }
 
@@ -256,17 +223,14 @@ void djvViewImageActions::update()
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
-
     for (int i = 0; i < djvOpenGlImageOptions::channelLabels().count(); ++i)
     {
         _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);
     }
 
     // Fix up the actions.
-    
     osxMenuHack();
 
     // Emit changed signal.
-
     Q_EMIT changed();
 }

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPlaybackUtil.h
-
-#ifndef DJV_PLAYBACK_UTIL_H
-#define DJV_PLAYBACK_UTIL_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -46,8 +43,7 @@
 
 struct DJV_GUI_EXPORT djvPlaybackUtil
 {
-    //! This enumeration provides playback states.
-    
+    //! This enumeration provides playback states.    
     enum PLAYBACK
     {
         REVERSE,
@@ -58,12 +54,9 @@ struct DJV_GUI_EXPORT djvPlaybackUtil
     };
     
     //! Get the playback state labels.
-    
     static const QStringList & playbackLabels();
     
     //! Get the playback state icon names.
-    
     static const QStringList & playbackIcons();
 };
 
-#endif // DJV_PLAYBACK_UTIL_H

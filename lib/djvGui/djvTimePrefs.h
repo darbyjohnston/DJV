@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimePrefs.h
-
-#ifndef DJV_TIME_PREFS_H
-#define DJV_TIME_PREFS_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -54,7 +51,6 @@ class DJV_GUI_EXPORT djvTimePrefs : public QObject
     Q_OBJECT
     
     //! This property holds the global time units.
-    
     Q_PROPERTY(
         djvTime::UNITS timeUnits
         READ           timeUnits
@@ -62,7 +58,6 @@ class DJV_GUI_EXPORT djvTimePrefs : public QObject
         NOTIFY         timeUnitsChanged)
     
     //! This property holds the global speed.
-    
     Q_PROPERTY(
         djvSpeed::FPS speed
         READ          speed
@@ -70,45 +65,30 @@ class DJV_GUI_EXPORT djvTimePrefs : public QObject
         NOTIFY        speedChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvTimePrefs(QObject * parent = 0);
-
-    //! Destructor.
 
     ~djvTimePrefs();
 
     //! Get the global time units.
-
     djvTime::UNITS timeUnits() const;
 
     //! Get the global speed.
-
     djvSpeed::FPS speed() const;
 
 public Q_SLOTS:
-
     //! Set the global time units.
-
     void setTimeUnits(djvTime::UNITS);
 
     //! Set the global speed.
-
     void setSpeed(djvSpeed::FPS);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the global time units are changed.
-    
     void timeUnitsChanged(djvTime::UNITS);
 
     //! This signal is emitted when the global speed is changed.
-
     void speedChanged(djvSpeed::FPS);
 };
 
 //@} // djvGuiMisc
-
-#endif // DJV_TIME_PREFS_H
 

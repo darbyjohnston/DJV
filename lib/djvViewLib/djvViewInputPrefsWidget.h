@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewInputPrefsWidget.h
-
-#ifndef DJV_VIEW_INPUT_PREFS_WIDGET_H
-#define DJV_VIEW_INPUT_PREFS_WIDGET_H
+#pragma once
 
 #include <djvViewAbstractPrefsWidget.h>
 
@@ -53,19 +50,13 @@ class DJV_VIEW_LIB_EXPORT djvViewInputPrefsWidget :
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewInputPrefsWidget(djvViewContext *);
-    
-    //! Destructor.
     
     virtual ~djvViewInputPrefsWidget();
     
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void mouseWheelCallback(int);
     void mouseWheelShiftCallback(int);
     void mouseWheelCtrlCallback(int);
@@ -73,13 +64,10 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewInputPrefsWidget);
     
     djvViewInputPrefsWidgetPrivate * _p;
 };
 
 //@} // djvViewMisc
-
-#endif // DJV_VIEW_INPUT_PREFS_WIDGET_H
 

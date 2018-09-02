@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewInfoTool.cpp
-
 #include <djvViewInfoTool.h>
 
 #include <djvViewImageView.h>
@@ -84,7 +82,6 @@ djvViewInfoTool::djvViewInfoTool(
     _p(new djvViewInfoToolPrivate)
 {
     // Create the widgets.
-
     _p->fileNameWidget = new QLineEdit;
     _p->fileNameWidget->setReadOnly(true);
     
@@ -104,7 +101,6 @@ djvViewInfoTool::djvViewInfoTool(
     _p->tagsWidget->setReadOnly(true);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     
     QFormLayout * formLayout = new QFormLayout;
@@ -134,11 +130,9 @@ djvViewInfoTool::djvViewInfoTool(
     layout->addLayout(hLayout);
 
     // Initialize.
-    
     setWindowTitle(qApp->translate("djvViewInfoTool", "Information"));
 
     // Setup the callbacks.
-
     connect(
         mainWindow,
         SIGNAL(imageChanged()),
@@ -164,42 +158,32 @@ void djvViewInfoTool::widgetUpdate()
         _p->pixelWidget <<
         _p->timeWidget <<
         _p->tagsWidget);
-
     const djvImageIoInfo & imageIoInfo = mainWindow()->imageIoInfo();
-
     if (isVisible())
     {
         _p->fileNameWidget->setText(
             QDir::toNativeSeparators(imageIoInfo.fileName));
-
         _p->layerNameWidget->setText(imageIoInfo.layerName);
-
         _p->sizeWidget->setText(
             qApp->translate("djvViewInfoTool", "%1x%2:%3").
             arg(imageIoInfo.size.x).
             arg(imageIoInfo.size.y).
             arg(djvVectorUtil::aspect(imageIoInfo.size)));
-
         _p->pixelWidget->setText(
             djvStringUtil::label(imageIoInfo.pixel).join(", "));
-
         _p->timeWidget->setText(
             qApp->translate("djvViewInfoTool", "%1@%2").
             arg(djvTime::frameToString(
                 imageIoInfo.sequence.frames.count(),
                 imageIoInfo.sequence.speed)).
             arg(djvSpeed::speedToFloat(imageIoInfo.sequence.speed), 0, 'f', 2));
-
         QString tmp;
-
         const QStringList keys = imageIoInfo.tags.keys();
-
         for (int i = 0; i < keys.count(); ++i)
         {
             tmp += qApp->translate("djvViewInfoTool", "%1 = %2\n").
                 arg(keys[i]).arg(imageIoInfo.tags[keys[i]]);
         }
-
         if (! tmp.isEmpty())
         {
             _p->tagsWidget->setPlainText(tmp);

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefsGroupBox.h
-
-#ifndef DJV_PREFS_GROUP_BOX_H
-#define DJV_PREFS_GROUP_BOX_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -59,40 +56,28 @@ class DJV_GUI_EXPORT djvPrefsGroupBox : public QWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvPrefsGroupBox(
         const QString & title,
         djvGuiContext * context,
         QWidget *       parent  = 0);
-
-    //! Constructor.
-
     explicit djvPrefsGroupBox(
         const QString & title,
         const QString & text,
         djvGuiContext * context,
         QWidget *       parent  = 0);
 
-    //! Destructor.
-
     virtual ~djvPrefsGroupBox();
 
     //! Get the text.
-
     const QString & text() const;
     
     //! Set the text.
-    
     void setText(const QString &);
     
     //! Create a new layout to add widgets to the group box.
-    
     QFormLayout * createLayout();
     
 private:
-
     void init(const QString & title);
     
     DJV_PRIVATE_COPY(djvPrefsGroupBox);
@@ -101,6 +86,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_PREFS_GROUP_BOX_H
 

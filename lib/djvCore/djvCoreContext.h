@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreContext.h
-
-#ifndef DJV_CORE_CONTEXT_H
-#define DJV_CORE_CONTEXT_H
+#pragma once
 
 #include <djvError.h>
 #include <djvStringUtil.h>
@@ -61,55 +58,39 @@ class DJV_CORE_EXPORT djvCoreContext : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvCoreContext(QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvCoreContext();
 
     //! Parse the command line.
-
     virtual bool commandLine(int & argc, char ** argv);
     
     //! Get the documentation URL.
-    
     virtual QString doc() const;
 
     //! Get the application information.
-
     virtual QString info() const;
 
     //! Get the application about information.
-
     virtual QString about() const;
     
     //! Print a string.
-    
     virtual void print(const QString &, bool newLine = true, int indent = 0);
 
     //! Print a separator.
-    
     virtual void printSeparator();
     
     //! Get the debugging log.
-    
     djvDebugLog * debugLog() const;
 
 public Q_SLOTS:
-
     //! Print a message.
-
     void printMessage(const QString &);
 
     //! Print an error.
-
     void printError(const djvError &);
 
 protected:
-
     void loadTranslator(const QString & baseName);
 
     virtual bool commandLineParse(QStringList &) throw (QString);
@@ -119,15 +100,11 @@ protected:
     void consolePrint(const QString &, bool newLine = true, int indent = 0);
 
 private Q_SLOTS:
-
     void debugLogCallback(const QString &);
     
 private:
-    
     struct djvCoreContextPrivate * _p;
 };
 
 //@} // djvCoreMisc
-
-#endif // DJV_CORE_APPLICATION_H
 

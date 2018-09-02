@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVector3Inline.h
-
 //------------------------------------------------------------------------------
 // djvVector<T, 3>
 //------------------------------------------------------------------------------
@@ -39,7 +37,6 @@ template<typename T>
 const int djvVector<T, 3>::dimension = 3;
 
 #define _VEC3_INIT() \
-    \
     x(e[0]), \
     y(e[1]), \
     z(e[2])
@@ -85,7 +82,6 @@ inline djvVector<T, 3> & djvVector<T, 3>::operator = (const djvVector<T, 3> & in
         y = in.y;
         z = in.z;
     }
-
     return *this;
 }
 
@@ -102,7 +98,6 @@ inline void djvVector<T, 3>::zero()
 }
 
 #define _VEC3_OP(IN) \
-    \
     template<typename T> \
     inline djvVector<T, 3> & djvVector<T, 3>::operator IN (const djvVector<T, 3> & in) \
     { \
@@ -118,7 +113,6 @@ _VEC3_OP(*=)
 _VEC3_OP(/=)
 
 #define _VEC3_OP2(IN) \
-    \
     template<typename T> \
     inline djvVector<T, 3> & djvVector<T, 3>::operator IN (T in) \
     { \

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelDataUtil.cpp
-
 #include <djvPixelDataUtil.h>
 
 #include <djvAssert.h>
@@ -66,21 +64,17 @@ void djvPixelDataUtil::proxyScale(
     const int  h          = out.h();
     const int  proxyScale = djvPixelDataUtil::proxyScale(proxy);
     const bool bgr        = in.info().bgr != out.info().bgr;
-    const bool endian     = in.info().endian != out.info().endian;
-    
+    const bool endian     = in.info().endian != out.info().endian;    
     //DJV_DEBUG_PRINT("bgr = " << bgr);
     //DJV_DEBUG_PRINT("endian = " << endian);
 
     const bool fast = in.pixel() == out.pixel() && ! bgr && ! endian;
-    
     //DJV_DEBUG_PRINT("fast = " << fast);
 
     djvMemoryBuffer<quint8> tmp;
-
     if (! fast)
     {
         tmp.setSize(w * proxyScale * djvPixel::byteCount(in.pixel()));
-        
         //DJV_DEBUG_PRINT("tmp size = " << tmp.size());
     }
 
@@ -88,13 +82,11 @@ void djvPixelDataUtil::proxyScale(
     {
         const quint8 * inP = in.data(0, y * proxyScale);
         quint8 * outP = out.data(0, y);
-
         if (fast)
         {
             const quint64 pixelByteCount = in.pixelByteCount();
             const quint64 inStride       = pixelByteCount * proxyScale;
             const quint64 outStride      = pixelByteCount;
-
             for (
                 int x = 0;
                 x < w;
@@ -127,17 +119,13 @@ void djvPixelDataUtil::proxyScale(
             {
                 const int size     = w * proxyScale;
                 const int wordSize = djvPixel::byteCount(in.pixel());
-                
                 //DJV_DEBUG_PRINT("endian size = " << size);
                 //DJV_DEBUG_PRINT("endian word size = " << wordSize);
-                
                 djvMemory::convertEndian(inP, tmp(), size, wordSize);
-                
                 inP = tmp();
             }
             
             //DJV_DEBUG_PRINT("convert");
-
             djvPixel::convert(
                 inP,
                 in.pixel(),
@@ -158,7 +146,6 @@ int djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY proxy)
 djvVector2i djvPixelDataUtil::proxyScale(const djvVector2i & in, djvPixelDataInfo::PROXY proxy)
 {
     const int scale = proxyScale(proxy);
-
     return djvVector2i(
         djvMath::ceil(in.x / static_cast<double>(scale)),
         djvMath::ceil(in.y / static_cast<double>(scale)));
@@ -167,7 +154,6 @@ djvVector2i djvPixelDataUtil::proxyScale(const djvVector2i & in, djvPixelDataInf
 djvBox2i djvPixelDataUtil::proxyScale(const djvBox2i & in, djvPixelDataInfo::PROXY proxy)
 {
     const int scale = proxyScale(proxy);
-
     return djvBox2i(
         djvMath::ceil(in.x / static_cast<double>(scale)),
         djvMath::ceil(in.y / static_cast<double>(scale)),
@@ -194,16 +180,13 @@ void djvPixelDataUtil::planarInterleave(
     const int     channels         = out.channels();
     const quint64 pixelByteCount   = out.pixelByteCount();
     const int     channelByteCount = djvPixel::channelByteCount(out.pixel());
-
     for (int c = 0; c < channels; ++c)
     {
         for (int y = 0; y < h; ++y)
         {
             const quint8 * inP = in.data() + (c * in.h() + y * proxyScale) *
                 in.w() * channelByteCount;
-            
             quint8 * outP = out.data(0, y) + c * channelByteCount;
-
             for (
                 int x = 0;
                 x < w;
@@ -236,14 +219,12 @@ void djvPixelDataUtil::planarDeinterleave(const djvPixelData & in, djvPixelData 
     const int     channels         = out.channels();
     const quint64 pixelByteCount   = out.pixelByteCount();
     const int     channelByteCount = djvPixel::channelByteCount(out.pixel());
-
     for (int c = 0; c < channels; ++c)
     {
         for (int y = 0; y < h; ++y)
         {
             const quint8 * inP = in.data(0, y) + c * channelByteCount;
             quint8 * outP = out.data() + (c * h + y) * w * channelByteCount;
-
             for (
                 int x = 0;
                 x < w;
@@ -264,17 +245,12 @@ void djvPixelDataUtil::planarDeinterleave(const djvPixelData & in, djvPixelData 
 void djvPixelDataUtil::gradient(djvPixelData & out)
 {
     //DJV_DEBUG("gradient");
-
     const djvPixelDataInfo info(out.size(), djvPixel::L_F32);
-    
     out.set(info);
-    
     //DJV_DEBUG_PRINT("out = " << out);
-
     for (int y = 0; y < info.size.y; ++y)
     {
         djvPixel::F32_T * p = reinterpret_cast<djvPixel::F32_T *>(out.data(0, y));
-
         for (int x = 0; x < info.size.x; ++x, ++p)
         {
             *p = static_cast<djvPixel::F32_T>(

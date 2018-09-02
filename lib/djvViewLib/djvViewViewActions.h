@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewViewActions.h
-
-#ifndef DJV_VIEW_VIEW_ACTIONS_H
-#define DJV_VIEW_VIEW_ACTIONS_H
+#pragma once
 
 #include <djvViewAbstractActions.h>
 
@@ -54,9 +51,7 @@ class DJV_VIEW_LIB_EXPORT djvViewViewActions : public djvViewAbstractActions
     Q_ENUMS(GROUP)
     
 public:
-
     //! This enumeration provides the actions.
-
     enum ACTION
     {
         LEFT,
@@ -75,7 +70,6 @@ public:
     };
 
     //! This enumeration provides the action groups.
-
     enum GROUP
     {
         GRID_GROUP,
@@ -83,26 +77,18 @@ public:
         GROUP_COUNT
     };
 
-    //! Constructor.
-
     explicit djvViewViewActions(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewViewActions();
 
 private Q_SLOTS:
-
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewViewActions);
     
     djvViewViewActionsPrivate * _p;
 };
 
 //@} // djvViewView
-
-#endif // DJV_VIEW_VIEW_ACTIONS_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpx.h
-
-#ifndef DJV_DPX_H
-#define DJV_DPX_H
+#pragma once
 
 #include <djvCineon.h>
 
@@ -75,11 +72,9 @@
 struct djvDpx
 {
     //! Plugin name.
-    
     static const QString staticName;
 
     //! This enumeration provides the file format version.
-
     enum VERSION
     {
         VERSION_1_0,
@@ -89,11 +84,9 @@ struct djvDpx
     };
 
     //! Get the file format version labels.
-
     static const QStringList & versionLabels();
 
     //! This enumeration provides the file types.
-
     enum TYPE
     {
         TYPE_AUTO,
@@ -103,11 +96,9 @@ struct djvDpx
     };
 
     //! Get the file type labels.
-
     static const QStringList & typeLabels();
 
     //! This enumeration provides the file endians.
-
     enum ENDIAN
     {
         ENDIAN_AUTO,
@@ -118,11 +109,9 @@ struct djvDpx
     };
 
     //! Get the file endian labels.
-
     static const QStringList & endianLabels();
 
     //! This enumeration provides the DPX image tags.
-
     enum TAG
     {
         TAG_SOURCE_OFFSET,
@@ -160,11 +149,9 @@ struct djvDpx
     };
 
     //! Get the DPX image tag labels.
-
     static const QStringList & tagLabels();
 
     //! This enumeration provides the options.
-
     enum OPTIONS
     {
         INPUT_COLOR_PROFILE_OPTION,
@@ -179,15 +166,11 @@ struct djvDpx
     };
 
     //! Get the option labels.
-
     static const QStringList & optionsLabels();
 
     //! This struct provides options.
-
     struct Options
     {
-        //! Constructor.
-
         Options();
 
         djvCineon::COLOR_PROFILE     inputColorProfile;
@@ -200,13 +183,9 @@ struct djvDpx
     };
 };
 
-//------------------------------------------------------------------------------
-
 DJV_STRING_OPERATOR(, djvDpx::VERSION);
 DJV_STRING_OPERATOR(, djvDpx::TYPE);
 DJV_STRING_OPERATOR(, djvDpx::ENDIAN);
 
 //@} // djvDpxPlugin
-
-#endif // DJV_DPX_H
 

@@ -30,8 +30,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffPlugin.cpp
-
 #include <djvIffPlugin.h>
 
 #include <djvIffLoad.h>
@@ -75,12 +73,10 @@ QStringList djvIffPlugin::extensions() const
 QStringList djvIffPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvIff::COMPRESSION_OPTION], Qt::CaseInsensitive))
     {
         out << _options.compression;
     }
-
     return out;
 }
 
@@ -91,13 +87,10 @@ bool djvIffPlugin::setOption(const QString & in, QStringList & data)
         if (0 == in.compare(options()[djvIff::COMPRESSION_OPTION], Qt::CaseInsensitive))
         {
             djvIff::COMPRESSION compression = static_cast<djvIff::COMPRESSION>(0);
-            
             data >> compression;
-            
             if (compression != _options.compression)
             {
                 _options.compression = compression;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -106,7 +99,6 @@ bool djvIffPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -119,13 +111,11 @@ void djvIffPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (qApp->translate("djvIffPlugin", "-iff_compression") == arg)
             {
                 in >> _options.compression;
@@ -140,7 +130,6 @@ void djvIffPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 
@@ -166,3 +155,4 @@ djvImageSave * djvIffPlugin::createSave() const
 {
     return new djvIffSave(_options, imageContext());
 }
+

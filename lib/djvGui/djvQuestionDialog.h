@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvQuestionDialog.h
-
-#ifndef DJV_QUESTION_DIALOG_H
-#define DJV_QUESTION_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -56,23 +53,16 @@ class DJV_GUI_EXPORT djvQuestionDialog : public QDialog
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvQuestionDialog(
         const QString & label  = QString(),
         QWidget *       parent = 0);
 
-    //! Destructor.
-    
     virtual ~djvQuestionDialog();
     
     //! Get the label.
-
     const QString & label() const;
 
     //! Set the label.
-
     void setLabel(const QString &);
 
 private:
@@ -83,6 +73,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_QUESTION_DIALOG_H
 

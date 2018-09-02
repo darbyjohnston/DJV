@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenExrSave.h
-
-#ifndef DJV_OPENEXR_SAVE_H
-#define DJV_OPENEXR_SAVE_H
+#pragma once
 
 #include <djvOpenExr.h>
 
@@ -54,12 +51,7 @@
 class djvOpenExrSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     djvOpenExrSave(const djvOpenExr::Options &, djvImageContext *);
-
-    //! Destructor.
 
     virtual ~djvOpenExrSave();
 
@@ -72,7 +64,6 @@ public:
     virtual void close() throw (djvError);
 
 private:
-
     void _open(const QString &, const djvImageIoInfo &)
         throw (djvError);
 
@@ -86,6 +77,4 @@ private:
 };
 
 //@} // djvOpenExrPlugin
-
-#endif // DJV_OPENEXR_SAVE_H
 

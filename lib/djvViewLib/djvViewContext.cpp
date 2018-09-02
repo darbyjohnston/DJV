@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewContext.cpp
-
 #include <djvViewContext.h>
 
 #include <djvViewFileCache.h>
@@ -112,13 +110,10 @@ djvViewContext::djvViewContext(QObject * parent) :
     //DJV_DEBUG("djvViewContext::djvViewContext");
     
     // Load translators.
-    
     loadTranslator("djvViewLib");
     
     // Load preferences.
-    
     DJV_LOG(debugLog(), "djvViewContext", "Load the preferences...");
-    
     _p->filePrefs = new djvViewFilePrefs(this);
     _p->imagePrefs = new djvViewImagePrefs(this);
     _p->inputPrefs = new djvViewInputPrefs(this);
@@ -126,16 +121,12 @@ djvViewContext::djvViewContext(QObject * parent) :
     _p->shortcutPrefs = new djvViewShortcutPrefs(this);
     _p->viewPrefs = new djvViewViewPrefs(this);
     _p->windowPrefs = new djvViewWindowPrefs(this);
-
     DJV_LOG(debugLog(), "djvViewContext", "");
     
     // Initialize objects.
-    
     DJV_LOG(debugLog(), "djvViewContext", "Initialize objects...");
-    
     _p->fileCache = new djvViewFileCache(this);
     _p->fileSave = new djvViewFileSave(this);
-
     DJV_LOG(debugLog(), "djvViewContext", "");
 }
 
@@ -259,8 +250,7 @@ djvViewFileSave * djvViewContext::fileSave() const
 
 void djvViewContext::setValid(bool valid)
 {
-    djvGuiContext::setValid(true);
-    
+    djvGuiContext::setValid(true);    
     if (isValid())
     {
         prefsDialog()->addWidget(
@@ -287,9 +277,7 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
 
     if (! djvGuiContext::commandLineParse(in))
         return false;
-
     QString arg;
-
     try
     {
         while (! in.isEmpty())
@@ -297,7 +285,6 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
             in >> arg;
 
             // Parse the options.
-            
             if (qApp->translate("djvViewContext", "-combine") == arg)
             {
                 _p->combine = true;
@@ -315,7 +302,6 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the file options.
-
             else if (
                 qApp->translate("djvViewContext", "-file_layer") == arg)
             {
@@ -340,7 +326,6 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the window options.
-
             else if (
                 qApp->translate("djvViewContext", "-window_full_screen") == arg)
             {
@@ -348,7 +333,6 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the playback options.
-
             else if (
                 qApp->translate("djvViewContext", "-playback") == arg)
             {
@@ -373,7 +357,6 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
             }
 
             // Parse the arguments.
-
             else
             {
                 _p->input += arg;
@@ -383,8 +366,7 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
     catch (const QString &)
     {
         throw arg;
-    }
-    
+    }    
     return true;
 }
 
@@ -436,7 +418,6 @@ QString djvViewContext::commandLineHelp() const
 "    -playback_speed (value)\n"
 "        Set the playback speed. Options = %8.\n"
 "%9");
-
     return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_p->sequence).join(", ")).

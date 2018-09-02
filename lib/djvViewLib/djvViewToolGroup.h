@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewToolGroup.h
-
-#ifndef DJV_VIEW_TOOL_GROUP_H
-#define DJV_VIEW_TOOL_GROUP_H
+#pragma once
 
 #include <djvViewAbstractGroup.h>
 
@@ -56,50 +53,36 @@ class DJV_VIEW_LIB_EXPORT djvViewToolGroup : public djvViewAbstractGroup
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvViewToolGroup(
         const djvViewToolGroup * copy,
         djvViewMainWindow *      mainWindow,
         djvViewContext *         context);
 
-    //! Destructor.
-
     virtual ~djvViewToolGroup();
     
-    //! Get the tools.
-    
+    //! Get the tools.    
     const QVector<bool> & tools() const;
 
     virtual QToolBar * toolBar() const;
 
 public Q_SLOTS:
-
     //! Set the tools.
-    
     void setTools(const QVector<bool> &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the tools are changed.
-    
     void toolsChanged(const QVector<bool> &);
 
 private Q_SLOTS:
-
     void toolsCallback(QAction *);
 
     void update();
 
 private:
-
     DJV_PRIVATE_COPY(djvViewToolGroup);
     
     djvViewToolGroupPrivate * _p;
 };
 
 //@} // djvViewTool
-
-#endif // DJV_VIEW_TOOL_GROUP_H
 

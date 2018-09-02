@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewPlaybackPrefs.cpp
-
 #include <djvViewPlaybackPrefs.h>
 
 #include <djvPrefs.h>
@@ -106,9 +104,7 @@ void djvViewPlaybackPrefs::setAutoStart(bool in)
 {
     if (in == _autoStart)
         return;
-    
     _autoStart = in;
-    
     Q_EMIT autoStartChanged(_autoStart);
     Q_EMIT prefChanged();
 }
@@ -117,9 +113,7 @@ void djvViewPlaybackPrefs::setLoop(djvViewUtil::LOOP in)
 {
     if (in == _loop)
         return;
-
     _loop = in;
-
     Q_EMIT loopChanged(_loop);
     Q_EMIT prefChanged();
 }
@@ -128,9 +122,7 @@ void djvViewPlaybackPrefs::setEveryFrame(bool in)
 {
     if (in == _everyFrame)
         return;
-
     _everyFrame = in;
-
     Q_EMIT everyFrameChanged(_everyFrame);
     Q_EMIT prefChanged();
 }
@@ -139,9 +131,7 @@ void djvViewPlaybackPrefs::setLayout(djvViewUtil::LAYOUT in)
 {
     if (in == _layout)
         return;
-
     _layout = in;
-
     Q_EMIT layoutChanged(_layout);
     Q_EMIT prefChanged();
 }

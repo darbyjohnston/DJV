@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPpm.cpp
-
 #include <djvPpm.h>
 
 #include <djvAssert.h>
@@ -60,9 +58,7 @@ const QStringList & djvPpm::typeLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvPpm", "Auto") <<
         qApp->translate("djvPpm", "U1");
-
     DJV_ASSERT(data.count() == TYPE_COUNT);
-
     return data;
 }
 
@@ -71,9 +67,7 @@ const QStringList & djvPpm::dataLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvPpm", "ASCII") <<
         qApp->translate("djvPpm", "Binary");
-
     DJV_ASSERT(data.count() == DATA_COUNT);
-
     return data;
 }
 
@@ -90,53 +84,39 @@ quint64 djvPpm::scanlineByteCount(
     //DJV_DEBUG_PRINT("data = " << data);
 
     quint64 out = 0;
-
     switch (data)
     {
         case DATA_ASCII:
         {
             int chars = 0;
-
             switch (bitDepth)
             {
                 case  1: chars = 1; break;
                 case  8: chars = 3; break;
                 case 16: chars = 5; break;
-
                 default: break;
             }
-
             out = (chars + 1) * width * channels + 1;
         }
         break;
-
         case DATA_BINARY:
         {
             switch (bitDepth)
             {
                 case 1:
-                
                     out = djvMath::ceil(width / 8.0);
-                    
                     break;
-
                 case  8:
                 case 16:
-                
                     out = width * channels;
-                    
                     break;
-
                 default: break;
             }
         }
         break;
-
         default: break;
     }
-
     //DJV_DEBUG_PRINT("out = " << static_cast<int>(out));
-
     return out;
 }
 
@@ -144,17 +124,13 @@ void djvPpm::asciiLoad(djvFileIo & io, void * out, int size, int bitDepth)
     throw (djvError)
 {
     //DJV_DEBUG("djvPpm::asciiLoad");
-
     char tmp[djvStringUtil::cStringLength] = "";
-    
     int i = 0;
-
     switch (bitDepth)
     {
         case 1:
         {
             quint8 * outP = reinterpret_cast<quint8 *>(out);
-
             for (; i < size; ++i)
             {
                 djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength);
@@ -162,28 +138,23 @@ void djvPpm::asciiLoad(djvFileIo & io, void * out, int size, int bitDepth)
             }
         }
         break;
-
 #define _LOAD(TYPE) \
-  \
     TYPE * outP = reinterpret_cast<TYPE *>(out); \
     for (; i < size; ++i) \
     { \
         djvFileIoUtil::word(io, tmp, djvStringUtil::cStringLength); \
         outP[i] = QString(tmp).toInt(); \
     }
-
         case 8:
         {
             _LOAD(quint8)
         }
         break;
-
         case 16:
         {
             _LOAD(quint16)
         }
         break;
-
         default: break;
     }
 }
@@ -195,13 +166,11 @@ quint64 djvPpm::asciiSave(
     int          bitDepth)
 {
     char * outP = reinterpret_cast<char *>(out);
-
     switch (bitDepth)
     {
         case 1:
         {
             const quint8 * inP = reinterpret_cast<const quint8 *>(in);
-
             for (int i = 0; i < size; ++i)
             {
                 outP[0] = '0' + (! inP[i]);
@@ -210,40 +179,29 @@ quint64 djvPpm::asciiSave(
             }
         }
             break;
-
 #define _SAVE(TYPE) \
-    \
     const TYPE * inP = reinterpret_cast<const TYPE *>(in); \
-    \
     for (int i = 0; i < size; ++i) \
     { \
         QString s = QString::number(inP[i]); \
-        \
         const char * c = s.toLatin1().data(); \
-        \
         for (int j = 0; j < s.count(); ++j) \
             *outP++ = c[j]; \
-        \
         *outP++ = ' '; \
     }
-
         case 8:
         {
             _SAVE(quint8)
         }
         break;
-
         case 16:
         {
             _SAVE(quint16)
         }
         break;
-
         default: break;
     }
-
     *outP++ = '\n';
-
     return outP - reinterpret_cast<char *>(out);
 }
 
@@ -252,13 +210,9 @@ const QStringList & djvPpm::optionsLabels()
     static const QStringList data = QStringList() <<
         qApp->translate("djvPpm", "Type") <<
         qApp->translate("djvPpm", "Data");
-
     DJV_ASSERT(data.count() == OPTIONS_COUNT);
-
     return data;
 }
-
-//------------------------------------------------------------------------------
 
 _DJV_STRING_OPERATOR_LABEL(djvPpm::TYPE, djvPpm::typeLabels())
 _DJV_STRING_OPERATOR_LABEL(djvPpm::DATA, djvPpm::dataLabels())

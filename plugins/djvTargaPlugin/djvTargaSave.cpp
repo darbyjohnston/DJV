@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTargaSave.cpp
-
 #include <djvTargaSave.h>
 
 #include <djvOpenGlImage.h>
@@ -52,30 +50,22 @@ void djvTargaSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
 {
     //DJV_DEBUG("djvTargaSave::open");
     //DJV_DEBUG_PRINT("in = " << in);
-
     _file = in;
-
     if (info.sequence.frames.count() > 1)
     {
         _file.setType(djvFileInfo::SEQUENCE);
     }
-
     _info = djvPixelDataInfo();
     _info.size = info.size;
     _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), djvPixel::U8);
-
     switch (djvPixel::format(_info.pixel))
     {
         case djvPixel::RGB:
         case djvPixel::RGBA: _info.bgr = true; break;
-
         default: break;
     }
-
     _info.endian = djvMemory::LSB;
-
     //DJV_DEBUG_PRINT("info = " << _info);
-
     _image.set(_info);
 }
 
@@ -86,37 +76,26 @@ void djvTargaSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-    
     const QString fileName = _file.fileName(frame.frame);
-    
     djvFileIo io;
-
     io.setEndian(djvMemory::endian() != djvMemory::LSB);
-
     io.open(fileName, djvFileIo::WRITE);
-
     djvTarga::saveInfo(
         io,
         _info,
         _options.compression != djvTarga::COMPRESSION_NONE);
 
     // Convert the image.
-
     const djvPixelData * p = &in;
-
     if (in.info() != _info)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
-
         _image.zero();
-
         djvOpenGlImage::copy(in, _image);
-
         p = &_image;
     }
 
     // Write the file.
-
     if (! _options.compression)
     {
         io.set(p->data(), p->dataByteCount());
@@ -125,14 +104,11 @@ void djvTargaSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     {
         const int w = p->w(), h = p->h();
         const int channels = djvPixel::channels(p->info().pixel);
-
         djvMemoryBuffer<quint8> scanline(w * channels * 2);
-
         for (int y = 0; y < h; ++y)
         {
             const quint64 size =
                 djvTarga::writeRle(p->data(0, y), scanline(), w, channels);
-            
             io.set(scanline.data(), size);
         }
     }

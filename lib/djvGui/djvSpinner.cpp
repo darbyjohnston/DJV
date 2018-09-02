@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSpinner.cpp
-
 #include <djvSpinner.h>
 
 #include <djvGuiContext.h>
@@ -82,18 +80,14 @@ djvSpinner::~djvSpinner()
 {
     if (_p->timer != 0)
     {
-        killTimer(_p->timer);
-        
+        killTimer(_p->timer);        
         _p->timer = 0;
     }
-    
     if (_p->startTimer != 0)
     {
-        killTimer(_p->startTimer);
-        
+        killTimer(_p->startTimer);   
         _p->startTimer = 0;
     }
-    
     delete _p;
 }
 
@@ -105,18 +99,14 @@ bool djvSpinner::isSpinning() const
 void djvSpinner::start()
 {
     stop();
-    
     _p->tick = 0;
-        
     _p->timer = startTimer(10);
-
     update();
 }
 
 void djvSpinner::startDelayed(int msec)
 {
     stop();
-    
     _p->startTimer = startTimer(msec);
 }
 
@@ -125,16 +115,12 @@ void djvSpinner::stop()
     if (_p->timer != 0)
     {
         killTimer(_p->timer);
-        
         _p->timer = 0;
-
         update();
     }
-    
     if (_p->startTimer != 0)
     {
         killTimer(_p->startTimer);
-        
         _p->startTimer = 0;
     }
 }
@@ -142,19 +128,15 @@ void djvSpinner::stop()
 void djvSpinner::timerEvent(QTimerEvent * event)
 {
     const int id = event->timerId();
-    
     if (id == _p->timer)
     {
         ++_p->tick;
-    
         update();
     }
     else if (id == _p->startTimer)
     {
         killTimer(_p->startTimer);
-        
         _p->startTimer = 0;
-        
         start();
     }
 }
@@ -163,18 +145,13 @@ void djvSpinner::paintEvent(QPaintEvent *)
 {
     if (! _p->timer)
         return;
-
     QPainter painter(this);
-    
     const int w = width ();
     const int h = height();
-    
     painter.translate(w / 2, h / 2);
     painter.rotate(-_p->tick);
     painter.translate(-w / 2, -h / 2);
-    
     const int s = djvMath::min<int>(w, h) / 2;
-    
     _p->svg->render(&painter, QRectF(w / 2 - s / 2, h / 2 - s / 2, s, s));
 }
 

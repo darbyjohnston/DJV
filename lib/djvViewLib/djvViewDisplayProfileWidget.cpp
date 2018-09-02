@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewDisplayProfileWidget.cpp
-
 #include <djvViewDisplayProfileWidget.h>
 
 #include <djvViewContext.h>
@@ -97,14 +95,12 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     _p(new djvViewDisplayProfileWidgetPrivate(viewWidget, context))
 {
     // Create the LUT widgets.
-
     QGroupBox * lutGroup = new QGroupBox(
         qApp->translate("djvViewDisplayProfileWidget", "Lookup Table"));
 
     _p->lutWidget = new djvFileEdit(context);
 
     // Create the color widgets.
-
     QGroupBox * colorGroup = new QGroupBox(
         qApp->translate("djvViewDisplayProfileWidget", "Color"));
 
@@ -124,7 +120,6 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     _p->saturationWidget->sliderObject()->setRange(0.0, 4.0);
 
     // Create the levels widgets.
-
     QGroupBox * levelsGroup = new QGroupBox(
         qApp->translate("djvViewDisplayProfileWidget", "Levels"));
 
@@ -159,7 +154,6 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     _p->softClipWidget->sliderObject()->setRange(0.0, 1.0);
 
     // Create the other widgets.
-
     djvToolButton * addButton = new djvToolButton(
         context->iconLibrary()->icon("djvAddIcon.png"));
     addButton->setToolTip(
@@ -171,7 +165,6 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
         qApp->translate("djvViewDisplayProfileWidget", "Reset the display profile"));
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     layout->addWidget(lutGroup);
@@ -220,72 +213,59 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     layout->addStretch();
     
     // Initialize.
-    
     widgetUpdate();
 
     // Setup the LUT callbacks.
-
     connect(
         _p->lutWidget,
         SIGNAL(fileInfoChanged(const djvFileInfo &)),
         SLOT(lutCallback(const djvFileInfo &)));
 
     // Setup the color callbacks.
-
     connect(
         _p->brightnessWidget,
         SIGNAL(valueChanged(double)),
         SLOT(brightnessCallback(double)));
-
     connect(
         _p->contrastWidget,
         SIGNAL(valueChanged(double)),
         SLOT(contrastCallback(double)));
-
     connect(
         _p->saturationWidget,
         SIGNAL(valueChanged(double)),
         SLOT(saturationCallback(double)));
 
     // Setup the levels callbacks.
-
     connect(
         _p->levelsInWidget[0],
         SIGNAL(valueChanged(double)),
         SLOT(levelsIn0Callback(double)));
-
     connect(
         _p->levelsInWidget[1],
         SIGNAL(valueChanged(double)),
         SLOT(levelsIn1Callback(double)));
-
     connect(
         _p->gammaWidget,
         SIGNAL(valueChanged(double)),
         SLOT(gammaCallback(double)));
-
     connect(
         _p->levelsOutWidget[0],
         SIGNAL(valueChanged(double)),
         SLOT(levelsOut0Callback(double)));
-
     connect(
         _p->levelsOutWidget[1],
         SIGNAL(valueChanged(double)),
         SLOT(levelsOut1Callback(double)));
-
     connect(
         _p->softClipWidget,
         SIGNAL(valueChanged(double)),
         SLOT(softClipCallback(double)));
 
     // Setup the other callbacks.
-
     connect(
         addButton,
         SIGNAL(clicked()),
         SLOT(addCallback()));
-
     connect(
         resetButton,
         SIGNAL(clicked()),
@@ -302,23 +282,18 @@ const djvViewDisplayProfile & djvViewDisplayProfileWidget::displayProfile() cons
     return _p->displayProfile;
 }
 
-void djvViewDisplayProfileWidget::setDisplayProfile(
-    const djvViewDisplayProfile & displayProfile)
+void djvViewDisplayProfileWidget::setDisplayProfile(const djvViewDisplayProfile & displayProfile)
 {
     if (displayProfile == _p->displayProfile)
-        return;
-    
+        return;    
     _p->displayProfile = displayProfile;
-
     widgetUpdate();
-    
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::lutCallback(const djvFileInfo & in)
 {
     _p->displayProfile.lutFile = in;
-    
     try
     {
         djvViewUtil::loadLut(
@@ -330,7 +305,6 @@ void djvViewDisplayProfileWidget::lutCallback(const djvFileInfo & in)
     {
         _p->context->printError(error);
     }
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
@@ -338,65 +312,55 @@ void djvViewDisplayProfileWidget::brightnessCallback(double value)
 {
     //DJV_DEBUG("djvViewDisplayProfileWidget::brightnessCallback");
     //DJV_DEBUG_PRINT("value = " << value);
-    
     _p->displayProfile.color.brightness = value;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::contrastCallback(double in)
 {
     _p->displayProfile.color.contrast = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::saturationCallback(double in)
 {
     _p->displayProfile.color.saturation = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::levelsIn0Callback(double in)
 {
     _p->displayProfile.levels.inLow = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::levelsIn1Callback(double in)
 {
     _p->displayProfile.levels.inHigh = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::gammaCallback(double in)
 {
     _p->displayProfile.levels.gamma = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::levelsOut0Callback(double in)
 {
     _p->displayProfile.levels.outLow = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::levelsOut1Callback(double in)
 {
     _p->displayProfile.levels.outHigh = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
 void djvViewDisplayProfileWidget::softClipCallback(double in)
 {
     _p->displayProfile.softClip = in;
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
@@ -404,16 +368,13 @@ void djvViewDisplayProfileWidget::addCallback()
 {
     djvInputDialog dialog(
         qApp->translate("djvViewDisplayProfileWidget", "Name this display profile:"));
-
     if (QDialog::Accepted == dialog.exec())
     {
         QVector<djvViewDisplayProfile> displayProfiles =
             _p->context->imagePrefs()->displayProfiles();
-
         djvViewDisplayProfile displayProfile(_p->displayProfile);
         displayProfile.name = dialog.text();
         displayProfiles += displayProfile;
-
         _p->context->imagePrefs()->setDisplayProfiles(displayProfiles);
     }
 }
@@ -421,9 +382,7 @@ void djvViewDisplayProfileWidget::addCallback()
 void djvViewDisplayProfileWidget::resetCallback()
 {
     _p->displayProfile = djvViewDisplayProfile();
-
     widgetUpdate();
-
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
@@ -440,13 +399,10 @@ void djvViewDisplayProfileWidget::widgetUpdate()
         _p->levelsOutWidget[0] <<
         _p->levelsOutWidget[1] <<
         _p->softClipWidget);
-
     _p->lutWidget->setFileInfo(_p->displayProfile.lutFile);
-
     _p->brightnessWidget->setValue(_p->displayProfile.color.brightness);
     _p->contrastWidget->setValue(_p->displayProfile.color.contrast);
     _p->saturationWidget->setValue(_p->displayProfile.color.saturation);
-
     _p->levelsInWidget[0]->setValue(_p->displayProfile.levels.inLow);
     _p->levelsInWidget[1]->setValue(_p->displayProfile.levels.inHigh);
     _p->gammaWidget->setValue(_p->displayProfile.levels.gamma);

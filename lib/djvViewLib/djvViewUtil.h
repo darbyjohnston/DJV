@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewUtil.h
-
-#ifndef DJV_VIEW_UTIL_H
-#define DJV_VIEW_UTIL_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -48,11 +45,8 @@ class djvFileInfo;
 class djvPixelData;
 
 #if defined(DJV_WINDOWS)
-
 //! \todo Windows defines the macro "FILE_OPEN".
-
 #undef FILE_OPEN
-
 #endif
 
 //! \addtogroup djvViewLib
@@ -86,13 +80,9 @@ class DJV_VIEW_LIB_EXPORT djvViewUtil
     Q_ENUMS(ERROR)
     
 public:
-
-    //! Destructor.
-    
     virtual ~djvViewUtil() = 0;
 
     //! This enumeration provides the maximum view size.
-
     enum VIEW_MAX
     {
         VIEW_MAX_NONE,
@@ -105,11 +95,9 @@ public:
     };
     
     //! Get the maximum view size labels.
-    
     static const QStringList & viewMaxLabels();
 
     //! This enumeration provides tool bar visibility options.
-
     enum TOOL_BAR
     {
         TOOL_BARS,
@@ -120,11 +108,9 @@ public:
     };
 
     //! Get the visibility option labels.
-
     static const QStringList & toolBarLabels();
 
     //! This enumeration provides the grid overlays.
-
     enum GRID
     {
         GRID_NONE,
@@ -136,11 +122,9 @@ public:
     };
 
     //! Get the grid overlay labels.
-
     static const QStringList & gridLabels();
 
     //! This enumeration provides the HUD information.
-
     enum HUD
     {
         HUD_FILE_NAME,
@@ -156,11 +140,9 @@ public:
     };
 
     //! Get the HUD information labels.
-
     static const QStringList & hudInfoLabels();
 
     //! This enumeration provides the HUD backgrounds.
-
     enum HUD_BACKGROUND
     {
         HUD_BACKGROUND_NONE,
@@ -171,11 +153,9 @@ public:
     };
 
     //! Get the HUD background labels.
-
     static const QStringList & hudBackgroundLabels();
 	
     //! This enumeration provides the image scales.
-
     enum IMAGE_SCALE
     {
         IMAGE_SCALE_NONE,
@@ -199,15 +179,12 @@ public:
     };
 
     //! Get image scale labels.
-
     static const QStringList & imageScaleLabels();
 
     //! Calculate an image scale.
-
     static djvVector2f imageScale(IMAGE_SCALE, const djvVector2i &);
 
     //! This enumeration provides the image rotation.
-
     enum IMAGE_ROTATE
     {
         IMAGE_ROTATE_0,
@@ -219,22 +196,18 @@ public:
     };
 
     //! Get image rotate labels.
-
     static const QStringList & imageRotateLabels();
 
     //! Get the image rotation in degrees.
-
     static double imageRotate(IMAGE_ROTATE);
 
     //! Load a LUT.
-
     static void loadLut(
         const djvFileInfo & fileInfo,
         djvPixelData &      lut,
         djvViewContext *    context) throw (djvError);
 
     //! This enumeration provides the playback modes.
-
     enum PLAYBACK
     {
         REVERSE,
@@ -245,11 +218,9 @@ public:
     };
 
     //! Get the playback labels.
-
     static const QStringList & playbackLabels();
 
     //! This enumeration provides the frame controls.
-
     enum FRAME
     {
         FRAME_START,
@@ -267,11 +238,9 @@ public:
     };
 
     //! Get the frame labels.
-
     static const QStringList & frameLabels();
 
     //! This enumeration provides the loop modes.
-
     enum LOOP
     {
         LOOP_ONCE,
@@ -282,11 +251,9 @@ public:
     };
 
     //! Get the loop mode labels.
-
     static const QStringList & loopLabels();
 
     //! This enumeration provides the in/out controls.
-
     enum IN_OUT
     {
         IN_OUT_ENABLE,
@@ -299,11 +266,9 @@ public:
     };
 
     //! Get the in/out labels.
-
     static const QStringList & inOutLabels();
 
     //! This enumeration provides the playback bar layouts.
-
     enum LAYOUT
     {
         LAYOUT_DEFAULT,
@@ -315,11 +280,9 @@ public:
     };
 
     //! Get the playback bar layout labels.
-
     static const QStringList & layoutLabels();
     
     //! This enumeration provides the tool actions.
-
     enum TOOL
     {
         TOOL_MAGNIFY,
@@ -331,11 +294,9 @@ public:
     };
 
     //! Get the tool action labels.
-
     static const QStringList & toolLabels();
     
     //! This enumeration provides the histogram sizes.
-    
     enum HISTOGRAM
     {
         HISTOGRAM_256,
@@ -347,15 +308,12 @@ public:
     };
 
     //! Get the histogram size labels.
-
     static const QStringList & histogramLabels();
     
     //! Get a histogram size.
-    
     static const int histogramSize(HISTOGRAM);
 
     //! This enumeration provides the keyboard shortcuts.
-
     enum SHORTCUT
     {
         SHORTCUT_EXIT,
@@ -478,11 +436,9 @@ public:
     };
 
     //! Get the shortcut labels.
-
     static const QStringList & shortcutLabels();
     
     //! This enumeration provides the mouse wheel actions.
-
     enum MOUSE_WHEEL
     {
         MOUSE_WHEEL_VIEW_ZOOM,
@@ -493,11 +449,9 @@ public:
     };
 
     //! Get the mouse wheel action labels.
-
     static const QStringList & mouseWheelLabels();
 
     //! This enumeration provides the mouse wheel zoom factors.
-
     enum ZOOM_FACTOR
     {
         ZOOM_FACTOR_10,
@@ -508,15 +462,12 @@ public:
     };
 
     //! Get the mouse wheel zoom factor labels.
-
     static const QStringList & zoomFactorLabels();
     
     //! Get the mouse wheel zoom factor.
-    
     static double zoomFactor(ZOOM_FACTOR);
 
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_OPEN_IMAGE,
@@ -531,11 +482,8 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 };
-
-//------------------------------------------------------------------------------
 
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::VIEW_MAX);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::TOOL_BAR);
@@ -554,6 +502,4 @@ DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::MOUSE_WHEEL);
 DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewUtil::ZOOM_FACTOR);
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_UTIL_H
 

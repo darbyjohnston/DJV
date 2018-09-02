@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSgiSave.h
-
-#ifndef DJV_SGI_SAVE_H
-#define DJV_SGI_SAVE_H
+#pragma once
 
 #include <djvSgi.h>
 
@@ -51,12 +48,7 @@
 class djvSgiSave : public djvImageSave
 {
 public:
-
-    //! Constructor.
-
     djvSgiSave(const djvSgi::Options &, djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvSgiSave();
 
@@ -67,7 +59,6 @@ public:
         throw (djvError);
 
 private:
-
     void _open(const QString &) throw (djvError);
 
     djvSgi::Options          _options;
@@ -80,6 +71,4 @@ private:
 };
 
 //@} // djvSgiPlugin
-
-#endif // DJV_SGI_SAVE_H
 

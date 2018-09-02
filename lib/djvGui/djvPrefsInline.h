@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefsInline.h
-
 #include <djvStringUtil.h>
 
 #include <QStringList>
@@ -43,10 +41,8 @@ template<typename T>
 inline bool djvPrefs::get(const QString & name, T & out) const
 {
     QStringList tmp;
-
     if (! _get(name, tmp))
         return false;
-
     try
     {
         tmp >> out;
@@ -55,7 +51,6 @@ inline bool djvPrefs::get(const QString & name, T & out) const
     {
         return false;
     }
-
     return true;
 }
 
@@ -63,8 +58,7 @@ template<typename T>
 inline void djvPrefs::set(const QString & name, const T & in)
 {
     QStringList tmp;
-    
     tmp << in;
-
     _set(name, tmp);
 }
+

@@ -13,6 +13,7 @@ set(header
     djvColorProfile.h
     djvCoreContext.h
     djvCoreExport.h
+    djvCore.h
     djvDebug.h
     djvDebugInline.h
     djvDebugLog.h

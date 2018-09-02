@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvShortcut.cpp
-
 #include <djvShortcut.h>
 
 #include <QStringList>
@@ -60,19 +58,14 @@ bool djvShortcut::serialize(QStringList & in, QKeySequence & out)
 {
     if (! in.count())
         return false;
-
     out = QKeySequence(in.first());
-
     in.pop_front();
-
     return true;
 }
 
 QStringList djvShortcut::serialize(const QKeySequence & in)
 {
     QStringList out;
-    
     out += in.toString();
-
     return out;
 }

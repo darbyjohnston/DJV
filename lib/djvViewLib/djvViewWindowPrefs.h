@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowPrefs.h
-
-#ifndef DJV_VIEW_WINDOW_PREFS_H
-#define DJV_VIEW_WINDOW_PREFS_H
+#pragma once
 
 #include <djvViewAbstractPrefs.h>
 #include <djvViewUtil.h>
@@ -51,106 +48,78 @@ class DJV_VIEW_LIB_EXPORT djvViewWindowPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     explicit djvViewWindowPrefs(djvViewContext *, QObject * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvViewWindowPrefs();
 
     //! Get the default for whether to automatically fit the window to the
     //! image.
-    
     static bool autoFitDefault();
 
     //! Get whether to automatically fit the window to the image.
-
     bool hasAutoFit() const;
 
     //! Get the default maximum view size.
-
     static djvViewUtil::VIEW_MAX viewMaxDefault();
 
     //! Get the maximum view size.
-
     djvViewUtil::VIEW_MAX viewMax() const;
     
     //! Get the default user specified maximum view size.
-    
     static const djvVector2i & viewMaxUserDefault();
     
     //! Get the user specified maximum view size.
-    
     const djvVector2i & viewMaxUser() const;
 
     //! Get the default for whether the controls are visible when going full
     //! screen.
-
     static bool fullScreenControlsDefault();
 
     //! Get whether the controls are visible when going full screen.
-
     bool hasFullScreenControls() const;
 
     //! Get the default tool bar visiblity.
-    
     static QVector<bool> toolBarDefault();
     
     //! Get the tool bar visibility.
-
     const QVector<bool> & toolBar() const;
 
 public Q_SLOTS:
-
     //! Set whether to automatically fit the window to the image.
-    
     void setAutoFit(bool);
 
     //! Set the maximum view size.
-
     void setViewMax(djvViewUtil::VIEW_MAX);
     
     //! Set the user specified maximum view size.
-    
     void setViewMaxUser(const djvVector2i &);
 
     //! Set whether the controls are visible when going full screen.
-
     void setFullScreenControls(bool);
 
     //! Set the tool bar visibility.
-
     void setToolBar(const QVector<bool> &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when automatically fitting the window to the
     //! image is changed.
-
     void autoFitChanged(bool);
 
     //! This signal is emitted when the maximum view size is changed.
-
     void viewMaxChanged(djvViewUtil::VIEW_MAX);
     
     //! This signal is emitted when the user specified maximum view size is
     //! changed.
-
     void viewMaxUserChanged(const djvVector2i &);
 
     //! This signal is emitted when the full screen controls option is
     //! changed.
-
     void fullScreenControlsChanged(bool);
 
     //! This signal is emitted when the tool bar visibility is changed.
-
     void toolBarChanged(const QVector<bool> &);
 
 private:
-
     bool                  _autoFit;
     djvViewUtil::VIEW_MAX _viewMax;
     djvVector2i           _viewMaxUser;
@@ -159,6 +128,4 @@ private:
 };
 
 //@} // djvViewWindow
-
-#endif // DJV_VIEW_WINDOW_PREFS_H
 

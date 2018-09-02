@@ -30,10 +30,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIffLoad.h
-
-#ifndef DJV_IFF_LOAD_H
-#define DJV_IFF_LOAD_H
+#pragma once
 
 #include <djvIff.h>
 
@@ -54,12 +51,7 @@
 class djvIffLoad : public djvImageLoad
 {
 public:
-
-    //! Constructor.
-
     explicit djvIffLoad(djvImageContext *);
-    
-    //! Destructor.
     
     virtual ~djvIffLoad();
 
@@ -70,7 +62,6 @@ public:
         throw (djvError);
     
 private:
-
     void _open(const djvFileInfo &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
@@ -82,4 +73,3 @@ private:
 
 //@} // djvIffPlugin
 
-#endif // DJV_IFF_LOAD_H

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewWindowGroup.cpp
-
 #include <djvViewWindowGroup.h>
 
 #include <djvViewContext.h>
@@ -90,64 +88,50 @@ djvViewWindowGroup::djvViewWindowGroup(
     }
 
     // Create the actions.
-
     _p->actions = new djvViewWindowActions(context, this);
     
     // Create the menus.
-
     _p->menu = new djvViewWindowMenu(_p->actions, mainWindow->menuBar());
-
     mainWindow->menuBar()->addMenu(_p->menu);
 
     // Create the widgets.
-
     _p->toolBar = new djvViewWindowToolBar(_p->actions, context);
-
     mainWindow->addToolBar(_p->toolBar);
 
     // Initialize.
-
     update();
 
     // Setup the action callbacks.
-
     connect(
         _p->actions->action(djvViewWindowActions::NEW),
         SIGNAL(triggered()),
         SLOT(newCallback()));
-
     connect(
         _p->actions->action(djvViewWindowActions::COPY),
         SIGNAL(triggered()),
         SLOT(copyCallback()));
-
     connect(
         _p->actions->action(djvViewWindowActions::CLOSE),
         SIGNAL(triggered()),
         SLOT(closeCallback()));
-
     connect(
         _p->actions->action(djvViewWindowActions::FIT),
         SIGNAL(triggered()),
         SLOT(fitCallback()));
-
     connect(
         _p->actions->action(djvViewWindowActions::FULL_SCREEN),
         SIGNAL(toggled(bool)),
         SLOT(setFullScreen(bool)));
-
     connect(
         _p->actions->action(djvViewWindowActions::CONTROLS_VISIBLE),
         SIGNAL(toggled(bool)),
         SLOT(setControlsVisible(bool)));
-
     connect(
         _p->actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP),
         SIGNAL(triggered(QAction *)),
         SLOT(toolBarVisibleCallback(QAction *)));
 
     // Setup the preferences callbacks.
-    
     connect(
         context->windowPrefs(),
         SIGNAL(toolBarChanged(const QVector<bool> &)),
@@ -157,7 +141,6 @@ djvViewWindowGroup::djvViewWindowGroup(
 djvViewWindowGroup::~djvViewWindowGroup()
 {
     //DJV_DEBUG("djvViewWindowGroup::~djvViewWindowGroup");
-
     delete _p;
 }
 
@@ -185,13 +168,10 @@ void djvViewWindowGroup::setFullScreen(bool fullScreen)
 {
     if (fullScreen == _p->fullScreen)
         return;
-    
     _p->fullScreen = fullScreen;
-
     if (_p->fullScreen)
     {
         mainWindow()->showFullScreen();
-
         if (! context()->windowPrefs()->hasFullScreenControls())
         {
             setControlsVisible(false);
@@ -206,9 +186,7 @@ void djvViewWindowGroup::setFullScreen(bool fullScreen)
             setControlsVisible(true);
         }
     }
-
     update();
-    
     Q_EMIT fullScreenChanged(_p->fullScreen);
 }
 
@@ -216,11 +194,8 @@ void djvViewWindowGroup::setControlsVisible(bool visible)
 {
     if (visible == _p->controlsVisible)
         return;
-
     _p->controlsVisible = visible;
-
     update();
-
     Q_EMIT controlsVisibleChanged(_p->controlsVisible);
 }
 
@@ -228,11 +203,8 @@ void djvViewWindowGroup::setToolBarVisible(const QVector<bool> & visible)
 {
     if (visible == _p->toolBarVisible)
         return;
-    
     _p->toolBarVisible = visible;
-    
     update();
-
     Q_EMIT toolBarVisibleChanged(_p->toolBarVisible);
 }
 
@@ -259,23 +231,16 @@ void djvViewWindowGroup::fitCallback()
 void djvViewWindowGroup::toolBarVisibleCallback(QAction * action)
 {
     QVector<bool> tmp = _p->toolBarVisible;
-
     const int index = _p->actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP)->
         actions().indexOf(action);
-
     tmp[index] = ! tmp[index];
-
     setToolBarVisible(tmp);
 }
 
 void djvViewWindowGroup::update()
 {
-    _p->actions->action(djvViewWindowActions::FULL_SCREEN)->
-        setChecked(_p->fullScreen);
-
-    _p->actions->action(djvViewWindowActions::CONTROLS_VISIBLE)->
-        setChecked(_p->controlsVisible);
-
+    _p->actions->action(djvViewWindowActions::FULL_SCREEN)->setChecked(_p->fullScreen);
+    _p->actions->action(djvViewWindowActions::CONTROLS_VISIBLE)->setChecked(_p->controlsVisible);
     for (int i = 0; i < djvViewUtil::TOOL_BAR_COUNT; ++i)
     {
         _p->actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP)->

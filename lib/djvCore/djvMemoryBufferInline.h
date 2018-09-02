@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryBufferInline.h
-
 #include <djvMemory.h>
 
 //------------------------------------------------------------------------------
@@ -78,13 +76,9 @@ inline void djvMemoryBuffer<T>::setSize(quint64 size, bool zero)
 {
     if (size == _size)
         return;
-
     del();
-
     _size = size;
-
     _data = new T [_size];
-
     if (zero)
     {
         this->zero();
@@ -128,10 +122,8 @@ inline djvMemoryBuffer<T> & djvMemoryBuffer<T>::operator = (
     if (&buffer != this)
     {
         setSize(buffer._size);
-        
         djvMemory::copy(buffer._data, _data, _size);
     }
-
     return *this;
 }
 
@@ -141,7 +133,6 @@ inline void djvMemoryBuffer<T>::del()
     if (_data)
     {
         delete [] _data;
-        
         _data = 0;
         _size = 0;
     }

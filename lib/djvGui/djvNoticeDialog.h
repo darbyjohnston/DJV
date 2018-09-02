@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvNoticeDialog.h
-
-#ifndef DJV_NOTICE_DIALOG_H
-#define DJV_NOTICE_DIALOG_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -54,27 +51,19 @@ struct djvNoticeDialogPrivate;
 class DJV_GUI_EXPORT djvNoticeDialog : public QDialog
 {
 public:
-
-    //! Constructor.
-
     explicit djvNoticeDialog(
         const QString & label  = QString(),
         QWidget *       parent = 0);
 
-    //! Destructor.
-
     virtual ~djvNoticeDialog();
 
     //! Get the label.
-
     const QString & label() const;
 
     //! Set the label.
-
     void setLabel(const QString &);
 
 private:
-
     void widgetUpdate();
 
     DJV_PRIVATE_COPY(djvNoticeDialog);
@@ -83,6 +72,4 @@ private:
 };
 
 //@} // djvGuiDialog
-
-#endif // DJV_NOTICE_DIALOG_H
 

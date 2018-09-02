@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpxPlugin.cpp
-
 #include <djvDpxPlugin.h>
 
 #include <djvDpxLoad.h>
@@ -72,7 +70,6 @@ QStringList djvDpxPlugin::extensions() const
 QStringList djvDpxPlugin::option(const QString & in) const
 {
     QStringList out;
-
     if (0 == in.compare(options()[djvDpx::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
     {
         out << _options.inputColorProfile;
@@ -110,33 +107,26 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
     //DJV_DEBUG("djvDpxPlugin::setOption");
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("data = " << *data);
-    
     try
     {
         if (0 == in.compare(options()[djvDpx::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::COLOR_PROFILE colorProfile =
                 static_cast<djvCineon::COLOR_PROFILE>(0);
-            
             data >> colorProfile;
-            
             if (colorProfile != _options.inputColorProfile)
             {
                 _options.inputColorProfile = colorProfile;
-            
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvDpx::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::FilmPrintToLinear filmPrint;
-            
             data >> filmPrint;
-            
             if (filmPrint != _options.inputFilmPrint)
             {
                 _options.inputFilmPrint = filmPrint;
-                
                 Q_EMIT optionChanged(in);
             }
         }
@@ -144,65 +134,50 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
         {
             djvCineon::COLOR_PROFILE colorProfile =
                 static_cast<djvCineon::COLOR_PROFILE>(0);
-            
             data >> colorProfile;
-            
             if (colorProfile != _options.outputColorProfile)
             {
                 _options.outputColorProfile = colorProfile;
-            
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvDpx::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
         {
             djvCineon::LinearToFilmPrint filmPrint;
-            
             data >> filmPrint;
-            
             if (filmPrint != _options.outputFilmPrint)
             {
                 _options.outputFilmPrint = filmPrint;
-            
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvDpx::VERSION_OPTION], Qt::CaseInsensitive))
         {
             djvDpx::VERSION version = static_cast<djvDpx::VERSION>(0);
-            
             data >> version;
-            
             if (version != _options.version)
             {
                 _options.version = version;
-            
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvDpx::TYPE_OPTION], Qt::CaseInsensitive))
         {
             djvDpx::TYPE type = static_cast<djvDpx::TYPE>(0);
-            
             data >> type;
-            
             if (type != _options.type)
             {
                 _options.type = type;
-            
                 Q_EMIT optionChanged(in);
             }
         }
         else if (0 == in.compare(options()[djvDpx::ENDIAN_OPTION], Qt::CaseInsensitive))
         {
             djvDpx::ENDIAN endian = static_cast<djvDpx::ENDIAN>(0);
-            
             data >> endian;
-            
             if (endian != _options.endian)
             {
                 _options.endian = endian;
-            
                 Q_EMIT optionChanged(in);
             }
         }
@@ -211,7 +186,6 @@ bool djvDpxPlugin::setOption(const QString & in, QStringList & data)
     {
         return false;
     }
-
     return true;
 }
 
@@ -224,13 +198,11 @@ void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
 {
     QStringList tmp;
     QString     arg;
-
     try
     {
         while (! in.isEmpty())
         {
             in >> arg;
-
             if (
                 qApp->translate("djvDpxPlugin", "-dpx_input_color_profile") == arg)
             {
@@ -276,7 +248,6 @@ void djvDpxPlugin::commandLine(QStringList & in) throw (QString)
     {
         throw arg;
     }
-
     in = tmp;
 }
 

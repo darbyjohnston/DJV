@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvViewAbstractTool.h
-
-#ifndef DJV_VIEW_ABSTRACT_TOOL_H
-#define DJV_VIEW_ABSTRACT_TOOL_H
+#pragma once
 
 #include <djvViewLibExport.h>
 
@@ -59,38 +56,27 @@ class DJV_VIEW_LIB_EXPORT djvViewAbstractTool : public QWidget
     Q_OBJECT
 
 public:
-
-    //! Constructor.
-
     explicit djvViewAbstractTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
         QWidget *           parent     = 0);
 
-    //! Destructor.
-
     virtual ~djvViewAbstractTool() = 0;
 
     //! Get the main window.
-
     djvViewMainWindow * mainWindow() const;
 
     //! Get the view widget.
-
     djvViewImageView * viewWidget() const;
     
     //! Get the context.
-    
     djvViewContext * context() const;
 
 private:
-
     DJV_PRIVATE_COPY(djvViewAbstractTool);
     
     djvViewAbstractToolPrivate * _p;
 };
 
 //@} // djvViewLib
-
-#endif // DJV_VIEW_ABSTRACT_TOOL_H
 

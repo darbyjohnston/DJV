@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserPrefs.cpp
-
 #include <djvFileBrowserPrefs.h>
 
 #include <djvFileBrowserCache.h>
@@ -94,7 +92,6 @@ djvFileBrowserPrefs::djvFileBrowserPrefs(djvGuiContext * context, QObject * pare
     //DJV_DEBUG("djvFileBrowserPrefs::djvFileBrowserPrefs");
 
     djvPrefs prefs("djvFileBrowserPrefs");
-
     prefs.get("sequence", _p->sequence);
     prefs.get("showHidden", _p->showHidden);
     prefs.get("sort", _p->sort);
@@ -105,12 +102,9 @@ djvFileBrowserPrefs::djvFileBrowserPrefs(djvGuiContext * context, QObject * pare
     prefs.get("thumbnailsCache", _p->thumbnailsCache);
     prefs.get("recent", _p->recent);
     prefs.get("bookmarks", _p->bookmarks);
-
     if (_p->recent.count() > djvFileInfoUtil::recentMax)
         _p->recent = _p->recent.mid(0, djvFileInfoUtil::recentMax);
-
     djvPrefs shortcutsPrefs("djvFileBrowserPrefs/Shortcuts");
-
     for (int i = 0; i < _p->shortcuts.count(); ++i)
     {
         QStringList s;
@@ -127,7 +121,6 @@ djvFileBrowserPrefs::~djvFileBrowserPrefs()
     //DJV_DEBUG("djvFileBrowserPrefs::~djvFileBrowserPrefs");
 
     djvPrefs prefs("djvFileBrowserPrefs");
-
     prefs.set("sequence", _p->sequence);
     prefs.set("showHidden", _p->showHidden);
     prefs.set("sort", _p->sort);
@@ -138,16 +131,14 @@ djvFileBrowserPrefs::~djvFileBrowserPrefs()
     prefs.set("thumbnailsCache", _p->thumbnailsCache);
     prefs.set("recent", _p->recent);
     prefs.set("bookmarks", _p->bookmarks);
-
     djvPrefs shortcutsPrefs("djvFileBrowserPrefs/Shortcuts");
-
     for (int i = 0; i < _p->shortcuts.count(); ++i)
     {
         shortcutsPrefs.set(
             _p->shortcuts[i].name,
             djvShortcut::serialize(_p->shortcuts[i].value));
     }
-
+    
     delete _p;
 }
 
@@ -282,9 +273,7 @@ const QStringList & djvFileBrowserPrefs::shortcutLabels()
         qApp->translate("djvFileBrowserPrefs", "Bookmark 10") <<
         qApp->translate("djvFileBrowserPrefs", "Bookmark 11") <<
         qApp->translate("djvFileBrowserPrefs", "Bookmark 12");
-
     DJV_ASSERT(data.count() == SHORTCUT_COUNT);
-
     return data;
 }
 
@@ -327,7 +316,6 @@ const QVector<djvShortcut> & djvFileBrowserPrefs::shortcutsDefault()
         djvShortcut(shortcutLabels()[BOOKMARK_10], QKeySequence(Qt::Key_F10)) <<
         djvShortcut(shortcutLabels()[BOOKMARK_11], QKeySequence(Qt::Key_F11)) <<
         djvShortcut(shortcutLabels()[BOOKMARK_12], QKeySequence(Qt::Key_F12));
-
     return data;
 }
 
@@ -345,9 +333,7 @@ void djvFileBrowserPrefs::setSequence(djvSequence::COMPRESS in)
 {
     if (in == _p->sequence)
         return;
-
     _p->sequence = in;
-
     Q_EMIT sequenceChanged(_p->sequence);
     Q_EMIT prefChanged();
 }
@@ -356,9 +342,7 @@ void djvFileBrowserPrefs::setShowHidden(bool show)
 {
     if (show == _p->showHidden)
         return;
-
     _p->showHidden = show;
-
     Q_EMIT showHiddenChanged(_p->showHidden);
     Q_EMIT prefChanged();
 }
@@ -367,9 +351,7 @@ void djvFileBrowserPrefs::setSort(djvFileBrowserModel::COLUMNS sort)
 {
     if (sort == _p->sort)
         return;
-
     _p->sort = sort;
-
     Q_EMIT sortChanged(_p->sort);
     Q_EMIT prefChanged();
 }
@@ -378,9 +360,7 @@ void djvFileBrowserPrefs::setReverseSort(bool value)
 {
     if (value == _p->reverseSort)
         return;
-
     _p->reverseSort = value;
-
     Q_EMIT reverseSortChanged(_p->reverseSort);
     Q_EMIT prefChanged();
 }
@@ -389,9 +369,7 @@ void djvFileBrowserPrefs::setSortDirsFirst(bool sort)
 {
     if (sort == _p->sortDirsFirst)
         return;
-
     _p->sortDirsFirst = sort;
-
     Q_EMIT sortDirsFirstChanged(_p->sortDirsFirst);
     Q_EMIT prefChanged();
 }
@@ -400,11 +378,8 @@ void djvFileBrowserPrefs::setThumbnails(djvFileBrowserModel::THUMBNAILS thumbnai
 {
     if (thumbnails == _p->thumbnails)
         return;
-
     _p->thumbnails = thumbnails;
-
     _p->context->fileBrowserCache()->clear();
-    
     Q_EMIT thumbnailsChanged(_p->thumbnails);
     Q_EMIT prefChanged();
 }
@@ -413,11 +388,8 @@ void djvFileBrowserPrefs::setThumbnailsSize(djvFileBrowserModel::THUMBNAILS_SIZE
 {
     if (size == _p->thumbnailsSize)
         return;
-
     _p->thumbnailsSize = size;
-
     _p->context->fileBrowserCache()->clear();
-    
     Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
     Q_EMIT prefChanged();
 }
@@ -426,11 +398,8 @@ void djvFileBrowserPrefs::setThumbnailsCache(qint64 size)
 {
     if (size == _p->thumbnailsCache)
         return;
-
     _p->thumbnailsCache = size;
-    
     _p->context->fileBrowserCache()->setMaxCost(_p->thumbnailsCache);
-
     Q_EMIT thumbnailsCacheChanged(_p->thumbnailsCache);
     Q_EMIT prefChanged();
 }
@@ -439,9 +408,7 @@ void djvFileBrowserPrefs::setRecent(const QStringList & in)
 {
     if (in == _p->recent)
         return;
-
     _p->recent = in;
-
     Q_EMIT recentChanged(_p->recent);
     Q_EMIT prefChanged();
 }
@@ -449,9 +416,7 @@ void djvFileBrowserPrefs::setRecent(const QStringList & in)
 void djvFileBrowserPrefs::addRecent(const QString & in)
 {
     const QStringList tmp = _p->recent;
-
     djvFileInfoUtil::recent(in, _p->recent);
-
     if (_p->recent != tmp)
     {
         Q_EMIT recentChanged(_p->recent);
@@ -464,7 +429,6 @@ void djvFileBrowserPrefs::clearRecent()
     if (_p->recent.count())
     {
         _p->recent.clear();
-
         Q_EMIT recentChanged(_p->recent);
         Q_EMIT prefChanged();
     }
@@ -474,9 +438,7 @@ void djvFileBrowserPrefs::setBookmarks(const QStringList & in)
 {
     if (in == _p->bookmarks)
         return;
-
     _p->bookmarks = in;
-
     Q_EMIT bookmarksChanged(_p->bookmarks);
     Q_EMIT prefChanged();
 }
@@ -484,7 +446,6 @@ void djvFileBrowserPrefs::setBookmarks(const QStringList & in)
 void djvFileBrowserPrefs::addBookmark(const QString & in)
 {
     _p->bookmarks += in;
-
     Q_EMIT bookmarksChanged(_p->bookmarks);
     Q_EMIT prefChanged();
 }
@@ -493,9 +454,7 @@ void djvFileBrowserPrefs::setShortcuts(const QVector<djvShortcut> & shortcuts)
 {
     if (shortcuts == _p->shortcuts)
         return;
-
     _p->shortcuts = shortcuts;
-    
     Q_EMIT shortcutsChanged(_p->shortcuts);
     Q_EMIT prefChanged();
 }

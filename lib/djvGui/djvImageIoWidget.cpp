@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoWidget.cpp
-
 #include <djvImageIoWidget.h>
 
 #include <djvGuiContext.h>
@@ -73,7 +71,7 @@ djvImageIoWidgetPlugin::djvImageIoWidgetPlugin(djvCoreContext * context) :
 
 djvImageIoWidgetPlugin::~djvImageIoWidgetPlugin()
 {}
-    
+
 djvGuiContext * djvImageIoWidgetPlugin::guiContext() const
 {
     return dynamic_cast<djvGuiContext *>(context());
@@ -115,7 +113,6 @@ djvImageIoWidget * djvImageIoWidgetFactory::createWidget(djvImageIo * imageIoPlu
                 return imageIoWidgetPlugin->createWidget(imageIoPlugin);
             }
         }
-    }
-    
+    }    
     return 0;
 }

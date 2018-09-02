@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvNoticeDialog.cpp
-
 #include <djvNoticeDialog.h>
 
 #include <QApplication>

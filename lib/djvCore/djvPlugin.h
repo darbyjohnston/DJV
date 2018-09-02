@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPlugin.h
-
-#ifndef DJV_PLUGIN_H
-#define DJV_PLUGIN_H
+#pragma once
 
 #include <djvError.h>
 #include <djvUtil.h>
@@ -61,29 +58,19 @@ struct djvPluginFactoryPrivate;
 class DJV_CORE_EXPORT djvPlugin
 {
 public:
-
-    //! Constructor.
-    
     djvPlugin(djvCoreContext *);
-    
-    //! Destructor.
-
     virtual ~djvPlugin() = 0;
 
     //! Initialize the plugin.
-
     virtual void initPlugin() throw (djvError) {}
 
     //! Release the plugin.
-
     virtual void releasePlugin() {}
 
     //! Get the plugin name.
-
     virtual QString pluginName() const = 0;
     
     //! Get the context.
-    
     djvCoreContext * context() const;
 
 private:
@@ -102,9 +89,6 @@ class DJV_CORE_EXPORT djvPluginFactory : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvPluginFactory(
         djvCoreContext *    context,
         const QStringList & searchPath,
@@ -113,24 +97,18 @@ public:
         const QString &     pluginSuffix = "Plugin",
         QObject *           parent       = 0);
 
-    //! Destructor.
-
     virtual ~djvPluginFactory() = 0;
 
     //! Get the list of plugins.
-
     QList<djvPlugin *> plugins() const;
     
     //! Get a plugin by name.
-    
     djvPlugin * plugin(const QString &) const;
 
     //! Get the list of plugin names.
-
     QStringList names() const;
     
     //! This enumeration provides error codes.
-    
     enum ERROR
     {
         ERROR_OPEN,
@@ -140,20 +118,15 @@ public:
     };
     
     //! Get the error code labels.
-    
     static const QStringList & errorLabels();
 
 private:
-    
     DJV_PRIVATE_COPY(djvPluginFactory);
     
     djvPluginFactoryPrivate * _p;
 };
 
-//------------------------------------------------------------------------------
-
 //! This macro provides a plugin entry point export.
-
 #if defined(DJV_WINDOWS)
 #define DJV_PLUGIN_EXPORT __declspec(dllexport)
 #else
@@ -161,10 +134,7 @@ private:
 #endif
 
 //! This typedef provides a plugin entry point.
-
 typedef djvPlugin * (djvPluginEntry)(djvCoreContext *);
 
 //@} // djvCoreMisc
-
-#endif // DJV_PLUGIN_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelMaskWidget.h
-
-#ifndef DJV_PIXEL_MASK_WIDGET_H
-#define DJV_PIXEL_MASK_WIDGET_H
+#pragma once
 
 #include <djvGuiExport.h>
 
@@ -57,8 +54,7 @@ class DJV_GUI_EXPORT djvPixelMaskWidget : public QWidget
 {
     Q_OBJECT
     
-    //! This property holds the pixel mask.
-    
+    //! This property holds the pixel mask.    
     Q_PROPERTY(
         djvPixel::Mask mask
         READ           mask
@@ -66,40 +62,28 @@ class DJV_GUI_EXPORT djvPixelMaskWidget : public QWidget
         NOTIFY         maskChanged)
     
 public:
-
-    //! Constructor.
-
     explicit djvPixelMaskWidget(djvGuiContext *, QWidget * parent = 0);
-
-    //! Destructor.
 
     virtual ~djvPixelMaskWidget();
 
     //! Get the pixel mask.
-
     const djvPixel::Mask & mask() const;
 
 public Q_SLOTS:
-
     //! Set the pixel mask.
-
     void setMask(const djvPixel::Mask &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the pixel mask is changed.
-
     void maskChanged(const djvPixel::Mask &);
 
 private Q_SLOTS:
-
     void buttonCallback();
     void soloCallback();
     void toggleCallback(bool);
     void resetCallback();
 
 private:
-
     void widgetUpdate();
     
     DJV_PRIVATE_COPY(djvPixelMaskWidget);
@@ -108,6 +92,4 @@ private:
 };
 
 //@} // djvGuiWidget
-
-#endif // DJV_PIXEL_MASK_WIDGET_H
 

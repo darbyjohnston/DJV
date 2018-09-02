@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDpxWidget.h
-
-#ifndef DJV_DPX_WIDGET_H
-#define DJV_DPX_WIDGET_H
+#pragma once
 
 #include <djvDpx.h>
 
@@ -59,19 +56,13 @@ class djvDpxWidget : public djvImageIoWidget
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-
     djvDpxWidget(djvImageIo *, djvGuiContext *);
-    
-    //! Destructor.
 
     virtual ~djvDpxWidget();
 
     virtual void resetPreferences();
 
 private Q_SLOTS:
-
     void pluginCallback(const QString &);
     void inputColorProfileCallback(int);
     void inputBlackPointCallback(int);
@@ -90,7 +81,6 @@ private Q_SLOTS:
     void widgetUpdate();
 
 private:
-
     djvDpx::Options       _options;
     QFormLayout *         _inputColorProfileLayout;
     QComboBox *           _inputColorProfileWidget;
@@ -116,8 +106,7 @@ private:
 
 class djvDpxWidgetPlugin : public djvImageIoWidgetPlugin
 {
-public:
-    
+public:    
     djvDpxWidgetPlugin(djvCoreContext *);
     
     virtual djvImageIoWidget * createWidget(djvImageIo *) const;
@@ -126,6 +115,4 @@ public:
 };
 
 //@} // djvDpxPlugin
-
-#endif // DJV_DPX_LOAD_WIDGET_H
 

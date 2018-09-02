@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorUtil.h
-
-#ifndef DJV_COLOR_UTIL_H
-#define DJV_COLOR_UTIL_H
+#pragma once
 
 #include <djvCoreExport.h>
 
@@ -52,59 +49,43 @@ class QColor;
 class DJV_CORE_EXPORT djvColorUtil
 {
 public:
-
-    //! Destructor.
-    
     virtual ~djvColorUtil() = 0;
     
     //! Scale a color.
-
     static void scale(double, const djvColor &, djvColor &);
 
     //! Scale a color.
-
     static djvColor scale(double, const djvColor &);
 
     //! Interpolate a color.
-
     static void lerp(double, const djvColor &, const djvColor &, djvColor &);
 
     //! Interpolate a color.
-
     static void lerp(double, const QColor &, const QColor &, QColor &);
 
     //! Interpolate a color.
-
     static djvColor lerp(double, const djvColor &, const djvColor &);
 
     //! Interpolate a color.
-
     static QColor lerp(double, const QColor &, const QColor &);
 
     //! Convert a color.
-
     static void convert(const djvColor &, djvColor &);
 
     //! Convert RGB to HSV.
-
     static inline void rgbToHsv(const double [3], double [3]);
 
     //! Convert HSV to RGB.
-
     static inline void hsvToRgb(const double [3], double [3]);
 
     //! Convert to Qt.
-
     static QColor toQt(const djvColor &);
 
     //! Convert from Qt.
-
     static djvColor fromQt(const QColor &);
 };
 
 //@} // djvCoreImage
 
 #include <djvColorUtilInline.h>
-
-#endif // DJV_COLOR_UTIL_H
 
