@@ -91,10 +91,12 @@ set(legal
     ../LICENSE
     ../LICENSE.CMake
     ../LICENSE.FFmpeg
-    ../LICENSE.GLEW
+    ../LICENSE.GLM
+    ../LICENSE.glbinding
     ../LICENSE.libjpeg
     ../LICENSE.libpng
     ../LICENSE.libtiff
+    ../LICENSE.OpenAL
     ../LICENSE.OpenEXR
     ../LICENSE.Qt
     ../LICENSE.zlib)
