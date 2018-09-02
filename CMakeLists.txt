@@ -1,187 +1,130 @@
-# This is the top-level CMake file for building the DJV source code. Settings
-# in this file generally do not need to be changed. For instructions on how to
-# build the source code follow this link:
-#
-# doc/djvSourceCode.html
-#
-# When changing DJV versions the following files need to be updated:
-#
-# * Set the new version in the top-level CMakeLists.txt file
-# * Set the new version in the top-level Doxyfile
-# * Add a change list description to doc/djvChangeList.html
-#
-# Git example for tagging a version:
-#
-# > git tag -a 1.1.1 -m "Version 1.1.1" df2f2e21232ceeab85ca40fc988aba5591fe9e64
-# > git push origin 1.1.1
-#
-# When new image I/O file extensions are added to DJV the following files need
-# to be updated:
-#
-# * cmake/Modules/djvPackage.cmake
-# * etc/Linux/djv_view.mime.xml
-# * etc/OSX/Info.plist.in
+cmake_minimum_required(VERSION 3.0)
 
-cmake_minimum_required(VERSION 2.8)
-
-cmake_policy(SET CMP0020 OLD)
-
-# Set the DJV version number.
-
-set(djvVersionMajor "1")
-set(djvVersionMinor "1")
-set(djvVersionPatch "2")
-
-set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
-
-# Set the DJV project name.
-
-set(djvProjectName djv-${djvVersion})
-
+set(djvProjectName djv)
 project(${djvProjectName})
 
-# Find the build architecture.
+set(djvVersionMajor "1")
+set(djvVersionMinor "2")
+set(djvVersionPatch "0")
+set(djvVersion ${djvVersionMajor}.${djvVersionMinor}.${djvVersionPatch})
 
-set(djvBuildArch 32)
+#-------------------------------------------------------------------------------
+# Configuration
+#-------------------------------------------------------------------------------
 
-if (CMAKE_SIZEOF_VOID_P EQUAL 8 OR CMAKE_CL_64)
-
-	set(djvBuildArch 64)
-
+# Set the platform we are building for.
+if(APPLE)
+    set(djvSystemName OSX)
+    add_definitions(-DDJV_OSX)
+elseif(UNIX)
+    string(COMPARE EQUAL ${CMAKE_SYSTEM_NAME} Linux _TMP)
+    if(_TMP)
+        set(djvSystemName Linux)
+        add_definitions(-DDJV_LINUX)
+        set(CMAKE_C_FLAGS -fPIC)
+        set(CMAKE_CXX_FLAGS -fPIC)
+    endif()
+elseif(WIN32)
+    set(djvSystemName Windows)
+    add_definitions(-DDJV_WINDOWS)
 endif()
 
-#message("djvBuildArch = " ${djvBuildArch})
-
-# System specific settings.
-
-if (APPLE)
-
-    set(djvSystemName OSX)
-    set(djvLibraryInstallDir lib)
-    add_definitions(-DDJV_OSX)
-
-elseif (UNIX)
-
-    string(COMPARE EQUAL ${CMAKE_SYSTEM_NAME} Linux _TMP)
-    if (_TMP)
-        set(djvSystemName Linux)
-        set(djvLibraryInstallDir lib)
-        add_definitions(-DDJV_LINUX)
-    endif()
-
-elseif (WIN32)
-
-    set(djvSystemName Windows)
-    set(djvLibraryInstallDir bin)
-    add_definitions(-DDJV_WINDOWS)
-
-endif (APPLE)
-
-#message("djvSystemName = " ${djvSystemName})
-
-# Set the CMake module path.
-
+# Update the CMake module path.
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 # Set the output directories for the build.
-
 set(djvBuildDir ${PROJECT_BINARY_DIR}/build)
-
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${djvBuildDir}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${djvBuildDir}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${djvBuildDir}/bin)
 
-# This option will show the source code organized in folders when using an IDE.
-
+# Set miscellaneous options.
+set(djvBuildArch x64)
+add_definitions(-DDJV_MMAP)
+add_definitions(-DDJV_ASSERT)
+set(BUILD_SHARED_LIBS true)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Set the configuration file.
-
 configure_file(
     ${PROJECT_SOURCE_DIR}/djvConfig.h.in
     ${PROJECT_BINARY_DIR}/djvConfig.h
     @ONLY)
 
-# Enable debug or release mode.
-
-set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release) 
-
-# Enable shared libraries.
-
-set(BUILD_SHARED_LIBS true)
-
-# Enable memory-mapped file I/O support.
-
-add_definitions(-DDJV_MMAP)
-
 # Enable testing.
-
 enable_testing()
 
 # Enable gcov code coverage targets.
-
 set(djvGcov false)
 
-# Enable assertions.
-
-add_definitions(-DDJV_ASSERT)
-
 # Set compiler specific options.
-
-if (APPLE)
-
-    if (djvBuildArch EQUAL 32)
-
-        set(CMAKE_C_FLAGS ${CMAKE_CXX_FLAGS} "-arch i386")
-        set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-arch i386")
-        set(CMAKE_LDFLAGS ${CMAKE_LDFLAGS} "-arch i386")
+if(UNIX)
+    if(CMAKE_COMPILER_IS_GNUCXX)
     
-    elseif (djvBuildArch EQUAL 64)
-
-        set(CMAKE_C_FLAGS ${CMAKE_CXX_FLAGS} "-arch x86_64")
-        set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-arch x86_64")
-        set(CMAKE_LDFLAGS ${CMAKE_LDFLAGS} "-arch x86_64")
-    
-    endif (djvBuildArch EQUAL 32)
-
-elseif (UNIX)
-
-    if (CMAKE_COMPILER_IS_GNUCXX)
-
         # Disable warnings from XPM files.
-
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
-
+        
         # Disable warnings from printf/sprintf.
-
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-security")
 
-        # Set profiling options.
-    
+        # Set profiling options.    
         #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
         #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
 
         # Set gcov options.
-        
-        if (djvGcov)
-
+        if(djvGcov)
             include(CodeCoverage)
-            
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
             set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
             set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
             set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs")
             set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -ftest-coverage")
-    
-        endif (djvGcov)
-        
-    endif (CMAKE_COMPILER_IS_GNUCXX)
+        endif()
+    endif()
+endif()
 
-endif (APPLE)
+#-------------------------------------------------------------------------------
+# Third Party Packages
+#-------------------------------------------------------------------------------
 
-# Set the list of image I/O plugins used as build dependencies.
+set(djvThirdParty
+    ZLIB
+    glbinding
+    GLM
+    OpenAL
+    IlmBase
+    JPEG
+    PNG
+    Qt)
+set(djvThirdPartyPackage true)
+
+find_package(OpenGL REQUIRED)
+
+set(ZLIB_SHARED_LIBS ON)
+set(GLBINDING_SHARED_LIBS ON)
+set(GLM_SHARED_LIBS ON)
+set(OPENAL_SHARED_LIBS ON)
+set(JPEG_SHARED_LIBS ON)
+set(TIFF_SHARED_LIBS ON)
+set(PNG_SHARED_LIBS ON)
+set(ILMBASE_SHARED_LIBS ON)
+set(OPENEXR_SHARED_LIBS ON)
+set(FFMPEG_SHARED_LIBS ON)
+set(QT_SHARED_LIBS ON)
+
+foreach(PACKAGE ${djvThirdParty})
+    find_package(${PACKAGE} REQUIRED)
+    add_definitions(-DDJV_THIRD_PARTY_${PACKAGE})
+endforeach()
+
+find_package(OpenEXR)
+find_package(FFmpeg)
+find_package(TIFF)
+
+#-------------------------------------------------------------------------------
+# Dependencies
+#-------------------------------------------------------------------------------
 
 set(djvImageIoPlugins ${djvImageIoPlugins} djvCineonPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvDpxPlugin)
@@ -193,74 +136,54 @@ set(djvImageIoPlugins ${djvImageIoPlugins} djvPpmPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvRlaPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvSgiPlugin)
 set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvJpegPlugin)
+set(djvImageIoPlugins ${djvImageIoPlugins} djvPngPlugin)
 
-# Setup third party dependencies.
-
-set(djvPackageThirdParty true)
-
-set(CMAKE_THREAD_PREFER_PTHREAD true)
-find_package(Threads REQUIRED)
-
-find_package(OpenGL REQUIRED)
-
-include(djvThirdPartyGlew)
-include(djvThirdPartyIlmBase)
-include(djvThirdPartyQt)
-
-include(djvThirdPartyZlib)
-include(djvThirdPartyJpeg)
-include(djvThirdPartyPng)
-include(djvThirdPartyTiff)
-include(djvThirdPartyOpenExr)
-include(djvThirdPartyFFmpeg)
-
-# Set convenience variables for include directories and libraries.
-
-set(djvCoreLibs djvCore ${djvCoreDeps})
+if(OPENEXR_FOUND)
+    set(djvImageIoPlugins ${djvImageIoPlugins} djvOpenExrPlugin)
+endif()
+if(FFMPEG_FOUND)
+    set(djvImageIoPlugins ${djvImageIoPlugins} djvFFmpegPlugin)
+endif()
+if(TIFF_FOUND)
+    set(djvImageIoPlugins ${djvImageIoPlugins} djvTiffPlugin)
+endif()
 
 set(djvCoreIncludeDirs
     ${CMAKE_SOURCE_DIR}/lib/djvCore
     ${CMAKE_BINARY_DIR}
-    ${ILMBASE_INCLUDE_DIRS}
-    ${GLEW_INCLUDE_DIR}
-    ${OPENGL_INCLUDE_DIR})
-
+    ${OPENGL_INCLUDE_DIRS})
 set(djvCoreDeps
-    Qt5::OpenGL
-    Qt5::Core
-    ${ILMBASE_LIBRARIES}
-    ${GLEW_LIBRARIES}
+    Qt5
+    OpenAL
+    IlmBase
+    glbinding
+    GLM
     ${OPENGL_LIBRARIES}
     ${CMAKE_DL_LIBS})
-
 set(djvCoreLibs djvCore ${djvCoreDeps})
 
 set(djvGuiIncludeDirs
     ${CMAKE_SOURCE_DIR}/lib/djvGui
     ${CMAKE_SOURCE_DIR}/lib/djvCore
     ${CMAKE_BINARY_DIR}
-    ${ILMBASE_INCLUDE_DIRS}
-    ${GLEW_INCLUDE_DIR}
-    ${OPENGL_INCLUDE_DIR})
-
+    ${OPENGL_INCLUDE_DIRS})
 set(djvGuiDeps
     djvCore
-    Qt5::Widgets
-    Qt5::OpenGL
-    Qt5::Svg
-    Qt5::Core
-    ${ILMBASE_LIBRARIES}
-    ${GLEW_LIBRARIES}
+    Qt5
+    OpenAL
+    IlmBase
+    glbinding
+    GLM
     ${OPENGL_LIBRARIES}
     ${CMAKE_DL_LIBS})
-
 set(djvGuiLibs djvGui ${djvGuiDeps})
 
-# Setup packaging.
+#-------------------------------------------------------------------------------
+# Sub-Directories
+#-------------------------------------------------------------------------------
 
 include(djvPackage)
-
-# Go into sub directories.
 
 add_subdirectory(bin)
 add_subdirectory(lib)

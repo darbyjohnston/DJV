@@ -39,38 +39,8 @@
 #include <djvPixel.h>
 #include <djvVector.h>
 
-//! \todo This define is needed for static linking with GLEW.
-
-//#define GLEW_STATIC
-
-#include <GL/glew.h>
-#if defined(DJV_WINDOWS)
-#include <GL/wglew.h>
-#include <GL/gl.h>
-#elif defined(DJV_OSX)
-#include <OpenGL/gl.h>
-#else
-#include <GL/glxew.h>
-#include <GL/gl.h>
-#endif
-
-#if defined(DJV_LINUX)
-
-//! \todo These X11 defines are not compatible with Qt.
-
-#undef Bool
-#undef CursorShape
-#undef Expose
-#undef FocusIn
-#undef FocusOut
-#undef FontChange
-#undef KeyPress
-#undef KeyRelease
-#undef None
-#undef Status
-#undef Unsorted
-
-#endif // DJV_LINUX
+#include <glbinding/gl/gl.h>
+#include <glbinding/glbinding.h>
 
 //! \addtogroup djvCoreOpenGL
 //@{
@@ -97,11 +67,11 @@ public:
 
     //! Convert a pixel format to OpenGL.
 
-    static GLenum format(djvPixel::PIXEL, bool bgr = false);
+    static gl::GLenum format(djvPixel::PIXEL, bool bgr = false);
 
     //! Convert a pixel type to OpenGL.
 
-    static GLenum type(djvPixel::PIXEL);
+    static gl::GLenum type(djvPixel::PIXEL);
 
     //! Set the current OpenGL color.
 
@@ -122,6 +92,10 @@ public:
     //! Draw a box.
 
     static void drawBox(const djvBox2f &, const djvVector2f uv[4]);
+    
+    //! Get an OpenGL error string.
+    
+    static QString errorString(gl::GLenum);
 };
 
 //------------------------------------------------------------------------------
@@ -140,13 +114,13 @@ public:
     cmd; \
     \
     { \
-        GLenum error = GL_NO_ERROR; \
+        gl::GLenum error = gl::GL_NO_ERROR; \
         \
-        if ((error = glGetError()) != GL_NO_ERROR) \
+        if ((error = gl::glGetError()) != gl::GL_NO_ERROR) \
         { \
             DJV_DEBUG_PRINT(QString("%1 = %2 (%3, line %4)"). \
                 arg(#cmd). \
-                arg((char *)gluErrorString(error)). \
+                arg((djvOpenGlUtil::errorString(error)). \
                 arg(__FILE__). \
                 arg(__LINE__)); \
         } \

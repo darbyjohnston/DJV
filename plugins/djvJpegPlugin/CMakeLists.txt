@@ -3,7 +3,6 @@ set(header
     djvJpegLoad.h
     djvJpegPlugin.h
     djvJpegSave.h)
-
 set(source
     djvJpeg.cpp
     djvJpegLoad.cpp
@@ -13,10 +12,8 @@ set(source
 set(widgetHeader
     djvJpeg.h
     djvJpegWidget.h)
-
 set(widgetMocHeader
     djvJpegWidget.h)
-
 set(widgetSource
     djvJpeg.cpp
     djvJpegWidget.cpp)
@@ -27,27 +24,21 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvJpegPlugin
-    ${JPEG_INCLUDE_DIR}
     ${djvGuiIncludeDirs})
-
 add_library(djvJpegPlugin MODULE ${header} ${source} ${mocSource} ${qmSource})
 add_library(djvJpegWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+target_link_libraries(djvJpegPlugin JPEG ${djvCoreLibs})
+target_link_libraries(djvJpegWidgetPlugin JPEG ${djvGuiLibs})
 
-target_link_libraries(djvJpegPlugin ${JPEG_LIBRARIES} ${djvCoreLibs})
-target_link_libraries(djvJpegWidgetPlugin ${JPEG_LIBRARIES} ${djvGuiLibs})
-
-set_target_properties(djvJpegPlugin PROPERTIES FOLDER plugins)
-set_target_properties(djvJpegWidgetPlugin PROPERTIES FOLDER plugins)
-
+set_target_properties(djvJpegPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
+set_target_properties(djvJpegWidgetPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvJpegPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
     set_target_properties(
         djvJpegWidgetPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(

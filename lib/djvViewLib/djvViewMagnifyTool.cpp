@@ -51,6 +51,7 @@
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QPainter>
 #include <QScopedPointer>
 #include <QTimer>
 #include <QVBoxLayout>

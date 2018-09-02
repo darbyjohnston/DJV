@@ -215,7 +215,7 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
         options.colorProfile = imageP->colorProfile;
         _widget->setOptions(options);
 
-        _widget->updateGL();
+        _widget->update();
     }
 
     ++_frame;

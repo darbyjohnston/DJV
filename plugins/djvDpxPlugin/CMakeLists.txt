@@ -4,7 +4,6 @@ set(header
     djvDpxLoad.h
     djvDpxPlugin.h
     djvDpxSave.h)
-
 set(source
     djvDpx.cpp
     djvDpxHeader.cpp
@@ -17,10 +16,8 @@ set(source
 set(widgetHeader
     djvDpx.h
     djvDpxWidget.h)
-
 set(widgetMocHeader
     djvDpxWidget.h)
-
 set(widgetSource
     djvDpx.cpp
     djvDpxWidget.cpp
@@ -34,25 +31,20 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvDpxPlugin
     ${CMAKE_SOURCE_DIR}/plugins/djvCineonPlugin
     ${djvGuiIncludeDirs})
-
 add_library(djvDpxPlugin MODULE ${header} ${source} ${qmSource})
 add_library(djvDpxWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
-
 target_link_libraries(djvDpxPlugin ${djvCoreLibs})
 target_link_libraries(djvDpxWidgetPlugin ${djvGuiLibs})
 
-set_target_properties(djvDpxPlugin PROPERTIES FOLDER plugins)
-set_target_properties(djvDpxWidgetPlugin PROPERTIES FOLDER plugins)
-
+set_target_properties(djvDpxPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
+set_target_properties(djvDpxWidgetPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvDpxPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
     set_target_properties(
         djvDpxWidgetPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(

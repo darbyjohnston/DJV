@@ -23,7 +23,7 @@ target_link_libraries(
     djvTestLib
     ${djvGuiLibs})
 
-set_target_properties(djvTest PROPERTIES FOLDER tests)
+set_target_properties(djvTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 
 add_test(
     djvTest

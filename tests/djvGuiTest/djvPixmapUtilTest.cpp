@@ -38,7 +38,6 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvImageContext.h>
-#include <djvOpenGlContext.h>
 #include <djvPixelData.h>
 
 #include <QPixmap>
@@ -55,12 +54,7 @@ void djvPixmapUtilTest::qt()
     DJV_DEBUG("djvPixmapUtilTest::qt");
 
     djvImageContext context;
-    
-    QScopedPointer<djvOpenGlContext> openGlContext(
-        context.openGlContextFactory()->create());
         
-    djvOpenGlContextScope contextScope(openGlContext.data());
-    
     djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
     
     djvPixmapUtil::toQt(data);

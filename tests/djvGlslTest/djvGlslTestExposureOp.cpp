@@ -43,6 +43,8 @@
 #include <QGroupBox>
 #include <QVBoxLayout>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvGlslTestExposureOp
 //------------------------------------------------------------------------------
@@ -164,7 +166,7 @@ void djvGlslTestExposureOp::render(const djvImage & in) throw (djvError)
     // Render.
 
     _shader.bind();
-    const GLhandleARB program = _shader.program();
+    const GLuint program = _shader.program();
 
     const float v =
         static_cast<float>(djvMath::pow(2.0, _values.exposure + 2.47393));

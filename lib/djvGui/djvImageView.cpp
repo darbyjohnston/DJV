@@ -73,19 +73,8 @@ struct djvImageViewPrivate
 djvImageView::djvImageView(
     djvGuiContext *   context,
     QWidget *         parent,
-    const QGLWidget * shareWidget,
     Qt::WindowFlags   flags) :
-    djvOpenGlWidget(parent, shareWidget, flags),
-    _p(new djvImageViewPrivate(context))
-{}
-
-djvImageView::djvImageView(
-    QGLContext *      glContext,
-    djvGuiContext *   context,
-    QWidget *         parent,
-    const QGLWidget * shareWidget,
-    Qt::WindowFlags   flags) :
-    djvOpenGlWidget(glContext, parent, shareWidget, flags),
+    djvOpenGlWidget(parent, flags),
     _p(new djvImageViewPrivate(context))
 {}
 

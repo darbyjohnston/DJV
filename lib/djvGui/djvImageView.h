@@ -92,18 +92,8 @@ public:
 
     explicit djvImageView(
         djvGuiContext *   context,
-        QWidget *         parent      = 0,
-        const QGLWidget * shareWidget = 0,
-        Qt::WindowFlags   flags       = 0);
-
-    //! Constructor.
-
-    explicit djvImageView(
-        QGLContext *      glContext,
-        djvGuiContext *   context,
-        QWidget *         parent      = 0,
-        const QGLWidget * shareWidget = 0,
-        Qt::WindowFlags   flags       = 0);
+        QWidget *         parent  = 0,
+        Qt::WindowFlags   flags   = 0);
 
     //! Destructor.
 

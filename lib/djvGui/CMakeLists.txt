@@ -70,7 +70,6 @@ set(header
     djvVector2fEditWidget.h
     djvVector2iEditWidget.h
     djvWindowUtil.h)
-
 set(mocHeader
     djvAboutDialog.h
     djvAbstractPrefsWidget.h
@@ -137,7 +136,6 @@ set(mocHeader
     djvToolButton.h
     djvVector2fEditWidget.h
     djvVector2iEditWidget.h)
-
 set(source
     djvAboutDialog.cpp
     djvAbstractPrefsWidget.cpp
@@ -216,29 +214,22 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvGui_cs_CZ.ts)
 
 include_directories(${djvGuiIncludeDirs})
-
 add_library(djvGui ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-
 target_link_libraries(djvGui ${djvGuiDeps})
 
-set_target_properties(djvGui PROPERTIES FOLDER lib)
-
+set_target_properties(djvGui PROPERTIES FOLDER lib CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvGui PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(
     FILES ${header}
     DESTINATION include)
-
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djvGui
     RUNTIME DESTINATION bin

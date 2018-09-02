@@ -6,7 +6,6 @@ set(header
     djvBoxInline.h
     djvBoxUtil.h
     djvBoxUtilInline.h
-    djvCglContextPrivate.h
     djvColor.h
     djvColorInline.h
     djvColorUtil.h
@@ -25,7 +24,6 @@ set(header
     djvFileIo.h
     djvFileIoInline.h
     djvFileIoUtil.h
-    djvGlxContextPrivate.h
     djvImage.h
     djvImageContext.h
     djvImageIo.h
@@ -46,7 +44,6 @@ set(header
     djvMemoryBufferInline.h
     djvMemoryInline.h
     djvOpenGl.h
-    djvOpenGlContext.h
     djvOpenGlImage.h
     djvOpenGlOffscreenBuffer.h
     djvOpenGlLut.h
@@ -80,9 +77,7 @@ set(header
     djvVector3Inline.h
     djvVectorInline.h
     djvVectorUtil.h
-    djvVectorUtilInline.h
-    djvWglContextPrivate.h)
-
+    djvVectorUtilInline.h)
 set(mocHeader
     djvColorProfile.h
     djvCoreContext.h
@@ -100,11 +95,9 @@ set(mocHeader
     djvSequence.h
     djvSpeed.h
     djvTime.h)
-
 set(source
     djvAssert.cpp
     djvDebugLog.cpp
-    djvCglContextPrivate.cpp
     djvColor.cpp
     djvColorUtil.cpp
     djvColorProfile.cpp
@@ -116,7 +109,6 @@ set(source
     djvFileInfoUtil.cpp
     djvFileIo.cpp
     djvFileIoUtil.cpp
-    djvGlxContextPrivate.cpp
     djvImage.cpp
     djvImageContext.cpp
     djvImageIo.cpp
@@ -125,7 +117,6 @@ set(source
     djvMath.cpp
     djvMemory.cpp
     djvOpenGl.cpp
-    djvOpenGlContext.cpp
     djvOpenGlImage.cpp
     djvOpenGlImageDraw.cpp
     djvOpenGlOffscreenBuffer.cpp
@@ -146,8 +137,7 @@ set(source
     djvTime.cpp
     djvTimer.cpp
     djvUser.cpp
-    djvVectorUtil.cpp
-    djvWglContextPrivate.cpp)
+    djvVectorUtil.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvCore.qrc)
@@ -156,29 +146,22 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvCore_cs_CZ.ts)
 
 include_directories(${djvCoreIncludeDirs})
-
 add_library(djvCore ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-
 target_link_libraries(djvCore ${djvCoreDeps})
 
-set_target_properties(djvCore PROPERTIES FOLDER lib)
-
+set_target_properties(djvCore PROPERTIES FOLDER lib CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvCore PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(
     FILES ${header}
     DESTINATION include)
-
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djvCore
     RUNTIME DESTINATION bin

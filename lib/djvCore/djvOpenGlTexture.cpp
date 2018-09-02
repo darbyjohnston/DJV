@@ -38,14 +38,16 @@
 
 #include <QCoreApplication>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvOpenGlTexture
 //------------------------------------------------------------------------------
 
 djvOpenGlTexture::djvOpenGlTexture() :
-    _target(0),
-    _min   (0),
-    _mag   (0),
+    _target(GL_NONE),
+    _min   (GL_NONE),
+    _mag   (GL_NONE),
     _id    (0)
 {}
 
@@ -128,7 +130,7 @@ void djvOpenGlTexture::init(
         throw djvError(
             "djvOpenGlTexture",
             qApp->translate("djvOpenGlTexture", "Cannot create texture: %1").
-            arg((char *)gluErrorString(error)));
+            arg(djvOpenGlUtil::errorString(error)));
     }
     
 #endif // DJV_OSX

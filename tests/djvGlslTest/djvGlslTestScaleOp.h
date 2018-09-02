@@ -141,7 +141,7 @@ public:
 
     static int edge(int, int size);
 
-    static GLuint filterToGl(FILTER_DEFAULT);
+    static gl::GLenum filterToGl(FILTER_DEFAULT);
 
     explicit djvGlslTestScaleOp(djvGlslTestContext *);
 

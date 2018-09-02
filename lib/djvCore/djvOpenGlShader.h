@@ -75,17 +75,17 @@ public:
 
     //! Get the shader program ID.
     
-    GLuint program() const;
+    gl::GLuint program() const;
 
 private:
 
     void del();
 
-    QString _vertexSource;
-    QString _fragmentSource;
-    GLuint  _vertexId;
-    GLuint  _fragmentId;
-    GLuint  _programId;
+    QString    _vertexSource;
+    QString    _fragmentSource;
+    gl::GLuint _vertexId;
+    gl::GLuint _fragmentId;
+    gl::GLuint _programId;
 };
 
 #endif // DJV_OPEN_GL_SHADER_H

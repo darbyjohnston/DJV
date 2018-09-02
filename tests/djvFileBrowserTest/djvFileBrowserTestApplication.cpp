@@ -50,11 +50,7 @@
 djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
-#   if QT_VERSION < 0x050000
-    setStyle(new QPlastiqueStyle);
-#   else
     setStyle("fusion");
-#   endif
 
     qRegisterMetaType<djvFileBrowserTestDirRequest>(
         "djvFileBrowserTestDirRequest");

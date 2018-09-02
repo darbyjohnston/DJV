@@ -42,11 +42,7 @@
 djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
-#   if QT_VERSION < 0x050000
-    setStyle(new QPlastiqueStyle);
-#   else
     setStyle("fusion");
-#   endif
 
     _context.reset(new djvGuiContext);
     _context->setValid(true);

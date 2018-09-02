@@ -37,13 +37,16 @@
 #include <djvError.h>
 #include <djvImage.h>
 #include <djvImageIo.h>
-#include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
 
 #include <QCoreApplication>
 #include <QMetaType>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
 #include <QScopedPointer>
 #include <QVector>
+
+using namespace gl;
 
 //------------------------------------------------------------------------------
 // djvImageContextPrivate
@@ -51,9 +54,9 @@
 
 struct djvImageContextPrivate
 {
-    QScopedPointer<djvOpenGlContextFactory> openGlContextFactory;
-    QScopedPointer<djvOpenGlContext>        openGlContext;
-    QScopedPointer<djvImageIoFactory>       imageIoFactory;
+    QScopedPointer<QOffscreenSurface> offscreenSurface;
+    QScopedPointer<QOpenGLContext> openGlContext;
+    QScopedPointer<djvImageIoFactory> imageIoFactory;
 };
 
 //------------------------------------------------------------------------------
@@ -76,10 +79,24 @@ djvImageContext::djvImageContext(QObject * parent) :
     DJV_LOG(debugLog(), "djvImageContext",
         "Creating the default OpenGL context...");
 
-    _p->openGlContextFactory.reset(new djvOpenGlContextFactory(this));
+    _p->offscreenSurface.reset(new QOffscreenSurface);
+    QSurfaceFormat surfaceFormat;
+    surfaceFormat.setSamples(1);
+    surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
+    surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+    _p->offscreenSurface->setFormat(surfaceFormat);
+    _p->offscreenSurface->create();
+    
+    _p->openGlContext.reset(new QOpenGLContext);
+    _p->openGlContext->setFormat(surfaceFormat);
+    _p->openGlContext->create();
+    _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
 
-    _p->openGlContext.reset(_p->openGlContextFactory->create());
-
+    glbinding::initialize([this](const char* name)
+    {
+        return _p->openGlContext->getProcAddress(QByteArray::fromStdString(name));
+    });
+    
     DJV_LOG(debugLog(), "djvImageContext", "");
 
     //! Create the image I/O plugins.
@@ -114,13 +131,8 @@ djvImageIoFactory * djvImageContext::imageIoFactory() const
 {
     return _p->imageIoFactory.data();
 }
-    
-djvOpenGlContextFactory * djvImageContext::openGlContextFactory() const
-{
-    return _p->openGlContextFactory.data();
-}
 
-djvOpenGlContext * djvImageContext::openGlContext() const
+QOpenGLContext * djvImageContext::openGlContext() const
 {
     return _p->openGlContext.data();
 }
@@ -132,20 +144,17 @@ QString djvImageContext::info() const
 "\n"
 "OpenGL\n"
 "\n"
-"    Vendor: %2\n"
-"    Renderer: %3\n"
-"    Version: %4\n"
-"    Render filter: %5, %6\n"
+"    Version: %2.%3\n"
+"    Render filter: %4, %5\n"
 "\n"
 "Image I/O\n"
 "\n"
-"    %7\n");
+"    %6\n");
 
     return QString(label).
         arg(djvCoreContext::info()).
-        arg(_p->openGlContext->vendor()).
-        arg(_p->openGlContext->renderer()).
-        arg(_p->openGlContext->version()).
+        arg(_p->openGlContext->format().majorVersion()).
+        arg(_p->openGlContext->format().minorVersion()).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filter().min).join(", ")).
         arg(djvStringUtil::label(djvOpenGlImageFilter::filter().mag).join(", ")).
         arg(_p->imageIoFactory->names().join(", "));

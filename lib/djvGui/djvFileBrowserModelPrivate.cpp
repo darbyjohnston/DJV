@@ -38,18 +38,15 @@
 #include <djvPixmapUtil.h>
 
 #include <djvImage.h>
-#include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
 #include <djvPixelDataUtil.h>
 #include <djvTime.h>
 
 #include <QDateTime>
 #include <QFutureWatcher>
-#if QT_VERSION < 0x050000
-#include <QtConcurrentRun>
-#else
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
 #include <QtConcurrent/QtConcurrentRun>
-#endif
 
 //------------------------------------------------------------------------------
 // djvFileBrowserItem
@@ -208,8 +205,18 @@ ThumbnailThreadResult thumbnailThreadFunction(
     {
         // Create an OpenGL context.
         
-        QScopedPointer<djvOpenGlContext> openGlContext;
-        openGlContext.reset(context->openGlContextFactory()->create());
+        QScopedPointer<QOffscreenSurface> offscreenSurface;
+        offscreenSurface.reset(new QOffscreenSurface);
+        QSurfaceFormat surfaceFormat;
+        surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+        offscreenSurface->setFormat(surfaceFormat);
+        offscreenSurface->create();
+        
+        QScopedPointer<QOpenGLContext> openGlContext;
+        openGlContext.reset(new QOpenGLContext);
+        openGlContext->setFormat(surfaceFormat);
+        openGlContext->create();
+        openGlContext->makeCurrent(offscreenSurface.data());    
         
         // Load the image.
         

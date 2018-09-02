@@ -440,13 +440,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
 
     const double speed = djvViewUtil::zoomFactor(
         _p->context->viewPrefs()->zoomFactor());
-    
-    const int delta =
-#       if QT_VERSION < 0x050000
-        event->delta();
-#       else
-        event->angleDelta().y();
-#       endif
+    const int delta = event->angleDelta().y();
 
     switch (mouseWheel)
     {
@@ -845,11 +839,12 @@ djvBox2i djvViewImageView::drawHud(
 
         case djvViewUtil::HUD_BACKGROUND_SHADOW:
         
-            renderText(
-                position.x + margin + 1,
-                position.y + margin + a + 1,
-                in,
-                font());
+            //! \todo
+            //renderText(
+            //    position.x + margin + 1,
+            //    position.y + margin + a + 1,
+            //    in,
+            //    font());
             
             break;
 
@@ -860,11 +855,12 @@ djvBox2i djvViewImageView::drawHud(
 
     djvOpenGlUtil::color(_p->hudColor);
 
-    renderText(
-        position.x + margin,
-        position.y + a + margin,
-        in,
-        font());
+    //! \todo
+    //renderText(
+    //    position.x + margin,
+    //    position.y + a + margin,
+    //    in,
+    //    font());
 
     return box;
 }

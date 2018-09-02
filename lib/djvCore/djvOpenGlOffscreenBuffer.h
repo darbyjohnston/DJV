@@ -69,11 +69,11 @@ public:
 
     //! Get the offscreen buffer ID.
 
-    GLuint id() const;
+    gl::GLuint id() const;
 
     //! Get the offscreen buffer texture ID.
 
-    GLuint texture() const;
+    gl::GLuint texture() const;
 
     //! Bind the offscreen buffer.
 
@@ -104,9 +104,9 @@ private:
     DJV_PRIVATE_COPY(djvOpenGlOffscreenBuffer);
 
     djvPixelDataInfo _info;
-    GLuint           _id;
-    GLuint           _texture;
-    GLint            _restore;
+    gl::GLuint       _id;
+    gl::GLuint       _texture;
+    gl::GLint        _restore;
 };
 
 //------------------------------------------------------------------------------

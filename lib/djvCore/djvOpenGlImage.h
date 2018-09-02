@@ -207,7 +207,7 @@ public:
 
     //! Convert an image filter to OpenGL.
 
-    static GLuint toGl(FILTER);
+    static gl::GLenum toGl(FILTER);
 
     //! Get the default image filter.
 

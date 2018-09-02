@@ -45,6 +45,8 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvGlslTestScaleOp::Values
 //------------------------------------------------------------------------------
@@ -162,7 +164,7 @@ int djvGlslTestScaleOp::edge(int in, int size)
     return djvMath::clamp(in, 0, size - 1);
 }
 
-GLuint djvGlslTestScaleOp::filterToGl(FILTER_DEFAULT in)
+GLenum djvGlslTestScaleOp::filterToGl(FILTER_DEFAULT in)
 {
     switch (in)
     {
@@ -170,7 +172,7 @@ GLuint djvGlslTestScaleOp::filterToGl(FILTER_DEFAULT in)
         case LINEAR:  return GL_LINEAR;
     }
 
-    return 0;
+    return GL_NONE;
 }
 
 djvGlslTestScaleOp::djvGlslTestScaleOp(djvGlslTestContext * context) :

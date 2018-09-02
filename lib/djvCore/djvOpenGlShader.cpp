@@ -38,6 +38,8 @@
 
 #include <QCoreApplication>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvOpenGlShader
 //------------------------------------------------------------------------------
@@ -83,13 +85,13 @@ void shaderCompile(GLuint id, const QString & source)
     djvMemory::copy(source.toLatin1().data(), buf.data(), buf.size());
 
     const char * sources       [] = { buf.data() };
-    const GLint  sourceLengths [] = { buf.size() };
+    const GLint  sourceLengths [] = { static_cast<GLint>(buf.size()) };
 
     DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
 
     DJV_DEBUG_OPEN_GL(glCompileShader(id));
 
-    GLint error = GL_FALSE;
+    GLboolean error = GL_FALSE;
 
     glGetShaderiv(id, GL_COMPILE_STATUS, &error);
 
@@ -127,7 +129,7 @@ void djvOpenGlShader::init(
     _vertexSource   = vertexSource;
     _fragmentSource = fragmentSource;
 
-    GLint error = GL_FALSE;
+    GLboolean error = GL_FALSE;
 
     _vertexId   = glCreateShader(GL_VERTEX_SHADER);
     _fragmentId = glCreateShader(GL_FRAGMENT_SHADER);

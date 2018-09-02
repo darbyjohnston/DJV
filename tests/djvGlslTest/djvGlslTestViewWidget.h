@@ -34,6 +34,8 @@
 #ifndef DJV_GLSL_TEST_VIEW_WIDGET_H
 #define DJV_GLSL_TEST_VIEW_WIDGET_H
 
+#include <djvGlslTestAbstractOp.h>
+
 #include <djvOpenGlWidget.h>
 
 class djvGlslTestContext;

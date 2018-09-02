@@ -1,11 +1,9 @@
 set(header
     djvLsApplication.h
     djvLsContext.h)
-
 set(mocHeader
     djvLsApplication.h
     djvLsContext.h)
-
 set(source
     djvLsApplication.cpp
     djvLsContext.cpp
@@ -19,26 +17,18 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_ls
     ${djvCoreIncludeDirs})
-
 add_executable(djv_ls ${header} ${source} ${mocSource} ${qmSource})
-
 target_link_libraries(djv_ls ${djvCoreLibs})
+if (djvImageIoPlugins)
+    add_dependencies(djv_ls ${djvImageIoPlugins})
+endif (djvImageIoPlugins)
 
-set_target_properties(djv_ls PROPERTIES FOLDER bin)
-
+set_target_properties(djv_ls PROPERTIES FOLDER bin CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djv_ls PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
-
-if (djvImageIoPlugins)
-
-    add_dependencies(djv_ls ${djvImageIoPlugins})
-
-endif (djvImageIoPlugins)
 
 install(
     FILES ${qmSource}
@@ -46,17 +36,13 @@ install(
 install(
     TARGETS djv_ls
     RUNTIME DESTINATION bin)
-
 if (UNIX)
-
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/djv_ls_linux.sh.in
         ${CMAKE_CURRENT_BINARY_DIR}/djv_ls.sh
         @ONLY)
-
     install(
         PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_ls.sh
         DESTINATION bin)
-
 endif (UNIX)
 

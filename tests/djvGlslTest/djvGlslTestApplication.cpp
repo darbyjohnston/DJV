@@ -40,11 +40,7 @@ djvGlslTestApplication::djvGlslTestApplication(int & argc, char ** argv) :
 {
     //DJV_DEBUG("djvGlslTestApplication::djvGlslTestApplication");
     
-#   if QT_VERSION < 0x050000
-    setStyle(new QPlastiqueStyle);
-#   else
     setStyle("fusion");
-#   endif
 
     // Create the context.
     

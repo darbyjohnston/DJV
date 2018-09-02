@@ -57,7 +57,6 @@
 #include <djvMatrixUtilTest.h>
 #include <djvMemoryBufferTest.h>
 #include <djvMemoryTest.h>
-#include <djvOpenGlContextTest.h>
 #include <djvOpenGlImageTest.h>
 #include <djvOpenGlTest.h>
 #include <djvPixelDataTest.h>
@@ -106,7 +105,6 @@ int main(int argc, char ** argv)
         new djvMatrixUtilTest <<
         new djvMemoryBufferTest <<
         new djvMemoryTest <<
-        new djvOpenGlContextTest <<
         new djvOpenGlImageTest <<
         new djvOpenGlTest <<
         new djvPixelDataTest <<

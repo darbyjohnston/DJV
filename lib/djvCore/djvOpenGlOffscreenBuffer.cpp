@@ -38,6 +38,8 @@
 
 #include <QCoreApplication>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvOpenGlOffscreenBuffer
 //------------------------------------------------------------------------------
@@ -117,7 +119,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         throw djvError(
             "djvOpenGlOffscreenBuffer",
             errorLabels()[ERROR_INIT_TEXTURE].
-            arg((char *)gluErrorString(error)));
+            arg(djvOpenGlUtil::errorString(error)));
     }
 
 #endif // DJV_OSX
@@ -151,7 +153,7 @@ djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info
         throw djvError(
             "djvOpenGlOffscreenBuffer",
             errorLabels()[ERROR_INIT_FBO].
-            arg((char *)gluErrorString(error)));
+            arg(djvOpenGlUtil::errorString(error)));
     }
     
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));

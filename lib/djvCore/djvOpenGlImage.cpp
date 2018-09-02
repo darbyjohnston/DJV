@@ -41,6 +41,8 @@
 
 #include <QCoreApplication>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvOpenGlImageXform
 //------------------------------------------------------------------------------
@@ -202,7 +204,7 @@ djvOpenGlImageFilter::djvOpenGlImageFilter(FILTER min, FILTER mag) :
     mag(mag)
 {}
 
-GLuint djvOpenGlImageFilter::toGl(FILTER in)
+GLenum djvOpenGlImageFilter::toGl(FILTER in)
 {
     switch (in)
     {
@@ -212,7 +214,7 @@ GLuint djvOpenGlImageFilter::toGl(FILTER in)
         default: break;
     }
 
-    return 0;
+    return GL_NONE;
 }
 
 const djvOpenGlImageFilter & djvOpenGlImageFilter::filterHighQuality()
@@ -455,10 +457,7 @@ void djvOpenGlImage::stateReset()
     statePack(djvPixelDataInfo());
     stateUnpack(djvPixelDataInfo());
 
-    if (GLEW_ARB_shader_objects)
-    {
-        glUseProgramObjectARB(0);
-    }
+    glUseProgram(0);
 
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }

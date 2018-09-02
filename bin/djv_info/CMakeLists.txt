@@ -1,11 +1,9 @@
 set(header
     djvInfoApplication.h
     djvInfoContext.h)
-
 set(mocHeader
     djvInfoApplication.h
     djvInfoContext.h)
-
 set(source
     djvInfoApplication.cpp
     djvInfoContext.cpp
@@ -19,26 +17,18 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_info
     ${djvCoreIncludeDirs})
-
 add_executable(djv_info ${header} ${source} ${mocSource} ${qmSource})
-
 target_link_libraries(djv_info ${djvCoreLibs})
+if (djvImageIoPlugins)
+    add_dependencies(djv_info ${djvImageIoPlugins})
+endif (djvImageIoPlugins)
 
-set_target_properties(djv_info PROPERTIES FOLDER bin)
-
+set_target_properties(djv_info PROPERTIES FOLDER bin CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djv_info PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
-
-if (djvImageIoPlugins)
-
-    add_dependencies(djv_info ${djvImageIoPlugins})
-
-endif (djvImageIoPlugins)
 
 install(
     FILES ${qmSource}
@@ -46,17 +36,13 @@ install(
 install(
     TARGETS djv_info
     RUNTIME DESTINATION bin)
-
 if (UNIX)
-
     configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/djv_info_linux.sh.in
         ${CMAKE_CURRENT_BINARY_DIR}/djv_info.sh
         @ONLY)
-
     install(
         PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/djv_info.sh
         DESTINATION bin)
-
 endif (UNIX)
 

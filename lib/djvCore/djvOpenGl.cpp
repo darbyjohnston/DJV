@@ -36,6 +36,8 @@
 #include <djvColorUtil.h>
 #include <djvMath.h>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvOpenGlUtil
 //------------------------------------------------------------------------------
@@ -82,7 +84,7 @@ GLenum djvOpenGlUtil::format(djvPixel::PIXEL in, bool bgr)
         default: break;
     }
 
-    return 0;
+    return GL_NONE;
 }
 
 GLenum djvOpenGlUtil::type(djvPixel::PIXEL in)
@@ -104,7 +106,7 @@ GLenum djvOpenGlUtil::type(djvPixel::PIXEL in)
         case djvPixel::L_F16:
         case djvPixel::LA_F16:
         case djvPixel::RGB_F16:
-        case djvPixel::RGBA_F16: return GLEW_ARB_half_float_pixel ? GL_HALF_FLOAT_ARB : 0;
+        case djvPixel::RGBA_F16: return GL_HALF_FLOAT;
 
         case djvPixel::L_F32:
         case djvPixel::LA_F32:
@@ -114,7 +116,7 @@ GLenum djvOpenGlUtil::type(djvPixel::PIXEL in)
         default: break;
     }
 
-    return 0;
+    return GL_NONE;
 }
 
 void djvOpenGlUtil::color(const djvColor & in)
@@ -169,3 +171,10 @@ void djvOpenGlUtil::drawBox(const djvBox2f & in, const djvVector2f uv[4])
     glTexCoord2d(uv[3].x, uv[3].y);
     glVertex2d(in.x + in.w, in.y);
 }
+
+QString djvOpenGlUtil::errorString(GLenum in)
+{
+    //! \todo
+    return QString("%1").arg(static_cast<int>(in));
+}
+

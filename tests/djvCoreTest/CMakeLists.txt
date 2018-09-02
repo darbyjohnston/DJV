@@ -21,7 +21,6 @@ set(header
     djvMatrixUtilTest.h
     djvMemoryBufferTest.h
     djvMemoryTest.h
-    djvOpenGlContextTest.h
     djvOpenGlImageTest.h
     djvOpenGlTest.h
     djvPixelDataTest.h
@@ -66,7 +65,6 @@ set(source
     djvMatrixUtilTest.cpp
     djvMemoryBufferTest.cpp
     djvMemoryTest.cpp
-    djvOpenGlContextTest.cpp
     djvOpenGlImageTest.cpp
     djvOpenGlTest.cpp
     djvPixelDataTest.cpp
@@ -96,5 +94,5 @@ add_library(djvCoreTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvCoreTest djvTestLib ${djvCoreLibs})
 
-set_target_properties(djvCoreTest PROPERTIES FOLDER tests)
+set_target_properties(djvCoreTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 

@@ -14,5 +14,5 @@ add_library(djvViewLibTest ${header} ${source})
 
 target_link_libraries(djvViewLibTest djvTestLib ${djvViewLibLibs})
 
-set_target_properties(djvViewLibTest PROPERTIES FOLDER tests)
+set_target_properties(djvViewLibTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 

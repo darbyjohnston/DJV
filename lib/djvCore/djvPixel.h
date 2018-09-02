@@ -39,7 +39,7 @@
 
 #include <QMetaType>
 
-#include <half.h>
+#include <OpenEXR/half.h>
 
 //! \addtogroup djvCoreImage
 //@{

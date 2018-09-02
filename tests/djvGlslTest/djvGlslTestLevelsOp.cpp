@@ -43,6 +43,8 @@
 #include <QGroupBox>
 #include <QVBoxLayout>
 
+using namespace gl;
+
 //------------------------------------------------------------------------------
 // djvGlslTestLevelsOp::State
 //------------------------------------------------------------------------------
@@ -169,7 +171,7 @@ void djvGlslTestLevelsOp::render(const djvImage & in) throw (djvError)
     // Render.
 
     _render.shader.bind();
-    const GLhandleARB program = _render.shader.program();
+    const GLuint program = _render.shader.program();
 
     glUniform1f(glGetUniformLocation(program, "levels.inputMin"),
         static_cast<GLfloat>(_values.inputMin));

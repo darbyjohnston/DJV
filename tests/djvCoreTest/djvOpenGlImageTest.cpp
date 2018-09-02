@@ -37,12 +37,13 @@
 #include <djvDebug.h>
 #include <djvImageContext.h>
 #include <djvOpenGl.h>
-#include <djvOpenGlContext.h>
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
 
 #include <QScopedPointer>
 #include <QStringList>
+
+using namespace gl;
 
 void djvOpenGlImageTest::run(int &, char **)
 {
@@ -104,19 +105,14 @@ void djvOpenGlImageTest::members()
     }
     
     {
-        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::NEAREST));
-        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::LINEAR));
-        DJV_ASSERT(!djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::BOX));
+        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::NEAREST) != GL_NONE);
+        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::LINEAR) != GL_NONE);
+        DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::BOX) == GL_NONE);
     }
 
     {
         djvImageContext context;
-    
-        QScopedPointer<djvOpenGlContext> openGlContext(
-            context.openGlContextFactory()->create());
-        
-        djvOpenGlContextScope contextScope(openGlContext.data());
-        
+                    
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
         {
             const djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(i);

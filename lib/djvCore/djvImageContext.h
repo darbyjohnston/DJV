@@ -38,8 +38,8 @@
 
 struct djvImageContextPrivate;
 class  djvImageIoFactory;
-class  djvOpenGlContext;
-class  djvOpenGlContextFactory;
+
+class QOpenGLContext;
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -65,14 +65,10 @@ public:
     //! Get the image I/O factory.
     
     djvImageIoFactory * imageIoFactory() const;
-    
-    //! Get the OpenGL context factory.
-    
-    djvOpenGlContextFactory * openGlContextFactory() const;
-    
+        
     //! Get the default OpenGL context.
 
-    djvOpenGlContext * openGlContext() const;
+    QOpenGLContext * openGlContext() const;
     
     virtual QString info() const;
 

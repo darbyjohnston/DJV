@@ -33,7 +33,6 @@
 
 #include <djvGlslTestViewWidget.h>
 
-#include <djvGlslTestAbstractOp.h>
 #include <djvGlslTestContext.h>
 #include <djvGlslTestImageLoad.h>
 #include <djvGlslTestOpsManager.h>

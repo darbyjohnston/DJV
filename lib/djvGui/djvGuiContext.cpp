@@ -100,6 +100,8 @@ djvGuiContext::djvGuiContext(QObject * parent) :
 {
     //DJV_DEBUG("djvGuiContext::djvGuiContext");
 
+    Q_INIT_RESOURCE(djvGui);
+    
     // Register meta types.
     
     qRegisterMetaType<djvPlaybackUtil::PLAYBACK>("djvPlaybackUtil::PLAYBACK");

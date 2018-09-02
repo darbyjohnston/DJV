@@ -17,7 +17,7 @@ add_executable(djvImagePlayTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvImagePlayTest ${djvGuiLibs})
 
-set_target_properties(djvImagePlayTest PROPERTIES FOLDER tests)
+set_target_properties(djvImagePlayTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 
 if (djvImageIoPlugins)
 

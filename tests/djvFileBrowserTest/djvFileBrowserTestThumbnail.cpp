@@ -38,10 +38,11 @@
 #include <djvDebug.h>
 #include <djvImage.h>
 #include <djvImageContext.h>
-#include <djvOpenGlContext.h>
 #include <djvPixelDataUtil.h>
 
 #include <QMutex>
+#include <QOffscreenSurface>
+#include <QOpenGLContext>
 #include <QScopedPointer>
 #include <QThread>
 
@@ -85,10 +86,11 @@ struct djvFileBrowserTestThumbnailWorkerPrivate
         context(context)
     {}
     
-    djvImageContext *                context;
-    QScopedPointer<djvOpenGlContext> gl;
-    djvImage                         image;
-    djvImage                         imageScaled;
+    djvImageContext *                 context;
+    QScopedPointer<QOffscreenSurface> offscreenSurface;
+    QScopedPointer<QOpenGLContext>    openGlContext;
+    djvImage                          image;
+    djvImage                          imageScaled;
 };
 
 //------------------------------------------------------------------------------
@@ -130,8 +132,6 @@ void djvFileBrowserTestThumbnailWorker::request(
 
     try
     {
-        _p->gl->bind();
-        
         // Load the image.
         
         QScopedPointer<djvImageLoad> load;
@@ -185,15 +185,27 @@ void djvFileBrowserTestThumbnailWorker::request(
 void djvFileBrowserTestThumbnailWorker::start()
 {
     //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::start");
+
+    _p->offscreenSurface.reset(new QOffscreenSurface);
+    QSurfaceFormat surfaceFormat;
+    surfaceFormat.setSamples(1);
+    surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
+    surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+    _p->offscreenSurface->setFormat(surfaceFormat);
+    _p->offscreenSurface->create();
     
-    _p->gl.reset(_p->context->openGlContextFactory()->create());
+    _p->openGlContext.reset(new QOpenGLContext);
+    _p->openGlContext->setFormat(surfaceFormat);
+    _p->openGlContext->create();
+    _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
 }
 
 void djvFileBrowserTestThumbnailWorker::finish()
 {
     //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::finish");
     
-    _p->gl.reset();
+    _p->openGlContext.reset();
+    _p->offscreenSurface.reset();
 }
 
 //------------------------------------------------------------------------------

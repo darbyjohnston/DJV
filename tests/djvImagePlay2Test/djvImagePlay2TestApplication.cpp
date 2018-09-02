@@ -56,11 +56,7 @@ djvImagePlay2TestApplication::djvImagePlay2TestApplication(int & argc, char ** a
     }
     else
     {
-#       if QT_VERSION < 0x050000
-        setStyle(new QPlastiqueStyle);
-#       else
         setStyle("fusion");
-#       endif
         
         _window.reset(new djvImagePlay2TestWindow(_context.data()));
         _window->setWindowTitle("djvImagePlay2Test");

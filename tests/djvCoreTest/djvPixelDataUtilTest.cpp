@@ -36,7 +36,6 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvImageContext.h>
-#include <djvOpenGlContext.h>
 #include <djvPixelData.h>
 #include <djvPixelDataUtil.h>
 

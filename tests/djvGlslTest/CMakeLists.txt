@@ -74,7 +74,7 @@ add_executable(djvGlslTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvGlslTest djvViewLib ${djvGuiLibs})
 
-set_target_properties(djvGlslTest PROPERTIES FOLDER tests)
+set_target_properties(djvGlslTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 
 if (djvImageIoPlugins)
 

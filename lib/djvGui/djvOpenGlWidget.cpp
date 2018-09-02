@@ -39,19 +39,8 @@
 
 djvOpenGlWidget::djvOpenGlWidget(
     QWidget *         parent,
-    const QGLWidget * shareWidget,
     Qt::WindowFlags   flags) :
-    QGLWidget(parent, shareWidget, flags)
-{
-    //DJV_DEBUG("djvOpenGlWidget::djvOpenGlWidget");
-}
-
-djvOpenGlWidget::djvOpenGlWidget(
-    QGLContext *      context,
-    QWidget *         parent,
-    const QGLWidget * shareWidget,
-    Qt::WindowFlags   flags) :
-    QGLWidget(context, parent, shareWidget, flags)
+    QOpenGLWidget(parent, flags)
 {
     //DJV_DEBUG("djvOpenGlWidget::djvOpenGlWidget");
 }

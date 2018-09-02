@@ -3,7 +3,6 @@ set(header
     djvPngLoad.h
     djvPngPlugin.h
     djvPngSave.h)
-
 set(source
     djvPng.cpp
     djvPngLoad.cpp
@@ -12,26 +11,18 @@ set(source
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPngPlugin
-    ${PNG_INCLUDE_DIR}
-    ${ZLIB_INCLUDE_DIRS}
     ${djvCoreIncludeDirs})
-
 add_library(djvPngPlugin MODULE ${header} ${source})
-
 target_link_libraries(
     djvPngPlugin
-    ${PNG_LIBRARIES}
-    ${ZLIB_LIBRARIES}
+    PNG
     ${djvCoreLibs})
 
-set_target_properties(djvPngPlugin PROPERTIES FOLDER plugins)
-
+set_target_properties(djvPngPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvPngPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(

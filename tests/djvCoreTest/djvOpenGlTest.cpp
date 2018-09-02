@@ -37,11 +37,12 @@
 #include <djvDebug.h>
 #include <djvImageContext.h>
 #include <djvOpenGl.h>
-#include <djvOpenGlContext.h>
 #include <djvOpenGlOffscreenBuffer.h>
 
 #include <QScopedPointer>
 #include <QString>
+
+using namespace gl;
 
 void djvOpenGlTest::run(int &, char **)
 {
@@ -56,11 +57,6 @@ void djvOpenGlTest::members()
     
     djvImageContext context;
     
-    QScopedPointer<djvOpenGlContext> openGlContext(
-        context.openGlContextFactory()->create());
-    
-    djvOpenGlContextScope contextScope(openGlContext.data());
-
     QScopedPointer<djvOpenGlOffscreenBuffer> buffer(
         new djvOpenGlOffscreenBuffer(djvPixelDataInfo(100, 100, djvPixel::RGBA_U8)));
     
@@ -107,8 +103,8 @@ void djvOpenGlTest::members()
     {
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
         {
-            DJV_ASSERT(djvOpenGlUtil::format(static_cast<djvPixel::PIXEL>(i)));
-            DJV_ASSERT(djvOpenGlUtil::type(static_cast<djvPixel::PIXEL>(i)));
+            DJV_ASSERT(djvOpenGlUtil::format(static_cast<djvPixel::PIXEL>(i)) != GL_NONE);
+            DJV_ASSERT(djvOpenGlUtil::type(static_cast<djvPixel::PIXEL>(i)) != GL_NONE);
         }
     }
 }

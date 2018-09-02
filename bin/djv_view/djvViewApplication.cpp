@@ -131,12 +131,7 @@ void djvViewApplication::work()
     
     _p->context->setValid(true);
 
-#   if QT_VERSION < 0x050000
-    setStyle(new QPlastiqueStyle);
-#   else
     setStyle("fusion");
-#   endif
-
     setWindowIcon(QPixmap(":projector32x32.png"));
     
     DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");

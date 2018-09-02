@@ -60,17 +60,17 @@ public:
 
     void init(
         const djvPixelDataInfo &,
-        GLenum                   target = GL_TEXTURE_2D,
-        GLenum                   min    = GL_LINEAR,
-        GLenum                   mag    = GL_LINEAR) throw (djvError);
+        gl::GLenum                   target = gl::GL_TEXTURE_2D,
+        gl::GLenum                   min    = gl::GL_LINEAR,
+        gl::GLenum                   mag    = gl::GL_LINEAR) throw (djvError);
 
     //! Initialize the texture.
 
     void init(
         const djvPixelData &,
-        GLenum               target = GL_TEXTURE_2D,
-        GLenum               min    = GL_LINEAR,
-        GLenum               mag    = GL_LINEAR) throw (djvError);
+        gl::GLenum           target = gl::GL_TEXTURE_2D,
+        gl::GLenum           min    = gl::GL_LINEAR,
+        gl::GLenum           mag    = gl::GL_LINEAR) throw (djvError);
     
     //! Get the pixel information.
 
@@ -78,19 +78,19 @@ public:
 
     //! Get the target.
     
-    GLenum target() const;
+    gl::GLenum target() const;
 
     //! Get the minify filter.
     
-    GLenum min() const;
+    gl::GLenum min() const;
 
     //! Get the magnify filter.
     
-    GLenum mag() const;
+    gl::GLenum mag() const;
 
     //! Get the texture ID.
     
-    GLuint id() const;
+    gl::GLuint id() const;
 
     //! Bind the texture.
     
@@ -113,11 +113,10 @@ private:
     void del();
 
     djvPixelDataInfo _info;
-    GLenum           _target;
-    GLenum           _min;
-    GLenum           _mag;
-    GLuint           _id;
-
+    gl::GLenum       _target;
+    gl::GLenum       _min;
+    gl::GLenum       _mag;
+    gl::GLuint       _id;
 };
 
 #endif // DJV_OPEN_GL_TEXTURE_H

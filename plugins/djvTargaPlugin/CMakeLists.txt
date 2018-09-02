@@ -3,7 +3,6 @@ set(header
     djvTargaLoad.h
     djvTargaPlugin.h
     djvTargaSave.h)
-
 set(source
     djvTarga.cpp
     djvTargaLoad.cpp
@@ -13,10 +12,8 @@ set(source
 set(widgetHeader
     djvTarga.h
     djvTargaWidget.h)
-
 set(widgetMocHeader
     djvTargaWidget.h)
-
 set(widgetSource
     djvTarga.cpp
     djvTargaWidget.cpp)
@@ -28,25 +25,20 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvTargaPlugin
     ${djvGuiIncludeDirs})
-
 add_library(djvTargaPlugin MODULE ${header} ${source} ${qmSource})
 add_library(djvTargaWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
-
 target_link_libraries(djvTargaPlugin ${djvCoreLibs})
 target_link_libraries(djvTargaWidgetPlugin ${djvGuiLibs})
 
-set_target_properties(djvTargaPlugin PROPERTIES FOLDER plugins)
-set_target_properties(djvTargaWidgetPlugin PROPERTIES FOLDER plugins)
-
+set_target_properties(djvTargaPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
+set_target_properties(djvTargaWidgetPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvTargaPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
     set_target_properties(
         djvTargaWidgetPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(

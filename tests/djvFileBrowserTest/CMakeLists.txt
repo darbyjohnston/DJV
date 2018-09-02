@@ -56,7 +56,7 @@ add_executable(djvFileBrowserTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvFileBrowserTest ${djvGuiLibs})
 
-set_target_properties(djvFileBrowserTest PROPERTIES FOLDER tests)
+set_target_properties(djvFileBrowserTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 
 if (djvImageIoPlugins)
 

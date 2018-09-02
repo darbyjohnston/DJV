@@ -100,7 +100,7 @@ add_executable(djvWidgetTest ${header} ${source} ${mocSource})
 
 target_link_libraries(djvWidgetTest ${djvGuiLibs} djvViewLib)
 
-set_target_properties(djvWidgetTest PROPERTIES FOLDER tests)
+set_target_properties(djvWidgetTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 
 if (djvImageIoPlugins)
 

@@ -38,7 +38,7 @@
 
 #include <djvOpenGl.h>
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -49,7 +49,7 @@
 //! This class provides an OpenGL widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvOpenGlWidget : public QGLWidget
+class DJV_GUI_EXPORT djvOpenGlWidget : public QOpenGLWidget
 {
     Q_OBJECT
     
@@ -59,15 +59,6 @@ public:
 
     explicit djvOpenGlWidget(
         QWidget *         parent      = 0,
-        const QGLWidget * shareWidget = 0,
-        Qt::WindowFlags   flags       = 0);
-
-    //! Constructor.
-
-    explicit djvOpenGlWidget(
-        QGLContext *      context,
-        QWidget *         parent      = 0,
-        const QGLWidget * shareWidget = 0,
         Qt::WindowFlags   flags       = 0);
 
     //! Destructor.

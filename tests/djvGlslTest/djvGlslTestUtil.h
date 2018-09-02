@@ -63,7 +63,7 @@ public:
 
 private:
 
-    GLuint _id;
+    gl::GLuint _id;
 };
 
 //------------------------------------------------------------------------------
@@ -82,9 +82,9 @@ public:
 
     //void size(int);
 
-    void value(GLuint, const float *);
+    void value(gl::GLuint, const float *);
 
-    void offset(GLuint, const float *);
+    void offset(gl::GLuint, const float *);
 
 private:
 

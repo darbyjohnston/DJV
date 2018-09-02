@@ -1,6 +1,6 @@
 #add_subdirectory(djvAudioTest)
 add_subdirectory(djvCoreTest)
-add_subdirectory(djvFileBrowserTest)
+#add_subdirectory(djvFileBrowserTest)
 add_subdirectory(djvGlslTest)
 add_subdirectory(djvGuiTest)
 add_subdirectory(djvImageIoPluginTest)
@@ -11,3 +11,4 @@ add_subdirectory(djvTest)
 add_subdirectory(djvTestLib)
 add_subdirectory(djvViewLibTest)
 add_subdirectory(djvWidgetTest)
+

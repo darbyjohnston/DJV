@@ -3,7 +3,6 @@ set(header
     djvIffLoad.h
     djvIffPlugin.h
     djvIffSave.h)
-
 set(source
     djvIff.cpp
     djvIffLoad.cpp
@@ -13,10 +12,8 @@ set(source
 set(widgetHeader
     djvIff.h
     djvIffWidget.h)
-
 set(widgetMocHeader
     djvIffWidget.h)
-
 set(widgetSource
     djvIff.cpp
     djvIffWidget.cpp)
@@ -28,25 +25,20 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvIffPlugin
     ${djvGuiIncludeDirs})
-
 add_library(djvIffPlugin MODULE ${header} ${source} ${qmSource})
 add_library(djvIffWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
-
 target_link_libraries(djvIffPlugin ${djvCoreLibs})
 target_link_libraries(djvIffWidgetPlugin ${djvGuiLibs})
 
-set_target_properties(djvIffPlugin PROPERTIES FOLDER plugins)
-set_target_properties(djvIffWidgetPlugin PROPERTIES FOLDER plugins)
-
+set_target_properties(djvIffPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
+set_target_properties(djvIffWidgetPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvIffPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
     set_target_properties(
         djvIffWidgetPlugin PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(

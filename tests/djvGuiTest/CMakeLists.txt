@@ -16,5 +16,5 @@ add_library(djvGuiTest ${header} ${source})
 
 target_link_libraries(djvGuiTest djvTestLib ${djvGuiLibs})
 
-set_target_properties(djvGuiTest PROPERTIES FOLDER tests)
+set_target_properties(djvGuiTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 

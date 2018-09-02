@@ -63,7 +63,6 @@ set(header
 	djvViewWindowPrefs.h
 	djvViewWindowPrefsWidget.h
 	djvViewWindowToolBar.h)
-
 set(mocHeader
     djvViewAbstractActions.h
     djvViewAbstractGroup.h
@@ -126,7 +125,6 @@ set(mocHeader
     djvViewWindowPrefs.h
     djvViewWindowPrefsWidget.h
     djvViewWindowToolBar.h)
-
 set(source
 	djvViewAbstractActions.cpp
 	djvViewAbstractGroup.cpp
@@ -199,29 +197,23 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvViewLib_cs_CZ.ts)
 
 include_directories(${CMAKE_SOURCE_DIR}/lib/djvViewLib ${djvGuiIncludeDirs})
-
 add_library(djvViewLib ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-
 target_link_libraries(djvViewLib ${djvGuiLibs})
+add_definitions(${djvGuiDefines})
 
-set_target_properties(djvViewLib PROPERTIES FOLDER lib)
-
+set_target_properties(djvViewLib PROPERTIES FOLDER lib CXX_STANDARD 11)
 if (djvInstallRpath)
-
     set_target_properties(
         djvViewLib PROPERTIES
         INSTALL_RPATH "${djvInstallRpath}")
-
 endif (djvInstallRpath)
 
 install(
     FILES ${header}
     DESTINATION include)
-
 install(
     FILES ${qmSource}
     DESTINATION translations)
-
 install(
     TARGETS djvViewLib
     RUNTIME DESTINATION bin

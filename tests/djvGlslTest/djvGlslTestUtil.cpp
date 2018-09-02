@@ -36,6 +36,8 @@
 #include <djvMatrix.h>
 #include <djvOpenGlTexture.h>
 
+using namespace gl;
+
 namespace
 {
 
