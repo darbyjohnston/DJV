@@ -45,12 +45,12 @@
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackButtonsPrivate
+// djvViewPlaybackButtons::Private
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackButtonsPrivate
+struct djvViewPlaybackButtons::Private
 {
-    djvViewPlaybackButtonsPrivate() :
+    Private() :
         buttonGroup(0),
         shuttle    (0)
     {}
@@ -68,7 +68,7 @@ djvViewPlaybackButtons::djvViewPlaybackButtons(
     djvGuiContext * context,
     QWidget *       parent) :
     QWidget(parent),
-    _p(new djvViewPlaybackButtonsPrivate)
+    _p(new Private)
 {
     _p->buttonGroup = new QButtonGroup(this);
     _p->buttonGroup->setExclusive(true);
@@ -106,17 +106,15 @@ djvViewPlaybackButtons::djvViewPlaybackButtons(
 }
 
 djvViewPlaybackButtons::~djvViewPlaybackButtons()
-{
-    delete _p;
-}
+{}
 
 //------------------------------------------------------------------------------
-// djvViewLoopWidgetPrivate
+// djvViewLoopWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewLoopWidgetPrivate
+struct djvViewLoopWidget::Private
 {
-    djvViewLoopWidgetPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         loop   (djvViewUtil::LOOP_REPEAT),
         button (0),
         context(context)
@@ -136,7 +134,7 @@ djvViewLoopWidget::djvViewLoopWidget(
     djvViewContext * context,
     QWidget *        parent) :
     QWidget(parent),
-    _p(new djvViewLoopWidgetPrivate(context))
+    _p(new Private(context))
 {
     _p->button = new djvChoiceButton(actionGroup);
 
@@ -154,9 +152,7 @@ djvViewLoopWidget::djvViewLoopWidget(
 }
 
 djvViewLoopWidget::~djvViewLoopWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewLoopWidget::widgetUpdate()
 {
@@ -175,12 +171,12 @@ void djvViewLoopWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameButtonsPrivate
+// djvViewFrameButtons::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFrameButtonsPrivate
+struct djvViewFrameButtons::Private
 {
-    djvViewFrameButtonsPrivate() :
+    Private() :
         buttonGroup(0),
         shuttle(0)
     {}
@@ -198,7 +194,7 @@ djvViewFrameButtons::djvViewFrameButtons(
     djvGuiContext * context,
     QWidget *       parent) :
     QWidget(parent),
-    _p(new djvViewFrameButtonsPrivate)
+    _p(new Private)
 {
     _p->buttonGroup = new QButtonGroup(this);
     _p->buttonGroup->setExclusive(false);
@@ -243,6 +239,4 @@ djvViewFrameButtons::djvViewFrameButtons(
 }
 
 djvViewFrameButtons::~djvViewFrameButtons()
-{
-    delete _p;
-}
+{}

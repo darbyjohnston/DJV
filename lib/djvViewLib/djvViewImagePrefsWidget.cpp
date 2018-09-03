@@ -67,12 +67,12 @@ public:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewImagePrefsWidgetPrivate
+// djvViewImagePrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewImagePrefsWidgetPrivate
+struct djvViewImagePrefsWidget::Private
 {
-    djvViewImagePrefsWidgetPrivate() :
+    Private() :
         frameStoreFileReloadWidget(0),
         mirrorHWidget             (0),
         mirrorVWidget             (0),
@@ -102,7 +102,7 @@ struct djvViewImagePrefsWidgetPrivate
 djvViewImagePrefsWidget::djvViewImagePrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewImagePrefsWidget", "Images"), context),
-    _p(new djvViewImagePrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->frameStoreFileReloadWidget = new QCheckBox(
@@ -284,9 +284,7 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget(djvViewContext * context) :
 }
 
 djvViewImagePrefsWidget::~djvViewImagePrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewImagePrefsWidget::resetPreferences()
 {

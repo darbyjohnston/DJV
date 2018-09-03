@@ -51,12 +51,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestWidgetPrivate
+// djvFileBrowserTestWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestWidgetPrivate
+struct djvFileBrowserTestWidget::Private
 {
-    djvFileBrowserTestWidgetPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         context            (context),
         model              (new djvFileBrowserTestModel(context)),
         upAction           (0),
@@ -112,7 +112,7 @@ djvFileBrowserTestWidget::djvFileBrowserTestWidget(
     djvGuiContext * context,
     QWidget *       parent) :
     QMainWindow(parent),
-    _p(new djvFileBrowserTestWidgetPrivate(context))
+    _p(new Private(context))
 {
     // Create the actions.
     _p->upAction = djvFileBrowserTestActions::upAction(this);
@@ -229,9 +229,7 @@ djvFileBrowserTestWidget::djvFileBrowserTestWidget(
 }
 
 djvFileBrowserTestWidget::~djvFileBrowserTestWidget()
-{
-    delete _p;
-}
+{}
 
 const QDir & djvFileBrowserTestWidget::dir() const
 {

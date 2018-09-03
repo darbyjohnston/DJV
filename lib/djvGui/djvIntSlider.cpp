@@ -79,12 +79,12 @@ protected:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvIntSliderPrivate
+// djvIntSlider::Private
 //------------------------------------------------------------------------------
 
-struct djvIntSliderPrivate
+struct djvIntSlider::Private
 {
-    djvIntSliderPrivate() :
+    Private() :
         object(0),
         slider(0)
     {}
@@ -99,7 +99,7 @@ struct djvIntSliderPrivate
 
 djvIntSlider::djvIntSlider(QWidget * parent) :
     QWidget(parent),
-    _p(new djvIntSliderPrivate)
+    _p(new Private)
 {
     _p->object = new djvIntObject(this);
 
@@ -137,9 +137,7 @@ djvIntSlider::djvIntSlider(QWidget * parent) :
 }
 
 djvIntSlider::~djvIntSlider()
-{
-    delete _p;
-}
+{}
 
 int djvIntSlider::value() const
 {

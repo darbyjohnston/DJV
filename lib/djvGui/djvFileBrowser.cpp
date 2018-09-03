@@ -149,12 +149,12 @@ struct Widgets
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvFileBrowserPrivate
+// djvFileBrowser::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserPrivate
+struct djvFileBrowser::Private
 {
-    djvFileBrowserPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         pinnable   (false),
         pinned     (false),
         shown      (false),
@@ -182,7 +182,7 @@ struct djvFileBrowserPrivate
 
 djvFileBrowser::djvFileBrowser(djvGuiContext * context, QWidget * parent) :
     QDialog(parent),
-    _p(new djvFileBrowserPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvFileBrowser::djvFileBrowser");
     
@@ -421,12 +421,10 @@ djvFileBrowser::djvFileBrowser(djvGuiContext * context, QWidget * parent) :
         context->fileBrowserPrefs(),
         SIGNAL(sortChanged(djvFileBrowserModel::COLUMNS)),
         SLOT(setSort(djvFileBrowserModel::COLUMNS)));
-
     _p->model->connect(
         context->fileBrowserPrefs(),
         SIGNAL(reverseSortChanged(bool)),
         SLOT(setReverseSort(bool)));
-
     _p->model->connect(
         context->fileBrowserPrefs(),
         SIGNAL(sortDirsFirstChanged(bool)),
@@ -534,8 +532,6 @@ djvFileBrowser::~djvFileBrowser()
     _p->context->fileBrowserPrefs()->setSortDirsFirst(_p->model->hasSortDirsFirst());
     _p->context->fileBrowserPrefs()->setThumbnails(_p->model->thumbnails());
     _p->context->fileBrowserPrefs()->setThumbnailsSize(_p->model->thumbnailsSize());
-
-    delete _p;
 }
 
 const djvFileInfo & djvFileBrowser::fileInfo() const

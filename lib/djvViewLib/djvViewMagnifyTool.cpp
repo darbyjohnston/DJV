@@ -99,12 +99,12 @@ void Widget::paintEvent(QPaintEvent *)
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewMagnifyToolPrivate
+// djvViewMagnifyTool::Private
 //------------------------------------------------------------------------------
 
-struct djvViewMagnifyToolPrivate
+struct djvViewMagnifyTool::Private
 {
-    djvViewMagnifyToolPrivate() :
+    Private() :
         zoom                (2),
         colorProfile        (true),
         displayProfile      (true),
@@ -141,7 +141,7 @@ djvViewMagnifyTool::djvViewMagnifyTool(
     djvViewContext *    context,
     QWidget *           parent) :
     djvViewAbstractTool(mainWindow, context, parent),
-    _p(new djvViewMagnifyToolPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->widget = new Widget;
@@ -221,8 +221,6 @@ djvViewMagnifyTool::~djvViewMagnifyTool()
     prefs.set("colorProfile", _p->colorProfile);
     prefs.set("displayProfile", _p->displayProfile);
     viewWidget()->makeCurrent();
-    
-    delete _p;
 }
 
 void djvViewMagnifyTool::pickCallback(const djvVector2i & in)

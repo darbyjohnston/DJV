@@ -37,7 +37,7 @@
 
 #include <QDialog>
 
-struct djvProgressDialogPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -88,7 +88,8 @@ private:
 
     DJV_PRIVATE_COPY(djvProgressDialog);
     
-    djvProgressDialogPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

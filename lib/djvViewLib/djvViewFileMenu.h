@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractMenu.h>
 
-struct djvViewFileMenuPrivate;
+#include <memory>
 
 //! \addtogroup djvViewFile
 //@{
@@ -61,7 +61,8 @@ protected Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewFileMenu);
     
-    djvViewFileMenuPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewFile

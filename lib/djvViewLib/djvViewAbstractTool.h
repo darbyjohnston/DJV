@@ -37,10 +37,11 @@
 
 #include <QWidget>
 
-struct djvViewAbstractToolPrivate;
-class  djvViewContext;
-class  djvViewImageView;
-class  djvViewMainWindow;
+#include <memory>
+
+class djvViewContext;
+class djvViewImageView;
+class djvViewMainWindow;
 
 //! \addtogroup djvViewLib
 //@{
@@ -75,7 +76,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewAbstractTool);
     
-    djvViewAbstractToolPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewLib

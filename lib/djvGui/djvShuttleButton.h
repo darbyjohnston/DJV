@@ -35,8 +35,9 @@
 
 #include <djvUtil.h>
 
-class  djvGuiContext;
-struct djvShuttleButtonPrivate;
+#include <memory>
+
+class djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -86,7 +87,8 @@ private:
     
     DJV_PRIVATE_COPY(djvShuttleButton);
     
-    djvShuttleButtonPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

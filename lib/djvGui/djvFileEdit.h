@@ -38,8 +38,9 @@
 
 #include <QWidget>
 
-class  djvGuiContext;
-struct djvFileEditPrivate;
+#include <memory>
+
+class djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -86,7 +87,8 @@ private:
     
     DJV_PRIVATE_COPY(djvFileEdit);
     
-    djvFileEditPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

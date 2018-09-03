@@ -44,12 +44,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestViewPrivate
+// djvFileBrowserTestView::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestViewPrivate
+struct djvFileBrowserTestView::Private
 {
-    djvFileBrowserTestViewPrivate(
+    Private(
         djvFileBrowserTestModel * model,
         djvGuiContext *           context) :
         context      (context),
@@ -97,7 +97,7 @@ djvFileBrowserTestView::djvFileBrowserTestView(
     djvGuiContext *           context,
     QWidget *                 parent) :
     QWidget(parent),
-    _p(new djvFileBrowserTestViewPrivate(model, context))
+    _p(new Private(model, context))
 {
     _p->treeView = new QTreeView;
     _p->treeView->setRootIsDecorated(false);
@@ -152,9 +152,7 @@ djvFileBrowserTestView::djvFileBrowserTestView(
 }
 
 djvFileBrowserTestView::~djvFileBrowserTestView()
-{
-    delete _p;
-}
+{}
 
 djvFileBrowserTestView::MODE djvFileBrowserTestView::mode() const
 {

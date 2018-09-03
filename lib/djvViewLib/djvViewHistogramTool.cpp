@@ -210,12 +210,12 @@ void djvViewHistogramWidget::updatePixmap()
 }
 
 //------------------------------------------------------------------------------
-// djvViewHistogramToolPrivate
+// djvViewHistogramTool::Private
 //------------------------------------------------------------------------------
 
-struct djvViewHistogramToolPrivate
+struct djvViewHistogramTool::Private
 {
-    djvViewHistogramToolPrivate() :
+    Private() :
         size                (static_cast<djvViewUtil::HISTOGRAM>(0)),
         colorProfile        (true),
         displayProfile      (true),
@@ -254,7 +254,7 @@ djvViewHistogramTool::djvViewHistogramTool(
     djvViewContext *    context,
     QWidget *           parent) :
     djvViewAbstractTool(mainWindow, context, parent),
-    _p(new djvViewHistogramToolPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->widget = new djvViewHistogramWidget;
@@ -348,8 +348,6 @@ djvViewHistogramTool::~djvViewHistogramTool()
     djvPrefs prefs("djvViewHistogramTool");
     prefs.set("colorProfile", _p->colorProfile);
     prefs.set("displayProfile", _p->displayProfile);
-    
-    delete _p;
 }
 
 void djvViewHistogramTool::sizeCallback(int in)

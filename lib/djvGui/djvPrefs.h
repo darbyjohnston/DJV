@@ -37,7 +37,7 @@
 
 #include <QMetaType>
 
-struct djvPrefsPrivate;
+#include <memory>
 
 class QString;
 class QStringList;
@@ -106,7 +106,8 @@ private:
     
     DJV_PRIVATE_COPY(djvPrefs);
     
-    djvPrefsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

@@ -71,12 +71,12 @@ djvFileBrowserTestDirResult::djvFileBrowserTestDirResult() :
 {}
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestDirWorkerPrivate
+// djvFileBrowserTestDirWorker::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestDirWorkerPrivate
+struct djvFileBrowserTestDirWorker::Private
 {
-    djvFileBrowserTestDirWorkerPrivate() :
+    Private() :
         fd   (-1),
         buf  (djvMemory::megabyte),
         timer(0),
@@ -97,7 +97,7 @@ struct djvFileBrowserTestDirWorkerPrivate
 
 djvFileBrowserTestDirWorker::djvFileBrowserTestDirWorker(QObject * parent) :
     djvFileBrowserTestAbstractWorker(parent),
-    _p(new djvFileBrowserTestDirWorkerPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvFileBrowserTestDirWorker::djvFileBrowserTestDirWorker");
 }
@@ -105,7 +105,6 @@ djvFileBrowserTestDirWorker::djvFileBrowserTestDirWorker(QObject * parent) :
 djvFileBrowserTestDirWorker::~djvFileBrowserTestDirWorker()
 {
     //DJV_DEBUG("djvFileBrowserTestDirWorker::~djvFileBrowserTestDirWorker");    
-    delete _p;
 }
 
 void djvFileBrowserTestDirWorker::request(const djvFileBrowserTestDirRequest & request)

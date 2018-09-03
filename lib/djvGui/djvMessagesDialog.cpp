@@ -47,12 +47,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvMessagesDialogPrivate
+// djvMessagesDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvMessagesDialogPrivate
+struct djvMessagesDialog::Private
 {
-    djvMessagesDialogPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         widget      (0),
         show        (true),
         showCheckBox(0),
@@ -73,7 +73,7 @@ struct djvMessagesDialogPrivate
 //------------------------------------------------------------------------------
 
 djvMessagesDialog::djvMessagesDialog(djvGuiContext * context) :
-    _p(new djvMessagesDialogPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvMessagesDialog::djvMessagesDialog");
     
@@ -125,7 +125,6 @@ djvMessagesDialog::~djvMessagesDialog()
     //DJV_DEBUG("djvMessagesDialog::~djvMessagesDialog");
     djvPrefs prefs("djvMessagesDialog", djvPrefs::SYSTEM);
     prefs.set("show", _p->show);
-    delete _p;
 }
 
 void djvMessagesDialog::message(const QString & in)

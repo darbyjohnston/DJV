@@ -41,12 +41,12 @@
 #include <QStyleOption>
 
 //------------------------------------------------------------------------------
-// djvToolButtonPrivate
+// djvToolButton::Private
 //------------------------------------------------------------------------------
 
-struct djvToolButtonPrivate
+struct djvToolButton::Private
 {
-    djvToolButtonPrivate() :
+    Private() :
         defaultAction(0)
     {}
 
@@ -59,23 +59,21 @@ struct djvToolButtonPrivate
 
 djvToolButton::djvToolButton(QWidget * parent) :
     djvAbstractToolButton(parent),
-    _p(new djvToolButtonPrivate)
+    _p(new Private)
 {
     widgetUpdate();
 }
 
 djvToolButton::djvToolButton(const QIcon & icon, QWidget * parent) :
     djvAbstractToolButton(parent),
-    _p(new djvToolButtonPrivate)
+    _p(new Private)
 {
     setIcon(icon);
     widgetUpdate();
 }
 
 djvToolButton::~djvToolButton()
-{
-    delete _p;
-}
+{}
 
 void djvToolButton::setDefaultAction(QAction * action)
 {

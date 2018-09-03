@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
-struct djvViewImagePrefsWidgetPrivate;
+#include <memory>
 
 class QListWidgetItem;
 
@@ -77,7 +77,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewImagePrefsWidget);
     
-    djvViewImagePrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewImage

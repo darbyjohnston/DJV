@@ -210,10 +210,10 @@ const QStringList & djvImageIo::errorLabels()
 }
 
 //------------------------------------------------------------------------------
-// djvImageIoFactoryPrivate
+// djvImageIoFactory::Private
 //------------------------------------------------------------------------------
 
-struct djvImageIoFactoryPrivate
+struct djvImageIoFactory::Private
 {
     // This map is used to lookup an image I/O plugin by it's name.
     QMap<QString, djvImageIo *> nameMap;
@@ -232,7 +232,7 @@ djvImageIoFactory::djvImageIoFactory(
     const QStringList & searchPath,
     QObject *           parent) :
     djvPluginFactory(context, searchPath, "djvImageIoEntry", "djv", "Plugin", parent),
-    _p(new djvImageIoFactoryPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvImageIoFactory::djvImageIoFactory");
 
@@ -286,7 +286,6 @@ djvImageIoFactory::djvImageIoFactory(
 djvImageIoFactory::~djvImageIoFactory()
 {
     //DJV_DEBUG("djvImageIoFactory::~djvImageIoFactory");
-    delete _p;
 }
 
 QStringList djvImageIoFactory::option(

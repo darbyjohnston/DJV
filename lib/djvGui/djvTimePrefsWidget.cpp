@@ -47,12 +47,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvTimePrefsWidgetPrivate
+// djvTimePrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvTimePrefsWidgetPrivate
+struct djvTimePrefsWidget::Private
 {
-    djvTimePrefsWidgetPrivate() :
+    Private() :
         timeUnitsWidget(0),
         speedWidget    (0)
     {}
@@ -68,7 +68,7 @@ struct djvTimePrefsWidgetPrivate
 djvTimePrefsWidget::djvTimePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
         qApp->translate("djvTimePrefsWidget", "Time"), context, parent),
-    _p(new djvTimePrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->timeUnitsWidget = new QComboBox;
@@ -114,9 +114,7 @@ djvTimePrefsWidget::djvTimePrefsWidget(djvGuiContext * context, QWidget * parent
 }
 
 djvTimePrefsWidget::~djvTimePrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvTimePrefsWidget::resetPreferences()
 {

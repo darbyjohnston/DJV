@@ -38,12 +38,12 @@
 #include <djvToolButton.h>
 
 //------------------------------------------------------------------------------
-// djvViewViewToolBarPrivate
+// djvViewViewToolBar::Private
 //------------------------------------------------------------------------------
 
-struct djvViewViewToolBarPrivate
+struct djvViewViewToolBar::Private
 {
-    djvViewViewToolBarPrivate() :
+    Private() :
         zoomEdit(0)
     {}
 
@@ -59,7 +59,7 @@ djvViewViewToolBar::djvViewViewToolBar(
     djvViewContext *         context,
     QWidget *                parent) :
     djvViewAbstractToolBar(actions, context, parent),
-    _p(new djvViewViewToolBarPrivate)
+    _p(new Private)
 {
     djvToolButton * button = new djvToolButton;
     button->setDefaultAction(actions->action(djvViewViewActions::ZOOM_IN));
@@ -84,9 +84,7 @@ djvViewViewToolBar::djvViewViewToolBar(
 }
 
 djvViewViewToolBar::~djvViewViewToolBar()
-{
-    delete _p;
-}
+{}
 
 djvFloatEdit * djvViewViewToolBar::zoomEdit() const
 {

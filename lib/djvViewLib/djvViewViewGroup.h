@@ -36,7 +36,7 @@
 
 #include <djvVector.h>
 
-struct djvViewViewGroupPrivate;
+#include <memory>
 
 class QAction;
 
@@ -90,7 +90,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewViewGroup);
     
-    djvViewViewGroupPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewView

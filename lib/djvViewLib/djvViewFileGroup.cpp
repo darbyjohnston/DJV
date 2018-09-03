@@ -63,12 +63,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewFileGroupPrivate
+// djvViewFileGroup::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFileGroupPrivate
+struct djvViewFileGroup::Private
 {
-    djvViewFileGroupPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         image        (0),
         layer        (0),
         proxy        (context->filePrefs()->proxy()),
@@ -114,7 +114,7 @@ djvViewFileGroup::djvViewFileGroup(
     djvViewMainWindow *      mainWindow,
     djvViewContext *         context) :
     djvViewAbstractGroup(mainWindow, context),
-    _p(new djvViewFileGroupPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvViewFileGroup::djvViewFileGroup");
     
@@ -272,8 +272,6 @@ djvViewFileGroup::~djvViewFileGroup()
         _p->cacheItem->decrement();
     }
     cacheDel();
-
-    delete _p;
 }
 
 const djvFileInfo & djvViewFileGroup::fileInfo() const

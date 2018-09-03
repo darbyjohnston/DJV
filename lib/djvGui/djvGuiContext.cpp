@@ -60,12 +60,12 @@
 #include <QUrl>
 
 //------------------------------------------------------------------------------
-// djvGuiContextPrivate
+// djvGuiContext::Private
 //------------------------------------------------------------------------------
 
-struct djvGuiContextPrivate
+struct djvGuiContext::Private
 {
-    djvGuiContextPrivate() :
+    Private() :
         valid(false)
     {}
 
@@ -94,7 +94,7 @@ struct djvGuiContextPrivate
 
 djvGuiContext::djvGuiContext(QObject * parent) :
     djvImageContext(parent),
-    _p(new djvGuiContextPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvGuiContext::djvGuiContext");
 
@@ -141,7 +141,6 @@ djvGuiContext::~djvGuiContext()
 {
     //DJV_DEBUG("djvGuiContext::~djvGuiContext");
     QThreadPool::globalInstance()->waitForDone();    
-    delete _p;
 }
 
 bool djvGuiContext::isValid() const

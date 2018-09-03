@@ -34,12 +34,12 @@
 #include <QMutex>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestAbstractWorkerPrivate
+// djvFileBrowserTestAbstractWorker::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestAbstractWorkerPrivate
+struct djvFileBrowserTestAbstractWorker::Private
 {
-    djvFileBrowserTestAbstractWorkerPrivate() :
+    Private() :
         id(0)
     {}
     
@@ -53,13 +53,11 @@ struct djvFileBrowserTestAbstractWorkerPrivate
 
 djvFileBrowserTestAbstractWorker::djvFileBrowserTestAbstractWorker(QObject * parent) :
     QObject(parent),
-    _p(new djvFileBrowserTestAbstractWorkerPrivate)
+    _p(new Private)
 {}
     
 djvFileBrowserTestAbstractWorker::~djvFileBrowserTestAbstractWorker()
-{
-    delete _p;
-}
+{}
 
 int djvFileBrowserTestAbstractWorker::id() const
 {

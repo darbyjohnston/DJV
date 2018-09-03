@@ -37,12 +37,13 @@
 #include <QObject>
 #include <QString>
 
+#include <memory>
+
 #if defined DJV_WINDOWS
 #undef ERROR
 #endif // DJV_WINDOWS
 
-class  djvCoreContext;
-struct djvPluginFactoryPrivate;
+class djvCoreContext;
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -74,7 +75,6 @@ public:
     djvCoreContext * context() const;
 
 private:
-
     djvCoreContext * _context;
 };
 
@@ -123,7 +123,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvPluginFactory);
     
-    djvPluginFactoryPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //! This macro provides a plugin entry point export.

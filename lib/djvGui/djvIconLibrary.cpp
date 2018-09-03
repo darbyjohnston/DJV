@@ -43,10 +43,10 @@
 #include <QPixmap>
 
 //------------------------------------------------------------------------------
-// djvIconLibraryPrivate
+// djvIconLibrary::Private
 //------------------------------------------------------------------------------
 
-struct djvIconLibraryPrivate
+struct djvIconLibrary::Private
 {
     QMap<QString, QIcon>   icons;
     QMap<QString, QPixmap> pixmaps;
@@ -58,7 +58,7 @@ struct djvIconLibraryPrivate
 
 djvIconLibrary::djvIconLibrary(QObject * parent) :
     QObject(parent),
-    _p(new djvIconLibraryPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvIconLibrary::djvIconLibrary");
 }
@@ -66,8 +66,6 @@ djvIconLibrary::djvIconLibrary(QObject * parent) :
 djvIconLibrary::~djvIconLibrary()
 {
     //DJV_DEBUG("djvIconLibrary::~djvIconLibrary");
-
-    delete _p;
 }
     
 const QIcon & djvIconLibrary::icon(const QString & name) const
@@ -110,7 +108,7 @@ const QIcon & djvIconLibrary::icon(const QString & name) const
 
             icon.addPixmap(tmp, QIcon::Disabled, QIcon::On);
         }*/
-        const_cast<djvIconLibraryPrivate *>(_p)->icons.insert(name, icon);
+        const_cast<Private *>(_p.get())->icons.insert(name, icon);
     }
     return _p->icons[name];
 }
@@ -128,7 +126,7 @@ const QPixmap & djvIconLibrary::pixmap(const QString & name) const
     if (! _p->pixmaps.contains(name))
     {
         QPixmap pixmap(QString(":%1").arg(name));
-        const_cast<djvIconLibraryPrivate *>(_p)->pixmaps.insert(name, pixmap);
+        const_cast<Private *>(_p.get())->pixmaps.insert(name, pixmap);
     }
     return _p->pixmaps[name];
 }

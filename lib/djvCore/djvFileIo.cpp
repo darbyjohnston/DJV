@@ -68,12 +68,12 @@
 #include <stdio.h>
 
 //------------------------------------------------------------------------------
-// djvFileIoPrivate
+// djvFileIo::Private
 //------------------------------------------------------------------------------
 
-struct djvFileIoPrivate
+struct djvFileIo::Private
 {
-    djvFileIoPrivate() :
+    Private() :
 #if defined(DJV_WINDOWS)
         f        (INVALID_HANDLE_VALUE),
         mode     (static_cast<djvFileIo::MODE>(0)),
@@ -120,13 +120,12 @@ struct djvFileIoPrivate
 //------------------------------------------------------------------------------
 
 djvFileIo::djvFileIo() :
-    _p(new djvFileIoPrivate)
+    _p(new Private)
 {}
 
 djvFileIo::~djvFileIo()
 {
     close();
-    delete _p;
 }
 
 void djvFileIo::open(const QString & fileName, MODE mode) throw (djvError)

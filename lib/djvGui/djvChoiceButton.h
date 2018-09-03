@@ -35,7 +35,7 @@
 
 #include <djvUtil.h>
 
-struct djvChoiceButtonPrivate;
+#include <memory>
 
 class QActionGroup;
 
@@ -91,7 +91,8 @@ private Q_SLOTS:
 private:    
     DJV_PRIVATE_COPY(djvChoiceButton);
     
-    djvChoiceButtonPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

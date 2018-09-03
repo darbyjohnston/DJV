@@ -37,12 +37,12 @@
 #include <QSignalMapper>
 
 //------------------------------------------------------------------------------
-// djvOsxMenuHackPrivate
+// djvOsxMenuHack::Private
 //------------------------------------------------------------------------------
 
-struct djvOsxMenuHackPrivate
+struct djvOsxMenuHack::Private
 {
-    djvOsxMenuHackPrivate() :
+    Private() :
         mapper(0)
     {}
     
@@ -56,7 +56,7 @@ struct djvOsxMenuHackPrivate
 
 djvOsxMenuHack::djvOsxMenuHack(QObject * parent) :
     QObject(parent),
-    _p(new djvOsxMenuHackPrivate)
+    _p(new Private)
 {}
 
 djvOsxMenuHack::~djvOsxMenuHack()
@@ -65,12 +65,10 @@ djvOsxMenuHack::~djvOsxMenuHack()
     {
         delete shortcut;
     }
-    delete _p;
 }
 
 namespace
 {
-
 bool fixKey(int key)
 {
     return ! (

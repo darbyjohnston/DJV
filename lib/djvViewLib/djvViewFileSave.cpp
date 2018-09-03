@@ -69,12 +69,12 @@ djvViewFileSaveInfo::djvViewFileSaveInfo(
 {}
 
 //------------------------------------------------------------------------------
-// djvViewFileSavePrivate
+// djvViewFileSave::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFileSavePrivate
+struct djvViewFileSave::Private
 {
-    djvViewFileSavePrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         dialog (0),
         context(context)
     {}
@@ -93,7 +93,7 @@ struct djvViewFileSavePrivate
 
 djvViewFileSave::djvViewFileSave(djvViewContext * context, QObject * parent) :
     QObject(parent),
-    _p(new djvViewFileSavePrivate(context))
+    _p(new Private(context))
 {
     _p->dialog = new djvProgressDialog;
 
@@ -111,7 +111,6 @@ djvViewFileSave::~djvViewFileSave()
 {
     //DJV_DEBUG("djvViewFileSave::~djvViewFileSave");
     delete _p->dialog;
-    delete _p;
 }
 
 void djvViewFileSave::save(const djvViewFileSaveInfo & info)

@@ -37,12 +37,12 @@
 #include <QActionGroup>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractActionsPrivate
+// djvViewAbstractActions::Private
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractActionsPrivate
+struct djvViewAbstractActions::Private
 {
-    djvViewAbstractActionsPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         osxMenuHack(0),
         context    (context)
     {}
@@ -59,15 +59,13 @@ djvViewAbstractActions::djvViewAbstractActions(
     djvViewContext * context,
     QObject *        parent) :
 	QObject(parent),
-    _p(new djvViewAbstractActionsPrivate(context))
+    _p(new Private(context))
 {
     _p->osxMenuHack = new djvOsxMenuHack(this);
 }
 
 djvViewAbstractActions::~djvViewAbstractActions()
-{
-    delete _p;
-}
+{}
 
 const QList<QAction *> djvViewAbstractActions::actions() const
 {

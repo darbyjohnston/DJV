@@ -37,8 +37,9 @@
 
 #include <QDialog>
 
-struct djvDebugLogDialogPrivate;
-class  djvGuiContext;
+#include <memory>
+
+class djvGuiContext;
 
 class djvError;
 
@@ -75,7 +76,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvDebugLogDialog);
     
-    djvDebugLogDialogPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

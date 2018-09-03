@@ -41,10 +41,11 @@
 #include <QObject>
 #include <QStringList>
 
-class  djvFileInfo;
-class  djvImage;
-class  djvImageContext;
-struct djvImageIoFactoryPrivate;
+#include <memory>
+
+class djvFileInfo;
+class djvImage;
+class djvImageContext;
 
 #if defined DJV_WINDOWS
 #undef ERROR
@@ -88,7 +89,6 @@ public:
     const djvPixelDataInfo & operator [] (int) const;
 
 private:
-
     QVector<djvPixelDataInfo> _info;
 };
 
@@ -150,7 +150,6 @@ public:
     djvImageContext * context() const;
 
 private:
-
     djvImageContext * _context;
 };
 
@@ -186,7 +185,6 @@ public:
     djvImageContext * context() const;
 
 private:
-
     djvImageContext * _context;
 };
 
@@ -306,14 +304,13 @@ Q_SIGNALS:
     void optionChanged();
     
 private Q_SLOTS:
-
     void pluginOptionCallback(const QString &);
 
 private:
-
     DJV_PRIVATE_COPY(djvImageIoFactory);
     
-    djvImageIoFactoryPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 Q_DECLARE_METATYPE(djvImageIoInfo)

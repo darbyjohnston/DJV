@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
-struct djvViewInputPrefsWidgetPrivate;
+#include <memory>
 
 //! \addtogroup djvViewMisc
 //@{
@@ -66,7 +66,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewInputPrefsWidget);
     
-    djvViewInputPrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewMisc

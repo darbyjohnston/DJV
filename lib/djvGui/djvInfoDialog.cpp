@@ -42,12 +42,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvInfoDialogPrivate
+// djvInfoDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvInfoDialogPrivate
+struct djvInfoDialog::Private
 {
-    djvInfoDialogPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         widget   (0),
         buttonBox(0),
         context  (context)
@@ -63,7 +63,7 @@ struct djvInfoDialogPrivate
 //------------------------------------------------------------------------------
 
 djvInfoDialog::djvInfoDialog(const QString & text, djvGuiContext * context) :
-    _p(new djvInfoDialogPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvInfoDialog::djvInfoDialog");
 
@@ -104,7 +104,6 @@ djvInfoDialog::djvInfoDialog(const QString & text, djvGuiContext * context) :
 djvInfoDialog::~djvInfoDialog()
 {
     //DJV_DEBUG("djvInfoDialog::~djvInfoDialog");
-    delete _p;
 }
 
 void djvInfoDialog::showEvent(QShowEvent *)

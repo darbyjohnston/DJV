@@ -35,7 +35,7 @@
 
 #include <QObject>
 
-struct djvHelpPrefsPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiMisc
 //@{
@@ -77,10 +77,10 @@ Q_SIGNALS:
     void toolTipsChanged(bool);
 
 private:
-
     void toolTipsUpdate();
     
-    djvHelpPrefsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

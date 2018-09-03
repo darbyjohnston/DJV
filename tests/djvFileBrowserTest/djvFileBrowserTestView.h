@@ -37,8 +37,9 @@
 
 #include <QWidget>
 
-class  djvFileBrowserTestModel;
-struct djvFileBrowserTestViewPrivate;
+#include <memory>
+
+class djvFileBrowserTestModel;
 
 class djvGuiContext;
 
@@ -108,6 +109,7 @@ private:
     
     DJV_PRIVATE_COPY(djvFileBrowserTestView)
     
-    djvFileBrowserTestViewPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 

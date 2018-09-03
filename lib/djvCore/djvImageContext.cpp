@@ -47,10 +47,10 @@
 using namespace gl;
 
 //------------------------------------------------------------------------------
-// djvImageContextPrivate
+// djvImageContext::Private
 //------------------------------------------------------------------------------
 
-struct djvImageContextPrivate
+struct djvImageContext::Private
 {
     QScopedPointer<QOffscreenSurface> offscreenSurface;
     QScopedPointer<QOpenGLContext> openGlContext;
@@ -63,7 +63,7 @@ struct djvImageContextPrivate
 
 djvImageContext::djvImageContext(QObject * parent) :
     djvCoreContext(parent),
-    _p(new djvImageContextPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvImageContext::djvImageContext");
     
@@ -109,14 +109,11 @@ djvImageContext::djvImageContext(QObject * parent) :
 djvImageContext::~djvImageContext()
 {
     //DJV_DEBUG("djvImageContext::~djvImageContext");
-
 #if defined(DJV_WINDOWS)
     //! \todo On Windows deleting the image factory causes the application
     //! to hang on exit.
     _p->imageIoFactory.take();
 #endif // DJV_WINDOWS
-
-    delete _p;
 }
 
 djvImageIoFactory * djvImageContext::imageIoFactory() const

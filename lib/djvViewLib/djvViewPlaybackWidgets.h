@@ -35,10 +35,9 @@
 
 #include <QWidget>
 
-class  djvViewContext;
-struct djvViewFrameButtonsPrivate;
-struct djvViewLoopWidgetPrivate;
-struct djvViewPlaybackButtonsPrivate;
+#include <memory>
+
+class djvViewContext;
 
 class djvGuiContext;
 
@@ -75,7 +74,8 @@ Q_SIGNALS:
 private:
     DJV_PRIVATE_COPY(djvViewPlaybackButtons);
     
-    djvViewPlaybackButtonsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -102,7 +102,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewLoopWidget);
     
-    djvViewLoopWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -139,7 +140,8 @@ Q_SIGNALS:
 private:
     DJV_PRIVATE_COPY(djvViewFrameButtons);
     
-    djvViewFrameButtonsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewPlayback

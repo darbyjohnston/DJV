@@ -37,7 +37,7 @@
 
 #include <QWidget>
 
-struct djvFloatDisplayPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -92,7 +92,8 @@ private:
     
     DJV_PRIVATE_COPY(djvFloatDisplay);
     
-    djvFloatDisplayPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

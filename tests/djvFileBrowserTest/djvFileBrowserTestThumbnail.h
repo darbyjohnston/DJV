@@ -40,7 +40,7 @@
 #include <QObject>
 #include <QPixmap>
 
-struct djvFileBrowserTestThumbnailWorkerPrivate;
+#include <memory>
 
 class djvImageContext;
 
@@ -129,7 +129,8 @@ Q_SIGNALS:
 private:
     DJV_PRIVATE_COPY(djvFileBrowserTestThumbnailWorker)
     
-    djvFileBrowserTestThumbnailWorkerPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------

@@ -37,7 +37,7 @@
 
 #include <QDialog>
 
-struct djvQuestionDialogPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -66,10 +66,10 @@ public:
     void setLabel(const QString &);
 
 private:
-
     DJV_PRIVATE_COPY(djvQuestionDialog);
-    
-    djvQuestionDialogPrivate * _p;
+
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

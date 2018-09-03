@@ -34,12 +34,12 @@
 #include <djvViewAbstractActions.h>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractMenuPrivate
+// djvViewAbstractMenu::Private
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractMenuPrivate
+struct djvViewAbstractMenu::Private
 {
-    djvViewAbstractMenuPrivate(djvViewAbstractActions * actions) :
+    Private(djvViewAbstractActions * actions) :
         actions(actions)
     {}
 
@@ -54,7 +54,7 @@ djvViewAbstractMenu::djvViewAbstractMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     QMenu(parent),
-    _p(new djvViewAbstractMenuPrivate(actions))
+    _p(new Private(actions))
 {
     connect(
         actions,
@@ -63,9 +63,7 @@ djvViewAbstractMenu::djvViewAbstractMenu(
 }
 
 djvViewAbstractMenu::~djvViewAbstractMenu()
-{
-    delete _p;
-}
+{}
 
 djvViewAbstractActions * djvViewAbstractMenu::actions() const
 {

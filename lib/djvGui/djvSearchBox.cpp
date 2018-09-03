@@ -41,12 +41,12 @@
 #include <QLineEdit>
 
 //------------------------------------------------------------------------------
-// djvSearchBoxPrivate
+// djvSearchBox::Private
 //------------------------------------------------------------------------------
 
-struct djvSearchBoxPrivate
+struct djvSearchBox::Private
 {
-    djvSearchBoxPrivate() :
+    Private() :
         lineEdit   (0),
         resetButton(0)
     {}
@@ -62,7 +62,7 @@ struct djvSearchBoxPrivate
 
 djvSearchBox::djvSearchBox(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvSearchBoxPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->lineEdit = new QLineEdit;
@@ -99,9 +99,7 @@ djvSearchBox::djvSearchBox(djvGuiContext * context, QWidget * parent) :
 }
 
 djvSearchBox::~djvSearchBox()
-{
-    delete _p;
-}
+{}
 
 const QString & djvSearchBox::text() const
 {

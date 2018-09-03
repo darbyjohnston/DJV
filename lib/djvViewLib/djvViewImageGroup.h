@@ -35,7 +35,7 @@
 #include <djvViewDisplayProfile.h>
 #include <djvViewUtil.h>
 
-struct djvViewImageGroupPrivate;
+#include <memory>
 
 class QAction;
 
@@ -123,7 +123,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewImageGroup);
     
-    djvViewImageGroupPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewImage

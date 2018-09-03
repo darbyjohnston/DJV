@@ -35,7 +35,7 @@
 
 #include <QString>
 
-struct djvErrorPrivate;
+#include <memory>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -83,9 +83,8 @@ public:
     djvError & operator = (const djvError &);
 
 private:
-    void init();
-
-    djvErrorPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvCoreMisc

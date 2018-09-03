@@ -33,7 +33,6 @@
 
 #include <djvCoreContext.h>
 
-struct djvImageContextPrivate;
 class  djvImageIoFactory;
 
 class QOpenGLContext;
@@ -63,14 +62,13 @@ public:
     virtual QString info() const;
 
 protected:
-
     virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
 
 private:
-
-    djvImageContextPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvCoreMisc

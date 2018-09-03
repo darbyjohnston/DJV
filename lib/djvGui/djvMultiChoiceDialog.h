@@ -37,7 +37,7 @@
 
 #include <QDialog>
 
-struct djvMultiChoiceDialogPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -91,7 +91,8 @@ private:
 
     DJV_PRIVATE_COPY(djvMultiChoiceDialog);
     
-    djvMultiChoiceDialogPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

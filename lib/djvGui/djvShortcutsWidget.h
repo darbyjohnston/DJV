@@ -37,8 +37,9 @@
 
 #include <QWidget>
 
-class  djvGuiContext;
-struct djvShortcutsWidgetPrivate;
+#include <memory>
+
+class djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -79,7 +80,8 @@ Q_SIGNALS:
 private:
     DJV_PRIVATE_COPY(djvShortcutsWidget);
     
-    djvShortcutsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

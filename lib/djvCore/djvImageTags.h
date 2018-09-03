@@ -35,7 +35,7 @@
 
 #include <QMetaType>
 
-struct djvImageTagsPrivate;
+#include <memory>
 
 //! \addtogroup djvCoreImage
 //@{
@@ -106,7 +106,8 @@ public:
     QString operator [] (const QString & key) const;
 
 private:
-    djvImageTagsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 Q_DECLARE_METATYPE(djvImageTags)

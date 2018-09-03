@@ -37,9 +37,10 @@
 
 #include <djvFileInfo.h>
 
+#include <memory>
+
 class  djvViewContext;
 struct djvViewHudInfo;
-struct djvViewImageViewPrivate;
 
 //! \addtogroup djvViewImage
 //@{
@@ -138,7 +139,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewImageView);
     
-    djvViewImageViewPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewImage

@@ -41,12 +41,12 @@
 #include <QTimerEvent>
 
 //------------------------------------------------------------------------------
-// djvSpinnerPrivate
+// djvSpinner::Private
 //------------------------------------------------------------------------------
 
-struct djvSpinnerPrivate
+struct djvSpinner::Private
 {
-    djvSpinnerPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         context(context),
         tick      (0),
         timer     (0),
@@ -69,7 +69,7 @@ djvSpinner::djvSpinner(
     djvGuiContext * context,
     QWidget *       parent) :
     QWidget(parent),
-    _p(new djvSpinnerPrivate(context))
+    _p(new Private(context))
 {
     _p->svg = new QSvgRenderer(QString(":djvSpinner.svg"), this);
     
@@ -88,7 +88,6 @@ djvSpinner::~djvSpinner()
         killTimer(_p->startTimer);   
         _p->startTimer = 0;
     }
-    delete _p;
 }
 
 bool djvSpinner::isSpinning() const

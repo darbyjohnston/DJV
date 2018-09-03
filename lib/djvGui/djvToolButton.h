@@ -33,7 +33,7 @@
 
 #include <djvAbstractToolButton.h>
 
-struct djvToolButtonPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -70,7 +70,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvToolButton);
     
-    djvToolButtonPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

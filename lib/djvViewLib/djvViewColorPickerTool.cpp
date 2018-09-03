@@ -57,12 +57,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewColorPickerToolPrivate
+// djvViewColorPickerTool::Private
 //------------------------------------------------------------------------------
 
-struct djvViewColorPickerToolPrivate
+struct djvViewColorPickerTool::Private
 {
-    djvViewColorPickerToolPrivate() :
+    Private() :
         value               (djvPixel::RGBA_F32),
         size                (3),
         colorProfile        (true),
@@ -105,7 +105,7 @@ djvViewColorPickerTool::djvViewColorPickerTool(
     djvViewContext *    context,
     QWidget *           parent) :
     djvViewAbstractTool(mainWindow, context, parent),
-    _p(new djvViewColorPickerToolPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG(gdjvViewColorPickerTool::djvViewColorPickerTool");
 
@@ -222,8 +222,6 @@ djvViewColorPickerTool::~djvViewColorPickerTool()
     prefs.set("lock", _p->lock);
     
     viewWidget()->makeCurrent();
-
-    delete _p;
 }
 
 void djvViewColorPickerTool::showEvent(QShowEvent *)

@@ -38,12 +38,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvChoiceDialogPrivate
+// djvChoiceDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvChoiceDialogPrivate
+struct djvChoiceDialog::Private
 {
-    djvChoiceDialogPrivate(
+    Private(
         const QString &     label,
         const QStringList & choices,
         int                 choice) :
@@ -72,7 +72,7 @@ djvChoiceDialog::djvChoiceDialog(
     int                 choice,
     QWidget *           parent) :
     QDialog(parent),
-    _p(new djvChoiceDialogPrivate(label, choices, choice))
+    _p(new Private(label, choices, choice))
 {
     _p->labelWidget = new QLabel(label);
     
@@ -99,9 +99,7 @@ djvChoiceDialog::djvChoiceDialog(
 }
 
 djvChoiceDialog::~djvChoiceDialog()
-{
-    delete _p;
-}
+{}
 
 const QStringList & djvChoiceDialog::choices() const
 {

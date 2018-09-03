@@ -40,8 +40,9 @@
 
 #include <QObject>
 
-class  djvViewContext;
-struct djvViewFileSavePrivate;
+#include <memory>
+
+class djvViewContext;
 
 //! \addtogroup djvViewFile
 //@{
@@ -110,7 +111,8 @@ private Q_SLOTS:
 private:    
     DJV_PRIVATE_COPY(djvViewFileSave);
     
-    djvViewFileSavePrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewFile

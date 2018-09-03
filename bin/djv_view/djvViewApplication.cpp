@@ -43,10 +43,10 @@
 #include <QTimer>
 
 //------------------------------------------------------------------------------
-// djvViewApplicationPrivate
+// djvViewApplication::Private
 //------------------------------------------------------------------------------
 
-struct djvViewApplicationPrivate
+struct djvViewApplication::Private
 {
     QScopedPointer<djvViewContext> context;
 };
@@ -57,7 +57,7 @@ struct djvViewApplicationPrivate
 
 djvViewApplication::djvViewApplication(int & argc, char ** argv) :
     QApplication(argc, argv),
-    _p(new djvViewApplicationPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvViewApplication::djvViewApplication");
     
@@ -81,7 +81,6 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) :
 djvViewApplication::~djvViewApplication()
 {
     //DJV_DEBUG("djvViewApplication::~djvViewApplication");
-    delete _p;
 }
 
 bool djvViewApplication::event(QEvent * event)

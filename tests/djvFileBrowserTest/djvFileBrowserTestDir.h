@@ -38,7 +38,7 @@
 
 #include <QThread>
 
-struct djvFileBrowserTestDirWorkerPrivate;
+#include <memory>
 
 //------------------------------------------------------------------------------
 //! \struct djvFileBrowserTestDirRequest
@@ -114,7 +114,8 @@ private:
     
     DJV_PRIVATE_COPY(djvFileBrowserTestDirWorker)
     
-    djvFileBrowserTestDirWorkerPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------

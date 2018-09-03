@@ -35,7 +35,7 @@
 
 #include <QAbstractItemDelegate>
 
-struct djvFileBrowserTestContactSheetDelegatePrivate;
+#include <memory>
 
 class djvGuiContext;
 
@@ -68,6 +68,7 @@ public Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvFileBrowserTestContactSheetDelegate)
     
-    djvFileBrowserTestContactSheetDelegatePrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 

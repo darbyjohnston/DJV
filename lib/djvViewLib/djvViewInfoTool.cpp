@@ -48,12 +48,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewInfoToolPrivate
+// djvViewInfoTool::Private
 //------------------------------------------------------------------------------
 
-struct djvViewInfoToolPrivate
+struct djvViewInfoTool::Private
 {
-    djvViewInfoToolPrivate() :
+    Private() :
         fileNameWidget (0),
         layerNameWidget(0),
         sizeWidget     (0),
@@ -79,7 +79,7 @@ djvViewInfoTool::djvViewInfoTool(
     djvViewContext *    context,
     QWidget *           parent) :
     djvViewAbstractTool(mainWindow, context, parent),
-    _p(new djvViewInfoToolPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->fileNameWidget = new QLineEdit;
@@ -140,9 +140,7 @@ djvViewInfoTool::djvViewInfoTool(
 }
 
 djvViewInfoTool::~djvViewInfoTool()
-{
-    delete _p;
-}
+{}
 
 void djvViewInfoTool::showEvent(QShowEvent *)
 {

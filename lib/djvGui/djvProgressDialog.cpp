@@ -110,12 +110,12 @@ private:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvProgressDialogPrivate
+// djvProgressDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvProgressDialogPrivate
+struct djvProgressDialog::Private
 {
-    djvProgressDialogPrivate() :
+    Private() :
         totalTicks   (0),
         currentTick  (0),
         timeAccum    (0.0),
@@ -145,7 +145,7 @@ struct djvProgressDialogPrivate
 
 djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
     QDialog(parent),
-    _p(new djvProgressDialogPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->widget = new ProgressWidget;
@@ -184,7 +184,6 @@ djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
 djvProgressDialog::~djvProgressDialog()
 {
     stopTimer();
-    delete _p;
 }
 
 void djvProgressDialog::rejectedCallback()

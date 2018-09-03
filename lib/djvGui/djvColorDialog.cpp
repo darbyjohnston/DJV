@@ -41,12 +41,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvColorDialogPrivate
+// djvColorDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvColorDialogPrivate
+struct djvColorDialog::Private
 {
-    djvColorDialogPrivate(const djvColor & color, djvGuiContext * context) :
+    Private(const djvColor & color, djvGuiContext * context) :
         color  (color),
         widget (0),
         swatch (0),
@@ -101,7 +101,7 @@ djvColorDialog::djvColorDialog(
     djvGuiContext *  context,
     QWidget *        parent) :
     QDialog(parent),
-    _p(new djvColorDialogPrivate(djvColor(), context))
+    _p(new Private(djvColor(), context))
 {
     init();
 }
@@ -111,15 +111,13 @@ djvColorDialog::djvColorDialog(
     djvGuiContext *  context,
     QWidget *        parent) :
     QDialog(parent),
-    _p(new djvColorDialogPrivate(color, context))
+    _p(new Private(color, context))
 {
     init();
 }
 
 djvColorDialog::~djvColorDialog()
-{
-    delete _p;
-}
+{}
 
 const djvColor & djvColorDialog::color() const
 {

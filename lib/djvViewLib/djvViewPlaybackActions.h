@@ -36,7 +36,7 @@
 
 #include <QActionGroup>
 
-struct djvViewPlaybackActionsPrivate;
+#include <memory>
 
 //! \addtogroup djvViewPlayback
 //@{
@@ -85,7 +85,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewPlaybackActions);
     
-    djvViewPlaybackActionsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewPlayback

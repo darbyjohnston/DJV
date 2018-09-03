@@ -48,12 +48,12 @@
 #include <QToolButton>
 
 //------------------------------------------------------------------------------
-// djvViewToolGroupPrivate
+// djvViewToolGroup::Private
 //------------------------------------------------------------------------------
 
-struct djvViewToolGroupPrivate
+struct djvViewToolGroup::Private
 {
-    djvViewToolGroupPrivate() :
+    Private() :
         tools          (djvViewUtil::TOOL_COUNT, false),
         actions        (0),
         menu           (0),
@@ -85,7 +85,7 @@ djvViewToolGroup::djvViewToolGroup(
     djvViewMainWindow *      mainWindow,
     djvViewContext *         context) :
     djvViewAbstractGroup(mainWindow, context),
-    _p(new djvViewToolGroupPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvViewToolGroup::djvViewToolGroup");
     
@@ -155,7 +155,6 @@ djvViewToolGroup::djvViewToolGroup(
 djvViewToolGroup::~djvViewToolGroup()
 {
     //DJV_DEBUG("djvViewToolGroup::~djvViewToolGroup");
-    delete _p;
 }
     
 const QVector<bool> & djvViewToolGroup::tools() const

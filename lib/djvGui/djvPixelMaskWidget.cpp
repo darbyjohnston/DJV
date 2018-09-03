@@ -41,12 +41,12 @@
 #include <QMenu>
 
 //------------------------------------------------------------------------------
-// djvPixelMaskWidgetPrivate
+// djvPixelMaskWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvPixelMaskWidgetPrivate
+struct djvPixelMaskWidget::Private
 {
-    djvPixelMaskWidgetPrivate() :
+    Private() :
         button(0)
     {}
     
@@ -61,7 +61,7 @@ struct djvPixelMaskWidgetPrivate
 
 djvPixelMaskWidget::djvPixelMaskWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvPixelMaskWidgetPrivate)
+    _p(new Private)
 {
     _p->button = new djvToolButton(
         context->iconLibrary()->icon("djvPixelMaskIcon.png"));
@@ -83,9 +83,7 @@ djvPixelMaskWidget::djvPixelMaskWidget(djvGuiContext * context, QWidget * parent
 }
 
 djvPixelMaskWidget::~djvPixelMaskWidget()
-{
-    delete _p;
-}
+{}
 
 const djvPixel::Mask & djvPixelMaskWidget::mask() const
 {

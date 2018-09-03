@@ -37,7 +37,7 @@
 
 #include <QAbstractItemModel>
 
-struct djvShortcutsModelPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiMisc
 //@{
@@ -110,7 +110,8 @@ private:
 
     DJV_PRIVATE_COPY(djvShortcutsModel);
     
-    djvShortcutsModelPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

@@ -44,10 +44,10 @@ djvError::Message::Message(const QString & prefix, const QString & string) :
 {}
 
 //------------------------------------------------------------------------------
-// djvErrorPrivate
+// djvError::Private
 //------------------------------------------------------------------------------
 
-struct djvErrorPrivate
+struct djvError::Private
 {
     QList<djvError::Message> messages;
 };
@@ -56,33 +56,30 @@ struct djvErrorPrivate
 // djvError
 //------------------------------------------------------------------------------
 
-djvError::djvError()
-{
-    init();
-}
+djvError::djvError() :
+    _p(new Private)
+{}
 
-djvError::djvError(const QString & string)
+djvError::djvError(const QString & string) :
+    _p(new Private)
 {
-    init();
     _p->messages += Message(QString(), string);
 }
 
-djvError::djvError(const QString & prefix, const QString & string)
+djvError::djvError(const QString & prefix, const QString & string) :
+    _p(new Private)
 {
-    init();
     _p->messages += Message(prefix, string);
 }
 
-djvError::djvError(const djvError & other)
+djvError::djvError(const djvError & other) :
+    _p(new Private)
 {
-    init();
     _p->messages = other._p->messages;
 }
 
 djvError::~djvError()
-{
-    delete _p;
-}
+{}
 
 const QList<djvError::Message> & djvError::messages() const
 {
@@ -111,10 +108,5 @@ djvError & djvError::operator = (const djvError & other)
         _p->messages = other._p->messages;
     }
     return *this;
-}
-
-void djvError::init()
-{
-    _p = new djvErrorPrivate;
 }
 

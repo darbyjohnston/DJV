@@ -37,7 +37,7 @@
 
 #include <QObject>
 
-struct djvIconLibraryPrivate;
+#include <memory>
 
 class QIcon;
 class QPixmap;
@@ -79,7 +79,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvIconLibrary);
     
-    djvIconLibraryPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

@@ -37,8 +37,9 @@
 
 #include <QWidget>
 
-struct djvFloatEditPrivate;
-class  djvFloatObject;
+#include <memory>
+
+class djvFloatObject;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -112,11 +113,12 @@ private Q_SLOTS:
     void spinBoxCallback(double);
 
     void widgetUpdate();
-private:
 
+private:
     DJV_PRIVATE_COPY(djvFloatEdit);
     
-    djvFloatEditPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

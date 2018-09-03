@@ -96,12 +96,12 @@ djvStyle::Fonts::Fonts() :
 }
 
 //------------------------------------------------------------------------------
-// djvStylePrivate
+// djvStyle::Private
 //------------------------------------------------------------------------------
 
-struct djvStylePrivate
+struct djvStyle::Private
 {
-    djvStylePrivate() :
+    Private() :
         palettes               (djvStyle::palettesDefault()),
         palettesIndex          (djvStyle::palettesIndexDefault()),
         colorSwatchTransparency(djvStyle::colorSwatchTransparencyDefault()),
@@ -123,7 +123,7 @@ struct djvStylePrivate
 
 djvStyle::djvStyle(QObject * parent) :
     QObject(parent),
-    _p(new djvStylePrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvStyle::djvStyle");
     
@@ -208,8 +208,6 @@ djvStyle::~djvStyle()
     prefs.set("sizeMetricsIndex", _p->sizeMetricsIndex);
 
     prefs.set("fonts", _p->fonts);
-
-    delete _p;
 }
     
 const QVector<djvStyle::Palette> & djvStyle::palettesDefault()

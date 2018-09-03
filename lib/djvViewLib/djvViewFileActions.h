@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractActions.h>
 
-struct djvViewFileActionsPrivate;
+#include <memory>
 
 //! \addtogroup djvViewFile
 //@{
@@ -105,7 +105,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewFileActions);
     
-    djvViewFileActionsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewFile

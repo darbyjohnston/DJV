@@ -45,12 +45,12 @@
 #include <QThread>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestModelPrivate
+// djvFileBrowserTestModel::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestModelPrivate
+struct djvFileBrowserTestModel::Private
 {
-    djvFileBrowserTestModelPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         context             (context),
         sequence            (static_cast<djvSequence::COMPRESS>(0)),
         showHidden          (false),
@@ -95,7 +95,7 @@ djvFileBrowserTestModel::djvFileBrowserTestModel(
     djvGuiContext * context,
     QObject *       parent) :
     QAbstractItemModel(parent),
-    _p(new djvFileBrowserTestModelPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvFileBrowserTestModel::djvFileBrowserTestModel");
     _p->dirObject->connect(
@@ -120,7 +120,6 @@ djvFileBrowserTestModel::djvFileBrowserTestModel(
 djvFileBrowserTestModel::~djvFileBrowserTestModel()
 {
     nextId();
-    delete _p;
 }
 
 const QDir & djvFileBrowserTestModel::dir() const

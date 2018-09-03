@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractTool.h>
 
-struct djvViewInfoToolPrivate;
+#include <memory>
 
 //! \addtogroup djvViewTool
 //@{
@@ -65,7 +65,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewInfoTool);
     
-    djvViewInfoToolPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewTool

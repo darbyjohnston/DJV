@@ -34,7 +34,7 @@
 #include <djvViewAbstractGroup.h>
 #include <djvViewUtil.h>
 
-struct djvViewPlaybackGroupPrivate;
+#include <memory>
 
 class djvSequence;
 class djvSpeed;
@@ -206,7 +206,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewPlaybackGroup);
     
-    djvViewPlaybackGroupPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewPlayback

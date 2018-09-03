@@ -41,7 +41,7 @@
 #include <QAbstractItemModel>
 #include <QDir>
 
-struct djvFileBrowserTestModelPrivate;
+#include <memory>
 
 class djvGuiContext;
 
@@ -292,6 +292,7 @@ private:
     
     DJV_PRIVATE_COPY(djvFileBrowserTestModel);
     
-    djvFileBrowserTestModelPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 

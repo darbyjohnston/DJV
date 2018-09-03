@@ -42,12 +42,12 @@
 #include <algorithm>
 
 //------------------------------------------------------------------------------
-// djvViewFileCacheItemPrivate
+// djvViewFileCacheItem::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFileCacheItemPrivate
+struct djvViewFileCacheItem::Private
 {
-    djvViewFileCacheItemPrivate(djvImage * in, const void * key, qint64 frame) :
+    Private(djvImage * in, const void * key, qint64 frame) :
         image(in),
         key  (key),
         frame(frame),
@@ -74,7 +74,7 @@ djvViewFileCacheItem::djvViewFileCacheItem(
     djvImage *   image,
     const void * key,
     qint64       frame) :
-    _p(new djvViewFileCacheItemPrivate(image, key, frame))
+    _p(new Private(image, key, frame))
 {
     ++refAliveCount;
 
@@ -88,8 +88,6 @@ djvViewFileCacheItem::~djvViewFileCacheItem()
 
     //DJV_DEBUG("djvViewFileCacheItem::~djvViewFileCacheItem");
     //DJV_DEBUG_PRINT("alive = " << refAliveCount);
-
-    delete _p;
 }
 
 djvImage * djvViewFileCacheItem::image()
@@ -128,12 +126,12 @@ int djvViewFileCacheItem::count() const
 }
 
 //------------------------------------------------------------------------------
-// djvViewFileCachePrivate
+// djvViewFileCache::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFileCachePrivate
+struct djvViewFileCache::Private
 {
-    djvViewFileCachePrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         maxByteCount  (static_cast<quint64>(
             context->filePrefs()->cacheSize() * djvMemory::gigabyte)),
         cacheByteCount(0),
@@ -152,7 +150,7 @@ struct djvViewFileCachePrivate
 
 djvViewFileCache::djvViewFileCache(djvViewContext * context, QObject * parent) :
     QObject(parent),
-    _p(new djvViewFileCachePrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvViewFileCache::djvViewFileCache");
     
@@ -178,8 +176,6 @@ djvViewFileCache::~djvViewFileCache()
     {
         delete _p->items[i];
     }
-    
-    delete _p;
 }
 
 djvViewFileCacheItem * djvViewFileCache::create(

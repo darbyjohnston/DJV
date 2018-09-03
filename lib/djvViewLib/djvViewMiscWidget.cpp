@@ -65,12 +65,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewCacheSizeWidgetPrivate
+// djvViewCacheSizeWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewCacheSizeWidgetPrivate
+struct djvViewCacheSizeWidget::Private
 {
-    djvViewCacheSizeWidgetPrivate() :
+    Private() :
         cacheSize(0.0),
         edit     (0),
         button   (0)
@@ -89,7 +89,7 @@ struct djvViewCacheSizeWidgetPrivate
 
 djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewCacheSizeWidgetPrivate)
+    _p(new Private)
 {
     // Create widgets.
     _p->edit = new djvFloatEdit;
@@ -123,9 +123,7 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
 }
 
 djvViewCacheSizeWidget::~djvViewCacheSizeWidget()
-{
-    delete _p;
-}
+{}
 
 const QVector<double> & djvViewCacheSizeWidget::cacheSizes() const
 {
@@ -186,12 +184,12 @@ void djvViewCacheSizeWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameWidgetPrivate
+// djvViewFrameWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFrameWidgetPrivate
+struct djvViewFrameWidget::Private
 {
-    djvViewFrameWidgetPrivate() :
+    Private() :
         frame(0)
     {}
 
@@ -207,7 +205,7 @@ struct djvViewFrameWidgetPrivate
 
 djvViewFrameWidget::djvViewFrameWidget(djvGuiContext * context, QWidget * parent) :
     QAbstractSpinBox(parent),
-    _p(new djvViewFrameWidgetPrivate)
+    _p(new Private)
 {
     // Initialize.
     textUpdate();
@@ -225,9 +223,7 @@ djvViewFrameWidget::djvViewFrameWidget(djvGuiContext * context, QWidget * parent
 }
 
 djvViewFrameWidget::~djvViewFrameWidget()
-{
-    delete _p;
-}
+{}
 
 qint64 djvViewFrameWidget::frame() const
 {
@@ -351,12 +347,12 @@ void djvViewFrameWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameSliderPrivate
+// djvViewFrameSlider::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFrameSliderPrivate
+struct djvViewFrameSlider::Private
 {
-    djvViewFrameSliderPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         frame       (0),
         inOutEnabled(false),
         inPoint     (0),
@@ -380,7 +376,7 @@ struct djvViewFrameSliderPrivate
 
 djvViewFrameSlider::djvViewFrameSlider(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewFrameSliderPrivate(context))
+    _p(new Private(context))
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -392,9 +388,7 @@ djvViewFrameSlider::djvViewFrameSlider(djvGuiContext * context, QWidget * parent
 }
 
 djvViewFrameSlider::~djvViewFrameSlider()
-{
-    delete _p;
-}
+{}
 
 qint64 djvViewFrameSlider::frame() const
 {
@@ -799,12 +793,12 @@ int djvViewFrameSlider::frameToPos(qint64 frame) const
 }
 
 //------------------------------------------------------------------------------
-// djvViewFrameDisplayPrivate
+// djvViewFrameDisplay::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFrameDisplayPrivate
+struct djvViewFrameDisplay::Private
 {
-    djvViewFrameDisplayPrivate() :
+    Private() :
         frame       (0),
         inOutEnabled(false)
     {}
@@ -823,7 +817,7 @@ struct djvViewFrameDisplayPrivate
 
 djvViewFrameDisplay::djvViewFrameDisplay(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewFrameDisplayPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->lineEdit = new QLineEdit;
@@ -845,9 +839,7 @@ djvViewFrameDisplay::djvViewFrameDisplay(djvGuiContext * context, QWidget * pare
 }
 
 djvViewFrameDisplay::~djvViewFrameDisplay()
-{
-    delete _p;
-}
+{}
 
 qint64 djvViewFrameDisplay::frame() const
 {
@@ -928,12 +920,12 @@ void djvViewFrameDisplay::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewSpeedButtonPrivate
+// djvViewSpeedButton::Private
 //------------------------------------------------------------------------------
 
-struct djvViewSpeedButtonPrivate
+struct djvViewSpeedButton::Private
 {
-    djvViewSpeedButtonPrivate() :
+    Private() :
         button(0)
     {}
     
@@ -949,7 +941,7 @@ struct djvViewSpeedButtonPrivate
 
 djvViewSpeedButton::djvViewSpeedButton(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewSpeedButtonPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->button = new djvToolButton;
@@ -969,9 +961,7 @@ djvViewSpeedButton::djvViewSpeedButton(djvGuiContext * context, QWidget * parent
 }
 
 djvViewSpeedButton::~djvViewSpeedButton()
-{
-    delete _p;
-}
+{}
 
 void djvViewSpeedButton::setDefaultSpeed(const djvSpeed & in)
 {
@@ -1014,12 +1004,12 @@ void djvViewSpeedButton::menuCallback()
 }
 
 //------------------------------------------------------------------------------
-// djvViewSpeedWidgetPrivate
+// djvViewSpeedWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewSpeedWidgetPrivate
+struct djvViewSpeedWidget::Private
 {
-    djvViewSpeedWidgetPrivate() :
+    Private() :
         floatEdit(0),
         button   (0)
     {}
@@ -1037,7 +1027,7 @@ struct djvViewSpeedWidgetPrivate
 
 djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewSpeedWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->floatEdit = new djvFloatEdit;
@@ -1068,9 +1058,7 @@ djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent
 }
 
 djvViewSpeedWidget::~djvViewSpeedWidget()
-{
-    delete _p;
-}
+{}
 
 const djvSpeed & djvViewSpeedWidget::speed() const
 {
@@ -1114,12 +1102,12 @@ void djvViewSpeedWidget::widgetUpdate()
 }
 
 //------------------------------------------------------------------------------
-// djvViewSpeedDisplayPrivate
+// djvViewSpeedDisplay::Private
 //------------------------------------------------------------------------------
 
-struct djvViewSpeedDisplayPrivate
+struct djvViewSpeedDisplay::Private
 {
-    djvViewSpeedDisplayPrivate() :
+    Private() :
         speed        (0.0),
         droppedFrames(false),
         lineEdit     (0)
@@ -1136,7 +1124,7 @@ struct djvViewSpeedDisplayPrivate
 
 djvViewSpeedDisplay::djvViewSpeedDisplay(QWidget * parent) :
     QWidget(parent),
-    _p(new djvViewSpeedDisplayPrivate)
+    _p(new Private)
 {
     _p->lineEdit = new QLineEdit;
     _p->lineEdit->setReadOnly(true);
@@ -1149,9 +1137,7 @@ djvViewSpeedDisplay::djvViewSpeedDisplay(QWidget * parent) :
 }
 
 djvViewSpeedDisplay::~djvViewSpeedDisplay()
-{
-    delete _p;
-}
+{}
 
 QSize djvViewSpeedDisplay::sizeHint() const
 {

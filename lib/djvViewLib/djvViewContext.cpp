@@ -55,12 +55,12 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewContextPrivate
+// djvViewContext::Private
 //------------------------------------------------------------------------------
 
-struct djvViewContextPrivate
+struct djvViewContext::Private
 {
-    djvViewContextPrivate() :
+    Private() :
         combine      (false),
         sequence     (djvSequence::COMPRESS_RANGE),
         autoSequence (true),
@@ -105,7 +105,7 @@ struct djvViewContextPrivate
 
 djvViewContext::djvViewContext(QObject * parent) :
     djvGuiContext(parent),
-    _p(new djvViewContextPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvViewContext::djvViewContext");
     
@@ -144,8 +144,6 @@ djvViewContext::~djvViewContext()
 
     delete _p->fileSave;
     delete _p->fileCache;
-
-    delete _p;
 }
 
 const QStringList & djvViewContext::input() const

@@ -35,12 +35,12 @@
 #include <djvViewMainWindow.h>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractGroupPrivate
+// djvViewAbstractGroup::Private
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractGroupPrivate
+struct djvViewAbstractGroup::Private
 {
-    djvViewAbstractGroupPrivate(
+    Private(
         djvViewMainWindow * mainWindow,
         djvViewContext    * context) :
         mainWindow(mainWindow),
@@ -59,13 +59,11 @@ djvViewAbstractGroup::djvViewAbstractGroup(
     djvViewMainWindow * mainWindow,
     djvViewContext    * context) :
     QObject(mainWindow),
-    _p(new djvViewAbstractGroupPrivate(mainWindow, context))
+    _p(new Private(mainWindow, context))
 {}
 
 djvViewAbstractGroup::~djvViewAbstractGroup()
-{
-    delete _p;
-}
+{}
 
 djvViewMainWindow * djvViewAbstractGroup::mainWindow() const
 {

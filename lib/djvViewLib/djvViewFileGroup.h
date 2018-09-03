@@ -36,8 +36,9 @@
 #include <djvImageIo.h>
 #include <djvPixel.h>
 
-class  djvViewFileCacheRef;
-struct djvViewFileGroupPrivate;
+#include <memory>
+
+class djvViewFileCacheRef;
 
 class QAction;
 
@@ -166,7 +167,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewFileGroup);
     
-    djvViewFileGroupPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewFile

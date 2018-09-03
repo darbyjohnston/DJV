@@ -42,12 +42,12 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserPrefsPrivate
+// djvFileBrowserPrefs::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserPrefsPrivate
+struct djvFileBrowserPrefs::Private
 {
-    djvFileBrowserPrefsPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         sequence       (djvFileBrowserPrefs::sequenceDefault()),
         showHidden     (djvFileBrowserPrefs::showHiddenDefault()),
         sort           (djvFileBrowserPrefs::sortDefault()),
@@ -76,7 +76,6 @@ struct djvFileBrowserPrefsPrivate
 
 namespace
 {
-
 QString _pathDefault = ".";
 
 } // namespace
@@ -87,10 +86,9 @@ QString _pathDefault = ".";
 
 djvFileBrowserPrefs::djvFileBrowserPrefs(djvGuiContext * context, QObject * parent) :
     QObject(parent),
-    _p(new djvFileBrowserPrefsPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvFileBrowserPrefs::djvFileBrowserPrefs");
-
     djvPrefs prefs("djvFileBrowserPrefs");
     prefs.get("sequence", _p->sequence);
     prefs.get("showHidden", _p->showHidden);
@@ -108,7 +106,6 @@ djvFileBrowserPrefs::djvFileBrowserPrefs(djvGuiContext * context, QObject * pare
     for (int i = 0; i < _p->shortcuts.count(); ++i)
     {
         QStringList s;
-
         if (shortcutsPrefs.get(_p->shortcuts[i].name, s))
         {
             djvShortcut::serialize(s, _p->shortcuts[i].value);
@@ -119,7 +116,6 @@ djvFileBrowserPrefs::djvFileBrowserPrefs(djvGuiContext * context, QObject * pare
 djvFileBrowserPrefs::~djvFileBrowserPrefs()
 {
     //DJV_DEBUG("djvFileBrowserPrefs::~djvFileBrowserPrefs");
-
     djvPrefs prefs("djvFileBrowserPrefs");
     prefs.set("sequence", _p->sequence);
     prefs.set("showHidden", _p->showHidden);
@@ -138,8 +134,6 @@ djvFileBrowserPrefs::~djvFileBrowserPrefs()
             _p->shortcuts[i].name,
             djvShortcut::serialize(_p->shortcuts[i].value));
     }
-    
-    delete _p;
 }
 
 const QString & djvFileBrowserPrefs::pathDefault()

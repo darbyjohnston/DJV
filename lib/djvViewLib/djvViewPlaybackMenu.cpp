@@ -36,10 +36,10 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackMenuPrivate
+// djvViewPlaybackMenu::Private
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackMenuPrivate
+struct djvViewPlaybackMenu::Private
 {};
 
 //------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new djvViewPlaybackMenuPrivate)
+    _p(new Private)
 {
     // Create the menus.
     Q_FOREACH(QAction * action,
@@ -81,6 +81,4 @@ djvViewPlaybackMenu::djvViewPlaybackMenu(
 }
 
 djvViewPlaybackMenu::~djvViewPlaybackMenu()
-{
-    delete _p;
-}
+{}

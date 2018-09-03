@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractPrefsWidget.h>
 
-struct djvViewShortcutPrefsWidgetPrivate;
+#include <memory>
 
 struct djvShortcut;
 
@@ -66,7 +66,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewShortcutPrefsWidget);
     
-    djvViewShortcutPrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewMisc

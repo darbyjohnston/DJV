@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractMenu.h>
 
-struct djvViewHelpMenuPrivate;
+#include <memory>
 
 //! \addtogroup djvViewHelp
 //@{
@@ -58,7 +58,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewHelpMenu);
     
-    djvViewHelpMenuPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewHelp

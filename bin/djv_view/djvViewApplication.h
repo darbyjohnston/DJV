@@ -37,8 +37,9 @@
 
 #include <QApplication>
 
-struct djvViewApplicationPrivate;
-class  djvViewMainWindow;
+#include <memory>
+
+class djvViewMainWindow;
 
 //! \addtogroup djvViewLib
 //@{
@@ -68,7 +69,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewApplication);
     
-    djvViewApplicationPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewLib

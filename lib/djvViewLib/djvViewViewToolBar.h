@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractToolBar.h>
 
-struct djvViewViewToolBarPrivate;
+#include <memory>
 
 class djvFloatEdit;
 
@@ -64,7 +64,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewViewToolBar);
     
-    djvViewViewToolBarPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewView

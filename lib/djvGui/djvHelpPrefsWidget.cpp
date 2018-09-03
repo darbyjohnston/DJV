@@ -46,12 +46,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvHelpPrefsWidgetPrivate
+// djvHelpPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvHelpPrefsWidgetPrivate
+struct djvHelpPrefsWidget::Private
 {
-    djvHelpPrefsWidgetPrivate() :
+    Private() :
         toolTipsWidget(0)
     {}
 
@@ -65,7 +65,7 @@ struct djvHelpPrefsWidgetPrivate
 djvHelpPrefsWidget::djvHelpPrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
         qApp->translate("djvHelpPrefsWidget", "Help"), context, parent),
-    _p(new djvHelpPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->toolTipsWidget = new QCheckBox(
@@ -94,9 +94,7 @@ djvHelpPrefsWidget::djvHelpPrefsWidget(djvGuiContext * context, QWidget * parent
 }
 
 djvHelpPrefsWidget::~djvHelpPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvHelpPrefsWidget::resetPreferences()
 {

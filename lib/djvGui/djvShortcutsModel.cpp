@@ -36,10 +36,10 @@
 #include <QColor>
 
 //------------------------------------------------------------------------------
-// djvShortcutsModelPrivate
+// djvShortcutsModel::Private
 //------------------------------------------------------------------------------
 
-struct djvShortcutsModelPrivate
+struct djvShortcutsModel::Private
 {
     QVector<djvShortcut> shortcuts;
     QVector<bool>        collisions;
@@ -51,15 +51,13 @@ struct djvShortcutsModelPrivate
 
 djvShortcutsModel::djvShortcutsModel(QObject * parent) :
     QAbstractItemModel(parent),
-    _p(new djvShortcutsModelPrivate)
+    _p(new Private)
 {
     collisionsUpdate();
 }
 
 djvShortcutsModel::~djvShortcutsModel()
-{
-    delete _p;
-}
+{}
 
 const QVector<djvShortcut> & djvShortcutsModel::shortcuts() const
 {

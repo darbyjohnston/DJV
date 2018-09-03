@@ -46,12 +46,12 @@
 #include <QToolButton>
 
 //------------------------------------------------------------------------------
-// djvViewWindowGroupPrivate
+// djvViewWindowGroup::Private
 //------------------------------------------------------------------------------
 
-struct djvViewWindowGroupPrivate
+struct djvViewWindowGroup::Private
 {
-    djvViewWindowGroupPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         fullScreen     (false),
         controlsVisible(true),
         toolBarVisible (context->windowPrefs()->toolBar()),
@@ -77,7 +77,7 @@ djvViewWindowGroup::djvViewWindowGroup(
     djvViewMainWindow *        mainWindow,
     djvViewContext *           context) :
     djvViewAbstractGroup(mainWindow, context),
-    _p(new djvViewWindowGroupPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvViewWindowGroup::djvViewWindowGroup");
 
@@ -141,7 +141,6 @@ djvViewWindowGroup::djvViewWindowGroup(
 djvViewWindowGroup::~djvViewWindowGroup()
 {
     //DJV_DEBUG("djvViewWindowGroup::~djvViewWindowGroup");
-    delete _p;
 }
 
 bool djvViewWindowGroup::hasFullScreen() const

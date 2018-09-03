@@ -37,8 +37,9 @@
 
 #include <QWidget>
 
-class  djvGuiContext;
-struct djvSpinnerPrivate;
+#include <memory>
+
+class djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -80,7 +81,8 @@ protected:
 private:
     DJV_PRIVATE_COPY(djvSpinner)
     
-    djvSpinnerPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

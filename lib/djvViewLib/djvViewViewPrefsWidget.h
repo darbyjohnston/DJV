@@ -35,7 +35,7 @@
 
 #include <djvColor.h>
 
-struct djvViewViewPrefsWidgetPrivate;
+#include <memory>
 
 class QListWidgetItem;
 
@@ -76,7 +76,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewViewPrefsWidget);
     
-    djvViewViewPrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewView

@@ -45,12 +45,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackPrefsWidgetPrivate
+// djvViewPlaybackPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackPrefsWidgetPrivate
+struct djvViewPlaybackPrefsWidget::Private
 {
-    djvViewPlaybackPrefsWidgetPrivate() :
+    Private() :
         autoStartWidget (0),
         loopWidget      (0),
         everyFrameWidget(0),
@@ -70,7 +70,7 @@ struct djvViewPlaybackPrefsWidgetPrivate
 djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewPlaybackPrefsWidget", "Playback"), context),
-    _p(new djvViewPlaybackPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->autoStartWidget = new QCheckBox(
@@ -133,9 +133,7 @@ djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context)
 }
 
 djvViewPlaybackPrefsWidget::~djvViewPlaybackPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewPlaybackPrefsWidget::resetPreferences()
 {

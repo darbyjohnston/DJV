@@ -35,7 +35,7 @@
 
 #include <djvUtil.h>
 
-struct djvSequencePrefsWidgetPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiMisc
 //@{
@@ -65,7 +65,8 @@ private:
 
     DJV_PRIVATE_COPY(djvSequencePrefsWidget);
     
-    djvSequencePrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

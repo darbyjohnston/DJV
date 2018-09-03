@@ -47,12 +47,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewWindowPrefsWidgetPrivate
+// djvViewWindowPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewWindowPrefsWidgetPrivate
+struct djvViewWindowPrefsWidget::Private
 {
-    djvViewWindowPrefsWidgetPrivate() :
+    Private() :
         autoFitWidget           (0),
         viewMaxWidget           (0),
         viewMaxUserWidget       (0),
@@ -74,7 +74,7 @@ struct djvViewWindowPrefsWidgetPrivate
 djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewWindowPrefsWidget", "Windows"), context),
-    _p(new djvViewWindowPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the size widgets.
     _p->autoFitWidget = new QCheckBox(
@@ -164,9 +164,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
 }
 
 djvViewWindowPrefsWidget::~djvViewWindowPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewWindowPrefsWidget::resetPreferences()
 {

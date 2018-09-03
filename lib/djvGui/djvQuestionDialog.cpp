@@ -37,12 +37,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvQuestionDialogPrivate
+// djvQuestionDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvQuestionDialogPrivate
+struct djvQuestionDialog::Private
 {
-    djvQuestionDialogPrivate(const QString & label) :
+    Private(const QString & label) :
         label      (label),
         labelWidget(0)
     {}
@@ -57,7 +57,7 @@ struct djvQuestionDialogPrivate
 
 djvQuestionDialog::djvQuestionDialog(const QString & label, QWidget * parent) :
     QDialog(parent),
-    _p(new djvQuestionDialogPrivate(label))
+    _p(new Private(label))
 {
     _p->labelWidget = new QLabel(label);
     
@@ -79,9 +79,7 @@ djvQuestionDialog::djvQuestionDialog(const QString & label, QWidget * parent) :
 }
 
 djvQuestionDialog::~djvQuestionDialog()
-{
-    delete _p;
-}
+{}
 
 const QString & djvQuestionDialog::label() const
 {

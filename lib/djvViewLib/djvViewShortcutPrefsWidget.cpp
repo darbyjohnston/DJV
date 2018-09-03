@@ -44,12 +44,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewShortcutPrefsWidgetPrivate
+// djvViewShortcutPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewShortcutPrefsWidgetPrivate
+struct djvViewShortcutPrefsWidget::Private
 {
-    djvViewShortcutPrefsWidgetPrivate() :
+    Private() :
         shortcutsWidget(0)
     {}
     
@@ -63,7 +63,7 @@ struct djvViewShortcutPrefsWidgetPrivate
 djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewShortcutPrefsWidget", "Shortcuts"), context),
-    _p(new djvViewShortcutPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->shortcutsWidget = new djvShortcutsWidget(context);
@@ -90,9 +90,7 @@ djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget(djvViewContext * context)
 }
 
 djvViewShortcutPrefsWidget::~djvViewShortcutPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewShortcutPrefsWidget::resetPreferences()
 {

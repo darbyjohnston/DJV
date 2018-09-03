@@ -37,7 +37,7 @@
 
 #include <QObject>
 
-struct djvOsxMenuHackPrivate;
+#include <memory>
 
 class QAction;
 class QMenu;
@@ -75,7 +75,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvOsxMenuHack);
     
-    djvOsxMenuHackPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

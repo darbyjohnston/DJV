@@ -35,7 +35,7 @@
 
 #include <djvVector.h>
 
-struct djvViewWindowPrefsWidgetPrivate;
+#include <memory>
 
 //! \addtogroup djvViewWindow
 //@{
@@ -70,7 +70,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewWindowPrefsWidget);
     
-    djvViewWindowPrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewWindow

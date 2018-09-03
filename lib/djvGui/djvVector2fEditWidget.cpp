@@ -38,12 +38,12 @@
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvVector2fEditWidgetPrivate
+// djvVector2fEditWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvVector2fEditWidgetPrivate
+struct djvVector2fEditWidget::Private
 {
-    djvVector2fEditWidgetPrivate() :
+    Private() :
         widget (0),
         widget2(0)
     {}
@@ -58,7 +58,7 @@ struct djvVector2fEditWidgetPrivate
 
 djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new djvVector2fEditWidgetPrivate)
+    _p(new Private)
 {
     _p->widget = new djvFloatEdit;
     _p->widget->setRange(djvFloatObject::floatMin, djvFloatObject::floatMax);
@@ -90,9 +90,7 @@ djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
 }
 
 djvVector2fEditWidget::~djvVector2fEditWidget()
-{
-    delete _p;
-}
+{}
 
 djvVector2f djvVector2fEditWidget::value() const
 {

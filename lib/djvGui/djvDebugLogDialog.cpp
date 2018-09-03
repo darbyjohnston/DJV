@@ -44,12 +44,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvDebugLogDialogPrivate
+// djvDebugLogDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvDebugLogDialogPrivate
+struct djvDebugLogDialog::Private
 {
-    djvDebugLogDialogPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         widget   (0),
         buttonBox(0),
         context  (context)
@@ -65,7 +65,7 @@ struct djvDebugLogDialogPrivate
 //------------------------------------------------------------------------------
 
 djvDebugLogDialog::djvDebugLogDialog(djvGuiContext * context) :
-    _p(new djvDebugLogDialogPrivate(context))
+    _p(new Private(context))
 {
     // Create the widgets.
     _p->widget = new QTextEdit;
@@ -113,9 +113,7 @@ djvDebugLogDialog::djvDebugLogDialog(djvGuiContext * context) :
 }
 
 djvDebugLogDialog::~djvDebugLogDialog()
-{
-    delete _p;
-}
+{}
 
 void djvDebugLogDialog::showEvent(QShowEvent *)
 {

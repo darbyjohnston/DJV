@@ -37,12 +37,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvPixelWidgetPrivate
+// djvPixelWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvPixelWidgetPrivate
+struct djvPixelWidget::Private
 {
-    djvPixelWidgetPrivate() :
+    Private() :
         pixel   (static_cast<djvPixel::PIXEL>(0)),
         comboBox(0)
     {}
@@ -57,7 +57,7 @@ struct djvPixelWidgetPrivate
 
 djvPixelWidget::djvPixelWidget(QWidget * parent) :
     QWidget(parent),
-    _p(new djvPixelWidgetPrivate)
+    _p(new Private)
 {
     _p->comboBox = new QComboBox;
     _p->comboBox->addItems(djvPixel::pixelLabels());
@@ -72,9 +72,7 @@ djvPixelWidget::djvPixelWidget(QWidget * parent) :
 }
 
 djvPixelWidget::~djvPixelWidget()
-{
-    delete _p;
-}
+{}
 
 djvPixel::PIXEL djvPixelWidget::pixel() const
 {
@@ -97,7 +95,6 @@ void djvPixelWidget::widgetCallback(int in)
 
 void djvPixelWidget::widgetUpdate()
 {
-    djvSignalBlocker signalBlocker(_p->comboBox);
     _p->comboBox->setCurrentIndex(_p->pixel);
 }
 

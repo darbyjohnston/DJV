@@ -49,12 +49,12 @@
 #include <QTranslator>
 
 //------------------------------------------------------------------------------
-// djvCoreContextPrivate
+// djvCoreContext::Private
 //------------------------------------------------------------------------------
 
-struct djvCoreContextPrivate
+struct djvCoreContext::Private
 {
-    djvCoreContextPrivate() :
+    Private() :
         endline  (false),
         separator(false),
         debugLog (new djvDebugLog)
@@ -71,7 +71,7 @@ struct djvCoreContextPrivate
 
 djvCoreContext::djvCoreContext(QObject * parent) :
     QObject(parent),
-    _p(new djvCoreContextPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvCoreContext::djvCoreContext");
     
@@ -93,7 +93,6 @@ djvCoreContext::djvCoreContext(QObject * parent) :
 djvCoreContext::~djvCoreContext()
 {
     //DJV_DEBUG("djvCoreContext::~djvCoreContext");    
-    delete _p;
 }
 
 bool djvCoreContext::commandLine(int & argc, char ** argv)

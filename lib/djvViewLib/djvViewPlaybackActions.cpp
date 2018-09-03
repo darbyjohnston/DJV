@@ -39,12 +39,12 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackActionsPrivate
+// djvViewPlaybackActions::Private
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackActionsPrivate
+struct djvViewPlaybackActions::Private
 {
-    djvViewPlaybackActionsPrivate() :
+    Private() :
         playback(static_cast<djvViewUtil::PLAYBACK>(0))
     {}
 
@@ -59,7 +59,7 @@ djvViewPlaybackActions::djvViewPlaybackActions(
     djvViewContext * context,
     QObject *        parent) :
     djvViewAbstractActions(context, parent),
-    _p(new djvViewPlaybackActionsPrivate)
+    _p(new Private)
 {
     // Create the actions.
     for (int i = 0; i < ACTION_COUNT; ++i)
@@ -181,9 +181,7 @@ djvViewPlaybackActions::djvViewPlaybackActions(
 }
 
 djvViewPlaybackActions::~djvViewPlaybackActions()
-{
-    delete _p;
-}
+{}
 
 void djvViewPlaybackActions::update()
 {

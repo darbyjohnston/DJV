@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractGroup.h>
 
-struct djvViewWindowGroupPrivate;
+#include <memory>
 
 class QAction;
 
@@ -104,7 +104,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewWindowGroup);
     
-    djvViewWindowGroupPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewWindow

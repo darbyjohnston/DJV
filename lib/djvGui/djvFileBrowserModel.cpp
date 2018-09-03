@@ -49,12 +49,12 @@
 #include <QMimeData>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserModelPrivate
+// djvFileBrowserModel::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserModelPrivate
+struct djvFileBrowserModel::Private
 {
-    djvFileBrowserModelPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         sequence      (djvSequence::COMPRESS_RANGE),
         showHidden    (false),
         sort          (djvFileBrowserModel::NAME),
@@ -103,7 +103,7 @@ const QStringList & djvFileBrowserModel::columnsLabels()
 
 djvFileBrowserModel::djvFileBrowserModel(djvGuiContext * context, QObject * parent) :
     QAbstractItemModel(parent),
-    _p(new djvFileBrowserModelPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvFileBrowserModel::djvFileBrowserModel");
     //dirUpdate();
@@ -118,7 +118,6 @@ djvFileBrowserModel::~djvFileBrowserModel()
         _p->items[i] = 0;
     }
     _p->items.clear();
-    delete _p;
 }
 
 const QString & djvFileBrowserModel::path() const

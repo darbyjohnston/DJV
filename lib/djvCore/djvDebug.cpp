@@ -38,10 +38,10 @@
 #include <stdlib.h>
 
 //------------------------------------------------------------------------------
-// djvDebug::P
+// djvDebug::Private
 //------------------------------------------------------------------------------
 
-struct djvDebugPrivate
+struct djvDebug::Private
 {
     QString  tmp;
     djvTimer timer;
@@ -53,7 +53,6 @@ struct djvDebugPrivate
 
 namespace
 {
-
 // Note that the indentation level is a global variable.
 int indent = 0;
 
@@ -61,13 +60,13 @@ int indent = 0;
 
 void djvDebug::init(const QString & in)
 {
-    _p = new djvDebugPrivate;
     *this << LINE_BEGIN << in << LINE_END;
     *this << LINE_BEGIN << "{" << LINE_END;
     indent += 4;
 }
 
-djvDebug::djvDebug(const QString & prefix, const QString & in)
+djvDebug::djvDebug(const QString & prefix, const QString & in) :
+    _p(new Private)
 {
     init(prefix + ": " + in);
 }
@@ -84,7 +83,6 @@ djvDebug::~djvDebug()
         _p->timer.fps() <<
         " fps)" <<
         LINE_END;
-    delete _p;
 }
 
 void djvDebug::add(const QString & in)

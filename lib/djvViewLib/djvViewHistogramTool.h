@@ -35,7 +35,7 @@
 
 #include <djvPixel.h>
 
-struct djvViewHistogramToolPrivate;
+#include <memory>
 
 //! \addtogroup djvViewTool
 //@{
@@ -73,7 +73,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewHistogramTool);
     
-    djvViewHistogramToolPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewTool

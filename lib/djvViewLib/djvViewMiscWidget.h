@@ -39,13 +39,7 @@
 
 #include <QAbstractSpinBox>
 
-struct djvViewCacheSizeWidgetPrivate;
-struct djvViewFrameDisplayPrivate;
-struct djvViewFrameSliderPrivate;
-struct djvViewFrameWidgetPrivate;
-struct djvViewSpeedButtonPrivate;
-struct djvViewSpeedDisplayPrivate;
-struct djvViewSpeedWidgetPrivate;
+#include <memory>
 
 class djvGuiContext;
 
@@ -113,7 +107,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewCacheSizeWidget);
     
-    djvViewCacheSizeWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -190,7 +185,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewFrameWidget);
     
-    djvViewFrameWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -348,7 +344,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewFrameSlider);
     
-    djvViewFrameSliderPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -414,7 +411,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewFrameDisplay);
     
-    djvViewFrameDisplayPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -448,7 +446,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewSpeedButton);
     
-    djvViewSpeedButtonPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -504,7 +503,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewSpeedWidget);
     
-    djvViewSpeedWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //------------------------------------------------------------------------------
@@ -537,7 +537,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewSpeedDisplay);
     
-    djvViewSpeedDisplayPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewMisc

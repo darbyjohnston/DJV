@@ -73,7 +73,7 @@ djvCoreContext * djvPlugin::context() const
 }
 
 //------------------------------------------------------------------------------
-// djvPluginFactoryPrivate
+// djvPluginFactory::Private
 //------------------------------------------------------------------------------
 
 namespace
@@ -138,16 +138,15 @@ private:
 
 } // namespace
 
-struct djvPluginFactoryPrivate
+struct djvPluginFactory::Private
 {
-    djvPluginFactoryPrivate(djvCoreContext * context) :
+    Private(djvCoreContext * context) :
         context(context)
     {}
     
-    typedef QPair<djvPlugin *, Handle *> Pair;
-    
     QString             pluginPrefix;
     QString             pluginEntry;
+    typedef QPair<djvPlugin *, Handle *> Pair;
     QMap<QString, Pair> plugins;
     djvCoreContext *    context;
 };
@@ -164,7 +163,7 @@ djvPluginFactory::djvPluginFactory(
     const QString &     pluginSuffix,
     QObject *           parent) :
     QObject(parent),
-    _p(new djvPluginFactoryPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvPluginFactory::djvPluginFactory");
     //DJV_DEBUG_PRINT("search path = " << searchPath);
@@ -255,7 +254,6 @@ djvPluginFactory::djvPluginFactory(
             DJV_LOG(context->debugLog(), "djvPluginFactory",
                 errorLabels()[ERROR_LOAD].
                     arg(QDir::toNativeSeparators(fileInfo)));
-
             continue;
         }
         //DJV_DEBUG_PRINT("name = " << plugin->pluginName());
@@ -289,7 +287,7 @@ djvPluginFactory::djvPluginFactory(
         // Add.
         djvPlugin * p = plugin.take();
         Handle    * h = handle.take();
-        _p->plugins[p->pluginName()] = djvPluginFactoryPrivate::Pair(p, h);
+        _p->plugins[p->pluginName()] = Private::Pair(p, h);
     }
     
     DJV_LOG(context->debugLog(), "djvPluginFactory",
@@ -299,19 +297,18 @@ djvPluginFactory::djvPluginFactory(
 djvPluginFactory::~djvPluginFactory()
 {
     //DJV_DEBUG("djvPluginFactory::~djvPluginFactory");
-    Q_FOREACH(djvPluginFactoryPrivate::Pair pair, _p->plugins)
+    Q_FOREACH(Private::Pair pair, _p->plugins)
     {
         pair.first->releasePlugin();
         delete pair.first;
         delete pair.second;
     }
-    delete _p;
 }
 
 QList<djvPlugin *> djvPluginFactory::plugins() const
 {
     QList<djvPlugin *> list;
-    Q_FOREACH(djvPluginFactoryPrivate::Pair pair, _p->plugins)
+    Q_FOREACH(Private::Pair pair, _p->plugins)
     {
         list += pair.first;
     }

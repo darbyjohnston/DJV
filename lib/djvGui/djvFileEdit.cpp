@@ -40,12 +40,12 @@
 #include <QPushButton>
 
 //------------------------------------------------------------------------------
-// djvFileEditPrivate
+// djvFileEdit::Private
 //------------------------------------------------------------------------------
 
-struct djvFileEditPrivate
+struct djvFileEdit::Private
 {
-    djvFileEditPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         edit   (0),
         context(context)
     {}
@@ -61,7 +61,7 @@ struct djvFileEditPrivate
 
 djvFileEdit::djvFileEdit(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvFileEditPrivate(context))
+    _p(new Private(context))
 {
     // Create the widgets.
     _p->edit = new QLineEdit;
@@ -84,9 +84,7 @@ djvFileEdit::djvFileEdit(djvGuiContext * context, QWidget * parent) :
 }
 
 djvFileEdit::~djvFileEdit()
-{
-    delete _p;
-}
+{}
 
 const djvFileInfo & djvFileEdit::fileInfo() const
 {

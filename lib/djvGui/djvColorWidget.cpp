@@ -45,12 +45,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvColorWidgetPrivate
+// djvColorWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvColorWidgetPrivate
+struct djvColorWidget::Private
 {
-    djvColorWidgetPrivate() :
+    Private() :
         color       (djvPixel::RGB_U8),
         formatWidget(0),
         typeWidget  (0),
@@ -71,7 +71,7 @@ struct djvColorWidgetPrivate
 
 djvColorWidget::djvColorWidget(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvColorWidgetPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvColorWidget::djvColorWidget");
 
@@ -142,9 +142,7 @@ djvColorWidget::djvColorWidget(djvGuiContext * context, QWidget * parent) :
 }
 
 djvColorWidget::~djvColorWidget()
-{
-    delete _p;
-}
+{}
 
 const djvColor & djvColorWidget::color() const
 {

@@ -35,12 +35,12 @@
 #include <djvViewMainWindow.h>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractToolPrivate
+// djvViewAbstractTool::Private
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractToolPrivate
+struct djvViewAbstractTool::Private
 {
-    djvViewAbstractToolPrivate(
+    Private(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context) :
         mainWindow(mainWindow),
@@ -62,13 +62,11 @@ djvViewAbstractTool::djvViewAbstractTool(
     djvViewContext *    context,
     QWidget *           parent) :
     QWidget(parent),
-    _p(new djvViewAbstractToolPrivate(mainWindow, context))
+    _p(new Private(mainWindow, context))
 {}
 
 djvViewAbstractTool::~djvViewAbstractTool()
-{
-    delete _p;
-}
+{}
 
 djvViewMainWindow * djvViewAbstractTool::mainWindow() const
 {

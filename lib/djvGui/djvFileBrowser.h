@@ -38,9 +38,10 @@
 
 #include <QDialog>
 
-class  djvFileBrowserModel;
-struct djvFileBrowserPrivate;
-class  djvGuiContext;
+#include <memory>
+
+class djvFileBrowserModel;
+class djvGuiContext;
 
 class QModelIndex;
 
@@ -164,7 +165,8 @@ private:
 
     DJV_PRIVATE_COPY(djvFileBrowser);
     
-    djvFileBrowserPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

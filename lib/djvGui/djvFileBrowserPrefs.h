@@ -37,8 +37,7 @@
 
 #include <QObject>
 
-struct djvFileBrowserPrefsPrivate;
-class  djvGuiContext;
+class djvGuiContext;
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -327,7 +326,8 @@ Q_SIGNALS:
 private:
     DJV_PRIVATE_COPY(djvFileBrowserPrefs);
     
-    djvFileBrowserPrefsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

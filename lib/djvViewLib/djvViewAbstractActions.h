@@ -38,8 +38,9 @@
 #include <QMap>
 #include <QObject>
 
-struct djvViewAbstractActionsPrivate;
-class  djvViewContext;
+#include <memory>
+
+class djvViewContext;
 
 class QAction;
 class QActionGroup;
@@ -89,7 +90,8 @@ protected:
     void osxMenuHack();
 
 private:
-    djvViewAbstractActionsPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewLib

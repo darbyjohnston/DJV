@@ -43,10 +43,10 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewToolActionsPrivate
+// djvViewToolActions::Private
 //------------------------------------------------------------------------------
 
-struct djvViewToolActionsPrivate
+struct djvViewToolActions::Private
 {
 };
 
@@ -58,7 +58,7 @@ djvViewToolActions::djvViewToolActions(
     djvViewContext * context,
     QObject *        parent) :
 	djvViewAbstractActions(context, parent),
-    _p(new djvViewToolActionsPrivate)
+    _p(new Private)
 {
     // Create the action groups.
     for (int i = 0; i < GROUP_COUNT; ++i)
@@ -103,9 +103,7 @@ djvViewToolActions::djvViewToolActions(
 }
 
 djvViewToolActions::~djvViewToolActions()
-{
-    delete _p;
-}
+{}
 
 void djvViewToolActions::update()
 {

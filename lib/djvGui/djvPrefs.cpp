@@ -39,15 +39,15 @@
 #include <QSettings>
 
 //------------------------------------------------------------------------------
-// djvPrefsPrivate
+// djvPrefs::Private
 //------------------------------------------------------------------------------
 
-struct djvPrefsPrivate
+struct djvPrefs::Private
 {
     //! \todo QSettings::SystemScope isn't working?
     //! \todo The organization name is hard-coded here since preferences can be
     //! created before the name is set in the application constructor.
-    djvPrefsPrivate(djvPrefs::SCOPE scope) :
+    Private(djvPrefs::SCOPE scope) :
         scope(scope),
         settings(
             QSettings::UserScope,
@@ -72,7 +72,7 @@ bool _reset = false;
 } // namespace
 
 djvPrefs::djvPrefs(const QString & group, SCOPE scope) :
-    _p(new djvPrefsPrivate(scope))
+    _p(new Private(scope))
 {
     //DJV_DEBUG("djvPrefs::djvPrefs");
     //DJV_DEBUG_PRINT("file = " << _p->settings.fileName());
@@ -84,7 +84,6 @@ djvPrefs::djvPrefs(const QString & group, SCOPE scope) :
 djvPrefs::~djvPrefs()
 {
     _p->settings.endGroup();
-    delete _p;
 }
 
 djvPrefs::SCOPE djvPrefs::scope() const

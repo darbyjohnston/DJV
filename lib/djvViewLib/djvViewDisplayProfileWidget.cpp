@@ -52,12 +52,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewDisplayProfileWidgetPrivate
+// djvViewDisplayProfileWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewDisplayProfileWidgetPrivate
+struct djvViewDisplayProfileWidget::Private
 {
-    djvViewDisplayProfileWidgetPrivate(
+    Private(
         const djvViewImageView * viewWidget,
         djvViewContext *         context) :
         viewWidget      (viewWidget),
@@ -92,7 +92,7 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     djvViewContext *         context,
     QWidget *                parent) :
     QWidget(parent),
-    _p(new djvViewDisplayProfileWidgetPrivate(viewWidget, context))
+    _p(new Private(viewWidget, context))
 {
     // Create the LUT widgets.
     QGroupBox * lutGroup = new QGroupBox(
@@ -273,9 +273,7 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
 }
 
 djvViewDisplayProfileWidget::~djvViewDisplayProfileWidget()
-{
-    delete _p;
-}
+{}
 
 const djvViewDisplayProfile & djvViewDisplayProfileWidget::displayProfile() const
 {

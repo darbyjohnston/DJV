@@ -37,10 +37,10 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewToolMenuPrivate
+// djvViewToolMenu::Private
 //------------------------------------------------------------------------------
 
-struct djvViewToolMenuPrivate
+struct djvViewToolMenu::Private
 {};
 
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ djvViewToolMenu::djvViewToolMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new djvViewToolMenuPrivate)
+    _p(new Private)
 {
     // Create the menus.
     for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
@@ -64,6 +64,4 @@ djvViewToolMenu::djvViewToolMenu(
 }
 
 djvViewToolMenu::~djvViewToolMenu()
-{
-    delete _p;
-}
+{}

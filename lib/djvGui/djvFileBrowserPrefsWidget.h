@@ -35,7 +35,8 @@
 
 #include <djvUtil.h>
 
-struct djvFileBrowserPrefsWidgetPrivate;
+#include <memory>
+
 struct djvShortcut;
 
 class QListWidgetItem;
@@ -78,7 +79,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvFileBrowserPrefsWidget);
     
-    djvFileBrowserPrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

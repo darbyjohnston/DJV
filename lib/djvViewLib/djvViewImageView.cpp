@@ -57,12 +57,12 @@
 #include <QWheelEvent>
 
 //------------------------------------------------------------------------------
-// djvViewImageViewPrivate
+// djvViewImageView::Private
 //------------------------------------------------------------------------------
 
-struct djvViewImageViewPrivate
+struct djvViewImageView::Private
 {
-    djvViewImageViewPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         viewZoomTmp       (0.0),
         grid              (context->viewPrefs()->grid()),
         gridColor         (context->viewPrefs()->gridColor()),
@@ -101,7 +101,7 @@ struct djvViewImageViewPrivate
 
 djvViewImageView::djvViewImageView(djvViewContext * context, QWidget * parent) :
     djvImageView(context, parent),
-    _p(new djvViewImageViewPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvViewImageView::djvViewImageView");
     
@@ -137,7 +137,6 @@ djvViewImageView::djvViewImageView(djvViewContext * context, QWidget * parent) :
 djvViewImageView::~djvViewImageView()
 {
     //DJV_DEBUG("djvViewImageView::~djvViewImageView");
-    delete _p;
 }
 
 bool djvViewImageView::isMouseInside() const

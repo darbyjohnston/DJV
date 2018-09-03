@@ -35,7 +35,7 @@
 
 #include <djvVector.h>
 
-struct djvViewColorPickerToolPrivate;
+#include <memory>
 
 class djvColor;
 
@@ -77,7 +77,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewColorPickerTool);
     
-    djvViewColorPickerToolPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewTool

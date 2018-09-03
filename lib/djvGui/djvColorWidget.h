@@ -38,8 +38,9 @@
 
 #include <QWidget>
 
-struct djvColorWidgetPrivate;
-class  djvGuiContext;
+#include <memory>
+
+class djvGuiContext;
 
 class QHBoxLayout;
 
@@ -103,7 +104,8 @@ private:
     
     DJV_PRIVATE_COPY(djvColorWidget);
     
-    djvColorWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

@@ -58,12 +58,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewImageGroupPrivate
+// djvViewImageGroup::Private
 //------------------------------------------------------------------------------
 
-struct djvViewImageGroupPrivate
+struct djvViewImageGroup::Private
 {
-    djvViewImageGroupPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         frameStore               (false),
         mirror                   (context->imagePrefs()->mirror()),
         scale                    (context->imagePrefs()->scale()),
@@ -102,7 +102,7 @@ djvViewImageGroup::djvViewImageGroup(
     djvViewMainWindow *       mainWindow,
     djvViewContext *          context) :
     djvViewAbstractGroup(mainWindow, context),
-    _p(new djvViewImageGroupPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvViewImageGroup::djvViewImageGroup");
 
@@ -228,9 +228,7 @@ djvViewImageGroup::djvViewImageGroup(
 }
 
 djvViewImageGroup::~djvViewImageGroup()
-{
-    delete _p;
-}
+{}
 
 bool djvViewImageGroup::hasFrameStore() const
 {

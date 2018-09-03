@@ -64,12 +64,12 @@ public:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvViewViewPrefsWidgetPrivate
+// djvViewViewPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewViewPrefsWidgetPrivate
+struct djvViewViewPrefsWidget::Private
 {
-    djvViewViewPrefsWidgetPrivate() :
+    Private() :
         zoomFactorWidget        (0),
         backgroundColorWidget   (0),
         gridWidget              (0),
@@ -99,7 +99,7 @@ struct djvViewViewPrefsWidgetPrivate
 djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewViewPrefsWidget", "Views"), context),
-    _p(new djvViewViewPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the general widgets.
     _p->zoomFactorWidget = new QComboBox;
@@ -233,9 +233,7 @@ djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
 }
 
 djvViewViewPrefsWidget::~djvViewViewPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewViewPrefsWidget::resetPreferences()
 {

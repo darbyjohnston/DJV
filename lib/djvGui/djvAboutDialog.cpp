@@ -46,12 +46,12 @@
 #include "images/durant.xpm"
 
 //------------------------------------------------------------------------------
-// djvAboutDialogPrivate
+// djvAboutDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvAboutDialogPrivate
+struct djvAboutDialog::Private
 {
-    djvAboutDialogPrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         widget   (0),
         buttonBox(0),
         context  (context)
@@ -67,7 +67,7 @@ struct djvAboutDialogPrivate
 //------------------------------------------------------------------------------
 
 djvAboutDialog::djvAboutDialog(const QString & text, djvGuiContext * context) :
-    _p(new djvAboutDialogPrivate(context))
+    _p(new Private(context))
 {
     // Create the widgets.
     QLabel * imageLabel = new QLabel;
@@ -107,9 +107,7 @@ djvAboutDialog::djvAboutDialog(const QString & text, djvGuiContext * context) :
 }
 
 djvAboutDialog::~djvAboutDialog()
-{
-    delete _p;
-}
+{}
 
 void djvAboutDialog::showEvent(QShowEvent *)
 {

@@ -49,12 +49,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewFilePrefsWidgetPrivate
+// djvViewFilePrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFilePrefsWidgetPrivate
+struct djvViewFilePrefsWidget::Private
 {
-    djvViewFilePrefsWidgetPrivate() :
+    Private() :
         autoSequenceWidget(0),
         proxyWidget       (0),
         u8ConversionWidget(0),
@@ -80,7 +80,7 @@ struct djvViewFilePrefsWidgetPrivate
 djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewFilePrefsWidget", "Files"), context),
-    _p(new djvViewFilePrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the options widgets.
     _p->autoSequenceWidget = new QCheckBox(
@@ -159,7 +159,6 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
     layout->addStretch();
 
     // Initialize.
-   
     widgetUpdate();
 
     // Setup the callbacks.
@@ -194,9 +193,7 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
 }
 
 djvViewFilePrefsWidget::~djvViewFilePrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewFilePrefsWidget::resetPreferences()
 {

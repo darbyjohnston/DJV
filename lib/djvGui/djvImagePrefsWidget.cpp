@@ -45,12 +45,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvImagePrefsWidgetPrivate
+// djvImagePrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvImagePrefsWidgetPrivate
+struct djvImagePrefsWidget::Private
 {
-    djvImagePrefsWidgetPrivate() :
+    Private() :
        filterMinWidget(0),
        filterMagWidget(0)
     {}
@@ -65,7 +65,7 @@ struct djvImagePrefsWidgetPrivate
 
 djvImagePrefsWidget::djvImagePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(qApp->translate("djvImagePrefsWidget", "Images"), context, parent),
-    _p(new djvImagePrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the filter widgets.
     _p->filterMinWidget = new QComboBox;
@@ -113,9 +113,7 @@ djvImagePrefsWidget::djvImagePrefsWidget(djvGuiContext * context, QWidget * pare
 }
 
 djvImagePrefsWidget::~djvImagePrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvImagePrefsWidget::resetPreferences()
 {

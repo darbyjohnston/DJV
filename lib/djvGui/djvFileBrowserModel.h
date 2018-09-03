@@ -38,9 +38,10 @@
 
 #include <QAbstractItemModel>
 
-class  djvFileBrowserItem;
-struct djvFileBrowserModelPrivate;
-class  djvGuiContext;
+#include <memory>
+
+class djvFileBrowserItem;
+class djvGuiContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserModel
@@ -304,7 +305,8 @@ private:
 
     DJV_PRIVATE_COPY(djvFileBrowserModel);
     
-    djvFileBrowserModelPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::COLUMNS);

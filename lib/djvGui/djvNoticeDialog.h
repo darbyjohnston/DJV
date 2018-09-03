@@ -37,7 +37,7 @@
 
 #include <QDialog>
 
-struct djvNoticeDialogPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -68,7 +68,8 @@ private:
 
     DJV_PRIVATE_COPY(djvNoticeDialog);
     
-    djvNoticeDialogPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

@@ -37,7 +37,7 @@
 
 #include <QMetaType>
 
-struct djvFileIoPrivate;
+#include <memory>
 
 //! \addtogroup djvCoreFile
 //@{
@@ -162,7 +162,8 @@ private:
 	
     DJV_PRIVATE_COPY(djvFileIo);
     
-    djvFileIoPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvCoreFile

@@ -35,10 +35,10 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewHelpActionsPrivate
+// djvViewHelpActions::Private
 //------------------------------------------------------------------------------
 
-struct djvViewHelpActionsPrivate
+struct djvViewHelpActions::Private
 {};
 
 //------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ djvViewHelpActions::djvViewHelpActions(
     djvViewContext * context,
     QObject *        parent) :
 	djvViewAbstractActions(context, parent),
-    _p(new djvViewHelpActionsPrivate)
+    _p(new Private)
 {
     // Create the actions.
     for (int i = 0; i < ACTION_COUNT; ++i)
@@ -62,7 +62,5 @@ djvViewHelpActions::djvViewHelpActions(
 }
 
 djvViewHelpActions::~djvViewHelpActions()
-{
-    delete _p;
-}
+{}
 

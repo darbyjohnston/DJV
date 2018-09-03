@@ -38,8 +38,9 @@
 
 #include <QDialog>
 
-struct djvColorDialogPrivate;
-class  djvGuiContext;
+#include <memory>
+
+class djvGuiContext;
 
 //! \addtogroup djvGuiDialog
 //@{
@@ -92,7 +93,8 @@ private:
     
     DJV_PRIVATE_COPY(djvColorDialog);
     
-    djvColorDialogPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiDialog

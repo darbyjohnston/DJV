@@ -36,8 +36,9 @@
 
 #include <djvSequence.h>
 
-class  djvViewPlaybackActions;
-struct djvViewPlaybackToolBarPrivate;
+#include <memory>
+
+class djvViewPlaybackActions;
 
 //! \addtogroup djvViewPlayback
 //@{
@@ -157,7 +158,8 @@ private:
 
     DJV_PRIVATE_COPY(djvViewPlaybackToolBar);
     
-    djvViewPlaybackToolBarPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewPlayback

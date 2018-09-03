@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractToolBar.h>
 
-struct djvViewFileToolBarPrivate;
+#include <memory>
 
 //! \addtogroup djvViewFile
 //@{
@@ -59,7 +59,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewFileToolBar);
     
-    djvViewFileToolBarPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewFile

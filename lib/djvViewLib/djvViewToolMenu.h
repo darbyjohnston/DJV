@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractMenu.h>
 
-struct djvViewToolMenuPrivate;
+#include <memory>
 
 //! \addtogroup djvViewTool
 //@{
@@ -58,7 +58,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewToolMenu);
     
-    djvViewToolMenuPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewTool

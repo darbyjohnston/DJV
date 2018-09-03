@@ -36,7 +36,7 @@
 #include <QDir>
 #include <QMainWindow>
 
-struct djvFileBrowserTestWidgetPrivate;
+#include <memory>
 
 class djvGuiContext;
 
@@ -98,6 +98,7 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvFileBrowserTestWidget)
     
-    djvFileBrowserTestWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 

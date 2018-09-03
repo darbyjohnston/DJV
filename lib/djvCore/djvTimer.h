@@ -33,7 +33,7 @@
 
 #include <djvUtil.h>
 
-struct djvTimerPrivate;
+#include <memory>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -68,8 +68,8 @@ public:
     djvTimer & operator = (const djvTimer &);
 
 private:
-
-    djvTimerPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvCoreMisc

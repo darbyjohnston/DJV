@@ -68,12 +68,12 @@ public:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvFileBrowserPrefsWidgetPrivate
+// djvFileBrowserPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserPrefsWidgetPrivate
+struct djvFileBrowserPrefsWidget::Private
 {
-    djvFileBrowserPrefsWidgetPrivate() :
+    Private() :
         seqWidget            (0),
         showHiddenWidget     (0),
         sortWidget           (0),
@@ -107,7 +107,7 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget(
     QWidget *       parent) :
     djvAbstractPrefsWidget(
         qApp->translate("djvFileBrowserPrefsWidget", "File Browser"), context, parent),
-    _p(new djvFileBrowserPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->seqWidget = new QComboBox;
@@ -296,9 +296,7 @@ djvFileBrowserPrefsWidget::djvFileBrowserPrefsWidget(
 }
 
 djvFileBrowserPrefsWidget::~djvFileBrowserPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvFileBrowserPrefsWidget::resetPreferences()
 {

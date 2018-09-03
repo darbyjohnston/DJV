@@ -44,12 +44,12 @@
 #include <QSvgRenderer>
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestContactSheetDelegatePrivate
+// djvFileBrowserTestContactSheetDelegate::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestContactSheetDelegatePrivate
+struct djvFileBrowserTestContactSheetDelegate::Private
 {
-    djvFileBrowserTestContactSheetDelegatePrivate(djvGuiContext * context) :
+    Private(djvGuiContext * context) :
         context      (context),
         thumbnailSize(0)
     {}
@@ -66,13 +66,11 @@ djvFileBrowserTestContactSheetDelegate::djvFileBrowserTestContactSheetDelegate(
     djvGuiContext * context,
     QObject *       parent) :
     QAbstractItemDelegate(parent),
-    _p(new djvFileBrowserTestContactSheetDelegatePrivate(context))
+    _p(new Private(context))
 {}
 
 djvFileBrowserTestContactSheetDelegate::~djvFileBrowserTestContactSheetDelegate()
-{
-    delete _p;
-}
+{}
 
 int djvFileBrowserTestContactSheetDelegate::thumbnailSize() const
 {

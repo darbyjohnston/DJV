@@ -37,9 +37,10 @@
 
 #include <QWidget>
 
-class  djvViewContext;
-struct djvViewDisplayProfileWidgetPrivate;
-class  djvViewImageView;
+#include <memory>
+
+class djvViewContext;
+class djvViewImageView;
 
 //! \addtogroup djvViewImage
 //@{
@@ -92,7 +93,8 @@ private:
     
     DJV_PRIVATE_COPY(djvViewDisplayProfileWidget);
     
-    djvViewDisplayProfileWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewImage

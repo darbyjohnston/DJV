@@ -36,12 +36,12 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvViewFileMenuPrivate
+// djvViewFileMenu::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFileMenuPrivate
+struct djvViewFileMenu::Private
 {
-    djvViewFileMenuPrivate() :
+    Private() :
         recent(0),
         layer (0)
     {}
@@ -58,7 +58,7 @@ djvViewFileMenu::djvViewFileMenu(
     djvViewAbstractActions * actions,
     QWidget *                parent) :
     djvViewAbstractMenu(actions, parent),
-    _p(new djvViewFileMenuPrivate)
+    _p(new Private)
 {
     // Create the menus.
     addAction(actions->action(djvViewFileActions::OPEN));
@@ -93,9 +93,7 @@ djvViewFileMenu::djvViewFileMenu(
 }
 
 djvViewFileMenu::~djvViewFileMenu()
-{
-    delete _p;
-}
+{}
 
 void djvViewFileMenu::menuUpdate()
 {

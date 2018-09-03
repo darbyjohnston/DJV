@@ -73,12 +73,12 @@
 #include <QToolBar>
 
 //------------------------------------------------------------------------------
-// djvViewMainWindowPrivate
+// djvViewMainWindow::Private
 //------------------------------------------------------------------------------
 
-struct djvViewMainWindowPrivate
+struct djvViewMainWindow::Private
 {
-    djvViewMainWindowPrivate(djvViewContext * context) :
+    Private(djvViewContext * context) :
         mouseWheel      (static_cast<djvViewUtil::MOUSE_WHEEL>(0)),
         fileGroup       (0),
         windowGroup     (0),
@@ -138,7 +138,7 @@ QVector<djvViewMainWindow *> _mainWindowList;
 djvViewMainWindow::djvViewMainWindow(
     const djvViewMainWindow * copy,
     djvViewContext *          context) :
-    _p(new djvViewMainWindowPrivate(context))
+    _p(new Private(context))
 {
     //DJV_DEBUG("djvViewMainWindow::djvViewMainWindow");
     
@@ -340,7 +340,6 @@ djvViewMainWindow::~djvViewMainWindow()
     //! after the child widgets.
     _p->viewWidget->setParent(0);
     _p->viewWidget->deleteLater();
-    delete _p;
 }
 
 const djvImageIoInfo & djvViewMainWindow::imageIoInfo() const

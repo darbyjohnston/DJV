@@ -35,7 +35,7 @@
 
 #include <QObject>
 
-struct djvFileBrowserTestAbstractWorkerPrivate;
+#include <memory>
 
 class QMutex;
 
@@ -73,6 +73,7 @@ public Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvFileBrowserTestAbstractWorker);
     
-    djvFileBrowserTestAbstractWorkerPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 

@@ -35,7 +35,7 @@
 
 #include <djvUtil.h>
 
-struct djvStylePrefsWidgetPrivate;
+#include <memory>
 
 class djvColor;
 
@@ -77,7 +77,8 @@ private:
 
     DJV_PRIVATE_COPY(djvStylePrefsWidget);
     
-    djvStylePrefsWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

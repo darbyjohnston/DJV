@@ -48,12 +48,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvStylePrefsWidgetPrivate
+// djvStylePrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvStylePrefsWidgetPrivate
+struct djvStylePrefsWidget::Private
 {
-    djvStylePrefsWidgetPrivate() :
+    Private() :
         colorForegroundWidget        (0),
         colorBackgroundWidget        (0),
         colorBackground2Widget       (0),
@@ -85,7 +85,7 @@ struct djvStylePrefsWidgetPrivate
 djvStylePrefsWidget::djvStylePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
         qApp->translate("djvStylePrefsWidget", "Style"), context, parent),
-    _p(new djvStylePrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->colorWidget = new QComboBox;
@@ -235,9 +235,7 @@ djvStylePrefsWidget::djvStylePrefsWidget(djvGuiContext * context, QWidget * pare
 }
 
 djvStylePrefsWidget::~djvStylePrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvStylePrefsWidget::resetPreferences()
 {

@@ -44,12 +44,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewInputPrefsWidgetPrivate
+// djvViewInputPrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvViewInputPrefsWidgetPrivate
+struct djvViewInputPrefsWidget::Private
 {
-    djvViewInputPrefsWidgetPrivate() :
+    Private() :
         mouseWheelWidget     (0),
         mouseWheelShiftWidget(0),
         mouseWheelCtrlWidget (0)
@@ -67,7 +67,7 @@ struct djvViewInputPrefsWidgetPrivate
 djvViewInputPrefsWidget::djvViewInputPrefsWidget(djvViewContext * context) :
     djvViewAbstractPrefsWidget(
         qApp->translate("djvViewInputPrefsWidget", "Input"), context),
-    _p(new djvViewInputPrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->mouseWheelWidget = new QComboBox;
@@ -120,9 +120,7 @@ djvViewInputPrefsWidget::djvViewInputPrefsWidget(djvViewContext * context) :
 }
 
 djvViewInputPrefsWidget::~djvViewInputPrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvViewInputPrefsWidget::resetPreferences()
 {

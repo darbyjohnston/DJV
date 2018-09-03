@@ -37,12 +37,13 @@
 #include <QObject>
 #include <QStringList>
 
+#include <memory>
+
 #if defined DJV_WINDOWS
 #undef ERROR
 #endif // DJV_WINDOWS
 
-struct djvCoreContextPrivate;
-class  djvDebugLog;
+class djvDebugLog;
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -103,7 +104,8 @@ private Q_SLOTS:
     void debugLogCallback(const QString &);
     
 private:
-    struct djvCoreContextPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvCoreMisc

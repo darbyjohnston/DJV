@@ -38,7 +38,7 @@
 #include <QApplication>
 
 //------------------------------------------------------------------------------
-// djvHelpPrefsPrivate
+// djvHelpPrefs::Private
 //------------------------------------------------------------------------------
 
 namespace
@@ -50,16 +50,15 @@ protected:
     {
         if (event->type() == QEvent::ToolTip)
             return true;
-        
         return QObject::eventFilter(object, event);
     }
 };
 
 } // namespace
 
-struct djvHelpPrefsPrivate
+struct djvHelpPrefs::Private
 {
-    djvHelpPrefsPrivate() :
+    Private() :
         toolTips     (djvHelpPrefs::toolTipsDefault()),
         toolTipFilter(new ToolTipFilter)
     {}
@@ -74,7 +73,7 @@ struct djvHelpPrefsPrivate
 
 djvHelpPrefs::djvHelpPrefs(QObject * parent) :
     QObject(parent),
-    _p(new djvHelpPrefsPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvHelpPrefs::djvHelpPrefs");
     djvPrefs prefs("djvHelpPrefs", djvPrefs::SYSTEM);
@@ -87,7 +86,6 @@ djvHelpPrefs::~djvHelpPrefs()
     //DJV_DEBUG("djvHelpPrefs::~djvHelpPrefs");
     djvPrefs prefs("djvHelpPrefs", djvPrefs::SYSTEM);
     prefs.set("toolTips", _p->toolTips);
-    delete _p;
 }
 
 bool djvHelpPrefs::toolTipsDefault()

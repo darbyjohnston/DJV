@@ -37,9 +37,10 @@
 
 #include <QWidget>
 
-struct djvFloatEditSliderPrivate;
-class  djvFloatObject;
-class  djvGuiContext;
+#include <memory>
+
+class djvFloatObject;
+class djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -162,7 +163,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvFloatEditSlider);
     
-    djvFloatEditSliderPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

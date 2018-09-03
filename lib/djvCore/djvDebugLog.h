@@ -35,7 +35,7 @@
 
 #include <QObject>
 
-struct djvDebugLogPrivate;
+#include <memory>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -67,7 +67,8 @@ Q_SIGNALS:
     void message(const QString &);
     
 private:
-    djvDebugLogPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //! Add a message to the log.

@@ -45,12 +45,12 @@
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvIntEditSliderPrivate
+// djvIntEditSlider::Private
 //------------------------------------------------------------------------------
 
-struct djvIntEditSliderPrivate
+struct djvIntEditSlider::Private
 {
-    djvIntEditSliderPrivate() :
+    Private() :
         resetToDefault(true),
         edit          (0),
         slider        (0),
@@ -70,7 +70,7 @@ struct djvIntEditSliderPrivate
 
 djvIntEditSlider::djvIntEditSlider(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _p(new djvIntEditSliderPrivate)
+    _p(new Private)
 {
     _p->edit = new djvIntEdit;
     
@@ -131,9 +131,7 @@ djvIntEditSlider::djvIntEditSlider(djvGuiContext * context, QWidget * parent) :
 }
 
 djvIntEditSlider::~djvIntEditSlider()
-{
-    delete _p;
-}
+{}
 
 int djvIntEditSlider::value() const
 {

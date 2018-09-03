@@ -49,12 +49,12 @@
 #include <QVBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvSequencePrefsWidgetPrivate
+// djvSequencePrefsWidget::Private
 //------------------------------------------------------------------------------
 
-struct djvSequencePrefsWidgetPrivate
+struct djvSequencePrefsWidget::Private
 {
-    djvSequencePrefsWidgetPrivate() :
+    Private() :
         maxFramesWidget(0)
     {}
 
@@ -68,7 +68,7 @@ struct djvSequencePrefsWidgetPrivate
 djvSequencePrefsWidget::djvSequencePrefsWidget(djvGuiContext * context, QWidget * parent) :
     djvAbstractPrefsWidget(
         qApp->translate("djvSequencePrefsWidget", "Sequences"), context, parent),
-    _p(new djvSequencePrefsWidgetPrivate)
+    _p(new Private)
 {
     // Create the widgets.
     _p->maxFramesWidget = new djvIntEdit;
@@ -104,9 +104,7 @@ djvSequencePrefsWidget::djvSequencePrefsWidget(djvGuiContext * context, QWidget 
 }
 
 djvSequencePrefsWidget::~djvSequencePrefsWidget()
-{
-    delete _p;
-}
+{}
 
 void djvSequencePrefsWidget::resetPreferences()
 {

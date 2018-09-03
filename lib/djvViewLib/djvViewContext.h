@@ -40,16 +40,17 @@
 
 #include <QScopedPointer>
 
-struct djvViewContextPrivate;
-class  djvViewFileCache;
-class  djvViewFilePrefs;
-class  djvViewFileSave;
-class  djvViewImagePrefs;
-class  djvViewInputPrefs;
-class  djvViewPlaybackPrefs;
-class  djvViewShortcutPrefs;
-class  djvViewViewPrefs;
-class  djvViewWindowPrefs;
+#include <memory>
+
+class djvViewFileCache;
+class djvViewFilePrefs;
+class djvViewFileSave;
+class djvViewImagePrefs;
+class djvViewInputPrefs;
+class djvViewPlaybackPrefs;
+class djvViewShortcutPrefs;
+class djvViewViewPrefs;
+class djvViewWindowPrefs;
 
 //! \addtogroup djvViewHelp
 //@{
@@ -139,7 +140,8 @@ protected:
 private:
     DJV_PRIVATE_COPY(djvViewContext);
     
-    djvViewContextPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewHelp

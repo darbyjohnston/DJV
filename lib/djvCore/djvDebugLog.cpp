@@ -41,16 +41,15 @@
 
 namespace
 {
-
 const int max = 10000;
 
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvDebugLogPrivate
+// djvDebugLog::Private
 //------------------------------------------------------------------------------
 
-struct djvDebugLogPrivate
+struct djvDebugLog::Private
 {
     QVector<QString> messages;
 };
@@ -61,13 +60,11 @@ struct djvDebugLogPrivate
 
 djvDebugLog::djvDebugLog(QObject * parent) :
     QObject(parent),
-    _p(new djvDebugLogPrivate)
+    _p(new Private)
 {}
 
 djvDebugLog::~djvDebugLog()
-{
-    delete _p;
-}
+{}
 
 const QVector<QString> & djvDebugLog::messages() const
 {

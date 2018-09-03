@@ -39,7 +39,7 @@
 
 #include <QWidget>
 
-struct djvVector2iEditWidgetPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -122,7 +122,8 @@ private Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvVector2iEditWidget);
     
-    djvVector2iEditWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

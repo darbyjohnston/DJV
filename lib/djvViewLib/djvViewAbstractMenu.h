@@ -37,8 +37,9 @@
 
 #include <QMenu>
 
-class  djvViewAbstractActions;
-struct djvViewAbstractMenuPrivate;
+#include <memory>
+
+class djvViewAbstractActions;
 
 //! \addtogroup djvViewLib
 //@{
@@ -69,7 +70,8 @@ protected Q_SLOTS:
 private:
     DJV_PRIVATE_COPY(djvViewAbstractMenu);
     
-    djvViewAbstractMenuPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewLib

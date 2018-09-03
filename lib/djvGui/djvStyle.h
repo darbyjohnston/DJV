@@ -39,7 +39,7 @@
 #include <QObject>
 #include <QFont>
 
-struct djvStylePrivate;
+#include <memory>
 
 //! \addtogroup djvGuiMisc
 //@{
@@ -202,7 +202,8 @@ private:
     
     DJV_PRIVATE_COPY(djvStyle);
     
-    djvStylePrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);

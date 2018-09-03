@@ -40,12 +40,12 @@
 #include <QFormLayout>
 
 //------------------------------------------------------------------------------
-// djvPrefsGroupBoxPrivate
+// djvPrefsGroupBox::Private
 //------------------------------------------------------------------------------
 
-struct djvPrefsGroupBoxPrivate
+struct djvPrefsGroupBox::Private
 {
-    djvPrefsGroupBoxPrivate(const QString & text, djvGuiContext * context) :
+    Private(const QString & text, djvGuiContext * context) :
         text   (text),
         label  (0),
         layout (0),
@@ -90,7 +90,7 @@ djvPrefsGroupBox::djvPrefsGroupBox(
     djvGuiContext * context,
     QWidget *       parent) :
     QWidget(parent),
-    _p(new djvPrefsGroupBoxPrivate(QString(), context))
+    _p(new Private(QString(), context))
 {
     init(title);
 }
@@ -101,15 +101,13 @@ djvPrefsGroupBox::djvPrefsGroupBox(
     djvGuiContext * context,
     QWidget *       parent) :
     QWidget(parent),
-    _p(new djvPrefsGroupBoxPrivate(text, context))
+    _p(new Private(text, context))
 {
     init(title);
 }
 
 djvPrefsGroupBox::~djvPrefsGroupBox()
-{
-    delete _p;
-}
+{}
 
 const QString & djvPrefsGroupBox::text() const
 {

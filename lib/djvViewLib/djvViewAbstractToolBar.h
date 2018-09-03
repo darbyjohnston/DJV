@@ -37,9 +37,10 @@
 
 #include <QToolBar>
 
-class  djvViewAbstractActions;
-struct djvViewAbstractToolBarPrivate;
-class  djvViewContext;
+#include <memory>
+
+class djvViewAbstractActions;
+class djvViewContext;
 
 //! \addtogroup djvViewLib
 //@{
@@ -71,7 +72,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewAbstractToolBar);
     
-    djvViewAbstractToolBarPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewLib

@@ -38,7 +38,7 @@
 
 #include <QWidget>
 
-struct djvPixelWidgetPrivate;
+#include <memory>
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -84,7 +84,8 @@ private:
     
     DJV_PRIVATE_COPY(djvPixelWidget);
     
-    djvPixelWidgetPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

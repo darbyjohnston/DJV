@@ -37,12 +37,12 @@
 #include <djvIconLibrary.h>
 
 //------------------------------------------------------------------------------
-// djvViewAbstractToolBarPrivate
+// djvViewAbstractToolBar::Private
 //------------------------------------------------------------------------------
 
-struct djvViewAbstractToolBarPrivate
+struct djvViewAbstractToolBar::Private
 {
-    djvViewAbstractToolBarPrivate(
+    Private(
         djvViewAbstractActions * actions,
         djvViewContext *         context) :
         actions(actions),
@@ -62,7 +62,7 @@ djvViewAbstractToolBar::djvViewAbstractToolBar(
     djvViewContext *         context,
     QWidget *                parent) :
     QToolBar(parent),
-    _p(new djvViewAbstractToolBarPrivate(actions, context))
+    _p(new Private(actions, context))
 {
     setAllowedAreas(
         Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);    
@@ -72,9 +72,7 @@ djvViewAbstractToolBar::djvViewAbstractToolBar(
 }
 
 djvViewAbstractToolBar::~djvViewAbstractToolBar()
-{
-    delete _p;
-}
+{}
 
 djvViewAbstractActions * djvViewAbstractToolBar::actions() const
 {

@@ -35,8 +35,9 @@
 
 #include <djvOpenGlImage.h>
 
-class  djvGuiContext;
-struct djvImageViewPrivate;
+#include <memory>
+
+class djvGuiContext;
 
 //! \addtogroup djvGuiWidget
 //@{
@@ -162,7 +163,8 @@ private:
     
     DJV_PRIVATE_COPY(djvImageView);
     
-    djvImageViewPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiWidget

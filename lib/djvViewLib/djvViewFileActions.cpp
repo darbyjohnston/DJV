@@ -45,12 +45,12 @@
 #include <QDir>
 
 //------------------------------------------------------------------------------
-// djvViewFileActionsPrivate
+// djvViewFileActions::Private
 //------------------------------------------------------------------------------
 
-struct djvViewFileActionsPrivate
+struct djvViewFileActions::Private
 {
-    djvViewFileActionsPrivate() :
+    Private() :
         layer      (0),
         osxMenuHack(0)
     {}
@@ -68,7 +68,7 @@ djvViewFileActions::djvViewFileActions(
     djvViewContext * context,
     QObject *        parent) :
 	djvViewAbstractActions(context, parent),
-    _p(new djvViewFileActionsPrivate)
+    _p(new Private)
 {
     // Create the actions.
     for (int i = 0; i < ACTION_COUNT; ++i)
@@ -152,9 +152,7 @@ djvViewFileActions::djvViewFileActions(
 }
 
 djvViewFileActions::~djvViewFileActions()
-{
-    delete _p;
-}
+{}
 
 void djvViewFileActions::setLayers(const QStringList & layers)
 {

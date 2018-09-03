@@ -35,7 +35,7 @@
 
 #include <QVector>
 
-struct djvDebugPrivate;
+#include <memory>
 
 class QString;
 class QStringList;
@@ -82,7 +82,8 @@ private:
 
     DJV_PRIVATE_COPY(djvDebug);
     
-    djvDebugPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //! Start a debugging message block.

@@ -91,12 +91,12 @@ private:
 } // namespace
 
 //------------------------------------------------------------------------------
-// djvPrefsDialogPrivate
+// djvPrefsDialog::Private
 //------------------------------------------------------------------------------
 
-struct djvPrefsDialogPrivate
+struct djvPrefsDialog::Private
 {
-    djvPrefsDialogPrivate() :
+    Private() :
         browser        (0),
         scrollArea     (0),
         buttonBox      (0),
@@ -119,7 +119,7 @@ struct djvPrefsDialogPrivate
 
 djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
     QDialog(parent),
-    _p(new djvPrefsDialogPrivate)
+    _p(new Private)
 {
     //DJV_DEBUG("djvPrefsDialog::djvPrefsDialog");
     
@@ -209,7 +209,6 @@ djvPrefsDialog::djvPrefsDialog(djvGuiContext * context, QWidget * parent) :
 djvPrefsDialog::~djvPrefsDialog()
 {
     //DJV_DEBUG("djvPrefsDialog::~djvPrefsDialog");
-    delete _p;
 }
 
 void djvPrefsDialog::addWidget(djvAbstractPrefsWidget * widget, const QString & group)

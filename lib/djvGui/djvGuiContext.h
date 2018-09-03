@@ -36,23 +36,24 @@
 #include <djvImageContext.h>
 #include <djvUtil.h>
 
-class  djvAboutDialog;
-class  djvDebugLogDialog;
-class  djvFileBrowser;
-class  djvFileBrowserCache;
-class  djvFileBrowserPrefs;
-struct djvGuiContextPrivate;
-class  djvHelpPrefs;
-class  djvIconLibrary;
-class  djvImageIoPrefs;
-class  djvImageIoWidgetFactory;
-class  djvImagePrefs;
-class  djvInfoDialog;
-class  djvMessagesDialog;
-class  djvPrefsDialog;
-class  djvSequencePrefs;
-class  djvStyle;
-class  djvTimePrefs;
+#include <memory>
+
+class djvAboutDialog;
+class djvDebugLogDialog;
+class djvFileBrowser;
+class djvFileBrowserCache;
+class djvFileBrowserPrefs;
+class djvHelpPrefs;
+class djvIconLibrary;
+class djvImageIoPrefs;
+class djvImageIoWidgetFactory;
+class djvImagePrefs;
+class djvInfoDialog;
+class djvMessagesDialog;
+class djvPrefsDialog;
+class djvSequencePrefs;
+class djvStyle;
+class djvTimePrefs;
 
 //! \addtogroup djvGuiMisc
 //@{
@@ -141,7 +142,8 @@ protected:
 private:    
     DJV_PRIVATE_COPY(djvGuiContext);
     
-    djvGuiContextPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvGuiMisc

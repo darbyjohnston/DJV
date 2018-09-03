@@ -38,9 +38,9 @@
 
 #include <QObject>
 
-class  djvViewContext;
-struct djvViewFileCacheItemPrivate;
-struct djvViewFileCachePrivate;
+#include <memory>
+
+class djvViewContext;
 
 class djvImage;
 
@@ -93,7 +93,8 @@ public:
 private:
     DJV_PRIVATE_COPY(djvViewFileCacheItem);
     
-    djvViewFileCacheItemPrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 typedef QVector<djvViewFileCacheItem *> djvViewFileCacheItemList;
@@ -186,7 +187,8 @@ private:
     
     DJV_PRIVATE_COPY(djvViewFileCache);
     
-    djvViewFileCachePrivate * _p;
+    struct Private;
+    std::unique_ptr<Private> _p;
 };
 
 //@} // djvViewFile

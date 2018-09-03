@@ -75,12 +75,12 @@ djvFileBrowserTestThumbnailResult::djvFileBrowserTestThumbnailResult() :
 {}
 
 //------------------------------------------------------------------------------
-// djvFileBrowserTestThumbnailWorkerPrivate
+// djvFileBrowserTestThumbnailWorker::Private
 //------------------------------------------------------------------------------
 
-struct djvFileBrowserTestThumbnailWorkerPrivate
+struct djvFileBrowserTestThumbnailWorker::Private
 {
-    djvFileBrowserTestThumbnailWorkerPrivate(djvImageContext * context) :
+    Private(djvImageContext * context) :
         context(context)
     {}
     
@@ -99,13 +99,11 @@ djvFileBrowserTestThumbnailWorker::djvFileBrowserTestThumbnailWorker(
     djvImageContext * context,
     QObject *         parent) :
     djvFileBrowserTestAbstractWorker(parent),
-    _p(new djvFileBrowserTestThumbnailWorkerPrivate(context))
+    _p(new Private(context))
 {}
     
 djvFileBrowserTestThumbnailWorker::~djvFileBrowserTestThumbnailWorker()
-{
-    delete _p;
-}
+{}
 
 void djvFileBrowserTestThumbnailWorker::request(
     const djvFileBrowserTestThumbnailRequest & request)

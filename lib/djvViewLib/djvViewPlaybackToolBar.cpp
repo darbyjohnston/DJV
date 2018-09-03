@@ -43,12 +43,12 @@
 #include <QHBoxLayout>
 
 //------------------------------------------------------------------------------
-// djvViewPlaybackToolBarPrivate
+// djvViewPlaybackToolBar::Private
 //------------------------------------------------------------------------------
 
-struct djvViewPlaybackToolBarPrivate
+struct djvViewPlaybackToolBar::Private
 {
-    djvViewPlaybackToolBarPrivate() :
+    Private() :
         layout             (static_cast<djvViewUtil::LAYOUT>(0)),
         widget             (0),
         widgetLayout       (0),
@@ -100,7 +100,7 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
     djvViewContext *         context,
     QWidget *                parent) :
     djvViewAbstractToolBar(actions, context, parent),
-    _p(new djvViewPlaybackToolBarPrivate)
+    _p(new Private)
 {
     // Create the playback widgets.
     _p->playbackButtons = new djvViewPlaybackButtons(
@@ -256,9 +256,7 @@ djvViewPlaybackToolBar::djvViewPlaybackToolBar(
 }
 
 djvViewPlaybackToolBar::~djvViewPlaybackToolBar()
-{
-    delete _p;
-}
+{}
 
 void djvViewPlaybackToolBar::setSpeed(const djvSpeed & speed)
 {
