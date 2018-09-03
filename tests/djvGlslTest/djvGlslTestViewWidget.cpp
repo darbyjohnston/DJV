@@ -56,15 +56,15 @@ djvGlslTestViewWidget::djvGlslTestViewWidget(
     connect(
         opsManager,
         SIGNAL(currentIndexChanged(int)),
-        SLOT(updateGL()));
+        SLOT(update()));
     connect(
         opsManager,
         SIGNAL(opChanged()),
-        SLOT(updateGL()));
+        SLOT(update()));
     connect(
         playback,
         SIGNAL(frameChanged(qint64)),
-        SLOT(updateGL()));
+        SLOT(update()));
 }
 
 void djvGlslTestViewWidget::showEvent(QShowEvent *)
