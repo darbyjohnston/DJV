@@ -32,7 +32,6 @@
 #include <djvOpenGlShader.h>
 
 #include <djvDebug.h>
-#include <djvMemoryBuffer.h>
 
 #include <QCoreApplication>
 
@@ -73,9 +72,9 @@ void shaderCompile(GLuint id, const QString & source)
 {
     //DJV_DEBUG("shaderCompile");
     //DJV_DEBUG_PRINT("source = " << source);
-    djvMemoryBuffer<char> buf(source.length());
-    djvMemory::copy(source.toLatin1().data(), buf.data(), buf.size());
-    const char * sources       [] = { buf.data() };
+    std::vector<char> buf(source.length());
+    memcpy(&buf.front(), source.toLatin1().data(), buf.size());
+    const char * sources       [] = { &buf.front() };
     const GLint  sourceLengths [] = { static_cast<GLint>(buf.size()) };
     DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
     DJV_DEBUG_OPEN_GL(glCompileShader(id));

@@ -526,7 +526,7 @@ void djvCineonHeader::zero(float * in)
 
 void djvCineonHeader::zero(char * in, int size)
 {
-    djvMemory::zero(in, size);
+    memset(in, 0, size);
 }
 
 bool djvCineonHeader::isValid(const quint8 * in)

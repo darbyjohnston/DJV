@@ -35,7 +35,6 @@
 
 #include <djvFileInfo.h>
 #include <djvImageIo.h>
-#include <djvMemoryBuffer.h>
 
 //! \addtogroup djvRlaPlugin
 //@{
@@ -63,9 +62,9 @@ private:
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
-    djvFileInfo             _file;
-    djvMemoryBuffer<qint32> _rleOffset;
-    djvPixelData            _tmp;
+    djvFileInfo         _file;
+    std::vector<qint32> _rleOffset;
+    djvPixelData        _tmp;
 };
 
 //@} // djvRlaPlugin

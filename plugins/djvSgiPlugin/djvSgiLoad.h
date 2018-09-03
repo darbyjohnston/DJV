@@ -60,11 +60,11 @@ private:
     void _open(const QString &, djvImageIoInfo &, djvFileIo &)
         throw (djvError);
 
-    djvFileInfo              _file;
-    bool                     _compression;
-    djvMemoryBuffer<quint32> _rleOffset;
-    djvMemoryBuffer<quint32> _rleSize;
-    djvPixelData             _tmp;
+    djvFileInfo          _file;
+    bool                 _compression;
+    std::vector<quint32> _rleOffset;
+    std::vector<quint32> _rleSize;
+    djvPixelData         _tmp;
 };
 
 //@} // djvSgiPlugin

@@ -157,7 +157,7 @@ djvPixelData::~djvPixelData()
 void djvPixelData::zero()
 {
     //DJV_DEBUG("djvPixelData::zero");
-    _data.zero();
+    memset(&_data.front(), 0, _dataByteCount);
 }
 
 void djvPixelData::close()
@@ -183,7 +183,7 @@ void djvPixelData::init()
 {
     _info              = djvPixelDataInfo();
     _channels          = 0;
-    _data.setSize(0);
+    _data.resize(0);
     _p                 = 0;
     _pixelByteCount    = 0;
     _scanlineByteCount = 0;
@@ -195,9 +195,9 @@ void djvPixelData::detach()
 {
     if (_fileIo)
     {
-        _data.setSize(_dataByteCount);
-        djvMemory::copy(_p, _data(), _dataByteCount);
-        _p = _data();
+        _data.resize(_dataByteCount);
+        memcpy(&_data.front(), _p, _dataByteCount);
+        _p = &_data.front();
         delete _fileIo;
         _fileIo = 0;
     }
@@ -229,20 +229,20 @@ void djvPixelData::set(
     {
         if (fileIo)
         {
-            _data.setSize(0);
+            _data.resize(0);
             _p = p;
             _fileIo = fileIo;
         }
         else
         {
-            _data.setSize(_dataByteCount);
+            _data.resize(_dataByteCount);
             _p = _data.data();
-            djvMemory::copy(p, _data(), _dataByteCount);
+            memcpy(&_data.front(), p, _dataByteCount);
         }
     }
     else
     {
-        _data.setSize(_dataByteCount);
+        _data.resize(_dataByteCount);
         _p = _data.data();
     }
 }
@@ -250,7 +250,7 @@ void djvPixelData::set(
 void djvPixelData::copy(const djvPixelData & in)
 {
     set(in._info);    
-    djvMemory::copy(in._p, _data(), _dataByteCount);
+    memcpy(&_data.front(), in._p, _dataByteCount);
 }
 
 bool operator == (const djvPixelDataInfo::Mirror & a,
@@ -278,7 +278,7 @@ bool operator == (const djvPixelData & a, const djvPixelData & b)
     return
         a.info()          == b.info()          &&
         a.dataByteCount() == b.dataByteCount() &&
-        djvMemory::compare(a.data(), b.data(), a.dataByteCount()) == 0;
+        memcmp(a.data(), b.data(), a.dataByteCount()) == 0;
 }
 
 bool operator != (const djvPixelDataInfo::Mirror & a,

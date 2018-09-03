@@ -288,9 +288,9 @@ void djvLut::infernoLoad(djvFileIo & io, djvImage & out)
     for (int x = 0; x < out.w(); ++x)
     {
         //DJV_DEBUG_PRINT(x << " = " << color[x]);
-        djvMemory::copy(
-            color[x].data(),
+        memcpy(
             out.data(x, 0),
+            color[x].data(),
             djvPixel::byteCount(out.pixel()));
     }
 }
@@ -315,9 +315,9 @@ void djvLut::kodakLoad(djvFileIo & io, djvImage & out) throw (djvError)
             }
         }
         //DJV_DEBUG_PRINT(x << " = " << color);
-        djvMemory::copy(
-            color.data(),
+        memcpy(
             out.data(x, 0),
+            color.data(),
             djvPixel::byteCount(out.pixel()));
     }
 }
@@ -329,9 +329,9 @@ void djvLut::infernoSave(djvFileIo & io, const djvPixelData * out)
     for (int x = 0; x < out->w(); ++x)
     {
         color[x].setPixel(out->pixel());
-        djvMemory::copy(
-            out->data(x, 0),
+        memcpy(
             color[x].data(),
+            out->data(x, 0),
             djvPixel::byteCount(out->pixel()));
     }
     for (int c = 0; c < djvPixel::channels(out->pixel()); ++c)
@@ -359,9 +359,9 @@ void djvLut::kodakSave(djvFileIo & io, const djvPixelData * out)
     for (int x = 0; x < out->w(); ++x)
     {
         djvColor color(out->pixel());
-        djvMemory::copy(
-            out->data(x, 0),
+        memcpy(
             color.data(),
+            out->data(x, 0),
             djvPixel::byteCount(out->pixel()));
         for (int c = 0; c < djvPixel::channels(out->pixel()); ++c)
         {

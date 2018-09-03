@@ -53,7 +53,6 @@
 #include <djvMathTest.h>
 #include <djvMatrixTest.h>
 #include <djvMatrixUtilTest.h>
-#include <djvMemoryBufferTest.h>
 #include <djvMemoryTest.h>
 #include <djvOpenGlImageTest.h>
 #include <djvOpenGlTest.h>
@@ -101,7 +100,6 @@ int main(int argc, char ** argv)
         new djvMathTest <<
         new djvMatrixTest <<
         new djvMatrixUtilTest <<
-        new djvMemoryBufferTest <<
         new djvMemoryTest <<
         new djvOpenGlImageTest <<
         new djvOpenGlTest <<

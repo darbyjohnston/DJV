@@ -41,8 +41,6 @@ set(header
     djvMatrixUtil.h
     djvMatrixUtilInline.h
     djvMemory.h
-    djvMemoryBuffer.h
-    djvMemoryBufferInline.h
     djvMemoryInline.h
     djvOpenGl.h
     djvOpenGlImage.h

@@ -73,18 +73,9 @@ public:
     //! Get the machine endian labels.
     static const QStringList & endianLabels();
 
-    //! Copy a block of memory.
-    static void copy(const void * in, void * out, quint64 size);
-
     //! Fill a block of memory with a value.
     template<typename T>
     static inline void fill(T value, void * in, quint64 size);
-
-    //! Fill a block of memory with zeroes.
-    static void zero(void * in, quint64 size);
-
-    //! Compare a block of memory.
-    static int compare(const void *, const void *, quint64 size);
 
     //! Get the current machine's endian.
     static ENDIAN endian();

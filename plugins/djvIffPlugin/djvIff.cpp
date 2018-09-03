@@ -559,7 +559,7 @@ void saveVerbatim (
 
     // Information.
     *out++ = count - 1;
-    djvMemory::copy(in, out, count);
+    memcpy(out, in, count);
 
     out += count;
     in += count;

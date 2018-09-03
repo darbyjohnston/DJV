@@ -99,13 +99,13 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         {
             const quint64 scanlineByteCount = djvPpm::scanlineByteCount(
                 info.size.x, channels, _bitDepth, _data);
-            djvMemoryBuffer<quint8> scanline(scanlineByteCount);
+            std::vector<quint8> scanline(scanlineByteCount);
             //DJV_DEBUG_PRINT("scanline = " <<
             //    static_cast<int>(scanlineByteCount));
             for (int y = 0; y < info.size.y; ++y)
             {
-                io->get(scanline(), scanlineByteCount);
-                const quint8 * inP = scanline();
+                io->get(&scanline.front(), scanlineByteCount);
+                const quint8 * inP = &scanline.front();
                 quint8 * outP = data->data(0, y);
                 for (int i = info.size.x - 1; i >= 0; --i)
                 {

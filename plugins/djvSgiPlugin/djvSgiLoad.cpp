@@ -105,9 +105,9 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     else
     {
         _tmp.set(info);
-        djvMemoryBuffer<quint8> tmp(size);
-        io.get(tmp(), size / bytes, bytes);
-        const quint8 * inP  = tmp();
+        std::vector<quint8> tmp(size);
+        io.get(&tmp.front(), size / bytes, bytes);
+        const quint8 * inP  = &tmp.front();
         const quint8 * end  = inP + size;
         quint8 *       outP = _tmp.data();
         for (int c = 0; c < channels; ++c)
@@ -117,7 +117,7 @@ void djvSgiLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             {
                 //DJV_DEBUG_PRINT("y = " << y);
                 if (! djvSgi::readRle(
-                    inP + _rleOffset()[y + info.size.y * c] - pos,
+                    inP + _rleOffset[y + info.size.y * c] - pos,
                     end,
                     outP,
                     info.size.x,
@@ -158,9 +158,9 @@ void djvSgiLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     {
         const int tableSize = info.size.y * djvPixel::channels(info.pixel);
         //DJV_DEBUG_PRINT("rle table size = " << tableSize);
-        _rleOffset.setSize(tableSize);
-        _rleSize.setSize(tableSize);
-        io.getU32(_rleOffset(), tableSize);
-        io.getU32(_rleSize(),   tableSize);
+        _rleOffset.resize(tableSize);
+        _rleSize.resize(tableSize);
+        io.getU32(&_rleOffset.front(), tableSize);
+        io.getU32(&_rleSize.front(),   tableSize);
     }
 }

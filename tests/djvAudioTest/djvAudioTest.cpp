@@ -166,12 +166,12 @@ int Audio::callback(
     if (! p)
     {
         DJV_DEBUG_PRINT("xrun");
-        Memory::zero(out, _buffer->chunk_bytes());
+        memset(out, 0, _buffer->chunk_bytes());
         //abort();
     }
     else
     {
-        Memory::copy(p, out, _buffer->chunk_bytes());
+        memcpy(out, p, _buffer->chunk_bytes());
     }
     return 0;
 }

@@ -108,7 +108,7 @@ void djvOpenGlImageTest::members()
             djvColor color(pixel);
             djvColorUtil::convert(djvColor(0.5), color);
             DJV_DEBUG_PRINT("color = " << color);
-            djvMemory::copy(color.data(), a.data(), a.dataByteCount());
+            memcpy(a.data(), color.data(), a.dataByteCount());
             DJV_DEBUG_PRINT("pixel = " << djvOpenGlImage::pixel(a, 0, 0));
 
             djvOpenGlImage::copy(a, b);

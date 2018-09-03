@@ -36,7 +36,6 @@
 #include <djvBox.h>
 #include <djvColor.h>
 #include <djvMemory.h>
-#include <djvMemoryBuffer.h>
 #include <djvVector.h>
 
 #include <QMetaType>
@@ -191,14 +190,14 @@ private:
     void detach();
     void copy(const djvPixelData &);
 
-    djvPixelDataInfo        _info;
-    int                     _channels;
-    djvMemoryBuffer<quint8> _data;
-    const quint8 *          _p;
-    quint64                 _pixelByteCount;
-    quint64                 _scanlineByteCount;
-    quint64                 _dataByteCount;
-    djvFileIo *             _fileIo;
+    djvPixelDataInfo    _info;
+    int                 _channels;
+    std::vector<quint8> _data;
+    const quint8 *      _p;
+    quint64             _pixelByteCount;
+    quint64             _scanlineByteCount;
+    quint64             _dataByteCount;
+    djvFileIo *         _fileIo;
 };
 
 Q_DECLARE_METATYPE(djvPixelDataInfo)

@@ -136,7 +136,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
             channels,
             _bitDepth,
             _options.data);
-        djvMemoryBuffer<quint8> scanline(scanlineByteCount);
+        std::vector<quint8> scanline(scanlineByteCount);
         //DJV_DEBUG_PRINT("scanline = " << static_cast<int>(scanlineByteCount));
         for (int y = 0; y < h; ++y)
         {
@@ -144,7 +144,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                 1 == _bitDepth)
             {
                 const quint8 * inP = p->data(0, y);
-                quint8 * outP = scanline();
+                quint8 * outP = &scanline.front();
                 for (int i = 0; i < w; ++i)
                 {
                     const int tmp = inP[i];
@@ -157,16 +157,16 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                     outP[j] |= ((! tmp) & 1) << (7 - off);
                 }
 
-                io.set(scanline(), scanlineByteCount);
+                io.set(&scanline.front(), scanlineByteCount);
             }
             else
             {
                 const quint64 size = djvPpm::asciiSave(
                     p->data(0, y),
-                    scanline(),
+                    &scanline.front(),
                     w * channels,
                     _bitDepth);
-                io.set(scanline(), size);
+                io.set(&scanline.front(), size);
             }
         }
     }

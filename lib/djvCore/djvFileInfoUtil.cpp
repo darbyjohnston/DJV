@@ -38,7 +38,6 @@
 #include <djvListUtil.h>
 #include <djvMath.h>
 #include <djvMemory.h>
-#include <djvMemoryBuffer.h>
 #include <djvSequenceUtil.h>
 
 #include <QCoreApplication>
@@ -312,7 +311,7 @@ djvFileInfoList djvFileInfoUtil::list(
     int fd = open(path.toLatin1().data(), O_RDONLY | O_DIRECTORY);
     if (fd != -1)
     {
-        djvMemoryBuffer<quint8> buf(djvMemory::megabyte);
+        std::vector<quint8> buf(djvMemory::megabyte);
         quint8 * p = buf.data();
         while (1)
         {

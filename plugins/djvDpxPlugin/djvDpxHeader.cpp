@@ -88,11 +88,11 @@ void djvDpxHeader::load(
     // Read.
     io.get(&file, sizeof(File));
     //DJV_DEBUG_PRINT("magic = " << QString::fromLatin1((char *)&file.magic, 4));
-    if (0 == djvMemory::compare(&file.magic, magic[0], 4))
+    if (0 == memcmp(&file.magic, magic[0], 4))
     {
         info.endian = djvMemory::MSB;
     }
-    else if (0 == djvMemory::compare(&file.magic, magic[1], 4))
+    else if (0 == memcmp(&file.magic, magic[1], 4))
     {
         info.endian = djvMemory::LSB;
     }
@@ -428,10 +428,10 @@ void djvDpxHeader::save(
     switch (version)
     {
         case djvDpx::VERSION_1_0:
-            djvMemory::copy("V1.0", file.version, 4);
+            memcpy(file.version, "V1.0", 4);
             break;
         case djvDpx::VERSION_2_0:
-            djvMemory::copy("V2.0", file.version, 4);
+            memcpy(file.version, "V2.0", 4);
             break;
         default: break;
     }
@@ -798,9 +798,9 @@ void djvDpxHeader::save(
         io.setEndian(true);
         this->endian();
     }
-    djvMemory::copy(
-        djvMemory::MSB == file_endian ? magic[0] : magic[1],
+    memcpy(
         &file.magic,
+        djvMemory::MSB == file_endian ? magic[0] : magic[1],
         4);
     io.set(&file, sizeof(File));
     io.set(&image, sizeof(Image));
@@ -818,7 +818,7 @@ void djvDpxHeader::saveEnd(djvFileIo & io) throw (djvError)
 
 void djvDpxHeader::zero(char * in, int size)
 {
-    djvMemory::zero(in, size);
+    memset(in, 0, size);
 }
 
 bool djvDpxHeader::isValid(const quint8 * in)

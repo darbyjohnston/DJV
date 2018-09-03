@@ -33,8 +33,6 @@
 
 #include <djvDebug.h>
 #include <djvFileInfoUtil.h>
-#include <djvMemory.h>
-#include <djvMemoryBuffer.h>
 #include <djvSequenceUtil.h>
 
 #include <QMutexLocker>
@@ -86,7 +84,7 @@ struct djvFileBrowserTestDirWorker::Private
     djvFileBrowserTestDirRequest request;
     djvFileInfoList              list;
     int                          fd;
-    djvMemoryBuffer<quint8>      buf;
+    std::vector<quint8>          buf;
     int                          timer;
     djvFileInfo *                cache;
 };

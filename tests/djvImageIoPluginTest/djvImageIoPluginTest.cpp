@@ -243,7 +243,7 @@ void djvImageIoPluginTest::runTest(djvImageIo * plugin, const djvImage & image)
     {
         djvFileInfo fileInfo(fileName);
         const quint64 size = fileInfo.size();
-        djvMemoryBuffer<quint8> buf(size / 2);
+        std::vector<quint8> buf(size / 2);
 
         djvFileIo io;
         io.open(fileName, djvFileIo::READ);

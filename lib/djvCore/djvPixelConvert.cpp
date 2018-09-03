@@ -351,7 +351,7 @@ void djvPixel::convert(
     //DJV_DEBUG_PRINT("bgr = " << bgr);
     if (inPixel == outPixel && 1 == stride && ! bgr)
     {
-        djvMemory::copy(in, out, size * byteCount(outPixel));
+        memcpy(out, in, size * byteCount(outPixel));
     }
     else
     {

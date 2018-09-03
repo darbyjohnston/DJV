@@ -81,7 +81,7 @@ const quint8 * djvPic::readRle(
                 }
                 else
                 {
-                    djvMemory::copy(in, &count, 2);
+                    memcpy(&count, in, 2);
                 }
                 in += 2;
             }

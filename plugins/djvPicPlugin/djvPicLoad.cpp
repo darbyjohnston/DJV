@@ -125,7 +125,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
                     
-                    djvMemory::copy(p, data->data(0, y), size);
+                    memcpy(data->data(0, y), p, size);
                     p += size;
                 }
                 break;
@@ -158,7 +158,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                             djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
-                    djvMemory::copy(p, data->data(0, y), size);
+                    memcpy(data->data(0, y), p, size);
                     p += size;
                 }
                 if (_compression[1])
@@ -188,7 +188,7 @@ void djvPicLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                             djvPic::staticName,
                             djvImageIo::errorLabels()[djvImageIo::ERROR_READ]);
                     }
-                    djvMemory::copy(p, data->data(0, y), size);
+                    memcpy(data->data(0, y), p, size);
                     p += size;
                 }
                 break;
@@ -273,7 +273,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
     // Read the header.
     Header header;
-    djvMemory::zero(&header, sizeof(Header));
+    memset(&header, 0, sizeof(Header));
     io.getU32(&header.magic);
     if (header.magic != 0x5380F634)
     {
@@ -309,7 +309,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     info.size = djvVector2i(header.width, header.height);
     info.mirror.y = true;
     Channel channel;
-    djvMemory::zero(&channel, sizeof(Channel));
+    memset(&channel, 0, sizeof(Channel));
     _channel(io, &channel);
     _compression[0] = 2 == channel.type;
     //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
@@ -339,7 +339,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
         8 == channel.size &&
         channel.chained)
     {
-        djvMemory::zero(&channel, sizeof(Channel));
+        memset(&channel, 0, sizeof(Channel));
         _channel(io, &channel);
         _compression[1] = 2 == channel.type;
         //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));

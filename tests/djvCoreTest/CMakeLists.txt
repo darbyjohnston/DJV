@@ -21,7 +21,6 @@ set(header
     djvMathTest.h
     djvMatrixTest.h
     djvMatrixUtilTest.h
-    djvMemoryBufferTest.h
     djvMemoryTest.h
     djvOpenGlImageTest.h
     djvOpenGlTest.h
@@ -65,7 +64,6 @@ set(source
     djvMathTest.cpp
     djvMatrixTest.cpp
     djvMatrixUtilTest.cpp
-    djvMemoryBufferTest.cpp
     djvMemoryTest.cpp
     djvOpenGlImageTest.cpp
     djvOpenGlTest.cpp

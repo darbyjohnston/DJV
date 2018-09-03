@@ -40,7 +40,6 @@
 #include <djvFileInfo.h>
 #include <djvMath.h>
 #include <djvMemory.h>
-#include <djvMemoryBuffer.h>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -340,7 +339,7 @@ void djvFileIo::get(void * in, quint64 size, int wordSize) throw (djvError)
     }
     else
     {
-        djvMemory::copy(_p->mmapP, in, size * wordSize);
+        memcpy(in, _p->mmapP, size * wordSize);
     }
     _p->mmapP = p;
 #else // DJV_MMAP
@@ -379,11 +378,11 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
     //DJV_DEBUG_PRINT("endian = " << _p->endian);
 
     quint8 * p = (quint8 *)in;
-    djvMemoryBuffer<quint8> tmp;
+    std::vector<quint8> tmp;
     if (_p->endian && wordSize > 1)
     {
-        tmp.setSize(size * wordSize);
-        p = tmp();
+        tmp.resize(size * wordSize);
+        p = &tmp.front();
         djvMemory::convertEndian(in, p, size, wordSize);
     }
 

@@ -129,7 +129,7 @@ void djvPixelDataUtilTest::interleave()
         djvPixelDataUtil::planarInterleave(data, interleaveData);
         djvPixelData deinterleaveData(data.info());
         djvPixelDataUtil::planarDeinterleave(interleaveData, deinterleaveData);
-        DJV_ASSERT(0 == djvMemory::compare(
+        DJV_ASSERT(0 == memcmp(
             data.data(),
             deinterleaveData.data(),
             data.dataByteCount()));

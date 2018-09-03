@@ -103,7 +103,7 @@ djvColor::djvColor(const quint8 * data, djvPixel::PIXEL pixel) :
     _pixel(pixel)
 {
     init();
-    djvMemory::copy(data, _data, djvPixel::byteCount(_pixel));
+    memcpy(_data, data, djvPixel::byteCount(_pixel));
 }
 
 void djvColor::setPixel(djvPixel::PIXEL pixel)
@@ -126,7 +126,7 @@ djvColor & djvColor::operator = (const djvColor & in)
     {
         _pixel    = in._pixel;
         _channels = in._channels;
-        djvMemory::copy(in._data, _data, djvPixel::byteCount(_pixel));
+        memcpy(_data, in._data, djvPixel::byteCount(_pixel));
     }
     return *this;
 }

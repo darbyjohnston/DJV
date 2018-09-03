@@ -88,21 +88,6 @@ const QStringList & djvMemory::endianLabels()
     return data;
 }
 
-void djvMemory::copy(const void * in, void * out, quint64 size)
-{
-    ::memcpy(out, in, size);
-}
-
-void djvMemory::zero(void * out, quint64 size)
-{
-    ::memset(out, 0, size);
-}
-
-int djvMemory::compare(const void * a, const void * b, quint64 size)
-{
-    return ::memcmp(a, b, size);
-}
-
 djvMemory::ENDIAN djvMemory::endian()
 {
     static const int tmp = 1;

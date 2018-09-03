@@ -71,10 +71,10 @@ void djvPixelDataUtil::proxyScale(
     const bool fast = in.pixel() == out.pixel() && ! bgr && ! endian;
     //DJV_DEBUG_PRINT("fast = " << fast);
 
-    djvMemoryBuffer<quint8> tmp;
+    std::vector<quint8> tmp;
     if (! fast)
     {
-        tmp.setSize(w * proxyScale * djvPixel::byteCount(in.pixel()));
+        tmp.resize(w * proxyScale * djvPixel::byteCount(in.pixel()));
         //DJV_DEBUG_PRINT("tmp size = " << tmp.size());
     }
 
@@ -121,8 +121,8 @@ void djvPixelDataUtil::proxyScale(
                 const int wordSize = djvPixel::byteCount(in.pixel());
                 //DJV_DEBUG_PRINT("endian size = " << size);
                 //DJV_DEBUG_PRINT("endian word size = " << wordSize);
-                djvMemory::convertEndian(inP, tmp(), size, wordSize);
-                inP = tmp();
+                djvMemory::convertEndian(inP, &tmp.front(), size, wordSize);
+                inP = &tmp.front();
             }
             
             //DJV_DEBUG_PRINT("convert");

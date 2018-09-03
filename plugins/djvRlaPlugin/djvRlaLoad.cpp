@@ -95,7 +95,7 @@ void djvRlaLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     quint8 * data_p = p->data();
     for (int y = 0; y < h; ++y, data_p += w * channels * bytes)
     {
-        io.setPos(_rleOffset()[y]);
+        io.setPos(_rleOffset[y]);
         for (int c = 0; c < channels; ++c)
         {
             if (djvPixel::F32 == djvPixel::type(_info.pixel))
@@ -244,8 +244,8 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     const int h = header.active[3] - header.active[2] + 1;
 
     // Read the scanline table.
-    _rleOffset.setSize(h);
-    io.get32(_rleOffset(), h);
+    _rleOffset.resize(h);
+    io.get32(&_rleOffset.front(), h);
 
     // Get file information.
     const djvVector2i size(w, h);

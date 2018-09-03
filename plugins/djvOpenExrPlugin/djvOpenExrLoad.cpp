@@ -162,7 +162,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
         else
         {
             Imf::FrameBuffer frameBuffer;
-            djvMemoryBuffer<char> buf(_dataWindow.size.x * cb);
+            std::vector<char> buf(_dataWindow.size.x * cb);
             for (int c = 0; c < channels; ++c)
             {
                 const QString & channel = _layers[frame.layer].channels[c].name;
@@ -192,17 +192,17 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                     y < _intersectedWindow.y + _intersectedWindow.size.y)
                 {
                     quint64 size = (_intersectedWindow.x - _displayWindow.x) * cb;
-                    djvMemory::zero(p, size);
+                    memset(p, 0, size);
                     p += size;
                     size = _intersectedWindow.size.x * cb;
                     _f->readPixels(y, y);
-                    djvMemory::copy(
-                        buf.data() + djvMath::max(_displayWindow.x - _dataWindow.x, 0) * cb,
+                    memcpy(
                         p,
+                        buf.data() + djvMath::max(_displayWindow.x - _dataWindow.x, 0) * cb,
                         size);
                     p += size;
                 }
-                djvMemory::zero(p, end - p);
+                memset(p, 0, end - p);
             }
         }
         if (frame.proxy)

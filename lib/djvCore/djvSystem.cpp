@@ -35,8 +35,6 @@
 #include <djvDebug.h>
 #include <djvFileInfoUtil.h>
 #include <djvMath.h>
-#include <djvMemory.h>
-#include <djvMemoryBuffer.h>
 #include <djvStringUtil.h>
 
 #include <QCoreApplication>
@@ -98,7 +96,7 @@ WINDOWS windowsVersion()
 
     // Get OS version information.
     ::OSVERSIONINFOEX info;
-    djvMemory::zero(&info, sizeof(::OSVERSIONINFOEX));
+    memset(&info, 0, sizeof(::OSVERSIONINFOEX));
     info.dwOSVersionInfoSize = sizeof(::OSVERSIONINFOEX);
     if (! ::GetVersionEx((::OSVERSIONINFO *)&info))
         return out;
@@ -111,7 +109,7 @@ WINDOWS windowsVersion()
 
     // Get system informaion.
     ::SYSTEM_INFO systemInfo;
-    djvMemory::zero(&systemInfo, sizeof(::SYSTEM_INFO));
+    memset(&systemInfo, 0, sizeof(::SYSTEM_INFO));
     if (PGNSI pGNSI = (PGNSI)::GetProcAddress(
         ::GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"))
     {

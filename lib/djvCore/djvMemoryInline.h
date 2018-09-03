@@ -157,7 +157,7 @@ inline void djvMemory::convertEndian(
             }
             break;
         default:
-            djvMemory::copy(in, out, size * wordSize);
+            memcpy(out, in, size * wordSize);
             break;
     }
 }

@@ -236,11 +236,11 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     c >= 0;
                                     --c)
                                 {
-                                    djvMemoryBuffer<quint8> in(tw * th);
-                                    quint8 * inP = in ();
+                                    std::vector<quint8> in(tw * th);
+                                    quint8 * inP = &in.front();
 
                                     // Uncompress.
-                                    p += djvIff::readRle (p, in(), tw * th);
+                                    p += djvIff::readRle (p, &in.front(), tw * th);
 
                                     for (quint16 py = ymin; py <= ymax; py++)
                                     {
@@ -276,8 +276,8 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     quint8 * out_dy = data->data(xmin, py);
 
                                     // Tile scanline.
-                                    djvMemoryBuffer<quint8> scanline(tw * byteCount);
-                                    quint8 * outP = scanline();
+                                    std::vector<quint8> scanline(tw * byteCount);
+                                    quint8 * outP = &scanline.front();
 
                                     // Set bytes.
                                     for (quint16 px = xmin; px <= xmax; px++)
@@ -300,14 +300,13 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                             quint8 pixel;
                                             quint8 * inP =
                                                 pixels + c * channelByteCount;
-                                            djvMemory::copy(inP, &pixel, 1);
+                                            memcpy(&pixel, inP, 1);
                                             *outP++ = pixel;
                                         }
                                     }
 
                                     // Copy data.
-                                    djvMemory::copy(
-                                        scanline(), out_dy, tw * byteCount);
+                                    memcpy(out_dy, &scanline.front(), tw * byteCount);
                                 }
                             }
                         }
@@ -361,11 +360,11 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                 {
                                     int mc = map[c];
 
-                                    djvMemoryBuffer<quint8> in(tw * th);
-                                    quint8 * inP = in ();
+                                    std::vector<quint8> in(tw * th);
+                                    quint8 * inP = &in.front();
 
                                     // Uncompress.
-                                    p += djvIff::readRle (p, in(), tw * th);
+                                    p += djvIff::readRle (p, &in.front(), tw * th);
 
                                     for (quint16 py = ymin; py <= ymax; py++)
                                     {
@@ -401,9 +400,8 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     quint8 * out_dy = data->data(xmin, py);
 
                                     // Tile scanline.
-                                    djvMemoryBuffer<quint16> scanline(
-                                        tw * byteCount);
-                                    quint16 * outP = scanline();
+                                    std::vector<quint16> scanline(tw * byteCount);
+                                    quint16 * outP = &scanline.front();
 
                                     // Set bytes.
                                     for (quint16 px = xmin; px <= xmax; px++)
@@ -433,7 +431,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                             }
                                             else
                                             {
-                                                djvMemory::copy(in, &pixel, 2);
+                                                memcpy(&pixel, in, 2);
                                             }
 
                                             // Set pixel.
@@ -442,10 +440,7 @@ void djvIffLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                                     }
 
                                     // Copy data.
-                                    djvMemory::copy(
-                                        scanline(),
-                                        out_dy,
-                                        tw * byteCount);
+                                    memcpy(out_dy, &scanline.front(), tw * byteCount);
                                 }
                             }
                         }

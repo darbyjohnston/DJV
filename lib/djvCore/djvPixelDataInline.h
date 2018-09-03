@@ -80,7 +80,7 @@ inline quint8 * djvPixelData::data()
 {
     detach();
     
-    return _data();
+    return &_data.front();
 }
 
 inline const quint8 * djvPixelData::data() const
@@ -91,7 +91,7 @@ inline const quint8 * djvPixelData::data() const
 inline quint8 * djvPixelData::data(int x, int y)
 {
     detach();   
-    return _data() + (y * _info.size.x + x) * _pixelByteCount;
+    return &_data.front() + (y * _info.size.x + x) * _pixelByteCount;
 }
 
 inline const quint8 * djvPixelData::data(int x, int y) const

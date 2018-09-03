@@ -149,8 +149,8 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
         _render.shader.bind();
 
         // Kernel weights.
-        djvMemoryBuffer<float> value(size);
-        float * p = value();
+        std::vector<float> value(size);
+        float * p = &value.front();
         switch (_values.filter)
         {
             case BOX:
@@ -184,7 +184,7 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
             //DJV_DEBUG_PRINT("i = " << p[i]);
             p[i] = p[i] / sum;
         }
-        _render.kernel.value(_render.shader.program(), value());
+        _render.kernel.value(_render.shader.program(), &value.front());
         _state = state;
     }
 
@@ -193,14 +193,14 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
     _render.offscreen.set(_render.textureTmp);
     _render.shader.bind();
     const GLuint progam = _render.shader.program();
-    djvMemoryBuffer<float> offset(size * 2);
-    offset.zero();
-    float * p = offset();
+    std::vector<float> offset(size * 2);
+    memset(&offset.front(), 0, offset.size() * sizeof(float));
+    float * p = &offset.front();
     for (int i = -_values.radius; i <= _values.radius; ++i, p += 2)
     {
         p[0] = static_cast<float>(i);
     }
-    _render.kernel.offset(progam, offset());
+    _render.kernel.offset(progam, &offset.front());
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(progam, "texture"), 0);
     _texture.bind();
@@ -211,13 +211,13 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
     _render.offscreen.unbind();
 
     // Vertical.
-    offset.zero();
-    p = offset();
+    memset(&offset.front(), 0, offset.size() * sizeof(float));
+    p = &offset.front();
     for (int i = -_values.radius; i <= _values.radius; ++i, p += 2)
     {
         p[1] = static_cast<float>(i);
     }
-    _render.kernel.offset(progam, offset());
+    _render.kernel.offset(progam, &offset.front());
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(progam, "texture"), 0);
     _render.textureTmp.bind();
