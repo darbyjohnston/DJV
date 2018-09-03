@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestApplication.cpp
-
 #include <djvGlslTestApplication.h>
 
 #include <QTimer>
@@ -39,15 +37,13 @@ djvGlslTestApplication::djvGlslTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
     //DJV_DEBUG("djvGlslTestApplication::djvGlslTestApplication");
-    
+
     setStyle("fusion");
 
     // Create the context.
-    
     _context.reset(new djvGlslTestContext);
-    
+
     // Parse the command line.
-    
     if (! _context->commandLine(argc, argv))
     {
         QTimer::singleShot(0, this, SLOT(commandLineExit()));
@@ -66,44 +62,32 @@ void djvGlslTestApplication::commandLineExit()
 void djvGlslTestApplication::work()
 {
     //DJV_DEBUG("djvGlslTestApplication::work");
-    
     _imageLoad.reset(new djvGlslTestImageLoad(_context.data()));
-    
     try
     {
         djvFileInfo fileInfo = _context->fileInfo();
-        
         if (fileInfo.isSequenceValid())
         {
             fileInfo.setType(djvFileInfo::SEQUENCE);
         }
-        
         _imageLoad->load(fileInfo);
     }
     catch (const djvError & error)
     {
         _context->printError(error);
-        
         exit(1);
-        
         return;
     }
-
     _context->setValid(true);
-    
     _opsManager.reset(new djvGlslTestOpsManager(_context.data()));
-    
     _playback.reset(new djvGlslTestPlayback);
     _playback->setSequence(_imageLoad->info().sequence);
-    
     _mainWindow.reset(new djvGlslTestMainWindow(
         _imageLoad.data(),
         _opsManager.data(),
         _playback.data(),
         _context.data()));
-    
     //_playback->setPlayback(djvGlslTestPlayback::FORWARD);
-    
     _mainWindow->show();
 }
 

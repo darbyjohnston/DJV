@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestSharpenOp.cpp
-
 #include <djvGlslTestSharpenOp.h>
 
 #include <djvGlslTestContext.h>
@@ -61,7 +59,6 @@ const djvGlslTestSharpenOp::Values & djvGlslTestSharpenOp::values() const
 
 namespace
 {
-
 const QString vertexSource =
 "void main(void)\n"
 "{\n"
@@ -90,23 +87,17 @@ void djvGlslTestSharpenOp::render(const djvImage & in) throw (djvError)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Initialize.
-
     begin();
-
     _texture.init(in, GL_TEXTURE_RECTANGLE);
-
     if (! _init)
     {
         //DJV_DEBUG_PRINT("init");
-
         djvGlslTestKernel kernel;
         kernel.init(9);
-
         _shader.init(
             vertexSource,
             QString(fragmentSource).arg(kernel.src()));
         _shader.bind();
-
         const float value [] =
         {
              0.0, -1.0,  0.0,
@@ -121,21 +112,16 @@ void djvGlslTestSharpenOp::render(const djvImage & in) throw (djvError)
         };
         kernel.value(_shader.program(), value);
         kernel.offset(_shader.program(), offset);
-
         _init = true;
     }
 
     // Render.
-
     _shader.bind();
-
     glUniform1f(glGetUniformLocation(_shader.program(), "value"),
         static_cast<GLfloat>(_values.value));
-
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(_shader.program(), "texture"), 0);
     _texture.bind();
-
     const djvPixelDataInfo & info = in.info();
     djvOpenGlUtil::ortho(info.size);
     glViewport(0, 0, info.size.x, info.size.y);
@@ -149,9 +135,7 @@ void djvGlslTestSharpenOp::setValues(const Values & values)
 {
     if (values == _values)
         return;
-    
     _values = values;
-    
     Q_EMIT opChanged();
 }
 
@@ -166,14 +150,12 @@ djvGlslTestSharpenOpWidget::djvGlslTestSharpenOpWidget(
     _op(op)
 {
     // Create the widgets.
-
     QGroupBox * valueGroup = new QGroupBox("Value");
     djvFloatEditSlider * value = new djvFloatEditSlider(context);
     value->setRange(0.0, 2.0);
     value->setDefaultValue(1.0);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
     
     QVBoxLayout * vLayout = new QVBoxLayout(valueGroup);
@@ -184,11 +166,9 @@ djvGlslTestSharpenOpWidget::djvGlslTestSharpenOpWidget(
     layout->addStretch();
 
     // Initialize.
-
     value->setValue(op->values().value);
 
     // Setup the callbacks.
-
     connect(
         value,
         SIGNAL(valueChanged(double)),
@@ -198,9 +178,7 @@ djvGlslTestSharpenOpWidget::djvGlslTestSharpenOpWidget(
 void djvGlslTestSharpenOpWidget::valueCallback(double in)
 {
     djvGlslTestSharpenOp::Values values = _op->values();
-    
     values.value = in;
-    
     _op->setValues(values);
 }
 

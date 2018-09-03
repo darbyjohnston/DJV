@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIconLibraryTest.cpp
-
 #include <djvIconLibraryTest.h>
 
 #include <djvGuiContext.h>
@@ -64,21 +62,17 @@ struct IconLibraryItem
 class IconLibraryModel : public QAbstractListModel
 {
 public:
-
     explicit IconLibraryModel(djvGuiContext *, QObject * parent = 0);
 
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
-
     virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
 
     virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-
     virtual QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
 
     virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 private:
-
     QVector<IconLibraryItem> _items;
 };
 
@@ -86,26 +80,20 @@ IconLibraryModel::IconLibraryModel(djvGuiContext * context, QObject * parent) :
     QAbstractListModel(parent)
 {
     const QStringList names = context->iconLibrary()->names();
-
     for (int i = 0; i < names.count(); ++i)
     {
         const QPixmap & pixmap = context->iconLibrary()->pixmap(names[i]);
-
         const QSize & defaultSize = context->iconLibrary()->defaultSize();
-
         QSize size(
             djvMath::max(pixmap.width(), defaultSize.width()),
             djvMath::max(pixmap.height(), defaultSize.height()));
-
         QPixmap displayPixmap(size);
         displayPixmap.fill(Qt::transparent);
-
         QPainter painter(&displayPixmap);
         painter.drawPixmap(
             size.width () / 2 - pixmap.width () / 2,
             size.height() / 2 - pixmap.height() / 2,
             pixmap);
-
         _items += IconLibraryItem(
             pixmap,
             displayPixmap,
@@ -120,7 +108,6 @@ int IconLibraryModel::rowCount(const QModelIndex & parent) const
 
 namespace
 {
-
 enum HEADER
 {
     HEADER_NAME,
@@ -147,34 +134,28 @@ QVariant IconLibraryModel::data(const QModelIndex & index, int role) const
     if (index.isValid())
     {
         const int row = index.row();
-
         if (row >= 0 && row < _items.count())
         {
             switch (role)
             {
                 case Qt::DisplayRole:
-
                 switch (index.column())
                 {
                     case HEADER_NAME:   return _items[row].name;
                     case HEADER_WIDTH:  return _items[row].pixmap.size().width();
                     case HEADER_HEIGHT: return _items[row].pixmap.size().height();
                 }
-
                 break;
 
             case Qt::DecorationRole:
-
                 switch (index.column())
                 {
                     case HEADER_NAME: return _items[row].displayPixmap;
                 }
-
                 break;
             }
         }
     }
-
     return QVariant();
 }
 
@@ -187,14 +168,11 @@ QVariant IconLibraryModel::headerData(int section, Qt::Orientation, int role) co
             return headers[section];
         }
     }
-
     return QVariant();
 }
 
 void IconLibraryModel::sort(int column, Qt::SortOrder order)
-{
-
-}
+{}
 
 djvIconLibraryTest::djvIconLibraryTest(djvGuiContext * context) :
     djvAbstractWidgetTest(context)

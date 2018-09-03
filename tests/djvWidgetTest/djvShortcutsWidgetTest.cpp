@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvShortcutsWidgetTest.cpp
-
 #include <djvShortcutsWidgetTest.h>
 
 #include <djvShortcutsWidget.h>

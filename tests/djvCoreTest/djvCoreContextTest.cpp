@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreContextTest.cpp
-
 #include <djvCoreContextTest.h>
 
 #include <djvAssert.h>
@@ -44,12 +42,9 @@
 void djvCoreContextTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvCoreContextTest::run");
-    
     {
         djvCoreContext context;
-
         DJV_DEBUG_PRINT("doc = " << context.doc());
-        
         context.printError(djvError("prefix", "string"));
         context.printSeparator();
         context.print("message 2");
@@ -58,126 +53,98 @@ void djvCoreContextTest::run(int & argc, char ** argv)
     try
     {
         djvCoreContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "arg"
         };
-        
         int argsCount = 2;
-        
         DJV_ASSERT(context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
 
     try
     {
         djvCoreContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-time_units",    "timecode",
             "-default_speed", "12"
         };
-        
         int argsCount = 5;
-        
         DJV_ASSERT(context.commandLine(argsCount, args));
-
         DJV_ASSERT(djvTime::UNITS_TIMECODE == djvTime::units());
         DJV_ASSERT(djvSpeed(12) == djvSpeed::speed());
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-    
     try
     {
         djvCoreContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-time_units",
         };
-        
         int argsCount = 2;
-
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (...)
     {}
-        
     try
     {
         djvCoreContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-help",
         };
-        
         int argsCount = 2;
-        
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-        
     try
     {
         djvCoreContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-info",
         };
-        
         int argsCount = 2;
-
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-        
     try
     {
         djvCoreContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-about",
         };
-        
         int argsCount = 2;
-    
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
 }

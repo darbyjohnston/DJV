@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageTagsTest.cpp
-
 #include <djvImageTagsTest.h>
 
 #include <djvAssert.h>
@@ -42,7 +40,6 @@
 void djvImageTagsTest::run(int &, char **)
 {
     DJV_DEBUG("djvImageTagsTest::run");
-    
     ctors();
     members();
     operators();
@@ -51,20 +48,14 @@ void djvImageTagsTest::run(int &, char **)
 void djvImageTagsTest::ctors()
 {
     DJV_DEBUG("djvImageTagsTest::ctors");
-    
     {
         const djvImageTags tags;
-        
         DJV_ASSERT(0 == tags.count());
     }
-    
     {
         djvImageTags tmp;
-        
         tmp.add("key", "value");
-        
         const djvImageTags tags(tmp);
-        
         DJV_ASSERT(1 == tags.count());
         DJV_ASSERT("key" == tags.keys()[0]);
         DJV_ASSERT("value" == tags.values()[0]);
@@ -74,16 +65,11 @@ void djvImageTagsTest::ctors()
 void djvImageTagsTest::members()
 {
     DJV_DEBUG("djvImageTagsTest::members");
-    
     {
         djvImageTags tmp;
-        
         tmp.add("key", "value");
-        
         djvImageTags tags;
-    
         tags.add(tmp);
-        
         DJV_ASSERT(1 == tags.count());
         DJV_ASSERT("key" == tags.keys()[0]);
         DJV_ASSERT("value" == tags.values()[0]);
@@ -91,17 +77,12 @@ void djvImageTagsTest::members()
         DJV_ASSERT(! tags.tag("none").length());
         DJV_ASSERT(tags.isValid("key"));
         DJV_ASSERT(! tags.isValid("none"));
-        
         tags.add("key", "value 2");
-        
         DJV_ASSERT(1 == tags.count());
         DJV_ASSERT("value 2" == tags.tag("key"));
-        
         tags.clear();
-        
         DJV_ASSERT(0 == tags.count());
     }
-    
     {
         DJV_DEBUG_PRINT(djvImageTags::tagLabels());
     }
@@ -110,41 +91,28 @@ void djvImageTagsTest::members()
 void djvImageTagsTest::operators()
 {
     DJV_DEBUG("djvImageTagsTest::operators");
-    
     {
         djvImageTags tags;
-        
         tags["key"] = "value";
-        
         DJV_ASSERT("value" == tags["key"]);
-        
         const djvImageTags & tmp = tags;
-        
-        DJV_ASSERT("value" == tmp["key"]);        
-        
+        DJV_ASSERT("value" == tmp["key"]);
         tags["key 2"];
-        
         DJV_ASSERT(2 == tags.count());
     }
-    
     {
         djvImageTags a, b, c;
-        
         a["key"] = "value";
         b["key"] = "value";
         c["key"] = "value 2";
-        
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != c);
         DJV_ASSERT(a != djvImageTags());
     }
-    
     {
         djvImageTags tags;
-        
         tags["key"] = "value";
         tags["key 2"] = "value 2";
-        
         DJV_DEBUG_PRINT(tags);
     }
 }

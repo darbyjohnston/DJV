@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSearchBoxTest.cpp
-
 #include <djvSearchBoxTest.h>
 
 #include <djvSearchBox.h>

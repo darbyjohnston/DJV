@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorWidgetTest.cpp
-
 #include <djvColorWidgetTest.h>
 
 #include <djvColorSwatch.h>
@@ -67,7 +65,6 @@ void djvColorWidgetTest::run(const QStringList & args)
         SIGNAL(colorChanged(const djvColor &)),
         swatch,
         SLOT(setColor(const djvColor &)));
-    
     connect(
         widget,
         SIGNAL(colorChanged(const djvColor &)),
@@ -80,6 +77,5 @@ void djvColorWidgetTest::colorCallback(const djvColor & color)
 {
     QStringList tmp;
     tmp << color;
-    
     djvSystem::print(QString("%1").arg(tmp.join(", ")));
 }

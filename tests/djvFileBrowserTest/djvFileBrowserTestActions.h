@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestActions.h
-
-#ifndef DJV_FILE_BROWSER_TEST_ACTIONS_H
-#define DJV_FILE_BROWSER_TEST_ACTIONS_H
+#pragma once
 
 class QAction;
 class QActionGroup;
@@ -46,34 +43,25 @@ class QObject;
 
 struct djvFileBrowserTestActions
 {
-    //! Create the up action.
-    
+    //! Create the up action.    
     static QAction * upAction(QObject * parent);
 
     //! Create the back action.
-    
     static QAction * backAction(QObject * parent);
 
     //! Create the reload action.
-    
     static QAction * reloadAction(QObject * parent);
     
     //! Create the file sequencing action group.
-    
     static QActionGroup * sequenceActionGroup(QObject * parent);
     
     //! Create the view action group.
-    
     static QActionGroup * viewActionGroup(QObject * parent);
     
     //! Create the left dock action.
-    
     static QAction * leftDockAction(QObject * parent);
     
     //! Create the right dock action.
-    
     static QAction * rightDockAction(QObject * parent);
 };
-
-#endif // DJV_FILE_BROWSER_TEST_ACTIONS_H
 

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestViewWidget.h
-
-#ifndef DJV_GLSL_TEST_VIEW_WIDGET_H
-#define DJV_GLSL_TEST_VIEW_WIDGET_H
+#pragma once
 
 #include <djvGlslTestAbstractOp.h>
 
@@ -71,6 +68,4 @@ private:
     djvGlslTestPlayback *   _playback;
     djvGlslTestContext *    _context;
 };
-
-#endif // DJV_GLSL_TEST_WIDGET_H
 

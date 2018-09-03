@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvUserTest.cpp
-
 #include <djvUserTest.h>
 
 #include <djvAssert.h>
@@ -42,18 +40,15 @@
 void djvUserTest::run(int &, char **)
 {
     DJV_DEBUG("djvUserTest::run");
-    
     members();
 }
 
 void djvUserTest::members()
 {
     DJV_DEBUG("djvUserTest::members");
-    
     {
         DJV_DEBUG_PRINT(djvUser::current());
-    }
-    
+    }    
     {
         DJV_DEBUG_PRINT(djvUser::uidToString(0));
     }

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorUtilTest.cpp
-
 #include <djvColorUtilTest.h>
 
 #include <djvColor.h>
@@ -42,7 +40,6 @@
 void djvColorUtilTest::run(int &, char **)
 {
     DJV_DEBUG("djvColorUtilTest::run");
-    
     scale();
     lerp();
     convert();
@@ -52,32 +49,26 @@ void djvColorUtilTest::run(int &, char **)
 void djvColorUtilTest::scale()
 {
     DJV_DEBUG("djvColorUtilTest::scale");
-        
     {
         djvColor color(djvPixel::L_F32);
         djvColorUtil::scale(0.5, djvColor(1.0f), color);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
     }
-    
     {
         const djvColor color = djvColorUtil::scale(0.5, djvColor(1.0f));
 
         DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
     }
 }
-    
+
 void djvColorUtilTest::lerp()
 {
     DJV_DEBUG("djvColorUtilTest::lerp");
-        
     {
         djvColor color(djvPixel::L_F32);
         djvColorUtil::lerp(0.5, djvColor(0.0f), djvColor(1.0f), color);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
     }
-    
     {
         const djvColor color = djvColorUtil::lerp(0.5, djvColor(0.0f), djvColor(1.0f));
 
@@ -88,7 +79,6 @@ void djvColorUtilTest::lerp()
 void djvColorUtilTest::convert()
 {
     DJV_DEBUG("djvColorUtilTest::convert");
-    
     const struct Data
     {
         QStringList  in;
@@ -121,18 +111,14 @@ void djvColorUtilTest::convert()
         { QStringList() << "L F32" << "2.0",   djvPixel::L_U16,   QStringList() << "L U16" << "65535" },
         { QStringList() << "L F32" << "1.0",   djvPixel::L_F16,   QStringList() << "L F16" << "1" }
     };
-    
     const int dataCount = sizeof(data) / sizeof(Data);
-
     for (int i = 0; i < dataCount; ++i)
     {
         djvColor in;
         QStringList tmp = data[i].in;
         tmp >> in;
-
         djvColor out(data[i].pixel);
         djvColorUtil::convert(in, out);
-
         DJV_ASSERT(djvStringUtil::label(out) == data[i].out);
     }
 }
@@ -140,25 +126,20 @@ void djvColorUtilTest::convert()
 void djvColorUtilTest::qt()
 {
     DJV_DEBUG("djvColorUtilTest::qt");
-    
     {
         djvColor color(djvPixel::RGBA_U8);
         color.setU8(255, 0);
         color.setU8(127, 1);
         color.setU8(  0, 2);
         color.setU8(255, 3);
-        
         const QColor qColor = djvColorUtil::toQt(color);
-        
         DJV_ASSERT(qColor.red()   == color.u8(0));
         DJV_ASSERT(qColor.green() == color.u8(1));
         DJV_ASSERT(qColor.blue()  == color.u8(2));
         DJV_ASSERT(qColor.alpha() == color.u8(3));
     }
-    
     {
         QColor qColor(255, 127, 0, 255);
-        
         const djvColor color = djvColorUtil::fromQt(qColor);
 
         DJV_ASSERT(color.u8(0) == qColor.red());

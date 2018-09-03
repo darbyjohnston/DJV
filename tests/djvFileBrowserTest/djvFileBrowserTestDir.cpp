@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDir.cpp
-
 #include <djvFileBrowserTestDir.h>
 
 #include <djvDebug.h>
@@ -106,8 +104,7 @@ djvFileBrowserTestDirWorker::djvFileBrowserTestDirWorker(QObject * parent) :
 
 djvFileBrowserTestDirWorker::~djvFileBrowserTestDirWorker()
 {
-    //DJV_DEBUG("djvFileBrowserTestDirWorker::~djvFileBrowserTestDirWorker");
-    
+    //DJV_DEBUG("djvFileBrowserTestDirWorker::~djvFileBrowserTestDirWorker");    
     delete _p;
 }
 
@@ -119,60 +116,44 @@ void djvFileBrowserTestDirWorker::request(const djvFileBrowserTestDirRequest & r
     //DJV_DEBUG_PRINT("id = " << request.id);
     
     const QString tmp = djvFileInfoUtil::fixPath(request.path);
-    
     const bool readDir =
         tmp              != _p->request.path     ||
         request.sequence != _p->request.sequence ||
         request.reload;
-
     //DJV_DEBUG_PRINT("readDir = " << readDir);
-
     _p->request      = request;
     _p->request.path = tmp;
-    
     if (readDir)
     {
         // Clean up.
-        
         _p->list.clear();
-
         if (_p->fd != -1)
         {
             close(_p->fd);
-        
             _p->fd = -1;
         }
-
         if (_p->timer)
         {
             killTimer(_p->timer);
-
             _p->timer = 0;
         }
-        
         _p->cache = 0;
 
         // Open the directory.
-        
         _p->fd = open(_p->request.path.toLatin1().data(), O_RDONLY | O_DIRECTORY);
-        
         if (-1 == _p->fd)
         {
             Q_EMIT result(result());
-            
             return;
         }
         
         // Start reading the directory.
-        
         _p->timer = startTimer(0);
     }
     else
     {
         djvFileBrowserTestDirResult result = this->result();
-
         process(result);
-        
         Q_EMIT this->result(result);
     }
 }
@@ -180,21 +161,16 @@ void djvFileBrowserTestDirWorker::request(const djvFileBrowserTestDirRequest & r
 void djvFileBrowserTestDirWorker::finish()
 {
     //DJV_DEBUG("djvFileBrowserTestDirWorker::finish");
-
     if (_p->timer)
     {
         killTimer(_p->timer);
-
         _p->timer = 0;
     }
-    
     if (_p->fd != -1)
     {
         close(_p->fd);
-        
         _p->fd = -1;
     }
-    
     _p->cache = 0;
 }
 
@@ -225,37 +201,27 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
 {
     //DJV_DEBUG("djvFileBrowserTestDirWorker::timerEvent");
 
-    // Get the next block of directory entries.
-    
+    // Get the next block of directory entries.    
     quint8 * bp = _p->buf.data();
-    
     int count = 0;
-    
     count = syscall(SYS_getdents64, _p->fd, bp, _p->buf.size());
-    
     //DJV_DEBUG_PRINT("count = " << count);
-    
     if (-1 == count)
     {
         killTimer(_p->timer);
-        
         _p->timer = 0;
-
         Q_EMIT result(result());
-        
         return;
     }
     
     // If there are no more directory entries we are finished, so process
     // the entries we have collected and emit a signal that we are done.
-    
     if (0 == count)
     {
         for (int i = 0; i < _p->list.count(); ++i)
         {
             _p->list[i]._sequence.sort();
         }
-
         if (djvSequence::COMPRESS_RANGE == _p->request.sequence)
         {
             for (int i = 0; i < _p->list.count(); ++i)
@@ -268,7 +234,6 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
                 }
             }
         }
-
         for (int i = 0; i < _p->list.count(); ++i)
         {
             if (djvFileInfo::SEQUENCE == _p->list[i].type())
@@ -277,30 +242,21 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
                     _p->list[i]._sequence);
             }
         }
-        
         killTimer(_p->timer);
-        
         _p->timer = 0;
-        
         djvFileBrowserTestDirResult result = this->result();
-
         process(result);
-        
         Q_EMIT this->result(result);
-
         return;
     }
     
     // Add the block of directory entries to our list.
-    
     for (int i = 0; i < count;)
     {
         struct direntLinux64 * de = (struct direntLinux64 *)(bp + i);
-        
         if (de->d_ino != DT_UNKNOWN)
         {
             size_t l = strlen(de->d_name);
-
             if (! isDotDir(de->d_name, l))
             {
                 if (! _p->list.count())
@@ -310,9 +266,7 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
                 else
                 {
                     const djvFileInfo tmp(_p->request.path + de->d_name);
-
                     int i = 0;
-
                     if (_p->request.sequence && _p->cache)
                     {
                         if (! _p->cache->addSequence(tmp))
@@ -320,7 +274,6 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
                             _p->cache = 0;
                         }
                     }
-
                     if (_p->request.sequence && ! _p->cache)
                     {
                         for (; i < _p->list.count(); ++i)
@@ -328,12 +281,10 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
                             if (_p->list[i].addSequence(tmp))
                             {
                                 _p->cache = &_p->list[i];
-
                                 break;
                             }
                         }
                     }
-
                     if (! _p->request.sequence || i == _p->list.count())
                     {
                         _p->list.append(tmp);
@@ -341,7 +292,6 @@ void djvFileBrowserTestDirWorker::timerEvent(QTimerEvent *)
                 }
             }
         }
-        
         i += de->d_reclen;
     }
 }
@@ -351,7 +301,6 @@ void djvFileBrowserTestDirWorker::process(djvFileBrowserTestDirResult & result)
     result.list = _p->list;
 
     // Filter directory contents.
-    
     if (_p->request.filterText.length() > 0 || ! _p->request.showHidden)
     {
         const djvFileInfoUtil::FILTER filter =
@@ -363,7 +312,6 @@ void djvFileBrowserTestDirWorker::process(djvFileBrowserTestDirResult & result)
     }
 
     // Sort directory contents.
-
     djvFileInfoUtil::SORT sort = static_cast<djvFileInfoUtil::SORT>(0);
 
     switch (_p->request.sort)
@@ -371,30 +319,23 @@ void djvFileBrowserTestDirWorker::process(djvFileBrowserTestDirResult & result)
         case djvFileBrowserTestUtil::NAME:
             sort = djvFileInfoUtil::SORT_NAME;
             break;
-
         case djvFileBrowserTestUtil::SIZE:
             sort = djvFileInfoUtil::SORT_SIZE;
             break;
-
 #if ! defined(DJV_WINDOWS)
         case djvFileBrowserTestUtil::USER:
             sort = djvFileInfoUtil::SORT_USER;
             break;
 #endif
-
         case djvFileBrowserTestUtil::PERMISSIONS:
             sort = djvFileInfoUtil::SORT_PERMISSIONS;
             break;
-
         case djvFileBrowserTestUtil::TIME:
             sort = djvFileInfoUtil::SORT_TIME;
             break;
-
         default: break;
     }
-
     djvFileInfoUtil::sort(result.list, sort, _p->request.reverseSort);
-
     if (_p->request.sortDirsFirst)
     {
         djvFileInfoUtil::sortDirsFirst(result.list);
@@ -404,9 +345,7 @@ void djvFileBrowserTestDirWorker::process(djvFileBrowserTestDirResult & result)
 djvFileBrowserTestDirResult djvFileBrowserTestDirWorker::result() const
 {
     djvFileBrowserTestDirResult result;
-    
     result.id = _p->request.id;
-    
     return result; 
 }
 
@@ -422,22 +361,18 @@ djvFileBrowserTestDir::djvFileBrowserTestDir(QObject * parent) :
         _worker.data(),
         SIGNAL(result(const djvFileBrowserTestDirResult &)),
         SIGNAL(result(const djvFileBrowserTestDirResult &)));
-
     _worker->connect(
         this,
         SIGNAL(requestDir(const djvFileBrowserTestDirRequest &)),
         SLOT(request(const djvFileBrowserTestDirRequest &)));
-   
     _worker->connect(
         &_thread,
         SIGNAL(started()),
         SLOT(start()));
-
     _worker->connect(
         &_thread,
         SIGNAL(finished()),
         SLOT(finish()));
-
     _worker->moveToThread(&_thread);
     _thread.start();
 }
@@ -456,7 +391,6 @@ void djvFileBrowserTestDir::request(const djvFileBrowserTestDirRequest & request
 void djvFileBrowserTestDir::setId(quint64 id)
 {
     QMutexLocker locker(_worker->mutex());
-    
     _worker->setId(id);
 }
 

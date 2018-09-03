@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSignalBlockerTest.cpp
-
 #include <djvSignalBlockerTest.h>
 
 #include <djvAssert.h>
@@ -48,44 +46,30 @@ djvSignalBlockerTest::djvSignalBlockerTest() :
 void djvSignalBlockerTest::run(int &, char **)
 {
     DJV_DEBUG("djvSignalBlockerTest::run");
-
     Q_EMIT signal();
-    
     DJV_ASSERT(1 == _counter);
-    
     {
         djvSignalBlocker signalBlocker(this);
-        
         Q_EMIT signal();
-        
         DJV_ASSERT(1 == _counter);
-        
         {
             djvSignalBlocker signalBlocker(QObjectList() << this);
-        
             Q_EMIT signal();
-        
             DJV_ASSERT(1 == _counter);
-        
             {
                 djvSignalBlocker signalBlocker(QVector<QObject *>() << this);
-            
                 Q_EMIT signal();
-            
                 DJV_ASSERT(1 == _counter);
             }
         }
     }
-
     Q_EMIT signal();
-    
     DJV_ASSERT(2 == _counter);
 }
 
 void djvSignalBlockerTest::slot()
 {
     DJV_DEBUG("djvSignalBlockerTest::slot");
-    
     ++_counter;
 }
 

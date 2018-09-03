@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTest.cpp
-
 #include <djvPixmapUtilTest.h>
 
 #include <djvImageIoPluginTest.h>
@@ -123,7 +121,7 @@ int main(int argc, char ** argv)
         new djvVectorTest <<
         new djvVectorUtilTest <<
     
-       new djvImageIoPluginTest <<
+        new djvImageIoPluginTest <<
         
         new djvPixmapUtilTest;
 
@@ -138,28 +136,21 @@ int main(int argc, char ** argv)
     {
         int     argcCopy = argc;
         char ** argvCopy = 0;
-
         argvCopy = (char **)malloc(sizeof(char **) * argcCopy);
-
         for (int j = 0; j < argc; ++j)
         {
             argvCopy[j] = (char *)malloc(sizeof(char) * (strlen(argv[j]) + 1));
-
             strcpy(argvCopy[j], argv[j]);
         }
-
         tests[i]->run(argcCopy, argvCopy);
-
         for (int j = 0; j < argc; ++j)
         {
             free(argvCopy[j]);
         }
-
         free(argvCopy);
     }
     
-    qDeleteAll(tests);
-    
+    qDeleteAll(tests);    
     return 0;
 }
 

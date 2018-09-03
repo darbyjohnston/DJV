@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageViewTest.cpp
-
 #include <djvImageViewTest.h>
 
 #include <djvWindowUtil.h>
@@ -53,9 +51,7 @@ void djvImageViewTestWidget::mousePressEvent(QMouseEvent * event)
     const djvVector2i mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
-    
     _viewPosTmp = viewPos();
-    
     _mousePress = mouse;
 }
 
@@ -64,18 +60,15 @@ void djvImageViewTestWidget::mouseMoveEvent(QMouseEvent * event)
     const djvVector2i mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
-    
     setViewPos(_viewPosTmp + mouse - _mousePress);
 }
 
 void djvImageViewTestWidget::keyPressEvent(QKeyEvent * event)
 {
     const QPoint pos = mapFromGlobal(QCursor::pos());
-    
     const djvVector2i mouse(
         pos.x(),
         height() - 1 - pos.y());
-    
     switch (event->key())
     {
         case Qt::Key_0:         viewZero(); break;
@@ -89,17 +82,14 @@ djvImageViewTestApplication::djvImageViewTestApplication(int & argc, char ** arg
     QApplication(argc, argv)
 {
     _context.reset(new djvGuiContext);
-    
     if (argc != 2)
     {
         _context->printMessage("Usage: djvImageViewTest (input)");
-        
         QTimer::singleShot(0, this, SLOT(commandLineExit()));
     }
     else
     {
         _fileInfo = djvFileInfo(argv[1]);
-        
         QTimer::singleShot(0, this, SLOT(work()));
     }
 }
@@ -114,20 +104,16 @@ void djvImageViewTestApplication::work()
     try
     {
         djvImageIoInfo info;
-        
         _load.reset(_context->imageIoFactory()->load(_fileInfo, info));
-        
         _load->read(_image);
     }
     catch (const djvError & error)
     {
         _context->printError(error);
-        
         exit(1);
-        
         return;
     }
-    
+
     _widget.reset(new djvImageViewTestWidget(_context.data()));
     _widget->setWindowTitle("djvImageViewTest");
     _widget->setData(&_image);

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestInfo.h
-
-#ifndef DJV_FILE_BROWSER_TEST_INFO_H
-#define DJV_FILE_BROWSER_TEST_INFO_H
+#pragma once
 
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
@@ -53,8 +50,6 @@ class djvImageContext;
 
 struct djvFileBrowserTestInfoRequest
 {
-    //! Constructor.
-    
     djvFileBrowserTestInfoRequest();
     
     djvFileInfo                        fileInfo;      //!< File information.
@@ -75,15 +70,9 @@ class djvFileBrowserTestInfoRequester : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestInfoRequester(QObject * parent = 0);
     
 Q_SIGNALS:
-
-    //! Request image information.
-    
     void request(const djvFileBrowserTestInfoRequest &);
 };
 
@@ -95,8 +84,6 @@ Q_SIGNALS:
 
 struct djvFileBrowserTestInfoResult
 {
-    //! Constructor.
-    
     djvFileBrowserTestInfoResult();
     
     djvImageIoInfo info;   //!< Image I/O information.
@@ -116,31 +103,21 @@ class djvFileBrowserTestInfoWorker : public djvFileBrowserTestAbstractWorker
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestInfoWorker(
         djvImageContext * context,
         QObject *         parent = 0);
 
-    //! Destructor.
-    
     virtual ~djvFileBrowserTestInfoWorker();
     
 public Q_SLOTS:
-
     //! Request image information.
-    
     void request(const djvFileBrowserTestInfoRequest &);
     
 Q_SIGNALS:
-
     //! This signal is emitted when a request has been completed.
-
     void result(const djvFileBrowserTestInfoResult &);
 
 private:
-
     djvImageContext * _context;
 };
 
@@ -155,33 +132,22 @@ class djvFileBrowserTestInfo : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestInfo(djvImageContext *, QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvFileBrowserTestInfo();
     
 public Q_SLOTS:
-
     //! Request image information.
-    
     void request(const djvFileBrowserTestInfoRequest &);
     
     //! Set the request ID.
-    
     void setId(quint64);
     
 Q_SIGNALS:
-
     //! This signal is emitted when a request has been completed.
-
     void result(const djvFileBrowserTestInfoResult &);
     
 private:
-
     djvFileBrowserTestInfoRequester * nextRequester();
 
     djvImageContext *                          _context;
@@ -190,6 +156,4 @@ private:
     QVector<QThread *>                         _threads;
     int                                        _threadIndex;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_INFO_H
 

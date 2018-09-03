@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorProfileTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 

@@ -1,7 +1,7 @@
 set(header
     djvGuiTestExport.h
-    djvPixmapUtilTest.h)
-    
+    djvGuiTest.h
+    djvPixmapUtilTest.h)    
 
 set(source
     djvGuiTest.cpp

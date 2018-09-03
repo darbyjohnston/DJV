@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvDebugTest.cpp
-
 #include <djvDebugTest.h>
 
 #include <djvAssert.h>
@@ -42,7 +40,6 @@
 void djvDebugTest::run(int &, char **)
 {
     DJV_DEBUG("djvDebugTest::run");
-
     DJV_DEBUG_PRINT("string = " << QString("string"));
     DJV_DEBUG_PRINT("char * = " << "char *");
     DJV_DEBUG_PRINT("bool = " << true);
@@ -52,8 +49,7 @@ void djvDebugTest::run(int &, char **)
     DJV_DEBUG_PRINT("quint64 = " << (quint64)1);
     DJV_DEBUG_PRINT("double = " << (double)1.0);
     DJV_DEBUG_PRINT("string list = " << QStringList() << "a" << "b" << "c");
-    DJV_DEBUG_PRINT("vector = " << QVector<int>() << 1 << 2 << 3);
-    
+    DJV_DEBUG_PRINT("vector = " << QVector<int>() << 1 << 2 << 3);    
     DJV_DEBUG_PRINT("bits = " << djvDebug::bitsU8(1));
     DJV_DEBUG_PRINT("bits = " << djvDebug::bitsU16(1));
     DJV_DEBUG_PRINT("bits = " << djvDebug::bitsU32(1));

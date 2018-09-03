@@ -49,9 +49,6 @@ class djvFileBrowserItem : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserItem(
         const djvFileInfo &                  fileInfo,
         djvFileBrowserModel::THUMBNAILS      thumbnails,
@@ -60,48 +57,36 @@ public:
         QObject *                            parent);
 
     //! Get the file information.
-
     const djvFileInfo & fileInfo() const;
     
     //! Get the image information.
-    
     const djvImageIoInfo & imageInfo() const;
     
     //! Get the thumbnail.
-
     const QPixmap & thumbnail() const;
     
     //! Get the display role data.
-
     const QVariant & displayRole(int column) const;
 
     //! Get the edit role data.
-
     const QVariant & editRole(int column) const;
     
 public Q_SLOTS:
-
     //! Request the image.
-    
     void requestImage();
 
 Q_SIGNALS:
-
     //! This signal is emitted when the image information is available.
-    
     void imageInfoAvailable();
     
     //! This signal is emitted when the thumbnail is available.
-    
     void thumbnailAvailable();
 
 private Q_SLOTS:
-
     void imageInfoCallback();
     void thumbnailCallback();
     
 private:
-
     void updateImageInfo();
 
     djvFileInfo                          _fileInfo;

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVectorWidgetTest.cpp
-
 #include <djvVectorWidgetTest.h>
 
 #include <djvVector2iEditWidget.h>
@@ -65,7 +63,6 @@ void djvVectorWidgetTest::run(const QStringList & args)
         intEdit,
         SIGNAL(valueChanged(const djvVector2i &)),
         SLOT(intCallback(const djvVector2i &)));
-    
     connect(
         floatEdit,
         SIGNAL(valueChanged(const djvVector2f &)),
@@ -78,7 +75,6 @@ void djvVectorWidgetTest::intCallback(const djvVector2i & value)
 {
     QStringList tmp;
     tmp << value;
-    
     djvSystem::print(QString("%1").arg(tmp.join(", ")));
 }
 
@@ -86,6 +82,5 @@ void djvVectorWidgetTest::floatCallback(const djvVector2f & value)
 {
     QStringList tmp;
     tmp << value;
-    
     djvSystem::print(QString("%1").arg(tmp.join(", ")));
 }

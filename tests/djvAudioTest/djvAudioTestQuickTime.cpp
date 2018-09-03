@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAudioTestQuickTime.cpp
-
 //#define DJV_DEBUG
 
 #include <djvAudioTest.h>
@@ -59,7 +57,6 @@ namespace qt
 class djvAudioTestMovie::_Movie
 {
 public:
-
     _Movie();
 
     ~_Movie();
@@ -84,7 +81,6 @@ public:
     void audio_seek(int);
 
 private:
-
     qt::Movie _qt_movie;
     qt::MovieAudioExtractionRef _qt_audio;
     qt::GWorldPtr _qt_gworld;
@@ -168,7 +164,7 @@ struct CFStringRef
     qt::CFStringRef p;
 };
 
-}
+} // namespace
 
 void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
 {
@@ -178,36 +174,26 @@ void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
     qt::OSErr err = qt::noErr;
 
     // Initialize.
-
 #if defined(WIN32)
-
     err = qt::InitializeQTML(0);
-
     if (err != qt::noErr)
     {
         throw Error(String_Format("InitializeQTML = %%").arg(err));
     }
-
 #endif
-
     long version = 0;
-    
     err = qt::Gestalt(qt::gestaltQuickTime, &version);
-
     if (err != qt::noErr)
     {
         throw Error(String_Format("Gestalt = %%").arg(err));
     }
-
     err = qt::EnterMovies();
-
     if (err != qt::noErr)
     {
         throw Error( String_Format("EnterMovies = %%").arg(err));
     }
 
     // Open.
-
     CFStringRef file(File_Util::path_absolute(in));
 
     qt::QTNewMoviePropertyElement prop_list [10];
@@ -273,7 +259,6 @@ void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
     }
 
     // Information.
-
     qt::Rect rect;
     qt::GetMovieBox(_qt_movie, &rect);
     _info.size = V2i(rect.right - rect.left, rect.bottom - rect.top);
@@ -359,7 +344,6 @@ void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
         sizeof(asbd),
         &asbd,
         0);
-
     if (err != qt::noErr)
     {
         throw Error(
@@ -381,7 +365,6 @@ void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
         qt::kQTMovieAudioExtractionAudioPropertyID_AudioStreamBasicDescription,
         sizeof(asbd),
         &asbd);
-
     if (err != qt::noErr)
     {
         throw Error(
@@ -404,7 +387,6 @@ void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
     DJV_DEBUG_PRINT("audio channel = " << _info_audio.channel);
 
     // GWorld.
-
     unsigned long qt_format =
 #if defined(DJV_OSX)
         qt::k32ARGBPixelFormat;
@@ -421,7 +403,6 @@ void djvAudioTestMovie::_Movie::init(const String & in) throw (Error)
         0,
         (char *)_tmp_image.data(0, 0),
         _info.size.x * 4);
-
     if (err != qt::noErr)
     {
         throw Error(String_Format("NewGWorldFromPtr = %%").arg(err));
@@ -442,9 +423,7 @@ const Pixel_Data * djvAudioTestMovie::_Movie::image(int in) const
     qt::MoviesTask(_qt_movie, 0);
 
     //! \todo ARGB -> RGB
-
 #if defined(DJV_OSX)
-
     uint32_t * p = (uint32_t *)_tmp_image.data();
     const uint32_t * const end = p + _info.size.x * _info.size.y;
 
@@ -466,7 +445,6 @@ const Pixel_Data * djvAudioTestMovie::_Movie::image(int in) const
 
             break;
     }
-
 #endif
 
     return &_tmp_image;
@@ -480,7 +458,6 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
     const int channel = _info_audio.channel;
 
     // Setup buffer.
-
     qt::UInt32 _size = size;
     qt::AudioBufferList data;
     data.mNumberBuffers = 1;
@@ -489,7 +466,6 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
     data.mBuffers->mData = in;
 
     // Fill buffer.
-
     qt::UInt32 flag = 0;
     qt::OSErr err = qt::MovieAudioExtractionFillBuffer(
         _qt_audio,
@@ -501,9 +477,7 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
     //DJV_DEBUG_PRINT("size = " << static_cast<int>(_size));
 
     // Zero remainder.
-
     in += _size * channel;
-
     for (qt::UInt32 i = _size; i < size; ++i, in += channel)
     {
         for (int c = 0; c < channel; ++c)
@@ -534,7 +508,6 @@ void djvAudioTestMovie::_Movie::audio_seek(int in)
         qt::kQTMovieAudioExtractionMoviePropertyID_CurrentTime,
         sizeof(qt::TimeRecord),
         &time);
-
     if (err != qt::noErr)
     {
         DJV_DEBUG_PRINT("MovieAudioExtractionSetProperty = " << err);
@@ -578,3 +551,4 @@ void djvAudioTestMovie::audio_seek(int in)
 {
     _p->audio_seek(in);
 }
+

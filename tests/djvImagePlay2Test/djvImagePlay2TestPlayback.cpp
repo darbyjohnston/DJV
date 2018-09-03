@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestPlayback.cpp
-
 #include <djvImagePlay2TestPlayback.h>
 
 #include <djvDebug.h>
@@ -54,7 +52,6 @@ djvImagePlay2TestPlayback::~djvImagePlay2TestPlayback()
     if (_timer)
     {
         killTimer(_timer);
-        
         _timer = 0;
     }
 }
@@ -83,9 +80,7 @@ void djvImagePlay2TestPlayback::setFrameList(const djvFrameList & frameList)
 {
     if (frameList == _frameList)
         return;
-
     _frameList = frameList;
-    
     Q_EMIT frameListChanged(_frameList);
 }
 
@@ -93,9 +88,7 @@ void djvImagePlay2TestPlayback::setSpeed(const djvSpeed & speed)
 {
     if (speed == _speed)
         return;
-
     _speed = speed;
-    
     Q_EMIT speedChanged(_speed);
 }
 
@@ -103,12 +96,9 @@ void djvImagePlay2TestPlayback::setFrame(qint64 frame)
 {
     if (frame == _frame)
         return;
-
     //DJV_DEBUG("djvImagePlay2TestPlayback::setFrame");
     //DJV_DEBUG_PRINT("frame = " << frame);
-    
     _frame = frame;
-    
     Q_EMIT frameChanged(_frame);
 }
 
@@ -116,26 +106,20 @@ void djvImagePlay2TestPlayback::setPlayback(djvPlaybackUtil::PLAYBACK playback)
 {
     if (playback == _playback)
         return;
-    
     _playback = playback;
-    
     playbackUpdate();
-    
     Q_EMIT playbackChanged(_playback);
 }
 
 void djvImagePlay2TestPlayback::timerEvent(QTimerEvent *)
 {
     qint64 frame = _frame;
-    
     switch (_playback)
     {
         case djvPlaybackUtil::REVERSE: --frame; break;
         case djvPlaybackUtil::FORWARD: ++frame; break;
-        
         default: break;
     }
-    
     setFrame(frame);
 }
 
@@ -144,23 +128,17 @@ void djvImagePlay2TestPlayback::playbackUpdate()
     switch (_playback)
     {
         case djvPlaybackUtil::STOP:
-        
             if (_timer)
             {
                 killTimer(_timer);
-            
                 _timer = 0;
             }
         
             break;
-
         case djvPlaybackUtil::REVERSE:
         case djvPlaybackUtil::FORWARD:
-
             _timer = startTimer(0);
-
             break;
-        
         default: break;
     }
 }

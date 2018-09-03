@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestOpListDockWidget.h
-
-#ifndef DJV_GLSL_TEST_OP_LIST_DOCK_WIDGET_H
-#define DJV_GLSL_TEST_OP_LIST_DOCK_WIDGET_H
+#pragma once
 
 #include <QDockWidget>
 
@@ -53,4 +50,3 @@ public:
         QWidget * parent = 0);
 };
 
-#endif // DJV_GLSL_TEST_PLAYBACK_WIDGET_H

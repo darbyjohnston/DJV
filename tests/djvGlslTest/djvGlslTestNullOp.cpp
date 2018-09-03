@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestNullOp.cpp
-
 #include <djvGlslTestNullOp.h>
 
 #include <djvGuiContext.h>
@@ -53,7 +51,6 @@ djvGlslTestNullOp::djvGlslTestNullOp(djvGlslTestContext * context) :
 
 namespace
 {
-
 const QString vertexSource =
 "void main(void)\n"
 "{\n"
@@ -78,33 +75,25 @@ void djvGlslTestNullOp::render(const djvImage & in) throw (djvError)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Initialize.
-
     begin();
-
     _texture.init(in, GL_TEXTURE_RECTANGLE);
-
     if (! _init)
     {
         //DJV_DEBUG_PRINT("init");
-
         _shader.init(vertexSource, fragmentSource);
     }
 
     // Render.
-
     _shader.bind();
-
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(_shader.program(), "texture"), 0);
     _texture.bind();
-
     const djvPixelDataInfo & info = in.info();
     djvOpenGlUtil::ortho(info.size);
     glViewport(0, 0, info.size.x, info.size.y);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
     djvGlslTestUtil::quad(info);
-
     end();
 }
 

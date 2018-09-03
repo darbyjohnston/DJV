@@ -51,7 +51,6 @@ void djvMatrixUtilTest::run(int &, char **)
 void djvMatrixUtilTest::transpose()
 {
     DJV_DEBUG("djvMatrixUtilTest::transpose");
-    
     DJV_ASSERT(
         djvMatrixUtil::transpose(djvMatrix3f(0, 1, 2, 3, 4, 5, 6, 7, 8)) ==
         djvMatrix3f(0, 3, 6,
@@ -62,7 +61,6 @@ void djvMatrixUtilTest::transpose()
 void djvMatrixUtilTest::translate()
 {
     DJV_DEBUG("djvMatrixUtilTest::translate");
-    
     DJV_ASSERT(
         djvMatrixUtil::translate3f(djvVector2f(1, 2)) ==
         djvMatrix3f(1, 0, 0,
@@ -73,7 +71,6 @@ void djvMatrixUtilTest::translate()
 void djvMatrixUtilTest::scale()
 {
     DJV_DEBUG("djvMatrixUtilTest::scale");
-    
     DJV_ASSERT(
         djvMatrixUtil::scale3f(djvVector2f(2.0, 4.0)) ==
         djvMatrix3f(2, 0, 0,
@@ -84,9 +81,7 @@ void djvMatrixUtilTest::scale()
 void djvMatrixUtilTest::rotate()
 {
     DJV_DEBUG("djvMatrixUtilTest::rotate");
-    
     //! \todo Fix this confidence test.
-    
     /*DJV_ASSERT(
       djvMatrixUtil::rotate3f(90.0) ==
       djvMatrix3f( 0, 1, 0,

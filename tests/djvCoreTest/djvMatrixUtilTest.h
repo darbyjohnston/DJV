@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMatrixUtilTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 
@@ -38,11 +38,9 @@
 class DJV_CORE_TEST_EXPORT djvMatrixUtilTest : public djvAbstractTest
 {
 public:
-
     virtual void run(int &, char **);
 
 private:
-
     void transpose();
     void translate();
     void scale();

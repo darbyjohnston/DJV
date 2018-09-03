@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixmapUtilTest.cpp
-
 #include <djvPixmapUtilTest.h>
 
 #include <djvPixmapUtil.h>
@@ -45,18 +43,14 @@
 void djvPixmapUtilTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvPixmapUtilTest::run");
-
     qt();
 }
 
 void djvPixmapUtilTest::qt()
 {
     DJV_DEBUG("djvPixmapUtilTest::qt");
-
     djvImageContext context;
-        
     djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
-    
     djvPixmapUtil::toQt(data);
 }
 

@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixmapUtilTest.h
+#pragma once
 
 #include <djvGuiTestExport.h>
 

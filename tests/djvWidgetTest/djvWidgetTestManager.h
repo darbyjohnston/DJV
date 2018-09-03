@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestManager.h
-
-#ifndef DJV_WIDGET_TEST_MANAGER_H
-#define DJV_WIDGET_TEST_MANAGER_H
+#pragma once
 
 #include <QObject>
 #include <QVector>
@@ -60,4 +57,3 @@ private:
     QVector<djvAbstractWidgetTest *> _tests;
 };
 
-#endif // DJV_WIDGET_TEST_MANAGER_H

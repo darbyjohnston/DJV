@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoTest.cpp
-
 #include <djvImageIoTest.h>
 
 #include <djvAssert.h>
@@ -44,7 +42,6 @@
 void djvImageIoTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvImageIoTest::run");
-    
     info();
     plugin();
     io();
@@ -53,107 +50,74 @@ void djvImageIoTest::run(int & argc, char ** argv)
 void djvImageIoTest::info()
 {
     DJV_DEBUG("djvImageIoTest::info");
-    
     {
         const djvImageIoInfo info;
-        
         DJV_ASSERT(info.layerCount() == 1);
     }
-    
     {
         const djvPixelDataInfo tmp(1, 1, djvPixel::L_U8);
-        
         const djvImageIoInfo info(tmp);
-        
         DJV_ASSERT(info.layerCount() == 1);
         DJV_ASSERT(static_cast<djvPixelDataInfo>(info) == tmp);
     }
-    
     {
         const djvPixelDataInfo tmp(1, 1, djvPixel::L_U8);
-        
         djvImageIoInfo info;
-
         info.addLayer(tmp);
-        
         DJV_ASSERT(info.layerCount() == 2);
         DJV_ASSERT(static_cast<djvPixelDataInfo>(info) == djvPixelDataInfo());
         DJV_ASSERT(static_cast<djvPixelDataInfo>(info[1]) == tmp);
-        
         info[0] = tmp;
-
         DJV_ASSERT(static_cast<djvPixelDataInfo>(info[0]) == tmp);
     }
-    
     {
         djvImageIoInfo info;
-
         info.setLayerCount(10);
-        
         DJV_ASSERT(info.layerCount() == 10);
-
         info.clearLayers();
-        
         DJV_ASSERT(info.layerCount() == 1);
     }
-    
     {
         const djvPixelDataInfo tmp(1, 1, djvPixel::L_U8);
-        
         djvImageIoInfo a(tmp), b(tmp);
-        
         a.addLayer(tmp);
         b.addLayer(tmp);
-        
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvImageIoInfo());
-        
         djvImageIoInfo c;
         c.addLayer(tmp);
-        
         DJV_ASSERT(a != c);
     }
-    
     {
         djvImageIoFrameInfo info;
-        
         DJV_ASSERT(-1 == info.frame);
         DJV_ASSERT(0 == info.layer);
         DJV_ASSERT(djvPixelDataInfo::PROXY_NONE == info.proxy);
     }
-    
     {
         djvImageIoFrameInfo info(1, 2, djvPixelDataInfo::PROXY_1_2);
-        
         DJV_ASSERT(1 == info.frame);
         DJV_ASSERT(2 == info.layer);
         DJV_ASSERT(djvPixelDataInfo::PROXY_1_2 == info.proxy);
     }
-    
     {
         djvImageIoFrameInfo
             a(1, 2, djvPixelDataInfo::PROXY_1_2),
             b(1, 2, djvPixelDataInfo::PROXY_1_2);
-    
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvImageIoFrameInfo());
     }
-    
     {
         DJV_DEBUG_PRINT(djvImageIoInfo());
-        
         DJV_DEBUG_PRINT(djvImageIoFrameInfo());
     }
 }
-    
+
 void djvImageIoTest::plugin()
 {
     DJV_DEBUG("djvImageIoTest::plugin");
-    
     djvImageContext context;
-    
     djvImageIoFactory * factory = context.imageIoFactory();
-    
     Q_FOREACH(QString plugin, QStringList() << "PPM")
     {
         if (djvImageIo * io = static_cast<djvImageIo *>(factory->plugin(plugin)))
@@ -161,25 +125,18 @@ void djvImageIoTest::plugin()
             DJV_ASSERT(io->extensions().count());
             DJV_ASSERT(io->isSequence());
             DJV_ASSERT(io->options().count());
-
             DJV_ASSERT(factory->option("", "") == QStringList());
-
             QStringList tmp;
-
             DJV_ASSERT(! factory->setOption("", "", tmp));
-
             djvImageIoInfo info;
-
             try
             {
                 factory->load(djvFileInfo(), info);
-
                 DJV_ASSERT(0);
             }
             catch (...)
             {
             }
-
             try
             {
                 factory->save(djvFileInfo(), info);
@@ -196,38 +153,23 @@ void djvImageIoTest::plugin()
 void djvImageIoTest::io()
 {
     DJV_DEBUG("djvImageIoTest::io");
-    
     djvImageContext context;
-
     QScopedPointer<djvImageLoad> load;
     QScopedPointer<djvImageSave> save;
-
     try
     {
         const djvFileInfo fileInfo("djvImageIoTest.ppm");
-
         const djvPixelDataInfo pixelDataInfo(1, 1, djvPixel::L_U8);
-
         save.reset(context.imageIoFactory()->save(fileInfo, pixelDataInfo));
-
         DJV_ASSERT(save);
-
         save->write(djvImage(pixelDataInfo));
-
         save->close();
-
         djvImageIoInfo info;
-
         load.reset(context.imageIoFactory()->load(fileInfo, info));
-
         DJV_ASSERT(load);
-        
         djvImage image;
-    
         load->read(image);
-    
         DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
-    
         load->close();
     }
     catch (const djvError & error)

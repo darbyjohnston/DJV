@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestAbstractWorker.cpp
-
 #include <djvFileBrowserTestAbstractWorker.h>
 
 #include <QMutex>

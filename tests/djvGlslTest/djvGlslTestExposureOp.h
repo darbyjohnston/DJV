@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestExposureOp.h
-
-#ifndef DJV_GLSL_TEST_EXPOSURE_OP_H
-#define DJV_GLSL_TEST_EXPOSURE_OP_H
+#pragma once
 
 #include <djvGlslTestAbstractOp.h>
 
@@ -137,4 +134,3 @@ public:
         djvGlslTestAbstractOp *) const;
 };
 
-#endif // DJV_GLSL_TEST_EXPOSURE_OP_H

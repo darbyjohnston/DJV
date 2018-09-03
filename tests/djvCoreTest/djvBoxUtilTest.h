@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvBoxUtilTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestViewWidget
-
 #include <djvGlslTestViewWidget.h>
 
 #include <djvGlslTestContext.h>
@@ -59,12 +57,10 @@ djvGlslTestViewWidget::djvGlslTestViewWidget(
         opsManager,
         SIGNAL(currentIndexChanged(int)),
         SLOT(updateGL()));
-    
     connect(
         opsManager,
         SIGNAL(opChanged()),
         SLOT(updateGL()));
-
     connect(
         playback,
         SIGNAL(frameChanged(qint64)),
@@ -79,7 +75,6 @@ void djvGlslTestViewWidget::showEvent(QShowEvent *)
 void djvGlslTestViewWidget::paintGL()
 {
     djvOpenGlWidget::paintGL();
-
     if (djvGlslTestAbstractOp * op = _opsManager->currentOp())
     {
         if (const djvImage * image = _imageLoad->image(_playback->frame()))

@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoPluginTest.h
+#pragma once
 
 #include <djvImageIoPluginTestExport.h>
 
@@ -37,6 +37,15 @@
 
 #include <djvImage.h>
 #include <djvImageIo.h>
+
+//! \addtogroup tests
+//@{
+
+//! \defgroup djvImageIoPluginTest djvImageIoPluginTest
+//!
+//! This library provides testing functionality for image I/O.
+
+//@} // tests
 
 class djvImageContext;
 

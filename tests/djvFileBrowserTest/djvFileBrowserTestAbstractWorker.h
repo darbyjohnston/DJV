@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestAbstractWorker.h
-
-#ifndef DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
-#define DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -53,43 +50,29 @@ class djvFileBrowserTestAbstractWorker : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestAbstractWorker(QObject * parent = 0);
-    
-    //! Destructor.
-    
+
     virtual ~djvFileBrowserTestAbstractWorker() = 0;
     
-    //! Get the current ID.
-    
+    //! Get the current ID.    
     int id() const;
     
     //! Set the current ID.
-    
     void setId(int);
     
     //! Get the mutex.
-    
     QMutex * mutex();
     
 public Q_SLOTS:
-
     //! Initialize resources.
-
     virtual void start();
     
     //! Cleanup resources.
-    
     virtual void finish();
 
 private:
-
     DJV_PRIVATE_COPY(djvFileBrowserTestAbstractWorker);
     
     djvFileBrowserTestAbstractWorkerPrivate * _p;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_ABSTRACT_WORKER_H
 

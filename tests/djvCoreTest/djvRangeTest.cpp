@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvRangeTest.cpp
-
 #include <djvRangeTest.h>
 
 #include <djvAssert.h>
@@ -41,7 +39,6 @@
 void djvRangeTest::run(int &, char **)
 {
     DJV_DEBUG("djvRangeTest::run");
-    
     ctors();
     convert();
     operators();
@@ -50,17 +47,13 @@ void djvRangeTest::run(int &, char **)
 void djvRangeTest::ctors()
 {
     DJV_DEBUG("djvRangeTest::ctors");
-    
     {
         const djvRange<int> range;
-        
         DJV_ASSERT(0 == range.min);
         DJV_ASSERT(0 == range.max);
     }
-    
     {
         const djvRange<int> range(1, 10);
-        
         DJV_ASSERT( 1 == range.min);
         DJV_ASSERT(10 == range.max);
     }
@@ -69,7 +62,6 @@ void djvRangeTest::ctors()
 void djvRangeTest::convert()
 {
     DJV_DEBUG("djvRangeTest::convert");
-    
     const struct Data
     {
         djvFrameList           a;
@@ -102,13 +94,10 @@ void djvRangeTest::convert()
             QVector<djvFrameRange>() << djvFrameRange(1, 2) << djvFrameRange(4, 5)
         }
     };
-    
     const int dataCount = sizeof(data) / sizeof(Data);
-
     for (int i = 0; i < dataCount; ++i)
     {
         const djvFrameRangeList tmp = djvRangeUtil::range(data[i].a);
-        
         DJV_ASSERT(tmp == data[i].b);
     }
 }
@@ -116,10 +105,8 @@ void djvRangeTest::convert()
 void djvRangeTest::operators()
 {
     DJV_DEBUG("djvRangeTest::operators");
-    
     {
         const djvRange<int> range(1, 10);
-        
         DJV_ASSERT(range == range);
         DJV_ASSERT(range != djvRange<int>());
     }

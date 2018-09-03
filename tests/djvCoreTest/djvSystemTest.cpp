@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSystemTest.cpp
-
 #include <djvSystemTest.h>
 
 #include <djvAssert.h>
@@ -42,7 +40,6 @@
 void djvSystemTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvSystemTest::run");
-    
     searchPath();
     drives();
 }
@@ -50,23 +47,17 @@ void djvSystemTest::run(int & argc, char ** argv)
 void djvSystemTest::searchPath()
 {
     DJV_DEBUG("djvSystemTest::searchPath");
-
     const QString djvPathValue = djvSystem::env(djvSystem::djvPathEnv());
-    
     if (! djvPathValue.length())
     {
         djvSystem::setEnv(djvSystem::djvPathEnv(), "djvPath1:djvPath2");
     }
-    
     const QString ldLibPathValue = djvSystem::env(djvSystem::ldLibPathEnv());
-    
     if (! ldLibPathValue.length())
     {
         djvSystem::setEnv(djvSystem::ldLibPathEnv(), "ldLibPath1:ldLibPath2");
     }
-    
     DJV_DEBUG_PRINT(djvSystem::searchPath());
-    
     djvSystem::setEnv(djvSystem::ldLibPathEnv(), ldLibPathValue);
     djvSystem::setEnv(djvSystem::ldLibPathEnv(), ldLibPathValue);
 }
@@ -74,7 +65,6 @@ void djvSystemTest::searchPath()
 void djvSystemTest::drives()
 {
     DJV_DEBUG("djvSystemTest::drives");
-    
     DJV_DEBUG_PRINT("drives = " << djvSystem::drives());
 }
 

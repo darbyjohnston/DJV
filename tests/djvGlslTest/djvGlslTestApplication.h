@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestApplication.h
-
-#ifndef DJV_GLSL_TEST_APPLICATION_H
-#define DJV_GLSL_TEST_APPLICATION_H
+#pragma once
 
 #include <djvGlslTestContext.h>
 #include <djvGlslTestImageLoad.h>
@@ -68,4 +65,3 @@ private:
     QScopedPointer<djvGlslTestMainWindow> _mainWindow;
 };
 
-#endif // DJV_GLSL_TEST_APPLICATION_H

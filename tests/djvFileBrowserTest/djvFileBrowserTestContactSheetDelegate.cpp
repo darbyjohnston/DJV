@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestContactSheetDelegate.cpp
-
 #include <djvFileBrowserTestContactSheetDelegate.h>
 
 #include <djvFileBrowserTestModel.h>
@@ -124,50 +122,37 @@ void djvFileBrowserTestContactSheetDelegate::paint(
 
     int lineHeight = option.fontMetrics.height();
     int textHeight = lines.count() * lineHeight;
-    
-    QPointF p;
-    
+    QPointF p;    
     if (! svg.isNull())
     {
         const QString key = QString("%1%2").arg(svg).arg(_p->thumbnailSize);
-        
         QPixmap tmp;
-        
         if (! QPixmapCache::find(key, &tmp))
         {
             const int size = _p->thumbnailSize * 0.4;
-
             tmp = QPixmap(size, size);
             tmp.fill(Qt::transparent);
-
             QPainter painterTmp(&tmp);
-            
             QSvgRenderer(svg).render(&painterTmp, QRectF(p, QSizeF(size, size)));
-            
             QPixmapCache::insert(key, tmp);
         }
-
         p.setX(option.rect.x() + option.rect.width () / 2 - tmp.width () / 2);
         p.setY(option.rect.y() + option.rect.height() / 2 - tmp.height() / 2);
-        
         painter->drawPixmap(p, tmp);
     }
     else if (! pixmap.isNull())
     {
         p.setX(option.rect.x() + option.rect.width () / 2 - pixmap.width () / 2);
         p.setY(option.rect.y() + option.rect.height() / 2 - pixmap.height() / 2);
-    
         painter->drawPixmap(p, pixmap);
     }
     
     p.setX(option.rect.x());
     p.setY(option.rect.y() + option.rect.height() - textHeight - margin * 2);
-
     if (option.state & QStyle::State_Selected)
     {
         QColor color = option.palette.color(QPalette::Highlight);
         color.setAlpha(127);
-        
         painter->fillRect(option.rect, color);
     }
     
@@ -177,10 +162,8 @@ void djvFileBrowserTestContactSheetDelegate::paint(
         option.rect.width(),
         textHeight + margin * 2,
         QColor(0, 0, 0, 127));
-    
     p.setX(p.x() + margin);
     p.setY(p.y() + margin);
-    
     for (int i = 0; i < lines.count(); ++i)
     {
         painter->drawText(
@@ -196,7 +179,6 @@ void djvFileBrowserTestContactSheetDelegate::setThumbnailSize(int size)
 {
     if (size == _p->thumbnailSize)
         return;
-
     _p->thumbnailSize = size;
 }
 

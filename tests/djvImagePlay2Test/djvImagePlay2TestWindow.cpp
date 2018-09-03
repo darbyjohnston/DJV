@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestWindow.cpp
-
 #include <djvImagePlay2TestWindow.h>
 
 #include <djvImagePlay2TestContext.h>
@@ -65,8 +63,7 @@ djvImagePlay2TestWindow::djvImagePlay2TestWindow(djvImagePlay2TestContext * cont
     connect(
         context->load(),
         SIGNAL(fileChanged(const djvImageIoInfo &)),
-        SLOT(fileCallback(const djvImageIoInfo &)));
-    
+        SLOT(fileCallback(const djvImageIoInfo &)));    
     connect(
         context->load(),
         SIGNAL(imageRead()),
@@ -81,9 +78,7 @@ QOpenGLContext * djvImagePlay2TestWindow::glContext() const
 void djvImagePlay2TestWindow::fileCallback(const djvImageIoInfo & info)
 {
     resize(info.size.x, info.size.y);
-    
-    _view->setInfo(info);
-    
+    _view->setInfo(info);   
     _context->playback()->setFrameList(info.sequence.frames);
     _context->playback()->setSpeed(info.sequence.speed);
 }

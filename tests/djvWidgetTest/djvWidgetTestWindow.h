@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestWindow.h
-
-#ifndef DJV_WIDGET_TEST_WINDOW_H
-#define DJV_WIDGET_TEST_WINDOW_H
+#pragma once
 
 #include <QWidget>
 
@@ -67,4 +64,3 @@ private:
     QListView *             _listView;
 };
 
-#endif // DJV_WIDGET_TEST_WINDOW_H

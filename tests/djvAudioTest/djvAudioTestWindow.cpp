@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAudioTestWindow.cpp
-
 //#define DJV_DEBUG
 
 #include <djvAudioTest.h>
@@ -47,7 +45,6 @@ djvAudioTestWindow::djvAudioTestWindow(const String & in) :
         arg(int64_t(this)));
 
     // Initialize.
-
     try
     {
         _movie.init(in);
@@ -179,7 +176,6 @@ void djvAudioTestWindow::idle()
         if (! size)
         {
             // Reset audio.
-
             _audio->stop();
             _audio_buffer.clear();
             _movie.audio_seek(_frame);
@@ -187,9 +183,7 @@ void djvAudioTestWindow::idle()
         }
 
         // Fill audio buffer.
-
         const int min = _audio_buffer.min();
-
         do
         {
             int16_t * p = _audio_buffer.push();

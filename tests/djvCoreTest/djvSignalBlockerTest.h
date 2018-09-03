@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSignalBlockerTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 
@@ -40,21 +40,17 @@ class DJV_CORE_TEST_EXPORT djvSignalBlockerTest : public djvAbstractTest
     Q_OBJECT
     
 public:
-
     djvSignalBlockerTest();
 
     virtual void run(int &, char **);
 
 public Q_SLOTS:
-
     void slot();
     
 Q_SIGNALS:
-
     void signal();
 
 private:
-
     int _counter;
 };
 

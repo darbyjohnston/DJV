@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestWindow.cpp
-
 #include <djvWidgetTestWindow.h>
 
 #include <djvAbstractWidgetTest.h>
@@ -78,12 +76,10 @@ djvWidgetTestWindow::djvWidgetTestWindow(
         SIGNAL(textChanged(const QString &)),
         _proxyModel,
         SLOT(setFilterFixedString(const QString &)));
-    
     connect(
         _listView,
         SIGNAL(activated(const QModelIndex &)),
         SLOT(runCallback()));
-    
     connect(
         button,
         SIGNAL(clicked()),
@@ -99,10 +95,10 @@ void djvWidgetTestWindow::runCallback(const QModelIndex & index)
 void djvWidgetTestWindow::runCallback()
 {
     QModelIndexList rows = _listView->selectionModel()->selectedRows();
-    
     Q_FOREACH(QModelIndex row, rows)
     {
         static_cast<djvAbstractWidgetTest *>(
             _proxyModel->mapToSource(row).internalPointer())->run();
     }
 }
+

@@ -115,41 +115,34 @@ djvViewWidget::djvViewWidget(djvGuiContext * context) :
         _timeUnitsWidget,
         SIGNAL(activated(int)),
         SLOT(timeUnitsCallback(int)));
-    
     connect(
         _frameWidget,
         SIGNAL(frameChanged(qint64)),
         SLOT(frameCallback(qint64)));
-    
     connect(
         _frameSlider,
         SIGNAL(frameChanged(qint64)),
         SLOT(frameCallback(qint64)));
-
     connect(
         markInPointButton,
         SIGNAL(clicked()),
         _frameSlider,
         SLOT(markInPoint()));
-
     connect(
         markOutPointButton,
         SIGNAL(clicked()),
         _frameSlider,
         SLOT(markOutPoint()));
-
     connect(
         resetInPointButton,
         SIGNAL(clicked()),
         _frameSlider,
         SLOT(resetInPoint()));
-
     connect(
         resetOutPointButton,
         SIGNAL(clicked()),
         _frameSlider,
         SLOT(resetOutPoint()));
-
     connect(
         _speedWidget,
         SIGNAL(speedChanged(const djvSpeed &)),
@@ -166,7 +159,6 @@ void djvViewWidget::frameCallback(qint64 frame)
     if (frame != _frame)
     {
         _frame = frame;
-        
         frameUpdate();
     }
 }
@@ -176,7 +168,6 @@ void djvViewWidget::speedCallback(const djvSpeed & speed)
     if (speed != _speed)
     {
         _speed = speed;
-        
         widgetUpdate();
     }
 }
@@ -186,11 +177,8 @@ void djvViewWidget::frameUpdate()
     djvSignalBlocker signalBlocker(QObjectList() <<
         _frameWidget <<
         _frameSlider);
-    
     _frameWidget->setFrame(_frame);
-
     _frameSlider->setFrame(_frame);
-
     _frameDisplay->setFrame(_frame);
 }
 
@@ -200,22 +188,16 @@ void djvViewWidget::widgetUpdate()
         _timeUnitsWidget <<
         _frameWidget <<
         _frameSlider);
-    
     _timeUnitsWidget->setCurrentIndex(_context->timePrefs()->timeUnits());
-    
     _frameWidget->setFrameList(_frameList);
     _frameWidget->setSpeed(_speed);
-    
     _frameSlider->setFrameList(_frameList);
     _frameSlider->setSpeed(_speed);
     _frameSlider->setInOutEnabled(_inOutEnabled);
     _frameSlider->setInOutPoints(_inPoint, _outPoint);
     _frameSlider->setCachedFrames(_cachedFrames);
-    
     _frameDisplay->setSpeed(_speed);
-    
     _speedWidget->setSpeed(_speed);
-    
     _speedDisplay->setSpeed(djvSpeed::speedToFloat(_speed));
     _speedDisplay->setDroppedFrames(true);
 }
@@ -233,3 +215,4 @@ void djvViewWidgetTest::run(const QStringList & args)
 {
     (new djvViewWidget(context()))->show();
 }
+

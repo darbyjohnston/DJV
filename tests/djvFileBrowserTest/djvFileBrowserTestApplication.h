@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestApplication.h
-
-#ifndef DJV_FILE_BROWSER_TEST_APPLICATION_H
-#define DJV_FILE_BROWSER_TEST_APPLICATION_H
+#pragma once
 
 #include <djvFileBrowserTestWidget.h>
 
@@ -52,9 +49,6 @@ class djvFileBrowserTestApplication : public QApplication
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     djvFileBrowserTestApplication(int & argc, char ** argv);
 
 private Q_SLOTS:
@@ -68,6 +62,4 @@ private:
     QString                                  _path;
     QScopedPointer<djvFileBrowserTestWidget> _widget;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_APPLICATION_H
 

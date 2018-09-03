@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileIoTest.cpp
-
 #include <djvFileIoTest.h>
 
 #include <djvAssert.h>
@@ -40,21 +38,15 @@
 void djvFileIoTest::run(int &, char **)
 {
     DJV_DEBUG("djvFileIoTest::run");
-    
     const QString fileName = "djvFileIoTest.test";
-    
     for (int i = 0; i < 2; ++i)
     {
         djvFileIo io;
-        
 		const bool endian = static_cast<bool>(i);
-		
+				
 		DJV_DEBUG_PRINT("endian = " << endian);
-		
         io.setEndian(endian);
-        
         DJV_ASSERT(endian == io.endian());
-        
         const qint8   write8   = 127;
         const quint8  writeU8  = 127;
         const qint16  write16  = 32767;
@@ -63,14 +55,13 @@ void djvFileIoTest::run(int &, char **)
         const quint32 writeU32 = 65535;
         const float   writeF32 = 0.5f;
         const qint8   rewrite8 = 63;
-        
         io.open(fileName, djvFileIo::WRITE);
 		
 		DJV_DEBUG_PRINT("open");
-        
         DJV_ASSERT(fileName == io.fileName());
         DJV_ASSERT(io.isValid());
-        
+
+		DJV_DEBUG_PRINT("set");
         io.set8  (&write8,   1);
         io.set8  (&write8,   1);
         io.setU8 (&writeU8,  1);
@@ -79,9 +70,6 @@ void djvFileIoTest::run(int &, char **)
         io.set32 (&write32,  1);
         io.setU32(&writeU32, 1);
         io.setF32(&writeF32, 1);
-        
-		DJV_DEBUG_PRINT("set");
-
         DJV_ASSERT(
             sizeof(qint8)   +
             sizeof(qint8)   +
@@ -93,7 +81,6 @@ void djvFileIoTest::run(int &, char **)
             sizeof(float) == io.pos());
 		
 		DJV_DEBUG_PRINT("set 2");
-        
         io.set8  (write8);
         io.setU8 (writeU8);
         io.set16 (write16);
@@ -103,26 +90,17 @@ void djvFileIoTest::run(int &, char **)
         io.setF32(writeF32);
 
 #if ! defined(DJV_WINDOWS)
-
         //! \todo On Windows this causes an error with the message "Cannot
         //! create a file when that file already exists."
-
         io.setPos(0);
-		
 		DJV_DEBUG_PRINT("pos");
-        
         DJV_ASSERT(0 == io.pos());
-		
 		DJV_DEBUG_PRINT("rewrite");
-        
         io.set8(&rewrite8, 1);
-        
 #endif // DJV_WINDOWS
 
         const quint64 size = io.size();
-                
         io.close();
-        
         qint8   read8   = 0;
         quint8  readU8  = 0;
         qint16  read16  = 0;
@@ -130,10 +108,8 @@ void djvFileIoTest::run(int &, char **)
         qint32  read32  = 0;
         quint32 readU32 = 0;
         float   readF32 = 0.0f;
-        
         io.open(fileName, djvFileIo::READ);
         io.readAhead();
-                
         DJV_ASSERT(io.isValid());
         DJV_ASSERT(size == io.size());
 
@@ -145,7 +121,6 @@ void djvFileIoTest::run(int &, char **)
         io.get32 (&read32);
         io.getU32(&readU32);
         io.getF32(&readF32);
-        
         DJV_ASSERT(
             sizeof(qint8)   +
             sizeof(qint8)   +
@@ -155,7 +130,6 @@ void djvFileIoTest::run(int &, char **)
             sizeof(qint32)  +
             sizeof(quint32) +
             sizeof(float) == io.pos());
-        
         DJV_ASSERT(write8   == read8);
         DJV_ASSERT(writeU8  == readU8);
         DJV_ASSERT(write16  == read16);
@@ -163,7 +137,7 @@ void djvFileIoTest::run(int &, char **)
         DJV_ASSERT(write32  == read32);
         DJV_ASSERT(writeU32 == readU32);
         DJV_ASSERT(writeF32 == readF32);
-        
+
         io.get8  (&read8);
         io.getU8 (&readU8);
         io.get16 (&read16);
@@ -171,7 +145,6 @@ void djvFileIoTest::run(int &, char **)
         io.get32 (&read32);
         io.getU32(&readU32);
         io.getF32(&readF32);
-        
         DJV_ASSERT(write8   == read8);
         DJV_ASSERT(writeU8  == readU8);
         DJV_ASSERT(write16  == read16);
@@ -179,54 +152,39 @@ void djvFileIoTest::run(int &, char **)
         DJV_ASSERT(write32  == read32);
         DJV_ASSERT(writeU32 == readU32);
         DJV_ASSERT(writeF32 == readF32);
-        
-#if ! defined (DJV_WINDOWS)
 
+#if ! defined (DJV_WINDOWS)
         io.setPos(0);
-        
         DJV_ASSERT(0 == io.pos());
-        
         DJV_ASSERT(io.mmapP() < io.mmapEnd());
         DJV_ASSERT(*reinterpret_cast<const qint8 *>(io.mmapP()) == rewrite8);
-        
         io.get8(&read8);
-
         DJV_ASSERT(rewrite8 == read8);
-        
 #endif // DJV_WINDOWS
 
         io.setPos(0);
         io.seek(1);
-
         io.getU8(&readU8);
-
         DJV_ASSERT(writeU8 == readU8);
-        
         try
         {
             io.setPos(size);
-            
             io.get8(&read8);
-            
             DJV_ASSERT(0);
         }
         catch (...)
         {}
-        
         try
         {
             io.set8(&write8, 1);
-            
             DJV_ASSERT(0);
         }
         catch (...)
         {}
-        
         try
         {
             io.setPos(size);
             io.seek(1);
-            
             DJV_ASSERT(0);
         }
         catch (...)

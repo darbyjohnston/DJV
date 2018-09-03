@@ -29,46 +29,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageIoPluginTestExport.h
-
-#ifndef DJV_IMAGE_IO_PLUGIN_TEST_EXPORT_H
-#define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT_H
-
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvImageIoPluginTest djvImageIoPluginTest
-//!
-//! This library provides testing functionality for image I/O.
-
-//@} // tests
+#pragma once
 
 //! \addtogroup djvImageIoPluginTest
 //@{
 
 #if defined(DJV_WINDOWS)
-
 #if defined(djvImageIoPluginTest_EXPORTS)
-
-//! This define provides the library export.
-
 #define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT __declspec(dllexport)
-
 #else // djvImageIoPluginTest_EXPORTS
-
-//! This define provides the library export.
-
 #define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT __declspec(dllimport)
-
 #endif // djvImageIoPluginTest_EXPORTS
-
 #else // DJV_WINDOWS
-
 #define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT
-
 #endif // DJV_WINDOWS
 
 //@} // djvImageIoPluginTest
-
-#endif // DJV_IMAGE_IO_PLUGIN_TEST_EXPORT_H
 

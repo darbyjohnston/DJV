@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestModel.cpp
-
 #include <djvWidgetTestModel.h>
 
 #include <djvAbstractWidgetTest.h>
@@ -51,7 +49,6 @@ QModelIndex	djvWidgetTestModel::index(
 {
     if (! hasIndex(row, column, parent))
         return QModelIndex();
-
     return createIndex(row, column, _testManager->tests()[row]);
 }
 
@@ -64,9 +61,7 @@ QVariant djvWidgetTestModel::data(const QModelIndex & index, int role) const
 {
     if (! index.isValid())
         return QVariant();
-    
     if (Qt::DisplayRole == role)
         return _testManager->tests()[index.row()]->name();
-    
     return QVariant();
 }

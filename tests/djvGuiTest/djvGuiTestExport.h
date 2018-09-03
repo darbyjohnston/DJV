@@ -29,46 +29,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGuiTestExport.h
-
-#ifndef DJV_GUI_TEST_EXPORT_H
-#define DJV_GUI_TEST_EXPORT_H
-
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvGuiTest djvGuiTest
-//!
-//! This library provides testing functionality for djvGui.
-
-//@} // tests
+#pragma once
 
 //! \addtogroup djvGuiTest
 //@{
 
 #if defined(DJV_WINDOWS)
-
 #if defined(djvGuiTest_EXPORTS)
-
-//! This define provides the library export.
-
 #define DJV_GUI_TEST_EXPORT __declspec(dllexport)
-
 #else // djvGuiTest_EXPORTS
-
-//! This define provides the library export.
-
 #define DJV_GUI_TEST_EXPORT __declspec(dllimport)
-
 #endif // djvGuiTest_EXPORTS
-
 #else // DJV_WINDOWS
-
 #define DJV_GUI_TEST_EXPORT
-
 #endif // DJV_WINDOWS
 
 //@} // djvGuiTest
-
-#endif // DJV_GUI_TEST_EXPORT_H
 

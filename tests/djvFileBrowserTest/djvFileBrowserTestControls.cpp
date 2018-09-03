@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestControls.cpp
-
 #include <djvFileBrowserTestControls.h>
 
 #include <QApplication>

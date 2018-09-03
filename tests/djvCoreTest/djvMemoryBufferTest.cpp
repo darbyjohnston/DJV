@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMemoryBufferTest.cpp
-
 #include <djvMemoryBufferTest.h>
 
 #include <djvAssert.h>
@@ -42,7 +40,6 @@
 void djvMemoryBufferTest::run(int &, char **)
 {
     DJV_DEBUG("djvMemoryBufferTest::run");
-    
     ctors();
     members();
     operators();
@@ -51,21 +48,16 @@ void djvMemoryBufferTest::run(int &, char **)
 void djvMemoryBufferTest::ctors()
 {
     DJV_DEBUG("djvMemoryBufferTest::ctors");
-    
     {
         const djvMemoryBuffer<quint8> buf;
-        
         DJV_ASSERT(! buf.data());
         DJV_ASSERT(! buf.size());
     }
-    
     {
         djvMemoryBuffer<quint8> tmp(2);
         tmp()[0] = 127;
         tmp()[1] = 255;
-        
         const djvMemoryBuffer<quint8> buf(tmp);
-        
         DJV_ASSERT(2 == buf.size());
         DJV_ASSERT(127 == buf()[0]);
         DJV_ASSERT(255 == buf()[1]);
@@ -75,18 +67,12 @@ void djvMemoryBufferTest::ctors()
 void djvMemoryBufferTest::members()
 {
     DJV_DEBUG("djvMemoryBufferTest::members");
-    
     {
         djvMemoryBuffer<quint8> buf;
-        
         DJV_ASSERT(! buf.data());
-
         buf.setSize(2);
-        
         DJV_ASSERT(2 == buf.size());
-        
         buf.zero();
-        
         DJV_ASSERT(0 == buf()[0]);
         DJV_ASSERT(0 == buf()[1]);
     }
@@ -95,16 +81,12 @@ void djvMemoryBufferTest::members()
 void djvMemoryBufferTest::operators()
 {
     DJV_DEBUG("djvMemoryBufferTest::operators");
-    
     {
         djvMemoryBuffer<quint8> tmp(2);
         tmp()[0] = 127;
         tmp()[1] = 255;
-        
         djvMemoryBuffer<quint8> buf;
-        
         buf = tmp;
-    
         DJV_ASSERT(2 == buf.size());
         DJV_ASSERT(127 == buf()[0]);
         DJV_ASSERT(255 == buf()[1]);

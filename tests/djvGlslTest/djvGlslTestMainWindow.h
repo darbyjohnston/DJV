@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestMainWindow.h
-
-#ifndef DJV_GLSL_TEST_MAIN_WINDOW_H
-#define DJV_GLSL_TEST_MAIN_WINDOW_H
+#pragma once
 
 #include <QMainWindow>
 
@@ -73,4 +70,3 @@ private:
     djvGlslTestOpDockWidget *     _currentOpDockWidget;
 };
 
-#endif // DJV_GLSL_TEST_MAIN_WINDOW_H

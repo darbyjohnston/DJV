@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimeTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 
@@ -38,11 +38,9 @@
 class DJV_CORE_TEST_EXPORT djvTimeTest : public djvAbstractTest
 {
 public:
-
     virtual void run(int &, char **);
 
 private:
-
     void current();
     void sleep();
     void convert();

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestView.cpp
-
 #include <djvFileBrowserTestView.h>
 
 #include <djvFileBrowserTestContactSheetDelegate.h>
@@ -90,9 +88,7 @@ const djvFileBrowserTestActionDataList & djvFileBrowserTestView::modeData()
             qApp->translate("djvFileBrowserTestView", "Contact Sheet"),
             qApp->translate("djvFileBrowserTestView", "Show the contact sheet view"),
             ":djvContactSheetViewIcon.png");
-
     DJV_ASSERT(data.count() == MODE_COUNT);
-
     return data;
 }
 
@@ -141,17 +137,14 @@ djvFileBrowserTestView::djvFileBrowserTestView(
         _p->model,
         SIGNAL(thumbnailSizeChanged(int)),
         SLOT(setThumbnailSize(int)));
-    
     _p->spinner->connect(
         _p->model,
         SIGNAL(requestDirComplete()),
         SLOT(stop()));
-
     connect(
         _p->model,
         SIGNAL(requestDir(const djvFileBrowserTestDirRequest &)),
         SLOT(startCallback()));
-
     connect(
         _p->model,
         SIGNAL(thumbnailSizeChanged(int)),
@@ -177,11 +170,8 @@ void djvFileBrowserTestView::setMode(MODE mode)
 {
     if (mode == _p->mode)
         return;
-    
     _p->mode = mode;
-    
     updateWidget();
-    
     Q_EMIT modeChanged(_p->mode);
 }
 

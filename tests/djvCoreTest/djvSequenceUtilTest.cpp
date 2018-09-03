@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequenceUtilTest.cpp
-
 #include <djvSequenceUtilTest.h>
 
 #include <djvAssert.h>
@@ -41,7 +39,6 @@
 void djvSequenceUtilTest::run(int &, char **)
 {
     DJV_DEBUG("djvSequenceUtilTest::run");
-    
     frameToString();
     stringToFrame();
     sequenceToString();
@@ -51,7 +48,6 @@ void djvSequenceUtilTest::run(int &, char **)
 void djvSequenceUtilTest::frameToString()
 {
     DJV_DEBUG("djvSequenceUtilTest::frameToString");
-
     const struct Data
     {
         qint64  a;
@@ -74,15 +70,11 @@ void djvSequenceUtilTest::frameToString()
         {  1370468628437,  "1370468628437", 0 },
         { -1370468628437, "-1370468628437", 0 }
     };
-    
     const int dataCount = sizeof(data) / sizeof(Data);
-
     for (int i = 0; i < dataCount; ++i)
     {
         const QString tmp = djvSequenceUtil::frameToString(data[i].a, data[i].pad);
-
         DJV_DEBUG_PRINT(data[i].a << "(" << data[i].pad << ") = " << tmp);
-
         DJV_ASSERT(tmp == data[i].b);
     }
 }
@@ -90,7 +82,6 @@ void djvSequenceUtilTest::frameToString()
 void djvSequenceUtilTest::stringToFrame()
 {
     DJV_DEBUG("djvSequenceUtilTest::stringToFrame");
-
     const struct Data
     {
         QString a;
@@ -113,17 +104,12 @@ void djvSequenceUtilTest::stringToFrame()
 
         { "#", -1, 0 }
     };
-    
     const int dataCount = sizeof(data) / sizeof(Data);
-
     for (int i = 0; i < dataCount; ++i)
     {
         int pad = 0;
-        
         const qint64 tmp = djvSequenceUtil::stringToFrame(data[i].a, &pad);
-
         DJV_DEBUG_PRINT(data[i].a << " = " << tmp << "(" << pad << ")");
-
         DJV_ASSERT(tmp == data[i].b);
         DJV_ASSERT(pad == data[i].pad);
     }
@@ -132,7 +118,6 @@ void djvSequenceUtilTest::stringToFrame()
 void djvSequenceUtilTest::sequenceToString()
 {
     DJV_DEBUG("djvSequenceUtilTest::sequenceToString");
-
     const struct Data
     {
         djvSequence a;
@@ -141,7 +126,6 @@ void djvSequenceUtilTest::sequenceToString()
         data [] =
     {
         { djvSequence(djvFrameList()), "" },
-
         { djvSequence(djvFrameList() << 1), "1" },
         { djvSequence(djvFrameList() << 1 << 2), "1-2" },
         { djvSequence(djvFrameList() << 1 << 2 << 3), "1-3" },
@@ -151,7 +135,6 @@ void djvSequenceUtilTest::sequenceToString()
         { djvSequence(djvFrameList() << 1 << 2 << 3 << 5 << 6), "1-3,5-6" },
         { djvSequence(djvFrameList() << 1 << 2 << 3 << 5 << 6 << 7), "1-3,5-7" },
         { djvSequence(djvFrameList() << 1 << 2 << 3 << 3 << 2 << 1), "1-3,3-1" },
-
         { djvSequence(djvFrameList() << -1), "-1" },
         { djvSequence(djvFrameList() << -1 << -2), "-1--2" },
         { djvSequence(djvFrameList() << -1 << -2 << -3), "-1--3" },
@@ -161,19 +144,14 @@ void djvSequenceUtilTest::sequenceToString()
         { djvSequence(djvFrameList() << -1 << -2 << -3 << -5 << -6), "-1--3,-5--6" },
         { djvSequence(djvFrameList() << -1 << -2 << -3 << -5 << -6 << -7), "-1--3,-5--7" },
         { djvSequence(djvFrameList() << -1 << -2 << -3 << -3 << -2 << -1), "-1--3,-3--1" },
-        
         { djvSequence(djvFrameList() << -3 << -2 << -1 << 0 << 1 << 2 << 3), "-3-3" },
         { djvSequence(djvFrameList() << 3 << 2 << 1 << 0 << -1 << -2 << -3), "3--3" }
     };
-    
     const int dataCount = sizeof(data) / sizeof(Data);
-
     for (int i = 0; i < dataCount; ++i)
     {
         const QString tmp = djvSequenceUtil::sequenceToString(data[i].a);
-
         DJV_DEBUG_PRINT(data[i].a.frames << " = " << tmp);
-
         DJV_ASSERT(tmp == data[i].b);
     }
 }
@@ -181,7 +159,6 @@ void djvSequenceUtilTest::sequenceToString()
 void djvSequenceUtilTest::stringToSequence()
 {
     DJV_DEBUG("djvSequenceUtilTest::stringToSequence");
-
     const struct Data
     {
         QString     a;
@@ -190,7 +167,6 @@ void djvSequenceUtilTest::stringToSequence()
         data [] =
     {
         { "", djvSequence(djvFrameList()) },
-        
         { "1", djvSequence(djvFrameList() << 1) },
         { "1-2", djvSequence(djvFrameList() << 1 << 2) },
         { "1-3", djvSequence(djvFrameList() << 1 << 2 << 3) },
@@ -201,7 +177,6 @@ void djvSequenceUtilTest::stringToSequence()
         { "1-3,5-6", djvSequence(djvFrameList() << 1 << 2 << 3 << 5 << 6) },
         { "1-3,5-7", djvSequence(djvFrameList() << 1 << 2 << 3 << 5 << 6 << 7) },
         { "1-3,3-1", djvSequence(djvFrameList() << 1 << 2 << 3 << 3 << 2 << 1) },
-        
         { "-1", djvSequence(djvFrameList() << -1) },
         { "-1--2", djvSequence(djvFrameList() << -1 << -2) },
         { "-1--3", djvSequence(djvFrameList() << -1 << -2 << -3) },
@@ -212,19 +187,14 @@ void djvSequenceUtilTest::stringToSequence()
         { "-1--3,-5--6", djvSequence(djvFrameList() << -1 << -2 << -3 << -5 << -6) },
         { "-1--3,-5--7", djvSequence(djvFrameList() << -1 << -2 << -3 << -5 << -6 << -7) },
         { "-1--3,-3--1", djvSequence(djvFrameList() << -1 << -2 << -3 << -3 << -2 << -1) },
-        
         { "-3-3", djvSequence(djvFrameList() << -3 << -2 << -1 << 0 << 1 << 2 << 3) },
         { "3--3", djvSequence(djvFrameList() << 3 << 2 << 1 << 0 << -1 << -2 << -3) }
     };
-    
     const int dataCount = sizeof(data) / sizeof(Data);
-
     for (int i = 0; i < dataCount; ++i)
     {
         const djvSequence tmp = djvSequenceUtil::stringToSequence(data[i].a);
-
         DJV_DEBUG_PRINT(data[i].a << " = " << tmp);
-
         DJV_ASSERT(tmp == data[i].b);
     }
 }

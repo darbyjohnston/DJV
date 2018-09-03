@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestScaleOp.cpp
-
 #include <djvGlslTestScaleOp.h>
 
 #include <djvGlslTestContext.h>
@@ -128,7 +126,6 @@ const QStringList & djvGlslTestScaleOp::typeLabels()
     static const QStringList data = QStringList() <<
         "Default" <<
         "Custom";
-    
     return data;
 }
 
@@ -137,7 +134,6 @@ const QStringList & djvGlslTestScaleOp::filterDefaultLabels()
     static const QStringList data = QStringList() <<
         "Nearest" <<
         "Linear";
-    
     return data;
 }
 
@@ -151,7 +147,6 @@ const QStringList & djvGlslTestScaleOp::filterCustomLabels()
         "Lanczos3" <<
         "Cubic" <<
         "Mitchell";
-    
     return data;
 }
 
@@ -171,7 +166,6 @@ GLenum djvGlslTestScaleOp::filterToGl(FILTER_DEFAULT in)
         case NEAREST: return GL_NEAREST;
         case LINEAR:  return GL_LINEAR;
     }
-
     return GL_NONE;
 }
 
@@ -186,7 +180,6 @@ const djvGlslTestScaleOp::Values & djvGlslTestScaleOp::values() const
 
 namespace
 {
-
 typedef double (FilterFnc)(const double t);
 
 const double supportBox = 0.5;
@@ -197,7 +190,6 @@ double filterBox(double t)
     {
         return 1.0;
     }
-
     return 0.0;
 }
 
@@ -209,12 +201,10 @@ double filterTriangle(double t)
     {
         t = -t;
     }
-
     if (t < 1.0)
     {
         return 1.0 - t;
     }
-
     return 0.0;
 }
 
@@ -226,19 +216,16 @@ double filterBell(double t)
     {
         t = -t;
     }
-
     if (t < 0.5)
     {
         return 0.75 - t * t;
     }
-
     if (t < 1.5)
     {
         t = t - 1.5;
         
         return 0.5 * t * t;
     }
-
     return 0.0;
 }
 
@@ -250,7 +237,6 @@ double filterBspline(double t)
     {
         t = -t;
     }
-
     if (t < 1.0)
     {
         const double tt = t * t;
@@ -263,19 +249,16 @@ double filterBspline(double t)
         
         return (1.0 / 6.0) * (t * t * t);
     }
-
     return 0.0;
 }
 
 double sinc(double x)
 {
     x *= djvMath::pi;
-
     if (x != 0.0)
     {
         return djvMath::sin(x) / x;
     }
-
     return 1.0;
 }
 
@@ -287,12 +270,10 @@ double filterLanczos3(double t)
     {
         t = -t;
     }
-
     if (t < 3.0)
     {
         return sinc(t) * sinc(t / 3.0);
     }
-
     return 0.0;
 }
 
@@ -304,12 +285,10 @@ double filterCubic(double t)
     {
         t = -t;
     }
-
     if (t < 1.0)
     {
         return (2.0 * t - 3.0) * t * t + 1.0;
     }
-
     return 0.0;
 }
 
@@ -320,18 +299,15 @@ double filterMitchell(double t)
     const double        tt = t * t;
     static const double b  = 1.0 / 3.0;
     static const double c  = 1.0 / 3.0;
-
     if (t < 0.0)
     {
         t = -t;
     }
-
     if (t < 1.0)
     {
         t = ((12.0 - 9.0 * b - 6.0 * c) * (t * tt)) +
             ((-18.0 + 12.0 * b + 6.0 * c) * tt) +
             (6.0 - 2.0 * b);
-        
         return t / 6.0;
     }
     else if (t < 2.0)
@@ -340,7 +316,6 @@ double filterMitchell(double t)
             ((6.0 * b + 30.0 * c) * tt) +
             ((-12.0 * b - 48.0 * c) * t) +
             (8.0 * b + 24.0 * c);
-        
         return t / 6.0;
     }
 
@@ -359,7 +334,6 @@ FilterFnc * filterFnc(djvGlslTestScaleOp::FILTER_CUSTOM in)
         filterCubic,
         filterMitchell
     };
-    
     return tmp[in];
 }
 
@@ -375,7 +349,6 @@ double filterSupport(djvGlslTestScaleOp::FILTER_CUSTOM in)
         supportCubic,
         supportMitchell
     };
-    
     return tmp[in];
 }
 
@@ -391,68 +364,47 @@ void contribFnc(
     //DJV_DEBUG_PRINT("filter = " << filterMin << " " << filterMag);
 
     // Filter function.
-
     djvGlslTestScaleOp::FILTER_CUSTOM filter =
         input < output ? filterMag : filterMin;
-    
     FilterFnc * fnc = filterFnc(filter);
-    
     const double support = filterSupport(filter);
-    
     //DJV_DEBUG_PRINT("support = " << support);
 
     //! \todo Edges?
-
     //const double scale =
     //  static_cast<double>(output) / static_cast<double>(input);
-    
     const double scale =
         (output > 1 ? (output - 1) : 1) /
         static_cast<double>(input > 1 ? (input - 1) : 1);
-    
     //DJV_DEBUG_PRINT("scale = " << scale);
-
     const double radius = support * ((scale >= 1.0) ? 1.0 : (1.0 / scale));
-    
     //DJV_DEBUG_PRINT("radius = " << radius);
-
     const int width = djvMath::ceil(radius * 2 + 1);
-    
     //DJV_DEBUG_PRINT("width = " << width);
-
     out->set(djvPixelDataInfo(output, width, djvPixel::LA_F32));
 
     for (int i = 0; i < output; ++i)
     {
         const double center = i / scale;
-        
         int left  = djvMath::ceil (center - radius);
         int right = djvMath::floor(center + radius);
-        
         //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 
         float sum   = 0.0;
         int   pixel = 0;
         int   j     = 0;
-
         for (int k = left; j < width && k <= right; ++j, ++k)
         {
             djvPixel::F32_T * p =
                 reinterpret_cast<djvPixel::F32_T *>(out->data(i, j));
-
             pixel = djvGlslTestScaleOp::edge(k, input);
-
             const float x = static_cast<float>(
                 (center - k) * (scale < 1.0 ? scale : 1.0));
-            
             const float w = static_cast<float>(
                 (scale < 1.0) ? ((*fnc)(x) * scale) : (*fnc)(x));
-            
             //DJV_DEBUG_PRINT("w = " << w);
-
             p[0] = static_cast<float>(pixel);
             p[1] = w;
-
             sum += w;
         }
 
@@ -460,7 +412,6 @@ void contribFnc(
         {
             djvPixel::F32_T * p =
                 reinterpret_cast<djvPixel::F32_T *>(out->data(i, j));
-
             p[0] = static_cast<float>(pixel);
             p[1] = 0.0;
         }
@@ -469,10 +420,8 @@ void contribFnc(
         {
             djvPixel::F32_T * p =
                 reinterpret_cast<djvPixel::F32_T *>(out->data(i, j));
-
           //DJV_DEBUG_PRINT(p[0] << " = " << p[1]);
         }*/
-        
         //DJV_DEBUG_PRINT("sum = " << sum);
 
         for (j = 0; j < width; ++j)
@@ -553,11 +502,8 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
     //DJV_DEBUG_PRINT("type = " << _values.type);
 
     // Initialize.
-
     djvPixelDataInfo info = in.info();
-
     begin();
-
     if (DEFAULT == _values.type)
     {
         _texture.init(
@@ -565,34 +511,25 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
             GL_TEXTURE_RECTANGLE,
             filterToGl(_values.defaultMin),
             filterToGl(_values.defaultMag));
-
         const StateDefault state(_values);
-
         if (_stateDefault != state)
         {
             //DJV_DEBUG_PRINT("init");
-
             _render.shader.init(vertexSource, fragmentSourceDefault);
-
             _stateDefault = state;
         }
     }
     else
     {
         _texture.init(info, GL_TEXTURE_RECTANGLE);
-
         _render.textureTmp.init(
             djvPixelDataInfo(_values.size.x, in.h(), info.pixel),
             GL_TEXTURE_RECTANGLE);
-
         const StateCustom state(_values);
-
         if (_stateCustom != state)
         {
             //DJV_DEBUG_PRINT("init");
-
             _render.offscreen.init();
-
             djvPixelData contrib;
             contribFnc(
                 in.w(),
@@ -606,7 +543,6 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
                 QString(fragmentSourceCustom).
                     arg(contrib.h()).
                     arg(fragmentSourceX));
-
             contribFnc(
                 in.h(),
                 _values.size.y,
@@ -619,29 +555,24 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
                 QString(fragmentSourceCustom).
                     arg(contrib.h()).
                     arg(fragmentSourceY));
-
             _stateCustom = state;
         }
     }
 
     // Render.
-
     if (DEFAULT == _values.type)
     {
         _render.shader.bind();
         const GLuint program = _render.shader.program();
-
         glUniform2f(glGetUniformLocation(program, "scaleInput"),
             static_cast<GLfloat>(in.w()), static_cast<GLfloat>(in.h()));
         glUniform2f(glGetUniformLocation(program, "scaleOutput"),
             static_cast<GLfloat>(_values.size.x),
             static_cast<GLfloat>(_values.size.y));
-
         glActiveTexture(GL_TEXTURE0);
         glUniform1i(glGetUniformLocation(program, "texture"), 0);
         _texture.bind();
         _texture.copy(in);
-
         info = in.info();
         info.size = _values.size;
         djvOpenGlUtil::ortho(_values.size);
@@ -652,46 +583,36 @@ void djvGlslTestScaleOp::render(const djvImage & in) throw (djvError)
     else
     {
         // Horizontal.
-
         _render.offscreen.bind();
         _render.offscreen.set(_render.textureTmp);
-
         _render.shaderX.bind();
-
         glActiveTexture(GL_TEXTURE0);
         glUniform1i(
             glGetUniformLocation(_render.shaderX.program(), "texture"), 0);
         _texture.bind();
         _texture.copy(in);
-
         glActiveTexture(GL_TEXTURE1);
         glUniform1i(
             glGetUniformLocation(_render.shaderX.program(), "contrib"), 1);
         _render.contribX.bind();
-
         info = in.info();
         info.size.x = _values.size.x;
         djvOpenGlUtil::ortho(info.size);
         glViewport(0, 0, info.size.x, info.size.y);
         glClear(GL_COLOR_BUFFER_BIT);
         djvGlslTestUtil::quad(info);
-
         _render.offscreen.unbind();
 
         // Vertical.
-
         _render.shaderY.bind();
-
         glActiveTexture(GL_TEXTURE0);
         glUniform1i(
             glGetUniformLocation(_render.shaderY.program(), "texture"), 0);
         _render.textureTmp.bind();
-
         glActiveTexture(GL_TEXTURE1);
         glUniform1i(
             glGetUniformLocation(_render.shaderY.program(), "contrib"), 1);
         _render.contribY.bind();
-
         djvOpenGlUtil::ortho(_values.size);
         glViewport(0, 0, _values.size.x, _values.size.y);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -705,9 +626,7 @@ void djvGlslTestScaleOp::setValues(const Values & values)
 {
     if (values == _values)
         return;
-    
     _values = values;
-    
     Q_EMIT opChanged();
 }
 
@@ -722,16 +641,15 @@ djvGlslTestScaleOpWidget::djvGlslTestScaleOpWidget(
     _op(op)
 {
     // Create the widgets.
-
     QGroupBox * sizeGroup = new QGroupBox("Size");
     djvIntEditSlider * width = new djvIntEditSlider(context);
     djvIntEditSlider * height = new djvIntEditSlider(context);
 
     QGroupBox * filterGroup = new QGroupBox("Filter");
-    
+
     for (int i = 0; i < djvGlslTestScaleOp::typeLabels().count(); ++i)
         _typeButton += new QRadioButton(djvGlslTestScaleOp::typeLabels()[i]);
-    
+
     QComboBox * filterDefaultMin = new QComboBox;
     filterDefaultMin->addItems(djvGlslTestScaleOp::filterDefaultLabels());
 
@@ -745,7 +663,6 @@ djvGlslTestScaleOpWidget::djvGlslTestScaleOpWidget(
     filterCustomMag->addItems(djvGlslTestScaleOp::filterCustomLabels());
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     QVBoxLayout * vLayout = new QVBoxLayout(sizeGroup);
@@ -768,13 +685,12 @@ djvGlslTestScaleOpWidget::djvGlslTestScaleOpWidget(
     layout->addStretch();
 
     // Initialize.
-
     width->setRange(1, 2048);
     width->setValue(op->values().size.x);
 
     height->setRange(1, 2048);
     height->setValue(op->values().size.y);
-    
+
     _typeButton[op->values().type]->setChecked(true);
 
     filterDefaultMin->setCurrentIndex(op->values().defaultMin);
@@ -784,17 +700,14 @@ djvGlslTestScaleOpWidget::djvGlslTestScaleOpWidget(
     filterCustomMag->setCurrentIndex(op->values().customMag);
 
     // Setup the callbacks.
-
     connect(
         width,
         SIGNAL(valueChanged(int)),
         SLOT(widthCallback(int)));
-
     connect(
         height,
         SIGNAL(valueChanged(int)),
         SLOT(heightCallback(int)));
-
     for (int i = 0; i < _typeButton.count(); ++i)
     {
         connect(
@@ -802,22 +715,18 @@ djvGlslTestScaleOpWidget::djvGlslTestScaleOpWidget(
             SIGNAL(toggled(bool)),
             SLOT(typeCallback()));
     }
-
     connect(
         filterDefaultMin,
         SIGNAL(activated(int)),
         SLOT(defaultMinCallback(int)));
-
     connect(
         filterDefaultMag,
         SIGNAL(activated(int)),
         SLOT(defaultMagCallback(int)));
-
     connect(
         filterCustomMin,
         SIGNAL(activated(int)),
         SLOT(customMinCallback(int)));
-
     connect(
         filterCustomMag,
         SIGNAL(activated(int)),
@@ -827,71 +736,56 @@ djvGlslTestScaleOpWidget::djvGlslTestScaleOpWidget(
 void djvGlslTestScaleOpWidget::widthCallback(int in)
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     values.size.x = in;
-
     _op->setValues(values);
 }
 
 void djvGlslTestScaleOpWidget::heightCallback(int in)
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     values.size.y = in;
-
     _op->setValues(values);
 }
 
 void djvGlslTestScaleOpWidget::typeCallback()
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     for (int i = 0; i < _typeButton.count(); ++i)
     {
         if (_typeButton[i]->isChecked())
         {
             values.type = static_cast<djvGlslTestScaleOp::TYPE>(i);
-            
             break;
         }
     }
-
     _op->setValues(values);
 }
 
 void djvGlslTestScaleOpWidget::defaultMinCallback(int in)
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     values.defaultMin = static_cast<djvGlslTestScaleOp::FILTER_DEFAULT>(in);
-
     _op->setValues(values);
 }
 
 void djvGlslTestScaleOpWidget::defaultMagCallback(int in)
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     values.defaultMag = static_cast<djvGlslTestScaleOp::FILTER_DEFAULT>(in);
-
     _op->setValues(values);
 }
 
 void djvGlslTestScaleOpWidget::customMinCallback(int in)
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     values.customMin = static_cast<djvGlslTestScaleOp::FILTER_CUSTOM>(in);
-
     _op->setValues(values);
 }
 
 void djvGlslTestScaleOpWidget::customMagCallback(int in)
 {
     djvGlslTestScaleOp::Values values = _op->values();
-    
     values.customMag = static_cast<djvGlslTestScaleOp::FILTER_CUSTOM>(in);
-
     _op->setValues(values);
 }
 
@@ -908,7 +802,7 @@ djvGlslTestAbstractOp * djvGlslTestScaleOpFactory::createOp() const
 {
     return new djvGlslTestScaleOp(context());
 }
-    
+
 djvGlslTestAbstractOpWidget * djvGlslTestScaleOpFactory::createWidget(
     djvGlslTestAbstractOp * op) const
 {

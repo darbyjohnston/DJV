@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvQuestionDialogTest.cpp
-
 #include <djvQuestionDialogTest.h>
 
 #include <djvQuestionDialog.h>
@@ -49,7 +47,6 @@ QString djvQuestionDialogTest::name()
 void djvQuestionDialogTest::run(const QStringList & args)
 {
     djvQuestionDialog dialog("Would you like to save the file?");
-    
     if (QDialog::Accepted == dialog.exec())
     {
         djvSystem::print("Yes");

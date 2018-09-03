@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestContext.h
+#pragma once
 
 #ifndef DJV_IMAGE_PLAY2_TEST_CONTEXT_H
 #define DJV_IMAGE_PLAY2_TEST_CONTEXT_H

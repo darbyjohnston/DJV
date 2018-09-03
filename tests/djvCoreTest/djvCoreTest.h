@@ -31,17 +31,12 @@
 
 #pragma once
 
-#include <djvCoreTestExport.h>
+//! \addtogroup tests
+//@{
 
-#include <djvAbstractTest.h>
+//! \defgroup djvCoreTest djvCoreTest
+//!
+//! This library provides testing functionality for djvCore.
 
-class DJV_CORE_TEST_EXPORT djvMemoryBufferTest : public djvAbstractTest
-{
-public:
-    virtual void run(int &, char **);
+//@} // tests
 
-private:
-    void ctors();
-    void members();
-    void operators();
-};

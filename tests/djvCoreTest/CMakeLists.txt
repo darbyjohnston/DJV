@@ -5,6 +5,8 @@ set(header
     djvColorTest.h
     djvColorUtilTest.h
     djvCoreContextTest.h
+    djvCoreTestExport.h
+    djvCoreTest.h
     djvDebugTest.h
     djvErrorTest.h
     djvFileInfoTest.h

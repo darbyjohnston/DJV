@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestApplication.cpp
-
 #include <djvFileBrowserTestApplication.h>
 
 #include <djvFileBrowserTestDir.h>
@@ -51,7 +49,7 @@ djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char **
     QApplication(argc, argv)
 {
     setStyle("fusion");
-
+    
     qRegisterMetaType<djvFileBrowserTestDirRequest>(
         "djvFileBrowserTestDirRequest");
     qRegisterMetaType<djvFileBrowserTestDirResult>(

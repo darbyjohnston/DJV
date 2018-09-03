@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestBlurOp.h
-
-#ifndef DJV_GLSL_TEST_BLUR_OP_H
-#define DJV_GLSL_TEST_BLUR_OP_H
+#pragma once
 
 #include <djvGlslTestAbstractOp.h>
 
@@ -149,6 +146,4 @@ public:
     virtual djvGlslTestAbstractOpWidget * createWidget(
         djvGlslTestAbstractOp *) const;
 };
-
-#endif // DJV_GLSL_TEST_BLUR_OP_H
 

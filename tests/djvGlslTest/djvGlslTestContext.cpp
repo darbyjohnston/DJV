@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestContext.cpp
-
 #include <djvGlslTestContext.h>
 
 //------------------------------------------------------------------------------
@@ -51,12 +49,9 @@ bool djvGlslTestContext::commandLine(int & argc, char ** argv)
     if (argc != 2)
     {
         printMessage("Usage: djvGlslTest (image)");
-        
         return false;
     }
-    
-    _fileInfo = djvFileInfo(argv[1]);
-    
+    _fileInfo = djvFileInfo(argv[1]);    
     return true;
 }
 

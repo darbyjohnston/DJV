@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.h
-
-#ifndef DJV_GLSL_TEST_PLAYBACK_TOOL_BAR_H
-#define DJV_GLSL_TEST_PLAYBACK_TOOL_BAR_H
+#pragma once
 
 #include <djvGlslTestPlayback.h>
 
@@ -66,4 +63,3 @@ private:
     djvViewFrameSlider *  _slider;
 };
 
-#endif // DJV_GLSL_TEST_PLAYBACK_TOOL_BAR_H

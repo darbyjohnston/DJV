@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestThumbnail.h
-
-#ifndef DJV_FILE_BROWSER_TEST_THUMBNAIL_H
-#define DJV_FILE_BROWSER_TEST_THUMBNAIL_H
+#pragma once
 
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
@@ -56,8 +53,6 @@ class djvImageContext;
 
 struct djvFileBrowserTestThumbnailRequest
 {
-    //! Constructor.
-    
     djvFileBrowserTestThumbnailRequest();
     
     djvFileInfo                        fileInfo;      //!< File information.
@@ -78,15 +73,10 @@ class djvFileBrowserTestThumbnailRequester : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestThumbnailRequester(QObject * parent = 0);
     
 Q_SIGNALS:
-
     //! Request an image thumbnail.
-    
     void request(const djvFileBrowserTestThumbnailRequest &);
 };
 
@@ -98,8 +88,6 @@ Q_SIGNALS:
 
 struct djvFileBrowserTestThumbnailResult
 {
-    //! Constructor.
-    
     djvFileBrowserTestThumbnailResult();
     
     djvImageIoInfo info;        //!< Image I/O information.
@@ -120,21 +108,14 @@ class djvFileBrowserTestThumbnailWorker : public djvFileBrowserTestAbstractWorke
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestThumbnailWorker(
         djvImageContext * context,
         QObject *         parent = 0);
 
-    //! Destructor.
-    
     virtual ~djvFileBrowserTestThumbnailWorker();
     
 public Q_SLOTS:
-
     //! Request an image thumbnail.
-    
     void request(const djvFileBrowserTestThumbnailRequest &);
     
     virtual void start();
@@ -142,13 +123,10 @@ public Q_SLOTS:
     virtual void finish();
 
 Q_SIGNALS:
-
     //! This signal is emitted when a request has been completed.
-
     void result(const djvFileBrowserTestThumbnailResult &);
 
 private:
-
     DJV_PRIVATE_COPY(djvFileBrowserTestThumbnailWorker)
     
     djvFileBrowserTestThumbnailWorkerPrivate * _p;
@@ -165,33 +143,22 @@ class djvFileBrowserTestThumbnail : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestThumbnail(djvImageContext *, QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvFileBrowserTestThumbnail();
     
 public Q_SLOTS:
-
     //! Request an image thumbnail.
-    
     void request(const djvFileBrowserTestThumbnailRequest &);
     
     //! Set the request ID.
-    
     void setId(quint64);
     
 Q_SIGNALS:
-
     //! This signal is emitted when a request has been completed.
-
     void result(const djvFileBrowserTestThumbnailResult &);
     
 private:
-
     djvFileBrowserTestThumbnailRequester * nextRequester();
 
     djvImageContext *                               _context;
@@ -200,6 +167,4 @@ private:
     QVector<QThread *>                              _threads;
     int                                             _threadIndex;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_THUMBNAIL_H
 

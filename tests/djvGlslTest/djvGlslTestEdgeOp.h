@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestEdgeOp.h
-
-#ifndef DJV_GLSL_TEST_EDGE_OP_H
-#define DJV_GLSL_TEST_EDGE_OP_H
+#pragma once
 
 #include <djvGlslTestAbstractOp.h>
 
@@ -73,4 +70,3 @@ public:
     virtual djvGlslTestAbstractOp * createOp() const;
 };
 
-#endif // DJV_GLSL_TEST_EDGE_OP_H

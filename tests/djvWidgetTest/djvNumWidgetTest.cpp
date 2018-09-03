@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvNumWidgetTest.cpp
-
 #include <djvNumWidgetTest.h>
 
 #include <djvFloatDisplay.h>
@@ -95,17 +93,14 @@ djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvGuiContext * context) :
         _intEdit,
         SIGNAL(valueChanged(int)),
         SLOT(intCallback(int)));
-    
     connect(
         _intSlider,
         SIGNAL(valueChanged(int)),
         SLOT(intCallback(int)));
-    
     connect(
         _floatEdit,
         SIGNAL(valueChanged(double)),
         SLOT(floatCallback(double)));
-
     connect(
         _floatSlider,
         SIGNAL(valueChanged(double)),
@@ -115,18 +110,14 @@ djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvGuiContext * context) :
 void djvNumWidgetTestWidget::intCallback(int value)
 {
     _intValue = value;
-    
     djvSystem::print(QString("%1").arg(_intValue));
-    
     widgetUpdate();
 }
 
 void djvNumWidgetTestWidget::floatCallback(double value)
 {
     _floatValue = value;
-    
     djvSystem::print(QString("%1").arg(_floatValue));
-    
     widgetUpdate();
 }
 
@@ -139,11 +130,9 @@ void djvNumWidgetTestWidget::widgetUpdate()
         _floatEdit <<
         _floatDisplay <<
         _floatSlider);
-    
     _intEdit->setValue(_intValue);
     _intDisplay->setValue(_intValue);
     _intSlider->setValue(_intValue);
-
     _floatEdit->setValue(_floatValue);
     _floatDisplay->setValue(_floatValue);
     _floatSlider->setValue(_floatValue);

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestUtil.cpp
-
 #include <djvFileBrowserTestUtil.h>
 
 #include <djvAssert.h>
@@ -59,9 +57,7 @@ const djvFileBrowserTestActionDataList & djvFileBrowserTestUtil::sequenceData()
             djvSequence::compressLabels()[djvSequence::COMPRESS_RANGE],
             qApp->translate("djvFileBrowserTestUtil", "Enable range file sequencing"),
             ":djvSequenceRangeIcon.png");
-
     DJV_ASSERT(data.count() == djvSequence::COMPRESS_COUNT);
-
     return data;
 }
 
@@ -71,9 +67,7 @@ const QStringList & djvFileBrowserTestUtil::thumbnailsLabels()
         qApp->translate("djvFileBrowserTestUtil", "Off") <<
         qApp->translate("djvFileBrowserTestUtil", "Low Quality") <<
         qApp->translate("djvFileBrowserTestUtil", "High Quality");
-
     DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
-
     return data;
 }
 
@@ -84,15 +78,11 @@ djvVector2i djvFileBrowserTestUtil::thumbnailSize(
     djvPixelDataInfo::PROXY * proxy)
 {
     const int tmp = djvMath::max(imageSize.x, imageSize.y);
-
     if (tmp <= 0)
         return djvVector2i();
-
     int _proxy = 0;
-    
     double proxyScale = static_cast<double>(
         djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(_proxy)));
-
     if (THUMBNAILS_LOW == thumbnails)
     {
         while (
@@ -103,14 +93,11 @@ djvVector2i djvFileBrowserTestUtil::thumbnailSize(
                 djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(++_proxy)));
         }
     }
-    
     if (proxy)
     {
         *proxy = djvPixelDataInfo::PROXY(_proxy);
     }
-
     const double scale = thumbnailSize / static_cast<double>(tmp / proxyScale);
-    
     return djvVectorUtil::ceil<double, int>(djvVector2f(imageSize) / proxyScale * scale);
 }
 
@@ -124,9 +111,7 @@ const QStringList & djvFileBrowserTestUtil::columnsLabels()
 #endif // DJV_WINDOWS
         qApp->translate("djvFileBrowserTestUtil", "Permissions") <<
         qApp->translate("djvFileBrowserTestUtil", "Time");
-
     DJV_ASSERT(data.count() == COLUMNS_COUNT);
-
     return data;
 }
 

@@ -29,54 +29,22 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvCoreTestExport.h
-
-#ifndef DJV_CORE_TEST_EXPORT_H
-#define DJV_CORE_TEST_EXPORT_H
-
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvCoreTest djvCoreTest
-//!
-//! This library provides testing functionality for djvCore.
-
-//@} // tests
+#pragma once
 
 //! \addtogroup djvCoreTest
 //@{
 
 #if defined(DJV_WINDOWS)
-
 #if defined(djvCoreTest_EXPORTS)
-
-//! This define provides the library export.
-
 #define DJV_CORE_TEST_EXPORT __declspec(dllexport)
-
-//! This define provides the Windows template export.
-
 #define DJV_CORE_TEST_EXPORT_TEMPLATE
-
 #else // djvCoreTest_EXPORTS
-
-//! This define provides the library export.
-
 #define DJV_CORE_TEST_EXPORT __declspec(dllimport)
-
-//! This define provides the Windows template export.
-
 #define DJV_CORE_TEST_EXPORT_TEMPLATE extern
-
 #endif // djvCoreTest_EXPORTS
-
 #else // DJV_WINDOWS
-
 #define DJV_CORE_TEST_EXPORT
-
 #endif // DJV_WINDOWS
 
 //@} // djvCoreTest
-
-#endif // DJV_CORE_TEST_EXPORT_H
 

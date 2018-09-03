@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVectorUtilTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 
@@ -38,11 +38,9 @@
 class DJV_CORE_TEST_EXPORT djvVectorUtilTest : public djvAbstractTest
 {
 public:
-
     virtual void run(int &, char **);
 
 private:
-
     void abs();
     void swap();
     void range();
@@ -53,3 +51,4 @@ private:
     void aspect();
     void convert();
 };
+

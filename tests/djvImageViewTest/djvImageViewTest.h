@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageViewTest.h
+#pragma once
 
 #include <djvGuiContext.h>
 #include <djvImageView.h>

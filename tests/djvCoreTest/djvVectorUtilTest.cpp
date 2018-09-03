@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVectorUtilTest.cpp
-
 #include <djvVectorUtilTest.h>
 
 #include <djvAssert.h>
@@ -42,7 +40,6 @@
 void djvVectorUtilTest::run(int &, char **)
 {
     DJV_DEBUG("djvVectorUtilTest::run");
-    
     abs();
     swap();
     range();
@@ -57,21 +54,18 @@ void djvVectorUtilTest::run(int &, char **)
 void djvVectorUtilTest::abs()
 {
     DJV_DEBUG("djvVectorUtilTest::abs");
-    
     DJV_ASSERT(djvVectorUtil::abs(djvVector2i(-1, -2)) == djvVector2i(1, 2));
 }
 
 void djvVectorUtilTest::swap()
 {
     DJV_DEBUG("djvVectorUtilTest::swap");
-    
     DJV_ASSERT(djvVectorUtil::swap(djvVector2i(1, 2)) == djvVector2i(2, 1));
 }
 
 void djvVectorUtilTest::range()
 {
     DJV_DEBUG("djvVectorUtilTest::range");
-    
     DJV_ASSERT(
         djvVectorUtil::min(djvVector2i(1, 2), djvVector2i(3, 4)) == djvVector2i(1, 2));
     DJV_ASSERT(
@@ -83,7 +77,6 @@ void djvVectorUtilTest::range()
 void djvVectorUtilTest::isSizeValid()
 {
     DJV_DEBUG("djvVectorUtilTest::isSizeValid");
-    
     DJV_ASSERT(
         djvVectorUtil::isSizeValid(djvVector2i(1, 2)) &&
         !djvVectorUtil::isSizeValid(djvVector2i(-1, -2)));
@@ -92,42 +85,36 @@ void djvVectorUtilTest::isSizeValid()
 void djvVectorUtilTest::length()
 {
     DJV_DEBUG("djvVectorUtilTest::length");
-    
     DJV_ASSERT(djvVectorUtil::length(djvVector2i(0, 2)) == 2);
 }
 
 void djvVectorUtilTest::normalize()
 {
     DJV_DEBUG("djvVectorUtilTest::normalize");
-    
     DJV_ASSERT(djvVectorUtil::normalize(djvVector2f(0.0, 2.0)) == djvVector2f(0.0, 1.0));
 }
 
 void djvVectorUtilTest::dot()
 {
     DJV_DEBUG("djvVectorUtilTest::dot");
-    
     DJV_ASSERT(djvVectorUtil::dot(djvVector2f(1.0, 0.0), djvVector2f(0.0, 1.0)) == 0.0);
 }
 
 void djvVectorUtilTest::aspect()
 {
     DJV_DEBUG("djvVectorUtilTest::aspect");
-    
     DJV_ASSERT(djvVectorUtil::aspect(djvVector2i(2, 1)) == 2.0);
 }
 
 void djvVectorUtilTest::convert()
 {
     DJV_DEBUG("djvVectorUtilTest::convert");
-    
     djvVector2i v2i = djvVectorUtil::convert<double, int, 2>(djvVector2f(1.0, 2.0));
     DJV_ASSERT(v2i == djvVector2i(1, 2));
     v2i = djvVectorUtil::ceil<double, int, 2>(djvVector2f(0.5, 0.5));
     DJV_ASSERT(v2i == djvVector2i(1, 1));
     v2i = djvVectorUtil::floor<double, int, 2>(djvVector2f(0.5, 0.5));
     DJV_ASSERT(v2i == djvVector2i(0, 0));
-
     DJV_ASSERT((QStringList() << "1" << "2") ==
         djvStringUtil::label(djvVector2i(1, 2)));
 }

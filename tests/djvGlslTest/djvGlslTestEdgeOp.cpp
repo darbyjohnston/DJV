@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestEdgeOp.cpp
-
 #include <djvGlslTestEdgeOp.h>
 
 #include <djvImage.h>
@@ -49,7 +47,6 @@ djvGlslTestEdgeOp::djvGlslTestEdgeOp(djvGlslTestContext * context) :
 
 namespace
 {
-
 const QString vertexSource =
 "void main(void)\n"
 "{\n"
@@ -76,23 +73,17 @@ void djvGlslTestEdgeOp::render(const djvImage & in) throw (djvError)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Initialize.
-
     begin();
-
     _texture.init(in, GL_TEXTURE_RECTANGLE);
-
     if (! _init)
     {
         //DJV_DEBUG_PRINT("init");
-
         djvGlslTestKernel kernel;
         kernel.init(9);
-
         _shader.init(
             vertexSource,
             QString(fragmentSource).arg(kernel.src()));
         _shader.bind();
-
         const float value [] =
         {
             0.0,  1.0, 0.0,
@@ -107,24 +98,19 @@ void djvGlslTestEdgeOp::render(const djvImage & in) throw (djvError)
         };
         kernel.value(_shader.program(), value);
         kernel.offset(_shader.program(), offset);
-
         _init = true;
     }
 
     // Render.
-
     _shader.bind();
-
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(_shader.program(), "texture"), 0);
     _texture.bind();
-
     const djvPixelDataInfo & info = in.info();
     djvOpenGlUtil::ortho(info.size);
     glViewport(0, 0, info.size.x, info.size.y);
     glClear(GL_COLOR_BUFFER_BIT);
     djvGlslTestUtil::quad(info);
-
     end();
 }
 
@@ -140,3 +126,4 @@ djvGlslTestAbstractOp * djvGlslTestEdgeOpFactory::createOp() const
 {
     return new djvGlslTestEdgeOp(context());
 }
+

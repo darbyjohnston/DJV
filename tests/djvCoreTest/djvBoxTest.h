@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvBoxTest.h
+#pragma once
 
 #include <djvCoreTestExport.h>
 
@@ -47,3 +47,4 @@ private:
     void members();
     void operators();
 };
+

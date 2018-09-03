@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageContextTest.cpp
-
 #include <djvImageContextTest.h>
 
 #include <djvAssert.h>
@@ -42,48 +40,36 @@
 void djvImageContextTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvImageContextTest::run");
-    
     {
         djvImageContext context;
-
         DJV_ASSERT(context.openGlContext());
     }
-    
     try
     {
         djvImageContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "arg"
         };
-        
         int argsCount = 2;
-        
         DJV_ASSERT(context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-    
     try
     {
         djvImageContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-render_filter", "Box", "Triangle"
         };
-        
         int argsCount = 4;
-
         DJV_ASSERT(context.commandLine(argsCount, args));
-
         DJV_ASSERT(djvOpenGlImageFilter(
             djvOpenGlImageFilter::BOX, djvOpenGlImageFilter::TRIANGLE) ==
             djvOpenGlImageFilter::filter());
@@ -91,46 +77,35 @@ void djvImageContextTest::run(int & argc, char ** argv)
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-    
     try
     {
         djvImageContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-render_filter_high"
         };
-        
         int argsCount = 2;
-
         DJV_ASSERT(context.commandLine(argsCount, args));
-
         DJV_ASSERT(djvOpenGlImageFilter::filterHighQuality() ==
             djvOpenGlImageFilter::filter());
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-    
     try
     {
         djvImageContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-render_filter"
         };
-        
         int argsCount = 2;
-
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (...)
@@ -139,42 +114,33 @@ void djvImageContextTest::run(int & argc, char ** argv)
     try
     {
         djvImageContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-help",
         };
-        
         int argsCount = 2;
-        
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
-        
     try
     {
         djvImageContext context;
-        
         char * args [256] =
         {
             "djvTest",
             "-info",
         };
-        
         int argsCount = 2;
-
         DJV_ASSERT(! context.commandLine(argsCount, args));
     }
     catch (const djvError & error)
     {
         djvErrorUtil::print(error);
-        
         DJV_ASSERT(0);
     }
 }

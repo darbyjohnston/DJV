@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestApplication.h
-
-#ifndef DJV_WIDGET_TEST_APPLICATION_H
-#define DJV_WIDGET_TEST_APPLICATION_H
+#pragma once
 
 #include <djvWidgetTestManager.h>
 #include <djvWidgetTestModel.h>
@@ -62,4 +59,3 @@ private:
     QScopedPointer<djvWidgetTestWindow>  _window;
 };
 
-#endif // DJV_WIDGET_TEST_APPLICATION_H

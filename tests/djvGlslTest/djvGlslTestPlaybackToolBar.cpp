@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlaybackToolBar.cpp
-
 #include <djvGlslTestPlaybackToolBar.h>
 
 #include <djvGlslTestContext.h>
@@ -80,12 +78,10 @@ djvGlslTestPlaybackToolBar::djvGlslTestPlaybackToolBar(
         _playback,
         SIGNAL(frameChanged(qint64)),
         SLOT(setFrame(qint64)));
-    
     _playback->connect(
         _buttons,
         SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
         SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
     _playback->connect(
         _slider,
         SIGNAL(frameChanged(qint64)),

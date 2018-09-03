@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestOpListDockWidget.cpp
-
 #include <djvGlslTestOpListDockWidget.h>
 
 #include <djvGlslTestAbstractOp.h>

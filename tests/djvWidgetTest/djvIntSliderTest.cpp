@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntSliderTest.cpp
-
 #include <djvIntSliderTest.h>
 
 #include <djvIntSlider.h>

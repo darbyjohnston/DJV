@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTest.cpp
-
 #include <djvFileBrowserTest.h>
 
 #include <djvFileBrowser.h>
@@ -49,12 +47,10 @@ QString djvFileBrowserTest::name()
 void djvFileBrowserTest::run(const QStringList & args)
 {
     djvFileBrowser fileBrowser(context());
-
     if (args.count() > 0)
     {
         fileBrowser.setFileInfo(args[0]);
     }
-    
     if (QDialog::Accepted == fileBrowser.exec())
     {
         djvSystem::print(fileBrowser.fileInfo());

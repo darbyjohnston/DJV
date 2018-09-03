@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestMainWindow.cpp
-
 #include <djvGlslTestMainWindow.h>
 
 #include <djvGlslTestContext.h>
@@ -62,11 +60,8 @@ djvGlslTestMainWindow::djvGlslTestMainWindow(
     _currentOpDockWidget(0)
 {
     _viewWidget = new djvGlslTestViewWidget(imageLoad, opsManager, playback, context);
-    
     _playbackToolBar = new djvGlslTestPlaybackToolBar(playback, context);
-    
-    _opListDockWidget = new djvGlslTestOpListDockWidget(opsManager);
-    
+    _opListDockWidget = new djvGlslTestOpListDockWidget(opsManager);    
     _currentOpDockWidget = new djvGlslTestOpDockWidget(opsManager);
     
     setWindowTitle("djvGlslTest");

@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIconLibraryTest.h
+#pragma once
 
 #include <djvAbstractWidgetTest.h>
 

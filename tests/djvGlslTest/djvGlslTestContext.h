@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestContext.h
-
-#ifndef DJV_GLSL_TEST_CONTEXT_H
-#define DJV_GLSL_TEST_CONTEXT_H
+#pragma once
 
 #include <djvGuiContext.h>
 
@@ -59,4 +56,3 @@ private:
     djvFileInfo _fileInfo;
 };
 
-#endif // DJV_GLSL_TEST_CONTEXT_H

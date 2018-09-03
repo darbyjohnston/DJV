@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTimerTest.cpp
-
 #include <djvTimerTest.h>
 
 #include <djvAssert.h>
@@ -44,7 +42,6 @@
 void djvTimerTest::run(int &, char **)
 {
     DJV_DEBUG("djvTimerTest::run");
-    
     ctors();
     operators();
 }
@@ -52,23 +49,17 @@ void djvTimerTest::run(int &, char **)
 void djvTimerTest::ctors()
 {
     DJV_DEBUG("djvTimerTest::ctors");
-    
     {
         const djvTimer timer;
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, timer.seconds()));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, timer.fps()));
     }
-    
     {
         djvTimer a;
-        
         a.start();
         djvTime::msleep(1);
         a.check();
-        
         djvTimer b(a);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(a.seconds(), b.seconds()));
         DJV_ASSERT(djvMath::fuzzyCompare(a.fps(), b.fps()));
     }
@@ -77,18 +68,13 @@ void djvTimerTest::ctors()
 void djvTimerTest::operators()
 {
     DJV_DEBUG("djvTimerTest::operators");
-    
     {
         djvTimer a;
-        
         a.start();
         djvTime::msleep(1);
         a.check();
-        
         djvTimer b;
-        
         b = a;
-        
         DJV_ASSERT(djvMath::fuzzyCompare(a.seconds(), b.seconds()));
         DJV_ASSERT(djvMath::fuzzyCompare(a.fps(), b.fps()));
     }

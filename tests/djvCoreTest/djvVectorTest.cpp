@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvVectorTest.cpp
-
 #include <djvVectorTest.h>
 
 #include <djvAssert.h>
@@ -42,7 +40,6 @@
 void djvVectorTest::run(int &, char **)
 {
     DJV_DEBUG("djvVectorTest::run");
-    
     ctors();
     members();
     operators();
@@ -51,62 +48,46 @@ void djvVectorTest::run(int &, char **)
 void djvVectorTest::ctors()
 {
     DJV_DEBUG("djvVectorTest::ctors");
-    
     {
         const djvVector2i v;
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(0 == v.y);
     }
-    
     {
         const djvVector3i v;
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(0 == v.y);
         DJV_ASSERT(0 == v.z);
     }
-    
     {
         const djvVector2i v(djvVector2i(1, 2));
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         const djvVector3i v(djvVector3i(1, 2, 3));
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(3 == v.z);
     }
-    
     {
         const djvVector2i v(1, 2);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         const djvVector3i v(1, 2, 3);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(3 == v.z);
     }
-    
     {
         const djvVector2i v(1);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(1 == v.y);
     }
-    
     {
         const djvVector3i v(1);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(1 == v.y);
         DJV_ASSERT(1 == v.z);
@@ -116,36 +97,28 @@ void djvVectorTest::ctors()
 void djvVectorTest::members()
 {
     DJV_DEBUG("djvVectorTest::members");
-    
     {
         djvVector2i v;
         v.set(1);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(1 == v.y);
     }
-
     {
         djvVector3i v;
         v.set(1);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(1 == v.y);
         DJV_ASSERT(1 == v.z);
     }
-    
     {
         djvVector2i v(1);
         v.zero();
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(0 == v.y);
     }
-
     {
         djvVector3i v(1);
         v.zero();
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(0 == v.y);
         DJV_ASSERT(0 == v.z);
@@ -155,85 +128,65 @@ void djvVectorTest::members()
 void djvVectorTest::operators()
 {
     DJV_DEBUG("djvVectorTest::operators");
-    
     {
         const djvVector2i v = djvVector2i(1, 2);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(1, 2, 3);
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(3 == v.z);
     }
-    
     {
         djvVector2i v(1, 2);
         v += djvVector2i(3, 4);
-        
         DJV_ASSERT(4 == v.x);
         DJV_ASSERT(6 == v.y);
     }
-    
     {
         djvVector3i v(1, 2, 3);
         v += djvVector3i(4, 5, 6);
-        
         DJV_ASSERT(5 == v.x);
         DJV_ASSERT(7 == v.y);
         DJV_ASSERT(9 == v.z);
     }
-    
     {
         djvVector2i v(3, 4);
         v -= djvVector2i(1, 2);
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         djvVector3i v(4, 5, 6);
         v -= djvVector3i(1, 2, 3);
-        
         DJV_ASSERT(3 == v.x);
         DJV_ASSERT(3 == v.y);
         DJV_ASSERT(3 == v.z);
     }
-    
     {
         djvVector2i v(1, 2);
         v *= djvVector2i(3, 4);
-        
         DJV_ASSERT(3 == v.x);
         DJV_ASSERT(8 == v.y);
     }
-    
     {
         djvVector3i v(1, 2, 3);
         v *= djvVector3i(4, 5, 6);
-        
         DJV_ASSERT( 4 == v.x);
         DJV_ASSERT(10 == v.y);
         DJV_ASSERT(18 == v.z);
     }
-    
     {
         djvVector2i v(4, 6);
         v /= djvVector2i(2, 3);
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         djvVector3i v(4, 6, 8);
         v /= djvVector3i(2, 3, 4);
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(2 == v.z);
@@ -242,78 +195,61 @@ void djvVectorTest::operators()
     {
         djvVector2i v(1, 2);
         v += 1;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
     }
-    
     {
         djvVector3i v(1, 2, 3);
         v += 1;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
         DJV_ASSERT(4 == v.z);
     }
-    
     {
         djvVector2i v(1, 2);
         v -= 1;
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(1 == v.y);
     }
-    
     {
         djvVector3i v(1, 2, 3);
         v -= 1;
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(1 == v.y);
         DJV_ASSERT(2 == v.z);
     }
-    
     {
         djvVector2i v(1, 2);
         v *= 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(4 == v.y);
     }
-    
     {
         djvVector3i v(1, 2, 3);
         v *= 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(4 == v.y);
         DJV_ASSERT(6 == v.z);
     }
-    
     {
         djvVector2i v(4, 6);
         v /= 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
     }
-    
     {
         djvVector3i v(4, 6, 8);
         v /= 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
         DJV_ASSERT(4 == v.z);
     }
-    
     {
         const djvVector2f v = djvVector2i(1, 2);
 
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, v.x));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, v.y));
     }
-    
     {
         const djvVector3f v = djvVector3i(1, 2, 3);
 
@@ -321,14 +257,12 @@ void djvVectorTest::operators()
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, v.y));
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, v.z));
     }
-    
     {
         const djvVector2i v = djvVector2f(1.0, 2.0);
 
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3f(1.0, 2.0, 3.0);
 
@@ -336,62 +270,46 @@ void djvVectorTest::operators()
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(3 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(1, 2) + djvVector2i(3, 4);
-        
         DJV_ASSERT(4 == v.x);
         DJV_ASSERT(6 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(1, 2, 3) + djvVector3i(4, 5, 6);
-        
         DJV_ASSERT(5 == v.x);
         DJV_ASSERT(7 == v.y);
         DJV_ASSERT(9 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(3, 4) - djvVector2i(1, 2);
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(4, 5, 6) - djvVector3i(1, 2, 3);
-        
         DJV_ASSERT(3 == v.x);
         DJV_ASSERT(3 == v.y);
         DJV_ASSERT(3 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(1, 2) * djvVector2i(3, 4);
-        
         DJV_ASSERT(3 == v.x);
         DJV_ASSERT(8 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(1, 2, 3) * djvVector3i(4, 5, 6);
-        
         DJV_ASSERT( 4 == v.x);
         DJV_ASSERT(10 == v.y);
         DJV_ASSERT(18 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(4, 6) / djvVector2i(2, 3);
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(2 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(4, 6, 8) / djvVector3i(2, 3, 4);
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(2 == v.z);
@@ -399,109 +317,80 @@ void djvVectorTest::operators()
 
     {
         const djvVector2i v = djvVector2i(1, 2) + 1;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(1, 2, 3) + 1;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
         DJV_ASSERT(4 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(1, 2) - 1;
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(1 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(1, 2, 3) - 1;
-        
         DJV_ASSERT(0 == v.x);
         DJV_ASSERT(1 == v.y);
         DJV_ASSERT(2 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(1, 2) * 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(4 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(1, 2, 3) * 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(4 == v.y);
         DJV_ASSERT(6 == v.z);
     }
-    
     {
         const djvVector2i v = djvVector2i(4, 6) / 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
     }
-    
     {
         const djvVector3i v = djvVector3i(4, 6, 8) / 2;
-        
         DJV_ASSERT(2 == v.x);
         DJV_ASSERT(3 == v.y);
         DJV_ASSERT(4 == v.z);
     }
-    
     {
         djvVector2i v;
-        
         QStringList s = QStringList() << "1" << "2";
         s >> v;
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(s.isEmpty());
     }
-    
     {
         djvVector3i v;
-        
         QStringList s = QStringList() << "1" << "2" << "3";
         s >> v;
-        
         DJV_ASSERT(1 == v.x);
         DJV_ASSERT(2 == v.y);
         DJV_ASSERT(3 == v.z);
         DJV_ASSERT(s.isEmpty());
     }
-    
     {
         djvVector2i v(1, 2);
-        
         QStringList s;
         s << v;
-        
         DJV_ASSERT((QStringList() << "1" << "2") == s);
     }
-    
     {
         djvVector3i v(1, 2, 3);
-        
         QStringList s;
         s << v;
-        
         DJV_ASSERT((QStringList() << "1" << "2" << "3") == s);
     }
-
     {
         const djvVector2i a(1, 2);
         const djvVector2i b(2, 3);
-        
         DJV_ASSERT(a == a);
         DJV_ASSERT(a != djvVector2i());
         DJV_ASSERT(a <  b);

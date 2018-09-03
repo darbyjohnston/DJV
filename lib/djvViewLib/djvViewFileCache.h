@@ -56,7 +56,6 @@ class djvImage;
 class DJV_VIEW_LIB_EXPORT djvViewFileCacheItem
 {
 public:
-
     //! Constructor.
     //!
     //! \param image The image to be cached. Ownership of the image is passed

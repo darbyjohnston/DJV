@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileIoUtilTest.cpp
-
 #include <djvFileIoUtilTest.h>
 
 #include <djvAssert.h>
@@ -41,7 +39,6 @@
 void djvFileIoUtilTest::run(int &, char **)
 {
     DJV_DEBUG("djvFileIoUtilTest::run");
-    
     word();
     lines();
 }
@@ -57,17 +54,11 @@ const QStringList data = QStringList() <<
 void djvFileIoUtilTest::word()
 {
     DJV_DEBUG("djvFileIoUtilTest::word");
-    
     const QString fileName = "djvFileIoUtilTest.test";
-    
     djvFileIo io;
-    
     io.open(fileName, djvFileIo::WRITE);
-    
     const QString s = QString("# comment\n") + data.join(" ");
-    
     const QByteArray b = s.toLatin1();
-    
     io.set(b.data(), b.count());
     io.setU8(0);
     io.close();
@@ -75,60 +66,41 @@ void djvFileIoUtilTest::word()
     io.open(fileName, djvFileIo::READ);
 
     char buf [djvStringUtil::cStringLength];
-    
     int i = 0;
-    
     while (io.isValid())
     {
         djvFileIoUtil::word(io, buf);
-        
         DJV_DEBUG_PRINT("word = " << buf);
-        
         DJV_ASSERT(data[i++] == QString(buf));
-    }    
-
+    }
     DJV_ASSERT(data.count() == i);
 }
 
 void djvFileIoUtilTest::lines()
 {
     DJV_DEBUG("djvFileIoUtilTest::lines");
-    
     const QString fileName = "djvFileIoUtilTest.test";
-    
     djvFileIo io;
-    
     io.open(fileName, djvFileIo::WRITE);
-    
     const QString s = data.join("\n");
-    
     const QByteArray b = s.toLatin1();
-    
     io.set(b.data(), b.count());
     io.setU8(0);
     io.close();
 
     io.open(fileName, djvFileIo::READ);
-
     char buf [djvStringUtil::cStringLength];
-    
     int i = 0;
-    
     while (io.isValid())
     {
         djvFileIoUtil::line(io, buf);
-        
         DJV_DEBUG_PRINT("line = " << buf);
-        
         DJV_ASSERT(data[i++] == QString(buf));
     }
-    
     DJV_ASSERT(data.count() == i);
 
     const QStringList list = djvFileIoUtil::lines(fileName);
-    
     DJV_ASSERT(data.count() == list.count());
-    
     for (i = 0; i < data.count(); ++i)
     {
         DJV_ASSERT(data[i] == list[i]);

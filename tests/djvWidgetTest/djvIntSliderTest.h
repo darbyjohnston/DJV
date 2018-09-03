@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvIntSliderTest.h
+#pragma once
 
 #include <djvAbstractWidgetTest.h>
 

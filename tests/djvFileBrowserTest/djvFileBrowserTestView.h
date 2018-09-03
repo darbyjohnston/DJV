@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestView.h
-
-#ifndef DJV_FILE_BROWSER_TEST_VIEW_H
-#define DJV_FILE_BROWSER_TEST_VIEW_H
+#pragma once
 
 #include <djvFileBrowserTestActionData.h>
 
@@ -57,7 +54,6 @@ class djvFileBrowserTestView : public QWidget
     Q_ENUMS(MODE)
     
     //! This property holds the view mode.
-    
     Q_PROPERTY(
         MODE   mode
         READ   mode
@@ -67,7 +63,6 @@ class djvFileBrowserTestView : public QWidget
 public:
 
     //! This enumeration provides the view mode.
-
     enum MODE
     {
         DETAILS,
@@ -77,57 +72,42 @@ public:
     };
 
     //! Get the view mode data.
-
     static const djvFileBrowserTestActionDataList & modeData();
 
-    //! Constructor.
-    
     djvFileBrowserTestView(
         djvFileBrowserTestModel * model,
         djvGuiContext *           context,
         QWidget *                 parent  = 0);
     
-    //! Destructor.
-    
     virtual ~djvFileBrowserTestView();
     
     //! Get the current view mode.
-    
     MODE mode() const;
     
     virtual QSize sizeHint() const;
     
 public Q_SLOTS:
-
     //! Set the current view mode.
-    
     void setMode(djvFileBrowserTestView::MODE);
     
 Q_SIGNALS:
-
     //! This signal is emitted when the view mode is changed.
-    
     void modeChanged(djvFileBrowserTestView::MODE);
 
 protected:
-
     virtual void showEvent(QShowEvent *);
     virtual void hideEvent(QHideEvent *);
     virtual void resizeEvent(QResizeEvent *);
 
 private Q_SLOTS:
-
     void startCallback();
     void thumbnailSizeCallback(int);
 
 private:
-
     void updateWidget();
     
     DJV_PRIVATE_COPY(djvFileBrowserTestView)
     
     djvFileBrowserTestViewPrivate * _p;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_VIEW_H
 

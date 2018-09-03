@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestColorOp.cpp
-
 #include <djvGlslTestColorOp.h>
 
 #include <djvGlslTestContext.h>
@@ -62,7 +60,6 @@ const djvGlslTestColorOp::Values & djvGlslTestColorOp::values() const
 
 namespace
 {
-
 const QString vertexSource =
 "void main(void)\n"
 "{\n"
@@ -101,26 +98,19 @@ void djvGlslTestColorOp::render(const djvImage & in) throw (djvError)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Initialize.
-
     begin();
-
     _texture.init(in, GL_TEXTURE_RECTANGLE);
-
     if (! _init)
     {
         _shader.init(vertexSource, fragmentSource);
-
         _init = true;
     }
 
     // Render.
-
     _shader.bind();
-
     const double b = _values.brightness;
     const double c = _values.contrast;
     const double s = _values.saturation;
-
     const djvMatrix4f value =
         djvOpenGlImageColor::brightnessMatrix(b, b, b) *
         djvOpenGlImageColor::contrastMatrix(c, c, c) *
@@ -128,17 +118,14 @@ void djvGlslTestColorOp::render(const djvImage & in) throw (djvError)
     glUniformMatrix4fv(
         glGetUniformLocation(_shader.program(), "color"), 1, false,
         djvMatrixUtil::convert<double, GLfloat>(djvMatrixUtil::transpose(value)).e);
-
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(_shader.program(), "texture"), 0);
     _texture.bind();
-
     const djvPixelDataInfo & info = in.info();
     djvOpenGlUtil::ortho(info.size);
     glViewport(0, 0, info.size.x, info.size.y);
     glClear(GL_COLOR_BUFFER_BIT);
     djvGlslTestUtil::quad(info);
-
     end();
 }
 
@@ -146,9 +133,7 @@ void djvGlslTestColorOp::setValues(const Values & values)
 {
     if (values == _values)
         return;
-    
     _values = values;
-    
     Q_EMIT opChanged();
 }
 
@@ -163,19 +148,18 @@ djvGlslTestColorOpWidget::djvGlslTestColorOpWidget(
     _op(op)
 {
     // Create the widgets.
-    
     QGroupBox * brightnessGroup = new QGroupBox("Brightness");
-    
+
     djvFloatEditSlider * brightness = new djvFloatEditSlider(context);
     brightness->setRange(0.0, 5.0);
     brightness->setDefaultValue(1.0);
-    
+
     QGroupBox * contrastGroup = new QGroupBox("Contrast");
 
     djvFloatEditSlider * contrast = new djvFloatEditSlider(context);
     contrast->setRange(0.0, 5.0);
     contrast->setDefaultValue(1.0);
-    
+
     QGroupBox * saturationGroup = new QGroupBox("Saturation");
 
     djvFloatEditSlider * saturation = new djvFloatEditSlider(context);
@@ -183,7 +167,6 @@ djvGlslTestColorOpWidget::djvGlslTestColorOpWidget(
     saturation->setDefaultValue(1.0);
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
 
     QVBoxLayout * vLayout = new QVBoxLayout(brightnessGroup);
@@ -204,23 +187,19 @@ djvGlslTestColorOpWidget::djvGlslTestColorOpWidget(
     layout->addStretch();
 
     // Initialize.
-
     brightness->setValue(op->values().brightness);
     contrast->setValue(op->values().contrast);
     saturation->setValue(op->values().saturation);
 
     // Setup the callbacks.
-
     connect(
         brightness,
         SIGNAL(valueChanged(double)),
         SLOT(brightnessCallback(double)));
-    
     connect(
         contrast,
         SIGNAL(valueChanged(double)),
         SLOT(contrastCallback(double)));
-    
     connect(
         saturation,
         SIGNAL(valueChanged(double)),
@@ -230,27 +209,21 @@ djvGlslTestColorOpWidget::djvGlslTestColorOpWidget(
 void djvGlslTestColorOpWidget::brightnessCallback(double in)
 {
     djvGlslTestColorOp::Values values = _op->values();
-    
     values.brightness = in;
-    
     _op->setValues(values);
 }
 
 void djvGlslTestColorOpWidget::contrastCallback(double in)
 {
     djvGlslTestColorOp::Values values = _op->values();
-    
     values.contrast = in;
-    
     _op->setValues(values);
 }
 
 void djvGlslTestColorOpWidget::saturationCallback(double in)
 {
     djvGlslTestColorOp::Values values = _op->values();
-    
     values.saturation = in;
-    
     _op->setValues(values);
 }
 
@@ -266,7 +239,7 @@ djvGlslTestAbstractOp * djvGlslTestColorOpFactory::createOp() const
 {
     return new djvGlslTestColorOp(context());
 }
-    
+
 djvGlslTestAbstractOpWidget * djvGlslTestColorOpFactory::createWidget(
     djvGlslTestAbstractOp * op) const
 {

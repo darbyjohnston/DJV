@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvTestLibExport.h
+#pragma once
 
 #ifndef DJV_TEST_LIB_EXPORT_H
 #define DJV_TEST_LIB_EXPORT_H

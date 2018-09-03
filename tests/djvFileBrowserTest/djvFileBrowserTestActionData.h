@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestActionData.h
-
-#ifndef DJV_FILE_BROWSER_TEST_ACTION_DATA_H
-#define DJV_FILE_BROWSER_TEST_ACTION_DATA_H
+#pragma once
 
 #include <QString>
 #include <QVector>
@@ -58,6 +55,4 @@ struct djvFileBrowserTestActionData
 };
 
 typedef QVector<djvFileBrowserTestActionData> djvFileBrowserTestActionDataList;
-
-#endif // DJV_FILE_BROWSER_TEST_ACTION_DATA_H
 

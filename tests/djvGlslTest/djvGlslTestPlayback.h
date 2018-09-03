@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlayback.h
-
-#ifndef DJV_GLSL_TEST_PLAYBACK_H
-#define DJV_GLSL_TEST_PLAYBACK_H
+#pragma once
 
 #include <djvPlaybackUtil.h>
 
@@ -91,4 +88,3 @@ private:
     int                       _timerId;
 };
 
-#endif // DJV_GLSL_TEST_PLAYBACK_H

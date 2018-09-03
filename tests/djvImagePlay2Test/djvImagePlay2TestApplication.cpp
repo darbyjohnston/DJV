@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestApplication.cpp
-
 #include <djvImagePlay2TestApplication.h>
 
 #include <djvImagePlay2TestLoad.h>
@@ -63,19 +61,16 @@ djvImagePlay2TestApplication::djvImagePlay2TestApplication(int & argc, char ** a
         _window->show();
         
         djvFileInfo fileInfo(argv[1]);
-    
         if (fileInfo.isSequenceValid())
         {
             fileInfo.setType(djvFileInfo::SEQUENCE);
         }
         
         _context->load()->setShareContext(_window->glContext());
-
         _context->load()->connect(
             this,
             SIGNAL(open(const djvFileInfo &)),
             SLOT(open(const djvFileInfo &)));
-        
         _context->thread()->start();
         
         Q_EMIT open(fileInfo);

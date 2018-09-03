@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelWidgetTest.h
+#pragma once
 
 #include <djvAbstractWidgetTest.h>
 

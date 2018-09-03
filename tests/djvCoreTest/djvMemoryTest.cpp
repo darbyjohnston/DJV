@@ -43,81 +43,58 @@
 void djvMemoryTest::run(int &, char **)
 {
     DJV_DEBUG("djvMemoryTest::run");
-    
     members();
 }
 
 void djvMemoryTest::members()
 {
     DJV_DEBUG("djvMemoryTest::members");
-    
     {
         const char * tmp = "1234567890";
-        
         char * buf = new char [sizeof(tmp)];
-        
         DJV_ASSERT(buf);
-        
         djvMemory::copy(tmp, buf, sizeof(tmp));
-        
         DJV_ASSERT(0 == djvMemory::compare(tmp, buf, sizeof(tmp)));
-        
         djvMemory::zero(buf, sizeof(tmp));
-        
         DJV_ASSERT(djvMemory::compare(tmp, buf, sizeof(tmp)) > 0);
-        
         delete [] buf;
     }
-    
     {
         DJV_DEBUG_PRINT("endian = " << djvMemory::endian());
     }
-    
     {
         DJV_ASSERT(djvMemory::LSB == djvMemory::endianOpposite(djvMemory::MSB));
         DJV_ASSERT(djvMemory::MSB == djvMemory::endianOpposite(djvMemory::LSB));
     }
-    
     {
         djvMemoryBuffer<quint16> tmp(2);
         tmp()[0] =  0;
         tmp()[1] = -1;
-        
         djvMemoryBuffer<quint16> buf(2);
-        
         djvMemory::copy(tmp(), buf(), sizeof(quint16) * 2);
         djvMemory::convertEndian(buf(), 2, sizeof(quint16));
-        
         const quint8 * a = reinterpret_cast<quint8 *>(tmp());
         const quint8 * b = reinterpret_cast<quint8 *>(buf());
-        
         DJV_ASSERT(a[0] == b[1]);
         DJV_ASSERT(a[1] == b[0]);
         DJV_ASSERT(a[2] == b[3]);
         DJV_ASSERT(a[3] == b[2]);
-        
         djvMemory::zero(buf(), sizeof(quint16) * 2);
         djvMemory::convertEndian(tmp(), buf(), 2, sizeof(quint16));
-
         DJV_ASSERT(a[0] == b[1]);
         DJV_ASSERT(a[1] == b[0]);
         DJV_ASSERT(a[2] == b[3]);
         DJV_ASSERT(a[3] == b[2]);
     }
-    
     {
         djvMemoryBuffer<quint32> tmp(2);
         tmp()[0] =  0;
         tmp()[1] = -1;
-        
         djvMemoryBuffer<quint32> buf(2);
-        
         djvMemory::copy(tmp(), buf(), sizeof(quint32) * 2);
         djvMemory::convertEndian(buf(), 2, sizeof(quint32));
-        
         const quint8 * a = reinterpret_cast<quint8 *>(tmp());
         const quint8 * b = reinterpret_cast<quint8 *>(buf());
-        
         DJV_ASSERT(a[0] == b[3]);
         DJV_ASSERT(a[1] == b[2]);
         DJV_ASSERT(a[2] == b[1]);
@@ -126,10 +103,8 @@ void djvMemoryTest::members()
         DJV_ASSERT(a[5] == b[6]);
         DJV_ASSERT(a[6] == b[5]);
         DJV_ASSERT(a[7] == b[4]);
-        
         djvMemory::zero(buf(), sizeof(quint32) * 2);
         djvMemory::convertEndian(tmp(), buf(), 2, sizeof(quint32));
-
         DJV_ASSERT(a[0] == b[3]);
         DJV_ASSERT(a[1] == b[2]);
         DJV_ASSERT(a[2] == b[1]);
@@ -139,20 +114,15 @@ void djvMemoryTest::members()
         DJV_ASSERT(a[6] == b[5]);
         DJV_ASSERT(a[7] == b[4]);
     }
-    
     {
         djvMemoryBuffer<quint64> tmp(2);
         tmp()[0] =  0;
         tmp()[1] = -1;
-        
         djvMemoryBuffer<quint64> buf(2);
-        
         djvMemory::copy(tmp(), buf(), sizeof(quint64) * 2);
         djvMemory::convertEndian(buf(), 2, sizeof(quint64));
-        
         const quint8 * a = reinterpret_cast<quint8 *>(tmp());
         const quint8 * b = reinterpret_cast<quint8 *>(buf());
-        
         DJV_ASSERT(a[ 0] == b[ 7]);
         DJV_ASSERT(a[ 1] == b[ 6]);
         DJV_ASSERT(a[ 2] == b[ 5]);
@@ -169,10 +139,8 @@ void djvMemoryTest::members()
         DJV_ASSERT(a[13] == b[10]);
         DJV_ASSERT(a[14] == b[ 9]);
         DJV_ASSERT(a[15] == b[ 8]);
-        
         djvMemory::zero(buf(), sizeof(quint64) * 2);
         djvMemory::convertEndian(tmp(), buf(), 2, sizeof(quint64));
-
         DJV_ASSERT(a[ 0] == b[ 7]);
         DJV_ASSERT(a[ 1] == b[ 6]);
         DJV_ASSERT(a[ 2] == b[ 5]);
@@ -190,7 +158,6 @@ void djvMemoryTest::members()
         DJV_ASSERT(a[14] == b[ 9]);
         DJV_ASSERT(a[15] == b[ 8]);
     }
-    
     {
         DJV_DEBUG_PRINT(djvMemory::sizeLabel(djvMemory::terabyte));
         DJV_DEBUG_PRINT(djvMemory::sizeLabel(djvMemory::gigabyte));

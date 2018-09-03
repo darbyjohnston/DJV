@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestActions.cpp
-
 #include <djvFileBrowserTestActions.h>
 
 #include <djvFileBrowserTestUtil.h>
@@ -78,10 +76,8 @@ QActionGroup * djvFileBrowserTestActions::sequenceActionGroup(QObject * parent)
 {
     QActionGroup * group = new QActionGroup(parent);
     group->setExclusive(true);
-    
     const djvFileBrowserTestActionDataList & data =
         djvFileBrowserTestUtil::sequenceData();
-
     for (int i = 0; i < data.count(); ++i)
     {
         QAction * action = group->addAction(data[i].text);
@@ -89,7 +85,6 @@ QActionGroup * djvFileBrowserTestActions::sequenceActionGroup(QObject * parent)
         action->setToolTip(data[i].toolTip);
         action->setIcon(QPixmap(data[i].icon));
     }
-
     return group;
 }
 
@@ -97,10 +92,8 @@ QActionGroup * djvFileBrowserTestActions::viewActionGroup(QObject * parent)
 {
     QActionGroup * group = new QActionGroup(parent);
     group->setExclusive(true);
-    
     const djvFileBrowserTestActionDataList & data =
         djvFileBrowserTestView::modeData();
-
     for (int i = 0; i < data.count(); ++i)
     {
         QAction * action = group->addAction(data[i].text);
@@ -108,7 +101,6 @@ QActionGroup * djvFileBrowserTestActions::viewActionGroup(QObject * parent)
         action->setToolTip(data[i].toolTip);
         action->setIcon(QPixmap(data[i].icon));
     }
-
     return group;
 }
 

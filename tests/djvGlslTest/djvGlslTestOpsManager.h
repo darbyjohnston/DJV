@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestOpsManager.h
-
-#ifndef DJV_GLSL_TEST_OPS_MANAGER_H
-#define DJV_GLSL_TEST_OPS_MANAGER_H
+#pragma once
 
 #include <djvSpeed.h>
 
@@ -83,4 +80,3 @@ private:
     int                                   _currentIndex;
 };
 
-#endif // DJV_GLSL_TEST_OPS_MANAGER_H

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestApplication.cpp
-
 #include <djvWidgetTestApplication.h>
 
 #include <djvAbstractWidgetTest.h>
@@ -57,18 +55,15 @@ djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
     if (argc > 1)
     {
         QStringList args;
-        
         for (int i = 2; i < argc; ++i)
         {
             args += QString(argv[i]);
         }
-        
         for (int i = 0; i < _testManager->tests().count(); ++i)
         {
             if (argv[1] == _testManager->tests()[i]->name())
             {
                 _testManager->tests()[i]->run(args);
-                
                 break;
             }
         }

@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelWidgetTest.cpp
-
 #include <djvPixelWidgetTest.h>
 
 #include <djvPixelWidget.h>
@@ -69,6 +67,5 @@ void djvPixelWidgetTest::callback(djvPixel::PIXEL value)
 {
     QStringList tmp;
     tmp << value;
-    
     djvSystem::print(QString("%1").arg(tmp.join(", ")));
 }

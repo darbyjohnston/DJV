@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestUtil.h
-
-#ifndef DJV_GLSL_TEST_UTIL_H
-#define DJV_GLSL_TEST_UTIL_H
+#pragma once
 
 #include <djvOpenGl.h>
 #include <djvPixelData.h>
@@ -101,4 +98,3 @@ struct djvGlslTestUtil
     static void quad(const djvPixelDataInfo &);
 };
 
-#endif // DJV_GLSL_TEST_UTIL_H

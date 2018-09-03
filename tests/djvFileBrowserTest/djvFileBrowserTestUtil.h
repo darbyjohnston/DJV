@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestUtil.h
-
-#ifndef DJV_FILE_BROWSER_TEST_UTIL_H
-#define DJV_FILE_BROWSER_TEST_UTIL_H
+#pragma once
 
 #include <djvFileBrowserTestActionData.h>
 
@@ -55,13 +52,10 @@ class djvFileBrowserTestUtil
     Q_ENUMS(COLUMNS)
     
 public:
-
     //! Get the file sequencing data.
-    
     static const djvFileBrowserTestActionDataList & sequenceData();
 
     //! This enumeration provides the image thumbnails mode.
-
     enum THUMBNAILS
     {
         THUMBNAILS_OFF,
@@ -72,11 +66,9 @@ public:
     };
 
     //! Get the image thumbnails mode labels.
-
     static const QStringList & thumbnailsLabels();
 
     //! Get an image thumbnail size.
-
     static djvVector2i thumbnailSize(
         THUMBNAILS                thumbnails,
         int                       thumbnailSize,
@@ -84,7 +76,6 @@ public:
         djvPixelDataInfo::PROXY * proxy         = 0);
 
     //! This enumeration provides the columns.
-    
     enum COLUMNS
     {
         NAME,
@@ -99,9 +90,6 @@ public:
     };
 
     //! Get the column labels.
-
     static const QStringList & columnsLabels();
 };
-
-#endif // DJV_FILE_BROWSER_TEST_UTIL_H
 

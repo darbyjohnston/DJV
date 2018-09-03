@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestContext.cpp
-
 #include <djvImagePlay2TestContext.h>
 
 #include <djvImagePlay2TestLoad.h>
@@ -57,7 +55,6 @@ djvImagePlay2TestContext::djvImagePlay2TestContext(QObject * parent) :
         _playback.data(),
         SIGNAL(frameChanged(qint64)),
         SLOT(read(qint64)));
-
     _load->connect(
         &_thread,
         SIGNAL(started()),

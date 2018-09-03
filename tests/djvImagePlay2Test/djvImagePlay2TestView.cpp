@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestView.cpp
-
 #include <djvImagePlay2TestView.h>
 
 #include <djvImagePlay2TestContext.h>
@@ -58,9 +56,7 @@ void djvImagePlay2TestView::setInfo(const djvPixelDataInfo & info)
 void djvImagePlay2TestView::initializeGL()
 {
     //DJV_DEBUG("djvImagePlay2TestView::initializeGL");
-    
     initializeOpenGLFunctions();
-    
     try
     {
         _shader->addShaderFromSourceCode(
@@ -71,7 +67,6 @@ void djvImagePlay2TestView::initializeGL()
             "    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
             "    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
             "}\n");
-            
         _shader->addShaderFromSourceCode(
             QOpenGLShader::Fragment,
             "uniform sampler2D inTexture;\n"
@@ -95,38 +90,30 @@ void djvImagePlay2TestView::paintGL()
     //DJV_DEBUG("djvImagePlay2TestView::paintGL");
 
     //QMutexLocker locker(_context->mutex());
-    
+
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
-    
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, width(), 0, height(), -1.0, 1.0);
-
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
     glViewport(0, 0, width(), height());
 
     _shader->bind();
-    
     if (_context->load()->frontTexture() &&
         _context->load()->frontTexture()->isCreated())
     {
         glActiveTexture(GL_TEXTURE0);
-
         glUniform1f(
             glGetUniformLocation(_shader->programId(), "inTexture"),
             0);
-    
         _context->load()->frontTexture()->bind();
     }
 
     djvBox2i box(_info.size);
-
     double u [] = { 0.0, 1.0 };
     double v [] = { 1.0, 0.0 };
-
     const djvVector2f uv[] =
     {
         djvVector2f(u[0], v[0]),
@@ -134,9 +121,7 @@ void djvImagePlay2TestView::paintGL()
         djvVector2f(u[1], v[1]),
         djvVector2f(u[1], v[0])
     };
-
     glBegin(GL_QUADS);
-
     glTexCoord2d(uv[0].x, uv[0].y);
     glVertex2i  (box.x, box.y);
     glTexCoord2d(uv[1].x, uv[1].y);
@@ -145,8 +130,7 @@ void djvImagePlay2TestView::paintGL()
     glVertex2i  (box.x + box.w, box.y + box.h);
     glTexCoord2d(uv[3].x, uv[3].y);
     glVertex2i  (box.x + box.w, box.y);
-
     glEnd();
-    
+
     //glFlush();
 }

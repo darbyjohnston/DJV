@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPrefsDialogTest.cpp
-
 #include <djvPrefsDialogTest.h>
 
 #include <djvGuiContext.h>

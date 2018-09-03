@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestControls.h
-
-#ifndef DJV_FILE_BROWSER_TEST_CONTROLS_H
-#define DJV_FILE_BROWSER_TEST_CONTROLS_H
+#pragma once
 
 #include <QWidget>
 
@@ -51,17 +48,12 @@ class QToolButton;
 struct djvFileBrowserTestControls
 {
     //! Create a tool button.
-    
     static QToolButton * toolButton(QAction *);
     
     //! Create a tool bar.
-    
     static QToolBar * toolBar();
     
-    //! Create a dock widget.
-    
+    //! Create a dock widget.    
     static QDockWidget * dockWidget();
 };
-
-#endif // DJV_FILE_BROWSER_TEST_CONTROLS_H
 

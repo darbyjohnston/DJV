@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestUtil.cpp
-
 #include <djvGlslTestUtil.h>
 
 #include <djvMatrix.h>
@@ -40,34 +38,27 @@ using namespace gl;
 
 namespace
 {
-
 /*QString fboError(GLenum in)
 {
     switch (in)
     {
         case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
             return "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT";
-
         case GL_FRAMEBUFFER_UNSUPPORTED:
             return "GL_FRAMEBUFFER_UNSUPPORTED";
-
         case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
             return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT";
-
         case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
             return "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER";
-
         case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
             return "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER";
     }
-
     return "";
 }*/
 
 void fboCheck()
 {
     //DJV_DEBUG("fboCheck");
-
     //DJV_DEBUG_PRINT("error = " <<
     //  fboError(glCheckFramebufferStatus(GL_FRAMEBUFFER)));
 }
@@ -90,11 +81,8 @@ void djvGlslTestOffscreen::init() throw (djvError)
 {
     if (_id)
         return;
-
     //DJV_DEBUG("djvGlslTestOffscreen::init");
-
     DJV_DEBUG_OPEN_GL(glGenFramebuffers(1, &_id));
-
     if (! _id)
         throw djvError("glGenFramebuffers");
 }
@@ -102,7 +90,6 @@ void djvGlslTestOffscreen::init() throw (djvError)
 void djvGlslTestOffscreen::bind()
 {
     //DJV_DEBUG("djvGlslTestOffscreen::bind");
-
     DJV_DEBUG_OPEN_GL(glBindFramebuffer(GL_FRAMEBUFFER, _id));
 }
 
@@ -114,9 +101,7 @@ void djvGlslTestOffscreen::unbind()
 void djvGlslTestOffscreen::set(const djvOpenGlTexture & in)
 {
     //DJV_DEBUG("djvGlslTestOffscreen::set");
-
     fboCheck();
-
     DJV_DEBUG_OPEN_GL(glFramebufferTexture2D(
         GL_FRAMEBUFFER,
         GL_COLOR_ATTACHMENT0,
@@ -131,7 +116,6 @@ djvGlslTestKernel::djvGlslTestKernel() :
 
 namespace
 {
-
 const QString kernelSrc =
 "const int kernelMax = 256;\n"
 "const int kernelSize = %1;\n"
@@ -156,7 +140,6 @@ const QString kernelSrc =
 void djvGlslTestKernel::init(int size)
 {
     _size = size;
-
     _src = QString(kernelSrc).arg(_size);
 }
 
@@ -187,7 +170,6 @@ void djvGlslTestUtil::quad(const djvPixelDataInfo & in)
         djvVector2f(u[1], v[1]),
         djvVector2f(u[1], v[0])
     };
-
     glBegin(GL_QUADS);
     djvOpenGlUtil::drawBox(djvBox2i(in.size), uv);
     glEnd();

@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestOpDockWidget.h
-
-#ifndef DJV_GLSL_TEST_OP_DOCK_WIDGET_H
-#define DJV_GLSL_TEST_OP_DOCK_WIDGET_H
+#pragma once
 
 #include <QDockWidget>
 
@@ -65,4 +62,3 @@ private:
     QStackedWidget * _stackedWidget;
 };
 
-#endif // DJV_GLSL_TEST_PLAYBACK_WIDGET_H

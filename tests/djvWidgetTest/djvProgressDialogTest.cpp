@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvProgressDialogTest.cpp
-
 #include <djvProgressDialogTest.h>
 
 #include <djvProgressDialog.h>
@@ -60,6 +58,5 @@ void djvProgressDialogTest::run(const QStringList & args)
 void djvProgressDialogTest::callback(int value)
 {
     djvSystem::print(QString("%1").arg(value));
-    
     djvTime::msleep(50);
 }

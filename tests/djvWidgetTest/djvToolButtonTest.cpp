@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvToolButtonTest.cpp
-
 #include <djvToolButtonTest.h>
 
 #include <djvChoiceButton.h>
@@ -145,12 +143,10 @@ void djvToolButtonTest::run(const QStringList & args)
         buttonGroup,
         SIGNAL(buttonToggled(int, bool)),
         SLOT(playbackCallback(int, bool)));
-    
     connect(
         shuttle,
         SIGNAL(valueChanged(int)),
         SLOT(shuttleCallback(int)));
-    
     connect(
         choiceButton,
         SIGNAL(currentIndexChanged(int)),

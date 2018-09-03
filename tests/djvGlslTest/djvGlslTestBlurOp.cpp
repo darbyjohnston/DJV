@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestBlurOp.cpp
-
 #include <djvGlslTestBlurOp.h>
 
 #include <djvGlslTestContext.h>
@@ -107,7 +105,6 @@ const djvGlslTestBlurOp::Values & djvGlslTestBlurOp::values() const
 
 namespace
 {
-
 const QString vertexSource =
 "void main(void)\n"
 "{\n"
@@ -134,18 +131,14 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Initialize.
-
     begin();
-
     _texture.init(in, GL_TEXTURE_RECTANGLE);
     _render.textureTmp.init(
         djvPixelDataInfo(in.size(), in.pixel()),
         GL_TEXTURE_RECTANGLE);
 
     const int size = _values.radius * 2 + 1;
-
     const State state(_values);
-
     if (_state != state)
     {
         _render.offscreen.init();
@@ -156,10 +149,8 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
         _render.shader.bind();
 
         // Kernel weights.
-
         djvMemoryBuffer<float> value(size);
         float * p = value();
-
         switch (_values.filter)
         {
             case BOX:
@@ -169,7 +160,6 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
                 }
 
                 break;
-
             case GAUSSIAN:
             {
                 const double theta = size / 6.0;
@@ -184,71 +174,53 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
             }
             break;
         }
-
         float sum = 0.0;
-
         for (int i = 0; i < size; ++i)
         {
             sum += p[i];
         }
-
         for (int i = 0; i < size; ++i)
         {
             //DJV_DEBUG_PRINT("i = " << p[i]);
             p[i] = p[i] / sum;
         }
-
         _render.kernel.value(_render.shader.program(), value());
-
         _state = state;
     }
 
     // Horizontal.
-
     _render.offscreen.bind();
     _render.offscreen.set(_render.textureTmp);
-
     _render.shader.bind();
     const GLuint progam = _render.shader.program();
-
     djvMemoryBuffer<float> offset(size * 2);
     offset.zero();
     float * p = offset();
-
     for (int i = -_values.radius; i <= _values.radius; ++i, p += 2)
     {
         p[0] = static_cast<float>(i);
     }
-
     _render.kernel.offset(progam, offset());
-
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(progam, "texture"), 0);
     _texture.bind();
-
     const djvPixelDataInfo & info = in.info();
     djvOpenGlUtil::ortho(info.size);
     glViewport(0, 0, info.size.x, info.size.y);
     djvGlslTestUtil::quad(info);
-
     _render.offscreen.unbind();
 
     // Vertical.
-
     offset.zero();
     p = offset();
-
     for (int i = -_values.radius; i <= _values.radius; ++i, p += 2)
     {
         p[1] = static_cast<float>(i);
     }
-
     _render.kernel.offset(progam, offset());
-
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(progam, "texture"), 0);
     _render.textureTmp.bind();
-
     glClear(GL_COLOR_BUFFER_BIT);
     djvGlslTestUtil::quad(djvPixelDataInfo(info.size, info.pixel));
 
@@ -259,9 +231,7 @@ void djvGlslTestBlurOp::setValues(const Values & values)
 {
     if (values == _values)
         return;
-    
     _values = values;
-    
     Q_EMIT opChanged();
 }
 
@@ -276,63 +246,53 @@ djvGlslTestBlurOpWidget::djvGlslTestBlurOpWidget(
     _op(op)
 {
     // Create the widgets.
-
     QGroupBox * radiusGroup = new QGroupBox("Radius");
-    
+
     djvIntEditSlider * radius = new djvIntEditSlider(context);
     radius->setRange(0, 127);
     radius->setDefaultValue(0);
 
     QGroupBox * filterGroup = new QGroupBox("Filter");
-    
+
     QComboBox * filter = new QComboBox;
     filter->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     filter->addItems(djvGlslTestBlurOp::filterLabels());
 
     // Layout the widgets.
-
     QVBoxLayout * layout = new QVBoxLayout(this);
-    
+
     QVBoxLayout * vLayout = new QVBoxLayout(radiusGroup);
     vLayout->setMargin(0);
     vLayout->addWidget(radius);
     layout->addWidget(radiusGroup);
-    
+
     vLayout = new QVBoxLayout(filterGroup);
     vLayout->setMargin(0);
     vLayout->addWidget(filter);
     layout->addWidget(filterGroup);
-    
+
     layout->addStretch();
 
     // Initialize.
-
     radius->setValue(op->values().radius);
-    
     filter->setCurrentIndex(op->values().filter);
 
     // Setup the callbacks.
-
     connect(radius, SIGNAL(valueChanged(int)), SLOT(radiusCallback(int)));
-    
     connect(filter, SIGNAL(currentIndexChanged(int)), SLOT(filterCallback(int)));
 }
 
 void djvGlslTestBlurOpWidget::radiusCallback(int in)
 {
     djvGlslTestBlurOp::Values values = _op->values();
-    
     values.radius = in;
-
     _op->setValues(values);
 }
 
 void djvGlslTestBlurOpWidget::filterCallback(int in)
 {
     djvGlslTestBlurOp::Values values = _op->values();
-    
     values.radius = static_cast<djvGlslTestBlurOp::FILTER>(in);
-
     _op->setValues(values);
 }
 
@@ -348,7 +308,7 @@ djvGlslTestAbstractOp * djvGlslTestBlurOpFactory::createOp() const
 {
     return new djvGlslTestBlurOp(context());
 }
-    
+
 djvGlslTestAbstractOpWidget * djvGlslTestBlurOpFactory::createWidget(
     djvGlslTestAbstractOp * op) const
 {

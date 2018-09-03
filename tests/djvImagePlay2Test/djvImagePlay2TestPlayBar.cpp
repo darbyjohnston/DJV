@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlay2TestPlayBar.cpp
-
 #include <djvImagePlay2TestPlayBar.h>
 
 #include <djvImagePlay2TestContext.h>
@@ -55,55 +53,48 @@ djvImagePlay2TestPlayBar::djvImagePlay2TestPlayBar(djvImagePlay2TestContext * co
     _context        (context)
 {
     _playbackButtons = new djvPlaybackButtons(context);
-    
+
     _frameWidget = new djvViewFrameWidget(context);
-    
+
     _frameSlider = new djvViewFrameSlider(context);
-    
+
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->addWidget(_playbackButtons);
     layout->addWidget(_frameWidget);
     layout->addWidget(_frameSlider);
-    
+
     updateSequence();
     updateFrame();
     updatePlayback();
-    
+
     connect(
         context->playback(),
         SIGNAL(frameListChanged(const djvFrameList &)),
         SLOT(updateSequence()));
-    
     connect(
         context->playback(),
         SIGNAL(speedChanged(const djvSpeed &)),
         SLOT(updateSequence()));
-    
     connect(
         context->playback(),
         SIGNAL(frameChanged(qint64)),
         SLOT(updateFrame()));
-    
     connect(
         context->playback(),
         SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
         SLOT(updatePlayback()));
-    
     context->playback()->connect(
         _playbackButtons,
         SIGNAL(playbackChanged(djvPlaybackUtil::PLAYBACK)),
         SLOT(setPlayback(djvPlaybackUtil::PLAYBACK)));
-    
     context->playback()->connect(
         _frameWidget,
         SIGNAL(frameChanged(qint64)),
         SLOT(setFrame(qint64)));
-    
     context->playback()->connect(
         _frameSlider,
         SIGNAL(frameChanged(qint64)),
         SLOT(setFrame(qint64)));
-    
     connect(
         _frameSlider,
         SIGNAL(pressed(bool)),
@@ -119,7 +110,6 @@ void djvImagePlay2TestPlayBar::updateSequence()
 {
     _frameWidget->setFrameList(_context->playback()->frameList());
     _frameWidget->setSpeed(_context->playback()->speed());
-    
     _frameSlider->setFrameList(_context->playback()->frameList());
     _frameSlider->setSpeed(_context->playback()->speed());
 }

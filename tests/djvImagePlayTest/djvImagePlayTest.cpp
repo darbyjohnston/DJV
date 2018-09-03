@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImagePlayTest.cpp
-
 #include <djvImagePlayTest.h>
 
 #include <djvWindowUtil.h>
@@ -59,9 +57,7 @@ void djvImagePlayTestWidget::mousePressEvent(QMouseEvent * event)
     const djvVector2i mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
-    
     _viewPosTmp = viewPos();
-    
     _mousePress = mouse;
 }
 
@@ -70,18 +66,15 @@ void djvImagePlayTestWidget::mouseMoveEvent(QMouseEvent * event)
     const djvVector2i mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
-    
     setViewPos(_viewPosTmp + mouse - _mousePress);
 }
 
 void djvImagePlayTestWidget::keyPressEvent(QKeyEvent * event)
 {
     const QPoint pos = mapFromGlobal(QCursor::pos());
-    
     const djvVector2i mouse(
         pos.x(),
         height() - 1 - pos.y());
-    
     switch (event->key())
     {
         case Qt::Key_0:         viewZero(); break;
@@ -97,17 +90,14 @@ djvImagePlayTestApplication::djvImagePlayTestApplication(int & argc, char ** arg
     _frame(0)
 {
     _context.reset(new djvGuiContext);
-
     if (argc != 2)
     {
         _context->printMessage("Usage: djvImagePlayTest (input)");
-        
         QTimer::singleShot(0, this, SLOT(commandLineExit()));
     }
     else
     {
         _fileInfo = djvFileInfo(argv[1]);
-        
         QTimer::singleShot(0, this, SLOT(work()));
     }
 }
@@ -123,7 +113,6 @@ void djvImagePlayTestApplication::work()
     {
         _fileInfo.setType(djvFileInfo::SEQUENCE);
     }
-
     try
     {
         _load.reset(_context->imageIoFactory()->load(_fileInfo, _info));
@@ -131,44 +120,34 @@ void djvImagePlayTestApplication::work()
     catch (const djvError & error)
     {
         _context->printError(error);
-        
         exit(1);
-
         return;
     }
-
     _widget.reset(new djvImagePlayTestWidget(_context.data()));
     _widget->setWindowTitle("djvImagePlayTest");
     //_widget->zoom(0.5);
-
     const djvVector2i size = djvWindowUtil::resize(_info.size);
     _widget->resize(size.x, size.y);
     _widget->show();
-    
     startTimer(0);
 }
 
 void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
 {
     //DJV_DEBUG("djvImagePlayTestApplication::timerEvent");
-    
+
     _widget->setWindowTitle(
         QString("%1 Frame: %2").arg("djvImagePlayTest").arg(_frame));
 
     static djvTimer t;
     static double   average = 0.0;
     static int      accum   = 0;
-    
     t.check();
-    
     const double fps = t.fps();
-    
     t.start();
-
     if (fps < 1000.0)
     {
         average += fps;
-        
         ++accum;
     }
 
@@ -177,7 +156,6 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
         arg(accum ? (average / static_cast<double>(accum)) : 0.0));
 
     djvImage * imageP = 0;
-    
     try
     {
         if (_cache)
@@ -185,11 +163,8 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
             if (_cachedImages.count() < _info.sequence.frames.count())
             {
                 djvImage * image = new djvImage;
-                
                 _load->read(*image, _info.sequence.frames[_frame]);
-                
                 _cachedImages += image;
-                
                 imageP = image;
             }
             else
@@ -200,7 +175,6 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
         else
         {
             _load->read(_image, _info.sequence.frames[_frame]);
-            
             imageP = &_image;
         }
     }
@@ -210,16 +184,13 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
     if (imageP && imageP->isValid())
     {
         _widget->setData(imageP);
-        
         djvOpenGlImageOptions options;
         options.colorProfile = imageP->colorProfile;
         _widget->setOptions(options);
-
         _widget->update();
     }
 
     ++_frame;
-
     if (_frame >= _info.sequence.frames.count())
     {
         _frame = 0;

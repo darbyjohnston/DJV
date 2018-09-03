@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvPixelDataUtilTest.cpp
-
 #include <djvPixelDataUtilTest.h>
 
 #include <djvAssert.h>
@@ -45,7 +43,6 @@
 void djvPixelDataUtilTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvPixelDataUtilTest::run");
-
     byteCount();
     proxy();
     interleave();
@@ -55,10 +52,8 @@ void djvPixelDataUtilTest::run(int & argc, char ** argv)
 void djvPixelDataUtilTest::byteCount()
 {
     DJV_DEBUG("djvPixelDataUtilTest::byteCount");
-    
     {
         const djvPixelDataInfo info(1, 2, djvPixel::L_U8);
-        
         DJV_ASSERT(1 == djvPixelDataUtil::scanlineByteCount(info));
         DJV_ASSERT(2 == djvPixelDataUtil::dataByteCount(info));
     }
@@ -67,31 +62,25 @@ void djvPixelDataUtilTest::byteCount()
 void djvPixelDataUtilTest::proxy()
 {
     DJV_DEBUG("djvPixelDataUtilTest::proxy");
-    
     QList<djvPixelDataInfo::PROXY> proxies;
     QList<djvMemory::ENDIAN>       endians;
     QList<djvPixel::PIXEL>         pixels;
-
     for (int i = 0; i < djvPixelDataInfo::PROXY_COUNT; ++i)
     {
         proxies += static_cast<djvPixelDataInfo::PROXY>(i);
     }
-
     for (int i = 0; i < djvMemory::ENDIAN_COUNT; ++i)
     {
         endians += static_cast<djvMemory::ENDIAN>(i);
     }
-
     for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
     {
         pixels += static_cast<djvPixel::PIXEL>(i);
-    }    
-
+    }
     Q_FOREACH(djvPixel::PIXEL pixel, pixels)
     {
         djvPixelData data(djvPixelDataInfo(32, 32, pixel));
         data.zero();
-        
         Q_FOREACH(djvPixel::PIXEL proxyPixel, pixels)
         {
             Q_FOREACH(djvMemory::ENDIAN proxyEndian, endians)
@@ -102,22 +91,16 @@ void djvPixelDataUtilTest::proxy()
                         djvPixelDataUtil::proxyScale(data.size(), proxy),
                         proxyPixel);
                     proxyInfo.endian = proxyEndian;
-                    
                     DJV_DEBUG_PRINT("proxy = " << proxy);
                     DJV_DEBUG_PRINT("info = " << proxyInfo);
-                
                     djvPixelData proxyData(proxyInfo);
-                
                     djvPixelDataUtil::proxyScale(data, proxyData, proxy);
                 }
             }
         }
     }
-    
     const djvBox2i box(16, 32, 64, 128);
-    
     DJV_DEBUG_PRINT("box = " << box);
-    
     Q_FOREACH(djvPixelDataInfo::PROXY proxy, proxies)
     {
         DJV_DEBUG_PRINT("proxy = " << proxy);
@@ -128,34 +111,24 @@ void djvPixelDataUtilTest::proxy()
 void djvPixelDataUtilTest::interleave()
 {
     DJV_DEBUG("djvPixelDataUtilTest::interleave");
-    
     QList<djvPixel::PIXEL> pixels;
-
     for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
     {
         const djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(i);
-        
         if (pixel != djvPixel::RGB_U10)
         {
             pixels += pixel;
         }
-    }    
-
+    }
     Q_FOREACH(djvPixel::PIXEL pixel, pixels)
     {
         djvPixelData data(djvPixelDataInfo(32, 32, pixel));
         data.zero();
-        
         DJV_DEBUG_PRINT("info = " << data.info());
-        
         djvPixelData interleaveData(data.info());
-        
         djvPixelDataUtil::planarInterleave(data, interleaveData);
-
         djvPixelData deinterleaveData(data.info());
-
         djvPixelDataUtil::planarDeinterleave(interleaveData, deinterleaveData);
-        
         DJV_ASSERT(0 == djvMemory::compare(
             data.data(),
             deinterleaveData.data(),
@@ -166,9 +139,7 @@ void djvPixelDataUtilTest::interleave()
 void djvPixelDataUtilTest::gradient()
 {
     DJV_DEBUG("djvPixelDataUtilTest::gradient");
-    
     djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
-    
     djvPixelDataUtil::gradient(data);
 }
 

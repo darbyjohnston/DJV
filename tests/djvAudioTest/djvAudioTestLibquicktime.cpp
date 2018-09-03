@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAudioTestLibquicktime.cpp
-
 //#define DJV_DEBUG
 
 #include <djvAudioTest.h>
@@ -41,7 +39,6 @@
 class djvAudioTestMovie::_Movie
 {
 public:
-
     _Movie();
 
     ~_Movie();
@@ -95,7 +92,6 @@ void Movie::_Movie::init(const String & in) throw (Error)
     DJV_DEBUG_PRINT("in = " << in);
 
     _qt = lqt_open_read(in.cStr());
-
     if (! _qt)
     {
         throw Error("lqt_open_read", in);
@@ -118,7 +114,6 @@ void Movie::_Movie::init(const String & in) throw (Error)
     };
     
     const int cmodel = lqt_get_best_colormodel(_qt, 0, cmodel_list);
-
     switch (cmodel)
     {
         case BC_BGR888:
@@ -172,13 +167,12 @@ const Pixel_Data * djvAudioTestMovie::_Movie::image(int in) const
     DJV_DEBUG("djvAudioTestMovie::_Movie::image");
     DJV_DEBUG_PRINT("in = " << in);
 
-    _Movie * that = const_cast<_Movie *>(this);
-
     if (! _qt)
     {
         return 0;
     }
 
+    _Movie * that = const_cast<_Movie *>(this);
     if (in != ++that->_tmp_frame)
     {
         that->_tmp_frame = in;
@@ -220,8 +214,6 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
     DJV_DEBUG("djvAudioTestMovie::_Movie::audio");
     DJV_DEBUG_PRINT("size = " << static_cast<int>(size));
 
-    _Movie * that = const_cast<_Movie *>(this);
-
     if (! _qt)
     {
         return;
@@ -232,9 +224,9 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
         static_cast<int>(quicktime_audio_length(_qt, 0)));
 
     // Setup buffer.
-
     const int channel = _info_audio.channel;
 
+    _Movie * that = const_cast<_Movie *>(this);
     that->_tmp_audio.size(size * channel);
     ulong _size = Math::min(
         size,
@@ -268,7 +260,6 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
     } data(that->_tmp_audio(), _size, channel);
 
     // Fill buffer.
-
     if (_size)
     {
         lqt_decode_audio_track(_qt, data.p, 0, _size, 0);
@@ -283,7 +274,6 @@ void djvAudioTestMovie::_Movie::audio(int16_t * in, ulong size) const
         }
 
     // Zero remainder.
-
     for (; i < size; ++i, in += channel)
         for (int c = 0; c < channel; ++c)
         {

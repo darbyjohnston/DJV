@@ -29,7 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAbstractWidgetTest.h
+#pragma once
 
 #ifndef DJV_ABSTRACT_WIDGET_TEST_H
 #define DJV_ABSTRACT_WIDGET_TEST_H

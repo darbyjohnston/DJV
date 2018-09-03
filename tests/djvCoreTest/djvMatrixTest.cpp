@@ -40,7 +40,6 @@
 void djvMatrixTest::run(int &, char **)
 {
     DJV_DEBUG("djvMatrixTest::run");
-
     ctors();
     members();
     operators();
@@ -49,67 +48,53 @@ void djvMatrixTest::run(int &, char **)
 void djvMatrixTest::ctors()
 {
     DJV_DEBUG("djvMatrixTest::ctors");
-    
     {
         const djvMatrix3f m;
-        
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[8]));
     }
-    
     {
         const djvMatrix4f m;
-        
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[2]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[5]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[8]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[9]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[14]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[15]));
     }
-    
     {
         const djvMatrix3f m(
             djvMatrix3f(
                 0.0, 1.0, 2.0,
                 3.0, 4.0, 5.0,
                 6.0, 7.0, 8.0));
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
     }
-    
     {
         const djvMatrix4f m(
             djvMatrix4f(
@@ -117,75 +102,61 @@ void djvMatrixTest::ctors()
                  4.0,  5.0,  6.0,  7.0,
                  8.0,  9.0, 10.0, 11.0,
                 12.0, 13.0, 14.0, 15.0));
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
         DJV_ASSERT(djvMath::fuzzyCompare(9.0, m.e[9]));
         DJV_ASSERT(djvMath::fuzzyCompare(10.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(11.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(12.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(13.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(14.0, m.e[14]));
         DJV_ASSERT(djvMath::fuzzyCompare(15.0, m.e[15]));
     }
-    
     {
         const djvMatrix3f m(
             0.0, 1.0, 2.0,
             3.0, 4.0, 5.0,
             6.0, 7.0, 8.0);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
     }
-    
     {
         const djvMatrix4f m(
              0.0,  1.0,  2.0,  3.0,
              4.0,  5.0,  6.0,  7.0,
              8.0,  9.0, 10.0, 11.0,
             12.0, 13.0, 14.0, 15.0);
-        
         DJV_ASSERT(djvMath::fuzzyCompare( 0.0, m.e[ 0]));
         DJV_ASSERT(djvMath::fuzzyCompare( 1.0, m.e[ 1]));
         DJV_ASSERT(djvMath::fuzzyCompare( 2.0, m.e[ 2]));
         DJV_ASSERT(djvMath::fuzzyCompare( 3.0, m.e[ 3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 4.0, m.e[ 4]));
         DJV_ASSERT(djvMath::fuzzyCompare( 5.0, m.e[ 5]));
         DJV_ASSERT(djvMath::fuzzyCompare( 6.0, m.e[ 6]));
         DJV_ASSERT(djvMath::fuzzyCompare( 7.0, m.e[ 7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 8.0, m.e[ 8]));
         DJV_ASSERT(djvMath::fuzzyCompare( 9.0, m.e[ 9]));
         DJV_ASSERT(djvMath::fuzzyCompare(10.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(11.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(12.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(13.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(14.0, m.e[14]));
         DJV_ASSERT(djvMath::fuzzyCompare(15.0, m.e[15]));
     }
-    
     {
         const double v[] =
         {
@@ -194,20 +165,16 @@ void djvMatrixTest::ctors()
             6.0, 7.0, 8.0
         };
         const djvMatrix3f m(v);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
     }
-    
     {
         const double v[] =
         {
@@ -217,22 +184,18 @@ void djvMatrixTest::ctors()
             12.0, 13.0, 14.0, 15.0
         };
         const djvMatrix4f m(v);
-        
         DJV_ASSERT(djvMath::fuzzyCompare( 0.0, m.e[ 0]));
         DJV_ASSERT(djvMath::fuzzyCompare( 1.0, m.e[ 1]));
         DJV_ASSERT(djvMath::fuzzyCompare( 2.0, m.e[ 2]));
         DJV_ASSERT(djvMath::fuzzyCompare( 3.0, m.e[ 3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 4.0, m.e[ 4]));
         DJV_ASSERT(djvMath::fuzzyCompare( 5.0, m.e[ 5]));
         DJV_ASSERT(djvMath::fuzzyCompare( 6.0, m.e[ 6]));
         DJV_ASSERT(djvMath::fuzzyCompare( 7.0, m.e[ 7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 8.0, m.e[ 8]));
         DJV_ASSERT(djvMath::fuzzyCompare( 9.0, m.e[ 9]));
         DJV_ASSERT(djvMath::fuzzyCompare(10.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(11.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(12.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(13.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(14.0, m.e[14]));
@@ -243,7 +206,6 @@ void djvMatrixTest::ctors()
 void djvMatrixTest::members()
 {
     DJV_DEBUG("djvMatrixTest::members");
-    
     {
         const double v[] =
         {
@@ -253,20 +215,16 @@ void djvMatrixTest::members()
         };
         djvMatrix3f m;
         m.set(v);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
     }
-    
     {
         const double v[] =
         {
@@ -277,48 +235,39 @@ void djvMatrixTest::members()
         };
         djvMatrix4f m;
         m.set(v);
-        
         DJV_ASSERT(djvMath::fuzzyCompare( 0.0, m.e[ 0]));
         DJV_ASSERT(djvMath::fuzzyCompare( 1.0, m.e[ 1]));
         DJV_ASSERT(djvMath::fuzzyCompare( 2.0, m.e[ 2]));
         DJV_ASSERT(djvMath::fuzzyCompare( 3.0, m.e[ 3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 4.0, m.e[ 4]));
         DJV_ASSERT(djvMath::fuzzyCompare( 5.0, m.e[ 5]));
         DJV_ASSERT(djvMath::fuzzyCompare( 6.0, m.e[ 6]));
         DJV_ASSERT(djvMath::fuzzyCompare( 7.0, m.e[ 7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 8.0, m.e[ 8]));
         DJV_ASSERT(djvMath::fuzzyCompare( 9.0, m.e[ 9]));
         DJV_ASSERT(djvMath::fuzzyCompare(10.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(11.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(12.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(13.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(14.0, m.e[14]));
         DJV_ASSERT(djvMath::fuzzyCompare(15.0, m.e[15]));
     }
-    
     {
         djvMatrix3f m;
         m.set(
             0.0, 1.0, 2.0,
             3.0, 4.0, 5.0,
             6.0, 7.0, 8.0);
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
     }
-    
     {
         djvMatrix4f m;
         m.set(
@@ -326,108 +275,86 @@ void djvMatrixTest::members()
              4.0,  5.0,  6.0,  7.0,
              8.0,  9.0, 10.0, 11.0,
             12.0, 13.0, 14.0, 15.0);
-        
         DJV_ASSERT(djvMath::fuzzyCompare( 0.0, m.e[ 0]));
         DJV_ASSERT(djvMath::fuzzyCompare( 1.0, m.e[ 1]));
         DJV_ASSERT(djvMath::fuzzyCompare( 2.0, m.e[ 2]));
         DJV_ASSERT(djvMath::fuzzyCompare( 3.0, m.e[ 3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 4.0, m.e[ 4]));
         DJV_ASSERT(djvMath::fuzzyCompare( 5.0, m.e[ 5]));
         DJV_ASSERT(djvMath::fuzzyCompare( 6.0, m.e[ 6]));
         DJV_ASSERT(djvMath::fuzzyCompare( 7.0, m.e[ 7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare( 8.0, m.e[ 8]));
         DJV_ASSERT(djvMath::fuzzyCompare( 9.0, m.e[ 9]));
         DJV_ASSERT(djvMath::fuzzyCompare(10.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(11.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(12.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(13.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(14.0, m.e[14]));
         DJV_ASSERT(djvMath::fuzzyCompare(15.0, m.e[15]));
     }
-    
     {
         djvMatrix3f m;
         m.zero();
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[8]));
     }
-    
     {
         djvMatrix4f m;
         m.zero();
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 0]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 1]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 2]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 4]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 5]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 6]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 8]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 9]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[14]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[15]));
     }
-    
     {
         djvMatrix3f m;
         m.zero();
         m.identity();
-        
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[8]));
     }
-    
     {
         djvMatrix4f m;
         m.zero();
         m.identity();
-        
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[ 0]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 1]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 2]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 3]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 4]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[ 5]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 6]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 7]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 8]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[ 9]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[10]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[11]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[12]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[13]));
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[14]));
@@ -438,7 +365,6 @@ void djvMatrixTest::members()
 void djvMatrixTest::operators()
 {
     DJV_DEBUG("djvMatrixTest::operators");
-
     {
         const djvMatrix3f a(
             0.0, 1.0, 2.0,
@@ -448,40 +374,31 @@ void djvMatrixTest::operators()
         DJV_ASSERT(a == a);
         DJV_ASSERT(a != djvMatrix3f());
     }
-    
     {
         djvMatrix3f m;
-        
         QStringList s = QStringList() <<
             "0.0" << "1.0" << "2.0" <<
             "3.0" << "4.0" << "5.0" <<
             "6.0" << "7.0" << "8.0";
         s >> m;
-        
         DJV_ASSERT(djvMath::fuzzyCompare(0.0, m.e[0]));
         DJV_ASSERT(djvMath::fuzzyCompare(1.0, m.e[1]));
         DJV_ASSERT(djvMath::fuzzyCompare(2.0, m.e[2]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(3.0, m.e[3]));
         DJV_ASSERT(djvMath::fuzzyCompare(4.0, m.e[4]));
         DJV_ASSERT(djvMath::fuzzyCompare(5.0, m.e[5]));
-
         DJV_ASSERT(djvMath::fuzzyCompare(6.0, m.e[6]));
         DJV_ASSERT(djvMath::fuzzyCompare(7.0, m.e[7]));
         DJV_ASSERT(djvMath::fuzzyCompare(8.0, m.e[8]));
-        
         DJV_ASSERT(s.isEmpty());
     }
-    
     {
         djvMatrix3f m(
             0.0, 1.0, 2.0,
             3.0, 4.0, 5.0,
             6.0, 7.0, 8.0);
-        
         QStringList s;
         s << m;
-        
         DJV_ASSERT((QStringList() <<
             "0" << "1" << "2" <<
             "3" << "4" << "5" <<

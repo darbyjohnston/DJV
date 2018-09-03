@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvWidgetTestModel.h
-
-#ifndef DJV_WIDGET_TEST_MODEL_H
-#define DJV_WIDGET_TEST_MODEL_H
+#pragma once
 
 #include <QAbstractListModel>
 
@@ -63,4 +60,3 @@ private:
     djvWidgetTestManager * _testManager;
 };
 
-#endif // DJV_WIDGET_TEST_MODEL_H

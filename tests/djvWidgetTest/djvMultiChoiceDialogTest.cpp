@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvMultiChoiceDialogTest.cpp
-
 #include <djvMultiChoiceDialogTest.h>
 
 #include <djvMultiChoiceDialog.h>
@@ -53,12 +51,10 @@ void djvMultiChoiceDialogTest::run(const QStringList & args)
         "Display:",
         QStringList() << "Red" << "Green" << "Blue",
         QVector<bool>() << false << true);
-    
     if (QDialog::Accepted == dialog.exec())
     {
         QStringList tmp;
         tmp << dialog.values();
-    
         djvSystem::print(QString("%1").arg(tmp.join(", ")));
     }
 }

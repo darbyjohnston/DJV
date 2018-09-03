@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestThumbnail.cpp
-
 #include <djvFileBrowserTestThumbnail.h>
 
 #include <djvPixmapUtil.h>
@@ -114,7 +112,6 @@ void djvFileBrowserTestThumbnailWorker::request(
 {
     {
         QMutexLocker locker(mutex());
-        
         if (request.id != id())
             return;
     }
@@ -129,51 +126,35 @@ void djvFileBrowserTestThumbnailWorker::request(
     djvFileBrowserTestThumbnailResult result;
     result.row = request.row;
     result.id  = request.id;
-
     try
     {
         // Load the image.
-        
         QScopedPointer<djvImageLoad> load;
-        
         load.reset(_p->context->imageIoFactory()->load(request.fileInfo, result.info));
-        
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
-
         djvVector2i size = djvFileBrowserTestUtil::thumbnailSize(
             request.thumbnails,
             request.thumbnailSize,
             result.info.size,
             &proxy);
-        
         //DJV_DEBUG_PRINT("size = " << size);
-
         load->read(_p->image, djvImageIoFrameInfo(-1, 0, proxy));
-        
         //DJV_DEBUG_PRINT("image = " << _p->image);
         
         // Scale the image.
-        
         _p->imageScaled.set(djvPixelDataInfo(size, _p->image.pixel()));
-
         djvOpenGlImageOptions options;
-
         options.xform.scale =
             djvVector2f(_p->imageScaled.size()) /
             (djvVector2f(_p->image.size() *
                 djvPixelDataUtil::proxyScale(_p->image.info().proxy)));
-
         //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
-
         options.colorProfile = _p->image.colorProfile;
-        
         if (djvFileBrowserTestUtil::THUMBNAILS_HIGH == request.thumbnails)
         {
             options.filter = djvOpenGlImageFilter::filterHighQuality();
         }
-
         djvOpenGlImage::copy(_p->image, _p->imageScaled, options);
-
         result.pixmap = djvPixmapUtil::toQt(_p->imageScaled);
     }
     catch (djvError error)
@@ -185,7 +166,6 @@ void djvFileBrowserTestThumbnailWorker::request(
 void djvFileBrowserTestThumbnailWorker::start()
 {
     //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::start");
-
     _p->offscreenSurface.reset(new QOffscreenSurface);
     QSurfaceFormat surfaceFormat;
     surfaceFormat.setSamples(1);
@@ -193,7 +173,6 @@ void djvFileBrowserTestThumbnailWorker::start()
     surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
     _p->offscreenSurface->setFormat(surfaceFormat);
     _p->offscreenSurface->create();
-    
     _p->openGlContext.reset(new QOpenGLContext);
     _p->openGlContext->setFormat(surfaceFormat);
     _p->openGlContext->create();
@@ -203,7 +182,6 @@ void djvFileBrowserTestThumbnailWorker::start()
 void djvFileBrowserTestThumbnailWorker::finish()
 {
     //DJV_DEBUG("djvFileBrowserTestThumbnailWorker::finish");
-    
     _p->openGlContext.reset();
     _p->offscreenSurface.reset();
 }
@@ -220,42 +198,35 @@ djvFileBrowserTestThumbnail::djvFileBrowserTestThumbnail(
     _threadIndex(0)
 {
     static const int threads = 12;
-    
     for (int i = 0; i < threads; ++i)
     {
         _requesters.append(new djvFileBrowserTestThumbnailRequester);
         _workers.append(new djvFileBrowserTestThumbnailWorker(context));
         _threads.append(new QThread);
     }
-
     for (int i = 0; i < threads; ++i)
     {
         connect(
             _workers[i],
             SIGNAL(result(const djvFileBrowserTestThumbnailResult &)),
             SIGNAL(result(const djvFileBrowserTestThumbnailResult &)));
-
         _workers[i]->connect(
             _requesters[i],
             SIGNAL(request(const djvFileBrowserTestThumbnailRequest &)),
             SLOT(request(const djvFileBrowserTestThumbnailRequest &)));
-
         _workers[i]->connect(
             _threads[i],
             SIGNAL(started()),
             SLOT(start()));
-
         _workers[i]->connect(
             _threads[i],
             SIGNAL(finished()),
             SLOT(finish()));
     }
-
     for (int i = 0; i < threads; ++i)
     {
         _workers[i]->moveToThread(_threads[i]);
         _threads[i]->start();
-
         //DJV_DEBUG_PRINT("thread = " << qint64(_workers[i]->thread()));
     }
 }
@@ -266,12 +237,10 @@ djvFileBrowserTestThumbnail::~djvFileBrowserTestThumbnail()
     {
         _threads[i]->quit();
     }
-    
     for (int i = 0; i < _threads.count(); ++i)
     {
         _threads[i]->wait();
     }
-    
     for (int i = 0; i < _threads.count(); ++i)
     {
         delete _threads[i];
@@ -279,7 +248,7 @@ djvFileBrowserTestThumbnail::~djvFileBrowserTestThumbnail()
         delete _requesters[i];
     }
 }
-    
+
 void djvFileBrowserTestThumbnail::request(
     const djvFileBrowserTestThumbnailRequest & request)
 {
@@ -291,7 +260,6 @@ void djvFileBrowserTestThumbnail::setId(quint64 id)
     for (int i = 0; i < _workers.count(); ++i)
     {
         QMutexLocker locker(_workers[i]->mutex());
-        
         _workers[i]->setId(id);
     }
 }
@@ -300,14 +268,11 @@ djvFileBrowserTestThumbnailRequester *
 djvFileBrowserTestThumbnail::nextRequester()
 {
     djvFileBrowserTestThumbnailRequester * requester = _requesters[_threadIndex];
-
     ++_threadIndex;
-    
     if (_threadIndex >= _requesters.count())
     {
         _threadIndex = 0;
     }
-    
     return requester;
 }
 

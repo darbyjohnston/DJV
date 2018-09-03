@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestInfo.cpp
-
 #include <djvFileBrowserTestInfo.h>
 
 #include <djvPixmapUtil.h>
@@ -91,8 +89,7 @@ void djvFileBrowserTestInfoWorker::request(
     const djvFileBrowserTestInfoRequest & request)
 {
     {
-        QMutexLocker locker(mutex());
-        
+        QMutexLocker locker(mutex());        
         if (request.id != id())
             return;
     }
@@ -103,30 +100,23 @@ void djvFileBrowserTestInfoWorker::request(
     //DJV_DEBUG_PRINT("thumbnailSize = " << request.thumbnailSize);
     //DJV_DEBUG_PRINT("row = " << request.row);
     //DJV_DEBUG_PRINT("id = " << request.id);
-    
+
     djvFileBrowserTestInfoResult result;
     result.row = request.row;
-    result.id  = request.id;
-    
+    result.id  = request.id;    
     try
     {
         // Load the image.
-        
         QScopedPointer<djvImageLoad> load;
-        
         load.reset(_context->imageIoFactory()->load(request.fileInfo, result.info));
-        
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
-
         const djvVector2i size = djvFileBrowserTestUtil::thumbnailSize(
             request.thumbnails,
             request.thumbnailSize,
             result.info.size,
             &proxy);
-        
         //DJV_DEBUG_PRINT("size = " << size);
         //DJV_DEBUG_PRINT("proxy = " << proxy);
-        
         result.pixmap = QPixmap(size.x, size.y);
         result.pixmap.fill(Qt::transparent);
     }
@@ -148,42 +138,35 @@ djvFileBrowserTestInfo::djvFileBrowserTestInfo(
     _threadIndex(0)
 {
     static const int threads = 12;
-    
     for (int i = 0; i < threads; ++i)
     {
         _requesters.append(new djvFileBrowserTestInfoRequester);
         _workers.append(new djvFileBrowserTestInfoWorker(context));
         _threads.append(new QThread);
     }
-
     for (int i = 0; i < threads; ++i)
     {
         connect(
             _workers[i],
             SIGNAL(result(const djvFileBrowserTestInfoResult &)),
             SIGNAL(result(const djvFileBrowserTestInfoResult &)));
-
         _workers[i]->connect(
             _requesters[i],
             SIGNAL(request(const djvFileBrowserTestInfoRequest &)),
             SLOT(request(const djvFileBrowserTestInfoRequest &)));
-
         _workers[i]->connect(
             _threads[i],
             SIGNAL(started()),
             SLOT(start()));
-
         _workers[i]->connect(
             _threads[i],
             SIGNAL(finished()),
             SLOT(finish()));
     }
-
     for (int i = 0; i < threads; ++i)
     {
         _workers[i]->moveToThread(_threads[i]);
         _threads[i]->start();
-
         //DJV_DEBUG_PRINT("thread = " << qint64(_workers[i]->thread()));
     }
 }
@@ -194,12 +177,10 @@ djvFileBrowserTestInfo::~djvFileBrowserTestInfo()
     {
         _threads[i]->quit();
     }
-    
     for (int i = 0; i < _threads.count(); ++i)
     {
         _threads[i]->wait();
     }
-    
     for (int i = 0; i < _threads.count(); ++i)
     {
         delete _threads[i];
@@ -219,7 +200,6 @@ void djvFileBrowserTestInfo::setId(quint64 id)
     for (int i = 0; i < _workers.count(); ++i)
     {
         QMutexLocker locker(_workers[i]->mutex());
-        
         _workers[i]->setId(id);
     }
 }
@@ -227,14 +207,11 @@ void djvFileBrowserTestInfo::setId(quint64 id)
 djvFileBrowserTestInfoRequester * djvFileBrowserTestInfo::nextRequester()
 {
     djvFileBrowserTestInfoRequester * requester = _requesters[_threadIndex];
-
     ++_threadIndex;
-    
     if (_threadIndex >= _requesters.count())
     {
         _threadIndex = 0;
     }
-    
     return requester;
 }
 

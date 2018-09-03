@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvInputDialogTest.cpp
-
 #include <djvInputDialogTest.h>
 
 #include <djvInputDialog.h>
@@ -49,7 +47,6 @@ QString djvInputDialogTest::name()
 void djvInputDialogTest::run(const QStringList & args)
 {
     djvInputDialog dialog("Enter the object name:");
-    
     if (QDialog::Accepted == dialog.exec())
     {
         djvSystem::print(QString("%1").arg(dialog.text()));

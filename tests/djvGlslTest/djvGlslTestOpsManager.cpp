@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestOpsManager.cpp
-
 #include <djvGlslTestOpsManager.h>
 
 #include <djvGlslTestBlurOp.h>
@@ -60,8 +58,7 @@ djvGlslTestOpsManager::djvGlslTestOpsManager(
     _factories += new djvGlslTestBlurOpFactory(context);
     _factories += new djvGlslTestSharpenOpFactory(context);
     _factories += new djvGlslTestEdgeOpFactory(context);
-    _factories += new djvGlslTestScaleOpFactory(context);
-    
+    _factories += new djvGlslTestScaleOpFactory(context);    
     Q_FOREACH(djvGlslTestAbstractOpFactory * factory, _factories)
     {
         _ops += factory->createOp();
@@ -74,7 +71,6 @@ djvGlslTestOpsManager::~djvGlslTestOpsManager()
     {
         delete op;
     }
-
     Q_FOREACH(djvGlslTestAbstractOpFactory * factory, _factories)
     {
         delete factory;
@@ -110,12 +106,8 @@ void djvGlslTestOpsManager::setCurrentIndex(int index)
 {
     if (_currentIndex == index)
         return;
-
     disconnect(currentOp(), SIGNAL(opChanged()), this, SIGNAL(opChanged()));
-    
     _currentIndex = index;
-
     connect(currentOp(), SIGNAL(opChanged()), SIGNAL(opChanged()));
-    
     Q_EMIT currentIndexChanged(_currentIndex);
 }

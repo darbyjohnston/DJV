@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvOpenGlTest.cpp
-
 #include <djvOpenGlTest.h>
 
 #include <djvAssert.h>
@@ -47,59 +45,40 @@ using namespace gl;
 void djvOpenGlTest::run(int &, char **)
 {
     DJV_DEBUG("djvOpenGlTest::run");
-    
     members();
 }
 
 void djvOpenGlTest::members()
 {
     DJV_DEBUG("djvOpenGlTest::members");
-    
     djvImageContext context;
-    
     QScopedPointer<djvOpenGlOffscreenBuffer> buffer(
         new djvOpenGlOffscreenBuffer(djvPixelDataInfo(100, 100, djvPixel::RGBA_U8)));
-    
     djvOpenGlOffscreenBufferScope bufferScope(buffer.data());
-    
     DJV_DEBUG_PRINT("buffer = " << buffer->info());
     DJV_DEBUG_PRINT("buffer id = " << buffer->id());
     DJV_DEBUG_PRINT("buffer texture = " << buffer->texture());
-
     {
-       djvOpenGlUtil::ortho(djvVector2i(100, 100));
-       
-       DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-       
-       djvOpenGlUtil::color(djvColor(0.5));
-       
-       DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-
-       djvOpenGlUtil::drawBox(djvBox2i(25, 25, 50, 50));
-
-       DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-
-       djvOpenGlUtil::drawBox(djvBox2f(50.0, 50.0, 50.0, 50.0));       
-
-       DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-       
-       djvVector2f uv[4] =
-       {
-           djvVector2f(0.0, 0.0),
-           djvVector2f(0.1, 0.0),
-           djvVector2f(0.1, 1.0),
-           djvVector2f(0.0, 1.0)
-       };
-
-       djvOpenGlUtil::drawBox(djvBox2i(25, 25, 50, 50), uv);
-
-       DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-
-       djvOpenGlUtil::drawBox(djvBox2f(50.0, 50.0, 50.0, 50.0), uv);
-
-       DJV_ASSERT(GL_NO_ERROR == ::glGetError());
+        djvOpenGlUtil::ortho(djvVector2i(100, 100));
+        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
+        djvOpenGlUtil::color(djvColor(0.5));
+        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
+        djvOpenGlUtil::drawBox(djvBox2i(25, 25, 50, 50));
+        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
+        djvOpenGlUtil::drawBox(djvBox2f(50.0, 50.0, 50.0, 50.0));
+        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
+        djvVector2f uv[4] =
+        {
+            djvVector2f(0.0, 0.0),
+            djvVector2f(0.1, 0.0),
+            djvVector2f(0.1, 1.0),
+            djvVector2f(0.0, 1.0)
+        };
+        djvOpenGlUtil::drawBox(djvBox2i(25, 25, 50, 50), uv);
+        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
+        djvOpenGlUtil::drawBox(djvBox2f(50.0, 50.0, 50.0, 50.0), uv);
+        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
     }
-    
     {
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
         {

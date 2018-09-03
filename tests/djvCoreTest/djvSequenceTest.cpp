@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvSequenceTest.cpp
-
 #include <djvSequenceTest.h>
 
 #include <djvAssert.h>
@@ -41,7 +39,6 @@
 void djvSequenceTest::run(int &, char **)
 {
     DJV_DEBUG("djvSequenceTest::run");
-    
     ctors();
     members();
     operators();
@@ -50,28 +47,22 @@ void djvSequenceTest::run(int &, char **)
 void djvSequenceTest::ctors()
 {
     DJV_DEBUG("djvSequenceTest::ctors");
-    
     {
         const djvSequence seq;
-        
         DJV_ASSERT(seq.frames.isEmpty());
         DJV_ASSERT(0 == seq.pad);
         DJV_ASSERT(djvSpeed() == seq.speed);
     }
-    
     {
         const djvFrameList frameList = djvFrameList() << 1 << 2 << 3;
         const djvSequence seq(frameList, 4, djvSpeed::FPS_24);
-        
         DJV_ASSERT(frameList == seq.frames);
         DJV_ASSERT(4 == seq.pad);
         DJV_ASSERT(djvSpeed::FPS_24 == seq.speed);
     }
-    
     {
         const djvFrameList frameList = djvFrameList() << 1 << 2 << 3;
         const djvSequence seq(1, 3, 4, djvSpeed::FPS_24);
-        
         DJV_ASSERT(frameList == seq.frames);
         DJV_ASSERT(4 == seq.pad);
         DJV_ASSERT(djvSpeed::FPS_24 == seq.speed);
@@ -81,103 +72,71 @@ void djvSequenceTest::ctors()
 void djvSequenceTest::members()
 {
     DJV_DEBUG("djvSequenceTest::members");
-    
     {
         djvSequence seq;
-
         DJV_ASSERT(0 == seq.start());
         DJV_ASSERT(0 == seq.end());
     }
-    
     {
         djvSequence seq;
-        
         seq.setFrames(1, 3);
-        
         DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
         DJV_ASSERT(1 == seq.start());
         DJV_ASSERT(3 == seq.end());
-
         seq.setFrames(3, 1);
-        
         DJV_ASSERT(djvFrameList() << 3 << 2 << 1 == seq.frames);
         DJV_ASSERT(3 == seq.start());
         DJV_ASSERT(1 == seq.end());
-
         seq.setFrames(0, djvSequence::maxFrames() - 1);
-
         DJV_ASSERT(0 == seq.start());
         DJV_ASSERT((djvSequence::maxFrames() - 1) == seq.end());
-
         seq.setFrames(0, djvSequence::maxFrames());
-
         DJV_ASSERT(0 == seq.start());
         DJV_ASSERT((djvSequence::maxFrames() - 1) == seq.end());
-
         seq.setFrames(djvSequence::maxFrames(), 0);
-
         DJV_ASSERT(djvSequence::maxFrames() == seq.start());
         DJV_ASSERT(1 == seq.end());
     }
-    
     {
         djvSequence seq;
-        
         seq.setFrames(-1, -3);
-        
         DJV_ASSERT(djvFrameList() << -1 << -2 << -3 == seq.frames);
         DJV_ASSERT(-1 == seq.start());
         DJV_ASSERT(-3 == seq.end());
-
         seq.setFrames(-3, -1);
-        
         DJV_ASSERT(djvFrameList() << -3 << -2 << -1 == seq.frames);
         DJV_ASSERT(-3 == seq.start());
         DJV_ASSERT(-1 == seq.end());
-
         seq.setFrames(-(djvSequence::maxFrames() - 1), 0);
-
         DJV_ASSERT(-(djvSequence::maxFrames() - 1) == seq.start());
         DJV_ASSERT(0 == seq.end());
-
         seq.setFrames(-djvSequence::maxFrames(), 0);
-
         DJV_ASSERT(-djvSequence::maxFrames() == seq.start());
         DJV_ASSERT(-1 == seq.end());
-
         seq.setFrames(0, -djvSequence::maxFrames());
-
         DJV_ASSERT(0 == seq.start());
         DJV_ASSERT(-(djvSequence::maxFrames() - 1) == seq.end());
     }
-    
     {
         djvSequence seq(djvFrameList() << 2 << 3 << 1);
         seq.sort();
-
         DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
     }
-    
     {
         djvSequence seq(djvFrameList() << -2 << -3 << -1);
         seq.sort();
-
         DJV_ASSERT(djvFrameList() << -3 << -2 << -1 == seq.frames);
     }
-    
     {
         const djvSequence seq(djvFrameList() << 1 << 5 << 15);
-        
         DJV_ASSERT(0 == djvSequenceUtil::findClosest( 1, seq.frames));
         DJV_ASSERT(1 == djvSequenceUtil::findClosest( 4, seq.frames));
         DJV_ASSERT(1 == djvSequenceUtil::findClosest( 6, seq.frames));
         DJV_ASSERT(2 == djvSequenceUtil::findClosest(12, seq.frames));
         DJV_ASSERT(2 == djvSequenceUtil::findClosest(15, seq.frames));
     }
-    
     {
         const djvSequence seq(djvFrameList() << -15 << -5 << -1);
-        
         DJV_ASSERT(2 == djvSequenceUtil::findClosest( -1, seq.frames));
         DJV_ASSERT(1 == djvSequenceUtil::findClosest( -4, seq.frames));
         DJV_ASSERT(1 == djvSequenceUtil::findClosest( -6, seq.frames));
@@ -189,51 +148,35 @@ void djvSequenceTest::members()
 void djvSequenceTest::operators()
 {
     DJV_DEBUG("djvSequenceTest::operators");
-
     {
         djvSequence a(1, 3), b(a);
-
         DJV_ASSERT(a == b);
-
         DJV_ASSERT(a != djvSequence());
     }
-
     {
         djvSequence seq;
-        
         QStringList s = QStringList() << "1-3";
         s >> seq;
-        
         DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
     }
-    
     {
         djvSequence seq;
-        
         QStringList s = QStringList() << "0001-0003";
         s >> seq;
-        
         DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
     }
-    
     {
         djvSequence seq(djvFrameList() << 1 << 2 << 3);
-        
         QStringList s;
         s << seq;
-        
         DJV_ASSERT(QStringList() << "1-3" == s);
     }
-
     {
         djvSequence seq(djvFrameList() << 1 << 2 << 3, 4);
-        
         QStringList s;
         s << seq;
-        
         DJV_ASSERT(QStringList() << "0001-0003" == s);
     }
-    
     {
         DJV_DEBUG_PRINT(djvSequence::COMPRESS_RANGE);
     }

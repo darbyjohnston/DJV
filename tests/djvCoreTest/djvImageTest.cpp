@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvImageTest.cpp
-
 #include <djvImageTest.h>
 
 #include <djvAssert.h>
@@ -40,7 +38,6 @@
 void djvImageTest::run(int &, char **)
 {
     DJV_DEBUG("djvImageTest::run");
-    
     ctors();
     operators();
 }
@@ -48,18 +45,13 @@ void djvImageTest::run(int &, char **)
 void djvImageTest::ctors()
 {
     DJV_DEBUG("djvImageTest::ctors");
-    
     {
         const djvImage image;
-        
         DJV_ASSERT(image.data() == 0);
     }
-    
     {
         const djvImage image(djvPixelDataInfo(32, 32, djvPixel::RGBA_U8));
-        
         djvImage other(image);
-        
         DJV_ASSERT(other.info() == image.info());
     }
 }
@@ -67,18 +59,14 @@ void djvImageTest::ctors()
 void djvImageTest::operators()
 {
     DJV_DEBUG("djvImageTest::operators");
-    
     {
         djvImage
             a(djvPixelDataInfo(1, 1, djvPixel::L_U8)),
             b(djvPixelDataInfo(1, 1, djvPixel::L_U8));
-        
         a.data()[0] = b.data()[0] = 127;
-        
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvImage());
     }
-    
     {
         DJV_DEBUG_PRINT(djvImage());
     }

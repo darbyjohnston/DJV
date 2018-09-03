@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvAudioTest.h
-
-#ifndef DJV_AUDIO_TEST_H
-#define DJV_AUDIO_TEST_H
+#pragma once
 
 #include <djv_application.h>
 #include <djv_image_view.h>
@@ -234,4 +231,3 @@ private:
 #define DJV_AUDIO_APP \
     static_cast<Application*>(djv::Core_Application::global())
 
-#endif // DJV_AUDIO_TEST_H

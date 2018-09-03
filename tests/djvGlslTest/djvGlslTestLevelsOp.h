@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestLevelsOp.h
-
-#ifndef DJV_GLSL_TEST_LEVELS_OP_H
-#define DJV_GLSL_TEST_LEVELS_OP_H
+#pragma once
 
 #include <djvGlslTestAbstractOp.h>
 
@@ -162,4 +159,3 @@ public:
         djvGlslTestAbstractOp *) const;
 };
 
-#endif // DJV_GLSL_TEST_LEVELS_OP_H

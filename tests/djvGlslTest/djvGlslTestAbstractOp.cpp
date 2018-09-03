@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestAbstractOp.cpp
-
 #include <djvGlslTestAbstractOp.h>
 
 #include <djvGlslTestUtil.h>
@@ -56,7 +54,6 @@ djvGlslTestContext * djvGlslTestAbstractOp::context() const
 void djvGlslTestAbstractOp::begin()
 {
     //DJV_DEBUG("djvGlslTestAbstractOp::begin");
-
     DJV_DEBUG_OPEN_GL(glPushAttrib(
         GL_VIEWPORT_BIT |
         GL_CURRENT_BIT |
@@ -69,9 +66,7 @@ void djvGlslTestAbstractOp::begin()
 void djvGlslTestAbstractOp::end()
 {
     //DJV_DEBUG("djvGlslTestAbstractOp::end");
-
     glPopAttrib();
-    
     glUseProgram(0);
 }
 
@@ -114,3 +109,4 @@ djvGlslTestContext * djvGlslTestAbstractOpFactory::context() const
 {
     return _context;
 }
+

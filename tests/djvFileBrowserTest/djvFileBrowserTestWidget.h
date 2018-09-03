@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestWidget.h
-
-#ifndef DJV_FILE_BROWSER_TEST_WIDGET_H
-#define DJV_FILE_BROWSER_TEST_WIDGET_H
+#pragma once
 
 #include <djvUtil.h>
 
@@ -54,7 +51,6 @@ class djvFileBrowserTestWidget : public QMainWindow
     Q_OBJECT
     
     //! This property holds the current directory.
-    
     Q_PROPERTY(
         QDir   dir
         READ   dir
@@ -62,7 +58,6 @@ class djvFileBrowserTestWidget : public QMainWindow
         NOTIFY dirChanged)
     
     //! This property holds the current directory's path.
-    
     Q_PROPERTY(
         QString path
         READ    path
@@ -70,56 +65,39 @@ class djvFileBrowserTestWidget : public QMainWindow
         NOTIFY  pathChanged)
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestWidget(
         djvGuiContext * context,
         QWidget *       parent  = 0);
-    
-    //! Destructor.
-    
+
     virtual ~djvFileBrowserTestWidget();
     
     //! Get the current directory.
-    
     const QDir & dir() const;
     
     //! Get the current directory's path.
-    
     QString path() const;
 
 public Q_SLOTS:
-
     //! Set the current directory.
-
     void setDir(const QDir &);
     
     //! Set the current directory's path.
-    
     void setPath(const QString &);
 
 Q_SIGNALS:
-
     //! This signal is emitted when the current directory is changed.
-    
     void dirChanged(const QDir &);
 
     //! This signal is emitted when the current directory's path is changed.
-    
     void pathChanged(const QString &);
     
 private Q_SLOTS:
-
     void sequenceCallback(QAction *);
     void viewModeCallback(QAction *);
     
 private:
-
     DJV_PRIVATE_COPY(djvFileBrowserTestWidget)
     
     djvFileBrowserTestWidgetPrivate * _p;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_WIDGET_H
 

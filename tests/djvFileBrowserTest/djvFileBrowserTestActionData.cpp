@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestActionData.cpp
-
 #include <djvFileBrowserTestActionData.h>
 
 //------------------------------------------------------------------------------

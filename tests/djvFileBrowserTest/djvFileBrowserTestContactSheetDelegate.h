@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestContactSheetDelegate.h
-
-#ifndef DJV_FILE_BROWSER_TEST_CONTACT_SHEET_DELEGATE_H
-#define DJV_FILE_BROWSER_TEST_CONTACT_SHEET_DELEGATE_H
+#pragma once
 
 #include <djvFileBrowserTestUtil.h>
 
@@ -53,17 +50,11 @@ class djvFileBrowserTestContactSheetDelegate : public QAbstractItemDelegate
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestContactSheetDelegate(djvGuiContext *, QObject * parent = 0);
 
-    //! Destructor.
-    
     virtual ~djvFileBrowserTestContactSheetDelegate();
     
-    //! Get the thumbnail size.
-        
+    //! Get the thumbnail size.        
     int thumbnailSize() const;
     
     virtual QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const;
@@ -71,17 +62,12 @@ public:
     virtual void paint(QPainter *, const QStyleOptionViewItem &, const QModelIndex &) const;
 
 public Q_SLOTS:
-
     //! Set the thumbnail size.
-    
     void setThumbnailSize(int);
     
 private:
-
     DJV_PRIVATE_COPY(djvFileBrowserTestContactSheetDelegate)
     
     djvFileBrowserTestContactSheetDelegatePrivate * _p;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_CONTACT_SHEET_DELEGATE_H
 

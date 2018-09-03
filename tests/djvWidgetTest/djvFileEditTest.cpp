@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileEditTest.cpp
-
 #include <djvFileEditTest.h>
 
 #include <djvFileEdit.h>

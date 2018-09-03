@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestOpDockWidget.cpp
-
 #include <djvGlslTestOpDockWidget.h>
 
 #include <djvGlslTestAbstractOp.h>
@@ -84,7 +82,6 @@ djvGlslTestOpDockWidget::djvGlslTestOpDockWidget(
 void djvGlslTestOpDockWidget::widgetUpdate()
 {
     setWindowTitle(QString("Operation: %1").
-        arg(_opsManager->currentFactory()->name()));
-    
+        arg(_opsManager->currentFactory()->name()));   
     _stackedWidget->setCurrentIndex(_opsManager->currentIndex());
 }

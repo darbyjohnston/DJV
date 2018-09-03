@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestItem.h
-
-#ifndef DJV_FILE_BROWSER_TEST_ITEM_H
-#define DJV_FILE_BROWSER_TEST_ITEM_H
+#pragma once
 
 #include <djvFileInfo.h>
 #include <djvImageIo.h>
@@ -48,8 +45,6 @@
 
 struct djvFileBrowserTestItem
 {
-    //! Constructor.
-    
     djvFileBrowserTestItem() :
         infoInit         (false),
         infoComplete     (false),
@@ -69,6 +64,4 @@ struct djvFileBrowserTestItem
 
     QString formatText() const;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_ITEM_H
 

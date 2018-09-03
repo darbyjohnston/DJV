@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvColorDialogTest.cpp
-
 #include <djvColorDialogTest.h>
 
 #include <djvColorDialog.h>
@@ -51,12 +49,10 @@ QString djvColorDialogTest::name()
 void djvColorDialogTest::run(const QStringList & args)
 {
     djvColorDialog dialog(context());
-    
     if (QDialog::Accepted == dialog.exec())
     {
         QStringList tmp;
         tmp << dialog.color();
-    
         djvSystem::print(QString("%1").arg(tmp.join(", ")));
     }
 }

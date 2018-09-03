@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestPlayback.cpp
-
 #include <djvGlslTestPlayback.h>
 
 #include <djvMath.h>
@@ -53,7 +51,6 @@ djvGlslTestPlayback::~djvGlslTestPlayback()
     if (_timerId)
     {
         killTimer(_timerId);
-        
         _timerId = 0;
     }
 }
@@ -77,23 +74,17 @@ void djvGlslTestPlayback::setSequence(const djvSequence & sequence)
 {
     if (sequence == _sequence)
         return;
-    
     _sequence = sequence;
-    
     playbackUpdate();
-    
     Q_EMIT sequenceChanged(_sequence);
 }
-    
+
 void djvGlslTestPlayback::setFrame(qint64 frame)
 {
     qint64 f = djvMath::wrap<qint64>(frame, 0, _sequence.frames.count() - 1);
-    
     if (f == _frame)
         return;
-    
     _frame = f;
-    
     Q_EMIT frameChanged(_frame);
 }
 
@@ -101,11 +92,8 @@ void djvGlslTestPlayback::setPlayback(djvPlaybackUtil::PLAYBACK playback)
 {
     if (playback == _playback)
         return;
-        
     _playback = playback;
-    
     playbackUpdate();
-    
     Q_EMIT playbackChanged(_playback);
 }
 
@@ -113,17 +101,13 @@ void djvGlslTestPlayback::timerEvent(QTimerEvent *)
 {
     //DJV_DEBUG("djvGlslTestPlayback::timerEvent");
     //DJV_DEBUG_PRINT("frame = " << _frame);
-    
     int inc = 0;
-    
     switch (_playback)
     {
         case djvPlaybackUtil::FORWARD: inc =  1; break;
         case djvPlaybackUtil::REVERSE: inc = -1; break;
-        
         default: break;
     }
-    
     setFrame(_frame + inc);
 }
 
@@ -132,19 +116,14 @@ void djvGlslTestPlayback::playbackUpdate()
     if (_timerId)
     {
         killTimer(_timerId);
-        
         _timerId = 0;
     }
-    
     switch (_playback)
     {
         case djvPlaybackUtil::FORWARD:
         case djvPlaybackUtil::REVERSE:
-        
             _timerId = startTimer(1000 * 1 / djvSpeed::speedToFloat(_sequence.speed));
-            
             break;
-        
         default: break;
     }
 }

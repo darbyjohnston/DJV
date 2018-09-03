@@ -29,10 +29,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvFileBrowserTestDir.h
-
-#ifndef DJV_FILE_BROWSER_TEST_DIR_H
-#define DJV_FILE_BROWSER_TEST_DIR_H
+#pragma once
 
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
@@ -51,8 +48,6 @@ struct djvFileBrowserTestDirWorkerPrivate;
 
 struct djvFileBrowserTestDirRequest
 {
-    //! Constructor.
-    
     djvFileBrowserTestDirRequest();
     
     QString                         path;          //!< File system path.
@@ -78,8 +73,6 @@ struct djvFileBrowserTestDirRequest
 
 struct djvFileBrowserTestDirResult
 {
-    //! Constructor.
-    
     djvFileBrowserTestDirResult();
     
     djvFileInfoList list; //!< List of files.
@@ -97,35 +90,24 @@ class djvFileBrowserTestDirWorker : public djvFileBrowserTestAbstractWorker
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestDirWorker(QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvFileBrowserTestDirWorker();
 
 public Q_SLOTS:
-
     //! Request the contents of a directory.
-    
     void request(const djvFileBrowserTestDirRequest &);
     
     virtual void finish();
 
 Q_SIGNALS:
-
     //! This signal is emitted when the directory contents are available.
-
     void result(const djvFileBrowserTestDirResult &);
 
 protected:
-
     virtual void timerEvent(QTimerEvent *);
     
 private:
-
     void process(djvFileBrowserTestDirResult &);
     
     djvFileBrowserTestDirResult result() const;
@@ -146,40 +128,26 @@ class djvFileBrowserTestDir : public QObject
     Q_OBJECT
     
 public:
-
-    //! Constructor.
-    
     explicit djvFileBrowserTestDir(QObject * parent = 0);
-    
-    //! Destructor.
     
     virtual ~djvFileBrowserTestDir();
     
 public Q_SLOTS:
-
     //! Request directory contents.
-    
     void request(const djvFileBrowserTestDirRequest &);
     
     //! Set the request ID.
-    
     void setId(quint64);
     
 Q_SIGNALS:
-
     //! This signal is emitted when a request has been completed.
-
     void result(const djvFileBrowserTestDirResult &);
     
     //! This signal is emitted to request a directory's contents.
-    
     void requestDir(const djvFileBrowserTestDirRequest &);
     
 private:
-
     QScopedPointer<djvFileBrowserTestDirWorker> _worker;
     QThread                                     _thread;
 };
-
-#endif // DJV_FILE_BROWSER_TEST_DIR_H
 

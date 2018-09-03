@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvChoiceDialogTest.cpp
-
 #include <djvChoiceDialogTest.h>
 
 #include <djvChoiceDialog.h>
@@ -52,7 +50,6 @@ void djvChoiceDialogTest::run(const QStringList & args)
         "Select a color:",
         QStringList() << "Red" << "Green" << "Blue",
         1);
-    
     if (QDialog::Accepted == dialog.exec())
     {
         djvSystem::print(QString("%1").arg(dialog.choice()));

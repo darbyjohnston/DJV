@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//! \file djvGlslTestImageLoad.cpp
-
 #include <djvGlslTestImageLoad.h>
 
 #include <djvGlslTestContext.h>
@@ -62,19 +60,15 @@ const djvImage * djvGlslTestImageLoad::image(qint64 frame) const
 {
     //DJV_DEBUG("djvGlslTestImageLoad::image");
     //DJV_DEBUG_PRINT("frame = " << frame);
-    
     try
     {
         djvGlslTestImageLoad * that = const_cast<djvGlslTestImageLoad  *>(this);
-        
         _load->read(that->_image, frame);
-        
         //DJV_DEBUG_PRINT("image = " << _image);
     }
     catch (const djvError & error)
     {
         //DJV_DEBUG_PRINT("error = " << djvErrorUtil::format(error));
     }
-    
     return &_image;
 }
