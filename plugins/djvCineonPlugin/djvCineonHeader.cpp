@@ -44,7 +44,7 @@ const quint32 djvCineonHeader::magic [] =
     0xd75f2a80
 };
 
-const float djvCineonHeader::minSpeed = 0.000001f;
+const float djvCineonHeader::minSpeed = .000001f;
 
 djvCineonHeader::djvCineonHeader()
 {
@@ -187,7 +187,7 @@ void djvCineonHeader::load(
     }
 
     info.pixel = djvPixel::PIXEL(pixel);
-    info.size = djvVector2i(
+    info.size = glm::ivec2(
         image.channel[0].size[0],
         image.channel[0].size[1]);
 
@@ -544,7 +544,7 @@ namespace
 // These constants are used to catch uninitialized values.
 
 const qint32 _intMax   = 1000000;
-const float  _floatMax = 1000000.0;
+const float  _floatMax = 1000000.f;
 const char   _minChar  = 32;
 const char   _maxChar  = 126;
 

@@ -58,8 +58,8 @@ protected:
 
 private:
 
-    djvVector2i _viewPosTmp;
-    djvVector2i _mousePress;
+    glm::ivec2 _viewPosTmp = glm::ivec2(0, 0);
+    glm::ivec2 _mousePress = glm::ivec2(0, 0);
 };
 
 class djvImagePlayTestApplication : public QApplication

@@ -59,7 +59,7 @@ void djvNumWidgetTest::run(const QStringList & args)
 
 djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvGuiContext * context) :
     _intValue    (0),
-    _floatValue  (0.0),
+    _floatValue  (0.f),
     _intEdit     (0),
     _intDisplay  (0),
     _intSlider   (0),
@@ -99,12 +99,12 @@ djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvGuiContext * context) :
         SLOT(intCallback(int)));
     connect(
         _floatEdit,
-        SIGNAL(valueChanged(double)),
-        SLOT(floatCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(floatCallback(float)));
     connect(
         _floatSlider,
-        SIGNAL(valueChanged(double)),
-        SLOT(floatCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(floatCallback(float)));
 }
 
 void djvNumWidgetTestWidget::intCallback(int value)
@@ -114,7 +114,7 @@ void djvNumWidgetTestWidget::intCallback(int value)
     widgetUpdate();
 }
 
-void djvNumWidgetTestWidget::floatCallback(double value)
+void djvNumWidgetTestWidget::floatCallback(float value)
 {
     _floatValue = value;
     djvSystem::print(QString("%1").arg(_floatValue));

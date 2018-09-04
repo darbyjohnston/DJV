@@ -57,28 +57,28 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
     
     //! This property holds the value.
     Q_PROPERTY(
-        double value
+        float  value
         READ   value
         WRITE  setValue
         NOTIFY valueChanged)
     
     //! This property holds the default value.
     Q_PROPERTY(
-        double defaultValue
+        float  defaultValue
         READ   defaultValue
         WRITE  setDefaultValue
         NOTIFY defaultValueChanged)
     
     //! This property holds the minimum value.
     Q_PROPERTY(
-        double min
+        float  min
         READ   min
         WRITE  setMin
         NOTIFY minChanged)
     
     //! This property holds the maximum value.
     Q_PROPERTY(
-        double max
+        float  max
         READ   max
         WRITE  setMax
         NOTIFY maxChanged)
@@ -89,25 +89,25 @@ public:
     virtual ~djvFloatEditSlider();
 
     //! Get the value.
-    double value() const;
+    float value() const;
 
     //! Get the default value.
-    double defaultValue() const;
+    float defaultValue() const;
 
     //! Get whether a reset to default control is shown.
     bool hasResetToDefault() const;
 
     //! Get the minimum value.
-    double min() const;
+    float min() const;
 
     //! Get the maximum value.
-    double max() const;
+    float max() const;
 
     //! Get the small increment.
-    double smallInc() const;
+    float smallInc() const;
 
     //! Get the large increment.
-    double largeInc() const;
+    float largeInc() const;
 
     //! Get the edit floating-point object.
     djvFloatObject * editObject() const;
@@ -117,45 +117,45 @@ public:
     
 public Q_SLOTS:
     //! Set the value.
-    void setValue(double);
+    void setValue(float);
 
     //! Set the default value.
-    void setDefaultValue(double);
+    void setDefaultValue(float);
 
     //! Set whether a reset to default control is shown.
     void setResetToDefault(bool);
 
     //! Set the minimum value.
-    void setMin(double);
+    void setMin(float);
 
     //! Set the maximum value.
-    void setMax(double);
+    void setMax(float);
 
     //! Set the value range.
-    void setRange(double min, double max);
+    void setRange(float min, float max);
 
     //! Set the value increment.
-    void setInc(double smallInc, double largeInc);
+    void setInc(float smallInc, float largeInc);
 
 Q_SIGNALS:
     //! This signal is emitted when the value is changed.
-    void valueChanged(double);
+    void valueChanged(float);
 
     //! This signal is emitted when the default value is changed
-    void defaultValueChanged(double);
+    void defaultValueChanged(float);
 
     //! This signal is emitted when the minimum value is changed.
-    void minChanged(double);
+    void minChanged(float);
 
     //! This signal is emitted when the maximum value is changed.
-    void maxChanged(double);
+    void maxChanged(float);
 
     //! This signal is emitted when the value range is changed.
-    void rangeChanged(double, double);
+    void rangeChanged(float, float);
 
 private Q_SLOTS:
     void valueCallback();
-    void sliderCallback(double);
+    void sliderCallback(float);
     void defaultCallback();
     
     void widgetUpdate();

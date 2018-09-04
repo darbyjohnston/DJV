@@ -66,10 +66,10 @@ public:
     djvViewUtil::VIEW_MAX viewMax() const;
     
     //! Get the default user specified maximum view size.
-    static const djvVector2i & viewMaxUserDefault();
+    static const glm::ivec2 & viewMaxUserDefault();
     
     //! Get the user specified maximum view size.
-    const djvVector2i & viewMaxUser() const;
+    const glm::ivec2 & viewMaxUser() const;
 
     //! Get the default for whether the controls are visible when going full
     //! screen.
@@ -92,7 +92,7 @@ public Q_SLOTS:
     void setViewMax(djvViewUtil::VIEW_MAX);
     
     //! Set the user specified maximum view size.
-    void setViewMaxUser(const djvVector2i &);
+    void setViewMaxUser(const glm::ivec2 &);
 
     //! Set whether the controls are visible when going full screen.
     void setFullScreenControls(bool);
@@ -110,7 +110,7 @@ Q_SIGNALS:
     
     //! This signal is emitted when the user specified maximum view size is
     //! changed.
-    void viewMaxUserChanged(const djvVector2i &);
+    void viewMaxUserChanged(const glm::ivec2 &);
 
     //! This signal is emitted when the full screen controls option is
     //! changed.
@@ -122,7 +122,7 @@ Q_SIGNALS:
 private:
     bool                  _autoFit;
     djvViewUtil::VIEW_MAX _viewMax;
-    djvVector2i           _viewMaxUser;
+    glm::ivec2            _viewMaxUser = glm::ivec2(0, 0);
     bool                  _fullScreenControls;
     QVector<bool>         _toolBar;
 };

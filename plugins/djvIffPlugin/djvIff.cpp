@@ -177,7 +177,7 @@ void Header::load(
                         // Get width and height.
                         io.getU32(&data.width, 1);
                         io.getU32(&data.height, 1);
-                        info.size = djvVector2i(data.width, data.height);
+                        info.size = glm::ivec2(data.width, data.height);
 
                         // Get prnum and prdeb
                         io.getU16(&prnum, 1);
@@ -434,7 +434,7 @@ void Header::save(djvFileIo & io, const djvImageIoInfo & info, bool compression)
     io.setU16(bytes);
 
     // Set tiles.
-    djvVector2i size = djvIff::tileSize(_data.width, _data.height);
+    glm::ivec2 size = djvIff::tileSize(_data.width, _data.height);
     io.setU16(size.x * size.y);
 
     // Set compressed.
@@ -642,10 +642,10 @@ quint32 djvIff::alignSize (quint32 size, quint32 alignment)
     return size;
 }
 
-djvVector2i djvIff::tileSize(quint32 width, quint32 height)
+glm::ivec2 djvIff::tileSize(quint32 width, quint32 height)
 {
     quint32 tw = djvIff::tileWidth(), th = djvIff::tileHeight();
-    djvVector2i size = djvVector2i(
+    glm::ivec2 size = glm::ivec2(
         (width + tw - 1) / tw,
         (height + th - 1) / th);
     return (size);

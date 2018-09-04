@@ -87,10 +87,10 @@ public:
     bool hasCache() const;
 
     //! Get the default cache size in gigabytes.
-    static double cacheSizeDefault();
+    static float cacheSizeDefault();
 
     //! Get the cache size in gigabytes.
-    double cacheSize() const;
+    float cacheSize() const;
 
     //! Get the default for whether the cache is pre-loaded.
     static bool preloadDefault();
@@ -118,7 +118,7 @@ public Q_SLOTS:
     void setCache(bool);
 
     //! Set the cache size in gigabytes.
-    void setCacheSize(double);
+    void setCacheSize(float);
     
     //! Set whether the cache pre-load is enabled.
     void setPreload(bool);
@@ -143,7 +143,7 @@ Q_SIGNALS:
     void cacheChanged(bool);
     
     //! This signal is emitted when the cache size is changed.
-    void cacheSizeChanged(double);
+    void cacheSizeChanged(float);
     
     //! This signal is emitted when the cache pre-load is changed.
     void preloadChanged(bool);
@@ -157,7 +157,7 @@ private:
     djvPixelDataInfo::PROXY _proxy;
     bool                    _u8Conversion;
     bool                    _cache;
-    double                  _cacheSize;
+    float                   _cacheSize;
     bool                    _preload;
     bool                    _displayCache;
 };

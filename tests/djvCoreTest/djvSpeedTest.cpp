@@ -96,22 +96,22 @@ void djvSpeedTest::convert()
     const struct Data
     {
         djvSpeed speed;
-        double   value;
+        float    value;
     }
         data [] =
     {
-        { djvSpeed(djvSpeed::FPS_23_976),  23.976 },
-        { djvSpeed(djvSpeed::FPS_24),      24.0   },
-        { djvSpeed(djvSpeed::FPS_29_97),   29.97  },
-        { djvSpeed(240, 1),               240.0   }
+        { djvSpeed(djvSpeed::FPS_23_976),  23.976f },
+        { djvSpeed(djvSpeed::FPS_24),      24.f    },
+        { djvSpeed(djvSpeed::FPS_29_97),   29.97f  },
+        { djvSpeed(240, 1),               240.f    }
     };
     const int dataCount = sizeof(data) / sizeof(data[0]);
     for (int i = 0; i < dataCount; ++i)
     {
         DJV_DEBUG_PRINT("speed = " << data[i].speed);
-        const double value = djvSpeed::speedToFloat(data[i].speed);
+        const float value = djvSpeed::speedToFloat(data[i].speed);
         DJV_DEBUG_PRINT("value = " << value);
-        DJV_ASSERT(djvMath::fuzzyCompare(value, data[i].value, 0.0001));
+        DJV_ASSERT(djvMath::fuzzyCompare(value, data[i].value, .0001f));
         const djvSpeed speed = djvSpeed::floatToSpeed(value);
         DJV_ASSERT(data[i].speed == speed);
     }

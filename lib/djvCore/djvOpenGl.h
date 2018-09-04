@@ -55,8 +55,8 @@ public:
     
     //! Setup an orthographic camera.    
     static void ortho(
-        const djvVector2i & size,
-        const djvVector2f & minMax = djvVector2f(-1.0, 1.0));
+        const glm::ivec2 & size,
+        const glm::vec2 &  minMax = glm::vec2(-1.f, 1.f));
 
     //! Convert a pixel format to OpenGL.
     static gl::GLenum format(djvPixel::PIXEL, bool bgr = false);
@@ -74,10 +74,10 @@ public:
     static void drawBox(const djvBox2f &);
 
     //! Draw a box.
-    static void drawBox(const djvBox2i &, const djvVector2f uv[4]);
+    static void drawBox(const djvBox2i &, const glm::vec2 uv[4]);
 
     //! Draw a box.
-    static void drawBox(const djvBox2f &, const djvVector2f uv[4]);
+    static void drawBox(const djvBox2f &, const glm::vec2 uv[4]);
     
     //! Get an OpenGL error string.
     static QString errorString(gl::GLenum);

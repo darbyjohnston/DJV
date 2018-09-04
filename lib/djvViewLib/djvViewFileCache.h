@@ -144,22 +144,22 @@ public:
     djvFrameList frames(const void * key);
 
     //! Get the maximum cache size in gigabytes.
-    double maxSize() const;
+    float maxSize() const;
 
     //! Get the maximum cache size in bytes.
     quint64 maxByteCount() const;
 
     //! Get the size in gigabytes for the given key.
-    double size(const void * key) const;
+    float size(const void * key) const;
 
     //! Get the cache size in gigabytes.
-    double size() const;
+    float size() const;
 
     //! Get the cache size in bytes.
     quint64 byteCount() const;
 
     //! Get the cache size defaults.
-    static const QVector<double> & sizeDefaults();
+    static const QVector<float> & sizeDefaults();
 
     //! Get the default cache size labels.
     static const QStringList & sizeLabels();
@@ -169,7 +169,7 @@ public:
 
 public Q_SLOTS:
     //! Set the maximum cache size in gigabytes.
-    void setMaxSize(double gigabytes);
+    void setMaxSize(float gigabytes);
 
 Q_SIGNALS:
     //! This signal is emitted when the cache changes.
@@ -177,7 +177,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void cacheCallback(bool);
-    void cacheSizeCallback(double);
+    void cacheSizeCallback(float);
     
 private:
     void removeItem(int index);

@@ -48,10 +48,10 @@ public:
     struct Values
     {
         Values() :
-            value(1.0)
+            value(1.f)
         {}
 
-        double value;
+        float value;
         
         bool operator == (const Values & other) const
         {
@@ -90,7 +90,7 @@ public:
 
 private Q_SLOTS:
 
-    void valueCallback(double);
+    void valueCallback(float);
 
 private:
 

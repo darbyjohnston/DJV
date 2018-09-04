@@ -162,7 +162,7 @@ void djvOpenGlTexture::copy(const djvPixelData & in, const djvBox2i & area)
     //DJV_DEBUG_PRINT("area = " << area);
     bind();
     const djvPixelDataInfo & info = in.info();
-    djvVector2i position = area.position;
+    glm::ivec2 position = area.position;
     if (info.mirror.x)
     {
         position.x = info.size.x - area.position.x - area.size.x;
@@ -184,7 +184,7 @@ void djvOpenGlTexture::copy(const djvPixelData & in, const djvBox2i & area)
         in.data()));
 }
 
-void djvOpenGlTexture::copy(const djvVector2i & in)
+void djvOpenGlTexture::copy(const glm::ivec2 & in)
 {
     //DJV_DEBUG("djvOpenGlTexture::copy");
     //DJV_DEBUG_PRINT("in = " << in);

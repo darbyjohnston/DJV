@@ -75,7 +75,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     QString         avFormatName;
     AVCodecID       avCodecId     = static_cast<AVCodecID>(0);
     AVPixelFormat   avPixel       = static_cast<AVPixelFormat>(0);
-    double          avQScale      = -1.0;
+    float           avQScale      = -1.f;
     _avFrameRgbPixel = static_cast<AVPixelFormat>(0);
 
     djvFFmpeg::Dictionary dictionary;
@@ -108,9 +108,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
             _avFrameRgbPixel = bgr ? AV_PIX_FMT_BGRA : AV_PIX_FMT_RGBA;
             switch (_options.quality)
             {
-                case djvFFmpeg::LOW:    avQScale = 9.0; break;
-                case djvFFmpeg::MEDIUM: avQScale = 3.0; break;
-                case djvFFmpeg::HIGH:   avQScale = 1.0; break;
+                case djvFFmpeg::LOW:    avQScale = 9.f; break;
+                case djvFFmpeg::MEDIUM: avQScale = 3.f; break;
+                case djvFFmpeg::HIGH:   avQScale = 1.f; break;
                 default: break;
             }
             break;
@@ -143,9 +143,9 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
             _avFrameRgbPixel = bgr ? AV_PIX_FMT_BGRA : AV_PIX_FMT_RGBA;
             switch (_options.quality)
             {
-                case djvFFmpeg::LOW:    avQScale = 9.0; break;
-                case djvFFmpeg::MEDIUM: avQScale = 3.0; break;
-                case djvFFmpeg::HIGH:   avQScale = 1.0; break;
+                case djvFFmpeg::LOW:    avQScale = 9.f; break;
+                case djvFFmpeg::MEDIUM: avQScale = 3.f; break;
+                case djvFFmpeg::HIGH:   avQScale = 1.f; break;
                 default: break;
             }
             break;
@@ -197,7 +197,7 @@ void djvFFmpegSave::open(const djvFileInfo & fileInfo, const djvImageIoInfo & in
     if (avFormat->flags & AVFMT_GLOBALHEADER)
         avCodecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
 
-    if (avQScale >= 0.0)
+    if (avQScale >= 0.f)
     {
         avCodecContext->flags |= AV_CODEC_FLAG_QSCALE;
         avCodecContext->global_quality = FF_QP2LAMBDA * avQScale;

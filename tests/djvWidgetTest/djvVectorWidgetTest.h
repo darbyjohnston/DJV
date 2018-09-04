@@ -49,6 +49,6 @@ public:
     
 private Q_SLOTS:
 
-    void intCallback(const djvVector2i &);
-    void floatCallback(const djvVector2f &);
+    void intCallback(const glm::ivec2 &);
+    void floatCallback(const glm::vec2 &);
 };

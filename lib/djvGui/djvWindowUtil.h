@@ -50,7 +50,7 @@ public:
     virtual ~djvWindowUtil() = 0;
     
     //! Resize a window taking into account the screen size.    
-    static djvVector2i resize(const djvVector2i &, double maxPercent = 0.9);
+    static glm::ivec2 resize(const glm::ivec2 &, float maxPercent = .9f);
 };
 
 //@} // djvGuiMisc

@@ -33,7 +33,6 @@
 
 #include <djvColorProfile.h>
 #include <djvImageIo.h>
-#include <djvMatrix.h>
 
 #include <ImathBox.h>
 #include <ImfChannelList.h>
@@ -88,13 +87,13 @@ struct djvOpenExr
             sampling(1)
         {}
         Channel(
-            const QString &     name,
-            djvPixel::TYPE      type,
-            const djvVector2i & sampling = djvVector2i(1));
+            const QString &    name,
+            djvPixel::TYPE     type,
+            const glm::ivec2 & sampling = glm::ivec2(1, 1));
 
         QString        name;
         djvPixel::TYPE type;
-        djvVector2i    sampling;
+        glm::ivec2     sampling;
     };
 
     //! This struct provides an image layer.
@@ -240,12 +239,12 @@ struct djvOpenExr
         bool                      threadsEnable;
         int                       threadCount;
         djvOpenExr::COLOR_PROFILE inputColorProfile;
-        double                    inputGamma;
+        float                     inputGamma;
         djvColorProfile::Exposure inputExposure;
         djvOpenExr::CHANNELS      channels;
         djvOpenExr::COMPRESSION   compression;
 #if OPENEXR_VERSION_HEX >= 0x02020000
-        double                    dwaCompressionLevel;
+        float                     dwaCompressionLevel;
 #endif // OPENEXR_VERSION_HEX
     };
 };

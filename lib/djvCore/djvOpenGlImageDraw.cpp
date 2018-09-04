@@ -35,7 +35,6 @@
 
 #include <djvDebug.h>
 #include <djvError.h>
-#include <djvMatrixUtil.h>
 #include <djvOpenGlLut.h>
 #include <djvOpenGlShader.h>
 #include <djvOpenGlTexture.h>
@@ -94,7 +93,7 @@ void uniform1i(GLuint program, const QString & name, int value)
         static_cast<GLint>(value));
 }
 
-void uniform1f(GLuint program, const QString & name, double value)
+void uniform1f(GLuint program, const QString & name, float value)
 {
     glUniform1f(
         glGetUniformLocation(program, name.toLatin1().data()),
@@ -104,153 +103,153 @@ void uniform1f(GLuint program, const QString & name, double value)
 void uniformMatrix4f(
     GLuint              program,
     const QString &     name,
-    const djvMatrix4f & value)
+    const glm::mat4x4 & value)
 {
     glUniformMatrix4fv(
         glGetUniformLocation(program, name.toLatin1().data()),
         1,
         false,
-        djvMatrixUtil::convert<double, GLfloat>(djvMatrixUtil::transpose(value)).e);
+        &value[0][0]);
 }
 
-typedef double (FilterFnc)(const double t);
+typedef float (FilterFnc)(const float t);
 
-static const double supportBox = 0.5;
+static const float supportBox = .5f;
 
-static double filterBox(double t)
+static float filterBox(float t)
 {
-    if (t > -0.5 && t <= 0.5)
+    if (t > -.5f && t <= .5f)
     {
-        return 1.0;
+        return 1.f;
     }
-    return 0.0;
+    return 0.f;
 }
 
-static const double supportTriangle = 1.0;
+static const float supportTriangle = 1.f;
 
-static double filterTriangle(double t)
+static float filterTriangle(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        return 1.0 - t;
+        return 1.f - t;
     }
-    return 0.0;
+    return 0.f;
 }
 
-static const double supportBell = 1.5;
+static const float supportBell = 1.5f;
 
-static double filterBell(double t)
+static float filterBell(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 0.5)
+    if (t < .5f)
     {
-        return 0.75 - t * t;
+        return .75f - t * t;
     }
-    if (t < 1.5)
+    if (t < 1.5f)
     {
-        t = t - 1.5;
-        return 0.5 * t * t;
+        t = t - 1.5f;
+        return .5f * t * t;
     }
-    return 0.0;
+    return 0.f;
 }
 
-static const double supportBSpline = 2.0;
+static const float supportBSpline = 2.f;
 
-static double filterBSpline(double t)
+static float filterBSpline(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        const double tt = t * t;
-        return (0.5 * tt * t) - tt + 2.0 / 3.0;
+        const float tt = t * t;
+        return (.5f * tt * t) - tt + 2.f / 3.f;
     }
-    else if (t < 2.0)
+    else if (t < 2.f)
     {
-        t = 2.0 - t;
-        return (1.0 / 6.0) * (t * t * t);
+        t = 2.f - t;
+        return (1.f / 6.f) * (t * t * t);
     }
-    return 0.0;
+    return 0.f;
 }
 
-static double sinc(double x)
+static float sinc(float x)
 {
     x *= djvMath::pi;
-    if (x != 0.0)
+    if (x != 0.f)
     {
         return djvMath::sin(x) / x;
     }
-    return 1.0;
+    return 1.f;
 }
 
-static const double supportLanczos3 = 3.0;
+static const float supportLanczos3 = 3.f;
 
-static double filterLanczos3(double t)
+static float filterLanczos3(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 3.0)
+    if (t < 3.f)
     {
-        return sinc(t) * sinc(t / 3.0);
+        return sinc(t) * sinc(t / 3.f);
     }
-    return 0.0;
+    return 0.f;
 }
 
-static const double supportCubic = 1.0;
+static const float supportCubic = 1.f;
 
-static double filterCubic(double t)
+static float filterCubic(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        return (2.0 * t - 3.0) * t * t + 1.0;
+        return (2.f * t - 3.f) * t * t + 1.f;
     }
-    return 0.0;
+    return 0.f;
 }
 
-static const double supportMitchell = 2.0;
+static const float supportMitchell = 2.f;
 
-static double filterMitchell(double t)
+static float filterMitchell(float t)
 {
-    const double tt = t * t;
-    static const double b = 1.0 / 3.0;
-    static const double c = 1.0 / 3.0;
-    if (t < 0.0)
+    const float tt = t * t;
+    static const float b = 1.f / 3.f;
+    static const float c = 1.f / 3.f;
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
         t =
-            ((12.0 - 9.0 * b - 6.0 * c) * (t * tt)) +
-            ((-18.0 + 12.0 * b + 6.0 * c) * tt) +
-            (6.0 - 2.0 * b);
-        return t / 6.0;
+            ((12.f - 9.f * b - 6.f * c) * (t * tt)) +
+            ((-18.f + 12.f * b + 6.f * c) * tt) +
+            (6.f - 2.f * b);
+        return t / 6.f;
     }
-    else if (t < 2.0)
+    else if (t < 2.f)
     {
         t =
-            ((-1.0 * b - 6.0 * c) * (t * tt)) +
-            ((6.0 * b + 30.0 * c) * tt) +
-            ((-12.0 * b - 48.0 * c) * t) +
-            (8.0 * b + 24.0 * c);
-        return t / 6.0;
+            ((-1.f * b - 6.f * c) * (t * tt)) +
+            ((6.f * b + 30.f * c) * tt) +
+            ((-12.f * b - 48.f * c) * t) +
+            (8.f * b + 24.f * c);
+        return t / 6.f;
     }
-    return 0.0;
+    return 0.f;
 }
 
 FilterFnc * filterFnc(djvOpenGlImageFilter::FILTER in)
@@ -270,9 +269,9 @@ FilterFnc * filterFnc(djvOpenGlImageFilter::FILTER in)
     return tmp[in];
 }
 
-static double filterSupport(djvOpenGlImageFilter::FILTER in)
+static float filterSupport(djvOpenGlImageFilter::FILTER in)
 {
-    static const double tmp [] =
+    static const float tmp [] =
     {
         supportBox,
         supportBox,
@@ -304,40 +303,38 @@ void scaleContrib(
 
     // Filter function.
     FilterFnc * fnc = filterFnc(filter);
-    const double support = filterSupport(filter);
+    const float support = filterSupport(filter);
     //DJV_DEBUG_PRINT("support = " << support);
-    const double scale =
-        static_cast<double>(output) / static_cast<double>(input);
+    const float scale = static_cast<float>(output) / static_cast<float>(input);
     //DJV_DEBUG_PRINT("scale = " << scale);
-    const double radius =
-        support * (scale >= 1.0 ? 1.0 : (1.0 / scale));
+    const float radius = support * (scale >= 1.f ? 1.f : (1.f / scale));
     //DJV_DEBUG_PRINT("radius = " << radius);
 
     // Initialize.
-    const int width = djvMath::ceil(radius * 2.0 + 1.0);
+    const int width = djvMath::ceil(radius * 2.f + 1.f);
     //DJV_DEBUG_PRINT("width = " << width);
     data.set(djvPixelDataInfo(output, width, djvPixel::LA_F32));
 
     // Work.
     for (int i = 0; i < output; ++i)
     {
-        const double center = i / scale;
+        const float center = i / scale;
         const int    left   = djvMath::ceil (center - radius);
         const int    right  = djvMath::floor(center + radius);
         //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 
-        double sum   = 0.0;
-        int    pixel = 0;
+        float sum   = 0.f;
+        int   pixel = 0;
         int j = 0;
         for (int k = left; j < width && k <= right; ++j, ++k)
         {
             djvPixel::F32_T * p =
                 reinterpret_cast<djvPixel::F32_T *>(data.data(i, j));
             pixel = edge(k, input);
-            const double x = (center - k) * (scale < 1.0 ? scale : 1.0);
-            const double w = (scale < 1.0) ? ((*fnc)(x) * scale) : (*fnc)(x);
+            const float x = (center - k) * (scale < 1.f ? scale : 1.f);
+            const float w = (scale < 1.f) ? ((*fnc)(x) * scale) : (*fnc)(x);
             //DJV_DEBUG_PRINT("w = " << w);
-            p[0] = static_cast<djvPixel::F32_T>(pixel / double(input));
+            p[0] = static_cast<djvPixel::F32_T>(pixel / static_cast<float>(input));
             p[1] = static_cast<djvPixel::F32_T>(w);
             sum += w;
         }
@@ -346,8 +343,8 @@ void scaleContrib(
         {
             djvPixel::F32_T * p =
                 reinterpret_cast<djvPixel::F32_T *>(data.data(i, j));
-            p[0] = static_cast<djvPixel::F32_T>(pixel / double(input));
-            p[1] = 0.0f;
+            p[0] = static_cast<djvPixel::F32_T>(pixel / static_cast<float>(input));
+            p[1] = 0.f;
         }
 
         /*for (j = 0; j < width; ++j)
@@ -371,23 +368,23 @@ void scaleContrib(
 }
 
 void quad(
-    const djvVector2i &              size,
+    const glm::ivec2 &               size,
     const djvPixelDataInfo::Mirror & mirror     = djvPixelDataInfo::Mirror(),
     int                              proxyScale = 1)
 {
     //DJV_DEBUG("quad");
-    double u [] = { 0.0, 0.0 };
-    double v [] = { 0.0, 0.0 };
-    u[! mirror.x] = 1.0;
-    v[! mirror.y] = 1.0;
+    float u [] = { 0.f, 0.f };
+    float v [] = { 0.f, 0.f };
+    u[! mirror.x] = 1.f;
+    v[! mirror.y] = 1.f;
     //DJV_DEBUG_PRINT("u = " << u[0] << " " << u[1]);
     //DJV_DEBUG_PRINT("v = " << v[0] << " " << v[1]);
-    const djvVector2f uv[] =
+    const glm::vec2 uv[] =
     {
-        djvVector2f(u[0], v[0]),
-        djvVector2f(u[0], v[1]),
-        djvVector2f(u[1], v[1]),
-        djvVector2f(u[1], v[0])
+        glm::vec2(u[0], v[0]),
+        glm::vec2(u[0], v[1]),
+        glm::vec2(u[1], v[1]),
+        glm::vec2(u[1], v[0])
     };
     glBegin(GL_QUADS);
     djvOpenGlUtil::drawBox(size * proxyScale, uv);
@@ -627,7 +624,7 @@ QString sourceFragment(
 
     // Initialize the header.
     header = sourceFragmentHeader.
-        arg(! djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.0) ?
+        arg(! djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
             sourceGamma : "");
     header += "uniform sampler2D inTexture;\n";
 
@@ -688,7 +685,7 @@ QString sourceFragment(
     }
 
     // Display profile.
-    if (djvVectorUtil::isSizeValid(displayProfile.lut.size()))
+    if (displayProfile.lut.isValid())
     {
         header += "uniform sampler1D inDisplayProfileLut;\n";
         main += "color = lut(color, inDisplayProfileLut);\n";
@@ -717,7 +714,7 @@ QString sourceFragment(
 
     // Clamp pixel values.
     //if (clamp)
-    //    main += "color = clamp(color, vec4(0.0), vec4(1.0));\n";
+    //    main += "color = clamp(color, vec4(0.f), vec4(1.f));\n";
 
     return
         header + "\n" +
@@ -735,22 +732,22 @@ QString sourceFragment(
 namespace
 {
 
-double knee(double x, double f)
+float knee(float x, float f)
 {
-    return djvMath::log(x * f + 1.0) / f;
+    return djvMath::log(x * f + 1.f) / f;
 }
 
-double knee2(double x, double y)
+float knee2(float x, float y)
 {
-    double f0 = 0.0, f1 = 1.0;
+    float f0 = 0.f, f1 = 1.f;
     while (knee(x, f1) > y)
     {
         f0 = f1;
-        f1 = f1 * 2.0;
+        f1 = f1 * 2.f;
     }
     for (int i = 0; i < 30; ++i)
     {
-        const double f2 = (f0 + f1) / 2.0;
+        const float f2 = (f0 + f1) / 2.f;
         if (knee(x, f2) < y)
         {
             f1 = f2;
@@ -760,7 +757,7 @@ double knee2(double x, double y)
             f0 = f2;
         }
     }
-    return (f0 + f1) / 2.0;
+    return (f0 + f1) / 2.f;
 }
 
 void colorProfileInit(
@@ -785,27 +782,27 @@ void colorProfileInit(
             uniform1f(
                 program,
                 "inColorProfileGamma",
-                1.0 / options.colorProfile.gamma);
+                1.f / options.colorProfile.gamma);
         }
         break;
         case djvColorProfile::EXPOSURE:
         {
             struct Exposure
             {
-                double v, d, k, f;
+                float v, d, k, f;
             };
             Exposure exposure;
             exposure.v = djvMath::pow(
-                2.0,
+                2.f,
                 options.colorProfile.exposure.value + 2.47393);
             exposure.d = options.colorProfile.exposure.defog;
             exposure.k = djvMath::pow(
-                2.0,
+                2.f,
                 options.colorProfile.exposure.kneeLow);
             exposure.f = knee2(
-                djvMath::pow(2.0, options.colorProfile.exposure.kneeHigh) -
+                djvMath::pow(2.f, options.colorProfile.exposure.kneeHigh) -
                 exposure.k,
-                djvMath::pow(2.0, 3.5) - exposure.k);
+                djvMath::pow(2.f, 3.5f) - exposure.k);
             //DJV_DEBUG_PRINT("exposure");
             //DJV_DEBUG_PRINT("  v = " << exposure.v);
             //DJV_DEBUG_PRINT("  d = " << exposure.d);
@@ -859,7 +856,7 @@ void displayProfileInit(
     uniform1f(
         program,
         "inDisplayProfileLevels.gamma",
-        1.0 / options.displayProfile.levels.gamma);
+        1.f / options.displayProfile.levels.gamma);
 
     // Levels out.
     uniform1f(
@@ -879,7 +876,7 @@ void displayProfileInit(
         options.displayProfile.softClip);
 
     // Lookup table.
-    if (djvVectorUtil::isSizeValid(options.displayProfile.lut.size()))
+    if (options.displayProfile.lut.isValid())
     {
         activeTexture(GL_TEXTURE3);
         uniform1i(program, "inDisplayProfileLut", 3);
@@ -928,16 +925,17 @@ void djvOpenGlImage::draw(
         options.proxyScale ?
         djvPixelDataUtil::proxyScale(info.proxy) :
         1;
-    const djvVector2i scale = djvVectorUtil::ceil<double, int>(
-        options.xform.scale * djvVector2f(info.size * proxyScale));
-    const djvVector2i scaleTmp(scale.x, data.h());
+    const glm::ivec2 scale(
+        djvMath::ceil(options.xform.scale.x * info.size.x * proxyScale),
+        djvMath::ceil(options.xform.scale.y * info.size.y * proxyScale));
+    const glm::ivec2 scaleTmp(scale.x, data.h());
     //DJV_DEBUG_PRINT("scale = " << scale);
     //DJV_DEBUG_PRINT("scale tmp = " << scaleTmp);
 
     // Initialize.
     const djvOpenGlImageFilter::FILTER filter =
         info.size == scale ? djvOpenGlImageFilter::NEAREST :
-        (djvVectorUtil::area(scale) < djvVectorUtil::area(info.size) ?
+        (scale.x * scale.y < info.size.x * info.size.y ?
          options.filter.min : options.filter.mag);
     //DJV_DEBUG_PRINT("filter min = " << options.filter.min);
     //DJV_DEBUG_PRINT("filter mag = " << options.filter.mag);
@@ -1062,9 +1060,9 @@ void djvOpenGlImage::draw(
             uniform1i(state->_shader->program(), "inTexture", 0);
             state->_texture->copy(data);
             DJV_DEBUG_OPEN_GL(glPushMatrix());
-            const djvMatrix3f m = djvOpenGlImageXform::xformMatrix(options.xform);
+            const glm::mat4x4 m = djvOpenGlImageXform::xformMatrix(options.xform);
             //DJV_DEBUG_PRINT("m = " << m);
-            DJV_DEBUG_OPEN_GL(glLoadMatrixd(djvMatrixUtil::matrix4(m).e));
+            DJV_DEBUG_OPEN_GL(glLoadMatrixf(&m[0][0]));
             quad(info.size, mirror, proxyScale);
             DJV_DEBUG_OPEN_GL(glPopMatrix());
         }
@@ -1126,10 +1124,10 @@ void djvOpenGlImage::draw(
             uniform1i(state->_scaleYShader->program(), "inScaleContrib", 1);
             state->_scaleYContrib->bind();
             djvOpenGlImageXform xform = options.xform;
-            xform.scale = djvVector2f(1.0);
-            const djvMatrix3f m = djvOpenGlImageXform::xformMatrix(xform);
+            xform.scale = glm::vec2(1.f, 1.f);
+            const glm::mat4x4 m = djvOpenGlImageXform::xformMatrix(xform);
             DJV_DEBUG_OPEN_GL(glPushMatrix());
-            DJV_DEBUG_OPEN_GL(glLoadMatrixd(djvMatrixUtil::matrix4(m).e));
+            DJV_DEBUG_OPEN_GL(glLoadMatrixf(&m[0][0]));
             quad(scale);
             DJV_DEBUG_OPEN_GL(glPopMatrix());
         }

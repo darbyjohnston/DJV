@@ -59,11 +59,11 @@ public:
 
     //! Get elapsed time in seconds. You should call check() before calling
     //! this function.
-    double seconds() const;
+    float seconds() const;
 
     //! Get elapsed time in frames per second. You should call check() before
     //! calling this function.
-    double fps() const;
+    float fps() const;
     
     djvTimer & operator = (const djvTimer &);
 

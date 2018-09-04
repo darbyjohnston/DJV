@@ -45,17 +45,16 @@ void djvBoxUtilTest::run(int &, char **)
     expand();
     border();
     isSizeValid();
-    convert();
 }
 
 void djvBoxUtilTest::corners()
 {
     DJV_DEBUG("djvBoxUtilTest::corners");
     DJV_ASSERT(
-        djvBoxUtil::corners(djvVector2i(0, 10), djvVector2i(9, 29)) == djvBox2i(0, 10, 10, 20));
+        djvBoxUtil::corners(glm::ivec2(0, 10), glm::ivec2(9, 29)) == djvBox2i(0, 10, 10, 20));
     DJV_ASSERT(
-        djvBoxUtil::corners(djvVector2f(0.0, 10.0), djvVector2f(10.0, 30.0)) ==
-        djvBox2f(0.0, 10.0, 10.0, 20.0));
+        djvBoxUtil::corners(glm::vec2(0.f, 10.f), glm::vec2(10.f, 30.f)) ==
+        djvBox2f(0.f, 10.f, 10.f, 20.f));
 }
 
 void djvBoxUtilTest::swap()
@@ -70,8 +69,8 @@ void djvBoxUtilTest::intersect()
     DJV_ASSERT(
         djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), djvBox2i(5, 10, 15, 20)) ==
         djvBox2i(5, 10, 5, 10));
-    DJV_ASSERT(djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), djvVector2i(5, 10)));
-    DJV_ASSERT(! djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), djvVector2i(-1, -1)));
+    DJV_ASSERT(djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), glm::ivec2(5, 10)));
+    DJV_ASSERT(! djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), glm::ivec2(-1, -1)));
 }
 
 void djvBoxUtilTest::bound()
@@ -86,7 +85,7 @@ void djvBoxUtilTest::expand()
 {
     DJV_DEBUG("djvBoxUtilTest::expand");
     DJV_ASSERT(
-        djvBoxUtil::expand(djvBox2i(0, 5, 5, 10), djvVector2i(9, 19)) ==
+        djvBoxUtil::expand(djvBox2i(0, 5, 5, 10), glm::ivec2(9, 19)) ==
         djvBox2i(0, 5, 10, 15));
 }
 
@@ -94,7 +93,7 @@ void djvBoxUtilTest::border()
 {
     DJV_DEBUG("djvBoxUtilTest::border");
     DJV_ASSERT(
-        djvBoxUtil::border(djvBox2i(0, 5, 5, 10), djvVector2i(5, 5)) ==
+        djvBoxUtil::border(djvBox2i(0, 5, 5, 10), glm::ivec2(5, 5)) ==
         djvBox2i(-5, 0, 15, 20));
 }
 
@@ -102,16 +101,5 @@ void djvBoxUtilTest::isSizeValid()
 {
     DJV_DEBUG("djvBoxUtilTest::isSizeValid");
     DJV_ASSERT(djvBoxUtil::isSizeValid(djvBox2i(0, 5, 10, 15)));
-}
-
-void djvBoxUtilTest::convert()
-{
-    DJV_DEBUG("djvBoxUtilTest::convert");
-    {
-        const djvBox2i box =
-            djvBoxUtil::convert<double, int, 2>(djvBox2f(0.0, 1.0, 2.0, 3.0));
-
-        DJV_ASSERT(box == djvBox2i(0, 1, 2, 3));
-    }
 }
 

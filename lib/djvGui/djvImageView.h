@@ -68,14 +68,14 @@ class DJV_GUI_EXPORT djvImageView : public djvOpenGlWidget
     
     //! This property holds the view position.
     Q_PROPERTY(
-        djvVector2i viewPos
-        READ        viewPos
-        WRITE       setViewPos
-        NOTIFY      viewPosChanged)
+        glm::ivec2 viewPos
+        READ       viewPos
+        WRITE      setViewPos
+        NOTIFY     viewPosChanged)
     
     //! This property holds the view zoom.
     Q_PROPERTY(
-        double viewZoom
+        float  viewZoom
         READ   viewZoom
         WRITE  setViewZoom
         NOTIFY viewZoomChanged)
@@ -95,10 +95,10 @@ public:
     const djvOpenGlImageOptions & options() const;
 
     //! Get the view position.
-    const djvVector2i & viewPos() const;
+    const glm::ivec2 & viewPos() const;
 
     //! Get the view zoom.
-    double viewZoom() const;
+    float viewZoom() const;
 
     //! Get the image bounding box.
     djvBox2f bbox() const;
@@ -116,16 +116,16 @@ public Q_SLOTS:
     void setOptions(const djvOpenGlImageOptions &);
 
     //! Set the view position.
-    void setViewPos(const djvVector2i &);
+    void setViewPos(const glm::ivec2 &);
 
     //! Set the view zoom.
-    void setViewZoom(double);
+    void setViewZoom(float);
 
     //! Set the view zoom.
-    void setViewZoom(double, const djvVector2i & focus);
+    void setViewZoom(float, const glm::ivec2 & focus);
 
     //! Set the view position and zoom.
-    void setViewPosZoom(const djvVector2i &, double zoom);
+    void setViewPosZoom(const glm::ivec2 &, float zoom);
 
     //! Reset the view position.
     void viewZero();
@@ -144,10 +144,10 @@ Q_SIGNALS:
     void optionsChanged(const djvOpenGlImageOptions &);
 
     //! This signal is emitted when the view position is changed.
-    void viewPosChanged(const djvVector2i &);
+    void viewPosChanged(const glm::ivec2 &);
 
     //! This signal is emitted when the view zoom is changed.
-    void viewZoomChanged(double);
+    void viewZoomChanged(float);
 
     //! This signal is emitted when the view is changed.
     void viewChanged();
@@ -159,7 +159,7 @@ protected:
     virtual void paintGL();
 
 private:
-    djvBox2f bbox(const djvVector2i &, double) const;
+    djvBox2f bbox(const glm::ivec2 &, float) const;
     
     DJV_PRIVATE_COPY(djvImageView);
     

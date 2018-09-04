@@ -72,16 +72,16 @@ public:
 
     //! Convert the given number of seconds to hours, minutes, and seconds.
     static void secondsToTime(
-        double,
-        int &    hours,
-        int &    minutes,
-        double & seconds);
+        float,
+        int &   hours,
+        int &   minutes,
+        float & seconds);
 
     //! Convert a time to a string.
     static QString timeToString(::time_t);
 
     //! Convert seconds to a human readable string.
-    static QString labelTime(double seconds);
+    static QString labelTime(float seconds);
 
     //! Convert timecode to time.
     static void timecodeToTime(

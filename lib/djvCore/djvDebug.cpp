@@ -167,6 +167,11 @@ djvDebug & operator << (djvDebug & debug, quint64 in)
     return debug << QString::number(in);
 }
 
+djvDebug & operator << (djvDebug & debug, float in)
+{
+    return debug << QString::number(in);
+}
+
 djvDebug & operator << (djvDebug & debug, double in)
 {
     return debug << QString::number(in);

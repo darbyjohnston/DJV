@@ -66,7 +66,7 @@ public:
 private Q_SLOTS:
 
     void intCallback(int);
-    void floatCallback(double);
+    void floatCallback(float);
 
     void widgetUpdate();
     

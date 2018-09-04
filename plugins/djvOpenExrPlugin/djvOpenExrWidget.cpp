@@ -96,19 +96,19 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     _inputGammaWidget = new djvFloatEditSlider(context);
-    _inputGammaWidget->setRange(0.1, 4.0);
+    _inputGammaWidget->setRange(0.1, 4.f);
 
     _inputExposureWidget = new djvFloatEditSlider(context);
-    _inputExposureWidget->setRange(-10.0, 10.0);
+    _inputExposureWidget->setRange(-10.f, 10.f);
 
     _inputExposureDefogWidget = new djvFloatEditSlider(context);
-    _inputExposureDefogWidget->setRange(0.0, 0.01);
+    _inputExposureDefogWidget->setRange(0.f, .01f);
 
     _inputExposureKneeLowWidget = new djvFloatEditSlider(context);
-    _inputExposureKneeLowWidget->setRange(-3.0, 3.0);
+    _inputExposureKneeLowWidget->setRange(-3.f, 3.f);
 
     _inputExposureKneeHighWidget = new djvFloatEditSlider(context);
-    _inputExposureKneeHighWidget->setRange(3.5, 7.5);
+    _inputExposureKneeHighWidget->setRange(3.5f, 7.5f);
     
     _channelsWidget = new QComboBox;
     _channelsWidget->addItems(djvOpenExr::channelsLabels());
@@ -123,7 +123,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
 #if OPENEXR_VERSION_HEX >= 0x02020000
     _dwaCompressionLevelWidget = new djvFloatEditSlider(context);
     _dwaCompressionLevelWidget->editObject()->setClamp(false);
-    _dwaCompressionLevelWidget->sliderObject()->setRange(0.0, 200.0);
+    _dwaCompressionLevelWidget->sliderObject()->setRange(0.f, 200.f);
 #endif // OPENEXR_VERSION_HEX
 
     // Layout the widgets.
@@ -191,10 +191,10 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
     layout->addStretch();
 
     // Initialize.
-    _inputExposureWidget->setInc(0.1, 1.0);
-    _inputExposureDefogWidget->setInc(0.0001, 0.001);
-    _inputExposureKneeLowWidget->setInc(0.1, 1.0);
-    _inputExposureKneeHighWidget->setInc(0.1, 1.0);
+    _inputExposureWidget->setInc(.1f, 1.f);
+    _inputExposureDefogWidget->setInc(.0001f, .001f);
+    _inputExposureKneeLowWidget->setInc(.1f, 1.f);
+    _inputExposureKneeHighWidget->setInc(.1f, 1.f);
 
     _inputGammaWidget->setDefaultValue(
         djvOpenExr::Options().inputGamma);
@@ -256,24 +256,24 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
         SLOT(inputColorProfileCallback(int)));
     connect(
         _inputGammaWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputGammaCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputGammaCallback(float)));
     connect(
         _inputExposureWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputExposureCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputExposureCallback(float)));
     connect(
         _inputExposureDefogWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputExposureDefogCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputExposureDefogCallback(float)));
     connect(
         _inputExposureKneeLowWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputExposureKneeLowCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputExposureKneeLowCallback(float)));
     connect(
         _inputExposureKneeHighWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputExposureKneeHighCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputExposureKneeHighCallback(float)));
     connect(
         _channelsWidget,
         SIGNAL(activated(int)),
@@ -285,8 +285,8 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
 #if OPENEXR_VERSION_HEX >= 0x02020000
     connect(
         _dwaCompressionLevelWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(dwaCompressionLevelCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(dwaCompressionLevelCallback(float)));
 #endif // OPENEXR_VERSION_HEX
 }
 
@@ -361,31 +361,31 @@ void djvOpenExrWidget::inputColorProfileCallback(int in)
     pluginUpdate();
 }
 
-void djvOpenExrWidget::inputGammaCallback(double in)
+void djvOpenExrWidget::inputGammaCallback(float in)
 {
     _options.inputGamma = in;
     pluginUpdate();
 }
 
-void djvOpenExrWidget::inputExposureCallback(double in)
+void djvOpenExrWidget::inputExposureCallback(float in)
 {
     _options.inputExposure.value = in;
     pluginUpdate();
 }
 
-void djvOpenExrWidget::inputExposureDefogCallback(double in)
+void djvOpenExrWidget::inputExposureDefogCallback(float in)
 {
     _options.inputExposure.defog = in;
     pluginUpdate();
 }
 
-void djvOpenExrWidget::inputExposureKneeLowCallback(double in)
+void djvOpenExrWidget::inputExposureKneeLowCallback(float in)
 {
     _options.inputExposure.kneeLow = in;
     pluginUpdate();
 }
 
-void djvOpenExrWidget::inputExposureKneeHighCallback(double in)
+void djvOpenExrWidget::inputExposureKneeHighCallback(float in)
 {
     _options.inputExposure.kneeHigh = in;
     pluginUpdate();
@@ -403,7 +403,7 @@ void djvOpenExrWidget::compressionCallback(int in)
     pluginUpdate();
 }
 
-void djvOpenExrWidget::dwaCompressionLevelCallback(double in)
+void djvOpenExrWidget::dwaCompressionLevelCallback(float in)
 {
 #if OPENEXR_VERSION_HEX >= 0x02020000
     _options.dwaCompressionLevel = in;

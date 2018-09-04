@@ -123,6 +123,7 @@ DJV_CORE_EXPORT QStringList & operator >> (QStringList &, int &) throw (QString)
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, qint64 &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, quint64 &) throw (QString);
+DJV_CORE_EXPORT QStringList & operator >> (QStringList &, float &) throw (QString);
 DJV_CORE_EXPORT QStringList & operator >> (QStringList &, double &) throw (QString);
 template <typename T>
 inline QStringList & operator >> (QStringList &, QVector<T> &) throw (QString);
@@ -133,6 +134,7 @@ DJV_CORE_EXPORT QStringList & operator << (QStringList &, int);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, unsigned int);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, qint64);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, quint64);
+DJV_CORE_EXPORT QStringList & operator << (QStringList &, float);
 DJV_CORE_EXPORT QStringList & operator << (QStringList &, double);
 template <typename T>
 inline QStringList & operator << (QStringList &, const QVector<T> &);

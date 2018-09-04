@@ -157,12 +157,12 @@ djvViewViewGroup::djvViewViewGroup(
     // Setup the widget callbacks.
     mainWindow->viewWidget()->connect(
         _p->toolBar->zoomEdit(),
-        SIGNAL(valueChanged(double)),
-        SLOT(setZoomFocus(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(setZoomFocus(float)));
     _p->toolBar->zoomEdit()->connect(
         mainWindow->viewWidget(),
-        SIGNAL(viewZoomChanged(double)),
-        SLOT(setValue(double)));
+        SIGNAL(viewZoomChanged(float)),
+        SLOT(setValue(float)));
 
     // Setup the preferences callbacks.
     connect(
@@ -185,22 +185,22 @@ QToolBar * djvViewViewGroup::toolBar() const
 
 void djvViewViewGroup::leftCallback()
 {
-    viewMove(djvVector2i(-10, 0));
+    viewMove(glm::ivec2(-10, 0));
 }
 
 void djvViewViewGroup::rightCallback()
 {
-    viewMove(djvVector2i(10, 0));
+    viewMove(glm::ivec2(10, 0));
 }
 
 void djvViewViewGroup::upCallback()
 {
-    viewMove(djvVector2i(0, 10));
+    viewMove(glm::ivec2(0, 10));
 }
 
 void djvViewViewGroup::downCallback()
 {
-    viewMove(djvVector2i(0, -10));
+    viewMove(glm::ivec2(0, -10));
 }
 
 void djvViewViewGroup::centerCallback()
@@ -210,12 +210,12 @@ void djvViewViewGroup::centerCallback()
 
 void djvViewViewGroup::resetCallback()
 {
-    mainWindow()->viewWidget()->setViewPosZoom(djvVector2i(), 1.0);
+    mainWindow()->viewWidget()->setViewPosZoom(glm::ivec2(0, 0), 1.f);
 }
 
 void djvViewViewGroup::zoomInCallback()
 {
-    viewZoom(2.0);
+    viewZoom(2.f);
 }
 
 void djvViewViewGroup::zoomOutCallback()
@@ -225,17 +225,17 @@ void djvViewViewGroup::zoomOutCallback()
 
 void djvViewViewGroup::zoomIncCallback()
 {
-    viewZoom(1.1);
+    viewZoom(1.1f);
 }
 
 void djvViewViewGroup::zoomDecCallback()
 {
-    viewZoom(0.9);
+    viewZoom(0.9f);
 }
 
 void djvViewViewGroup::zoomResetCallback()
 {
-    mainWindow()->viewWidget()->setZoomFocus(1.0);
+    mainWindow()->viewWidget()->setZoomFocus(1.f);
 }
 
 void djvViewViewGroup::fitCallback()
@@ -277,12 +277,12 @@ void djvViewViewGroup::update()
     _p->toolBar->zoomEdit()->setValue(mainWindow()->viewWidget()->viewZoom());
 }
 
-void djvViewViewGroup::viewMove(const djvVector2i & offset)
+void djvViewViewGroup::viewMove(const glm::ivec2 & offset)
 {
     mainWindow()->viewWidget()->setViewPos(mainWindow()->viewWidget()->viewPos() + offset);
 }
 
-void djvViewViewGroup::viewZoom(double zoom)
+void djvViewViewGroup::viewZoom(float zoom)
 {
     //DJV_DEBUG("djvViewViewGroup::viewZoom");
     //DJV_DEBUG_PRINT("zoom = " << zoom);

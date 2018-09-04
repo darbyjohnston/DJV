@@ -63,7 +63,7 @@
 struct djvViewImageView::Private
 {
     Private(djvViewContext * context) :
-        viewZoomTmp       (0.0),
+        viewZoomTmp       (0.f),
         grid              (context->viewPrefs()->grid()),
         gridColor         (context->viewPrefs()->gridColor()),
         hudEnabled        (context->viewPrefs()->isHudEnabled()),
@@ -77,8 +77,8 @@ struct djvViewImageView::Private
         context           (context)
     {}
     
-    djvVector2i                 viewPosTmp;
-    double                      viewZoomTmp;
+    glm::ivec2                  viewPosTmp = glm::ivec2(0, 0);
+    float                       viewZoomTmp;
     djvViewUtil::GRID           grid;
     djvColor                    gridColor;
     bool                        hudEnabled;
@@ -87,8 +87,8 @@ struct djvViewImageView::Private
     djvViewUtil::HUD_BACKGROUND hudBackground;
     djvColor                    hudBackgroundColor;
     bool                        inside;
-    djvVector2i                 mousePos;
-    djvVector2i                 mouseStartPos;
+    glm::ivec2                  mousePos = glm::ivec2(0, 0);
+    glm::ivec2                  mouseStartPos = glm::ivec2(0, 0);
     bool                        mouseWheel;
     int                         mouseWheelTmp;
     int                         timer;
@@ -144,7 +144,7 @@ bool djvViewImageView::isMouseInside() const
     return _p->inside;
 }
 
-const djvVector2i & djvViewImageView::mousePos() const
+const glm::ivec2 & djvViewImageView::mousePos() const
 {
     return _p->mousePos;
 }
@@ -153,21 +153,21 @@ QSize djvViewImageView::sizeHint() const
 {
     //DJV_DEBUG("djvViewImageView::sizeHint");
     //DJV_DEBUG_PRINT("zoom = " << viewZoom());
-    djvVector2i size = djvVectorUtil::ceil<double, int>(bbox().size);
-    if (! djvVectorUtil::isSizeValid(size))
+    glm::ivec2 size = djvVectorUtil::ceil(bbox().size);
+    if (djvVectorUtil::isSizeValid(size))
     {
-        size = djvVector2i(640, 300);
+        size = glm::ivec2(640, 300);
     }
-    djvVector2i maxSize;
-    const djvVector2i screenSize = djvVectorUtil::fromQSize(
-        qApp->desktop()->availableGeometry().size());
+    glm::ivec2 maxSize(0, 0);
+    const QSize desktopGeom = qApp->desktop()->availableGeometry().size();
+    const glm::ivec2 screenSize(desktopGeom.width(), desktopGeom.height());
     switch (_p->context->windowPrefs()->viewMax())
     {
         case djvViewUtil::VIEW_MAX_25:
         case djvViewUtil::VIEW_MAX_50:
         case djvViewUtil::VIEW_MAX_75:
         {
-            double v = 0.0f;
+            float v = 0.f;
             switch (_p->context->windowPrefs()->viewMax())
             {
                 case djvViewUtil::VIEW_MAX_25: v = 0.25; break;
@@ -175,7 +175,7 @@ QSize djvViewImageView::sizeHint() const
                 case djvViewUtil::VIEW_MAX_75: v = 0.75; break;
                 default: break;
             }
-            maxSize = djvVectorUtil::ceil<double, int>(djvVector2f(screenSize) * v);
+            maxSize = djvVectorUtil::ceil(glm::vec2(screenSize) * v);
         }
         break;
         case djvViewUtil::VIEW_MAX_USER:
@@ -187,10 +187,10 @@ QSize djvViewImageView::sizeHint() const
     {
         if (size.x > maxSize.x || size.y > maxSize.y)
         {
-            const double aspect = size.x / static_cast<double>(size.y);
-            const djvVector2i a(maxSize.x, maxSize.x / aspect);
-            const djvVector2i b(maxSize.y * aspect, maxSize.y);
-            size = a < b ? a : b;
+            const float aspect = size.x / static_cast<float>(size.y);
+            const glm::ivec2 a(maxSize.x, maxSize.x / aspect);
+            const glm::ivec2 b(maxSize.y * aspect, maxSize.y);
+            size = a.x < b.x && a.y < b.y ? a : b;
         }
     }
     //DJV_DEBUG_PRINT("size = " << size);
@@ -202,13 +202,13 @@ QSize djvViewImageView::minimumSizeHint() const
     return QSize(100, 100);
 }
 
-void djvViewImageView::setZoomFocus(double in)
+void djvViewImageView::setZoomFocus(float in)
 {
     //DJV_DEBUG("djvViewImageView::setZoomFocus");
     //DJV_DEBUG_PRINT("in = " << in);    
     setViewZoom(
         in,
-        _p->inside ? _p->mousePos : (djvVector2i(width(), height()) / 2));
+        _p->inside ? _p->mousePos : (glm::ivec2(width(), height()) / 2));
 }
 
 void djvViewImageView::setGrid(djvViewUtil::GRID grid)
@@ -311,7 +311,7 @@ void djvViewImageView::mousePressEvent(QMouseEvent * event)
     setFocus(Qt::MouseFocusReason);
     _p->viewPosTmp  = viewPos();
     _p->viewZoomTmp = viewZoom();
-    _p->mousePos      = djvVector2i(event->pos().x(), height() - event->pos().y() - 1);
+    _p->mousePos      = glm::ivec2(event->pos().x(), height() - event->pos().y() - 1);
     _p->mouseStartPos = _p->mousePos;
     if (Qt::LeftButton == event->button())
     {
@@ -321,7 +321,7 @@ void djvViewImageView::mousePressEvent(QMouseEvent * event)
     else if (Qt::MidButton == event->button() &&
         event->modifiers() & Qt::ControlModifier)
     {
-        setViewZoom(viewZoom() * 2.0, _p->mousePos);
+        setViewZoom(viewZoom() * 2.f, _p->mousePos);
     }
     if (Qt::RightButton == event->button() &&
         event->modifiers() & Qt::ControlModifier)
@@ -346,7 +346,7 @@ void djvViewImageView::mouseReleaseEvent(QMouseEvent *)
 
 void djvViewImageView::mouseMoveEvent(QMouseEvent * event)
 {
-    _p->mousePos = djvVector2i(event->pos().x(), height() - event->pos().y() - 1);
+    _p->mousePos = glm::ivec2(event->pos().x(), height() - event->pos().y() - 1);
     if (event->buttons() & Qt::LeftButton)
     {
         setCursor(Qt::CrossCursor);
@@ -376,12 +376,12 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
     {
         mouseWheel = _p->context->inputPrefs()->mouseWheelCtrl();
     }
-    const double speed = djvViewUtil::zoomFactor(_p->context->viewPrefs()->zoomFactor());
+    const float speed = djvViewUtil::zoomFactor(_p->context->viewPrefs()->zoomFactor());
     const int delta = event->angleDelta().y();
     switch (mouseWheel)
     {
         case djvViewUtil::MOUSE_WHEEL_VIEW_ZOOM:
-            setZoomFocus(viewZoom() * (delta / 120.0 > 0 ? speed : (1.0 / speed)));
+            setZoomFocus(viewZoom() * (delta / 120.f > 0 ? speed : (1.f / speed)));
             break;
         case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE:
 
@@ -391,7 +391,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
                 Q_EMIT mouseWheelChanged(mouseWheel);
                 _p->mouseWheel = true;
             }
-            _p->mouseWheelTmp += delta / 120.0;
+            _p->mouseWheelTmp += delta / 120.f;
             Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
             break;
         case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED:
@@ -400,7 +400,7 @@ void djvViewImageView::wheelEvent(QWheelEvent * event)
                 Q_EMIT mouseWheelChanged(mouseWheel);
                 _p->mouseWheel = true;
             }
-            _p->mouseWheelTmp += delta / 120.0;
+            _p->mouseWheelTmp += delta / 120.f;
             Q_EMIT mouseWheelValueChanged(_p->mouseWheelTmp);
             break;
         default: break;
@@ -513,10 +513,10 @@ void djvViewImageView::drawGrid()
 
     // Compute the view area.
     djvBox2i area(
-        djvVectorUtil::floor<double, int>(
-            djvVector2f(-viewPos()) / viewZoom() / static_cast<double>(inc)) - 1,
-        djvVectorUtil::ceil<double, int>(
-            djvVector2f(width(), height()) / viewZoom() / static_cast<double>(inc)) + 2);
+        djvVectorUtil::floor(
+            glm::vec2(-viewPos()) / viewZoom() / static_cast<float>(inc)) - 1,
+        djvVectorUtil::ceil(
+            glm::vec2(width(), height()) / viewZoom() / static_cast<float>(inc)) + 2);
     area *= inc;
     //DJV_DEBUG_PRINT("area = " << area);
 
@@ -524,7 +524,7 @@ void djvViewImageView::drawGrid()
     djvOpenGlUtil::color(_p->gridColor);
     glPushMatrix();
     glTranslated(viewPos().x, viewPos().y, 0);
-    glScaled(viewZoom(), viewZoom(), 1.0);
+    glScaled(viewZoom(), viewZoom(), 1.f);
     glBegin(GL_LINES);
     for (int y = 0; y <= area.h; y += inc)
     {
@@ -621,14 +621,13 @@ void djvViewImageView::drawHud(
     
     // Setup.
     const djvBox2i geom(width(), height());
-    const int   margin = _p->context->style()->sizeMetric().widgetMargin;
-    QSize       size;
-    djvVector2i p;
-    QString     s;
+    const int  margin = _p->context->style()->sizeMetric().widgetMargin;
+    QSize      size;
+    glm::ivec2 p;
+    QString    s;
 
     // Draw the upper left contents.
-    p = djvVector2i(margin, margin);
-
+    p = glm::ivec2(margin, margin);
     for (int i = 0; i < upperLeft.count(); ++i)
     {
         size = drawHudSize(upperLeft[i]);
@@ -639,8 +638,7 @@ void djvViewImageView::drawHud(
     }
 
     // Draw the lower left contents.
-    p = djvVector2i(margin, height() - size.height() * lowerLeft.count() - margin);
-    
+    p = glm::ivec2(margin, height() - size.height() * lowerLeft.count() - margin);
     for (int i = 0; i < lowerLeft.count(); ++i)
     {
         size = drawHudSize(lowerLeft[i]);
@@ -651,13 +649,12 @@ void djvViewImageView::drawHud(
     }
 
     // Draw the upper right contents.
-    p = djvVector2i(geom.w - margin, margin);
-
+    p = glm::ivec2(geom.w - margin, margin);
     for (int i = 0; i < upperRight.count(); ++i)
     {
         size = drawHudSize(upperRight[i]);
 
-        drawHud(upperRight[i], djvVector2i(p.x - size.width(), p.y));
+        drawHud(upperRight[i], glm::ivec2(p.x - size.width(), p.y));
 
         p.y += size.height();
     }
@@ -670,8 +667,8 @@ const int margin = 2;
 } // namespace
 
 djvBox2i djvViewImageView::drawHud(
-    const QString &     in,
-    const djvVector2i & position)
+    const QString &    in,
+    const glm::ivec2 & position)
 {
     const int h = height();
     const int w = fontMetrics().width(in);

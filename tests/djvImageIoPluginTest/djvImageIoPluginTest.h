@@ -62,7 +62,7 @@ private:
     void initImages();
     void runTest(djvImageIo *, const djvImage &);
 
-    QVector<djvVector2i>     _sizes;
+    QVector<glm::ivec2>      _sizes;
     QVector<djvPixel::PIXEL> _pixels;
     QVector<djvImage>        _images;
     QVector<djvPlugin *>     _plugins;

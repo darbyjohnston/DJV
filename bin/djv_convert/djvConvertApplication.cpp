@@ -38,6 +38,7 @@
 #include <djvSequenceUtil.h>
 #include <djvTime.h>
 #include <djvTimer.h>
+#include <djvVectorUtil.h>
 
 #include <QDir>
 #include <QTimer>
@@ -174,32 +175,32 @@ void djvConvertApplication::work()
     // Open the output file.
     QScopedPointer<djvImageSave> save;
     djvImageIoInfo saveInfo(loadInfo[layer]);
-    djvVector2i scaleSize = loadInfo.size;
-    djvVector2i size = options.size;
+    glm::ivec2 scaleSize = loadInfo.size;
+    glm::ivec2 size = options.size;
     if (djvVectorUtil::isSizeValid(size))
     {
         scaleSize = size;
     }
     else if (size.x)
     {
-        scaleSize = djvVector2i(
+        scaleSize = glm::ivec2(
             size.x,
             djvMath::ceil(size.x / djvVectorUtil::aspect(loadInfo.size)));
     }
     else if (size.y)
     {
-        scaleSize = djvVector2i(
+        scaleSize = glm::ivec2(
             djvMath::ceil(size.x * djvVectorUtil::aspect(loadInfo.size)),
             size.y);
     }
     else if (
-        ! djvMath::fuzzyCompare(imageOptions.xform.scale.x, 1.0) &&
-        ! djvMath::fuzzyCompare(imageOptions.xform.scale.y, 1.0))
+        ! djvMath::fuzzyCompare(imageOptions.xform.scale.x, 1.f) &&
+        ! djvMath::fuzzyCompare(imageOptions.xform.scale.y, 1.f))
     {
-        scaleSize = djvVectorUtil::ceil<double, int>(
-            djvVector2f(loadInfo.size) * imageOptions.xform.scale);
+        scaleSize = djvVectorUtil::ceil(
+            glm::vec2(loadInfo.size) * imageOptions.xform.scale);
     }
-    djvVector2f position;
+    glm::vec2 position(0.f, 0.f);
     if (options.crop.isValid())
     {
         position = -options.crop.position;
@@ -208,11 +209,11 @@ void djvConvertApplication::work()
     }
     else if (options.cropPercent.isValid())
     {
-        position = -djvVectorUtil::ceil<double, int>(djvVector2f(scaleSize) *
-            (options.cropPercent.position / 100.0));
+        position = -djvVectorUtil::ceil(glm::vec2(scaleSize) *
+            (options.cropPercent.position / 100.f));
 
-        saveInfo.size = djvVectorUtil::ceil<double, int>(djvVector2f(scaleSize) *
-            (options.cropPercent.size / 100.0));
+        saveInfo.size = djvVectorUtil::ceil(glm::vec2(scaleSize) *
+            (options.cropPercent.size / 100.f));
     }
     else
     {
@@ -268,7 +269,7 @@ void djvConvertApplication::work()
             slate.set(saveInfo);
             djvOpenGlImageOptions imageOptions;
             imageOptions.xform.position = position;
-            imageOptions.xform.scale    = djvVector2f(scaleSize) / djvVector2f(info.size);
+            imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(info.size);
             imageOptions.colorProfile   = image.colorProfile;
             djvOpenGlImage::copy(image, slate, imageOptions);
         }
@@ -307,7 +308,7 @@ void djvConvertApplication::work()
         }
     }
     const qint64 length = static_cast<qint64>(saveInfo.sequence.frames.count());
-    double   progressAccum = 0.0;
+    float    progressAccum = 0.f;
     djvTimer progressTimer;
     progressTimer.start();
     for (qint64 i = 0; i < length; ++i)
@@ -380,7 +381,7 @@ void djvConvertApplication::work()
         djvImage * p = &image;
         djvImage tmp;
         imageOptions.xform.position = position;
-        imageOptions.xform.scale    = djvVector2f(scaleSize) / djvVector2f(loadInfo.size);
+        imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(loadInfo.size);
         imageOptions.colorProfile   = image.colorProfile;
         if (p->info() != static_cast<djvPixelDataInfo>(saveInfo) ||
             imageOptions != djvOpenGlImageOptions())
@@ -423,15 +424,15 @@ void djvConvertApplication::work()
         frameTimer.check();
         progressAccum += frameTimer.seconds();
         progressTimer.check();
-        if (length > 1 && progressTimer.seconds() > 3.0)
+        if (length > 1 && progressTimer.seconds() > 3.f)
         {
-            const double estimate =
+            const float estimate =
                 progressAccum /
-                static_cast<double>(i + 1) * (length - (i + 1));
+                static_cast<float>(i + 1) * (length - (i + 1));
             _context->print(qApp->translate("djvConvertApplication",
                 "[%1%] Estimated = %2 (%3 Frames/Second)").
                 arg(static_cast<int>(
-                    i / static_cast<double>(length) * 100.0), 3).
+                    i / static_cast<float>(length) * 100.f), 3).
                 arg(djvTime::labelTime(estimate)).
                 arg(i / timer.seconds(), 0, 'f', 2));
             progressTimer.start();

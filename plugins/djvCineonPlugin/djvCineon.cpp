@@ -70,12 +70,12 @@ djvPixelData djvCineon::linearToFilmPrintLut(const LinearToFilmPrint & value)
     const int size = out.w();
     //DJV_DEBUG_PRINT("size = " << size);
     djvPixel::F32_T * data = reinterpret_cast<djvPixel::F32_T *>(out.data());
-    const double gain =
-        1.0 / (
-            1.0 - djvMath::pow(
-                djvMath::pow(10.0, (value.black - value.white) * 0.002 / 0.6),
-                value.gamma / 1.7));
-    const double offset = gain - 1.0;
+    const float gain =
+        1.f / (
+            1.f - djvMath::pow(
+                djvMath::pow(10.f, (value.black - value.white) * .002f / .6f),
+                value.gamma / 1.7f));
+    const float offset = gain - 1.f;
     //DJV_DEBUG_PRINT("gain = " << gain * 255);
     //DJV_DEBUG_PRINT("offset = " << offset * 255);
     for (int i = 0; i < size; ++i)
@@ -85,10 +85,10 @@ djvPixelData djvCineon::linearToFilmPrintLut(const LinearToFilmPrint & value)
     for (int i = 0; i < size; ++i)
     {
         data[i] = djvPixel::F32_T(
-            value.white / 1023.0 +
+            value.white / 1023.f +
             djvMath::log10(
-                djvMath::pow((data[i] + offset) / gain, 1.7 / value.gamma)) /
-                    (2.048 / 0.6));
+                djvMath::pow((data[i] + offset) / gain, 1.7f / value.gamma)) /
+                    (2.048f / .6f));
         //DJV_DEBUG_PRINT("lut[" << i << "] = " <<
         //    data[i] << " " << static_cast<int>(data[i] * 1024));
     }
@@ -106,26 +106,26 @@ djvPixelData djvCineon::filmPrintToLinearLut(const FilmPrintToLinear & value)
     const int size = out.w();
     //DJV_DEBUG_PRINT("size = " << size);
     djvPixel::F32_T * data = reinterpret_cast<djvPixel::F32_T *>(out.data());
-    const double gain =
-        1.0 / (
-            1.0 - djvMath::pow(
-                djvMath::pow(10.0, (value.black - value.white) * 0.002 / 0.6),
-                value.gamma / 1.7));
-    const double offset = gain - 1.0;
+    const float gain =
+        1.f / (
+            1.f - djvMath::pow(
+                djvMath::pow(10.f, (value.black - value.white) * .002f / .6f),
+                value.gamma / 1.7f));
+    const float offset = gain - 1.f;
     //DJV_DEBUG_PRINT("gain = " << gain * 255);
     //DJV_DEBUG_PRINT("offset = " << offset * 255);
     const int breakPoint = value.white - value.softClip;
-    const double kneeOffset =
+    const float kneeOffset =
         djvMath::pow(
-            djvMath::pow(10.0, (breakPoint - value.white) * 0.002 / 0.6),
-            value.gamma / 1.7
+            djvMath::pow(10.f, (breakPoint - value.white) * .002f / .6f),
+            value.gamma / 1.7f
         ) *
         gain - offset;
-    const double kneeGain =
+    const float kneeGain =
         (
             (255 - (kneeOffset * 255)) /
-            djvMath::pow(5.0 * value.softClip, value.softClip / 100.0)
-        ) / 255.0;
+            djvMath::pow(5.f * value.softClip, value.softClip / 100.f)
+        ) / 255.f;
     //DJV_DEBUG_PRINT("break point = " << breakPoint);
     //DJV_DEBUG_PRINT("knee offset = " << kneeOffset * 255);
     //DJV_DEBUG_PRINT("knee gain = " << kneeGain * 255);
@@ -135,26 +135,26 @@ djvPixelData djvCineon::filmPrintToLinearLut(const FilmPrintToLinear & value)
     }
     for (int i = 0; i < size; ++i)
     {
-        const int tmp = static_cast<int>(data[i] * 1023.0);
+        const int tmp = static_cast<int>(data[i] * 1023.f);
         if (tmp < value.black)
         {
-            data[i] = 0.0;
+            data[i] = 0.f;
         }
         else if (tmp > breakPoint)
         {
             data[i] = djvPixel::F32_T((djvMath::pow(
-                static_cast<double>(tmp - breakPoint),
-                value.softClip / 100.0) *
-                kneeGain * 255 + kneeOffset * 255) / 255.0);
+                static_cast<float>(tmp - breakPoint),
+                value.softClip / 100.f) *
+                kneeGain * 255 + kneeOffset * 255) / 255.f);
         }
         else
         {
             data[i] = djvPixel::F32_T(djvMath::pow(
-                djvMath::pow(10.0, (tmp - value.white) * 0.002 / 0.6),
-                value.gamma / 1.7) * gain - offset);
+                djvMath::pow(10.f, (tmp - value.white) * .002f / .6f),
+                value.gamma / 1.7f) * gain - offset);
         }
         //DJV_DEBUG_PRINT("lut[" << i << "] = " <<
-        //  in[i] << " " << static_cast<int>(in[i] * 255.0));
+        //  in[i] << " " << static_cast<int>(in[i] * 255.f));
     }
     return out;
 }

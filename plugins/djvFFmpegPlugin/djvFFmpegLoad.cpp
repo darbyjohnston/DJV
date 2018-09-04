@@ -150,7 +150,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     
     // Get file information.
     _info.fileName = in;
-    _info.size     = djvVector2i(_avCodecContext->width, _avCodecContext->height);
+    _info.size     = glm::ivec2(_avCodecContext->width, _avCodecContext->height);
     _info.pixel    = djvPixel::RGBA_U8;
     _info.mirror.y = true;
     int64_t duration = 0;
@@ -176,7 +176,7 @@ void djvFFmpegLoad::open(const djvFileInfo & in, djvImageIoInfo & info)
     else
     {
         nbFrames =
-            duration / static_cast<double>(AV_TIME_BASE) *
+            duration / static_cast<float>(AV_TIME_BASE) *
             djvSpeed::speedToFloat(speed);
     }
     if (! nbFrames)
@@ -233,7 +233,7 @@ void djvFFmpegLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
     {
         const int64_t seek =
             (f * _info.sequence.speed.duration()) /
-            static_cast<double>(_info.sequence.speed.scale()) *
+            static_cast<float>(_info.sequence.speed.scale()) *
             AV_TIME_BASE;
         //DJV_DEBUG_PRINT("seek = " << static_cast<qint64>(seek));
         int r = av_seek_frame(

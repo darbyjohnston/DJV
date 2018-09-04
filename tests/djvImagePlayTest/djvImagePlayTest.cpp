@@ -54,7 +54,7 @@ void djvImagePlayTestWidget::showEvent(QShowEvent *)
 
 void djvImagePlayTestWidget::mousePressEvent(QMouseEvent * event)
 {
-    const djvVector2i mouse(
+    const glm::ivec2 mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
     _viewPosTmp = viewPos();
@@ -63,7 +63,7 @@ void djvImagePlayTestWidget::mousePressEvent(QMouseEvent * event)
 
 void djvImagePlayTestWidget::mouseMoveEvent(QMouseEvent * event)
 {
-    const djvVector2i mouse(
+    const glm::ivec2 mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
     setViewPos(_viewPosTmp + mouse - _mousePress);
@@ -72,14 +72,14 @@ void djvImagePlayTestWidget::mouseMoveEvent(QMouseEvent * event)
 void djvImagePlayTestWidget::keyPressEvent(QKeyEvent * event)
 {
     const QPoint pos = mapFromGlobal(QCursor::pos());
-    const djvVector2i mouse(
+    const glm::ivec2 mouse(
         pos.x(),
         height() - 1 - pos.y());
     switch (event->key())
     {
         case Qt::Key_0:         viewZero(); break;
-        case Qt::Key_Minus:     setViewZoom(viewZoom() * 0.5, mouse); break;
-        case Qt::Key_Equal:     setViewZoom(viewZoom() * 2.0, mouse); break;
+        case Qt::Key_Minus:     setViewZoom(viewZoom() * .5f, mouse); break;
+        case Qt::Key_Equal:     setViewZoom(viewZoom() * 2.f, mouse); break;
         case Qt::Key_Backspace: viewFit(); break;
     }
 }
@@ -126,7 +126,7 @@ void djvImagePlayTestApplication::work()
     _widget.reset(new djvImagePlayTestWidget(_context.data()));
     _widget->setWindowTitle("djvImagePlayTest");
     //_widget->zoom(0.5);
-    const djvVector2i size = djvWindowUtil::resize(_info.size);
+    const glm::ivec2 size = djvWindowUtil::resize(_info.size);
     _widget->resize(size.x, size.y);
     _widget->show();
     startTimer(0);
@@ -140,12 +140,12 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
         QString("%1 Frame: %2").arg("djvImagePlayTest").arg(_frame));
 
     static djvTimer t;
-    static double   average = 0.0;
+    static float    average = 0.f;
     static int      accum   = 0;
     t.check();
-    const double fps = t.fps();
+    const float fps = t.fps();
     t.start();
-    if (fps < 1000.0)
+    if (fps < 1000.f)
     {
         average += fps;
         ++accum;
@@ -153,7 +153,7 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
 
     _context->printMessage(QString("FPS = %1 (%2)").
         arg(fps).
-        arg(accum ? (average / static_cast<double>(accum)) : 0.0));
+        arg(accum ? (average / static_cast<float>(accum)) : 0.f));
 
     djvImage * imageP = 0;
     try

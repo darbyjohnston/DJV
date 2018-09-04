@@ -37,6 +37,7 @@
 #include <djvFileInfoUtil.h>
 #include <djvImageIo.h>
 #include <djvTime.h>
+#include <djvVectorUtil.h>
 
 #include <QDir>
 #include <QTimer>

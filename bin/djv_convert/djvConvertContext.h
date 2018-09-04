@@ -50,9 +50,9 @@ struct djvConvertOptions
     djvConvertOptions();
 
     djvPixelDataInfo::Mirror       mirror;
-    djvVector2f                    scale;
+    glm::vec2                      scale = glm::vec2(1.f, 1.f);
     djvOpenGlImageOptions::CHANNEL channel;
-    djvVector2i                    size;
+    glm::ivec2                     size = glm::ivec2(0, 0);
     djvBox2i                       crop;
     djvBox2f                       cropPercent;
     djvSequence::COMPRESS          sequence;

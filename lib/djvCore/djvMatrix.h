@@ -33,140 +33,24 @@
 
 #include <djvBox.h>
 
+#include <glm/mat3x3.hpp>
+#include <glm/mat4x4.hpp>
+
+#include <QMetaType>
+
 //! \addtogroup djvCoreMath
 //@{
 
-//------------------------------------------------------------------------------
-//! \class djvMatrix
-//!
-//! This class provides the base functionality for matrices.
-//------------------------------------------------------------------------------
+template<typename T, glm::precision P = glm::defaultp>
+inline djvBox2<T, P> operator * (const glm::mat3x3 &, const djvBox2<T, P> &);
 
-template<typename T, int D>
-struct djvMatrix
-{
-    inline djvMatrix();
-    inline djvMatrix(const djvMatrix<T, D> &);
-    inline djvMatrix(const T *);
+inline djvDebug & operator << (djvDebug &, const glm::mat3x3 &);
+inline djvDebug & operator << (djvDebug &, const glm::mat4x4 &);
 
-    static const int dimension;
-    static const int dimensionX2;
-
-    T e [D * D];
-
-    //! Set the components from an array.
-    inline void set(const T *);
-
-    //! Zero the components.
-    inline void zero();
-
-    //! Set to the identity matrix.
-    inline void identity();
-
-    inline djvMatrix<T, D> & operator = (const djvMatrix<T, D> &);
-};
-
-//------------------------------------------------------------------------------
-//! \class djvMatrix<T, 3>
-//!
-//! This class provides a 3x3 matrix.
-//------------------------------------------------------------------------------
-
-template<typename T>
-struct djvMatrix<T, 3>
-{
-    inline djvMatrix();
-    inline djvMatrix(const djvMatrix<T, 3> &);
-    inline djvMatrix(T, T, T, T, T, T, T, T, T);
-    inline djvMatrix(const T *);
-
-    static const int dimension;
-    static const int dimensionX2;
-
-    T e [3 * 3];
-
-    //! Set the components from an array.
-    inline void set(const T *);
-
-    //! Set the components individually.
-    inline void set(T, T, T, T, T, T, T, T, T);
-
-    //! Zero the components.
-    inline void zero();
-
-    //! Set to the identity matrix.
-    inline void identity();
-
-    inline djvMatrix<T, 3> & operator = (const djvMatrix<T, 3> &);
-};
-
-//------------------------------------------------------------------------------
-//! \class djvMatrix<T, 4>
-//!
-//! This class provides a 4x4 matrix.
-//------------------------------------------------------------------------------
-
-template<typename T>
-struct djvMatrix<T, 4>
-{
-    inline djvMatrix();
-    inline djvMatrix(const djvMatrix<T, 4> &);
-    inline djvMatrix(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T);
-    inline djvMatrix(const T *);
-
-    static const int dimension;
-    static const int dimensionX2;
-
-    T e [4 * 4];
-
-    //! Set the components from an array.
-    inline void set(const T *);
-
-    //! Set the components individually.
-    inline void set(T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T);
-
-    //! Zero the components.
-    inline void zero();
-
-    //! Set to the identity matrix.
-    inline void identity();
-
-    inline djvMatrix<T, 4> & operator = (const djvMatrix<T, 4> &);
-};
-
-typedef djvMatrix<double, 3> djvMatrix3f;
-typedef djvMatrix<double, 4> djvMatrix4f;
-
-Q_DECLARE_METATYPE(djvMatrix3f)
-Q_DECLARE_METATYPE(djvMatrix4f)
-
-template<typename T, int D>
-inline djvMatrix<T, D> operator * (const djvMatrix<T, D> &, const djvMatrix<T, D> &);
-
-template<typename T, int D, int D2>
-inline djvVector<T, D2> operator * (const djvMatrix<T, D> &, const djvVector<T, D2> &);
-
-template<typename T>
-inline djvBox<T, 2> operator * (const djvMatrix<T, 3> &, const djvBox<T, 2> &);
-
-template<typename T, int D>
-inline bool operator == (const djvMatrix<T, D> &, const djvMatrix<T, D> &);
-
-template<typename T, int D>
-inline bool operator != (const djvMatrix<T, D> &, const djvMatrix<T, D> &);
-
-template<typename T, int D>
-inline QStringList & operator >> (QStringList &, djvMatrix<T, D> &) throw (QString);
-
-template<typename T, int D>
-inline QStringList & operator << (QStringList &, const djvMatrix<T, D> &);
-
-template<typename T, int D>
-inline djvDebug & operator << (djvDebug &, const djvMatrix<T, D> &);
+Q_DECLARE_METATYPE(glm::mat3x3)
+Q_DECLARE_METATYPE(glm::mat4x4)
 
 //@} // djvCoreMath
 
 #include <djvMatrixInline.h>
-#include <djvMatrix3Inline.h>
-#include <djvMatrix4Inline.h>
 

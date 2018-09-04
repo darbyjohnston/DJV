@@ -88,42 +88,42 @@ djvVector2iEditWidget::djvVector2iEditWidget(QWidget * parent) :
 djvVector2iEditWidget::~djvVector2iEditWidget()
 {}
 
-djvVector2i djvVector2iEditWidget::value() const
+glm::ivec2 djvVector2iEditWidget::value() const
 {
-    return djvVector2i(_p->widget->value(), _p->widget2->value());
+    return glm::ivec2(_p->widget->value(), _p->widget2->value());
 }
 
-djvVector2i djvVector2iEditWidget::min() const
+glm::ivec2 djvVector2iEditWidget::min() const
 {
-    return djvVector2i(_p->widget->min(), _p->widget2->min());
+    return glm::ivec2(_p->widget->min(), _p->widget2->min());
 }
 
-djvVector2i djvVector2iEditWidget::max() const
+glm::ivec2 djvVector2iEditWidget::max() const
 {
-    return djvVector2i(_p->widget->max(), _p->widget2->max());
+    return glm::ivec2(_p->widget->max(), _p->widget2->max());
 }
 
-void djvVector2iEditWidget::setValue(const djvVector2i & value)
+void djvVector2iEditWidget::setValue(const glm::ivec2 & value)
 {
     _p->widget->setValue(value.x);
     _p->widget2->setValue(value.y);
 }
 
-void djvVector2iEditWidget::setMin(const djvVector2i & min)
+void djvVector2iEditWidget::setMin(const glm::ivec2 & min)
 {
     _p->widget->setMin(min.x);
     _p->widget2->setMin(min.y);
 }
 
-void djvVector2iEditWidget::setMax(const djvVector2i & max)
+void djvVector2iEditWidget::setMax(const glm::ivec2 & max)
 {
     _p->widget->setMax(max.x);
     _p->widget2->setMax(max.y);
 }
 
 void djvVector2iEditWidget::setRange(
-    const djvVector2i & min,
-    const djvVector2i & max)
+    const glm::ivec2 & min,
+    const glm::ivec2 & max)
 {
     _p->widget->setRange(min.x, max.x);
     _p->widget2->setRange(min.y, max.y);

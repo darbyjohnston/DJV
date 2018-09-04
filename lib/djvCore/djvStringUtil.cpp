@@ -175,6 +175,14 @@ QStringList & operator >> (QStringList & in, quint64 & out) throw (QString)
     return in;
 }
 
+QStringList & operator >> (QStringList & in, float & out) throw (QString)
+{
+    QString tmp;
+    in >> tmp;
+    out = tmp.toFloat();
+    return in;
+}
+
 QStringList & operator >> (QStringList & in, double & out) throw (QString)
 {
     QString tmp;
@@ -224,6 +232,12 @@ QStringList & operator << (QStringList & out, quint64 in)
     char tmp[djvStringUtil::cStringLength];
     djvStringUtil::intToString<quint64>(in, tmp);
     out += tmp;
+    return out;
+}
+
+QStringList & operator << (QStringList & out, float in)
+{
+    out += QString::number(in);
     return out;
 }
 

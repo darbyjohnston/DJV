@@ -110,7 +110,7 @@ void djvFileBrowserTestInfoWorker::request(
         QScopedPointer<djvImageLoad> load;
         load.reset(_context->imageIoFactory()->load(request.fileInfo, result.info));
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
-        const djvVector2i size = djvFileBrowserTestUtil::thumbnailSize(
+        const glm::ivec2 size = djvFileBrowserTestUtil::thumbnailSize(
             request.thumbnails,
             request.thumbnailSize,
             result.info.size,

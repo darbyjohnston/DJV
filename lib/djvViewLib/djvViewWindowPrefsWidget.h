@@ -61,7 +61,7 @@ public:
 private Q_SLOTS:
     void autoFitCallback(bool);
     void viewMaxCallback(int);
-    void viewMaxUserCallback(const djvVector2i &);
+    void viewMaxUserCallback(const glm::ivec2 &);
     void fullScreenControlsCallback(bool);
     void toolBarCallback(int);
     

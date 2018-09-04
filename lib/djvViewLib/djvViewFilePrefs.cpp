@@ -132,12 +132,12 @@ bool djvViewFilePrefs::hasCache() const
     return _cache;
 }
 
-double djvViewFilePrefs::cacheSizeDefault()
+float djvViewFilePrefs::cacheSizeDefault()
 {
     return djvViewFileCache::sizeDefaults()[0];
 }
 
-double djvViewFilePrefs::cacheSize() const
+float djvViewFilePrefs::cacheSize() const
 {
     return _cacheSize;
 }
@@ -198,7 +198,7 @@ void djvViewFilePrefs::setCache(bool cache)
     Q_EMIT prefChanged();
 }
 
-void djvViewFilePrefs::setCacheSize(double size)
+void djvViewFilePrefs::setCacheSize(float size)
 {
     if (size == _cacheSize)
         return;

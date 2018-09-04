@@ -107,7 +107,7 @@ void djvFileIoTest::run(int &, char **)
         quint16 readU16 = 0;
         qint32  read32  = 0;
         quint32 readU32 = 0;
-        float   readF32 = 0.0f;
+        float   readF32 = 0.f;
         io.open(fileName, djvFileIo::READ);
         io.readAhead();
         DJV_ASSERT(io.isValid());

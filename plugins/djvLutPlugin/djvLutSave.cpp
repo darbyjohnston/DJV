@@ -58,7 +58,7 @@ void djvLutSave::open(const djvFileInfo & in, const djvImageIoInfo & info)
         _file.setType(djvFileInfo::SEQUENCE);
     }
     _info = djvPixelDataInfo();
-    _info.size = djvVector2i(info.size.x, 1);
+    _info.size = glm::ivec2(info.size.x, 1);
     djvPixel::TYPE type = djvPixel::type(info.pixel);
     switch (type)
     {

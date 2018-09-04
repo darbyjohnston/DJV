@@ -29,200 +29,59 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvDebug.h>
+#include <djvStringUtil.h>
 
-//------------------------------------------------------------------------------
-// djvVector<T, D>
-//------------------------------------------------------------------------------
-
-template<typename T, int D>
-const int djvVector<T, D>::dimension = D;
-
-template<typename T, int D>
-inline djvVector<T, D>::djvVector()
+template<typename T, glm::precision P>
+inline QStringList & operator << (QStringList & out, const glm::tvec2<T, P> & in)
 {
-    zero();
+    return out << in.x << in.y;
 }
 
-template<typename T, int D>
-inline djvVector<T, D>::djvVector(const djvVector<T, D> & in)
+template<typename T, glm::precision P>
+inline QStringList & operator << (QStringList & out, const glm::tvec3<T, P> & in)
 {
-    for (int i = 0; i < dimension; ++i)
-    {
-        djvVector<T, D>::e[i] = in.e[i];
-    }
+    return out << in.x << in.y << in.z;
 }
 
-template<typename T, int D>
-inline djvVector<T, D>::djvVector(T in)
+template<typename T, glm::precision P>
+inline QStringList & operator << (QStringList & out, const glm::tvec4<T, P> & in)
 {
-    set(in);
+    return out << in.x << in.y << in.z << in.w;
 }
 
-template<typename T, int D>
-inline djvVector<T, D> & djvVector<T, D>::operator = (const djvVector<T, D> & in)
+template<typename T, glm::precision P>
+inline QStringList & operator >> (QStringList & in, glm::tvec2<T, P> & out) throw (QString)
 {
-    if (&in != this)
-    {
-        for (int i = 0; i < dimension; ++i)
-        {
-            djvVector<T, D>::e[i] = in.e[i];
-        }
-    }
-    return *this;
+    return in >> out.x >> out.y;
 }
 
-template<typename T, int D>
-inline void djvVector<T, D>::set(T in)
+template<typename T, glm::precision P>
+inline QStringList & operator >> (QStringList & in, glm::tvec3<T, P> & out) throw (QString)
 {
-    for (int i = 0; i < dimension; ++i)
-    {
-        e[i] = in;
-    }
+    return in >> out.x >> out.y >> out.z;
 }
 
-template<typename T, int D>
-inline void djvVector<T, D>::zero()
+template<typename T, glm::precision P>
+inline QStringList & operator >> (QStringList & in, glm::tvec4<T, P> & out) throw (QString)
 {
-    for (int i = 0; i < dimension; ++i)
-    {
-        e[i] = 0;
-    }
+    return in >> out.x >> out.y >> out.z << out.w;
 }
 
-#define _VEC_OP(IN) \
-    template<typename T, int D> \
-    inline djvVector<T, D> & djvVector<T, D>::operator IN (const djvVector<T, D> & in) \
-    { \
-        for (int i = 0; i < dimension; ++i) \
-        { \
-            djvVector<T, D>::e[i] IN in.e[i]; \
-        } \
-        return *this; \
-    }
-
-_VEC_OP(+=)
-_VEC_OP(-=)
-_VEC_OP(*=)
-_VEC_OP(/=)
-
-#define _VEC_OP2(IN) \
-    template<typename T, int D> \
-    inline djvVector<T, D> & djvVector<T, D>::operator IN (T in) \
-    { \
-        for (int i = 0; i < dimension; ++i) \
-        { \
-            djvVector<T, D>::e[i] IN in; \
-        } \
-        return *this; \
-    }
-
-_VEC_OP2(+=)
-_VEC_OP2(-=)
-_VEC_OP2(*=)
-_VEC_OP2(/=)
-
-#define _VEC_FNC_OP(IN) \
-    template<typename T, int D> \
-    inline djvVector<T, D> operator IN (const djvVector<T, D> & a, const djvVector<T, D> & b) \
-    { \
-        djvVector<T, D> out; \
-        \
-        for (int i = 0; i < a.dimension; ++i) \
-        { \
-            out.e[i] = a.e[i] IN b.e[i]; \
-        } \
-        return out; \
-    }
-
-_VEC_FNC_OP(+)
-_VEC_FNC_OP(-)
-_VEC_FNC_OP(*)
-_VEC_FNC_OP(/)
-
-#define _VEC_FNC_OP2(IN) \
-    template<typename T, int D> \
-    inline djvVector<T, D> operator IN (const djvVector<T, D> & a, T b) \
-    { \
-        djvVector<T, D> out; \
-        for (int i = 0; i < a.dimension; ++i) \
-        { \
-            out.e[i] = a.e[i] IN b; \
-        } \
-        return out; \
-    }
-
-_VEC_FNC_OP2(+)
-_VEC_FNC_OP2(-)
-_VEC_FNC_OP2(*)
-_VEC_FNC_OP2(/)
-
-template<typename T, int D>
-inline djvVector<T, D> operator - (const djvVector<T, D> & in)
+template<typename T, glm::precision P>
+inline djvDebug & operator << (djvDebug & debug, const glm::tvec2<T, P> & in)
 {
-    djvVector<T, D> out;
-    for (int i = 0; i < in.dimension; ++i)
-    {
-        out.e[i] = -in.e[i];
-    }
-    return out;
+    return debug << in.x << " " << in.y;
 }
 
-template<typename T, int D>
-inline QStringList & operator << (QStringList & out, const djvVector<T, D> & in)
+template<typename T, glm::precision P>
+inline djvDebug & operator << (djvDebug & debug, const glm::tvec3<T, P> & in)
 {
-    for (int i = 0; i < in.dimension; ++i)
-    {
-        out << in.e[i];
-    }
-    return out;
+    return debug << in.x << " " << in.y << " " << in.z;
 }
 
-template<typename T, int D>
-inline QStringList & operator >> (QStringList & in, djvVector<T, D> & out) throw (QString)
+template<typename T, glm::precision P>
+inline djvDebug & operator << (djvDebug & debug, const glm::tvec4<T, P> & in)
 {
-    for (int i = 0; i < out.dimension; ++i)
-    {
-        in >> out.e[i];
-    }
-    return in;
-}
-
-#define _VEC_COMPARE(IN) \
-    template<typename T, int D> \
-    inline bool operator IN (const djvVector<T, D> & a, const djvVector<T, D> & b) \
-    { \
-        for (int i = 0; i < a.dimension; ++i) \
-        { \
-            if (! (a.e[i] IN b.e[i])) \
-            { \
-                return false; \
-            } \
-        } \
-        return true; \
-    }
-
-_VEC_COMPARE(==)
-_VEC_COMPARE(< )
-_VEC_COMPARE(<=)
-_VEC_COMPARE(> )
-_VEC_COMPARE(>=)
-
-template<typename T, int D>
-inline bool operator != (const djvVector<T, D> & a, const djvVector<T, D> & b)
-{
-    return ! (a == b);
-}
-
-template<typename T, int D>
-inline djvDebug & operator << (djvDebug & debug, const djvVector<T, D> & in)
-{
-    for (int i = 0; i < in.dimension; ++i)
-    {
-        debug << in.e[i];
-        if (i < in.dimension - 1)
-            debug << " ";
-    }
-    return debug;
+    return debug << in.x << " " << in.y << " " << in.z << " " << in.w;
 }
 

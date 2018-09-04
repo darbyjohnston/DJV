@@ -29,64 +29,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvVectorUtil.h>
-
-//------------------------------------------------------------------------------
-// djvBox<T, 2>
-//------------------------------------------------------------------------------
-
 //! \todo Is this specialization for integer box types correct?
 //! \todo Why do these specializations need to come first on Windows (error
 //! C2908)?
-
 template<>
-inline djvVector<int, 2> djvBox<int, 2>::lowerRight() const
+inline glm::ivec2 djvBox2<int>::lowerRight() const
 {
     return position + size - 1;
 }
 
 template<>
-inline void djvBox<int, 2>::setLowerRight(const djvVector<int, 2> & in)
+inline void djvBox2<int>::setLowerRight(const glm::ivec2 & in)
 {
     size = in - position + 1;
 }
 
-template<typename T>
-const int djvBox<T, 2>::dimension = 2;
-
 #define _BOX2_INIT() \
-    x(djvBox::position.e[0]), \
-    y(djvBox::position.e[1]), \
-    w(djvBox::size.e[0]),     \
-    h(djvBox::size.e[1])
+    x(djvBox2::position.x), \
+    y(djvBox2::position.y), \
+    w(djvBox2::size.x),     \
+    h(djvBox2::size.y)
 
-template<typename T>
-inline djvBox<T, 2>::djvBox() :
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::djvBox2() :
     _BOX2_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 2>::djvBox(const djvBox<T, 2> & in) :
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::djvBox2(const djvBox2<T, P> & in) :
     position(in.position),
     size(in.size),
     _BOX2_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 2>::djvBox(const djvVector<T, 2> & position, const djvVector<T, 2> & size) :
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::djvBox2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size) :
     position(position),
     size(size),
     _BOX2_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 2>::djvBox(const djvVector<T, 2> & size) :
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::djvBox2(const glm::tvec2<T, P> & size) :
     size(size),
     _BOX2_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 2>::djvBox(T _x, T _y, T _w, T _h) :
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::djvBox2(T _x, T _y, T _w, T _h) :
     _BOX2_INIT()
 {
     x = _x;
@@ -95,41 +85,41 @@ inline djvBox<T, 2>::djvBox(T _x, T _y, T _w, T _h) :
     h = _h;
 }
 
-template<typename T>
-inline djvBox<T, 2>::djvBox(T _w, T _h) :
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::djvBox2(T _w, T _h) :
     _BOX2_INIT()
 {
     w = _w;
     h = _h;
 }
 
-template<typename T>
-inline bool djvBox<T, 2>::isValid() const
+template<typename T, glm::precision P>
+inline bool djvBox2<T, P>::isValid() const
 {
-    return djvVectorUtil::isSizeValid(size);
+    return size.x > T(0) && size.y > T(0);
 }
 
-template<typename T>
-inline void djvBox<T, 2>::zero()
+template<typename T, glm::precision P>
+inline void djvBox2<T, P>::zero()
 {
-    position.zero();
-    size.zero();
+    position.x = position.y = T(0);
+    size.x = size.y = T(0);
 }
 
-template<typename T>
-inline djvVector<T, 2> djvBox<T, 2>::lowerRight() const
+template<typename T, glm::precision P>
+inline glm::tvec2<T, P> djvBox2<T, P>::lowerRight() const
 {
     return position + size;
 }
 
-template<typename T>
-inline void djvBox<T, 2>::setLowerRight(const djvVector<T, 2> & in)
+template<typename T, glm::precision P>
+inline void djvBox2<T, P>::setLowerRight(const glm::tvec2<T, P> & in)
 {
     size = in - position;
 }
 
-template<typename T>
-inline djvBox<T, 2> & djvBox<T, 2>::operator = (const djvBox<T, 2> & in)
+template<typename T, glm::precision P>
+inline djvBox2<T, P> & djvBox2<T, P>::operator = (const djvBox2<T, P> & in)
 {
     if (&in != this)
     {
@@ -139,55 +129,55 @@ inline djvBox<T, 2> & djvBox<T, 2>::operator = (const djvBox<T, 2> & in)
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 2> & djvBox<T, 2>::operator *= (const djvVector<T, 2> & in)
+template<typename T, glm::precision P>
+inline djvBox2<T, P> & djvBox2<T, P>::operator *= (const glm::tvec2<T, P> & in)
 {
     position *= in;
     size *= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 2> & djvBox<T, 2>::operator /= (const djvVector<T, 2> & in)
+template<typename T, glm::precision P>
+inline djvBox2<T, P> & djvBox2<T, P>::operator /= (const glm::tvec2<T, P> & in)
 {
     position /= in;
     size /= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 2> & djvBox<T, 2>::operator *= (T in)
+template<typename T, glm::precision P>
+inline djvBox2<T, P> & djvBox2<T, P>::operator *= (T in)
 {
     position *= in;
     size *= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 2> & djvBox<T, 2>::operator /= (T in)
+template<typename T, glm::precision P>
+inline djvBox2<T, P> & djvBox2<T, P>::operator /= (T in)
 {
     position /= in;
     size /= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 2>::operator djvBox<int, 2>() const
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::operator djvBox2<int, P>() const
 {
-    return djvBox<int, 2>(
+    return djvBox2<int, P>(
         static_cast<int>(x),
         static_cast<int>(y),
         static_cast<int>(w),
         static_cast<int>(h));
 }
 
-template<typename T>
-inline djvBox<T, 2>::operator djvBox<double, 2>() const
+template<typename T, glm::precision P>
+inline djvBox2<T, P>::operator djvBox2<float, P>() const
 {
-    return djvBox<double, 2>(
-        static_cast<double>(x),
-        static_cast<double>(y),
-        static_cast<double>(w),
-        static_cast<double>(h));
+    return djvBox2<float, P>(
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(w),
+        static_cast<float>(h));
 }
 

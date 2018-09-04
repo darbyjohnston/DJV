@@ -31,189 +31,50 @@
 
 #include <djvBoxUtil.h>
 
-//------------------------------------------------------------------------------
-// djvMatrix<T, D>
-//------------------------------------------------------------------------------
-
-template<typename T, int D>
-const int djvMatrix<T, D>::dimension = D;
-
-template<typename T, int D>
-const int djvMatrix<T, D>::dimensionX2 = D * D;
-
-template<typename T, int D>
-inline djvMatrix<T, D>::djvMatrix()
+template<typename T, glm::precision P>
+inline djvBox2<T, P> operator * (const glm::mat3x3 & a, const djvBox2<T, P> & b)
 {
-    identity();
-}
-
-template<typename T, int D>
-inline djvMatrix<T, D>::djvMatrix(const djvMatrix<T, D> & in)
-{
-    for (int i = 0; i < dimensionX2; ++i)
+    const glm::tvec2<T, P> lowerRight = b.lowerRight();
+    glm::tvec3<T, P> pt[] =
     {
-        e[i] = in.e[i];
-    }
-}
-
-template<typename T, int D>
-inline djvMatrix<T, D>::djvMatrix(const T * in)
-{
-    set(in);
-}
-
-template<typename T, int D>
-inline void djvMatrix<T, D>::set(const T * in)
-{
-    for (int i = 0; i < dimensionX2; ++i)
-    {
-        e[i] = in[i];
-    }
-}
-
-template<typename T, int D>
-inline void djvMatrix<T, D>::identity()
-{
-    for (int i = 0; i < D; ++i)
-    {
-        for (int j = 0; j < D; ++j)
-        {
-            e[i * D + j] = (i == j) ? 1.0 : 0.0;
-        }
-    }
-}
-
-template<typename T, int D>
-inline void djvMatrix<T, D>::zero()
-{
-    for (int i = 0; i < dimensionX2; ++i)
-    {
-        e[i] = 0.0;
-    }
-}
-
-template<typename T, int D>
-inline djvMatrix<T, D> operator * (const djvMatrix<T, D> & a, const djvMatrix<T, D> & b)
-{
-    djvMatrix<T, D> out;
-    out.zero();
-    for (int i = 0; i < D; ++i)
-    {
-        for (int j = 0; j < D; ++j)
-        {
-            for (int k = 0; k < D; ++k)
-            {
-                out.e[i * D + j] += a.e[i * D + k] * b.e[k * D + j];
-            }
-        }
-    }
-    return out;
-}
-
-template<typename T, int D, int D2>
-inline djvVector<T, D2> operator * (const djvMatrix<T, D> & a, const djvVector<T, D2> & b)
-{
-    //DJV_ASSERT((D - 1) == D2);
-    djvVector<T, D2> out;
-    for (int i = 0; i < D2; ++i)
-    {
-        int j = 0;
-        for (; j < D2; ++j)
-        {
-            out.e[i] += a.e[j * D + i] * b.e[j];
-        }
-        out.e[i] += a.e[j * D + i];
-    }
-    return out;
-}
-
-template<typename T>
-inline djvBox<T, 2> operator * (const djvMatrix<T, 3> & a, const djvBox<T, 2> & b)
-{
-    const djvVector<T, 2> lowerRight = b.lowerRight();
-    djvVector<T, 2> pt[] =
-    {
-        b.position,
-        b.position,
-        lowerRight,
-        b.position
+        glm::tvec3<T, P>(b.position.x, b.position.y, 1.f),
+        glm::tvec3<T, P>(b.position.x, b.position.y, 1.f),
+        glm::tvec3<T, P>(lowerRight.x, lowerRight.y, 1.f),
+        glm::tvec3<T, P>(b.position.x, b.position.y, 1.f)
     };
     pt[1].y = lowerRight.y;
     pt[3].x = lowerRight.x;
-    djvBox<T, 2> out;
+    djvBox2<T, P> out;
     for (int i = 0; i < 4; ++i)
     {
         pt[i] = a * pt[i];
         if (0 == i)
         {
-            out.position = pt[i];
+            out.position.x = pt[i].x;
+            out.position.y = pt[i].y;
         }
         else
         {
-            out = djvBoxUtil::expand(out, pt[i]);
+            out = djvBoxUtil::expand(out, glm::tvec2<T, P>(pt[i].x, pt[i].y));
         }
     }
     return out;
 }
 
-template<typename T, int D>
-inline QStringList & operator << (QStringList & out, const djvMatrix<T, D> & in)
+inline djvDebug & operator << (djvDebug & debug, const glm::mat3x3 & in)
 {
-    for (int i = 0; i < in.dimensionX2; ++i)
-    {
-        out << in.e[i];
-    }
-    return out;
+    return debug <<
+        in[0][0] << " " << in[0][1] << " " << in[0][2] << "\n" <<
+        in[1][0] << " " << in[1][1] << " " << in[1][2] << "\n" <<
+        in[2][0] << " " << in[2][1] << " " << in[2][2];
 }
 
-template<typename T, int D>
-inline QStringList & operator >> (QStringList & in, djvMatrix<T, D> & out) throw (QString)
+inline djvDebug & operator << (djvDebug & debug, const glm::mat4x4 & in)
 {
-    for (int i = 0; i < out.dimensionX2; ++i)
-    {
-        in >> out.e[i];
-    }
-    return in;
+    return debug <<
+        in[0][0] << " " << in[0][1] << " " << in[0][2] << " " << in[0][3] << "\n" <<
+        in[1][0] << " " << in[1][1] << " " << in[1][2] << " " << in[1][3] << "\n" <<
+        in[2][0] << " " << in[2][1] << " " << in[2][2] << " " << in[2][3] << "\n" <<
+        in[3][0] << " " << in[3][1] << " " << in[3][2] << " " << in[3][3];
 }
 
-template<typename T, int D>
-inline bool operator == (const djvMatrix<T, D> & a, const djvMatrix<T, D> & b)
-{
-    for (int i = 0; i < a.dimensionX2; ++i)
-    {
-        if (a.e[i] != b.e[i])
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-template<typename T, int D>
-inline bool operator != (const djvMatrix<T, D> & a, const djvMatrix<T, D> & b)
-{
-    return ! (a == b);
-}
-
-template<typename T, int D>
-inline djvDebug & operator << (djvDebug & debug, const djvMatrix<T, D> & in)
-{
-    debug << "\n";
-    for (int i = 0; i < D; ++i)
-    {
-        for (int j = 0; j < D; ++j)
-        {
-            debug << in.e[i * D + j];
-
-            if (j < D - 1)
-            {
-                debug << " ";
-            }
-        }
-        if (i < D - 1)
-        {
-            debug << "\n";
-        }
-    }
-    return debug;
-}

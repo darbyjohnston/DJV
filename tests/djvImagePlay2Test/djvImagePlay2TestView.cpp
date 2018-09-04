@@ -91,11 +91,11 @@ void djvImagePlay2TestView::paintGL()
 
     //QMutexLocker locker(_context->mutex());
 
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(0.f, 0.f, 0.f, 0.f);
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, width(), 0, height(), -1.0, 1.0);
+    glOrtho(0, width(), 0, height(), -1.f, 1.f);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glViewport(0, 0, width(), height());
@@ -112,14 +112,14 @@ void djvImagePlay2TestView::paintGL()
     }
 
     djvBox2i box(_info.size);
-    double u [] = { 0.0, 1.0 };
-    double v [] = { 1.0, 0.0 };
-    const djvVector2f uv[] =
+    float u [] = { 0.f, 1.f };
+    float v [] = { 1.f, 0.f };
+    const glm::vec2 uv[] =
     {
-        djvVector2f(u[0], v[0]),
-        djvVector2f(u[0], v[1]),
-        djvVector2f(u[1], v[1]),
-        djvVector2f(u[1], v[0])
+        glm::vec2(u[0], v[0]),
+        glm::vec2(u[0], v[1]),
+        glm::vec2(u[1], v[1]),
+        glm::vec2(u[1], v[0])
     };
     glBegin(GL_QUADS);
     glTexCoord2d(uv[0].x, uv[0].y);

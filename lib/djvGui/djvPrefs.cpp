@@ -152,3 +152,4 @@ void djvPrefs::_set(const QString & name, const QStringList & in)
 {
     _p->settings.setValue(name, in);
 }
+

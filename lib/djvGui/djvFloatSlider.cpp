@@ -120,25 +120,25 @@ djvFloatSlider::djvFloatSlider(QWidget * parent) :
     layout->setMargin(0);
     layout->addWidget(_p->slider);
 
-    _p->object->setRange(0.0, 1.0);
+    _p->object->setRange(0.f, 1.f);
     
     widgetUpdate();
 
     connect(
         _p->object,
-        SIGNAL(valueChanged(double)),
+        SIGNAL(valueChanged(float)),
         SLOT(valueCallback()));
     connect(
         _p->object,
-        SIGNAL(minChanged(double)),
+        SIGNAL(minChanged(float)),
         SLOT(rangeCallback()));
     connect(
         _p->object,
-        SIGNAL(maxChanged(double)),
+        SIGNAL(maxChanged(float)),
         SLOT(rangeCallback()));
     connect(
         _p->object,
-        SIGNAL(rangeChanged(double, double)),
+        SIGNAL(rangeChanged(float, float)),
         SLOT(rangeCallback()));
     connect(
         _p->slider,
@@ -149,17 +149,17 @@ djvFloatSlider::djvFloatSlider(QWidget * parent) :
 djvFloatSlider::~djvFloatSlider()
 {}
 
-double djvFloatSlider::value() const
+float djvFloatSlider::value() const
 {
     return _p->object->value();
 }
 
-double djvFloatSlider::min() const
+float djvFloatSlider::min() const
 {
     return _p->object->min();
 }
 
-double djvFloatSlider::max() const
+float djvFloatSlider::max() const
 {
     return _p->object->max();
 }
@@ -169,22 +169,22 @@ djvFloatObject * djvFloatSlider::object() const
     return _p->object;
 }
 
-void djvFloatSlider::setValue(double value)
+void djvFloatSlider::setValue(float value)
 {
     _p->object->setValue(value);
 }
 
-void djvFloatSlider::setMin(double min)
+void djvFloatSlider::setMin(float min)
 {
     _p->object->setMin(min);
 }
 
-void djvFloatSlider::setMax(double max)
+void djvFloatSlider::setMax(float max)
 {
     _p->object->setMax(max);
 }
 
-void djvFloatSlider::setRange(double min, double max)
+void djvFloatSlider::setRange(float min, float max)
 {
     _p->object->setRange(min, max);
 }
@@ -221,7 +221,7 @@ void djvFloatSlider::sliderCallback(int value)
 {
     setValue(
         _p->object->min() +
-        ((_p->object->max() - _p->object->min()) * value / static_cast<double>(steps)));
+        ((_p->object->max() - _p->object->min()) * value / static_cast<float>(steps)));
 }
 
 void djvFloatSlider::widgetUpdate()

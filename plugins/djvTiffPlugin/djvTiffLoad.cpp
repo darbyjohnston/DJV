@@ -173,7 +173,7 @@ void djvTiffLoad::_open(const QString & in, djvImageIoInfo & info)
     
     // Get file information.
     info.fileName = in;
-    info.size = djvVector2i(width, height);
+    info.size = glm::ivec2(width, height);
     if (samples > 1 && PLANARCONFIG_SEPARATE == channels)
     {
         throw djvError(

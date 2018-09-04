@@ -43,11 +43,11 @@
 djvWindowUtil::~djvWindowUtil()
 {}
 
-djvVector2i djvWindowUtil::resize(const djvVector2i & size, double maxPercent)
+glm::ivec2 djvWindowUtil::resize(const glm::ivec2 & size, float maxPercent)
 {
     const QSize qSize = qApp->desktop()->availableGeometry().size();
     return djvVectorUtil::min(
         size,
-        djvVector2i(djvVector2f(qSize.width(), qSize.height()) * maxPercent));
+        glm::ivec2(glm::vec2(qSize.width(), qSize.height()) * maxPercent));
 }
 

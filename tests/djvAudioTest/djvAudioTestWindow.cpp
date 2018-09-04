@@ -219,10 +219,10 @@ void djvAudioTestWindow::idle()
         _idle_timer.check();
     }
 
-    const double time = _audio.get() ? _audio->time() : _idle_timer.seconds();
+    const float time = _audio.get() ? _audio->time() : _idle_timer.seconds();
     DJV_DEBUG_PRINT("time = " << time);
 
-    if (time > 0.0)
+    if (time > 0.f)
     {
         const int64_t absolute_frame = Math::floor(time *
             Image_Speed::speed_to_float(_movie.info_time().speed));

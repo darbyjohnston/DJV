@@ -84,7 +84,7 @@ void djvTime::usleep(unsigned long usecs)
     Thread::usleep(usecs);
 }
 
-void djvTime::secondsToTime(double in, int & hour, int & minute, double & second)
+void djvTime::secondsToTime(float in, int & hour, int & minute, float & second)
 {
     hour = static_cast<int>(in) / (60 * 60);
     in -= hour * 60 * 60;
@@ -113,11 +113,11 @@ QString djvTime::timeToString(::time_t in)
     return out;
 }
 
-QString djvTime::labelTime(double in)
+QString djvTime::labelTime(float in)
 {
-    int    hour   = 0;
-    int    minute = 0;
-    double second = 0.0;    
+    int   hour   = 0;
+    int   minute = 0;
+    float second = 0.f;    
     secondsToTime(in, hour, minute, second);
     return QString("%1:%2:%3").
         arg(hour,   2, 10, QChar('0')).
@@ -178,7 +178,7 @@ quint32 djvTime::frameToTimecode(qint64 frame, const djvSpeed & speed)
     if (! speed.isValid())
         return 0;
         
-    const double speed_float = djvSpeed::speedToFloat(speed);
+    const float speed_float = djvSpeed::speedToFloat(speed);
     const int hour = static_cast<int>(frame / (speed_float * 60 * 60));
     frame -= static_cast<int>(hour * speed_float * 60 * 60);
     const int minute = static_cast<int>(frame / (speed_float * 60));

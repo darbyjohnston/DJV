@@ -69,10 +69,10 @@ public:
     static const QStringList & thumbnailsLabels();
 
     //! Get an image thumbnail size.
-    static djvVector2i thumbnailSize(
+    static glm::ivec2 thumbnailSize(
         THUMBNAILS                thumbnails,
         int                       thumbnailSize,
-        const djvVector2i &       imageSize,
+        const glm::ivec2 &        imageSize,
         djvPixelDataInfo::PROXY * proxy         = 0);
 
     //! This enumeration provides the columns.

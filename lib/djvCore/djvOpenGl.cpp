@@ -43,7 +43,7 @@ using namespace gl;
 djvOpenGlUtil::~djvOpenGlUtil()
 {}
 
-void djvOpenGlUtil::ortho(const djvVector2i & size, const djvVector2f & minMax)
+void djvOpenGlUtil::ortho(const glm::ivec2 & size, const glm::vec2 & minMax)
 {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -131,7 +131,7 @@ void djvOpenGlUtil::drawBox(const djvBox2f & in)
     glVertex2d(in.x + in.w, in.y);
 }
 
-void djvOpenGlUtil::drawBox(const djvBox2i & in, const djvVector2f uv[4])
+void djvOpenGlUtil::drawBox(const djvBox2i & in, const glm::vec2 uv[4])
 {
     glTexCoord2d(uv[0].x, uv[0].y);
     glVertex2i(in.x, in.y);
@@ -143,7 +143,7 @@ void djvOpenGlUtil::drawBox(const djvBox2i & in, const djvVector2f uv[4])
     glVertex2i(in.x + in.w, in.y);
 }
 
-void djvOpenGlUtil::drawBox(const djvBox2f & in, const djvVector2f uv[4])
+void djvOpenGlUtil::drawBox(const djvBox2f & in, const glm::vec2 uv[4])
 {
     glTexCoord2d(uv[0].x, uv[0].y);
     glVertex2d(in.x, in.y);

@@ -48,20 +48,20 @@ public:
     struct Values
     {
         Values() :
-            inputMin (0.0),
-            inputMax (1.0),
-            gamma    (1.0),
-            outputMin(0.0),
-            outputMax(1.0),
-            softClip (0.0)
+            inputMin (0.f),
+            inputMax (1.f),
+            gamma    (1.f),
+            outputMin(0.f),
+            outputMax(1.f),
+            softClip (0.f)
         {}
 
-        double inputMin;
-        double inputMax;
-        double gamma;
-        double outputMin;
-        double outputMax;
-        double softClip;
+        float inputMin;
+        float inputMax;
+        float gamma;
+        float outputMin;
+        float outputMax;
+        float softClip;
         
         bool operator == (const Values & other) const
         {
@@ -92,8 +92,8 @@ public:
 
     private:
 
-        double _softClip;
-        bool   _init;
+        float _softClip;
+        bool  _init;
     };
 
     explicit djvGlslTestLevelsOp(djvGlslTestContext *);
@@ -127,12 +127,12 @@ public:
 
 private Q_SLOTS:
 
-    void inputMinCallback(double);
-    void inputMaxCallback(double);
-    void gammaCallback(double);
-    void outputMinCallback(double);
-    void outputMaxCallback(double);
-    void softClipCallback(double);
+    void inputMinCallback(float);
+    void inputMaxCallback(float);
+    void gammaCallback(float);
+    void outputMinCallback(float);
+    void outputMaxCallback(float);
+    void softClipCallback(float);
 
 private:
 

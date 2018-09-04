@@ -131,30 +131,30 @@ const QStringList & djvViewUtil::imageScaleLabels()
     return data;
 }
 
-djvVector2f djvViewUtil::imageScale(IMAGE_SCALE in, const djvVector2i & size)
+glm::vec2 djvViewUtil::imageScale(IMAGE_SCALE in, const glm::ivec2 & size)
 {
-    static const double data [] =
+    static const float data [] =
     {
-        1.0,
-        16.0 / 9.0,
-        1.0,
-        1.33,
-        1.78,
-        1.85,
-        2.0,
-        2.35,
-        2.39,
-        2.40,
-        1.0,
-        2.0,
-        3.0 / 2.0,
-        4.0 / 3.0,
-        5.0 / 3.0,
-        5.0 / 4.0
+        1.f,
+        16.f / 9.f,
+        1.f,
+        1.33f,
+        1.78f,
+        1.85f,
+        2.f,
+        2.35f,
+        2.39f,
+        2.40f,
+        1.f,
+        2.f,
+        3.f / 2.f,
+        4.f / 3.f,
+        5.f / 3.f,
+        5.f / 4.f
     };
     static const int dataCount = sizeof(data) / sizeof(data[0]);
     DJV_ASSERT(dataCount == IMAGE_SCALE_COUNT);
-    djvVector2f out(1.0);
+    glm::vec2 out(1.f, 1.f);
     switch (in)
     {
         case IMAGE_SCALE_NONE: break;
@@ -176,9 +176,9 @@ const QStringList & djvViewUtil::imageRotateLabels()
     return data;
 }
 
-double djvViewUtil::imageRotate(IMAGE_ROTATE in)
+float djvViewUtil::imageRotate(IMAGE_ROTATE in)
 {
-    static const double data [] = { 0, 90, 180, 270 };
+    static const float data [] = { 0, 90, 180, 270 };
     return data[in];
 }
 
@@ -452,13 +452,13 @@ const QStringList & djvViewUtil::zoomFactorLabels()
     return data;
 }
 
-double djvViewUtil::zoomFactor(ZOOM_FACTOR zoomFactor)
+float djvViewUtil::zoomFactor(ZOOM_FACTOR zoomFactor)
 {
-    static const double data [] =
+    static const float data [] =
     {
-        1.1,
-        1.5,
-        2.0
+        1.1f,
+        1.5f,
+        2.f
     };
     static const int dataCount = sizeof(data) / sizeof(data[0]);
     DJV_ASSERT(dataCount == ZOOM_FACTOR_COUNT);

@@ -41,13 +41,9 @@ public:
     virtual void run(int &, char **);
 
 private:
-    void abs();
     void swap();
     void range();
     void isSizeValid();
-    void length();
-    void normalize();
-    void dot();
     void aspect();
     void convert();
 };

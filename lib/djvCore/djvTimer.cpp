@@ -132,28 +132,28 @@ inline void timediff(const timeval & a, const timeval & b, timeval & out)
 
 #endif // ! DJV_WINDOWS
 
-double djvTimer::seconds() const
+float djvTimer::seconds() const
 {
-    double out = 0.0;
+    float out = 0.f;
 #if defined(DJV_WINDOWS)
-    //out = (_p->t1 - _p->t0) / 1000.0;
+    //out = (_p->t1 - _p->t0) / 1000.f;
     if (_p->frequency.QuadPart)
     {
         out = (_p->t1.QuadPart - _p->t0.QuadPart) /
-            static_cast<double>(_p->frequency.QuadPart);
+            static_cast<float>(_p->frequency.QuadPart);
     }
 #else // DJV_WINDOWS
     timeval t;
     timediff(_p->t1, _p->t0, t);
-    out = t.tv_sec + t.tv_usec / 1000000.0;
+    out = t.tv_sec + t.tv_usec / 1000000.f;
 #endif // DJV_WINDOWS
     return out;
 }
 
-double djvTimer::fps() const
+float djvTimer::fps() const
 {
-    const double seconds = this->seconds();    
-    return (seconds != 0.0) ? (1.0 / seconds) : 0.0;
+    const float seconds = this->seconds();    
+    return (seconds != 0.f) ? (1.f / seconds) : 0.f;
 }
 
 djvTimer & djvTimer::operator = (const djvTimer & timer)

@@ -145,18 +145,18 @@ bool djvSpeed::isValid() const
     return _scale != 0 && _duration != 0;
 }
 
-double djvSpeed::speedToFloat(const djvSpeed & speed)
+float djvSpeed::speedToFloat(const djvSpeed & speed)
 {
-    return speed._scale / static_cast<double>(speed._duration);
+    return speed._scale / static_cast<float>(speed._duration);
 }
 
-djvSpeed djvSpeed::floatToSpeed(double value)
+djvSpeed djvSpeed::floatToSpeed(float value)
 {
     //! \todo Implement a proper floating-point to rational number conversion.    
     for (int i = 0; i < FPS_COUNT; ++i)
     {
         const FPS fps = static_cast<FPS>(i);
-        if (djvMath::abs(value - speedToFloat(fps)) < 0.001)
+        if (djvMath::abs(value - speedToFloat(fps)) < 0.001f)
         {
             return fps;
         }

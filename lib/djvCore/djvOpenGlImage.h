@@ -35,8 +35,8 @@
 #include <djvColor.h>
 #include <djvColorProfile.h>
 #include <djvError.h>
-#include <djvOpenGl.h>
 #include <djvMatrix.h>
+#include <djvOpenGl.h>
 #include <djvPixelData.h>
 
 #include <QMetaType>
@@ -62,15 +62,13 @@ class djvOpenGlShader;
 class DJV_CORE_EXPORT djvOpenGlImageXform
 {
 public:
-    djvOpenGlImageXform();
-
     djvPixelDataInfo::Mirror mirror;
-    djvVector2f              position;
-    djvVector2f              scale;
-    double                   rotate;
+    glm::vec2                position = glm::vec2(0.f, 0.f);
+    glm::vec2                scale    = glm::vec2(1.f, 1.f);
+    float                    rotate   = 0.f;
 
     //! Create a transform matrix.
-    static djvMatrix3f xformMatrix(const djvOpenGlImageXform &);
+    static glm::mat4x4 xformMatrix(const djvOpenGlImageXform &);
 };
 
 //------------------------------------------------------------------------------
@@ -82,23 +80,21 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageColor
 {
 public:
-    djvOpenGlImageColor();
-
-    double brightness;
-    double contrast;
-    double saturation;
+    float brightness = 1.f;
+    float contrast   = 1.f;
+    float saturation = 1.f;
 
     //! Create a brightness matrix.
-    static djvMatrix4f brightnessMatrix(double r, double g, double b);
+    static glm::mat4x4 brightnessMatrix(float r, float g, float b);
 
     //! Create a contrast matrix.
-    static djvMatrix4f contrastMatrix(double r, double g, double b);
+    static glm::mat4x4 contrastMatrix(float r, float g, float b);
 
     //! Create a saturation matrix.
-    static djvMatrix4f saturationMatrix(double r, double g, double b);
+    static glm::mat4x4 saturationMatrix(float r, float g, float b);
 
     //! Create a color matrix.
-    static djvMatrix4f colorMatrix(const djvOpenGlImageColor &);
+    static glm::mat4x4 colorMatrix(const djvOpenGlImageColor &);
 };
 
 //------------------------------------------------------------------------------
@@ -110,16 +106,14 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageLevels
 {
 public:
-    djvOpenGlImageLevels();
-
-    double inLow;
-    double inHigh;
-    double gamma;
-    double outLow;
-    double outHigh;
+    float inLow   = 0.f;
+    float inHigh  = 1.f;
+    float gamma   = 1.f;
+    float outLow  = 0.f;
+    float outHigh = 1.f;
 
     //! Create a lookup table from color levels.
-    static djvPixelData colorLut(const djvOpenGlImageLevels &, double softClip);
+    static djvPixelData colorLut(const djvOpenGlImageLevels &, float softClip);
 };
 
 //------------------------------------------------------------------------------
@@ -131,12 +125,10 @@ public:
 class DJV_CORE_EXPORT djvOpenGlImageDisplayProfile
 {
 public:
-    djvOpenGlImageDisplayProfile();
-
     djvPixelData         lut;
     djvOpenGlImageColor  color;
     djvOpenGlImageLevels levels;
-    double               softClip;
+    float                softClip = 0.f;
 };
 
 //------------------------------------------------------------------------------
@@ -219,15 +211,13 @@ public:
     //! Get the channel labels.
     static const QStringList & channelLabels();
 
-    djvOpenGlImageOptions();
-
     djvOpenGlImageXform          xform;
     djvColorProfile              colorProfile;
     djvOpenGlImageDisplayProfile displayProfile;
-    CHANNEL                      channel;
+    CHANNEL                      channel        = CHANNEL_DEFAULT;
     djvOpenGlImageFilter         filter;
     djvColor                     background;
-    bool                         proxyScale;
+    bool                         proxyScale     = true;
 };
 
 //------------------------------------------------------------------------------
@@ -294,12 +284,12 @@ public:
     //! Setup OpenGL state for image drawing.
     static void stateUnpack(
         const djvPixelDataInfo & info,
-        const djvVector2i &      offset = djvVector2i());
+        const glm::ivec2 &       offset = glm::ivec2(0, 0));
 
     //! Setup OpenGL state for image reading.
     static void statePack(
         const djvPixelDataInfo & info,
-        const djvVector2i &      offset = djvVector2i());
+        const glm::ivec2 &       offset = glm::ivec2(0, 0));
 
     //! Reset OpenGL state.
     static void stateReset();

@@ -39,6 +39,7 @@
 #define DJV_VERSION_MAJOR "@djvVersionMajor@"
 #define DJV_VERSION_MINOR "@djvVersionMinor@"
 #define DJV_VERSION_PATCH "@djvVersionPatch@"
+#define DJV_VERSION "@djvVersion@"
 
 #define DJV_PROJECT_NAME  "@djvProjectName@"
 

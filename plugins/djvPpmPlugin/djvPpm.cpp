@@ -104,7 +104,7 @@ quint64 djvPpm::scanlineByteCount(
             switch (bitDepth)
             {
                 case 1:
-                    out = djvMath::ceil(width / 8.0);
+                    out = djvMath::ceil(width / 8.f);
                     break;
                 case  8:
                 case 16:

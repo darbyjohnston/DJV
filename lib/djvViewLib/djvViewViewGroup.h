@@ -85,8 +85,8 @@ private Q_SLOTS:
     void update();
 
 private:
-    void viewMove(const djvVector2i &);
-    void viewZoom(double);
+    void viewMove(const glm::ivec2 &);
+    void viewZoom(float);
 
     DJV_PRIVATE_COPY(djvViewViewGroup);
     

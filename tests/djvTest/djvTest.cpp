@@ -51,8 +51,6 @@
 #include <djvImageTest.h>
 #include <djvListUtilTest.h>
 #include <djvMathTest.h>
-#include <djvMatrixTest.h>
-#include <djvMatrixUtilTest.h>
 #include <djvMemoryTest.h>
 #include <djvOpenGlImageTest.h>
 #include <djvOpenGlTest.h>
@@ -69,7 +67,6 @@
 #include <djvTimeTest.h>
 #include <djvTimerTest.h>
 #include <djvUserTest.h>
-#include <djvVectorTest.h>
 #include <djvVectorUtilTest.h>
 
 #include <QApplication>
@@ -98,8 +95,6 @@ int main(int argc, char ** argv)
         new djvImageTest <<
         new djvListUtilTest <<
         new djvMathTest <<
-        new djvMatrixTest <<
-        new djvMatrixUtilTest <<
         new djvMemoryTest <<
         new djvOpenGlImageTest <<
         new djvOpenGlTest <<
@@ -116,7 +111,6 @@ int main(int argc, char ** argv)
         new djvTimeTest <<
         new djvTimerTest <<
         new djvUserTest <<
-        new djvVectorTest <<
         new djvVectorUtilTest <<
     
         new djvImageIoPluginTest <<

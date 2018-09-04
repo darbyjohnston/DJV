@@ -164,11 +164,11 @@ void djvStringUtilTest::operators()
         DJV_ASSERT(1 == v);
     }
     {
-        double v = 1.0;
+        float v = 1.f;
         QStringList tmp;
         tmp << v;
         tmp >> v;
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0, v));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, v));
     }
 }
 

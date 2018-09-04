@@ -100,15 +100,15 @@ void djvGlslTestSharpenOp::render(const djvImage & in) throw (djvError)
         _shader.bind();
         const float value [] =
         {
-             0.0, -1.0,  0.0,
-            -1.0,  4.0, -1.0,
-             0.0, -1.0,  0.0
+             0.f, -1.f,  0.f,
+            -1.f,  4.f, -1.f,
+             0.f, -1.f,  0.f
         };
         const float offset [] =
         {
-            -1, -1,  0, -1,  1, -1,
-            -1,  0,  0,  0,  1,  0,
-            -1,  1,  0,  1,  1,  1
+            -1.f, -1.f,  0.f, -1.f,  1.f, -1.f,
+            -1.f,  0.f,  0.f,  0.f,  1.f,  0.f,
+            -1.f,  1.f,  0.f,  1.f,  1.f,  1.f
         };
         kernel.value(_shader.program(), value);
         kernel.offset(_shader.program(), offset);
@@ -152,8 +152,8 @@ djvGlslTestSharpenOpWidget::djvGlslTestSharpenOpWidget(
     // Create the widgets.
     QGroupBox * valueGroup = new QGroupBox("Value");
     djvFloatEditSlider * value = new djvFloatEditSlider(context);
-    value->setRange(0.0, 2.0);
-    value->setDefaultValue(1.0);
+    value->setRange(0.f, 2.f);
+    value->setDefaultValue(1.f);
 
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -171,11 +171,11 @@ djvGlslTestSharpenOpWidget::djvGlslTestSharpenOpWidget(
     // Setup the callbacks.
     connect(
         value,
-        SIGNAL(valueChanged(double)),
-        SLOT(valueCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(valueCallback(float)));
 }
 
-void djvGlslTestSharpenOpWidget::valueCallback(double in)
+void djvGlslTestSharpenOpWidget::valueCallback(float in)
 {
     djvGlslTestSharpenOp::Values values = _op->values();
     values.value = in;

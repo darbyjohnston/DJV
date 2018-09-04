@@ -77,7 +77,7 @@ public:
     const djvSpeed & speed() const;
 
     //! Get the real playback speed.
-    double realSpeed() const;
+    float realSpeed() const;
 
     //! Get whether frames were dropped.
     bool hasDroppedFrames() const;
@@ -150,7 +150,7 @@ Q_SIGNALS:
     void speedChanged(const djvSpeed &);
 
     //! This signal is emitted when the real speed is changed.
-    void realSpeedChanged(double);
+    void realSpeedChanged(float);
     
     //! This signal is emitted when dropped frames are changed.
     void droppedFramesChanged(bool);

@@ -29,66 +29,60 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvVectorUtil.h>
-
 //------------------------------------------------------------------------------
-// djvBox<T, 3>
+// djvBox3<T, P>
 //------------------------------------------------------------------------------
 
 //! \todo Is this specialization for integer box types correct?
 //! \todo Why do these specializations need to come first on Windows (error
 //! C2908)?
-
 template<>
-inline djvVector<int, 3> djvBox<int, 3>::lowerRight() const
+inline glm::ivec3 djvBox3<int>::lowerRight() const
 {
     return position + size - 1;
 }
 
 template<>
-inline void djvBox<int, 3>::setLowerRight(const djvVector<int, 3> & in)
+inline void djvBox3<int>::setLowerRight(const glm::ivec3 & in)
 {
     size = in - position + 1;
 }
 
-template<typename T>
-const int djvBox<T, 3>::dimension = 3;
-
 #define _BOX3_INIT() \
-    x(djvBox::position.e[0]), \
-    y(djvBox::position.e[1]), \
-    z(djvBox::position.e[2]), \
-    w(djvBox::size.e[0]),     \
-    h(djvBox::size.e[1]),     \
-    d(djvBox::size.e[2])
+    x(djvBox3::position.x), \
+    y(djvBox3::position.y), \
+    z(djvBox3::position.z), \
+    w(djvBox3::size.x),     \
+    h(djvBox3::size.y),     \
+    d(djvBox3::size.z)
 
-template<typename T>
-inline djvBox<T, 3>::djvBox() :
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::djvBox3() :
     _BOX3_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 3>::djvBox(const djvBox<T, 3> & in) :
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::djvBox3(const djvBox3<T, P> & in) :
     position(in.position),
     size(in.size),
     _BOX3_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 3>::djvBox(const djvVector<T, 3> & position, const djvVector<T, 3> & size) :
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::djvBox3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size) :
     position(position),
     size(size),
     _BOX3_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 3>::djvBox(const djvVector<T, 3> & size) :
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::djvBox3(const glm::tvec3<T, P> & size) :
     size(size),
     _BOX3_INIT()
 {}
 
-template<typename T>
-inline djvBox<T, 3>::djvBox(T _x, T _y, T _z, T _w, T _h, T _d) :
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::djvBox3(T _x, T _y, T _z, T _w, T _h, T _d) :
     _BOX3_INIT()
 {
     x = _x;
@@ -99,8 +93,8 @@ inline djvBox<T, 3>::djvBox(T _x, T _y, T _z, T _w, T _h, T _d) :
     d = _d;
 }
 
-template<typename T>
-inline djvBox<T, 3>::djvBox(T _w, T _h, T _d) :
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::djvBox3(T _w, T _h, T _d) :
     _BOX3_INIT()
 {
     w = _w;
@@ -108,33 +102,33 @@ inline djvBox<T, 3>::djvBox(T _w, T _h, T _d) :
     d = _d;
 }
 
-template<typename T>
-inline bool djvBox<T, 3>::isValid() const
+template<typename T, glm::precision P>
+inline bool djvBox3<T, P>::isValid() const
 {
-    return djvVectorUtil::isSizeValid(size);
+    return size.x > T(0) && size.y > T(0);
 }
 
-template<typename T>
-inline void djvBox<T, 3>::zero()
+template<typename T, glm::precision P>
+inline void djvBox3<T, P>::zero()
 {
-    position.zero();
-    size.zero();
+    position.x = position.y = position.z = T(0);
+    size.x = size.y = size.z = T(0);
 }
 
-template<typename T>
-inline djvVector<T, 3> djvBox<T, 3>::lowerRight() const
+template<typename T, glm::precision P>
+inline glm::tvec3<T, P> djvBox3<T, P>::lowerRight() const
 {
     return position + size;
 }
 
-template<typename T>
-inline void djvBox<T, 3>::setLowerRight(const djvVector<T, 3> & in)
+template<typename T, glm::precision P>
+inline void djvBox3<T, P>::setLowerRight(const glm::tvec3<T, P> & in)
 {
     size = in - position;
 }
 
-template<typename T>
-inline djvBox<T, 3> & djvBox<T, 3>::operator = (const djvBox<T, 3> & in)
+template<typename T, glm::precision P>
+inline djvBox3<T, P> & djvBox3<T, P>::operator = (const djvBox3<T, P> & in)
 {
     if (&in != this)
     {
@@ -144,51 +138,51 @@ inline djvBox<T, 3> & djvBox<T, 3>::operator = (const djvBox<T, 3> & in)
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 3> & djvBox<T, 3>::operator *= (const djvVector<T, 3> & in)
+template<typename T, glm::precision P>
+inline djvBox3<T, P> & djvBox3<T, P>::operator *= (const glm::tvec3<T, P> & in)
 {
     position *= in;
     size *= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 3> & djvBox<T, 3>::operator /= (const djvVector<T, 3> & in)
+template<typename T, glm::precision P>
+inline djvBox3<T, P> & djvBox3<T, P>::operator /= (const glm::tvec3<T, P> & in)
 {
     position /= in;
     size /= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 3> & djvBox<T, 3>::operator *= (T in)
+template<typename T, glm::precision P>
+inline djvBox3<T, P> & djvBox3<T, P>::operator *= (T in)
 {
     position *= in;
     size *= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 3> & djvBox<T, 3>::operator /= (T in)
+template<typename T, glm::precision P>
+inline djvBox3<T, P> & djvBox3<T, P>::operator /= (T in)
 {
     position /= in;
     size /= in;
     return *this;
 }
 
-template<typename T>
-inline djvBox<T, 3>::operator djvBox<int, 3>() const
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::operator djvBox3<int, P>() const
 {
-    return djvBox<int, 3>(
+    return djvBox3<int, P>(
         static_cast<int>(x), static_cast<int>(y), static_cast<int>(z),
         static_cast<int>(w), static_cast<int>(h), static_cast<int>(d));
 }
 
-template<typename T>
-inline djvBox<T, 3>::operator djvBox<double, 3>() const
+template<typename T, glm::precision P>
+inline djvBox3<T, P>::operator djvBox3<float, P>() const
 {
-    return djvBox<double, 3>(
-        static_cast<double>(x), static_cast<double>(y), static_cast<double>(z),
-        static_cast<double>(w), static_cast<double>(h), static_cast<double>(d));
+    return djvBox3<float, P>(
+        static_cast<float>(x), static_cast<float>(y), static_cast<float>(z),
+        static_cast<float>(w), static_cast<float>(h), static_cast<float>(d));
 }
 

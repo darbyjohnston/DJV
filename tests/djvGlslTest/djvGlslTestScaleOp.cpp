@@ -180,146 +180,146 @@ const djvGlslTestScaleOp::Values & djvGlslTestScaleOp::values() const
 
 namespace
 {
-typedef double (FilterFnc)(const double t);
+typedef float (FilterFnc)(const float t);
 
-const double supportBox = 0.5;
+const float supportBox = .5f;
 
-double filterBox(double t)
+float filterBox(float t)
 {
-    if (t > -0.5 && t <= 0.5)
+    if (t > -.5f && t <= .5f)
     {
-        return 1.0;
+        return 1.f;
     }
-    return 0.0;
+    return 0.f;
 }
 
-const double supportTriangle = 1.0;
+const float supportTriangle = 1.f;
 
-double filterTriangle(double t)
+float filterTriangle(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        return 1.0 - t;
+        return 1.f - t;
     }
-    return 0.0;
+    return 0.f;
 }
 
-const double supportBell = 1.5;
+const float supportBell = 1.5f;
 
-double filterBell(double t)
+float filterBell(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 0.5)
+    if (t < .5f)
     {
-        return 0.75 - t * t;
+        return .75f - t * t;
     }
-    if (t < 1.5)
+    if (t < 1.5f)
     {
-        t = t - 1.5;
+        t = t - 1.5f;
         
-        return 0.5 * t * t;
+        return .5f * t * t;
     }
-    return 0.0;
+    return 0.f;
 }
 
-const double supportBspline = 2.0;
+const float supportBspline = 2.f;
 
-double filterBspline(double t)
+float filterBspline(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        const double tt = t * t;
+        const float tt = t * t;
         
-        return (0.5 * tt * t) - tt + 2.0 / 3.0;
+        return (.5f * tt * t) - tt + 2.f / 3.f;
     }
-    else if (t < 2.0)
+    else if (t < 2.f)
     {
-        t = 2.0 - t;
+        t = 2.f - t;
         
-        return (1.0 / 6.0) * (t * t * t);
+        return (1.f / 6.f) * (t * t * t);
     }
-    return 0.0;
+    return 0.f;
 }
 
-double sinc(double x)
+float sinc(float x)
 {
     x *= djvMath::pi;
-    if (x != 0.0)
+    if (x != 0.f)
     {
         return djvMath::sin(x) / x;
     }
-    return 1.0;
+    return 1.f;
 }
 
-const double supportLanczos3 = 3.0;
+const float supportLanczos3 = 3.f;
 
-double filterLanczos3(double t)
+float filterLanczos3(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 3.0)
+    if (t < 3.f)
     {
-        return sinc(t) * sinc(t / 3.0);
+        return sinc(t) * sinc(t / 3.f);
     }
-    return 0.0;
+    return 0.f;
 }
 
-const double supportCubic = 1.0;
+const float supportCubic = 1.f;
 
-double filterCubic(double t)
+float filterCubic(float t)
 {
-    if (t < 0.0)
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        return (2.0 * t - 3.0) * t * t + 1.0;
+        return (2.f * t - 3.f) * t * t + 1.f;
     }
-    return 0.0;
+    return 0.f;
 }
 
-const double supportMitchell = 2.0;
+const float supportMitchell = 2.f;
 
-double filterMitchell(double t)
+float filterMitchell(float t)
 {
-    const double        tt = t * t;
-    static const double b  = 1.0 / 3.0;
-    static const double c  = 1.0 / 3.0;
-    if (t < 0.0)
+    const float        tt = t * t;
+    static const float b  = 1.f / 3.f;
+    static const float c  = 1.f / 3.f;
+    if (t < 0.f)
     {
         t = -t;
     }
-    if (t < 1.0)
+    if (t < 1.f)
     {
-        t = ((12.0 - 9.0 * b - 6.0 * c) * (t * tt)) +
-            ((-18.0 + 12.0 * b + 6.0 * c) * tt) +
-            (6.0 - 2.0 * b);
-        return t / 6.0;
+        t = ((12.f - 9.f * b - 6.f * c) * (t * tt)) +
+            ((-18.f + 12.f * b + 6.f * c) * tt) +
+            (6.f - 2.f * b);
+        return t / 6.f;
     }
-    else if (t < 2.0)
+    else if (t < 2.f)
     {
-        t = ((-1.0 * b - 6.0 * c) * (t * tt)) +
-            ((6.0 * b + 30.0 * c) * tt) +
-            ((-12.0 * b - 48.0 * c) * t) +
-            (8.0 * b + 24.0 * c);
-        return t / 6.0;
+        t = ((-1.f * b - 6.f * c) * (t * tt)) +
+            ((6.f * b + 30.f * c) * tt) +
+            ((-12.f * b - 48.f * c) * t) +
+            (8.f * b + 24.f * c);
+        return t / 6.f;
     }
 
-    return 0.0;
+    return 0.f;
 }
 
 FilterFnc * filterFnc(djvGlslTestScaleOp::FILTER_CUSTOM in)
@@ -337,9 +337,9 @@ FilterFnc * filterFnc(djvGlslTestScaleOp::FILTER_CUSTOM in)
     return tmp[in];
 }
 
-double filterSupport(djvGlslTestScaleOp::FILTER_CUSTOM in)
+float filterSupport(djvGlslTestScaleOp::FILTER_CUSTOM in)
 {
-    static const double tmp [] =
+    static const float tmp [] =
     {
         supportBox,
         supportTriangle,
@@ -367,17 +367,17 @@ void contribFnc(
     djvGlslTestScaleOp::FILTER_CUSTOM filter =
         input < output ? filterMag : filterMin;
     FilterFnc * fnc = filterFnc(filter);
-    const double support = filterSupport(filter);
+    const float support = filterSupport(filter);
     //DJV_DEBUG_PRINT("support = " << support);
 
     //! \todo Edges?
-    //const double scale =
-    //  static_cast<double>(output) / static_cast<double>(input);
-    const double scale =
+    //const float scale =
+    //  static_cast<float>(output) / static_cast<float>(input);
+    const float scale =
         (output > 1 ? (output - 1) : 1) /
-        static_cast<double>(input > 1 ? (input - 1) : 1);
+        static_cast<float>(input > 1 ? (input - 1) : 1);
     //DJV_DEBUG_PRINT("scale = " << scale);
-    const double radius = support * ((scale >= 1.0) ? 1.0 : (1.0 / scale));
+    const float radius = support * ((scale >= 1.f) ? 1.f : (1.f / scale));
     //DJV_DEBUG_PRINT("radius = " << radius);
     const int width = djvMath::ceil(radius * 2 + 1);
     //DJV_DEBUG_PRINT("width = " << width);
@@ -385,12 +385,12 @@ void contribFnc(
 
     for (int i = 0; i < output; ++i)
     {
-        const double center = i / scale;
+        const float center = i / scale;
         int left  = djvMath::ceil (center - radius);
         int right = djvMath::floor(center + radius);
         //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 
-        float sum   = 0.0;
+        float sum   = 0.f;
         int   pixel = 0;
         int   j     = 0;
         for (int k = left; j < width && k <= right; ++j, ++k)
@@ -399,9 +399,9 @@ void contribFnc(
                 reinterpret_cast<djvPixel::F32_T *>(out->data(i, j));
             pixel = djvGlslTestScaleOp::edge(k, input);
             const float x = static_cast<float>(
-                (center - k) * (scale < 1.0 ? scale : 1.0));
+                (center - k) * (scale < 1.f ? scale : 1.f));
             const float w = static_cast<float>(
-                (scale < 1.0) ? ((*fnc)(x) * scale) : (*fnc)(x));
+                (scale < 1.f) ? ((*fnc)(x) * scale) : (*fnc)(x));
             //DJV_DEBUG_PRINT("w = " << w);
             p[0] = static_cast<float>(pixel);
             p[1] = w;
@@ -413,7 +413,7 @@ void contribFnc(
             djvPixel::F32_T * p =
                 reinterpret_cast<djvPixel::F32_T *>(out->data(i, j));
             p[0] = static_cast<float>(pixel);
-            p[1] = 0.0;
+            p[1] = 0.f;
         }
 
         /*for (j = 0; j < width; ++j)

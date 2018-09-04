@@ -54,10 +54,10 @@ class DJV_CORE_EXPORT djvMath
 public:
     virtual ~djvMath() = 0;
     
-    static const double pi;     //!< Pi
-    static const double piX2;   //!< Pi times two
-    static const double piDiv2; //!< Pi divided by two
-    static const double piDiv4; //!< Pi divided by four
+    static const float pi;     //!< Pi
+    static const float piX2;   //!< Pi times two
+    static const float piDiv2; //!< Pi divided by two
+    static const float piDiv4; //!< Pi divided by four
 
     //! Get the absolute value.
     template<typename T>
@@ -67,22 +67,22 @@ public:
     static int pow(int value, int power);
 
     //! Raise a value to a power.
-    static double pow(double value, double power);
+    static float pow(float value, float power);
 
     //! Get the square root of a value.
-    static double sqrt(double);
+    static float sqrt(float);
 
     //! Exponential.
-    static double exp(double);
+    static float exp(float);
 
     //! Logarithm.
-    static double log(double);
+    static float log(float);
 
     //! Logarithm.
-    static double log10(double);
+    static float log10(float);
 
     //! Logarithm.
-    static double antiLog10(double);
+    static float antiLog10(float);
 
     //! Modulus.
     template<typename T>
@@ -101,10 +101,10 @@ public:
     static inline T pulse(T value, T min, T max);
 
     //! Bias function.
-    static double bias(double value, double bias);
+    static float bias(float value, float bias);
 
     //! Gain function.
-    static double gain(double value, double gain);
+    static float gain(float value, float gain);
 
     //! Return the minimum of two values.
     template<typename T>
@@ -123,7 +123,7 @@ public:
     static inline T lerp(U value, T min, T max);
 
     //! Smooth step function.
-    static inline double smoothStep(double value, double min, double max);
+    static inline float smoothStep(float value, float min, float max);
 
     //! Soft clip function.
     //!
@@ -131,70 +131,70 @@ public:
     //!
     //! - Ken McGaugh, "Re: [Openexr-devel] Cineon -> half conversion?"
     //!   OpenEXR Mailing List 3/2/05
-    static double softClip(double value, double softClip);
+    static float softClip(float value, float softClip);
 
     //! Sine function.
-    static double sin(double);
+    static float sin(float);
 
     //! Cosine function.
-    static double cos(double);
+    static float cos(float);
 
     //! Secant function.
-    static double sec(double);
+    static float sec(float);
 
     //! Tangent function.
-    static double tan(double);
+    static float tan(float);
 
     //! Inverse sine function.
-    static double arcSin(double);
+    static float arcSin(float);
 
     //! Inverse cosine function.
-    static double arcCos(double);
+    static float arcCos(float);
 
     //! Inverse tangent function.
-    static double arcTan(double);
+    static float arcTan(float);
 
     //! Inverse tangent function.
-    static double arcTan(double, double);
+    static float arcTan(float, float);
 
     //! Cosecant function.
-    static double coSec(double);
+    static float coSec(float);
 
     //! Cotangent function.
-    static double coTan(double);
+    static float coTan(float);
 
     //! Get a random number between zero and one.
-    static double rand();
+    static float rand();
 
     //! Get a random number between zero and the given value.
-    static double rand(double);
+    static float rand(float);
 
     //! Get a random number between two values.
-    static double rand(double min, double max);
+    static float rand(float min, float max);
 
     //! Seed the random value generator. A value of zero uses a random seed.
     static void randSeed(unsigned int = 0);
 
     //! Round to the smallest integer value.
-    static int floor(double);
+    static int floor(float);
 
     //! Round to the largest integer value.
-    static int ceil(double);
+    static int ceil(float);
 
     //! Round to an integer value.
-    static int round(double);
+    static int round(float);
 
     //! Get the value after the decimal.
-    static inline double fraction(double);
+    static inline float fraction(float);
 
     //! Find the closest power of two.
     static inline int toPow2(int);
 
     //! Convert degrees to radians.
-    static inline double degreesToRadians(double);
+    static inline float degreesToRadians(float);
 
     //! Convert radians to degrees.
-    static inline double radiansToDegrees(double);
+    static inline float radiansToDegrees(float);
     
     //! Floating point comparison.
     static bool fuzzyCompare(float, float);

@@ -243,7 +243,7 @@ djvViewFileGroup::djvViewFileGroup(
         SLOT(setCache(bool)));
     connect(
         context->filePrefs(),
-        SIGNAL(cacheSizeChanged(double)),
+        SIGNAL(cacheSizeChanged(float)),
         SLOT(preloadUpdate()));
     connect(
         context->filePrefs(),

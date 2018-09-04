@@ -300,50 +300,50 @@ void djvPixelTest::convert()
         DJV_ASSERT(djvPixel::u10Max == djvPixel::u8ToU10(djvPixel::u8Max));
         DJV_ASSERT(0                == djvPixel::u8ToU16(0));
         DJV_ASSERT(djvPixel::u16Max == djvPixel::u8ToU16(djvPixel::u8Max));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::u8ToF16(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::u8ToF16(djvPixel::u8Max)));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::u8ToF32(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::u8ToF32(djvPixel::u8Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u8ToF16(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u8ToF16(djvPixel::u8Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u8ToF32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u8ToF32(djvPixel::u8Max)));
     }
     {
         DJV_ASSERT(0                == djvPixel::u10ToU8(0));
         DJV_ASSERT(djvPixel::u8Max  == djvPixel::u10ToU8(djvPixel::u10Max));
         DJV_ASSERT(0                == djvPixel::u10ToU16(0));
         DJV_ASSERT(djvPixel::u16Max == djvPixel::u10ToU16(djvPixel::u10Max));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::u10ToF16(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::u10ToF16(djvPixel::u10Max)));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::u10ToF32(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::u10ToF32(djvPixel::u10Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u10ToF16(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u10ToF16(djvPixel::u10Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u10ToF32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u10ToF32(djvPixel::u10Max)));
     }
     {
         DJV_ASSERT(0                == djvPixel::u16ToU8(0));
         DJV_ASSERT(djvPixel::u8Max  == djvPixel::u16ToU8(djvPixel::u16Max));
         DJV_ASSERT(0                == djvPixel::u16ToU10(0));
         DJV_ASSERT(djvPixel::u10Max == djvPixel::u16ToU10(djvPixel::u16Max));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::u16ToF16(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::u16ToF16(djvPixel::u16Max)));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::u16ToF32(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::u16ToF32(djvPixel::u16Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u16ToF16(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u16ToF16(djvPixel::u16Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u16ToF32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u16ToF32(djvPixel::u16Max)));
     }
     {
-        DJV_ASSERT(0                == djvPixel::f16ToU8(0.0f));
-        DJV_ASSERT(djvPixel::u8Max  == djvPixel::f16ToU8(1.0f));
-        DJV_ASSERT(0                == djvPixel::f16ToU10(0.0f));
-        DJV_ASSERT(djvPixel::u10Max == djvPixel::f16ToU10(1.0f));
-        DJV_ASSERT(0                == djvPixel::f16ToU16(0.0f));
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::f16ToU16(1.0f));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::f16ToF32(0.0f)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::f16ToF32(1.0f)));
+        DJV_ASSERT(0                == djvPixel::f16ToU8(0.f));
+        DJV_ASSERT(djvPixel::u8Max  == djvPixel::f16ToU8(1.f));
+        DJV_ASSERT(0                == djvPixel::f16ToU10(0.f));
+        DJV_ASSERT(djvPixel::u10Max == djvPixel::f16ToU10(1.f));
+        DJV_ASSERT(0                == djvPixel::f16ToU16(0.f));
+        DJV_ASSERT(djvPixel::u16Max == djvPixel::f16ToU16(1.f));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::f16ToF32(0.f)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::f16ToF32(1.f)));
     }
     {
-        DJV_ASSERT(0                == djvPixel::f32ToU8(0.0f));
-        DJV_ASSERT(djvPixel::u8Max  == djvPixel::f32ToU8(1.0f));
-        DJV_ASSERT(0                == djvPixel::f32ToU10(0.0f));
-        DJV_ASSERT(djvPixel::u10Max == djvPixel::f32ToU10(1.0f));
-        DJV_ASSERT(0                == djvPixel::f32ToU16(0.0f));
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::f32ToU16(1.0f));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0f, djvPixel::f32ToF16(0.0f)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0f, djvPixel::f32ToF16(1.0f)));
+        DJV_ASSERT(0                == djvPixel::f32ToU8(0.f));
+        DJV_ASSERT(djvPixel::u8Max  == djvPixel::f32ToU8(1.f));
+        DJV_ASSERT(0                == djvPixel::f32ToU10(0.f));
+        DJV_ASSERT(djvPixel::u10Max == djvPixel::f32ToU10(1.f));
+        DJV_ASSERT(0                == djvPixel::f32ToU16(0.f));
+        DJV_ASSERT(djvPixel::u16Max == djvPixel::f32ToU16(1.f));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::f32ToF16(0.f)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::f32ToF16(1.f)));
     }
     {
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
@@ -353,7 +353,7 @@ void djvPixelTest::convert()
                 djvColor
                     a(static_cast<djvPixel::PIXEL>(i)),
                     b(static_cast<djvPixel::PIXEL>(j));
-                djvColorUtil::convert(djvColor(0.5), a);
+                djvColorUtil::convert(djvColor(.5f), a);
                 djvPixel::convert(
                     a.data(),
                     a.pixel(),

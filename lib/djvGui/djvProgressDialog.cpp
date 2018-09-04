@@ -86,10 +86,10 @@ protected:
         painter.fillRect(
             0, 0, width(), height(),
             palette.color(QPalette::Base));        
-        float v = 0.0;
+        float v = 0.f;
         if (_maxValue != 0)
         {
-            v = _value / static_cast<double>(_maxValue);
+            v = _value / static_cast<float>(_maxValue);
         }
         int w = static_cast<int>(v * width());
         painter.fillRect(
@@ -99,7 +99,7 @@ protected:
         painter.drawText(
             QRect(0, 0, width(), height()),
             Qt::AlignCenter,
-            QString("%1%").arg(static_cast<int>(v * 100.0)));
+            QString("%1%").arg(static_cast<int>(v * 100.f)));
     }
 
 private:
@@ -118,7 +118,7 @@ struct djvProgressDialog::Private
     Private() :
         totalTicks   (0),
         currentTick  (0),
-        timeAccum    (0.0),
+        timeAccum    (0.f),
         timerId      (0),
         widget       (0),
         labelWidget  (0),
@@ -129,7 +129,7 @@ struct djvProgressDialog::Private
     int              totalTicks;
     int              currentTick;
     djvTimer         time;
-    double           timeAccum;
+    float            timeAccum;
     djvTimer         elapsed;
     int              timerId;
     ProgressWidget * widget;
@@ -210,7 +210,7 @@ void djvProgressDialog::start(int totalTicks)
     _p->totalTicks = totalTicks;
     _p->currentTick = 0;
     _p->time.start();
-    _p->timeAccum = 0.0;
+    _p->timeAccum = 0.f;
     _p->elapsed.start();
     _p->widget->setMaxValue(static_cast<float>(_p->totalTicks));
     _p->widget->setValue(static_cast<float>(_p->currentTick));
@@ -247,9 +247,9 @@ void djvProgressDialog::timerEvent(QTimerEvent *)
     _p->timeAccum += _p->time.seconds();
     _p->time.start();
     
-    const double estimate =
+    const float estimate =
         _p->timeAccum /
-        static_cast<double>(_p->currentTick + 1) *
+        static_cast<float>(_p->currentTick + 1) *
         (_p->totalTicks - (_p->currentTick + 1));
 
     const QString estimateLabel = QString(

@@ -160,15 +160,15 @@ void djvGlslTestKernel::offset(GLuint program, const float * in)
 
 void djvGlslTestUtil::quad(const djvPixelDataInfo & in)
 {
-    double u [] = { 0, 0 }, v [] = { 0, 0 };
+    float u [] = { 0.f, 0.f }, v [] = { 0.f, 0.f };
     u[! in.mirror.x] = in.size.x;
     v[! in.mirror.y] = in.size.y;
-    const djvVector2f uv[] =
+    const glm::vec2 uv[] =
     {
-        djvVector2f(u[0], v[0]),
-        djvVector2f(u[0], v[1]),
-        djvVector2f(u[1], v[1]),
-        djvVector2f(u[1], v[0])
+        glm::vec2(u[0], v[0]),
+        glm::vec2(u[0], v[1]),
+        glm::vec2(u[1], v[1]),
+        glm::vec2(u[1], v[0])
     };
     glBegin(GL_QUADS);
     djvOpenGlUtil::drawBox(djvBox2i(in.size), uv);

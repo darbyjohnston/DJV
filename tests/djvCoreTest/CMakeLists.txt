@@ -19,8 +19,6 @@ set(header
     djvImageTest.h
 	djvListUtilTest.h
     djvMathTest.h
-    djvMatrixTest.h
-    djvMatrixUtilTest.h
     djvMemoryTest.h
     djvOpenGlImageTest.h
     djvOpenGlTest.h
@@ -37,7 +35,6 @@ set(header
     djvTimeTest.h
     djvTimerTest.h
     djvUserTest.h
-    djvVectorTest.h
     djvVectorUtilTest.h)
 
 set(mocHeader
@@ -62,8 +59,6 @@ set(source
     djvImageTest.cpp
 	djvListUtilTest.cpp
     djvMathTest.cpp
-    djvMatrixTest.cpp
-    djvMatrixUtilTest.cpp
     djvMemoryTest.cpp
     djvOpenGlImageTest.cpp
     djvOpenGlTest.cpp
@@ -80,7 +75,6 @@ set(source
     djvTimeTest.cpp
     djvTimerTest.cpp
     djvUserTest.cpp
-    djvVectorTest.cpp
     djvVectorUtilTest.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})

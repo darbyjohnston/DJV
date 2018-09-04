@@ -306,7 +306,7 @@ void djvPicLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
     // Information.
     info.fileName = in;
-    info.size = djvVector2i(header.width, header.height);
+    info.size = glm::ivec2(header.width, header.height);
     info.mirror.y = true;
     Channel channel;
     memset(&channel, 0, sizeof(Channel));

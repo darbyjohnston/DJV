@@ -39,6 +39,7 @@
 #include <djvOpenGlImage.h>
 #include <djvPixelDataUtil.h>
 #include <djvTime.h>
+#include <djvVectorUtil.h>
 
 #include <QDateTime>
 #include <QFutureWatcher>
@@ -178,7 +179,7 @@ struct ThumbnailThreadResult
 ThumbnailThreadResult thumbnailThreadFunction(
     const djvFileInfo &             fileInfo,
     djvFileBrowserModel::THUMBNAILS thumbnails,
-    const djvVector2i &             thumbnailSize,
+    const glm::ivec2 &              thumbnailSize,
     djvPixelDataInfo::PROXY         proxy,
     djvGuiContext *                 context)
 {
@@ -219,9 +220,8 @@ ThumbnailThreadResult thumbnailThreadFunction(
             image.pixel()));
         djvOpenGlImageOptions options;
         options.xform.scale =
-            djvVector2f(tmp.size()) /
-            (djvVector2f(image.size() *
-                djvPixelDataUtil::proxyScale(image.info().proxy)));
+            glm::vec2(tmp.size()) /
+            (glm::vec2(image.size() * djvPixelDataUtil::proxyScale(image.info().proxy)));
         options.colorProfile = image.colorProfile;
         if (djvFileBrowserModel::THUMBNAILS_HIGH == thumbnails)
         {
@@ -264,7 +264,7 @@ void djvFileBrowserItem::requestImage()
         watcher->setFuture(future);
     }
     
-    if (! _thumbnailRequest && _thumbnailSize > djvVector2i(0, 0))
+    if (! _thumbnailRequest && djvVectorUtil::isSizeValid(_thumbnailSize))
     {
         _thumbnailRequest = true;
         QFuture<ThumbnailThreadResult> future = QtConcurrent::run(
@@ -287,17 +287,17 @@ void djvFileBrowserItem::requestImage()
 namespace
 {
 
-djvVector2i thumbnailSize(
+glm::ivec2 thumbnailSize(
     djvFileBrowserModel::THUMBNAILS thumbnails,
-    const djvVector2i &             in,
+    const glm::ivec2 &              in,
     int                             size,
     djvPixelDataInfo::PROXY *       proxy = 0)
 {
     const int imageSize = djvMath::max(in.x, in.y);
     if (imageSize <= 0)
-        return djvVector2i();
+        return glm::ivec2(0, 0);
     int _proxy = 0;
-    double proxyScale = static_cast<double>(
+    float proxyScale = static_cast<float>(
         djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(_proxy)));
     if (djvFileBrowserModel::THUMBNAILS_LOW == thumbnails)
     {
@@ -305,7 +305,7 @@ djvVector2i thumbnailSize(
             (imageSize / proxyScale) > size * 2 &&
             _proxy < djvPixelDataInfo::PROXY_COUNT)
         {
-            proxyScale = static_cast<double>(
+            proxyScale = static_cast<float>(
                 djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(++_proxy)));
         }
     }
@@ -313,8 +313,8 @@ djvVector2i thumbnailSize(
     {
         *proxy = djvPixelDataInfo::PROXY(_proxy);
     }
-    const double scale = size / static_cast<double>(imageSize / proxyScale);
-    return djvVectorUtil::ceil<double, int>(djvVector2f(in) / proxyScale * scale);
+    const float scale = size / static_cast<float>(imageSize / proxyScale);
+    return djvVectorUtil::ceil(glm::vec2(in) / proxyScale * scale);
 }
 
 } // namespace

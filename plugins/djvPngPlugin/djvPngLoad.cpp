@@ -245,7 +245,7 @@ void djvPngLoad::_open(const QString & in, djvImageIoInfo & info)
 
     // Get file information.
     info.fileName = in;
-    info.size = djvVector2i(
+    info.size = glm::ivec2(
         png_get_image_width(_png, _pngInfo),
         png_get_image_height(_png, _pngInfo));
     int channels = png_get_channels(_png, _pngInfo);

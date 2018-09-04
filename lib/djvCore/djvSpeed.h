@@ -94,10 +94,10 @@ public:
     bool isValid() const;
 
     //! Convert a speed to a floating point value.
-    static double speedToFloat(const djvSpeed &);
+    static float speedToFloat(const djvSpeed &);
 
     //! Convert a floating point value to a speed.
-    static djvSpeed floatToSpeed(double);
+    static djvSpeed floatToSpeed(float);
 
     //! Get the speed default.
     static FPS speedDefault();

@@ -64,7 +64,7 @@ private Q_SLOTS:
     void proxyCallback(int);
     void u8ConversionCallback(bool);
     void cacheCallback(bool);
-    void cacheSizeCallback(double);
+    void cacheSizeCallback(float);
     void preloadCallback(bool);
     void displayCacheCallback(bool);
 

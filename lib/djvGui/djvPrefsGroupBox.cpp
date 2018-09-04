@@ -68,7 +68,6 @@ void djvPrefsGroupBox::init(const QString & title)
     const QFont font = this->font();
     
     _p->groupBox = new QGroupBox(title);
-    _p->groupBox->setStyleSheet("QGroupBox { font-weight: bold; }");
 
     _p->label = new QLabel(_p->text);
     _p->label->setWordWrap(true);

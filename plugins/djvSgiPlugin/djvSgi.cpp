@@ -127,7 +127,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     //DJV_DEBUG_PRINT("bytes = " << _data.bytes);
 
     // Information.
-    info.size = djvVector2i(_data.width, _data.height);
+    info.size = glm::ivec2(_data.width, _data.height);
     if (! djvPixel::pixel(
         _data.channels,
         1 == _data.bytes ? 8 : 16,

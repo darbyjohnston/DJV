@@ -60,22 +60,22 @@ QString djvMemory::sizeLabel(quint64 in)
     if (in >= djvMemory::terabyte)
     {
         return data[0].arg(in /
-            static_cast<double>(djvMemory::terabyte), 0, 'f', 2);
+            static_cast<float>(djvMemory::terabyte), 0, 'f', 2);
     }
     else if (in >= djvMemory::gigabyte)
     {
         return data[1].arg(in /
-            static_cast<double>(djvMemory::gigabyte), 0, 'f', 2);
+            static_cast<float>(djvMemory::gigabyte), 0, 'f', 2);
     }
     else if (in >= djvMemory::megabyte)
     {
         return data[2].arg(in /
-            static_cast<double>(djvMemory::megabyte), 0, 'f', 2);
+            static_cast<float>(djvMemory::megabyte), 0, 'f', 2);
     }
     else
     {
         return data[3].arg(in /
-            static_cast<double>(djvMemory::kilobyte), 0, 'f', 2);
+            static_cast<float>(djvMemory::kilobyte), 0, 'f', 2);
     }
 }
 

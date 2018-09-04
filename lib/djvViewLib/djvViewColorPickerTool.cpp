@@ -77,7 +77,7 @@ struct djvViewColorPickerTool::Private
         lockWidget          (0)
     {}
     
-    djvVector2i                              pick;
+    glm::ivec2                               pick = glm::ivec2(0, 0);
     djvColor                                 value;
     int                                      size;
     bool                                     colorProfile;
@@ -186,8 +186,8 @@ djvViewColorPickerTool::djvViewColorPickerTool(
         SLOT(widgetUpdate()));
     connect(
         mainWindow->viewWidget(),
-        SIGNAL(pickChanged(const djvVector2i &)),
-        SLOT(pickCallback(const djvVector2i &)));
+        SIGNAL(pickChanged(const glm::ivec2 &)),
+        SLOT(pickCallback(const glm::ivec2 &)));
     connect(
         _p->widget,
         SIGNAL(colorChanged(const djvColor &)),
@@ -229,7 +229,7 @@ void djvViewColorPickerTool::showEvent(QShowEvent *)
     widgetUpdate();
 }
 
-void djvViewColorPickerTool::pickCallback(const djvVector2i & in)
+void djvViewColorPickerTool::pickCallback(const glm::ivec2 & in)
 {
     _p->pick = in;
     widgetUpdate();
@@ -306,13 +306,13 @@ void djvViewColorPickerTool::swatchUpdate()
         }
 
         // Pick.
-        const djvVector2i pick = djvVectorUtil::floor<double, int>(
-            djvVector2f(_p->pick - viewWidget()->viewPos()) / viewWidget()->viewZoom());
+        const glm::ivec2 pick = djvVectorUtil::floor(
+            glm::vec2(_p->pick - viewWidget()->viewPos()) / viewWidget()->viewZoom());
         //DJV_DEBUG_PRINT("pick = " << _p->pick);
 
         // Render color sample.
         //DJV_DEBUG_PRINT("pick size = " << _p->size);
-        djvPixelData tmp(djvPixelDataInfo(djvVector2i(_p->size), _p->value.pixel()));
+        djvPixelData tmp(djvPixelDataInfo(glm::ivec2(_p->size, _p->size), _p->value.pixel()));
         //DJV_DEBUG_PRINT("tmp = " << tmp);
         try
         {
@@ -322,7 +322,7 @@ void djvViewColorPickerTool::swatchUpdate()
                 _p->buffer.reset(new djvOpenGlOffscreenBuffer(tmp.info()));
             }
             djvOpenGlImageOptions options = viewWidget()->options();
-            options.xform.position -= pick - djvVector2i((_p->size - 1) / 2);
+            options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
             if (! _p->colorProfile)
             {
                 options.colorProfile = djvColorProfile();

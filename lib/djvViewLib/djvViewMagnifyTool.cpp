@@ -115,7 +115,7 @@ struct djvViewMagnifyTool::Private
         displayProfileButton(0)
     {}
     
-    djvVector2i                              pick;
+    glm::ivec2                               pick = glm::ivec2(0, 0);
     int                                      zoom;
     bool                                     colorProfile;
     bool                                     displayProfile;
@@ -197,8 +197,8 @@ djvViewMagnifyTool::djvViewMagnifyTool(
         SLOT(widgetUpdate()));
     connect(
         mainWindow->viewWidget(),
-        SIGNAL(pickChanged(const djvVector2i &)),
-        SLOT(pickCallback(const djvVector2i &)));
+        SIGNAL(pickChanged(const glm::ivec2 &)),
+        SLOT(pickCallback(const glm::ivec2 &)));
     connect(
         _p->slider,
         SIGNAL(valueChanged(int)),
@@ -223,7 +223,7 @@ djvViewMagnifyTool::~djvViewMagnifyTool()
     viewWidget()->makeCurrent();
 }
 
-void djvViewMagnifyTool::pickCallback(const djvVector2i & in)
+void djvViewMagnifyTool::pickCallback(const glm::ivec2 & in)
 {
     _p->pick = in;
     widgetUpdate();
@@ -281,10 +281,10 @@ void djvViewMagnifyTool::pixelDataUpdate()
     if (const djvPixelData * data = viewWidget()->data())
     {
         //DJV_DEBUG_PRINT("data = " << *data);
-        const double zoom = djvMath::pow(2, _p->zoom);
-        djvVector2i pick = djvVectorUtil::floor<double, int>(
-            djvVector2f(_p->pick - viewWidget()->viewPos()) * zoom -
-            djvVector2f(tmp.info().size) / 2.0);
+        const float zoom = djvMath::pow(2, _p->zoom);
+        glm::ivec2 pick = djvVectorUtil::floor(
+            glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
+            glm::vec2(tmp.info().size) / 2.f);
         //DJV_DEBUG_PRINT("zoom = " << zoom);
         //DJV_DEBUG_PRINT("pick = " << pick);
         try

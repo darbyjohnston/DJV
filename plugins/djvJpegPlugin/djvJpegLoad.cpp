@@ -246,7 +246,7 @@ void djvJpegLoad::_open(const QString & in, djvImageIoInfo & info)
 
     // Information.
     info.fileName = in;
-    info.size = djvVector2i(_jpeg.output_width, _jpeg.output_height);
+    info.size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
     if (! djvPixel::pixel(
         _jpeg.out_color_components, 8, djvPixel::INTEGER, info.pixel))
     {

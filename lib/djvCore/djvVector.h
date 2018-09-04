@@ -32,196 +32,46 @@
 #pragma once
 
 #include <djvDebug.h>
-#include <djvStringUtil.h>
 
 #include <QMetaType>
-#include <QString>
-#include <QVector>
+#include <QStringList>
+
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 
 //! \addtogroup djvCoreMath
 //@{
 
-//------------------------------------------------------------------------------
-//! \class djvVector
-//!
-//! This class provides the base functionality for vectors.
-//------------------------------------------------------------------------------
+template<typename T, glm::precision P = glm::defaultp>
+inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &) throw (QString);
+template<typename T, glm::precision P = glm::defaultp>
+inline QStringList & operator >> (QStringList &, glm::tvec3<T, P> &) throw (QString);
+template<typename T, glm::precision P = glm::defaultp>
+inline QStringList & operator >> (QStringList &, glm::tvec4<T, P> &) throw (QString);
 
-template<typename T, int D>
-struct djvVector
-{
-    inline djvVector();
-    inline djvVector(const djvVector<T, D> &);
-    inline djvVector(T);
+template<typename T, glm::precision P = glm::defaultp>
+inline QStringList & operator << (QStringList &, const glm::tvec2<T, P> &);
+template<typename T, glm::precision P = glm::defaultp>
+inline QStringList & operator << (QStringList &, const glm::tvec3<T, P> &);
+template<typename T, glm::precision P = glm::defaultp>
+inline QStringList & operator << (QStringList &, const glm::tvec4<T, P> &);
 
-    static const int dimension;
+template <typename T, glm::precision P = glm::defaultp>
+inline djvDebug & operator << (djvDebug &, const glm::tvec2<T, P> &);
+template <typename T, glm::precision P = glm::defaultp>
+inline djvDebug & operator << (djvDebug &, const glm::tvec3<T, P> &);
+template <typename T, glm::precision P = glm::defaultp>
+inline djvDebug & operator << (djvDebug &, const glm::tvec4<T, P> &);
 
-    T e [D];
-
-    //! Set the components to the same value.
-    inline void set(T);
-
-    //! Zero the components.
-    inline void zero();
-
-    djvVector<T, D> & operator = (const djvVector<T, D> &);
-
-    inline djvVector<T, D> & operator += (const djvVector<T, D> &);
-    inline djvVector<T, D> & operator -= (const djvVector<T, D> &);
-    inline djvVector<T, D> & operator *= (const djvVector<T, D> &);
-    inline djvVector<T, D> & operator /= (const djvVector<T, D> &);
-
-    inline djvVector<T, D> & operator += (T);
-    inline djvVector<T, D> & operator -= (T);
-    inline djvVector<T, D> & operator *= (T);
-    inline djvVector<T, D> & operator /= (T);
-};
-
-//------------------------------------------------------------------------------
-//! \class djvVector<T, 2>
-//!
-//! This class provides a two-dimensional vector.
-//------------------------------------------------------------------------------
-
-template<typename T>
-struct djvVector<T, 2>
-{
-    inline djvVector();
-    inline djvVector(const djvVector<T, 2> &);
-    inline djvVector(T, T);
-    inline djvVector(T);
-
-    static const int dimension;
-
-    T e [2];
-
-    //! Component access.
-    T & x, & y;
-
-    //! Set the components to the same value.
-    inline void set(T);
-
-    //! Zero the components.
-    inline void zero();
-
-    inline djvVector<T, 2> & operator = (const djvVector<T, 2> &);
-
-    inline djvVector<T, 2> & operator += (const djvVector<T, 2> &);
-    inline djvVector<T, 2> & operator -= (const djvVector<T, 2> &);
-    inline djvVector<T, 2> & operator *= (const djvVector<T, 2> &);
-    inline djvVector<T, 2> & operator /= (const djvVector<T, 2> &);
-
-    inline djvVector<T, 2> & operator += (T);
-    inline djvVector<T, 2> & operator -= (T);
-    inline djvVector<T, 2> & operator *= (T);
-    inline djvVector<T, 2> & operator /= (T);
-
-    inline operator djvVector<int, 2>() const;
-    inline operator djvVector<double, 2>() const;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvVector<T, 3>
-//!
-//! This class provides a three-dimensional vector.
-//------------------------------------------------------------------------------
-
-template<typename T>
-struct djvVector<T, 3>
-{
-    inline djvVector();
-    inline djvVector(const djvVector<T, 3> &);
-    inline djvVector(T, T, T);
-    inline djvVector(T);
-
-    static const int dimension;
-
-    T e [3];
-
-    //! Component access.
-    T & x, & y, & z;
-
-    //! Set the components to the same value.
-    inline void set(T);
-
-    //! Zero the components.
-    inline void zero();
-
-    inline djvVector<T, 3> & operator = (const djvVector<T, 3> &);
-
-    inline djvVector<T, 3> & operator += (const djvVector<T, 3> &);
-    inline djvVector<T, 3> & operator -= (const djvVector<T, 3> &);
-    inline djvVector<T, 3> & operator *= (const djvVector<T, 3> &);
-    inline djvVector<T, 3> & operator /= (const djvVector<T, 3> &);
-
-    inline djvVector<T, 3> & operator += (T);
-    inline djvVector<T, 3> & operator -= (T);
-    inline djvVector<T, 3> & operator *= (T);
-    inline djvVector<T, 3> & operator /= (T);
-
-    inline operator djvVector<int, 3>() const;
-    inline operator djvVector<double, 3>() const;
-};
-
-typedef djvVector<int, 2> djvVector2i;
-typedef djvVector<double, 2> djvVector2f;
-typedef djvVector<int, 3> djvVector3i;
-typedef djvVector<double, 3> djvVector3f;
-
-Q_DECLARE_METATYPE(djvVector2i)
-Q_DECLARE_METATYPE(djvVector2f)
-Q_DECLARE_METATYPE(djvVector3i)
-Q_DECLARE_METATYPE(djvVector3f)
-
-template<typename T, int D>
-inline djvVector<T, D> operator + (const djvVector<T, D> &, const djvVector<T, D> &);
-template<typename T, int D>
-inline djvVector<T, D> operator - (const djvVector<T, D> &, const djvVector<T, D> &);
-template<typename T, int D>
-inline djvVector<T, D> operator * (const djvVector<T, D> &, const djvVector<T, D> &);
-template<typename T, int D>
-inline djvVector<T, D> operator / (const djvVector<T, D> &, const djvVector<T, D> &);
-
-template<typename T, int D>
-inline djvVector<T, D> operator + (const djvVector<T, D> &, T);
-template<typename T, int D>
-inline djvVector<T, D> operator - (const djvVector<T, D> &, T);
-template<typename T, int D>
-inline djvVector<T, D> operator * (const djvVector<T, D> &, T);
-template<typename T, int D>
-inline djvVector<T, D> operator / (const djvVector<T, D> &, T);
-
-template<typename T, int D>
-inline djvVector<T, D> operator - (const djvVector<T, D> &);
-
-template<typename T, int D>
-inline QStringList & operator >> (QStringList &, djvVector<T, D> &) throw (QString);
-
-template<typename T, int D>
-inline QStringList & operator << (QStringList &, const djvVector<T, D> &);
-
-template<typename T, int D>
-inline bool operator == (const djvVector<T, D> &, const djvVector<T, D> &);
-
-template<typename T, int D>
-inline bool operator != (const djvVector<T, D> &, const djvVector<T, D> &);
-
-template<typename T, int D>
-inline bool operator <  (const djvVector<T, D> &, const djvVector<T, D> &);
-template<typename T, int D>
-inline bool operator <= (const djvVector<T, D> &, const djvVector<T, D> &);
-
-template<typename T, int D>
-inline bool operator >  (const djvVector<T, D> &, const djvVector<T, D> &);
-template<typename T, int D>
-inline bool operator >= (const djvVector<T, D> &, const djvVector<T, D> &);
-
-template<typename T, int D>
-inline djvDebug & operator << (djvDebug &, const djvVector<T, D> &);
+Q_DECLARE_METATYPE(glm::ivec2)
+Q_DECLARE_METATYPE(glm::ivec3)
+Q_DECLARE_METATYPE(glm::ivec4)
+Q_DECLARE_METATYPE(glm::vec2)
+Q_DECLARE_METATYPE(glm::vec3)
+Q_DECLARE_METATYPE(glm::vec4)
 
 //@} // djvCoreMath
 
 #include <djvVectorInline.h>
-#include <djvVector2Inline.h>
-#include <djvVector3Inline.h>
 

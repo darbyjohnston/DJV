@@ -35,6 +35,7 @@
 #include <djvVector2fEditWidget.h>
 
 #include <djvSystem.h>
+#include <djvVector.h>
 
 #include <QFormLayout>
 
@@ -61,24 +62,24 @@ void djvVectorWidgetTest::run(const QStringList & args)
     
     connect(
         intEdit,
-        SIGNAL(valueChanged(const djvVector2i &)),
-        SLOT(intCallback(const djvVector2i &)));
+        SIGNAL(valueChanged(const glm::ivec2 &)),
+        SLOT(intCallback(const glm::ivec2 &)));
     connect(
         floatEdit,
-        SIGNAL(valueChanged(const djvVector2f &)),
-        SLOT(floatCallback(const djvVector2f &)));
+        SIGNAL(valueChanged(const glm::vec2 &)),
+        SLOT(floatCallback(const glm::vec2 &)));
     
     window->show();
 }
 
-void djvVectorWidgetTest::intCallback(const djvVector2i & value)
+void djvVectorWidgetTest::intCallback(const glm::ivec2 & value)
 {
     QStringList tmp;
     tmp << value;
     djvSystem::print(QString("%1").arg(tmp.join(", ")));
 }
 
-void djvVectorWidgetTest::floatCallback(const djvVector2f & value)
+void djvVectorWidgetTest::floatCallback(const glm::vec2 & value)
 {
     QStringList tmp;
     tmp << value;

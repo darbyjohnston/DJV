@@ -76,15 +76,15 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void lutCallback(const djvFileInfo &);
-    void brightnessCallback(double);
-    void contrastCallback(double);
-    void saturationCallback(double);
-    void levelsIn0Callback(double);
-    void levelsIn1Callback(double);
-    void gammaCallback(double);
-    void levelsOut0Callback(double);
-    void levelsOut1Callback(double);
-    void softClipCallback(double);
+    void brightnessCallback(float);
+    void contrastCallback(float);
+    void saturationCallback(float);
+    void levelsIn0Callback(float);
+    void levelsIn1Callback(float);
+    void gammaCallback(float);
+    void levelsOut0Callback(float);
+    void levelsOut1Callback(float);
+    void softClipCallback(float);
     void addCallback();
     void resetCallback();
 

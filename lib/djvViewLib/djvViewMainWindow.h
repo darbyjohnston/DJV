@@ -121,7 +121,7 @@ private Q_SLOTS:
     void saveCallback(const djvFileInfo &);
     void saveFrameCallback(const djvFileInfo &);
     void loadFrameStoreCallback();
-    void pickCallback(const djvVector2i &);
+    void pickCallback(const glm::ivec2 &);
     void mouseWheelCallback(djvViewUtil::MOUSE_WHEEL);
     void mouseWheelValueCallback(int);
     

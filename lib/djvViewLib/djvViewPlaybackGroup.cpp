@@ -71,14 +71,14 @@ struct djvViewPlaybackGroup::Private
         playback        (djvViewUtil::STOP),
         playbackPrev    (djvViewUtil::STOP),
         loop            (djvViewUtil::LOOP_REPEAT),
-        realSpeed       (0.0),
+        realSpeed       (0.f),
         droppedFrames   (false),
         droppedFramesTmp(false),
         everyFrame      (context->playbackPrefs()->hasEveryFrame()),
         frame           (0),
         frameTmp        (0),
         shuttle         (false),
-        shuttleSpeed    (0.0),
+        shuttleSpeed    (0.f),
         inOutEnabled    (true),
         inPoint         (0),
         outPoint        (0),
@@ -98,14 +98,14 @@ struct djvViewPlaybackGroup::Private
     djvViewUtil::PLAYBACK    playbackPrev;
     djvViewUtil::LOOP        loop;
     djvSpeed                 speed;
-    double                   realSpeed;
+    float                    realSpeed;
     bool                     droppedFrames;
     bool                     droppedFramesTmp;
     bool                     everyFrame;
     qint64                   frame;
     qint64                   frameTmp;
     bool                     shuttle;
-    double                   shuttleSpeed;
+    float                    shuttleSpeed;
     bool                     inOutEnabled;
     qint64                   inPoint;
     qint64                   outPoint;
@@ -287,7 +287,7 @@ const djvSpeed & djvViewPlaybackGroup::speed() const
     return _p->speed;
 }
 
-double djvViewPlaybackGroup::realSpeed() const
+float djvViewPlaybackGroup::realSpeed() const
 {
     return _p->realSpeed;
 }
@@ -340,7 +340,7 @@ void djvViewPlaybackGroup::setSequence(const djvSequence & sequence)
     //DJV_DEBUG_PRINT("sequence = " << sequence);
     _p->sequence      = sequence;
     _p->speed         = sequence.speed;
-    _p->realSpeed     = 0.0;
+    _p->realSpeed     = 0.f;
     _p->droppedFrames = false;
     _p->inPoint  = 0;
     _p->outPoint = sequenceEnd(_p->sequence);
@@ -392,7 +392,7 @@ void djvViewPlaybackGroup::setSpeed(const djvSpeed & in)
     //DJV_DEBUG("djvViewPlaybackGroup::speed");
     //DJV_DEBUG_PRINT("in = " << in);
     _p->speed         = in;
-    _p->realSpeed     = 0.0;
+    _p->realSpeed     = 0.f;
     _p->droppedFrames = false;
     playbackUpdate();
     speedUpdate();
@@ -514,7 +514,7 @@ void djvViewPlaybackGroup::timerEvent(QTimerEvent *)
     {
         _p->idleTimer.check();
     }
-    const double speed = _p->shuttle ? _p->shuttleSpeed : djvSpeed::speedToFloat(_p->speed);
+    const float speed = _p->shuttle ? _p->shuttleSpeed : djvSpeed::speedToFloat(_p->speed);
     //DJV_DEBUG_PRINT("speed = " << speed);
     const quint64 absoluteFrame = quint64(_p->idleTimer.seconds() * speed);
     int inc = static_cast<int>(absoluteFrame - _p->idleFrame);
@@ -542,7 +542,7 @@ void djvViewPlaybackGroup::timerEvent(QTimerEvent *)
 
     // Calculate real playback speed.
     _p->speedTimer.check();
-    if (_p->speedTimer.seconds() >= 1.0)
+    if (_p->speedTimer.seconds() >= 1.f)
     {
         _p->realSpeed = _p->speedCounter / _p->speedTimer.seconds();
         _p->speedTimer.start();
@@ -574,7 +574,7 @@ void djvViewPlaybackGroup::playbackShuttleCallback(bool in)
     {
         setPlayback(djvViewUtil::STOP);
         _p->shuttle = true;
-        _p->shuttleSpeed = 0.0;
+        _p->shuttleSpeed = 0.f;
         _p->idleInit = true;
         if (_p->timer)
             killTimer(_p->timer);
@@ -598,8 +598,8 @@ void djvViewPlaybackGroup::playbackShuttleValueCallback(int in)
     //DJV_DEBUG("djvViewPlaybackGroup::playbackShuttleValueCallback");
     //DJV_DEBUG_PRINT("in = " << in);
     _p->shuttleSpeed =
-        djvMath::pow(static_cast<double>(djvMath::abs(in)), 1.5) *
-        (in >= 0 ? 1.0 : -1.0);
+        djvMath::pow(static_cast<float>(djvMath::abs(in)), 1.5) *
+        (in >= 0 ? 1.f : -1.f);
     _p->idleFrame = quint64(_p->idleTimer.seconds() * _p->shuttleSpeed);
 }
 

@@ -87,7 +87,7 @@ public:
     void copy(const djvPixelData &, const djvBox2i &);
 
     //! Copy the current read buffer to the texture.
-    void copy(const djvVector2i &);
+    void copy(const glm::ivec2 &);
 
 private:
     void del();

@@ -71,13 +71,13 @@
 struct djvViewCacheSizeWidget::Private
 {
     Private() :
-        cacheSize(0.0),
+        cacheSize(0.f),
         edit     (0),
         button   (0)
     {}
 
-    QVector<double> cacheSizes;
-    double          cacheSize;
+    QVector<float> cacheSizes;
+    float          cacheSize;
 
     djvFloatEdit *  edit;
     djvToolButton * button;
@@ -93,8 +93,8 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
 {
     // Create widgets.
     _p->edit = new djvFloatEdit;
-    _p->edit->setRange(0.0, 1024.0);
-    _p->edit->object()->setInc(1.0, 5.0);
+    _p->edit->setRange(0.f, 1024.f);
+    _p->edit->object()->setInc(1.f, 5.f);
 
     _p->button = new djvToolButton;
     _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
@@ -114,8 +114,8 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
     // Setup the callbacks.
     connect(
         _p->edit,
-        SIGNAL(valueChanged(double)),
-        SLOT(setCacheSize(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(setCacheSize(float)));
     connect(
         _p->button,
         SIGNAL(pressed()),
@@ -125,17 +125,17 @@ djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget 
 djvViewCacheSizeWidget::~djvViewCacheSizeWidget()
 {}
 
-const QVector<double> & djvViewCacheSizeWidget::cacheSizes() const
+const QVector<float> & djvViewCacheSizeWidget::cacheSizes() const
 {
     return _p->cacheSizes;
 }
 
-double djvViewCacheSizeWidget::cacheSize() const
+float djvViewCacheSizeWidget::cacheSize() const
 {
     return _p->cacheSize;
 }
 
-void djvViewCacheSizeWidget::setCacheSizes(const QVector<double> & in)
+void djvViewCacheSizeWidget::setCacheSizes(const QVector<float> & in)
 {
     if (in == _p->cacheSizes)
         return;
@@ -144,7 +144,7 @@ void djvViewCacheSizeWidget::setCacheSizes(const QVector<double> & in)
     Q_EMIT cacheSizesChanged(_p->cacheSizes);
 }
 
-void djvViewCacheSizeWidget::setCacheSize(double size)
+void djvViewCacheSizeWidget::setCacheSize(float size)
 {
     if (size == _p->cacheSize)
         return;
@@ -559,11 +559,11 @@ struct Tick
 
     Tick() :
         type(static_cast<TYPE>(0)),
-        x   (0.0)
+        x   (0.f)
     {}
     
     TYPE    type;
-    double  x;
+    float   x;
     QString label;
     QRect   labelRect;
 
@@ -660,7 +660,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
 
     // Draw the frame ticks.
     QVector<Tick> ticks;
-    const double speed       = djvSpeed::speedToFloat(_p->speed);
+    const float  speed       = djvSpeed::speedToFloat(_p->speed);
     const bool   drawFrames  = frameToPosF(1) > 3;
     const bool   drawSeconds = frameToPosF(static_cast<int>(speed)) > 3;
     for (int i = 0; i < _p->frameList.count(); ++i)
@@ -669,7 +669,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         tick.type = Tick::FRAME;
         bool drawTick = drawFrames;
         bool drawLabel = false;
-        if (speed > 0.0 && 0 == i % static_cast<int>(speed))
+        if (speed > 0.f && 0 == i % static_cast<int>(speed))
         {
             drawTick  = drawSeconds;
             drawLabel = true;
@@ -677,7 +677,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
         }
         if (drawTick)
         {
-            tick.x = (frameToPosF(i) + frameToPosF(i + 1)) / 2.0;
+            tick.x = (frameToPosF(i) + frameToPosF(i + 1)) / 2.f;
             if (drawLabel)
             {
                 tick.label = djvTime::frameToString(
@@ -730,7 +730,7 @@ void djvViewFrameSlider::paintEvent(QPaintEvent * event)
     // Draw the current frame.    
     Tick current;
     current.type = Tick::CURRENT;
-    current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.0;
+    current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.f;
     current.label = djvTime::frameToString(
         _p->frameList.count() ? _p->frameList[_p->frame] : 0, speed);
     const QRect labelBounds =
@@ -758,37 +758,35 @@ qint64 djvViewFrameSlider::end() const
 
 qint64 djvViewFrameSlider::posToFrame(int pos) const
 {
-    const double fw = width() / static_cast<double>(_p->frameList.count());
-
-    const double v = pos / static_cast<double>(width() - fw);
-    
+    const float fw = width() / static_cast<float>(_p->frameList.count());
+    const float v = pos / static_cast<float>(width() - fw);
     return static_cast<qint64>(v * end());
 }
 
-double djvViewFrameSlider::frameToPosF(qint64 frame) const
+float djvViewFrameSlider::frameToPosF(qint64 frame) const
 {
-    const double fw =
+    const float fw =
         _p->frameList.count() ?
-        (width() / static_cast<double>(_p->frameList.count())) :
-        0.0;
+        (width() / static_cast<float>(_p->frameList.count())) :
+        0.f;
     const qint64 end = this->end();
-    const double v =
+    const float v =
         end ?
-        (frame / static_cast<double>(end)) :
-        0.0;
+        (frame / static_cast<float>(end)) :
+        0.f;
     return v * (width() - fw);
 }
 
 int djvViewFrameSlider::frameToPos(qint64 frame) const
 {
-    const double fw = _p->frameList.count() ?
-        width() / static_cast<double>(_p->frameList.count()) :
-        0.0;
+    const float fw = _p->frameList.count() ?
+        width() / static_cast<float>(_p->frameList.count()) :
+        0.f;
     const qint64 end = this->end();
-    const double v =
+    const float v =
         end ?
-        frame / static_cast<double>(end) :
-        0.0;
+        frame / static_cast<float>(end) :
+        0.f;
     return static_cast<int>(v * (width() - fw));
 }
 
@@ -1031,8 +1029,8 @@ djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent
 {
     // Create the widgets.
     _p->floatEdit = new djvFloatEdit;
-    _p->floatEdit->setRange(1.0, 1000.0);
-    _p->floatEdit->object()->setInc(1.0, 10.0);
+    _p->floatEdit->setRange(1.f, 1000.f);
+    _p->floatEdit->object()->setInc(1.f, 10.f);
     
     _p->button = new djvViewSpeedButton(context);
     
@@ -1049,8 +1047,8 @@ djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent
     // Setup the callbacks.
     connect(
         _p->floatEdit,
-        SIGNAL(valueChanged(double)),
-        SLOT(editCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(editCallback(float)));
     connect(
         _p->button,
         SIGNAL(speedChanged(const djvSpeed &)),
@@ -1087,7 +1085,7 @@ void djvViewSpeedWidget::setDefaultSpeed(const djvSpeed & in)
     widgetUpdate();
 }
 
-void djvViewSpeedWidget::editCallback(double in)
+void djvViewSpeedWidget::editCallback(float in)
 {
     const djvSpeed speed = djvSpeed::floatToSpeed(in);
     setSpeed(speed);
@@ -1108,12 +1106,12 @@ void djvViewSpeedWidget::widgetUpdate()
 struct djvViewSpeedDisplay::Private
 {
     Private() :
-        speed        (0.0),
+        speed        (0.f),
         droppedFrames(false),
         lineEdit     (0)
     {}
 
-    double      speed;
+    float       speed;
     bool        droppedFrames;
     QLineEdit * lineEdit;
 };
@@ -1147,7 +1145,7 @@ QSize djvViewSpeedDisplay::sizeHint() const
         QWidget::sizeHint().height());
 }
 
-void djvViewSpeedDisplay::setSpeed(double speed)
+void djvViewSpeedDisplay::setSpeed(float speed)
 {
     if (djvMath::fuzzyCompare(speed, _p->speed))
         return;

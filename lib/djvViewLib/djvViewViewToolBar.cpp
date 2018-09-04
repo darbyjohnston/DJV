@@ -78,8 +78,8 @@ djvViewViewToolBar::djvViewViewToolBar(
     addWidget(button);
 
     _p->zoomEdit = new djvFloatEdit;
-    _p->zoomEdit->setRange(0.1, 1000.0);
-    _p->zoomEdit->object()->setInc(0.1, 0.1);
+    _p->zoomEdit->setRange(.1f, 1000.f);
+    _p->zoomEdit->object()->setInc(.1f, .1f);
     addWidget(_p->zoomEdit);
 }
 

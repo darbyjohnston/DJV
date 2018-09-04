@@ -48,7 +48,7 @@ void djvListUtilTest::run(int &, char **)
 void djvListUtilTest::convert()
 {
     DJV_DEBUG("djvListUtilTest::convert");
-    const QVector<float> floatList = QVector<float>() << 1.0 << 2.0 << 3.0;
+    const QVector<float> floatList = QVector<float>() << 1.f << 2.f << 3.f;
     QVector<int> intList;
     djvListUtil::convert<float, int>(floatList, intList);
     DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3);

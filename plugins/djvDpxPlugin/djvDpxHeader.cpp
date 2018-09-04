@@ -121,7 +121,7 @@ void djvDpxHeader::load(
             djvDpx::staticName,
             djvImageIo::errorLabels()[djvImageIo::ERROR_UNSUPPORTED]);
     }
-    info.size = djvVector2i(image.size[0], image.size[1]);
+    info.size = glm::ivec2(image.size[0], image.size[1]);
     //DJV_DEBUG_PRINT("size = " << info.size);
     switch (image.orient)
     {
@@ -836,7 +836,7 @@ namespace
 //! \todo These hard-coded values are meant to catch uninitialized values.
 
 const qint32 _intMax   = 1000000;
-const float  _floatMax = 1000000.0;
+const float  _floatMax = 1000000.f;
 const char   _minChar  = 32;
 const char   _maxChar  = 126;
 

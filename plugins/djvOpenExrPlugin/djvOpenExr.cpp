@@ -48,9 +48,9 @@
 //------------------------------------------------------------------------------
 
 djvOpenExr::Channel::Channel(
-    const QString &     name,
-    djvPixel::TYPE      type,
-    const djvVector2i & sampling) :
+    const QString &    name,
+    djvPixel::TYPE     type,
+    const glm::ivec2 & sampling) :
     name    (name),
     type    (type),
     sampling(sampling)
@@ -83,7 +83,7 @@ djvOpenExr::Options::Options() :
     compression        (djvOpenExr::COMPRESSION_NONE)
 #if OPENEXR_VERSION_HEX >= 0x02020000
     ,
-    dwaCompressionLevel(45.0)
+    dwaCompressionLevel(45.f)
 #endif // OPENEXR_VERSION_HEX
 {}
 
@@ -646,8 +646,8 @@ void djvOpenExr::saveTags(const djvImageIoInfo & in, Imf::Header & out)
 djvBox2i djvOpenExr::imfToBox(const Imath::Box2i & in)
 {
     return djvBox2i(
-        djvVector2i(in.min.x, in.min.y),
-        djvVector2i(in.max.x, in.max.y) - djvVector2i(in.min.x, in.min.y) + 1);
+        glm::ivec2(in.min.x, in.min.y),
+        glm::ivec2(in.max.x, in.max.y) - glm::ivec2(in.min.x, in.min.y) + 1);
 }
 
 Imf::PixelType djvOpenExr::pixelTypeToImf(djvPixel::TYPE in)
@@ -680,7 +680,7 @@ djvOpenExr::Channel djvOpenExr::imfToChannel(
     return Channel(
         name,
         imfToPixelType(channel.type),
-        djvVector2i(channel.xSampling, channel.ySampling));
+        glm::ivec2(channel.xSampling, channel.ySampling));
 }
 
 const QStringList & djvOpenExr::optionsLabels()

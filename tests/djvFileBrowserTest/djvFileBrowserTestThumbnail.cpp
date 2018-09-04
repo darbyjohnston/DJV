@@ -130,7 +130,7 @@ void djvFileBrowserTestThumbnailWorker::request(
         QScopedPointer<djvImageLoad> load;
         load.reset(_p->context->imageIoFactory()->load(request.fileInfo, result.info));
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
-        djvVector2i size = djvFileBrowserTestUtil::thumbnailSize(
+        glm::ivec2 size = djvFileBrowserTestUtil::thumbnailSize(
             request.thumbnails,
             request.thumbnailSize,
             result.info.size,
@@ -143,9 +143,8 @@ void djvFileBrowserTestThumbnailWorker::request(
         _p->imageScaled.set(djvPixelDataInfo(size, _p->image.pixel()));
         djvOpenGlImageOptions options;
         options.xform.scale =
-            djvVector2f(_p->imageScaled.size()) /
-            (djvVector2f(_p->image.size() *
-                djvPixelDataUtil::proxyScale(_p->image.info().proxy)));
+            glm::vec2(_p->imageScaled.size()) /
+            (glm::vec2(_p->image.size() * djvPixelDataUtil::proxyScale(_p->image.info().proxy)));
         //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
         options.colorProfile = _p->image.colorProfile;
         if (djvFileBrowserTestUtil::THUMBNAILS_HIGH == request.thumbnails)

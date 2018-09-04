@@ -67,14 +67,14 @@ private Q_SLOTS:
     void threadsEnableCallback(bool);
     void threadCountCallback(int);
     void inputColorProfileCallback(int);
-    void inputGammaCallback(double);
-    void inputExposureCallback(double);
-    void inputExposureDefogCallback(double);
-    void inputExposureKneeLowCallback(double);
-    void inputExposureKneeHighCallback(double);
+    void inputGammaCallback(float);
+    void inputExposureCallback(float);
+    void inputExposureDefogCallback(float);
+    void inputExposureKneeLowCallback(float);
+    void inputExposureKneeHighCallback(float);
     void channelsCallback(int);
     void compressionCallback(int);
-    void dwaCompressionLevelCallback(double);
+    void dwaCompressionLevelCallback(float);
     void pluginUpdate();
     void widgetUpdate();
 

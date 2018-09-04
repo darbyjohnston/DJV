@@ -147,7 +147,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
     io.setU8('P');
 
     // Write tiles.
-    djvVector2i size = djvIff::tileSize(w, h);
+    glm::ivec2 size = djvIff::tileSize(w, h);
 
     // Y order.
     for (int y = 0; y < size.y; y++)

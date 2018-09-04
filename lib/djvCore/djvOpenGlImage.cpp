@@ -34,10 +34,11 @@
 #include <djvColorUtil.h>
 #include <djvDebug.h>
 #include <djvError.h>
-#include <djvMatrixUtil.h>
 #include <djvOpenGlOffscreenBuffer.h>
 
 #include <QCoreApplication>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 using namespace gl;
 
@@ -45,74 +46,68 @@ using namespace gl;
 // djvOpenGlImageXform
 //------------------------------------------------------------------------------
 
-djvOpenGlImageXform::djvOpenGlImageXform() :
-    scale (1.0),
-    rotate(0.0)
-{}
-
-djvMatrix3f djvOpenGlImageXform::xformMatrix(const djvOpenGlImageXform & in)
+glm::mat4x4 djvOpenGlImageXform::xformMatrix(const djvOpenGlImageXform & in)
 {
-    return
-        djvMatrixUtil::scale3f    (in.scale) *
-        djvMatrixUtil::rotate3f   (in.rotate) *
-        djvMatrixUtil::translate3f(in.position);
+    //DJV_DEBUG("djvOpenGlImageXform::xformMatrix");
+    //DJV_DEBUG_PRINT("scale = " << in.scale);
+    //DJV_DEBUG_PRINT("rotate = " << in.rotate);
+    //DJV_DEBUG_PRINT("position = " << in.position);
+    glm::mat4x4 out =
+        glm::translate(glm::mat4x4(1.f), glm::vec3(in.position.x, in.position.y, 0.f)) *
+        glm::rotate(glm::mat4x4(1.f), in.rotate, glm::vec3(0.f, 0.f, 1.f)) *
+        glm::scale(glm::mat4x4(1.f), glm::vec3(in.scale.x, in.scale.y, 1.f));
+    return out;
 }
 
 //------------------------------------------------------------------------------
 // djvOpenGlImageColor
 //------------------------------------------------------------------------------
 
-djvOpenGlImageColor::djvOpenGlImageColor() :
-    brightness(1.0),
-    contrast  (1.0),
-    saturation(1.0)
-{}
-
-djvMatrix4f djvOpenGlImageColor::brightnessMatrix(double r, double g, double b)
+glm::mat4x4 djvOpenGlImageColor::brightnessMatrix(float r, float g, float b)
 {
-    return djvMatrix4f(
-        r, 0, 0, 0,
-        0, g, 0, 0,
-        0, 0, b, 0,
-        0, 0, 0, 1);
+    return glm::mat4x4(
+        r,   0.f, 0.f, 0.f,
+        0.f, g,   0.f, 0.f,
+        0.f, 0.f, b,   0.f,
+        0.f, 0.f, 0.f, 1.f);
 }
 
-djvMatrix4f djvOpenGlImageColor::contrastMatrix(double r, double g, double b)
+glm::mat4x4 djvOpenGlImageColor::contrastMatrix(float r, float g, float b)
 {
     return
-        djvMatrix4f(
-            1.0,  0.0,  0.0, 0.0,
-            0.0,  1.0,  0.0, 0.0,
-            0.0,  0.0,  1.0, 0.0,
-           -0.5, -0.5, -0.5, 1.0) *
-        djvMatrix4f(
-            r,   0.0, 0.0, 0.0,
-            0.0, g,   0.0, 0.0,
-            0.0, 0.0, b,   0.0,
-            0.0, 0.0, 0.0, 1.0) *
-        djvMatrix4f(
-            1.0, 0.0, 0.0, 0.0,
-            0.0, 1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0, 0.0,
-            0.5, 0.5, 0.5, 1.0);
+        glm::mat4x4(
+            1.f,  0.f,  0.f, -.5f,
+            0.f,  1.f,  0.f, -.5f,
+            0.f,  0.f,  1.f, -.5f,
+            0.f,  0.f,  0.f, 1.f) *
+        glm::mat4x4(
+            r,   0.f, 0.f, 0.f,
+            0.f, g,   0.f, 0.f,
+            0.f, 0.f, b,   0.f,
+            0.f, 0.f, 0.f, 1.f) *
+        glm::mat4x4(
+            1.f, 0.f, 0.f,  .5f,
+            0.f, 1.f, 0.f,  .5f,
+            0.f, 0.f, 1.f,  .5f,
+            0.f, 0.f, 0.f, 1.f);
 }
 
-djvMatrix4f djvOpenGlImageColor::saturationMatrix(double r, double g, double b)
+glm::mat4x4 djvOpenGlImageColor::saturationMatrix(float r, float g, float b)
 {
-    const double s [] =
+    const float s [] =
     {
-        (1.0 - r) * 0.3086,
-        (1.0 - g) * 0.6094,
-        (1.0 - b) * 0.0820
+        (1.f - r) * .3086f,
+        (1.f - g) * .6094f,
+        (1.f - b) * .0820f
     };
-    return djvMatrix4f(
-        s[0] + r, s[0],     s[0],     0.0,
-        s[1],     s[1] + g, s[1],     0.0,
-        s[2],     s[2],     s[2] + b, 0.0,
-         0.0,      0.0,      0.0,     1.0);
+    return glm::mat4x4(
+        s[0] + r, s[1],     s[2],     0.f,
+        s[0],     s[1] + g, s[2],     0.f,
+        s[0],     s[1],     s[2] + b, 0.f,
+         0.f,      0.f,      0.f,     1.f);
 }
 
-djvMatrix4f djvOpenGlImageColor::colorMatrix(const djvOpenGlImageColor & in)
+glm::mat4x4 djvOpenGlImageColor::colorMatrix(const djvOpenGlImageColor & in)
 {
     return
         brightnessMatrix(in.brightness, in.brightness, in.brightness) *
@@ -124,22 +119,14 @@ djvMatrix4f djvOpenGlImageColor::colorMatrix(const djvOpenGlImageColor & in)
 // djvOpenGlImageLevels
 //------------------------------------------------------------------------------
 
-djvOpenGlImageLevels::djvOpenGlImageLevels() :
-    inLow  (0.0),
-    inHigh (1.0),
-    gamma  (1.0),
-    outLow (0.0),
-    outHigh(1.0)
-{}
-
 djvPixelData djvOpenGlImageLevels::colorLut(
     const djvOpenGlImageLevels & in,
-    double                       softClip)
+    float                       softClip)
 {
     djvPixelData out(djvPixelDataInfo(1024, 1, djvPixel::L_F32));
-    const double inTmp  = in.inHigh - in.inLow;
-    const double gamma  = 1.0 / in.gamma;
-    const double outTmp = in.outHigh - in.outLow;
+    const float inTmp  = in.inHigh - in.inLow;
+    const float gamma  = 1.f / in.gamma;
+    const float outTmp = in.outHigh - in.outLow;
     djvPixel::F32_T * p = reinterpret_cast<djvPixel::F32_T *>(out.data());
     const int size = out.size().x;
     for (int i = 0; i < size; ++i, ++p)
@@ -148,22 +135,14 @@ djvPixelData djvOpenGlImageLevels::colorLut(
             djvMath::softClip(
                 djvMath::pow(
                     djvMath::max(
-                        ((i / static_cast<double>(size - 1) - in.inLow) /
+                        ((i / static_cast<float>(size - 1) - in.inLow) /
                             inTmp),
-                        0.000001),
+                        0.000001f),
                     gamma) * outTmp + in.outLow,
                 softClip));
     }
     return out;
 }
-
-//------------------------------------------------------------------------------
-// djvOpenGlImageDisplayProfile
-//------------------------------------------------------------------------------
-
-djvOpenGlImageDisplayProfile::djvOpenGlImageDisplayProfile() :
-    softClip(0.0)
-{}
 
 //------------------------------------------------------------------------------
 // djvOpenGlImageFilter
@@ -242,11 +221,6 @@ void djvOpenGlImageFilter::setFilter(const djvOpenGlImageFilter & filter)
 // djvOpenGlImageOptions
 //------------------------------------------------------------------------------
 
-djvOpenGlImageOptions::djvOpenGlImageOptions() :
-    channel   (CHANNEL_DEFAULT),
-    proxyScale(true)
-{}
-
 const QStringList & djvOpenGlImageOptions::channelLabels()
 {
     static const QStringList data = QStringList() <<
@@ -290,15 +264,15 @@ void djvOpenGlImage::read(djvPixelData & output, const djvBox2i & area)
         case djvPixel::L:
         case djvPixel::LA:
 
-            //DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_GREEN_SCALE, 0.0));
-            //DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_BLUE_SCALE, 0.0));
+            //DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_GREEN_SCALE, 0.f));
+            //DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_BLUE_SCALE, 0.f));
 
             DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_RED_SCALE,
-                static_cast<GLfloat>(1.0 / 3.0)));
+                static_cast<GLfloat>(1.f / 3.f)));
             DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_GREEN_SCALE,
-                static_cast<GLfloat>(1.0 / 3.0)));
+                static_cast<GLfloat>(1.f / 3.f)));
             DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_BLUE_SCALE,
-                static_cast<GLfloat>(1.0 / 3.0)));
+                static_cast<GLfloat>(1.f / 3.f)));
 
             break;
 
@@ -351,7 +325,7 @@ void djvOpenGlImage::copy(
     //DJV_DEBUG_PRINT("output = " << output);
     //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
 
-    const djvVector2i & size = output.info().size;
+    const glm::ivec2 & size = output.info().size;
     QScopedPointer<djvOpenGlOffscreenBuffer> _buffer;
     if (! buffer)
     {
@@ -373,7 +347,7 @@ void djvOpenGlImage::copy(
             background.f32(0),
             background.f32(1),
             background.f32(2),
-            initAlpha(input.pixel(), output.pixel()) ? 1.0 : 0.0));
+            initAlpha(input.pixel(), output.pixel()) ? 1.f : 0.f));
         DJV_DEBUG_OPEN_GL(glClear(GL_COLOR_BUFFER_BIT));
         
         djvOpenGlImageOptions _options = options;
@@ -395,7 +369,7 @@ void djvOpenGlImage::copy(
     }
 }
 
-void djvOpenGlImage::stateUnpack(const djvPixelDataInfo & in, const djvVector2i & offset)
+void djvOpenGlImage::stateUnpack(const djvPixelDataInfo & in, const glm::ivec2 & offset)
 {
     glPixelStorei(GL_UNPACK_ALIGNMENT, in.align);
     glPixelStorei(GL_UNPACK_SWAP_BYTES, in.endian != djvMemory::endian());
@@ -404,7 +378,7 @@ void djvOpenGlImage::stateUnpack(const djvPixelDataInfo & in, const djvVector2i 
     glPixelStorei(GL_UNPACK_SKIP_PIXELS, offset.x);
 }
 
-void djvOpenGlImage::statePack(const djvPixelDataInfo & in, const djvVector2i & offset)
+void djvOpenGlImage::statePack(const djvPixelDataInfo & in, const glm::ivec2 & offset)
 {
     glPixelStorei(GL_PACK_ALIGNMENT, in.align);
     glPixelStorei(GL_PACK_SWAP_BYTES, in.endian != djvMemory::endian());
@@ -431,19 +405,19 @@ void djvOpenGlImage::average(
 
     out.setPixel(in.pixel());
 
-    const int    w        = in.w();
-    const int    h        = in.h();
-    const double area     = w * h;
-    const int    channels = djvPixel::channels(in.pixel());
+    const int   w        = in.w();
+    const int   h        = in.h();
+    const float area     = w * h;
+    const int   channels = djvPixel::channels(in.pixel());
     switch (djvPixel::type(in.pixel()))
     {
 #define _AVERAGE(TYPE) \
     const djvPixel::TYPE * p = reinterpret_cast< \
         const djvPixel::TYPE *>(in.data()); \
-    double accum [djvPixel::channelsMax]; \
+    float accum [djvPixel::channelsMax]; \
     for (int c = 0; c < channels; ++c) \
     { \
-        accum[c] = 0.0; \
+        accum[c] = 0.f; \
     } \
     for (int y = 0; y < h; ++y) \
     { \
@@ -496,9 +470,8 @@ void djvOpenGlImage::average(
         break;
         case djvPixel::U10:
         {
-            const djvPixel::U10_S * p =
-                reinterpret_cast <const djvPixel::U10_S * > (in.data());
-            double accum [3] = { 0.0, 0.0, 0.0 };
+            const djvPixel::U10_S * p = reinterpret_cast <const djvPixel::U10_S * > (in.data());
+            float accum [3] = { 0.f, 0.f, 0.f };
             for (int y = 0; y < h; ++y)
             {
                 for (int x = 0; x < w; ++x, ++p)
@@ -542,7 +515,6 @@ void djvOpenGlImage::histogram(
         case 3: pixel = djvPixel::RGB_U16; break;
         case 2:
         case 1: pixel = djvPixel::L_U16;   break;
-        
         default: break;
     }
     
@@ -574,7 +546,7 @@ void djvOpenGlImage::histogram(
     for (int i = 0; i < indexLutSize; ++i)
     {
         indexLut[i] = djvMath::floor(
-            i / static_cast<double>(indexLutSize - 1) * (size - 1));
+            i / static_cast<float>(indexLutSize - 1) * (size - 1));
     }
     
     // Iterate over the input pixels counting their values.    
@@ -746,7 +718,7 @@ djvColor djvOpenGlImage::pixel(const djvPixelData & data, int x, int y)
 {
     djvPixelData p(djvPixelDataInfo(1, 1, data.pixel()));
     djvOpenGlImageOptions options;
-    options.xform.position = djvVector2f(-x, -y);
+    options.xform.position = glm::vec2(-x, -y);
     djvOpenGlImage::copy(data, p, options);
     return djvColor(p.data(), p.pixel());
 }

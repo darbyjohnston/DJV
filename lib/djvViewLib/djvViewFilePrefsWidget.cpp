@@ -180,8 +180,8 @@ djvViewFilePrefsWidget::djvViewFilePrefsWidget(djvViewContext * context) :
         SLOT(cacheCallback(bool)));
     connect(
         _p->cacheSizeWidget,
-        SIGNAL(cacheSizeChanged(double)),
-        SLOT(cacheSizeCallback(double)));
+        SIGNAL(cacheSizeChanged(float)),
+        SLOT(cacheSizeCallback(float)));
     connect(
         _p->preloadWidget,
         SIGNAL(toggled(bool)),
@@ -234,7 +234,7 @@ void djvViewFilePrefsWidget::cacheCallback(bool in)
     context()->filePrefs()->setCache(in);
 }
 
-void djvViewFilePrefsWidget::cacheSizeCallback(double in)
+void djvViewFilePrefsWidget::cacheSizeCallback(float in)
 {
     context()->filePrefs()->setCacheSize(in);
 }

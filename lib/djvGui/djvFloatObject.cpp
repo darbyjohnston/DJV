@@ -38,36 +38,36 @@
 // djvFloatObject
 //------------------------------------------------------------------------------
 
-const double djvFloatObject::floatMin = -9999.0;
-const double djvFloatObject::floatMax =  9999.0;
+const float djvFloatObject::floatMin = -9999.f;
+const float djvFloatObject::floatMax =  9999.f;
 
 djvFloatObject::djvFloatObject(QObject * parent) :
     QObject(parent),
-    _value         (0.0),
+    _value         (0.f),
     _isDefaultValid(false),
-    _defaultValue  (0.0),
+    _defaultValue  (0.f),
     _min           (floatMin),
     _max           (floatMax),
     _clamp         (true),
-    _smallInc      (0.0),
-    _largeInc      (0.0),
+    _smallInc      (0.f),
+    _largeInc      (0.f),
     _sizeString    ("00000")
 {
-    setValue(0.0);
-    setDefaultValue(0.0);
-    setInc(0.1, 1.0);
+    setValue(0.f);
+    setDefaultValue(0.f);
+    setInc(0.1f, 1.f);
     defaultValidUpdate();
 }
 
 djvFloatObject::~djvFloatObject()
 {}
 
-double djvFloatObject::value() const
+float djvFloatObject::value() const
 {
     return _value;
 }
 
-double djvFloatObject::defaultValue() const
+float djvFloatObject::defaultValue() const
 {
     return _defaultValue;
 }
@@ -77,22 +77,22 @@ bool djvFloatObject::isDefaultValid() const
     return _isDefaultValid;
 }
 
-double djvFloatObject::min() const
+float djvFloatObject::min() const
 {
     return _min;
 }
 
-double djvFloatObject::max() const
+float djvFloatObject::max() const
 {
     return _max;
 }
 
-double djvFloatObject::smallInc() const
+float djvFloatObject::smallInc() const
 {
     return _smallInc;
 }
 
-double djvFloatObject::largeInc() const
+float djvFloatObject::largeInc() const
 {
     return _largeInc;
 }
@@ -107,9 +107,9 @@ const QString & djvFloatObject::sizeString() const
     return _sizeString;
 }
 
-void djvFloatObject::setValue(double in)
+void djvFloatObject::setValue(float in)
 {
-    const double tmp = _clamp ? djvMath::clamp(in, _min, _max) : in;
+    const float tmp = _clamp ? djvMath::clamp(in, _min, _max) : in;
     if (djvMath::fuzzyCompare(tmp, _value))
         return;
     _value = tmp;
@@ -117,7 +117,7 @@ void djvFloatObject::setValue(double in)
     Q_EMIT valueChanged(_value);
 }
 
-void djvFloatObject::setDefaultValue(double in)
+void djvFloatObject::setDefaultValue(float in)
 {
     if (djvMath::fuzzyCompare(in, _defaultValue))
         return;
@@ -128,17 +128,17 @@ void djvFloatObject::setDefaultValue(double in)
     Q_EMIT defaultValueChanged(_defaultValue);
 }
 
-void djvFloatObject::setMin(double min)
+void djvFloatObject::setMin(float min)
 {
     setRange(min, _max);
 }
 
-void djvFloatObject::setMax(double max)
+void djvFloatObject::setMax(float max)
 {
     setRange(_min, max);
 }
 
-void djvFloatObject::setRange(double min, double max)
+void djvFloatObject::setRange(float min, float max)
 {
     const bool minChange = ! djvMath::fuzzyCompare(min, _min);
     const bool maxChange = ! djvMath::fuzzyCompare(max, _max);
@@ -164,17 +164,17 @@ void djvFloatObject::setToMax()
     setValue(_max);
 }
 
-void djvFloatObject::setSmallInc(double inc)
+void djvFloatObject::setSmallInc(float inc)
 {
     setInc(inc, _largeInc);
 }
 
-void djvFloatObject::setLargeInc(double inc)
+void djvFloatObject::setLargeInc(float inc)
 {
     setInc(_smallInc, inc);
 }
 
-void djvFloatObject::setInc(double smallInc, double largeInc)
+void djvFloatObject::setInc(float smallInc, float largeInc)
 {
     const bool smallChange = ! djvMath::fuzzyCompare(smallInc, _smallInc);
     const bool largeChange = ! djvMath::fuzzyCompare(largeInc, _largeInc);

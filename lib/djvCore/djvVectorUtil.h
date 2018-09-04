@@ -33,9 +33,6 @@
 
 #include <djvVector.h>
 
-class QPoint;
-class QSize;
-
 //! \addtogroup djvCoreMath
 //@{
 
@@ -48,84 +45,33 @@ class QSize;
 class DJV_CORE_EXPORT djvVectorUtil
 {
 public:
-    virtual ~djvVectorUtil() = 0;
+    inline virtual ~djvVectorUtil() = 0;
     
-    //! Get the absolute value of the vector components.
-    template<typename T, int D>
-    static inline djvVector<T, D> abs(const djvVector<T, D> &);
-
+    //! Are all of the components greater than zero?
+    template<typename T, glm::precision P = glm::defaultp>
+    static inline bool isSizeValid(const glm::tvec2<T, P> &);
+    
+    //! Get the minimum vector components.
+    template<typename T, glm::precision P = glm::defaultp>
+    static inline glm::tvec2<T, P> min(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
+    
+    //! Get the maximum vector components.
+    template<typename T, glm::precision P = glm::defaultp>
+    static inline glm::tvec2<T, P> max(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
+    
     //! Swap the vector components.
-    template<typename T, int D>
-    static inline djvVector<T, D> swap(const djvVector<T, D> &);
-
-    //! Get the minimum of the vector components.
-    template<typename T, int D>
-    static inline djvVector<T, D> min(const djvVector<T, D> &, const djvVector<T, D> &);
-
-    //! Get the maximum of the vector components.
-    template<typename T, int D>
-    static inline djvVector<T, D> max(const djvVector<T, D> &, const djvVector<T, D> &);
-
-    //! Clamp the vector components.
-    template<typename T, int D>
-    static inline djvVector<T, D> clamp(
-        const djvVector<T, D> &,
-        const djvVector<T, D> &,
-        const djvVector<T, D> &);
-
-    //! Is the vector's size greater than zero?
-    template<typename T, int D>
-    static inline bool isSizeValid(const djvVector<T, D> &);
-
-    //! Get the length of a vector.
-    template<typename T, int D>
-    static inline double length(const djvVector<T, D> &);
-
-    //! Get the area of a vector.
-    template<typename T, int D>
-    static inline double area(const djvVector<T, D> &);
-
-    //! Normalize a vector.
-    template<typename T, int D>
-    static inline djvVector<T, D> normalize(const djvVector<T, D> &);
-
-    //! Vector dot product.
-    template<typename T, int D>
-    static inline double dot(const djvVector<T, D> &, const djvVector<T, D> &);
-
-    //! Aspect ratio of a vector.
-    template<typename T, int D>
-    static inline double aspect(const djvVector<T, D> &);
-
-    //! Convert vector types.
-    template<typename T, typename T2, int D>
-    static inline djvVector<T2, D> convert(const djvVector<T, D> &);
-
-    //! Round to the largest integer value.
-    template<typename T, typename T2, int D>
-    static inline djvVector<T2, D> ceil(const djvVector<T, D> &);
-
+    template<typename T, glm::precision P = glm::defaultp>
+    static inline glm::tvec2<T, P> swap(const glm::tvec2<T, P> &);
+    
+    //! Get the aspect ratio of the components.
+    template<typename T, glm::precision P = glm::defaultp>
+    static inline float aspect(const glm::tvec2<T, P> &);
+    
     //! Round to the smallest integer value.
-    template<typename T, typename T2, int D>
-    static inline djvVector<T2, D> floor(const djvVector<T, D> &);
-
-    //! Convert spherical to cartesian coordinates.
-    static void sphericalToCartesian(const djvVector3f &, djvVector3f *);
-
-    //! Convert cartesian to spherical coordinates.
-    static void cartesianToSpherical(const djvVector3f &, djvVector3f *);
+    static inline glm::ivec2 floor(const glm::vec2&);
     
-    //! Convert to Qt.
-    static QPoint toQPoint(const djvVector2i &);
-    
-    //! Convert to Qt.
-    static QSize toQSize(const djvVector2i &);
-    
-    //! Convert from Qt.
-    static djvVector2i fromQPoint(const QPoint &);
-    
-    //! Convert from Qt.
-    static djvVector2i fromQSize(const QSize &);
+    //! Round to the largest integer value.
+    static inline glm::ivec2 ceil(const glm::vec2&);
 };
 
 //@} // djvCoreMath

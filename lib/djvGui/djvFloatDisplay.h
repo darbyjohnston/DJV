@@ -54,7 +54,7 @@ class DJV_GUI_EXPORT djvFloatDisplay : public QWidget
     
     //! This property holds the value.
     Q_PROPERTY(
-        double value
+        float  value
         READ   value
         WRITE  setValue
         NOTIFY valueChanged)
@@ -65,27 +65,27 @@ public:
     virtual ~djvFloatDisplay();
 
     //! Get the value.
-    double value() const;
+    float value() const;
     
     //! Get the minimum value.
-    double min() const;
+    float min() const;
     
     //! Get the maximum value.
-    double max() const;
+    float max() const;
 
 public Q_SLOTS:
     //! Set the value.
-    void setValue(double);
+    void setValue(float);
 
     //! Set the value range.
-    void setRange(double min, double max);
+    void setRange(float min, float max);
     
 Q_SIGNALS:
     //! This signal is emitted when the value is changed.
-    void valueChanged(double);
+    void valueChanged(float);
 
     //! This signal is emitted when the range is changed.
-    void rangeChanged(double min, double max);
+    void rangeChanged(float min, float max);
     
 private:
     void widgetUpdate();

@@ -160,8 +160,8 @@ djvViewFileCache::djvViewFileCache(djvViewContext * context, QObject * parent) :
         SLOT(cacheCallback(bool)));   
     connect(
         context->filePrefs(),
-        SIGNAL(cacheSizeChanged(double)),
-        SLOT(cacheSizeCallback(double)));
+        SIGNAL(cacheSizeChanged(float)),
+        SLOT(cacheSizeCallback(float)));
 }
 
 djvViewFileCache::~djvViewFileCache()
@@ -381,9 +381,9 @@ djvFrameList djvViewFileCache::frames(const void * key)
     return frames;
 }
 
-double djvViewFileCache::maxSize() const
+float djvViewFileCache::maxSize() const
 {
-    return _p->maxByteCount / static_cast<double>(djvMemory::gigabyte);
+    return _p->maxByteCount / static_cast<float>(djvMemory::gigabyte);
 }
 
 quint64 djvViewFileCache::maxByteCount() const
@@ -391,7 +391,7 @@ quint64 djvViewFileCache::maxByteCount() const
     return _p->maxByteCount;
 }
 
-double djvViewFileCache::size(const void * key) const
+float djvViewFileCache::size(const void * key) const
 {
     quint64 size = 0;
     const int count = _p->items.count();
@@ -402,12 +402,12 @@ double djvViewFileCache::size(const void * key) const
             size += _p->items[i]->image()->dataByteCount();
         }    
     }
-    return size / static_cast<double>(djvMemory::gigabyte);
+    return size / static_cast<float>(djvMemory::gigabyte);
 }
 
-double djvViewFileCache::size() const
+float djvViewFileCache::size() const
 {
-    return _p->cacheByteCount / static_cast<double>(djvMemory::gigabyte);
+    return _p->cacheByteCount / static_cast<float>(djvMemory::gigabyte);
 }
 
 quint64 djvViewFileCache::byteCount() const
@@ -415,17 +415,17 @@ quint64 djvViewFileCache::byteCount() const
     return _p->cacheByteCount;
 }
 
-const QVector<double> & djvViewFileCache::sizeDefaults()
+const QVector<float> & djvViewFileCache::sizeDefaults()
 {
-    static const QVector<double> data = QVector<double>() <<
-        1.0 <<
-        2.0 <<
-        3.0 <<
-        6.0 <<
-        12.0 <<
-        24.0 <<
-        48.0 <<
-        96.0;
+    static const QVector<float> data = QVector<float>() <<
+        1.f <<
+        2.f <<
+        3.f <<
+        6.f <<
+        12.f <<
+        24.f <<
+        48.f <<
+        96.f;
     return data;
 }
 
@@ -459,7 +459,7 @@ void djvViewFileCache::debug()
 	}*/
 }
 
-void djvViewFileCache::setMaxSize(double size)
+void djvViewFileCache::setMaxSize(float size)
 {
     //DJV_DEBUG("djvViewFileCache::setMaxSize");
     //DJV_DEBUG_PRINT("size = " << size);
@@ -521,7 +521,7 @@ void djvViewFileCache::cacheCallback(bool cache)
     }
 }
 
-void djvViewFileCache::cacheSizeCallback(double size)
+void djvViewFileCache::cacheSizeCallback(float size)
 {
 	setMaxSize(size);
 }

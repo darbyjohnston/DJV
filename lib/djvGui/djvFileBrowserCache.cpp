@@ -45,7 +45,7 @@ djvFileBrowserCacheItem::djvFileBrowserCacheItem() :
 
 djvFileBrowserCacheItem::djvFileBrowserCacheItem(
     const djvImageIoInfo &  imageInfo,
-    const djvVector2i &     thumbnailSize,
+    const glm::ivec2 &      thumbnailSize,
     djvPixelDataInfo::PROXY thumbnailProxy,
     const QPixmap &         thumbnail) :
     imageInfo     (imageInfo),

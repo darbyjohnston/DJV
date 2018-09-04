@@ -248,7 +248,7 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
     io.get32(&_rleOffset.front(), h);
 
     // Get file information.
-    const djvVector2i size(w, h);
+    const glm::ivec2 size(w, h);
     djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
     if (header.matteChannels > 1)
     {

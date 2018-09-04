@@ -62,7 +62,7 @@ protected:
     virtual void showEvent(QShowEvent *);
 
 private Q_SLOTS:
-    void pickCallback(const djvVector2i &);
+    void pickCallback(const glm::ivec2 &);
     void sliderCallback(int);
     void colorProfileCallback(bool);
     void displayProfileCallback(bool);

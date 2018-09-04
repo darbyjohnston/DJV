@@ -92,12 +92,12 @@ struct djvCineon
         LinearToFilmPrint() :
             black(95),
             white(685),
-            gamma(1.7)
+            gamma(1.7f)
         {}
 
-        int    black;
-        int    white;
-        double gamma;
+        int   black;
+        int   white;
+        float gamma;
     };
 
     //! Create a linear color space to Cineon film print color space LUT.
@@ -115,14 +115,14 @@ struct djvCineon
         FilmPrintToLinear() :
             black   (95),
             white   (685),
-            gamma   (1.7),
+            gamma   (1.7f),
             softClip(0)
         {}
 
-        int    black;
-        int    white;
-        double gamma;
-        int    softClip;
+        int   black;
+        int   white;
+        float gamma;
+        int   softClip;
     };
 
     //! Create a Cineon film print color space to linear space LUT.

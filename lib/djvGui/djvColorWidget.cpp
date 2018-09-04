@@ -128,8 +128,8 @@ djvColorWidget::djvColorWidget(djvGuiContext * context, QWidget * parent) :
             SLOT(intCallback(int)));
         connect(
             _p->floatWidgets[i],
-            SIGNAL(valueChanged(double)),
-            SLOT(floatCallback(double)));
+            SIGNAL(valueChanged(float)),
+            SLOT(floatCallback(float)));
     }
     connect(
         _p->formatWidget,
@@ -203,7 +203,7 @@ void djvColorWidget::intCallback(int)
     Q_EMIT colorChanged(_p->color);
 }
 
-void djvColorWidget::floatCallback(double)
+void djvColorWidget::floatCallback(float)
 {
     intCallback(0);
 }

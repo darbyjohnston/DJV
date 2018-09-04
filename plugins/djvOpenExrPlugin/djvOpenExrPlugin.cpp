@@ -178,7 +178,7 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
         }
         else if (0 == in.compare(options()[djvOpenExr::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
         {
-            double gamma = 0.0;
+            float gamma = 0.f;
             data >> gamma;
             if (gamma != _options.inputGamma)
             {
@@ -219,7 +219,7 @@ bool djvOpenExrPlugin::setOption(const QString & in, QStringList & data)
 #if OPENEXR_VERSION_HEX >= 0x02020000
         else if (0 == in.compare(options()[djvOpenExr::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
         {
-            double compressionLevel = 0.0;
+            float compressionLevel = 0.f;
             data >> compressionLevel;
             if (! djvMath::fuzzyCompare(
                 compressionLevel,

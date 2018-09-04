@@ -47,22 +47,22 @@ void djvColorProfileTest::ctors()
     DJV_DEBUG("djvColorProfileTest::ctors");
     {
         const djvColorProfile::Exposure exposure;
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, exposure.value));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, exposure.defog));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, exposure.kneeLow));
-        DJV_ASSERT(djvMath::fuzzyCompare(5.0, exposure.kneeHigh));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.value));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.defog));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.kneeLow));
+        DJV_ASSERT(djvMath::fuzzyCompare(5.f, exposure.kneeHigh));
     }
     {
-        const djvColorProfile::Exposure exposure(1.0, 2.0, 3.0, 4.0);
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0, exposure.value));
-        DJV_ASSERT(djvMath::fuzzyCompare(2.0, exposure.defog));
-        DJV_ASSERT(djvMath::fuzzyCompare(3.0, exposure.kneeLow));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.0, exposure.kneeHigh));
+        const djvColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, exposure.value));
+        DJV_ASSERT(djvMath::fuzzyCompare(2.f, exposure.defog));
+        DJV_ASSERT(djvMath::fuzzyCompare(3.f, exposure.kneeLow));
+        DJV_ASSERT(djvMath::fuzzyCompare(4.f, exposure.kneeHigh));
     }
     {
         const djvColorProfile colorProfile;
         DJV_ASSERT(djvColorProfile::RAW == colorProfile.type);
-        DJV_ASSERT(djvMath::fuzzyCompare(2.2, colorProfile.gamma));
+        DJV_ASSERT(djvMath::fuzzyCompare(2.2f, colorProfile.gamma));
         DJV_ASSERT(! colorProfile.lut.isValid());
     }
 }
@@ -73,9 +73,9 @@ void djvColorProfileTest::operators()
     {
         djvColorProfile a, b;
         a.type     = b.type     = djvColorProfile::LUT;
-        a.gamma    = b.gamma    = 1.0;
+        a.gamma    = b.gamma    = 1.f;
         a.lut      = b.lut      = djvPixelData(djvPixelDataInfo(16, 1, djvPixel::L_U8));
-        a.exposure = b.exposure = djvColorProfile::Exposure(1.0, 2.0, 3.0, 4.0);
+        a.exposure = b.exposure = djvColorProfile::Exposure(1.f, 2.f, 3.f, 4.f);
         a.lut.zero();
         b.lut.zero();
         DJV_ASSERT(a.exposure == b.exposure);
@@ -87,19 +87,19 @@ void djvColorProfileTest::operators()
         djvColorProfile::Exposure exposure;
         QStringList s = QStringList() << "1.0" << "2.0" << "3.0" << "4.0";
         s >> exposure;
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0, exposure.value));
-        DJV_ASSERT(djvMath::fuzzyCompare(2.0, exposure.defog));
-        DJV_ASSERT(djvMath::fuzzyCompare(3.0, exposure.kneeLow));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.0, exposure.kneeHigh));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, exposure.value));
+        DJV_ASSERT(djvMath::fuzzyCompare(2.f, exposure.defog));
+        DJV_ASSERT(djvMath::fuzzyCompare(3.f, exposure.kneeLow));
+        DJV_ASSERT(djvMath::fuzzyCompare(4.f, exposure.kneeHigh));
     }
     {
-        djvColorProfile::Exposure exposure(1.0, 2.0, 3.0, 4.0);
+        djvColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
         QStringList s;
         s << exposure;
         DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4") == s);
     }
     {
-        const djvColorProfile::Exposure a(1.0, 2.0, 3.0, 4.0);
+        const djvColorProfile::Exposure a(1.f, 2.f, 3.f, 4.f);
         QStringList tmp;
         tmp << a;
         djvColorProfile::Exposure b;

@@ -60,14 +60,14 @@ class DJV_VIEW_LIB_EXPORT djvViewCacheSizeWidget : public QWidget
 
     //! This property holds the cache sizes.
     Q_PROPERTY(
-        QVector<double> cacheSizes
-        READ            cacheSizes
-        WRITE           setCacheSizes
-        NOTIFY          cacheSizesChanged)
+        QVector<float> cacheSizes
+        READ           cacheSizes
+        WRITE          setCacheSizes
+        NOTIFY         cacheSizesChanged)
 
     //! This property holds the cache size.
     Q_PROPERTY(
-        double cacheSize
+        float  cacheSize
         READ   cacheSize
         WRITE  setCacheSize
         NOTIFY cacheSizeChanged)
@@ -78,24 +78,24 @@ public:
     virtual ~djvViewCacheSizeWidget();
 
     //! Get the cache sizes.
-    const QVector<double> & cacheSizes() const;
+    const QVector<float> & cacheSizes() const;
 
     //! Get the current cache size.
-    double cacheSize() const;
+    float cacheSize() const;
 
 public Q_SLOTS:
     //! Set the cache sizes.
-    void setCacheSizes(const QVector<double> &);
+    void setCacheSizes(const QVector<float> &);
 
     //! Set the current cache size.
-    void setCacheSize(double);
+    void setCacheSize(float);
 
 Q_SIGNALS:
     //! This signal is emitted when the cache sizes are changed.
-    void cacheSizesChanged(const QVector<double> &);
+    void cacheSizesChanged(const QVector<float> &);
 
     //! This signal is emitted when the current cache size is changed.
-    void cacheSizeChanged(double);
+    void cacheSizeChanged(float);
 
 private Q_SLOTS:
     void buttonCallback();
@@ -339,7 +339,7 @@ private:
     qint64 end() const;
 
     qint64 posToFrame(int) const;
-    double frameToPosF(qint64) const;
+    float frameToPosF(qint64) const;
     int frameToPos(qint64) const;
 
     DJV_PRIVATE_COPY(djvViewFrameSlider);
@@ -496,7 +496,7 @@ Q_SIGNALS:
     void speedChanged(const djvSpeed &);
 
 private Q_SLOTS:
-    void editCallback(double);
+    void editCallback(float);
 
     void widgetUpdate();
 
@@ -526,7 +526,7 @@ public:
 
 public Q_SLOTS:
     //! Set the speed.
-    void setSpeed(double);
+    void setSpeed(float);
 
     //! Set whether frames were dropped.
     void setDroppedFrames(bool);

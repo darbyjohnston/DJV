@@ -94,13 +94,13 @@ djvViewUtil::VIEW_MAX djvViewWindowPrefs::viewMax() const
     return _viewMax;
 }
 
-const djvVector2i & djvViewWindowPrefs::viewMaxUserDefault()
+const glm::ivec2 & djvViewWindowPrefs::viewMaxUserDefault()
 {
-    static const djvVector2i size(640, 300);    
+    static const glm::ivec2 size(640, 300);    
     return size;
 }
 
-const djvVector2i & djvViewWindowPrefs::viewMaxUser() const
+const glm::ivec2 & djvViewWindowPrefs::viewMaxUser() const
 {
     return _viewMaxUser;
 }
@@ -143,7 +143,7 @@ void djvViewWindowPrefs::setViewMax(djvViewUtil::VIEW_MAX in)
     Q_EMIT prefChanged();
 }
 
-void djvViewWindowPrefs::setViewMaxUser(const djvVector2i & size)
+void djvViewWindowPrefs::setViewMaxUser(const glm::ivec2 & size)
 {
     if (size == _viewMaxUser)
         return;

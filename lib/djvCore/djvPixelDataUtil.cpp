@@ -143,22 +143,22 @@ int djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY proxy)
     return proxy ? djvMath::pow(2, static_cast<int>(proxy)) : 1;
 }
 
-djvVector2i djvPixelDataUtil::proxyScale(const djvVector2i & in, djvPixelDataInfo::PROXY proxy)
+glm::ivec2 djvPixelDataUtil::proxyScale(const glm::ivec2 & in, djvPixelDataInfo::PROXY proxy)
 {
     const int scale = proxyScale(proxy);
-    return djvVector2i(
-        djvMath::ceil(in.x / static_cast<double>(scale)),
-        djvMath::ceil(in.y / static_cast<double>(scale)));
+    return glm::ivec2(
+        djvMath::ceil(in.x / static_cast<float>(scale)),
+        djvMath::ceil(in.y / static_cast<float>(scale)));
 }
 
 djvBox2i djvPixelDataUtil::proxyScale(const djvBox2i & in, djvPixelDataInfo::PROXY proxy)
 {
     const int scale = proxyScale(proxy);
     return djvBox2i(
-        djvMath::ceil(in.x / static_cast<double>(scale)),
-        djvMath::ceil(in.y / static_cast<double>(scale)),
-        djvMath::ceil(in.size.x / static_cast<double>(scale)),
-        djvMath::ceil(in.size.y / static_cast<double>(scale)));
+        djvMath::ceil(in.x / static_cast<float>(scale)),
+        djvMath::ceil(in.y / static_cast<float>(scale)),
+        djvMath::ceil(in.size.x / static_cast<float>(scale)),
+        djvMath::ceil(in.size.y / static_cast<float>(scale)));
 }
 
 void djvPixelDataUtil::planarInterleave(
@@ -254,7 +254,7 @@ void djvPixelDataUtil::gradient(djvPixelData & out)
         for (int x = 0; x < info.size.x; ++x, ++p)
         {
             *p = static_cast<djvPixel::F32_T>(
-                x / static_cast<double>(info.size.x - 1));
+                x / static_cast<float>(info.size.x - 1));
         }
     }
 }

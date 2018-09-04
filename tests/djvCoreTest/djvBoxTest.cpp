@@ -103,7 +103,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(6 == box.d);
     }
     {
-        const djvVector2i tmp(1, 2);
+        const glm::ivec2 tmp(1, 2);
         const djvBox2i box(tmp);
         DJV_ASSERT(0 == box.position.x);
         DJV_ASSERT(0 == box.position.y);
@@ -115,7 +115,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(2 == box.h);
     }
     {
-        const djvVector3i tmp(1, 2, 3);
+        const glm::ivec3 tmp(1, 2, 3);
         const djvBox3i box(tmp);
         DJV_ASSERT(0 == box.position.x);
         DJV_ASSERT(0 == box.position.y);
@@ -131,7 +131,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(3 == box.d);
     }
     {
-        const djvBox2i box(djvVector2i(1, 2), djvVector2i(3, 4));
+        const djvBox2i box(glm::ivec2(1, 2), glm::ivec2(3, 4));
         DJV_ASSERT(1 == box.position.x);
         DJV_ASSERT(2 == box.position.y);
         DJV_ASSERT(3 == box.size.x);
@@ -168,7 +168,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(3 == box.d);
     }
     {
-        const djvBox2i box(djvVector2i(1, 2), djvVector2i(3, 4));
+        const djvBox2i box(glm::ivec2(1, 2), glm::ivec2(3, 4));
         DJV_ASSERT(1 == box.position.x);
         DJV_ASSERT(2 == box.position.y);
         DJV_ASSERT(3 == box.size.x);
@@ -179,7 +179,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(4 == box.h);
     }
     {
-        const djvBox3i box(djvVector3i(1, 2, 3), djvVector3i(4, 5, 6));
+        const djvBox3i box(glm::ivec3(1, 2, 3), glm::ivec3(4, 5, 6));
         DJV_ASSERT(1 == box.position.x);
         DJV_ASSERT(2 == box.position.y);
         DJV_ASSERT(3 == box.position.z);
@@ -194,7 +194,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(6 == box.d);
     }
     {
-        const djvBox2i box(djvVector2i(1, 2));
+        const djvBox2i box(glm::ivec2(1, 2));
         DJV_ASSERT(0 == box.position.x);
         DJV_ASSERT(0 == box.position.y);
         DJV_ASSERT(1 == box.size.x);
@@ -205,7 +205,7 @@ void djvBoxTest::ctors()
         DJV_ASSERT(2 == box.h);
     }
     {
-        const djvBox3i box(djvVector3i(1, 2, 3));
+        const djvBox3i box(glm::ivec3(1, 2, 3));
         DJV_ASSERT(0 == box.position.x);
         DJV_ASSERT(0 == box.position.y);
         DJV_ASSERT(0 == box.position.z);
@@ -246,7 +246,7 @@ void djvBoxTest::members()
         djvBox2i box(1, 2, 3, 4);
         DJV_ASSERT(3 == box.lowerRight().x);
         DJV_ASSERT(5 == box.lowerRight().y);
-        box.setLowerRight(djvVector2i(4, 6));
+        box.setLowerRight(glm::ivec2(4, 6));
         DJV_ASSERT(4 == box.w);
         DJV_ASSERT(5 == box.h);
     }
@@ -255,7 +255,7 @@ void djvBoxTest::members()
         DJV_ASSERT(4 == box.lowerRight().x);
         DJV_ASSERT(6 == box.lowerRight().y);
         DJV_ASSERT(8 == box.lowerRight().z);
-        box.setLowerRight(djvVector3i(5, 7, 9));
+        box.setLowerRight(glm::ivec3(5, 7, 9));
         DJV_ASSERT(5 == box.w);
         DJV_ASSERT(6 == box.h);
         DJV_ASSERT(7 == box.d);
@@ -287,7 +287,7 @@ void djvBoxTest::operators()
     }
     {
         djvBox2i box(1, 2, 3, 4);
-        box *= djvVector2i(2, 3);
+        box *= glm::ivec2(2, 3);
         DJV_ASSERT( 2 == box.x);
         DJV_ASSERT( 6 == box.y);
         DJV_ASSERT( 6 == box.w);
@@ -295,7 +295,7 @@ void djvBoxTest::operators()
     }
     {
         djvBox3i box(1, 2, 3, 4, 5, 6);
-        box *= djvVector3i(2, 3, 4);
+        box *= glm::ivec3(2, 3, 4);
         DJV_ASSERT( 2 == box.x);
         DJV_ASSERT( 6 == box.y);
         DJV_ASSERT(12 == box.z);
@@ -305,7 +305,7 @@ void djvBoxTest::operators()
     }
     {
         djvBox2i box(4, 6, 8, 9);
-        box /= djvVector2i(2, 3);
+        box /= glm::ivec2(2, 3);
         DJV_ASSERT(2 == box.x);
         DJV_ASSERT(2 == box.y);
         DJV_ASSERT(4 == box.w);
@@ -313,7 +313,7 @@ void djvBoxTest::operators()
     }
     {
         djvBox3i box(4, 6, 8, 10, 12, 16);
-        box /= djvVector3i(2, 3, 4);
+        box /= glm::ivec3(2, 3, 4);
         DJV_ASSERT(2 == box.x);
         DJV_ASSERT(2 == box.y);
         DJV_ASSERT(2 == box.z);
@@ -341,33 +341,29 @@ void djvBoxTest::operators()
     }
     {
         const djvBox2f box = djvBox2i(1, 2, 3, 4);
-
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0, box.x));
-        DJV_ASSERT(djvMath::fuzzyCompare(2.0, box.y));
-        DJV_ASSERT(djvMath::fuzzyCompare(3.0, box.w));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.0, box.h));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, box.x));
+        DJV_ASSERT(djvMath::fuzzyCompare(2.f, box.y));
+        DJV_ASSERT(djvMath::fuzzyCompare(3.f, box.w));
+        DJV_ASSERT(djvMath::fuzzyCompare(4.f, box.h));
     }
     {
         const djvBox3f box = djvBox3i(1, 2, 3, 4, 5, 6);
-
-        DJV_ASSERT(djvMath::fuzzyCompare(1.0, box.x));
-        DJV_ASSERT(djvMath::fuzzyCompare(2.0, box.y));
-        DJV_ASSERT(djvMath::fuzzyCompare(3.0, box.z));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.0, box.w));
-        DJV_ASSERT(djvMath::fuzzyCompare(5.0, box.h));
-        DJV_ASSERT(djvMath::fuzzyCompare(6.0, box.d));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, box.x));
+        DJV_ASSERT(djvMath::fuzzyCompare(2.f, box.y));
+        DJV_ASSERT(djvMath::fuzzyCompare(3.f, box.z));
+        DJV_ASSERT(djvMath::fuzzyCompare(4.f, box.w));
+        DJV_ASSERT(djvMath::fuzzyCompare(5.f, box.h));
+        DJV_ASSERT(djvMath::fuzzyCompare(6.f, box.d));
     }
     {
-        const djvBox2i box = djvBox2f(1.0, 2.0, 3.0, 4.0);
-
+        const djvBox2i box = djvBox2f(1.f, 2.f, 3.f, 4.f);
         DJV_ASSERT(1 == box.x);
         DJV_ASSERT(2 == box.y);
         DJV_ASSERT(3 == box.w);
         DJV_ASSERT(4 == box.h);
     }
     {
-        const djvBox3i box = djvBox3f(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
-
+        const djvBox3i box = djvBox3f(1.f, 2.f, 3.f, 4.f, 5.f, 6.f);
         DJV_ASSERT(1 == box.x);
         DJV_ASSERT(2 == box.y);
         DJV_ASSERT(3 == box.z);
@@ -441,14 +437,14 @@ void djvBoxTest::operators()
     }
 
     {
-        const djvBox2i box = djvBox2i(1, 2, 3, 4) + djvVector2i(1, 2);
+        const djvBox2i box = djvBox2i(1, 2, 3, 4) + glm::ivec2(1, 2);
         DJV_ASSERT(2 == box.x);
         DJV_ASSERT(4 == box.y);
         DJV_ASSERT(4 == box.w);
         DJV_ASSERT(6 == box.h);
     }
     {
-        const djvBox3i box = djvBox3i(1, 2, 3, 4, 5, 6) + djvVector3i(1, 2, 3);
+        const djvBox3i box = djvBox3i(1, 2, 3, 4, 5, 6) + glm::ivec3(1, 2, 3);
         DJV_ASSERT(2 == box.x);
         DJV_ASSERT(4 == box.y);
         DJV_ASSERT(6 == box.z);
@@ -457,14 +453,14 @@ void djvBoxTest::operators()
         DJV_ASSERT(9 == box.d);
     }
     {
-        const djvBox2i box = djvBox2i(1, 2, 3, 4) - djvVector2i(1, 2);
+        const djvBox2i box = djvBox2i(1, 2, 3, 4) - glm::ivec2(1, 2);
         DJV_ASSERT(0 == box.x);
         DJV_ASSERT(0 == box.y);
         DJV_ASSERT(2 == box.w);
         DJV_ASSERT(2 == box.h);
     }
     {
-        const djvBox3i box = djvBox3i(1, 2, 3, 4, 5, 6) - djvVector3i(1, 2, 3);
+        const djvBox3i box = djvBox3i(1, 2, 3, 4, 5, 6) - glm::ivec3(1, 2, 3);
         DJV_ASSERT(0 == box.x);
         DJV_ASSERT(0 == box.y);
         DJV_ASSERT(0 == box.z);
@@ -473,14 +469,14 @@ void djvBoxTest::operators()
         DJV_ASSERT(3 == box.d);
     }
     {
-        const djvBox2i box = djvBox2i(1, 2, 3, 4) * djvVector2i(2, 3);
+        const djvBox2i box = djvBox2i(1, 2, 3, 4) * glm::ivec2(2, 3);
         DJV_ASSERT( 2 == box.x);
         DJV_ASSERT( 6 == box.y);
         DJV_ASSERT( 6 == box.w);
         DJV_ASSERT(12 == box.h);
     }
     {
-        const djvBox3i box = djvBox3i(1, 2, 3, 4, 5, 6) * djvVector3i(2, 3, 4);
+        const djvBox3i box = djvBox3i(1, 2, 3, 4, 5, 6) * glm::ivec3(2, 3, 4);
         DJV_ASSERT( 2 == box.x);
         DJV_ASSERT( 6 == box.y);
         DJV_ASSERT(12 == box.z);
@@ -489,14 +485,14 @@ void djvBoxTest::operators()
         DJV_ASSERT(24 == box.d);
     }
     {
-        const djvBox2i box = djvBox2i(2, 3, 4, 6) / djvVector2i(2, 3);
+        const djvBox2i box = djvBox2i(2, 3, 4, 6) / glm::ivec2(2, 3);
         DJV_ASSERT(1 == box.x);
         DJV_ASSERT(1 == box.y);
         DJV_ASSERT(2 == box.w);
         DJV_ASSERT(2 == box.h);
     }
     {
-        const djvBox3i box = djvBox3i(2, 3, 4, 4, 6, 8) / djvVector3i(2, 3, 4);
+        const djvBox3i box = djvBox3i(2, 3, 4, 4, 6, 8) / glm::ivec3(2, 3, 4);
         DJV_ASSERT(1 == box.x);
         DJV_ASSERT(1 == box.y);
         DJV_ASSERT(1 == box.z);

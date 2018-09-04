@@ -43,15 +43,15 @@
 struct djvFloatDisplay::Private
 {
     Private() :
-        value  (0.0),
-        min    (0.0),
-        max    (1.0),
+        value  (0.f),
+        min    (0.f),
+        max    (1.f),
         spinBox(0)
     {}
 
-    double           value;
-    double           min;
-    double           max;
+    float            value;
+    float            min;
+    float            max;
     QDoubleSpinBox * spinBox;
 };
 
@@ -78,22 +78,22 @@ djvFloatDisplay::djvFloatDisplay(QWidget * parent) :
 djvFloatDisplay::~djvFloatDisplay()
 {}
 
-double djvFloatDisplay::value() const
+float djvFloatDisplay::value() const
 {
     return _p->value;
 }
 
-double djvFloatDisplay::min() const
+float djvFloatDisplay::min() const
 {
     return _p->min;
 }
 
-double djvFloatDisplay::max() const
+float djvFloatDisplay::max() const
 {
     return _p->max;
 }
 
-void djvFloatDisplay::setValue(double value)
+void djvFloatDisplay::setValue(float value)
 {
     if (value == _p->value)
         return;
@@ -102,7 +102,7 @@ void djvFloatDisplay::setValue(double value)
     widgetUpdate();
 }
 
-void djvFloatDisplay::setRange(double min, double max)
+void djvFloatDisplay::setRange(float min, float max)
 {
     if (min == _p->min && max == _p->max)
         return;

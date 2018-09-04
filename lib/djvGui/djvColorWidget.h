@@ -73,13 +73,13 @@ public:
     const djvColor & color() const;
 
     //! Get the minimum floating point value.
-    double floatMin() const;
+    float floatMin() const;
 
     //! Get the maximum floating point value.
-    double floatMax() const;
+    float floatMax() const;
 
     //! Set the floating point range.
-    void setFloatRange(double min, double max);
+    void setFloatRange(float min, float max);
 
     //! Get the bottom layout.
     QHBoxLayout * bottomLayout();
@@ -94,7 +94,7 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void intCallback(int);
-    void floatCallback(double);
+    void floatCallback(float);
     void formatCallback(int);
     void typeCallback(int);
 

@@ -64,31 +64,31 @@ void djvTimeTest::convert()
 {
     DJV_DEBUG("djvTimeTest::convert");
     {
-        int    hours   = 0;
-        int    minutes = 0;
-        double seconds = 0.0;
+        int   hours   = 0;
+        int   minutes = 0;
+        float seconds = 0.f;
         djvTime::secondsToTime(0, hours, minutes, seconds);
         DJV_ASSERT(0 == hours);
         DJV_ASSERT(0 == minutes);
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, seconds));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, seconds));
         djvTime::secondsToTime(59, hours, minutes, seconds);
         DJV_ASSERT(0 == hours);
         DJV_ASSERT(0 == minutes);
-        DJV_ASSERT(djvMath::fuzzyCompare(59.0, seconds));
+        DJV_ASSERT(djvMath::fuzzyCompare(59.f, seconds));
         djvTime::secondsToTime(60, hours, minutes, seconds);
         DJV_ASSERT(0 == hours);
         DJV_ASSERT(1 == minutes);
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, seconds));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, seconds));
         djvTime::secondsToTime(3600, hours, minutes, seconds);
         DJV_ASSERT(1 == hours);
         DJV_ASSERT(0 == minutes);
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, seconds));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, seconds));
     }
     {
-        DJV_ASSERT("00:00:00" == djvTime::labelTime(0.0));
-        DJV_ASSERT("00:00:59" == djvTime::labelTime(59.0));
-        DJV_ASSERT("00:01:00" == djvTime::labelTime(60.0));
-        DJV_ASSERT("01:00:00" == djvTime::labelTime(3600.0));
+        DJV_ASSERT("00:00:00" == djvTime::labelTime(0.f));
+        DJV_ASSERT("00:00:59" == djvTime::labelTime(59.f));
+        DJV_ASSERT("00:01:00" == djvTime::labelTime(60.f));
+        DJV_ASSERT("01:00:00" == djvTime::labelTime(3600.f));
     }
     {
         const struct Data

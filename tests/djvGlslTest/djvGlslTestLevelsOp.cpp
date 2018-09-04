@@ -155,7 +155,7 @@ void djvGlslTestLevelsOp::render(const djvImage & in) throw (djvError)
         _render.shader.init(
             vertexSource,
             QString(fragmentSource).
-                arg(_values.softClip > 0.0 ? levelsSoftClipSource : levelsSource));
+                arg(_values.softClip > 0.f ? levelsSoftClipSource : levelsSource));
         _state = state;
     }
 
@@ -167,7 +167,7 @@ void djvGlslTestLevelsOp::render(const djvImage & in) throw (djvError)
     glUniform1f(glGetUniformLocation(program, "levels.inputMax"),
         static_cast<GLfloat>(_values.inputMax - _values.inputMin));
     glUniform1f(glGetUniformLocation(program, "levels.gamma"),
-        static_cast<GLfloat>(1.0 / _values.gamma));
+        static_cast<GLfloat>(1.f / _values.gamma));
     glUniform1f(glGetUniformLocation(program, "levels.outputMin"),
         static_cast<GLfloat>(_values.outputMin));
     glUniform1f(glGetUniformLocation(program, "levels.outputMax"),
@@ -206,29 +206,29 @@ djvGlslTestLevelsOpWidget::djvGlslTestLevelsOpWidget(
     // Create the widgets.
     QGroupBox * inputGroup = new QGroupBox("Input");
     djvFloatEditSlider * inputMin = new djvFloatEditSlider(context);
-    inputMin->setRange(0.0, 1.0);
-    inputMin->setDefaultValue(0.0);
+    inputMin->setRange(0.f, 1.f);
+    inputMin->setDefaultValue(0.f);
     djvFloatEditSlider * inputMax = new djvFloatEditSlider(context);
-    inputMax->setRange(0.0, 1.0);
-    inputMax->setDefaultValue(1.0);
+    inputMax->setRange(0.f, 1.f);
+    inputMax->setDefaultValue(1.f);
 
     QGroupBox * gammaGroup = new QGroupBox("Gamma");
     djvFloatEditSlider * gamma = new djvFloatEditSlider(context);
-    gamma->setRange(0.0, 4.0);
-    gamma->setDefaultValue(1.0);
+    gamma->setRange(0.f, 4.f);
+    gamma->setDefaultValue(1.f);
 
     QGroupBox * outputGroup = new QGroupBox("Output");
     djvFloatEditSlider * outputMin = new djvFloatEditSlider(context);
-    outputMin->setRange(0.0, 1.0);
-    outputMin->setDefaultValue(0.0);
+    outputMin->setRange(0.f, 1.f);
+    outputMin->setDefaultValue(0.f);
     djvFloatEditSlider * outputMax = new djvFloatEditSlider(context);
-    outputMax->setRange(0.0, 1.0);
-    outputMax->setDefaultValue(1.0);
+    outputMax->setRange(0.f, 1.f);
+    outputMax->setDefaultValue(1.f);
 
     QGroupBox * softClipGroup = new QGroupBox("Soft Clip");
     djvFloatEditSlider * softClip = new djvFloatEditSlider(context);
-    softClip->setRange(0.0, 1.0);
-    softClip->setDefaultValue(0.0);
+    softClip->setRange(0.f, 1.f);
+    softClip->setDefaultValue(0.f);
 
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -268,66 +268,66 @@ djvGlslTestLevelsOpWidget::djvGlslTestLevelsOpWidget(
     // Setup the callbacks.
     connect(
         inputMin,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputMinCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputMinCallback(float)));
     connect(
         inputMax,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputMaxCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputMaxCallback(float)));
     connect(
         gamma,
-        SIGNAL(valueChanged(double)),
-        SLOT(gammaCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(gammaCallback(float)));
     connect(
         outputMin,
-        SIGNAL(valueChanged(double)),
-        SLOT(outputMinCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(outputMinCallback(float)));
     connect(
         outputMax,
-        SIGNAL(valueChanged(double)),
-        SLOT(outputMaxCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(outputMaxCallback(float)));
     connect(
         softClip,
-        SIGNAL(valueChanged(double)),
-        SLOT(softClipCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(softClipCallback(float)));
 }
 
-void djvGlslTestLevelsOpWidget::inputMinCallback(double in)
+void djvGlslTestLevelsOpWidget::inputMinCallback(float in)
 {
     djvGlslTestLevelsOp::Values values = _op->values();
     values.inputMin = in;
     _op->setValues(values);
 }
 
-void djvGlslTestLevelsOpWidget::inputMaxCallback(double in)
+void djvGlslTestLevelsOpWidget::inputMaxCallback(float in)
 {
     djvGlslTestLevelsOp::Values values = _op->values();
     values.inputMax = in;
     _op->setValues(values);
 }
 
-void djvGlslTestLevelsOpWidget::gammaCallback(double in)
+void djvGlslTestLevelsOpWidget::gammaCallback(float in)
 {
     djvGlslTestLevelsOp::Values values = _op->values();
     values.gamma = in;
     _op->setValues(values);
 }
 
-void djvGlslTestLevelsOpWidget::outputMinCallback(double in)
+void djvGlslTestLevelsOpWidget::outputMinCallback(float in)
 {
     djvGlslTestLevelsOp::Values values = _op->values();
     values.outputMin = in;
     _op->setValues(values);
 }
 
-void djvGlslTestLevelsOpWidget::outputMaxCallback(double in)
+void djvGlslTestLevelsOpWidget::outputMaxCallback(float in)
 {
     djvGlslTestLevelsOp::Values values = _op->values();
     values.outputMax = in;
     _op->setValues(values);
 }
 
-void djvGlslTestLevelsOpWidget::softClipCallback(double in)
+void djvGlslTestLevelsOpWidget::softClipCallback(float in)
 {
     djvGlslTestLevelsOp::Values values = _op->values();
     values.softClip = in;

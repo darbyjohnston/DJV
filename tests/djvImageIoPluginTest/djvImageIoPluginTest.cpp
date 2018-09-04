@@ -128,11 +128,11 @@ void djvImageIoPluginTest::initData()
     {
         //! \todo The one pixel wide data seems to be triggering errors
         //! in the floating point tests.
-        _sizes += QVector<djvVector2i>() <<
-            djvVector2i(11,  1) <<
-            //djvVector2i( 1,  7) <<
-            djvVector2i(11,  7) <<
-            djvVector2i( 7, 11);
+        _sizes += QVector<glm::ivec2>() <<
+            glm::ivec2(11,  1) <<
+            //glm::ivec2( 1,  7) <<
+            glm::ivec2(11,  7) <<
+            glm::ivec2( 7, 11);
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
         {
             const djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(i);
@@ -141,7 +141,7 @@ void djvImageIoPluginTest::initData()
     }
     else
     {
-        _sizes += djvVector2i(10, 1);
+        _sizes += glm::ivec2(10, 1);
         //_pixels += djvPixel::RGB_U10;
         _pixels += djvPixel::RGB_F16;
     }
@@ -164,12 +164,12 @@ void djvImageIoPluginTest::initImages()
 
             djvPixelData p(djvPixelDataInfo(1, 1, image.pixel()));
             djvOpenGlImageOptions options;
-            options.xform.position = djvVector2f(0, 0);
+            options.xform.position = glm::vec2(0, 0);
             djvOpenGlImage::copy(image, p, options);
             djvColor c(p.data(), p.pixel());
             DJV_DEBUG_PRINT("c0 = " << c);
 
-            options.xform.position = -djvVector2f(
+            options.xform.position = -glm::vec2(
                 image.size().x - 1, image.size().y - 1);
             djvOpenGlImage::copy(image, p, options);
             c = djvColor(p.data(), p.pixel());
@@ -224,7 +224,7 @@ void djvImageIoPluginTest::runTest(djvImageIo * plugin, const djvImage & image)
         {
             for (int x = 0; x < info.size.x; ++x)
             {
-                options.xform.position = -djvVector2f(x, y);
+                options.xform.position = -glm::vec2(x, y);
                 djvOpenGlImage::copy(image, p, options, &state, &buffer);
                 djvColor a(p.data(), p.pixel());
                 djvOpenGlImage::copy(tmp, p, options, &state, &buffer);

@@ -51,8 +51,8 @@ void djvTimerTest::ctors()
     DJV_DEBUG("djvTimerTest::ctors");
     {
         const djvTimer timer;
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, timer.seconds()));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.0, timer.fps()));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, timer.seconds()));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, timer.fps()));
     }
     {
         djvTimer a;

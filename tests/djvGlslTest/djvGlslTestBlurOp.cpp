@@ -120,15 +120,15 @@ const QString fragmentSource =
 "\n"
 "void main(void)\n"
 "{\n"
-"    gl_FragColor = kernel(texture);\n"
+"    gl_FragColor = texture;\n"
 "}\n";
 
 } // namespace
 
 void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
 {
-    //DJV_DEBUG("djvGlslTestBlurOp::render");
-    //DJV_DEBUG_PRINT("in = " << in);
+    DJV_DEBUG("djvGlslTestBlurOp::render");
+    DJV_DEBUG_PRINT("in = " << in);
 
     // Initialize.
     begin();
@@ -158,23 +158,21 @@ void djvGlslTestBlurOp::render(const djvImage & in) throw (djvError)
                 {
                     p[i] = 1;
                 }
-
                 break;
             case GAUSSIAN:
             {
-                const double theta = size / 6.0;
-                double x = -_values.radius;
-
-                for (int i = 0; i < size; ++i, x += 1.0)
+                const float theta = size / 6.f;
+                float x = -_values.radius;
+                for (int i = 0; i < size; ++i, x += 1.f)
                 {
                     p[i] = static_cast<float>(
-                        djvMath::sqrt(1.0 / (djvMath::sqrt(2.0 * djvMath::pi * theta))) *
+                        djvMath::sqrt(1.f / (djvMath::sqrt(2.f * djvMath::pi * theta))) *
                         djvMath::exp(-(x * x) / (2 * theta * theta)));
                 }
             }
             break;
         }
-        float sum = 0.0;
+        float sum = 0.f;
         for (int i = 0; i < size; ++i)
         {
             sum += p[i];

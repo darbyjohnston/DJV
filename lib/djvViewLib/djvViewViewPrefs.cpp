@@ -96,7 +96,7 @@ djvViewUtil::ZOOM_FACTOR djvViewViewPrefs::zoomFactor() const
 
 djvColor djvViewViewPrefs::backgroundDefault()
 {
-    return djvColor(0.0);
+    return djvColor(0.f);
 }
 
 const djvColor & djvViewViewPrefs::background() const
@@ -151,7 +151,7 @@ bool djvViewViewPrefs::isHudInfo(djvViewUtil::HUD in) const
 
 djvColor djvViewViewPrefs::hudColorDefault()
 {
-    return djvColor(1.0);
+    return djvColor(1.f);
 }
 
 const djvColor & djvViewViewPrefs::hudColor() const
@@ -171,7 +171,7 @@ djvViewUtil::HUD_BACKGROUND djvViewViewPrefs::hudBackground() const
 
 djvColor djvViewViewPrefs::hudBackgroundColorDefault()
 {
-    return djvColor(0.0, 0.5);
+    return djvColor(0.f, 0.5f);
 }
 
 const djvColor & djvViewViewPrefs::hudBackgroundColor() const

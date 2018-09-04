@@ -90,7 +90,7 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
     _inputWhitePointWidget->setRange(0, 1023);
 
     _inputGammaWidget = new djvFloatEditSlider(context);
-    _inputGammaWidget->setRange(0.01, 4.0);
+    _inputGammaWidget->setRange(.01f, 4.f);
 
     _inputSoftClipWidget = new djvIntEditSlider(context);
     _inputSoftClipWidget->setRange(0, 50);
@@ -107,7 +107,7 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
     _outputWhitePointWidget->setRange(0, 1023);
 
     _outputGammaWidget = new djvFloatEditSlider(context);
-    _outputGammaWidget->setRange(0.01, 4.0);
+    _outputGammaWidget->setRange(.01f, 4.f);
 
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -208,8 +208,8 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
         SLOT(inputWhitePointCallback(int)));
     connect(
         _inputGammaWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(inputGammaCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(inputGammaCallback(float)));
     connect(
         _inputSoftClipWidget,
         SIGNAL(valueChanged(int)),
@@ -228,8 +228,8 @@ djvCineonWidget::djvCineonWidget(djvImageIo * plugin, djvGuiContext * context) :
         SLOT(outputWhitePointCallback(int)));
     connect(
         _outputGammaWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(outputGammaCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(outputGammaCallback(float)));
 }
 
 djvCineonWidget::~djvCineonWidget()
@@ -286,7 +286,7 @@ void djvCineonWidget::inputWhitePointCallback(int in)
     pluginUpdate();
 }
 
-void djvCineonWidget::inputGammaCallback(double in)
+void djvCineonWidget::inputGammaCallback(float in)
 {
     _options.inputFilmPrint.gamma = in;
     pluginUpdate();
@@ -316,7 +316,7 @@ void djvCineonWidget::outputWhitePointCallback(int in)
     pluginUpdate();
 }
 
-void djvCineonWidget::outputGammaCallback(double in)
+void djvCineonWidget::outputGammaCallback(float in)
 {
     _options.outputFilmPrint.gamma = in;
     pluginUpdate();

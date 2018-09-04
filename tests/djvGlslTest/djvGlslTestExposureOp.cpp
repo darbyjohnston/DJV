@@ -108,22 +108,22 @@ const QString fragmentSource =
 "    gl_FragColor = exposureFnc(gl_FragColor, exposure);\n"
 "}\n";
 
-double knee(double x, double f)
+float knee(float x, float f)
 {
-    return djvMath::log(x * f + 1.0) / f;
+    return djvMath::log(x * f + 1.f) / f;
 }
 
-double kneeF(double x, double y)
+float kneeF(float x, float y)
 {
-    double f0 = 0.0, f1 = 1.0;
+    float f0 = 0.f, f1 = 1.f;
     while (knee(x, f1) > y)
     {
         f0 = f1;
-        f1 = f1 * 2.0;
+        f1 = f1 * 2.f;
     }
     for (int i = 0; i < 30; ++i)
     {
-        const double f2 = (f0 + f1) / 2.0;
+        const float f2 = (f0 + f1) / 2.f;
         if (knee(x, f2) < y)
         {
             f1 = f2;
@@ -133,7 +133,7 @@ double kneeF(double x, double y)
             f0 = f2;
         }
     }
-    return (f0 + f1) / 2.0;
+    return (f0 + f1) / 2.f;
 }
 
 } // namespace
@@ -156,12 +156,12 @@ void djvGlslTestExposureOp::render(const djvImage & in) throw (djvError)
     _shader.bind();
     const GLuint program = _shader.program();
     const float v =
-        static_cast<float>(djvMath::pow(2.0, _values.exposure + 2.47393));
+        static_cast<float>(djvMath::pow(2.f, _values.exposure + 2.47393f));
     const float d = static_cast<float>(_values.defog);
-    const float k = static_cast<float>(djvMath::pow(2.0, _values.kneeLow));
+    const float k = static_cast<float>(djvMath::pow(2.f, _values.kneeLow));
     const float f = static_cast<float>(
-        kneeF(djvMath::pow(2.0, _values.kneeHigh) - k, djvMath::pow(2.0, 3.5) - k));
-    const float g = static_cast<float>(1.0 / _values.gamma);
+        kneeF(djvMath::pow(2.f, _values.kneeHigh) - k, djvMath::pow(2.f, 3.5f) - k));
+    const float g = static_cast<float>(1.f / _values.gamma);
     //DJV_DEBUG_PRINT("v = " << v);
     //DJV_DEBUG_PRINT("d = " << d);
     //DJV_DEBUG_PRINT("k = " << k);
@@ -204,27 +204,27 @@ djvGlslTestExposureOpWidget::djvGlslTestExposureOpWidget(
     // Create the widgets.
     QGroupBox * exposureGroup = new QGroupBox("Exposure");
     djvFloatEditSlider * exposure = new djvFloatEditSlider(context);
-    exposure->setRange(-10.0, 10.0);
-    exposure->setDefaultValue(0.0);
+    exposure->setRange(-10.f, 10.f);
+    exposure->setDefaultValue(0.f);
     
     QGroupBox * defogGroup = new QGroupBox("Defog");
     djvFloatEditSlider * defog = new djvFloatEditSlider(context);
-    defog->setRange(0.0, 0.01);
-    defog->setDefaultValue(0.0);
+    defog->setRange(0.f, .01f);
+    defog->setDefaultValue(0.f);
     
     QGroupBox * kneeGroup = new QGroupBox("Knee");
     djvFloatEditSlider * kneeLow = new djvFloatEditSlider(context);
-    kneeLow->setRange(-3.0, 3.0);
-    kneeLow->setDefaultValue(0.0);
+    kneeLow->setRange(-3.f, 3.f);
+    kneeLow->setDefaultValue(0.f);
     
     djvFloatEditSlider * kneeHigh = new djvFloatEditSlider(context);
-    kneeHigh->setRange(3.5, 7.5);
-    kneeHigh->setDefaultValue(3.5);
+    kneeHigh->setRange(3.5f, 7.5f);
+    kneeHigh->setDefaultValue(3.5f);
     
     QGroupBox * gammaGroup = new QGroupBox("Gamma");
     djvFloatEditSlider * gamma = new djvFloatEditSlider(context);
-    gamma->setRange(0.1, 4.0);
-    gamma->setDefaultValue(1.0);
+    gamma->setRange(.1f, 4.f);
+    gamma->setDefaultValue(1.f);
 
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -262,55 +262,55 @@ djvGlslTestExposureOpWidget::djvGlslTestExposureOpWidget(
     // Setup the callbacks.
     connect(
         exposure,
-        SIGNAL(valueChanged(double)),
-        SLOT(exposureCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(exposureCallback(float)));
     connect(
         defog,
-        SIGNAL(valueChanged(double)),
-        SLOT(defogCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(defogCallback(float)));
     connect(
         kneeLow,
-        SIGNAL(valueChanged(double)),
-        SLOT(kneeLowCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(kneeLowCallback(float)));
     connect(
         kneeHigh,
-        SIGNAL(valueChanged(double)),
-        SLOT(kneeHighCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(kneeHighCallback(float)));
     connect(
         gamma,
-        SIGNAL(valueChanged(double)),
-        SLOT(gammaCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(gammaCallback(float)));
 }
 
-void djvGlslTestExposureOpWidget::exposureCallback(double in)
+void djvGlslTestExposureOpWidget::exposureCallback(float in)
 {
     djvGlslTestExposureOp::Values values = _op->values();
     values.exposure = in;
     _op->setValues(values);
 }
 
-void djvGlslTestExposureOpWidget::defogCallback(double in)
+void djvGlslTestExposureOpWidget::defogCallback(float in)
 {
     djvGlslTestExposureOp::Values values = _op->values();
     values.defog = in;
     _op->setValues(values);
 }
 
-void djvGlslTestExposureOpWidget::kneeLowCallback(double in)
+void djvGlslTestExposureOpWidget::kneeLowCallback(float in)
 {
     djvGlslTestExposureOp::Values values = _op->values();
     values.kneeLow = in;
     _op->setValues(values);
 }
 
-void djvGlslTestExposureOpWidget::kneeHighCallback(double in)
+void djvGlslTestExposureOpWidget::kneeHighCallback(float in)
 {
     djvGlslTestExposureOp::Values values = _op->values();
     values.kneeHigh = in;
     _op->setValues(values);
 }
 
-void djvGlslTestExposureOpWidget::gammaCallback(double in)
+void djvGlslTestExposureOpWidget::gammaCallback(float in)
 {
     djvGlslTestExposureOp::Values values = _op->values();
     values.gamma = in;

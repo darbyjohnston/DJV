@@ -67,12 +67,12 @@ private Q_SLOTS:
     void inputColorProfileCallback(int);
     void inputBlackPointCallback(int);
     void inputWhitePointCallback(int);
-    void inputGammaCallback(double);
+    void inputGammaCallback(float);
     void inputSoftClipCallback(int);
     void outputColorProfileCallback(int);
     void outputBlackPointCallback(int);
     void outputWhitePointCallback(int);
-    void outputGammaCallback(double);
+    void outputGammaCallback(float);
 
     void pluginUpdate();
     void widgetUpdate();

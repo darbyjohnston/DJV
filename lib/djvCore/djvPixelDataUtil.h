@@ -65,7 +65,7 @@ public:
     static int proxyScale(djvPixelDataInfo::PROXY);
 
     //! Calculate the size of a proxy scale.
-    static djvVector2i proxyScale(const djvVector2i &, djvPixelDataInfo::PROXY);
+    static glm::ivec2 proxyScale(const glm::ivec2 &, djvPixelDataInfo::PROXY);
 
     //! Calculate the size of a proxy scale.
     static djvBox2i proxyScale(const djvBox2i &, djvPixelDataInfo::PROXY);

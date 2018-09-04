@@ -107,17 +107,17 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     _p->brightnessWidget = new djvFloatEditSlider(context);
     _p->brightnessWidget->setDefaultValue(_p->displayProfile.color.brightness);
     _p->brightnessWidget->editObject()->setClamp(false);
-    _p->brightnessWidget->sliderObject()->setRange(0.0, 4.0);
+    _p->brightnessWidget->sliderObject()->setRange(0.f, 4.f);
 
     _p->contrastWidget = new djvFloatEditSlider(context);
     _p->contrastWidget->setDefaultValue(_p->displayProfile.color.contrast);
     _p->contrastWidget->editObject()->setClamp(false);
-    _p->contrastWidget->sliderObject()->setRange(0.0, 4.0);
+    _p->contrastWidget->sliderObject()->setRange(0.f, 4.f);
 
     _p->saturationWidget = new djvFloatEditSlider(context);
     _p->saturationWidget->setDefaultValue(_p->displayProfile.color.saturation);
     _p->saturationWidget->editObject()->setClamp(false);
-    _p->saturationWidget->sliderObject()->setRange(0.0, 4.0);
+    _p->saturationWidget->sliderObject()->setRange(0.f, 4.f);
 
     // Create the levels widgets.
     QGroupBox * levelsGroup = new QGroupBox(
@@ -126,32 +126,32 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     _p->levelsInWidget[0] = new djvFloatEditSlider(context);
     _p->levelsInWidget[0]->setDefaultValue(_p->displayProfile.levels.inLow);
     _p->levelsInWidget[0]->editObject()->setClamp(false);
-    _p->levelsInWidget[0]->sliderObject()->setRange(0.0, 1.0);
+    _p->levelsInWidget[0]->sliderObject()->setRange(0.f, 1.f);
 
     _p->levelsInWidget[1] = new djvFloatEditSlider(context);
     _p->levelsInWidget[1]->setDefaultValue(_p->displayProfile.levels.inHigh);
     _p->levelsInWidget[1]->editObject()->setClamp(false);
-    _p->levelsInWidget[1]->sliderObject()->setRange(0.0, 1.0);
+    _p->levelsInWidget[1]->sliderObject()->setRange(0.f, 1.f);
 
     _p->gammaWidget = new djvFloatEditSlider(context);
     _p->gammaWidget->setDefaultValue(_p->displayProfile.levels.gamma);
     _p->gammaWidget->editObject()->setClamp(false);
-    _p->gammaWidget->sliderObject()->setRange(0.0, 4.0);
+    _p->gammaWidget->sliderObject()->setRange(0.f, 4.f);
 
     _p->levelsOutWidget[0] = new djvFloatEditSlider(context);
     _p->levelsOutWidget[0]->setDefaultValue(_p->displayProfile.levels.outLow);
     _p->levelsOutWidget[0]->editObject()->setClamp(false);
-    _p->levelsOutWidget[0]->sliderObject()->setRange(0.0, 1.0);
+    _p->levelsOutWidget[0]->sliderObject()->setRange(0.f, 1.f);
 
     _p->levelsOutWidget[1] = new djvFloatEditSlider(context);
     _p->levelsOutWidget[1]->setDefaultValue(_p->displayProfile.levels.outHigh);
     _p->levelsOutWidget[1]->editObject()->setClamp(false);
-    _p->levelsOutWidget[1]->sliderObject()->setRange(0.0, 1.0);
+    _p->levelsOutWidget[1]->sliderObject()->setRange(0.f, 1.f);
 
     _p->softClipWidget = new djvFloatEditSlider(context);
     _p->softClipWidget->setDefaultValue(_p->displayProfile.softClip);
     _p->softClipWidget->editObject()->setClamp(false);
-    _p->softClipWidget->sliderObject()->setRange(0.0, 1.0);
+    _p->softClipWidget->sliderObject()->setRange(0.f, 1.f);
 
     // Create the other widgets.
     djvToolButton * addButton = new djvToolButton(
@@ -224,42 +224,42 @@ djvViewDisplayProfileWidget::djvViewDisplayProfileWidget(
     // Setup the color callbacks.
     connect(
         _p->brightnessWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(brightnessCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(brightnessCallback(float)));
     connect(
         _p->contrastWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(contrastCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(contrastCallback(float)));
     connect(
         _p->saturationWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(saturationCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(saturationCallback(float)));
 
     // Setup the levels callbacks.
     connect(
         _p->levelsInWidget[0],
-        SIGNAL(valueChanged(double)),
-        SLOT(levelsIn0Callback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(levelsIn0Callback(float)));
     connect(
         _p->levelsInWidget[1],
-        SIGNAL(valueChanged(double)),
-        SLOT(levelsIn1Callback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(levelsIn1Callback(float)));
     connect(
         _p->gammaWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(gammaCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(gammaCallback(float)));
     connect(
         _p->levelsOutWidget[0],
-        SIGNAL(valueChanged(double)),
-        SLOT(levelsOut0Callback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(levelsOut0Callback(float)));
     connect(
         _p->levelsOutWidget[1],
-        SIGNAL(valueChanged(double)),
-        SLOT(levelsOut1Callback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(levelsOut1Callback(float)));
     connect(
         _p->softClipWidget,
-        SIGNAL(valueChanged(double)),
-        SLOT(softClipCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(softClipCallback(float)));
 
     // Setup the other callbacks.
     connect(
@@ -306,7 +306,7 @@ void djvViewDisplayProfileWidget::lutCallback(const djvFileInfo & in)
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::brightnessCallback(double value)
+void djvViewDisplayProfileWidget::brightnessCallback(float value)
 {
     //DJV_DEBUG("djvViewDisplayProfileWidget::brightnessCallback");
     //DJV_DEBUG_PRINT("value = " << value);
@@ -314,49 +314,49 @@ void djvViewDisplayProfileWidget::brightnessCallback(double value)
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::contrastCallback(double in)
+void djvViewDisplayProfileWidget::contrastCallback(float in)
 {
     _p->displayProfile.color.contrast = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::saturationCallback(double in)
+void djvViewDisplayProfileWidget::saturationCallback(float in)
 {
     _p->displayProfile.color.saturation = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::levelsIn0Callback(double in)
+void djvViewDisplayProfileWidget::levelsIn0Callback(float in)
 {
     _p->displayProfile.levels.inLow = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::levelsIn1Callback(double in)
+void djvViewDisplayProfileWidget::levelsIn1Callback(float in)
 {
     _p->displayProfile.levels.inHigh = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::gammaCallback(double in)
+void djvViewDisplayProfileWidget::gammaCallback(float in)
 {
     _p->displayProfile.levels.gamma = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::levelsOut0Callback(double in)
+void djvViewDisplayProfileWidget::levelsOut0Callback(float in)
 {
     _p->displayProfile.levels.outLow = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::levelsOut1Callback(double in)
+void djvViewDisplayProfileWidget::levelsOut1Callback(float in)
 {
     _p->displayProfile.levels.outHigh = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-void djvViewDisplayProfileWidget::softClipCallback(double in)
+void djvViewDisplayProfileWidget::softClipCallback(float in)
 {
     _p->displayProfile.softClip = in;
     Q_EMIT displayProfileChanged(_p->displayProfile);

@@ -297,14 +297,14 @@ public:
 #define PIXEL_U8_ZERO  0
 #define PIXEL_U10_ZERO 0
 #define PIXEL_U16_ZERO 0
-#define PIXEL_F16_ZERO 0.0
-#define PIXEL_F32_ZERO 0.0
+#define PIXEL_F16_ZERO 0.f
+#define PIXEL_F32_ZERO 0.f
 
 #define PIXEL_U8_ONE   djvPixel::u8Max
 #define PIXEL_U10_ONE  djvPixel::u10Max
 #define PIXEL_U16_ONE  djvPixel::u16Max
-#define PIXEL_F16_ONE  1.0
-#define PIXEL_F32_ONE  1.0
+#define PIXEL_F16_ONE  1.f
+#define PIXEL_F32_ONE  1.f
 
 #define PIXEL_U8_TO_U8(IN)   (IN)
 #define PIXEL_U8_TO_U10(IN)  djvPixel::u8ToU10(IN)

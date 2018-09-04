@@ -38,7 +38,6 @@
 #include <djvError.h>
 #include <djvErrorUtil.h>
 #include <djvImage.h>
-#include <djvMatrix.h>
 #include <djvOpenGlImage.h>
 #include <djvPixelDataUtil.h>
 
@@ -50,15 +49,15 @@ struct djvImageView::Private
 {
     Private(djvGuiContext * context) :
         data    (0),
-        viewZoom(1.0),
+        viewZoom(1.f),
         viewFit (false),
         context (context)
     {}
     
     const djvPixelData *  data;
     djvOpenGlImageOptions options;
-    djvVector2i           viewPos;
-    double                viewZoom;
+    glm::ivec2            viewPos = glm::ivec2(0, 0);
+    float                 viewZoom;
     bool                  viewFit;
     djvOpenGlImageState   state;
     djvGuiContext *       context;
@@ -89,12 +88,12 @@ const djvOpenGlImageOptions & djvImageView::options() const
     return _p->options;
 }
 
-const djvVector2i & djvImageView::viewPos() const
+const glm::ivec2 & djvImageView::viewPos() const
 {
     return _p->viewPos;
 }
 
-double djvImageView::viewZoom() const
+float djvImageView::viewZoom() const
 {
     return _p->viewZoom;
 }
@@ -135,29 +134,30 @@ void djvImageView::setOptions(const djvOpenGlImageOptions & options)
     Q_EMIT viewChanged();
 }
 
-void djvImageView::setViewPos(const djvVector2i & pos)
+void djvImageView::setViewPos(const glm::ivec2 & pos)
 {
     setViewPosZoom(pos, _p->viewZoom);
 }
 
-void djvImageView::setViewZoom(double zoom)
+void djvImageView::setViewZoom(float zoom)
 {
     //DJV_DEBUG("djvImageView::setViewZoom");
     //DJV_DEBUG_PRINT("zoom = " << zoom);
     setViewPosZoom(_p->viewPos, zoom);
 }
 
-void djvImageView::setViewZoom(double zoom, const djvVector2i & focus)
+void djvImageView::setViewZoom(float zoom, const glm::ivec2 & focus)
 {
     //DJV_DEBUG("djvImageView::setViewZoom");
     //DJV_DEBUG_PRINT("zoom = " << zoom);
     //DJV_DEBUG_PRINT("focus = " << focus);
+    //DJV_DEBUG_PRINT("viewZoom = " << _p->viewZoom);
     setViewPosZoom(
-        focus + djvVector2i(djvVector2f(_p->viewPos - focus) * (zoom / _p->viewZoom)),
+        focus + glm::ivec2(glm::vec2(_p->viewPos - focus) * (zoom / _p->viewZoom)),
         zoom);
 }
 
-void djvImageView::setViewPosZoom(const djvVector2i & pos, double zoom)
+void djvImageView::setViewPosZoom(const glm::ivec2 & pos, float zoom)
 {
     const bool posSame  = pos == _p->viewPos;
     const bool zoomSame = djvMath::fuzzyCompare(zoom, _p->viewZoom);
@@ -168,7 +168,7 @@ void djvImageView::setViewPosZoom(const djvVector2i & pos, double zoom)
     //DJV_DEBUG_PRINT("zoom = " << zoom);
     _p->viewPos  = pos;
     _p->viewZoom = zoom;
-    _p->viewFit = false;
+    _p->viewFit  = false;
     update();
     if (! posSame)
         Q_EMIT viewPosChanged(_p->viewPos);
@@ -179,12 +179,12 @@ void djvImageView::setViewPosZoom(const djvVector2i & pos, double zoom)
 
 void djvImageView::viewZero()
 {
-    setViewPosZoom(djvVector2i(), 1.0);
+    setViewPosZoom(glm::ivec2(), 1.f);
 }
 
 void djvImageView::viewCenter()
 {
-    setViewPos(djvVector2f(width(), height()) / 2.0 - bbox().size / 2.0);
+    setViewPos(glm::vec2(width(), height()) / 2.f - bbox().size / 2.f);
 }
 
 void djvImageView::viewFit()
@@ -194,15 +194,15 @@ void djvImageView::viewFit()
     //DJV_DEBUG("djvImageView::viewFit");
     const djvBox2i geom(width(), height());
     //DJV_DEBUG_PRINT("geom = " << geom.size);
-    const djvBox2f bbox = this->bbox(djvVector2i(), 1.0);
+    const djvBox2f bbox = this->bbox(glm::ivec2(), 1.f);
     //DJV_DEBUG_PRINT("bbox = " << bbox);
-    const double zoom = djvVectorUtil::isSizeValid(bbox.size) ?
-        djvMath::min(geom.w / bbox.size.x, geom.h / bbox.size.y) : 1.0;
+    const float zoom = djvVectorUtil::isSizeValid(bbox.size) ?
+        djvMath::min(geom.w / bbox.size.x, geom.h / bbox.size.y) : 1.f;
     //DJV_DEBUG_PRINT("zoom = " << zoom);
-    djvVector2i pos =
-        djvVector2f(geom.size) / 2.0 -
-        bbox.size * zoom / 2.0 -
-        this->bbox(djvVector2i(), zoom).position;
+    glm::ivec2 pos =
+        glm::vec2(geom.size) / 2.f -
+        bbox.size * zoom / 2.f -
+        this->bbox(glm::ivec2(), zoom).position;
     //DJV_DEBUG_PRINT("pos = " << pos);
     setViewPosZoom(pos, zoom);
     //DJV_DEBUG_PRINT("fit");
@@ -227,7 +227,7 @@ void djvImageView::paintGL()
 
     //if (! valid())
     //{
-        djvOpenGlUtil::ortho(djvVector2i(geom.w, geom.h));
+        djvOpenGlUtil::ortho(glm::ivec2(geom.w, geom.h));
         glViewport(0, 0, geom.w, geom.h);
     //}
     djvColor background(djvPixel::RGB_F32);
@@ -236,7 +236,7 @@ void djvImageView::paintGL()
         background.f32(0),
         background.f32(1),
         background.f32(2),
-        0.0);
+        0.f);
     //glClearColor(0, 1, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT);
     if (! _p->data)
@@ -257,7 +257,7 @@ void djvImageView::paintGL()
     }
 }
 
-djvBox2f djvImageView::bbox(const djvVector2i & pos, double zoom) const
+djvBox2f djvImageView::bbox(const glm::ivec2 & pos, float zoom) const
 {
     if (! _p->data)
         return djvBox2f();
@@ -274,7 +274,7 @@ djvBox2f djvImageView::bbox(const djvVector2i & pos, double zoom) const
     xform.scale    *= zoom;
     //DJV_DEBUG_PRINT("xform = " << xform);
 
-    const djvMatrix3f m = djvOpenGlImageXform::xformMatrix(xform);
+    const glm::mat3x3 m = djvOpenGlImageXform::xformMatrix(xform);
     //DJV_DEBUG_PRINT("m = " << m);
 
     djvBox2f box(_p->data->info().size * djvPixelDataUtil::proxyScale(info.proxy));

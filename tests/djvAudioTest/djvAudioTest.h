@@ -109,7 +109,7 @@ public:
     void start();
     void stop();
 
-    double time() const;
+    float time() const;
 
 private:
 
@@ -132,7 +132,7 @@ private:
     PaStream * _h;
     djvAudioTestInfo _info;
     djvAudioTestBuffer * _buffer;
-    double _time_start;
+    float _time_start;
     static int _instance;
 };
 

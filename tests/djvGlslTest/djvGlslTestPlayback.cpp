@@ -62,7 +62,7 @@ const djvSequence & djvGlslTestPlayback::sequence() const
 
 qint64 djvGlslTestPlayback::frame() const
 {
-    return _sequence.frames[_frame];
+    return _frame < _sequence.frames.size() ? _sequence.frames[_frame] : 0;
 }
 
 djvPlaybackUtil::PLAYBACK djvGlslTestPlayback::playback() const

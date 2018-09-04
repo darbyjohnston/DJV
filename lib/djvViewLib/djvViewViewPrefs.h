@@ -35,7 +35,6 @@
 #include <djvViewImageView.h>
 
 #include <djvColor.h>
-#include <djvVector.h>
 
 //! \addtogroup djvViewView
 //@{

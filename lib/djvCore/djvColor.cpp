@@ -205,14 +205,14 @@ QStringList & operator >> (QStringList & in, djvColor & out) throw (QString)
             break;
             case djvPixel::F16:
             {
-                double value = 0.0;
+                float value = 0.f;
                 in >> value;
                 out.setF16(static_cast<djvPixel::F16_T>(value), c);
             }
             break;
             case djvPixel::F32:
             {
-                double value = 0.0;
+                float value = 0.f;
                 in >> value;
                 out.setF32(static_cast<djvPixel::F32_T>(value), c);
             }

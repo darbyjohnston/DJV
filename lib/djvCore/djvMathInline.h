@@ -98,12 +98,12 @@ inline T djvMath::lerp(U value, T min, T max)
     return min + T(value * (max - min));
 }
 
-inline double djvMath::smoothStep(double value, double min, double max)
+inline float djvMath::smoothStep(float value, float min, float max)
 {
-    return lerp(value * value * (3.0 - (2.0 * value)), min, max);
+    return lerp(value * value * (3.f - (2.f * value)), min, max);
 }
 
-inline double djvMath::fraction(double value)
+inline float djvMath::fraction(float value)
 {
     return value - static_cast<int>(value);
 }
@@ -116,15 +116,15 @@ inline int djvMath::toPow2(int value)
     return 1 << i;
 }
 
-inline double djvMath::degreesToRadians(double value)
+inline float djvMath::degreesToRadians(float value)
 {
-    static const double m = 1.0 / 360.0 * piX2;
+    static const float m = 1.f / 360.f * piX2;
     return value * m;
 }
 
-inline double djvMath::radiansToDegrees(double value)
+inline float djvMath::radiansToDegrees(float value)
 {
-    static const double m = 1.0 / piX2 * 360.0;
+    static const float m = 1.f / piX2 * 360.f;
     return value * m;
 }
 

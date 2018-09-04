@@ -52,10 +52,10 @@ void djvMathTest::members()
     }
     {
         DJV_ASSERT(4 == djvMath::pow(2, 2));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.0, djvMath::pow(2.0, 2.0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(4.f, djvMath::pow(2.f, 2.f)));
     }
     {
-        DJV_ASSERT(djvMath::fuzzyCompare(2.0, djvMath::sqrt(4.0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(2.f, djvMath::sqrt(4.f)));
     }
     {
         DJV_ASSERT(0 == djvMath::mod<int>(2, 1));
@@ -95,21 +95,21 @@ void djvMathTest::members()
         DJV_ASSERT( 2 == djvMath::lerp( 2, 0, 1));
     }
     {
-        DJV_ASSERT(1 == djvMath::floor(1.5));
-        DJV_ASSERT(2 == djvMath::ceil (1.5));
-        DJV_ASSERT(2 == djvMath::round(1.5));
+        DJV_ASSERT(1 == djvMath::floor(1.5f));
+        DJV_ASSERT(2 == djvMath::ceil (1.5f));
+        DJV_ASSERT(2 == djvMath::round(1.5f));
     }
     {
-        DJV_ASSERT(djvMath::fuzzyCompare(0.5, djvMath::fraction(1.5)));
+        DJV_ASSERT(djvMath::fuzzyCompare(.5f, djvMath::fraction(1.5f)));
     }
     {
         DJV_ASSERT(4 == djvMath::toPow2(3));
     }
     {
-        DJV_DEBUG_PRINT(djvMath::degreesToRadians(180.0));
+        DJV_DEBUG_PRINT(djvMath::degreesToRadians(180.f));
         DJV_DEBUG_PRINT(djvMath::radiansToDegrees(djvMath::pi));
-        //DJV_ASSERT(djvMath::fuzzyCompare(djvMath::pi, djvMath::degreesToRadians(180.0)));
-        //DJV_ASSERT(djvMath::fuzzyCompare(180.0, djvMath::radiansToDegrees(djvMath::pi)));
+        //DJV_ASSERT(djvMath::fuzzyCompare(djvMath::pi, djvMath::degreesToRadians(180.f)));
+        //DJV_ASSERT(djvMath::fuzzyCompare(180.f, djvMath::radiansToDegrees(djvMath::pi)));
     }
 }
 

@@ -41,7 +41,7 @@ inline const djvPixelDataInfo & djvPixelData::info() const
     return _info;
 }
 
-inline const djvVector2i & djvPixelData::size() const
+inline const glm::ivec2 & djvPixelData::size() const
 {
     return _info.size;
 }

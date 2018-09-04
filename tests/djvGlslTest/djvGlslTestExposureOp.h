@@ -48,18 +48,18 @@ public:
     struct Values
     {
         Values() :
-            exposure(0.0),
-            defog   (0.0),
-            kneeLow (0.0),
-            kneeHigh(5.0),
-            gamma   (2.2)
+            exposure(0.f),
+            defog   (0.f),
+            kneeLow (0.f),
+            kneeHigh(5.f),
+            gamma   (2.2f)
         {}
 
-        double exposure;
-        double defog;
-        double kneeLow;
-        double kneeHigh;
-        double gamma;
+        float exposure;
+        float defog;
+        float kneeLow;
+        float kneeHigh;
+        float gamma;
         
         bool operator == (const Values & other) const
         {
@@ -103,11 +103,11 @@ public:
 
 private Q_SLOTS:
 
-    void exposureCallback(double);
-    void defogCallback(double);
-    void kneeLowCallback(double);
-    void kneeHighCallback(double);
-    void gammaCallback(double);
+    void exposureCallback(float);
+    void defogCallback(float);
+    void kneeLowCallback(float);
+    void kneeHighCallback(float);
+    void gammaCallback(float);
 
 private:
 

@@ -1,9 +1,9 @@
 set(header
     djvAssert.h
     djvBox.h
+    djvBoxInline.h
     djvBox2Inline.h
     djvBox3Inline.h
-    djvBoxInline.h
     djvBoxUtil.h
     djvBoxUtilInline.h
     djvColor.h
@@ -35,11 +35,7 @@ set(header
     djvMath.h
     djvMathInline.h
     djvMatrix.h
-    djvMatrix3Inline.h
-    djvMatrix4Inline.h
     djvMatrixInline.h
-    djvMatrixUtil.h
-    djvMatrixUtilInline.h
     djvMemory.h
     djvMemoryInline.h
     djvOpenGl.h
@@ -72,8 +68,6 @@ set(header
     djvUser.h
     djvUtil.h
     djvVector.h
-    djvVector2Inline.h
-    djvVector3Inline.h
     djvVectorInline.h
     djvVectorUtil.h
     djvVectorUtilInline.h)
@@ -135,8 +129,7 @@ set(source
     djvSystem.cpp
     djvTime.cpp
     djvTimer.cpp
-    djvUser.cpp
-    djvVectorUtil.cpp)
+    djvUser.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
 QT5_ADD_RESOURCES(rccSource djvCore.qrc)

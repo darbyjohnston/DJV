@@ -29,105 +29,27 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvVectorUtil.h>
-
-//------------------------------------------------------------------------------
-// djvBox<T, D>
-//------------------------------------------------------------------------------
-
-template<typename T, int D>
-const int djvBox<T, D>::dimension = D;
-
-template<typename T, int D>
-inline djvBox<T, D>::djvBox()
-{}
-
-template<typename T, int D>
-inline djvBox<T, D>::djvBox(const djvBox<T, D> & in) :
-    position(in.position),
-    size    (in.size)
-{}
-
-template<typename T, int D>
-inline djvBox<T, D>::djvBox(const djvVector<T, D> & position, const djvVector<T, D> & size) :
-    position(position),
-    size    (size)
-{}
-
-template<typename T, int D>
-inline djvBox<T, D>::djvBox(const djvVector<T, D> & size) : size(size)
-{}
-
-template<typename T, int D>
-inline bool djvBox<T, D>::isValid() const
-{
-    return djvVectorUtil::isSizeValid(size);
-}
-
-template<typename T, int D>
-inline void djvBox<T, D>::zero()
-{
-    position.zero();
-    size.zero();
-}
-
-template<typename T, int D>
-inline djvVector<T, D> djvBox<T, D>::lowerRight() const
-{
-    return position + size;
-}
-
-template<typename T, int D>
-inline void djvBox<T, D>::setLowerRight(const djvVector<T, D> & in)
-{
-    size = in - position;
-}
-
-template<typename T, int D>
-inline djvBox<T, D> & djvBox<T, D>::operator *= (const djvVector<T, D> & in)
-{
-    position *= in;
-    size *= in;
-}
-
-template<typename T, int D>
-inline djvBox<T, D> & djvBox<T, D>::operator /= (const djvVector<T, D> & in)
-{
-    position /= in;
-    size /= in;
-}
-
-template<typename T, int D>
-inline djvBox<T, D> & djvBox<T, D>::operator *= (T in)
-{
-    position *= in;
-    size *= in;
-}
-
-template<typename T, int D>
-inline djvBox<T, D> & djvBox<T, D>::operator /= (T in)
-{
-    position /= in;
-    size /= in;
-}
-
-#define _BOX_FNC_OP(IN) \
-    template<typename T, int D> \
-    inline djvBox<T, D> operator IN (const djvBox<T, D> & a, T b) \
+#define _BOX_FNC_OP(BOX, IN) \
+    template<typename T, glm::precision P> \
+    inline BOX<T, P> operator IN (const BOX<T, P> & a, T b) \
     { \
-        return djvBox<T, D>(a.position IN b, a.size IN b); \
+        return BOX<T, P>(a.position IN b, a.size IN b); \
     }
 
-_BOX_FNC_OP(+)
-_BOX_FNC_OP(-)
-_BOX_FNC_OP(*)
-_BOX_FNC_OP(/)
+_BOX_FNC_OP(djvBox2, +)
+_BOX_FNC_OP(djvBox2, -)
+_BOX_FNC_OP(djvBox2, *)
+_BOX_FNC_OP(djvBox2, /)
+_BOX_FNC_OP(djvBox3, +)
+_BOX_FNC_OP(djvBox3, -)
+_BOX_FNC_OP(djvBox3, *)
+_BOX_FNC_OP(djvBox3, /)
 
 #define _BOX_FNC_OP2(IN) \
-    template<typename T, int D> \
-    inline djvBox<T, D> operator IN (const djvBox<T, D> & a, const djvVector<T, D> & b) \
+    template<typename T, glm::precision P> \
+    inline djvBox2<T, P> operator IN (const djvBox2<T, P> & a, const glm::tvec2<T, P> & b) \
     { \
-        return djvBox<T, D>(a.position IN b, a.size IN b); \
+        return djvBox2<T, P>(a.position IN b, a.size IN b); \
     }
 
 _BOX_FNC_OP2(+)
@@ -135,32 +57,74 @@ _BOX_FNC_OP2(-)
 _BOX_FNC_OP2(*)
 _BOX_FNC_OP2(/)
 
-template<typename T, int D>
-inline QStringList & operator << (QStringList & out, const djvBox<T, D> & in)
+#define _BOX_FNC_OP3(IN) \
+    template<typename T, glm::precision P> \
+    inline djvBox3<T, P> operator IN (const djvBox3<T, P> & a, const glm::tvec3<T, P> & b) \
+    { \
+        return djvBox3<T, P>(a.position IN b, a.size IN b); \
+    }
+
+_BOX_FNC_OP3(+)
+_BOX_FNC_OP3(-)
+_BOX_FNC_OP3(*)
+_BOX_FNC_OP3(/)
+
+template<typename T, glm::precision P>
+inline QStringList & operator << (QStringList & out, const djvBox2<T, P> & in)
 {
     return out << in.position << in.size;
 }
 
-template<typename T, int D>
-inline QStringList & operator >> (QStringList & in, djvBox<T, D> & out) throw (QString)
+template<typename T, glm::precision P>
+inline QStringList & operator << (QStringList & out, const djvBox3<T, P> & in)
+{
+    return out << in.position << in.size;
+}
+
+template<typename T, glm::precision P>
+inline QStringList & operator >> (QStringList & in, djvBox2<T, P> & out) throw (QString)
 {
     return in >> out.position >> out.size;
 }
 
-template<typename T, int D>
-inline bool operator == (const djvBox<T, D> & a, const djvBox<T, D> & b)
+template<typename T, glm::precision P>
+inline QStringList & operator >> (QStringList & in, djvBox3<T, P> & out) throw (QString)
+{
+    return in >> out.position >> out.size;
+}
+
+template<typename T, glm::precision P>
+inline bool operator == (const djvBox2<T, P> & a, const djvBox2<T, P> & b)
 {
     return a.position == b.position && a.size == b.size;
 }
 
-template<typename T, int D>
-inline bool operator != (const djvBox<T, D> & a, const djvBox<T, D> & b)
+template<typename T, glm::precision P>
+inline bool operator == (const djvBox3<T, P> & a, const djvBox3<T, P> & b)
+{
+    return a.position == b.position && a.size == b.size;
+}
+
+template<typename T, glm::precision P>
+inline bool operator != (const djvBox2<T, P> & a, const djvBox2<T, P> & b)
 {
     return ! (a == b);
 }
 
-template<typename T, int D>
-inline djvDebug & operator << (djvDebug & debug, const djvBox<T, D> & in)
+template<typename T, glm::precision P>
+inline bool operator != (const djvBox3<T, P> & a, const djvBox3<T, P> & b)
+{
+    return ! (a == b);
+}
+
+template<typename T, glm::precision P>
+inline djvDebug & operator << (djvDebug & debug, const djvBox2<T, P> & in)
+{
+    return debug << in.position << " " << in.size;
+}
+
+template<typename T, glm::precision P>
+inline djvDebug & operator << (djvDebug & debug, const djvBox3<T, P> & in)
 {
     return debug << in.position << " " << in.size;
 }

@@ -130,7 +130,7 @@ void djvOpenExrSave::write(const djvImage & in, const djvImageIoFrameInfo & fram
                     w * channels * byteCount,
                     1,
                     1,
-                    0.0));
+                    0.f));
         }
         _f->setFrameBuffer(frameBuffer);
         _f->writePixels(h);

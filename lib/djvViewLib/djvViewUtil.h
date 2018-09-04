@@ -182,7 +182,7 @@ public:
     static const QStringList & imageScaleLabels();
 
     //! Calculate an image scale.
-    static djvVector2f imageScale(IMAGE_SCALE, const djvVector2i &);
+    static glm::vec2 imageScale(IMAGE_SCALE, const glm::ivec2 &);
 
     //! This enumeration provides the image rotation.
     enum IMAGE_ROTATE
@@ -199,7 +199,7 @@ public:
     static const QStringList & imageRotateLabels();
 
     //! Get the image rotation in degrees.
-    static double imageRotate(IMAGE_ROTATE);
+    static float imageRotate(IMAGE_ROTATE);
 
     //! Load a LUT.
     static void loadLut(
@@ -465,7 +465,7 @@ public:
     static const QStringList & zoomFactorLabels();
     
     //! Get the mouse wheel zoom factor.
-    static double zoomFactor(ZOOM_FACTOR);
+    static float zoomFactor(ZOOM_FACTOR);
 
     //! This enumeration provides error codes.
     enum ERROR

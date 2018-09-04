@@ -41,10 +41,10 @@
 //------------------------------------------------------------------------------
 
 djvColorProfile::Exposure::Exposure(
-    double value,
-    double defog,
-    double kneeLow,
-    double kneeHigh) :
+    float value,
+    float defog,
+    float kneeLow,
+    float kneeHigh) :
     value   (value),
     defog   (defog),
     kneeLow (kneeLow),

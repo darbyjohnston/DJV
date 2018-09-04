@@ -55,24 +55,24 @@ class DJV_GUI_EXPORT djvVector2fEditWidget : public QWidget
     
     //! This property holds the value.    
     Q_PROPERTY(
-        djvVector2f value
-        READ        value
-        WRITE       setValue
-        NOTIFY      valueChanged)
+        glm::vec2 value
+        READ      value
+        WRITE     setValue
+        NOTIFY    valueChanged)
     
     //! This property holds the minimum value.
     Q_PROPERTY(
-        djvVector2f min
-        READ        min
-        WRITE       setMin
-        NOTIFY      minChanged)
+        glm::vec2 min
+        READ      min
+        WRITE     setMin
+        NOTIFY    minChanged)
     
     //! This property holds the maximum value.
     Q_PROPERTY(
-        djvVector2f max
-        READ        max
-        WRITE       setMax
-        NOTIFY      maxChanged)
+        glm::vec2 max
+        READ      max
+        WRITE     setMax
+        NOTIFY    maxChanged)
     
 public:
     explicit djvVector2fEditWidget(QWidget * parent = 0);
@@ -80,39 +80,39 @@ public:
     virtual ~djvVector2fEditWidget();
 
     //! Get the value.
-    djvVector2f value() const;
+    glm::vec2 value() const;
 
     //! Get the minimum value.
-    djvVector2f min() const;
+    glm::vec2 min() const;
 
     //! Get the maximum value.
-    djvVector2f max() const;
+    glm::vec2 max() const;
 
 public Q_SLOTS:
     //! Set the value.
-    void setValue(const djvVector2f &);
+    void setValue(const glm::vec2 &);
 
     //! Set the minimum value.
-    void setMin(const djvVector2f &);
+    void setMin(const glm::vec2 &);
 
     //! Set the maximum value.
-    void setMax(const djvVector2f &);
+    void setMax(const glm::vec2 &);
 
     //! Set the value range.
-    void setRange(const djvVector2f & min, const djvVector2f & max);
+    void setRange(const glm::vec2 & min, const glm::vec2 & max);
 
 Q_SIGNALS:
     //! This signal is emitted when the value is changed.
-    void valueChanged(const djvVector2f &);
+    void valueChanged(const glm::vec2 &);
 
     //! This signal is emitted when the minimum value is changed.
-    void minChanged(const djvVector2f &);
+    void minChanged(const glm::vec2 &);
 
     //! This signal is emitted when the maximum value is changed.
-    void maxChanged(const djvVector2f &);
+    void maxChanged(const glm::vec2 &);
 
     //! This signal is emitted when the value range is changed.
-    void rangeChanged(const djvVector2f &, const djvVector2f &);
+    void rangeChanged(const glm::vec2 &, const glm::vec2 &);
 
 private Q_SLOTS:
     void valueCallback();

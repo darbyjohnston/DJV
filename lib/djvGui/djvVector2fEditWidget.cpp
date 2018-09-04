@@ -73,61 +73,61 @@ djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
 
     connect(
         _p->widget,
-        SIGNAL(valueChanged(double)),
+        SIGNAL(valueChanged(float)),
         SLOT(valueCallback()));
     connect(
         _p->widget,
-        SIGNAL(rangeChanged(double, double)),
+        SIGNAL(rangeChanged(float, float)),
         SLOT(rangeCallback()));
     connect(
         _p->widget2,
-        SIGNAL(valueChanged(double)),
+        SIGNAL(valueChanged(float)),
         SLOT(valueCallback()));
     connect(
         _p->widget2,
-        SIGNAL(rangeChanged(double, double)),
+        SIGNAL(rangeChanged(float, float)),
         SLOT(rangeCallback()));
 }
 
 djvVector2fEditWidget::~djvVector2fEditWidget()
 {}
 
-djvVector2f djvVector2fEditWidget::value() const
+glm::vec2 djvVector2fEditWidget::value() const
 {
-    return djvVector2f(_p->widget->value(), _p->widget2->value());
+    return glm::vec2(_p->widget->value(), _p->widget2->value());
 }
 
-djvVector2f djvVector2fEditWidget::min() const
+glm::vec2 djvVector2fEditWidget::min() const
 {
-    return djvVector2f(_p->widget->min(), _p->widget2->min());
+    return glm::vec2(_p->widget->min(), _p->widget2->min());
 }
 
-djvVector2f djvVector2fEditWidget::max() const
+glm::vec2 djvVector2fEditWidget::max() const
 {
-    return djvVector2f(_p->widget->max(), _p->widget2->max());
+    return glm::vec2(_p->widget->max(), _p->widget2->max());
 }
 
-void djvVector2fEditWidget::setValue(const djvVector2f & value)
+void djvVector2fEditWidget::setValue(const glm::vec2 & value)
 {
     _p->widget->setValue(value.x);
     _p->widget2->setValue(value.y);
 }
 
-void djvVector2fEditWidget::setMin(const djvVector2f & min)
+void djvVector2fEditWidget::setMin(const glm::vec2 & min)
 {
     _p->widget->setMin(min.x);
     _p->widget2->setMin(min.y);
 }
 
-void djvVector2fEditWidget::setMax(const djvVector2f & max)
+void djvVector2fEditWidget::setMax(const glm::vec2 & max)
 {
     _p->widget->setMax(max.x);
     _p->widget2->setMax(max.y);
 }
 
 void djvVector2fEditWidget::setRange(
-    const djvVector2f & min,
-    const djvVector2f & max)
+    const glm::vec2 & min,
+    const glm::vec2 & max)
 {
     _p->widget->setRange(min.x, max.x);
     _p->widget2->setRange(min.y, max.y);

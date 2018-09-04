@@ -52,31 +52,31 @@ public:
     virtual ~djvColorUtil() = 0;
     
     //! Scale a color.
-    static void scale(double, const djvColor &, djvColor &);
+    static void scale(float, const djvColor &, djvColor &);
 
     //! Scale a color.
-    static djvColor scale(double, const djvColor &);
+    static djvColor scale(float, const djvColor &);
 
     //! Interpolate a color.
-    static void lerp(double, const djvColor &, const djvColor &, djvColor &);
+    static void lerp(float, const djvColor &, const djvColor &, djvColor &);
 
     //! Interpolate a color.
-    static void lerp(double, const QColor &, const QColor &, QColor &);
+    static void lerp(float, const QColor &, const QColor &, QColor &);
 
     //! Interpolate a color.
-    static djvColor lerp(double, const djvColor &, const djvColor &);
+    static djvColor lerp(float, const djvColor &, const djvColor &);
 
     //! Interpolate a color.
-    static QColor lerp(double, const QColor &, const QColor &);
+    static QColor lerp(float, const QColor &, const QColor &);
 
     //! Convert a color.
     static void convert(const djvColor &, djvColor &);
 
     //! Convert RGB to HSV.
-    static inline void rgbToHsv(const double [3], double [3]);
+    static inline void rgbToHsv(const float[3], float[3]);
 
     //! Convert HSV to RGB.
-    static inline void hsvToRgb(const double [3], double [3]);
+    static inline void hsvToRgb(const float[3], float[3]);
 
     //! Convert to Qt.
     static QColor toQt(const djvColor &);

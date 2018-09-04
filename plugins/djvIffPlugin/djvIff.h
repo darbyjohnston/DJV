@@ -118,7 +118,7 @@ struct djvIff
         quint32 alignment);
 
     //! Get tile size.
-    static djvVector2i tileSize(
+    static glm::ivec2 tileSize(
         quint32 width,
         quint32 height);
 

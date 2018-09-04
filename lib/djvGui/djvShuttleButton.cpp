@@ -50,14 +50,14 @@
 struct djvShuttleButton::Private
 {
     Private() :
-        value     (0.0),
+        value     (0.f),
         mousePress(false)
     {}
     
-    double         value;
+    float          value;
     QVector<QIcon> icons;
     bool           mousePress;
-    djvVector2i    mouseStartPos;
+    glm::ivec2     mouseStartPos = glm::ivec2(0, 0);
 };
 
 //------------------------------------------------------------------------------
@@ -122,9 +122,9 @@ QSize djvShuttleButton::sizeHint() const
 
 void djvShuttleButton::mousePressEvent(QMouseEvent * event)
 {
-    _p->value = 0.0;
+    _p->value = 0.f;
     _p->mousePress = true;
-    _p->mouseStartPos = djvVector2i(event->pos().x(), event->pos().y());
+    _p->mouseStartPos = glm::ivec2(event->pos().x(), event->pos().y());
     setCursor(Qt::SizeHorCursor);
     update();
     Q_EMIT mousePressed(_p->mousePress);
@@ -132,7 +132,7 @@ void djvShuttleButton::mousePressEvent(QMouseEvent * event)
 
 void djvShuttleButton::mouseReleaseEvent(QMouseEvent * event)
 {
-    _p->value = 0.0;
+    _p->value = 0.f;
     _p->mousePress = false;
     setCursor(QCursor());
     update();
@@ -144,9 +144,9 @@ void djvShuttleButton::mouseMoveEvent(QMouseEvent * event)
     const int tmp = event->pos().x() - _p->mouseStartPos.x;
     if (tmp != _p->value)
     {
-        _p->value = static_cast<double>(tmp);
+        _p->value = static_cast<float>(tmp);
         update();
-        Q_EMIT valueChanged(djvMath::round(_p->value / 5.0));
+        Q_EMIT valueChanged(djvMath::round(_p->value / 5.f));
     }
 }
 
@@ -155,7 +155,7 @@ void djvShuttleButton::paintEvent(QPaintEvent * event)
     djvAbstractToolButton::paintEvent(event);
 
     QPainter painter(this);
-    const int i = djvMath::mod(djvMath::round(_p->value / 5.0), 8);
+    const int i = djvMath::mod(djvMath::round(_p->value / 5.f), 8);
     QIcon::Mode  mode  = QIcon::Normal;
     QIcon::State state = QIcon::Off;
     if (!isEnabled())

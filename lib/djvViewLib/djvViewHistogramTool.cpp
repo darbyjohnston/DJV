@@ -138,10 +138,10 @@ void drawHistrogramBar(
     const QColor & color)
 {
     const int x = djvMath::floor(
-        index / static_cast<double>(dataWidth)* width);
+        index / static_cast<float>(dataWidth)* width);
     const int w = djvMath::max(
         djvMath::floor(
-            (index + 1) / static_cast<double>(dataWidth)* width) - x,
+            (index + 1) / static_cast<float>(dataWidth)* width) - x,
         1);
     painter.fillRect(x, height - 1 - y, w, y, color);
 }
@@ -196,7 +196,7 @@ void djvViewHistogramWidget::updatePixmap()
         for (int c = dataC - 1; c >= 0; --c)
         {
             const int y = djvMath::floor(
-                p[c] / static_cast<double>(dataMax) * (height - 1));
+                p[c] / static_cast<float>(dataMax) * (height - 1));
             yC[c] = y;
             yMax = djvMath::max(y, yMax);
         }

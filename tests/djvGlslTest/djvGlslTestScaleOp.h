@@ -80,7 +80,7 @@ public:
     {
         Values();
 
-        djvVector2i    size;
+        glm::ivec2     size;
         TYPE           type;
         FILTER_DEFAULT defaultMin;
         FILTER_DEFAULT defaultMag;
@@ -130,7 +130,7 @@ public:
 
     private:
 
-        djvVector2i   _size;
+        glm::ivec2    _size;
         FILTER_CUSTOM _filterMin;
         FILTER_CUSTOM _filterMag;
         bool          _init;

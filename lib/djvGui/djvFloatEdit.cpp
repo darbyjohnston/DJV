@@ -77,23 +77,23 @@ djvFloatEdit::djvFloatEdit(QWidget * parent) :
 
     connect(
         _p->object,
-        SIGNAL(valueChanged(double)),
+        SIGNAL(valueChanged(float)),
         SLOT(valueCallback()));
     connect(
         _p->object,
-        SIGNAL(minChanged(double)),
+        SIGNAL(minChanged(float)),
         SLOT(rangeCallback()));
     connect(
         _p->object,
-        SIGNAL(maxChanged(double)),
+        SIGNAL(maxChanged(float)),
         SLOT(rangeCallback()));
     connect(
         _p->object,
-        SIGNAL(rangeChanged(double, double)),
+        SIGNAL(rangeChanged(float, float)),
         SLOT(rangeCallback()));
     connect(
         _p->object,
-        SIGNAL(incChanged(double, double)),
+        SIGNAL(incChanged(float, float)),
         SLOT(widgetUpdate()));
     connect(
         _p->spinBox,
@@ -104,17 +104,17 @@ djvFloatEdit::djvFloatEdit(QWidget * parent) :
 djvFloatEdit::~djvFloatEdit()
 {}
 
-double djvFloatEdit::value() const
+float djvFloatEdit::value() const
 {
     return _p->object->value();
 }
 
-double djvFloatEdit::min() const
+float djvFloatEdit::min() const
 {
     return _p->object->min();
 }
 
-double djvFloatEdit::max() const
+float djvFloatEdit::max() const
 {
     return _p->object->max();
 }
@@ -124,22 +124,22 @@ djvFloatObject * djvFloatEdit::object() const
     return _p->object;
 }
 
-void djvFloatEdit::setValue(double value)
+void djvFloatEdit::setValue(float value)
 {
     _p->object->setValue(value);
 }
 
-void djvFloatEdit::setMin(double min)
+void djvFloatEdit::setMin(float min)
 {
     _p->object->setMin(min);
 }
 
-void djvFloatEdit::setMax(double max)
+void djvFloatEdit::setMax(float max)
 {
     _p->object->setMax(max);
 }
 
-void djvFloatEdit::setRange(double min, double max)
+void djvFloatEdit::setRange(float min, float max)
 {
     _p->object->setRange(min, max);
 }
@@ -174,7 +174,7 @@ void djvFloatEdit::rangeCallback()
 
 void djvFloatEdit::spinBoxCallback(double value)
 {
-    _p->object->setValue(value);
+    _p->object->setValue(static_cast<float>(value));
 }
 
 void djvFloatEdit::widgetUpdate()

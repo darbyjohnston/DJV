@@ -137,7 +137,7 @@ void djvLut::infernoOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE type)
     //DJV_DEBUG_PRINT("channels = " << channels);
 
     // Information.
-    info.size = djvVector2i(size, 1);
+    info.size = glm::ivec2(size, 1);
     int bitDepth = 0;
     switch (type)
     {
@@ -239,7 +239,7 @@ void djvLut::kodakOpen(djvFileIo & io, djvPixelDataInfo & info, TYPE type)
     //DJV_DEBUG_PRINT("size = " << size);
 
     // Information.
-    info.size = djvVector2i(size, 1);
+    info.size = glm::ivec2(size, 1);
     int bitDepth = 0;
     switch (type)
     {

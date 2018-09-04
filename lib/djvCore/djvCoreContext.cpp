@@ -153,7 +153,7 @@ QString djvCoreContext::info() const
 "    Search path: %8\n"
 "    Qt version: %9\n");
     return QString(label).
-        arg(DJV_PROJECT_NAME).
+        arg(DJV_VERSION).
         arg(djvStringUtil::label(djvTime::units()).join(", ")).
         arg(djvStringUtil::label(djvSpeed::speed()).join(", ")).
         arg(djvStringUtil::label(djvSequence::maxFrames()).join(", ")).
@@ -263,7 +263,7 @@ QString djvCoreContext::about() const
 "    zlib\n"
 "    http://www.zlib.net/\n"
 "    Copyright (c) 1995-2013 Jean-loup Gailly and Mark Adler\n");
-    return QString(label).arg(DJV_PROJECT_NAME);
+    return QString(label).arg(DJV_VERSION);
 }
     
 void djvCoreContext::print(const QString & string, bool newLine, int indent)

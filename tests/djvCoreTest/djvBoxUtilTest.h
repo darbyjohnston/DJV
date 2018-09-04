@@ -50,5 +50,4 @@ private:
     void expand();
     void border();
     void isSizeValid();
-    void convert();
 };

@@ -50,7 +50,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
 {
     djvViewHudInfo() :
         frame        (0),
-        realSpeed    (0.0),
+        realSpeed    (0.f),
         droppedFrames(false)
     {}
 
@@ -58,7 +58,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
     djvImageTags     tags;
     qint64           frame;
     djvSpeed         speed;
-    double           realSpeed;
+    float            realSpeed;
     bool             droppedFrames;
     QVector<bool>    visible;
 };

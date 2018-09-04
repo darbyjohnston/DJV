@@ -82,7 +82,7 @@ void djvAudioTestBuffer::clear()
 
 Audio::Audio() :
     _h(0),
-    _time_start(0.0)
+    _time_start(0.f)
 {
     DJV_DEBUG("Audio::Audio");
 }
@@ -135,7 +135,7 @@ void Audio::stop()
     Pa_AbortStream(_h);
 }
 
-double Audio::time() const
+float Audio::time() const
 {
     return
         Pa_GetStreamTime(_h) - _time_start -
@@ -252,7 +252,7 @@ void djvAudioTestApplication::window_del(Window * in)
     _window.erase(std::find(_window.begin(), _window.end(), in));
 }
 
-const double idle_timeout = 0.001;
+const float idle_timeout = .001f;
 
 void djvAudioTestApplication::idle_add(Window * in)
 {

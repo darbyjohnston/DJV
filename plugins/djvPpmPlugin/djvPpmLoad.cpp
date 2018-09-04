@@ -190,7 +190,7 @@ void djvPpmLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
     // Information.
     info.fileName = in;
-    info.size = djvVector2i(width, height);
+    info.size = glm::ivec2(width, height);
     info.mirror.y = true;
     if (1 == ppmType || 4 == ppmType)
     {

@@ -91,7 +91,7 @@ void djvGlslTestNullOp::render(const djvImage & in) throw (djvError)
     const djvPixelDataInfo & info = in.info();
     djvOpenGlUtil::ortho(info.size);
     glViewport(0, 0, info.size.x, info.size.y);
-    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClearColor(0.f, 0.f, 0.f, 0.f);
     glClear(GL_COLOR_BUFFER_BIT);
     djvGlslTestUtil::quad(info);
     end();

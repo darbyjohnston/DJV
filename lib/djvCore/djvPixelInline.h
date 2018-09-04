@@ -381,13 +381,13 @@ inline djvPixel::U16_T djvPixel::u8ToU16(U8_T in)
 inline djvPixel::F16_T djvPixel::u8ToF16(U8_T in)
 {
     //return in / F16(u8Max);
-    _PIXEL_LUT(U8, F16, u8Max, 1.0f)
+    _PIXEL_LUT(U8, F16, u8Max, 1.f)
 }
 
 inline djvPixel::F32_T djvPixel::u8ToF32(U8_T in)
 {
     //return in / F32(u8Max);
-    _PIXEL_LUT(U8, F32, u8Max, 1.0f)
+    _PIXEL_LUT(U8, F32, u8Max, 1.f)
 }
 
 inline djvPixel::U8_T djvPixel::u10ToU8(U10_T in)
@@ -404,13 +404,13 @@ inline djvPixel::U16_T djvPixel::u10ToU16(U10_T in)
 inline djvPixel::F16_T djvPixel::u10ToF16(U10_T in)
 {
     //return in / F16(u10Max);
-    _PIXEL_LUT(U10, F16, u10Max, 1.0f)
+    _PIXEL_LUT(U10, F16, u10Max, 1.f)
 }
 
 inline djvPixel::F32_T djvPixel::u10ToF32(U10_T in)
 {
     //return in / F32(u10Max);
-    _PIXEL_LUT(U10, F32, u10Max, 1.0f)
+    _PIXEL_LUT(U10, F32, u10Max, 1.f)
 }
 
 inline djvPixel::U8_T djvPixel::u16ToU8(U16_T in)
@@ -426,13 +426,13 @@ inline djvPixel::U10_T djvPixel::u16ToU10(U16_T in)
 inline djvPixel::F16_T djvPixel::u16ToF16(U16_T in)
 {
     //return in / F16(u16Max);
-    _PIXEL_LUT(U16, F16, u16Max, 1.0f);
+    _PIXEL_LUT(U16, F16, u16Max, 1.f);
 }
 
 inline djvPixel::F32_T djvPixel::u16ToF32(U16_T in)
 {
     //return in / F32(u16Max);
-    _PIXEL_LUT(U16, F32, u16Max, 1.0f)
+    _PIXEL_LUT(U16, F32, u16Max, 1.f)
 }
 
 inline djvPixel::U8_T djvPixel::f16ToU8(F16_T in)
@@ -471,7 +471,7 @@ inline djvPixel::U8_T djvPixel::f32ToU8(F32_T in)
 
     // Transform to get a constant exponent of 127 for 0.0 to 1.0 range.
 
-    const F32_T tmp = in + 1.0;
+    const F32_T tmp = in + 1.f;
     const quint32 bits = *(const quint32 *)&tmp;
     //DJV_DEBUG_PRINT(_bits(tmp));
     //DJV_DEBUG_PRINT(_bits(bits));

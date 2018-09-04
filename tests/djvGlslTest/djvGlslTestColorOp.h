@@ -48,14 +48,14 @@ public:
     struct Values
     {
         Values() :
-            brightness(2.0),
-            contrast  (1.0),
-            saturation(1.0)
+            brightness(2.f),
+            contrast  (1.f),
+            saturation(1.f)
         {}
 
-        double brightness;
-        double contrast;
-        double saturation;
+        float brightness;
+        float contrast;
+        float saturation;
         
         bool operator == (const Values & other) const
         {
@@ -97,9 +97,9 @@ public:
 
 private Q_SLOTS:
 
-    void brightnessCallback(double);
-    void contrastCallback(double);
-    void saturationCallback(double);
+    void brightnessCallback(float);
+    void contrastCallback(float);
+    void saturationCallback(float);
 
 private:
 

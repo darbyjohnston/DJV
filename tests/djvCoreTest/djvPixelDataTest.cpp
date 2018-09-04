@@ -50,37 +50,37 @@ void djvPixelDataTest::ctors()
     DJV_DEBUG("djvPixelDataTest::ctors");
     {
         const djvPixelDataInfo info;
-        DJV_ASSERT(djvVector2i() == info.size);
+        DJV_ASSERT(glm::ivec2() == info.size);
     }
     {
-        const djvPixelDataInfo info(djvVector2i(1, 2), djvPixel::LA_U8);
-        DJV_ASSERT(djvVector2i(1, 2) == info.size);
+        const djvPixelDataInfo info(glm::ivec2(1, 2), djvPixel::LA_U8);
+        DJV_ASSERT(glm::ivec2(1, 2) == info.size);
         DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
     }
     {
         const djvPixelDataInfo info(1, 2, djvPixel::LA_U8);
-        DJV_ASSERT(djvVector2i(1, 2) == info.size);
+        DJV_ASSERT(glm::ivec2(1, 2) == info.size);
         DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
     }
     {
-        const djvPixelDataInfo info("name", djvVector2i(1, 2), djvPixel::LA_U8);
+        const djvPixelDataInfo info("name", glm::ivec2(1, 2), djvPixel::LA_U8);
         DJV_ASSERT("name" == info.fileName);
-        DJV_ASSERT(djvVector2i(1, 2) == info.size);
+        DJV_ASSERT(glm::ivec2(1, 2) == info.size);
         DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
     }
     {
         const djvPixelDataInfo info("name", 1, 2, djvPixel::LA_U8);
         DJV_ASSERT("name" == info.fileName);
-        DJV_ASSERT(djvVector2i(1, 2) == info.size);
+        DJV_ASSERT(glm::ivec2(1, 2) == info.size);
         DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
     }
     {
         const djvPixelData data;
-        DJV_ASSERT(djvVector2i() == data.size());
+        DJV_ASSERT(glm::ivec2() == data.size());
     }
     {
         const djvPixelData data(djvPixelDataInfo(1, 2, djvPixel::LA_U8));
-        DJV_ASSERT(djvVector2i(1, 2) == data.size());
+        DJV_ASSERT(glm::ivec2(1, 2) == data.size());
         DJV_ASSERT(djvPixel::LA_U8 == data.pixel());
     }
 }
@@ -118,7 +118,7 @@ void djvPixelDataTest::operators()
     }
     {
         djvPixelDataInfo a, b;
-        a.size = b.size = djvVector2i(1, 2);
+        a.size = b.size = glm::ivec2(1, 2);
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvPixelDataInfo());
     }

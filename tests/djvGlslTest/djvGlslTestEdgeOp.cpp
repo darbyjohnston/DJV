@@ -86,15 +86,15 @@ void djvGlslTestEdgeOp::render(const djvImage & in) throw (djvError)
         _shader.bind();
         const float value [] =
         {
-            0.0,  1.0, 0.0,
-            1.0, -4.0, 1.0,
-            0.0,  1.0, 0.0
+            0.f,  1.f, 0.f,
+            1.f, -4.f, 1.f,
+            0.f,  1.f, 0.f
         };
         const float offset [] =
         {
-            -1, -1,  0, -1,  1, -1,
-            -1,  0,  0,  0,  1,  0,
-            -1,  1,  0,  1,  1,  1
+            -1.f, -1.f,  0.f, -1.f,  1.f, -1.f,
+            -1.f,  0.f,  0.f,  0.f,  1.f,  0.f,
+            -1.f,  1.f,  0.f,  1.f,  1.f,  1.f
         };
         kernel.value(_shader.program(), value);
         kernel.offset(_shader.program(), offset);

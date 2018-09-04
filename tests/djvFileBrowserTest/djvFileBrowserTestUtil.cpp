@@ -71,17 +71,17 @@ const QStringList & djvFileBrowserTestUtil::thumbnailsLabels()
     return data;
 }
 
-djvVector2i djvFileBrowserTestUtil::thumbnailSize(
+glm::ivec2 djvFileBrowserTestUtil::thumbnailSize(
     THUMBNAILS                thumbnails,
     int                       thumbnailSize,
-    const djvVector2i &       imageSize,
+    const glm::ivec2 &        imageSize,
     djvPixelDataInfo::PROXY * proxy)
 {
     const int tmp = djvMath::max(imageSize.x, imageSize.y);
     if (tmp <= 0)
-        return djvVector2i();
+        return glm::ivec2(0, 0);
     int _proxy = 0;
-    double proxyScale = static_cast<double>(
+    float proxyScale = static_cast<float>(
         djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(_proxy)));
     if (THUMBNAILS_LOW == thumbnails)
     {
@@ -89,7 +89,7 @@ djvVector2i djvFileBrowserTestUtil::thumbnailSize(
             (tmp / proxyScale) > thumbnailSize * 2 &&
             _proxy < djvPixelDataInfo::PROXY_COUNT)
         {
-            proxyScale = static_cast<double>(
+            proxyScale = static_cast<float>(
                 djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(++_proxy)));
         }
     }
@@ -97,8 +97,8 @@ djvVector2i djvFileBrowserTestUtil::thumbnailSize(
     {
         *proxy = djvPixelDataInfo::PROXY(_proxy);
     }
-    const double scale = thumbnailSize / static_cast<double>(tmp / proxyScale);
-    return djvVectorUtil::ceil<double, int>(djvVector2f(imageSize) / proxyScale * scale);
+    const float scale = thumbnailSize / static_cast<float>(tmp / proxyScale);
+    return djvVectorUtil::ceil<float, int>(glm::vec2(imageSize) / proxyScale * scale);
 }
 
 const QStringList & djvFileBrowserTestUtil::columnsLabels()

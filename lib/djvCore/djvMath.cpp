@@ -47,48 +47,48 @@
 djvMath::~djvMath()
 {}
 
-const double djvMath::pi     = 3.1415927;
-const double djvMath::piX2   = 6.2831853;
-const double djvMath::piDiv2 = 1.5707963;
-const double djvMath::piDiv4 = 0.7853981;
+const float djvMath::pi     = 3.1415927;
+const float djvMath::piX2   = 6.2831853;
+const float djvMath::piDiv2 = 1.5707963;
+const float djvMath::piDiv4 = 0.7853981;
 
 int djvMath::pow(int value, int power)
 {
     return static_cast<int>(::floor(
-        ::pow(static_cast<double>(value), static_cast<double>(power))));
+        ::pow(static_cast<float>(value), static_cast<float>(power))));
 }
 
-double djvMath::pow(double value, double power)
+float djvMath::pow(float value, float power)
 {
-    return ::pow(value, power);
+    return ::powf(value, power);
 }
 
-double djvMath::sqrt(double value)
+float djvMath::sqrt(float value)
 {
-    return ::sqrt(value);
+    return ::sqrtf(value);
 }
 
-double djvMath::exp(double value)
+float djvMath::exp(float value)
 {
-    return ::exp(value);
+    return ::expf(value);
 }
 
-double djvMath::log(double value)
+float djvMath::log(float value)
 {
-    return ::log(value);
+    return ::logf(value);
 }
 
-double djvMath::log10(double value)
+float djvMath::log10(float value)
 {
-    return ::log10(value);
+    return ::log10f(value);
 }
 
-double djvMath::antiLog10(double value)
+float djvMath::antiLog10(float value)
 {
-    return exp(value * log(10.0));
+    return exp(value * log(10.f));
 }
 
-double djvMath::bias(double value, double bias)
+float djvMath::bias(float value, float bias)
 {
     return pow(value, log(bias) / log(0.5));
 }
@@ -96,113 +96,117 @@ double djvMath::bias(double value, double bias)
 namespace
 {
 
-const double almostZero = FLT_MIN * 2.0;
-const double almostOne  = 1.0 - almostZero;
+const float almostZero = FLT_MIN * 2.f;
+const float almostOne  = 1.f - almostZero;
 
 } // namespace
 
-double djvMath::gain(double value, double gain)
+float djvMath::gain(float value, float gain)
 {
     if (value < almostZero)
     {
-        return 0.0;
+        return 0.f;
     }
     else if (value > almostOne)
     {
-        return 1.0;
+        return 1.f;
     }
-    const double tmp = log(1.0 - gain) / log(0.5);
+    const float tmp = log(1.f - gain) / log(0.5);
     if (value < 0.5)
     {
-        return pow(2.0 * value, tmp) / 2.0;
+        return pow(2.f * value, tmp) / 2.f;
     }
     else
     {
-        return 1.0 - pow(2.0 * (1.0 - value), tmp) / 2.0;
+        return 1.f - pow(2.f * (1.f - value), tmp) / 2.f;
     }
 }
 
-double djvMath::softClip(double value, double softClip)
+float djvMath::softClip(float value, float softClip)
 {
-    const double tmp = 1.0 - softClip;
+    const float tmp = 1.f - softClip;
     if (value > tmp)
     {
-        value = tmp + (1.0 - exp(-(value - tmp) / softClip)) * softClip;
+        value = tmp + (1.f - exp(-(value - tmp) / softClip)) * softClip;
     }
     return value;
 }
 
-double djvMath::sin(double value)
+float djvMath::sin(float value)
 {
-    return ::sin(value);
-}
-double djvMath::cos(double value)
-{
-    return ::cos(value);
-}
-double djvMath::tan(double value)
-{
-    return ::tan(value);
+    return ::sinf(value);
 }
 
-double djvMath::arcSin(double value)
+float djvMath::cos(float value)
 {
-    return ::asin(value);
+    return ::cosf(value);
 }
-double djvMath::arcCos(double value)
+
+float djvMath::tan(float value)
 {
-    return ::acos(value);
+    return ::tanf(value);
 }
-double djvMath::arcTan(double value)
+
+float djvMath::arcSin(float value)
 {
-    return ::atan(value);
+    return ::asinf(value);
 }
-double djvMath::arcTan(double a, double b)
+
+float djvMath::arcCos(float value)
 {
-    return ::atan2(a, b);
+    return ::acosf(value);
+}
+
+float djvMath::arcTan(float value)
+{
+    return ::atanf(value);
+}
+
+float djvMath::arcTan(float a, float b)
+{
+    return ::atan2f(a, b);
 }
 
 //! \todo What is the correct way to handle zero values for the trigonometry
 //! functions?
-double djvMath::sec(double value)
+float djvMath::sec(float value)
 {
-    const double tmp = cos(value);
-    return tmp != 0.0 ? (1.0 / tmp) : 0.0;
+    const float tmp = cos(value);
+    return tmp != 0.f ? (1.f / tmp) : 0.f;
 }
 
-double djvMath::coSec(double value)
+float djvMath::coSec(float value)
 {
-    const double tmp = sin(value);
-    return tmp != 0.0 ? (1.0 / tmp) : 0.0;
+    const float tmp = sin(value);
+    return tmp != 0.f ? (1.f / tmp) : 0.f;
 }
 
-double djvMath::coTan(double value)
+float djvMath::coTan(float value)
 {
-    const double tmp = tan(value);
-    return tmp != 0.0 ? (1.0 / tmp) : 0.0;
+    const float tmp = tan(value);
+    return tmp != 0.f ? (1.f / tmp) : 0.f;
 }
 
 namespace
 {
-
-double _rand()
+float _rand()
 {
-    return ::rand() / static_cast<double>(RAND_MAX);
+    return ::rand() / static_cast<float>(RAND_MAX);
 }
 
 } // namespace
 
-double djvMath::rand()
+float djvMath::rand()
 {
     return _rand();
 }
 
-double djvMath::rand(double value)
+float djvMath::rand(float value)
 {
     return value * _rand();
 }
 
-double djvMath::rand(double min, double max)
+float djvMath::rand(float min, float max)
 {
     return min + (max - min) * _rand();
 }
@@ -223,17 +227,17 @@ void djvMath::randSeed(unsigned int value)
     ::srand(value);
 }
 
-int djvMath::floor(double value)
+int djvMath::floor(float value)
 {
     return static_cast<int>(::floor(value));
 }
 
-int djvMath::ceil(double value)
+int djvMath::ceil(float value)
 {
     return static_cast<int>(::ceil(value));
 }
 
-int djvMath::round(double value)
+int djvMath::round(float value)
 {
     return static_cast<int>(::round(value));
 }

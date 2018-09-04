@@ -426,7 +426,7 @@ void djvFileBrowserTestModel::setThumbnailSize(int size)
         if (item.infoComplete || item.thumbnailComplete)
         {
             djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
-            const djvVector2i size = djvFileBrowserTestUtil::thumbnailSize(
+            const glm::ivec2 size = djvFileBrowserTestUtil::thumbnailSize(
                 _p->thumbnails,
                 _p->thumbnailSize,
                 item.info.size,

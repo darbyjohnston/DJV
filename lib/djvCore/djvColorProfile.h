@@ -55,15 +55,15 @@ public:
     struct DJV_CORE_EXPORT Exposure
     {
         Exposure(
-            double value    = 0.0,
-            double defog    = 0.0,
-            double kneeLow  = 0.0,
-            double kneeHigh = 5.0);
+            float value    = 0.f,
+            float defog    = 0.f,
+            float kneeLow  = 0.f,
+            float kneeHigh = 5.f);
 
-        double value;
-        double defog;
-        double kneeLow;
-        double kneeHigh;
+        float value;
+        float defog;
+        float kneeLow;
+        float kneeHigh;
     };
 
     //! This enumeration provides the color profiles.
@@ -83,7 +83,7 @@ public:
     djvColorProfile();
 
     PROFILE      type;
-    double       gamma;
+    float        gamma;
     djvPixelData lut;
     Exposure     exposure;
 };

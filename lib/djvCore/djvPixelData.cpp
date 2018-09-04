@@ -44,6 +44,9 @@
 // djvPixelDataInfo::Mirror
 //------------------------------------------------------------------------------
 
+djvPixelDataInfo::Mirror::Mirror()
+{}
+
 djvPixelDataInfo::Mirror::Mirror(bool x, bool y) :
     x(x),
     y(y)
@@ -57,11 +60,6 @@ void djvPixelDataInfo::init()
 {
     static const QString defaultLayerName = qApp->translate("djvPixelDataInfo", "Default");
     layerName = defaultLayerName;
-    proxy     = PROXY_NONE;
-    pixel     = static_cast<djvPixel::PIXEL>(0);
-    bgr       = false;
-    align     = 1;
-    endian    = djvMemory::endian();
 }
 
 djvPixelDataInfo::djvPixelDataInfo()
@@ -70,8 +68,8 @@ djvPixelDataInfo::djvPixelDataInfo()
 }
 
 djvPixelDataInfo::djvPixelDataInfo(
-    const djvVector2i & size,
-    djvPixel::PIXEL     pixel)
+    const glm::ivec2 & size,
+    djvPixel::PIXEL    pixel)
 {
     init();
     this->size  = size;
@@ -84,14 +82,14 @@ djvPixelDataInfo::djvPixelDataInfo(
     djvPixel::PIXEL pixel)
 {
     init();
-    this->size   = djvVector2i(width, height);
+    this->size   = glm::ivec2(width, height);
     this->pixel  = pixel;
 }
 
 djvPixelDataInfo::djvPixelDataInfo(
-    const QString &     fileName,
-    const djvVector2i & size,
-    djvPixel::PIXEL     pixel)
+    const QString &    fileName,
+    const glm::ivec2 & size,
+    djvPixel::PIXEL    pixel)
 {
     init();
     this->fileName = fileName;
@@ -107,7 +105,7 @@ djvPixelDataInfo::djvPixelDataInfo(
 {
     init();
     this->fileName = fileName;
-    this->size     = djvVector2i(width, height);
+    this->size     = glm::ivec2(width, height);
     this->pixel    = pixel;
 }
 

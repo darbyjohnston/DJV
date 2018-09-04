@@ -92,7 +92,7 @@ private:
     djvFileInfo                          _fileInfo;
     djvFileBrowserModel::THUMBNAILS      _thumbnails;
     djvFileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
-    djvVector2i                          _thumbnailSize;
+    glm::ivec2                           _thumbnailSize = glm::ivec2(0, 0);
     djvPixelDataInfo::PROXY              _thumbnailProxy;
     bool                                 _imageRequest;
     bool                                 _imageInfoRequest;

@@ -59,24 +59,24 @@ void djvOpenGlTest::members()
     DJV_DEBUG_PRINT("buffer id = " << buffer->id());
     DJV_DEBUG_PRINT("buffer texture = " << buffer->texture());
     {
-        djvOpenGlUtil::ortho(djvVector2i(100, 100));
+        djvOpenGlUtil::ortho(glm::ivec2(100, 100));
         DJV_ASSERT(GL_NO_ERROR == ::glGetError());
         djvOpenGlUtil::color(djvColor(0.5));
         DJV_ASSERT(GL_NO_ERROR == ::glGetError());
         djvOpenGlUtil::drawBox(djvBox2i(25, 25, 50, 50));
         DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvOpenGlUtil::drawBox(djvBox2f(50.0, 50.0, 50.0, 50.0));
+        djvOpenGlUtil::drawBox(djvBox2f(50.f, 50.f, 50.f, 50.f));
         DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvVector2f uv[4] =
+        glm::vec2 uv[4] =
         {
-            djvVector2f(0.0, 0.0),
-            djvVector2f(0.1, 0.0),
-            djvVector2f(0.1, 1.0),
-            djvVector2f(0.0, 1.0)
+            glm::vec2(0.f, 0.f),
+            glm::vec2(0.1, 0.f),
+            glm::vec2(0.1, 1.f),
+            glm::vec2(0.f, 1.f)
         };
         djvOpenGlUtil::drawBox(djvBox2i(25, 25, 50, 50), uv);
         DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvOpenGlUtil::drawBox(djvBox2f(50.0, 50.0, 50.0, 50.0), uv);
+        djvOpenGlUtil::drawBox(djvBox2f(50.f, 50.f, 50.f, 50.f), uv);
         DJV_ASSERT(GL_NO_ERROR == ::glGetError());
     }
     {

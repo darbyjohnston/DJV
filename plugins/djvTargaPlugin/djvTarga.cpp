@@ -130,7 +130,7 @@ void Header::load(djvFileIo & io, djvImageIoInfo & info, bool * compression)
     io.seek(_data.idSize);
 
     // Information.
-    info.size = djvVector2i(_data.width, _data.height);
+    info.size = glm::ivec2(_data.width, _data.height);
     info.mirror.x = (_data.descriptor >> 4) & 1;
     info.mirror.y = (_data.descriptor >> 5) & 1;
     const int alphaBits = _data.descriptor & 15;

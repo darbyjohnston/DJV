@@ -48,7 +48,7 @@ djvImageViewTestWidget::djvImageViewTestWidget(djvGuiContext * context) :
 
 void djvImageViewTestWidget::mousePressEvent(QMouseEvent * event)
 {
-    const djvVector2i mouse(
+    const glm::ivec2 mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
     _viewPosTmp = viewPos();
@@ -57,7 +57,7 @@ void djvImageViewTestWidget::mousePressEvent(QMouseEvent * event)
 
 void djvImageViewTestWidget::mouseMoveEvent(QMouseEvent * event)
 {
-    const djvVector2i mouse(
+    const glm::ivec2 mouse(
         event->pos().x(),
         height() - 1 - event->pos().y());
     setViewPos(_viewPosTmp + mouse - _mousePress);
@@ -66,14 +66,14 @@ void djvImageViewTestWidget::mouseMoveEvent(QMouseEvent * event)
 void djvImageViewTestWidget::keyPressEvent(QKeyEvent * event)
 {
     const QPoint pos = mapFromGlobal(QCursor::pos());
-    const djvVector2i mouse(
+    const glm::ivec2 mouse(
         pos.x(),
         height() - 1 - pos.y());
     switch (event->key())
     {
         case Qt::Key_0:         viewZero(); break;
-        case Qt::Key_Minus:     setViewZoom(viewZoom() * 0.5, mouse); break;
-        case Qt::Key_Equal:     setViewZoom(viewZoom() * 2.0, mouse); break;
+        case Qt::Key_Minus:     setViewZoom(viewZoom() * .5f, mouse); break;
+        case Qt::Key_Equal:     setViewZoom(viewZoom() * 2.f, mouse); break;
         case Qt::Key_Backspace: viewFit(); break;
     }
 }
@@ -122,7 +122,7 @@ void djvImageViewTestApplication::work()
     options.colorProfile = _image.colorProfile;
     _widget->setOptions(options);
 
-    const djvVector2i size = djvWindowUtil::resize(_image.size());
+    const glm::ivec2 size = djvWindowUtil::resize(_image.size());
     _widget->resize(size.x, size.y);
     _widget->show();
 }

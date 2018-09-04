@@ -51,13 +51,13 @@ void djvColorUtilTest::scale()
     DJV_DEBUG("djvColorUtilTest::scale");
     {
         djvColor color(djvPixel::L_F32);
-        djvColorUtil::scale(0.5, djvColor(1.0f), color);
-        DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
+        djvColorUtil::scale(.5f, djvColor(1.f), color);
+        DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
     {
-        const djvColor color = djvColorUtil::scale(0.5, djvColor(1.0f));
+        const djvColor color = djvColorUtil::scale(.5f, djvColor(1.f));
 
-        DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
 }
 
@@ -66,13 +66,13 @@ void djvColorUtilTest::lerp()
     DJV_DEBUG("djvColorUtilTest::lerp");
     {
         djvColor color(djvPixel::L_F32);
-        djvColorUtil::lerp(0.5, djvColor(0.0f), djvColor(1.0f), color);
-        DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
+        djvColorUtil::lerp(.5f, djvColor(0.f), djvColor(1.f), color);
+        DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
     {
-        const djvColor color = djvColorUtil::lerp(0.5, djvColor(0.0f), djvColor(1.0f));
+        const djvColor color = djvColorUtil::lerp(.5f, djvColor(0.f), djvColor(1.f));
 
-        DJV_ASSERT(djvMath::fuzzyCompare(0.5f, color.f32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
 }
 

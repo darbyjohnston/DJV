@@ -83,13 +83,13 @@ void djvOpenGlImageTest::members()
         DJV_DEBUG_PRINT(djvOpenGlImageXform::xformMatrix(djvOpenGlImageXform()));
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGlImageColor::brightnessMatrix(1.0, 0.0, 0.0));
-        DJV_DEBUG_PRINT(djvOpenGlImageColor::contrastMatrix(1.0, 0.0, 0.0));
-        DJV_DEBUG_PRINT(djvOpenGlImageColor::saturationMatrix(1.0, 0.0, 0.0));
+        DJV_DEBUG_PRINT(djvOpenGlImageColor::brightnessMatrix(1.f, 0.f, 0.f));
+        DJV_DEBUG_PRINT(djvOpenGlImageColor::contrastMatrix(1.f, 0.f, 0.f));
+        DJV_DEBUG_PRINT(djvOpenGlImageColor::saturationMatrix(1.f, 0.f, 0.f));
         DJV_DEBUG_PRINT(djvOpenGlImageColor::colorMatrix(djvOpenGlImageColor()));
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGlImageLevels::colorLut(djvOpenGlImageLevels(), 0.5));
+        DJV_DEBUG_PRINT(djvOpenGlImageLevels::colorLut(djvOpenGlImageLevels(), .5f));
     }
     {
         DJV_ASSERT(djvOpenGlImageFilter::toGl(djvOpenGlImageFilter::NEAREST) != GL_NONE);
@@ -138,19 +138,19 @@ void djvOpenGlImageTest::operators()
     }
     {
         djvOpenGlImageColor a, b;
-        a.brightness = b.brightness = 2.0;
+        a.brightness = b.brightness = 2.f;
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvOpenGlImageColor());
     }
     {
         djvOpenGlImageLevels a, b;
-        a.gamma = b.gamma = 2.2;
+        a.gamma = b.gamma = 2.2f;
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvOpenGlImageLevels());
     }
     {
         djvOpenGlImageDisplayProfile a, b;
-        a.softClip = b.softClip = 0.5;
+        a.softClip = b.softClip = .5f;
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != djvOpenGlImageDisplayProfile());
     }
@@ -169,9 +169,9 @@ void djvOpenGlImageTest::operators()
     {
         djvOpenGlImageXform a;
         a.mirror   = djvPixelDataInfo::Mirror(true, true);
-        a.position = djvVector2f(1.0, 2.0);
-        a.scale    = djvVector2f(3.0, 4.0);
-        a.rotate   = 5.0;
+        a.position = glm::vec2(1.f, 2.f);
+        a.scale    = glm::vec2(3.f, 4.f);
+        a.rotate   = 5.f;
         QStringList tmp;
         tmp << a;
         djvOpenGlImageXform b;
@@ -180,9 +180,9 @@ void djvOpenGlImageTest::operators()
     }
     {
         djvOpenGlImageColor a;
-        a.brightness = 1.0;
-        a.contrast   = 2.0;
-        a.saturation = 3.0;
+        a.brightness = 1.f;
+        a.contrast   = 2.f;
+        a.saturation = 3.f;
         QStringList tmp;
         tmp << a;
         djvOpenGlImageColor b;
@@ -191,11 +191,11 @@ void djvOpenGlImageTest::operators()
     }
     {
         djvOpenGlImageLevels a;
-        a.inLow   = 1.0;
-        a.inHigh  = 2.0;
-        a.gamma   = 3.0;
-        a.outLow  = 4.0;
-        a.outHigh = 5.0;
+        a.inLow   = 1.f;
+        a.inHigh  = 2.f;
+        a.gamma   = 3.f;
+        a.outLow  = 4.f;
+        a.outHigh = 5.f;
         QStringList tmp;
         tmp << a;
         djvOpenGlImageLevels b;

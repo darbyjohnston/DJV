@@ -90,7 +90,7 @@ djvFloatEditSlider::djvFloatEditSlider(djvGuiContext * context, QWidget * parent
     layout->addWidget(_p->slider);
     layout->addWidget(_p->defaultButton);
 
-    _p->slider->setRange(0.0, 1.0);
+    _p->slider->setRange(0.f, 1.f);
     
     _p->defaultButton->hide();
 
@@ -98,32 +98,32 @@ djvFloatEditSlider::djvFloatEditSlider(djvGuiContext * context, QWidget * parent
 
     connect(
         _p->edit,
-        SIGNAL(valueChanged(double)),
+        SIGNAL(valueChanged(float)),
         SLOT(valueCallback()));
     connect(
         _p->edit,
-        SIGNAL(minChanged(double)),
-        SIGNAL(minChanged(double)));
+        SIGNAL(minChanged(float)),
+        SIGNAL(minChanged(float)));
     connect(
         _p->edit,
-        SIGNAL(maxChanged(double)),
-        SIGNAL(maxChanged(double)));
+        SIGNAL(maxChanged(float)),
+        SIGNAL(maxChanged(float)));
     connect(
         _p->edit,
-        SIGNAL(rangeChanged(double, double)),
-        SIGNAL(rangeChanged(double, double)));
+        SIGNAL(rangeChanged(float, float)),
+        SIGNAL(rangeChanged(float, float)));
     connect(
         _p->edit->object(),
         SIGNAL(defaultValidChanged(bool)),
         SLOT(widgetUpdate()));
     connect(
         _p->edit->object(),
-        SIGNAL(defaultValueChanged(double)),
-        SIGNAL(defaultValueChanged(double)));
+        SIGNAL(defaultValueChanged(float)),
+        SIGNAL(defaultValueChanged(float)));
     connect(
         _p->slider,
-        SIGNAL(valueChanged(double)),
-        SLOT(sliderCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(sliderCallback(float)));
     connect(
         _p->defaultButton,
         SIGNAL(clicked()),
@@ -133,12 +133,12 @@ djvFloatEditSlider::djvFloatEditSlider(djvGuiContext * context, QWidget * parent
 djvFloatEditSlider::~djvFloatEditSlider()
 {}
 
-double djvFloatEditSlider::value() const
+float djvFloatEditSlider::value() const
 {
     return _p->edit->value();
 }
 
-double djvFloatEditSlider::defaultValue() const
+float djvFloatEditSlider::defaultValue() const
 {
     return _p->edit->object()->defaultValue();
 }
@@ -148,22 +148,22 @@ bool djvFloatEditSlider::hasResetToDefault() const
     return _p->resetToDefault;
 }
 
-double djvFloatEditSlider::min() const
+float djvFloatEditSlider::min() const
 {
     return _p->edit->min();
 }
 
-double djvFloatEditSlider::max() const
+float djvFloatEditSlider::max() const
 {
     return _p->edit->max();
 }
 
-double djvFloatEditSlider::smallInc() const
+float djvFloatEditSlider::smallInc() const
 {
     return _p->edit->object()->smallInc();
 }
 
-double djvFloatEditSlider::largeInc() const
+float djvFloatEditSlider::largeInc() const
 {
     return _p->edit->object()->largeInc();
 }
@@ -178,12 +178,12 @@ djvFloatObject * djvFloatEditSlider::sliderObject() const
     return _p->slider->object();
 }
 
-void djvFloatEditSlider::setValue(double value)
+void djvFloatEditSlider::setValue(float value)
 {
     _p->edit->setValue(value);
 }
 
-void djvFloatEditSlider::setDefaultValue(double value)
+void djvFloatEditSlider::setDefaultValue(float value)
 {
     //DJV_DEBUG("djvFloatEditSlider::setDefaultValue");
     //DJV_DEBUG_PRINT("in = " << value);
@@ -198,25 +198,25 @@ void djvFloatEditSlider::setResetToDefault(bool value)
     widgetUpdate();
 }
 
-void djvFloatEditSlider::setMin(double value)
+void djvFloatEditSlider::setMin(float value)
 {
     _p->edit->setMin(value);
     _p->slider->setMin(value);
 }
 
-void djvFloatEditSlider::setMax(double value)
+void djvFloatEditSlider::setMax(float value)
 {
     _p->edit->setMax(value);
     _p->slider->setMax(value);
 }
 
-void djvFloatEditSlider::setRange(double min, double max)
+void djvFloatEditSlider::setRange(float min, float max)
 {
     _p->edit->setRange(min, max);
     _p->slider->setRange(min, max);
 }
 
-void djvFloatEditSlider::setInc(double smallInc, double largeInc)
+void djvFloatEditSlider::setInc(float smallInc, float largeInc)
 {
     _p->edit->object()->setInc(smallInc, largeInc);
     _p->slider->object()->setInc(smallInc, largeInc);
@@ -228,7 +228,7 @@ void djvFloatEditSlider::valueCallback()
     Q_EMIT valueChanged(_p->edit->value());
 }
 
-void djvFloatEditSlider::sliderCallback(double value)
+void djvFloatEditSlider::sliderCallback(float value)
 {
     _p->edit->setValue(value);
 }

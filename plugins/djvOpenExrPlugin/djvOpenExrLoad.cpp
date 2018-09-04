@@ -31,6 +31,7 @@
 
 #include <djvOpenExrLoad.h>
 
+#include <djvBoxUtil.h>
 #include <djvError.h>
 #include <djvImage.h>
 #include <djvOpenGlImage.h>
@@ -141,7 +142,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             {
                 const QString & channel = _layers[frame.layer].channels[c].name;
                 //DJV_DEBUG_PRINT("channel = " << channel);
-                const djvVector2i sampling = _layers[frame.layer].channels[c].sampling;
+                const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
                 //DJV_DEBUG_PRINT("sampling = " << sampling);
                 frameBuffer.insert(
                     channel.toLatin1().data(),
@@ -152,7 +153,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         scb,
                         sampling.x,
                         sampling.y,
-                        0.0));
+                        0.f));
             }
             _f->setFrameBuffer(frameBuffer);
             _f->readPixels(
@@ -167,7 +168,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             {
                 const QString & channel = _layers[frame.layer].channels[c].name;
                 //DJV_DEBUG_PRINT("channel = " << channel);
-                const djvVector2i sampling = _layers[frame.layer].channels[c].sampling;
+                const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
                 //DJV_DEBUG_PRINT("sampling = " << sampling);
                 frameBuffer.insert(
                     channel.toLatin1().data(),
@@ -178,7 +179,7 @@ void djvOpenExrLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
                         0,
                         sampling.x,
                         sampling.y,
-                        0.0));
+                        0.f));
             }
             _f->setFrameBuffer(frameBuffer);
             for (
@@ -262,7 +263,7 @@ void djvOpenExrLoad::_open(const QString & in, djvImageIoInfo & info)
         for (int i = 0; i < _layers.count(); ++i)
         {
             //DJV_DEBUG_PRINT("layer = " << _layers[i].name);
-            const djvVector2i sampling(
+            const glm::ivec2 sampling(
                 _layers[i].channels[0].sampling.x,
                 _layers[i].channels[0].sampling.y);
             //DJV_DEBUG_PRINT("sampling = " << sampling);

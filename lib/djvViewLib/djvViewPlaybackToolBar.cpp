@@ -273,7 +273,7 @@ void djvViewPlaybackToolBar::setDefaultSpeed(const djvSpeed & speed)
     _p->speedWidget->setDefaultSpeed(speed);
 }
 
-void djvViewPlaybackToolBar::setRealSpeed(double speed)
+void djvViewPlaybackToolBar::setRealSpeed(float speed)
 {
     _p->realSpeedDisplay->setSpeed(speed);
 }

@@ -50,14 +50,14 @@ class DJV_GUI_EXPORT djvFloatObject : public QObject
     
     //! This property holds the value.
     Q_PROPERTY(
-        double value
+        float  value
         READ   value
         WRITE  setValue
         NOTIFY valueChanged)
     
     //! This property holds the default value.
     Q_PROPERTY(
-        double defaultValue
+        float  defaultValue
         READ   defaultValue
         WRITE  setDefaultValue
         NOTIFY defaultValueChanged)
@@ -70,28 +70,28 @@ class DJV_GUI_EXPORT djvFloatObject : public QObject
     
     //! This property holds the minimum value.
     Q_PROPERTY(
-        double min
+        float  min
         READ   min
         WRITE  setMin
         NOTIFY minChanged)
     
     //! This property holds the maximum value.
     Q_PROPERTY(
-        double max
+        float  max
         READ   max
         WRITE  setMax
         NOTIFY maxChanged)
     
     //! This property holds the small increment.
     Q_PROPERTY(
-        double smallInc
+        float  smallInc
         READ   smallInc
         WRITE  setSmallInc
         NOTIFY smallIncChanged)
     
     //! This property holds the large increment.
     Q_PROPERTY(
-        double largeInc
+        float  largeInc
         READ   largeInc
         WRITE  setLargeInc
         NOTIFY largeIncChanged)
@@ -111,35 +111,35 @@ class DJV_GUI_EXPORT djvFloatObject : public QObject
 
 public:
     //! The minimum floating point value.
-    static const double floatMin;
+    static const float floatMin;
 
     //! The maximum floating point value.
-    static const double floatMax;
+    static const float floatMax;
 
     explicit djvFloatObject(QObject * parent = 0);
 
     virtual ~djvFloatObject();
 
     //! Get the value.
-    double value() const;
+    float value() const;
 
     //! Get the default value.
-    double defaultValue() const;
+    float defaultValue() const;
 
     //! Get whether the default value is valid.
     bool isDefaultValid() const;
 
     //! Get the minimum value.
-    double min() const;
+    float min() const;
 
     //! Get the maximum value.
-    double max() const;
+    float max() const;
 
     //! Get the small increment.
-    double smallInc() const;
+    float smallInc() const;
 
     //! Get the large increment.
-    double largeInc() const;
+    float largeInc() const;
 
     //! Get whether clamping is enabled.
     bool hasClamp() const;
@@ -149,19 +149,19 @@ public:
 
 public Q_SLOTS:
     //! Set the value.
-    void setValue(double);
+    void setValue(float);
 
     //! Set the default value.
-    void setDefaultValue(double);
+    void setDefaultValue(float);
 
     //! Set the minimum value.
-    void setMin(double);
+    void setMin(float);
 
     //! Set the maximum value.
-    void setMax(double);
+    void setMax(float);
 
     //! Set the value range.
-    void setRange(double min, double max);
+    void setRange(float min, float max);
 
     //! Set the value to the minimum.
     void setToMin();
@@ -170,13 +170,13 @@ public Q_SLOTS:
     void setToMax();
 
     //! Set the small increment.
-    void setSmallInc(double);
+    void setSmallInc(float);
 
     //! Set the large increment.
-    void setLargeInc(double);
+    void setLargeInc(float);
 
     //! Set the value increment.
-    void setInc(double smallInc, double largeInc);
+    void setInc(float smallInc, float largeInc);
 
     //! Increment the value.
     void smallIncAction();
@@ -198,31 +198,31 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     //! This signal is emitted when the value is changed.
-    void valueChanged(double);
+    void valueChanged(float);
 
     //! This signal is emitted when the default value is changed.
-    void defaultValueChanged(double);
+    void defaultValueChanged(float);
 
     //! This signal is emitted when the default value is valid is changed.
     void defaultValidChanged(bool);
 
     //! This signal is emitted when the minimum value is changed.
-    void minChanged(double);
+    void minChanged(float);
 
     //! This signal is emitted when the maximum value is changed.
-    void maxChanged(double);
+    void maxChanged(float);
 
     //! This signal is emitted when the value range is changed.
-    void rangeChanged(double min, double max);
+    void rangeChanged(float min, float max);
 
     //! This signal is emitted when the small increment is changed.
-    void smallIncChanged(double);
+    void smallIncChanged(float);
 
     //! This signal is emitted when the large increment is changed.
-    void largeIncChanged(double);
+    void largeIncChanged(float);
 
     //! This signal is emitted when the increment is changed.
-    void incChanged(double small, double large);
+    void incChanged(float small, float large);
 
     //! This signal is emitted when the size string is changed.
     void sizeStringChanged(const QString &);
@@ -230,14 +230,14 @@ Q_SIGNALS:
 private:
     void defaultValidUpdate();
 
-    double  _value;
+    float   _value;
     bool    _isDefaultValid;
-    double  _defaultValue;
-    double  _min;
-    double  _max;
+    float   _defaultValue;
+    float   _min;
+    float   _max;
     bool    _clamp;
-    double  _smallInc;
-    double  _largeInc;
+    float   _smallInc;
+    float   _largeInc;
     QString _sizeString;
 };
 

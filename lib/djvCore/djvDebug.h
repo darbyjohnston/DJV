@@ -104,6 +104,7 @@ DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
+DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, float);
 DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QString);
 DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QStringList);

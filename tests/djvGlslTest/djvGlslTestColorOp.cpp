@@ -36,7 +36,6 @@
 #include <djvFloatEditSlider.h>
 
 #include <djvImage.h>
-#include <djvMatrixUtil.h>
 #include <djvOpenGlImage.h>
 
 #include <QGroupBox>
@@ -108,16 +107,16 @@ void djvGlslTestColorOp::render(const djvImage & in) throw (djvError)
 
     // Render.
     _shader.bind();
-    const double b = _values.brightness;
-    const double c = _values.contrast;
-    const double s = _values.saturation;
-    const djvMatrix4f value =
+    const float b = _values.brightness;
+    const float c = _values.contrast;
+    const float s = _values.saturation;
+    const glm::mat4x4 value =
         djvOpenGlImageColor::brightnessMatrix(b, b, b) *
         djvOpenGlImageColor::contrastMatrix(c, c, c) *
         djvOpenGlImageColor::saturationMatrix(s, s, s);
     glUniformMatrix4fv(
         glGetUniformLocation(_shader.program(), "color"), 1, false,
-        djvMatrixUtil::convert<double, GLfloat>(djvMatrixUtil::transpose(value)).e);
+        &value[0][0]);
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(_shader.program(), "texture"), 0);
     _texture.bind();
@@ -151,20 +150,20 @@ djvGlslTestColorOpWidget::djvGlslTestColorOpWidget(
     QGroupBox * brightnessGroup = new QGroupBox("Brightness");
 
     djvFloatEditSlider * brightness = new djvFloatEditSlider(context);
-    brightness->setRange(0.0, 5.0);
-    brightness->setDefaultValue(1.0);
+    brightness->setRange(0.f, 5.f);
+    brightness->setDefaultValue(1.f);
 
     QGroupBox * contrastGroup = new QGroupBox("Contrast");
 
     djvFloatEditSlider * contrast = new djvFloatEditSlider(context);
-    contrast->setRange(0.0, 5.0);
-    contrast->setDefaultValue(1.0);
+    contrast->setRange(0.f, 5.f);
+    contrast->setDefaultValue(1.f);
 
     QGroupBox * saturationGroup = new QGroupBox("Saturation");
 
     djvFloatEditSlider * saturation = new djvFloatEditSlider(context);
-    saturation->setRange(0.0, 5.0);
-    saturation->setDefaultValue(1.0);
+    saturation->setRange(0.f, 5.f);
+    saturation->setDefaultValue(1.f);
 
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -194,33 +193,33 @@ djvGlslTestColorOpWidget::djvGlslTestColorOpWidget(
     // Setup the callbacks.
     connect(
         brightness,
-        SIGNAL(valueChanged(double)),
-        SLOT(brightnessCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(brightnessCallback(float)));
     connect(
         contrast,
-        SIGNAL(valueChanged(double)),
-        SLOT(contrastCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(contrastCallback(float)));
     connect(
         saturation,
-        SIGNAL(valueChanged(double)),
-        SLOT(saturationCallback(double)));
+        SIGNAL(valueChanged(float)),
+        SLOT(saturationCallback(float)));
 }
 
-void djvGlslTestColorOpWidget::brightnessCallback(double in)
+void djvGlslTestColorOpWidget::brightnessCallback(float in)
 {
     djvGlslTestColorOp::Values values = _op->values();
     values.brightness = in;
     _op->setValues(values);
 }
 
-void djvGlslTestColorOpWidget::contrastCallback(double in)
+void djvGlslTestColorOpWidget::contrastCallback(float in)
 {
     djvGlslTestColorOp::Values values = _op->values();
     values.contrast = in;
     _op->setValues(values);
 }
 
-void djvGlslTestColorOpWidget::saturationCallback(double in)
+void djvGlslTestColorOpWidget::saturationCallback(float in)
 {
     djvGlslTestColorOp::Values values = _op->values();
     values.saturation = in;

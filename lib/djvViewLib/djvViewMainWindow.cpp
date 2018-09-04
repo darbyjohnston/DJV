@@ -86,7 +86,7 @@ struct djvViewMainWindow::Private
         imageGroup      (0),
         playbackGroup   (0),
         playbackFrameTmp(0),
-        playbackSpeedTmp(0.0),
+        playbackSpeedTmp(0.f),
         toolGroup       (0),
         helpGroup       (0),
         imageP          (0),
@@ -105,12 +105,12 @@ struct djvViewMainWindow::Private
     djvViewImageGroup *                      imageGroup;
     djvViewPlaybackGroup *                   playbackGroup;
     qint64                                   playbackFrameTmp;
-    double                                   playbackSpeedTmp;
+    float                                    playbackSpeedTmp;
     djvViewToolGroup *                       toolGroup;
     djvViewHelpGroup *                       helpGroup;
     const djvImage *                         imageP;
     djvImage                                 imageTmp;
-    djvVector2i                              imagePick;
+    glm::ivec2                               imagePick = glm::ivec2(0, 0);
     djvColor                                 imageSample;
     bool                                     sampleInit;
     QScopedPointer<djvOpenGlOffscreenBuffer> sampleBuffer;
@@ -286,7 +286,7 @@ djvViewMainWindow::djvViewMainWindow(
         SLOT(viewOverlayUpdate()));
     connect(
         _p->playbackGroup,
-        SIGNAL(realSpeedChanged(double)),
+        SIGNAL(realSpeedChanged(float)),
         SLOT(viewOverlayUpdate()));
     connect(
         _p->playbackGroup,
@@ -300,8 +300,8 @@ djvViewMainWindow::djvViewMainWindow(
     // Setup the view callbacks.
     connect(
         _p->viewWidget,
-        SIGNAL(pickChanged(const djvVector2i &)),
-        SLOT(pickCallback(const djvVector2i &)));
+        SIGNAL(pickChanged(const glm::ivec2 &)),
+        SLOT(pickCallback(const glm::ivec2 &)));
     connect(
         _p->viewWidget,
         SIGNAL(mouseWheelChanged(djvViewUtil::MOUSE_WHEEL)),
@@ -474,7 +474,7 @@ void djvViewMainWindow::fitWindow(bool move)
     if (isFullScreen())
         return;
     //DJV_DEBUG("djvViewMainWindow::fitWindow");
-    const djvVector2i frame(frameGeometry().width(), frameGeometry().height());
+    const glm::ivec2 frame(frameGeometry().width(), frameGeometry().height());
     //DJV_DEBUG_PRINT("frame = " << frame);
     //DJV_DEBUG_PRINT("view size = " <<
     //    djvVectorUtil::fromQSize(_p->viewWidget->size()));
@@ -511,7 +511,8 @@ void djvViewMainWindow::showEvent(QShowEvent * event)
 {
     //DJV_DEBUG("djvViewMainWindow::showEvent");    
     QMainWindow::showEvent(event);
-    const djvVector2i size = djvVectorUtil::fromQSize(sizeHint());
+    const QSize& sizeHint = this->sizeHint();
+    const glm::ivec2 size(sizeHint.width(), sizeHint.height());
     //DJV_DEBUG_PRINT("size = " << size);
     resize(size.x, size.y);
     _p->viewWidget->viewFit();
@@ -658,7 +659,7 @@ void djvViewMainWindow::loadFrameStoreCallback()
     }
 }
 
-void djvViewMainWindow::pickCallback(const djvVector2i & pick)
+void djvViewMainWindow::pickCallback(const glm::ivec2 & pick)
 {
     _p->imagePick = pick;
     if (!_p->sampleInit)
@@ -695,7 +696,7 @@ void djvViewMainWindow::mouseWheelValueCallback(int in)
         case djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED:
             _p->playbackGroup->setSpeed(
                 djvSpeed::floatToSpeed(
-                _p->playbackSpeedTmp + static_cast<double>(in)));
+                _p->playbackSpeedTmp + static_cast<float>(in)));
             break;
         default: break;
     }
@@ -716,8 +717,8 @@ void djvViewMainWindow::fileUpdate()
 void djvViewMainWindow::fileCacheUpdate()
 {
     //DJV_DEBUG("djvViewMainWindow::cacheUpdate");
-    const double size    = _p->context->fileCache()->size();
-    const double maxSize = _p->context->fileCache()->maxSize();
+    const float size    = _p->context->fileCache()->size();
+    const float maxSize = _p->context->fileCache()->maxSize();
     _p->infoCacheLabel->setText(
         qApp->translate("djvViewMainWindow", "Cache: %1% %2/%3GB").
         arg(static_cast<int>(size / maxSize * 100)).
@@ -839,8 +840,8 @@ void djvViewMainWindow::viewPickUpdate()
     //DJV_DEBUG("djvViewMainWindow::viewPickUpdate");
 
     // Update the info bar with pixel information.
-    const djvVector2i pick = djvVectorUtil::floor<double, int>(
-        djvVector2f(_p->imagePick - _p->viewWidget->viewPos()) /
+    const glm::ivec2 pick = djvVectorUtil::floor(
+        glm::vec2(_p->imagePick - _p->viewWidget->viewPos()) /
         _p->viewWidget->viewZoom());
     //DJV_DEBUG_PRINT("pick = " << pick);
     djvOpenGlImageOptions options = imageOptions();
@@ -852,7 +853,7 @@ void djvViewMainWindow::viewPickUpdate()
         try
         {
             _p->viewWidget->makeCurrent();
-            djvPixelData tmp(djvPixelDataInfo(1, image->pixel()));
+            djvPixelData tmp(djvPixelDataInfo(glm::ivec2(1, 1), image->pixel()));
             if (! _p->sampleBuffer || _p->sampleBuffer->info() != tmp.info())
             {
                 _p->sampleBuffer.reset(

@@ -60,16 +60,16 @@ class DJV_CORE_EXPORT djvPixelDataInfo
 public:
     djvPixelDataInfo();
     djvPixelDataInfo(
-        const djvVector2i & size,
-        djvPixel::PIXEL     pixel);
+        const glm::ivec2 & size,
+        djvPixel::PIXEL    pixel);
     djvPixelDataInfo(
         int             width,
         int             height,
         djvPixel::PIXEL pixel);
     djvPixelDataInfo(
-        const QString &     fileName,
-        const djvVector2i & size,
-        djvPixel::PIXEL     pixel);
+        const QString &    fileName,
+        const glm::ivec2 & size,
+        djvPixel::PIXEL    pixel);
     djvPixelDataInfo(
         const QString & fileName,
         int             width,
@@ -93,21 +93,22 @@ public:
     //! This struct provides mirroring.
     struct DJV_CORE_EXPORT Mirror
     {
-        Mirror(bool x = false, bool y = false);
+        Mirror();
+        Mirror(bool x, bool y);
         
-        bool x;
-        bool y;
+        bool x = false;
+        bool y = false;
     };
 
     QString           fileName;
     QString           layerName;
-    djvVector2i       size;
-    PROXY             proxy;
-    djvPixel::PIXEL   pixel;
-    bool              bgr;
+    glm::ivec2        size      = glm::ivec2(0, 0);
+    PROXY             proxy     = PROXY_NONE;
+    djvPixel::PIXEL   pixel     = static_cast<djvPixel::PIXEL>(0);
+    bool              bgr       = false;
     Mirror            mirror;
-    int               align;
-    djvMemory::ENDIAN endian;
+    int               align     = 1;
+    djvMemory::ENDIAN endian    = djvMemory::endian();
 
 private:
     void init();
@@ -138,7 +139,7 @@ public:
     inline const djvPixelDataInfo & info() const;
 
     //! Get the dimensions.
-    inline const djvVector2i & size() const;
+    inline const glm::ivec2 & size() const;
 
     //! Get the proxy scale.
     inline djvPixelDataInfo::PROXY proxy() const;

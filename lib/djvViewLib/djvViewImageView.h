@@ -64,7 +64,7 @@ public:
     bool isMouseInside() const;
 
     //! Get the mouse position.
-    const djvVector2i & mousePos() const;
+    const glm::ivec2 & mousePos() const;
     
     virtual QSize sizeHint() const;
 
@@ -72,7 +72,7 @@ public:
 
 public Q_SLOTS:
     //! Set the zoom using the mouse pointer for focus.
-    void setZoomFocus(double);
+    void setZoomFocus(float);
 
     //! Set the grid.
     void setGrid(djvViewUtil::GRID);
@@ -97,7 +97,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     //! This signal is emitted when the view is picked.
-    void pickChanged(const djvVector2i &);
+    void pickChanged(const glm::ivec2 &);
 
     //! This signal is emitted when the mouse wheel is changed.
     void mouseWheelChanged(djvViewUtil::MOUSE_WHEEL);
@@ -133,8 +133,8 @@ private:
         const QStringList & upperRight,
         const QStringList & lowerRight);
     djvBox2i drawHud(
-        const QString &     string,
-        const djvVector2i & position);
+        const QString &    string,
+        const glm::ivec2 & position);
     QSize drawHudSize(const QString &) const;
 
     DJV_PRIVATE_COPY(djvViewImageView);

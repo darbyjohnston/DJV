@@ -87,7 +87,7 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
     _p->viewMaxWidget->addItems(djvViewUtil::viewMaxLabels());
 
     _p->viewMaxUserWidget = new djvVector2iEditWidget;
-    _p->viewMaxUserWidget->setRange(djvVector2i(100, 100), djvVector2i(8192, 8192));
+    _p->viewMaxUserWidget->setRange(glm::ivec2(100, 100), glm::ivec2(8192, 8192));
     _p->viewMaxUserWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     // Create the full screen widgets.
@@ -151,8 +151,8 @@ djvViewWindowPrefsWidget::djvViewWindowPrefsWidget(djvViewContext * context) :
         SLOT(viewMaxCallback(int)));
     connect(
         _p->viewMaxUserWidget,
-        SIGNAL(valueChanged(const djvVector2i &)),
-        SLOT(viewMaxUserCallback(const djvVector2i &)));
+        SIGNAL(valueChanged(const glm::ivec2 &)),
+        SLOT(viewMaxUserCallback(const glm::ivec2 &)));
     connect(
         _p->fullScreenControlsWidget,
         SIGNAL(toggled(bool)),
@@ -193,7 +193,7 @@ void djvViewWindowPrefsWidget::viewMaxCallback(int in)
     widgetUpdate();
 }
 
-void djvViewWindowPrefsWidget::viewMaxUserCallback(const djvVector2i & in)
+void djvViewWindowPrefsWidget::viewMaxUserCallback(const glm::ivec2 & in)
 {
     context()->windowPrefs()->setViewMaxUser(in);
 }

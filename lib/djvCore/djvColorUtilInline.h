@@ -35,16 +35,16 @@
 // djvColorUtil
 //------------------------------------------------------------------------------
 
-inline void djvColorUtil::rgbToHsv(const double in[3], double out[3])
+inline void djvColorUtil::rgbToHsv(const float in[3], float out[3])
 {
-    const double & min = djvMath::min(in[0], djvMath::min(in[1], in[2]));
-    const double & max = djvMath::max(in[0], djvMath::max(in[1], in[2]));
+    const float & min = djvMath::min(in[0], djvMath::min(in[1], in[2]));
+    const float & max = djvMath::max(in[0], djvMath::max(in[1], in[2]));
     out[2] = max;
-    out[1] = max != 0.0 ? (1.0 - min / max) : 0.0;
-    const double v = (max - min) * 6.0;
+    out[1] = max != 0.f ? (1.f - min / max) : 0.f;
+    const float v = (max - min) * 6.f;
     if (max == min)
     {
-        out[0] = 0.0;
+        out[0] = 0.f;
     }
     else if (in[0] == max)
     {
@@ -54,27 +54,27 @@ inline void djvColorUtil::rgbToHsv(const double in[3], double out[3])
         }
         else
         {
-            out[0] = 1.0 + (in[1] - in[2]) / v;
+            out[0] = 1.f + (in[1] - in[2]) / v;
         }
     }
     else if (in[1] == max)
     {
-        out[0] = 1.0 / 3.0 + (in[2] - in[0]) / v;
+        out[0] = 1.f / 3.f + (in[2] - in[0]) / v;
     }
     else if (in[2] == max)
     {
-        out[0] = 2.0 / 3.0 + (in[0] - in[1]) / v;
+        out[0] = 2.f / 3.f + (in[0] - in[1]) / v;
     }
 }
 
-inline void djvColorUtil::hsvToRgb(const double in[3], double out[3])
+inline void djvColorUtil::hsvToRgb(const float in[3], float out[3])
 {
-    const double h = djvMath::mod(in[0] * 6.0, 6.0);
-    const int    i = djvMath::floor(h);
-    const double f = h - i;
-    const double p = in[2] * (1.0 - in[1]);
-    const double q = in[2] * (1.0 - (in[1] * f));
-    const double t = in[2] * (1.0 - (in[1] * (1.0 - f)));
+    const float h = djvMath::mod(in[0] * 6.f, 6.f);
+    const int   i = djvMath::floor(h);
+    const float f = h - i;
+    const float p = in[2] * (1.f - in[1]);
+    const float q = in[2] * (1.f - (in[1] * f));
+    const float t = in[2] * (1.f - (in[1] * (1.f - f)));
     switch (i)
     {
         case 0:

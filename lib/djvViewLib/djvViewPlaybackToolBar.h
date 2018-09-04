@@ -69,7 +69,7 @@ public Q_SLOTS:
     void setDefaultSpeed(const djvSpeed &);
 
     //! Set the real playback speed.
-    void setRealSpeed(double);
+    void setRealSpeed(float);
 
     //! Set whether frames are being dropped.
     void setDroppedFrames(bool);
