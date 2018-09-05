@@ -33,7 +33,7 @@
 
 #include <djvFileInfo.h>
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 
 class djvLsContext;
 
@@ -56,7 +56,7 @@ class djvLsContext;
 //! This class provides the application.
 //------------------------------------------------------------------------------
 
-class djvLsApplication : public QCoreApplication
+class djvLsApplication : public QGuiApplication
 {
     Q_OBJECT
     

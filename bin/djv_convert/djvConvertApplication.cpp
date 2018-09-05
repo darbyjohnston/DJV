@@ -48,7 +48,7 @@
 //------------------------------------------------------------------------------
 
 djvConvertApplication::djvConvertApplication(int & argc, char ** argv) :
-    QCoreApplication(argc, argv)
+    QGuiApplication(argc, argv)
 {
     //DJV_DEBUG("djvConvertApplication::djvConvertApplication");
     

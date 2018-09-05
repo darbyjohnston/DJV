@@ -34,7 +34,7 @@
 #include <djvError.h>
 #include <djvFileInfo.h>
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 
 class djvInfoContext;
 
@@ -57,7 +57,7 @@ class djvInfoContext;
 //! This class provides the application.
 //------------------------------------------------------------------------------
 
-class djvInfoApplication : public QCoreApplication
+class djvInfoApplication : public QGuiApplication
 {
     Q_OBJECT
     

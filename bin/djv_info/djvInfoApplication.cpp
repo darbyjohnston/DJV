@@ -47,7 +47,7 @@
 //------------------------------------------------------------------------------
 
 djvInfoApplication::djvInfoApplication(int argc, char ** argv) :
-    QCoreApplication(argc, argv),
+    QGuiApplication(argc, argv),
     _context(0)
 {
     //DJV_DEBUG("djvInfoApplication::djvInfoApplication");

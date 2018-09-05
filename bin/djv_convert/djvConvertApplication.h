@@ -34,7 +34,7 @@
 #include <djvOpenGlImage.h>
 #include <djvOpenGlOffscreenBuffer.h>
 
-#include <QCoreApplication>
+#include <QGuiApplication>
 
 class djvConvertContext;
 
@@ -58,7 +58,7 @@ class djvSequence;
 //! The class provides the application.
 //------------------------------------------------------------------------------
 
-class djvConvertApplication : public QCoreApplication
+class djvConvertApplication : public QGuiApplication
 {
     Q_OBJECT
     
