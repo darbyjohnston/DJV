@@ -50,13 +50,8 @@
 
 struct djvImagePrefsWidget::Private
 {
-    Private() :
-       filterMinWidget(0),
-       filterMagWidget(0)
-    {}
-
-    QComboBox * filterMinWidget;
-    QComboBox * filterMagWidget;
+    QComboBox * filterMinWidget = nullptr;
+    QComboBox * filterMagWidget = nullptr;
 };
 
 //------------------------------------------------------------------------------

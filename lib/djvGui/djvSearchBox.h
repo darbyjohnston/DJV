@@ -62,7 +62,7 @@ class DJV_GUI_EXPORT djvSearchBox : public QWidget
         NOTIFY  textChanged)
     
 public:
-    explicit djvSearchBox(djvGuiContext *, QWidget * parent = 0);
+    explicit djvSearchBox(djvGuiContext *, QWidget * parent = nullptr);
     
     virtual ~djvSearchBox();
 

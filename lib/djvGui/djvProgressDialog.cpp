@@ -53,9 +53,7 @@ class ProgressWidget : public QWidget
 {
 public:
 
-    ProgressWidget() :
-        _value   (0),
-        _maxValue(0)
+    ProgressWidget()
     {
         setAttribute(Qt::WA_OpaquePaintEvent);
     }
@@ -103,8 +101,8 @@ protected:
     }
 
 private:
-    int _value;
-    int _maxValue;
+    int _value    = 0;
+    int _maxValue = 0;
 };
 
 } // namespace
@@ -115,28 +113,17 @@ private:
 
 struct djvProgressDialog::Private
 {
-    Private() :
-        totalTicks   (0),
-        currentTick  (0),
-        timeAccum    (0.f),
-        timerId      (0),
-        widget       (0),
-        labelWidget  (0),
-        estimateLabel(0),
-        elapsedLabel (0)
-    {}
-    
-    int              totalTicks;
-    int              currentTick;
+    int              totalTicks    = 0;
+    int              currentTick   = 0;
     djvTimer         time;
-    float            timeAccum;
+    float            timeAccum     = 0.f;
     djvTimer         elapsed;
-    int              timerId;
-    ProgressWidget * widget;
-    QString          label;
-    QLabel *         labelWidget;
-    QLabel *         estimateLabel;
-    QLabel *         elapsedLabel;
+    int              timerId       = 0;
+    ProgressWidget * widget        = nullptr;
+    QString          label         = nullptr;
+    QLabel *         labelWidget   = nullptr;
+    QLabel *         estimateLabel = nullptr;
+    QLabel *         elapsedLabel  = nullptr;
 };
 
 //------------------------------------------------------------------------------

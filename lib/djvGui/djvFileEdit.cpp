@@ -46,13 +46,12 @@
 struct djvFileEdit::Private
 {
     Private(djvGuiContext * context) :
-        edit   (0),
         context(context)
     {}
     
     djvFileInfo     fileInfo;
-    QLineEdit *     edit;
-    djvGuiContext * context;
+    QLineEdit *     edit     = nullptr;
+    djvGuiContext * context  = nullptr;
 };
 
 //------------------------------------------------------------------------------

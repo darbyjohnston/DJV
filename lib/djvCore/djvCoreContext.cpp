@@ -55,13 +55,11 @@
 struct djvCoreContext::Private
 {
     Private() :
-        endline  (false),
-        separator(false),
-        debugLog (new djvDebugLog)
+        debugLog(new djvDebugLog)
     {}
 
-    bool                        endline;
-    bool                        separator;
+    bool                        endline   = false;
+    bool                        separator = false;
     QScopedPointer<djvDebugLog> debugLog;
 };
 

@@ -91,6 +91,9 @@ const djvPixelDataInfo & djvImageIoInfo::operator [] (int index) const
 // djvImageIoFrameInfo
 //------------------------------------------------------------------------------
 
+djvImageIoFrameInfo::djvImageIoFrameInfo()
+{}
+
 djvImageIoFrameInfo::djvImageIoFrameInfo(
     qint64                  frame,
     int                     layer,

@@ -47,16 +47,14 @@ struct djvPrefsGroupBox::Private
 {
     Private(const QString & text, djvGuiContext * context) :
         text   (text),
-        label  (0),
-        layout (0),
         context(context)
     {}
     
     QString         text;
-    QGroupBox *     groupBox;
-    QLabel *        label;
-    QVBoxLayout *   layout;
-    djvGuiContext * context;
+    QGroupBox *     groupBox = nullptr;
+    QLabel *        label    = nullptr;
+    QVBoxLayout *   layout   = nullptr;
+    djvGuiContext * context  = nullptr;
 };
 
 //------------------------------------------------------------------------------

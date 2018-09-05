@@ -59,7 +59,7 @@ public:
     explicit djvImageIoWidget(
         djvImageIo *    plugin,
         djvGuiContext * context,
-        QWidget *       parent  = 0);
+        QWidget *       parent  = nullptr);
 
     virtual ~djvImageIoWidget() = 0;
 
@@ -70,8 +70,8 @@ public:
     djvGuiContext * context() const;
     
 private:
-    djvImageIo *    _plugin;
-    djvGuiContext * _context;
+    djvImageIo *    _plugin  = nullptr;
+    djvGuiContext * _context = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ public:
     explicit djvImageIoWidgetFactory(
         djvGuiContext *     context,
         const QStringList & searchPath = djvSystem::searchPath(),
-        QObject *           parent     = 0);
+        QObject *           parent     = nullptr);
 
     virtual ~djvImageIoWidgetFactory();
 
@@ -120,7 +120,7 @@ public:
 private:
     DJV_PRIVATE_COPY(djvImageIoWidgetFactory);
     
-    djvGuiContext * _context;
+    djvGuiContext * _context = nullptr;
 };
 
 //@} // djvGuiWidget

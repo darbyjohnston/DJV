@@ -95,7 +95,7 @@ public:
         const QString &     pluginEntry,
         const QString &     pluginPrefix = "djv",
         const QString &     pluginSuffix = "Plugin",
-        QObject *           parent       = 0);
+        QObject *           parent       = nullptr);
 
     virtual ~djvPluginFactory() = 0;
 

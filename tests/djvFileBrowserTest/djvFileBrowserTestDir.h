@@ -90,7 +90,7 @@ class djvFileBrowserTestDirWorker : public djvFileBrowserTestAbstractWorker
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestDirWorker(QObject * parent = 0);
+    explicit djvFileBrowserTestDirWorker(QObject * parent = nullptr);
     
     virtual ~djvFileBrowserTestDirWorker();
 
@@ -129,7 +129,7 @@ class djvFileBrowserTestDir : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestDir(QObject * parent = 0);
+    explicit djvFileBrowserTestDir(QObject * parent = nullptr);
     
     virtual ~djvFileBrowserTestDir();
     

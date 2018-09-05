@@ -62,7 +62,7 @@ class DJV_GUI_EXPORT djvFloatEdit : public QWidget
         NOTIFY valueChanged)
     
 public:
-    explicit djvFloatEdit(QWidget * parent = 0);
+    explicit djvFloatEdit(QWidget * parent = nullptr);
 
     virtual ~djvFloatEdit();
 

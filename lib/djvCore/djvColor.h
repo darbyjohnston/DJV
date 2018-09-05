@@ -109,8 +109,8 @@ public:
 private:
     void init();
 
-    djvPixel::PIXEL _pixel;
-    int             _channels;
+    djvPixel::PIXEL _pixel    = static_cast<djvPixel::PIXEL>(0);
+    int             _channels = 0;
     quint8          _data[djvPixel::channelsMax * djvPixel::bytesMax];
 };
 

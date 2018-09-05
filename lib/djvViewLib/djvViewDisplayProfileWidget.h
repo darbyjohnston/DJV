@@ -59,7 +59,7 @@ public:
     explicit djvViewDisplayProfileWidget(
         const djvViewImageView * viewWidget,
         djvViewContext *         context,
-        QWidget *                parent     = 0);
+        QWidget *                parent     = nullptr);
 
     virtual ~djvViewDisplayProfileWidget();
     

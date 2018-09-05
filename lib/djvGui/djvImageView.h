@@ -83,7 +83,7 @@ class DJV_GUI_EXPORT djvImageView : public djvOpenGlWidget
 public:
     explicit djvImageView(
         djvGuiContext *   context,
-        QWidget *         parent  = 0,
+        QWidget *         parent  = nullptr,
         Qt::WindowFlags   flags   = 0);
 
     virtual ~djvImageView();

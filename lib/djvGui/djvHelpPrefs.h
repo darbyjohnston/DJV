@@ -58,7 +58,7 @@ class DJV_GUI_EXPORT djvHelpPrefs : public QObject
         NOTIFY toolTipsChanged)
     
 public:
-    explicit djvHelpPrefs(QObject * parent = 0);
+    explicit djvHelpPrefs(QObject * parent = nullptr);
 
     ~djvHelpPrefs();
     

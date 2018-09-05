@@ -56,7 +56,7 @@ class DJV_GUI_EXPORT djvSequencePrefs : public QObject
         NOTIFY maxFramesChanged)
     
 public:
-    explicit djvSequencePrefs(QObject * parent = 0);
+    explicit djvSequencePrefs(QObject * parent = nullptr);
 
     ~djvSequencePrefs();
 

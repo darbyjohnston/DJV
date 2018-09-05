@@ -55,11 +55,6 @@ djvColorProfile::Exposure::Exposure(
 // djvColorProfile
 //------------------------------------------------------------------------------
 
-djvColorProfile::djvColorProfile() :
-    type (RAW),
-    gamma(2.2)
-{}
-
 const QStringList & djvColorProfile::profileLabels()
 {
     static const QStringList data = QStringList() <<

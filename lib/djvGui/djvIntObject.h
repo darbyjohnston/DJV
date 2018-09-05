@@ -117,7 +117,7 @@ public:
     //! The maximum integer value.
     static const int intMax;
 
-    explicit djvIntObject(QObject * parent = 0);
+    explicit djvIntObject(QObject * parent = nullptr);
     
     virtual ~djvIntObject();
 
@@ -232,15 +232,15 @@ Q_SIGNALS:
 private:
     void defaultValidUpdate();
 
-    int     _value;
-    bool    _isDefaultValid;
-    int     _defaultValue;
-    int     _min;
-    int     _max;
-    bool    _clamp;
-    int     _smallInc;
-    int     _largeInc;
-    QString _sizeString;
+    int     _value          = 0;
+    bool    _isDefaultValid = false;
+    int     _defaultValue   = 0;
+    int     _min            = 0;
+    int     _max            = 0;
+    bool    _clamp          = true;
+    int     _smallInc       = 0;
+    int     _largeInc       = 0;
+    QString _sizeString     = "00000";
 };
 
 //@} // djvGuiWidget

@@ -61,7 +61,7 @@ class DJV_GUI_EXPORT djvPixelWidget : public QWidget
         NOTIFY          pixelChanged)
     
 public:
-    explicit djvPixelWidget(QWidget * parent = 0);
+    explicit djvPixelWidget(QWidget * parent = nullptr);
 
     virtual ~djvPixelWidget();
 

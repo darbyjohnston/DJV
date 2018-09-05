@@ -60,7 +60,7 @@ class DJV_GUI_EXPORT djvFloatDisplay : public QWidget
         NOTIFY valueChanged)
     
 public:
-    explicit djvFloatDisplay(QWidget * parent = 0);
+    explicit djvFloatDisplay(QWidget * parent = nullptr);
 
     virtual ~djvFloatDisplay();
 

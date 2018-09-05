@@ -63,7 +63,7 @@ class DJV_GUI_EXPORT djvFileEdit : public QWidget
         NOTIFY      fileInfoChanged)
     
 public:
-    explicit djvFileEdit(djvGuiContext *, QWidget * parent = 0);
+    explicit djvFileEdit(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvFileEdit();
 

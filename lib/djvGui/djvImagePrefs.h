@@ -58,7 +58,7 @@ class DJV_GUI_EXPORT djvImagePrefs : public QObject
         NOTIFY               filterChanged)
     
 public:
-    explicit djvImagePrefs(QObject * parent = 0);
+    explicit djvImagePrefs(QObject * parent = nullptr);
 
     ~djvImagePrefs();
 

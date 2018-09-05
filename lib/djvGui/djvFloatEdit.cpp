@@ -46,13 +46,8 @@
 
 struct djvFloatEdit::Private
 {
-    Private() :
-        object (0),
-        spinBox(0)
-    {}
-    
-    djvFloatObject * object;
-    QDoubleSpinBox * spinBox;
+    djvFloatObject * object  = nullptr;
+    QDoubleSpinBox * spinBox = nullptr;
 };
 
 //------------------------------------------------------------------------------

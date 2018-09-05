@@ -62,7 +62,7 @@ class DJV_GUI_EXPORT djvShortcutsWidget : public QWidget
         NOTIFY               shortcutsChanged)
 
 public:
-    explicit djvShortcutsWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvShortcutsWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvShortcutsWidget();
 

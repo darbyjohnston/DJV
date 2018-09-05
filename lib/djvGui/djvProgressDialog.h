@@ -55,7 +55,7 @@ class DJV_GUI_EXPORT djvProgressDialog : public QDialog
 public:
     explicit djvProgressDialog(
         const QString & label  = QString(),
-        QWidget *       parent = 0);
+        QWidget *       parent = nullptr);
 
     virtual ~djvProgressDialog();
 

@@ -53,7 +53,7 @@ class DJV_GUI_EXPORT djvStylePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
 
 public:
-    explicit djvStylePrefsWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvStylePrefsWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvStylePrefsWidget();
 

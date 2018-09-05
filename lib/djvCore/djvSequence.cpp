@@ -54,8 +54,7 @@ const QStringList & djvSequence::compressLabels()
     return data;
 }
 
-djvSequence::djvSequence() :
-    pad(0)
+djvSequence::djvSequence()
 {}
 
 djvSequence::djvSequence(const djvFrameList & frames, int pad, const djvSpeed & speed) :

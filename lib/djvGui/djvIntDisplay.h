@@ -60,7 +60,7 @@ class DJV_GUI_EXPORT djvIntDisplay : public QWidget
         NOTIFY valueChanged)
     
 public:
-    explicit djvIntDisplay(QWidget * parent = 0);
+    explicit djvIntDisplay(QWidget * parent = nullptr);
 
     virtual ~djvIntDisplay();
 

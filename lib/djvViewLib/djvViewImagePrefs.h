@@ -49,7 +49,7 @@ class DJV_VIEW_LIB_EXPORT djvViewImagePrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-    explicit djvViewImagePrefs(djvViewContext *, QObject * parent = 0);
+    explicit djvViewImagePrefs(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewImagePrefs();
     

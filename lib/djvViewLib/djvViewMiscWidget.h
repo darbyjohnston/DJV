@@ -73,7 +73,7 @@ class DJV_VIEW_LIB_EXPORT djvViewCacheSizeWidget : public QWidget
         NOTIFY cacheSizeChanged)
 
 public:
-    explicit djvViewCacheSizeWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvViewCacheSizeWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewCacheSizeWidget();
 
@@ -141,7 +141,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameWidget : public QAbstractSpinBox
         WRITE    setSpeed)
 
 public:
-    explicit djvViewFrameWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvViewFrameWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewFrameWidget();
 
@@ -240,7 +240,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
         NOTIFY outPointChanged)
     
 public:
-    explicit djvViewFrameSlider(djvGuiContext *, QWidget * parent = 0);
+    explicit djvViewFrameSlider(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewFrameSlider();
 
@@ -377,7 +377,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFrameDisplay : public QWidget
         WRITE  setInOutEnabled)
     
 public:
-    explicit djvViewFrameDisplay(djvGuiContext *, QWidget * parent = 0);
+    explicit djvViewFrameDisplay(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewFrameDisplay();
 
@@ -426,7 +426,7 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedButton : public QWidget
     Q_OBJECT
     
 public:
-    explicit djvViewSpeedButton(djvGuiContext *, QWidget * parent = 0);
+    explicit djvViewSpeedButton(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewSpeedButton();
 
@@ -474,7 +474,7 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedWidget : public QWidget
         WRITE    setDefaultSpeed)
     
 public:
-    explicit djvViewSpeedWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvViewSpeedWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewSpeedWidget();
 
@@ -518,7 +518,7 @@ class DJV_VIEW_LIB_EXPORT djvViewSpeedDisplay : public QWidget
     Q_OBJECT
     
 public:
-    explicit djvViewSpeedDisplay(QWidget * parent = 0);
+    explicit djvViewSpeedDisplay(QWidget * parent = nullptr);
 
     virtual ~djvViewSpeedDisplay();
 

@@ -76,7 +76,7 @@ class DJV_GUI_EXPORT djvIntEdit : public QWidget
         NOTIFY maxChanged)
     
 public:
-    djvIntEdit(QWidget * parent = 0);
+    djvIntEdit(QWidget * parent = nullptr);
 
     virtual ~djvIntEdit();
 

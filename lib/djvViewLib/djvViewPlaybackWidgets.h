@@ -60,7 +60,7 @@ public:
     explicit djvViewPlaybackButtons(
         QActionGroup *  actionGroup,
         djvGuiContext * context,
-        QWidget *       parent      = 0);
+        QWidget *       parent      = nullptr);
 
     virtual ~djvViewPlaybackButtons();
 
@@ -92,7 +92,7 @@ public:
     explicit djvViewLoopWidget(
         QActionGroup *   actionGroup,
         djvViewContext * context,
-        QWidget *        parent      = 0);
+        QWidget *        parent      = nullptr);
 
     virtual ~djvViewLoopWidget();
 
@@ -120,7 +120,7 @@ public:
     explicit djvViewFrameButtons(
         QActionGroup *  actionGroup,
         djvGuiContext * context,
-        QWidget *       parent      = 0);
+        QWidget *       parent      = nullptr);
 
     virtual ~djvViewFrameButtons();
 

@@ -58,7 +58,7 @@ class DJV_GUI_EXPORT djvStyle : public QObject
     Q_OBJECT
     
 public:
-    explicit djvStyle(QObject * parent = 0);
+    explicit djvStyle(QObject * parent = nullptr);
 
     ~djvStyle();
 
@@ -123,21 +123,21 @@ public:
         explicit SizeMetric(const QString & name = QString(), int fontSize = 0);
     
         QString name;
-        int     fontSize;
-        int     pickSize;
-        int     handleSize;
-        int     spacing;
-        int     largeSpacing;
-        int     margin;
-        int     textMargin;
-        int     widgetMargin;
-        int     largeMargin;
-        int     iconSize;
-        int     toolIconSize;
-        int     buttonSize;
-        int     textSize;
-        int     swatchSize;
-        int     thumbnailSize;
+        int     fontSize      = 0;
+        int     pickSize      = 0;
+        int     handleSize    = 0;
+        int     spacing       = 0;
+        int     largeSpacing  = 0;
+        int     margin        = 0;
+        int     textMargin    = 0;
+        int     widgetMargin  = 0;
+        int     largeMargin   = 0;
+        int     iconSize      = 0;
+        int     toolIconSize  = 0;
+        int     buttonSize    = 0;
+        int     textSize      = 0;
+        int     swatchSize    = 0;
+        int     thumbnailSize = 0;
     };
     
     //! Get the default size metrics.

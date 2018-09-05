@@ -54,7 +54,7 @@ public:
     explicit djvViewViewToolBar(
         djvViewAbstractActions * actions,
         djvViewContext *         context,
-        QWidget *                parent  = 0);
+        QWidget *                parent  = nullptr);
 
     virtual ~djvViewViewToolBar();
 

@@ -59,7 +59,7 @@ class DJV_CORE_EXPORT djvCoreContext : public QObject
     Q_OBJECT
     
 public:
-    explicit djvCoreContext(QObject * parent = 0);
+    explicit djvCoreContext(QObject * parent = nullptr);
 
     virtual ~djvCoreContext();
 

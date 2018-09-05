@@ -65,11 +65,7 @@
 
 struct djvGuiContext::Private
 {
-    Private() :
-        valid(false)
-    {}
-
-    bool                                    valid;
+    bool                                    valid = false;
     QScopedPointer<djvIconLibrary>          iconLibrary;
     QScopedPointer<djvStyle>                style;
     QScopedPointer<djvFileBrowserPrefs>     fileBrowserPrefs;

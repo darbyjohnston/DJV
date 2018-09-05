@@ -54,7 +54,7 @@ public:
     djvAbstractPrefsWidget(
         const QString & name,
         djvGuiContext * context,
-        QWidget *       parent  = 0);
+        QWidget *       parent  = nullptr);
     
     virtual ~djvAbstractPrefsWidget() = 0;
         
@@ -69,7 +69,7 @@ public:
     
 private:
     QString         _name;
-    djvGuiContext * _context;
+    djvGuiContext * _context = nullptr;
 };
 
 //@} // djvGuiWidget

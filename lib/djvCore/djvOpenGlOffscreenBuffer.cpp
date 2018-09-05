@@ -51,10 +51,7 @@ int bufferCount = 0;
 
 djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer(const djvPixelDataInfo & info)
     throw (djvError) :
-    _info   (info),
-    _id     (0),
-    _texture(0),
-    _restore(0)
+    _info(info)
 {
     //DJV_DEBUG("djvOpenGlOffscreenBuffer::djvOpenGlOffscreenBuffer");
     //DJV_DEBUG_PRINT("info = " << info);

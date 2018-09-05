@@ -44,16 +44,14 @@
 struct djvInputDialog::Private
 {
     Private(const QString & label, const QString & text) :
-        label      (label),
-        labelWidget(0),
-        text       (text),
-        textEdit   (0)
+        label(label),
+        text (text)
     {}
     
     QString     label;
-    QLabel *    labelWidget;
+    QLabel *    labelWidget = nullptr;
     QString     text;
-    QLineEdit * textEdit;
+    QLineEdit * textEdit    = nullptr;
 };
 
 //------------------------------------------------------------------------------

@@ -51,25 +51,11 @@
 
 QSet<QString> djvFileInfo::sequenceExtensions;
 
-void djvFileInfo::init()
-{
-    _exists      = false;
-    _dotFile     = false;
-    _type        = FILE;
-    _size        = 0;
-    _user        = 0;
-    _permissions = 0;
-    _time        = 0;
-}
-
 djvFileInfo::djvFileInfo()
-{
-    init();
-}
+{}
 
 djvFileInfo::djvFileInfo(const QString & fileName, bool stat)
 {
-    init();    
     setFileName(fileName, stat);
 }
 
@@ -103,7 +89,13 @@ void djvFileInfo::setFileName(const QString & in, bool stat)
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("stat = " << stat);
 
-    init();
+    _exists      = false;
+    _dotFile     = false;
+    _type        = FILE;
+    _size        = 0;
+    _user        = 0;
+    _permissions = 0;
+    _time        = 0;
 
     // Split file name into pieces.
     djvFileInfoUtil::split(

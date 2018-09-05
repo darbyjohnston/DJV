@@ -44,9 +44,7 @@
 //------------------------------------------------------------------------------
 
 djvPlaybackButtons::djvPlaybackButtons(djvGuiContext * context, QWidget * parent) :
-    QWidget(parent),
-    _playback   (djvPlaybackUtil::STOP),
-    _buttonGroup(0)
+    QWidget(parent)
 {
     _buttonGroup = new QButtonGroup(this);
     _buttonGroup->setExclusive(true);

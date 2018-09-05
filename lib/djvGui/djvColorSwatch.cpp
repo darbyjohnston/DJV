@@ -45,12 +45,9 @@
 
 djvColorSwatch::djvColorSwatch(djvGuiContext * context, QWidget * parent) :
     QWidget(parent),
-    _swatchSize        (SWATCH_MEDIUM),
-    _colorDialogEnabled(false),
-    _context           (context)
+    _context(context)
 {
     setAttribute(Qt::WA_OpaquePaintEvent);
-
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
     connect(

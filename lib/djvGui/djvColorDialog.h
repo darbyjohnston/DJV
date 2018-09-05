@@ -65,11 +65,11 @@ class DJV_GUI_EXPORT djvColorDialog : public QDialog
 public:
     explicit djvColorDialog(
         djvGuiContext *  context,
-        QWidget *        parent  = 0);
+        QWidget *        parent  = nullptr);
     explicit djvColorDialog(
         const djvColor & color,
         djvGuiContext *  context,
-        QWidget *        parent  = 0);
+        QWidget *        parent  = nullptr);
 
     virtual ~djvColorDialog();
     

@@ -58,7 +58,7 @@ class DJV_GUI_EXPORT djvPlaybackButtons : public QWidget
         NOTIFY                    playbackChanged)
     
 public:
-    explicit djvPlaybackButtons(djvGuiContext *, QWidget * parent = 0);
+    explicit djvPlaybackButtons(djvGuiContext *, QWidget * parent = nullptr);
     
     //! Get the current playback state.    
     djvPlaybackUtil::PLAYBACK playback() const;
@@ -75,8 +75,8 @@ private Q_SLOTS:
     void buttonCallback(int);
     
 private:    
-    djvGuiContext *           _context;
-    djvPlaybackUtil::PLAYBACK _playback;
-    QButtonGroup *            _buttonGroup;
+    djvGuiContext *           _context     = nullptr;
+    djvPlaybackUtil::PLAYBACK _playback    = djvPlaybackUtil::STOP;
+    QButtonGroup *            _buttonGroup = nullptr;
 };
 

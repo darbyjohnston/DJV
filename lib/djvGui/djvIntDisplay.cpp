@@ -42,17 +42,10 @@
 
 struct djvIntDisplay::Private
 {
-    Private() :
-        value  (0),
-        min    (1),
-        max    (100),
-        spinBox(0)
-    {}
-
-    int        value;
-    int        min;
-    int        max;
-    QSpinBox * spinBox;
+    int        value   = 0;
+    int        min     = 1;
+    int        max     = 100;
+    QSpinBox * spinBox = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -118,3 +111,4 @@ void djvIntDisplay::widgetUpdate()
     _p->spinBox->setRange(_p->min, _p->max);
     _p->spinBox->setValue(_p->value);
 }
+

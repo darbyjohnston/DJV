@@ -47,19 +47,17 @@ struct djvChoiceDialog::Private
         const QString &     label,
         const QStringList & choices,
         int                 choice) :
-        choices     (choices),
-        choice      (choice),
-        buttonLayout(0),
-        label       (label),
-        labelWidget (0)
+        choices(choices),
+        choice (choice),
+        label  (label)
     {}
     
     QStringList             choices;
-    int                     choice;
+    int                     choice       = 0;
     QVector<QRadioButton *> buttons;
-    QVBoxLayout *           buttonLayout;
+    QVBoxLayout *           buttonLayout = nullptr;
     QString                 label;
-    QLabel *                labelWidget;
+    QLabel *                labelWidget  = nullptr;
 };
 
 //------------------------------------------------------------------------------

@@ -47,19 +47,17 @@ struct djvMultiChoiceDialog::Private
         const QString &       label,
         const QStringList &   choices,
         const QVector<bool> & values) :
-        choices     (choices),
-        values      (values),
-        buttonLayout(0),
-        label       (label),
-        labelWidget (0)
+        choices(choices),
+        values (values),
+        label  (label)
     {}
     
     QStringList          choices;
     QVector<bool>        values;
     QVector<QCheckBox *> buttons;
-    QVBoxLayout *        buttonLayout;
+    QVBoxLayout *        buttonLayout = nullptr;
     QString              label;
-    QLabel *             labelWidget;
+    QLabel *             labelWidget  = nullptr;
 };
 
 //------------------------------------------------------------------------------

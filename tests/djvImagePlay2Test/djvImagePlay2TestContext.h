@@ -57,7 +57,7 @@ class djvImagePlay2TestContext : public djvGuiContext
 
 public:
 
-    explicit djvImagePlay2TestContext(QObject * parent = 0);
+    explicit djvImagePlay2TestContext(QObject * parent = nullptr);
 
     virtual ~djvImagePlay2TestContext();
 

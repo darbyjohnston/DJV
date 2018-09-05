@@ -59,11 +59,10 @@ protected:
 struct djvHelpPrefs::Private
 {
     Private() :
-        toolTips     (djvHelpPrefs::toolTipsDefault()),
         toolTipFilter(new ToolTipFilter)
     {}
     
-    bool                          toolTips;
+    bool                          toolTips      = djvHelpPrefs::toolTipsDefault();
     QScopedPointer<ToolTipFilter> toolTipFilter;
 };
 

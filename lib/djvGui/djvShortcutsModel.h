@@ -60,7 +60,7 @@ class DJV_GUI_EXPORT djvShortcutsModel : public QAbstractItemModel
         NOTIFY               shortcutsChanged)
     
 public:
-    explicit djvShortcutsModel(QObject * parent = 0);
+    explicit djvShortcutsModel(QObject * parent = nullptr);
 
     virtual ~djvShortcutsModel();
 

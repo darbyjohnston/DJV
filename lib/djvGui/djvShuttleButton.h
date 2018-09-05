@@ -53,8 +53,8 @@ class DJV_GUI_EXPORT djvShuttleButton : public djvAbstractToolButton
     Q_OBJECT
     
 public:
-    explicit djvShuttleButton(QWidget * parent = 0);
-    explicit djvShuttleButton(const QVector<QIcon> & icons, QWidget * parent = 0);
+    explicit djvShuttleButton(QWidget * parent = nullptr);
+    explicit djvShuttleButton(const QVector<QIcon> & icons, QWidget * parent = nullptr);
 
     virtual ~djvShuttleButton();
     

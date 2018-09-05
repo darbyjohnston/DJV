@@ -49,14 +49,9 @@
 
 struct djvShuttleButton::Private
 {
-    Private() :
-        value     (0.f),
-        mousePress(false)
-    {}
-    
-    float          value;
+    float          value         = 0.f;
     QVector<QIcon> icons;
-    bool           mousePress;
+    bool           mousePress    = false;
     glm::ivec2     mouseStartPos = glm::ivec2(0, 0);
 };
 

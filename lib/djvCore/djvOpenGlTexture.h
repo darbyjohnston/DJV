@@ -44,8 +44,6 @@
 class DJV_CORE_EXPORT djvOpenGlTexture
 {
 public:
-    djvOpenGlTexture();
-
     ~djvOpenGlTexture();
     
     //! Initialize the texture.
@@ -93,9 +91,9 @@ private:
     void del();
 
     djvPixelDataInfo _info;
-    gl::GLenum       _target;
-    gl::GLenum       _min;
-    gl::GLenum       _mag;
-    gl::GLuint       _id;
+    gl::GLenum       _target = gl::GL_NONE;
+    gl::GLenum       _min    = gl::GL_NONE;
+    gl::GLenum       _mag    = gl::GL_NONE;
+    gl::GLuint       _id     = 0;
 };
 

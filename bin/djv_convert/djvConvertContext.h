@@ -106,7 +106,7 @@ class djvConvertContext : public djvImageContext
     Q_OBJECT
     
 public:
-    explicit djvConvertContext(QObject * parent = 0);
+    explicit djvConvertContext(QObject * parent = nullptr);
 
     virtual ~djvConvertContext();
     

@@ -127,13 +127,11 @@ const QStringList & djvPixelDataInfo::proxyLabels()
 djvPixelData::djvPixelData()
 {
     //DJV_DEBUG("djvPixelData::djvPixelData");
-    init();
 }
 
 djvPixelData::djvPixelData(const djvPixelData & in)
 {
     //DJV_DEBUG("djvPixelData::djvPixelData");
-    init();
     copy(in);
 }
 
@@ -143,7 +141,6 @@ djvPixelData::djvPixelData(
     djvFileIo *              fileIo)
 {
     //DJV_DEBUG("djvPixelData::djvPixelData");
-    init();
     set(in, p, fileIo);
 }
 
@@ -164,7 +161,14 @@ void djvPixelData::close()
     if (_fileIo)
     {
         delete _fileIo;
-        init();
+        _info              = djvPixelDataInfo();
+        _channels          = 0;
+        _data.resize(0);
+        _p                 = nullptr;
+        _pixelByteCount    = 0;
+        _scanlineByteCount = 0;
+        _dataByteCount     = 0;
+        _fileIo            = nullptr;
     }
 }
 
@@ -175,18 +179,6 @@ djvPixelData & djvPixelData::operator = (const djvPixelData & in)
         copy(in);
     }
     return *this;
-}
-
-void djvPixelData::init()
-{
-    _info              = djvPixelDataInfo();
-    _channels          = 0;
-    _data.resize(0);
-    _p                 = 0;
-    _pixelByteCount    = 0;
-    _scanlineByteCount = 0;
-    _dataByteCount     = 0;
-    _fileIo            = 0;
 }
 
 void djvPixelData::detach()

@@ -50,18 +50,10 @@
 
 struct djvFloatEditSlider::Private
 {
-    Private() :
-        resetToDefault(true),
-        edit          (0),
-        slider        (0),
-        defaultButton (0)
-    {}
-    
-    bool             resetToDefault;
-
-    djvFloatEdit *   edit;
-    djvFloatSlider * slider;
-    djvToolButton *  defaultButton;
+    bool             resetToDefault = true;
+    djvFloatEdit *   edit           = nullptr;
+    djvFloatSlider * slider         = nullptr;
+    djvToolButton *  defaultButton  = nullptr;
 };
 
 //------------------------------------------------------------------------------

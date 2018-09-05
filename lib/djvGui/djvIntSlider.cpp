@@ -84,13 +84,8 @@ protected:
 
 struct djvIntSlider::Private
 {
-    Private() :
-        object(0),
-        slider(0)
-    {}
-    
-    djvIntObject * object;
-    Slider *       slider;
+    djvIntObject * object = nullptr;
+    Slider *       slider = nullptr;
 };
 
 //------------------------------------------------------------------------------

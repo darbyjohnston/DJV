@@ -130,7 +130,7 @@ class DJV_GUI_EXPORT djvFileBrowserPrefs : public QObject
         NOTIFY               shortcutsChanged)
     
 public:
-    explicit djvFileBrowserPrefs(djvGuiContext *, QObject * parent = 0);
+    explicit djvFileBrowserPrefs(djvGuiContext *, QObject * parent = nullptr);
 
     ~djvFileBrowserPrefs();
 

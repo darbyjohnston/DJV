@@ -64,7 +64,6 @@ public:
     void add(const QVector<QObject *> &);
     
 private:
-
     DJV_PRIVATE_COPY(djvSignalBlocker)
     
     QObjectList _objects;

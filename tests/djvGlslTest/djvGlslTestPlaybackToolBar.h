@@ -54,7 +54,7 @@ public:
     djvGlslTestPlaybackToolBar(
         djvGlslTestPlayback *,
         djvGlslTestContext *,
-        QWidget * parent = 0);
+        QWidget * parent      = nullptr);
     
 private:
     

@@ -52,13 +52,8 @@
 
 struct djvTimePrefsWidget::Private
 {
-    Private() :
-        timeUnitsWidget(0),
-        speedWidget    (0)
-    {}
-
-    QComboBox *  timeUnitsWidget;
-    QComboBox *  speedWidget;
+    QComboBox *  timeUnitsWidget = nullptr;
+    QComboBox *  speedWidget     = nullptr;
 };
 
 //------------------------------------------------------------------------------

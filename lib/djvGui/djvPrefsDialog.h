@@ -59,7 +59,7 @@ class DJV_GUI_EXPORT djvPrefsDialog : public QDialog
     Q_OBJECT
     
 public:
-    explicit djvPrefsDialog(djvGuiContext *, QWidget * parent = 0);
+    explicit djvPrefsDialog(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvPrefsDialog();
 

@@ -48,7 +48,7 @@ class DJV_VIEW_LIB_EXPORT djvViewWindowPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-    explicit djvViewWindowPrefs(djvViewContext *, QObject * parent = 0);
+    explicit djvViewWindowPrefs(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewWindowPrefs();
 

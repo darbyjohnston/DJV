@@ -48,19 +48,16 @@
 struct djvImageView::Private
 {
     Private(djvGuiContext * context) :
-        data    (0),
-        viewZoom(1.f),
-        viewFit (false),
-        context (context)
+        context(context)
     {}
     
-    const djvPixelData *  data;
+    const djvPixelData *  data     = nullptr;
     djvOpenGlImageOptions options;
-    glm::ivec2            viewPos = glm::ivec2(0, 0);
-    float                 viewZoom;
-    bool                  viewFit;
+    glm::ivec2            viewPos  = glm::ivec2(0, 0);
+    float                 viewZoom = 1.f;
+    bool                  viewFit  = false;
     djvOpenGlImageState   state;
-    djvGuiContext *       context;
+    djvGuiContext *       context  = nullptr;
 };
 
 //------------------------------------------------------------------------------

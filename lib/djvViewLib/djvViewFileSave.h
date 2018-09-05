@@ -89,7 +89,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFileSave : public QObject
     Q_OBJECT
     
 public:
-    explicit djvViewFileSave(djvViewContext *, QObject * parent = 0);
+    explicit djvViewFileSave(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewFileSave();
 

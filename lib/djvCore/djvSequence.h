@@ -73,7 +73,7 @@ public:
     djvSequence(qint64 start, qint64 end, int pad = 0, const djvSpeed & = djvSpeed());
 
     djvFrameList frames;
-    int pad;
+    int pad = 0;
     djvSpeed speed;
 
     //! Set the list of frame numbers.

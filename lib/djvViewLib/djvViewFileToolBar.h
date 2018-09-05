@@ -52,7 +52,7 @@ public:
     explicit djvViewFileToolBar(
         djvViewAbstractActions * actions,
         djvViewContext *         context,
-        QWidget *                parent   = 0);
+        QWidget *                parent  = nullptr);
 
     virtual ~djvViewFileToolBar();
 

@@ -56,7 +56,7 @@ public:
     explicit djvInputDialog(
         const QString & label  = QString(),
         const QString & text   = QString(),
-        QWidget *       parent = 0);
+        QWidget *       parent = nullptr);
 
     virtual ~djvInputDialog();
 

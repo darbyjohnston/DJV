@@ -60,7 +60,7 @@ public:
         ACTION_COUNT
     };
 
-    explicit djvViewHelpActions(djvViewContext *, QObject * parent = 0);
+    explicit djvViewHelpActions(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewHelpActions();
 

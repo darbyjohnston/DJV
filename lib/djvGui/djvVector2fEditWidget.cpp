@@ -43,13 +43,8 @@
 
 struct djvVector2fEditWidget::Private
 {
-    Private() :
-        widget (0),
-        widget2(0)
-    {}
-    
-    djvFloatEdit * widget;
-    djvFloatEdit * widget2;
+    djvFloatEdit * widget  = nullptr;
+    djvFloatEdit * widget2 = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -142,3 +137,4 @@ void djvVector2fEditWidget::rangeCallback()
 {
     Q_EMIT rangeChanged(min(), max());
 }
+

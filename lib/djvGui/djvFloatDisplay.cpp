@@ -42,17 +42,10 @@
 
 struct djvFloatDisplay::Private
 {
-    Private() :
-        value  (0.f),
-        min    (0.f),
-        max    (1.f),
-        spinBox(0)
-    {}
-
-    float            value;
-    float            min;
-    float            max;
-    QDoubleSpinBox * spinBox;
+    float            value   = 0.f;
+    float            min     = 0.f;
+    float            max     = 1.f;
+    QDoubleSpinBox * spinBox = nullptr;
 };
 
 //------------------------------------------------------------------------------

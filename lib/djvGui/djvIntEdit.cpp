@@ -45,13 +45,8 @@
 
 struct djvIntEdit::Private
 {
-    Private() :
-        object (0),
-        spinBox(0)
-    {}
-    
-    djvIntObject * object;
-    QSpinBox *     spinBox;
+    djvIntObject * object  = nullptr;
+    QSpinBox *     spinBox = nullptr;
 };
 
 //------------------------------------------------------------------------------

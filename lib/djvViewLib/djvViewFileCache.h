@@ -110,7 +110,7 @@ class DJV_VIEW_LIB_EXPORT djvViewFileCache : public QObject
     Q_OBJECT
     
 public:
-    explicit djvViewFileCache(djvViewContext *, QObject * parent = 0);
+    explicit djvViewFileCache(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewFileCache();
 

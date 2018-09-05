@@ -51,7 +51,7 @@ class djvViewPlaybackMenu : public djvViewAbstractMenu
 public:
     explicit djvViewPlaybackMenu(
         djvViewAbstractActions * actions,
-        QWidget *                parent  = 0);
+        QWidget *                parent  = nullptr);
 
     virtual ~djvViewPlaybackMenu();
 

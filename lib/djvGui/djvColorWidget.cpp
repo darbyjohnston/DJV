@@ -50,19 +50,12 @@
 
 struct djvColorWidget::Private
 {
-    Private() :
-        color       (djvPixel::RGB_U8),
-        formatWidget(0),
-        typeWidget  (0),
-        bottomLayout(0)
-    {}
-    
-    djvColor                      color;
+    djvColor                      color        = djvColor(djvPixel::RGB_U8);
     QVector<djvIntEditSlider *>   intWidgets;
     QVector<djvFloatEditSlider *> floatWidgets;
-    QComboBox *                   formatWidget;
-    QComboBox *                   typeWidget;
-    QHBoxLayout *                 bottomLayout;
+    QComboBox *                   formatWidget = nullptr;
+    QComboBox *                   typeWidget   = nullptr;
+    QHBoxLayout *                 bottomLayout = nullptr;
 };
 
 //------------------------------------------------------------------------------

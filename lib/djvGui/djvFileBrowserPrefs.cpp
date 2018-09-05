@@ -48,30 +48,21 @@
 struct djvFileBrowserPrefs::Private
 {
     Private(djvGuiContext * context) :
-        sequence       (djvFileBrowserPrefs::sequenceDefault()),
-        showHidden     (djvFileBrowserPrefs::showHiddenDefault()),
-        sort           (djvFileBrowserPrefs::sortDefault()),
-        reverseSort    (djvFileBrowserPrefs::reverseSortDefault()),
-        sortDirsFirst  (djvFileBrowserPrefs::sortDirsFirstDefault()),
-        thumbnails     (djvFileBrowserPrefs::thumbnailsDefault()),
-        thumbnailsSize (djvFileBrowserPrefs::thumbnailsSizeDefault()),
-        thumbnailsCache(djvFileBrowserPrefs::thumbnailsCacheDefault()),
-        shortcuts      (djvFileBrowserPrefs::shortcutsDefault()),
-        context        (context)
+        context(context)
     {}
     
-    djvSequence::COMPRESS                sequence;
-    bool                                 showHidden;
-    djvFileBrowserModel::COLUMNS         sort;
-    bool                                 reverseSort;
-    bool                                 sortDirsFirst;
-    djvFileBrowserModel::THUMBNAILS      thumbnails;
-    djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize;
-    qint64                               thumbnailsCache;
+    djvSequence::COMPRESS                sequence        = djvFileBrowserPrefs::sequenceDefault();
+    bool                                 showHidden      = djvFileBrowserPrefs::showHiddenDefault();
+    djvFileBrowserModel::COLUMNS         sort            = djvFileBrowserPrefs::sortDefault();
+    bool                                 reverseSort     = djvFileBrowserPrefs::reverseSortDefault();
+    bool                                 sortDirsFirst   = djvFileBrowserPrefs::sortDirsFirstDefault();
+    djvFileBrowserModel::THUMBNAILS      thumbnails      = djvFileBrowserPrefs::thumbnailsDefault();
+    djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize  = djvFileBrowserPrefs::thumbnailsSizeDefault();
+    qint64                               thumbnailsCache = djvFileBrowserPrefs::thumbnailsCacheDefault();
     QStringList                          recent;
     QStringList                          bookmarks;
-    QVector<djvShortcut>                 shortcuts;
-    djvGuiContext *                      context;
+    QVector<djvShortcut>                 shortcuts       = djvFileBrowserPrefs::shortcutsDefault();
+    djvGuiContext *                      context         = nullptr;
 };
 
 namespace

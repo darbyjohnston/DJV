@@ -50,14 +50,12 @@
 struct djvDebugLogDialog::Private
 {
     Private(djvGuiContext * context) :
-        widget   (0),
-        buttonBox(0),
-        context  (context)
+        context(context)
     {}
 
-    QTextEdit *        widget;
-    QDialogButtonBox * buttonBox;
-    djvGuiContext *    context;
+    QTextEdit *        widget    = nullptr;
+    QDialogButtonBox * buttonBox = nullptr;
+    djvGuiContext *    context   = nullptr;
 };
 
 //------------------------------------------------------------------------------

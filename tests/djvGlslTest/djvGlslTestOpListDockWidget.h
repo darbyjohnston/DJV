@@ -47,6 +47,6 @@ public:
 
     explicit djvGlslTestOpListDockWidget(
         djvGlslTestOpsManager *,
-        QWidget * parent = 0);
+        QWidget * parent        = nullptr);
 };
 

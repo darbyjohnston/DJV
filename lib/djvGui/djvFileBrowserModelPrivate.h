@@ -92,17 +92,16 @@ private:
     djvFileInfo                          _fileInfo;
     djvFileBrowserModel::THUMBNAILS      _thumbnails;
     djvFileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
-    glm::ivec2                           _thumbnailSize = glm::ivec2(0, 0);
-    djvPixelDataInfo::PROXY              _thumbnailProxy;
-    bool                                 _imageRequest;
-    bool                                 _imageInfoRequest;
+    glm::ivec2                           _thumbnailSize    = glm::ivec2(0, 0);
+    djvPixelDataInfo::PROXY              _thumbnailProxy   = static_cast<djvPixelDataInfo::PROXY>(0);
+    bool                                 _imageInfoRequest = false;
     djvImageIoInfo                       _imageInfo;
-    bool                                 _thumbnailRequest;
+    bool                                 _thumbnailRequest = false;
     QPixmap                              _thumbnail;
 
     QVariant _displayRole[djvFileBrowserModel::COLUMNS_COUNT];
     QVariant _editRole   [djvFileBrowserModel::COLUMNS_COUNT];
 
-    djvGuiContext *                      _context;
+    djvGuiContext *                      _context = nullptr;
 };
 

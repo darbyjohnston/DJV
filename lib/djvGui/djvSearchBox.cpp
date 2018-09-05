@@ -46,14 +46,9 @@
 
 struct djvSearchBox::Private
 {
-    Private() :
-        lineEdit   (0),
-        resetButton(0)
-    {}
-    
     QString         text;
-    QLineEdit *     lineEdit;
-    djvToolButton * resetButton;
+    QLineEdit *     lineEdit    = nullptr;
+    djvToolButton * resetButton = nullptr;
 };
 
 //------------------------------------------------------------------------------

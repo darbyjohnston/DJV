@@ -54,8 +54,8 @@ class DJV_GUI_EXPORT djvChoiceButton : public djvAbstractToolButton
     Q_OBJECT
     
 public:
-    explicit djvChoiceButton(QWidget * parent = 0);
-    explicit djvChoiceButton(QActionGroup *, QWidget * parent = 0);
+    explicit djvChoiceButton(QWidget * parent = nullptr);
+    explicit djvChoiceButton(QActionGroup *, QWidget * parent = nullptr);
     
     virtual ~djvChoiceButton();
     

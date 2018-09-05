@@ -51,7 +51,7 @@ class DJV_GUI_EXPORT djvHelpPrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-    explicit djvHelpPrefsWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvHelpPrefsWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvHelpPrefsWidget();
 

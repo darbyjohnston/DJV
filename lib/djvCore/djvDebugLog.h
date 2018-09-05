@@ -51,7 +51,7 @@ class DJV_CORE_EXPORT djvDebugLog : public QObject
     Q_OBJECT
     
 public:
-    explicit djvDebugLog(QObject * parent = 0);
+    explicit djvDebugLog(QObject * parent = nullptr);
     
     virtual ~djvDebugLog();
     

@@ -80,10 +80,8 @@ public:
     //! Get the color profile labels.
     static const QStringList & profileLabels();
 
-    djvColorProfile();
-
-    PROFILE      type;
-    float        gamma;
+    PROFILE      type     = RAW;
+    float        gamma    = 2.2f;
     djvPixelData lut;
     Exposure     exposure;
 };

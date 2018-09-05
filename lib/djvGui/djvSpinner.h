@@ -57,7 +57,7 @@ class djvSpinner : public QWidget
 public:
     explicit djvSpinner(
         djvGuiContext * context,
-        QWidget *       parent = 0);
+        QWidget *       parent = nullptr);
 
     virtual ~djvSpinner();
 

@@ -48,15 +48,13 @@ struct djvColorDialog::Private
 {
     Private(const djvColor & color, djvGuiContext * context) :
         color  (color),
-        widget (0),
-        swatch (0),
         context(context)
     {}
     
     djvColor         color;
-    djvColorWidget * widget;
-    djvColorSwatch * swatch;
-    djvGuiContext *  context;
+    djvColorWidget * widget  = nullptr;
+    djvColorSwatch * swatch  = nullptr;
+    djvGuiContext *  context = nullptr;
 };
 
 //------------------------------------------------------------------------------

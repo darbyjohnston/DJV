@@ -65,7 +65,7 @@ class DJV_GUI_EXPORT djvTimePrefs : public QObject
         NOTIFY        speedChanged)
     
 public:
-    explicit djvTimePrefs(QObject * parent = 0);
+    explicit djvTimePrefs(QObject * parent = nullptr);
 
     ~djvTimePrefs();
 

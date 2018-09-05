@@ -50,7 +50,7 @@ class djvFileBrowserTestContactSheetDelegate : public QAbstractItemDelegate
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestContactSheetDelegate(djvGuiContext *, QObject * parent = 0);
+    explicit djvFileBrowserTestContactSheetDelegate(djvGuiContext *, QObject * parent = nullptr);
 
     virtual ~djvFileBrowserTestContactSheetDelegate();
     

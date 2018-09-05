@@ -49,7 +49,7 @@ public:
 
     explicit djvGlslTestOpDockWidget(
         djvGlslTestOpsManager *,
-        QWidget * parent = 0);
+        QWidget * parent       = nullptr);
 
 private Q_SLOTS:
 

@@ -62,13 +62,12 @@ namespace
 class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
-    explicit TreeWidgetItem(TreeWidgetItem * parent = 0) :
-        QTreeWidgetItem(parent),
-        _widget(0)
+    explicit TreeWidgetItem(TreeWidgetItem * parent = nullptr) :
+        QTreeWidgetItem(parent)
     {
         init();
     }
-    explicit TreeWidgetItem(djvAbstractPrefsWidget * widget, TreeWidgetItem * parent = 0) :
+    explicit TreeWidgetItem(djvAbstractPrefsWidget * widget, TreeWidgetItem * parent = nullptr) :
         QTreeWidgetItem(parent),
         _widget(widget)
     {
@@ -85,7 +84,7 @@ private:
         setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
 
-    djvAbstractPrefsWidget * _widget;
+    djvAbstractPrefsWidget * _widget = nullptr;
 };
 
 } // namespace
@@ -96,21 +95,13 @@ private:
 
 struct djvPrefsDialog::Private
 {
-    Private() :
-        browser        (0),
-        scrollArea     (0),
-        buttonBox      (0),
-        resetPageButton(0),
-        resetAllButton (0)
-    {}
-
     QVector<djvAbstractPrefsWidget *> widgets;
-    QTreeWidget *                     browser;
+    QTreeWidget *                     browser         = nullptr;
     QMap<QString, TreeWidgetItem *>   browserGroups;
-    QScrollArea *                     scrollArea;
-    QDialogButtonBox *                buttonBox;
-    QPushButton *                     resetPageButton;
-    QPushButton *                     resetAllButton;
+    QScrollArea *                     scrollArea      = nullptr;
+    QDialogButtonBox *                buttonBox       = nullptr;
+    QPushButton *                     resetPageButton = nullptr;
+    QPushButton *                     resetAllButton  = nullptr;
 };
 
 //------------------------------------------------------------------------------

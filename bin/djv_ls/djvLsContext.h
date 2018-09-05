@@ -48,7 +48,7 @@ class djvLsContext : public djvImageContext
     Q_OBJECT
 
 public:
-    explicit djvLsContext(QObject * parent = 0);
+    explicit djvLsContext(QObject * parent = nullptr);
 
     virtual ~djvLsContext();
     

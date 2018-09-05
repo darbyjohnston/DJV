@@ -43,8 +43,6 @@
 class DJV_CORE_EXPORT djvOpenGlShader
 {
 public:
-    djvOpenGlShader();
-
     ~djvOpenGlShader();
 
     //! Initialize the shader.
@@ -69,8 +67,8 @@ private:
 
     QString    _vertexSource;
     QString    _fragmentSource;
-    gl::GLuint _vertexId;
-    gl::GLuint _fragmentId;
-    gl::GLuint _programId;
+    gl::GLuint _vertexId       = 0;
+    gl::GLuint _fragmentId     = 0;
+    gl::GLuint _programId      = 0;
 };
 

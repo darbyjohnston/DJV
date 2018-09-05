@@ -85,11 +85,7 @@ struct Menus
         BOOKMARKS
     };
     
-    Menus() :
-        menuBar(0)
-    {}
-
-    QMenuBar *         menuBar;
+    QMenuBar *         menuBar = nullptr;
     QMap<int, QMenu *> menus;
 };
 
@@ -124,26 +120,15 @@ struct Actions
 };
     
 struct Widgets
-{
-    Widgets() :
-        file   (0),
-        up     (0),
-        prev   (0),
-        reload (0),
-        seq    (0),
-        search (0),
-        browser(0),
-        pinned (0)
-    {}
-    
-    QLineEdit *     file;
-    djvToolButton * up;
-    djvToolButton * prev;
-    djvToolButton * reload;
-    QComboBox *     seq;
-    djvSearchBox *  search;
-    QTreeView *     browser;
-    QCheckBox *     pinned;
+{    
+    QLineEdit *     file    = nullptr;
+    djvToolButton * up      = nullptr;
+    djvToolButton * prev    = nullptr;
+    djvToolButton * reload  = nullptr;
+    QComboBox *     seq     = nullptr;
+    djvSearchBox *  search  = nullptr;
+    QTreeView *     browser = nullptr;
+    QCheckBox *     pinned  = nullptr;
 };
 
 } // namespace
@@ -155,25 +140,20 @@ struct Widgets
 struct djvFileBrowser::Private
 {
     Private(djvGuiContext * context) :
-        pinnable   (false),
-        pinned     (false),
-        shown      (false),
-        model      (0),
-        osxMenuHack(0),
-        context    (context)
+        context(context)
     {}
     
-    bool                  pinnable;
-    bool                  pinned;
-    bool                  shown;
+    bool                  pinnable    = false;
+    bool                  pinned      = false;
+    bool                  shown       = false;
     djvFileInfo           fileInfo;
     QString               prev;
-    djvFileBrowserModel * model;
+    djvFileBrowserModel * model       = nullptr;
     Menus                 menus;
     Actions               actions;
     Widgets               widgets;
-    djvOsxMenuHack *      osxMenuHack;
-    djvGuiContext *       context;
+    djvOsxMenuHack *      osxMenuHack = nullptr;
+    djvGuiContext *       context     = nullptr;
 };
 
 //------------------------------------------------------------------------------

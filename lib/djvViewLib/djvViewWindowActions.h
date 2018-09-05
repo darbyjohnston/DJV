@@ -70,7 +70,7 @@ public:
         GROUP_COUNT
     };
 
-    explicit djvViewWindowActions(djvViewContext *, QObject * parent = 0);
+    explicit djvViewWindowActions(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewWindowActions();
 

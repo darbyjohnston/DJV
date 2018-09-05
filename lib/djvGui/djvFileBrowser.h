@@ -81,7 +81,7 @@ class DJV_GUI_EXPORT djvFileBrowser : public QDialog
         NOTIFY pinnedChanged)
 
 public:
-    explicit djvFileBrowser(djvGuiContext *, QWidget * parent = 0);
+    explicit djvFileBrowser(djvGuiContext *, QWidget * parent = nullptr);
     
     virtual ~djvFileBrowser();
 

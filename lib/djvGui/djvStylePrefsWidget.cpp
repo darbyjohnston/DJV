@@ -53,29 +53,17 @@
 
 struct djvStylePrefsWidget::Private
 {
-    Private() :
-        colorForegroundWidget        (0),
-        colorBackgroundWidget        (0),
-        colorBackground2Widget       (0),
-        colorButtonWidget            (0),
-        colorSelectWidget            (0),
-        colorSwatchTransparencyWidget(0),
-        sizeValueWidget              (0),
-        fontNormalWidget             (0),
-        fontFixedWidget              (0)
-    {}
-
-    QComboBox *      colorWidget;
-    djvColorSwatch * colorForegroundWidget;
-    djvColorSwatch * colorBackgroundWidget;
-    djvColorSwatch * colorBackground2Widget;
-    djvColorSwatch * colorButtonWidget;
-    djvColorSwatch * colorSelectWidget;
-    QCheckBox *      colorSwatchTransparencyWidget;
-    QComboBox *      sizeWidget;
-    djvIntEdit *     sizeValueWidget;
-    QFontComboBox *  fontNormalWidget;
-    QFontComboBox *  fontFixedWidget;
+    QComboBox *      colorWidget                   = nullptr;
+    djvColorSwatch * colorForegroundWidget         = nullptr;
+    djvColorSwatch * colorBackgroundWidget         = nullptr;
+    djvColorSwatch * colorBackground2Widget        = nullptr;
+    djvColorSwatch * colorButtonWidget             = nullptr;
+    djvColorSwatch * colorSelectWidget             = nullptr;
+    QCheckBox *      colorSwatchTransparencyWidget = nullptr;
+    QComboBox *      sizeWidget                    = nullptr;
+    djvIntEdit *     sizeValueWidget               = nullptr;
+    QFontComboBox *  fontNormalWidget              = nullptr;
+    QFontComboBox *  fontFixedWidget               = nullptr;
 };
 
 //------------------------------------------------------------------------------

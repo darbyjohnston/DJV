@@ -88,9 +88,9 @@ private:
     DJV_PRIVATE_COPY(djvOpenGlOffscreenBuffer);
 
     djvPixelDataInfo _info;
-    gl::GLuint       _id;
-    gl::GLuint       _texture;
-    gl::GLint        _restore;
+    gl::GLuint       _id      = 0;
+    gl::GLuint       _texture = 0;
+    gl::GLint        _restore = 0;
 };
 
 //------------------------------------------------------------------------------

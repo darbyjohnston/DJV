@@ -48,8 +48,8 @@ struct djvRange
     inline djvRange(T = T(0));
     inline djvRange(T min, T max);
 
-    T min;
-    T max;
+    T min = T(0);
+    T max = T(0);
 };
 
 //! This typedef provides a frame range.

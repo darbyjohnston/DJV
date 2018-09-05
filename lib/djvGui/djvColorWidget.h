@@ -65,7 +65,7 @@ class DJV_GUI_EXPORT djvColorWidget : public QWidget
         NOTIFY   colorChanged)
     
 public:
-    explicit djvColorWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvColorWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvColorWidget();
 

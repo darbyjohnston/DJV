@@ -43,12 +43,11 @@
 struct djvQuestionDialog::Private
 {
     Private(const QString & label) :
-        label      (label),
-        labelWidget(0)
+        label(label)
     {}
     
     QString  label;
-    QLabel * labelWidget;
+    QLabel * labelWidget = nullptr;
 };
 
 //------------------------------------------------------------------------------

@@ -76,7 +76,7 @@ protected:
 
 private:
     djvShortcut     _shortcut;
-    djvGuiContext * _context;
+    djvGuiContext * _context  = nullptr;
 };
 
 ShortcutDelegateEdit::ShortcutDelegateEdit(djvGuiContext * context, QWidget * parent) :
@@ -153,7 +153,7 @@ void ShortcutDelegateEdit::keyPressEvent(QKeyEvent * event)
 class ShortcutDelegate : public QStyledItemDelegate
 {
 public:
-    explicit ShortcutDelegate(djvGuiContext *, QObject * parent = 0);
+    explicit ShortcutDelegate(djvGuiContext *, QObject * parent = nullptr);
 
     virtual QWidget * createEditor(
         QWidget *                    parent,
@@ -317,17 +317,10 @@ bool ShortcutDelegate::editorEvent(
 
 struct djvShortcutsWidget::Private
 {
-    Private() :
-        model     (0),
-        proxyModel(0),
-        browser   (0),
-        searchBox (0)
-    {}
-
-    djvShortcutsModel *     model;
-    QSortFilterProxyModel * proxyModel;
-    QTreeView *             browser;
-    djvSearchBox *          searchBox;
+    djvShortcutsModel *     model      = nullptr;
+    QSortFilterProxyModel * proxyModel = nullptr;
+    QTreeView *             browser    = nullptr;
+    djvSearchBox *          searchBox  = nullptr;
 };
 
 //------------------------------------------------------------------------------

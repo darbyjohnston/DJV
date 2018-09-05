@@ -109,8 +109,8 @@ public:
     static void setSpeed(FPS);
 
 private:
-    int _scale;
-    int _duration;
+    int _scale    = 0;
+    int _duration = 0;
 };
 
 Q_DECLARE_METATYPE(djvSpeed)

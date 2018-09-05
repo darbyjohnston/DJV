@@ -54,11 +54,7 @@
 
 struct djvSequencePrefsWidget::Private
 {
-    Private() :
-        maxFramesWidget(0)
-    {}
-
-    djvIntEdit * maxFramesWidget;
+    djvIntEdit * maxFramesWidget = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -123,3 +119,4 @@ void djvSequencePrefsWidget::widgetUpdate()
         _p->maxFramesWidget);
     _p->maxFramesWidget->setValue(djvSequence::maxFrames());
 }
+

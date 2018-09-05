@@ -100,19 +100,20 @@ private:
 
 struct DJV_CORE_EXPORT djvImageIoFrameInfo
 {
+    djvImageIoFrameInfo();
     djvImageIoFrameInfo(
-        qint64                  frame = -1,
+        qint64                  frame,
         int                     layer = 0,
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE);
 
     //! The frame number.
-    qint64 frame;
+    qint64 frame = -1;
 
     //! The image layer.
-    int layer;
+    int layer = 0;
 
     //! The proxy scale.
-    djvPixelDataInfo::PROXY proxy;
+    djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
 };
 
 //------------------------------------------------------------------------------
@@ -150,7 +151,7 @@ public:
     djvImageContext * context() const;
 
 private:
-    djvImageContext * _context;
+    djvImageContext * _context = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -185,7 +186,7 @@ public:
     djvImageContext * context() const;
 
 private:
-    djvImageContext * _context;
+    djvImageContext * _context = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -268,7 +269,7 @@ public:
     explicit djvImageIoFactory(
         djvImageContext *   context,
         const QStringList & searchPath = djvSystem::searchPath(),
-        QObject *           parent     = 0);
+        QObject *           parent     = nullptr);
 
     virtual ~djvImageIoFactory();
 

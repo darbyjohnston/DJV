@@ -50,7 +50,7 @@ class djvFileBrowserTestAbstractWorker : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestAbstractWorker(QObject * parent = 0);
+    explicit djvFileBrowserTestAbstractWorker(QObject * parent = nullptr);
 
     virtual ~djvFileBrowserTestAbstractWorker() = 0;
     

@@ -48,7 +48,6 @@
 struct djvFileBrowserCacheItem
 {
     djvFileBrowserCacheItem();
-    
     djvFileBrowserCacheItem(
         const djvImageIoInfo &  imageInfo,
         const glm::ivec2 &      thumbnailSize,
@@ -56,8 +55,8 @@ struct djvFileBrowserCacheItem
         const QPixmap &         thumbnail);
 
     djvImageIoInfo          imageInfo;
-    glm::ivec2              thumbnailSize;
-    djvPixelDataInfo::PROXY thumbnailProxy;
+    glm::ivec2              thumbnailSize  = glm::ivec2(0, 0);
+    djvPixelDataInfo::PROXY thumbnailProxy = static_cast<djvPixelDataInfo::PROXY>(0);
     QPixmap                 thumbnail;
 };
 

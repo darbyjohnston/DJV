@@ -86,13 +86,8 @@ protected:
 
 struct djvFloatSlider::Private
 {
-    Private() :
-        object(0),
-        slider(0)
-    {}
-    
-    djvFloatObject * object;
-    Slider *         slider;
+    djvFloatObject * object = nullptr;
+    Slider *         slider = nullptr;
 };
 
 //------------------------------------------------------------------------------

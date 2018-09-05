@@ -69,7 +69,7 @@ class DJV_GUI_EXPORT djvGuiContext : public djvImageContext
     Q_OBJECT
     
 public:
-    explicit djvGuiContext(QObject * parent = 0);
+    explicit djvGuiContext(QObject * parent = nullptr);
 
     virtual ~djvGuiContext();
     

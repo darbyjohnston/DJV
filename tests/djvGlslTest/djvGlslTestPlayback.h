@@ -48,7 +48,7 @@ class djvGlslTestPlayback : public QObject
     
 public:
 
-    explicit djvGlslTestPlayback(QObject * parent = 0);
+    explicit djvGlslTestPlayback(QObject * parent = nullptr);
     
     virtual ~djvGlslTestPlayback();
 

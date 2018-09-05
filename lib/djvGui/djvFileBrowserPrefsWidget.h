@@ -55,7 +55,7 @@ class DJV_GUI_EXPORT djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserPrefsWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvFileBrowserPrefsWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvFileBrowserPrefsWidget();
 

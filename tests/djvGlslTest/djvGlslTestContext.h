@@ -45,7 +45,7 @@ class djvGlslTestContext : public djvGuiContext
 
 public:
 
-    explicit djvGlslTestContext(QObject * parent = 0);
+    explicit djvGlslTestContext(QObject * parent = nullptr);
     
     const djvFileInfo & fileInfo() const;
 

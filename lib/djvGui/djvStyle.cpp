@@ -101,19 +101,11 @@ djvStyle::Fonts::Fonts() :
 
 struct djvStyle::Private
 {
-    Private() :
-        palettes               (djvStyle::palettesDefault()),
-        palettesIndex          (djvStyle::palettesIndexDefault()),
-        colorSwatchTransparency(djvStyle::colorSwatchTransparencyDefault()),
-        sizeMetrics            (djvStyle::sizeMetricsDefault()),
-        sizeMetricsIndex       (djvStyle::sizeMetricsIndexDefault())
-    {}
-
-    QVector<djvStyle::Palette>    palettes;
-    int                           palettesIndex;
-    bool                          colorSwatchTransparency;
-    QVector<djvStyle::SizeMetric> sizeMetrics;
-    int                           sizeMetricsIndex;
+    QVector<djvStyle::Palette>    palettes                = djvStyle::palettesDefault();
+    int                           palettesIndex           = djvStyle::palettesIndexDefault();
+    bool                          colorSwatchTransparency = djvStyle::colorSwatchTransparencyDefault();
+    QVector<djvStyle::SizeMetric> sizeMetrics             = djvStyle::sizeMetricsDefault();
+    int                           sizeMetricsIndex        = djvStyle::sizeMetricsIndexDefault();
     djvStyle::Fonts               fonts;
 };
 

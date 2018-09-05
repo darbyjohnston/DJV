@@ -187,18 +187,17 @@ public:
     djvPixelData & operator = (const djvPixelData &);
 
 private:
-    void init();
     void detach();
     void copy(const djvPixelData &);
 
     djvPixelDataInfo    _info;
-    int                 _channels;
+    int                 _channels          = 0;
     std::vector<quint8> _data;
-    const quint8 *      _p;
-    quint64             _pixelByteCount;
-    quint64             _scanlineByteCount;
-    quint64             _dataByteCount;
-    djvFileIo *         _fileIo;
+    const quint8 *      _p                 = nullptr;
+    quint64             _pixelByteCount    = 0;
+    quint64             _scanlineByteCount = 0;
+    quint64             _dataByteCount     = 0;
+    djvFileIo *         _fileIo            = nullptr;
 };
 
 Q_DECLARE_METATYPE(djvPixelDataInfo)

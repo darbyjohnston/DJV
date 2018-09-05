@@ -42,13 +42,6 @@ using namespace gl;
 // djvOpenGlTexture
 //------------------------------------------------------------------------------
 
-djvOpenGlTexture::djvOpenGlTexture() :
-    _target(GL_NONE),
-    _min   (GL_NONE),
-    _mag   (GL_NONE),
-    _id    (0)
-{}
-
 djvOpenGlTexture::~djvOpenGlTexture()
 {
     del();

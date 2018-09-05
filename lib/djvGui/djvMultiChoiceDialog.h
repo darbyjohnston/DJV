@@ -57,7 +57,7 @@ public:
         const QString &       label   = QString(),
         const QStringList &   choices = QStringList(),
         const QVector<bool> & values  = QVector<bool>(),
-        QWidget *             parent  = 0);
+        QWidget *             parent  = nullptr);
 
     virtual ~djvMultiChoiceDialog();
     

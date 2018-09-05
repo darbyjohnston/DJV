@@ -42,16 +42,7 @@ const int djvIntObject::intMin = -1000000;
 const int djvIntObject::intMax =  1000000;
 
 djvIntObject::djvIntObject(QObject * parent) :
-    QObject(parent),
-    _value         (0),
-    _isDefaultValid(false),
-    _defaultValue  (0),
-    _min           (intMin),
-    _max           (intMax),
-    _clamp         (true),
-    _smallInc      (0),
-    _largeInc      (0),
-    _sizeString    ("00000")
+    QObject(parent)
 {
     setValue(0);
     setDefaultValue(0);

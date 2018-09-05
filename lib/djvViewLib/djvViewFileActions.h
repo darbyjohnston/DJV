@@ -84,7 +84,7 @@ public:
         GROUP_COUNT
     };
 
-    explicit djvViewFileActions(djvViewContext *, QObject * parent = 0);
+    explicit djvViewFileActions(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewFileActions();
 

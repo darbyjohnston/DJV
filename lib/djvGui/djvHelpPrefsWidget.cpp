@@ -51,11 +51,7 @@
 
 struct djvHelpPrefsWidget::Private
 {
-    Private() :
-        toolTipsWidget(0)
-    {}
-
-    QCheckBox * toolTipsWidget;
+    QCheckBox * toolTipsWidget = nullptr;
 };
 
 //------------------------------------------------------------------------------

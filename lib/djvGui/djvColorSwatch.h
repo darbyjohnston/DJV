@@ -61,7 +61,7 @@ class DJV_GUI_EXPORT djvColorSwatch : public QWidget
         NOTIFY   colorChanged)
     
 public:
-    explicit djvColorSwatch(djvGuiContext *, QWidget * parent = 0);
+    explicit djvColorSwatch(djvGuiContext *, QWidget * parent = nullptr);
 
     //! Get the color.
     const djvColor & color() const;
@@ -108,9 +108,9 @@ private Q_SLOTS:
 
 private:
     djvColor        _color;
-    SWATCH_SIZE     _swatchSize;
-    bool            _colorDialogEnabled;
-    djvGuiContext * _context;
+    SWATCH_SIZE     _swatchSize         = SWATCH_MEDIUM;
+    bool            _colorDialogEnabled = false;
+    djvGuiContext * _context            = nullptr;
 };
 
 //@} // djvGuiWidget

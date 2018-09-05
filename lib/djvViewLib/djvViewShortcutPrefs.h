@@ -54,7 +54,7 @@ class DJV_VIEW_LIB_EXPORT djvViewShortcutPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-    explicit djvViewShortcutPrefs(djvViewContext *, QObject * parent = 0);
+    explicit djvViewShortcutPrefs(djvViewContext *, QObject * parent = nullptr);
 
     ~djvViewShortcutPrefs();
     

@@ -52,7 +52,7 @@ public:
     explicit djvViewInfoTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
-        QWidget *           parent = 0);
+        QWidget *           parent     = nullptr);
 
     virtual ~djvViewInfoTool();
 

@@ -59,3 +59,4 @@ djvGuiContext * djvAbstractPrefsWidget::context() const
 {
     return _context;
 }
+

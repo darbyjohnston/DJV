@@ -67,7 +67,7 @@ class djvFileBrowserTestWidget : public QMainWindow
 public:
     explicit djvFileBrowserTestWidget(
         djvGuiContext * context,
-        QWidget *       parent  = 0);
+        QWidget *       parent  = nullptr);
 
     virtual ~djvFileBrowserTestWidget();
     

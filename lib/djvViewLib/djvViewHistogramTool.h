@@ -54,7 +54,7 @@ public:
     explicit djvViewHistogramTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
-        QWidget *           parent = 0);
+        QWidget *           parent     = nullptr);
 
     virtual ~djvViewHistogramTool();
 

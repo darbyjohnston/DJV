@@ -57,7 +57,7 @@ class DJV_GUI_EXPORT djvIconLibrary : public QObject
     Q_OBJECT
     
 public:
-    explicit djvIconLibrary(QObject * parent = 0);
+    explicit djvIconLibrary(QObject * parent = nullptr);
     
     virtual ~djvIconLibrary();
     

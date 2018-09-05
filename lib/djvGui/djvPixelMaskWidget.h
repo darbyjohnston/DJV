@@ -63,7 +63,7 @@ class DJV_GUI_EXPORT djvPixelMaskWidget : public QWidget
         NOTIFY         maskChanged)
     
 public:
-    explicit djvPixelMaskWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvPixelMaskWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvPixelMaskWidget();
 

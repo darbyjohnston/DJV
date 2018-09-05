@@ -53,7 +53,7 @@ class DJV_GUI_EXPORT djvNoticeDialog : public QDialog
 public:
     explicit djvNoticeDialog(
         const QString & label  = QString(),
-        QWidget *       parent = 0);
+        QWidget *       parent = nullptr);
 
     virtual ~djvNoticeDialog();
 

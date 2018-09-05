@@ -260,20 +260,18 @@ public:
     inline operator QString() const;
 
 private:
-    void init();
-
     QString     _path;
     QString     _base;
     QString     _number;
     QString     _extension;
 
-    bool        _exists;
-    bool        _dotFile;
-    TYPE        _type;
-    quint64     _size;
-    uid_t       _user;
-    int         _permissions;
-    time_t      _time;
+    bool        _exists      = false;
+    bool        _dotFile     = false;
+    TYPE        _type        = FILE;
+    quint64     _size        = 0;
+    uid_t       _user        = 0;
+    int         _permissions = 0;
+    time_t      _time        = 0;
 
     djvSequence _sequence;
 

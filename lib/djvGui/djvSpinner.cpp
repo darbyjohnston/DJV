@@ -47,18 +47,14 @@
 struct djvSpinner::Private
 {
     Private(djvGuiContext * context) :
-        context(context),
-        tick      (0),
-        timer     (0),
-        startTimer(0),
-        svg       (0)
+        context(context)
     {}
 
-    djvGuiContext *  context;
-    int              tick;
-    int              timer;
-    int              startTimer;
-    QSvgRenderer *   svg;
+    djvGuiContext *  context    = nullptr;
+    int              tick       = 0;
+    int              timer      = 0;
+    int              startTimer = 0;
+    QSvgRenderer *   svg        = nullptr;
 };
 
 //------------------------------------------------------------------------------

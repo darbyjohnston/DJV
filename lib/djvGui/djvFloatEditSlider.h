@@ -84,7 +84,7 @@ class DJV_GUI_EXPORT djvFloatEditSlider : public QWidget
         NOTIFY maxChanged)
     
 public:
-    explicit djvFloatEditSlider(djvGuiContext *, QWidget * parent = 0);
+    explicit djvFloatEditSlider(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvFloatEditSlider();
 

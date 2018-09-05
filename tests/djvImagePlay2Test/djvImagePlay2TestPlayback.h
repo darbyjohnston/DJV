@@ -50,7 +50,7 @@ class djvImagePlay2TestPlayback : public QObject
 
 public:
 
-    explicit djvImagePlay2TestPlayback(QObject * parent = 0);
+    explicit djvImagePlay2TestPlayback(QObject * parent = nullptr);
     
     virtual ~djvImagePlay2TestPlayback();
 

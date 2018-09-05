@@ -70,7 +70,7 @@ class djvFileBrowserTestInfoRequester : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestInfoRequester(QObject * parent = 0);
+    explicit djvFileBrowserTestInfoRequester(QObject * parent = nullptr);
     
 Q_SIGNALS:
     void request(const djvFileBrowserTestInfoRequest &);
@@ -105,7 +105,7 @@ class djvFileBrowserTestInfoWorker : public djvFileBrowserTestAbstractWorker
 public:
     explicit djvFileBrowserTestInfoWorker(
         djvImageContext * context,
-        QObject *         parent = 0);
+        QObject *         parent = nullptr);
 
     virtual ~djvFileBrowserTestInfoWorker();
     
@@ -132,7 +132,7 @@ class djvFileBrowserTestInfo : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestInfo(djvImageContext *, QObject * parent = 0);
+    explicit djvFileBrowserTestInfo(djvImageContext *, QObject * parent = nullptr);
     
     virtual ~djvFileBrowserTestInfo();
     

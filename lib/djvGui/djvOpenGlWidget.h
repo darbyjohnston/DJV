@@ -52,8 +52,8 @@ class DJV_GUI_EXPORT djvOpenGlWidget : public QOpenGLWidget
     
 public:
     explicit djvOpenGlWidget(
-        QWidget *         parent      = 0,
-        Qt::WindowFlags   flags       = 0);
+        QWidget *         parent = nullptr,
+        Qt::WindowFlags   flags  = 0);
 
     virtual ~djvOpenGlWidget();    
 };

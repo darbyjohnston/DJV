@@ -46,13 +46,8 @@
 
 struct djvPixelMaskWidget::Private
 {
-    Private() :
-        button(0)
-    {}
-    
     djvPixel::Mask mask;
-    
-    djvToolButton * button;
+    djvToolButton * button = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -185,3 +180,4 @@ void djvPixelMaskWidget::widgetUpdate()
     }
     _p->button->setChecked(checked);
 }
+

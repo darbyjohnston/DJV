@@ -54,7 +54,7 @@ public:
     djvIndexShortcut(
         const QKeySequence & key,
         int                  index,
-        QWidget *            parent          = 0,
+        QWidget *            parent          = nullptr,
         const char *         member          = 0,
         const char *         ambiguousMember = 0);
 
@@ -65,7 +65,7 @@ public:
     void setIndex(int);
 
 private:
-    int _index;
+    int _index = 0;
 };
 
 //@} // djvGuiMisc

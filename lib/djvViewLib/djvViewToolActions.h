@@ -59,7 +59,7 @@ public:
         GROUP_COUNT
     };
 
-    explicit djvViewToolActions(djvViewContext *, QObject * parent = 0);
+    explicit djvViewToolActions(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewToolActions();
 

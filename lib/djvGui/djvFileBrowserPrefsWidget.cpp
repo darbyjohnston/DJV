@@ -73,29 +73,16 @@ public:
 
 struct djvFileBrowserPrefsWidget::Private
 {
-    Private() :
-        seqWidget            (0),
-        showHiddenWidget     (0),
-        sortWidget           (0),
-        reverseSortWidget    (0),
-        sortDirsFirstWidget  (0),
-        thumbnailsWidget     (0),
-        thumbnailsSizeWidget (0),
-        thumbnailsCacheWidget(0),
-        bookmarksWidget      (0),
-        shortcutsWidget      (0)
-    {}
-    
-    QComboBox *          seqWidget;
-    QCheckBox *          showHiddenWidget;
-    QComboBox *          sortWidget;
-    QCheckBox *          reverseSortWidget;
-    QCheckBox *          sortDirsFirstWidget;
-    QComboBox *          thumbnailsWidget;
-    QComboBox *          thumbnailsSizeWidget;
-    djvIntEdit *         thumbnailsCacheWidget;
-    QListWidget *        bookmarksWidget;
-    djvShortcutsWidget * shortcutsWidget;
+    QComboBox *          seqWidget             = nullptr;
+    QCheckBox *          showHiddenWidget      = nullptr;
+    QComboBox *          sortWidget            = nullptr;
+    QCheckBox *          reverseSortWidget     = nullptr;
+    QCheckBox *          sortDirsFirstWidget   = nullptr;
+    QComboBox *          thumbnailsWidget      = nullptr;
+    QComboBox *          thumbnailsSizeWidget  = nullptr;
+    djvIntEdit *         thumbnailsCacheWidget = nullptr;
+    QListWidget *        bookmarksWidget       = nullptr;
+    djvShortcutsWidget * shortcutsWidget       = nullptr;
 };
 
 //------------------------------------------------------------------------------

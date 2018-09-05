@@ -46,11 +46,7 @@
 
 struct djvToolButton::Private
 {
-    Private() :
-        defaultAction(0)
-    {}
-
-    QAction * defaultAction;
+    QAction * defaultAction = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -174,3 +170,4 @@ void djvToolButton::widgetUpdate()
         setAutoRepeat(_p->defaultAction->autoRepeat());
     }
 }
+

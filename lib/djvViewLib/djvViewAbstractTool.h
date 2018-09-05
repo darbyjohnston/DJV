@@ -60,7 +60,7 @@ public:
     explicit djvViewAbstractTool(
         djvViewMainWindow * mainWindow,
         djvViewContext *    context,
-        QWidget *           parent     = 0);
+        QWidget *           parent     = nullptr);
 
     virtual ~djvViewAbstractTool() = 0;
 

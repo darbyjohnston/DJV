@@ -48,15 +48,9 @@
 
 struct djvChoiceButton::Private
 {
-    Private() :
-        actionGroup (0),
-        currentIndex(0),
-        mousePress  (0)
-    {}
-    
-    QActionGroup * actionGroup;
-    int            currentIndex;
-    bool           mousePress;
+    QActionGroup * actionGroup  = nullptr;
+    int            currentIndex = 0;
+    bool           mousePress   = false;
 };
 
 //------------------------------------------------------------------------------

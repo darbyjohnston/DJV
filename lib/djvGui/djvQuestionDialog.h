@@ -55,7 +55,7 @@ class DJV_GUI_EXPORT djvQuestionDialog : public QDialog
 public:
     explicit djvQuestionDialog(
         const QString & label  = QString(),
-        QWidget *       parent = 0);
+        QWidget *       parent = nullptr);
 
     virtual ~djvQuestionDialog();
     

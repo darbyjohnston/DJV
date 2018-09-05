@@ -51,7 +51,7 @@ class DJV_VIEW_LIB_EXPORT djvViewImageMenu : public djvViewAbstractMenu
 public:
     explicit djvViewImageMenu(
         djvViewAbstractActions * actions,
-        QWidget *                parent  = 0);
+        QWidget *                parent  = nullptr);
 
     virtual ~djvViewImageMenu();
 

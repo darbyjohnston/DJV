@@ -66,7 +66,7 @@ class DJV_VIEW_LIB_EXPORT djvViewContext : public djvGuiContext
     Q_OBJECT
     
 public:
-    explicit djvViewContext(QObject * parent = 0);
+    explicit djvViewContext(QObject * parent = nullptr);
 
     virtual ~djvViewContext();
     

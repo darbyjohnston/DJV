@@ -62,7 +62,7 @@ struct IconLibraryItem
 class IconLibraryModel : public QAbstractListModel
 {
 public:
-    explicit IconLibraryModel(djvGuiContext *, QObject * parent = 0);
+    explicit IconLibraryModel(djvGuiContext *, QObject * parent = nullptr);
 
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;

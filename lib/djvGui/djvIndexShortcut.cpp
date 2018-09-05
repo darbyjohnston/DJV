@@ -58,3 +58,4 @@ void djvIndexShortcut::setIndex(int index)
 {
     _index = index;
 }
+

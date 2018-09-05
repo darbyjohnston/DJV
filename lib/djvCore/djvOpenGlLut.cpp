@@ -42,11 +42,6 @@ using namespace gl;
 // djvOpenGlLut
 //------------------------------------------------------------------------------
 
-djvOpenGlLut::djvOpenGlLut() :
-    _size(0),
-    _id  (0)
-{}
-
 djvOpenGlLut::~djvOpenGlLut()
 {
     del();

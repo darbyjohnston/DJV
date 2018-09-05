@@ -51,7 +51,7 @@ class DJV_GUI_EXPORT djvAbstractToolButton : public QAbstractButton
     Q_OBJECT
     
 public:
-    explicit djvAbstractToolButton(QWidget * parent = 0);
+    explicit djvAbstractToolButton(QWidget * parent = nullptr);
     virtual ~djvAbstractToolButton() = 0;
 
 protected:

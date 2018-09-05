@@ -53,19 +53,15 @@
 struct djvMessagesDialog::Private
 {
     Private(djvGuiContext * context) :
-        widget      (0),
-        show        (true),
-        showCheckBox(0),
-        buttonBox   (0),
-        context     (context)
+        context(context)
     {}
 
     QStringList        list;
-    QTextEdit *        widget;
-    bool               show;
-    QCheckBox *        showCheckBox;
-    QDialogButtonBox * buttonBox;
-    djvGuiContext *    context;
+    QTextEdit *        widget       = nullptr;
+    bool               show         = true;
+    QCheckBox *        showCheckBox = nullptr;
+    QDialogButtonBox * buttonBox    = nullptr;
+    djvGuiContext *    context      = nullptr;
 };
 
 //------------------------------------------------------------------------------

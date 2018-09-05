@@ -48,7 +48,7 @@ class DJV_VIEW_LIB_EXPORT djvViewInputPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-    explicit djvViewInputPrefs(djvViewContext *, QObject * parent = 0);
+    explicit djvViewInputPrefs(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewInputPrefs();
     

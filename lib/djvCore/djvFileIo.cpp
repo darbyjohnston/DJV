@@ -74,26 +74,10 @@ struct djvFileIo::Private
 {
     Private() :
 #if defined(DJV_WINDOWS)
-        f        (INVALID_HANDLE_VALUE),
-        mode     (static_cast<djvFileIo::MODE>(0)),
-        pos      (0),
-        size     (0),
-        endian   (false),
-        mmap     (0),
-        mmapStart(0),
-        mmapEnd  (0),
-        mmapP    (0)
+        f(INVALID_HANDLE_VALUE)
     {}
 #else // DJV_WINDOWS
-        f        (-1),
-        mode     (static_cast<djvFileIo::MODE>(0)),
-        pos      (0),
-        size     (0),
-        endian   (false),
-        mmap     ((void *) - 1),
-        mmapStart(0),
-        mmapEnd  (0),
-        mmapP    (0)
+        f(-1)
     {}
 
 #endif // DJV_WINDOWS
@@ -103,15 +87,14 @@ struct djvFileIo::Private
     int             f;
 #endif // DJV_WINDOWS
     QString         fileName;
-    djvFileIo::MODE mode;
-    quint64         pos;
-    quint64         size;
-    bool            endian;
-    void *          mmap;
-    const quint8 *  mmapStart;
-    const quint8 *  mmapEnd;
-    const quint8 *  mmapP;
-    int             mmapReadAhead;
+    djvFileIo::MODE mode      = static_cast<djvFileIo::MODE>(0);
+    quint64         pos       = 0;
+    quint64         size      = 0;
+    bool            endian    = false;
+    void *          mmap      = nullptr;
+    const quint8 *  mmapStart = nullptr;
+    const quint8 *  mmapEnd   = nullptr;
+    const quint8 *  mmapP     = nullptr;
 };
 
 //------------------------------------------------------------------------------

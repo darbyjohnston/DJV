@@ -44,15 +44,13 @@ void djvColor::init()
     _channels = djvPixel::channels(_pixel);
 }
 
-djvColor::djvColor() :
-    _pixel(static_cast<djvPixel::PIXEL>(0))
+djvColor::djvColor()
 {
     init();
     zero();
 }
 
-djvColor::djvColor(const djvColor & in) :
-    _pixel(static_cast<djvPixel::PIXEL>(0))
+djvColor::djvColor(const djvColor & in)
 {
     init();
     *this = in;

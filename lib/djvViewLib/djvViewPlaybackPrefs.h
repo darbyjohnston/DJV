@@ -48,7 +48,7 @@ class DJV_VIEW_LIB_EXPORT djvViewPlaybackPrefs : public djvViewAbstractPrefs
     Q_OBJECT
     
 public:
-    explicit djvViewPlaybackPrefs(djvViewContext *, QObject * parent = 0);
+    explicit djvViewPlaybackPrefs(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewPlaybackPrefs();
     

@@ -73,7 +73,7 @@ class djvFileBrowserTestThumbnailRequester : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestThumbnailRequester(QObject * parent = 0);
+    explicit djvFileBrowserTestThumbnailRequester(QObject * parent = nullptr);
     
 Q_SIGNALS:
     //! Request an image thumbnail.
@@ -110,7 +110,7 @@ class djvFileBrowserTestThumbnailWorker : public djvFileBrowserTestAbstractWorke
 public:
     explicit djvFileBrowserTestThumbnailWorker(
         djvImageContext * context,
-        QObject *         parent = 0);
+        QObject *         parent = nullptr);
 
     virtual ~djvFileBrowserTestThumbnailWorker();
     
@@ -144,7 +144,7 @@ class djvFileBrowserTestThumbnail : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestThumbnail(djvImageContext *, QObject * parent = 0);
+    explicit djvFileBrowserTestThumbnail(djvImageContext *, QObject * parent = nullptr);
     
     virtual ~djvFileBrowserTestThumbnail();
     

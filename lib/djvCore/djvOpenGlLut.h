@@ -44,8 +44,6 @@
 class DJV_CORE_EXPORT djvOpenGlLut
 {
 public:
-    djvOpenGlLut();
-
     ~djvOpenGlLut();
 
     //! Initialize the LUT.
@@ -70,7 +68,7 @@ private:
     void del();
 
     djvPixelDataInfo _info;
-    int              _size;
-    gl::GLuint       _id;
+    int              _size = 0;
+    gl::GLuint       _id   = 0;
 };
 

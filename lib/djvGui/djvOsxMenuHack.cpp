@@ -42,12 +42,8 @@
 
 struct djvOsxMenuHack::Private
 {
-    Private() :
-        mapper(0)
-    {}
-    
     QList<QShortcut *> shortcuts;
-    QSignalMapper *    mapper;
+    QSignalMapper *    mapper    = nullptr;
 };
 
 //------------------------------------------------------------------------------

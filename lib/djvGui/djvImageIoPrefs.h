@@ -53,12 +53,12 @@ class DJV_GUI_EXPORT djvImageIoPrefs : public QObject
     Q_OBJECT
     
 public:
-    explicit djvImageIoPrefs(djvGuiContext *, QObject * parent = 0);
+    explicit djvImageIoPrefs(djvGuiContext *, QObject * parent = nullptr);
 
     ~djvImageIoPrefs();
 
 private:
-    djvGuiContext * _context;
+    djvGuiContext * _context = nullptr;
 };
 
 //@} // djvGuiMisc

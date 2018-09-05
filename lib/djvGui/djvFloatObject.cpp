@@ -43,15 +43,8 @@ const float djvFloatObject::floatMax =  9999.f;
 
 djvFloatObject::djvFloatObject(QObject * parent) :
     QObject(parent),
-    _value         (0.f),
-    _isDefaultValid(false),
-    _defaultValue  (0.f),
-    _min           (floatMin),
-    _max           (floatMax),
-    _clamp         (true),
-    _smallInc      (0.f),
-    _largeInc      (0.f),
-    _sizeString    ("00000")
+    _min(floatMin),
+    _max(floatMax)
 {
     setValue(0.f);
     setDefaultValue(0.f);

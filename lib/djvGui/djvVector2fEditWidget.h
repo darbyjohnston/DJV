@@ -75,7 +75,7 @@ class DJV_GUI_EXPORT djvVector2fEditWidget : public QWidget
         NOTIFY    maxChanged)
     
 public:
-    explicit djvVector2fEditWidget(QWidget * parent = 0);
+    explicit djvVector2fEditWidget(QWidget * parent = nullptr);
 
     virtual ~djvVector2fEditWidget();
 

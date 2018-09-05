@@ -43,13 +43,8 @@
 
 struct djvVector2iEditWidget::Private
 {
-    Private() :
-        widget (0),
-        widget2(0)
-    {}
-    
-    djvIntEdit * widget;
-    djvIntEdit * widget2;
+    djvIntEdit * widget  = nullptr;
+    djvIntEdit * widget2 = nullptr;
 };
 
 //------------------------------------------------------------------------------

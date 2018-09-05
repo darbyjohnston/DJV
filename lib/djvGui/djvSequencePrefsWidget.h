@@ -51,7 +51,7 @@ class DJV_GUI_EXPORT djvSequencePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-    explicit djvSequencePrefsWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvSequencePrefsWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvSequencePrefsWidget();
 

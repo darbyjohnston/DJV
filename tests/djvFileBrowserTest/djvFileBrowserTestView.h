@@ -78,7 +78,7 @@ public:
     djvFileBrowserTestView(
         djvFileBrowserTestModel * model,
         djvGuiContext *           context,
-        QWidget *                 parent  = 0);
+        QWidget *                 parent  = nullptr);
     
     virtual ~djvFileBrowserTestView();
     

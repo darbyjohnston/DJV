@@ -57,14 +57,11 @@ djvFileBrowserItem::djvFileBrowserItem(
     djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
     djvGuiContext *                      context,
     QObject *                            parent) :
-    QObject          (parent),
-    _fileInfo        (fileInfo),
-    _thumbnails      (thumbnails),
-    _thumbnailsSize  (thumbnailsSize),
-    _thumbnailProxy  (static_cast<djvPixelDataInfo::PROXY>(0)),
-    _imageInfoRequest(false),
-    _thumbnailRequest(false),
-    _context         (context)
+    QObject        (parent),
+    _fileInfo      (fileInfo),
+    _thumbnails    (thumbnails),
+    _thumbnailsSize(thumbnailsSize),
+    _context       (context)
 {
     // Initialize the display role data.
     _displayRole[djvFileBrowserModel::NAME] = fileInfo.name();
@@ -136,12 +133,8 @@ namespace
 
 struct ImageInfoThreadResult
 {
-    ImageInfoThreadResult() :
-        valid(false)
-    {}
-    
     djvFileInfo    fileInfo;
-    bool           valid;
+    bool           valid    = false;
     djvImageIoInfo info;
 };
 
@@ -167,13 +160,9 @@ ImageInfoThreadResult imageInfoThreadFunction(
 
 struct ThumbnailThreadResult
 {
-    ThumbnailThreadResult() :
-        valid(false)
-    {}
-    
-    djvFileInfo          fileInfo;
-    bool                 valid;
-    QPixmap              thumbnail;
+    djvFileInfo fileInfo;
+    bool        valid     = false;
+    QPixmap     thumbnail;
 };
 
 ThumbnailThreadResult thumbnailThreadFunction(

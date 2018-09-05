@@ -60,12 +60,12 @@ public:
     explicit djvPrefsGroupBox(
         const QString & title,
         djvGuiContext * context,
-        QWidget *       parent  = 0);
+        QWidget *       parent  = nullptr);
     explicit djvPrefsGroupBox(
         const QString & title,
         const QString & text,
         djvGuiContext * context,
-        QWidget *       parent  = 0);
+        QWidget *       parent  = nullptr);
 
     virtual ~djvPrefsGroupBox();
 

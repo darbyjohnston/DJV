@@ -41,12 +41,6 @@ using namespace gl;
 // djvOpenGlShader
 //------------------------------------------------------------------------------
 
-djvOpenGlShader::djvOpenGlShader() :
-    _vertexId  (0),
-    _fragmentId(0),
-    _programId (0)
-{}
-
 djvOpenGlShader::~djvOpenGlShader()
 {
     del();

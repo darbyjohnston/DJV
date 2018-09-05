@@ -138,7 +138,7 @@ public:
     //! Get the column labels.
     static const QStringList & columnsLabels();
     
-    explicit djvFileBrowserModel(djvGuiContext *, QObject * parent = 0);
+    explicit djvFileBrowserModel(djvGuiContext *, QObject * parent = nullptr);
     
     virtual ~djvFileBrowserModel();
 

@@ -39,8 +39,7 @@
 // djvFileBrowserCacheItem
 //------------------------------------------------------------------------------
 
-djvFileBrowserCacheItem::djvFileBrowserCacheItem() :
-    thumbnailProxy(static_cast<djvPixelDataInfo::PROXY>(0))
+djvFileBrowserCacheItem::djvFileBrowserCacheItem()
 {}
 
 djvFileBrowserCacheItem::djvFileBrowserCacheItem(

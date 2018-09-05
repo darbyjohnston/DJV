@@ -42,13 +42,8 @@
 
 struct djvPixelWidget::Private
 {
-    Private() :
-        pixel   (static_cast<djvPixel::PIXEL>(0)),
-        comboBox(0)
-    {}
-
-    djvPixel::PIXEL pixel;
-    QComboBox *     comboBox;
+    djvPixel::PIXEL pixel    = static_cast<djvPixel::PIXEL>(0);
+    QComboBox *     comboBox = nullptr;
 };
 
 //------------------------------------------------------------------------------

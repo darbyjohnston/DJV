@@ -60,10 +60,10 @@ struct djvBox2
     //! Component access.
     T & x, & y, & w, & h;
 
-    //! Is the box valid (width and height are greater than zero).
+    //! Is the box valid (width and height are greater than zero)?
     inline bool isValid() const;
     
-    //! Zero the box.
+    //! Set the components to zero.
     inline void zero();
 
     //! Get the lower right hand corner.
@@ -106,10 +106,10 @@ struct djvBox3
     //! Component access.
     T & x, & y, & z, & w, & h, & d;
 
-    //! Is the box valid (width and height are greater than zero).
+    //! Is the box valid (width and height are greater than zero)?
     inline bool isValid() const;
     
-    //! Zero the box.
+    //! Set the components to zero.
     inline void zero();
 
     //! Get the lower right hand corner.

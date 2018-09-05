@@ -51,7 +51,7 @@ class DJV_GUI_EXPORT djvTimePrefsWidget : public djvAbstractPrefsWidget
     Q_OBJECT
     
 public:
-    explicit djvTimePrefsWidget(djvGuiContext *, QWidget * parent = 0);
+    explicit djvTimePrefsWidget(djvGuiContext *, QWidget * parent = nullptr);
 
     virtual ~djvTimePrefsWidget();
 

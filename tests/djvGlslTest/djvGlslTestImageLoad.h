@@ -51,7 +51,7 @@ class djvGlslTestImageLoad : public QObject
 
 public:
 
-    explicit djvGlslTestImageLoad(djvGlslTestContext *, QObject * parent = 0);
+    explicit djvGlslTestImageLoad(djvGlslTestContext *, QObject * parent = nullptr);
     
     void load(const djvFileInfo &) throw (djvError);
 

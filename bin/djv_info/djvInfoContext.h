@@ -48,7 +48,7 @@ class djvInfoContext : public djvImageContext
     Q_OBJECT
 
 public:
-    explicit djvInfoContext(QObject * parent = 0);
+    explicit djvInfoContext(QObject * parent = nullptr);
 
     virtual ~djvInfoContext();
 

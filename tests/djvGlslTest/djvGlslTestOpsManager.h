@@ -49,7 +49,7 @@ class djvGlslTestOpsManager : public QObject
     
 public:
 
-    explicit djvGlslTestOpsManager(djvGlslTestContext *, QObject * parent = 0);
+    explicit djvGlslTestOpsManager(djvGlslTestContext *, QObject * parent = nullptr);
     
     virtual ~djvGlslTestOpsManager();
 

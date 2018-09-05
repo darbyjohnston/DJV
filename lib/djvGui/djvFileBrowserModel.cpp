@@ -55,32 +55,25 @@
 struct djvFileBrowserModel::Private
 {
     Private(djvGuiContext * context) :
-        sequence      (djvSequence::COMPRESS_RANGE),
-        showHidden    (false),
-        sort          (djvFileBrowserModel::NAME),
-        reverseSort   (false),
-        sortDirsFirst (true),
-        thumbnails    (djvFileBrowserModel::THUMBNAILS_HIGH),
-        thumbnailsSize(djvFileBrowserModel::THUMBNAILS_MEDIUM),
-        context       (context)
+        context(context)
     {}
     
     QString                              path;
-    djvSequence::COMPRESS                sequence;
+    djvSequence::COMPRESS                sequence       = djvSequence::COMPRESS_RANGE;
     QString                              filterText;
-    bool                                 showHidden;
-    djvFileBrowserModel::COLUMNS         sort;
-    bool                                 reverseSort;
-    bool                                 sortDirsFirst;
-    djvFileBrowserModel::THUMBNAILS      thumbnails;
-    djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize;
+    bool                                 showHidden     = false;
+    djvFileBrowserModel::COLUMNS         sort           = djvFileBrowserModel::NAME;
+    bool                                 reverseSort    = false;
+    bool                                 sortDirsFirst  = true;
+    djvFileBrowserModel::THUMBNAILS      thumbnails     = djvFileBrowserModel::THUMBNAILS_HIGH;
+    djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize = djvFileBrowserModel::THUMBNAILS_MEDIUM;
     
     djvFileInfoList list;
     djvFileInfoList listTmp;
     
     mutable QVector<djvFileBrowserItem *> items;
     
-    djvGuiContext * context;
+    djvGuiContext * context = nullptr;
 };
 
 //------------------------------------------------------------------------------

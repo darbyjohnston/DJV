@@ -59,7 +59,7 @@ class DJV_VIEW_LIB_EXPORT djvViewAbstractActions : public QObject
     Q_OBJECT
     
 public:
-    explicit djvViewAbstractActions(djvViewContext *, QObject * parent = 0);
+    explicit djvViewAbstractActions(djvViewContext *, QObject * parent = nullptr);
 
     virtual ~djvViewAbstractActions() = 0;
 

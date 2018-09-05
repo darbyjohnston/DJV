@@ -49,7 +49,7 @@ class QOpenGLContext;
 class DJV_CORE_EXPORT djvImageContext : public djvCoreContext
 {
 public:
-    explicit djvImageContext(QObject * parent = 0);
+    explicit djvImageContext(QObject * parent = nullptr);
 
     virtual ~djvImageContext();
 

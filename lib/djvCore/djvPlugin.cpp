@@ -148,7 +148,7 @@ struct djvPluginFactory::Private
     QString             pluginEntry;
     typedef QPair<djvPlugin *, Handle *> Pair;
     QMap<QString, Pair> plugins;
-    djvCoreContext *    context;
+    djvCoreContext *    context = nullptr;
 };
 
 //------------------------------------------------------------------------------

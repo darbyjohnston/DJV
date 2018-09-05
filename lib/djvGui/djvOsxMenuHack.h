@@ -62,7 +62,7 @@ class DJV_GUI_EXPORT djvOsxMenuHack : public QObject
     Q_OBJECT
     
 public:
-    explicit djvOsxMenuHack(QObject * parent = 0);
+    explicit djvOsxMenuHack(QObject * parent = nullptr);
 
     virtual ~djvOsxMenuHack();
     

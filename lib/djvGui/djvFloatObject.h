@@ -116,7 +116,7 @@ public:
     //! The maximum floating point value.
     static const float floatMax;
 
-    explicit djvFloatObject(QObject * parent = 0);
+    explicit djvFloatObject(QObject * parent = nullptr);
 
     virtual ~djvFloatObject();
 
@@ -230,15 +230,15 @@ Q_SIGNALS:
 private:
     void defaultValidUpdate();
 
-    float   _value;
-    bool    _isDefaultValid;
-    float   _defaultValue;
-    float   _min;
-    float   _max;
-    bool    _clamp;
-    float   _smallInc;
-    float   _largeInc;
-    QString _sizeString;
+    float   _value          = 0.f;
+    bool    _isDefaultValid = false;
+    float   _defaultValue   = 0.f;
+    float   _min            = 0.f;
+    float   _max            = 0.f;
+    bool    _clamp          = true;
+    float   _smallInc       = 0.f;
+    float   _largeInc       = 0.f;
+    QString _sizeString     = "00000";
 };
 
 //@} // djvGuiWidget

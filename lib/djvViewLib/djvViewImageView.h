@@ -56,7 +56,7 @@ class DJV_VIEW_LIB_EXPORT djvViewImageView : public djvImageView
     Q_OBJECT
     
 public:
-    explicit djvViewImageView(djvViewContext *, QWidget * parent = 0);
+    explicit djvViewImageView(djvViewContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewImageView();
 
