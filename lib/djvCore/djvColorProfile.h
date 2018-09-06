@@ -51,6 +51,8 @@ class DJV_CORE_EXPORT djvColorProfile
 
 public:
 
+    djvColorProfile();
+    
     //! This struct provides exposure values.
     struct DJV_CORE_EXPORT Exposure
     {

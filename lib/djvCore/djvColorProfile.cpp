@@ -55,6 +55,9 @@ djvColorProfile::Exposure::Exposure(
 // djvColorProfile
 //------------------------------------------------------------------------------
 
+djvColorProfile::djvColorProfile()
+{}
+
 const QStringList & djvColorProfile::profileLabels()
 {
     static const QStringList data = QStringList() <<

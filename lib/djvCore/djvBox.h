@@ -180,9 +180,9 @@ template <typename T, glm::precision P = glm::defaultp>
 inline bool operator == (const djvBox3<T, P> &, const djvBox3<T, P> &);
 
 template <typename T, glm::precision P = glm::defaultp>
-inline bool operator != (const djvBox2<T, P> &, const djvBox3<T, P> &);
+inline bool operator != (const djvBox2<T, P> &, const djvBox2<T, P> &);
 template <typename T, glm::precision P = glm::defaultp>
-inline bool operator != (const djvBox2<T, P> &, const djvBox3<T, P> &);
+inline bool operator != (const djvBox3<T, P> &, const djvBox3<T, P> &);
 
 template<typename T, glm::precision P = glm::defaultp>
 inline QStringList & operator >> (QStringList &, djvBox2<T, P> &) throw (QString);

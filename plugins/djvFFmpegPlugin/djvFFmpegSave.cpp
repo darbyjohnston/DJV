@@ -333,10 +333,10 @@ void djvFFmpegSave::write(const djvImage & in, const djvImageIoFrameInfo & frame
     
     const int lineSize [] =
     {
-        -scanlineByteCount,
-        -scanlineByteCount,
-        -scanlineByteCount,
-        -scanlineByteCount
+        -static_cast<int>(scanlineByteCount),
+        -static_cast<int>(scanlineByteCount),
+        -static_cast<int>(scanlineByteCount),
+        -static_cast<int>(scanlineByteCount)
     };
     
     sws_scale(
