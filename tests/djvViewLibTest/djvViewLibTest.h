@@ -31,18 +31,11 @@
 
 #pragma once
 
-//! \addtogroup djvViewLib
+//! \addtogroup tests
 //@{
 
-#if defined(DJV_WINDOWS)
-#if defined(djvViewLib_EXPORTS)
-#define DJV_VIEW_LIB_EXPORT __declspec(dllexport)
-#else // djvViewLib_EXPORTS
-#define DJV_VIEW_LIB_EXPORT __declspec(dllimport)
-#endif // djvViewLib_EXPORTS
-#else // DJV_WINDOWS
-#define DJV_VIEW_LIB_EXPORT
-#endif // DJV_WINDOWS
+//! \defgroup djvViewLibTest djvViewLibTest
+//!
+//! This library provides testing functionality for djvViewLib.
 
-//@} // djvViewLibMisc
-
+//@} // tests

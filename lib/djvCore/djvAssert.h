@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -46,7 +45,7 @@
 #define DJV_ASSERT(IN)
 #endif
 
-DJV_CORE_EXPORT void _djvAssert(const char * file, int line);
+void _djvAssert(const char * file, int line);
 
 //@} // djvCoreMisc
 

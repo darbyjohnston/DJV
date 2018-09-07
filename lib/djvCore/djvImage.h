@@ -44,7 +44,7 @@
 //! This class provides an image.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImage : public djvPixelData
+class djvImage : public djvPixelData
 {
 public:
     djvImage();
@@ -58,9 +58,9 @@ public:
 
 Q_DECLARE_METATYPE(djvImage)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImage);
+DJV_COMPARISON_OPERATOR(djvImage);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImage);
+DJV_DEBUG_OPERATOR(djvImage);
 
 //@} // djvCoreImage
 

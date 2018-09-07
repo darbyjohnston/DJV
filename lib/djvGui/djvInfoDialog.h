@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -50,7 +50,7 @@ class djvGuiContext;
 //! This class provides a dialog for displaying information about DJV.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvInfoDialog : public QDialog
+class djvInfoDialog : public QDialog
 {
     Q_OBJECT
     

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -48,7 +48,7 @@
 //! This class provides a widget for displaying a floating point number.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFloatDisplay : public QWidget
+class djvFloatDisplay : public QWidget
 {
     Q_OBJECT
     

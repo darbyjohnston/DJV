@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QObject>
 
@@ -44,7 +44,7 @@
 //! This class provides sequence preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvSequencePrefs : public QObject
+class djvSequencePrefs : public QObject
 {
     Q_OBJECT
     

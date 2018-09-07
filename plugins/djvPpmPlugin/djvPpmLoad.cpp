@@ -104,8 +104,8 @@ void djvPpmLoad::read(djvImage & image, const djvImageIoFrameInfo & frame)
             //    static_cast<int>(scanlineByteCount));
             for (int y = 0; y < info.size.y; ++y)
             {
-                io->get(&scanline.front(), scanlineByteCount);
-                const quint8 * inP = &scanline.front();
+                io->get(scanline.data(), scanlineByteCount);
+                const quint8 * inP = scanline.data();
                 quint8 * outP = data->data(0, y);
                 for (int i = info.size.x - 1; i >= 0; --i)
                 {

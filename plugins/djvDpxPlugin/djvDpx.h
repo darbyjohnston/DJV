@@ -183,9 +183,9 @@ struct djvDpx
     };
 };
 
-DJV_STRING_OPERATOR(, djvDpx::VERSION);
-DJV_STRING_OPERATOR(, djvDpx::TYPE);
-DJV_STRING_OPERATOR(, djvDpx::ENDIAN);
+DJV_STRING_OPERATOR(djvDpx::VERSION);
+DJV_STRING_OPERATOR(djvDpx::TYPE);
+DJV_STRING_OPERATOR(djvDpx::ENDIAN);
 
 //@} // djvDpxPlugin
 

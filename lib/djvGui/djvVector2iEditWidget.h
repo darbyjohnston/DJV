@@ -32,7 +32,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 #include <djvVector.h>
@@ -50,7 +50,7 @@
 //! This class provides a two-dimensional integer vector widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvVector2iEditWidget : public QWidget
+class djvVector2iEditWidget : public QWidget
 {
     Q_OBJECT
     

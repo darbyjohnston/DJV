@@ -148,7 +148,7 @@ struct djvIff
     };
 };
 
-DJV_STRING_OPERATOR(, djvIff::COMPRESSION);
+DJV_STRING_OPERATOR(djvIff::COMPRESSION);
 
 //@} // djvIffPlugin
 

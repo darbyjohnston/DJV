@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvUtil.h>
 
@@ -52,7 +52,7 @@ class djvViewMainWindow;
 //! This class provides the base functionality for tools.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewAbstractTool : public QWidget
+class djvViewAbstractTool : public QWidget
 {
     Q_OBJECT
 

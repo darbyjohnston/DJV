@@ -46,7 +46,7 @@
 //! This class provides a histogram tool.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewHistogramTool : public djvViewAbstractTool
+class djvViewHistogramTool : public djvViewAbstractTool
 {
     Q_OBJECT
     

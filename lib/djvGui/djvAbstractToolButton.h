@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -46,7 +46,7 @@
 //! This class provides the base functionality for tool buttons.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvAbstractToolButton : public QAbstractButton
+class djvAbstractToolButton : public QAbstractButton
 {
     Q_OBJECT
     

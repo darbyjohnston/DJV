@@ -44,7 +44,7 @@
 //! This class provides the file group menu.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileMenu : public djvViewAbstractMenu
+class djvViewFileMenu : public djvViewAbstractMenu
 {
     Q_OBJECT
     

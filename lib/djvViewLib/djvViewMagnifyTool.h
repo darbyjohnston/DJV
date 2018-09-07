@@ -46,7 +46,7 @@
 //! This class provides a magnify tool.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewMagnifyTool : public djvViewAbstractTool
+class djvViewMagnifyTool : public djvViewAbstractTool
 {
     Q_OBJECT
     

@@ -54,7 +54,7 @@ class djvDebugLog;
 //! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvCoreContext : public QObject
+class djvCoreContext : public QObject
 {
     Q_OBJECT
     

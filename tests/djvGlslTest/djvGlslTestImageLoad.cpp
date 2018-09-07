@@ -66,7 +66,7 @@ const djvImage * djvGlslTestImageLoad::image(qint64 frame) const
         _load->read(that->_image, frame);
         //DJV_DEBUG_PRINT("image = " << _image);
     }
-    catch (const djvError & error)
+    catch (const djvError &)
     {
         //DJV_DEBUG_PRINT("error = " << djvErrorUtil::format(error));
     }

@@ -206,7 +206,7 @@ bool djvFileInfoUtil::exists(const djvFileInfo & in)
             djvFileIo().open(list[i], djvFileIo::READ);
             return true;
         }
-        catch (const djvError & error)
+        catch (const djvError &)
         {
             //DJV_DEBUG_PRINT("error = " << error.string());
         }

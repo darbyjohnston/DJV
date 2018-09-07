@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvFileInfo.h>
 #include <djvUtil.h>
@@ -55,7 +55,7 @@ class QModelIndex;
 //! to load or save files.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowser : public QDialog
+class djvFileBrowser : public QDialog
 {
     Q_OBJECT
     

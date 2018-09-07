@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvColor.h>
 #include <djvUtil.h>
@@ -53,7 +53,7 @@ class QHBoxLayout;
 //! This class provides color picker widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvColorWidget : public QWidget
+class djvColorWidget : public QWidget
 {
     Q_OBJECT
     

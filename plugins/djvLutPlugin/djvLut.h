@@ -148,8 +148,8 @@ struct djvLut
     };
 };
 
-DJV_STRING_OPERATOR(, djvLut::FORMAT);
-DJV_STRING_OPERATOR(, djvLut::TYPE);
+DJV_STRING_OPERATOR(djvLut::FORMAT);
+DJV_STRING_OPERATOR(djvLut::TYPE);
 
 //@} // djvLutPlugin
 

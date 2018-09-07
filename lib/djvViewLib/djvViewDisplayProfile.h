@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvFileInfo.h>
 #include <djvOpenGlImage.h>
@@ -45,18 +45,18 @@
 //! This struct provides a display profile.
 //------------------------------------------------------------------------------
 
-struct DJV_VIEW_LIB_EXPORT djvViewDisplayProfile :
+struct djvViewDisplayProfile :
     public djvOpenGlImageDisplayProfile
 {
     QString     name;
     djvFileInfo lutFile;
 };
 
-DJV_COMPARISON_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
+DJV_COMPARISON_OPERATOR(djvViewDisplayProfile);
 
-DJV_STRING_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
+DJV_STRING_OPERATOR(djvViewDisplayProfile);
 
-DJV_DEBUG_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewDisplayProfile);
+DJV_DEBUG_OPERATOR(djvViewDisplayProfile);
 
 //@} // djvViewImage
 

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -54,7 +54,7 @@ class QTreeWidgetItem;
 //! This class provides a preferences dialog.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvPrefsDialog : public QDialog
+class djvPrefsDialog : public QDialog
 {
     Q_OBJECT
     

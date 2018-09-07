@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvCoreExport.h>
+#include <djvConfig.h>
 
 class djvColor;
 
@@ -46,7 +46,7 @@ class QColor;
 //! This class provides color utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvColorUtil
+class djvColorUtil
 {
 public:
     virtual ~djvColorUtil() = 0;

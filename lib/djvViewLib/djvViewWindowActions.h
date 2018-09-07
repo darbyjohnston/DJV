@@ -42,7 +42,7 @@
 //! This class provides the window group actions.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewWindowActions : public djvViewAbstractActions
+class djvViewWindowActions : public djvViewAbstractActions
 {
     Q_OBJECT
     Q_ENUMS(ACTION)

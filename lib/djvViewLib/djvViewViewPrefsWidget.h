@@ -48,7 +48,7 @@ class QListWidgetItem;
 //! This class provides the view group preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewViewPrefsWidget :
+class djvViewViewPrefsWidget :
     public djvViewAbstractPrefsWidget
 {
     Q_OBJECT

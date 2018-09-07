@@ -330,6 +330,22 @@ QStringList djvPluginFactory::names() const
     return out;
 }
 
+void djvPluginFactory::addPlugin(djvPlugin * in)
+{
+    //DJV_DEBUG("djvPluginFactory::addPlugin");
+    try
+    {
+        in->initPlugin();
+        _p->plugins[in->pluginName()] = Private::Pair(in, nullptr);
+    }
+    catch (const djvError & error)
+    {
+        DJV_LOG(_p->context->debugLog(), "djvPluginFactory",
+            djvErrorUtil::format(error).join("\n"));
+        in->releasePlugin();
+    }
+}
+
 const QStringList & djvPluginFactory::errorLabels()
 {
     static const QStringList data = QStringList() <<

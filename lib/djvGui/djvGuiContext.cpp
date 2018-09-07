@@ -287,7 +287,7 @@ QString djvGuiContext::info() const
 "\n"
 "Image I/O Widgets\n"
 "\n"
-"    %2\n"
+"    Plugins: %2\n"
 "\n"
 "Preferences\n"
 "\n"

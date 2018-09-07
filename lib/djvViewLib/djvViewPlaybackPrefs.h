@@ -43,7 +43,7 @@
 //! This class provides the playback group preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewPlaybackPrefs : public djvViewAbstractPrefs
+class djvViewPlaybackPrefs : public djvViewAbstractPrefs
 {
     Q_OBJECT
     

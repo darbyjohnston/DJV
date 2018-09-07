@@ -46,7 +46,7 @@
 //! This class provides the window group preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewWindowPrefsWidget :
+class djvViewWindowPrefsWidget :
     public djvViewAbstractPrefsWidget
 {
     Q_OBJECT

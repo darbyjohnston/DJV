@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvVector.h>
 
@@ -44,7 +44,7 @@
 //! This class provides window utilities.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvWindowUtil
+class djvWindowUtil
 {
 public:
     virtual ~djvWindowUtil() = 0;

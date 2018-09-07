@@ -46,7 +46,7 @@
 //! This class provides a help preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvHelpPrefsWidget : public djvAbstractPrefsWidget
+class djvHelpPrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
     

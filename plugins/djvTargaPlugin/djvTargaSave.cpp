@@ -107,8 +107,7 @@ void djvTargaSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
         std::vector<quint8> scanline(w * channels * 2);
         for (int y = 0; y < h; ++y)
         {
-            const quint64 size =
-                djvTarga::writeRle(p->data(0, y), &scanline.front(), w, channels);
+            const quint64 size = djvTarga::writeRle(p->data(0, y), scanline.data(), w, channels);
             io.set(scanline.data(), size);
         }
     }

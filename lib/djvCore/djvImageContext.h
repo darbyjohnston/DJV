@@ -46,7 +46,7 @@ class QOpenGLContext;
 //! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageContext : public djvCoreContext
+class djvImageContext : public djvCoreContext
 {
 public:
     explicit djvImageContext(QObject * parent = nullptr);

@@ -43,7 +43,7 @@
 //! This class provides the window group preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewWindowPrefs : public djvViewAbstractPrefs
+class djvViewWindowPrefs : public djvViewAbstractPrefs
 {
     Q_OBJECT
     

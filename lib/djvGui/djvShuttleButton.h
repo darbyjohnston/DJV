@@ -48,7 +48,7 @@ class djvGuiContext;
 //! This class provides a shuttle button.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvShuttleButton : public djvAbstractToolButton
+class djvShuttleButton : public djvAbstractToolButton
 {
     Q_OBJECT
     

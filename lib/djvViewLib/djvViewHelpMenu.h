@@ -44,7 +44,7 @@
 //! This class provides the help group menu.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewHelpMenu : public djvViewAbstractMenu
+class djvViewHelpMenu : public djvViewAbstractMenu
 {
     Q_OBJECT
     

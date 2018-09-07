@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvUtil.h>
 

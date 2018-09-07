@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 #include <QStringList>
 
@@ -47,7 +46,7 @@ class djvError;
 //! This class provides error utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvErrorUtil
+class djvErrorUtil
 {
 public:
     virtual ~djvErrorUtil() = 0;

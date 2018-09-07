@@ -45,7 +45,7 @@ class QButtonGroup;
 //! This class provides playback buttons.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvPlaybackButtons : public QWidget
+class djvPlaybackButtons : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(PLAYBACK)

@@ -46,7 +46,7 @@ class djvFloatEdit;
 //! This class provides the view group tool bar.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewViewToolBar : public djvViewAbstractToolBar
+class djvViewViewToolBar : public djvViewAbstractToolBar
 {
     Q_OBJECT
     

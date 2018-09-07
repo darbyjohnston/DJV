@@ -12,7 +12,7 @@ set(source
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPngPlugin
     ${djvCoreIncludeDirs})
-add_library(djvPngPlugin MODULE ${header} ${source})
+add_library(djvPngPlugin ${header} ${source})
 target_link_libraries(
     djvPngPlugin
     PNG

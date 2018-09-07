@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 class QString;
 class QStringList;
@@ -46,7 +45,7 @@ class QStringList;
 //! This class provides system utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSystem
+class djvSystem
 {
 public:
     virtual ~djvSystem() = 0;

@@ -51,7 +51,7 @@ class QAction;
 //! image, which image chaneels are displayed, etc.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewViewGroup : public djvViewAbstractGroup
+class djvViewViewGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

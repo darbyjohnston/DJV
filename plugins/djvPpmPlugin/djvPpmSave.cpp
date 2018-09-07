@@ -144,7 +144,7 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                 1 == _bitDepth)
             {
                 const quint8 * inP = p->data(0, y);
-                quint8 * outP = &scanline.front();
+                quint8 * outP = scanline.data();
                 for (int i = 0; i < w; ++i)
                 {
                     const int tmp = inP[i];
@@ -157,16 +157,16 @@ void djvPpmSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                     outP[j] |= ((! tmp) & 1) << (7 - off);
                 }
 
-                io.set(&scanline.front(), scanlineByteCount);
+                io.set(scanline.data(), scanlineByteCount);
             }
             else
             {
                 const quint64 size = djvPpm::asciiSave(
                     p->data(0, y),
-                    &scanline.front(),
+                    scanline.data(),
                     w * channels,
                     _bitDepth);
-                io.set(&scanline.front(), size);
+                io.set(scanline.data(), size);
             }
         }
     }

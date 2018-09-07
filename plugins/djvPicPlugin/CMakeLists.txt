@@ -13,7 +13,7 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPicPlugin
     ${djvCoreIncludeDirs})
-add_library(djvPicPlugin MODULE ${header} ${source} ${qmSource})
+add_library(djvPicPlugin ${header} ${source} ${qmSource})
 target_link_libraries(djvPicPlugin ${djvCoreLibs})
 
 set_target_properties(djvPicPlugin PROPERTIES FOLDER plugins CXX_STANDARD 11)

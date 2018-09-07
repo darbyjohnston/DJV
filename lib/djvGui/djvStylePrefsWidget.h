@@ -48,7 +48,7 @@ class djvColor;
 //! This class provides a style preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvStylePrefsWidget : public djvAbstractPrefsWidget
+class djvStylePrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
 

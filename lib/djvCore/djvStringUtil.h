@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 #include <QString>
 #include <QVector>
@@ -46,7 +45,7 @@
 //! This class provides string utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvStringUtil
+class djvStringUtil
 {
 public:
     virtual ~djvStringUtil() = 0;
@@ -109,40 +108,40 @@ public:
 #define SNPRINTF ::snprintf
 #endif // DJV_WINDOWS
 
-DJV_CORE_EXPORT bool djvSerialize(QStringList &, QString &);
-DJV_CORE_EXPORT bool djvSerialize(QStringList &, unsigned int &, const QStringList & labels);
+bool djvSerialize(QStringList &, QString &);
+bool djvSerialize(QStringList &, unsigned int &, const QStringList & labels);
 template <typename T>
 inline bool djvSerialize(QStringList &, T &, const QStringList & labels);
 template <typename T>
 inline QStringList djvSerialize(T, const QStringList & labels);
 
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, QString &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, QStringList &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, bool &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, int &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, qint64 &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, quint64 &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, float &) throw (QString);
-DJV_CORE_EXPORT QStringList & operator >> (QStringList &, double &) throw (QString);
+QStringList & operator >> (QStringList &, QString &) throw (QString);
+QStringList & operator >> (QStringList &, QStringList &) throw (QString);
+QStringList & operator >> (QStringList &, bool &) throw (QString);
+QStringList & operator >> (QStringList &, int &) throw (QString);
+QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
+QStringList & operator >> (QStringList &, qint64 &) throw (QString);
+QStringList & operator >> (QStringList &, quint64 &) throw (QString);
+QStringList & operator >> (QStringList &, float &) throw (QString);
+QStringList & operator >> (QStringList &, double &) throw (QString);
 template <typename T>
 inline QStringList & operator >> (QStringList &, QVector<T> &) throw (QString);
 
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, const char *);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, bool);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, int);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, unsigned int);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, qint64);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, quint64);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, float);
-DJV_CORE_EXPORT QStringList & operator << (QStringList &, double);
+QStringList & operator << (QStringList &, const char *);
+QStringList & operator << (QStringList &, bool);
+QStringList & operator << (QStringList &, int);
+QStringList & operator << (QStringList &, unsigned int);
+QStringList & operator << (QStringList &, qint64);
+QStringList & operator << (QStringList &, quint64);
+QStringList & operator << (QStringList &, float);
+QStringList & operator << (QStringList &, double);
 template <typename T>
 inline QStringList & operator << (QStringList &, const QVector<T> &);
 
 //! This macros provides string serialize operators.
-#define DJV_STRING_OPERATOR(EXPORT, TYPE) \
-    EXPORT QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
-    EXPORT QStringList & operator << (QStringList &, const TYPE &)
+#define DJV_STRING_OPERATOR(TYPE) \
+    QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
+    QStringList & operator << (QStringList &, const TYPE &)
     
 //! This macro provides string serialize operators.
 #define _DJV_STRING_OPERATOR_LABEL(TYPE, LABEL) \

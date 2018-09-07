@@ -44,7 +44,7 @@
 //! This class provides the image group actions.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewImageActions : public djvViewAbstractActions
+class djvViewImageActions : public djvViewAbstractActions
 {
     Q_OBJECT
     Q_ENUMS(ACTION)

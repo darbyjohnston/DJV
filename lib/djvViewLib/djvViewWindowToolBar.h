@@ -42,7 +42,7 @@
 //! This class provides the window group tool bar.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewWindowToolBar : public djvViewAbstractToolBar
+class djvViewWindowToolBar : public djvViewAbstractToolBar
 {
     Q_OBJECT
     

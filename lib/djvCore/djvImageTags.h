@@ -46,7 +46,7 @@
 //! This class provides a collection of image tags.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageTags
+class djvImageTags
 {
     Q_GADGET
     Q_ENUMS(TAGS)
@@ -112,9 +112,9 @@ private:
 
 Q_DECLARE_METATYPE(djvImageTags)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
+DJV_COMPARISON_OPERATOR(djvImageTags);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageTags);
+DJV_DEBUG_OPERATOR(djvImageTags);
 
 //@} // djvCoreImage
 

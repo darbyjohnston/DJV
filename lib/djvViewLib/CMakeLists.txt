@@ -33,7 +33,6 @@ set(header
 	djvViewInfoTool.h
     djvViewInputPrefs.h
     djvViewInputPrefsWidget.h
-    djvViewLibExport.h
     djvViewLib.h
 	djvViewMagnifyTool.h
     djvViewMainWindow.h

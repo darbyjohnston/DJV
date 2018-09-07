@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvUtil.h>
 
@@ -50,7 +50,7 @@ class djvViewAbstractActions;
 //! This class provides the base functionality for group menus.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewAbstractMenu : public QMenu
+class djvViewAbstractMenu : public QMenu
 {
     Q_OBJECT
 

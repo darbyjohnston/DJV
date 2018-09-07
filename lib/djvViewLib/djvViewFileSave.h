@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvFileInfo.h>
 #include <djvImageIo.h>
@@ -53,7 +53,7 @@ class djvViewContext;
 //! This struct provides file saving information.
 //------------------------------------------------------------------------------
 
-struct DJV_VIEW_LIB_EXPORT djvViewFileSaveInfo
+struct djvViewFileSaveInfo
 {
     djvViewFileSaveInfo(
         const djvFileInfo &           inputFile    = djvFileInfo(),
@@ -84,7 +84,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewFileSaveInfo
 //! This class provides file saving.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileSave : public QObject
+class djvViewFileSave : public QObject
 {
     Q_OBJECT
     

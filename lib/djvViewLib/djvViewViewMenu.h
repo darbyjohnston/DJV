@@ -42,7 +42,7 @@
 //! This class provides the view group menu.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewViewMenu : public djvViewAbstractMenu
+class djvViewViewMenu : public djvViewAbstractMenu
 {
     Q_OBJECT
     

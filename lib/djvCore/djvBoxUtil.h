@@ -45,7 +45,7 @@ class QRectF;
 //! This class provides box utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvBoxUtil
+class djvBoxUtil
 {
 public:
     inline virtual ~djvBoxUtil() = 0;

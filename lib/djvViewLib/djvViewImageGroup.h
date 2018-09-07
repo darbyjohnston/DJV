@@ -49,7 +49,7 @@ class QAction;
 //! the functionality relating to images such as the image scale and rotation.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewImageGroup : public djvViewAbstractGroup
+class djvViewImageGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

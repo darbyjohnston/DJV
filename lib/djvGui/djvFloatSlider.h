@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -50,7 +50,7 @@ class djvFloatObject;
 //! This class provides a floating-point slider widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFloatSlider : public QWidget
+class djvFloatSlider : public QWidget
 {
     Q_OBJECT
     

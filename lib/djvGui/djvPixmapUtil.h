@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvOpenGlImage.h>
 
@@ -46,7 +46,7 @@ class QPixmap;
 //! This struct provides pixmap utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_GUI_EXPORT djvPixmapUtil
+struct djvPixmapUtil
 {
     //! Convert pixel data to Qt.    
     static QPixmap toQt(

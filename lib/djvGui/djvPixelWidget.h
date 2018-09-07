@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvPixel.h>
 #include <djvUtil.h>
@@ -49,7 +49,7 @@
 //! This class provides a pixel widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvPixelWidget : public QWidget
+class djvPixelWidget : public QWidget
 {
     Q_OBJECT
     

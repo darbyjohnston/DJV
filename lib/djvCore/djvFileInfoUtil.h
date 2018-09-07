@@ -45,7 +45,7 @@
 //! This class provides file information utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvFileInfoUtil
+class djvFileInfoUtil
 {
     Q_GADGET
     Q_FLAGS(FILTER)
@@ -168,7 +168,7 @@ public:
         bool                  autoSequence = false);
 };
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfoUtil::SORT);
+DJV_STRING_OPERATOR(djvFileInfoUtil::SORT);
 
 //@} // djvCoreFile
 

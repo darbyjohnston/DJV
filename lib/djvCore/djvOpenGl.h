@@ -48,7 +48,7 @@
 //! This class provides OpenGL utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlUtil
+class djvOpenGlUtil
 {
 public:
     virtual ~djvOpenGlUtil() = 0;

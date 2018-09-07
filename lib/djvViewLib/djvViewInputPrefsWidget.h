@@ -44,7 +44,7 @@
 //! This class provides the input preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewInputPrefsWidget :
+class djvViewInputPrefsWidget :
     public djvViewAbstractPrefsWidget
 {
     Q_OBJECT

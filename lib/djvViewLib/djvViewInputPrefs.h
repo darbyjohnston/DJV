@@ -43,7 +43,7 @@
 //! This class provides the input preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewInputPrefs : public djvViewAbstractPrefs
+class djvViewInputPrefs : public djvViewAbstractPrefs
 {
     Q_OBJECT
     

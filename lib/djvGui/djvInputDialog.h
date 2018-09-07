@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -48,7 +48,7 @@
 //! This class provides an input dialog.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvInputDialog : public QDialog
+class djvInputDialog : public QDialog
 {
     Q_OBJECT
     

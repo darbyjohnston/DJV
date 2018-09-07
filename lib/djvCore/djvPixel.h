@@ -47,7 +47,7 @@
 //! This class provides pixel functionality.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPixel
+class djvPixel
 {
     Q_GADGET
     Q_ENUMS(FORMAT)
@@ -339,18 +339,18 @@ public:
 inline bool operator == (const djvPixel::Mask &, const djvPixel::Mask &);
 inline bool operator != (const djvPixel::Mask &, const djvPixel::Mask &);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::FORMAT);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::TYPE);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::DATA);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::PIXEL);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixel::Mask);
+DJV_STRING_OPERATOR(djvPixel::FORMAT);
+DJV_STRING_OPERATOR(djvPixel::TYPE);
+DJV_STRING_OPERATOR(djvPixel::DATA);
+DJV_STRING_OPERATOR(djvPixel::PIXEL);
+DJV_STRING_OPERATOR(djvPixel::Mask);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::FORMAT);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::TYPE);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::DATA);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::PIXEL);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::FORMAT);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixel::Mask);
+DJV_DEBUG_OPERATOR(djvPixel::FORMAT);
+DJV_DEBUG_OPERATOR(djvPixel::TYPE);
+DJV_DEBUG_OPERATOR(djvPixel::DATA);
+DJV_DEBUG_OPERATOR(djvPixel::PIXEL);
+DJV_DEBUG_OPERATOR(djvPixel::FORMAT);
+DJV_DEBUG_OPERATOR(djvPixel::Mask);
 
 //@} // djvCoreImage
 

@@ -50,7 +50,7 @@
 //! This class provides time utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvTime
+class djvTime
 {
     Q_GADGET
     Q_ENUMS(UNITS)
@@ -155,7 +155,7 @@ public:
     static qint64 stringToFrame(const QString &, const djvSpeed &, bool * ok = 0);
 };
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvTime::UNITS);
+DJV_STRING_OPERATOR(djvTime::UNITS);
 
 //@} // djvCoreMisc
 

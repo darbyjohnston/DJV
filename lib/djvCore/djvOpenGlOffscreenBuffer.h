@@ -48,7 +48,7 @@
 //! This class provides an OpenGL offscreen buffer.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlOffscreenBuffer
+class djvOpenGlOffscreenBuffer
 {
 public:
     djvOpenGlOffscreenBuffer(const djvPixelDataInfo &) throw (djvError);
@@ -99,7 +99,7 @@ private:
 //! This class provides automatic binding for an OpenGL offscreen buffer.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlOffscreenBufferScope
+class djvOpenGlOffscreenBufferScope
 {
 public:
     djvOpenGlOffscreenBufferScope(djvOpenGlOffscreenBuffer *);

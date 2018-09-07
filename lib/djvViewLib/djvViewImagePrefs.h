@@ -44,7 +44,7 @@
 //! This class provides the image group preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewImagePrefs : public djvViewAbstractPrefs
+class djvViewImagePrefs : public djvViewAbstractPrefs
 {
     Q_OBJECT
     

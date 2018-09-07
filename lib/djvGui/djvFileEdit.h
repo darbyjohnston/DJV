@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvFileInfo.h>
 #include <djvUtil.h>
@@ -51,7 +51,7 @@ class djvGuiContext;
 //! This class provides a file name edit widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileEdit : public QWidget
+class djvFileEdit : public QWidget
 {
     Q_OBJECT
     

@@ -36,10 +36,10 @@
 
 #if defined(DJV_WINDOWS)
 #if defined(djvCoreTest_EXPORTS)
-#define DJV_CORE_TEST_EXPORT __declspec(dllexport)
+#define __declspec(dllexport)
 #define DJV_CORE_TEST_EXPORT_TEMPLATE
 #else // djvCoreTest_EXPORTS
-#define DJV_CORE_TEST_EXPORT __declspec(dllimport)
+#define __declspec(dllimport)
 #define DJV_CORE_TEST_EXPORT_TEMPLATE extern
 #endif // djvCoreTest_EXPORTS
 #else // DJV_WINDOWS

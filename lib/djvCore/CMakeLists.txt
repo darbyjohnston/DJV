@@ -12,7 +12,6 @@ set(header
     djvColorUtilInline.h
     djvColorProfile.h
     djvCoreContext.h
-    djvCoreExport.h
     djvCore.h
     djvDebug.h
     djvDebugInline.h

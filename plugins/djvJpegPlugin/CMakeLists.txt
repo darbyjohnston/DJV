@@ -25,8 +25,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvJpegPlugin
     ${djvGuiIncludeDirs})
-add_library(djvJpegPlugin MODULE ${header} ${source} ${mocSource} ${qmSource})
-add_library(djvJpegWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvJpegPlugin ${header} ${source} ${mocSource} ${qmSource})
+add_library(djvJpegWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvJpegPlugin JPEG ${djvCoreLibs})
 target_link_libraries(djvJpegWidgetPlugin JPEG ${djvGuiLibs})
 

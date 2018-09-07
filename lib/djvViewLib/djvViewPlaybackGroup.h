@@ -52,7 +52,7 @@ class QAction;
 //! whether the movie is being played or stopped, etc.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewPlaybackGroup : public djvViewAbstractGroup
+class djvViewPlaybackGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

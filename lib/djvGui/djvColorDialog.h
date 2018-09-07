@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvColor.h>
 #include <djvUtil.h>
@@ -51,7 +51,7 @@ class djvGuiContext;
 //! This class provides a color picker dialog.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvColorDialog : public QDialog
+class djvColorDialog : public QDialog
 {
     Q_OBJECT
     

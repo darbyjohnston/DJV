@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvUtil.h>
 
@@ -51,7 +51,7 @@ class djvViewContext;
 //! This class provides the base functionality for group tool bars.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewAbstractToolBar : public QToolBar
+class djvViewAbstractToolBar : public QToolBar
 {
     Q_OBJECT
 

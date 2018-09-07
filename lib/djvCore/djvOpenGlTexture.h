@@ -41,7 +41,7 @@
 //! This class proivides an OpenGL texture.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlTexture
+class djvOpenGlTexture
 {
 public:
     ~djvOpenGlTexture();

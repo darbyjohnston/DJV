@@ -48,7 +48,7 @@ typedef QVector<qint64> djvFrameList;
 //! This class provides a sequence of frames.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSequence
+class djvSequence
 {
     Q_GADGET
     Q_ENUMS(COMPRESS)
@@ -105,11 +105,11 @@ inline bool operator == (const djvSequence &, const djvSequence &);
 
 inline bool operator != (const djvSequence &, const djvSequence &);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequence::COMPRESS);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSequence);
+DJV_STRING_OPERATOR(djvSequence::COMPRESS);
+DJV_STRING_OPERATOR(djvSequence);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequence);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSequence::COMPRESS);
+DJV_DEBUG_OPERATOR(djvSequence);
+DJV_DEBUG_OPERATOR(djvSequence::COMPRESS);
 
 //@} // djvCoreMisc
 

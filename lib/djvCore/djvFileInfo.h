@@ -105,7 +105,7 @@ class djvFileBrowserTestDirWorker;
 //! - Extension     = .exr
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvFileInfo
+class djvFileInfo
 {
     Q_GADGET
     Q_ENUMS(TYPE)
@@ -283,11 +283,11 @@ typedef QVector<djvFileInfo> djvFileInfoList;
 
 Q_DECLARE_METATYPE(djvFileInfo)
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo::TYPE);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
+DJV_STRING_OPERATOR(djvFileInfo::TYPE);
+DJV_STRING_OPERATOR(djvFileInfo);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvFileInfo::TYPE);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvFileInfo);
+DJV_DEBUG_OPERATOR(djvFileInfo::TYPE);
+DJV_DEBUG_OPERATOR(djvFileInfo);
 
 //@} // djvCoreFile
 

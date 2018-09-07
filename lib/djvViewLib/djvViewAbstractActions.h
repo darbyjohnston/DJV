@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvUtil.h>
 
@@ -54,7 +54,7 @@ class QActionGroup;
 //! This class provides the base functionality for groups of actions.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewAbstractActions : public QObject
+class djvViewAbstractActions : public QObject
 {
     Q_OBJECT
     

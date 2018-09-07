@@ -48,7 +48,7 @@ class QAction;
 //! is full screen, which tool bars are visible, etc.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewWindowGroup : public djvViewAbstractGroup
+class djvViewWindowGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

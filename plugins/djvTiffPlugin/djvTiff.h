@@ -113,7 +113,7 @@ struct djvTiff
     };
 };
 
-DJV_STRING_OPERATOR(, djvTiff::COMPRESSION);
+DJV_STRING_OPERATOR(djvTiff::COMPRESSION);
 
 //@} // djvTiffPlugin
 

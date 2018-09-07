@@ -46,7 +46,7 @@
 //! This class provides the base exception class.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvError
+class djvError
 {
 public:
 

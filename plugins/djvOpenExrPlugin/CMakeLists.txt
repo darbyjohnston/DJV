@@ -25,8 +25,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvOpenExrPlugin
     ${djvGuiIncludeDirs})
-add_library(djvOpenExrPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvOpenExrWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvOpenExrPlugin ${header} ${source} ${qmSource})
+add_library(djvOpenExrWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvOpenExrPlugin OpenEXR ${djvCoreLibs})
 target_link_libraries(djvOpenExrWidgetPlugin OpenEXR ${djvGuiLibs})
 

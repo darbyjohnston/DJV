@@ -44,6 +44,12 @@
 #include <QScopedPointer>
 #include <QVector>
 
+#include <glbinding/Version.h>
+#include <glbinding-aux/Meta.h>
+#include <glbinding-aux/types_to_string.h>
+
+#include <sstream>
+
 using namespace gl;
 
 //------------------------------------------------------------------------------
@@ -92,7 +98,12 @@ djvImageContext::djvImageContext(QObject * parent) :
     {
         return _p->openGlContext->getProcAddress(QByteArray::fromStdString(name));
     });
-    
+    for (const glbinding::Version & v : glbinding::aux::Meta::versions())
+    {
+        std::stringstream s;
+        s << v;
+        DJV_LOG(debugLog(), "djvImageContext", QString("glbinding version: %1").arg(QString::fromLatin1(s.str().c_str())));
+    }
     DJV_LOG(debugLog(), "djvImageContext", "");
 
     //! Create the image I/O plugins.
@@ -138,7 +149,7 @@ QString djvImageContext::info() const
 "\n"
 "Image I/O\n"
 "\n"
-"    %6\n");
+"    Plugins: %6\n");
     return QString(label).
         arg(djvCoreContext::info()).
         arg(_p->openGlContext->format().majorVersion()).

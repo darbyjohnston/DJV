@@ -34,11 +34,11 @@
 #ifndef DJV_ABSTRACT_TEST_H
 #define DJV_ABSTRACT_TEST_H
 
-#include <djvTestLibExport.h>
+#include <djvTestLib.h>
 
 #include <QObject>
 
-class DJV_TEST_LIB_EXPORT djvAbstractTest : public QObject
+class djvAbstractTest : public QObject
 {
     Q_OBJECT
     

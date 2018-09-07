@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QObject>
 
@@ -46,7 +46,7 @@
 //! This class provides help preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvHelpPrefs : public QObject
+class djvHelpPrefs : public QObject
 {
     Q_OBJECT
     

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -57,7 +57,7 @@ class QMenu;
 //! \todo Remove this class when QTBUG-38256 is resolved.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvOsxMenuHack : public QObject
+class djvOsxMenuHack : public QObject
 {
     Q_OBJECT
     

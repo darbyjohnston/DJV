@@ -46,7 +46,7 @@ class djvFileIo;
 //! This class provides file I/O utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvFileIoUtil
+class djvFileIoUtil
 {
 public:
     virtual ~djvFileIoUtil() = 0;

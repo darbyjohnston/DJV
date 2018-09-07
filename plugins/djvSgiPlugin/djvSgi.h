@@ -129,7 +129,7 @@ struct djvSgi
     };
 };
 
-DJV_STRING_OPERATOR(, djvSgi::COMPRESSION);
+DJV_STRING_OPERATOR(djvSgi::COMPRESSION);
 
 //@} // djvSgiPlugin
 

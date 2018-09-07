@@ -41,7 +41,7 @@
 //! This class proivides an OpenGL LUT.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlLut
+class djvOpenGlLut
 {
 public:
     ~djvOpenGlLut();

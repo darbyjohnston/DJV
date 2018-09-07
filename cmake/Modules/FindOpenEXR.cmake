@@ -24,7 +24,11 @@ set(OPENEXR_INCLUDE_DIRS
     ${ZLIB_INCLUDE_DIRS})
 
 if(WIN32)
-    set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf.lib)
+    if(OPENEXR_SHARED_LIBS)
+        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf.lib)
+    else()
+        set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/IlmImf_s.lib)
+    endif()
 elseif(APPLE)
     if(OPENEXR_SHARED_LIBS)
         set(OPENEXR_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libIlmImf.dylib)

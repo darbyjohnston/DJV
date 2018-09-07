@@ -45,7 +45,7 @@
 //! This class provides speed information.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSpeed
+class djvSpeed
 {
     Q_GADGET
     Q_ENUMS(FPS)
@@ -115,12 +115,12 @@ private:
 
 Q_DECLARE_METATYPE(djvSpeed)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
+DJV_COMPARISON_OPERATOR(djvSpeed);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed::FPS);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
+DJV_STRING_OPERATOR(djvSpeed::FPS);
+DJV_STRING_OPERATOR(djvSpeed);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvSpeed);
+DJV_DEBUG_OPERATOR(djvSpeed);
 
 //@} // djvCoreMisc
 

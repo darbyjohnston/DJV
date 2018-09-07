@@ -44,7 +44,7 @@
 //! This class provides the tool group menu.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewToolMenu : public djvViewAbstractMenu
+class djvViewToolMenu : public djvViewAbstractMenu
 {
     Q_OBJECT
     

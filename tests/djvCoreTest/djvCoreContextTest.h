@@ -31,11 +31,11 @@
 
 #pragma once
 
-#include <djvCoreTestExport.h>
+#include <djvCoreTest.h>
 
 #include <djvAbstractTest.h>
 
-class DJV_CORE_TEST_EXPORT djvCoreContextTest : public djvAbstractTest
+class djvCoreContextTest : public djvAbstractTest
 {
 public:
 

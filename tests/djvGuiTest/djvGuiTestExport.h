@@ -36,9 +36,9 @@
 
 #if defined(DJV_WINDOWS)
 #if defined(djvGuiTest_EXPORTS)
-#define DJV_GUI_TEST_EXPORT __declspec(dllexport)
+#define __declspec(dllexport)
 #else // djvGuiTest_EXPORTS
-#define DJV_GUI_TEST_EXPORT __declspec(dllimport)
+#define __declspec(dllimport)
 #endif // djvGuiTest_EXPORTS
 #else // DJV_WINDOWS
 #define DJV_GUI_TEST_EXPORT

@@ -25,8 +25,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvLutPlugin
     ${djvGuiIncludeDirs})
-add_library(djvLutPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvLutWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvLutPlugin ${header} ${source} ${qmSource})
+add_library(djvLutWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvLutPlugin ${djvCoreLibs})
 target_link_libraries(djvLutWidgetPlugin ${djvGuiLibs})
 

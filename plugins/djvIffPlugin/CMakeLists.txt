@@ -25,8 +25,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvIffPlugin
     ${djvGuiIncludeDirs})
-add_library(djvIffPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvIffWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvIffPlugin ${header} ${source} ${qmSource})
+add_library(djvIffWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvIffPlugin ${djvCoreLibs})
 target_link_libraries(djvIffWidgetPlugin ${djvGuiLibs})
 

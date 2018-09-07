@@ -48,7 +48,7 @@
 //! This class provides a model for keyboard shorcuts.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvShortcutsModel : public QAbstractItemModel
+class djvShortcutsModel : public QAbstractItemModel
 {
     Q_OBJECT
     

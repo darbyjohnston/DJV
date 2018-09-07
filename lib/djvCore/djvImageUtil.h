@@ -42,7 +42,7 @@
 //! This class provides image utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageUtil
+class djvImageUtil
 {
 public:
     virtual ~djvImageUtil() = 0;

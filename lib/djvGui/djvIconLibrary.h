@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -52,7 +52,7 @@ class QSize;
 //! This class provides an icon library.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvIconLibrary : public QObject
+class djvIconLibrary : public QObject
 {
     Q_OBJECT
     

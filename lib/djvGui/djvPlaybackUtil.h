@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QStringList>
 
@@ -41,7 +41,7 @@
 //! This struct provides playback utilities.
 //------------------------------------------------------------------------------
 
-struct DJV_GUI_EXPORT djvPlaybackUtil
+struct djvPlaybackUtil
 {
     //! This enumeration provides playback states.    
     enum PLAYBACK

@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 //! \addtogroup djvCoreMath
 //@{
@@ -49,7 +48,7 @@
 //!   Steven Worley, "Texturing & Modeling, A Procedural Approach"
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvMath
+class djvMath
 {
 public:
     virtual ~djvMath() = 0;

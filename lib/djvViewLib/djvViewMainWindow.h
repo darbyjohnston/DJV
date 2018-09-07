@@ -55,7 +55,7 @@ class djvSpeed;
 //! This class provides a main window.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewMainWindow : public QMainWindow
+class djvViewMainWindow : public QMainWindow
 {
     Q_OBJECT
     

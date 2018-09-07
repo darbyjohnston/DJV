@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QObject>
 
@@ -44,7 +44,7 @@
 //! This class provides the base functionality for floating point widgets.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFloatObject : public QObject
+class djvFloatObject : public QObject
 {
     Q_OBJECT
     

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvColor.h>
 #include <djvUtil.h>
@@ -53,7 +53,7 @@
 //! when the style changes?
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvStyle : public QObject
+class djvStyle : public QObject
 {
     Q_OBJECT
     
@@ -63,7 +63,7 @@ public:
     ~djvStyle();
 
     //! This struct provides a color palette.
-    struct DJV_GUI_EXPORT Palette
+    struct Palette
     {
         explicit Palette(
             const QString &  name        = QString(),
@@ -118,7 +118,7 @@ public:
     void setColorSwatchTransparency(bool);
 
     //! This struct provides size metrics.
-    struct DJV_GUI_EXPORT SizeMetric
+    struct SizeMetric
     {
         explicit SizeMetric(const QString & name = QString(), int fontSize = 0);
     
@@ -168,7 +168,7 @@ public:
     QStringList sizeMetricNames() const;
 
     //! This struct provides the fonts.
-    struct DJV_GUI_EXPORT Fonts
+    struct Fonts
     {
         Fonts();
         
@@ -206,13 +206,13 @@ private:
     std::unique_ptr<Private> _p;
 };
 
-DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);
-DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
-DJV_COMPARISON_OPERATOR(DJV_GUI_EXPORT, djvStyle::Fonts);
+DJV_COMPARISON_OPERATOR(djvStyle::Palette);
+DJV_COMPARISON_OPERATOR(djvStyle::SizeMetric);
+DJV_COMPARISON_OPERATOR(djvStyle::Fonts);
 
-DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::Palette);
-DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::SizeMetric);
-DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvStyle::Fonts);
+DJV_STRING_OPERATOR(djvStyle::Palette);
+DJV_STRING_OPERATOR(djvStyle::SizeMetric);
+DJV_STRING_OPERATOR(djvStyle::Fonts);
 
 //@} // djvGuiMisc
 

@@ -44,7 +44,7 @@
 //! This class provides the tool group actions.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewToolActions : public djvViewAbstractActions
+class djvViewToolActions : public djvViewAbstractActions
 {
     Q_OBJECT
     Q_ENUMS(GROUP)

@@ -31,18 +31,11 @@
 
 #pragma once
 
-//! \addtogroup djvImageIoPluginTest
+//! \addtogroup tests
 //@{
 
-#if defined(DJV_WINDOWS)
-#if defined(djvImageIoPluginTest_EXPORTS)
-#define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT __declspec(dllexport)
-#else // djvImageIoPluginTest_EXPORTS
-#define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT __declspec(dllimport)
-#endif // djvImageIoPluginTest_EXPORTS
-#else // DJV_WINDOWS
-#define DJV_IMAGE_IO_PLUGIN_TEST_EXPORT
-#endif // DJV_WINDOWS
+//! \defgroup djvTestLib djvTestLib
+//!
+//! This library provides testing functionality.
 
-//@} // djvImageIoPluginTest
-
+//@} // tests

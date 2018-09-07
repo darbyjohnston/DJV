@@ -51,7 +51,7 @@ class djvImageIo;
 //! This class provides the base functionality for image I/O widgets.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImageIoWidget : public djvAbstractPrefsWidget
+class djvImageIoWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
     
@@ -80,7 +80,7 @@ private:
 //! This class provides an image I/O widget plugin.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImageIoWidgetPlugin : public djvPlugin
+class djvImageIoWidgetPlugin : public djvPlugin
 {
 public:
     djvImageIoWidgetPlugin(djvCoreContext *);
@@ -102,7 +102,7 @@ public:
 //! This class provides a factory for image I/O widget plugins.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImageIoWidgetFactory : public djvPluginFactory
+class djvImageIoWidgetFactory : public djvPluginFactory
 {
     Q_OBJECT
     

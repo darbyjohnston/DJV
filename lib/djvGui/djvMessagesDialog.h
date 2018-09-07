@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -52,7 +52,7 @@ class djvError;
 //! This class provides a dialog for displaying application messages.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvMessagesDialog : public QDialog
+class djvMessagesDialog : public QDialog
 {
     Q_OBJECT
     

@@ -40,7 +40,7 @@
 //! This class encapsulates an OpenGL shader.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlShader
+class djvOpenGlShader
 {
 public:
     ~djvOpenGlShader();

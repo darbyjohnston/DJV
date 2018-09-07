@@ -249,9 +249,9 @@ struct djvOpenExr
     };
 };
 
-DJV_STRING_OPERATOR(, djvOpenExr::COLOR_PROFILE);
-DJV_STRING_OPERATOR(, djvOpenExr::COMPRESSION);
-DJV_STRING_OPERATOR(, djvOpenExr::CHANNELS);
+DJV_STRING_OPERATOR(djvOpenExr::COLOR_PROFILE);
+DJV_STRING_OPERATOR(djvOpenExr::COMPRESSION);
+DJV_STRING_OPERATOR(djvOpenExr::CHANNELS);
 
 bool compare(const QVector<Imf::Channel> &);
 

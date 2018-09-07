@@ -573,7 +573,7 @@ struct Tick
         {
             case FRAME:
                 painter->setPen(djvColorUtil::lerp(
-                    0.2,
+                    .2f,
                     palette.color(QPalette::Base),
                     palette.color(QPalette::Text)));
                 painter->drawLine(x, 0, x, 5);
@@ -583,7 +583,7 @@ struct Tick
                 if (label.isEmpty())
                 {
                     painter->setPen(djvColorUtil::lerp(
-                        0.2,
+                        .2f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
                     painter->drawLine(x, 0, x, 5);
@@ -592,12 +592,12 @@ struct Tick
                 else
                 {
                     painter->setPen(djvColorUtil::lerp(
-                        0.2,
+                        .2f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
                     painter->drawLine(x, 0, x, h - 1);
                     painter->setPen(djvColorUtil::lerp(
-                        0.4,
+                        .4f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
                     painter->drawText(labelRect, label);

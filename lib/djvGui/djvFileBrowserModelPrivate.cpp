@@ -153,7 +153,7 @@ ImageInfoThreadResult imageInfoThreadFunction(
         //DJV_DEBUG_PRINT("info = " << out.info);
         out.valid = true;
     }
-    catch (const djvError & error)
+    catch (const djvError &)
     {}
     return out;
 }
@@ -220,7 +220,7 @@ ThumbnailThreadResult thumbnailThreadFunction(
         out.thumbnail = djvPixmapUtil::toQt(tmp);
         out.valid = true;
     }
-    catch (const djvError & error)
+    catch (const djvError &)
     {
         //for (int i = 0; i < error.messages().count(); ++i)
         //    DJV_DEBUG_PRINT("error = " << error.messages()[i].string);

@@ -44,7 +44,7 @@
 //! This class provides an information tool.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewInfoTool : public djvViewAbstractTool
+class djvViewInfoTool : public djvViewAbstractTool
 {
     Q_OBJECT
     

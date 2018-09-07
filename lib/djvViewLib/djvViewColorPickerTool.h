@@ -48,7 +48,7 @@ class djvColor;
 //! This class provides a color picker tool.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewColorPickerTool : public djvViewAbstractTool
+class djvViewColorPickerTool : public djvViewAbstractTool
 {
     Q_OBJECT
     

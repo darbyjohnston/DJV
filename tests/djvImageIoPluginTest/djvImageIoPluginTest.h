@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvImageIoPluginTestExport.h>
+#include <djvImageIoPluginTest.h>
 
 #include <djvAbstractTest.h>
 
@@ -49,7 +49,7 @@
 
 class djvImageContext;
 
-class DJV_IMAGE_IO_PLUGIN_TEST_EXPORT djvImageIoPluginTest : public djvAbstractTest
+class djvImageIoPluginTest : public djvAbstractTest
 {
 public:
 

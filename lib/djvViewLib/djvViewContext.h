@@ -61,7 +61,7 @@ class djvViewWindowPrefs;
 //! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewContext : public djvGuiContext
+class djvViewContext : public djvGuiContext
 {
     Q_OBJECT
     

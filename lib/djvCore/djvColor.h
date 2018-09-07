@@ -44,7 +44,7 @@
 //! This class provides a color.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvColor
+class djvColor
 {
 public:
     djvColor();
@@ -116,11 +116,11 @@ private:
 
 Q_DECLARE_METATYPE(djvColor)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColor);
+DJV_COMPARISON_OPERATOR(djvColor);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColor);
+DJV_STRING_OPERATOR(djvColor);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColor);
+DJV_DEBUG_OPERATOR(djvColor);
 
 //@} // djvCoreImage
 

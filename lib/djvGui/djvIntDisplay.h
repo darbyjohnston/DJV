@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -48,7 +48,7 @@
 //! This class provides a widget for displaying an integer.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvIntDisplay : public QWidget
+class djvIntDisplay : public QWidget
 {
     Q_OBJECT
     

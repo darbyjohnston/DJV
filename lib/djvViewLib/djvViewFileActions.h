@@ -44,7 +44,7 @@
 //! This class provides the file group actions.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileActions : public djvViewAbstractActions
+class djvViewFileActions : public djvViewAbstractActions
 {
     Q_OBJECT
     Q_ENUMS(ACTION)

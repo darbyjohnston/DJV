@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvTime.h>
 
@@ -46,7 +46,7 @@
 //! This class provides time preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvTimePrefs : public QObject
+class djvTimePrefs : public QObject
 {
     Q_OBJECT
     

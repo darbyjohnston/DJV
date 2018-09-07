@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 //! \addtogroup djvCoreMisc
 //@{
@@ -43,9 +42,9 @@
     class & operator = (const class &);
 
 //! This macro provides comparison operators.
-#define DJV_COMPARISON_OPERATOR(EXPORT, TYPE) \
-    EXPORT bool operator == (const TYPE &, const TYPE &); \
-    EXPORT bool operator != (const TYPE &, const TYPE &)
+#define DJV_COMPARISON_OPERATOR(TYPE) \
+    bool operator == (const TYPE &, const TYPE &); \
+    bool operator != (const TYPE &, const TYPE &)
 
 //@} // djvCoreMisc
 

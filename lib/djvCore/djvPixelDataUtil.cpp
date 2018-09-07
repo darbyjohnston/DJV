@@ -121,8 +121,8 @@ void djvPixelDataUtil::proxyScale(
                 const int wordSize = djvPixel::byteCount(in.pixel());
                 //DJV_DEBUG_PRINT("endian size = " << size);
                 //DJV_DEBUG_PRINT("endian word size = " << wordSize);
-                djvMemory::convertEndian(inP, &tmp.front(), size, wordSize);
-                inP = &tmp.front();
+                djvMemory::convertEndian(inP, tmp.data(), size, wordSize);
+                inP = tmp.data();
             }
             
             //DJV_DEBUG_PRINT("convert");

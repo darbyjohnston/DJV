@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -48,7 +48,7 @@
 //! This class provides a notice dialog.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvNoticeDialog : public QDialog
+class djvNoticeDialog : public QDialog
 {
 public:
     explicit djvNoticeDialog(

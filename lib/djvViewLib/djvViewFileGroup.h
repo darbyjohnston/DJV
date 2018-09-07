@@ -53,7 +53,7 @@ class QAction;
 //! options used when loading files, etc.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileGroup : public djvViewAbstractGroup
+class djvViewFileGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

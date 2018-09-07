@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QObject>
 
@@ -44,7 +44,7 @@
 //! This class provides the base functionality for integer widgets.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvIntObject : public QObject
+class djvIntObject : public QObject
 {
     Q_OBJECT
     

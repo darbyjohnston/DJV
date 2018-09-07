@@ -46,7 +46,7 @@
 //! This class provides a log for debugging.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvDebugLog : public QObject
+class djvDebugLog : public QObject
 {
     Q_OBJECT
     

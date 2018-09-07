@@ -44,7 +44,7 @@
 //! This class provides a tool button.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvToolButton : public djvAbstractToolButton
+class djvToolButton : public djvAbstractToolButton
 {
     Q_OBJECT
     

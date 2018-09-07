@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -51,7 +51,7 @@ class QStringList;
 //! This class provides preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvPrefs
+class djvPrefs
 {
     Q_GADGET
     Q_ENUMS(SCOPE)

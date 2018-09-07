@@ -43,7 +43,7 @@
 //! This class provides number range utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvRangeUtil
+class djvRangeUtil
 {
 public:
     inline virtual ~djvRangeUtil() = 0;

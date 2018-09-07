@@ -135,8 +135,8 @@ struct djvPpm
     };
 };
 
-DJV_STRING_OPERATOR(, djvPpm::TYPE);
-DJV_STRING_OPERATOR(, djvPpm::DATA);
+DJV_STRING_OPERATOR(djvPpm::TYPE);
+DJV_STRING_OPERATOR(djvPpm::DATA);
 
 //@} // djvPpmPlugin
 

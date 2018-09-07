@@ -1,6 +1,5 @@
 set(header
-    djvImageIoPluginTest.h
-    djvImageIoPluginTestExport.h)
+    djvImageIoPluginTest.h)
 
 set(source
     djvImageIoPluginTest.cpp)

@@ -50,7 +50,7 @@ class djvGuiContext;
 //! This class provides a widget for configuring keyboard shorcuts.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvShortcutsWidget : public QWidget
+class djvShortcutsWidget : public QWidget
 {
     Q_OBJECT
     

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvFileInfo.h>
 #include <djvImageIo.h>
@@ -66,7 +66,7 @@ struct djvFileBrowserCacheItem
 //! This class provides a file browser thumbnail cache.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserCache :
+class djvFileBrowserCache :
     public QCache<djvFileInfo, djvFileBrowserCacheItem>
 {};
 

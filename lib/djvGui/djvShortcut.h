@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QKeySequence>
 #include <QVector>
@@ -45,7 +45,7 @@
 //! This struct provides a keyboard shortcut.
 //------------------------------------------------------------------------------
 
-struct DJV_GUI_EXPORT djvShortcut
+struct djvShortcut
 {
     djvShortcut(
         const QString &      name  = QString(),

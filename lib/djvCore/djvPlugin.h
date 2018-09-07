@@ -56,7 +56,7 @@ class djvCoreContext;
 //! \todo Document the plugin naming conventions.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPlugin
+class djvPlugin
 {
 public:
     djvPlugin(djvCoreContext *);
@@ -84,7 +84,7 @@ private:
 //! This class provides the base functionality for plugin factories.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPluginFactory : public QObject
+class djvPluginFactory : public QObject
 {
     Q_OBJECT
     
@@ -108,6 +108,9 @@ public:
     //! Get the list of plugin names.
     QStringList names() const;
     
+    //! Add a plugin.
+    void addPlugin(djvPlugin *);
+
     //! This enumeration provides error codes.
     enum ERROR
     {

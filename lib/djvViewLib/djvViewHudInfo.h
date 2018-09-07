@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvImageTags.h>
 #include <djvPixelData.h>
@@ -46,7 +46,7 @@
 //! This struct provides HUD information.
 //------------------------------------------------------------------------------
 
-struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
+struct djvViewHudInfo
 {
     djvViewHudInfo() :
         frame        (0),
@@ -63,7 +63,7 @@ struct DJV_VIEW_LIB_EXPORT djvViewHudInfo
     QVector<bool>    visible;
 };
 
-DJV_COMPARISON_OPERATOR(DJV_VIEW_LIB_EXPORT, djvViewHudInfo);
+DJV_COMPARISON_OPERATOR(djvViewHudInfo);
 
 //@} // djvViewView
 

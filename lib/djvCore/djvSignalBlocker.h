@@ -45,7 +45,7 @@
 //! This class provides functionality to temporarily block QObject signals.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSignalBlocker
+class djvSignalBlocker
 {
 public:
     djvSignalBlocker(QObject *);

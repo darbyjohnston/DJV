@@ -46,7 +46,7 @@ struct djvShortcut;
 //! This class provides the keyboard shortcut preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewShortcutPrefsWidget :
+class djvViewShortcutPrefsWidget :
     public djvViewAbstractPrefsWidget
 {
     Q_OBJECT

@@ -49,7 +49,7 @@ class QActionGroup;
 //! the QActionGroup associated with the button.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvChoiceButton : public djvAbstractToolButton
+class djvChoiceButton : public djvAbstractToolButton
 {
     Q_OBJECT
     

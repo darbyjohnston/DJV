@@ -46,7 +46,7 @@
 //! This class provides the file group preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFilePrefsWidget :
+class djvViewFilePrefsWidget :
     public djvViewAbstractPrefsWidget
 {
     Q_OBJECT

@@ -31,8 +31,8 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvDpxPlugin
     ${CMAKE_SOURCE_DIR}/plugins/djvCineonPlugin
     ${djvGuiIncludeDirs})
-add_library(djvDpxPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvDpxWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvDpxPlugin ${header} ${source} ${qmSource})
+add_library(djvDpxWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvDpxPlugin ${djvCoreLibs})
 target_link_libraries(djvDpxWidgetPlugin ${djvGuiLibs})
 

@@ -1,5 +1,5 @@
 set(header
-    djvGuiTestExport.h
+    djvGuiTest.h
     djvGuiTest.h
     djvPixmapUtilTest.h)    
 

@@ -187,9 +187,9 @@ bool operator != (const djvCineon::LinearToFilmPrint &,
 bool operator != (const djvCineon::FilmPrintToLinear &,
     const djvCineon::FilmPrintToLinear &);
 
-DJV_STRING_OPERATOR(, djvCineon::LinearToFilmPrint);
-DJV_STRING_OPERATOR(, djvCineon::FilmPrintToLinear);
-DJV_STRING_OPERATOR(, djvCineon::COLOR_PROFILE);
+DJV_STRING_OPERATOR(djvCineon::LinearToFilmPrint);
+DJV_STRING_OPERATOR(djvCineon::FilmPrintToLinear);
+DJV_STRING_OPERATOR(djvCineon::COLOR_PROFILE);
 
 //@} // djvCineonPlugin
 

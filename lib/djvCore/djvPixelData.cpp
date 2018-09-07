@@ -152,7 +152,7 @@ djvPixelData::~djvPixelData()
 void djvPixelData::zero()
 {
     //DJV_DEBUG("djvPixelData::zero");
-    memset(&_data.front(), 0, _dataByteCount);
+    memset(_data.data(), 0, _dataByteCount);
 }
 
 void djvPixelData::close()
@@ -186,8 +186,8 @@ void djvPixelData::detach()
     if (_fileIo)
     {
         _data.resize(_dataByteCount);
-        memcpy(&_data.front(), _p, _dataByteCount);
-        _p = &_data.front();
+        memcpy(_data.data(), _p, _dataByteCount);
+        _p = _data.data();
         delete _fileIo;
         _fileIo = 0;
     }
@@ -227,7 +227,7 @@ void djvPixelData::set(
         {
             _data.resize(_dataByteCount);
             _p = _data.data();
-            memcpy(&_data.front(), p, _dataByteCount);
+            memcpy(_data.data(), p, _dataByteCount);
         }
     }
     else
@@ -240,7 +240,7 @@ void djvPixelData::set(
 void djvPixelData::copy(const djvPixelData & in)
 {
     set(in._info);    
-    memcpy(&_data.front(), in._p, _dataByteCount);
+    memcpy(_data.data(), in._p, _dataByteCount);
 }
 
 bool operator == (const djvPixelDataInfo::Mirror & a,

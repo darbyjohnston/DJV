@@ -67,8 +67,8 @@ void shaderCompile(GLuint id, const QString & source)
     //DJV_DEBUG("shaderCompile");
     //DJV_DEBUG_PRINT("source = " << source);
     std::vector<char> buf(source.length());
-    memcpy(&buf.front(), source.toLatin1().data(), buf.size());
-    const char * sources       [] = { &buf.front() };
+    memcpy(buf.data(), source.toLatin1().data(), buf.size());
+    const char * sources       [] = { buf.data() };
     const GLint  sourceLengths [] = { static_cast<GLint>(buf.size()) };
     DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
     DJV_DEBUG_OPEN_GL(glCompileShader(id));

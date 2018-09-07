@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvColor.h>
 
@@ -48,7 +48,7 @@ class djvGuiContext;
 //! This class provides a basic color swatch widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvColorSwatch : public QWidget
+class djvColorSwatch : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(SWATCH_SIZE)

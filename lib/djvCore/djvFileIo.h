@@ -48,7 +48,7 @@
 //! This class provides file I/O.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvFileIo
+class djvFileIo
 {
     Q_GADGET
     Q_ENUMS(MODE)

@@ -46,7 +46,7 @@
 //! This class provides an image preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImagePrefsWidget : public djvAbstractPrefsWidget
+class djvImagePrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
 

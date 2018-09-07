@@ -47,7 +47,7 @@ class QAction;
 //! functionality relating to help.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewHelpGroup : public djvViewAbstractGroup
+class djvViewHelpGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

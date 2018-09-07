@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvTime.h>
 
@@ -48,7 +48,7 @@ class djvGuiContext;
 //! This class provides image I/O preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImageIoPrefs : public QObject
+class djvImageIoPrefs : public QObject
 {
     Q_OBJECT
     

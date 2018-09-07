@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvUtil.h>
 
@@ -48,7 +48,7 @@ class djvViewContext;
 //! This class provides the base functionality for group preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewAbstractPrefs : public QObject
+class djvViewAbstractPrefs : public QObject
 {
     Q_OBJECT
 

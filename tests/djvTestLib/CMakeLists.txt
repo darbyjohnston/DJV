@@ -1,6 +1,6 @@
 set(header
     djvAbstractTest.h
-    djvTestLibExport.h)
+    djvTestLib.h)
 
 set(mocHeader
     djvAbstractTest.h)

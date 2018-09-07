@@ -27,8 +27,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvCineonPlugin
     ${djvGuiIncludeDirs})
-add_library(djvCineonPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvCineonWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvCineonPlugin ${header} ${source} ${qmSource})
+add_library(djvCineonWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvCineonPlugin ${djvCoreLibs})
 target_link_libraries(djvCineonWidgetPlugin ${djvGuiLibs})
 

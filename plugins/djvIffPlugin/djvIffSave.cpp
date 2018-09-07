@@ -193,7 +193,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
             // Set bytes.
             std::vector<quint8> tile(tileLength);
-            quint8 * outP = &tile.front();
+            quint8 * outP = tile.data();
 
             // Handle 8-bit data.
             if (p->info().pixel == djvPixel::RGB_U8 ||
@@ -211,7 +211,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                     for (int c = (channels * channelByteCount) - 1; c >= 0; --c)
                     {
                         std::vector<quint8> in(tw * th);
-                        quint8 * inP = &in.front();
+                        quint8 * inP = in.data();
 
                         // Data.
                         for (quint16 py = ymin; py <= ymax; py++)
@@ -230,14 +230,14 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         }
 
                         // Compress
-                        size = djvIff::writeRle(&in.front(), &tmp.front() + index, tw * th);
+                        size = djvIff::writeRle(in.data(), tmp.data() + index, tw * th);
                         index += size;
                     }
 
                     // If size exceeds tile length use uncompressed.
                     if (index < tileLength)
                     {
-                        memcpy(&tile.front(), &tmp.front(), index);
+                        memcpy(tile.data(), tmp.data(), index);
 
                         // Set tile length.
                         tileLength = index;
@@ -250,7 +250,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
                         if (align > length)
                         {
-                            outP = &tile.front() + index;
+                            outP = tile.data() + index;
 
                             // Pad.
                             for (int i = 0;
@@ -341,7 +341,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                     {
                         int mc = map[c];
                         std::vector<quint8> in(tw * th);
-                        quint8 * inP = &in.front();
+                        quint8 * inP = in.data();
 
                         // Data.
                         for (quint16 py = ymin; py <= ymax; py++)
@@ -360,14 +360,14 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
                         }
 
                         // Compress
-                        size = djvIff::writeRle(&in.front(), &tmp.front() + index, tw * th);
+                        size = djvIff::writeRle(in.data(), tmp.data() + index, tw * th);
                         index += size;
                     }
 
                     // If size exceeds tile length use uncompressed.
                     if (index < tileLength)
                     {
-                        memcpy(&tile.front(), &tmp.front(), index);
+                        memcpy(tile.data(), tmp.data(), index);
 
                         // Set tile length.
                         tileLength = index;
@@ -380,7 +380,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
 
                         if (align > length)
                         {
-                            outP = &tile.front() + index;
+                            outP = tile.data() + index;
 
                             // Pad.
                             for (
@@ -442,7 +442,7 @@ void djvIffSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
             io.setU16(ymax);
 
             // Write.
-            io.set(&tile.front(), tileLength);
+            io.set(tile.data(), tileLength);
         }
     }
 

@@ -365,7 +365,7 @@ void djvFileIo::set(const void * in, quint64 size, int wordSize) throw (djvError
     if (_p->endian && wordSize > 1)
     {
         tmp.resize(size * wordSize);
-        p = &tmp.front();
+        p = tmp.data();
         djvMemory::convertEndian(in, p, size, wordSize);
     }
 

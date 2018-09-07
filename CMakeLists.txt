@@ -42,7 +42,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${djvBuildDir}/bin)
 set(djvBuildArch x64)
 add_definitions(-DDJV_MMAP)
 add_definitions(-DDJV_ASSERT)
-set(BUILD_SHARED_LIBS true)
+set(BUILD_SHARED_LIBS OFF)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Set the configuration file.
@@ -99,15 +99,15 @@ set(djvThirdPartyPackage true)
 
 find_package(OpenGL REQUIRED)
 
-set(ZLIB_SHARED_LIBS ON)
-set(GLBINDING_SHARED_LIBS ON)
+set(ZLIB_SHARED_LIBS OFF)
+set(GLBINDING_SHARED_LIBS OFF)
 set(GLM_SHARED_LIBS ON)
 set(OPENAL_SHARED_LIBS ON)
-set(JPEG_SHARED_LIBS ON)
-set(TIFF_SHARED_LIBS ON)
-set(PNG_SHARED_LIBS ON)
-set(ILMBASE_SHARED_LIBS ON)
-set(OPENEXR_SHARED_LIBS ON)
+set(JPEG_SHARED_LIBS OFF)
+set(TIFF_SHARED_LIBS OFF)
+set(PNG_SHARED_LIBS OFF)
+set(ILMBASE_SHARED_LIBS OFF)
+set(OPENEXR_SHARED_LIBS OFF)
 set(FFMPEG_SHARED_LIBS ON)
 set(QT_SHARED_LIBS ON)
 
@@ -120,7 +120,7 @@ find_package(JPEG)
 find_package(PNG)
 find_package(TIFF)
 find_package(OpenEXR)
-find_package(FFmpeg)
+#find_package(FFmpeg)
 
 #-------------------------------------------------------------------------------
 # Dependencies
@@ -155,12 +155,14 @@ endif()
 
 set(djvCoreIncludeDirs
     ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_SOURCE_DIR}/plugins/djvJpegPlugin
+    ${CMAKE_SOURCE_DIR}/plugins/djvPngPlugin
     ${CMAKE_BINARY_DIR}
     ${OPENGL_INCLUDE_DIRS})
 set(djvCoreDeps
     Qt5
     OpenAL
-    IlmBase
+    IlmBase_static
     glbinding
     GLM
     ${OPENGL_LIBRARIES}
@@ -176,7 +178,7 @@ set(djvGuiDeps
     djvCore
     Qt5
     OpenAL
-    IlmBase
+    IlmBase_static
     glbinding
     GLM
     ${OPENGL_LIBRARIES}

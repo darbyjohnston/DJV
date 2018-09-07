@@ -48,7 +48,7 @@ class QAction;
 //! histogram display.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewToolGroup : public djvViewAbstractGroup
+class djvViewToolGroup : public djvViewAbstractGroup
 {
     Q_OBJECT
     

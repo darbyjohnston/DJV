@@ -46,7 +46,7 @@
 //! This class provides a time preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvTimePrefsWidget : public djvAbstractPrefsWidget
+class djvTimePrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
     

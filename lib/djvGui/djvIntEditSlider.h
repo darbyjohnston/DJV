@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -51,7 +51,7 @@ class djvIntObject;
 //! This class provides an integer slider and edit widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvIntEditSlider : public QWidget
+class djvIntEditSlider : public QWidget
 {
     Q_OBJECT
     

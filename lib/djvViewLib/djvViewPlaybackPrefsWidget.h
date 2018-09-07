@@ -44,7 +44,7 @@
 //! This class provides the playback group preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewPlaybackPrefsWidget :
+class djvViewPlaybackPrefsWidget :
     public djvViewAbstractPrefsWidget
 {
     Q_OBJECT

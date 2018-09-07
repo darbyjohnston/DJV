@@ -49,7 +49,7 @@
 //! This class provides the keyboard shortcut preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewShortcutPrefs : public djvViewAbstractPrefs
+class djvViewShortcutPrefs : public djvViewAbstractPrefs
 {
     Q_OBJECT
     

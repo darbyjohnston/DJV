@@ -1,5 +1,5 @@
 set(header
-    djvViewLibTestExport.h)
+    djvViewLibTest.h)
 
 set(source
     djvViewLibTest.cpp)

@@ -47,7 +47,7 @@
 //! This class provides the file group preferences.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFilePrefs : public djvViewAbstractPrefs
+class djvViewFilePrefs : public djvViewAbstractPrefs
 {
     Q_OBJECT
     

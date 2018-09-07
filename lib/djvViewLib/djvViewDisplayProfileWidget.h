@@ -51,7 +51,7 @@ class djvViewImageView;
 //! This class provides a display profile widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewDisplayProfileWidget : public QWidget
+class djvViewDisplayProfileWidget : public QWidget
 {
     Q_OBJECT
     

@@ -42,7 +42,7 @@
 //! This class provides sequence utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvSequenceUtil
+class djvSequenceUtil
 {
 public:
     virtual ~djvSequenceUtil() = 0;

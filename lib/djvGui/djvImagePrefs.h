@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvOpenGlImage.h>
 
@@ -46,7 +46,7 @@
 //! This class provides image preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImagePrefs : public QObject
+class djvImagePrefs : public QObject
 {
     Q_OBJECT
     

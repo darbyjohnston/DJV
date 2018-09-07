@@ -52,7 +52,7 @@ class djvFileIo;
 //! This class provides pixel data information.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPixelDataInfo
+class djvPixelDataInfo
 {
     Q_GADGET
     Q_ENUMS(PROXY)
@@ -91,7 +91,7 @@ public:
     static const QStringList & proxyLabels();
     
     //! This struct provides mirroring.
-    struct DJV_CORE_EXPORT Mirror
+    struct Mirror
     {
         Mirror();
         Mirror(bool x, bool y);
@@ -120,7 +120,7 @@ private:
 //! This class provides pixel data.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPixelData
+class djvPixelData
 {
 public:
     djvPixelData();
@@ -203,17 +203,17 @@ private:
 Q_DECLARE_METATYPE(djvPixelDataInfo)
 Q_DECLARE_METATYPE(djvPixelData)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvPixelData);
+DJV_COMPARISON_OPERATOR(djvPixelDataInfo::Mirror);
+DJV_COMPARISON_OPERATOR(djvPixelDataInfo);
+DJV_COMPARISON_OPERATOR(djvPixelData);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::PROXY);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
+DJV_STRING_OPERATOR(djvPixelDataInfo::PROXY);
+DJV_STRING_OPERATOR(djvPixelDataInfo::Mirror);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::PROXY);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo::Mirror);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelDataInfo);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvPixelData);
+DJV_DEBUG_OPERATOR(djvPixelDataInfo::PROXY);
+DJV_DEBUG_OPERATOR(djvPixelDataInfo::Mirror);
+DJV_DEBUG_OPERATOR(djvPixelDataInfo);
+DJV_DEBUG_OPERATOR(djvPixelData);
 
 //@} // djvCoreImage
 

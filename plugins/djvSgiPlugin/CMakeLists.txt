@@ -25,8 +25,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvSgiPlugin
     ${djvGuiIncludeDirs})
-add_library(djvSgiPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvSgiWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvSgiPlugin ${header} ${source} ${qmSource})
+add_library(djvSgiWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvSgiPlugin ${djvCoreLibs})
 target_link_libraries(djvSgiWidgetPlugin ${djvGuiLibs})
 

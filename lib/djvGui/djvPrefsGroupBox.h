@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -52,7 +52,7 @@ class QFormLayout;
 //! This class provides a group box for preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvPrefsGroupBox : public QWidget
+class djvPrefsGroupBox : public QWidget
 {
     Q_OBJECT
     

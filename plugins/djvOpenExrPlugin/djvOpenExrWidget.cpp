@@ -96,7 +96,7 @@ djvOpenExrWidget::djvOpenExrWidget(djvImageIo * plugin, djvGuiContext * context)
         QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     _inputGammaWidget = new djvFloatEditSlider(context);
-    _inputGammaWidget->setRange(0.1, 4.f);
+    _inputGammaWidget->setRange(.1f, 4.f);
 
     _inputExposureWidget = new djvFloatEditSlider(context);
     _inputExposureWidget->setRange(-10.f, 10.f);

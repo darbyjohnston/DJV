@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvSequence.h>
 #include <djvUtil.h>
@@ -53,7 +53,7 @@ class djvImage;
 //! This class provides a file cache reference.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileCacheItem
+class djvViewFileCacheItem
 {
 public:
     //! Constructor.
@@ -105,7 +105,7 @@ typedef QVector<djvViewFileCacheItem *> djvViewFileCacheItemList;
 //! This class provides the file cache.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFileCache : public QObject
+class djvViewFileCache : public QObject
 {
     Q_OBJECT
     

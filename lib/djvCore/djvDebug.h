@@ -49,7 +49,7 @@ class QStringList;
 //! This class provides debugging messages.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvDebug
+class djvDebug
 {
 public:
     djvDebug(const QString & prefix, const QString &);
@@ -95,19 +95,19 @@ private:
     _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
 
 //! Convenience macro for declaring debugging operators.
-#define DJV_DEBUG_OPERATOR(EXPORT, TYPE) \
-    EXPORT djvDebug & operator << (djvDebug &, const TYPE &)
+#define DJV_DEBUG_OPERATOR(TYPE) \
+    djvDebug & operator << (djvDebug &, const TYPE &)
 
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, const char *);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, bool);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, unsigned int);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, qint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, quint64);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, float);
-DJV_CORE_EXPORT djvDebug & operator << (djvDebug &, double);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QString);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, QStringList);
+djvDebug & operator << (djvDebug &, const char *);
+djvDebug & operator << (djvDebug &, bool);
+djvDebug & operator << (djvDebug &, int);
+djvDebug & operator << (djvDebug &, unsigned int);
+djvDebug & operator << (djvDebug &, qint64);
+djvDebug & operator << (djvDebug &, quint64);
+djvDebug & operator << (djvDebug &, float);
+djvDebug & operator << (djvDebug &, double);
+DJV_DEBUG_OPERATOR(QString);
+DJV_DEBUG_OPERATOR(QStringList);
 template<class T>
 inline djvDebug & operator << (djvDebug &, const QVector<T> &);
 

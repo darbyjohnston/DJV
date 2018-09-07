@@ -46,7 +46,7 @@
 //! This class provides a sequence preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvSequencePrefsWidget : public djvAbstractPrefsWidget
+class djvSequencePrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
     

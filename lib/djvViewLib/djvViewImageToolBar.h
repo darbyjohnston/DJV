@@ -44,7 +44,7 @@
 //! This class provides the image group tool bar.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewImageToolBar : public djvViewAbstractToolBar
+class djvViewImageToolBar : public djvViewAbstractToolBar
 {
     Q_OBJECT
     

@@ -245,7 +245,7 @@ void djvRlaLoad::_open(const QString & in, djvImageIoInfo & info, djvFileIo & io
 
     // Read the scanline table.
     _rleOffset.resize(h);
-    io.get32(&_rleOffset.front(), h);
+    io.get32(_rleOffset.data(), h);
 
     // Get file information.
     const glm::ivec2 size(w, h);

@@ -59,7 +59,7 @@ class djvOpenGlShader;
 //! This class provides OpenGL image transform options.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageXform
+class djvOpenGlImageXform
 {
 public:
     djvPixelDataInfo::Mirror mirror;
@@ -77,7 +77,7 @@ public:
 //! This class provides OpenGL image color options.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageColor
+class djvOpenGlImageColor
 {
 public:
     float brightness = 1.f;
@@ -103,7 +103,7 @@ public:
 //! This class provides OpenGL image color levels options.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageLevels
+class djvOpenGlImageLevels
 {
 public:
     float inLow   = 0.f;
@@ -122,7 +122,7 @@ public:
 //! This class provides OpenGL image display profile options.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageDisplayProfile
+class djvOpenGlImageDisplayProfile
 {
 public:
     djvPixelData         lut;
@@ -137,7 +137,7 @@ public:
 //! This class provides OpenGL image filtering options.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageFilter
+class djvOpenGlImageFilter
 {
     Q_GADGET
     Q_ENUMS(FILTER)
@@ -190,7 +190,7 @@ public:
 //! This class provides OpenGL image options.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageOptions
+class djvOpenGlImageOptions
 {
     Q_GADGET
     Q_ENUMS(CHANNEL)
@@ -226,7 +226,7 @@ public:
 //! This class provides OpenGL image state.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImageState
+class djvOpenGlImageState
 {
 public:
     djvOpenGlImageState();
@@ -256,7 +256,7 @@ private:
 //! This class provides OpenGL image utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvOpenGlImage
+class djvOpenGlImage
 {
 public:
     virtual ~djvOpenGlImage() = 0;
@@ -329,28 +329,28 @@ public:
     static const QStringList & errorLabels();
 };
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageLevels);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageDisplayProfile);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions);
+DJV_COMPARISON_OPERATOR(djvOpenGlImageXform);
+DJV_COMPARISON_OPERATOR(djvOpenGlImageColor);
+DJV_COMPARISON_OPERATOR(djvOpenGlImageLevels);
+DJV_COMPARISON_OPERATOR(djvOpenGlImageDisplayProfile);
+DJV_COMPARISON_OPERATOR(djvOpenGlImageFilter);
+DJV_COMPARISON_OPERATOR(djvOpenGlImageOptions);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageLevels);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter::FILTER);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions::CHANNEL);
+DJV_STRING_OPERATOR(djvOpenGlImageXform);
+DJV_STRING_OPERATOR(djvOpenGlImageColor);
+DJV_STRING_OPERATOR(djvOpenGlImageLevels);
+DJV_STRING_OPERATOR(djvOpenGlImageFilter);
+DJV_STRING_OPERATOR(djvOpenGlImageFilter::FILTER);
+DJV_STRING_OPERATOR(djvOpenGlImageOptions::CHANNEL);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageXform);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageColor);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageLevels);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageDisplayProfile);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageFilter::FILTER);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvOpenGlImageOptions::CHANNEL);
+DJV_DEBUG_OPERATOR(djvOpenGlImageXform);
+DJV_DEBUG_OPERATOR(djvOpenGlImageColor);
+DJV_DEBUG_OPERATOR(djvOpenGlImageLevels);
+DJV_DEBUG_OPERATOR(djvOpenGlImageDisplayProfile);
+DJV_DEBUG_OPERATOR(djvOpenGlImageFilter);
+DJV_DEBUG_OPERATOR(djvOpenGlImageFilter::FILTER);
+DJV_DEBUG_OPERATOR(djvOpenGlImageOptions);
+DJV_DEBUG_OPERATOR(djvOpenGlImageOptions::CHANNEL);
 
 //@} // djvCoreOpenGL
 

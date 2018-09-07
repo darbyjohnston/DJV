@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QShortcut>
 
@@ -44,7 +44,7 @@
 //! This class provides a Qt shortcut with an index.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvIndexShortcut : public QShortcut
+class djvIndexShortcut : public QShortcut
 {
     Q_OBJECT
     

@@ -47,10 +47,10 @@
 djvMath::~djvMath()
 {}
 
-const float djvMath::pi     = 3.1415927;
-const float djvMath::piX2   = 6.2831853;
-const float djvMath::piDiv2 = 1.5707963;
-const float djvMath::piDiv4 = 0.7853981;
+const float djvMath::pi     = 3.1415927f;
+const float djvMath::piX2   = 6.2831853f;
+const float djvMath::piDiv2 = 1.5707963f;
+const float djvMath::piDiv4 = 0.7853981f;
 
 int djvMath::pow(int value, int power)
 {

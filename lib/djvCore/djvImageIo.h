@@ -60,7 +60,7 @@ class djvImageContext;
 //! This class provides image I/O information.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageIoInfo : public djvPixelDataInfo
+class djvImageIoInfo : public djvPixelDataInfo
 {
 public:
     djvImageIoInfo();
@@ -98,7 +98,7 @@ private:
 //! This struct provides image I/O frame information.
 //------------------------------------------------------------------------------
 
-struct DJV_CORE_EXPORT djvImageIoFrameInfo
+struct djvImageIoFrameInfo
 {
     djvImageIoFrameInfo();
     djvImageIoFrameInfo(
@@ -125,7 +125,7 @@ struct DJV_CORE_EXPORT djvImageIoFrameInfo
 //! OpenGL functionality, debug logging, etc.).
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageLoad
+class djvImageLoad
 {
 public:
     explicit djvImageLoad(djvImageContext *);
@@ -160,7 +160,7 @@ private:
 //! This class provides the base functionality for image saving.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageSave
+class djvImageSave
 {
 public:
     explicit djvImageSave(djvImageContext *);
@@ -195,7 +195,7 @@ private:
 //! This class provides the base functionality for image I/O plugins.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageIo : public QObject, public djvPlugin
+class djvImageIo : public QObject, public djvPlugin
 {
     Q_OBJECT
     
@@ -260,7 +260,7 @@ Q_SIGNALS:
 //! This class provides a factory for image I/O plugins.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvImageIoFactory : public djvPluginFactory
+class djvImageIoFactory : public djvPluginFactory
 {
     Q_OBJECT
     
@@ -317,11 +317,11 @@ private:
 Q_DECLARE_METATYPE(djvImageIoInfo)
 Q_DECLARE_METATYPE(djvImageIoFrameInfo)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageIoInfo);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvImageIoFrameInfo);
+DJV_COMPARISON_OPERATOR(djvImageIoInfo);
+DJV_COMPARISON_OPERATOR(djvImageIoFrameInfo);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageIoInfo);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvImageIoFrameInfo);
+DJV_DEBUG_OPERATOR(djvImageIoInfo);
+DJV_DEBUG_OPERATOR(djvImageIoFrameInfo);
 
 //@} // djvCoreImage
 

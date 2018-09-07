@@ -51,7 +51,7 @@ struct djvViewHudInfo;
 //! This class provides an image view widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewImageView : public djvImageView
+class djvViewImageView : public djvImageView
 {
     Q_OBJECT
     

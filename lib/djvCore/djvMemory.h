@@ -44,7 +44,7 @@
 //! This class provides memory utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvMemory
+class djvMemory
 {
     Q_GADGET
     Q_ENUMS(ENDIAN)
@@ -97,7 +97,7 @@ public:
         int          wordSize);
 };
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvMemory::ENDIAN);
+DJV_STRING_OPERATOR(djvMemory::ENDIAN);
 
 //@} // djvCoreMisc
 

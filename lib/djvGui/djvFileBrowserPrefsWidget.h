@@ -50,7 +50,7 @@ class QListWidgetItem;
 //! This class provides a file browser preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
+class djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
 {
     Q_OBJECT
     

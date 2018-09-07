@@ -25,8 +25,8 @@ QT5_CREATE_TRANSLATION(qmSource ${source} ${widgetSource}
 include_directories(
     ${CMAKE_SOURCE_DIR}/plugins/djvPpmPlugin
     ${djvGuiIncludeDirs})
-add_library(djvPpmPlugin MODULE ${header} ${source} ${qmSource})
-add_library(djvPpmWidgetPlugin MODULE ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
+add_library(djvPpmPlugin ${header} ${source} ${qmSource})
+add_library(djvPpmWidgetPlugin ${widgetHeader} ${widgetSource} ${widgetMocSource} ${qmSource})
 target_link_libraries(djvPpmPlugin ${djvCoreLibs})
 target_link_libraries(djvPpmWidgetPlugin ${djvGuiLibs})
 

@@ -44,7 +44,7 @@
 //! This class provides a color profile.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvColorProfile
+class djvColorProfile
 {
     Q_GADGET
     Q_ENUMS(PROFILE)
@@ -54,7 +54,7 @@ public:
     djvColorProfile();
     
     //! This struct provides exposure values.
-    struct DJV_CORE_EXPORT Exposure
+    struct Exposure
     {
         Exposure(
             float value    = 0.f,
@@ -90,15 +90,15 @@ public:
 
 Q_DECLARE_METATYPE(djvColorProfile)
 
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
-DJV_COMPARISON_OPERATOR(DJV_CORE_EXPORT, djvColorProfile);
+DJV_COMPARISON_OPERATOR(djvColorProfile::Exposure);
+DJV_COMPARISON_OPERATOR(djvColorProfile);
 
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
-DJV_STRING_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);
+DJV_STRING_OPERATOR(djvColorProfile::Exposure);
+DJV_STRING_OPERATOR(djvColorProfile::PROFILE);
 
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::Exposure);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile::PROFILE);
-DJV_DEBUG_OPERATOR(DJV_CORE_EXPORT, djvColorProfile);
+DJV_DEBUG_OPERATOR(djvColorProfile::Exposure);
+DJV_DEBUG_OPERATOR(djvColorProfile::PROFILE);
+DJV_DEBUG_OPERATOR(djvColorProfile);
 
 //@} // djvCoreImage
 

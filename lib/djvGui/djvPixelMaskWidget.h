@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvPixel.h>
 #include <djvUtil.h>
@@ -51,7 +51,7 @@ class djvGuiContext;
 //! This class provides a pixel mask widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvPixelMaskWidget : public QWidget
+class djvPixelMaskWidget : public QWidget
 {
     Q_OBJECT
     

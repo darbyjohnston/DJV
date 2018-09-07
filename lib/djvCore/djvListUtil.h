@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 #include <QVector>
 
@@ -45,7 +44,7 @@
 //! This class provides utilities for lists.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvListUtil
+class djvListUtil
 {
 public:
     inline virtual ~djvListUtil() = 0;

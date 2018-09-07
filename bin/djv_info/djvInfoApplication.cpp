@@ -304,7 +304,7 @@ void djvInfoApplication::printDirectory(const djvFileInfo & in, bool label)
         {
             printItem(items[i], _context->hasFilePath(), _context->hasInfo());
         }
-        catch (const djvError & error)
+        catch (const djvError &)
         {}
     }
     if (label)

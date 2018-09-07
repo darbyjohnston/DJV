@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 #include <djvFileInfo.h>
@@ -49,7 +49,7 @@ class djvGuiContext;
 //! This class provides a file browser model.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserModel : public QAbstractItemModel
+class djvFileBrowserModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_ENUMS(COLUMNS)
@@ -309,7 +309,7 @@ private:
     std::unique_ptr<Private> _p;
 };
 
-DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::COLUMNS);
-DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::THUMBNAILS);
-DJV_STRING_OPERATOR(DJV_GUI_EXPORT, djvFileBrowserModel::THUMBNAILS_SIZE);
+DJV_STRING_OPERATOR(djvFileBrowserModel::COLUMNS);
+DJV_STRING_OPERATOR(djvFileBrowserModel::THUMBNAILS);
+DJV_STRING_OPERATOR(djvFileBrowserModel::THUMBNAILS_SIZE);
 

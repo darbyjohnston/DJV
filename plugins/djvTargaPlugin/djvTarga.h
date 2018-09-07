@@ -128,7 +128,7 @@ struct djvTarga
     };
 };
 
-DJV_STRING_OPERATOR(, djvTarga::COMPRESSION);
+DJV_STRING_OPERATOR(djvTarga::COMPRESSION);
 
 //@} // djvTargaPlugin
 

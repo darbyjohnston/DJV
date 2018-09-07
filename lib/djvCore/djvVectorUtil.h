@@ -42,7 +42,7 @@
 //! This class provides vector utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvVectorUtil
+class djvVectorUtil
 {
 public:
     inline virtual ~djvVectorUtil() = 0;

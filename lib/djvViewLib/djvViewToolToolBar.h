@@ -44,7 +44,7 @@
 //! This class provides the tool group tool bar.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewToolToolBar : public djvViewAbstractToolBar
+class djvViewToolToolBar : public djvViewAbstractToolBar
 {
     Q_OBJECT
     

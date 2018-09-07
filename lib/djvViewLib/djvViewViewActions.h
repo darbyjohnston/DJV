@@ -44,7 +44,7 @@
 //! This class provides the view group actions.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewViewActions : public djvViewAbstractActions
+class djvViewViewActions : public djvViewAbstractActions
 {
     Q_OBJECT
     Q_ENUMS(ACTION)

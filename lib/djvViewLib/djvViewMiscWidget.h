@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvViewLibExport.h>
+#include <djvViewLib.h>
 
 #include <djvSequence.h>
 #include <djvSpeed.h>
@@ -54,7 +54,7 @@ class QAbstractButton;
 //! This class provides a cache size widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewCacheSizeWidget : public QWidget
+class djvViewCacheSizeWidget : public QWidget
 {
     Q_OBJECT
 
@@ -117,7 +117,7 @@ private:
 //! This class provides a frame number widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFrameWidget : public QAbstractSpinBox
+class djvViewFrameWidget : public QAbstractSpinBox
 {
     Q_OBJECT
 
@@ -195,7 +195,7 @@ private:
 //! This class provides a frame number slider.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFrameSlider : public QWidget
+class djvViewFrameSlider : public QWidget
 {
     Q_OBJECT
 
@@ -354,7 +354,7 @@ private:
 //! This class provides frame number display.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewFrameDisplay : public QWidget
+class djvViewFrameDisplay : public QWidget
 {
     Q_OBJECT
 
@@ -421,7 +421,7 @@ private:
 //! This class provides a speed button.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewSpeedButton : public QWidget
+class djvViewSpeedButton : public QWidget
 {
     Q_OBJECT
     
@@ -456,7 +456,7 @@ private:
 //! This class provides a speed widget.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewSpeedWidget : public QWidget
+class djvViewSpeedWidget : public QWidget
 {
     Q_OBJECT
 
@@ -513,7 +513,7 @@ private:
 //! This class provides a speed display.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewSpeedDisplay : public QWidget
+class djvViewSpeedDisplay : public QWidget
 {
     Q_OBJECT
     

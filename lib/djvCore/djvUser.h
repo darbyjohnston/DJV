@@ -32,7 +32,6 @@
 #pragma once
 
 #include <djvConfig.h>
-#include <djvCoreExport.h>
 
 #include <sys/types.h>
 
@@ -53,7 +52,7 @@ typedef int uid_t;
 //! This class provides user utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvUser
+class djvUser
 {
 public:
     virtual ~djvUser() = 0;

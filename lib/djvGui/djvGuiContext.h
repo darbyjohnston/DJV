@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvImageContext.h>
 #include <djvUtil.h>
@@ -64,7 +64,7 @@ class djvTimePrefs;
 //! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvGuiContext : public djvImageContext
+class djvGuiContext : public djvImageContext
 {
     Q_OBJECT
     

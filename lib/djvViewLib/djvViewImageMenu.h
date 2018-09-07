@@ -44,7 +44,7 @@
 //! This class provides the image group menu.
 //------------------------------------------------------------------------------
 
-class DJV_VIEW_LIB_EXPORT djvViewImageMenu : public djvViewAbstractMenu
+class djvViewImageMenu : public djvViewAbstractMenu
 {
     Q_OBJECT
     

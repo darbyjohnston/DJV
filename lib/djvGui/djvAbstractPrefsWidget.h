@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <QWidget>
 
@@ -46,7 +46,7 @@ class djvGuiContext;
 //! This class provides the base functionality for a preferences widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvAbstractPrefsWidget : public QWidget
+class djvAbstractPrefsWidget : public QWidget
 {
     Q_OBJECT
     

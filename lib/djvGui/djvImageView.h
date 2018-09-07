@@ -48,7 +48,7 @@ class djvGuiContext;
 //! This class provides an image view widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvImageView : public djvOpenGlWidget
+class djvImageView : public djvOpenGlWidget
 {
     Q_OBJECT
     

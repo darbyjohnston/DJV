@@ -48,7 +48,7 @@ class djvGuiContext;
 //! This class provides file browser preferences.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvFileBrowserPrefs : public QObject
+class djvFileBrowserPrefs : public QObject
 {
     Q_OBJECT
     Q_ENUMS(SHORTCUT)

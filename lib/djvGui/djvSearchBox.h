@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvUtil.h>
 
@@ -50,7 +50,7 @@ class djvGuiContext;
 //! This class provides a search box widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvSearchBox : public QWidget
+class djvSearchBox : public QWidget
 {
     Q_OBJECT
     

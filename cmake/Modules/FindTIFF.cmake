@@ -24,7 +24,11 @@ set(TIFF_INCLUDE_DIRS
     ${ZLIB_INCLUDE_DIRS})
 
 if(WIN32)
-    set(TIFF_LIBRARY debug ${CMAKE_INSTALL_PREFIX}/lib/tiffd.lib optimized ${CMAKE_INSTALL_PREFIX}/lib/tiff.lib)
+    if(CMAKE_BUILD_TYPE MATCHES "^Debug$")
+        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiffd.lib)
+    else()
+        set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/tiff.lib)
+    endif()
 elseif(APPLE)
     if(TIFF_SHARED_LIBS)
         set(TIFF_LIBRARY ${CMAKE_INSTALL_PREFIX}/lib/libtiff.dylib)

@@ -44,7 +44,7 @@
 //! This class provides a timer.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvTimer
+class djvTimer
 {
 public:
     djvTimer();

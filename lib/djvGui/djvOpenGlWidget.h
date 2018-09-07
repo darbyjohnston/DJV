@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvGuiExport.h>
+#include <djvGui.h>
 
 #include <djvOpenGl.h>
 
@@ -46,7 +46,7 @@
 //! This class provides an OpenGL widget.
 //------------------------------------------------------------------------------
 
-class DJV_GUI_EXPORT djvOpenGlWidget : public QOpenGLWidget
+class djvOpenGlWidget : public QOpenGLWidget
 {
     Q_OBJECT
     

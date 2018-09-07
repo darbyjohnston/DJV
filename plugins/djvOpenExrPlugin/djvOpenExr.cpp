@@ -78,7 +78,7 @@ djvOpenExr::Options::Options() :
     threadsEnable      (true),
     threadCount        (4),
     inputColorProfile  (djvOpenExr::COLOR_PROFILE_GAMMA),
-    inputGamma         (2.2),
+    inputGamma         (2.2f),
     channels           (djvOpenExr::CHANNELS_GROUP_KNOWN),
     compression        (djvOpenExr::COMPRESSION_NONE)
 #if OPENEXR_VERSION_HEX >= 0x02020000

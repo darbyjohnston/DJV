@@ -43,7 +43,7 @@
 //! This class provides pixel data utilities.
 //------------------------------------------------------------------------------
 
-class DJV_CORE_EXPORT djvPixelDataUtil
+class djvPixelDataUtil
 {
 public:
 

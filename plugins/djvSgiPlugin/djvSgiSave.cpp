@@ -131,18 +131,18 @@ void djvSgiSave::write(const djvImage & in, const djvImageIoFrameInfo & frame)
             {
                 const quint64 size = djvSgi::writeRle(
                     _tmp.data() + (c * h + y) * w * bytes,
-                    &scanline.front(),
+                    scanline.data(),
                     w,
                     bytes,
                     io.endian());
                 _rleOffset[y + c * h] = quint32(io.pos());
                 _rleSize  [y + c * h] = quint32(size);
-                io.set(&scanline.front(), size / bytes, bytes);
+                io.set(scanline.data(), size / bytes, bytes);
             }
         }
         io.setPos(512);
-        io.setU32(&_rleOffset.front(), h * channels);
-        io.setU32(&_rleSize.front(), h * channels);
+        io.setU32(_rleOffset.data(), h * channels);
+        io.setU32(_rleSize.data(), h * channels);
     }
 }
 
