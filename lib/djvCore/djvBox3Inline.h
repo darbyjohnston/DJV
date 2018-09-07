@@ -58,6 +58,8 @@ inline void djvBox3<int>::setLowerRight(const glm::ivec3 & in)
 
 template<typename T, glm::precision P>
 inline djvBox3<T, P>::djvBox3() :
+    position(T(0), T(0), T(0)),
+    size(T(0), T(0), T(0)),
     _BOX3_INIT()
 {}
 
@@ -77,6 +79,7 @@ inline djvBox3<T, P>::djvBox3(const glm::tvec3<T, P> & position, const glm::tvec
 
 template<typename T, glm::precision P>
 inline djvBox3<T, P>::djvBox3(const glm::tvec3<T, P> & size) :
+    position(T(0), T(0), T(0)),
     size(size),
     _BOX3_INIT()
 {}
@@ -95,6 +98,7 @@ inline djvBox3<T, P>::djvBox3(T _x, T _y, T _z, T _w, T _h, T _d) :
 
 template<typename T, glm::precision P>
 inline djvBox3<T, P>::djvBox3(T _w, T _h, T _d) :
+    position(T(0), T(0), T(0)),
     _BOX3_INIT()
 {
     w = _w;

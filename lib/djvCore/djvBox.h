@@ -54,8 +54,8 @@ struct djvBox2
     inline djvBox2(T x, T y, T w, T h);
     inline djvBox2(T w, T h);
 
-    glm::tvec2<T, P> position = glm::tvec2<T, P>(T(0), T(0));
-    glm::tvec2<T, P> size = glm::tvec2<T, P>(T(0), T(0));
+    glm::tvec2<T, P> position;
+    glm::tvec2<T, P> size;
 
     //! Component access.
     T & x, & y, & w, & h;
@@ -100,8 +100,8 @@ struct djvBox3
     inline djvBox3(T x, T y, T z, T w, T h, T d);
     inline djvBox3(T w, T h, T d);
 
-    glm::tvec3<T, P> position = glm::tvec3<T, P>(T(0), T(0), T(0));
-    glm::tvec3<T, P> size = glm::tvec3<T, P>(T(0), T(0), T(0));
+    glm::tvec3<T, P> position;
+    glm::tvec3<T, P> size;
 
     //! Component access.
     T & x, & y, & z, & w, & h, & d;
