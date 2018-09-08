@@ -40,7 +40,7 @@
 //------------------------------------------------------------------------------
 
 djvImagePlay2TestContext::djvImagePlay2TestContext(QObject * parent) :
-    djvGuiContext(parent),
+    djvUIContext(parent),
     _load(0)
 {
     //DJV_DEBUG("djvImagePlay2TestContext::djvImagePlay2TestContext");

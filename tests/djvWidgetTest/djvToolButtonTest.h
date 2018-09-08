@@ -38,21 +38,18 @@ class djvToolButtonTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvToolButtonTest(djvGuiContext *);
+    djvToolButtonTest(djvUIContext *);
 
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());
     
 private Q_SLOTS:
-
     void playbackCallback(int, bool);
     void shuttleCallback(int);
     void choiceCallback(int);
 
 private:
-
     enum PLAYBACK
     {
         REVERSE,

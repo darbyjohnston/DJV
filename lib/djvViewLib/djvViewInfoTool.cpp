@@ -36,9 +36,10 @@
 
 #include <djvPrefs.h>
 
-#include <djvImageIo.h>
 #include <djvSignalBlocker.h>
 #include <djvTime.h>
+
+#include <djvImageIO.h>
 
 #include <QApplication>
 #include <QDir>
@@ -156,31 +157,31 @@ void djvViewInfoTool::widgetUpdate()
         _p->pixelWidget <<
         _p->timeWidget <<
         _p->tagsWidget);
-    const djvImageIoInfo & imageIoInfo = mainWindow()->imageIoInfo();
+    const djvImageIOInfo & imageIOInfo = mainWindow()->imageIOInfo();
     if (isVisible())
     {
         _p->fileNameWidget->setText(
-            QDir::toNativeSeparators(imageIoInfo.fileName));
-        _p->layerNameWidget->setText(imageIoInfo.layerName);
+            QDir::toNativeSeparators(imageIOInfo.fileName));
+        _p->layerNameWidget->setText(imageIOInfo.layerName);
         _p->sizeWidget->setText(
             qApp->translate("djvViewInfoTool", "%1x%2:%3").
-            arg(imageIoInfo.size.x).
-            arg(imageIoInfo.size.y).
-            arg(djvVectorUtil::aspect(imageIoInfo.size)));
+            arg(imageIOInfo.size.x).
+            arg(imageIOInfo.size.y).
+            arg(djvVectorUtil::aspect(imageIOInfo.size)));
         _p->pixelWidget->setText(
-            djvStringUtil::label(imageIoInfo.pixel).join(", "));
+            djvStringUtil::label(imageIOInfo.pixel).join(", "));
         _p->timeWidget->setText(
             qApp->translate("djvViewInfoTool", "%1@%2").
             arg(djvTime::frameToString(
-                imageIoInfo.sequence.frames.count(),
-                imageIoInfo.sequence.speed)).
-            arg(djvSpeed::speedToFloat(imageIoInfo.sequence.speed), 0, 'f', 2));
+                imageIOInfo.sequence.frames.count(),
+                imageIOInfo.sequence.speed)).
+            arg(djvSpeed::speedToFloat(imageIOInfo.sequence.speed), 0, 'f', 2));
         QString tmp;
-        const QStringList keys = imageIoInfo.tags.keys();
+        const QStringList keys = imageIOInfo.tags.keys();
         for (int i = 0; i < keys.count(); ++i)
         {
             tmp += qApp->translate("djvViewInfoTool", "%1 = %2\n").
-                arg(keys[i]).arg(imageIoInfo.tags[keys[i]]);
+                arg(keys[i]).arg(imageIOInfo.tags[keys[i]]);
         }
         if (! tmp.isEmpty())
         {

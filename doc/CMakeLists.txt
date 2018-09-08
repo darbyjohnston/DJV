@@ -24,7 +24,6 @@ set(html
     djvStyle.css
     ${PROJECT_BINARY_DIR}/doc/index.html
     ${PROJECT_BINARY_DIR}/doc/djvInstall.html)
-
 set(images
     images/djvColorPickerIcon.png
     images/djvDirPrevIcon.png
@@ -86,7 +85,6 @@ set(images
     images/index.png
     images/indexSmall.png
     images/OpenGL.png)
-
 set(legal
     ../LICENSE
     ../LICENSE.CMake
@@ -105,17 +103,14 @@ install(
     FILES
     ${html}
     DESTINATION doc)
-
 install(
     FILES
     ${images}
     DESTINATION doc/images)
-
 #install(
 #    DIRECTORY
 #    doxygen/html
 #    DESTINATION doc/doxygen)
-
 install(
     FILES
     ${legal}

@@ -32,10 +32,10 @@
 #include <djvToolButtonTest.h>
 
 #include <djvChoiceButton.h>
-#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
 #include <djvShuttleButton.h>
 #include <djvToolButton.h>
+#include <djvUIContext.h>
 
 #include <djvSystem.h>
 
@@ -45,7 +45,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-djvToolButtonTest::djvToolButtonTest(djvGuiContext * context) :
+djvToolButtonTest::djvToolButtonTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

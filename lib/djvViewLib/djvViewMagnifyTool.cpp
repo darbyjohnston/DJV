@@ -42,9 +42,10 @@
 #include <djvPrefs.h>
 #include <djvToolButton.h>
 
+#include <djvOpenGLImage.h>
+#include <djvOpenGLOffscreenBuffer.h>
+
 #include <djvDebug.h>
-#include <djvOpenGlImage.h>
-#include <djvOpenGlOffscreenBuffer.h>
 #include <djvSignalBlocker.h>
 
 #include <QApplication>
@@ -120,10 +121,10 @@ struct djvViewMagnifyTool::Private
     bool                                     colorProfile;
     bool                                     displayProfile;
 
-    QScopedPointer<djvOpenGlOffscreenBuffer> magnifyBuffer;
-    djvOpenGlImageState                      magnifyState;
-    QScopedPointer<djvOpenGlOffscreenBuffer> convertBuffer;
-    djvOpenGlImageState                      convertState;
+    QScopedPointer<djvOpenGLOffscreenBuffer> magnifyBuffer;
+    djvOpenGLImageState                      magnifyState;
+    QScopedPointer<djvOpenGLOffscreenBuffer> convertBuffer;
+    djvOpenGLImageState                      convertState;
     bool                                     pixelDataInit;
 
     Widget *                                 widget;
@@ -292,9 +293,9 @@ void djvViewMagnifyTool::pixelDataUpdate()
             viewWidget()->makeCurrent();
             if (! _p->magnifyBuffer || _p->magnifyBuffer->info() != tmp.info())
             {
-                _p->magnifyBuffer.reset(new djvOpenGlOffscreenBuffer(tmp.info()));
+                _p->magnifyBuffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
             }
-            djvOpenGlImageOptions options = viewWidget()->options();
+            djvOpenGLImageOptions options = viewWidget()->options();
             options.xform.position -= pick;
             options.xform.scale *= zoom * viewWidget()->viewZoom();
             if (! _p->colorProfile)
@@ -305,7 +306,7 @@ void djvViewMagnifyTool::pixelDataUpdate()
             {
                 options.displayProfile = djvViewDisplayProfile();
             }
-            djvOpenGlImage::copy(
+            djvOpenGLImage::copy(
                 *data,
                 tmp,
                 options,
@@ -314,7 +315,7 @@ void djvViewMagnifyTool::pixelDataUpdate()
             _p->widget->setPixmap(
                 djvPixmapUtil::toQt(
                     tmp,
-                    djvOpenGlImageOptions(),
+                    djvOpenGLImageOptions(),
                     &_p->convertState,
                     _p->convertBuffer.data()));
         }

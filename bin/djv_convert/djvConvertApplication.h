@@ -31,8 +31,8 @@
 
 #pragma once
 
-#include <djvOpenGlImage.h>
-#include <djvOpenGlOffscreenBuffer.h>
+#include <djvOpenGLImage.h>
+#include <djvOpenGLOffscreenBuffer.h>
 
 #include <QGuiApplication>
 
@@ -89,8 +89,8 @@ private Q_SLOTS:
 private:
     QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
 
-    QScopedPointer<djvOpenGlOffscreenBuffer> _offscreenBuffer;
-    djvOpenGlImageState                      _state;
+    QScopedPointer<djvOpenGLOffscreenBuffer> _offscreenBuffer;
+    djvOpenGLImageState                      _state;
     djvConvertContext *                      _context;
 };
 

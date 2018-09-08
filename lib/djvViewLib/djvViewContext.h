@@ -33,10 +33,11 @@
 
 #include <djvViewUtil.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
+
+#include <djvPixelData.h>
 
 #include <djvSequence.h>
-#include <djvPixelData.h>
 
 #include <QScopedPointer>
 
@@ -61,7 +62,7 @@ class djvViewWindowPrefs;
 //! This class provides global functionality for the library.
 //------------------------------------------------------------------------------
 
-class djvViewContext : public djvGuiContext
+class djvViewContext : public djvUIContext
 {
     Q_OBJECT
     

@@ -36,7 +36,7 @@
 
 class djvAbstractWidgetTest;
 
-class djvGuiContext;
+class djvUIContext;
 
 //------------------------------------------------------------------------------
 // djvWidgetTestManager
@@ -48,7 +48,7 @@ class djvWidgetTestManager : public QObject
     
 public:
 
-    djvWidgetTestManager(djvGuiContext *);
+    djvWidgetTestManager(djvUIContext *);
     
     const QVector<djvAbstractWidgetTest *> & tests() const;
 

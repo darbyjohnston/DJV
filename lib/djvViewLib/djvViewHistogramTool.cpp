@@ -404,11 +404,11 @@ void djvViewHistogramTool::widgetUpdate()
             try
             {
                 viewWidget()->makeCurrent();
-                djvOpenGlImageOptions options = viewWidget()->options();
+                djvOpenGLImageOptions options = viewWidget()->options();
                 //! \todo Why do we need to reverse the rotation here?
                 options.xform.rotate = options.xform.rotate;
                 const djvBox2f bbox =
-                    djvOpenGlImageXform::xformMatrix(options.xform) *
+                    djvOpenGLImageXform::xformMatrix(options.xform) *
                     djvBox2f(data->size());
                 //DJV_DEBUG_PRINT("bbox = " << bbox);
                 options.xform.position = -bbox.position;
@@ -421,8 +421,8 @@ void djvViewHistogramTool::widgetUpdate()
                     options.displayProfile = djvViewDisplayProfile();
                 }
                 djvPixelData tmp(djvPixelDataInfo(bbox.size, data->pixel()));
-                djvOpenGlImage::copy(*data, tmp, options);
-                djvOpenGlImage::histogram(
+                djvOpenGLImage::copy(*data, tmp, options);
+                djvOpenGLImage::histogram(
                     tmp,
                     _p->histogram,
                     djvViewUtil::histogramSize(_p->size),

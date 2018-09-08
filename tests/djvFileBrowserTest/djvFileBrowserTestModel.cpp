@@ -33,8 +33,8 @@
 
 #include <djvFileBrowserTestItem.h>
 
-#include <djvGuiContext.h>
 #include <djvIconLibrary.h>
+#include <djvUIContext.h>
 
 #include <djvDebug.h>
 #include <djvFileInfoUtil.h>
@@ -50,7 +50,7 @@
 
 struct djvFileBrowserTestModel::Private
 {
-    Private(djvGuiContext * context) :
+    Private(djvUIContext * context) :
         context             (context),
         sequence            (static_cast<djvSequence::COMPRESS>(0)),
         showHidden          (false),
@@ -66,7 +66,7 @@ struct djvFileBrowserTestModel::Private
         sizeHint            (context->iconLibrary()->pixmap("djvFileIcon.png").size())
     {}
 
-    djvGuiContext *                             context;
+    djvUIContext *                              context = nullptr;
     QDir                                        dir;
     QDir                                        dirPrev;
     djvSequence::COMPRESS                       sequence;
@@ -92,8 +92,8 @@ struct djvFileBrowserTestModel::Private
 const int djvFileBrowserTestModel::SvgRole = Qt::UserRole + 1;
 
 djvFileBrowserTestModel::djvFileBrowserTestModel(
-    djvGuiContext * context,
-    QObject *       parent) :
+    djvUIContext * context,
+    QObject *      parent) :
     QAbstractItemModel(parent),
     _p(new Private(context))
 {

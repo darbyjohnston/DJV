@@ -37,7 +37,7 @@
 
 #include <QHBoxLayout>
 
-djvSearchBoxTest::djvSearchBoxTest(djvGuiContext * context) :
+djvSearchBoxTest::djvSearchBoxTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

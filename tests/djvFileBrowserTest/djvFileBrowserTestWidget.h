@@ -38,7 +38,7 @@
 
 #include <memory>
 
-class djvGuiContext;
+class djvUIContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestWidget
@@ -66,8 +66,8 @@ class djvFileBrowserTestWidget : public QMainWindow
     
 public:
     explicit djvFileBrowserTestWidget(
-        djvGuiContext * context,
-        QWidget *       parent  = nullptr);
+        djvUIContext * context,
+        QWidget *      parent  = nullptr);
 
     virtual ~djvFileBrowserTestWidget();
     

@@ -109,7 +109,7 @@ public:
     QStringList names() const;
     
     //! Add a plugin.
-    void addPlugin(djvPlugin *);
+    virtual void addPlugin(djvPlugin *);
 
     //! This enumeration provides error codes.
     enum ERROR

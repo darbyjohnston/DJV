@@ -31,8 +31,9 @@
 
 #pragma once
 
+#include <djvImageIO.h>
+
 #include <djvFileInfo.h>
-#include <djvImageIo.h>
 
 #include <QSize>
 #include <QVariant>
@@ -56,7 +57,7 @@ struct djvFileBrowserTestItem
     QVariant       text;              //!< Display role text.
     bool           infoInit;          //!< Whether the image info is initialized.
     bool           infoComplete;      //!< Whether the image info is complete.
-    djvImageIoInfo info;              //!< Image information.
+    djvImageIOInfo info;              //!< Image information.
     bool           thumbnailInit;     //!< Whether the image thumbnail is initialized.
     bool           thumbnailComplete; //!< Whether the image thumbnail is complete.
     QVariant       thumbnail;         //!< Image thumbnail.

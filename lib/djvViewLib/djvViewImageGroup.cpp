@@ -84,7 +84,7 @@ struct djvViewImageGroup::Private
     djvViewUtil::IMAGE_ROTATE      rotate;
     bool                           colorProfile;
     djvViewDisplayProfile          displayProfile;
-    djvOpenGlImageOptions::CHANNEL channel;
+    djvOpenGLImageOptions::CHANNEL channel;
     
     djvViewImageActions *          actions;
     djvViewImageMenu *             menu;
@@ -223,8 +223,8 @@ djvViewImageGroup::djvViewImageGroup(
         SLOT(setDisplayProfile(const djvViewDisplayProfile &)));
     connect(
         context->imagePrefs(),
-        SIGNAL(channelChanged(djvOpenGlImageOptions::CHANNEL)),
-        SLOT(channelCallback(djvOpenGlImageOptions::CHANNEL)));
+        SIGNAL(channelChanged(djvOpenGLImageOptions::CHANNEL)),
+        SLOT(channelCallback(djvOpenGLImageOptions::CHANNEL)));
 }
 
 djvViewImageGroup::~djvViewImageGroup()
@@ -268,7 +268,7 @@ void djvViewImageGroup::setDisplayProfile(const djvViewDisplayProfile & in)
     Q_EMIT displayProfileChanged(_p->displayProfile);
 }
 
-djvOpenGlImageOptions::CHANNEL djvViewImageGroup::channel() const
+djvOpenGLImageOptions::CHANNEL djvViewImageGroup::channel() const
 {
     return _p->channel;
 }
@@ -350,11 +350,11 @@ void djvViewImageGroup::displayProfileCallback(QAction * action)
         djvViewDisplayProfile());
 }
 
-void djvViewImageGroup::channelCallback(djvOpenGlImageOptions::CHANNEL channel)
+void djvViewImageGroup::channelCallback(djvOpenGLImageOptions::CHANNEL channel)
 {
     if (channel == _p->channel)
     {
-        _p->channel = djvOpenGlImageOptions::CHANNEL_DEFAULT;
+        _p->channel = djvOpenGLImageOptions::CHANNEL_DEFAULT;
     }
     else
     {
@@ -367,7 +367,7 @@ void djvViewImageGroup::channelCallback(djvOpenGlImageOptions::CHANNEL channel)
 void djvViewImageGroup::channelCallback(QAction * action)
 {
     channelCallback(
-        static_cast<djvOpenGlImageOptions::CHANNEL>(action->data().toInt()));
+        static_cast<djvOpenGLImageOptions::CHANNEL>(action->data().toInt()));
 }
 
 void djvViewImageGroup::update()

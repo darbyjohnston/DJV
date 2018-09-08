@@ -33,7 +33,7 @@
 
 #include <djvConvertContext.h>
 
-#include <djvImageIo.h>
+#include <djvImageIO.h>
 #include <djvSequence.h>
 #include <djvSequenceUtil.h>
 #include <djvTime.h>
@@ -105,20 +105,20 @@ void djvConvertApplication::work()
     //DJV_DEBUG_PRINT("input = " << input.file);
     //DJV_DEBUG_PRINT("output = " << output.file);
 
-    djvOpenGlImageOptions imageOptions;
+    djvOpenGLImageOptions imageOptions;
     imageOptions.xform.mirror = options.mirror;
     imageOptions.xform.scale  = options.scale;
     imageOptions.channel      = options.channel;
 
     // Open the input file.
     QScopedPointer<djvImageLoad> load;
-    djvImageIoInfo               loadInfo;
+    djvImageIOInfo               loadInfo;
     djvError error;
     while (! load.data())
     {
         try
         {
-            load.reset(_context->imageIoFactory()->load(input.file, loadInfo));
+            load.reset(_context->imageIOFactory()->load(input.file, loadInfo));
         }
         catch (const djvError & in)
         {
@@ -174,7 +174,7 @@ void djvConvertApplication::work()
 
     // Open the output file.
     QScopedPointer<djvImageSave> save;
-    djvImageIoInfo saveInfo(loadInfo[layer]);
+    djvImageIOInfo saveInfo(loadInfo[layer]);
     glm::ivec2 scaleSize = loadInfo.size;
     glm::ivec2 size = options.size;
     if (djvVectorUtil::isSizeValid(size))
@@ -240,7 +240,7 @@ void djvConvertApplication::work()
     //DJV_DEBUG_PRINT("save sequence = " << saveInfo.sequence);
     try
     {
-        save.reset(_context->imageIoFactory()->save(output.file, saveInfo));
+        save.reset(_context->imageIOFactory()->save(output.file, saveInfo));
     }
     catch (djvError error)
     {
@@ -262,16 +262,16 @@ void djvConvertApplication::work()
         try
         {
             _context->print(qApp->translate("djvConvertApplication", "Slating..."));
-            djvImageIoInfo info;
-            QScopedPointer<djvImageLoad> load(_context->imageIoFactory()->load(input.slate, info));
+            djvImageIOInfo info;
+            QScopedPointer<djvImageLoad> load(_context->imageIOFactory()->load(input.slate, info));
             djvImage image;
             load->read(image);
             slate.set(saveInfo);
-            djvOpenGlImageOptions imageOptions;
+            djvOpenGLImageOptions imageOptions;
             imageOptions.xform.position = position;
             imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(info.size);
             imageOptions.colorProfile   = image.colorProfile;
-            djvOpenGlImage::copy(image, slate, imageOptions);
+            djvOpenGLImage::copy(image, slate, imageOptions);
         }
         catch (djvError error)
         {
@@ -286,14 +286,14 @@ void djvConvertApplication::work()
     }
 
     // Convert the images.
-    _offscreenBuffer.reset(new djvOpenGlOffscreenBuffer(saveInfo));
+    _offscreenBuffer.reset(new djvOpenGLOffscreenBuffer(saveInfo));
     for (qint64 i = 0; i < input.slateFrames; ++i)
     {
         try
         {
             save->write(
                 slate,
-                djvImageIoFrameInfo(saveInfo.sequence.frames.first()));
+                djvImageIOFrameInfo(saveInfo.sequence.frames.first()));
             saveInfo.sequence.frames.pop_front();
         }
         catch (djvError error)
@@ -325,7 +325,7 @@ void djvConvertApplication::work()
             {
                 load->read(
                     image,
-                    djvImageIoFrameInfo(
+                    djvImageIOFrameInfo(
                         loadInfo.sequence.frames.count() ?
                         loadInfo.sequence.frames[i] :
                         -1,
@@ -384,10 +384,10 @@ void djvConvertApplication::work()
         imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(loadInfo.size);
         imageOptions.colorProfile   = image.colorProfile;
         if (p->info() != static_cast<djvPixelDataInfo>(saveInfo) ||
-            imageOptions != djvOpenGlImageOptions())
+            imageOptions != djvOpenGLImageOptions())
         {
             tmp.set(saveInfo);
-            djvOpenGlImage::copy(
+            djvOpenGLImage::copy(
                 image,
                 tmp,
                 imageOptions,
@@ -403,7 +403,7 @@ void djvConvertApplication::work()
         {
             save->write(
                 *p,
-                djvImageIoFrameInfo(
+                djvImageIOFrameInfo(
                     saveInfo.sequence.frames.count() ?
                     saveInfo.sequence.frames[i] :
                     -1));

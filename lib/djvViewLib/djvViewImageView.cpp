@@ -41,11 +41,12 @@
 #include <djvStyle.h>
 #include <djvTimePrefs.h>
 
+#include <djvOpenGL.h>
+#include <djvPixel.h>
+
 #include <djvAssert.h>
 #include <djvFileInfo.h>
 #include <djvFileInfoUtil.h>
-#include <djvOpenGl.h>
-#include <djvPixel.h>
 #include <djvTime.h>
 
 #include <QApplication>
@@ -521,7 +522,7 @@ void djvViewImageView::drawGrid()
     //DJV_DEBUG_PRINT("area = " << area);
 
     // Draw.
-    djvOpenGlUtil::color(_p->gridColor);
+    djvOpenGLUtil::color(_p->gridColor);
     glPushMatrix();
     glTranslated(viewPos().x, viewPos().y, 0);
     glScaled(viewZoom(), viewZoom(), 1.f);
@@ -677,7 +678,7 @@ djvBox2i djvViewImageView::drawHud(
     djvBox2i box(position.x, position.y, w + margin * 2, a + d + margin * 2);
 
     // Draw the background.
-    djvOpenGlUtil::color(_p->hudBackgroundColor);
+    djvOpenGLUtil::color(_p->hudBackgroundColor);
     switch (_p->hudBackground)
     {
         case djvViewUtil::HUD_BACKGROUND_NONE: break;
@@ -704,7 +705,7 @@ djvBox2i djvViewImageView::drawHud(
     }
 
     // Draw the foreground.
-    djvOpenGlUtil::color(_p->hudColor);
+    djvOpenGLUtil::color(_p->hudColor);
 
     //! \todo
     //renderText(

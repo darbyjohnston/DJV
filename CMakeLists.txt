@@ -113,77 +113,30 @@ set(QT_SHARED_LIBS ON)
 
 foreach(PACKAGE ${djvThirdParty})
     find_package(${PACKAGE} REQUIRED)
-    add_definitions(-DDJV_THIRD_PARTY_${PACKAGE})
 endforeach()
 
 find_package(JPEG)
 find_package(PNG)
 find_package(TIFF)
 find_package(OpenEXR)
-#find_package(FFmpeg)
+find_package(FFmpeg)
 
-#-------------------------------------------------------------------------------
-# Dependencies
-#-------------------------------------------------------------------------------
-
-set(djvImageIoPlugins ${djvImageIoPlugins} djvCineonPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvDpxPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvIffPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvIflPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvLutPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvPicPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvPpmPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvRlaPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvSgiPlugin)
-set(djvImageIoPlugins ${djvImageIoPlugins} djvTargaPlugin)
-
+set(djvThirdPartyOptional)
 if(JPEG_FOUND)
-    set(djvImageIoPlugins ${djvImageIoPlugins} djvJpegPlugin)
+    set(djvThirdPartyOptional ${djvThirdPartyOptional} JPEG)
 endif()
 if(PNG_FOUND)
-    set(djvImageIoPlugins ${djvImageIoPlugins} djvPngPlugin)
+    set(djvThirdPartyOptional ${djvThirdPartyOptional} PNG)
 endif()
 if(TIFF_FOUND)
-    set(djvImageIoPlugins ${djvImageIoPlugins} djvTiffPlugin)
+    set(djvThirdPartyOptional ${djvThirdPartyOptional} TIFF)
 endif()
 if(OPENEXR_FOUND)
-    set(djvImageIoPlugins ${djvImageIoPlugins} djvOpenExrPlugin)
+    set(djvThirdPartyOptional ${djvThirdPartyOptional} OpenEXR)
 endif()
 if(FFMPEG_FOUND)
-    set(djvImageIoPlugins ${djvImageIoPlugins} djvFFmpegPlugin)
+    set(djvThirdPartyOptional ${djvThirdPartyOptional} FFMPEG)
 endif()
-
-set(djvCoreIncludeDirs
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_SOURCE_DIR}/plugins/djvJpegPlugin
-    ${CMAKE_SOURCE_DIR}/plugins/djvPngPlugin
-    ${CMAKE_BINARY_DIR}
-    ${OPENGL_INCLUDE_DIRS})
-set(djvCoreDeps
-    Qt5
-    OpenAL
-    IlmBase_static
-    glbinding
-    GLM
-    ${OPENGL_LIBRARIES}
-    ${CMAKE_DL_LIBS})
-set(djvCoreLibs djvCore ${djvCoreDeps})
-
-set(djvGuiIncludeDirs
-    ${CMAKE_SOURCE_DIR}/lib/djvGui
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR}
-    ${OPENGL_INCLUDE_DIRS})
-set(djvGuiDeps
-    djvCore
-    Qt5
-    OpenAL
-    IlmBase_static
-    glbinding
-    GLM
-    ${OPENGL_LIBRARIES}
-    ${CMAKE_DL_LIBS})
-set(djvGuiLibs djvGui ${djvGuiDeps})
 
 #-------------------------------------------------------------------------------
 # Sub-Directories
@@ -193,7 +146,6 @@ include(djvPackage)
 
 add_subdirectory(bin)
 add_subdirectory(lib)
-add_subdirectory(plugins)
 add_subdirectory(tests)
 add_subdirectory(doc)
 

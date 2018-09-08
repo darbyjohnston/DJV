@@ -34,15 +34,16 @@
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
 
+#include <djvImageIO.h>
+
 #include <djvFileInfo.h>
-#include <djvImageIo.h>
 
 #include <QObject>
 #include <QPixmap>
 
 #include <memory>
 
-class djvImageContext;
+class djvGraphicsContext;
 
 //------------------------------------------------------------------------------
 //! \struct djvFileBrowserTestThumbnailRequest
@@ -90,7 +91,7 @@ struct djvFileBrowserTestThumbnailResult
 {
     djvFileBrowserTestThumbnailResult();
     
-    djvImageIoInfo info;        //!< Image I/O information.
+    djvImageIOInfo info;        //!< Image I/O information.
     QPixmap        pixmap;      //!< Thumbnail.
     bool           pixmapEmpty; //!< Whether the thumbnail is empty.
     int            row;         //!< Model row.
@@ -109,8 +110,8 @@ class djvFileBrowserTestThumbnailWorker : public djvFileBrowserTestAbstractWorke
     
 public:
     explicit djvFileBrowserTestThumbnailWorker(
-        djvImageContext * context,
-        QObject *         parent = nullptr);
+        djvGraphicsContext * context,
+        QObject *            parent = nullptr);
 
     virtual ~djvFileBrowserTestThumbnailWorker();
     
@@ -144,7 +145,7 @@ class djvFileBrowserTestThumbnail : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestThumbnail(djvImageContext *, QObject * parent = nullptr);
+    explicit djvFileBrowserTestThumbnail(djvGraphicsContext *, QObject * parent = nullptr);
     
     virtual ~djvFileBrowserTestThumbnail();
     
@@ -162,10 +163,10 @@ Q_SIGNALS:
 private:
     djvFileBrowserTestThumbnailRequester * nextRequester();
 
-    djvImageContext *                               _context;
+    djvGraphicsContext *                            _context     = nullptr;
     QVector<djvFileBrowserTestThumbnailRequester *> _requesters;
     QVector<djvFileBrowserTestThumbnailWorker *>    _workers;
     QVector<QThread *>                              _threads;
-    int                                             _threadIndex;
+    int                                             _threadIndex = 0;
 };
 

@@ -31,10 +31,10 @@
 
 #include <djvMessagesDialogTest.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 #include <djvMessagesDialog.h>
 
-djvMessagesDialogTest::djvMessagesDialogTest(djvGuiContext * context) :
+djvMessagesDialogTest::djvMessagesDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

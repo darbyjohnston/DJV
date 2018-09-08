@@ -1,9 +1,6 @@
 set(header
     djvBoxTest.h
     djvBoxUtilTest.h
-    djvColorProfileTest.h
-    djvColorTest.h
-    djvColorUtilTest.h
     djvCoreContextTest.h
     djvCoreTest.h
     djvCoreTest.h
@@ -11,20 +8,11 @@ set(header
     djvErrorTest.h
     djvFileInfoTest.h
     djvFileInfoUtilTest.h
-    djvFileIoTest.h
-    djvFileIoUtilTest.h
-    djvImageContextTest.h
-    djvImageIoTest.h
-    djvImageTagsTest.h
-    djvImageTest.h
+    djvFileIOTest.h
+    djvFileIOUtilTest.h
 	djvListUtilTest.h
     djvMathTest.h
     djvMemoryTest.h
-    djvOpenGlImageTest.h
-    djvOpenGlTest.h
-    djvPixelDataTest.h
-    djvPixelDataUtilTest.h
-    djvPixelTest.h
     djvRangeTest.h
     djvSequenceTest.h
     djvSequenceUtilTest.h
@@ -36,35 +24,21 @@ set(header
     djvTimerTest.h
     djvUserTest.h
     djvVectorUtilTest.h)
-
 set(mocHeader
     djvSignalBlockerTest.h)
-
 set(source
     djvBoxTest.cpp
     djvBoxUtilTest.cpp
-    djvColorProfileTest.cpp
-    djvColorTest.cpp
-    djvColorUtilTest.cpp
     djvCoreContextTest.cpp
     djvDebugTest.cpp
     djvErrorTest.cpp
     djvFileInfoTest.cpp
     djvFileInfoUtilTest.cpp
-    djvFileIoTest.cpp
-    djvFileIoUtilTest.cpp
-    djvImageContextTest.cpp
-    djvImageIoTest.cpp
-    djvImageTagsTest.cpp
-    djvImageTest.cpp
+    djvFileIOTest.cpp
+    djvFileIOUtilTest.cpp
 	djvListUtilTest.cpp
     djvMathTest.cpp
     djvMemoryTest.cpp
-    djvOpenGlImageTest.cpp
-    djvOpenGlTest.cpp
-    djvPixelDataTest.cpp
-    djvPixelDataUtilTest.cpp
-    djvPixelTest.cpp
     djvRangeTest.cpp
     djvSequenceTest.cpp
     djvSequenceUtilTest.cpp
@@ -82,11 +56,9 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvCoreTest
     ${CMAKE_SOURCE_DIR}/tests/djvTestLib
-    ${djvCoreIncludeDirs})
-
+    ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_BINARY_DIR})
 add_library(djvCoreTest ${header} ${source} ${mocSource})
-
-target_link_libraries(djvCoreTest djvTestLib ${djvCoreLibs})
-
+target_link_libraries(djvCoreTest djvTestLib)
 set_target_properties(djvCoreTest PROPERTIES FOLDER tests CXX_STANDARD 11)
 

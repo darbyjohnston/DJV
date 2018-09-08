@@ -33,10 +33,11 @@
 
 #include <djvPixmapUtil.h>
 
-#include <djvDebug.h>
 #include <djvImage.h>
-#include <djvImageContext.h>
+#include <djvGraphicsContext.h>
 #include <djvPixelDataUtil.h>
+
+#include <djvDebug.h>
 
 #include <QMutex>
 #include <QScopedPointer>
@@ -76,8 +77,8 @@ djvFileBrowserTestInfoResult::djvFileBrowserTestInfoResult() :
 //------------------------------------------------------------------------------
 
 djvFileBrowserTestInfoWorker::djvFileBrowserTestInfoWorker(
-    djvImageContext * context,
-    QObject *         parent) :
+    djvGraphicsContext * context,
+    QObject *            parent) :
     djvFileBrowserTestAbstractWorker(parent),
     _context(context)
 {}
@@ -108,7 +109,7 @@ void djvFileBrowserTestInfoWorker::request(
     {
         // Load the image.
         QScopedPointer<djvImageLoad> load;
-        load.reset(_context->imageIoFactory()->load(request.fileInfo, result.info));
+        load.reset(_context->imageIOFactory()->load(request.fileInfo, result.info));
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
         const glm::ivec2 size = djvFileBrowserTestUtil::thumbnailSize(
             request.thumbnails,
@@ -131,8 +132,8 @@ void djvFileBrowserTestInfoWorker::request(
 //------------------------------------------------------------------------------
 
 djvFileBrowserTestInfo::djvFileBrowserTestInfo(
-    djvImageContext * context,
-    QObject *         parent) :
+    djvGraphicsContext * context,
+    QObject *            parent) :
     QObject(parent),
     _context    (context),
     _threadIndex(0)

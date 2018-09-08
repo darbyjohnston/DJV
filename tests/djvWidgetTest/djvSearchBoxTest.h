@@ -38,14 +38,12 @@ class djvSearchBoxTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvSearchBoxTest(djvGuiContext *);
+    djvSearchBoxTest(djvUIContext *);
 
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());
 
 private Q_SLOTS:
-
     void callback(const QString &);
 };

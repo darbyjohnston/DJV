@@ -34,13 +34,14 @@
 #include <djvFileBrowserTestAbstractWorker.h>
 #include <djvFileBrowserTestUtil.h>
 
+#include <djvImageIO.h>
+
 #include <djvFileInfo.h>
-#include <djvImageIo.h>
 
 #include <QObject>
 #include <QPixmap>
 
-class djvImageContext;
+class djvGraphicsContext;
 
 //------------------------------------------------------------------------------
 //! \struct djvFileBrowserTestInfoRequest
@@ -86,7 +87,7 @@ struct djvFileBrowserTestInfoResult
 {
     djvFileBrowserTestInfoResult();
     
-    djvImageIoInfo info;   //!< Image I/O information.
+    djvImageIOInfo info;   //!< Image I/O information.
     QPixmap        pixmap; //!< Thumbnail.
     int            row;    //!< Model row.
     quint64        id;     //!< Request ID.
@@ -104,8 +105,8 @@ class djvFileBrowserTestInfoWorker : public djvFileBrowserTestAbstractWorker
     
 public:
     explicit djvFileBrowserTestInfoWorker(
-        djvImageContext * context,
-        QObject *         parent = nullptr);
+        djvGraphicsContext * context,
+        QObject *            parent = nullptr);
 
     virtual ~djvFileBrowserTestInfoWorker();
     
@@ -118,7 +119,7 @@ Q_SIGNALS:
     void result(const djvFileBrowserTestInfoResult &);
 
 private:
-    djvImageContext * _context;
+    djvGraphicsContext * _context = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -132,7 +133,7 @@ class djvFileBrowserTestInfo : public QObject
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestInfo(djvImageContext *, QObject * parent = nullptr);
+    explicit djvFileBrowserTestInfo(djvGraphicsContext *, QObject * parent = nullptr);
     
     virtual ~djvFileBrowserTestInfo();
     
@@ -150,10 +151,10 @@ Q_SIGNALS:
 private:
     djvFileBrowserTestInfoRequester * nextRequester();
 
-    djvImageContext *                          _context;
+    djvGraphicsContext *                       _context     = nullptr;
     QVector<djvFileBrowserTestInfoRequester *> _requesters;
     QVector<djvFileBrowserTestInfoWorker *>    _workers;
     QVector<QThread *>                         _threads;
-    int                                        _threadIndex;
+    int                                        _threadIndex = 0;
 };
 

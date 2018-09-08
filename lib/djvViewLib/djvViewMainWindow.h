@@ -42,8 +42,8 @@
 class djvViewContext;
 class djvViewImageView;
 
-class djvImageIoInfo;
-class djvOpenGlImageOptions;
+class djvImageIOInfo;
+class djvOpenGLImageOptions;
 class djvSpeed;
 
 //! \addtogroup djvViewWindow
@@ -67,7 +67,7 @@ public:
     virtual ~djvViewMainWindow();
 
     //! Get the image I/O information.
-    const djvImageIoInfo & imageIoInfo() const;
+    const djvImageIOInfo & imageIOInfo() const;
     
     //! Get the view widget.
     djvViewImageView * viewWidget() const;
@@ -138,7 +138,7 @@ private:
     const djvImage * image() const;
 
     //! Get the image drawing options.
-    djvOpenGlImageOptions imageOptions() const;
+    djvOpenGLImageOptions imageOptions() const;
 
     DJV_PRIVATE_COPY(djvViewMainWindow);
     

@@ -35,13 +35,11 @@
 #include <djvDebug.h>
 #include <djvFileInfo.h>
 #include <djvFileInfoUtil.h>
-#include <djvFileIo.h>
-#include <djvImageContext.h>
+#include <djvFileIO.h>
 
 void djvFileInfoTest::run(int &, char **)
 {
     DJV_DEBUG("djvFileInfoTest::run");
-    djvImageContext context;
     ctors();
     members();
     operators();
@@ -94,8 +92,8 @@ void djvFileInfoTest::members()
         const QString fileName("djvFileInfoTest.test");
 
         {
-            djvFileIo io;
-            io.open(fileName, djvFileIo::WRITE);
+            djvFileIO io;
+            io.open(fileName, djvFileIO::WRITE);
             io.close();
         }
 

@@ -36,7 +36,7 @@
 #include <djvSystem.h>
 #include <djvTime.h>
 
-djvProgressDialogTest::djvProgressDialogTest(djvGuiContext * context) :
+djvProgressDialogTest::djvProgressDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

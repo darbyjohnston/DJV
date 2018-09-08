@@ -80,7 +80,7 @@ public:
     const djvViewDisplayProfile & displayProfile() const;
 
     //! Get the image channel.
-    djvOpenGlImageOptions::CHANNEL channel() const;
+    djvOpenGLImageOptions::CHANNEL channel() const;
 
     virtual QToolBar * toolBar() const;
 
@@ -115,7 +115,7 @@ private Q_SLOTS:
     void rotateCallback(QAction *);
     void colorProfileCallback(bool);
     void displayProfileCallback(QAction *);
-    void channelCallback(djvOpenGlImageOptions::CHANNEL);
+    void channelCallback(djvOpenGLImageOptions::CHANNEL);
     void channelCallback(QAction *);
 
     void update();

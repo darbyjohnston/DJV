@@ -47,7 +47,7 @@
 
 djvWidgetTestWindow::djvWidgetTestWindow(
     djvWidgetTestModel * model,
-    djvGuiContext *      context) :
+    djvUIContext *       context) :
     _model     (model),
     _proxyModel(0),
     _listView  (0)

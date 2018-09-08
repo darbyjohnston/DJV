@@ -47,8 +47,7 @@ class djvNumWidgetTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvNumWidgetTest(djvGuiContext *);
+    djvNumWidgetTest(djvUIContext *);
 
     virtual QString name();
 
@@ -60,18 +59,15 @@ class djvNumWidgetTestWidget : public QWidget
     Q_OBJECT
 
 public:
-
-    djvNumWidgetTestWidget(djvGuiContext *);
+    djvNumWidgetTestWidget(djvUIContext *);
     
 private Q_SLOTS:
-
     void intCallback(int);
     void floatCallback(float);
 
     void widgetUpdate();
     
 private:
-
     int   _intValue;
     float _floatValue;
     

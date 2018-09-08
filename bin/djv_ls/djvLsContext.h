@@ -31,8 +31,9 @@
 
 #pragma once
 
+#include <djvGraphicsContext.h>
+
 #include <djvFileInfoUtil.h>
-#include <djvImageContext.h>
 
 //! \addtogroup djv_ls
 //@{
@@ -43,7 +44,7 @@
 //! This class provides global functionality for the application.
 //------------------------------------------------------------------------------
 
-class djvLsContext : public djvImageContext
+class djvLsContext : public djvGraphicsContext
 {
     Q_OBJECT
 

@@ -41,7 +41,7 @@
 
 class djvFileBrowserTestModel;
 
-class djvGuiContext;
+class djvUIContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestView
@@ -77,7 +77,7 @@ public:
 
     djvFileBrowserTestView(
         djvFileBrowserTestModel * model,
-        djvGuiContext *           context,
+        djvUIContext *            context,
         QWidget *                 parent  = nullptr);
     
     virtual ~djvFileBrowserTestView();

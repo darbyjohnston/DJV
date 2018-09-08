@@ -33,10 +33,11 @@
 
 #include <djvViewLib.h>
 
-#include <djvFileInfo.h>
-#include <djvImageIo.h>
-#include <djvOpenGlImage.h>
+#include <djvImageIO.h>
+#include <djvOpenGLImage.h>
 #include <djvPixel.h>
+
+#include <djvFileInfo.h>
 
 #include <QObject>
 
@@ -64,7 +65,7 @@ struct djvViewFileSaveInfo
         const djvPixelDataInfo::PROXY proxy        = djvPixelDataInfo::PROXY_NONE,
         bool                          u8Conversion = false,
         bool                          colorProfile = true,
-        const djvOpenGlImageOptions & options      = djvOpenGlImageOptions());
+        const djvOpenGLImageOptions & options      = djvOpenGLImageOptions());
 
     djvFileInfo             inputFile;
     djvFileInfo             outputFile;
@@ -74,8 +75,8 @@ struct djvViewFileSaveInfo
     djvPixelDataInfo::PROXY proxy;
     bool                    u8Conversion;
     bool                    colorProfile;
-    djvImageIoFrameInfo     frameInfo;
-    djvOpenGlImageOptions   options;
+    djvImageIOFrameInfo     frameInfo;
+    djvOpenGLImageOptions   options;
 };
 
 //------------------------------------------------------------------------------

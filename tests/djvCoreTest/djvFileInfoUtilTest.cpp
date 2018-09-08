@@ -34,7 +34,7 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvFileInfo.h>
-#include <djvFileIo.h>
+#include <djvFileIO.h>
 #include <djvFileInfoUtil.h>
 #include <djvMemory.h>
 
@@ -112,8 +112,8 @@ void djvFileInfoUtilTest::exists()
     DJV_DEBUG("djvFileInfoUtilTest::exists");
     {
         const QString fileName("djvFileInfoUtilTest.test");
-        djvFileIo io;
-        io.open(fileName, djvFileIo::WRITE);
+        djvFileIO io;
+        io.open(fileName, djvFileIO::WRITE);
         io.close();
         DJV_ASSERT(djvFileInfoUtil::exists(djvFileInfo(fileName)));
         DJV_ASSERT(! djvFileInfoUtil::exists(djvFileInfo(fileName + ".ppm")));
@@ -121,12 +121,12 @@ void djvFileInfoUtilTest::exists()
     {
         const QString fileName("djvFileInfoUtilTest.%1.ppm");
         {
-            djvFileIo io;
-            io.open(fileName.arg(1), djvFileIo::WRITE);
+            djvFileIO io;
+            io.open(fileName.arg(1), djvFileIO::WRITE);
             io.close();
-            io.open(fileName.arg(2), djvFileIo::WRITE);
+            io.open(fileName.arg(2), djvFileIO::WRITE);
             io.close();
-            io.open(fileName.arg(3), djvFileIo::WRITE);
+            io.open(fileName.arg(3), djvFileIO::WRITE);
             io.close();
         }
         djvFileInfo fileInfo(fileName.arg("1-3"));
@@ -140,10 +140,10 @@ void djvFileInfoUtilTest::list()
     DJV_DEBUG("djvFileInfoUtilTest::list");
     const QString fileName("djvFileInfoUtilTest.%1.test");
     {
-        djvFileIo io;
-        io.open(fileName.arg(1), djvFileIo::WRITE);
+        djvFileIO io;
+        io.open(fileName.arg(1), djvFileIO::WRITE);
         io.close();
-        io.open(fileName.arg(3), djvFileIo::WRITE);
+        io.open(fileName.arg(3), djvFileIO::WRITE);
         io.close();
     }
     djvFileInfoList list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_OFF);

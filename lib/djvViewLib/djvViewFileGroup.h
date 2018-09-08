@@ -33,7 +33,7 @@
 
 #include <djvViewAbstractGroup.h>
 
-#include <djvImageIo.h>
+#include <djvImageIO.h>
 #include <djvPixel.h>
 
 #include <memory>
@@ -93,7 +93,7 @@ public:
     const djvImage * image(qint64 frame) const;
 
     //! Get image I/O information.
-    const djvImageIoInfo & imageIoInfo() const;
+    const djvImageIOInfo & imageIOInfo() const;
 
     virtual QToolBar * toolBar() const;
 

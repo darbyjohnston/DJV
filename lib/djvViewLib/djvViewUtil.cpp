@@ -33,11 +33,12 @@
 
 #include <djvViewContext.h>
 
+#include <djvImage.h>
+#include <djvImageIO.h>
+
 #include <djvAssert.h>
 #include <djvError.h>
 #include <djvFileInfo.h>
-#include <djvImage.h>
-#include <djvImageIo.h>
 #include <djvVectorUtil.h>
 
 #include <QApplication>
@@ -199,9 +200,9 @@ void djvViewUtil::loadLut(
     }
     try
     {
-        djvImageIoInfo info;
+        djvImageIOInfo info;
         QScopedPointer<djvImageLoad> load(
-            context->imageIoFactory()->load(fileInfoTmp, info));
+            context->imageIOFactory()->load(fileInfoTmp, info));
         djvImage image;
         load->read(image);
         lut = image;

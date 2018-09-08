@@ -196,11 +196,15 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvViewLib_en_US.ts
     djvViewLib_cs_CZ.ts)
 
-include_directories(${CMAKE_SOURCE_DIR}/lib/djvViewLib ${djvGuiIncludeDirs})
+include_directories(
+    ${CMAKE_SOURCE_DIR}/lib/djvViewLib
+    ${CMAKE_SOURCE_DIR}/lib/djvUI
+    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
+    ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_BINARY_DIR}
+    ${OPENGL_INCLUDE_DIRS})
 add_library(djvViewLib ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
-target_link_libraries(djvViewLib ${djvGuiLibs})
-add_definitions(${djvGuiDefines})
-
+target_link_libraries(djvViewLib djvUI)
 set_target_properties(djvViewLib PROPERTIES FOLDER lib CXX_STANDARD 11)
 if (djvInstallRpath)
     set_target_properties(

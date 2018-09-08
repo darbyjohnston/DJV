@@ -39,7 +39,7 @@
 
 #include <QFormLayout>
 
-djvVectorWidgetTest::djvVectorWidgetTest(djvGuiContext * context) :
+djvVectorWidgetTest::djvVectorWidgetTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

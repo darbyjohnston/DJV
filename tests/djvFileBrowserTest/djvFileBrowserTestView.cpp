@@ -34,8 +34,8 @@
 #include <djvFileBrowserTestContactSheetDelegate.h>
 #include <djvFileBrowserTestModel.h>
 
-#include <djvGuiContext.h>
 #include <djvSpinner.h>
+#include <djvUIContext.h>
 
 #include <QApplication>
 #include <QListView>
@@ -51,7 +51,7 @@ struct djvFileBrowserTestView::Private
 {
     Private(
         djvFileBrowserTestModel * model,
-        djvGuiContext *           context) :
+        djvUIContext *            context) :
         context      (context),
         model        (model),
         mode         (static_cast<djvFileBrowserTestView::MODE>(0)),
@@ -62,7 +62,7 @@ struct djvFileBrowserTestView::Private
         stackedWidget(0)
     {}
     
-    djvGuiContext *                          context;
+    djvUIContext *                           context = nullptr;
     djvFileBrowserTestModel *                model;
     djvFileBrowserTestView::MODE             mode;
     QTreeView *                              treeView;
@@ -94,7 +94,7 @@ const djvFileBrowserTestActionDataList & djvFileBrowserTestView::modeData()
 
 djvFileBrowserTestView::djvFileBrowserTestView(
     djvFileBrowserTestModel * model,
-    djvGuiContext *           context,
+    djvUIContext *            context,
     QWidget *                 parent) :
     QWidget(parent),
     _p(new Private(model, context))

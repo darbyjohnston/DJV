@@ -52,7 +52,7 @@ class djvViewWidget : public QWidget
     
 public:
 
-    djvViewWidget(djvGuiContext *);
+    djvViewWidget(djvUIContext *);
 
 private Q_SLOTS:
 
@@ -73,7 +73,7 @@ private:
     djvFrameList _cachedFrames;
     djvSpeed     _speed;
     
-    djvGuiContext *       _context;
+    djvUIContext *        _context;
     QComboBox *           _timeUnitsWidget;
     djvViewFrameWidget *  _frameWidget;
     djvViewFrameSlider *  _frameSlider;
@@ -88,7 +88,7 @@ class djvViewWidgetTest : public djvAbstractWidgetTest
     
 public:
 
-    djvViewWidgetTest(djvGuiContext *);
+    djvViewWidgetTest(djvUIContext *);
 
     virtual QString name();
 

@@ -41,7 +41,6 @@ class djvImagePlay2TestContext;
 class djvViewFrameSlider;
 class djvViewFrameWidget;
 
-class djvGuiContext;
 class djvPlaybackButtons;
 
 //------------------------------------------------------------------------------

@@ -65,7 +65,7 @@ djvFileBrowserTestApplication::djvFileBrowserTestApplication(int & argc, char **
     qRegisterMetaType<djvFileBrowserTestUtil::THUMBNAILS>(
         "djvFileBrowserTestUtil::THUMBNAILS");
 
-    _context.reset(new djvGuiContext);
+    _context.reset(new djvUIContext);
     
     if (argc != 2)
     {

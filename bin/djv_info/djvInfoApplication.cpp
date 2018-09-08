@@ -35,7 +35,7 @@
 
 #include <djvDebugLog.h>
 #include <djvFileInfoUtil.h>
-#include <djvImageIo.h>
+#include <djvImageIO.h>
 #include <djvTime.h>
 #include <djvVectorUtil.h>
 
@@ -161,11 +161,11 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-    djvImageIoInfo _info;
+    djvImageIOInfo _info;
     QScopedPointer<djvImageLoad> load;
     try
     {
-        load.reset(_context->imageIoFactory()->load(in, _info));
+        load.reset(_context->imageIOFactory()->load(in, _info));
     }
     catch (djvError error)
     {

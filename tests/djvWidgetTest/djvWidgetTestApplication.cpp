@@ -42,7 +42,7 @@ djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
 {
     setStyle("fusion");
 
-    _context.reset(new djvGuiContext);
+    _context.reset(new djvUIContext);
     _context->setValid(true);
     
     _testManager.reset(new djvWidgetTestManager(_context.data()));

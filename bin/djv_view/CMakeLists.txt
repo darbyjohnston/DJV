@@ -18,13 +18,13 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_view
     ${CMAKE_SOURCE_DIR}/lib/djvViewLib
-    ${djvGuiIncludeDirs})
+    ${CMAKE_SOURCE_DIR}/lib/djvUI
+    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
+    ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_BINARY_DIR}
+    ${OPENGL_INCLUDE_DIRS})
 add_executable(djv_view WIN32 ${header} ${source} ${mocSource} djvViewMain.cpp)
-target_link_libraries(djv_view djvViewLib ${djvGuiLibs})
-if (djvImageIoPlugins)
-    add_dependencies(djv_view ${djvImageIoPlugins})
-endif (djvImageIoPlugins)
-
+target_link_libraries(djv_view djvViewLib)
 set_target_properties(djv_view PROPERTIES FOLDER bin CXX_STANDARD 11)
 if (djvInstallRpath)
     set_target_properties(
@@ -78,11 +78,7 @@ endif (APPLE)
 # \todo Build a second binary for a Windows command line version (.com).
 if (WIN32)
     add_executable(djv_view. ${header} ${source} ${mocSource} djvViewMain.cpp)
-    target_link_libraries(djv_view. djvViewLib ${djvGuiLibs})
-    if (djvImageIoPlugins)
-        add_dependencies(djv_view. ${djvImageIoPlugins})
-    endif (djvImageIoPlugins)
-    
+    target_link_libraries(djv_view. djvViewLib)    
     set_target_properties(
         djv_view. PROPERTIES
         SUFFIX com

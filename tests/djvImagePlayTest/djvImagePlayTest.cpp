@@ -34,7 +34,7 @@
 #include <djvWindowUtil.h>
 
 #include <djvError.h>
-#include <djvOpenGlImage.h>
+#include <djvOpenGLImage.h>
 #include <djvPixel.h>
 #include <djvTimer.h>
 
@@ -43,7 +43,7 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-djvImagePlayTestWidget::djvImagePlayTestWidget(djvGuiContext * context) :
+djvImagePlayTestWidget::djvImagePlayTestWidget(djvUIContext * context) :
     djvImageView(context)
 {}
 
@@ -89,7 +89,7 @@ djvImagePlayTestApplication::djvImagePlayTestApplication(int & argc, char ** arg
     _cache(false),
     _frame(0)
 {
-    _context.reset(new djvGuiContext);
+    _context.reset(new djvUIContext);
     if (argc != 2)
     {
         _context->printMessage("Usage: djvImagePlayTest (input)");
@@ -115,7 +115,7 @@ void djvImagePlayTestApplication::work()
     }
     try
     {
-        _load.reset(_context->imageIoFactory()->load(_fileInfo, _info));
+        _load.reset(_context->imageIOFactory()->load(_fileInfo, _info));
     }
     catch (const djvError & error)
     {
@@ -184,7 +184,7 @@ void djvImagePlayTestApplication::timerEvent(QTimerEvent * event)
     if (imageP && imageP->isValid())
     {
         _widget->setData(imageP);
-        djvOpenGlImageOptions options;
+        djvOpenGLImageOptions options;
         options.colorProfile = imageP->colorProfile;
         _widget->setOptions(options);
         _widget->update();

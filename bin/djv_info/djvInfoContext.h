@@ -31,7 +31,8 @@
 
 #pragma once
 
-#include <djvImageContext.h>
+#include <djvGraphicsContext.h>
+
 #include <djvSequence.h>
 
 //! \addtogroup djv_info
@@ -43,7 +44,7 @@
 //! This class provides global functionality for the application.
 //------------------------------------------------------------------------------
 
-class djvInfoContext : public djvImageContext
+class djvInfoContext : public djvGraphicsContext
 {
     Q_OBJECT
 

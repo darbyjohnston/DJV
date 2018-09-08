@@ -37,7 +37,7 @@
 #include <QObject>
 #include <QStringList>
 
-class djvGuiContext;
+class djvUIContext;
 
 //------------------------------------------------------------------------------
 // djvAbstractWidgetTest
@@ -49,7 +49,7 @@ class djvAbstractWidgetTest : public QObject
     
 public:
 
-    djvAbstractWidgetTest(djvGuiContext *);
+    djvAbstractWidgetTest(djvUIContext *);
     
     virtual ~djvAbstractWidgetTest() = 0;
 
@@ -57,11 +57,11 @@ public:
 
     virtual void run(const QStringList & args = QStringList()) = 0;
 
-    djvGuiContext * context() const;
+    djvUIContext * context() const;
 
 private:
 
-    djvGuiContext * _context;
+    djvUIContext * _context;
 };
 
 #endif // DJV_ABSTRACT_WIDGET_TEST_H

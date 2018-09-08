@@ -55,13 +55,13 @@
 #include <djvVectorWidgetTest.h>
 #include <djvViewWidgetTest.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 
 //------------------------------------------------------------------------------
 // djvWidgetTestManager
 //------------------------------------------------------------------------------
 
-djvWidgetTestManager::djvWidgetTestManager(djvGuiContext * context)
+djvWidgetTestManager::djvWidgetTestManager(djvUIContext * context)
 {
     _tests += new djvAboutDialogTest(context);
     _tests += new djvChoiceDialogTest(context);

@@ -38,8 +38,7 @@ class djvNoticeDialogTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvNoticeDialogTest(djvGuiContext *);
+    djvNoticeDialogTest(djvUIContext *);
 
     virtual QString name();
 

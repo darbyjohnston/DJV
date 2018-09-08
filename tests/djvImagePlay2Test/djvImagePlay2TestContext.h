@@ -36,7 +36,7 @@
 
 #include <djvImagePlay2TestPlayback.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 
 #include <QMutex>
 #include <QOpenGLContext>
@@ -51,7 +51,7 @@ class djvImagePlay2TestLoad;
 // djvImagePlay2TestContext
 //------------------------------------------------------------------------------
 
-class djvImagePlay2TestContext : public djvGuiContext
+class djvImagePlay2TestContext : public djvUIContext
 {
     Q_OBJECT
 

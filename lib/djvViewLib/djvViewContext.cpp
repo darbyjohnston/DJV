@@ -104,7 +104,7 @@ struct djvViewContext::Private
 //------------------------------------------------------------------------------
 
 djvViewContext::djvViewContext(QObject * parent) :
-    djvGuiContext(parent),
+    djvUIContext(parent),
     _p(new Private)
 {
     //DJV_DEBUG("djvViewContext::djvViewContext");
@@ -248,7 +248,7 @@ djvViewFileSave * djvViewContext::fileSave() const
 
 void djvViewContext::setValid(bool valid)
 {
-    djvGuiContext::setValid(true);    
+    djvUIContext::setValid(true);    
     if (isValid())
     {
         prefsDialog()->addWidget(
@@ -273,7 +273,7 @@ bool djvViewContext::commandLineParse(QStringList & in) throw (QString)
     //DJV_DEBUG("djvViewContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    if (! djvGuiContext::commandLineParse(in))
+    if (! djvUIContext::commandLineParse(in))
         return false;
     QString arg;
     try
@@ -425,5 +425,5 @@ QString djvViewContext::commandLineHelp() const
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvViewUtil::playbackLabels().join(", ")).
         arg(djvSpeed::fpsLabels().join(", ")).
-        arg(djvGuiContext::commandLineHelp());
+        arg(djvUIContext::commandLineHelp());
 }

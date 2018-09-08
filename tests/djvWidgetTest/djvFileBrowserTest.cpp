@@ -35,7 +35,7 @@
 
 #include <djvSystem.h>
 
-djvFileBrowserTest::djvFileBrowserTest(djvGuiContext * context) :
+djvFileBrowserTest::djvFileBrowserTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

@@ -37,7 +37,7 @@
 
 #include <QHBoxLayout>
 
-djvColorDialogTest::djvColorDialogTest(djvGuiContext * context) :
+djvColorDialogTest::djvColorDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

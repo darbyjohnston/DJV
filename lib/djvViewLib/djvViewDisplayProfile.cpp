@@ -40,7 +40,7 @@ bool operator == (
     return
         a.name    == b.name    &&
         a.lutFile == b.lutFile &&
-        djvOpenGlImageDisplayProfile(a) == djvOpenGlImageDisplayProfile(b);
+        djvOpenGLImageDisplayProfile(a) == djvOpenGLImageDisplayProfile(b);
 }
 
 bool operator != (

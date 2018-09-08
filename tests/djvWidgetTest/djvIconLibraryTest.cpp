@@ -31,7 +31,7 @@
 
 #include <djvIconLibraryTest.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 #include <djvIconLibrary.h>
 #include <djvSearchBox.h>
 
@@ -62,7 +62,7 @@ struct IconLibraryItem
 class IconLibraryModel : public QAbstractListModel
 {
 public:
-    explicit IconLibraryModel(djvGuiContext *, QObject * parent = nullptr);
+    explicit IconLibraryModel(djvUIContext *, QObject * parent = nullptr);
 
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
@@ -76,7 +76,7 @@ private:
     QVector<IconLibraryItem> _items;
 };
 
-IconLibraryModel::IconLibraryModel(djvGuiContext * context, QObject * parent) :
+IconLibraryModel::IconLibraryModel(djvUIContext * context, QObject * parent) :
     QAbstractListModel(parent)
 {
     const QStringList names = context->iconLibrary()->names();
@@ -174,7 +174,7 @@ QVariant IconLibraryModel::headerData(int section, Qt::Orientation, int role) co
 void IconLibraryModel::sort(int column, Qt::SortOrder order)
 {}
 
-djvIconLibraryTest::djvIconLibraryTest(djvGuiContext * context) :
+djvIconLibraryTest::djvIconLibraryTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

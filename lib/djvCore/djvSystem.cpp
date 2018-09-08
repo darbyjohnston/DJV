@@ -274,14 +274,6 @@ QStringList djvSystem::searchPath()
     out += QDir(applicationPath + "/../../translations/" + dirName).absolutePath();
 #endif
 
-    // Add the build directories.    
-    out += QDir("lib/djvCore").absolutePath();
-    out += QDir("lib/djvGui").absolutePath();
-    out += QDir("lib/djvViewLib").absolutePath();
-    out += QDir("bin/djv_ls").absolutePath();
-    out += QDir("bin/djv_info").absolutePath();
-    out += QDir("bin/djv_convert").absolutePath();
-
     // Add the current directory.
     out += ".";
     

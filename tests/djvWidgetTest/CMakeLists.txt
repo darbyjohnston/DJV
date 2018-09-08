@@ -28,7 +28,6 @@ set(header
     djvWidgetTestModel.h
     djvWidgetTestManager.h
     djvWidgetTestWindow.h)
-
 set(mocHeader
     djvAbstractWidgetTest.h
     djvAboutDialogTest.h
@@ -58,7 +57,6 @@ set(mocHeader
     djvWidgetTestModel.h
     djvWidgetTestManager.h
     djvWidgetTestWindow.h)
-
 set(source
     djvAbstractWidgetTest.cpp
     djvAboutDialogTest.cpp
@@ -94,17 +92,12 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvWidgetTest
     ${CMAKE_SOURCE_DIR}/lib/djvViewLib
-    ${djvGuiIncludeDirs})
-
+    ${CMAKE_SOURCE_DIR}/lib/djvUI
+    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
+    ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_BINARY_DIR}
+    ${OPENGL_INCLUDE_DIRS})
 add_executable(djvWidgetTest ${header} ${source} ${mocSource})
-
-target_link_libraries(djvWidgetTest ${djvGuiLibs} djvViewLib)
-
+target_link_libraries(djvWidgetTest djvViewLib)
 set_target_properties(djvWidgetTest PROPERTIES FOLDER tests CXX_STANDARD 11)
-
-if (djvImageIoPlugins)
-
-    add_dependencies(djvWidgetTest ${djvImageIoPlugins})
-
-endif (djvImageIoPlugins)
 

@@ -39,7 +39,7 @@
 #include <djvIconLibrary.h>
 #include <djvShortcut.h>
 
-#include <djvOpenGlImage.h>
+#include <djvOpenGLImage.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -111,10 +111,10 @@ djvViewImageActions::djvViewImageActions(
         _groups[ROTATE_GROUP]->addAction(action);
     }
     _groups[CHANNEL_GROUP]->setExclusive(true);
-    for (int i = 0; i < djvOpenGlImageOptions::channelLabels().count(); ++i)
+    for (int i = 0; i < djvOpenGLImageOptions::channelLabels().count(); ++i)
     {
         QAction * action = new QAction(this);
-        action->setText(djvOpenGlImageOptions::channelLabels()[i]);
+        action->setText(djvOpenGLImageOptions::channelLabels()[i]);
         action->setCheckable(true);
         action->setData(i);
         _groups[CHANNEL_GROUP]->addAction(action);
@@ -221,7 +221,7 @@ void djvViewImageActions::update()
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
         shortcuts[djvViewUtil::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
-    for (int i = 0; i < djvOpenGlImageOptions::channelLabels().count(); ++i)
+    for (int i = 0; i < djvOpenGLImageOptions::channelLabels().count(); ++i)
     {
         _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);
     }

@@ -13,7 +13,6 @@ set(header
     djvFileBrowserTestUtil.h
     djvFileBrowserTestView.h
     djvFileBrowserTestWidget.h)
-
 set(mocHeader
     djvFileBrowserTestAbstractWorker.h
     djvFileBrowserTestActionData.h
@@ -29,7 +28,6 @@ set(mocHeader
     djvFileBrowserTestUtil.h
     djvFileBrowserTestView.h
     djvFileBrowserTestWidget.h)
-
 set(source
     djvFileBrowserTestAbstractWorker.cpp
     djvFileBrowserTestActionData.cpp
@@ -50,17 +48,12 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvFileBrowserTest
-    ${djvGuiIncludeDirs})
-
+    ${CMAKE_SOURCE_DIR}/lib/djvUI
+    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
+    ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_BINARY_DIR}
+    ${OPENGL_INCLUDE_DIRS})
 add_executable(djvFileBrowserTest ${header} ${source} ${mocSource})
-
-target_link_libraries(djvFileBrowserTest ${djvGuiLibs})
-
+target_link_libraries(djvFileBrowserTest djvUI)
 set_target_properties(djvFileBrowserTest PROPERTIES FOLDER tests CXX_STANDARD 11)
-
-if (djvImageIoPlugins)
-
-    add_dependencies(djvFileBrowserTest ${djvImageIoPlugins})
-
-endif (djvImageIoPlugins)
 

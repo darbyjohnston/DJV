@@ -42,7 +42,7 @@
 
 djvConvertOptions::djvConvertOptions() :
     scale   (1.0),
-    channel (static_cast<djvOpenGlImageOptions::CHANNEL>(0)),
+    channel (static_cast<djvOpenGLImageOptions::CHANNEL>(0)),
     sequence(djvSequence::COMPRESS_RANGE)
 {}
 
@@ -70,7 +70,7 @@ djvConvertOutput::djvConvertOutput() :
 //------------------------------------------------------------------------------
 
 djvConvertContext::djvConvertContext(QObject * parent) :
-    djvImageContext(parent)
+    djvGraphicsContext(parent)
 {
     //DJV_DEBUG("djvConvertContext::djvConvertContext");
     
@@ -103,7 +103,7 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
     //DJV_DEBUG("djvConvertContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    if (! djvImageContext::commandLineParse(in))
+    if (! djvGraphicsContext::commandLineParse(in))
         return false;
 
     if (in.isEmpty())
@@ -411,7 +411,7 @@ QString djvConvertContext::commandLineHelp() const
 "\n"
 "    > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2\n");
     return QString(label).
-        arg(djvOpenGlImageOptions::channelLabels().join(", ")).
+        arg(djvOpenGLImageOptions::channelLabels().join(", ")).
         arg(djvStringUtil::label(_options.channel).join(", ")).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_options.sequence).join(", ")).
@@ -422,5 +422,5 @@ QString djvConvertContext::commandLineHelp() const
         arg(djvSpeed::fpsLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvStringUtil::label(_output.tagsAuto).join(", ")).
-        arg(djvImageContext::commandLineHelp());
+        arg(djvGraphicsContext::commandLineHelp());
 }

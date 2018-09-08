@@ -39,7 +39,7 @@ class djvColorDialogTest : public djvAbstractWidgetTest
     
 public:
 
-    djvColorDialogTest(djvGuiContext *);
+    djvColorDialogTest(djvUIContext *);
 
     virtual QString name();
 

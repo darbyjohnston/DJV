@@ -98,7 +98,7 @@ glm::ivec2 djvFileBrowserTestUtil::thumbnailSize(
         *proxy = djvPixelDataInfo::PROXY(_proxy);
     }
     const float scale = thumbnailSize / static_cast<float>(tmp / proxyScale);
-    return djvVectorUtil::ceil<float, int>(glm::vec2(imageSize) / proxyScale * scale);
+    return djvVectorUtil::ceil(glm::vec2(imageSize) / proxyScale * scale);
 }
 
 const QStringList & djvFileBrowserTestUtil::columnsLabels()

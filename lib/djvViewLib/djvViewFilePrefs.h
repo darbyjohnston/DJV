@@ -33,8 +33,9 @@
 
 #include <djvViewAbstractPrefs.h>
 
-#include <djvFileInfo.h>
 #include <djvPixelData.h>
+
+#include <djvFileInfo.h>
 
 #include <QStringList>
 

@@ -35,18 +35,19 @@
 
 #include <djvFloatEdit.h>
 #include <djvFloatObject.h>
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 #include <djvIconLibrary.h>
 #include <djvPrefs.h>
 #include <djvStyle.h>
 #include <djvTimePrefs.h>
 #include <djvToolButton.h>
 
+#include <djvColorUtil.h>
+#include <djvPixel.h>
+
 #include <djvBox.h>
 #include <djvBoxUtil.h>
-#include <djvColorUtil.h>
 #include <djvDebug.h>
-#include <djvPixel.h>
 #include <djvRange.h>
 #include <djvRangeUtil.h>
 #include <djvSequence.h>
@@ -87,7 +88,7 @@ struct djvViewCacheSizeWidget::Private
 // djvViewCacheSizeWidget
 //------------------------------------------------------------------------------
 
-djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvGuiContext * context, QWidget * parent) :
+djvViewCacheSizeWidget::djvViewCacheSizeWidget(djvUIContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new Private)
 {
@@ -203,7 +204,7 @@ struct djvViewFrameWidget::Private
 // djvViewFrameWidget
 //------------------------------------------------------------------------------
 
-djvViewFrameWidget::djvViewFrameWidget(djvGuiContext * context, QWidget * parent) :
+djvViewFrameWidget::djvViewFrameWidget(djvUIContext * context, QWidget * parent) :
     QAbstractSpinBox(parent),
     _p(new Private)
 {
@@ -352,7 +353,7 @@ void djvViewFrameWidget::widgetUpdate()
 
 struct djvViewFrameSlider::Private
 {
-    Private(djvGuiContext * context) :
+    Private(djvUIContext * context) :
         frame       (0),
         inOutEnabled(false),
         inPoint     (0),
@@ -367,14 +368,14 @@ struct djvViewFrameSlider::Private
     qint64          inPoint;
     qint64          outPoint;
     djvFrameList    cachedFrames;
-    djvGuiContext * context;
+    djvUIContext * context;
 };
 
 //------------------------------------------------------------------------------
 // djvViewFrameSlider
 //------------------------------------------------------------------------------
 
-djvViewFrameSlider::djvViewFrameSlider(djvGuiContext * context, QWidget * parent) :
+djvViewFrameSlider::djvViewFrameSlider(djvUIContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new Private(context))
 {
@@ -813,7 +814,7 @@ struct djvViewFrameDisplay::Private
 // djvViewFrameDisplay
 //------------------------------------------------------------------------------
 
-djvViewFrameDisplay::djvViewFrameDisplay(djvGuiContext * context, QWidget * parent) :
+djvViewFrameDisplay::djvViewFrameDisplay(djvUIContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new Private)
 {
@@ -937,7 +938,7 @@ struct djvViewSpeedButton::Private
 // djvViewSpeedButton
 //------------------------------------------------------------------------------
 
-djvViewSpeedButton::djvViewSpeedButton(djvGuiContext * context, QWidget * parent) :
+djvViewSpeedButton::djvViewSpeedButton(djvUIContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new Private)
 {
@@ -1023,7 +1024,7 @@ struct djvViewSpeedWidget::Private
 // djvViewSpeedWidget
 //------------------------------------------------------------------------------
 
-djvViewSpeedWidget::djvViewSpeedWidget(djvGuiContext * context, QWidget * parent) :
+djvViewSpeedWidget::djvViewSpeedWidget(djvUIContext * context, QWidget * parent) :
     QWidget(parent),
     _p(new Private)
 {

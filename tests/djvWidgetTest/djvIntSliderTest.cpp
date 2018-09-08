@@ -37,7 +37,7 @@
 
 #include <QVBoxLayout>
 
-djvIntSliderTest::djvIntSliderTest(djvGuiContext * context) :
+djvIntSliderTest::djvIntSliderTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

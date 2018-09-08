@@ -31,12 +31,13 @@
 
 #pragma once
 
-#include <djvGuiContext.h>
 #include <djvImageView.h>
+#include <djvUIContext.h>
+
+#include <djvImage.h>
+#include <djvImageIO.h>
 
 #include <djvFileInfo.h>
-#include <djvImage.h>
-#include <djvImageIo.h>
 
 #include <QApplication>
 #include <QScopedPointer>
@@ -47,7 +48,7 @@ class djvImageViewTestWidget : public djvImageView
 
 public:
 
-    explicit djvImageViewTestWidget(djvGuiContext *);
+    explicit djvImageViewTestWidget(djvUIContext *);
     
 protected:
 
@@ -76,7 +77,7 @@ private Q_SLOTS:
 
 private:
 
-    QScopedPointer<djvGuiContext>          _context;
+    QScopedPointer<djvUIContext>           _context;
     djvFileInfo                            _fileInfo;
     QScopedPointer<djvImageLoad>           _load;
     djvImage                               _image;

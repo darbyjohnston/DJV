@@ -37,7 +37,7 @@
 
 #include <memory>
 
-class djvGuiContext;
+class djvUIContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestContactSheetDelegate
@@ -50,7 +50,7 @@ class djvFileBrowserTestContactSheetDelegate : public QAbstractItemDelegate
     Q_OBJECT
     
 public:
-    explicit djvFileBrowserTestContactSheetDelegate(djvGuiContext *, QObject * parent = nullptr);
+    explicit djvFileBrowserTestContactSheetDelegate(djvUIContext *, QObject * parent = nullptr);
 
     virtual ~djvFileBrowserTestContactSheetDelegate();
     

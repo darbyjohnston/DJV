@@ -40,14 +40,12 @@ class djvPixelWidgetTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvPixelWidgetTest(djvGuiContext *);
+    djvPixelWidgetTest(djvUIContext *);
 
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());
     
 private Q_SLOTS:
-
     void callback(djvPixel::PIXEL);
 };

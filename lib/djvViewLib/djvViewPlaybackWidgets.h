@@ -39,7 +39,7 @@
 
 class djvViewContext;
 
-class djvGuiContext;
+class djvUIContext;
 
 class QActionGroup;
 
@@ -59,7 +59,7 @@ class djvViewPlaybackButtons : public QWidget
 public:
     explicit djvViewPlaybackButtons(
         QActionGroup *  actionGroup,
-        djvGuiContext * context,
+        djvUIContext * context,
         QWidget *       parent      = nullptr);
 
     virtual ~djvViewPlaybackButtons();
@@ -119,7 +119,7 @@ class djvViewFrameButtons : public QWidget
 public:
     explicit djvViewFrameButtons(
         QActionGroup *  actionGroup,
-        djvGuiContext * context,
+        djvUIContext * context,
         QWidget *       parent      = nullptr);
 
     virtual ~djvViewFrameButtons();

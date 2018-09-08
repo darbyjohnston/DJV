@@ -33,8 +33,9 @@
 
 #include <djvViewLib.h>
 
+#include <djvOpenGLImage.h>
+
 #include <djvFileInfo.h>
-#include <djvOpenGlImage.h>
 
 //! \addtogroup djvViewImage
 //@{
@@ -46,7 +47,7 @@
 //------------------------------------------------------------------------------
 
 struct djvViewDisplayProfile :
-    public djvOpenGlImageDisplayProfile
+    public djvOpenGLImageDisplayProfile
 {
     QString     name;
     djvFileInfo lutFile;

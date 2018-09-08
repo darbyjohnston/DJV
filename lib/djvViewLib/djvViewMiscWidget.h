@@ -41,7 +41,7 @@
 
 #include <memory>
 
-class djvGuiContext;
+class djvUIContext;
 
 class QAbstractButton;
 
@@ -73,7 +73,7 @@ class djvViewCacheSizeWidget : public QWidget
         NOTIFY cacheSizeChanged)
 
 public:
-    explicit djvViewCacheSizeWidget(djvGuiContext *, QWidget * parent = nullptr);
+    explicit djvViewCacheSizeWidget(djvUIContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewCacheSizeWidget();
 
@@ -141,7 +141,7 @@ class djvViewFrameWidget : public QAbstractSpinBox
         WRITE    setSpeed)
 
 public:
-    explicit djvViewFrameWidget(djvGuiContext *, QWidget * parent = nullptr);
+    explicit djvViewFrameWidget(djvUIContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewFrameWidget();
 
@@ -240,7 +240,7 @@ class djvViewFrameSlider : public QWidget
         NOTIFY outPointChanged)
     
 public:
-    explicit djvViewFrameSlider(djvGuiContext *, QWidget * parent = nullptr);
+    explicit djvViewFrameSlider(djvUIContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewFrameSlider();
 
@@ -377,7 +377,7 @@ class djvViewFrameDisplay : public QWidget
         WRITE  setInOutEnabled)
     
 public:
-    explicit djvViewFrameDisplay(djvGuiContext *, QWidget * parent = nullptr);
+    explicit djvViewFrameDisplay(djvUIContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewFrameDisplay();
 
@@ -426,7 +426,7 @@ class djvViewSpeedButton : public QWidget
     Q_OBJECT
     
 public:
-    explicit djvViewSpeedButton(djvGuiContext *, QWidget * parent = nullptr);
+    explicit djvViewSpeedButton(djvUIContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewSpeedButton();
 
@@ -474,7 +474,7 @@ class djvViewSpeedWidget : public QWidget
         WRITE    setDefaultSpeed)
     
 public:
-    explicit djvViewSpeedWidget(djvGuiContext *, QWidget * parent = nullptr);
+    explicit djvViewSpeedWidget(djvUIContext *, QWidget * parent = nullptr);
 
     virtual ~djvViewSpeedWidget();
 

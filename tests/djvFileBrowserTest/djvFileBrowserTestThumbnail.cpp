@@ -33,10 +33,11 @@
 
 #include <djvPixmapUtil.h>
 
-#include <djvDebug.h>
 #include <djvImage.h>
-#include <djvImageContext.h>
+#include <djvGraphicsContext.h>
 #include <djvPixelDataUtil.h>
+
+#include <djvDebug.h>
 
 #include <QMutex>
 #include <QOffscreenSurface>
@@ -80,11 +81,11 @@ djvFileBrowserTestThumbnailResult::djvFileBrowserTestThumbnailResult() :
 
 struct djvFileBrowserTestThumbnailWorker::Private
 {
-    Private(djvImageContext * context) :
+    Private(djvGraphicsContext * context) :
         context(context)
     {}
     
-    djvImageContext *                 context;
+    djvGraphicsContext *              context          = nullptr;
     QScopedPointer<QOffscreenSurface> offscreenSurface;
     QScopedPointer<QOpenGLContext>    openGlContext;
     djvImage                          image;
@@ -96,8 +97,8 @@ struct djvFileBrowserTestThumbnailWorker::Private
 //------------------------------------------------------------------------------
 
 djvFileBrowserTestThumbnailWorker::djvFileBrowserTestThumbnailWorker(
-    djvImageContext * context,
-    QObject *         parent) :
+    djvGraphicsContext * context,
+    QObject *            parent) :
     djvFileBrowserTestAbstractWorker(parent),
     _p(new Private(context))
 {}
@@ -128,7 +129,7 @@ void djvFileBrowserTestThumbnailWorker::request(
     {
         // Load the image.
         QScopedPointer<djvImageLoad> load;
-        load.reset(_p->context->imageIoFactory()->load(request.fileInfo, result.info));
+        load.reset(_p->context->imageIOFactory()->load(request.fileInfo, result.info));
         djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
         glm::ivec2 size = djvFileBrowserTestUtil::thumbnailSize(
             request.thumbnails,
@@ -136,12 +137,12 @@ void djvFileBrowserTestThumbnailWorker::request(
             result.info.size,
             &proxy);
         //DJV_DEBUG_PRINT("size = " << size);
-        load->read(_p->image, djvImageIoFrameInfo(-1, 0, proxy));
+        load->read(_p->image, djvImageIOFrameInfo(-1, 0, proxy));
         //DJV_DEBUG_PRINT("image = " << _p->image);
         
         // Scale the image.
         _p->imageScaled.set(djvPixelDataInfo(size, _p->image.pixel()));
-        djvOpenGlImageOptions options;
+        djvOpenGLImageOptions options;
         options.xform.scale =
             glm::vec2(_p->imageScaled.size()) /
             (glm::vec2(_p->image.size() * djvPixelDataUtil::proxyScale(_p->image.info().proxy)));
@@ -149,9 +150,9 @@ void djvFileBrowserTestThumbnailWorker::request(
         options.colorProfile = _p->image.colorProfile;
         if (djvFileBrowserTestUtil::THUMBNAILS_HIGH == request.thumbnails)
         {
-            options.filter = djvOpenGlImageFilter::filterHighQuality();
+            options.filter = djvOpenGLImageFilter::filterHighQuality();
         }
-        djvOpenGlImage::copy(_p->image, _p->imageScaled, options);
+        djvOpenGLImage::copy(_p->image, _p->imageScaled, options);
         result.pixmap = djvPixmapUtil::toQt(_p->imageScaled);
     }
     catch (djvError error)
@@ -188,8 +189,8 @@ void djvFileBrowserTestThumbnailWorker::finish()
 //------------------------------------------------------------------------------
 
 djvFileBrowserTestThumbnail::djvFileBrowserTestThumbnail(
-    djvImageContext * context,
-    QObject *         parent) :
+    djvGraphicsContext * context,
+    QObject *            parent) :
     QObject(parent),
     _context    (context),
     _threadIndex(0)

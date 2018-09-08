@@ -49,11 +49,12 @@
 #include <djvPrefsDialog.h>
 #include <djvQuestionDialog.h>
 
+#include <djvPixelDataUtil.h>
+
 #include <djvDebugLog.h>
 #include <djvError.h>
 #include <djvFileInfoUtil.h>
 #include <djvListUtil.h>
-#include <djvPixelDataUtil.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -85,7 +86,7 @@ struct djvViewFileGroup::Private
     {}
 
     djvFileInfo                  fileInfo;
-    djvImageIoInfo               imageIoInfo;
+    djvImageIOInfo               imageIOInfo;
     const djvImage *             image;
     djvImage                     imageTmp;
     djvImage                     imageTmp2;
@@ -252,7 +253,7 @@ djvViewFileGroup::djvViewFileGroup(
 
     // Setup other callbacks.
     connect(
-        context->imageIoFactory(),
+        context->imageIOFactory(),
         SIGNAL(optionChanged()),
         SLOT(reloadCallback()));
 }
@@ -339,9 +340,9 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
             {
                 _p->imageLoad->read(
                     _p->u8Conversion ? that->_p->imageTmp2 : that->_p->imageTmp,
-                    djvImageIoFrameInfo(
-                        _p->imageIoInfo.sequence.frames.count() ?
-                            _p->imageIoInfo.sequence.frames[frame] :
+                    djvImageIOFrameInfo(
+                        _p->imageIOInfo.sequence.frames.count() ?
+                            _p->imageIOInfo.sequence.frames[frame] :
                             -1,
                         _p->layer,
                         _p->proxy));
@@ -366,10 +367,10 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
                     that->_p->imageTmp.set(info);
                     that->_p->imageTmp.tags = _p->imageTmp2.tags;
                     that->_p->imageTmp.colorProfile = djvColorProfile();
-                    djvOpenGlImageOptions options;
+                    djvOpenGLImageOptions options;
                     options.colorProfile = _p->imageTmp2.colorProfile;
                     options.proxyScale = false;
-                    djvOpenGlImage::copy(_p->imageTmp2, that->_p->imageTmp, options);
+                    djvOpenGLImage::copy(_p->imageTmp2, that->_p->imageTmp, options);
                 }
             }
             catch (djvError error)
@@ -401,9 +402,9 @@ const djvImage * djvViewFileGroup::image(qint64 frame) const
     return _p->image;
 }
 
-const djvImageIoInfo & djvViewFileGroup::imageIoInfo() const
+const djvImageIOInfo & djvViewFileGroup::imageIOInfo() const
 {
-    return _p->imageIoInfo;
+    return _p->imageIOInfo;
 }
 
 QToolBar * djvViewFileGroup::toolBar() const
@@ -423,7 +424,7 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
     cacheDel();
     djvFileInfo tmp = fileInfo;
     _p->fileInfo = djvFileInfo();
-    _p->imageIoInfo = djvImageIoInfo();
+    _p->imageIOInfo = djvImageIOInfo();
     _p->imageLoad.reset();
 
     // Load the file.
@@ -433,7 +434,7 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
         try
         {
             _p->imageLoad.reset(
-                context()->imageIoFactory()->load(tmp, _p->imageIoInfo));
+                context()->imageIOFactory()->load(tmp, _p->imageIOInfo));
             _p->fileInfo = tmp;
             context()->filePrefs()->addRecent(_p->fileInfo);
         }
@@ -453,9 +454,9 @@ void djvViewFileGroup::open(const djvFileInfo & fileInfo)
 
     _p->layer = 0;
     _p->layers.clear();
-    for (int i = 0; i < _p->imageIoInfo.layerCount(); ++i)
+    for (int i = 0; i < _p->imageIOInfo.layerCount(); ++i)
     {
-        _p->layers += _p->imageIoInfo[i].layerName;
+        _p->layers += _p->imageIOInfo[i].layerName;
     }
 
     preloadUpdate();
@@ -563,7 +564,7 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
     quint64   byteCount   = 0;
     qint64    frame       = _p->preloadFrame;
     int       frameCount  = 0;
-    const int totalFrames = _p->imageIoInfo.sequence.frames.count();
+    const int totalFrames = _p->imageIOInfo.sequence.frames.count();
     for (;
         byteCount <= cache->maxByteCount() &&
         frameCount < totalFrames;
@@ -576,7 +577,7 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
         }
         else
         {
-            byteCount += djvPixelDataUtil::dataByteCount(_p->imageIoInfo);
+            byteCount += djvPixelDataUtil::dataByteCount(_p->imageIOInfo);
             if (byteCount <= cache->maxByteCount())
             {
                 preload = true;
@@ -599,9 +600,9 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
             {
                 _p->imageLoad->read(
                     _p->u8Conversion ? _p->imageTmp2 : _p->imageTmp,
-                    djvImageIoFrameInfo(
-                    _p->imageIoInfo.sequence.frames.count() ?
-                    _p->imageIoInfo.sequence.frames[frame] :
+                    djvImageIOFrameInfo(
+                    _p->imageIOInfo.sequence.frames.count() ?
+                    _p->imageIOInfo.sequence.frames[frame] :
                     -1,
                     _p->layer,
                     _p->proxy));
@@ -621,11 +622,11 @@ void djvViewFileGroup::timerEvent(QTimerEvent *)
                     _p->imageTmp.tags = _p->imageTmp2.tags;
                     _p->imageTmp.colorProfile = djvColorProfile();
 
-                    djvOpenGlImageOptions options;
+                    djvOpenGLImageOptions options;
                     options.colorProfile = _p->imageTmp2.colorProfile;
                     options.proxyScale = false;
 
-                    djvOpenGlImage::copy(_p->imageTmp2, _p->imageTmp, options);
+                    djvOpenGLImage::copy(_p->imageTmp2, _p->imageTmp, options);
                 }
             }
             catch (const djvError &)
@@ -694,7 +695,7 @@ void djvViewFileGroup::reloadCallback()
         try
         {
             _p->imageLoad.reset(
-                context()->imageIoFactory()->load(_p->fileInfo, _p->imageIoInfo));
+                context()->imageIOFactory()->load(_p->fileInfo, _p->imageIOInfo));
         }
         catch (djvError error)
         {
@@ -722,7 +723,7 @@ void djvViewFileGroup::reloadFrameCallback()
         try
         {
             _p->imageLoad.reset(
-                context()->imageIoFactory()->load(_p->fileInfo, _p->imageIoInfo));
+                context()->imageIOFactory()->load(_p->fileInfo, _p->imageIOInfo));
         }
         catch (djvError error)
         {

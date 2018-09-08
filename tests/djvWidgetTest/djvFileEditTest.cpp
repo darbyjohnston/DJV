@@ -37,7 +37,7 @@
 
 #include <QVBoxLayout>
 
-djvFileEditTest::djvFileEditTest(djvGuiContext * context) :
+djvFileEditTest::djvFileEditTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

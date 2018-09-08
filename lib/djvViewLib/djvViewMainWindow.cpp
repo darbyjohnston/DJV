@@ -51,13 +51,14 @@
 #include <djvViewWindowPrefs.h>
 
 #include <djvColorSwatch.h>
+#include <djvImagePrefs.h>
+
+#include <djvOpenGLImage.h>
+#include <djvOpenGLOffscreenBuffer.h>
 
 #include <djvDebug.h>
 #include <djvDebugLog.h>
 #include <djvError.h>
-#include <djvImagePrefs.h>
-#include <djvOpenGlImage.h>
-#include <djvOpenGlOffscreenBuffer.h>
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -113,8 +114,8 @@ struct djvViewMainWindow::Private
     glm::ivec2                               imagePick = glm::ivec2(0, 0);
     djvColor                                 imageSample;
     bool                                     sampleInit;
-    QScopedPointer<djvOpenGlOffscreenBuffer> sampleBuffer;
-    djvOpenGlImageState                      sampleState;
+    QScopedPointer<djvOpenGLOffscreenBuffer> sampleBuffer;
+    djvOpenGLImageState                      sampleState;
     djvViewImageView *                       viewWidget;
     djvColorSwatch *                         infoSwatch;
     QLabel *                                 infoPixelLabel;
@@ -321,8 +322,8 @@ djvViewMainWindow::djvViewMainWindow(
         SIGNAL(cacheChanged()),
         SLOT(fileCacheUpdate()));
     connect(
-        context->djvGuiContext::imagePrefs(),
-        SIGNAL(filterChanged(const djvOpenGlImageFilter &)),
+        context->djvUIContext::imagePrefs(),
+        SIGNAL(filterChanged(const djvOpenGLImageFilter &)),
         SLOT(imageUpdate()));
     connect(
         context->viewPrefs(),
@@ -342,9 +343,9 @@ djvViewMainWindow::~djvViewMainWindow()
     _p->viewWidget->deleteLater();
 }
 
-const djvImageIoInfo & djvViewMainWindow::imageIoInfo() const
+const djvImageIOInfo & djvViewMainWindow::imageIOInfo() const
 {
-    return _p->fileGroup->imageIoInfo();
+    return _p->fileGroup->imageIOInfo();
 }
 
 djvViewImageView * djvViewMainWindow::viewWidget() const
@@ -416,7 +417,7 @@ void djvViewMainWindow::fileOpen(const djvFileInfo & fileInfo, bool init)
         _p->fileGroup->open(fileInfo);
 
         // Set playback.
-        const djvSequence & sequence = _p->fileGroup->imageIoInfo().sequence;
+        const djvSequence & sequence = _p->fileGroup->imageIOInfo().sequence;
         //DJV_DEBUG_PRINT("sequence = " << sequence);
         _p->playbackGroup->setSequence(sequence);
         if (init)
@@ -615,7 +616,7 @@ void djvViewMainWindow::saveCallback(const djvFileInfo & in)
     const djvViewFileSaveInfo info(
         _p->fileGroup->fileInfo(),
         in,
-        _p->fileGroup->imageIoInfo()[_p->fileGroup->layer()],
+        _p->fileGroup->imageIOInfo()[_p->fileGroup->layer()],
         sequence,
         _p->fileGroup->layer(),
         _p->fileGroup->proxy(),
@@ -640,7 +641,7 @@ void djvViewMainWindow::saveFrameCallback(const djvFileInfo & in)
     const djvViewFileSaveInfo info(
         _p->fileGroup->fileInfo(),
         in,
-        _p->fileGroup->imageIoInfo()[_p->fileGroup->layer()],
+        _p->fileGroup->imageIOInfo()[_p->fileGroup->layer()],
         sequence,
         _p->fileGroup->layer(),
         _p->fileGroup->proxy(),
@@ -844,7 +845,7 @@ void djvViewMainWindow::viewPickUpdate()
         glm::vec2(_p->imagePick - _p->viewWidget->viewPos()) /
         _p->viewWidget->viewZoom());
     //DJV_DEBUG_PRINT("pick = " << pick);
-    djvOpenGlImageOptions options = imageOptions();
+    djvOpenGLImageOptions options = imageOptions();
     _p->imageSample = options.background;
     const djvImage * image = this->image();
     if (image && _p->windowGroup->toolBarVisible()[djvViewUtil::INFO_BAR])
@@ -857,17 +858,17 @@ void djvViewMainWindow::viewPickUpdate()
             if (! _p->sampleBuffer || _p->sampleBuffer->info() != tmp.info())
             {
                 _p->sampleBuffer.reset(
-                    new djvOpenGlOffscreenBuffer(tmp.info()));
+                    new djvOpenGLOffscreenBuffer(tmp.info()));
             }
-            djvOpenGlImageOptions _options = options;
+            djvOpenGLImageOptions _options = options;
             _options.xform.position -= pick;
-            djvOpenGlImage::copy(
+            djvOpenGLImage::copy(
                 *image,
                 tmp,
                 _options,
                 &_p->sampleState,
                 _p->sampleBuffer.data());
-            djvOpenGlImage::average(tmp, _p->imageSample);
+            djvOpenGLImage::average(tmp, _p->imageSample);
         }
         catch (djvError error)
         {
@@ -909,9 +910,9 @@ const djvImage * djvViewMainWindow::image() const
     return _p->imageGroup->hasFrameStore() ? &_p->imageTmp : _p->imageP;
 }
 
-djvOpenGlImageOptions djvViewMainWindow::imageOptions() const
+djvOpenGLImageOptions djvViewMainWindow::imageOptions() const
 {
-    djvOpenGlImageOptions out;
+    djvOpenGLImageOptions out;
     out.xform.mirror = _p->imageGroup->mirror();
     const djvImage * image = this->image();
     if (image)

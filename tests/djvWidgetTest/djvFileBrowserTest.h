@@ -39,7 +39,7 @@ class djvFileBrowserTest : public djvAbstractWidgetTest
     
 public:
 
-    djvFileBrowserTest(djvGuiContext *);
+    djvFileBrowserTest(djvUIContext *);
 
     virtual QString name();
 

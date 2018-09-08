@@ -35,7 +35,7 @@
 
 class djvWidgetTestModel;
 
-class djvGuiContext;
+class djvUIContext;
 
 class QListView;
 class QSortFilterProxyModel;
@@ -50,7 +50,7 @@ class djvWidgetTestWindow : public QWidget
     
 public:
 
-    djvWidgetTestWindow(djvWidgetTestModel *, djvGuiContext *);
+    djvWidgetTestWindow(djvWidgetTestModel *, djvUIContext *);
 
 private Q_SLOTS:
 

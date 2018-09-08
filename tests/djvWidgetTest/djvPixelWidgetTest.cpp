@@ -37,7 +37,7 @@
 
 #include <QVBoxLayout>
 
-djvPixelWidgetTest::djvPixelWidgetTest(djvGuiContext * context) :
+djvPixelWidgetTest::djvPixelWidgetTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

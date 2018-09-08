@@ -180,12 +180,12 @@ QStringList djvViewImagePrefs::displayProfileNames() const
     return out;
 }
 
-djvOpenGlImageOptions::CHANNEL djvViewImagePrefs::channelDefault()
+djvOpenGLImageOptions::CHANNEL djvViewImagePrefs::channelDefault()
 {
-    return static_cast<djvOpenGlImageOptions::CHANNEL>(0);
+    return static_cast<djvOpenGLImageOptions::CHANNEL>(0);
 }
 
-djvOpenGlImageOptions::CHANNEL djvViewImagePrefs::channel() const
+djvOpenGLImageOptions::CHANNEL djvViewImagePrefs::channel() const
 {
     return _channel;
 }
@@ -258,7 +258,7 @@ void djvViewImagePrefs::setDisplayProfiles(
     Q_EMIT prefChanged();
 }
 
-void djvViewImagePrefs::setChannel(djvOpenGlImageOptions::CHANNEL in)
+void djvViewImagePrefs::setChannel(djvOpenGLImageOptions::CHANNEL in)
 {
     if (in == _channel)
         return;

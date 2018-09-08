@@ -36,9 +36,9 @@
 #include <djvViewMiscWidget.h>
 
 #include <djvIconLibrary.h>
-#include <djvGuiContext.h>
 #include <djvTimePrefs.h>
 #include <djvToolButton.h>
+#include <djvUIContext.h>
 
 #include <djvRangeUtil.h>
 #include <djvSignalBlocker.h>
@@ -48,7 +48,7 @@
 #include <QComboBox>
 #include <QGridLayout>
 
-djvViewWidget::djvViewWidget(djvGuiContext * context) :
+djvViewWidget::djvViewWidget(djvUIContext * context) :
     _frame          (0),
     _inOutEnabled   (true),
     _inPoint        (100),
@@ -202,7 +202,7 @@ void djvViewWidget::widgetUpdate()
     _speedDisplay->setDroppedFrames(true);
 }
 
-djvViewWidgetTest::djvViewWidgetTest(djvGuiContext * context) :
+djvViewWidgetTest::djvViewWidgetTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

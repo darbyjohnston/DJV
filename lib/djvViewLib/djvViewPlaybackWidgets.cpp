@@ -65,7 +65,7 @@ struct djvViewPlaybackButtons::Private
 
 djvViewPlaybackButtons::djvViewPlaybackButtons(
     QActionGroup *  actionGroup,
-    djvGuiContext * context,
+    djvUIContext * context,
     QWidget *       parent) :
     QWidget(parent),
     _p(new Private)
@@ -191,7 +191,7 @@ struct djvViewFrameButtons::Private
 
 djvViewFrameButtons::djvViewFrameButtons(
     QActionGroup *  actionGroup,
-    djvGuiContext * context,
+    djvUIContext * context,
     QWidget *       parent) :
     QWidget(parent),
     _p(new Private)

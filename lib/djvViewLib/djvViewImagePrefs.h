@@ -99,10 +99,10 @@ public:
     QStringList displayProfileNames() const;
 
     //! Get the default image channel.
-    static djvOpenGlImageOptions::CHANNEL channelDefault();
+    static djvOpenGLImageOptions::CHANNEL channelDefault();
 
     //! Get the image channel.
-    djvOpenGlImageOptions::CHANNEL channel() const;
+    djvOpenGLImageOptions::CHANNEL channel() const;
 
 public Q_SLOTS:
     //! Set whether to store the frame when reloading files.
@@ -127,7 +127,7 @@ public Q_SLOTS:
     void setDisplayProfiles(const QVector<djvViewDisplayProfile> &);
 
     //! Set the image channel.
-    void setChannel(djvOpenGlImageOptions::CHANNEL);
+    void setChannel(djvOpenGLImageOptions::CHANNEL);
 
 Q_SIGNALS:
     //! This signal is emitted when the mirror is changed.
@@ -150,7 +150,7 @@ Q_SIGNALS:
     void displayProfilesChanged(const QVector<djvViewDisplayProfile> &);
 
     //! This signal is emitted when the image channel is changed.
-    void channelChanged(djvOpenGlImageOptions::CHANNEL);
+    void channelChanged(djvOpenGLImageOptions::CHANNEL);
 
 private:
     bool                           _frameStoreFileReload;
@@ -160,7 +160,7 @@ private:
     bool                           _colorProfile;
     int                            _displayProfileIndex;
     QVector<djvViewDisplayProfile> _displayProfiles;
-    djvOpenGlImageOptions::CHANNEL _channel;
+    djvOpenGLImageOptions::CHANNEL _channel;
 };
 
 //@} // djvViewImage

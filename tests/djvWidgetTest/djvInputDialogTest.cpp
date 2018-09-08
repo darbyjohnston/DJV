@@ -35,7 +35,7 @@
 
 #include <djvSystem.h>
 
-djvInputDialogTest::djvInputDialogTest(djvGuiContext * context) :
+djvInputDialogTest::djvInputDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

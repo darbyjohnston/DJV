@@ -31,7 +31,7 @@
 
 #include <djvPixmapUtilTest.h>
 
-#include <djvImageIoPluginTest.h>
+#include <djvImageIOPluginTest.h>
 
 #include <djvBoxTest.h>
 #include <djvBoxUtilTest.h>
@@ -43,17 +43,17 @@
 #include <djvErrorTest.h>
 #include <djvFileInfoTest.h>
 #include <djvFileInfoUtilTest.h>
-#include <djvFileIoTest.h>
-#include <djvFileIoUtilTest.h>
-#include <djvImageContextTest.h>
-#include <djvImageIoTest.h>
+#include <djvFileIOTest.h>
+#include <djvFileIOUtilTest.h>
+#include <djvGraphicsContextTest.h>
+#include <djvImageIOTest.h>
 #include <djvImageTagsTest.h>
 #include <djvImageTest.h>
 #include <djvListUtilTest.h>
 #include <djvMathTest.h>
 #include <djvMemoryTest.h>
-#include <djvOpenGlImageTest.h>
-#include <djvOpenGlTest.h>
+#include <djvOpenGLImageTest.h>
+#include <djvOpenGLTest.h>
 #include <djvPixelDataTest.h>
 #include <djvPixelDataUtilTest.h>
 #include <djvPixelTest.h>
@@ -79,28 +79,16 @@ int main(int argc, char ** argv)
     QVector<djvAbstractTest *> tests = QVector<djvAbstractTest *>() <<
         new djvBoxTest <<
         new djvBoxUtilTest <<
-        new djvColorProfileTest <<
-        new djvColorTest <<
-        new djvColorUtilTest <<
         new djvCoreContextTest <<
         new djvDebugTest <<
         new djvErrorTest <<
         new djvFileInfoTest <<
         new djvFileInfoUtilTest <<
-        new djvFileIoTest <<
-        new djvFileIoUtilTest <<
-        new djvImageContextTest <<
-        new djvImageIoTest <<
-        new djvImageTagsTest <<
-        new djvImageTest <<
+        new djvFileIOTest <<
+        new djvFileIOUtilTest <<
         new djvListUtilTest <<
         new djvMathTest <<
         new djvMemoryTest <<
-        new djvOpenGlImageTest <<
-        new djvOpenGlTest <<
-        new djvPixelDataTest <<
-        new djvPixelDataUtilTest <<
-        new djvPixelTest <<
         new djvRangeTest <<
         new djvSequenceTest <<
         new djvSequenceUtilTest <<
@@ -112,8 +100,20 @@ int main(int argc, char ** argv)
         new djvTimerTest <<
         new djvUserTest <<
         new djvVectorUtilTest <<
-    
-        new djvImageIoPluginTest <<
+
+        new djvColorProfileTest <<
+        new djvColorTest <<
+        new djvColorUtilTest <<
+        new djvGraphicsContextTest <<
+        new djvImageIOPluginTest <<
+        new djvImageIOTest <<
+        new djvImageTagsTest <<
+        new djvImageTest <<
+        new djvOpenGLImageTest <<
+        new djvOpenGLTest <<
+        new djvPixelDataTest <<
+        new djvPixelDataUtilTest <<
+        new djvPixelTest <<
         
         new djvPixmapUtilTest;
 

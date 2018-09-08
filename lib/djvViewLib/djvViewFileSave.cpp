@@ -36,9 +36,10 @@
 
 #include <djvProgressDialog.h>
 
-#include <djvError.h>
 #include <djvImage.h>
 #include <djvPixelDataUtil.h>
+
+#include <djvError.h>
 
 #include <QApplication>
 #include <QDir>
@@ -56,7 +57,7 @@ djvViewFileSaveInfo::djvViewFileSaveInfo(
     djvPixelDataInfo::PROXY       proxy,
     bool                          u8Conversion,
     bool                          colorProfile,
-    const djvOpenGlImageOptions & options) :
+    const djvOpenGLImageOptions & options) :
     inputFile   (inputFile),
     outputFile  (outputFile),
     info        (info),
@@ -139,18 +140,18 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     //! \todo Why do we need to reverse the rotation here?
     _p->info.options.xform.rotate = -_p->info.options.xform.rotate;
     const djvBox2f bbox =
-        djvOpenGlImageXform::xformMatrix(_p->info.options.xform) *
+        djvOpenGLImageXform::xformMatrix(_p->info.options.xform) *
         djvBox2f(_p->info.info.size * djvPixelDataUtil::proxyScale(_p->info.info.proxy));
     //DJV_DEBUG_PRINT("bbox = " << bbox);
     _p->info.options.xform.position = -bbox.position;
     _p->info.info.size = bbox.size;
 
     // Open input.
-    djvImageIoInfo loadInfo;
+    djvImageIOInfo loadInfo;
     try
     {
         _p->load.reset(
-            _p->context->imageIoFactory()->load(_p->info.inputFile, loadInfo));
+            _p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo));
     }
     catch (djvError error)
     {
@@ -162,13 +163,13 @@ void djvViewFileSave::save(const djvViewFileSaveInfo & info)
     }
 
     // Open output.
-    djvImageIoInfo saveInfo(_p->info.info);
+    djvImageIOInfo saveInfo(_p->info.info);
     saveInfo.tags     = loadInfo.tags;
     saveInfo.sequence = _p->saveSequence;
     try
     {
         _p->save.reset(
-            _p->context->imageIoFactory()->save(_p->info.outputFile, saveInfo));
+            _p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo));
     }
     catch (djvError error)
     {
@@ -230,7 +231,7 @@ void djvViewFileSave::callback(int in)
         //DJV_DEBUG_PRINT("load");
         _p->load->read(
             image,
-            djvImageIoFrameInfo(
+            djvImageIOFrameInfo(
                 in < _p->info.sequence.frames.count() ? _p->info.sequence.frames[in] : -1,
                 _p->info.layer,
                 _p->info.proxy));
@@ -250,23 +251,23 @@ void djvViewFileSave::callback(int in)
     // Process the frame.
     djvImage * p = &image;
     djvImage tmp;
-    djvOpenGlImageOptions options(_p->info.options);
+    djvOpenGLImageOptions options(_p->info.options);
     if (_p->info.u8Conversion || _p->info.colorProfile)
     {
         options.colorProfile = image.colorProfile;
     }
     //DJV_DEBUG_PRINT("convert = " << (p->info() != _p->info.info));
-    //DJV_DEBUG_PRINT("options = " << (options != djvOpenGlImageOptions()));
+    //DJV_DEBUG_PRINT("options = " << (options != djvOpenGLImageOptions()));
     //DJV_DEBUG_PRINT("options = " << options);
-    //DJV_DEBUG_PRINT("def options = " << djvOpenGlImageOptions());
+    //DJV_DEBUG_PRINT("def options = " << djvOpenGLImageOptions());
     if (p->info() != _p->info.info ||
-        options != djvOpenGlImageOptions())
+        options != djvOpenGLImageOptions())
     {
         tmp.set(_p->info.info);
         try
         {
             //DJV_DEBUG_PRINT("process");
-            djvOpenGlImage::copy(image, tmp, options);
+            djvOpenGLImage::copy(image, tmp, options);
         }
         catch (djvError error)
         {
@@ -287,7 +288,7 @@ void djvViewFileSave::callback(int in)
         //DJV_DEBUG_PRINT("save");
         _p->save->write(
             tmp,
-            djvImageIoFrameInfo(
+            djvImageIOFrameInfo(
                 in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
     }
     catch (djvError error)

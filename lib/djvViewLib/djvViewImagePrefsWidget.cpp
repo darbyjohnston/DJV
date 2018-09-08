@@ -155,7 +155,7 @@ djvViewImagePrefsWidget::djvViewImagePrefsWidget(djvViewContext * context) :
 
     _p->channelWidget = new QComboBox;
     _p->channelWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->channelWidget->addItems(djvOpenGlImageOptions::channelLabels());
+    _p->channelWidget->addItems(djvOpenGLImageOptions::channelLabels());
 
     // Layout the widgets.
     QVBoxLayout * layout = new QVBoxLayout(this);
@@ -435,7 +435,7 @@ void djvViewImagePrefsWidget::moveDisplayProfileDownCallback()
 void djvViewImagePrefsWidget::channelCallback(int in)
 {
     context()->imagePrefs()->setChannel(
-        static_cast<djvOpenGlImageOptions::CHANNEL>(in));
+        static_cast<djvOpenGLImageOptions::CHANNEL>(in));
 }
 
 void djvViewImagePrefsWidget::widgetUpdate()

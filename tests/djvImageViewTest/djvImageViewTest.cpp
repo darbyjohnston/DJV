@@ -34,7 +34,7 @@
 #include <djvWindowUtil.h>
 
 #include <djvError.h>
-#include <djvOpenGlImage.h>
+#include <djvOpenGLImage.h>
 #include <djvPixel.h>
 
 #include <QCursor>
@@ -42,7 +42,7 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-djvImageViewTestWidget::djvImageViewTestWidget(djvGuiContext * context) :
+djvImageViewTestWidget::djvImageViewTestWidget(djvUIContext * context) :
     djvImageView(context)
 {}
 
@@ -81,7 +81,7 @@ void djvImageViewTestWidget::keyPressEvent(QKeyEvent * event)
 djvImageViewTestApplication::djvImageViewTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
-    _context.reset(new djvGuiContext);
+    _context.reset(new djvUIContext);
     if (argc != 2)
     {
         _context->printMessage("Usage: djvImageViewTest (input)");
@@ -103,8 +103,8 @@ void djvImageViewTestApplication::work()
 {
     try
     {
-        djvImageIoInfo info;
-        _load.reset(_context->imageIoFactory()->load(_fileInfo, info));
+        djvImageIOInfo info;
+        _load.reset(_context->imageIOFactory()->load(_fileInfo, info));
         _load->read(_image);
     }
     catch (const djvError & error)
@@ -118,7 +118,7 @@ void djvImageViewTestApplication::work()
     _widget->setWindowTitle("djvImageViewTest");
     _widget->setData(&_image);
 
-    djvOpenGlImageOptions options;
+    djvOpenGLImageOptions options;
     options.colorProfile = _image.colorProfile;
     _widget->setOptions(options);
 

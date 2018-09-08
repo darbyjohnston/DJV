@@ -35,7 +35,7 @@
 #include <djvWidgetTestModel.h>
 #include <djvWidgetTestWindow.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 
 #include <QApplication>
 
@@ -53,7 +53,7 @@ public:
     
 private:
 
-    QScopedPointer<djvGuiContext>        _context;
+    QScopedPointer<djvUIContext>         _context;
     QScopedPointer<djvWidgetTestManager> _testManager;
     QScopedPointer<djvWidgetTestModel>   _model;
     QScopedPointer<djvWidgetTestWindow>  _window;

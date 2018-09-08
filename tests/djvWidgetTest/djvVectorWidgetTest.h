@@ -40,15 +40,13 @@ class djvVectorWidgetTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvVectorWidgetTest(djvGuiContext *);
+    djvVectorWidgetTest(djvUIContext *);
     
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());
     
 private Q_SLOTS:
-
     void intCallback(const glm::ivec2 &);
     void floatCallback(const glm::vec2 &);
 };

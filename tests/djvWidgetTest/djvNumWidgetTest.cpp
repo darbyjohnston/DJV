@@ -43,7 +43,7 @@
 
 #include <QFormLayout>
 
-djvNumWidgetTest::djvNumWidgetTest(djvGuiContext * context) :
+djvNumWidgetTest::djvNumWidgetTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -57,7 +57,7 @@ void djvNumWidgetTest::run(const QStringList & args)
     (new djvNumWidgetTestWidget(context()))->show();
 }
 
-djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvGuiContext * context) :
+djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvUIContext * context) :
     _intValue    (0),
     _floatValue  (0.f),
     _intEdit     (0),

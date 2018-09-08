@@ -40,7 +40,7 @@
 //------------------------------------------------------------------------------
 
 djvInfoContext::djvInfoContext(QObject * parent) :
-    djvImageContext(parent),
+    djvGraphicsContext(parent),
     _info    (true),
     _verbose (false),
     _filePath(false),
@@ -99,7 +99,7 @@ bool djvInfoContext::commandLineParse(QStringList & in) throw (QString)
     //DJV_DEBUG("djvInfoContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    if (! djvImageContext::commandLineParse(in))
+    if (! djvGraphicsContext::commandLineParse(in))
         return false;
 
     QString arg;
@@ -234,5 +234,5 @@ QString djvInfoContext::commandLineHelp() const
     return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
-        arg(djvImageContext::commandLineHelp());
+        arg(djvGraphicsContext::commandLineHelp());
 }

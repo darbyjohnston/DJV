@@ -33,7 +33,7 @@
 
 #include <djvFileBrowserTestWidget.h>
 
-#include <djvGuiContext.h>
+#include <djvUIContext.h>
 
 #include <QApplication>
 #include <QScopedPointer>
@@ -58,7 +58,7 @@ private Q_SLOTS:
 
 private:
 
-    QScopedPointer<djvGuiContext>            _context;
+    QScopedPointer<djvUIContext>             _context;
     QString                                  _path;
     QScopedPointer<djvFileBrowserTestWidget> _widget;
 };

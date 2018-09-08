@@ -56,7 +56,7 @@
 
 struct djvFileBrowserTestWidget::Private
 {
-    Private(djvGuiContext * context) :
+    Private(djvUIContext * context) :
         context            (context),
         model              (new djvFileBrowserTestModel(context)),
         upAction           (0),
@@ -79,7 +79,7 @@ struct djvFileBrowserTestWidget::Private
         rightDockWidget    (0)
     {}
 
-    djvGuiContext *                         context;
+    djvUIContext *                          context = nullptr;
     QScopedPointer<djvFileBrowserTestModel> model;
 
     QAction *                               upAction;
@@ -109,8 +109,8 @@ struct djvFileBrowserTestWidget::Private
 //------------------------------------------------------------------------------
 
 djvFileBrowserTestWidget::djvFileBrowserTestWidget(
-    djvGuiContext * context,
-    QWidget *       parent) :
+    djvUIContext * context,
+    QWidget *      parent) :
     QMainWindow(parent),
     _p(new Private(context))
 {

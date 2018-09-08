@@ -41,7 +41,7 @@ class djvFileEditTest : public djvAbstractWidgetTest
     
 public:
 
-    djvFileEditTest(djvGuiContext *);
+    djvFileEditTest(djvUIContext *);
 
     virtual QString name();
 

@@ -37,7 +37,7 @@
 
 #include <QHBoxLayout>
 
-djvShortcutsWidgetTest::djvShortcutsWidgetTest(djvGuiContext * context) :
+djvShortcutsWidgetTest::djvShortcutsWidgetTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

@@ -35,7 +35,7 @@
 
 #include <djvSystem.h>
 
-djvChoiceDialogTest::djvChoiceDialogTest(djvGuiContext * context) :
+djvChoiceDialogTest::djvChoiceDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

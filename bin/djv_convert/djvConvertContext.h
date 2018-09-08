@@ -31,10 +31,11 @@
 
 #pragma once
 
-#include <djvFileInfo.h>
 #include <djvImage.h>
-#include <djvImageContext.h>
-#include <djvOpenGlImage.h>
+#include <djvGraphicsContext.h>
+#include <djvOpenGLImage.h>
+
+#include <djvFileInfo.h>
 
 //! \addtogroup djv_convert
 //@{
@@ -51,7 +52,7 @@ struct djvConvertOptions
 
     djvPixelDataInfo::Mirror       mirror;
     glm::vec2                      scale = glm::vec2(1.f, 1.f);
-    djvOpenGlImageOptions::CHANNEL channel;
+    djvOpenGLImageOptions::CHANNEL channel;
     glm::ivec2                     size = glm::ivec2(0, 0);
     djvBox2i                       crop;
     djvBox2f                       cropPercent;
@@ -101,7 +102,7 @@ struct djvConvertOutput
 //! This class provides global functionality for the application.
 //------------------------------------------------------------------------------
 
-class djvConvertContext : public djvImageContext
+class djvConvertContext : public djvGraphicsContext
 {
     Q_OBJECT
     

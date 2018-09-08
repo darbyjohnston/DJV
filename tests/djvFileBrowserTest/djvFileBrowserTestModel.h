@@ -36,14 +36,14 @@
 #include <djvFileBrowserTestThumbnail.h>
 #include <djvFileBrowserTestUtil.h>
 
-#include <djvImageIo.h>
+#include <djvImageIO.h>
 
 #include <QAbstractItemModel>
 #include <QDir>
 
 #include <memory>
 
-class djvGuiContext;
+class djvUIContext;
 
 //------------------------------------------------------------------------------
 //! \class djvFileBrowserTestModel
@@ -130,7 +130,7 @@ public:
     //! This constant provides a role for SVG file names.
     static const int SvgRole;
     
-    explicit djvFileBrowserTestModel(djvGuiContext *, QObject * parent = 0);
+    explicit djvFileBrowserTestModel(djvUIContext *, QObject * parent = 0);
     
     virtual ~djvFileBrowserTestModel();
     

@@ -33,8 +33,8 @@
 
 #include <djvFileBrowserTestModel.h>
 
-#include <djvGuiContext.h>
 #include <djvStyle.h>
+#include <djvUIContext.h>
 
 #include <djvDebug.h>
 
@@ -49,13 +49,13 @@
 
 struct djvFileBrowserTestContactSheetDelegate::Private
 {
-    Private(djvGuiContext * context) :
+    Private(djvUIContext * context) :
         context      (context),
         thumbnailSize(0)
     {}
         
-    djvGuiContext * context;
-    int             thumbnailSize;
+    djvUIContext * context;
+    int            thumbnailSize;
 };
 
 //------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ struct djvFileBrowserTestContactSheetDelegate::Private
 //------------------------------------------------------------------------------
 
 djvFileBrowserTestContactSheetDelegate::djvFileBrowserTestContactSheetDelegate(
-    djvGuiContext * context,
+    djvUIContext *  context,
     QObject *       parent) :
     QAbstractItemDelegate(parent),
     _p(new Private(context))

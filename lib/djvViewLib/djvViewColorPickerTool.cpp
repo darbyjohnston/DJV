@@ -43,10 +43,11 @@
 #include <djvPrefs.h>
 #include <djvToolButton.h>
 
+#include <djvOpenGLImage.h>
+#include <djvOpenGLOffscreenBuffer.h>
+
 #include <djvDebug.h>
 #include <djvError.h>
-#include <djvOpenGlImage.h>
-#include <djvOpenGlOffscreenBuffer.h>
 #include <djvSignalBlocker.h>
 #include <djvStyle.h>
 
@@ -84,8 +85,8 @@ struct djvViewColorPickerTool::Private
     bool                                     displayProfile;
     bool                                     lock;
 
-    QScopedPointer<djvOpenGlOffscreenBuffer> buffer;
-    djvOpenGlImageState                      state;
+    QScopedPointer<djvOpenGLOffscreenBuffer> buffer;
+    djvOpenGLImageState                      state;
     bool                                     swatchInit;
 
     djvColorWidget *                         widget;
@@ -319,9 +320,9 @@ void djvViewColorPickerTool::swatchUpdate()
             viewWidget()->makeCurrent();
             if (! _p->buffer || _p->buffer->info() != tmp.info())
             {
-                _p->buffer.reset(new djvOpenGlOffscreenBuffer(tmp.info()));
+                _p->buffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
             }
-            djvOpenGlImageOptions options = viewWidget()->options();
+            djvOpenGLImageOptions options = viewWidget()->options();
             options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
             if (! _p->colorProfile)
             {
@@ -337,13 +338,13 @@ void djvViewColorPickerTool::swatchUpdate()
             {
                 data = &empty;
             }
-            djvOpenGlImage::copy(
+            djvOpenGLImage::copy(
                 *data,
                 tmp,
                 options,
                 &_p->state,
                 _p->buffer.data());
-            djvOpenGlImage::average(tmp, _p->value);
+            djvOpenGLImage::average(tmp, _p->value);
         }
         catch (djvError error)
         {

@@ -1,0 +1,234 @@
+set(header
+    djvCineon.h
+    djvCineonHeader.h
+    djvCineonLoad.h
+    djvCineonPlugin.h
+    djvCineonSave.h
+    djvColor.h
+    djvColorInline.h
+    djvColorUtil.h
+    djvColorUtilInline.h
+    djvColorProfile.h
+    djvDPX.h
+    djvDPXHeader.h
+    djvDPXLoad.h
+    djvDPXPlugin.h
+    djvDPXSave.h
+    djvGraphicsContext.h
+    djvIFF.h
+    djvIFFLoad.h
+    djvIFFPlugin.h
+    djvIFFSave.h
+    djvIFL.h
+    djvIFLLoad.h
+    djvIFLPlugin.h
+    djvImage.h
+    djvImageIO.h
+    djvImageTags.h
+    djvImageUtil.h
+    djvLUT.h
+    djvLUTLoad.h
+    djvLUTPlugin.h
+    djvLUTSave.h
+    djvOpenGL.h
+    djvOpenGLImage.h
+    djvOpenGLOffscreenBuffer.h
+    djvOpenGLLUT.h
+    djvOpenGLShader.h
+    djvOpenGLTexture.h
+    djvPIC.h
+    djvPICLoad.h
+    djvPICPlugin.h
+    djvPixel.h
+    djvPixelData.h
+    djvPixelDataInline.h
+    djvPixelDataUtil.h
+    djvPixelInline.h
+    djvPPM.h
+    djvPPMLoad.h
+    djvPPMPlugin.h
+    djvPPMSave.h
+    djvRLA.h
+    djvRLALoad.h
+    djvRLAPlugin.h
+    djvSGI.h
+    djvSGILoad.h
+    djvSGIPlugin.h
+    djvSGISave.h
+    djvTarga.h
+    djvTargaLoad.h
+    djvTargaPlugin.h
+    djvTargaSave.h)
+set(mocHeader
+    djvColorProfile.h
+    djvImageIO.h
+    djvImageTags.h
+    djvOpenGLImage.h
+    djvPixelData.h
+    djvPixel.h)
+set(source
+    djvCineon.cpp
+    djvCineonHeader.cpp
+    djvCineonLoad.cpp
+    djvCineonPlugin.cpp
+    djvCineonSave.cpp
+    djvColor.cpp
+    djvColorUtil.cpp
+    djvColorProfile.cpp
+    djvDPX.cpp
+    djvDPXHeader.cpp
+    djvDPXLoad.cpp
+    djvDPXPlugin.cpp
+    djvDPXSave.cpp
+    djvGraphicsContext.cpp
+    djvIFF.cpp
+    djvIFFLoad.cpp
+    djvIFFPlugin.cpp
+    djvIFFSave.cpp
+    djvIFL.cpp
+    djvIFLLoad.cpp
+    djvIFLPlugin.cpp
+    djvImage.cpp
+    djvImageIO.cpp
+    djvImageTags.cpp
+    djvImageUtil.cpp
+    djvLUT.cpp
+    djvLUTLoad.cpp
+    djvLUTPlugin.cpp
+    djvLUTSave.cpp
+    djvOpenGL.cpp
+    djvOpenGLImage.cpp
+    djvOpenGLImageDraw.cpp
+    djvOpenGLOffscreenBuffer.cpp
+    djvOpenGLLUT.cpp
+    djvOpenGLShader.cpp
+    djvOpenGLTexture.cpp
+    djvPIC.cpp
+    djvPICLoad.cpp
+    djvPICPlugin.cpp
+    djvPixel.cpp
+    djvPixelConvert.cpp
+    djvPixelData.cpp
+    djvPixelDataUtil.cpp
+    djvPPM.cpp
+    djvPPMLoad.cpp
+    djvPPMPlugin.cpp
+    djvPPMSave.cpp
+    djvRLA.cpp
+    djvRLALoad.cpp
+    djvRLAPlugin.cpp
+    djvSGI.cpp
+    djvSGILoad.cpp
+    djvSGIPlugin.cpp
+    djvSGISave.cpp
+    djvTarga.cpp
+    djvTargaLoad.cpp
+    djvTargaPlugin.cpp
+    djvTargaSave.cpp)
+if(JPEG_FOUND)
+    set(header
+        ${header}
+        djvJPEG.h
+        djvJPEGLoad.h
+        djvJPEGPlugin.h
+        djvJPEGSave.h)
+    set(source
+        ${source}
+        djvJPEG.cpp
+        djvJPEGLoad.cpp
+        djvJPEGPlugin.cpp
+        djvJPEGSave.cpp)
+endif()
+if(PNG_FOUND)
+    set(header
+        ${header}
+        djvPNG.h
+        djvPNGLoad.h
+        djvPNGPlugin.h
+        djvPNGSave.h)
+    set(source
+        ${source}
+        djvPNG.cpp
+        djvPNGLoad.cpp
+        djvPNGPlugin.cpp
+        djvPNGSave.cpp)
+endif()
+if(TIFF_FOUND)
+    set(header
+        ${header}
+        djvTIFF.h
+        djvTIFFLoad.h
+        djvTIFFPlugin.h
+        djvTIFFSave.h)
+    set(source
+        ${source}
+        djvTIFF.cpp
+        djvTIFFLoad.cpp
+        djvTIFFPlugin.cpp
+        djvTIFFSave.cpp)
+endif()
+if(OPENEXR_FOUND)
+    set(header
+        ${header}
+        djvOpenEXR.h
+        djvOpenEXRLoad.h
+        djvOpenEXRPlugin.h
+        djvOpenEXRSave.h)
+    set(source
+        ${source}
+        djvOpenEXR.cpp
+        djvOpenEXRLoad.cpp
+        djvOpenEXRPlugin.cpp
+        djvOpenEXRSave.cpp)
+endif()
+if(FFMPEG_FOUND)
+    set(header
+        ${header}
+        djvFFmpeg.h
+        djvFFmpegLoad.h
+        djvFFmpegPlugin.h
+        djvFFmpegSave.h)
+    set(source
+        ${source}
+        djvFFmpeg.cpp
+        djvFFmpegLoad.cpp
+        djvFFmpegPlugin.cpp
+        djvFFmpegSave.cpp)
+endif()
+
+QT5_WRAP_CPP(mocSource ${mocHeader})
+QT5_ADD_RESOURCES(rccSource djvGraphics.qrc)
+QT5_CREATE_TRANSLATION(qmSource ${source}
+    djvGraphics_en_US.ts
+    djvGraphics_cs_CZ.ts)
+
+include_directories(
+    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
+    ${CMAKE_SOURCE_DIR}/lib/djvCore
+    ${CMAKE_BINARY_DIR}
+    ${OPENGL_INCLUDE_DIRS})
+add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
+target_link_libraries(djvGraphics
+    djvCore
+    IlmBase_static
+    glbinding
+    ${OPENGL_LIBRARIES})
+set_target_properties(djvGraphics PROPERTIES FOLDER lib CXX_STANDARD 11)
+if (djvInstallRpath)
+    set_target_properties(
+        djvGraphics PROPERTIES
+        INSTALL_RPATH "${djvInstallRpath}")
+endif (djvInstallRpath)
+
+install(
+    FILES ${header}
+    DESTINATION include)
+install(
+    FILES ${qmSource}
+    DESTINATION translations)
+install(
+    TARGETS djvGraphics
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib)
+

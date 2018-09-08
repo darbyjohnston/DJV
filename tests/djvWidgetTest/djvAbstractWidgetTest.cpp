@@ -35,14 +35,14 @@
 // djvAbstractWidgetTest
 //------------------------------------------------------------------------------
 
-djvAbstractWidgetTest::djvAbstractWidgetTest(djvGuiContext * context) :
+djvAbstractWidgetTest::djvAbstractWidgetTest(djvUIContext * context) :
     _context(context)
 {}
 
 djvAbstractWidgetTest::~djvAbstractWidgetTest()
 {}
 
-djvGuiContext * djvAbstractWidgetTest::context() const
+djvUIContext * djvAbstractWidgetTest::context() const
 {
     return _context;
 }

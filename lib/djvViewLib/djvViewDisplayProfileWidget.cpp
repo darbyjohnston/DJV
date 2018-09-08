@@ -43,6 +43,7 @@
 #include <djvToolButton.h>
 
 #include <djvImage.h>
+
 #include <djvSignalBlocker.h>
 
 #include <QApplication>

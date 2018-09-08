@@ -34,7 +34,7 @@
 #include <djvAssert.h>
 #include <djvDebug.h>
 #include <djvError.h>
-#include <djvFileIo.h>
+#include <djvFileIO.h>
 #include <djvListUtil.h>
 #include <djvMath.h>
 #include <djvMemory.h>
@@ -203,7 +203,7 @@ bool djvFileInfoUtil::exists(const djvFileInfo & in)
     {
         try
         {
-            djvFileIo().open(list[i], djvFileIo::READ);
+            djvFileIO().open(list[i], djvFileIO::READ);
             return true;
         }
         catch (const djvError &)

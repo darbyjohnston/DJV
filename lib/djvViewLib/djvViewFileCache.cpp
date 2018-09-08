@@ -34,8 +34,9 @@
 #include <djvViewContext.h>
 #include <djvViewFilePrefs.h>
 
-#include <djvAssert.h>
 #include <djvImage.h>
+
+#include <djvAssert.h>
 #include <djvListUtil.h>
 #include <djvMemory.h>
 
