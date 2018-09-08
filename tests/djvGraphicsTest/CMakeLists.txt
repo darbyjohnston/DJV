@@ -4,6 +4,7 @@ set(header
     djvColorUtilTest.h
     djvGraphicsContextTest.h
     djvGraphicsTest.h
+    djvImageIOFormatsTest.h
     djvImageIOTest.h
     djvImageTagsTest.h
     djvImageTest.h
@@ -18,6 +19,7 @@ set(source
     djvColorTest.cpp
     djvColorUtilTest.cpp
     djvGraphicsContextTest.cpp
+    djvImageIOFormatsTest.cpp
     djvImageIOTest.cpp
     djvImageTagsTest.cpp
     djvImageTest.cpp

@@ -1,0 +1,6 @@
+#add_subdirectory(djvAudioExperiment)
+if(DJV_LINUX)
+    add_subdirectory(djvFileBrowserExperiment)
+endif()
+add_subdirectory(djvGLSLExperiment)
+add_subdirectory(djvImagePlayExperiment)

@@ -31,13 +31,22 @@
 
 #include <djvPixmapUtilTest.h>
 
-#include <djvImageIOPluginTest.h>
-
-#include <djvBoxTest.h>
-#include <djvBoxUtilTest.h>
 #include <djvColorProfileTest.h>
 #include <djvColorTest.h>
 #include <djvColorUtilTest.h>
+#include <djvGraphicsContextTest.h>
+#include <djvImageIOFormatsTest.h>
+#include <djvImageIOTest.h>
+#include <djvImageTagsTest.h>
+#include <djvImageTest.h>
+#include <djvOpenGLImageTest.h>
+#include <djvOpenGLTest.h>
+#include <djvPixelDataTest.h>
+#include <djvPixelDataUtilTest.h>
+#include <djvPixelTest.h>
+
+#include <djvBoxTest.h>
+#include <djvBoxUtilTest.h>
 #include <djvCoreContextTest.h>
 #include <djvDebugTest.h>
 #include <djvErrorTest.h>
@@ -45,18 +54,9 @@
 #include <djvFileInfoUtilTest.h>
 #include <djvFileIOTest.h>
 #include <djvFileIOUtilTest.h>
-#include <djvGraphicsContextTest.h>
-#include <djvImageIOTest.h>
-#include <djvImageTagsTest.h>
-#include <djvImageTest.h>
 #include <djvListUtilTest.h>
 #include <djvMathTest.h>
 #include <djvMemoryTest.h>
-#include <djvOpenGLImageTest.h>
-#include <djvOpenGLTest.h>
-#include <djvPixelDataTest.h>
-#include <djvPixelDataUtilTest.h>
-#include <djvPixelTest.h>
 #include <djvRangeTest.h>
 #include <djvSequenceTest.h>
 #include <djvSequenceUtilTest.h>
@@ -105,7 +105,7 @@ int main(int argc, char ** argv)
         new djvColorTest <<
         new djvColorUtilTest <<
         new djvGraphicsContextTest <<
-        new djvImageIOPluginTest <<
+        new djvImageIOFormatsTest <<
         new djvImageIOTest <<
         new djvImageTagsTest <<
         new djvImageTest <<
@@ -116,13 +116,6 @@ int main(int argc, char ** argv)
         new djvPixelTest <<
         
         new djvPixmapUtilTest;
-
-    //tests = QVector<djvAbstractTest *>() <<
-    //    new djvFileInfoTest <<
-    //    new djvFileInfoUtilTest <<
-    //    new djvSequenceTest <<
-    //    new djvSequenceUtilTest <<
-    //    new djvTimeTest;
 
     for (int i = 0; i < tests.count(); ++i)
     {
