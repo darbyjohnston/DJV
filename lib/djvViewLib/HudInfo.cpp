@@ -33,11 +33,13 @@
 
 #include <djvCore/Math.h>
 
-bool operator == (const djvViewHudInfo & a, const djvViewHudInfo & b)
+using namespace djv;
+
+bool operator == (const ViewLib::HudInfo & a, const ViewLib::HudInfo & b)
 {
     return
-        a.info  == b.info &&
-        a.tags  == b.tags &&
+        a.info == b.info &&
+        a.tags == b.tags &&
         a.frame == b.frame &&
         a.speed == b.speed &&
         djvMath::fuzzyCompare(a.realSpeed, b.realSpeed) &&
@@ -45,8 +47,7 @@ bool operator == (const djvViewHudInfo & a, const djvViewHudInfo & b)
         a.visible == b.visible;
 }
 
-bool operator != (const djvViewHudInfo & a, const djvViewHudInfo & b)
+bool operator != (const ViewLib::HudInfo & a, const ViewLib::HudInfo & b)
 {
-    return ! (a == b);
+    return !(a == b);
 }
-

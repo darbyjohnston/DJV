@@ -35,33 +35,31 @@
 
 #include <memory>
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImageToolBar
-//!
-//! This class provides the image group tool bar.
-//------------------------------------------------------------------------------
-
-class djvViewImageToolBar : public djvViewAbstractToolBar
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewImageToolBar(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class ImageToolBar
+        //!
+        //! This class provides the image group tool bar.
+        class ImageToolBar : public AbstractToolBar
+        {
+            Q_OBJECT
 
-    virtual ~djvViewImageToolBar();
+        public:
+            explicit ImageToolBar(
+                AbstractActions * actions,
+                Context *         context,
+                QWidget *         parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewImageToolBar);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~ImageToolBar();
 
-//@} // djvViewImage
+        private:
+            DJV_PRIVATE_COPY(ImageToolBar);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

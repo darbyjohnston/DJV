@@ -35,39 +35,37 @@
 
 #include <memory>
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewInfoTool
-//!
-//! This class provides an information tool.
-//------------------------------------------------------------------------------
-
-class djvViewInfoTool : public djvViewAbstractTool
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewInfoTool(
-        djvViewMainWindow * mainWindow,
-        djvViewContext *    context,
-        QWidget *           parent     = nullptr);
+    namespace ViewLib
+    {
+        //! \class InfoTool
+        //!
+        //! This class provides an information tool.
+        class InfoTool : public AbstractTool
+        {
+            Q_OBJECT
 
-    virtual ~djvViewInfoTool();
+        public:
+            explicit InfoTool(
+                MainWindow * mainWindow,
+                Context *    context,
+                QWidget *    parent = nullptr);
 
-protected:
-    virtual void showEvent(QShowEvent *);
+            virtual ~InfoTool();
 
-private Q_SLOTS:
-    void widgetUpdate();
+        protected:
+            virtual void showEvent(QShowEvent *);
 
-private:
-    DJV_PRIVATE_COPY(djvViewInfoTool);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void widgetUpdate();
 
-//@} // djvViewTool
+        private:
+            DJV_PRIVATE_COPY(InfoTool);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

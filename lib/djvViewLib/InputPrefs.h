@@ -34,61 +34,59 @@
 #include <djvViewLib/AbstractPrefs.h>
 #include <djvViewLib/Util.h>
 
-//! \addtogroup djvViewMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewInputPrefs
-//!
-//! This class provides the input preferences.
-//------------------------------------------------------------------------------
-
-class djvViewInputPrefs : public djvViewAbstractPrefs
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewInputPrefs(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        //! \class InputPrefs
+        //!
+        //! This class provides the input preferences.
+        class InputPrefs : public AbstractPrefs
+        {
+            Q_OBJECT
 
-    virtual ~djvViewInputPrefs();
-    
-    //! Get the default mouse wheel action.
-    static djvViewUtil::MOUSE_WHEEL mouseWheelDefault();
+        public:
+            explicit InputPrefs(Context *, QObject * parent = nullptr);
 
-    //! Get the mouse wheel action.
-    djvViewUtil::MOUSE_WHEEL mouseWheel() const;
+            virtual ~InputPrefs();
 
-    //! Get the default shift + mouse wheel action.
-    static djvViewUtil::MOUSE_WHEEL mouseWheelShiftDefault();
+            //! Get the default mouse wheel action.
+            static Util::MOUSE_WHEEL mouseWheelDefault();
 
-    //! Get the shift + mouse wheel action.
-    djvViewUtil::MOUSE_WHEEL mouseWheelShift() const;
+            //! Get the mouse wheel action.
+            Util::MOUSE_WHEEL mouseWheel() const;
 
-    //! Get the default control + mouse wheel action.
-    static djvViewUtil::MOUSE_WHEEL mouseWheelCtrlDefault();
+            //! Get the default shift + mouse wheel action.
+            static Util::MOUSE_WHEEL mouseWheelShiftDefault();
 
-    //! Get the control + mouse wheel action.
-    djvViewUtil::MOUSE_WHEEL mouseWheelCtrl() const;
+            //! Get the shift + mouse wheel action.
+            Util::MOUSE_WHEEL mouseWheelShift() const;
 
-public Q_SLOTS:
-    //! Set the mouse wheel action.
-    void setMouseWheel(djvViewUtil::MOUSE_WHEEL);
-    
-    //! Set the shift + mouse wheel action.
-    void setMouseWheelShift(djvViewUtil::MOUSE_WHEEL);
-    
-    //! Set the control + mouse wheel action.
-    void setMouseWheelCtrl(djvViewUtil::MOUSE_WHEEL);
+            //! Get the default control + mouse wheel action.
+            static Util::MOUSE_WHEEL mouseWheelCtrlDefault();
 
-Q_SIGNALS:
-    //! This signal is emitted when a preference is changed.
-    void prefChanged();
+            //! Get the control + mouse wheel action.
+            Util::MOUSE_WHEEL mouseWheelCtrl() const;
 
-private:
-    djvViewUtil::MOUSE_WHEEL _mouseWheel;
-    djvViewUtil::MOUSE_WHEEL _mouseWheelShift;
-    djvViewUtil::MOUSE_WHEEL _mouseWheelCtrl;
-};
+        public Q_SLOTS:
+            //! Set the mouse wheel action.
+            void setMouseWheel(djv::ViewLib::Util::MOUSE_WHEEL);
 
-//@} // djvViewMisc
+            //! Set the shift + mouse wheel action.
+            void setMouseWheelShift(djv::ViewLib::Util::MOUSE_WHEEL);
 
+            //! Set the control + mouse wheel action.
+            void setMouseWheelCtrl(djv::ViewLib::Util::MOUSE_WHEEL);
+
+        Q_SIGNALS:
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
+
+        private:
+            Util::MOUSE_WHEEL _mouseWheel;
+            Util::MOUSE_WHEEL _mouseWheelShift;
+            Util::MOUSE_WHEEL _mouseWheelCtrl;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

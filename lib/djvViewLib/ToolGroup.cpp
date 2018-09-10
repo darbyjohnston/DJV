@@ -47,158 +47,149 @@
 #include <QToolBar>
 #include <QToolButton>
 
-//------------------------------------------------------------------------------
-// djvViewToolGroup::Private
-//------------------------------------------------------------------------------
-
-struct djvViewToolGroup::Private
+namespace djv
 {
-    Private() :
-        tools          (djvViewUtil::TOOL_COUNT, false),
-        actions        (0),
-        menu           (0),
-        toolBar        (0),
-        magnifyTool    (0),
-        colorPickerTool(0),
-        histogramTool  (0),
-        infoTool       (0)
-    {}
-    
-    QVector<bool>            tools;
-    
-    djvViewToolActions *     actions;
-    djvViewToolMenu *        menu;
-    djvViewToolToolBar *     toolBar;
-    djvViewMagnifyTool *     magnifyTool;
-    djvViewColorPickerTool * colorPickerTool;
-    djvViewHistogramTool *   histogramTool;
-    djvViewInfoTool *        infoTool;
-    QDockWidget *            dockWidgets[djvViewUtil::TOOL_COUNT];
-};
-
-//------------------------------------------------------------------------------
-// djvViewToolGroup
-//------------------------------------------------------------------------------
-
-djvViewToolGroup::djvViewToolGroup(
-    const djvViewToolGroup * copy,
-    djvViewMainWindow *      mainWindow,
-    djvViewContext *         context) :
-    djvViewAbstractGroup(mainWindow, context),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvViewToolGroup::djvViewToolGroup");
-    
-    // Create the actions.
-    _p->actions = new djvViewToolActions(context, this);
-    
-    // Create the menus.
-    _p->menu = new djvViewToolMenu(_p->actions, mainWindow->menuBar());
-    mainWindow->menuBar()->addMenu(_p->menu);
-
-    // Create the widgets.
-    _p->toolBar = new djvViewToolToolBar(_p->actions, context);
-
-    mainWindow->addToolBar(_p->toolBar);
-
-    _p->magnifyTool = new djvViewMagnifyTool(mainWindow, context);
-
-    _p->colorPickerTool = new djvViewColorPickerTool(mainWindow, context);
-
-    _p->histogramTool = new djvViewHistogramTool(mainWindow, context);
-
-    _p->infoTool = new djvViewInfoTool(mainWindow, context);
-
-    QList<QWidget *> widgets = QList<QWidget *>() <<
-        _p->magnifyTool <<
-        _p->colorPickerTool <<
-        _p->histogramTool <<
-        _p->infoTool;
-    
-    QList<Qt::DockWidgetArea> areas = QList<Qt::DockWidgetArea>() <<
-        Qt::LeftDockWidgetArea <<
-        Qt::LeftDockWidgetArea <<
-        Qt::RightDockWidgetArea <<
-        Qt::RightDockWidgetArea;
-    
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
+    namespace ViewLib
     {
-        _p->dockWidgets[i] = new QDockWidget(djvViewUtil::toolLabels()[i]);
-        _p->dockWidgets[i]->setWidget(widgets[i]);
-        
-        mainWindow->addDockWidget(areas[i], _p->dockWidgets[i]);
-    }
+        struct ToolGroup::Private
+        {
+            Private() :
+                tools(Util::TOOL_COUNT, false)
+            {}
 
-    // Initialize.
-    if (copy)
-    {
-        _p->tools = copy->_p->tools;
-    }
-    update();
+            QVector<bool>     tools;
+            ToolActions *     actions = nullptr;
+            ToolMenu *        menu = nullptr;
+            ToolToolBar *     toolBar = nullptr;
+            MagnifyTool *     magnifyTool = nullptr;
+            ColorPickerTool * colorPickerTool = nullptr;
+            HistogramTool *   histogramTool = nullptr;
+            InfoTool *        infoTool = nullptr;
+            QDockWidget *     dockWidgets[Util::TOOL_COUNT];
+        };
 
-    // Setup the action group callbacks.
-    connect(
-        _p->actions->group(djvViewToolActions::TOOL_GROUP),
-        SIGNAL(triggered(QAction *)),
-        SLOT(toolsCallback(QAction *)));
+        ToolGroup::ToolGroup(
+            const ToolGroup * copy,
+            MainWindow *      mainWindow,
+            Context *         context) :
+            AbstractGroup(mainWindow, context),
+            _p(new Private)
+        {
+            //DJV_DEBUG("ToolGroup::ToolGroup");
 
-    // Setup widget callbacks.
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
-    {
-        _p->actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]->connect(
-            _p->dockWidgets[i],
-            SIGNAL(visibilityChanged(bool)),
-            SLOT(setChecked(bool)));
-    }
-}
+            // Create the actions.
+            _p->actions = new ToolActions(context, this);
 
-djvViewToolGroup::~djvViewToolGroup()
-{
-    //DJV_DEBUG("djvViewToolGroup::~djvViewToolGroup");
-}
-    
-const QVector<bool> & djvViewToolGroup::tools() const
-{
-    return _p->tools;
-}
+            // Create the menus.
+            _p->menu = new ToolMenu(_p->actions, mainWindow->menuBar());
+            mainWindow->menuBar()->addMenu(_p->menu);
 
-QToolBar * djvViewToolGroup::toolBar() const
-{
-    return _p->toolBar;
-}
+            // Create the widgets.
+            _p->toolBar = new ToolToolBar(_p->actions, context);
 
-void djvViewToolGroup::setTools(const QVector<bool> & tools)
-{
-    if (tools == _p->tools)
-        return;
-    _p->tools = tools;
-    update();
-    Q_EMIT toolsChanged(_p->tools);
-}
+            mainWindow->addToolBar(_p->toolBar);
 
-void djvViewToolGroup::toolsCallback(QAction *)
-{
-    QVector<bool> tools;
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
-    {
-        tools += _p->actions->group(djvViewToolActions::TOOL_GROUP)->
-            actions()[i]->isChecked();
-    }
-    setTools(tools);
-}
+            _p->magnifyTool = new MagnifyTool(mainWindow, context);
 
-void djvViewToolGroup::update()
-{
-    // Update action groups.
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
-    {
-        _p->actions->group(djvViewToolActions::TOOL_GROUP)->
-            actions()[i]->setChecked(_p->tools[i]);
-    }
-    
-    // Update widgets.
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
-    {
-        _p->dockWidgets[i]->setVisible(_p->tools[i]);
-    }
-}
+            _p->colorPickerTool = new ColorPickerTool(mainWindow, context);
+
+            _p->histogramTool = new HistogramTool(mainWindow, context);
+
+            _p->infoTool = new InfoTool(mainWindow, context);
+
+            QList<QWidget *> widgets = QList<QWidget *>() <<
+                _p->magnifyTool <<
+                _p->colorPickerTool <<
+                _p->histogramTool <<
+                _p->infoTool;
+
+            QList<Qt::DockWidgetArea> areas = QList<Qt::DockWidgetArea>() <<
+                Qt::LeftDockWidgetArea <<
+                Qt::LeftDockWidgetArea <<
+                Qt::RightDockWidgetArea <<
+                Qt::RightDockWidgetArea;
+
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                _p->dockWidgets[i] = new QDockWidget(Util::toolLabels()[i]);
+                _p->dockWidgets[i]->setWidget(widgets[i]);
+
+                mainWindow->addDockWidget(areas[i], _p->dockWidgets[i]);
+            }
+
+            // Initialize.
+            if (copy)
+            {
+                _p->tools = copy->_p->tools;
+            }
+            update();
+
+            // Setup the action group callbacks.
+            connect(
+                _p->actions->group(ToolActions::TOOL_GROUP),
+                SIGNAL(triggered(QAction *)),
+                SLOT(toolsCallback(QAction *)));
+
+            // Setup widget callbacks.
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                _p->actions->group(ToolActions::TOOL_GROUP)->actions()[i]->connect(
+                    _p->dockWidgets[i],
+                    SIGNAL(visibilityChanged(bool)),
+                    SLOT(setChecked(bool)));
+            }
+        }
+
+        ToolGroup::~ToolGroup()
+        {
+            //DJV_DEBUG("ToolGroup::~ToolGroup");
+        }
+
+        const QVector<bool> & ToolGroup::tools() const
+        {
+            return _p->tools;
+        }
+
+        QToolBar * ToolGroup::toolBar() const
+        {
+            return _p->toolBar;
+        }
+
+        void ToolGroup::setTools(const QVector<bool> & tools)
+        {
+            if (tools == _p->tools)
+                return;
+            _p->tools = tools;
+            update();
+            Q_EMIT toolsChanged(_p->tools);
+        }
+
+        void ToolGroup::toolsCallback(QAction *)
+        {
+            QVector<bool> tools;
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                tools += _p->actions->group(ToolActions::TOOL_GROUP)->
+                    actions()[i]->isChecked();
+            }
+            setTools(tools);
+        }
+
+        void ToolGroup::update()
+        {
+            // Update action groups.
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                _p->actions->group(ToolActions::TOOL_GROUP)->
+                    actions()[i]->setChecked(_p->tools[i]);
+            }
+
+            // Update widgets.
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                _p->dockWidgets[i]->setVisible(_p->tools[i]);
+            }
+        }
+
+    } // namespace ViewLib
+} // namespace djv

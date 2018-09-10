@@ -40,59 +40,57 @@
 
 #include <memory>
 
-class djvViewContext;
-
 class QAction;
 class QActionGroup;
 
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewAbstractActions
-//!
-//! This class provides the base functionality for groups of actions.
-//------------------------------------------------------------------------------
-
-class djvViewAbstractActions : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewAbstractActions(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        class Context;
 
-    virtual ~djvViewAbstractActions() = 0;
+        //! \class AbstractActions
+        //!
+        //! This class provides the base functionality for groups of actions.
+        class AbstractActions : public QObject
+        {
+            Q_OBJECT
 
-    //! Get the list of actions.
-    const QList<QAction *> actions() const;
+        public:
+            explicit AbstractActions(Context *, QObject * parent = nullptr);
 
-    //! Get an action by name.
-    QAction * action(int) const;
+            virtual ~AbstractActions() = 0;
 
-    //! Get the list of action groups.
-    const QList<QActionGroup *> groups() const;
+            //! Get the list of actions.
+            const QList<QAction *> actions() const;
 
-    //! Get an action group by name.
-    QActionGroup * group(int) const;
-    
-    //! Get the context.
-    djvViewContext * context() const;
+            //! Get an action by name.
+            QAction * action(int) const;
 
-Q_SIGNALS:
-    //! This signal is emitted when actions or action groups are changed.
-    void changed();
+            //! Get the list of action groups.
+            const QList<QActionGroup *> groups() const;
 
-protected:
-    QMap<int, QAction *>      _actions;
-    QMap<int, QActionGroup *> _groups;
-    djvViewContext *          _context;
+            //! Get an action group by name.
+            QActionGroup * group(int) const;
 
-    void osxMenuHack();
+            //! Get the context.
+            Context * context() const;
 
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when actions or action groups are changed.
+            void changed();
 
-//@} // djvViewLib
+        protected:
+            QMap<int, QAction *>      _actions;
+            QMap<int, QActionGroup *> _groups;
+            Context *                 _context = nullptr;
 
+            void osxMenuHack();
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

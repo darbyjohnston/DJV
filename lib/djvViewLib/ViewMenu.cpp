@@ -35,45 +35,48 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewViewMenu
-//------------------------------------------------------------------------------
-
-djvViewViewMenu::djvViewViewMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent)
+namespace djv
 {
-    // Create the menus.
-    addAction(actions->action(djvViewViewActions::LEFT));
-    addAction(actions->action(djvViewViewActions::RIGHT));
-    addAction(actions->action(djvViewViewActions::UP));
-    addAction(actions->action(djvViewViewActions::DOWN));
-    addAction(actions->action(djvViewViewActions::CENTER));
+    namespace ViewLib
+    {
+        ViewMenu::ViewMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent)
+        {
+            // Create the menus.
+            addAction(actions->action(ViewActions::LEFT));
+            addAction(actions->action(ViewActions::RIGHT));
+            addAction(actions->action(ViewActions::UP));
+            addAction(actions->action(ViewActions::DOWN));
+            addAction(actions->action(ViewActions::CENTER));
 
-    addSeparator();
+            addSeparator();
 
-    addAction(actions->action(djvViewViewActions::ZOOM_IN));
-    addAction(actions->action(djvViewViewActions::ZOOM_OUT));
-    addAction(actions->action(djvViewViewActions::ZOOM_RESET));
+            addAction(actions->action(ViewActions::ZOOM_IN));
+            addAction(actions->action(ViewActions::ZOOM_OUT));
+            addAction(actions->action(ViewActions::ZOOM_RESET));
 
-    addSeparator();
+            addSeparator();
 
-    addAction(actions->action(djvViewViewActions::RESET));
-    addAction(actions->action(djvViewViewActions::FIT));
+            addAction(actions->action(ViewActions::RESET));
+            addAction(actions->action(ViewActions::FIT));
 
-    addSeparator();
+            addSeparator();
 
-    QMenu * gridMenu = addMenu(qApp->translate("djvViewViewMenu", "&Grid"));
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewViewActions::GRID_GROUP)->actions())
-        gridMenu->addAction(action);
+            QMenu * gridMenu = addMenu(qApp->translate("djv::ViewLib::ViewMenu", "&Grid"));
+            Q_FOREACH(QAction * action,
+                actions->group(ViewActions::GRID_GROUP)->actions())
+                gridMenu->addAction(action);
 
-    addAction(actions->action(djvViewViewActions::HUD));
+            addAction(actions->action(ViewActions::HUD));
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewViewMenu", "&View"));
-}
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::ViewMenu", "&View"));
+        }
 
-djvViewViewMenu::~djvViewViewMenu()
-{}
+        ViewMenu::~ViewMenu()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

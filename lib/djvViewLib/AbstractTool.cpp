@@ -34,52 +34,50 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
-//------------------------------------------------------------------------------
-// djvViewAbstractTool::Private
-//------------------------------------------------------------------------------
-
-struct djvViewAbstractTool::Private
+namespace djv
 {
-    Private(
-        djvViewMainWindow * mainWindow,
-        djvViewContext *    context) :
-        mainWindow(mainWindow),
-        viewWidget(mainWindow->viewWidget()),
-        context   (context)
-    {}
+    namespace ViewLib
+    {
+        struct AbstractTool::Private
+        {
+            Private(
+                MainWindow * mainWindow,
+                Context *    context) :
+                mainWindow(mainWindow),
+                viewWidget(mainWindow->viewWidget()),
+                context(context)
+            {}
 
-    djvViewMainWindow * mainWindow;
-    djvViewImageView  * viewWidget;
-    djvViewContext *    context;
-};
+            MainWindow * mainWindow = nullptr;
+            ImageView  * viewWidget = nullptr;
+            Context *    context = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvViewAbstractTool
-//------------------------------------------------------------------------------
+        AbstractTool::AbstractTool(
+            MainWindow * mainWindow,
+            Context *    context,
+            QWidget *    parent) :
+            QWidget(parent),
+            _p(new Private(mainWindow, context))
+        {}
 
-djvViewAbstractTool::djvViewAbstractTool(
-    djvViewMainWindow * mainWindow,
-    djvViewContext *    context,
-    QWidget *           parent) :
-    QWidget(parent),
-    _p(new Private(mainWindow, context))
-{}
+        AbstractTool::~AbstractTool()
+        {}
 
-djvViewAbstractTool::~djvViewAbstractTool()
-{}
+        MainWindow * AbstractTool::mainWindow() const
+        {
+            return _p->mainWindow;
+        }
 
-djvViewMainWindow * djvViewAbstractTool::mainWindow() const
-{
-    return _p->mainWindow;
-}
+        ImageView * AbstractTool::viewWidget() const
+        {
+            return _p->viewWidget;
+        }
 
-djvViewImageView * djvViewAbstractTool::viewWidget() const
-{
-    return _p->viewWidget;
-}
+        Context * AbstractTool::context() const
+        {
+            return _p->context;
+        }
 
-djvViewContext * djvViewAbstractTool::context() const
-{
-    return _p->context;
-}
-
+    } // namespace ViewLib
+} // namespace djv

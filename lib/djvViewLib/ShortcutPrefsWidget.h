@@ -37,38 +37,35 @@
 
 struct djvShortcut;
 
-//! \addtogroup djvViewMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewShortcutPrefsWidget
-//!
-//! This class provides the keyboard shortcut preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewShortcutPrefsWidget :
-    public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewShortcutPrefsWidget(djvViewContext *);
+    namespace ViewLib
+    {
+        //! \class ShortcutPrefsWidget
+        //!
+        //! This class provides the keyboard shortcut preferences widget.
+        class ShortcutPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewShortcutPrefsWidget();
-    
-    virtual void resetPreferences();
+        public:
+            ShortcutPrefsWidget(Context *);
 
-private Q_SLOTS:
-    void shortcutsCallback(const QVector<djvShortcut> &);
-    
-    void widgetUpdate();
+            virtual ~ShortcutPrefsWidget();
 
-private:
-    DJV_PRIVATE_COPY(djvViewShortcutPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual void resetPreferences();
 
-//@} // djvViewMisc
+        private Q_SLOTS:
+            void shortcutsCallback(const QVector<djvShortcut> &);
 
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(ShortcutPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

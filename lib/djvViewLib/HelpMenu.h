@@ -35,32 +35,30 @@
 
 #include <memory>
 
-//! \addtogroup djvViewHelp
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewHelpMenu
-//!
-//! This class provides the help group menu.
-//------------------------------------------------------------------------------
-
-class djvViewHelpMenu : public djvViewAbstractMenu
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewHelpMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class HelpMenu
+        //!
+        //! This class provides the help group menu.
+        class HelpMenu : public AbstractMenu
+        {
+            Q_OBJECT
 
-    virtual ~djvViewHelpMenu();
+        public:
+            explicit HelpMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewHelpMenu);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~HelpMenu();
 
-//@} // djvViewHelp
+        private:
+            DJV_PRIVATE_COPY(HelpMenu);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

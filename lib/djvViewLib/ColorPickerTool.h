@@ -39,48 +39,45 @@
 
 class djvColor;
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewColorPickerTool
-//!
-//! This class provides a color picker tool.
-//------------------------------------------------------------------------------
-
-class djvViewColorPickerTool : public djvViewAbstractTool
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewColorPickerTool(
-        djvViewMainWindow * mainWindow,
-        djvViewContext *    context,
-        QWidget *           parent     = nullptr);
+    namespace ViewLib
+    {
+        //! \class ColorPickerTool
+        //!
+        //! This class provides a color picker tool.
+        class ColorPickerTool : public AbstractTool
+        {
+            Q_OBJECT
 
-    virtual ~djvViewColorPickerTool();
+        public:
+            explicit ColorPickerTool(
+                MainWindow * mainWindow,
+                Context *    context,
+                QWidget *    parent = nullptr);
 
-protected:
-    virtual void showEvent(QShowEvent *);
+            virtual ~ColorPickerTool();
 
-private Q_SLOTS:
-    void pickCallback(const glm::ivec2 &);
-    void widgetCallback(const djvColor &);
-    void sizeCallback(int);
-    void colorProfileCallback(bool);
-    void displayProfileCallback(bool);
-    void lockCallback(bool);
+        protected:
+            virtual void showEvent(QShowEvent *);
 
-    void widgetUpdate();
-    void swatchUpdate();
+        private Q_SLOTS:
+            void pickCallback(const glm::ivec2 &);
+            void widgetCallback(const djvColor &);
+            void sizeCallback(int);
+            void colorProfileCallback(bool);
+            void displayProfileCallback(bool);
+            void lockCallback(bool);
 
-private:
-    DJV_PRIVATE_COPY(djvViewColorPickerTool);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            void widgetUpdate();
+            void swatchUpdate();
 
-//@} // djvViewTool
+        private:
+            DJV_PRIVATE_COPY(ColorPickerTool);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
+    } // namespace ViewLib
+} // namespace djv

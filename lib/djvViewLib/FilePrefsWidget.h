@@ -37,45 +37,41 @@
 
 #include <memory>
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFilePrefsWidget
-//!
-//! This class provides the file group preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewFilePrefsWidget :
-    public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace ViewLib
+    {
+        //! \class FilePrefsWidget
+        //!
+        //! This class provides the file group preferences widget.
+        class FilePrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    djvViewFilePrefsWidget(djvViewContext *);
+        public:
+            FilePrefsWidget(Context *);
 
-    virtual ~djvViewFilePrefsWidget();
-    
-    virtual void resetPreferences();
+            virtual ~FilePrefsWidget();
 
-private Q_SLOTS:
-    void autoSequenceCallback(bool);
-    void proxyCallback(int);
-    void u8ConversionCallback(bool);
-    void cacheCallback(bool);
-    void cacheSizeCallback(float);
-    void preloadCallback(bool);
-    void displayCacheCallback(bool);
+            virtual void resetPreferences();
 
-    void widgetUpdate();
-    
-private:
-    DJV_PRIVATE_COPY(djvViewFilePrefsWidget);
+        private Q_SLOTS:
+            void autoSequenceCallback(bool);
+            void proxyCallback(int);
+            void u8ConversionCallback(bool);
+            void cacheCallback(bool);
+            void cacheSizeCallback(float);
+            void preloadCallback(bool);
+            void displayCacheCallback(bool);
 
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            void widgetUpdate();
 
-//@} // djvViewFile
+        private:
+            DJV_PRIVATE_COPY(FilePrefsWidget);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

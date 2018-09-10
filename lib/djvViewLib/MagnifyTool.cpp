@@ -55,10 +55,6 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// Widget
-//------------------------------------------------------------------------------
-
 namespace
 {
 class Widget : public QWidget
@@ -99,234 +95,220 @@ void Widget::paintEvent(QPaintEvent *)
 
 } // namespace
 
-//------------------------------------------------------------------------------
-// djvViewMagnifyTool::Private
-//------------------------------------------------------------------------------
-
-struct djvViewMagnifyTool::Private
+namespace djv
 {
-    Private() :
-        zoom                (2),
-        colorProfile        (true),
-        displayProfile      (true),
-        pixelDataInit       (false),
-        widget              (0),
-        slider              (0),
-        colorProfileButton  (0),
-        displayProfileButton(0)
-    {}
-    
-    glm::ivec2                               pick = glm::ivec2(0, 0);
-    int                                      zoom;
-    bool                                     colorProfile;
-    bool                                     displayProfile;
-
-    QScopedPointer<djvOpenGLOffscreenBuffer> magnifyBuffer;
-    djvOpenGLImageState                      magnifyState;
-    QScopedPointer<djvOpenGLOffscreenBuffer> convertBuffer;
-    djvOpenGLImageState                      convertState;
-    bool                                     pixelDataInit;
-
-    Widget *                                 widget;
-    djvIntEditSlider *                       slider;
-    djvToolButton *                          colorProfileButton;
-    djvToolButton *                          displayProfileButton;
-};
-
-//------------------------------------------------------------------------------
-// djvViewMagnifyTool
-//------------------------------------------------------------------------------
-
-djvViewMagnifyTool::djvViewMagnifyTool(
-    djvViewMainWindow * mainWindow,
-    djvViewContext *    context,
-    QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, context, parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->widget = new Widget;
-
-    _p->slider = new djvIntEditSlider(context);
-    _p->slider->setRange(1, 10);
-    _p->slider->setResetToDefault(false);
-
-    _p->colorProfileButton = new djvToolButton(
-        context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
-    _p->colorProfileButton->setCheckable(true);
-    _p->colorProfileButton->setToolTip(
-        qApp->translate("djvViewMagnifyTool", "Set whether the color profile is enabled"));
-
-    _p->displayProfileButton = new djvToolButton(
-        context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
-    _p->displayProfileButton->setCheckable(true);
-    _p->displayProfileButton->setToolTip(
-        qApp->translate("djvViewMagnifyTool", "Set whether the display profile is enabled"));
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-
-    layout->addWidget(_p->widget, 1);
-
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->setMargin(0);
-    hLayout->addWidget(_p->slider);
-    
-    QHBoxLayout * hLayout2 = new QHBoxLayout;
-    hLayout2->setMargin(0);
-    hLayout2->setSpacing(0);
-    hLayout2->addWidget(_p->colorProfileButton);
-    hLayout2->addWidget(_p->displayProfileButton);
-    hLayout->addLayout(hLayout2);
-    
-    layout->addLayout(hLayout);
-
-    // Preferences.
-    djvPrefs prefs("djvViewMagnifyTool");
-    prefs.get("zoom", _p->zoom);
-    prefs.get("colorProfile", _p->colorProfile);
-    prefs.get("displayProfile", _p->displayProfile);
-
-    // Initialize.
-    setWindowTitle(qApp->translate("djvViewMagnifyTool", "Magnify"));
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        mainWindow,
-        SIGNAL(imageChanged()),
-        SLOT(widgetUpdate()));
-    connect(
-        mainWindow->viewWidget(),
-        SIGNAL(pickChanged(const glm::ivec2 &)),
-        SLOT(pickCallback(const glm::ivec2 &)));
-    connect(
-        _p->slider,
-        SIGNAL(valueChanged(int)),
-        SLOT(sliderCallback(int)));
-    connect(
-        _p->colorProfileButton,
-        SIGNAL(toggled(bool)),
-        SLOT(colorProfileCallback(bool)));
-    connect(
-        _p->displayProfileButton,
-        SIGNAL(toggled(bool)),
-        SLOT(displayProfileCallback(bool)));
-}
-
-djvViewMagnifyTool::~djvViewMagnifyTool()
-{
-    //DJV_DEBUG("djvViewMagnifyTool::~djvViewMagnifyTool");
-    djvPrefs prefs("djvViewMagnifyTool");
-    prefs.set("zoom", _p->zoom);
-    prefs.set("colorProfile", _p->colorProfile);
-    prefs.set("displayProfile", _p->displayProfile);
-    viewWidget()->makeCurrent();
-}
-
-void djvViewMagnifyTool::pickCallback(const glm::ivec2 & in)
-{
-    _p->pick = in;
-    widgetUpdate();
-}
-
-void djvViewMagnifyTool::sliderCallback(int in)
-{
-    _p->zoom = in - 1;
-    widgetUpdate();
-}
-
-void djvViewMagnifyTool::colorProfileCallback(bool in)
-{
-    _p->colorProfile = in;
-    widgetUpdate();
-}
-
-void djvViewMagnifyTool::displayProfileCallback(bool in)
-{
-    _p->displayProfile = in;
-    widgetUpdate();
-}
-
-void djvViewMagnifyTool::showEvent(QShowEvent *)
-{
-    widgetUpdate();
-}
-
-void djvViewMagnifyTool::widgetUpdate()
-{
-    //DJV_DEBUG("djvViewMagnifyTool::widgetUpdate");
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->slider <<
-        _p->colorProfileButton <<
-        _p->displayProfileButton);
-    _p->slider->setValue(_p->zoom + 1);
-    _p->colorProfileButton->setChecked(_p->colorProfile);
-    _p->displayProfileButton->setChecked(_p->displayProfile);
-    if (! _p->pixelDataInit && isVisible())
+    namespace ViewLib
     {
-        _p->pixelDataInit = true;
-        QTimer::singleShot(0, this, SLOT(pixelDataUpdate()));
-    }
-}
-
-void djvViewMagnifyTool::pixelDataUpdate()
-{
-    //DJV_DEBUG("djvViewMagnifyTool::pixelDataUpdate");
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->widget);
-    djvPixelData tmp(djvPixelDataInfo(
-        _p->widget->width(),
-        _p->widget->height(),
-        djvPixel::RGB_U8));
-    if (const djvPixelData * data = viewWidget()->data())
-    {
-        //DJV_DEBUG_PRINT("data = " << *data);
-        const float zoom = djvMath::pow(2, _p->zoom);
-        glm::ivec2 pick = djvVectorUtil::floor(
-            glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
-            glm::vec2(tmp.info().size) / 2.f);
-        //DJV_DEBUG_PRINT("zoom = " << zoom);
-        //DJV_DEBUG_PRINT("pick = " << pick);
-        try
+        struct MagnifyTool::Private
         {
+            glm::ivec2                               pick = glm::ivec2(0, 0);
+            int                                      zoom = 2;
+            bool                                     colorProfile = true;
+            bool                                     displayProfile = true;
+
+            QScopedPointer<djvOpenGLOffscreenBuffer> magnifyBuffer;
+            djvOpenGLImageState                      magnifyState;
+            QScopedPointer<djvOpenGLOffscreenBuffer> convertBuffer;
+            djvOpenGLImageState                      convertState;
+            bool                                     pixelDataInit;
+
+            Widget *                                 widget = nullptr;
+            djvIntEditSlider *                       slider = nullptr;
+            djvToolButton *                          colorProfileButton = nullptr;
+            djvToolButton *                          displayProfileButton = nullptr;
+        };
+
+        MagnifyTool::MagnifyTool(
+            MainWindow * mainWindow,
+            Context *    context,
+            QWidget *    parent) :
+            AbstractTool(mainWindow, context, parent),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->widget = new Widget;
+
+            _p->slider = new djvIntEditSlider(context);
+            _p->slider->setRange(1, 10);
+            _p->slider->setResetToDefault(false);
+
+            _p->colorProfileButton = new djvToolButton(
+                context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
+            _p->colorProfileButton->setCheckable(true);
+            _p->colorProfileButton->setToolTip(
+                qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the color profile is enabled"));
+
+            _p->displayProfileButton = new djvToolButton(
+                context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
+            _p->displayProfileButton->setCheckable(true);
+            _p->displayProfileButton->setToolTip(
+                qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the display profile is enabled"));
+
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+
+            layout->addWidget(_p->widget, 1);
+
+            QHBoxLayout * hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->addWidget(_p->slider);
+
+            QHBoxLayout * hLayout2 = new QHBoxLayout;
+            hLayout2->setMargin(0);
+            hLayout2->setSpacing(0);
+            hLayout2->addWidget(_p->colorProfileButton);
+            hLayout2->addWidget(_p->displayProfileButton);
+            hLayout->addLayout(hLayout2);
+
+            layout->addLayout(hLayout);
+
+            // Preferences.
+            djvPrefs prefs("djv::ViewLib::MagnifyTool");
+            prefs.get("zoom", _p->zoom);
+            prefs.get("colorProfile", _p->colorProfile);
+            prefs.get("displayProfile", _p->displayProfile);
+
+            // Initialize.
+            setWindowTitle(qApp->translate("djv::ViewLib::MagnifyTool", "Magnify"));
+            widgetUpdate();
+
+            // Setup the callbacks.
+            connect(
+                mainWindow,
+                SIGNAL(imageChanged()),
+                SLOT(widgetUpdate()));
+            connect(
+                mainWindow->viewWidget(),
+                SIGNAL(pickChanged(const glm::ivec2 &)),
+                SLOT(pickCallback(const glm::ivec2 &)));
+            connect(
+                _p->slider,
+                SIGNAL(valueChanged(int)),
+                SLOT(sliderCallback(int)));
+            connect(
+                _p->colorProfileButton,
+                SIGNAL(toggled(bool)),
+                SLOT(colorProfileCallback(bool)));
+            connect(
+                _p->displayProfileButton,
+                SIGNAL(toggled(bool)),
+                SLOT(displayProfileCallback(bool)));
+        }
+
+        MagnifyTool::~MagnifyTool()
+        {
+            //DJV_DEBUG("MagnifyTool::~MagnifyTool");
+            djvPrefs prefs("djv::ViewLib::MagnifyTool");
+            prefs.set("zoom", _p->zoom);
+            prefs.set("colorProfile", _p->colorProfile);
+            prefs.set("displayProfile", _p->displayProfile);
             viewWidget()->makeCurrent();
-            if (! _p->magnifyBuffer || _p->magnifyBuffer->info() != tmp.info())
-            {
-                _p->magnifyBuffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
-            }
-            djvOpenGLImageOptions options = viewWidget()->options();
-            options.xform.position -= pick;
-            options.xform.scale *= zoom * viewWidget()->viewZoom();
-            if (! _p->colorProfile)
-            {
-                options.colorProfile = djvColorProfile();
-            }
-            if (! _p->displayProfile)
-            {
-                options.displayProfile = djvViewDisplayProfile();
-            }
-            djvOpenGLImage::copy(
-                *data,
-                tmp,
-                options,
-                &_p->magnifyState,
-                _p->magnifyBuffer.data());
-            _p->widget->setPixmap(
-                djvPixmapUtil::toQt(
-                    tmp,
-                    djvOpenGLImageOptions(),
-                    &_p->convertState,
-                    _p->convertBuffer.data()));
         }
-        catch (djvError error)
-        {
-            error.add(
-                djvViewUtil::errorLabels()[djvViewUtil::ERROR_MAGNIFY]);
-            context()->printError(error);
-        }
-    }
-    //_p->widget->setPixelData(tmp);
-    _p->pixelDataInit = false;
-}
 
+        void MagnifyTool::pickCallback(const glm::ivec2 & in)
+        {
+            _p->pick = in;
+            widgetUpdate();
+        }
+
+        void MagnifyTool::sliderCallback(int in)
+        {
+            _p->zoom = in - 1;
+            widgetUpdate();
+        }
+
+        void MagnifyTool::colorProfileCallback(bool in)
+        {
+            _p->colorProfile = in;
+            widgetUpdate();
+        }
+
+        void MagnifyTool::displayProfileCallback(bool in)
+        {
+            _p->displayProfile = in;
+            widgetUpdate();
+        }
+
+        void MagnifyTool::showEvent(QShowEvent *)
+        {
+            widgetUpdate();
+        }
+
+        void MagnifyTool::widgetUpdate()
+        {
+            //DJV_DEBUG("MagnifyTool::widgetUpdate");
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->slider <<
+                _p->colorProfileButton <<
+                _p->displayProfileButton);
+            _p->slider->setValue(_p->zoom + 1);
+            _p->colorProfileButton->setChecked(_p->colorProfile);
+            _p->displayProfileButton->setChecked(_p->displayProfile);
+            if (!_p->pixelDataInit && isVisible())
+            {
+                _p->pixelDataInit = true;
+                QTimer::singleShot(0, this, SLOT(pixelDataUpdate()));
+            }
+        }
+
+        void MagnifyTool::pixelDataUpdate()
+        {
+            //DJV_DEBUG("MagnifyTool::pixelDataUpdate");
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->widget);
+            djvPixelData tmp(djvPixelDataInfo(
+                _p->widget->width(),
+                _p->widget->height(),
+                djvPixel::RGB_U8));
+            if (const djvPixelData * data = viewWidget()->data())
+            {
+                //DJV_DEBUG_PRINT("data = " << *data);
+                const float zoom = djvMath::pow(2, _p->zoom);
+                glm::ivec2 pick = djvVectorUtil::floor(
+                    glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
+                    glm::vec2(tmp.info().size) / 2.f);
+                //DJV_DEBUG_PRINT("zoom = " << zoom);
+                //DJV_DEBUG_PRINT("pick = " << pick);
+                try
+                {
+                    viewWidget()->makeCurrent();
+                    if (!_p->magnifyBuffer || _p->magnifyBuffer->info() != tmp.info())
+                    {
+                        _p->magnifyBuffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
+                    }
+                    djvOpenGLImageOptions options = viewWidget()->options();
+                    options.xform.position -= pick;
+                    options.xform.scale *= zoom * viewWidget()->viewZoom();
+                    if (!_p->colorProfile)
+                    {
+                        options.colorProfile = djvColorProfile();
+                    }
+                    if (!_p->displayProfile)
+                    {
+                        options.displayProfile = DisplayProfile();
+                    }
+                    djvOpenGLImage::copy(
+                        *data,
+                        tmp,
+                        options,
+                        &_p->magnifyState,
+                        _p->magnifyBuffer.data());
+                    _p->widget->setPixmap(
+                        djvPixmapUtil::toQt(
+                            tmp,
+                            djvOpenGLImageOptions(),
+                            &_p->convertState,
+                            _p->convertBuffer.data()));
+                }
+                catch (djvError error)
+                {
+                    error.add(Util::errorLabels()[Util::ERROR_MAGNIFY]);
+                    context()->printError(error);
+                }
+            }
+            //_p->widget->setPixelData(tmp);
+            _p->pixelDataInit = false;
+        }
+
+    } // namespace ViewLib
+} // namespace djv

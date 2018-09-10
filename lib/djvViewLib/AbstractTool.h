@@ -39,46 +39,44 @@
 
 #include <memory>
 
-class djvViewContext;
-class djvViewImageView;
-class djvViewMainWindow;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewAbstractTool
-//!
-//! This class provides the base functionality for tools.
-//------------------------------------------------------------------------------
-
-class djvViewAbstractTool : public QWidget
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class Context;
+        class ImageView;
+        class MainWindow;
 
-public:
-    explicit djvViewAbstractTool(
-        djvViewMainWindow * mainWindow,
-        djvViewContext *    context,
-        QWidget *           parent     = nullptr);
+        //! \class AbstractTool
+        //!
+        //! This class provides the base functionality for tools.
+        class AbstractTool : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewAbstractTool() = 0;
+        public:
+            explicit AbstractTool(
+                MainWindow * mainWindow,
+                Context *    context,
+                QWidget *    parent = nullptr);
 
-    //! Get the main window.
-    djvViewMainWindow * mainWindow() const;
+            virtual ~AbstractTool() = 0;
 
-    //! Get the view widget.
-    djvViewImageView * viewWidget() const;
-    
-    //! Get the context.
-    djvViewContext * context() const;
+            //! Get the main window.
+            MainWindow * mainWindow() const;
 
-private:
-    DJV_PRIVATE_COPY(djvViewAbstractTool);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the view widget.
+            ImageView * viewWidget() const;
 
-//@} // djvViewLib
+            //! Get the context.
+            Context * context() const;
 
+        private:
+            DJV_PRIVATE_COPY(AbstractTool);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

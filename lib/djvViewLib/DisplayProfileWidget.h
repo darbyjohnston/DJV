@@ -39,63 +39,61 @@
 
 #include <memory>
 
-class djvViewContext;
-class djvViewImageView;
-
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewDisplayProfileWidget
-//!
-//! This class provides a display profile widget.
-//------------------------------------------------------------------------------
-
-class djvViewDisplayProfileWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewDisplayProfileWidget(
-        const djvViewImageView * viewWidget,
-        djvViewContext *         context,
-        QWidget *                parent     = nullptr);
+    namespace ViewLib
+    {
+        class Context;
+        class ImageView;
 
-    virtual ~djvViewDisplayProfileWidget();
-    
-    //! Get the display profile.
-    const djvViewDisplayProfile & displayProfile() const;
-    
-public Q_SLOTS:
-    //! Set the display profile.    
-    void setDisplayProfile(const djvViewDisplayProfile &);
+        //! \class DisplayProfileWidget
+        //!
+        //! This class provides a display profile widget.
+        class DisplayProfileWidget : public QWidget
+        {
+            Q_OBJECT
 
-Q_SIGNALS:
-    //! This signal is emitted when the display profile is changed.
-    void displayProfileChanged(const djvViewDisplayProfile &);
+        public:
+            explicit DisplayProfileWidget(
+                const ImageView * viewWidget,
+                Context *         context,
+                QWidget *         parent = nullptr);
 
-private Q_SLOTS:
-    void lutCallback(const djvFileInfo &);
-    void brightnessCallback(float);
-    void contrastCallback(float);
-    void saturationCallback(float);
-    void levelsIn0Callback(float);
-    void levelsIn1Callback(float);
-    void gammaCallback(float);
-    void levelsOut0Callback(float);
-    void levelsOut1Callback(float);
-    void softClipCallback(float);
-    void addCallback();
-    void resetCallback();
+            virtual ~DisplayProfileWidget();
 
-private:
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvViewDisplayProfileWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the display profile.
+            const DisplayProfile & displayProfile() const;
 
-//@} // djvViewImage
+        public Q_SLOTS:
+            //! Set the display profile.    
+            void setDisplayProfile(const djv::ViewLib::DisplayProfile &);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the display profile is changed.
+            void displayProfileChanged(const djv::ViewLib::DisplayProfile &);
+
+        private Q_SLOTS:
+            void lutCallback(const djvFileInfo &);
+            void brightnessCallback(float);
+            void contrastCallback(float);
+            void saturationCallback(float);
+            void levelsIn0Callback(float);
+            void levelsIn1Callback(float);
+            void gammaCallback(float);
+            void levelsOut0Callback(float);
+            void levelsOut1Callback(float);
+            void softClipCallback(float);
+            void addCallback();
+            void resetCallback();
+
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(DisplayProfileWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

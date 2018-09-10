@@ -35,35 +35,33 @@
 
 #include <memory>
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFileMenu
-//!
-//! This class provides the file group menu.
-//------------------------------------------------------------------------------
-
-class djvViewFileMenu : public djvViewAbstractMenu
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewFileMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class FileMenu
+        //!
+        //! This class provides the file group menu.
+        class FileMenu : public AbstractMenu
+        {
+            Q_OBJECT
 
-    virtual ~djvViewFileMenu();
+        public:
+            explicit FileMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-protected Q_SLOTS:
-    virtual void menuUpdate();
+            virtual ~FileMenu();
 
-private:
-    DJV_PRIVATE_COPY(djvViewFileMenu);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        protected Q_SLOTS:
+            virtual void menuUpdate();
 
-//@} // djvViewFile
+        private:
+            DJV_PRIVATE_COPY(FileMenu);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

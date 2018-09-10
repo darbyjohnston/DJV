@@ -37,76 +37,74 @@
 
 class QAction;
 
-//! \addtogroup djvViewWindow
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewWindowGroup
-//!
-//! This class provides the window group. The window group encapsulates all
-//! of the functionality relating to main windows such as whether the window
-//! is full screen, which tool bars are visible, etc.
-//------------------------------------------------------------------------------
-
-class djvViewWindowGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewWindowGroup(
-        const djvViewWindowGroup * copy,
-        djvViewMainWindow *        mainWindow,
-        djvViewContext *           context);
+    namespace ViewLib
+    {
+        //! \class WindowGroup
+        //!
+        //! This class provides the window group. The window group encapsulates all
+        //! of the functionality relating to main windows such as whether the window
+        //! is full screen, which tool bars are visible, etc.
+        class WindowGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    virtual ~djvViewWindowGroup();
-    
-    //! Get whether full screen is enabled.    
-    bool hasFullScreen() const;
+        public:
+            WindowGroup(
+                const WindowGroup * copy,
+                MainWindow *        mainWindow,
+                Context *           context);
 
-    //! Get the user interface controls visibility.
-    bool hasControlsVisible() const;
+            virtual ~WindowGroup();
 
-    //! Get the tool bar visibility.
-    const QVector<bool> & toolBarVisible() const;
+            //! Get whether full screen is enabled.    
+            bool hasFullScreen() const;
 
-    virtual QToolBar * toolBar() const;
+            //! Get the user interface controls visibility.
+            bool hasControlsVisible() const;
 
-public Q_SLOTS:
-    //! Set whether full screen is enabled.
-    void setFullScreen(bool);
+            //! Get the tool bar visibility.
+            const QVector<bool> & toolBarVisible() const;
 
-    //! Set the user interface controls visibility.
-    void setControlsVisible(bool);
+            virtual QToolBar * toolBar() const;
 
-    //! Set the tool bar visibility.
-    void setToolBarVisible(const QVector<bool> &);
+        public Q_SLOTS:
+            //! Set whether full screen is enabled.
+            void setFullScreen(bool);
 
-Q_SIGNALS:
-    //! This signal is emitted when full screen is changed.
-    void fullScreenChanged(bool);
+            //! Set the user interface controls visibility.
+            void setControlsVisible(bool);
 
-    //! This signal is emitted when the user interface control visibility
-    //! is changed.
-    void controlsVisibleChanged(bool);
-    
-    //! This signal is emitted when the tool bar visibility is changed.
-    void toolBarVisibleChanged(const QVector<bool> &);
+            //! Set the tool bar visibility.
+            void setToolBarVisible(const QVector<bool> &);
 
-private Q_SLOTS:
-    void newCallback();
-    void copyCallback();
-    void closeCallback();
-    void fitCallback();
-    void toolBarVisibleCallback(QAction *);
+        Q_SIGNALS:
+            //! This signal is emitted when full screen is changed.
+            void fullScreenChanged(bool);
 
-    void update();
+            //! This signal is emitted when the user interface control visibility
+            //! is changed.
+            void controlsVisibleChanged(bool);
 
-private:
-    DJV_PRIVATE_COPY(djvViewWindowGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! This signal is emitted when the tool bar visibility is changed.
+            void toolBarVisibleChanged(const QVector<bool> &);
 
-//@} // djvViewWindow
+        private Q_SLOTS:
+            void newCallback();
+            void copyCallback();
+            void closeCallback();
+            void fitCallback();
+            void toolBarVisibleCallback(QAction *);
 
+            void update();
+
+        private:
+            DJV_PRIVATE_COPY(WindowGroup);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -37,27 +37,24 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvViewDisplayProfile
-//!
-//! This struct provides a display profile.
-//------------------------------------------------------------------------------
-
-struct djvViewDisplayProfile :
-    public djvOpenGLImageDisplayProfile
+namespace djv
 {
-    QString     name;
-    djvFileInfo lutFile;
-};
+    namespace ViewLib
+    {
+        //! \struct DisplayProfile
+        //!
+        //! This struct provides a display profile.
+        struct DisplayProfile : public djvOpenGLImageDisplayProfile
+        {
+            QString     name;
+            djvFileInfo lutFile;
+        };
 
-DJV_COMPARISON_OPERATOR(djvViewDisplayProfile);
+    } // namespace ViewLib
+} // namespace djv
 
-DJV_STRING_OPERATOR(djvViewDisplayProfile);
+DJV_COMPARISON_OPERATOR(djv::ViewLib::DisplayProfile);
 
-DJV_DEBUG_OPERATOR(djvViewDisplayProfile);
+DJV_STRING_OPERATOR(djv::ViewLib::DisplayProfile);
 
-//@} // djvViewImage
-
+DJV_DEBUG_OPERATOR(djv::ViewLib::DisplayProfile);

@@ -35,133 +35,131 @@
 #include <djvViewLib/DisplayProfile.h>
 #include <djvViewLib/Util.h>
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImagePrefs
-//!
-//! This class provides the image group preferences.
-//------------------------------------------------------------------------------
-
-class djvViewImagePrefs : public djvViewAbstractPrefs
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewImagePrefs(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        //! \class ImagePrefs
+        //!
+        //! This class provides the image group preferences.
+        class ImagePrefs : public AbstractPrefs
+        {
+            Q_OBJECT
 
-    virtual ~djvViewImagePrefs();
-    
-    //! Get the default for whether to store the frame when reloading files.    
-    static bool frameStoreFileReloadDefault();
+        public:
+            explicit ImagePrefs(Context *, QObject * parent = nullptr);
 
-    //! Get whether to store the frame when reloading files.
-    bool hasFrameStoreFileReload() const;
+            virtual ~ImagePrefs();
 
-    //! Get the default mirror.
-    static djvPixelDataInfo::Mirror mirrorDefault();
-    
-    //! Get the mirror.
-    const djvPixelDataInfo::Mirror & mirror() const;
+            //! Get the default for whether to store the frame when reloading files.    
+            static bool frameStoreFileReloadDefault();
 
-    //! Get the default scale.
-    static djvViewUtil::IMAGE_SCALE scaleDefault();
+            //! Get whether to store the frame when reloading files.
+            bool hasFrameStoreFileReload() const;
 
-    //! Get the scale.
-    djvViewUtil::IMAGE_SCALE scale() const;
+            //! Get the default mirror.
+            static djvPixelDataInfo::Mirror mirrorDefault();
 
-    //! Get the default rotation.
-    static djvViewUtil::IMAGE_ROTATE rotateDefault();
+            //! Get the mirror.
+            const djvPixelDataInfo::Mirror & mirror() const;
 
-    //! Get the rotation.
-    djvViewUtil::IMAGE_ROTATE rotate() const;
+            //! Get the default scale.
+            static Util::IMAGE_SCALE scaleDefault();
 
-    //! Get the default for whether the color profile is enabled.
-    static bool colorProfileDefault();
+            //! Get the scale.
+            Util::IMAGE_SCALE scale() const;
 
-    //! Get whether the color profile is enabled.
-    bool hasColorProfile() const;
+            //! Get the default rotation.
+            static Util::IMAGE_ROTATE rotateDefault();
 
-    //! Get the default display profile index.
-    static int displayProfileIndexDefault();
+            //! Get the rotation.
+            Util::IMAGE_ROTATE rotate() const;
 
-    //! Get the display profile index.
-    int displayProfileIndex() const;
+            //! Get the default for whether the color profile is enabled.
+            static bool colorProfileDefault();
 
-    //! Get the current display profile.
-    djvViewDisplayProfile displayProfile() const;
+            //! Get whether the color profile is enabled.
+            bool hasColorProfile() const;
 
-    //! Get the list of display profiles.
-    const QVector<djvViewDisplayProfile> & displayProfiles() const;
+            //! Get the default display profile index.
+            static int displayProfileIndexDefault();
 
-    //! Get the display profile names.
-    QStringList displayProfileNames() const;
+            //! Get the display profile index.
+            int displayProfileIndex() const;
 
-    //! Get the default image channel.
-    static djvOpenGLImageOptions::CHANNEL channelDefault();
+            //! Get the current display profile.
+            DisplayProfile displayProfile() const;
 
-    //! Get the image channel.
-    djvOpenGLImageOptions::CHANNEL channel() const;
+            //! Get the list of display profiles.
+            const QVector<DisplayProfile> & displayProfiles() const;
 
-public Q_SLOTS:
-    //! Set whether to store the frame when reloading files.
-    void setFrameStoreFileReload(bool);
+            //! Get the display profile names.
+            QStringList displayProfileNames() const;
 
-    //! Set the mirror.
-    void setMirror(const djvPixelDataInfo::Mirror &);
+            //! Get the default image channel.
+            static djvOpenGLImageOptions::CHANNEL channelDefault();
 
-    //! Set the scale.
-    void setScale(djvViewUtil::IMAGE_SCALE);
+            //! Get the image channel.
+            djvOpenGLImageOptions::CHANNEL channel() const;
 
-    //! Set the rotation.
-    void setRotate(djvViewUtil::IMAGE_ROTATE);
+        public Q_SLOTS:
+            //! Set whether to store the frame when reloading files.
+            void setFrameStoreFileReload(bool);
 
-    //! Set whether the color profile is enabled.
-    void setColorProfile(bool);
+            //! Set the mirror.
+            void setMirror(const djvPixelDataInfo::Mirror &);
 
-    //! Set the current display profile index.
-    void setDisplayProfileIndex(int);
+            //! Set the scale.
+            void setScale(djv::ViewLib::Util::IMAGE_SCALE);
 
-    //! Set the list of display profiles.
-    void setDisplayProfiles(const QVector<djvViewDisplayProfile> &);
+            //! Set the rotation.
+            void setRotate(djv::ViewLib::Util::IMAGE_ROTATE);
 
-    //! Set the image channel.
-    void setChannel(djvOpenGLImageOptions::CHANNEL);
+            //! Set whether the color profile is enabled.
+            void setColorProfile(bool);
 
-Q_SIGNALS:
-    //! This signal is emitted when the mirror is changed.
-    void mirrorChanged(djvPixelDataInfo::Mirror);
-    
-    //! This signal is emitted when the scale is changed.
-    void scaleChanged(djvViewUtil::IMAGE_SCALE);
-    
-    //! This signal is emitted when the rotation is changed.
-    void rotateChanged(djvViewUtil::IMAGE_ROTATE);
-    
-    //! This signal is emitted when the color profile is changed.
-    void colorProfileChanged(bool);
-    
-    //! This signal is emitted when the current display profile is
-    //! changed.
-    void displayProfileChanged(const djvViewDisplayProfile &);
+            //! Set the current display profile index.
+            void setDisplayProfileIndex(int);
 
-    //! This signal is emitted the the display profiles are changed.
-    void displayProfilesChanged(const QVector<djvViewDisplayProfile> &);
+            //! Set the list of display profiles.
+            void setDisplayProfiles(const QVector<djv::ViewLib::DisplayProfile> &);
 
-    //! This signal is emitted when the image channel is changed.
-    void channelChanged(djvOpenGLImageOptions::CHANNEL);
+            //! Set the image channel.
+            void setChannel(djvOpenGLImageOptions::CHANNEL);
 
-private:
-    bool                           _frameStoreFileReload;
-    djvPixelDataInfo::Mirror       _mirror;
-    djvViewUtil::IMAGE_SCALE       _scale;
-    djvViewUtil::IMAGE_ROTATE      _rotate;
-    bool                           _colorProfile;
-    int                            _displayProfileIndex;
-    QVector<djvViewDisplayProfile> _displayProfiles;
-    djvOpenGLImageOptions::CHANNEL _channel;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when the mirror is changed.
+            void mirrorChanged(djvPixelDataInfo::Mirror);
 
-//@} // djvViewImage
+            //! This signal is emitted when the scale is changed.
+            void scaleChanged(djv::ViewLib::Util::IMAGE_SCALE);
 
+            //! This signal is emitted when the rotation is changed.
+            void rotateChanged(djv::ViewLib::Util::IMAGE_ROTATE);
+
+            //! This signal is emitted when the color profile is changed.
+            void colorProfileChanged(bool);
+
+            //! This signal is emitted when the current display profile is
+            //! changed.
+            void displayProfileChanged(const djv::ViewLib::DisplayProfile &);
+
+            //! This signal is emitted the the display profiles are changed.
+            void displayProfilesChanged(const QVector<djv::ViewLib::DisplayProfile> &);
+
+            //! This signal is emitted when the image channel is changed.
+            void channelChanged(djvOpenGLImageOptions::CHANNEL);
+
+        private:
+            bool                           _frameStoreFileReload;
+            djvPixelDataInfo::Mirror       _mirror;
+            Util::IMAGE_SCALE              _scale;
+            Util::IMAGE_ROTATE             _rotate;
+            bool                           _colorProfile;
+            int                            _displayProfileIndex;
+            QVector<DisplayProfile>        _displayProfiles;
+            djvOpenGLImageOptions::CHANNEL _channel;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

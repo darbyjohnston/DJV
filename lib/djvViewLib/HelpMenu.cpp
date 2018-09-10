@@ -35,31 +35,30 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewHelpMenu::Private
-//------------------------------------------------------------------------------
-
-struct djvViewHelpMenu::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewHelpMenu
-//------------------------------------------------------------------------------
-
-djvViewHelpMenu::djvViewHelpMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new Private)
+namespace djv
 {
-    // Create the actions.
-    addAction(actions->action(djvViewHelpActions::HELP));
-    addAction(actions->action(djvViewHelpActions::INFO));
-    addAction(actions->action(djvViewHelpActions::ABOUT));
+    namespace ViewLib
+    {
+        struct HelpMenu::Private
+        {};
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewHelpMenu", "&Help"));
-}
+        HelpMenu::HelpMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent),
+            _p(new Private)
+        {
+            // Create the actions.
+            addAction(actions->action(HelpActions::HELP));
+            addAction(actions->action(HelpActions::INFO));
+            addAction(actions->action(HelpActions::ABOUT));
 
-djvViewHelpMenu::~djvViewHelpMenu()
-{}
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::HelpMenu", "&Help"));
+        }
+
+        HelpMenu::~HelpMenu()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

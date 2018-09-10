@@ -38,129 +38,127 @@
 
 #include <memory>
 
-class djvViewPlaybackActions;
-
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackToolBar
-//!
-//! This class provides the playback group tool bar.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackToolBar : public djvViewAbstractToolBar
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class PlaybackActions;
 
-public:
-    explicit djvViewPlaybackToolBar(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context,
-        QWidget *                parent  = nullptr);
+        //! \class PlaybackToolBar
+        //!
+        //! This class provides the playback group tool bar.
+        class PlaybackToolBar : public AbstractToolBar
+        {
+            Q_OBJECT
 
-    virtual ~djvViewPlaybackToolBar();
+        public:
+            explicit PlaybackToolBar(
+                AbstractActions * actions,
+                Context *         context,
+                QWidget *         parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the playback speed.
-    void setSpeed(const djvSpeed &);
+            virtual ~PlaybackToolBar();
 
-    //! Set the default playback speed.
-    void setDefaultSpeed(const djvSpeed &);
+        public Q_SLOTS:
+            //! Set the playback speed.
+            void setSpeed(const djvSpeed &);
 
-    //! Set the real playback speed.
-    void setRealSpeed(float);
+            //! Set the default playback speed.
+            void setDefaultSpeed(const djvSpeed &);
 
-    //! Set whether frames are being dropped.
-    void setDroppedFrames(bool);
+            //! Set the real playback speed.
+            void setRealSpeed(float);
 
-    //! Set the frame list.
-    void setFrameList(const djvFrameList &);
+            //! Set whether frames are being dropped.
+            void setDroppedFrames(bool);
 
-    //! Set the frame.
-    void setFrame(qint64);
+            //! Set the frame list.
+            void setFrameList(const djvFrameList &);
 
-    //! Set the cached frames.
-    void setCachedFrames(const djvFrameList &);
+            //! Set the frame.
+            void setFrame(qint64);
 
-    //! Set the start frame.
-    void setStart(qint64);
+            //! Set the cached frames.
+            void setCachedFrames(const djvFrameList &);
 
-    //! Set the end frame.
-    void setEnd(qint64);
+            //! Set the start frame.
+            void setStart(qint64);
 
-    //! Set the duration.
-    void setDuration(qint64, bool inOutEnabled);
+            //! Set the end frame.
+            void setEnd(qint64);
 
-    //! Set whether the in/out points are enabled.
-    void setInOutEnabled(bool);
+            //! Set the duration.
+            void setDuration(qint64, bool inOutEnabled);
 
-    //! Set the in point.
-    void setInPoint(qint64);
+            //! Set whether the in/out points are enabled.
+            void setInOutEnabled(bool);
 
-    //! Set the out point.
-    void setOutPoint(qint64);
+            //! Set the in point.
+            void setInPoint(qint64);
 
-    //! Mark the in point.
-    void markInPoint();
+            //! Set the out point.
+            void setOutPoint(qint64);
 
-    //! Mark the out point.
-    void markOutPoint();
+            //! Mark the in point.
+            void markInPoint();
 
-    //! Reset the in point.
-    void resetInPoint();
+            //! Mark the out point.
+            void markOutPoint();
 
-    //! Reset the out point.
-    void resetOutPoint();
+            //! Reset the in point.
+            void resetInPoint();
 
-    //! Set the layout.
-    void setLayout(djvViewUtil::LAYOUT);
+            //! Reset the out point.
+            void resetOutPoint();
 
-Q_SIGNALS:
-    //! This signal is emitted when the playback shuttle is pressed.
-    void playbackShuttlePressed(bool);
+            //! Set the layout.
+            void setLayout(djv::ViewLib::Util::LAYOUT);
 
-    //! This signal is emitted when the playback shuttle is changed.
-    void playbackShuttleValue(int);
+        Q_SIGNALS:
+            //! This signal is emitted when the playback shuttle is pressed.
+            void playbackShuttlePressed(bool);
 
-    //! This signal is emitted when the speed is changed.
-    void speedChanged(const djvSpeed &);
+            //! This signal is emitted when the playback shuttle is changed.
+            void playbackShuttleValue(int);
 
-    //! This signal is emitted when the frame is changed.
-    void frameChanged(qint64);
+            //! This signal is emitted when the speed is changed.
+            void speedChanged(const djvSpeed &);
 
-    //! This signal is emitted when the frame shuttle is pressed.
-    void frameShuttlePressed(bool);
+            //! This signal is emitted when the frame is changed.
+            void frameChanged(qint64);
 
-    //! This signal is emitted when the frame shuttle is changed.
-    void frameShuttleValue(int);
+            //! This signal is emitted when the frame shuttle is pressed.
+            void frameShuttlePressed(bool);
 
-    //! This signal is emitted when the frame slider is pressed.
-    void frameSliderPressed(bool);
+            //! This signal is emitted when the frame shuttle is changed.
+            void frameShuttleValue(int);
 
-    //! This signal is emitted when the frame slider is changed.
-    void frameSliderChanged(qint64);
+            //! This signal is emitted when the frame slider is pressed.
+            void frameSliderPressed(bool);
 
-    //! This signal is emitted when the frame buttons are pressed.
-    void frameButtonsPressed();
+            //! This signal is emitted when the frame slider is changed.
+            void frameSliderChanged(qint64);
 
-    //! This signal is emitted when the frame buttons are released.
-    void frameButtonsReleased();
+            //! This signal is emitted when the frame buttons are pressed.
+            void frameButtonsPressed();
 
-    //! This signal is emitted when the in point is changed.
-    void inPointChanged(qint64);
+            //! This signal is emitted when the frame buttons are released.
+            void frameButtonsReleased();
 
-    //! This signal is emitted when the out point is changed.
-    void outPointChanged(qint64);
+            //! This signal is emitted when the in point is changed.
+            void inPointChanged(qint64);
 
-private:
-    void layoutUpdate();
+            //! This signal is emitted when the out point is changed.
+            void outPointChanged(qint64);
 
-    DJV_PRIVATE_COPY(djvViewPlaybackToolBar);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private:
+            void layoutUpdate();
 
-//@} // djvViewPlayback
+            DJV_PRIVATE_COPY(PlaybackToolBar);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

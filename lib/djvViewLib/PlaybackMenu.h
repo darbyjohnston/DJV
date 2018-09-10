@@ -35,32 +35,30 @@
 
 #include <memory>
 
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackMenu
-//!
-//! This class provides the playback group menu.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackMenu : public djvViewAbstractMenu
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        //! \class PlaybackMenu
+        //!
+        //! This class provides the playback group menu.
+        class PlaybackMenu : public AbstractMenu
+        {
+            Q_OBJECT
 
-public:
-    explicit djvViewPlaybackMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent  = nullptr);
+        public:
+            explicit PlaybackMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-    virtual ~djvViewPlaybackMenu();
+            virtual ~PlaybackMenu();
 
-private:
-    DJV_PRIVATE_COPY(djvViewPlaybackMenu);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private:
+            DJV_PRIVATE_COPY(PlaybackMenu);
 
-//@} // djvViewPlayback
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
+    } // namespace ViewLib
+} // namespace djv

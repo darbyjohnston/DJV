@@ -33,105 +33,108 @@
 
 #include <djvUI/Prefs.h>
 
-//------------------------------------------------------------------------------
-// djvViewPlaybackPrefs
-//------------------------------------------------------------------------------
-
-djvViewPlaybackPrefs::djvViewPlaybackPrefs(djvViewContext * context, QObject * parent) :
-    djvViewAbstractPrefs(context, parent),
-    _autoStart (autoStartDefault()),
-    _loop      (loopDefault()),
-    _everyFrame(everyFrameDefault()),
-    _layout    (layoutDefault())
+namespace djv
 {
-    djvPrefs prefs("djvViewPlaybackPrefs");
-    prefs.get("autoStart", _autoStart);
-    prefs.get("loop", _loop);
-    prefs.get("everyFrame", _everyFrame);
-    prefs.get("layout", _layout);
-}
+    namespace ViewLib
+    {
+        PlaybackPrefs::PlaybackPrefs(Context * context, QObject * parent) :
+            AbstractPrefs(context, parent),
+            _autoStart(autoStartDefault()),
+            _loop(loopDefault()),
+            _everyFrame(everyFrameDefault()),
+            _layout(layoutDefault())
+        {
+            djvPrefs prefs("djv::ViewLib::PlaybackPrefs");
+            prefs.get("autoStart", _autoStart);
+            prefs.get("loop", _loop);
+            prefs.get("everyFrame", _everyFrame);
+            prefs.get("layout", _layout);
+        }
 
-djvViewPlaybackPrefs::~djvViewPlaybackPrefs()
-{
-    djvPrefs prefs("djvViewPlaybackPrefs");
-    prefs.set("autoStart", _autoStart);
-    prefs.set("loop", _loop);
-    prefs.set("everyFrame", _everyFrame);
-    prefs.set("layout", _layout);
-}
+        PlaybackPrefs::~PlaybackPrefs()
+        {
+            djvPrefs prefs("PlaybackPrefs");
+            prefs.set("autoStart", _autoStart);
+            prefs.set("loop", _loop);
+            prefs.set("everyFrame", _everyFrame);
+            prefs.set("layout", _layout);
+        }
 
-bool djvViewPlaybackPrefs::autoStartDefault()
-{
-    return true;
-}
+        bool PlaybackPrefs::autoStartDefault()
+        {
+            return true;
+        }
 
-bool djvViewPlaybackPrefs::hasAutoStart() const
-{
-    return _autoStart;
-}
+        bool PlaybackPrefs::hasAutoStart() const
+        {
+            return _autoStart;
+        }
 
-djvViewUtil::LOOP djvViewPlaybackPrefs::loopDefault()
-{
-    return djvViewUtil::LOOP_REPEAT;
-}
+        Util::LOOP PlaybackPrefs::loopDefault()
+        {
+            return Util::LOOP_REPEAT;
+        }
 
-djvViewUtil::LOOP djvViewPlaybackPrefs::loop() const
-{
-    return _loop;
-}
+        Util::LOOP PlaybackPrefs::loop() const
+        {
+            return _loop;
+        }
 
-bool djvViewPlaybackPrefs::everyFrameDefault()
-{
-    return true;
-}
+        bool PlaybackPrefs::everyFrameDefault()
+        {
+            return true;
+        }
 
-bool djvViewPlaybackPrefs::hasEveryFrame() const
-{
-    return _everyFrame;
-}
+        bool PlaybackPrefs::hasEveryFrame() const
+        {
+            return _everyFrame;
+        }
 
-djvViewUtil::LAYOUT djvViewPlaybackPrefs::layoutDefault()
-{
-    return djvViewUtil::LAYOUT_DEFAULT;
-}
+        Util::LAYOUT PlaybackPrefs::layoutDefault()
+        {
+            return Util::LAYOUT_DEFAULT;
+        }
 
-djvViewUtil::LAYOUT djvViewPlaybackPrefs::layout() const
-{
-    return _layout;
-}
+        Util::LAYOUT PlaybackPrefs::layout() const
+        {
+            return _layout;
+        }
 
-void djvViewPlaybackPrefs::setAutoStart(bool in)
-{
-    if (in == _autoStart)
-        return;
-    _autoStart = in;
-    Q_EMIT autoStartChanged(_autoStart);
-    Q_EMIT prefChanged();
-}
+        void PlaybackPrefs::setAutoStart(bool in)
+        {
+            if (in == _autoStart)
+                return;
+            _autoStart = in;
+            Q_EMIT autoStartChanged(_autoStart);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewPlaybackPrefs::setLoop(djvViewUtil::LOOP in)
-{
-    if (in == _loop)
-        return;
-    _loop = in;
-    Q_EMIT loopChanged(_loop);
-    Q_EMIT prefChanged();
-}
+        void PlaybackPrefs::setLoop(Util::LOOP in)
+        {
+            if (in == _loop)
+                return;
+            _loop = in;
+            Q_EMIT loopChanged(_loop);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewPlaybackPrefs::setEveryFrame(bool in)
-{
-    if (in == _everyFrame)
-        return;
-    _everyFrame = in;
-    Q_EMIT everyFrameChanged(_everyFrame);
-    Q_EMIT prefChanged();
-}
+        void PlaybackPrefs::setEveryFrame(bool in)
+        {
+            if (in == _everyFrame)
+                return;
+            _everyFrame = in;
+            Q_EMIT everyFrameChanged(_everyFrame);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewPlaybackPrefs::setLayout(djvViewUtil::LAYOUT in)
-{
-    if (in == _layout)
-        return;
-    _layout = in;
-    Q_EMIT layoutChanged(_layout);
-    Q_EMIT prefChanged();
-}
+        void PlaybackPrefs::setLayout(Util::LAYOUT in)
+        {
+            if (in == _layout)
+                return;
+            _layout = in;
+            Q_EMIT layoutChanged(_layout);
+            Q_EMIT prefChanged();
+        }
+
+    } // namespace ViewLib
+} // namespace djv

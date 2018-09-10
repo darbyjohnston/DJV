@@ -37,42 +37,40 @@
 
 #include <memory>
 
-//! \addtogroup djvViewWindow
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewWindowPrefsWidget
-//!
-//! This class provides the window group preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewWindowPrefsWidget :
-    public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewWindowPrefsWidget(djvViewContext *);
-    
-    virtual ~djvViewWindowPrefsWidget();
-    
-    virtual void resetPreferences();
+    namespace ViewLib
+    {
+        //! \class WindowPrefsWidget
+        //!
+        //! This class provides the window group preferences widget.
+        class WindowPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-private Q_SLOTS:
-    void autoFitCallback(bool);
-    void viewMaxCallback(int);
-    void viewMaxUserCallback(const glm::ivec2 &);
-    void fullScreenControlsCallback(bool);
-    void toolBarCallback(int);
-    
-    void widgetUpdate();
+        public:
+            WindowPrefsWidget(Context *);
 
-private:
-    DJV_PRIVATE_COPY(djvViewWindowPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~WindowPrefsWidget();
 
-//@} // djvViewWindow
+            virtual void resetPreferences();
+
+        private Q_SLOTS:
+            void autoFitCallback(bool);
+            void viewMaxCallback(int);
+            void viewMaxUserCallback(const glm::ivec2 &);
+            void fullScreenControlsCallback(bool);
+            void toolBarCallback(int);
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(WindowPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv
 

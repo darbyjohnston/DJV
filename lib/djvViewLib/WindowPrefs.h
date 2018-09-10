@@ -34,98 +34,96 @@
 #include <djvViewLib/AbstractPrefs.h>
 #include <djvViewLib/Util.h>
 
-//! \addtogroup djvViewWindow
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewWindowPrefs
-//!
-//! This class provides the window group preferences.
-//------------------------------------------------------------------------------
-
-class djvViewWindowPrefs : public djvViewAbstractPrefs
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewWindowPrefs(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        //! \class WindowPrefs
+        //!
+        //! This class provides the window group preferences.
+        class WindowPrefs : public AbstractPrefs
+        {
+            Q_OBJECT
 
-    virtual ~djvViewWindowPrefs();
+        public:
+            explicit WindowPrefs(Context *, QObject * parent = nullptr);
 
-    //! Get the default for whether to automatically fit the window to the
-    //! image.
-    static bool autoFitDefault();
+            virtual ~WindowPrefs();
 
-    //! Get whether to automatically fit the window to the image.
-    bool hasAutoFit() const;
+            //! Get the default for whether to automatically fit the window to the
+            //! image.
+            static bool autoFitDefault();
 
-    //! Get the default maximum view size.
-    static djvViewUtil::VIEW_MAX viewMaxDefault();
+            //! Get whether to automatically fit the window to the image.
+            bool hasAutoFit() const;
 
-    //! Get the maximum view size.
-    djvViewUtil::VIEW_MAX viewMax() const;
-    
-    //! Get the default user specified maximum view size.
-    static const glm::ivec2 & viewMaxUserDefault();
-    
-    //! Get the user specified maximum view size.
-    const glm::ivec2 & viewMaxUser() const;
+            //! Get the default maximum view size.
+            static Util::VIEW_MAX viewMaxDefault();
 
-    //! Get the default for whether the controls are visible when going full
-    //! screen.
-    static bool fullScreenControlsDefault();
+            //! Get the maximum view size.
+            Util::VIEW_MAX viewMax() const;
 
-    //! Get whether the controls are visible when going full screen.
-    bool hasFullScreenControls() const;
+            //! Get the default user specified maximum view size.
+            static const glm::ivec2 & viewMaxUserDefault();
 
-    //! Get the default tool bar visiblity.
-    static QVector<bool> toolBarDefault();
-    
-    //! Get the tool bar visibility.
-    const QVector<bool> & toolBar() const;
+            //! Get the user specified maximum view size.
+            const glm::ivec2 & viewMaxUser() const;
 
-public Q_SLOTS:
-    //! Set whether to automatically fit the window to the image.
-    void setAutoFit(bool);
+            //! Get the default for whether the controls are visible when going full
+            //! screen.
+            static bool fullScreenControlsDefault();
 
-    //! Set the maximum view size.
-    void setViewMax(djvViewUtil::VIEW_MAX);
-    
-    //! Set the user specified maximum view size.
-    void setViewMaxUser(const glm::ivec2 &);
+            //! Get whether the controls are visible when going full screen.
+            bool hasFullScreenControls() const;
 
-    //! Set whether the controls are visible when going full screen.
-    void setFullScreenControls(bool);
+            //! Get the default tool bar visiblity.
+            static QVector<bool> toolBarDefault();
 
-    //! Set the tool bar visibility.
-    void setToolBar(const QVector<bool> &);
+            //! Get the tool bar visibility.
+            const QVector<bool> & toolBar() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when automatically fitting the window to the
-    //! image is changed.
-    void autoFitChanged(bool);
+        public Q_SLOTS:
+            //! Set whether to automatically fit the window to the image.
+            void setAutoFit(bool);
 
-    //! This signal is emitted when the maximum view size is changed.
-    void viewMaxChanged(djvViewUtil::VIEW_MAX);
-    
-    //! This signal is emitted when the user specified maximum view size is
-    //! changed.
-    void viewMaxUserChanged(const glm::ivec2 &);
+            //! Set the maximum view size.
+            void setViewMax(djv::ViewLib::Util::VIEW_MAX);
 
-    //! This signal is emitted when the full screen controls option is
-    //! changed.
-    void fullScreenControlsChanged(bool);
+            //! Set the user specified maximum view size.
+            void setViewMaxUser(const glm::ivec2 &);
 
-    //! This signal is emitted when the tool bar visibility is changed.
-    void toolBarChanged(const QVector<bool> &);
+            //! Set whether the controls are visible when going full screen.
+            void setFullScreenControls(bool);
 
-private:
-    bool                  _autoFit;
-    djvViewUtil::VIEW_MAX _viewMax;
-    glm::ivec2            _viewMaxUser = glm::ivec2(0, 0);
-    bool                  _fullScreenControls;
-    QVector<bool>         _toolBar;
-};
+            //! Set the tool bar visibility.
+            void setToolBar(const QVector<bool> &);
 
-//@} // djvViewWindow
+        Q_SIGNALS:
+            //! This signal is emitted when automatically fitting the window to the
+            //! image is changed.
+            void autoFitChanged(bool);
 
+            //! This signal is emitted when the maximum view size is changed.
+            void viewMaxChanged(djv::ViewLib::Util::VIEW_MAX);
+
+            //! This signal is emitted when the user specified maximum view size is
+            //! changed.
+            void viewMaxUserChanged(const glm::ivec2 &);
+
+            //! This signal is emitted when the full screen controls option is
+            //! changed.
+            void fullScreenControlsChanged(bool);
+
+            //! This signal is emitted when the tool bar visibility is changed.
+            void toolBarChanged(const QVector<bool> &);
+
+        private:
+            bool           _autoFit;
+            Util::VIEW_MAX _viewMax;
+            glm::ivec2     _viewMaxUser = glm::ivec2(0, 0);
+            bool           _fullScreenControls;
+            QVector<bool>  _toolBar;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

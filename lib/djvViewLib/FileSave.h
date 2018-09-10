@@ -43,78 +43,73 @@
 
 #include <memory>
 
-class djvViewContext;
-
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvViewFileSaveInfo
-//!
-//! This struct provides file saving information.
-//------------------------------------------------------------------------------
-
-struct djvViewFileSaveInfo
+namespace djv
 {
-    djvViewFileSaveInfo(
-        const djvFileInfo &           inputFile    = djvFileInfo(),
-        const djvFileInfo &           outputFile   = djvFileInfo(),
-        const djvPixelDataInfo &      info         = djvPixelDataInfo(),
-        const djvSequence &           sequence     = djvSequence(),
-        int                           layer        = 0,
-        const djvPixelDataInfo::PROXY proxy        = djvPixelDataInfo::PROXY_NONE,
-        bool                          u8Conversion = false,
-        bool                          colorProfile = true,
-        const djvOpenGLImageOptions & options      = djvOpenGLImageOptions());
+    namespace ViewLib
+    {
+        class Context;
 
-    djvFileInfo             inputFile;
-    djvFileInfo             outputFile;
-    djvPixelDataInfo        info;
-    djvSequence             sequence;
-    int                     layer;
-    djvPixelDataInfo::PROXY proxy;
-    bool                    u8Conversion;
-    bool                    colorProfile;
-    djvImageIOFrameInfo     frameInfo;
-    djvOpenGLImageOptions   options;
-};
+        //! \struct FileSaveInfo
+        //!
+        //! This struct provides file saving information.
+        struct FileSaveInfo
+        {
+            FileSaveInfo(
+                const djvFileInfo &           inputFile = djvFileInfo(),
+                const djvFileInfo &           outputFile = djvFileInfo(),
+                const djvPixelDataInfo &      info = djvPixelDataInfo(),
+                const djvSequence &           sequence = djvSequence(),
+                int                           layer = 0,
+                const djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE,
+                bool                          u8Conversion = false,
+                bool                          colorProfile = true,
+                const djvOpenGLImageOptions & options = djvOpenGLImageOptions());
 
-//------------------------------------------------------------------------------
-//! \class djvViewFileSave
-//!
-//! This class provides file saving.
-//------------------------------------------------------------------------------
+            djvFileInfo             inputFile;
+            djvFileInfo             outputFile;
+            djvPixelDataInfo        info;
+            djvSequence             sequence;
+            int                     layer;
+            djvPixelDataInfo::PROXY proxy;
+            bool                    u8Conversion;
+            bool                    colorProfile;
+            djvImageIOFrameInfo     frameInfo;
+            djvOpenGLImageOptions   options;
+        };
 
-class djvViewFileSave : public QObject
-{
-    Q_OBJECT
-    
-public:
-    explicit djvViewFileSave(djvViewContext *, QObject * parent = nullptr);
+        //! \class FileSave
+        //!
+        //! This class provides file saving.
+        class FileSave : public QObject
+        {
+            Q_OBJECT
 
-    virtual ~djvViewFileSave();
+        public:
+            explicit FileSave(Context *, QObject * parent = nullptr);
 
-public Q_SLOTS:
-    //! Save a file.
-    void save(const djvViewFileSaveInfo &);
+            virtual ~FileSave();
 
-    //! Cancel an in progress save.
-    void cancel();
+        public Q_SLOTS:
+            //! Save a file.
+            void save(const djv::ViewLib::FileSaveInfo &);
 
-Q_SIGNALS:
-    //! This signal is emitted when the save is finished.
-    void finished();
+            //! Cancel an in progress save.
+            void cancel();
 
-private Q_SLOTS:
-    void callback(int);
-    void finishedCallback();
+        Q_SIGNALS:
+            //! This signal is emitted when the save is finished.
+            void finished();
 
-private:    
-    DJV_PRIVATE_COPY(djvViewFileSave);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void callback(int);
+            void finishedCallback();
 
-//@} // djvViewFile
+        private:
+            DJV_PRIVATE_COPY(FileSave);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

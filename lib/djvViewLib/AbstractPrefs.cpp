@@ -31,22 +31,24 @@
 
 #include <djvViewLib/AbstractPrefs.h>
 
-//------------------------------------------------------------------------------
-// djvViewAbstractPrefs
-//------------------------------------------------------------------------------
-
-djvViewAbstractPrefs::djvViewAbstractPrefs(
-    djvViewContext * context,
-    QObject *        parent) :
-    QObject(parent),
-    _context(context)
-{}
-
-djvViewAbstractPrefs::~djvViewAbstractPrefs()
-{}
-
-djvViewContext * djvViewAbstractPrefs::context() const
+namespace djv
 {
-    return _context;
-}
+    namespace ViewLib
+    {
+        AbstractPrefs::AbstractPrefs(
+            Context * context,
+            QObject * parent) :
+            QObject(parent),
+            _context(context)
+        {}
 
+        AbstractPrefs::~AbstractPrefs()
+        {}
+
+        Context * AbstractPrefs::context() const
+        {
+            return _context;
+        }
+
+    } // namespace ViewLib
+} // namespace djv

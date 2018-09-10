@@ -44,199 +44,175 @@
 #include <QButtonGroup>
 #include <QHBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvViewPlaybackButtons::Private
-//------------------------------------------------------------------------------
-
-struct djvViewPlaybackButtons::Private
+namespace djv
 {
-    Private() :
-        buttonGroup(0),
-        shuttle    (0)
-    {}
-
-    QButtonGroup *     buttonGroup;
-    djvShuttleButton * shuttle;
-};
-
-//------------------------------------------------------------------------------
-// djvViewPlaybackButtons
-//------------------------------------------------------------------------------
-
-djvViewPlaybackButtons::djvViewPlaybackButtons(
-    QActionGroup *  actionGroup,
-    djvUIContext * context,
-    QWidget *       parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->buttonGroup = new QButtonGroup(this);
-    _p->buttonGroup->setExclusive(true);
-
-    const QList<QAction *> actions = actionGroup->actions();
-
-    for (int i = 0; i < actions.count(); ++i)
+    namespace ViewLib
     {
-        djvToolButton* button = new djvToolButton;
-        button->setDefaultAction(actions[i]);
-        button->setIconSize(context->iconLibrary()->defaultSize());
-        _p->buttonGroup->addButton(button);
-    }
-
-    _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault(context));
-    _p->shuttle->setToolTip(
-        qApp->translate("djvViewPlaybackButtons", "Playback shuttle\n\nClick and drag to start playback; the speed is "
-        "determined by how far you drag."));
-
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-        layout->addWidget(button);
-    layout->addWidget(_p->shuttle);
-
-    connect(
-        _p->shuttle,
-        SIGNAL(mousePressed(bool)),
-        SIGNAL(shuttlePressed(bool)));
-    connect(
-        _p->shuttle,
-        SIGNAL(valueChanged(int)),
-        SIGNAL(shuttleChanged(int)));
-}
-
-djvViewPlaybackButtons::~djvViewPlaybackButtons()
-{}
-
-//------------------------------------------------------------------------------
-// djvViewLoopWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvViewLoopWidget::Private
-{
-    Private(djvViewContext * context) :
-        loop   (djvViewUtil::LOOP_REPEAT),
-        button (0),
-        context(context)
-    {}
-
-    djvViewUtil::LOOP loop;
-    djvChoiceButton * button;
-    djvViewContext *  context;
-};
-
-//------------------------------------------------------------------------------
-// djvViewLoopWidget
-//------------------------------------------------------------------------------
-
-djvViewLoopWidget::djvViewLoopWidget(
-    QActionGroup *   actionGroup,
-    djvViewContext * context,
-    QWidget *        parent) :
-    QWidget(parent),
-    _p(new Private(context))
-{
-    _p->button = new djvChoiceButton(actionGroup);
-
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addWidget(_p->button);
-
-    widgetUpdate();
-
-    connect(
-        context->shortcutPrefs(),
-        SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
-        SLOT(widgetUpdate()));
-}
-
-djvViewLoopWidget::~djvViewLoopWidget()
-{}
-
-void djvViewLoopWidget::widgetUpdate()
-{
-    // Update shortcuts.
-    const QVector<djvShortcut> & shortcuts =
-        _p->context->shortcutPrefs()->shortcuts();
-    _p->button->setShortcut(
-        shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value);
-
-    // Update tool tips.
-    _p->button->setToolTip(
-        qApp->translate("djvViewPlaybackButtons", "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
-        arg(djvStringUtil::label(_p->loop).join(", ")).
-        arg(djvViewUtil::loopLabels().join(", ")).
-        arg(shortcuts[djvViewUtil::SHORTCUT_PLAYBACK_LOOP].value.toString()));
-}
-
-//------------------------------------------------------------------------------
-// djvViewFrameButtons::Private
-//------------------------------------------------------------------------------
-
-struct djvViewFrameButtons::Private
-{
-    Private() :
-        buttonGroup(0),
-        shuttle(0)
-    {}
-
-    QButtonGroup *     buttonGroup;
-    djvShuttleButton * shuttle;
-};
-
-//------------------------------------------------------------------------------
-// djvViewFrameButtons
-//------------------------------------------------------------------------------
-
-djvViewFrameButtons::djvViewFrameButtons(
-    QActionGroup *  actionGroup,
-    djvUIContext * context,
-    QWidget *       parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->buttonGroup = new QButtonGroup(this);
-    _p->buttonGroup->setExclusive(false);
-
-    Q_FOREACH(QAction * action, actionGroup->actions())
-    {
-        if (! action->icon().isNull())
+        struct PlaybackButtons::Private
         {
-            djvToolButton* button = new djvToolButton;
-            button->setDefaultAction(action);
-            button->setIconSize(context->iconLibrary()->defaultSize());
-            _p->buttonGroup->addButton(button);
+            Private() :
+                buttonGroup(0),
+                shuttle(0)
+            {}
+
+            QButtonGroup *     buttonGroup;
+            djvShuttleButton * shuttle;
+        };
+
+        PlaybackButtons::PlaybackButtons(
+            QActionGroup *  actionGroup,
+            djvUIContext * context,
+            QWidget *       parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->buttonGroup = new QButtonGroup(this);
+            _p->buttonGroup->setExclusive(true);
+
+            const QList<QAction *> actions = actionGroup->actions();
+
+            for (int i = 0; i < actions.count(); ++i)
+            {
+                djvToolButton* button = new djvToolButton;
+                button->setDefaultAction(actions[i]);
+                button->setIconSize(context->iconLibrary()->defaultSize());
+                _p->buttonGroup->addButton(button);
+            }
+
+            _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault(context));
+            _p->shuttle->setToolTip(
+                qApp->translate("djv::ViewLib::PlaybackButtons", "Playback shuttle\n\nClick and drag to start playback; the speed is "
+                    "determined by how far you drag."));
+
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->setSpacing(0);
+            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
+                layout->addWidget(button);
+            layout->addWidget(_p->shuttle);
+
+            connect(
+                _p->shuttle,
+                SIGNAL(mousePressed(bool)),
+                SIGNAL(shuttlePressed(bool)));
+            connect(
+                _p->shuttle,
+                SIGNAL(valueChanged(int)),
+                SIGNAL(shuttleChanged(int)));
         }
-    }
 
-    _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault(context));
-    _p->shuttle->setToolTip(
-        qApp->translate("djvViewPlaybackButtons", "Frame shuttle\n\nClick and drag to change the current frame."));
+        PlaybackButtons::~PlaybackButtons()
+        {}
 
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-        layout->addWidget(button);
-    layout->addWidget(_p->shuttle);
+        struct LoopWidget::Private
+        {
+            Private(Context * context) :
+                context(context)
+            {}
 
-    Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-    {
-        connect(button, SIGNAL(pressed()), SIGNAL(pressed()));
-        connect(button, SIGNAL(released()), SIGNAL(released()));
-    }
-    connect(
-        _p->shuttle,
-        SIGNAL(mousePressed(bool)),
-        SIGNAL(shuttlePressed(bool)));
-    connect(
-        _p->shuttle,
-        SIGNAL(valueChanged(int)),
-        SIGNAL(shuttleChanged(int)));
-    connect(_p->shuttle, SIGNAL(pressed()), SIGNAL(pressed()));
-    connect(_p->shuttle, SIGNAL(released()), SIGNAL(released()));
-}
+            Util::LOOP loop = Util::LOOP_REPEAT;
+            djvChoiceButton * button = nullptr;
+            Context * context;
+        };
 
-djvViewFrameButtons::~djvViewFrameButtons()
-{}
+        LoopWidget::LoopWidget(
+            QActionGroup * actionGroup,
+            Context * context,
+            QWidget * parent) :
+            QWidget(parent),
+            _p(new Private(context))
+        {
+            _p->button = new djvChoiceButton(actionGroup);
+
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->setSpacing(0);
+            layout->addWidget(_p->button);
+
+            widgetUpdate();
+
+            connect(
+                context->shortcutPrefs(),
+                SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
+                SLOT(widgetUpdate()));
+        }
+
+        LoopWidget::~LoopWidget()
+        {}
+
+        void LoopWidget::widgetUpdate()
+        {
+            // Update shortcuts.
+            const QVector<djvShortcut> & shortcuts =
+                _p->context->shortcutPrefs()->shortcuts();
+            _p->button->setShortcut(
+                shortcuts[Util::SHORTCUT_PLAYBACK_LOOP].value);
+
+            // Update tool tips.
+            _p->button->setToolTip(
+                qApp->translate("djv::ViewLib::PlaybackButtons", "Loop mode: %1\n\nClick to cycle through values: %2\n\nShortcut: %3").
+                arg(djvStringUtil::label(_p->loop).join(", ")).
+                arg(Util::loopLabels().join(", ")).
+                arg(shortcuts[Util::SHORTCUT_PLAYBACK_LOOP].value.toString()));
+        }
+
+        struct FrameButtons::Private
+        {
+            QButtonGroup *     buttonGroup = nullptr;
+            djvShuttleButton * shuttle = nullptr;
+        };
+
+        FrameButtons::FrameButtons(
+            QActionGroup *  actionGroup,
+            djvUIContext * context,
+            QWidget *       parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->buttonGroup = new QButtonGroup(this);
+            _p->buttonGroup->setExclusive(false);
+
+            Q_FOREACH(QAction * action, actionGroup->actions())
+            {
+                if (!action->icon().isNull())
+                {
+                    djvToolButton* button = new djvToolButton;
+                    button->setDefaultAction(action);
+                    button->setIconSize(context->iconLibrary()->defaultSize());
+                    _p->buttonGroup->addButton(button);
+                }
+            }
+
+            _p->shuttle = new djvShuttleButton(djvShuttleButton::iconsDefault(context));
+            _p->shuttle->setToolTip(
+                qApp->translate("djv::ViewLib::PlaybackButtons", "Frame shuttle\n\nClick and drag to change the current frame."));
+
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->setSpacing(0);
+            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
+                layout->addWidget(button);
+            layout->addWidget(_p->shuttle);
+
+            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
+            {
+                connect(button, SIGNAL(pressed()), SIGNAL(pressed()));
+                connect(button, SIGNAL(released()), SIGNAL(released()));
+            }
+            connect(
+                _p->shuttle,
+                SIGNAL(mousePressed(bool)),
+                SIGNAL(shuttlePressed(bool)));
+            connect(
+                _p->shuttle,
+                SIGNAL(valueChanged(int)),
+                SIGNAL(shuttleChanged(int)));
+            connect(_p->shuttle, SIGNAL(pressed()), SIGNAL(pressed()));
+            connect(_p->shuttle, SIGNAL(released()), SIGNAL(released()));
+        }
+
+        FrameButtons::~FrameButtons()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

@@ -37,45 +37,43 @@
 
 #include <memory>
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewHistogramTool
-//!
-//! This class provides a histogram tool.
-//------------------------------------------------------------------------------
-
-class djvViewHistogramTool : public djvViewAbstractTool
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewHistogramTool(
-        djvViewMainWindow * mainWindow,
-        djvViewContext *    context,
-        QWidget *           parent     = nullptr);
+    namespace ViewLib
+    {
+        //! \class HistogramTool
+        //!
+        //! This class provides a histogram tool.
+        class HistogramTool : public AbstractTool
+        {
+            Q_OBJECT
 
-    virtual ~djvViewHistogramTool();
+        public:
+            explicit HistogramTool(
+                MainWindow * mainWindow,
+                Context *    context,
+                QWidget *    parent = nullptr);
 
-protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void resizeEvent(QResizeEvent *);
+            virtual ~HistogramTool();
 
-private Q_SLOTS:
-    void sizeCallback(int);
-    void maskCallback(const djvPixel::Mask &);
-    void colorProfileCallback(bool);
-    void displayProfileCallback(bool);
+        protected:
+            virtual void showEvent(QShowEvent *);
+            virtual void resizeEvent(QResizeEvent *);
 
-    void widgetUpdate();
-    
-private:
-    DJV_PRIVATE_COPY(djvViewHistogramTool);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void sizeCallback(int);
+            void maskCallback(const djvPixel::Mask &);
+            void colorProfileCallback(bool);
+            void displayProfileCallback(bool);
 
-//@} // djvViewTool
+            void widgetUpdate();
 
+        private:
+            DJV_PRIVATE_COPY(HistogramTool);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

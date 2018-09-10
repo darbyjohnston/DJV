@@ -33,54 +33,51 @@
 
 #include <djvViewLib/AbstractActions.h>
 
-//! \addtogroup djvViewWindow
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewWindowActions
-//!
-//! This class provides the window group actions.
-//------------------------------------------------------------------------------
-
-class djvViewWindowActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(ACTION)
-    Q_ENUMS(GROUP)
-    
-public:
-    //! This enumeration provides the actions.
-    enum ACTION
+    namespace ViewLib
     {
-        NEW,
-        COPY,
-        CLOSE,
-        FIT,
-        FULL_SCREEN,
-        CONTROLS_VISIBLE,
+        //! \class WindowActions
+        //!
+        //! This class provides the window group actions.
+        class WindowActions : public AbstractActions
+        {
+            Q_OBJECT
+                Q_ENUMS(ACTION)
+                Q_ENUMS(GROUP)
 
-        ACTION_COUNT
-    };
+        public:
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                NEW,
+                COPY,
+                CLOSE,
+                FIT,
+                FULL_SCREEN,
+                CONTROLS_VISIBLE,
 
-    //! This enumeration provides the action groups.
-    enum GROUP
-    {
-        TOOL_BAR_VISIBLE_GROUP,
+                ACTION_COUNT
+            };
 
-        GROUP_COUNT
-    };
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                TOOL_BAR_VISIBLE_GROUP,
 
-    explicit djvViewWindowActions(djvViewContext *, QObject * parent = nullptr);
+                GROUP_COUNT
+            };
 
-    virtual ~djvViewWindowActions();
+            explicit WindowActions(Context *, QObject * parent = nullptr);
 
-private Q_SLOTS:
-    void update();
+            virtual ~WindowActions();
 
-private:
+        private Q_SLOTS:
+            void update();
 
-    DJV_PRIVATE_COPY(djvViewWindowActions);
-};
+        private:
+            DJV_PRIVATE_COPY(WindowActions);
+        };
 
-//@} // djvViewWindow
-
+    } // namespace ViewLib
+} // namespace djv

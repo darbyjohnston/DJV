@@ -37,39 +37,38 @@
 
 class QAction;
 
-//! \addtogroup djvViewHelp
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewHelpGroup
-//!
-//! This class provides the help group. The tool group encapsulates all of the
-//! functionality relating to help.
-//------------------------------------------------------------------------------
-
-class djvViewHelpGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewHelpGroup(
-        const djvViewHelpGroup * copy,
-        djvViewMainWindow *      mainWindow,
-        djvViewContext *         context);
+    namespace ViewLib
+    {
+        //! \class HelpGroup
+        //!
+        //! This class provides the help group. The tool group encapsulates all of the
+        //! functionality relating to help.
+        class HelpGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    virtual ~djvViewHelpGroup();
+        public:
+            HelpGroup(
+                const HelpGroup * copy,
+                MainWindow *      mainWindow,
+                Context *         context);
 
-private Q_SLOTS:
-    void helpCallback();
-    void infoCallback();
-    void aboutCallback();
+            virtual ~HelpGroup();
 
-private:
-    DJV_PRIVATE_COPY(djvViewHelpGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void helpCallback();
+            void infoCallback();
+            void aboutCallback();
 
-//@} // djvViewHelp
+        private:
+            DJV_PRIVATE_COPY(HelpGroup);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv
 

@@ -35,32 +35,30 @@
 
 #include <memory>
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewToolMenu
-//!
-//! This class provides the tool group menu.
-//------------------------------------------------------------------------------
-
-class djvViewToolMenu : public djvViewAbstractMenu
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewToolMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class ToolMenu
+        //!
+        //! This class provides the tool group menu.
+        class ToolMenu : public AbstractMenu
+        {
+            Q_OBJECT
 
-    virtual ~djvViewToolMenu();
+        public:
+            explicit ToolMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewToolMenu);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~ToolMenu();
 
-//@} // djvViewTool
+        private:
+            DJV_PRIVATE_COPY(ToolMenu);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -37,56 +37,55 @@
 #include <djvUI/FloatObject.h>
 #include <djvUI/ToolButton.h>
 
-//------------------------------------------------------------------------------
-// djvViewViewToolBar::Private
-//------------------------------------------------------------------------------
-
-struct djvViewViewToolBar::Private
+namespace djv
 {
-    Private() :
-        zoomEdit(0)
-    {}
+    namespace ViewLib
+    {
+        struct ViewToolBar::Private
+        {
+            Private() :
+                zoomEdit(0)
+            {}
 
-    djvFloatEdit * zoomEdit;
-};
+            djvFloatEdit * zoomEdit;
+        };
 
-//------------------------------------------------------------------------------
-// djvViewViewToolBar
-//------------------------------------------------------------------------------
+        ViewToolBar::ViewToolBar(
+            AbstractActions * actions,
+            Context *         context,
+            QWidget *         parent) :
+            AbstractToolBar(actions, context, parent),
+            _p(new Private)
+        {
+            djvToolButton * button = new djvToolButton;
+            button->setDefaultAction(actions->action(ViewActions::ZOOM_IN));
+            addWidget(button);
 
-djvViewViewToolBar::djvViewViewToolBar(
-    djvViewAbstractActions * actions,
-    djvViewContext *         context,
-    QWidget *                parent) :
-    djvViewAbstractToolBar(actions, context, parent),
-    _p(new Private)
-{
-    djvToolButton * button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewViewActions::ZOOM_IN));
-    addWidget(button);
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(ViewActions::ZOOM_OUT));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewViewActions::ZOOM_OUT));
-    addWidget(button);
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(ViewActions::ZOOM_RESET));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewViewActions::ZOOM_RESET));
-    addWidget(button);
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(ViewActions::FIT));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewViewActions::FIT));
-    addWidget(button);
+            _p->zoomEdit = new djvFloatEdit;
+            _p->zoomEdit->setRange(.1f, 1000.f);
+            _p->zoomEdit->object()->setInc(.1f, .1f);
+            addWidget(_p->zoomEdit);
+        }
 
-    _p->zoomEdit = new djvFloatEdit;
-    _p->zoomEdit->setRange(.1f, 1000.f);
-    _p->zoomEdit->object()->setInc(.1f, .1f);
-    addWidget(_p->zoomEdit);
-}
+        ViewToolBar::~ViewToolBar()
+        {}
 
-djvViewViewToolBar::~djvViewViewToolBar()
-{}
+        djvFloatEdit * ViewToolBar::zoomEdit() const
+        {
+            return _p->zoomEdit;
+        }
 
-djvFloatEdit * djvViewViewToolBar::zoomEdit() const
-{
-    return _p->zoomEdit;
-}
+    } // namespace ViewLib
+} // namespace djv

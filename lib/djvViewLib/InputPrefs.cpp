@@ -33,85 +33,85 @@
 
 #include <djvUI/Prefs.h>
 
-//------------------------------------------------------------------------------
-// djvViewInputPrefs
-//------------------------------------------------------------------------------
-
-djvViewInputPrefs::djvViewInputPrefs(djvViewContext * context, QObject * parent) :
-    djvViewAbstractPrefs(context, parent),
-    _mouseWheel     (mouseWheelDefault()),
-    _mouseWheelShift(mouseWheelShiftDefault()),
-    _mouseWheelCtrl (mouseWheelCtrlDefault())
+namespace djv
 {
-    //DJV_DEBUG("djvViewInputPrefs::djvViewInputPrefs");
+    namespace ViewLib
+    {
+        InputPrefs::InputPrefs(Context * context, QObject * parent) :
+            AbstractPrefs(context, parent),
+            _mouseWheel(mouseWheelDefault()),
+            _mouseWheelShift(mouseWheelShiftDefault()),
+            _mouseWheelCtrl(mouseWheelCtrlDefault())
+        {
+            //DJV_DEBUG("InputPrefs::InputPrefs");
+            djvPrefs prefs("djv::ViewLib::InputPrefs");
+            prefs.get("mouseWheel", _mouseWheel);
+            prefs.get("mouseWheelShift", _mouseWheelShift);
+            prefs.get("mouseWheelCtrl", _mouseWheelCtrl);
+        }
 
-    djvPrefs prefs("djvViewInputPrefs");
-    prefs.get("mouseWheel", _mouseWheel);
-    prefs.get("mouseWheelShift", _mouseWheelShift);
-    prefs.get("mouseWheelCtrl", _mouseWheelCtrl);
-}
+        InputPrefs::~InputPrefs()
+        {
+            //DJV_DEBUG("InputPrefs::~InputPrefs");
+            djvPrefs prefs("djv::ViewLib::InputPrefs");
+            prefs.set("mouseWheel", _mouseWheel);
+            prefs.set("mouseWheelShift", _mouseWheelShift);
+            prefs.set("mouseWheelCtrl", _mouseWheelCtrl);
+        }
 
-djvViewInputPrefs::~djvViewInputPrefs()
-{
-    //DJV_DEBUG("Prefs::~Prefs");
+        Util::MOUSE_WHEEL InputPrefs::mouseWheelDefault()
+        {
+            return Util::MOUSE_WHEEL_VIEW_ZOOM;
+        }
 
-    djvPrefs prefs("djvViewInputPrefs");
-    prefs.set("mouseWheel", _mouseWheel);
-    prefs.set("mouseWheelShift", _mouseWheelShift);
-    prefs.set("mouseWheelCtrl", _mouseWheelCtrl);
-}
+        Util::MOUSE_WHEEL InputPrefs::mouseWheel() const
+        {
+            return _mouseWheel;
+        }
 
-djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelDefault()
-{
-    return djvViewUtil::MOUSE_WHEEL_VIEW_ZOOM;
-}
+        Util::MOUSE_WHEEL InputPrefs::mouseWheelShiftDefault()
+        {
+            return Util::MOUSE_WHEEL_PLAYBACK_SHUTTLE;
+        }
 
-djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheel() const
-{
-    return _mouseWheel;
-}
+        Util::MOUSE_WHEEL InputPrefs::mouseWheelShift() const
+        {
+            return _mouseWheelShift;
+        }
 
-djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelShiftDefault()
-{
-    return djvViewUtil::MOUSE_WHEEL_PLAYBACK_SHUTTLE;
-}
+        Util::MOUSE_WHEEL InputPrefs::mouseWheelCtrlDefault()
+        {
+            return Util::MOUSE_WHEEL_PLAYBACK_SPEED;
+        }
 
-djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelShift() const
-{
-    return _mouseWheelShift;
-}
+        Util::MOUSE_WHEEL InputPrefs::mouseWheelCtrl() const
+        {
+            return _mouseWheelCtrl;
+        }
 
-djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrlDefault()
-{
-    return djvViewUtil::MOUSE_WHEEL_PLAYBACK_SPEED;
-}
+        void InputPrefs::setMouseWheel(Util::MOUSE_WHEEL in)
+        {
+            if (in == _mouseWheel)
+                return;
+            _mouseWheel = in;
+            Q_EMIT prefChanged();
+        }
 
-djvViewUtil::MOUSE_WHEEL djvViewInputPrefs::mouseWheelCtrl() const
-{
-    return _mouseWheelCtrl;
-}
+        void InputPrefs::setMouseWheelShift(Util::MOUSE_WHEEL in)
+        {
+            if (in == _mouseWheelShift)
+                return;
+            _mouseWheelShift = in;
+            Q_EMIT prefChanged();
+        }
 
-void djvViewInputPrefs::setMouseWheel(djvViewUtil::MOUSE_WHEEL in)
-{
-    if (in == _mouseWheel)
-        return;
-    _mouseWheel = in;
-    Q_EMIT prefChanged();
-}
+        void InputPrefs::setMouseWheelCtrl(Util::MOUSE_WHEEL in)
+        {
+            if (in == _mouseWheelCtrl)
+                return;
+            _mouseWheelCtrl = in;
+            Q_EMIT prefChanged();
+        }
 
-void djvViewInputPrefs::setMouseWheelShift(djvViewUtil::MOUSE_WHEEL in)
-{
-    if (in == _mouseWheelShift)
-        return;
-    _mouseWheelShift = in;
-    Q_EMIT prefChanged();
-}
-
-void djvViewInputPrefs::setMouseWheelCtrl(djvViewUtil::MOUSE_WHEEL in)
-{
-    if (in == _mouseWheelCtrl)
-        return;
-    _mouseWheelCtrl = in;
-    Q_EMIT prefChanged();
-}
-
+    } // namespace ViewLib
+} // namespace djv

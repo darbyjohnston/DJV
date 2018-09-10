@@ -35,40 +35,37 @@
 
 #include <memory>
 
-//! \addtogroup djvViewMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewInputPrefsWidget
-//!
-//! This class provides the input preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewInputPrefsWidget :
-    public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewInputPrefsWidget(djvViewContext *);
-    
-    virtual ~djvViewInputPrefsWidget();
-    
-    virtual void resetPreferences();
+    namespace ViewLib
+    {
+        //! \class InputPrefsWidget
+        //!
+        //! This class provides the input preferences widget.
+        class InputPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-private Q_SLOTS:
-    void mouseWheelCallback(int);
-    void mouseWheelShiftCallback(int);
-    void mouseWheelCtrlCallback(int);
-    
-    void widgetUpdate();
+        public:
+            InputPrefsWidget(Context *);
 
-private:
-    DJV_PRIVATE_COPY(djvViewInputPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~InputPrefsWidget();
 
-//@} // djvViewMisc
+            virtual void resetPreferences();
 
+        private Q_SLOTS:
+            void mouseWheelCallback(int);
+            void mouseWheelShiftCallback(int);
+            void mouseWheelCtrlCallback(int);
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(InputPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

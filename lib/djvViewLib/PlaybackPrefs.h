@@ -34,83 +34,81 @@
 #include <djvViewLib/AbstractPrefs.h>
 #include <djvViewLib/Util.h>
 
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackPrefs
-//!
-//! This class provides the playback group preferences.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackPrefs : public djvViewAbstractPrefs
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewPlaybackPrefs(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        //! \class PlaybackPrefs
+        //!
+        //! This class provides the playback group preferences.
+        class PlaybackPrefs : public AbstractPrefs
+        {
+            Q_OBJECT
 
-    virtual ~djvViewPlaybackPrefs();
-    
-    //! Get the default for whether playback is started automatically.
-    static bool autoStartDefault();
+        public:
+            explicit PlaybackPrefs(Context *, QObject * parent = nullptr);
 
-    //! Get whether playback is started automatically.
-    bool hasAutoStart() const;
+            virtual ~PlaybackPrefs();
 
-    //! Get the default playback loop.
-    static djvViewUtil::LOOP loopDefault();
+            //! Get the default for whether playback is started automatically.
+            static bool autoStartDefault();
 
-    //! Get the playback loop.
-    djvViewUtil::LOOP loop() const;
+            //! Get whether playback is started automatically.
+            bool hasAutoStart() const;
 
-    //! Get the default for whether every frame is played.
-    static bool everyFrameDefault();
+            //! Get the default playback loop.
+            static Util::LOOP loopDefault();
 
-    //! Get whether every frame is played.
-    bool hasEveryFrame() const;
+            //! Get the playback loop.
+            Util::LOOP loop() const;
 
-    //! Get the default playback layout.
-    static djvViewUtil::LAYOUT layoutDefault();
+            //! Get the default for whether every frame is played.
+            static bool everyFrameDefault();
 
-    //! Get the playback layout.
-    djvViewUtil::LAYOUT layout() const;
+            //! Get whether every frame is played.
+            bool hasEveryFrame() const;
 
-public Q_SLOTS:
-    //! Set whether playback is started automatically.
-    void setAutoStart(bool);
-    
-    //! Set the playback loop.
-    void setLoop(djvViewUtil::LOOP);
+            //! Get the default playback layout.
+            static Util::LAYOUT layoutDefault();
 
-    //! Set whether every frame is played.
-    void setEveryFrame(bool);
+            //! Get the playback layout.
+            Util::LAYOUT layout() const;
 
-    //! Set the playback layout.
-    void setLayout(djvViewUtil::LAYOUT);
+        public Q_SLOTS:
+            //! Set whether playback is started automatically.
+            void setAutoStart(bool);
 
-Q_SIGNALS:
-    //! This signal is emitted when playback auto start is changed.
-    void autoStartChanged(bool);
+            //! Set the playback loop.
+            void setLoop(djv::ViewLib::Util::LOOP);
 
-    //! This signal is emitted when the playback loop is changed.
-    void loopChanged(djvViewUtil::LOOP);
-    
-    //! This signal is emitted when every frame played is changed.
-    void everyFrameChanged(bool);
-    
-    //! This signal is emitted when the playback layout is changed.
-    void layoutChanged(djvViewUtil::LAYOUT);
+            //! Set whether every frame is played.
+            void setEveryFrame(bool);
 
-    //! This signal is emitted when a preference is changed.
-    void prefChanged();
+            //! Set the playback layout.
+            void setLayout(djv::ViewLib::Util::LAYOUT);
 
-private:
-    bool                _autoStart;
-    djvViewUtil::LOOP   _loop;
-    bool                _everyFrame;
-    djvViewUtil::LAYOUT _layout;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when playback auto start is changed.
+            void autoStartChanged(bool);
 
-//@} // djvViewPlayback
+            //! This signal is emitted when the playback loop is changed.
+            void loopChanged(djv::ViewLib::Util::LOOP);
 
+            //! This signal is emitted when every frame played is changed.
+            void everyFrameChanged(bool);
+
+            //! This signal is emitted when the playback layout is changed.
+            void layoutChanged(djv::ViewLib::Util::LAYOUT);
+
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
+
+        private:
+            bool          _autoStart;
+            Util::LOOP   _loop;
+            bool         _everyFrame;
+            Util::LAYOUT _layout;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

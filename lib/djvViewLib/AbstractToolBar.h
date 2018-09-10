@@ -39,42 +39,40 @@
 
 #include <memory>
 
-class djvViewAbstractActions;
-class djvViewContext;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewAbstractToolBar
-//!
-//! This class provides the base functionality for group tool bars.
-//------------------------------------------------------------------------------
-
-class djvViewAbstractToolBar : public QToolBar
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class AbstractActions;
+        class Context;
 
-public:
-    explicit djvViewAbstractToolBar(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context,
-        QWidget *                parent  = nullptr);
+        //! \class AbstractToolBar
+        //!
+        //! This class provides the base functionality for group tool bars.
+        class AbstractToolBar : public QToolBar
+        {
+            Q_OBJECT
 
-    virtual ~djvViewAbstractToolBar() = 0;
+        public:
+            explicit AbstractToolBar(
+                AbstractActions * actions,
+                Context *         context,
+                QWidget *         parent = nullptr);
 
-    //! Get the actions.
-    djvViewAbstractActions * actions() const;
+            virtual ~AbstractToolBar() = 0;
 
-    //! Get the context.
-    djvViewContext * context() const;
-    
-private:
-    DJV_PRIVATE_COPY(djvViewAbstractToolBar);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the actions.
+            AbstractActions * actions() const;
 
-//@} // djvViewLib
+            //! Get the context.
+            Context * context() const;
 
+        private:
+            DJV_PRIVATE_COPY(AbstractToolBar);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

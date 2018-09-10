@@ -37,112 +37,104 @@
 
 #include <memory>
 
-class djvViewContext;
-
 class djvUIContext;
 
 class QActionGroup;
 
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackButtons
-//!
-//! This class provides a widget with playback control buttons.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackButtons : public QWidget
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class Context;
 
-public:
-    explicit djvViewPlaybackButtons(
-        QActionGroup *  actionGroup,
-        djvUIContext * context,
-        QWidget *       parent      = nullptr);
+        //! \class PlaybackButtons
+        //!
+        //! This class provides a widget with playback control buttons.
+        class PlaybackButtons : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewPlaybackButtons();
+        public:
+            explicit PlaybackButtons(
+                QActionGroup *  actionGroup,
+                djvUIContext * context,
+                QWidget *       parent = nullptr);
 
-Q_SIGNALS:
-    //! This signal is emitted when the shuttle is pressed.
-    void shuttlePressed(bool);
+            virtual ~PlaybackButtons();
 
-    //! This signal is emitted when the shuttle value is changed.
-    void shuttleChanged(int);
+        Q_SIGNALS:
+            //! This signal is emitted when the shuttle is pressed.
+            void shuttlePressed(bool);
 
-private:
-    DJV_PRIVATE_COPY(djvViewPlaybackButtons);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! This signal is emitted when the shuttle value is changed.
+            void shuttleChanged(int);
 
-//------------------------------------------------------------------------------
-//! \class djvViewLoopWidget
-//!
-//! This class provides a playback loop mode widget.
-//------------------------------------------------------------------------------
+        private:
+            DJV_PRIVATE_COPY(PlaybackButtons);
 
-class djvViewLoopWidget : public QWidget
-{
-    Q_OBJECT
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
-public:
-    explicit djvViewLoopWidget(
-        QActionGroup *   actionGroup,
-        djvViewContext * context,
-        QWidget *        parent      = nullptr);
+        //! \class LoopWidget
+        //!
+        //! This class provides a playback loop mode widget.
+        class LoopWidget : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewLoopWidget();
+        public:
+            explicit LoopWidget(
+                QActionGroup * actionGroup,
+                Context *      context,
+                QWidget *      parent = nullptr);
 
-private Q_SLOTS:
-    void widgetUpdate();
+            virtual ~LoopWidget();
 
-private:
-    DJV_PRIVATE_COPY(djvViewLoopWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void widgetUpdate();
 
-//------------------------------------------------------------------------------
-//! \class djvViewFrameButtons
-//!
-//! This class provides a widget with frame control buttons.
-//------------------------------------------------------------------------------
+        private:
+            DJV_PRIVATE_COPY(LoopWidget);
 
-class djvViewFrameButtons : public QWidget
-{
-    Q_OBJECT
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
-public:
-    explicit djvViewFrameButtons(
-        QActionGroup *  actionGroup,
-        djvUIContext * context,
-        QWidget *       parent      = nullptr);
+        //! \class FrameButtons
+        //!
+        //! This class provides a widget with frame control buttons.
+        class FrameButtons : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewFrameButtons();
+        public:
+            explicit FrameButtons(
+                QActionGroup *  actionGroup,
+                djvUIContext * context,
+                QWidget *       parent = nullptr);
 
-Q_SIGNALS:
-    //! This signal is emitted when the shuttle is pressed.
-    void shuttlePressed(bool);
+            virtual ~FrameButtons();
 
-    //! This signal is emitted when the shuttle value is changed.
-    void shuttleChanged(int);
+        Q_SIGNALS:
+            //! This signal is emitted when the shuttle is pressed.
+            void shuttlePressed(bool);
 
-    //! This signal is emitted when the buttons are pressed.
-    void pressed();
+            //! This signal is emitted when the shuttle value is changed.
+            void shuttleChanged(int);
 
-    //! This signal is emitted when the buttons are released.
-    void released();
+            //! This signal is emitted when the buttons are pressed.
+            void pressed();
 
-private:
-    DJV_PRIVATE_COPY(djvViewFrameButtons);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! This signal is emitted when the buttons are released.
+            void released();
 
-//@} // djvViewPlayback
+        private:
+            DJV_PRIVATE_COPY(FrameButtons);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

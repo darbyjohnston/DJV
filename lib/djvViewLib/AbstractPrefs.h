@@ -37,38 +37,36 @@
 
 #include <QObject>
 
-class djvViewContext;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewAbstractPrefs
-//!
-//! This class provides the base functionality for group preferences.
-//------------------------------------------------------------------------------
-
-class djvViewAbstractPrefs : public QObject
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class Context;
 
-public:
-    explicit djvViewAbstractPrefs(djvViewContext *, QObject * parent = nullptr);
+        //! \class AbstractPrefs
+        //!
+        //! This class provides the base functionality for group preferences.
+        class AbstractPrefs : public QObject
+        {
+            Q_OBJECT
 
-    virtual ~djvViewAbstractPrefs() = 0;
-    
-    //! Get the context.
-    djvViewContext * context() const;
+        public:
+            explicit AbstractPrefs(Context *, QObject * parent = nullptr);
 
-Q_SIGNALS:
-    //! This signal is emitted when a preference is changed.
-    void prefChanged();
+            virtual ~AbstractPrefs() = 0;
 
-private:
-    DJV_PRIVATE_COPY(djvViewAbstractPrefs);
-    
-    djvViewContext * _context;
-};
+            //! Get the context.
+            Context * context() const;
 
-//@} // djvViewLib
+        Q_SIGNALS:
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
 
+        private:
+            DJV_PRIVATE_COPY(AbstractPrefs);
+
+            Context * _context;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

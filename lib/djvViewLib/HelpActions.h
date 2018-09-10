@@ -35,41 +35,39 @@
 
 #include <memory>
 
-//! \addtogroup djvViewHelp
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewHelpActions
-//!
-//! This class provides the help group actions.
-//------------------------------------------------------------------------------
-
-class djvViewHelpActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(ACTION)
-    
-public:
-    //! This enumeration provides the actions.
-    enum ACTION
+    namespace ViewLib
     {
-        HELP,
-        INFO,
-        ABOUT,
+        //! \class HelpActions
+        //!
+        //! This class provides the help group actions.
+        class HelpActions : public AbstractActions
+        {
+            Q_OBJECT
+            Q_ENUMS(ACTION)
 
-        ACTION_COUNT
-    };
+        public:
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                HELP,
+                INFO,
+                ABOUT,
 
-    explicit djvViewHelpActions(djvViewContext *, QObject * parent = nullptr);
+                ACTION_COUNT
+            };
 
-    virtual ~djvViewHelpActions();
+            explicit HelpActions(Context *, QObject * parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewHelpActions);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~HelpActions();
 
-//@} // djvViewHelp
+        private:
+            DJV_PRIVATE_COPY(HelpActions);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

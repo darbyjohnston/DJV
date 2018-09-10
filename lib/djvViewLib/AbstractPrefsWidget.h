@@ -37,35 +37,32 @@
 
 #include <djvCore/Util.h>
 
-class djvViewContext;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewAbstractPrefsWidget
-//!
-//! This class provides the base functionality for group preferences widgets.
-//------------------------------------------------------------------------------
-
-class djvViewAbstractPrefsWidget :
-    public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class Context;
 
-public:
-    explicit djvViewAbstractPrefsWidget(const QString &, djvViewContext *);
+        //! \class AbstractPrefsWidget
+        //!
+        //! This class provides the base functionality for group preferences widgets.
+        class AbstractPrefsWidget : public djvAbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewAbstractPrefsWidget() = 0;
-    
-    //! Get the context.
-    djvViewContext * context() const;
+        public:
+            explicit AbstractPrefsWidget(const QString &, Context *);
 
-private:
-    DJV_PRIVATE_COPY(djvViewAbstractPrefsWidget);
-    
-    djvViewContext * _context;
-};
+            virtual ~AbstractPrefsWidget() = 0;
 
-//@} // djvViewLib
+            //! Get the context.
+            Context * context() const;
 
+        private:
+            DJV_PRIVATE_COPY(AbstractPrefsWidget);
+
+            Context * _context;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

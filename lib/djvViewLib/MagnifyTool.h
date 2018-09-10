@@ -37,45 +37,43 @@
 
 #include <memory>
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewMagnifyTool
-//!
-//! This class provides a magnify tool.
-//------------------------------------------------------------------------------
-
-class djvViewMagnifyTool : public djvViewAbstractTool
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewMagnifyTool(
-        djvViewMainWindow * mainWindow,
-        djvViewContext *    context,
-        QWidget *           parent     = nullptr);
+    namespace ViewLib
+    {
+        //! \class MagnifyTool
+        //!
+        //! This class provides a magnify tool.
+        class MagnifyTool : public AbstractTool
+        {
+            Q_OBJECT
 
-    virtual ~djvViewMagnifyTool();
+        public:
+            explicit MagnifyTool(
+                MainWindow * mainWindow,
+                Context *    context,
+                QWidget *    parent = nullptr);
 
-protected:
-    virtual void showEvent(QShowEvent *);
+            virtual ~MagnifyTool();
 
-private Q_SLOTS:
-    void pickCallback(const glm::ivec2 &);
-    void sliderCallback(int);
-    void colorProfileCallback(bool);
-    void displayProfileCallback(bool);
+        protected:
+            virtual void showEvent(QShowEvent *);
 
-    void widgetUpdate();
-    void pixelDataUpdate();
-    
-private:
-    DJV_PRIVATE_COPY(djvViewMagnifyTool);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void pickCallback(const glm::ivec2 &);
+            void sliderCallback(int);
+            void colorProfileCallback(bool);
+            void displayProfileCallback(bool);
 
-//@} // djvViewTool
+            void widgetUpdate();
+            void pixelDataUpdate();
 
+        private:
+            DJV_PRIVATE_COPY(MagnifyTool);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

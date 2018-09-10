@@ -35,76 +35,69 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewImageMenu::Private
-//------------------------------------------------------------------------------
-
-struct djvViewImageMenu::Private
+namespace djv
 {
-    Private() :
-        displayProfileMenu(0)
-    {}
+    namespace ViewLib
+    {
+        struct ImageMenu::Private
+        {
+            QMenu * displayProfileMenu = nullptr;
+        };
 
-    QMenu * displayProfileMenu;
-};
+        ImageMenu::ImageMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent),
+            _p(new Private)
+        {
+            // Create the menus.
+            addAction(actions->action(ImageActions::FRAME_STORE));
+            addAction(actions->action(ImageActions::LOAD_FRAME_STORE));
 
-//------------------------------------------------------------------------------
-// djvViewImageMenu
-//------------------------------------------------------------------------------
+            addSeparator();
 
-djvViewImageMenu::djvViewImageMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new Private)
-{
-    // Create the menus.
-    addAction(actions->action(djvViewImageActions::FRAME_STORE));
-    addAction(actions->action(djvViewImageActions::LOAD_FRAME_STORE));
+            addAction(actions->action(ImageActions::MIRROR_H));
+            addAction(actions->action(ImageActions::MIRROR_V));
 
-    addSeparator();
+            QMenu * scaleMenu = addMenu(
+                qApp->translate("djv::ViewLib::ImageMenu", "&Scale"));
+            scaleMenu->addActions(
+                actions->group(ImageActions::SCALE_GROUP)->actions());
 
-    addAction(actions->action(djvViewImageActions::MIRROR_H));
-    addAction(actions->action(djvViewImageActions::MIRROR_V));
+            QMenu * rotateMenu = addMenu(
+                qApp->translate("djv::ViewLib::ImageMenu", "&Rotate"));
+            rotateMenu->addActions(
+                actions->group(ImageActions::ROTATE_GROUP)->actions());
 
-    QMenu * scaleMenu = addMenu(
-        qApp->translate("djvViewImageMenu", "&Scale"));
-    scaleMenu->addActions(
-        actions->group(djvViewImageActions::SCALE_GROUP)->actions());
+            addSeparator();
 
-    QMenu * rotateMenu = addMenu(
-        qApp->translate("djvViewImageMenu", "&Rotate"));
-    rotateMenu->addActions(
-        actions->group(djvViewImageActions::ROTATE_GROUP)->actions());
+            addAction(actions->action(ImageActions::COLOR_PROFILE));
 
-    addSeparator();
+            addAction(actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE));
 
-    addAction(actions->action(djvViewImageActions::COLOR_PROFILE));
+            _p->displayProfileMenu = addMenu(
+                qApp->translate("djv::ViewLib::ImageMenu", "&Display Profile"));
 
-    addAction(actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE));
+            addSeparator();
 
-    _p->displayProfileMenu = addMenu(
-        qApp->translate("djvViewImageMenu", "&Display Profile"));
+            QMenu * channelMenu = addMenu(
+                qApp->translate("djv::ViewLib::ImageMenu", "C&hannel"));
+            channelMenu->addActions(
+                actions->group(ImageActions::CHANNEL_GROUP)->actions());
 
-    addSeparator();
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::ImageMenu", "&Image"));
+            menuUpdate();
+        }
 
-    QMenu * channelMenu = addMenu(
-        qApp->translate("djvViewImageMenu", "C&hannel"));
-    channelMenu->addActions(
-        actions->group(djvViewImageActions::CHANNEL_GROUP)->actions());
+        ImageMenu::~ImageMenu()
+        {}
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewImageMenu", "&Image"));
-    menuUpdate();
-}
+        void ImageMenu::menuUpdate()
+        {
+            _p->displayProfileMenu->clear();
+            _p->displayProfileMenu->addActions(actions()->group(ImageActions::DISPLAY_PROFILE_GROUP)->actions());
+        }
 
-djvViewImageMenu::~djvViewImageMenu()
-{}
-
-void djvViewImageMenu::menuUpdate()
-{
-    _p->displayProfileMenu->clear();
-    _p->displayProfileMenu->addActions(
-        actions()->group(djvViewImageActions::DISPLAY_PROFILE_GROUP)->actions());
-}
-
+    } // namespace ViewLib
+} // namespace djv

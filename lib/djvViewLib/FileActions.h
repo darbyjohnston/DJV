@@ -35,79 +35,77 @@
 
 #include <memory>
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFileActions
-//!
-//! This class provides the file group actions.
-//------------------------------------------------------------------------------
-
-class djvViewFileActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(ACTION)
-    Q_ENUMS(GROUP)
-    
-public:
-    //! This enumeration provides the actions.
-    enum ACTION
+    namespace ViewLib
     {
-        OPEN,
-        RELOAD,
-        RELOAD_FRAME,
-        CLOSE,
-        SAVE,
-        SAVE_FRAME,
-        LAYER_PREV,
-        LAYER_NEXT,
-        U8_CONVERSION,
-        CACHE,
-        PRELOAD,
-        CLEAR_CACHE,
-        MESSAGES,
-        PREFS,
-        DEBUG_LOG,
-        EXIT,
+        //! \class FileActions
+        //!
+        //! This class provides the file group actions.
+        class FileActions : public AbstractActions
+        {
+            Q_OBJECT
+                Q_ENUMS(ACTION)
+                Q_ENUMS(GROUP)
 
-        ACTION_COUNT
-    };
+        public:
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                OPEN,
+                RELOAD,
+                RELOAD_FRAME,
+                CLOSE,
+                SAVE,
+                SAVE_FRAME,
+                LAYER_PREV,
+                LAYER_NEXT,
+                U8_CONVERSION,
+                CACHE,
+                PRELOAD,
+                CLEAR_CACHE,
+                MESSAGES,
+                PREFS,
+                DEBUG_LOG,
+                EXIT,
 
-    //! This enumeration provides the action groups.
-    enum GROUP
-    {
-        RECENT_GROUP,
-        LAYER_GROUP,
-        PROXY_GROUP,
+                ACTION_COUNT
+            };
 
-        GROUP_COUNT
-    };
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                RECENT_GROUP,
+                LAYER_GROUP,
+                PROXY_GROUP,
 
-    explicit djvViewFileActions(djvViewContext *, QObject * parent = nullptr);
+                GROUP_COUNT
+            };
 
-    virtual ~djvViewFileActions();
+            explicit FileActions(Context *, QObject * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the layers.
-    void setLayers(const QStringList &);
+            virtual ~FileActions();
 
-    //! Set the current layer.
-    void setLayer(int);
+        public Q_SLOTS:
+            //! Set the layers.
+            void setLayers(const QStringList &);
 
-Q_SIGNALS:
-    //! This signal is emitted when the recently opened action group changes.
-    void recentChanged();
+            //! Set the current layer.
+            void setLayer(int);
 
-private Q_SLOTS:
-    void update();
+        Q_SIGNALS:
+            //! This signal is emitted when the recently opened action group changes.
+            void recentChanged();
 
-private:
-    DJV_PRIVATE_COPY(djvViewFileActions);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void update();
 
-//@} // djvViewFile
+        private:
+            DJV_PRIVATE_COPY(FileActions);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

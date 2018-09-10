@@ -38,138 +38,136 @@
 
 #include <memory>
 
-class djvViewFileCacheRef;
-
 class QAction;
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFileGroup
-//!
-//! This class provides the file group. The file group encapsulates all
-//! of thefunctionality relating to files such as the currently opened file,
-//! options used when loading files, etc.
-//------------------------------------------------------------------------------
-
-class djvViewFileGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewFileGroup(
-        const djvViewFileGroup * copy,
-        djvViewMainWindow *      mainWindow,
-        djvViewContext *         context);
+    namespace ViewLib
+    {
+        class FileCacheRef;
 
-    virtual ~djvViewFileGroup();
+        //! \class FileGroup
+        //!
+        //! This class provides the file group. The file group encapsulates all
+        //! of thefunctionality relating to files such as the currently opened file,
+        //! options used when loading files, etc.
+        class FileGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    //! Get the currently opened file.
-    const djvFileInfo & fileInfo() const;
+        public:
+            FileGroup(
+                const FileGroup * copy,
+                MainWindow *      mainWindow,
+                Context *         context);
 
-    //! Get the layer to load.
-    int layer() const;
+            virtual ~FileGroup();
 
-    //! Get the proxy scale.
-    djvPixelDataInfo::PROXY proxy() const;
-    
-    //! Get whther images are converted to 8-bits.
-    bool hasU8Conversion() const;
+            //! Get the currently opened file.
+            const djvFileInfo & fileInfo() const;
 
-    //! Get whether the cache is enabled.
-    bool hasCache() const;
+            //! Get the layer to load.
+            int layer() const;
 
-    //! Get whether the cache pre-load is enabled.
-    bool hasPreload() const;
+            //! Get the proxy scale.
+            djvPixelDataInfo::PROXY proxy() const;
 
-    //! Get whether the cache pre-load is active.
-    bool isPreloadActive() const;
+            //! Get whther images are converted to 8-bits.
+            bool hasU8Conversion() const;
 
-    //! Get the cache pre-load frame.
-    qint64 preloadFrame() const;
+            //! Get whether the cache is enabled.
+            bool hasCache() const;
 
-    //! Get an image.
-    const djvImage * image(qint64 frame) const;
+            //! Get whether the cache pre-load is enabled.
+            bool hasPreload() const;
 
-    //! Get image I/O information.
-    const djvImageIOInfo & imageIOInfo() const;
+            //! Get whether the cache pre-load is active.
+            bool isPreloadActive() const;
 
-    virtual QToolBar * toolBar() const;
+            //! Get the cache pre-load frame.
+            qint64 preloadFrame() const;
 
-public Q_SLOTS:
-    //! Open a file.
-    void open(const djvFileInfo &);
+            //! Get an image.
+            const djvImage * image(qint64 frame) const;
 
-    //! Set the layer to load.
-    void setLayer(int);
+            //! Get image I/O information.
+            const djvImageIOInfo & imageIOInfo() const;
 
-    //! Set the proxy scale.
-    void setProxy(djvPixelDataInfo::PROXY);
+            virtual QToolBar * toolBar() const;
 
-    //! Set whether images are converted to 8-bits.
-    void setU8Conversion(bool);
-    
-    //! Set whether the cache is enabled.
-    void setCache(bool);
+        public Q_SLOTS:
+            //! Open a file.
+            void open(const djvFileInfo &);
 
-    //! Set whether the cache pre-load is enabled.
-    void setPreload(bool);
+            //! Set the layer to load.
+            void setLayer(int);
 
-    //! Set whether the cache pre-load is active.
-    void setPreloadActive(bool);
+            //! Set the proxy scale.
+            void setProxy(djvPixelDataInfo::PROXY);
 
-    //! Set the cache pre-load frame.
-    void setPreloadFrame(qint64);
+            //! Set whether images are converted to 8-bits.
+            void setU8Conversion(bool);
 
-Q_SIGNALS:
-    //! This signal is emitted when the current image is changed.
-    void imageChanged();
+            //! Set whether the cache is enabled.
+            void setCache(bool);
 
-    //! This signal is emitted to store the current frame.
-    void loadFrameStore();
-    
-    //! This signal is emitted to reload the frame.
-    void reloadFrame();
+            //! Set whether the cache pre-load is enabled.
+            void setPreload(bool);
 
-    //! This signal is emitted to save a sequence.
-    void save(const djvFileInfo &);
+            //! Set whether the cache pre-load is active.
+            void setPreloadActive(bool);
 
-    //! This signal is emitted to save a frame.
-    void saveFrame(const djvFileInfo &);
+            //! Set the cache pre-load frame.
+            void setPreloadFrame(qint64);
 
-protected:
-    virtual void timerEvent(QTimerEvent *);
+        Q_SIGNALS:
+            //! This signal is emitted when the current image is changed.
+            void imageChanged();
 
-private Q_SLOTS:
-    void openCallback();
-    void openCallback(const djvFileInfo &);
-    void recentCallback(QAction *);
-    void reloadCallback();
-    void reloadFrameCallback();
-    void closeCallback();
-    void saveCallback();
-    void saveFrameCallback();
-    void layerCallback(QAction *);
-    void layerPrevCallback();
-    void layerNextCallback();
-    void proxyCallback(QAction *);
-    void cacheClearCallback();
-    void messagesCallback();
-    void prefsCallback();
-    void debugLogCallback();
+            //! This signal is emitted to store the current frame.
+            void loadFrameStore();
 
-    void preloadUpdate();
-    void update();
+            //! This signal is emitted to reload the frame.
+            void reloadFrame();
 
-private:
-    void cacheDel();
+            //! This signal is emitted to save a sequence.
+            void save(const djvFileInfo &);
 
-    DJV_PRIVATE_COPY(djvViewFileGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! This signal is emitted to save a frame.
+            void saveFrame(const djvFileInfo &);
 
-//@} // djvViewFile
+        protected:
+            virtual void timerEvent(QTimerEvent *);
 
+        private Q_SLOTS:
+            void openCallback();
+            void openCallback(const djvFileInfo &);
+            void recentCallback(QAction *);
+            void reloadCallback();
+            void reloadFrameCallback();
+            void closeCallback();
+            void saveCallback();
+            void saveFrameCallback();
+            void layerCallback(QAction *);
+            void layerPrevCallback();
+            void layerNextCallback();
+            void proxyCallback(QAction *);
+            void cacheClearCallback();
+            void messagesCallback();
+            void prefsCallback();
+            void debugLogCallback();
+
+            void preloadUpdate();
+            void update();
+
+        private:
+            void cacheDel();
+
+            DJV_PRIVATE_COPY(FileGroup);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

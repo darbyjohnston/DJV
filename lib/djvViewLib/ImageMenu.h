@@ -35,35 +35,33 @@
 
 #include <memory>
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImageMenu
-//!
-//! This class provides the image group menu.
-//------------------------------------------------------------------------------
-
-class djvViewImageMenu : public djvViewAbstractMenu
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewImageMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class ImageMenu
+        //!
+        //! This class provides the image group menu.
+        class ImageMenu : public AbstractMenu
+        {
+            Q_OBJECT
 
-    virtual ~djvViewImageMenu();
+        public:
+            explicit ImageMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-protected Q_SLOTS:
-    virtual void menuUpdate();
+            virtual ~ImageMenu();
 
-private:
-    DJV_PRIVATE_COPY(djvViewImageMenu);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        protected Q_SLOTS:
+            virtual void menuUpdate();
 
-//@} // djvViewImage
+        private:
+            DJV_PRIVATE_COPY(ImageMenu);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -33,24 +33,26 @@
 
 #include <djvCore/Debug.h>
 
+using namespace djv;
+
 bool operator == (
-    const djvViewDisplayProfile & a,
-    const djvViewDisplayProfile & b)
+    const ViewLib::DisplayProfile & a,
+    const ViewLib::DisplayProfile & b)
 {
     return
-        a.name    == b.name    &&
+        a.name == b.name    &&
         a.lutFile == b.lutFile &&
         djvOpenGLImageDisplayProfile(a) == djvOpenGLImageDisplayProfile(b);
 }
 
 bool operator != (
-    const djvViewDisplayProfile & a,
-    const djvViewDisplayProfile & b)
+    const ViewLib::DisplayProfile & a,
+    const ViewLib::DisplayProfile & b)
 {
-    return ! (a == b);
+    return !(a == b);
 }
 
-QStringList & operator >> (QStringList & in, djvViewDisplayProfile & out)
+QStringList & operator >> (QStringList & in, ViewLib::DisplayProfile & out)
     throw (QString)
 {
     in >> out.name;
@@ -63,7 +65,7 @@ QStringList & operator >> (QStringList & in, djvViewDisplayProfile & out)
     return in;
 }
 
-QStringList & operator << (QStringList & out, const djvViewDisplayProfile & in)
+QStringList & operator << (QStringList & out, const ViewLib::DisplayProfile & in)
 {
     return out <<
         in.name <<
@@ -73,7 +75,7 @@ QStringList & operator << (QStringList & out, const djvViewDisplayProfile & in)
         in.softClip;
 }
 
-djvDebug & operator << (djvDebug & out, const djvViewDisplayProfile & in)
+djvDebug & operator << (djvDebug & out, const ViewLib::DisplayProfile & in)
 {
     return out <<
         in.name <<

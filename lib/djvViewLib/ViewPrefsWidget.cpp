@@ -63,269 +63,266 @@ public:
 
 } // namespace
 
-//------------------------------------------------------------------------------
-// djvViewViewPrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvViewViewPrefsWidget::Private
+namespace djv
 {
-    Private() :
-        zoomFactorWidget        (0),
-        backgroundColorWidget   (0),
-        gridWidget              (0),
-        gridColorWidget         (0),
-        hudEnabledWidget        (0),
-        hudInfoWidget           (0),
-        hudColorWidget          (0),
-        hudBackgroundWidget     (0),
-        hudBackgroundColorWidget(0)
-    {}
-
-    QComboBox *      zoomFactorWidget;
-    djvColorSwatch * backgroundColorWidget;
-    QComboBox *      gridWidget;
-    djvColorSwatch * gridColorWidget;
-    QCheckBox *      hudEnabledWidget;
-    QListWidget *    hudInfoWidget;
-    djvColorSwatch * hudColorWidget;
-    QComboBox *      hudBackgroundWidget;
-    djvColorSwatch * hudBackgroundColorWidget;
-};
-
-//------------------------------------------------------------------------------
-// djvViewViewPrefsWidget
-//------------------------------------------------------------------------------
-
-djvViewViewPrefsWidget::djvViewViewPrefsWidget(djvViewContext * context) :
-    djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewViewPrefsWidget", "Views"), context),
-    _p(new Private)
-{
-    // Create the general widgets.
-    _p->zoomFactorWidget = new QComboBox;
-    _p->zoomFactorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->zoomFactorWidget->addItems(djvViewUtil::zoomFactorLabels());
-    
-    _p->backgroundColorWidget = new djvColorSwatch(context);
-    _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
-    _p->backgroundColorWidget->setColorDialogEnabled(true);
-
-    // Create the grid widgets.
-    _p->gridWidget = new QComboBox;
-    _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->gridWidget->addItems(djvViewUtil::gridLabels());
-
-    _p->gridColorWidget = new djvColorSwatch(context);
-    _p->gridColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
-    _p->gridColorWidget->setColorDialogEnabled(true);
-
-    // Create the HUD widgets.
-    _p->hudEnabledWidget = new QCheckBox(
-        qApp->translate("djvViewViewPrefsWidget", "Enable the HUD"));
-
-    _p->hudInfoWidget = new SmallListWidget;
-    
-    for (int i = 0; i < djvViewUtil::HUD_COUNT; ++i)
+    namespace ViewLib
     {
-        QListWidgetItem * item = new QListWidgetItem(_p->hudInfoWidget);
-        item->setText(djvViewUtil::hudInfoLabels()[i]);
-        item->setFlags(
-            Qt::ItemIsSelectable    |
-            Qt::ItemIsUserCheckable |
-            Qt::ItemIsEnabled);
-    }
+        struct ViewPrefsWidget::Private
+        {
+            Private() :
+                zoomFactorWidget(0),
+                backgroundColorWidget(0),
+                gridWidget(0),
+                gridColorWidget(0),
+                hudEnabledWidget(0),
+                hudInfoWidget(0),
+                hudColorWidget(0),
+                hudBackgroundWidget(0),
+                hudBackgroundColorWidget(0)
+            {}
 
-    _p->hudColorWidget = new djvColorSwatch(context);
-    _p->hudColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
-    _p->hudColorWidget->setColorDialogEnabled(true);
+            QComboBox *      zoomFactorWidget;
+            djvColorSwatch * backgroundColorWidget;
+            QComboBox *      gridWidget;
+            djvColorSwatch * gridColorWidget;
+            QCheckBox *      hudEnabledWidget;
+            QListWidget *    hudInfoWidget;
+            djvColorSwatch * hudColorWidget;
+            QComboBox *      hudBackgroundWidget;
+            djvColorSwatch * hudBackgroundColorWidget;
+        };
 
-    _p->hudBackgroundWidget = new QComboBox;
-    _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->hudBackgroundWidget->addItems(djvViewUtil::hudBackgroundLabels());
+        ViewPrefsWidget::ViewPrefsWidget(Context * context) :
+            AbstractPrefsWidget(qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context),
+            _p(new Private)
+        {
+            // Create the general widgets.
+            _p->zoomFactorWidget = new QComboBox;
+            _p->zoomFactorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->zoomFactorWidget->addItems(Util::zoomFactorLabels());
 
-    _p->hudBackgroundColorWidget = new djvColorSwatch(context);
-    _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
-    _p->hudBackgroundColorWidget->setColorDialogEnabled(true);
+            _p->backgroundColorWidget = new djvColorSwatch(context);
+            _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->backgroundColorWidget->setColorDialogEnabled(true);
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
+            // Create the grid widgets.
+            _p->gridWidget = new QComboBox;
+            _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->gridWidget->addItems(Util::gridLabels());
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "Views"), context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Mouse wheel zoom factor:"),
-        _p->zoomFactorWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Background color:"),
-        _p->backgroundColorWidget);
-    layout->addWidget(prefsGroupBox);
+            _p->gridColorWidget = new djvColorSwatch(context);
+            _p->gridColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->gridColorWidget->setColorDialogEnabled(true);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "Grid"), context);
-    formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Size:"),
-        _p->gridWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Color:"),
-        _p->gridColorWidget);
-    layout->addWidget(prefsGroupBox);
+            // Create the HUD widgets.
+            _p->hudEnabledWidget = new QCheckBox(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Enable the HUD"));
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewViewPrefsWidget", "HUD (Heads Up Display)"), context);
-    formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->hudEnabledWidget);
-    formLayout->addRow(_p->hudInfoWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Foreground color:"),
-        _p->hudColorWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Background style:"),
-        _p->hudBackgroundWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewViewPrefsWidget", "Background color:"),
-        _p->hudBackgroundColorWidget);
-    layout->addWidget(prefsGroupBox);
+            _p->hudInfoWidget = new SmallListWidget;
 
-    layout->addStretch();
+            for (int i = 0; i < Util::HUD_COUNT; ++i)
+            {
+                QListWidgetItem * item = new QListWidgetItem(_p->hudInfoWidget);
+                item->setText(Util::hudInfoLabels()[i]);
+                item->setFlags(
+                    Qt::ItemIsSelectable |
+                    Qt::ItemIsUserCheckable |
+                    Qt::ItemIsEnabled);
+            }
 
-    // Initialize.
-    widgetUpdate();
-    
-    // Setup the callbacks.
-    connect(
-        _p->zoomFactorWidget,
-        SIGNAL(currentIndexChanged(int)),
-        SLOT(zoomFactorCallback(int)));
-    connect(
-        _p->backgroundColorWidget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(backgroundCallback(const djvColor &)));
-    connect(
-        _p->gridWidget,
-        SIGNAL(currentIndexChanged(int)),
-        SLOT(gridCallback(int)));
-    connect(
-        _p->gridColorWidget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(gridColorCallback(const djvColor &)));
-    connect(
-        _p->hudEnabledWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(hudEnabledCallback(bool)));
-    connect(
-        _p->hudInfoWidget,
-        SIGNAL(itemChanged(QListWidgetItem *)),
-        SLOT(hudInfoCallback(QListWidgetItem *)));
-    connect(
-        _p->hudColorWidget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(hudColorCallback(const djvColor &)));
-    connect(
-        _p->hudBackgroundWidget,
-        SIGNAL(currentIndexChanged(int)),
-        SLOT(hudBackgroundCallback(int)));
-    connect(
-        _p->hudBackgroundColorWidget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(hudBackgroundColorCallback(const djvColor &)));
-}
+            _p->hudColorWidget = new djvColorSwatch(context);
+            _p->hudColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->hudColorWidget->setColorDialogEnabled(true);
 
-djvViewViewPrefsWidget::~djvViewViewPrefsWidget()
-{}
+            _p->hudBackgroundWidget = new QComboBox;
+            _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->hudBackgroundWidget->addItems(Util::hudBackgroundLabels());
 
-void djvViewViewPrefsWidget::resetPreferences()
-{
-    context()->viewPrefs()->setZoomFactor(djvViewViewPrefs::zoomFactorDefault());
-    context()->viewPrefs()->setBackground(djvViewViewPrefs::backgroundDefault());
-    context()->viewPrefs()->setGrid(djvViewViewPrefs::gridDefault());
-    context()->viewPrefs()->setGridColor(djvViewViewPrefs::gridColorDefault());
-    context()->viewPrefs()->setHudEnabled(djvViewViewPrefs::hudEnabledDefault());
-    context()->viewPrefs()->setHudInfo(djvViewViewPrefs::hudInfoDefault());
-    context()->viewPrefs()->setHudColor(djvViewViewPrefs::hudColorDefault());
-    context()->viewPrefs()->setHudBackground(djvViewViewPrefs::hudBackgroundDefault());
-    context()->viewPrefs()->setHudBackgroundColor(djvViewViewPrefs::hudBackgroundColorDefault());
-    widgetUpdate();
-}
+            _p->hudBackgroundColorWidget = new djvColorSwatch(context);
+            _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->hudBackgroundColorWidget->setColorDialogEnabled(true);
 
-void djvViewViewPrefsWidget::zoomFactorCallback(int in)
-{
-    context()->viewPrefs()->setZoomFactor(static_cast<djvViewUtil::ZOOM_FACTOR>(in));
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
 
-void djvViewViewPrefsWidget::backgroundCallback(const djvColor & in)
-{
-    _p->backgroundColorWidget->setColor(in);
-    context()->viewPrefs()->setBackground(in);
-}
+            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Mouse wheel zoom factor:"),
+                _p->zoomFactorWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Background color:"),
+                _p->backgroundColorWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvViewViewPrefsWidget::gridCallback(int in)
-{
-    context()->viewPrefs()->setGrid(static_cast<djvViewUtil::GRID>(in));
-}
+            prefsGroupBox = new djvPrefsGroupBox(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Grid"), context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Size:"),
+                _p->gridWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Color:"),
+                _p->gridColorWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvViewViewPrefsWidget::gridColorCallback(const djvColor & in)
-{
-    _p->gridColorWidget->setColor(in);
-    context()->viewPrefs()->setGridColor(in);
-}
+            prefsGroupBox = new djvPrefsGroupBox(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "HUD (Heads Up Display)"), context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->hudEnabledWidget);
+            formLayout->addRow(_p->hudInfoWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Foreground color:"),
+                _p->hudColorWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Background style:"),
+                _p->hudBackgroundWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::ViewPrefsWidget", "Background color:"),
+                _p->hudBackgroundColorWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvViewViewPrefsWidget::hudEnabledCallback(bool in)
-{
-    context()->viewPrefs()->setHudEnabled(in);
-}
+            layout->addStretch();
 
-void djvViewViewPrefsWidget::hudInfoCallback(QListWidgetItem * item)
-{
-    const int row = _p->hudInfoWidget->row(item);
-    QVector<bool> info = context()->viewPrefs()->hudInfo();
-    info[row] = ! info[row];
-    context()->viewPrefs()->setHudInfo(info);
-}
+            // Initialize.
+            widgetUpdate();
 
-void djvViewViewPrefsWidget::hudColorCallback(const djvColor & in)
-{
-    _p->hudColorWidget->setColor(in);
-    context()->viewPrefs()->setHudColor(in);
-}
+            // Setup the callbacks.
+            connect(
+                _p->zoomFactorWidget,
+                SIGNAL(currentIndexChanged(int)),
+                SLOT(zoomFactorCallback(int)));
+            connect(
+                _p->backgroundColorWidget,
+                SIGNAL(colorChanged(const djvColor &)),
+                SLOT(backgroundCallback(const djvColor &)));
+            connect(
+                _p->gridWidget,
+                SIGNAL(currentIndexChanged(int)),
+                SLOT(gridCallback(int)));
+            connect(
+                _p->gridColorWidget,
+                SIGNAL(colorChanged(const djvColor &)),
+                SLOT(gridColorCallback(const djvColor &)));
+            connect(
+                _p->hudEnabledWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(hudEnabledCallback(bool)));
+            connect(
+                _p->hudInfoWidget,
+                SIGNAL(itemChanged(QListWidgetItem *)),
+                SLOT(hudInfoCallback(QListWidgetItem *)));
+            connect(
+                _p->hudColorWidget,
+                SIGNAL(colorChanged(const djvColor &)),
+                SLOT(hudColorCallback(const djvColor &)));
+            connect(
+                _p->hudBackgroundWidget,
+                SIGNAL(currentIndexChanged(int)),
+                SLOT(hudBackgroundCallback(int)));
+            connect(
+                _p->hudBackgroundColorWidget,
+                SIGNAL(colorChanged(const djvColor &)),
+                SLOT(hudBackgroundColorCallback(const djvColor &)));
+        }
 
-void djvViewViewPrefsWidget::hudBackgroundCallback(int in)
-{
-    context()->viewPrefs()->setHudBackground(static_cast<djvViewUtil::HUD_BACKGROUND>(in));
-}
+        ViewPrefsWidget::~ViewPrefsWidget()
+        {}
 
-void djvViewViewPrefsWidget::hudBackgroundColorCallback(const djvColor & in)
-{
-    _p->hudBackgroundColorWidget->setColor(in);
-    context()->viewPrefs()->setHudBackgroundColor(in);
-}
+        void ViewPrefsWidget::resetPreferences()
+        {
+            context()->viewPrefs()->setZoomFactor(ViewPrefs::zoomFactorDefault());
+            context()->viewPrefs()->setBackground(ViewPrefs::backgroundDefault());
+            context()->viewPrefs()->setGrid(ViewPrefs::gridDefault());
+            context()->viewPrefs()->setGridColor(ViewPrefs::gridColorDefault());
+            context()->viewPrefs()->setHudEnabled(ViewPrefs::hudEnabledDefault());
+            context()->viewPrefs()->setHudInfo(ViewPrefs::hudInfoDefault());
+            context()->viewPrefs()->setHudColor(ViewPrefs::hudColorDefault());
+            context()->viewPrefs()->setHudBackground(ViewPrefs::hudBackgroundDefault());
+            context()->viewPrefs()->setHudBackgroundColor(ViewPrefs::hudBackgroundColorDefault());
+            widgetUpdate();
+        }
 
-void djvViewViewPrefsWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->zoomFactorWidget <<
-        _p->backgroundColorWidget <<
-        _p->gridWidget <<
-        _p->gridColorWidget <<
-        _p->hudEnabledWidget <<
-        _p->hudInfoWidget <<
-        _p->hudColorWidget <<
-        _p->hudBackgroundWidget <<
-        _p->hudBackgroundColorWidget);
-    _p->zoomFactorWidget->setCurrentIndex(context()->viewPrefs()->zoomFactor());
-    _p->backgroundColorWidget->setColor(context()->viewPrefs()->background());
-    _p->gridWidget->setCurrentIndex(context()->viewPrefs()->grid());
-    _p->gridColorWidget->setColor(context()->viewPrefs()->gridColor());
-    _p->hudEnabledWidget->setChecked(context()->viewPrefs()->isHudEnabled());
-    QVector<bool> hudInfo = context()->viewPrefs()->hudInfo();
-    for (int i = 0; i < djvViewUtil::HUD_COUNT; ++i)
-    {
-        QListWidgetItem * item = _p->hudInfoWidget->item(i);
-        item->setCheckState(hudInfo[i] ? Qt::Checked : Qt::Unchecked);
-    }
-    _p->hudColorWidget->setColor(context()->viewPrefs()->hudColor());
-    _p->hudBackgroundWidget->setCurrentIndex(context()->viewPrefs()->hudBackground());
-    _p->hudBackgroundColorWidget->setColor(context()->viewPrefs()->hudBackgroundColor());
-}
+        void ViewPrefsWidget::zoomFactorCallback(int in)
+        {
+            context()->viewPrefs()->setZoomFactor(static_cast<Util::ZOOM_FACTOR>(in));
+        }
 
+        void ViewPrefsWidget::backgroundCallback(const djvColor & in)
+        {
+            _p->backgroundColorWidget->setColor(in);
+            context()->viewPrefs()->setBackground(in);
+        }
+
+        void ViewPrefsWidget::gridCallback(int in)
+        {
+            context()->viewPrefs()->setGrid(static_cast<Util::GRID>(in));
+        }
+
+        void ViewPrefsWidget::gridColorCallback(const djvColor & in)
+        {
+            _p->gridColorWidget->setColor(in);
+            context()->viewPrefs()->setGridColor(in);
+        }
+
+        void ViewPrefsWidget::hudEnabledCallback(bool in)
+        {
+            context()->viewPrefs()->setHudEnabled(in);
+        }
+
+        void ViewPrefsWidget::hudInfoCallback(QListWidgetItem * item)
+        {
+            const int row = _p->hudInfoWidget->row(item);
+            QVector<bool> info = context()->viewPrefs()->hudInfo();
+            info[row] = !info[row];
+            context()->viewPrefs()->setHudInfo(info);
+        }
+
+        void ViewPrefsWidget::hudColorCallback(const djvColor & in)
+        {
+            _p->hudColorWidget->setColor(in);
+            context()->viewPrefs()->setHudColor(in);
+        }
+
+        void ViewPrefsWidget::hudBackgroundCallback(int in)
+        {
+            context()->viewPrefs()->setHudBackground(static_cast<Util::HUD_BACKGROUND>(in));
+        }
+
+        void ViewPrefsWidget::hudBackgroundColorCallback(const djvColor & in)
+        {
+            _p->hudBackgroundColorWidget->setColor(in);
+            context()->viewPrefs()->setHudBackgroundColor(in);
+        }
+
+        void ViewPrefsWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->zoomFactorWidget <<
+                _p->backgroundColorWidget <<
+                _p->gridWidget <<
+                _p->gridColorWidget <<
+                _p->hudEnabledWidget <<
+                _p->hudInfoWidget <<
+                _p->hudColorWidget <<
+                _p->hudBackgroundWidget <<
+                _p->hudBackgroundColorWidget);
+            _p->zoomFactorWidget->setCurrentIndex(context()->viewPrefs()->zoomFactor());
+            _p->backgroundColorWidget->setColor(context()->viewPrefs()->background());
+            _p->gridWidget->setCurrentIndex(context()->viewPrefs()->grid());
+            _p->gridColorWidget->setColor(context()->viewPrefs()->gridColor());
+            _p->hudEnabledWidget->setChecked(context()->viewPrefs()->isHudEnabled());
+            QVector<bool> hudInfo = context()->viewPrefs()->hudInfo();
+            for (int i = 0; i < Util::HUD_COUNT; ++i)
+            {
+                QListWidgetItem * item = _p->hudInfoWidget->item(i);
+                item->setCheckState(hudInfo[i] ? Qt::Checked : Qt::Unchecked);
+            }
+            _p->hudColorWidget->setColor(context()->viewPrefs()->hudColor());
+            _p->hudBackgroundWidget->setCurrentIndex(context()->viewPrefs()->hudBackground());
+            _p->hudBackgroundColorWidget->setColor(context()->viewPrefs()->hudBackgroundColor());
+        }
+
+    } // namespace ViewLib
+} // namespace djv

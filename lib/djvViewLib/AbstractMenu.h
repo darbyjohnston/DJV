@@ -39,40 +39,38 @@
 
 #include <memory>
 
-class djvViewAbstractActions;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewAbstractMenu
-//!
-//! This class provides the base functionality for group menus.
-//------------------------------------------------------------------------------
-
-class djvViewAbstractMenu : public QMenu
+namespace djv
 {
-    Q_OBJECT
+    namespace ViewLib
+    {
+        class AbstractActions;
 
-public:
-    explicit djvViewAbstractMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent = nullptr);
+        //! \class AbstractMenu
+        //!
+        //! This class provides the base functionality for group menus.
+        class AbstractMenu : public QMenu
+        {
+            Q_OBJECT
 
-    virtual ~djvViewAbstractMenu() = 0;
+        public:
+            explicit AbstractMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-    //! Get the actions.
-    djvViewAbstractActions * actions() const;
+            virtual ~AbstractMenu() = 0;
 
-protected Q_SLOTS:
-    virtual void menuUpdate();
+            //! Get the actions.
+            AbstractActions * actions() const;
 
-private:
-    DJV_PRIVATE_COPY(djvViewAbstractMenu);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        protected Q_SLOTS:
+            virtual void menuUpdate();
 
-//@} // djvViewLib
+        private:
+            DJV_PRIVATE_COPY(AbstractMenu);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

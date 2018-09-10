@@ -36,50 +36,49 @@
 
 #include <djvUI/IconLibrary.h>
 
-//------------------------------------------------------------------------------
-// djvViewAbstractToolBar::Private
-//------------------------------------------------------------------------------
-
-struct djvViewAbstractToolBar::Private
+namespace djv
 {
-    Private(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context) :
-        actions(actions),
-        context(context)
-    {}
+    namespace ViewLib
+    {
+        struct AbstractToolBar::Private
+        {
+            Private(
+                AbstractActions * actions,
+                Context *         context) :
+                actions(actions),
+                context(context)
+            {}
 
-    djvViewAbstractActions * actions;
-    djvViewContext *         context;
-};
+            AbstractActions * actions = nullptr;
+            Context *         context = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvViewAbstractToolBar
-//------------------------------------------------------------------------------
+        AbstractToolBar::AbstractToolBar(
+            AbstractActions * actions,
+            Context *         context,
+            QWidget *         parent) :
+            QToolBar(parent),
+            _p(new Private(actions, context))
+        {
+            setAllowedAreas(
+                Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
+            setFloatable(false);
+            //setMovable(false);
+            setIconSize(context->iconLibrary()->defaultSize());
+        }
 
-djvViewAbstractToolBar::djvViewAbstractToolBar(
-    djvViewAbstractActions * actions,
-    djvViewContext *         context,
-    QWidget *                parent) :
-    QToolBar(parent),
-    _p(new Private(actions, context))
-{
-    setAllowedAreas(
-        Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);    
-    setFloatable(false);
-    //setMovable(false);
-    setIconSize(context->iconLibrary()->defaultSize());
-}
+        AbstractToolBar::~AbstractToolBar()
+        {}
 
-djvViewAbstractToolBar::~djvViewAbstractToolBar()
-{}
+        AbstractActions * AbstractToolBar::actions() const
+        {
+            return _p->actions;
+        }
 
-djvViewAbstractActions * djvViewAbstractToolBar::actions() const
-{
-    return _p->actions;
-}
-    
-djvViewContext * djvViewAbstractToolBar::context() const
-{
-    return _p->context;
-}
+        Context * AbstractToolBar::context() const
+        {
+            return _p->context;
+        }
+
+    } // namespace ViewLib
+} // namespace djv

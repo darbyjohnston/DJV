@@ -57,308 +57,290 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvViewColorPickerTool::Private
-//------------------------------------------------------------------------------
-
-struct djvViewColorPickerTool::Private
+namespace djv
 {
-    Private() :
-        value               (djvPixel::RGBA_F32),
-        size                (3),
-        colorProfile        (true),
-        displayProfile      (true),
-        lock                (false),
-        swatchInit          (false),
-        widget              (0),
-        swatch              (0),
-        sizeSlider          (0),
-        colorProfileButton  (0),
-        displayProfileButton(0),
-        lockWidget          (0)
-    {}
-    
-    glm::ivec2                               pick = glm::ivec2(0, 0);
-    djvColor                                 value;
-    int                                      size;
-    bool                                     colorProfile;
-    bool                                     displayProfile;
-    bool                                     lock;
-
-    QScopedPointer<djvOpenGLOffscreenBuffer> buffer;
-    djvOpenGLImageState                      state;
-    bool                                     swatchInit;
-
-    djvColorWidget *                         widget;
-    djvColorSwatch *                         swatch;
-    djvIntEditSlider *                       sizeSlider;
-    djvToolButton *                          colorProfileButton;
-    djvToolButton *                          displayProfileButton;
-    djvToolButton *                          lockWidget;
-};
-
-//------------------------------------------------------------------------------
-// djvViewColorPickerTool
-//------------------------------------------------------------------------------
-
-djvViewColorPickerTool::djvViewColorPickerTool(
-    djvViewMainWindow * mainWindow,
-    djvViewContext *    context,
-    QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, context, parent),
-    _p(new Private)
-{
-    //DJV_DEBUG(gdjvViewColorPickerTool::djvViewColorPickerTool");
-
-    // Create the widgets.
-    _p->widget = new djvColorWidget(context);
-
-    _p->swatch = new djvColorSwatch(context);
-    _p->swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    _p->sizeSlider = new djvIntEditSlider(context);
-    _p->sizeSlider->setRange(1, 100);
-    _p->sizeSlider->setResetToDefault(false);
-    _p->sizeSlider->setToolTip(
-        qApp->translate("djvViewColorPickerTool", "Color picker sample size"));
-
-    _p->colorProfileButton = new djvToolButton(
-        context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"));
-    _p->colorProfileButton->setCheckable(true);
-    _p->colorProfileButton->setToolTip(
-        qApp->translate("djvViewColorPickerTool", "Set whether the color profile is enabled"));
-
-    _p->displayProfileButton = new djvToolButton(
-        context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"));
-    _p->displayProfileButton->setCheckable(true);
-    _p->displayProfileButton->setToolTip(
-        qApp->translate("djvViewColorPickerTool", "Set whether the display profile is enabled"));
-
-    _p->lockWidget = new djvToolButton(
-        context->iconLibrary()->icon("djvUnlockIcon.png", "djvLockIcon.png"));
-    _p->lockWidget->setCheckable(true);
-    _p->lockWidget->setToolTip(
-        qApp->translate("djvViewColorPickerTool", "Lock the pixel format and type"));
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->setMargin(0);
-    hLayout->setSpacing(context->style()->sizeMetric().spacing);
-    hLayout->addWidget(_p->swatch);
-    hLayout->addWidget(_p->widget, 1);
-    layout->addLayout(hLayout);
-
-    hLayout = new QHBoxLayout;
-    hLayout->setMargin(0);
-    hLayout->addWidget(_p->sizeSlider);
-    
-    QHBoxLayout * hLayout2 = new QHBoxLayout;
-    hLayout2->setMargin(0);
-    hLayout2->setSpacing(0);
-    hLayout2->addWidget(_p->colorProfileButton);
-    hLayout2->addWidget(_p->displayProfileButton);
-    hLayout->addLayout(hLayout2);
-    
-    layout->addLayout(hLayout);
-
-    _p->widget->bottomLayout()->insertWidget(1, _p->lockWidget);
-
-    // Preferences.
-    djvPrefs prefs("djvViewColorPickerTool");
-    prefs.get("size", _p->size);
-    djvPixel::PIXEL pixel = _p->value.pixel();
-    prefs.get("pixel", pixel);
-    _p->value.setPixel(pixel);
-    prefs.get("colorProfile", _p->colorProfile);
-    prefs.get("displayProfile", _p->displayProfile);
-    prefs.get("lock", _p->lock);
-
-    // Initialize.
-    setWindowTitle(qApp->translate("djvViewColorPickerTool", "Color Picker"));
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    widgetUpdate();
-    
-    // Setup the callbacks.
-    connect(
-        mainWindow,
-        SIGNAL(imageChanged()),
-        SLOT(widgetUpdate()));
-    connect(
-        mainWindow->viewWidget(),
-        SIGNAL(pickChanged(const glm::ivec2 &)),
-        SLOT(pickCallback(const glm::ivec2 &)));
-    connect(
-        _p->widget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(widgetCallback(const djvColor &)));
-    connect(
-        _p->sizeSlider,
-        SIGNAL(valueChanged(int)),
-        SLOT(sizeCallback(int)));
-    connect(
-        _p->colorProfileButton,
-        SIGNAL(toggled(bool)),
-        SLOT(colorProfileCallback(bool)));
-    connect(
-        _p->displayProfileButton,
-        SIGNAL(toggled(bool)),
-        SLOT(displayProfileCallback(bool)));
-    connect(
-        _p->lockWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(lockCallback(bool)));
-}
-
-djvViewColorPickerTool::~djvViewColorPickerTool()
-{
-    //DJV_DEBUG("djvViewColorPickerTool::~djvViewColorPickerTool");
-
-    djvPrefs prefs("djvViewColorPickerTool");
-    prefs.set("size", _p->size);
-    prefs.set("pixel", _p->value.pixel());
-    prefs.set("colorProfile", _p->colorProfile);
-    prefs.set("displayProfile", _p->displayProfile);
-    prefs.set("lock", _p->lock);
-    
-    viewWidget()->makeCurrent();
-}
-
-void djvViewColorPickerTool::showEvent(QShowEvent *)
-{
-    widgetUpdate();
-}
-
-void djvViewColorPickerTool::pickCallback(const glm::ivec2 & in)
-{
-    _p->pick = in;
-    widgetUpdate();
-}
-
-void djvViewColorPickerTool::widgetCallback(const djvColor & color)
-{
-    _p->value = color;
-    _p->swatch->setColor(color);
-}
-
-void djvViewColorPickerTool::sizeCallback(int value)
-{
-    _p->size = value;
-    widgetUpdate();
-}
-
-void djvViewColorPickerTool::colorProfileCallback(bool in)
-{
-    _p->colorProfile = in;
-    widgetUpdate();
-}
-
-void djvViewColorPickerTool::displayProfileCallback(bool in)
-{
-    _p->displayProfile = in;
-    widgetUpdate();
-}
-
-void djvViewColorPickerTool::lockCallback(bool in)
-{
-    _p->lock = in;
-    widgetUpdate();
-}
-
-void djvViewColorPickerTool::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->sizeSlider <<
-        _p->colorProfileButton <<
-        _p->displayProfileButton <<
-        _p->lockWidget);
-    _p->sizeSlider->setValue(_p->size);
-    _p->colorProfileButton->setChecked(_p->colorProfile);
-    _p->displayProfileButton->setChecked(_p->displayProfile);
-    _p->lockWidget->setChecked(_p->lock);
-    if (! _p->swatchInit && isVisible())
+    namespace ViewLib
     {
-        _p->swatchInit = true;
-        QTimer::singleShot(0, this, SLOT(swatchUpdate()));
-    }
-}
-
-void djvViewColorPickerTool::swatchUpdate()
-{
-    //DJV_DEBUG("djvViewColorPickerTool::swatchUpdate");
-    //DJV_DEBUG_PRINT("color profile = " << _p->colorProfile);
-    //DJV_DEBUG_PRINT("display profile = " << _p->displayProfile);
-    //DJV_DEBUG_PRINT("lock = " << _p->lock);
-
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->widget <<
-        _p->swatch);
-    if (const djvPixelData * data = viewWidget()->data())
-    {
-        //DJV_DEBUG_PRINT("data = " << *data);
-        if (! _p->lock && data)
+        struct ColorPickerTool::Private
         {
-            _p->value.setPixel(data->pixel());
-        }
-        else
+            glm::ivec2                               pick = glm::ivec2(0, 0);
+            djvColor                                 value = djvPixel::RGBA_F32;
+            int                                      size = 4;
+            bool                                     colorProfile = true;
+            bool                                     displayProfile = true;
+            bool                                     lock = false;
+
+            QScopedPointer<djvOpenGLOffscreenBuffer> buffer;
+            djvOpenGLImageState                      state;
+            bool                                     swatchInit = false;
+
+            djvColorWidget *                         widget = nullptr;
+            djvColorSwatch *                         swatch = nullptr;
+            djvIntEditSlider *                       sizeSlider = nullptr;
+            djvToolButton *                          colorProfileButton = nullptr;
+            djvToolButton *                          displayProfileButton = nullptr;
+            djvToolButton *                          lockWidget = nullptr;
+        };
+
+        ColorPickerTool::ColorPickerTool(
+            MainWindow * mainWindow,
+            Context *    context,
+            QWidget *    parent) :
+            AbstractTool(mainWindow, context, parent),
+            _p(new Private)
         {
-            _p->value.setPixel(_p->widget->color().pixel());
+            //DJV_DEBUG("ColorPickerTool::ColorPickerTool");
+
+            // Create the widgets.
+            _p->widget = new djvColorWidget(context);
+
+            _p->swatch = new djvColorSwatch(context);
+            _p->swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+            _p->sizeSlider = new djvIntEditSlider(context);
+            _p->sizeSlider->setRange(1, 100);
+            _p->sizeSlider->setResetToDefault(false);
+            _p->sizeSlider->setToolTip(
+                qApp->translate("djv::ViewLib::ColorPickerTool", "Color picker sample size"));
+
+            _p->colorProfileButton = new djvToolButton(
+                context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"));
+            _p->colorProfileButton->setCheckable(true);
+            _p->colorProfileButton->setToolTip(
+                qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the color profile is enabled"));
+
+            _p->displayProfileButton = new djvToolButton(
+                context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"));
+            _p->displayProfileButton->setCheckable(true);
+            _p->displayProfileButton->setToolTip(
+                qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the display profile is enabled"));
+
+            _p->lockWidget = new djvToolButton(
+                context->iconLibrary()->icon("djvUnlockIcon.png", "djvLockIcon.png"));
+            _p->lockWidget->setCheckable(true);
+            _p->lockWidget->setToolTip(
+                qApp->translate("djv::ViewLib::ColorPickerTool", "Lock the pixel format and type"));
+
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+
+            QHBoxLayout * hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->setSpacing(context->style()->sizeMetric().spacing);
+            hLayout->addWidget(_p->swatch);
+            hLayout->addWidget(_p->widget, 1);
+            layout->addLayout(hLayout);
+
+            hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->addWidget(_p->sizeSlider);
+
+            QHBoxLayout * hLayout2 = new QHBoxLayout;
+            hLayout2->setMargin(0);
+            hLayout2->setSpacing(0);
+            hLayout2->addWidget(_p->colorProfileButton);
+            hLayout2->addWidget(_p->displayProfileButton);
+            hLayout->addLayout(hLayout2);
+
+            layout->addLayout(hLayout);
+
+            _p->widget->bottomLayout()->insertWidget(1, _p->lockWidget);
+
+            // Preferences.
+            djvPrefs prefs("djv::ViewLib::ColorPickerTool");
+            prefs.get("size", _p->size);
+            djvPixel::PIXEL pixel = _p->value.pixel();
+            prefs.get("pixel", pixel);
+            _p->value.setPixel(pixel);
+            prefs.get("colorProfile", _p->colorProfile);
+            prefs.get("displayProfile", _p->displayProfile);
+            prefs.get("lock", _p->lock);
+
+            // Initialize.
+            setWindowTitle(qApp->translate("djv::ViewLib::ColorPickerTool", "Color Picker"));
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            widgetUpdate();
+
+            // Setup the callbacks.
+            connect(
+                mainWindow,
+                SIGNAL(imageChanged()),
+                SLOT(widgetUpdate()));
+            connect(
+                mainWindow->viewWidget(),
+                SIGNAL(pickChanged(const glm::ivec2 &)),
+                SLOT(pickCallback(const glm::ivec2 &)));
+            connect(
+                _p->widget,
+                SIGNAL(colorChanged(const djvColor &)),
+                SLOT(widgetCallback(const djvColor &)));
+            connect(
+                _p->sizeSlider,
+                SIGNAL(valueChanged(int)),
+                SLOT(sizeCallback(int)));
+            connect(
+                _p->colorProfileButton,
+                SIGNAL(toggled(bool)),
+                SLOT(colorProfileCallback(bool)));
+            connect(
+                _p->displayProfileButton,
+                SIGNAL(toggled(bool)),
+                SLOT(displayProfileCallback(bool)));
+            connect(
+                _p->lockWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(lockCallback(bool)));
         }
 
-        // Pick.
-        const glm::ivec2 pick = djvVectorUtil::floor(
-            glm::vec2(_p->pick - viewWidget()->viewPos()) / viewWidget()->viewZoom());
-        //DJV_DEBUG_PRINT("pick = " << _p->pick);
-
-        // Render color sample.
-        //DJV_DEBUG_PRINT("pick size = " << _p->size);
-        djvPixelData tmp(djvPixelDataInfo(glm::ivec2(_p->size, _p->size), _p->value.pixel()));
-        //DJV_DEBUG_PRINT("tmp = " << tmp);
-        try
+        ColorPickerTool::~ColorPickerTool()
         {
+            //DJV_DEBUG("ColorPickerTool::~ColorPickerTool");
+
+            djvPrefs prefs("djv::ViewLib::ColorPickerTool");
+            prefs.set("size", _p->size);
+            prefs.set("pixel", _p->value.pixel());
+            prefs.set("colorProfile", _p->colorProfile);
+            prefs.set("displayProfile", _p->displayProfile);
+            prefs.set("lock", _p->lock);
+
             viewWidget()->makeCurrent();
-            if (! _p->buffer || _p->buffer->info() != tmp.info())
-            {
-                _p->buffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
-            }
-            djvOpenGLImageOptions options = viewWidget()->options();
-            options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
-            if (! _p->colorProfile)
-            {
-                options.colorProfile = djvColorProfile();
-            }
-            if (! _p->displayProfile)
-            {
-                options.displayProfile = djvViewDisplayProfile();
-            }
-            //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
-            djvPixelData empty;
-            if (! data)
-            {
-                data = &empty;
-            }
-            djvOpenGLImage::copy(
-                *data,
-                tmp,
-                options,
-                &_p->state,
-                _p->buffer.data());
-            djvOpenGLImage::average(tmp, _p->value);
         }
-        catch (djvError error)
+
+        void ColorPickerTool::showEvent(QShowEvent *)
         {
-            error.add(
-                djvViewUtil::errorLabels()[djvViewUtil::ERROR_PICK_COLOR]);
-            context()->printError(error);
+            widgetUpdate();
         }
 
-        //DJV_DEBUG_PRINT("value = " << _p->value);
-    }
+        void ColorPickerTool::pickCallback(const glm::ivec2 & in)
+        {
+            _p->pick = in;
+            widgetUpdate();
+        }
 
-    _p->widget->setColor(_p->value);
-    _p->swatch->setColor(_p->value);
+        void ColorPickerTool::widgetCallback(const djvColor & color)
+        {
+            _p->value = color;
+            _p->swatch->setColor(color);
+        }
 
-    _p->swatchInit = false;
-}
+        void ColorPickerTool::sizeCallback(int value)
+        {
+            _p->size = value;
+            widgetUpdate();
+        }
 
+        void ColorPickerTool::colorProfileCallback(bool in)
+        {
+            _p->colorProfile = in;
+            widgetUpdate();
+        }
+
+        void ColorPickerTool::displayProfileCallback(bool in)
+        {
+            _p->displayProfile = in;
+            widgetUpdate();
+        }
+
+        void ColorPickerTool::lockCallback(bool in)
+        {
+            _p->lock = in;
+            widgetUpdate();
+        }
+
+        void ColorPickerTool::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->sizeSlider <<
+                _p->colorProfileButton <<
+                _p->displayProfileButton <<
+                _p->lockWidget);
+            _p->sizeSlider->setValue(_p->size);
+            _p->colorProfileButton->setChecked(_p->colorProfile);
+            _p->displayProfileButton->setChecked(_p->displayProfile);
+            _p->lockWidget->setChecked(_p->lock);
+            if (!_p->swatchInit && isVisible())
+            {
+                _p->swatchInit = true;
+                QTimer::singleShot(0, this, SLOT(swatchUpdate()));
+            }
+        }
+
+        void ColorPickerTool::swatchUpdate()
+        {
+            //DJV_DEBUG("ColorPickerTool::swatchUpdate");
+            //DJV_DEBUG_PRINT("color profile = " << _p->colorProfile);
+            //DJV_DEBUG_PRINT("display profile = " << _p->displayProfile);
+            //DJV_DEBUG_PRINT("lock = " << _p->lock);
+
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->widget <<
+                _p->swatch);
+            if (const djvPixelData * data = viewWidget()->data())
+            {
+                //DJV_DEBUG_PRINT("data = " << *data);
+                if (!_p->lock && data)
+                {
+                    _p->value.setPixel(data->pixel());
+                }
+                else
+                {
+                    _p->value.setPixel(_p->widget->color().pixel());
+                }
+
+                // Pick.
+                const glm::ivec2 pick = djvVectorUtil::floor(
+                    glm::vec2(_p->pick - viewWidget()->viewPos()) / viewWidget()->viewZoom());
+                //DJV_DEBUG_PRINT("pick = " << _p->pick);
+
+                // Render color sample.
+                //DJV_DEBUG_PRINT("pick size = " << _p->size);
+                djvPixelData tmp(djvPixelDataInfo(glm::ivec2(_p->size, _p->size), _p->value.pixel()));
+                //DJV_DEBUG_PRINT("tmp = " << tmp);
+                try
+                {
+                    viewWidget()->makeCurrent();
+                    if (!_p->buffer || _p->buffer->info() != tmp.info())
+                    {
+                        _p->buffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
+                    }
+                    djvOpenGLImageOptions options = viewWidget()->options();
+                    options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
+                    if (!_p->colorProfile)
+                    {
+                        options.colorProfile = djvColorProfile();
+                    }
+                    if (!_p->displayProfile)
+                    {
+                        options.displayProfile = DisplayProfile();
+                    }
+                    //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
+                    djvPixelData empty;
+                    if (!data)
+                    {
+                        data = &empty;
+                    }
+                    djvOpenGLImage::copy(
+                        *data,
+                        tmp,
+                        options,
+                        &_p->state,
+                        _p->buffer.data());
+                    djvOpenGLImage::average(tmp, _p->value);
+                }
+                catch (djvError error)
+                {
+                    error.add(Util::errorLabels()[Util::ERROR_PICK_COLOR]);
+                    context()->printError(error);
+                }
+
+                //DJV_DEBUG_PRINT("value = " << _p->value);
+            }
+
+            _p->widget->setColor(_p->value);
+            _p->swatch->setColor(_p->value);
+
+            _p->swatchInit = false;
+        }
+
+    } // namespace ViewLib
+} // namespace djv

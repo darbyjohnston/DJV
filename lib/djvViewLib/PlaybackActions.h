@@ -38,56 +38,54 @@
 
 #include <memory>
 
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackActions
-//!
-//! This class provides the playback group actions.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(ACTION)
-    Q_ENUMS(GROUP)
-
-public:
-    //! This enumeration provides the actions.
-    enum ACTION
+    namespace ViewLib
     {
-        PLAYBACK_TOGGLE,
-        EVERY_FRAME,
+        //! \class PlaybackActions
+        //!
+        //! This class provides the playback group actions.
+        class PlaybackActions : public AbstractActions
+        {
+            Q_OBJECT
+                Q_ENUMS(ACTION)
+                Q_ENUMS(GROUP)
 
-        ACTION_COUNT
-    };
+        public:
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                PLAYBACK_TOGGLE,
+                EVERY_FRAME,
 
-    //! This enumeration provides the action groups.
-    enum GROUP
-    {
-        PLAYBACK_GROUP,
-        LOOP_GROUP,
-        FRAME_GROUP,
-        IN_OUT_GROUP,
-        LAYOUT_GROUP,
+                ACTION_COUNT
+            };
 
-        GROUP_COUNT
-    };
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                PLAYBACK_GROUP,
+                LOOP_GROUP,
+                FRAME_GROUP,
+                IN_OUT_GROUP,
+                LAYOUT_GROUP,
 
-    explicit djvViewPlaybackActions(djvViewContext *, QObject * parent = nullptr);
+                GROUP_COUNT
+            };
 
-    virtual ~djvViewPlaybackActions();
+            explicit PlaybackActions(Context *, QObject * parent = nullptr);
 
-private Q_SLOTS:
-    void update();
+            virtual ~PlaybackActions();
 
-private:
-    DJV_PRIVATE_COPY(djvViewPlaybackActions);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void update();
 
-//@} // djvViewPlayback
+        private:
+            DJV_PRIVATE_COPY(PlaybackActions);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

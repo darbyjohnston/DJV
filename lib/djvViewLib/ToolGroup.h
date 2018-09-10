@@ -37,53 +37,51 @@
 
 class QAction;
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewToolGroup
-//!
-//! This class provides the tool group. The tool group encapsulates all of the
-//! functionality relating to tools such as the color picker, magnifier, and
-//! histogram display.
-//------------------------------------------------------------------------------
-
-class djvViewToolGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewToolGroup(
-        const djvViewToolGroup * copy,
-        djvViewMainWindow *      mainWindow,
-        djvViewContext *         context);
+    namespace ViewLib
+    {
+        //! \class ToolGroup
+        //!
+        //! This class provides the tool group. The tool group encapsulates all of the
+        //! functionality relating to tools such as the color picker, magnifier, and
+        //! histogram display.
+        class ToolGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    virtual ~djvViewToolGroup();
-    
-    //! Get the tools.    
-    const QVector<bool> & tools() const;
+        public:
+            ToolGroup(
+                const ToolGroup * copy,
+                MainWindow *      mainWindow,
+                Context *         context);
 
-    virtual QToolBar * toolBar() const;
+            virtual ~ToolGroup();
 
-public Q_SLOTS:
-    //! Set the tools.
-    void setTools(const QVector<bool> &);
+            //! Get the tools.    
+            const QVector<bool> & tools() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the tools are changed.
-    void toolsChanged(const QVector<bool> &);
+            virtual QToolBar * toolBar() const;
 
-private Q_SLOTS:
-    void toolsCallback(QAction *);
+        public Q_SLOTS:
+            //! Set the tools.
+            void setTools(const QVector<bool> &);
 
-    void update();
+        Q_SIGNALS:
+            //! This signal is emitted when the tools are changed.
+            void toolsChanged(const QVector<bool> &);
 
-private:
-    DJV_PRIVATE_COPY(djvViewToolGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void toolsCallback(QAction *);
 
-//@} // djvViewTool
+            void update();
 
+        private:
+            DJV_PRIVATE_COPY(ToolGroup);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

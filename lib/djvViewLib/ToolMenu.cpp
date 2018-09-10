@@ -36,32 +36,31 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewToolMenu::Private
-//------------------------------------------------------------------------------
-
-struct djvViewToolMenu::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewToolMenu
-//------------------------------------------------------------------------------
-
-djvViewToolMenu::djvViewToolMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new Private)
+namespace djv
 {
-    // Create the menus.
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
+    namespace ViewLib
     {
-        addAction(actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]);
-    }
+        struct ToolMenu::Private
+        {};
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewToolMenu", "&Tools"));
-}
+        ToolMenu::ToolMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent),
+            _p(new Private)
+        {
+            // Create the menus.
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                addAction(actions->group(ToolActions::TOOL_GROUP)->actions()[i]);
+            }
 
-djvViewToolMenu::~djvViewToolMenu()
-{}
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::ToolMenu", "&Tools"));
+        }
+
+        ToolMenu::~ToolMenu()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

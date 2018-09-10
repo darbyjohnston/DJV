@@ -33,43 +33,41 @@
 
 #include <djvViewLib/AbstractActions.h>
 
-//------------------------------------------------------------------------------
-// djvViewAbstractMenu::Private
-//------------------------------------------------------------------------------
-
-struct djvViewAbstractMenu::Private
+namespace djv
 {
-    Private(djvViewAbstractActions * actions) :
-        actions(actions)
-    {}
+    namespace ViewLib
+    {
+        struct AbstractMenu::Private
+        {
+            Private(AbstractActions * actions) :
+                actions(actions)
+            {}
 
-    djvViewAbstractActions * actions;
-};
+            AbstractActions * actions = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvViewAbstractMenu
-//------------------------------------------------------------------------------
+        AbstractMenu::AbstractMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            QMenu(parent),
+            _p(new Private(actions))
+        {
+            connect(
+                actions,
+                SIGNAL(changed()),
+                SLOT(menuUpdate()));
+        }
 
-djvViewAbstractMenu::djvViewAbstractMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    QMenu(parent),
-    _p(new Private(actions))
-{
-    connect(
-        actions,
-        SIGNAL(changed()),
-        SLOT(menuUpdate()));
-}
+        AbstractMenu::~AbstractMenu()
+        {}
 
-djvViewAbstractMenu::~djvViewAbstractMenu()
-{}
+        AbstractActions * AbstractMenu::actions() const
+        {
+            return _p->actions;
+        }
 
-djvViewAbstractActions * djvViewAbstractMenu::actions() const
-{
-    return _p->actions;
-}
+        void AbstractMenu::menuUpdate()
+        {}
 
-void djvViewAbstractMenu::menuUpdate()
-{}
-
+    } // namespace ViewLib
+} // namespace djv

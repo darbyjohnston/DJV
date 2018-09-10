@@ -33,29 +33,27 @@
 
 #include <djvViewLib/AbstractMenu.h>
 
-//! \addtogroup djvViewView
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewViewMenu
-//!
-//! This class provides the view group menu.
-//------------------------------------------------------------------------------
-
-class djvViewViewMenu : public djvViewAbstractMenu
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewViewMenu(
-        djvViewAbstractActions * actions,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class ViewMenu
+        //!
+        //! This class provides the view group menu.
+        class ViewMenu : public AbstractMenu
+        {
+            Q_OBJECT
 
-    virtual ~djvViewViewMenu();
+        public:
+            explicit ViewMenu(
+                AbstractActions * actions,
+                QWidget *         parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewViewMenu);
-};
+            virtual ~ViewMenu();
 
-//@} // djvViewView
+        private:
+            DJV_PRIVATE_COPY(ViewMenu);
+        };
 
+    } // namespace ViewLib
+} // namespace djv

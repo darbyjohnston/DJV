@@ -44,144 +44,138 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvViewPlaybackPrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvViewPlaybackPrefsWidget::Private
+namespace djv
 {
-    Private() :
-        autoStartWidget (0),
-        loopWidget      (0),
-        everyFrameWidget(0),
-        layoutWidget    (0)
-    {}
-    
-    QCheckBox * autoStartWidget;
-    QComboBox * loopWidget;
-    QCheckBox * everyFrameWidget;
-    QComboBox * layoutWidget;
-};
+    namespace ViewLib
+    {
+        struct PlaybackPrefsWidget::Private
+        {
+            Private() :
+                autoStartWidget(0),
+                loopWidget(0),
+                everyFrameWidget(0),
+                layoutWidget(0)
+            {}
 
-//------------------------------------------------------------------------------
-// djvViewPlaybackPrefsWidget
-//------------------------------------------------------------------------------
+            QCheckBox * autoStartWidget;
+            QComboBox * loopWidget;
+            QCheckBox * everyFrameWidget;
+            QComboBox * layoutWidget;
+        };
 
-djvViewPlaybackPrefsWidget::djvViewPlaybackPrefsWidget(djvViewContext * context) :
-    djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Playback"), context),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->autoStartWidget = new QCheckBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Start playback when opening files"));
+        PlaybackPrefsWidget::PlaybackPrefsWidget(Context * context) :
+            AbstractPrefsWidget(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->autoStartWidget = new QCheckBox(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Start playback when opening files"));
 
-    _p->loopWidget = new QComboBox;
-    _p->loopWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->loopWidget->addItems(djvViewUtil::loopLabels());
+            _p->loopWidget = new QComboBox;
+            _p->loopWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->loopWidget->addItems(Util::loopLabels());
 
-    _p->everyFrameWidget = new QCheckBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Play every frame"));
+            _p->everyFrameWidget = new QCheckBox(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Play every frame"));
 
-    _p->layoutWidget = new QComboBox;
-    _p->layoutWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->layoutWidget->addItems(djvViewUtil::layoutLabels());
+            _p->layoutWidget = new QComboBox;
+            _p->layoutWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->layoutWidget->addItems(Util::layoutLabels());
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Playback"), context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->autoStartWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Loop mode:"),
-        _p->loopWidget);
-    formLayout->addRow(_p->everyFrameWidget);
-    layout->addWidget(prefsGroupBox);
+            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->autoStartWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Loop mode:"),
+                _p->loopWidget);
+            formLayout->addRow(_p->everyFrameWidget);
+            layout->addWidget(prefsGroupBox);
 
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Layout"), context);
-    formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvViewPlaybackPrefsWidget", "Playback controls:"),
-        _p->layoutWidget);
-    layout->addWidget(prefsGroupBox);
+            prefsGroupBox = new djvPrefsGroupBox(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Layout"), context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback controls:"),
+                _p->layoutWidget);
+            layout->addWidget(prefsGroupBox);
 
-    layout->addStretch();
+            layout->addStretch();
 
-    // Initialize.
-    widgetUpdate();
+            // Initialize.
+            widgetUpdate();
 
-    // Setup the callbacks.
-    connect(
-        _p->autoStartWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(autoStartCallback(bool)));
-    connect(
-        _p->loopWidget,
-        SIGNAL(activated(int)),
-        SLOT(loopCallback(int)));
-    connect(
-        _p->everyFrameWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(everyFrameCallback(bool)));
-    connect(
-        _p->layoutWidget,
-        SIGNAL(activated(int)),
-        SLOT(layoutCallback(int)));
-}
+            // Setup the callbacks.
+            connect(
+                _p->autoStartWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(autoStartCallback(bool)));
+            connect(
+                _p->loopWidget,
+                SIGNAL(activated(int)),
+                SLOT(loopCallback(int)));
+            connect(
+                _p->everyFrameWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(everyFrameCallback(bool)));
+            connect(
+                _p->layoutWidget,
+                SIGNAL(activated(int)),
+                SLOT(layoutCallback(int)));
+        }
 
-djvViewPlaybackPrefsWidget::~djvViewPlaybackPrefsWidget()
-{}
+        PlaybackPrefsWidget::~PlaybackPrefsWidget()
+        {}
 
-void djvViewPlaybackPrefsWidget::resetPreferences()
-{
-    context()->playbackPrefs()->setAutoStart(
-        djvViewPlaybackPrefs::autoStartDefault());
-    context()->playbackPrefs()->setLoop(
-        djvViewPlaybackPrefs::loopDefault());
-    context()->playbackPrefs()->setEveryFrame(
-        djvViewPlaybackPrefs::everyFrameDefault());
-    context()->playbackPrefs()->setLayout(
-        djvViewPlaybackPrefs::layoutDefault());
-    widgetUpdate();
-}
+        void PlaybackPrefsWidget::resetPreferences()
+        {
+            context()->playbackPrefs()->setAutoStart(PlaybackPrefs::autoStartDefault());
+            context()->playbackPrefs()->setLoop(PlaybackPrefs::loopDefault());
+            context()->playbackPrefs()->setEveryFrame(PlaybackPrefs::everyFrameDefault());
+            context()->playbackPrefs()->setLayout(PlaybackPrefs::layoutDefault());
+            widgetUpdate();
+        }
 
-void djvViewPlaybackPrefsWidget::autoStartCallback(bool in)
-{
-    context()->playbackPrefs()->setAutoStart(in);
-}
+        void PlaybackPrefsWidget::autoStartCallback(bool in)
+        {
+            context()->playbackPrefs()->setAutoStart(in);
+        }
 
-void djvViewPlaybackPrefsWidget::loopCallback(int in)
-{
-    context()->playbackPrefs()->setLoop(static_cast<djvViewUtil::LOOP>(in));
-}
+        void PlaybackPrefsWidget::loopCallback(int in)
+        {
+            context()->playbackPrefs()->setLoop(static_cast<Util::LOOP>(in));
+        }
 
-void djvViewPlaybackPrefsWidget::everyFrameCallback(bool in)
-{
-    context()->playbackPrefs()->setEveryFrame(in);
-}
+        void PlaybackPrefsWidget::everyFrameCallback(bool in)
+        {
+            context()->playbackPrefs()->setEveryFrame(in);
+        }
 
-void djvViewPlaybackPrefsWidget::layoutCallback(int in)
-{
-    context()->playbackPrefs()->setLayout(static_cast<djvViewUtil::LAYOUT>(in));
-}
+        void PlaybackPrefsWidget::layoutCallback(int in)
+        {
+            context()->playbackPrefs()->setLayout(static_cast<Util::LAYOUT>(in));
+        }
 
-void djvViewPlaybackPrefsWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->autoStartWidget <<
-        _p->loopWidget <<
-        _p->everyFrameWidget <<
-        _p->layoutWidget);
-    _p->autoStartWidget->setChecked(
-        context()->playbackPrefs()->hasAutoStart());
-    _p->loopWidget->setCurrentIndex(
-        context()->playbackPrefs()->loop());
-    _p->everyFrameWidget->setChecked(
-        context()->playbackPrefs()->hasEveryFrame());
-    _p->layoutWidget->setCurrentIndex(
-        context()->playbackPrefs()->layout());
-}
+        void PlaybackPrefsWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->autoStartWidget <<
+                _p->loopWidget <<
+                _p->everyFrameWidget <<
+                _p->layoutWidget);
+            _p->autoStartWidget->setChecked(
+                context()->playbackPrefs()->hasAutoStart());
+            _p->loopWidget->setCurrentIndex(
+                context()->playbackPrefs()->loop());
+            _p->everyFrameWidget->setChecked(
+                context()->playbackPrefs()->hasEveryFrame());
+            _p->layoutWidget->setCurrentIndex(
+                context()->playbackPrefs()->layout());
+        }
 
+    } // namespace ViewLib
+} // namespace djv

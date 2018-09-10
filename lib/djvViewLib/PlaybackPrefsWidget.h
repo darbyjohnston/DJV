@@ -35,41 +35,38 @@
 
 #include <memory>
 
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackPrefsWidget
-//!
-//! This class provides the playback group preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackPrefsWidget :
-    public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewPlaybackPrefsWidget(djvViewContext *);
+    namespace ViewLib
+    {
+        //! \class PlaybackPrefsWidget
+        //!
+        //! This class provides the playback group preferences widget.
+        class PlaybackPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewPlaybackPrefsWidget();
-    
-    virtual void resetPreferences();
+        public:
+            PlaybackPrefsWidget(Context *);
 
-private Q_SLOTS:
-    void autoStartCallback(bool);
-    void loopCallback(int);
-    void everyFrameCallback(bool);
-    void layoutCallback(int);
-    
-    void widgetUpdate();
+            virtual ~PlaybackPrefsWidget();
 
-private:
-    DJV_PRIVATE_COPY(djvViewPlaybackPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual void resetPreferences();
 
-//@} // djvViewPlayback
+        private Q_SLOTS:
+            void autoStartCallback(bool);
+            void loopCallback(int);
+            void everyFrameCallback(bool);
+            void layoutCallback(int);
 
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(PlaybackPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

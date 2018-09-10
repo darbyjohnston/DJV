@@ -39,93 +39,91 @@
 
 class QAction;
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImageGroup
-//!
-//! This class provides the image group. The image group encapsulates all of
-//! the functionality relating to images such as the image scale and rotation.
-//------------------------------------------------------------------------------
-
-class djvViewImageGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewImageGroup(
-        const djvViewImageGroup * copy,
-        djvViewMainWindow *       mainWindow,
-        djvViewContext *          context);
+    namespace ViewLib
+    {
+        //! \class ImageGroup
+        //!
+        //! This class provides the image group. The image group encapsulates all of
+        //! the functionality relating to images such as the image scale and rotation.
+        class ImageGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    virtual ~djvViewImageGroup();
+        public:
+            ImageGroup(
+                const ImageGroup * copy,
+                MainWindow *       mainWindow,
+                Context *          context);
 
-    //! Get whether the frame store is enabled.
-    bool hasFrameStore() const;
+            virtual ~ImageGroup();
 
-    //! Get the mirror.
-    const djvPixelDataInfo::Mirror & mirror() const;
+            //! Get whether the frame store is enabled.
+            bool hasFrameStore() const;
 
-    //! Get the scale.
-    djvViewUtil::IMAGE_SCALE scale() const;
+            //! Get the mirror.
+            const djvPixelDataInfo::Mirror & mirror() const;
 
-    //! Get the rotation.
-    djvViewUtil::IMAGE_ROTATE rotate() const;
+            //! Get the scale.
+            Util::IMAGE_SCALE scale() const;
 
-    //! Get whether the color profile is enabled.
-    bool hasColorProfile() const;
+            //! Get the rotation.
+            Util::IMAGE_ROTATE rotate() const;
 
-    //! Get the display profile.
-    const djvViewDisplayProfile & displayProfile() const;
+            //! Get whether the color profile is enabled.
+            bool hasColorProfile() const;
 
-    //! Get the image channel.
-    djvOpenGLImageOptions::CHANNEL channel() const;
+            //! Get the display profile.
+            const DisplayProfile & displayProfile() const;
 
-    virtual QToolBar * toolBar() const;
+            //! Get the image channel.
+            djvOpenGLImageOptions::CHANNEL channel() const;
 
-public Q_SLOTS:
-    //! Set the display profile.
-    void setDisplayProfile(const djvViewDisplayProfile &);
+            virtual QToolBar * toolBar() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the frame store is changed.
-    void frameStoreChanged(bool);
+        public Q_SLOTS:
+            //! Set the display profile.
+            void setDisplayProfile(const djv::ViewLib::DisplayProfile &);
 
-    //! This signal is emitted to store the current frame.
-    void loadFrameStore();
+        Q_SIGNALS:
+            //! This signal is emitted when the frame store is changed.
+            void frameStoreChanged(bool);
 
-    //! This signal is emitted when the display profile is changed.
-    void displayProfileChanged(const djvViewDisplayProfile &);
+            //! This signal is emitted to store the current frame.
+            void loadFrameStore();
 
-    //! This signal is emitted when a redraw is needed.
-    void redrawNeeded();
+            //! This signal is emitted when the display profile is changed.
+            void displayProfileChanged(const djv::ViewLib::DisplayProfile &);
 
-    //! This signal is emitted when a resize is needed.
-    void resizeNeeded();
+            //! This signal is emitted when a redraw is needed.
+            void redrawNeeded();
 
-private Q_SLOTS:
-    void frameStoreCallback(bool);
-    void mirrorCallback(const djvPixelDataInfo::Mirror &);
-    void mirrorHCallback(bool);
-    void mirrorVCallback(bool);
-    void scaleCallback(djvViewUtil::IMAGE_SCALE);
-    void scaleCallback(QAction *);
-    void rotateCallback(djvViewUtil::IMAGE_ROTATE);
-    void rotateCallback(QAction *);
-    void colorProfileCallback(bool);
-    void displayProfileCallback(QAction *);
-    void channelCallback(djvOpenGLImageOptions::CHANNEL);
-    void channelCallback(QAction *);
+            //! This signal is emitted when a resize is needed.
+            void resizeNeeded();
 
-    void update();
+        private Q_SLOTS:
+            void frameStoreCallback(bool);
+            void mirrorCallback(const djvPixelDataInfo::Mirror &);
+            void mirrorHCallback(bool);
+            void mirrorVCallback(bool);
+            void scaleCallback(Util::IMAGE_SCALE);
+            void scaleCallback(QAction *);
+            void rotateCallback(Util::IMAGE_ROTATE);
+            void rotateCallback(QAction *);
+            void colorProfileCallback(bool);
+            void displayProfileCallback(QAction *);
+            void channelCallback(djvOpenGLImageOptions::CHANNEL);
+            void channelCallback(QAction *);
 
-private:
-    DJV_PRIVATE_COPY(djvViewImageGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            void update();
 
-//@} // djvViewImage
+        private:
+            DJV_PRIVATE_COPY(ImageGroup);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

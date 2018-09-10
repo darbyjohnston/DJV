@@ -39,8 +39,6 @@
 
 #include <QMetaType>
 
-class djvViewContext;
-
 class djvFileInfo;
 class djvPixelData;
 
@@ -49,457 +47,457 @@ class djvPixelData;
 #undef FILE_OPEN
 #endif
 
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewUtil
-//!
-//! This class provides enumerations and utilities.
-//------------------------------------------------------------------------------
-
-class djvViewUtil
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(VIEW_MAX)
-    Q_ENUMS(TOOL_BAR)
-    Q_ENUMS(GRID)
-    Q_ENUMS(HUD)
-    Q_ENUMS(HUD_BACKGROUND)
-    Q_ENUMS(IMAGE_SCALE)
-    Q_ENUMS(IMAGE_ROTATE)
-    Q_ENUMS(PLAYBACK)
-    Q_ENUMS(FRAME)
-    Q_ENUMS(LOOP)
-    Q_ENUMS(IN_OUT)
-    Q_ENUMS(LAYOUT)
-    Q_ENUMS(HISTOGRAM)
-    Q_ENUMS(SHORTCUT)
-    Q_ENUMS(MOUSE_WHEEL)
-    Q_ENUMS(ZOOM_FACTOR)
-    Q_ENUMS(ERROR)
-    
-public:
-    virtual ~djvViewUtil() = 0;
-
-    //! This enumeration provides the maximum view size.
-    enum VIEW_MAX
+    namespace ViewLib
     {
-        VIEW_MAX_NONE,
-        VIEW_MAX_25,
-        VIEW_MAX_50,
-        VIEW_MAX_75,
-        VIEW_MAX_USER,
+        class Context;
 
-        VIEW_MAX_COUNT
-    };
-    
-    //! Get the maximum view size labels.
-    static const QStringList & viewMaxLabels();
+        //! \class Util
+        //!
+        //! This class provides enumerations and utilities.
+        class Util
+        {
+            Q_GADGET
+                Q_ENUMS(VIEW_MAX)
+                Q_ENUMS(TOOL_BAR)
+                Q_ENUMS(GRID)
+                Q_ENUMS(HUD)
+                Q_ENUMS(HUD_BACKGROUND)
+                Q_ENUMS(IMAGE_SCALE)
+                Q_ENUMS(IMAGE_ROTATE)
+                Q_ENUMS(PLAYBACK)
+                Q_ENUMS(FRAME)
+                Q_ENUMS(LOOP)
+                Q_ENUMS(IN_OUT)
+                Q_ENUMS(LAYOUT)
+                Q_ENUMS(HISTOGRAM)
+                Q_ENUMS(SHORTCUT)
+                Q_ENUMS(MOUSE_WHEEL)
+                Q_ENUMS(ZOOM_FACTOR)
+                Q_ENUMS(ERROR)
 
-    //! This enumeration provides tool bar visibility options.
-    enum TOOL_BAR
-    {
-        TOOL_BARS,
-        PLAYBACK_BAR,
-        INFO_BAR,
+        public:
+            virtual ~Util() = 0;
 
-        TOOL_BAR_COUNT
-    };
+            //! This enumeration provides the maximum view size.
+            enum VIEW_MAX
+            {
+                VIEW_MAX_NONE,
+                VIEW_MAX_25,
+                VIEW_MAX_50,
+                VIEW_MAX_75,
+                VIEW_MAX_USER,
 
-    //! Get the visibility option labels.
-    static const QStringList & toolBarLabels();
+                VIEW_MAX_COUNT
+            };
 
-    //! This enumeration provides the grid overlays.
-    enum GRID
-    {
-        GRID_NONE,
-        GRID_1x1,
-        GRID_10x10,
-        GRID_100x100,
+            //! Get the maximum view size labels.
+            static const QStringList & viewMaxLabels();
 
-        GRID_COUNT
-    };
+            //! This enumeration provides tool bar visibility options.
+            enum TOOL_BAR
+            {
+                TOOL_BARS,
+                PLAYBACK_BAR,
+                INFO_BAR,
 
-    //! Get the grid overlay labels.
-    static const QStringList & gridLabels();
+                TOOL_BAR_COUNT
+            };
 
-    //! This enumeration provides the HUD information.
-    enum HUD
-    {
-        HUD_FILE_NAME,
-        HUD_LAYER,
-        HUD_SIZE,
-        HUD_PROXY,
-        HUD_PIXEL,
-        HUD_TAG,
-        HUD_FRAME,
-        HUD_SPEED,
+            //! Get the visibility option labels.
+            static const QStringList & toolBarLabels();
 
-        HUD_COUNT
-    };
+            //! This enumeration provides the grid overlays.
+            enum GRID
+            {
+                GRID_NONE,
+                GRID_1x1,
+                GRID_10x10,
+                GRID_100x100,
 
-    //! Get the HUD information labels.
-    static const QStringList & hudInfoLabels();
+                GRID_COUNT
+            };
 
-    //! This enumeration provides the HUD backgrounds.
-    enum HUD_BACKGROUND
-    {
-        HUD_BACKGROUND_NONE,
-        HUD_BACKGROUND_SOLID,
-        HUD_BACKGROUND_SHADOW,
+            //! Get the grid overlay labels.
+            static const QStringList & gridLabels();
 
-        HUD_BACKGROUND_COUNT
-    };
+            //! This enumeration provides the HUD information.
+            enum HUD
+            {
+                HUD_FILE_NAME,
+                HUD_LAYER,
+                HUD_SIZE,
+                HUD_PROXY,
+                HUD_PIXEL,
+                HUD_TAG,
+                HUD_FRAME,
+                HUD_SPEED,
 
-    //! Get the HUD background labels.
-    static const QStringList & hudBackgroundLabels();
-	
-    //! This enumeration provides the image scales.
-    enum IMAGE_SCALE
-    {
-        IMAGE_SCALE_NONE,
-        IMAGE_SCALE_16_9,
-        IMAGE_SCALE_1_0,
-        IMAGE_SCALE_1_33,
-        IMAGE_SCALE_1_78,
-        IMAGE_SCALE_1_85,
-        IMAGE_SCALE_2_0,
-        IMAGE_SCALE_2_35,
-        IMAGE_SCALE_2_39,
-        IMAGE_SCALE_2_40,
-        IMAGE_SCALE_1_1,
-        IMAGE_SCALE_2_1,
-        IMAGE_SCALE_3_2,
-        IMAGE_SCALE_4_3,
-        IMAGE_SCALE_5_3,
-        IMAGE_SCALE_5_4,
+                HUD_COUNT
+            };
 
-        IMAGE_SCALE_COUNT
-    };
+            //! Get the HUD information labels.
+            static const QStringList & hudInfoLabels();
 
-    //! Get image scale labels.
-    static const QStringList & imageScaleLabels();
+            //! This enumeration provides the HUD backgrounds.
+            enum HUD_BACKGROUND
+            {
+                HUD_BACKGROUND_NONE,
+                HUD_BACKGROUND_SOLID,
+                HUD_BACKGROUND_SHADOW,
 
-    //! Calculate an image scale.
-    static glm::vec2 imageScale(IMAGE_SCALE, const glm::ivec2 &);
+                HUD_BACKGROUND_COUNT
+            };
 
-    //! This enumeration provides the image rotation.
-    enum IMAGE_ROTATE
-    {
-        IMAGE_ROTATE_0,
-        IMAGE_ROTATE_90,
-        IMAGE_ROTATE_180,
-        IMAGE_ROTATE_270,
+            //! Get the HUD background labels.
+            static const QStringList & hudBackgroundLabels();
 
-        IMAGE_ROTATE_COUNT
-    };
+            //! This enumeration provides the image scales.
+            enum IMAGE_SCALE
+            {
+                IMAGE_SCALE_NONE,
+                IMAGE_SCALE_16_9,
+                IMAGE_SCALE_1_0,
+                IMAGE_SCALE_1_33,
+                IMAGE_SCALE_1_78,
+                IMAGE_SCALE_1_85,
+                IMAGE_SCALE_2_0,
+                IMAGE_SCALE_2_35,
+                IMAGE_SCALE_2_39,
+                IMAGE_SCALE_2_40,
+                IMAGE_SCALE_1_1,
+                IMAGE_SCALE_2_1,
+                IMAGE_SCALE_3_2,
+                IMAGE_SCALE_4_3,
+                IMAGE_SCALE_5_3,
+                IMAGE_SCALE_5_4,
 
-    //! Get image rotate labels.
-    static const QStringList & imageRotateLabels();
+                IMAGE_SCALE_COUNT
+            };
 
-    //! Get the image rotation in degrees.
-    static float imageRotate(IMAGE_ROTATE);
+            //! Get image scale labels.
+            static const QStringList & imageScaleLabels();
 
-    //! Load a LUT.
-    static void loadLut(
-        const djvFileInfo & fileInfo,
-        djvPixelData &      lut,
-        djvViewContext *    context) throw (djvError);
+            //! Calculate an image scale.
+            static glm::vec2 imageScale(IMAGE_SCALE, const glm::ivec2 &);
 
-    //! This enumeration provides the playback modes.
-    enum PLAYBACK
-    {
-        REVERSE,
-        STOP,
-        FORWARD,
+            //! This enumeration provides the image rotation.
+            enum IMAGE_ROTATE
+            {
+                IMAGE_ROTATE_0,
+                IMAGE_ROTATE_90,
+                IMAGE_ROTATE_180,
+                IMAGE_ROTATE_270,
 
-        PLAYBACK_COUNT
-    };
+                IMAGE_ROTATE_COUNT
+            };
 
-    //! Get the playback labels.
-    static const QStringList & playbackLabels();
+            //! Get image rotate labels.
+            static const QStringList & imageRotateLabels();
 
-    //! This enumeration provides the frame controls.
-    enum FRAME
-    {
-        FRAME_START,
-        FRAME_START_ABS,
-        FRAME_PREV,
-        FRAME_PREV_10,
-        FRAME_PREV_100,
-        FRAME_NEXT,
-        FRAME_NEXT_10,
-        FRAME_NEXT_100,
-        FRAME_END,
-        FRAME_END_ABS,
+            //! Get the image rotation in degrees.
+            static float imageRotate(IMAGE_ROTATE);
 
-        FRAME_COUNT
-    };
+            //! Load a LUT.
+            static void loadLut(
+                const djvFileInfo & fileInfo,
+                djvPixelData &      lut,
+                Context *           context) throw (djvError);
 
-    //! Get the frame labels.
-    static const QStringList & frameLabels();
+            //! This enumeration provides the playback modes.
+            enum PLAYBACK
+            {
+                REVERSE,
+                STOP,
+                FORWARD,
 
-    //! This enumeration provides the loop modes.
-    enum LOOP
-    {
-        LOOP_ONCE,
-        LOOP_REPEAT,
-        LOOP_PING_PONG,
+                PLAYBACK_COUNT
+            };
 
-        LOOP_COUNT
-    };
+            //! Get the playback labels.
+            static const QStringList & playbackLabels();
 
-    //! Get the loop mode labels.
-    static const QStringList & loopLabels();
+            //! This enumeration provides the frame controls.
+            enum FRAME
+            {
+                FRAME_START,
+                FRAME_START_ABS,
+                FRAME_PREV,
+                FRAME_PREV_10,
+                FRAME_PREV_100,
+                FRAME_NEXT,
+                FRAME_NEXT_10,
+                FRAME_NEXT_100,
+                FRAME_END,
+                FRAME_END_ABS,
 
-    //! This enumeration provides the in/out controls.
-    enum IN_OUT
-    {
-        IN_OUT_ENABLE,
-        MARK_IN,
-        MARK_OUT,
-        RESET_IN,
-        RESET_OUT,
+                FRAME_COUNT
+            };
 
-        IN_OUT_COUNT
-    };
+            //! Get the frame labels.
+            static const QStringList & frameLabels();
 
-    //! Get the in/out labels.
-    static const QStringList & inOutLabels();
+            //! This enumeration provides the loop modes.
+            enum LOOP
+            {
+                LOOP_ONCE,
+                LOOP_REPEAT,
+                LOOP_PING_PONG,
 
-    //! This enumeration provides the playback bar layouts.
-    enum LAYOUT
-    {
-        LAYOUT_DEFAULT,
-        LAYOUT_LEFT,
-        LAYOUT_CENTER,
-        LAYOUT_MINIMAL,
+                LOOP_COUNT
+            };
 
-        LAYOUT_COUNT
-    };
+            //! Get the loop mode labels.
+            static const QStringList & loopLabels();
 
-    //! Get the playback bar layout labels.
-    static const QStringList & layoutLabels();
-    
-    //! This enumeration provides the tool actions.
-    enum TOOL
-    {
-        TOOL_MAGNIFY,
-        TOOL_COLOR_PICKER,
-        TOOL_HISTOGRAM,
-        TOOL_INFO,
+            //! This enumeration provides the in/out controls.
+            enum IN_OUT
+            {
+                IN_OUT_ENABLE,
+                MARK_IN,
+                MARK_OUT,
+                RESET_IN,
+                RESET_OUT,
 
-        TOOL_COUNT
-    };
+                IN_OUT_COUNT
+            };
 
-    //! Get the tool action labels.
-    static const QStringList & toolLabels();
-    
-    //! This enumeration provides the histogram sizes.
-    enum HISTOGRAM
-    {
-        HISTOGRAM_256,
-        HISTOGRAM_1024,
-        HISTOGRAM_2048,
-        HISTOGRAM_4096,
-        
-        HISTOGRAM_COUNT
-    };
+            //! Get the in/out labels.
+            static const QStringList & inOutLabels();
 
-    //! Get the histogram size labels.
-    static const QStringList & histogramLabels();
-    
-    //! Get a histogram size.
-    static const int histogramSize(HISTOGRAM);
+            //! This enumeration provides the playback bar layouts.
+            enum LAYOUT
+            {
+                LAYOUT_DEFAULT,
+                LAYOUT_LEFT,
+                LAYOUT_CENTER,
+                LAYOUT_MINIMAL,
 
-    //! This enumeration provides the keyboard shortcuts.
-    enum SHORTCUT
-    {
-        SHORTCUT_EXIT,
+                LAYOUT_COUNT
+            };
 
-        SHORTCUT_FILE_OPEN,
-        SHORTCUT_FILE_RELOAD,
-        SHORTCUT_FILE_RELOAD_FRAME,
-        SHORTCUT_FILE_SAVE,
-        SHORTCUT_FILE_SAVE_FRAME,
-        SHORTCUT_FILE_CLOSE,
-        SHORTCUT_FILE_LAYER_DEFAULT,
-        SHORTCUT_FILE_LAYER_1,
-        SHORTCUT_FILE_LAYER_2,
-        SHORTCUT_FILE_LAYER_3,
-        SHORTCUT_FILE_LAYER_4,
-        SHORTCUT_FILE_LAYER_5,
-        SHORTCUT_FILE_LAYER_6,
-        SHORTCUT_FILE_LAYER_7,
-        SHORTCUT_FILE_LAYER_8,
-        SHORTCUT_FILE_LAYER_9,
-        SHORTCUT_FILE_LAYER_10,
-        SHORTCUT_FILE_LAYER_PREV,
-        SHORTCUT_FILE_LAYER_NEXT,
-        SHORTCUT_FILE_PROXY_NONE,
-        SHORTCUT_FILE_PROXY_1_2,
-        SHORTCUT_FILE_PROXY_1_4,
-        SHORTCUT_FILE_PROXY_1_8,
+            //! Get the playback bar layout labels.
+            static const QStringList & layoutLabels();
 
-        SHORTCUT_WINDOW_NEW,
-        SHORTCUT_WINDOW_COPY,
-        SHORTCUT_WINDOW_CLOSE,
-        SHORTCUT_WINDOW_FIT,
-        SHORTCUT_WINDOW_FULL_SCREEN,
-        SHORTCUT_WINDOW_CONTROLS_VISIBLE,
-        SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
-        SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
-        SHORTCUT_WINDOW_INFO_VISIBLE,
+            //! This enumeration provides the tool actions.
+            enum TOOL
+            {
+                TOOL_MAGNIFY,
+                TOOL_COLOR_PICKER,
+                TOOL_HISTOGRAM,
+                TOOL_INFO,
 
-        SHORTCUT_VIEW_LEFT,
-        SHORTCUT_VIEW_RIGHT,
-        SHORTCUT_VIEW_UP,
-        SHORTCUT_VIEW_DOWN,
-        SHORTCUT_VIEW_CENTER,
-        SHORTCUT_VIEW_ZOOM_IN,
-        SHORTCUT_VIEW_ZOOM_OUT,
-        SHORTCUT_VIEW_ZOOM_RESET,
-        SHORTCUT_VIEW_RESET,
-        SHORTCUT_VIEW_FIT,
-        SHORTCUT_VIEW_HUD,
+                TOOL_COUNT
+            };
 
-        SHORTCUT_IMAGE_FRAME_STORE,
-        SHORTCUT_IMAGE_FRAME_STORE_LOAD,
-        SHORTCUT_IMAGE_MIRROR_HORIZONTAL,
-        SHORTCUT_IMAGE_MIRROR_VERTICAL,
-        SHORTCUT_IMAGE_SCALE_NONE,
-        SHORTCUT_IMAGE_SCALE_16_9,
-        SHORTCUT_IMAGE_SCALE_1_0,
-        SHORTCUT_IMAGE_SCALE_1_33,
-        SHORTCUT_IMAGE_SCALE_1_78,
-        SHORTCUT_IMAGE_SCALE_1_85,
-        SHORTCUT_IMAGE_SCALE_2_0,
-        SHORTCUT_IMAGE_SCALE_2_35,
-        SHORTCUT_IMAGE_SCALE_2_39,
-        SHORTCUT_IMAGE_SCALE_2_40,
-        SHORTCUT_IMAGE_SCALE_1_1,
-        SHORTCUT_IMAGE_SCALE_2_1,
-        SHORTCUT_IMAGE_SCALE_3_2,
-        SHORTCUT_IMAGE_SCALE_4_3,
-        SHORTCUT_IMAGE_SCALE_5_3,
-        SHORTCUT_IMAGE_SCALE_5_4,
-        SHORTCUT_IMAGE_ROTATE_0,
-        SHORTCUT_IMAGE_ROTATE_90,
-        SHORTCUT_IMAGE_ROTATE_180,
-        SHORTCUT_IMAGE_ROTATE_270,
-        SHORTCUT_IMAGE_COLOR_PROFILE,
-        SHORTCUT_IMAGE_CHANNEL_RED,
-        SHORTCUT_IMAGE_CHANNEL_GREEN,
-        SHORTCUT_IMAGE_CHANNEL_BLUE,
-        SHORTCUT_IMAGE_CHANNEL_ALPHA,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_1,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_2,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_3,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_4,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_5,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_6,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_7,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_8,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_9,
-        SHORTCUT_IMAGE_DISPLAY_PROFILE_10,
+            //! Get the tool action labels.
+            static const QStringList & toolLabels();
 
-        SHORTCUT_PLAYBACK_REVERSE,
-        SHORTCUT_PLAYBACK_STOP,
-        SHORTCUT_PLAYBACK_FORWARD,
-        SHORTCUT_PLAYBACK_TOGGLE,
-        SHORTCUT_PLAYBACK_LOOP,
-        SHORTCUT_PLAYBACK_START,
-        SHORTCUT_PLAYBACK_START_ABS,
-        SHORTCUT_PLAYBACK_PREV,
-        SHORTCUT_PLAYBACK_PREV_10,
-        SHORTCUT_PLAYBACK_PREV_100,
-        SHORTCUT_PLAYBACK_NEXT,
-        SHORTCUT_PLAYBACK_NEXT_10,
-        SHORTCUT_PLAYBACK_NEXT_100,
-        SHORTCUT_PLAYBACK_END,
-        SHORTCUT_PLAYBACK_END_ABS,
-        SHORTCUT_PLAYBACK_IN_OUT,
-        SHORTCUT_PLAYBACK_MARK_IN,
-        SHORTCUT_PLAYBACK_RESET_IN,
-        SHORTCUT_PLAYBACK_MARK_OUT,
-        SHORTCUT_PLAYBACK_RESET_OUT,
+            //! This enumeration provides the histogram sizes.
+            enum HISTOGRAM
+            {
+                HISTOGRAM_256,
+                HISTOGRAM_1024,
+                HISTOGRAM_2048,
+                HISTOGRAM_4096,
 
-        SHORTCUT_TOOL_MAGNIFY,
-        SHORTCUT_TOOL_COLOR_PICKER,
-        SHORTCUT_TOOL_HISTOGRAM,
-        SHORTCUT_TOOL_INFO,
+                HISTOGRAM_COUNT
+            };
 
-        SHORTCUT_COUNT
-    };
+            //! Get the histogram size labels.
+            static const QStringList & histogramLabels();
 
-    //! Get the shortcut labels.
-    static const QStringList & shortcutLabels();
-    
-    //! This enumeration provides the mouse wheel actions.
-    enum MOUSE_WHEEL
-    {
-        MOUSE_WHEEL_VIEW_ZOOM,
-        MOUSE_WHEEL_PLAYBACK_SHUTTLE,
-        MOUSE_WHEEL_PLAYBACK_SPEED,
+            //! Get a histogram size.
+            static const int histogramSize(HISTOGRAM);
 
-        MOUSE_WHEEL_COUNT
-    };
+            //! This enumeration provides the keyboard shortcuts.
+            enum SHORTCUT
+            {
+                SHORTCUT_EXIT,
 
-    //! Get the mouse wheel action labels.
-    static const QStringList & mouseWheelLabels();
+                SHORTCUT_FILE_OPEN,
+                SHORTCUT_FILE_RELOAD,
+                SHORTCUT_FILE_RELOAD_FRAME,
+                SHORTCUT_FILE_SAVE,
+                SHORTCUT_FILE_SAVE_FRAME,
+                SHORTCUT_FILE_CLOSE,
+                SHORTCUT_FILE_LAYER_DEFAULT,
+                SHORTCUT_FILE_LAYER_1,
+                SHORTCUT_FILE_LAYER_2,
+                SHORTCUT_FILE_LAYER_3,
+                SHORTCUT_FILE_LAYER_4,
+                SHORTCUT_FILE_LAYER_5,
+                SHORTCUT_FILE_LAYER_6,
+                SHORTCUT_FILE_LAYER_7,
+                SHORTCUT_FILE_LAYER_8,
+                SHORTCUT_FILE_LAYER_9,
+                SHORTCUT_FILE_LAYER_10,
+                SHORTCUT_FILE_LAYER_PREV,
+                SHORTCUT_FILE_LAYER_NEXT,
+                SHORTCUT_FILE_PROXY_NONE,
+                SHORTCUT_FILE_PROXY_1_2,
+                SHORTCUT_FILE_PROXY_1_4,
+                SHORTCUT_FILE_PROXY_1_8,
 
-    //! This enumeration provides the mouse wheel zoom factors.
-    enum ZOOM_FACTOR
-    {
-        ZOOM_FACTOR_10,
-        ZOOM_FACTOR_50,
-        ZOOM_FACTOR_100,
+                SHORTCUT_WINDOW_NEW,
+                SHORTCUT_WINDOW_COPY,
+                SHORTCUT_WINDOW_CLOSE,
+                SHORTCUT_WINDOW_FIT,
+                SHORTCUT_WINDOW_FULL_SCREEN,
+                SHORTCUT_WINDOW_CONTROLS_VISIBLE,
+                SHORTCUT_WINDOW_TOOL_BARS_VISIBLE,
+                SHORTCUT_WINDOW_PLAYBACK_VISIBLE,
+                SHORTCUT_WINDOW_INFO_VISIBLE,
 
-        ZOOM_FACTOR_COUNT
-    };
+                SHORTCUT_VIEW_LEFT,
+                SHORTCUT_VIEW_RIGHT,
+                SHORTCUT_VIEW_UP,
+                SHORTCUT_VIEW_DOWN,
+                SHORTCUT_VIEW_CENTER,
+                SHORTCUT_VIEW_ZOOM_IN,
+                SHORTCUT_VIEW_ZOOM_OUT,
+                SHORTCUT_VIEW_ZOOM_RESET,
+                SHORTCUT_VIEW_RESET,
+                SHORTCUT_VIEW_FIT,
+                SHORTCUT_VIEW_HUD,
 
-    //! Get the mouse wheel zoom factor labels.
-    static const QStringList & zoomFactorLabels();
-    
-    //! Get the mouse wheel zoom factor.
-    static float zoomFactor(ZOOM_FACTOR);
+                SHORTCUT_IMAGE_FRAME_STORE,
+                SHORTCUT_IMAGE_FRAME_STORE_LOAD,
+                SHORTCUT_IMAGE_MIRROR_HORIZONTAL,
+                SHORTCUT_IMAGE_MIRROR_VERTICAL,
+                SHORTCUT_IMAGE_SCALE_NONE,
+                SHORTCUT_IMAGE_SCALE_16_9,
+                SHORTCUT_IMAGE_SCALE_1_0,
+                SHORTCUT_IMAGE_SCALE_1_33,
+                SHORTCUT_IMAGE_SCALE_1_78,
+                SHORTCUT_IMAGE_SCALE_1_85,
+                SHORTCUT_IMAGE_SCALE_2_0,
+                SHORTCUT_IMAGE_SCALE_2_35,
+                SHORTCUT_IMAGE_SCALE_2_39,
+                SHORTCUT_IMAGE_SCALE_2_40,
+                SHORTCUT_IMAGE_SCALE_1_1,
+                SHORTCUT_IMAGE_SCALE_2_1,
+                SHORTCUT_IMAGE_SCALE_3_2,
+                SHORTCUT_IMAGE_SCALE_4_3,
+                SHORTCUT_IMAGE_SCALE_5_3,
+                SHORTCUT_IMAGE_SCALE_5_4,
+                SHORTCUT_IMAGE_ROTATE_0,
+                SHORTCUT_IMAGE_ROTATE_90,
+                SHORTCUT_IMAGE_ROTATE_180,
+                SHORTCUT_IMAGE_ROTATE_270,
+                SHORTCUT_IMAGE_COLOR_PROFILE,
+                SHORTCUT_IMAGE_CHANNEL_RED,
+                SHORTCUT_IMAGE_CHANNEL_GREEN,
+                SHORTCUT_IMAGE_CHANNEL_BLUE,
+                SHORTCUT_IMAGE_CHANNEL_ALPHA,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_RESET,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_1,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_2,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_3,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_4,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_5,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_6,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_7,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_8,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_9,
+                SHORTCUT_IMAGE_DISPLAY_PROFILE_10,
 
-    //! This enumeration provides error codes.
-    enum ERROR
-    {
-        ERROR_OPEN_IMAGE,
-        ERROR_READ_IMAGE,
-        ERROR_WRITE_IMAGE,
-        ERROR_OPEN_LUT,
-        ERROR_PICK_COLOR,
-        ERROR_HISTOGRAM,
-        ERROR_MAGNIFY,
+                SHORTCUT_PLAYBACK_REVERSE,
+                SHORTCUT_PLAYBACK_STOP,
+                SHORTCUT_PLAYBACK_FORWARD,
+                SHORTCUT_PLAYBACK_TOGGLE,
+                SHORTCUT_PLAYBACK_LOOP,
+                SHORTCUT_PLAYBACK_START,
+                SHORTCUT_PLAYBACK_START_ABS,
+                SHORTCUT_PLAYBACK_PREV,
+                SHORTCUT_PLAYBACK_PREV_10,
+                SHORTCUT_PLAYBACK_PREV_100,
+                SHORTCUT_PLAYBACK_NEXT,
+                SHORTCUT_PLAYBACK_NEXT_10,
+                SHORTCUT_PLAYBACK_NEXT_100,
+                SHORTCUT_PLAYBACK_END,
+                SHORTCUT_PLAYBACK_END_ABS,
+                SHORTCUT_PLAYBACK_IN_OUT,
+                SHORTCUT_PLAYBACK_MARK_IN,
+                SHORTCUT_PLAYBACK_RESET_IN,
+                SHORTCUT_PLAYBACK_MARK_OUT,
+                SHORTCUT_PLAYBACK_RESET_OUT,
 
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
-};
+                SHORTCUT_TOOL_MAGNIFY,
+                SHORTCUT_TOOL_COLOR_PICKER,
+                SHORTCUT_TOOL_HISTOGRAM,
+                SHORTCUT_TOOL_INFO,
 
-DJV_STRING_OPERATOR(djvViewUtil::VIEW_MAX);
-DJV_STRING_OPERATOR(djvViewUtil::TOOL_BAR);
-DJV_STRING_OPERATOR(djvViewUtil::GRID);
-DJV_STRING_OPERATOR(djvViewUtil::HUD_BACKGROUND);
-DJV_STRING_OPERATOR(djvViewUtil::IMAGE_SCALE);
-DJV_STRING_OPERATOR(djvViewUtil::IMAGE_ROTATE);
-DJV_STRING_OPERATOR(djvViewUtil::PLAYBACK);
-DJV_STRING_OPERATOR(djvViewUtil::FRAME);
-DJV_STRING_OPERATOR(djvViewUtil::LOOP);
-DJV_STRING_OPERATOR(djvViewUtil::LAYOUT);
-DJV_STRING_OPERATOR(djvViewUtil::TOOL);
-DJV_STRING_OPERATOR(djvViewUtil::HISTOGRAM);
-DJV_STRING_OPERATOR(djvViewUtil::SHORTCUT);
-DJV_STRING_OPERATOR(djvViewUtil::MOUSE_WHEEL);
-DJV_STRING_OPERATOR(djvViewUtil::ZOOM_FACTOR);
+                SHORTCUT_COUNT
+            };
 
-//@} // djvViewLib
+            //! Get the shortcut labels.
+            static const QStringList & shortcutLabels();
 
+            //! This enumeration provides the mouse wheel actions.
+            enum MOUSE_WHEEL
+            {
+                MOUSE_WHEEL_VIEW_ZOOM,
+                MOUSE_WHEEL_PLAYBACK_SHUTTLE,
+                MOUSE_WHEEL_PLAYBACK_SPEED,
+
+                MOUSE_WHEEL_COUNT
+            };
+
+            //! Get the mouse wheel action labels.
+            static const QStringList & mouseWheelLabels();
+
+            //! This enumeration provides the mouse wheel zoom factors.
+            enum ZOOM_FACTOR
+            {
+                ZOOM_FACTOR_10,
+                ZOOM_FACTOR_50,
+                ZOOM_FACTOR_100,
+
+                ZOOM_FACTOR_COUNT
+            };
+
+            //! Get the mouse wheel zoom factor labels.
+            static const QStringList & zoomFactorLabels();
+
+            //! Get the mouse wheel zoom factor.
+            static float zoomFactor(ZOOM_FACTOR);
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_OPEN_IMAGE,
+                ERROR_READ_IMAGE,
+                ERROR_WRITE_IMAGE,
+                ERROR_OPEN_LUT,
+                ERROR_PICK_COLOR,
+                ERROR_HISTOGRAM,
+                ERROR_MAGNIFY,
+
+                ERROR_COUNT
+            };
+
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+        };
+
+    } // namespace ViewLib
+} // namespace djv
+
+DJV_STRING_OPERATOR(djv::ViewLib::Util::VIEW_MAX);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::TOOL_BAR);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::GRID);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::HUD_BACKGROUND);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::IMAGE_SCALE);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::IMAGE_ROTATE);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::PLAYBACK);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::FRAME);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::LOOP);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::LAYOUT);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::TOOL);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::HISTOGRAM);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::SHORTCUT);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::MOUSE_WHEEL);
+DJV_STRING_OPERATOR(djv::ViewLib::Util::ZOOM_FACTOR);

@@ -34,33 +34,31 @@
 #include <QAction>
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewHelpActions::Private
-//------------------------------------------------------------------------------
-
-struct djvViewHelpActions::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewHelpActions
-//------------------------------------------------------------------------------
-
-djvViewHelpActions::djvViewHelpActions(
-    djvViewContext * context,
-    QObject *        parent) :
-	djvViewAbstractActions(context, parent),
-    _p(new Private)
+namespace djv
 {
-    // Create the actions.
-    for (int i = 0; i < ACTION_COUNT; ++i)
+    namespace ViewLib
     {
-        _actions[i] = new QAction(this);
-    }
-    _actions[HELP]->setText(qApp->translate("djvViewHelpActions", "&Help"));
-    _actions[INFO]->setText(qApp->translate("djvViewHelpActions", "&Information"));
-    _actions[ABOUT]->setText(qApp->translate("djvViewHelpActions", "&About"));
-}
+        struct HelpActions::Private
+        {};
 
-djvViewHelpActions::~djvViewHelpActions()
-{}
+        HelpActions::HelpActions(
+            Context * context,
+            QObject * parent) :
+            AbstractActions(context, parent),
+            _p(new Private)
+        {
+            // Create the actions.
+            for (int i = 0; i < ACTION_COUNT; ++i)
+            {
+                _actions[i] = new QAction(this);
+            }
+            _actions[HELP]->setText(qApp->translate("djv::ViewLib::HelpActions", "&Help"));
+            _actions[INFO]->setText(qApp->translate("djv::ViewLib::HelpActions", "&Information"));
+            _actions[ABOUT]->setText(qApp->translate("djv::ViewLib::HelpActions", "&About"));
+        }
 
+        HelpActions::~HelpActions()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

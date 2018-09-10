@@ -37,36 +37,34 @@
 
 class djvFloatEdit;
 
-//! \addtogroup djvViewView
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewViewToolBar
-//!
-//! This class provides the view group tool bar.
-//------------------------------------------------------------------------------
-
-class djvViewViewToolBar : public djvViewAbstractToolBar
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewViewToolBar(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class ViewToolBar
+        //!
+        //! This class provides the view group tool bar.
+        class ViewToolBar : public AbstractToolBar
+        {
+            Q_OBJECT
 
-    virtual ~djvViewViewToolBar();
+        public:
+            explicit ViewToolBar(
+                AbstractActions * actions,
+                Context *         context,
+                QWidget *         parent = nullptr);
 
-    //! Get the zoom edit widget.
-    djvFloatEdit * zoomEdit() const;
+            virtual ~ViewToolBar();
 
-private:
-    DJV_PRIVATE_COPY(djvViewViewToolBar);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the zoom edit widget.
+            djvFloatEdit * zoomEdit() const;
 
-//@} // djvViewView
+        private:
+            DJV_PRIVATE_COPY(ViewToolBar);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

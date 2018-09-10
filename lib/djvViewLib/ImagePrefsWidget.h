@@ -37,49 +37,47 @@
 
 class QListWidgetItem;
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImagePrefsWidget
-//!
-//! This class provides the image group preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewImagePrefsWidget : public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewImagePrefsWidget(djvViewContext *);
+    namespace ViewLib
+    {
+        //! \class ImagePrefsWidget
+        //!
+        //! This class provides the image group preferences widget.
+        class ImagePrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewImagePrefsWidget();
-    
-    virtual void resetPreferences();
+        public:
+            ImagePrefsWidget(Context *);
 
-private Q_SLOTS:
-    void frameStoreFileReloadCallback(bool);
-    void mirrorHCallback(bool);
-    void mirrorVCallback(bool);
-    void scaleCallback(int);
-    void rotateCallback(int);
-    void colorProfileCallback(bool);
-    void displayProfileCallback(int);
-    void displayProfileCallback(QListWidgetItem *);
-    void addDisplayProfileCallback();
-    void removeDisplayProfileCallback();
-    void moveDisplayProfileUpCallback();
-    void moveDisplayProfileDownCallback();
-    void channelCallback(int);
-    
-    void widgetUpdate();
+            virtual ~ImagePrefsWidget();
 
-private:
-    DJV_PRIVATE_COPY(djvViewImagePrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual void resetPreferences();
 
-//@} // djvViewImage
+        private Q_SLOTS:
+            void frameStoreFileReloadCallback(bool);
+            void mirrorHCallback(bool);
+            void mirrorVCallback(bool);
+            void scaleCallback(int);
+            void rotateCallback(int);
+            void colorProfileCallback(bool);
+            void displayProfileCallback(int);
+            void displayProfileCallback(QListWidgetItem *);
+            void addDisplayProfileCallback();
+            void removeDisplayProfileCallback();
+            void moveDisplayProfileUpCallback();
+            void moveDisplayProfileDownCallback();
+            void channelCallback(int);
 
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(ImagePrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

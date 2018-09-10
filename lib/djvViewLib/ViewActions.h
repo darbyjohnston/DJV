@@ -35,61 +35,59 @@
 
 #include <memory>
 
-//! \addtogroup djvViewView
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewViewActions
-//!
-//! This class provides the view group actions.
-//------------------------------------------------------------------------------
-
-class djvViewViewActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(ACTION)
-    Q_ENUMS(GROUP)
-    
-public:
-    //! This enumeration provides the actions.
-    enum ACTION
+    namespace ViewLib
     {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN,
-        CENTER,
-        ZOOM_IN,
-        ZOOM_OUT,
-        ZOOM_RESET,
-        RESET,
-        FIT,
-        HUD,
+        //! \class ViewActions
+        //!
+        //! This class provides the view group actions.
+        class ViewActions : public AbstractActions
+        {
+            Q_OBJECT
+                Q_ENUMS(ACTION)
+                Q_ENUMS(GROUP)
 
-        ACTION_COUNT
-    };
+        public:
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                LEFT,
+                RIGHT,
+                UP,
+                DOWN,
+                CENTER,
+                ZOOM_IN,
+                ZOOM_OUT,
+                ZOOM_RESET,
+                RESET,
+                FIT,
+                HUD,
 
-    //! This enumeration provides the action groups.
-    enum GROUP
-    {
-        GRID_GROUP,
+                ACTION_COUNT
+            };
 
-        GROUP_COUNT
-    };
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                GRID_GROUP,
 
-    explicit djvViewViewActions(djvViewContext *, QObject * parent = nullptr);
+                GROUP_COUNT
+            };
 
-    virtual ~djvViewViewActions();
+            explicit ViewActions(Context *, QObject * parent = nullptr);
 
-private Q_SLOTS:
-    void update();
+            virtual ~ViewActions();
 
-private:
-    DJV_PRIVATE_COPY(djvViewViewActions);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void update();
 
-//@} // djvViewView
+        private:
+            DJV_PRIVATE_COPY(ViewActions);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -38,33 +38,31 @@
 
 #include <djvCore/Speed.h>
 
-//! \addtogroup djvViewView
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvViewHudInfo
-//!
-//! This struct provides HUD information.
-//------------------------------------------------------------------------------
-
-struct djvViewHudInfo
+namespace djv
 {
-    djvViewHudInfo() :
-        frame        (0),
-        realSpeed    (0.f),
-        droppedFrames(false)
-    {}
+    namespace ViewLib
+    {
+        //! \struct HudInfo
+        //!
+        //! This struct provides HUD information.
+        struct HudInfo
+        {
+            HudInfo() :
+                frame(0),
+                realSpeed(0.f),
+                droppedFrames(false)
+            {}
 
-    djvPixelDataInfo info;
-    djvImageTags     tags;
-    qint64           frame;
-    djvSpeed         speed;
-    float            realSpeed;
-    bool             droppedFrames;
-    QVector<bool>    visible;
-};
+            djvPixelDataInfo info;
+            djvImageTags     tags;
+            qint64           frame;
+            djvSpeed         speed;
+            float            realSpeed;
+            bool             droppedFrames;
+            QVector<bool>    visible;
+        };
 
-DJV_COMPARISON_OPERATOR(djvViewHudInfo);
+    } // namespace ViewLib
+} // namespace djv
 
-//@} // djvViewView
-
+DJV_COMPARISON_OPERATOR(djv::ViewLib::HudInfo);

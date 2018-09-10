@@ -37,232 +37,235 @@
 
 #include <djvGraphics/Image.h>
 
-//------------------------------------------------------------------------------
-// djvViewImagePrefs
-//------------------------------------------------------------------------------
-
-djvViewImagePrefs::djvViewImagePrefs(djvViewContext * context, QObject * parent) :
-    djvViewAbstractPrefs(context, parent),
-    _frameStoreFileReload(frameStoreFileReloadDefault()),
-    _mirror              (mirrorDefault()),
-    _scale               (scaleDefault()),
-    _rotate              (rotateDefault()),
-    _colorProfile        (colorProfileDefault()),
-    _displayProfileIndex(displayProfileIndexDefault()),
-    _channel             (channelDefault())
+namespace djv
 {
-    djvPrefs prefs("djvViewImagePrefs");
-    prefs.get("frameStoreFileReload", _frameStoreFileReload);
-    prefs.get("mirror", _mirror);
-    prefs.get("scale", _scale);
-    prefs.get("rotate", _rotate);
-    prefs.get("colorProfile", _colorProfile);
-    djvPrefs displayProfilePrefs("djvViewImagePrefs.displayProfile");
-    displayProfilePrefs.get("index", _displayProfileIndex);
-    int displayProfilesCount = 0;
-    displayProfilePrefs.get("size", displayProfilesCount);
-    for (int i = 0; i < displayProfilesCount; ++i)
+    namespace ViewLib
     {
-        djvViewDisplayProfile value;
-        displayProfilePrefs.get(QString("%1").arg(i), value);
-        try
+        ImagePrefs::ImagePrefs(Context * context, QObject * parent) :
+            AbstractPrefs(context, parent),
+            _frameStoreFileReload(frameStoreFileReloadDefault()),
+            _mirror(mirrorDefault()),
+            _scale(scaleDefault()),
+            _rotate(rotateDefault()),
+            _colorProfile(colorProfileDefault()),
+            _displayProfileIndex(displayProfileIndexDefault()),
+            _channel(channelDefault())
         {
-            djvViewUtil::loadLut(value.lutFile, value.lut, context);
+            djvPrefs prefs("djv::ViewLib::ImagePrefs");
+            prefs.get("frameStoreFileReload", _frameStoreFileReload);
+            prefs.get("mirror", _mirror);
+            prefs.get("scale", _scale);
+            prefs.get("rotate", _rotate);
+            prefs.get("colorProfile", _colorProfile);
+            djvPrefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
+            displayProfilePrefs.get("index", _displayProfileIndex);
+            int displayProfilesCount = 0;
+            displayProfilePrefs.get("size", displayProfilesCount);
+            for (int i = 0; i < displayProfilesCount; ++i)
+            {
+                DisplayProfile value;
+                displayProfilePrefs.get(QString("%1").arg(i), value);
+                try
+                {
+                    Util::loadLut(value.lutFile, value.lut, context);
+                }
+                catch (const djvError & error)
+                {
+                    context->printError(error);
+                }
+                _displayProfiles += value;
+            }
+            prefs.get("channel", _channel);
         }
-        catch (const djvError & error)
+
+        ImagePrefs::~ImagePrefs()
         {
-            context->printError(error);
+            djvPrefs prefs("djv::ViewLib::ImagePrefs");
+            prefs.set("frameStoreFileReload", _frameStoreFileReload);
+            prefs.set("mirror", _mirror);
+            prefs.set("scale", _scale);
+            prefs.set("rotate", _rotate);
+            prefs.set("colorProfile", _colorProfile);
+            djvPrefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
+            displayProfilePrefs.set("index", _displayProfileIndex);
+            displayProfilePrefs.set("size", _displayProfiles.count());
+            for (int i = 0; i < _displayProfiles.count(); ++i)
+            {
+                displayProfilePrefs.set(QString("%1").arg(i), _displayProfiles[i]);
+            }
+            prefs.set("channel", _channel);
         }
-        _displayProfiles += value;
-    }
-    prefs.get("channel", _channel);
-}
 
-djvViewImagePrefs::~djvViewImagePrefs()
-{
-    djvPrefs prefs("djvViewImagePrefs");
-    prefs.set("frameStoreFileReload", _frameStoreFileReload);
-    prefs.set("mirror", _mirror);
-    prefs.set("scale", _scale);
-    prefs.set("rotate", _rotate);
-    prefs.set("colorProfile", _colorProfile);
-    djvPrefs displayProfilePrefs("djvViewImagePrefs.displayProfile");
-    displayProfilePrefs.set("index", _displayProfileIndex);
-    displayProfilePrefs.set("size", _displayProfiles.count());
-    for (int i = 0; i < _displayProfiles.count(); ++i)
-    {
-        displayProfilePrefs.set(QString("%1").arg(i), _displayProfiles[i]);
-    }
-    prefs.set("channel", _channel);
-}
+        bool ImagePrefs::frameStoreFileReloadDefault()
+        {
+            return false;
+        }
 
-bool djvViewImagePrefs::frameStoreFileReloadDefault()
-{
-    return false;
-}
+        bool ImagePrefs::hasFrameStoreFileReload() const
+        {
+            return _frameStoreFileReload;
+        }
 
-bool djvViewImagePrefs::hasFrameStoreFileReload() const
-{
-    return _frameStoreFileReload;
-}
+        djvPixelDataInfo::Mirror ImagePrefs::mirrorDefault()
+        {
+            return djvPixelDataInfo::Mirror();
+        }
 
-djvPixelDataInfo::Mirror djvViewImagePrefs::mirrorDefault()
-{
-    return djvPixelDataInfo::Mirror();
-}
+        const djvPixelDataInfo::Mirror & ImagePrefs::mirror() const
+        {
+            return _mirror;
+        }
 
-const djvPixelDataInfo::Mirror & djvViewImagePrefs::mirror() const
-{
-    return _mirror;
-}
+        Util::IMAGE_SCALE ImagePrefs::scaleDefault()
+        {
+            return static_cast<Util::IMAGE_SCALE>(0);
+        }
 
-djvViewUtil::IMAGE_SCALE djvViewImagePrefs::scaleDefault()
-{
-    return static_cast<djvViewUtil::IMAGE_SCALE>(0);
-}
+        Util::IMAGE_SCALE ImagePrefs::scale() const
+        {
+            return _scale;
+        }
 
-djvViewUtil::IMAGE_SCALE djvViewImagePrefs::scale() const
-{
-    return _scale;
-}
+        Util::IMAGE_ROTATE ImagePrefs::rotateDefault()
+        {
+            return static_cast<Util::IMAGE_ROTATE>(0);
+        }
 
-djvViewUtil::IMAGE_ROTATE djvViewImagePrefs::rotateDefault()
-{
-    return static_cast<djvViewUtil::IMAGE_ROTATE>(0);
-}
+        Util::IMAGE_ROTATE ImagePrefs::rotate() const
+        {
+            return _rotate;
+        }
 
-djvViewUtil::IMAGE_ROTATE djvViewImagePrefs::rotate() const
-{
-    return _rotate;
-}
+        bool ImagePrefs::colorProfileDefault()
+        {
+            return true;
+        }
 
-bool djvViewImagePrefs::colorProfileDefault()
-{
-    return true;
-}
+        bool ImagePrefs::hasColorProfile() const
+        {
+            return _colorProfile;
+        }
 
-bool djvViewImagePrefs::hasColorProfile() const
-{
-    return _colorProfile;
-}
+        int ImagePrefs::displayProfileIndexDefault()
+        {
+            return -1;
+        }
 
-int djvViewImagePrefs::displayProfileIndexDefault()
-{
-    return -1;
-}
+        int ImagePrefs::displayProfileIndex() const
+        {
+            return _displayProfileIndex;
+        }
 
-int djvViewImagePrefs::displayProfileIndex() const
-{
-    return _displayProfileIndex;
-}
+        DisplayProfile ImagePrefs::displayProfile() const
+        {
+            return
+                (_displayProfileIndex >= 0 &&
+                    _displayProfileIndex < _displayProfiles.count()) ?
+                _displayProfiles[_displayProfileIndex] :
+                DisplayProfile();
+        }
 
-djvViewDisplayProfile djvViewImagePrefs::displayProfile() const
-{
-    return
-        (_displayProfileIndex >= 0 &&
-            _displayProfileIndex < _displayProfiles.count()) ?
-        _displayProfiles[_displayProfileIndex] :
-        djvViewDisplayProfile();
-}
+        const QVector<DisplayProfile> & ImagePrefs::displayProfiles() const
+        {
+            return _displayProfiles;
+        }
 
-const QVector<djvViewDisplayProfile> & djvViewImagePrefs::displayProfiles() const
-{
-    return _displayProfiles;
-}
+        QStringList ImagePrefs::displayProfileNames() const
+        {
+            QStringList out;
+            for (int i = 0; i < _displayProfiles.count(); ++i)
+            {
+                out += _displayProfiles[i].name;
+            }
+            return out;
+        }
 
-QStringList djvViewImagePrefs::displayProfileNames() const
-{
-    QStringList out;
-    for (int i = 0; i < _displayProfiles.count(); ++i)
-    {
-        out += _displayProfiles[i].name;
-    }
-    return out;
-}
+        djvOpenGLImageOptions::CHANNEL ImagePrefs::channelDefault()
+        {
+            return static_cast<djvOpenGLImageOptions::CHANNEL>(0);
+        }
 
-djvOpenGLImageOptions::CHANNEL djvViewImagePrefs::channelDefault()
-{
-    return static_cast<djvOpenGLImageOptions::CHANNEL>(0);
-}
+        djvOpenGLImageOptions::CHANNEL ImagePrefs::channel() const
+        {
+            return _channel;
+        }
 
-djvOpenGLImageOptions::CHANNEL djvViewImagePrefs::channel() const
-{
-    return _channel;
-}
+        void ImagePrefs::setFrameStoreFileReload(bool in)
+        {
+            _frameStoreFileReload = in;
+        }
 
-void djvViewImagePrefs::setFrameStoreFileReload(bool in)
-{
-    _frameStoreFileReload = in;
-}
+        void ImagePrefs::setMirror(const djvPixelDataInfo::Mirror & mirror)
+        {
+            if (mirror == _mirror)
+                return;
+            _mirror = mirror;
+            Q_EMIT mirrorChanged(_mirror);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setMirror(const djvPixelDataInfo::Mirror & mirror)
-{
-    if (mirror == _mirror)
-        return;
-    _mirror = mirror;
-    Q_EMIT mirrorChanged(_mirror);
-    Q_EMIT prefChanged();
-}
+        void ImagePrefs::setScale(Util::IMAGE_SCALE in)
+        {
+            if (in == _scale)
+                return;
+            _scale = in;
+            Q_EMIT scaleChanged(_scale);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setScale(djvViewUtil::IMAGE_SCALE in)
-{
-    if (in == _scale)
-        return;
-    _scale = in;
-    Q_EMIT scaleChanged(_scale);
-    Q_EMIT prefChanged();
-}
+        void ImagePrefs::setRotate(Util::IMAGE_ROTATE in)
+        {
+            if (in == _rotate)
+                return;
+            _rotate = in;
+            Q_EMIT rotateChanged(_rotate);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setRotate(djvViewUtil::IMAGE_ROTATE in)
-{
-    if (in == _rotate)
-        return;
-    _rotate = in;
-    Q_EMIT rotateChanged(_rotate);
-    Q_EMIT prefChanged();
-}
+        void ImagePrefs::setColorProfile(bool in)
+        {
+            if (in == _colorProfile)
+                return;
+            _colorProfile = in;
+            Q_EMIT colorProfileChanged(_colorProfile);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setColorProfile(bool in)
-{
-    if (in == _colorProfile)
-        return;
-    _colorProfile = in;
-    Q_EMIT colorProfileChanged(_colorProfile);
-    Q_EMIT prefChanged();
-}
+        void ImagePrefs::setDisplayProfileIndex(int index)
+        {
+            if (index == _displayProfileIndex)
+                return;
+            //DJV_DEBUG("setDisplayProfileIndex");
+            //DJV_DEBUG_PRINT("index = " << index);
+            _displayProfileIndex = index;
+            DisplayProfile tmp;
+            Q_EMIT displayProfileChanged(displayProfile());
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setDisplayProfileIndex(int index)
-{
-    if (index == _displayProfileIndex)
-        return;
-    //DJV_DEBUG("setDisplayProfileIndex");
-    //DJV_DEBUG_PRINT("index = " << index);
-    _displayProfileIndex = index;
-    djvViewDisplayProfile tmp;
-    Q_EMIT displayProfileChanged(displayProfile());
-    Q_EMIT prefChanged();
-}
+        void ImagePrefs::setDisplayProfiles(
+            const QVector<DisplayProfile> & in)
+        {
+            if (in == _displayProfiles)
+                return;
+            //DJV_DEBUG("setDisplayProfiles");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _displayProfiles = in;
+            setDisplayProfileIndex(djvMath::min(
+                _displayProfileIndex,
+                _displayProfiles.count() - 1));
+            Q_EMIT displayProfilesChanged(_displayProfiles);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setDisplayProfiles(
-    const QVector<djvViewDisplayProfile> & in)
-{
-    if (in == _displayProfiles)
-        return;
-    //DJV_DEBUG("setDisplayProfiles");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _displayProfiles = in;
-    setDisplayProfileIndex(djvMath::min(
-        _displayProfileIndex,
-        _displayProfiles.count() - 1));
-    Q_EMIT displayProfilesChanged(_displayProfiles);
-    Q_EMIT prefChanged();
-}
+        void ImagePrefs::setChannel(djvOpenGLImageOptions::CHANNEL in)
+        {
+            if (in == _channel)
+                return;
+            _channel = in;
+            Q_EMIT channelChanged(_channel);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewImagePrefs::setChannel(djvOpenGLImageOptions::CHANNEL in)
-{
-    if (in == _channel)
-        return;
-    _channel = in;
-    Q_EMIT channelChanged(_channel);
-    Q_EMIT prefChanged();
-}
+    } // namespace ViewLib
+} // namespace djv

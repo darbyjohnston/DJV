@@ -40,156 +40,151 @@
 
 #include <memory>
 
-class djvViewContext;
-
 class djvImage;
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFileCacheItem
-//!
-//! This class provides a file cache reference.
-//------------------------------------------------------------------------------
-
-class djvViewFileCacheItem
+namespace djv
 {
-public:
-    //! Constructor.
-    //!
-    //! \param image The image to be cached. Ownership of the image is passed
-    //! to the cache item.
-    //! \param key   A key to be associated with this cache item.
-    //! \param frame The frame number associated with this cache item.
-    djvViewFileCacheItem(
-        djvImage *   image,
-        const void * key,
-        qint64       frame);
+    namespace ViewLib
+    {
+        class Context;
 
-    ~djvViewFileCacheItem();
+        //! \class FileCacheItem
+        //!
+        //! This class provides a file cache reference.
+        class FileCacheItem
+        {
+        public:
+            //! Constructor.
+            //!
+            //! \param image The image to be cached. Ownership of the image is passed
+            //! to the cache item.
+            //! \param key   A key to be associated with this cache item.
+            //! \param frame The frame number associated with this cache item.
+            FileCacheItem(
+                djvImage *   image,
+                const void * key,
+                qint64       frame);
 
-    //! Get the image.
-    djvImage * image();
+            ~FileCacheItem();
 
-    //! Get the key.
-    const void * key() const;
+            //! Get the image.
+            djvImage * image();
 
-    //! Set the key to null.
-    void resetKey();
+            //! Get the key.
+            const void * key() const;
 
-    //! Get the frame.
-    qint64 frame() const;
+            //! Set the key to null.
+            void resetKey();
 
-    //! Increment the reference count.
-    void increment();
+            //! Get the frame.
+            qint64 frame() const;
 
-    //! Decrement the reference count.
-    void decrement();
+            //! Increment the reference count.
+            void increment();
 
-    //! Get the reference count.
-    int count() const;
+            //! Decrement the reference count.
+            void decrement();
 
-private:
-    DJV_PRIVATE_COPY(djvViewFileCacheItem);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the reference count.
+            int count() const;
 
-typedef QVector<djvViewFileCacheItem *> djvViewFileCacheItemList;
+        private:
+            DJV_PRIVATE_COPY(FileCacheItem);
 
-//------------------------------------------------------------------------------
-//! \class djvViewFileCache
-//!
-//! This class provides the file cache.
-//------------------------------------------------------------------------------
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
-class djvViewFileCache : public QObject
-{
-    Q_OBJECT
-    
-public:
-    explicit djvViewFileCache(djvViewContext *, QObject * parent = nullptr);
+        typedef QVector<FileCacheItem *> FileCacheItemList;
 
-    virtual ~djvViewFileCache();
+        //! \class djvViewFileCache
+        //!
+        //! This class provides the file cache.
+        class FileCache : public QObject
+        {
+            Q_OBJECT
 
-    //! Create a new cache item. The reference count on the item is
-    //! automatically set to one.
-    djvViewFileCacheItem * create(djvImage *, const void * key, qint64 frame);
+        public:
+            explicit FileCache(Context *, QObject * parent = nullptr);
 
-    //! Get a cache item. The reference count on the item is automatically
-    //! incremented.
-    djvViewFileCacheItem * get(const void * key, qint64 frame);
+            virtual ~FileCache();
 
-    //! Get whether the cache contains the given item.
-    bool contains(const void * key, qint64 frame) const;
+            //! Create a new cache item. The reference count on the item is
+            //! automatically set to one.
+            FileCacheItem * create(djvImage *, const void * key, qint64 frame);
 
-    //! Delete all items matching the given key that have a reference count
-    //! of zero.
-    void del(const void * key);
+            //! Get a cache item. The reference count on the item is automatically
+            //! incremented.
+            FileCacheItem * get(const void * key, qint64 frame);
 
-    //! Delete all items matching the given key and frame that have a
-    //! reference count of zero.
-    void del(const void * key, qint64 frame);
+            //! Get whether the cache contains the given item.
+            bool contains(const void * key, qint64 frame) const;
 
-    //! Delete all items that have a reference count of zero.
-    void clear();
+            //! Delete all items matching the given key that have a reference count
+            //! of zero.
+            void del(const void * key);
 
-    //! Get the list of items for the given key.
-    djvViewFileCacheItemList items(const void * key);
+            //! Delete all items matching the given key and frame that have a
+            //! reference count of zero.
+            void del(const void * key, qint64 frame);
 
-    //! Get the list of frames for the given key. The frames are sorted in
-    //! ascending order.
-    djvFrameList frames(const void * key);
+            //! Delete all items that have a reference count of zero.
+            void clear();
 
-    //! Get the maximum cache size in gigabytes.
-    float maxSize() const;
+            //! Get the list of items for the given key.
+            FileCacheItemList items(const void * key);
 
-    //! Get the maximum cache size in bytes.
-    quint64 maxByteCount() const;
+            //! Get the list of frames for the given key. The frames are sorted in
+            //! ascending order.
+            djvFrameList frames(const void * key);
 
-    //! Get the size in gigabytes for the given key.
-    float size(const void * key) const;
+            //! Get the maximum cache size in gigabytes.
+            float maxSize() const;
 
-    //! Get the cache size in gigabytes.
-    float size() const;
+            //! Get the maximum cache size in bytes.
+            quint64 maxByteCount() const;
 
-    //! Get the cache size in bytes.
-    quint64 byteCount() const;
+            //! Get the size in gigabytes for the given key.
+            float size(const void * key) const;
 
-    //! Get the cache size defaults.
-    static const QVector<float> & sizeDefaults();
+            //! Get the cache size in gigabytes.
+            float size() const;
 
-    //! Get the default cache size labels.
-    static const QStringList & sizeLabels();
+            //! Get the cache size in bytes.
+            quint64 byteCount() const;
 
-    //! Print debugging information.
-    void debug();
+            //! Get the cache size defaults.
+            static const QVector<float> & sizeDefaults();
 
-public Q_SLOTS:
-    //! Set the maximum cache size in gigabytes.
-    void setMaxSize(float gigabytes);
+            //! Get the default cache size labels.
+            static const QStringList & sizeLabels();
 
-Q_SIGNALS:
-    //! This signal is emitted when the cache changes.
-    void cacheChanged();
+            //! Print debugging information.
+            void debug();
 
-private Q_SLOTS:
-    void cacheCallback(bool);
-    void cacheSizeCallback(float);
-    
-private:
-    void removeItem(int index);
-    
-    // Delete the null references only if the cache size exceeds the maximum.
-    void purge();
-    
-    DJV_PRIVATE_COPY(djvViewFileCache);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public Q_SLOTS:
+            //! Set the maximum cache size in gigabytes.
+            void setMaxSize(float gigabytes);
 
-//@} // djvViewFile
+        Q_SIGNALS:
+            //! This signal is emitted when the cache changes.
+            void cacheChanged();
 
+        private Q_SLOTS:
+            void cacheCallback(bool);
+            void cacheSizeCallback(float);
+
+        private:
+            void removeItem(int index);
+
+            // Delete the null references only if the cache size exceeds the maximum.
+            void purge();
+
+            DJV_PRIVATE_COPY(FileCache);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

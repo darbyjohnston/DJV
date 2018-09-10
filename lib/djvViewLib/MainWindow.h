@@ -39,112 +39,110 @@
 
 #include <memory>
 
-class djvViewContext;
-class djvViewImageView;
-
 class djvImageIOInfo;
 class djvOpenGLImageOptions;
 class djvSpeed;
 
-//! \addtogroup djvViewWindow
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewMainWindow
-//!
-//! This class provides a main window.
-//------------------------------------------------------------------------------
-
-class djvViewMainWindow : public QMainWindow
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewMainWindow(
-        const djvViewMainWindow * copy,
-        djvViewContext *          context);
+    namespace ViewLib
+    {
+        class Context;
+        class ImageView;
 
-    virtual ~djvViewMainWindow();
+        //! \class MainWindow
+        //!
+        //! This class provides a main window.
+        class MainWindow : public QMainWindow
+        {
+            Q_OBJECT
 
-    //! Get the image I/O information.
-    const djvImageIOInfo & imageIOInfo() const;
-    
-    //! Get the view widget.
-    djvViewImageView * viewWidget() const;
-    
-    //! Get the list of main windows.
-    static QVector<djvViewMainWindow *> mainWindowList();
+        public:
+            explicit MainWindow(
+                const MainWindow * copy,
+                Context *          context);
 
-    //! Create a new main window.
-    //!
-    //! \todo Can we remove this function?
-    static djvViewMainWindow * createWindow(djvViewContext *);
+            virtual ~MainWindow();
 
-public Q_SLOTS:
-    //! Open a file.
-    void fileOpen(const djvFileInfo &, bool init = true);
+            //! Get the image I/O information.
+            const djvImageIOInfo & imageIOInfo() const;
 
-    //! Set the file layer to open.
-    void setFileLayer(int);
+            //! Get the view widget.
+            ImageView * viewWidget() const;
 
-    //! Set the file proxy scale.
-    void setFileProxy(djvPixelDataInfo::PROXY);
+            //! Get the list of main windows.
+            static QVector<MainWindow *> mainWindowList();
 
-    //! Set whether the file cache is enabled.
-    void setFileCache(bool);
+            //! Create a new main window.
+            //!
+            //! \todo Can we remove this function?
+            static MainWindow * createWindow(Context *);
 
-    //! Fit the window to the image.
-    void fitWindow(bool move = true);
+        public Q_SLOTS:
+            //! Open a file.
+            void fileOpen(const djvFileInfo &, bool init = true);
 
-    //! Set the playback.
-    void setPlayback(djvViewUtil::PLAYBACK);
+            //! Set the file layer to open.
+            void setFileLayer(int);
 
-    //! Set the playback frame.
-    void setPlaybackFrame(qint64);
+            //! Set the file proxy scale.
+            void setFileProxy(djvPixelDataInfo::PROXY);
 
-    //! Set the playback speed.
-    void setPlaybackSpeed(const djvSpeed &);
+            //! Set whether the file cache is enabled.
+            void setFileCache(bool);
 
-Q_SIGNALS:
-    //! This signal is emitted when the image is changed.
-    void imageChanged();
+            //! Fit the window to the image.
+            void fitWindow(bool move = true);
 
-protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void closeEvent(QCloseEvent *);
-    virtual void keyPressEvent(QKeyEvent *);
-    
-private Q_SLOTS:
-    void windowResizeCallback();
-    void enableUpdatesCallback();
-    void reloadFrameCallback();
-    void saveCallback(const djvFileInfo &);
-    void saveFrameCallback(const djvFileInfo &);
-    void loadFrameStoreCallback();
-    void pickCallback(const glm::ivec2 &);
-    void mouseWheelCallback(djvViewUtil::MOUSE_WHEEL);
-    void mouseWheelValueCallback(int);
-    
-    void fileUpdate();
-    void fileCacheUpdate();
-    void imageUpdate();
-    void controlsUpdate();
-    void viewOverlayUpdate();
-    void viewPickUpdate();
-    void playbackUpdate();
-    
-private:
-    //! Get the current image.
-    const djvImage * image() const;
+            //! Set the playback.
+            void setPlayback(djv::ViewLib::Util::PLAYBACK);
 
-    //! Get the image drawing options.
-    djvOpenGLImageOptions imageOptions() const;
+            //! Set the playback frame.
+            void setPlaybackFrame(qint64);
 
-    DJV_PRIVATE_COPY(djvViewMainWindow);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the playback speed.
+            void setPlaybackSpeed(const djvSpeed &);
 
-//@} // djvViewWindow
+        Q_SIGNALS:
+            //! This signal is emitted when the image is changed.
+            void imageChanged();
 
+        protected:
+            virtual void showEvent(QShowEvent *);
+            virtual void closeEvent(QCloseEvent *);
+            virtual void keyPressEvent(QKeyEvent *);
+
+        private Q_SLOTS:
+            void windowResizeCallback();
+            void enableUpdatesCallback();
+            void reloadFrameCallback();
+            void saveCallback(const djvFileInfo &);
+            void saveFrameCallback(const djvFileInfo &);
+            void loadFrameStoreCallback();
+            void pickCallback(const glm::ivec2 &);
+            void mouseWheelCallback(djv::ViewLib::Util::MOUSE_WHEEL);
+            void mouseWheelValueCallback(int);
+
+            void fileUpdate();
+            void fileCacheUpdate();
+            void imageUpdate();
+            void controlsUpdate();
+            void viewOverlayUpdate();
+            void viewPickUpdate();
+            void playbackUpdate();
+
+        private:
+            //! Get the current image.
+            const djvImage * image() const;
+
+            //! Get the image drawing options.
+            djvOpenGLImageOptions imageOptions() const;
+
+            DJV_PRIVATE_COPY(MainWindow);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

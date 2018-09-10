@@ -41,174 +41,172 @@ class djvSpeed;
 
 class QAction;
 
-//! \addtogroup djvViewPlayback
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewPlaybackGroup
-//!
-//! This class provides the playback group. The playback group encapsulates all
-//! of the functionality relating to movie playback such as the current frame,
-//! whether the movie is being played or stopped, etc.
-//------------------------------------------------------------------------------
-
-class djvViewPlaybackGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewPlaybackGroup(
-        djvViewPlaybackGroup * copy,
-        djvViewMainWindow *    mainWindow,
-        djvViewContext *       context);
+    namespace ViewLib
+    {
+        //! \class PlaybackGroup
+        //!
+        //! This class provides the playback group. The playback group encapsulates all
+        //! of the functionality relating to movie playback such as the current frame,
+        //! whether the movie is being played or stopped, etc.
+        class PlaybackGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    virtual ~djvViewPlaybackGroup();
+        public:
+            PlaybackGroup(
+                PlaybackGroup * copy,
+                MainWindow *    mainWindow,
+                Context *       context);
 
-    //! Get the sequence.
-    const djvSequence & sequence() const;
+            virtual ~PlaybackGroup();
 
-    //! Get the playback.
-    djvViewUtil::PLAYBACK playback() const;
+            //! Get the sequence.
+            const djvSequence & sequence() const;
 
-    //! Get the loop mode.
-    djvViewUtil::LOOP loop() const;
+            //! Get the playback.
+            Util::PLAYBACK playback() const;
 
-    //! Get the speed.
-    const djvSpeed & speed() const;
+            //! Get the loop mode.
+            Util::LOOP loop() const;
 
-    //! Get the real playback speed.
-    float realSpeed() const;
+            //! Get the speed.
+            const djvSpeed & speed() const;
 
-    //! Get whether frames were dropped.
-    bool hasDroppedFrames() const;
+            //! Get the real playback speed.
+            float realSpeed() const;
 
-    //! Get whether every frame should be played back.
-    bool hasEveryFrame() const;
+            //! Get whether frames were dropped.
+            bool hasDroppedFrames() const;
 
-    //! Get the current frame.
-    qint64 frame() const;
+            //! Get whether every frame should be played back.
+            bool hasEveryFrame() const;
 
-    //! Get whether in/out points are enabled.
-    bool isInOutEnabled() const;
+            //! Get the current frame.
+            qint64 frame() const;
 
-    //! Get the in point.
-    qint64 inPoint() const;
+            //! Get whether in/out points are enabled.
+            bool isInOutEnabled() const;
 
-    //! Get the out point.
-    qint64 outPoint() const;
+            //! Get the in point.
+            qint64 inPoint() const;
 
-    //! Get the layout.
-    djvViewUtil::LAYOUT layout() const;
+            //! Get the out point.
+            qint64 outPoint() const;
 
-    virtual QToolBar * toolBar() const;
+            //! Get the layout.
+            Util::LAYOUT layout() const;
 
-public Q_SLOTS:
-    //! Set the sequence.
-    void setSequence(const djvSequence &);
+            virtual QToolBar * toolBar() const;
 
-    //! Set the playback.
-    void setPlayback(djvViewUtil::PLAYBACK);
+        public Q_SLOTS:
+            //! Set the sequence.
+            void setSequence(const djvSequence &);
 
-    //! Toggle the platback.
-    void togglePlayback();
+            //! Set the playback.
+            void setPlayback(djv::ViewLib::Util::PLAYBACK);
 
-    //! Set the loop mode.
-    void setLoop(djvViewUtil::LOOP);
+            //! Toggle the platback.
+            void togglePlayback();
 
-    //! Set the speed.
-    void setSpeed(const djvSpeed &);
+            //! Set the loop mode.
+            void setLoop(djv::ViewLib::Util::LOOP);
 
-    //! Set whether every frame is played back.
-    void setEveryFrame(bool);
+            //! Set the speed.
+            void setSpeed(const djvSpeed &);
 
-    //! Set the frame.
-    void setFrame(qint64, bool inOutPoints = true);
+            //! Set whether every frame is played back.
+            void setEveryFrame(bool);
 
-    //! Set whether the in/out points are enabled.
-    void setInOutEnabled(bool);
+            //! Set the frame.
+            void setFrame(qint64, bool inOutPoints = true);
 
-    //! Set the in point.
-    void setInPoint(qint64);
+            //! Set whether the in/out points are enabled.
+            void setInOutEnabled(bool);
 
-    //! Set the out point.
-    void setOutPoint(qint64);
+            //! Set the in point.
+            void setInPoint(qint64);
 
-    //! Set the layout.
-    void setLayout(djvViewUtil::LAYOUT);
+            //! Set the out point.
+            void setOutPoint(qint64);
 
-Q_SIGNALS:
-    //! This signal is emitted when the sequence is changed.
-    void sequenceChanged(const djvSequence &);
+            //! Set the layout.
+            void setLayout(djv::ViewLib::Util::LAYOUT);
 
-    //! This signal is emitted when the playback is changed.
-    void playbackChanged(djvViewUtil::PLAYBACK);
+        Q_SIGNALS:
+            //! This signal is emitted when the sequence is changed.
+            void sequenceChanged(const djvSequence &);
 
-    //! This signal is emitted when the loop mode is changed.
-    void loopChanged(djvViewUtil::LOOP);
+            //! This signal is emitted when the playback is changed.
+            void playbackChanged(djv::ViewLib::Util::PLAYBACK);
 
-    //! This signal is emitted when the speed is changed.
-    void speedChanged(const djvSpeed &);
+            //! This signal is emitted when the loop mode is changed.
+            void loopChanged(djv::ViewLib::Util::LOOP);
 
-    //! This signal is emitted when the real speed is changed.
-    void realSpeedChanged(float);
-    
-    //! This signal is emitted when dropped frames are changed.
-    void droppedFramesChanged(bool);
+            //! This signal is emitted when the speed is changed.
+            void speedChanged(const djvSpeed &);
 
-    //! This signal is emitted when every frame playback is changed.
-    void everyFrameChanged(bool);
+            //! This signal is emitted when the real speed is changed.
+            void realSpeedChanged(float);
 
-    //! This signal is emitted when the frame is changed.
-    void frameChanged(qint64);
+            //! This signal is emitted when dropped frames are changed.
+            void droppedFramesChanged(bool);
 
-    //! This signal is emitted when the in/out points are enabled or disabled.
-    void inOutEnabledChanged(bool);
+            //! This signal is emitted when every frame playback is changed.
+            void everyFrameChanged(bool);
 
-    //! This signal is emitted when the in point is changed.
-    void inPointChanged(qint64);
+            //! This signal is emitted when the frame is changed.
+            void frameChanged(qint64);
 
-    //! This signal is emitted when the out point is changed.
-    void outPointChanged(qint64);
+            //! This signal is emitted when the in/out points are enabled or disabled.
+            void inOutEnabledChanged(bool);
 
-    //! This signal is emitted when the layout is changed.
-    void layoutChanged(djvViewUtil::LAYOUT);
+            //! This signal is emitted when the in point is changed.
+            void inPointChanged(qint64);
 
-protected:
-    virtual void timerEvent(QTimerEvent *);
+            //! This signal is emitted when the out point is changed.
+            void outPointChanged(qint64);
 
-private Q_SLOTS:
-    void playbackCallback(QAction *);
-    void playbackShuttleCallback(bool);
-    void playbackShuttleValueCallback(int);
-    void loopCallback(QAction *);
-    void frameCallback(QAction *);
-    void frameCallback(qint64);
-    void frameStopCallback(qint64);
-    void frameSliderCallback(qint64);
-    void frameShuttleValueCallback(int);
-    void frameShuttleCallback(bool);
-    void framePressedCallback(bool);
-    void framePressedCallback();
-    void frameReleasedCallback();
-    void inOutCallback(QAction *);
-    void layoutCallback(QAction *);
-    void cacheCallback();
+            //! This signal is emitted when the layout is changed.
+            void layoutChanged(djv::ViewLib::Util::LAYOUT);
 
-private:
-    qint64 frameStart() const;
-    qint64 frameEnd() const;
+        protected:
+            virtual void timerEvent(QTimerEvent *);
 
-    void playbackUpdate();
-    void timeUpdate();
-    void frameUpdate();
-    void speedUpdate();
-    void layoutUpdate();
+        private Q_SLOTS:
+            void playbackCallback(QAction *);
+            void playbackShuttleCallback(bool);
+            void playbackShuttleValueCallback(int);
+            void loopCallback(QAction *);
+            void frameCallback(QAction *);
+            void frameCallback(qint64);
+            void frameStopCallback(qint64);
+            void frameSliderCallback(qint64);
+            void frameShuttleValueCallback(int);
+            void frameShuttleCallback(bool);
+            void framePressedCallback(bool);
+            void framePressedCallback();
+            void frameReleasedCallback();
+            void inOutCallback(QAction *);
+            void layoutCallback(QAction *);
+            void cacheCallback();
 
-    DJV_PRIVATE_COPY(djvViewPlaybackGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private:
+            qint64 frameStart() const;
+            qint64 frameEnd() const;
 
-//@} // djvViewPlayback
+            void playbackUpdate();
+            void timeUpdate();
+            void frameUpdate();
+            void speedUpdate();
+            void layoutUpdate();
 
+            DJV_PRIVATE_COPY(PlaybackGroup);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

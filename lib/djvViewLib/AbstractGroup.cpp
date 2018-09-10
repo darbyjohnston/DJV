@@ -34,48 +34,47 @@
 #include <djvViewLib/Context.h>
 #include <djvViewLib/MainWindow.h>
 
-//------------------------------------------------------------------------------
-// djvViewAbstractGroup::Private
-//------------------------------------------------------------------------------
-
-struct djvViewAbstractGroup::Private
+namespace djv
 {
-    Private(
-        djvViewMainWindow * mainWindow,
-        djvViewContext    * context) :
-        mainWindow(mainWindow),
-        context   (context)
-    {}
+    namespace ViewLib
+    {
+        struct AbstractGroup::Private
+        {
+            Private(
+                MainWindow * mainWindow,
+                Context    * context) :
+                mainWindow(mainWindow),
+                context(context)
+            {}
 
-    djvViewMainWindow * mainWindow;
-    djvViewContext    * context;
-};
+            MainWindow * mainWindow = nullptr;
+            Context    * context = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvViewAbstractGroup
-//------------------------------------------------------------------------------
+        AbstractGroup::AbstractGroup(
+            MainWindow * mainWindow,
+            Context    * context) :
+            QObject(mainWindow),
+            _p(new Private(mainWindow, context))
+        {}
 
-djvViewAbstractGroup::djvViewAbstractGroup(
-    djvViewMainWindow * mainWindow,
-    djvViewContext    * context) :
-    QObject(mainWindow),
-    _p(new Private(mainWindow, context))
-{}
+        AbstractGroup::~AbstractGroup()
+        {}
 
-djvViewAbstractGroup::~djvViewAbstractGroup()
-{}
+        MainWindow * AbstractGroup::mainWindow() const
+        {
+            return _p->mainWindow;
+        }
 
-djvViewMainWindow * djvViewAbstractGroup::mainWindow() const
-{
-    return _p->mainWindow;
-}
+        QToolBar * AbstractGroup::toolBar() const
+        {
+            return 0;
+        }
 
-QToolBar * djvViewAbstractGroup::toolBar() const
-{
-    return 0;
-}
+        Context * AbstractGroup::context() const
+        {
+            return _p->context;
+        }
 
-djvViewContext * djvViewAbstractGroup::context() const
-{
-    return _p->context;
-}
+    } // namespace ViewLib
+} // namespace djv

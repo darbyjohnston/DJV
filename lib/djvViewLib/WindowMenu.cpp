@@ -35,31 +35,34 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewWindowMenu
-//------------------------------------------------------------------------------
-
-djvViewWindowMenu::djvViewWindowMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent)
+namespace djv
 {
-    // Create the menus.
-    addAction(actions->action(djvViewWindowActions::NEW));
-    addAction(actions->action(djvViewWindowActions::COPY));
-    addAction(actions->action(djvViewWindowActions::CLOSE));
-    addSeparator();
-    addAction(actions->action(djvViewWindowActions::FIT));
-    addAction(actions->action(djvViewWindowActions::FULL_SCREEN));
-    addSeparator();
-    addAction(actions->action(djvViewWindowActions::CONTROLS_VISIBLE));
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewWindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
-        addAction(action);
+    namespace ViewLib
+    {
+        WindowMenu::WindowMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent)
+        {
+            // Create the menus.
+            addAction(actions->action(WindowActions::NEW));
+            addAction(actions->action(WindowActions::COPY));
+            addAction(actions->action(WindowActions::CLOSE));
+            addSeparator();
+            addAction(actions->action(WindowActions::FIT));
+            addAction(actions->action(WindowActions::FULL_SCREEN));
+            addSeparator();
+            addAction(actions->action(WindowActions::CONTROLS_VISIBLE));
+            Q_FOREACH(QAction * action,
+                actions->group(WindowActions::TOOL_BAR_VISIBLE_GROUP)->actions())
+                addAction(action);
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewWindowMenu", "&Window"));
-}
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::WindowMenu", "&Window"));
+        }
 
-djvViewWindowMenu::~djvViewWindowMenu()
-{}
+        WindowMenu::~WindowMenu()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

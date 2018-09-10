@@ -35,36 +35,35 @@
 
 #include <djvUI/ToolButton.h>
 
-//------------------------------------------------------------------------------
-// djvViewFileToolBar::Private
-//------------------------------------------------------------------------------
-
-struct djvViewFileToolBar::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewFileToolBar
-//------------------------------------------------------------------------------
-
-djvViewFileToolBar::djvViewFileToolBar(
-    djvViewAbstractActions * actions,
-    djvViewContext *         context,
-    QWidget *                parent) :
-    djvViewAbstractToolBar(actions, context, parent),
-    _p(new Private)
+namespace djv
 {
-    djvToolButton * button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewFileActions::OPEN));
-    addWidget(button);
-    
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewFileActions::RELOAD));
-    addWidget(button);
+    namespace ViewLib
+    {
+        struct FileToolBar::Private
+        {};
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewFileActions::CLOSE));
-    addWidget(button);
-}
+        FileToolBar::FileToolBar(
+            AbstractActions * actions,
+            Context *         context,
+            QWidget *         parent) :
+            AbstractToolBar(actions, context, parent),
+            _p(new Private)
+        {
+            djvToolButton * button = new djvToolButton;
+            button->setDefaultAction(actions->action(FileActions::OPEN));
+            addWidget(button);
 
-djvViewFileToolBar::~djvViewFileToolBar()
-{}
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(FileActions::RELOAD));
+            addWidget(button);
+
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(FileActions::CLOSE));
+            addWidget(button);
+        }
+
+        FileToolBar::~FileToolBar()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

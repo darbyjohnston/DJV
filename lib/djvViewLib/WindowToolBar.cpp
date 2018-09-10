@@ -35,36 +35,39 @@
 
 #include <djvUI/ToolButton.h>
 
-//------------------------------------------------------------------------------
-// djvViewWindowToolBar
-//------------------------------------------------------------------------------
-
-djvViewWindowToolBar::djvViewWindowToolBar(
-    djvViewAbstractActions * actions,
-    djvViewContext *         context,
-    QWidget *                parent) :
-    djvViewAbstractToolBar(actions, context, parent)
+namespace djv
 {
-    djvToolButton * button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewWindowActions::NEW));
-    addWidget(button);
+    namespace ViewLib
+    {
+        WindowToolBar::WindowToolBar(
+            AbstractActions * actions,
+            Context *         context,
+            QWidget *         parent) :
+            AbstractToolBar(actions, context, parent)
+        {
+            djvToolButton * button = new djvToolButton;
+            button->setDefaultAction(actions->action(WindowActions::NEW));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewWindowActions::COPY));
-    addWidget(button);
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(WindowActions::COPY));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewWindowActions::CLOSE));
-    addWidget(button);
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(WindowActions::CLOSE));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewWindowActions::FIT));
-    addWidget(button);
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(WindowActions::FIT));
+            addWidget(button);
 
-    button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewWindowActions::FULL_SCREEN));
-    addWidget(button);
-}
+            button = new djvToolButton;
+            button->setDefaultAction(actions->action(WindowActions::FULL_SCREEN));
+            addWidget(button);
+        }
 
-djvViewWindowToolBar::~djvViewWindowToolBar()
-{}
+        WindowToolBar::~WindowToolBar()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

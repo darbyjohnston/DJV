@@ -43,70 +43,67 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvViewShortcutPrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvViewShortcutPrefsWidget::Private
+namespace djv
 {
-    Private() :
-        shortcutsWidget(0)
-    {}
-    
-    djvShortcutsWidget * shortcutsWidget;
-};
+    namespace ViewLib
+    {
+        struct ShortcutPrefsWidget::Private
+        {
+            Private() :
+                shortcutsWidget(0)
+            {}
 
-//------------------------------------------------------------------------------
-// djvViewShortcutPrefsWidget
-//------------------------------------------------------------------------------
+            djvShortcutsWidget * shortcutsWidget;
+        };
 
-djvViewShortcutPrefsWidget::djvViewShortcutPrefsWidget(djvViewContext * context) :
-    djvViewAbstractPrefsWidget(
-        qApp->translate("djvViewShortcutPrefsWidget", "Shortcuts"), context),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->shortcutsWidget = new djvShortcutsWidget(context);
-    
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
+        ShortcutPrefsWidget::ShortcutPrefsWidget(Context * context) :
+            AbstractPrefsWidget(qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Shortcuts"), context),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->shortcutsWidget = new djvShortcutsWidget(context);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvViewShortcutPrefsWidget", "Keyboard Shortcuts"), context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->shortcutsWidget);
-    layout->addWidget(prefsGroupBox);
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
 
-    layout->addStretch();
+            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+                qApp->translate("djv::ViewLib::ShortcutPrefsWidget", "Keyboard Shortcuts"), context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->shortcutsWidget);
+            layout->addWidget(prefsGroupBox);
 
-    // Initialize.
-    widgetUpdate();
+            layout->addStretch();
 
-    // Setup the callbacks.
-    connect(
-        _p->shortcutsWidget,
-        SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
-        SLOT(shortcutsCallback(const QVector<djvShortcut> &)));
-}
+            // Initialize.
+            widgetUpdate();
 
-djvViewShortcutPrefsWidget::~djvViewShortcutPrefsWidget()
-{}
+            // Setup the callbacks.
+            connect(
+                _p->shortcutsWidget,
+                SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
+                SLOT(shortcutsCallback(const QVector<djvShortcut> &)));
+        }
 
-void djvViewShortcutPrefsWidget::resetPreferences()
-{
-    context()->shortcutPrefs()->setShortcuts(djvViewShortcutPrefs::shortcutsDefault());
-    widgetUpdate();
-}
+        ShortcutPrefsWidget::~ShortcutPrefsWidget()
+        {}
 
-void djvViewShortcutPrefsWidget::shortcutsCallback(const QVector<djvShortcut> & in)
-{
-    context()->shortcutPrefs()->setShortcuts(in);
-}
+        void ShortcutPrefsWidget::resetPreferences()
+        {
+            context()->shortcutPrefs()->setShortcuts(ShortcutPrefs::shortcutsDefault());
+            widgetUpdate();
+        }
 
-void djvViewShortcutPrefsWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->shortcutsWidget);
-    _p->shortcutsWidget->setShortcuts(context()->shortcutPrefs()->shortcuts());
-}
+        void ShortcutPrefsWidget::shortcutsCallback(const QVector<djvShortcut> & in)
+        {
+            context()->shortcutPrefs()->setShortcuts(in);
+        }
 
+        void ShortcutPrefsWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->shortcutsWidget);
+            _p->shortcutsWidget->setShortcuts(context()->shortcutPrefs()->shortcuts());
+        }
+
+    } // namespace ViewLib
+} // namespace djv

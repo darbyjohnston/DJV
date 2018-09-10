@@ -35,50 +35,49 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewPlaybackMenu::Private
-//------------------------------------------------------------------------------
-
-struct djvViewPlaybackMenu::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewPlaybackMenu
-//------------------------------------------------------------------------------
-
-djvViewPlaybackMenu::djvViewPlaybackMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new Private)
+namespace djv
 {
-    // Create the menus.
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewPlaybackActions::PLAYBACK_GROUP)->actions())
-        addAction(action);
-    addAction(actions->action(djvViewPlaybackActions::PLAYBACK_TOGGLE));
-    QMenu * loopMenu = addMenu(qApp->translate("djvViewPlaybackMenu", "&Loop"));
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewPlaybackActions::LOOP_GROUP)->actions())
-        loopMenu->addAction(action);
-    addAction(actions->action(djvViewPlaybackActions::EVERY_FRAME));
-    addSeparator();
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewPlaybackActions::FRAME_GROUP)->actions())
-        addAction(action);
-    addSeparator();
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewPlaybackActions::IN_OUT_GROUP)->actions())
-        addAction(action);
-    addSeparator();
-    QMenu * layoutMenu = addMenu(qApp->translate("djvViewPlaybackMenu", "Layout"));
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewPlaybackActions::LAYOUT_GROUP)->actions())
-        layoutMenu->addAction(action);
+    namespace ViewLib
+    {
+        struct PlaybackMenu::Private
+        {};
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewPlaybackMenu", "&Playback"));
-}
+        PlaybackMenu::PlaybackMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent),
+            _p(new Private)
+        {
+            // Create the menus.
+            Q_FOREACH(QAction * action,
+                actions->group(PlaybackActions::PLAYBACK_GROUP)->actions())
+                addAction(action);
+            addAction(actions->action(PlaybackActions::PLAYBACK_TOGGLE));
+            QMenu * loopMenu = addMenu(qApp->translate("djv::ViewLib::PlaybackMenu", "&Loop"));
+            Q_FOREACH(QAction * action,
+                actions->group(PlaybackActions::LOOP_GROUP)->actions())
+                loopMenu->addAction(action);
+            addAction(actions->action(PlaybackActions::EVERY_FRAME));
+            addSeparator();
+            Q_FOREACH(QAction * action,
+                actions->group(PlaybackActions::FRAME_GROUP)->actions())
+                addAction(action);
+            addSeparator();
+            Q_FOREACH(QAction * action,
+                actions->group(PlaybackActions::IN_OUT_GROUP)->actions())
+                addAction(action);
+            addSeparator();
+            QMenu * layoutMenu = addMenu(qApp->translate("djv::ViewLib::PlaybackMenu", "Layout"));
+            Q_FOREACH(QAction * action,
+                actions->group(PlaybackActions::LAYOUT_GROUP)->actions())
+                layoutMenu->addAction(action);
 
-djvViewPlaybackMenu::~djvViewPlaybackMenu()
-{}
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::PlaybackMenu", "&Playback"));
+        }
+
+        PlaybackMenu::~PlaybackMenu()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

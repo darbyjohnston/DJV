@@ -33,139 +33,140 @@
 
 #include <djvUI/Prefs.h>
 
-//------------------------------------------------------------------------------
-// djvViewWindowPrefs
-//------------------------------------------------------------------------------
-
-djvViewWindowPrefs::djvViewWindowPrefs(djvViewContext * context, QObject * parent) :
-    djvViewAbstractPrefs(context, parent),
-    _autoFit           (autoFitDefault()),
-    _viewMax           (viewMaxDefault()),
-    _viewMaxUser       (viewMaxUserDefault()),
-    _fullScreenControls(fullScreenControlsDefault()),
-    _toolBar           (toolBarDefault())
+namespace djv
 {
-    //DJV_DEBUG("djvViewWindowPrefs::djvViewWindowPrefs");
-    //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
-
-    djvPrefs prefs("djvViewWindowPrefs");
-    prefs.get("autoFit", _autoFit);
-    prefs.get("viewMax", _viewMax);
-    prefs.get("viewMaxUser", _viewMaxUser);
-    prefs.get("fullScreenControls", _fullScreenControls);
-    if (prefs.contains("toolBar"))
+    namespace ViewLib
     {
-        _toolBar.clear();
-        prefs.get("toolBar", _toolBar);
-        _toolBar.resize(djvViewUtil::TOOL_BAR_COUNT);
-    }
-}
+        WindowPrefs::WindowPrefs(Context * context, QObject * parent) :
+            AbstractPrefs(context, parent),
+            _autoFit(autoFitDefault()),
+            _viewMax(viewMaxDefault()),
+            _viewMaxUser(viewMaxUserDefault()),
+            _fullScreenControls(fullScreenControlsDefault()),
+            _toolBar(toolBarDefault())
+        {
+            //DJV_DEBUG("WindowPrefs::WindowPrefs");
+            //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
+            djvPrefs prefs("djv::ViewLib::WindowPrefs");
+            prefs.get("autoFit", _autoFit);
+            prefs.get("viewMax", _viewMax);
+            prefs.get("viewMaxUser", _viewMaxUser);
+            prefs.get("fullScreenControls", _fullScreenControls);
+            if (prefs.contains("toolBar"))
+            {
+                _toolBar.clear();
+                prefs.get("toolBar", _toolBar);
+                _toolBar.resize(Util::TOOL_BAR_COUNT);
+            }
+        }
 
-djvViewWindowPrefs::~djvViewWindowPrefs()
-{
-    //DJV_DEBUG("djvViewWindowPrefs::~djvViewWindowPrefs");
-    //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
-    
-    djvPrefs prefs("djvViewWindowPrefs");
-    prefs.set("autoFit", _autoFit);
-    prefs.set("viewMax", _viewMax);
-    prefs.set("viewMaxUser", _viewMaxUser);
-    prefs.set("fullScreenControls", _fullScreenControls);
-    prefs.set("toolBar", _toolBar);
-}
+        WindowPrefs::~WindowPrefs()
+        {
+            //DJV_DEBUG("WindowPrefs::~WindowPrefs");
+            //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
+            djvPrefs prefs("djv::ViewLib::WindowPrefs");
+            prefs.set("autoFit", _autoFit);
+            prefs.set("viewMax", _viewMax);
+            prefs.set("viewMaxUser", _viewMaxUser);
+            prefs.set("fullScreenControls", _fullScreenControls);
+            prefs.set("toolBar", _toolBar);
+        }
 
-bool djvViewWindowPrefs::autoFitDefault()
-{
-    return true;
-}
+        bool WindowPrefs::autoFitDefault()
+        {
+            return true;
+        }
 
-bool djvViewWindowPrefs::hasAutoFit() const
-{
-    return _autoFit;
-}
+        bool WindowPrefs::hasAutoFit() const
+        {
+            return _autoFit;
+        }
 
-djvViewUtil::VIEW_MAX djvViewWindowPrefs::viewMaxDefault()
-{
-    return djvViewUtil::VIEW_MAX_75;
-}
+        Util::VIEW_MAX WindowPrefs::viewMaxDefault()
+        {
+            return Util::VIEW_MAX_75;
+        }
 
-djvViewUtil::VIEW_MAX djvViewWindowPrefs::viewMax() const
-{
-    return _viewMax;
-}
+        Util::VIEW_MAX WindowPrefs::viewMax() const
+        {
+            return _viewMax;
+        }
 
-const glm::ivec2 & djvViewWindowPrefs::viewMaxUserDefault()
-{
-    static const glm::ivec2 size(640, 300);    
-    return size;
-}
+        const glm::ivec2 & WindowPrefs::viewMaxUserDefault()
+        {
+            static const glm::ivec2 size(640, 300);
+            return size;
+        }
 
-const glm::ivec2 & djvViewWindowPrefs::viewMaxUser() const
-{
-    return _viewMaxUser;
-}
+        const glm::ivec2 & WindowPrefs::viewMaxUser() const
+        {
+            return _viewMaxUser;
+        }
 
-bool djvViewWindowPrefs::fullScreenControlsDefault()
-{
-    return false;
-}
+        bool WindowPrefs::fullScreenControlsDefault()
+        {
+            return false;
+        }
 
-bool djvViewWindowPrefs::hasFullScreenControls() const
-{
-    return _fullScreenControls;
-}
+        bool WindowPrefs::hasFullScreenControls() const
+        {
+            return _fullScreenControls;
+        }
 
-QVector<bool> djvViewWindowPrefs::toolBarDefault()
-{
-    return QVector<bool>(djvViewUtil::TOOL_BAR_COUNT, true);
-}
+        QVector<bool> WindowPrefs::toolBarDefault()
+        {
+            return QVector<bool>(Util::TOOL_BAR_COUNT, true);
+        }
 
-const QVector<bool> & djvViewWindowPrefs::toolBar() const
-{
-    return _toolBar;
-}
+        const QVector<bool> & WindowPrefs::toolBar() const
+        {
+            return _toolBar;
+        }
 
-void djvViewWindowPrefs::setAutoFit(bool in)
-{
-    if (in == _autoFit)
-        return;
-    _autoFit = in;
-    Q_EMIT autoFitChanged(_autoFit);
-    Q_EMIT prefChanged();
-}
+        void WindowPrefs::setAutoFit(bool in)
+        {
+            if (in == _autoFit)
+                return;
+            _autoFit = in;
+            Q_EMIT autoFitChanged(_autoFit);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewWindowPrefs::setViewMax(djvViewUtil::VIEW_MAX in)
-{
-    if (in == _viewMax)
-        return;
-    _viewMax = in;
-    Q_EMIT viewMaxChanged(_viewMax);
-    Q_EMIT prefChanged();
-}
+        void WindowPrefs::setViewMax(Util::VIEW_MAX in)
+        {
+            if (in == _viewMax)
+                return;
+            _viewMax = in;
+            Q_EMIT viewMaxChanged(_viewMax);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewWindowPrefs::setViewMaxUser(const glm::ivec2 & size)
-{
-    if (size == _viewMaxUser)
-        return;
-    _viewMaxUser = size;
-    Q_EMIT viewMaxUserChanged(_viewMaxUser);
-    Q_EMIT prefChanged();
-}
+        void WindowPrefs::setViewMaxUser(const glm::ivec2 & size)
+        {
+            if (size == _viewMaxUser)
+                return;
+            _viewMaxUser = size;
+            Q_EMIT viewMaxUserChanged(_viewMaxUser);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewWindowPrefs::setFullScreenControls(bool in)
-{
-    if (in == _fullScreenControls)
-        return;
-    _fullScreenControls = in;
-    Q_EMIT fullScreenControlsChanged(_fullScreenControls);
-    Q_EMIT prefChanged();
-}
+        void WindowPrefs::setFullScreenControls(bool in)
+        {
+            if (in == _fullScreenControls)
+                return;
+            _fullScreenControls = in;
+            Q_EMIT fullScreenControlsChanged(_fullScreenControls);
+            Q_EMIT prefChanged();
+        }
 
-void djvViewWindowPrefs::setToolBar(const QVector<bool> & in)
-{
-    if (in == _toolBar)
-        return;
-    _toolBar = in;
-    Q_EMIT toolBarChanged(_toolBar);
-    Q_EMIT prefChanged();
-}
+        void WindowPrefs::setToolBar(const QVector<bool> & in)
+        {
+            if (in == _toolBar)
+                return;
+            _toolBar = in;
+            Q_EMIT toolBarChanged(_toolBar);
+            Q_EMIT prefChanged();
+        }
+
+    } // namespace ViewLib
+} // namespace djv

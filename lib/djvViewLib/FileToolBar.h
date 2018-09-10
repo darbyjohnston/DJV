@@ -35,33 +35,31 @@
 
 #include <memory>
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFileToolBar
-//!
-//! This class provides the file group tool bar.
-//------------------------------------------------------------------------------
-
-class djvViewFileToolBar : public djvViewAbstractToolBar
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewFileToolBar(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class FileToolBar
+        //!
+        //! This class provides the file group tool bar.
+        class FileToolBar : public AbstractToolBar
+        {
+            Q_OBJECT
 
-    virtual ~djvViewFileToolBar();
+        public:
+            explicit FileToolBar(
+                AbstractActions * actions,
+                Context *         context,
+                QWidget *         parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewFileToolBar);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~FileToolBar();
 
-//@} // djvViewFile
+        private:
+            DJV_PRIVATE_COPY(FileToolBar);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -33,30 +33,28 @@
 
 #include <djvViewLib/AbstractToolBar.h>
 
-//! \addtogroup djvViewWindow
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewWindowToolBar
-//!
-//! This class provides the window group tool bar.
-//------------------------------------------------------------------------------
-
-class djvViewWindowToolBar : public djvViewAbstractToolBar
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewWindowToolBar(
-        djvViewAbstractActions * actions,
-        djvViewContext *         context,
-        QWidget *                parent  = nullptr);
+    namespace ViewLib
+    {
+        //! \class WindowToolBar
+        //!
+        //! This class provides the window group tool bar.
+        class WindowToolBar : public AbstractToolBar
+        {
+            Q_OBJECT
 
-    virtual ~djvViewWindowToolBar();
+        public:
+            explicit WindowToolBar(
+                AbstractActions * actions,
+                Context * context,
+                QWidget * parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewWindowToolBar);
-};
+            virtual ~WindowToolBar();
 
-//@} // djvViewWindow
+        private:
+            DJV_PRIVATE_COPY(WindowToolBar);
+        };
 
+    } // namespace ViewLib
+} // namespace djv

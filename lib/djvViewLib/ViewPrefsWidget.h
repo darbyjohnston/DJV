@@ -39,46 +39,43 @@
 
 class QListWidgetItem;
 
-//! \addtogroup djvViewView
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewViewPrefsWidget
-//!
-//! This class provides the view group preferences widget.
-//------------------------------------------------------------------------------
-
-class djvViewViewPrefsWidget :
-    public djvViewAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewViewPrefsWidget(djvViewContext *);
+    namespace ViewLib
+    {
+        //! \class djvViewViewPrefsWidget
+        //!
+        //! This class provides the view group preferences widget.
+        class ViewPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvViewViewPrefsWidget();
-    
-    virtual void resetPreferences();
+        public:
+            ViewPrefsWidget(Context *);
 
-private Q_SLOTS:
-    void zoomFactorCallback(int);
-    void backgroundCallback(const djvColor &);
-    void gridCallback(int);
-    void gridColorCallback(const djvColor &);
-    void hudEnabledCallback(bool);
-    void hudInfoCallback(QListWidgetItem *);
-    void hudColorCallback(const djvColor &);
-    void hudBackgroundCallback(int);
-    void hudBackgroundColorCallback(const djvColor &);
+            virtual ~ViewPrefsWidget();
 
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-private:
-    DJV_PRIVATE_COPY(djvViewViewPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void zoomFactorCallback(int);
+            void backgroundCallback(const djvColor &);
+            void gridCallback(int);
+            void gridColorCallback(const djvColor &);
+            void hudEnabledCallback(bool);
+            void hudInfoCallback(QListWidgetItem *);
+            void hudColorCallback(const djvColor &);
+            void hudBackgroundCallback(int);
+            void hudBackgroundColorCallback(const djvColor &);
 
-//@} // djvViewView
+            void widgetUpdate();
 
+        private:
+            DJV_PRIVATE_COPY(ViewPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -43,107 +43,105 @@
 
 #include <memory>
 
-class djvViewFileCache;
-class djvViewFilePrefs;
-class djvViewFileSave;
-class djvViewImagePrefs;
-class djvViewInputPrefs;
-class djvViewPlaybackPrefs;
-class djvViewShortcutPrefs;
-class djvViewViewPrefs;
-class djvViewWindowPrefs;
-
-//! \addtogroup djvViewHelp
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewContext
-//!
-//! This class provides global functionality for the library.
-//------------------------------------------------------------------------------
-
-class djvViewContext : public djvUIContext
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewContext(QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        class FileCache;
+        class FilePrefs;
+        class FileSave;
+        class ImagePrefs;
+        class InputPrefs;
+        class PlaybackPrefs;
+        class ShortcutPrefs;
+        class ViewPrefs;
+        class WindowPrefs;
 
-    virtual ~djvViewContext();
-    
-    //! Get the list of inputs.
-    const QStringList & input() const;
+        //! \class Context
+        //!
+        //! This class provides global functionality for the library.
+        class Context : public djvUIContext
+        {
+            Q_OBJECT
 
-    //! Get whether to combine the inputs.
-    bool hasCombine() const;
+        public:
+            explicit Context(QObject * parent = nullptr);
 
-    //! Get the file sequencing.
-    djvSequence::COMPRESS sequence() const;
-    
-    //! Get whether to automatically detext sequences.
-    bool hasAutoSequence() const;
-    
-    //! Get the file layer.
-    const QScopedPointer<int> & fileLayer() const;
+            virtual ~Context();
 
-    //! Get the file proxy.
-    const QScopedPointer<djvPixelDataInfo::PROXY> & fileProxy() const;
+            //! Get the list of inputs.
+            const QStringList & input() const;
 
-    //! Get whether the file cache is enabled.
-    const QScopedPointer<bool> & hasFileCache() const;
+            //! Get whether to combine the inputs.
+            bool hasCombine() const;
 
-    //! Get whether the window is full screen.
-    const QScopedPointer<bool> & isWindowFullScreen() const;
+            //! Get the file sequencing.
+            djvSequence::COMPRESS sequence() const;
 
-    //! Get the playback.
-    const QScopedPointer<djvViewUtil::PLAYBACK> & playback() const;
+            //! Get whether to automatically detext sequences.
+            bool hasAutoSequence() const;
 
-    //! Get the playback frame.
-    const QScopedPointer<int> & playbackFrame() const;
+            //! Get the file layer.
+            const QScopedPointer<int> & fileLayer() const;
 
-    //! Get the playback speed.
-    const QScopedPointer<djvSpeed> & playbackSpeed() const;
-    
-    //! Get the file preferences.
-    djvViewFilePrefs * filePrefs() const;
-    
-    //! Get the image preferences.
-    djvViewImagePrefs * imagePrefs() const;
-    
-    //! Get the input preferences.
-    djvViewInputPrefs * inputPrefs() const;
-    
-    //! Get the playback preferences.
-    djvViewPlaybackPrefs * playbackPrefs() const;
-    
-    //! Get the shortcut preferences.
-    djvViewShortcutPrefs * shortcutPrefs() const;
-    
-    //! Get the view preferences.
-    djvViewViewPrefs * viewPrefs() const;
-    
-    //! Get the window preferences.
-    djvViewWindowPrefs * windowPrefs() const;
-    
-    //! Get the file cache.
-    djvViewFileCache * fileCache() const;
-    
-    //! Get the file save.
-    djvViewFileSave * fileSave() const;
+            //! Get the file proxy.
+            const QScopedPointer<djvPixelDataInfo::PROXY> & fileProxy() const;
 
-    virtual void setValid(bool);
+            //! Get whether the file cache is enabled.
+            const QScopedPointer<bool> & hasFileCache() const;
 
-protected:
-    virtual bool commandLineParse(QStringList &) throw (QString);
-    
-    virtual QString commandLineHelp() const;
+            //! Get whether the window is full screen.
+            const QScopedPointer<bool> & isWindowFullScreen() const;
 
-private:
-    DJV_PRIVATE_COPY(djvViewContext);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the playback.
+            const QScopedPointer<Util::PLAYBACK> & playback() const;
 
-//@} // djvViewHelp
+            //! Get the playback frame.
+            const QScopedPointer<int> & playbackFrame() const;
 
+            //! Get the playback speed.
+            const QScopedPointer<djvSpeed> & playbackSpeed() const;
+
+            //! Get the file preferences.
+            FilePrefs * filePrefs() const;
+
+            //! Get the image preferences.
+            ImagePrefs * imagePrefs() const;
+
+            //! Get the input preferences.
+            InputPrefs * inputPrefs() const;
+
+            //! Get the playback preferences.
+            PlaybackPrefs * playbackPrefs() const;
+
+            //! Get the shortcut preferences.
+            ShortcutPrefs * shortcutPrefs() const;
+
+            //! Get the view preferences.
+            ViewPrefs * viewPrefs() const;
+
+            //! Get the window preferences.
+            WindowPrefs * windowPrefs() const;
+
+            //! Get the file cache.
+            FileCache * fileCache() const;
+
+            //! Get the file save.
+            FileSave * fileSave() const;
+
+            virtual void setValid(bool);
+
+        protected:
+            virtual bool commandLineParse(QStringList &) throw (QString);
+
+            virtual QString commandLineHelp() const;
+
+        private:
+            DJV_PRIVATE_COPY(Context);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

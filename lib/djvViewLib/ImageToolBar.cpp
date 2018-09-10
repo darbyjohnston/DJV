@@ -35,29 +35,27 @@
 
 #include <djvUI/ToolButton.h>
 
-//------------------------------------------------------------------------------
-// djvViewImageToolBar::Private
-//------------------------------------------------------------------------------
-
-struct djvViewImageToolBar::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewImageToolBar
-//------------------------------------------------------------------------------
-
-djvViewImageToolBar::djvViewImageToolBar(
-    djvViewAbstractActions * actions,
-    djvViewContext *         context,
-    QWidget *                parent) :
-    djvViewAbstractToolBar(actions, context, parent),
-    _p(new Private)
+namespace djv
 {
-    djvToolButton * button = new djvToolButton;
-    button->setDefaultAction(actions->action(djvViewImageActions::DISPLAY_PROFILE_VISIBLE));
-    addWidget(button);
-}
+    namespace ViewLib
+    {
+        struct ImageToolBar::Private
+        {};
 
-djvViewImageToolBar::~djvViewImageToolBar()
-{}
+        ImageToolBar::ImageToolBar(
+            AbstractActions * actions,
+            Context *         context,
+            QWidget *         parent) :
+            AbstractToolBar(actions, context, parent),
+            _p(new Private)
+        {
+            djvToolButton * button = new djvToolButton;
+            button->setDefaultAction(actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE));
+            addWidget(button);
+        }
 
+        ImageToolBar::~ImageToolBar()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

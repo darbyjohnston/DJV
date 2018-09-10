@@ -48,148 +48,138 @@
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvViewInfoTool::Private
-//------------------------------------------------------------------------------
-
-struct djvViewInfoTool::Private
+namespace djv
 {
-    Private() :
-        fileNameWidget (0),
-        layerNameWidget(0),
-        sizeWidget     (0),
-        pixelWidget    (0),
-        timeWidget     (0),
-        tagsWidget     (0)
-    {}
-    
-    QLineEdit *      fileNameWidget;
-    QLineEdit *      layerNameWidget;
-    QLineEdit *      sizeWidget;
-    QLineEdit *      pixelWidget;
-    QLineEdit *      timeWidget;
-    QPlainTextEdit * tagsWidget;
-};
-
-//------------------------------------------------------------------------------
-// djvViewInfoTool
-//------------------------------------------------------------------------------
-
-djvViewInfoTool::djvViewInfoTool(
-    djvViewMainWindow * mainWindow,
-    djvViewContext *    context,
-    QWidget *           parent) :
-    djvViewAbstractTool(mainWindow, context, parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->fileNameWidget = new QLineEdit;
-    _p->fileNameWidget->setReadOnly(true);
-    
-    _p->layerNameWidget = new QLineEdit;
-    _p->layerNameWidget->setReadOnly(true);
-
-    _p->sizeWidget = new QLineEdit;
-    _p->sizeWidget->setReadOnly(true);
-
-    _p->pixelWidget = new QLineEdit;
-    _p->pixelWidget->setReadOnly(true);
-
-    _p->timeWidget = new QLineEdit;
-    _p->timeWidget->setReadOnly(true);
-
-    _p->tagsWidget = new QPlainTextEdit;
-    _p->tagsWidget->setReadOnly(true);
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    
-    QFormLayout * formLayout = new QFormLayout;
-    formLayout->addRow(
-        qApp->translate("djvViewInfoTool", "File name:"),
-        _p->fileNameWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewInfoTool", "Layer:"),
-        _p->layerNameWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewInfoTool", "Size:"),
-        _p->sizeWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewInfoTool", "Pixel:"),
-        _p->pixelWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewInfoTool", "Time:"),
-        _p->timeWidget);
-    formLayout->addRow(
-        qApp->translate("djvViewInfoTool", "Tags:"),
-        _p->tagsWidget);
-    layout->addLayout(formLayout);
-
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->setMargin(0);
-    hLayout->addStretch();
-    layout->addLayout(hLayout);
-
-    // Initialize.
-    setWindowTitle(qApp->translate("djvViewInfoTool", "Information"));
-
-    // Setup the callbacks.
-    connect(
-        mainWindow,
-        SIGNAL(imageChanged()),
-        SLOT(widgetUpdate()));
-}
-
-djvViewInfoTool::~djvViewInfoTool()
-{}
-
-void djvViewInfoTool::showEvent(QShowEvent *)
-{
-    widgetUpdate();
-}
-
-void djvViewInfoTool::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->fileNameWidget <<
-        _p->layerNameWidget <<
-        _p->sizeWidget <<
-        _p->pixelWidget <<
-        _p->timeWidget <<
-        _p->tagsWidget);
-    const djvImageIOInfo & imageIOInfo = mainWindow()->imageIOInfo();
-    if (isVisible())
+    namespace ViewLib
     {
-        _p->fileNameWidget->setText(
-            QDir::toNativeSeparators(imageIOInfo.fileName));
-        _p->layerNameWidget->setText(imageIOInfo.layerName);
-        _p->sizeWidget->setText(
-            qApp->translate("djvViewInfoTool", "%1x%2:%3").
-            arg(imageIOInfo.size.x).
-            arg(imageIOInfo.size.y).
-            arg(djvVectorUtil::aspect(imageIOInfo.size)));
-        _p->pixelWidget->setText(
-            djvStringUtil::label(imageIOInfo.pixel).join(", "));
-        _p->timeWidget->setText(
-            qApp->translate("djvViewInfoTool", "%1@%2").
-            arg(djvTime::frameToString(
-                imageIOInfo.sequence.frames.count(),
-                imageIOInfo.sequence.speed)).
-            arg(djvSpeed::speedToFloat(imageIOInfo.sequence.speed), 0, 'f', 2));
-        QString tmp;
-        const QStringList keys = imageIOInfo.tags.keys();
-        for (int i = 0; i < keys.count(); ++i)
+        struct InfoTool::Private
         {
-            tmp += qApp->translate("djvViewInfoTool", "%1 = %2\n").
-                arg(keys[i]).arg(imageIOInfo.tags[keys[i]]);
-        }
-        if (! tmp.isEmpty())
+            QLineEdit *      fileNameWidget = nullptr;
+            QLineEdit *      layerNameWidget = nullptr;
+            QLineEdit *      sizeWidget = nullptr;
+            QLineEdit *      pixelWidget = nullptr;
+            QLineEdit *      timeWidget = nullptr;
+            QPlainTextEdit * tagsWidget = nullptr;
+        };
+
+        InfoTool::InfoTool(
+            MainWindow * mainWindow,
+            Context *    context,
+            QWidget *    parent) :
+            AbstractTool(mainWindow, context, parent),
+            _p(new Private)
         {
-            _p->tagsWidget->setPlainText(tmp);
+            // Create the widgets.
+            _p->fileNameWidget = new QLineEdit;
+            _p->fileNameWidget->setReadOnly(true);
+
+            _p->layerNameWidget = new QLineEdit;
+            _p->layerNameWidget->setReadOnly(true);
+
+            _p->sizeWidget = new QLineEdit;
+            _p->sizeWidget->setReadOnly(true);
+
+            _p->pixelWidget = new QLineEdit;
+            _p->pixelWidget->setReadOnly(true);
+
+            _p->timeWidget = new QLineEdit;
+            _p->timeWidget->setReadOnly(true);
+
+            _p->tagsWidget = new QPlainTextEdit;
+            _p->tagsWidget->setReadOnly(true);
+
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+
+            QFormLayout * formLayout = new QFormLayout;
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::InfoTool", "File name:"),
+                _p->fileNameWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::InfoTool", "Layer:"),
+                _p->layerNameWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::InfoTool", "Size:"),
+                _p->sizeWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::InfoTool", "Pixel:"),
+                _p->pixelWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::InfoTool", "Time:"),
+                _p->timeWidget);
+            formLayout->addRow(
+                qApp->translate("djv::ViewLib::InfoTool", "Tags:"),
+                _p->tagsWidget);
+            layout->addLayout(formLayout);
+
+            QHBoxLayout * hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->addStretch();
+            layout->addLayout(hLayout);
+
+            // Initialize.
+            setWindowTitle(qApp->translate("djv::ViewLib::InfoTool", "Information"));
+
+            // Setup the callbacks.
+            connect(
+                mainWindow,
+                SIGNAL(imageChanged()),
+                SLOT(widgetUpdate()));
         }
-        else
+
+        InfoTool::~InfoTool()
+        {}
+
+        void InfoTool::showEvent(QShowEvent *)
         {
-            _p->tagsWidget->clear();
+            widgetUpdate();
         }
-    }
-}
+
+        void InfoTool::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->fileNameWidget <<
+                _p->layerNameWidget <<
+                _p->sizeWidget <<
+                _p->pixelWidget <<
+                _p->timeWidget <<
+                _p->tagsWidget);
+            const djvImageIOInfo & imageIOInfo = mainWindow()->imageIOInfo();
+            if (isVisible())
+            {
+                _p->fileNameWidget->setText(
+                    QDir::toNativeSeparators(imageIOInfo.fileName));
+                _p->layerNameWidget->setText(imageIOInfo.layerName);
+                _p->sizeWidget->setText(
+                    qApp->translate("djv::ViewLib::InfoTool", "%1x%2:%3").
+                    arg(imageIOInfo.size.x).
+                    arg(imageIOInfo.size.y).
+                    arg(djvVectorUtil::aspect(imageIOInfo.size)));
+                _p->pixelWidget->setText(
+                    djvStringUtil::label(imageIOInfo.pixel).join(", "));
+                _p->timeWidget->setText(
+                    qApp->translate("djv::ViewLib::InfoTool", "%1@%2").
+                    arg(djvTime::frameToString(
+                        imageIOInfo.sequence.frames.count(),
+                        imageIOInfo.sequence.speed)).
+                    arg(djvSpeed::speedToFloat(imageIOInfo.sequence.speed), 0, 'f', 2));
+                QString tmp;
+                const QStringList keys = imageIOInfo.tags.keys();
+                for (int i = 0; i < keys.count(); ++i)
+                {
+                    tmp += qApp->translate("djv::ViewLib::InfoTool", "%1 = %2\n").
+                        arg(keys[i]).arg(imageIOInfo.tags[keys[i]]);
+                }
+                if (!tmp.isEmpty())
+                {
+                    _p->tagsWidget->setPlainText(tmp);
+                }
+                else
+                {
+                    _p->tagsWidget->clear();
+                }
+            }
+        }
+
+    } // namespace ViewLib
+} // namespace djv

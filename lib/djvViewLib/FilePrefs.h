@@ -39,129 +39,127 @@
 
 #include <QStringList>
 
-//! \addtogroup djvViewFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewFilePrefs
-//!
-//! This class provides the file group preferences.
-//------------------------------------------------------------------------------
-
-class djvViewFilePrefs : public djvViewAbstractPrefs
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewFilePrefs(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        //! \class FilePrefs
+        //!
+        //! This class provides the file group preferences.
+        class FilePrefs : public AbstractPrefs
+        {
+            Q_OBJECT
 
-    virtual ~djvViewFilePrefs();
+        public:
+            explicit FilePrefs(Context *, QObject * parent = nullptr);
 
-    //! Add a recent file.
-    void addRecent(const djvFileInfo &);
+            virtual ~FilePrefs();
 
-    //! Get the recent files.
-    const djvFileInfoList & recentFiles() const;
+            //! Add a recent file.
+            void addRecent(const djvFileInfo &);
 
-    //! Get the default for whether sequences are automatically opened.
-    static bool autoSequenceDefault();
+            //! Get the recent files.
+            const djvFileInfoList & recentFiles() const;
 
-    //! Get whether sequences are automatically opened.
-    bool hasAutoSequence() const;
+            //! Get the default for whether sequences are automatically opened.
+            static bool autoSequenceDefault();
 
-    //! Get the default proxy scale.
-    static djvPixelDataInfo::PROXY proxyDefault();
+            //! Get whether sequences are automatically opened.
+            bool hasAutoSequence() const;
 
-    //! Get the proxy scale.
-    djvPixelDataInfo::PROXY proxy() const;
+            //! Get the default proxy scale.
+            static djvPixelDataInfo::PROXY proxyDefault();
 
-    //! Get the default for whether images are converted to 8-bits.
-    static bool u8ConversionDefault();
-    
-    //! Get whether images are converted to 8-bits.
-    bool hasU8Conversion() const;
+            //! Get the proxy scale.
+            djvPixelDataInfo::PROXY proxy() const;
 
-    //! Get the default for whether the cache is enabled.
-    static bool cacheDefault();
+            //! Get the default for whether images are converted to 8-bits.
+            static bool u8ConversionDefault();
 
-    //! Get whether the cache is enabled.
-    bool hasCache() const;
+            //! Get whether images are converted to 8-bits.
+            bool hasU8Conversion() const;
 
-    //! Get the default cache size in gigabytes.
-    static float cacheSizeDefault();
+            //! Get the default for whether the cache is enabled.
+            static bool cacheDefault();
 
-    //! Get the cache size in gigabytes.
-    float cacheSize() const;
+            //! Get whether the cache is enabled.
+            bool hasCache() const;
 
-    //! Get the default for whether the cache is pre-loaded.
-    static bool preloadDefault();
+            //! Get the default cache size in gigabytes.
+            static float cacheSizeDefault();
 
-    //! Get wheter the cache is pre-loaded.
-    bool hasPreload() const;
+            //! Get the cache size in gigabytes.
+            float cacheSize() const;
 
-    //! Get the default for whether the cache is displayed in the timeline.
-    static bool displayCacheDefault();
+            //! Get the default for whether the cache is pre-loaded.
+            static bool preloadDefault();
 
-    //! Get whether the cache is displayed in the timeline.
-    bool hasDisplayCache() const;
+            //! Get wheter the cache is pre-loaded.
+            bool hasPreload() const;
 
-public Q_SLOTS:
-    //! Set whether sequences are automatically opened.
-    void setAutoSequence(bool);
+            //! Get the default for whether the cache is displayed in the timeline.
+            static bool displayCacheDefault();
 
-    //! Set the proxy scale.
-    void setProxy(djvPixelDataInfo::PROXY);
+            //! Get whether the cache is displayed in the timeline.
+            bool hasDisplayCache() const;
 
-    //! Set whether images are converted to 8-bits.
-    void setU8Conversion(bool);
-    
-    //! Set whether the cache is enabled.
-    void setCache(bool);
+        public Q_SLOTS:
+            //! Set whether sequences are automatically opened.
+            void setAutoSequence(bool);
 
-    //! Set the cache size in gigabytes.
-    void setCacheSize(float);
-    
-    //! Set whether the cache pre-load is enabled.
-    void setPreload(bool);
+            //! Set the proxy scale.
+            void setProxy(djvPixelDataInfo::PROXY);
 
-    //! Set whether the cache is displayed in the timeline.
-    void setDisplayCache(bool);
+            //! Set whether images are converted to 8-bits.
+            void setU8Conversion(bool);
 
-Q_SIGNALS:
-    //! This signal is emitted when the recent files are changed.
-    void recentChanged(const djvFileInfoList &);
-    
-    //! This signal is emitted when automatic sequences is changed.
-    void autoSequenceChanged(bool);
-    
-    //! This signal is emitted when the proxy scale is changed.
-    void proxyChanged(djvPixelDataInfo::PROXY);
-    
-    //! This signal is emitted when 8-bit conversion is changed.
-    void u8ConversionChanged(bool);
-    
-    //! This signal is emitted when the cache is enabled or disabled.
-    void cacheChanged(bool);
-    
-    //! This signal is emitted when the cache size is changed.
-    void cacheSizeChanged(float);
-    
-    //! This signal is emitted when the cache pre-load is changed.
-    void preloadChanged(bool);
+            //! Set whether the cache is enabled.
+            void setCache(bool);
 
-    //! This signal is emitted when the cache display is changed.
-    void displayCacheChanged(bool);
+            //! Set the cache size in gigabytes.
+            void setCacheSize(float);
 
-private:
-    djvFileInfoList         _recent;
-    bool                    _autoSequence;
-    djvPixelDataInfo::PROXY _proxy;
-    bool                    _u8Conversion;
-    bool                    _cache;
-    float                   _cacheSize;
-    bool                    _preload;
-    bool                    _displayCache;
-};
+            //! Set whether the cache pre-load is enabled.
+            void setPreload(bool);
 
-//@} // djvViewFile
+            //! Set whether the cache is displayed in the timeline.
+            void setDisplayCache(bool);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the recent files are changed.
+            void recentChanged(const djvFileInfoList &);
+
+            //! This signal is emitted when automatic sequences is changed.
+            void autoSequenceChanged(bool);
+
+            //! This signal is emitted when the proxy scale is changed.
+            void proxyChanged(djvPixelDataInfo::PROXY);
+
+            //! This signal is emitted when 8-bit conversion is changed.
+            void u8ConversionChanged(bool);
+
+            //! This signal is emitted when the cache is enabled or disabled.
+            void cacheChanged(bool);
+
+            //! This signal is emitted when the cache size is changed.
+            void cacheSizeChanged(float);
+
+            //! This signal is emitted when the cache pre-load is changed.
+            void preloadChanged(bool);
+
+            //! This signal is emitted when the cache display is changed.
+            void displayCacheChanged(bool);
+
+        private:
+            djvFileInfoList         _recent;
+            bool                    _autoSequence;
+            djvPixelDataInfo::PROXY _proxy;
+            bool                    _u8Conversion;
+            bool                    _cache;
+            float                   _cacheSize;
+            bool                    _preload;
+            bool                    _displayCache;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

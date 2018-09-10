@@ -42,13 +42,15 @@
 #include <QScopedPointer>
 #include <QTimer>
 
+using namespace djv;
+
 //------------------------------------------------------------------------------
 // djvViewApplication::Private
 //------------------------------------------------------------------------------
 
 struct djvViewApplication::Private
 {
-    QScopedPointer<djvViewContext> context;
+    QScopedPointer<ViewLib::Context> context;
 };
 
 //------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ djvViewApplication::djvViewApplication(int & argc, char ** argv) :
     setApplicationName("djv_view");
     
     // Create the context.
-    _p->context.reset(new djvViewContext(this));
+    _p->context.reset(new ViewLib::Context(this));
     
     // Parse the command line.
     if (! _p->context->commandLine(argc, argv))
@@ -90,8 +92,8 @@ bool djvViewApplication::event(QEvent * event)
         case QEvent::FileOpen:
         {
             QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
-            QVector<djvViewMainWindow *> mainWindowList =
-                djvViewMainWindow::mainWindowList();
+            QVector<ViewLib::MainWindow *> mainWindowList =
+                ViewLib::MainWindow::mainWindowList();
             if (mainWindowList.count())
             {
                 mainWindowList[0]->fileOpen(e->file());
@@ -151,8 +153,8 @@ void djvViewApplication::work()
                 QString("Input = \"%1\"").arg(fileInfo));
             
             // Initialize the window.
-            djvViewMainWindow * window =
-                djvViewMainWindow::createWindow(_p->context.data());
+            ViewLib::MainWindow * window =
+                ViewLib::MainWindow::createWindow(_p->context.data());
             window->fileOpen(fileInfo);
             if (_p->context->fileLayer().data())
             {
@@ -180,7 +182,7 @@ void djvViewApplication::work()
     {
         // Create and show an empty window.
         DJV_LOG(_p->context->debugLog(), "djvViewApplication", "Show window...");
-        djvViewMainWindow::createWindow(_p->context.data())->show();
+        ViewLib::MainWindow::createWindow(_p->context.data())->show();
         DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
     }
 }

@@ -35,74 +35,68 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvViewFileMenu::Private
-//------------------------------------------------------------------------------
-
-struct djvViewFileMenu::Private
+namespace djv
 {
-    Private() :
-        recent(0),
-        layer (0)
-    {}
+    namespace ViewLib
+    {
+        struct FileMenu::Private
+        {
+            QMenu * recent = nullptr;
+            QMenu * layer = nullptr;
+        };
 
-    QMenu * recent;
-    QMenu * layer;
-};
+        FileMenu::FileMenu(
+            AbstractActions * actions,
+            QWidget *         parent) :
+            AbstractMenu(actions, parent),
+            _p(new Private)
+        {
+            // Create the menus.
+            addAction(actions->action(FileActions::OPEN));
+            _p->recent = addMenu(qApp->translate("djv::ViewLib::FileMenu", "&Recent"));
+            addAction(actions->action(FileActions::RELOAD));
+            addAction(actions->action(FileActions::RELOAD_FRAME));
+            addAction(actions->action(FileActions::CLOSE));
+            addAction(actions->action(FileActions::SAVE));
+            addAction(actions->action(FileActions::SAVE_FRAME));
+            addSeparator();
+            _p->layer = addMenu(qApp->translate("djv::ViewLib::FileMenu", "La&yer"));
+            addAction(actions->action(FileActions::LAYER_PREV));
+            addAction(actions->action(FileActions::LAYER_NEXT));
+            QMenu * proxyMenu = addMenu(qApp->translate("djv::ViewLib::FileMenu", "Pro&xy Scale"));
+            Q_FOREACH(QAction * action,
+                actions->group(FileActions::PROXY_GROUP)->actions())
+                proxyMenu->addAction(action);
+            addAction(actions->action(FileActions::U8_CONVERSION));
+            addAction(actions->action(FileActions::CACHE));
+            addAction(actions->action(FileActions::PRELOAD));
+            addAction(actions->action(FileActions::CLEAR_CACHE));
+            addSeparator();
+            addAction(actions->action(FileActions::MESSAGES));
+            addAction(actions->action(FileActions::PREFS));
+            addAction(actions->action(FileActions::DEBUG_LOG));
+            addSeparator();
+            addAction(actions->action(FileActions::EXIT));
 
-//------------------------------------------------------------------------------
-// djvViewFileMenu
-//------------------------------------------------------------------------------
+            // Initialize.
+            setTitle(qApp->translate("djv::ViewLib::FileMenu", "&File"));
+            menuUpdate();
+        }
 
-djvViewFileMenu::djvViewFileMenu(
-    djvViewAbstractActions * actions,
-    QWidget *                parent) :
-    djvViewAbstractMenu(actions, parent),
-    _p(new Private)
-{
-    // Create the menus.
-    addAction(actions->action(djvViewFileActions::OPEN));
-    _p->recent = addMenu(qApp->translate("djvViewFileMenu", "&Recent"));
-    addAction(actions->action(djvViewFileActions::RELOAD));
-    addAction(actions->action(djvViewFileActions::RELOAD_FRAME));
-    addAction(actions->action(djvViewFileActions::CLOSE));
-    addAction(actions->action(djvViewFileActions::SAVE));
-    addAction(actions->action(djvViewFileActions::SAVE_FRAME));
-    addSeparator();
-    _p->layer = addMenu(qApp->translate("djvViewFileMenu", "La&yer"));
-    addAction(actions->action(djvViewFileActions::LAYER_PREV));
-    addAction(actions->action(djvViewFileActions::LAYER_NEXT));
-    QMenu * proxyMenu = addMenu(qApp->translate("djvViewFileMenu", "Pro&xy Scale"));
-    Q_FOREACH(QAction * action,
-        actions->group(djvViewFileActions::PROXY_GROUP)->actions())
-        proxyMenu->addAction(action);
-    addAction(actions->action(djvViewFileActions::U8_CONVERSION));
-    addAction(actions->action(djvViewFileActions::CACHE));
-    addAction(actions->action(djvViewFileActions::PRELOAD));
-    addAction(actions->action(djvViewFileActions::CLEAR_CACHE));
-    addSeparator();
-    addAction(actions->action(djvViewFileActions::MESSAGES));
-    addAction(actions->action(djvViewFileActions::PREFS));
-    addAction(actions->action(djvViewFileActions::DEBUG_LOG));
-    addSeparator();
-    addAction(actions->action(djvViewFileActions::EXIT));
+        FileMenu::~FileMenu()
+        {}
 
-    // Initialize.
-    setTitle(qApp->translate("djvViewFileMenu", "&File"));
-    menuUpdate();
-}
+        void FileMenu::menuUpdate()
+        {
+            _p->recent->clear();
+            Q_FOREACH(QAction * action,
+                actions()->group(FileActions::RECENT_GROUP)->actions())
+                _p->recent->addAction(action);
+            _p->layer->clear();
+            Q_FOREACH(QAction * action,
+                actions()->group(FileActions::LAYER_GROUP)->actions())
+                _p->layer->addAction(action);
+        }
 
-djvViewFileMenu::~djvViewFileMenu()
-{}
-
-void djvViewFileMenu::menuUpdate()
-{
-    _p->recent->clear();
-    Q_FOREACH(QAction * action,
-        actions()->group(djvViewFileActions::RECENT_GROUP)->actions())
-        _p->recent->addAction(action);
-    _p->layer->clear();
-    Q_FOREACH(QAction * action,
-        actions()->group(djvViewFileActions::LAYER_GROUP)->actions())
-        _p->layer->addAction(action);
-}
+    } // namespace ViewLib
+} // namespace djv

@@ -45,74 +45,68 @@
 #include <QAction>
 #include <QMenuBar>
 
-//------------------------------------------------------------------------------
-// djvViewHelpGroup::Private
-//------------------------------------------------------------------------------
-
-struct djvViewHelpGroup::Private
+namespace djv
 {
-    Private() :
-        actions(0),
-        menu   (0)
-    {}
-    
-    djvViewHelpActions * actions;
-    djvViewHelpMenu *    menu;
-};
+    namespace ViewLib
+    {
+        struct HelpGroup::Private
+        {
+            HelpActions * actions = nullptr;
+            HelpMenu *    menu = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvViewHelpGroup
-//------------------------------------------------------------------------------
+        HelpGroup::HelpGroup(
+            const HelpGroup * copy,
+            MainWindow *      mainWindow,
+            Context *         context) :
+            AbstractGroup(mainWindow, context),
+            _p(new Private)
+        {
+            //DJV_DEBUG("HelpGroup::HelpGroup");
 
-djvViewHelpGroup::djvViewHelpGroup(
-    const djvViewHelpGroup * copy,
-    djvViewMainWindow *      mainWindow,
-    djvViewContext *         context) :
-    djvViewAbstractGroup(mainWindow, context),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvViewHelpGroup::djvViewHelpGroup");
+            // Create the actions.
+            _p->actions = new HelpActions(context, this);
 
-    // Create the actions.
-    _p->actions = new djvViewHelpActions(context, this);
-    
-    // Create the menus.
-    _p->menu = new djvViewHelpMenu(_p->actions, mainWindow->menuBar());
+            // Create the menus.
+            _p->menu = new HelpMenu(_p->actions, mainWindow->menuBar());
 
-    mainWindow->menuBar()->addMenu(_p->menu);
+            mainWindow->menuBar()->addMenu(_p->menu);
 
-    // Setup the action callbacks.
-    connect(
-        _p->actions->action(djvViewHelpActions::HELP),
-        SIGNAL(triggered()),
-        SLOT(helpCallback()));
-    connect(
-        _p->actions->action(djvViewHelpActions::INFO),
-        SIGNAL(triggered()),
-        SLOT(infoCallback()));
-    connect(
-        _p->actions->action(djvViewHelpActions::ABOUT),
-        SIGNAL(triggered()),
-        SLOT(aboutCallback()));
-}
+            // Setup the action callbacks.
+            connect(
+                _p->actions->action(HelpActions::HELP),
+                SIGNAL(triggered()),
+                SLOT(helpCallback()));
+            connect(
+                _p->actions->action(HelpActions::INFO),
+                SIGNAL(triggered()),
+                SLOT(infoCallback()));
+            connect(
+                _p->actions->action(HelpActions::ABOUT),
+                SIGNAL(triggered()),
+                SLOT(aboutCallback()));
+        }
 
-djvViewHelpGroup::~djvViewHelpGroup()
-{
-    //DJV_DEBUG("djvViewHelpGroup::~djvViewHelpGroup");
-}
+        HelpGroup::~HelpGroup()
+        {
+            //DJV_DEBUG("HelpGroup::~HelpGroup");
+        }
 
-void djvViewHelpGroup::helpCallback()
-{
-    //DJV_DEBUG("djvViewHelpGroup::helpCallback");
-    context()->help();
-}
+        void HelpGroup::helpCallback()
+        {
+            //DJV_DEBUG("HelpGroup::helpCallback");
+            context()->help();
+        }
 
-void djvViewHelpGroup::infoCallback()
-{
-    context()->infoDialog()->show();
-}
+        void HelpGroup::infoCallback()
+        {
+            context()->infoDialog()->show();
+        }
 
-void djvViewHelpGroup::aboutCallback()
-{
-    context()->aboutDialog()->show();
-}
+        void HelpGroup::aboutCallback()
+        {
+            context()->aboutDialog()->show();
+        }
+
+    } // namespace ViewLib
+} // namespace djv

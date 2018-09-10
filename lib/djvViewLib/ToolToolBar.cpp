@@ -38,32 +38,30 @@
 
 #include <QActionGroup>
 
-//------------------------------------------------------------------------------
-// djvViewToolToolBar::Private
-//------------------------------------------------------------------------------
-
-struct djvViewToolToolBar::Private
-{};
-
-//------------------------------------------------------------------------------
-// djvViewToolToolBar
-//------------------------------------------------------------------------------
-
-djvViewToolToolBar::djvViewToolToolBar(
-    djvViewAbstractActions * actions,
-    djvViewContext *         context,
-    QWidget *                parent) :
-    djvViewAbstractToolBar(actions, context, parent),
-    _p(new Private)
+namespace djv
 {
-    for (int i = 0; i < djvViewUtil::TOOL_COUNT; ++i)
+    namespace ViewLib
     {
-        djvToolButton * button = new djvToolButton;
-        button->setDefaultAction(
-            actions->group(djvViewToolActions::TOOL_GROUP)->actions()[i]);
-        addWidget(button);
-    }
-}
+        struct ToolToolBar::Private
+        {};
 
-djvViewToolToolBar::~djvViewToolToolBar()
-{}
+        ToolToolBar::ToolToolBar(
+            AbstractActions * actions,
+            Context *         context,
+            QWidget *         parent) :
+            AbstractToolBar(actions, context, parent),
+            _p(new Private)
+        {
+            for (int i = 0; i < Util::TOOL_COUNT; ++i)
+            {
+                djvToolButton * button = new djvToolButton;
+                button->setDefaultAction(actions->group(ToolActions::TOOL_GROUP)->actions()[i]);
+                addWidget(button);
+            }
+        }
+
+        ToolToolBar::~ToolToolBar()
+        {}
+
+    } // namespace ViewLib
+} // namespace djv

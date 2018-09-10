@@ -40,59 +40,57 @@
 
 class QAction;
 
-//! \addtogroup djvViewView
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewViewGroup
-//!
-//! This class provides the view group. The view group encapsulates all
-//! of the functionality relating to views such as panning and zooming the
-//! image, which image chaneels are displayed, etc.
-//------------------------------------------------------------------------------
-
-class djvViewViewGroup : public djvViewAbstractGroup
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewViewGroup(
-        const djvViewViewGroup * copy,
-        djvViewMainWindow *      mainWindow,
-        djvViewContext *         context);
+    namespace ViewLib
+    {
+        //! \class ViewGroup
+        //!
+        //! This class provides the view group. The view group encapsulates all
+        //! of the functionality relating to views such as panning and zooming the
+        //! image, which image chaneels are displayed, etc.
+        class ViewGroup : public AbstractGroup
+        {
+            Q_OBJECT
 
-    virtual ~djvViewViewGroup();
+        public:
+            ViewGroup(
+                const ViewGroup * copy,
+                MainWindow *      mainWindow,
+                Context *         context);
 
-    virtual QToolBar * toolBar() const;
+            virtual ~ViewGroup();
 
-private Q_SLOTS:
-    void leftCallback();
-    void rightCallback();
-    void upCallback();
-    void downCallback();
-    void centerCallback();
-    void resetCallback();
-    void zoomInCallback();
-    void zoomOutCallback();
-    void zoomResetCallback();
-    void zoomIncCallback();
-    void zoomDecCallback();
-    void fitCallback();
-    void gridCallback(djvViewUtil::GRID);
-    void gridCallback(QAction *);
-    void hudEnabledCallback(bool);
+            virtual QToolBar * toolBar() const;
 
-    void update();
+        private Q_SLOTS:
+            void leftCallback();
+            void rightCallback();
+            void upCallback();
+            void downCallback();
+            void centerCallback();
+            void resetCallback();
+            void zoomInCallback();
+            void zoomOutCallback();
+            void zoomResetCallback();
+            void zoomIncCallback();
+            void zoomDecCallback();
+            void fitCallback();
+            void gridCallback(djv::ViewLib::Util::GRID);
+            void gridCallback(QAction *);
+            void hudEnabledCallback(bool);
 
-private:
-    void viewMove(const glm::ivec2 &);
-    void viewZoom(float);
+            void update();
 
-    DJV_PRIVATE_COPY(djvViewViewGroup);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private:
+            void viewMove(const glm::ivec2 &);
+            void viewZoom(float);
 
-//@} // djvViewView
+            DJV_PRIVATE_COPY(ViewGroup);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

@@ -36,69 +36,67 @@
 #include <QAction>
 #include <QActionGroup>
 
-//------------------------------------------------------------------------------
-// djvViewAbstractActions::Private
-//------------------------------------------------------------------------------
-
-struct djvViewAbstractActions::Private
+namespace djv
 {
-    Private(djvViewContext * context) :
-        osxMenuHack(0),
-        context    (context)
-    {}
-    
-    djvOsxMenuHack * osxMenuHack;
-    djvViewContext * context;
-};
-
-//------------------------------------------------------------------------------
-// djvViewAbstractActions
-//------------------------------------------------------------------------------
-
-djvViewAbstractActions::djvViewAbstractActions(
-    djvViewContext * context,
-    QObject *        parent) :
-	QObject(parent),
-    _p(new Private(context))
-{
-    _p->osxMenuHack = new djvOsxMenuHack(this);
-}
-
-djvViewAbstractActions::~djvViewAbstractActions()
-{}
-
-const QList<QAction *> djvViewAbstractActions::actions() const
-{
-    return _actions.values();
-}
-
-QAction * djvViewAbstractActions::action(int index) const
-{
-    return _actions.contains(index) ? _actions[index] : 0;
-}
-
-const QList<QActionGroup *> djvViewAbstractActions::groups() const
-{
-    return _groups.values();
-}
-
-QActionGroup * djvViewAbstractActions::group(int index) const
-{
-    return _groups.contains(index) ? _groups[index] : 0;
-}
-    
-djvViewContext * djvViewAbstractActions::context() const
-{
-    return _p->context;
-}
-
-void djvViewAbstractActions::osxMenuHack()
-{
-    QList<QAction *> actions = _actions.values();    
-    Q_FOREACH(QActionGroup * group, _groups)
+    namespace ViewLib
     {
-        actions += group->actions();
-    }
-    _p->osxMenuHack->fix(actions);
-}
+        struct AbstractActions::Private
+        {
+            Private(Context * context) :
+                osxMenuHack(0),
+                context(context)
+            {}
 
+            djvOsxMenuHack * osxMenuHack = nullptr;
+            Context * context = nullptr;
+        };
+
+        AbstractActions::AbstractActions(
+            Context * context,
+            QObject * parent) :
+            QObject(parent),
+            _p(new Private(context))
+        {
+            _p->osxMenuHack = new djvOsxMenuHack(this);
+        }
+
+        AbstractActions::~AbstractActions()
+        {}
+
+        const QList<QAction *> AbstractActions::actions() const
+        {
+            return _actions.values();
+        }
+
+        QAction * AbstractActions::action(int index) const
+        {
+            return _actions.contains(index) ? _actions[index] : 0;
+        }
+
+        const QList<QActionGroup *> AbstractActions::groups() const
+        {
+            return _groups.values();
+        }
+
+        QActionGroup * AbstractActions::group(int index) const
+        {
+            return _groups.contains(index) ? _groups[index] : 0;
+        }
+
+        Context * AbstractActions::context() const
+        {
+            return _p->context;
+        }
+
+        void AbstractActions::osxMenuHack()
+        {
+            QList<QAction *> actions = _actions.values();
+            Q_FOREACH(QActionGroup * group, _groups)
+            {
+                actions += group->actions();
+            }
+            _p->osxMenuHack->fix(actions);
+        }
+
+    } // namespace ViewLib
+} // namespace djv

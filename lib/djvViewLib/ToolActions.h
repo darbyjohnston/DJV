@@ -35,43 +35,41 @@
 
 #include <memory>
 
-//! \addtogroup djvViewTool
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewToolActions
-//!
-//! This class provides the tool group actions.
-//------------------------------------------------------------------------------
-
-class djvViewToolActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(GROUP)
-    
-public:
-
-    //! This enumeration provides the action groups.
-    enum GROUP
+    namespace ViewLib
     {
-        TOOL_GROUP,
+        //! \class ToolActions
+        //!
+        //! This class provides the tool group actions.
+        class ToolActions : public AbstractActions
+        {
+            Q_OBJECT
+            Q_ENUMS(GROUP)
 
-        GROUP_COUNT
-    };
+        public:
 
-    explicit djvViewToolActions(djvViewContext *, QObject * parent = nullptr);
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                TOOL_GROUP,
 
-    virtual ~djvViewToolActions();
+                GROUP_COUNT
+            };
 
-private Q_SLOTS:
-    void update();
+            explicit ToolActions(Context *, QObject * parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvViewToolActions);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~ToolActions();
 
-//@} // djvViewTool
+        private Q_SLOTS:
+            void update();
 
+        private:
+            DJV_PRIVATE_COPY(ToolActions);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

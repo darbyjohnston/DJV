@@ -39,109 +39,107 @@
 
 #include <memory>
 
-class  djvViewContext;
-struct djvViewHudInfo;
-
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImageView
-//!
-//! This class provides an image view widget.
-//------------------------------------------------------------------------------
-
-class djvViewImageView : public djvImageView
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewImageView(djvViewContext *, QWidget * parent = nullptr);
+    namespace ViewLib
+    {
+        class  Context;
+        struct HudInfo;
 
-    virtual ~djvViewImageView();
+        //! \class ImageView
+        //!
+        //! This class provides an image view widget.
+        class ImageView : public djvImageView
+        {
+            Q_OBJECT
 
-    //! Get whether the mouse is inside the view.
-    bool isMouseInside() const;
+        public:
+            explicit ImageView(Context *, QWidget * parent = nullptr);
 
-    //! Get the mouse position.
-    const glm::ivec2 & mousePos() const;
-    
-    virtual QSize sizeHint() const;
+            virtual ~ImageView();
 
-    virtual QSize minimumSizeHint() const;
+            //! Get whether the mouse is inside the view.
+            bool isMouseInside() const;
 
-public Q_SLOTS:
-    //! Set the zoom using the mouse pointer for focus.
-    void setZoomFocus(float);
+            //! Get the mouse position.
+            const glm::ivec2 & mousePos() const;
 
-    //! Set the grid.
-    void setGrid(djvViewUtil::GRID);
+            virtual QSize sizeHint() const;
 
-    //! Set the grid color.
-    void setGridColor(const djvColor &);
+            virtual QSize minimumSizeHint() const;
 
-    //! Set whether the HUD is enabled.
-    void setHudEnabled(bool);
+        public Q_SLOTS:
+            //! Set the zoom using the mouse pointer for focus.
+            void setZoomFocus(float);
 
-    //! Set the HUD information.
-    void setHudInfo(const djvViewHudInfo &);
+            //! Set the grid.
+            void setGrid(djv::ViewLib::Util::GRID);
 
-    //! Set the HUD color.
-    void setHudColor(const djvColor &);
+            //! Set the grid color.
+            void setGridColor(const djvColor &);
 
-    //! Set the HUD background.
-    void setHudBackground(djvViewUtil::HUD_BACKGROUND);
+            //! Set whether the HUD is enabled.
+            void setHudEnabled(bool);
 
-    //! Set the HUD background color.
-    void setHudBackgroundColor(const djvColor &);
+            //! Set the HUD information.
+            void setHudInfo(const djv::ViewLib::HudInfo &);
 
-Q_SIGNALS:
-    //! This signal is emitted when the view is picked.
-    void pickChanged(const glm::ivec2 &);
+            //! Set the HUD color.
+            void setHudColor(const djvColor &);
 
-    //! This signal is emitted when the mouse wheel is changed.
-    void mouseWheelChanged(djvViewUtil::MOUSE_WHEEL);
+            //! Set the HUD background.
+            void setHudBackground(djv::ViewLib::Util::HUD_BACKGROUND);
 
-    //! This signal is emitted when the mouse wheel value is changed.
-    void mouseWheelValueChanged(int);
+            //! Set the HUD background color.
+            void setHudBackgroundColor(const djvColor &);
 
-    //! This signal is emitted when a file is dropped on the view.
-    void fileDropped(const djvFileInfo &);
+        Q_SIGNALS:
+            //! This signal is emitted when the view is picked.
+            void pickChanged(const glm::ivec2 &);
 
-protected:
-    virtual void timerEvent(QTimerEvent *);
-    virtual void enterEvent(QEvent *);
-    virtual void leaveEvent(QEvent *);
-    virtual void resizeEvent(QResizeEvent *);
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
-    virtual void wheelEvent(QWheelEvent *);
-    virtual void dragEnterEvent(QDragEnterEvent *);
-    virtual void dropEvent(QDropEvent *);
-    virtual void paintGL();
+            //! This signal is emitted when the mouse wheel is changed.
+            void mouseWheelChanged(djv::ViewLib::Util::MOUSE_WHEEL);
 
-private Q_SLOTS:
-    void hudInfoCallback(const QVector<bool> &);
+            //! This signal is emitted when the mouse wheel value is changed.
+            void mouseWheelValueChanged(int);
 
-private:
-    void drawGrid();
-    void drawHud();
-    void drawHud(
-        const QStringList & upperLeft,
-        const QStringList & lowerLeft,
-        const QStringList & upperRight,
-        const QStringList & lowerRight);
-    djvBox2i drawHud(
-        const QString &    string,
-        const glm::ivec2 & position);
-    QSize drawHudSize(const QString &) const;
+            //! This signal is emitted when a file is dropped on the view.
+            void fileDropped(const djvFileInfo &);
 
-    DJV_PRIVATE_COPY(djvViewImageView);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        protected:
+            virtual void timerEvent(QTimerEvent *);
+            virtual void enterEvent(QEvent *);
+            virtual void leaveEvent(QEvent *);
+            virtual void resizeEvent(QResizeEvent *);
+            virtual void mousePressEvent(QMouseEvent *);
+            virtual void mouseReleaseEvent(QMouseEvent *);
+            virtual void mouseMoveEvent(QMouseEvent *);
+            virtual void wheelEvent(QWheelEvent *);
+            virtual void dragEnterEvent(QDragEnterEvent *);
+            virtual void dropEvent(QDropEvent *);
+            virtual void paintGL();
 
-//@} // djvViewImage
+        private Q_SLOTS:
+            void hudInfoCallback(const QVector<bool> &);
 
+        private:
+            void drawGrid();
+            void drawHud();
+            void drawHud(
+                const QStringList & upperLeft,
+                const QStringList & lowerLeft,
+                const QStringList & upperRight,
+                const QStringList & lowerRight);
+            djvBox2i drawHud(
+                const QString &    string,
+                const glm::ivec2 & position);
+            QSize drawHudSize(const QString &) const;
+
+            DJV_PRIVATE_COPY(ImageView);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

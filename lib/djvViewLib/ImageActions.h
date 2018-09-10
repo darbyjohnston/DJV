@@ -35,59 +35,57 @@
 
 #include <memory>
 
-//! \addtogroup djvViewImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewImageActions
-//!
-//! This class provides the image group actions.
-//------------------------------------------------------------------------------
-
-class djvViewImageActions : public djvViewAbstractActions
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(ACTION)
-    Q_ENUMS(GROUP)
-    
-public:
-    //! This enumeration provides the actions.
-    enum ACTION
+    namespace ViewLib
     {
-        FRAME_STORE,
-        LOAD_FRAME_STORE,
-        MIRROR_H,
-        MIRROR_V,
-        COLOR_PROFILE,
-        DISPLAY_PROFILE_VISIBLE,
+        //! \class ImageActions
+        //!
+        //! This class provides the image group actions.
+        class ImageActions : public AbstractActions
+        {
+            Q_OBJECT
+            Q_ENUMS(ACTION)
+            Q_ENUMS(GROUP)
 
-        ACTION_COUNT
-    };
+        public:
+            //! This enumeration provides the actions.
+            enum ACTION
+            {
+                FRAME_STORE,
+                LOAD_FRAME_STORE,
+                MIRROR_H,
+                MIRROR_V,
+                COLOR_PROFILE,
+                DISPLAY_PROFILE_VISIBLE,
 
-    //! This enumeration provides the action groups.
-    enum GROUP
-    {
-        SCALE_GROUP,
-        ROTATE_GROUP,
-        DISPLAY_PROFILE_GROUP,
-        CHANNEL_GROUP,
+                ACTION_COUNT
+            };
 
-        GROUP_COUNT
-    };
+            //! This enumeration provides the action groups.
+            enum GROUP
+            {
+                SCALE_GROUP,
+                ROTATE_GROUP,
+                DISPLAY_PROFILE_GROUP,
+                CHANNEL_GROUP,
 
-    explicit djvViewImageActions(djvViewContext *, QObject * parent = nullptr);
+                GROUP_COUNT
+            };
 
-    virtual ~djvViewImageActions();
+            explicit ImageActions(Context *, QObject * parent = nullptr);
 
-private Q_SLOTS:
-    void update();
+            virtual ~ImageActions();
 
-private:
-    DJV_PRIVATE_COPY(djvViewImageActions);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void update();
 
-//@} // djvViewImage
+        private:
+            DJV_PRIVATE_COPY(ImageActions);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace ViewLib
+} // namespace djv

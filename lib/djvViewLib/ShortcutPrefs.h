@@ -40,44 +40,42 @@
 #undef FILE_OPEN
 #endif
 
-//! \addtogroup djvViewMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewShortcutPrefs
-//!
-//! This class provides the keyboard shortcut preferences.
-//------------------------------------------------------------------------------
-
-class djvViewShortcutPrefs : public djvViewAbstractPrefs
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvViewShortcutPrefs(djvViewContext *, QObject * parent = nullptr);
+    namespace ViewLib
+    {
+        //! \class ShortcutPrefs
+        //!
+        //! This class provides the keyboard shortcut preferences.
+        class ShortcutPrefs : public AbstractPrefs
+        {
+            Q_OBJECT
 
-    ~djvViewShortcutPrefs();
-    
-    //! Get the default shortcuts.
-    static const QVector<djvShortcut> & shortcutsDefault();
+        public:
+            explicit ShortcutPrefs(Context *, QObject * parent = nullptr);
 
-    //! Get the shortcuts.
-    const QVector<djvShortcut> & shortcuts() const;
+            ~ShortcutPrefs();
 
-public Q_SLOTS:
-    //! Set the shortcuts.
-    void setShortcuts(const QVector<djvShortcut> &);
+            //! Get the default shortcuts.
+            static const QVector<djvShortcut> & shortcutsDefault();
 
-Q_SIGNALS:
-    //! This signal is emitted when the shortcuts are changed.
-    void shortcutsChanged(const QVector<djvShortcut> &);
+            //! Get the shortcuts.
+            const QVector<djvShortcut> & shortcuts() const;
 
-    //! This signal is emitted when a preference is changed.
-    void prefChanged();
-    
-private:
-    QVector<djvShortcut> _shortcuts;
-};
+        public Q_SLOTS:
+            //! Set the shortcuts.
+            void setShortcuts(const QVector<djvShortcut> &);
 
-//@} // djvViewMisc
+        Q_SIGNALS:
+            //! This signal is emitted when the shortcuts are changed.
+            void shortcutsChanged(const QVector<djvShortcut> &);
 
+            //! This signal is emitted when a preference is changed.
+            void prefChanged();
+
+        private:
+            QVector<djvShortcut> _shortcuts;
+        };
+
+    } // namespace ViewLib
+} // namespace djv
