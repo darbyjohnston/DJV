@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvFileInfo.h>
+#include <djvCore/FileInfo.h>
 
 #include <QGuiApplication>
 

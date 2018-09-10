@@ -31,9 +31,8 @@
 
 #pragma once
 
-#include <djvViewLib.h>
-
-#include <djvUtil.h>
+#include <djvViewLib/Core.h>
+#include <djvViewLib/Util.h>
 
 #include <QApplication>
 

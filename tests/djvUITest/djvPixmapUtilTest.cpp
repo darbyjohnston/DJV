@@ -31,13 +31,13 @@
 
 #include <djvPixmapUtilTest.h>
 
-#include <djvPixmapUtil.h>
+#include <djvUI/PixmapUtil.h>
 
-#include <djvGraphicsContext.h>
-#include <djvPixelData.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/PixelData.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
 
 #include <QPixmap>
 

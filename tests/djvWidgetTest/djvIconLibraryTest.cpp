@@ -31,11 +31,11 @@
 
 #include <djvIconLibraryTest.h>
 
-#include <djvUIContext.h>
-#include <djvIconLibrary.h>
-#include <djvSearchBox.h>
+#include <djvUI/UIContext.h>
+#include <djvUI/IconLibrary.h>
+#include <djvUI/SearchBox.h>
 
-#include <djvMath.h>
+#include <djvCore/Math.h>
 
 #include <QHeaderView>
 #include <QSortFilterProxyModel>

@@ -31,10 +31,10 @@
 
 #pragma once
 
-#include <djvOpenGL.h>
-#include <djvPixelData.h>
+#include <djvGraphics/OpenGL.h>
+#include <djvGraphics/PixelData.h>
 
-#include <djvError.h>
+#include <djvCore/Error.h>
 
 class djvOpenGLTexture;
 

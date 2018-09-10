@@ -31,11 +31,11 @@
 
 #include <djvPixelDataUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvGraphicsContext.h>
-#include <djvPixelData.h>
-#include <djvPixelDataUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/PixelData.h>
+#include <djvGraphics/PixelDataUtil.h>
 
 #include <QPixmap>
 #include <QString>

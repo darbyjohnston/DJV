@@ -31,9 +31,9 @@
 
 #include <djvImageTagsTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvImageTags.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvGraphics/ImageTags.h>
 
 #include <QStringList>
 

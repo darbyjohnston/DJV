@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvSpeed.h>
+#include <djvCore/Speed.h>
 
 #include <QObject>
 

@@ -33,7 +33,7 @@
 
 #include <AbstractOp.h>
 
-#include <djvOpenGLShader.h>
+#include <djvGraphics/OpenGLShader.h>
 
 //------------------------------------------------------------------------------
 // NullOp

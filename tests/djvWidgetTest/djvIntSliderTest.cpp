@@ -31,9 +31,9 @@
 
 #include <djvIntSliderTest.h>
 
-#include <djvIntSlider.h>
+#include <djvUI/IntSlider.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QVBoxLayout>
 

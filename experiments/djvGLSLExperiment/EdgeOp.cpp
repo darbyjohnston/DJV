@@ -31,8 +31,8 @@
 
 #include <EdgeOp.h>
 
-#include <djvImage.h>
-#include <djvOpenGLImage.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/OpenGLImage.h>
 
 using namespace gl;
 

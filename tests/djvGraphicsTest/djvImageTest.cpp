@@ -31,9 +31,9 @@
 
 #include <djvImageTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvImage.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvGraphics/Image.h>
 
 void djvImageTest::run(int &, char **)
 {

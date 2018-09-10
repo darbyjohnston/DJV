@@ -31,8 +31,8 @@
 
 #include <djvConvertContext.h>
 
-#include <djvDebugLog.h>
-#include <djvFileInfoUtil.h>
+#include <djvCore/DebugLog.h>
+#include <djvCore/FileInfoUtil.h>
 
 #include <QCoreApplication>
 

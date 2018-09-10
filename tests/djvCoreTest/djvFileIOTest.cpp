@@ -31,9 +31,9 @@
 
 #include <djvFileIOTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvFileIO.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/FileIO.h>
 
 void djvFileIOTest::run(int &, char **)
 {

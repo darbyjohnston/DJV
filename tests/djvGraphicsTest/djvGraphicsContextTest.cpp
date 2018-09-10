@@ -31,11 +31,11 @@
 
 #include <djvGraphicsContextTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvErrorUtil.h>
-#include <djvGraphicsContext.h>
-#include <djvOpenGLImage.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/ErrorUtil.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/OpenGLImage.h>
 
 void djvGraphicsContextTest::run(int & argc, char ** argv)
 {

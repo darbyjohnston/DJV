@@ -31,8 +31,8 @@
 
 #pragma once
 
-#include <djvImage.h>
-#include <djvImageIO.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/ImageIO.h>
 
 #include <QObject>
 

@@ -31,13 +31,13 @@
 
 #include <djvImageIOTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvErrorUtil.h>
-#include <djvFileInfo.h>
-#include <djvImage.h>
-#include <djvGraphicsContext.h>
-#include <djvImageIO.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/ErrorUtil.h>
+#include <djvCore/FileInfo.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/ImageIO.h>
 
 void djvImageIOTest::run(int & argc, char ** argv)
 {

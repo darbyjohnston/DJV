@@ -31,9 +31,9 @@
 
 #include <djvPixelDataTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvPixelData.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvGraphics/PixelData.h>
 
 #include <QString>
 

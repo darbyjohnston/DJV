@@ -31,19 +31,19 @@
 
 #include <djvImageIOFormatsTest.h>
 
-#include <djvImage.h>
-#include <djvGraphicsContext.h>
-#include <djvImageIO.h>
-#include <djvOpenGLImage.h>
-#include <djvOpenGLOffscreenBuffer.h>
-#include <djvPixelDataUtil.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/ImageIO.h>
+#include <djvGraphics/OpenGLImage.h>
+#include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvGraphics/PixelDataUtil.h>
 
-#include <djvDebug.h>
-#include <djvError.h>
-#include <djvErrorUtil.h>
-#include <djvFileInfo.h>
-#include <djvFileIO.h>
-#include <djvMemory.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Error.h>
+#include <djvCore/ErrorUtil.h>
+#include <djvCore/FileInfo.h>
+#include <djvCore/FileIO.h>
+#include <djvCore/Memory.h>
 
 #include <QPair>
 

@@ -31,12 +31,12 @@
 
 #include <djvFileInfoUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvFileInfo.h>
-#include <djvFileIO.h>
-#include <djvFileInfoUtil.h>
-#include <djvMemory.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/FileInfo.h>
+#include <djvCore/FileIO.h>
+#include <djvCore/FileInfoUtil.h>
+#include <djvCore/Memory.h>
 
 #include <QDir>
 

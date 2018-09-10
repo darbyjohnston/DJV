@@ -33,10 +33,10 @@
 
 #include <Context.h>
 
-#include <djvIntEditSlider.h>
+#include <djvUI/IntEditSlider.h>
 
-#include <djvImage.h>
-#include <djvOpenGLImage.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/OpenGLImage.h>
 
 #include <QComboBox>
 #include <QGroupBox>

@@ -31,9 +31,9 @@
 
 #include <djvBoxUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvBoxUtil.h>
-#include <djvDebug.h>
+#include <djvCore/Assert.h>
+#include <djvCore/BoxUtil.h>
+#include <djvCore/Debug.h>
 
 void djvBoxUtilTest::run(int &, char **)
 {

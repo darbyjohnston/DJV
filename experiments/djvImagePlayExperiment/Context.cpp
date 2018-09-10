@@ -33,7 +33,7 @@
 
 #include <Load.h>
 
-#include <djvDebug.h>
+#include <djvCore/Debug.h>
 
 //------------------------------------------------------------------------------
 // Context

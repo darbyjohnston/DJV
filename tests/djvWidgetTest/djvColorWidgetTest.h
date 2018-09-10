@@ -33,7 +33,7 @@
 
 #include <djvAbstractWidgetTest.h>
 
-#include <djvColor.h>
+#include <djvGraphics/Color.h>
 
 class djvColorWidgetTest : public djvAbstractWidgetTest
 {

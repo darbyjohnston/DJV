@@ -33,8 +33,8 @@
 
 #include <djvAbstractTest.h>
 
-#include <djvImage.h>
-#include <djvImageIO.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/ImageIO.h>
 
 class djvGraphicsContext;
 

@@ -31,11 +31,11 @@
 
 #include <djvFileInfoTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvFileInfo.h>
-#include <djvFileInfoUtil.h>
-#include <djvFileIO.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/FileInfo.h>
+#include <djvCore/FileInfoUtil.h>
+#include <djvCore/FileIO.h>
 
 void djvFileInfoTest::run(int &, char **)
 {

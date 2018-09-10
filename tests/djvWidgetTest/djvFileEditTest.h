@@ -33,7 +33,7 @@
 
 #include <djvAbstractWidgetTest.h>
 
-#include <djvFileEdit.h>
+#include <djvUI/FileEdit.h>
 
 class djvFileEditTest : public djvAbstractWidgetTest
 {

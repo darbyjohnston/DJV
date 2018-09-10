@@ -31,13 +31,13 @@
 
 #include <djvCoreContextTest.h>
 
-#include <djvAssert.h>
-#include <djvCoreContext.h>
-#include <djvDebug.h>
-#include <djvErrorUtil.h>
-#include <djvMath.h>
-#include <djvSpeed.h>
-#include <djvTime.h>
+#include <djvCore/Assert.h>
+#include <djvCore/CoreContext.h>
+#include <djvCore/Debug.h>
+#include <djvCore/ErrorUtil.h>
+#include <djvCore/Math.h>
+#include <djvCore/Speed.h>
+#include <djvCore/Time.h>
 
 void djvCoreContextTest::run(int & argc, char ** argv)
 {

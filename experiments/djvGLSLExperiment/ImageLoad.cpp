@@ -33,7 +33,7 @@
 
 #include <Context.h>
 
-#include <djvErrorUtil.h>
+#include <djvCore/ErrorUtil.h>
 
 //------------------------------------------------------------------------------
 // ImageLoad

@@ -31,9 +31,9 @@
 
 #include <djvFileBrowserTest.h>
 
-#include <djvFileBrowser.h>
+#include <djvUI/FileBrowser.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 djvFileBrowserTest::djvFileBrowserTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)

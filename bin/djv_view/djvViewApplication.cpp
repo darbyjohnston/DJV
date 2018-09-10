@@ -31,12 +31,12 @@
 
 #include <djvViewApplication.h>
 
-#include <djvViewContext.h>
-#include <djvViewMainWindow.h>
+#include <djvViewLib/Context.h>
+#include <djvViewLib/MainWindow.h>
 
-#include <djvDebugLog.h>
-#include <djvError.h>
-#include <djvFileInfoUtil.h>
+#include <djvCore/DebugLog.h>
+#include <djvCore/Error.h>
+#include <djvCore/FileInfoUtil.h>
 
 #include <QFileOpenEvent>
 #include <QScopedPointer>

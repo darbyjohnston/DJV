@@ -36,8 +36,8 @@
 #include <OpsManager.h>
 #include <Playback.h>
 
-#include <djvDebugLog.h>
-#include <djvErrorUtil.h>
+#include <djvCore/DebugLog.h>
+#include <djvCore/ErrorUtil.h>
 
 //------------------------------------------------------------------------------
 // ViewWidget

@@ -31,9 +31,9 @@
 
 #include <djvShortcutsWidgetTest.h>
 
-#include <djvShortcutsWidget.h>
+#include <djvUI/ShortcutsWidget.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QHBoxLayout>
 

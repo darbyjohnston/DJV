@@ -31,7 +31,7 @@
 
 #include <djvInfoContext.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QCoreApplication>
 

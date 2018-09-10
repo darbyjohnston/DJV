@@ -31,10 +31,10 @@
 
 #include <djvFileIOUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvFileIO.h>
-#include <djvFileIOUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/FileIO.h>
+#include <djvCore/FileIOUtil.h>
 
 void djvFileIOUtilTest::run(int &, char **)
 {

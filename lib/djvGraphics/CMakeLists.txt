@@ -1,199 +1,199 @@
 set(header
-    djvCineon.h
-    djvCineonHeader.h
-    djvCineonLoad.h
-    djvCineonPlugin.h
-    djvCineonSave.h
-    djvColor.h
-    djvColorInline.h
-    djvColorUtil.h
-    djvColorUtilInline.h
-    djvColorProfile.h
-    djvDPX.h
-    djvDPXHeader.h
-    djvDPXLoad.h
-    djvDPXPlugin.h
-    djvDPXSave.h
-    djvGraphicsContext.h
-    djvIFF.h
-    djvIFFLoad.h
-    djvIFFPlugin.h
-    djvIFFSave.h
-    djvIFL.h
-    djvIFLLoad.h
-    djvIFLPlugin.h
-    djvImage.h
-    djvImageIO.h
-    djvImageTags.h
-    djvImageUtil.h
-    djvLUT.h
-    djvLUTLoad.h
-    djvLUTPlugin.h
-    djvLUTSave.h
-    djvOpenGL.h
-    djvOpenGLImage.h
-    djvOpenGLOffscreenBuffer.h
-    djvOpenGLLUT.h
-    djvOpenGLShader.h
-    djvOpenGLTexture.h
-    djvPIC.h
-    djvPICLoad.h
-    djvPICPlugin.h
-    djvPixel.h
-    djvPixelData.h
-    djvPixelDataInline.h
-    djvPixelDataUtil.h
-    djvPixelInline.h
-    djvPPM.h
-    djvPPMLoad.h
-    djvPPMPlugin.h
-    djvPPMSave.h
-    djvRLA.h
-    djvRLALoad.h
-    djvRLAPlugin.h
-    djvSGI.h
-    djvSGILoad.h
-    djvSGIPlugin.h
-    djvSGISave.h
-    djvTarga.h
-    djvTargaLoad.h
-    djvTargaPlugin.h
-    djvTargaSave.h)
+    Cineon.h
+    CineonHeader.h
+    CineonLoad.h
+    CineonPlugin.h
+    CineonSave.h
+    Color.h
+    ColorInline.h
+    ColorUtil.h
+    ColorUtilInline.h
+    ColorProfile.h
+    DPX.h
+    DPXHeader.h
+    DPXLoad.h
+    DPXPlugin.h
+    DPXSave.h
+    GraphicsContext.h
+    IFF.h
+    IFFLoad.h
+    IFFPlugin.h
+    IFFSave.h
+    IFL.h
+    IFLLoad.h
+    IFLPlugin.h
+    Image.h
+    ImageIO.h
+    ImageTags.h
+    ImageUtil.h
+    LUT.h
+    LUTLoad.h
+    LUTPlugin.h
+    LUTSave.h
+    OpenGL.h
+    OpenGLImage.h
+    OpenGLOffscreenBuffer.h
+    OpenGLLUT.h
+    OpenGLShader.h
+    OpenGLTexture.h
+    PIC.h
+    PICLoad.h
+    PICPlugin.h
+    Pixel.h
+    PixelData.h
+    PixelDataInline.h
+    PixelDataUtil.h
+    PixelInline.h
+    PPM.h
+    PPMLoad.h
+    PPMPlugin.h
+    PPMSave.h
+    RLA.h
+    RLALoad.h
+    RLAPlugin.h
+    SGI.h
+    SGILoad.h
+    SGIPlugin.h
+    SGISave.h
+    Targa.h
+    TargaLoad.h
+    TargaPlugin.h
+    TargaSave.h)
 set(mocHeader
-    djvColorProfile.h
-    djvImageIO.h
-    djvImageTags.h
-    djvOpenGLImage.h
-    djvPixelData.h
-    djvPixel.h)
+    ColorProfile.h
+    ImageIO.h
+    ImageTags.h
+    OpenGLImage.h
+    PixelData.h
+    Pixel.h)
 set(source
-    djvCineon.cpp
-    djvCineonHeader.cpp
-    djvCineonLoad.cpp
-    djvCineonPlugin.cpp
-    djvCineonSave.cpp
-    djvColor.cpp
-    djvColorUtil.cpp
-    djvColorProfile.cpp
-    djvDPX.cpp
-    djvDPXHeader.cpp
-    djvDPXLoad.cpp
-    djvDPXPlugin.cpp
-    djvDPXSave.cpp
-    djvGraphicsContext.cpp
-    djvIFF.cpp
-    djvIFFLoad.cpp
-    djvIFFPlugin.cpp
-    djvIFFSave.cpp
-    djvIFL.cpp
-    djvIFLLoad.cpp
-    djvIFLPlugin.cpp
-    djvImage.cpp
-    djvImageIO.cpp
-    djvImageTags.cpp
-    djvImageUtil.cpp
-    djvLUT.cpp
-    djvLUTLoad.cpp
-    djvLUTPlugin.cpp
-    djvLUTSave.cpp
-    djvOpenGL.cpp
-    djvOpenGLImage.cpp
-    djvOpenGLImageDraw.cpp
-    djvOpenGLOffscreenBuffer.cpp
-    djvOpenGLLUT.cpp
-    djvOpenGLShader.cpp
-    djvOpenGLTexture.cpp
-    djvPIC.cpp
-    djvPICLoad.cpp
-    djvPICPlugin.cpp
-    djvPixel.cpp
-    djvPixelConvert.cpp
-    djvPixelData.cpp
-    djvPixelDataUtil.cpp
-    djvPPM.cpp
-    djvPPMLoad.cpp
-    djvPPMPlugin.cpp
-    djvPPMSave.cpp
-    djvRLA.cpp
-    djvRLALoad.cpp
-    djvRLAPlugin.cpp
-    djvSGI.cpp
-    djvSGILoad.cpp
-    djvSGIPlugin.cpp
-    djvSGISave.cpp
-    djvTarga.cpp
-    djvTargaLoad.cpp
-    djvTargaPlugin.cpp
-    djvTargaSave.cpp)
+    Cineon.cpp
+    CineonHeader.cpp
+    CineonLoad.cpp
+    CineonPlugin.cpp
+    CineonSave.cpp
+    Color.cpp
+    ColorUtil.cpp
+    ColorProfile.cpp
+    DPX.cpp
+    DPXHeader.cpp
+    DPXLoad.cpp
+    DPXPlugin.cpp
+    DPXSave.cpp
+    GraphicsContext.cpp
+    IFF.cpp
+    IFFLoad.cpp
+    IFFPlugin.cpp
+    IFFSave.cpp
+    IFL.cpp
+    IFLLoad.cpp
+    IFLPlugin.cpp
+    Image.cpp
+    ImageIO.cpp
+    ImageTags.cpp
+    ImageUtil.cpp
+    LUT.cpp
+    LUTLoad.cpp
+    LUTPlugin.cpp
+    LUTSave.cpp
+    OpenGL.cpp
+    OpenGLImage.cpp
+    OpenGLImageDraw.cpp
+    OpenGLOffscreenBuffer.cpp
+    OpenGLLUT.cpp
+    OpenGLShader.cpp
+    OpenGLTexture.cpp
+    PIC.cpp
+    PICLoad.cpp
+    PICPlugin.cpp
+    Pixel.cpp
+    PixelConvert.cpp
+    PixelData.cpp
+    PixelDataUtil.cpp
+    PPM.cpp
+    PPMLoad.cpp
+    PPMPlugin.cpp
+    PPMSave.cpp
+    RLA.cpp
+    RLALoad.cpp
+    RLAPlugin.cpp
+    SGI.cpp
+    SGILoad.cpp
+    SGIPlugin.cpp
+    SGISave.cpp
+    Targa.cpp
+    TargaLoad.cpp
+    TargaPlugin.cpp
+    TargaSave.cpp)
 if(JPEG_FOUND)
     set(header
         ${header}
-        djvJPEG.h
-        djvJPEGLoad.h
-        djvJPEGPlugin.h
-        djvJPEGSave.h)
+        JPEG.h
+        JPEGLoad.h
+        JPEGPlugin.h
+        JPEGSave.h)
     set(source
         ${source}
-        djvJPEG.cpp
-        djvJPEGLoad.cpp
-        djvJPEGPlugin.cpp
-        djvJPEGSave.cpp)
+        JPEG.cpp
+        JPEGLoad.cpp
+        JPEGPlugin.cpp
+        JPEGSave.cpp)
 endif()
 if(PNG_FOUND)
     set(header
         ${header}
-        djvPNG.h
-        djvPNGLoad.h
-        djvPNGPlugin.h
-        djvPNGSave.h)
+        PNG.h
+        PNGLoad.h
+        PNGPlugin.h
+        PNGSave.h)
     set(source
         ${source}
-        djvPNG.cpp
-        djvPNGLoad.cpp
-        djvPNGPlugin.cpp
-        djvPNGSave.cpp)
+        PNG.cpp
+        PNGLoad.cpp
+        PNGPlugin.cpp
+        PNGSave.cpp)
 endif()
 if(TIFF_FOUND)
     set(header
         ${header}
-        djvTIFF.h
-        djvTIFFLoad.h
-        djvTIFFPlugin.h
-        djvTIFFSave.h)
+        TIFF.h
+        TIFFLoad.h
+        TIFFPlugin.h
+        TIFFSave.h)
     set(source
         ${source}
-        djvTIFF.cpp
-        djvTIFFLoad.cpp
-        djvTIFFPlugin.cpp
-        djvTIFFSave.cpp)
+        TIFF.cpp
+        TIFFLoad.cpp
+        TIFFPlugin.cpp
+        TIFFSave.cpp)
 endif()
 if(OPENEXR_FOUND)
     set(header
         ${header}
-        djvOpenEXR.h
-        djvOpenEXRLoad.h
-        djvOpenEXRPlugin.h
-        djvOpenEXRSave.h)
+        OpenEXR.h
+        OpenEXRLoad.h
+        OpenEXRPlugin.h
+        OpenEXRSave.h)
     set(source
         ${source}
-        djvOpenEXR.cpp
-        djvOpenEXRLoad.cpp
-        djvOpenEXRPlugin.cpp
-        djvOpenEXRSave.cpp)
+        OpenEXR.cpp
+        OpenEXRLoad.cpp
+        OpenEXRPlugin.cpp
+        OpenEXRSave.cpp)
 endif()
 if(FFMPEG_FOUND)
     set(header
         ${header}
-        djvFFmpeg.h
-        djvFFmpegLoad.h
-        djvFFmpegPlugin.h
-        djvFFmpegSave.h)
+        FFmpeg.h
+        FFmpegLoad.h
+        FFmpegPlugin.h
+        FFmpegSave.h)
     set(source
         ${source}
-        djvFFmpeg.cpp
-        djvFFmpegLoad.cpp
-        djvFFmpegPlugin.cpp
-        djvFFmpegSave.cpp)
+        FFmpeg.cpp
+        FFmpegLoad.cpp
+        FFmpegPlugin.cpp
+        FFmpegSave.cpp)
 endif()
 
 QT5_WRAP_CPP(mocSource ${mocHeader})
@@ -203,13 +203,11 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
     djvGraphics_cs_CZ.ts)
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR}
     ${OPENGL_INCLUDE_DIRS})
 add_library(djvGraphics ${header} ${source} ${mocSource} ${rccSource} ${qmSource})
 target_link_libraries(djvGraphics
     djvCore
+    Qt5
     IlmBase_static
     glbinding
     ${OPENGL_LIBRARIES})
@@ -231,4 +229,3 @@ install(
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
-

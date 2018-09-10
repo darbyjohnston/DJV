@@ -31,11 +31,11 @@
 
 #include <djvOpenGLTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvGraphicsContext.h>
-#include <djvOpenGL.h>
-#include <djvOpenGLOffscreenBuffer.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/OpenGL.h>
+#include <djvGraphics/OpenGLOffscreenBuffer.h>
 
 #include <QScopedPointer>
 #include <QString>

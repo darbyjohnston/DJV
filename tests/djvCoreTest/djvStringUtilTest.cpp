@@ -31,10 +31,10 @@
 
 #include <djvStringUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvMath.h>
-#include <djvStringUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Math.h>
+#include <djvCore/StringUtil.h>
 
 void djvStringUtilTest::run(int &, char **)
 {

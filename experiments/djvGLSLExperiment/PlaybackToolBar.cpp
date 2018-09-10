@@ -33,9 +33,9 @@
 
 #include <Context.h>
 
-#include <djvViewMiscWidget.h>
+#include <djvViewLib/MiscWidget.h>
 
-#include <djvPlaybackButtons.h>
+#include <djvUI/PlaybackButtons.h>
 
 #include <QHBoxLayout>
 

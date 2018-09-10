@@ -33,9 +33,9 @@
 
 #include <djvListUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvListUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/ListUtil.h>
 
 #include <QString>
 

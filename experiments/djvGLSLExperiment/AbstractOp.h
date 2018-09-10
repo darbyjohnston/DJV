@@ -33,8 +33,8 @@
 
 #include <Util.h>
 
-#include <djvError.h>
-#include <djvOpenGLTexture.h>
+#include <djvCore/Error.h>
+#include <djvGraphics/OpenGLTexture.h>
 
 #include <QWidget>
 

@@ -31,10 +31,10 @@
 
 #include <djvTimeTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvMath.h>
-#include <djvTime.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Math.h>
+#include <djvCore/Time.h>
 
 #include <QStringList>
 

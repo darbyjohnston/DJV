@@ -31,8 +31,8 @@
 
 #include <Util.h>
 
-#include <djvMatrix.h>
-#include <djvOpenGLTexture.h>
+#include <djvCore/Matrix.h>
+#include <djvGraphics/OpenGLTexture.h>
 
 using namespace gl;
 

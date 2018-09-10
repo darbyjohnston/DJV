@@ -31,9 +31,9 @@
 
 #include <djvSignalBlockerTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvSignalBlocker.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/SignalBlocker.h>
 
 #include <QString>
 

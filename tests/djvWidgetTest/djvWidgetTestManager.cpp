@@ -55,7 +55,7 @@
 #include <djvVectorWidgetTest.h>
 #include <djvViewWidgetTest.h>
 
-#include <djvUIContext.h>
+#include <djvUI/UIContext.h>
 
 //------------------------------------------------------------------------------
 // djvWidgetTestManager

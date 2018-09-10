@@ -31,11 +31,11 @@
 
 #include <djvVectorUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvStringUtil.h>
-#include <djvVector.h>
-#include <djvVectorUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/StringUtil.h>
+#include <djvCore/Vector.h>
+#include <djvCore/VectorUtil.h>
 
 void djvVectorUtilTest::run(int &, char **)
 {

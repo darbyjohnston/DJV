@@ -31,10 +31,10 @@
 
 #include <djvSequenceUtilTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvSequence.h>
-#include <djvSequenceUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Sequence.h>
+#include <djvCore/SequenceUtil.h>
 
 void djvSequenceUtilTest::run(int &, char **)
 {

@@ -33,7 +33,7 @@
 
 #include <djvAbstractWidgetTest.h>
 
-#include <djvPixel.h>
+#include <djvGraphics/Pixel.h>
 
 class djvPixelWidgetTest : public djvAbstractWidgetTest
 {

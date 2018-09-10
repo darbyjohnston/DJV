@@ -33,16 +33,16 @@
 
 #include <djvViewWidgetTest.h>
 
-#include <djvViewMiscWidget.h>
+#include <djvViewLib/MiscWidget.h>
 
-#include <djvIconLibrary.h>
-#include <djvTimePrefs.h>
-#include <djvToolButton.h>
-#include <djvUIContext.h>
+#include <djvUI/IconLibrary.h>
+#include <djvUI/TimePrefs.h>
+#include <djvUI/ToolButton.h>
+#include <djvUI/UIContext.h>
 
-#include <djvRangeUtil.h>
-#include <djvSignalBlocker.h>
-#include <djvTime.h>
+#include <djvCore/RangeUtil.h>
+#include <djvCore/SignalBlocker.h>
+#include <djvCore/Time.h>
 
 #include <QApplication>
 #include <QComboBox>

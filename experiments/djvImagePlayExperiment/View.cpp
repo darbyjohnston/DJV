@@ -34,7 +34,7 @@
 #include <Context.h>
 #include <Load.h>
 
-#include <djvError.h>
+#include <djvCore/Error.h>
 
 #include <QOpenGLFunctions>
 #include <QMutexLocker>

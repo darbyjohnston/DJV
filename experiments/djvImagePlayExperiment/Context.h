@@ -33,7 +33,7 @@
 
 #include <Playback.h>
 
-#include <djvUIContext.h>
+#include <djvUI/UIContext.h>
 
 #include <QMutex>
 #include <QOpenGLContext>

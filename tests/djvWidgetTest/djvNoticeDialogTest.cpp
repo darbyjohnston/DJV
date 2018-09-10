@@ -31,7 +31,7 @@
 
 #include <djvNoticeDialogTest.h>
 
-#include <djvNoticeDialog.h>
+#include <djvUI/NoticeDialog.h>
 
 djvNoticeDialogTest::djvNoticeDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)

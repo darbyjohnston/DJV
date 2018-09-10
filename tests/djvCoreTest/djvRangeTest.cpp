@@ -31,10 +31,10 @@
 
 #include <djvRangeTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvRange.h>
-#include <djvRangeUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Range.h>
+#include <djvCore/RangeUtil.h>
 
 void djvRangeTest::run(int &, char **)
 {

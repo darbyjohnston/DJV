@@ -33,8 +33,8 @@
 
 #include <djvAbstractWidgetTest.h>
 
-#include <djvSequence.h>
-#include <djvSpeed.h>
+#include <djvCore/Sequence.h>
+#include <djvCore/Speed.h>
 
 #include <QWidget>
 

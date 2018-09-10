@@ -31,8 +31,8 @@
 
 #include <Playback.h>
 
-#include <djvDebug.h>
-#include <djvMath.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Math.h>
 
 //------------------------------------------------------------------------------
 // Playback

@@ -33,7 +33,7 @@
 
 #include <AbstractOp.h>
 
-#include <djvOpenGLWidget.h>
+#include <djvUI/OpenGLWidget.h>
 
 class Context;
 class ImageLoad;

@@ -17,11 +17,6 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_view
-    ${CMAKE_SOURCE_DIR}/lib/djvViewLib
-    ${CMAKE_SOURCE_DIR}/lib/djvUI
-    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR}
     ${OPENGL_INCLUDE_DIRS})
 add_executable(djv_view WIN32 ${header} ${source} ${mocSource} djvViewMain.cpp)
 target_link_libraries(djv_view djvViewLib)

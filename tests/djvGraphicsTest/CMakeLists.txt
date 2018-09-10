@@ -34,9 +34,6 @@ QT5_WRAP_CPP(mocSource ${mocHeader})
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvGraphicsTest
     ${CMAKE_SOURCE_DIR}/tests/djvTestLib
-    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR}
     ${OPENGL_INCLUDE_DIRS})
 add_library(djvGraphicsTest ${header} ${source} ${mocSource})
 target_link_libraries(djvGraphicsTest djvTestLib djvGraphics)

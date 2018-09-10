@@ -31,9 +31,9 @@
 
 #pragma once
 
-#include <djvGraphicsContext.h>
+#include <djvGraphics/GraphicsContext.h>
 
-#include <djvSequence.h>
+#include <djvCore/Sequence.h>
 
 //! \addtogroup djv_info
 //@{

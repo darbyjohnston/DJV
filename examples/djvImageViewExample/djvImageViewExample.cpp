@@ -31,11 +31,11 @@
 
 #include <djvImageViewExample.h>
 
-#include <djvWindowUtil.h>
+#include <djvUI/WindowUtil.h>
 
-#include <djvError.h>
-#include <djvOpenGLImage.h>
-#include <djvPixel.h>
+#include <djvCore/Error.h>
+#include <djvGraphics/OpenGLImage.h>
+#include <djvGraphics/Pixel.h>
 
 #include <QCursor>
 #include <QKeyEvent>

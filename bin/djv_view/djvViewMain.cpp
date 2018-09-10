@@ -31,8 +31,8 @@
 
 #include <djvViewApplication.h>
 
-#include <djvError.h>
-#include <djvErrorUtil.h>
+#include <djvCore/Error.h>
+#include <djvCore/ErrorUtil.h>
 
 #if defined(DJV_WINDOWS)
 #include <windows.h>

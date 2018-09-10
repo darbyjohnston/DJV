@@ -31,9 +31,9 @@
 
 #include <djvPixelWidgetTest.h>
 
-#include <djvPixelWidget.h>
+#include <djvUI/PixelWidget.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QVBoxLayout>
 

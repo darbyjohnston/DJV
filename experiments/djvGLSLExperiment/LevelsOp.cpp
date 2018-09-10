@@ -33,10 +33,10 @@
 
 #include <Context.h>
 
-#include <djvFloatEditSlider.h>
+#include <djvUI/FloatEditSlider.h>
 
-#include <djvImage.h>
-#include <djvOpenGLImage.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/OpenGLImage.h>
 
 #include <QGroupBox>
 #include <QVBoxLayout>

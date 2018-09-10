@@ -33,12 +33,12 @@
 
 #include <djvConvertContext.h>
 
-#include <djvImageIO.h>
-#include <djvSequence.h>
-#include <djvSequenceUtil.h>
-#include <djvTime.h>
-#include <djvTimer.h>
-#include <djvVectorUtil.h>
+#include <djvGraphics/ImageIO.h>
+#include <djvCore/Sequence.h>
+#include <djvCore/SequenceUtil.h>
+#include <djvCore/Time.h>
+#include <djvCore/Timer.h>
+#include <djvCore/VectorUtil.h>
 
 #include <QDir>
 #include <QTimer>

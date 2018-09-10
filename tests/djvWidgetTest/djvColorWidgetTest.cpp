@@ -31,10 +31,10 @@
 
 #include <djvColorWidgetTest.h>
 
-#include <djvColorSwatch.h>
-#include <djvColorWidget.h>
+#include <djvUI/ColorSwatch.h>
+#include <djvUI/ColorWidget.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QHBoxLayout>
 

@@ -33,7 +33,7 @@
 
 #include <djvAbstractWidgetTest.h>
 
-#include <djvVector.h>
+#include <djvCore/Vector.h>
 
 class djvVectorWidgetTest : public djvAbstractWidgetTest
 {

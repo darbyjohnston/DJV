@@ -31,9 +31,9 @@
 
 #include <djvUserTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvUser.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/User.h>
 
 #include <QString>
 

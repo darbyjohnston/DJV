@@ -33,11 +33,12 @@
 
 #include <djvInfoContext.h>
 
-#include <djvDebugLog.h>
-#include <djvFileInfoUtil.h>
-#include <djvImageIO.h>
-#include <djvTime.h>
-#include <djvVectorUtil.h>
+#include <djvGraphics/ImageIO.h>
+
+#include <djvCore/DebugLog.h>
+#include <djvCore/FileInfoUtil.h>
+#include <djvCore/Time.h>
+#include <djvCore/VectorUtil.h>
 
 #include <QDir>
 #include <QTimer>

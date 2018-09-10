@@ -31,11 +31,11 @@
 
 #include <djvVectorWidgetTest.h>
 
-#include <djvVector2iEditWidget.h>
-#include <djvVector2fEditWidget.h>
+#include <djvUI/Vector2iEditWidget.h>
+#include <djvUI/Vector2fEditWidget.h>
 
-#include <djvSystem.h>
-#include <djvVector.h>
+#include <djvCore/System.h>
+#include <djvCore/Vector.h>
 
 #include <QFormLayout>
 

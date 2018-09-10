@@ -31,13 +31,13 @@
 
 #include <djvToolButtonTest.h>
 
-#include <djvChoiceButton.h>
-#include <djvIconLibrary.h>
-#include <djvShuttleButton.h>
-#include <djvToolButton.h>
-#include <djvUIContext.h>
+#include <djvUI/ChoiceButton.h>
+#include <djvUI/IconLibrary.h>
+#include <djvUI/ShuttleButton.h>
+#include <djvUI/ToolButton.h>
+#include <djvUI/UIContext.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QAction>
 #include <QActionGroup>

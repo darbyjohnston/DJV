@@ -31,8 +31,8 @@
 
 #include <djvDebugTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
 
 #include <QStringList>
 #include <QVector>

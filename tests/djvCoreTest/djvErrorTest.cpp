@@ -31,10 +31,10 @@
 
 #include <djvErrorTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvError.h>
-#include <djvErrorUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Error.h>
+#include <djvCore/ErrorUtil.h>
 
 #include <QString>
 

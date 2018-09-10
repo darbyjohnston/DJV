@@ -33,8 +33,8 @@
 
 #include <djvColorTest.h>
 
-#include <djvColor.h>
-#include <djvDebug.h>
+#include <djvGraphics/Color.h>
+#include <djvCore/Debug.h>
 
 #include <QStringList>
 

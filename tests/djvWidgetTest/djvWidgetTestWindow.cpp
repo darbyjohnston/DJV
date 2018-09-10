@@ -34,7 +34,7 @@
 #include <djvAbstractWidgetTest.h>
 #include <djvWidgetTestModel.h>
 
-#include <djvSearchBox.h>
+#include <djvUI/SearchBox.h>
 
 #include <QListView>
 #include <QPushButton>

@@ -31,13 +31,13 @@
 
 #pragma once
 
-#include <djvImageView.h>
-#include <djvUIContext.h>
+#include <djvUI/ImageView.h>
+#include <djvUI/UIContext.h>
 
-#include <djvImage.h>
-#include <djvImageIO.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/ImageIO.h>
 
-#include <djvFileInfo.h>
+#include <djvCore/FileInfo.h>
 
 #include <QApplication>
 #include <QScopedPointer>

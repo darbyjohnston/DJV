@@ -9,11 +9,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvGraphicsTest
     ${CMAKE_SOURCE_DIR}/tests/djvCoreTest
     ${CMAKE_SOURCE_DIR}/tests/djvTestLib
-    ${CMAKE_SOURCE_DIR}/lib/djvViewLib
-    ${CMAKE_SOURCE_DIR}/lib/djvUI
-    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR}
     ${OPENGL_INCLUDE_DIRS})
 
 add_executable(djvTest ${header} ${source})

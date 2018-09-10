@@ -31,8 +31,8 @@
 
 #pragma once
 
-#include <djvOpenGLImage.h>
-#include <djvOpenGLOffscreenBuffer.h>
+#include <djvGraphics/OpenGLImage.h>
+#include <djvGraphics/OpenGLOffscreenBuffer.h>
 
 #include <QGuiApplication>
 

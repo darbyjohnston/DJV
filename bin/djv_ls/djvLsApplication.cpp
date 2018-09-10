@@ -33,10 +33,10 @@
 
 #include <djvLsContext.h>
 
-#include <djvDebugLog.h>
-#include <djvMath.h>
-#include <djvMemory.h>
-#include <djvTime.h>
+#include <djvCore/DebugLog.h>
+#include <djvCore/Math.h>
+#include <djvCore/Memory.h>
+#include <djvCore/Time.h>
 
 #include <QDir>
 #include <QTimer>

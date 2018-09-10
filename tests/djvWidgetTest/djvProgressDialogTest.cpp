@@ -31,10 +31,10 @@
 
 #include <djvProgressDialogTest.h>
 
-#include <djvProgressDialog.h>
+#include <djvUI/ProgressDialog.h>
 
-#include <djvSystem.h>
-#include <djvTime.h>
+#include <djvCore/System.h>
+#include <djvCore/Time.h>
 
 djvProgressDialogTest::djvProgressDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)

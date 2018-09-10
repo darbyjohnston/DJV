@@ -33,9 +33,9 @@
 
 #include <Context.h>
 
-#include <djvIntEditSlider.h>
+#include <djvUI/IntEditSlider.h>
 
-#include <djvImage.h>
+#include <djvGraphics/Image.h>
 
 #include <QComboBox>
 #include <QGridLayout>

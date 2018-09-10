@@ -35,7 +35,7 @@
 #include <djvWidgetTestModel.h>
 #include <djvWidgetTestWindow.h>
 
-#include <djvUIContext.h>
+#include <djvUI/UIContext.h>
 
 #include <QApplication>
 

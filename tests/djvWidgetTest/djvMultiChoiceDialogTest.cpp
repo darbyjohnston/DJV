@@ -31,10 +31,10 @@
 
 #include <djvMultiChoiceDialogTest.h>
 
-#include <djvMultiChoiceDialog.h>
+#include <djvUI/MultiChoiceDialog.h>
 
-#include <djvSystem.h>
-#include <djvStringUtil.h>
+#include <djvCore/System.h>
+#include <djvCore/StringUtil.h>
 
 djvMultiChoiceDialogTest::djvMultiChoiceDialogTest(djvUIContext * context) :
     djvAbstractWidgetTest(context)

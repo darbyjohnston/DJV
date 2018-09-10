@@ -31,11 +31,11 @@
 
 #pragma once
 
-#include <djvImage.h>
-#include <djvGraphicsContext.h>
-#include <djvOpenGLImage.h>
+#include <djvGraphics/Image.h>
+#include <djvGraphics/GraphicsContext.h>
+#include <djvGraphics/OpenGLImage.h>
 
-#include <djvFileInfo.h>
+#include <djvCore/FileInfo.h>
 
 //! \addtogroup djv_convert
 //@{

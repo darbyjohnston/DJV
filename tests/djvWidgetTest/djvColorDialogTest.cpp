@@ -31,9 +31,9 @@
 
 #include <djvColorDialogTest.h>
 
-#include <djvColorDialog.h>
+#include <djvUI/ColorDialog.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QHBoxLayout>
 

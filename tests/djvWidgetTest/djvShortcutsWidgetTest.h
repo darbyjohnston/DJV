@@ -33,7 +33,7 @@
 
 #include <djvAbstractWidgetTest.h>
 
-#include <djvShortcut.h>
+#include <djvUI/Shortcut.h>
 
 class djvShortcutsWidgetTest : public djvAbstractWidgetTest
 {

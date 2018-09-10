@@ -31,9 +31,9 @@
 
 #pragma once
 
-#include <djvPlaybackUtil.h>
+#include <djvUI/PlaybackUtil.h>
 
-#include <djvSequence.h>
+#include <djvCore/Sequence.h>
 
 #include <QObject>
 

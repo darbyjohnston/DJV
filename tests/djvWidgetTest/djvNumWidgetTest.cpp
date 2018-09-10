@@ -31,15 +31,15 @@
 
 #include <djvNumWidgetTest.h>
 
-#include <djvFloatDisplay.h>
-#include <djvFloatEdit.h>
-#include <djvFloatEditSlider.h>
-#include <djvIntDisplay.h>
-#include <djvIntEdit.h>
-#include <djvIntEditSlider.h>
+#include <djvUI/FloatDisplay.h>
+#include <djvUI/FloatEdit.h>
+#include <djvUI/FloatEditSlider.h>
+#include <djvUI/IntDisplay.h>
+#include <djvUI/IntEdit.h>
+#include <djvUI/IntEditSlider.h>
 
-#include <djvSignalBlocker.h>
-#include <djvSystem.h>
+#include <djvCore/SignalBlocker.h>
+#include <djvCore/System.h>
 
 #include <QFormLayout>
 

@@ -31,9 +31,9 @@
 
 #include <djvFileEditTest.h>
 
-#include <djvFileEdit.h>
+#include <djvUI/FileEdit.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QVBoxLayout>
 

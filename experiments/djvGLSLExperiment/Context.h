@@ -31,9 +31,9 @@
 
 #pragma once
 
-#include <djvUIContext.h>
+#include <djvUI/UIContext.h>
 
-#include <djvFileInfo.h>
+#include <djvCore/FileInfo.h>
 
 //------------------------------------------------------------------------------
 // Context

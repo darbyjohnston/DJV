@@ -31,9 +31,9 @@
 
 #include <djvSearchBoxTest.h>
 
-#include <djvSearchBox.h>
+#include <djvUI/SearchBox.h>
 
-#include <djvSystem.h>
+#include <djvCore/System.h>
 
 #include <QHBoxLayout>
 

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvImageIO.h>
+#include <djvGraphics/ImageIO.h>
 
 #include <QWidget>
 

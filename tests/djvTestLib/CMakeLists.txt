@@ -9,9 +9,7 @@ set(source
 QT5_WRAP_CPP(mocSource ${mocHeader})
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/tests/djvTestLib
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR})
+    ${CMAKE_SOURCE_DIR}/tests/djvTestLib)
 add_library(djvTestLib ${header} ${source} ${mocSource})
 target_link_libraries(djvTestLib djvCore)
 set_target_properties(djvTestLib PROPERTIES FOLDER tests CXX_STANDARD 11)

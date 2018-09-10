@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include <djvImage.h>
+#include <djvGraphics/Image.h>
 
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>

@@ -33,9 +33,9 @@
 
 #include <djvMemoryTest.h>
 
-#include <djvAssert.h>
-#include <djvDebug.h>
-#include <djvMemory.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Memory.h>
 
 #include <QString>
 

@@ -31,11 +31,11 @@
 
 #include <djvBoxTest.h>
 
-#include <djvAssert.h>
-#include <djvBox.h>
-#include <djvDebug.h>
-#include <djvMath.h>
-#include <djvStringUtil.h>
+#include <djvCore/Assert.h>
+#include <djvCore/Box.h>
+#include <djvCore/Debug.h>
+#include <djvCore/Math.h>
+#include <djvCore/StringUtil.h>
 
 void djvBoxTest::run(int &, char **)
 {

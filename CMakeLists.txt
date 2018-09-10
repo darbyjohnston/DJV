@@ -84,6 +84,11 @@ if(UNIX)
     endif()
 endif()
 
+# Include directories.
+include_directories(
+    ${CMAKE_SOURCE_DIR}/lib
+    ${CMAKE_BINARY_DIR})
+
 #-------------------------------------------------------------------------------
 # Third Party Packages
 #-------------------------------------------------------------------------------
@@ -119,7 +124,7 @@ find_package(JPEG)
 find_package(PNG)
 find_package(TIFF)
 find_package(OpenEXR)
-find_package(FFmpeg)
+#find_package(FFmpeg)
 
 set(djvThirdPartyOptional)
 if(JPEG_FOUND)

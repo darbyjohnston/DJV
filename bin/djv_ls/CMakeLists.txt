@@ -16,9 +16,6 @@ QT5_CREATE_TRANSLATION(qmSource ${source}
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/bin/djv_ls
-    ${CMAKE_SOURCE_DIR}/lib/djvGraphics
-    ${CMAKE_SOURCE_DIR}/lib/djvCore
-    ${CMAKE_BINARY_DIR}
     ${OPENGL_INCLUDE_DIRS})
 add_executable(djv_ls ${header} ${source} ${mocSource} ${qmSource})
 target_link_libraries(djv_ls djvGraphics)
