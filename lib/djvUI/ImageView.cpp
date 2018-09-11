@@ -215,6 +215,14 @@ void djvImageView::viewFit()
 void djvImageView::initializeGL()
 {
     djvOpenGLWidget::initializeGL();
+
+    //DJV_DEBUG("djvImageView::initializeGL");
+
+    QSurfaceFormat surfaceFormat = this->format();
+    //DJV_DEBUG_PRINT("major = " << surfaceFormat.majorVersion());
+    //DJV_DEBUG_PRINT("minor = " << surfaceFormat.minorVersion());
+    //DJV_DEBUG_PRINT("profile = " << surfaceFormat.profile());
+
     _p->openGLImage.reset(new djvOpenGLImage);
 }
 
@@ -222,21 +230,16 @@ void djvImageView::paintGL()
 {
     djvOpenGLWidget::paintGL();
 
-    DJV_DEBUG("djvImageView::draw");
-
-    QSurfaceFormat surfaceFormat = this->format();
-    DJV_DEBUG_PRINT("major = " << surfaceFormat.majorVersion());
-    DJV_DEBUG_PRINT("minor = " << surfaceFormat.minorVersion());
-    DJV_DEBUG_PRINT("profile = " << surfaceFormat.profile());
+    //DJV_DEBUG("djvImageView::draw");
 
     const int devicePixelRatio = this->devicePixelRatio();
-    DJV_DEBUG_PRINT("devicePixelRatio = " << devicePixelRatio);
+    //DJV_DEBUG_PRINT("devicePixelRatio = " << devicePixelRatio);
     const djvBox2i geom(
         width () * devicePixelRatio,
         height() * devicePixelRatio);
-    DJV_DEBUG_PRINT("geom = " << geom.size);
+    //DJV_DEBUG_PRINT("geom = " << geom.size);
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glViewport(0, 0, geom.w, geom.h);
     djvColor background(djvPixel::RGB_F32);
     djvColorUtil::convert(_p->options.background, background);
@@ -245,7 +248,7 @@ void djvImageView::paintGL()
         background.f32(1),
         background.f32(2),
         0.f);
-    glFuncs->glClearColor(0, 1, 0, 0);
+    //glFuncs->glClearColor(0, 1, 0, 0);
     glFuncs->glClear(GL_COLOR_BUFFER_BIT);
     if (! _p->data)
         return;

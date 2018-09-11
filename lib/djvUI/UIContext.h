@@ -132,13 +132,12 @@ public:
     djvStyle * style() const;
 
     virtual QString info() const;
+    virtual void print(const QString &, bool newLine = true, int indent = 0);
 
 protected:
     virtual bool commandLineParse(QStringList &) throw (QString);
 
     virtual QString commandLineHelp() const;
-    
-    virtual void print(const QString &);
     
 private:    
     DJV_PRIVATE_COPY(djvUIContext);

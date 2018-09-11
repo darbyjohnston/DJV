@@ -55,7 +55,7 @@ djvOpenGLOffscreenBuffer::djvOpenGLOffscreenBuffer(const djvPixelDataInfo & info
     //DJV_DEBUG_PRINT("info = " << info);
     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     // Create the texture.
     DJV_DEBUG_OPEN_GL(glFuncs->glGenTextures(1, &_texture));
@@ -141,7 +141,7 @@ djvOpenGLOffscreenBuffer::~djvOpenGLOffscreenBuffer()
     //DJV_DEBUG("djvOpenGLOffscreenBuffer::~djvOpenGLOffscreenBuffer");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     --bufferCount;
     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
@@ -177,7 +177,7 @@ void djvOpenGLOffscreenBuffer::bind()
         return;
     //DJV_DEBUG("djvOpenGLOffscreenBuffer::bind");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore));
     //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
     DJV_DEBUG_OPEN_GL(glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _id));
@@ -190,7 +190,7 @@ void djvOpenGLOffscreenBuffer::unbind()
     //DJV_DEBUG("djvOpenGLOffscreenBuffer::unbind");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
     //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _restore));
     _restore = 0;
 }

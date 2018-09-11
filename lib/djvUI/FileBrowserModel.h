@@ -161,7 +161,7 @@ public:
     bool hasShowHidden() const;
 
     //! Get the sorting.
-    COLUMNS sort() const;
+    COLUMNS columnsSort() const;
 
     //! Get whether sorting is reversed.
     bool hasReverseSort() const;

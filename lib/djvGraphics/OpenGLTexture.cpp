@@ -55,7 +55,7 @@ void djvOpenGLTexture::init(
     if (info == _info && target == _target && min == _min && mag == _mag)
         return;
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     del();
 
@@ -102,13 +102,6 @@ void djvOpenGLTexture::init(
         djvOpenGLUtil::type(_info.pixel),
         0);
     GLenum error = glFuncs->glGetError();
-#if ! defined(DJV_OSX)
-    //! \todo On OS X this error is triggered the first time djv_view is
-    //! started, though it doesn't actually seem to be a problem? If we
-    //! throw here the image is not displayed (start djv_view from the
-    //! command line with an image), but if we igore the error the image is
-    //! displayed OK? Is this related to the "invalid drawable" message we
-    //! are also getting on start up?
     if (error != GL_NO_ERROR)
     {
         throw djvError(
@@ -116,7 +109,6 @@ void djvOpenGLTexture::init(
             qApp->translate("djvOpenGLTexture", "Cannot create texture: %1").
             arg(djvOpenGLUtil::errorString(error)));
     }
-#endif // DJV_OSX
 }
 
 void djvOpenGLTexture::init(
@@ -131,17 +123,17 @@ void djvOpenGLTexture::init(
 
 void djvOpenGLTexture::copy(const djvPixelData & in)
 {
-    DJV_DEBUG("djvOpenGLTexture::copy");
-    DJV_DEBUG_PRINT("in = " << in);
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    //DJV_DEBUG("djvOpenGLTexture::copy");
+    //DJV_DEBUG_PRINT("in = " << in);
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     bind();
     const djvPixelDataInfo & info = in.info();
     djvOpenGLImage::stateUnpack(in.info());
     GLenum format = djvOpenGLUtil::format(info.pixel, info.bgr);
     GLenum type = djvOpenGLUtil::type(info.pixel);
-    DJV_DEBUG_PRINT("target = " << _target);
-    DJV_DEBUG_PRINT("format = " << format);
-    DJV_DEBUG_PRINT("type = " << type);
+    //DJV_DEBUG_PRINT("target = " << _target);
+    //DJV_DEBUG_PRINT("format = " << format);
+    //DJV_DEBUG_PRINT("type = " << type);
     DJV_DEBUG_OPEN_GL(
         glFuncs->glTexSubImage2D(
             _target,
@@ -160,7 +152,7 @@ void djvOpenGLTexture::copy(const djvPixelData & in, const djvBox2i & area)
     //DJV_DEBUG("djvOpenGLTexture::copy");
     //DJV_DEBUG_PRINT("in = " << in);
     //DJV_DEBUG_PRINT("area = " << area);
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     bind();
     const djvPixelDataInfo & info = in.info();
     glm::ivec2 position = area.position;
@@ -189,7 +181,7 @@ void djvOpenGLTexture::copy(const glm::ivec2 & in)
 {
     //DJV_DEBUG("djvOpenGLTexture::copy");
     //DJV_DEBUG_PRINT("in = " << in);
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(_target, _id));
     DJV_DEBUG_OPEN_GL(
         glFuncs->glCopyTexSubImage2D(
@@ -206,7 +198,7 @@ void djvOpenGLTexture::copy(const glm::ivec2 & in)
 void djvOpenGLTexture::bind()
 {
     //DJV_DEBUG("djvOpenGLTexture::bind");
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(_target, _id));
 }
 
@@ -239,7 +231,7 @@ void djvOpenGLTexture::del()
 {
     if (_id)
     {
-        auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+        auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
         glFuncs->glDeleteTextures(1, &_id);
         _id = 0;
     }

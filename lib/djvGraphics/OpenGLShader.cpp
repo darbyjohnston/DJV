@@ -46,26 +46,11 @@ djvOpenGLShader::~djvOpenGLShader()
 
 namespace
 {
-GLuint shaderCreate(GLenum type) throw (djvError)
-{
-    //DJV_DEBUG("shaderCreate");
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
-    GLuint r = 0;
-    DJV_DEBUG_OPEN_GL(r = glFuncs->glCreateShader(type));
-    if (! r)
-    {
-        throw djvError(
-            "djvOpenGLShader",
-            qApp->translate("djvOpenGLShader", "Cannot create shader"));
-    }
-    return r;
-}
-
 void shaderCompile(GLuint id, const QString & source)
 {
-    DJV_DEBUG("shaderCompile");
-    DJV_DEBUG_PRINT("source = " << source);
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    //DJV_DEBUG("shaderCompile");
+    //DJV_DEBUG_PRINT("source = " << source);
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     std::vector<char> buf(source.length());
     memcpy(buf.data(), source.toLatin1().data(), buf.size());
     const char * sources       [] = { buf.data() };
@@ -77,7 +62,7 @@ void shaderCompile(GLuint id, const QString & source)
     char    log [4096] = "";
     GLsizei logSize    = 0;
     glFuncs->glGetShaderInfoLog(id, 4096, &logSize, log);
-    DJV_DEBUG_PRINT("log = " << QString(log));
+    //DJV_DEBUG_PRINT("log = " << QString(log));
     if (error != GL_TRUE)
     {
         throw djvError(
@@ -100,7 +85,7 @@ void djvOpenGLShader::init(
     //DJV_DEBUG_PRINT("vertexSource = " << vertexSource);
     //DJV_DEBUG_PRINT("fragmentSource = " << fragmentSource);
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     del();
 
@@ -139,7 +124,7 @@ void djvOpenGLShader::init(
 void djvOpenGLShader::bind()
 {
     //DJV_DEBUG("djvOpenGLShader::bind");
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glUseProgram(_programId));
 }
     
@@ -160,7 +145,7 @@ GLuint djvOpenGLShader::program() const
 
 void djvOpenGLShader::setUniform(const QString& name, int value)
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glUniform1i(
         glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
         static_cast<GLint>(value));
@@ -168,7 +153,7 @@ void djvOpenGLShader::setUniform(const QString& name, int value)
 
 void djvOpenGLShader::setUniform(const QString& name, float value)
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glUniform1f(
         glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
         static_cast<GLfloat>(value));
@@ -176,7 +161,7 @@ void djvOpenGLShader::setUniform(const QString& name, float value)
 
 void djvOpenGLShader::setUniform(const QString& name, const glm::mat4x4& value)
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glUniformMatrix4fv(
         glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
         1,
@@ -186,7 +171,7 @@ void djvOpenGLShader::setUniform(const QString& name, const glm::mat4x4& value)
 
 void djvOpenGLShader::del()
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     if (_vertexId)
     {
         glFuncs->glDeleteShader(_vertexId);

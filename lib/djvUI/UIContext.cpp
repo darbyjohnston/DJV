@@ -343,7 +343,7 @@ QString djvUIContext::commandLineHelp() const
         arg(djvGraphicsContext::commandLineHelp());
 }
 
-void djvUIContext::print(const QString & string)
+void djvUIContext::print(const QString & string, bool newLine, int indent)
 {
     if (_p->valid)
     {
@@ -351,6 +351,6 @@ void djvUIContext::print(const QString & string)
     }
     else
     {
-        djvGraphicsContext::print(string);
+        djvGraphicsContext::print(string, newLine, indent);
     }
 }

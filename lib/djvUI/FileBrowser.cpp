@@ -506,7 +506,7 @@ djvFileBrowser::~djvFileBrowser()
     // Save the preferences.
     _p->context->fileBrowserPrefs()->setSequence(_p->model->sequence());
     _p->context->fileBrowserPrefs()->setShowHidden(_p->model->hasShowHidden());
-    _p->context->fileBrowserPrefs()->setSort(_p->model->sort());
+    _p->context->fileBrowserPrefs()->setSort(_p->model->columnsSort());
     _p->context->fileBrowserPrefs()->setReverseSort(_p->model->hasReverseSort());
     _p->context->fileBrowserPrefs()->setSortDirsFirst(_p->model->hasSortDirsFirst());
     _p->context->fileBrowserPrefs()->setThumbnails(_p->model->thumbnails());
@@ -710,7 +710,7 @@ void djvFileBrowser::sortCallback(QAction * action)
 {
     const djvFileBrowserModel::COLUMNS sort =
         static_cast<djvFileBrowserModel::COLUMNS>(action->data().toInt());
-    if (sort != _p->model->sort())
+    if (sort != _p->model->columnsSort())
     {
         _p->model->setSort(sort);
     }
@@ -895,7 +895,7 @@ void djvFileBrowser::widgetUpdate()
     _p->widgets.file->setText(QDir::toNativeSeparators(_p->fileInfo));
     _p->widgets.seq->setCurrentIndex(_p->model->sequence());
     _p->widgets.browser->header()->setSortIndicator(
-        _p->model->sort(),
+        _p->model->columnsSort(),
         static_cast<Qt::SortOrder>(_p->model->hasReverseSort()));
     _p->widgets.pinned->setVisible(_p->pinnable);
     _p->widgets.pinned->setChecked(_p->pinned);

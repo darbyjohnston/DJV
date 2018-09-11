@@ -44,13 +44,7 @@ djvOpenGLWidget::djvOpenGLWidget(
     QWidget *       parent,
     Qt::WindowFlags flags) :
     QOpenGLWidget(parent, flags)
-{
-    //DJV_DEBUG("djvOpenGLWidget::djvOpenGLWidget");
-    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-    surfaceFormat.setVersion(4, 3);
-    surfaceFormat.setProfile(QSurfaceFormat::CoreProfile);
-    setFormat(surfaceFormat);
-}
+{}
 
 djvOpenGLWidget::~djvOpenGLWidget()
 {}

@@ -150,7 +150,7 @@ bool djvFileBrowserModel::hasShowHidden() const
     return _p->showHidden;
 }
 
-djvFileBrowserModel::COLUMNS djvFileBrowserModel::sort() const
+djvFileBrowserModel::COLUMNS djvFileBrowserModel::columnsSort() const
 {
     return _p->sort;
 }

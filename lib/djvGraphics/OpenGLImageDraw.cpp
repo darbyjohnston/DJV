@@ -54,7 +54,7 @@ djvOpenGLImageMesh::djvOpenGLImageMesh() :
 {
     //DJV_DEBUG("djvOpenGLImageMesh::djvOpenGLImageMesh");
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glGenBuffers(1, &_vbo));
     DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
     DJV_DEBUG_OPEN_GL(glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW));
@@ -69,7 +69,7 @@ djvOpenGLImageMesh::djvOpenGLImageMesh() :
 
 djvOpenGLImageMesh::~djvOpenGLImageMesh()
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glDeleteVertexArrays(1, &_vao);
     glFuncs->glDeleteBuffers(1, &_vbo);
 }
@@ -131,7 +131,7 @@ void djvOpenGLImageMesh::setSize(const glm::ivec2& size, const djvPixelDataInfo:
         verticesP += 8;
     }
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
     DJV_DEBUG_OPEN_GL(glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data()));
 
@@ -144,8 +144,8 @@ void djvOpenGLImageMesh::setSize(const glm::ivec2& size, const djvPixelDataInfo:
 
 void djvOpenGLImageMesh::draw()
 {
-    DJV_DEBUG("djvOpenGLImageMesh::draw");
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    //DJV_DEBUG("djvOpenGLImageMesh::draw");
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
     DJV_DEBUG_OPEN_GL(glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6));
 }
@@ -470,9 +470,9 @@ const QString sourceFragmentHeader =
     "\n"
     "vec4 lut(vec4 value, sampler2D lut)\n"
     "{\n"
-    "    value[0] = texture2D(lut, vec2(value[0], 0))[0];\n"
-    "    value[1] = texture2D(lut, vec2(value[1], 0))[1];\n"
-    "    value[2] = texture2D(lut, vec2(value[2], 0))[2];\n"
+    "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
+    "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
+    "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
     "\n"
     "    return value;\n"
     "}\n"
@@ -571,7 +571,7 @@ const QString sourceFragmentScaleX =
     "    {\n"
     "        float t = float(i) / float(%2 - 1);\n"
     "\n"
-    "        vec4 tmp = texture2D(contrib, vec2(gl_TexCoord[0].s, t));\n"
+    "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].s, t));\n"
     "\n"
     "        vec2 position = vec2(tmp[0], gl_TexCoord[0].t);\n"
     "\n"
@@ -591,11 +591,11 @@ const QString sourceFragmentScaleY =
     "    {\n"
     "        float t = float(i) / float(%2 - 1);\n"
     "\n"
-    "        vec4 tmp = texture2D(contrib, vec2(gl_TexCoord[0].t, t));\n"
+    "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].t, t));\n"
     "\n"
     "        vec2 position = vec2(gl_TexCoord[0].s, tmp[0]);\n"
     "\n"
-    "        value += tmp[3] * texture2D(texture, position);\n"
+    "        value += tmp[3] * texture(texture, position);\n"
     "    }\n"
     "\n"
     "    return value;\n"
@@ -657,25 +657,25 @@ QString sourceFragment(
             header += "uniform sampler2D inColorProfileLut;\n";
             sample =
                 "lut(\n"
-                "    texture2D(inTexture, TextureCoord),\n"
+                "    texture(inTexture, TextureCoord),\n"
                 "    inColorProfileLut)";
             break;
         case djvColorProfile::GAMMA:
             header += "uniform float inColorProfileGamma;\n";
             sample =
                 "gamma(\n"
-                "    texture2D(inTexture, TextureCoord),\n"
+                "    texture(inTexture, TextureCoord),\n"
                 "    inColorProfileGamma)";
             break;
         case djvColorProfile::EXPOSURE:
             header += "uniform Exposure inColorProfileExposure;\n";
             sample =
                 "exposure(\n"
-                "    texture2D(inTexture, TextureCoord),\n"
+                "    texture(inTexture, TextureCoord),\n"
                 "    inColorProfileExposure)";
             break;
         default:
-            sample = "texture2D(inTexture, TextureCoord)";
+            sample = "texture(inTexture, TextureCoord)";
             break;
     }
 
@@ -786,7 +786,7 @@ void colorProfileInit(
 {
     //DJV_DEBUG("colorProfileInit");
     //DJV_DEBUG_PRINT("type = " << options.colorProfile.type);    
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     switch (options.colorProfile.type)
     {
         case djvColorProfile::LUT:
@@ -851,7 +851,7 @@ void displayProfileInit(
 {
     //DJV_DEBUG("displayProfileInit");
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     // Color matrix.
     shader.setUniform(
@@ -908,7 +908,7 @@ void djvOpenGLImage::draw(
     //DJV_DEBUG_PRINT("data = " << data);
     //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
     
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     const djvPixelDataInfo & info = data.info();
     const int proxyScale =

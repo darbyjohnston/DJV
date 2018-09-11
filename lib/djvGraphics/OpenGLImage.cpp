@@ -265,7 +265,7 @@ void djvOpenGLImage::read(djvPixelData & output, const djvBox2i & area)
     //DJV_DEBUG("djvOpenGLImage::read");
     //DJV_DEBUG_PRINT("output = " << output);
     //DJV_DEBUG_PRINT("area = " << area);    
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     const djvPixelDataInfo & info = output.info();
     statePack(info, area.position);
     DJV_DEBUG_OPEN_GL(glFuncs->glReadPixels(
@@ -317,7 +317,7 @@ void djvOpenGLImage::copy(
     //DJV_DEBUG_PRINT("output = " << output);
     //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
     if (!_buffer || (_buffer && _buffer->info() != output.info()))
     {
@@ -368,7 +368,7 @@ void djvOpenGLImage::copy(
 
 void djvOpenGLImage::stateUnpack(const djvPixelDataInfo & in, const glm::ivec2 & offset)
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, in.align);
     glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, in.endian != djvMemory::endian());
     //glFuncs->glPixelStorei(GL_UNPACK_ROW_LENGTH, in.data_window.w);
@@ -378,7 +378,7 @@ void djvOpenGLImage::stateUnpack(const djvPixelDataInfo & in, const glm::ivec2 &
 
 void djvOpenGLImage::statePack(const djvPixelDataInfo & in, const glm::ivec2 & offset)
 {
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
     glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, in.align);
     glFuncs->glPixelStorei(GL_PACK_SWAP_BYTES, in.endian != djvMemory::endian());
     glFuncs->glPixelStorei(GL_PACK_ROW_LENGTH, in.size.x);

@@ -236,7 +236,7 @@ void djvPNGSave::_open(const QString & in, const djvImageIOInfo & info)
     SNPRINTF(
         _pngError.msg,
         djvStringUtil::cStringLength,
-        QString("Error opening: %1").arg(in).toLatin1().data());
+        "%s", QString("Error opening: %1").arg(in).toLatin1().data());
 
     // Open the file.
 #if defined(DJV_WINDOWS)

@@ -36,7 +36,7 @@
 #include <djvCore/Box.h>
 #include <djvCore/Vector.h>
 
-#include <QOpenGLFunctions_4_3_Core>
+#include <QOpenGLFunctions_4_1_Core>
 
 //! \addtogroup djvGraphicsOpenGL
 //@{

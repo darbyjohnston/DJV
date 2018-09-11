@@ -101,17 +101,19 @@ djvGraphicsContext::djvGraphicsContext(QObject * parent) :
     DJV_LOG(debugLog(), "djvGraphicsContext",
         "Creating the default OpenGL context...");
 
-    _p->offscreenSurface.reset(new QOffscreenSurface);
+    QSurfaceFormat defaultFormat;
+    defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
+    defaultFormat.setMajorVersion(4);
+    defaultFormat.setMinorVersion(1);
+    defaultFormat.setProfile(QSurfaceFormat::CoreProfile);
+    QSurfaceFormat::setDefaultFormat(defaultFormat);
 
+    _p->offscreenSurface.reset(new QOffscreenSurface);
     QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-    surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
-    surfaceFormat.setProfile(QSurfaceFormat::OpenGLContextProfile::CoreProfile);
-    surfaceFormat.setVersion(4, 3);
     surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
     surfaceFormat.setSamples(1);
     _p->offscreenSurface->setFormat(surfaceFormat);
     _p->offscreenSurface->create();
-    
     _p->openGlContext.reset(new QOpenGLContext);
     _p->openGlContext->setFormat(surfaceFormat);
     _p->openGlContext->create();
