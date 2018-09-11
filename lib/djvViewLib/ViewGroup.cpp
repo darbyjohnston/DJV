@@ -163,8 +163,8 @@ namespace djv
             // Setup the preferences callbacks.
             connect(
                 context->viewPrefs(),
-                SIGNAL(gridChanged(Util::GRID)),
-                SLOT(gridCallback(Util::GRID)));
+                SIGNAL(gridChanged(djv::ViewLib::Util::GRID)),
+                SLOT(gridCallback(djv::ViewLib::Util::GRID)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudEnabledChanged(bool)),

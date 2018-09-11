@@ -107,9 +107,9 @@ namespace djv
             void mirrorCallback(const djvPixelDataInfo::Mirror &);
             void mirrorHCallback(bool);
             void mirrorVCallback(bool);
-            void scaleCallback(Util::IMAGE_SCALE);
+            void scaleCallback(djv::ViewLib::Util::IMAGE_SCALE);
             void scaleCallback(QAction *);
-            void rotateCallback(Util::IMAGE_ROTATE);
+            void rotateCallback(djv::ViewLib::Util::IMAGE_ROTATE);
             void rotateCallback(QAction *);
             void colorProfileCallback(bool);
             void displayProfileCallback(QAction *);

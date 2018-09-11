@@ -50,12 +50,12 @@ void djvMemoryTest::members()
     DJV_DEBUG("djvMemoryTest::members");
     {
         const char * tmp = "1234567890";
-        char * buf = new char [sizeof(tmp)];
+        char * buf = new char [10];
         DJV_ASSERT(buf);
-        memcpy(buf, tmp, sizeof(tmp));
-        DJV_ASSERT(0 == memcmp(tmp, buf, sizeof(tmp)));
-        memset(buf, 0, sizeof(tmp));
-        DJV_ASSERT(memcmp(tmp, buf, sizeof(tmp)) > 0);
+        memcpy(buf, tmp, 10);
+        DJV_ASSERT(0 == memcmp(tmp, buf, 10));
+        memset(buf, 0, 10);
+        DJV_ASSERT(memcmp(tmp, buf, 10) > 0);
         delete [] buf;
     }
     {

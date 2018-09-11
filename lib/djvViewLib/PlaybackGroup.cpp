@@ -234,8 +234,8 @@ namespace djv
                 SLOT(setEveryFrame(bool)));
             connect(
                 context->playbackPrefs(),
-                SIGNAL(layoutChanged(Util::LAYOUT)),
-                SLOT(setLayout(Util::LAYOUT)));
+                SIGNAL(layoutChanged(djv::ViewLib::Util::LAYOUT)),
+                SLOT(setLayout(djv::ViewLib::Util::LAYOUT)));
 
             // Setup other callbacks.
             connect(
