@@ -43,7 +43,92 @@
 
 #include <QCoreApplication>
 
-using namespace gl;
+#include <glm/gtc/matrix_transform.hpp>
+
+//------------------------------------------------------------------------------
+// djvOpenGLImageMesh
+//------------------------------------------------------------------------------
+
+djvOpenGLImageMesh::djvOpenGLImageMesh() :
+    _vertexSize(8 + 8)
+{
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glGenBuffers(1, &_vbo);
+    glFuncs->glGenVertexArrays(1, &_vao);
+}
+
+djvOpenGLImageMesh::~djvOpenGLImageMesh()
+{
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glDeleteVertexArrays(1, &_vao);
+    glFuncs->glDeleteBuffers(1, &_vbo);
+}
+
+void djvOpenGLImageMesh::setSize(const glm::ivec2& size, const djvPixelDataInfo::Mirror & mirror, int proxyScale)
+{
+    //DJV_DEBUG("djvOpenGLImageMesh::setSize");
+
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+
+    const glm::vec2 p[] =
+    {
+        glm::vec2(0.f, 0.f),
+        glm::vec2(size.x * proxyScale, 0.f),
+        glm::vec2(size.x * proxyScale, size.y * proxyScale),
+
+        glm::vec2(size.x * proxyScale, size.y * proxyScale),
+        glm::vec2(0.f, size.y * proxyScale),
+        glm::vec2(0.f, 0.f)
+    };
+
+    float u[] = { 0.f, 0.f };
+    float v[] = { 0.f, 0.f };
+    u[!mirror.x] = 1.f;
+    v[!mirror.y] = 1.f;
+    //DJV_DEBUG_PRINT("u = " << u[0] << " " << u[1]);
+    //DJV_DEBUG_PRINT("v = " << v[0] << " " << v[1]);
+    const glm::vec2 uv[] =
+    {
+        glm::vec2(u[0], v[0]),
+        glm::vec2(u[0], v[1]),
+        glm::vec2(u[1], v[1]),
+
+        glm::vec2(u[1], v[1]),
+        glm::vec2(u[1], v[0]),
+        glm::vec2(u[0], v[0])
+    };
+
+    std::vector<uint8_t> vertices(6 * _vertexSize);
+    uint8_t* verticesP = vertices.data();
+    for (size_t i = 0; i < 6; ++i)
+    {
+        float* pf = reinterpret_cast<float*>(verticesP);
+        pf[0] = p[i].x;
+        pf[1] = p[i].y;
+        verticesP += 8;
+
+        pf = reinterpret_cast<float*>(verticesP);
+        pf[0] = uv[i].x;
+        pf[0] = uv[i].y;
+        verticesP += 8;
+    }
+
+    DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
+    DJV_DEBUG_OPEN_GL(glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), vertices.data(), GL_DYNAMIC_DRAW));
+
+    DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
+    DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
+    DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
+    DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
+    DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
+}
+
+void djvOpenGLImageMesh::draw()
+{
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glBindVertexArray(_vao);
+    glFuncs->glDrawArrays(GL_TRIANGLES, 0, 2);
+}
 
 //------------------------------------------------------------------------------
 // djvOpenGLImageState
@@ -58,7 +143,8 @@ djvOpenGLImageState::djvOpenGLImageState() :
     _scaleXShader     (new djvOpenGLShader),
     _scaleYShader     (new djvOpenGLShader),
     _lutColorProfile  (new djvOpenGLLUT),
-    _lutDisplayProfile(new djvOpenGLLUT)
+    _lutDisplayProfile(new djvOpenGLLUT),
+    _mesh             (new djvOpenGLImageMesh)
 {}
 
 djvOpenGLImageState::~djvOpenGLImageState()
@@ -71,6 +157,7 @@ djvOpenGLImageState::~djvOpenGLImageState()
     delete _scaleYContrib;
     delete _shader;
     delete _texture;
+    delete _mesh;
 }
 
 //------------------------------------------------------------------------------
@@ -83,20 +170,23 @@ namespace
 void activeTexture(GLenum in)
 {
     //DJV_DEBUG("activeTexture");
-    DJV_DEBUG_OPEN_GL(glActiveTexture(in));
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(in));
 }
 
 void uniform1i(GLuint program, const QString & name, int value)
 {
-    glUniform1i(
-        glGetUniformLocation(program, name.toLatin1().data()),
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glUniform1i(
+        glFuncs->glGetUniformLocation(program, name.toLatin1().data()),
         static_cast<GLint>(value));
 }
 
 void uniform1f(GLuint program, const QString & name, float value)
 {
-    glUniform1f(
-        glGetUniformLocation(program, name.toLatin1().data()),
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glUniform1f(
+        glFuncs->glGetUniformLocation(program, name.toLatin1().data()),
         static_cast<GLfloat>(value));
 }
 
@@ -105,8 +195,9 @@ void uniformMatrix4f(
     const QString &     name,
     const glm::mat4x4 & value)
 {
-    glUniformMatrix4fv(
-        glGetUniformLocation(program, name.toLatin1().data()),
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glUniformMatrix4fv(
+        glFuncs->glGetUniformLocation(program, name.toLatin1().data()),
         1,
         false,
         &value[0][0]);
@@ -367,30 +458,6 @@ void scaleContrib(
     }
 }
 
-void quad(
-    const glm::ivec2 &               size,
-    const djvPixelDataInfo::Mirror & mirror     = djvPixelDataInfo::Mirror(),
-    int                              proxyScale = 1)
-{
-    //DJV_DEBUG("quad");
-    float u [] = { 0.f, 0.f };
-    float v [] = { 0.f, 0.f };
-    u[! mirror.x] = 1.f;
-    v[! mirror.y] = 1.f;
-    //DJV_DEBUG_PRINT("u = " << u[0] << " " << u[1]);
-    //DJV_DEBUG_PRINT("v = " << v[0] << " " << v[1]);
-    const glm::vec2 uv[] =
-    {
-        glm::vec2(u[0], v[0]),
-        glm::vec2(u[0], v[1]),
-        glm::vec2(u[1], v[1]),
-        glm::vec2(u[1], v[0])
-    };
-    glBegin(GL_QUADS);
-    djvOpenGLUtil::drawBox(size * proxyScale, uv);
-    glEnd();
-}
-
 } // namespace
 
 //------------------------------------------------------------------------------
@@ -400,11 +467,22 @@ void quad(
 namespace
 {
 const QString sourceVertex =
+    "#version 400 core\n"
+    "\n"
+    "layout (location = 0) in vec2 aPos;\n"
+    "layout (location = 1) in vec2 aTexture;\n"
+    "\n"
+    "out vec2 TextureCoord;\n"
+    "\n"
+    "uniform struct Transform\n"
+    "{\n"
+    "    mat4 mvp;\n"
+    "} transform;\n"
+    "\n"
     "void main(void)\n"
     "{\n"
-    "    gl_FrontColor  = gl_Color;\n"
-    "    gl_TexCoord[0] = gl_MultiTexCoord0;\n"
-    "    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+    "    gl_Position = transform.mvp * vec4(aPos, 1.0, 1.0);\n"
+    "    TextureCoord = aTexture;\n"
     "}\n";
 
 const QString sourceGamma =
@@ -418,6 +496,8 @@ const QString sourceGamma =
 //! \todo How should we handle negative numbers when making color adjustments?
 //! Should they be clamped to zero?
 const QString sourceFragmentHeader =
+    "#version 400 core\n"
+    "\n"
     "struct Levels\n"
     "{\n"
     "    float in0, in1;\n"
@@ -435,11 +515,11 @@ const QString sourceFragmentHeader =
     "    return log(value * f + 1.0) / f;\n"
     "}\n"
     "\n"
-    "vec4 lut(vec4 value, sampler1D lut)\n"
+    "vec4 lut(vec4 value, sampler2D lut)\n"
     "{\n"
-    "    value[0] = texture1D(lut, value[0])[0];\n"
-    "    value[1] = texture1D(lut, value[1])[1];\n"
-    "    value[2] = texture1D(lut, value[2])[2];\n"
+    "    value[0] = texture2D(lut, vec2(value[0], 0))[0];\n"
+    "    value[1] = texture2D(lut, vec2(value[1], 0))[1];\n"
+    "    value[2] = texture2D(lut, vec2(value[2], 0))[2];\n"
     "\n"
     "    return value;\n"
     "}\n"
@@ -576,7 +656,7 @@ const QString sourceFragmentMain =
     "\n"
     "%1"
     "\n"
-    "    gl_FragColor = color;\n"
+    "    FragColor = vec4(TextureCoord, 0, 1);\n"
     "}\n";
 
 } // namespace
@@ -589,20 +669,6 @@ const QString sourceFragmentMain =
 
 namespace
 {
-/*QString sourceFragment()
-{
-    QString header;
-    QString main;
-    header = "uniform sampler2D inTexture;\n";
-    main +=
-        "vec2 position = gl_TexCoord[0].st;\n";
-    main +=
-        "color = texture2D(inTexture, position);\n";
-    return
-        header + "\n" +
-        QString(sourceFragmentMain).arg(main);
-}*/
-
 QString sourceFragment(
     djvColorProfile::PROFILE             colorProfile,
     const djvOpenGLImageDisplayProfile & displayProfile,
@@ -626,6 +692,8 @@ QString sourceFragment(
     header = sourceFragmentHeader.
         arg(! djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
             sourceGamma : "");
+    header += "out vec4 FragColor;\n";
+    header += "in vec2 TextureCoord;\n";
     header += "uniform sampler2D inTexture;\n";
 
     // Color profile.
@@ -633,35 +701,34 @@ QString sourceFragment(
     switch (colorProfile)
     {
         case djvColorProfile::LUT:
-            header += "uniform sampler1D inColorProfileLut;\n";
+            header += "uniform sampler2D inColorProfileLut;\n";
             sample =
                 "lut(\n"
-                "    texture2D(inTexture, position),\n"
+                "    texture2D(inTexture, TextureCoord),\n"
                 "    inColorProfileLut)";
             break;
         case djvColorProfile::GAMMA:
             header += "uniform float inColorProfileGamma;\n";
             sample =
                 "gamma(\n"
-                "    texture2D(inTexture, position),\n"
+                "    texture2D(inTexture, TextureCoord),\n"
                 "    inColorProfileGamma)";
             break;
         case djvColorProfile::EXPOSURE:
             header += "uniform Exposure inColorProfileExposure;\n";
             sample =
                 "exposure(\n"
-                "    texture2D(inTexture, position),\n"
+                "    texture2D(inTexture, TextureCoord),\n"
                 "    inColorProfileExposure)";
             break;
         default:
-            sample = "texture2D(inTexture, position)";
+            sample = "texture2D(inTexture, TextureCoord)";
             break;
     }
 
     // Image filter.
     if (! multipassFilter)
     {
-        main += "vec2 position = gl_TexCoord[0].st;\n";
         main += QString("color = %1;\n").arg(sample);
     }
     else
@@ -687,7 +754,7 @@ QString sourceFragment(
     // Display profile.
     if (displayProfile.lut.isValid())
     {
-        header += "uniform sampler1D inDisplayProfileLut;\n";
+        header += "uniform sampler2D inDisplayProfileLut;\n";
         main += "color = lut(color, inDisplayProfileLut);\n";
     }
     if (displayProfile.color != djvOpenGLImageDisplayProfile().color)
@@ -794,7 +861,7 @@ void colorProfileInit(
             Exposure exposure;
             exposure.v = djvMath::pow(
                 2.f,
-                options.colorProfile.exposure.value + 2.47393);
+                options.colorProfile.exposure.value + 2.47393f);
             exposure.d = options.colorProfile.exposure.defog;
             exposure.k = djvMath::pow(
                 2.f,
@@ -890,21 +957,6 @@ void displayProfileInit(
 // djvOpenGLImage::draw
 //------------------------------------------------------------------------------
 
-namespace
-{
-struct RestoreState
-{
-    ~RestoreState()
-    {
-        glUseProgram(0);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_1D, 0);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
-};
-
-} // namespace
-
 void djvOpenGLImage::draw(
     const djvPixelData &          data,
     const djvOpenGLImageOptions & options,
@@ -914,7 +966,6 @@ void djvOpenGLImage::draw(
     //DJV_DEBUG_PRINT("data = " << data);
     //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
     
-    RestoreState restoreState;
     djvOpenGLImageState defaultState;
     if (! state)
     {
@@ -1059,12 +1110,18 @@ void djvOpenGLImage::draw(
             activeTexture(GL_TEXTURE0);
             uniform1i(state->_shader->program(), "inTexture", 0);
             state->_texture->copy(data);
-            DJV_DEBUG_OPEN_GL(glPushMatrix());
-            const glm::mat4x4 m = djvOpenGLImageXform::xformMatrix(options.xform);
-            //DJV_DEBUG_PRINT("m = " << m);
-            DJV_DEBUG_OPEN_GL(glLoadMatrixf(&m[0][0]));
-            quad(info.size, mirror, proxyScale);
-            DJV_DEBUG_OPEN_GL(glPopMatrix());
+            glm::mat4x4 m(1.f);
+            m *= djvOpenGLImageXform::xformMatrix(options.xform);
+            m *= glm::ortho(
+                0.f,
+                static_cast<float>(info.size.x),
+                0.f,
+                static_cast<float>(info.size.y),
+                -1.f,
+                1.f);
+            uniformMatrix4f(state->_shader->program(), "transform.mvp", m);
+            state->_mesh->setSize(info.size, mirror, proxyScale);
+            state->_mesh->draw();
         }
         break;
         case djvOpenGLImageFilter::BOX:
@@ -1096,19 +1153,17 @@ void djvOpenGLImage::draw(
                 uniform1i(
                     state->_scaleXShader->program(), "inScaleContrib", 1);
                 state->_scaleXContrib->bind();
-                glPushAttrib(GL_TRANSFORM_BIT | GL_VIEWPORT_BIT);
-                glMatrixMode(GL_PROJECTION);
-                glPushMatrix();
-                glMatrixMode(GL_MODELVIEW);
-                glPushMatrix();
-                djvOpenGLUtil::ortho(scaleTmp);
+                glm::mat4x4 m = glm::ortho(
+                    0.f,
+                    static_cast<float>(scaleTmp.x),
+                    0.f,
+                    static_cast<float>(scaleTmp.y),
+                    -1.f,
+                    1.f);
+                uniformMatrix4f(state->_shader->program(), "transform.mvp", m);
                 glViewport(0, 0, scaleTmp.x, scaleTmp.y);
-                quad(scaleTmp, mirror);
-                glMatrixMode(GL_PROJECTION);
-                glPopMatrix();
-                glMatrixMode(GL_MODELVIEW);
-                glPopMatrix();
-                glPopAttrib();
+                state->_mesh->setSize(scaleTmp, mirror);
+                state->_mesh->draw();
             }
 
             // Vertical pass.
@@ -1125,11 +1180,19 @@ void djvOpenGLImage::draw(
             state->_scaleYContrib->bind();
             djvOpenGLImageXform xform = options.xform;
             xform.scale = glm::vec2(1.f, 1.f);
-            const glm::mat4x4 m = djvOpenGLImageXform::xformMatrix(xform);
-            DJV_DEBUG_OPEN_GL(glPushMatrix());
-            DJV_DEBUG_OPEN_GL(glLoadMatrixf(&m[0][0]));
-            quad(scale);
-            DJV_DEBUG_OPEN_GL(glPopMatrix());
+            
+            glm::mat4x4 m = glm::ortho(
+                0.f,
+                static_cast<float>(scaleTmp.x),
+                0.f,
+                static_cast<float>(scaleTmp.y),
+                -1.f,
+                1.f);
+            m *= djvOpenGLImageXform::xformMatrix(xform);
+            uniformMatrix4f(state->_shader->program(), "transform.mvp", m);
+            glViewport(0, 0, scale.x, scale.y);
+            state->_mesh->setSize(scale);
+            state->_mesh->draw();
         }
         break;
         default: break;

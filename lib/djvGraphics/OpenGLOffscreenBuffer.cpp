@@ -36,8 +36,6 @@
 
 #include <QCoreApplication>
 
-using namespace gl;
-
 //------------------------------------------------------------------------------
 // djvOpenGLOffscreenBuffer
 //------------------------------------------------------------------------------
@@ -57,22 +55,24 @@ djvOpenGLOffscreenBuffer::djvOpenGLOffscreenBuffer(const djvPixelDataInfo & info
     //DJV_DEBUG_PRINT("info = " << info);
     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+
     // Create the texture.
-    DJV_DEBUG_OPEN_GL(glGenTextures(1, &_texture));
+    DJV_DEBUG_OPEN_GL(glFuncs->glGenTextures(1, &_texture));
     if (! _texture)
     {
         throw djvError(
             "djvOpenGLOffscreenBuffer",
             errorLabels()[ERROR_CREATE_TEXTURE]);
     }
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, _texture));
-    DJV_DEBUG_OPEN_GL(glTexParameteri(
+    DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(GL_TEXTURE_2D, _texture));
+    DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
         GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-    DJV_DEBUG_OPEN_GL(glTexParameteri(
+    DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
         GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-    DJV_DEBUG_OPEN_GL(glTexParameteri(
+    DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
         GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-    DJV_DEBUG_OPEN_GL(glTexParameteri(
+    DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
         GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
     GLenum format = GL_RGBA;
     if (djvPixel::F16 == djvPixel::type(_info.pixel))
@@ -83,7 +83,7 @@ djvOpenGLOffscreenBuffer::djvOpenGLOffscreenBuffer(const djvPixelDataInfo & info
     {
         format = GL_RGBA32F;
     }
-    glTexImage2D(
+    glFuncs->glTexImage2D(
         GL_TEXTURE_2D,
         0,
         format,
@@ -93,7 +93,7 @@ djvOpenGLOffscreenBuffer::djvOpenGLOffscreenBuffer(const djvPixelDataInfo & info
         djvOpenGLUtil::format(_info.pixel, _info.bgr),
         djvOpenGLUtil::type(_info.pixel),
         0);
-    GLenum error = glGetError();
+    GLenum error = glFuncs->glGetError();
 #if ! defined(DJV_OSX)
 
     //! \todo On OS X this error is triggered in djv_view when a new file is
@@ -106,10 +106,10 @@ djvOpenGLOffscreenBuffer::djvOpenGLOffscreenBuffer(const djvPixelDataInfo & info
             arg(djvOpenGLUtil::errorString(error)));
     }
 #endif // DJV_OSX
-    DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, 0));
+    DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(GL_TEXTURE_2D, 0));
 
     // Create the FBO.
-    DJV_DEBUG_OPEN_GL(glGenFramebuffers(1, &_id));
+    DJV_DEBUG_OPEN_GL(glFuncs->glGenFramebuffers(1, &_id));
     if (! _id)
     {
         throw djvError(
@@ -117,13 +117,13 @@ djvOpenGLOffscreenBuffer::djvOpenGLOffscreenBuffer(const djvPixelDataInfo & info
             errorLabels()[ERROR_CREATE_FBO]);
     }
     djvOpenGLOffscreenBufferScope scope(this);
-    DJV_DEBUG_OPEN_GL(glFramebufferTexture2D(
+    DJV_DEBUG_OPEN_GL(glFuncs->glFramebufferTexture2D(
         GL_FRAMEBUFFER,
         GL_COLOR_ATTACHMENT0,
         GL_TEXTURE_2D,
         _texture,
         0));
-    error = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    error = glFuncs->glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if (error != GL_FRAMEBUFFER_COMPLETE)
     {
         throw djvError(
@@ -141,16 +141,18 @@ djvOpenGLOffscreenBuffer::~djvOpenGLOffscreenBuffer()
     //DJV_DEBUG("djvOpenGLOffscreenBuffer::~djvOpenGLOffscreenBuffer");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
 
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+
     --bufferCount;
     //DJV_DEBUG_PRINT("buffer count = " << bufferCount);
 
     if (_id)
     {
-        DJV_DEBUG_OPEN_GL(glDeleteFramebuffers(1, &_id));
+        DJV_DEBUG_OPEN_GL(glFuncs->glDeleteFramebuffers(1, &_id));
     }
     if (_texture)
     {
-        DJV_DEBUG_OPEN_GL(glDeleteTextures(1, &_texture));
+        DJV_DEBUG_OPEN_GL(glFuncs->glDeleteTextures(1, &_texture));
     }
 }
 
@@ -175,9 +177,10 @@ void djvOpenGLOffscreenBuffer::bind()
         return;
     //DJV_DEBUG("djvOpenGLOffscreenBuffer::bind");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
-    DJV_DEBUG_OPEN_GL(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore));
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    DJV_DEBUG_OPEN_GL(glFuncs->glGetIntegerv(GL_FRAMEBUFFER_BINDING, &_restore));
     //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-    DJV_DEBUG_OPEN_GL(glBindFramebuffer(GL_FRAMEBUFFER, _id));
+    DJV_DEBUG_OPEN_GL(glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _id));
 }
 
 void djvOpenGLOffscreenBuffer::unbind()
@@ -187,7 +190,8 @@ void djvOpenGLOffscreenBuffer::unbind()
     //DJV_DEBUG("djvOpenGLOffscreenBuffer::unbind");
     //DJV_DEBUG_PRINT("id = " << static_cast<int>(_id));
     //DJV_DEBUG_PRINT("restore = " << static_cast<int>(_restore));
-    DJV_DEBUG_OPEN_GL(glBindFramebuffer(GL_FRAMEBUFFER, _restore));
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    DJV_DEBUG_OPEN_GL(glFuncs->glBindFramebuffer(GL_FRAMEBUFFER, _restore));
     _restore = 0;
 }
 

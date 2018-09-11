@@ -61,15 +61,15 @@ public:
     const QString & fragmentSource() const;
 
     //! Get the shader program ID.
-    gl::GLuint program() const;
+    GLuint program() const;
 
 private:
     void del();
 
-    QString    _vertexSource;
-    QString    _fragmentSource;
-    gl::GLuint _vertexId       = 0;
-    gl::GLuint _fragmentId     = 0;
-    gl::GLuint _programId      = 0;
+    QString _vertexSource;
+    QString _fragmentSource;
+    GLuint  _vertexId       = 0;
+    GLuint  _fragmentId     = 0;
+    GLuint  _programId      = 0;
 };
 

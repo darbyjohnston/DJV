@@ -170,7 +170,7 @@ public:
     FILTER mag;
 
     //! Convert an image filter to OpenGL.
-    static gl::GLenum toGl(FILTER);
+    static GLenum toGl(FILTER);
 
     //! Get the default image filter.
     static djvOpenGLImageFilter filterDefault();
@@ -222,6 +222,28 @@ public:
 };
 
 //------------------------------------------------------------------------------
+//! \class djvOpenGLImageMesh
+//!
+//! This class provides a mesh for drawing images.
+//------------------------------------------------------------------------------
+
+class djvOpenGLImageMesh
+{
+public:
+    djvOpenGLImageMesh();
+
+    ~djvOpenGLImageMesh();
+
+    void setSize(const glm::ivec2&, const djvPixelDataInfo::Mirror & mirror = djvPixelDataInfo::Mirror(), int proxyScale = 1);
+    void draw();
+
+private:
+    size_t _vertexSize = 0;
+    GLuint _vbo = 0;
+    GLuint _vao = 0;
+};
+
+//------------------------------------------------------------------------------
 //! \class djvOpenGLImageState
 //!
 //! This class provides OpenGL image state.
@@ -239,14 +261,15 @@ private:
     bool                  _init;
     djvPixelDataInfo      _info;
     djvOpenGLImageOptions _options;
-    djvOpenGLTexture *    _texture;
-    djvOpenGLShader *     _shader;
-    djvOpenGLTexture *    _scaleXContrib;
-    djvOpenGLTexture *    _scaleYContrib;
-    djvOpenGLShader *     _scaleXShader;
-    djvOpenGLShader *     _scaleYShader;
-    djvOpenGLLUT *        _lutColorProfile;
-    djvOpenGLLUT *        _lutDisplayProfile;
+    djvOpenGLTexture *    _texture = nullptr;
+    djvOpenGLShader *     _shader = nullptr;
+    djvOpenGLTexture *    _scaleXContrib = nullptr;
+    djvOpenGLTexture *    _scaleYContrib = nullptr;
+    djvOpenGLShader *     _scaleXShader = nullptr;
+    djvOpenGLShader *     _scaleYShader = nullptr;
+    djvOpenGLLUT *        _lutColorProfile = nullptr;
+    djvOpenGLLUT *        _lutDisplayProfile = nullptr;
+    djvOpenGLImageMesh *  _mesh = nullptr;
 
     friend class djvOpenGLImage;
 };

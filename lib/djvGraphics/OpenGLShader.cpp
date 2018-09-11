@@ -35,8 +35,6 @@
 
 #include <QCoreApplication>
 
-using namespace gl;
-
 //------------------------------------------------------------------------------
 // djvOpenGLShader
 //------------------------------------------------------------------------------
@@ -51,8 +49,9 @@ namespace
 GLuint shaderCreate(GLenum type) throw (djvError)
 {
     //DJV_DEBUG("shaderCreate");
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
     GLuint r = 0;
-    DJV_DEBUG_OPEN_GL(r = glCreateShader(type));
+    DJV_DEBUG_OPEN_GL(r = glFuncs->glCreateShader(type));
     if (! r)
     {
         throw djvError(
@@ -64,20 +63,21 @@ GLuint shaderCreate(GLenum type) throw (djvError)
 
 void shaderCompile(GLuint id, const QString & source)
 {
-    //DJV_DEBUG("shaderCompile");
-    //DJV_DEBUG_PRINT("source = " << source);
+    DJV_DEBUG("shaderCompile");
+    DJV_DEBUG_PRINT("source = " << source);
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
     std::vector<char> buf(source.length());
     memcpy(buf.data(), source.toLatin1().data(), buf.size());
     const char * sources       [] = { buf.data() };
     const GLint  sourceLengths [] = { static_cast<GLint>(buf.size()) };
-    DJV_DEBUG_OPEN_GL(glShaderSource(id, 1, sources, sourceLengths));
-    DJV_DEBUG_OPEN_GL(glCompileShader(id));
-    GLboolean error = GL_FALSE;
-    glGetShaderiv(id, GL_COMPILE_STATUS, &error);
+    DJV_DEBUG_OPEN_GL(glFuncs->glShaderSource(id, 1, sources, sourceLengths));
+    DJV_DEBUG_OPEN_GL(glFuncs->glCompileShader(id));
+    GLint error = 0;
+    glFuncs->glGetShaderiv(id, GL_COMPILE_STATUS, &error);
     char    log [4096] = "";
     GLsizei logSize    = 0;
-    glGetShaderInfoLog(id, 4096, &logSize, log);
-    //DJV_DEBUG_PRINT("log = " << QString(log));
+    glFuncs->glGetShaderInfoLog(id, 4096, &logSize, log);
+    DJV_DEBUG_PRINT("log = " << QString(log));
     if (error != GL_TRUE)
     {
         throw djvError(
@@ -100,30 +100,32 @@ void djvOpenGLShader::init(
     //DJV_DEBUG_PRINT("vertexSource = " << vertexSource);
     //DJV_DEBUG_PRINT("fragmentSource = " << fragmentSource);
 
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+
     del();
 
     _vertexSource   = vertexSource;
     _fragmentSource = fragmentSource;
 
-    GLboolean error = GL_FALSE;
-    _vertexId   = glCreateShader(GL_VERTEX_SHADER);
-    _fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+    _vertexId   = glFuncs->glCreateShader(GL_VERTEX_SHADER);
+    _fragmentId = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
     shaderCompile(_vertexId,   _vertexSource);
     shaderCompile(_fragmentId, _fragmentSource);
-    DJV_DEBUG_OPEN_GL(_programId = glCreateProgram());
+    DJV_DEBUG_OPEN_GL(_programId = glFuncs->glCreateProgram());
     if (! _programId)
     {
         throw djvError(
             "djvOpenGLShader",
             qApp->translate("djvOpenGLShader", "Cannot create shader program"));
     }
-    DJV_DEBUG_OPEN_GL(glAttachShader(_programId, _vertexId));
-    DJV_DEBUG_OPEN_GL(glAttachShader(_programId, _fragmentId));
-    DJV_DEBUG_OPEN_GL(glLinkProgram (_programId));
-    glGetProgramiv(_programId, GL_LINK_STATUS, &error);
+    DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _vertexId));
+    DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _fragmentId));
+    DJV_DEBUG_OPEN_GL(glFuncs->glLinkProgram (_programId));
+    GLint error = 0;
+    glFuncs->glGetProgramiv(_programId, GL_LINK_STATUS, &error);
     char log [4096] = "";
     GLsizei logSize = 0;
-    glGetProgramInfoLog(_programId, 4096, &logSize, log);
+    glFuncs->glGetProgramInfoLog(_programId, 4096, &logSize, log);
     //DJV_DEBUG_PRINT("log = " << QString(log));
     if (error != GL_TRUE)
     {
@@ -137,7 +139,8 @@ void djvOpenGLShader::init(
 void djvOpenGLShader::bind()
 {
     //DJV_DEBUG("djvOpenGLShader::bind");
-    DJV_DEBUG_OPEN_GL(glUseProgram(_programId));
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    DJV_DEBUG_OPEN_GL(glFuncs->glUseProgram(_programId));
 }
     
 const QString & djvOpenGLShader::vertexSource() const
@@ -157,19 +160,20 @@ GLuint djvOpenGLShader::program() const
 
 void djvOpenGLShader::del()
 {
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
     if (_vertexId)
     {
-        glDeleteShader(_vertexId);
+        glFuncs->glDeleteShader(_vertexId);
         _vertexId = 0;
     }
     if (_fragmentId)
     {
-        glDeleteShader(_fragmentId);
+        glFuncs->glDeleteShader(_fragmentId);
         _fragmentId = 0;
     }
     if (_programId)
     {
-        glDeleteProgram(_programId);
+        glFuncs->glDeleteProgram(_programId);
         _programId = 0;
     }
 }

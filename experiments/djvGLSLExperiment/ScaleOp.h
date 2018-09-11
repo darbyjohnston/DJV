@@ -137,7 +137,7 @@ public:
 
     static int edge(int, int size);
 
-    static gl::GLenum filterToGl(FILTER_DEFAULT);
+    static GLenum filterToGl(FILTER_DEFAULT);
 
     explicit ScaleOp(Context *);
 

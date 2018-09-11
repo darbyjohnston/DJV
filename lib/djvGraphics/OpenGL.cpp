@@ -35,23 +35,12 @@
 
 #include <djvCore/Math.h>
 
-using namespace gl;
-
 //------------------------------------------------------------------------------
 // djvOpenGLUtil
 //------------------------------------------------------------------------------
 
 djvOpenGLUtil::~djvOpenGLUtil()
 {}
-
-void djvOpenGLUtil::ortho(const glm::ivec2 & size, const glm::vec2 & minMax)
-{
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, size.x, 0, size.y, minMax.x, minMax.y);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-}
 
 GLenum djvOpenGLUtil::format(djvPixel::PIXEL in, bool bgr)
 {
@@ -103,57 +92,6 @@ GLenum djvOpenGLUtil::type(djvPixel::PIXEL in)
         default: break;
     }
     return GL_NONE;
-}
-
-void djvOpenGLUtil::color(const djvColor & in)
-{
-    djvColor tmp(djvPixel::RGBA_F32);
-    djvColorUtil::convert(in, tmp);
-    glColor4f(
-        tmp.f32(0),
-        tmp.f32(1),
-        tmp.f32(2),
-        tmp.f32(3));
-}
-
-void djvOpenGLUtil::drawBox(const djvBox2i & in)
-{
-    glVertex2i(in.x, in.y);
-    glVertex2i(in.x, in.y + in.h);
-    glVertex2i(in.x + in.w, in.y + in.h);
-    glVertex2i(in.x + in.w, in.y);
-}
-
-void djvOpenGLUtil::drawBox(const djvBox2f & in)
-{
-    glVertex2d(in.x, in.y);
-    glVertex2d(in.x, in.y + in.h);
-    glVertex2d(in.x + in.w, in.y + in.h);
-    glVertex2d(in.x + in.w, in.y);
-}
-
-void djvOpenGLUtil::drawBox(const djvBox2i & in, const glm::vec2 uv[4])
-{
-    glTexCoord2d(uv[0].x, uv[0].y);
-    glVertex2i(in.x, in.y);
-    glTexCoord2d(uv[1].x, uv[1].y);
-    glVertex2i(in.x, in.y + in.h);
-    glTexCoord2d(uv[2].x, uv[2].y);
-    glVertex2i(in.x + in.w, in.y + in.h);
-    glTexCoord2d(uv[3].x, uv[3].y);
-    glVertex2i(in.x + in.w, in.y);
-}
-
-void djvOpenGLUtil::drawBox(const djvBox2f & in, const glm::vec2 uv[4])
-{
-    glTexCoord2d(uv[0].x, uv[0].y);
-    glVertex2d(in.x, in.y);
-    glTexCoord2d(uv[1].x, uv[1].y);
-    glVertex2d(in.x, in.y + in.h);
-    glTexCoord2d(uv[2].x, uv[2].y);
-    glVertex2d(in.x + in.w, in.y + in.h);
-    glTexCoord2d(uv[3].x, uv[3].y);
-    glVertex2d(in.x + in.w, in.y);
 }
 
 QString djvOpenGLUtil::errorString(GLenum in)

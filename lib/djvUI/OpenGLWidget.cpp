@@ -31,18 +31,50 @@
 
 #include <djvUI/OpenGLWidget.h>
 
+#include <djvGraphics/GraphicsContext.h>
+
+#include <QOpenGLContext>
+#include <QSurface>
+
 //------------------------------------------------------------------------------
 // djvOpenGLWidget
 //------------------------------------------------------------------------------
 
 djvOpenGLWidget::djvOpenGLWidget(
-    QWidget *         parent,
-    Qt::WindowFlags   flags) :
+    QWidget *       parent,
+    Qt::WindowFlags flags) :
     QOpenGLWidget(parent, flags)
 {
     //DJV_DEBUG("djvOpenGLWidget::djvOpenGLWidget");
+    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
+    surfaceFormat.setVersion(4, 3);
+    surfaceFormat.setProfile(QSurfaceFormat::CoreProfile);
+    setFormat(surfaceFormat);
 }
 
 djvOpenGLWidget::~djvOpenGLWidget()
 {}
 
+/*void djvOpenGLWidget::initializeGL()
+{
+    if (_init)
+    {
+        _init = false;
+        auto context = this->context();
+        glbinding::initialize([context](const char* name)
+        {
+            return context->getProcAddress(QByteArray::fromStdString(name));
+        });
+    }
+    glbinding::useCurrentContext();
+}
+
+void djvOpenGLWidget::resizeGL(int, int)
+{
+    glbinding::useCurrentContext();
+}
+
+void djvOpenGLWidget::paintGL()
+{
+    glbinding::useCurrentContext();
+}*/

@@ -31,14 +31,14 @@
 
 #pragma once
 
-#include <djvGraphics/Color.h>
 #include <djvGraphics/Pixel.h>
 
 #include <djvCore/Box.h>
 #include <djvCore/Vector.h>
 
-#include <glbinding/gl/gl.h>
-#include <glbinding/glbinding.h>
+//#include <glbinding/gl/gl.h>
+//#include <glbinding/glbinding.h>
+#include <QOpenGLFunctions_4_3_Core>
 
 //! \addtogroup djvGraphicsOpenGL
 //@{
@@ -54,34 +54,14 @@ class djvOpenGLUtil
 public:
     virtual ~djvOpenGLUtil() = 0;
     
-    //! Setup an orthographic camera.    
-    static void ortho(
-        const glm::ivec2 & size,
-        const glm::vec2 &  minMax = glm::vec2(-1.f, 1.f));
-
     //! Convert a pixel format to OpenGL.
-    static gl::GLenum format(djvPixel::PIXEL, bool bgr = false);
+    static GLenum format(djvPixel::PIXEL, bool bgr = false);
 
     //! Convert a pixel type to OpenGL.
-    static gl::GLenum type(djvPixel::PIXEL);
-
-    //! Set the current OpenGL color.
-    static void color(const djvColor &);
-
-    //! Draw a box.
-    static void drawBox(const djvBox2i &);
-
-    //! Draw a box.
-    static void drawBox(const djvBox2f &);
-
-    //! Draw a box.
-    static void drawBox(const djvBox2i &, const glm::vec2 uv[4]);
-
-    //! Draw a box.
-    static void drawBox(const djvBox2f &, const glm::vec2 uv[4]);
+    static GLenum type(djvPixel::PIXEL);
     
     //! Get an OpenGL error string.
-    static QString errorString(gl::GLenum);
+    static QString errorString(GLenum);
 };
 
 //! This macro provides OpenGL debugging functionality.
@@ -94,8 +74,8 @@ public:
 #define DJV_DEBUG_OPEN_GL(cmd) \
     cmd; \
     { \
-        gl::GLenum error = gl::GL_NO_ERROR; \
-        if ((error = gl::glGetError()) != gl::GL_NO_ERROR) \
+        GLenum error = GL_NO_ERROR; \
+        if ((error = glGetError()) != GL_NO_ERROR) \
         { \
             DJV_DEBUG_PRINT(QString("%1 = %2 (%3, line %4)"). \
                 arg(#cmd). \

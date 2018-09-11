@@ -57,7 +57,7 @@ public:
     const djvPixelDataInfo & info() const;
 
     //! Get the texture ID.
-    gl::GLuint id() const;
+    GLuint id() const;
 
     //! Bind the LUT.
     void bind();
@@ -70,6 +70,6 @@ private:
 
     djvPixelDataInfo _info;
     int              _size = 0;
-    gl::GLuint       _id   = 0;
+    GLuint           _id   = 0;
 };
 

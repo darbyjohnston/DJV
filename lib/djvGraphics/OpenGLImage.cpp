@@ -41,8 +41,6 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-using namespace gl;
-
 //------------------------------------------------------------------------------
 // djvOpenGLImageXform
 //------------------------------------------------------------------------------
@@ -250,44 +248,16 @@ void djvOpenGLImage::read(djvPixelData & output, const djvBox2i & area)
 {
     //DJV_DEBUG("djvOpenGLImage::read");
     //DJV_DEBUG_PRINT("output = " << output);
-    //DJV_DEBUG_PRINT("area = " << area);
-    
+    //DJV_DEBUG_PRINT("area = " << area);    
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
     const djvPixelDataInfo & info = output.info();
-    DJV_DEBUG_OPEN_GL(glPushAttrib(
-        GL_CURRENT_BIT |
-        GL_ENABLE_BIT |
-        GL_PIXEL_MODE_BIT));
-    DJV_DEBUG_OPEN_GL(glDisable(GL_DITHER));
-
-    //! \todo What is the correct way to convert from RGB to luminance?
-    switch (djvPixel::format(info.pixel))
-    {
-        case djvPixel::L:
-        case djvPixel::LA:
-
-            //DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_GREEN_SCALE, 0.f));
-            //DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_BLUE_SCALE, 0.f));
-
-            DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_RED_SCALE,
-                static_cast<GLfloat>(1.f / 3.f)));
-            DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_GREEN_SCALE,
-                static_cast<GLfloat>(1.f / 3.f)));
-            DJV_DEBUG_OPEN_GL(glPixelTransferf(GL_BLUE_SCALE,
-                static_cast<GLfloat>(1.f / 3.f)));
-
-            break;
-
-        default: break;
-    }
-
     statePack(info, area.position);
-    DJV_DEBUG_OPEN_GL(glReadPixels(
+    DJV_DEBUG_OPEN_GL(glFuncs->glReadPixels(
         0, 0, area.w, area.h,
         djvOpenGLUtil::format(info.pixel, info.bgr),
         djvOpenGLUtil::type(info.pixel),
         output.data()));
     //stateReset();
-    DJV_DEBUG_OPEN_GL(glPopAttrib());
 }
 
 namespace
@@ -326,30 +296,31 @@ void djvOpenGLImage::copy(
     //DJV_DEBUG_PRINT("output = " << output);
     //DJV_DEBUG_PRINT("scale = " << options.xform.scale);
 
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+
     const glm::ivec2 & size = output.info().size;
     QScopedPointer<djvOpenGLOffscreenBuffer> _buffer;
     if (! buffer)
     {
         //DJV_DEBUG_PRINT("create buffer");
-        _buffer.reset(
-            new djvOpenGLOffscreenBuffer(djvPixelDataInfo(size, output.pixel())));
+        _buffer.reset(new djvOpenGLOffscreenBuffer(djvPixelDataInfo(size, output.pixel())));
         buffer = _buffer.data();
     }
 
     try
     {
         djvOpenGLOffscreenBufferScope bufferScope(buffer);
-        djvOpenGLUtil::ortho(size);
-        DJV_DEBUG_OPEN_GL(glViewport(0, 0, size.x, size.y));
-        //DJV_DEBUG_OPEN_GL(glClearColor(0, 1, 0, 0));
+        
+        DJV_DEBUG_OPEN_GL(glFuncs->glViewport(0, 0, size.x, size.y));
         djvColor background(djvPixel::RGB_F32);
         djvColorUtil::convert(options.background, background);
-        DJV_DEBUG_OPEN_GL(glClearColor(
+        DJV_DEBUG_OPEN_GL(glFuncs->glClearColor(
             background.f32(0),
             background.f32(1),
             background.f32(2),
             initAlpha(input.pixel(), output.pixel()) ? 1.f : 0.f));
-        DJV_DEBUG_OPEN_GL(glClear(GL_COLOR_BUFFER_BIT));
+        //DJV_DEBUG_OPEN_GL(glClearColor(0, 1, 0, 0));
+        DJV_DEBUG_OPEN_GL(glFuncs->glClear(GL_COLOR_BUFFER_BIT));
         
         djvOpenGLImageOptions _options = options;
         if (output.info().mirror.x)
@@ -372,28 +343,28 @@ void djvOpenGLImage::copy(
 
 void djvOpenGLImage::stateUnpack(const djvPixelDataInfo & in, const glm::ivec2 & offset)
 {
-    glPixelStorei(GL_UNPACK_ALIGNMENT, in.align);
-    glPixelStorei(GL_UNPACK_SWAP_BYTES, in.endian != djvMemory::endian());
-    //glPixelStorei(GL_UNPACK_ROW_LENGTH, in.data_window.w);
-    glPixelStorei(GL_UNPACK_SKIP_ROWS, offset.y);
-    glPixelStorei(GL_UNPACK_SKIP_PIXELS, offset.x);
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, in.align);
+    glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, in.endian != djvMemory::endian());
+    //glFuncs->glPixelStorei(GL_UNPACK_ROW_LENGTH, in.data_window.w);
+    glFuncs->glPixelStorei(GL_UNPACK_SKIP_ROWS, offset.y);
+    glFuncs->glPixelStorei(GL_UNPACK_SKIP_PIXELS, offset.x);
 }
 
 void djvOpenGLImage::statePack(const djvPixelDataInfo & in, const glm::ivec2 & offset)
 {
-    glPixelStorei(GL_PACK_ALIGNMENT, in.align);
-    glPixelStorei(GL_PACK_SWAP_BYTES, in.endian != djvMemory::endian());
-    glPixelStorei(GL_PACK_ROW_LENGTH, in.size.x);
-    glPixelStorei(GL_PACK_SKIP_ROWS, offset.y);
-    glPixelStorei(GL_PACK_SKIP_PIXELS, offset.x);
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, in.align);
+    glFuncs->glPixelStorei(GL_PACK_SWAP_BYTES, in.endian != djvMemory::endian());
+    glFuncs->glPixelStorei(GL_PACK_ROW_LENGTH, in.size.x);
+    glFuncs->glPixelStorei(GL_PACK_SKIP_ROWS, offset.y);
+    glFuncs->glPixelStorei(GL_PACK_SKIP_PIXELS, offset.x);
 }
 
 void djvOpenGLImage::stateReset()
 {
     statePack(djvPixelDataInfo());
     stateUnpack(djvPixelDataInfo());
-    glUseProgram(0);
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
 void djvOpenGLImage::average(
@@ -931,5 +902,3 @@ djvDebug & operator << (djvDebug & debug, const djvOpenGLImageOptions::CHANNEL &
 {
     return debug << djvStringUtil::label(in);
 }
-
-

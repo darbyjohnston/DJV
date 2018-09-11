@@ -82,9 +82,9 @@ class djvImageView : public djvOpenGLWidget
     
 public:
     explicit djvImageView(
-        djvUIContext *   context,
-        QWidget *         parent  = nullptr,
-        Qt::WindowFlags   flags   = 0);
+        djvUIContext *  context,
+        QWidget *       parent  = nullptr,
+        Qt::WindowFlags lags    = 0);
 
     virtual ~djvImageView();
 

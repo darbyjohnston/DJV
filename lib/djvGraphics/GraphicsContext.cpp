@@ -70,13 +70,11 @@
 #include <QScopedPointer>
 #include <QVector>
 
-#include <glbinding/Version.h>
-#include <glbinding-aux/Meta.h>
-#include <glbinding-aux/types_to_string.h>
+//#include <glbinding/Version.h>
+//#include <glbinding-aux/Meta.h>
+//#include <glbinding-aux/types_to_string.h>
 
 #include <sstream>
-
-using namespace gl;
 
 //------------------------------------------------------------------------------
 // djvGraphicsContext::Private
@@ -108,10 +106,13 @@ djvGraphicsContext::djvGraphicsContext(QObject * parent) :
         "Creating the default OpenGL context...");
 
     _p->offscreenSurface.reset(new QOffscreenSurface);
-    QSurfaceFormat surfaceFormat;
-    surfaceFormat.setSamples(1);
+
+    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
     surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
+    surfaceFormat.setProfile(QSurfaceFormat::OpenGLContextProfile::CoreProfile);
+    surfaceFormat.setVersion(4, 3);
     surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+    surfaceFormat.setSamples(1);
     _p->offscreenSurface->setFormat(surfaceFormat);
     _p->offscreenSurface->create();
     
@@ -120,7 +121,7 @@ djvGraphicsContext::djvGraphicsContext(QObject * parent) :
     _p->openGlContext->create();
     _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
 
-    glbinding::initialize([this](const char* name)
+    /*glbinding::initialize([this](const char* name)
     {
         return _p->openGlContext->getProcAddress(QByteArray::fromStdString(name));
     });
@@ -129,7 +130,7 @@ djvGraphicsContext::djvGraphicsContext(QObject * parent) :
         std::stringstream s;
         s << v;
         DJV_LOG(debugLog(), "djvGraphicsContext", QString("glbinding version: %1").arg(QString::fromLatin1(s.str().c_str())));
-    }
+    }*/
     DJV_LOG(debugLog(), "djvGraphicsContext", "");
 
     //! Create the image I/O plugins.

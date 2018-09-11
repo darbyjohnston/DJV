@@ -52,10 +52,18 @@ class djvOpenGLWidget : public QOpenGLWidget
     
 public:
     explicit djvOpenGLWidget(
-        QWidget *         parent = nullptr,
-        Qt::WindowFlags   flags  = 0);
+        QWidget *       parent = nullptr,
+        Qt::WindowFlags flags  = 0);
 
-    virtual ~djvOpenGLWidget();    
+    virtual ~djvOpenGLWidget();
+
+protected:
+    //virtual void initializeGL();
+    //virtual void resizeGL(int, int);
+    //virtual void paintGL();
+
+private:
+    //bool _init = true;
 };
 
 //@} // djvUIWidget

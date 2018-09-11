@@ -186,8 +186,12 @@ ThumbnailThreadResult thumbnailThreadFunction(
         // Create an OpenGL context.        
         QScopedPointer<QOffscreenSurface> offscreenSurface;
         offscreenSurface.reset(new QOffscreenSurface);
-        QSurfaceFormat surfaceFormat;
+        QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
+        surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
+        surfaceFormat.setProfile(QSurfaceFormat::OpenGLContextProfile::CoreProfile);
+        surfaceFormat.setVersion(4, 3);
         surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+        surfaceFormat.setSamples(1);
         offscreenSurface->setFormat(surfaceFormat);
         offscreenSurface->create();        
         QScopedPointer<QOpenGLContext> openGlContext;

@@ -56,7 +56,7 @@ public:
     void set(const djvOpenGLTexture &);
 
 private:
-    gl::GLuint _id = 0;
+    GLuint _id = 0;
 };
 
 //------------------------------------------------------------------------------
@@ -72,9 +72,9 @@ public:
 
     //void size(int);
 
-    void value(gl::GLuint, const float *);
+    void value(GLuint, const float *);
 
-    void offset(gl::GLuint, const float *);
+    void offset(GLuint, const float *);
 
 private:
     int     _size = 0;
