@@ -83,30 +83,29 @@ namespace djv
                 context(context)
             {}
 
-            Util::MOUSE_WHEEL                        mouseWheel = static_cast<Util::MOUSE_WHEEL>(0);
-            FileGroup *                              fileGroup = nullptr;
-            WindowGroup *                            windowGroup = nullptr;
-            ViewGroup *                              viewGroup = nullptr;
-            ImageGroup *                             imageGroup = nullptr;
-            PlaybackGroup *                          playbackGroup = nullptr;
-            qint64                                   playbackFrameTmp = 0;
-            float                                    playbackSpeedTmp = 0.f;
-            ToolGroup *                              toolGroup = nullptr;
-            HelpGroup *                              helpGroup = nullptr;
-            const djvImage *                         imageP = nullptr;
-            djvImage                                 imageTmp;
-            glm::ivec2                               imagePick = glm::ivec2(0, 0);
-            djvColor                                 imageSample;
-            bool                                     sampleInit = false;
-            QScopedPointer<djvOpenGLOffscreenBuffer> sampleBuffer;
-            djvOpenGLImageState                      sampleState;
-            ImageView *                              viewWidget = nullptr;
-            djvColorSwatch *                         infoSwatch = nullptr;
-            QLabel *                                 infoPixelLabel = nullptr;
-            QLabel *                                 infoImageLabel = nullptr;
-            QLabel *                                 infoCacheLabel = nullptr;
-            int                                      menuBarHeight = 0;
-            Context *                                context = nullptr;
+            Util::MOUSE_WHEEL mouseWheel = static_cast<Util::MOUSE_WHEEL>(0);
+            FileGroup * fileGroup = nullptr;
+            WindowGroup * windowGroup = nullptr;
+            ViewGroup * viewGroup = nullptr;
+            ImageGroup * imageGroup = nullptr;
+            PlaybackGroup * playbackGroup = nullptr;
+            qint64 playbackFrameTmp = 0;
+            float playbackSpeedTmp = 0.f;
+            ToolGroup * toolGroup = nullptr;
+            HelpGroup * helpGroup = nullptr;
+            const djvImage * imageP = nullptr;
+            djvImage imageTmp;
+            glm::ivec2 imagePick = glm::ivec2(0, 0);
+            djvColor imageSample;
+            std::unique_ptr<djvOpenGLImage> openGLImage;
+            bool sampleInit = false;
+            ImageView * viewWidget = nullptr;
+            djvColorSwatch * infoSwatch = nullptr;
+            QLabel * infoPixelLabel = nullptr;
+            QLabel * infoImageLabel = nullptr;
+            QLabel * infoCacheLabel = nullptr;
+            int menuBarHeight = 0;
+            Context * context = nullptr;
         };
 
         namespace
@@ -306,13 +305,6 @@ namespace djv
         MainWindow::~MainWindow()
         {
             //DJV_DEBUG("MainWindow::~MainWindow");
-            _p->imageP = 0;
-            _p->viewWidget->setData(0);
-            _p->viewWidget->makeCurrent();
-            //! \todo Hopefully this ensures that the view widget context is deleted
-            //! after the child widgets.
-            _p->viewWidget->setParent(0);
-            _p->viewWidget->deleteLater();
         }
 
         const djvImageIOInfo & MainWindow::imageIOInfo() const
@@ -812,6 +804,12 @@ namespace djv
         {
             //DJV_DEBUG("MainWindow::viewPickUpdate");
 
+            _p->context->makeGLContextCurrent();
+            if (!_p->openGLImage)
+            {
+                _p->openGLImage.reset(new djvOpenGLImage);
+            }
+
             // Update the info bar with pixel information.
             const glm::ivec2 pick = djvVectorUtil::floor(
                 glm::vec2(_p->imagePick - _p->viewWidget->viewPos()) /
@@ -825,22 +823,12 @@ namespace djv
                 //DJV_DEBUG_PRINT("sample");
                 try
                 {
-                    _p->viewWidget->makeCurrent();
+                    _p->context->makeGLContextCurrent();
                     djvPixelData tmp(djvPixelDataInfo(glm::ivec2(1, 1), image->pixel()));
-                    if (!_p->sampleBuffer || _p->sampleBuffer->info() != tmp.info())
-                    {
-                        _p->sampleBuffer.reset(
-                            new djvOpenGLOffscreenBuffer(tmp.info()));
-                    }
                     djvOpenGLImageOptions _options = options;
                     _options.xform.position -= pick;
-                    djvOpenGLImage::copy(
-                        *image,
-                        tmp,
-                        _options,
-                        &_p->sampleState,
-                        _p->sampleBuffer.data());
-                    djvOpenGLImage::average(tmp, _p->imageSample);
+                    _p->openGLImage->copy(*image, tmp, _options);
+                    _p->openGLImage->average(tmp, _p->imageSample);
                 }
                 catch (djvError error)
                 {

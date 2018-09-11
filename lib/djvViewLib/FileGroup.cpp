@@ -85,25 +85,26 @@ namespace djv
                 toolBar(0)
             {}
 
-            djvFileInfo                  fileInfo;
-            djvImageIOInfo               imageIOInfo;
-            const djvImage *             image = nullptr;
-            djvImage                     imageTmp;
-            djvImage                     imageTmp2;
+            djvFileInfo fileInfo;
+            djvImageIOInfo imageIOInfo;
+            const djvImage * image = nullptr;
+            djvImage imageTmp;
+            djvImage imageTmp2;
             QScopedPointer<djvImageLoad> imageLoad;
-            int                          layer = 0;
-            QStringList                  layers;
-            djvPixelDataInfo::PROXY      proxy = static_cast<djvPixelDataInfo::PROXY>(0);
-            bool                         u8Conversion = false;
-            bool                         cache = false;
-            FileCacheItem *              cacheItem = nullptr;
-            bool                         preload = false;
-            bool                         preloadActive = false;
-            int                          preloadTimer = 0;
-            qint64                       preloadFrame = 0;
-            FileActions *                actions = nullptr;
-            FileMenu *                   menu = nullptr;
-            FileToolBar *                toolBar = nullptr;
+            std::unique_ptr<djvOpenGLImage> openGLImage;
+            int layer = 0;
+            QStringList layers;
+            djvPixelDataInfo::PROXY proxy = static_cast<djvPixelDataInfo::PROXY>(0);
+            bool u8Conversion = false;
+            bool cache = false;
+            FileCacheItem * cacheItem = nullptr;
+            bool preload = false;
+            bool preloadActive = false;
+            int preloadTimer = 0;
+            qint64 preloadFrame = 0;
+            FileActions * actions = nullptr;
+            FileMenu * menu = nullptr;
+            FileToolBar * toolBar = nullptr;
         };
 
         FileGroup::FileGroup(
@@ -263,12 +264,14 @@ namespace djv
             }
             _p->image = 0;
 
-            // Cleanup.
             if (_p->cacheItem)
             {
                 _p->cacheItem->decrement();
             }
             cacheDel();
+
+            context()->makeGLContextCurrent();
+            _p->openGLImage.reset();
         }
 
         const djvFileInfo & FileGroup::fileInfo() const
@@ -316,10 +319,11 @@ namespace djv
             //DJV_DEBUG("FileGroup::image");
             //DJV_DEBUG_PRINT("frame = " << frame);
 
+            context()->makeGLContextCurrent();
+
             FileGroup * that = const_cast<FileGroup *>(this);
-            that->mainWindow()->viewWidget()->makeCurrent();
-            FileCache * cache = context()->fileCache();
             that->_p->image = 0;
+            FileCache * cache = context()->fileCache();
             FileCacheItem * prev = _p->cacheItem;
             that->_p->cacheItem = _p->cache ? cache->get(mainWindow(), frame) : 0;
             if (_p->cacheItem)
@@ -366,7 +370,7 @@ namespace djv
                             djvOpenGLImageOptions options;
                             options.colorProfile = _p->imageTmp2.colorProfile;
                             options.proxyScale = false;
-                            djvOpenGLImage::copy(_p->imageTmp2, that->_p->imageTmp, options);
+                            _p->openGLImage->copy(_p->imageTmp2, that->_p->imageTmp, options);
                         }
                     }
                     catch (djvError error)
@@ -587,7 +591,11 @@ namespace djv
 
             if (preload)
             {
-                mainWindow()->viewWidget()->makeCurrent();
+                context()->makeGLContextCurrent();
+                if (!_p->openGLImage)
+                {
+                    _p->openGLImage.reset(new djvOpenGLImage);
+                }
                 djvImage * image = 0;
                 if (_p->imageLoad.data())
                 {
@@ -623,7 +631,7 @@ namespace djv
                             options.colorProfile = _p->imageTmp2.colorProfile;
                             options.proxyScale = false;
 
-                            djvOpenGLImage::copy(_p->imageTmp2, _p->imageTmp, options);
+                            _p->openGLImage->copy(_p->imageTmp2, _p->imageTmp, options);
                         }
                     }
                     catch (const djvError &)

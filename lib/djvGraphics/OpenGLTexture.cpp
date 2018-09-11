@@ -66,6 +66,7 @@ void djvOpenGLTexture::init(
     _target = target;
     _min    = min;
     _mag    = mag;
+    DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
     //DJV_DEBUG_PRINT("id = " << int(_id));
     if (! _id)
     {

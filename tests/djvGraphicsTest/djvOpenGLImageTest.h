@@ -43,5 +43,6 @@ public:
 private:
     void ctors();
     void members();
+    void convert();
     void operators();
 };

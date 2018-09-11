@@ -59,6 +59,9 @@ public:
     //! Get the default OpenGL context.
     QOpenGLContext * openGlContext() const;
     
+    //! Make the default OpenGL context current;
+    void makeGLContextCurrent();
+
     virtual QString info() const;
 
 protected:

@@ -89,9 +89,7 @@ private Q_SLOTS:
 private:
     QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
 
-    QScopedPointer<djvOpenGLOffscreenBuffer> _offscreenBuffer;
-    djvOpenGLImageState                      _state;
-    djvConvertContext *                      _context;
+    djvConvertContext * _context;
 };
 
 //@} // djv_convert

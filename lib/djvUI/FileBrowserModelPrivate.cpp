@@ -33,7 +33,6 @@
 
 #include <djvUI/FileBrowserCache.h>
 #include <djvUI/UIContext.h>
-#include <djvUI/PixmapUtil.h>
 
 #include <djvGraphics/Image.h>
 #include <djvGraphics/OpenGLImage.h>
@@ -171,7 +170,7 @@ ThumbnailThreadResult thumbnailThreadFunction(
     djvFileBrowserModel::THUMBNAILS thumbnails,
     const glm::ivec2 &              thumbnailSize,
     djvPixelDataInfo::PROXY         proxy,
-    djvUIContext *                 context)
+    djvUIContext *                  context)
 {
     //DJV_DEBUG("thumbnailThreadFunction");
     //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -221,8 +220,9 @@ ThumbnailThreadResult thumbnailThreadFunction(
         {
             options.filter = djvOpenGLImageFilter::filterHighQuality();
         }
-        djvOpenGLImage::copy(image, tmp, options);
-        out.thumbnail = djvPixmapUtil::toQt(tmp);
+        std::unique_ptr<djvOpenGLImage> openGLImage(new djvOpenGLImage);
+        openGLImage->copy(image, tmp, options);
+        out.thumbnail = openGLImage->toQt(tmp);
         out.valid = true;
     }
     catch (const djvError &)

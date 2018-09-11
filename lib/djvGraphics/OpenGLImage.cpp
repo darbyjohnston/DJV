@@ -33,11 +33,15 @@
 
 #include <djvGraphics/ColorUtil.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
+#include <djvGraphics/OpenGLLUT.h>
+#include <djvGraphics/OpenGLShader.h>
+#include <djvGraphics/OpenGLTexture.h>
 
 #include <djvCore/Debug.h>
 #include <djvCore/Error.h>
 
 #include <QCoreApplication>
+#include <QPixmap>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -201,7 +205,6 @@ djvOpenGLImageFilter djvOpenGLImageFilter::filterDefault()
 
 namespace
 {
-
 djvOpenGLImageFilter _filter = djvOpenGLImageFilter::filterDefault();
 
 } // namespace
@@ -236,6 +239,19 @@ const QStringList & djvOpenGLImageOptions::channelLabels()
 // djvOpenGLImage
 //------------------------------------------------------------------------------
 
+djvOpenGLImage::djvOpenGLImage()
+{
+    _texture.reset(new djvOpenGLTexture);
+    _shader.reset(new djvOpenGLShader);
+    _scaleXContrib.reset(new djvOpenGLTexture);
+    _scaleYContrib.reset(new djvOpenGLTexture);
+    _scaleXShader.reset(new djvOpenGLShader);
+    _scaleYShader.reset(new djvOpenGLShader);
+    _lutColorProfile.reset(new djvOpenGLLUT);
+    _lutDisplayProfile.reset(new djvOpenGLLUT);
+    _mesh.reset(new djvOpenGLImageMesh);
+}
+
 djvOpenGLImage::~djvOpenGLImage()
 {}
 
@@ -257,12 +273,19 @@ void djvOpenGLImage::read(djvPixelData & output, const djvBox2i & area)
         djvOpenGLUtil::format(info.pixel, info.bgr),
         djvOpenGLUtil::type(info.pixel),
         output.data()));
-    //stateReset();
+}
+
+djvColor djvOpenGLImage::read(const djvPixelData & data, int x, int y)
+{
+    djvPixelData p(djvPixelDataInfo(1, 1, data.pixel()));
+    djvOpenGLImageOptions options;
+    options.xform.position = glm::vec2(-x, -y);
+    djvOpenGLImage::copy(data, p, options);
+    return djvColor(p.data(), p.pixel());
 }
 
 namespace
 {
-
 bool initAlpha(const djvPixel::PIXEL & input, const djvPixel::PIXEL & output)
 {
     switch (djvPixel::format(input))
@@ -287,9 +310,7 @@ bool initAlpha(const djvPixel::PIXEL & input, const djvPixel::PIXEL & output)
 void djvOpenGLImage::copy(
     const djvPixelData &          input,
     djvPixelData &                output,
-    const djvOpenGLImageOptions & options,
-    djvOpenGLImageState *         state,
-    djvOpenGLOffscreenBuffer *    buffer) throw (djvError)
+    const djvOpenGLImageOptions & options) throw (djvError)
 {
     //DJV_DEBUG("OpenGLImage::copy");
     //DJV_DEBUG_PRINT("input = " << input);
@@ -298,19 +319,16 @@ void djvOpenGLImage::copy(
 
     auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
 
-    const glm::ivec2 & size = output.info().size;
-    QScopedPointer<djvOpenGLOffscreenBuffer> _buffer;
-    if (! buffer)
+    if (!_buffer || (_buffer && _buffer->info() != output.info()))
     {
-        //DJV_DEBUG_PRINT("create buffer");
-        _buffer.reset(new djvOpenGLOffscreenBuffer(djvPixelDataInfo(size, output.pixel())));
-        buffer = _buffer.data();
+        _buffer.reset(new djvOpenGLOffscreenBuffer(djvPixelDataInfo(output.info())));
     }
 
     try
     {
-        djvOpenGLOffscreenBufferScope bufferScope(buffer);
-        
+        djvOpenGLOffscreenBufferScope bufferScope(_buffer.get());
+
+        const glm::ivec2 & size = output.info().size;
         DJV_DEBUG_OPEN_GL(glFuncs->glViewport(0, 0, size.x, size.y));
         djvColor background(djvPixel::RGB_F32);
         djvColorUtil::convert(options.background, background);
@@ -332,7 +350,14 @@ void djvOpenGLImage::copy(
             _options.xform.mirror.y = ! _options.xform.mirror.y;
         }
 
-        draw(input, _options, state);
+        auto viewMatrix = glm::ortho(
+            0.f,
+            static_cast<float>(size.x),
+            0.f,
+            static_cast<float>(size.y),
+            -1.f,
+            1.f);
+        draw(input, viewMatrix, _options);
         read(output);
     }
     catch (const djvError & error)
@@ -359,12 +384,6 @@ void djvOpenGLImage::statePack(const djvPixelDataInfo & in, const glm::ivec2 & o
     glFuncs->glPixelStorei(GL_PACK_ROW_LENGTH, in.size.x);
     glFuncs->glPixelStorei(GL_PACK_SKIP_ROWS, offset.y);
     glFuncs->glPixelStorei(GL_PACK_SKIP_PIXELS, offset.x);
-}
-
-void djvOpenGLImage::stateReset()
-{
-    statePack(djvPixelDataInfo());
-    stateUnpack(djvPixelDataInfo());
 }
 
 void djvOpenGLImage::average(
@@ -686,13 +705,49 @@ void djvOpenGLImage::histogram(
     //    DJV_DEBUG_PRINT(i << " = " << outP[i * 3]);
 }
 
-djvColor djvOpenGLImage::pixel(const djvPixelData & data, int x, int y)
+QPixmap djvOpenGLImage::toQt(
+    const djvPixelData &          pixelData,
+    const djvOpenGLImageOptions & options)
 {
-    djvPixelData p(djvPixelDataInfo(1, 1, data.pixel()));
-    djvOpenGLImageOptions options;
-    options.xform.position = glm::vec2(-x, -y);
-    djvOpenGLImage::copy(data, p, options);
-    return djvColor(p.data(), p.pixel());
+    //DJV_DEBUG("djvPixmapUtil::toQt");
+    //DJV_DEBUG_PRINT("pixelData = " << pixelData);
+
+    // Convert the pixel data to an 8-bit format.
+    const int w = pixelData.w();
+    const int h = pixelData.h();
+    const djvPixelDataInfo info(w, h, djvPixel::RGBA_U8);
+    const djvPixelData * pixelDataP = &pixelData;
+    djvPixelData tmp;
+    if (pixelDataP->pixel() != info.pixel)
+    {
+        tmp.set(info);
+        copy(pixelData, tmp, options);
+        pixelDataP = &tmp;
+    }
+
+    // Convert to a QImage.
+    QImage qImage(w, h, QImage::Format_ARGB32);
+
+    //! \todo It looks like when RGB_U10 is being converted to RGBA_U8
+    //! the alpha channel is 0 instead of 255. This is a hack to work
+    //! around the issue but how do we fix the underlying problem?
+    const bool alpha = pixelData.pixel() != djvPixel::RGB_U10;
+    //DJV_DEBUG_PRINT("alpha = " << alpha);
+
+    for (int y = 0; y < h; ++y)
+    {
+        QRgb * qRgb = (QRgb *)qImage.scanLine(y);
+        const uchar * p = pixelDataP->data(0, h - 1 - y);
+        for (int x = 0; x < w; ++x, p += 4)
+        {
+            //const uchar * p = pixelDataP->data(x, h - 1 - y);
+            //DJV_DEBUG_PRINT("pixel (" << x << ", " << y << ") = " <<
+            //    p[0] << " " << p[1] << " " << p[2] << " " << p[3]);
+            qRgb[x] = qRgba(p[0], p[1], p[2], alpha ? p[3] : 255);
+        }
+    }
+
+    return QPixmap::fromImage(qImage);
 }
 
 bool operator == (const djvOpenGLImageXform & a, const djvOpenGLImageXform & b)

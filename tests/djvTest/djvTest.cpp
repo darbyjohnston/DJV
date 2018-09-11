@@ -29,8 +29,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvPixmapUtilTest.h>
-
 #include <djvColorProfileTest.h>
 #include <djvColorTest.h>
 #include <djvColorUtilTest.h>
@@ -113,9 +111,7 @@ int main(int argc, char ** argv)
         new djvOpenGLTest <<
         new djvPixelDataTest <<
         new djvPixelDataUtilTest <<
-        new djvPixelTest <<
-        
-        new djvPixmapUtilTest;
+        new djvPixelTest;
 
     for (int i = 0; i < tests.count(); ++i)
     {

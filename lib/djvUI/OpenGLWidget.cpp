@@ -54,27 +54,3 @@ djvOpenGLWidget::djvOpenGLWidget(
 
 djvOpenGLWidget::~djvOpenGLWidget()
 {}
-
-/*void djvOpenGLWidget::initializeGL()
-{
-    if (_init)
-    {
-        _init = false;
-        auto context = this->context();
-        glbinding::initialize([context](const char* name)
-        {
-            return context->getProcAddress(QByteArray::fromStdString(name));
-        });
-    }
-    glbinding::useCurrentContext();
-}
-
-void djvOpenGLWidget::resizeGL(int, int)
-{
-    glbinding::useCurrentContext();
-}
-
-void djvOpenGLWidget::paintGL()
-{
-    glbinding::useCurrentContext();
-}*/

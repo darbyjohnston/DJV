@@ -42,6 +42,8 @@
 #include <djvCore/Error.h>
 #include <djvCore/ErrorUtil.h>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 //------------------------------------------------------------------------------
 // djvImageView::Private
 //------------------------------------------------------------------------------
@@ -52,13 +54,13 @@ struct djvImageView::Private
         context(context)
     {}
     
-    const djvPixelData *  data     = nullptr;
+    const djvPixelData *  data = nullptr;
     djvOpenGLImageOptions options;
-    glm::ivec2            viewPos  = glm::ivec2(0, 0);
-    float                 viewZoom = 1.f;
-    bool                  viewFit  = false;
-    djvOpenGLImageState   state;
-    djvUIContext *       context  = nullptr;
+    glm::ivec2 viewPos  = glm::ivec2(0, 0);
+    float viewZoom = 1.f;
+    bool viewFit  = false;
+    std::unique_ptr<djvOpenGLImage> openGLImage;
+    djvUIContext * context  = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -74,7 +76,10 @@ djvImageView::djvImageView(
 {}
 
 djvImageView::~djvImageView()
-{}
+{
+    makeCurrent();
+    _p->openGLImage.reset();
+}
 
 const djvPixelData * djvImageView::data() const
 {
@@ -207,6 +212,12 @@ void djvImageView::viewFit()
     _p->viewFit = true;
 }
 
+void djvImageView::initializeGL()
+{
+    djvOpenGLWidget::initializeGL();
+    _p->openGLImage.reset(new djvOpenGLImage);
+}
+
 void djvImageView::paintGL()
 {
     djvOpenGLWidget::paintGL();
@@ -219,11 +230,11 @@ void djvImageView::paintGL()
     DJV_DEBUG_PRINT("profile = " << surfaceFormat.profile());
 
     const int devicePixelRatio = this->devicePixelRatio();
-    //DJV_DEBUG_PRINT("devicePixelRatio = " << devicePixelRatio);
+    DJV_DEBUG_PRINT("devicePixelRatio = " << devicePixelRatio);
     const djvBox2i geom(
         width () * devicePixelRatio,
         height() * devicePixelRatio);
-    //DJV_DEBUG_PRINT("geom = " << geom.size);
+    DJV_DEBUG_PRINT("geom = " << geom.size);
 
     auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
     glFuncs->glViewport(0, 0, geom.w, geom.h);
@@ -245,7 +256,14 @@ void djvImageView::paintGL()
     options.xform.scale *= _p->viewZoom * devicePixelRatio;
     try
     {
-        djvOpenGLImage::draw(*_p->data, options, &_p->state);
+        auto viewMatrix = glm::ortho(
+            0.f,
+            static_cast<float>(width()),
+            0.f,
+            static_cast<float>(height()),
+            -1.f,
+            1.f);
+        _p->openGLImage->draw(*_p->data, viewMatrix, options);
     }
     catch (const djvError & error)
     {

@@ -222,7 +222,7 @@ Q_SIGNALS:
     void largeIncChanged(float);
 
     //! This signal is emitted when the increment is changed.
-    void incChanged(float small, float large);
+    void incChanged(float, float);
 
     //! This signal is emitted when the size string is changed.
     void sizeStringChanged(const QString &);

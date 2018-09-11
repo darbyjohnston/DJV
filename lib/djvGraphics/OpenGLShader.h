@@ -34,6 +34,7 @@
 #include <djvGraphics/OpenGL.h>
 
 #include <djvCore/Error.h>
+#include <djvCore/Matrix.h>
 
 //------------------------------------------------------------------------------
 //! \class djvOpenGLShader
@@ -62,6 +63,15 @@ public:
 
     //! Get the shader program ID.
     GLuint program() const;
+
+    //! Set a uniform value.
+    void setUniform(const QString&, int);
+
+    //! Set a uniform value.
+    void setUniform(const QString&, float);
+
+    //! Set a uniform value.
+    void setUniform(const QString&, const glm::mat4x4&);
 
 private:
     void del();

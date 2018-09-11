@@ -95,7 +95,6 @@ include_directories(
 
 set(djvThirdParty
     ZLIB
-    glbinding
     GLM
     OpenAL
     IlmBase
@@ -105,7 +104,6 @@ set(djvThirdPartyPackage true)
 find_package(OpenGL REQUIRED)
 
 set(ZLIB_SHARED_LIBS OFF)
-set(GLBINDING_SHARED_LIBS OFF)
 set(GLM_SHARED_LIBS ON)
 set(OPENAL_SHARED_LIBS ON)
 set(JPEG_SHARED_LIBS OFF)

@@ -158,6 +158,32 @@ GLuint djvOpenGLShader::program() const
     return _programId;
 }
 
+void djvOpenGLShader::setUniform(const QString& name, int value)
+{
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glUniform1i(
+        glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+        static_cast<GLint>(value));
+}
+
+void djvOpenGLShader::setUniform(const QString& name, float value)
+{
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glUniform1f(
+        glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+        static_cast<GLfloat>(value));
+}
+
+void djvOpenGLShader::setUniform(const QString& name, const glm::mat4x4& value)
+{
+    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();
+    glFuncs->glUniformMatrix4fv(
+        glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+        1,
+        false,
+        &value[0][0]);
+}
+
 void djvOpenGLShader::del()
 {
     auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_3_Core>();

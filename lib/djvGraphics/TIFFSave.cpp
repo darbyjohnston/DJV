@@ -94,7 +94,7 @@ void djvTIFFSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
     {
         //DJV_DEBUG_PRINT("convert = " << _image);
         _image.zero();
-        djvOpenGLImage::copy(in, _image);
+        djvOpenGLImage().copy(in, _image);
         p = &_image;
     }
     

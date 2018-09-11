@@ -38,7 +38,6 @@
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IntEditSlider.h>
-#include <djvUI/PixmapUtil.h>
 #include <djvUI/Prefs.h>
 #include <djvUI/ToolButton.h>
 
@@ -101,21 +100,16 @@ namespace djv
     {
         struct MagnifyTool::Private
         {
-            glm::ivec2                               pick = glm::ivec2(0, 0);
-            int                                      zoom = 2;
-            bool                                     colorProfile = true;
-            bool                                     displayProfile = true;
-
-            QScopedPointer<djvOpenGLOffscreenBuffer> magnifyBuffer;
-            djvOpenGLImageState                      magnifyState;
-            QScopedPointer<djvOpenGLOffscreenBuffer> convertBuffer;
-            djvOpenGLImageState                      convertState;
-            bool                                     pixelDataInit;
-
-            Widget *                                 widget = nullptr;
-            djvIntEditSlider *                       slider = nullptr;
-            djvToolButton *                          colorProfileButton = nullptr;
-            djvToolButton *                          displayProfileButton = nullptr;
+            glm::ivec2 pick = glm::ivec2(0, 0);
+            int zoom = 2;
+            bool colorProfile = true;
+            bool displayProfile = true;
+            bool pixelDataInit = false;
+            std::unique_ptr<djvOpenGLImage> openGLImage;
+            Widget * widget = nullptr;
+            djvIntEditSlider * slider = nullptr;
+            djvToolButton * colorProfileButton = nullptr;
+            djvToolButton * displayProfileButton = nullptr;
         };
 
         MagnifyTool::MagnifyTool(
@@ -202,7 +196,9 @@ namespace djv
             prefs.set("zoom", _p->zoom);
             prefs.set("colorProfile", _p->colorProfile);
             prefs.set("displayProfile", _p->displayProfile);
-            viewWidget()->makeCurrent();
+
+            context()->makeGLContextCurrent();
+            _p->openGLImage.reset();
         }
 
         void MagnifyTool::pickCallback(const glm::ivec2 & in)
@@ -271,10 +267,10 @@ namespace djv
                 //DJV_DEBUG_PRINT("pick = " << pick);
                 try
                 {
-                    viewWidget()->makeCurrent();
-                    if (!_p->magnifyBuffer || _p->magnifyBuffer->info() != tmp.info())
+                    context()->makeGLContextCurrent();
+                    if (!_p->openGLImage)
                     {
-                        _p->magnifyBuffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
+                        _p->openGLImage.reset(new djvOpenGLImage);
                     }
                     djvOpenGLImageOptions options = viewWidget()->options();
                     options.xform.position -= pick;
@@ -287,18 +283,8 @@ namespace djv
                     {
                         options.displayProfile = DisplayProfile();
                     }
-                    djvOpenGLImage::copy(
-                        *data,
-                        tmp,
-                        options,
-                        &_p->magnifyState,
-                        _p->magnifyBuffer.data());
-                    _p->widget->setPixmap(
-                        djvPixmapUtil::toQt(
-                            tmp,
-                            djvOpenGLImageOptions(),
-                            &_p->convertState,
-                            _p->convertBuffer.data()));
+                    _p->openGLImage->copy(*data, tmp, options);
+                    _p->widget->setPixmap(_p->openGLImage->toQt(tmp));
                 }
                 catch (djvError error)
                 {

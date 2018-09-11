@@ -1,2 +1,2 @@
-add_subdirectory(djvImagePlayExample)
+#add_subdirectory(djvImagePlayExample)
 add_subdirectory(djvImageViewExample)

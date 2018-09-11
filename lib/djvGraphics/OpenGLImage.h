@@ -47,6 +47,8 @@ class djvOpenGLOffscreenBuffer;
 class djvOpenGLTexture;
 class djvOpenGLShader;
 
+class QPixmap;
+
 #if defined DJV_WINDOWS
 #undef ERROR
 #endif // DJV_WINDOWS
@@ -238,40 +240,12 @@ public:
     void draw();
 
 private:
+    glm::ivec2 _size = glm::ivec2(0, 0);
+    djvPixelDataInfo::Mirror _mirror;
+    int _proxyScale = 1;
     size_t _vertexSize = 0;
     GLuint _vbo = 0;
     GLuint _vao = 0;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageState
-//!
-//! This class provides OpenGL image state.
-//------------------------------------------------------------------------------
-
-class djvOpenGLImageState
-{
-public:
-    djvOpenGLImageState();
-    ~djvOpenGLImageState();
-
-private:
-    DJV_PRIVATE_COPY(djvOpenGLImageState);
-
-    bool                  _init;
-    djvPixelDataInfo      _info;
-    djvOpenGLImageOptions _options;
-    djvOpenGLTexture *    _texture = nullptr;
-    djvOpenGLShader *     _shader = nullptr;
-    djvOpenGLTexture *    _scaleXContrib = nullptr;
-    djvOpenGLTexture *    _scaleYContrib = nullptr;
-    djvOpenGLShader *     _scaleXShader = nullptr;
-    djvOpenGLShader *     _scaleYShader = nullptr;
-    djvOpenGLLUT *        _lutColorProfile = nullptr;
-    djvOpenGLLUT *        _lutDisplayProfile = nullptr;
-    djvOpenGLImageMesh *  _mesh = nullptr;
-
-    friend class djvOpenGLImage;
 };
 
 //------------------------------------------------------------------------------
@@ -283,27 +257,30 @@ private:
 class djvOpenGLImage
 {
 public:
-    virtual ~djvOpenGLImage() = 0;
+    djvOpenGLImage();
+
+    ~djvOpenGLImage();
 
     //! Draw pixel data.
-    static void draw(
+    void draw(
         const djvPixelData &          data,
-        const djvOpenGLImageOptions & options = djvOpenGLImageOptions(),
-        djvOpenGLImageState *         state = 0) throw (djvError);
+        const glm::mat4x4&            viewMatrix,
+        const djvOpenGLImageOptions & options = djvOpenGLImageOptions()) throw (djvError);
 
     //! Read pixel data.
-    static void read(djvPixelData &);
+    void read(djvPixelData &);
 
     //! Read pixel data.
-    static void read(djvPixelData &, const djvBox2i &);
+    void read(djvPixelData &, const djvBox2i &);
+
+    //! Read a pixel.
+    djvColor read(const djvPixelData &, int x, int y);
 
     //! Copy pixel data.
-    static void copy(
+    void copy(
         const djvPixelData &          input,
         djvPixelData &                output,
-        const djvOpenGLImageOptions & options = djvOpenGLImageOptions(),
-        djvOpenGLImageState *         state   = 0,
-        djvOpenGLOffscreenBuffer *    buffer  = 0) throw (djvError);
+        const djvOpenGLImageOptions & options = djvOpenGLImageOptions()) throw (djvError);
 
     //! Setup OpenGL state for image drawing.
     static void stateUnpack(
@@ -315,13 +292,10 @@ public:
         const djvPixelDataInfo & info,
         const glm::ivec2 &       offset = glm::ivec2(0, 0));
 
-    //! Reset OpenGL state.
-    static void stateReset();
-
     //! Calculate the average color.
     //!
     //! \todo Use a GPU implementation.
-    static void average(
+    void average(
         const djvPixelData &   input,
         djvColor &             output,
         const djvPixel::Mask & mask   = djvPixel::Mask()) throw (djvError);
@@ -329,17 +303,19 @@ public:
     //! Calculate the histogram.
     //!
     //! \todo Use a GPU implementation.
-    static void histogram(
+    void histogram(
         const djvPixelData &   input,
         djvPixelData &         output,
         int                    size,
         djvColor &             min,
         djvColor &             max,
         const djvPixel::Mask & mask = djvPixel::Mask()) throw (djvError);
-    
-    //! Get a pixel.
-    static djvColor pixel(const djvPixelData &, int x, int y);
-    
+
+    //! Convert pixel data to Qt.    
+    QPixmap toQt(
+        const djvPixelData &          pixelData,
+        const djvOpenGLImageOptions & options = djvOpenGLImageOptions());
+
     //! This enumeration provides error codes.
     enum ERROR
     {
@@ -351,6 +327,21 @@ public:
     
     //! Get the error code labels.
     static const QStringList & errorLabels();
+
+private:
+    bool _init = false;
+    djvPixelDataInfo _info;
+    djvOpenGLImageOptions _options;
+    std::unique_ptr<djvOpenGLTexture> _texture;
+    std::unique_ptr<djvOpenGLShader> _shader;
+    std::unique_ptr<djvOpenGLTexture> _scaleXContrib;
+    std::unique_ptr<djvOpenGLTexture> _scaleYContrib;
+    std::unique_ptr<djvOpenGLShader> _scaleXShader;
+    std::unique_ptr<djvOpenGLShader> _scaleYShader;
+    std::unique_ptr<djvOpenGLLUT> _lutColorProfile;
+    std::unique_ptr<djvOpenGLLUT> _lutDisplayProfile;
+    std::unique_ptr<djvOpenGLImageMesh> _mesh;
+    std::unique_ptr<djvOpenGLOffscreenBuffer> _buffer;
 };
 
 DJV_COMPARISON_OPERATOR(djvOpenGLImageXform);

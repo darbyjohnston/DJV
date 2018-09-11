@@ -156,6 +156,7 @@ Q_SIGNALS:
     void viewFitted();
 
 protected:
+    virtual void initializeGL();
     virtual void paintGL();
 
 private:

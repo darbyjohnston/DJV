@@ -75,12 +75,13 @@ namespace djv
                 context(context)
             {}
 
-            FileSaveInfo                 info;
-            djvSequence                  saveSequence;
+            FileSaveInfo info;
+            djvSequence saveSequence;
             QScopedPointer<djvImageLoad> load;
             QScopedPointer<djvImageSave> save;
-            djvProgressDialog *          dialog = nullptr;
-            Context *                    context = nullptr;
+            std::unique_ptr<djvOpenGLImage> openGLImage;
+            djvProgressDialog * dialog = nullptr;
+            Context * context = nullptr;
         };
 
         FileSave::FileSave(Context * context, QObject * parent) :
@@ -103,6 +104,9 @@ namespace djv
         {
             //DJV_DEBUG("FileSave::~FileSave");
             delete _p->dialog;
+
+            _p->context->makeGLContextCurrent();
+            _p->openGLImage.reset();
         }
 
         void FileSave::save(const FileSaveInfo & info)
@@ -215,6 +219,12 @@ namespace djv
             //DJV_DEBUG("FileSave::callback");
             //DJV_DEBUG_PRINT("in = " << in);
 
+            _p->context->makeGLContextCurrent();
+            if (!_p->openGLImage)
+            {
+                _p->openGLImage.reset(new djvOpenGLImage);
+            }
+
             // Load the frame.
             djvImage image;
             try
@@ -258,7 +268,7 @@ namespace djv
                 try
                 {
                     //DJV_DEBUG_PRINT("process");
-                    djvOpenGLImage::copy(image, tmp, options);
+                    _p->openGLImage->copy(image, tmp, options);
                 }
                 catch (djvError error)
                 {

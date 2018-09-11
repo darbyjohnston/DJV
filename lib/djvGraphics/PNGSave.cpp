@@ -116,7 +116,7 @@ void djvPNGSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
     if (in.info() != _image.info())
     {
         _image.zero();
-        djvOpenGLImage::copy(in, _image);
+        djvOpenGLImage().copy(in, _image);
         p = &_image;
     }
 

@@ -112,7 +112,7 @@ void djvCineonSave::write(const djvImage & in, const djvImageIOFrameInfo & frame
         _image.zero();
         djvOpenGLImageOptions options;
         options.colorProfile = colorProfile;
-        djvOpenGLImage::copy(*p, _image, options);
+        djvOpenGLImage().copy(*p, _image, options);
         p = &_image;
     }
 

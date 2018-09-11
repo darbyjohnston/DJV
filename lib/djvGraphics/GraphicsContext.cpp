@@ -70,10 +70,6 @@
 #include <QScopedPointer>
 #include <QVector>
 
-//#include <glbinding/Version.h>
-//#include <glbinding-aux/Meta.h>
-//#include <glbinding-aux/types_to_string.h>
-
 #include <sstream>
 
 //------------------------------------------------------------------------------
@@ -121,16 +117,6 @@ djvGraphicsContext::djvGraphicsContext(QObject * parent) :
     _p->openGlContext->create();
     _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
 
-    /*glbinding::initialize([this](const char* name)
-    {
-        return _p->openGlContext->getProcAddress(QByteArray::fromStdString(name));
-    });
-    for (const glbinding::Version & v : glbinding::aux::Meta::versions())
-    {
-        std::stringstream s;
-        s << v;
-        DJV_LOG(debugLog(), "djvGraphicsContext", QString("glbinding version: %1").arg(QString::fromLatin1(s.str().c_str())));
-    }*/
     DJV_LOG(debugLog(), "djvGraphicsContext", "");
 
     //! Create the image I/O plugins.
@@ -189,6 +175,11 @@ QOpenGLContext * djvGraphicsContext::openGlContext() const
     return _p->openGlContext.data();
 }
 
+void djvGraphicsContext::makeGLContextCurrent()
+{
+    _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
+}
+
 QString djvGraphicsContext::info() const
 {
     static const QString label = qApp->translate("djvGraphicsContext",
@@ -242,8 +233,7 @@ bool djvGraphicsContext::commandLineParse(QStringList & in) throw (QString)
             }
             else if (qApp->translate("djvGraphicsContext", "-render_filter_high") == arg)
             {
-                djvOpenGLImageFilter::setFilter(
-                    djvOpenGLImageFilter::filterHighQuality());
+                djvOpenGLImageFilter::setFilter(djvOpenGLImageFilter::filterHighQuality());
             }
 
             // Leftovers.

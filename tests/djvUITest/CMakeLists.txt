@@ -1,10 +1,8 @@
 set(header
     djvUITest.h
-    djvUITest.h
-    djvPixmapUtilTest.h)    
+    djvUITest.h)    
 set(source
-    djvUITest.cpp
-    djvPixmapUtilTest.cpp)
+    djvUITest.cpp)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/tests/djvUITest

@@ -211,21 +211,22 @@ namespace djv
 
         struct HistogramTool::Private
         {
-            Util::HISTOGRAM      size = static_cast<Util::HISTOGRAM>(0);
-            bool                 colorProfile = true;
-            bool                 displayProfile = true;
-            djvPixelData         histogram;
-            djvColor             min;
-            djvColor             max;
-            djvPixel::Mask       mask;
+            Util::HISTOGRAM size = static_cast<Util::HISTOGRAM>(0);
+            bool colorProfile = true;
+            bool displayProfile = true;
+            djvPixelData histogram;
+            djvColor min;
+            djvColor max;
+            djvPixel::Mask mask;
+            std::unique_ptr<djvOpenGLImage> openGLImage;
 
-            HistogramWidget *    widget = nullptr;
-            QLineEdit *          minWidget = nullptr;
-            QLineEdit *          maxWidget = nullptr;
-            QComboBox *          sizeWidget = nullptr;
+            HistogramWidget * widget = nullptr;
+            QLineEdit * minWidget = nullptr;
+            QLineEdit * maxWidget = nullptr;
+            QComboBox * sizeWidget = nullptr;
             djvPixelMaskWidget * maskWidget = nullptr;
-            djvToolButton *      colorProfileButton = nullptr;
-            djvToolButton *      displayProfileButton = nullptr;
+            djvToolButton * colorProfileButton = nullptr;
+            djvToolButton * displayProfileButton = nullptr;
         };
 
         HistogramTool::HistogramTool(
@@ -327,6 +328,9 @@ namespace djv
             djvPrefs prefs("djv::ViewLib::HistogramTool");
             prefs.set("colorProfile", _p->colorProfile);
             prefs.set("displayProfile", _p->displayProfile);
+
+            context()->makeGLContextCurrent();
+            _p->openGLImage.reset();
         }
 
         void HistogramTool::sizeCallback(int in)
@@ -382,7 +386,11 @@ namespace djv
                 {
                     try
                     {
-                        viewWidget()->makeCurrent();
+                        context()->makeGLContextCurrent();
+                        if (!_p->openGLImage)
+                        {
+                            _p->openGLImage.reset(new djvOpenGLImage);
+                        }
                         djvOpenGLImageOptions options = viewWidget()->options();
                         //! \todo Why do we need to reverse the rotation here?
                         options.xform.rotate = options.xform.rotate;
@@ -400,8 +408,8 @@ namespace djv
                             options.displayProfile = DisplayProfile();
                         }
                         djvPixelData tmp(djvPixelDataInfo(bbox.size, data->pixel()));
-                        djvOpenGLImage::copy(*data, tmp, options);
-                        djvOpenGLImage::histogram(
+                        _p->openGLImage->copy(*data, tmp, options);
+                        _p->openGLImage->histogram(
                             tmp,
                             _p->histogram,
                             Util::histogramSize(_p->size),

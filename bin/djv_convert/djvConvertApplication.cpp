@@ -105,6 +105,8 @@ void djvConvertApplication::work()
     //DJV_DEBUG_PRINT("input = " << input.file);
     //DJV_DEBUG_PRINT("output = " << output.file);
 
+    std::unique_ptr<djvOpenGLImage> openGLImage(new djvOpenGLImage);
+
     djvOpenGLImageOptions imageOptions;
     imageOptions.xform.mirror = options.mirror;
     imageOptions.xform.scale  = options.scale;
@@ -271,7 +273,7 @@ void djvConvertApplication::work()
             imageOptions.xform.position = position;
             imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(info.size);
             imageOptions.colorProfile   = image.colorProfile;
-            djvOpenGLImage::copy(image, slate, imageOptions);
+            openGLImage->copy(image, slate, imageOptions);
         }
         catch (djvError error)
         {
@@ -286,7 +288,6 @@ void djvConvertApplication::work()
     }
 
     // Convert the images.
-    _offscreenBuffer.reset(new djvOpenGLOffscreenBuffer(saveInfo));
     for (qint64 i = 0; i < input.slateFrames; ++i)
     {
         try
@@ -387,12 +388,10 @@ void djvConvertApplication::work()
             imageOptions != djvOpenGLImageOptions())
         {
             tmp.set(saveInfo);
-            djvOpenGLImage::copy(
+            openGLImage->copy(
                 image,
                 tmp,
-                imageOptions,
-                &_state,
-                _offscreenBuffer.data());
+                imageOptions);
             p = &tmp;
         }
         p->tags = tags;

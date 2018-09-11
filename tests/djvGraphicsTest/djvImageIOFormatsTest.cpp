@@ -160,19 +160,19 @@ void djvImageIOFormatsTest::initImages()
             djvImage gradient(djvPixelDataInfo(_sizes[i], djvPixel::L_F32));
             djvPixelDataUtil::gradient(gradient);
             djvImage image(djvPixelDataInfo(gradient.size(), _pixels[j]));
-            djvOpenGLImage::copy(gradient, image);
+            djvOpenGLImage().copy(gradient, image);
             DJV_DEBUG_PRINT("image = " << image);
 
             djvPixelData p(djvPixelDataInfo(1, 1, image.pixel()));
             djvOpenGLImageOptions options;
             options.xform.position = glm::vec2(0, 0);
-            djvOpenGLImage::copy(image, p, options);
+            djvOpenGLImage().copy(image, p, options);
             djvColor c(p.data(), p.pixel());
             DJV_DEBUG_PRINT("c0 = " << c);
 
             options.xform.position = -glm::vec2(
                 image.size().x - 1, image.size().y - 1);
-            djvOpenGLImage::copy(image, p, options);
+            djvOpenGLImage().copy(image, p, options);
             c = djvColor(p.data(), p.pixel());
             DJV_DEBUG_PRINT("c1 = " << c);
 
@@ -218,17 +218,15 @@ void djvImageIOFormatsTest::runTest(djvImageIO * plugin, const djvImage & image)
             return;
         
         djvPixelData p(djvPixelDataInfo(1, 1, image.pixel()));        
-        djvOpenGLImageOptions    options;
-        djvOpenGLImageState      state;
-        djvOpenGLOffscreenBuffer buffer(p.info());
+        djvOpenGLImageOptions options;
         for (int y = 0; y < info.size.y; ++y)
         {
             for (int x = 0; x < info.size.x; ++x)
             {
                 options.xform.position = -glm::vec2(x, y);
-                djvOpenGLImage::copy(image, p, options, &state, &buffer);
+                djvOpenGLImage().copy(image, p, options);
                 djvColor a(p.data(), p.pixel());
-                djvOpenGLImage::copy(tmp, p, options, &state, &buffer);
+                djvOpenGLImage().copy(tmp, p, options);
                 djvColor b(p.data(), p.pixel());
                 DJV_DEBUG_PRINT(a << " == " << b << " (" << x << " " << y << ")");
                 DJV_ASSERT(a == b);

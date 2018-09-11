@@ -36,8 +36,6 @@
 #include <djvCore/Box.h>
 #include <djvCore/Vector.h>
 
-//#include <glbinding/gl/gl.h>
-//#include <glbinding/glbinding.h>
 #include <QOpenGLFunctions_4_3_Core>
 
 //! \addtogroup djvGraphicsOpenGL

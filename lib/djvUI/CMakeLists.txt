@@ -49,7 +49,6 @@ set(header
     PPMWidget.h
     PixelMaskWidget.h
     PixelWidget.h
-    PixmapUtil.h
     PlaybackButtons.h
     PlaybackUtil.h
     Prefs.h
@@ -200,7 +199,6 @@ set(source
     PPMWidget.cpp
     PixelMaskWidget.cpp
     PixelWidget.cpp
-    PixmapUtil.cpp
     PlaybackButtons.cpp
     PlaybackUtil.cpp
     Prefs.cpp

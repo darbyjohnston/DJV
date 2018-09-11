@@ -38,6 +38,7 @@
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/OpenGLOffscreenBuffer.h>
 
+#include <QPixmap>
 #include <QScopedPointer>
 #include <QStringList>
 
@@ -46,6 +47,7 @@ void djvOpenGLImageTest::run(int &, char **)
     DJV_DEBUG("djvOpenGLImageTest::run");
     ctors();
     members();
+    convert();
     operators();
 }
 
@@ -107,15 +109,15 @@ void djvOpenGLImageTest::members()
             djvColorUtil::convert(djvColor(0.5), color);
             DJV_DEBUG_PRINT("color = " << color);
             memcpy(a.data(), color.data(), a.dataByteCount());
-            DJV_DEBUG_PRINT("pixel = " << djvOpenGLImage::pixel(a, 0, 0));
+            DJV_DEBUG_PRINT("pixel = " << djvOpenGLImage().read(a, 0, 0));
 
-            djvOpenGLImage::copy(a, b);
+            djvOpenGLImage().copy(a, b);
             DJV_DEBUG_PRINT("compare = " << (a == b));
-            djvOpenGLImage::average(a, color);
+            djvOpenGLImage().average(a, color);
 
             DJV_DEBUG_PRINT("average = " << color);
             djvColor min, max;
-            djvOpenGLImage::histogram(a, b, 1, min, max);
+            djvOpenGLImage().histogram(a, b, 1, min, max);
 
             DJV_DEBUG_PRINT("histogram = " << b);
             DJV_DEBUG_PRINT("min = " << min);
@@ -123,6 +125,14 @@ void djvOpenGLImageTest::members()
             DJV_DEBUG_PRINT("");
         }
     }
+}
+
+void djvOpenGLImageTest::convert()
+{
+    DJV_DEBUG("djvOpenGLImageTest::convert");
+    djvGraphicsContext context;
+    djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
+    djvOpenGLImage().toQt(data);
 }
 
 void djvOpenGLImageTest::operators()

@@ -48,6 +48,8 @@
 #include <QComboBox>
 #include <QGridLayout>
 
+using namespace djv;
+
 djvViewWidget::djvViewWidget(djvUIContext * context) :
     _frame          (0),
     _inOutEnabled   (true),
@@ -70,9 +72,9 @@ djvViewWidget::djvViewWidget(djvUIContext * context) :
     _timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _timeUnitsWidget->addItems(djvTime::unitsLabels());
     
-    _frameWidget = new djvViewFrameWidget(context);
+    _frameWidget = new ViewLib::FrameWidget(context);
     
-    _frameSlider = new djvViewFrameSlider(context);
+    _frameSlider = new ViewLib::FrameSlider(context);
 
     djvToolButton * markInPointButton = new djvToolButton(
         context->iconLibrary()->icon("djvInPointMarkIcon.png"));
@@ -83,11 +85,11 @@ djvViewWidget::djvViewWidget(djvUIContext * context) :
     djvToolButton * resetOutPointButton = new djvToolButton(
         context->iconLibrary()->icon("djvOutPointResetIcon.png"));
 
-    _frameDisplay = new djvViewFrameDisplay(context);
+    _frameDisplay = new ViewLib::FrameDisplay(context);
     
-    _speedWidget = new djvViewSpeedWidget(context);
+    _speedWidget = new ViewLib::SpeedWidget(context);
     
-    _speedDisplay = new djvViewSpeedDisplay;
+    _speedDisplay = new ViewLib::SpeedDisplay;
     
     QGridLayout * layout = new QGridLayout(this);
     layout->setColumnStretch(3, 1);

@@ -209,7 +209,6 @@ target_link_libraries(djvGraphics
     djvCore
     Qt5
     IlmBase_static
-    glbinding
     ${OPENGL_LIBRARIES})
 set_target_properties(djvGraphics PROPERTIES FOLDER lib CXX_STANDARD 11)
 if (djvInstallRpath)

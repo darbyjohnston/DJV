@@ -66,14 +66,14 @@ namespace djv
             _actions[DOWN]->setText(qApp->translate("djv::ViewLib::ViewActions", "&Down"));
             _actions[CENTER]->setText(qApp->translate("djv::ViewLib::ViewActions", "&Center"));
             _actions[ZOOM_IN]->setText(qApp->translate("djv::ViewLib::ViewActions", "Zoom &In"));
-            _actions[ZOOM_IN]->setIcon(context->iconLibrary()->icon("djv::ViewLib::ZoomInIcon.png"));
+            _actions[ZOOM_IN]->setIcon(context->iconLibrary()->icon("djvViewZoomInIcon.png"));
             _actions[ZOOM_OUT]->setText(qApp->translate("djv::ViewLib::ViewActions", "Zoom &Out"));
-            _actions[ZOOM_OUT]->setIcon(context->iconLibrary()->icon("djv::ViewLib::ZoomOutIcon.png"));
+            _actions[ZOOM_OUT]->setIcon(context->iconLibrary()->icon("djvViewZoomOutIcon.png"));
             _actions[ZOOM_RESET]->setText(qApp->translate("djv::ViewLib::ViewActions", "Zoom Rese&t"));
-            _actions[ZOOM_RESET]->setIcon(context->iconLibrary()->icon("djv::ViewLib::ZoomResetIcon.png"));
+            _actions[ZOOM_RESET]->setIcon(context->iconLibrary()->icon("djvViewZoomResetIcon.png"));
             _actions[RESET]->setText(qApp->translate("djv::ViewLib::ViewActions", "R&eset"));
             _actions[FIT]->setText(qApp->translate("djv::ViewLib::ViewActions", "&Fit"));
-            _actions[FIT]->setIcon(context->iconLibrary()->icon("djv::ViewLib::FitIcon.png"));
+            _actions[FIT]->setIcon(context->iconLibrary()->icon("djvViewFitIcon.png"));
             _actions[HUD]->setText(qApp->translate("djv::ViewLib::ViewActions", "&HUD"));
             _actions[HUD]->setCheckable(true);
 

@@ -108,7 +108,7 @@ void djvOpenEXRSave::write(const djvImage & in, const djvImageIOFrameInfo & fram
         {
             //DJV_DEBUG_PRINT("convert = " << _tmp);
             _tmp.zero();
-            djvOpenGLImage::copy(in, _tmp);
+            djvOpenGLImage().copy(in, _tmp);
             p = &_tmp;
         }
         

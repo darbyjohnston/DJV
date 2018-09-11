@@ -38,11 +38,18 @@
 
 #include <QWidget>
 
-class djvViewFrameWidget;
-class djvViewFrameSlider;
-class djvViewFrameDisplay;
-class djvViewSpeedWidget;
-class djvViewSpeedDisplay;
+namespace djv
+{
+    namespace ViewLib
+    {
+        class FrameWidget;
+        class FrameSlider;
+        class FrameDisplay;
+        class SpeedWidget;
+        class SpeedDisplay;
+
+    } // namespace ViewLib
+} // namespace djv
 
 class QComboBox;
 
@@ -65,21 +72,21 @@ private Q_SLOTS:
 
 private:
 
-    qint64       _frame;
-    bool         _inOutEnabled;
-    qint64       _inPoint;
-    qint64       _outPoint;
+    qint64 _frame;
+    bool _inOutEnabled;
+    qint64 _inPoint;
+    qint64 _outPoint;
     djvFrameList _frameList;
     djvFrameList _cachedFrames;
-    djvSpeed     _speed;
+    djvSpeed _speed;
     
-    djvUIContext *        _context;
-    QComboBox *           _timeUnitsWidget;
-    djvViewFrameWidget *  _frameWidget;
-    djvViewFrameSlider *  _frameSlider;
-    djvViewFrameDisplay * _frameDisplay;
-    djvViewSpeedWidget *  _speedWidget;
-    djvViewSpeedDisplay * _speedDisplay;
+    djvUIContext * _context = nullptr;
+    QComboBox * _timeUnitsWidget = nullptr;
+    djv::ViewLib::FrameWidget *  _frameWidget = nullptr;
+    djv::ViewLib::FrameSlider *  _frameSlider = nullptr;
+    djv::ViewLib::FrameDisplay * _frameDisplay = nullptr;
+    djv::ViewLib::SpeedWidget *  _speedWidget = nullptr;
+    djv::ViewLib::SpeedDisplay * _speedDisplay = nullptr;
 };
 
 class djvViewWidgetTest : public djvAbstractWidgetTest

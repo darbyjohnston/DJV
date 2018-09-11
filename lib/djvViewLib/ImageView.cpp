@@ -513,7 +513,8 @@ namespace djv
             //DJV_DEBUG_PRINT("area = " << area);
 
             // Draw.
-            djvOpenGLUtil::color(_p->gridColor);
+            //! \todo
+            /*djvOpenGLUtil::color(_p->gridColor);
             glPushMatrix();
             glTranslated(viewPos().x, viewPos().y, 0);
             glScaled(viewZoom(), viewZoom(), 1.f);
@@ -529,7 +530,7 @@ namespace djv
                 glVertex2i(area.x + x, area.y + area.h);
             }
             glEnd();
-            glPopMatrix();
+            glPopMatrix();*/
         }
 
         void ImageView::drawHud()
@@ -669,7 +670,8 @@ namespace djv
             djvBox2i box(position.x, position.y, w + margin * 2, a + d + margin * 2);
 
             // Draw the background.
-            djvOpenGLUtil::color(_p->hudBackgroundColor);
+            //! \todo
+            /*djvOpenGLUtil::color(_p->hudBackgroundColor);
             switch (_p->hudBackground)
             {
             case Util::HUD_BACKGROUND_NONE: break;
@@ -697,13 +699,11 @@ namespace djv
 
             // Draw the foreground.
             djvOpenGLUtil::color(_p->hudColor);
-
-            //! \todo
-            //renderText(
-            //    position.x + margin,
-            //    position.y + a + margin,
-            //    in,
-            //    font());
+            renderText(
+                position.x + margin,
+                position.y + a + margin,
+                in,
+                font());*/
 
             return box;
         }

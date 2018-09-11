@@ -63,23 +63,22 @@ namespace djv
     {
         struct ColorPickerTool::Private
         {
-            glm::ivec2                               pick = glm::ivec2(0, 0);
-            djvColor                                 value = djvPixel::RGBA_F32;
-            int                                      size = 4;
-            bool                                     colorProfile = true;
-            bool                                     displayProfile = true;
-            bool                                     lock = false;
+            glm::ivec2 pick = glm::ivec2(0, 0);
+            djvColor value = djvPixel::RGBA_F32;
+            int size = 4;
+            bool colorProfile = true;
+            bool displayProfile = true;
+            bool lock = false;
 
-            QScopedPointer<djvOpenGLOffscreenBuffer> buffer;
-            djvOpenGLImageState                      state;
-            bool                                     swatchInit = false;
+            std::unique_ptr<djvOpenGLImage> openGLImage;
+            bool swatchInit = false;
 
-            djvColorWidget *                         widget = nullptr;
-            djvColorSwatch *                         swatch = nullptr;
-            djvIntEditSlider *                       sizeSlider = nullptr;
-            djvToolButton *                          colorProfileButton = nullptr;
-            djvToolButton *                          displayProfileButton = nullptr;
-            djvToolButton *                          lockWidget = nullptr;
+            djvColorWidget * widget = nullptr;
+            djvColorSwatch * swatch = nullptr;
+            djvIntEditSlider * sizeSlider = nullptr;
+            djvToolButton * colorProfileButton = nullptr;
+            djvToolButton * displayProfileButton = nullptr;
+            djvToolButton * lockWidget = nullptr;
         };
 
         ColorPickerTool::ColorPickerTool(
@@ -203,7 +202,8 @@ namespace djv
             prefs.set("displayProfile", _p->displayProfile);
             prefs.set("lock", _p->lock);
 
-            viewWidget()->makeCurrent();
+            context()->makeGLContextCurrent();
+            _p->openGLImage.reset();
         }
 
         void ColorPickerTool::showEvent(QShowEvent *)
@@ -298,11 +298,12 @@ namespace djv
                 //DJV_DEBUG_PRINT("tmp = " << tmp);
                 try
                 {
-                    viewWidget()->makeCurrent();
-                    if (!_p->buffer || _p->buffer->info() != tmp.info())
+                    context()->makeGLContextCurrent();
+                    if (!_p->openGLImage)
                     {
-                        _p->buffer.reset(new djvOpenGLOffscreenBuffer(tmp.info()));
+                        _p->openGLImage.reset(new djvOpenGLImage);
                     }
+
                     djvOpenGLImageOptions options = viewWidget()->options();
                     options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
                     if (!_p->colorProfile)
@@ -319,13 +320,8 @@ namespace djv
                     {
                         data = &empty;
                     }
-                    djvOpenGLImage::copy(
-                        *data,
-                        tmp,
-                        options,
-                        &_p->state,
-                        _p->buffer.data());
-                    djvOpenGLImage::average(tmp, _p->value);
+                    _p->openGLImage->copy(*data, tmp, options);
+                    _p->openGLImage->average(tmp, _p->value);
                 }
                 catch (djvError error)
                 {
