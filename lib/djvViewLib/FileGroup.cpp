@@ -101,9 +101,9 @@ namespace djv
             bool                         preloadActive = false;
             int                          preloadTimer = 0;
             qint64                       preloadFrame = 0;
-            FileActions *                actions = false;
-            FileMenu *                   menu = false;
-            FileToolBar *                toolBar = false;
+            FileActions *                actions = nullptr;
+            FileMenu *                   menu = nullptr;
+            FileToolBar *                toolBar = nullptr;
         };
 
         FileGroup::FileGroup(

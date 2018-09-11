@@ -31,16 +31,12 @@
 
 #include <djvOpenGLTest.h>
 
+#include <djvGraphics/OpenGL.h>
+
 #include <djvCore/Assert.h>
 #include <djvCore/Debug.h>
-#include <djvGraphics/GraphicsContext.h>
-#include <djvGraphics/OpenGL.h>
-#include <djvGraphics/OpenGLOffscreenBuffer.h>
 
-#include <QScopedPointer>
 #include <QString>
-
-using namespace gl;
 
 void djvOpenGLTest::run(int &, char **)
 {
@@ -51,34 +47,6 @@ void djvOpenGLTest::run(int &, char **)
 void djvOpenGLTest::members()
 {
     DJV_DEBUG("djvOpenGLTest::members");
-    djvGraphicsContext context;
-    QScopedPointer<djvOpenGLOffscreenBuffer> buffer(
-        new djvOpenGLOffscreenBuffer(djvPixelDataInfo(100, 100, djvPixel::RGBA_U8)));
-    djvOpenGLOffscreenBufferScope bufferScope(buffer.data());
-    DJV_DEBUG_PRINT("buffer = " << buffer->info());
-    DJV_DEBUG_PRINT("buffer id = " << buffer->id());
-    DJV_DEBUG_PRINT("buffer texture = " << buffer->texture());
-    {
-        djvOpenGLUtil::ortho(glm::ivec2(100, 100));
-        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvOpenGLUtil::color(djvColor(0.5));
-        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvOpenGLUtil::drawBox(djvBox2i(25, 25, 50, 50));
-        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvOpenGLUtil::drawBox(djvBox2f(50.f, 50.f, 50.f, 50.f));
-        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        glm::vec2 uv[4] =
-        {
-            glm::vec2(0.f, 0.f),
-            glm::vec2(0.1, 0.f),
-            glm::vec2(0.1, 1.f),
-            glm::vec2(0.f, 1.f)
-        };
-        djvOpenGLUtil::drawBox(djvBox2i(25, 25, 50, 50), uv);
-        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-        djvOpenGLUtil::drawBox(djvBox2f(50.f, 50.f, 50.f, 50.f), uv);
-        DJV_ASSERT(GL_NO_ERROR == ::glGetError());
-    }
     {
         for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
         {

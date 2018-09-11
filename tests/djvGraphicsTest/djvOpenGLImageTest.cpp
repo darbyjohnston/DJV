@@ -41,8 +41,6 @@
 #include <QScopedPointer>
 #include <QStringList>
 
-using namespace gl;
-
 void djvOpenGLImageTest::run(int &, char **)
 {
     DJV_DEBUG("djvOpenGLImageTest::run");

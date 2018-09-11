@@ -80,11 +80,11 @@ void djvSequenceTest::members()
     {
         djvSequence seq;
         seq.setFrames(1, 3);
-        DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
+        DJV_ASSERT((djvFrameList() << 1 << 2 << 3) == seq.frames);
         DJV_ASSERT(1 == seq.start());
         DJV_ASSERT(3 == seq.end());
         seq.setFrames(3, 1);
-        DJV_ASSERT(djvFrameList() << 3 << 2 << 1 == seq.frames);
+        DJV_ASSERT((djvFrameList() << 3 << 2 << 1) == seq.frames);
         DJV_ASSERT(3 == seq.start());
         DJV_ASSERT(1 == seq.end());
         seq.setFrames(0, djvSequence::maxFrames() - 1);
@@ -100,11 +100,11 @@ void djvSequenceTest::members()
     {
         djvSequence seq;
         seq.setFrames(-1, -3);
-        DJV_ASSERT(djvFrameList() << -1 << -2 << -3 == seq.frames);
+        DJV_ASSERT((djvFrameList() << -1 << -2 << -3) == seq.frames);
         DJV_ASSERT(-1 == seq.start());
         DJV_ASSERT(-3 == seq.end());
         seq.setFrames(-3, -1);
-        DJV_ASSERT(djvFrameList() << -3 << -2 << -1 == seq.frames);
+        DJV_ASSERT((djvFrameList() << -3 << -2 << -1) == seq.frames);
         DJV_ASSERT(-3 == seq.start());
         DJV_ASSERT(-1 == seq.end());
         seq.setFrames(-(djvSequence::maxFrames() - 1), 0);
@@ -120,12 +120,12 @@ void djvSequenceTest::members()
     {
         djvSequence seq(djvFrameList() << 2 << 3 << 1);
         seq.sort();
-        DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
+        DJV_ASSERT((djvFrameList() << 1 << 2 << 3) == seq.frames);
     }
     {
         djvSequence seq(djvFrameList() << -2 << -3 << -1);
         seq.sort();
-        DJV_ASSERT(djvFrameList() << -3 << -2 << -1 == seq.frames);
+        DJV_ASSERT((djvFrameList() << -3 << -2 << -1) == seq.frames);
     }
     {
         const djvSequence seq(djvFrameList() << 1 << 5 << 15);
@@ -157,25 +157,25 @@ void djvSequenceTest::operators()
         djvSequence seq;
         QStringList s = QStringList() << "1-3";
         s >> seq;
-        DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
+        DJV_ASSERT((djvFrameList() << 1 << 2 << 3) == seq.frames);
     }
     {
         djvSequence seq;
         QStringList s = QStringList() << "0001-0003";
         s >> seq;
-        DJV_ASSERT(djvFrameList() << 1 << 2 << 3 == seq.frames);
+        DJV_ASSERT((djvFrameList() << 1 << 2 << 3) == seq.frames);
     }
     {
         djvSequence seq(djvFrameList() << 1 << 2 << 3);
         QStringList s;
         s << seq;
-        DJV_ASSERT(QStringList() << "1-3" == s);
+        DJV_ASSERT((QStringList() << "1-3") == s);
     }
     {
         djvSequence seq(djvFrameList() << 1 << 2 << 3, 4);
         QStringList s;
         s << seq;
-        DJV_ASSERT(QStringList() << "0001-0003" == s);
+        DJV_ASSERT((QStringList() << "0001-0003") == s);
     }
     {
         DJV_DEBUG_PRINT(djvSequence::COMPRESS_RANGE);
