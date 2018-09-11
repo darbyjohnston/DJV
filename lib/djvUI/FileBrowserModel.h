@@ -86,10 +86,10 @@ class djvFileBrowserModel : public QAbstractItemModel
     
     //! This property holds the sorting.
     Q_PROPERTY(
-        djvFileBrowserModel::COLUMNS sort
-        READ                         sort
-        WRITE                        setSort
-        NOTIFY                       sortChanged)
+        djvFileBrowserModel::COLUMNS columnsSort
+        READ                         columnsSort
+        WRITE                        setColumnsSort
+        NOTIFY                       columnsSortChanged)
     
     //! This property holds whether sorting is reversed.
     Q_PROPERTY(
@@ -250,7 +250,7 @@ public Q_SLOTS:
     void setShowHidden(bool);
 
     //! Set the sorting.
-    void setSort(djvFileBrowserModel::COLUMNS);
+    void setColumnsSort(djvFileBrowserModel::COLUMNS);
 
     //! Set whether sorting is reversed.
     void setReverseSort(bool);
@@ -278,7 +278,7 @@ Q_SIGNALS:
     void showHiddenChanged(bool);
     
     //! This signal is emitted when the sorting is changed.    
-    void sortChanged(djvFileBrowserModel::COLUMNS);
+    void columnsSortChanged(djvFileBrowserModel::COLUMNS);
     
     //! This signal is emitted when reverse sorting is changed.
     void reverseSortChanged(bool);

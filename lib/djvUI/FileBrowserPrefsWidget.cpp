@@ -291,8 +291,8 @@ void djvFileBrowserPrefsWidget::resetPreferences()
         djvFileBrowserPrefs::sequenceDefault());
     context()->fileBrowserPrefs()->setShowHidden(
         djvFileBrowserPrefs::showHiddenDefault());
-    context()->fileBrowserPrefs()->setSort(
-        djvFileBrowserPrefs::sortDefault());
+    context()->fileBrowserPrefs()->setColumnsSort(
+        djvFileBrowserPrefs::columnsSortDefault());
     context()->fileBrowserPrefs()->setReverseSort(
         djvFileBrowserPrefs::reverseSortDefault());
     context()->fileBrowserPrefs()->setSortDirsFirst(
@@ -316,7 +316,7 @@ void djvFileBrowserPrefsWidget::seqCallback(int index)
 
 void djvFileBrowserPrefsWidget::sortCallback(int index)
 {
-    context()->fileBrowserPrefs()->setSort(
+    context()->fileBrowserPrefs()->setColumnsSort(
         static_cast<djvFileBrowserModel::COLUMNS>(index));
 }
 
@@ -426,7 +426,7 @@ void djvFileBrowserPrefsWidget::widgetUpdate()
     _p->showHiddenWidget->setChecked(
         context()->fileBrowserPrefs()->hasShowHidden());
     _p->sortWidget->setCurrentIndex(
-        context()->fileBrowserPrefs()->sort());
+        context()->fileBrowserPrefs()->columnsSort());
     _p->reverseSortWidget->setChecked(
         context()->fileBrowserPrefs()->hasReverseSort());
     _p->sortDirsFirstWidget->setChecked(

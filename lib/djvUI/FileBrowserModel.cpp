@@ -62,7 +62,7 @@ struct djvFileBrowserModel::Private
     djvSequence::COMPRESS                sequence       = djvSequence::COMPRESS_RANGE;
     QString                              filterText;
     bool                                 showHidden     = false;
-    djvFileBrowserModel::COLUMNS         sort           = djvFileBrowserModel::NAME;
+    djvFileBrowserModel::COLUMNS         columnsSort    = djvFileBrowserModel::NAME;
     bool                                 reverseSort    = false;
     bool                                 sortDirsFirst  = true;
     djvFileBrowserModel::THUMBNAILS      thumbnails     = djvFileBrowserModel::THUMBNAILS_HIGH;
@@ -152,7 +152,7 @@ bool djvFileBrowserModel::hasShowHidden() const
 
 djvFileBrowserModel::COLUMNS djvFileBrowserModel::columnsSort() const
 {
-    return _p->sort;
+    return _p->columnsSort;
 }
 
 bool djvFileBrowserModel::hasReverseSort() const
@@ -397,13 +397,13 @@ void djvFileBrowserModel::setShowHidden(bool show)
     Q_EMIT optionChanged();
 }
 
-void djvFileBrowserModel::setSort(COLUMNS sort)
+void djvFileBrowserModel::setColumnsSort(COLUMNS value)
 {
-    if (sort == _p->sort)
+    if (value == _p->columnsSort)
         return;
-    _p->sort = sort;
+    _p->columnsSort = value;
     modelUpdate();
-    Q_EMIT sortChanged(_p->sort);
+    Q_EMIT columnsSortChanged(_p->columnsSort);
     Q_EMIT optionChanged();
 }
 
@@ -417,11 +417,11 @@ void djvFileBrowserModel::setReverseSort(bool value)
     Q_EMIT optionChanged();
 }
 
-void djvFileBrowserModel::setSortDirsFirst(bool sort)
+void djvFileBrowserModel::setSortDirsFirst(bool value)
 {
-    if (sort == _p->sortDirsFirst)
+    if (value == _p->sortDirsFirst)
         return;
-    _p->sortDirsFirst = sort;
+    _p->sortDirsFirst = value;
     modelUpdate();
     Q_EMIT sortDirsFirstChanged(_p->sortDirsFirst);
     Q_EMIT optionChanged();
@@ -492,7 +492,7 @@ void djvFileBrowserModel::modelUpdate()
 
     // Sort directory contents.
     djvFileInfoUtil::SORT sort = static_cast<djvFileInfoUtil::SORT>(0);
-    switch (_p->sort)
+    switch (_p->columnsSort)
     {
         case NAME:        sort = djvFileInfoUtil::SORT_NAME; break;
         case SIZE:        sort = djvFileInfoUtil::SORT_SIZE; break;

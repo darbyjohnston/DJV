@@ -342,7 +342,7 @@ djvFileBrowser::djvFileBrowser(djvUIContext * context, QWidget * parent) :
     _p->model = new djvFileBrowserModel(context, this);
     _p->model->setSequence(context->fileBrowserPrefs()->sequence());
     _p->model->setShowHidden(context->fileBrowserPrefs()->hasShowHidden());
-    _p->model->setSort(context->fileBrowserPrefs()->sort());
+    _p->model->setColumnsSort(context->fileBrowserPrefs()->columnsSort());
     _p->model->setReverseSort(context->fileBrowserPrefs()->hasReverseSort());
     _p->model->setSortDirsFirst(context->fileBrowserPrefs()->hasSortDirsFirst());
     _p->model->setThumbnails(context->fileBrowserPrefs()->thumbnails());
@@ -394,8 +394,8 @@ djvFileBrowser::djvFileBrowser(djvUIContext * context, QWidget * parent) :
         SLOT(setShowHidden(bool)));
     _p->model->connect(
         context->fileBrowserPrefs(),
-        SIGNAL(sortChanged(djvFileBrowserModel::COLUMNS)),
-        SLOT(setSort(djvFileBrowserModel::COLUMNS)));
+        SIGNAL(columnsSortChanged(djvFileBrowserModel::COLUMNS)),
+        SLOT(setColumnsSort(djvFileBrowserModel::COLUMNS)));
     _p->model->connect(
         context->fileBrowserPrefs(),
         SIGNAL(reverseSortChanged(bool)),
@@ -427,7 +427,7 @@ djvFileBrowser::djvFileBrowser(djvUIContext * context, QWidget * parent) :
     connect(
         _p->actions.groups[Actions::SORT_GROUP],
         SIGNAL(triggered(QAction *)),
-        SLOT(sortCallback(QAction *)));
+        SLOT(columnsSortCallback(QAction *)));
     connect(
         _p->actions.groups[Actions::BOOKMARKS_GROUP],
         SIGNAL(triggered(QAction *)),
@@ -447,7 +447,7 @@ djvFileBrowser::djvFileBrowser(djvUIContext * context, QWidget * parent) :
     connect(
         _p->widgets.browser->header(),
         SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)),
-        SLOT(sortCallback(int, Qt::SortOrder)));
+        SLOT(columnsSortCallback(int, Qt::SortOrder)));
     connect(
         _p->widgets.seq,
         SIGNAL(activated(int)),
@@ -502,7 +502,7 @@ djvFileBrowser::~djvFileBrowser()
     // Save the preferences.
     _p->context->fileBrowserPrefs()->setSequence(_p->model->sequence());
     _p->context->fileBrowserPrefs()->setShowHidden(_p->model->hasShowHidden());
-    _p->context->fileBrowserPrefs()->setSort(_p->model->columnsSort());
+    _p->context->fileBrowserPrefs()->setColumnsSort(_p->model->columnsSort());
     _p->context->fileBrowserPrefs()->setReverseSort(_p->model->hasReverseSort());
     _p->context->fileBrowserPrefs()->setSortDirsFirst(_p->model->hasSortDirsFirst());
     _p->context->fileBrowserPrefs()->setThumbnails(_p->model->thumbnails());
@@ -696,19 +696,19 @@ void djvFileBrowser::searchCallback(const QString & text)
     _p->model->setFilterText(text);
 }
 
-void djvFileBrowser::sortCallback(int section, Qt::SortOrder order)
+void djvFileBrowser::columnsSortCallback(int section, Qt::SortOrder order)
 {
-    _p->model->setSort(static_cast<djvFileBrowserModel::COLUMNS>(section));
+    _p->model->setColumnsSort(static_cast<djvFileBrowserModel::COLUMNS>(section));
     _p->model->setReverseSort(order);
 }
 
-void djvFileBrowser::sortCallback(QAction * action)
+void djvFileBrowser::columnsSortCallback(QAction * action)
 {
-    const djvFileBrowserModel::COLUMNS sort =
+    const djvFileBrowserModel::COLUMNS columnsSort =
         static_cast<djvFileBrowserModel::COLUMNS>(action->data().toInt());
-    if (sort != _p->model->columnsSort())
+    if (columnsSort != _p->model->columnsSort())
     {
-        _p->model->setSort(sort);
+        _p->model->setColumnsSort(columnsSort);
     }
     else
     {
@@ -716,7 +716,7 @@ void djvFileBrowser::sortCallback(QAction * action)
     }
 }
 
-void djvFileBrowser::sortCallback()
+void djvFileBrowser::columnsSortCallback()
 {
     if (djvIndexShortcut * shortcut = qobject_cast<djvIndexShortcut *>(sender()))
     {
@@ -727,7 +727,7 @@ void djvFileBrowser::sortCallback()
         {
             reverseSort = ! reverseSort;
         }
-        _p->model->setSort(static_cast<djvFileBrowserModel::COLUMNS>(index));
+        _p->model->setColumnsSort(static_cast<djvFileBrowserModel::COLUMNS>(index));
         _p->model->setReverseSort(reverseSort);
     }
 }

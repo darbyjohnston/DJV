@@ -53,7 +53,7 @@ struct djvFileBrowserPrefs::Private
     
     djvSequence::COMPRESS                sequence        = djvFileBrowserPrefs::sequenceDefault();
     bool                                 showHidden      = djvFileBrowserPrefs::showHiddenDefault();
-    djvFileBrowserModel::COLUMNS         sort            = djvFileBrowserPrefs::sortDefault();
+    djvFileBrowserModel::COLUMNS         columnsSort     = djvFileBrowserPrefs::columnsSortDefault();
     bool                                 reverseSort     = djvFileBrowserPrefs::reverseSortDefault();
     bool                                 sortDirsFirst   = djvFileBrowserPrefs::sortDirsFirstDefault();
     djvFileBrowserModel::THUMBNAILS      thumbnails      = djvFileBrowserPrefs::thumbnailsDefault();
@@ -83,7 +83,7 @@ djvFileBrowserPrefs::djvFileBrowserPrefs(djvUIContext * context, QObject * paren
     djvPrefs prefs("djvFileBrowserPrefs");
     prefs.get("sequence", _p->sequence);
     prefs.get("showHidden", _p->showHidden);
-    prefs.get("sort", _p->sort);
+    prefs.get("columnsSort", _p->columnsSort);
     prefs.get("reverseSort", _p->reverseSort);
     prefs.get("sortDirsFirst", _p->sortDirsFirst);
     prefs.get("thumbnails", _p->thumbnails);
@@ -110,7 +110,7 @@ djvFileBrowserPrefs::~djvFileBrowserPrefs()
     djvPrefs prefs("djvFileBrowserPrefs");
     prefs.set("sequence", _p->sequence);
     prefs.set("showHidden", _p->showHidden);
-    prefs.set("sort", _p->sort);
+    prefs.set("columnsSort", _p->columnsSort);
     prefs.set("reverseSort", _p->reverseSort);
     prefs.set("sortDirsFirst", _p->sortDirsFirst);
     prefs.set("thumbnails", _p->thumbnails);
@@ -152,14 +152,14 @@ bool djvFileBrowserPrefs::hasShowHidden() const
     return _p->showHidden;
 }
 
-djvFileBrowserModel::COLUMNS djvFileBrowserPrefs::sortDefault()
+djvFileBrowserModel::COLUMNS djvFileBrowserPrefs::columnsSortDefault()
 {
     return djvFileBrowserModel::NAME;
 }
 
-djvFileBrowserModel::COLUMNS djvFileBrowserPrefs::sort() const
+djvFileBrowserModel::COLUMNS djvFileBrowserPrefs::columnsSort() const
 {
-    return _p->sort;
+    return _p->columnsSort;
 }
 
 bool djvFileBrowserPrefs::reverseSortDefault()
@@ -332,12 +332,12 @@ void djvFileBrowserPrefs::setShowHidden(bool show)
     Q_EMIT prefChanged();
 }
 
-void djvFileBrowserPrefs::setSort(djvFileBrowserModel::COLUMNS sort)
+void djvFileBrowserPrefs::setColumnsSort(djvFileBrowserModel::COLUMNS value)
 {
-    if (sort == _p->sort)
+    if (value == _p->columnsSort)
         return;
-    _p->sort = sort;
-    Q_EMIT sortChanged(_p->sort);
+    _p->columnsSort = value;
+    Q_EMIT columnsSortChanged(_p->columnsSort);
     Q_EMIT prefChanged();
 }
 

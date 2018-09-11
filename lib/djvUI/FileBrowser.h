@@ -138,9 +138,9 @@ private Q_SLOTS:
     void seqCallback(QAction *);
     void seqCallback(int);
     void searchCallback(const QString &);
-    void sortCallback(int, Qt::SortOrder);
-    void sortCallback(QAction *);
-    void sortCallback();
+    void columnsSortCallback(int, Qt::SortOrder);
+    void columnsSortCallback(QAction *);
+    void columnsSortCallback();
     void reverseSortCallback(bool);
     void reverseSortCallback();
     void sortDirsFirstCallback(bool);
