@@ -37,7 +37,6 @@
 #include <djvViewLib/Util.h>
 
 #include <djvUI/IconLibrary.h>
-#include <djvUI/OsxMenuHack.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -50,9 +49,8 @@ namespace djv
     {
         struct FileActions::Private
         {
-            int              layer = 0;
-            QStringList      layers;
-            djvOsxMenuHack * osxMenuHack = nullptr;
+            int layer = 0;
+            QStringList layers;
         };
 
         FileActions::FileActions(
@@ -244,9 +242,6 @@ namespace djv
             {
                 _groups[PROXY_GROUP]->actions()[i]->setShortcut(proxyShortcuts[i]);
             }
-
-            // Fix up the actions.
-            osxMenuHack();
 
             // Emit changed signal.
             Q_EMIT changed();

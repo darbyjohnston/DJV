@@ -270,9 +270,6 @@ namespace djv
                     inOutToolTips[i].arg(key.toString()));
             }
 
-            // Fix up the actions.
-            osxMenuHack();
-
             // Emit changed signal.
             Q_EMIT changed();
         }

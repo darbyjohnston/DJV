@@ -147,9 +147,6 @@ namespace djv
                 _groups[TOOL_BAR_VISIBLE_GROUP]->actions()[i]->setShortcut(
                     shortcuts[toolBarShortcuts[i]].value);
             }
-
-            // Fix up the actions.
-            osxMenuHack();
         }
 
     } // namespace ViewLib

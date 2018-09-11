@@ -45,7 +45,6 @@ set(header
     MultiChoiceDialog.h
     NoticeDialog.h
     OpenGLWidget.h
-    OsxMenuHack.h
     PPMWidget.h
     PixelMaskWidget.h
     PixelWidget.h
@@ -121,7 +120,6 @@ set(mocHeader
     MultiChoiceDialog.h
     NoticeDialog.h
     OpenGLWidget.h
-    OsxMenuHack.h
     PPMWidget.h
     PixelMaskWidget.h
     PixelWidget.h
@@ -195,7 +193,6 @@ set(source
     MultiChoiceDialog.cpp
     NoticeDialog.cpp
     OpenGLWidget.cpp
-    OsxMenuHack.cpp
     PPMWidget.cpp
     PixelMaskWidget.cpp
     PixelWidget.cpp

@@ -85,8 +85,6 @@ namespace djv
             QMap<int, QActionGroup *> _groups;
             Context *                 _context = nullptr;
 
-            void osxMenuHack();
-
         private:
             struct Private;
             std::unique_ptr<Private> _p;

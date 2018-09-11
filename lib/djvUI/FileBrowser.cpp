@@ -37,7 +37,6 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IndexShortcut.h>
 #include <djvUI/MultiChoiceDialog.h>
-#include <djvUI/OsxMenuHack.h>
 #include <djvUI/Prefs.h>
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/SearchBox.h>
@@ -151,8 +150,7 @@ struct djvFileBrowser::Private
     Menus                 menus;
     Actions               actions;
     Widgets               widgets;
-    djvOsxMenuHack *      osxMenuHack = nullptr;
-    djvUIContext *       context     = nullptr;
+    djvUIContext *        context     = nullptr;
 };
 
 //------------------------------------------------------------------------------
@@ -164,8 +162,6 @@ djvFileBrowser::djvFileBrowser(djvUIContext * context, QWidget * parent) :
     _p(new Private(context))
 {
     //DJV_DEBUG("djvFileBrowser::djvFileBrowser");
-    
-    _p->osxMenuHack = new djvOsxMenuHack(this);
     
     // Create the menus.
     _p->menus.menuBar = new QMenuBar(this);
@@ -1051,14 +1047,6 @@ void djvFileBrowser::menuUpdate()
             action->setShortcut(bookmarkShortcuts[i].value);
         _p->actions.groups[Actions::BOOKMARKS_GROUP]->addAction(action);
     }
-    
-    // Fix up the menus.    
-    QList<QAction *> actions = _p->actions.actions.values();
-    Q_FOREACH(QActionGroup * group, _p->actions.groups)
-    {
-        actions += group->actions();
-    }
-    _p->osxMenuHack->fix(actions);
 }
 
 void djvFileBrowser::toolTipUpdate()

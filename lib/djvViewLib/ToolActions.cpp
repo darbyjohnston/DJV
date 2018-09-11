@@ -124,9 +124,6 @@ namespace djv
                     toolToolTips[i].arg(toolShortcuts[i].toString()));
             }
 
-            // Fix up the actions.
-            osxMenuHack();
-
             // Emit changed signal.
             Q_EMIT changed();
         }

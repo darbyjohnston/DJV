@@ -221,10 +221,7 @@ namespace djv
             {
                 _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);
             }
-
-            // Fix up the actions.
-            osxMenuHack();
-
+            
             // Emit changed signal.
             Q_EMIT changed();
         }

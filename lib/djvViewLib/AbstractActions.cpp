@@ -31,8 +31,6 @@
 
 #include <djvViewLib/AbstractActions.h>
 
-#include <djvUI/OsxMenuHack.h>
-
 #include <QAction>
 #include <QActionGroup>
 
@@ -43,11 +41,9 @@ namespace djv
         struct AbstractActions::Private
         {
             Private(Context * context) :
-                osxMenuHack(0),
                 context(context)
             {}
 
-            djvOsxMenuHack * osxMenuHack = nullptr;
             Context * context = nullptr;
         };
 
@@ -56,9 +52,7 @@ namespace djv
             QObject * parent) :
             QObject(parent),
             _p(new Private(context))
-        {
-            _p->osxMenuHack = new djvOsxMenuHack(this);
-        }
+        {}
 
         AbstractActions::~AbstractActions()
         {}
@@ -86,16 +80,6 @@ namespace djv
         Context * AbstractActions::context() const
         {
             return _p->context;
-        }
-
-        void AbstractActions::osxMenuHack()
-        {
-            QList<QAction *> actions = _actions.values();
-            Q_FOREACH(QActionGroup * group, _groups)
-            {
-                actions += group->actions();
-            }
-            _p->osxMenuHack->fix(actions);
         }
 
     } // namespace ViewLib

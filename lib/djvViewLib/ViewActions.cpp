@@ -168,9 +168,6 @@ namespace djv
                 qApp->translate("djv::ViewLib::ViewActions", "Toggle the HUD (Heads Up Display)\n\nShortcut: %1").
                 arg(shortcuts[Util::SHORTCUT_VIEW_HUD].value.toString()));
 
-            // Fix up the actions.
-            osxMenuHack();
-
             // Emit changed signal.
             Q_EMIT changed();
         }
