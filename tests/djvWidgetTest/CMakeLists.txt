@@ -54,7 +54,6 @@ set(mocHeader
     djvVectorWidgetTest.h
     djvViewWidgetTest.h
     djvWidgetTestApplication.h
-    djvWidgetTestModel.h
     djvWidgetTestManager.h
     djvWidgetTestWindow.h)
 set(source

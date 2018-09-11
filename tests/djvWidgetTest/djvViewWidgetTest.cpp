@@ -60,13 +60,13 @@ djvViewWidget::djvViewWidget(djvUIContext * context) :
                         djvFrameRange(  1,  10) <<
                         djvFrameRange(110, 180) <<
                         djvFrameRange(250, 250))),
+    _context        (context),
     _timeUnitsWidget(0),
     _frameWidget    (0),
     _frameSlider    (0),
     _frameDisplay   (0),
     _speedWidget    (0),
-    _speedDisplay   (0),
-    _context        (context)
+    _speedDisplay   (0)
 {
     _timeUnitsWidget = new QComboBox;
     _timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
