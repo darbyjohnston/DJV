@@ -38,90 +38,82 @@
 
 #include <QWidget>
 
-class djvUIContext;
-
 class djvImageIO;
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImageIOWidget
-//!
-//! This class provides the base functionality for image I/O widgets.
-//------------------------------------------------------------------------------
-
-class djvImageIOWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvImageIOWidget(
-        djvImageIO *    plugin,
-        djvUIContext * context,
-        QWidget *       parent  = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvImageIOWidget() = 0;
+        //! \class ImageIOWidget
+        //!
+        //! This class provides the base functionality for image I/O widgets.
+        class ImageIOWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    //! Get the plugin.
-    djvImageIO * plugin() const;
+        public:
+            explicit ImageIOWidget(
+                djvImageIO * plugin,
+                UIContext * context,
+                QWidget * parent = nullptr);
 
-    //! Get the context.
-    djvUIContext * context() const;
-    
-private:
-    djvImageIO *    _plugin  = nullptr;
-    djvUIContext * _context = nullptr;
-};
+            virtual ~ImageIOWidget() = 0;
 
-//------------------------------------------------------------------------------
-//! \class djvImageIOWidgetPlugin
-//!
-//! This class provides an image I/O widget plugin.
-//------------------------------------------------------------------------------
+            //! Get the plugin.
+            djvImageIO * plugin() const;
 
-class djvImageIOWidgetPlugin : public djvPlugin
-{
-public:
-    djvImageIOWidgetPlugin(djvCoreContext *);
+            //! Get the context.
+            UIContext * context() const;
 
-    virtual ~djvImageIOWidgetPlugin() = 0;
+        private:
+            djvImageIO * _plugin = nullptr;
+            UIContext * _context = nullptr;
+        };
 
-    //! Create a widget.    
-    virtual djvImageIOWidget * createWidget(djvImageIO * plugin) const = 0;
-    
-    //! Get the context.
-    djvUIContext * uiContext() const;
+        //! \class ImageIOWidgetPlugin
+        //!
+        //! This class provides an image I/O widget plugin.
+        class ImageIOWidgetPlugin : public djvPlugin
+        {
+        public:
+            ImageIOWidgetPlugin(djvCoreContext *);
 
-    virtual djvPlugin * copyPlugin() const;
-};
+            virtual ~ImageIOWidgetPlugin() = 0;
 
-//------------------------------------------------------------------------------
-//! \class djvImageIOWidgetFactory
-//!
-//! This class provides a factory for image I/O widget plugins.
-//------------------------------------------------------------------------------
+            //! Create a widget.    
+            virtual ImageIOWidget * createWidget(djvImageIO * plugin) const = 0;
 
-class djvImageIOWidgetFactory : public djvPluginFactory
-{
-    Q_OBJECT
-    
-public:
-    explicit djvImageIOWidgetFactory(
-        djvUIContext *     context,
-        const QStringList & searchPath = djvSystem::searchPath(),
-        QObject *           parent     = nullptr);
+            //! Get the context.
+            UIContext * uiContext() const;
 
-    virtual ~djvImageIOWidgetFactory();
+            virtual djvPlugin * copyPlugin() const;
+        };
 
-    //! Create a widget.    
-    djvImageIOWidget * createWidget(djvImageIO *) const;
-    
-private:
-    DJV_PRIVATE_COPY(djvImageIOWidgetFactory);
-    
-    djvUIContext * _context = nullptr;
-};
+        //! \class ImageIOWidgetFactory
+        //!
+        //! This class provides a factory for image I/O widget plugins.
+        class ImageIOWidgetFactory : public djvPluginFactory
+        {
+            Q_OBJECT
 
-//@} // djvUIWidget
+        public:
+            explicit ImageIOWidgetFactory(
+                UIContext * context,
+                const QStringList & searchPath = djvSystem::searchPath(),
+                QObject * parent = nullptr);
 
+            virtual ~ImageIOWidgetFactory();
+
+            //! Create a widget.    
+            ImageIOWidget * createWidget(djvImageIO *) const;
+
+        private:
+            DJV_PRIVATE_COPY(ImageIOWidgetFactory);
+
+            UIContext * _context = nullptr;
+        };
+
+    } // namespace UI
+} // namespace djv

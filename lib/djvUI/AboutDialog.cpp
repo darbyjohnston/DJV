@@ -45,81 +45,78 @@
 
 #include "images/durant.xpm"
 
-//------------------------------------------------------------------------------
-// djvAboutDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvAboutDialog::Private
+namespace djv
 {
-    Private(djvUIContext * context) :
-        context(context)
-    {}
+    namespace UI
+    {
+        struct AboutDialog::Private
+        {
+            Private(UIContext * context) :
+                context(context)
+            {}
 
-    QTextEdit *        widget    = nullptr;
-    QDialogButtonBox * buttonBox = nullptr;
-    djvUIContext *    context   = nullptr;
-};
+            QTextEdit * widget = nullptr;
+            QDialogButtonBox * buttonBox = nullptr;
+            UIContext * context = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvAboutDialog
-//------------------------------------------------------------------------------
+        AboutDialog::AboutDialog(const QString & text, UIContext * context) :
+            _p(new Private(context))
+        {
+            // Create the widgets.
+            QLabel * imageLabel = new QLabel;
+            imageLabel->setPixmap(QPixmap(durantXpm));
+            imageLabel->setAlignment(Qt::AlignCenter);
 
-djvAboutDialog::djvAboutDialog(const QString & text, djvUIContext * context) :
-    _p(new Private(context))
-{
-    // Create the widgets.
-    QLabel * imageLabel = new QLabel;
-    imageLabel->setPixmap(QPixmap(durantXpm));
-    imageLabel->setAlignment(Qt::AlignCenter);
-    
-    _p->widget = new QTextEdit;
-    _p->widget->setReadOnly(true);
-    
-    QPushButton * copyButton = new QPushButton(
-        qApp->translate("djvAboutDialog", "Copy"));
-    
-    _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-    _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
-    
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->addWidget(imageLabel);
-    layout->addWidget(_p->widget);
-    layout->addWidget(_p->buttonBox);
-    
-    // Initialize.
-    setWindowTitle(qApp->translate("djvAboutDialog", "About Dialog"));
-    
-    _p->widget->setText(text);
-    
-    resize(500, 400);
-    updateWidget();
-    
-    // Setup callbacks.
-    connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
-    connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(
-        context->style(),
-        SIGNAL(fontsChanged()),
-        SLOT(updateWidget()));
-}
+            _p->widget = new QTextEdit;
+            _p->widget->setReadOnly(true);
 
-djvAboutDialog::~djvAboutDialog()
-{}
+            QPushButton * copyButton = new QPushButton(
+                qApp->translate("djv::UI::AboutDialog", "Copy"));
 
-void djvAboutDialog::showEvent(QShowEvent *)
-{
-    _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
-        Qt::PopupFocusReason);
-}
+            _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+            _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
 
-void djvAboutDialog::copyCallback()
-{
-    QApplication::clipboard()->setText(_p->widget->toPlainText());
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->addWidget(imageLabel);
+            layout->addWidget(_p->widget);
+            layout->addWidget(_p->buttonBox);
 
-void djvAboutDialog::updateWidget()
-{
-    _p->widget->setFont(_p->context->style()->fonts().fixed);
-}
+            // Initialize.
+            setWindowTitle(qApp->translate("djv::UI::AboutDialog", "About Dialog"));
 
+            _p->widget->setText(text);
+
+            resize(500, 400);
+            updateWidget();
+
+            // Setup callbacks.
+            connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
+            connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+            connect(
+                context->style(),
+                SIGNAL(fontsChanged()),
+                SLOT(updateWidget()));
+        }
+
+        AboutDialog::~AboutDialog()
+        {}
+
+        void AboutDialog::showEvent(QShowEvent *)
+        {
+            _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(Qt::PopupFocusReason);
+        }
+
+        void AboutDialog::copyCallback()
+        {
+            QApplication::clipboard()->setText(_p->widget->toPlainText());
+        }
+
+        void AboutDialog::updateWidget()
+        {
+            _p->widget->setFont(_p->context->style()->fonts().fixed);
+        }
+
+    } // namespace UI
+} // namespace djv

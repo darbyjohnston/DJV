@@ -40,34 +40,34 @@
 #include <QCache>
 #include <QPixmap>
 
-//------------------------------------------------------------------------------
-//! \struct djvFileBrowserCacheItem
-//!
-//! This struct provides a file browser thumbnail cache item.
-//------------------------------------------------------------------------------
-
-struct djvFileBrowserCacheItem
+namespace djv
 {
-    djvFileBrowserCacheItem();
-    djvFileBrowserCacheItem(
-        const djvImageIOInfo &  imageInfo,
-        const glm::ivec2 &      thumbnailSize,
-        djvPixelDataInfo::PROXY thumbnailProxy,
-        const QPixmap &         thumbnail);
+    namespace UI
+    {
+        //! \struct FileBrowserCacheItem
+        //!
+        //! This struct provides a file browser thumbnail cache item.
+        struct FileBrowserCacheItem
+        {
+            FileBrowserCacheItem();
+            FileBrowserCacheItem(
+                const djvImageIOInfo &  imageInfo,
+                const glm::ivec2 &      thumbnailSize,
+                djvPixelDataInfo::PROXY thumbnailProxy,
+                const QPixmap &         thumbnail);
 
-    djvImageIOInfo          imageInfo;
-    glm::ivec2              thumbnailSize  = glm::ivec2(0, 0);
-    djvPixelDataInfo::PROXY thumbnailProxy = static_cast<djvPixelDataInfo::PROXY>(0);
-    QPixmap                 thumbnail;
-};
+            djvImageIOInfo          imageInfo;
+            glm::ivec2              thumbnailSize = glm::ivec2(0, 0);
+            djvPixelDataInfo::PROXY thumbnailProxy = static_cast<djvPixelDataInfo::PROXY>(0);
+            QPixmap                 thumbnail;
+        };
 
-//------------------------------------------------------------------------------
-//! \class djvFileBrowserCache
-//!
-//! This class provides a file browser thumbnail cache.
-//------------------------------------------------------------------------------
+        //! \class FileBrowserCache
+        //!
+        //! This class provides a file browser thumbnail cache.
+        class FileBrowserCache :
+            public QCache<djvFileInfo, FileBrowserCacheItem>
+        {};
 
-class djvFileBrowserCache :
-    public QCache<djvFileInfo, djvFileBrowserCacheItem>
-{};
-
+    } // namespace UI
+} // namespace djv

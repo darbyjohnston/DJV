@@ -81,15 +81,15 @@ namespace djv
                 hudBackgroundColorWidget(0)
             {}
 
-            QComboBox *      zoomFactorWidget;
-            djvColorSwatch * backgroundColorWidget;
-            QComboBox *      gridWidget;
-            djvColorSwatch * gridColorWidget;
-            QCheckBox *      hudEnabledWidget;
-            QListWidget *    hudInfoWidget;
-            djvColorSwatch * hudColorWidget;
-            QComboBox *      hudBackgroundWidget;
-            djvColorSwatch * hudBackgroundColorWidget;
+            QComboBox * zoomFactorWidget;
+            UI::ColorSwatch * backgroundColorWidget;
+            QComboBox * gridWidget;
+            UI::ColorSwatch * gridColorWidget;
+            QCheckBox * hudEnabledWidget;
+            QListWidget * hudInfoWidget;
+            UI::ColorSwatch * hudColorWidget;
+            QComboBox * hudBackgroundWidget;
+            UI::ColorSwatch * hudBackgroundColorWidget;
         };
 
         ViewPrefsWidget::ViewPrefsWidget(Context * context) :
@@ -101,8 +101,8 @@ namespace djv
             _p->zoomFactorWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->zoomFactorWidget->addItems(Util::zoomFactorLabels());
 
-            _p->backgroundColorWidget = new djvColorSwatch(context);
-            _p->backgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->backgroundColorWidget = new UI::ColorSwatch(context);
+            _p->backgroundColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->backgroundColorWidget->setColorDialogEnabled(true);
 
             // Create the grid widgets.
@@ -110,8 +110,8 @@ namespace djv
             _p->gridWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->gridWidget->addItems(Util::gridLabels());
 
-            _p->gridColorWidget = new djvColorSwatch(context);
-            _p->gridColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->gridColorWidget = new UI::ColorSwatch(context);
+            _p->gridColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->gridColorWidget->setColorDialogEnabled(true);
 
             // Create the HUD widgets.
@@ -130,22 +130,22 @@ namespace djv
                     Qt::ItemIsEnabled);
             }
 
-            _p->hudColorWidget = new djvColorSwatch(context);
-            _p->hudColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->hudColorWidget = new UI::ColorSwatch(context);
+            _p->hudColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->hudColorWidget->setColorDialogEnabled(true);
 
             _p->hudBackgroundWidget = new QComboBox;
             _p->hudBackgroundWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->hudBackgroundWidget->addItems(Util::hudBackgroundLabels());
 
-            _p->hudBackgroundColorWidget = new djvColorSwatch(context);
-            _p->hudBackgroundColorWidget->setSwatchSize(djvColorSwatch::SWATCH_SMALL);
+            _p->hudBackgroundColorWidget = new UI::ColorSwatch(context);
+            _p->hudBackgroundColorWidget->setSwatchSize(UI::ColorSwatch::SWATCH_SMALL);
             _p->hudBackgroundColorWidget->setColorDialogEnabled(true);
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
-            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ViewPrefsWidget", "Views"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
@@ -156,7 +156,7 @@ namespace djv
                 _p->backgroundColorWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ViewPrefsWidget", "Grid"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(
@@ -167,7 +167,7 @@ namespace djv
                 _p->gridColorWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ViewPrefsWidget", "HUD (Heads Up Display)"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->hudEnabledWidget);

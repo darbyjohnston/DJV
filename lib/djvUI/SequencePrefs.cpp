@@ -38,38 +38,41 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvSequencePrefs
-//------------------------------------------------------------------------------
-
-djvSequencePrefs::djvSequencePrefs(QObject * parent) :
-    QObject(parent)
+namespace djv
 {
-    //DJV_DEBUG("djvSequencePrefs::djvSequencePrefs");
-    djvPrefs prefs("djvSequencePrefs", djvPrefs::SYSTEM);
-    qint64 maxFrames = djvSequence::maxFrames();
-    if (prefs.get("maxFrames", maxFrames))
+    namespace UI
     {
-        djvSequence::setMaxFrames(maxFrames);
-    }
-}
+        SequencePrefs::SequencePrefs(QObject * parent) :
+            QObject(parent)
+        {
+            //DJV_DEBUG("SequencePrefs::SequencePrefs");
+            Prefs prefs("djv::UI::SequencePrefs", Prefs::SYSTEM);
+            qint64 maxFrames = djvSequence::maxFrames();
+            if (prefs.get("maxFrames", maxFrames))
+            {
+                djvSequence::setMaxFrames(maxFrames);
+            }
+        }
 
-djvSequencePrefs::~djvSequencePrefs()
-{
-    //DJV_DEBUG("djvSequencePrefs::~djvSequencePrefs");
-    djvPrefs prefs("djvSequencePrefs", djvPrefs::SYSTEM);
-    prefs.set("maxFrames", djvSequence::maxFrames());
-}
+        SequencePrefs::~SequencePrefs()
+        {
+            //DJV_DEBUG("SequencePrefs::~SequencePrefs");
+            Prefs prefs("djv::UI::SequencePrefs", Prefs::SYSTEM);
+            prefs.set("maxFrames", djvSequence::maxFrames());
+        }
 
-qint64 djvSequencePrefs::maxFrames() const
-{
-    return djvSequence::maxFrames();
-}
+        qint64 SequencePrefs::maxFrames() const
+        {
+            return djvSequence::maxFrames();
+        }
 
-void djvSequencePrefs::setMaxFrames(qint64 size)
-{
-    if (size == this->maxFrames())
-        return;
-    djvSequence::setMaxFrames(size);
-    Q_EMIT maxFramesChanged(this->maxFrames());
-}
+        void SequencePrefs::setMaxFrames(qint64 size)
+        {
+            if (size == this->maxFrames())
+                return;
+            djvSequence::setMaxFrames(size);
+            Q_EMIT maxFramesChanged(this->maxFrames());
+        }
+
+    } // namespace UI
+} // namespace djv

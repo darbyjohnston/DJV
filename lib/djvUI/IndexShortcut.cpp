@@ -31,31 +31,33 @@
 
 #include <djvUI/IndexShortcut.h>
 
-//------------------------------------------------------------------------------
-// djvIndexShortcut
-//------------------------------------------------------------------------------
-
-djvIndexShortcut::djvIndexShortcut(QWidget * parent) :
-    QShortcut(parent)
-{}
-
-djvIndexShortcut::djvIndexShortcut(
-    const QKeySequence & key,
-    int                  index,
-    QWidget *            parent,
-    const char *         member,
-    const char *         ambiguousMember) :
-    QShortcut(key, parent, member, ambiguousMember),
-    _index(index)
-{}
-
-int djvIndexShortcut::index() const
+namespace djv
 {
-    return _index;
-}
+    namespace UI
+    {
+        IndexShortcut::IndexShortcut(QWidget * parent) :
+            QShortcut(parent)
+        {}
 
-void djvIndexShortcut::setIndex(int index)
-{
-    _index = index;
-}
+        IndexShortcut::IndexShortcut(
+            const QKeySequence & key,
+            int                  index,
+            QWidget *            parent,
+            const char *         member,
+            const char *         ambiguousMember) :
+            QShortcut(key, parent, member, ambiguousMember),
+            _index(index)
+        {}
 
+        int IndexShortcut::index() const
+        {
+            return _index;
+        }
+
+        void IndexShortcut::setIndex(int index)
+        {
+            _index = index;
+        }
+
+    } // namespace UI
+} // namespace djv

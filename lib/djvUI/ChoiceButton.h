@@ -39,61 +39,59 @@
 
 class QActionGroup;
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvChoiceButton
-//!
-//! This class provides a multiple choice button. The choices are defined by
-//! the QActionGroup associated with the button.
-//------------------------------------------------------------------------------
-
-class djvChoiceButton : public djvAbstractToolButton
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvChoiceButton(QWidget * parent = nullptr);
-    explicit djvChoiceButton(QActionGroup *, QWidget * parent = nullptr);
-    
-    virtual ~djvChoiceButton();
-    
-    //! Get the associated action group.
-    QActionGroup * actionGroup() const;
+    namespace UI
+    {
+        //! \class ChoiceButton
+        //!
+        //! This class provides a multiple choice button. The choices are defined by
+        //! the QActionGroup associated with the button.
+        class ChoiceButton : public AbstractToolButton
+        {
+            Q_OBJECT
 
-    //! Get the current index.
-    int currentIndex() const;
-    
-    virtual QSize sizeHint() const;
+        public:
+            explicit ChoiceButton(QWidget * parent = nullptr);
+            explicit ChoiceButton(QActionGroup *, QWidget * parent = nullptr);
 
-public slots:
-    //! Set the action group. The ownership of the action group is not
-    //! transferred to the button.
-    void setActionGroup(QActionGroup *);
+            virtual ~ChoiceButton();
 
-    //! Set the current index.
-    void setCurrentIndex(int);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the current index is changed.
-    void currentIndexChanged(int);
-    
-protected:
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void paintEvent(QPaintEvent *);
+            //! Get the associated action group.
+            QActionGroup * actionGroup() const;
 
-private Q_SLOTS:
-    void actionGroupCallback(QAction *);
-    void clickedCallback();
+            //! Get the current index.
+            int currentIndex() const;
 
-private:    
-    DJV_PRIVATE_COPY(djvChoiceButton);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual QSize sizeHint() const;
 
-//@} // djvUIWidget
+        public slots:
+            //! Set the action group. The ownership of the action group is not
+            //! transferred to the button.
+            void setActionGroup(QActionGroup *);
 
+            //! Set the current index.
+            void setCurrentIndex(int);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the current index is changed.
+            void currentIndexChanged(int);
+
+        protected:
+            virtual void mousePressEvent(QMouseEvent *);
+            virtual void mouseReleaseEvent(QMouseEvent *);
+            virtual void paintEvent(QPaintEvent *);
+
+        private Q_SLOTS:
+            void actionGroupCallback(QAction *);
+            void clickedCallback();
+
+        private:
+            DJV_PRIVATE_COPY(ChoiceButton);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

@@ -41,12 +41,16 @@
 
 #include <memory>
 
-class djvUIContext;
-
 class QAbstractButton;
 
 namespace djv
 {
+    namespace UI
+    {
+        class UIContext;
+    
+    } // namespace UI
+
     namespace ViewLib
     {
         //! \class CacheSizeWidget
@@ -71,7 +75,7 @@ namespace djv
                     NOTIFY cacheSizeChanged)
 
         public:
-            explicit CacheSizeWidget(djvUIContext *, QWidget * parent = nullptr);
+            explicit CacheSizeWidget(UI::UIContext *, QWidget * parent = nullptr);
 
             virtual ~CacheSizeWidget();
 
@@ -136,7 +140,7 @@ namespace djv
                     WRITE    setSpeed)
 
         public:
-            explicit FrameWidget(djvUIContext *, QWidget * parent = nullptr);
+            explicit FrameWidget(UI::UIContext *, QWidget * parent = nullptr);
 
             virtual ~FrameWidget();
 
@@ -232,7 +236,7 @@ namespace djv
                     NOTIFY outPointChanged)
 
         public:
-            explicit FrameSlider(djvUIContext *, QWidget * parent = nullptr);
+            explicit FrameSlider(UI::UIContext *, QWidget * parent = nullptr);
 
             virtual ~FrameSlider();
 
@@ -366,7 +370,7 @@ namespace djv
                     WRITE  setInOutEnabled)
 
         public:
-            explicit FrameDisplay(djvUIContext *, QWidget * parent = nullptr);
+            explicit FrameDisplay(UI::UIContext *, QWidget * parent = nullptr);
 
             virtual ~FrameDisplay();
 
@@ -412,7 +416,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            explicit SpeedButton(djvUIContext *, QWidget * parent = nullptr);
+            explicit SpeedButton(UI::UIContext *, QWidget * parent = nullptr);
 
             virtual ~SpeedButton();
 
@@ -457,7 +461,7 @@ namespace djv
                     WRITE    setDefaultSpeed)
 
         public:
-            explicit SpeedWidget(djvUIContext *, QWidget * parent = nullptr);
+            explicit SpeedWidget(UI::UIContext *, QWidget * parent = nullptr);
 
             virtual ~SpeedWidget();
 

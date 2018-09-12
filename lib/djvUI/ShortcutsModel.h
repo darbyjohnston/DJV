@@ -39,80 +39,78 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvShortcutsModel
-//!
-//! This class provides a model for keyboard shorcuts.
-//------------------------------------------------------------------------------
-
-class djvShortcutsModel : public QAbstractItemModel
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the list of shortcuts.
-    Q_PROPERTY(
-        QVector<djvShortcut> shortcuts
-        READ                 shortcuts
-        WRITE                setShortcuts
-        NOTIFY               shortcutsChanged)
-    
-public:
-    explicit djvShortcutsModel(QObject * parent = nullptr);
+    namespace UI
+    {
+        //! \class ShortcutsModel
+        //!
+        //! This class provides a model for keyboard shorcuts.
+        class ShortcutsModel : public QAbstractItemModel
+        {
+            Q_OBJECT
 
-    virtual ~djvShortcutsModel();
+                //! This property holds the list of shortcuts.
+                Q_PROPERTY(
+                    QVector<Shortcut> shortcuts
+                    READ              shortcuts
+                    WRITE             setShortcuts
+                    NOTIFY            shortcutsChanged)
 
-    //! Get the list of shortcuts.
-    const QVector<djvShortcut> & shortcuts() const;
+        public:
+            explicit ShortcutsModel(QObject * parent = nullptr);
 
-    virtual QModelIndex	index(
-        int                 row,
-        int                 column,
-        const QModelIndex & parent = QModelIndex()) const;
+            virtual ~ShortcutsModel();
 
-    virtual QModelIndex	parent(
-        const QModelIndex & = QModelIndex()) const;
+            //! Get the list of shortcuts.
+            const QVector<Shortcut> & shortcuts() const;
 
-    virtual Qt::ItemFlags flags(const QModelIndex &) const;
+            virtual QModelIndex	index(
+                int                 row,
+                int                 column,
+                const QModelIndex & parent = QModelIndex()) const;
 
-    virtual QVariant data(
-        const QModelIndex & index,
-        int                 role = Qt::DisplayRole) const;
+            virtual QModelIndex	parent(
+                const QModelIndex & = QModelIndex()) const;
 
-    virtual bool setData(
-        const QModelIndex & index,
-        const QVariant &    value,
-        int                 role);
+            virtual Qt::ItemFlags flags(const QModelIndex &) const;
 
-    virtual QVariant headerData(
-        int             section,
-        Qt::Orientation orientation,
-        int             role = Qt::DisplayRole) const;
+            virtual QVariant data(
+                const QModelIndex & index,
+                int                 role = Qt::DisplayRole) const;
 
-    virtual int rowCount(
-        const QModelIndex & parent = QModelIndex()) const;
+            virtual bool setData(
+                const QModelIndex & index,
+                const QVariant &    value,
+                int                 role);
 
-    virtual int columnCount(
-        const QModelIndex & parent = QModelIndex()) const;
+            virtual QVariant headerData(
+                int             section,
+                Qt::Orientation orientation,
+                int             role = Qt::DisplayRole) const;
 
-public Q_SLOTS:
-    //! Set the list of shortcuts.
-    void setShortcuts(const QVector<djvShortcut> &);
+            virtual int rowCount(
+                const QModelIndex & parent = QModelIndex()) const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the list of shortcuts are changed.
-    void shortcutsChanged(const QVector<djvShortcut> &);
+            virtual int columnCount(
+                const QModelIndex & parent = QModelIndex()) const;
 
-private:
-    void collisionsUpdate();
+        public Q_SLOTS:
+            //! Set the list of shortcuts.
+            void setShortcuts(const QVector<djv::UI::Shortcut> &);
 
-    DJV_PRIVATE_COPY(djvShortcutsModel);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when the list of shortcuts are changed.
+            void shortcutsChanged(const QVector<djv::UI::Shortcut> &);
 
-//@} // djvUIMisc
+        private:
+            void collisionsUpdate();
 
+            DJV_PRIVATE_COPY(ShortcutsModel);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

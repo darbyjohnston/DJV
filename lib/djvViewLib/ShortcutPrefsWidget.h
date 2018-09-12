@@ -35,10 +35,14 @@
 
 #include <memory>
 
-struct djvShortcut;
-
 namespace djv
 {
+    namespace UI
+    {
+        struct Shortcut;
+
+    } // namespace UI
+
     namespace ViewLib
     {
         //! \class ShortcutPrefsWidget
@@ -56,7 +60,7 @@ namespace djv
             virtual void resetPreferences();
 
         private Q_SLOTS:
-            void shortcutsCallback(const QVector<djvShortcut> &);
+            void shortcutsCallback(const QVector<djv::UI::Shortcut> &);
 
             void widgetUpdate();
 

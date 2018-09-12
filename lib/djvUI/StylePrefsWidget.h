@@ -39,47 +39,45 @@
 
 class djvColor;
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvStylePrefsWidget
-//!
-//! This class provides a style preferences widget.
-//------------------------------------------------------------------------------
-
-class djvStylePrefsWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
+    namespace UI
+    {
+        //! \class djvStylePrefsWidget
+        //!
+        //! This class provides a style preferences widget.
+        class StylePrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-public:
-    explicit djvStylePrefsWidget(djvUIContext *, QWidget * parent = nullptr);
+        public:
+            explicit StylePrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-    virtual ~djvStylePrefsWidget();
+            virtual ~StylePrefsWidget();
 
-    virtual void resetPreferences();
+            virtual void resetPreferences();
 
-private Q_SLOTS:
-    void colorCallback(int);
-    void colorForegroundCallback(const djvColor &);
-    void colorBackgroundCallback(const djvColor &);
-    void colorBackground2Callback(const djvColor &);
-    void colorButtonCallback(const djvColor &);
-    void colorSelectCallback(const djvColor &);
-    void colorSwatchTransparencyCallback(bool);
-    void sizeCallback(int);
-    void sizeValueCallback(int);
-    void fontNormalCallback(const QFont &);
-    void fontFixedCallback(const QFont &);
+        private Q_SLOTS:
+            void colorCallback(int);
+            void colorForegroundCallback(const djvColor &);
+            void colorBackgroundCallback(const djvColor &);
+            void colorBackground2Callback(const djvColor &);
+            void colorButtonCallback(const djvColor &);
+            void colorSelectCallback(const djvColor &);
+            void colorSwatchTransparencyCallback(bool);
+            void sizeCallback(int);
+            void sizeValueCallback(int);
+            void fontNormalCallback(const QFont &);
+            void fontFixedCallback(const QFont &);
 
-private:
-    void widgetUpdate();
+        private:
+            void widgetUpdate();
 
-    DJV_PRIVATE_COPY(djvStylePrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            DJV_PRIVATE_COPY(StylePrefsWidget);
 
-//@} // djvUIMisc
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
+    } // namespace UI
+} // namespace djv

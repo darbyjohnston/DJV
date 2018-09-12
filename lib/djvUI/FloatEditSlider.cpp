@@ -44,204 +44,203 @@
 #include <QApplication>
 #include <QHBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvFloatEditSlider::Private
-//------------------------------------------------------------------------------
-
-struct djvFloatEditSlider::Private
+namespace djv
 {
-    bool             resetToDefault = true;
-    djvFloatEdit *   edit           = nullptr;
-    djvFloatSlider * slider         = nullptr;
-    djvToolButton *  defaultButton  = nullptr;
-};
+    namespace UI
+    {
+        struct FloatEditSlider::Private
+        {
+            bool resetToDefault = true;
+            FloatEdit * edit = nullptr;
+            FloatSlider * slider = nullptr;
+            ToolButton * defaultButton = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvFloatEditSlider
-//------------------------------------------------------------------------------
+        FloatEditSlider::FloatEditSlider(UIContext * context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->edit = new FloatEdit;
 
-djvFloatEditSlider::djvFloatEditSlider(djvUIContext * context, QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->edit = new djvFloatEdit;
-    
-    _p->slider = new djvFloatSlider;
-    
-    _p->defaultButton = new djvToolButton;
-    _p->defaultButton->setIconSize(QSize(16, 16));
-    _p->defaultButton->setIcon(
-        context->iconLibrary()->icon("djvResetIcon.png"));
-    _p->defaultButton->setToolTip(
-        qApp->translate("djvFloatEditSlider", "Reset the value"));
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(5);
-    layout->setMargin(0);
-    layout->addWidget(_p->edit);
-    layout->addWidget(_p->slider);
-    layout->addWidget(_p->defaultButton);
+            _p->slider = new FloatSlider;
 
-    _p->slider->setRange(0.f, 1.f);
-    
-    _p->defaultButton->hide();
+            _p->defaultButton = new ToolButton;
+            _p->defaultButton->setIconSize(QSize(16, 16));
+            _p->defaultButton->setIcon(
+                context->iconLibrary()->icon("djvResetIcon.png"));
+            _p->defaultButton->setToolTip(
+                qApp->translate("djv::UI::FloatEditSlider", "Reset the value"));
 
-    widgetUpdate();
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(5);
+            layout->setMargin(0);
+            layout->addWidget(_p->edit);
+            layout->addWidget(_p->slider);
+            layout->addWidget(_p->defaultButton);
 
-    connect(
-        _p->edit,
-        SIGNAL(valueChanged(float)),
-        SLOT(valueCallback()));
-    connect(
-        _p->edit,
-        SIGNAL(minChanged(float)),
-        SIGNAL(minChanged(float)));
-    connect(
-        _p->edit,
-        SIGNAL(maxChanged(float)),
-        SIGNAL(maxChanged(float)));
-    connect(
-        _p->edit,
-        SIGNAL(rangeChanged(float, float)),
-        SIGNAL(rangeChanged(float, float)));
-    connect(
-        _p->edit->object(),
-        SIGNAL(defaultValidChanged(bool)),
-        SLOT(widgetUpdate()));
-    connect(
-        _p->edit->object(),
-        SIGNAL(defaultValueChanged(float)),
-        SIGNAL(defaultValueChanged(float)));
-    connect(
-        _p->slider,
-        SIGNAL(valueChanged(float)),
-        SLOT(sliderCallback(float)));
-    connect(
-        _p->defaultButton,
-        SIGNAL(clicked()),
-        SLOT(defaultCallback()));
-}
+            _p->slider->setRange(0.f, 1.f);
 
-djvFloatEditSlider::~djvFloatEditSlider()
-{}
+            _p->defaultButton->hide();
 
-float djvFloatEditSlider::value() const
-{
-    return _p->edit->value();
-}
+            widgetUpdate();
 
-float djvFloatEditSlider::defaultValue() const
-{
-    return _p->edit->object()->defaultValue();
-}
+            connect(
+                _p->edit,
+                SIGNAL(valueChanged(float)),
+                SLOT(valueCallback()));
+            connect(
+                _p->edit,
+                SIGNAL(minChanged(float)),
+                SIGNAL(minChanged(float)));
+            connect(
+                _p->edit,
+                SIGNAL(maxChanged(float)),
+                SIGNAL(maxChanged(float)));
+            connect(
+                _p->edit,
+                SIGNAL(rangeChanged(float, float)),
+                SIGNAL(rangeChanged(float, float)));
+            connect(
+                _p->edit->object(),
+                SIGNAL(defaultValidChanged(bool)),
+                SLOT(widgetUpdate()));
+            connect(
+                _p->edit->object(),
+                SIGNAL(defaultValueChanged(float)),
+                SIGNAL(defaultValueChanged(float)));
+            connect(
+                _p->slider,
+                SIGNAL(valueChanged(float)),
+                SLOT(sliderCallback(float)));
+            connect(
+                _p->defaultButton,
+                SIGNAL(clicked()),
+                SLOT(defaultCallback()));
+        }
 
-bool djvFloatEditSlider::hasResetToDefault() const
-{
-    return _p->resetToDefault;
-}
+        FloatEditSlider::~FloatEditSlider()
+        {}
 
-float djvFloatEditSlider::min() const
-{
-    return _p->edit->min();
-}
+        float FloatEditSlider::value() const
+        {
+            return _p->edit->value();
+        }
 
-float djvFloatEditSlider::max() const
-{
-    return _p->edit->max();
-}
+        float FloatEditSlider::defaultValue() const
+        {
+            return _p->edit->object()->defaultValue();
+        }
 
-float djvFloatEditSlider::smallInc() const
-{
-    return _p->edit->object()->smallInc();
-}
+        bool FloatEditSlider::hasResetToDefault() const
+        {
+            return _p->resetToDefault;
+        }
 
-float djvFloatEditSlider::largeInc() const
-{
-    return _p->edit->object()->largeInc();
-}
+        float FloatEditSlider::min() const
+        {
+            return _p->edit->min();
+        }
 
-djvFloatObject * djvFloatEditSlider::editObject() const
-{
-    return _p->edit->object();
-}
+        float FloatEditSlider::max() const
+        {
+            return _p->edit->max();
+        }
 
-djvFloatObject * djvFloatEditSlider::sliderObject() const
-{
-    return _p->slider->object();
-}
+        float FloatEditSlider::smallInc() const
+        {
+            return _p->edit->object()->smallInc();
+        }
 
-void djvFloatEditSlider::setValue(float value)
-{
-    _p->edit->setValue(value);
-}
+        float FloatEditSlider::largeInc() const
+        {
+            return _p->edit->object()->largeInc();
+        }
 
-void djvFloatEditSlider::setDefaultValue(float value)
-{
-    //DJV_DEBUG("djvFloatEditSlider::setDefaultValue");
-    //DJV_DEBUG_PRINT("in = " << value);
-    _p->edit->object()->setDefaultValue(value);
-}
+        FloatObject * FloatEditSlider::editObject() const
+        {
+            return _p->edit->object();
+        }
 
-void djvFloatEditSlider::setResetToDefault(bool value)
-{
-    if (value == _p->resetToDefault)
-        return;
-    _p->resetToDefault = value;
-    widgetUpdate();
-}
+        FloatObject * FloatEditSlider::sliderObject() const
+        {
+            return _p->slider->object();
+        }
 
-void djvFloatEditSlider::setMin(float value)
-{
-    _p->edit->setMin(value);
-    _p->slider->setMin(value);
-}
+        void FloatEditSlider::setValue(float value)
+        {
+            _p->edit->setValue(value);
+        }
 
-void djvFloatEditSlider::setMax(float value)
-{
-    _p->edit->setMax(value);
-    _p->slider->setMax(value);
-}
+        void FloatEditSlider::setDefaultValue(float value)
+        {
+            //DJV_DEBUG("FloatEditSlider::setDefaultValue");
+            //DJV_DEBUG_PRINT("in = " << value);
+            _p->edit->object()->setDefaultValue(value);
+        }
 
-void djvFloatEditSlider::setRange(float min, float max)
-{
-    _p->edit->setRange(min, max);
-    _p->slider->setRange(min, max);
-}
+        void FloatEditSlider::setResetToDefault(bool value)
+        {
+            if (value == _p->resetToDefault)
+                return;
+            _p->resetToDefault = value;
+            widgetUpdate();
+        }
 
-void djvFloatEditSlider::setInc(float smallInc, float largeInc)
-{
-    _p->edit->object()->setInc(smallInc, largeInc);
-    _p->slider->object()->setInc(smallInc, largeInc);
-}
+        void FloatEditSlider::setMin(float value)
+        {
+            _p->edit->setMin(value);
+            _p->slider->setMin(value);
+        }
 
-void djvFloatEditSlider::valueCallback()
-{
-    widgetUpdate();
-    Q_EMIT valueChanged(_p->edit->value());
-}
+        void FloatEditSlider::setMax(float value)
+        {
+            _p->edit->setMax(value);
+            _p->slider->setMax(value);
+        }
 
-void djvFloatEditSlider::sliderCallback(float value)
-{
-    _p->edit->setValue(value);
-}
+        void FloatEditSlider::setRange(float min, float max)
+        {
+            _p->edit->setRange(min, max);
+            _p->slider->setRange(min, max);
+        }
 
-void djvFloatEditSlider::defaultCallback()
-{
-    _p->edit->setValue(_p->edit->object()->defaultValue());
-}
+        void FloatEditSlider::setInc(float smallInc, float largeInc)
+        {
+            _p->edit->object()->setInc(smallInc, largeInc);
+            _p->slider->object()->setInc(smallInc, largeInc);
+        }
 
-void djvFloatEditSlider::widgetUpdate()
-{
-    //DJV_DEBUG("djvFloatEditSlider::widgetUpdate");
-    //DJV_DEBUG_PRINT("value = " << value());
-    //DJV_DEBUG_PRINT("min = " << min());
-    //DJV_DEBUG_PRINT("max = " << max());
-    //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->edit <<
-        _p->slider <<
-        _p->defaultButton);
-    _p->slider->setValue(_p->edit->value());
-    _p->defaultButton->setVisible(_p->resetToDefault);
-    _p->defaultButton->setDisabled(_p->edit->object()->isDefaultValid());
-}
+        void FloatEditSlider::valueCallback()
+        {
+            widgetUpdate();
+            Q_EMIT valueChanged(_p->edit->value());
+        }
+
+        void FloatEditSlider::sliderCallback(float value)
+        {
+            _p->edit->setValue(value);
+        }
+
+        void FloatEditSlider::defaultCallback()
+        {
+            _p->edit->setValue(_p->edit->object()->defaultValue());
+        }
+
+        void FloatEditSlider::widgetUpdate()
+        {
+            //DJV_DEBUG("FloatEditSlider::widgetUpdate");
+            //DJV_DEBUG_PRINT("value = " << value());
+            //DJV_DEBUG_PRINT("min = " << min());
+            //DJV_DEBUG_PRINT("max = " << max());
+            //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->edit <<
+                _p->slider <<
+                _p->defaultButton);
+            _p->slider->setValue(_p->edit->value());
+            _p->defaultButton->setVisible(_p->resetToDefault);
+            _p->defaultButton->setDisabled(_p->edit->object()->isDefaultValid());
+        }
+
+    } // namespace UI
+} // namespace djv

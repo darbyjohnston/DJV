@@ -135,7 +135,7 @@ namespace djv
 
         void ImageActions::update()
         {
-            const QVector<djvShortcut> & shortcuts =
+            const QVector<UI::Shortcut> & shortcuts =
                 context()->shortcutPrefs()->shortcuts();
 
             // Update the actions.

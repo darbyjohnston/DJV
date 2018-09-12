@@ -44,111 +44,111 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvLUTWidget
-//------------------------------------------------------------------------------
-
-djvLUTWidget::djvLUTWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _typeWidget(0)
+namespace djv
 {
-    // Create the widgets.
-    _typeWidget = new QComboBox;
-    _typeWidget->addItems(djvLUT::typeLabels());
-    _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvLUTWidget", "Pixel Type"),
-        qApp->translate("djvLUTWidget", "Set the pixel type used when loading LUTs."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvLUTWidget", "Pixel type:"),
-        _typeWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    QStringList tmp;
-    tmp = plugin->option(plugin->options()[djvLUT::TYPE_OPTION]);
-    tmp >> _options.type;
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _typeWidget,
-        SIGNAL(activated(int)),
-        SLOT(typeCallback(int)));
-}
-
-djvLUTWidget::~djvLUTWidget()
-{}
-
-void djvLUTWidget::resetPreferences()
-{
-    _options = djvLUT::Options();
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvLUTWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(
-            plugin()->options()[djvLUT::TYPE_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.type;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+        LUTWidget::LUTWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _typeWidget(0)
+        {
+            // Create the widgets.
+            _typeWidget = new QComboBox;
+            _typeWidget->addItems(djvLUT::typeLabels());
+            _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvLUTWidget::typeCallback(int in)
-{
-    _options.type = static_cast<djvLUT::TYPE>(in);
-    pluginUpdate();
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvLUTWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.type;
-    plugin()->setOption(plugin()->options()[djvLUT::TYPE_OPTION], tmp);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::LUTWidget", "Pixel Type"),
+                qApp->translate("djv::UI::LUTWidget", "Set the pixel type used when loading LUTs."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::LUTWidget", "Pixel type:"),
+                _typeWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvLUTWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _typeWidget);
-    _typeWidget->setCurrentIndex(_options.type);
-}
+            layout->addStretch();
 
-//------------------------------------------------------------------------------
-// djvLUTWidgetPlugin
-//------------------------------------------------------------------------------
+            // Initialize.
+            QStringList tmp;
+            tmp = plugin->option(plugin->options()[djvLUT::TYPE_OPTION]);
+            tmp >> _options.type;
+            widgetUpdate();
 
-djvLUTWidgetPlugin::djvLUTWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _typeWidget,
+                SIGNAL(activated(int)),
+                SLOT(typeCallback(int)));
+        }
 
-djvImageIOWidget * djvLUTWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvLUTWidget(plugin, uiContext());
-}
+        LUTWidget::~LUTWidget()
+        {}
 
-QString djvLUTWidgetPlugin::pluginName() const
-{
-    return djvLUT::staticName;
-}
+        void LUTWidget::resetPreferences()
+        {
+            _options = djvLUT::Options();
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void LUTWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(
+                    plugin()->options()[djvLUT::TYPE_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.type;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void LUTWidget::typeCallback(int in)
+        {
+            _options.type = static_cast<djvLUT::TYPE>(in);
+            pluginUpdate();
+        }
+
+        void LUTWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.type;
+            plugin()->setOption(plugin()->options()[djvLUT::TYPE_OPTION], tmp);
+        }
+
+        void LUTWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _typeWidget);
+            _typeWidget->setCurrentIndex(_options.type);
+        }
+
+        LUTWidgetPlugin::LUTWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * LUTWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new LUTWidget(plugin, uiContext());
+        }
+
+        QString LUTWidgetPlugin::pluginName() const
+        {
+            return djvLUT::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

@@ -31,32 +31,34 @@
 
 #include <djvUI/AbstractPrefsWidget.h>
 
-//------------------------------------------------------------------------------
-// djvAbstractPrefsWidget
-//------------------------------------------------------------------------------
-
-djvAbstractPrefsWidget::djvAbstractPrefsWidget(
-    const QString & name,
-    djvUIContext * context,
-    QWidget *       parent) :
-    QWidget(parent),
-    _name   (name),
-    _context(context)
-{}
-
-djvAbstractPrefsWidget::~djvAbstractPrefsWidget()
-{}
-    
-const QString & djvAbstractPrefsWidget::name() const
+namespace djv
 {
-    return _name;
-}
+    namespace UI
+    {
+        AbstractPrefsWidget::AbstractPrefsWidget(
+            const QString & name,
+            UIContext * context,
+            QWidget * parent) :
+            QWidget(parent),
+            _name(name),
+            _context(context)
+        {}
 
-void djvAbstractPrefsWidget::resetPreferences()
-{}
+        AbstractPrefsWidget::~AbstractPrefsWidget()
+        {}
 
-djvUIContext * djvAbstractPrefsWidget::context() const
-{
-    return _context;
-}
+        const QString & AbstractPrefsWidget::name() const
+        {
+            return _name;
+        }
 
+        void AbstractPrefsWidget::resetPreferences()
+        {}
+
+        UIContext * AbstractPrefsWidget::context() const
+        {
+            return _context;
+        }
+
+    } // namespace UI
+} // namespace 

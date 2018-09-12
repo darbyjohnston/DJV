@@ -37,81 +37,79 @@
 
 #include <QWidget>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvColorSwatch
-//!
-//! This class provides a basic color swatch widget.
-//------------------------------------------------------------------------------
-
-class djvColorSwatch : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(SWATCH_SIZE)
-    
-    //! This property holds the color.    
-    Q_PROPERTY(
-        djvColor color
-        READ     color
-        WRITE    setColor
-        NOTIFY   colorChanged)
-    
-public:
-    explicit djvColorSwatch(djvUIContext *, QWidget * parent = nullptr);
-
-    //! Get the color.
-    const djvColor & color() const;
-    
-    //! This enumeration provides the swatch size.
-    enum SWATCH_SIZE
+    namespace UI
     {
-        SWATCH_SMALL,
-        SWATCH_MEDIUM,
-        SWATCH_LARGE,
-    };
-    
-    //! Get the size.    
-    SWATCH_SIZE swatchSize() const;
-    
-    //! Set the swatch size.
-    void setSwatchSize(SWATCH_SIZE);
-    
-    //! Get whether the color dialog is enabled.
-    bool isColorDialogEnabled() const;
-    
-    //! Set whether the color dialog is enabled.
-    void setColorDialogEnabled(bool);
-    
-    virtual QSize sizeHint() const;
+        class UIContext;
 
-public Q_SLOTS:
-    //! Set the color.
-    void setColor(const djvColor &);
+        //! \class ColorSwatch
+        //!
+        //! This class provides a basic color swatch widget.
+        class ColorSwatch : public QWidget
+        {
+            Q_OBJECT
+            Q_ENUMS(SWATCH_SIZE)
 
-Q_SIGNALS:
-    //! This signal is emitted when the color is changed.
-    void colorChanged(const djvColor &);
+            //! This property holds the color.    
+            Q_PROPERTY(
+                djvColor color
+                READ     color
+                WRITE    setColor
+                NOTIFY   colorChanged)
 
-    //! This signal is emitted when the swatch is clicked.
-    void clicked();
-    
-protected:
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void paintEvent(QPaintEvent *);
+        public:
+            explicit ColorSwatch(UIContext *, QWidget * parent = nullptr);
 
-private Q_SLOTS:
-    void sizeMetricsCallback();
+            //! Get the color.
+            const djvColor & color() const;
 
-private:
-    djvColor        _color;
-    SWATCH_SIZE     _swatchSize         = SWATCH_MEDIUM;
-    bool            _colorDialogEnabled = false;
-    djvUIContext * _context            = nullptr;
-};
+            //! This enumeration provides the swatch size.
+            enum SWATCH_SIZE
+            {
+                SWATCH_SMALL,
+                SWATCH_MEDIUM,
+                SWATCH_LARGE,
+            };
 
-//@} // djvUIWidget
+            //! Get the size.    
+            SWATCH_SIZE swatchSize() const;
 
+            //! Set the swatch size.
+            void setSwatchSize(SWATCH_SIZE);
+
+            //! Get whether the color dialog is enabled.
+            bool isColorDialogEnabled() const;
+
+            //! Set whether the color dialog is enabled.
+            void setColorDialogEnabled(bool);
+
+            virtual QSize sizeHint() const;
+
+        public Q_SLOTS:
+            //! Set the color.
+            void setColor(const djvColor &);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the color is changed.
+            void colorChanged(const djvColor &);
+
+            //! This signal is emitted when the swatch is clicked.
+            void clicked();
+
+        protected:
+            virtual void mousePressEvent(QMouseEvent *);
+            virtual void paintEvent(QPaintEvent *);
+
+        private Q_SLOTS:
+            void sizeMetricsCallback();
+
+        private:
+            djvColor _color;
+            SWATCH_SIZE _swatchSize = SWATCH_MEDIUM;
+            bool _colorDialogEnabled = false;
+            UIContext * _context = nullptr;
+        };
+
+    } // namespace UI
+} // namespace djv

@@ -39,82 +39,80 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-//------------------------------------------------------------------------------
-// djvFileEdit::Private
-//------------------------------------------------------------------------------
-
-struct djvFileEdit::Private
+namespace djv
 {
-    Private(djvUIContext * context) :
-        context(context)
-    {}
-    
-    djvFileInfo     fileInfo;
-    QLineEdit *     edit     = nullptr;
-    djvUIContext * context  = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvFileEdit
-//------------------------------------------------------------------------------
-
-djvFileEdit::djvFileEdit(djvUIContext * context, QWidget * parent) :
-    QWidget(parent),
-    _p(new Private(context))
-{
-    // Create the widgets.
-    _p->edit = new QLineEdit;
-
-    QPushButton * button = new QPushButton(
-        qApp->translate("djvFileEdit", "&Browse"));
-
-    // Layout the widgets.
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(_p->edit, 1);
-    layout->addWidget(button);
-
-    // Initialize.
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(_p->edit, SIGNAL(editingFinished()), SLOT(editCallback()));
-    connect(button, SIGNAL(clicked()), SLOT(buttonCallback()));
-}
-
-djvFileEdit::~djvFileEdit()
-{}
-
-const djvFileInfo & djvFileEdit::fileInfo() const
-{
-    return _p->fileInfo;
-}
-
-void djvFileEdit::setFileInfo(const djvFileInfo & file)
-{
-    if (file == _p->fileInfo)
-        return;
-    _p->fileInfo = file;
-    widgetUpdate();
-    Q_EMIT fileInfoChanged(_p->fileInfo);
-}
-
-void djvFileEdit::editCallback()
-{
-    setFileInfo(_p->edit->text());
-}
-
-void djvFileEdit::buttonCallback()
-{
-    djvFileBrowser * fileBrowser = _p->context->fileBrowser();
-    if (QDialog::Accepted == fileBrowser->exec())
+    namespace UI
     {
-        setFileInfo(fileBrowser->fileInfo());
-    }
-}
+        struct FileEdit::Private
+        {
+            Private(UIContext * context) :
+                context(context)
+            {}
 
-void djvFileEdit::widgetUpdate()
-{
-    _p->edit->setText(_p->fileInfo);
-}
+            djvFileInfo fileInfo;
+            QLineEdit * edit = nullptr;
+            UIContext * context = nullptr;
+        };
 
+        FileEdit::FileEdit(UIContext * context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private(context))
+        {
+            // Create the widgets.
+            _p->edit = new QLineEdit;
+
+            QPushButton * button = new QPushButton(
+                qApp->translate("djv::UI::FileEdit", "&Browse"));
+
+            // Layout the widgets.
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->addWidget(_p->edit, 1);
+            layout->addWidget(button);
+
+            // Initialize.
+            widgetUpdate();
+
+            // Setup the callbacks.
+            connect(_p->edit, SIGNAL(editingFinished()), SLOT(editCallback()));
+            connect(button, SIGNAL(clicked()), SLOT(buttonCallback()));
+        }
+
+        FileEdit::~FileEdit()
+        {}
+
+        const djvFileInfo & FileEdit::fileInfo() const
+        {
+            return _p->fileInfo;
+        }
+
+        void FileEdit::setFileInfo(const djvFileInfo & file)
+        {
+            if (file == _p->fileInfo)
+                return;
+            _p->fileInfo = file;
+            widgetUpdate();
+            Q_EMIT fileInfoChanged(_p->fileInfo);
+        }
+
+        void FileEdit::editCallback()
+        {
+            setFileInfo(_p->edit->text());
+        }
+
+        void FileEdit::buttonCallback()
+        {
+            FileBrowser * fileBrowser = _p->context->fileBrowser();
+            if (QDialog::Accepted == fileBrowser->exec())
+            {
+                setFileInfo(fileBrowser->fileInfo());
+            }
+        }
+
+        void FileEdit::widgetUpdate()
+        {
+            _p->edit->setText(_p->fileInfo);
+        }
+
+    } // namespace UI
+} // namespace djv

@@ -35,213 +35,212 @@
 
 #include <QObject>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIntObject
-//!
-//! This class provides the base functionality for integer widgets.
-//------------------------------------------------------------------------------
-
-class djvIntObject : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        int    value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-    //! This property holds the default value.
-    Q_PROPERTY(
-        int    defaultValue
-        READ   defaultValue
-        WRITE  setDefaultValue
-        NOTIFY defaultValueChanged)
-    
-    //! This property holds whether the default value is valid.
-    Q_PROPERTY(
-        bool   defaultValid
-        READ   isDefaultValid
-        NOTIFY defaultValidChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        int    min
-        READ   min
-        WRITE  setMin
-        NOTIFY minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        int    max
-        READ   max
-        WRITE  setMax
-        NOTIFY maxChanged)
-    
-    //! This property holds the small increment.
-    Q_PROPERTY(
-        int    smallInc
-        READ   smallInc
-        WRITE  setSmallInc
-        NOTIFY smallIncChanged)
-    
-    //! This property holds the large increment.
-    Q_PROPERTY(
-        int    largeInc
-        READ   largeInc
-        WRITE  setLargeInc
-        NOTIFY largeIncChanged)
-    
-    //! This property holds whether clamping is enabled.
-    Q_PROPERTY(
-        bool  clamp
-        READ  hasClamp
-        WRITE setClamp)
-    
-    //! This property holds the size string.
-    Q_PROPERTY(
-        QString sizeString
-        READ    sizeString
-        WRITE   setSizeString
-        NOTIFY  sizeStringChanged)
+    namespace UI
+    {
+        //! \class IntObject
+        //!
+        //! This class provides the base functionality for integer widgets.
+        class IntObject : public QObject
+        {
+            Q_OBJECT
 
-public:
+                //! This property holds the value.
+                Q_PROPERTY(
+                    int    value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! The minimum integer value.
-    static const int intMin;
+                //! This property holds the default value.
+                Q_PROPERTY(
+                    int    defaultValue
+                    READ   defaultValue
+                    WRITE  setDefaultValue
+                    NOTIFY defaultValueChanged)
 
-    //! The maximum integer value.
-    static const int intMax;
+                //! This property holds whether the default value is valid.
+                Q_PROPERTY(
+                    bool   defaultValid
+                    READ   isDefaultValid
+                    NOTIFY defaultValidChanged)
 
-    explicit djvIntObject(QObject * parent = nullptr);
-    
-    virtual ~djvIntObject();
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    int    min
+                    READ   min
+                    WRITE  setMin
+                    NOTIFY minChanged)
 
-    //! Get the value.
-    int value() const;
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    int    max
+                    READ   max
+                    WRITE  setMax
+                    NOTIFY maxChanged)
 
-    //! Get the default value.
-    int defaultValue() const;
+                //! This property holds the small increment.
+                Q_PROPERTY(
+                    int    smallInc
+                    READ   smallInc
+                    WRITE  setSmallInc
+                    NOTIFY smallIncChanged)
 
-    //! Get whether the default value is valid.
-    bool isDefaultValid() const;
+                //! This property holds the large increment.
+                Q_PROPERTY(
+                    int    largeInc
+                    READ   largeInc
+                    WRITE  setLargeInc
+                    NOTIFY largeIncChanged)
 
-    //! Get the minimum value.
-    int min() const;
+                //! This property holds whether clamping is enabled.
+                Q_PROPERTY(
+                    bool  clamp
+                    READ  hasClamp
+                    WRITE setClamp)
 
-    //! Get the maximum value.
-    int max() const;
+                //! This property holds the size string.
+                Q_PROPERTY(
+                    QString sizeString
+                    READ    sizeString
+                    WRITE   setSizeString
+                    NOTIFY  sizeStringChanged)
 
-    //! Get the small increment.
-    int smallInc() const;
+        public:
 
-    //! Get the large increment.
-    int largeInc() const;
+            //! The minimum integer value.
+            static const int intMin;
 
-    //! Get whether clamping is enabled.
-    bool hasClamp() const;
+            //! The maximum integer value.
+            static const int intMax;
 
-    //! Get the size string.
-    const QString & sizeString() const;
+            explicit IntObject(QObject * parent = nullptr);
 
-public Q_SLOTS:
+            virtual ~IntObject();
 
-    //! Set the value.
-    void setValue(int);
+            //! Get the value.
+            int value() const;
 
-    //! Set the default value.
-    void setDefaultValue(int);
+            //! Get the default value.
+            int defaultValue() const;
 
-    //! Set the minimum value.
-    void setMin(int);
+            //! Get whether the default value is valid.
+            bool isDefaultValid() const;
 
-    //! Set the maximum value.
-    void setMax(int);
+            //! Get the minimum value.
+            int min() const;
 
-    //! Set the value range.
-    void setRange(int min, int max);
+            //! Get the maximum value.
+            int max() const;
 
-    //! Set the value to the minimum.
-    void setToMin();
+            //! Get the small increment.
+            int smallInc() const;
 
-    //! Set the value to the maximum.
-    void setToMax();
+            //! Get the large increment.
+            int largeInc() const;
 
-    //! Set the small increment.
-    void setSmallInc(int);
+            //! Get whether clamping is enabled.
+            bool hasClamp() const;
 
-    //! Set the large increment.
-    void setLargeInc(int);
+            //! Get the size string.
+            const QString & sizeString() const;
 
-    //! Set the value increment.
-    void setInc(int smallInc, int largeInc);
+        public Q_SLOTS:
 
-    //! Increment the value.
-    void smallIncAction();
+            //! Set the value.
+            void setValue(int);
 
-    //! Increment the value.
-    void largeIncAction();
+            //! Set the default value.
+            void setDefaultValue(int);
 
-    //! Decrement the value.
-    void smallDecAction();
+            //! Set the minimum value.
+            void setMin(int);
 
-    //! Decrement the value.
-    void largeDecAction();
+            //! Set the maximum value.
+            void setMax(int);
 
-    //! Set whether clamping is enabled.
-    void setClamp(bool);
+            //! Set the value range.
+            void setRange(int min, int max);
 
-    //! Set the size string.
-    void setSizeString(const QString &);
+            //! Set the value to the minimum.
+            void setToMin();
 
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(int);
+            //! Set the value to the maximum.
+            void setToMax();
 
-    //! This signal is emitted when the default value is changed.
-    void defaultValueChanged(int);
+            //! Set the small increment.
+            void setSmallInc(int);
 
-    //! This signal is emitted when the default value is valid is changed.
-    void defaultValidChanged(bool);
+            //! Set the large increment.
+            void setLargeInc(int);
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(int);
+            //! Set the value increment.
+            void setInc(int smallInc, int largeInc);
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(int);
+            //! Increment the value.
+            void smallIncAction();
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(int min, int max);
+            //! Increment the value.
+            void largeIncAction();
 
-    //! This signal is emitted when the small increment is changed.
-    void smallIncChanged(int);
+            //! Decrement the value.
+            void smallDecAction();
 
-    //! This signal is emitted when the large increment is changed.
-    void largeIncChanged(int);
+            //! Decrement the value.
+            void largeDecAction();
 
-    //! This signal is emitted when the increment is changed.
-    void incChanged(int small, int large);
+            //! Set whether clamping is enabled.
+            void setClamp(bool);
 
-    //! This signal is emitted when the size string is changed.
-    void sizeStringChanged(const QString &);
+            //! Set the size string.
+            void setSizeString(const QString &);
 
-private:
-    void defaultValidUpdate();
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(int);
 
-    int     _value          = 0;
-    bool    _isDefaultValid = false;
-    int     _defaultValue   = 0;
-    int     _min            = 0;
-    int     _max            = 0;
-    bool    _clamp          = true;
-    int     _smallInc       = 0;
-    int     _largeInc       = 0;
-    QString _sizeString     = "00000";
-};
+            //! This signal is emitted when the default value is changed.
+            void defaultValueChanged(int);
 
-//@} // djvUIWidget
+            //! This signal is emitted when the default value is valid is changed.
+            void defaultValidChanged(bool);
+
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(int);
+
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(int);
+
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(int min, int max);
+
+            //! This signal is emitted when the small increment is changed.
+            void smallIncChanged(int);
+
+            //! This signal is emitted when the large increment is changed.
+            void largeIncChanged(int);
+
+            //! This signal is emitted when the increment is changed.
+            void incChanged(int small, int large);
+
+            //! This signal is emitted when the size string is changed.
+            void sizeStringChanged(const QString &);
+
+        private:
+            void defaultValidUpdate();
+
+            int     _value = 0;
+            bool    _isDefaultValid = false;
+            int     _defaultValue = 0;
+            int     _min = 0;
+            int     _max = 0;
+            bool    _clamp = true;
+            int     _smallInc = 0;
+            int     _largeInc = 0;
+            QString _sizeString = "00000";
+        };
+
+    } // namespace UI
+} // namespace djv
 

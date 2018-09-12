@@ -39,62 +39,60 @@
 
 #include <memory>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFloatDisplay
-//!
-//! This class provides a widget for displaying a floating point number.
-//------------------------------------------------------------------------------
-
-class djvFloatDisplay : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        float  value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-public:
-    explicit djvFloatDisplay(QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class FloatDisplay
+        //!
+        //! This class provides a widget for displaying a floating point number.
+        class FloatDisplay : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvFloatDisplay();
+                //! This property holds the value.
+                Q_PROPERTY(
+                    float  value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! Get the value.
-    float value() const;
-    
-    //! Get the minimum value.
-    float min() const;
-    
-    //! Get the maximum value.
-    float max() const;
+        public:
+            explicit FloatDisplay(QWidget * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(float);
+            virtual ~FloatDisplay();
 
-    //! Set the value range.
-    void setRange(float min, float max);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(float);
+            //! Get the value.
+            float value() const;
 
-    //! This signal is emitted when the range is changed.
-    void rangeChanged(float min, float max);
-    
-private:
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvFloatDisplay);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the minimum value.
+            float min() const;
 
-//@} // djvUIWidget
+            //! Get the maximum value.
+            float max() const;
 
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(float);
+
+            //! Set the value range.
+            void setRange(float min, float max);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(float);
+
+            //! This signal is emitted when the range is changed.
+            void rangeChanged(float min, float max);
+
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(FloatDisplay);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

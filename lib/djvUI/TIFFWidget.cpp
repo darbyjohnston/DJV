@@ -44,117 +44,116 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvTIFFWidget
-//------------------------------------------------------------------------------
-
-djvTIFFWidget::djvTIFFWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _compressionWidget(0)
+namespace djv
 {
-    //DJV_DEBUG("djvTIFFWidget::djvTIFFWidget");
-
-    // Create the widgets.
-    _compressionWidget = new QComboBox;
-    _compressionWidget->addItems(djvTIFF::compressionLabels());
-    _compressionWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvTIFFWidget", "Compression"),
-        qApp->translate("djvTIFFWidget", "Set the file compression used when saving TIFF images."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvTIFFWidget", "Compression:"),
-        _compressionWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    QStringList tmp;
-    tmp = plugin->option(
-        plugin->options()[djvTIFF::COMPRESSION_OPTION]);
-    tmp >> _options.compression;
-
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _compressionWidget,
-        SIGNAL(activated(int)),
-        SLOT(compressionCallback(int)));
-}
-
-djvTIFFWidget::~djvTIFFWidget()
-{}
-
-void djvTIFFWidget::resetPreferences()
-{
-    _options = djvTIFF::Options();
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvTIFFWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvTIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.compression;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+        TIFFWidget::TIFFWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _compressionWidget(0)
+        {
+            //DJV_DEBUG("TIFFWidget::TIFFWidget");
 
-void djvTIFFWidget::compressionCallback(int in)
-{
-    _options.compression = static_cast<djvTIFF::COMPRESSION>(in);
-    pluginUpdate();
-}
+            // Create the widgets.
+            _compressionWidget = new QComboBox;
+            _compressionWidget->addItems(djvTIFF::compressionLabels());
+            _compressionWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvTIFFWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.compression;
-    plugin()->setOption(
-        plugin()->options()[djvTIFF::COMPRESSION_OPTION], tmp);
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvTIFFWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_compressionWidget);
-    _compressionWidget->setCurrentIndex(_options.compression);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::TIFFWidget", "Compression"),
+                qApp->translate("djv::UI::TIFFWidget", "Set the file compression used when saving TIFF images."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::TIFFWidget", "Compression:"),
+                _compressionWidget);
+            layout->addWidget(prefsGroupBox);
 
-//------------------------------------------------------------------------------
-// djvTIFFWidgetPlugin
-//------------------------------------------------------------------------------
+            layout->addStretch();
 
-djvTIFFWidgetPlugin::djvTIFFWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            // Initialize.
+            QStringList tmp;
+            tmp = plugin->option(
+                plugin->options()[djvTIFF::COMPRESSION_OPTION]);
+            tmp >> _options.compression;
 
-djvImageIOWidget * djvTIFFWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvTIFFWidget(plugin, uiContext());
-}
+            widgetUpdate();
 
-QString djvTIFFWidgetPlugin::pluginName() const
-{
-    return djvTIFF::staticName;
-}
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _compressionWidget,
+                SIGNAL(activated(int)),
+                SLOT(compressionCallback(int)));
+        }
 
+        TIFFWidget::~TIFFWidget()
+        {}
+
+        void TIFFWidget::resetPreferences()
+        {
+            _options = djvTIFF::Options();
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void TIFFWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    djvTIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.compression;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void TIFFWidget::compressionCallback(int in)
+        {
+            _options.compression = static_cast<djvTIFF::COMPRESSION>(in);
+            pluginUpdate();
+        }
+
+        void TIFFWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.compression;
+            plugin()->setOption(
+                plugin()->options()[djvTIFF::COMPRESSION_OPTION], tmp);
+        }
+
+        void TIFFWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_compressionWidget);
+            _compressionWidget->setCurrentIndex(_options.compression);
+        }
+
+        TIFFWidgetPlugin::TIFFWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * TIFFWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new TIFFWidget(plugin, uiContext());
+        }
+
+        QString TIFFWidgetPlugin::pluginName() const
+        {
+            return djvTIFF::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

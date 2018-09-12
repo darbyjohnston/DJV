@@ -42,75 +42,74 @@
 class QString;
 class QStringList;
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPrefs
-//!
-//! This class provides preferences.
-//------------------------------------------------------------------------------
-
-class djvPrefs
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(SCOPE)
-    
-public:
-
-    //! This enumeration provides the preferences scope.    
-    enum SCOPE
+    namespace UI
     {
-        USER,
-        SYSTEM
-    };
+        //! \class djvPrefs
+        //!
+        //! This class provides preferences.
+        class Prefs
+        {
+            Q_GADGET
+            Q_ENUMS(SCOPE)
 
-    djvPrefs(const QString & group, SCOPE = USER);
+        public:
 
-    ~djvPrefs();
+            //! This enumeration provides the preferences scope.    
+            enum SCOPE
+            {
+                USER,
+                SYSTEM
+            };
 
-    //! Get the preferences scope.
-    SCOPE scope() const;
+            Prefs(const QString & group, SCOPE = USER);
 
-    //! Get a preference.
-    template<typename T>
-    inline bool get(const QString &, T &) const;
+            ~Prefs();
 
-    //! Set a preference.
-    template<typename T>
-    inline void set(const QString &, const T &);
+            //! Get the preferences scope.
+            SCOPE scope() const;
 
-    //! Remove a preference.
-    void remove(const QString &);
+            //! Get a preference.
+            template<typename T>
+            inline bool get(const QString &, T &) const;
 
-    //! Check whether a preference exists.
-    bool contains(const QString &) const;
+            //! Set a preference.
+            template<typename T>
+            inline void set(const QString &, const T &);
 
-    //! Get the list of preferences.
-    QStringList list() const;
+            //! Remove a preference.
+            void remove(const QString &);
 
-    //! Get the preferences file name.
-    QString fileName() const;
+            //! Check whether a preference exists.
+            bool contains(const QString &) const;
 
-    //! Get whether preferences are in reset mode. Reset mode disables the
-    //! reading of preferences.
-    static bool hasReset();
+            //! Get the list of preferences.
+            QStringList list() const;
 
-    //! Set whether preferences are in reset mode. Reset mode disables the
-    //! reading of preferences.
-    static void setReset(bool);
+            //! Get the preferences file name.
+            QString fileName() const;
 
-private:
-    bool _get(const QString &, QStringList &) const;
-    void _set(const QString &, const QStringList &);
-    
-    DJV_PRIVATE_COPY(djvPrefs);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get whether preferences are in reset mode. Reset mode disables the
+            //! reading of preferences.
+            static bool hasReset();
 
-//@} // djvUIMisc
+            //! Set whether preferences are in reset mode. Reset mode disables the
+            //! reading of preferences.
+            static void setReset(bool);
+
+        private:
+            bool _get(const QString &, QStringList &) const;
+            void _set(const QString &, const QStringList &);
+
+            DJV_PRIVATE_COPY(Prefs);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
 
 #include <djvUI/PrefsInline.h>
 

@@ -40,134 +40,130 @@
 
 #include <memory>
 
-class djvFileBrowserModel;
-class djvUIContext;
-
 class QModelIndex;
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileBrowser
-//!
-//! This class provides a file browser dialog. The file browser dialog is used
-//! to load or save files.
-//------------------------------------------------------------------------------
-
-class djvFileBrowser : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the file information.    
-    Q_PROPERTY(
-        djvFileInfo fileInfo
-        READ        fileInfo
-        WRITE       setFileInfo
-        NOTIFY      fileInfoChanged)
-    
-    //! This property holds whether the file browser is pinnable.
-    Q_PROPERTY(
-        bool   pinnable
-        READ   isPinnable
-        WRITE  setPinnable
-        NOTIFY pinnableChanged)
-    
-    //! This property holds whether the file browser is currently pinned.
-    Q_PROPERTY(
-        bool   pinned
-        READ   isPinned
-        WRITE  setPinned
-        NOTIFY pinnedChanged)
+    namespace UI
+    {
+        class FileBrowserModel;
+        class UIContext;
 
-public:
-    explicit djvFileBrowser(djvUIContext *, QWidget * parent = nullptr);
-    
-    virtual ~djvFileBrowser();
+        //! \class FileBrowser
+        //!
+        //! This class provides a file browser dialog. The file browser dialog is used
+        //! to load or save files.
+        class FileBrowser : public QDialog
+        {
+            Q_OBJECT
 
-    //! Get the file information.
-    const djvFileInfo & fileInfo() const;
-    
-    //! Get whether the file browser is pinnable.
-    bool isPinnable() const;
-    
-    //! Get whether the file browser is currently pinned.
-    bool isPinned() const;
+            //! This property holds the file information.    
+            Q_PROPERTY(
+                djvFileInfo fileInfo
+                READ        fileInfo
+                WRITE       setFileInfo
+                NOTIFY      fileInfoChanged)
 
-public Q_SLOTS:
+            //! This property holds whether the file browser is pinnable.
+            Q_PROPERTY(
+                bool   pinnable
+                READ   isPinnable
+                WRITE  setPinnable
+                NOTIFY pinnableChanged)
 
-    //! Set the file information.
-    void setFileInfo(const djvFileInfo &);
-    
-    //! Set whether the file browser is pinnable.
-    void setPinnable(bool);
-    
-    //! Set whether the file browser is currently pinned.
-    void setPinned(bool);
+            //! This property holds whether the file browser is currently pinned.
+            Q_PROPERTY(
+                bool   pinned
+                READ   isPinned
+                WRITE  setPinned
+                NOTIFY pinnedChanged)
 
-Q_SIGNALS:
+        public:
+            explicit FileBrowser(UIContext *, QWidget * parent = nullptr);
 
-    //! This signal is emitted when the file information is changed.
-    void fileInfoChanged(const djvFileInfo &);
+            virtual ~FileBrowser();
 
-    //! This signal is emitted when the pinnable state is changed.
-    void pinnableChanged(bool);
-    
-    //! This signal is emitted when the pinned state is changed.
-    void pinnedChanged(bool);
-    
-protected:
-    virtual void showEvent(QShowEvent *);
+            //! Get the file information.
+            const djvFileInfo & fileInfo() const;
 
-private Q_SLOTS:
-    void fileCallback();
-    void browserCallback(const QModelIndex &);
-    void browserCurrentCallback(const QModelIndex &, const QModelIndex &);
-    void upCallback();
-    void prevCallback();
-    void currentCallback();
-    void recentCallback(QAction *);
-    void drivesCallback(QAction  *);
-    void homeCallback();
-    void desktopCallback();
-    void reloadCallback();
-    void thumbnailsCallback(QAction *);
-    void thumbnailsSizeCallback(QAction *);
-    void showHiddenCallback(bool);
-    void showHiddenCallback();
-    void seqCallback(QAction *);
-    void seqCallback(int);
-    void searchCallback(const QString &);
-    void columnsSortCallback(int, Qt::SortOrder);
-    void columnsSortCallback(QAction *);
-    void columnsSortCallback();
-    void reverseSortCallback(bool);
-    void reverseSortCallback();
-    void sortDirsFirstCallback(bool);
-    void sortDirsFirstCallback();
-    void pinnedCallback(bool);
-    void addBookmarkCallback();
-    void deleteBookmarkCallback();
-    void deleteAllBookmarksCallback();
-    void bookmarksCallback(QAction *);
-    void bookmarksCallback();
-    void bookmarkDelCallback(const QVector<int> &);
-    void bookmarkDelAllCallback();
-    void acceptedCallback();
+            //! Get whether the file browser is pinnable.
+            bool isPinnable() const;
 
-    void modelUpdate();
-    void widgetUpdate();
-    void menuUpdate();
-    void toolTipUpdate();
-    
-private:
-    QVector<int> columnSizes() const;
+            //! Get whether the file browser is currently pinned.
+            bool isPinned() const;
 
-    DJV_PRIVATE_COPY(djvFileBrowser);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public Q_SLOTS:
+            //! Set the file information.
+            void setFileInfo(const djvFileInfo &);
 
-//@} // djvUIDialog
+            //! Set whether the file browser is pinnable.
+            void setPinnable(bool);
 
+            //! Set whether the file browser is currently pinned.
+            void setPinned(bool);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the file information is changed.
+            void fileInfoChanged(const djvFileInfo &);
+
+            //! This signal is emitted when the pinnable state is changed.
+            void pinnableChanged(bool);
+
+            //! This signal is emitted when the pinned state is changed.
+            void pinnedChanged(bool);
+
+        protected:
+            virtual void showEvent(QShowEvent *);
+
+        private Q_SLOTS:
+            void fileCallback();
+            void browserCallback(const QModelIndex &);
+            void browserCurrentCallback(const QModelIndex &, const QModelIndex &);
+            void upCallback();
+            void prevCallback();
+            void currentCallback();
+            void recentCallback(QAction *);
+            void drivesCallback(QAction  *);
+            void homeCallback();
+            void desktopCallback();
+            void reloadCallback();
+            void thumbnailsCallback(QAction *);
+            void thumbnailsSizeCallback(QAction *);
+            void showHiddenCallback(bool);
+            void showHiddenCallback();
+            void seqCallback(QAction *);
+            void seqCallback(int);
+            void searchCallback(const QString &);
+            void columnsSortCallback(int, Qt::SortOrder);
+            void columnsSortCallback(QAction *);
+            void columnsSortCallback();
+            void reverseSortCallback(bool);
+            void reverseSortCallback();
+            void sortDirsFirstCallback(bool);
+            void sortDirsFirstCallback();
+            void pinnedCallback(bool);
+            void addBookmarkCallback();
+            void deleteBookmarkCallback();
+            void deleteAllBookmarksCallback();
+            void bookmarksCallback(QAction *);
+            void bookmarksCallback();
+            void bookmarkDelCallback(const QVector<int> &);
+            void bookmarkDelAllCallback();
+            void acceptedCallback();
+
+            void modelUpdate();
+            void widgetUpdate();
+            void menuUpdate();
+            void toolTipUpdate();
+
+        private:
+            QVector<int> columnSizes() const;
+
+            DJV_PRIVATE_COPY(FileBrowser);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

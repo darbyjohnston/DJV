@@ -47,481 +47,480 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvDPXWidget
-//------------------------------------------------------------------------------
-
-djvDPXWidget::djvDPXWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _inputColorProfileLayout (0),
-    _inputColorProfileWidget (0),
-    _inputBlackPointWidget   (0),
-    _inputWhitePointWidget   (0),
-    _inputGammaWidget        (0),
-    _inputSoftClipWidget     (0),
-    _outputColorProfileLayout(0),
-    _outputColorProfileWidget(0),
-    _outputBlackPointWidget  (0),
-    _outputWhitePointWidget  (0),
-    _outputGammaWidget       (0),
-    _versionWidget           (0),
-    _typeWidget              (0),
-    _endianWidget            (0)
+namespace djv
 {
-    //DJV_DEBUG("djvDPXWidget::djvDPXWidget");
-
-    // Create the widgets.
-    _inputColorProfileWidget = new QComboBox;
-    _inputColorProfileWidget->addItems(djvCineon::colorProfileLabels());
-    _inputColorProfileWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    _inputBlackPointWidget = new djvIntEditSlider(context);
-    _inputBlackPointWidget->setRange(0, 1023);
-
-    _inputWhitePointWidget = new djvIntEditSlider(context);
-    _inputWhitePointWidget->setRange(0, 1023);
-
-    _inputGammaWidget = new djvFloatEditSlider(context);
-    _inputGammaWidget->setRange(.01f, 4.f);
-
-    _inputSoftClipWidget = new djvIntEditSlider(context);
-    _inputSoftClipWidget->setRange(0, 50);
-
-    _outputColorProfileWidget = new QComboBox;
-    _outputColorProfileWidget->addItems(djvCineon::colorProfileLabels());
-    _outputColorProfileWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-    
-    _outputBlackPointWidget = new djvIntEditSlider(context);
-    _outputBlackPointWidget->setRange(0, 1023);
-
-    _outputWhitePointWidget = new djvIntEditSlider(context);
-    _outputWhitePointWidget->setRange(0, 1023);
-
-    _outputGammaWidget = new djvFloatEditSlider(context);
-    _outputGammaWidget->setRange(.01f, 4.f);
-
-    _versionWidget = new QComboBox;
-    _versionWidget->addItems(djvDPX::versionLabels());
-    _versionWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    _typeWidget = new QComboBox;
-    _typeWidget->addItems(djvDPX::typeLabels());
-    _typeWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    _endianWidget = new QComboBox;
-    _endianWidget->addItems(djvDPX::endianLabels());
-    _endianWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvDPXWidget", "Input Color Profile"),
-        qApp->translate("djvDPXWidget", "Set the color profile used when loading DPX images."),
-        context);
-    _inputColorProfileLayout = prefsGroupBox->createLayout();
-    _inputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Profile:"),
-        _inputColorProfileWidget);
-    _inputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Black:"),
-        _inputBlackPointWidget);
-    _inputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "White:"),
-        _inputWhitePointWidget);
-    _inputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Gamma:"),
-        _inputGammaWidget);
-    _inputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Soft clip:"),
-        _inputSoftClipWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvDPXWidget", "Output Color Profile"),
-        qApp->translate("djvDPXWidget", "Set the color profile used when saving DPX images."),
-        context);
-    _outputColorProfileLayout = prefsGroupBox->createLayout();
-    _outputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Profile:"),
-        _outputColorProfileWidget);
-    _outputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Black:"),
-        _outputBlackPointWidget);
-    _outputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "White:"),
-        _outputWhitePointWidget);
-    _outputColorProfileLayout->addRow(
-        qApp->translate("djvDPXWidget", "Gamma:"),
-        _outputGammaWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvDPXWidget", "Version"),
-        qApp->translate("djvDPXWidget", "Set the file version used when saving DPX images."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvDPXWidget", "Version:"),
-        _versionWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvDPXWidget", "Pixel Type"),
-        qApp->translate("djvDPXWidget", "Set the pixel type used when saving DPX images."),
-        context);
-    formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvDPXWidget", "Pixel type:"),
-        _typeWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvDPXWidget", "Endian"),
-        qApp->translate("djvDPXWidget",
-        "Set the endian used when saving DPX images. Setting the endian to "
-        "\"Auto\" will use the endian of the current hardware."),
-        context);
-    formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvDPXWidget", "Endian:"),
-        _endianWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    _inputBlackPointWidget->setDefaultValue(
-        djvDPX::Options().inputFilmPrint.black);
-    _inputWhitePointWidget->setDefaultValue(
-        djvDPX::Options().inputFilmPrint.white);
-    _inputGammaWidget->setDefaultValue(
-        djvDPX::Options().inputFilmPrint.gamma);
-    _inputSoftClipWidget->setDefaultValue(
-        djvDPX::Options().inputFilmPrint.softClip);
-
-    _outputBlackPointWidget->setDefaultValue(
-        djvDPX::Options().outputFilmPrint.black);
-    _outputWhitePointWidget->setDefaultValue(
-        djvDPX::Options().outputFilmPrint.white);
-    _outputGammaWidget->setDefaultValue(
-        djvDPX::Options().outputFilmPrint.gamma);
-
-    QStringList tmp;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::INPUT_COLOR_PROFILE_OPTION]);
-    tmp >> _options.inputColorProfile;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::INPUT_FILM_PRINT_OPTION]);
-    tmp >> _options.inputFilmPrint;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::OUTPUT_COLOR_PROFILE_OPTION]);
-    tmp >> _options.outputColorProfile;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::OUTPUT_FILM_PRINT_OPTION]);
-    tmp >> _options.outputFilmPrint;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::VERSION_OPTION]);
-    tmp >> _options.version;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::TYPE_OPTION]);
-    tmp >> _options.type;
-    tmp = plugin->option(
-        plugin->options()[djvDPX::ENDIAN_OPTION]);
-    tmp >> _options.endian;
-
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _inputColorProfileWidget,
-        SIGNAL(activated(int)),
-        SLOT(inputColorProfileCallback(int)));
-    connect(
-        _inputBlackPointWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(inputBlackPointCallback(int)));
-    connect(
-        _inputWhitePointWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(inputWhitePointCallback(int)));
-    connect(
-        _inputGammaWidget,
-        SIGNAL(valueChanged(float)),
-        SLOT(inputGammaCallback(float)));
-    connect(
-        _inputSoftClipWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(inputSoftClipCallback(int)));
-    connect(
-        _outputColorProfileWidget,
-        SIGNAL(activated(int)),
-        SLOT(outputColorProfileCallback(int)));
-    connect(
-        _outputBlackPointWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(outputBlackPointCallback(int)));
-    connect(
-        _outputWhitePointWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(outputWhitePointCallback(int)));
-    connect(
-        _outputGammaWidget,
-        SIGNAL(valueChanged(float)),
-        SLOT(outputGammaCallback(float)));
-    connect(
-        _versionWidget,
-        SIGNAL(activated(int)),
-        SLOT(versionCallback(int)));
-    connect(
-        _typeWidget,
-        SIGNAL(activated(int)),
-        SLOT(typeCallback(int)));
-    connect(
-        _endianWidget,
-        SIGNAL(activated(int)),
-        SLOT(endianCallback(int)));
-}
-
-djvDPXWidget::~djvDPXWidget()
-{}
-
-void djvDPXWidget::resetPreferences()
-{
-    //DJV_DEBUG("djvDPXWidget::resetPreferences");
-    _options = djvDPX::Options();
-    //DJV_DEBUG_PRINT("input color profile = " << _options.inputColorProfile);
-    //DJV_DEBUG_PRINT("output color profile = " << _options.outputColorProfile);
-
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvDPXWidget::pluginCallback(const QString & option)
-{
-    //DJV_DEBUG("djvDPXWidget::pluginCallback");
-    //DJV_DEBUG_PRINT("option = " << option);
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvDPX::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.inputColorProfile;
-        else if (0 == option.compare(plugin()->options()[
-            djvDPX::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.inputFilmPrint;
-        else if (0 == option.compare(plugin()->options()[
-            djvDPX::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.outputColorProfile;
-        else if (0 == option.compare(plugin()->options()[
-            djvDPX::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.outputFilmPrint;
-        else if (0 == option.compare(plugin()->options()[
-            djvDPX::VERSION_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.version;
-        else if (0 == option.compare(plugin()->options()[
-            djvDPX::TYPE_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.type;
-        else if (0 == option.compare(plugin()->options()[
-            djvDPX::ENDIAN_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.endian;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+        DPXWidget::DPXWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _inputColorProfileLayout(0),
+            _inputColorProfileWidget(0),
+            _inputBlackPointWidget(0),
+            _inputWhitePointWidget(0),
+            _inputGammaWidget(0),
+            _inputSoftClipWidget(0),
+            _outputColorProfileLayout(0),
+            _outputColorProfileWidget(0),
+            _outputBlackPointWidget(0),
+            _outputWhitePointWidget(0),
+            _outputGammaWidget(0),
+            _versionWidget(0),
+            _typeWidget(0),
+            _endianWidget(0)
+        {
+            //DJV_DEBUG("DPXWidget::DPXWidget");
 
-void djvDPXWidget::inputColorProfileCallback(int in)
-{
-    _options.inputColorProfile = static_cast<djvCineon::COLOR_PROFILE>(in);
-    pluginUpdate();
-}
+            // Create the widgets.
+            _inputColorProfileWidget = new QComboBox;
+            _inputColorProfileWidget->addItems(djvCineon::colorProfileLabels());
+            _inputColorProfileWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvDPXWidget::inputBlackPointCallback(int in)
-{
-    _options.inputFilmPrint.black = in;
-    pluginUpdate();
-}
+            _inputBlackPointWidget = new IntEditSlider(context);
+            _inputBlackPointWidget->setRange(0, 1023);
 
-void djvDPXWidget::inputWhitePointCallback(int in)
-{
-    _options.inputFilmPrint.white = in;
-    pluginUpdate();
-}
+            _inputWhitePointWidget = new IntEditSlider(context);
+            _inputWhitePointWidget->setRange(0, 1023);
 
-void djvDPXWidget::inputGammaCallback(float in)
-{
-    _options.inputFilmPrint.gamma = in;
-    pluginUpdate();
-}
+            _inputGammaWidget = new FloatEditSlider(context);
+            _inputGammaWidget->setRange(.01f, 4.f);
 
-void djvDPXWidget::inputSoftClipCallback(int in)
-{
-    _options.inputFilmPrint.softClip = in;
-    pluginUpdate();
-}
+            _inputSoftClipWidget = new IntEditSlider(context);
+            _inputSoftClipWidget->setRange(0, 50);
 
-void djvDPXWidget::outputColorProfileCallback(int in)
-{
-    _options.outputColorProfile = static_cast<djvCineon::COLOR_PROFILE>(in);
-    pluginUpdate();
-}
+            _outputColorProfileWidget = new QComboBox;
+            _outputColorProfileWidget->addItems(djvCineon::colorProfileLabels());
+            _outputColorProfileWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvDPXWidget::outputBlackPointCallback(int in)
-{
-    _options.outputFilmPrint.black = in;
-    pluginUpdate();
-}
+            _outputBlackPointWidget = new IntEditSlider(context);
+            _outputBlackPointWidget->setRange(0, 1023);
 
-void djvDPXWidget::outputWhitePointCallback(int in)
-{
-    _options.outputFilmPrint.white = in;
-    pluginUpdate();
-}
+            _outputWhitePointWidget = new IntEditSlider(context);
+            _outputWhitePointWidget->setRange(0, 1023);
 
-void djvDPXWidget::outputGammaCallback(float in)
-{
-    _options.outputFilmPrint.gamma = in;
-    pluginUpdate();
-}
+            _outputGammaWidget = new FloatEditSlider(context);
+            _outputGammaWidget->setRange(.01f, 4.f);
 
-void djvDPXWidget::versionCallback(int in)
-{
-    _options.version = static_cast<djvDPX::VERSION>(in);
-    pluginUpdate();
-}
+            _versionWidget = new QComboBox;
+            _versionWidget->addItems(djvDPX::versionLabels());
+            _versionWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvDPXWidget::typeCallback(int in)
-{
-    _options.type = static_cast<djvDPX::TYPE>(in);
-    pluginUpdate();
-}
+            _typeWidget = new QComboBox;
+            _typeWidget->addItems(djvDPX::typeLabels());
+            _typeWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvDPXWidget::endianCallback(int in)
-{
-    _options.endian = static_cast<djvDPX::ENDIAN>(in);
-    pluginUpdate();
-}
+            _endianWidget = new QComboBox;
+            _endianWidget->addItems(djvDPX::endianLabels());
+            _endianWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvDPXWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.inputColorProfile;
-    plugin()->setOption(plugin()->options()[djvDPX::INPUT_COLOR_PROFILE_OPTION], tmp);
-    tmp << _options.inputFilmPrint;
-    plugin()->setOption(plugin()->options()[djvDPX::INPUT_FILM_PRINT_OPTION], tmp);
-    tmp << _options.outputColorProfile;
-    plugin()->setOption(plugin()->options()[djvDPX::OUTPUT_COLOR_PROFILE_OPTION], tmp);
-    tmp << _options.outputFilmPrint;
-    plugin()->setOption(plugin()->options()[djvDPX::OUTPUT_FILM_PRINT_OPTION], tmp);
-    tmp << _options.version;
-    plugin()->setOption(plugin()->options()[djvDPX::VERSION_OPTION], tmp);
-    tmp << _options.type;
-    plugin()->setOption(plugin()->options()[djvDPX::TYPE_OPTION], tmp);
-    tmp << _options.endian;
-    plugin()->setOption(plugin()->options()[djvDPX::ENDIAN_OPTION], tmp);
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvDPXWidget::widgetUpdate()
-{
-    //DJV_DEBUG("djvDPXWidget::widgetUpdate");
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _inputColorProfileWidget <<
-        _inputBlackPointWidget <<
-        _inputWhitePointWidget <<
-        _inputGammaWidget <<
-        _inputSoftClipWidget <<
-        _outputColorProfileWidget <<
-        _outputBlackPointWidget <<
-        _outputWhitePointWidget <<
-        _outputGammaWidget <<
-        _versionWidget <<
-        _typeWidget <<
-        _endianWidget);
-    //DJV_DEBUG_PRINT("input color profile = " << _options.inputColorProfile);
-    //DJV_DEBUG_PRINT("output color profile = " << _options.outputColorProfile);
-    _inputBlackPointWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputColorProfileLayout->labelForField(_inputBlackPointWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputWhitePointWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputColorProfileLayout->labelForField(_inputWhitePointWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputGammaWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputColorProfileLayout->labelForField(_inputGammaWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputSoftClipWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _inputColorProfileLayout->labelForField(_inputSoftClipWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
-    _outputBlackPointWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _outputColorProfileLayout->labelForField(_outputBlackPointWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _outputWhitePointWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _outputColorProfileLayout->labelForField(_outputWhitePointWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _outputGammaWidget->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _outputColorProfileLayout->labelForField(_outputGammaWidget)->setVisible(
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
-    _inputColorProfileWidget->setCurrentIndex(_options.inputColorProfile);
-    _inputBlackPointWidget->setValue(_options.inputFilmPrint.black);
-    _inputWhitePointWidget->setValue(_options.inputFilmPrint.white);
-    _inputGammaWidget->setValue(_options.inputFilmPrint.gamma);
-    _inputSoftClipWidget->setValue(_options.inputFilmPrint.softClip);
-    _outputColorProfileWidget->setCurrentIndex(_options.outputColorProfile);
-    _outputBlackPointWidget->setValue(_options.outputFilmPrint.black);
-    _outputWhitePointWidget->setValue(_options.outputFilmPrint.white);
-    _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
-    _versionWidget->setCurrentIndex(_options.version);
-    _typeWidget->setCurrentIndex(_options.type);
-    _endianWidget->setCurrentIndex(_options.endian);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::DPXWidget", "Input Color Profile"),
+                qApp->translate("djv::UI::DPXWidget", "Set the color profile used when loading DPX images."),
+                context);
+            _inputColorProfileLayout = prefsGroupBox->createLayout();
+            _inputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Profile:"),
+                _inputColorProfileWidget);
+            _inputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Black:"),
+                _inputBlackPointWidget);
+            _inputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "White:"),
+                _inputWhitePointWidget);
+            _inputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Gamma:"),
+                _inputGammaWidget);
+            _inputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Soft clip:"),
+                _inputSoftClipWidget);
+            layout->addWidget(prefsGroupBox);
 
-//------------------------------------------------------------------------------
-// djvDPXWidgetPlugin
-//------------------------------------------------------------------------------
+            prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::DPXWidget", "Output Color Profile"),
+                qApp->translate("djv::UI::DPXWidget", "Set the color profile used when saving DPX images."),
+                context);
+            _outputColorProfileLayout = prefsGroupBox->createLayout();
+            _outputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Profile:"),
+                _outputColorProfileWidget);
+            _outputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Black:"),
+                _outputBlackPointWidget);
+            _outputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "White:"),
+                _outputWhitePointWidget);
+            _outputColorProfileLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Gamma:"),
+                _outputGammaWidget);
+            layout->addWidget(prefsGroupBox);
 
-djvDPXWidgetPlugin::djvDPXWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::DPXWidget", "Version"),
+                qApp->translate("djv::UI::DPXWidget", "Set the file version used when saving DPX images."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Version:"),
+                _versionWidget);
+            layout->addWidget(prefsGroupBox);
 
-djvImageIOWidget * djvDPXWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvDPXWidget(plugin, uiContext());
-}
+            prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::DPXWidget", "Pixel Type"),
+                qApp->translate("djv::UI::DPXWidget", "Set the pixel type used when saving DPX images."),
+                context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Pixel type:"),
+                _typeWidget);
+            layout->addWidget(prefsGroupBox);
 
-QString djvDPXWidgetPlugin::pluginName() const
-{
-    return djvDPX::staticName;
-}
+            prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::DPXWidget", "Endian"),
+                qApp->translate("djv::UI::DPXWidget",
+                    "Set the endian used when saving DPX images. Setting the endian to "
+                    "\"Auto\" will use the endian of the current hardware."),
+                context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::DPXWidget", "Endian:"),
+                _endianWidget);
+            layout->addWidget(prefsGroupBox);
 
+            layout->addStretch();
+
+            // Initialize.
+            _inputBlackPointWidget->setDefaultValue(
+                djvDPX::Options().inputFilmPrint.black);
+            _inputWhitePointWidget->setDefaultValue(
+                djvDPX::Options().inputFilmPrint.white);
+            _inputGammaWidget->setDefaultValue(
+                djvDPX::Options().inputFilmPrint.gamma);
+            _inputSoftClipWidget->setDefaultValue(
+                djvDPX::Options().inputFilmPrint.softClip);
+
+            _outputBlackPointWidget->setDefaultValue(
+                djvDPX::Options().outputFilmPrint.black);
+            _outputWhitePointWidget->setDefaultValue(
+                djvDPX::Options().outputFilmPrint.white);
+            _outputGammaWidget->setDefaultValue(
+                djvDPX::Options().outputFilmPrint.gamma);
+
+            QStringList tmp;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::INPUT_COLOR_PROFILE_OPTION]);
+            tmp >> _options.inputColorProfile;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::INPUT_FILM_PRINT_OPTION]);
+            tmp >> _options.inputFilmPrint;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::OUTPUT_COLOR_PROFILE_OPTION]);
+            tmp >> _options.outputColorProfile;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::OUTPUT_FILM_PRINT_OPTION]);
+            tmp >> _options.outputFilmPrint;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::VERSION_OPTION]);
+            tmp >> _options.version;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::TYPE_OPTION]);
+            tmp >> _options.type;
+            tmp = plugin->option(
+                plugin->options()[djvDPX::ENDIAN_OPTION]);
+            tmp >> _options.endian;
+
+            widgetUpdate();
+
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _inputColorProfileWidget,
+                SIGNAL(activated(int)),
+                SLOT(inputColorProfileCallback(int)));
+            connect(
+                _inputBlackPointWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(inputBlackPointCallback(int)));
+            connect(
+                _inputWhitePointWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(inputWhitePointCallback(int)));
+            connect(
+                _inputGammaWidget,
+                SIGNAL(valueChanged(float)),
+                SLOT(inputGammaCallback(float)));
+            connect(
+                _inputSoftClipWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(inputSoftClipCallback(int)));
+            connect(
+                _outputColorProfileWidget,
+                SIGNAL(activated(int)),
+                SLOT(outputColorProfileCallback(int)));
+            connect(
+                _outputBlackPointWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(outputBlackPointCallback(int)));
+            connect(
+                _outputWhitePointWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(outputWhitePointCallback(int)));
+            connect(
+                _outputGammaWidget,
+                SIGNAL(valueChanged(float)),
+                SLOT(outputGammaCallback(float)));
+            connect(
+                _versionWidget,
+                SIGNAL(activated(int)),
+                SLOT(versionCallback(int)));
+            connect(
+                _typeWidget,
+                SIGNAL(activated(int)),
+                SLOT(typeCallback(int)));
+            connect(
+                _endianWidget,
+                SIGNAL(activated(int)),
+                SLOT(endianCallback(int)));
+        }
+
+        DPXWidget::~DPXWidget()
+        {}
+
+        void DPXWidget::resetPreferences()
+        {
+            //DJV_DEBUG("DPXWidget::resetPreferences");
+            _options = djvDPX::Options();
+            //DJV_DEBUG_PRINT("input color profile = " << _options.inputColorProfile);
+            //DJV_DEBUG_PRINT("output color profile = " << _options.outputColorProfile);
+
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void DPXWidget::pluginCallback(const QString & option)
+        {
+            //DJV_DEBUG("DPXWidget::pluginCallback");
+            //DJV_DEBUG_PRINT("option = " << option);
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    djvDPX::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.inputColorProfile;
+                else if (0 == option.compare(plugin()->options()[
+                    djvDPX::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.inputFilmPrint;
+                else if (0 == option.compare(plugin()->options()[
+                    djvDPX::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.outputColorProfile;
+                else if (0 == option.compare(plugin()->options()[
+                    djvDPX::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.outputFilmPrint;
+                else if (0 == option.compare(plugin()->options()[
+                    djvDPX::VERSION_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.version;
+                else if (0 == option.compare(plugin()->options()[
+                    djvDPX::TYPE_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.type;
+                else if (0 == option.compare(plugin()->options()[
+                    djvDPX::ENDIAN_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.endian;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void DPXWidget::inputColorProfileCallback(int in)
+        {
+            _options.inputColorProfile = static_cast<djvCineon::COLOR_PROFILE>(in);
+            pluginUpdate();
+        }
+
+        void DPXWidget::inputBlackPointCallback(int in)
+        {
+            _options.inputFilmPrint.black = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::inputWhitePointCallback(int in)
+        {
+            _options.inputFilmPrint.white = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::inputGammaCallback(float in)
+        {
+            _options.inputFilmPrint.gamma = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::inputSoftClipCallback(int in)
+        {
+            _options.inputFilmPrint.softClip = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::outputColorProfileCallback(int in)
+        {
+            _options.outputColorProfile = static_cast<djvCineon::COLOR_PROFILE>(in);
+            pluginUpdate();
+        }
+
+        void DPXWidget::outputBlackPointCallback(int in)
+        {
+            _options.outputFilmPrint.black = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::outputWhitePointCallback(int in)
+        {
+            _options.outputFilmPrint.white = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::outputGammaCallback(float in)
+        {
+            _options.outputFilmPrint.gamma = in;
+            pluginUpdate();
+        }
+
+        void DPXWidget::versionCallback(int in)
+        {
+            _options.version = static_cast<djvDPX::VERSION>(in);
+            pluginUpdate();
+        }
+
+        void DPXWidget::typeCallback(int in)
+        {
+            _options.type = static_cast<djvDPX::TYPE>(in);
+            pluginUpdate();
+        }
+
+        void DPXWidget::endianCallback(int in)
+        {
+            _options.endian = static_cast<djvDPX::ENDIAN>(in);
+            pluginUpdate();
+        }
+
+        void DPXWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.inputColorProfile;
+            plugin()->setOption(plugin()->options()[djvDPX::INPUT_COLOR_PROFILE_OPTION], tmp);
+            tmp << _options.inputFilmPrint;
+            plugin()->setOption(plugin()->options()[djvDPX::INPUT_FILM_PRINT_OPTION], tmp);
+            tmp << _options.outputColorProfile;
+            plugin()->setOption(plugin()->options()[djvDPX::OUTPUT_COLOR_PROFILE_OPTION], tmp);
+            tmp << _options.outputFilmPrint;
+            plugin()->setOption(plugin()->options()[djvDPX::OUTPUT_FILM_PRINT_OPTION], tmp);
+            tmp << _options.version;
+            plugin()->setOption(plugin()->options()[djvDPX::VERSION_OPTION], tmp);
+            tmp << _options.type;
+            plugin()->setOption(plugin()->options()[djvDPX::TYPE_OPTION], tmp);
+            tmp << _options.endian;
+            plugin()->setOption(plugin()->options()[djvDPX::ENDIAN_OPTION], tmp);
+        }
+
+        void DPXWidget::widgetUpdate()
+        {
+            //DJV_DEBUG("DPXWidget::widgetUpdate");
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _inputColorProfileWidget <<
+                _inputBlackPointWidget <<
+                _inputWhitePointWidget <<
+                _inputGammaWidget <<
+                _inputSoftClipWidget <<
+                _outputColorProfileWidget <<
+                _outputBlackPointWidget <<
+                _outputWhitePointWidget <<
+                _outputGammaWidget <<
+                _versionWidget <<
+                _typeWidget <<
+                _endianWidget);
+            //DJV_DEBUG_PRINT("input color profile = " << _options.inputColorProfile);
+            //DJV_DEBUG_PRINT("output color profile = " << _options.outputColorProfile);
+            _inputBlackPointWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputColorProfileLayout->labelForField(_inputBlackPointWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputWhitePointWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputColorProfileLayout->labelForField(_inputWhitePointWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputGammaWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputColorProfileLayout->labelForField(_inputGammaWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputSoftClipWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _inputColorProfileLayout->labelForField(_inputSoftClipWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile);
+            _outputBlackPointWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
+            _outputColorProfileLayout->labelForField(_outputBlackPointWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
+            _outputWhitePointWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
+            _outputColorProfileLayout->labelForField(_outputWhitePointWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
+            _outputGammaWidget->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
+            _outputColorProfileLayout->labelForField(_outputGammaWidget)->setVisible(
+                djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile ||
+                djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile);
+            _inputColorProfileWidget->setCurrentIndex(_options.inputColorProfile);
+            _inputBlackPointWidget->setValue(_options.inputFilmPrint.black);
+            _inputWhitePointWidget->setValue(_options.inputFilmPrint.white);
+            _inputGammaWidget->setValue(_options.inputFilmPrint.gamma);
+            _inputSoftClipWidget->setValue(_options.inputFilmPrint.softClip);
+            _outputColorProfileWidget->setCurrentIndex(_options.outputColorProfile);
+            _outputBlackPointWidget->setValue(_options.outputFilmPrint.black);
+            _outputWhitePointWidget->setValue(_options.outputFilmPrint.white);
+            _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
+            _versionWidget->setCurrentIndex(_options.version);
+            _typeWidget->setCurrentIndex(_options.type);
+            _endianWidget->setCurrentIndex(_options.endian);
+        }
+
+        DPXWidgetPlugin::DPXWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * DPXWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new DPXWidget(plugin, uiContext());
+        }
+
+        QString DPXWidgetPlugin::pluginName() const
+        {
+            return djvDPX::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

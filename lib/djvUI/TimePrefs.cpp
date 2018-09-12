@@ -37,60 +37,60 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvTimePrefs
-//------------------------------------------------------------------------------
-
-djvTimePrefs::djvTimePrefs(QObject * parent) :
-    QObject(parent)
+namespace djv
 {
-    //DJV_DEBUG("djvTimePrefs::djvTimePrefs");
-
-    djvPrefs prefs("djvTimePrefs", djvPrefs::SYSTEM);
-    djvTime::UNITS timeUnits = djvTime::units();
-    if (prefs.get("timeUnits", timeUnits))
+    namespace UI
     {
-        djvTime::setUnits(timeUnits);
-    }
-    djvSpeed::FPS speed = djvSpeed::speed();
-    if (prefs.get("speed", speed))
-    {
-        djvSpeed::setSpeed(speed);
-    }
-}
+        TimePrefs::TimePrefs(QObject * parent) :
+            QObject(parent)
+        {
+            //DJV_DEBUG("TimePrefs::TimePrefs");
+            Prefs prefs("djv::UI::TimePrefs", Prefs::SYSTEM);
+            djvTime::UNITS timeUnits = djvTime::units();
+            if (prefs.get("timeUnits", timeUnits))
+            {
+                djvTime::setUnits(timeUnits);
+            }
+            djvSpeed::FPS speed = djvSpeed::speed();
+            if (prefs.get("speed", speed))
+            {
+                djvSpeed::setSpeed(speed);
+            }
+        }
 
-djvTimePrefs::~djvTimePrefs()
-{
-    //DJV_DEBUG("djvTimePrefs::~djvTimePrefs");
+        TimePrefs::~TimePrefs()
+        {
+            //DJV_DEBUG("TimePrefs::~TimePrefs");
+            Prefs prefs("djv::UI::TimePrefs", Prefs::SYSTEM);
+            prefs.set("timeUnits", djvTime::units());
+            prefs.set("speed", djvSpeed::speed());
+        }
 
-    djvPrefs prefs("djvTimePrefs", djvPrefs::SYSTEM);
-    prefs.set("timeUnits", djvTime::units());
-    prefs.set("speed", djvSpeed::speed());
-}
+        djvTime::UNITS TimePrefs::timeUnits() const
+        {
+            return djvTime::units();
+        }
 
-djvTime::UNITS djvTimePrefs::timeUnits() const
-{
-    return djvTime::units();
-}
+        djvSpeed::FPS TimePrefs::speed() const
+        {
+            return djvSpeed::speed();
+        }
 
-djvSpeed::FPS djvTimePrefs::speed() const
-{
-    return djvSpeed::speed();
-}
+        void TimePrefs::setTimeUnits(djvTime::UNITS units)
+        {
+            if (units == this->timeUnits())
+                return;
+            djvTime::setUnits(units);
+            Q_EMIT timeUnitsChanged(this->timeUnits());
+        }
 
-void djvTimePrefs::setTimeUnits(djvTime::UNITS units)
-{
-    if (units == this->timeUnits())
-        return;
-    djvTime::setUnits(units);
-    Q_EMIT timeUnitsChanged(this->timeUnits());
-}
+        void TimePrefs::setSpeed(djvSpeed::FPS speed)
+        {
+            if (speed == this->speed())
+                return;
+            djvSpeed::setSpeed(speed);
+            Q_EMIT speedChanged(this->speed());
+        }
 
-void djvTimePrefs::setSpeed(djvSpeed::FPS speed)
-{
-    if (speed == this->speed())
-        return;
-    djvSpeed::setSpeed(speed);
-    Q_EMIT speedChanged(this->speed());
-}
-
+    } // namespace UI
+} // namespace djv

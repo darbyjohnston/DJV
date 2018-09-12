@@ -92,7 +92,7 @@ namespace djv
         };
 
         ImageView::ImageView(Context * context, QWidget * parent) :
-            djvImageView(context, parent),
+            UI::ImageView(context, parent),
             _p(new Private(context))
         {
             //DJV_DEBUG("ImageView::ImageView");
@@ -229,8 +229,8 @@ namespace djv
 
         void ImageView::setHudInfo(const HudInfo & info)
         {
-            if (info == _p->hudInfo)
-                return;
+            //if (info == _p->hudInfo)
+            //    return;
             _p->hudInfo = info;
             update();
         }
@@ -277,20 +277,20 @@ namespace djv
 
         void ImageView::enterEvent(QEvent * event)
         {
-            djvImageView::enterEvent(event);
+            UI::ImageView::enterEvent(event);
             _p->inside = true;
         }
 
         void ImageView::leaveEvent(QEvent * event)
         {
-            djvImageView::leaveEvent(event);
+            UI::ImageView::leaveEvent(event);
             _p->inside = false;
         }
 
         void ImageView::resizeEvent(QResizeEvent * event)
         {
             //DJV_DEBUG("ImageView::resizeEvent");
-            djvImageView::resizeEvent(event);
+            UI::ImageView::resizeEvent(event);
             if (hasViewFit())
             {
                 //DJV_DEBUG_PRINT("fit");
@@ -468,7 +468,7 @@ namespace djv
         void ImageView::paintGL()
         {
             //DJV_DEBUG("ImageView::paintGL");
-            djvImageView::paintGL();
+            UI::ImageView::paintGL();
             if (_p->grid)
             {
                 drawGrid();

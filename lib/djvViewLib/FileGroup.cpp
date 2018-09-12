@@ -662,7 +662,7 @@ namespace djv
 
         void FileGroup::openCallback()
         {
-            djvFileBrowser * fileBrowser = context()->fileBrowser(
+            UI::FileBrowser * fileBrowser = context()->fileBrowser(
                 qApp->translate("djv::ViewLib::FileGroup", "Open"));
             fileBrowser->setPinnable(true);
             connect(
@@ -752,7 +752,7 @@ namespace djv
         void FileGroup::saveCallback()
         {
             //DJV_DEBUG("FileGroup::saveCallback");
-            djvFileBrowser * fileBrowser = context()->fileBrowser(
+            UI::FileBrowser * fileBrowser = context()->fileBrowser(
                 qApp->translate("djv::ViewLib::FileGroup", "Save"));
             if (fileBrowser->exec() == QDialog::Accepted)
             {
@@ -761,7 +761,7 @@ namespace djv
                 if (djvFileInfoUtil::exists(fileInfo))
                 {
                     //DJV_DEBUG_PRINT("exists");
-                    djvQuestionDialog dialog(
+                    UI::QuestionDialog dialog(
                         qApp->translate("djv::ViewLib::FileGroup", "Overwrite existing file \"%1\"?").
                         arg(QDir::toNativeSeparators(fileInfo)));
                     if (QDialog::Accepted == dialog.exec())
@@ -778,14 +778,14 @@ namespace djv
 
         void FileGroup::saveFrameCallback()
         {
-            djvFileBrowser * fileBrowser = context()->fileBrowser(
+            UI::FileBrowser * fileBrowser = context()->fileBrowser(
                 qApp->translate("djv::ViewLib::FileGroup", "Save Frame"));
             if (fileBrowser->exec() == QDialog::Accepted)
             {
                 const djvFileInfo & fileInfo = fileBrowser->fileInfo();
                 if (djvFileInfoUtil::exists(fileInfo))
                 {
-                    djvQuestionDialog dialog(
+                    UI::QuestionDialog dialog(
                         qApp->translate("djv::ViewLib::FileGroup", "Overwrite existing file \"%1\"?").
                         arg(QDir::toNativeSeparators(fileInfo)));
                     if (QDialog::Accepted == dialog.exec())

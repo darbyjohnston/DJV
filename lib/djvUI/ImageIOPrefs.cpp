@@ -38,68 +38,70 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvImageIOPrefs
-//------------------------------------------------------------------------------
-
-namespace
+namespace djv
 {
-
-void _load(djvImageIO * plugin)
-{
-    //DJV_DEBUG("_load");
-    //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
-    djvPrefs prefs(plugin->pluginName(), djvPrefs::SYSTEM);
-    const QStringList & options = plugin->options();
-    for (int i = 0; i < options.count(); ++i)
+    namespace UI
     {
-        QStringList tmp;
-        if (prefs.get(options[i], tmp))
+        namespace
         {
-            //DJV_DEBUG_PRINT("tmp = " << tmp);
-            plugin->setOption(options[i], tmp);
-        }
-    }
-}
+            void _load(djvImageIO * plugin)
+            {
+                //DJV_DEBUG("_load");
+                //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
+                Prefs prefs(plugin->pluginName(), Prefs::SYSTEM);
+                const QStringList & options = plugin->options();
+                for (int i = 0; i < options.count(); ++i)
+                {
+                    QStringList tmp;
+                    if (prefs.get(options[i], tmp))
+                    {
+                        //DJV_DEBUG_PRINT("tmp = " << tmp);
+                        plugin->setOption(options[i], tmp);
+                    }
+                }
+            }
 
-void _save(const djvImageIO * plugin)
-{
-    //DJV_DEBUG("_save");
-    //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
-    djvPrefs prefs(plugin->pluginName(), djvPrefs::SYSTEM);
-    const QStringList & options = plugin->options();
-    for (int i = 0; i < options.count(); ++i)
-    {
-        prefs.set(options[i], plugin->option(options[i]));
-    }
-}
+            void _save(const djvImageIO * plugin)
+            {
+                //DJV_DEBUG("_save");
+                //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
+                Prefs prefs(plugin->pluginName(), Prefs::SYSTEM);
+                const QStringList & options = plugin->options();
+                for (int i = 0; i < options.count(); ++i)
+                {
+                    prefs.set(options[i], plugin->option(options[i]));
+                }
+            }
 
-} // namespace
+        } // namespace
 
-djvImageIOPrefs::djvImageIOPrefs(djvUIContext * context, QObject * parent) :
-    QObject(parent),
-    _context(context)
-{
-    //DJV_DEBUG("djvImageIOPrefs::djvImageIOPrefs");
-    const QList<djvPlugin *> & plugins = context->imageIOFactory()->plugins();
-    for (int i = 0; i < plugins.count(); ++i)
-    {
-        if (djvImageIO * plugin = dynamic_cast<djvImageIO *>(plugins[i]))
+        ImageIOPrefs::ImageIOPrefs(UIContext * context, QObject * parent) :
+            QObject(parent),
+            _context(context)
         {
-            _load(plugin);
+            //DJV_DEBUG("ImageIOPrefs::ImageIOPrefs");
+            const QList<djvPlugin *> & plugins = context->imageIOFactory()->plugins();
+            for (int i = 0; i < plugins.count(); ++i)
+            {
+                if (djvImageIO * plugin = dynamic_cast<djvImageIO *>(plugins[i]))
+                {
+                    _load(plugin);
+                }
+            }
         }
-    }
-}
 
-djvImageIOPrefs::~djvImageIOPrefs()
-{
-    //DJV_DEBUG("djvImageIOPrefs::~djvImageIOPrefs");
-    const QList<djvPlugin *> & plugins = _context->imageIOFactory()->plugins();
-    for (int i = 0; i < plugins.count(); ++i)
-    {
-        if (djvImageIO * plugin = dynamic_cast<djvImageIO *>(plugins[i]))
+        ImageIOPrefs::~ImageIOPrefs()
         {
-            _save(plugin);
+            //DJV_DEBUG("ImageIOPrefs::~ImageIOPrefs");
+            const QList<djvPlugin *> & plugins = _context->imageIOFactory()->plugins();
+            for (int i = 0; i < plugins.count(); ++i)
+            {
+                if (djvImageIO * plugin = dynamic_cast<djvImageIO *>(plugins[i]))
+                {
+                    _save(plugin);
+                }
+            }
         }
-    }
-}
+
+    } // namespace UI
+} // namespace djv

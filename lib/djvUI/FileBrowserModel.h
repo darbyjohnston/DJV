@@ -40,276 +40,282 @@
 
 #include <memory>
 
-class djvFileBrowserItem;
-class djvUIContext;
-
-//------------------------------------------------------------------------------
-//! \class djvFileBrowserModel
-//!
-//! This class provides a file browser model.
-//------------------------------------------------------------------------------
-
-class djvFileBrowserModel : public QAbstractItemModel
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(COLUMNS)
-    Q_ENUMS(THUMBNAILS)
-    Q_ENUMS(THUMBNAILS_SIZE)
-    
-    //! This property holds the path.
-    Q_PROPERTY(
-        QString path
-        READ    path
-        WRITE   setPath
-        NOTIFY  pathChanged)
-    
-    //! This property holds the file sequencing.
-    Q_PROPERTY(
-        djvSequence::COMPRESS sequence
-        READ                  sequence
-        WRITE                 setSequence
-        NOTIFY                sequenceChanged)
-    
-    //! This property holds the filter text.
-    Q_PROPERTY(
-        QString filterText
-        READ    filterText
-        WRITE   setFilterText
-        NOTIFY  filterTextChanged)
-    
-    //! This property holds whether hidden files are shown.
-    Q_PROPERTY(
-        bool   showHidden
-        READ   hasShowHidden
-        WRITE  setShowHidden
-        NOTIFY showHiddenChanged)
-    
-    //! This property holds the sorting.
-    Q_PROPERTY(
-        djvFileBrowserModel::COLUMNS columnsSort
-        READ                         columnsSort
-        WRITE                        setColumnsSort
-        NOTIFY                       columnsSortChanged)
-    
-    //! This property holds whether sorting is reversed.
-    Q_PROPERTY(
-        bool   reverseSort
-        READ   hasReverseSort
-        WRITE  setReverseSort
-        NOTIFY reverseSortChanged)
-    
-    //! This property holds whether directories are sorted first.
-    Q_PROPERTY(
-        bool   sortDirsFirst
-        READ   hasSortDirsFirst
-        WRITE  setSortDirsFirst
-        NOTIFY sortDirsFirstChanged)
-    
-    //! This property holds the image thumbnail mode.
-    Q_PROPERTY(
-        djvFileBrowserModel::THUMBNAILS thumbnails
-        READ                            thumbnails
-        WRITE                           setThumbnails
-        NOTIFY                          thumbnailsChanged)
-    
-    //! This property holds the image thumbnail size.
-    Q_PROPERTY(
-        djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize
-        READ                                 thumbnailsSize
-        WRITE                                setThumbnailsSize
-        NOTIFY                               thumbnailsSizeChanged)
-
-public:
-
-    //! This enumeration provides the columns.
-    enum COLUMNS
+    namespace UI
     {
-        NAME,
-        SIZE,
+        class FileBrowserItem;
+        class UIContext;
+
+        //! \class FileBrowserModel
+        //!
+        //! This class provides a file browser model.
+        class FileBrowserModel : public QAbstractItemModel
+        {
+            Q_OBJECT
+            Q_ENUMS(COLUMNS)
+            Q_ENUMS(THUMBNAILS)
+            Q_ENUMS(THUMBNAILS_SIZE)
+
+            //! This property holds the path.
+            Q_PROPERTY(
+                QString path
+                READ    path
+                WRITE   setPath
+                NOTIFY  pathChanged)
+
+            //! This property holds the file sequencing.
+            Q_PROPERTY(
+                djvSequence::COMPRESS sequence
+                READ                  sequence
+                WRITE                 setSequence
+                NOTIFY                sequenceChanged)
+
+            //! This property holds the filter text.
+            Q_PROPERTY(
+                QString filterText
+                READ    filterText
+                WRITE   setFilterText
+                NOTIFY  filterTextChanged)
+
+            //! This property holds whether hidden files are shown.
+            Q_PROPERTY(
+                bool   showHidden
+                READ   hasShowHidden
+                WRITE  setShowHidden
+                NOTIFY showHiddenChanged)
+
+            //! This property holds the sorting.
+            Q_PROPERTY(
+                FileBrowserModel::COLUMNS columnsSort
+                READ                      columnsSort
+                WRITE                     setColumnsSort
+                NOTIFY                    columnsSortChanged)
+
+            //! This property holds whether sorting is reversed.
+            Q_PROPERTY(
+                bool   reverseSort
+                READ   hasReverseSort
+                WRITE  setReverseSort
+                NOTIFY reverseSortChanged)
+
+            //! This property holds whether directories are sorted first.
+            Q_PROPERTY(
+                bool   sortDirsFirst
+                READ   hasSortDirsFirst
+                WRITE  setSortDirsFirst
+                NOTIFY sortDirsFirstChanged)
+
+            //! This property holds the image thumbnail mode.
+            Q_PROPERTY(
+                FileBrowserModel::THUMBNAILS thumbnails
+                READ                         thumbnails
+                WRITE                        setThumbnails
+                NOTIFY                       thumbnailsChanged)
+
+            //! This property holds the image thumbnail size.
+            Q_PROPERTY(
+                FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize
+                READ                              thumbnailsSize
+                WRITE                             setThumbnailsSize
+                NOTIFY                            thumbnailsSizeChanged)
+
+        public:
+
+            //! This enumeration provides the columns.
+            enum COLUMNS
+            {
+                NAME,
+                SIZE,
 #if ! defined(DJV_WINDOWS)
-        USER,
+                USER,
 #endif
-        PERMISSIONS,
-        TIME,
-        
-        COLUMNS_COUNT
-    };
+                PERMISSIONS,
+                TIME,
 
-    //! Get the column labels.
-    static const QStringList & columnsLabels();
-    
-    explicit djvFileBrowserModel(djvUIContext *, QObject * parent = nullptr);
-    
-    virtual ~djvFileBrowserModel();
+                COLUMNS_COUNT
+            };
 
-    //! Get the path.
-    const QString & path() const;
-    
-    //! Get the list of files.
-    const djvFileInfoList & contents() const;
-    
-    //! Convert a model index to file information.
-    djvFileInfo fileInfo(const QModelIndex &) const;
-    
-    //! Get the file sequencing.
-    djvSequence::COMPRESS sequence() const;
-    
-    //! Get the filter text.
-    const QString & filterText() const;
+            //! Get the column labels.
+            static const QStringList & columnsLabels();
 
-    //! Get whether hidden files are shown.
-    bool hasShowHidden() const;
+            explicit FileBrowserModel(UIContext *, QObject * parent = nullptr);
 
-    //! Get the sorting.
-    COLUMNS columnsSort() const;
+            virtual ~FileBrowserModel();
 
-    //! Get whether sorting is reversed.
-    bool hasReverseSort() const;
+            //! Get the path.
+            const QString & path() const;
 
-    //! Get whether directories are sorted first.
-    bool hasSortDirsFirst() const;
+            //! Get the list of files.
+            const djvFileInfoList & contents() const;
 
-    //! This enumeration provides the image thumbnail mode.
-    enum THUMBNAILS
-    {
-        THUMBNAILS_OFF,
-        THUMBNAILS_LOW,
-        THUMBNAILS_HIGH,
+            //! Convert a model index to file information.
+            djvFileInfo fileInfo(const QModelIndex &) const;
 
-        THUMBNAILS_COUNT
-    };
+            //! Get the file sequencing.
+            djvSequence::COMPRESS sequence() const;
 
-    //! Get the image thumbnail mode labels.
-    static const QStringList & thumbnailsLabels();
+            //! Get the filter text.
+            const QString & filterText() const;
 
-    //! Get the image thumbnail mode.
-    THUMBNAILS thumbnails() const;
+            //! Get whether hidden files are shown.
+            bool hasShowHidden() const;
 
-    //! This enumeration provides the image thumbnail size.
-    enum THUMBNAILS_SIZE
-    {
-        THUMBNAILS_SMALL,
-        THUMBNAILS_MEDIUM,
-        THUMBNAILS_LARGE,
+            //! Get the sorting.
+            COLUMNS columnsSort() const;
 
-        THUMBNAILS_SIZE_COUNT
-    };
+            //! Get whether sorting is reversed.
+            bool hasReverseSort() const;
 
-    //! Get the image thumbnail size labels.
-    static const QStringList & thumbnailsSizeLabels();
+            //! Get whether directories are sorted first.
+            bool hasSortDirsFirst() const;
 
-    //! Get the image thumbnail size value.
-    static int thumbnailsSizeValue(THUMBNAILS_SIZE);
+            //! This enumeration provides the image thumbnail mode.
+            enum THUMBNAILS
+            {
+                THUMBNAILS_OFF,
+                THUMBNAILS_LOW,
+                THUMBNAILS_HIGH,
 
-    //! Get the image thumbnail size.
-    THUMBNAILS_SIZE thumbnailsSize() const;
+                THUMBNAILS_COUNT
+            };
 
-    virtual QModelIndex	index(
-        int                 row,
-        int                 column,
-        const QModelIndex & parent = QModelIndex()) const;
-    
-    virtual QModelIndex	parent(
-        const QModelIndex & = QModelIndex()) const;
-    
-    virtual QVariant headerData(
-        int             section,
-        Qt::Orientation orientation,
-        int             role = Qt::DisplayRole) const;
-    
-    virtual QVariant data(
-        const QModelIndex & index,
-        int                 role = Qt::DisplayRole) const;
+            //! Get the image thumbnail mode labels.
+            static const QStringList & thumbnailsLabels();
 
-    virtual Qt::ItemFlags flags(const QModelIndex &) const;
-    
-    virtual int rowCount(
-        const QModelIndex & parent = QModelIndex()) const;
+            //! Get the image thumbnail mode.
+            THUMBNAILS thumbnails() const;
 
-    virtual int columnCount(
-        const QModelIndex & parent = QModelIndex()) const;
+            //! This enumeration provides the image thumbnail size.
+            enum THUMBNAILS_SIZE
+            {
+                THUMBNAILS_SMALL,
+                THUMBNAILS_MEDIUM,
+                THUMBNAILS_LARGE,
 
-    virtual QStringList mimeTypes() const;
+                THUMBNAILS_SIZE_COUNT
+            };
 
-    virtual QMimeData * mimeData(const QModelIndexList &) const;
+            //! Get the image thumbnail size labels.
+            static const QStringList & thumbnailsSizeLabels();
 
-public Q_SLOTS:
-    //! Set the path.
-    void setPath(const QString &);
-    
-    //! Reload the files.
-    void reload();
+            //! Get the image thumbnail size value.
+            static int thumbnailsSizeValue(THUMBNAILS_SIZE);
 
-    //! Set the file sequencing.
-    void setSequence(djvSequence::COMPRESS);
-    
-    //! Set the filter text.
-    void setFilterText(const QString &);
+            //! Get the image thumbnail size.
+            THUMBNAILS_SIZE thumbnailsSize() const;
 
-    //! Set whether hidden files are shown.
-    void setShowHidden(bool);
+            virtual QModelIndex	index(
+                int                 row,
+                int                 column,
+                const QModelIndex & parent = QModelIndex()) const;
 
-    //! Set the sorting.
-    void setColumnsSort(djvFileBrowserModel::COLUMNS);
+            virtual QModelIndex	parent(
+                const QModelIndex & = QModelIndex()) const;
 
-    //! Set whether sorting is reversed.
-    void setReverseSort(bool);
+            virtual QVariant headerData(
+                int             section,
+                Qt::Orientation orientation,
+                int             role = Qt::DisplayRole) const;
 
-    //! Set whether directories are sorted first.
-    void setSortDirsFirst(bool);
+            virtual QVariant data(
+                const QModelIndex & index,
+                int                 role = Qt::DisplayRole) const;
 
-    //! Set the image thumbnail mode.
-    void setThumbnails(djvFileBrowserModel::THUMBNAILS);
+            virtual Qt::ItemFlags flags(const QModelIndex &) const;
 
-    //! Set the image thumbnail size.
-    void setThumbnailsSize(djvFileBrowserModel::THUMBNAILS_SIZE);
+            virtual int rowCount(
+                const QModelIndex & parent = QModelIndex()) const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the path is changed.
-    void pathChanged(const QString &);
+            virtual int columnCount(
+                const QModelIndex & parent = QModelIndex()) const;
 
-    //! This signal is emitted when the file sequencing is changed.
-    void sequenceChanged(djvSequence::COMPRESS);
-    
-    //! This signal is emitted when the filter text is changed.
-    void filterTextChanged(const QString &);
+            virtual QStringList mimeTypes() const;
 
-    //! This signal is emitted when the hidden files are changed.
-    void showHiddenChanged(bool);
-    
-    //! This signal is emitted when the sorting is changed.    
-    void columnsSortChanged(djvFileBrowserModel::COLUMNS);
-    
-    //! This signal is emitted when reverse sorting is changed.
-    void reverseSortChanged(bool);
-    
-    //! This signal is emitted when sort directories first is changed.
-    void sortDirsFirstChanged(bool);
+            virtual QMimeData * mimeData(const QModelIndexList &) const;
 
-    //! This signal is emitted when the thumbnail mode is changed.
-    void thumbnailsChanged(djvFileBrowserModel::THUMBNAILS);
+        public Q_SLOTS:
+            //! Set the path.
+            void setPath(const QString &);
 
-    //! This signal is emitted when the thumbnail size is changed.
-    void thumbnailsSizeChanged(djvFileBrowserModel::THUMBNAILS_SIZE);
-    
-    //! This signal is emitted when an option is changed.
-    void optionChanged();
-   
-private Q_SLOTS:
-    void imageInfoCallback();
-    void thumbnailCallback();
+            //! Reload the files.
+            void reload();
 
-private:
-    void dirUpdate();
-    void modelUpdate();
+            //! Set the file sequencing.
+            void setSequence(djvSequence::COMPRESS);
 
-    DJV_PRIVATE_COPY(djvFileBrowserModel);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the filter text.
+            void setFilterText(const QString &);
 
-DJV_STRING_OPERATOR(djvFileBrowserModel::COLUMNS);
-DJV_STRING_OPERATOR(djvFileBrowserModel::THUMBNAILS);
-DJV_STRING_OPERATOR(djvFileBrowserModel::THUMBNAILS_SIZE);
+            //! Set whether hidden files are shown.
+            void setShowHidden(bool);
+
+            //! Set the sorting.
+            void setColumnsSort(djv::UI::FileBrowserModel::COLUMNS);
+
+            //! Set whether sorting is reversed.
+            void setReverseSort(bool);
+
+            //! Set whether directories are sorted first.
+            void setSortDirsFirst(bool);
+
+            //! Set the image thumbnail mode.
+            void setThumbnails(djv::UI::FileBrowserModel::THUMBNAILS);
+
+            //! Set the image thumbnail size.
+            void setThumbnailsSize(djv::UI::FileBrowserModel::THUMBNAILS_SIZE);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the path is changed.
+            void pathChanged(const QString &);
+
+            //! This signal is emitted when the file sequencing is changed.
+            void sequenceChanged(djvSequence::COMPRESS);
+
+            //! This signal is emitted when the filter text is changed.
+            void filterTextChanged(const QString &);
+
+            //! This signal is emitted when the hidden files are changed.
+            void showHiddenChanged(bool);
+
+            //! This signal is emitted when the sorting is changed.    
+            void columnsSortChanged(djv::UI::FileBrowserModel::COLUMNS);
+
+            //! This signal is emitted when reverse sorting is changed.
+            void reverseSortChanged(bool);
+
+            //! This signal is emitted when sort directories first is changed.
+            void sortDirsFirstChanged(bool);
+
+            //! This signal is emitted when the thumbnail mode is changed.
+            void thumbnailsChanged(djv::UI::FileBrowserModel::THUMBNAILS);
+
+            //! This signal is emitted when the thumbnail size is changed.
+            void thumbnailsSizeChanged(djv::UI::FileBrowserModel::THUMBNAILS_SIZE);
+
+            //! This signal is emitted when an option is changed.
+            void optionChanged();
+
+        private Q_SLOTS:
+            void imageInfoCallback();
+            void thumbnailCallback();
+
+        private:
+            void dirUpdate();
+            void modelUpdate();
+
+            DJV_PRIVATE_COPY(FileBrowserModel);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+
+    DJV_STRING_OPERATOR(UI::FileBrowserModel::COLUMNS);
+    DJV_STRING_OPERATOR(UI::FileBrowserModel::THUMBNAILS);
+    DJV_STRING_OPERATOR(UI::FileBrowserModel::THUMBNAILS_SIZE);
+
+} // namespace djv
+
 

@@ -37,55 +37,50 @@
 
 class QComboBox;
 
-//! \addtogroup djvPPMPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPPMWidget
-//!
-//! This class provides a PPM widget.
-//------------------------------------------------------------------------------
-
-class djvPPMWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvPPMWidget(djvImageIO *, djvUIContext *);
-    
-    virtual ~djvPPMWidget();
+    namespace UI
+    {
+        //! \class PPMWidget
+        //!
+        //! This class provides a PPM widget.
+        class PPMWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual void resetPreferences();
+        public:
+            PPMWidget(djvImageIO *, UIContext *);
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void typeCallback(int);
-    void dataCallback(int);
+            virtual ~PPMWidget();
 
-    void pluginUpdate();
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-private:
-    djvPPM::Options _options;
-    QComboBox *     _typeWidget;
-    QComboBox *     _dataWidget;
-};
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void typeCallback(int);
+            void dataCallback(int);
 
-//------------------------------------------------------------------------------
-//! \class djvPPMWidgetPlugin
-//!
-//! This class provides a PPM widget plugin.
-//------------------------------------------------------------------------------
+            void pluginUpdate();
+            void widgetUpdate();
 
-class djvPPMWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvPPMWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        private:
+            djvPPM::Options _options;
+            QComboBox *     _typeWidget;
+            QComboBox *     _dataWidget;
+        };
 
-    virtual QString pluginName() const;
-};
+        //! \class PPMWidgetPlugin
+        //!
+        //! This class provides a PPM widget plugin.
+        class PPMWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            PPMWidgetPlugin(djvCoreContext *);
 
-//@} // djvPPMPlugin
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
+
+    } // namespace UI
+} // namespace djv
 

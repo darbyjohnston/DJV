@@ -39,101 +39,99 @@
 
 #include <memory>
 
-class djvFloatObject;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFloatSlider
-//!
-//! This class provides a floating-point slider widget.
-//------------------------------------------------------------------------------
-
-class djvFloatSlider : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.    
-    Q_PROPERTY(
-        float  value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        float  min
-        READ   min
-        WRITE  setMin
-        NOTIFY minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        float  max
-        READ   max
-        WRITE  setMax
-        NOTIFY maxChanged)
-    
-public:
-    explicit djvFloatSlider(QWidget * parent = nullptr);
+    namespace UI
+    {
+        class FloatObject;
 
-    virtual ~djvFloatSlider();
+        //! \class FloatSlider
+        //!
+        //! This class provides a floating-point slider widget.
+        class FloatSlider : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the value.
-    float value() const;
+                //! This property holds the value.    
+                Q_PROPERTY(
+                    float  value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! Get the minimum value.
-    float min() const;
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    float  min
+                    READ   min
+                    WRITE  setMin
+                    NOTIFY minChanged)
 
-    //! Get the maximum value.
-    float max() const;
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    float  max
+                    READ   max
+                    WRITE  setMax
+                    NOTIFY maxChanged)
 
-    //! Get the floating-point object.
-    djvFloatObject * object() const;
-    
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(float);
+        public:
+            explicit FloatSlider(QWidget * parent = nullptr);
 
-    //! Set the minimum value.
-    void setMin(float);
+            virtual ~FloatSlider();
 
-    //! Set the maximum value.
-    void setMax(float);
+            //! Get the value.
+            float value() const;
 
-    //! Set the value range.
-    void setRange(float min, float max);
+            //! Get the minimum value.
+            float min() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(float);
+            //! Get the maximum value.
+            float max() const;
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(float);
+            //! Get the floating-point object.
+            FloatObject * object() const;
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(float);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(float);
 
-    //! This signal is emitted when the range is changed.
-    void rangeChanged(float, float);
-    
-protected:
-    virtual void keyPressEvent(QKeyEvent *);
+            //! Set the minimum value.
+            void setMin(float);
 
-private Q_SLOTS:
-    void valueCallback();
-    void rangeCallback();
-    void sliderCallback(int);
+            //! Set the maximum value.
+            void setMax(float);
 
-    void widgetUpdate();
+            //! Set the value range.
+            void setRange(float min, float max);
 
-private:
-    DJV_PRIVATE_COPY(djvFloatSlider);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(float);
 
-//@} // djvUIWidget
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(float);
 
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(float);
+
+            //! This signal is emitted when the range is changed.
+            void rangeChanged(float, float);
+
+        protected:
+            virtual void keyPressEvent(QKeyEvent *);
+
+        private Q_SLOTS:
+            void valueCallback();
+            void rangeCallback();
+            void sliderCallback(int);
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(FloatSlider);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

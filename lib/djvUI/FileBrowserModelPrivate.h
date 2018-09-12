@@ -38,70 +38,73 @@
 #include <QPixmap>
 #include <QVariant>
 
-class djvFileBrowserItemHelper;
-
-//------------------------------------------------------------------------------
-// djvFileBrowserItem
-//------------------------------------------------------------------------------
-
-class djvFileBrowserItem : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvFileBrowserItem(
-        const djvFileInfo &                  fileInfo,
-        djvFileBrowserModel::THUMBNAILS      thumbnails,
-        djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
-        djvUIContext *                      context,
-        QObject *                            parent);
+    namespace UI
+    {
+        class FileBrowserItemHelper;
 
-    //! Get the file information.
-    const djvFileInfo & fileInfo() const;
-    
-    //! Get the image information.
-    const djvImageIOInfo & imageInfo() const;
-    
-    //! Get the thumbnail.
-    const QPixmap & thumbnail() const;
-    
-    //! Get the display role data.
-    const QVariant & displayRole(int column) const;
+        class FileBrowserItem : public QObject
+        {
+            Q_OBJECT
 
-    //! Get the edit role data.
-    const QVariant & editRole(int column) const;
-    
-public Q_SLOTS:
-    //! Request the image.
-    void requestImage();
+        public:
+            explicit FileBrowserItem(
+                const djvFileInfo & fileInfo,
+                FileBrowserModel::THUMBNAILS thumbnails,
+                FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
+                UIContext * context,
+                QObject * parent);
 
-Q_SIGNALS:
-    //! This signal is emitted when the image information is available.
-    void imageInfoAvailable();
-    
-    //! This signal is emitted when the thumbnail is available.
-    void thumbnailAvailable();
+            //! Get the file information.
+            const djvFileInfo & fileInfo() const;
 
-private Q_SLOTS:
-    void imageInfoCallback();
-    void thumbnailCallback();
-    
-private:
-    void updateImageInfo();
+            //! Get the image information.
+            const djvImageIOInfo & imageInfo() const;
 
-    djvFileInfo                          _fileInfo;
-    djvFileBrowserModel::THUMBNAILS      _thumbnails;
-    djvFileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
-    glm::ivec2                           _thumbnailSize    = glm::ivec2(0, 0);
-    djvPixelDataInfo::PROXY              _thumbnailProxy   = static_cast<djvPixelDataInfo::PROXY>(0);
-    bool                                 _imageInfoRequest = false;
-    djvImageIOInfo                       _imageInfo;
-    bool                                 _thumbnailRequest = false;
-    QPixmap                              _thumbnail;
+            //! Get the thumbnail.
+            const QPixmap & thumbnail() const;
 
-    QVariant _displayRole[djvFileBrowserModel::COLUMNS_COUNT];
-    QVariant _editRole   [djvFileBrowserModel::COLUMNS_COUNT];
+            //! Get the display role data.
+            const QVariant & displayRole(int column) const;
 
-    djvUIContext *                      _context = nullptr;
-};
+            //! Get the edit role data.
+            const QVariant & editRole(int column) const;
+
+        public Q_SLOTS:
+            //! Request the image.
+            void requestImage();
+
+        Q_SIGNALS:
+            //! This signal is emitted when the image information is available.
+            void imageInfoAvailable();
+
+            //! This signal is emitted when the thumbnail is available.
+            void thumbnailAvailable();
+
+        private Q_SLOTS:
+            void imageInfoCallback();
+            void thumbnailCallback();
+
+        private:
+            void updateImageInfo();
+
+            djvFileInfo _fileInfo;
+            FileBrowserModel::THUMBNAILS _thumbnails;
+            FileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
+            glm::ivec2 _thumbnailSize = glm::ivec2(0, 0);
+            djvPixelDataInfo::PROXY _thumbnailProxy = static_cast<djvPixelDataInfo::PROXY>(0);
+            bool _imageInfoRequest = false;
+            djvImageIOInfo _imageInfo;
+            bool _thumbnailRequest = false;
+            QPixmap _thumbnail;
+
+            QVariant _displayRole[FileBrowserModel::COLUMNS_COUNT];
+            QVariant _editRole[FileBrowserModel::COLUMNS_COUNT];
+
+            UIContext * _context = nullptr;
+        };
+
+    } // namespace UI
+} // namespace djv
 

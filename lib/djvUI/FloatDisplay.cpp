@@ -36,78 +36,77 @@
 #include <QHBoxLayout>
 #include <QDoubleSpinBox>
 
-//------------------------------------------------------------------------------
-// djvFloatDisplay::Private
-//------------------------------------------------------------------------------
-
-struct djvFloatDisplay::Private
+namespace djv
 {
-    float            value   = 0.f;
-    float            min     = 0.f;
-    float            max     = 1.f;
-    QDoubleSpinBox * spinBox = nullptr;
-};
+    namespace UI
+    {
+        struct FloatDisplay::Private
+        {
+            float            value = 0.f;
+            float            min = 0.f;
+            float            max = 1.f;
+            QDoubleSpinBox * spinBox = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvFloatDisplay
-//------------------------------------------------------------------------------
+        FloatDisplay::FloatDisplay(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->spinBox = new QDoubleSpinBox;
+            _p->spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);
+            _p->spinBox->setReadOnly(true);
 
-djvFloatDisplay::djvFloatDisplay(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->spinBox = new QDoubleSpinBox;
-    _p->spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    _p->spinBox->setReadOnly(true);
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
-    layout->setMargin(0);
-    layout->addWidget(_p->spinBox);
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(0);
+            layout->setMargin(0);
+            layout->addWidget(_p->spinBox);
 
-    widgetUpdate();
-}
+            widgetUpdate();
+        }
 
-djvFloatDisplay::~djvFloatDisplay()
-{}
+        FloatDisplay::~FloatDisplay()
+        {}
 
-float djvFloatDisplay::value() const
-{
-    return _p->value;
-}
+        float FloatDisplay::value() const
+        {
+            return _p->value;
+        }
 
-float djvFloatDisplay::min() const
-{
-    return _p->min;
-}
+        float FloatDisplay::min() const
+        {
+            return _p->min;
+        }
 
-float djvFloatDisplay::max() const
-{
-    return _p->max;
-}
+        float FloatDisplay::max() const
+        {
+            return _p->max;
+        }
 
-void djvFloatDisplay::setValue(float value)
-{
-    if (value == _p->value)
-        return;
-    _p->value = value;
-    Q_EMIT valueChanged(_p->value);
-    widgetUpdate();
-}
+        void FloatDisplay::setValue(float value)
+        {
+            if (value == _p->value)
+                return;
+            _p->value = value;
+            Q_EMIT valueChanged(_p->value);
+            widgetUpdate();
+        }
 
-void djvFloatDisplay::setRange(float min, float max)
-{
-    if (min == _p->min && max == _p->max)
-        return;
-    _p->min = min;
-    _p->max = max;
-    Q_EMIT rangeChanged(_p->min, _p->max);
-    widgetUpdate();
-}
+        void FloatDisplay::setRange(float min, float max)
+        {
+            if (min == _p->min && max == _p->max)
+                return;
+            _p->min = min;
+            _p->max = max;
+            Q_EMIT rangeChanged(_p->min, _p->max);
+            widgetUpdate();
+        }
 
-void djvFloatDisplay::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_p->spinBox);
-    _p->spinBox->setRange(_p->min, _p->max);
-    _p->spinBox->setValue(_p->value);
-}
+        void FloatDisplay::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_p->spinBox);
+            _p->spinBox->setRange(_p->min, _p->max);
+            _p->spinBox->setValue(_p->value);
+        }
+
+    } // namespace UI
+} // namespace djv

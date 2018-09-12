@@ -37,26 +37,25 @@
 
 #include <QOpenGLWidget>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLWidget
-//!
-//! This class provides an OpenGL widget.
-//------------------------------------------------------------------------------
-
-class djvOpenGLWidget : public QOpenGLWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvOpenGLWidget(
-        QWidget *       parent = nullptr,
-        Qt::WindowFlags flags  = 0);
+    namespace UI
+    {
+        //! \class OpenGLWidget
+        //!
+        //! This class provides an OpenGL widget.
+        class OpenGLWidget : public QOpenGLWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvOpenGLWidget();
-};
+        public:
+            explicit OpenGLWidget(
+                QWidget *       parent = nullptr,
+                Qt::WindowFlags flags = 0);
 
-//@} // djvUIWidget
+            virtual ~OpenGLWidget();
+        };
+
+    } // namespace UI
+} // namespace djv
 

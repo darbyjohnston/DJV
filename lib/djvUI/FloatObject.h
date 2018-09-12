@@ -35,211 +35,209 @@
 
 #include <QObject>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFloatObject
-//!
-//! This class provides the base functionality for floating point widgets.
-//------------------------------------------------------------------------------
-
-class djvFloatObject : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        float  value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-    //! This property holds the default value.
-    Q_PROPERTY(
-        float  defaultValue
-        READ   defaultValue
-        WRITE  setDefaultValue
-        NOTIFY defaultValueChanged)
-    
-    //! This property holds whether the default value is valid.
-    Q_PROPERTY(
-        bool   defaultValid
-        READ   isDefaultValid
-        NOTIFY defaultValidChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        float  min
-        READ   min
-        WRITE  setMin
-        NOTIFY minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        float  max
-        READ   max
-        WRITE  setMax
-        NOTIFY maxChanged)
-    
-    //! This property holds the small increment.
-    Q_PROPERTY(
-        float  smallInc
-        READ   smallInc
-        WRITE  setSmallInc
-        NOTIFY smallIncChanged)
-    
-    //! This property holds the large increment.
-    Q_PROPERTY(
-        float  largeInc
-        READ   largeInc
-        WRITE  setLargeInc
-        NOTIFY largeIncChanged)
-    
-    //! This property holds whether clamping is enabled.
-    Q_PROPERTY(
-        bool  clamp
-        READ  hasClamp
-        WRITE setClamp)
+    namespace UI
+    {
+        //! \class FloatObject
+        //!
+        //! This class provides the base functionality for floating point widgets.
+        class FloatObject : public QObject
+        {
+            Q_OBJECT
 
-    //! This property holds the size string.
-    Q_PROPERTY(
-        QString sizeString
-        READ    sizeString
-        WRITE   setSizeString
-        NOTIFY  sizeStringChanged)
+                //! This property holds the value.
+                Q_PROPERTY(
+                    float  value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-public:
-    //! The minimum floating point value.
-    static const float floatMin;
+                //! This property holds the default value.
+                Q_PROPERTY(
+                    float  defaultValue
+                    READ   defaultValue
+                    WRITE  setDefaultValue
+                    NOTIFY defaultValueChanged)
 
-    //! The maximum floating point value.
-    static const float floatMax;
+                //! This property holds whether the default value is valid.
+                Q_PROPERTY(
+                    bool   defaultValid
+                    READ   isDefaultValid
+                    NOTIFY defaultValidChanged)
 
-    explicit djvFloatObject(QObject * parent = nullptr);
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    float  min
+                    READ   min
+                    WRITE  setMin
+                    NOTIFY minChanged)
 
-    virtual ~djvFloatObject();
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    float  max
+                    READ   max
+                    WRITE  setMax
+                    NOTIFY maxChanged)
 
-    //! Get the value.
-    float value() const;
+                //! This property holds the small increment.
+                Q_PROPERTY(
+                    float  smallInc
+                    READ   smallInc
+                    WRITE  setSmallInc
+                    NOTIFY smallIncChanged)
 
-    //! Get the default value.
-    float defaultValue() const;
+                //! This property holds the large increment.
+                Q_PROPERTY(
+                    float  largeInc
+                    READ   largeInc
+                    WRITE  setLargeInc
+                    NOTIFY largeIncChanged)
 
-    //! Get whether the default value is valid.
-    bool isDefaultValid() const;
+                //! This property holds whether clamping is enabled.
+                Q_PROPERTY(
+                    bool  clamp
+                    READ  hasClamp
+                    WRITE setClamp)
 
-    //! Get the minimum value.
-    float min() const;
+                //! This property holds the size string.
+                Q_PROPERTY(
+                    QString sizeString
+                    READ    sizeString
+                    WRITE   setSizeString
+                    NOTIFY  sizeStringChanged)
 
-    //! Get the maximum value.
-    float max() const;
+        public:
+            //! The minimum floating point value.
+            static const float floatMin;
 
-    //! Get the small increment.
-    float smallInc() const;
+            //! The maximum floating point value.
+            static const float floatMax;
 
-    //! Get the large increment.
-    float largeInc() const;
+            explicit FloatObject(QObject * parent = nullptr);
 
-    //! Get whether clamping is enabled.
-    bool hasClamp() const;
+            virtual ~FloatObject();
 
-    //! Get the size string.
-    const QString & sizeString() const;
+            //! Get the value.
+            float value() const;
 
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(float);
+            //! Get the default value.
+            float defaultValue() const;
 
-    //! Set the default value.
-    void setDefaultValue(float);
+            //! Get whether the default value is valid.
+            bool isDefaultValid() const;
 
-    //! Set the minimum value.
-    void setMin(float);
+            //! Get the minimum value.
+            float min() const;
 
-    //! Set the maximum value.
-    void setMax(float);
+            //! Get the maximum value.
+            float max() const;
 
-    //! Set the value range.
-    void setRange(float min, float max);
+            //! Get the small increment.
+            float smallInc() const;
 
-    //! Set the value to the minimum.
-    void setToMin();
+            //! Get the large increment.
+            float largeInc() const;
 
-    //! Set the value to the maximum.
-    void setToMax();
+            //! Get whether clamping is enabled.
+            bool hasClamp() const;
 
-    //! Set the small increment.
-    void setSmallInc(float);
+            //! Get the size string.
+            const QString & sizeString() const;
 
-    //! Set the large increment.
-    void setLargeInc(float);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(float);
 
-    //! Set the value increment.
-    void setInc(float smallInc, float largeInc);
+            //! Set the default value.
+            void setDefaultValue(float);
 
-    //! Increment the value.
-    void smallIncAction();
+            //! Set the minimum value.
+            void setMin(float);
 
-    //! Increment the value.
-    void largeIncAction();
+            //! Set the maximum value.
+            void setMax(float);
 
-    //! Decrement the value.
-    void smallDecAction();
+            //! Set the value range.
+            void setRange(float min, float max);
 
-    //! Decrement the value.
-    void largeDecAction();
+            //! Set the value to the minimum.
+            void setToMin();
 
-    //! Set whether clamping is enabled.
-    void setClamp(bool);
+            //! Set the value to the maximum.
+            void setToMax();
 
-    //! Set the size string.
-    void setSizeString(const QString &);
+            //! Set the small increment.
+            void setSmallInc(float);
 
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(float);
+            //! Set the large increment.
+            void setLargeInc(float);
 
-    //! This signal is emitted when the default value is changed.
-    void defaultValueChanged(float);
+            //! Set the value increment.
+            void setInc(float smallInc, float largeInc);
 
-    //! This signal is emitted when the default value is valid is changed.
-    void defaultValidChanged(bool);
+            //! Increment the value.
+            void smallIncAction();
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(float);
+            //! Increment the value.
+            void largeIncAction();
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(float);
+            //! Decrement the value.
+            void smallDecAction();
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(float min, float max);
+            //! Decrement the value.
+            void largeDecAction();
 
-    //! This signal is emitted when the small increment is changed.
-    void smallIncChanged(float);
+            //! Set whether clamping is enabled.
+            void setClamp(bool);
 
-    //! This signal is emitted when the large increment is changed.
-    void largeIncChanged(float);
+            //! Set the size string.
+            void setSizeString(const QString &);
 
-    //! This signal is emitted when the increment is changed.
-    void incChanged(float, float);
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(float);
 
-    //! This signal is emitted when the size string is changed.
-    void sizeStringChanged(const QString &);
+            //! This signal is emitted when the default value is changed.
+            void defaultValueChanged(float);
 
-private:
-    void defaultValidUpdate();
+            //! This signal is emitted when the default value is valid is changed.
+            void defaultValidChanged(bool);
 
-    float   _value          = 0.f;
-    bool    _isDefaultValid = false;
-    float   _defaultValue   = 0.f;
-    float   _min            = 0.f;
-    float   _max            = 0.f;
-    bool    _clamp          = true;
-    float   _smallInc       = 0.f;
-    float   _largeInc       = 0.f;
-    QString _sizeString     = "00000";
-};
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(float);
 
-//@} // djvUIWidget
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(float);
 
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(float min, float max);
+
+            //! This signal is emitted when the small increment is changed.
+            void smallIncChanged(float);
+
+            //! This signal is emitted when the large increment is changed.
+            void largeIncChanged(float);
+
+            //! This signal is emitted when the increment is changed.
+            void incChanged(float, float);
+
+            //! This signal is emitted when the size string is changed.
+            void sizeStringChanged(const QString &);
+
+        private:
+            void defaultValidUpdate();
+
+            float   _value = 0.f;
+            bool    _isDefaultValid = false;
+            float   _defaultValue = 0.f;
+            float   _min = 0.f;
+            float   _max = 0.f;
+            bool    _clamp = true;
+            float   _smallInc = 0.f;
+            float   _largeInc = 0.f;
+            QString _sizeString = "00000";
+        };
+
+    } // namespace UI
+} // namespace djv

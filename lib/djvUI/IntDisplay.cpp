@@ -36,79 +36,77 @@
 #include <QHBoxLayout>
 #include <QSpinBox>
 
-//------------------------------------------------------------------------------
-// djvIntDisplay::Private
-//------------------------------------------------------------------------------
-
-struct djvIntDisplay::Private
+namespace djv
 {
-    int        value   = 0;
-    int        min     = 1;
-    int        max     = 100;
-    QSpinBox * spinBox = nullptr;
-};
+    namespace UI
+    {
+        struct IntDisplay::Private
+        {
+            int        value = 0;
+            int        min = 1;
+            int        max = 100;
+            QSpinBox * spinBox = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvIntDisplay
-//------------------------------------------------------------------------------
+        IntDisplay::IntDisplay(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->spinBox = new QSpinBox;
+            _p->spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);
+            _p->spinBox->setReadOnly(true);
 
-djvIntDisplay::djvIntDisplay(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->spinBox = new QSpinBox;
-    _p->spinBox->setButtonSymbols(QAbstractSpinBox::NoButtons);
-    _p->spinBox->setReadOnly(true);
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
-    layout->setMargin(0);
-    layout->addWidget(_p->spinBox);
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(0);
+            layout->setMargin(0);
+            layout->addWidget(_p->spinBox);
 
-    widgetUpdate();
-}
+            widgetUpdate();
+        }
 
-djvIntDisplay::~djvIntDisplay()
-{}
+        IntDisplay::~IntDisplay()
+        {}
 
-int djvIntDisplay::value() const
-{
-    return _p->value;
-}
+        int IntDisplay::value() const
+        {
+            return _p->value;
+        }
 
-int djvIntDisplay::min() const
-{
-    return _p->min;
-}
+        int IntDisplay::min() const
+        {
+            return _p->min;
+        }
 
-int djvIntDisplay::max() const
-{
-    return _p->max;
-}
+        int IntDisplay::max() const
+        {
+            return _p->max;
+        }
 
-void djvIntDisplay::setValue(int value)
-{
-    if (value == _p->value)
-        return;
-    _p->value = value;
-    Q_EMIT valueChanged(_p->value);
-    widgetUpdate();
-}
+        void IntDisplay::setValue(int value)
+        {
+            if (value == _p->value)
+                return;
+            _p->value = value;
+            Q_EMIT valueChanged(_p->value);
+            widgetUpdate();
+        }
 
-void djvIntDisplay::setRange(int min, int max)
-{
-    if (min == _p->min && max == _p->max)
-        return;
-    _p->min = min;
-    _p->max = max;
-    Q_EMIT rangeChanged(_p->min, _p->max);
-    widgetUpdate();
-}
+        void IntDisplay::setRange(int min, int max)
+        {
+            if (min == _p->min && max == _p->max)
+                return;
+            _p->min = min;
+            _p->max = max;
+            Q_EMIT rangeChanged(_p->min, _p->max);
+            widgetUpdate();
+        }
 
-void djvIntDisplay::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_p->spinBox);
-    _p->spinBox->setRange(_p->min, _p->max);
-    _p->spinBox->setValue(_p->value);
-}
+        void IntDisplay::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_p->spinBox);
+            _p->spinBox->setRange(_p->min, _p->max);
+            _p->spinBox->setValue(_p->value);
+        }
 
+    } // namespace UI
+} // namespace djv

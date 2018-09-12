@@ -46,93 +46,92 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvTimePrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvTimePrefsWidget::Private
+namespace djv
 {
-    QComboBox *  timeUnitsWidget = nullptr;
-    QComboBox *  speedWidget     = nullptr;
-};
+    namespace UI
+    {
+        struct TimePrefsWidget::Private
+        {
+            QComboBox * timeUnitsWidget = nullptr;
+            QComboBox * speedWidget = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvTimePrefsWidget
-//------------------------------------------------------------------------------
+        TimePrefsWidget::TimePrefsWidget(UIContext * context, QWidget * parent) :
+            AbstractPrefsWidget(
+                qApp->translate("djv::UI::TimePrefsWidget", "Time"), context, parent),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->timeUnitsWidget = new QComboBox;
+            _p->timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->timeUnitsWidget->addItems(djvTime::unitsLabels());
 
-djvTimePrefsWidget::djvTimePrefsWidget(djvUIContext * context, QWidget * parent) :
-    djvAbstractPrefsWidget(
-        qApp->translate("djvTimePrefsWidget", "Time"), context, parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->timeUnitsWidget = new QComboBox;
-    _p->timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->timeUnitsWidget->addItems(djvTime::unitsLabels());
+            _p->speedWidget = new QComboBox;
+            _p->speedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->speedWidget->addItems(djvSpeed::fpsLabels());
 
-    _p->speedWidget = new QComboBox;
-    _p->speedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->speedWidget->addItems(djvSpeed::fpsLabels());
-    
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvTimePrefsWidget", "Time"), context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvTimePrefsWidget", "Time units:"),
-        _p->timeUnitsWidget);
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->addWidget(_p->speedWidget);
-    hLayout->addWidget(
-        new QLabel(qApp->translate("djvTimePrefsWidget", "(frames per second)")));
-    formLayout->addRow(
-        qApp->translate("djvTimePrefsWidget", "Default speed:"), hLayout);
-    layout->addWidget(prefsGroupBox);
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::TimePrefsWidget", "Time"), context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("vTimePrefsWidget", "Time units:"),
+                _p->timeUnitsWidget);
+            QHBoxLayout * hLayout = new QHBoxLayout;
+            hLayout->addWidget(_p->speedWidget);
+            hLayout->addWidget(
+                new QLabel(qApp->translate("djv::UI::TimePrefsWidget", "(frames per second)")));
+            formLayout->addRow(
+                qApp->translate("djv::UI::TimePrefsWidget", "Default speed:"), hLayout);
+            layout->addWidget(prefsGroupBox);
 
-    layout->addStretch();
+            layout->addStretch();
 
-    // Initialize.
-    widgetUpdate();
+            // Initialize.
+            widgetUpdate();
 
-    // Setup the callbacks.
-    connect(
-        _p->timeUnitsWidget,
-        SIGNAL(activated(int)),
-        SLOT(timeUnitsCallback(int)));
-    connect(
-        _p->speedWidget,
-        SIGNAL(activated(int)),
-        SLOT(speedCallback(int)));
-}
+            // Setup the callbacks.
+            connect(
+                _p->timeUnitsWidget,
+                SIGNAL(activated(int)),
+                SLOT(timeUnitsCallback(int)));
+            connect(
+                _p->speedWidget,
+                SIGNAL(activated(int)),
+                SLOT(speedCallback(int)));
+        }
 
-djvTimePrefsWidget::~djvTimePrefsWidget()
-{}
+        TimePrefsWidget::~TimePrefsWidget()
+        {}
 
-void djvTimePrefsWidget::resetPreferences()
-{
-    context()->timePrefs()->setTimeUnits(djvTime::unitsDefault());
-    context()->timePrefs()->setSpeed(djvSpeed::speedDefault());
-    widgetUpdate();
-}
+        void TimePrefsWidget::resetPreferences()
+        {
+            context()->timePrefs()->setTimeUnits(djvTime::unitsDefault());
+            context()->timePrefs()->setSpeed(djvSpeed::speedDefault());
+            widgetUpdate();
+        }
 
-void djvTimePrefsWidget::timeUnitsCallback(int index)
-{
-    context()->timePrefs()->setTimeUnits(static_cast<djvTime::UNITS>(index));
-}
+        void TimePrefsWidget::timeUnitsCallback(int index)
+        {
+            context()->timePrefs()->setTimeUnits(static_cast<djvTime::UNITS>(index));
+        }
 
-void djvTimePrefsWidget::speedCallback(int index)
-{
-    context()->timePrefs()->setSpeed(static_cast<djvSpeed::FPS>(index));
-}
+        void TimePrefsWidget::speedCallback(int index)
+        {
+            context()->timePrefs()->setSpeed(static_cast<djvSpeed::FPS>(index));
+        }
 
-void djvTimePrefsWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->timeUnitsWidget <<
-        _p->speedWidget);
-    _p->timeUnitsWidget->setCurrentIndex(djvTime::units());
-    _p->speedWidget->setCurrentIndex(djvSpeed::speed());
-}
+        void TimePrefsWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->timeUnitsWidget <<
+                _p->speedWidget);
+            _p->timeUnitsWidget->setCurrentIndex(djvTime::units());
+            _p->speedWidget->setCurrentIndex(djvSpeed::speed());
+        }
+
+    } // namespace UI
+} // namespace djv

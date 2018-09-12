@@ -36,30 +36,28 @@
 #include <QKeySequence>
 #include <QVector>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvShortcut
-//!
-//! This struct provides a keyboard shortcut.
-//------------------------------------------------------------------------------
-
-struct djvShortcut
+namespace djv
 {
-    djvShortcut(
-        const QString &      name  = QString(),
-        const QKeySequence & value = QKeySequence());
+    namespace UI
+    {
+        //! \struct Shortcut
+        //!
+        //! This struct provides a keyboard shortcut.
+        struct Shortcut
+        {
+            Shortcut(
+                const QString &      name = QString(),
+                const QKeySequence & value = QKeySequence());
 
-    QString      name;
-    QKeySequence value;
+            QString      name;
+            QKeySequence value;
 
-    bool operator == (const djvShortcut &) const;
-    bool operator != (const djvShortcut &) const;
+            bool operator == (const Shortcut &) const;
+            bool operator != (const Shortcut &) const;
 
-    static bool        serialize(QStringList &, QKeySequence &);
-    static QStringList serialize(const QKeySequence &);
-};
+            static bool        serialize(QStringList &, QKeySequence &);
+            static QStringList serialize(const QKeySequence &);
+        };
 
-//@} // djvUIMisc
-
+    } // namespace UI
+} // namespace djv

@@ -41,62 +41,60 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvColorDialog
-//!
-//! This class provides a color picker dialog.
-//------------------------------------------------------------------------------
-
-class djvColorDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the color.    
-    Q_PROPERTY(
-        djvColor color
-        READ     color
-        WRITE    setColor
-        NOTIFY   colorChanged)
-    
-public:
-    explicit djvColorDialog(
-        djvUIContext *  context,
-        QWidget *        parent  = nullptr);
-    explicit djvColorDialog(
-        const djvColor & color,
-        djvUIContext *  context,
-        QWidget *        parent  = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvColorDialog();
-    
-    //! Get the color.
-    const djvColor & color() const;
+        //! \class ColorDialog
+        //!
+        //! This class provides a color picker dialog.
+        class ColorDialog : public QDialog
+        {
+            Q_OBJECT
 
-public Q_SLOTS:
-    //! Set the color.
-    void setColor(const djvColor &);
+            //! This property holds the color.    
+            Q_PROPERTY(
+                djvColor color
+                READ     color
+                WRITE    setColor
+                NOTIFY   colorChanged)
 
-Q_SIGNALS:
-    //! This signal is emitted when the color is changed.
-    void colorChanged(const djvColor &);
+        public:
+            explicit ColorDialog(
+                UIContext *  context,
+                QWidget * parent = nullptr);
+            explicit ColorDialog(
+                const djvColor & color,
+                UIContext *  context,
+                QWidget * parent = nullptr);
 
-private Q_SLOTS:
-    void widgetCallback(const djvColor &);
+            virtual ~ColorDialog();
 
-private:
-    void init();
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvColorDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the color.
+            const djvColor & color() const;
 
-//@} // djvUIDialog
+        public Q_SLOTS:
+            //! Set the color.
+            void setColor(const djvColor &);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the color is changed.
+            void colorChanged(const djvColor &);
+
+        private Q_SLOTS:
+            void widgetCallback(const djvColor &);
+
+        private:
+            void init();
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(ColorDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

@@ -39,101 +39,99 @@
 
 #include <memory>
 
-class djvIntObject;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIntEdit
-//!
-//! This class provides an integer edit widget.
-//------------------------------------------------------------------------------
-
-class djvIntEdit : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        int    value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        int    min
-        READ   min
-        WRITE  setMin
-        NOTIFY minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        int    max
-        READ   max
-        WRITE  setMax
-        NOTIFY maxChanged)
-    
-public:
-    djvIntEdit(QWidget * parent = nullptr);
+    namespace UI
+    {
+        class IntObject;
 
-    virtual ~djvIntEdit();
+        //! \class IntEdit
+        //!
+        //! This class provides an integer edit widget.
+        class IntEdit : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the value.
-    int value() const;
+                //! This property holds the value.
+                Q_PROPERTY(
+                    int    value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! Get the minimum value.
-    int min() const;
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    int    min
+                    READ   min
+                    WRITE  setMin
+                    NOTIFY minChanged)
 
-    //! Get the maximum value.
-    int max() const;
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    int    max
+                    READ   max
+                    WRITE  setMax
+                    NOTIFY maxChanged)
 
-    //! Get the integer object.
-    djvIntObject * object() const;
+        public:
+            IntEdit(QWidget * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(int);
+            virtual ~IntEdit();
 
-    //! Set the minimum value.
-    void setMin(int);
+            //! Get the value.
+            int value() const;
 
-    //! Set the maximum value.
-    void setMax(int);
-    
-    //! Set the value range.
-    void setRange(int min, int max);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(int);
-    
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(int);
+            //! Get the minimum value.
+            int min() const;
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(int);
+            //! Get the maximum value.
+            int max() const;
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(int, int);
+            //! Get the integer object.
+            IntObject * object() const;
 
-protected:
-    virtual void keyPressEvent(QKeyEvent *);
-	
-private Q_SLOTS:
-    void valueCallback();
-    void rangeCallback();
-    void spinBoxCallback(int);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(int);
 
-    void widgetUpdate();
+            //! Set the minimum value.
+            void setMin(int);
 
-private:
-    DJV_PRIVATE_COPY(djvIntEdit);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the maximum value.
+            void setMax(int);
 
-//@} // djvUIWidget
+            //! Set the value range.
+            void setRange(int min, int max);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(int);
+
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(int);
+
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(int);
+
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(int, int);
+
+        protected:
+            virtual void keyPressEvent(QKeyEvent *);
+
+        private Q_SLOTS:
+            void valueCallback();
+            void rangeCallback();
+            void spinBoxCallback(int);
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(IntEdit);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

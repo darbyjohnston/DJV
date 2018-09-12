@@ -60,7 +60,7 @@ namespace djv
         //! \class Context
         //!
         //! This class provides global functionality for the library.
-        class Context : public djvUIContext
+        class Context : public UI::UIContext
         {
             Q_OBJECT
 

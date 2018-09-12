@@ -86,7 +86,7 @@ namespace djv
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
-            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Playback"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->autoStartWidget);
@@ -96,7 +96,7 @@ namespace djv
             formLayout->addRow(_p->everyFrameWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::PlaybackPrefsWidget", "Layout"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(

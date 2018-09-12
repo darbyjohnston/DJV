@@ -39,53 +39,52 @@
 
 #include <memory>
 
-class djvUIContext;
-
 class QFormLayout;
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPrefsGroupBox
-//!
-//! This class provides a group box for preferences.
-//------------------------------------------------------------------------------
-
-class djvPrefsGroupBox : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvPrefsGroupBox(
-        const QString & title,
-        djvUIContext * context,
-        QWidget *       parent  = nullptr);
-    explicit djvPrefsGroupBox(
-        const QString & title,
-        const QString & text,
-        djvUIContext * context,
-        QWidget *       parent  = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvPrefsGroupBox();
+        //! \class djvPrefsGroupBox
+        //!
+        //! This class provides a group box for preferences.
+        class PrefsGroupBox : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the text.
-    const QString & text() const;
-    
-    //! Set the text.
-    void setText(const QString &);
-    
-    //! Create a new layout to add widgets to the group box.
-    QFormLayout * createLayout();
-    
-private:
-    void init(const QString & title);
-    
-    DJV_PRIVATE_COPY(djvPrefsGroupBox);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public:
+            explicit PrefsGroupBox(
+                const QString & title,
+                UIContext * context,
+                QWidget * parent = nullptr);
+            explicit PrefsGroupBox(
+                const QString & title,
+                const QString & text,
+                UIContext * context,
+                QWidget * parent = nullptr);
 
-//@} // djvUIWidget
+            virtual ~PrefsGroupBox();
+
+            //! Get the text.
+            const QString & text() const;
+
+            //! Set the text.
+            void setText(const QString &);
+
+            //! Create a new layout to add widgets to the group box.
+            QFormLayout * createLayout();
+
+        private:
+            void init(const QString & title);
+
+            DJV_PRIVATE_COPY(PrefsGroupBox);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
 

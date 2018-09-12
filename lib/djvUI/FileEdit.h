@@ -40,56 +40,54 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileEdit
-//!
-//! This class provides a file name edit widget.
-//------------------------------------------------------------------------------
-
-class djvFileEdit : public QWidget
+namespace djv
 {
-    Q_OBJECT
+    namespace UI
+    {
+        class UIContext;
+
+        //! \class FileEdit
+        //!
+        //! This class provides a file name edit widget.
+        class FileEdit : public QWidget
+        {
+            Q_OBJECT
+
+            //! This property holds the file information.    
+            Q_PROPERTY(
+                djvFileInfo fileInfo
+                READ        fileInfo
+                WRITE       setFileInfo
+                NOTIFY      fileInfoChanged)
     
-    //! This property holds the file information.    
-    Q_PROPERTY(
-        djvFileInfo fileInfo
-        READ        fileInfo
-        WRITE       setFileInfo
-        NOTIFY      fileInfoChanged)
-    
-public:
-    explicit djvFileEdit(djvUIContext *, QWidget * parent = nullptr);
+        public:
+            explicit FileEdit(UIContext *, QWidget * parent = nullptr);
 
-    virtual ~djvFileEdit();
+            virtual ~FileEdit();
 
-    //! Get the file information.
-    const djvFileInfo & fileInfo() const;
+            //! Get the file information.
+            const djvFileInfo & fileInfo() const;
 
-public Q_SLOTS:
-    //! Set the file information.
-    void setFileInfo(const djvFileInfo &);
+        public Q_SLOTS:
+            //! Set the file information.
+            void setFileInfo(const djvFileInfo &);
 
-Q_SIGNALS:
-    //! This signal is emitted when the file information is changed.
-    void fileInfoChanged(const djvFileInfo &);
+        Q_SIGNALS:
+            //! This signal is emitted when the file information is changed.
+            void fileInfoChanged(const djvFileInfo &);
 
-private Q_SLOTS:
-    void editCallback();
-    void buttonCallback();
+        private Q_SLOTS:
+            void editCallback();
+            void buttonCallback();
 
-private:
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvFileEdit);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private:
+            void widgetUpdate();
 
-//@} // djvUIWidget
+            DJV_PRIVATE_COPY(FileEdit);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

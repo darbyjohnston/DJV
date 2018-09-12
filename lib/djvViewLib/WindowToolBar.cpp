@@ -45,23 +45,23 @@ namespace djv
             QWidget *         parent) :
             AbstractToolBar(actions, context, parent)
         {
-            djvToolButton * button = new djvToolButton;
+            UI::ToolButton * button = new UI::ToolButton;
             button->setDefaultAction(actions->action(WindowActions::NEW));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(WindowActions::COPY));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(WindowActions::CLOSE));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(WindowActions::FIT));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(WindowActions::FULL_SCREEN));
             addWidget(button);
         }

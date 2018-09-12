@@ -40,134 +40,132 @@
 #include <QStyle>
 #include <QStyleOption>
 
-//------------------------------------------------------------------------------
-// djvToolButton::Private
-//------------------------------------------------------------------------------
-
-struct djvToolButton::Private
+namespace djv
 {
-    QAction * defaultAction = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvToolButton
-//------------------------------------------------------------------------------
-
-djvToolButton::djvToolButton(QWidget * parent) :
-    djvAbstractToolButton(parent),
-    _p(new Private)
-{
-    widgetUpdate();
-}
-
-djvToolButton::djvToolButton(const QIcon & icon, QWidget * parent) :
-    djvAbstractToolButton(parent),
-    _p(new Private)
-{
-    setIcon(icon);
-    widgetUpdate();
-}
-
-djvToolButton::~djvToolButton()
-{}
-
-void djvToolButton::setDefaultAction(QAction * action)
-{
-    if (action == _p->defaultAction)
-        return;
-    if (_p->defaultAction)
+    namespace UI
     {
-        disconnect(
-            _p->defaultAction,
-            SIGNAL(toggled(bool)),
-            this,
-            SLOT(setChecked(bool)));
-        disconnect(
-            _p->defaultAction,
-            SIGNAL(changed()),
-            this,
-            SLOT(widgetUpdate()));
-        disconnect(
-            this,
-            SIGNAL(toggled(bool)),
-            _p->defaultAction,
-            SLOT(setChecked(bool)));
-    }
+        struct ToolButton::Private
+        {
+            QAction * defaultAction = nullptr;
+        };
 
-    _p->defaultAction = action;
+        ToolButton::ToolButton(QWidget * parent) :
+            AbstractToolButton(parent),
+            _p(new Private)
+        {
+            widgetUpdate();
+        }
 
-    widgetUpdate();
+        ToolButton::ToolButton(const QIcon & icon, QWidget * parent) :
+            AbstractToolButton(parent),
+            _p(new Private)
+        {
+            setIcon(icon);
+            widgetUpdate();
+        }
 
-    if (_p->defaultAction)
-    {
-        connect(
-            _p->defaultAction,
-            SIGNAL(toggled(bool)),
-            SLOT(setChecked(bool)));
-        connect(
-            _p->defaultAction,
-            SIGNAL(changed()),
-            SLOT(widgetUpdate()));
-        connect(
-            this,
-            SIGNAL(toggled(bool)),
-            _p->defaultAction,
-            SLOT(setChecked(bool)));
-    }
-}
+        ToolButton::~ToolButton()
+        {}
 
-QSize djvToolButton::sizeHint() const
-{
-    QSize sizeHint(25, 25);
-    const int margin = 2;
-    QStyleOptionToolButton opt;
-    opt.iconSize = icon().actualSize(sizeHint);
-    opt.iconSize += QSize(margin * 2, margin * 2);
-    sizeHint = opt.iconSize.expandedTo(QApplication::globalStrut());
-    return sizeHint;
-}
+        void ToolButton::setDefaultAction(QAction * action)
+        {
+            if (action == _p->defaultAction)
+                return;
+            if (_p->defaultAction)
+            {
+                disconnect(
+                    _p->defaultAction,
+                    SIGNAL(toggled(bool)),
+                    this,
+                    SLOT(setChecked(bool)));
+                disconnect(
+                    _p->defaultAction,
+                    SIGNAL(changed()),
+                    this,
+                    SLOT(widgetUpdate()));
+                disconnect(
+                    this,
+                    SIGNAL(toggled(bool)),
+                    _p->defaultAction,
+                    SLOT(setChecked(bool)));
+            }
 
-void djvToolButton::nextCheckState()
-{
-    if (! _p->defaultAction)
-    {
-        djvAbstractToolButton::nextCheckState();
-    }
-    else
-    {
-        _p->defaultAction->trigger();
-    }
-}
+            _p->defaultAction = action;
 
-void djvToolButton::paintEvent(QPaintEvent * event)
-{
-    djvAbstractToolButton::paintEvent(event);
-    
-    QPainter painter(this);
-    QIcon::Mode  mode  = QIcon::Normal;
-    QIcon::State state = QIcon::Off;
-    if (! isEnabled())
-        mode = QIcon::Disabled;
-    if (isChecked())
-        state = QIcon::On;
-    const QPixmap & pixmap = icon().pixmap(width(), height(), mode, state);
-    painter.drawPixmap(
-        width () / 2 - pixmap.width () / 2,
-        height() / 2 - pixmap.height() / 2,
-        pixmap);
-}
+            widgetUpdate();
 
-void djvToolButton::widgetUpdate()
-{
-    //djvSignalBlocker signalBlocker(this);
-    if (_p->defaultAction)
-    {
-        setText(_p->defaultAction->text());
-        setIcon(_p->defaultAction->icon());
-        setToolTip(_p->defaultAction->toolTip());
-        setCheckable(_p->defaultAction->isCheckable());
-        setChecked(_p->defaultAction->isChecked());
-        setAutoRepeat(_p->defaultAction->autoRepeat());
-    }
-}
+            if (_p->defaultAction)
+            {
+                connect(
+                    _p->defaultAction,
+                    SIGNAL(toggled(bool)),
+                    SLOT(setChecked(bool)));
+                connect(
+                    _p->defaultAction,
+                    SIGNAL(changed()),
+                    SLOT(widgetUpdate()));
+                connect(
+                    this,
+                    SIGNAL(toggled(bool)),
+                    _p->defaultAction,
+                    SLOT(setChecked(bool)));
+            }
+        }
 
+        QSize ToolButton::sizeHint() const
+        {
+            QSize sizeHint(25, 25);
+            const int margin = 2;
+            QStyleOptionToolButton opt;
+            opt.iconSize = icon().actualSize(sizeHint);
+            opt.iconSize += QSize(margin * 2, margin * 2);
+            sizeHint = opt.iconSize.expandedTo(QApplication::globalStrut());
+            return sizeHint;
+        }
+
+        void ToolButton::nextCheckState()
+        {
+            if (!_p->defaultAction)
+            {
+                AbstractToolButton::nextCheckState();
+            }
+            else
+            {
+                _p->defaultAction->trigger();
+            }
+        }
+
+        void ToolButton::paintEvent(QPaintEvent * event)
+        {
+            AbstractToolButton::paintEvent(event);
+
+            QPainter painter(this);
+            QIcon::Mode  mode = QIcon::Normal;
+            QIcon::State state = QIcon::Off;
+            if (!isEnabled())
+                mode = QIcon::Disabled;
+            if (isChecked())
+                state = QIcon::On;
+            const QPixmap & pixmap = icon().pixmap(width(), height(), mode, state);
+            painter.drawPixmap(
+                width() / 2 - pixmap.width() / 2,
+                height() / 2 - pixmap.height() / 2,
+                pixmap);
+        }
+
+        void ToolButton::widgetUpdate()
+        {
+            //djvSignalBlocker signalBlocker(this);
+            if (_p->defaultAction)
+            {
+                setText(_p->defaultAction->text());
+                setIcon(_p->defaultAction->icon());
+                setToolTip(_p->defaultAction->toolTip());
+                setCheckable(_p->defaultAction->isCheckable());
+                setChecked(_p->defaultAction->isChecked());
+                setAutoRepeat(_p->defaultAction->autoRepeat());
+            }
+        }
+
+    } // namespace UI
+} // namespace djv

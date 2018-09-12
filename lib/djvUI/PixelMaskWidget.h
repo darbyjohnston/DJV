@@ -41,58 +41,58 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPixelMaskWidget
-//!
-//! This class provides a pixel mask widget.
-//------------------------------------------------------------------------------
-
-class djvPixelMaskWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the pixel mask.    
-    Q_PROPERTY(
-        djvPixel::Mask mask
-        READ           mask
-        WRITE          setMask
-        NOTIFY         maskChanged)
-    
-public:
-    explicit djvPixelMaskWidget(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvPixelMaskWidget();
+        //! \class PixelMaskWidget
+        //!
+        //! This class provides a pixel mask widget.
+        class PixelMaskWidget : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the pixel mask.
-    const djvPixel::Mask & mask() const;
+            //! This property holds the pixel mask.    
+            Q_PROPERTY(
+                djvPixel::Mask mask
+                READ           mask
+                WRITE          setMask
+                NOTIFY         maskChanged)
 
-public Q_SLOTS:
-    //! Set the pixel mask.
-    void setMask(const djvPixel::Mask &);
+        public:
+            explicit PixelMaskWidget(UIContext *, QWidget * parent = nullptr);
 
-Q_SIGNALS:
-    //! This signal is emitted when the pixel mask is changed.
-    void maskChanged(const djvPixel::Mask &);
+            virtual ~PixelMaskWidget();
 
-private Q_SLOTS:
-    void buttonCallback();
-    void soloCallback();
-    void toggleCallback(bool);
-    void resetCallback();
+            //! Get the pixel mask.
+            const djvPixel::Mask & mask() const;
 
-private:
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvPixelMaskWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public Q_SLOTS:
+            //! Set the pixel mask.
+            void setMask(const djvPixel::Mask &);
 
-//@} // djvUIWidget
+        Q_SIGNALS:
+            //! This signal is emitted when the pixel mask is changed.
+            void maskChanged(const djvPixel::Mask &);
+
+        private Q_SLOTS:
+            void buttonCallback();
+            void soloCallback();
+            void toggleCallback(bool);
+            void resetCallback();
+
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(PixelMaskWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
+
 

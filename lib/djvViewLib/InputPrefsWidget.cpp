@@ -74,7 +74,7 @@ namespace djv
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
-            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::InputPrefsWidget", "Mouse Wheel"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(

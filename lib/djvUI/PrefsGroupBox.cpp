@@ -39,89 +39,87 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 
-//------------------------------------------------------------------------------
-// djvPrefsGroupBox::Private
-//------------------------------------------------------------------------------
-
-struct djvPrefsGroupBox::Private
+namespace djv
 {
-    Private(const QString & text, djvUIContext * context) :
-        text   (text),
-        context(context)
-    {}
-    
-    QString         text;
-    QGroupBox *     groupBox = nullptr;
-    QLabel *        label    = nullptr;
-    QVBoxLayout *   layout   = nullptr;
-    djvUIContext * context  = nullptr;
-};
+    namespace UI
+    {
+        struct PrefsGroupBox::Private
+        {
+            Private(const QString & text, UIContext * context) :
+                text(text),
+                context(context)
+            {}
 
-//------------------------------------------------------------------------------
-// djvPrefsGroupBox
-//------------------------------------------------------------------------------
+            QString text;
+            QGroupBox * groupBox = nullptr;
+            QLabel * label = nullptr;
+            QVBoxLayout * layout = nullptr;
+            UIContext * context = nullptr;
+        };
 
-void djvPrefsGroupBox::init(const QString & title)
-{
-    const QFont font = this->font();
-    
-    _p->groupBox = new QGroupBox(title);
+        void PrefsGroupBox::init(const QString & title)
+        {
+            const QFont font = this->font();
 
-    _p->label = new QLabel(_p->text);
-    _p->label->setWordWrap(true);
-    if (0 == _p->text.length())
-        _p->label->hide();
-    
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addWidget(_p->groupBox);
-    
-    _p->layout = new QVBoxLayout(_p->groupBox);
-    _p->layout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
-    _p->layout->addWidget(_p->label);
-}
+            _p->groupBox = new QGroupBox(title);
 
-djvPrefsGroupBox::djvPrefsGroupBox(
-    const QString & title,
-    djvUIContext * context,
-    QWidget *       parent) :
-    QWidget(parent),
-    _p(new Private(QString(), context))
-{
-    init(title);
-}
+            _p->label = new QLabel(_p->text);
+            _p->label->setWordWrap(true);
+            if (0 == _p->text.length())
+                _p->label->hide();
 
-djvPrefsGroupBox::djvPrefsGroupBox(
-    const QString & title,
-    const QString & text,
-    djvUIContext * context,
-    QWidget *       parent) :
-    QWidget(parent),
-    _p(new Private(text, context))
-{
-    init(title);
-}
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setMargin(0);
+            layout->setSpacing(0);
+            layout->addWidget(_p->groupBox);
 
-djvPrefsGroupBox::~djvPrefsGroupBox()
-{}
+            _p->layout = new QVBoxLayout(_p->groupBox);
+            _p->layout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
+            _p->layout->addWidget(_p->label);
+        }
 
-const QString & djvPrefsGroupBox::text() const
-{
-    return _p->text;
-}
+        PrefsGroupBox::PrefsGroupBox(
+            const QString & title,
+            UIContext * context,
+            QWidget * parent) :
+            QWidget(parent),
+            _p(new Private(QString(), context))
+        {
+            init(title);
+        }
 
-void djvPrefsGroupBox::setText(const QString & text)
-{
-    _p->label->setText(text);
-    _p->label->setVisible(text.length() > 0);
-}
-    
-QFormLayout * djvPrefsGroupBox::createLayout()
-{
-    QFormLayout * formLayout = new QFormLayout;
-    formLayout->setSpacing(_p->context->style()->sizeMetric().spacing);
-    _p->layout->addLayout(formLayout);
-    return formLayout;
-}
+        PrefsGroupBox::PrefsGroupBox(
+            const QString & title,
+            const QString & text,
+            UIContext * context,
+            QWidget * parent) :
+            QWidget(parent),
+            _p(new Private(text, context))
+        {
+            init(title);
+        }
 
+        PrefsGroupBox::~PrefsGroupBox()
+        {}
+
+        const QString & PrefsGroupBox::text() const
+        {
+            return _p->text;
+        }
+
+        void PrefsGroupBox::setText(const QString & text)
+        {
+            _p->label->setText(text);
+            _p->label->setVisible(text.length() > 0);
+        }
+
+        QFormLayout * PrefsGroupBox::createLayout()
+        {
+            QFormLayout * formLayout = new QFormLayout;
+            formLayout->setSpacing(_p->context->style()->sizeMetric().spacing);
+            _p->layout->addLayout(formLayout);
+            return formLayout;
+        }
+
+    } // namespace UI
+} // namespace djv

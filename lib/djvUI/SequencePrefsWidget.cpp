@@ -48,75 +48,72 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvSequencePrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvSequencePrefsWidget::Private
+namespace djv
 {
-    djvIntEdit * maxFramesWidget = nullptr;
-};
+    namespace UI
+    {
+        struct SequencePrefsWidget::Private
+        {
+            IntEdit * maxFramesWidget = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvSequencePrefsWidget
-//------------------------------------------------------------------------------
+        SequencePrefsWidget::SequencePrefsWidget(UIContext * context, QWidget * parent) :
+            AbstractPrefsWidget(qApp->translate("djv::UI::SequencePrefsWidget", "Sequences"), context, parent),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->maxFramesWidget = new IntEdit;
+            _p->maxFramesWidget->setMax(IntObject::intMax);
+            _p->maxFramesWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-djvSequencePrefsWidget::djvSequencePrefsWidget(djvUIContext * context, QWidget * parent) :
-    djvAbstractPrefsWidget(
-        qApp->translate("djvSequencePrefsWidget", "Sequences"), context, parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->maxFramesWidget = new djvIntEdit;
-    _p->maxFramesWidget->setMax(djvIntObject::intMax);
-    _p->maxFramesWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::SequencePrefsWidget", "Max Frames"),
+                qApp->translate("djv::UI::SequencePrefsWidget",
+                    "Set the maximum number of frames allowed in a sequence. This is used "
+                    "as a safety feature to prevent file sequences from becoming too large."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::SequencePrefsWidget", "Frames:"),
+                _p->maxFramesWidget);
+            layout->addWidget(prefsGroupBox);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvSequencePrefsWidget", "Max Frames"),
-        qApp->translate("djvSequencePrefsWidget",
-        "Set the maximum number of frames allowed in a sequence. This is used "
-        "as a safety feature to prevent file sequences from becoming too large."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvSequencePrefsWidget", "Frames:"),
-        _p->maxFramesWidget);
-    layout->addWidget(prefsGroupBox);
+            layout->addStretch();
 
-    layout->addStretch();
+            // Initialize.
+            widgetUpdate();
 
-    // Initialize.
-    widgetUpdate();
+            // Setup the callbacks.
+            connect(
+                _p->maxFramesWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(maxFramesCallback(int)));
+        }
 
-    // Setup the callbacks.
-    connect(
-        _p->maxFramesWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(maxFramesCallback(int)));
-}
+        SequencePrefsWidget::~SequencePrefsWidget()
+        {}
 
-djvSequencePrefsWidget::~djvSequencePrefsWidget()
-{}
+        void SequencePrefsWidget::resetPreferences()
+        {
+            context()->sequencePrefs()->setMaxFrames(djvSequence::maxFramesDefault());
+            widgetUpdate();
+        }
 
-void djvSequencePrefsWidget::resetPreferences()
-{
-    context()->sequencePrefs()->setMaxFrames(djvSequence::maxFramesDefault());
-    widgetUpdate();
-}
+        void SequencePrefsWidget::maxFramesCallback(int size)
+        {
+            context()->sequencePrefs()->setMaxFrames(size);
+        }
 
-void djvSequencePrefsWidget::maxFramesCallback(int size)
-{
-    context()->sequencePrefs()->setMaxFrames(size);
-}
+        void SequencePrefsWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->maxFramesWidget);
+            _p->maxFramesWidget->setValue(djvSequence::maxFrames());
+        }
 
-void djvSequencePrefsWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->maxFramesWidget);
-    _p->maxFramesWidget->setValue(djvSequence::maxFrames());
-}
-
+    } // namespace UI
+} // namespace djv

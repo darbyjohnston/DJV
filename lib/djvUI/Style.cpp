@@ -40,604 +40,592 @@
 #include <QFont>
 #include <QPalette>
 
-//------------------------------------------------------------------------------
-// djvStyle::Palette
-//------------------------------------------------------------------------------
-
-djvStyle::Palette::Palette(
-    const QString &  name,
-    const djvColor & foreground,
-    const djvColor & background,
-    const djvColor & background2,
-    const djvColor & button,
-    const djvColor & select) :
-    name       (name),
-    foreground (foreground),
-    background (background),
-    background2(background2),
-    button     (button),
-    select     (select)
-{}
-
-//------------------------------------------------------------------------------
-// djvStyle::SizeMetric
-//------------------------------------------------------------------------------
-
-djvStyle::SizeMetric::SizeMetric(const QString & name, int fontSize) :
-    name         (name),
-    fontSize     (fontSize),
-    pickSize     (static_cast<int>(fontSize * 0.8)),
-    handleSize   (static_cast<int>(fontSize * 3.0)),
-    spacing      (4),
-    largeSpacing (16),
-    margin       (4),
-    textMargin   (2),
-    widgetMargin (4),
-    largeMargin  (16),
-    iconSize     (22),
-    toolIconSize (11),
-    buttonSize   (static_cast<int>(fontSize * 4)),
-    textSize     (static_cast<int>(fontSize * 10)),
-    swatchSize   (static_cast<int>(fontSize * 4)),
-    thumbnailSize(static_cast<int>(fontSize * 10))
-{}
-
-//------------------------------------------------------------------------------
-// djvStyle::Fonts
-//------------------------------------------------------------------------------
-
-djvStyle::Fonts::Fonts() :
-    normal(qApp->font()),
-    fixed ("Monospace")
+namespace djv
 {
+    namespace UI
+    {
+        Style::Palette::Palette(
+            const QString &  name,
+            const djvColor & foreground,
+            const djvColor & background,
+            const djvColor & background2,
+            const djvColor & button,
+            const djvColor & select) :
+            name(name),
+            foreground(foreground),
+            background(background),
+            background2(background2),
+            button(button),
+            select(select)
+        {}
+
+        Style::SizeMetric::SizeMetric(const QString & name, int fontSize) :
+            name(name),
+            fontSize(fontSize),
+            pickSize(static_cast<int>(fontSize * 0.8)),
+            handleSize(static_cast<int>(fontSize * 3.0)),
+            spacing(4),
+            largeSpacing(16),
+            margin(4),
+            textMargin(2),
+            widgetMargin(4),
+            largeMargin(16),
+            iconSize(22),
+            toolIconSize(11),
+            buttonSize(static_cast<int>(fontSize * 4)),
+            textSize(static_cast<int>(fontSize * 10)),
+            swatchSize(static_cast<int>(fontSize * 4)),
+            thumbnailSize(static_cast<int>(fontSize * 10))
+        {}
+
+        Style::Fonts::Fonts() :
+            normal(qApp->font()),
+            fixed("Monospace")
+        {
 #if QT_VERSION >= 0x040800
-    fixed.setStyleHint(QFont::Monospace);
+            fixed.setStyleHint(QFont::Monospace);
 #endif // QT_VERSION
-}
+        }
 
-//------------------------------------------------------------------------------
-// djvStyle::Private
-//------------------------------------------------------------------------------
-
-struct djvStyle::Private
-{
-    QVector<djvStyle::Palette>    palettes                = djvStyle::palettesDefault();
-    int                           palettesIndex           = djvStyle::palettesIndexDefault();
-    bool                          colorSwatchTransparency = djvStyle::colorSwatchTransparencyDefault();
-    QVector<djvStyle::SizeMetric> sizeMetrics             = djvStyle::sizeMetricsDefault();
-    int                           sizeMetricsIndex        = djvStyle::sizeMetricsIndexDefault();
-    djvStyle::Fonts               fonts;
-};
-
-//------------------------------------------------------------------------------
-// djvStyle
-//------------------------------------------------------------------------------
-
-djvStyle::djvStyle(QObject * parent) :
-    QObject(parent),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvStyle::djvStyle");
-    
-    // Load preferences.
-    djvPrefs prefs("djvStyle", djvPrefs::SYSTEM);
-    int paletteCount = 0;
-    prefs.get("paletteCount", paletteCount);
-    //DJV_DEBUG_PRINT("paletteCount = " << paletteCount);
-    for (int i = 0; i < paletteCount; ++i)
-    {
-        Palette palette;
-        prefs.get(QString("palette%1").arg(i), palette);        
-        //DJV_DEBUG_PRINT("palette = " << palette.name);
-        int j = 0;
-        for (; j < _p->palettes.count(); ++j)
+        struct Style::Private
         {
-            if (palette.name == _p->palettes[j].name)
+            QVector<Style::Palette> palettes = Style::palettesDefault();
+            int palettesIndex = Style::palettesIndexDefault();
+            bool colorSwatchTransparency = Style::colorSwatchTransparencyDefault();
+            QVector<Style::SizeMetric> sizeMetrics = Style::sizeMetricsDefault();
+            int sizeMetricsIndex = Style::sizeMetricsIndexDefault();
+            Style::Fonts fonts;
+        };
+
+        Style::Style(QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            //DJV_DEBUG("Style::Style");
+
+            // Load preferences.
+            Prefs prefs("djv::UI::Style", Prefs::SYSTEM);
+            int paletteCount = 0;
+            prefs.get("paletteCount", paletteCount);
+            //DJV_DEBUG_PRINT("paletteCount = " << paletteCount);
+            for (int i = 0; i < paletteCount; ++i)
             {
-                _p->palettes[j] = palette;
-                break;
+                Palette palette;
+                prefs.get(QString("palette%1").arg(i), palette);
+                //DJV_DEBUG_PRINT("palette = " << palette.name);
+                int j = 0;
+                for (; j < _p->palettes.count(); ++j)
+                {
+                    if (palette.name == _p->palettes[j].name)
+                    {
+                        _p->palettes[j] = palette;
+                        break;
+                    }
+                }
+                if (j == _p->palettes.count())
+                {
+                    _p->palettes += palette;
+                }
             }
-        }
-        if (j == _p->palettes.count())
-        {
-            _p->palettes += palette;
-        }
-    }
-    prefs.get("palettesIndex", _p->palettesIndex);
-    //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
+            prefs.get("palettesIndex", _p->palettesIndex);
+            //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
 
-    int sizeMetricsCount = 0;
-    prefs.get("sizeMetricsCount", sizeMetricsCount);
-    for (int i = 0; i < sizeMetricsCount; ++i)
-    {
-        SizeMetric sizeMetric;
-        prefs.get(QString("sizeMetric%1").arg(i), sizeMetric);
-        int j = 0;
-        for (; j < _p->sizeMetrics.count(); ++j)
-        {
-            if (sizeMetric.name == _p->sizeMetrics[j].name)
+            int sizeMetricsCount = 0;
+            prefs.get("sizeMetricsCount", sizeMetricsCount);
+            for (int i = 0; i < sizeMetricsCount; ++i)
             {
-                _p->sizeMetrics[j] = sizeMetric;
-                break;
+                SizeMetric sizeMetric;
+                prefs.get(QString("sizeMetric%1").arg(i), sizeMetric);
+                int j = 0;
+                for (; j < _p->sizeMetrics.count(); ++j)
+                {
+                    if (sizeMetric.name == _p->sizeMetrics[j].name)
+                    {
+                        _p->sizeMetrics[j] = sizeMetric;
+                        break;
+                    }
+                }
+                if (j == _p->sizeMetrics.count())
+                {
+                    _p->sizeMetrics += sizeMetric;
+                }
             }
+            prefs.get("sizeMetricsIndex", _p->sizeMetricsIndex);
+            prefs.get("fonts", _p->fonts);
+            //DJV_DEBUG_PRINT("sizeMetricsIndex = " << _p->sizeMetricsIndex);
+
+            // Initialize.
+            colorUpdate();
+            sizeUpdate();
+            fontsUpdate();
         }
-        if (j == _p->sizeMetrics.count())
+
+        Style::~Style()
         {
-            _p->sizeMetrics += sizeMetric;
+            //DJV_DEBUG("Style::~Style");
+
+            // Save preferences.
+            Prefs prefs("djv::UI::Style", Prefs::SYSTEM);
+            const int paletteCount = _p->palettes.count();
+            prefs.set("paletteCount", paletteCount);
+            for (int i = 0; i < paletteCount; ++i)
+            {
+                prefs.set(QString("palette%1").arg(i), _p->palettes[i]);
+            }
+            //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
+            prefs.set("palettesIndex", _p->palettesIndex);
+
+            const int sizeMetricsCount = _p->sizeMetrics.count();
+            prefs.set("sizeMetricsCount", sizeMetricsCount);
+            for (int i = 0; i < sizeMetricsCount; ++i)
+            {
+                prefs.set(QString("sizeMetric%1").arg(i), _p->sizeMetrics[i]);
+            }
+            prefs.set("sizeMetricsIndex", _p->sizeMetricsIndex);
+
+            prefs.set("fonts", _p->fonts);
         }
-    }
-    prefs.get("sizeMetricsIndex", _p->sizeMetricsIndex);
-    prefs.get("fonts", _p->fonts);
-    //DJV_DEBUG_PRINT("sizeMetricsIndex = " << _p->sizeMetricsIndex);
 
-    // Initialize.
-    colorUpdate();
-    sizeUpdate();
-    fontsUpdate();
-}
+        const QVector<Style::Palette> & Style::palettesDefault()
+        {
+            static const QVector<Style::Palette> data = QVector<Style::Palette>() <<
+                Palette(
+                    qApp->translate("djv::UI::Style", "Dark"),
+                    djvColor(0.9f),
+                    djvColor(0.25f),
+                    djvColor(0.15f),
+                    djvColor(0.25f),
+                    djvColor(0.7f, 0.6f, 0.3f)) <<
+                Palette(
+                    qApp->translate("djv::UI::Style", "Light"),
+                    djvColor(0.1f),
+                    djvColor(0.8f),
+                    djvColor(0.7f),
+                    djvColor(0.7f),
+                    djvColor(0.7f, 0.6f, 0.3f)) <<
+                Palette(
+                    qApp->translate("djv::UI::Style", "Default"),
+                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
+                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
+                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
+                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
+                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))) <<
+                Palette(
+                    qApp->translate("djv::UI::Style", "Custom"),
+                    djvColor(0.9f),
+                    djvColor(0.0f, 0.3f, 0.0f),
+                    djvColor(0.3f, 0.4f, 0.3f),
+                    djvColor(0.0f, 0.4f, 0.0f),
+                    djvColor(0.7f, 0.9f, 0.7f));
+            return data;
+        }
 
-djvStyle::~djvStyle()
-{
-    //DJV_DEBUG("djvStyle::~djvStyle");
+        const QVector<Style::Palette> & Style::palettes()
+        {
+            return _p->palettes;
+        }
 
-    // Save preferences.
-    djvPrefs prefs("djvStyle", djvPrefs::SYSTEM);
-    const int paletteCount = _p->palettes.count();
-    prefs.set("paletteCount", paletteCount);
-    for (int i = 0; i < paletteCount; ++i)
+        void Style::setPalettes(const QVector<Palette> & palettes)
+        {
+            if (palettes == _p->palettes)
+                return;
+            _p->palettes = palettes;
+            colorUpdate();
+        }
+
+        int Style::palettesIndexDefault()
+        {
+            return 0;
+        }
+
+        int Style::palettesIndex() const
+        {
+            return _p->palettesIndex;
+        }
+
+        void Style::setPalettesIndex(int index)
+        {
+            if (index == _p->palettesIndex)
+                return;
+            _p->palettesIndex = index;
+            colorUpdate();
+        }
+
+        const Style::Palette & Style::palette() const
+        {
+            return _p->palettes[_p->palettesIndex];
+        }
+
+        void Style::setPalette(const Palette & palette)
+        {
+            if (palette == _p->palettes[_p->palettesIndex])
+                return;
+            _p->palettes[_p->palettesIndex] = palette;
+            colorUpdate();
+        }
+
+        QStringList Style::paletteNames() const
+        {
+            QStringList names;
+            for (int i = 0; i < _p->palettes.count(); ++i)
+            {
+                names += _p->palettes[i].name;
+            }
+            return names;
+        }
+
+        bool Style::colorSwatchTransparencyDefault()
+        {
+            return true;
+        }
+
+        bool Style::hasColorSwatchTransparency() const
+        {
+            return _p->colorSwatchTransparency;
+        }
+
+        void Style::setColorSwatchTransparency(bool in)
+        {
+            if (in == _p->colorSwatchTransparency)
+                return;
+            _p->colorSwatchTransparency = in;
+            Q_EMIT colorSwatchTransparencyChanged(_p->colorSwatchTransparency);
+        }
+
+        const QVector<Style::SizeMetric> & Style::sizeMetricsDefault()
+        {
+            static const QVector<SizeMetric> data = QVector<SizeMetric>() <<
+                SizeMetric(qApp->translate("djv::UI::Style", "Small"), 9) <<
+                SizeMetric(qApp->translate("djv::UI::Style", "Medium"), 12) <<
+                SizeMetric(qApp->translate("djv::UI::Style", "Large"), 16) <<
+                SizeMetric(qApp->translate("djv::UI::Style", "Custom"), 24);
+            return data;
+        }
+
+        const QVector<Style::SizeMetric> & Style::sizeMetrics()
+        {
+            return _p->sizeMetrics;
+        }
+
+        void Style::setSizeMetrics(const QVector<SizeMetric> & sizeMetrics)
+        {
+            if (sizeMetrics == _p->sizeMetrics)
+                return;
+            _p->sizeMetrics = sizeMetrics;
+            sizeUpdate();
+            Q_EMIT sizeMetricsChanged();
+        }
+
+        int Style::sizeMetricsIndexDefault()
+        {
+            return 1;
+        }
+
+        int Style::sizeMetricsIndex() const
+        {
+            return _p->sizeMetricsIndex;
+        }
+
+        void Style::setSizeMetricsIndex(int index)
+        {
+            if (index == _p->sizeMetricsIndex)
+                return;
+            _p->sizeMetricsIndex = index;
+            sizeUpdate();
+            Q_EMIT sizeMetricsChanged();
+        }
+
+        const Style::SizeMetric & Style::sizeMetric() const
+        {
+            return _p->sizeMetrics[_p->sizeMetricsIndex];
+        }
+
+        void Style::setSizeMetric(const SizeMetric & sizeMetric)
+        {
+            if (sizeMetric == _p->sizeMetrics[_p->sizeMetricsIndex])
+                return;
+            _p->sizeMetrics[_p->sizeMetricsIndex] = sizeMetric;
+            sizeUpdate();
+            Q_EMIT sizeMetricsChanged();
+        }
+
+        QStringList Style::sizeMetricNames() const
+        {
+            QStringList names;
+            for (int i = 0; i < _p->sizeMetrics.count(); ++i)
+            {
+                names += _p->sizeMetrics[i].name;
+            }
+            return names;
+        }
+
+        const Style::Fonts & Style::fontsDefault()
+        {
+            static const Style::Fonts data;
+            return data;
+        }
+
+        const Style::Fonts & Style::fonts() const
+        {
+            return _p->fonts;
+        }
+
+        void Style::setFonts(const Fonts & fonts)
+        {
+            if (fonts == _p->fonts)
+                return;
+            _p->fonts = fonts;
+            fontsUpdate();
+            Q_EMIT fontsChanged();
+        }
+
+        namespace
+        {
+
+            QColor toQColor(const djvColor & color)
+            {
+                djvColor tmp(djvPixel::RGBA_U8);
+                djvColorUtil::convert(color, tmp);
+                return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
+            }
+
+        } // namespace
+
+        void Style::colorUpdate()
+        {
+            //DJV_DEBUG("Style::colorUpdate");
+            //DJV_DEBUG_PRINT("foreground = " <<
+            //    _p->palettes[_p->palettesIndex].foreground);
+            //DJV_DEBUG_PRINT("background = " <<
+            //    _p->palettes[_p->palettesIndex].background);
+            //DJV_DEBUG_PRINT("background2 = " <<
+            //    _p->palettes[_p->palettesIndex].background2);
+
+            QPalette palette;
+            palette.setColor(
+                QPalette::Window,
+                toQColor(_p->palettes[_p->palettesIndex].background));
+            palette.setColor(
+                QPalette::WindowText,
+                toQColor(_p->palettes[_p->palettesIndex].foreground));
+            palette.setColor(
+                QPalette::Base,
+                toQColor(_p->palettes[_p->palettesIndex].background2));
+            palette.setColor(
+                QPalette::AlternateBase,
+                toQColor(_p->palettes[_p->palettesIndex].background2).darker(120));
+            palette.setColor(
+                QPalette::Text,
+                toQColor(_p->palettes[_p->palettesIndex].foreground));
+            palette.setColor(
+                QPalette::Button,
+                toQColor(_p->palettes[_p->palettesIndex].button));
+            palette.setColor(
+                QPalette::ButtonText,
+                toQColor(_p->palettes[_p->palettesIndex].foreground));
+            palette.setColor(
+                QPalette::Highlight,
+                toQColor(_p->palettes[_p->palettesIndex].select));
+            qApp->setPalette(palette);
+        }
+
+        void Style::sizeUpdate()
+        {
+            //DJV_DEBUG("Style::sizeUpdate");
+            QFont font = _p->fonts.normal;
+            font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
+            qApp->setFont(font);
+        }
+
+        void Style::fontsUpdate()
+        {
+            //DJV_DEBUG("Style::fontsUpdate");
+            QFont font = _p->fonts.normal;
+            font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
+            qApp->setFont(font);
+        }
+
+    } // namespace UI
+
+    bool operator == (const UI::Style::Palette & a, const UI::Style::Palette & b)
     {
-        prefs.set(QString("palette%1").arg(i), _p->palettes[i]);
+        return
+            a.foreground == b.foreground  &&
+            a.background == b.background  &&
+            a.background2 == b.background2 &&
+            a.button == b.button      &&
+            a.select == b.select;
     }
-    //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
-    prefs.set("palettesIndex", _p->palettesIndex);
 
-    const int sizeMetricsCount = _p->sizeMetrics.count();
-    prefs.set("sizeMetricsCount", sizeMetricsCount);
-    for (int i = 0; i < sizeMetricsCount; ++i)
+    bool operator != (const UI::Style::Palette & a, const UI::Style::Palette & b)
     {
-        prefs.set(QString("sizeMetric%1").arg(i), _p->sizeMetrics[i]);
+        return !(a == b);
     }
-    prefs.set("sizeMetricsIndex", _p->sizeMetricsIndex);
 
-    prefs.set("fonts", _p->fonts);
-}
-    
-const QVector<djvStyle::Palette> & djvStyle::palettesDefault()
-{
-    static const QVector<djvStyle::Palette> data = QVector<djvStyle::Palette>() <<
-        Palette(
-            qApp->translate("djvStyle", "Dark"),
-            djvColor(0.9f),
-            djvColor(0.25f),
-            djvColor(0.15f),
-            djvColor(0.25f),
-            djvColor(0.7f, 0.6f, 0.3f)) <<
-        Palette(
-            qApp->translate("djvStyle", "Light"),
-            djvColor(0.1f),
-            djvColor(0.8f),
-            djvColor(0.7f),
-            djvColor(0.7f),
-            djvColor(0.7f, 0.6f, 0.3f)) <<
-        Palette(
-            qApp->translate("djvStyle", "Default"),
-            djvColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
-            djvColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
-            djvColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
-            djvColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
-            djvColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))) <<
-        Palette(
-            qApp->translate("djvStyle", "Custom"),
-            djvColor(0.9f),
-            djvColor(0.0f, 0.3f, 0.0f),
-            djvColor(0.3f, 0.4f, 0.3f),
-            djvColor(0.0f, 0.4f, 0.0f),
-            djvColor(0.7f, 0.9f, 0.7f));
-    return data;
-}
-
-const QVector<djvStyle::Palette> & djvStyle::palettes()
-{
-    return _p->palettes;
-}
-
-void djvStyle::setPalettes(const QVector<Palette> & palettes)
-{
-    if (palettes == _p->palettes)
-        return;
-    _p->palettes = palettes;
-    colorUpdate();
-}
-
-int djvStyle::palettesIndexDefault()
-{
-    return 0;
-}
-
-int djvStyle::palettesIndex() const
-{
-    return _p->palettesIndex;
-}
-
-void djvStyle::setPalettesIndex(int index)
-{
-    if (index == _p->palettesIndex)
-        return;
-    _p->palettesIndex = index;
-    colorUpdate();
-}
-
-const djvStyle::Palette & djvStyle::palette() const
-{
-    return _p->palettes[_p->palettesIndex];
-}
-
-void djvStyle::setPalette(const Palette & palette)
-{
-    if (palette == _p->palettes[_p->palettesIndex])
-        return;
-    _p->palettes[_p->palettesIndex] = palette;
-    colorUpdate();
-}
-
-QStringList djvStyle::paletteNames() const
-{
-    QStringList names;
-    for (int i = 0; i < _p->palettes.count(); ++i)
+    bool operator == (const UI::Style::SizeMetric & a, const UI::Style::SizeMetric & b)
     {
-        names += _p->palettes[i].name;
+        return
+            a.fontSize == b.fontSize     &&
+            a.pickSize == b.pickSize     &&
+            a.handleSize == b.handleSize   &&
+            a.spacing == b.spacing      &&
+            a.largeSpacing == b.largeSpacing &&
+            a.margin == b.margin       &&
+            a.textMargin == b.textMargin   &&
+            a.widgetMargin == b.widgetMargin &&
+            a.largeMargin == b.largeMargin  &&
+            a.iconSize == b.iconSize     &&
+            a.toolIconSize == b.toolIconSize &&
+            a.buttonSize == b.buttonSize   &&
+            a.textSize == b.textSize     &&
+            a.swatchSize == b.swatchSize   &&
+            a.thumbnailSize == b.thumbnailSize;
     }
-    return names;
-}
 
-bool djvStyle::colorSwatchTransparencyDefault()
-{
-    return true;
-}
-
-bool djvStyle::hasColorSwatchTransparency() const
-{
-    return _p->colorSwatchTransparency;
-}
-
-void djvStyle::setColorSwatchTransparency(bool in)
-{
-    if (in == _p->colorSwatchTransparency)
-        return;
-    _p->colorSwatchTransparency = in;
-    Q_EMIT colorSwatchTransparencyChanged(_p->colorSwatchTransparency);
-}
-
-const QVector<djvStyle::SizeMetric> & djvStyle::sizeMetricsDefault()
-{
-    static const QVector<SizeMetric> data = QVector<SizeMetric>() <<
-        SizeMetric(qApp->translate("djvStyle", "Small"), 9) <<
-        SizeMetric(qApp->translate("djvStyle", "Medium"), 12) <<
-        SizeMetric(qApp->translate("djvStyle", "Large"), 16) <<
-        SizeMetric(qApp->translate("djvStyle", "Custom"), 24);
-    return data;
-}
-
-const QVector<djvStyle::SizeMetric> & djvStyle::sizeMetrics()
-{
-    return _p->sizeMetrics;
-}
-
-void djvStyle::setSizeMetrics(const QVector<SizeMetric> & sizeMetrics)
-{
-    if (sizeMetrics == _p->sizeMetrics)
-        return;
-    _p->sizeMetrics = sizeMetrics;
-    sizeUpdate();
-    Q_EMIT sizeMetricsChanged();
-}
-
-int djvStyle::sizeMetricsIndexDefault()
-{
-    return 1;
-}
-
-int djvStyle::sizeMetricsIndex() const
-{
-    return _p->sizeMetricsIndex;
-}
-
-void djvStyle::setSizeMetricsIndex(int index)
-{
-    if (index == _p->sizeMetricsIndex)
-        return;
-    _p->sizeMetricsIndex = index;    
-    sizeUpdate();
-    Q_EMIT sizeMetricsChanged();
-}
-
-const djvStyle::SizeMetric & djvStyle::sizeMetric() const
-{
-    return _p->sizeMetrics[_p->sizeMetricsIndex];
-}
-
-void djvStyle::setSizeMetric(const SizeMetric & sizeMetric)
-{
-    if (sizeMetric == _p->sizeMetrics[_p->sizeMetricsIndex])
-        return;
-    _p->sizeMetrics[_p->sizeMetricsIndex] = sizeMetric;
-    sizeUpdate();
-    Q_EMIT sizeMetricsChanged();
-}
-
-QStringList djvStyle::sizeMetricNames() const
-{
-    QStringList names;
-    for (int i = 0; i < _p->sizeMetrics.count(); ++i)
+    bool operator != (const UI::Style::SizeMetric & a, const UI::Style::SizeMetric & b)
     {
-        names += _p->sizeMetrics[i].name;
+        return !(a == b);
     }
-    return names;
-}
 
-const djvStyle::Fonts & djvStyle::fontsDefault()
-{
-    static const djvStyle::Fonts data;
-    return data;
-}
+    bool operator == (const UI::Style::Fonts & a, const UI::Style::Fonts & b)
+    {
+        return
+            a.normal == b.normal &&
+            a.fixed == b.fixed;
+    }
 
-const djvStyle::Fonts & djvStyle::fonts() const
-{
-    return _p->fonts;
-}
+    bool operator != (const UI::Style::Fonts & a, const UI::Style::Fonts & b)
+    {
+        return !(a == b);
+    }
 
-void djvStyle::setFonts(const Fonts & fonts)
-{
-    if (fonts == _p->fonts)
-        return;
-    _p->fonts = fonts;
-    fontsUpdate();
-    Q_EMIT fontsChanged();
-}
+    QStringList & operator >> (QStringList & in, UI::Style::Palette & out) throw (QString)
+    {
+        in >> out.name;
+        QString tmp;
+        in >> tmp;
+        in >> out.foreground;
+        in >> tmp;
+        in >> out.background;
+        in >> tmp;
+        in >> out.background2;
+        in >> tmp;
+        in >> out.button;
+        in >> tmp;
+        in >> out.select;
+        return in;
+    }
 
-namespace
-{
+    QStringList & operator << (QStringList & out, const UI::Style::Palette & in)
+    {
+        out << in.name;
+        out << QString("foreground");
+        out << in.foreground;
+        out << QString("background");
+        out << in.background;
+        out << QString("background2");
+        out << in.background2;
+        out << QString("button");
+        out << in.button;
+        out << QString("select");
+        out << in.select;
+        return out;
+    }
 
-QColor toQColor(const djvColor & color)
-{
-    djvColor tmp(djvPixel::RGBA_U8);
-    djvColorUtil::convert(color, tmp);
-    return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
-}
+    QStringList & operator >> (QStringList & in, UI::Style::SizeMetric & out)
+        throw (QString)
+    {
+        in >> out.name;
+        QString tmp;
+        in >> tmp;
+        in >> out.fontSize;
+        in >> tmp;
+        in >> out.pickSize;
+        in >> tmp;
+        in >> out.handleSize;
+        in >> tmp;
+        in >> out.spacing;
+        in >> tmp;
+        in >> out.largeSpacing;
+        in >> tmp;
+        in >> out.margin;
+        in >> tmp;
+        in >> out.textMargin;
+        in >> tmp;
+        in >> out.widgetMargin;
+        in >> tmp;
+        in >> out.largeMargin;
+        in >> tmp;
+        in >> out.iconSize;
+        in >> tmp;
+        in >> out.toolIconSize;
+        in >> tmp;
+        in >> out.buttonSize;
+        in >> tmp;
+        in >> out.textSize;
+        in >> tmp;
+        in >> out.swatchSize;
+        in >> tmp;
+        in >> out.thumbnailSize;
+        return in;
+    }
 
-} // namespace
+    QStringList & operator << (QStringList & out, const UI::Style::SizeMetric & in)
+    {
+        out << in.name;
+        out << QString("fontSize");
+        out << in.fontSize;
+        out << QString("pickSize");
+        out << in.pickSize;
+        out << QString("handleSize");
+        out << in.handleSize;
+        out << QString("spacing");
+        out << in.spacing;
+        out << QString("largeSpacing");
+        out << in.largeSpacing;
+        out << QString("margin");
+        out << in.margin;
+        out << QString("textMargin");
+        out << in.textMargin;
+        out << QString("widgetMargin");
+        out << in.widgetMargin;
+        out << QString("largeMargin");
+        out << in.largeMargin;
+        out << QString("iconSize");
+        out << in.iconSize;
+        out << QString("toolIconSize");
+        out << in.toolIconSize;
+        out << QString("buttonSize");
+        out << in.buttonSize;
+        out << QString("textSize");
+        out << in.textSize;
+        out << QString("swatchSize");
+        out << in.swatchSize;
+        out << QString("thumbnailSize");
+        out << in.thumbnailSize;
+        return out;
+    }
 
-void djvStyle::colorUpdate()
-{
-    //DJV_DEBUG("djvStyle::colorUpdate");
-    //DJV_DEBUG_PRINT("foreground = " <<
-    //    _p->palettes[_p->palettesIndex].foreground);
-    //DJV_DEBUG_PRINT("background = " <<
-    //    _p->palettes[_p->palettesIndex].background);
-    //DJV_DEBUG_PRINT("background2 = " <<
-    //    _p->palettes[_p->palettesIndex].background2);
-    
-    QPalette palette;
-    palette.setColor(
-        QPalette::Window,
-        toQColor(_p->palettes[_p->palettesIndex].background));
-    palette.setColor(
-        QPalette::WindowText,
-        toQColor(_p->palettes[_p->palettesIndex].foreground));
-    palette.setColor(
-        QPalette::Base,
-        toQColor(_p->palettes[_p->palettesIndex].background2));
-    palette.setColor(
-        QPalette::AlternateBase,
-        toQColor(_p->palettes[_p->palettesIndex].background2).darker(120));
-    palette.setColor(
-        QPalette::Text,
-        toQColor(_p->palettes[_p->palettesIndex].foreground));
-    palette.setColor(
-        QPalette::Button,
-        toQColor(_p->palettes[_p->palettesIndex].button));
-    palette.setColor(
-        QPalette::ButtonText,
-        toQColor(_p->palettes[_p->palettesIndex].foreground));
-    palette.setColor(
-        QPalette::Highlight,
-        toQColor(_p->palettes[_p->palettesIndex].select));    
-    qApp->setPalette(palette);
-}
+    QStringList & operator >> (QStringList & in, UI::Style::Fonts & out)
+        throw (QString)
+    {
+        QString tmp, tmp2;
+        in >> tmp;
+        in >> tmp2;
+        out.normal.setFamily(tmp2);
+        in >> tmp;
+        in >> tmp2;
+        out.fixed.setFamily(tmp2);
+        return in;
+    }
 
-void djvStyle::sizeUpdate()
-{
-    //DJV_DEBUG("djvStyle::sizeUpdate");
-    QFont font = _p->fonts.normal;
-    font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
-    qApp->setFont(font);
-}
+    QStringList & operator << (QStringList & out, const UI::Style::Fonts & in)
+    {
+        out << QString("normal");
+        out << in.normal.family();
+        out << QString("fixed");
+        out << in.fixed.family();
+        return out;
+    }
 
-void djvStyle::fontsUpdate()
-{
-    //DJV_DEBUG("djvStyle::fontsUpdate");
-    QFont font = _p->fonts.normal;
-    font.setPixelSize(_p->sizeMetrics[_p->sizeMetricsIndex].fontSize);
-    qApp->setFont(font);
-}
-
-bool operator == (const djvStyle::Palette & a, const djvStyle::Palette & b)
-{
-    return
-        a.foreground  == b.foreground  &&
-        a.background  == b.background  &&
-        a.background2 == b.background2 &&
-        a.button      == b.button      &&
-        a.select      == b.select;
-}
-
-bool operator != (const djvStyle::Palette & a, const djvStyle::Palette & b)
-{
-    return ! (a == b);
-}
-
-bool operator == (const djvStyle::SizeMetric & a, const djvStyle::SizeMetric & b)
-{
-    return
-        a.fontSize      == b.fontSize     &&
-        a.pickSize      == b.pickSize     &&
-        a.handleSize    == b.handleSize   &&
-        a.spacing       == b.spacing      &&
-        a.largeSpacing  == b.largeSpacing &&
-        a.margin        == b.margin       &&
-        a.textMargin    == b.textMargin   &&
-        a.widgetMargin  == b.widgetMargin &&
-        a.largeMargin   == b.largeMargin  &&
-        a.iconSize      == b.iconSize     &&
-        a.toolIconSize  == b.toolIconSize &&
-        a.buttonSize    == b.buttonSize   &&
-        a.textSize      == b.textSize     &&
-        a.swatchSize    == b.swatchSize   &&
-        a.thumbnailSize == b.thumbnailSize;
-}
-
-bool operator != (const djvStyle::SizeMetric & a, const djvStyle::SizeMetric & b)
-{
-    return ! (a == b);
-}
-
-bool operator == (const djvStyle::Fonts & a, const djvStyle::Fonts & b)
-{
-    return
-        a.normal == b.normal &&
-        a.fixed  == b.fixed;
-}
-
-bool operator != (const djvStyle::Fonts & a, const djvStyle::Fonts & b)
-{
-    return ! (a == b);
-}
-
-QStringList & operator >> (QStringList & in, djvStyle::Palette & out) throw (QString)
-{
-    in >> out.name;
-    QString tmp;
-    in >> tmp;
-    in >> out.foreground;
-    in >> tmp;
-    in >> out.background;
-    in >> tmp;
-    in >> out.background2;
-    in >> tmp;
-    in >> out.button;
-    in >> tmp;
-    in >> out.select;    
-    return in;
-}
-
-QStringList & operator << (QStringList & out, const djvStyle::Palette & in)
-{
-    out << in.name;
-    out << QString("foreground");
-    out << in.foreground;
-    out << QString("background");
-    out << in.background;
-    out << QString("background2");
-    out << in.background2;
-    out << QString("button");
-    out << in.button;
-    out << QString("select");
-    out << in.select;
-    return out;
-}
-
-QStringList & operator >> (QStringList & in, djvStyle::SizeMetric & out)
-    throw (QString)
-{
-    in >> out.name;
-    QString tmp;
-    in >> tmp;
-    in >> out.fontSize;
-    in >> tmp;
-    in >> out.pickSize;
-    in >> tmp;
-    in >> out.handleSize;
-    in >> tmp;
-    in >> out.spacing;
-    in >> tmp;
-    in >> out.largeSpacing;
-    in >> tmp;
-    in >> out.margin;
-    in >> tmp;
-    in >> out.textMargin;
-    in >> tmp;
-    in >> out.widgetMargin;
-    in >> tmp;
-    in >> out.largeMargin;
-    in >> tmp;
-    in >> out.iconSize;
-    in >> tmp;
-    in >> out.toolIconSize;
-    in >> tmp;
-    in >> out.buttonSize;
-    in >> tmp;
-    in >> out.textSize;
-    in >> tmp;
-    in >> out.swatchSize;
-    in >> tmp;
-    in >> out.thumbnailSize;
-    return in;
-}
-
-QStringList & operator << (QStringList & out, const djvStyle::SizeMetric & in)
-{
-    out << in.name;
-    out << QString("fontSize");
-    out << in.fontSize;
-    out << QString("pickSize");
-    out << in.pickSize;
-    out << QString("handleSize");
-    out << in.handleSize;
-    out << QString("spacing");
-    out << in.spacing;
-    out << QString("largeSpacing");
-    out << in.largeSpacing;
-    out << QString("margin");
-    out << in.margin;
-    out << QString("textMargin");
-    out << in.textMargin;
-    out << QString("widgetMargin");
-    out << in.widgetMargin;
-    out << QString("largeMargin");
-    out << in.largeMargin;
-    out << QString("iconSize");
-    out << in.iconSize;
-    out << QString("toolIconSize");
-    out << in.toolIconSize;
-    out << QString("buttonSize");
-    out << in.buttonSize;
-    out << QString("textSize");
-    out << in.textSize;
-    out << QString("swatchSize");
-    out << in.swatchSize;
-    out << QString("thumbnailSize");
-    out << in.thumbnailSize;
-    return out;
-}
-
-QStringList & operator >> (QStringList & in, djvStyle::Fonts & out)
-    throw (QString)
-{
-    QString tmp, tmp2;
-    in >> tmp;
-    in >> tmp2;
-    out.normal.setFamily(tmp2);
-    in >> tmp;
-    in >> tmp2;
-    out.fixed.setFamily(tmp2);
-    return in;
-}
-
-QStringList & operator << (QStringList & out, const djvStyle::Fonts & in)
-{
-    out << QString("normal");
-    out << in.normal.family();
-    out << QString("fixed");
-    out << in.fixed.family();
-    return out;
-}
+} // namespace s

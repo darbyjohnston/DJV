@@ -51,13 +51,13 @@ namespace djv
             _displayProfileIndex(displayProfileIndexDefault()),
             _channel(channelDefault())
         {
-            djvPrefs prefs("djv::ViewLib::ImagePrefs");
+            UI::Prefs prefs("djv::ViewLib::ImagePrefs");
             prefs.get("frameStoreFileReload", _frameStoreFileReload);
             prefs.get("mirror", _mirror);
             prefs.get("scale", _scale);
             prefs.get("rotate", _rotate);
             prefs.get("colorProfile", _colorProfile);
-            djvPrefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
+            UI::Prefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
             displayProfilePrefs.get("index", _displayProfileIndex);
             int displayProfilesCount = 0;
             displayProfilePrefs.get("size", displayProfilesCount);
@@ -80,13 +80,13 @@ namespace djv
 
         ImagePrefs::~ImagePrefs()
         {
-            djvPrefs prefs("djv::ViewLib::ImagePrefs");
+            UI::Prefs prefs("djv::ViewLib::ImagePrefs");
             prefs.set("frameStoreFileReload", _frameStoreFileReload);
             prefs.set("mirror", _mirror);
             prefs.set("scale", _scale);
             prefs.set("rotate", _rotate);
             prefs.set("colorProfile", _colorProfile);
-            djvPrefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
+            UI::Prefs displayProfilePrefs("djv::ViewLib::ImagePrefs.displayProfile");
             displayProfilePrefs.set("index", _displayProfileIndex);
             displayProfilePrefs.set("size", _displayProfiles.count());
             for (int i = 0; i < _displayProfiles.count(); ++i)

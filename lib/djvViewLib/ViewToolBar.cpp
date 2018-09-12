@@ -47,7 +47,7 @@ namespace djv
                 zoomEdit(0)
             {}
 
-            djvFloatEdit * zoomEdit;
+            UI::FloatEdit * zoomEdit;
         };
 
         ViewToolBar::ViewToolBar(
@@ -57,23 +57,23 @@ namespace djv
             AbstractToolBar(actions, context, parent),
             _p(new Private)
         {
-            djvToolButton * button = new djvToolButton;
+            UI::ToolButton * button = new UI::ToolButton;
             button->setDefaultAction(actions->action(ViewActions::ZOOM_IN));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(ViewActions::ZOOM_OUT));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(ViewActions::ZOOM_RESET));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(ViewActions::FIT));
             addWidget(button);
 
-            _p->zoomEdit = new djvFloatEdit;
+            _p->zoomEdit = new UI::FloatEdit;
             _p->zoomEdit->setRange(.1f, 1000.f);
             _p->zoomEdit->object()->setInc(.1f, .1f);
             addWidget(_p->zoomEdit);
@@ -82,7 +82,7 @@ namespace djv
         ViewToolBar::~ViewToolBar()
         {}
 
-        djvFloatEdit * ViewToolBar::zoomEdit() const
+        UI::FloatEdit * ViewToolBar::zoomEdit() const
         {
             return _p->zoomEdit;
         }

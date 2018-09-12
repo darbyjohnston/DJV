@@ -39,124 +39,124 @@
 
 #include <memory>
 
-class djvUIContext;
-class djvIntObject;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIntEditSlider
-//!
-//! This class provides an integer slider and edit widget.
-//------------------------------------------------------------------------------
-
-class djvIntEditSlider : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        int    value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-    //! This property holds the default value.
-    Q_PROPERTY(
-        int    defaultValue
-        READ   defaultValue
-        WRITE  setDefaultValue
-        NOTIFY defaultValueChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        int    min
-        READ   min
-        WRITE  setMin
-        NOTIFY minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        int    max
-        READ   max
-        WRITE  setMax
-        NOTIFY maxChanged)
-    
-public:
-    explicit djvIntEditSlider(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        class UIContext;
+        class IntObject;
 
-    virtual ~djvIntEditSlider();
+        //! \class IntEditSlider
+        //!
+        //! This class provides an integer slider and edit widget.
+        class IntEditSlider : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the value.
-    int value() const;
+                //! This property holds the value.
+                Q_PROPERTY(
+                    int    value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! Get the default value.
-    int defaultValue() const;
+                //! This property holds the default value.
+                Q_PROPERTY(
+                    int    defaultValue
+                    READ   defaultValue
+                    WRITE  setDefaultValue
+                    NOTIFY defaultValueChanged)
 
-    //! Get whether a reset to default control is shown.
-    bool hasResetToDefault() const;
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    int    min
+                    READ   min
+                    WRITE  setMin
+                    NOTIFY minChanged)
 
-    //! Get the minimum value.
-    int min() const;
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    int    max
+                    READ   max
+                    WRITE  setMax
+                    NOTIFY maxChanged)
 
-    //! Get the maximum value.
-    int max() const;
+        public:
+            explicit IntEditSlider(UIContext *, QWidget * parent = nullptr);
 
-    //! Get the edit integer object.
-    djvIntObject * editObject() const;
+            virtual ~IntEditSlider();
 
-    //! Get the slider integer object.
-    djvIntObject * sliderObject() const;
+            //! Get the value.
+            int value() const;
 
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(int);
+            //! Get the default value.
+            int defaultValue() const;
 
-    //! Set the default value.
-    void setDefaultValue(int);
+            //! Get whether a reset to default control is shown.
+            bool hasResetToDefault() const;
 
-    //! Set whether a reset to default control is shown.
-    void setResetToDefault(bool);
+            //! Get the minimum value.
+            int min() const;
 
-    //! Set the minimum value.
-    void setMin(int);
+            //! Get the maximum value.
+            int max() const;
 
-    //! Set the maximum value.
-    void setMax(int);
+            //! Get the edit integer object.
+            IntObject * editObject() const;
 
-    //! Set the value range.
-    void setRange(int min, int max);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(int);
+            //! Get the slider integer object.
+            IntObject * sliderObject() const;
 
-    //! This signal is emitted when the default value is changed.
-    void defaultValueChanged(int);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(int);
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(int);
+            //! Set the default value.
+            void setDefaultValue(int);
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(int);
+            //! Set whether a reset to default control is shown.
+            void setResetToDefault(bool);
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(int, int);
+            //! Set the minimum value.
+            void setMin(int);
 
-private Q_SLOTS:
-    void valueCallback();
-    void sliderCallback(int);
-    void defaultCallback();
+            //! Set the maximum value.
+            void setMax(int);
 
-    void widgetUpdate();
-    
-private:
-    DJV_PRIVATE_COPY(djvIntEditSlider);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the value range.
+            void setRange(int min, int max);
 
-//@} // djvUIWidget
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(int);
+
+            //! This signal is emitted when the default value is changed.
+            void defaultValueChanged(int);
+
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(int);
+
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(int);
+
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(int, int);
+
+        private Q_SLOTS:
+            void valueCallback();
+            void sliderCallback(int);
+            void defaultCallback();
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(IntEditSlider);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
+
 

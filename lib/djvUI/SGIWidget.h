@@ -37,53 +37,47 @@
 
 class QComboBox;
 
-//! \addtogroup djvSGIPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSGIWidget
-//!
-//! This class provides a SGI widget.
-//------------------------------------------------------------------------------
-
-class djvSGIWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvSGIWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        //! \class SGIWidget
+        //!
+        //! This class provides a SGI widget.
+        class SGIWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvSGIWidget();
+        public:
+            SGIWidget(djvImageIO *, UIContext *);
 
-    virtual void resetPreferences();
+            virtual ~SGIWidget();
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void compressionCallback(int);
+            virtual void resetPreferences();
 
-    void pluginUpdate();
-    void widgetUpdate();
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void compressionCallback(int);
 
-private:
-    djvSGI::Options _options;
-    QComboBox *     _compressionWidget;
-};
+            void pluginUpdate();
+            void widgetUpdate();
 
-//------------------------------------------------------------------------------
-//! \class djvSGIWidgetPlugin
-//!
-//! This class provides a SGI widget plugin.
-//------------------------------------------------------------------------------
+        private:
+            djvSGI::Options _options;
+            QComboBox *     _compressionWidget;
+        };
 
-class djvSGIWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvSGIWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        //! \class SGIWidgetPlugin
+        //!
+        //! This class provides a SGI widget plugin.
+        class SGIWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            SGIWidgetPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-};
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
-//@} // djvSGIPlugin
-
+    } // namespace UI
+} // namespace djv

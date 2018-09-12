@@ -43,45 +43,43 @@ class QIcon;
 class QPixmap;
 class QSize;
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIconLibrary
-//!
-//! This class provides an icon library.
-//------------------------------------------------------------------------------
-
-class djvIconLibrary : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvIconLibrary(QObject * parent = nullptr);
-    
-    virtual ~djvIconLibrary();
-    
-    //! Get an icon.
-    const QIcon & icon(const QString &) const;
-    
-    //! Get an icon.
-    QIcon icon(const QString & off, const QString & on) const;
-    
-    //! Get a pixmap.
-    const QPixmap & pixmap(const QString &) const;
+    namespace UI
+    {
+        //! \class IconLibrary
+        //!
+        //! This class provides an icon library.
+        class IconLibrary : public QObject
+        {
+            Q_OBJECT
 
-    //! Get the list of icon names.
-    QStringList names() const;
+        public:
+            explicit IconLibrary(QObject * parent = nullptr);
 
-    //! Get the default icon size.
-    QSize defaultSize() const;
-    
-private:
-    DJV_PRIVATE_COPY(djvIconLibrary);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~IconLibrary();
 
-//@} // djvUIMisc
+            //! Get an icon.
+            const QIcon & icon(const QString &) const;
 
+            //! Get an icon.
+            QIcon icon(const QString & off, const QString & on) const;
+
+            //! Get a pixmap.
+            const QPixmap & pixmap(const QString &) const;
+
+            //! Get the list of icon names.
+            QStringList names() const;
+
+            //! Get the default icon size.
+            QSize defaultSize() const;
+
+        private:
+            DJV_PRIVATE_COPY(IconLibrary);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

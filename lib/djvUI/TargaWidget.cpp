@@ -42,117 +42,116 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvTargaWidget
-//------------------------------------------------------------------------------
-
-djvTargaWidget::djvTargaWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _compressionWidget(0)
+namespace djv
 {
-    //DJV_DEBUG("djvTargaWidget::djvTargaWidget");
-
-    // Create the output widgets.    
-    _compressionWidget = new QComboBox;
-    _compressionWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _compressionWidget->addItems(djvTarga::compressionLabels());
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvTargaWidget", "Compression"),
-        qApp->translate("djvTargaWidget", "Set the file compression used when saving Targa images."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvTargaWidget", "Compression:"),
-        _compressionWidget);
-    layout->addWidget(prefsGroupBox);
-    
-    layout->addStretch();
-
-    // Initialize.
-    QStringList tmp;
-    tmp = plugin->option(
-        plugin->options()[djvTarga::COMPRESSION_OPTION]);
-    tmp >> _options.compression;
-
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _compressionWidget,
-        SIGNAL(activated(int)),
-        SLOT(compressionCallback(int)));
-}
-
-djvTargaWidget::~djvTargaWidget()
-{}
-
-void djvTargaWidget::resetPreferences()
-{
-    _options = djvTarga::Options();
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvTargaWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.compression;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+        TargaWidget::TargaWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _compressionWidget(0)
+        {
+            //DJV_DEBUG("TargaWidget::TargaWidget");
 
-void djvTargaWidget::compressionCallback(int index)
-{
-    _options.compression = static_cast<djvTarga::COMPRESSION>(index);
-    pluginUpdate();
-}
+            // Create the output widgets.    
+            _compressionWidget = new QComboBox;
+            _compressionWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _compressionWidget->addItems(djvTarga::compressionLabels());
 
-void djvTargaWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.compression;
-    plugin()->setOption(
-        plugin()->options()[djvTarga::COMPRESSION_OPTION], tmp);
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvTargaWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_compressionWidget);
-    _compressionWidget->setCurrentIndex(_options.compression);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::TargaWidget", "Compression"),
+                qApp->translate("djv::UI::TargaWidget", "Set the file compression used when saving Targa images."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::TargaWidget", "Compression:"),
+                _compressionWidget);
+            layout->addWidget(prefsGroupBox);
 
-//------------------------------------------------------------------------------
-// djvTargaWidgetPlugin
-//------------------------------------------------------------------------------
+            layout->addStretch();
 
-djvTargaWidgetPlugin::djvTargaWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            // Initialize.
+            QStringList tmp;
+            tmp = plugin->option(
+                plugin->options()[djvTarga::COMPRESSION_OPTION]);
+            tmp >> _options.compression;
 
-djvImageIOWidget * djvTargaWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvTargaWidget(plugin, uiContext());
-}
+            widgetUpdate();
 
-QString djvTargaWidgetPlugin::pluginName() const
-{
-    return djvTarga::staticName;
-}
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _compressionWidget,
+                SIGNAL(activated(int)),
+                SLOT(compressionCallback(int)));
+        }
 
+        TargaWidget::~TargaWidget()
+        {}
+
+        void TargaWidget::resetPreferences()
+        {
+            _options = djvTarga::Options();
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void TargaWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.compression;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void TargaWidget::compressionCallback(int index)
+        {
+            _options.compression = static_cast<djvTarga::COMPRESSION>(index);
+            pluginUpdate();
+        }
+
+        void TargaWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.compression;
+            plugin()->setOption(
+                plugin()->options()[djvTarga::COMPRESSION_OPTION], tmp);
+        }
+
+        void TargaWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_compressionWidget);
+            _compressionWidget->setCurrentIndex(_options.compression);
+        }
+
+        TargaWidgetPlugin::TargaWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * TargaWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new TargaWidget(plugin, uiContext());
+        }
+
+        QString TargaWidgetPlugin::pluginName() const
+        {
+            return djvTarga::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

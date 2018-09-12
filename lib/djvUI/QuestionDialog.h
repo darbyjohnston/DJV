@@ -39,38 +39,36 @@
 
 #include <memory>
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvQuestionDialog
-//!
-//! This class provides a question dialog.
-//------------------------------------------------------------------------------
-
-class djvQuestionDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvQuestionDialog(
-        const QString & label  = QString(),
-        QWidget *       parent = nullptr);
+    namespace UI
+    {
+        //! \class djvQuestionDialog
+        //!
+        //! This class provides a question dialog.
+        class QuestionDialog : public QDialog
+        {
+            Q_OBJECT
 
-    virtual ~djvQuestionDialog();
-    
-    //! Get the label.
-    const QString & label() const;
+        public:
+            explicit QuestionDialog(
+                const QString & label = QString(),
+                QWidget *       parent = nullptr);
 
-    //! Set the label.
-    void setLabel(const QString &);
+            virtual ~QuestionDialog();
 
-private:
-    DJV_PRIVATE_COPY(djvQuestionDialog);
+            //! Get the label.
+            const QString & label() const;
 
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the label.
+            void setLabel(const QString &);
 
-//@} // djvUIDialog
+        private:
+            DJV_PRIVATE_COPY(QuestionDialog);
 
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

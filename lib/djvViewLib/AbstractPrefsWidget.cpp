@@ -40,7 +40,7 @@ namespace djv
         AbstractPrefsWidget::AbstractPrefsWidget(
             const QString &  name,
             Context * context) :
-            djvAbstractPrefsWidget(name, context),
+            UI::AbstractPrefsWidget(name, context),
             _context(context)
         {}
 

@@ -39,38 +39,36 @@
 
 #include <memory>
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvNoticeDialog
-//!
-//! This class provides a notice dialog.
-//------------------------------------------------------------------------------
-
-class djvNoticeDialog : public QDialog
+namespace djv
 {
-public:
-    explicit djvNoticeDialog(
-        const QString & label  = QString(),
-        QWidget *       parent = nullptr);
+    namespace UI
+    {
+        //! \class NoticeDialog
+        //!
+        //! This class provides a notice dialog.
+        class NoticeDialog : public QDialog
+        {
+        public:
+            explicit NoticeDialog(
+                const QString & label = QString(),
+                QWidget *       parent = nullptr);
 
-    virtual ~djvNoticeDialog();
+            virtual ~NoticeDialog();
 
-    //! Get the label.
-    const QString & label() const;
+            //! Get the label.
+            const QString & label() const;
 
-    //! Set the label.
-    void setLabel(const QString &);
+            //! Set the label.
+            void setLabel(const QString &);
 
-private:
-    void widgetUpdate();
+        private:
+            void widgetUpdate();
 
-    DJV_PRIVATE_COPY(djvNoticeDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            DJV_PRIVATE_COPY(NoticeDialog);
 
-//@} // djvUIDialog
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
+    } // namespace UI
+} // namespace djv

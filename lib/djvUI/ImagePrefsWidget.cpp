@@ -44,105 +44,103 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvImagePrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvImagePrefsWidget::Private
+namespace djv
 {
-    QComboBox * filterMinWidget = nullptr;
-    QComboBox * filterMagWidget = nullptr;
-};
+    namespace UI
+    {
+        struct ImagePrefsWidget::Private
+        {
+            QComboBox * filterMinWidget = nullptr;
+            QComboBox * filterMagWidget = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvImagePrefsWidget
-//------------------------------------------------------------------------------
+        ImagePrefsWidget::ImagePrefsWidget(UIContext * context, QWidget * parent) :
+            AbstractPrefsWidget(qApp->translate("djv::UI::ImagePrefsWidget", "Images"), context, parent),
+            _p(new Private)
+        {
+            // Create the filter widgets.
+            _p->filterMinWidget = new QComboBox;
+            _p->filterMinWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->filterMinWidget->addItems(djvOpenGLImageFilter::filterLabels());
 
-djvImagePrefsWidget::djvImagePrefsWidget(djvUIContext * context, QWidget * parent) :
-    djvAbstractPrefsWidget(qApp->translate("djvImagePrefsWidget", "Images"), context, parent),
-    _p(new Private)
-{
-    // Create the filter widgets.
-    _p->filterMinWidget = new QComboBox;
-    _p->filterMinWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->filterMinWidget->addItems(djvOpenGLImageFilter::filterLabels());
+            _p->filterMagWidget = new QComboBox;
+            _p->filterMagWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _p->filterMagWidget->addItems(djvOpenGLImageFilter::filterLabels());
 
-    _p->filterMagWidget = new QComboBox;
-    _p->filterMagWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _p->filterMagWidget->addItems(djvOpenGLImageFilter::filterLabels());
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::ImagePrefsWidget", "Scaling"),
+                qApp->translate("djv::UI::ImagePrefsWidget",
+                    "Set the image scaling quality. The filters \"Nearest\" and "
+                    "\"Linear\" are generally the fastest. The other filters can provide "
+                    "higher quality but are generally slower."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::ImagePrefsWidget", "Scale down:"),
+                _p->filterMinWidget);
+            formLayout->addRow(
+                qApp->translate("djv::UI::ImagePrefsWidget", "Scale up:"),
+                _p->filterMagWidget);
+            layout->addWidget(prefsGroupBox);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvImagePrefsWidget", "Scaling"),
-        qApp->translate("djvImagePrefsWidget",
-        "Set the image scaling quality. The filters \"Nearest\" and "
-        "\"Linear\" are generally the fastest. The other filters can provide "
-        "higher quality but are generally slower."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvImagePrefsWidget", "Scale down:"),
-        _p->filterMinWidget);
-    formLayout->addRow(
-        qApp->translate("djvImagePrefsWidget", "Scale up:"),
-        _p->filterMagWidget);
-    layout->addWidget(prefsGroupBox);
+            layout->addStretch();
 
-    layout->addStretch();
+            // Initialize.
+            widgetUpdate();
 
-    // Initialize.
-    widgetUpdate();
+            // Setup the callbacks.
+            connect(
+                _p->filterMinWidget,
+                SIGNAL(activated(int)),
+                SLOT(filterMinCallback(int)));
+            connect(
+                _p->filterMagWidget,
+                SIGNAL(activated(int)),
+                SLOT(filterMagCallback(int)));
+        }
 
-    // Setup the callbacks.
-    connect(
-        _p->filterMinWidget,
-        SIGNAL(activated(int)),
-        SLOT(filterMinCallback(int)));
-    connect(
-        _p->filterMagWidget,
-        SIGNAL(activated(int)),
-        SLOT(filterMagCallback(int)));
-}
+        ImagePrefsWidget::~ImagePrefsWidget()
+        {}
 
-djvImagePrefsWidget::~djvImagePrefsWidget()
-{}
+        void ImagePrefsWidget::resetPreferences()
+        {
+            //DJV_DEBUG("ImagePrefsWidget::resetPreferences");
+            context()->imagePrefs()->setFilter(djvOpenGLImageFilter::filterDefault());
+            widgetUpdate();
+        }
 
-void djvImagePrefsWidget::resetPreferences()
-{
-    //DJV_DEBUG("djvImagePrefsWidget::resetPreferences");
-    context()->imagePrefs()->setFilter(djvOpenGLImageFilter::filterDefault());
-    widgetUpdate();
-}
+        void ImagePrefsWidget::filterMinCallback(int in)
+        {
+            context()->imagePrefs()->setFilter(
+                djvOpenGLImageFilter(
+                    static_cast<djvOpenGLImageFilter::FILTER>(in),
+                    context()->imagePrefs()->filter().mag));
+            widgetUpdate();
+        }
 
-void djvImagePrefsWidget::filterMinCallback(int in)
-{
-    context()->imagePrefs()->setFilter(
-        djvOpenGLImageFilter(
-        static_cast<djvOpenGLImageFilter::FILTER>(in),
-        context()->imagePrefs()->filter().mag));
-    widgetUpdate();
-}
+        void ImagePrefsWidget::filterMagCallback(int in)
+        {
+            context()->imagePrefs()->setFilter(
+                djvOpenGLImageFilter(
+                    context()->imagePrefs()->filter().min,
+                    static_cast<djvOpenGLImageFilter::FILTER>(in)));
+            widgetUpdate();
+        }
 
-void djvImagePrefsWidget::filterMagCallback(int in)
-{
-    context()->imagePrefs()->setFilter(
-        djvOpenGLImageFilter(
-        context()->imagePrefs()->filter().min,
-        static_cast<djvOpenGLImageFilter::FILTER>(in)));
-    widgetUpdate();
-}
+        void ImagePrefsWidget::widgetUpdate()
+        {
+            //DJV_DEBUG("ImagePrefsWidget::widgetUpdate");
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->filterMinWidget <<
+                _p->filterMagWidget);
+            //DJV_DEBUG_PRINT("filter = " << context()->imagePrefs()->filter());
+            _p->filterMinWidget->setCurrentIndex(context()->imagePrefs()->filter().min);
+            _p->filterMagWidget->setCurrentIndex(context()->imagePrefs()->filter().mag);
+        }
 
-void djvImagePrefsWidget::widgetUpdate()
-{
-    //DJV_DEBUG("djvImagePrefsWidget::widgetUpdate");
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->filterMinWidget <<
-        _p->filterMagWidget);
-    //DJV_DEBUG_PRINT("filter = " << context()->imagePrefs()->filter());
-    _p->filterMinWidget->setCurrentIndex(context()->imagePrefs()->filter().min);
-    _p->filterMagWidget->setCurrentIndex(context()->imagePrefs()->filter().mag);
-}
-
+    } // namespace UI
+} // namespace djv

@@ -50,7 +50,7 @@ namespace djv
             _hudBackgroundColor(hudBackgroundColorDefault())
         {
             //DJV_DEBUG("ViewPrefs::ViewPrefs");
-            djvPrefs prefs("djv::ViewLib::ViewPrefs");
+            UI::Prefs prefs("djv::ViewLib::ViewPrefs");
             prefs.get("zoomFactor", _zoomFactor);
             prefs.get("background", _background);
             prefs.get("grid", _grid);
@@ -70,7 +70,7 @@ namespace djv
         ViewPrefs::~ViewPrefs()
         {
             //DJV_DEBUG("ViewPrefs::~ViewPrefs");
-            djvPrefs prefs("djv::ViewLib::ViewPrefs");
+            UI::Prefs prefs("djv::ViewLib::ViewPrefs");
             prefs.set("zoomFactor", _zoomFactor);
             prefs.set("background", _background);
             prefs.set("grid", _grid);

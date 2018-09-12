@@ -35,82 +35,77 @@
 
 #include <djvGraphics/OpenEXR.h>
 
-class djvFloatEditSlider;
-class djvIntEdit;
-
 class QCheckBox;
 class QComboBox;
 class QFormLayout;
 
-//! \addtogroup djvOpenEXRPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenEXRWidget
-//!
-//! This class provides an OpenEXR widget.
-//------------------------------------------------------------------------------
-
-class djvOpenEXRWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvOpenEXRWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        class FloatEditSlider;
+        class IntEdit;
 
-    virtual ~djvOpenEXRWidget();
+        //! \class OpenEXRWidget
+        //!
+        //! This class provides an OpenEXR widget.
+        class OpenEXRWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual void resetPreferences();
+        public:
+            OpenEXRWidget(djvImageIO *, UIContext *);
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void threadsEnableCallback(bool);
-    void threadCountCallback(int);
-    void inputColorProfileCallback(int);
-    void inputGammaCallback(float);
-    void inputExposureCallback(float);
-    void inputExposureDefogCallback(float);
-    void inputExposureKneeLowCallback(float);
-    void inputExposureKneeHighCallback(float);
-    void channelsCallback(int);
-    void compressionCallback(int);
-    void dwaCompressionLevelCallback(float);
-    void pluginUpdate();
-    void widgetUpdate();
+            virtual ~OpenEXRWidget();
 
-private:
-    djvOpenEXR::Options  _options;
-    QCheckBox *          _threadsEnableWidget;
-    djvIntEdit *         _threadCountWidget;
-    QComboBox *          _inputColorProfileWidget;
-    QFormLayout *        _inputColorProfileLayout;
-    djvFloatEditSlider * _inputGammaWidget;
-    djvFloatEditSlider * _inputExposureWidget;
-    djvFloatEditSlider * _inputExposureDefogWidget;
-    djvFloatEditSlider * _inputExposureKneeLowWidget;
-    djvFloatEditSlider * _inputExposureKneeHighWidget;
-    QComboBox *          _channelsWidget;
-    QComboBox *          _compressionWidget;
+            virtual void resetPreferences();
+
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void threadsEnableCallback(bool);
+            void threadCountCallback(int);
+            void inputColorProfileCallback(int);
+            void inputGammaCallback(float);
+            void inputExposureCallback(float);
+            void inputExposureDefogCallback(float);
+            void inputExposureKneeLowCallback(float);
+            void inputExposureKneeHighCallback(float);
+            void channelsCallback(int);
+            void compressionCallback(int);
+            void dwaCompressionLevelCallback(float);
+            void pluginUpdate();
+            void widgetUpdate();
+
+        private:
+            djvOpenEXR::Options  _options;
+            QCheckBox * _threadsEnableWidget;
+            IntEdit * _threadCountWidget;
+            QComboBox * _inputColorProfileWidget;
+            QFormLayout * _inputColorProfileLayout;
+            FloatEditSlider * _inputGammaWidget;
+            FloatEditSlider * _inputExposureWidget;
+            FloatEditSlider * _inputExposureDefogWidget;
+            FloatEditSlider * _inputExposureKneeLowWidget;
+            FloatEditSlider * _inputExposureKneeHighWidget;
+            QComboBox * _channelsWidget;
+            QComboBox * _compressionWidget;
 #if OPENEXR_VERSION_HEX >= 0x02020000
-    djvFloatEditSlider * _dwaCompressionLevelWidget;
+            FloatEditSlider * _dwaCompressionLevelWidget;
 #endif // OPENEXR_VERSION_HEX
-};
+        };
 
-//------------------------------------------------------------------------------
-//! \class djvOpenEXRWidgetPlugin
-//!
-//! This class provides a OpenEXR widget plugin.
-//------------------------------------------------------------------------------
+        //! \class OpenEXRWidgetPlugin
+        //!
+        //! This class provides a OpenEXR widget plugin.
+        class OpenEXRWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            OpenEXRWidgetPlugin(djvCoreContext *);
 
-class djvOpenEXRWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvOpenEXRWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
-    virtual QString pluginName() const;
-};
-
-//@} // djvOpenEXRPlugin
+    } // namespace UI
+} // namespace djv
 

@@ -37,53 +37,47 @@
 
 class QComboBox;
 
-//! \addtogroup djvTargaPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTargaWidget
-//!
-//! This class provides a Targa widget.
-//------------------------------------------------------------------------------
-
-class djvTargaWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvTargaWidget(djvImageIO *, djvUIContext *);
-    
-    virtual ~djvTargaWidget();
+    namespace UI
+    {
+        //! \class djvTargaWidget
+        //!
+        //! This class provides a Targa widget.
+        class TargaWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual void resetPreferences();
+        public:
+            TargaWidget(djvImageIO *, UIContext *);
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void compressionCallback(int);
+            virtual ~TargaWidget();
 
-    void pluginUpdate();
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-private:
-    djvTarga::Options _options;
-    QComboBox *       _compressionWidget;
-};
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void compressionCallback(int);
 
-//------------------------------------------------------------------------------
-//! \class djvTargaWidgetPlugin
-//!
-//! This class provides a Targa widget plugin.
-//------------------------------------------------------------------------------
+            void pluginUpdate();
+            void widgetUpdate();
 
-class djvTargaWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvTargaWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        private:
+            djvTarga::Options _options;
+            QComboBox *       _compressionWidget;
+        };
 
-    virtual QString pluginName() const;
-};
+        //! \class TargaWidgetPlugin
+        //!
+        //! This class provides a Targa widget plugin.
+        class TargaWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            TargaWidgetPlugin(djvCoreContext *);
 
-//@} // djvTargaPlugin
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
+    } // namespace UI
+} // namespace djv

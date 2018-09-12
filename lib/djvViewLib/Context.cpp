@@ -100,7 +100,7 @@ namespace djv
         };
 
         Context::Context(QObject * parent) :
-            djvUIContext(parent),
+            UI::UIContext(parent),
             _p(new Private)
         {
             //DJV_DEBUG("Context::Context");
@@ -244,7 +244,7 @@ namespace djv
 
         void Context::setValid(bool valid)
         {
-            djvUIContext::setValid(true);
+            UI::UIContext::setValid(true);
             if (isValid())
             {
                 prefsDialog()->addWidget(new FilePrefsWidget(this), "djv_view");
@@ -262,7 +262,7 @@ namespace djv
             //DJV_DEBUG("Context::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            if (!djvUIContext::commandLineParse(in))
+            if (!UI::UIContext::commandLineParse(in))
                 return false;
             QString arg;
             try
@@ -414,7 +414,7 @@ namespace djv
                 arg(djvStringUtil::boolLabels().join(", ")).
                 arg(Util::playbackLabels().join(", ")).
                 arg(djvSpeed::fpsLabels().join(", ")).
-                arg(djvUIContext::commandLineHelp());
+                arg(UI::UIContext::commandLineHelp());
         }
 
     } // namespace ViewLib

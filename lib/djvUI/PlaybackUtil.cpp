@@ -35,26 +35,29 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvPlaybackUtil
-//------------------------------------------------------------------------------
-
-const QStringList & djvPlaybackUtil::playbackLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPlaybackUtil", "Reverse") <<
-        qApp->translate("djvPlaybackUtil", "Stop") <<
-        qApp->translate("djvPlaybackUtil", "Forward");
-    DJV_ASSERT(data.count() == PLAYBACK_COUNT);
-    return data;
-}
+    namespace UI
+    {
+        const QStringList & PlaybackUtil::playbackLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::UI::PlaybackUtil", "Reverse") <<
+                qApp->translate("djv::UI::PlaybackUtil", "Stop") <<
+                qApp->translate("djv::UI::PlaybackUtil", "Forward");
+            DJV_ASSERT(data.count() == PLAYBACK_COUNT);
+            return data;
+        }
 
-const QStringList & djvPlaybackUtil::playbackIcons()
-{
-    static const QStringList data = QStringList() <<
-        "djvPlayReverseIcon.png" <<
-        "djvPlayStopIcon.png" <<
-        "djvPlayForwardIcon.png";
-    DJV_ASSERT(data.count() == PLAYBACK_COUNT);
-    return data;
-}
+        const QStringList & PlaybackUtil::playbackIcons()
+        {
+            static const QStringList data = QStringList() <<
+                "djv::UI::PlayReverseIcon.png" <<
+                "djv::UI::PlayStopIcon.png" <<
+                "djv::UI::PlayForwardIcon.png";
+            DJV_ASSERT(data.count() == PLAYBACK_COUNT);
+            return data;
+        }
+
+    } // namespace UI
+} // namespace djv

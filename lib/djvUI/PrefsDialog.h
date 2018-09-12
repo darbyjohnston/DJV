@@ -39,43 +39,42 @@
 
 #include <memory>
 
-class djvAbstractPrefsWidget;
-class djvUIContext;
-
 class QAbstractButton;
 class QTreeWidgetItem;
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPrefsDialog
-//!
-//! This class provides a preferences dialog.
-//------------------------------------------------------------------------------
-
-class djvPrefsDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvPrefsDialog(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        class AbstractPrefsWidget;
+        class UIContext;
 
-    virtual ~djvPrefsDialog();
+        //! \class PrefsDialog
+        //!
+        //! This class provides a preferences dialog.
+        class PrefsDialog : public QDialog
+        {
+            Q_OBJECT
 
-    //! Add a preferences widget.
-    void addWidget(djvAbstractPrefsWidget *, const QString & group);
-    
-private Q_SLOTS:
-    void browserCallback(QTreeWidgetItem *, QTreeWidgetItem *);
-    void buttonCallback(QAbstractButton *);
+        public:
+            explicit PrefsDialog(UIContext *, QWidget * parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvPrefsDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~PrefsDialog();
 
-//@} // djvUIDialog
+            //! Add a preferences widget.
+            void addWidget(AbstractPrefsWidget *, const QString & group);
+
+        private Q_SLOTS:
+            void browserCallback(QTreeWidgetItem *, QTreeWidgetItem *);
+            void buttonCallback(QAbstractButton *);
+
+        private:
+            DJV_PRIVATE_COPY(PrefsDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
 

@@ -37,118 +37,116 @@
 #include <QApplication>
 #include <QSettings>
 
-//------------------------------------------------------------------------------
-// djvPrefs::Private
-//------------------------------------------------------------------------------
-
-struct djvPrefs::Private
+namespace djv
 {
-    //! \todo QSettings::SystemScope isn't working?
-    //! \todo The organization name is hard-coded here since preferences can be
-    //! created before the name is set in the application constructor.
-    Private(djvPrefs::SCOPE scope) :
-        scope(scope),
-        settings(
-            QSettings::UserScope,
-//            USER == scope ? QSettings::UserScope : QSettings::SystemScope,
-            djvSystem::env("LANG").isEmpty() ?
-                QString("djv.sourceforge.net") :
-                QString("djv.sourceforge.net.%1").arg(djvSystem::env("LANG")))
-    {}
-
-    djvPrefs::SCOPE scope;
-    QSettings       settings;
-};
-
-//------------------------------------------------------------------------------
-// djvPrefs
-//------------------------------------------------------------------------------
-
-namespace
-{
-bool _reset = false;
-
-} // namespace
-
-djvPrefs::djvPrefs(const QString & group, SCOPE scope) :
-    _p(new Private(scope))
-{
-    //DJV_DEBUG("djvPrefs::djvPrefs");
-    //DJV_DEBUG_PRINT("file = " << _p->settings.fileName());
-    //DJV_DEBUG_PRINT("keys = " << _p->settings.childKeys());
-    
-    _p->settings.beginGroup(group);
-}
-
-djvPrefs::~djvPrefs()
-{
-    _p->settings.endGroup();
-}
-
-djvPrefs::SCOPE djvPrefs::scope() const
-{
-    return _p->scope;
-}
-
-void djvPrefs::remove(const QString & name)
-{
-    _p->settings.remove(name);
-}
-
-bool djvPrefs::contains(const QString & name) const
-{
-    return _reset ? false : _p->settings.contains(name);
-}
-
-QStringList djvPrefs::list() const
-{
-    QStringList out;
-    Q_FOREACH(QString key, _p->settings.allKeys())
+    namespace UI
     {
-        out += key;
-    }
-    return out;
-}
-
-QString djvPrefs::fileName() const
-{
-    return _p->settings.fileName();
-}
-
-bool djvPrefs::hasReset()
-{
-    return _reset;
-}
-
-void djvPrefs::setReset(bool reset)
-{
-    _reset = reset;
-}
-
-bool djvPrefs::_get(const QString & name, QStringList & out) const
-{
-    if (_reset)
-        return false;
-    //DJV_DEBUG("djvPrefs::_get");
-    //DJV_DEBUG_PRINT("name = " << name);
-   
-    if (_p->settings.contains(name))
-    {
-        QStringList list = _p->settings.value(name).toStringList();
-        //DJV_DEBUG_PRINT("list = " << list.count());
-        Q_FOREACH(QString string, list)
+        struct Prefs::Private
         {
-            //DJV_DEBUG_PRINT("string = " << string);
-            out += string;
+            //! \todo QSettings::SystemScope isn't working?
+            //! \todo The organization name is hard-coded here since preferences can be
+            //! created before the name is set in the application constructor.
+            Private(Prefs::SCOPE scope) :
+                scope(scope),
+                settings(
+                    QSettings::UserScope,
+                    //            USER == scope ? QSettings::UserScope : QSettings::SystemScope,
+                    djvSystem::env("LANG").isEmpty() ?
+                    QString("djv.sourceforge.net") :
+                    QString("djv.sourceforge.net.%1").arg(djvSystem::env("LANG")))
+            {}
+
+            Prefs::SCOPE scope;
+            QSettings settings;
+        };
+
+        namespace
+        {
+            bool _reset = false;
+
+        } // namespace
+
+        Prefs::Prefs(const QString & group, SCOPE scope) :
+            _p(new Private(scope))
+        {
+            //DJV_DEBUG("Prefs::Prefs");
+            //DJV_DEBUG_PRINT("file = " << _p->settings.fileName());
+            //DJV_DEBUG_PRINT("keys = " << _p->settings.childKeys());
+
+            _p->settings.beginGroup(group);
         }
-        return true;
-    }
-    //DJV_DEBUG_PRINT("out = " << out);
-    return false;
-}
 
-void djvPrefs::_set(const QString & name, const QStringList & in)
-{
-    _p->settings.setValue(name, in);
-}
+        Prefs::~Prefs()
+        {
+            _p->settings.endGroup();
+        }
 
+        Prefs::SCOPE Prefs::scope() const
+        {
+            return _p->scope;
+        }
+
+        void Prefs::remove(const QString & name)
+        {
+            _p->settings.remove(name);
+        }
+
+        bool Prefs::contains(const QString & name) const
+        {
+            return _reset ? false : _p->settings.contains(name);
+        }
+
+        QStringList Prefs::list() const
+        {
+            QStringList out;
+            Q_FOREACH(QString key, _p->settings.allKeys())
+            {
+                out += key;
+            }
+            return out;
+        }
+
+        QString Prefs::fileName() const
+        {
+            return _p->settings.fileName();
+        }
+
+        bool Prefs::hasReset()
+        {
+            return _reset;
+        }
+
+        void Prefs::setReset(bool reset)
+        {
+            _reset = reset;
+        }
+
+        bool Prefs::_get(const QString & name, QStringList & out) const
+        {
+            if (_reset)
+                return false;
+            //DJV_DEBUG("Prefs::_get");
+            //DJV_DEBUG_PRINT("name = " << name);
+
+            if (_p->settings.contains(name))
+            {
+                QStringList list = _p->settings.value(name).toStringList();
+                //DJV_DEBUG_PRINT("list = " << list.count());
+                Q_FOREACH(QString string, list)
+                {
+                    //DJV_DEBUG_PRINT("string = " << string);
+                    out += string;
+                }
+                return true;
+            }
+            //DJV_DEBUG_PRINT("out = " << out);
+            return false;
+        }
+
+        void Prefs::_set(const QString & name, const QStringList & in)
+        {
+            _p->settings.setValue(name, in);
+        }
+
+    } // namespace UI
+} // namespace djv

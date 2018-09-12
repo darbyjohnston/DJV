@@ -37,12 +37,16 @@
 
 #include <memory>
 
-class djvUIContext;
-
 class QActionGroup;
 
 namespace djv
 {
+    namespace UI
+    {
+        class UIContext;
+    
+    } // namespace UI
+
     namespace ViewLib
     {
         class Context;
@@ -57,7 +61,7 @@ namespace djv
         public:
             explicit PlaybackButtons(
                 QActionGroup *  actionGroup,
-                djvUIContext * context,
+                UI::UIContext * context,
                 QWidget *       parent = nullptr);
 
             virtual ~PlaybackButtons();
@@ -111,7 +115,7 @@ namespace djv
         public:
             explicit FrameButtons(
                 QActionGroup *  actionGroup,
-                djvUIContext * context,
+                UI::UIContext * context,
                 QWidget *       parent = nullptr);
 
             virtual ~FrameButtons();

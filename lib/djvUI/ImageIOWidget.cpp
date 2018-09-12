@@ -35,84 +35,78 @@
 
 #include <djvGraphics/ImageIO.h>
 
-//------------------------------------------------------------------------------
-// djvImageIOWidget
-//------------------------------------------------------------------------------
-
-djvImageIOWidget::djvImageIOWidget(
-    djvImageIO *    plugin,
-    djvUIContext * context,
-    QWidget *       parent) :
-    djvAbstractPrefsWidget(plugin->pluginName(), context, parent),
-    _plugin (plugin),
-    _context(context)
-{}
-
-djvImageIOWidget::~djvImageIOWidget()
-{}
-
-djvImageIO * djvImageIOWidget::plugin() const
+namespace djv
 {
-    return _plugin;
-}
-
-djvUIContext * djvImageIOWidget::context() const
-{
-    return _context;
-}
-
-//------------------------------------------------------------------------------
-// djvImageIOWidgetPlugin
-//------------------------------------------------------------------------------
-
-djvImageIOWidgetPlugin::djvImageIOWidgetPlugin(djvCoreContext * context) :
-    djvPlugin(context)
-{}
-
-djvImageIOWidgetPlugin::~djvImageIOWidgetPlugin()
-{}
-
-djvUIContext * djvImageIOWidgetPlugin::uiContext() const
-{
-    return dynamic_cast<djvUIContext *>(context());
-}
-
-djvPlugin * djvImageIOWidgetPlugin::copyPlugin() const
-{
-    return 0;
-}
-
-//------------------------------------------------------------------------------
-// djvImageIOWidgetFactory
-//------------------------------------------------------------------------------
-
-djvImageIOWidgetFactory::djvImageIOWidgetFactory(
-    djvUIContext *     context,
-    const QStringList & searchPath,
-    QObject *           parent) :
-    djvPluginFactory(context, searchPath, "djvImageIOWidgetEntry", "djv", "Plugin", parent),
-    _context(context)
-{
-    //DJV_DEBUG("djvImageIOWidgetFactory::djvImageIOWidgetFactory");
-}
-
-djvImageIOWidgetFactory::~djvImageIOWidgetFactory()
-{
-    //DJV_DEBUG("djvImageIOWidgetFactory::~djvImageIOWidgetFactory");
-}
-
-djvImageIOWidget * djvImageIOWidgetFactory::createWidget(djvImageIO * imageIOPlugin) const
-{
-    Q_FOREACH(djvPlugin * plugin, plugins())
+    namespace UI
     {
-        if (djvImageIOWidgetPlugin * imageIOWidgetPlugin =
-            dynamic_cast<djvImageIOWidgetPlugin *>(plugin))
+        ImageIOWidget::ImageIOWidget(
+            djvImageIO * plugin,
+            UIContext * context,
+            QWidget * parent) :
+            AbstractPrefsWidget(plugin->pluginName(), context, parent),
+            _plugin(plugin),
+            _context(context)
+        {}
+
+        ImageIOWidget::~ImageIOWidget()
+        {}
+
+        djvImageIO * ImageIOWidget::plugin() const
         {
-            if (imageIOWidgetPlugin->pluginName() == imageIOPlugin->pluginName())
-            {
-                return imageIOWidgetPlugin->createWidget(imageIOPlugin);
-            }
+            return _plugin;
         }
-    }    
-    return 0;
-}
+
+        UIContext * ImageIOWidget::context() const
+        {
+            return _context;
+        }
+
+        ImageIOWidgetPlugin::ImageIOWidgetPlugin(djvCoreContext * context) :
+            djvPlugin(context)
+        {}
+
+        ImageIOWidgetPlugin::~ImageIOWidgetPlugin()
+        {}
+
+        UIContext * ImageIOWidgetPlugin::uiContext() const
+        {
+            return dynamic_cast<UIContext *>(context());
+        }
+
+        djvPlugin * ImageIOWidgetPlugin::copyPlugin() const
+        {
+            return 0;
+        }
+
+        ImageIOWidgetFactory::ImageIOWidgetFactory(
+            UIContext * context,
+            const QStringList & searchPath,
+            QObject * parent) :
+            djvPluginFactory(context, searchPath, "djv::UI::ImageIOWidgetEntry", "djv", "Plugin", parent),
+            _context(context)
+        {
+            //DJV_DEBUG("ImageIOWidgetFactory::ImageIOWidgetFactory");
+        }
+
+        ImageIOWidgetFactory::~ImageIOWidgetFactory()
+        {
+            //DJV_DEBUG("ImageIOWidgetFactory::~ImageIOWidgetFactory");
+        }
+
+        ImageIOWidget * ImageIOWidgetFactory::createWidget(djvImageIO * imageIOPlugin) const
+        {
+            Q_FOREACH(djvPlugin * plugin, plugins())
+            {
+                if (ImageIOWidgetPlugin * imageIOWidgetPlugin = dynamic_cast<ImageIOWidgetPlugin *>(plugin))
+                {
+                    if (imageIOWidgetPlugin->pluginName() == imageIOPlugin->pluginName())
+                    {
+                        return imageIOWidgetPlugin->createWidget(imageIOPlugin);
+                    }
+                }
+            }
+            return 0;
+        }
+
+    } // namespace UI
+} // namespace djv

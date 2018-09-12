@@ -37,58 +37,56 @@
 
 #include <QObject>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTimePrefs
-//!
-//! This class provides time preferences.
-//------------------------------------------------------------------------------
-
-class djvTimePrefs : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the global time units.
-    Q_PROPERTY(
-        djvTime::UNITS timeUnits
-        READ           timeUnits
-        WRITE          setTimeUnits
-        NOTIFY         timeUnitsChanged)
-    
-    //! This property holds the global speed.
-    Q_PROPERTY(
-        djvSpeed::FPS speed
-        READ          speed
-        WRITE         setSpeed
-        NOTIFY        speedChanged)
-    
-public:
-    explicit djvTimePrefs(QObject * parent = nullptr);
+    namespace UI
+    {
+        //! \class TimePrefs
+        //!
+        //! This class provides time preferences.
+        class TimePrefs : public QObject
+        {
+            Q_OBJECT
 
-    ~djvTimePrefs();
+                //! This property holds the global time units.
+                Q_PROPERTY(
+                    djvTime::UNITS timeUnits
+                    READ           timeUnits
+                    WRITE          setTimeUnits
+                    NOTIFY         timeUnitsChanged)
 
-    //! Get the global time units.
-    djvTime::UNITS timeUnits() const;
+                //! This property holds the global speed.
+                Q_PROPERTY(
+                    djvSpeed::FPS speed
+                    READ          speed
+                    WRITE         setSpeed
+                    NOTIFY        speedChanged)
 
-    //! Get the global speed.
-    djvSpeed::FPS speed() const;
+        public:
+            explicit TimePrefs(QObject * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the global time units.
-    void setTimeUnits(djvTime::UNITS);
+            ~TimePrefs();
 
-    //! Set the global speed.
-    void setSpeed(djvSpeed::FPS);
+            //! Get the global time units.
+            djvTime::UNITS timeUnits() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the global time units are changed.
-    void timeUnitsChanged(djvTime::UNITS);
+            //! Get the global speed.
+            djvSpeed::FPS speed() const;
 
-    //! This signal is emitted when the global speed is changed.
-    void speedChanged(djvSpeed::FPS);
-};
+        public Q_SLOTS:
+            //! Set the global time units.
+            void setTimeUnits(djvTime::UNITS);
 
-//@} // djvUIMisc
+            //! Set the global speed.
+            void setSpeed(djvSpeed::FPS);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the global time units are changed.
+            void timeUnitsChanged(djvTime::UNITS);
+
+            //! This signal is emitted when the global speed is changed.
+            void speedChanged(djvSpeed::FPS);
+        };
+
+    } // namespace UI
+} // namespace djv

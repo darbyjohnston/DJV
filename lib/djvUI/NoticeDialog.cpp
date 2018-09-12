@@ -36,64 +36,63 @@
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvNoticeDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvNoticeDialog::Private
+namespace djv
 {
-    Private(const QString & label) :
-        label(label)
-    {}
-    
-    QString  label;
-    QLabel * labelWidget = nullptr;
-};
+    namespace UI
+    {
+        struct NoticeDialog::Private
+        {
+            Private(const QString & label) :
+                label(label)
+            {}
 
-//------------------------------------------------------------------------------
-// djvNoticeDialog
-//------------------------------------------------------------------------------
+            QString  label;
+            QLabel * labelWidget = nullptr;
+        };
 
-djvNoticeDialog::djvNoticeDialog(const QString & label, QWidget * parent) :
-    QDialog(parent),
-    _p(new Private(label))
-{
-    _p->labelWidget = new QLabel;
-    
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Ok);
+        NoticeDialog::NoticeDialog(const QString & label, QWidget * parent) :
+            QDialog(parent),
+            _p(new Private(label))
+        {
+            _p->labelWidget = new QLabel;
 
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    vLayout->setMargin(20);
-    vLayout->addWidget(_p->labelWidget);
-    layout->addLayout(vLayout);
-    layout->addWidget(buttonBox);
-    
-    setWindowTitle(qApp->translate("djvNoticeDialog", "Notice Dialog"));
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Ok);
 
-    widgetUpdate();
-    
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-}
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            QVBoxLayout * vLayout = new QVBoxLayout;
+            vLayout->setMargin(20);
+            vLayout->addWidget(_p->labelWidget);
+            layout->addLayout(vLayout);
+            layout->addWidget(buttonBox);
 
-djvNoticeDialog::~djvNoticeDialog()
-{}
+            setWindowTitle(qApp->translate("djv::UI::NoticeDialog", "Notice Dialog"));
 
-const QString & djvNoticeDialog::label() const
-{
-    return _p->label;
-}
+            widgetUpdate();
 
-void djvNoticeDialog::setLabel(const QString & label)
-{
-    _p->label = label;
-    
-    widgetUpdate();
-}
+            connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+        }
 
-void djvNoticeDialog::widgetUpdate()
-{
-    _p->labelWidget->setText(_p->label);
-}
+        NoticeDialog::~NoticeDialog()
+        {}
+
+        const QString & NoticeDialog::label() const
+        {
+            return _p->label;
+        }
+
+        void NoticeDialog::setLabel(const QString & label)
+        {
+            _p->label = label;
+
+            widgetUpdate();
+        }
+
+        void NoticeDialog::widgetUpdate()
+        {
+            _p->labelWidget->setText(_p->label);
+        }
+
+    } // namespace UI
+} // namespace djv

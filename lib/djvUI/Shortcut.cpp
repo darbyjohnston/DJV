@@ -33,39 +33,42 @@
 
 #include <QStringList>
 
-//------------------------------------------------------------------------------
-// djvShortcut
-//------------------------------------------------------------------------------
-
-djvShortcut::djvShortcut(const QString & name, const QKeySequence & value) :
-    name (name),
-    value(value)
-{}
-
-bool djvShortcut::operator == (const djvShortcut & other) const
+namespace djv
 {
-    return
-        //name  == other.name &&
-        value == other.value;
-}
+    namespace UI
+    {
+        Shortcut::Shortcut(const QString & name, const QKeySequence & value) :
+            name(name),
+            value(value)
+        {}
 
-bool djvShortcut::operator != (const djvShortcut & other) const
-{
-    return ! (*this == other);
-}
+        bool Shortcut::operator == (const Shortcut & other) const
+        {
+            return
+                //name  == other.name &&
+                value == other.value;
+        }
 
-bool djvShortcut::serialize(QStringList & in, QKeySequence & out)
-{
-    if (! in.count())
-        return false;
-    out = QKeySequence(in.first());
-    in.pop_front();
-    return true;
-}
+        bool Shortcut::operator != (const Shortcut & other) const
+        {
+            return !(*this == other);
+        }
 
-QStringList djvShortcut::serialize(const QKeySequence & in)
-{
-    QStringList out;
-    out += in.toString();
-    return out;
-}
+        bool Shortcut::serialize(QStringList & in, QKeySequence & out)
+        {
+            if (!in.count())
+                return false;
+            out = QKeySequence(in.first());
+            in.pop_front();
+            return true;
+        }
+
+        QStringList Shortcut::serialize(const QKeySequence & in)
+        {
+            QStringList out;
+            out += in.toString();
+            return out;
+        }
+
+    } // namespace UI
+} // namespace djv

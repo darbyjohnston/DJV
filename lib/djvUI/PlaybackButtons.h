@@ -35,48 +35,52 @@
 
 #include <QWidget>
 
-class djvUIContext;
-
 class QButtonGroup;
 
-//------------------------------------------------------------------------------
-//! \class djvPlaybackButtons
-//!
-//! This class provides playback buttons.
-//------------------------------------------------------------------------------
-
-class djvPlaybackButtons : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    Q_ENUMS(PLAYBACK)
-    
-    //! This property holds the current playback state.    
-    Q_PROPERTY(
-        djvPlaybackUtil::PLAYBACK playback
-        READ                      playback
-        WRITE                     setPlayback
-        NOTIFY                    playbackChanged)
-    
-public:
-    explicit djvPlaybackButtons(djvUIContext *, QWidget * parent = nullptr);
-    
-    //! Get the current playback state.    
-    djvPlaybackUtil::PLAYBACK playback() const;
+    namespace UI
+    {
+        class UIContext;
 
-public Q_SLOTS:
-    //! Set the current playback state.
-    void setPlayback(djvPlaybackUtil::PLAYBACK);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the current playback state is changed.
-    void playbackChanged(djvPlaybackUtil::PLAYBACK);
+        //! \class PlaybackButtons
+        //!
+        //! This class provides playback buttons.
+        class PlaybackButtons : public QWidget
+        {
+            Q_OBJECT
+            Q_ENUMS(PLAYBACK)
 
-private Q_SLOTS:
-    void buttonCallback(int);
-    
-private:    
-    djvUIContext *           _context     = nullptr;
-    djvPlaybackUtil::PLAYBACK _playback    = djvPlaybackUtil::STOP;
-    QButtonGroup *            _buttonGroup = nullptr;
-};
+            //! This property holds the current playback state.    
+            Q_PROPERTY(
+                PlaybackUtil::PLAYBACK playback
+                READ                   playback
+                WRITE                  setPlayback
+                NOTIFY                 playbackChanged)
+
+        public:
+            explicit PlaybackButtons(UIContext *, QWidget * parent = nullptr);
+
+            //! Get the current playback state.    
+            PlaybackUtil::PLAYBACK playback() const;
+
+        public Q_SLOTS:
+            //! Set the current playback state.
+            void setPlayback(PlaybackUtil::PLAYBACK);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the current playback state is changed.
+            void playbackChanged(PlaybackUtil::PLAYBACK);
+
+        private Q_SLOTS:
+            void buttonCallback(int);
+
+        private:
+            UIContext * _context = nullptr;
+            PlaybackUtil::PLAYBACK _playback = PlaybackUtil::STOP;
+            QButtonGroup * _buttonGroup = nullptr;
+        };
+
+    } // namespace UI
+} // namespace djv
 

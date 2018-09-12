@@ -35,179 +35,178 @@
 #include <QBrush>
 #include <QColor>
 
-//------------------------------------------------------------------------------
-// djvShortcutsModel::Private
-//------------------------------------------------------------------------------
-
-struct djvShortcutsModel::Private
+namespace djv
 {
-    QVector<djvShortcut> shortcuts;
-    QVector<bool>        collisions;
-};
-
-//------------------------------------------------------------------------------
-// djvShortcutsModel
-//------------------------------------------------------------------------------
-
-djvShortcutsModel::djvShortcutsModel(QObject * parent) :
-    QAbstractItemModel(parent),
-    _p(new Private)
-{
-    collisionsUpdate();
-}
-
-djvShortcutsModel::~djvShortcutsModel()
-{}
-
-const QVector<djvShortcut> & djvShortcutsModel::shortcuts() const
-{
-    return _p->shortcuts;
-}
-
-void djvShortcutsModel::setShortcuts(const QVector<djvShortcut> & shortcuts)
-{
-    if (shortcuts == _p->shortcuts)
-        return;
-    beginResetModel();
-    _p->shortcuts = shortcuts;
-    collisionsUpdate();
-    endResetModel();
-    Q_EMIT shortcutsChanged(_p->shortcuts);
-}
-
-QModelIndex	djvShortcutsModel::index(
-    int                 row,
-    int                 column,
-    const QModelIndex & parent) const
-{
-    if (! hasIndex(row, column, parent))
-        return QModelIndex();
-    return createIndex(row, column, &_p->shortcuts[row]);
-}
-
-QModelIndex	djvShortcutsModel::parent(const QModelIndex & index) const
-{
-    return QModelIndex();
-}
-
-Qt::ItemFlags djvShortcutsModel::flags(const QModelIndex & index) const
-{
-    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
-    if (index.isValid() && 1 == index.column())
+    namespace UI
     {
-        flags |= Qt::ItemIsEditable;
-    }
-    return flags;
-}
+        struct ShortcutsModel::Private
+        {
+            QVector<Shortcut> shortcuts;
+            QVector<bool> collisions;
+        };
 
-QVariant djvShortcutsModel::data(
-    const QModelIndex & index,
-    int                 role) const
-{
-    if (! index.isValid())
-        return QVariant();
-    if (role != Qt::DisplayRole    &&
-        role != Qt::EditRole       &&
-        role != Qt::BackgroundRole)
-        return QVariant();
-    const int row    = index.row();
-    const int column = index.column();
-    if (row    < 0 || row >= _p->shortcuts.count() ||
-        column < 0 || column >= 2)
-        return QVariant();
-    const djvShortcut & shortcut = _p->shortcuts[row];
-    switch (role)
-    {
-        case Qt::DisplayRole:
+        ShortcutsModel::ShortcutsModel(QObject * parent) :
+            QAbstractItemModel(parent),
+            _p(new Private)
+        {
+            collisionsUpdate();
+        }
 
-            switch (column)
+        ShortcutsModel::~ShortcutsModel()
+        {}
+
+        const QVector<Shortcut> & ShortcutsModel::shortcuts() const
+        {
+            return _p->shortcuts;
+        }
+
+        void ShortcutsModel::setShortcuts(const QVector<Shortcut> & shortcuts)
+        {
+            if (shortcuts == _p->shortcuts)
+                return;
+            beginResetModel();
+            _p->shortcuts = shortcuts;
+            collisionsUpdate();
+            endResetModel();
+            Q_EMIT shortcutsChanged(_p->shortcuts);
+        }
+
+        QModelIndex	ShortcutsModel::index(
+            int                 row,
+            int                 column,
+            const QModelIndex & parent) const
+        {
+            if (!hasIndex(row, column, parent))
+                return QModelIndex();
+            return createIndex(row, column, &_p->shortcuts[row]);
+        }
+
+        QModelIndex	ShortcutsModel::parent(const QModelIndex & index) const
+        {
+            return QModelIndex();
+        }
+
+        Qt::ItemFlags ShortcutsModel::flags(const QModelIndex & index) const
+        {
+            Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+            if (index.isValid() && 1 == index.column())
             {
+                flags |= Qt::ItemIsEditable;
+            }
+            return flags;
+        }
+
+        QVariant ShortcutsModel::data(
+            const QModelIndex & index,
+            int                 role) const
+        {
+            if (!index.isValid())
+                return QVariant();
+            if (role != Qt::DisplayRole    &&
+                role != Qt::EditRole       &&
+                role != Qt::BackgroundRole)
+                return QVariant();
+            const int row = index.row();
+            const int column = index.column();
+            if (row < 0 || row >= _p->shortcuts.count() ||
+                column < 0 || column >= 2)
+                return QVariant();
+            const Shortcut & shortcut = _p->shortcuts[row];
+            switch (role)
+            {
+            case Qt::DisplayRole:
+
+                switch (column)
+                {
                 case 0: return shortcut.name;
                 case 1: return shortcut.value.toString();
                 default: break;
-            }
-            break;
-        case Qt::EditRole:
-            switch (column)
-            {
+                }
+                break;
+            case Qt::EditRole:
+                switch (column)
+                {
                 case 1: return shortcut.value;
                 default: break;
+                }
+                break;
+            case Qt::BackgroundRole:
+                if (_p->collisions[row])
+                {
+                    return QVariant::fromValue(QColor(190, 60, 60));
+                }
+                break;
+            default: break;
             }
-            break;
-        case Qt::BackgroundRole:
-            if (_p->collisions[row])
+            return QVariant();
+        }
+
+        bool ShortcutsModel::setData(
+            const QModelIndex & index,
+            const QVariant &    value,
+            int                 role)
+        {
+            if (!index.isValid())
+                return false;
+            const int row = index.row();
+            const int column = index.column();
+            if (row >= 0 &&
+                row < _p->shortcuts.count() &&
+                1 == column &&
+                role == Qt::EditRole)
             {
-                return QVariant::fromValue(QColor(190, 60, 60));
+                _p->shortcuts[index.row()].value = value.toString();
+                collisionsUpdate();
+                Q_EMIT dataChanged(index, index);
+                Q_EMIT shortcutsChanged(_p->shortcuts);
+                return true;
             }
-            break;
-        default: break;
-    }
-    return QVariant();
-}
+            return false;
+        }
 
-bool djvShortcutsModel::setData(
-    const QModelIndex & index,
-    const QVariant &    value,
-    int                 role)
-{
-    if (! index.isValid())
-        return false;
-    const int row    = index.row();
-    const int column = index.column();
-    if (row  >= 0                     &&
-        row  <  _p->shortcuts.count() &&
-        1    == column                &&
-        role == Qt::EditRole)
-    {
-        _p->shortcuts[index.row()].value = value.toString();
-        collisionsUpdate();
-        Q_EMIT dataChanged(index, index);
-        Q_EMIT shortcutsChanged(_p->shortcuts);
-        return true;
-    }
-    return false;
-}
-
-QVariant djvShortcutsModel::headerData(
-    int             section,
-    Qt::Orientation orientation,
-    int             role) const
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvShortcutsModel", "Name") <<
-        qApp->translate("djvShortcutsModel", "Shortcut");
-    switch (role)
-    {
-        case Qt::DisplayRole:
-            switch (section)
+        QVariant ShortcutsModel::headerData(
+            int             section,
+            Qt::Orientation orientation,
+            int             role) const
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::UI::ShortcutsModel", "Name") <<
+                qApp->translate("djv::UI::ShortcutsModel", "Shortcut");
+            switch (role)
             {
+            case Qt::DisplayRole:
+                switch (section)
+                {
                 case 0: return data[0];
                 case 1: return data[1];
                 default: break;
+                }
+                break;
+            default: break;
             }
-            break;
-        default: break;
-    }
-    return QVariant();
-}
+            return QVariant();
+        }
 
-int djvShortcutsModel::rowCount(const QModelIndex & parent) const
-{
-    return parent.isValid() ? 0 : _p->shortcuts.count();
-}
+        int ShortcutsModel::rowCount(const QModelIndex & parent) const
+        {
+            return parent.isValid() ? 0 : _p->shortcuts.count();
+        }
 
-int djvShortcutsModel::columnCount(const QModelIndex & parent) const
-{
-    return parent.isValid() ? 0 : 2;
-}
+        int ShortcutsModel::columnCount(const QModelIndex & parent) const
+        {
+            return parent.isValid() ? 0 : 2;
+        }
 
-void djvShortcutsModel::collisionsUpdate()
-{
-    _p->collisions.resize(_p->shortcuts.count());
-    for (int i = 0; i < _p->shortcuts.count(); ++i)
-    {
-        _p->collisions[i] =
-            ! _p->shortcuts[i].value.isEmpty() &&
-            _p->shortcuts.count(_p->shortcuts[i]) > 1;
-    }
-}
+        void ShortcutsModel::collisionsUpdate()
+        {
+            _p->collisions.resize(_p->shortcuts.count());
+            for (int i = 0; i < _p->shortcuts.count(); ++i)
+            {
+                _p->collisions[i] =
+                    !_p->shortcuts[i].value.isEmpty() &&
+                    _p->shortcuts.count(_p->shortcuts[i]) > 1;
+            }
+        }
+
+    } // namespace UI
+} // namespace djv

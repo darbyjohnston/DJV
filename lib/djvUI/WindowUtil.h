@@ -35,23 +35,21 @@
 
 #include <djvCore/Vector.h>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvWindowUtil
-//!
-//! This class provides window utilities.
-//------------------------------------------------------------------------------
-
-class djvWindowUtil
+namespace djv
 {
-public:
-    virtual ~djvWindowUtil() = 0;
-    
-    //! Resize a window taking into account the screen size.    
-    static glm::ivec2 resize(const glm::ivec2 &, float maxPercent = .9f);
-};
+    namespace UI
+    {
+        //! \class WindowUtil
+        //!
+        //! This class provides window utilities.
+        class WindowUtil
+        {
+        public:
+            virtual ~WindowUtil() = 0;
 
-//@} // djvUIMisc
+            //! Resize a window taking into account the screen size.    
+            static glm::ivec2 resize(const glm::ivec2 &, float maxPercent = .9f);
+        };
 
+    } // namespace UI
+} // namespace djv

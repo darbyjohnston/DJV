@@ -35,32 +35,35 @@
 
 #include <QStringList>
 
-//------------------------------------------------------------------------------
-// djvPrefs
-//------------------------------------------------------------------------------
-
-template<typename T>
-inline bool djvPrefs::get(const QString & name, T & out) const
+namespace djv
 {
-    QStringList tmp;
-    if (! _get(name, tmp))
-        return false;
-    try
+    namespace UI
     {
-        tmp >> out;
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
+        template<typename T>
+        inline bool Prefs::get(const QString & name, T & out) const
+        {
+            QStringList tmp;
+            if (!_get(name, tmp))
+                return false;
+            try
+            {
+                tmp >> out;
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
 
-template<typename T>
-inline void djvPrefs::set(const QString & name, const T & in)
-{
-    QStringList tmp;
-    tmp << in;
-    _set(name, tmp);
-}
+        template<typename T>
+        inline void Prefs::set(const QString & name, const T & in)
+        {
+            QStringList tmp;
+            tmp << in;
+            _set(name, tmp);
+        }
+
+    } // namespace UI
+} // namespace djv
 

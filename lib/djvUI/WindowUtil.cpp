@@ -36,18 +36,20 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-//------------------------------------------------------------------------------
-// djvWindowUtil
-//------------------------------------------------------------------------------
-
-djvWindowUtil::~djvWindowUtil()
-{}
-
-glm::ivec2 djvWindowUtil::resize(const glm::ivec2 & size, float maxPercent)
+namespace djv
 {
-    const QSize qSize = qApp->desktop()->availableGeometry().size();
-    return djvVectorUtil::min(
-        size,
-        glm::ivec2(glm::vec2(qSize.width(), qSize.height()) * maxPercent));
-}
+    namespace UI
+    {
+        WindowUtil::~WindowUtil()
+        {}
 
+        glm::ivec2 WindowUtil::resize(const glm::ivec2 & size, float maxPercent)
+        {
+            const QSize qSize = qApp->desktop()->availableGeometry().size();
+            return djvVectorUtil::min(
+                size,
+                glm::ivec2(glm::vec2(qSize.width(), qSize.height()) * maxPercent));
+        }
+
+    } // namespace UI
+} // namespace djv

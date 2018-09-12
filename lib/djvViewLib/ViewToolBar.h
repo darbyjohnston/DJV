@@ -35,10 +35,14 @@
 
 #include <memory>
 
-class djvFloatEdit;
-
 namespace djv
 {
+    namespace UI
+    {
+        class FloatEdit;
+    
+    } // namespace UI
+
     namespace ViewLib
     {
         //! \class ViewToolBar
@@ -57,7 +61,7 @@ namespace djv
             virtual ~ViewToolBar();
 
             //! Get the zoom edit widget.
-            djvFloatEdit * zoomEdit() const;
+            UI::FloatEdit * zoomEdit() const;
 
         private:
             DJV_PRIVATE_COPY(ViewToolBar);

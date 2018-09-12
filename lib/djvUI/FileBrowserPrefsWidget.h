@@ -37,51 +37,49 @@
 
 #include <memory>
 
-struct djvShortcut;
-
 class QListWidgetItem;
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileBrowserPrefsWidget
-//!
-//! This class provides a file browser preferences widget.
-//------------------------------------------------------------------------------
-
-class djvFileBrowserPrefsWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvFileBrowserPrefsWidget(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        struct Shortcut;
 
-    virtual ~djvFileBrowserPrefsWidget();
+        //! \class FileBrowserPrefsWidget
+        //!
+        //! This class provides a file browser preferences widget.
+        class FileBrowserPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual void resetPreferences();
+        public:
+            explicit FileBrowserPrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-private Q_SLOTS:
-    void seqCallback(int);
-    void sortCallback(int);
-    void thumbnailsCallback(int);
-    void thumbnailsSizeCallback(int);
-    void thumbnailsCacheCallback(int);
-    void bookmarkCallback(QListWidgetItem *);
-    void addBookmarkCallback();
-    void removeBookmarkCallback();
-    void moveBookmarkUpCallback();
-    void moveBookmarkDownCallback();
-    void shortcutsCallback(const QVector<djvShortcut> &);
-    
-    void widgetUpdate();
-    
-private:
-    DJV_PRIVATE_COPY(djvFileBrowserPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~FileBrowserPrefsWidget();
 
-//@} // djvUIDialog
+            virtual void resetPreferences();
 
+        private Q_SLOTS:
+            void seqCallback(int);
+            void sortCallback(int);
+            void thumbnailsCallback(int);
+            void thumbnailsSizeCallback(int);
+            void thumbnailsCacheCallback(int);
+            void bookmarkCallback(QListWidgetItem *);
+            void addBookmarkCallback();
+            void removeBookmarkCallback();
+            void moveBookmarkUpCallback();
+            void moveBookmarkDownCallback();
+            void shortcutsCallback(const QVector<Shortcut> &);
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(FileBrowserPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

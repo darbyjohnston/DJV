@@ -57,24 +57,24 @@ namespace djv
             ~ShortcutPrefs();
 
             //! Get the default shortcuts.
-            static const QVector<djvShortcut> & shortcutsDefault();
+            static const QVector<UI::Shortcut> & shortcutsDefault();
 
             //! Get the shortcuts.
-            const QVector<djvShortcut> & shortcuts() const;
+            const QVector<UI::Shortcut> & shortcuts() const;
 
         public Q_SLOTS:
             //! Set the shortcuts.
-            void setShortcuts(const QVector<djvShortcut> &);
+            void setShortcuts(const QVector<djv::UI::Shortcut> &);
 
         Q_SIGNALS:
             //! This signal is emitted when the shortcuts are changed.
-            void shortcutsChanged(const QVector<djvShortcut> &);
+            void shortcutsChanged(const QVector<djv::UI::Shortcut> &);
 
             //! This signal is emitted when a preference is changed.
             void prefChanged();
 
         private:
-            QVector<djvShortcut> _shortcuts;
+            QVector<UI::Shortcut> _shortcuts;
         };
 
     } // namespace ViewLib

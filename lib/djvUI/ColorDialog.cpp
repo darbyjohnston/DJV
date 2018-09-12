@@ -41,108 +41,106 @@
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvColorDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvColorDialog::Private
+namespace djv
 {
-    Private(const djvColor & color, djvUIContext * context) :
-        color  (color),
-        context(context)
-    {}
-    
-    djvColor         color;
-    djvColorWidget * widget  = nullptr;
-    djvColorSwatch * swatch  = nullptr;
-    djvUIContext *  context = nullptr;
-};
+    namespace UI
+    {
+        struct ColorDialog::Private
+        {
+            Private(const djvColor & color, UIContext * context) :
+                color(color),
+                context(context)
+            {}
 
-//------------------------------------------------------------------------------
-// djvColorDialog
-//------------------------------------------------------------------------------
+            djvColor color;
+            ColorWidget * widget = nullptr;
+            ColorSwatch * swatch = nullptr;
+            UIContext * context = nullptr;
+        };
 
-void djvColorDialog::init()
-{
-    // Create the widgets.
-    _p->widget = new djvColorWidget(_p->context);
+        void ColorDialog::init()
+        {
+            // Create the widgets.
+            _p->widget = new ColorWidget(_p->context);
 
-    _p->swatch = new djvColorSwatch(_p->context);
-    _p->swatch->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+            _p->swatch = new ColorSwatch(_p->context);
+            _p->swatch->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Ok);
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Ok);
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
 
-    QHBoxLayout * hLayout = new QHBoxLayout;
-    hLayout->setMargin(0);
-    hLayout->addWidget(_p->swatch);
-    hLayout->addWidget(_p->widget, 1);
-    layout->addLayout(hLayout, 1);
+            QHBoxLayout * hLayout = new QHBoxLayout;
+            hLayout->setMargin(0);
+            hLayout->addWidget(_p->swatch);
+            hLayout->addWidget(_p->widget, 1);
+            layout->addLayout(hLayout, 1);
 
-    layout->addWidget(buttonBox);
-    
-    // Initialize.
-    setWindowTitle(qApp->translate("djvColorDialog", "Color Dialog"));
-    widgetUpdate();
+            layout->addWidget(buttonBox);
 
-    // Setup the callbacks.
-    connect(
-        _p->widget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(widgetCallback(const djvColor &)));
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-}
+            // Initialize.
+            setWindowTitle(qApp->translate("ColorDialog", "Color Dialog"));
+            widgetUpdate();
 
-djvColorDialog::djvColorDialog(
-    djvUIContext *  context,
-    QWidget *        parent) :
-    QDialog(parent),
-    _p(new Private(djvColor(), context))
-{
-    init();
-}
+            // Setup the callbacks.
+            connect(
+                _p->widget,
+                SIGNAL(colorChanged(const djvColor &)),
+                SLOT(widgetCallback(const djvColor &)));
+            connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+        }
 
-djvColorDialog::djvColorDialog(
-    const djvColor & color,
-    djvUIContext *  context,
-    QWidget *        parent) :
-    QDialog(parent),
-    _p(new Private(color, context))
-{
-    init();
-}
+        ColorDialog::ColorDialog(
+            UIContext * context,
+            QWidget * parent) :
+            QDialog(parent),
+            _p(new Private(djvColor(), context))
+        {
+            init();
+        }
 
-djvColorDialog::~djvColorDialog()
-{}
+        ColorDialog::ColorDialog(
+            const djvColor & color,
+            UIContext * context,
+            QWidget * parent) :
+            QDialog(parent),
+            _p(new Private(color, context))
+        {
+            init();
+        }
 
-const djvColor & djvColorDialog::color() const
-{
-    return _p->color;
-}
+        ColorDialog::~ColorDialog()
+        {}
 
-void djvColorDialog::setColor(const djvColor & in)
-{
-    if (in == _p->color)
-        return;
-    _p->color = in;
-    widgetUpdate();
-    Q_EMIT colorChanged(_p->color);
-}
+        const djvColor & ColorDialog::color() const
+        {
+            return _p->color;
+        }
 
-void djvColorDialog::widgetCallback(const djvColor & in)
-{
-    setColor(in);
-}
+        void ColorDialog::setColor(const djvColor & in)
+        {
+            if (in == _p->color)
+                return;
+            _p->color = in;
+            widgetUpdate();
+            Q_EMIT colorChanged(_p->color);
+        }
 
-void djvColorDialog::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->widget <<
-        _p->swatch);
-    _p->widget->setColor(_p->color);
-    _p->swatch->setColor(_p->color);
-}
+        void ColorDialog::widgetCallback(const djvColor & in)
+        {
+            setColor(in);
+        }
 
+        void ColorDialog::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->widget <<
+                _p->swatch);
+            _p->widget->setColor(_p->color);
+            _p->swatch->setColor(_p->color);
+        }
+
+    } // namespace UI
+} // namespace djv

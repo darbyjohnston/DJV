@@ -36,60 +36,58 @@
 #include <QComboBox>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvPixelWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvPixelWidget::Private
+namespace djv
 {
-    djvPixel::PIXEL pixel    = static_cast<djvPixel::PIXEL>(0);
-    QComboBox *     comboBox = nullptr;
-};
+    namespace UI
+    {
+        struct PixelWidget::Private
+        {
+            djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
+            QComboBox *     comboBox = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvPixelWidget
-//------------------------------------------------------------------------------
+        PixelWidget::PixelWidget(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->comboBox = new QComboBox;
+            _p->comboBox->addItems(djvPixel::pixelLabels());
 
-djvPixelWidget::djvPixelWidget(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->comboBox = new QComboBox;
-    _p->comboBox->addItems(djvPixel::pixelLabels());
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setMargin(0);
+            layout->addWidget(_p->comboBox);
 
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(_p->comboBox);
+            widgetUpdate();
 
-    widgetUpdate();
+            connect(_p->comboBox, SIGNAL(activated(int)), SLOT(widgetCallback(int)));
+        }
 
-    connect(_p->comboBox, SIGNAL(activated(int)), SLOT(widgetCallback(int)));
-}
+        PixelWidget::~PixelWidget()
+        {}
 
-djvPixelWidget::~djvPixelWidget()
-{}
+        djvPixel::PIXEL PixelWidget::pixel() const
+        {
+            return _p->pixel;
+        }
 
-djvPixel::PIXEL djvPixelWidget::pixel() const
-{
-    return _p->pixel;
-}
+        void PixelWidget::setPixel(djvPixel::PIXEL pixel)
+        {
+            if (pixel == _p->pixel)
+                return;
+            _p->pixel = pixel;
+            widgetUpdate();
+            Q_EMIT pixelChanged(_p->pixel);
+        }
 
-void djvPixelWidget::setPixel(djvPixel::PIXEL pixel)
-{
-    if (pixel == _p->pixel)
-        return;
-    _p->pixel = pixel;
-    widgetUpdate();
-    Q_EMIT pixelChanged(_p->pixel);
-}
+        void PixelWidget::widgetCallback(int in)
+        {
+            setPixel(static_cast<djvPixel::PIXEL>(in));
+        }
 
-void djvPixelWidget::widgetCallback(int in)
-{
-    setPixel(static_cast<djvPixel::PIXEL>(in));
-}
+        void PixelWidget::widgetUpdate()
+        {
+            _p->comboBox->setCurrentIndex(_p->pixel);
+        }
 
-void djvPixelWidget::widgetUpdate()
-{
-    _p->comboBox->setCurrentIndex(_p->pixel);
-}
-
+    } // namespace UI
+} // namespace djv

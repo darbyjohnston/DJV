@@ -44,7 +44,7 @@ namespace djv
             _mouseWheelCtrl(mouseWheelCtrlDefault())
         {
             //DJV_DEBUG("InputPrefs::InputPrefs");
-            djvPrefs prefs("djv::ViewLib::InputPrefs");
+            UI::Prefs prefs("djv::ViewLib::InputPrefs");
             prefs.get("mouseWheel", _mouseWheel);
             prefs.get("mouseWheelShift", _mouseWheelShift);
             prefs.get("mouseWheelCtrl", _mouseWheelCtrl);
@@ -53,7 +53,7 @@ namespace djv
         InputPrefs::~InputPrefs()
         {
             //DJV_DEBUG("InputPrefs::~InputPrefs");
-            djvPrefs prefs("djv::ViewLib::InputPrefs");
+            UI::Prefs prefs("djv::ViewLib::InputPrefs");
             prefs.set("mouseWheel", _mouseWheel);
             prefs.set("mouseWheelShift", _mouseWheelShift);
             prefs.set("mouseWheelCtrl", _mouseWheelCtrl);

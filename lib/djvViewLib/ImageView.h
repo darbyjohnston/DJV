@@ -49,7 +49,7 @@ namespace djv
         //! \class ImageView
         //!
         //! This class provides an image view widget.
-        class ImageView : public djvImageView
+        class ImageView : public UI::ImageView
         {
             Q_OBJECT
 

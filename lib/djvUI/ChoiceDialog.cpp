@@ -37,142 +37,141 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvChoiceDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvChoiceDialog::Private
+namespace djv
 {
-    Private(
-        const QString &     label,
-        const QStringList & choices,
-        int                 choice) :
-        choices(choices),
-        choice (choice),
-        label  (label)
-    {}
-    
-    QStringList             choices;
-    int                     choice       = 0;
-    QVector<QRadioButton *> buttons;
-    QVBoxLayout *           buttonLayout = nullptr;
-    QString                 label;
-    QLabel *                labelWidget  = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvChoiceDialog
-//------------------------------------------------------------------------------
-
-djvChoiceDialog::djvChoiceDialog(
-    const QString &     label,
-    const QStringList & choices,
-    int                 choice,
-    QWidget *           parent) :
-    QDialog(parent),
-    _p(new Private(label, choices, choice))
-{
-    _p->labelWidget = new QLabel(label);
-    
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Ok |
-        QDialogButtonBox::Cancel);
-
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    vLayout->setMargin(20);
-    vLayout->addWidget(_p->labelWidget);
-    _p->buttonLayout = new QVBoxLayout;
-    _p->buttonLayout->setSpacing(0);
-    vLayout->addLayout(_p->buttonLayout);
-    layout->addLayout(vLayout);
-    layout->addWidget(buttonBox);
-    
-    setWindowTitle(qApp->translate("djvChoiceDialog", "Choice Dialog"));
-
-    widgetUpdate();
-    
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-}
-
-djvChoiceDialog::~djvChoiceDialog()
-{}
-
-const QStringList & djvChoiceDialog::choices() const
-{
-    return _p->choices;
-}
-
-void djvChoiceDialog::setChoices(const QStringList & choices)
-{
-    _p->choices = choices;    
-    widgetUpdate();
-}
-
-int djvChoiceDialog::choice() const
-{
-    return _p->choice;
-}
-
-void djvChoiceDialog::setChoice(int choice)
-{
-    if (choice == _p->choice)
-        return;
-    _p->choice = choice;
-    choiceUpdate();
-}
-
-const QString & djvChoiceDialog::label() const
-{
-    return _p->label;
-}
-
-void djvChoiceDialog::setLabel(const QString & label)
-{
-    _p->label = label;
-    widgetUpdate();
-}
-
-void djvChoiceDialog::buttonCallback()
-{
-    for (int i = 0; i < _p->buttons.count(); ++i)
+    namespace UI
     {
-        if (_p->buttons[i]->isChecked())
+        struct ChoiceDialog::Private
         {
-            setChoice(i);
-            break;
+            Private(
+                const QString &     label,
+                const QStringList & choices,
+                int                 choice) :
+                choices(choices),
+                choice(choice),
+                label(label)
+            {}
+
+            QStringList             choices;
+            int                     choice = 0;
+            QVector<QRadioButton *> buttons;
+            QVBoxLayout *           buttonLayout = nullptr;
+            QString                 label;
+            QLabel *                labelWidget = nullptr;
+        };
+
+        ChoiceDialog::ChoiceDialog(
+            const QString &     label,
+            const QStringList & choices,
+            int                 choice,
+            QWidget *           parent) :
+            QDialog(parent),
+            _p(new Private(label, choices, choice))
+        {
+            _p->labelWidget = new QLabel(label);
+
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Ok |
+                QDialogButtonBox::Cancel);
+
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            QVBoxLayout * vLayout = new QVBoxLayout;
+            vLayout->setMargin(20);
+            vLayout->addWidget(_p->labelWidget);
+            _p->buttonLayout = new QVBoxLayout;
+            _p->buttonLayout->setSpacing(0);
+            vLayout->addLayout(_p->buttonLayout);
+            layout->addLayout(vLayout);
+            layout->addWidget(buttonBox);
+
+            setWindowTitle(qApp->translate("djv::UI::ChoiceDialog", "Choice Dialog"));
+
+            widgetUpdate();
+
+            connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
         }
-    }
-}
 
-void djvChoiceDialog::choiceUpdate()
-{
-    for (int i = 0; i < _p->buttons.count(); ++i)
-    {
-        _p->buttons[i]->setChecked(_p->choice == i);
-    }
-}
+        ChoiceDialog::~ChoiceDialog()
+        {}
 
-void djvChoiceDialog::widgetUpdate()
-{
-    _p->labelWidget->setText(_p->label);
-    
-    for (int i = 0; i < _p->buttons.count(); ++i)
-    {
-        delete _p->buttons[i];
-    }   
-    _p->buttons.clear();
-    
-    for (int i = 0; i < _p->choices.count(); ++i)
-    {
-        QRadioButton * button = new QRadioButton(_p->choices[i]);
-        
-        button->setChecked(_p->choice == i);
-        
-        connect(button, SIGNAL(toggled(bool)), SLOT(buttonCallback()));
-        
-        _p->buttons += button;
-        _p->buttonLayout->addWidget(button);
-    }
-}
+        const QStringList & ChoiceDialog::choices() const
+        {
+            return _p->choices;
+        }
+
+        void ChoiceDialog::setChoices(const QStringList & choices)
+        {
+            _p->choices = choices;
+            widgetUpdate();
+        }
+
+        int ChoiceDialog::choice() const
+        {
+            return _p->choice;
+        }
+
+        void ChoiceDialog::setChoice(int choice)
+        {
+            if (choice == _p->choice)
+                return;
+            _p->choice = choice;
+            choiceUpdate();
+        }
+
+        const QString & ChoiceDialog::label() const
+        {
+            return _p->label;
+        }
+
+        void ChoiceDialog::setLabel(const QString & label)
+        {
+            _p->label = label;
+            widgetUpdate();
+        }
+
+        void ChoiceDialog::buttonCallback()
+        {
+            for (int i = 0; i < _p->buttons.count(); ++i)
+            {
+                if (_p->buttons[i]->isChecked())
+                {
+                    setChoice(i);
+                    break;
+                }
+            }
+        }
+
+        void ChoiceDialog::choiceUpdate()
+        {
+            for (int i = 0; i < _p->buttons.count(); ++i)
+            {
+                _p->buttons[i]->setChecked(_p->choice == i);
+            }
+        }
+
+        void ChoiceDialog::widgetUpdate()
+        {
+            _p->labelWidget->setText(_p->label);
+
+            for (int i = 0; i < _p->buttons.count(); ++i)
+            {
+                delete _p->buttons[i];
+            }
+            _p->buttons.clear();
+
+            for (int i = 0; i < _p->choices.count(); ++i)
+            {
+                QRadioButton * button = new QRadioButton(_p->choices[i]);
+
+                button->setChecked(_p->choice == i);
+
+                connect(button, SIGNAL(toggled(bool)), SLOT(buttonCallback()));
+
+                _p->buttons += button;
+                _p->buttonLayout->addWidget(button);
+            }
+        }
+
+    } // namespace UI
+} // namespace 

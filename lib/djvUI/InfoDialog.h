@@ -39,40 +39,38 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvInfoDialog
-//!
-//! This class provides a dialog for displaying information about DJV.
-//------------------------------------------------------------------------------
-
-class djvInfoDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvInfoDialog(const QString & text, djvUIContext *);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvInfoDialog();
-    
-protected:
-    virtual void showEvent(QShowEvent *);
-    
-private Q_SLOTS:
-    void copyCallback();
-    
-    void updateWidget();
+        //! \class InfoDialog
+        //!
+        //! This class provides a dialog for displaying information about DJV.
+        class InfoDialog : public QDialog
+        {
+            Q_OBJECT
 
-private:
-    DJV_PRIVATE_COPY(djvInfoDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public:
+            InfoDialog(const QString & text, UIContext *);
 
-//@} // djvUIDialog
+            virtual ~InfoDialog();
 
+        protected:
+            virtual void showEvent(QShowEvent *);
+
+        private Q_SLOTS:
+            void copyCallback();
+
+            void updateWidget();
+
+        private:
+            DJV_PRIVATE_COPY(InfoDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

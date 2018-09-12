@@ -35,78 +35,72 @@
 
 #include <djvGraphics/Cineon.h>
 
-class djvFloatEditSlider;
-class djvIntEditSlider;
-
 class QCheckBox;
 class QComboBox;
 class QFormLayout;
 
-//! \addtogroup djvCineonPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvCineonWidget
-//!
-//! This class proivdes a Cineon widget.
-//------------------------------------------------------------------------------
-
-class djvCineonWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvCineonWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        class FloatEditSlider;
+        class IntEditSlider;
 
-    virtual ~djvCineonWidget();
-    
-    virtual void resetPreferences();
+        //! \class CineonWidget
+        //!
+        //! This class proivdes a Cineon widget.
+        class CineonWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void inputColorProfileCallback(int);
-    void inputBlackPointCallback(int);
-    void inputWhitePointCallback(int);
-    void inputGammaCallback(float);
-    void inputSoftClipCallback(int);
-    void outputColorProfileCallback(int);
-    void outputBlackPointCallback(int);
-    void outputWhitePointCallback(int);
-    void outputGammaCallback(float);
+        public:
+            CineonWidget(djvImageIO *, UIContext *);
 
-    void pluginUpdate();
-    void widgetUpdate();
+            virtual ~CineonWidget();
 
-private:
-    djvCineon::Options   _options;
-    QFormLayout *        _inputColorProfileLayout;
-    QComboBox *          _inputColorProfileWidget;
-    djvIntEditSlider *   _inputBlackPointWidget;
-    djvIntEditSlider *   _inputWhitePointWidget;
-    djvFloatEditSlider * _inputGammaWidget;
-    djvIntEditSlider *   _inputSoftClipWidget;
-    QFormLayout *        _outputColorProfileLayout;
-    QComboBox *          _outputColorProfileWidget;
-    djvIntEditSlider *   _outputBlackPointWidget;
-    djvIntEditSlider *   _outputWhitePointWidget;
-    djvFloatEditSlider * _outputGammaWidget;
-};
+            virtual void resetPreferences();
 
-//------------------------------------------------------------------------------
-//! \class djvCineonWidgetPlugin
-//!
-//! This class provides a Cineon widget plugin.
-//------------------------------------------------------------------------------
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void inputColorProfileCallback(int);
+            void inputBlackPointCallback(int);
+            void inputWhitePointCallback(int);
+            void inputGammaCallback(float);
+            void inputSoftClipCallback(int);
+            void outputColorProfileCallback(int);
+            void outputBlackPointCallback(int);
+            void outputWhitePointCallback(int);
+            void outputGammaCallback(float);
 
-class djvCineonWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvCineonWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+            void pluginUpdate();
+            void widgetUpdate();
 
-    virtual QString pluginName() const;
-};
+        private:
+            djvCineon::Options _options;
+            QFormLayout * _inputColorProfileLayout;
+            QComboBox * _inputColorProfileWidget;
+            IntEditSlider * _inputBlackPointWidget;
+            IntEditSlider * _inputWhitePointWidget;
+            FloatEditSlider * _inputGammaWidget;
+            IntEditSlider * _inputSoftClipWidget;
+            QFormLayout * _outputColorProfileLayout;
+            QComboBox * _outputColorProfileWidget;
+            IntEditSlider * _outputBlackPointWidget;
+            IntEditSlider * _outputWhitePointWidget;
+            FloatEditSlider * _outputGammaWidget;
+        };
 
-//@} // djvCineonPlugin
+        //! \class CineonWidgetPlugin
+        //!
+        //! This class provides a Cineon widget plugin.
+        class CineonWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            CineonWidgetPlugin(djvCoreContext *);
 
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
+
+    } // namespace UI
+} // namespace djv

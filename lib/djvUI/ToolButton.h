@@ -35,44 +35,42 @@
 
 #include <memory>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvToolButton
-//!
-//! This class provides a tool button.
-//------------------------------------------------------------------------------
-
-class djvToolButton : public djvAbstractToolButton
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvToolButton(QWidget * parent = nullptr);
-    explicit djvToolButton(const QIcon &, QWidget * parent = nullptr);
-    
-    virtual ~djvToolButton();
-    
-    //! Set the default action.
-    void setDefaultAction(QAction *);
+    namespace UI
+    {
+        //! \class ToolButton
+        //!
+        //! This class provides a tool button.
+        class ToolButton : public AbstractToolButton
+        {
+            Q_OBJECT
 
-    virtual QSize sizeHint() const;
+        public:
+            explicit ToolButton(QWidget * parent = nullptr);
+            explicit ToolButton(const QIcon &, QWidget * parent = nullptr);
 
-protected:
-    virtual void nextCheckState();
+            virtual ~ToolButton();
 
-    virtual void paintEvent(QPaintEvent *);
+            //! Set the default action.
+            void setDefaultAction(QAction *);
 
-private Q_SLOTS:
-    void widgetUpdate();
+            virtual QSize sizeHint() const;
 
-private:
-    DJV_PRIVATE_COPY(djvToolButton);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        protected:
+            virtual void nextCheckState();
 
-//@} // djvUIWidget
+            virtual void paintEvent(QPaintEvent *);
 
+        private Q_SLOTS:
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(ToolButton);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

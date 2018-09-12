@@ -54,7 +54,7 @@ namespace djv
         {
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
-                djvToolButton * button = new djvToolButton;
+                UI::ToolButton * button = new UI::ToolButton;
                 button->setDefaultAction(actions->group(ToolActions::TOOL_GROUP)->actions()[i]);
                 addWidget(button);
             }

@@ -47,7 +47,7 @@ namespace djv
         {
             //DJV_DEBUG("WindowPrefs::WindowPrefs");
             //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
-            djvPrefs prefs("djv::ViewLib::WindowPrefs");
+            UI::Prefs prefs("djv::ViewLib::WindowPrefs");
             prefs.get("autoFit", _autoFit);
             prefs.get("viewMax", _viewMax);
             prefs.get("viewMaxUser", _viewMaxUser);
@@ -64,7 +64,7 @@ namespace djv
         {
             //DJV_DEBUG("WindowPrefs::~WindowPrefs");
             //DJV_DEBUG_PRINT("toolBar = " << _toolBar);
-            djvPrefs prefs("djv::ViewLib::WindowPrefs");
+            UI::Prefs prefs("djv::ViewLib::WindowPrefs");
             prefs.set("autoFit", _autoFit);
             prefs.set("viewMax", _viewMax);
             prefs.set("viewMaxUser", _viewMaxUser);

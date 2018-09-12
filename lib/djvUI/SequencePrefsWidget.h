@@ -37,37 +37,35 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSequencePrefsWidget
-//!
-//! This class provides a sequence preferences widget.
-//------------------------------------------------------------------------------
-
-class djvSequencePrefsWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvSequencePrefsWidget(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class djvSequencePrefsWidget
+        //!
+        //! This class provides a sequence preferences widget.
+        class SequencePrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvSequencePrefsWidget();
+        public:
+            explicit SequencePrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-    virtual void resetPreferences();
+            virtual ~SequencePrefsWidget();
 
-private Q_SLOTS:
-    void maxFramesCallback(int);
-    
-private:
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-    DJV_PRIVATE_COPY(djvSequencePrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void maxFramesCallback(int);
 
-//@} // djvUIMisc
+        private:
+            void widgetUpdate();
 
+            DJV_PRIVATE_COPY(SequencePrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

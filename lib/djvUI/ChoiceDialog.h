@@ -39,58 +39,56 @@
 
 #include <memory>
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvChoiceDialog
-//!
-//! This class provides a choice dialog.
-//------------------------------------------------------------------------------
-
-class djvChoiceDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvChoiceDialog(
-        const QString &     label   = QString(),
-        const QStringList & choices = QStringList(),
-        int                 choice  = 0,
-        QWidget *           parent  = nullptr);
+    namespace UI
+    {
+        //! \class ChoiceDialog
+        //!
+        //! This class provides a choice dialog.
+        class ChoiceDialog : public QDialog
+        {
+            Q_OBJECT
 
-    virtual ~djvChoiceDialog();
-    
-    //! Get the choices.
-    const QStringList & choices() const;
+        public:
+            explicit ChoiceDialog(
+                const QString &     label = QString(),
+                const QStringList & choices = QStringList(),
+                int                 choice = 0,
+                QWidget *           parent = nullptr);
 
-    //! Set the choices.
-    void setChoices(const QStringList &);
-    
-    //! Get the choice.
-    int choice() const;
+            virtual ~ChoiceDialog();
 
-    //! Set the choice.
-    void setChoice(int);
+            //! Get the choices.
+            const QStringList & choices() const;
 
-    //! Get the label.
-    const QString & label() const;
+            //! Set the choices.
+            void setChoices(const QStringList &);
 
-    //! Set the label.
-    void setLabel(const QString &);
+            //! Get the choice.
+            int choice() const;
 
-private Q_SLOTS:
-    void buttonCallback();
+            //! Set the choice.
+            void setChoice(int);
 
-private:
-    void choiceUpdate();
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvChoiceDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the label.
+            const QString & label() const;
 
-//@} // djvUIDialog
+            //! Set the label.
+            void setLabel(const QString &);
 
+        private Q_SLOTS:
+            void buttonCallback();
+
+        private:
+            void choiceUpdate();
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(ChoiceDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

@@ -37,149 +37,148 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvMultiChoiceDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvMultiChoiceDialog::Private
+namespace djv
 {
-    Private(
-        const QString &       label,
-        const QStringList &   choices,
-        const QVector<bool> & values) :
-        choices(choices),
-        values (values),
-        label  (label)
-    {}
-    
-    QStringList          choices;
-    QVector<bool>        values;
-    QVector<QCheckBox *> buttons;
-    QVBoxLayout *        buttonLayout = nullptr;
-    QString              label;
-    QLabel *             labelWidget  = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvMultiChoiceDialog
-//------------------------------------------------------------------------------
-
-djvMultiChoiceDialog::djvMultiChoiceDialog(
-    const QString &       label,
-    const QStringList &   choices,
-    const QVector<bool> & values,
-    QWidget *             parent) :
-    QDialog(parent),
-    _p(new Private(label, choices, values))
-{
-    _p->labelWidget = new QLabel(label);
-    
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Ok |
-        QDialogButtonBox::Cancel);
-
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    vLayout->setMargin(20);
-    vLayout->addWidget(_p->labelWidget);
-    _p->buttonLayout = new QVBoxLayout;
-    _p->buttonLayout->setSpacing(0);
-    vLayout->addLayout(_p->buttonLayout);
-    layout->addLayout(vLayout);
-    layout->addWidget(buttonBox);
-    
-    setWindowTitle(qApp->translate("djvMultiChoiceDialog", "Multi Choice Dialog"));
-
-    widgetUpdate();
-    
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-}
-
-djvMultiChoiceDialog::~djvMultiChoiceDialog()
-{}
-
-const QStringList & djvMultiChoiceDialog::choices() const
-{
-    return _p->choices;
-}
-
-void djvMultiChoiceDialog::setChoices(const QStringList & choices)
-{
-    _p->choices = choices;
-    _p->values = QVector<bool>(choices.count());
-    widgetUpdate();
-}
-
-const QVector<bool> & djvMultiChoiceDialog::values() const
-{
-    return _p->values;
-}
-
-QVector<int> djvMultiChoiceDialog::indices() const
-{
-    QVector<int> out;
-    for (int i = 0; i < _p->values.count(); ++i)
+    namespace UI
     {
-        if (_p->values[i])
+        struct MultiChoiceDialog::Private
         {
-            out += i;
+            Private(
+                const QString &       label,
+                const QStringList &   choices,
+                const QVector<bool> & values) :
+                choices(choices),
+                values(values),
+                label(label)
+            {}
+
+            QStringList          choices;
+            QVector<bool>        values;
+            QVector<QCheckBox *> buttons;
+            QVBoxLayout *        buttonLayout = nullptr;
+            QString              label;
+            QLabel *             labelWidget = nullptr;
+        };
+
+        MultiChoiceDialog::MultiChoiceDialog(
+            const QString &       label,
+            const QStringList &   choices,
+            const QVector<bool> & values,
+            QWidget *             parent) :
+            QDialog(parent),
+            _p(new Private(label, choices, values))
+        {
+            _p->labelWidget = new QLabel(label);
+
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Ok |
+                QDialogButtonBox::Cancel);
+
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            QVBoxLayout * vLayout = new QVBoxLayout;
+            vLayout->setMargin(20);
+            vLayout->addWidget(_p->labelWidget);
+            _p->buttonLayout = new QVBoxLayout;
+            _p->buttonLayout->setSpacing(0);
+            vLayout->addLayout(_p->buttonLayout);
+            layout->addLayout(vLayout);
+            layout->addWidget(buttonBox);
+
+            setWindowTitle(qApp->translate("djv::UI::MultiChoiceDialog", "Multi Choice Dialog"));
+
+            widgetUpdate();
+
+            connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
         }
-    }
-    return out;
-}
 
-void djvMultiChoiceDialog::setValues(const QVector<bool> & values)
-{
-    if (values == _p->values)
-        return;
-    _p->values = values;
-    valuesUpdate();
-}
+        MultiChoiceDialog::~MultiChoiceDialog()
+        {}
 
-const QString & djvMultiChoiceDialog::label() const
-{
-    return _p->label;
-}
+        const QStringList & MultiChoiceDialog::choices() const
+        {
+            return _p->choices;
+        }
 
-void djvMultiChoiceDialog::setLabel(const QString & label)
-{
-    _p->label = label;
-    widgetUpdate();
-}
+        void MultiChoiceDialog::setChoices(const QStringList & choices)
+        {
+            _p->choices = choices;
+            _p->values = QVector<bool>(choices.count());
+            widgetUpdate();
+        }
 
-void djvMultiChoiceDialog::buttonCallback()
-{
-    QVector<bool> values;
-    for (int i = 0; i < _p->buttons.count(); ++i)
-    {
-        values += _p->buttons[i]->isChecked();
-    }
-    setValues(values);
-}
+        const QVector<bool> & MultiChoiceDialog::values() const
+        {
+            return _p->values;
+        }
 
-void djvMultiChoiceDialog::valuesUpdate()
-{
-    for (int i = 0; i < _p->buttons.count() && i < _p->values.count(); ++i)
-    {
-        _p->buttons[i]->setChecked(_p->values[i]);
-    }
-}
+        QVector<int> MultiChoiceDialog::indices() const
+        {
+            QVector<int> out;
+            for (int i = 0; i < _p->values.count(); ++i)
+            {
+                if (_p->values[i])
+                {
+                    out += i;
+                }
+            }
+            return out;
+        }
 
-void djvMultiChoiceDialog::widgetUpdate()
-{
-    _p->labelWidget->setText(_p->label);
-    for (int i = 0; i < _p->buttons.count(); ++i)
-    {
-        delete _p->buttons[i];
-    }
-    _p->buttons.clear();
-    for (int i = 0; i < _p->choices.count(); ++i)
-    {
-        QCheckBox * button = new QCheckBox(_p->choices[i]);
-        button->setChecked(i < _p->values.count() ? _p->values[i] : false);        
-        connect(button, SIGNAL(toggled(bool)), SLOT(buttonCallback()));
-        _p->buttons += button;
-        _p->buttonLayout->addWidget(button);
-    }
-}
+        void MultiChoiceDialog::setValues(const QVector<bool> & values)
+        {
+            if (values == _p->values)
+                return;
+            _p->values = values;
+            valuesUpdate();
+        }
+
+        const QString & MultiChoiceDialog::label() const
+        {
+            return _p->label;
+        }
+
+        void MultiChoiceDialog::setLabel(const QString & label)
+        {
+            _p->label = label;
+            widgetUpdate();
+        }
+
+        void MultiChoiceDialog::buttonCallback()
+        {
+            QVector<bool> values;
+            for (int i = 0; i < _p->buttons.count(); ++i)
+            {
+                values += _p->buttons[i]->isChecked();
+            }
+            setValues(values);
+        }
+
+        void MultiChoiceDialog::valuesUpdate()
+        {
+            for (int i = 0; i < _p->buttons.count() && i < _p->values.count(); ++i)
+            {
+                _p->buttons[i]->setChecked(_p->values[i]);
+            }
+        }
+
+        void MultiChoiceDialog::widgetUpdate()
+        {
+            _p->labelWidget->setText(_p->label);
+            for (int i = 0; i < _p->buttons.count(); ++i)
+            {
+                delete _p->buttons[i];
+            }
+            _p->buttons.clear();
+            for (int i = 0; i < _p->choices.count(); ++i)
+            {
+                QCheckBox * button = new QCheckBox(_p->choices[i]);
+                button->setChecked(i < _p->values.count() ? _p->values[i] : false);
+                connect(button, SIGNAL(toggled(bool)), SLOT(buttonCallback()));
+                _p->buttons += button;
+                _p->buttonLayout->addWidget(button);
+            }
+        }
+
+    } // namespace UI
+} // namespace djv

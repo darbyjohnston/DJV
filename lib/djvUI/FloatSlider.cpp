@@ -43,191 +43,188 @@
 #include <QSlider>
 #include <QStyle>
 
-namespace
+namespace djv
 {
-//! \todo Should we implement our own slider for better control of the position
-//! and value?
-class Slider : public QSlider
-{
-public:
-    Slider() :
-        QSlider(Qt::Horizontal)
-    {}
-
-protected:
-    virtual void mousePressEvent(QMouseEvent * event)
+    namespace UI
     {
-        const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
+        namespace
+        {
+            //! \todo Should we implement our own slider for better control of the position
+            //! and value?
+            class Slider : public QSlider
+            {
+            public:
+                Slider() :
+                    QSlider(Qt::Horizontal)
+                {}
 
-        setValue(QStyle::sliderValueFromPosition(
-            minimum(),
-            maximum(),
-            event->pos().x() - t / 2,
-            width() - t));
-    }
+            protected:
+                virtual void mousePressEvent(QMouseEvent * event)
+                {
+                    const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
 
-    virtual void mouseMoveEvent(QMouseEvent * event)
-    {
-        const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
+                    setValue(QStyle::sliderValueFromPosition(
+                        minimum(),
+                        maximum(),
+                        event->pos().x() - t / 2,
+                        width() - t));
+                }
 
-        setValue(QStyle::sliderValueFromPosition(
-            minimum(),
-            maximum(),
-            event->pos().x() - t / 2,
-            width() - t));
-    }
-};
+                virtual void mouseMoveEvent(QMouseEvent * event)
+                {
+                    const int t = style()->pixelMetric(QStyle::PM_SliderThickness);
 
-} // namespace
+                    setValue(QStyle::sliderValueFromPosition(
+                        minimum(),
+                        maximum(),
+                        event->pos().x() - t / 2,
+                        width() - t));
+                }
+            };
 
-//------------------------------------------------------------------------------
-// djvFloatSlider::Private
-//------------------------------------------------------------------------------
+        } // namespace
 
-struct djvFloatSlider::Private
-{
-    djvFloatObject * object = nullptr;
-    Slider *         slider = nullptr;
-};
+        struct FloatSlider::Private
+        {
+            FloatObject * object = nullptr;
+            Slider * slider = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvFloatSlider
-//------------------------------------------------------------------------------
+        namespace
+        {
+            const int steps = 10000;
 
-namespace
-{
+        } // namespace
 
-const int steps = 10000;
+        FloatSlider::FloatSlider(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->object = new FloatObject(this);
 
-} // namespace
+            _p->slider = new Slider;
+            _p->slider->setRange(0, steps);
 
-djvFloatSlider::djvFloatSlider(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->object = new djvFloatObject(this);
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(0);
+            layout->setMargin(0);
+            layout->addWidget(_p->slider);
 
-    _p->slider = new Slider;
-    _p->slider->setRange(0, steps);
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
-    layout->setMargin(0);
-    layout->addWidget(_p->slider);
+            _p->object->setRange(0.f, 1.f);
 
-    _p->object->setRange(0.f, 1.f);
-    
-    widgetUpdate();
+            widgetUpdate();
 
-    connect(
-        _p->object,
-        SIGNAL(valueChanged(float)),
-        SLOT(valueCallback()));
-    connect(
-        _p->object,
-        SIGNAL(minChanged(float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(maxChanged(float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(rangeChanged(float, float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->slider,
-        SIGNAL(valueChanged(int)),
-        SLOT(sliderCallback(int)));
-}
+            connect(
+                _p->object,
+                SIGNAL(valueChanged(float)),
+                SLOT(valueCallback()));
+            connect(
+                _p->object,
+                SIGNAL(minChanged(float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(maxChanged(float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(rangeChanged(float, float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->slider,
+                SIGNAL(valueChanged(int)),
+                SLOT(sliderCallback(int)));
+        }
 
-djvFloatSlider::~djvFloatSlider()
-{}
+        FloatSlider::~FloatSlider()
+        {}
 
-float djvFloatSlider::value() const
-{
-    return _p->object->value();
-}
+        float FloatSlider::value() const
+        {
+            return _p->object->value();
+        }
 
-float djvFloatSlider::min() const
-{
-    return _p->object->min();
-}
+        float FloatSlider::min() const
+        {
+            return _p->object->min();
+        }
 
-float djvFloatSlider::max() const
-{
-    return _p->object->max();
-}
+        float FloatSlider::max() const
+        {
+            return _p->object->max();
+        }
 
-djvFloatObject * djvFloatSlider::object() const
-{
-    return _p->object;
-}
+        FloatObject * FloatSlider::object() const
+        {
+            return _p->object;
+        }
 
-void djvFloatSlider::setValue(float value)
-{
-    _p->object->setValue(value);
-}
+        void FloatSlider::setValue(float value)
+        {
+            _p->object->setValue(value);
+        }
 
-void djvFloatSlider::setMin(float min)
-{
-    _p->object->setMin(min);
-}
+        void FloatSlider::setMin(float min)
+        {
+            _p->object->setMin(min);
+        }
 
-void djvFloatSlider::setMax(float max)
-{
-    _p->object->setMax(max);
-}
+        void FloatSlider::setMax(float max)
+        {
+            _p->object->setMax(max);
+        }
 
-void djvFloatSlider::setRange(float min, float max)
-{
-    _p->object->setRange(min, max);
-}
+        void FloatSlider::setRange(float min, float max)
+        {
+            _p->object->setRange(min, max);
+        }
 
-void djvFloatSlider::keyPressEvent(QKeyEvent * event)
-{
-    switch (event->key())
-    {
-        case Qt::Key_Home:     _p->object->setToMin();       break;
-        case Qt::Key_End:      _p->object->setToMax();       break;
-        case Qt::Key_Left:
-        case Qt::Key_Down:     _p->object->smallDecAction(); break;
-        case Qt::Key_Right:
-        case Qt::Key_Up:       _p->object->smallIncAction(); break;
-        case Qt::Key_PageDown: _p->object->largeDecAction(); break;
-        case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
-        default: break;
-    }
-}
+        void FloatSlider::keyPressEvent(QKeyEvent * event)
+        {
+            switch (event->key())
+            {
+            case Qt::Key_Home:     _p->object->setToMin();       break;
+            case Qt::Key_End:      _p->object->setToMax();       break;
+            case Qt::Key_Left:
+            case Qt::Key_Down:     _p->object->smallDecAction(); break;
+            case Qt::Key_Right:
+            case Qt::Key_Up:       _p->object->smallIncAction(); break;
+            case Qt::Key_PageDown: _p->object->largeDecAction(); break;
+            case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
+            default: break;
+            }
+        }
 
-void djvFloatSlider::valueCallback()
-{
-    widgetUpdate();
-    Q_EMIT valueChanged(_p->object->value());
-}
+        void FloatSlider::valueCallback()
+        {
+            widgetUpdate();
+            Q_EMIT valueChanged(_p->object->value());
+        }
 
-void djvFloatSlider::rangeCallback()
-{
-    widgetUpdate();
-    Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
-}
+        void FloatSlider::rangeCallback()
+        {
+            widgetUpdate();
+            Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
+        }
 
-void djvFloatSlider::sliderCallback(int value)
-{
-    setValue(
-        _p->object->min() +
-        ((_p->object->max() - _p->object->min()) * value / static_cast<float>(steps)));
-}
+        void FloatSlider::sliderCallback(int value)
+        {
+            setValue(
+                _p->object->min() +
+                ((_p->object->max() - _p->object->min()) * value / static_cast<float>(steps)));
+        }
 
-void djvFloatSlider::widgetUpdate()
-{
-    //DJV_DEBUG("djvFloatSlider::widgetUpdate");
-    //DJV_DEBUG_PRINT("value = " << value());
-    //DJV_DEBUG_PRINT("min = " << min());
-    //DJV_DEBUG_PRINT("max = " << max());
-    djvSignalBlocker signalBlocker(_p->slider);
-    _p->slider->setValue(static_cast<int>(
-        ((_p->object->value() - _p->object->min()) /
-         (_p->object->max() - _p->object->min())) * steps));
-}
+        void FloatSlider::widgetUpdate()
+        {
+            //DJV_DEBUG("FloatSlider::widgetUpdate");
+            //DJV_DEBUG_PRINT("value = " << value());
+            //DJV_DEBUG_PRINT("min = " << min());
+            //DJV_DEBUG_PRINT("max = " << max());
+            djvSignalBlocker signalBlocker(_p->slider);
+            _p->slider->setValue(static_cast<int>(
+                ((_p->object->value() - _p->object->min()) /
+                (_p->object->max() - _p->object->min())) * steps));
+        }
 
+    } // namespace UI
+} // namespace djv

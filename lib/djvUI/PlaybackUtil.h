@@ -35,28 +35,32 @@
 
 #include <QStringList>
 
-//------------------------------------------------------------------------------
-//! \struct djvPlaybackUtil
-//!
-//! This struct provides playback utilities.
-//------------------------------------------------------------------------------
-
-struct djvPlaybackUtil
+namespace djv
 {
-    //! This enumeration provides playback states.    
-    enum PLAYBACK
+    namespace UI
     {
-        REVERSE,
-        STOP,
-        FORWARD,
-        
-        PLAYBACK_COUNT
-    };
-    
-    //! Get the playback state labels.
-    static const QStringList & playbackLabels();
-    
-    //! Get the playback state icon names.
-    static const QStringList & playbackIcons();
-};
+        //! \struct PlaybackUtil
+        //!
+        //! This struct provides playback utilities.
+        struct PlaybackUtil
+        {
+            //! This enumeration provides playback states.    
+            enum PLAYBACK
+            {
+                REVERSE,
+                STOP,
+                FORWARD,
+
+                PLAYBACK_COUNT
+            };
+
+            //! Get the playback state labels.
+            static const QStringList & playbackLabels();
+
+            //! Get the playback state icon names.
+            static const QStringList & playbackIcons();
+        };
+
+    } // namespace UI
+} // namespace djv
 

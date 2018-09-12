@@ -80,7 +80,7 @@ namespace djv
             QScopedPointer<djvImageLoad> load;
             QScopedPointer<djvImageSave> save;
             std::unique_ptr<djvOpenGLImage> openGLImage;
-            djvProgressDialog * dialog = nullptr;
+            UI::ProgressDialog * dialog = nullptr;
             Context * context = nullptr;
         };
 
@@ -88,7 +88,7 @@ namespace djv
             QObject(parent),
             _p(new Private(context))
         {
-            _p->dialog = new djvProgressDialog;
+            _p->dialog = new UI::ProgressDialog;
 
             connect(
                 _p->dialog,

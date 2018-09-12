@@ -42,224 +42,218 @@
 #include <QPainter>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvProgressDialog::ProgressWidget
-//------------------------------------------------------------------------------
-
-namespace
+namespace djv
 {
-
-class ProgressWidget : public QWidget
-{
-public:
-
-    ProgressWidget()
+    namespace UI
     {
-        setAttribute(Qt::WA_OpaquePaintEvent);
-    }
-    
-    void setValue(int value)
-    {
-        if (value == _value)
-            return;
-        _value = value;
-        update();
-    }
-    
-    void setMaxValue(int maxValue)
-    {
-        if (maxValue == _maxValue)
-            return;
-        _maxValue = maxValue;
-        update();
-    }
-    
-    virtual QSize sizeHint() const { return QSize(200, 20); }
-    
-protected:
-    virtual void paintEvent(QPaintEvent *)
-    {
-        QPainter painter(this);
-        const QPalette & palette = this->palette();
-        painter.fillRect(
-            0, 0, width(), height(),
-            palette.color(QPalette::Base));        
-        float v = 0.f;
-        if (_maxValue != 0)
+        namespace
         {
-            v = _value / static_cast<float>(_maxValue);
+            class ProgressWidget : public QWidget
+            {
+            public:
+
+                ProgressWidget()
+                {
+                    setAttribute(Qt::WA_OpaquePaintEvent);
+                }
+
+                void setValue(int value)
+                {
+                    if (value == _value)
+                        return;
+                    _value = value;
+                    update();
+                }
+
+                void setMaxValue(int maxValue)
+                {
+                    if (maxValue == _maxValue)
+                        return;
+                    _maxValue = maxValue;
+                    update();
+                }
+
+                virtual QSize sizeHint() const { return QSize(200, 20); }
+
+            protected:
+                virtual void paintEvent(QPaintEvent *)
+                {
+                    QPainter painter(this);
+                    const QPalette & palette = this->palette();
+                    painter.fillRect(
+                        0, 0, width(), height(),
+                        palette.color(QPalette::Base));
+                    float v = 0.f;
+                    if (_maxValue != 0)
+                    {
+                        v = _value / static_cast<float>(_maxValue);
+                    }
+                    int w = static_cast<int>(v * width());
+                    painter.fillRect(
+                        0, 0, w, height(),
+                        palette.color(QPalette::Highlight));
+                    painter.setPen(palette.color(QPalette::Text));
+                    painter.drawText(
+                        QRect(0, 0, width(), height()),
+                        Qt::AlignCenter,
+                        QString("%1%").arg(static_cast<int>(v * 100.f)));
+                }
+
+            private:
+                int _value = 0;
+                int _maxValue = 0;
+            };
+
+        } // namespace
+
+        struct ProgressDialog::Private
+        {
+            int              totalTicks = 0;
+            int              currentTick = 0;
+            djvTimer         time;
+            float            timeAccum = 0.f;
+            djvTimer         elapsed;
+            int              timerId = 0;
+            ProgressWidget * widget = nullptr;
+            QString          label = nullptr;
+            QLabel *         labelWidget = nullptr;
+            QLabel *         estimateLabel = nullptr;
+            QLabel *         elapsedLabel = nullptr;
+        };
+
+        ProgressDialog::ProgressDialog(const QString & label, QWidget * parent) :
+            QDialog(parent),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->widget = new ProgressWidget;
+
+            _p->labelWidget = new QLabel;
+
+            _p->estimateLabel = new QLabel;
+
+            _p->elapsedLabel = new QLabel;
+
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Cancel);
+
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            QVBoxLayout * vLayout = new QVBoxLayout;
+            vLayout->setMargin(20);
+            vLayout->addWidget(_p->labelWidget);
+            vLayout->addWidget(_p->widget);
+            vLayout->addWidget(_p->estimateLabel);
+            vLayout->addWidget(_p->elapsedLabel);
+            layout->addLayout(vLayout);
+            layout->addWidget(buttonBox);
+
+            // Initialize.
+            setWindowTitle(qApp->translate("djv::UI::ProgressDialog", "Progress Dialog"));
+
+            _p->labelWidget->setText(label);
+
+            // Setup the callbacks.
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectedCallback()));
+            connect(this, SIGNAL(rejected()), SIGNAL(finishedSignal()));
         }
-        int w = static_cast<int>(v * width());
-        painter.fillRect(
-            0, 0, w, height(),
-            palette.color(QPalette::Highlight));
-        painter.setPen(palette.color(QPalette::Text));
-        painter.drawText(
-            QRect(0, 0, width(), height()),
-            Qt::AlignCenter,
-            QString("%1%").arg(static_cast<int>(v * 100.f)));
-    }
 
-private:
-    int _value    = 0;
-    int _maxValue = 0;
-};
+        ProgressDialog::~ProgressDialog()
+        {
+            stopTimer();
+        }
 
-} // namespace
+        void ProgressDialog::rejectedCallback()
+        {
+            stopTimer();
+            Q_EMIT finishedSignal();
+        }
 
-//------------------------------------------------------------------------------
-// djvProgressDialog::Private
-//------------------------------------------------------------------------------
+        const QString & ProgressDialog::label() const
+        {
+            return _p->label;
+        }
 
-struct djvProgressDialog::Private
-{
-    int              totalTicks    = 0;
-    int              currentTick   = 0;
-    djvTimer         time;
-    float            timeAccum     = 0.f;
-    djvTimer         elapsed;
-    int              timerId       = 0;
-    ProgressWidget * widget        = nullptr;
-    QString          label         = nullptr;
-    QLabel *         labelWidget   = nullptr;
-    QLabel *         estimateLabel = nullptr;
-    QLabel *         elapsedLabel  = nullptr;
-};
+        void ProgressDialog::setLabel(const QString & label)
+        {
+            if (label == _p->label)
+                return;
+            _p->label = label;
+            _p->labelWidget->setText(label);
+        }
 
-//------------------------------------------------------------------------------
-// djvProgressDialog
-//------------------------------------------------------------------------------
+        void ProgressDialog::start(int totalTicks)
+        {
+            _p->totalTicks = totalTicks;
+            _p->currentTick = 0;
+            _p->time.start();
+            _p->timeAccum = 0.f;
+            _p->elapsed.start();
+            _p->widget->setMaxValue(static_cast<float>(_p->totalTicks));
+            _p->widget->setValue(static_cast<float>(_p->currentTick));
+            _p->timerId = startTimer(0);
+        }
 
-djvProgressDialog::djvProgressDialog(const QString & label, QWidget * parent) :
-    QDialog(parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->widget = new ProgressWidget;
+        void ProgressDialog::hideEvent(QHideEvent *)
+        {
+            stopTimer();
+        }
 
-    _p->labelWidget = new QLabel;
+        void ProgressDialog::timerEvent(QTimerEvent *)
+        {
+            // If the progress is finished then hide the dialog otherwise emit the
+            // progress signal.
+            if (_p->currentTick >= _p->totalTicks)
+            {
+                hide();
+                stopTimer();
+                Q_EMIT finishedSignal();
+            }
+            else
+            {
+                Q_EMIT progressSignal(_p->currentTick);
+            }
 
-    _p->estimateLabel = new QLabel;
-    
-    _p->elapsedLabel = new QLabel;
-    
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Cancel);
+            // Update the progress widget.
+            _p->widget->setValue(static_cast<float>(_p->currentTick));
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    vLayout->setMargin(20);
-    vLayout->addWidget(_p->labelWidget);
-    vLayout->addWidget(_p->widget);
-    vLayout->addWidget(_p->estimateLabel);
-    vLayout->addWidget(_p->elapsedLabel);
-    layout->addLayout(vLayout);
-    layout->addWidget(buttonBox);
+            // Update the labels.
+            _p->time.check();
+            _p->elapsed.check();
 
-    // Initialize.
-    setWindowTitle(qApp->translate("djvProgressDialog", "Progress Dialog"));
-    
-    _p->labelWidget->setText(label);
+            _p->timeAccum += _p->time.seconds();
+            _p->time.start();
 
-    // Setup the callbacks.
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(rejectedCallback()));
-    connect(this, SIGNAL(rejected()), SIGNAL(finishedSignal()));
-}
+            const float estimate =
+                _p->timeAccum /
+                static_cast<float>(_p->currentTick + 1) *
+                (_p->totalTicks - (_p->currentTick + 1));
 
-djvProgressDialog::~djvProgressDialog()
-{
-    stopTimer();
-}
+            const QString estimateLabel = QString(
+                qApp->translate("djv::UI::ProgressDialog", "Estimated: %1 (%2 Frames/Second)")).
+                arg(djvTime::labelTime(estimate)).
+                arg(_p->currentTick / _p->elapsed.seconds(), 0, 'f', 2);
 
-void djvProgressDialog::rejectedCallback()
-{
-    stopTimer();
-    Q_EMIT finishedSignal();
-}
+            _p->estimateLabel->setText(estimateLabel);
 
-const QString & djvProgressDialog::label() const
-{
-    return _p->label;
-}
+            const QString elapsedLabel = QString(
+                qApp->translate("djv::UI::ProgressDialog", "Elapsed: %1")).
+                arg(djvTime::labelTime(_p->elapsed.seconds()));
 
-void djvProgressDialog::setLabel(const QString & label)
-{
-    if (label == _p->label)
-        return;
-    _p->label = label;
-    _p->labelWidget->setText(label);
-}
+            _p->elapsedLabel->setText(elapsedLabel);
 
-void djvProgressDialog::start(int totalTicks)
-{
-    _p->totalTicks = totalTicks;
-    _p->currentTick = 0;
-    _p->time.start();
-    _p->timeAccum = 0.f;
-    _p->elapsed.start();
-    _p->widget->setMaxValue(static_cast<float>(_p->totalTicks));
-    _p->widget->setValue(static_cast<float>(_p->currentTick));
-    _p->timerId = startTimer(0);
-}
+            ++_p->currentTick;
+        }
 
-void djvProgressDialog::hideEvent(QHideEvent *)
-{
-    stopTimer();
-}
+        void ProgressDialog::stopTimer()
+        {
+            if (_p->timerId != 0)
+            {
+                killTimer(_p->timerId);
+                _p->timerId = 0;
+            }
+        }
 
-void djvProgressDialog::timerEvent(QTimerEvent *)
-{
-    // If the progress is finished then hide the dialog otherwise emit the
-    // progress signal.
-    if (_p->currentTick >= _p->totalTicks)
-    {
-        hide();
-        stopTimer();
-        Q_EMIT finishedSignal();
-    }
-    else
-    {
-        Q_EMIT progressSignal(_p->currentTick);
-    }
-    
-    // Update the progress widget.
-    _p->widget->setValue(static_cast<float>(_p->currentTick));
-
-    // Update the labels.
-    _p->time.check();
-    _p->elapsed.check();
-
-    _p->timeAccum += _p->time.seconds();
-    _p->time.start();
-    
-    const float estimate =
-        _p->timeAccum /
-        static_cast<float>(_p->currentTick + 1) *
-        (_p->totalTicks - (_p->currentTick + 1));
-
-    const QString estimateLabel = QString(
-        qApp->translate("djvProgressDialog", "Estimated: %1 (%2 Frames/Second)")).
-        arg(djvTime::labelTime(estimate)).
-        arg(_p->currentTick / _p->elapsed.seconds(), 0, 'f', 2);
-    
-    _p->estimateLabel->setText(estimateLabel);
-
-    const QString elapsedLabel = QString(
-        qApp->translate("djvProgressDialog", "Elapsed: %1")).
-        arg(djvTime::labelTime(_p->elapsed.seconds()));
-    
-    _p->elapsedLabel->setText(elapsedLabel);
-
-    ++_p->currentTick;
-}
-
-void djvProgressDialog::stopTimer()
-{
-    if (_p->timerId != 0)
-    {
-        killTimer(_p->timerId);        
-        _p->timerId = 0;
-    }
-}
+    } // namespace UI
+} // namespace djv

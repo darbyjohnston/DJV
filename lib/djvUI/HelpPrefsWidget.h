@@ -37,37 +37,35 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvHelpPrefsWidget
-//!
-//! This class provides a help preferences widget.
-//------------------------------------------------------------------------------
-
-class djvHelpPrefsWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvHelpPrefsWidget(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class HelpPrefsWidget
+        //!
+        //! This class provides a help preferences widget.
+        class HelpPrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvHelpPrefsWidget();
+        public:
+            explicit HelpPrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-    virtual void resetPreferences();
+            virtual ~HelpPrefsWidget();
 
-private Q_SLOTS:
-    void toolTipsCallback(bool);
-    
-private:
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-    DJV_PRIVATE_COPY(djvHelpPrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void toolTipsCallback(bool);
 
-//@} // djvUIMisc
+        private:
+            void widgetUpdate();
 
+            DJV_PRIVATE_COPY(HelpPrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

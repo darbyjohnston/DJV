@@ -95,13 +95,13 @@ namespace djv
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
-            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Files"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->autoSequenceWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Proxy Scale"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
                     "Set proxy scaling to reduce the resolution when loading images. This "
@@ -115,7 +115,7 @@ namespace djv
                 _p->proxyWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "8-bit Conversion"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
                     "Set 8-bit conversion to allow more images to be stored in the memory "
@@ -125,7 +125,7 @@ namespace djv
             formLayout->addRow(_p->u8ConversionWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::FilePrefsWidget", "Memory Cache"),
                 qApp->translate("djv::ViewLib::FilePrefsWidget",
                     "The memory cache allows the application to store images in memory "

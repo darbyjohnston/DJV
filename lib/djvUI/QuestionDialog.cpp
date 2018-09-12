@@ -36,57 +36,56 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvQuestionDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvQuestionDialog::Private
+namespace djv
 {
-    Private(const QString & label) :
-        label(label)
-    {}
-    
-    QString  label;
-    QLabel * labelWidget = nullptr;
-};
+    namespace UI
+    {
+        struct QuestionDialog::Private
+        {
+            Private(const QString & label) :
+                label(label)
+            {}
 
-//------------------------------------------------------------------------------
-// djvQuestionDialog
-//------------------------------------------------------------------------------
+            QString  label;
+            QLabel * labelWidget = nullptr;
+        };
 
-djvQuestionDialog::djvQuestionDialog(const QString & label, QWidget * parent) :
-    QDialog(parent),
-    _p(new Private(label))
-{
-    _p->labelWidget = new QLabel(label);
-    
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Yes |
-        QDialogButtonBox::No);
+        QuestionDialog::QuestionDialog(const QString & label, QWidget * parent) :
+            QDialog(parent),
+            _p(new Private(label))
+        {
+            _p->labelWidget = new QLabel(label);
 
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    vLayout->setMargin(20);
-    vLayout->addWidget(_p->labelWidget);
-    layout->addLayout(vLayout);
-    layout->addWidget(buttonBox);
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Yes |
+                QDialogButtonBox::No);
 
-    setWindowTitle(qApp->translate("djvQuestionDialog", "Question Dialog"));
-    
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-}
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            QVBoxLayout * vLayout = new QVBoxLayout;
+            vLayout->setMargin(20);
+            vLayout->addWidget(_p->labelWidget);
+            layout->addLayout(vLayout);
+            layout->addWidget(buttonBox);
 
-djvQuestionDialog::~djvQuestionDialog()
-{}
+            setWindowTitle(qApp->translate("djv::UI::QuestionDialog", "Question Dialog"));
 
-const QString & djvQuestionDialog::label() const
-{
-    return _p->label;
-}
+            connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+        }
 
-void djvQuestionDialog::setLabel(const QString & label)
-{
-    _p->label = label;
-    _p->labelWidget->setText(label);
-}
+        QuestionDialog::~QuestionDialog()
+        {}
+
+        const QString & QuestionDialog::label() const
+        {
+            return _p->label;
+        }
+
+        void QuestionDialog::setLabel(const QString & label)
+        {
+            _p->label = label;
+            _p->labelWidget->setText(label);
+        }
+
+    } // namespace UI
+} // namespace djv

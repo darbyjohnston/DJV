@@ -37,38 +37,36 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTimePrefsWidget
-//!
-//! This class provides a time preferences widget.
-//------------------------------------------------------------------------------
-
-class djvTimePrefsWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvTimePrefsWidget(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class TimePrefsWidget
+        //!
+        //! This class provides a time preferences widget.
+        class TimePrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvTimePrefsWidget();
+        public:
+            explicit TimePrefsWidget(UIContext *, QWidget * parent = nullptr);
 
-    virtual void resetPreferences();
+            virtual ~TimePrefsWidget();
 
-private Q_SLOTS:
-    void timeUnitsCallback(int);
-    void speedCallback(int);
-    
-private:
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-    DJV_PRIVATE_COPY(djvTimePrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void timeUnitsCallback(int);
+            void speedCallback(int);
 
-//@} // djvUIMisc
+        private:
+            void widgetUpdate();
 
+            DJV_PRIVATE_COPY(TimePrefsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

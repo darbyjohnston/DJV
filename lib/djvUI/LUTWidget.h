@@ -37,53 +37,48 @@
 
 class QComboBox;
 
-//! \addtogroup djvLUTPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvLUTWidget
-//!
-//! This class provides a LUT widget.
-//------------------------------------------------------------------------------
-
-class djvLUTWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvLUTWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        //! \class LUTWidget
+        //!
+        //! This class provides a LUT widget.
+        class LUTWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvLUTWidget();
+        public:
+            LUTWidget(djvImageIO *, UIContext *);
 
-    virtual void resetPreferences();
+            virtual ~LUTWidget();
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void typeCallback(int);
+            virtual void resetPreferences();
 
-    void pluginUpdate();
-    void widgetUpdate();
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void typeCallback(int);
 
-private:
-    djvLUT::Options _options;
-    QComboBox *     _typeWidget;
-};
+            void pluginUpdate();
+            void widgetUpdate();
 
-//------------------------------------------------------------------------------
-//! \class djvLUTWidgetPlugin
-//!
-//! This class provides a LUT widget plugin.
-//------------------------------------------------------------------------------
+        private:
+            djvLUT::Options _options;
+            QComboBox *     _typeWidget;
+        };
 
-class djvLUTWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvLUTWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        //! \class LUTWidgetPlugin
+        //!
+        //! This class provides a LUT widget plugin.
+        class LUTWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            LUTWidgetPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-};
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
-//@} // djvLUTPlugin
+    } // namespace UI
+} // namespace djv
 

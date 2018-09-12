@@ -60,11 +60,11 @@ namespace djv
                 toolBarButtonGroup(0)
             {}
 
-            QCheckBox *             autoFitWidget;
-            QComboBox *             viewMaxWidget;
-            djvVector2iEditWidget * viewMaxUserWidget;
-            QCheckBox *             fullScreenControlsWidget;
-            QButtonGroup *          toolBarButtonGroup;
+            QCheckBox * autoFitWidget;
+            QComboBox * viewMaxWidget;
+            UI::Vector2iEditWidget * viewMaxUserWidget;
+            QCheckBox * fullScreenControlsWidget;
+            QButtonGroup * toolBarButtonGroup;
         };
 
         WindowPrefsWidget::WindowPrefsWidget(Context * context) :
@@ -82,7 +82,7 @@ namespace djv
             _p->viewMaxWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             _p->viewMaxWidget->addItems(Util::viewMaxLabels());
 
-            _p->viewMaxUserWidget = new djvVector2iEditWidget;
+            _p->viewMaxUserWidget = new UI::Vector2iEditWidget;
             _p->viewMaxUserWidget->setRange(glm::ivec2(100, 100), glm::ivec2(8192, 8192));
             _p->viewMaxUserWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -105,7 +105,7 @@ namespace djv
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
-            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Window Size"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->autoFitWidget);
@@ -115,13 +115,13 @@ namespace djv
             formLayout->addRow("", _p->viewMaxUserWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Full Screen"), context);
             formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->fullScreenControlsWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Tool Bars"),
                 qApp->translate("djv::ViewLib::WindowPrefsWidget", "Set which tool bars are visible."),
                 context);

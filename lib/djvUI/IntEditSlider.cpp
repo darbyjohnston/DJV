@@ -44,184 +44,183 @@
 #include <QApplication>
 #include <QHBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvIntEditSlider::Private
-//------------------------------------------------------------------------------
-
-struct djvIntEditSlider::Private
+namespace djv
 {
-    bool            resetToDefault = false;
-    djvIntEdit *    edit           = nullptr;
-    djvIntSlider *  slider         = nullptr;
-    djvToolButton * defaultButton  = nullptr;
-};
+    namespace UI
+    {
+        struct IntEditSlider::Private
+        {
+            bool resetToDefault = false;
+            IntEdit * edit = nullptr;
+            IntSlider * slider = nullptr;
+            ToolButton * defaultButton = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvIntEditSlider
-//------------------------------------------------------------------------------
+        IntEditSlider::IntEditSlider(UIContext * context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->edit = new IntEdit;
 
-djvIntEditSlider::djvIntEditSlider(djvUIContext * context, QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->edit = new djvIntEdit;
-    
-    _p->slider = new djvIntSlider;
-    
-    _p->defaultButton = new djvToolButton;
-    _p->defaultButton->setIconSize(QSize(16, 16));
-    _p->defaultButton->setIcon(
-        context->iconLibrary()->icon("djvResetIcon.png"));
-    _p->defaultButton->setToolTip(
-        qApp->translate("djvIntEditSlider", "Reset the value"));
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(5);
-    layout->setMargin(0);
-    layout->addWidget(_p->edit);
-    layout->addWidget(_p->slider);
-    layout->addWidget(_p->defaultButton);
+            _p->slider = new IntSlider;
 
-    _p->slider->setRange(0, 100);
+            _p->defaultButton = new ToolButton;
+            _p->defaultButton->setIconSize(QSize(16, 16));
+            _p->defaultButton->setIcon(
+                context->iconLibrary()->icon("djvResetIcon.png"));
+            _p->defaultButton->setToolTip(
+                qApp->translate("djv::UI::IntEditSlider", "Reset the value"));
 
-    _p->defaultButton->hide();
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(5);
+            layout->setMargin(0);
+            layout->addWidget(_p->edit);
+            layout->addWidget(_p->slider);
+            layout->addWidget(_p->defaultButton);
 
-    widgetUpdate();
+            _p->slider->setRange(0, 100);
 
-    connect(
-        _p->edit,
-        SIGNAL(valueChanged(int)),
-        SLOT(valueCallback()));
-    connect(
-        _p->edit,
-        SIGNAL(minChanged(int)),
-        SIGNAL(minChanged(int)));
-    connect(
-        _p->edit,
-        SIGNAL(maxChanged(int)),
-        SIGNAL(maxChanged(int)));
-    connect(
-        _p->edit,
-        SIGNAL(rangeChanged(int, int)),
-        SIGNAL(rangeChanged(int, int)));
-    connect(
-        _p->edit->object(),
-        SIGNAL(defaultValidChanged(bool)),
-        SLOT(widgetUpdate()));
-    connect(
-        _p->edit->object(),
-        SIGNAL(defaultValueChanged(int)),
-        SIGNAL(defaultValueChanged(int)));
-    connect(
-        _p->slider,
-        SIGNAL(valueChanged(int)),
-        SLOT(sliderCallback(int)));
-    connect(
-        _p->defaultButton,
-        SIGNAL(clicked()),
-        SLOT(defaultCallback()));
-}
+            _p->defaultButton->hide();
 
-djvIntEditSlider::~djvIntEditSlider()
-{}
+            widgetUpdate();
 
-int djvIntEditSlider::value() const
-{
-    return _p->edit->value();
-}
+            connect(
+                _p->edit,
+                SIGNAL(valueChanged(int)),
+                SLOT(valueCallback()));
+            connect(
+                _p->edit,
+                SIGNAL(minChanged(int)),
+                SIGNAL(minChanged(int)));
+            connect(
+                _p->edit,
+                SIGNAL(maxChanged(int)),
+                SIGNAL(maxChanged(int)));
+            connect(
+                _p->edit,
+                SIGNAL(rangeChanged(int, int)),
+                SIGNAL(rangeChanged(int, int)));
+            connect(
+                _p->edit->object(),
+                SIGNAL(defaultValidChanged(bool)),
+                SLOT(widgetUpdate()));
+            connect(
+                _p->edit->object(),
+                SIGNAL(defaultValueChanged(int)),
+                SIGNAL(defaultValueChanged(int)));
+            connect(
+                _p->slider,
+                SIGNAL(valueChanged(int)),
+                SLOT(sliderCallback(int)));
+            connect(
+                _p->defaultButton,
+                SIGNAL(clicked()),
+                SLOT(defaultCallback()));
+        }
 
-int djvIntEditSlider::defaultValue() const
-{
-    return _p->edit->object()->defaultValue();
-}
+        IntEditSlider::~IntEditSlider()
+        {}
 
-bool djvIntEditSlider::hasResetToDefault() const
-{
-    return _p->resetToDefault;
-}
+        int IntEditSlider::value() const
+        {
+            return _p->edit->value();
+        }
 
-int djvIntEditSlider::min() const
-{
-    return _p->edit->min();
-}
+        int IntEditSlider::defaultValue() const
+        {
+            return _p->edit->object()->defaultValue();
+        }
 
-int djvIntEditSlider::max() const
-{
-    return _p->edit->max();
-}
+        bool IntEditSlider::hasResetToDefault() const
+        {
+            return _p->resetToDefault;
+        }
 
-djvIntObject * djvIntEditSlider::editObject() const
-{
-    return _p->edit->object();
-}
+        int IntEditSlider::min() const
+        {
+            return _p->edit->min();
+        }
 
-djvIntObject * djvIntEditSlider::sliderObject() const
-{
-    return _p->slider->object();
-}
+        int IntEditSlider::max() const
+        {
+            return _p->edit->max();
+        }
 
-void djvIntEditSlider::setValue(int value)
-{
-    _p->edit->setValue(value);
-}
+        IntObject * IntEditSlider::editObject() const
+        {
+            return _p->edit->object();
+        }
 
-void djvIntEditSlider::setDefaultValue(int value)
-{
-    _p->edit->object()->setDefaultValue(value);
-}
+        IntObject * IntEditSlider::sliderObject() const
+        {
+            return _p->slider->object();
+        }
 
-void djvIntEditSlider::setResetToDefault(bool value)
-{
-    if (value == _p->resetToDefault)
-        return;
-    _p->resetToDefault = value;
-    widgetUpdate();
-}
+        void IntEditSlider::setValue(int value)
+        {
+            _p->edit->setValue(value);
+        }
 
-void djvIntEditSlider::setMin(int value)
-{
-    _p->edit->setMin(value);
-    _p->slider->setMin(value);
-}
+        void IntEditSlider::setDefaultValue(int value)
+        {
+            _p->edit->object()->setDefaultValue(value);
+        }
 
-void djvIntEditSlider::setMax(int value)
-{
-    _p->edit->setMax(value);
-    _p->slider->setMax(value);
-}
+        void IntEditSlider::setResetToDefault(bool value)
+        {
+            if (value == _p->resetToDefault)
+                return;
+            _p->resetToDefault = value;
+            widgetUpdate();
+        }
 
-void djvIntEditSlider::setRange(int min, int max)
-{
-    _p->edit->setRange(min, max);
-    _p->slider->setRange(min, max);
-}
+        void IntEditSlider::setMin(int value)
+        {
+            _p->edit->setMin(value);
+            _p->slider->setMin(value);
+        }
 
-void djvIntEditSlider::valueCallback()
-{
-    widgetUpdate();
-    Q_EMIT valueChanged(_p->edit->value());
-}
+        void IntEditSlider::setMax(int value)
+        {
+            _p->edit->setMax(value);
+            _p->slider->setMax(value);
+        }
 
-void djvIntEditSlider::sliderCallback(int value)
-{
-    _p->edit->setValue(value);
-}
+        void IntEditSlider::setRange(int min, int max)
+        {
+            _p->edit->setRange(min, max);
+            _p->slider->setRange(min, max);
+        }
 
-void djvIntEditSlider::defaultCallback()
-{
-    _p->edit->setValue(_p->edit->object()->defaultValue());
-}
+        void IntEditSlider::valueCallback()
+        {
+            widgetUpdate();
+            Q_EMIT valueChanged(_p->edit->value());
+        }
 
-void djvIntEditSlider::widgetUpdate()
-{
-    //DJV_DEBUG("djvIntEditSlider::widgetUpdate");
-    //DJV_DEBUG_PRINT("value = " << value());
-    //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->edit <<
-        _p->slider <<
-        _p->defaultButton);
-    _p->slider->setValue(_p->edit->value());
-    _p->defaultButton->setVisible(_p->resetToDefault);
-    _p->defaultButton->setDisabled(_p->edit->object()->isDefaultValid());
-}
+        void IntEditSlider::sliderCallback(int value)
+        {
+            _p->edit->setValue(value);
+        }
+
+        void IntEditSlider::defaultCallback()
+        {
+            _p->edit->setValue(_p->edit->object()->defaultValue());
+        }
+
+        void IntEditSlider::widgetUpdate()
+        {
+            //DJV_DEBUG("IntEditSlider::widgetUpdate");
+            //DJV_DEBUG_PRINT("value = " << value());
+            //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->edit <<
+                _p->slider <<
+                _p->defaultButton);
+            _p->slider->setValue(_p->edit->value());
+            _p->defaultButton->setVisible(_p->resetToDefault);
+            _p->defaultButton->setDisabled(_p->edit->object()->isDefaultValid());
+        }
+
+    } // namespace UI
+} // namespace djv

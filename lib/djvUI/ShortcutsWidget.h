@@ -39,50 +39,48 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvShortcutsWidget
-//!
-//! This class provides a widget for configuring keyboard shorcuts.
-//------------------------------------------------------------------------------
-
-class djvShortcutsWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the list of shortcuts.    
-    Q_PROPERTY(
-        QVector<djvShortcut> shortcuts
-        READ                 shortcuts
-        WRITE                setShortcuts
-        NOTIFY               shortcutsChanged)
+    namespace UI
+    {
+        class UIContext;
 
-public:
-    explicit djvShortcutsWidget(djvUIContext *, QWidget * parent = nullptr);
+        //! \class ShortcutsWidget
+        //!
+        //! This class provides a widget for configuring keyboard shorcuts.
+        class ShortcutsWidget : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvShortcutsWidget();
+                //! This property holds the list of shortcuts.    
+                Q_PROPERTY(
+                    QVector<Shortcut> shortcuts
+                    READ              shortcuts
+                    WRITE             setShortcuts
+                    NOTIFY            shortcutsChanged)
 
-    //! Get the list of shortcuts.
-    const QVector<djvShortcut> & shortcuts() const;
+        public:
+            explicit ShortcutsWidget(UIContext *, QWidget * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the list of shortcuts.
-    void setShortcuts(const QVector<djvShortcut> &);
+            virtual ~ShortcutsWidget();
 
-Q_SIGNALS:
-    //! This signal is emitted when the list of shortcuts are changed.
-    void shortcutsChanged(const QVector<djvShortcut> &);
-    
-private:
-    DJV_PRIVATE_COPY(djvShortcutsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the list of shortcuts.
+            const QVector<Shortcut> & shortcuts() const;
 
-//@} // djvUIWidget
+        public Q_SLOTS:
+            //! Set the list of shortcuts.
+            void setShortcuts(const QVector<Shortcut> &);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the list of shortcuts are changed.
+            void shortcutsChanged(const QVector<Shortcut> &);
+
+        private:
+            DJV_PRIVATE_COPY(ShortcutsWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

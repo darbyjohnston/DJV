@@ -40,113 +40,111 @@
 #include <QSvgRenderer>
 #include <QTimerEvent>
 
-//------------------------------------------------------------------------------
-// djvSpinner::Private
-//------------------------------------------------------------------------------
-
-struct djvSpinner::Private
+namespace djv
 {
-    Private(djvUIContext * context) :
-        context(context)
-    {}
-
-    djvUIContext *  context    = nullptr;
-    int              tick       = 0;
-    int              timer      = 0;
-    int              startTimer = 0;
-    QSvgRenderer *   svg        = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvSpinner
-//------------------------------------------------------------------------------
-
-djvSpinner::djvSpinner(
-    djvUIContext * context,
-    QWidget *       parent) :
-    QWidget(parent),
-    _p(new Private(context))
-{
-    _p->svg = new QSvgRenderer(QString(":djvSpinner.svg"), this);
-    
-    setAttribute(Qt::WA_TransparentForMouseEvents);
-}
-
-djvSpinner::~djvSpinner()
-{
-    if (_p->timer != 0)
+    namespace UI
     {
-        killTimer(_p->timer);        
-        _p->timer = 0;
-    }
-    if (_p->startTimer != 0)
-    {
-        killTimer(_p->startTimer);   
-        _p->startTimer = 0;
-    }
-}
+        struct Spinner::Private
+        {
+            Private(UIContext * context) :
+                context(context)
+            {}
 
-bool djvSpinner::isSpinning() const
-{
-    return _p->timer != 0;
-}
+            UIContext * context = nullptr;
+            int tick = 0;
+            int timer = 0;
+            int startTimer = 0;
+            QSvgRenderer * svg = nullptr;
+        };
 
-void djvSpinner::start()
-{
-    stop();
-    _p->tick = 0;
-    _p->timer = startTimer(10);
-    update();
-}
+        Spinner::Spinner(
+            UIContext * context,
+            QWidget * parent) :
+            QWidget(parent),
+            _p(new Private(context))
+        {
+            _p->svg = new QSvgRenderer(QString(":djvSpinner.svg"), this);
 
-void djvSpinner::startDelayed(int msec)
-{
-    stop();
-    _p->startTimer = startTimer(msec);
-}
+            setAttribute(Qt::WA_TransparentForMouseEvents);
+        }
 
-void djvSpinner::stop()
-{
-    if (_p->timer != 0)
-    {
-        killTimer(_p->timer);
-        _p->timer = 0;
-        update();
-    }
-    if (_p->startTimer != 0)
-    {
-        killTimer(_p->startTimer);
-        _p->startTimer = 0;
-    }
-}
+        Spinner::~Spinner()
+        {
+            if (_p->timer != 0)
+            {
+                killTimer(_p->timer);
+                _p->timer = 0;
+            }
+            if (_p->startTimer != 0)
+            {
+                killTimer(_p->startTimer);
+                _p->startTimer = 0;
+            }
+        }
 
-void djvSpinner::timerEvent(QTimerEvent * event)
-{
-    const int id = event->timerId();
-    if (id == _p->timer)
-    {
-        ++_p->tick;
-        update();
-    }
-    else if (id == _p->startTimer)
-    {
-        killTimer(_p->startTimer);
-        _p->startTimer = 0;
-        start();
-    }
-}
+        bool Spinner::isSpinning() const
+        {
+            return _p->timer != 0;
+        }
 
-void djvSpinner::paintEvent(QPaintEvent *)
-{
-    if (! _p->timer)
-        return;
-    QPainter painter(this);
-    const int w = width ();
-    const int h = height();
-    painter.translate(w / 2, h / 2);
-    painter.rotate(-_p->tick);
-    painter.translate(-w / 2, -h / 2);
-    const int s = djvMath::min<int>(w, h) / 2;
-    _p->svg->render(&painter, QRectF(w / 2 - s / 2, h / 2 - s / 2, s, s));
-}
+        void Spinner::start()
+        {
+            stop();
+            _p->tick = 0;
+            _p->timer = startTimer(10);
+            update();
+        }
 
+        void Spinner::startDelayed(int msec)
+        {
+            stop();
+            _p->startTimer = startTimer(msec);
+        }
+
+        void Spinner::stop()
+        {
+            if (_p->timer != 0)
+            {
+                killTimer(_p->timer);
+                _p->timer = 0;
+                update();
+            }
+            if (_p->startTimer != 0)
+            {
+                killTimer(_p->startTimer);
+                _p->startTimer = 0;
+            }
+        }
+
+        void Spinner::timerEvent(QTimerEvent * event)
+        {
+            const int id = event->timerId();
+            if (id == _p->timer)
+            {
+                ++_p->tick;
+                update();
+            }
+            else if (id == _p->startTimer)
+            {
+                killTimer(_p->startTimer);
+                _p->startTimer = 0;
+                start();
+            }
+        }
+
+        void Spinner::paintEvent(QPaintEvent *)
+        {
+            if (!_p->timer)
+                return;
+            QPainter painter(this);
+            const int w = width();
+            const int h = height();
+            painter.translate(w / 2, h / 2);
+            painter.rotate(-_p->tick);
+            painter.translate(-w / 2, -h / 2);
+            const int s = djvMath::min<int>(w, h) / 2;
+            _p->svg->render(&painter, QRectF(w / 2 - s / 2, h / 2 - s / 2, s, s));
+        }
+
+    } // namespace UI
+} // namespace djv

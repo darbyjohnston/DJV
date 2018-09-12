@@ -39,133 +39,131 @@
 
 #include <memory>
 
-class djvFloatObject;
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFloatEditSlider
-//!
-//! This class provides an floating point slider and edit widget.
-//------------------------------------------------------------------------------
-
-class djvFloatEditSlider : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        float  value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-    //! This property holds the default value.
-    Q_PROPERTY(
-        float  defaultValue
-        READ   defaultValue
-        WRITE  setDefaultValue
-        NOTIFY defaultValueChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        float  min
-        READ   min
-        WRITE  setMin
-        NOTIFY minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        float  max
-        READ   max
-        WRITE  setMax
-        NOTIFY maxChanged)
-    
-public:
-    explicit djvFloatEditSlider(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        class FloatObject;
+        class UIContext;
 
-    virtual ~djvFloatEditSlider();
+        //! \class FloatEditSlider
+        //!
+        //! This class provides an floating point slider and edit widget.
+        class FloatEditSlider : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the value.
-    float value() const;
+                //! This property holds the value.
+                Q_PROPERTY(
+                    float  value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! Get the default value.
-    float defaultValue() const;
+                //! This property holds the default value.
+                Q_PROPERTY(
+                    float  defaultValue
+                    READ   defaultValue
+                    WRITE  setDefaultValue
+                    NOTIFY defaultValueChanged)
 
-    //! Get whether a reset to default control is shown.
-    bool hasResetToDefault() const;
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    float  min
+                    READ   min
+                    WRITE  setMin
+                    NOTIFY minChanged)
 
-    //! Get the minimum value.
-    float min() const;
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    float  max
+                    READ   max
+                    WRITE  setMax
+                    NOTIFY maxChanged)
 
-    //! Get the maximum value.
-    float max() const;
+        public:
+            explicit FloatEditSlider(UIContext *, QWidget * parent = nullptr);
 
-    //! Get the small increment.
-    float smallInc() const;
+            virtual ~FloatEditSlider();
 
-    //! Get the large increment.
-    float largeInc() const;
+            //! Get the value.
+            float value() const;
 
-    //! Get the edit floating-point object.
-    djvFloatObject * editObject() const;
+            //! Get the default value.
+            float defaultValue() const;
 
-    //! Get the slider floating-point object.
-    djvFloatObject * sliderObject() const;
-    
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(float);
+            //! Get whether a reset to default control is shown.
+            bool hasResetToDefault() const;
 
-    //! Set the default value.
-    void setDefaultValue(float);
+            //! Get the minimum value.
+            float min() const;
 
-    //! Set whether a reset to default control is shown.
-    void setResetToDefault(bool);
+            //! Get the maximum value.
+            float max() const;
 
-    //! Set the minimum value.
-    void setMin(float);
+            //! Get the small increment.
+            float smallInc() const;
 
-    //! Set the maximum value.
-    void setMax(float);
+            //! Get the large increment.
+            float largeInc() const;
 
-    //! Set the value range.
-    void setRange(float min, float max);
+            //! Get the edit floating-point object.
+            FloatObject * editObject() const;
 
-    //! Set the value increment.
-    void setInc(float smallInc, float largeInc);
+            //! Get the slider floating-point object.
+            FloatObject * sliderObject() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(float);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(float);
 
-    //! This signal is emitted when the default value is changed
-    void defaultValueChanged(float);
+            //! Set the default value.
+            void setDefaultValue(float);
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(float);
+            //! Set whether a reset to default control is shown.
+            void setResetToDefault(bool);
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(float);
+            //! Set the minimum value.
+            void setMin(float);
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(float, float);
+            //! Set the maximum value.
+            void setMax(float);
 
-private Q_SLOTS:
-    void valueCallback();
-    void sliderCallback(float);
-    void defaultCallback();
-    
-    void widgetUpdate();
+            //! Set the value range.
+            void setRange(float min, float max);
 
-private:
-    DJV_PRIVATE_COPY(djvFloatEditSlider);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the value increment.
+            void setInc(float smallInc, float largeInc);
 
-//@} // djvUIWidget
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(float);
 
+            //! This signal is emitted when the default value is changed
+            void defaultValueChanged(float);
+
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(float);
+
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(float);
+
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(float, float);
+
+        private Q_SLOTS:
+            void valueCallback();
+            void sliderCallback(float);
+            void defaultCallback();
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(FloatEditSlider);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

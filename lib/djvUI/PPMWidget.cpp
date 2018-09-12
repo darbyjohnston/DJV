@@ -44,146 +44,146 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvPPMWidget
-//------------------------------------------------------------------------------
-
-djvPPMWidget::djvPPMWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _typeWidget(0),
-    _dataWidget(0)
+namespace djv
 {
-    // Create the widgets.
-    _typeWidget = new QComboBox;
-    _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _typeWidget->addItems(djvPPM::typeLabels());
-    
-    _dataWidget = new QComboBox;
-    _dataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _dataWidget->addItems(djvPPM::dataLabels());
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvPPMWidget", "File Type"),
-        qApp->translate("djvPPMWidget", "Set the file type used when saving PPM images."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvPPMWidget", "File type:"),
-        _typeWidget);
-    layout->addWidget(prefsGroupBox);
-
-    prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvPPMWidget", "Data Type"),
-        qApp->translate("djvPPMWidget", "Set the data type used when saving PPM images."),
-        context);
-    formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvPPMWidget", "Data type:"),
-        _dataWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    QStringList tmp;
-    tmp = plugin->option(plugin->options()[djvPPM::TYPE_OPTION]);
-    tmp >> _options.type;
-    tmp = plugin->option(plugin->options()[djvPPM::DATA_OPTION]);
-    tmp >> _options.data;
-
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _typeWidget,
-        SIGNAL(activated(int)),
-        SLOT(typeCallback(int)));
-    connect(
-        _dataWidget,
-        SIGNAL(activated(int)),
-        SLOT(dataCallback(int)));
-}
-
-djvPPMWidget::~djvPPMWidget()
-{}
-
-void djvPPMWidget::resetPreferences()
-{
-    _options = djvPPM::Options();
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvPPMWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvPPM::TYPE_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.type;
-        else if (0 == option.compare(plugin()->options()[
-            djvPPM::DATA_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.data;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+        PPMWidget::PPMWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _typeWidget(0),
+            _dataWidget(0)
+        {
+            // Create the widgets.
+            _typeWidget = new QComboBox;
+            _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _typeWidget->addItems(djvPPM::typeLabels());
 
-void djvPPMWidget::typeCallback(int in)
-{
-    _options.type = static_cast<djvPPM::TYPE>(in);
-    pluginUpdate();
-}
+            _dataWidget = new QComboBox;
+            _dataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _dataWidget->addItems(djvPPM::dataLabels());
 
-void djvPPMWidget::dataCallback(int in)
-{
-    _options.data = static_cast<djvPPM::DATA>(in);
-    pluginUpdate();
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvPPMWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.type;
-    plugin()->setOption(plugin()->options()[djvPPM::TYPE_OPTION], tmp);
-    tmp << _options.data;
-    plugin()->setOption(plugin()->options()[djvPPM::DATA_OPTION], tmp);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::PPMWidget", "File Type"),
+                qApp->translate("djv::UI::PPMWidget", "Set the file type used when saving PPM images."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::PPMWidget", "File type:"),
+                _typeWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvPPMWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _typeWidget <<
-        _dataWidget);
-    _typeWidget->setCurrentIndex(_options.type);
-    _dataWidget->setCurrentIndex(_options.data);
-}
+            prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::PPMWidget", "Data Type"),
+                qApp->translate("djv::UI::PPMWidget", "Set the data type used when saving PPM images."),
+                context);
+            formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::PPMWidget", "Data type:"),
+                _dataWidget);
+            layout->addWidget(prefsGroupBox);
 
-//------------------------------------------------------------------------------
-// djvPPMWidgetPlugin
-//------------------------------------------------------------------------------
+            layout->addStretch();
 
-djvPPMWidgetPlugin::djvPPMWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            // Initialize.
+            QStringList tmp;
+            tmp = plugin->option(plugin->options()[djvPPM::TYPE_OPTION]);
+            tmp >> _options.type;
+            tmp = plugin->option(plugin->options()[djvPPM::DATA_OPTION]);
+            tmp >> _options.data;
 
-djvImageIOWidget * djvPPMWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvPPMWidget(plugin, uiContext());
-}
+            widgetUpdate();
 
-QString djvPPMWidgetPlugin::pluginName() const
-{
-    return djvPPM::staticName;
-}
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _typeWidget,
+                SIGNAL(activated(int)),
+                SLOT(typeCallback(int)));
+            connect(
+                _dataWidget,
+                SIGNAL(activated(int)),
+                SLOT(dataCallback(int)));
+        }
+
+        PPMWidget::~PPMWidget()
+        {}
+
+        void PPMWidget::resetPreferences()
+        {
+            _options = djvPPM::Options();
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void PPMWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    djvPPM::TYPE_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.type;
+                else if (0 == option.compare(plugin()->options()[
+                    djvPPM::DATA_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.data;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void PPMWidget::typeCallback(int in)
+        {
+            _options.type = static_cast<djvPPM::TYPE>(in);
+            pluginUpdate();
+        }
+
+        void PPMWidget::dataCallback(int in)
+        {
+            _options.data = static_cast<djvPPM::DATA>(in);
+            pluginUpdate();
+        }
+
+        void PPMWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.type;
+            plugin()->setOption(plugin()->options()[djvPPM::TYPE_OPTION], tmp);
+            tmp << _options.data;
+            plugin()->setOption(plugin()->options()[djvPPM::DATA_OPTION], tmp);
+        }
+
+        void PPMWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _typeWidget <<
+                _dataWidget);
+            _typeWidget->setCurrentIndex(_options.type);
+            _dataWidget->setCurrentIndex(_options.data);
+        }
+
+        PPMWidgetPlugin::PPMWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * PPMWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new PPMWidget(plugin, uiContext());
+        }
+
+        QString PPMWidgetPlugin::pluginName() const
+        {
+            return djvPPM::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

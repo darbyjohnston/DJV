@@ -35,42 +35,40 @@
 
 #include <QWidget>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvAbstractPrefsWidget
-//!
-//! This class provides the base functionality for a preferences widget.
-//------------------------------------------------------------------------------
-
-class djvAbstractPrefsWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvAbstractPrefsWidget(
-        const QString & name,
-        djvUIContext * context,
-        QWidget *       parent  = nullptr);
-    
-    virtual ~djvAbstractPrefsWidget() = 0;
-        
-    //! Get the preferences name.    
-    const QString & name() const;
-    
-    //! Reset the preferences.
-    virtual void resetPreferences() = 0;
-    
-    //! Get the context.
-    djvUIContext * context() const;
-    
-private:
-    QString         _name;
-    djvUIContext * _context = nullptr;
-};
+    namespace UI
+    {
+        class UIContext;
 
-//@} // djvUIWidget
+        //! \class AbstractPrefsWidget
+        //!
+        //! This class provides the base functionality for a preferences widget.
+        class AbstractPrefsWidget : public QWidget
+        {
+            Q_OBJECT
 
+        public:
+            AbstractPrefsWidget(
+                const QString & name,
+                UIContext * context,
+                QWidget * parent = nullptr);
+
+            virtual ~AbstractPrefsWidget() = 0;
+
+            //! Get the preferences name.    
+            const QString & name() const;
+
+            //! Reset the preferences.
+            virtual void resetPreferences() = 0;
+
+            //! Get the context.
+            UIContext * context() const;
+
+        private:
+            QString _name;
+            UIContext * _context = nullptr;
+        };
+
+    } // namespace UI
+} // namespace djv

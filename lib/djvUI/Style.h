@@ -42,178 +42,177 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvStyle
-//!
-//! This class provides the user interface style.
-//!
-//! \todo Can we use events instead of signals for notifying other objects
-//! when the style changes?
-//------------------------------------------------------------------------------
-
-class djvStyle : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvStyle(QObject * parent = nullptr);
-
-    ~djvStyle();
-
-    //! This struct provides a color palette.
-    struct Palette
+    namespace UI
     {
-        explicit Palette(
-            const QString &  name        = QString(),
-            const djvColor & foreground  = djvColor(),
-            const djvColor & background  = djvColor(),
-            const djvColor & background2 = djvColor(),
-            const djvColor & button      = djvColor(),
-            const djvColor & select      = djvColor());
-        
-        QString  name;
-        djvColor foreground;
-        djvColor background;
-        djvColor background2;
-        djvColor button;
-        djvColor select;
-    };
-    
-    //! Get the default color palettes.
-    static const QVector<Palette> & palettesDefault();
-    
-    //! Get the list of color palettes.
-    const QVector<Palette> & palettes();
+        //! \class djvStyle
+        //!
+        //! This class provides the user interface style.
+        //!
+        //! \todo Can we use events instead of signals for notifying other objects
+        //! when the style changes?
+        class Style : public QObject
+        {
+            Q_OBJECT
 
-    //! Set the list of color palettes.
-    void setPalettes(const QVector<Palette> &);
+        public:
+            explicit Style(QObject * parent = nullptr);
 
-    //! Get the default palette index.
-    static int palettesIndexDefault();
-    
-    //! Get the current color palette index.
-    int palettesIndex() const;
-    
-    //! Set the current color palette index.
-    void setPalettesIndex(int);
-    
-    //! Get the current color palette.
-    const Palette & palette() const;
-    
-    //! Set the current color palette.
-    void setPalette(const Palette &);
-    
-    //! Get the list of color palette names.
-    QStringList paletteNames() const;
+            ~Style();
 
-    //! Get the default color swatch transparency.
-    static bool colorSwatchTransparencyDefault();
+            //! This struct provides a color palette.
+            struct Palette
+            {
+                explicit Palette(
+                    const QString &  name = QString(),
+                    const djvColor & foreground = djvColor(),
+                    const djvColor & background = djvColor(),
+                    const djvColor & background2 = djvColor(),
+                    const djvColor & button = djvColor(),
+                    const djvColor & select = djvColor());
 
-    //! Get whether color swatches show transparency.
-    bool hasColorSwatchTransparency() const;
+                QString  name;
+                djvColor foreground;
+                djvColor background;
+                djvColor background2;
+                djvColor button;
+                djvColor select;
+            };
 
-    //! Set whether color swatches show transparency.
-    void setColorSwatchTransparency(bool);
+            //! Get the default color palettes.
+            static const QVector<Palette> & palettesDefault();
 
-    //! This struct provides size metrics.
-    struct SizeMetric
-    {
-        explicit SizeMetric(const QString & name = QString(), int fontSize = 0);
-    
-        QString name;
-        int     fontSize      = 0;
-        int     pickSize      = 0;
-        int     handleSize    = 0;
-        int     spacing       = 0;
-        int     largeSpacing  = 0;
-        int     margin        = 0;
-        int     textMargin    = 0;
-        int     widgetMargin  = 0;
-        int     largeMargin   = 0;
-        int     iconSize      = 0;
-        int     toolIconSize  = 0;
-        int     buttonSize    = 0;
-        int     textSize      = 0;
-        int     swatchSize    = 0;
-        int     thumbnailSize = 0;
-    };
-    
-    //! Get the default size metrics.
-    static const QVector<SizeMetric> & sizeMetricsDefault();
-    
-    //! Get the list of size metrics.
-    const QVector<SizeMetric> & sizeMetrics();
-    
-    //! Set the list of size metrics.
-    void setSizeMetrics(const QVector<SizeMetric> &);
-    
-    //! Get the current size metric.
-    const SizeMetric & sizeMetric() const;
-    
-    //! Set the current size metric.
-    void setSizeMetric(const SizeMetric &);
+            //! Get the list of color palettes.
+            const QVector<Palette> & palettes();
 
-    //! Get the default size metric index.
-    static int sizeMetricsIndexDefault();
-    
-    //! Get the current size metric index.
-    int sizeMetricsIndex() const;
-    
-    //! Set the current size metric index.
-    void setSizeMetricsIndex(int);
-    
-    //! Get the list of size metric names.
-    QStringList sizeMetricNames() const;
+            //! Set the list of color palettes.
+            void setPalettes(const QVector<Palette> &);
 
-    //! This struct provides the fonts.
-    struct Fonts
-    {
-        Fonts();
-        
-        QFont normal;
-        QFont fixed;
-    };
-    
-    //! Get the default fonts.    
-    static const Fonts & fontsDefault();
+            //! Get the default palette index.
+            static int palettesIndexDefault();
 
-    //! Get the fonts.
-    const Fonts & fonts() const;
+            //! Get the current color palette index.
+            int palettesIndex() const;
 
-    //! Set the fonts.
-    void setFonts(const Fonts &);
+            //! Set the current color palette index.
+            void setPalettesIndex(int);
 
-Q_SIGNALS:
-    //! This signal is emitted when color swatch transparency is changed.
-    void colorSwatchTransparencyChanged(bool);
+            //! Get the current color palette.
+            const Palette & palette() const;
 
-    //! This signal is emitted when the size metrics are changed.
-    void sizeMetricsChanged();
-    
-    //! This signal is emitted when the fonts are changed.
-    void fontsChanged();
+            //! Set the current color palette.
+            void setPalette(const Palette &);
 
-private:
-    void colorUpdate();
-    void sizeUpdate();
-    void fontsUpdate();
-    
-    DJV_PRIVATE_COPY(djvStyle);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the list of color palette names.
+            QStringList paletteNames() const;
 
-DJV_COMPARISON_OPERATOR(djvStyle::Palette);
-DJV_COMPARISON_OPERATOR(djvStyle::SizeMetric);
-DJV_COMPARISON_OPERATOR(djvStyle::Fonts);
+            //! Get the default color swatch transparency.
+            static bool colorSwatchTransparencyDefault();
 
-DJV_STRING_OPERATOR(djvStyle::Palette);
-DJV_STRING_OPERATOR(djvStyle::SizeMetric);
-DJV_STRING_OPERATOR(djvStyle::Fonts);
+            //! Get whether color swatches show transparency.
+            bool hasColorSwatchTransparency() const;
 
-//@} // djvUIMisc
+            //! Set whether color swatches show transparency.
+            void setColorSwatchTransparency(bool);
 
+            //! This struct provides size metrics.
+            struct SizeMetric
+            {
+                explicit SizeMetric(const QString & name = QString(), int fontSize = 0);
+
+                QString name;
+                int     fontSize = 0;
+                int     pickSize = 0;
+                int     handleSize = 0;
+                int     spacing = 0;
+                int     largeSpacing = 0;
+                int     margin = 0;
+                int     textMargin = 0;
+                int     widgetMargin = 0;
+                int     largeMargin = 0;
+                int     iconSize = 0;
+                int     toolIconSize = 0;
+                int     buttonSize = 0;
+                int     textSize = 0;
+                int     swatchSize = 0;
+                int     thumbnailSize = 0;
+            };
+
+            //! Get the default size metrics.
+            static const QVector<SizeMetric> & sizeMetricsDefault();
+
+            //! Get the list of size metrics.
+            const QVector<SizeMetric> & sizeMetrics();
+
+            //! Set the list of size metrics.
+            void setSizeMetrics(const QVector<SizeMetric> &);
+
+            //! Get the current size metric.
+            const SizeMetric & sizeMetric() const;
+
+            //! Set the current size metric.
+            void setSizeMetric(const SizeMetric &);
+
+            //! Get the default size metric index.
+            static int sizeMetricsIndexDefault();
+
+            //! Get the current size metric index.
+            int sizeMetricsIndex() const;
+
+            //! Set the current size metric index.
+            void setSizeMetricsIndex(int);
+
+            //! Get the list of size metric names.
+            QStringList sizeMetricNames() const;
+
+            //! This struct provides the fonts.
+            struct Fonts
+            {
+                Fonts();
+
+                QFont normal;
+                QFont fixed;
+            };
+
+            //! Get the default fonts.    
+            static const Fonts & fontsDefault();
+
+            //! Get the fonts.
+            const Fonts & fonts() const;
+
+            //! Set the fonts.
+            void setFonts(const Fonts &);
+
+        Q_SIGNALS:
+            //! This signal is emitted when color swatch transparency is changed.
+            void colorSwatchTransparencyChanged(bool);
+
+            //! This signal is emitted when the size metrics are changed.
+            void sizeMetricsChanged();
+
+            //! This signal is emitted when the fonts are changed.
+            void fontsChanged();
+
+        private:
+            void colorUpdate();
+            void sizeUpdate();
+            void fontsUpdate();
+
+            DJV_PRIVATE_COPY(Style);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+
+    DJV_COMPARISON_OPERATOR(UI::Style::Palette);
+    DJV_COMPARISON_OPERATOR(UI::Style::SizeMetric);
+    DJV_COMPARISON_OPERATOR(UI::Style::Fonts);
+
+    DJV_STRING_OPERATOR(UI::Style::Palette);
+    DJV_STRING_OPERATOR(UI::Style::SizeMetric);
+    DJV_STRING_OPERATOR(UI::Style::Fonts);
+
+} // namespace djv

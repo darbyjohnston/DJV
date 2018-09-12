@@ -39,61 +39,59 @@
 
 #include <memory>
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMultiChoiceDialog
-//!
-//! This class provides a multiple choice dialog.
-//------------------------------------------------------------------------------
-
-class djvMultiChoiceDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvMultiChoiceDialog(
-        const QString &       label   = QString(),
-        const QStringList &   choices = QStringList(),
-        const QVector<bool> & values  = QVector<bool>(),
-        QWidget *             parent  = nullptr);
+    namespace UI
+    {
+        //! \class MultiChoiceDialog
+        //!
+        //! This class provides a multiple choice dialog.
+        class MultiChoiceDialog : public QDialog
+        {
+            Q_OBJECT
 
-    virtual ~djvMultiChoiceDialog();
-    
-    //! Get the label.
-    const QString & label() const;
+        public:
+            MultiChoiceDialog(
+                const QString &       label = QString(),
+                const QStringList &   choices = QStringList(),
+                const QVector<bool> & values = QVector<bool>(),
+                QWidget *             parent = nullptr);
 
-    //! Set the label.
-    void setLabel(const QString &);
-    
-    //! Get the choices.
-    const QStringList & choices() const;
+            virtual ~MultiChoiceDialog();
 
-    //! Set the choices.
-    void setChoices(const QStringList &);
+            //! Get the label.
+            const QString & label() const;
 
-    //! Get the choice values.
-    const QVector<bool> & values() const;
+            //! Set the label.
+            void setLabel(const QString &);
 
-    //! Get the choice indices.
-    QVector<int> indices() const;
-    
-    //! Set the choice values.
-    void setValues(const QVector<bool> &);
+            //! Get the choices.
+            const QStringList & choices() const;
 
-private Q_SLOTS:
-    void buttonCallback();
+            //! Set the choices.
+            void setChoices(const QStringList &);
 
-private:
-    void valuesUpdate();
-    void widgetUpdate();
+            //! Get the choice values.
+            const QVector<bool> & values() const;
 
-    DJV_PRIVATE_COPY(djvMultiChoiceDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the choice indices.
+            QVector<int> indices() const;
 
-//@} // djvUIDialog
+            //! Set the choice values.
+            void setValues(const QVector<bool> &);
 
+        private Q_SLOTS:
+            void buttonCallback();
+
+        private:
+            void valuesUpdate();
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(MultiChoiceDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

@@ -37,29 +37,27 @@
 
 #include <QObject>
 
-class djvUIContext;
-
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImageIOPrefs
-//!
-//! This class provides image I/O preferences.
-//------------------------------------------------------------------------------
-
-class djvImageIOPrefs : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvImageIOPrefs(djvUIContext *, QObject * parent = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    ~djvImageIOPrefs();
+        //! \class ImageIOPrefs
+        //!
+        //! This class provides image I/O preferences.
+        class ImageIOPrefs : public QObject
+        {
+            Q_OBJECT
 
-private:
-    djvUIContext * _context = nullptr;
-};
+        public:
+            explicit ImageIOPrefs(UIContext *, QObject * parent = nullptr);
 
-//@} // djvUIMisc
+            ~ImageIOPrefs();
 
+        private:
+            UIContext * _context = nullptr;
+        };
+
+    } // namespace UI
+} // namespace djv

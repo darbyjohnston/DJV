@@ -224,9 +224,9 @@ namespace djv
             QLineEdit * minWidget = nullptr;
             QLineEdit * maxWidget = nullptr;
             QComboBox * sizeWidget = nullptr;
-            djvPixelMaskWidget * maskWidget = nullptr;
-            djvToolButton * colorProfileButton = nullptr;
-            djvToolButton * displayProfileButton = nullptr;
+            UI::PixelMaskWidget * maskWidget = nullptr;
+            UI::ToolButton * colorProfileButton = nullptr;
+            UI::ToolButton * displayProfileButton = nullptr;
         };
 
         HistogramTool::HistogramTool(
@@ -250,15 +250,15 @@ namespace djv
             _p->sizeWidget->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "The size of the histogram"));
 
-            _p->maskWidget = new djvPixelMaskWidget(context);
+            _p->maskWidget = new UI::PixelMaskWidget(context);
 
-            _p->colorProfileButton = new djvToolButton(
+            _p->colorProfileButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new djvToolButton(
+            _p->displayProfileButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
@@ -292,7 +292,7 @@ namespace djv
             layout->addLayout(hLayout);
 
             // Preferences.
-            djvPrefs prefs("djv::ViewLib::HistogramTool");
+            UI::Prefs prefs("djv::ViewLib::HistogramTool");
             prefs.get("colorProfile", _p->colorProfile);
             prefs.get("displayProfile", _p->displayProfile);
 
@@ -325,7 +325,7 @@ namespace djv
 
         HistogramTool::~HistogramTool()
         {
-            djvPrefs prefs("djv::ViewLib::HistogramTool");
+            UI::Prefs prefs("djv::ViewLib::HistogramTool");
             prefs.set("colorProfile", _p->colorProfile);
             prefs.set("displayProfile", _p->displayProfile);
 

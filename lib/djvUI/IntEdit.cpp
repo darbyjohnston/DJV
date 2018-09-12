@@ -39,144 +39,143 @@
 #include <QKeyEvent>
 #include <QSpinBox>
 
-//------------------------------------------------------------------------------
-// djvIntEdit::Private
-//------------------------------------------------------------------------------
-
-struct djvIntEdit::Private
+namespace djv
 {
-    djvIntObject * object  = nullptr;
-    QSpinBox *     spinBox = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvIntEdit
-//------------------------------------------------------------------------------
-
-djvIntEdit::djvIntEdit(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->object = new djvIntObject(this);
-
-    _p->spinBox = new QSpinBox;
-    _p->spinBox->setKeyboardTracking(false);
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
-    layout->setMargin(0);
-    layout->addWidget(_p->spinBox);
-
-    _p->object->setRange(1, 100);
-    
-    widgetUpdate();
-
-    connect(
-        _p->object,
-        SIGNAL(valueChanged(int)),
-        SLOT(valueCallback()));
-    connect(
-        _p->object,
-        SIGNAL(minChanged(int)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(maxChanged(int)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(rangeChanged(int, int)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(incChanged(int, int)),
-        SLOT(widgetUpdate()));
-    connect(
-        _p->spinBox,
-        SIGNAL(valueChanged(int)),
-        SLOT(spinBoxCallback(int)));
-}
-
-djvIntEdit::~djvIntEdit()
-{}
-
-int djvIntEdit::value() const
-{
-    return _p->object->value();
-}
-
-int djvIntEdit::min() const
-{
-    return _p->object->min();
-}
-
-int djvIntEdit::max() const
-{
-    return _p->object->max();
-}
-
-djvIntObject * djvIntEdit::object() const
-{
-    return _p->object;
-}
-
-void djvIntEdit::setValue(int value)
-{
-    _p->object->setValue(value);
-}
-
-void djvIntEdit::setMin(int min)
-{
-    _p->object->setMin(min);
-}
-
-void djvIntEdit::setMax(int max)
-{
-    _p->object->setMax(max);
-}
-
-void djvIntEdit::setRange(int min, int max)
-{
-    _p->object->setRange(min, max);
-}
-
-void djvIntEdit::keyPressEvent(QKeyEvent * event)
-{
-    switch (event->key())
+    namespace UI
     {
-        case Qt::Key_Home:     _p->object->setToMin();       break;
-        case Qt::Key_End:      _p->object->setToMax();       break;
-        case Qt::Key_Left:
-        case Qt::Key_Down:     _p->object->smallDecAction(); break;
-        case Qt::Key_Right:
-        case Qt::Key_Up:       _p->object->smallIncAction(); break;
-        case Qt::Key_PageDown: _p->object->largeDecAction(); break;
-        case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
-        default: break;
-    }
-}
+        struct IntEdit::Private
+        {
+            IntObject * object = nullptr;
+            QSpinBox * spinBox = nullptr;
+        };
 
-void djvIntEdit::valueCallback()
-{
-    widgetUpdate();
-    Q_EMIT valueChanged(_p->object->value());
-}
+        IntEdit::IntEdit(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->object = new IntObject(this);
 
-void djvIntEdit::rangeCallback()
-{
-    widgetUpdate();
-    Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
-}
+            _p->spinBox = new QSpinBox;
+            _p->spinBox->setKeyboardTracking(false);
 
-void djvIntEdit::spinBoxCallback(int value)
-{
-    setValue(value);
-}
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(0);
+            layout->setMargin(0);
+            layout->addWidget(_p->spinBox);
 
-void djvIntEdit::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_p->spinBox);
-    _p->spinBox->setRange(_p->object->min(), _p->object->max());
-    _p->spinBox->setSingleStep(_p->object->smallInc());
-    _p->spinBox->setValue(_p->object->value());
-}
+            _p->object->setRange(1, 100);
+
+            widgetUpdate();
+
+            connect(
+                _p->object,
+                SIGNAL(valueChanged(int)),
+                SLOT(valueCallback()));
+            connect(
+                _p->object,
+                SIGNAL(minChanged(int)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(maxChanged(int)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(rangeChanged(int, int)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(incChanged(int, int)),
+                SLOT(widgetUpdate()));
+            connect(
+                _p->spinBox,
+                SIGNAL(valueChanged(int)),
+                SLOT(spinBoxCallback(int)));
+        }
+
+        IntEdit::~IntEdit()
+        {}
+
+        int IntEdit::value() const
+        {
+            return _p->object->value();
+        }
+
+        int IntEdit::min() const
+        {
+            return _p->object->min();
+        }
+
+        int IntEdit::max() const
+        {
+            return _p->object->max();
+        }
+
+        IntObject * IntEdit::object() const
+        {
+            return _p->object;
+        }
+
+        void IntEdit::setValue(int value)
+        {
+            _p->object->setValue(value);
+        }
+
+        void IntEdit::setMin(int min)
+        {
+            _p->object->setMin(min);
+        }
+
+        void IntEdit::setMax(int max)
+        {
+            _p->object->setMax(max);
+        }
+
+        void IntEdit::setRange(int min, int max)
+        {
+            _p->object->setRange(min, max);
+        }
+
+        void IntEdit::keyPressEvent(QKeyEvent * event)
+        {
+            switch (event->key())
+            {
+            case Qt::Key_Home:     _p->object->setToMin();       break;
+            case Qt::Key_End:      _p->object->setToMax();       break;
+            case Qt::Key_Left:
+            case Qt::Key_Down:     _p->object->smallDecAction(); break;
+            case Qt::Key_Right:
+            case Qt::Key_Up:       _p->object->smallIncAction(); break;
+            case Qt::Key_PageDown: _p->object->largeDecAction(); break;
+            case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
+            default: break;
+            }
+        }
+
+        void IntEdit::valueCallback()
+        {
+            widgetUpdate();
+            Q_EMIT valueChanged(_p->object->value());
+        }
+
+        void IntEdit::rangeCallback()
+        {
+            widgetUpdate();
+            Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
+        }
+
+        void IntEdit::spinBoxCallback(int value)
+        {
+            setValue(value);
+        }
+
+        void IntEdit::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_p->spinBox);
+            _p->spinBox->setRange(_p->object->min(), _p->object->max());
+            _p->spinBox->setSingleStep(_p->object->smallInc());
+            _p->spinBox->setValue(_p->object->value());
+        }
+
+    } // namespace UI
+} // namespace djv

@@ -52,7 +52,7 @@ namespace djv
             _preload(preloadDefault()),
             _displayCache(displayCacheDefault())
         {
-            djvPrefs prefs("djv::ViewLib::FilePrefs");
+            UI::Prefs prefs("djv::ViewLib::FilePrefs");
             prefs.get("recent", _recent);
             prefs.get("autoSequence", _autoSequence);
             prefs.get("proxy", _proxy);
@@ -67,7 +67,7 @@ namespace djv
 
         FilePrefs::~FilePrefs()
         {
-            djvPrefs prefs("djv::ViewLib::FilePrefs");
+            UI::Prefs prefs("djv::ViewLib::FilePrefs");
             prefs.set("recent", _recent);
             prefs.set("autoSequence", _autoSequence);
             prefs.set("proxy", _proxy);

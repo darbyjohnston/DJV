@@ -100,7 +100,7 @@ namespace djv
             std::unique_ptr<djvOpenGLImage> openGLImage;
             bool sampleInit = false;
             ImageView * viewWidget = nullptr;
-            djvColorSwatch * infoSwatch = nullptr;
+            UI::ColorSwatch * infoSwatch = nullptr;
             QLabel * infoPixelLabel = nullptr;
             QLabel * infoImageLabel = nullptr;
             QLabel * infoCacheLabel = nullptr;
@@ -129,7 +129,7 @@ namespace djv
             // Create the widgets.
             _p->viewWidget = new ImageView(context);
 
-            _p->infoSwatch = new djvColorSwatch(context);
+            _p->infoSwatch = new UI::ColorSwatch(context);
             _p->infoSwatch->setFixedSize(20, 20);
 
             _p->infoPixelLabel = new QLabel;
@@ -293,7 +293,7 @@ namespace djv
                 SIGNAL(cacheChanged()),
                 SLOT(fileCacheUpdate()));
             connect(
-                context->djvUIContext::imagePrefs(),
+                context->UIContext::imagePrefs(),
                 SIGNAL(filterChanged(const djvOpenGLImageFilter &)),
                 SLOT(imageUpdate()));
             connect(

@@ -107,9 +107,9 @@ namespace djv
             bool pixelDataInit = false;
             std::unique_ptr<djvOpenGLImage> openGLImage;
             Widget * widget = nullptr;
-            djvIntEditSlider * slider = nullptr;
-            djvToolButton * colorProfileButton = nullptr;
-            djvToolButton * displayProfileButton = nullptr;
+            UI::IntEditSlider * slider = nullptr;
+            UI::ToolButton * colorProfileButton = nullptr;
+            UI::ToolButton * displayProfileButton = nullptr;
         };
 
         MagnifyTool::MagnifyTool(
@@ -122,17 +122,17 @@ namespace djv
             // Create the widgets.
             _p->widget = new Widget;
 
-            _p->slider = new djvIntEditSlider(context);
+            _p->slider = new UI::IntEditSlider(context);
             _p->slider->setRange(1, 10);
             _p->slider->setResetToDefault(false);
 
-            _p->colorProfileButton = new djvToolButton(
+            _p->colorProfileButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new djvToolButton(
+            _p->displayProfileButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvDisplayProfileIcon.png"));
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
@@ -157,7 +157,7 @@ namespace djv
             layout->addLayout(hLayout);
 
             // Preferences.
-            djvPrefs prefs("djv::ViewLib::MagnifyTool");
+            UI::Prefs prefs("djv::ViewLib::MagnifyTool");
             prefs.get("zoom", _p->zoom);
             prefs.get("colorProfile", _p->colorProfile);
             prefs.get("displayProfile", _p->displayProfile);
@@ -192,7 +192,7 @@ namespace djv
         MagnifyTool::~MagnifyTool()
         {
             //DJV_DEBUG("MagnifyTool::~MagnifyTool");
-            djvPrefs prefs("djv::ViewLib::MagnifyTool");
+            UI::Prefs prefs("djv::ViewLib::MagnifyTool");
             prefs.set("zoom", _p->zoom);
             prefs.set("colorProfile", _p->colorProfile);
             prefs.set("displayProfile", _p->displayProfile);

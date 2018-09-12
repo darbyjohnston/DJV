@@ -41,73 +41,71 @@
 
 #include <memory>
 
-class djvUIContext;
-
 class QHBoxLayout;
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvColorWidget
-//!
-//! This class provides color picker widget.
-//------------------------------------------------------------------------------
-
-class djvColorWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the color.    
-    Q_PROPERTY(
-        djvColor color
-        READ     color
-        WRITE    setColor
-        NOTIFY   colorChanged)
-    
-public:
-    explicit djvColorWidget(djvUIContext *, QWidget * parent = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvColorWidget();
+        //! \class ColorWidget
+        //!
+        //! This class provides color picker widget.
+        class ColorWidget : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the color.
-    const djvColor & color() const;
+            //! This property holds the color.    
+            Q_PROPERTY(
+                djvColor color
+                READ     color
+                WRITE    setColor
+                NOTIFY   colorChanged)
 
-    //! Get the minimum floating point value.
-    float floatMin() const;
+        public:
+            explicit ColorWidget(UIContext *, QWidget * parent = nullptr);
 
-    //! Get the maximum floating point value.
-    float floatMax() const;
+            virtual ~ColorWidget();
 
-    //! Set the floating point range.
-    void setFloatRange(float min, float max);
+            //! Get the color.
+            const djvColor & color() const;
 
-    //! Get the bottom layout.
-    QHBoxLayout * bottomLayout();
+            //! Get the minimum floating point value.
+            float floatMin() const;
 
-public Q_SLOTS:
-    //! Set the color.
-    void setColor(const djvColor &);
+            //! Get the maximum floating point value.
+            float floatMax() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the color is changed.
-    void colorChanged(const djvColor &);
+            //! Set the floating point range.
+            void setFloatRange(float min, float max);
 
-private Q_SLOTS:
-    void intCallback(int);
-    void floatCallback(float);
-    void formatCallback(int);
-    void typeCallback(int);
+            //! Get the bottom layout.
+            QHBoxLayout * bottomLayout();
 
-private:
-    void widgetUpdate();
-    void valueUpdate();
-    
-    DJV_PRIVATE_COPY(djvColorWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public Q_SLOTS:
+            //! Set the color.
+            void setColor(const djvColor &);
 
-//@} // djvUIWidget
+        Q_SIGNALS:
+            //! This signal is emitted when the color is changed.
+            void colorChanged(const djvColor &);
 
+        private Q_SLOTS:
+            void intCallback(int);
+            void floatCallback(float);
+            void formatCallback(int);
+            void typeCallback(int);
+
+        private:
+            void widgetUpdate();
+            void valueUpdate();
+
+            DJV_PRIVATE_COPY(ColorWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

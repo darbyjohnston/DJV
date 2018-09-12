@@ -37,42 +37,40 @@
 
 #include <QObject>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImagePrefs
-//!
-//! This class provides image preferences.
-//------------------------------------------------------------------------------
-
-class djvImagePrefs : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the pixel.
-    Q_PROPERTY(
-        djvOpenGLImageFilter filter
-        READ                 filter
-        WRITE                setFilter
-        NOTIFY               filterChanged)
-    
-public:
-    explicit djvImagePrefs(QObject * parent = nullptr);
+    namespace UI
+    {
+        //! \class ImagePrefs
+        //!
+        //! This class provides image preferences.
+        class ImagePrefs : public QObject
+        {
+            Q_OBJECT
 
-    ~djvImagePrefs();
+            //! This property holds the pixel.
+            Q_PROPERTY(
+                djvOpenGLImageFilter filter
+                READ                 filter
+                WRITE                setFilter
+                NOTIFY               filterChanged)
 
-    //! Get the image filter.
-    const djvOpenGLImageFilter & filter() const;
+        public:
+            explicit ImagePrefs(QObject * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the image filter.
-    void setFilter(const djvOpenGLImageFilter &);
+            ~ImagePrefs();
 
-Q_SIGNALS:
-    //! This signal is emitted when the image filter is changed.
-    void filterChanged(const djvOpenGLImageFilter &);
-};
+            //! Get the image filter.
+            const djvOpenGLImageFilter & filter() const;
 
-//@} // djvUIMisc
+        public Q_SLOTS:
+            //! Set the image filter.
+            void setFilter(const djvOpenGLImageFilter &);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the image filter is changed.
+            void filterChanged(const djvOpenGLImageFilter &);
+        };
+
+    } // namespace UI
+} // namespace djv

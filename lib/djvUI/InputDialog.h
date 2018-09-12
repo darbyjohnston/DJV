@@ -39,50 +39,48 @@
 
 #include <memory>
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvInputDialog
-//!
-//! This class provides an input dialog.
-//------------------------------------------------------------------------------
-
-class djvInputDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvInputDialog(
-        const QString & label  = QString(),
-        const QString & text   = QString(),
-        QWidget *       parent = nullptr);
+    namespace UI
+    {
+        //! \class InputDialog
+        //!
+        //! This class provides an input dialog.
+        class InputDialog : public QDialog
+        {
+            Q_OBJECT
 
-    virtual ~djvInputDialog();
+        public:
+            explicit InputDialog(
+                const QString & label = QString(),
+                const QString & text = QString(),
+                QWidget *       parent = nullptr);
 
-    //! Get the label.
-    const QString & label() const;
+            virtual ~InputDialog();
 
-    //! Set the label.
-    void setLabel(const QString &);
+            //! Get the label.
+            const QString & label() const;
 
-    //! Get the text.
-    const QString & text() const;
+            //! Set the label.
+            void setLabel(const QString &);
 
-    //! Set the text.
-    void setText(const QString &);
-    
-private Q_SLOTS:
-    void textCallback();
-    
-private:
-    void widgetUpdate();
+            //! Get the text.
+            const QString & text() const;
 
-    DJV_PRIVATE_COPY(djvInputDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Set the text.
+            void setText(const QString &);
 
-//@} // djvUIDialog
+        private Q_SLOTS:
+            void textCallback();
 
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(InputDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

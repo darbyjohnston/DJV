@@ -40,83 +40,82 @@
 #include <QLabel>
 #include <QLineEdit>
 
-//------------------------------------------------------------------------------
-// djvSearchBox::Private
-//------------------------------------------------------------------------------
-
-struct djvSearchBox::Private
+namespace djv
 {
-    QString         text;
-    QLineEdit *     lineEdit    = nullptr;
-    djvToolButton * resetButton = nullptr;
-};
+    namespace UI
+    {
+        struct SearchBox::Private
+        {
+            QString text;
+            QLineEdit * lineEdit = nullptr;
+            ToolButton * resetButton = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvSearchBox
-//------------------------------------------------------------------------------
+        SearchBox::SearchBox(UIContext * context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->lineEdit = new QLineEdit;
+            _p->lineEdit->setToolTip(
+                qApp->translate("djv::UI::SearchBox", "Enter a search"));
 
-djvSearchBox::djvSearchBox(djvUIContext * context, QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->lineEdit = new QLineEdit;
-    _p->lineEdit->setToolTip(
-        qApp->translate("djvSearchBox", "Enter a search"));
-    
-    _p->resetButton = new djvToolButton;
-    _p->resetButton->setIconSize(QSize(16, 16));
-    _p->resetButton->setIcon(
-        context->iconLibrary()->icon("djvResetIcon.png"));
-    _p->resetButton->setToolTip(
-        qApp->translate("djvSearchBox", "Reset the search"));
+            _p->resetButton = new ToolButton;
+            _p->resetButton->setIconSize(QSize(16, 16));
+            _p->resetButton->setIcon(
+                context->iconLibrary()->icon("djvResetIcon.png"));
+            _p->resetButton->setToolTip(
+                qApp->translate("djv::UI::SearchBox", "Reset the search"));
 
-    QLabel * label = new QLabel;
-    label->setPixmap(
-        context->iconLibrary()->pixmap("djvMagnifyIcon.png"));
-    
-    // Layout the widgets.
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(label);
-    layout->addWidget(_p->lineEdit);
-    layout->addWidget(_p->resetButton);
-    
-    // Setup callbacks.
-    connect(
-        _p->lineEdit,
-        SIGNAL(textChanged(const QString &)),
-        SLOT(textCallback(const QString &)));
-    connect(
-        _p->resetButton,
-        SIGNAL(clicked()),
-        SLOT(resetCallback()));
-}
+            QLabel * label = new QLabel;
+            label->setPixmap(
+                context->iconLibrary()->pixmap("djvMagnifyIcon.png"));
 
-djvSearchBox::~djvSearchBox()
-{}
+            // Layout the widgets.
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->addWidget(label);
+            layout->addWidget(_p->lineEdit);
+            layout->addWidget(_p->resetButton);
 
-const QString & djvSearchBox::text() const
-{
-    return _p->text;
-}
+            // Setup callbacks.
+            connect(
+                _p->lineEdit,
+                SIGNAL(textChanged(const QString &)),
+                SLOT(textCallback(const QString &)));
+            connect(
+                _p->resetButton,
+                SIGNAL(clicked()),
+                SLOT(resetCallback()));
+        }
 
-void djvSearchBox::setText(const QString & text)
-{
-    if (text == _p->text)
-        return;
-    _p->text = text;
-    _p->lineEdit->setText(_p->text);
-    Q_EMIT textChanged(_p->text);
-    Q_EMIT textChanged(_p->text);
-}
+        SearchBox::~SearchBox()
+        {}
 
-void djvSearchBox::textCallback(const QString & text)
-{
-    setText(text);
-}
+        const QString & SearchBox::text() const
+        {
+            return _p->text;
+        }
 
-void djvSearchBox::resetCallback()
-{
-    setText(QString());
-}
+        void SearchBox::setText(const QString & text)
+        {
+            if (text == _p->text)
+                return;
+            _p->text = text;
+            _p->lineEdit->setText(_p->text);
+            Q_EMIT textChanged(_p->text);
+            Q_EMIT textChanged(_p->text);
+        }
+
+        void SearchBox::textCallback(const QString & text)
+        {
+            setText(text);
+        }
+
+        void SearchBox::resetCallback()
+        {
+            setText(QString());
+        }
+
+    } // namespace UI
+} // namespace djv

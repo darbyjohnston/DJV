@@ -41,90 +41,88 @@
 
 #include <memory>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvVector2iEditWidget
-//!
-//! This class provides a two-dimensional integer vector widget.
-//------------------------------------------------------------------------------
-
-class djvVector2iEditWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.    
-    Q_PROPERTY(
-        glm::ivec2 value
-        READ       value
-        WRITE      setValue
-        NOTIFY     valueChanged)
-    
-    //! This property holds the minimum value.
-    Q_PROPERTY(
-        glm::ivec2 min
-        READ       min
-        WRITE      setMin
-        NOTIFY     minChanged)
-    
-    //! This property holds the maximum value.
-    Q_PROPERTY(
-        glm::ivec2 max
-        READ       max
-        WRITE      setMax
-        NOTIFY     maxChanged)
-    
-public:
-    explicit djvVector2iEditWidget(QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class Vector2iEditWidget
+        //!
+        //! This class provides a two-dimensional integer vector widget.
+        class Vector2iEditWidget : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvVector2iEditWidget();
+                //! This property holds the value.    
+                Q_PROPERTY(
+                    glm::ivec2 value
+                    READ       value
+                    WRITE      setValue
+                    NOTIFY     valueChanged)
 
-    //! Get the value.
-    glm::ivec2 value() const;
+                //! This property holds the minimum value.
+                Q_PROPERTY(
+                    glm::ivec2 min
+                    READ       min
+                    WRITE      setMin
+                    NOTIFY     minChanged)
 
-    //! Get the minimum value.
-    glm::ivec2 min() const;
+                //! This property holds the maximum value.
+                Q_PROPERTY(
+                    glm::ivec2 max
+                    READ       max
+                    WRITE      setMax
+                    NOTIFY     maxChanged)
 
-    //! Get the maximum value.
-    glm::ivec2 max() const;
-    
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(const glm::ivec2 &);
+        public:
+            explicit Vector2iEditWidget(QWidget * parent = nullptr);
 
-    //! Set the minimum value.
-    void setMin(const glm::ivec2 &);
+            virtual ~Vector2iEditWidget();
 
-    //! Set the maximum value.
-    void setMax(const glm::ivec2 &);
+            //! Get the value.
+            glm::ivec2 value() const;
 
-    //! Set the value range.
-    void setRange(const glm::ivec2 & min, const glm::ivec2 & max);
+            //! Get the minimum value.
+            glm::ivec2 min() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(const glm::ivec2 &);
+            //! Get the maximum value.
+            glm::ivec2 max() const;
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(const glm::ivec2 &);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(const glm::ivec2 &);
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(const glm::ivec2 &);
+            //! Set the minimum value.
+            void setMin(const glm::ivec2 &);
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(const glm::ivec2 &, const glm::ivec2 &);
+            //! Set the maximum value.
+            void setMax(const glm::ivec2 &);
 
-private Q_SLOTS:
-    void valueCallback();
-    void rangeCallback();
+            //! Set the value range.
+            void setRange(const glm::ivec2 & min, const glm::ivec2 & max);
 
-private:
-    DJV_PRIVATE_COPY(djvVector2iEditWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(const glm::ivec2 &);
 
-//@} // djvUIWidget
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(const glm::ivec2 &);
 
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(const glm::ivec2 &);
+
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(const glm::ivec2 &, const glm::ivec2 &);
+
+        private Q_SLOTS:
+            void valueCallback();
+            void rangeCallback();
+
+        private:
+            DJV_PRIVATE_COPY(Vector2iEditWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

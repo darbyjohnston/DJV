@@ -38,53 +38,47 @@
 
 class QComboBox;
 
-//! \addtogroup djvIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIFFWidget
-//!
-//! This class provides an IFF widget.
-//------------------------------------------------------------------------------
-
-class djvIFFWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvIFFWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        //! \class IFFWidget
+        //!
+        //! This class provides an IFF widget.
+        class IFFWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvIFFWidget();
+        public:
+            IFFWidget(djvImageIO *, UIContext *);
 
-    virtual void resetPreferences();
+            virtual ~IFFWidget();
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void compressionCallback(int);
+            virtual void resetPreferences();
 
-    void pluginUpdate();
-    void widgetUpdate();
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void compressionCallback(int);
 
-private:
-    djvIFF::Options _options;
-    QComboBox *     _compressionWidget;
-};
+            void pluginUpdate();
+            void widgetUpdate();
 
-//------------------------------------------------------------------------------
-//! \class djvIFFWidgetPlugin
-//!
-//! This class provides an IFF widget plugin.
-//------------------------------------------------------------------------------
+        private:
+            djvIFF::Options _options;
+            QComboBox *     _compressionWidget;
+        };
 
-class djvIFFWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvIFFWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        //! \class IFFWidgetPlugin
+        //!
+        //! This class provides an IFF widget plugin.
+        class IFFWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            IFFWidgetPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-};
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
-//@} // djvIFFPlugin
-
+    } // namespace UI
+} // namespace djv

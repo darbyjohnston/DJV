@@ -37,59 +37,57 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvShuttleButton
-//!
-//! This class provides a shuttle button.
-//------------------------------------------------------------------------------
-
-class djvShuttleButton : public djvAbstractToolButton
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvShuttleButton(QWidget * parent = nullptr);
-    explicit djvShuttleButton(const QVector<QIcon> & icons, QWidget * parent = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvShuttleButton();
-    
-    //! Get the icons.    
-    const QVector<QIcon> & icons() const;
+        //! \class ShuttleButton
+        //!
+        //! This class provides a shuttle button.
+        class ShuttleButton : public AbstractToolButton
+        {
+            Q_OBJECT
 
-    //! Set the icons.
-    void setIcons(const QVector<QIcon> &);
+        public:
+            explicit ShuttleButton(QWidget * parent = nullptr);
+            explicit ShuttleButton(const QVector<QIcon> & icons, QWidget * parent = nullptr);
 
-    //! Get the default shuttle icons.
-    static const QVector<QIcon> & iconsDefault(djvUIContext *);
+            virtual ~ShuttleButton();
 
-    virtual QSize sizeHint() const;
+            //! Get the icons.    
+            const QVector<QIcon> & icons() const;
 
-Q_SIGNALS:
-    //! This signal is emitted when the shuttle is pressed.
-    void mousePressed(bool);
+            //! Set the icons.
+            void setIcons(const QVector<QIcon> &);
 
-    //! This signal is emitted when the shuttle is changed.
-    void valueChanged(int);
-    
-protected:
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
-    virtual void paintEvent(QPaintEvent *);
+            //! Get the default shuttle icons.
+            static const QVector<QIcon> & iconsDefault(UIContext *);
 
-private:
-    void iconsUpdate();
-    
-    DJV_PRIVATE_COPY(djvShuttleButton);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual QSize sizeHint() const;
 
-//@} // djvUIWidget
+        Q_SIGNALS:
+            //! This signal is emitted when the shuttle is pressed.
+            void mousePressed(bool);
 
+            //! This signal is emitted when the shuttle is changed.
+            void valueChanged(int);
+
+        protected:
+            virtual void mousePressEvent(QMouseEvent *);
+            virtual void mouseReleaseEvent(QMouseEvent *);
+            virtual void mouseMoveEvent(QMouseEvent *);
+            virtual void paintEvent(QPaintEvent *);
+
+        private:
+            void iconsUpdate();
+
+            DJV_PRIVATE_COPY(ShuttleButton);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

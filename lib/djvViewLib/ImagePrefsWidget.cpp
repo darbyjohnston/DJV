@@ -125,24 +125,24 @@ namespace djv
 
             _p->displayProfileListWidget = new SmallListWidget;
 
-            djvToolButton * addDisplayProfileButton = new djvToolButton(
+            UI::ToolButton * addDisplayProfileButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvAddIcon.png"));
             addDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Add a new display profile"));
 
-            djvToolButton * removeDisplayProfileButton = new djvToolButton(
+            UI::ToolButton * removeDisplayProfileButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvRemoveIcon.png"));
             removeDisplayProfileButton->setAutoRepeat(true);
             removeDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Remove the selected display profile"));
 
-            djvToolButton * moveDisplayProfileUpButton = new djvToolButton(
+            UI::ToolButton * moveDisplayProfileUpButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvUpIcon.png"));
             moveDisplayProfileUpButton->setAutoRepeat(true);
             moveDisplayProfileUpButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile up"));
 
-            djvToolButton * moveDisplayProfileDownButton = new djvToolButton(
+            UI::ToolButton * moveDisplayProfileDownButton = new UI::ToolButton(
                 context->iconLibrary()->icon("djvDownIcon.png"));
             moveDisplayProfileDownButton->setAutoRepeat(true);
             moveDisplayProfileDownButton->setToolTip(
@@ -155,13 +155,13 @@ namespace djv
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
 
-            djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
+            UI::PrefsGroupBox * prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Images"), context);
             QFormLayout * formLayout = prefsGroupBox->createLayout();
             formLayout->addRow(_p->frameStoreFileReloadWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Transforms"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set how the image is transformed."),
                 context);
@@ -176,7 +176,7 @@ namespace djv
                 _p->rotateWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Color Profile"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget",
                     "Set whether the image's color profile is enabled."),
@@ -185,7 +185,7 @@ namespace djv
             formLayout->addRow(_p->colorProfileWidget);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Display Profile"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set a custom display profile."),
                 context);
@@ -204,7 +204,7 @@ namespace djv
             formLayout->addRow(hLayout);
             layout->addWidget(prefsGroupBox);
 
-            prefsGroupBox = new djvPrefsGroupBox(
+            prefsGroupBox = new UI::PrefsGroupBox(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Channels"),
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Set which image channels are displayed."),
                 context);
@@ -346,7 +346,7 @@ namespace djv
 
         void ImagePrefsWidget::addDisplayProfileCallback()
         {
-            djvInputDialog dialog(
+            UI::InputDialog dialog(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Add a new display profile:"));
             if (QDialog::Accepted == dialog.exec())
             {
@@ -368,7 +368,7 @@ namespace djv
                 index = displayProfiles.count() - 1;
             if (index != -1)
             {
-                djvQuestionDialog dialog(
+                UI::QuestionDialog dialog(
                     qApp->translate("djv::ViewLib::ImagePrefsWidget", \
                         "Are you sure you want to remove the display profile \"%1\"?").
                     arg(displayProfiles[index].name));

@@ -36,15 +36,18 @@
 #include <QOpenGLContext>
 #include <QSurface>
 
-//------------------------------------------------------------------------------
-// djvOpenGLWidget
-//------------------------------------------------------------------------------
+namespace djv
+{
+    namespace UI
+    {
+        OpenGLWidget::OpenGLWidget(
+            QWidget *       parent,
+            Qt::WindowFlags flags) :
+            QOpenGLWidget(parent, flags)
+        {}
 
-djvOpenGLWidget::djvOpenGLWidget(
-    QWidget *       parent,
-    Qt::WindowFlags flags) :
-    QOpenGLWidget(parent, flags)
-{}
+        OpenGLWidget::~OpenGLWidget()
+        {}
 
-djvOpenGLWidget::~djvOpenGLWidget()
-{}
+    } // namespace UI
+} // namespace djv

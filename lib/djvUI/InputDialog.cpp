@@ -37,95 +37,94 @@
 #include <QLineEdit>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvInputDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvInputDialog::Private
+namespace djv
 {
-    Private(const QString & label, const QString & text) :
-        label(label),
-        text (text)
-    {}
-    
-    QString     label;
-    QLabel *    labelWidget = nullptr;
-    QString     text;
-    QLineEdit * textEdit    = nullptr;
-};
+    namespace UI
+    {
+        struct InputDialog::Private
+        {
+            Private(const QString & label, const QString & text) :
+                label(label),
+                text(text)
+            {}
 
-//------------------------------------------------------------------------------
-// djvInputDialog
-//------------------------------------------------------------------------------
+            QString     label;
+            QLabel *    labelWidget = nullptr;
+            QString     text;
+            QLineEdit * textEdit = nullptr;
+        };
 
-djvInputDialog::djvInputDialog(
-    const QString & label,
-    const QString & text,
-    QWidget *       parent) :
-    QDialog(parent),
-    _p(new Private(label, text))
-{
-    _p->labelWidget = new QLabel;
-    
-    _p->textEdit = new QLineEdit;
-    
-    QDialogButtonBox * buttonBox = new QDialogButtonBox(
-        QDialogButtonBox::Ok |
-        QDialogButtonBox::Cancel);
+        InputDialog::InputDialog(
+            const QString & label,
+            const QString & text,
+            QWidget *       parent) :
+            QDialog(parent),
+            _p(new Private(label, text))
+        {
+            _p->labelWidget = new QLabel;
 
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    QVBoxLayout * vLayout = new QVBoxLayout;
-    vLayout->setMargin(20);
-    vLayout->addWidget(_p->labelWidget);
-    vLayout->addWidget(_p->textEdit);
-    layout->addLayout(vLayout);
-    layout->addWidget(buttonBox);
-    
-    setWindowTitle(qApp->translate("djvInputDialog", "Input Dialog"));
+            _p->textEdit = new QLineEdit;
 
-    widgetUpdate();
-    
-    connect(_p->textEdit, SIGNAL(editingFinished()), SLOT(textCallback()));
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-}
+            QDialogButtonBox * buttonBox = new QDialogButtonBox(
+                QDialogButtonBox::Ok |
+                QDialogButtonBox::Cancel);
 
-djvInputDialog::~djvInputDialog()
-{}
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            QVBoxLayout * vLayout = new QVBoxLayout;
+            vLayout->setMargin(20);
+            vLayout->addWidget(_p->labelWidget);
+            vLayout->addWidget(_p->textEdit);
+            layout->addLayout(vLayout);
+            layout->addWidget(buttonBox);
 
-const QString & djvInputDialog::label() const
-{
-    return _p->label;
-}
+            setWindowTitle(qApp->translate("djv::UI::InputDialog", "Input Dialog"));
 
-void djvInputDialog::setLabel(const QString & label)
-{
-    if (label == _p->label)
-        return;
-    _p->label = label;
-    widgetUpdate();
-}
+            widgetUpdate();
 
-const QString & djvInputDialog::text() const
-{
-    return _p->text;
-}
+            connect(_p->textEdit, SIGNAL(editingFinished()), SLOT(textCallback()));
+            connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+            connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+        }
 
-void djvInputDialog::setText(const QString & text)
-{
-    if (text == _p->text)
-        return;
-    _p->text = text;
-    widgetUpdate();
-}
+        InputDialog::~InputDialog()
+        {}
 
-void djvInputDialog::textCallback()
-{
-    setText(_p->textEdit->text());
-}
+        const QString & InputDialog::label() const
+        {
+            return _p->label;
+        }
 
-void djvInputDialog::widgetUpdate()
-{
-    _p->labelWidget->setText(_p->label);
-    _p->textEdit->setText(_p->text);
-}
+        void InputDialog::setLabel(const QString & label)
+        {
+            if (label == _p->label)
+                return;
+            _p->label = label;
+            widgetUpdate();
+        }
+
+        const QString & InputDialog::text() const
+        {
+            return _p->text;
+        }
+
+        void InputDialog::setText(const QString & text)
+        {
+            if (text == _p->text)
+                return;
+            _p->text = text;
+            widgetUpdate();
+        }
+
+        void InputDialog::textCallback()
+        {
+            setText(_p->textEdit->text());
+        }
+
+        void InputDialog::widgetUpdate()
+        {
+            _p->labelWidget->setText(_p->label);
+            _p->textEdit->setText(_p->text);
+        }
+
+    } // namespace UI
+} // namespace djv

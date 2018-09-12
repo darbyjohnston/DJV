@@ -39,51 +39,47 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSpinner
-//!
-//! This class provides a spinner widget.
-//------------------------------------------------------------------------------
-
-class djvSpinner : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvSpinner(
-        djvUIContext * context,
-        QWidget *       parent = nullptr);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvSpinner();
+        //! \class Spinner
+        //!
+        //! This class provides a spinner widget.
+        class Spinner : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get whether the spinner is spinning.    
-    bool isSpinning() const;
-    
-public Q_SLOTS:
-    //! Start the spinner.
-    void start();
+        public:
+            explicit Spinner(UIContext * context, QWidget * parent = nullptr);
 
-    //! Start the spinner after the given delay.
-    void startDelayed(int msec);
-    
-    //! Stop the spinner.
-    void stop();
-    
-protected:
-    virtual void timerEvent(QTimerEvent *);
-    virtual void paintEvent(QPaintEvent *);
-    
-private:
-    DJV_PRIVATE_COPY(djvSpinner)
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~Spinner();
 
-//@} // djvUIWidget
+            //! Get whether the spinner is spinning.    
+            bool isSpinning() const;
 
+        public Q_SLOTS:
+            //! Start the spinner.
+            void start();
+
+            //! Start the spinner after the given delay.
+            void startDelayed(int msec);
+
+            //! Stop the spinner.
+            void stop();
+
+        protected:
+            virtual void timerEvent(QTimerEvent *);
+            virtual void paintEvent(QPaintEvent *);
+
+        private:
+            DJV_PRIVATE_COPY(Spinner)
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

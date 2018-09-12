@@ -39,52 +39,50 @@
 
 #include <memory>
 
-class djvUIContext;
-
 class djvError;
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMessagesDialog
-//!
-//! This class provides a dialog for displaying application messages.
-//------------------------------------------------------------------------------
-
-class djvMessagesDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvMessagesDialog(djvUIContext *);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvMessagesDialog();
+        //! \class MessagesDialog
+        //!
+        //! This class provides a dialog for displaying application messages.
+        class MessagesDialog : public QDialog
+        {
+            Q_OBJECT
 
-    //! Add a message to the dialog.
-    void message(const QString &);
+        public:
+            MessagesDialog(UIContext *);
 
-    //! Add an error to the dialog.
-    void message(const djvError &);
+            virtual ~MessagesDialog();
 
-    //! Clear the messages.
-    void clear();
-    
-protected:
-    virtual void showEvent(QShowEvent *);
-    
-private Q_SLOTS:
-    void clearCallback();
-    void showCallback(bool);
+            //! Add a message to the dialog.
+            void message(const QString &);
 
-    void updateWidget();
-    
-private:
-    DJV_PRIVATE_COPY(djvMessagesDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Add an error to the dialog.
+            void message(const djvError &);
 
-//@} // djvUIDialog
+            //! Clear the messages.
+            void clear();
 
+        protected:
+            virtual void showEvent(QShowEvent *);
+
+        private Q_SLOTS:
+            void clearCallback();
+            void showCallback(bool);
+
+            void updateWidget();
+
+        private:
+            DJV_PRIVATE_COPY(MessagesDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

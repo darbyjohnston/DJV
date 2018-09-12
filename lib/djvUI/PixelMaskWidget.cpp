@@ -40,144 +40,142 @@
 #include <QHBoxLayout>
 #include <QMenu>
 
-//------------------------------------------------------------------------------
-// djvPixelMaskWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvPixelMaskWidget::Private
+namespace djv
 {
-    djvPixel::Mask mask;
-    djvToolButton * button = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvPixelMaskWidget
-//------------------------------------------------------------------------------
-
-djvPixelMaskWidget::djvPixelMaskWidget(djvUIContext * context, QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->button = new djvToolButton(
-        context->iconLibrary()->icon("djvPixelMaskIcon.png"));
-    _p->button->setCheckable(true);
-    _p->button->setToolTip(
-        qApp->translate("djvPixelMaskWidget", "Set the pixel mask"));
-
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-    layout->addWidget(_p->button);
-
-    widgetUpdate();
-
-    connect(
-        _p->button,
-        SIGNAL(pressed()),
-        SLOT(buttonCallback()));
-}
-
-djvPixelMaskWidget::~djvPixelMaskWidget()
-{}
-
-const djvPixel::Mask & djvPixelMaskWidget::mask() const
-{
-    return _p->mask;
-}
-
-void djvPixelMaskWidget::setMask(const djvPixel::Mask & mask)
-{
-    if (mask == _p->mask)
-        return;
-    _p->mask = mask;
-    widgetUpdate();
-    Q_EMIT maskChanged(_p->mask);
-}
-
-void djvPixelMaskWidget::buttonCallback()
-{
-    QMenu menu;
-    static const QString text [] =
+    namespace UI
     {
-        qApp->translate("djvPixelMaskWidget", "Solo red"),
-        qApp->translate("djvPixelMaskWidget", "Solo green"),
-        qApp->translate("djvPixelMaskWidget", "Solo blue"),
-        qApp->translate("djvPixelMaskWidget", "Solo alpha")
-    };
-    int count = sizeof(text) / sizeof(text[0]);
-    int data = 0;
-    for (int i = 0; i < count; ++i)
-    {
-        QAction * action = menu.addAction(text[i]);
-        action->setData(data++);
-        connect(action, SIGNAL(triggered()), SLOT(soloCallback()));
-    }
-
-    menu.addSeparator();
-
-    static const QString text2 [] =
-    {
-        qApp->translate("djvPixelMaskWidget", "Red"),
-        qApp->translate("djvPixelMaskWidget", "Green"),
-        qApp->translate("djvPixelMaskWidget", "Blue"),
-        qApp->translate("djvPixelMaskWidget", "Alpha")
-    };
-    count = sizeof(text) / sizeof(text[0]);
-    data = 0;
-    for (int i = 0; i < count; ++i)
-    {
-        QAction * action = menu.addAction(text2[i]);
-        action->setCheckable(true);
-        action->setChecked(_p->mask[i]);
-        action->setData(data++);        
-        connect(action, SIGNAL(toggled(bool)), SLOT(toggleCallback(bool)));
-    }
-    
-    menu.addSeparator();
-    
-    QAction * action = menu.addAction(
-        qApp->translate("djvPixelMaskWidget", "Reset"));
-    connect(action, SIGNAL(triggered()), SLOT(resetCallback()));
-
-    menu.exec(mapToGlobal(
-        QPoint(_p->button->x(), _p->button->y() + _p->button->height())));
-
-    _p->button->setDown(false);
-}
-
-void djvPixelMaskWidget::soloCallback()
-{
-    QAction * action = qobject_cast<QAction *>(sender());
-    djvPixel::Mask mask(false);
-    mask[action->data().toInt()] = true;
-    setMask(mask);
-}
-
-void djvPixelMaskWidget::toggleCallback(bool checked)
-{
-    QAction * action = qobject_cast<QAction *>(sender());
-    djvPixel::Mask mask = _p->mask;
-    mask[action->data().toInt()] = checked;
-    setMask(mask);
-}
-
-void djvPixelMaskWidget::resetCallback()
-{
-    setMask(djvPixel::Mask());
-}
-
-void djvPixelMaskWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_p->button);
-    bool checked = false;
-    for (int i = 0; i < djvPixel::channelsMax; ++i)
-    {
-        if (! _p->mask[i])
+        struct PixelMaskWidget::Private
         {
-            checked = true;
-            break;
-        }
-    }
-    _p->button->setChecked(checked);
-}
+            djvPixel::Mask mask;
+            ToolButton * button = nullptr;
+        };
 
+        PixelMaskWidget::PixelMaskWidget(UIContext * context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->button = new ToolButton(
+                context->iconLibrary()->icon("djvPixelMaskIcon.png"));
+            _p->button->setCheckable(true);
+            _p->button->setToolTip(
+                qApp->translate("djv::UI::PixelMaskWidget", "Set the pixel mask"));
+
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->setSpacing(0);
+            layout->addWidget(_p->button);
+
+            widgetUpdate();
+
+            connect(
+                _p->button,
+                SIGNAL(pressed()),
+                SLOT(buttonCallback()));
+        }
+
+        PixelMaskWidget::~PixelMaskWidget()
+        {}
+
+        const djvPixel::Mask & PixelMaskWidget::mask() const
+        {
+            return _p->mask;
+        }
+
+        void PixelMaskWidget::setMask(const djvPixel::Mask & mask)
+        {
+            if (mask == _p->mask)
+                return;
+            _p->mask = mask;
+            widgetUpdate();
+            Q_EMIT maskChanged(_p->mask);
+        }
+
+        void PixelMaskWidget::buttonCallback()
+        {
+            QMenu menu;
+            static const QString text[] =
+            {
+                qApp->translate("djv::UI::PixelMaskWidget", "Solo red"),
+                qApp->translate("djv::UI::PixelMaskWidget", "Solo green"),
+                qApp->translate("djv::UI::PixelMaskWidget", "Solo blue"),
+                qApp->translate("djv::UI::PixelMaskWidget", "Solo alpha")
+            };
+            int count = sizeof(text) / sizeof(text[0]);
+            int data = 0;
+            for (int i = 0; i < count; ++i)
+            {
+                QAction * action = menu.addAction(text[i]);
+                action->setData(data++);
+                connect(action, SIGNAL(triggered()), SLOT(soloCallback()));
+            }
+
+            menu.addSeparator();
+
+            static const QString text2[] =
+            {
+                qApp->translate("djv::UI::PixelMaskWidget", "Red"),
+                qApp->translate("djv::UI::PixelMaskWidget", "Green"),
+                qApp->translate("djv::UI::PixelMaskWidget", "Blue"),
+                qApp->translate("djv::UI::PixelMaskWidget", "Alpha")
+            };
+            count = sizeof(text) / sizeof(text[0]);
+            data = 0;
+            for (int i = 0; i < count; ++i)
+            {
+                QAction * action = menu.addAction(text2[i]);
+                action->setCheckable(true);
+                action->setChecked(_p->mask[i]);
+                action->setData(data++);
+                connect(action, SIGNAL(toggled(bool)), SLOT(toggleCallback(bool)));
+            }
+
+            menu.addSeparator();
+
+            QAction * action = menu.addAction(
+                qApp->translate("djv::UI::PixelMaskWidget", "Reset"));
+            connect(action, SIGNAL(triggered()), SLOT(resetCallback()));
+
+            menu.exec(mapToGlobal(
+                QPoint(_p->button->x(), _p->button->y() + _p->button->height())));
+
+            _p->button->setDown(false);
+        }
+
+        void PixelMaskWidget::soloCallback()
+        {
+            QAction * action = qobject_cast<QAction *>(sender());
+            djvPixel::Mask mask(false);
+            mask[action->data().toInt()] = true;
+            setMask(mask);
+        }
+
+        void PixelMaskWidget::toggleCallback(bool checked)
+        {
+            QAction * action = qobject_cast<QAction *>(sender());
+            djvPixel::Mask mask = _p->mask;
+            mask[action->data().toInt()] = checked;
+            setMask(mask);
+        }
+
+        void PixelMaskWidget::resetCallback()
+        {
+            setMask(djvPixel::Mask());
+        }
+
+        void PixelMaskWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_p->button);
+            bool checked = false;
+            for (int i = 0; i < djvPixel::channelsMax; ++i)
+            {
+                if (!_p->mask[i])
+                {
+                    checked = true;
+                    break;
+                }
+            }
+            _p->button->setChecked(checked);
+        }
+
+    } // namespace UI
+} // namespace djv

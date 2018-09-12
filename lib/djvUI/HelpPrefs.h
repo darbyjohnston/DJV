@@ -37,51 +37,49 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvHelpPrefs
-//!
-//! This class provides help preferences.
-//------------------------------------------------------------------------------
-
-class djvHelpPrefs : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds whether tool tips are enabled.    
-    Q_PROPERTY(
-        bool   toolTips
-        READ   hasToolTips
-        WRITE  setToolTips
-        NOTIFY toolTipsChanged)
-    
-public:
-    explicit djvHelpPrefs(QObject * parent = nullptr);
+    namespace UI
+    {
+        //! \class HelpPrefs
+        //!
+        //! This class provides help preferences.
+        class HelpPrefs : public QObject
+        {
+            Q_OBJECT
 
-    ~djvHelpPrefs();
-    
-    //! The default for whether tool tips are enabled.    
-    static bool toolTipsDefault();
+                //! This property holds whether tool tips are enabled.    
+                Q_PROPERTY(
+                    bool   toolTips
+                    READ   hasToolTips
+                    WRITE  setToolTips
+                    NOTIFY toolTipsChanged)
 
-    //! Get whether tool tips are enabled.
-    bool hasToolTips() const;
+        public:
+            explicit HelpPrefs(QObject * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set whether tool tips are enabled.
-    void setToolTips(bool);
+            ~HelpPrefs();
 
-Q_SIGNALS:
-    //! This signal is emitted when the tool tips are changed.
-    void toolTipsChanged(bool);
+            //! The default for whether tool tips are enabled.    
+            static bool toolTipsDefault();
 
-private:
-    void toolTipsUpdate();
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get whether tool tips are enabled.
+            bool hasToolTips() const;
 
-//@} // djvUIMisc
+        public Q_SLOTS:
+            //! Set whether tool tips are enabled.
+            void setToolTips(bool);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the tool tips are changed.
+            void toolTipsChanged(bool);
+
+        private:
+            void toolTipsUpdate();
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

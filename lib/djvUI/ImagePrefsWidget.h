@@ -37,38 +37,36 @@
 
 #include <memory>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImagePrefsWidget
-//!
-//! This class provides an image preferences widget.
-//------------------------------------------------------------------------------
-
-class djvImagePrefsWidget : public djvAbstractPrefsWidget
+namespace djv
 {
-    Q_OBJECT
+    namespace UI
+    {
+        //! \class ImagePrefsWidget
+        //!
+        //! This class provides an image preferences widget.
+        class ImagePrefsWidget : public AbstractPrefsWidget
+        {
+            Q_OBJECT
 
-public:
-    explicit djvImagePrefsWidget(djvUIContext * context, QWidget * parent = nullptr);
+        public:
+            explicit ImagePrefsWidget(UIContext * context, QWidget * parent = nullptr);
 
-    virtual ~djvImagePrefsWidget();
+            virtual ~ImagePrefsWidget();
 
-    virtual void resetPreferences();
+            virtual void resetPreferences();
 
-private Q_SLOTS:
-    void filterMinCallback(int);
-    void filterMagCallback(int);
+        private Q_SLOTS:
+            void filterMinCallback(int);
+            void filterMagCallback(int);
 
-private:
-    void widgetUpdate();
+        private:
+            void widgetUpdate();
 
-    DJV_PRIVATE_COPY(djvImagePrefsWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            DJV_PRIVATE_COPY(ImagePrefsWidget);
 
-//@} // djvUIMisc
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
+    } // namespace UI
+} // namespace djv

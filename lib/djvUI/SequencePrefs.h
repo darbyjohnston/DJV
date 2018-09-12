@@ -35,43 +35,41 @@
 
 #include <QObject>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSequencePrefs
-//!
-//! This class provides sequence preferences.
-//------------------------------------------------------------------------------
-
-class djvSequencePrefs : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the maximum number of frames a sequence can hold.    
-    Q_PROPERTY(
-        qint64 maxFrames
-        READ   maxFrames
-        WRITE  setMaxFrames
-        NOTIFY maxFramesChanged)
-    
-public:
-    explicit djvSequencePrefs(QObject * parent = nullptr);
+    namespace UI
+    {
+        //! \class djvSequencePrefs
+        //!
+        //! This class provides sequence preferences.
+        class SequencePrefs : public QObject
+        {
+            Q_OBJECT
 
-    ~djvSequencePrefs();
+                //! This property holds the maximum number of frames a sequence can hold.    
+                Q_PROPERTY(
+                    qint64 maxFrames
+                    READ   maxFrames
+                    WRITE  setMaxFrames
+                    NOTIFY maxFramesChanged)
 
-    //! Get the maximum number of frames a sequence can hold.
-    qint64 maxFrames() const;
+        public:
+            explicit SequencePrefs(QObject * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the maximum number of frames a sequence can hold.
-    void setMaxFrames(qint64);
+            ~SequencePrefs();
 
-Q_SIGNALS:
-    //! This signal is emitted when the maximum number of frames in a sequence
-    //! is changed.
-    void maxFramesChanged(qint64);
-};
+            //! Get the maximum number of frames a sequence can hold.
+            qint64 maxFrames() const;
 
-//@} // djvUIMisc
+        public Q_SLOTS:
+            //! Set the maximum number of frames a sequence can hold.
+            void setMaxFrames(qint64);
 
+        Q_SIGNALS:
+            //! This signal is emitted when the maximum number of frames in a sequence
+            //! is changed.
+            void maxFramesChanged(qint64);
+        };
+
+    } // namespace UI
+} // namespace djv

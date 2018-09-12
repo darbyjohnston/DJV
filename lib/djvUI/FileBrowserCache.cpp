@@ -35,21 +35,23 @@
 
 #include <djvCore/Memory.h>
 
-//------------------------------------------------------------------------------
-// djvFileBrowserCacheItem
-//------------------------------------------------------------------------------
+namespace djv
+{
+    namespace UI
+    {
+        FileBrowserCacheItem::FileBrowserCacheItem()
+        {}
 
-djvFileBrowserCacheItem::djvFileBrowserCacheItem()
-{}
+        FileBrowserCacheItem::FileBrowserCacheItem(
+            const djvImageIOInfo &  imageInfo,
+            const glm::ivec2 &      thumbnailSize,
+            djvPixelDataInfo::PROXY thumbnailProxy,
+            const QPixmap &         thumbnail) :
+            imageInfo(imageInfo),
+            thumbnailSize(thumbnailSize),
+            thumbnailProxy(thumbnailProxy),
+            thumbnail(thumbnail)
+        {}
 
-djvFileBrowserCacheItem::djvFileBrowserCacheItem(
-    const djvImageIOInfo &  imageInfo,
-    const glm::ivec2 &      thumbnailSize,
-    djvPixelDataInfo::PROXY thumbnailProxy,
-    const QPixmap &         thumbnail) :
-    imageInfo     (imageInfo),
-    thumbnailSize (thumbnailSize),
-    thumbnailProxy(thumbnailProxy),
-    thumbnail     (thumbnail)
-{}
-
+    } // namespace UI
+} // namespace djv

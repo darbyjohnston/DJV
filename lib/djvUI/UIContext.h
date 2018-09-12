@@ -39,112 +39,110 @@
 
 #include <memory>
 
-class djvAboutDialog;
-class djvDebugLogDialog;
-class djvFileBrowser;
-class djvFileBrowserCache;
-class djvFileBrowserPrefs;
-class djvHelpPrefs;
-class djvIconLibrary;
-class djvImageIOPrefs;
-class djvImageIOWidgetFactory;
-class djvImagePrefs;
-class djvInfoDialog;
-class djvMessagesDialog;
-class djvPrefsDialog;
-class djvSequencePrefs;
-class djvStyle;
-class djvTimePrefs;
-
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvUIContext
-//!
-//! This class provides global functionality for the library.
-//------------------------------------------------------------------------------
-
-class djvUIContext : public djvGraphicsContext
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvUIContext(QObject * parent = nullptr);
+    namespace UI
+    {
+        class AboutDialog;
+        class DebugLogDialog;
+        class FileBrowser;
+        class FileBrowserCache;
+        class FileBrowserPrefs;
+        class HelpPrefs;
+        class IconLibrary;
+        class ImageIOPrefs;
+        class ImageIOWidgetFactory;
+        class ImagePrefs;
+        class InfoDialog;
+        class MessagesDialog;
+        class PrefsDialog;
+        class SequencePrefs;
+        class Style;
+        class TimePrefs;
 
-    virtual ~djvUIContext();
-    
-    //! Get whether the user-interface has started.
-    bool isValid() const;
+        //! \class djvUIContext
+        //!
+        //! This class provides global functionality for the library.
+        class UIContext : public djvGraphicsContext
+        {
+            Q_OBJECT
 
-    //! Set whether the user-interface has started.
-    virtual void setValid(bool);
-    
-    //! Open the documentation.
-    void help();
-    
-    //! Get the file browser.
-    djvFileBrowser * fileBrowser(const QString & title = QString()) const;
-    
-    //! Get the image I/O widget plugin factory.
-    djvImageIOWidgetFactory * imageIOWidgetFactory() const;
-    
-    //! Get the preferences dialog.
-    djvPrefsDialog * prefsDialog() const;
+        public:
+            explicit UIContext(QObject * parent = nullptr);
 
-    //! Get the information dialog.
-    djvInfoDialog * infoDialog() const;
+            virtual ~UIContext();
 
-    //! Get the about dialog.
-    djvAboutDialog * aboutDialog() const;
+            //! Get whether the user-interface has started.
+            bool isValid() const;
 
-    //! Get the messages dialog.
-    djvMessagesDialog * messagesDialog() const;
-    
-    //! Get the debugging dialog.
-    djvDebugLogDialog * debugLogDialog() const;
-    
-    //! Get the file browser preferences.
-    djvFileBrowserPrefs * fileBrowserPrefs() const;
+            //! Set whether the user-interface has started.
+            virtual void setValid(bool);
 
-    //! Get the help preferences.
-    djvHelpPrefs * helpPrefs() const;
+            //! Open the documentation.
+            void help();
 
-    //! Get the image preferences.
-    djvImagePrefs * imagePrefs() const;
+            //! Get the file browser.
+            FileBrowser * fileBrowser(const QString & title = QString()) const;
 
-    //! Get the image I/O preferences.
-    djvImageIOPrefs * imageIOPrefs() const;
+            //! Get the image I/O widget plugin factory.
+            ImageIOWidgetFactory * imageIOWidgetFactory() const;
 
-    //! Get the sequence preferences.
-    djvSequencePrefs * sequencePrefs() const;
+            //! Get the preferences dialog.
+            PrefsDialog * prefsDialog() const;
 
-    //! Get the time preferences.
-    djvTimePrefs * timePrefs() const;
+            //! Get the information dialog.
+            InfoDialog * infoDialog() const;
 
-    //! Get the file browser cache.
-    djvFileBrowserCache * fileBrowserCache() const;
+            //! Get the about dialog.
+            AboutDialog * aboutDialog() const;
 
-    //! Get the icon library.
-    djvIconLibrary * iconLibrary() const;
+            //! Get the messages dialog.
+            MessagesDialog * messagesDialog() const;
 
-    //! Get the style.
-    djvStyle * style() const;
+            //! Get the debugging dialog.
+            DebugLogDialog * debugLogDialog() const;
 
-    virtual QString info() const;
-    virtual void print(const QString &, bool newLine = true, int indent = 0);
+            //! Get the file browser preferences.
+            FileBrowserPrefs * fileBrowserPrefs() const;
 
-protected:
-    virtual bool commandLineParse(QStringList &) throw (QString);
+            //! Get the help preferences.
+            HelpPrefs * helpPrefs() const;
 
-    virtual QString commandLineHelp() const;
-    
-private:    
-    DJV_PRIVATE_COPY(djvUIContext);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the image preferences.
+            ImagePrefs * imagePrefs() const;
 
-//@} // djvUIMisc
+            //! Get the image I/O preferences.
+            ImageIOPrefs * imageIOPrefs() const;
 
+            //! Get the sequence preferences.
+            SequencePrefs * sequencePrefs() const;
+
+            //! Get the time preferences.
+            TimePrefs * timePrefs() const;
+
+            //! Get the file browser cache.
+            FileBrowserCache * fileBrowserCache() const;
+
+            //! Get the icon library.
+            IconLibrary * iconLibrary() const;
+
+            //! Get the style.
+            Style * style() const;
+
+            virtual QString info() const;
+            virtual void print(const QString &, bool newLine = true, int indent = 0);
+
+        protected:
+            virtual bool commandLineParse(QStringList &) throw (QString);
+
+            virtual QString commandLineHelp() const;
+
+        private:
+            DJV_PRIVATE_COPY(UIContext);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

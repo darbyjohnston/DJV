@@ -45,69 +45,67 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvHelpPrefsWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvHelpPrefsWidget::Private
+namespace djv
 {
-    QCheckBox * toolTipsWidget = nullptr;
-};
+    namespace UI
+    {
+        struct HelpPrefsWidget::Private
+        {
+            QCheckBox * toolTipsWidget = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvHelpPrefsWidget
-//------------------------------------------------------------------------------
+        HelpPrefsWidget::HelpPrefsWidget(UIContext * context, QWidget * parent) :
+            AbstractPrefsWidget(
+                qApp->translate("djv::UI::HelpPrefsWidget", "Help"), context, parent),
+            _p(new Private)
+        {
+            // Create the widgets.
+            _p->toolTipsWidget = new QCheckBox(
+                qApp->translate("djv::UI::HelpPrefsWidget", "Enable tool tips"));
 
-djvHelpPrefsWidget::djvHelpPrefsWidget(djvUIContext * context, QWidget * parent) :
-    djvAbstractPrefsWidget(
-        qApp->translate("djvHelpPrefsWidget", "Help"), context, parent),
-    _p(new Private)
-{
-    // Create the widgets.
-    _p->toolTipsWidget = new QCheckBox(
-        qApp->translate("djvHelpPrefsWidget", "Enable tool tips"));
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::HelpPrefsWidget", "Tool Tips"), context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(_p->toolTipsWidget);
+            layout->addWidget(prefsGroupBox);
 
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvHelpPrefsWidget", "Tool Tips"), context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(_p->toolTipsWidget);
-    layout->addWidget(prefsGroupBox);
+            layout->addStretch();
 
-    layout->addStretch();
+            // Initialize.
+            widgetUpdate();
 
-    // Initialize.
-    widgetUpdate();
+            // Setup the callbacks.
+            connect(
+                _p->toolTipsWidget,
+                SIGNAL(toggled(bool)),
+                SLOT(toolTipsCallback(bool)));
+        }
 
-    // Setup the callbacks.
-    connect(
-        _p->toolTipsWidget,
-        SIGNAL(toggled(bool)),
-        SLOT(toolTipsCallback(bool)));
-}
+        HelpPrefsWidget::~HelpPrefsWidget()
+        {}
 
-djvHelpPrefsWidget::~djvHelpPrefsWidget()
-{}
+        void HelpPrefsWidget::resetPreferences()
+        {
+            context()->helpPrefs()->setToolTips(HelpPrefs::toolTipsDefault());
 
-void djvHelpPrefsWidget::resetPreferences()
-{
-    context()->helpPrefs()->setToolTips(djvHelpPrefs::toolTipsDefault());
+            widgetUpdate();
+        }
 
-    widgetUpdate();
-}
+        void HelpPrefsWidget::toolTipsCallback(bool toolTips)
+        {
+            context()->helpPrefs()->setToolTips(toolTips);
+        }
 
-void djvHelpPrefsWidget::toolTipsCallback(bool toolTips)
-{
-    context()->helpPrefs()->setToolTips(toolTips);
-}
+        void HelpPrefsWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(QObjectList() <<
+                _p->toolTipsWidget);
+            _p->toolTipsWidget->setChecked(context()->helpPrefs()->hasToolTips());
+        }
 
-void djvHelpPrefsWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _p->toolTipsWidget);
-    _p->toolTipsWidget->setChecked(context()->helpPrefs()->hasToolTips());
-}
-
+    } // namespace UI
+} // namespace djv

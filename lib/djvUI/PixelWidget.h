@@ -41,53 +41,52 @@
 
 #include <memory>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPixelWidget
-//!
-//! This class provides a pixel widget.
-//------------------------------------------------------------------------------
-
-class djvPixelWidget : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the pixel.
-    Q_PROPERTY(
-        djvPixel::PIXEL pixel
-        READ            pixel
-        WRITE           setPixel
-        NOTIFY          pixelChanged)
-    
-public:
-    explicit djvPixelWidget(QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class PixelWidget
+        //!
+        //! This class provides a pixel widget.
+        class PixelWidget : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvPixelWidget();
+                //! This property holds the pixel.
+                Q_PROPERTY(
+                    djvPixel::PIXEL pixel
+                    READ            pixel
+                    WRITE           setPixel
+                    NOTIFY          pixelChanged)
 
-    //! Get the pixel.
-    djvPixel::PIXEL pixel() const;
+        public:
+            explicit PixelWidget(QWidget * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the pixel.
-    void setPixel(djvPixel::PIXEL);
+            virtual ~PixelWidget();
 
-Q_SIGNALS:
-    //! This signal is emitted when the pixel is changed.
-    void pixelChanged(djvPixel::PIXEL);
+            //! Get the pixel.
+            djvPixel::PIXEL pixel() const;
 
-private Q_SLOTS:
-    void widgetCallback(int);
+        public Q_SLOTS:
+            //! Set the pixel.
+            void setPixel(djvPixel::PIXEL);
 
-private:
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvPixelWidget);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when the pixel is changed.
+            void pixelChanged(djvPixel::PIXEL);
 
-//@} // djvUIWidget
+        private Q_SLOTS:
+            void widgetCallback(int);
+
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(PixelWidget);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
 

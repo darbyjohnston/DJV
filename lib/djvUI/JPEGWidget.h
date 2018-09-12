@@ -35,55 +35,49 @@
 
 #include <djvGraphics/JPEG.h>
 
-class djvIntEditSlider;
-
-//! \addtogroup djvJPEGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvJPEGWidget
-//!
-//! This class provides a JPEG widget.
-//------------------------------------------------------------------------------
-
-class djvJPEGWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvJPEGWidget(djvImageIO *, djvUIContext *);
-    
-    virtual ~djvJPEGWidget();
+    namespace UI
+    {
+        class IntEditSlider;
 
-    virtual void resetPreferences();
+        //! \class JPEGWidget
+        //!
+        //! This class provides a JPEG widget.
+        class JPEGWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void qualityCallback(int);
+        public:
+            JPEGWidget(djvImageIO *, UIContext *);
 
-    void pluginUpdate();
-    void widgetUpdate();
+            virtual ~JPEGWidget();
 
-private:
-    djvJPEG::Options   _options;
-    djvIntEditSlider * _qualityWidget;
-};
+            virtual void resetPreferences();
 
-//------------------------------------------------------------------------------
-//! \class djvJPEGWidgetPlugin
-//!
-//! This class provides a JPEG widget plugin.
-//------------------------------------------------------------------------------
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void qualityCallback(int);
 
-class djvJPEGWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvJPEGWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+            void pluginUpdate();
+            void widgetUpdate();
 
-    virtual QString pluginName() const;
-};
+        private:
+            djvJPEG::Options _options;
+            IntEditSlider * _qualityWidget;
+        };
 
-//@} // djvJPEGPlugin
+        //! \class JPEGWidgetPlugin
+        //!
+        //! This class provides a JPEG widget plugin.
+        class JPEGWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            JPEGWidgetPlugin(djvCoreContext *);
 
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
+
+    } // namespace UI
+} // namespace djv

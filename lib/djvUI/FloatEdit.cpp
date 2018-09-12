@@ -40,142 +40,141 @@
 #include <QHBoxLayout>
 #include <QKeyEvent>
 
-//------------------------------------------------------------------------------
-// djvFloatEdit::Private
-//------------------------------------------------------------------------------
-
-struct djvFloatEdit::Private
+namespace djv
 {
-    djvFloatObject * object  = nullptr;
-    QDoubleSpinBox * spinBox = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvFloatEdit
-//------------------------------------------------------------------------------
-
-djvFloatEdit::djvFloatEdit(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->object = new djvFloatObject(this);
-
-    _p->spinBox = new QDoubleSpinBox;
-    _p->spinBox->setKeyboardTracking(false);
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
-    layout->setMargin(0);
-    layout->addWidget(_p->spinBox);
-    
-    widgetUpdate();
-
-    connect(
-        _p->object,
-        SIGNAL(valueChanged(float)),
-        SLOT(valueCallback()));
-    connect(
-        _p->object,
-        SIGNAL(minChanged(float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(maxChanged(float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(rangeChanged(float, float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->object,
-        SIGNAL(incChanged(float, float)),
-        SLOT(widgetUpdate()));
-    connect(
-        _p->spinBox,
-        SIGNAL(valueChanged(double)),
-        SLOT(spinBoxCallback(double)));
-}
-
-djvFloatEdit::~djvFloatEdit()
-{}
-
-float djvFloatEdit::value() const
-{
-    return _p->object->value();
-}
-
-float djvFloatEdit::min() const
-{
-    return _p->object->min();
-}
-
-float djvFloatEdit::max() const
-{
-    return _p->object->max();
-}
-
-djvFloatObject * djvFloatEdit::object() const
-{
-    return _p->object;
-}
-
-void djvFloatEdit::setValue(float value)
-{
-    _p->object->setValue(value);
-}
-
-void djvFloatEdit::setMin(float min)
-{
-    _p->object->setMin(min);
-}
-
-void djvFloatEdit::setMax(float max)
-{
-    _p->object->setMax(max);
-}
-
-void djvFloatEdit::setRange(float min, float max)
-{
-    _p->object->setRange(min, max);
-}
-
-void djvFloatEdit::keyPressEvent(QKeyEvent * event)
-{
-    switch (event->key())
+    namespace UI
     {
-        case Qt::Key_Home:     _p->object->setToMin();       break;
-        case Qt::Key_End:      _p->object->setToMax();       break;
-        case Qt::Key_Left:
-        case Qt::Key_Down:     _p->object->smallDecAction(); break;
-        case Qt::Key_Right:
-        case Qt::Key_Up:       _p->object->smallIncAction(); break;
-        case Qt::Key_PageDown: _p->object->largeDecAction(); break;
-        case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
-        default: break;
-    }
-}
+        struct FloatEdit::Private
+        {
+            FloatObject * object = nullptr;
+            QDoubleSpinBox * spinBox = nullptr;
+        };
 
-void djvFloatEdit::valueCallback()
-{
-    widgetUpdate();
-    Q_EMIT valueChanged(_p->object->value());
-}
+        FloatEdit::FloatEdit(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->object = new FloatObject(this);
 
-void djvFloatEdit::rangeCallback()
-{
-    widgetUpdate();
-    Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
-}
+            _p->spinBox = new QDoubleSpinBox;
+            _p->spinBox->setKeyboardTracking(false);
 
-void djvFloatEdit::spinBoxCallback(double value)
-{
-    _p->object->setValue(static_cast<float>(value));
-}
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setSpacing(0);
+            layout->setMargin(0);
+            layout->addWidget(_p->spinBox);
 
-void djvFloatEdit::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_p->spinBox);
-    _p->spinBox->setRange(_p->object->min(), _p->object->max());
-    _p->spinBox->setSingleStep(_p->object->smallInc());
-    _p->spinBox->setValue(_p->object->value());
-}
+            widgetUpdate();
+
+            connect(
+                _p->object,
+                SIGNAL(valueChanged(float)),
+                SLOT(valueCallback()));
+            connect(
+                _p->object,
+                SIGNAL(minChanged(float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(maxChanged(float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(rangeChanged(float, float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->object,
+                SIGNAL(incChanged(float, float)),
+                SLOT(widgetUpdate()));
+            connect(
+                _p->spinBox,
+                SIGNAL(valueChanged(double)),
+                SLOT(spinBoxCallback(double)));
+        }
+
+        FloatEdit::~FloatEdit()
+        {}
+
+        float FloatEdit::value() const
+        {
+            return _p->object->value();
+        }
+
+        float FloatEdit::min() const
+        {
+            return _p->object->min();
+        }
+
+        float FloatEdit::max() const
+        {
+            return _p->object->max();
+        }
+
+        FloatObject * FloatEdit::object() const
+        {
+            return _p->object;
+        }
+
+        void FloatEdit::setValue(float value)
+        {
+            _p->object->setValue(value);
+        }
+
+        void FloatEdit::setMin(float min)
+        {
+            _p->object->setMin(min);
+        }
+
+        void FloatEdit::setMax(float max)
+        {
+            _p->object->setMax(max);
+        }
+
+        void FloatEdit::setRange(float min, float max)
+        {
+            _p->object->setRange(min, max);
+        }
+
+        void FloatEdit::keyPressEvent(QKeyEvent * event)
+        {
+            switch (event->key())
+            {
+            case Qt::Key_Home:     _p->object->setToMin();       break;
+            case Qt::Key_End:      _p->object->setToMax();       break;
+            case Qt::Key_Left:
+            case Qt::Key_Down:     _p->object->smallDecAction(); break;
+            case Qt::Key_Right:
+            case Qt::Key_Up:       _p->object->smallIncAction(); break;
+            case Qt::Key_PageDown: _p->object->largeDecAction(); break;
+            case Qt::Key_PageUp:   _p->object->largeIncAction(); break;
+            default: break;
+            }
+        }
+
+        void FloatEdit::valueCallback()
+        {
+            widgetUpdate();
+            Q_EMIT valueChanged(_p->object->value());
+        }
+
+        void FloatEdit::rangeCallback()
+        {
+            widgetUpdate();
+            Q_EMIT rangeChanged(_p->object->min(), _p->object->max());
+        }
+
+        void FloatEdit::spinBoxCallback(double value)
+        {
+            _p->object->setValue(static_cast<float>(value));
+        }
+
+        void FloatEdit::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_p->spinBox);
+            _p->spinBox->setRange(_p->object->min(), _p->object->max());
+            _p->spinBox->setSingleStep(_p->object->smallInc());
+            _p->spinBox->setValue(_p->object->value());
+        }
+
+    } // namespace UI
+} // namespace djv

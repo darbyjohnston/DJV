@@ -39,46 +39,44 @@
 
 #include <memory>
 
-class djvUIContext;
-
 class djvError;
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDebugLogDialog
-//!
-//! This class provides a dialog for displaying the debugging log.
-//------------------------------------------------------------------------------
-
-class djvDebugLogDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvDebugLogDialog(djvUIContext *);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvDebugLogDialog();
+        //! \class DebugLogDialog
+        //!
+        //! This class provides a dialog for displaying the debugging log.
+        class DebugLogDialog : public QDialog
+        {
+            Q_OBJECT
 
-    void clear();
+        public:
+            DebugLogDialog(UIContext *);
 
-protected:
-    virtual void showEvent(QShowEvent *);
-    
-private Q_SLOTS:
-    void messageCallback(const QString &);
-    void copyCallback();
-    void clearCallback();
-    
-    void updateWidget();
-    
-private:
-    DJV_PRIVATE_COPY(djvDebugLogDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual ~DebugLogDialog();
 
-//@} // djvUIDialog
+            void clear();
 
+        protected:
+            virtual void showEvent(QShowEvent *);
+
+        private Q_SLOTS:
+            void messageCallback(const QString &);
+            void copyCallback();
+            void clearCallback();
+
+            void updateWidget();
+
+        private:
+            DJV_PRIVATE_COPY(DebugLogDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

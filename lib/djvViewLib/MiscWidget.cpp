@@ -135,22 +135,22 @@ namespace djv
     {
         struct CacheSizeWidget::Private
         {
-            QVector<float>  cacheSizes;
-            float           cacheSize = 0.f;
-            djvFloatEdit *  edit = nullptr;
-            djvToolButton * button = nullptr;
+            QVector<float> cacheSizes;
+            float cacheSize = 0.f;
+            UI::FloatEdit *  edit = nullptr;
+            UI::ToolButton * button = nullptr;
         };
 
-        CacheSizeWidget::CacheSizeWidget(djvUIContext * context, QWidget * parent) :
+        CacheSizeWidget::CacheSizeWidget(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
             // Create widgets.
-            _p->edit = new djvFloatEdit;
+            _p->edit = new UI::FloatEdit;
             _p->edit->setRange(0.f, 1024.f);
             _p->edit->object()->setInc(1.f, 5.f);
 
-            _p->button = new djvToolButton;
+            _p->button = new UI::ToolButton;
             _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
             _p->button->setIconSize(QSize(20, 20));
 
@@ -245,7 +245,7 @@ namespace djv
             QString      text;
         };
 
-        FrameWidget::FrameWidget(djvUIContext * context, QWidget * parent) :
+        FrameWidget::FrameWidget(UI::UIContext * context, QWidget * parent) :
             QAbstractSpinBox(parent),
             _p(new Private)
         {
@@ -390,21 +390,21 @@ namespace djv
 
         struct FrameSlider::Private
         {
-            Private(djvUIContext * context) :
+            Private(UI::UIContext * context) :
                 context(context)
             {}
 
-            qint64         frame = 0;
-            djvFrameList   frameList;
-            djvSpeed       speed;
-            bool           inOutEnabled = false;
-            qint64         inPoint = 0;
-            qint64         outPoint = 0;
-            djvFrameList   cachedFrames;
-            djvUIContext * context;
+            qint64 frame = 0;
+            djvFrameList frameList;
+            djvSpeed speed;
+            bool inOutEnabled = false;
+            qint64 inPoint = 0;
+            qint64 outPoint = 0;
+            djvFrameList cachedFrames;
+            UI::UIContext * context;
         };
 
-        FrameSlider::FrameSlider(djvUIContext * context, QWidget * parent) :
+        FrameSlider::FrameSlider(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private(context))
         {
@@ -761,7 +761,7 @@ namespace djv
             QLineEdit * lineEdit = nullptr;
         };
 
-        FrameDisplay::FrameDisplay(djvUIContext * context, QWidget * parent) :
+        FrameDisplay::FrameDisplay(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
@@ -869,15 +869,15 @@ namespace djv
         {
             djvSpeed speed;
             djvSpeed defaultSpeed;
-            djvToolButton * button = nullptr;
+            UI::ToolButton * button = nullptr;
         };
 
-        SpeedButton::SpeedButton(djvUIContext * context, QWidget * parent) :
+        SpeedButton::SpeedButton(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
             // Create the widgets.
-            _p->button = new djvToolButton;
+            _p->button = new UI::ToolButton;
             _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
             _p->button->setIconSize(QSize(20, 20));
 
@@ -940,16 +940,16 @@ namespace djv
         {
             djvSpeed speed;
             djvSpeed defaultSpeed;
-            djvFloatEdit * floatEdit = nullptr;
+            UI::FloatEdit * floatEdit = nullptr;
             SpeedButton * button = nullptr;
         };
 
-        SpeedWidget::SpeedWidget(djvUIContext * context, QWidget * parent) :
+        SpeedWidget::SpeedWidget(UI::UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
             // Create the widgets.
-            _p->floatEdit = new djvFloatEdit;
+            _p->floatEdit = new UI::FloatEdit;
             _p->floatEdit->setRange(1.f, 1000.f);
             _p->floatEdit->object()->setInc(1.f, 10.f);
 

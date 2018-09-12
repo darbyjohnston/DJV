@@ -37,53 +37,48 @@
 
 class QComboBox;
 
-//! \addtogroup djvTIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTIFFWidget
-//!
-//! This class provides a TIFF widget.
-//------------------------------------------------------------------------------
-
-class djvTIFFWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvTIFFWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        //! \class djvTIFFWidget
+        //!
+        //! This class provides a TIFF widget.
+        class TIFFWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvTIFFWidget();
+        public:
+            TIFFWidget(djvImageIO *, UIContext *);
 
-    virtual void resetPreferences();
+            virtual ~TIFFWidget();
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void compressionCallback(int);
+            virtual void resetPreferences();
 
-    void pluginUpdate();
-    void widgetUpdate();
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void compressionCallback(int);
 
-private:
-    djvTIFF::Options _options;
-    QComboBox *      _compressionWidget;
-};
+            void pluginUpdate();
+            void widgetUpdate();
 
-//------------------------------------------------------------------------------
-//! \class djvTIFFWidgetPlugin
-//!
-//! This class provides a TIFF widget plugin.
-//------------------------------------------------------------------------------
+        private:
+            djvTIFF::Options _options;
+            QComboBox *      _compressionWidget;
+        };
 
-class djvTIFFWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:
-    djvTIFFWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        //! \class TIFFWidgetPlugin
+        //!
+        //! This class provides a TIFF widget plugin.
+        class TIFFWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            TIFFWidgetPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-};
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
-//@} // djvTIFFPlugin
+    } // namespace UI
+} // namespace djv
 

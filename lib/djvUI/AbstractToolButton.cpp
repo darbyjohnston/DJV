@@ -40,47 +40,50 @@
 #include <QStyle>
 #include <QStyleOption>
 
-//------------------------------------------------------------------------------
-// djvAbstractToolButton
-//------------------------------------------------------------------------------
-
-djvAbstractToolButton::djvAbstractToolButton(QWidget * parent) :
-    QAbstractButton(parent)
+namespace djv
 {
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-}
-
-djvAbstractToolButton::~djvAbstractToolButton()
-{}
-
-void djvAbstractToolButton::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-    
-    if (underMouse() || isChecked())
+    namespace UI
     {
-        QStyleOptionButton styleOption;
-        styleOption.rect = this->rect();
-        if (underMouse())
-            styleOption.state = QStyle::State_Raised;
-        if (isDown() || isChecked())
-            styleOption.state |= QStyle::State_On;
-        style()->drawControl(QStyle::CE_PushButton, &styleOption, &painter);
-    }
-}
+        AbstractToolButton::AbstractToolButton(QWidget * parent) :
+            QAbstractButton(parent)
+        {
+            setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        }
 
-bool djvAbstractToolButton::event(QEvent * event)
-{
-    switch (event->type())
-    {
-        case QEvent::Enter:
-        case QEvent::Leave:
-        case QEvent::MouseButtonPress:
-        case QEvent::MouseButtonRelease:
-        case QEvent::MouseButtonDblClick:
-            update();
-            break;
-        default: break;
-    }
-    return QAbstractButton::event(event);
-}
+        AbstractToolButton::~AbstractToolButton()
+        {}
+
+        void AbstractToolButton::paintEvent(QPaintEvent *)
+        {
+            QPainter painter(this);
+
+            if (underMouse() || isChecked())
+            {
+                QStyleOptionButton styleOption;
+                styleOption.rect = this->rect();
+                if (underMouse())
+                    styleOption.state = QStyle::State_Raised;
+                if (isDown() || isChecked())
+                    styleOption.state |= QStyle::State_On;
+                style()->drawControl(QStyle::CE_PushButton, &styleOption, &painter);
+            }
+        }
+
+        bool AbstractToolButton::event(QEvent * event)
+        {
+            switch (event->type())
+            {
+            case QEvent::Enter:
+            case QEvent::Leave:
+            case QEvent::MouseButtonPress:
+            case QEvent::MouseButtonRelease:
+            case QEvent::MouseButtonDblClick:
+                update();
+                break;
+            default: break;
+            }
+            return QAbstractButton::event(event);
+        }
+
+    } // namespace UI
+} // namespace 

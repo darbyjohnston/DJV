@@ -39,64 +39,66 @@
 #include <QHBoxLayout>
 #include <QToolButton>
 
-//------------------------------------------------------------------------------
-// djvPlaybackButtons
-//------------------------------------------------------------------------------
-
-djvPlaybackButtons::djvPlaybackButtons(djvUIContext * context, QWidget * parent) :
-    QWidget(parent)
+namespace djv
 {
-    _buttonGroup = new QButtonGroup(this);
-    _buttonGroup->setExclusive(true);
-    
-    const QStringList toolTips = QStringList() <<
-        qApp->translate("djvPlaybackButtons", "Reverse playback") <<
-        qApp->translate("djvPlaybackButtons", "Stop playback") <<
-        qApp->translate("djvPlaybackButtons", "Forward playback");
-    
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->setSpacing(0);
-
-    for (int i = 0; i < djvPlaybackUtil::PLAYBACK_COUNT; ++i)
+    namespace UI
     {
-        QToolButton * button = new QToolButton;
-        button->setCheckable(true);
-        button->setIcon(context->iconLibrary()->icon(
-            djvPlaybackUtil::playbackIcons()[i]));
-        button->setIconSize(context->iconLibrary()->defaultSize());
-        button->setAutoRaise(true);
-        button->setToolTip(toolTips[i]);
-        
-        _buttonGroup->addButton(button, i);
+        PlaybackButtons::PlaybackButtons(UIContext * context, QWidget * parent) :
+            QWidget(parent)
+        {
+            _buttonGroup = new QButtonGroup(this);
+            _buttonGroup->setExclusive(true);
 
-        layout->addWidget(button);
-    }
-    
-    _buttonGroup->buttons()[_playback]->setChecked(true);
-    
-    connect(
-        _buttonGroup,
-        SIGNAL(buttonClicked(int)),
-        SLOT(buttonCallback(int)));
-}
+            const QStringList toolTips = QStringList() <<
+                qApp->translate("djv::UI::PlaybackButtons", "Reverse playback") <<
+                qApp->translate("djv::UI::PlaybackButtons", "Stop playback") <<
+                qApp->translate("djv::UI::PlaybackButtons", "Forward playback");
 
-djvPlaybackUtil::PLAYBACK djvPlaybackButtons::playback() const
-{
-    return _playback;
-}
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->setSpacing(0);
 
-void djvPlaybackButtons::setPlayback(djvPlaybackUtil::PLAYBACK playback)
-{
-    if (playback == _playback)
-        return;
-    _playback = playback;
-    _buttonGroup->buttons()[_playback]->setChecked(true);
-    Q_EMIT playbackChanged(_playback);
-}
+            for (int i = 0; i < PlaybackUtil::PLAYBACK_COUNT; ++i)
+            {
+                QToolButton * button = new QToolButton;
+                button->setCheckable(true);
+                button->setIcon(context->iconLibrary()->icon(
+                    PlaybackUtil::playbackIcons()[i]));
+                button->setIconSize(context->iconLibrary()->defaultSize());
+                button->setAutoRaise(true);
+                button->setToolTip(toolTips[i]);
 
-void djvPlaybackButtons::buttonCallback(int id)
-{
-    setPlayback(static_cast<djvPlaybackUtil::PLAYBACK>(id));
-}
+                _buttonGroup->addButton(button, i);
 
+                layout->addWidget(button);
+            }
+
+            _buttonGroup->buttons()[_playback]->setChecked(true);
+
+            connect(
+                _buttonGroup,
+                SIGNAL(buttonClicked(int)),
+                SLOT(buttonCallback(int)));
+        }
+
+        PlaybackUtil::PLAYBACK PlaybackButtons::playback() const
+        {
+            return _playback;
+        }
+
+        void PlaybackButtons::setPlayback(PlaybackUtil::PLAYBACK playback)
+        {
+            if (playback == _playback)
+                return;
+            _playback = playback;
+            _buttonGroup->buttons()[_playback]->setChecked(true);
+            Q_EMIT playbackChanged(_playback);
+        }
+
+        void PlaybackButtons::buttonCallback(int id)
+        {
+            setPlayback(static_cast<PlaybackUtil::PLAYBACK>(id));
+        }
+
+    } // namespace UI
+} // namespace djv

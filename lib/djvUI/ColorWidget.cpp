@@ -44,298 +44,295 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvColorWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvColorWidget::Private
+namespace djv
 {
-    djvColor                      color        = djvColor(djvPixel::RGB_U8);
-    QVector<djvIntEditSlider *>   intWidgets;
-    QVector<djvFloatEditSlider *> floatWidgets;
-    QComboBox *                   formatWidget = nullptr;
-    QComboBox *                   typeWidget   = nullptr;
-    QHBoxLayout *                 bottomLayout = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvColorWidget
-//------------------------------------------------------------------------------
-
-djvColorWidget::djvColorWidget(djvUIContext * context, QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvColorWidget::djvColorWidget");
-
-    // Create the widgets.
-    for (int i = 0; i < djvPixel::channelsMax; ++i)
+    namespace UI
     {
-        djvIntEditSlider * intSlider = new djvIntEditSlider(context);
-        intSlider->setResetToDefault(false);
-        _p->intWidgets += intSlider;
-        
-        djvFloatEditSlider * floatSlider = new djvFloatEditSlider(context);
-        floatSlider->setResetToDefault(false);
-        floatSlider->editObject()->setClamp(false);
-        _p->floatWidgets += floatSlider;
-    }
-
-    _p->formatWidget = new QComboBox;
-    _p->formatWidget->addItems(djvPixel::formatLabels());
-    _p->formatWidget->setToolTip(qApp->translate("djvColorWidget", "Pixel format"));
-
-    _p->typeWidget = new QComboBox;
-    _p->typeWidget->addItems(djvPixel::typeLabels());
-    _p->typeWidget->setToolTip(qApp->translate("djvColorWidget", "Pixel type"));
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setMargin(0);
-
-    for (int i = 0; i < djvPixel::channelsMax; ++i)
-    {
-        layout->addWidget(_p->intWidgets[i]);
-        layout->addWidget(_p->floatWidgets[i]);
-    }
-
-    _p->bottomLayout = new QHBoxLayout;
-    _p->bottomLayout->setMargin(0);
-    _p->bottomLayout->setSpacing(0);
-    _p->bottomLayout->addStretch();
-    _p->bottomLayout->addWidget(_p->formatWidget);
-    _p->bottomLayout->addWidget(_p->typeWidget);
-    layout->addLayout(_p->bottomLayout);
-
-    // Initialize.
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    widgetUpdate();
-    valueUpdate();
-
-    // Setup the callbacks.
-    for (int i = 0; i < djvPixel::channelsMax; ++i)
-    {
-        connect(
-            _p->intWidgets[i],
-            SIGNAL(valueChanged(int)),
-            SLOT(intCallback(int)));
-        connect(
-            _p->floatWidgets[i],
-            SIGNAL(valueChanged(float)),
-            SLOT(floatCallback(float)));
-    }
-    connect(
-        _p->formatWidget,
-        SIGNAL(activated(int)),
-        SLOT(formatCallback(int)));
-    connect(
-        _p->typeWidget,
-        SIGNAL(activated(int)),
-        SLOT(typeCallback(int)));
-}
-
-djvColorWidget::~djvColorWidget()
-{}
-
-const djvColor & djvColorWidget::color() const
-{
-    return _p->color;
-}
-
-void djvColorWidget::setColor(const djvColor & color)
-{
-    if (color == _p->color)
-        return;
-    //DJV_DEBUG("djvColorWidget::setColor");
-    //DJV_DEBUG_PRINT("color = " << color);
-    const djvColor prev = _p->color;
-    _p->color = color;
-    if (_p->color.pixel() != prev.pixel())
-    {
-        widgetUpdate();
-    }
-    valueUpdate();
-    Q_EMIT colorChanged(_p->color);
-}
-
-QHBoxLayout * djvColorWidget::bottomLayout()
-{
-    return _p->bottomLayout;
-}
-
-void djvColorWidget::intCallback(int)
-{
-    for (int i = 0; i < djvPixel::channels(_p->color.pixel()); ++i)
-    {
-        switch (djvPixel::type(_p->color.pixel()))
+        struct ColorWidget::Private
         {
-            case djvPixel::U8:
-                _p->color.setU8 (_p->intWidgets[i]->value(), i);
-                break;
-            case djvPixel::U10:
-                _p->color.setU10(_p->intWidgets[i]->value(), i);
-                break;
-            case djvPixel::U16:
-                _p->color.setU16(_p->intWidgets[i]->value(), i);
-                break;
+            djvColor color = djvColor(djvPixel::RGB_U8);
+            QVector<IntEditSlider *> intWidgets;
+            QVector<FloatEditSlider *> floatWidgets;
+            QComboBox * formatWidget = nullptr;
+            QComboBox * typeWidget = nullptr;
+            QHBoxLayout * bottomLayout = nullptr;
+        };
 
-            case djvPixel::F16:
-                _p->color.setF16(
-                    static_cast<djvPixel::F16_T>(_p->floatWidgets[i]->value()),
-                    i);
+        ColorWidget::ColorWidget(UIContext * context, QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            //DJV_DEBUG("ColorWidget::ColorWidget");
+
+            // Create the widgets.
+            for (int i = 0; i < djvPixel::channelsMax; ++i)
+            {
+                IntEditSlider * intSlider = new IntEditSlider(context);
+                intSlider->setResetToDefault(false);
+                _p->intWidgets += intSlider;
+
+                FloatEditSlider * floatSlider = new FloatEditSlider(context);
+                floatSlider->setResetToDefault(false);
+                floatSlider->editObject()->setClamp(false);
+                _p->floatWidgets += floatSlider;
+            }
+
+            _p->formatWidget = new QComboBox;
+            _p->formatWidget->addItems(djvPixel::formatLabels());
+            _p->formatWidget->setToolTip(qApp->translate("djv::UI::ColorWidget", "Pixel format"));
+
+            _p->typeWidget = new QComboBox;
+            _p->typeWidget->addItems(djvPixel::typeLabels());
+            _p->typeWidget->setToolTip(qApp->translate("djv::UI::ColorWidget", "Pixel type"));
+
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setMargin(0);
+
+            for (int i = 0; i < djvPixel::channelsMax; ++i)
+            {
+                layout->addWidget(_p->intWidgets[i]);
+                layout->addWidget(_p->floatWidgets[i]);
+            }
+
+            _p->bottomLayout = new QHBoxLayout;
+            _p->bottomLayout->setMargin(0);
+            _p->bottomLayout->setSpacing(0);
+            _p->bottomLayout->addStretch();
+            _p->bottomLayout->addWidget(_p->formatWidget);
+            _p->bottomLayout->addWidget(_p->typeWidget);
+            layout->addLayout(_p->bottomLayout);
+
+            // Initialize.
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            widgetUpdate();
+            valueUpdate();
+
+            // Setup the callbacks.
+            for (int i = 0; i < djvPixel::channelsMax; ++i)
+            {
+                connect(
+                    _p->intWidgets[i],
+                    SIGNAL(valueChanged(int)),
+                    SLOT(intCallback(int)));
+                connect(
+                    _p->floatWidgets[i],
+                    SIGNAL(valueChanged(float)),
+                    SLOT(floatCallback(float)));
+            }
+            connect(
+                _p->formatWidget,
+                SIGNAL(activated(int)),
+                SLOT(formatCallback(int)));
+            connect(
+                _p->typeWidget,
+                SIGNAL(activated(int)),
+                SLOT(typeCallback(int)));
+        }
+
+        ColorWidget::~ColorWidget()
+        {}
+
+        const djvColor & ColorWidget::color() const
+        {
+            return _p->color;
+        }
+
+        void ColorWidget::setColor(const djvColor & color)
+        {
+            if (color == _p->color)
+                return;
+            //DJV_DEBUG("ColorWidget::setColor");
+            //DJV_DEBUG_PRINT("color = " << color);
+            const djvColor prev = _p->color;
+            _p->color = color;
+            if (_p->color.pixel() != prev.pixel())
+            {
+                widgetUpdate();
+            }
+            valueUpdate();
+            Q_EMIT colorChanged(_p->color);
+        }
+
+        QHBoxLayout * ColorWidget::bottomLayout()
+        {
+            return _p->bottomLayout;
+        }
+
+        void ColorWidget::intCallback(int)
+        {
+            for (int i = 0; i < djvPixel::channels(_p->color.pixel()); ++i)
+            {
+                switch (djvPixel::type(_p->color.pixel()))
+                {
+                case djvPixel::U8:
+                    _p->color.setU8(_p->intWidgets[i]->value(), i);
+                    break;
+                case djvPixel::U10:
+                    _p->color.setU10(_p->intWidgets[i]->value(), i);
+                    break;
+                case djvPixel::U16:
+                    _p->color.setU16(_p->intWidgets[i]->value(), i);
+                    break;
+
+                case djvPixel::F16:
+                    _p->color.setF16(
+                        static_cast<djvPixel::F16_T>(_p->floatWidgets[i]->value()),
+                        i);
+                    break;
+                case djvPixel::F32:
+                    _p->color.setF32(
+                        static_cast<djvPixel::F32_T>(_p->floatWidgets[i]->value()),
+                        i);
+                    break;
+                default: break;
+                }
+            }
+            valueUpdate();
+            Q_EMIT colorChanged(_p->color);
+        }
+
+        void ColorWidget::floatCallback(float)
+        {
+            intCallback(0);
+        }
+
+        void ColorWidget::formatCallback(int in)
+        {
+            djvColor tmp(djvPixel::pixel(
+                static_cast<djvPixel::FORMAT>(in),
+                djvPixel::type(_p->color.pixel())));
+            djvColorUtil::convert(_p->color, tmp);
+            setColor(tmp);
+            widgetUpdate();
+        }
+
+        void ColorWidget::typeCallback(int in)
+        {
+            djvColor tmp(djvPixel::pixel(
+                djvPixel::format(_p->color.pixel()),
+                static_cast<djvPixel::TYPE>(in)));
+            djvColorUtil::convert(_p->color, tmp);
+            setColor(tmp);
+            widgetUpdate();
+        }
+
+        void ColorWidget::widgetUpdate()
+        {
+            //DJV_DEBUG("ColorWidget::widgetUpdate");
+            //DJV_DEBUG_PRINT("color = " << _p->color);
+
+            djvSignalBlocker signalBlocker(QVector<QObject *>() <<
+                djvListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
+                djvListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets) <<
+                _p->formatWidget <<
+                _p->typeWidget);
+
+            const int channels = djvPixel::channels(_p->color.pixel());
+            static const QString toolTip0[] =
+            {
+                qApp->translate("djv::UI::ColorWidget", "Luminance channel"),
+                qApp->translate("djv::UI::ColorWidget", "Alpha channel")
+            };
+            static const QString toolTip1[] =
+            {
+                qApp->translate("djv::UI::ColorWidget", "Red channel"),
+                qApp->translate("djv::UI::ColorWidget", "Green channel"),
+                qApp->translate("djv::UI::ColorWidget", "Blue channel"),
+                qApp->translate("djv::UI::ColorWidget", "Alpha channel")
+            };
+
+            const QString * toolTip = 0;
+            switch (djvPixel::format(_p->color.pixel()))
+            {
+            case djvPixel::L:
+            case djvPixel::LA:
+                toolTip = toolTip0;
                 break;
-            case djvPixel::F32:
-                _p->color.setF32(
-                    static_cast<djvPixel::F32_T>(_p->floatWidgets[i]->value()),
-                    i);
+            case djvPixel::RGB:
+            case djvPixel::RGBA:
+                toolTip = toolTip1;
                 break;
             default: break;
-        }
-    }
-    valueUpdate();
-    Q_EMIT colorChanged(_p->color);
-}
+            }
 
-void djvColorWidget::floatCallback(float)
-{
-    intCallback(0);
-}
+            for (int i = 0; i < channels; ++i)
+            {
+                _p->intWidgets[i]->setRange(0, djvPixel::max(_p->color.pixel()));
+                _p->intWidgets[i]->setToolTip(toolTip[i]);
+                _p->floatWidgets[i]->setToolTip(toolTip[i]);
+            }
 
-void djvColorWidget::formatCallback(int in)
-{
-    djvColor tmp(djvPixel::pixel(
-        static_cast<djvPixel::FORMAT>(in),
-        djvPixel::type(_p->color.pixel())));
-    djvColorUtil::convert(_p->color, tmp);
-    setColor(tmp);
-    widgetUpdate();
-}
-
-void djvColorWidget::typeCallback(int in)
-{
-    djvColor tmp(djvPixel::pixel(
-        djvPixel::format(_p->color.pixel()),
-        static_cast<djvPixel::TYPE>(in)));
-    djvColorUtil::convert(_p->color, tmp);
-    setColor(tmp);
-    widgetUpdate();
-}
-
-void djvColorWidget::widgetUpdate()
-{
-    //DJV_DEBUG("djvColorWidget::widgetUpdate");
-    //DJV_DEBUG_PRINT("color = " << _p->color);
-    
-    djvSignalBlocker signalBlocker(QVector<QObject *>() <<
-        djvListUtil::convert<djvIntEditSlider *, QObject *>(_p->intWidgets) <<
-        djvListUtil::convert<djvFloatEditSlider *, QObject *>(
-            _p->floatWidgets) <<
-        _p->formatWidget <<
-        _p->typeWidget);
-
-    const int channels = djvPixel::channels(_p->color.pixel());
-    static const QString toolTip0[] =
-    {
-        qApp->translate("djvColorWidget", "Luminance channel"),
-        qApp->translate("djvColorWidget", "Alpha channel")
-    };
-    static const QString toolTip1[] =
-    {
-        qApp->translate("djvColorWidget", "Red channel"),
-        qApp->translate("djvColorWidget", "Green channel"),
-        qApp->translate("djvColorWidget", "Blue channel"),
-        qApp->translate("djvColorWidget", "Alpha channel")
-    };
-
-    const QString * toolTip = 0;
-    switch (djvPixel::format(_p->color.pixel()))
-    {
-        case djvPixel::L:
-        case djvPixel::LA:
-            toolTip = toolTip0;
-            break;
-        case djvPixel::RGB:
-        case djvPixel::RGBA:
-            toolTip = toolTip1;
-            break;
-        default: break;
-    }
-
-    for (int i = 0; i < channels; ++i)
-    {
-        _p->intWidgets[i]->setRange(0, djvPixel::max(_p->color.pixel()));
-        _p->intWidgets[i]->setToolTip(toolTip[i]);
-        _p->floatWidgets[i]->setToolTip(toolTip[i]);
-    }
-
-    for (int i = 0; i < djvPixel::channelsMax; ++i)
-    {
-        switch (djvPixel::type(_p->color.pixel()))
-        {
-            case djvPixel::U8:
-            case djvPixel::U10:
-            case djvPixel::U16:
-                if (i < channels)
+            for (int i = 0; i < djvPixel::channelsMax; ++i)
+            {
+                switch (djvPixel::type(_p->color.pixel()))
                 {
-                    _p->intWidgets[i]->show();
-                }
-                else
-                {
-                    _p->intWidgets[i]->hide();
-                }
-                _p->floatWidgets[i]->hide();
-                break;
-            case djvPixel::F16:
-            case djvPixel::F32:
-                _p->intWidgets[i]->hide();
-                if (i < channels)
-                {
-                    _p->floatWidgets[i]->show();
-                }
-                else
-                {
+                case djvPixel::U8:
+                case djvPixel::U10:
+                case djvPixel::U16:
+                    if (i < channels)
+                    {
+                        _p->intWidgets[i]->show();
+                    }
+                    else
+                    {
+                        _p->intWidgets[i]->hide();
+                    }
                     _p->floatWidgets[i]->hide();
+                    break;
+                case djvPixel::F16:
+                case djvPixel::F32:
+                    _p->intWidgets[i]->hide();
+                    if (i < channels)
+                    {
+                        _p->floatWidgets[i]->show();
+                    }
+                    else
+                    {
+                        _p->floatWidgets[i]->hide();
+                    }
+                    break;
+                default: break;
                 }
-                break;
-            default: break;
+            }
+
+            _p->formatWidget->setCurrentIndex(djvPixel::format(_p->color.pixel()));
+            _p->typeWidget->setCurrentIndex(djvPixel::type(_p->color.pixel()));
+
+            update();
         }
-    }
 
-    _p->formatWidget->setCurrentIndex(djvPixel::format(_p->color.pixel()));
-    _p->typeWidget->setCurrentIndex(djvPixel::type(_p->color.pixel()));
-
-    update();
-}
-
-void djvColorWidget::valueUpdate()
-{
-    //DJV_DEBUG("djvColorWidget::valueUpdate");
-
-    djvSignalBlocker signalBlocker(QVector<QObject *>() <<
-        djvListUtil::convert<djvIntEditSlider *, QObject *>(_p->intWidgets) <<
-        djvListUtil::convert<djvFloatEditSlider *, QObject *>(
-            _p->floatWidgets));
-
-    for (int i = 0; i < djvPixel::channels(_p->color.pixel()); ++i)
-    {
-        switch (djvPixel::type(_p->color.pixel()))
+        void ColorWidget::valueUpdate()
         {
-            case djvPixel::U8:
-                _p->intWidgets[i]->setValue(_p->color.u8 (i));
-                break;
-            case djvPixel::U10:
-                _p->intWidgets[i]->setValue(_p->color.u10(i));
-                break;
-            case djvPixel::U16:
-                _p->intWidgets[i]->setValue(_p->color.u16(i));
-                break;
-            case djvPixel::F16:
-                _p->floatWidgets[i]->setValue(_p->color.f16(i));
-                break;
-            case djvPixel::F32:
-                _p->floatWidgets[i]->setValue(_p->color.f32(i));
-                break;
-            default: break;
+            //DJV_DEBUG("ColorWidget::valueUpdate");
+
+            djvSignalBlocker signalBlocker(QVector<QObject *>() <<
+                djvListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
+                djvListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets));
+
+            for (int i = 0; i < djvPixel::channels(_p->color.pixel()); ++i)
+            {
+                switch (djvPixel::type(_p->color.pixel()))
+                {
+                case djvPixel::U8:
+                    _p->intWidgets[i]->setValue(_p->color.u8(i));
+                    break;
+                case djvPixel::U10:
+                    _p->intWidgets[i]->setValue(_p->color.u10(i));
+                    break;
+                case djvPixel::U16:
+                    _p->intWidgets[i]->setValue(_p->color.u16(i));
+                    break;
+                case djvPixel::F16:
+                    _p->floatWidgets[i]->setValue(_p->color.f16(i));
+                    break;
+                case djvPixel::F32:
+                    _p->floatWidgets[i]->setValue(_p->color.f32(i));
+                    break;
+                default: break;
+                }
+            }
         }
-    }
-}
+
+    } // namespace UI
+} // namespace djv

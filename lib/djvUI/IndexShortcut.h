@@ -35,38 +35,36 @@
 
 #include <QShortcut>
 
-//! \addtogroup djvUIMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIndexShortcut
-//!
-//! This class provides a Qt shortcut with an index.
-//------------------------------------------------------------------------------
-
-class djvIndexShortcut : public QShortcut
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvIndexShortcut(QWidget * parent);
+    namespace UI
+    {
+        //! \class IndexShortcut
+        //!
+        //! This class provides a Qt shortcut with an index.
+        class IndexShortcut : public QShortcut
+        {
+            Q_OBJECT
 
-    djvIndexShortcut(
-        const QKeySequence & key,
-        int                  index,
-        QWidget *            parent          = nullptr,
-        const char *         member          = 0,
-        const char *         ambiguousMember = 0);
+        public:
+            IndexShortcut(QWidget * parent);
 
-    //! Get the index.
-    int index() const;
-    
-    //! Set the index.
-    void setIndex(int);
+            IndexShortcut(
+                const QKeySequence & key,
+                int                  index,
+                QWidget *            parent = nullptr,
+                const char *         member = 0,
+                const char *         ambiguousMember = 0);
 
-private:
-    int _index = 0;
-};
+            //! Get the index.
+            int index() const;
 
-//@} // djvUIMisc
+            //! Set the index.
+            void setIndex(int);
 
+        private:
+            int _index = 0;
+        };
+
+    } // namespace UI
+} // namespace djv

@@ -37,29 +37,29 @@
 
 #include <QAbstractButton>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvAbstractToolButton
-//!
-//! This class provides the base functionality for tool buttons.
-//------------------------------------------------------------------------------
-
-class djvAbstractToolButton : public QAbstractButton
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvAbstractToolButton(QWidget * parent = nullptr);
-    virtual ~djvAbstractToolButton() = 0;
+    namespace UI
+    {
+        //! \class AbstractToolButton
+        //!
+        //! This class provides the base functionality for tool buttons.
+        class AbstractToolButton : public QAbstractButton
+        {
+            Q_OBJECT
 
-protected:
-    virtual void paintEvent(QPaintEvent *);
-    virtual bool event(QEvent*);
+        public:
+            explicit AbstractToolButton(QWidget * parent = nullptr);
 
-private:
-    DJV_PRIVATE_COPY(djvAbstractToolButton);
-};
+            virtual ~AbstractToolButton() = 0;
 
-//@} // djvUIWidget
+        protected:
+            virtual void paintEvent(QPaintEvent *);
+            virtual bool event(QEvent*);
+
+        private:
+            DJV_PRIVATE_COPY(AbstractToolButton);
+        };
+
+    } // namespace UI
+} // namespace djv

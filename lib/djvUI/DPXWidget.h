@@ -35,84 +35,78 @@
 
 #include <djvGraphics/DPX.h>
 
-class djvFloatEditSlider;
-class djvIntEditSlider;
-
 class QCheckBox;
 class QComboBox;
 class QFormLayout;
 
-//! \addtogroup djvDPXPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDPXWidget
-//!
-//! This class provides a DPX widget.
-//------------------------------------------------------------------------------
-
-class djvDPXWidget : public djvImageIOWidget
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvDPXWidget(djvImageIO *, djvUIContext *);
+    namespace UI
+    {
+        class FloatEditSlider;
+        class IntEditSlider;
 
-    virtual ~djvDPXWidget();
+        //! \class DPXWidget
+        //!
+        //! This class provides a DPX widget.
+        class DPXWidget : public ImageIOWidget
+        {
+            Q_OBJECT
 
-    virtual void resetPreferences();
+        public:
+            DPXWidget(djvImageIO *, UIContext *);
 
-private Q_SLOTS:
-    void pluginCallback(const QString &);
-    void inputColorProfileCallback(int);
-    void inputBlackPointCallback(int);
-    void inputWhitePointCallback(int);
-    void inputGammaCallback(float);
-    void inputSoftClipCallback(int);
-    void outputColorProfileCallback(int);
-    void outputBlackPointCallback(int);
-    void outputWhitePointCallback(int);
-    void outputGammaCallback(float);
-    void versionCallback(int);
-    void typeCallback(int);
-    void endianCallback(int);
+            virtual ~DPXWidget();
 
-    void pluginUpdate();
-    void widgetUpdate();
+            virtual void resetPreferences();
 
-private:
-    djvDPX::Options       _options;
-    QFormLayout *         _inputColorProfileLayout;
-    QComboBox *           _inputColorProfileWidget;
-    djvIntEditSlider *    _inputBlackPointWidget;
-    djvIntEditSlider *    _inputWhitePointWidget;
-    djvFloatEditSlider *  _inputGammaWidget;
-    djvIntEditSlider *    _inputSoftClipWidget;
-    QFormLayout *         _outputColorProfileLayout;
-    QComboBox *           _outputColorProfileWidget;
-    djvIntEditSlider *    _outputBlackPointWidget;
-    djvIntEditSlider *    _outputWhitePointWidget;
-    djvFloatEditSlider *  _outputGammaWidget;
-    QComboBox *           _versionWidget;
-    QComboBox *           _typeWidget;
-    QComboBox *           _endianWidget;
-};
+        private Q_SLOTS:
+            void pluginCallback(const QString &);
+            void inputColorProfileCallback(int);
+            void inputBlackPointCallback(int);
+            void inputWhitePointCallback(int);
+            void inputGammaCallback(float);
+            void inputSoftClipCallback(int);
+            void outputColorProfileCallback(int);
+            void outputBlackPointCallback(int);
+            void outputWhitePointCallback(int);
+            void outputGammaCallback(float);
+            void versionCallback(int);
+            void typeCallback(int);
+            void endianCallback(int);
 
-//------------------------------------------------------------------------------
-//! \class djvDPXWidgetPlugin
-//!
-//! This class provides a DPX widget plugin.
-//------------------------------------------------------------------------------
+            void pluginUpdate();
+            void widgetUpdate();
 
-class djvDPXWidgetPlugin : public djvImageIOWidgetPlugin
-{
-public:    
-    djvDPXWidgetPlugin(djvCoreContext *);
-    
-    virtual djvImageIOWidget * createWidget(djvImageIO *) const;
+        private:
+            djvDPX::Options _options;
+            QFormLayout * _inputColorProfileLayout;
+            QComboBox * _inputColorProfileWidget;
+            IntEditSlider * _inputBlackPointWidget;
+            IntEditSlider * _inputWhitePointWidget;
+            FloatEditSlider * _inputGammaWidget;
+            IntEditSlider * _inputSoftClipWidget;
+            QFormLayout * _outputColorProfileLayout;
+            QComboBox * _outputColorProfileWidget;
+            IntEditSlider * _outputBlackPointWidget;
+            IntEditSlider * _outputWhitePointWidget;
+            FloatEditSlider * _outputGammaWidget;
+            QComboBox * _versionWidget;
+            QComboBox * _typeWidget;
+            QComboBox * _endianWidget;
+        };
 
-    virtual QString pluginName() const;
-};
+        //! \class DPXWidgetPlugin
+        //!
+        //! This class provides a DPX widget plugin.
+        class DPXWidgetPlugin : public ImageIOWidgetPlugin
+        {
+        public:
+            DPXWidgetPlugin(djvCoreContext *);
 
-//@} // djvDPXPlugin
+            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual QString pluginName() const;
+        };
 
+    } // namespace UI
+} // namespace djv

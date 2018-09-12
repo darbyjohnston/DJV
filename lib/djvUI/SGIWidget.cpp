@@ -42,114 +42,114 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvSGIWidget
-//------------------------------------------------------------------------------
-
-djvSGIWidget::djvSGIWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _compressionWidget(0)
+namespace djv
 {
-    // Create the output widgets.    
-    _compressionWidget = new QComboBox;
-    _compressionWidget->addItems(djvSGI::compressionLabels());
-    _compressionWidget->setSizePolicy(
-        QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvSGIWidget", "Compression"),
-        qApp->translate("djvSGIWidget", "Set the file compression used when saving SGI images."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvSGIWidget", "Compression:"),
-        _compressionWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    QStringList tmp;
-    tmp = plugin->option(
-        plugin->options()[djvSGI::COMPRESSION_OPTION]);
-    tmp >> _options.compression;
-
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _compressionWidget,
-        SIGNAL(activated(int)),
-        SLOT(compressionCallback(int)));
-}
-
-djvSGIWidget::~djvSGIWidget()
-{}
-
-void djvSGIWidget::resetPreferences()
-{
-    _options = djvSGI::Options();
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvSGIWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvSGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.compression;
-    }
-    catch (const QString &)
-    {}
-    widgetUpdate();
-}
+        SGIWidget::SGIWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _compressionWidget(0)
+        {
+            // Create the output widgets.    
+            _compressionWidget = new QComboBox;
+            _compressionWidget->addItems(djvSGI::compressionLabels());
+            _compressionWidget->setSizePolicy(
+                QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-void djvSGIWidget::compressionCallback(int in)
-{
-    _options.compression = static_cast<djvSGI::COMPRESSION>(in);
-    pluginUpdate();
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvSGIWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.compression;
-    plugin()->setOption(
-        plugin()->options()[djvSGI::COMPRESSION_OPTION], tmp);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::SGIWidget", "Compression"),
+                qApp->translate("djv::UI::SGIWidget", "Set the file compression used when saving SGI images."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::SGIWidget", "Compression:"),
+                _compressionWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvSGIWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_compressionWidget);
-    _compressionWidget->setCurrentIndex(_options.compression);
-}
+            layout->addStretch();
 
-//------------------------------------------------------------------------------
-// djvSGIWidgetPlugin
-//------------------------------------------------------------------------------
+            // Initialize.
+            QStringList tmp;
+            tmp = plugin->option(
+                plugin->options()[djvSGI::COMPRESSION_OPTION]);
+            tmp >> _options.compression;
 
-djvSGIWidgetPlugin::djvSGIWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            widgetUpdate();
 
-djvImageIOWidget * djvSGIWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvSGIWidget(plugin, uiContext());
-}
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _compressionWidget,
+                SIGNAL(activated(int)),
+                SLOT(compressionCallback(int)));
+        }
 
-QString djvSGIWidgetPlugin::pluginName() const
-{
-    return djvSGI::staticName;
-}
+        SGIWidget::~SGIWidget()
+        {}
+
+        void SGIWidget::resetPreferences()
+        {
+            _options = djvSGI::Options();
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void SGIWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    djvSGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.compression;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void SGIWidget::compressionCallback(int in)
+        {
+            _options.compression = static_cast<djvSGI::COMPRESSION>(in);
+            pluginUpdate();
+        }
+
+        void SGIWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.compression;
+            plugin()->setOption(
+                plugin()->options()[djvSGI::COMPRESSION_OPTION], tmp);
+        }
+
+        void SGIWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_compressionWidget);
+            _compressionWidget->setCurrentIndex(_options.compression);
+        }
+
+        SGIWidgetPlugin::SGIWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * SGIWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new SGIWidget(plugin, uiContext());
+        }
+
+        QString SGIWidgetPlugin::pluginName() const
+        {
+            return djvSGI::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

@@ -35,38 +35,41 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvImagePrefs
-//------------------------------------------------------------------------------
-
-djvImagePrefs::djvImagePrefs(QObject * parent) :
-    QObject(parent)
+namespace djv
 {
-    //DJV_DEBUG("djvImagePrefs::djvImagePrefs");
-    djvPrefs prefs("djvImagePrefs", djvPrefs::SYSTEM);
-    djvOpenGLImageFilter filter;
-    if (prefs.get("filter", filter))
+    namespace UI
     {
-        djvOpenGLImageFilter::setFilter(filter);
-    }
-}
+        ImagePrefs::ImagePrefs(QObject * parent) :
+            QObject(parent)
+        {
+            //DJV_DEBUG("ImagePrefs::ImagePrefs");
+            Prefs prefs("djv::UI::ImagePrefs", Prefs::SYSTEM);
+            djvOpenGLImageFilter filter;
+            if (prefs.get("filter", filter))
+            {
+                djvOpenGLImageFilter::setFilter(filter);
+            }
+        }
 
-djvImagePrefs::~djvImagePrefs()
-{
-    //DJV_DEBUG("djvImagePrefs::~djvImagePrefs");
-    djvPrefs prefs("djvImagePrefs", djvPrefs::SYSTEM);
-    prefs.set("filter", djvOpenGLImageFilter::filter());
-}
+        ImagePrefs::~ImagePrefs()
+        {
+            //DJV_DEBUG("ImagePrefs::~ImagePrefs");
+            Prefs prefs("djv::UI::ImagePrefs", Prefs::SYSTEM);
+            prefs.set("filter", djvOpenGLImageFilter::filter());
+        }
 
-const djvOpenGLImageFilter & djvImagePrefs::filter() const
-{
-    return djvOpenGLImageFilter::filter();
-}
+        const djvOpenGLImageFilter & ImagePrefs::filter() const
+        {
+            return djvOpenGLImageFilter::filter();
+        }
 
-void djvImagePrefs::setFilter(const djvOpenGLImageFilter & filter)
-{
-    if (filter == this->filter())
-        return;
-    djvOpenGLImageFilter::setFilter(filter);
-    Q_EMIT filterChanged(filter);
-}
+        void ImagePrefs::setFilter(const djvOpenGLImageFilter & filter)
+        {
+            if (filter == this->filter())
+                return;
+            djvOpenGLImageFilter::setFilter(filter);
+            Q_EMIT filterChanged(filter);
+        }
+
+    } // namespace UI
+} // namespace djv

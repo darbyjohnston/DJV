@@ -44,115 +44,112 @@
 #include <QFormLayout>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvJPEGWidget
-//------------------------------------------------------------------------------
-
-djvJPEGWidget::djvJPEGWidget(djvImageIO * plugin, djvUIContext * context) :
-    djvImageIOWidget(plugin, context),
-    _qualityWidget(0)
+namespace djv
 {
-    // Create the widgets.
-    _qualityWidget = new djvIntEditSlider(context);
-    _qualityWidget->setRange(0, 100);
-    _qualityWidget->setDefaultValue(djvJPEG::Options().quality);
-
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->setSpacing(context->style()->sizeMetric().largeSpacing);
-
-    djvPrefsGroupBox * prefsGroupBox = new djvPrefsGroupBox(
-        qApp->translate("djvJPEGWidget", "Quality"),
-        qApp->translate("djvJPEGWidget", "Set the quality used when saving JPEG images."),
-        context);
-    QFormLayout * formLayout = prefsGroupBox->createLayout();
-    formLayout->addRow(
-        qApp->translate("djvJPEGWidget", "Quality:"),
-        _qualityWidget);
-    layout->addWidget(prefsGroupBox);
-
-    layout->addStretch();
-
-    // Initialize.
-    QStringList tmp;
-    tmp = plugin->option(
-        plugin->options()[djvJPEG::QUALITY_OPTION]);
-    tmp >> _options.quality;
-
-    widgetUpdate();
-
-    // Setup the callbacks.
-    connect(
-        plugin,
-        SIGNAL(optionChanged(const QString &)),
-        SLOT(pluginCallback(const QString &)));
-    connect(
-        _qualityWidget,
-        SIGNAL(valueChanged(int)),
-        SLOT(qualityCallback(int)));
-}
-
-djvJPEGWidget::~djvJPEGWidget()
-{}
-
-void djvJPEGWidget::resetPreferences()
-{
-    _options = djvJPEG::Options();
-    pluginUpdate();
-    widgetUpdate();
-}
-
-void djvJPEGWidget::pluginCallback(const QString & option)
-{
-    try
+    namespace UI
     {
-        QStringList tmp;
-        tmp = plugin()->option(option);
-        if (0 == option.compare(plugin()->options()[
-            djvJPEG::QUALITY_OPTION], Qt::CaseInsensitive))
-                tmp >> _options.quality;
-    }
-    catch (const QString &)
-    {
-    }
-    widgetUpdate();
-}
+        JPEGWidget::JPEGWidget(djvImageIO * plugin, UIContext * context) :
+            ImageIOWidget(plugin, context),
+            _qualityWidget(0)
+        {
+            // Create the widgets.
+            _qualityWidget = new IntEditSlider(context);
+            _qualityWidget->setRange(0, 100);
+            _qualityWidget->setDefaultValue(djvJPEG::Options().quality);
 
-void djvJPEGWidget::qualityCallback(int in)
-{
-    _options.quality = in;
-    pluginUpdate();
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
-void djvJPEGWidget::pluginUpdate()
-{
-    QStringList tmp;
-    tmp << _options.quality;
-    plugin()->setOption(
-        djvJPEG::optionsLabels()[djvJPEG::QUALITY_OPTION], tmp);
-}
+            PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
+                qApp->translate("djv::UI::JPEGWidget", "Quality"),
+                qApp->translate("djv::UI::JPEGWidget", "Set the quality used when saving JPEG images."),
+                context);
+            QFormLayout * formLayout = prefsGroupBox->createLayout();
+            formLayout->addRow(
+                qApp->translate("djv::UI::JPEGWidget", "Quality:"),
+                _qualityWidget);
+            layout->addWidget(prefsGroupBox);
 
-void djvJPEGWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(_qualityWidget);
-    _qualityWidget->setValue(_options.quality);
-}
+            layout->addStretch();
 
-//------------------------------------------------------------------------------
-// djvJPEGWidgetPlugin
-//------------------------------------------------------------------------------
+            // Initialize.
+            QStringList tmp;
+            tmp = plugin->option(
+                plugin->options()[djvJPEG::QUALITY_OPTION]);
+            tmp >> _options.quality;
 
-djvJPEGWidgetPlugin::djvJPEGWidgetPlugin(djvCoreContext * context) :
-    djvImageIOWidgetPlugin(context)
-{}
+            widgetUpdate();
 
-djvImageIOWidget * djvJPEGWidgetPlugin::createWidget(djvImageIO * plugin) const
-{
-    return new djvJPEGWidget(plugin, uiContext());
-}
+            // Setup the callbacks.
+            connect(
+                plugin,
+                SIGNAL(optionChanged(const QString &)),
+                SLOT(pluginCallback(const QString &)));
+            connect(
+                _qualityWidget,
+                SIGNAL(valueChanged(int)),
+                SLOT(qualityCallback(int)));
+        }
 
-QString djvJPEGWidgetPlugin::pluginName() const
-{
-    return djvJPEG::staticName;
-}
+        JPEGWidget::~JPEGWidget()
+        {}
 
+        void JPEGWidget::resetPreferences()
+        {
+            _options = djvJPEG::Options();
+            pluginUpdate();
+            widgetUpdate();
+        }
+
+        void JPEGWidget::pluginCallback(const QString & option)
+        {
+            try
+            {
+                QStringList tmp;
+                tmp = plugin()->option(option);
+                if (0 == option.compare(plugin()->options()[
+                    djvJPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+                    tmp >> _options.quality;
+            }
+            catch (const QString &)
+            {
+            }
+            widgetUpdate();
+        }
+
+        void JPEGWidget::qualityCallback(int in)
+        {
+            _options.quality = in;
+            pluginUpdate();
+        }
+
+        void JPEGWidget::pluginUpdate()
+        {
+            QStringList tmp;
+            tmp << _options.quality;
+            plugin()->setOption(djvJPEG::optionsLabels()[djvJPEG::QUALITY_OPTION], tmp);
+        }
+
+        void JPEGWidget::widgetUpdate()
+        {
+            djvSignalBlocker signalBlocker(_qualityWidget);
+            _qualityWidget->setValue(_options.quality);
+        }
+
+        JPEGWidgetPlugin::JPEGWidgetPlugin(djvCoreContext * context) :
+            ImageIOWidgetPlugin(context)
+        {}
+
+        ImageIOWidget * JPEGWidgetPlugin::createWidget(djvImageIO * plugin) const
+        {
+            return new JPEGWidget(plugin, uiContext());
+        }
+
+        QString JPEGWidgetPlugin::pluginName() const
+        {
+            return djvJPEG::staticName;
+        }
+
+    } // namespace UI
+} // namespace djv

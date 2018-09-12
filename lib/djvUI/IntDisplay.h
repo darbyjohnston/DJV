@@ -39,62 +39,60 @@
 
 #include <memory>
 
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIntDisplay
-//!
-//! This class provides a widget for displaying an integer.
-//------------------------------------------------------------------------------
-
-class djvIntDisplay : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        int    value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-public:
-    explicit djvIntDisplay(QWidget * parent = nullptr);
+    namespace UI
+    {
+        //! \class IntDisplay
+        //!
+        //! This class provides a widget for displaying an integer.
+        class IntDisplay : public QWidget
+        {
+            Q_OBJECT
 
-    virtual ~djvIntDisplay();
+                //! This property holds the value.
+                Q_PROPERTY(
+                    int    value
+                    READ   value
+                    WRITE  setValue
+                    NOTIFY valueChanged)
 
-    //! Get the value.
-    int value() const;
-    
-    //! Get the minimum value.
-    int min() const;
-    
-    //! Get the maximum value.
-    int max() const;
+        public:
+            explicit IntDisplay(QWidget * parent = nullptr);
 
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(int);
+            virtual ~IntDisplay();
 
-    //! Set the value range.
-    void setRange(int min, int max);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(int);
+            //! Get the value.
+            int value() const;
 
-    //! This signal is emitted when the range is changed.
-    void rangeChanged(int min, int max);
-    
-private:
-    void widgetUpdate();
-    
-    DJV_PRIVATE_COPY(djvIntDisplay);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the minimum value.
+            int min() const;
 
-//@} // djvUIWidget
+            //! Get the maximum value.
+            int max() const;
 
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(int);
+
+            //! Set the value range.
+            void setRange(int min, int max);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(int);
+
+            //! This signal is emitted when the range is changed.
+            void rangeChanged(int min, int max);
+
+        private:
+            void widgetUpdate();
+
+            DJV_PRIVATE_COPY(IntDisplay);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

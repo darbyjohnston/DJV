@@ -48,244 +48,240 @@
 #include <QCoreApplication>
 #include <QMimeData>
 
-//------------------------------------------------------------------------------
-// djvFileBrowserModel::Private
-//------------------------------------------------------------------------------
-
-struct djvFileBrowserModel::Private
+namespace djv
 {
-    Private(djvUIContext * context) :
-        context(context)
-    {}
-    
-    QString                              path;
-    djvSequence::COMPRESS                sequence       = djvSequence::COMPRESS_RANGE;
-    QString                              filterText;
-    bool                                 showHidden     = false;
-    djvFileBrowserModel::COLUMNS         columnsSort    = djvFileBrowserModel::NAME;
-    bool                                 reverseSort    = false;
-    bool                                 sortDirsFirst  = true;
-    djvFileBrowserModel::THUMBNAILS      thumbnails     = djvFileBrowserModel::THUMBNAILS_HIGH;
-    djvFileBrowserModel::THUMBNAILS_SIZE thumbnailsSize = djvFileBrowserModel::THUMBNAILS_MEDIUM;
-    
-    djvFileInfoList list;
-    djvFileInfoList listTmp;
-    
-    mutable QVector<djvFileBrowserItem *> items;
-    
-    djvUIContext * context = nullptr;
-};
+    namespace UI
+    {
+        struct FileBrowserModel::Private
+        {
+            Private(UIContext * context) :
+                context(context)
+            {}
 
-//------------------------------------------------------------------------------
-// djvFileBrowserModel
-//------------------------------------------------------------------------------
+            QString path;
+            djvSequence::COMPRESS sequence = djvSequence::COMPRESS_RANGE;
+            QString filterText;
+            bool showHidden = false;
+            FileBrowserModel::COLUMNS columnsSort = FileBrowserModel::NAME;
+            bool reverseSort = false;
+            bool sortDirsFirst = true;
+            FileBrowserModel::THUMBNAILS thumbnails = FileBrowserModel::THUMBNAILS_HIGH;
+            FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize = FileBrowserModel::THUMBNAILS_MEDIUM;
 
-const QStringList & djvFileBrowserModel::columnsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileBrowserModel", "Name") <<
-        qApp->translate("djvFileBrowserModel", "Size") <<
+            djvFileInfoList list;
+            djvFileInfoList listTmp;
+
+            mutable QVector<FileBrowserItem *> items;
+
+            UIContext * context = nullptr;
+        };
+
+        const QStringList & FileBrowserModel::columnsLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::UI::FileBrowserModel", "Name") <<
+                qApp->translate("djv::UI::FileBrowserModel", "Size") <<
 #if ! defined(DJV_WINDOWS)
-        qApp->translate("djvFileBrowserModel", "User") <<
+                qApp->translate("djv::UI::FileBrowserModel", "User") <<
 #endif
-        qApp->translate("djvFileBrowserModel", "Permissions") <<
-        qApp->translate("djvFileBrowserModel", "Time");
-    DJV_ASSERT(data.count() == COLUMNS_COUNT);
-    return data;
-}
+                qApp->translate("djv::UI::FileBrowserModel", "Permissions") <<
+                qApp->translate("djv::UI::FileBrowserModel", "Time");
+            DJV_ASSERT(data.count() == COLUMNS_COUNT);
+            return data;
+        }
 
-djvFileBrowserModel::djvFileBrowserModel(djvUIContext * context, QObject * parent) :
-    QAbstractItemModel(parent),
-    _p(new Private(context))
-{
-    //DJV_DEBUG("djvFileBrowserModel::djvFileBrowserModel");
-    //dirUpdate();
-    //modelUpdate();
-}
+        FileBrowserModel::FileBrowserModel(UIContext * context, QObject * parent) :
+            QAbstractItemModel(parent),
+            _p(new Private(context))
+        {
+            //DJV_DEBUG("FileBrowserModel::FileBrowserModel");
+            //dirUpdate();
+            //modelUpdate();
+        }
 
-djvFileBrowserModel::~djvFileBrowserModel()
-{
-    for (int i = 0; i < _p->items.count(); ++i)
-    {
-        delete _p->items[i];
-        _p->items[i] = 0;
-    }
-    _p->items.clear();
-}
-
-const QString & djvFileBrowserModel::path() const
-{
-    return _p->path;
-}
-
-const djvFileInfoList & djvFileBrowserModel::contents() const
-{
-    return _p->listTmp;
-}
-
-djvFileInfo djvFileBrowserModel::fileInfo(const QModelIndex & index) const
-{
-    //DJV_DEBUG("djvFileBrowserModel::fileInfo");
-    //DJV_DEBUG_PRINT("index = " << index.isValid());
-    djvFileInfo * fileInfo = 0;
-    if (index.isValid())
-    {
-        fileInfo = (djvFileInfo *)index.internalPointer();
-    }
-    return fileInfo ? *fileInfo : djvFileInfo();
-}
-
-djvSequence::COMPRESS djvFileBrowserModel::sequence() const
-{
-    return _p->sequence;
-}
-
-const QString & djvFileBrowserModel::filterText() const
-{
-    return _p->filterText;
-}
-
-bool djvFileBrowserModel::hasShowHidden() const
-{
-    return _p->showHidden;
-}
-
-djvFileBrowserModel::COLUMNS djvFileBrowserModel::columnsSort() const
-{
-    return _p->columnsSort;
-}
-
-bool djvFileBrowserModel::hasReverseSort() const
-{
-    return _p->reverseSort;
-}
-
-bool djvFileBrowserModel::hasSortDirsFirst() const
-{
-    return _p->sortDirsFirst;
-}
-
-const QStringList & djvFileBrowserModel::thumbnailsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileBrowserModel", "Off") <<
-        qApp->translate("djvFileBrowserModel", "Low Quality") <<
-        qApp->translate("djvFileBrowserModel", "High Quality");
-    DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
-    return data;
-}
-
-djvFileBrowserModel::THUMBNAILS djvFileBrowserModel::thumbnails() const
-{
-    return _p->thumbnails;
-}
-
-const QStringList & djvFileBrowserModel::thumbnailsSizeLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileBrowserModel", "Small") <<
-        qApp->translate("djvFileBrowserModel", "Medium") <<
-        qApp->translate("djvFileBrowserModel", "Large");
-    DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
-    return data;
-}
-
-int djvFileBrowserModel::thumbnailsSizeValue(THUMBNAILS_SIZE size)
-{
-    static const QVector<int> data = QVector<int>() <<
-        100 <<
-        200 <<
-        300;
-    DJV_ASSERT(data.count() == THUMBNAILS_SIZE_COUNT);
-    return data[size];
-}
-
-djvFileBrowserModel::THUMBNAILS_SIZE djvFileBrowserModel::thumbnailsSize() const
-{
-    return _p->thumbnailsSize;
-}
-
-QModelIndex	djvFileBrowserModel::index(
-    int                 row,
-    int                 column,
-    const QModelIndex & parent) const
-{
-    if (! hasIndex(row, column, parent))
-        return QModelIndex();
-    return createIndex(row, column, &_p->listTmp[row]);
-}
-
-QModelIndex	djvFileBrowserModel::parent(const QModelIndex & index) const
-{
-    return QModelIndex();
-}
-    
-QVariant djvFileBrowserModel::headerData(
-    int             section,
-    Qt::Orientation orientation,
-    int             role) const
-{
-    switch (role)
-    {
-        case Qt::DisplayRole: return columnsLabels()[section];
-        default: break;
-    }
-    return QVariant();
-}
-
-void djvFileBrowserModel::imageInfoCallback()
-{
-    //DJV_DEBUG("djvFileBrowserModel::imageInfoCallback");
-    const int row = _p->items.indexOf(
-        qobject_cast<djvFileBrowserItem *>(sender()));
-    if (row != -1)
-    {
-        const QModelIndex index = this->index(row, 0);
-        Q_EMIT dataChanged(index, index);
-    }
-}
-
-void djvFileBrowserModel::thumbnailCallback()
-{
-    //DJV_DEBUG("djvFileBrowserModel::thumbnailCallback");
-    const int row = _p->items.indexOf(
-        qobject_cast<djvFileBrowserItem *>(sender()));
-    if (row != -1)
-    {
-        const QModelIndex index = this->index(row, 0);
-        Q_EMIT dataChanged(index, index);
-    }
-}
-
-QVariant djvFileBrowserModel::data(
-    const QModelIndex & index,
-    int                 role) const
-{
-    if (! index.isValid())
-        return QVariant();
-    if (role != Qt::DecorationRole &&
-        role != Qt::DisplayRole    &&
-        role != Qt::EditRole       &&
-        role != Qt::SizeHintRole)
-        return QVariant();
-
-    const int row    = index.row();
-    const int column = index.column();
-    if (row    < 0 || row    >= _p->items.count() ||
-        column < 0 || column >= COLUMNS_COUNT)
-        return QVariant();
-    
-    djvFileBrowserItem * item = _p->items[row];
-    const djvFileInfo & fileInfo = item->fileInfo();
-    static const QVector<QPixmap> pixmaps = QVector<QPixmap>() <<
-        QPixmap(djvFileInfo::typeIcons()[djvFileInfo::FILE]) <<
-        QPixmap(djvFileInfo::typeIcons()[djvFileInfo::SEQUENCE]) <<
-        QPixmap(djvFileInfo::typeIcons()[djvFileInfo::DIRECTORY]);
-    switch (role)
-    {
-        case Qt::DecorationRole:
-            switch (column)
+        FileBrowserModel::~FileBrowserModel()
+        {
+            for (int i = 0; i < _p->items.count(); ++i)
             {
+                delete _p->items[i];
+                _p->items[i] = 0;
+            }
+            _p->items.clear();
+        }
+
+        const QString & FileBrowserModel::path() const
+        {
+            return _p->path;
+        }
+
+        const djvFileInfoList & FileBrowserModel::contents() const
+        {
+            return _p->listTmp;
+        }
+
+        djvFileInfo FileBrowserModel::fileInfo(const QModelIndex & index) const
+        {
+            //DJV_DEBUG("FileBrowserModel::fileInfo");
+            //DJV_DEBUG_PRINT("index = " << index.isValid());
+            djvFileInfo * fileInfo = 0;
+            if (index.isValid())
+            {
+                fileInfo = (djvFileInfo *)index.internalPointer();
+            }
+            return fileInfo ? *fileInfo : djvFileInfo();
+        }
+
+        djvSequence::COMPRESS FileBrowserModel::sequence() const
+        {
+            return _p->sequence;
+        }
+
+        const QString & FileBrowserModel::filterText() const
+        {
+            return _p->filterText;
+        }
+
+        bool FileBrowserModel::hasShowHidden() const
+        {
+            return _p->showHidden;
+        }
+
+        FileBrowserModel::COLUMNS FileBrowserModel::columnsSort() const
+        {
+            return _p->columnsSort;
+        }
+
+        bool FileBrowserModel::hasReverseSort() const
+        {
+            return _p->reverseSort;
+        }
+
+        bool FileBrowserModel::hasSortDirsFirst() const
+        {
+            return _p->sortDirsFirst;
+        }
+
+        const QStringList & FileBrowserModel::thumbnailsLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::UI::FileBrowserModel", "Off") <<
+                qApp->translate("djv::UI::FileBrowserModel", "Low Quality") <<
+                qApp->translate("djv::UI::FileBrowserModel", "High Quality");
+            DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
+            return data;
+        }
+
+        FileBrowserModel::THUMBNAILS FileBrowserModel::thumbnails() const
+        {
+            return _p->thumbnails;
+        }
+
+        const QStringList & FileBrowserModel::thumbnailsSizeLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::UI::FileBrowserModel", "Small") <<
+                qApp->translate("djv::UI::FileBrowserModel", "Medium") <<
+                qApp->translate("djv::UI::FileBrowserModel", "Large");
+            DJV_ASSERT(data.count() == THUMBNAILS_COUNT);
+            return data;
+        }
+
+        int FileBrowserModel::thumbnailsSizeValue(THUMBNAILS_SIZE size)
+        {
+            static const QVector<int> data = QVector<int>() <<
+                100 <<
+                200 <<
+                300;
+            DJV_ASSERT(data.count() == THUMBNAILS_SIZE_COUNT);
+            return data[size];
+        }
+
+        FileBrowserModel::THUMBNAILS_SIZE FileBrowserModel::thumbnailsSize() const
+        {
+            return _p->thumbnailsSize;
+        }
+
+        QModelIndex	FileBrowserModel::index(
+            int                 row,
+            int                 column,
+            const QModelIndex & parent) const
+        {
+            if (!hasIndex(row, column, parent))
+                return QModelIndex();
+            return createIndex(row, column, &_p->listTmp[row]);
+        }
+
+        QModelIndex	FileBrowserModel::parent(const QModelIndex & index) const
+        {
+            return QModelIndex();
+        }
+
+        QVariant FileBrowserModel::headerData(
+            int             section,
+            Qt::Orientation orientation,
+            int             role) const
+        {
+            switch (role)
+            {
+            case Qt::DisplayRole: return columnsLabels()[section];
+            default: break;
+            }
+            return QVariant();
+        }
+
+        void FileBrowserModel::imageInfoCallback()
+        {
+            //DJV_DEBUG("FileBrowserModel::imageInfoCallback");
+            const int row = _p->items.indexOf(
+                qobject_cast<FileBrowserItem *>(sender()));
+            if (row != -1)
+            {
+                const QModelIndex index = this->index(row, 0);
+                Q_EMIT dataChanged(index, index);
+            }
+        }
+
+        void FileBrowserModel::thumbnailCallback()
+        {
+            //DJV_DEBUG("FileBrowserModel::thumbnailCallback");
+            const int row = _p->items.indexOf(
+                qobject_cast<FileBrowserItem *>(sender()));
+            if (row != -1)
+            {
+                const QModelIndex index = this->index(row, 0);
+                Q_EMIT dataChanged(index, index);
+            }
+        }
+
+        QVariant FileBrowserModel::data(
+            const QModelIndex & index,
+            int                 role) const
+        {
+            if (!index.isValid())
+                return QVariant();
+            if (role != Qt::DecorationRole &&
+                role != Qt::DisplayRole    &&
+                role != Qt::EditRole       &&
+                role != Qt::SizeHintRole)
+                return QVariant();
+
+            const int row = index.row();
+            const int column = index.column();
+            if (row < 0 || row >= _p->items.count() ||
+                column < 0 || column >= COLUMNS_COUNT)
+                return QVariant();
+
+            FileBrowserItem * item = _p->items[row];
+            const djvFileInfo & fileInfo = item->fileInfo();
+            static const QVector<QPixmap> pixmaps = QVector<QPixmap>() <<
+                QPixmap(djvFileInfo::typeIcons()[djvFileInfo::FILE]) <<
+                QPixmap(djvFileInfo::typeIcons()[djvFileInfo::SEQUENCE]) <<
+                QPixmap(djvFileInfo::typeIcons()[djvFileInfo::DIRECTORY]);
+            switch (role)
+            {
+            case Qt::DecorationRole:
+                switch (column)
+                {
                 case NAME:
                     if (_p->thumbnails != THUMBNAILS_OFF)
                     {
@@ -294,248 +290,252 @@ QVariant djvFileBrowserModel::data(
                     }
                     return pixmaps[fileInfo.type()];
                 default: break;
+                }
+                break;
+            case Qt::DisplayRole: return item->displayRole(column);
+            case Qt::EditRole:    return item->editRole(column);
+            case Qt::SizeHintRole:
+                if (NAME == column && !item->thumbnail().isNull())
+                {
+                    const int margin = _p->context->style()->sizeMetric().margin;
+                    return QSize(0, item->thumbnail().height() + margin * 2);
+                }
+                break;
+            default: break;
             }
-            break;
-        case Qt::DisplayRole: return item->displayRole(column);
-        case Qt::EditRole:    return item->editRole(column);
-        case Qt::SizeHintRole:
-            if (NAME == column && ! item->thumbnail().isNull())
+            return QVariant();
+        }
+
+        Qt::ItemFlags FileBrowserModel::flags(const QModelIndex & index) const
+        {
+            Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
+            if (index.isValid())
+                return Qt::ItemIsDragEnabled | defaultFlags;
+            else
+                return defaultFlags;
+        }
+
+        int FileBrowserModel::rowCount(const QModelIndex & parent) const
+        {
+            return parent.isValid() ? 0 : _p->listTmp.count();
+        }
+
+        int FileBrowserModel::columnCount(const QModelIndex & parent) const
+        {
+            return parent.isValid() ? 0 : COLUMNS_COUNT;
+        }
+
+        QStringList FileBrowserModel::mimeTypes() const
+        {
+            return QStringList() << "application/x-filebrowser";
+        }
+
+        QMimeData * FileBrowserModel::mimeData(const QModelIndexList & indexes) const
+        {
+            QMimeData * mimeData = new QMimeData();
+            if (indexes.count())
             {
-                const int margin = _p->context->style()->sizeMetric().margin;
-                return QSize(0, item->thumbnail().height() + margin * 2);
+                const djvFileInfo fileInfo = this->fileInfo(indexes[0]);
+                QStringList tmp;
+                tmp << fileInfo;
+                QByteArray data;
+                QDataStream stream(&data, QIODevice::WriteOnly);
+                stream << tmp;
+                mimeData->setData("application/x-filebrowser", data);
             }
-            break;
-        default: break;
-    }
-    return QVariant();
-}
+            return mimeData;
+        }
 
-Qt::ItemFlags djvFileBrowserModel::flags(const QModelIndex & index) const
-{
-    Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
-    if (index.isValid())
-        return Qt::ItemIsDragEnabled | defaultFlags;
-    else
-        return defaultFlags;
-}
+        void FileBrowserModel::setPath(const QString & path)
+        {
+            if (path == _p->path)
+                return;
+            _p->path = path;
+            dirUpdate();
+            modelUpdate();
+            Q_EMIT pathChanged(_p->path);
+        }
 
-int djvFileBrowserModel::rowCount(const QModelIndex & parent) const
-{
-    return parent.isValid() ? 0 : _p->listTmp.count();
-}
+        void FileBrowserModel::reload()
+        {
+            dirUpdate();
+            modelUpdate();
+        }
 
-int djvFileBrowserModel::columnCount(const QModelIndex & parent) const
-{
-    return parent.isValid() ? 0 : COLUMNS_COUNT;
-}
+        void FileBrowserModel::setSequence(djvSequence::COMPRESS in)
+        {
+            if (in == _p->sequence)
+                return;
+            _p->sequence = in;
+            dirUpdate();
+            modelUpdate();
+            Q_EMIT sequenceChanged(_p->sequence);
+            Q_EMIT optionChanged();
+        }
 
-QStringList djvFileBrowserModel::mimeTypes() const
-{
-    return QStringList() << "application/x-filebrowser";
-}
+        void FileBrowserModel::setFilterText(const QString & text)
+        {
+            if (text == _p->filterText)
+                return;
+            _p->filterText = text;
+            modelUpdate();
+            Q_EMIT filterTextChanged(_p->filterText);
+            Q_EMIT optionChanged();
+        }
 
-QMimeData * djvFileBrowserModel::mimeData(const QModelIndexList & indexes) const
-{
-    QMimeData * mimeData = new QMimeData();
-    if (indexes.count())
-    {
-        const djvFileInfo fileInfo = this->fileInfo(indexes[0]);
-        QStringList tmp;
-        tmp << fileInfo;
-        QByteArray data;
-        QDataStream stream(&data, QIODevice::WriteOnly);
-        stream << tmp;
-        mimeData->setData("application/x-filebrowser", data);
-    }
-    return mimeData;
-}
+        void FileBrowserModel::setShowHidden(bool show)
+        {
+            if (show == _p->showHidden)
+                return;
+            _p->showHidden = show;
+            modelUpdate();
+            Q_EMIT showHiddenChanged(_p->showHidden);
+            Q_EMIT optionChanged();
+        }
 
-void djvFileBrowserModel::setPath(const QString & path)
-{
-    if (path == _p->path)
-        return;    
-    _p->path = path;
-    dirUpdate();
-    modelUpdate();
-    Q_EMIT pathChanged(_p->path);
-}
+        void FileBrowserModel::setColumnsSort(COLUMNS value)
+        {
+            if (value == _p->columnsSort)
+                return;
+            _p->columnsSort = value;
+            modelUpdate();
+            Q_EMIT columnsSortChanged(_p->columnsSort);
+            Q_EMIT optionChanged();
+        }
 
-void djvFileBrowserModel::reload()
-{
-    dirUpdate();
-    modelUpdate();
-}
+        void FileBrowserModel::setReverseSort(bool value)
+        {
+            if (value == _p->reverseSort)
+                return;
+            _p->reverseSort = value;
+            modelUpdate();
+            Q_EMIT reverseSortChanged(_p->reverseSort);
+            Q_EMIT optionChanged();
+        }
 
-void djvFileBrowserModel::setSequence(djvSequence::COMPRESS in)
-{
-    if (in == _p->sequence)
-        return;
-    _p->sequence = in;
-    dirUpdate();
-    modelUpdate();
-    Q_EMIT sequenceChanged(_p->sequence);
-    Q_EMIT optionChanged();
-}
+        void FileBrowserModel::setSortDirsFirst(bool value)
+        {
+            if (value == _p->sortDirsFirst)
+                return;
+            _p->sortDirsFirst = value;
+            modelUpdate();
+            Q_EMIT sortDirsFirstChanged(_p->sortDirsFirst);
+            Q_EMIT optionChanged();
+        }
 
-void djvFileBrowserModel::setFilterText(const QString & text)
-{
-    if (text == _p->filterText)
-        return;
-    _p->filterText = text;
-    modelUpdate();
-    Q_EMIT filterTextChanged(_p->filterText);
-    Q_EMIT optionChanged();
-}
+        void FileBrowserModel::setThumbnails(THUMBNAILS thumbnails)
+        {
+            if (thumbnails == _p->thumbnails)
+                return;
+            _p->thumbnails = thumbnails;
+            modelUpdate();
+            Q_EMIT thumbnailsChanged(_p->thumbnails);
+            Q_EMIT optionChanged();
+        }
 
-void djvFileBrowserModel::setShowHidden(bool show)
-{
-    if (show == _p->showHidden)
-        return;
-    _p->showHidden = show;
-    modelUpdate();
-    Q_EMIT showHiddenChanged(_p->showHidden);
-    Q_EMIT optionChanged();
-}
+        void FileBrowserModel::setThumbnailsSize(THUMBNAILS_SIZE size)
+        {
+            if (size == _p->thumbnailsSize)
+                return;
+            _p->thumbnailsSize = size;
+            modelUpdate();
+            Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
+            Q_EMIT optionChanged();
+        }
 
-void djvFileBrowserModel::setColumnsSort(COLUMNS value)
-{
-    if (value == _p->columnsSort)
-        return;
-    _p->columnsSort = value;
-    modelUpdate();
-    Q_EMIT columnsSortChanged(_p->columnsSort);
-    Q_EMIT optionChanged();
-}
+        void FileBrowserModel::dirUpdate()
+        {
+            //DJV_DEBUG("FileBrowserModel::dirUpdate");
+            //DJV_DEBUG_PRINT("path = " << _p->path);
 
-void djvFileBrowserModel::setReverseSort(bool value)
-{
-    if (value == _p->reverseSort)
-        return;
-    _p->reverseSort = value;
-    modelUpdate();
-    Q_EMIT reverseSortChanged(_p->reverseSort);
-    Q_EMIT optionChanged();
-}
+            // Get directory contents.
+            _p->list = djvFileInfoUtil::list(_p->path, _p->sequence);
 
-void djvFileBrowserModel::setSortDirsFirst(bool value)
-{
-    if (value == _p->sortDirsFirst)
-        return;
-    _p->sortDirsFirst = value;
-    modelUpdate();
-    Q_EMIT sortDirsFirstChanged(_p->sortDirsFirst);
-    Q_EMIT optionChanged();
-}
+            // Add parent directory.
+            if (djvFileInfo(_p->path).exists())
+            {
+                _p->list.push_front(djvFileInfo(_p->path + ".."));
+            }
+            //DJV_DEBUG_PRINT("list = " << _p->list.count());
+            //Q_FOREACH(const djvFileInfo & fileInfo, _p->list)
+            //    DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
+        }
 
-void djvFileBrowserModel::setThumbnails(THUMBNAILS thumbnails)
-{
-    if (thumbnails == _p->thumbnails)
-        return;
-    _p->thumbnails = thumbnails;
-    modelUpdate();
-    Q_EMIT thumbnailsChanged(_p->thumbnails);
-    Q_EMIT optionChanged();
-}
+        void FileBrowserModel::modelUpdate()
+        {
+            if (_p->path.isEmpty())
+                return;
 
-void djvFileBrowserModel::setThumbnailsSize(THUMBNAILS_SIZE size)
-{
-    if (size == _p->thumbnailsSize)
-        return;
-    _p->thumbnailsSize = size;
-    modelUpdate();
-    Q_EMIT thumbnailsSizeChanged(_p->thumbnailsSize);
-    Q_EMIT optionChanged();
-}
+            //DJV_DEBUG("FileBrowserModel::modelUpdate");
+            //DJV_DEBUG_PRINT("path = " << _p->path);
 
-void djvFileBrowserModel::dirUpdate()
-{
-    //DJV_DEBUG("djvFileBrowserModel::dirUpdate");
-    //DJV_DEBUG_PRINT("path = " << _p->path);
+            beginResetModel();
 
-    // Get directory contents.
-    _p->list = djvFileInfoUtil::list(_p->path, _p->sequence);
+            _p->listTmp = _p->list;
 
-    // Add parent directory.
-    if (djvFileInfo(_p->path).exists())
-    {
-        _p->list.push_front(djvFileInfo(_p->path + ".."));
-    }
-    //DJV_DEBUG_PRINT("list = " << _p->list.count());
-    //Q_FOREACH(const djvFileInfo & fileInfo, _p->list)
-    //    DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
-}
+            // File sequence directory contents.
+            //djvFileInfoUtil::compressSequence(_p->listTmp, _p->seq);
 
-void djvFileBrowserModel::modelUpdate()
-{
-    if (_p->path.isEmpty())
-        return;
+            // Filter directory contents.
+            if (_p->filterText.length() > 0 || !_p->showHidden)
+            {
+                const djvFileInfoUtil::FILTER filter =
+                    !_p->showHidden ?
+                    djvFileInfoUtil::FILTER_HIDDEN :
+                    djvFileInfoUtil::FILTER_NONE;
+                djvFileInfoUtil::filter(_p->listTmp, filter, _p->filterText);
+            }
 
-    //DJV_DEBUG("djvFileBrowserModel::modelUpdate");
-    //DJV_DEBUG_PRINT("path = " << _p->path);
-
-    beginResetModel();
-    
-    _p->listTmp = _p->list;
-    
-    // File sequence directory contents.
-    //djvFileInfoUtil::compressSequence(_p->listTmp, _p->seq);
-
-    // Filter directory contents.
-    if (_p->filterText.length() > 0 || ! _p->showHidden)
-    {
-        const djvFileInfoUtil::FILTER filter =
-            ! _p->showHidden ?
-            djvFileInfoUtil::FILTER_HIDDEN :
-            djvFileInfoUtil::FILTER_NONE;
-        djvFileInfoUtil::filter(_p->listTmp, filter, _p->filterText);
-    }
-
-    // Sort directory contents.
-    djvFileInfoUtil::SORT sort = static_cast<djvFileInfoUtil::SORT>(0);
-    switch (_p->columnsSort)
-    {
-        case NAME:        sort = djvFileInfoUtil::SORT_NAME; break;
-        case SIZE:        sort = djvFileInfoUtil::SORT_SIZE; break;
+            // Sort directory contents.
+            djvFileInfoUtil::SORT sort = static_cast<djvFileInfoUtil::SORT>(0);
+            switch (_p->columnsSort)
+            {
+            case NAME:        sort = djvFileInfoUtil::SORT_NAME; break;
+            case SIZE:        sort = djvFileInfoUtil::SORT_SIZE; break;
 #if ! defined(DJV_WINDOWS)
-        case USER:        sort = djvFileInfoUtil::SORT_USER; break;
+            case USER:        sort = djvFileInfoUtil::SORT_USER; break;
 #endif
-        case PERMISSIONS: sort = djvFileInfoUtil::SORT_PERMISSIONS; break;
-        case TIME:        sort = djvFileInfoUtil::SORT_TIME; break;
-        default: break;
-    }
-    djvFileInfoUtil::sort(_p->listTmp, sort, _p->reverseSort);
-    if (_p->sortDirsFirst)
-    {
-        djvFileInfoUtil::sortDirsFirst(_p->listTmp);
-    }
-    
-    for (int i = 0; i < _p->items.count(); ++i)
-    {
-        delete _p->items[i];
-        _p->items[i] = 0;
-    }
-    _p->items.clear();
-    _p->items.resize(_p->listTmp.count());
-    for (int i = 0; i < _p->listTmp.count(); ++i)
-    {
-        //DJV_DEBUG_PRINT("i = " << i);
-        djvFileBrowserItem * item = new djvFileBrowserItem(
-            _p->listTmp[i],
-            _p->thumbnails,
-            _p->thumbnailsSize,
-            _p->context,
-            this);
-        _p->items[i] = item;
-        connect(item, SIGNAL(imageInfoAvailable()), SLOT(imageInfoCallback()));
-        connect(item, SIGNAL(thumbnailAvailable()), SLOT(thumbnailCallback()));
-    }
-    
-    endResetModel();
-}
+            case PERMISSIONS: sort = djvFileInfoUtil::SORT_PERMISSIONS; break;
+            case TIME:        sort = djvFileInfoUtil::SORT_TIME; break;
+            default: break;
+            }
+            djvFileInfoUtil::sort(_p->listTmp, sort, _p->reverseSort);
+            if (_p->sortDirsFirst)
+            {
+                djvFileInfoUtil::sortDirsFirst(_p->listTmp);
+            }
 
-_DJV_STRING_OPERATOR_LABEL(djvFileBrowserModel::COLUMNS,
-    djvFileBrowserModel::columnsLabels())
-_DJV_STRING_OPERATOR_LABEL(djvFileBrowserModel::THUMBNAILS,
-    djvFileBrowserModel::thumbnailsLabels())
-_DJV_STRING_OPERATOR_LABEL(djvFileBrowserModel::THUMBNAILS_SIZE,
-    djvFileBrowserModel::thumbnailsSizeLabels())
+            for (int i = 0; i < _p->items.count(); ++i)
+            {
+                delete _p->items[i];
+                _p->items[i] = 0;
+            }
+            _p->items.clear();
+            _p->items.resize(_p->listTmp.count());
+            for (int i = 0; i < _p->listTmp.count(); ++i)
+            {
+                //DJV_DEBUG_PRINT("i = " << i);
+                FileBrowserItem * item = new FileBrowserItem(
+                    _p->listTmp[i],
+                    _p->thumbnails,
+                    _p->thumbnailsSize,
+                    _p->context,
+                    this);
+                _p->items[i] = item;
+                connect(item, SIGNAL(imageInfoAvailable()), SLOT(imageInfoCallback()));
+                connect(item, SIGNAL(thumbnailAvailable()), SLOT(thumbnailCallback()));
+            }
+
+            endResetModel();
+        }
+
+    } // namespace UI
+
+    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::COLUMNS,
+        UI::FileBrowserModel::columnsLabels())
+    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::THUMBNAILS,
+        UI::FileBrowserModel::thumbnailsLabels())
+    _DJV_STRING_OPERATOR_LABEL(UI::FileBrowserModel::THUMBNAILS_SIZE,
+        UI::FileBrowserModel::thumbnailsSizeLabels())
+
+} // namespace djv

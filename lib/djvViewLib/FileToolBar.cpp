@@ -49,15 +49,15 @@ namespace djv
             AbstractToolBar(actions, context, parent),
             _p(new Private)
         {
-            djvToolButton * button = new djvToolButton;
+            UI::ToolButton * button = new UI::ToolButton;
             button->setDefaultAction(actions->action(FileActions::OPEN));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(FileActions::RELOAD));
             addWidget(button);
 
-            button = new djvToolButton;
+            button = new UI::ToolButton;
             button->setDefaultAction(actions->action(FileActions::CLOSE));
             addWidget(button);
         }

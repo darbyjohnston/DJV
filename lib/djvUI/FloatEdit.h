@@ -39,87 +39,85 @@
 
 #include <memory>
 
-class djvFloatObject;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFloatEdit
-//!
-//! This class provides a floating-point edit widget.
-//------------------------------------------------------------------------------
-
-class djvFloatEdit : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the value.
-    Q_PROPERTY(
-        float  value
-        READ   value
-        WRITE  setValue
-        NOTIFY valueChanged)
-    
-public:
-    explicit djvFloatEdit(QWidget * parent = nullptr);
+    namespace UI
+    {
+        class FloatObject;
 
-    virtual ~djvFloatEdit();
+        //! \class FloatEdit
+        //!
+        //! This class provides a floating-point edit widget.
+        class FloatEdit : public QWidget
+        {
+            Q_OBJECT
 
-    //! Get the value.
-    float value() const;
+            //! This property holds the value.
+            Q_PROPERTY(
+                float  value
+                READ   value
+                WRITE  setValue
+                NOTIFY valueChanged)
 
-    //! Get the minimum value.
-    float min() const;
+        public:
+            explicit FloatEdit(QWidget * parent = nullptr);
 
-    //! Get the maximum value.
-    float max() const;
+            virtual ~FloatEdit();
 
-    //! Get the floating-point object.
-    djvFloatObject * object() const;
+            //! Get the value.
+            float value() const;
 
-public Q_SLOTS:
-    //! Set the value.
-    void setValue(float);
+            //! Get the minimum value.
+            float min() const;
 
-    //! Set the minimum value.
-    void setMin(float);
+            //! Get the maximum value.
+            float max() const;
 
-    //! Set the maximum value.
-    void setMax(float);
+            //! Get the floating-point object.
+            FloatObject * object() const;
 
-    //! Set the value range.
-    void setRange(float min, float max);
-    
-Q_SIGNALS:
-    //! This signal is emitted when the value is changed.
-    void valueChanged(float);
+        public Q_SLOTS:
+            //! Set the value.
+            void setValue(float);
 
-    //! This signal is emitted when the minimum value is changed.
-    void minChanged(float);
+            //! Set the minimum value.
+            void setMin(float);
 
-    //! This signal is emitted when the maximum value is changed.
-    void maxChanged(float);
+            //! Set the maximum value.
+            void setMax(float);
 
-    //! This signal is emitted when the value range is changed.
-    void rangeChanged(float, float);
-    
-protected:
-    virtual void keyPressEvent(QKeyEvent *);
+            //! Set the value range.
+            void setRange(float min, float max);
 
-private Q_SLOTS:
-    void valueCallback();
-    void rangeCallback();
-    void spinBoxCallback(double);
+        Q_SIGNALS:
+            //! This signal is emitted when the value is changed.
+            void valueChanged(float);
 
-    void widgetUpdate();
+            //! This signal is emitted when the minimum value is changed.
+            void minChanged(float);
 
-private:
-    DJV_PRIVATE_COPY(djvFloatEdit);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! This signal is emitted when the maximum value is changed.
+            void maxChanged(float);
 
-//@} // djvUIWidget
+            //! This signal is emitted when the value range is changed.
+            void rangeChanged(float, float);
 
+        protected:
+            virtual void keyPressEvent(QKeyEvent *);
+
+        private Q_SLOTS:
+            void valueCallback();
+            void rangeCallback();
+            void spinBoxCallback(double);
+
+            void widgetUpdate();
+
+        private:
+            DJV_PRIVATE_COPY(FloatEdit);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

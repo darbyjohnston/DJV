@@ -37,84 +37,82 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvHelpPrefs::Private
-//------------------------------------------------------------------------------
-
-namespace
+namespace djv
 {
-class ToolTipFilter : public QObject
-{
-protected:
-    bool eventFilter(QObject * object, QEvent * event)
+    namespace UI
     {
-        if (event->type() == QEvent::ToolTip)
+        namespace
+        {
+            class ToolTipFilter : public QObject
+            {
+            protected:
+                bool eventFilter(QObject * object, QEvent * event)
+                {
+                    if (event->type() == QEvent::ToolTip)
+                        return true;
+                    return QObject::eventFilter(object, event);
+                }
+            };
+
+        } // namespace
+
+        struct HelpPrefs::Private
+        {
+            Private() :
+                toolTipFilter(new ToolTipFilter)
+            {}
+
+            bool                          toolTips = HelpPrefs::toolTipsDefault();
+            QScopedPointer<ToolTipFilter> toolTipFilter;
+        };
+
+        HelpPrefs::HelpPrefs(QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {
+            //DJV_DEBUG("HelpPrefs::HelpPrefs");
+            Prefs prefs("djv::UI::HelpPrefs", Prefs::SYSTEM);
+            prefs.get("toolTips", _p->toolTips);
+            toolTipsUpdate();
+        }
+
+        HelpPrefs::~HelpPrefs()
+        {
+            //DJV_DEBUG("HelpPrefs::~HelpPrefs");
+            Prefs prefs("djv::UI::HelpPrefs", Prefs::SYSTEM);
+            prefs.set("toolTips", _p->toolTips);
+        }
+
+        bool HelpPrefs::toolTipsDefault()
+        {
             return true;
-        return QObject::eventFilter(object, event);
-    }
-};
+        }
 
-} // namespace
+        bool HelpPrefs::hasToolTips() const
+        {
+            return _p->toolTips;
+        }
 
-struct djvHelpPrefs::Private
-{
-    Private() :
-        toolTipFilter(new ToolTipFilter)
-    {}
-    
-    bool                          toolTips      = djvHelpPrefs::toolTipsDefault();
-    QScopedPointer<ToolTipFilter> toolTipFilter;
-};
+        void HelpPrefs::setToolTips(bool toolTips)
+        {
+            if (toolTips == _p->toolTips)
+                return;
+            _p->toolTips = toolTips;
+            toolTipsUpdate();
+            Q_EMIT toolTipsChanged(_p->toolTips);
+        }
 
-//------------------------------------------------------------------------------
-// djvHelpPrefs
-//------------------------------------------------------------------------------
+        void HelpPrefs::toolTipsUpdate()
+        {
+            if (!_p->toolTips)
+            {
+                qApp->installEventFilter(_p->toolTipFilter.data());
+            }
+            else
+            {
+                qApp->removeEventFilter(_p->toolTipFilter.data());
+            }
+        }
 
-djvHelpPrefs::djvHelpPrefs(QObject * parent) :
-    QObject(parent),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvHelpPrefs::djvHelpPrefs");
-    djvPrefs prefs("djvHelpPrefs", djvPrefs::SYSTEM);
-    prefs.get("toolTips", _p->toolTips);
-    toolTipsUpdate();
-}
-
-djvHelpPrefs::~djvHelpPrefs()
-{
-    //DJV_DEBUG("djvHelpPrefs::~djvHelpPrefs");
-    djvPrefs prefs("djvHelpPrefs", djvPrefs::SYSTEM);
-    prefs.set("toolTips", _p->toolTips);
-}
-
-bool djvHelpPrefs::toolTipsDefault()
-{
-    return true;
-}
-
-bool djvHelpPrefs::hasToolTips() const
-{
-    return _p->toolTips;
-}
-
-void djvHelpPrefs::setToolTips(bool toolTips)
-{
-    if (toolTips == _p->toolTips)
-        return;
-    _p->toolTips = toolTips;
-    toolTipsUpdate();
-    Q_EMIT toolTipsChanged(_p->toolTips);
-}
-
-void djvHelpPrefs::toolTipsUpdate()
-{
-    if (! _p->toolTips)
-    {
-        qApp->installEventFilter(_p->toolTipFilter.data());
-    }
-    else
-    {
-        qApp->removeEventFilter(_p->toolTipFilter.data());
-    }
-}
-
+    } // namespace UI
+} // namespace djv

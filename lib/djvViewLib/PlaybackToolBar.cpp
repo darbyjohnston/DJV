@@ -48,25 +48,25 @@ namespace djv
     {
         struct PlaybackToolBar::Private
         {
-            Util::LAYOUT      layout = static_cast<Util::LAYOUT>(0);
-            QWidget *         widget = nullptr;
-            QHBoxLayout *     widgetLayout = nullptr;
+            Util::LAYOUT layout = static_cast<Util::LAYOUT>(0);
+            QWidget * widget = nullptr;
+            QHBoxLayout * widgetLayout = nullptr;
             PlaybackButtons * playbackButtons = nullptr;
-            LoopWidget *      loopWidget = nullptr;
-            SpeedWidget *     speedWidget = nullptr;
-            SpeedDisplay *    realSpeedDisplay = nullptr;
-            djvToolButton *   everyFrameButton = nullptr;
-            FrameWidget *     frameWidget = nullptr;
-            FrameSlider *     frameSlider = nullptr;
-            FrameWidget *     startWidget = nullptr;
-            FrameWidget *     endWidget = nullptr;
-            FrameButtons *    frameButtons = nullptr;
-            FrameDisplay *    durationDisplay = nullptr;
-            djvToolButton *   inOutEnabledButton = nullptr;
-            djvToolButton *   markInPointButton = nullptr;
-            djvToolButton *   markOutPointButton = nullptr;
-            djvToolButton *   resetInPointButton = nullptr;
-            djvToolButton *   resetOutPointButton = nullptr;
+            LoopWidget * loopWidget = nullptr;
+            SpeedWidget * speedWidget = nullptr;
+            SpeedDisplay * realSpeedDisplay = nullptr;
+            UI::ToolButton * everyFrameButton = nullptr;
+            FrameWidget * frameWidget = nullptr;
+            FrameSlider * frameSlider = nullptr;
+            FrameWidget * startWidget = nullptr;
+            FrameWidget * endWidget = nullptr;
+            FrameButtons * frameButtons = nullptr;
+            FrameDisplay * durationDisplay = nullptr;
+            UI::ToolButton * inOutEnabledButton = nullptr;
+            UI::ToolButton * markInPointButton = nullptr;
+            UI::ToolButton * markOutPointButton = nullptr;
+            UI::ToolButton * resetInPointButton = nullptr;
+            UI::ToolButton * resetOutPointButton = nullptr;
         };
 
         PlaybackToolBar::PlaybackToolBar(
@@ -94,7 +94,7 @@ namespace djv
             _p->realSpeedDisplay->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Real playback speed"));
 
-            _p->everyFrameButton = new djvToolButton;
+            _p->everyFrameButton = new UI::ToolButton;
             _p->everyFrameButton->setDefaultAction(
                 actions->action(PlaybackActions::EVERY_FRAME));
             _p->everyFrameButton->setIconSize(QSize(20, 20));
@@ -127,31 +127,31 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackToolBar", "Playback duration"));
 
             // Create the in/out point widgets.
-            _p->inOutEnabledButton = new djvToolButton;
+            _p->inOutEnabledButton = new UI::ToolButton;
             _p->inOutEnabledButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::IN_OUT_ENABLE]);
             _p->inOutEnabledButton->setIconSize(QSize(20, 20));
 
-            _p->markInPointButton = new djvToolButton;
+            _p->markInPointButton = new UI::ToolButton;
             _p->markInPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::MARK_IN]);
             _p->markInPointButton->setIconSize(QSize(20, 20));
 
-            _p->markOutPointButton = new djvToolButton;
+            _p->markOutPointButton = new UI::ToolButton;
             _p->markOutPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::MARK_OUT]);
             _p->markOutPointButton->setIconSize(QSize(20, 20));
 
-            _p->resetInPointButton = new djvToolButton;
+            _p->resetInPointButton = new UI::ToolButton;
             _p->resetInPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::RESET_IN]);
             _p->resetInPointButton->setIconSize(QSize(20, 20));
 
-            _p->resetOutPointButton = new djvToolButton;
+            _p->resetOutPointButton = new UI::ToolButton;
             _p->resetOutPointButton->setDefaultAction(
                 actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                     Util::RESET_OUT]);

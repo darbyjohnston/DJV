@@ -37,136 +37,134 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImageView
-//!
-//! This class provides an image view widget.
-//------------------------------------------------------------------------------
-
-class djvImageView : public djvOpenGLWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the pixel data.
-    Q_PROPERTY(
-        const djvPixelData * data
-        READ                 data
-        WRITE                setData
-        NOTIFY               dataChanged)
-    
-    //! This property holds the image options.
-    Q_PROPERTY(
-        djvOpenGLImageOptions options
-        READ                  options
-        WRITE                 setOptions
-        NOTIFY                optionsChanged)
-    
-    //! This property holds the view position.
-    Q_PROPERTY(
-        glm::ivec2 viewPos
-        READ       viewPos
-        WRITE      setViewPos
-        NOTIFY     viewPosChanged)
-    
-    //! This property holds the view zoom.
-    Q_PROPERTY(
-        float  viewZoom
-        READ   viewZoom
-        WRITE  setViewZoom
-        NOTIFY viewZoomChanged)
-    
-public:
-    explicit djvImageView(
-        djvUIContext *  context,
-        QWidget *       parent  = nullptr,
-        Qt::WindowFlags lags    = 0);
+    namespace UI
+    {
+        class UIContext;
 
-    virtual ~djvImageView();
+        //! \class ImageView
+        //!
+        //! This class provides an image view widget.
+        class ImageView : public OpenGLWidget
+        {
+            Q_OBJECT
 
-    //! Get the pixel data.
-    const djvPixelData * data() const;
+                //! This property holds the pixel data.
+                Q_PROPERTY(
+                    const djvPixelData * data
+                    READ                 data
+                    WRITE                setData
+                    NOTIFY               dataChanged)
 
-    //! Get the image options.
-    const djvOpenGLImageOptions & options() const;
+                //! This property holds the image options.
+                Q_PROPERTY(
+                    djvOpenGLImageOptions options
+                    READ                  options
+                    WRITE                 setOptions
+                    NOTIFY                optionsChanged)
 
-    //! Get the view position.
-    const glm::ivec2 & viewPos() const;
+                //! This property holds the view position.
+                Q_PROPERTY(
+                    glm::ivec2 viewPos
+                    READ       viewPos
+                    WRITE      setViewPos
+                    NOTIFY     viewPosChanged)
 
-    //! Get the view zoom.
-    float viewZoom() const;
+                //! This property holds the view zoom.
+                Q_PROPERTY(
+                    float  viewZoom
+                    READ   viewZoom
+                    WRITE  setViewZoom
+                    NOTIFY viewZoomChanged)
 
-    //! Get the image bounding box.
-    djvBox2f bbox() const;
-    
-    //! Get whether the view has been fitted.
-    bool hasViewFit() const;
+        public:
+            explicit ImageView(
+                UIContext *     context,
+                QWidget *       parent = nullptr,
+                Qt::WindowFlags lags = 0);
 
-    virtual QSize sizeHint() const;
+            virtual ~ImageView();
 
-public Q_SLOTS:
-    //! Set the pixel data.
-    void setData(const djvPixelData *);
+            //! Get the pixel data.
+            const djvPixelData * data() const;
 
-    //! Set the image options.
-    void setOptions(const djvOpenGLImageOptions &);
+            //! Get the image options.
+            const djvOpenGLImageOptions & options() const;
 
-    //! Set the view position.
-    void setViewPos(const glm::ivec2 &);
+            //! Get the view position.
+            const glm::ivec2 & viewPos() const;
 
-    //! Set the view zoom.
-    void setViewZoom(float);
+            //! Get the view zoom.
+            float viewZoom() const;
 
-    //! Set the view zoom.
-    void setViewZoom(float, const glm::ivec2 & focus);
+            //! Get the image bounding box.
+            djvBox2f bbox() const;
 
-    //! Set the view position and zoom.
-    void setViewPosZoom(const glm::ivec2 &, float zoom);
+            //! Get whether the view has been fitted.
+            bool hasViewFit() const;
 
-    //! Reset the view position.
-    void viewZero();
+            virtual QSize sizeHint() const;
 
-    //! Center the view position.
-    void viewCenter();
+        public Q_SLOTS:
+            //! Set the pixel data.
+            void setData(const djvPixelData *);
 
-    //! Adjust the zoom to fit the view.
-    void viewFit();
+            //! Set the image options.
+            void setOptions(const djvOpenGLImageOptions &);
 
-Q_SIGNALS:
-    //! This signal is emitted when the pixel data is changed.
-    void dataChanged(const djvPixelData *);
+            //! Set the view position.
+            void setViewPos(const glm::ivec2 &);
 
-    //! This signal is emitted when the image options are changed.
-    void optionsChanged(const djvOpenGLImageOptions &);
+            //! Set the view zoom.
+            void setViewZoom(float);
 
-    //! This signal is emitted when the view position is changed.
-    void viewPosChanged(const glm::ivec2 &);
+            //! Set the view zoom.
+            void setViewZoom(float, const glm::ivec2 & focus);
 
-    //! This signal is emitted when the view zoom is changed.
-    void viewZoomChanged(float);
+            //! Set the view position and zoom.
+            void setViewPosZoom(const glm::ivec2 &, float zoom);
 
-    //! This signal is emitted when the view is changed.
-    void viewChanged();
+            //! Reset the view position.
+            void viewZero();
 
-    //! This signal is emitted when the view is fitted.
-    void viewFitted();
+            //! Center the view position.
+            void viewCenter();
 
-protected:
-    virtual void initializeGL();
-    virtual void paintGL();
+            //! Adjust the zoom to fit the view.
+            void viewFit();
 
-private:
-    djvBox2f bbox(const glm::ivec2 &, float) const;
-    
-    DJV_PRIVATE_COPY(djvImageView);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        Q_SIGNALS:
+            //! This signal is emitted when the pixel data is changed.
+            void dataChanged(const djvPixelData *);
 
-//@} // djvUIWidget
+            //! This signal is emitted when the image options are changed.
+            void optionsChanged(const djvOpenGLImageOptions &);
 
+            //! This signal is emitted when the view position is changed.
+            void viewPosChanged(const glm::ivec2 &);
+
+            //! This signal is emitted when the view zoom is changed.
+            void viewZoomChanged(float);
+
+            //! This signal is emitted when the view is changed.
+            void viewChanged();
+
+            //! This signal is emitted when the view is fitted.
+            void viewFitted();
+
+        protected:
+            virtual void initializeGL();
+            virtual void paintGL();
+
+        private:
+            djvBox2f bbox(const glm::ivec2 &, float) const;
+
+            DJV_PRIVATE_COPY(ImageView);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv

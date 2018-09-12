@@ -39,54 +39,53 @@
 
 #include <memory>
 
-class djvUIContext;
-
-//! \addtogroup djvUIWidget
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSearchBox
-//!
-//! This class provides a search box widget.
-//------------------------------------------------------------------------------
-
-class djvSearchBox : public QWidget
+namespace djv
 {
-    Q_OBJECT
-    
-    //! This property holds the test.
-    Q_PROPERTY(
-        QString text
-        READ    text
-        WRITE   setText
-        NOTIFY  textChanged)
-    
-public:
-    explicit djvSearchBox(djvUIContext *, QWidget * parent = nullptr);
-    
-    virtual ~djvSearchBox();
+    namespace UI
+    {
+        class UIContext;
 
-    //! Get the text.
-    const QString & text() const;
-    
-public Q_SLOTS:
-    //! Set the text.
-    void setText(const QString &);
+        //! \class SearchBox
+        //!
+        //! This class provides a search box widget.
+        class SearchBox : public QWidget
+        {
+            Q_OBJECT
 
-Q_SIGNALS:
-    //! This signal is emitted when the text is changed.
-    void textChanged(const QString &);
-    
-private Q_SLOTS:
-    void textCallback(const QString &);
-    void resetCallback();
+                //! This property holds the test.
+                Q_PROPERTY(
+                    QString text
+                    READ    text
+                    WRITE   setText
+                    NOTIFY  textChanged)
 
-private:
-    DJV_PRIVATE_COPY(djvSearchBox);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public:
+            explicit SearchBox(UIContext *, QWidget * parent = nullptr);
 
-//@} // djvUIWidget
+            virtual ~SearchBox();
+
+            //! Get the text.
+            const QString & text() const;
+
+        public Q_SLOTS:
+            //! Set the text.
+            void setText(const QString &);
+
+        Q_SIGNALS:
+            //! This signal is emitted when the text is changed.
+            void textChanged(const QString &);
+
+        private Q_SLOTS:
+            void textCallback(const QString &);
+            void resetCallback();
+
+        private:
+            DJV_PRIVATE_COPY(SearchBox);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
 

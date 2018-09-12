@@ -49,7 +49,7 @@ namespace djv
             AbstractToolBar(actions, context, parent),
             _p(new Private)
         {
-            djvToolButton * button = new djvToolButton;
+            UI::ToolButton * button = new UI::ToolButton;
             button->setDefaultAction(actions->action(ImageActions::DISPLAY_PROFILE_VISIBLE));
             addWidget(button);
         }

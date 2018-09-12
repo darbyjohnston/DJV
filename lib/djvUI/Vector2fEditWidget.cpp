@@ -38,104 +38,102 @@
 
 #include <QHBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvVector2fEditWidget::Private
-//------------------------------------------------------------------------------
-
-struct djvVector2fEditWidget::Private
+namespace djv
 {
-    djvFloatEdit * widget  = nullptr;
-    djvFloatEdit * widget2 = nullptr;
-};
+    namespace UI
+    {
+        struct Vector2fEditWidget::Private
+        {
+            FloatEdit * widget = nullptr;
+            FloatEdit * widget2 = nullptr;
+        };
 
-//------------------------------------------------------------------------------
-// djvVector2fEditWidget
-//------------------------------------------------------------------------------
+        Vector2fEditWidget::Vector2fEditWidget(QWidget * parent) :
+            QWidget(parent),
+            _p(new Private)
+        {
+            _p->widget = new FloatEdit;
+            _p->widget->setRange(FloatObject::floatMin, FloatObject::floatMax);
 
-djvVector2fEditWidget::djvVector2fEditWidget(QWidget * parent) :
-    QWidget(parent),
-    _p(new Private)
-{
-    _p->widget = new djvFloatEdit;
-    _p->widget->setRange(djvFloatObject::floatMin, djvFloatObject::floatMax);
-    
-    _p->widget2 = new djvFloatEdit;
-    _p->widget2->setRange(djvFloatObject::floatMin, djvFloatObject::floatMax);
+            _p->widget2 = new FloatEdit;
+            _p->widget2->setRange(FloatObject::floatMin, FloatObject::floatMax);
 
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
-    layout->addWidget(_p->widget);
-    layout->addWidget(_p->widget2);
+            QHBoxLayout * layout = new QHBoxLayout(this);
+            layout->setMargin(0);
+            layout->addWidget(_p->widget);
+            layout->addWidget(_p->widget2);
 
-    connect(
-        _p->widget,
-        SIGNAL(valueChanged(float)),
-        SLOT(valueCallback()));
-    connect(
-        _p->widget,
-        SIGNAL(rangeChanged(float, float)),
-        SLOT(rangeCallback()));
-    connect(
-        _p->widget2,
-        SIGNAL(valueChanged(float)),
-        SLOT(valueCallback()));
-    connect(
-        _p->widget2,
-        SIGNAL(rangeChanged(float, float)),
-        SLOT(rangeCallback()));
-}
+            connect(
+                _p->widget,
+                SIGNAL(valueChanged(float)),
+                SLOT(valueCallback()));
+            connect(
+                _p->widget,
+                SIGNAL(rangeChanged(float, float)),
+                SLOT(rangeCallback()));
+            connect(
+                _p->widget2,
+                SIGNAL(valueChanged(float)),
+                SLOT(valueCallback()));
+            connect(
+                _p->widget2,
+                SIGNAL(rangeChanged(float, float)),
+                SLOT(rangeCallback()));
+        }
 
-djvVector2fEditWidget::~djvVector2fEditWidget()
-{}
+        Vector2fEditWidget::~Vector2fEditWidget()
+        {}
 
-glm::vec2 djvVector2fEditWidget::value() const
-{
-    return glm::vec2(_p->widget->value(), _p->widget2->value());
-}
+        glm::vec2 Vector2fEditWidget::value() const
+        {
+            return glm::vec2(_p->widget->value(), _p->widget2->value());
+        }
 
-glm::vec2 djvVector2fEditWidget::min() const
-{
-    return glm::vec2(_p->widget->min(), _p->widget2->min());
-}
+        glm::vec2 Vector2fEditWidget::min() const
+        {
+            return glm::vec2(_p->widget->min(), _p->widget2->min());
+        }
 
-glm::vec2 djvVector2fEditWidget::max() const
-{
-    return glm::vec2(_p->widget->max(), _p->widget2->max());
-}
+        glm::vec2 Vector2fEditWidget::max() const
+        {
+            return glm::vec2(_p->widget->max(), _p->widget2->max());
+        }
 
-void djvVector2fEditWidget::setValue(const glm::vec2 & value)
-{
-    _p->widget->setValue(value.x);
-    _p->widget2->setValue(value.y);
-}
+        void Vector2fEditWidget::setValue(const glm::vec2 & value)
+        {
+            _p->widget->setValue(value.x);
+            _p->widget2->setValue(value.y);
+        }
 
-void djvVector2fEditWidget::setMin(const glm::vec2 & min)
-{
-    _p->widget->setMin(min.x);
-    _p->widget2->setMin(min.y);
-}
+        void Vector2fEditWidget::setMin(const glm::vec2 & min)
+        {
+            _p->widget->setMin(min.x);
+            _p->widget2->setMin(min.y);
+        }
 
-void djvVector2fEditWidget::setMax(const glm::vec2 & max)
-{
-    _p->widget->setMax(max.x);
-    _p->widget2->setMax(max.y);
-}
+        void Vector2fEditWidget::setMax(const glm::vec2 & max)
+        {
+            _p->widget->setMax(max.x);
+            _p->widget2->setMax(max.y);
+        }
 
-void djvVector2fEditWidget::setRange(
-    const glm::vec2 & min,
-    const glm::vec2 & max)
-{
-    _p->widget->setRange(min.x, max.x);
-    _p->widget2->setRange(min.y, max.y);
-}
+        void Vector2fEditWidget::setRange(
+            const glm::vec2 & min,
+            const glm::vec2 & max)
+        {
+            _p->widget->setRange(min.x, max.x);
+            _p->widget2->setRange(min.y, max.y);
+        }
 
-void djvVector2fEditWidget::valueCallback()
-{
-    Q_EMIT valueChanged(value());
-}
+        void Vector2fEditWidget::valueCallback()
+        {
+            Q_EMIT valueChanged(value());
+        }
 
-void djvVector2fEditWidget::rangeCallback()
-{
-    Q_EMIT rangeChanged(min(), max());
-}
+        void Vector2fEditWidget::rangeCallback()
+        {
+            Q_EMIT rangeChanged(min(), max());
+        }
 
+    } // namespace UI
+} // namespace djv

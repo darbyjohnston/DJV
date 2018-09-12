@@ -43,99 +43,97 @@
 #include <QTextEdit>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvDebugLogDialog::Private
-//------------------------------------------------------------------------------
-
-struct djvDebugLogDialog::Private
+namespace djv
 {
-    Private(djvUIContext * context) :
-        context(context)
-    {}
-
-    QTextEdit *        widget    = nullptr;
-    QDialogButtonBox * buttonBox = nullptr;
-    djvUIContext *    context   = nullptr;
-};
-
-//------------------------------------------------------------------------------
-// djvDebugLogDialog
-//------------------------------------------------------------------------------
-
-djvDebugLogDialog::djvDebugLogDialog(djvUIContext * context) :
-    _p(new Private(context))
-{
-    // Create the widgets.
-    _p->widget = new QTextEdit;
-    _p->widget->setReadOnly(true);
-    _p->widget->setLineWrapMode(QTextEdit::NoWrap);
-    _p->widget->document()->setMaximumBlockCount(10000);
-    
-    QPushButton * copyButton = new QPushButton(
-        qApp->translate("djvDebugLogDialog", "Copy"));
-    QPushButton * clearButton = new QPushButton(
-        qApp->translate("djvDebugLogDialog", "Clear"));
-    
-    _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
-    _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
-    _p->buttonBox->addButton(clearButton, QDialogButtonBox::ActionRole);
-    
-    // Layout the widgets.
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->addWidget(_p->widget);
-    layout->addWidget(_p->buttonBox);
-
-    // Initialize.
-    setWindowTitle(qApp->translate("djvDebugLogDialog", "Debugging Log"));
-    resize(800, 600);
-    
-    Q_FOREACH(const QString & message, context->debugLog()->messages())
+    namespace UI
     {
-        _p->widget->append(message);
-    }
-    
-    updateWidget();
+        struct DebugLogDialog::Private
+        {
+            Private(UIContext * context) :
+                context(context)
+            {}
 
-    // Setup the callbacks.
-    connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
-    connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
-    connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    connect(
-        context->debugLog(),
-        SIGNAL(message(const QString &)),
-        SLOT(messageCallback(const QString &)));
-    connect(
-        context->style(),
-        SIGNAL(fontsChanged()),
-        SLOT(updateWidget()));
-}
+            QTextEdit * widget = nullptr;
+            QDialogButtonBox * buttonBox = nullptr;
+            UIContext * context = nullptr;
+        };
 
-djvDebugLogDialog::~djvDebugLogDialog()
-{}
+        DebugLogDialog::DebugLogDialog(UIContext * context) :
+            _p(new Private(context))
+        {
+            // Create the widgets.
+            _p->widget = new QTextEdit;
+            _p->widget->setReadOnly(true);
+            _p->widget->setLineWrapMode(QTextEdit::NoWrap);
+            _p->widget->document()->setMaximumBlockCount(10000);
 
-void djvDebugLogDialog::showEvent(QShowEvent *)
-{
-    _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
-        Qt::PopupFocusReason);
-}
+            QPushButton * copyButton = new QPushButton(
+                qApp->translate("djv::UI::DebugLogDialog", "Copy"));
+            QPushButton * clearButton = new QPushButton(
+                qApp->translate("djv::UI::DebugLogDialog", "Clear"));
 
-void djvDebugLogDialog::messageCallback(const QString & message)
-{
-    _p->widget->append(message);
-}
+            _p->buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+            _p->buttonBox->addButton(copyButton, QDialogButtonBox::ActionRole);
+            _p->buttonBox->addButton(clearButton, QDialogButtonBox::ActionRole);
 
-void djvDebugLogDialog::copyCallback()
-{
-    QApplication::clipboard()->setText(_p->widget->toPlainText());
-}
+            // Layout the widgets.
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->addWidget(_p->widget);
+            layout->addWidget(_p->buttonBox);
 
-void djvDebugLogDialog::clearCallback()
-{
-    _p->widget->clear();
-}
+            // Initialize.
+            setWindowTitle(qApp->translate("djv::UI::DebugLogDialog", "Debugging Log"));
+            resize(800, 600);
 
-void djvDebugLogDialog::updateWidget()
-{
-    _p->widget->setFont(_p->context->style()->fonts().fixed);
-}
+            Q_FOREACH(const QString & message, context->debugLog()->messages())
+            {
+                _p->widget->append(message);
+            }
 
+            updateWidget();
+
+            // Setup the callbacks.
+            connect(copyButton, SIGNAL(clicked()), SLOT(copyCallback()));
+            connect(clearButton, SIGNAL(clicked()), SLOT(clearCallback()));
+            connect(_p->buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+            connect(
+                context->debugLog(),
+                SIGNAL(message(const QString &)),
+                SLOT(messageCallback(const QString &)));
+            connect(
+                context->style(),
+                SIGNAL(fontsChanged()),
+                SLOT(updateWidget()));
+        }
+
+        DebugLogDialog::~DebugLogDialog()
+        {}
+
+        void DebugLogDialog::showEvent(QShowEvent *)
+        {
+            _p->buttonBox->button(QDialogButtonBox::Close)->setFocus(
+                Qt::PopupFocusReason);
+        }
+
+        void DebugLogDialog::messageCallback(const QString & message)
+        {
+            _p->widget->append(message);
+        }
+
+        void DebugLogDialog::copyCallback()
+        {
+            QApplication::clipboard()->setText(_p->widget->toPlainText());
+        }
+
+        void DebugLogDialog::clearCallback()
+        {
+            _p->widget->clear();
+        }
+
+        void DebugLogDialog::updateWidget()
+        {
+            _p->widget->setFont(_p->context->style()->fonts().fixed);
+        }
+
+    } // namespace UI
+} // namespace djv

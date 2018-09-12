@@ -39,58 +39,57 @@
 
 #include <memory>
 
-//! \addtogroup djvUIDialog
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvProgressDialog
-//!
-//! This class provides a progress bar dialog.
-//------------------------------------------------------------------------------
-
-class djvProgressDialog : public QDialog
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvProgressDialog(
-        const QString & label  = QString(),
-        QWidget *       parent = nullptr);
+    namespace UI
+    {
+        //! \class ProgressDialog
+        //!
+        //! This class provides a progress bar dialog.
+        class ProgressDialog : public QDialog
+        {
+            Q_OBJECT
 
-    virtual ~djvProgressDialog();
+        public:
+            explicit ProgressDialog(
+                const QString & label = QString(),
+                QWidget *       parent = nullptr);
 
-    //! Get the label.
-    const QString & label() const;
+            virtual ~ProgressDialog();
 
-    //! Set the label.
-    void setLabel(const QString &);
+            //! Get the label.
+            const QString & label() const;
 
-public Q_SLOTS:
-    //! Start the progress.
-    void start(int);
+            //! Set the label.
+            void setLabel(const QString &);
 
-Q_SIGNALS:
-    //! This signal is emitted when the progress is changed.
-    void progressSignal(int);
+        public Q_SLOTS:
+            //! Start the progress.
+            void start(int);
 
-    //! This signal is emitted when the progress is finished or cancelled.
-    void finishedSignal();
+        Q_SIGNALS:
+            //! This signal is emitted when the progress is changed.
+            void progressSignal(int);
 
-protected:
-    virtual void hideEvent(QHideEvent *);
-    virtual void timerEvent(QTimerEvent *);
+            //! This signal is emitted when the progress is finished or cancelled.
+            void finishedSignal();
 
-private Q_SLOTS:
-    void rejectedCallback();
-    
-private:
-    void stopTimer();
+        protected:
+            virtual void hideEvent(QHideEvent *);
+            virtual void timerEvent(QTimerEvent *);
 
-    DJV_PRIVATE_COPY(djvProgressDialog);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        private Q_SLOTS:
+            void rejectedCallback();
 
-//@} // djvUIDialog
+        private:
+            void stopTimer();
+
+            DJV_PRIVATE_COPY(ProgressDialog);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace UI
+} // namespace djv
 
