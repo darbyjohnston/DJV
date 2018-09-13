@@ -43,8 +43,10 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-djvImagePlayExampleWidget::djvImagePlayExampleWidget(djvUIContext * context) :
-    djvImageView(context)
+using namespace djv;
+
+djvImagePlayExampleWidget::djvImagePlayExampleWidget(UI::UIContext * context) :
+    UI::ImageView(context)
 {}
 
 void djvImagePlayExampleWidget::showEvent(QShowEvent *)
@@ -89,7 +91,7 @@ djvImagePlayExampleApplication::djvImagePlayExampleApplication(int & argc, char 
     _cache(false),
     _frame(0)
 {
-    _context.reset(new djvUIContext);
+    _context.reset(new UI::UIContext);
     if (argc != 2)
     {
         _context->printMessage("Usage: djvImagePlayExample (input)");
@@ -125,7 +127,7 @@ void djvImagePlayExampleApplication::work()
     }
     _widget.reset(new djvImagePlayExampleWidget(_context.data()));
     //_widget->zoom(0.5);
-    const glm::ivec2 size = djvWindowUtil::resize(_info.size);
+    const glm::ivec2 size = UI::WindowUtil::resize(_info.size);
     _widget->resize(size.x, size.y);
     _widget->show();
     startTimer(0);
