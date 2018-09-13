@@ -35,32 +35,30 @@
 #include <djvGraphics/ImageTags.h>
 #include <djvGraphics/PixelData.h>
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImage
-//!
-//! This class provides an image.
-//------------------------------------------------------------------------------
-
-class djvImage : public djvPixelData
+namespace djv
 {
-public:
-    djvImage();
-    djvImage(const djvPixelDataInfo & in, const quint8 * = 0, djvFileIO * = 0);
+    namespace Graphics
+    {
+        //! \class Image
+        //!
+        //! This class provides an image.
+        class Image : public PixelData
+        {
+        public:
+            Image();
+            Image(const PixelDataInfo & in, const quint8 * = 0, djvFileIO * = 0);
 
-    virtual ~djvImage();
+            virtual ~Image();
 
-    djvImageTags    tags;
-    djvColorProfile colorProfile;
-};
+            ImageTags    tags;
+            ColorProfile colorProfile;
+        };
 
-Q_DECLARE_METATYPE(djvImage)
+        DJV_COMPARISON_OPERATOR(Image);
 
-DJV_COMPARISON_OPERATOR(djvImage);
+    } // namespace Graphics
+} // namespace djv
 
-DJV_DEBUG_OPERATOR(djvImage);
+Q_DECLARE_METATYPE(djv::Graphics::Image)
 
-//@} // djvGraphicsImage
-
+DJV_DEBUG_OPERATOR(djv::Graphics::Image);

@@ -41,133 +41,136 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvPPMPlugin
-//------------------------------------------------------------------------------
-
-djvPPMPlugin::djvPPMPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvPPMPlugin::pluginName() const
+namespace djv
 {
-    return djvPPM::staticName;
-}
-
-QStringList djvPPMPlugin::extensions() const
-{
-    return QStringList() <<
-        ".ppm" <<
-        ".pnm" <<
-        ".pgm" <<
-        ".pbm";
-}
-
-QStringList djvPPMPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvPPM::TYPE_OPTION], Qt::CaseInsensitive))
+    namespace Graphics
     {
-        out << _options.type;
-    }
-    else if (0 == in.compare(options()[djvPPM::DATA_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.data;
-    }
-    return out;
-}
+        PPMPlugin::PPMPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-bool djvPPMPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvPPM::TYPE_OPTION], Qt::CaseInsensitive))
+        QString PPMPlugin::pluginName() const
         {
-            djvPPM::TYPE type = static_cast<djvPPM::TYPE>(0);
-            data >> type;
-            if (type != _options.type)
-            {
-                _options.type = type;
-                Q_EMIT optionChanged(in);
-            }
+            return PPM::staticName;
         }
-        else if (0 == in.compare(options()[djvPPM::DATA_OPTION], Qt::CaseInsensitive))
+
+        QStringList PPMPlugin::extensions() const
         {
-            djvPPM::DATA tmp = static_cast<djvPPM::DATA>(0);
-            data >> tmp;
-            if (tmp != _options.data)
-            {
-                _options.data = tmp;
-                Q_EMIT optionChanged(in);
-            }
+            return QStringList() <<
+                ".ppm" <<
+                ".pnm" <<
+                ".pgm" <<
+                ".pbm";
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvPPMPlugin::options() const
-{
-    return djvPPM::optionsLabels();
-}
-
-void djvPPMPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList PPMPlugin::option(const QString & in) const
         {
-            in >> arg;
-            if (qApp->translate("djvPPMPlugin", "-ppm_type") == arg)
+            QStringList out;
+            if (0 == in.compare(options()[PPM::TYPE_OPTION], Qt::CaseInsensitive))
             {
-                in >> _options.type;
+                out << _options.type;
             }
-            else if (qApp->translate("djvPPMPlugin", "-ppm_data") == arg)
+            else if (0 == in.compare(options()[PPM::DATA_OPTION], Qt::CaseInsensitive))
             {
-                in >> _options.data;
+                out << _options.data;
             }
-            else
-            {
-                tmp << arg;
-            }
+            return out;
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvPPMPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvPPMPlugin",
-"\n"
-"PPM Options\n"
-"\n"
-"    -ppm_type (value)\n"
-"        Set the file type used when saving PPM images. Options = %1. "
-"Default = %2.\n"
-"    -ppm_data (value)\n"
-"        Set the data type used when saving PPM images. Options = %3. "
-"Default = %4.\n").
-    arg(djvPPM::typeLabels().join(", ")).
-    arg(djvStringUtil::label(_options.type).join(", ")).
-    arg(djvPPM::dataLabels().join(", ")).
-    arg(djvStringUtil::label(_options.data).join(", "));
-}
+        bool PPMPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[PPM::TYPE_OPTION], Qt::CaseInsensitive))
+                {
+                    PPM::TYPE type = static_cast<PPM::TYPE>(0);
+                    data >> type;
+                    if (type != _options.type)
+                    {
+                        _options.type = type;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[PPM::DATA_OPTION], Qt::CaseInsensitive))
+                {
+                    PPM::DATA tmp = static_cast<PPM::DATA>(0);
+                    data >> tmp;
+                    if (tmp != _options.data)
+                    {
+                        _options.data = tmp;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
 
-djvImageLoad * djvPPMPlugin::createLoad() const
-{
-    return new djvPPMLoad(context());
-}
+        QStringList PPMPlugin::options() const
+        {
+            return PPM::optionsLabels();
+        }
 
-djvImageSave * djvPPMPlugin::createSave() const
-{
-    return new djvPPMSave(_options, context());
-}
+        void PPMPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::PPMPlugin", "-ppm_type") == arg)
+                    {
+                        in >> _options.type;
+                    }
+                    else if (qApp->translate("djv::Graphics::PPMPlugin", "-ppm_data") == arg)
+                    {
+                        in >> _options.data;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString PPMPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::PPMPlugin",
+                "\n"
+                "PPM Options\n"
+                "\n"
+                "    -ppm_type (value)\n"
+                "        Set the file type used when saving PPM images. Options = %1. "
+                "Default = %2.\n"
+                "    -ppm_data (value)\n"
+                "        Set the data type used when saving PPM images. Options = %3. "
+                "Default = %4.\n").
+                arg(PPM::typeLabels().join(", ")).
+                arg(djvStringUtil::label(_options.type).join(", ")).
+                arg(PPM::dataLabels().join(", ")).
+                arg(djvStringUtil::label(_options.data).join(", "));
+        }
+
+        ImageLoad * PPMPlugin::createLoad() const
+        {
+            return new PPMLoad(context());
+        }
+
+        ImageSave * PPMPlugin::createSave() const
+        {
+            return new PPMSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

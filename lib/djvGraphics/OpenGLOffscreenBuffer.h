@@ -40,78 +40,73 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
-//! \addtogroup djvGraphicsOpenGL
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLOffscreenBuffer
-//!
-//! This class provides an OpenGL offscreen buffer.
-//------------------------------------------------------------------------------
-
-class djvOpenGLOffscreenBuffer
+namespace djv
 {
-public:
-    djvOpenGLOffscreenBuffer(const djvPixelDataInfo &) throw (djvError);
-
-    ~djvOpenGLOffscreenBuffer();
-
-    //! Get the offscreen buffer information.
-    const djvPixelDataInfo & info() const;
-
-    //! Get the offscreen buffer ID.
-    GLuint id() const;
-
-    //! Get the offscreen buffer texture ID.
-    GLuint texture() const;
-
-    //! Bind the offscreen buffer.
-    void bind();
-
-    //! Unbind the offscreen buffer.
-    void unbind();
-    
-    //! This enumeration provides error codes.
-    enum ERROR
+    namespace Graphics
     {
-        ERROR_CREATE_TEXTURE,
-        ERROR_INIT_TEXTURE,
-        ERROR_CREATE_FBO,
-        ERROR_INIT_FBO,
-            
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+        //! \class OpenGLOffscreenBuffer
+        //!
+        //! This class provides an OpenGL offscreen buffer.
+        class OpenGLOffscreenBuffer
+        {
+        public:
+            OpenGLOffscreenBuffer(const PixelDataInfo &) throw (djvError);
 
-private:
-    DJV_PRIVATE_COPY(djvOpenGLOffscreenBuffer);
+            ~OpenGLOffscreenBuffer();
 
-    djvPixelDataInfo _info;
-    GLuint           _id      = 0;
-    GLuint           _texture = 0;
-    GLint            _restore = 0;
-};
+            //! Get the offscreen buffer information.
+            const PixelDataInfo & info() const;
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLOffscreenBufferScope
-//!
-//! This class provides automatic binding for an OpenGL offscreen buffer.
-//------------------------------------------------------------------------------
+            //! Get the offscreen buffer ID.
+            GLuint id() const;
 
-class djvOpenGLOffscreenBufferScope
-{
-public:
-    djvOpenGLOffscreenBufferScope(djvOpenGLOffscreenBuffer *);
+            //! Get the offscreen buffer texture ID.
+            GLuint texture() const;
 
-    ~djvOpenGLOffscreenBufferScope();
+            //! Bind the offscreen buffer.
+            void bind();
 
-private:
-    DJV_PRIVATE_COPY(djvOpenGLOffscreenBufferScope);
+            //! Unbind the offscreen buffer.
+            void unbind();
 
-    djvOpenGLOffscreenBuffer * _buffer;
-};
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_CREATE_TEXTURE,
+                ERROR_INIT_TEXTURE,
+                ERROR_CREATE_FBO,
+                ERROR_INIT_FBO,
 
-//@} // djvGraphicsOpenGL
+                ERROR_COUNT
+            };
 
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+        private:
+            DJV_PRIVATE_COPY(OpenGLOffscreenBuffer);
+
+            PixelDataInfo _info;
+            GLuint        _id = 0;
+            GLuint        _texture = 0;
+            GLint         _restore = 0;
+        };
+
+        //! \class OpenGLOffscreenBufferScope
+        //!
+        //! This class provides automatic binding for an OpenGL offscreen buffer.
+        class OpenGLOffscreenBufferScope
+        {
+        public:
+            OpenGLOffscreenBufferScope(OpenGLOffscreenBuffer *);
+
+            ~OpenGLOffscreenBufferScope();
+
+        private:
+            DJV_PRIVATE_COPY(OpenGLOffscreenBufferScope);
+
+            OpenGLOffscreenBuffer * _buffer;
+        };
+
+    } // namespace Graphics
+} // namespace djv

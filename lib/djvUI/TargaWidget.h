@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            TargaWidget(djvImageIO *, UIContext *);
+            TargaWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~TargaWidget();
 
@@ -63,8 +63,8 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvTarga::Options _options;
-            QComboBox *       _compressionWidget;
+            Graphics::Targa::Options _options;
+            QComboBox * _compressionWidget = nullptr;
         };
 
         //! \class TargaWidgetPlugin
@@ -75,7 +75,7 @@ namespace djv
         public:
             TargaWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

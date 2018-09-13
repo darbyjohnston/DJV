@@ -34,37 +34,47 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/TIFF.h>
 
-//! \addtogroup djvTIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTIFFPlugin
-//!
-//! This class provides a TIFF plugin.
-//------------------------------------------------------------------------------
-
-class djvTIFFPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvTIFFPlugin(djvCoreContext *);
-    
-    virtual void initPlugin() throw (djvError);
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+    namespace Graphics
+    {
+        //! \class TIFFPlugin
+        //!
+        //! This plugin provides support for the Tagged Image File Format (TIFF).
+        //!
+        //! Requires:
+        //!
+        //! - libtiff - http://www.libtiff.org
+        //!
+        //! File extensions: .tiff, .tif
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
+        //! - Interleaved channels only
+        //! - File compression
+        class TIFFPlugin : public ImageIO
+        {
+        public:
+            explicit TIFFPlugin(djvCoreContext *);
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual void initPlugin() throw (djvError);
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-private:
-    djvTIFF::Options _options;
-};
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-//@} // djvTIFFPlugin
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
+        private:
+            TIFF::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

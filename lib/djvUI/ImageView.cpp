@@ -54,12 +54,12 @@ namespace djv
                 context(context)
             {}
 
-            const djvPixelData *  data = nullptr;
-            djvOpenGLImageOptions options;
+            const Graphics::PixelData *  data = nullptr;
+            Graphics::OpenGLImageOptions options;
             glm::ivec2 viewPos = glm::ivec2(0, 0);
             float viewZoom = 1.f;
             bool viewFit = false;
-            std::unique_ptr<djvOpenGLImage> openGLImage;
+            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             UIContext * context = nullptr;
         };
 
@@ -77,12 +77,12 @@ namespace djv
             _p->openGLImage.reset();
         }
 
-        const djvPixelData * ImageView::data() const
+        const Graphics::PixelData * ImageView::data() const
         {
             return _p->data;
         }
 
-        const djvOpenGLImageOptions & ImageView::options() const
+        const Graphics::OpenGLImageOptions & ImageView::options() const
         {
             return _p->options;
         }
@@ -112,7 +112,7 @@ namespace djv
             return QSize(200, 200);
         }
 
-        void ImageView::setData(const djvPixelData * data)
+        void ImageView::setData(const Graphics::PixelData * data)
         {
             if (data == _p->data)
                 return;
@@ -123,7 +123,7 @@ namespace djv
             Q_EMIT viewChanged();
         }
 
-        void ImageView::setOptions(const djvOpenGLImageOptions & options)
+        void ImageView::setOptions(const Graphics::OpenGLImageOptions & options)
         {
             if (options == _p->options)
                 return;
@@ -219,7 +219,7 @@ namespace djv
             //DJV_DEBUG_PRINT("minor = " << surfaceFormat.minorVersion());
             //DJV_DEBUG_PRINT("profile = " << surfaceFormat.profile());
 
-            _p->openGLImage.reset(new djvOpenGLImage);
+            _p->openGLImage.reset(new Graphics::OpenGLImage);
         }
 
         void ImageView::paintGL()
@@ -237,8 +237,8 @@ namespace djv
 
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
             glFuncs->glViewport(0, 0, geom.w, geom.h);
-            djvColor background(djvPixel::RGB_F32);
-            djvColorUtil::convert(_p->options.background, background);
+            Graphics::Color background(Graphics::Pixel::RGB_F32);
+            Graphics::ColorUtil::convert(_p->options.background, background);
             glFuncs->glClearColor(
                 background.f32(0),
                 background.f32(1),
@@ -250,7 +250,7 @@ namespace djv
                 return;
 
             //DJV_DEBUG_PRINT("data = " << *_p->data);
-            djvOpenGLImageOptions options = _p->options;
+            Graphics::OpenGLImageOptions options = _p->options;
             options.xform.position += _p->viewPos;
             options.xform.scale *= _p->viewZoom * devicePixelRatio;
             try
@@ -266,7 +266,7 @@ namespace djv
             }
             catch (const djvError & error)
             {
-                DJV_LOG(_p->context->debugLog(), "djvImageView",
+                DJV_LOG(_p->context->debugLog(), "djv::UI::ImageView",
                     djvErrorUtil::format(error).join("\n"));
             }
         }
@@ -280,18 +280,18 @@ namespace djv
             //DJV_DEBUG_PRINT("pos = " << pos);
             //DJV_DEBUG_PRINT("zoom = " << zoom);
 
-            const djvPixelDataInfo & info = _p->data->info();
+            const Graphics::PixelDataInfo & info = _p->data->info();
             //DJV_DEBUG_PRINT("info = " << info);
 
-            djvOpenGLImageXform xform = _p->options.xform;
+            Graphics::OpenGLImageXform xform = _p->options.xform;
             xform.position += pos;
             xform.scale *= zoom;
             //DJV_DEBUG_PRINT("xform = " << xform);
 
-            const glm::mat3x3 m = djvOpenGLImageXform::xformMatrix(xform);
+            const glm::mat3x3 m = Graphics::OpenGLImageXform::xformMatrix(xform);
             //DJV_DEBUG_PRINT("m = " << m);
 
-            djvBox2f box(_p->data->info().size * djvPixelDataUtil::proxyScale(info.proxy));
+            djvBox2f box(_p->data->info().size * Graphics::PixelDataUtil::proxyScale(info.proxy));
             //DJV_DEBUG_PRINT("box = " << box);
 
             box = m * box;

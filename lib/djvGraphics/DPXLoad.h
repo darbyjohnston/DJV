@@ -36,38 +36,32 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvDPXPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDPXLoad
-//!
-//! This class provides a DPX loader.
-//------------------------------------------------------------------------------
-
-class djvDPXLoad : public djvImageLoad
+namespace djv
 {
-public:
-    djvDPXLoad(const djvDPX::Options &, djvCoreContext *);
-    
-    virtual ~djvDPXLoad();
+    namespace Graphics
+    {
+        //! \class DPXLoad
+        //!
+        //! This class provides a DPX loader.
+        class DPXLoad : public ImageLoad
+        {
+        public:
+            DPXLoad(const DPX::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual ~DPXLoad();
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    void _open(const QString &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-    djvDPX::Options _options;
-    bool            _filmPrint;
-    djvPixelData    _filmPrintLut;
-    djvFileInfo     _file;
-    djvPixelData    _tmp;
-};
+            DPX::Options _options;
+            bool         _filmPrint;
+            PixelData    _filmPrintLut;
+            djvFileInfo  _file;
+            PixelData    _tmp;
+        };
 
-//@} // djvDPXPlugin
-
+    } // namespace Graphics
+} // namespace djv

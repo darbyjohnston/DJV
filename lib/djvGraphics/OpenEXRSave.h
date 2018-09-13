@@ -39,42 +39,35 @@
 
 #include <ImfOutputFile.h>
 
-//! \addtogroup djvOpenEXRPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenEXRSave
-//!
-//! This class provides an OpenEXR saver.
-//------------------------------------------------------------------------------
-
-class djvOpenEXRSave : public djvImageSave
+namespace djv
 {
-public:
-    djvOpenEXRSave(const djvOpenEXR::Options &, djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class OpenEXRSave
+        //!
+        //! This class provides an OpenEXR saver.
+        class OpenEXRSave : public ImageSave
+        {
+        public:
+            OpenEXRSave(const OpenEXR::Options &, djvCoreContext *);
 
-    virtual ~djvOpenEXRSave();
+            virtual ~OpenEXRSave();
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, const ImageIOInfo &) throw (djvError);
 
-    virtual void close() throw (djvError);
+            OpenEXR::Options  _options;
+            djvFileInfo       _file;
+            Imf::OutputFile * _f;
+            PixelDataInfo     _info;
+            QStringList       _channels;
+            djvSpeed          _speed;
+            PixelData         _tmp;
+        };
 
-private:
-    void _open(const QString &, const djvImageIOInfo &)
-        throw (djvError);
-
-    djvOpenEXR::Options _options;
-    djvFileInfo         _file;
-    Imf::OutputFile *   _f;
-    djvPixelDataInfo    _info;
-    QStringList         _channels;
-    djvSpeed            _speed;
-    djvPixelData        _tmp;
-};
-
-//@} // djvOpenEXRPlugin
-
+    } // namespace Graphics
+} // namespace djv

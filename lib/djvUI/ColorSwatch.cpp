@@ -60,7 +60,7 @@ namespace djv
                 SLOT(sizeMetricsCallback()));
         }
 
-        const djvColor & ColorSwatch::color() const
+        const Graphics::Color & ColorSwatch::color() const
         {
             return _color;
         }
@@ -101,7 +101,7 @@ namespace djv
             return QSize(size, size);
         }
 
-        void ColorSwatch::setColor(const djvColor & color)
+        void ColorSwatch::setColor(const Graphics::Color & color)
         {
             if (color == _color)
                 return;
@@ -117,8 +117,8 @@ namespace djv
                 ColorDialog dialog(color(), _context);
                 connect(
                     &dialog,
-                    SIGNAL(colorChanged(const djvColor &)),
-                    SLOT(setColor(const djvColor &)));
+                    SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                    SLOT(setColor(const djv::Graphics::Color &)));
                 dialog.exec();
             }
             Q_EMIT clicked();
@@ -130,8 +130,8 @@ namespace djv
             QRect rect(this->rect());
             if (_context->style()->hasColorSwatchTransparency())
             {
-                djvColor tmp(djvPixel::RGBA_U8);
-                djvColorUtil::convert(_color, tmp);
+                Graphics::Color tmp(Graphics::Pixel::RGBA_U8);
+                Graphics::ColorUtil::convert(_color, tmp);
                 int vCount = 0;
                 for (int y = rect.top(); y < rect.bottom(); y = y + 10, ++vCount)
                 {
@@ -151,8 +151,8 @@ namespace djv
             }
             else
             {
-                djvColor tmp(djvPixel::RGB_U8);
-                djvColorUtil::convert(_color, tmp);
+                Graphics::Color tmp(Graphics::Pixel::RGB_U8);
+                Graphics::ColorUtil::convert(_color, tmp);
                 rect = rect.adjusted(0, 0, -1, -1);
                 painter.setPen(palette().color(QPalette::Shadow));
                 painter.drawRect(rect);

@@ -42,221 +42,192 @@
 //! \todo Where is this define coming from?
 #undef COMPRESSION_NONE
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvOpenEXRPlugin djvOpenEXRPlugin
-//!
-//! This plugin provides support for the Industrial Light and Magic OpenEXR
-//! image file format.
-//!
-//! Requires:
-//!
-//! - OpenEXR - http://www.openexr.com
-//!
-//! File extensions: .exr
-//!
-//! Supported features:
-//!
-//! - 16-bit float, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
-//! - Image layers
-//! - Display and data windows
-//! - File compression
-//!
-//! \todo Add support for writing luminance/chroma images.
-//! \todo Add support for OpenEXR aspect ratios.
-//! \todo Add better support for tiled images.
-
-//@} // plugins
-
-//! \addtogroup djvOpenEXRPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvOpenEXR
-//!
-//! This struct provides OpenEXR utilities.
-//------------------------------------------------------------------------------
-
-struct djvOpenEXR
+namespace djv
 {
-    //! The plugin name.
-    static const QString staticName;
-
-    //! This struct provides an image channel.
-    struct Channel
+    namespace Graphics
     {
-        Channel() :
-            sampling(1)
-        {}
-        Channel(
-            const QString &    name,
-            djvPixel::TYPE     type,
-            const glm::ivec2 & sampling = glm::ivec2(1, 1));
+        //! \struct OpenEXR
+        //!
+        //! This struct provides OpenEXR utilities.
+        struct OpenEXR
+        {
+            //! The plugin name.
+            static const QString staticName;
 
-        QString        name;
-        djvPixel::TYPE type;
-        glm::ivec2     sampling;
-    };
+            //! This struct provides an image channel.
+            struct Channel
+            {
+                Channel() :
+                    sampling(1)
+                {}
+                Channel(
+                    const QString &    name,
+                    Pixel::TYPE        type,
+                    const glm::ivec2 & sampling = glm::ivec2(1, 1));
 
-    //! This struct provides an image layer.
-    struct Layer
-    {
-        Layer(
-            const QVector<Channel> & channels        = QVector<Channel>(),
-            bool                     luminanceChroma = false);
+                QString     name;
+                Pixel::TYPE type;
+                glm::ivec2  sampling;
+            };
 
-        QString          name;
-        QVector<Channel> channels;
-        bool             luminanceChroma;
-    };
+            //! This struct provides an image layer.
+            struct Layer
+            {
+                Layer(
+                    const QVector<Channel> & channels = QVector<Channel>(),
+                    bool                     luminanceChroma = false);
 
-    //! This enumeration provides the color profiles.
-    enum COLOR_PROFILE
-    {
-        COLOR_PROFILE_NONE,
-        COLOR_PROFILE_GAMMA,
-        COLOR_PROFILE_EXPOSURE,
+                QString          name;
+                QVector<Channel> channels;
+                bool             luminanceChroma;
+            };
 
-        COLOR_PROFILE_COUNT
-    };
+            //! This enumeration provides the color profiles.
+            enum COLOR_PROFILE
+            {
+                COLOR_PROFILE_NONE,
+                COLOR_PROFILE_GAMMA,
+                COLOR_PROFILE_EXPOSURE,
 
-    //! Get the color profile labels.
-    static const QStringList & colorProfileLabels();
+                COLOR_PROFILE_COUNT
+            };
 
-    //! This enumeration provides the file compression.
-    enum COMPRESSION
-    {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
-        COMPRESSION_ZIPS,
-        COMPRESSION_ZIP,
-        COMPRESSION_PIZ,
-        COMPRESSION_PXR24,
-        COMPRESSION_B44,
-        COMPRESSION_B44A,
+            //! Get the color profile labels.
+            static const QStringList & colorProfileLabels();
+
+            //! This enumeration provides the file compression.
+            enum COMPRESSION
+            {
+                COMPRESSION_NONE,
+                COMPRESSION_RLE,
+                COMPRESSION_ZIPS,
+                COMPRESSION_ZIP,
+                COMPRESSION_PIZ,
+                COMPRESSION_PXR24,
+                COMPRESSION_B44,
+                COMPRESSION_B44A,
 #if OPENEXR_VERSION_HEX >= 0x02020000
-        COMPRESSION_DWAA,
-        COMPRESSION_DWAB,
+                COMPRESSION_DWAA,
+                COMPRESSION_DWAB,
 #endif // OPENEXR_VERSION_HEX
 
-        COMPRESSION_COUNT
-    };
+                COMPRESSION_COUNT
+            };
 
-    //! Get the compression labels.
-    static const QStringList & compressionLabels();
+            //! Get the compression labels.
+            static const QStringList & compressionLabels();
 
-    //! This enumeration provides the channels.
-    enum CHANNELS
-    {
-        CHANNELS_GROUP_NONE,
-        CHANNELS_GROUP_KNOWN,
-        CHANNELS_GROUP_ALL,
+            //! This enumeration provides the channels.
+            enum CHANNELS
+            {
+                CHANNELS_GROUP_NONE,
+                CHANNELS_GROUP_KNOWN,
+                CHANNELS_GROUP_ALL,
 
-        CHANNELS_COUNT
-    };
+                CHANNELS_COUNT
+            };
 
-    //! Get the channel labels.
-    static const QStringList & channelsLabels();
+            //! Get the channel labels.
+            static const QStringList & channelsLabels();
 
-    //! This enumeration provides the image tags.
-    enum TAG
-    {
-        TAG_LONGITUDE,
-        TAG_LATITUDE,
-        TAG_ALTITUDE,
-        TAG_FOCUS,
-        TAG_EXPOSURE,
-        TAG_APERTURE,
-        TAG_ISO_SPEED,
-        TAG_CHROMATICITIES,
-        TAG_WHITE_LUMINANCE,
-        TAG_X_DENSITY,
+            //! This enumeration provides the image tags.
+            enum TAG
+            {
+                TAG_LONGITUDE,
+                TAG_LATITUDE,
+                TAG_ALTITUDE,
+                TAG_FOCUS,
+                TAG_EXPOSURE,
+                TAG_APERTURE,
+                TAG_ISO_SPEED,
+                TAG_CHROMATICITIES,
+                TAG_WHITE_LUMINANCE,
+                TAG_X_DENSITY,
 
-        TAG_COUNT
-    };
+                TAG_COUNT
+            };
 
-    //! Get the image tag labels.
-    static const QStringList & tagLabels();
+            //! Get the image tag labels.
+            static const QStringList & tagLabels();
 
-    //! Create a layer name from a list of channel names.
-    //!
-    //! Example:
-    //!
-    //! - R, G, B - R,G,B
-    //! - normal.X, normal.Y, normal.Z - normal.X,Y,Z
-    static QString layerName(const QStringList &);
+            //! Create a layer name from a list of channel names.
+            //!
+            //! Example:
+            //!
+            //! - R, G, B - R,G,B
+            //! - normal.X, normal.Y, normal.Z - normal.X,Y,Z
+            static QString layerName(const QStringList &);
 
-    //! Find channels that aren't in any layer.
-    static Imf::ChannelList defaultLayer(const Imf::ChannelList &);
+            //! Find channels that aren't in any layer.
+            static Imf::ChannelList defaultLayer(const Imf::ChannelList &);
 
-    //! Find a channel by name.
-    static const Imf::Channel * find(const Imf::ChannelList &, QString &);
+            //! Find a channel by name.
+            static const Imf::Channel * find(const Imf::ChannelList &, QString &);
 
-    //! Build a list of layers from Imf channels.
-    static QVector<Layer> layer(const Imf::ChannelList &, CHANNELS);
+            //! Build a list of layers from Imf channels.
+            static QVector<Layer> layer(const Imf::ChannelList &, CHANNELS);
 
-    //! Load image tags.
-    static void loadTags(const Imf::Header &, djvImageIOInfo &);
+            //! Load image tags.
+            static void loadTags(const Imf::Header &, ImageIOInfo &);
 
-    //! Save image tags.
-    static void saveTags(const djvImageIOInfo &, Imf::Header &);
+            //! Save image tags.
+            static void saveTags(const ImageIOInfo &, Imf::Header &);
 
-    //! Convert from an OpenEXR box type.
-    static djvBox2i imfToBox(const Imath::Box2i &);
+            //! Convert from an OpenEXR box type.
+            static djvBox2i imfToBox(const Imath::Box2i &);
 
-    //! Convert to a OpenEXR pixel type.
-    static Imf::PixelType pixelTypeToImf(djvPixel::TYPE);
+            //! Convert to a OpenEXR pixel type.
+            static Imf::PixelType pixelTypeToImf(Pixel::TYPE);
 
-    //! Convert from an OpenEXR pixel type.
-    static djvPixel::TYPE imfToPixelType(Imf::PixelType);
+            //! Convert from an OpenEXR pixel type.
+            static Pixel::TYPE imfToPixelType(Imf::PixelType);
 
-    //! Convert from an OpenEXR channel.
-    static Channel imfToChannel(const QString & name, const Imf::Channel &);
+            //! Convert from an OpenEXR channel.
+            static Channel imfToChannel(const QString & name, const Imf::Channel &);
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        THREADS_ENABLE_OPTION,
-        THREAD_COUNT_OPTION,
-        INPUT_COLOR_PROFILE_OPTION,
-        INPUT_GAMMA_OPTION,
-        INPUT_EXPOSURE_OPTION,
-        CHANNELS_OPTION,
-        COMPRESSION_OPTION,
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                THREADS_ENABLE_OPTION,
+                THREAD_COUNT_OPTION,
+                INPUT_COLOR_PROFILE_OPTION,
+                INPUT_GAMMA_OPTION,
+                INPUT_EXPOSURE_OPTION,
+                CHANNELS_OPTION,
+                COMPRESSION_OPTION,
 #if OPENEXR_VERSION_HEX >= 0x02020000
-        DWA_COMPRESSION_LEVEL_OPTION,
+                DWA_COMPRESSION_LEVEL_OPTION,
 #endif // OPENEXR_VERSION_HEX
 
-        OPTIONS_COUNT
-    };
+                OPTIONS_COUNT
+            };
 
-    //! Get the option labels.
-    static const QStringList & optionsLabels();
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-        bool                      threadsEnable;
-        int                       threadCount;
-        djvOpenEXR::COLOR_PROFILE inputColorProfile;
-        float                     inputGamma;
-        djvColorProfile::Exposure inputExposure;
-        djvOpenEXR::CHANNELS      channels;
-        djvOpenEXR::COMPRESSION   compression;
+                bool                   threadsEnable;
+                int                    threadCount;
+                OpenEXR::COLOR_PROFILE inputColorProfile;
+                float                  inputGamma;
+                ColorProfile::Exposure inputExposure;
+                OpenEXR::CHANNELS      channels;
+                OpenEXR::COMPRESSION   compression;
 #if OPENEXR_VERSION_HEX >= 0x02020000
-        float                     dwaCompressionLevel;
+                float                  dwaCompressionLevel;
 #endif // OPENEXR_VERSION_HEX
-    };
-};
+            };
+        };
 
-DJV_STRING_OPERATOR(djvOpenEXR::COLOR_PROFILE);
-DJV_STRING_OPERATOR(djvOpenEXR::COMPRESSION);
-DJV_STRING_OPERATOR(djvOpenEXR::CHANNELS);
+    } // namespace Graphics
+} // namespace djv
+
+DJV_STRING_OPERATOR(djv::Graphics::OpenEXR::COLOR_PROFILE);
+DJV_STRING_OPERATOR(djv::Graphics::OpenEXR::COMPRESSION);
+DJV_STRING_OPERATOR(djv::Graphics::OpenEXR::CHANNELS);
 
 bool compare(const QVector<Imf::Channel> &);
-
-//@} // djvOpenEXRPlugin
-

@@ -76,12 +76,12 @@ namespace djv
             glm::ivec2           viewPosTmp = glm::ivec2(0, 0);
             float                viewZoomTmp = 0.f;
             Util::GRID           grid = static_cast<Util::GRID>(0);
-            djvColor             gridColor;
+            Graphics::Color      gridColor;
             bool                 hudEnabled = false;
             HudInfo              hudInfo;
-            djvColor             hudColor;
+            Graphics::Color      hudColor;
             Util::HUD_BACKGROUND hudBackground = static_cast<Util::HUD_BACKGROUND>(0);
-            djvColor             hudBackgroundColor;
+            Graphics::Color      hudBackgroundColor;
             bool                 inside = false;
             glm::ivec2           mousePos = glm::ivec2(0, 0);
             glm::ivec2           mouseStartPos = glm::ivec2(0, 0);
@@ -211,7 +211,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setGridColor(const djvColor & color)
+        void ImageView::setGridColor(const Graphics::Color & color)
         {
             if (color == _p->gridColor)
                 return;
@@ -235,7 +235,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setHudColor(const djvColor & color)
+        void ImageView::setHudColor(const Graphics::Color & color)
         {
             if (color == _p->hudColor)
                 return;
@@ -251,7 +251,7 @@ namespace djv
             update();
         }
 
-        void ImageView::setHudBackgroundColor(const djvColor & color)
+        void ImageView::setHudBackgroundColor(const Graphics::Color & color)
         {
             if (color == _p->hudBackgroundColor)
                 return;

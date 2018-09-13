@@ -35,36 +35,30 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvTargaPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTargaLoad
-//!
-//! This class provides a Targa loader.
-//------------------------------------------------------------------------------
-
-class djvTargaLoad : public djvImageLoad
+namespace djv
 {
-public:    
-    explicit djvTargaLoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class TargaLoad
+        //!
+        //! This class provides a Targa loader.
+        class TargaLoad : public ImageLoad
+        {
+        public:
+            explicit TargaLoad(djvCoreContext *);
 
-    virtual ~djvTargaLoad();
+            virtual ~TargaLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-private:
-    void _open(const QString &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+            djvFileInfo _file;
+            bool        _compression;
+            PixelData   _tmp;
+        };
 
-    djvFileInfo  _file;
-    bool         _compression;
-    djvPixelData _tmp;
-};
-
-//@} // djvTargaPlugin
-
+    } // namespace Graphics
+} // namespace djv

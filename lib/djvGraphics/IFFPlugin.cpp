@@ -40,109 +40,111 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvIFFPlugin
-//------------------------------------------------------------------------------
-
-djvIFFPlugin::djvIFFPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvIFFPlugin::pluginName() const
+namespace djv
 {
-    return djvIFF::staticName;
-}
-
-QStringList djvIFFPlugin::extensions() const
-{
-    return QStringList() <<
-        ".iff" <<
-        ".z";
-}
-
-QStringList djvIFFPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+    namespace Graphics
     {
-        out << _options.compression;
-    }
-    return out;
-}
+        IFFPlugin::IFFPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-bool djvIFFPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+        QString IFFPlugin::pluginName() const
         {
-            djvIFF::COMPRESSION compression = static_cast<djvIFF::COMPRESSION>(0);
-            data >> compression;
-            if (compression != _options.compression)
-            {
-                _options.compression = compression;
-                Q_EMIT optionChanged(in);
-            }
+            return IFF::staticName;
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvIFFPlugin::options() const
-{
-    return djvIFF::optionsLabels();
-}
-
-void djvIFFPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList IFFPlugin::extensions() const
         {
-            in >> arg;
-            if (qApp->translate("djvIFFPlugin", "-iff_compression") == arg)
-            {
-                in >> _options.compression;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return QStringList() <<
+                ".iff" <<
+                ".z";
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvIFFPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvIFFPlugin",
-"\n"
-"IFF Options\n"
-"\n"
-"    -iff_compression (value)\n"
-"        Set the file compression used when saving IFF images. Options = %1. "
-"Default = %2.\n").
-    arg(djvIFF::compressionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.compression).join(", "));
-}
+        QStringList IFFPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[IFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.compression;
+            }
+            return out;
+        }
 
-djvImageLoad * djvIFFPlugin::createLoad() const
-{
-    return new djvIFFLoad(context());
-}
+        bool IFFPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[IFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                {
+                    IFF::COMPRESSION compression = static_cast<IFF::COMPRESSION>(0);
+                    data >> compression;
+                    if (compression != _options.compression)
+                    {
+                        _options.compression = compression;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
 
-djvImageSave * djvIFFPlugin::createSave() const
-{
-    return new djvIFFSave(_options, context());
-}
+        QStringList IFFPlugin::options() const
+        {
+            return IFF::optionsLabels();
+        }
 
+        void IFFPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics:IFFPlugin", "-iff_compression") == arg)
+                    {
+                        in >> _options.compression;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString IFFPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::IFFPlugin",
+                "\n"
+                "IFF Options\n"
+                "\n"
+                "    -iff_compression (value)\n"
+                "        Set the file compression used when saving IFF images. Options = %1. "
+                "Default = %2.\n").
+                arg(IFF::compressionLabels().join(", ")).
+                arg(djvStringUtil::label(_options.compression).join(", "));
+        }
+
+        ImageLoad * IFFPlugin::createLoad() const
+        {
+            return new IFFLoad(context());
+        }
+
+        ImageSave * IFFPlugin::createSave() const
+        {
+            return new IFFSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

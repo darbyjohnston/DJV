@@ -33,120 +33,121 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
-//------------------------------------------------------------------------------
-// djvDPXSave
-//------------------------------------------------------------------------------
-
-djvDPXSave::djvDPXSave(const djvDPX::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options(options)
-{}
-
-djvDPXSave::~djvDPXSave()
-{}
-
-void djvDPXSave::open(const djvFileInfo & in, const djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvDPXSave::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("info = " << info);
-
-    _file = in;
-
-    if (info.sequence.frames.count() > 1)
+    namespace Graphics
     {
-        _file.setType(djvFileInfo::SEQUENCE);
-    }
+        DPXSave::DPXSave(const DPX::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options)
+        {}
 
-    _info          = djvPixelDataInfo();
-    _info.size     = info.size;
-    _info.mirror.y = true;
+        DPXSave::~DPXSave()
+        {}
 
-    switch (_options.endian)
-    {
-        case djvDPX::ENDIAN_AUTO: break;
-        case djvDPX::ENDIAN_MSB:  _info.endian = djvMemory::MSB; break;
-        case djvDPX::ENDIAN_LSB:  _info.endian = djvMemory::LSB; break;
-        default: break;
-    }
-
-    switch (_options.type)
-    {
-        case djvDPX::TYPE_U10: _info.pixel = djvPixel::RGB_U10; break;
-        default:
+        void DPXSave::open(const djvFileInfo & in, const ImageIOInfo & info)
+            throw (djvError)
         {
-            djvPixel::TYPE type = djvPixel::type(info.pixel);
-            switch (type)
+            //DJV_DEBUG("DPXSave::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("info = " << info);
+
+            _file = in;
+
+            if (info.sequence.frames.count() > 1)
             {
-                case djvPixel::F16:
-                case djvPixel::F32: type = djvPixel::U16; break;
-                default: break;
+                _file.setType(djvFileInfo::SEQUENCE);
             }
-            _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
+
+            _info = PixelDataInfo();
+            _info.size = info.size;
+            _info.mirror.y = true;
+
+            switch (_options.endian)
+            {
+            case DPX::ENDIAN_AUTO: break;
+            case DPX::ENDIAN_MSB:  _info.endian = djvMemory::MSB; break;
+            case DPX::ENDIAN_LSB:  _info.endian = djvMemory::LSB; break;
+            default: break;
+            }
+
+            switch (_options.type)
+            {
+            case DPX::TYPE_U10: _info.pixel = Pixel::RGB_U10; break;
+            default:
+            {
+                Pixel::TYPE type = Pixel::type(info.pixel);
+                switch (type)
+                {
+                case Pixel::F16:
+                case Pixel::F32: type = Pixel::U16; break;
+                default: break;
+                }
+                _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            }
+            break;
+            }
+
+            switch (Pixel::bitDepth(_info.pixel))
+            {
+            case 8:
+            case 10: _info.align = 4; break;
+            }
+            //DJV_DEBUG_PRINT("info = " << _info);
+
+            _image.set(_info);
         }
-        break;
-    }
 
-    switch (djvPixel::bitDepth(_info.pixel))
-    {
-        case 8:
-        case 10: _info.align = 4; break;
-    }
-    //DJV_DEBUG_PRINT("info = " << _info);
+        void DPXSave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("DPXSave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
 
-    _image.set(_info);
-}
+            // Set the color profile.
+            ColorProfile colorProfile;
+            if (Cineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile ||
+                Cineon::COLOR_PROFILE_AUTO == _options.outputColorProfile)
+            {
+                //DJV_DEBUG_PRINT("color profile");
+                colorProfile.type = ColorProfile::LUT;
+                colorProfile.lut = Cineon::linearToFilmPrintLut(_options.outputFilmPrint);
+            }
 
-void djvDPXSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvDPXSave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
+            // Open the file.
+            const QString fileName = _file.fileName(frame.frame);
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info(_info);
+            info.fileName = fileName;
+            info.tags = in.tags;
+            djvFileIO io;
+            io.open(fileName, djvFileIO::WRITE);
+            _header = DPXHeader();
+            _header.save(
+                io,
+                _info,
+                _options.endian,
+                _options.outputColorProfile,
+                _options.version);
 
-    // Set the color profile.
-    djvColorProfile colorProfile;
-    if (djvCineon::COLOR_PROFILE_FILM_PRINT == _options.outputColorProfile ||
-        djvCineon::COLOR_PROFILE_AUTO == _options.outputColorProfile)
-    {
-        //DJV_DEBUG_PRINT("color profile");
-        colorProfile.type = djvColorProfile::LUT;
-        colorProfile.lut  = djvCineon::linearToFilmPrintLut(
-            _options.outputFilmPrint);
-    }
+            // Convert the image.
+            const PixelData * p = &in;
+            if (in.info() != _info ||
+                in.colorProfile.type != ColorProfile::RAW ||
+                colorProfile.type != ColorProfile::RAW)
+            {
+                //DJV_DEBUG_PRINT("convert = " << _image);
+                _image.zero();
+                OpenGLImageOptions options;
+                options.colorProfile = colorProfile;
+                OpenGLImage().copy(*p, _image, options);
+                p = &_image;
+            }
 
-    // Open the file.
-    const QString fileName = _file.fileName(frame.frame);
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info(_info);
-    info.fileName = fileName;
-    info.tags = in.tags;
-    djvFileIO io;
-    io.open(fileName, djvFileIO::WRITE);
-    _header = djvDPXHeader();
-    _header.save(
-        io,
-        _info,
-        _options.endian,
-        _options.outputColorProfile,
-        _options.version);
+            // Write the file.
+            io.set(p->data(), p->dataByteCount());
+            _header.saveEnd(io);
+        }
 
-    // Convert the image.
-    const djvPixelData * p = &in;
-    if (in.info() != _info ||
-        in.colorProfile.type != djvColorProfile::RAW ||
-        colorProfile.type != djvColorProfile::RAW)
-    {
-        //DJV_DEBUG_PRINT("convert = " << _image);
-        _image.zero();
-        djvOpenGLImageOptions options;
-        options.colorProfile = colorProfile;
-        djvOpenGLImage().copy(*p, _image, options);
-        p = &_image;
-    }
-
-    // Write the file.
-    io.set(p->data(), p->dataByteCount());
-    _header.saveEnd(io);
-}
-
+    } // namespace Graphics
+} // namespace djv

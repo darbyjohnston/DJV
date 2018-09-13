@@ -36,41 +36,35 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvPNGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPNGLoad
-//!
-//! This class provides a PNG loader.
-//------------------------------------------------------------------------------
-
-class djvPNGLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvPNGLoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class PNGLoad
+        //!
+        //! This class provides a PNG loader.
+        class PNGLoad : public ImageLoad
+        {
+        public:
+            explicit PNGLoad(djvCoreContext *);
 
-    virtual ~djvPNGLoad();
+            virtual ~PNGLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &) throw (djvError);
 
-    virtual void close() throw (djvError);
+            djvFileInfo    _file;
+            FILE *         _f;
+            png_structp    _png;
+            png_infop      _pngInfo;
+            png_infop      _pngInfoEnd;
+            PNGErrorStruct _pngError;
+            PixelData      _tmp;
+        };
 
-private:
-    void _open(const QString &, djvImageIOInfo &) throw (djvError);
-
-    djvFileInfo       _file;
-    FILE *            _f;
-    png_structp       _png;
-    png_infop         _pngInfo;
-    png_infop         _pngInfoEnd;
-    djvPNGErrorStruct _pngError;
-    djvPixelData      _tmp;
-};
-
-//@} // djvPNGPlugin
-
+    } // namespace Graphics
+} // namespace djv

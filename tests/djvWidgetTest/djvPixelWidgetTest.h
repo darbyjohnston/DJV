@@ -47,5 +47,5 @@ public:
     virtual void run(const QStringList & args = QStringList());
     
 private Q_SLOTS:
-    void callback(djvPixel::PIXEL);
+    void callback(djv::Graphics::Pixel::PIXEL);
 };

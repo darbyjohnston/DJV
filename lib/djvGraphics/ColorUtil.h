@@ -33,59 +33,58 @@
 
 #include <djvConfig.h>
 
-class djvColor;
-
 class QColor;
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvColorUtil
-//!
-//! This class provides color utilities.
-//------------------------------------------------------------------------------
-
-class djvColorUtil
+namespace djv
 {
-public:
-    virtual ~djvColorUtil() = 0;
-    
-    //! Scale a color.
-    static void scale(float, const djvColor &, djvColor &);
+    namespace Graphics
+    {
+        class Color;
 
-    //! Scale a color.
-    static djvColor scale(float, const djvColor &);
+        //! \class ColorUtil
+        //!
+        //! This class provides color utilities.
+        class ColorUtil
+        {
+        public:
+            virtual ~ColorUtil() = 0;
 
-    //! Interpolate a color.
-    static void lerp(float, const djvColor &, const djvColor &, djvColor &);
+            //! Scale a color.
+            static void scale(float, const Color &, Color &);
 
-    //! Interpolate a color.
-    static void lerp(float, const QColor &, const QColor &, QColor &);
+            //! Scale a color.
+            static Color scale(float, const Color &);
 
-    //! Interpolate a color.
-    static djvColor lerp(float, const djvColor &, const djvColor &);
+            //! Interpolate a color.
+            static void lerp(float, const Color &, const Color &, Color &);
 
-    //! Interpolate a color.
-    static QColor lerp(float, const QColor &, const QColor &);
+            //! Interpolate a color.
+            static void lerp(float, const QColor &, const QColor &, QColor &);
 
-    //! Convert a color.
-    static void convert(const djvColor &, djvColor &);
+            //! Interpolate a color.
+            static Color lerp(float, const Color &, const Color &);
 
-    //! Convert RGB to HSV.
-    static inline void rgbToHsv(const float[3], float[3]);
+            //! Interpolate a color.
+            static QColor lerp(float, const QColor &, const QColor &);
 
-    //! Convert HSV to RGB.
-    static inline void hsvToRgb(const float[3], float[3]);
+            //! Convert a color.
+            static void convert(const Color &, Color &);
 
-    //! Convert to Qt.
-    static QColor toQt(const djvColor &);
+            //! Convert RGB to HSV.
+            static inline void rgbToHsv(const float[3], float[3]);
 
-    //! Convert from Qt.
-    static djvColor fromQt(const QColor &);
-};
+            //! Convert HSV to RGB.
+            static inline void hsvToRgb(const float[3], float[3]);
 
-//@} // djvGraphicsImage
+            //! Convert to Qt.
+            static QColor toQt(const Color &);
+
+            //! Convert from Qt.
+            static Color fromQt(const QColor &);
+        };
+
+    } // namespace Graphics
+} // namespace djv
 
 #include <djvGraphics/ColorUtilInline.h>
 

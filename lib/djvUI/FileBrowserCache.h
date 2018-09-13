@@ -51,15 +51,15 @@ namespace djv
         {
             FileBrowserCacheItem();
             FileBrowserCacheItem(
-                const djvImageIOInfo &  imageInfo,
-                const glm::ivec2 &      thumbnailSize,
-                djvPixelDataInfo::PROXY thumbnailProxy,
-                const QPixmap &         thumbnail);
+                const Graphics::ImageIOInfo &  imageInfo,
+                const glm::ivec2 &             thumbnailSize,
+                Graphics::PixelDataInfo::PROXY thumbnailProxy,
+                const QPixmap &                thumbnail);
 
-            djvImageIOInfo          imageInfo;
-            glm::ivec2              thumbnailSize = glm::ivec2(0, 0);
-            djvPixelDataInfo::PROXY thumbnailProxy = static_cast<djvPixelDataInfo::PROXY>(0);
-            QPixmap                 thumbnail;
+            Graphics::ImageIOInfo          imageInfo;
+            glm::ivec2                     thumbnailSize = glm::ivec2(0, 0);
+            Graphics::PixelDataInfo::PROXY thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
+            QPixmap                        thumbnail;
         };
 
         //! \class FileBrowserCache

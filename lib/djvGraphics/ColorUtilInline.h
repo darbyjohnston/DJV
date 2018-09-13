@@ -31,82 +31,84 @@
 
 #include <djvCore/Math.h>
 
-//------------------------------------------------------------------------------
-// djvColorUtil
-//------------------------------------------------------------------------------
-
-inline void djvColorUtil::rgbToHsv(const float in[3], float out[3])
+namespace djv
 {
-    const float & min = djvMath::min(in[0], djvMath::min(in[1], in[2]));
-    const float & max = djvMath::max(in[0], djvMath::max(in[1], in[2]));
-    out[2] = max;
-    out[1] = max != 0.f ? (1.f - min / max) : 0.f;
-    const float v = (max - min) * 6.f;
-    if (max == min)
+    namespace Graphics
     {
-        out[0] = 0.f;
-    }
-    else if (in[0] == max)
-    {
-        if (in[1] >= in[2])
+        inline void ColorUtil::rgbToHsv(const float in[3], float out[3])
         {
-            out[0] = (in[1] - in[2]) / v;
+            const float & min = djvMath::min(in[0], djvMath::min(in[1], in[2]));
+            const float & max = djvMath::max(in[0], djvMath::max(in[1], in[2]));
+            out[2] = max;
+            out[1] = max != 0.f ? (1.f - min / max) : 0.f;
+            const float v = (max - min) * 6.f;
+            if (max == min)
+            {
+                out[0] = 0.f;
+            }
+            else if (in[0] == max)
+            {
+                if (in[1] >= in[2])
+                {
+                    out[0] = (in[1] - in[2]) / v;
+                }
+                else
+                {
+                    out[0] = 1.f + (in[1] - in[2]) / v;
+                }
+            }
+            else if (in[1] == max)
+            {
+                out[0] = 1.f / 3.f + (in[2] - in[0]) / v;
+            }
+            else if (in[2] == max)
+            {
+                out[0] = 2.f / 3.f + (in[0] - in[1]) / v;
+            }
         }
-        else
+
+        inline void ColorUtil::hsvToRgb(const float in[3], float out[3])
         {
-            out[0] = 1.f + (in[1] - in[2]) / v;
+            const float h = djvMath::mod(in[0] * 6.f, 6.f);
+            const int   i = djvMath::floor(h);
+            const float f = h - i;
+            const float p = in[2] * (1.f - in[1]);
+            const float q = in[2] * (1.f - (in[1] * f));
+            const float t = in[2] * (1.f - (in[1] * (1.f - f)));
+            switch (i)
+            {
+            case 0:
+                out[0] = in[2];
+                out[1] = t;
+                out[2] = p;
+                break;
+            case 1:
+                out[0] = q;
+                out[1] = in[2];
+                out[2] = p;
+                break;
+            case 2:
+                out[0] = p;
+                out[1] = in[2];
+                out[2] = t;
+                break;
+            case 3:
+                out[0] = p;
+                out[1] = q;
+                out[2] = in[2];
+                break;
+            case 4:
+                out[0] = t;
+                out[1] = p;
+                out[2] = in[2];
+                break;
+            case 5:
+                out[0] = in[2];
+                out[1] = p;
+                out[2] = q;
+                break;
+            }
         }
-    }
-    else if (in[1] == max)
-    {
-        out[0] = 1.f / 3.f + (in[2] - in[0]) / v;
-    }
-    else if (in[2] == max)
-    {
-        out[0] = 2.f / 3.f + (in[0] - in[1]) / v;
-    }
-}
 
-inline void djvColorUtil::hsvToRgb(const float in[3], float out[3])
-{
-    const float h = djvMath::mod(in[0] * 6.f, 6.f);
-    const int   i = djvMath::floor(h);
-    const float f = h - i;
-    const float p = in[2] * (1.f - in[1]);
-    const float q = in[2] * (1.f - (in[1] * f));
-    const float t = in[2] * (1.f - (in[1] * (1.f - f)));
-    switch (i)
-    {
-        case 0:
-            out[0] = in[2];
-            out[1] = t;
-            out[2] = p;
-            break;
-        case 1:
-            out[0] = q;
-            out[1] = in[2];
-            out[2] = p;
-            break;
-        case 2:
-            out[0] = p;
-            out[1] = in[2];
-            out[2] = t;
-            break;
-        case 3:
-            out[0] = p;
-            out[1] = q;
-            out[2] = in[2];
-            break;
-        case 4:
-            out[0] = t;
-            out[1] = p;
-            out[2] = in[2];
-            break;
-        case 5:
-            out[0] = in[2];
-            out[1] = p;
-            out[2] = q;
-            break;
-    }
-}
-
+    } // namespace Graphics
+} // namespace djv

@@ -61,11 +61,11 @@ namespace djv
             // Create the filter widgets.
             _p->filterMinWidget = new QComboBox;
             _p->filterMinWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->filterMinWidget->addItems(djvOpenGLImageFilter::filterLabels());
+            _p->filterMinWidget->addItems(Graphics::OpenGLImageFilter::filterLabels());
 
             _p->filterMagWidget = new QComboBox;
             _p->filterMagWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->filterMagWidget->addItems(djvOpenGLImageFilter::filterLabels());
+            _p->filterMagWidget->addItems(Graphics::OpenGLImageFilter::filterLabels());
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
@@ -109,15 +109,15 @@ namespace djv
         void ImagePrefsWidget::resetPreferences()
         {
             //DJV_DEBUG("ImagePrefsWidget::resetPreferences");
-            context()->imagePrefs()->setFilter(djvOpenGLImageFilter::filterDefault());
+            context()->imagePrefs()->setFilter(Graphics::OpenGLImageFilter::filterDefault());
             widgetUpdate();
         }
 
         void ImagePrefsWidget::filterMinCallback(int in)
         {
             context()->imagePrefs()->setFilter(
-                djvOpenGLImageFilter(
-                    static_cast<djvOpenGLImageFilter::FILTER>(in),
+                Graphics::OpenGLImageFilter(
+                    static_cast<Graphics::OpenGLImageFilter::FILTER>(in),
                     context()->imagePrefs()->filter().mag));
             widgetUpdate();
         }
@@ -125,9 +125,9 @@ namespace djv
         void ImagePrefsWidget::filterMagCallback(int in)
         {
             context()->imagePrefs()->setFilter(
-                djvOpenGLImageFilter(
+                Graphics::OpenGLImageFilter(
                     context()->imagePrefs()->filter().min,
-                    static_cast<djvOpenGLImageFilter::FILTER>(in)));
+                    static_cast<Graphics::OpenGLImageFilter::FILTER>(in)));
             widgetUpdate();
         }
 

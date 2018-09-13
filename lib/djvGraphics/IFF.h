@@ -36,120 +36,92 @@
 
 #include <djvCore/FileIO.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvIFFPlugin djvIFFPlugin
-//!
-//! This plugin provides support for the Generic Interchange File Format (IFF).
-//!
-//! File extensions: .iff, .z
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
-//!   http://affine.org
-//! - Autodesk Maya documentation, "Overview of Maya IFF"
-//!
-//! Implementation:
-//!
-//! - Mikael Sundell, mikael.sundell@gmail.com
-
-//@} // plugins
-
-//! \addtogroup djvIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvIFF
-//!
-//! This struct provides IFF utilities.
-//------------------------------------------------------------------------------
-
-struct djvIFF
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file compression.
-    enum COMPRESSION
+    namespace Graphics
     {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
+        //! \struct IFF
+        //!
+        //! This struct provides IFF utilities.
+        struct IFF
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        COMPRESSION_COUNT
-    };
+            //! This enumeration provides the file compression.
+            enum COMPRESSION
+            {
+                COMPRESSION_NONE,
+                COMPRESSION_RLE,
 
-    //! Get compression labels.
-    static const QStringList & compressionLabels();
+                COMPRESSION_COUNT
+            };
 
-    //! Load information.
-    static void loadInfo(
-        djvFileIO   &    io,
-        djvImageIOInfo & info,
-        int *            tiles,
-        bool *           compression) throw (djvError);
+            //! Get compression labels.
+            static const QStringList & compressionLabels();
 
-    //! Save information.
-    static void saveInfo(
-        djvFileIO &            io,
-        const djvImageIOInfo & info,
-        bool                   compression) throw (djvError);
+            //! Load information.
+            static void loadInfo(
+                djvFileIO   & io,
+                ImageIOInfo & info,
+                int *         tiles,
+                bool *        compression) throw (djvError);
 
-    //! Load RLE compressed data.
-    static int readRle(
-        const quint8 * in,
-        quint8 *       end,
-        int            size);
+            //! Save information.
+            static void saveInfo(
+                djvFileIO &         io,
+                const ImageIOInfo & info,
+                bool                compression) throw (djvError);
 
-    //! Save RLE compressed data.
-    static int writeRle (
-        const quint8 * in,
-        quint8 *       out,
-        int            size);
+            //! Load RLE compressed data.
+            static int readRle(
+                const quint8 * in,
+                quint8 *       end,
+                int            size);
 
-    //! Get alignment size.
-    static quint32 alignSize(
-        quint32 size,
-        quint32 alignment);
+            //! Save RLE compressed data.
+            static int writeRle(
+                const quint8 * in,
+                quint8 *       out,
+                int            size);
 
-    //! Get tile size.
-    static glm::ivec2 tileSize(
-        quint32 width,
-        quint32 height);
+            //! Get alignment size.
+            static quint32 alignSize(
+                quint32 size,
+                quint32 alignment);
 
-    //! Get tile width.
-    static int tileWidth();
+            //! Get tile size.
+            static glm::ivec2 tileSize(
+                quint32 width,
+                quint32 height);
 
-    //! Get tile height.
-    static int tileHeight();
+            //! Get tile width.
+            static int tileWidth();
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
+            //! Get tile height.
+            static int tileHeight();
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                COMPRESSION_OPTION,
 
-    //! Get option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get option labels.
+            static const QStringList & optionsLabels();
 
-        COMPRESSION compression;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-DJV_STRING_OPERATOR(djvIFF::COMPRESSION);
+                COMPRESSION compression;
+            };
+        };
 
-//@} // djvIFFPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::IFF::COMPRESSION);

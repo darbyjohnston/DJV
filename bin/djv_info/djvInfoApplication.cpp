@@ -43,9 +43,7 @@
 #include <QDir>
 #include <QTimer>
 
-//------------------------------------------------------------------------------
-// djvInfoApplication
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvInfoApplication::djvInfoApplication(int argc, char ** argv) :
     QGuiApplication(argc, argv),
@@ -162,8 +160,8 @@ void djvInfoApplication::printItem(const djvFileInfo & in, bool path, bool info)
     //DJV_DEBUG_PRINT("in = " << in);
 
     // Open the file.
-    djvImageIOInfo _info;
-    QScopedPointer<djvImageLoad> load;
+    Graphics::ImageIOInfo _info;
+    QScopedPointer<Graphics::ImageLoad> load;
     try
     {
         load.reset(_context->imageIOFactory()->load(in, _info));

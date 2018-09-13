@@ -35,94 +35,93 @@
 
 #include <QMetaType>
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvColor
-//!
-//! This class provides a color.
-//------------------------------------------------------------------------------
-
-class djvColor
+namespace djv
 {
-public:
-    djvColor();
-    djvColor(const djvColor &);
-    djvColor(djvPixel::PIXEL);
-    djvColor(djvPixel::F32_T l);
-    djvColor(djvPixel::F32_T l, djvPixel::F32_T a);
-    djvColor(djvPixel::F32_T r, djvPixel::F32_T g, djvPixel::F32_T b);
-    djvColor(djvPixel::F32_T r, djvPixel::F32_T g, djvPixel::F32_T b, djvPixel::F32_T a);
-    djvColor(const quint8 *, djvPixel::PIXEL);
+    namespace Graphics
+    {
+        //! \class Color
+        //!
+        //! This class provides a color.
+        class Color
+        {
+        public:
+            Color();
+            Color(const Color &);
+            Color(Pixel::PIXEL);
+            Color(Pixel::F32_T l);
+            Color(Pixel::F32_T l, Pixel::F32_T a);
+            Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b);
+            Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a);
+            Color(const quint8 *, Pixel::PIXEL);
 
-    //! Get the pixel type.
-    inline djvPixel::PIXEL pixel() const;
+            //! Get the pixel type.
+            inline Pixel::PIXEL pixel() const;
 
-    //! Set the pixel type.
-    void setPixel(djvPixel::PIXEL);
+            //! Set the pixel type.
+            void setPixel(Pixel::PIXEL);
 
-    //! Get the channel count.
-    inline int channels() const;
+            //! Get the channel count.
+            inline int channels() const;
 
-    //! Get a channel.
-    inline djvPixel::U8_T u8(int) const;
+            //! Get a channel.
+            inline Pixel::U8_T u8(int) const;
 
-    //! Get a channel.
-    inline djvPixel::U10_T u10(int) const;
+            //! Get a channel.
+            inline Pixel::U10_T u10(int) const;
 
-    //! Get a channel.
-    inline djvPixel::U16_T u16(int) const;
+            //! Get a channel.
+            inline Pixel::U16_T u16(int) const;
 
-    //! Get a channel.
-    inline djvPixel::F16_T f16(int) const;
+            //! Get a channel.
+            inline Pixel::F16_T f16(int) const;
 
-    //! Get a channel.
-    inline djvPixel::F32_T f32(int) const;
+            //! Get a channel.
+            inline Pixel::F32_T f32(int) const;
 
-    //! Set a channel.
-    inline void setU8(djvPixel::U8_T, int);
+            //! Set a channel.
+            inline void setU8(Pixel::U8_T, int);
 
-    //! Set a channel.
-    inline void setU10(djvPixel::U10_T, int);
+            //! Set a channel.
+            inline void setU10(Pixel::U10_T, int);
 
-    //! Set a channel.
-    inline void setU16(djvPixel::U16_T, int);
+            //! Set a channel.
+            inline void setU16(Pixel::U16_T, int);
 
-    //! Set a channel.
-    inline void setF16(djvPixel::F16_T, int);
+            //! Set a channel.
+            inline void setF16(Pixel::F16_T, int);
 
-    //! Set a channel.
-    inline void setF32(djvPixel::F32_T, int);
+            //! Set a channel.
+            inline void setF32(Pixel::F32_T, int);
 
-    //! Zero the channels.
-    void zero();
+            //! Zero the channels.
+            void zero();
 
-    //! Get a pointer to the color data.
-    inline quint8 * data();
+            //! Get a pointer to the color data.
+            inline quint8 * data();
 
-    //! Get a const pointer to the color data.
-    inline const quint8 * data() const;
+            //! Get a const pointer to the color data.
+            inline const quint8 * data() const;
 
-    djvColor & operator = (const djvColor &);
+            Color & operator = (const Color &);
 
-private:
-    void init();
+        private:
+            void init();
 
-    djvPixel::PIXEL _pixel    = static_cast<djvPixel::PIXEL>(0);
-    int             _channels = 0;
-    quint8          _data[djvPixel::channelsMax * djvPixel::bytesMax];
-};
+            Pixel::PIXEL _pixel = static_cast<Pixel::PIXEL>(0);
+            int          _channels = 0;
+            quint8       _data[Pixel::channelsMax * Pixel::bytesMax];
+        };
 
-Q_DECLARE_METATYPE(djvColor)
+        DJV_COMPARISON_OPERATOR(Color);
 
-DJV_COMPARISON_OPERATOR(djvColor);
+    } // namespace Graphics
+} // namespace djv
 
-DJV_STRING_OPERATOR(djvColor);
+Q_DECLARE_METATYPE(djv::Graphics::Color)
 
-DJV_DEBUG_OPERATOR(djvColor);
+DJV_STRING_OPERATOR(djv::Graphics::Color);
 
-//@} // djvGraphicsImage
+DJV_DEBUG_OPERATOR(djv::Graphics::Color);
 
 #include <djvGraphics/ColorInline.h>
 

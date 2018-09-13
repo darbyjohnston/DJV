@@ -116,10 +116,10 @@ namespace djv
 
             _groups[PROXY_GROUP]->setExclusive(true);
 
-            for (int i = 0; i < djvPixelDataInfo::proxyLabels().count(); ++i)
+            for (int i = 0; i < Graphics::PixelDataInfo::proxyLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
-                action->setText(djvPixelDataInfo::proxyLabels()[i]);
+                action->setText(Graphics::PixelDataInfo::proxyLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
 

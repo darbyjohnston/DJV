@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            SGIWidget(djvImageIO *, UIContext *);
+            SGIWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~SGIWidget();
 
@@ -63,8 +63,8 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvSGI::Options _options;
-            QComboBox *     _compressionWidget;
+            Graphics::SGI::Options _options;
+            QComboBox * _compressionWidget = nullptr;
         };
 
         //! \class SGIWidgetPlugin
@@ -75,7 +75,7 @@ namespace djv
         public:
             SGIWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

@@ -48,14 +48,14 @@ namespace djv
 {
     namespace UI
     {
-        JPEGWidget::JPEGWidget(djvImageIO * plugin, UIContext * context) :
+        JPEGWidget::JPEGWidget(Graphics::ImageIO * plugin, UIContext * context) :
             ImageIOWidget(plugin, context),
             _qualityWidget(0)
         {
             // Create the widgets.
             _qualityWidget = new IntEditSlider(context);
             _qualityWidget->setRange(0, 100);
-            _qualityWidget->setDefaultValue(djvJPEG::Options().quality);
+            _qualityWidget->setDefaultValue(Graphics::JPEG::Options().quality);
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
@@ -76,7 +76,7 @@ namespace djv
             // Initialize.
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[djvJPEG::QUALITY_OPTION]);
+                plugin->options()[Graphics::JPEG::QUALITY_OPTION]);
             tmp >> _options.quality;
 
             widgetUpdate();
@@ -97,7 +97,7 @@ namespace djv
 
         void JPEGWidget::resetPreferences()
         {
-            _options = djvJPEG::Options();
+            _options = Graphics::JPEG::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -109,7 +109,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    djvJPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+                    Graphics::JPEG::QUALITY_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.quality;
             }
             catch (const QString &)
@@ -128,7 +128,7 @@ namespace djv
         {
             QStringList tmp;
             tmp << _options.quality;
-            plugin()->setOption(djvJPEG::optionsLabels()[djvJPEG::QUALITY_OPTION], tmp);
+            plugin()->setOption(Graphics::JPEG::optionsLabels()[Graphics::JPEG::QUALITY_OPTION], tmp);
         }
 
         void JPEGWidget::widgetUpdate()
@@ -141,14 +141,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * JPEGWidgetPlugin::createWidget(djvImageIO * plugin) const
+        ImageIOWidget * JPEGWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
         {
             return new JPEGWidget(plugin, uiContext());
         }
 
         QString JPEGWidgetPlugin::pluginName() const
         {
-            return djvJPEG::staticName;
+            return Graphics::JPEG::staticName;
         }
 
     } // namespace UI

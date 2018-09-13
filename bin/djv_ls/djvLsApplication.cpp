@@ -41,9 +41,7 @@
 #include <QDir>
 #include <QTimer>
 
-//------------------------------------------------------------------------------
-// djvLsApplication
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvLsApplication::djvLsApplication(int & argc, char ** argv) :
     QGuiApplication(argc, argv),

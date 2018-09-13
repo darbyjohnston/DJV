@@ -33,60 +33,36 @@
 
 #include <djvCore/FileIO.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvRLAPlugin djvRLAPlugin
-//!
-//! This plugin provides support for the Wavefront RLA image file format.
-//!
-//! File extensions: .rla, .rpf
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//! - Read only
-//!
-//! References:
-//!
-//! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
-//!   Second Edition"
-
-//@} // plugins
-
-//! \addtogroup djvRLAPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvRLA
-//!
-//! This struct provides RLA utilities.
-//------------------------------------------------------------------------------
-
-struct djvRLA
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
+    namespace Graphics
+    {
+        //! \struct RLA
+        //!
+        //! This struct provides RLA utilities.
+        struct RLA
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-    //! Load RLE data.
-    static void readRle(
-        djvFileIO & io,
-        quint8 *    out,
-        int         size,
-        int         channels,
-        int         bytes) throw (djvError);
+            //! Load RLE data.
+            static void readRle(
+                djvFileIO & io,
+                quint8 *    out,
+                int         size,
+                int         channels,
+                int         bytes) throw (djvError);
 
-    //! Load floating point data.
-    static void floatLoad(
-        djvFileIO & io,
-        quint8 *    out,
-        int         size,
-        int         channels) throw (djvError);
+            //! Load floating point data.
+            static void floatLoad(
+                djvFileIO & io,
+                quint8 *    out,
+                int         size,
+                int         channels) throw (djvError);
 
-    //! Skip file data.
-    static void skip(djvFileIO &) throw (djvError);
-};
+            //! Skip file data.
+            static void skip(djvFileIO &) throw (djvError);
+        };
 
-//@} // djvRLAPlugin
-
+    } // namespace Graphics
+} // namespace djv

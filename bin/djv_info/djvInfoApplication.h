@@ -38,25 +38,10 @@
 
 class djvInfoContext;
 
-//! \addtogroup bin
-//@{
-
-//! \defgroup djv_info djv_info
+//! \class djvInfoApplication
 //!
 //! This program provides a command line tool for displaying information about
 //! images and movies.
-
-//@} // bin
-
-//! \addtogroup djv_info
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvInfoApplication
-//!
-//! This class provides the application.
-//------------------------------------------------------------------------------
-
 class djvInfoApplication : public QGuiApplication
 {
     Q_OBJECT
@@ -78,6 +63,3 @@ private:
 
     djvInfoContext * _context;
 };
-
-//@} // djv_info
-

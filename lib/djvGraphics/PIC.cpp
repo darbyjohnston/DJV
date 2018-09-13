@@ -37,91 +37,94 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvPIC
-//------------------------------------------------------------------------------
-
-const QString djvPIC::staticName = "PIC";
-
-const QStringList & djvPIC::compressionLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPIC", "None") <<
-        qApp->translate("djvPIC", "RLE");
-    DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-    return data;
-}
-
-const quint8 * djvPIC::readRle(
-    const quint8 * in,
-    const quint8 * end,
-    quint8 *       out,
-    int            size,
-    int            channels,
-    int            stride,
-    bool           endian)
-{
-    //DJV_DEBUG("readRle");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("stride = " << stride);
-    const quint8 * const outEnd = out + size * stride;
-    while (in < end && out < outEnd)
+    namespace Graphics
     {
-        // Get RLE information.
-        quint16 count = *in++;
-        //DJV_DEBUG_PRINT("count = " << count);
-        if (count >= 128)
+        const QString PIC::staticName = "PIC";
+
+        const QStringList & PIC::compressionLabels()
         {
-            if (128 == count)
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::PIC", "None") <<
+                qApp->translate("djv::Graphics::PIC", "RLE");
+            DJV_ASSERT(data.count() == COMPRESSION_COUNT);
+            return data;
+        }
+
+        const quint8 * PIC::readRle(
+            const quint8 * in,
+            const quint8 * end,
+            quint8 *       out,
+            int            size,
+            int            channels,
+            int            stride,
+            bool           endian)
+        {
+            //DJV_DEBUG("readRle");
+            //DJV_DEBUG_PRINT("size = " << size);
+            //DJV_DEBUG_PRINT("channels = " << channels);
+            //DJV_DEBUG_PRINT("stride = " << stride);
+            const quint8 * const outEnd = out + size * stride;
+            while (in < end && out < outEnd)
             {
-                if (endian)
+                // Get RLE information.
+                quint16 count = *in++;
+                //DJV_DEBUG_PRINT("count = " << count);
+                if (count >= 128)
                 {
-                    djvMemory::convertEndian(in, &count, 1, 2);
+                    if (128 == count)
+                    {
+                        if (endian)
+                        {
+                            djvMemory::convertEndian(in, &count, 1, 2);
+                        }
+                        else
+                        {
+                            memcpy(&count, in, 2);
+                        }
+                        in += 2;
+                    }
+                    else
+                    {
+                        count -= 127;
+                    }
+                    //DJV_DEBUG_PRINT("repeat = " << count);
+                    const quint8 * p = in;
+                    in += channels;
+                    if (in > end)
+                    {
+                        break;
+                    }
+                    for (quint16 i = 0; i < count; ++i, out += stride)
+                    {
+                        for (int j = 0; j < channels; ++j)
+                        {
+                            out[j] = p[j];
+                        }
+                    }
                 }
                 else
                 {
-                    memcpy(&count, in, 2);
-                }
-                in += 2;
-            }
-            else
-            {
-                count -= 127;
-            }
-            //DJV_DEBUG_PRINT("repeat = " << count);
-            const quint8 * p = in;
-            in += channels;
-            if (in > end)
-            {
-                break;
-            }
-            for (quint16 i = 0; i < count; ++i, out += stride)
-            {
-                for (int j = 0; j < channels; ++j)
-                {
-                    out[j] = p[j];
+                    ++count;
+                    //DJV_DEBUG_PRINT("raw = " << count);
+                    const quint8 * p = in;
+                    in += count * channels;
+                    if (in > end)
+                    {
+                        break;
+                    }
+                    for (quint16 i = 0; i < count; ++i, p += channels, out += stride)
+                    {
+                        for (int j = 0; j < channels; ++j)
+                        {
+                            out[j] = p[j];
+                        }
+                    }
                 }
             }
+            return in > end ? 0 : in;
         }
-        else
-        {
-            ++count;
-            //DJV_DEBUG_PRINT("raw = " << count);
-            const quint8 * p = in;
-            in += count * channels;
-            if (in > end)
-            {
-                break;
-            }
-            for (quint16 i = 0; i < count; ++i, p += channels, out += stride)
-            {
-                for (int j = 0; j < channels; ++j)
-                {
-                    out[j] = p[j];
-                }
-            }
-        }
-    }
-    return in > end ? 0 : in;
-}
+
+    } // namespace Graphics
+} // namespace djv

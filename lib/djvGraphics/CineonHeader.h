@@ -33,197 +33,194 @@
 
 #include <djvGraphics/CineonPlugin.h>
 
-//! \addtogroup djvCineonPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvCineonHeader
-//!
-//! This class provides Cineon file header functionality.
-//------------------------------------------------------------------------------
-
-class djvCineonHeader
+namespace djv
 {
-public:
-
-    //! The Cineon file magic numbers.
-    static const quint32 magic[];
-    
-    // This constant is used to catch invalid values.
-    static const float minSpeed;
-
-    //! This enumeration provides the image orientation.
-    enum ORIENT
+    namespace Graphics
     {
-        ORIENT_LEFT_RIGHT_TOP_BOTTOM,
-        ORIENT_LEFT_RIGHT_BOTTOM_TOP,
-        ORIENT_RIGHT_LEFT_TOP_BOTTOM,
-        ORIENT_RIGHT_LEFT_BOTTOM_TOP,
-        ORIENT_TOP_BOTTOM_LEFT_RIGHT,
-        ORIENT_TOP_BOTTOM_RIGHT_LEFT,
-        ORIENT_BOTTOM_TOP_LEFT_RIGHT,
-        ORIENT_BOTTOM_TOP_RIGHT_LEFT
-    };
-
-    //! This enumeration provides the descriptor.
-    enum DESCRIPTOR
-    {
-        DESCRIPTOR_L = 0,
-        DESCRIPTOR_R_FILM_PRINT = 1,
-        DESCRIPTOR_G_FILM_PRINT = 2,
-        DESCRIPTOR_B_FILM_PRINT = 3,
-        DESCRIPTOR_R_CCIR_XA11 = 4,
-        DESCRIPTOR_G_CCIR_XA11 = 5,
-        DESCRIPTOR_B_CCIR_XA11 = 6
-    };
-
-    //! This struct provides file information.
-    struct File
-    {
-        quint32 magic;
-        quint32 imageOffset;
-        quint32 headerSize;
-        quint32 industryHeaderSize;
-        quint32 userHeaderSize;
-        quint32 size;
-        char    version [8];
-        char    name [100];
-        char    time [24];
-        quint8  pad[36];
-    };
-
-    //! This struct provides image information.
-    struct Image
-    {
-        quint8 orient;
-        quint8 channels;
-        quint8 pad[2];
-
-        //! This struct provides channel information.
-        struct Channel
+        //! \class CineonHeader
+        //!
+        //! This class provides Cineon file header functionality.
+        class CineonHeader
         {
-            quint8  descriptor[2];
-            quint8  bitDepth;
-            quint8  pad;
-            quint32 size[2];
-            float   lowData;
-            float   lowQuantity;
-            float   highData;
-            float   highQuantity;
+        public:
+            //! The Cineon file magic numbers.
+            static const quint32 magic[];
 
-        } channel [8];
+            // This constant is used to catch invalid values.
+            static const float minSpeed;
 
-        float   white [2];
-        float   red [2];
-        float   green [2];
-        float   blue [2];
-        char    label [200];
-        quint8  pad2[28];
-        quint8  interleave;
-        quint8  packing;
-        quint8  dataSign;
-        quint8  dataSense;
-        quint32 linePadding;
-        quint32 channelPadding;
-        quint8  pad3[20];
-    };
-    
-    //! This struct provides source information.
-    struct Source
-    {
-        qint32 offset [2];
-        char   file [100];
-        char   time [24];
-        char   inputDevice [64];
-        char   inputModel [32];
-        char   inputSerial [32];
-        float  inputPitch [2];
-        float  gamma;
-        char   pad [40];
+            //! This enumeration provides the image orientation.
+            enum ORIENT
+            {
+                ORIENT_LEFT_RIGHT_TOP_BOTTOM,
+                ORIENT_LEFT_RIGHT_BOTTOM_TOP,
+                ORIENT_RIGHT_LEFT_TOP_BOTTOM,
+                ORIENT_RIGHT_LEFT_BOTTOM_TOP,
+                ORIENT_TOP_BOTTOM_LEFT_RIGHT,
+                ORIENT_TOP_BOTTOM_RIGHT_LEFT,
+                ORIENT_BOTTOM_TOP_LEFT_RIGHT,
+                ORIENT_BOTTOM_TOP_RIGHT_LEFT
+            };
 
-    };
+            //! This enumeration provides the descriptor.
+            enum DESCRIPTOR
+            {
+                DESCRIPTOR_L = 0,
+                DESCRIPTOR_R_FILM_PRINT = 1,
+                DESCRIPTOR_G_FILM_PRINT = 2,
+                DESCRIPTOR_B_FILM_PRINT = 3,
+                DESCRIPTOR_R_CCIR_XA11 = 4,
+                DESCRIPTOR_G_CCIR_XA11 = 5,
+                DESCRIPTOR_B_CCIR_XA11 = 6
+            };
 
-    //! This struct provides film information.
-    struct Film
-    {
-        quint8  id;
-        quint8  type;
-        quint8  offset;
-        quint8  pad;
-        quint32 prefix;
-        quint32 count;
-        char    format [32];
-        quint32 frame;
-        float   frameRate;
-        char    frameId [32];
-        char    slate [200];
-        char    pad2 [740];
-    };
+            //! This struct provides file information.
+            struct File
+            {
+                quint32 magic;
+                quint32 imageOffset;
+                quint32 headerSize;
+                quint32 industryHeaderSize;
+                quint32 userHeaderSize;
+                quint32 size;
+                char    version[8];
+                char    name[100];
+                char    time[24];
+                quint8  pad[36];
+            };
 
-    djvCineonHeader();
+            //! This struct provides image information.
+            struct Image
+            {
+                quint8 orient;
+                quint8 channels;
+                quint8 pad[2];
 
-    File   file;
-    Image  image;
-    Source source;
-    Film   film;
+                //! This struct provides channel information.
+                struct Channel
+                {
+                    quint8  descriptor[2];
+                    quint8  bitDepth;
+                    quint8  pad;
+                    quint32 size[2];
+                    float   lowData;
+                    float   lowQuantity;
+                    float   highData;
+                    float   highQuantity;
 
-    //! Load the header.
-    void load(
-        djvFileIO &,
-        djvImageIOInfo &,
-        bool & filmPrint) throw (djvError);
+                } channel[8];
 
-    //! Save the header.
-    void save(
-        djvFileIO &,
-        const djvImageIOInfo &,
-        djvCineon::COLOR_PROFILE) throw (djvError);
-    
-    //! Update the header when saving is finished.
-    void saveEnd(djvFileIO &) throw (djvError);
+                float   white[2];
+                float   red[2];
+                float   green[2];
+                float   blue[2];
+                char    label[200];
+                quint8  pad2[28];
+                quint8  interleave;
+                quint8  packing;
+                quint8  dataSign;
+                quint8  dataSense;
+                quint32 linePadding;
+                quint32 channelPadding;
+                quint8  pad3[20];
+            };
 
-    //! Zero memory.
-    static void zero(qint32 *);
+            //! This struct provides source information.
+            struct Source
+            {
+                qint32 offset[2];
+                char   file[100];
+                char   time[24];
+                char   inputDevice[64];
+                char   inputModel[32];
+                char   inputSerial[32];
+                float  inputPitch[2];
+                float  gamma;
+                char   pad[40];
 
-    //! Zero memory.
-    static void zero(float *);
+            };
 
-    //! Zero memory.
-    static void zero(char *, int size);
+            //! This struct provides film information.
+            struct Film
+            {
+                quint8  id;
+                quint8  type;
+                quint8  offset;
+                quint8  pad;
+                quint32 prefix;
+                quint32 count;
+                char    format[32];
+                quint32 frame;
+                float   frameRate;
+                char    frameId[32];
+                char    slate[200];
+                char    pad2[740];
+            };
 
-    //! Get whether the value is valid.
-    static bool isValid(const quint8 *);
+            CineonHeader();
 
-    //! Get whether the value is valid.
-    static bool isValid(const quint16 *);
+            File   file;
+            Image  image;
+            Source source;
+            Film   film;
 
-    //! Get whether the value is valid.
-    static bool isValid(const quint32 *);
+            //! Load the header.
+            void load(
+                djvFileIO &,
+                ImageIOInfo &,
+                bool & filmPrint) throw (djvError);
 
-    //! Get whether the value is valid.
-    static bool isValid(const qint32 *);
+            //! Save the header.
+            void save(
+                djvFileIO &,
+                const ImageIOInfo &,
+                Cineon::COLOR_PROFILE) throw (djvError);
 
-    //! Get whether the value is valid.
-    static bool isValid(const float *);
+            //! Update the header when saving is finished.
+            void saveEnd(djvFileIO &) throw (djvError);
 
-    //! Get whether the value is valid.
-    static bool isValid(const char *, int size);
+            //! Zero memory.
+            static void zero(qint32 *);
 
-    //! Convert to a string.
-    static QString toString(const char *, int size);
+            //! Zero memory.
+            static void zero(float *);
 
-    QString debug() const;
+            //! Zero memory.
+            static void zero(char *, int size);
 
-    static QString debug(quint8);
-    static QString debug(quint16);
-    static QString debug(quint32);
-    static QString debug(qint32);
-    static QString debug(float);
-    static QString debug(const char *, int size);
+            //! Get whether the value is valid.
+            static bool isValid(const quint8 *);
 
-private:
-    void endian();
-};
+            //! Get whether the value is valid.
+            static bool isValid(const quint16 *);
 
-//@} // djvCineon
+            //! Get whether the value is valid.
+            static bool isValid(const quint32 *);
 
+            //! Get whether the value is valid.
+            static bool isValid(const qint32 *);
+
+            //! Get whether the value is valid.
+            static bool isValid(const float *);
+
+            //! Get whether the value is valid.
+            static bool isValid(const char *, int size);
+
+            //! Convert to a string.
+            static QString toString(const char *, int size);
+
+            QString debug() const;
+
+            static QString debug(quint8);
+            static QString debug(quint16);
+            static QString debug(quint32);
+            static QString debug(qint32);
+            static QString debug(float);
+            static QString debug(const char *, int size);
+
+        private:
+            void endian();
+        };
+
+    } // namespace Graphics
+} // namespace djv

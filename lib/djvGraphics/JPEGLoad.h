@@ -36,40 +36,34 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvJPEGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvJPEGLoad
-//!
-//! This class provides a JPEG loader.
-//------------------------------------------------------------------------------
-
-class djvJPEGLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvJPEGLoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class JPEGLoad
+        //!
+        //! This class provides a JPEG loader.
+        class JPEGLoad : public ImageLoad
+        {
+        public:
+            explicit JPEGLoad(djvCoreContext *);
 
-    virtual ~djvJPEGLoad();
+            virtual ~JPEGLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &)throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &)throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &) throw (djvError);
 
-    virtual void close() throw (djvError);
+            djvFileInfo                     _file;
+            FILE *                          _f;
+            libjpeg::jpeg_decompress_struct _jpeg;
+            bool                            _jpegInit;
+            JPEGErrorStruct                 _jpegError;
+            PixelData                       _tmp;
+        };
 
-private:
-    void _open(const QString &, djvImageIOInfo &) throw (djvError);
-
-    djvFileInfo                     _file;
-    FILE *                          _f;
-    libjpeg::jpeg_decompress_struct _jpeg;
-    bool                            _jpegInit;
-    djvJPEGErrorStruct              _jpegError;
-    djvPixelData                    _tmp;
-};
-
-//@} // djvJPEGPlugin
-
+    } // namespace Graphics
+} // namespace djv

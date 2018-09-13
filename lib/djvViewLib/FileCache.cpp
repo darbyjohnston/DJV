@@ -48,17 +48,17 @@ namespace djv
     {
         struct FileCacheItem::Private
         {
-            Private(djvImage * in, const void * key, qint64 frame) :
+            Private(Graphics::Image * in, const void * key, qint64 frame) :
                 image(in),
                 key(key),
                 frame(frame),
                 count(1)
             {}
 
-            QScopedPointer<djvImage> image;
-            const void *             key;
-            qint64                   frame;
-            int                      count;
+            QScopedPointer<Graphics::Image> image;
+            const void *                    key;
+            qint64                          frame;
+            int                             count;
         };
 
         namespace
@@ -68,9 +68,9 @@ namespace djv
         } // namespace
 
         FileCacheItem::FileCacheItem(
-            djvImage *   image,
-            const void * key,
-            qint64       frame) :
+            Graphics::Image * image,
+            const void *      key,
+            qint64            frame) :
             _p(new Private(image, key, frame))
         {
             ++refAliveCount;
@@ -87,7 +87,7 @@ namespace djv
             //DJV_DEBUG_PRINT("alive = " << refAliveCount);
         }
 
-        djvImage * FileCacheItem::image()
+        Graphics::Image * FileCacheItem::image()
         {
             return _p->image.data();
         }
@@ -166,9 +166,9 @@ namespace djv
         }
 
         FileCacheItem * FileCache::create(
-            djvImage *   image,
-            const void * key,
-            qint64       frame)
+            Graphics::Image * image,
+            const void *      key,
+            qint64            frame)
         {
             //DJV_DEBUG("FileCache::create");
             //DJV_DEBUG_PRINT("image = " << *image);

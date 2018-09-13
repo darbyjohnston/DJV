@@ -37,135 +37,135 @@
 
 #include <djvCore/Assert.h>
 
-//------------------------------------------------------------------------------
-// djvDPXLoad
-//------------------------------------------------------------------------------
-
-djvDPXLoad::djvDPXLoad(const djvDPX::Options & options, djvCoreContext * context) :
-    djvImageLoad(context),
-    _options  (options),
-    _filmPrint(false)
-{}
-
-djvDPXLoad::~djvDPXLoad()
-{}
-
-void djvDPXLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvDPXLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    djvFileIO io;
-    _open(_file.fileName(_file.sequence().start()), info, io);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
+        DPXLoad::DPXLoad(const DPX::Options & options, djvCoreContext * context) :
+            ImageLoad(context),
+            _options(options),
+            _filmPrint(false)
+        {}
 
-void djvDPXLoad::_open(const QString & in, djvImageIOInfo & info, djvFileIO & io)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvDPXLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    io.open(in, djvFileIO::READ);
-    info.fileName = in;
-    _filmPrint = false;
-    djvDPXHeader header;
-    header.load(io, info, _filmPrint);
-    //DJV_DEBUG_PRINT("info = " << info);
-    //DJV_DEBUG_PRINT("film print = " << _filmPrint);
-}
+        DPXLoad::~DPXLoad()
+        {}
 
-void djvDPXLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvDPXLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    QScopedPointer<djvFileIO> io(new djvFileIO);
-    _open(fileName, info, *io);
-    image.tags = info.tags;
-    
-    // Set the color profile.
-    if ((djvCineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile) ||
-        (djvCineon::COLOR_PROFILE_AUTO == _options.inputColorProfile &&
-            _filmPrint))
-    {
-        //DJV_DEBUG_PRINT("color profile");
-        image.colorProfile.type = djvColorProfile::LUT;
-        if (! _filmPrintLut.isValid())
+        void DPXLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
         {
-            _filmPrintLut = djvCineon::filmPrintToLinearLut(
-                _options.inputFilmPrint);
-        }
-        image.colorProfile.lut = _filmPrintLut;
-    }
-    else
-    {
-        image.colorProfile = djvColorProfile();
-    }
-
-    // Read the file.
-    io->readAhead();
-    bool mmap = true;
-    if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
-    {
-        mmap = false;
-    }
-    //DJV_DEBUG_PRINT("mmap = " << mmap);
-    if (mmap)
-    {
-        if (! frame.proxy)
-        {
-            image.set(info, io->mmapP(), io.data());
-            io.take();
-        }
-        else
-        {
-            _tmp.set(info, io->mmapP());
-            info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-            info.proxy = frame.proxy;
-            image.set(info);
-            djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-        }
-    }
-    else
-    {
-        djvPixelData * data = frame.proxy ? &_tmp : &image;
-        data->set(info);
-        djvError error;
-        bool     errorValid = false;
-        try
-        {
-            for (int y = 0; y < info.size.y; ++y)
+            //DJV_DEBUG("DPXLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            djvFileIO io;
+            _open(_file.fileName(_file.sequence().start()), info, io);
+            if (djvFileInfo::SEQUENCE == _file.type())
             {
-                io->get(
-                    data->data(0, y),
-                    info.size.x * djvPixel::byteCount(info.pixel));
+                info.sequence.frames = _file.sequence().frames;
             }
         }
-        catch (const djvError & otherError)
-        {
-            error      = otherError;
-            errorValid = true;
-        }
-        if (frame.proxy)
-        {
-            info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-            info.proxy = frame.proxy;
-            image.set(info);
-            djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-        }
-        if (errorValid)
-            throw error;
-    }
-    //DJV_DEBUG_PRINT("image = " << image);
-}
 
+        void DPXLoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
+            throw (djvError)
+        {
+            //DJV_DEBUG("DPXLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            io.open(in, djvFileIO::READ);
+            info.fileName = in;
+            _filmPrint = false;
+            DPXHeader header;
+            header.load(io, info, _filmPrint);
+            //DJV_DEBUG_PRINT("info = " << info);
+            //DJV_DEBUG_PRINT("film print = " << _filmPrint);
+        }
+
+        void DPXLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("DPXLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
+
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            QScopedPointer<djvFileIO> io(new djvFileIO);
+            _open(fileName, info, *io);
+            image.tags = info.tags;
+
+            // Set the color profile.
+            if ((Cineon::COLOR_PROFILE_FILM_PRINT == _options.inputColorProfile) ||
+                (Cineon::COLOR_PROFILE_AUTO == _options.inputColorProfile && _filmPrint))
+            {
+                //DJV_DEBUG_PRINT("color profile");
+                image.colorProfile.type = ColorProfile::LUT;
+                if (!_filmPrintLut.isValid())
+                {
+                    _filmPrintLut = Cineon::filmPrintToLinearLut(_options.inputFilmPrint);
+                }
+                image.colorProfile.lut = _filmPrintLut;
+            }
+            else
+            {
+                image.colorProfile = ColorProfile();
+            }
+
+            // Read the file.
+            io->readAhead();
+            bool mmap = true;
+            if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(info))
+            {
+                mmap = false;
+            }
+            //DJV_DEBUG_PRINT("mmap = " << mmap);
+            if (mmap)
+            {
+                if (!frame.proxy)
+                {
+                    image.set(info, io->mmapP(), io.data());
+                    io.take();
+                }
+                else
+                {
+                    _tmp.set(info, io->mmapP());
+                    info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                    info.proxy = frame.proxy;
+                    image.set(info);
+                    PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+                }
+            }
+            else
+            {
+                PixelData * data = frame.proxy ? &_tmp : &image;
+                data->set(info);
+                djvError error;
+                bool     errorValid = false;
+                try
+                {
+                    for (int y = 0; y < info.size.y; ++y)
+                    {
+                        io->get(
+                            data->data(0, y),
+                            info.size.x * Pixel::byteCount(info.pixel));
+                    }
+                }
+                catch (const djvError & otherError)
+                {
+                    error = otherError;
+                    errorValid = true;
+                }
+                if (frame.proxy)
+                {
+                    info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                    info.proxy = frame.proxy;
+                    image.set(info);
+                    PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+                }
+                if (errorValid)
+                    throw error;
+            }
+            //DJV_DEBUG_PRINT("image = " << image);
+        }
+
+    } // namespace Graphics
+} // namespace djv

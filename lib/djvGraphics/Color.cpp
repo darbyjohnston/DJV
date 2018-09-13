@@ -36,184 +36,189 @@
 #include <djvCore/Debug.h>
 #include <djvCore/Memory.h>
 
-//------------------------------------------------------------------------------
-// djvColor
-//------------------------------------------------------------------------------
+using namespace djv;
 
-void djvColor::init()
+namespace djv
 {
-    _channels = djvPixel::channels(_pixel);
-}
-
-djvColor::djvColor()
-{
-    init();
-    zero();
-}
-
-djvColor::djvColor(const djvColor & in)
-{
-    init();
-    *this = in;
-}
-
-djvColor::djvColor(djvPixel::PIXEL pixel) :
-    _pixel(pixel)
-{
-    init();
-    zero();
-}
-
-djvColor::djvColor(djvPixel::F32_T l) :
-    _pixel(djvPixel::L_F32)
-{
-    init();
-    setF32(l, 0);
-}
-
-djvColor::djvColor(djvPixel::F32_T l, djvPixel::F32_T a) :
-    _pixel(djvPixel::LA_F32)
-{
-    init();
-    setF32(l, 0);
-    setF32(a, 1);
-}
-
-djvColor::djvColor(djvPixel::F32_T r, djvPixel::F32_T g, djvPixel::F32_T b) :
-    _pixel(djvPixel::RGB_F32)
-{
-    init();
-    setF32(r, 0);
-    setF32(g, 1);
-    setF32(b, 2);
-}
-
-djvColor::djvColor(djvPixel::F32_T r, djvPixel::F32_T g, djvPixel::F32_T b, djvPixel::F32_T a) :
-    _pixel(djvPixel::RGBA_F32)
-{
-    init();
-    setF32(r, 0);
-    setF32(g, 1);
-    setF32(b, 2);
-    setF32(a, 3);
-}
-
-djvColor::djvColor(const quint8 * data, djvPixel::PIXEL pixel) :
-    _pixel(pixel)
-{
-    init();
-    memcpy(_data, data, djvPixel::byteCount(_pixel));
-}
-
-void djvColor::setPixel(djvPixel::PIXEL pixel)
-{
-    if (pixel == _pixel)
-        return;
-    djvColor tmp(pixel);
-    djvColorUtil::convert(*this, tmp);
-    *this = tmp;
-}
-
-void djvColor::zero()
-{
-    djvMemory::fill<quint8>(0, _data, djvPixel::byteCount(_pixel));
-}
-
-djvColor & djvColor::operator = (const djvColor & in)
-{
-    if (&in != this)
+    namespace Graphics
     {
-        _pixel    = in._pixel;
-        _channels = in._channels;
-        memcpy(_data, in._data, djvPixel::byteCount(_pixel));
-    }
-    return *this;
-}
-
-bool operator == (const djvColor & a, const djvColor & b)
-{
-    const djvPixel::PIXEL pixel = a.pixel();    
-    if (pixel != b.pixel())
-        return false;
-    const int channels = djvPixel::channels(pixel);
-    for (int c = 0; c < channels; ++c)
-    {
-        switch (djvPixel::type(pixel))
+        void Color::init()
         {
-            case djvPixel::U8:
-                if (a.u8(c) != b.u8(c))
-                    return false;
-                break;
-            case djvPixel::U10:
-                if (a.u10(c) != b.u10(c))
-                    return false;
-                break;
-            case djvPixel::U16:
-                if (a.u16(c) != b.u16(c))
-                    return false;
-                break;
-            case djvPixel::F16:
-                if (a.f16(c) != b.f16(c))
-                    return false;
-                break;
-            case djvPixel::F32:
-                if (! djvMath::fuzzyCompare(a.f32(c), b.f32(c)))
-                    return false;
-                break;
-            default: break;
+            _channels = Pixel::channels(_pixel);
         }
-    }
-    return true;
-}
 
-bool operator != (const djvColor & a, const djvColor & b)
-{
-    return ! (a == b);
-}
+        Color::Color()
+        {
+            init();
+            zero();
+        }
 
-QStringList & operator >> (QStringList & in, djvColor & out) throw (QString)
+        Color::Color(const Color & in)
+        {
+            init();
+            *this = in;
+        }
+
+        Color::Color(Pixel::PIXEL pixel) :
+            _pixel(pixel)
+        {
+            init();
+            zero();
+        }
+
+        Color::Color(Pixel::F32_T l) :
+            _pixel(Pixel::L_F32)
+        {
+            init();
+            setF32(l, 0);
+        }
+
+        Color::Color(Pixel::F32_T l, Pixel::F32_T a) :
+            _pixel(Pixel::LA_F32)
+        {
+            init();
+            setF32(l, 0);
+            setF32(a, 1);
+        }
+
+        Color::Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b) :
+            _pixel(Pixel::RGB_F32)
+        {
+            init();
+            setF32(r, 0);
+            setF32(g, 1);
+            setF32(b, 2);
+        }
+
+        Color::Color(Pixel::F32_T r, Pixel::F32_T g, Pixel::F32_T b, Pixel::F32_T a) :
+            _pixel(Pixel::RGBA_F32)
+        {
+            init();
+            setF32(r, 0);
+            setF32(g, 1);
+            setF32(b, 2);
+            setF32(a, 3);
+        }
+
+        Color::Color(const quint8 * data, Pixel::PIXEL pixel) :
+            _pixel(pixel)
+        {
+            init();
+            memcpy(_data, data, Pixel::byteCount(_pixel));
+        }
+
+        void Color::setPixel(Pixel::PIXEL pixel)
+        {
+            if (pixel == _pixel)
+                return;
+            Color tmp(pixel);
+            ColorUtil::convert(*this, tmp);
+            *this = tmp;
+        }
+
+        void Color::zero()
+        {
+            djvMemory::fill<quint8>(0, _data, Pixel::byteCount(_pixel));
+        }
+
+        Color & Color::operator = (const Color & in)
+        {
+            if (&in != this)
+            {
+                _pixel = in._pixel;
+                _channels = in._channels;
+                memcpy(_data, in._data, Pixel::byteCount(_pixel));
+            }
+            return *this;
+        }
+
+        bool operator == (const Color & a, const Color & b)
+        {
+            const Pixel::PIXEL pixel = a.pixel();
+            if (pixel != b.pixel())
+                return false;
+            const int channels = Pixel::channels(pixel);
+            for (int c = 0; c < channels; ++c)
+            {
+                switch (Pixel::type(pixel))
+                {
+                case Pixel::U8:
+                    if (a.u8(c) != b.u8(c))
+                        return false;
+                    break;
+                case Pixel::U10:
+                    if (a.u10(c) != b.u10(c))
+                        return false;
+                    break;
+                case Pixel::U16:
+                    if (a.u16(c) != b.u16(c))
+                        return false;
+                    break;
+                case Pixel::F16:
+                    if (a.f16(c) != b.f16(c))
+                        return false;
+                    break;
+                case Pixel::F32:
+                    if (!djvMath::fuzzyCompare(a.f32(c), b.f32(c)))
+                        return false;
+                    break;
+                default: break;
+                }
+            }
+            return true;
+        }
+
+        bool operator != (const Color & a, const Color & b)
+        {
+            return !(a == b);
+        }
+
+    } // namespace Graphics
+} // namespace djv
+
+QStringList & operator >> (QStringList & in, Graphics::Color & out) throw (QString)
 {
-    djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
+    Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
     in >> pixel;
     out.setPixel(pixel);
-    const int channels = djvPixel::channels(pixel);
+    const int channels = Graphics::Pixel::channels(pixel);
     for (int c = 0; c < channels; ++c)
     {
-        switch (djvPixel::type(pixel))
+        switch (Graphics::Pixel::type(pixel))
         {
-            case djvPixel::U8:
+            case Graphics::Pixel::U8:
             {
                 int value = 0;
                 in >> value;
-                out.setU8(djvMath::clamp(value, 0, djvPixel::u8Max), c);
+                out.setU8(djvMath::clamp(value, 0, Graphics::Pixel::u8Max), c);
             }
             break;
-            case djvPixel::U10:
+            case Graphics::Pixel::U10:
             {
                 int value = 0;
                 in >> value;
-                out.setU10(djvMath::clamp(value, 0, djvPixel::u10Max), c);
+                out.setU10(djvMath::clamp(value, 0, Graphics::Pixel::u10Max), c);
             }
             break;
-            case djvPixel::U16:
+            case Graphics::Pixel::U16:
             {
                 int value = 0;
                 in >> value;
-                out.setU16(djvMath::clamp(value, 0, djvPixel::u16Max), c);
+                out.setU16(djvMath::clamp(value, 0, Graphics::Pixel::u16Max), c);
             }
             break;
-            case djvPixel::F16:
+            case Graphics::Pixel::F16:
             {
                 float value = 0.f;
                 in >> value;
-                out.setF16(static_cast<djvPixel::F16_T>(value), c);
+                out.setF16(static_cast<Graphics::Pixel::F16_T>(value), c);
             }
             break;
-            case djvPixel::F32:
+            case Graphics::Pixel::F32:
             {
                 float value = 0.f;
                 in >> value;
-                out.setF32(static_cast<djvPixel::F32_T>(value), c);
+                out.setF32(static_cast<Graphics::Pixel::F32_T>(value), c);
             }
             break;
             default: break;
@@ -222,26 +227,26 @@ QStringList & operator >> (QStringList & in, djvColor & out) throw (QString)
     return in;
 }
 
-QStringList & operator << (QStringList & out, const djvColor & in)
+QStringList & operator << (QStringList & out, const Graphics::Color & in)
 {
     out << in.pixel();
-    const int channels = djvPixel::channels(in.pixel());
+    const int channels = Graphics::Pixel::channels(in.pixel());
     for (int c = 0; c < channels; ++c)
     {
-        switch (djvPixel::type(in.pixel()))
+        switch (Graphics::Pixel::type(in.pixel()))
         {
-            case djvPixel::U8:  out << in.u8 (c); break;
-            case djvPixel::U10: out << in.u10(c); break;
-            case djvPixel::U16: out << in.u16(c); break;
-            case djvPixel::F16: out << in.f16(c); break;
-            case djvPixel::F32: out << in.f32(c); break;
+            case Graphics::Pixel::U8:  out << in.u8 (c); break;
+            case Graphics::Pixel::U10: out << in.u10(c); break;
+            case Graphics::Pixel::U16: out << in.u16(c); break;
+            case Graphics::Pixel::F16: out << in.f16(c); break;
+            case Graphics::Pixel::F32: out << in.f32(c); break;
             default: break;
         }
     }
     return out;
 }
 
-djvDebug & operator << (djvDebug & debug, const djvColor & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::Color & in)
 {
     return debug << djvStringUtil::label(in);
 }

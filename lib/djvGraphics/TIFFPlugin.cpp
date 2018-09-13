@@ -39,114 +39,117 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvTIFFPlugin
-//------------------------------------------------------------------------------
-
-djvTIFFPlugin::djvTIFFPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-void djvTIFFPlugin::initPlugin() throw (djvError)
+namespace djv
 {
-    TIFFSetErrorHandler(0);
-    TIFFSetWarningHandler(0);
-}
-
-QString djvTIFFPlugin::pluginName() const
-{
-    return djvTIFF::staticName;
-}
-
-QStringList djvTIFFPlugin::extensions() const
-{
-    return QStringList() <<
-        ".tiff" <<
-        ".tif";
-}
-
-QStringList djvTIFFPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvTIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+    namespace Graphics
     {
-        out << _options.compression;
-    }
-    return out;
-}
+        TIFFPlugin::TIFFPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-bool djvTIFFPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvTIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+        void TIFFPlugin::initPlugin() throw (djvError)
         {
-            djvTIFF::COMPRESSION compression = static_cast<djvTIFF::COMPRESSION>(0);
-            data >> compression;
-            if (compression != _options.compression)
-            {
-                _options.compression = compression;
-                Q_EMIT optionChanged(in);
-            }
+            TIFFSetErrorHandler(0);
+            TIFFSetWarningHandler(0);
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvTIFFPlugin::options() const
-{
-    return djvTIFF::optionsLabels();
-}
-
-void djvTIFFPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QString TIFFPlugin::pluginName() const
         {
-            in >> arg;
-            if (qApp->translate("djvTIFFPlugin", "-tiff_compression") == arg)
-            {
-                in >> _options.compression;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return TIFF::staticName;
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvTIFFPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvTIFFPlugin",
-"\n"
-"TIFF Options\n"
-"\n"
-"    -tiff_compression (value)\n"
-"        Set the file compression used when saving TIFF images. Options = %1. "
-"Default = %2.\n").
-    arg(djvTIFF::compressionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.compression).join(", "));
-}
+        QStringList TIFFPlugin::extensions() const
+        {
+            return QStringList() <<
+                ".tiff" <<
+                ".tif";
+        }
 
-djvImageLoad * djvTIFFPlugin::createLoad() const
-{
-    return new djvTIFFLoad(context());
-}
+        QStringList TIFFPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[TIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.compression;
+            }
+            return out;
+        }
 
-djvImageSave * djvTIFFPlugin::createSave() const
-{
-    return new djvTIFFSave(_options, context());
-}
+        bool TIFFPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[TIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                {
+                    TIFF::COMPRESSION compression = static_cast<TIFF::COMPRESSION>(0);
+                    data >> compression;
+                    if (compression != _options.compression)
+                    {
+                        _options.compression = compression;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        QStringList TIFFPlugin::options() const
+        {
+            return TIFF::optionsLabels();
+        }
+
+        void TIFFPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::TIFFPlugin", "-tiff_compression") == arg)
+                    {
+                        in >> _options.compression;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString TIFFPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::TIFFPlugin",
+                "\n"
+                "TIFF Options\n"
+                "\n"
+                "    -tiff_compression (value)\n"
+                "        Set the file compression used when saving TIFF images. Options = %1. "
+                "Default = %2.\n").
+                arg(TIFF::compressionLabels().join(", ")).
+                arg(djvStringUtil::label(_options.compression).join(", "));
+        }
+
+        ImageLoad * TIFFPlugin::createLoad() const
+        {
+            return new TIFFLoad(context());
+        }
+
+        ImageSave * TIFFPlugin::createSave() const
+        {
+            return new TIFFSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

@@ -53,16 +53,16 @@ namespace djv
 
             //! This property holds the color.    
             Q_PROPERTY(
-                djvColor color
-                READ     color
-                WRITE    setColor
-                NOTIFY   colorChanged)
+                djv::Graphics::Color color
+                READ                 color
+                WRITE                setColor
+                NOTIFY               colorChanged)
 
         public:
             explicit ColorSwatch(UIContext *, QWidget * parent = nullptr);
 
             //! Get the color.
-            const djvColor & color() const;
+            const Graphics::Color & color() const;
 
             //! This enumeration provides the swatch size.
             enum SWATCH_SIZE
@@ -88,11 +88,11 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the color.
-            void setColor(const djvColor &);
+            void setColor(const djv::Graphics::Color &);
 
         Q_SIGNALS:
             //! This signal is emitted when the color is changed.
-            void colorChanged(const djvColor &);
+            void colorChanged(const djv::Graphics::Color &);
 
             //! This signal is emitted when the swatch is clicked.
             void clicked();
@@ -105,7 +105,7 @@ namespace djv
             void sizeMetricsCallback();
 
         private:
-            djvColor _color;
+            Graphics::Color _color;
             SWATCH_SIZE _swatchSize = SWATCH_MEDIUM;
             bool _colorDialogEnabled = false;
             UIContext * _context = nullptr;

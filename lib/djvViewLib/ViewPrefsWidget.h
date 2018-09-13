@@ -59,14 +59,14 @@ namespace djv
 
         private Q_SLOTS:
             void zoomFactorCallback(int);
-            void backgroundCallback(const djvColor &);
+            void backgroundCallback(const djv::Graphics::Color &);
             void gridCallback(int);
-            void gridColorCallback(const djvColor &);
+            void gridColorCallback(const djv::Graphics::Color &);
             void hudEnabledCallback(bool);
             void hudInfoCallback(QListWidgetItem *);
-            void hudColorCallback(const djvColor &);
+            void hudColorCallback(const djv::Graphics::Color &);
             void hudBackgroundCallback(int);
-            void hudBackgroundColorCallback(const djvColor &);
+            void hudBackgroundColorCallback(const djv::Graphics::Color &);
 
             void widgetUpdate();
 

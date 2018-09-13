@@ -38,71 +38,69 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvPPM::Options
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvPPM::Options::Options() :
-    type(TYPE_AUTO),
-    data(DATA_BINARY)
-{}
-
-//------------------------------------------------------------------------------
-// djvPPM
-//------------------------------------------------------------------------------
-
-const QString djvPPM::staticName = "PPM";
-
-const QStringList & djvPPM::typeLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPPM", "Auto") <<
-        qApp->translate("djvPPM", "U1");
-    DJV_ASSERT(data.count() == TYPE_COUNT);
-    return data;
-}
-
-const QStringList & djvPPM::dataLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPPM", "ASCII") <<
-        qApp->translate("djvPPM", "Binary");
-    DJV_ASSERT(data.count() == DATA_COUNT);
-    return data;
-}
-
-quint64 djvPPM::scanlineByteCount(
-    int  width,
-    int  channels,
-    int  bitDepth,
-    DATA data)
-{
-    //DJV_DEBUG("djvPPM::scanlineByteCount");
-    //DJV_DEBUG_PRINT("width = " << width);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-    //DJV_DEBUG_PRINT("data = " << data);
-
-    quint64 out = 0;
-    switch (data)
+    namespace Graphics
     {
-        case DATA_ASCII:
+        PPM::Options::Options() :
+            type(TYPE_AUTO),
+            data(DATA_BINARY)
+        {}
+
+        const QString PPM::staticName = "PPM";
+
+        const QStringList & PPM::typeLabels()
         {
-            int chars = 0;
-            switch (bitDepth)
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::PPM", "Auto") <<
+                qApp->translate("djv::Graphics::PPM", "U1");
+            DJV_ASSERT(data.count() == TYPE_COUNT);
+            return data;
+        }
+
+        const QStringList & PPM::dataLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::PPM", "ASCII") <<
+                qApp->translate("djv::Graphics::PPM", "Binary");
+            DJV_ASSERT(data.count() == DATA_COUNT);
+            return data;
+        }
+
+        quint64 PPM::scanlineByteCount(
+            int  width,
+            int  channels,
+            int  bitDepth,
+            DATA data)
+        {
+            //DJV_DEBUG("PPM::scanlineByteCount");
+            //DJV_DEBUG_PRINT("width = " << width);
+            //DJV_DEBUG_PRINT("channels = " << channels);
+            //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
+            //DJV_DEBUG_PRINT("data = " << data);
+
+            quint64 out = 0;
+            switch (data)
             {
+            case DATA_ASCII:
+            {
+                int chars = 0;
+                switch (bitDepth)
+                {
                 case  1: chars = 1; break;
                 case  8: chars = 3; break;
                 case 16: chars = 5; break;
                 default: break;
+                }
+                out = (chars + 1) * width * channels + 1;
             }
-            out = (chars + 1) * width * channels + 1;
-        }
-        break;
-        case DATA_BINARY:
-        {
-            switch (bitDepth)
+            break;
+            case DATA_BINARY:
             {
+                switch (bitDepth)
+                {
                 case 1:
                     out = djvMath::ceil(width / 8.f);
                     break;
@@ -111,33 +109,33 @@ quint64 djvPPM::scanlineByteCount(
                     out = width * channels;
                     break;
                 default: break;
+                }
             }
+            break;
+            default: break;
+            }
+            //DJV_DEBUG_PRINT("out = " << static_cast<int>(out));
+            return out;
         }
-        break;
-        default: break;
-    }
-    //DJV_DEBUG_PRINT("out = " << static_cast<int>(out));
-    return out;
-}
 
-void djvPPM::asciiLoad(djvFileIO & io, void * out, int size, int bitDepth)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPPM::asciiLoad");
-    char tmp[djvStringUtil::cStringLength] = "";
-    int i = 0;
-    switch (bitDepth)
-    {
-        case 1:
+        void PPM::asciiLoad(djvFileIO & io, void * out, int size, int bitDepth)
+            throw (djvError)
         {
-            quint8 * outP = reinterpret_cast<quint8 *>(out);
-            for (; i < size; ++i)
+            //DJV_DEBUG("PPM::asciiLoad");
+            char tmp[djvStringUtil::cStringLength] = "";
+            int i = 0;
+            switch (bitDepth)
             {
-                djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
-                outP[i] = QString(tmp).toInt() ? 0 : 255;
+            case 1:
+            {
+                quint8 * outP = reinterpret_cast<quint8 *>(out);
+                for (; i < size; ++i)
+                {
+                    djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+                    outP[i] = QString(tmp).toInt() ? 0 : 255;
+                }
             }
-        }
-        break;
+            break;
 #define _LOAD(TYPE) \
     TYPE * outP = reinterpret_cast<TYPE *>(out); \
     for (; i < size; ++i) \
@@ -145,39 +143,39 @@ void djvPPM::asciiLoad(djvFileIO & io, void * out, int size, int bitDepth)
         djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength); \
         outP[i] = QString(tmp).toInt(); \
     }
-        case 8:
-        {
-            _LOAD(quint8)
-        }
-        break;
-        case 16:
-        {
-            _LOAD(quint16)
-        }
-        break;
-        default: break;
-    }
-}
-
-quint64 djvPPM::asciiSave(
-    const void * in,
-    void *       out,
-    int          size,
-    int          bitDepth)
-{
-    char * outP = reinterpret_cast<char *>(out);
-    switch (bitDepth)
-    {
-        case 1:
-        {
-            const quint8 * inP = reinterpret_cast<const quint8 *>(in);
-            for (int i = 0; i < size; ++i)
+            case 8:
             {
-                outP[0] = '0' + (! inP[i]);
-                outP[1] = ' ';
-                outP += 2;
+                _LOAD(quint8)
+            }
+            break;
+            case 16:
+            {
+                _LOAD(quint16)
+            }
+            break;
+            default: break;
             }
         }
+
+        quint64 PPM::asciiSave(
+            const void * in,
+            void *       out,
+            int          size,
+            int          bitDepth)
+        {
+            char * outP = reinterpret_cast<char *>(out);
+            switch (bitDepth)
+            {
+            case 1:
+            {
+                const quint8 * inP = reinterpret_cast<const quint8 *>(in);
+                for (int i = 0; i < size; ++i)
+                {
+                    outP[0] = '0' + (!inP[i]);
+                    outP[1] = ' ';
+                    outP += 2;
+                }
+            }
             break;
 #define _SAVE(TYPE) \
     const TYPE * inP = reinterpret_cast<const TYPE *>(in); \
@@ -189,30 +187,33 @@ quint64 djvPPM::asciiSave(
             *outP++ = c[j]; \
         *outP++ = ' '; \
     }
-        case 8:
-        {
-            _SAVE(quint8)
+            case 8:
+            {
+                _SAVE(quint8)
+            }
+            break;
+            case 16:
+            {
+                _SAVE(quint16)
+            }
+            break;
+            default: break;
+            }
+            *outP++ = '\n';
+            return outP - reinterpret_cast<char *>(out);
         }
-        break;
-        case 16:
+
+        const QStringList & PPM::optionsLabels()
         {
-            _SAVE(quint16)
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::PPM", "Type") <<
+                qApp->translate("djv::Graphics::PPM", "Data");
+            DJV_ASSERT(data.count() == OPTIONS_COUNT);
+            return data;
         }
-        break;
-        default: break;
-    }
-    *outP++ = '\n';
-    return outP - reinterpret_cast<char *>(out);
-}
 
-const QStringList & djvPPM::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPPM", "Type") <<
-        qApp->translate("djvPPM", "Data");
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-    return data;
-}
+    } // namespace Graphics
+} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(djvPPM::TYPE, djvPPM::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(djvPPM::DATA, djvPPM::dataLabels())
+_DJV_STRING_OPERATOR_LABEL(Graphics::PPM::TYPE, Graphics::PPM::typeLabels())
+_DJV_STRING_OPERATOR_LABEL(Graphics::PPM::DATA, Graphics::PPM::dataLabels())

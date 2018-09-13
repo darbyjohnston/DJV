@@ -38,10 +38,14 @@
 
 #include <QWidget>
 
-class djvImageIO;
-
 namespace djv
 {
+    namespace Graphics
+    {
+        class ImageIO;
+
+    } // namespace Graphics
+
     namespace UI
     {
         class UIContext;
@@ -55,20 +59,20 @@ namespace djv
 
         public:
             explicit ImageIOWidget(
-                djvImageIO * plugin,
+                Graphics::ImageIO * plugin,
                 UIContext * context,
                 QWidget * parent = nullptr);
 
             virtual ~ImageIOWidget() = 0;
 
             //! Get the plugin.
-            djvImageIO * plugin() const;
+            Graphics::ImageIO * plugin() const;
 
             //! Get the context.
             UIContext * context() const;
 
         private:
-            djvImageIO * _plugin = nullptr;
+            Graphics::ImageIO * _plugin = nullptr;
             UIContext * _context = nullptr;
         };
 
@@ -83,7 +87,7 @@ namespace djv
             virtual ~ImageIOWidgetPlugin() = 0;
 
             //! Create a widget.    
-            virtual ImageIOWidget * createWidget(djvImageIO * plugin) const = 0;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO * plugin) const = 0;
 
             //! Get the context.
             UIContext * uiContext() const;
@@ -107,7 +111,7 @@ namespace djv
             virtual ~ImageIOWidgetFactory();
 
             //! Create a widget.    
-            ImageIOWidget * createWidget(djvImageIO *) const;
+            ImageIOWidget * createWidget(Graphics::ImageIO *) const;
 
         private:
             DJV_PRIVATE_COPY(ImageIOWidgetFactory);

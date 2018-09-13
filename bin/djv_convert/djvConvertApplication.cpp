@@ -43,9 +43,7 @@
 #include <QDir>
 #include <QTimer>
 
-//------------------------------------------------------------------------------
-// djvConvertApplication
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvConvertApplication::djvConvertApplication(int & argc, char ** argv) :
     QGuiApplication(argc, argv)
@@ -105,16 +103,16 @@ void djvConvertApplication::work()
     //DJV_DEBUG_PRINT("input = " << input.file);
     //DJV_DEBUG_PRINT("output = " << output.file);
 
-    std::unique_ptr<djvOpenGLImage> openGLImage(new djvOpenGLImage);
+    std::unique_ptr<Graphics::OpenGLImage> openGLImage(new Graphics::OpenGLImage);
 
-    djvOpenGLImageOptions imageOptions;
+    Graphics::OpenGLImageOptions imageOptions;
     imageOptions.xform.mirror = options.mirror;
     imageOptions.xform.scale  = options.scale;
     imageOptions.channel      = options.channel;
 
     // Open the input file.
-    QScopedPointer<djvImageLoad> load;
-    djvImageIOInfo               loadInfo;
+    QScopedPointer<Graphics::ImageLoad> load;
+    Graphics::ImageIOInfo               loadInfo;
     djvError error;
     while (! load.data())
     {
@@ -175,8 +173,8 @@ void djvConvertApplication::work()
         arg(labelImage(loadInfo, loadInfo.sequence)));
 
     // Open the output file.
-    QScopedPointer<djvImageSave> save;
-    djvImageIOInfo saveInfo(loadInfo[layer]);
+    QScopedPointer<Graphics::ImageSave> save;
+    Graphics::ImageIOInfo saveInfo(loadInfo[layer]);
     glm::ivec2 scaleSize = loadInfo.size;
     glm::ivec2 size = options.size;
     if (djvVectorUtil::isSizeValid(size))
@@ -258,18 +256,18 @@ void djvConvertApplication::work()
         arg(labelImage(saveInfo, saveInfo.sequence)));
 
     // Add the slate.
-    djvImage slate;
+    Graphics::Image slate;
     if (! input.slate.name().isEmpty())
     {
         try
         {
             _context->print(qApp->translate("djvConvertApplication", "Slating..."));
-            djvImageIOInfo info;
-            QScopedPointer<djvImageLoad> load(_context->imageIOFactory()->load(input.slate, info));
-            djvImage image;
+            Graphics::ImageIOInfo info;
+            QScopedPointer<Graphics::ImageLoad> load(_context->imageIOFactory()->load(input.slate, info));
+            Graphics::Image image;
             load->read(image);
             slate.set(saveInfo);
-            djvOpenGLImageOptions imageOptions;
+            Graphics::OpenGLImageOptions imageOptions;
             imageOptions.xform.position = position;
             imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(info.size);
             imageOptions.colorProfile   = image.colorProfile;
@@ -294,7 +292,7 @@ void djvConvertApplication::work()
         {
             save->write(
                 slate,
-                djvImageIOFrameInfo(saveInfo.sequence.frames.first()));
+                Graphics::ImageIOFrameInfo(saveInfo.sequence.frames.first()));
             saveInfo.sequence.frames.pop_front();
         }
         catch (djvError error)
@@ -318,7 +316,7 @@ void djvConvertApplication::work()
         frameTimer.start();
 
         // Load the current image.
-        djvImage image;
+        Graphics::Image image;
         int timeout = input.timeout;
         while (! image.isValid())
         {
@@ -326,7 +324,7 @@ void djvConvertApplication::work()
             {
                 load->read(
                     image,
-                    djvImageIOFrameInfo(
+                    Graphics::ImageIOFrameInfo(
                         loadInfo.sequence.frames.count() ?
                         loadInfo.sequence.frames[i] :
                         -1,
@@ -361,15 +359,15 @@ void djvConvertApplication::work()
         //DJV_DEBUG_PRINT("image = " << *image);
 
         // Process the image tags.
-        djvImageTags tags = output.tags;
+        Graphics::ImageTags tags = output.tags;
         tags.add(image.tags);
         if (output.tagsAuto)
         {
-            tags[djvImageTags::tagLabels()[djvImageTags::CREATOR]] =
+            tags[Graphics::ImageTags::tagLabels()[Graphics::ImageTags::CREATOR]] =
                 djvUser::current();
-            tags[djvImageTags::tagLabels()[djvImageTags::TIME]] =
+            tags[Graphics::ImageTags::tagLabels()[Graphics::ImageTags::TIME]] =
                 djvTime::timeToString(djvTime::current());
-            tags[djvImageTags::tagLabels()[djvImageTags::TIMECODE]] =
+            tags[Graphics::ImageTags::tagLabels()[Graphics::ImageTags::TIMECODE]] =
                 djvTime::timecodeToString(
                     djvTime::frameToTimecode(
                         saveInfo.sequence.frames.count() ?
@@ -379,13 +377,13 @@ void djvConvertApplication::work()
         }
 
         // Convert.
-        djvImage * p = &image;
-        djvImage tmp;
+        Graphics::Image * p = &image;
+        Graphics::Image tmp;
         imageOptions.xform.position = position;
         imageOptions.xform.scale    = glm::vec2(scaleSize) / glm::vec2(loadInfo.size);
         imageOptions.colorProfile   = image.colorProfile;
-        if (p->info() != static_cast<djvPixelDataInfo>(saveInfo) ||
-            imageOptions != djvOpenGLImageOptions())
+        if (p->info() != static_cast<Graphics::PixelDataInfo>(saveInfo) ||
+            imageOptions != Graphics::OpenGLImageOptions())
         {
             tmp.set(saveInfo);
             openGLImage->copy(
@@ -402,7 +400,7 @@ void djvConvertApplication::work()
         {
             save->write(
                 *p,
-                djvImageIOFrameInfo(
+                Graphics::ImageIOFrameInfo(
                     saveInfo.sequence.frames.count() ?
                     saveInfo.sequence.frames[i] :
                     -1));
@@ -464,8 +462,8 @@ void djvConvertApplication::work()
 }
 
 QString djvConvertApplication::labelImage(
-    const djvPixelDataInfo & in,
-    const djvSequence &      sequence) const
+    const Graphics::PixelDataInfo & in,
+    const djvSequence & sequence) const
 {
     return qApp->translate("djvConvertApplication", "%1x%2:%3 %4 %5@%6").
         arg(in.size.x).

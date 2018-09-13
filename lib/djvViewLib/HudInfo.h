@@ -53,13 +53,13 @@ namespace djv
                 droppedFrames(false)
             {}
 
-            djvPixelDataInfo info;
-            djvImageTags     tags;
-            qint64           frame;
-            djvSpeed         speed;
-            float            realSpeed;
-            bool             droppedFrames;
-            QVector<bool>    visible;
+            Graphics::PixelDataInfo info;
+            Graphics::ImageTags     tags;
+            qint64                  frame;
+            djvSpeed                speed;
+            float                   realSpeed;
+            bool                    droppedFrames;
+            QVector<bool>           visible;
         };
 
     } // namespace ViewLib

@@ -64,13 +64,13 @@ namespace djv
         struct ColorPickerTool::Private
         {
             glm::ivec2 pick = glm::ivec2(0, 0);
-            djvColor value = djvPixel::RGBA_F32;
+            Graphics::Color value = Graphics::Pixel::RGBA_F32;
             int size = 4;
             bool colorProfile = true;
             bool displayProfile = true;
             bool lock = false;
 
-            std::unique_ptr<djvOpenGLImage> openGLImage;
+            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             bool swatchInit = false;
 
             UI::ColorWidget * widget = nullptr;
@@ -148,7 +148,7 @@ namespace djv
             // Preferences.
             UI::Prefs prefs("djv::ViewLib::ColorPickerTool");
             prefs.get("size", _p->size);
-            djvPixel::PIXEL pixel = _p->value.pixel();
+            Graphics::Pixel::PIXEL pixel = _p->value.pixel();
             prefs.get("pixel", pixel);
             _p->value.setPixel(pixel);
             prefs.get("colorProfile", _p->colorProfile);
@@ -217,7 +217,7 @@ namespace djv
             widgetUpdate();
         }
 
-        void ColorPickerTool::widgetCallback(const djvColor & color)
+        void ColorPickerTool::widgetCallback(const Graphics::Color & color)
         {
             _p->value = color;
             _p->swatch->setColor(color);
@@ -275,7 +275,7 @@ namespace djv
             djvSignalBlocker signalBlocker(QObjectList() <<
                 _p->widget <<
                 _p->swatch);
-            if (const djvPixelData * data = viewWidget()->data())
+            if (const Graphics::PixelData * data = viewWidget()->data())
             {
                 //DJV_DEBUG_PRINT("data = " << *data);
                 if (!_p->lock && data)
@@ -294,28 +294,28 @@ namespace djv
 
                 // Render color sample.
                 //DJV_DEBUG_PRINT("pick size = " << _p->size);
-                djvPixelData tmp(djvPixelDataInfo(glm::ivec2(_p->size, _p->size), _p->value.pixel()));
+                Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(_p->size, _p->size), _p->value.pixel()));
                 //DJV_DEBUG_PRINT("tmp = " << tmp);
                 try
                 {
                     context()->makeGLContextCurrent();
                     if (!_p->openGLImage)
                     {
-                        _p->openGLImage.reset(new djvOpenGLImage);
+                        _p->openGLImage.reset(new Graphics::OpenGLImage);
                     }
 
-                    djvOpenGLImageOptions options = viewWidget()->options();
+                    Graphics::OpenGLImageOptions options = viewWidget()->options();
                     options.xform.position -= pick - glm::ivec2((_p->size - 1) / 2);
                     if (!_p->colorProfile)
                     {
-                        options.colorProfile = djvColorProfile();
+                        options.colorProfile = Graphics::ColorProfile();
                     }
                     if (!_p->displayProfile)
                     {
                         options.displayProfile = DisplayProfile();
                     }
                     //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
-                    djvPixelData empty;
+                    Graphics::PixelData empty;
                     if (!data)
                     {
                         data = &empty;

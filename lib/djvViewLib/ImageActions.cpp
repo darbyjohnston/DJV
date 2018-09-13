@@ -107,10 +107,10 @@ namespace djv
                 _groups[ROTATE_GROUP]->addAction(action);
             }
             _groups[CHANNEL_GROUP]->setExclusive(true);
-            for (int i = 0; i < djvOpenGLImageOptions::channelLabels().count(); ++i)
+            for (int i = 0; i < Graphics::OpenGLImageOptions::channelLabels().count(); ++i)
             {
                 QAction * action = new QAction(this);
-                action->setText(djvOpenGLImageOptions::channelLabels()[i]);
+                action->setText(Graphics::OpenGLImageOptions::channelLabels()[i]);
                 action->setCheckable(true);
                 action->setData(i);
                 _groups[CHANNEL_GROUP]->addAction(action);
@@ -217,7 +217,7 @@ namespace djv
                 shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_GREEN].value <<
                 shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_BLUE].value <<
                 shortcuts[Util::SHORTCUT_IMAGE_CHANNEL_ALPHA].value;
-            for (int i = 0; i < djvOpenGLImageOptions::channelLabels().count(); ++i)
+            for (int i = 0; i < Graphics::OpenGLImageOptions::channelLabels().count(); ++i)
             {
                 _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);
             }

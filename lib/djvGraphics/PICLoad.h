@@ -36,37 +36,31 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvPICPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPICLoad
-//!
-//! This class provides a PIC loader.
-//------------------------------------------------------------------------------
-
-class djvPICLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvPICLoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class PICLoad
+        //!
+        //! This class provides a PIC loader.
+        class PICLoad : public ImageLoad
+        {
+        public:
+            explicit PICLoad(djvCoreContext *);
 
-    virtual ~djvPICLoad();
+            virtual ~PICLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-private:
-    void _open(const QString &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+            djvFileInfo _file;
+            PIC::TYPE   _type;
+            bool        _compression[2];
+            PixelData   _tmp;
+        };
 
-    djvFileInfo  _file;
-    djvPIC::TYPE _type;
-    bool         _compression [2];
-    djvPixelData _tmp;
-};
-
-//@} // djvPICPlugin
-
+    } // namespace Graphics
+} // namespace djv

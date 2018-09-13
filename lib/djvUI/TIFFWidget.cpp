@@ -48,7 +48,7 @@ namespace djv
 {
     namespace UI
     {
-        TIFFWidget::TIFFWidget(djvImageIO * plugin, UIContext * context) :
+        TIFFWidget::TIFFWidget(Graphics::ImageIO * plugin, UIContext * context) :
             ImageIOWidget(plugin, context),
             _compressionWidget(0)
         {
@@ -56,7 +56,7 @@ namespace djv
 
             // Create the widgets.
             _compressionWidget = new QComboBox;
-            _compressionWidget->addItems(djvTIFF::compressionLabels());
+            _compressionWidget->addItems(Graphics::TIFF::compressionLabels());
             _compressionWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -79,7 +79,7 @@ namespace djv
             // Initialize.
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[djvTIFF::COMPRESSION_OPTION]);
+                plugin->options()[Graphics::TIFF::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
             widgetUpdate();
@@ -100,7 +100,7 @@ namespace djv
 
         void TIFFWidget::resetPreferences()
         {
-            _options = djvTIFF::Options();
+            _options = Graphics::TIFF::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -112,7 +112,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    djvTIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    Graphics::TIFF::COMPRESSION_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.compression;
             }
             catch (const QString &)
@@ -123,7 +123,7 @@ namespace djv
 
         void TIFFWidget::compressionCallback(int in)
         {
-            _options.compression = static_cast<djvTIFF::COMPRESSION>(in);
+            _options.compression = static_cast<Graphics::TIFF::COMPRESSION>(in);
             pluginUpdate();
         }
 
@@ -132,7 +132,7 @@ namespace djv
             QStringList tmp;
             tmp << _options.compression;
             plugin()->setOption(
-                plugin()->options()[djvTIFF::COMPRESSION_OPTION], tmp);
+                plugin()->options()[Graphics::TIFF::COMPRESSION_OPTION], tmp);
         }
 
         void TIFFWidget::widgetUpdate()
@@ -145,14 +145,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * TIFFWidgetPlugin::createWidget(djvImageIO * plugin) const
+        ImageIOWidget * TIFFWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
         {
             return new TIFFWidget(plugin, uiContext());
         }
 
         QString TIFFWidgetPlugin::pluginName() const
         {
-            return djvTIFF::staticName;
+            return Graphics::TIFF::staticName;
         }
 
     } // namespace UI

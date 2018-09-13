@@ -45,1042 +45,1011 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-//------------------------------------------------------------------------------
-// djvOpenGLImageMesh
-//------------------------------------------------------------------------------
-
-djvOpenGLImageMesh::djvOpenGLImageMesh() :
-    _vertexSize(8 + 8)
+namespace djv
 {
-    //DJV_DEBUG("djvOpenGLImageMesh::djvOpenGLImageMesh");
-
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    DJV_DEBUG_OPEN_GL(glFuncs->glGenBuffers(1, &_vbo));
-    DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
-    DJV_DEBUG_OPEN_GL(glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW));
-
-    DJV_DEBUG_OPEN_GL(glFuncs->glGenVertexArrays(1, &_vao));
-    DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
-    DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
-    DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
-    DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
-    DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
-}
-
-djvOpenGLImageMesh::~djvOpenGLImageMesh()
-{
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    glFuncs->glDeleteVertexArrays(1, &_vao);
-    glFuncs->glDeleteBuffers(1, &_vbo);
-}
-
-void djvOpenGLImageMesh::setSize(const glm::ivec2& size, const djvPixelDataInfo::Mirror & mirror, int proxyScale)
-{
-    if (size == _size && mirror == _mirror && proxyScale == _proxyScale)
-        return;
-
-    //DJV_DEBUG("djvOpenGLImageMesh::setSize");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("mirror = " << mirror);
-    //DJV_DEBUG_PRINT("proxy = " << proxyScale);
-
-    _size = size;
-    _mirror = mirror;
-    _proxyScale = proxyScale;
-
-    const glm::vec2 p[] =
+    namespace Graphics
     {
-        glm::vec2(0.f, 0.f),
-        glm::vec2(_size.x * _proxyScale, 0.f),
-        glm::vec2(_size.x * _proxyScale, _size.y * _proxyScale),
-
-        glm::vec2(_size.x * _proxyScale, _size.y * _proxyScale),
-        glm::vec2(0.f, _size.y * _proxyScale),
-        glm::vec2(0.f, 0.f)
-    };
-
-    float u[] = { 0.f, 0.f };
-    float v[] = { 0.f, 0.f };
-    u[!_mirror.x] = 1.f;
-    v[!_mirror.y] = 1.f;
-    //DJV_DEBUG_PRINT("u = " << u[0] << " " << u[1]);
-    //DJV_DEBUG_PRINT("v = " << v[0] << " " << v[1]);
-    const glm::vec2 uv[] =
-    {
-        glm::vec2(u[0], v[0]),
-        glm::vec2(u[1], v[0]),
-        glm::vec2(u[1], v[1]),
-
-        glm::vec2(u[1], v[1]),
-        glm::vec2(u[0], v[1]),
-        glm::vec2(u[0], v[0])
-    };
-
-    std::vector<uint8_t> vertices(6 * _vertexSize);
-    uint8_t* verticesP = vertices.data();
-    for (size_t i = 0; i < 6; ++i)
-    {
-        float* pf = reinterpret_cast<float*>(verticesP);
-        pf[0] = p[i].x;
-        pf[1] = p[i].y;
-        verticesP += 8;
-
-        pf = reinterpret_cast<float*>(verticesP);
-        pf[0] = uv[i].x;
-        pf[1] = uv[i].y;
-        verticesP += 8;
-    }
-
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
-    DJV_DEBUG_OPEN_GL(glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data()));
-
-    //DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
-    //DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
-    //DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
-    //DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
-    //DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
-}
-
-void djvOpenGLImageMesh::draw()
-{
-    //DJV_DEBUG("djvOpenGLImageMesh::draw");
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
-    DJV_DEBUG_OPEN_GL(glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6));
-}
-
-//------------------------------------------------------------------------------
-// Functions
-//------------------------------------------------------------------------------
-
-namespace
-{
-typedef float (FilterFnc)(const float t);
-
-static const float supportBox = .5f;
-
-static float filterBox(float t)
-{
-    if (t > -.5f && t <= .5f)
-    {
-        return 1.f;
-    }
-    return 0.f;
-}
-
-static const float supportTriangle = 1.f;
-
-static float filterTriangle(float t)
-{
-    if (t < 0.f)
-    {
-        t = -t;
-    }
-    if (t < 1.f)
-    {
-        return 1.f - t;
-    }
-    return 0.f;
-}
-
-static const float supportBell = 1.5f;
-
-static float filterBell(float t)
-{
-    if (t < 0.f)
-    {
-        t = -t;
-    }
-    if (t < .5f)
-    {
-        return .75f - t * t;
-    }
-    if (t < 1.5f)
-    {
-        t = t - 1.5f;
-        return .5f * t * t;
-    }
-    return 0.f;
-}
-
-static const float supportBSpline = 2.f;
-
-static float filterBSpline(float t)
-{
-    if (t < 0.f)
-    {
-        t = -t;
-    }
-    if (t < 1.f)
-    {
-        const float tt = t * t;
-        return (.5f * tt * t) - tt + 2.f / 3.f;
-    }
-    else if (t < 2.f)
-    {
-        t = 2.f - t;
-        return (1.f / 6.f) * (t * t * t);
-    }
-    return 0.f;
-}
-
-static float sinc(float x)
-{
-    x *= djvMath::pi;
-    if (x != 0.f)
-    {
-        return djvMath::sin(x) / x;
-    }
-    return 1.f;
-}
-
-static const float supportLanczos3 = 3.f;
-
-static float filterLanczos3(float t)
-{
-    if (t < 0.f)
-    {
-        t = -t;
-    }
-    if (t < 3.f)
-    {
-        return sinc(t) * sinc(t / 3.f);
-    }
-    return 0.f;
-}
-
-static const float supportCubic = 1.f;
-
-static float filterCubic(float t)
-{
-    if (t < 0.f)
-    {
-        t = -t;
-    }
-    if (t < 1.f)
-    {
-        return (2.f * t - 3.f) * t * t + 1.f;
-    }
-    return 0.f;
-}
-
-static const float supportMitchell = 2.f;
-
-static float filterMitchell(float t)
-{
-    const float tt = t * t;
-    static const float b = 1.f / 3.f;
-    static const float c = 1.f / 3.f;
-    if (t < 0.f)
-    {
-        t = -t;
-    }
-    if (t < 1.f)
-    {
-        t =
-            ((12.f - 9.f * b - 6.f * c) * (t * tt)) +
-            ((-18.f + 12.f * b + 6.f * c) * tt) +
-            (6.f - 2.f * b);
-        return t / 6.f;
-    }
-    else if (t < 2.f)
-    {
-        t =
-            ((-1.f * b - 6.f * c) * (t * tt)) +
-            ((6.f * b + 30.f * c) * tt) +
-            ((-12.f * b - 48.f * c) * t) +
-            (8.f * b + 24.f * c);
-        return t / 6.f;
-    }
-    return 0.f;
-}
-
-FilterFnc * filterFnc(djvOpenGLImageFilter::FILTER in)
-{
-    static FilterFnc * tmp [] =
-    {
-        filterBox,
-        filterBox,
-        filterBox,
-        filterTriangle,
-        filterBell,
-        filterBSpline,
-        filterLanczos3,
-        filterCubic,
-        filterMitchell
-    };
-    return tmp[in];
-}
-
-static float filterSupport(djvOpenGLImageFilter::FILTER in)
-{
-    static const float tmp [] =
-    {
-        supportBox,
-        supportBox,
-        supportBox,
-        supportTriangle,
-        supportBell,
-        supportBSpline,
-        supportLanczos3,
-        supportCubic,
-        supportMitchell
-    };
-    return tmp[in];
-}
-
-int edge(int in, int size)
-{
-    return djvMath::clamp(in, 0, size - 1);
-}
-
-void scaleContrib(
-    int                          input,
-    int                          output,
-    djvOpenGLImageFilter::FILTER filter,
-    djvPixelData &               data)
-{
-    //DJV_DEBUG("scaleContrib");
-    //DJV_DEBUG_PRINT("scale = " << input << " " << output);
-    //DJV_DEBUG_PRINT("filter = " << filter);
-
-    // Filter function.
-    FilterFnc * fnc = filterFnc(filter);
-    const float support = filterSupport(filter);
-    //DJV_DEBUG_PRINT("support = " << support);
-    const float scale = static_cast<float>(output) / static_cast<float>(input);
-    //DJV_DEBUG_PRINT("scale = " << scale);
-    const float radius = support * (scale >= 1.f ? 1.f : (1.f / scale));
-    //DJV_DEBUG_PRINT("radius = " << radius);
-
-    // Initialize.
-    const int width = djvMath::ceil(radius * 2.f + 1.f);
-    //DJV_DEBUG_PRINT("width = " << width);
-    data.set(djvPixelDataInfo(output, width, djvPixel::LA_F32));
-
-    // Work.
-    for (int i = 0; i < output; ++i)
-    {
-        const float center = i / scale;
-        const int   left   = djvMath::ceil (center - radius);
-        const int   right  = djvMath::floor(center + radius);
-        //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
-
-        float sum   = 0.f;
-        int   pixel = 0;
-        int j = 0;
-        for (int k = left; j < width && k <= right; ++j, ++k)
+        OpenGLImageMesh::OpenGLImageMesh() :
+            _vertexSize(8 + 8)
         {
-            djvPixel::F32_T * p =
-                reinterpret_cast<djvPixel::F32_T *>(data.data(i, j));
-            pixel = edge(k, input);
-            const float x = (center - k) * (scale < 1.f ? scale : 1.f);
-            const float w = (scale < 1.f) ? ((*fnc)(x) * scale) : (*fnc)(x);
-            //DJV_DEBUG_PRINT("w = " << w);
-            p[0] = static_cast<djvPixel::F32_T>(pixel / static_cast<float>(input));
-            p[1] = static_cast<djvPixel::F32_T>(w);
-            sum += w;
+            //DJV_DEBUG("OpenGLImageMesh::OpenGLImageMesh");
+
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            DJV_DEBUG_OPEN_GL(glFuncs->glGenBuffers(1, &_vbo));
+            DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
+            DJV_DEBUG_OPEN_GL(glFuncs->glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizei>(6 * _vertexSize), 0, GL_DYNAMIC_DRAW));
+
+            DJV_DEBUG_OPEN_GL(glFuncs->glGenVertexArrays(1, &_vao));
+            DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
+            DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
+            DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
+            DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
+            DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
         }
 
-        for (; j < width; ++j)
+        OpenGLImageMesh::~OpenGLImageMesh()
         {
-            djvPixel::F32_T * p =
-                reinterpret_cast<djvPixel::F32_T *>(data.data(i, j));
-            p[0] = static_cast<djvPixel::F32_T>(pixel / static_cast<float>(input));
-            p[1] = 0.f;
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            glFuncs->glDeleteVertexArrays(1, &_vao);
+            glFuncs->glDeleteBuffers(1, &_vbo);
         }
 
-        /*for (j = 0; j < width; ++j)
+        void OpenGLImageMesh::setSize(const glm::ivec2& size, const PixelDataInfo::Mirror & mirror, int proxyScale)
         {
-            djvPixel::F32_T * p =
-                reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
-            //DJV_DEBUG_PRINT(p[0] << " = " << p[1]);
-        }
-        //DJV_DEBUG_PRINT("sum = " << sum);*/
+            if (size == _size && mirror == _mirror && proxyScale == _proxyScale)
+                return;
 
-        //! \todo Why is it necessary to average the scale contributions?
-        //! Without this the values don't always add up to zero causing image
-        //! artifacts.
-        for (j = 0; j < width; ++j)
-        {
-            djvPixel::F32_T * p =
-                reinterpret_cast<djvPixel::F32_T *>(data.data(i, j));
-            p[1] /= static_cast<djvPixel::F32_T>(sum);
-        }
-    }
-}
+            //DJV_DEBUG("OpenGLImageMesh::setSize");
+            //DJV_DEBUG_PRINT("size = " << size);
+            //DJV_DEBUG_PRINT("mirror = " << mirror);
+            //DJV_DEBUG_PRINT("proxy = " << proxyScale);
 
-} // namespace
+            _size = size;
+            _mirror = mirror;
+            _proxyScale = proxyScale;
 
-//------------------------------------------------------------------------------
-// Shader Source
-//------------------------------------------------------------------------------
-
-namespace
-{
-const QString sourceVertex =
-    "#version 400 core\n"
-    "\n"
-    "layout (location = 0) in vec2 aPos;\n"
-    "layout (location = 1) in vec2 aTexture;\n"
-    "\n"
-    "out vec2 TextureCoord;\n"
-    "\n"
-    "uniform struct Transform\n"
-    "{\n"
-    "    mat4 mvp;\n"
-    "} transform;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    gl_Position = transform.mvp * vec4(aPos, 1.0, 1.0);\n"
-    "    TextureCoord = aTexture;\n"
-    "}\n";
-
-const QString sourceGamma =
-    "    if (tmp[0] >= 0.0)\n"
-    "        tmp[0] = pow(tmp[0], data.gamma);\n"
-    "    if (tmp[1] >= 0.0)\n"
-    "        tmp[1] = pow(tmp[1], data.gamma);\n"
-    "    if (tmp[2] >= 0.0)\n"
-    "        tmp[2] = pow(tmp[2], data.gamma);\n";
-
-//! \todo How should we handle negative numbers when making color adjustments?
-//! Should they be clamped to zero?
-const QString sourceFragmentHeader =
-    "#version 400 core\n"
-    "\n"
-    "struct Levels\n"
-    "{\n"
-    "    float in0, in1;\n"
-    "    float gamma;\n"
-    "    float out0, out1;\n"
-    "};\n"
-    "\n"
-    "struct Exposure\n"
-    "{\n"
-    "    float v, d, k, f, g;\n"
-    "};\n"
-    "\n"
-    "float knee(float value, float f)\n"
-    "{\n"
-    "    return log(value * f + 1.0) / f;\n"
-    "}\n"
-    "\n"
-    "vec4 lut(vec4 value, sampler2D lut)\n"
-    "{\n"
-    "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
-    "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
-    "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n"
-    "vec4 gamma(vec4 value, float gamma)\n"
-    "{\n"
-    "    if (value[0] >= 0.0)\n"
-    "        value[0] = pow(value[0], gamma);\n"
-    "    if (value[1] >= 0.0)\n"
-    "        value[1] = pow(value[1], gamma);\n"
-    "    if (value[2] >= 0.0)\n"
-    "        value[2] = pow(value[2], gamma);\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n"
-    "vec4 displayProfileColor(vec4 value, mat4 color)\n"
-    "{\n"
-    "    vec4 tmp;\n"
-    "\n"
-    "    tmp[0] = value[0];\n"
-    "    tmp[1] = value[1];\n"
-    "    tmp[2] = value[2];\n"
-    "    tmp[3] = 1.0;\n"
-    "\n"
-    "    tmp *= color;\n"
-    "\n"
-    "    tmp[3] = value[3];\n"
-    "\n"
-    "    return tmp;\n"
-    "}\n"
-    "\n"
-    "vec4 levels(vec4 value, Levels data)\n"
-    "{\n"
-    "    vec4 tmp;\n"
-    "\n"
-    "    tmp[0] = (value[0] - data.in0) / data.in1;\n"
-    "    tmp[1] = (value[1] - data.in0) / data.in1;\n"
-    "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
-    "\n"
-    "%1"
-    "\n"
-    "    value[0] = tmp[0] * data.out1 + data.out0;\n"
-    "    value[1] = tmp[1] * data.out1 + data.out0;\n"
-    "    value[2] = tmp[2] * data.out1 + data.out0;\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n"
-    "vec4 exposure(vec4 value, Exposure data)\n"
-    "{\n"
-    "    value[0] = max(0.0, value[0] - data.d) * data.v;\n"
-    "    value[1] = max(0.0, value[1] - data.d) * data.v;\n"
-    "    value[2] = max(0.0, value[2] - data.d) * data.v;\n"
-    "\n"
-    "    if (value[0] > data.k)\n"
-    "        value[0] = data.k + knee(value[0] - data.k, data.f);\n"
-    "    if (value[1] > data.k)\n"
-    "        value[1] = data.k + knee(value[1] - data.k, data.f);\n"
-    "    if (value[2] > data.k)\n"
-    "        value[2] = data.k + knee(value[2] - data.k, data.f);\n"
-    "\n"
-    "    value[0] *= 0.332;\n"
-    "    value[1] *= 0.332;\n"
-    "    value[2] *= 0.332;\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n"
-    "vec4 softClip(vec4 value, float softClip)\n"
-    "{\n"
-    "    float tmp = 1.0 - softClip;\n"
-    "\n"
-    "    if (value[0] > tmp)\n"
-    "        value[0] = tmp + (1.0 - exp(-(value[0] - tmp) / softClip)) *\n"
-    "            softClip;\n"
-    "\n"
-    "    if (value[1] > tmp)\n"
-    "        value[1] = tmp + (1.0 - exp(-(value[1] - tmp) / softClip)) *\n"
-    "            softClip;\n"
-    "\n"
-    "    if (value[2] > tmp)\n"
-    "        value[2] = tmp + (1.0 - exp(-(value[2] - tmp) / softClip)) *\n"
-    "            softClip;\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n";
-
-const QString sourceFragmentScaleX =
-    "vec4 scaleX(sampler2D texture, sampler2D contrib)\n"
-    "{\n"
-    "    vec4 value = vec4(0.0);\n"
-    "\n"
-    "    for (int i = 0; i < %1; ++i)\n"
-    "    {\n"
-    "        float t = float(i) / float(%2 - 1);\n"
-    "\n"
-    "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].s, t));\n"
-    "\n"
-    "        vec2 position = vec2(tmp[0], gl_TexCoord[0].t);\n"
-    "\n"
-    "        value += tmp[3] * %3;\n"
-    "  }\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n";
-
-const QString sourceFragmentScaleY =
-    "vec4 scaleY(sampler2D texture, sampler2D contrib)\n"
-    "{\n"
-    "    vec4 value = vec4(0.0);\n"
-    "\n"
-    "    for (int i = 0; i < %1; ++i)\n"
-    "    {\n"
-    "        float t = float(i) / float(%2 - 1);\n"
-    "\n"
-    "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].t, t));\n"
-    "\n"
-    "        vec2 position = vec2(gl_TexCoord[0].s, tmp[0]);\n"
-    "\n"
-    "        value += tmp[3] * texture(texture, position);\n"
-    "    }\n"
-    "\n"
-    "    return value;\n"
-    "}\n"
-    "\n";
-
-const QString sourceFragmentMain =
-    "void main(void)\n"
-    "{\n"
-    "    vec4 color;\n"
-    "\n"
-    "%1"
-    "\n"
-    "    FragColor = color;\n"
-    "}\n";
-
-} // namespace
-
-//------------------------------------------------------------------------------
-// sourceFragment
-//
-// Generate the fragment shader source code.
-//------------------------------------------------------------------------------
-
-namespace
-{
-QString sourceFragment(
-    djvColorProfile::PROFILE             colorProfile,
-    const djvOpenGLImageDisplayProfile & displayProfile,
-    djvOpenGLImageOptions::CHANNEL       channel,
-    bool                                 multipassFilter,
-    int                                  scaleSize,
-    bool                                 scaleX)
-{
-    //DJV_DEBUG("sourceFragment");
-    //DJV_DEBUG_PRINT("colorProfile = " << colorProfile);
-    //DJV_DEBUG_PRINT("displayProfile = " << displayProfile);
-    //DJV_DEBUG_PRINT("channel = " << channel);
-    //DJV_DEBUG_PRINT("multipass filter = " << multipassFilter);
-    //DJV_DEBUG_PRINT("scale size = " << scaleSize);
-    //DJV_DEBUG_PRINT("scale x = " << scaleX);
-    
-    QString header;
-    QString main;
-
-    // Initialize the header.
-    header = sourceFragmentHeader.
-        arg(! djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
-            sourceGamma : "");
-    header += "in vec2 TextureCoord;\n";
-    header += "out vec4 FragColor;\n";
-    header += "uniform sampler2D inTexture;\n";
-
-    // Color profile.
-    QString sample;
-    switch (colorProfile)
-    {
-        case djvColorProfile::LUT:
-            header += "uniform sampler2D inColorProfileLut;\n";
-            sample =
-                "lut(\n"
-                "    texture(inTexture, TextureCoord),\n"
-                "    inColorProfileLut)";
-            break;
-        case djvColorProfile::GAMMA:
-            header += "uniform float inColorProfileGamma;\n";
-            sample =
-                "gamma(\n"
-                "    texture(inTexture, TextureCoord),\n"
-                "    inColorProfileGamma)";
-            break;
-        case djvColorProfile::EXPOSURE:
-            header += "uniform Exposure inColorProfileExposure;\n";
-            sample =
-                "exposure(\n"
-                "    texture(inTexture, TextureCoord),\n"
-                "    inColorProfileExposure)";
-            break;
-        default:
-            sample = "texture(inTexture, TextureCoord)";
-            break;
-    }
-
-    // Image filter.
-    if (! multipassFilter)
-    {
-        main += QString("color = %1;\n").arg(sample);
-    }
-    else
-    {
-        header += "uniform sampler2D inScaleContrib;\n";
-        if (scaleX)
-        {
-            header += QString(sourceFragmentScaleX).
-                arg(scaleSize).
-                arg(scaleSize).
-                arg(sample);
-            main += "color = scaleX(inTexture, inScaleContrib);\n";
-        }
-        else
-        {
-            header += QString(sourceFragmentScaleY).
-                arg(scaleSize).
-                arg(scaleSize);
-            main += "color = scaleY(inTexture, inScaleContrib);\n";
-        }
-    }
-
-    // Display profile.
-    if (displayProfile.lut.isValid())
-    {
-        header += "uniform sampler2D inDisplayProfileLut;\n";
-        main += "color = lut(color, inDisplayProfileLut);\n";
-    }
-    if (displayProfile.color != djvOpenGLImageDisplayProfile().color)
-    {
-        header += "uniform mat4 inDisplayProfileColor;\n";
-        main += "color = displayProfileColor(color, inDisplayProfileColor);\n";
-    }
-    if (displayProfile.levels != djvOpenGLImageDisplayProfile().levels)
-    {
-        header += "uniform Levels inDisplayProfileLevels;\n";
-        main += "color = levels(color, inDisplayProfileLevels);\n";
-    }
-    if (displayProfile.softClip != djvOpenGLImageDisplayProfile().softClip)
-    {
-        header += "uniform float inDisplayProfileSoftClip;\n";
-        main += "color = softClip(color, inDisplayProfileSoftClip);\n";
-    }
-
-    // Image channel.
-    if (channel)
-    {
-        main += QString("color = vec4(color[%1]);\n").arg(channel - 1);
-    }
-
-    // Clamp pixel values.
-    //if (clamp)
-    //    main += "color = clamp(color, vec4(0.f), vec4(1.f));\n";
-
-    return
-        header + "\n" +
-        QString(sourceFragmentMain).arg(main);
-}
-
-} // namespace
-
-//------------------------------------------------------------------------------
-// colorProfileInit
-//
-// This function initializes the color profile.
-//------------------------------------------------------------------------------
-
-namespace
-{
-float knee(float x, float f)
-{
-    return djvMath::log(x * f + 1.f) / f;
-}
-
-float knee2(float x, float y)
-{
-    float f0 = 0.f, f1 = 1.f;
-    while (knee(x, f1) > y)
-    {
-        f0 = f1;
-        f1 = f1 * 2.f;
-    }
-    for (int i = 0; i < 30; ++i)
-    {
-        const float f2 = (f0 + f1) / 2.f;
-        if (knee(x, f2) < y)
-        {
-            f1 = f2;
-        }
-        else
-        {
-            f0 = f2;
-        }
-    }
-    return (f0 + f1) / 2.f;
-}
-
-void colorProfileInit(
-    const djvOpenGLImageOptions & options,
-    djvOpenGLShader &             shader,
-    djvOpenGLLUT &                colorProfile)
-{
-    //DJV_DEBUG("colorProfileInit");
-    //DJV_DEBUG_PRINT("type = " << options.colorProfile.type);    
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    switch (options.colorProfile.type)
-    {
-        case djvColorProfile::LUT:
-        {
-            DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE2));
-            shader.setUniform("inColorProfileLut", 2);
-            colorProfile.init(options.colorProfile.lut);
-        }
-        break;
-        case djvColorProfile::GAMMA:
-        {
-            shader.setUniform("inColorProfileGamma", 1.f / options.colorProfile.gamma);
-        }
-        break;
-        case djvColorProfile::EXPOSURE:
-        {
-            struct Exposure
+            const glm::vec2 p[] =
             {
-                float v, d, k, f;
+                glm::vec2(0.f, 0.f),
+                glm::vec2(_size.x * _proxyScale, 0.f),
+                glm::vec2(_size.x * _proxyScale, _size.y * _proxyScale),
+
+                glm::vec2(_size.x * _proxyScale, _size.y * _proxyScale),
+                glm::vec2(0.f, _size.y * _proxyScale),
+                glm::vec2(0.f, 0.f)
             };
-            Exposure exposure;
-            exposure.v = djvMath::pow(
-                2.f,
-                options.colorProfile.exposure.value + 2.47393f);
-            exposure.d = options.colorProfile.exposure.defog;
-            exposure.k = djvMath::pow(
-                2.f,
-                options.colorProfile.exposure.kneeLow);
-            exposure.f = knee2(
-                djvMath::pow(2.f, options.colorProfile.exposure.kneeHigh) -
-                exposure.k,
-                djvMath::pow(2.f, 3.5f) - exposure.k);
-            //DJV_DEBUG_PRINT("exposure");
-            //DJV_DEBUG_PRINT("  v = " << exposure.v);
-            //DJV_DEBUG_PRINT("  d = " << exposure.d);
-            //DJV_DEBUG_PRINT("  k = " << exposure.k);
-            //DJV_DEBUG_PRINT("  f = " << exposure.f);
-            shader.setUniform("inColorProfileExposure.v", exposure.v);
-            shader.setUniform("inColorProfileExposure.d", exposure.d);
-            shader.setUniform("inColorProfileExposure.k", exposure.k);
-            shader.setUniform("inColorProfileExposure.f", exposure.f);
-        }
-        break;
-        default: break;
-    }
-}
 
-} // namespace
-
-//------------------------------------------------------------------------------
-// displayProfileInit
-//
-// This function initializes the display profile.
-//------------------------------------------------------------------------------
-
-namespace
-{
-void displayProfileInit(
-    const djvOpenGLImageOptions & options,
-    djvOpenGLShader&              shader,
-    djvOpenGLLUT &                displayProfile)
-{
-    //DJV_DEBUG("displayProfileInit");
-
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-
-    // Color matrix.
-    shader.setUniform(
-        "inDisplayProfileColor",
-        djvOpenGLImageColor::colorMatrix(options.displayProfile.color));
-
-    // Levels in.
-    shader.setUniform(
-        "inDisplayProfileLevels.in0",
-        options.displayProfile.levels.inLow);
-    shader.setUniform(
-        "inDisplayProfileLevels.in1",
-        options.displayProfile.levels.inHigh - options.displayProfile.levels.inLow);
-
-    // Gamma.
-    shader.setUniform(
-        "inDisplayProfileLevels.gamma",
-        1.f / options.displayProfile.levels.gamma);
-
-    // Levels out.
-    shader.setUniform(
-        "inDisplayProfileLevels.out0",
-        options.displayProfile.levels.outLow);
-    shader.setUniform(
-        "inDisplayProfileLevels.out1",
-        options.displayProfile.levels.outHigh - options.displayProfile.levels.outLow);
-
-    // Soft-clip.
-    shader.setUniform(
-        "inDisplayProfileSoftClip",
-        options.displayProfile.softClip);
-
-    // Lookup table.
-    if (options.displayProfile.lut.isValid())
-    {
-        DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE3));
-        shader.setUniform("inDisplayProfileLut", 3);
-        displayProfile.init(options.displayProfile.lut);
-    }
-}
-
-} // namespace
-
-//------------------------------------------------------------------------------
-// djvOpenGLImage::draw
-//------------------------------------------------------------------------------
-
-void djvOpenGLImage::draw(
-    const djvPixelData &          data,
-    const glm::mat4x4&            viewMatrix,
-    const djvOpenGLImageOptions & options) throw (djvError)
-{
-    //DJV_DEBUG("djvOpenGLImage::draw");
-    //DJV_DEBUG_PRINT("data = " << data);
-    //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
-    
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-
-    const djvPixelDataInfo & info = data.info();
-    const int proxyScale =
-        options.proxyScale ?
-        djvPixelDataUtil::proxyScale(info.proxy) :
-        1;
-    const glm::ivec2 scale(
-        djvMath::ceil(options.xform.scale.x * info.size.x * proxyScale),
-        djvMath::ceil(options.xform.scale.y * info.size.y * proxyScale));
-    const glm::ivec2 scaleTmp(scale.x, data.h());
-    //DJV_DEBUG_PRINT("scale = " << scale);
-    //DJV_DEBUG_PRINT("scale tmp = " << scaleTmp);
-
-    // Initialize.
-    const djvOpenGLImageFilter::FILTER filter =
-        info.size == scale ? djvOpenGLImageFilter::NEAREST :
-        (scale.x * scale.y < info.size.x * info.size.y ?
-         options.filter.min : options.filter.mag);
-    //DJV_DEBUG_PRINT("filter min = " << options.filter.min);
-    //DJV_DEBUG_PRINT("filter mag = " << options.filter.mag);
-    //DJV_DEBUG_PRINT("filter = " << filter);
-
-    if (! _init || _info != info || _options != options)
-    {
-        _init = true;
-        _info = info;
-        _options = options;
-        switch (filter)
-        {
-            case djvOpenGLImageFilter::NEAREST:
-            case djvOpenGLImageFilter::LINEAR:
+            float u[] = { 0.f, 0.f };
+            float v[] = { 0.f, 0.f };
+            u[!_mirror.x] = 1.f;
+            v[!_mirror.y] = 1.f;
+            //DJV_DEBUG_PRINT("u = " << u[0] << " " << u[1]);
+            //DJV_DEBUG_PRINT("v = " << v[0] << " " << v[1]);
+            const glm::vec2 uv[] =
             {
-                //DJV_DEBUG_PRINT("init single pass");
-                _texture->init(
-                    data.info(),
-                    GL_TEXTURE_2D,
-                    djvOpenGLImageFilter::toGl(filter),
-                    djvOpenGLImageFilter::toGl(filter));
-                _shader->init(
-                    sourceVertex,
-                    sourceFragment(
-                        options.colorProfile.type,
-                        options.displayProfile,
-                        options.channel,
-                        false,
-                        0,
-                        false));
+                glm::vec2(u[0], v[0]),
+                glm::vec2(u[1], v[0]),
+                glm::vec2(u[1], v[1]),
+
+                glm::vec2(u[1], v[1]),
+                glm::vec2(u[0], v[1]),
+                glm::vec2(u[0], v[0])
+            };
+
+            std::vector<uint8_t> vertices(6 * _vertexSize);
+            uint8_t* verticesP = vertices.data();
+            for (size_t i = 0; i < 6; ++i)
+            {
+                float* pf = reinterpret_cast<float*>(verticesP);
+                pf[0] = p[i].x;
+                pf[1] = p[i].y;
+                verticesP += 8;
+
+                pf = reinterpret_cast<float*>(verticesP);
+                pf[0] = uv[i].x;
+                pf[1] = uv[i].y;
+                verticesP += 8;
+            }
+
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            DJV_DEBUG_OPEN_GL(glFuncs->glBindBuffer(GL_ARRAY_BUFFER, _vbo));
+            DJV_DEBUG_OPEN_GL(glFuncs->glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizei>(6 * _vertexSize), vertices.data()));
+
+            //DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
+            //DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)0));
+            //DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(0));
+            //DJV_DEBUG_OPEN_GL(glFuncs->glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(_vertexSize), (GLvoid*)8));
+            //DJV_DEBUG_OPEN_GL(glFuncs->glEnableVertexAttribArray(1));
+        }
+
+        void OpenGLImageMesh::draw()
+        {
+            //DJV_DEBUG("OpenGLImageMesh::draw");
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            DJV_DEBUG_OPEN_GL(glFuncs->glBindVertexArray(_vao));
+            DJV_DEBUG_OPEN_GL(glFuncs->glDrawArrays(GL_TRIANGLES, 0, 6));
+        }
+
+        namespace
+        {
+            typedef float (FilterFnc)(const float t);
+
+            static const float supportBox = .5f;
+
+            static float filterBox(float t)
+            {
+                if (t > -.5f && t <= .5f)
+                {
+                    return 1.f;
+                }
+                return 0.f;
+            }
+
+            static const float supportTriangle = 1.f;
+
+            static float filterTriangle(float t)
+            {
+                if (t < 0.f)
+                {
+                    t = -t;
+                }
+                if (t < 1.f)
+                {
+                    return 1.f - t;
+                }
+                return 0.f;
+            }
+
+            static const float supportBell = 1.5f;
+
+            static float filterBell(float t)
+            {
+                if (t < 0.f)
+                {
+                    t = -t;
+                }
+                if (t < .5f)
+                {
+                    return .75f - t * t;
+                }
+                if (t < 1.5f)
+                {
+                    t = t - 1.5f;
+                    return .5f * t * t;
+                }
+                return 0.f;
+            }
+
+            static const float supportBSpline = 2.f;
+
+            static float filterBSpline(float t)
+            {
+                if (t < 0.f)
+                {
+                    t = -t;
+                }
+                if (t < 1.f)
+                {
+                    const float tt = t * t;
+                    return (.5f * tt * t) - tt + 2.f / 3.f;
+                }
+                else if (t < 2.f)
+                {
+                    t = 2.f - t;
+                    return (1.f / 6.f) * (t * t * t);
+                }
+                return 0.f;
+            }
+
+            static float sinc(float x)
+            {
+                x *= djvMath::pi;
+                if (x != 0.f)
+                {
+                    return djvMath::sin(x) / x;
+                }
+                return 1.f;
+            }
+
+            static const float supportLanczos3 = 3.f;
+
+            static float filterLanczos3(float t)
+            {
+                if (t < 0.f)
+                {
+                    t = -t;
+                }
+                if (t < 3.f)
+                {
+                    return sinc(t) * sinc(t / 3.f);
+                }
+                return 0.f;
+            }
+
+            static const float supportCubic = 1.f;
+
+            static float filterCubic(float t)
+            {
+                if (t < 0.f)
+                {
+                    t = -t;
+                }
+                if (t < 1.f)
+                {
+                    return (2.f * t - 3.f) * t * t + 1.f;
+                }
+                return 0.f;
+            }
+
+            static const float supportMitchell = 2.f;
+
+            static float filterMitchell(float t)
+            {
+                const float tt = t * t;
+                static const float b = 1.f / 3.f;
+                static const float c = 1.f / 3.f;
+                if (t < 0.f)
+                {
+                    t = -t;
+                }
+                if (t < 1.f)
+                {
+                    t =
+                        ((12.f - 9.f * b - 6.f * c) * (t * tt)) +
+                        ((-18.f + 12.f * b + 6.f * c) * tt) +
+                        (6.f - 2.f * b);
+                    return t / 6.f;
+                }
+                else if (t < 2.f)
+                {
+                    t =
+                        ((-1.f * b - 6.f * c) * (t * tt)) +
+                        ((6.f * b + 30.f * c) * tt) +
+                        ((-12.f * b - 48.f * c) * t) +
+                        (8.f * b + 24.f * c);
+                    return t / 6.f;
+                }
+                return 0.f;
+            }
+
+            FilterFnc * filterFnc(OpenGLImageFilter::FILTER in)
+            {
+                static FilterFnc * tmp[] =
+                {
+                    filterBox,
+                    filterBox,
+                    filterBox,
+                    filterTriangle,
+                    filterBell,
+                    filterBSpline,
+                    filterLanczos3,
+                    filterCubic,
+                    filterMitchell
+                };
+                return tmp[in];
+            }
+
+            static float filterSupport(OpenGLImageFilter::FILTER in)
+            {
+                static const float tmp[] =
+                {
+                    supportBox,
+                    supportBox,
+                    supportBox,
+                    supportTriangle,
+                    supportBell,
+                    supportBSpline,
+                    supportLanczos3,
+                    supportCubic,
+                    supportMitchell
+                };
+                return tmp[in];
+            }
+
+            int edge(int in, int size)
+            {
+                return djvMath::clamp(in, 0, size - 1);
+            }
+
+            void scaleContrib(
+                int                       input,
+                int                       output,
+                OpenGLImageFilter::FILTER filter,
+                PixelData &               data)
+            {
+                //DJV_DEBUG("scaleContrib");
+                //DJV_DEBUG_PRINT("scale = " << input << " " << output);
+                //DJV_DEBUG_PRINT("filter = " << filter);
+
+                // Filter function.
+                FilterFnc * fnc = filterFnc(filter);
+                const float support = filterSupport(filter);
+                //DJV_DEBUG_PRINT("support = " << support);
+                const float scale = static_cast<float>(output) / static_cast<float>(input);
+                //DJV_DEBUG_PRINT("scale = " << scale);
+                const float radius = support * (scale >= 1.f ? 1.f : (1.f / scale));
+                //DJV_DEBUG_PRINT("radius = " << radius);
+
+                // Initialize.
+                const int width = djvMath::ceil(radius * 2.f + 1.f);
+                //DJV_DEBUG_PRINT("width = " << width);
+                data.set(PixelDataInfo(output, width, Pixel::LA_F32));
+
+                // Work.
+                for (int i = 0; i < output; ++i)
+                {
+                    const float center = i / scale;
+                    const int   left = djvMath::ceil(center - radius);
+                    const int   right = djvMath::floor(center + radius);
+                    //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
+
+                    float sum = 0.f;
+                    int   pixel = 0;
+                    int j = 0;
+                    for (int k = left; j < width && k <= right; ++j, ++k)
+                    {
+                        Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
+                        pixel = edge(k, input);
+                        const float x = (center - k) * (scale < 1.f ? scale : 1.f);
+                        const float w = (scale < 1.f) ? ((*fnc)(x) * scale) : (*fnc)(x);
+                        //DJV_DEBUG_PRINT("w = " << w);
+                        p[0] = static_cast<Pixel::F32_T>(pixel / static_cast<float>(input));
+                        p[1] = static_cast<Pixel::F32_T>(w);
+                        sum += w;
+                    }
+
+                    for (; j < width; ++j)
+                    {
+                        Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
+                        p[0] = static_cast<Pixel::F32_T>(pixel / static_cast<float>(input));
+                        p[1] = 0.f;
+                    }
+
+                    /*for (j = 0; j < width; ++j)
+                    {
+                        Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
+                        //DJV_DEBUG_PRINT(p[0] << " = " << p[1]);
+                    }
+                    //DJV_DEBUG_PRINT("sum = " << sum);*/
+
+                    //! \todo Why is it necessary to average the scale contributions?
+                    //! Without this the values don't always add up to zero causing image
+                    //! artifacts.
+                    for (j = 0; j < width; ++j)
+                    {
+                        Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(data.data(i, j));
+                        p[1] /= static_cast<Pixel::F32_T>(sum);
+                    }
+                }
+            }
+
+        } // namespace
+
+        namespace
+        {
+            const QString sourceVertex =
+                "#version 400 core\n"
+                "\n"
+                "layout (location = 0) in vec2 aPos;\n"
+                "layout (location = 1) in vec2 aTexture;\n"
+                "\n"
+                "out vec2 TextureCoord;\n"
+                "\n"
+                "uniform struct Transform\n"
+                "{\n"
+                "    mat4 mvp;\n"
+                "} transform;\n"
+                "\n"
+                "void main(void)\n"
+                "{\n"
+                "    gl_Position = transform.mvp * vec4(aPos, 1.0, 1.0);\n"
+                "    TextureCoord = aTexture;\n"
+                "}\n";
+
+            const QString sourceGamma =
+                "    if (tmp[0] >= 0.0)\n"
+                "        tmp[0] = pow(tmp[0], data.gamma);\n"
+                "    if (tmp[1] >= 0.0)\n"
+                "        tmp[1] = pow(tmp[1], data.gamma);\n"
+                "    if (tmp[2] >= 0.0)\n"
+                "        tmp[2] = pow(tmp[2], data.gamma);\n";
+
+            //! \todo How should we handle negative numbers when making color adjustments?
+            //! Should they be clamped to zero?
+            const QString sourceFragmentHeader =
+                "#version 400 core\n"
+                "\n"
+                "struct Levels\n"
+                "{\n"
+                "    float in0, in1;\n"
+                "    float gamma;\n"
+                "    float out0, out1;\n"
+                "};\n"
+                "\n"
+                "struct Exposure\n"
+                "{\n"
+                "    float v, d, k, f, g;\n"
+                "};\n"
+                "\n"
+                "float knee(float value, float f)\n"
+                "{\n"
+                "    return log(value * f + 1.0) / f;\n"
+                "}\n"
+                "\n"
+                "vec4 lut(vec4 value, sampler2D lut)\n"
+                "{\n"
+                "    value[0] = texture(lut, vec2(value[0], 0))[0];\n"
+                "    value[1] = texture(lut, vec2(value[1], 0))[1];\n"
+                "    value[2] = texture(lut, vec2(value[2], 0))[2];\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 gamma(vec4 value, float gamma)\n"
+                "{\n"
+                "    if (value[0] >= 0.0)\n"
+                "        value[0] = pow(value[0], gamma);\n"
+                "    if (value[1] >= 0.0)\n"
+                "        value[1] = pow(value[1], gamma);\n"
+                "    if (value[2] >= 0.0)\n"
+                "        value[2] = pow(value[2], gamma);\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 displayProfileColor(vec4 value, mat4 color)\n"
+                "{\n"
+                "    vec4 tmp;\n"
+                "\n"
+                "    tmp[0] = value[0];\n"
+                "    tmp[1] = value[1];\n"
+                "    tmp[2] = value[2];\n"
+                "    tmp[3] = 1.0;\n"
+                "\n"
+                "    tmp *= color;\n"
+                "\n"
+                "    tmp[3] = value[3];\n"
+                "\n"
+                "    return tmp;\n"
+                "}\n"
+                "\n"
+                "vec4 levels(vec4 value, Levels data)\n"
+                "{\n"
+                "    vec4 tmp;\n"
+                "\n"
+                "    tmp[0] = (value[0] - data.in0) / data.in1;\n"
+                "    tmp[1] = (value[1] - data.in0) / data.in1;\n"
+                "    tmp[2] = (value[2] - data.in0) / data.in1;\n"
+                "\n"
+                "%1"
+                "\n"
+                "    value[0] = tmp[0] * data.out1 + data.out0;\n"
+                "    value[1] = tmp[1] * data.out1 + data.out0;\n"
+                "    value[2] = tmp[2] * data.out1 + data.out0;\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 exposure(vec4 value, Exposure data)\n"
+                "{\n"
+                "    value[0] = max(0.0, value[0] - data.d) * data.v;\n"
+                "    value[1] = max(0.0, value[1] - data.d) * data.v;\n"
+                "    value[2] = max(0.0, value[2] - data.d) * data.v;\n"
+                "\n"
+                "    if (value[0] > data.k)\n"
+                "        value[0] = data.k + knee(value[0] - data.k, data.f);\n"
+                "    if (value[1] > data.k)\n"
+                "        value[1] = data.k + knee(value[1] - data.k, data.f);\n"
+                "    if (value[2] > data.k)\n"
+                "        value[2] = data.k + knee(value[2] - data.k, data.f);\n"
+                "\n"
+                "    value[0] *= 0.332;\n"
+                "    value[1] *= 0.332;\n"
+                "    value[2] *= 0.332;\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n"
+                "vec4 softClip(vec4 value, float softClip)\n"
+                "{\n"
+                "    float tmp = 1.0 - softClip;\n"
+                "\n"
+                "    if (value[0] > tmp)\n"
+                "        value[0] = tmp + (1.0 - exp(-(value[0] - tmp) / softClip)) *\n"
+                "            softClip;\n"
+                "\n"
+                "    if (value[1] > tmp)\n"
+                "        value[1] = tmp + (1.0 - exp(-(value[1] - tmp) / softClip)) *\n"
+                "            softClip;\n"
+                "\n"
+                "    if (value[2] > tmp)\n"
+                "        value[2] = tmp + (1.0 - exp(-(value[2] - tmp) / softClip)) *\n"
+                "            softClip;\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n";
+
+            const QString sourceFragmentScaleX =
+                "vec4 scaleX(sampler2D texture, sampler2D contrib)\n"
+                "{\n"
+                "    vec4 value = vec4(0.0);\n"
+                "\n"
+                "    for (int i = 0; i < %1; ++i)\n"
+                "    {\n"
+                "        float t = float(i) / float(%2 - 1);\n"
+                "\n"
+                "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].s, t));\n"
+                "\n"
+                "        vec2 position = vec2(tmp[0], gl_TexCoord[0].t);\n"
+                "\n"
+                "        value += tmp[3] * %3;\n"
+                "  }\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n";
+
+            const QString sourceFragmentScaleY =
+                "vec4 scaleY(sampler2D texture, sampler2D contrib)\n"
+                "{\n"
+                "    vec4 value = vec4(0.0);\n"
+                "\n"
+                "    for (int i = 0; i < %1; ++i)\n"
+                "    {\n"
+                "        float t = float(i) / float(%2 - 1);\n"
+                "\n"
+                "        vec4 tmp = texture(contrib, vec2(gl_TexCoord[0].t, t));\n"
+                "\n"
+                "        vec2 position = vec2(gl_TexCoord[0].s, tmp[0]);\n"
+                "\n"
+                "        value += tmp[3] * texture(texture, position);\n"
+                "    }\n"
+                "\n"
+                "    return value;\n"
+                "}\n"
+                "\n";
+
+            const QString sourceFragmentMain =
+                "void main(void)\n"
+                "{\n"
+                "    vec4 color;\n"
+                "\n"
+                "%1"
+                "\n"
+                "    FragColor = color;\n"
+                "}\n";
+
+        } // namespace
+
+        namespace
+        {
+            QString sourceFragment(
+                ColorProfile::PROFILE             colorProfile,
+                const OpenGLImageDisplayProfile & displayProfile,
+                OpenGLImageOptions::CHANNEL       channel,
+                bool                              multipassFilter,
+                int                               scaleSize,
+                bool                              scaleX)
+            {
+                //DJV_DEBUG("sourceFragment");
+                //DJV_DEBUG_PRINT("colorProfile = " << colorProfile);
+                //DJV_DEBUG_PRINT("displayProfile = " << displayProfile);
+                //DJV_DEBUG_PRINT("channel = " << channel);
+                //DJV_DEBUG_PRINT("multipass filter = " << multipassFilter);
+                //DJV_DEBUG_PRINT("scale size = " << scaleSize);
+                //DJV_DEBUG_PRINT("scale x = " << scaleX);
+
+                QString header;
+                QString main;
+
+                // Initialize the header.
+                header = sourceFragmentHeader.
+                    arg(!djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
+                        sourceGamma : "");
+                header += "in vec2 TextureCoord;\n";
+                header += "out vec4 FragColor;\n";
+                header += "uniform sampler2D inTexture;\n";
+
+                // Color profile.
+                QString sample;
+                switch (colorProfile)
+                {
+                case ColorProfile::LUT:
+                    header += "uniform sampler2D inColorProfileLut;\n";
+                    sample =
+                        "lut(\n"
+                        "    texture(inTexture, TextureCoord),\n"
+                        "    inColorProfileLut)";
+                    break;
+                case ColorProfile::GAMMA:
+                    header += "uniform float inColorProfileGamma;\n";
+                    sample =
+                        "gamma(\n"
+                        "    texture(inTexture, TextureCoord),\n"
+                        "    inColorProfileGamma)";
+                    break;
+                case ColorProfile::EXPOSURE:
+                    header += "uniform Exposure inColorProfileExposure;\n";
+                    sample =
+                        "exposure(\n"
+                        "    texture(inTexture, TextureCoord),\n"
+                        "    inColorProfileExposure)";
+                    break;
+                default:
+                    sample = "texture(inTexture, TextureCoord)";
+                    break;
+                }
+
+                // Image filter.
+                if (!multipassFilter)
+                {
+                    main += QString("color = %1;\n").arg(sample);
+                }
+                else
+                {
+                    header += "uniform sampler2D inScaleContrib;\n";
+                    if (scaleX)
+                    {
+                        header += QString(sourceFragmentScaleX).
+                            arg(scaleSize).
+                            arg(scaleSize).
+                            arg(sample);
+                        main += "color = scaleX(inTexture, inScaleContrib);\n";
+                    }
+                    else
+                    {
+                        header += QString(sourceFragmentScaleY).
+                            arg(scaleSize).
+                            arg(scaleSize);
+                        main += "color = scaleY(inTexture, inScaleContrib);\n";
+                    }
+                }
+
+                // Display profile.
+                if (displayProfile.lut.isValid())
+                {
+                    header += "uniform sampler2D inDisplayProfileLut;\n";
+                    main += "color = lut(color, inDisplayProfileLut);\n";
+                }
+                if (displayProfile.color != OpenGLImageDisplayProfile().color)
+                {
+                    header += "uniform mat4 inDisplayProfileColor;\n";
+                    main += "color = displayProfileColor(color, inDisplayProfileColor);\n";
+                }
+                if (displayProfile.levels != OpenGLImageDisplayProfile().levels)
+                {
+                    header += "uniform Levels inDisplayProfileLevels;\n";
+                    main += "color = levels(color, inDisplayProfileLevels);\n";
+                }
+                if (displayProfile.softClip != OpenGLImageDisplayProfile().softClip)
+                {
+                    header += "uniform float inDisplayProfileSoftClip;\n";
+                    main += "color = softClip(color, inDisplayProfileSoftClip);\n";
+                }
+
+                // Image channel.
+                if (channel)
+                {
+                    main += QString("color = vec4(color[%1]);\n").arg(channel - 1);
+                }
+
+                // Clamp pixel values.
+                //if (clamp)
+                //    main += "color = clamp(color, vec4(0.f), vec4(1.f));\n";
+
+                return
+                    header + "\n" +
+                    QString(sourceFragmentMain).arg(main);
+            }
+
+        } // namespace
+
+        namespace
+        {
+            float knee(float x, float f)
+            {
+                return djvMath::log(x * f + 1.f) / f;
+            }
+
+            float knee2(float x, float y)
+            {
+                float f0 = 0.f, f1 = 1.f;
+                while (knee(x, f1) > y)
+                {
+                    f0 = f1;
+                    f1 = f1 * 2.f;
+                }
+                for (int i = 0; i < 30; ++i)
+                {
+                    const float f2 = (f0 + f1) / 2.f;
+                    if (knee(x, f2) < y)
+                    {
+                        f1 = f2;
+                    }
+                    else
+                    {
+                        f0 = f2;
+                    }
+                }
+                return (f0 + f1) / 2.f;
+            }
+
+            void colorProfileInit(
+                const OpenGLImageOptions & options,
+                OpenGLShader &             shader,
+                OpenGLLUT &                colorProfile)
+            {
+                //DJV_DEBUG("colorProfileInit");
+                //DJV_DEBUG_PRINT("type = " << options.colorProfile.type);    
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                switch (options.colorProfile.type)
+                {
+                case ColorProfile::LUT:
+                {
+                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE2));
+                    shader.setUniform("inColorProfileLut", 2);
+                    colorProfile.init(options.colorProfile.lut);
+                }
+                break;
+                case ColorProfile::GAMMA:
+                {
+                    shader.setUniform("inColorProfileGamma", 1.f / options.colorProfile.gamma);
+                }
+                break;
+                case ColorProfile::EXPOSURE:
+                {
+                    struct Exposure
+                    {
+                        float v, d, k, f;
+                    };
+                    Exposure exposure;
+                    exposure.v = djvMath::pow(
+                        2.f,
+                        options.colorProfile.exposure.value + 2.47393f);
+                    exposure.d = options.colorProfile.exposure.defog;
+                    exposure.k = djvMath::pow(
+                        2.f,
+                        options.colorProfile.exposure.kneeLow);
+                    exposure.f = knee2(
+                        djvMath::pow(2.f, options.colorProfile.exposure.kneeHigh) -
+                        exposure.k,
+                        djvMath::pow(2.f, 3.5f) - exposure.k);
+                    //DJV_DEBUG_PRINT("exposure");
+                    //DJV_DEBUG_PRINT("  v = " << exposure.v);
+                    //DJV_DEBUG_PRINT("  d = " << exposure.d);
+                    //DJV_DEBUG_PRINT("  k = " << exposure.k);
+                    //DJV_DEBUG_PRINT("  f = " << exposure.f);
+                    shader.setUniform("inColorProfileExposure.v", exposure.v);
+                    shader.setUniform("inColorProfileExposure.d", exposure.d);
+                    shader.setUniform("inColorProfileExposure.k", exposure.k);
+                    shader.setUniform("inColorProfileExposure.f", exposure.f);
+                }
+                break;
+                default: break;
+                }
+            }
+
+        } // namespace
+
+        namespace
+        {
+            void displayProfileInit(
+                const OpenGLImageOptions & options,
+                OpenGLShader&              shader,
+                OpenGLLUT &                displayProfile)
+            {
+                //DJV_DEBUG("displayProfileInit");
+
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+
+                // Color matrix.
+                shader.setUniform(
+                    "inDisplayProfileColor",
+                    OpenGLImageColor::colorMatrix(options.displayProfile.color));
+
+                // Levels in.
+                shader.setUniform(
+                    "inDisplayProfileLevels.in0",
+                    options.displayProfile.levels.inLow);
+                shader.setUniform(
+                    "inDisplayProfileLevels.in1",
+                    options.displayProfile.levels.inHigh - options.displayProfile.levels.inLow);
+
+                // Gamma.
+                shader.setUniform(
+                    "inDisplayProfileLevels.gamma",
+                    1.f / options.displayProfile.levels.gamma);
+
+                // Levels out.
+                shader.setUniform(
+                    "inDisplayProfileLevels.out0",
+                    options.displayProfile.levels.outLow);
+                shader.setUniform(
+                    "inDisplayProfileLevels.out1",
+                    options.displayProfile.levels.outHigh - options.displayProfile.levels.outLow);
+
+                // Soft-clip.
+                shader.setUniform(
+                    "inDisplayProfileSoftClip",
+                    options.displayProfile.softClip);
+
+                // Lookup table.
+                if (options.displayProfile.lut.isValid())
+                {
+                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE3));
+                    shader.setUniform("inDisplayProfileLut", 3);
+                    displayProfile.init(options.displayProfile.lut);
+                }
+            }
+
+        } // namespace
+
+        void OpenGLImage::draw(
+            const PixelData &          data,
+            const glm::mat4x4&         viewMatrix,
+            const OpenGLImageOptions & options) throw (djvError)
+        {
+            //DJV_DEBUG("OpenGLImage::draw");
+            //DJV_DEBUG_PRINT("data = " << data);
+            //DJV_DEBUG_PRINT("color profile = " << options.colorProfile);
+
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+
+            const PixelDataInfo & info = data.info();
+            const int proxyScale =
+                options.proxyScale ?
+                PixelDataUtil::proxyScale(info.proxy) :
+                1;
+            const glm::ivec2 scale(
+                djvMath::ceil(options.xform.scale.x * info.size.x * proxyScale),
+                djvMath::ceil(options.xform.scale.y * info.size.y * proxyScale));
+            const glm::ivec2 scaleTmp(scale.x, data.h());
+            //DJV_DEBUG_PRINT("scale = " << scale);
+            //DJV_DEBUG_PRINT("scale tmp = " << scaleTmp);
+
+            // Initialize.
+            const OpenGLImageFilter::FILTER filter =
+                info.size == scale ? OpenGLImageFilter::NEAREST :
+                (scale.x * scale.y < info.size.x * info.size.y ?
+                    options.filter.min : options.filter.mag);
+            //DJV_DEBUG_PRINT("filter min = " << options.filter.min);
+            //DJV_DEBUG_PRINT("filter mag = " << options.filter.mag);
+            //DJV_DEBUG_PRINT("filter = " << filter);
+
+            if (!_init || _info != info || _options != options)
+            {
+                _init = true;
+                _info = info;
+                _options = options;
+                switch (filter)
+                {
+                case OpenGLImageFilter::NEAREST:
+                case OpenGLImageFilter::LINEAR:
+                {
+                    //DJV_DEBUG_PRINT("init single pass");
+                    _texture->init(
+                        data.info(),
+                        GL_TEXTURE_2D,
+                        OpenGLImageFilter::toGl(filter),
+                        OpenGLImageFilter::toGl(filter));
+                    _shader->init(
+                        sourceVertex,
+                        sourceFragment(
+                            options.colorProfile.type,
+                            options.displayProfile,
+                            options.channel,
+                            false,
+                            0,
+                            false));
+                }
+                break;
+                case OpenGLImageFilter::BOX:
+                case OpenGLImageFilter::TRIANGLE:
+                case OpenGLImageFilter::BELL:
+                case OpenGLImageFilter::BSPLINE:
+                case OpenGLImageFilter::LANCZOS3:
+                case OpenGLImageFilter::CUBIC:
+                case OpenGLImageFilter::MITCHELL:
+                {
+                    //DJV_DEBUG_PRINT("init two pass");
+                    _texture->init(data.info(), GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+
+                    // Initialize horizontal pass.
+                    PixelData contrib;
+                    scaleContrib(data.w(), scale.x, filter, contrib);
+                    _scaleXContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+                    _scaleXShader->init(
+                        sourceVertex,
+                        sourceFragment(
+                            options.colorProfile.type,
+                            OpenGLImageDisplayProfile(),
+                            static_cast<OpenGLImageOptions::CHANNEL>(0),
+                            true,
+                            contrib.h(),
+                            true));
+
+                    // Initialize vertical pass.
+                    scaleContrib(data.h(), scale.y, filter, contrib);
+                    _scaleYContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+                    _scaleYShader->init(
+                        sourceVertex,
+                        sourceFragment(
+                            static_cast<ColorProfile::PROFILE>(0),
+                            options.displayProfile,
+                            options.channel,
+                            true,
+                            contrib.h(),
+                            false));
+                }
+                break;
+                default: break;
+                }
+            }
+
+            // Render.
+            const PixelDataInfo::Mirror mirror(
+                info.mirror.x ? (!options.xform.mirror.x) : options.xform.mirror.x,
+                info.mirror.y ? (!options.xform.mirror.y) : options.xform.mirror.y);
+            //DJV_DEBUG_PRINT("mirror = " << mirror.x << " " << mirror.y);
+            switch (filter)
+            {
+            case OpenGLImageFilter::NEAREST:
+            case OpenGLImageFilter::LINEAR:
+            {
+                //DJV_DEBUG_PRINT("draw single pass");
+
+                _shader->bind();
+
+                // Initialize color and display profiles.
+                colorProfileInit(options, *_shader, *_lutColorProfile);
+                displayProfileInit(options, *_shader, *_lutDisplayProfile);
+
+                // Draw.
+                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
+                _shader->setUniform("inTexture", 0);
+                _texture->copy(data);
+                _shader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(options.xform));
+                _mesh->setSize(info.size, mirror, proxyScale);
+                _mesh->draw();
             }
             break;
-            case djvOpenGLImageFilter::BOX:
-            case djvOpenGLImageFilter::TRIANGLE:
-            case djvOpenGLImageFilter::BELL:
-            case djvOpenGLImageFilter::BSPLINE:
-            case djvOpenGLImageFilter::LANCZOS3:
-            case djvOpenGLImageFilter::CUBIC:
-            case djvOpenGLImageFilter::MITCHELL:
+            case OpenGLImageFilter::BOX:
+            case OpenGLImageFilter::TRIANGLE:
+            case OpenGLImageFilter::BELL:
+            case OpenGLImageFilter::BSPLINE:
+            case OpenGLImageFilter::LANCZOS3:
+            case OpenGLImageFilter::CUBIC:
+            case OpenGLImageFilter::MITCHELL:
             {
-                //DJV_DEBUG_PRINT("init two pass");
-                _texture->init(data.info(), GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
+                //DJV_DEBUG_PRINT("draw two pass");
 
-                // Initialize horizontal pass.
-                djvPixelData contrib;
-                scaleContrib(data.w(), scale.x, filter, contrib);
-                _scaleXContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
-                _scaleXShader->init(
-                    sourceVertex,
-                    sourceFragment(
-                        options.colorProfile.type,
-                        djvOpenGLImageDisplayProfile(),
-                        static_cast<djvOpenGLImageOptions::CHANNEL>(0),
-                        true,
-                        contrib.h(),
-                        true));
+                // Horizontal pass.
+                OpenGLOffscreenBuffer buffer(PixelDataInfo(scaleTmp, data.pixel()));
+                {
+                    OpenGLOffscreenBufferScope bufferScope(&buffer);
+                    _scaleXShader->bind();
+                    colorProfileInit(options, *_scaleXShader, *_lutColorProfile);
+                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
+                    _scaleXShader->setUniform("inTexture", 0);
+                    _texture->copy(data);
+                    _texture->bind();
+                    DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE1));
+                    _scaleXShader->setUniform("inScaleContrib", 1);
+                    _scaleXContrib->bind();
+                    glm::mat4x4 m = glm::ortho(
+                        0.f,
+                        static_cast<float>(scaleTmp.x),
+                        0.f,
+                        static_cast<float>(scaleTmp.y),
+                        -1.f,
+                        1.f);
+                    _scaleXShader->setUniform("transform.mvp", m);
+                    glViewport(0, 0, scaleTmp.x, scaleTmp.y);
+                    _mesh->setSize(scaleTmp, mirror);
+                    _mesh->draw();
+                }
 
-                // Initialize vertical pass.
-                scaleContrib(data.h(), scale.y, filter, contrib);
-                _scaleYContrib->init(contrib, GL_TEXTURE_2D, GL_NEAREST, GL_NEAREST);
-                _scaleYShader->init(
-                    sourceVertex,
-                    sourceFragment(
-                        static_cast<djvColorProfile::PROFILE>(0),
-                        options.displayProfile,
-                        options.channel,
-                        true,
-                        contrib.h(),
-                        false));
+                // Vertical pass.
+                _scaleYShader->bind();
+                displayProfileInit(options, *_scaleYShader, *_lutDisplayProfile);
+                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
+                _scaleYShader->setUniform("inTexture", 0);
+                DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, buffer.texture()));
+                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE1));
+                _scaleYShader->setUniform("inScaleContrib", 1);
+                _scaleYContrib->bind();
+                OpenGLImageXform xform = options.xform;
+                xform.scale = glm::vec2(1.f, 1.f);
+                _shader->setUniform("transform.mvp", viewMatrix * OpenGLImageXform::xformMatrix(xform));
+                glViewport(0, 0, scale.x, scale.y);
+                _mesh->setSize(scale);
+                _mesh->draw();
             }
             break;
             default: break;
-        }
-    }
-
-    // Render.
-    const djvPixelDataInfo::Mirror mirror(
-        info.mirror.x ? (! options.xform.mirror.x) : options.xform.mirror.x,
-        info.mirror.y ? (! options.xform.mirror.y) : options.xform.mirror.y);
-    //DJV_DEBUG_PRINT("mirror = " << mirror.x << " " << mirror.y);
-    switch (filter)
-    {
-        case djvOpenGLImageFilter::NEAREST:
-        case djvOpenGLImageFilter::LINEAR:
-        {
-            //DJV_DEBUG_PRINT("draw single pass");
-
-            _shader->bind();
-
-            // Initialize color and display profiles.
-            colorProfileInit(options, *_shader, *_lutColorProfile);
-            displayProfileInit(options, *_shader, *_lutDisplayProfile);
-
-            // Draw.
-            DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
-            _shader->setUniform("inTexture", 0);
-            _texture->copy(data);
-            _shader->setUniform("transform.mvp", viewMatrix * djvOpenGLImageXform::xformMatrix(options.xform));
-            _mesh->setSize(info.size, mirror, proxyScale);
-            _mesh->draw();
-        }
-        break;
-        case djvOpenGLImageFilter::BOX:
-        case djvOpenGLImageFilter::TRIANGLE:
-        case djvOpenGLImageFilter::BELL:
-        case djvOpenGLImageFilter::BSPLINE:
-        case djvOpenGLImageFilter::LANCZOS3:
-        case djvOpenGLImageFilter::CUBIC:
-        case djvOpenGLImageFilter::MITCHELL:
-        {
-            //DJV_DEBUG_PRINT("draw two pass");
-
-            // Horizontal pass.
-            djvOpenGLOffscreenBuffer buffer(djvPixelDataInfo(scaleTmp, data.pixel()));
-            {
-                djvOpenGLOffscreenBufferScope bufferScope(&buffer);
-                _scaleXShader->bind();
-                colorProfileInit(options, *_scaleXShader, *_lutColorProfile);
-                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
-                _scaleXShader->setUniform("inTexture", 0);
-                _texture->copy(data);
-                _texture->bind();
-                DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE1));
-                _scaleXShader->setUniform("inScaleContrib", 1);
-                _scaleXContrib->bind();
-                glm::mat4x4 m = glm::ortho(
-                    0.f,
-                    static_cast<float>(scaleTmp.x),
-                    0.f,
-                    static_cast<float>(scaleTmp.y),
-                    -1.f,
-                    1.f);
-                _scaleXShader->setUniform("transform.mvp", m);
-                glViewport(0, 0, scaleTmp.x, scaleTmp.y);
-                _mesh->setSize(scaleTmp, mirror);
-                _mesh->draw();
             }
-
-            // Vertical pass.
-            _scaleYShader->bind();
-            displayProfileInit(options, *_scaleYShader, *_lutDisplayProfile);
-            DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE0));
-            _scaleYShader->setUniform("inTexture", 0);
-            DJV_DEBUG_OPEN_GL(glBindTexture(GL_TEXTURE_2D, buffer.texture()));
-            DJV_DEBUG_OPEN_GL(glFuncs->glActiveTexture(GL_TEXTURE1));
-            _scaleYShader->setUniform("inScaleContrib", 1);
-            _scaleYContrib->bind();
-            djvOpenGLImageXform xform = options.xform;
-            xform.scale = glm::vec2(1.f, 1.f);
-            _shader->setUniform("transform.mvp", viewMatrix * djvOpenGLImageXform::xformMatrix(xform));
-            glViewport(0, 0, scale.x, scale.y);
-            _mesh->setSize(scale);
-            _mesh->draw();
         }
-        break;
-        default: break;
-    }
-}
+
+    } // namespace Graphics
+} // namespace djv

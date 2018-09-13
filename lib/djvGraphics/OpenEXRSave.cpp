@@ -41,196 +41,199 @@
 #include <ImfOutputFile.h>
 #include <ImfStandardAttributes.h>
 
-//------------------------------------------------------------------------------
-// djvOpenEXRSave
-//------------------------------------------------------------------------------
-
-djvOpenEXRSave::djvOpenEXRSave(const djvOpenEXR::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options(options),
-    _f      (0)
-{}
-
-djvOpenEXRSave::~djvOpenEXRSave()
+namespace djv
 {
-    close();
-}
-
-void djvOpenEXRSave::open(const djvFileInfo & in, const djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvOpenEXRSave::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    // File information.
-    _file = in;
-    if (info.sequence.frames.count() > 1)
+    namespace Graphics
     {
-        _file.setType(djvFileInfo::SEQUENCE);
-    }
+        OpenEXRSave::OpenEXRSave(const OpenEXR::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options),
+            _f(0)
+        {}
 
-    // Image information.
-    _info = djvPixelDataInfo();
-    _info.size = info.size;
-    _info.mirror.y = true;
-    djvPixel::FORMAT format = djvPixel::format(info.pixel);
-    djvPixel::TYPE type = djvPixel::TYPE(0);
-    switch (djvPixel::type(info.pixel))
-    {
-        case djvPixel::F32: type = djvPixel::F32; break;
-        default: type = djvPixel::F16; break;
-    }
-    _info.pixel = djvPixel::pixel(format, type);
-    //DJV_DEBUG_PRINT("info = " << _info);
-    _speed = info.sequence.speed;
-
-    // Initialize temporary image buffer.
-    _tmp.set(_info);
-}
-
-void djvOpenEXRSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvOpenEXRSave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    try
-    {
-        // Open the file.
-        djvImageIOInfo info(_info);
-        info.tags           = in.tags;
-        info.sequence.speed = _speed;
-        _open(_file.fileName(frame.frame), info);
-        
-        // Convert the image.
-        const djvPixelData * p = &in;
-        if (p->info() != _info)
+        OpenEXRSave::~OpenEXRSave()
         {
-            //DJV_DEBUG_PRINT("convert = " << _tmp);
-            _tmp.zero();
-            djvOpenGLImage().copy(in, _tmp);
-            p = &_tmp;
+            close();
         }
-        
-        // Write the file.
-        const int w         = p->w();
-        const int h         = p->h();
-        const int channels  = p->channels();
-        const int byteCount = djvPixel::channelByteCount(p->pixel());
-        Imf::FrameBuffer frameBuffer;
-        for (int c = 0; c < channels; ++c)
+
+        void OpenEXRSave::open(const djvFileInfo & in, const ImageIOInfo & info)
+            throw (djvError)
         {
-            const QString & channel = _channels[c];
-            //DJV_DEBUG_PRINT("channel = " << channel);
-            frameBuffer.insert(
-                channel.toLatin1().data(),
-                Imf::Slice(
-                    djvOpenEXR::pixelTypeToImf(djvPixel::type(p->pixel())),
-                    (char *)p->data() + c * byteCount,
-                    channels * byteCount,
-                    w * channels * byteCount,
-                    1,
-                    1,
-                    0.f));
+            //DJV_DEBUG("OpenEXRSave::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            // File information.
+            _file = in;
+            if (info.sequence.frames.count() > 1)
+            {
+                _file.setType(djvFileInfo::SEQUENCE);
+            }
+
+            // Image information.
+            _info = PixelDataInfo();
+            _info.size = info.size;
+            _info.mirror.y = true;
+            Pixel::FORMAT format = Pixel::format(info.pixel);
+            Pixel::TYPE type = Pixel::TYPE(0);
+            switch (Pixel::type(info.pixel))
+            {
+            case Pixel::F32: type = Pixel::F32; break;
+            default: type = Pixel::F16; break;
+            }
+            _info.pixel = Pixel::pixel(format, type);
+            //DJV_DEBUG_PRINT("info = " << _info);
+            _speed = info.sequence.speed;
+
+            // Initialize temporary image buffer.
+            _tmp.set(_info);
         }
-        _f->setFrameBuffer(frameBuffer);
-        _f->writePixels(h);
 
-    }
-    catch (const std::exception & error)
-    {
-        throw djvError(
-            djvOpenEXR::staticName,
-            error.what());
-    }
-    
-    close();
-}
-
-void djvOpenEXRSave::close() throw (djvError)
-{
-    delete _f;
-    _f = 0;
-}
-
-void djvOpenEXRSave::_open(const QString & in, const djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvOpenEXRSave::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    try
-    {
-        close();
-
-        // Set the header.
-        Imf::Header header(info.size.x, info.size.y);
-        switch (djvPixel::channels(info.pixel))
+        void OpenEXRSave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
         {
-            case 1: _channels = QStringList() << "Y"; break;
-            case 2: _channels = QStringList() << "Y" << "A"; break;
-            case 3: _channels = QStringList() << "R" << "G" << "B"; break;
-            case 4: _channels = QStringList() << "R" << "G" << "B" << "A"; break;
+            //DJV_DEBUG("OpenEXRSave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            try
+            {
+                // Open the file.
+                ImageIOInfo info(_info);
+                info.tags = in.tags;
+                info.sequence.speed = _speed;
+                _open(_file.fileName(frame.frame), info);
+
+                // Convert the image.
+                const PixelData * p = &in;
+                if (p->info() != _info)
+                {
+                    //DJV_DEBUG_PRINT("convert = " << _tmp);
+                    _tmp.zero();
+                    OpenGLImage().copy(in, _tmp);
+                    p = &_tmp;
+                }
+
+                // Write the file.
+                const int w = p->w();
+                const int h = p->h();
+                const int channels = p->channels();
+                const int byteCount = Pixel::channelByteCount(p->pixel());
+                Imf::FrameBuffer frameBuffer;
+                for (int c = 0; c < channels; ++c)
+                {
+                    const QString & channel = _channels[c];
+                    //DJV_DEBUG_PRINT("channel = " << channel);
+                    frameBuffer.insert(
+                        channel.toLatin1().data(),
+                        Imf::Slice(
+                            OpenEXR::pixelTypeToImf(Pixel::type(p->pixel())),
+                            (char *)p->data() + c * byteCount,
+                            channels * byteCount,
+                            w * channels * byteCount,
+                            1,
+                            1,
+                            0.f));
+                }
+                _f->setFrameBuffer(frameBuffer);
+                _f->writePixels(h);
+
+            }
+            catch (const std::exception & error)
+            {
+                throw djvError(
+                    OpenEXR::staticName,
+                    error.what());
+            }
+
+            close();
         }
-        for (int i = 0; i < _channels.count(); ++i)
+
+        void OpenEXRSave::close() throw (djvError)
         {
-            header.channels().insert(
-                _channels[i].toLatin1().data(),
-                djvOpenEXR::pixelTypeToImf(djvPixel::type(info.pixel)));
+            delete _f;
+            _f = 0;
         }
-        Imf::CompressionAttribute compression;
-        switch (_options.compression)
+
+        void OpenEXRSave::_open(const QString & in, const ImageIOInfo & info)
+            throw (djvError)
         {
-            case djvOpenEXR::COMPRESSION_NONE:
-                compression = Imf::NO_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_RLE:
-                compression = Imf::RLE_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_ZIPS:
-                compression = Imf::ZIPS_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_ZIP:
-                compression = Imf::ZIP_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_PIZ:
-                compression = Imf::PIZ_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_PXR24:
-                compression = Imf::PXR24_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_B44:
-                compression = Imf::B44_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_B44A:
-                compression = Imf::B44A_COMPRESSION;
-                break;
+            //DJV_DEBUG("OpenEXRSave::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            try
+            {
+                close();
+
+                // Set the header.
+                Imf::Header header(info.size.x, info.size.y);
+                switch (Pixel::channels(info.pixel))
+                {
+                case 1: _channels = QStringList() << "Y"; break;
+                case 2: _channels = QStringList() << "Y" << "A"; break;
+                case 3: _channels = QStringList() << "R" << "G" << "B"; break;
+                case 4: _channels = QStringList() << "R" << "G" << "B" << "A"; break;
+                }
+                for (int i = 0; i < _channels.count(); ++i)
+                {
+                    header.channels().insert(
+                        _channels[i].toLatin1().data(),
+                        OpenEXR::pixelTypeToImf(Pixel::type(info.pixel)));
+                }
+                Imf::CompressionAttribute compression;
+                switch (_options.compression)
+                {
+                case OpenEXR::COMPRESSION_NONE:
+                    compression = Imf::NO_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_RLE:
+                    compression = Imf::RLE_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_ZIPS:
+                    compression = Imf::ZIPS_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_ZIP:
+                    compression = Imf::ZIP_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_PIZ:
+                    compression = Imf::PIZ_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_PXR24:
+                    compression = Imf::PXR24_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_B44:
+                    compression = Imf::B44_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_B44A:
+                    compression = Imf::B44A_COMPRESSION;
+                    break;
 #if OPENEXR_VERSION_HEX >= 0x02020000
-            case djvOpenEXR::COMPRESSION_DWAA:
-                compression = Imf::DWAA_COMPRESSION;
-                break;
-            case djvOpenEXR::COMPRESSION_DWAB:
-                compression = Imf::DWAB_COMPRESSION;
-                break;
+                case OpenEXR::COMPRESSION_DWAA:
+                    compression = Imf::DWAA_COMPRESSION;
+                    break;
+                case OpenEXR::COMPRESSION_DWAB:
+                    compression = Imf::DWAB_COMPRESSION;
+                    break;
 #endif // OPENEXR_VERSION_HEX
-            default: break;
-        }
-        header.insert(Imf::CompressionAttribute::staticTypeName(), compression);
+                default: break;
+                }
+                header.insert(Imf::CompressionAttribute::staticTypeName(), compression);
 #if OPENEXR_VERSION_HEX >= 0x02020000
-        addDwaCompressionLevel(header, _options.dwaCompressionLevel);
+                addDwaCompressionLevel(header, _options.dwaCompressionLevel);
 #endif // OPENEXR_VERSION_HEX
 
-        // Set image tags.
-        djvOpenEXR::saveTags(info, header);
+                // Set image tags.
+                OpenEXR::saveTags(info, header);
 
-        // Open the file.
-        _f = new Imf::OutputFile(in.toLatin1().data(), header);
+                // Open the file.
+                _f = new Imf::OutputFile(in.toLatin1().data(), header);
 
-    }
-    catch (const std::exception & error)
-    {
-        throw djvError(
-            djvOpenEXR::staticName,
-            error.what());
-    }
-}
+            }
+            catch (const std::exception & error)
+            {
+                throw djvError(
+                    OpenEXR::staticName,
+                    error.what());
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

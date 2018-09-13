@@ -50,10 +50,10 @@ namespace djv
 
             //! This property holds the pixel.
             Q_PROPERTY(
-                djvOpenGLImageFilter filter
-                READ                 filter
-                WRITE                setFilter
-                NOTIFY               filterChanged)
+                djv::Graphics::OpenGLImageFilter filter
+                READ                             filter
+                WRITE                            setFilter
+                NOTIFY                           filterChanged)
 
         public:
             explicit ImagePrefs(QObject * parent = nullptr);
@@ -61,15 +61,15 @@ namespace djv
             ~ImagePrefs();
 
             //! Get the image filter.
-            const djvOpenGLImageFilter & filter() const;
+            const Graphics::OpenGLImageFilter & filter() const;
 
         public Q_SLOTS:
             //! Set the image filter.
-            void setFilter(const djvOpenGLImageFilter &);
+            void setFilter(const djv::Graphics::OpenGLImageFilter &);
 
         Q_SIGNALS:
             //! This signal is emitted when the image filter is changed.
-            void filterChanged(const djvOpenGLImageFilter &);
+            void filterChanged(const djv::Graphics::OpenGLImageFilter &);
         };
 
     } // namespace UI

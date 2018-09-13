@@ -33,159 +33,130 @@
 
 #include <djvGraphics/Cineon.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvDPXPlugin djvDPXPlugin
-//!
-//! This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
-//! image file format. DPX is a specialized image file format for working with
-//! motion picture film. DPX is the successor to the Cineon file format with
-//! support for additional image and meta data.
-//!
-//! File extensions: .dpx
-//!
-//! Supported features:
-//!
-//! - 10-bit RGB type "A" packing (the most common variety); 8-bit, 16-bit,
-//!   Luminance, RGB, RGBA
-//! - Interleaved channels only
-//!
-//! References:
-//!
-//! - SMPTE, "SMPTE 268M-2003"
-//!   http://www.smpte.org
-//! - Cinesite, "Conversion of 10-bit Log Film Data To 8-bit Linear or Video
-//!   Data"
-
-//@} // plugins
-
-//! \addtogroup djvDPXPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvDPX
-//!
-//! This struct provides DPX utilities.
-//------------------------------------------------------------------------------
-
-struct djvDPX
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file format version.
-    enum VERSION
+    namespace Graphics
     {
-        VERSION_1_0,
-        VERSION_2_0,
+        //! \struct DPX
+        //!
+        //! This struct provides DPX utilities.
+        struct DPX
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        VERSION_COUNT
-    };
+            //! This enumeration provides the file format version.
+            enum VERSION
+            {
+                VERSION_1_0,
+                VERSION_2_0,
 
-    //! Get the file format version labels.
-    static const QStringList & versionLabels();
+                VERSION_COUNT
+            };
 
-    //! This enumeration provides the file types.
-    enum TYPE
-    {
-        TYPE_AUTO,
-        TYPE_U10,
+            //! Get the file format version labels.
+            static const QStringList & versionLabels();
 
-        TYPE_COUNT
-    };
+            //! This enumeration provides the file types.
+            enum TYPE
+            {
+                TYPE_AUTO,
+                TYPE_U10,
 
-    //! Get the file type labels.
-    static const QStringList & typeLabels();
+                TYPE_COUNT
+            };
 
-    //! This enumeration provides the file endians.
-    enum ENDIAN
-    {
-        ENDIAN_AUTO,
-        ENDIAN_MSB,
-        ENDIAN_LSB,
+            //! Get the file type labels.
+            static const QStringList & typeLabels();
 
-        ENDIAN_COUNT
-    };
+            //! This enumeration provides the file endians.
+            enum ENDIAN
+            {
+                ENDIAN_AUTO,
+                ENDIAN_MSB,
+                ENDIAN_LSB,
 
-    //! Get the file endian labels.
-    static const QStringList & endianLabels();
+                ENDIAN_COUNT
+            };
 
-    //! This enumeration provides the DPX image tags.
-    enum TAG
-    {
-        TAG_SOURCE_OFFSET,
-        TAG_SOURCE_CENTER,
-        TAG_SOURCE_SIZE,
-        TAG_SOURCE_FILE,
-        TAG_SOURCE_TIME,
-        TAG_SOURCE_INPUT_DEVICE,
-        TAG_SOURCE_INPUT_SERIAL,
-        TAG_SOURCE_BORDER,
-        TAG_SOURCE_PIXEL_ASPECT,
-        TAG_SOURCE_SCAN_SIZE,
-        TAG_FILM_FORMAT,
-        TAG_FILM_FRAME,
-        TAG_FILM_SEQUENCE,
-        TAG_FILM_HOLD,
-        TAG_FILM_FRAME_RATE,
-        TAG_FILM_SHUTTER,
-        TAG_FILM_FRAME_ID,
-        TAG_FILM_SLATE,
-        TAG_TV_INTERLACE,
-        TAG_TV_FIELD,
-        TAG_TV_VIDEO_SIGNAL,
-        TAG_TV_SAMPLE_RATE,
-        TAG_TV_FRAME_RATE,
-        TAG_TV_TIME_OFFSET,
-        TAG_TV_GAMMA,
-        TAG_TV_BLACK_LEVEL,
-        TAG_TV_BLACK_GAIN,
-        TAG_TV_BREAK_POINT,
-        TAG_TV_WHITE_LEVEL,
-        TAG_TV_INTEGRATION_TIMES,
+            //! Get the file endian labels.
+            static const QStringList & endianLabels();
 
-        TAG_COUNT
-    };
+            //! This enumeration provides the DPX image tags.
+            enum TAG
+            {
+                TAG_SOURCE_OFFSET,
+                TAG_SOURCE_CENTER,
+                TAG_SOURCE_SIZE,
+                TAG_SOURCE_FILE,
+                TAG_SOURCE_TIME,
+                TAG_SOURCE_INPUT_DEVICE,
+                TAG_SOURCE_INPUT_SERIAL,
+                TAG_SOURCE_BORDER,
+                TAG_SOURCE_PIXEL_ASPECT,
+                TAG_SOURCE_SCAN_SIZE,
+                TAG_FILM_FORMAT,
+                TAG_FILM_FRAME,
+                TAG_FILM_SEQUENCE,
+                TAG_FILM_HOLD,
+                TAG_FILM_FRAME_RATE,
+                TAG_FILM_SHUTTER,
+                TAG_FILM_FRAME_ID,
+                TAG_FILM_SLATE,
+                TAG_TV_INTERLACE,
+                TAG_TV_FIELD,
+                TAG_TV_VIDEO_SIGNAL,
+                TAG_TV_SAMPLE_RATE,
+                TAG_TV_FRAME_RATE,
+                TAG_TV_TIME_OFFSET,
+                TAG_TV_GAMMA,
+                TAG_TV_BLACK_LEVEL,
+                TAG_TV_BLACK_GAIN,
+                TAG_TV_BREAK_POINT,
+                TAG_TV_WHITE_LEVEL,
+                TAG_TV_INTEGRATION_TIMES,
 
-    //! Get the DPX image tag labels.
-    static const QStringList & tagLabels();
+                TAG_COUNT
+            };
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        INPUT_COLOR_PROFILE_OPTION,
-        INPUT_FILM_PRINT_OPTION,
-        OUTPUT_COLOR_PROFILE_OPTION,
-        OUTPUT_FILM_PRINT_OPTION,
-        VERSION_OPTION,
-        TYPE_OPTION,
-        ENDIAN_OPTION,
+            //! Get the DPX image tag labels.
+            static const QStringList & tagLabels();
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                INPUT_COLOR_PROFILE_OPTION,
+                INPUT_FILM_PRINT_OPTION,
+                OUTPUT_COLOR_PROFILE_OPTION,
+                OUTPUT_FILM_PRINT_OPTION,
+                VERSION_OPTION,
+                TYPE_OPTION,
+                ENDIAN_OPTION,
 
-    //! Get the option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
 
-        djvCineon::COLOR_PROFILE     inputColorProfile;
-        djvCineon::FilmPrintToLinear inputFilmPrint;
-        djvCineon::COLOR_PROFILE     outputColorProfile;
-        djvCineon::LinearToFilmPrint outputFilmPrint;
-        djvDPX::VERSION              version;
-        djvDPX::TYPE                 type;
-        djvDPX::ENDIAN               endian;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-DJV_STRING_OPERATOR(djvDPX::VERSION);
-DJV_STRING_OPERATOR(djvDPX::TYPE);
-DJV_STRING_OPERATOR(djvDPX::ENDIAN);
+                Cineon::COLOR_PROFILE     inputColorProfile;
+                Cineon::FilmPrintToLinear inputFilmPrint;
+                Cineon::COLOR_PROFILE     outputColorProfile;
+                Cineon::LinearToFilmPrint outputFilmPrint;
+                DPX::VERSION              version;
+                DPX::TYPE                 type;
+                DPX::ENDIAN               endian;
+            };
+        };
 
-//@} // djvDPXPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::DPX::VERSION);
+DJV_STRING_OPERATOR(djv::Graphics::DPX::TYPE);
+DJV_STRING_OPERATOR(djv::Graphics::DPX::ENDIAN);

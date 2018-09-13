@@ -33,82 +33,85 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
-//------------------------------------------------------------------------------
-// djvTargaSave
-//------------------------------------------------------------------------------
-
-djvTargaSave::djvTargaSave(const djvTarga::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options(options)
-{}
-
-djvTargaSave::~djvTargaSave()
-{}
-
-void djvTargaSave::open(const djvFileInfo & in, const djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvTargaSave::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    if (info.sequence.frames.count() > 1)
+    namespace Graphics
     {
-        _file.setType(djvFileInfo::SEQUENCE);
-    }
-    _info = djvPixelDataInfo();
-    _info.size = info.size;
-    _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), djvPixel::U8);
-    switch (djvPixel::format(_info.pixel))
-    {
-        case djvPixel::RGB:
-        case djvPixel::RGBA: _info.bgr = true; break;
-        default: break;
-    }
-    _info.endian = djvMemory::LSB;
-    //DJV_DEBUG_PRINT("info = " << _info);
-    _image.set(_info);
-}
+        TargaSave::TargaSave(const Targa::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options)
+        {}
 
-void djvTargaSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvTargaSave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
+        TargaSave::~TargaSave()
+        {}
 
-    // Open the file.
-    const QString fileName = _file.fileName(frame.frame);
-    djvFileIO io;
-    io.setEndian(djvMemory::endian() != djvMemory::LSB);
-    io.open(fileName, djvFileIO::WRITE);
-    djvTarga::saveInfo(
-        io,
-        _info,
-        _options.compression != djvTarga::COMPRESSION_NONE);
-
-    // Convert the image.
-    const djvPixelData * p = &in;
-    if (in.info() != _info)
-    {
-        //DJV_DEBUG_PRINT("convert = " << _image);
-        _image.zero();
-        djvOpenGLImage().copy(in, _image);
-        p = &_image;
-    }
-
-    // Write the file.
-    if (! _options.compression)
-    {
-        io.set(p->data(), p->dataByteCount());
-    }
-    else
-    {
-        const int w = p->w(), h = p->h();
-        const int channels = djvPixel::channels(p->info().pixel);
-        std::vector<quint8> scanline(w * channels * 2);
-        for (int y = 0; y < h; ++y)
+        void TargaSave::open(const djvFileInfo & in, const ImageIOInfo & info)
+            throw (djvError)
         {
-            const quint64 size = djvTarga::writeRle(p->data(0, y), scanline.data(), w, channels);
-            io.set(scanline.data(), size);
+            //DJV_DEBUG("TargaSave::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            if (info.sequence.frames.count() > 1)
+            {
+                _file.setType(djvFileInfo::SEQUENCE);
+            }
+            _info = PixelDataInfo();
+            _info.size = info.size;
+            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), Pixel::U8);
+            switch (Pixel::format(_info.pixel))
+            {
+            case Pixel::RGB:
+            case Pixel::RGBA: _info.bgr = true; break;
+            default: break;
+            }
+            _info.endian = djvMemory::LSB;
+            //DJV_DEBUG_PRINT("info = " << _info);
+            _image.set(_info);
         }
-    }
-}
+
+        void TargaSave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("TargaSave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            // Open the file.
+            const QString fileName = _file.fileName(frame.frame);
+            djvFileIO io;
+            io.setEndian(djvMemory::endian() != djvMemory::LSB);
+            io.open(fileName, djvFileIO::WRITE);
+            Targa::saveInfo(
+                io,
+                _info,
+                _options.compression != Targa::COMPRESSION_NONE);
+
+            // Convert the image.
+            const PixelData * p = &in;
+            if (in.info() != _info)
+            {
+                //DJV_DEBUG_PRINT("convert = " << _image);
+                _image.zero();
+                OpenGLImage().copy(in, _image);
+                p = &_image;
+            }
+
+            // Write the file.
+            if (!_options.compression)
+            {
+                io.set(p->data(), p->dataByteCount());
+            }
+            else
+            {
+                const int w = p->w(), h = p->h();
+                const int channels = Pixel::channels(p->info().pixel);
+                std::vector<quint8> scanline(w * channels * 2);
+                for (int y = 0; y < h; ++y)
+                {
+                    const quint64 size = Targa::writeRle(p->data(0, y), scanline.data(), w, channels);
+                    io.set(scanline.data(), size);
+                }
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

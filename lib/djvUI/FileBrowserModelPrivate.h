@@ -60,7 +60,7 @@ namespace djv
             const djvFileInfo & fileInfo() const;
 
             //! Get the image information.
-            const djvImageIOInfo & imageInfo() const;
+            const Graphics::ImageIOInfo & imageInfo() const;
 
             //! Get the thumbnail.
             const QPixmap & thumbnail() const;
@@ -93,9 +93,9 @@ namespace djv
             FileBrowserModel::THUMBNAILS _thumbnails;
             FileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
             glm::ivec2 _thumbnailSize = glm::ivec2(0, 0);
-            djvPixelDataInfo::PROXY _thumbnailProxy = static_cast<djvPixelDataInfo::PROXY>(0);
+            Graphics::PixelDataInfo::PROXY _thumbnailProxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
             bool _imageInfoRequest = false;
-            djvImageIOInfo _imageInfo;
+            Graphics::ImageIOInfo _imageInfo;
             bool _thumbnailRequest = false;
             QPixmap _thumbnail;
 

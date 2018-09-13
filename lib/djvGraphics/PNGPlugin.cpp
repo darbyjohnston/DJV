@@ -34,30 +34,33 @@
 #include <djvGraphics/PNGLoad.h>
 #include <djvGraphics/PNGSave.h>
 
-//------------------------------------------------------------------------------
-// djvPNGPlugin
-//------------------------------------------------------------------------------
-
-djvPNGPlugin::djvPNGPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvPNGPlugin::pluginName() const
+namespace djv
 {
-    return djvPNG::staticName;
-}
+    namespace Graphics
+    {
+        PNGPlugin::PNGPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-QStringList djvPNGPlugin::extensions() const
-{
-    return QStringList() << ".png";
-}
+        QString PNGPlugin::pluginName() const
+        {
+            return PNG::staticName;
+        }
 
-djvImageLoad * djvPNGPlugin::createLoad() const
-{
-    return new djvPNGLoad(context());
-}
+        QStringList PNGPlugin::extensions() const
+        {
+            return QStringList() << ".png";
+        }
 
-djvImageSave * djvPNGPlugin::createSave() const
-{
-    return new djvPNGSave(context());
-}
+        ImageLoad * PNGPlugin::createLoad() const
+        {
+            return new PNGLoad(context());
+        }
+
+        ImageSave * PNGPlugin::createSave() const
+        {
+            return new PNGSave(context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

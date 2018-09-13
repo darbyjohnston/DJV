@@ -249,7 +249,7 @@ namespace djv
             context()->viewPrefs()->setZoomFactor(static_cast<Util::ZOOM_FACTOR>(in));
         }
 
-        void ViewPrefsWidget::backgroundCallback(const djvColor & in)
+        void ViewPrefsWidget::backgroundCallback(const Graphics::Color & in)
         {
             _p->backgroundColorWidget->setColor(in);
             context()->viewPrefs()->setBackground(in);
@@ -260,7 +260,7 @@ namespace djv
             context()->viewPrefs()->setGrid(static_cast<Util::GRID>(in));
         }
 
-        void ViewPrefsWidget::gridColorCallback(const djvColor & in)
+        void ViewPrefsWidget::gridColorCallback(const Graphics::Color & in)
         {
             _p->gridColorWidget->setColor(in);
             context()->viewPrefs()->setGridColor(in);
@@ -279,7 +279,7 @@ namespace djv
             context()->viewPrefs()->setHudInfo(info);
         }
 
-        void ViewPrefsWidget::hudColorCallback(const djvColor & in)
+        void ViewPrefsWidget::hudColorCallback(const Graphics::Color & in)
         {
             _p->hudColorWidget->setColor(in);
             context()->viewPrefs()->setHudColor(in);
@@ -290,7 +290,7 @@ namespace djv
             context()->viewPrefs()->setHudBackground(static_cast<Util::HUD_BACKGROUND>(in));
         }
 
-        void ViewPrefsWidget::hudBackgroundColorCallback(const djvColor & in)
+        void ViewPrefsWidget::hudBackgroundColorCallback(const Graphics::Color & in)
         {
             _p->hudBackgroundColorWidget->setColor(in);
             context()->viewPrefs()->setHudBackgroundColor(in);

@@ -34,54 +34,51 @@
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/PixelData.h>
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPixelDataUtil
-//!
-//! This class provides pixel data utilities.
-//------------------------------------------------------------------------------
-
-class djvPixelDataUtil
+namespace djv
 {
-public:
+    namespace Graphics
+    {
+        //! \class PixelDataUtil
+        //!
+        //! This class provides pixel data utilities.
+        class PixelDataUtil
+        {
+        public:
+            virtual ~PixelDataUtil();
 
-    virtual ~djvPixelDataUtil();
-    
-    //! Get the number of bytes in a scanline.
-    static quint64 scanlineByteCount(const djvPixelDataInfo &);
+            //! Get the number of bytes in a scanline.
+            static quint64 scanlineByteCount(const PixelDataInfo &);
 
-    //! Get the number of bytes in the data.
-    static quint64 dataByteCount(const djvPixelDataInfo &);
+            //! Get the number of bytes in the data.
+            static quint64 dataByteCount(const PixelDataInfo &);
 
-    //! Proxy scale pixel data.
-    static void proxyScale(
-        const djvPixelData &,
-        djvPixelData &,
-        djvPixelDataInfo::PROXY);
+            //! Proxy scale pixel data.
+            static void proxyScale(
+                const PixelData &,
+                PixelData &,
+                PixelDataInfo::PROXY);
 
-    //! Calculate the proxy scale.
-    static int proxyScale(djvPixelDataInfo::PROXY);
+            //! Calculate the proxy scale.
+            static int proxyScale(PixelDataInfo::PROXY);
 
-    //! Calculate the size of a proxy scale.
-    static glm::ivec2 proxyScale(const glm::ivec2 &, djvPixelDataInfo::PROXY);
+            //! Calculate the size of a proxy scale.
+            static glm::ivec2 proxyScale(const glm::ivec2 &, PixelDataInfo::PROXY);
 
-    //! Calculate the size of a proxy scale.
-    static djvBox2i proxyScale(const djvBox2i &, djvPixelDataInfo::PROXY);
+            //! Calculate the size of a proxy scale.
+            static djvBox2i proxyScale(const djvBox2i &, PixelDataInfo::PROXY);
 
-    //! Interleave pixel data channels.
-    static void planarInterleave(
-        const djvPixelData &,
-        djvPixelData &,
-        djvPixelDataInfo::PROXY = djvPixelDataInfo::PROXY_NONE);
+            //! Interleave pixel data channels.
+            static void planarInterleave(
+                const PixelData &,
+                PixelData &,
+                PixelDataInfo::PROXY = PixelDataInfo::PROXY_NONE);
 
-    //! De-interleave pixel data channels.
-    static void planarDeinterleave(const djvPixelData &, djvPixelData &);
+            //! De-interleave pixel data channels.
+            static void planarDeinterleave(const PixelData &, PixelData &);
 
-    //! Create a linear gradient.
-    static void gradient(djvPixelData &);
-};
+            //! Create a linear gradient.
+            static void gradient(PixelData &);
+        };
 
-//@} // djvGraphicsImage
-
+    } // namespace Graphics
+} // namespace djv

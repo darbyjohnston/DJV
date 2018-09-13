@@ -35,101 +35,78 @@
 
 #include <djvCore/FileIO.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvTargaPlugin djvTargaPlugin
-//!
-//! This plugin provides support for the Targa image file format.
-//!
-//! File extensions: .tga
-//!
-//! Supported features:
-//!
-//! - 8-bit Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
-//!   Second Edition"
-
-//@} // plugins
-
-//! \addtogroup djvTargaPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvTarga
-//!
-//! This struct provides Targa utilities.
-//------------------------------------------------------------------------------
-
-struct djvTarga
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file compression.
-    enum COMPRESSION
+    namespace Graphics
     {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
+        //! \struct Targa
+        //!
+        //! This struct provides Targa utilities.
+        struct Targa
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        COMPRESSION_COUNT
-    };
+            //! This enumeration provides the file compression.
+            enum COMPRESSION
+            {
+                COMPRESSION_NONE,
+                COMPRESSION_RLE,
 
-    //! Get compression labels.
-    static const QStringList & compressionLabels();
+                COMPRESSION_COUNT
+            };
 
-    //! Load information.
-    static void loadInfo(
-        djvFileIO &      io,
-        djvImageIOInfo & info,
-        bool *           compression) throw (djvError);
+            //! Get compression labels.
+            static const QStringList & compressionLabels();
 
-    //! Save information.
-    static void saveInfo(
-        djvFileIO &            io,
-        const djvImageIOInfo & info,
-        bool                   compression) throw (djvError);
+            //! Load information.
+            static void loadInfo(
+                djvFileIO &   io,
+                ImageIOInfo & info,
+                bool *        compression) throw (djvError);
 
-    //! Load RLE data.
-    static const quint8 * readRle(
-        const quint8 * in,
-        const quint8 * end,
-        quint8 *       out,
-        int            size,
-        int            channels);
+            //! Save information.
+            static void saveInfo(
+                djvFileIO &         io,
+                const ImageIOInfo & info,
+                bool                compression) throw (djvError);
 
-    //! Save RLE data.
-    static quint64 writeRle(
-        const quint8 * in,
-        quint8 *       out,
-        int            size,
-        int            channels);
+            //! Load RLE data.
+            static const quint8 * readRle(
+                const quint8 * in,
+                const quint8 * end,
+                quint8 *       out,
+                int            size,
+                int            channels);
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
+            //! Save RLE data.
+            static quint64 writeRle(
+                const quint8 * in,
+                quint8 *       out,
+                int            size,
+                int            channels);
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                COMPRESSION_OPTION,
 
-    //! Get option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get option labels.
+            static const QStringList & optionsLabels();
 
-        COMPRESSION compression;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-DJV_STRING_OPERATOR(djvTarga::COMPRESSION);
+                COMPRESSION compression;
+            };
+        };
 
-//@} // djvTargaPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::Targa::COMPRESSION);

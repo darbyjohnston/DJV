@@ -33,110 +33,87 @@
 
 #include <djvCore/FileIO.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvPPMPlugin djvPPMPlugin
-//!
-//! This plugin provides support for the NetPBM image file format.
-//!
-//! File extensions: .ppm, pnm, .pgm, .pbm
-//!
-//! Supported features:
-//!
-//! - 1-bit, 8-bit, 16-bit, Luminance, RGB
-//! - Binary and ASCII data
-//!
-//! References:
-//!
-//! - Netpbm, "PPM Format Specification"
-//!   http://netpbm.sourceforge.net/doc/ppm.html
-
-//@} // plugins
-
-//! \addtogroup djvPPMPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvPPM
-//!
-//! This struct provides PPM utilities.
-//------------------------------------------------------------------------------
-
-struct djvPPM
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file types.
-    enum TYPE
+    namespace Graphics
     {
-        TYPE_AUTO,
-        TYPE_U1,
+        //! \struct PPM
+        //!
+        //! This struct provides PPM utilities.
+        struct PPM
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        TYPE_COUNT
-    };
+            //! This enumeration provides the file types.
+            enum TYPE
+            {
+                TYPE_AUTO,
+                TYPE_U1,
 
-    //! Get the type labels.
-    static const QStringList & typeLabels();
+                TYPE_COUNT
+            };
 
-    //! This enumeration provides the file data types.
-    enum DATA
-    {
-        DATA_ASCII,
-        DATA_BINARY,
+            //! Get the type labels.
+            static const QStringList & typeLabels();
 
-        DATA_COUNT
-    };
+            //! This enumeration provides the file data types.
+            enum DATA
+            {
+                DATA_ASCII,
+                DATA_BINARY,
 
-    //! Get the data labels.
-    static const QStringList & dataLabels();
+                DATA_COUNT
+            };
 
-    //! Get the number of bytes in a scanline.
-    static quint64 scanlineByteCount(
-        int  width,
-        int  channels,
-        int  bitDepth,
-        DATA data);
+            //! Get the data labels.
+            static const QStringList & dataLabels();
 
-    //! Load ASCII data.
-    static void asciiLoad(
-        djvFileIO & io,
-        void *      out,
-        int         size,
-        int         bitDepth) throw (djvError);
+            //! Get the number of bytes in a scanline.
+            static quint64 scanlineByteCount(
+                int  width,
+                int  channels,
+                int  bitDepth,
+                DATA data);
 
-    //! Save ASCII data.
-    static quint64 asciiSave(
-        const void * in,
-        void *       out,
-        int          size,
-        int          bitDepth);
+            //! Load ASCII data.
+            static void asciiLoad(
+                djvFileIO & io,
+                void *      out,
+                int         size,
+                int         bitDepth) throw (djvError);
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        TYPE_OPTION,
-        DATA_OPTION,
+            //! Save ASCII data.
+            static quint64 asciiSave(
+                const void * in,
+                void *       out,
+                int          size,
+                int          bitDepth);
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                TYPE_OPTION,
+                DATA_OPTION,
 
-    //! Get the option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
 
-        TYPE type;
-        DATA data;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-DJV_STRING_OPERATOR(djvPPM::TYPE);
-DJV_STRING_OPERATOR(djvPPM::DATA);
+                TYPE type;
+                DATA data;
+            };
+        };
 
-//@} // djvPPMPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::PPM::TYPE);
+DJV_STRING_OPERATOR(djv::Graphics::PPM::DATA);

@@ -63,7 +63,7 @@ namespace djv
             bool hasFrameStore() const;
 
             //! Get the mirror.
-            const djvPixelDataInfo::Mirror & mirror() const;
+            const Graphics::PixelDataInfo::Mirror & mirror() const;
 
             //! Get the scale.
             Util::IMAGE_SCALE scale() const;
@@ -78,7 +78,7 @@ namespace djv
             const DisplayProfile & displayProfile() const;
 
             //! Get the image channel.
-            djvOpenGLImageOptions::CHANNEL channel() const;
+            Graphics::OpenGLImageOptions::CHANNEL channel() const;
 
             virtual QToolBar * toolBar() const;
 
@@ -104,7 +104,7 @@ namespace djv
 
         private Q_SLOTS:
             void frameStoreCallback(bool);
-            void mirrorCallback(const djvPixelDataInfo::Mirror &);
+            void mirrorCallback(const djv::Graphics::PixelDataInfo::Mirror &);
             void mirrorHCallback(bool);
             void mirrorVCallback(bool);
             void scaleCallback(djv::ViewLib::Util::IMAGE_SCALE);
@@ -113,7 +113,7 @@ namespace djv
             void rotateCallback(QAction *);
             void colorProfileCallback(bool);
             void displayProfileCallback(QAction *);
-            void channelCallback(djvOpenGLImageOptions::CHANNEL);
+            void channelCallback(djv::Graphics::OpenGLImageOptions::CHANNEL);
             void channelCallback(QAction *);
 
             void update();

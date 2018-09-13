@@ -37,37 +37,32 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvPPMPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPPMSave
-//!
-//! This class provides a PPM saver.
-//------------------------------------------------------------------------------
-
-class djvPPMSave : public djvImageSave
+namespace djv
 {
-public:
-    djvPPMSave(const djvPPM::Options &, djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class PPMSave
+        //!
+        //! This class provides a PPM saver.
+        class PPMSave : public ImageSave
+        {
+        public:
+            PPMSave(const PPM::Options &, djvCoreContext *);
 
-    virtual ~djvPPMSave();
+            virtual ~PPMSave();
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, djvFileIO &) throw (djvError);
 
-private:
-    void _open(const QString &, djvFileIO &) throw (djvError);
+            PPM::Options  _options;
+            djvFileInfo   _file;
+            int           _bitDepth;
+            PixelDataInfo _info;
+            Image         _image;
+        };
 
-    djvPPM::Options  _options;
-    djvFileInfo      _file;
-    int              _bitDepth;
-    djvPixelDataInfo _info;
-    djvImage         _image;
-};
-
-//@} // djvPPMPlugin
-
+    } // namespace Graphics
+} // namespace djv

@@ -36,36 +36,35 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvJPEG::Options
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvJPEG::Options::Options() :
-    quality(90)
-{}
-
-//------------------------------------------------------------------------------
-// djvJPEG
-//------------------------------------------------------------------------------
-
-const QString djvJPEG::staticName = "JPEG";
-
-const QStringList & djvJPEG::optionsLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvJPEG", "Quality");
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-    return data;
-}
+    namespace Graphics
+    {
+        JPEG::Options::Options() :
+            quality(90)
+        {}
 
-//------------------------------------------------------------------------------
+        const QString JPEG::staticName = "JPEG";
+
+        const QStringList & JPEG::optionsLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::JPEG", "Quality");
+            DJV_ASSERT(data.count() == OPTIONS_COUNT);
+            return data;
+        }
+
+    } // namespace Graphics
+} // namespace djv
 
 extern "C"
 {
 
 void djvJPEGError(libjpeg::j_common_ptr in)
 {
-    djvJPEGErrorStruct * error = (djvJPEGErrorStruct *)in->err;
+    Graphics::JPEGErrorStruct * error = (Graphics::JPEGErrorStruct *)in->err;
     in->err->format_message(in, error->msg);
     ::longjmp(error->jump, 1);
 }
@@ -74,7 +73,7 @@ void djvJPEGWarning(libjpeg::j_common_ptr in, int level)
 {
     if (level > 0)
         return;
-    djvJPEGErrorStruct * error = (djvJPEGErrorStruct *)in->err;
+    Graphics::JPEGErrorStruct * error = (Graphics::JPEGErrorStruct *)in->err;
     in->err->format_message(in, error->msg);
     ::longjmp(error->jump, 1);
 }

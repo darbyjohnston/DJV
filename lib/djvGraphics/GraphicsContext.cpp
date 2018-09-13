@@ -72,215 +72,212 @@
 
 #include <sstream>
 
-//------------------------------------------------------------------------------
-// djvGraphicsContext::Private
-//------------------------------------------------------------------------------
-
-struct djvGraphicsContext::Private
+namespace djv
 {
-    QScopedPointer<QOffscreenSurface> offscreenSurface;
-    QScopedPointer<QOpenGLContext> openGlContext;
-    QScopedPointer<djvImageIOFactory> imageIOFactory;
-};
+    namespace Graphics
+    {
+        struct GraphicsContext::Private
+        {
+            QScopedPointer<QOffscreenSurface> offscreenSurface;
+            QScopedPointer<QOpenGLContext> openGlContext;
+            QScopedPointer<ImageIOFactory> imageIOFactory;
+        };
 
-//------------------------------------------------------------------------------
-// djvGraphicsContext
-//------------------------------------------------------------------------------
+        GraphicsContext::GraphicsContext(QObject * parent) :
+            djvCoreContext(parent),
+            _p(new Private)
+        {
+            //DJV_DEBUG("GraphicsContext::GraphicsContext");
 
-djvGraphicsContext::djvGraphicsContext(QObject * parent) :
-    djvCoreContext(parent),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvGraphicsContext::djvGraphicsContext");
-    
-    // Register meta types.
-    qRegisterMetaType<djvImage>("djvImage");
-    qRegisterMetaType<djvImageIOInfo>("djvImageIOInfo");
-    
-    // Create the default OpenGL context.
-    DJV_LOG(debugLog(), "djvGraphicsContext",
-        "Creating the default OpenGL context...");
+            // Register meta types.
+            qRegisterMetaType<Image>("djv::Graphics::Image");
+            qRegisterMetaType<ImageIOInfo>("djvGraphics::ImageIOInfo");
 
-    QSurfaceFormat defaultFormat;
-    defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
-    defaultFormat.setMajorVersion(4);
-    defaultFormat.setMinorVersion(1);
-    defaultFormat.setProfile(QSurfaceFormat::CoreProfile);
-    QSurfaceFormat::setDefaultFormat(defaultFormat);
+            // Create the default OpenGL context.
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
+                "Creating the default OpenGL context...");
 
-    _p->offscreenSurface.reset(new QOffscreenSurface);
-    QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
-    surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
-    surfaceFormat.setSamples(1);
-    _p->offscreenSurface->setFormat(surfaceFormat);
-    _p->offscreenSurface->create();
-    _p->openGlContext.reset(new QOpenGLContext);
-    _p->openGlContext->setFormat(surfaceFormat);
-    _p->openGlContext->create();
-    _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
+            QSurfaceFormat defaultFormat;
+            defaultFormat.setRenderableType(QSurfaceFormat::OpenGL);
+            defaultFormat.setMajorVersion(4);
+            defaultFormat.setMinorVersion(1);
+            defaultFormat.setProfile(QSurfaceFormat::CoreProfile);
+            QSurfaceFormat::setDefaultFormat(defaultFormat);
 
-    DJV_LOG(debugLog(), "djvGraphicsContext", "");
+            _p->offscreenSurface.reset(new QOffscreenSurface);
+            QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
+            surfaceFormat.setSwapBehavior(QSurfaceFormat::SingleBuffer);
+            surfaceFormat.setSamples(1);
+            _p->offscreenSurface->setFormat(surfaceFormat);
+            _p->offscreenSurface->create();
+            _p->openGlContext.reset(new QOpenGLContext);
+            _p->openGlContext->setFormat(surfaceFormat);
+            _p->openGlContext->create();
+            _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
 
-    //! Create the image I/O plugins.
-    DJV_LOG(debugLog(), "djvGraphicsContext", "Loading image I/O plugins...");
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
 
-    _p->imageIOFactory.reset(new djvImageIOFactory(this));
-    _p->imageIOFactory->addPlugin(new djvCineonPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvDPXPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvIFFPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvIFLPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvLUTPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvPICPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvPPMPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvRLAPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvSGIPlugin(this));
-    _p->imageIOFactory->addPlugin(new djvTargaPlugin(this));
+            //! Create the image I/O plugins.
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Loading image I/O plugins...");
+
+            _p->imageIOFactory.reset(new ImageIOFactory(this));
+            _p->imageIOFactory->addPlugin(new CineonPlugin(this));
+            _p->imageIOFactory->addPlugin(new DPXPlugin(this));
+            _p->imageIOFactory->addPlugin(new IFFPlugin(this));
+            _p->imageIOFactory->addPlugin(new IFLPlugin(this));
+            _p->imageIOFactory->addPlugin(new LUTPlugin(this));
+            _p->imageIOFactory->addPlugin(new PICPlugin(this));
+            _p->imageIOFactory->addPlugin(new PPMPlugin(this));
+            _p->imageIOFactory->addPlugin(new RLAPlugin(this));
+            _p->imageIOFactory->addPlugin(new SGIPlugin(this));
+            _p->imageIOFactory->addPlugin(new TargaPlugin(this));
 #if defined(JPEG_FOUND)
-    _p->imageIOFactory->addPlugin(new djvJPEGPlugin(this));
+            _p->imageIOFactory->addPlugin(new JPEGPlugin(this));
 #endif // JPEG_FOUND
 #if defined(PNG_FOUND)
-    _p->imageIOFactory->addPlugin(new djvPNGPlugin(this));
+            _p->imageIOFactory->addPlugin(new PNGPlugin(this));
 #endif // PNG_FOUND
 #if defined(TIFF_FOUND)
-    _p->imageIOFactory->addPlugin(new djvTIFFPlugin(this));
+            _p->imageIOFactory->addPlugin(new TIFFPlugin(this));
 #endif // TIFF_FOUND
 #if defined(OPENEXR_FOUND)
-    _p->imageIOFactory->addPlugin(new djvOpenEXRPlugin(this));
+            _p->imageIOFactory->addPlugin(new OpenEXRPlugin(this));
 #endif // OPENEXR_FOUND
 #if defined(FFMPEG_FOUND)
-    _p->imageIOFactory->addPlugin(new djvFFmpegPlugin(this));
+            _p->imageIOFactory->addPlugin(new FFmpegPlugin(this));
 #endif // FFMPEG_FOUND
 
-    DJV_LOG(debugLog(), "djvGraphicsContext", "");
-    DJV_LOG(debugLog(), "djvGraphicsContext", "Information:");
-    DJV_LOG(debugLog(), "djvGraphicsContext", "");
-    DJV_LOG(debugLog(), "djvGraphicsContext", info());
-}
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "Information:");
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", "");
+            DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext", info());
+        }
 
-djvGraphicsContext::~djvGraphicsContext()
-{
-    //DJV_DEBUG("djvGraphicsContext::~djvGraphicsContext");
+        GraphicsContext::~GraphicsContext()
+        {
+            //DJV_DEBUG("GraphicsContext::~GraphicsContext");
 #if defined(DJV_WINDOWS)
     //! \todo On Windows deleting the image factory causes the application
     //! to hang on exit.
-    _p->imageIOFactory.take();
+            _p->imageIOFactory.take();
 #endif // DJV_WINDOWS
-}
-
-djvImageIOFactory * djvGraphicsContext::imageIOFactory() const
-{
-    return _p->imageIOFactory.data();
-}
-
-QOpenGLContext * djvGraphicsContext::openGlContext() const
-{
-    return _p->openGlContext.data();
-}
-
-void djvGraphicsContext::makeGLContextCurrent()
-{
-    _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
-}
-
-QString djvGraphicsContext::info() const
-{
-    static const QString label = qApp->translate("djvGraphicsContext",
-"%1"
-"\n"
-"OpenGL\n"
-"\n"
-"    Version: %2.%3\n"
-"    Render filter: %4, %5\n"
-"\n"
-"Image I/O\n"
-"\n"
-"    Plugins: %6\n");
-    return QString(label).
-        arg(djvCoreContext::info()).
-        arg(_p->openGlContext->format().majorVersion()).
-        arg(_p->openGlContext->format().minorVersion()).
-        arg(djvStringUtil::label(djvOpenGLImageFilter::filter().min).join(", ")).
-        arg(djvStringUtil::label(djvOpenGLImageFilter::filter().mag).join(", ")).
-        arg(_p->imageIOFactory->names().join(", "));
-}
-
-bool djvGraphicsContext::commandLineParse(QStringList & in) throw (QString)
-{
-    //DJV_DEBUG("djvGraphicsContext::commandLineParse");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    if (! djvCoreContext::commandLineParse(in))
-        return false;
-
-    Q_FOREACH (djvPlugin * plugin, _p->imageIOFactory->plugins())
-    {
-        djvImageIO * io = static_cast<djvImageIO *>(plugin);
-        io->commandLine(in);
-    }
-
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
-        {
-            in >> arg;
-
-            // OpenGL options.
-            if (qApp->translate("djvGraphicsContext", "-render_filter") == arg)
-            {
-                djvOpenGLImageFilter value;
-                in >> value;
-                djvOpenGLImageFilter::setFilter(value);
-            }
-            else if (qApp->translate("djvGraphicsContext", "-render_filter_high") == arg)
-            {
-                djvOpenGLImageFilter::setFilter(djvOpenGLImageFilter::filterHighQuality());
-            }
-
-            // Leftovers.
-            else
-            {
-                tmp << arg;
-            }
         }
-    }
-    catch (const QString &)
-    {
-        in = tmp;
-        throw QString(arg);
-    }
 
-    in = tmp;
-    return true;
-}
+        ImageIOFactory * GraphicsContext::imageIOFactory() const
+        {
+            return _p->imageIOFactory.data();
+        }
 
-QString djvGraphicsContext::commandLineHelp() const
-{
-    QString imageIOHelp;
-    Q_FOREACH(djvPlugin * plugin, _p->imageIOFactory->plugins())
-    {
-        djvImageIO * io = static_cast<djvImageIO *>(plugin);
-        
-        imageIOHelp += io->commandLineHelp();
-    }
-    static const QString label = qApp->translate("djvGraphicsContext",
-"%1"
-"\n"
-"OpenGL Options\n"
-"\n"
-"    -render_filter (zoom out) (zoom in)\n"
-"        Set the render filter. Options = %2. Default = %3, %4.\n"
-"    -render_filter_high\n"
-"        Set the render filter to high quality settings (%5, %6).\n"
-"%7");
-    return QString(label).
-        arg(imageIOHelp).
-        arg(djvOpenGLImageFilter::filterLabels().join(", ")).
-        arg(djvStringUtil::label(djvOpenGLImageFilter::filter().min).join(", ")).
-        arg(djvStringUtil::label(djvOpenGLImageFilter::filter().mag).join(", ")).
-        arg(djvStringUtil::label(djvOpenGLImageFilter::filterHighQuality().min).join(", ")).
-        arg(djvStringUtil::label(djvOpenGLImageFilter::filterHighQuality().mag).join(", ")).
-        arg(djvCoreContext::commandLineHelp());
-}
+        QOpenGLContext * GraphicsContext::openGlContext() const
+        {
+            return _p->openGlContext.data();
+        }
 
+        void GraphicsContext::makeGLContextCurrent()
+        {
+            _p->openGlContext->makeCurrent(_p->offscreenSurface.data());
+        }
+
+        QString GraphicsContext::info() const
+        {
+            static const QString label = qApp->translate("djv::Graphics::GraphicsContext",
+                "%1"
+                "\n"
+                "OpenGL\n"
+                "\n"
+                "    Version: %2.%3\n"
+                "    Render filter: %4, %5\n"
+                "\n"
+                "Image I/O\n"
+                "\n"
+                "    Plugins: %6\n");
+            return QString(label).
+                arg(djvCoreContext::info()).
+                arg(_p->openGlContext->format().majorVersion()).
+                arg(_p->openGlContext->format().minorVersion()).
+                arg(djvStringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
+                arg(djvStringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
+                arg(_p->imageIOFactory->names().join(", "));
+        }
+
+        bool GraphicsContext::commandLineParse(QStringList & in) throw (QString)
+        {
+            //DJV_DEBUG("GraphicsContext::commandLineParse");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            if (!djvCoreContext::commandLineParse(in))
+                return false;
+
+            Q_FOREACH(djvPlugin * plugin, _p->imageIOFactory->plugins())
+            {
+                ImageIO * io = static_cast<ImageIO *>(plugin);
+                io->commandLine(in);
+            }
+
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+
+                    // OpenGL options.
+                    if (qApp->translate("djv::Graphics::GraphicsContext", "-render_filter") == arg)
+                    {
+                        OpenGLImageFilter value;
+                        in >> value;
+                        OpenGLImageFilter::setFilter(value);
+                    }
+                    else if (qApp->translate("djv::Graphics::GraphicsContext", "-render_filter_high") == arg)
+                    {
+                        OpenGLImageFilter::setFilter(OpenGLImageFilter::filterHighQuality());
+                    }
+
+                    // Leftovers.
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                in = tmp;
+                throw QString(arg);
+            }
+
+            in = tmp;
+            return true;
+        }
+
+        QString GraphicsContext::commandLineHelp() const
+        {
+            QString imageIOHelp;
+            Q_FOREACH(djvPlugin * plugin, _p->imageIOFactory->plugins())
+            {
+                ImageIO * io = static_cast<ImageIO *>(plugin);
+                imageIOHelp += io->commandLineHelp();
+            }
+            static const QString label = qApp->translate("djv::Graphics::GraphicsContext",
+                "%1"
+                "\n"
+                "OpenGL Options\n"
+                "\n"
+                "    -render_filter (zoom out) (zoom in)\n"
+                "        Set the render filter. Options = %2. Default = %3, %4.\n"
+                "    -render_filter_high\n"
+                "        Set the render filter to high quality settings (%5, %6).\n"
+                "%7");
+            return QString(label).
+                arg(imageIOHelp).
+                arg(OpenGLImageFilter::filterLabels().join(", ")).
+                arg(djvStringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
+                arg(djvStringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
+                arg(djvStringUtil::label(OpenGLImageFilter::filterHighQuality().min).join(", ")).
+                arg(djvStringUtil::label(OpenGLImageFilter::filterHighQuality().mag).join(", ")).
+                arg(djvCoreContext::commandLineHelp());
+        }
+
+    } // namespace Graphics
+} // namespace djv

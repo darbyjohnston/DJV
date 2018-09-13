@@ -38,45 +38,39 @@
 
 #include <ImfInputFile.h>
 
-//! \addtogroup djvOpenEXRPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenEXRLoad
-//!
-//! This class provides an OpenEXR loader.
-//!
-//! \todo Add support for luminance/chroma images.
-//------------------------------------------------------------------------------
-
-class djvOpenEXRLoad : public djvImageLoad
+namespace djv
 {
-public:
-    djvOpenEXRLoad(const djvOpenEXR::Options &, djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class OpenEXRLoad
+        //!
+        //! This class provides an OpenEXR loader.
+        //!
+        //! \todo Add support for luminance/chroma images.
+        class OpenEXRLoad : public ImageLoad
+        {
+        public:
+            OpenEXRLoad(const OpenEXR::Options &, djvCoreContext *);
 
-    virtual ~djvOpenEXRLoad();
+            virtual ~OpenEXRLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &) throw (djvError);
 
-    virtual void close() throw (djvError);
-    
-private:
-    void _open(const QString &, djvImageIOInfo &) throw (djvError);
+            OpenEXR::Options        _options;
+            djvFileInfo             _file;
+            Imf::InputFile *        _f;
+            djvBox2i                _displayWindow;
+            djvBox2i                _dataWindow;
+            djvBox2i                _intersectedWindow;
+            QVector<OpenEXR::Layer> _layers;
+            PixelData               _tmp;
+            bool                    _fast;
+        };
 
-    djvOpenEXR::Options        _options;
-    djvFileInfo                _file;
-    Imf::InputFile *           _f;
-    djvBox2i                   _displayWindow;
-    djvBox2i                   _dataWindow;
-    djvBox2i                   _intersectedWindow;
-    QVector<djvOpenEXR::Layer> _layers;
-    djvPixelData               _tmp;
-    bool                       _fast;
-};
-
-//@} // djvOpenEXRPlugin
-
+    } // namespace Graphics
+} // namespace djv

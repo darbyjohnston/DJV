@@ -47,12 +47,12 @@ namespace djv
     {
         struct ColorDialog::Private
         {
-            Private(const djvColor & color, UIContext * context) :
+            Private(const Graphics::Color & color, UIContext * context) :
                 color(color),
                 context(context)
             {}
 
-            djvColor color;
+            Graphics::Color color;
             ColorWidget * widget = nullptr;
             ColorSwatch * swatch = nullptr;
             UIContext * context = nullptr;
@@ -87,8 +87,8 @@ namespace djv
             // Setup the callbacks.
             connect(
                 _p->widget,
-                SIGNAL(colorChanged(const djvColor &)),
-                SLOT(widgetCallback(const djvColor &)));
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(widgetCallback(const djv::Graphics::Color &)));
             connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
         }
 
@@ -96,13 +96,13 @@ namespace djv
             UIContext * context,
             QWidget * parent) :
             QDialog(parent),
-            _p(new Private(djvColor(), context))
+            _p(new Private(Graphics::Color(), context))
         {
             init();
         }
 
         ColorDialog::ColorDialog(
-            const djvColor & color,
+            const Graphics::Color & color,
             UIContext * context,
             QWidget * parent) :
             QDialog(parent),
@@ -114,12 +114,12 @@ namespace djv
         ColorDialog::~ColorDialog()
         {}
 
-        const djvColor & ColorDialog::color() const
+        const Graphics::Color & ColorDialog::color() const
         {
             return _p->color;
         }
 
-        void ColorDialog::setColor(const djvColor & in)
+        void ColorDialog::setColor(const Graphics::Color & in)
         {
             if (in == _p->color)
                 return;
@@ -128,7 +128,7 @@ namespace djv
             Q_EMIT colorChanged(_p->color);
         }
 
-        void ColorDialog::widgetCallback(const djvColor & in)
+        void ColorDialog::widgetCallback(const Graphics::Color & in)
         {
             setColor(in);
         }

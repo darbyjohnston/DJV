@@ -35,6 +35,8 @@
 #include <djvCore/Debug.h>
 #include <djvGraphics/Image.h>
 
+using namespace djv;
+
 void djvImageTest::run(int &, char **)
 {
     DJV_DEBUG("djvImageTest::run");
@@ -46,12 +48,12 @@ void djvImageTest::ctors()
 {
     DJV_DEBUG("djvImageTest::ctors");
     {
-        const djvImage image;
+        const Graphics::Image image;
         DJV_ASSERT(image.data() == 0);
     }
     {
-        const djvImage image(djvPixelDataInfo(32, 32, djvPixel::RGBA_U8));
-        djvImage other(image);
+        const Graphics::Image image(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::RGBA_U8));
+        Graphics::Image other(image);
         DJV_ASSERT(other.info() == image.info());
     }
 }
@@ -60,15 +62,15 @@ void djvImageTest::operators()
 {
     DJV_DEBUG("djvImageTest::operators");
     {
-        djvImage
-            a(djvPixelDataInfo(1, 1, djvPixel::L_U8)),
-            b(djvPixelDataInfo(1, 1, djvPixel::L_U8));
+        Graphics::Image
+            a(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8)),
+            b(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8));
         a.data()[0] = b.data()[0] = 127;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvImage());
+        DJV_ASSERT(a != Graphics::Image());
     }
     {
-        DJV_DEBUG_PRINT(djvImage());
+        DJV_DEBUG_PRINT(Graphics::Image());
     }
 }
 

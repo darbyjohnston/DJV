@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            TIFFWidget(djvImageIO *, UIContext *);
+            TIFFWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~TIFFWidget();
 
@@ -63,8 +63,8 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvTIFF::Options _options;
-            QComboBox *      _compressionWidget;
+            Graphics::TIFF::Options _options;
+            QComboBox * _compressionWidget = nullptr;
         };
 
         //! \class TIFFWidgetPlugin
@@ -75,7 +75,7 @@ namespace djv
         public:
             TIFFWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

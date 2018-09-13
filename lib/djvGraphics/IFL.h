@@ -33,37 +33,17 @@
 
 #include <QString>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvIFLPlugin djvIFLPlugin
-//!
-//! This plugin provides support for the Autodesk Image File List (IFL) format.
-//! IFL is a file format for creating sequences or playlists of other image
-//! files. An IFL file simply consists of a list of image file names, one per
-//! line.
-//!
-//! File extensions: .ifl
-//!
-//! Supported features:
-//!
-//! - Read only
-
-//@} // plugins
-
-//! \addtogroup djvIFLPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvIFL
-//!
-//! This struct provides IFL utilities.
-//------------------------------------------------------------------------------
-
-struct djvIFL
+namespace djv
 {
-    static const QString staticName;
-};
+    namespace Graphics
+    {
+        //! \struct IFL
+        //!
+        //! This struct provides IFL utilities.
+        struct IFL
+        {
+            static const QString staticName;
+        };
 
-//@} // djvIFLPlugin
-
+    } // namespace Graphics
+} // namespace djv

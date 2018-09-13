@@ -35,6 +35,8 @@
 #include <djvGraphics/ColorProfile.h>
 #include <djvCore/Debug.h>
 
+using namespace djv;
+
 void djvColorProfileTest::run(int &, char **)
 {
     DJV_DEBUG("djvColorProfileTest::run");
@@ -46,22 +48,22 @@ void djvColorProfileTest::ctors()
 {
     DJV_DEBUG("djvColorProfileTest::ctors");
     {
-        const djvColorProfile::Exposure exposure;
+        const Graphics::ColorProfile::Exposure exposure;
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.value));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.defog));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.kneeLow));
         DJV_ASSERT(djvMath::fuzzyCompare(5.f, exposure.kneeHigh));
     }
     {
-        const djvColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
+        const Graphics::ColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, exposure.value));
         DJV_ASSERT(djvMath::fuzzyCompare(2.f, exposure.defog));
         DJV_ASSERT(djvMath::fuzzyCompare(3.f, exposure.kneeLow));
         DJV_ASSERT(djvMath::fuzzyCompare(4.f, exposure.kneeHigh));
     }
     {
-        const djvColorProfile colorProfile;
-        DJV_ASSERT(djvColorProfile::RAW == colorProfile.type);
+        const Graphics::ColorProfile colorProfile;
+        DJV_ASSERT(Graphics::ColorProfile::RAW == colorProfile.type);
         DJV_ASSERT(djvMath::fuzzyCompare(2.2f, colorProfile.gamma));
         DJV_ASSERT(! colorProfile.lut.isValid());
     }
@@ -71,20 +73,20 @@ void djvColorProfileTest::operators()
 {
     DJV_DEBUG("djvColorProfileTest::operators");
     {
-        djvColorProfile a, b;
-        a.type     = b.type     = djvColorProfile::LUT;
+        Graphics::ColorProfile a, b;
+        a.type     = b.type     = Graphics::ColorProfile::LUT;
         a.gamma    = b.gamma    = 1.f;
-        a.lut      = b.lut      = djvPixelData(djvPixelDataInfo(16, 1, djvPixel::L_U8));
-        a.exposure = b.exposure = djvColorProfile::Exposure(1.f, 2.f, 3.f, 4.f);
+        a.lut      = b.lut      = Graphics::PixelData(Graphics::PixelDataInfo(16, 1, Graphics::Pixel::L_U8));
+        a.exposure = b.exposure = Graphics::ColorProfile::Exposure(1.f, 2.f, 3.f, 4.f);
         a.lut.zero();
         b.lut.zero();
         DJV_ASSERT(a.exposure == b.exposure);
-        DJV_ASSERT(a.exposure != djvColorProfile::Exposure());
+        DJV_ASSERT(a.exposure != Graphics::ColorProfile::Exposure());
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvColorProfile());
+        DJV_ASSERT(a != Graphics::ColorProfile());
     }
     {
-        djvColorProfile::Exposure exposure;
+        Graphics::ColorProfile::Exposure exposure;
         QStringList s = QStringList() << "1.0" << "2.0" << "3.0" << "4.0";
         s >> exposure;
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, exposure.value));
@@ -93,31 +95,31 @@ void djvColorProfileTest::operators()
         DJV_ASSERT(djvMath::fuzzyCompare(4.f, exposure.kneeHigh));
     }
     {
-        djvColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
+        Graphics::ColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
         QStringList s;
         s << exposure;
         DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4") == s);
     }
     {
-        const djvColorProfile::Exposure a(1.f, 2.f, 3.f, 4.f);
+        const Graphics::ColorProfile::Exposure a(1.f, 2.f, 3.f, 4.f);
         QStringList tmp;
         tmp << a;
-        djvColorProfile::Exposure b;
+        Graphics::ColorProfile::Exposure b;
         tmp >> b;
         DJV_ASSERT(a == b);
     }
     {
-        const djvColorProfile::PROFILE a = djvColorProfile::LUT;
+        const Graphics::ColorProfile::PROFILE a = Graphics::ColorProfile::LUT;
         QStringList tmp;
         tmp << a;
-        djvColorProfile::PROFILE b = static_cast<djvColorProfile::PROFILE>(0);
+        Graphics::ColorProfile::PROFILE b = static_cast<Graphics::ColorProfile::PROFILE>(0);
         tmp >> b;
         DJV_ASSERT(a == b);
     }
     {
-        DJV_DEBUG_PRINT(djvColorProfile::Exposure());
-        DJV_DEBUG_PRINT(djvColorProfile::RAW);
-        DJV_DEBUG_PRINT(djvColorProfile());
+        DJV_DEBUG_PRINT(Graphics::ColorProfile::Exposure());
+        DJV_DEBUG_PRINT(Graphics::ColorProfile::RAW);
+        DJV_DEBUG_PRINT(Graphics::ColorProfile());
     }
 }
 

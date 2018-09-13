@@ -34,31 +34,26 @@
 #include <djvGraphics/IFL.h>
 #include <djvGraphics/ImageIO.h>
 
-//! \addtogroup djvIFLPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIFLLoad
-//!
-//! This class provides an IFL loader.
-//------------------------------------------------------------------------------
-
-class djvIFLLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvIFLLoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class IFLLoad
+        //!
+        //! This class provides an IFL loader.
+        class IFLLoad : public ImageLoad
+        {
+        public:
+            explicit IFLLoad(djvCoreContext *);
 
-    virtual ~djvIFLLoad();
+            virtual ~IFLLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            QStringList _list;
+        };
 
-private:
-    QStringList _list;
-};
-
-//@} // djvIFLPlugin
-
+    } // namespace Graphics
+} // namespace djv

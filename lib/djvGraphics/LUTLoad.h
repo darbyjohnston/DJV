@@ -36,35 +36,30 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvLUTPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvLUTLoad
-//!
-//! This class provides a LUT loader.
-//------------------------------------------------------------------------------
-
-class djvLUTLoad : public djvImageLoad
+namespace djv
 {
-public:
-    djvLUTLoad(const djvLUT::Options &, djvCoreContext *);
-    
-    virtual ~djvLUTLoad();
+    namespace Graphics
+    {
+        //! \class LUTLoad
+        //!
+        //! This class provides a LUT loader.
+        class LUTLoad : public ImageLoad
+        {
+        public:
+            LUTLoad(const LUT::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual ~LUTLoad();
 
-private:
-    void _open(const djvFileInfo &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    djvLUT::Options _options;
-    djvFileInfo     _file;
-    djvLUT::FORMAT  _format;
-};
+        private:
+            void _open(const djvFileInfo &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-//@} // djvLUTPlugin
+            LUT::Options _options;
+            djvFileInfo  _file;
+            LUT::FORMAT  _format;
+        };
 
+    } // namespace Graphics
+} // namespace djv

@@ -36,77 +36,78 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvTIFF::Options
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvTIFF::Options::Options() :
-    compression(djvTIFF::_COMPRESSION_NONE)
-{}
-
-//------------------------------------------------------------------------------
-// djvTIFF
-//------------------------------------------------------------------------------
-
-const QString djvTIFF::staticName = "TIFF";
-
-const QStringList & djvTIFF::compressionLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvTIFF", "None") <<
-        qApp->translate("djvTIFF", "RLE") <<
-        qApp->translate("djvTIFF", "LZW");
-    DJV_ASSERT(data.count() == COMPRESSION_COUNT);
-    return data;
-}
-
-void djvTIFF::paletteLoad(
-    quint8 *  in,
-    int       size,
-    int       bytes,
-    quint16 * red,
-    quint16 * green,
-    quint16 * blue)
-{
-    switch (bytes)
+    namespace Graphics
     {
-        case 1:
+        TIFF::Options::Options() :
+            compression(TIFF::_COMPRESSION_NONE)
+        {}
+
+        const QString TIFF::staticName = "TIFF";
+
+        const QStringList & TIFF::compressionLabels()
         {
-            const quint8 * inP = in + size - 1;
-            quint8 * outP = in + (size - 1) * 3;
-            for (int x = 0; x < size; ++x, outP -= 3)
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::TIFF", "None") <<
+                qApp->translate("djv::Graphics::TIFF", "RLE") <<
+                qApp->translate("djv::Graphics::TIFF", "LZW");
+            DJV_ASSERT(data.count() == COMPRESSION_COUNT);
+            return data;
+        }
+
+        void TIFF::paletteLoad(
+            quint8 *  in,
+            int       size,
+            int       bytes,
+            quint16 * red,
+            quint16 * green,
+            quint16 * blue)
+        {
+            switch (bytes)
             {
-                const quint8 index = *inP--;
-                outP[0] = static_cast<quint8>(red[index]);
-                outP[1] = static_cast<quint8>(green[index]);
-                outP[2] = static_cast<quint8>(blue[index]);
+            case 1:
+            {
+                const quint8 * inP = in + size - 1;
+                quint8 * outP = in + (size - 1) * 3;
+                for (int x = 0; x < size; ++x, outP -= 3)
+                {
+                    const quint8 index = *inP--;
+                    outP[0] = static_cast<quint8>(red[index]);
+                    outP[1] = static_cast<quint8>(green[index]);
+                    outP[2] = static_cast<quint8>(blue[index]);
+                }
+            }
+            break;
+            case 2:
+            {
+                const quint16 * inP =
+                    reinterpret_cast<const quint16 *>(in) + size - 1;
+                quint16 * outP =
+                    reinterpret_cast<quint16 *>(in) + (size - 1) * 3;
+                for (int x = 0; x < size; ++x, outP -= 3)
+                {
+                    const quint16 index = *inP--;
+                    outP[0] = red[index];
+                    outP[1] = green[index];
+                    outP[2] = blue[index];
+                }
+            }
+            break;
             }
         }
-        break;
-        case 2:
+
+        const QStringList & TIFF::optionsLabels()
         {
-            const quint16 * inP =
-                reinterpret_cast<const quint16 *>(in) + size - 1;
-            quint16 * outP =
-                reinterpret_cast<quint16 *>(in) + (size - 1) * 3;
-            for (int x = 0; x < size; ++x, outP -= 3)
-            {
-                const quint16 index = *inP--;
-                outP[0] = red[index];
-                outP[1] = green[index];
-                outP[2] = blue[index];
-            }
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::TIFF", "Compression");
+            DJV_ASSERT(data.count() == OPTIONS_COUNT);
+            return data;
         }
-        break;
-    }
-}
 
-const QStringList & djvTIFF::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvTIFF", "Compression");
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-    return data;
-}
+    } // namespace Graphics
+} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(djvTIFF::COMPRESSION, djvTIFF::compressionLabels())
+_DJV_STRING_OPERATOR_LABEL(Graphics::TIFF::COMPRESSION, Graphics::TIFF::compressionLabels())

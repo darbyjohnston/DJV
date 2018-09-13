@@ -34,36 +34,51 @@
 
 #include <djvGraphics/IFF.h>
 
-//! \addtogroup djvIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIFFPlugin
-//!
-//! This class provides an IFF plugin.
-//------------------------------------------------------------------------------
-
-class djvIFFPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvIFFPlugin(djvCoreContext * context);
+    namespace Graphics
+    {
+        //! \class IFFPlugin
+        //!
+        //! This plugin provides support for the Generic Interchange File Format (IFF).
+        //!
+        //! File extensions: .iff, .z
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
+        //! - File compression
+        //!
+        //! References:
+        //!
+        //! - Affine Toolkit (Thomas E. Burge), riff.h and riff.c
+        //!   http://affine.org
+        //! - Autodesk Maya documentation, "Overview of Maya IFF"
+        //!
+        //! Implementation:
+        //!
+        //! - Mikael Sundell, mikael.sundell@gmail.com
+        class IFFPlugin : public ImageIO
+        {
+        public:
+            explicit IFFPlugin(djvCoreContext * context);
 
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-private:
-    djvIFF::Options _options;
-};
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
-//@} // djvIFFPlugin
+        private:
+            IFF::Options _options;
+        };
 
+    } // namespace Graphics
+} // namespace djv

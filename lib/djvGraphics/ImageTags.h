@@ -37,84 +37,82 @@
 
 #include <memory>
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImageTags
-//!
-//! This class provides a collection of image tags.
-//------------------------------------------------------------------------------
-
-class djvImageTags
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(TAGS)
-    
-public:
-    djvImageTags();
-    djvImageTags(const djvImageTags &);
-
-    ~djvImageTags();
-
-    //! Add image tags.
-    void add(const djvImageTags &);
-
-    //! Add an image tag.
-    void add(const QString & key, const QString & value);
-
-    //! Get an image tag.
-    QString tag(const QString & key) const;
-
-    //! Get the list of keys.
-    QStringList keys() const;
-
-    //! Get the list of values.
-    QStringList values() const;
-
-    //! Get the number of tags.
-    int count() const;
-
-    //! Get whether the given key is valid.
-    bool isValid(const QString & key);
-
-    //! Remove all the tags.
-    void clear();
-
-    //! This enumeration provides the standard image tags.
-    enum TAGS
+    namespace Graphics
     {
-        PROJECT,
-        CREATOR,
-        DESCRIPTION,
-        COPYRIGHT,
-        TIME,
-        UTC_OFFSET,
-        KEYCODE,
-        TIMECODE,
+        //! \class ImageTags
+        //!
+        //! This class provides a collection of image tags.
+        class ImageTags
+        {
+            Q_GADGET
+            Q_ENUMS(TAGS)
 
-        TAGS_COUNT
-    };
+        public:
+            ImageTags();
+            ImageTags(const ImageTags &);
 
-    //! Get the image tag labels.
-    static const QStringList & tagLabels();
+            ~ImageTags();
 
-    djvImageTags & operator = (const djvImageTags &);
+            //! Add image tags.
+            void add(const ImageTags &);
 
-    QString & operator [] (const QString & key);
+            //! Add an image tag.
+            void add(const QString & key, const QString & value);
 
-    QString operator [] (const QString & key) const;
+            //! Get an image tag.
+            QString tag(const QString & key) const;
 
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the list of keys.
+            QStringList keys() const;
 
-Q_DECLARE_METATYPE(djvImageTags)
+            //! Get the list of values.
+            QStringList values() const;
 
-DJV_COMPARISON_OPERATOR(djvImageTags);
+            //! Get the number of tags.
+            int count() const;
 
-DJV_DEBUG_OPERATOR(djvImageTags);
+            //! Get whether the given key is valid.
+            bool isValid(const QString & key);
 
-//@} // djvGraphicsImage
+            //! Remove all the tags.
+            void clear();
 
+            //! This enumeration provides the standard image tags.
+            enum TAGS
+            {
+                PROJECT,
+                CREATOR,
+                DESCRIPTION,
+                COPYRIGHT,
+                TIME,
+                UTC_OFFSET,
+                KEYCODE,
+                TIMECODE,
+
+                TAGS_COUNT
+            };
+
+            //! Get the image tag labels.
+            static const QStringList & tagLabels();
+
+            ImageTags & operator = (const ImageTags &);
+
+            QString & operator [] (const QString & key);
+
+            QString operator [] (const QString & key) const;
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+        DJV_COMPARISON_OPERATOR(ImageTags);
+
+    } // namespace Graphics
+} // namespace djv
+
+Q_DECLARE_METATYPE(djv::Graphics::ImageTags)
+
+DJV_DEBUG_OPERATOR(djv::Graphics::ImageTags);

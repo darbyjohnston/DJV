@@ -31,10 +31,6 @@
 
 #include <djvInfoApplication.h>
 
-//------------------------------------------------------------------------------
-// main
-//------------------------------------------------------------------------------
-
 int main(int argc, char ** argv)
 {
     return djvInfoApplication(argc, argv).exec();

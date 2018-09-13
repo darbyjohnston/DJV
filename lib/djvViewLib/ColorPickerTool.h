@@ -37,10 +37,14 @@
 
 #include <memory>
 
-class djvColor;
-
 namespace djv
 {
+    namespace Graphics
+    {
+        class Color;
+    
+    } // namespace Graphics
+
     namespace ViewLib
     {
         //! \class ColorPickerTool
@@ -63,7 +67,7 @@ namespace djv
 
         private Q_SLOTS:
             void pickCallback(const glm::ivec2 &);
-            void widgetCallback(const djvColor &);
+            void widgetCallback(const djv::Graphics::Color &);
             void sizeCallback(int);
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);

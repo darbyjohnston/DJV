@@ -48,7 +48,7 @@ namespace djv
 {
     namespace UI
     {
-        PPMWidget::PPMWidget(djvImageIO * plugin, UIContext * context) :
+        PPMWidget::PPMWidget(Graphics::ImageIO * plugin, UIContext * context) :
             ImageIOWidget(plugin, context),
             _typeWidget(0),
             _dataWidget(0)
@@ -56,11 +56,11 @@ namespace djv
             // Create the widgets.
             _typeWidget = new QComboBox;
             _typeWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _typeWidget->addItems(djvPPM::typeLabels());
+            _typeWidget->addItems(Graphics::PPM::typeLabels());
 
             _dataWidget = new QComboBox;
             _dataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _dataWidget->addItems(djvPPM::dataLabels());
+            _dataWidget->addItems(Graphics::PPM::dataLabels());
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
@@ -90,9 +90,9 @@ namespace djv
 
             // Initialize.
             QStringList tmp;
-            tmp = plugin->option(plugin->options()[djvPPM::TYPE_OPTION]);
+            tmp = plugin->option(plugin->options()[Graphics::PPM::TYPE_OPTION]);
             tmp >> _options.type;
-            tmp = plugin->option(plugin->options()[djvPPM::DATA_OPTION]);
+            tmp = plugin->option(plugin->options()[Graphics::PPM::DATA_OPTION]);
             tmp >> _options.data;
 
             widgetUpdate();
@@ -117,7 +117,7 @@ namespace djv
 
         void PPMWidget::resetPreferences()
         {
-            _options = djvPPM::Options();
+            _options = Graphics::PPM::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -129,10 +129,10 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    djvPPM::TYPE_OPTION], Qt::CaseInsensitive))
+                    Graphics::PPM::TYPE_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.type;
                 else if (0 == option.compare(plugin()->options()[
-                    djvPPM::DATA_OPTION], Qt::CaseInsensitive))
+                    Graphics::PPM::DATA_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.data;
             }
             catch (const QString &)
@@ -143,13 +143,13 @@ namespace djv
 
         void PPMWidget::typeCallback(int in)
         {
-            _options.type = static_cast<djvPPM::TYPE>(in);
+            _options.type = static_cast<Graphics::PPM::TYPE>(in);
             pluginUpdate();
         }
 
         void PPMWidget::dataCallback(int in)
         {
-            _options.data = static_cast<djvPPM::DATA>(in);
+            _options.data = static_cast<Graphics::PPM::DATA>(in);
             pluginUpdate();
         }
 
@@ -157,9 +157,9 @@ namespace djv
         {
             QStringList tmp;
             tmp << _options.type;
-            plugin()->setOption(plugin()->options()[djvPPM::TYPE_OPTION], tmp);
+            plugin()->setOption(plugin()->options()[Graphics::PPM::TYPE_OPTION], tmp);
             tmp << _options.data;
-            plugin()->setOption(plugin()->options()[djvPPM::DATA_OPTION], tmp);
+            plugin()->setOption(plugin()->options()[Graphics::PPM::DATA_OPTION], tmp);
         }
 
         void PPMWidget::widgetUpdate()
@@ -175,14 +175,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * PPMWidgetPlugin::createWidget(djvImageIO * plugin) const
+        ImageIOWidget * PPMWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
         {
             return new PPMWidget(plugin, uiContext());
         }
 
         QString PPMWidgetPlugin::pluginName() const
         {
-            return djvPPM::staticName;
+            return Graphics::PPM::staticName;
         }
 
     } // namespace UI

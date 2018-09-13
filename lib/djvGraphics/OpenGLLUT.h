@@ -36,40 +36,43 @@
 
 #include <djvCore/Error.h>
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLLUT
-//!
-//! This class proivides an OpenGL LUT.
-//------------------------------------------------------------------------------
-
-class djvOpenGLLUT
+namespace djv
 {
-public:
-    ~djvOpenGLLUT();
+    namespace Graphics
+    {
+        //! \class OpenGLLUT
+        //!
+        //! This class proivides an OpenGL LUT.
+        class OpenGLLUT
+        {
+        public:
+            ~OpenGLLUT();
 
-    //! Initialize the LUT.
-    void init(const djvPixelDataInfo &) throw (djvError);
+            //! Initialize the LUT.
+            void init(const PixelDataInfo &) throw (djvError);
 
-    //! Initialize the LUT.
-    void init(const djvPixelData &) throw (djvError);
+            //! Initialize the LUT.
+            void init(const PixelData &) throw (djvError);
 
-    //! Get the pixel information.
-    const djvPixelDataInfo & info() const;
+            //! Get the pixel information.
+            const PixelDataInfo & info() const;
 
-    //! Get the texture ID.
-    GLuint id() const;
+            //! Get the texture ID.
+            GLuint id() const;
 
-    //! Bind the LUT.
-    void bind();
+            //! Bind the LUT.
+            void bind();
 
-    //! Copy pixel data to the LUT.
-    void copy(const djvPixelData &);
+            //! Copy pixel data to the LUT.
+            void copy(const PixelData &);
 
-private:
-    void del();
+        private:
+            void del();
 
-    djvPixelDataInfo _info;
-    int              _size = 0;
-    GLuint           _id   = 0;
-};
+            PixelDataInfo _info;
+            int           _size = 0;
+            GLuint        _id = 0;
+        };
 
+    } // namespace Graphics
+} // namespace djv

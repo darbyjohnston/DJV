@@ -36,39 +36,34 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvSGIPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSGISave
-//!
-//! This class provides a SGI saver.
-//------------------------------------------------------------------------------
-
-class djvSGISave : public djvImageSave
+namespace djv
 {
-public:
-    djvSGISave(const djvSGI::Options &, djvCoreContext *);
-    
-    virtual ~djvSGISave();
+    namespace Graphics
+    {
+        //! \class SGISave
+        //!
+        //! This class provides a SGI saver.
+        class SGISave : public ImageSave
+        {
+        public:
+            SGISave(const SGI::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual ~SGISave();
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    void _open(const QString &) throw (djvError);
+        private:
+            void _open(const QString &) throw (djvError);
 
-    djvSGI::Options      _options;
-    djvFileInfo          _file;
-    std::vector<quint32> _rleOffset;
-    std::vector<quint32> _rleSize;
-    djvPixelDataInfo     _info;
-    djvImage             _image;
-    djvPixelData         _tmp;
-};
+            SGI::Options         _options;
+            djvFileInfo          _file;
+            std::vector<quint32> _rleOffset;
+            std::vector<quint32> _rleSize;
+            PixelDataInfo        _info;
+            Image                _image;
+            PixelData            _tmp;
+        };
 
-//@} // djvSGIPlugin
-
+    } // namespace Graphics
+} // namespace djv

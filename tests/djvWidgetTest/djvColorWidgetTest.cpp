@@ -75,7 +75,7 @@ void djvColorWidgetTest::run(const QStringList & args)
     window->show();
 }
 
-void djvColorWidgetTest::colorCallback(const djvColor & color)
+void djvColorWidgetTest::colorCallback(const Graphics::Color & color)
 {
     QStringList tmp;
     tmp << color;

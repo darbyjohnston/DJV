@@ -37,16 +37,18 @@
 #include <djvGraphics/GraphicsContext.h>
 #include <djvGraphics/OpenGLImage.h>
 
+using namespace djv;
+
 void djvGraphicsContextTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvGraphicsContextTest::run");
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         DJV_ASSERT(context.openGlContext());
     }
     try
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         char * args [256] =
         {
             "djvTest",
@@ -62,7 +64,7 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
     }
     try
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         char * args [256] =
         {
             "djvTest",
@@ -70,9 +72,9 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
         };
         int argsCount = 4;
         DJV_ASSERT(context.commandLine(argsCount, args));
-        DJV_ASSERT(djvOpenGLImageFilter(
-            djvOpenGLImageFilter::BOX, djvOpenGLImageFilter::TRIANGLE) ==
-            djvOpenGLImageFilter::filter());
+        DJV_ASSERT(Graphics::OpenGLImageFilter(
+            Graphics::OpenGLImageFilter::BOX, Graphics::OpenGLImageFilter::TRIANGLE) ==
+            Graphics::OpenGLImageFilter::filter());
     }
     catch (const djvError & error)
     {
@@ -81,7 +83,7 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
     }
     try
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         char * args [256] =
         {
             "djvTest",
@@ -89,8 +91,7 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
         };
         int argsCount = 2;
         DJV_ASSERT(context.commandLine(argsCount, args));
-        DJV_ASSERT(djvOpenGLImageFilter::filterHighQuality() ==
-            djvOpenGLImageFilter::filter());
+        DJV_ASSERT(Graphics::OpenGLImageFilter::filterHighQuality() == Graphics::OpenGLImageFilter::filter());
     }
     catch (const djvError & error)
     {
@@ -99,7 +100,7 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
     }
     try
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         char * args [256] =
         {
             "djvTest",
@@ -113,7 +114,7 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
 
     try
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         char * args [256] =
         {
             "djvTest",
@@ -129,7 +130,7 @@ void djvGraphicsContextTest::run(int & argc, char ** argv)
     }
     try
     {
-        djvGraphicsContext context;
+        Graphics::GraphicsContext context;
         char * args [256] =
         {
             "djvTest",

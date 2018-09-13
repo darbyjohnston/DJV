@@ -33,229 +33,232 @@
 
 #include <djvCore/Assert.h>
 
-//------------------------------------------------------------------------------
-// djvPixelDataUtil
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvPixelDataUtil::~djvPixelDataUtil()
-{}
-
-quint64 djvPixelDataUtil::scanlineByteCount(const djvPixelDataInfo & in)
+namespace djv
 {
-    return (in.size.x * djvPixel::byteCount(in.pixel) * in.align) / in.align;
-}
-
-quint64 djvPixelDataUtil::dataByteCount(const djvPixelDataInfo & in)
-{
-    return in.size.y * scanlineByteCount(in);
-}
-
-void djvPixelDataUtil::proxyScale(
-    const djvPixelData &    in,
-    djvPixelData &          out,
-    djvPixelDataInfo::PROXY proxy)
-{
-    //DJV_DEBUG("djvPixelDataUtil::proxyScale");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("out = " << out);
-    //DJV_DEBUG_PRINT("proxy = " << proxy);
-
-    const int  w          = out.w();
-    const int  h          = out.h();
-    const int  proxyScale = djvPixelDataUtil::proxyScale(proxy);
-    const bool bgr        = in.info().bgr != out.info().bgr;
-    const bool endian     = in.info().endian != out.info().endian;    
-    //DJV_DEBUG_PRINT("bgr = " << bgr);
-    //DJV_DEBUG_PRINT("endian = " << endian);
-
-    const bool fast = in.pixel() == out.pixel() && ! bgr && ! endian;
-    //DJV_DEBUG_PRINT("fast = " << fast);
-
-    std::vector<quint8> tmp;
-    if (! fast)
+    namespace Graphics
     {
-        tmp.resize(w * proxyScale * djvPixel::byteCount(in.pixel()));
-        //DJV_DEBUG_PRINT("tmp size = " << tmp.size());
-    }
+        PixelDataUtil::~PixelDataUtil()
+        {}
 
-    for (int y = 0; y < h; ++y)
-    {
-        const quint8 * inP = in.data(0, y * proxyScale);
-        quint8 * outP = out.data(0, y);
-        if (fast)
+        quint64 PixelDataUtil::scanlineByteCount(const PixelDataInfo & in)
         {
-            const quint64 pixelByteCount = in.pixelByteCount();
-            const quint64 inStride       = pixelByteCount * proxyScale;
-            const quint64 outStride      = pixelByteCount;
-            for (
-                int x = 0;
-                x < w;
-                ++x, inP += inStride, outP += outStride)
+            return (in.size.x * Pixel::byteCount(in.pixel) * in.align) / in.align;
+        }
+
+        quint64 PixelDataUtil::dataByteCount(const PixelDataInfo & in)
+        {
+            return in.size.y * scanlineByteCount(in);
+        }
+
+        void PixelDataUtil::proxyScale(
+            const PixelData &    in,
+            PixelData &          out,
+            PixelDataInfo::PROXY proxy)
+        {
+            //DJV_DEBUG("PixelDataUtil::proxyScale");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("out = " << out);
+            //DJV_DEBUG_PRINT("proxy = " << proxy);
+
+            const int  w = out.w();
+            const int  h = out.h();
+            const int  proxyScale = PixelDataUtil::proxyScale(proxy);
+            const bool bgr = in.info().bgr != out.info().bgr;
+            const bool endian = in.info().endian != out.info().endian;
+            //DJV_DEBUG_PRINT("bgr = " << bgr);
+            //DJV_DEBUG_PRINT("endian = " << endian);
+
+            const bool fast = in.pixel() == out.pixel() && !bgr && !endian;
+            //DJV_DEBUG_PRINT("fast = " << fast);
+
+            std::vector<quint8> tmp;
+            if (!fast)
             {
-                switch (pixelByteCount)
+                tmp.resize(w * proxyScale * Pixel::byteCount(in.pixel()));
+                //DJV_DEBUG_PRINT("tmp size = " << tmp.size());
+            }
+
+            for (int y = 0; y < h; ++y)
+            {
+                const quint8 * inP = in.data(0, y * proxyScale);
+                quint8 * outP = out.data(0, y);
+                if (fast)
                 {
-                    case 16: outP[15] = inP[15];
-                    case 15: outP[14] = inP[14];
-                    case 14: outP[13] = inP[13];
-                    case 13: outP[12] = inP[12];
-                    case 12: outP[11] = inP[11];
-                    case 11: outP[10] = inP[10];
-                    case 10: outP[ 9] = inP[ 9];
-                    case 9:  outP[ 8] = inP[ 8];
-                    case 8:  outP[ 7] = inP[ 7];
-                    case 7:  outP[ 6] = inP[ 6];
-                    case 6:  outP[ 5] = inP[ 5];
-                    case 5:  outP[ 4] = inP[ 4];
-                    case 4:  outP[ 3] = inP[ 3];
-                    case 3:  outP[ 2] = inP[ 2];
-                    case 2:  outP[ 1] = inP[ 1];
-                    case 1:  outP[ 0] = inP[ 0];
+                    const quint64 pixelByteCount = in.pixelByteCount();
+                    const quint64 inStride = pixelByteCount * proxyScale;
+                    const quint64 outStride = pixelByteCount;
+                    for (
+                        int x = 0;
+                        x < w;
+                        ++x, inP += inStride, outP += outStride)
+                    {
+                        switch (pixelByteCount)
+                        {
+                        case 16: outP[15] = inP[15];
+                        case 15: outP[14] = inP[14];
+                        case 14: outP[13] = inP[13];
+                        case 13: outP[12] = inP[12];
+                        case 12: outP[11] = inP[11];
+                        case 11: outP[10] = inP[10];
+                        case 10: outP[9] = inP[9];
+                        case 9:  outP[8] = inP[8];
+                        case 8:  outP[7] = inP[7];
+                        case 7:  outP[6] = inP[6];
+                        case 6:  outP[5] = inP[5];
+                        case 5:  outP[4] = inP[4];
+                        case 4:  outP[3] = inP[3];
+                        case 3:  outP[2] = inP[2];
+                        case 2:  outP[1] = inP[1];
+                        case 1:  outP[0] = inP[0];
+                        }
+                    }
+                }
+                else
+                {
+                    if (endian)
+                    {
+                        const int size = w * proxyScale;
+                        const int wordSize = Pixel::byteCount(in.pixel());
+                        //DJV_DEBUG_PRINT("endian size = " << size);
+                        //DJV_DEBUG_PRINT("endian word size = " << wordSize);
+                        djvMemory::convertEndian(inP, tmp.data(), size, wordSize);
+                        inP = tmp.data();
+                    }
+
+                    //DJV_DEBUG_PRINT("convert");
+                    Pixel::convert(
+                        inP,
+                        in.pixel(),
+                        outP,
+                        out.pixel(),
+                        w,
+                        proxyScale,
+                        bgr);
                 }
             }
         }
-        else
+
+        int PixelDataUtil::proxyScale(PixelDataInfo::PROXY proxy)
         {
-            if (endian)
-            {
-                const int size     = w * proxyScale;
-                const int wordSize = djvPixel::byteCount(in.pixel());
-                //DJV_DEBUG_PRINT("endian size = " << size);
-                //DJV_DEBUG_PRINT("endian word size = " << wordSize);
-                djvMemory::convertEndian(inP, tmp.data(), size, wordSize);
-                inP = tmp.data();
-            }
-            
-            //DJV_DEBUG_PRINT("convert");
-            djvPixel::convert(
-                inP,
-                in.pixel(),
-                outP,
-                out.pixel(),
-                w,
-                proxyScale,
-                bgr);
+            return proxy ? djvMath::pow(2, static_cast<int>(proxy)) : 1;
         }
-    }
-}
 
-int djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY proxy)
-{
-    return proxy ? djvMath::pow(2, static_cast<int>(proxy)) : 1;
-}
-
-glm::ivec2 djvPixelDataUtil::proxyScale(const glm::ivec2 & in, djvPixelDataInfo::PROXY proxy)
-{
-    const int scale = proxyScale(proxy);
-    return glm::ivec2(
-        djvMath::ceil(in.x / static_cast<float>(scale)),
-        djvMath::ceil(in.y / static_cast<float>(scale)));
-}
-
-djvBox2i djvPixelDataUtil::proxyScale(const djvBox2i & in, djvPixelDataInfo::PROXY proxy)
-{
-    const int scale = proxyScale(proxy);
-    return djvBox2i(
-        djvMath::ceil(in.x / static_cast<float>(scale)),
-        djvMath::ceil(in.y / static_cast<float>(scale)),
-        djvMath::ceil(in.size.x / static_cast<float>(scale)),
-        djvMath::ceil(in.size.y / static_cast<float>(scale)));
-}
-
-void djvPixelDataUtil::planarInterleave(
-    const djvPixelData &    in,
-    djvPixelData &          out,
-    djvPixelDataInfo::PROXY proxy)
-{
-    DJV_ASSERT(in.pixel() == out.pixel());
-    DJV_ASSERT(in.pixel() != djvPixel::RGB_U10);
-
-    //DJV_DEBUG("djvPixelDataUtil::planarInterleave");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("out = " << out);
-    //DJV_DEBUG_PRINT("proxy = " << proxy);
-
-    const int     w                = out.w();
-    const int     h                = out.h();
-    const int     proxyScale       = djvPixelDataUtil::proxyScale(proxy);
-    const int     channels         = out.channels();
-    const quint64 pixelByteCount   = out.pixelByteCount();
-    const int     channelByteCount = djvPixel::channelByteCount(out.pixel());
-    for (int c = 0; c < channels; ++c)
-    {
-        for (int y = 0; y < h; ++y)
+        glm::ivec2 PixelDataUtil::proxyScale(const glm::ivec2 & in, PixelDataInfo::PROXY proxy)
         {
-            const quint8 * inP = in.data() + (c * in.h() + y * proxyScale) *
-                in.w() * channelByteCount;
-            quint8 * outP = out.data(0, y) + c * channelByteCount;
-            for (
-                int x = 0;
-                x < w;
-                ++x, inP += channelByteCount * proxyScale,
-                    outP += pixelByteCount)
+            const int scale = proxyScale(proxy);
+            return glm::ivec2(
+                djvMath::ceil(in.x / static_cast<float>(scale)),
+                djvMath::ceil(in.y / static_cast<float>(scale)));
+        }
+
+        djvBox2i PixelDataUtil::proxyScale(const djvBox2i & in, PixelDataInfo::PROXY proxy)
+        {
+            const int scale = proxyScale(proxy);
+            return djvBox2i(
+                djvMath::ceil(in.x / static_cast<float>(scale)),
+                djvMath::ceil(in.y / static_cast<float>(scale)),
+                djvMath::ceil(in.size.x / static_cast<float>(scale)),
+                djvMath::ceil(in.size.y / static_cast<float>(scale)));
+        }
+
+        void PixelDataUtil::planarInterleave(
+            const PixelData &    in,
+            PixelData &          out,
+            PixelDataInfo::PROXY proxy)
+        {
+            DJV_ASSERT(in.pixel() == out.pixel());
+            DJV_ASSERT(in.pixel() != Pixel::RGB_U10);
+
+            //DJV_DEBUG("PixelDataUtil::planarInterleave");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("out = " << out);
+            //DJV_DEBUG_PRINT("proxy = " << proxy);
+
+            const int     w = out.w();
+            const int     h = out.h();
+            const int     proxyScale = PixelDataUtil::proxyScale(proxy);
+            const int     channels = out.channels();
+            const quint64 pixelByteCount = out.pixelByteCount();
+            const int     channelByteCount = Pixel::channelByteCount(out.pixel());
+            for (int c = 0; c < channels; ++c)
             {
-                switch (channelByteCount)
+                for (int y = 0; y < h; ++y)
                 {
-                    case 4: outP[3] = inP[3];
-                    case 3: outP[2] = inP[2];
-                    case 2: outP[1] = inP[1];
-                    case 1: outP[0] = inP[0];
+                    const quint8 * inP = in.data() + (c * in.h() + y * proxyScale) *
+                        in.w() * channelByteCount;
+                    quint8 * outP = out.data(0, y) + c * channelByteCount;
+                    for (
+                        int x = 0;
+                        x < w;
+                        ++x, inP += channelByteCount * proxyScale,
+                        outP += pixelByteCount)
+                    {
+                        switch (channelByteCount)
+                        {
+                        case 4: outP[3] = inP[3];
+                        case 3: outP[2] = inP[2];
+                        case 2: outP[1] = inP[1];
+                        case 1: outP[0] = inP[0];
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
-void djvPixelDataUtil::planarDeinterleave(const djvPixelData & in, djvPixelData & out)
-{
-    DJV_ASSERT(in.pixel() == out.pixel());
-    DJV_ASSERT(in.pixel() != djvPixel::RGB_U10);
-
-    //DJV_DEBUG("djvPixelDataUtil::planarDeinterleave");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("out = " << out);
-
-    const int     w                = out.w();
-    const int     h                = out.h();
-    const int     channels         = out.channels();
-    const quint64 pixelByteCount   = out.pixelByteCount();
-    const int     channelByteCount = djvPixel::channelByteCount(out.pixel());
-    for (int c = 0; c < channels; ++c)
-    {
-        for (int y = 0; y < h; ++y)
+        void PixelDataUtil::planarDeinterleave(const PixelData & in, PixelData & out)
         {
-            const quint8 * inP = in.data(0, y) + c * channelByteCount;
-            quint8 * outP = out.data() + (c * h + y) * w * channelByteCount;
-            for (
-                int x = 0;
-                x < w;
-                ++x, inP += pixelByteCount, outP += channelByteCount)
+            DJV_ASSERT(in.pixel() == out.pixel());
+            DJV_ASSERT(in.pixel() != Pixel::RGB_U10);
+
+            //DJV_DEBUG("PixelDataUtil::planarDeinterleave");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("out = " << out);
+
+            const int     w = out.w();
+            const int     h = out.h();
+            const int     channels = out.channels();
+            const quint64 pixelByteCount = out.pixelByteCount();
+            const int     channelByteCount = Pixel::channelByteCount(out.pixel());
+            for (int c = 0; c < channels; ++c)
             {
-                switch (channelByteCount)
+                for (int y = 0; y < h; ++y)
                 {
-                    case 4: outP[3] = inP[3];
-                    case 3: outP[2] = inP[2];
-                    case 2: outP[1] = inP[1];
-                    case 1: outP[0] = inP[0];
+                    const quint8 * inP = in.data(0, y) + c * channelByteCount;
+                    quint8 * outP = out.data() + (c * h + y) * w * channelByteCount;
+                    for (
+                        int x = 0;
+                        x < w;
+                        ++x, inP += pixelByteCount, outP += channelByteCount)
+                    {
+                        switch (channelByteCount)
+                        {
+                        case 4: outP[3] = inP[3];
+                        case 3: outP[2] = inP[2];
+                        case 2: outP[1] = inP[1];
+                        case 1: outP[0] = inP[0];
+                        }
+                    }
                 }
             }
         }
-    }
-}
 
-void djvPixelDataUtil::gradient(djvPixelData & out)
-{
-    //DJV_DEBUG("gradient");
-    const djvPixelDataInfo info(out.size(), djvPixel::L_F32);
-    out.set(info);
-    //DJV_DEBUG_PRINT("out = " << out);
-    for (int y = 0; y < info.size.y; ++y)
-    {
-        djvPixel::F32_T * p = reinterpret_cast<djvPixel::F32_T *>(out.data(0, y));
-        for (int x = 0; x < info.size.x; ++x, ++p)
+        void PixelDataUtil::gradient(PixelData & out)
         {
-            *p = static_cast<djvPixel::F32_T>(
-                x / static_cast<float>(info.size.x - 1));
+            //DJV_DEBUG("gradient");
+            const PixelDataInfo info(out.size(), Pixel::L_F32);
+            out.set(info);
+            //DJV_DEBUG_PRINT("out = " << out);
+            for (int y = 0; y < info.size.y; ++y)
+            {
+                Pixel::F32_T * p = reinterpret_cast<Pixel::F32_T *>(out.data(0, y));
+                for (int x = 0; x < info.size.x; ++x, ++p)
+                {
+                    *p = static_cast<Pixel::F32_T>(x / static_cast<float>(info.size.x - 1));
+                }
+            }
         }
-    }
-}
 
+    } // namespace Graphics
+} // namespace djv

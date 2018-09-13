@@ -38,38 +38,32 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvCineonPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvCineonSave
-//!
-//! This class provides a Cineon saver.
-//------------------------------------------------------------------------------
-
-class djvCineonSave : public djvImageSave
+namespace djv
 {
-public:
-    djvCineonSave(const djvCineon::Options &, djvCoreContext *);
-    
-    virtual ~djvCineonSave();
+    namespace Graphics
+    {
+        //! \class CineonSave
+        //!
+        //! This class provides a Cineon saver.
+        class CineonSave : public ImageSave
+        {
+        public:
+            CineonSave(const Cineon::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual ~CineonSave();
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
-    
-private:
-    void _open(const QString &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &)throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    djvCineon::Options _options;
-    djvFileInfo        _file;
-    djvCineonHeader    _header;
-    djvPixelDataInfo   _info;
-    djvImage           _image;
-};
+        private:
+            void _open(const QString &, const ImageIOInfo &) throw (djvError);
 
-//@} // djvCineonPlugin
+            Cineon::Options _options;
+            djvFileInfo     _file;
+            CineonHeader    _header;
+            PixelDataInfo   _info;
+            Image           _image;
+        };
 
+    } // namespace Graphics
+} // namespace djv

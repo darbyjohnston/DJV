@@ -34,26 +34,36 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/PNG.h>
 
-//! \addtogroup djvPNGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPNGPlugin
-//!
-//! This class provides a PNG plugin.
-//------------------------------------------------------------------------------
-
-class djvPNGPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvPNGPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+    namespace Graphics
+    {
+        //! \class PNGPlugin
+        //!
+        //! This plugin provides support for the Portable Network Graphics (PNG) image
+        //! file format.
+        //!
+        //! Requires:
+        //!
+        //! - libpng - http://www.libpng.org
+        //!
+        //! File extensions: .png
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit, 16-bit, Luminance, RGB, RGBA
+        //! - File compression
+        class PNGPlugin : public ImageIO
+        {
+        public:
+            explicit PNGPlugin(djvCoreContext *);
 
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
-};
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-//@} // djvPNGPlugin
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
+        };
 
+    } // namespace Graphics
+} // namespace djv

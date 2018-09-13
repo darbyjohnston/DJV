@@ -62,12 +62,6 @@ namespace djv
                 const ImageView * viewWidget,
                 Context *         context) :
                 viewWidget(viewWidget),
-                lutWidget(0),
-                brightnessWidget(0),
-                contrastWidget(0),
-                saturationWidget(0),
-                gammaWidget(0),
-                softClipWidget(0),
                 context(context)
             {}
 

@@ -36,348 +36,348 @@
 
 #include <djvCore/FileIO.h>
 
-//------------------------------------------------------------------------------
-// djvPICLoad
-//------------------------------------------------------------------------------
-
-djvPICLoad::djvPICLoad(djvCoreContext * context) :
-    djvImageLoad(context),
-    _type(static_cast<djvPIC::TYPE>(0))
+namespace djv
 {
-    _compression[0] = false;
-    _compression[1] = false;
-}
-
-djvPICLoad::~djvPICLoad()
-{}
-
-void djvPICLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPICLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    djvFileIO io;
-    _open(_file.fileName(_file.sequence().start()), info, io);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
-
-void djvPICLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPICLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
-
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    djvFileIO io;
-    _open(fileName, info, io);
-    image.tags = info.tags;
-
-    // Read the file.
-    io.readAhead();
-    djvPixelData * data = frame.proxy ? &_tmp : &image;
-    data->set(info);
-    const int  channels  = djvPixel::channels(info.pixel);
-    const int  byteCount = djvPixel::channelByteCount(info.pixel);
-    const bool endian    = io.endian();
-    const quint8 * p = io.mmapP(), * const end = io.mmapEnd();
-    for (int y = 0; y < info.size.y; ++y)
-    {
-        //DJV_DEBUG_PRINT("y = " << y);
-        switch (_type)
+        PICLoad::PICLoad(djvCoreContext * context) :
+            ImageLoad(context),
+            _type(static_cast<PIC::TYPE>(0))
         {
-            case djvPIC::TYPE_RGB:
-            case djvPIC::TYPE_RGBA:
-                if (_compression[0])
-                {
-                    p = djvPIC::readRle(
-                        p,
-                        end,
-                        data->data(0, y),
-                        info.size.x,
-                        channels,
-                        channels * byteCount,
-                        endian);
-                    if (! p)
-                    {
-                        throw djvError(
-                            djvPIC::staticName,
-                            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                    }
-                }
-                else
-                {
-                    const int size = info.size.x * channels * byteCount;
-                    if ((io.size() - io.pos()) <
-                        djvPixelDataUtil::dataByteCount(info))
-                    {
-                        throw djvError(
-                            djvPIC::staticName,
-                            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                    }
-                    
-                    memcpy(data->data(0, y), p, size);
-                    p += size;
-                }
-                break;
-            case djvPIC::TYPE_RGB_A:
+            _compression[0] = false;
+            _compression[1] = false;
+        }
 
-                if (_compression[0])
-                {
-                    p = djvPIC::readRle(
-                        p,
-                        end,
-                        data->data(0, y),
-                        info.size.x,
-                        3,
-                        channels * byteCount,
-                        endian);
-                    if (! p)
-                    {
-                        throw djvError(
-                            djvPIC::staticName,
-                            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                    }
-                }
-                else
-                {
-                    const int size = info.size.x * 3 * byteCount;
-                    if ((io.size() - io.pos()) <
-                        djvPixelDataUtil::dataByteCount(info))
-                    {
-                        throw djvError(
-                            djvPIC::staticName,
-                            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                    }
-                    memcpy(data->data(0, y), p, size);
-                    p += size;
-                }
-                if (_compression[1])
-                {
-                    p = djvPIC::readRle(
-                        p,
-                        end,
-                        data->data(0, y) + 3 * byteCount,
-                        info.size.x,
-                        1,
-                        channels * byteCount,
-                        endian);
-                    if (! p)
-                    {
-                        throw djvError(
-                            djvPIC::staticName,
-                            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                    }
-                }
-                else
-                {
-                    const int size = info.size.x * 1 * byteCount;
-                    if ((io.size() - io.pos()) <
-                        djvPixelDataUtil::dataByteCount(info))
-                    {
-                        throw djvError(
-                            djvPIC::staticName,
-                            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                    }
-                    memcpy(data->data(0, y), p, size);
-                    p += size;
-                }
-                break;
+        PICLoad::~PICLoad()
+        {}
 
+        void PICLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PICLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            djvFileIO io;
+            _open(_file.fileName(_file.sequence().start()), info, io);
+            if (djvFileInfo::SEQUENCE == _file.type())
+            {
+                info.sequence.frames = _file.sequence().frames;
+            }
+        }
+
+        void PICLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PICLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
+
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
+
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            djvFileIO io;
+            _open(fileName, info, io);
+            image.tags = info.tags;
+
+            // Read the file.
+            io.readAhead();
+            PixelData * data = frame.proxy ? &_tmp : &image;
+            data->set(info);
+            const int  channels = Pixel::channels(info.pixel);
+            const int  byteCount = Pixel::channelByteCount(info.pixel);
+            const bool endian = io.endian();
+            const quint8 * p = io.mmapP(), *const end = io.mmapEnd();
+            for (int y = 0; y < info.size.y; ++y)
+            {
+                //DJV_DEBUG_PRINT("y = " << y);
+                switch (_type)
+                {
+                case PIC::TYPE_RGB:
+                case PIC::TYPE_RGBA:
+                    if (_compression[0])
+                    {
+                        p = PIC::readRle(
+                            p,
+                            end,
+                            data->data(0, y),
+                            info.size.x,
+                            channels,
+                            channels * byteCount,
+                            endian);
+                        if (!p)
+                        {
+                            throw djvError(
+                                PIC::staticName,
+                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        }
+                    }
+                    else
+                    {
+                        const int size = info.size.x * channels * byteCount;
+                        if ((io.size() - io.pos()) <
+                            PixelDataUtil::dataByteCount(info))
+                        {
+                            throw djvError(
+                                PIC::staticName,
+                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        }
+
+                        memcpy(data->data(0, y), p, size);
+                        p += size;
+                    }
+                    break;
+                case PIC::TYPE_RGB_A:
+
+                    if (_compression[0])
+                    {
+                        p = PIC::readRle(
+                            p,
+                            end,
+                            data->data(0, y),
+                            info.size.x,
+                            3,
+                            channels * byteCount,
+                            endian);
+                        if (!p)
+                        {
+                            throw djvError(
+                                PIC::staticName,
+                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        }
+                    }
+                    else
+                    {
+                        const int size = info.size.x * 3 * byteCount;
+                        if ((io.size() - io.pos()) <
+                            PixelDataUtil::dataByteCount(info))
+                        {
+                            throw djvError(
+                                PIC::staticName,
+                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        }
+                        memcpy(data->data(0, y), p, size);
+                        p += size;
+                    }
+                    if (_compression[1])
+                    {
+                        p = PIC::readRle(
+                            p,
+                            end,
+                            data->data(0, y) + 3 * byteCount,
+                            info.size.x,
+                            1,
+                            channels * byteCount,
+                            endian);
+                        if (!p)
+                        {
+                            throw djvError(
+                                PIC::staticName,
+                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        }
+                    }
+                    else
+                    {
+                        const int size = info.size.x * 1 * byteCount;
+                        if ((io.size() - io.pos()) <
+                            PixelDataUtil::dataByteCount(info))
+                        {
+                            throw djvError(
+                                PIC::staticName,
+                                ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                        }
+                        memcpy(data->data(0, y), p, size);
+                        p += size;
+                    }
+                    break;
+
+                default: break;
+                }
+            }
+
+            // Proxy scale the image.
+            if (frame.proxy)
+            {
+                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                info.proxy = frame.proxy;
+                image.set(info);
+                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+            }
+
+            //DJV_DEBUG_PRINT("image = " << image);
+        }
+
+        namespace
+        {
+            struct Header
+            {
+                quint32 magic;
+                float   version;
+                char    comment[80];
+                char    id[4];
+                quint16 width;
+                quint16 height;
+                float   ratio;
+                quint16 fields;
+                quint8  pad[2];
+            };
+
+            enum CHANNEL
+            {
+                CHANNEL_A = 0x10,
+                CHANNEL_B = 0x20,
+                CHANNEL_G = 0x40,
+                CHANNEL_R = 0x80
+            };
+
+            struct Channel
+            {
+                quint8 chained;
+                quint8 size;
+                quint8 type;
+                quint8 channel;
+            };
+
+            void _channel(djvFileIO & io, Channel * out)
+            {
+                io.getU8(&out->chained);
+                io.getU8(&out->size);
+                io.getU8(&out->type);
+                io.getU8(&out->channel);
+            }
+
+            /*String debugChannel(int in)
+            {
+                String out;
+                if (in & CHANNEL_R) out += 'R';
+                if (in & CHANNEL_G) out += 'G';
+                if (in & CHANNEL_B) out += 'B';
+                if (in & CHANNEL_A) out += 'A';
+                return out;
+            }*/
+
+        } /// namespace
+
+        void PICLoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PICLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            // Open the file.
+            io.setEndian(djvMemory::endian() != djvMemory::MSB);
+            io.open(in, djvFileIO::READ);
+
+            // Read the header.
+            Header header;
+            memset(&header, 0, sizeof(Header));
+            io.getU32(&header.magic);
+            if (header.magic != 0x5380F634)
+            {
+                throw djvError(
+                    PIC::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+            }
+            io.getF32(&header.version);
+            io.get(header.comment, sizeof(header.comment));
+            io.get(header.id, sizeof(header.id));
+            io.getU16(&header.width);
+            io.getU16(&header.height);
+            io.getF32(&header.ratio);
+            io.getU16(&header.fields);
+            io.seek(sizeof(header.pad));
+            //DJV_DEBUG_PRINT("version = " << header.version);
+            //DJV_DEBUG_PRINT("comment = " << String(header.comment, sizeof(header.comment)));
+            //DJV_DEBUG_PRINT("id = " << String(header.id, sizeof(header.id)));
+            //DJV_DEBUG_PRINT("width = " << header.width);
+            //DJV_DEBUG_PRINT("height = " << header.height);
+            //DJV_DEBUG_PRINT("ratio = " << header.ratio);
+            //DJV_DEBUG_PRINT("fields = " << header.fields);
+            if (QString::fromLatin1(header.id, sizeof(header.id)) != "PICT")
+            {
+                throw djvError(
+                    PIC::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+            }
+
+            // Information.
+            info.fileName = in;
+            info.size = glm::ivec2(header.width, header.height);
+            info.mirror.y = true;
+            Channel channel;
+            memset(&channel, 0, sizeof(Channel));
+            _channel(io, &channel);
+            _compression[0] = 2 == channel.type;
+            //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
+            int type = -1;
+            if ((CHANNEL_R & channel.channel) &&
+                (CHANNEL_G & channel.channel) &&
+                (CHANNEL_B & channel.channel) &&
+                (CHANNEL_A & channel.channel) &&
+                8 == channel.size &&
+                !channel.chained)
+            {
+                type = PIC::TYPE_RGBA;
+            }
+            else if (
+                (CHANNEL_R & channel.channel) &&
+                (CHANNEL_G & channel.channel) &&
+                (CHANNEL_B & channel.channel) &&
+                8 == channel.size &&
+                !channel.chained)
+            {
+                type = PIC::TYPE_RGB;
+            }
+            else if (
+                (CHANNEL_R & channel.channel) &&
+                (CHANNEL_G & channel.channel) &&
+                (CHANNEL_B & channel.channel) &&
+                8 == channel.size &&
+                channel.chained)
+            {
+                memset(&channel, 0, sizeof(Channel));
+                _channel(io, &channel);
+                _compression[1] = 2 == channel.type;
+                //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
+                if (!(CHANNEL_R & channel.channel) &&
+                    !(CHANNEL_G & channel.channel) &&
+                    !(CHANNEL_B & channel.channel) &&
+                    (CHANNEL_A & channel.channel) &&
+                    8 == channel.size &&
+                    !channel.chained)
+                {
+                    type = PIC::TYPE_RGB_A;
+                }
+            }
+            if (-1 == type)
+            {
+                throw djvError(
+                    PIC::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+            }
+            _type = static_cast<PIC::TYPE>(type);
+            switch (_type)
+            {
+            case PIC::TYPE_RGB:
+                info.pixel = Pixel::RGB_U8;
+                break;
+            case PIC::TYPE_RGBA:
+            case PIC::TYPE_RGB_A:
+                info.pixel = Pixel::RGBA_U8;
+                break;
             default: break;
+            }
+
+            // Read image tags.
+            if (header.comment[0])
+                info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]] =
+                QString::fromLatin1(header.comment, sizeof(header.comment));
+
+            //DJV_DEBUG_PRINT("info = " << info);
         }
-    }
 
-    // Proxy scale the image.
-    if (frame.proxy)
-    {
-        info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-        info.proxy = frame.proxy;
-        image.set(info);
-
-        djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-    }
-
-    //DJV_DEBUG_PRINT("image = " << image);
-}
-
-namespace
-{
-struct Header
-{
-    quint32 magic;
-    float   version;
-    char    comment [80];
-    char    id [4];
-    quint16 width;
-    quint16 height;
-    float   ratio;
-    quint16 fields;
-    quint8  pad [2];
-};
-
-enum CHANNEL
-{
-    CHANNEL_A = 0x10,
-    CHANNEL_B = 0x20,
-    CHANNEL_G = 0x40,
-    CHANNEL_R = 0x80
-};
-
-struct Channel
-{
-    quint8 chained;
-    quint8 size;
-    quint8 type;
-    quint8 channel;
-};
-
-void _channel(djvFileIO & io, Channel * out)
-{
-    io.getU8(&out->chained);
-    io.getU8(&out->size);
-    io.getU8(&out->type);
-    io.getU8(&out->channel);
-}
-
-/*String debugChannel(int in)
-{
-    String out;
-    if (in & CHANNEL_R) out += 'R';
-    if (in & CHANNEL_G) out += 'G';
-    if (in & CHANNEL_B) out += 'B';
-    if (in & CHANNEL_A) out += 'A';
-    return out;
-}*/
-
-} /// namespace
-
-void djvPICLoad::_open(const QString & in, djvImageIOInfo & info, djvFileIO & io)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPICLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    // Open the file.
-    io.setEndian(djvMemory::endian() != djvMemory::MSB);
-    io.open(in, djvFileIO::READ);
-
-    // Read the header.
-    Header header;
-    memset(&header, 0, sizeof(Header));
-    io.getU32(&header.magic);
-    if (header.magic != 0x5380F634)
-    {
-        throw djvError(
-            djvPIC::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-    }
-    io.getF32(&header.version);
-    io.get(header.comment, sizeof(header.comment));
-    io.get(header.id, sizeof(header.id));
-    io.getU16(&header.width);
-    io.getU16(&header.height);
-    io.getF32(&header.ratio);
-    io.getU16(&header.fields);
-    io.seek(sizeof(header.pad));
-    //DJV_DEBUG_PRINT("version = " << header.version);
-    //DJV_DEBUG_PRINT("comment = " <<
-    //    String(header.comment, sizeof(header.comment)));
-    //DJV_DEBUG_PRINT("id = " << String(header.id, sizeof(header.id)));
-    //DJV_DEBUG_PRINT("width = " << header.width);
-    //DJV_DEBUG_PRINT("height = " << header.height);
-    //DJV_DEBUG_PRINT("ratio = " << header.ratio);
-    //DJV_DEBUG_PRINT("fields = " << header.fields);
-    if (QString::fromLatin1(header.id, sizeof(header.id)) != "PICT")
-    {
-        throw djvError(
-            djvPIC::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-    }
-
-    // Information.
-    info.fileName = in;
-    info.size = glm::ivec2(header.width, header.height);
-    info.mirror.y = true;
-    Channel channel;
-    memset(&channel, 0, sizeof(Channel));
-    _channel(io, &channel);
-    _compression[0] = 2 == channel.type;
-    //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
-    int type = -1;
-    if ((CHANNEL_R & channel.channel) &&
-        (CHANNEL_G & channel.channel) &&
-        (CHANNEL_B & channel.channel) &&
-        (CHANNEL_A & channel.channel) &&
-        8 == channel.size &&
-        ! channel.chained)
-    {
-        type = djvPIC::TYPE_RGBA;
-    }
-    else if (
-        (CHANNEL_R & channel.channel) &&
-        (CHANNEL_G & channel.channel) &&
-        (CHANNEL_B & channel.channel) &&
-        8 == channel.size &&
-        ! channel.chained)
-    {
-        type = djvPIC::TYPE_RGB;
-    }
-    else if (
-        (CHANNEL_R & channel.channel) &&
-        (CHANNEL_G & channel.channel) &&
-        (CHANNEL_B & channel.channel) &&
-        8 == channel.size &&
-        channel.chained)
-    {
-        memset(&channel, 0, sizeof(Channel));
-        _channel(io, &channel);
-        _compression[1] = 2 == channel.type;
-        //DJV_DEBUG_PRINT("channel = " << debugChannel(channel.channel));
-        if (! (CHANNEL_R & channel.channel) &&
-            ! (CHANNEL_G & channel.channel) &&
-            ! (CHANNEL_B & channel.channel) &&
-            (CHANNEL_A & channel.channel) &&
-            8 == channel.size &&
-            ! channel.chained)
-        {
-            type = djvPIC::TYPE_RGB_A;
-        }
-    }
-    if (-1 == type)
-    {
-        throw djvError(
-            djvPIC::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-    }
-    _type = static_cast<djvPIC::TYPE>(type);
-    switch (_type)
-    {
-        case djvPIC::TYPE_RGB:
-            info.pixel = djvPixel::RGB_U8;
-            break;
-        case djvPIC::TYPE_RGBA:
-        case djvPIC::TYPE_RGB_A:
-            info.pixel = djvPixel::RGBA_U8;
-            break;
-        default: break;
-    }
-
-    // Read image tags.
-    if (header.comment[0])
-        info.tags[djvImageTags::tagLabels()[djvImageTags::DESCRIPTION]] =
-            QString::fromLatin1(header.comment, sizeof(header.comment));
-
-    //DJV_DEBUG_PRINT("info = " << info);
-}
-
+    } // namespace Graphics
+} // namespace djv

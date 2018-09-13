@@ -46,7 +46,7 @@ namespace djv
 {
     namespace UI
     {
-        TargaWidget::TargaWidget(djvImageIO * plugin, UIContext * context) :
+        TargaWidget::TargaWidget(Graphics::ImageIO * plugin, UIContext * context) :
             ImageIOWidget(plugin, context),
             _compressionWidget(0)
         {
@@ -56,7 +56,7 @@ namespace djv
             _compressionWidget = new QComboBox;
             _compressionWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _compressionWidget->addItems(djvTarga::compressionLabels());
+            _compressionWidget->addItems(Graphics::Targa::compressionLabels());
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
@@ -77,7 +77,7 @@ namespace djv
             // Initialize.
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[djvTarga::COMPRESSION_OPTION]);
+                plugin->options()[Graphics::Targa::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
             widgetUpdate();
@@ -98,7 +98,7 @@ namespace djv
 
         void TargaWidget::resetPreferences()
         {
-            _options = djvTarga::Options();
+            _options = Graphics::Targa::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -110,7 +110,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    Graphics::Targa::COMPRESSION_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.compression;
             }
             catch (const QString &)
@@ -121,7 +121,7 @@ namespace djv
 
         void TargaWidget::compressionCallback(int index)
         {
-            _options.compression = static_cast<djvTarga::COMPRESSION>(index);
+            _options.compression = static_cast<Graphics::Targa::COMPRESSION>(index);
             pluginUpdate();
         }
 
@@ -130,7 +130,7 @@ namespace djv
             QStringList tmp;
             tmp << _options.compression;
             plugin()->setOption(
-                plugin()->options()[djvTarga::COMPRESSION_OPTION], tmp);
+                plugin()->options()[Graphics::Targa::COMPRESSION_OPTION], tmp);
         }
 
         void TargaWidget::widgetUpdate()
@@ -143,14 +143,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * TargaWidgetPlugin::createWidget(djvImageIO * plugin) const
+        ImageIOWidget * TargaWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
         {
             return new TargaWidget(plugin, uiContext());
         }
 
         QString TargaWidgetPlugin::pluginName() const
         {
-            return djvTarga::staticName;
+            return Graphics::Targa::staticName;
         }
 
     } // namespace UI

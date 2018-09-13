@@ -40,24 +40,9 @@ class djvConvertContext;
 
 class djvSequence;
 
-//! \addtogroup bin
-//@{
-
-//! \defgroup djv_convert djv_convert
-//!
-//! This program provides a command line tool for image and movie conversion.
-
-//@} // bin
-
-//! \addtogroup djv_convert
-//@{
-
-//------------------------------------------------------------------------------
 //! \class djvConvertApplication
 //!
-//! The class provides the application.
-//------------------------------------------------------------------------------
-
+//! This program provides a command line tool for image and movie conversion.
 class djvConvertApplication : public QGuiApplication
 {
     Q_OBJECT
@@ -87,10 +72,7 @@ private Q_SLOTS:
     void work();
 
 private:
-    QString labelImage(const djvPixelDataInfo &, const djvSequence &) const;
+    QString labelImage(const djv::Graphics::PixelDataInfo &, const djvSequence &) const;
 
     djvConvertContext * _context;
 };
-
-//@} // djv_convert
-

@@ -41,181 +41,178 @@
 #include <QMetaType>
 #include <QString>
 
+#include <vector>
+
 class djvFileIO;
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPixelDataInfo
-//!
-//! This class provides pixel data information.
-//------------------------------------------------------------------------------
-
-class djvPixelDataInfo
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(PROXY)
-    
-public:
-    djvPixelDataInfo();
-    djvPixelDataInfo(
-        const glm::ivec2 & size,
-        djvPixel::PIXEL    pixel);
-    djvPixelDataInfo(
-        int             width,
-        int             height,
-        djvPixel::PIXEL pixel);
-    djvPixelDataInfo(
-        const QString &    fileName,
-        const glm::ivec2 & size,
-        djvPixel::PIXEL    pixel);
-    djvPixelDataInfo(
-        const QString & fileName,
-        int             width,
-        int             height,
-        djvPixel::PIXEL pixel);
-
-    //! This enumeration provides the proxy scale.
-    enum PROXY
+    namespace Graphics
     {
-        PROXY_NONE,
-        PROXY_1_2,
-        PROXY_1_4,
-        PROXY_1_8,
+        //! \class djvPixelDataInfo
+        //!
+        //! This class provides pixel data information.
+        class PixelDataInfo
+        {
+            Q_GADGET
+            Q_ENUMS(PROXY)
 
-        PROXY_COUNT
-    };
+        public:
+            PixelDataInfo();
+            PixelDataInfo(
+                const glm::ivec2 & size,
+                Pixel::PIXEL       pixel);
+            PixelDataInfo(
+                int          width,
+                int          height,
+                Pixel::PIXEL pixel);
+            PixelDataInfo(
+                const QString &    fileName,
+                const glm::ivec2 & size,
+                Pixel::PIXEL       pixel);
+            PixelDataInfo(
+                const QString & fileName,
+                int             width,
+                int             height,
+                Pixel::PIXEL    pixel);
 
-    //! Get the proxy scale labels.
-    static const QStringList & proxyLabels();
-    
-    //! This struct provides mirroring.
-    struct Mirror
-    {
-        Mirror();
-        Mirror(bool x, bool y);
-        
-        bool x = false;
-        bool y = false;
-    };
+            //! This enumeration provides the proxy scale.
+            enum PROXY
+            {
+                PROXY_NONE,
+                PROXY_1_2,
+                PROXY_1_4,
+                PROXY_1_8,
 
-    QString           fileName;
-    QString           layerName;
-    glm::ivec2        size      = glm::ivec2(0, 0);
-    PROXY             proxy     = PROXY_NONE;
-    djvPixel::PIXEL   pixel     = static_cast<djvPixel::PIXEL>(0);
-    bool              bgr       = false;
-    Mirror            mirror;
-    int               align     = 1;
-    djvMemory::ENDIAN endian    = djvMemory::endian();
+                PROXY_COUNT
+            };
 
-private:
-    void init();
-};
+            //! Get the proxy scale labels.
+            static const QStringList & proxyLabels();
 
-//------------------------------------------------------------------------------
-//! \class djvPixelData
-//!
-//! This class provides pixel data.
-//------------------------------------------------------------------------------
+            //! This struct provides mirroring.
+            struct Mirror
+            {
+                Mirror();
+                Mirror(bool x, bool y);
 
-class djvPixelData
-{
-public:
-    djvPixelData();
-    djvPixelData(const djvPixelData &);
-    djvPixelData(const djvPixelDataInfo &, const quint8 * = 0, djvFileIO * = 0);
+                bool x = false;
+                bool y = false;
+            };
 
-    virtual ~djvPixelData();
+            QString           fileName;
+            QString           layerName;
+            glm::ivec2        size = glm::ivec2(0, 0);
+            PROXY             proxy = PROXY_NONE;
+            Pixel::PIXEL      pixel = static_cast<Pixel::PIXEL>(0);
+            bool              bgr = false;
+            Mirror            mirror;
+            int               align = 1;
+            djvMemory::ENDIAN endian = djvMemory::endian();
 
-    //! Set the pixel data.
-    void set(const djvPixelDataInfo &, const quint8 * = 0, djvFileIO * = 0);
+        private:
+            void init();
+        };
 
-    //! Zero the pixel data.
-    void zero();
+        //! \class djvPixelData
+        //!
+        //! This class provides pixel data.
+        class PixelData
+        {
+        public:
+            PixelData();
+            PixelData(const PixelData &);
+            PixelData(const PixelDataInfo &, const quint8 * = 0, djvFileIO * = 0);
 
-    //! Get the pixel data information.
-    inline const djvPixelDataInfo & info() const;
+            virtual ~PixelData();
 
-    //! Get the dimensions.
-    inline const glm::ivec2 & size() const;
+            //! Set the pixel data.
+            void set(const PixelDataInfo &, const quint8 * = 0, djvFileIO * = 0);
 
-    //! Get the proxy scale.
-    inline djvPixelDataInfo::PROXY proxy() const;
+            //! Zero the pixel data.
+            void zero();
 
-    //! Get the width.
-    inline int w() const;
+            //! Get the pixel data information.
+            inline const PixelDataInfo & info() const;
 
-    //! Get the height.
-    inline int h() const;
+            //! Get the dimensions.
+            inline const glm::ivec2 & size() const;
 
-    //! Get the pixel type.
-    inline djvPixel::PIXEL pixel() const;
+            //! Get the proxy scale.
+            inline PixelDataInfo::PROXY proxy() const;
 
-    //! Get the number of channels.
-    inline int channels() const;
+            //! Get the width.
+            inline int w() const;
 
-    //! Get whether the pixel data is valid.
-    inline bool isValid() const;
+            //! Get the height.
+            inline int h() const;
 
-    //! Get a pointer to the data.
-    inline quint8 * data();
+            //! Get the pixel type.
+            inline Pixel::PIXEL pixel() const;
 
-    //! Get a pointer to the data.
-    inline const quint8 * data() const;
+            //! Get the number of channels.
+            inline int channels() const;
 
-    //! Get a pointer to the data.
-    inline quint8 * data(int x, int y);
+            //! Get whether the pixel data is valid.
+            inline bool isValid() const;
 
-    //! Get a pointer to the data.
-    inline const quint8 * data(int x, int y) const;
+            //! Get a pointer to the data.
+            inline quint8 * data();
 
-    //! Get the number of bytes in a pixel.
-    inline quint64 pixelByteCount() const;
+            //! Get a pointer to the data.
+            inline const quint8 * data() const;
 
-    //! Get the number of bytes in a scanline.
-    inline quint64 scanlineByteCount() const;
+            //! Get a pointer to the data.
+            inline quint8 * data(int x, int y);
 
-    //! Get the number of bytes in the data.
-    inline quint64 dataByteCount() const;
-    
-    //! Close the file I/O associated with the pixel data. This will initialize
-    //! the image.
-    void close();
+            //! Get a pointer to the data.
+            inline const quint8 * data(int x, int y) const;
 
-    djvPixelData & operator = (const djvPixelData &);
+            //! Get the number of bytes in a pixel.
+            inline quint64 pixelByteCount() const;
 
-private:
-    void detach();
-    void copy(const djvPixelData &);
+            //! Get the number of bytes in a scanline.
+            inline quint64 scanlineByteCount() const;
 
-    djvPixelDataInfo    _info;
-    int                 _channels          = 0;
-    std::vector<quint8> _data;
-    const quint8 *      _p                 = nullptr;
-    quint64             _pixelByteCount    = 0;
-    quint64             _scanlineByteCount = 0;
-    quint64             _dataByteCount     = 0;
-    djvFileIO *         _fileIo            = nullptr;
-};
+            //! Get the number of bytes in the data.
+            inline quint64 dataByteCount() const;
 
-Q_DECLARE_METATYPE(djvPixelDataInfo)
-Q_DECLARE_METATYPE(djvPixelData)
+            //! Close the file I/O associated with the pixel data. This will initialize
+            //! the image.
+            void close();
 
-DJV_COMPARISON_OPERATOR(djvPixelDataInfo::Mirror);
-DJV_COMPARISON_OPERATOR(djvPixelDataInfo);
-DJV_COMPARISON_OPERATOR(djvPixelData);
+            PixelData & operator = (const PixelData &);
 
-DJV_STRING_OPERATOR(djvPixelDataInfo::PROXY);
-DJV_STRING_OPERATOR(djvPixelDataInfo::Mirror);
+        private:
+            void detach();
+            void copy(const PixelData &);
 
-DJV_DEBUG_OPERATOR(djvPixelDataInfo::PROXY);
-DJV_DEBUG_OPERATOR(djvPixelDataInfo::Mirror);
-DJV_DEBUG_OPERATOR(djvPixelDataInfo);
-DJV_DEBUG_OPERATOR(djvPixelData);
+            PixelDataInfo       _info;
+            int                 _channels = 0;
+            std::vector<quint8> _data;
+            const quint8 *      _p = nullptr;
+            quint64             _pixelByteCount = 0;
+            quint64             _scanlineByteCount = 0;
+            quint64             _dataByteCount = 0;
+            djvFileIO *         _fileIo = nullptr;
+        };
 
-//@} // djvGraphicsImage
+        DJV_COMPARISON_OPERATOR(PixelDataInfo::Mirror);
+        DJV_COMPARISON_OPERATOR(PixelDataInfo);
+        DJV_COMPARISON_OPERATOR(PixelData);
+
+    } // namespace Graphics
+} // namespace djv
+
+Q_DECLARE_METATYPE(djv::Graphics::PixelDataInfo)
+Q_DECLARE_METATYPE(djv::Graphics::PixelData)
+
+DJV_STRING_OPERATOR(djv::Graphics::PixelDataInfo::PROXY);
+DJV_STRING_OPERATOR(djv::Graphics::PixelDataInfo::Mirror);
+
+DJV_DEBUG_OPERATOR(djv::Graphics::PixelDataInfo::PROXY);
+DJV_DEBUG_OPERATOR(djv::Graphics::PixelDataInfo::Mirror);
+DJV_DEBUG_OPERATOR(djv::Graphics::PixelDataInfo);
+DJV_DEBUG_OPERATOR(djv::Graphics::PixelData);
 
 #include <djvGraphics/PixelDataInline.h>
-

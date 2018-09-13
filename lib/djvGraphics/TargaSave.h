@@ -36,36 +36,31 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvTargaPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTargaSave
-//!
-//! This class provides a Targa saver.
-//------------------------------------------------------------------------------
-
-class djvTargaSave : public djvImageSave
+namespace djv
 {
-public:
-    djvTargaSave(const djvTarga::Options &, djvCoreContext *);
-    
-    virtual ~djvTargaSave();
+    namespace Graphics
+    {
+        //! \class TargaSave
+        //!
+        //! This class provides a Targa saver.
+        class TargaSave : public ImageSave
+        {
+        public:
+            TargaSave(const Targa::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual ~TargaSave();
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    void _open(const QString &) throw (djvError);
+        private:
+            void _open(const QString &) throw (djvError);
 
-    djvTarga::Options _options;
-    djvFileInfo       _file;
-    djvPixelDataInfo  _info;
-    djvImage          _image;
-};
+            Targa::Options _options;
+            djvFileInfo    _file;
+            PixelDataInfo  _info;
+            Image          _image;
+        };
 
-//@} // djvTargaPlugin
-
+    } // namespace Graphics
+} // namespace djv

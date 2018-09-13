@@ -34,115 +34,117 @@
 #include <djvGraphics/OpenGLImage.h>
 #include <djvGraphics/PixelDataUtil.h>
 
-//------------------------------------------------------------------------------
-// djvSGISave
-//------------------------------------------------------------------------------
-
-djvSGISave::djvSGISave(const djvSGI::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options(options)
-{}
-
-djvSGISave::~djvSGISave()
-{}
-
-void djvSGISave::open(const djvFileInfo & file, const djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvSGISave::open");
-    //DJV_DEBUG_PRINT("file = " << file);
-    _file = file;
-    if (info.sequence.frames.count() > 1)
+    namespace Graphics
     {
-        _file.setType(djvFileInfo::SEQUENCE);
-    }
-    _info = djvPixelDataInfo();
-    _info.size = info.size;
-    djvPixel::TYPE type = djvPixel::type(info.pixel);
-    switch (type)
-    {
-        case djvPixel::U10:
-        case djvPixel::F16:
-        case djvPixel::F32: type = djvPixel::U16; break;
-        default: break;
-    }
-    _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
-    _info.endian = djvMemory::MSB;
-    //DJV_DEBUG_PRINT("info = " << _info);
-    _image.set(_info);
-}
+        SGISave::SGISave(const SGI::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options)
+        {}
 
-void djvSGISave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvSGISave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("compression = " << _options.compression);
+        SGISave::~SGISave()
+        {}
 
-    // Open the file.
-    const QString fileName = _file.fileName(frame.frame);
-    djvFileIO io;
-    io.setEndian(djvMemory::endian() != djvMemory::MSB);
-    io.open(fileName, djvFileIO::WRITE);
-    djvSGI::saveInfo(
-        io,
-        _info,
-        _options.compression != djvSGI::COMPRESSION_NONE);
-
-    // Setup the scanline tables.
-    if (_options.compression)
-    {
-        const int tableSize = _info.size.y * djvPixel::channels(_info.pixel);
-        //DJV_DEBUG_PRINT("rle table size = " << tableSize);
-        _rleOffset.resize(tableSize);
-        _rleSize.resize  (tableSize);
-        io.seek(tableSize * 2 * 4);
-    }
-
-    // Convert the image.
-    const djvPixelData * p = &in;
-    if (in.info() != _info)
-    {
-        //DJV_DEBUG_PRINT("convert = " << _image);
-        _image.zero();
-        djvOpenGLImage().copy(in, _image);
-        p = &_image;
-    }
-    _tmp.set(p->info());
-    const int w        = _tmp.w();
-    const int h        = _tmp.h();
-    const int channels = djvPixel::channels(_tmp.pixel());
-    const int bytes    = djvPixel::channelByteCount(_tmp.pixel());
-
-    // Deinterleave the image channels.
-    djvPixelDataUtil::planarDeinterleave(*p, _tmp);
-
-    // Write the file.
-    if (! _options.compression)
-    {
-        io.set(_tmp.data(), _tmp.dataByteCount() / bytes, bytes);
-    }
-    else
-    {
-        std::vector<quint8> scanline(w * bytes * 2);
-        for (int c = 0; c < channels; ++c)
+        void SGISave::open(const djvFileInfo & file, const ImageIOInfo & info)
+            throw (djvError)
         {
-            for (int y = 0; y < h; ++y)
+            //DJV_DEBUG("SGISave::open");
+            //DJV_DEBUG_PRINT("file = " << file);
+            _file = file;
+            if (info.sequence.frames.count() > 1)
             {
-                const quint64 size = djvSGI::writeRle(
-                    _tmp.data() + (c * h + y) * w * bytes,
-                    scanline.data(),
-                    w,
-                    bytes,
-                    io.endian());
-                _rleOffset[y + c * h] = quint32(io.pos());
-                _rleSize  [y + c * h] = quint32(size);
-                io.set(scanline.data(), size / bytes, bytes);
+                _file.setType(djvFileInfo::SEQUENCE);
+            }
+            _info = PixelDataInfo();
+            _info.size = info.size;
+            Pixel::TYPE type = Pixel::type(info.pixel);
+            switch (type)
+            {
+            case Pixel::U10:
+            case Pixel::F16:
+            case Pixel::F32: type = Pixel::U16; break;
+            default: break;
+            }
+            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            _info.endian = djvMemory::MSB;
+            //DJV_DEBUG_PRINT("info = " << _info);
+            _image.set(_info);
+        }
+
+        void SGISave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("SGISave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("compression = " << _options.compression);
+
+            // Open the file.
+            const QString fileName = _file.fileName(frame.frame);
+            djvFileIO io;
+            io.setEndian(djvMemory::endian() != djvMemory::MSB);
+            io.open(fileName, djvFileIO::WRITE);
+            SGI::saveInfo(
+                io,
+                _info,
+                _options.compression != SGI::COMPRESSION_NONE);
+
+            // Setup the scanline tables.
+            if (_options.compression)
+            {
+                const int tableSize = _info.size.y * Pixel::channels(_info.pixel);
+                //DJV_DEBUG_PRINT("rle table size = " << tableSize);
+                _rleOffset.resize(tableSize);
+                _rleSize.resize(tableSize);
+                io.seek(tableSize * 2 * 4);
+            }
+
+            // Convert the image.
+            const PixelData * p = &in;
+            if (in.info() != _info)
+            {
+                //DJV_DEBUG_PRINT("convert = " << _image);
+                _image.zero();
+                OpenGLImage().copy(in, _image);
+                p = &_image;
+            }
+            _tmp.set(p->info());
+            const int w = _tmp.w();
+            const int h = _tmp.h();
+            const int channels = Pixel::channels(_tmp.pixel());
+            const int bytes = Pixel::channelByteCount(_tmp.pixel());
+
+            // Deinterleave the image channels.
+            PixelDataUtil::planarDeinterleave(*p, _tmp);
+
+            // Write the file.
+            if (!_options.compression)
+            {
+                io.set(_tmp.data(), _tmp.dataByteCount() / bytes, bytes);
+            }
+            else
+            {
+                std::vector<quint8> scanline(w * bytes * 2);
+                for (int c = 0; c < channels; ++c)
+                {
+                    for (int y = 0; y < h; ++y)
+                    {
+                        const quint64 size = SGI::writeRle(
+                            _tmp.data() + (c * h + y) * w * bytes,
+                            scanline.data(),
+                            w,
+                            bytes,
+                            io.endian());
+                        _rleOffset[y + c * h] = quint32(io.pos());
+                        _rleSize[y + c * h] = quint32(size);
+                        io.set(scanline.data(), size / bytes, bytes);
+                    }
+                }
+                io.setPos(512);
+                io.setU32(_rleOffset.data(), h * channels);
+                io.setU32(_rleSize.data(), h * channels);
             }
         }
-        io.setPos(512);
-        io.setU32(_rleOffset.data(), h * channels);
-        io.setU32(_rleSize.data(), h * channels);
-    }
-}
 
+    } // namespace Graphics
+} // namespace djv

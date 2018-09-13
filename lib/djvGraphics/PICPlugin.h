@@ -33,25 +33,36 @@
 
 #include <djvGraphics/ImageIO.h>
 
-//! \addtogroup djvPICPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPICPlugin
-//!
-//! This class provides a PIC plugin.
-//------------------------------------------------------------------------------
-
-class djvPICPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvPICPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
-    
-    virtual djvImageLoad * createLoad() const;
-};
+    namespace Graphics
+    {
+        //! \class PICPlugin
+        //!
+        //! This plugin provides support for the Softimage image file format.
+        //!
+        //! File extensions: .pic
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit, RGB, RGBA, RGB plus Alpha
+        //! - File compression
+        //! - Read only
+        //!
+        //! References:
+        //!
+        //! - Softimage, "INFO: PIC file format"
+        //!   http://xsi.wiki.avid.com/index.php/INFO:_PIC_file_format
+        class PICPlugin : public ImageIO
+        {
+        public:
+            explicit PICPlugin(djvCoreContext *);
 
-//@} // djvPICPlugin
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
+            virtual ImageLoad * createLoad() const;
+        };
+
+    } // namespace Graphics
+} // namespace djv

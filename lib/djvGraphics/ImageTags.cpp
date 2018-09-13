@@ -40,170 +40,170 @@
 #include <QStringList>
 #include <QVector>
 
-//------------------------------------------------------------------------------
-// djvImageTags::Private
-//------------------------------------------------------------------------------
+using namespace djv;
 
-struct djvImageTags::Private
+namespace djv
 {
-    typedef QPair<QString, QString> Pair;
-    QVector<Pair> list;
-};
-
-//------------------------------------------------------------------------------
-// djvImageTags
-//------------------------------------------------------------------------------
-
-djvImageTags::djvImageTags() :
-    _p(new Private)
-{}
-
-djvImageTags::djvImageTags(const djvImageTags & other) :
-    _p(new Private)
-{
-    *_p = *(other._p);
-}
-
-djvImageTags::~djvImageTags()
-{}
-
-void djvImageTags::add(const djvImageTags & in)
-{
-    Q_FOREACH(const Private::Pair & pair, in._p->list)
+    namespace Graphics
     {
-        add(pair.first, pair.second);
-    }
-}
-
-void djvImageTags::add(const QString & key, const QString & value)
-{
-    for (int i = 0; i < _p->list.count(); ++i)
-    {
-        if (key == _p->list[i].first)
+        struct ImageTags::Private
         {
-            _p->list[i].second = value;
-            return;
+            typedef QPair<QString, QString> Pair;
+            QVector<Pair> list;
+        };
+
+        ImageTags::ImageTags() :
+            _p(new Private)
+        {}
+
+        ImageTags::ImageTags(const ImageTags & other) :
+            _p(new Private)
+        {
+            *_p = *(other._p);
         }
-    }
 
-    _p->list += Private::Pair(key, value);
-}
+        ImageTags::~ImageTags()
+        {}
 
-QString djvImageTags::tag(const QString & key) const
-{
-    Q_FOREACH(const Private::Pair & pair, _p->list)
-    {
-        if (key == pair.first)
+        void ImageTags::add(const ImageTags & in)
         {
-            return pair.second;
+            Q_FOREACH(const Private::Pair & pair, in._p->list)
+            {
+                add(pair.first, pair.second);
+            }
         }
-    }
-    return QString();
-}
 
-QStringList djvImageTags::keys() const
-{
-    QStringList out;
-    Q_FOREACH(const Private::Pair & pair, _p->list)
-    {
-        out += pair.first;
-    }
-    return out;
-}
-
-QStringList djvImageTags::values() const
-{
-    QStringList out;
-    Q_FOREACH(const Private::Pair & pair, _p->list)
-    {
-        out += pair.second;
-    }
-    return out;
-}
-
-int djvImageTags::count() const
-{
-    return _p->list.count();
-}
-
-bool djvImageTags::isValid(const QString & key)
-{
-    Q_FOREACH(const Private::Pair & pair, _p->list)
-    {
-        if (key == pair.first)
+        void ImageTags::add(const QString & key, const QString & value)
         {
+            for (int i = 0; i < _p->list.count(); ++i)
+            {
+                if (key == _p->list[i].first)
+                {
+                    _p->list[i].second = value;
+                    return;
+                }
+            }
+            _p->list += Private::Pair(key, value);
+        }
+
+        QString ImageTags::tag(const QString & key) const
+        {
+            Q_FOREACH(const Private::Pair & pair, _p->list)
+            {
+                if (key == pair.first)
+                {
+                    return pair.second;
+                }
+            }
+            return QString();
+        }
+
+        QStringList ImageTags::keys() const
+        {
+            QStringList out;
+            Q_FOREACH(const Private::Pair & pair, _p->list)
+            {
+                out += pair.first;
+            }
+            return out;
+        }
+
+        QStringList ImageTags::values() const
+        {
+            QStringList out;
+            Q_FOREACH(const Private::Pair & pair, _p->list)
+            {
+                out += pair.second;
+            }
+            return out;
+        }
+
+        int ImageTags::count() const
+        {
+            return _p->list.count();
+        }
+
+        bool ImageTags::isValid(const QString & key)
+        {
+            Q_FOREACH(const Private::Pair & pair, _p->list)
+            {
+                if (key == pair.first)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        void ImageTags::clear()
+        {
+            _p->list.clear();
+        }
+
+        const QStringList & ImageTags::tagLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::ImageTags", "Project") <<
+                qApp->translate("djv::Graphics::ImageTags", "Creator") <<
+                qApp->translate("djv::Graphics::ImageTags", "Description") <<
+                qApp->translate("djv::Graphics::ImageTags", "Copyright") <<
+                qApp->translate("djv::Graphics::ImageTags", "Time") <<
+                qApp->translate("djv::Graphics::ImageTags", "UTC Offset") <<
+                qApp->translate("djv::Graphics::ImageTags", "Keycode") <<
+                qApp->translate("djv::Graphics::ImageTags", "Timecode");
+            DJV_ASSERT(data.count() == TAGS_COUNT);
+            return data;
+        }
+
+        ImageTags & ImageTags::operator = (const ImageTags & other)
+        {
+            if (&other != this)
+            {
+                *_p = *(other._p);
+            }
+            return *this;
+        }
+
+        QString & ImageTags::operator [] (const QString & key)
+        {
+            for (int i = 0; i < _p->list.count(); ++i)
+            {
+                if (key == _p->list[i].first)
+                {
+                    return _p->list[i].second;
+                }
+            }
+            _p->list += Private::Pair(key, QString());
+            return _p->list[_p->list.count() - 1].second;
+        }
+
+        QString ImageTags::operator [] (const QString & key) const
+        {
+            return tag(key);
+        }
+
+        bool operator == (const ImageTags & a, const ImageTags & b)
+        {
+            if (a.keys() != b.keys())
+            {
+                return false;
+            }
+            if (a.values() != b.values())
+            {
+                return false;
+            }
             return true;
         }
-    }
-    return false;
-}
 
-void djvImageTags::clear()
-{
-    _p->list.clear();
-}
-
-const QStringList & djvImageTags::tagLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvImageTags", "Project") <<
-        qApp->translate("djvImageTags", "Creator") <<
-        qApp->translate("djvImageTags", "Description") <<
-        qApp->translate("djvImageTags", "Copyright") <<
-        qApp->translate("djvImageTags", "Time") <<
-        qApp->translate("djvImageTags", "UTC Offset") <<
-        qApp->translate("djvImageTags", "Keycode") <<
-        qApp->translate("djvImageTags", "Timecode");
-    DJV_ASSERT(data.count() == TAGS_COUNT);
-    return data;
-}
-
-djvImageTags & djvImageTags::operator = (const djvImageTags & other)
-{
-    if (&other != this)
-    {
-        *_p = *(other._p);
-    }
-    return *this;
-}
-
-QString & djvImageTags::operator [] (const QString & key)
-{
-    for (int i = 0; i < _p->list.count(); ++i)
-    {
-        if (key == _p->list[i].first)
+        bool operator != (const ImageTags & a, const ImageTags & b)
         {
-            return _p->list[i].second;
+            return !(a == b);
         }
-    }
-    _p->list += Private::Pair(key, QString());
-    return _p->list[_p->list.count() - 1].second;
-}
 
-QString djvImageTags::operator [] (const QString & key) const
-{
-    return tag(key);
-}
+    } // namespace Graphics
+} // namespace djv
 
-bool operator == (const djvImageTags & a, const djvImageTags & b)
-{
-    if (a.keys() != b.keys())
-    {
-        return false;
-    }
-    if (a.values() != b.values())
-    {
-        return false;
-    }
-    return true;
-}
-
-bool operator != (const djvImageTags & a, const djvImageTags & b)
-{
-    return ! (a == b);
-}
-
-djvDebug & operator << (djvDebug & debug, const djvImageTags & tags)
+djvDebug & operator << (djvDebug & debug, const Graphics::ImageTags & tags)
 {
     QStringList tmp;
     Q_FOREACH(const QString & key, tags.keys())

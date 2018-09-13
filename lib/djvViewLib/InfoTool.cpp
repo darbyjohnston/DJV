@@ -144,7 +144,7 @@ namespace djv
                 _p->pixelWidget <<
                 _p->timeWidget <<
                 _p->tagsWidget);
-            const djvImageIOInfo & imageIOInfo = mainWindow()->imageIOInfo();
+            const Graphics::ImageIOInfo & imageIOInfo = mainWindow()->imageIOInfo();
             if (isVisible())
             {
                 _p->fileNameWidget->setText(

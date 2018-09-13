@@ -35,12 +35,10 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvLsContext
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvLsContext::djvLsContext(QObject * parent) :
-    djvGraphicsContext(parent),
+    Graphics::GraphicsContext(parent),
     _fileInfo     (true),
     _filePath     (false),
     _sequence     (djvSequence::COMPRESS_RANGE),
@@ -122,7 +120,7 @@ bool djvLsContext::commandLineParse(QStringList & in) throw (QString)
     //DJV_DEBUG("djvLsContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    if (! djvGraphicsContext::commandLineParse(in))
+    if (!Graphics::GraphicsContext::commandLineParse(in))
         return false;
 
     QStringList args;
@@ -284,5 +282,5 @@ QString djvLsContext::commandLineHelp() const
         arg(djvStringUtil::label(_sequence).join(", ")).
         arg(djvFileInfoUtil::sortLabels().join(", ")).
         arg(djvStringUtil::label(_sort).join(", ")).
-        arg(djvGraphicsContext::commandLineHelp());
+        arg(Graphics::GraphicsContext::commandLineHelp());
 }

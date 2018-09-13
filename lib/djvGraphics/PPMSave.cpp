@@ -35,184 +35,186 @@
 
 #include <stdio.h>
 
-//------------------------------------------------------------------------------
-// djvPPMSave
-//------------------------------------------------------------------------------
-
-djvPPMSave::djvPPMSave(const djvPPM::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options (options),
-    _bitDepth(0)
-{}
-
-djvPPMSave::~djvPPMSave()
-{}
-
-void djvPPMSave::open(const djvFileInfo & in, const djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvPPMSave::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    
-    _file = in;
-    if (info.sequence.frames.count() > 1)
+    namespace Graphics
     {
-        _file.setType(djvFileInfo::SEQUENCE);
-    }
-    
-    _info          = djvPixelDataInfo();
-    _info.size     = info.size;
-    _info.mirror.y = true;
+        PPMSave::PPMSave(const PPM::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options),
+            _bitDepth(0)
+        {}
 
-    switch (_options.type)
-    {
-        case djvPPM::TYPE_AUTO:
+        PPMSave::~PPMSave()
+        {}
+
+        void PPMSave::open(const djvFileInfo & in, const ImageIOInfo & info)
+            throw (djvError)
         {
-            djvPixel::FORMAT format = djvPixel::format(info.pixel);
-            switch (format)
+            //DJV_DEBUG("PPMSave::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            _file = in;
+            if (info.sequence.frames.count() > 1)
             {
-                case djvPixel::LA:   format = djvPixel::L;   break;
-                case djvPixel::RGBA: format = djvPixel::RGB; break;
-                default: break;
+                _file.setType(djvFileInfo::SEQUENCE);
             }
-            djvPixel::TYPE type = djvPixel::type(info.pixel);
-            switch (type)
+
+            _info = PixelDataInfo();
+            _info.size = info.size;
+            _info.mirror.y = true;
+
+            switch (_options.type)
             {
-                case djvPixel::U10:
-                case djvPixel::F16:
-                case djvPixel::F32: type = djvPixel::U16; break;
-                default: break;
-            }
-            _info.pixel = djvPixel::pixel(format, type);
-            _bitDepth = djvPixel::bitDepth(_info.pixel);
-        }
-        break;
-        case djvPPM::TYPE_U1:
-            _info.pixel = djvPixel::L_U8;
-            _bitDepth   = 1;
-            break;
-        default: break;
-    }
-
-    _info.endian = djvMemory::MSB;
-
-    //DJV_DEBUG_PRINT("info = " << _info);
-    _image.set(_info);
-}
-
-void djvPPMSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPPMSave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("type = " << _type);
-    //DJV_DEBUG_PRINT("data = " << _data);
-
-    // Open the file.
-    djvFileIO io;
-    _open(_file.fileName(frame.frame), io);
-
-    // Convert the image.
-    const djvPixelData * p = &in;
-    if (in.info() != _info)
-    {
-        //DJV_DEBUG_PRINT("convert = " << _image);
-        _image.zero();
-        djvOpenGLImage().copy(in, _image);
-        p = &_image;
-    }
-
-    // Write the file.
-    if (djvPPM::DATA_BINARY == _options.data && _bitDepth != 1)
-    {
-        io.set(p->data(), p->dataByteCount());
-    }
-    else
-    {
-        const int w = p->w(), h = p->h();
-        const int channels = djvPixel::channels(p->info().pixel);
-        const quint64 scanlineByteCount = djvPPM::scanlineByteCount(
-            w,
-            channels,
-            _bitDepth,
-            _options.data);
-        std::vector<quint8> scanline(scanlineByteCount);
-        //DJV_DEBUG_PRINT("scanline = " << static_cast<int>(scanlineByteCount));
-        for (int y = 0; y < h; ++y)
-        {
-            if (djvPPM::DATA_BINARY == _options.data &&
-                1 == _bitDepth)
+            case PPM::TYPE_AUTO:
             {
-                const quint8 * inP = p->data(0, y);
-                quint8 * outP = scanline.data();
-                for (int i = 0; i < w; ++i)
+                Pixel::FORMAT format = Pixel::format(info.pixel);
+                switch (format)
                 {
-                    const int tmp = inP[i];
-                    const int off = i % 8;
-                    const int j = i / 8;
-                    if (0 == off)
-                    {
-                        outP[j] = 0;
-                    }
-                    outP[j] |= ((! tmp) & 1) << (7 - off);
+                case Pixel::LA:   format = Pixel::L;   break;
+                case Pixel::RGBA: format = Pixel::RGB; break;
+                default: break;
                 }
+                Pixel::TYPE type = Pixel::type(info.pixel);
+                switch (type)
+                {
+                case Pixel::U10:
+                case Pixel::F16:
+                case Pixel::F32: type = Pixel::U16; break;
+                default: break;
+                }
+                _info.pixel = Pixel::pixel(format, type);
+                _bitDepth = Pixel::bitDepth(_info.pixel);
+            }
+            break;
+            case PPM::TYPE_U1:
+                _info.pixel = Pixel::L_U8;
+                _bitDepth = 1;
+                break;
+            default: break;
+            }
 
-                io.set(scanline.data(), scanlineByteCount);
+            _info.endian = djvMemory::MSB;
+
+            //DJV_DEBUG_PRINT("info = " << _info);
+            _image.set(_info);
+        }
+
+        void PPMSave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PPMSave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("type = " << _type);
+            //DJV_DEBUG_PRINT("data = " << _data);
+
+            // Open the file.
+            djvFileIO io;
+            _open(_file.fileName(frame.frame), io);
+
+            // Convert the image.
+            const PixelData * p = &in;
+            if (in.info() != _info)
+            {
+                //DJV_DEBUG_PRINT("convert = " << _image);
+                _image.zero();
+                OpenGLImage().copy(in, _image);
+                p = &_image;
+            }
+
+            // Write the file.
+            if (PPM::DATA_BINARY == _options.data && _bitDepth != 1)
+            {
+                io.set(p->data(), p->dataByteCount());
             }
             else
             {
-                const quint64 size = djvPPM::asciiSave(
-                    p->data(0, y),
-                    scanline.data(),
-                    w * channels,
-                    _bitDepth);
-                io.set(scanline.data(), size);
+                const int w = p->w(), h = p->h();
+                const int channels = Pixel::channels(p->info().pixel);
+                const quint64 scanlineByteCount = PPM::scanlineByteCount(
+                    w,
+                    channels,
+                    _bitDepth,
+                    _options.data);
+                std::vector<quint8> scanline(scanlineByteCount);
+                //DJV_DEBUG_PRINT("scanline = " << static_cast<int>(scanlineByteCount));
+                for (int y = 0; y < h; ++y)
+                {
+                    if (PPM::DATA_BINARY == _options.data &&
+                        1 == _bitDepth)
+                    {
+                        const quint8 * inP = p->data(0, y);
+                        quint8 * outP = scanline.data();
+                        for (int i = 0; i < w; ++i)
+                        {
+                            const int tmp = inP[i];
+                            const int off = i % 8;
+                            const int j = i / 8;
+                            if (0 == off)
+                            {
+                                outP[j] = 0;
+                            }
+                            outP[j] |= ((!tmp) & 1) << (7 - off);
+                        }
+
+                        io.set(scanline.data(), scanlineByteCount);
+                    }
+                    else
+                    {
+                        const quint64 size = PPM::asciiSave(
+                            p->data(0, y),
+                            scanline.data(),
+                            w * channels,
+                            _bitDepth);
+                        io.set(scanline.data(), size);
+                    }
+                }
             }
         }
-    }
-}
 
-void djvPPMSave::_open(const QString & in, djvFileIO & io) throw (djvError)
-{
-    //DJV_DEBUG("djvPPMSave::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    // Open.
-    io.setEndian(djvMemory::endian() != djvMemory::MSB);
-    io.open(in, djvFileIO::WRITE);
-
-    // Header.
-    int ppmType = 0;
-    if (1 == _bitDepth)
-    {
-        ppmType = djvPPM::DATA_ASCII == _options.data ? 1 : 4;
-    }
-    else
-    {
-        ppmType = djvPPM::DATA_ASCII == _options.data ? 2 : 5;
-        if (3 == _image.channels())
+        void PPMSave::_open(const QString & in, djvFileIO & io) throw (djvError)
         {
-            ++ppmType;
-        }
-    }
-    char magic [] = "P \n";
-    magic[1] = '0' + ppmType;
-    io.set(magic, 3);
-    char tmp[djvStringUtil::cStringLength] = "";
-    int size = SNPRINTF(
-        tmp,
-        djvStringUtil::cStringLength, "%d %d\n",
-        _image.w(),
-        _image.h());
-    io.set(tmp, size);
-    if (_bitDepth != 1)
-    {
-        //! \todo The symbol djvPixel::u16Max is undefined on Mac OS 10.6?
-        //const int maxValue =
-        //    (8 == _bitDepth) ? djvPixel::u8Max : djvPixel::u16Max;
-        const int max_value = (8 == _bitDepth) ? djvPixel::u8Max : 65535;
-        size = SNPRINTF(tmp, djvStringUtil::cStringLength, "%d\n", max_value);
-        io.set(tmp, size);
-    }
-}
+            //DJV_DEBUG("PPMSave::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
 
+            // Open.
+            io.setEndian(djvMemory::endian() != djvMemory::MSB);
+            io.open(in, djvFileIO::WRITE);
+
+            // Header.
+            int ppmType = 0;
+            if (1 == _bitDepth)
+            {
+                ppmType = PPM::DATA_ASCII == _options.data ? 1 : 4;
+            }
+            else
+            {
+                ppmType = PPM::DATA_ASCII == _options.data ? 2 : 5;
+                if (3 == _image.channels())
+                {
+                    ++ppmType;
+                }
+            }
+            char magic[] = "P \n";
+            magic[1] = '0' + ppmType;
+            io.set(magic, 3);
+            char tmp[djvStringUtil::cStringLength] = "";
+            int size = SNPRINTF(
+                tmp,
+                djvStringUtil::cStringLength, "%d %d\n",
+                _image.w(),
+                _image.h());
+            io.set(tmp, size);
+            if (_bitDepth != 1)
+            {
+                //! \todo The symbol Pixel::u16Max is undefined on Mac OS 10.6?
+                //const int maxValue =
+                //    (8 == _bitDepth) ? Pixel::u8Max : Pixel::u16Max;
+                const int max_value = (8 == _bitDepth) ? Pixel::u8Max : 65535;
+                size = SNPRINTF(tmp, djvStringUtil::cStringLength, "%d\n", max_value);
+                io.set(tmp, size);
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

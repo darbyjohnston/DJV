@@ -37,42 +37,36 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvPNGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPNGSave
-//!
-//! This class provides a PNG saver.
-//------------------------------------------------------------------------------
-
-class djvPNGSave : public djvImageSave
+namespace djv
 {
-public:
-    explicit djvPNGSave(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class PNGSave
+        //!
+        //! This class provides a PNG saver.
+        class PNGSave : public ImageSave
+        {
+        public:
+            explicit PNGSave(djvCoreContext *);
 
-    virtual ~djvPNGSave();
+            virtual ~PNGSave();
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, const ImageIOInfo &)  throw (djvError);
 
-    virtual void close() throw (djvError);
+            djvFileInfo    _file;
+            FILE *         _f;
+            png_structp    _png;
+            png_infop      _pngInfo;
+            PNGErrorStruct _pngError;
+            PixelDataInfo  _info;
+            Image          _image;
+        };
 
-private:
-    void _open(const QString &, const djvImageIOInfo &)
-        throw (djvError);
-
-    djvFileInfo       _file;
-    FILE *            _f;
-    png_structp       _png;
-    png_infop         _pngInfo;
-    djvPNGErrorStruct _pngError;
-    djvPixelDataInfo  _info;
-    djvImage          _image;
-};
-
-//@} // djvPNGPlugin
+    } // namespace Graphics
+} // namespace djv
 

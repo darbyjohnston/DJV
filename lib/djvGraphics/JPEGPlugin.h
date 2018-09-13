@@ -34,36 +34,46 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/JPEG.h>
 
-//! \addtogroup djvJPEGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvJPEGPlugin
-//!
-//! This class provides a JPEG plugin.
-//------------------------------------------------------------------------------
-
-class djvJPEGPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvJPEGPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+    namespace Graphics
+    {
+        //! \class JPEGPlugin
+        //!
+        //! This plugin provides support for the Joint Photographic Experts Group
+        //! (JPEG) image file format.
+        //!
+        //! Requires:
+        //!
+        //! - libjpeg - http://www.ijg.org
+        //!
+        //! File extensions: .jpeg, .jpg, .jfif
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit, Luminance, RGB
+        //! - File compression
+        class JPEGPlugin : public ImageIO
+        {
+        public:
+            explicit JPEGPlugin(djvCoreContext *);
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-private:
-    djvJPEG::Options _options;
-};
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-//@} // djvJPEGPlugin
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
+        private:
+            JPEG::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

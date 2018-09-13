@@ -54,7 +54,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            DPXWidget(djvImageIO *, UIContext *);
+            DPXWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~DPXWidget();
 
@@ -79,7 +79,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvDPX::Options _options;
+            Graphics::DPX::Options _options;
             QFormLayout * _inputColorProfileLayout;
             QComboBox * _inputColorProfileWidget;
             IntEditSlider * _inputBlackPointWidget;
@@ -104,7 +104,7 @@ namespace djv
         public:
             DPXWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

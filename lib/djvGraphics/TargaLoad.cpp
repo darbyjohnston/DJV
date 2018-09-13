@@ -34,105 +34,108 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
-//------------------------------------------------------------------------------
-// djvTargaLoad
-//------------------------------------------------------------------------------
-
-djvTargaLoad::djvTargaLoad(djvCoreContext * context) :
-    djvImageLoad(context)
-{}
-
-djvTargaLoad::~djvTargaLoad()
-{}
-
-void djvTargaLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvTargaLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    djvFileIO io;
-    _open(_file.fileName(_file.sequence().start()), info, io);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
+        TargaLoad::TargaLoad(djvCoreContext * context) :
+            ImageLoad(context)
+        {}
 
-void djvTargaLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvTargaLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
+        TargaLoad::~TargaLoad()
+        {}
 
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
-
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    QScopedPointer<djvFileIO> io(new djvFileIO);
-    _open(fileName, info, *io);
-
-    // Read the file.
-    io->readAhead();
-    djvPixelData * data = frame.proxy ? &_tmp : &image;
-    if (! _compression)
-    {
-        if ((io->size() - io->pos()) < djvPixelDataUtil::dataByteCount(info))
+        void TargaLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
         {
-            throw djvError(
-                djvTarga::staticName,
-                djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-        }
-        data->set(info, io->mmapP(), io.data());
-        io.take();
-    }
-    else
-    {
-        data->set(info);
-        const quint8 * p = io->mmapP();
-        const quint8 * const end = io->mmapEnd();
-        const int channels = djvPixel::channels(info.pixel);
-        for (int y = 0; y < info.size.y; ++y)
-        {
-            //DJV_DEBUG_PRINT("y = " << y);
-            p = djvTarga::readRle(
-                p,
-                end,
-                data->data(0, y),
-                info.size.x,
-                channels);
-            if (! p)
+            //DJV_DEBUG("TargaLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            djvFileIO io;
+            _open(_file.fileName(_file.sequence().start()), info, io);
+            if (djvFileInfo::SEQUENCE == _file.type())
             {
-                throw djvError(
-                    djvTarga::staticName,
-                    djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
+                info.sequence.frames = _file.sequence().frames;
             }
         }
-    }
 
-    // Proxy scale the image.
-    if (frame.proxy)
-    {
-        info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-        info.proxy = frame.proxy;
-        image.set(info);
-        djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-    }
+        void TargaLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("TargaLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
 
-    //DJV_DEBUG_PRINT("image = " << image);
-}
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
 
-void djvTargaLoad::_open(const QString & in, djvImageIOInfo & info, djvFileIO & io)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvTargaLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    io.setEndian(djvMemory::endian() != djvMemory::LSB);
-    io.open(in, djvFileIO::READ);
-    info.fileName = in;
-    djvTarga::loadInfo(io, info, &_compression);
-}
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            QScopedPointer<djvFileIO> io(new djvFileIO);
+            _open(fileName, info, *io);
+
+            // Read the file.
+            io->readAhead();
+            PixelData * data = frame.proxy ? &_tmp : &image;
+            if (!_compression)
+            {
+                if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(info))
+                {
+                    throw djvError(
+                        Targa::staticName,
+                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                }
+                data->set(info, io->mmapP(), io.data());
+                io.take();
+            }
+            else
+            {
+                data->set(info);
+                const quint8 * p = io->mmapP();
+                const quint8 * const end = io->mmapEnd();
+                const int channels = Pixel::channels(info.pixel);
+                for (int y = 0; y < info.size.y; ++y)
+                {
+                    //DJV_DEBUG_PRINT("y = " << y);
+                    p = Targa::readRle(
+                        p,
+                        end,
+                        data->data(0, y),
+                        info.size.x,
+                        channels);
+                    if (!p)
+                    {
+                        throw djvError(
+                            Targa::staticName,
+                            ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                    }
+                }
+            }
+
+            // Proxy scale the image.
+            if (frame.proxy)
+            {
+                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                info.proxy = frame.proxy;
+                image.set(info);
+                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+            }
+
+            //DJV_DEBUG_PRINT("image = " << image);
+        }
+
+        void TargaLoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
+            throw (djvError)
+        {
+            //DJV_DEBUG("djvTargaLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            io.setEndian(djvMemory::endian() != djvMemory::LSB);
+            io.open(in, djvFileIO::READ);
+            info.fileName = in;
+            Targa::loadInfo(io, info, &_compression);
+        }
+
+    } // namespace Graphics
+} // namespace djv

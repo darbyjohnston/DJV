@@ -38,106 +38,109 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvLUTPlugin
-//---------------------------------------------------------3---------------------
-
-djvLUTPlugin::djvLUTPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-void djvLUTPlugin::commandLine(QStringList & in) throw (QString)
+namespace djv
 {
-    QStringList tmp;
-    QString     arg;
-    try
+    namespace Graphics
     {
-        while (! in.isEmpty())
+        LUTPlugin::LUTPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
+
+        void LUTPlugin::commandLine(QStringList & in) throw (QString)
         {
-            in >> arg;
-            if (qApp->translate("djvLUTPlugin", "-lut_type") == arg)
+            QStringList tmp;
+            QString     arg;
+            try
             {
-                in >> _options.type;
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::LUTPlugin", "-lut_type") == arg)
+                    {
+                        in >> _options.type;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
             }
-            else
+            catch (const QString &)
             {
-                tmp << arg;
+                throw arg;
             }
+            in = tmp;
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvLUTPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvLUTPlugin",
-"\n"
-"LUT Options\n"
-"\n"
-"    -lut_type (value)\n"
-"        Set the pixel type used when loading LUTs. Options = %1. Default = "
-"%2.\n").
-    arg(djvLUT::typeLabels().join(", ")).
-    arg(djvStringUtil::label(_options.type).join(", "));
-}
-
-QString djvLUTPlugin::pluginName() const
-{
-    return djvLUT::staticName;
-}
-
-QStringList djvLUTPlugin::extensions() const
-{
-    return djvLUT::staticExtensions;
-}
-
-QStringList djvLUTPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvLUT::TYPE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.type;
-    }
-    return out;
-}
-
-bool djvLUTPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvLUT::TYPE_OPTION], Qt::CaseInsensitive))
+        QString LUTPlugin::commandLineHelp() const
         {
-            djvLUT::TYPE type = static_cast<djvLUT::TYPE>(0);
-            data >> type;
-            if (type != _options.type)
-            {
-                _options.type = type;
-                Q_EMIT optionChanged(in);
-            }
+            return qApp->translate("djv::Graphics::LUTPlugin",
+                "\n"
+                "LUT Options\n"
+                "\n"
+                "    -lut_type (value)\n"
+                "        Set the pixel type used when loading LUTs. Options = %1. Default = "
+                "%2.\n").
+                arg(LUT::typeLabels().join(", ")).
+                arg(djvStringUtil::label(_options.type).join(", "));
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvLUTPlugin::options() const
-{
-    return djvLUT::optionsLabels();
-}
+        QString LUTPlugin::pluginName() const
+        {
+            return LUT::staticName;
+        }
 
-djvImageLoad * djvLUTPlugin::createLoad() const
-{
-    return new djvLUTLoad(_options, context());
-}
+        QStringList LUTPlugin::extensions() const
+        {
+            return LUT::staticExtensions;
+        }
 
-djvImageSave * djvLUTPlugin::createSave() const
-{
-    return new djvLUTSave(_options, context());
-}
+        QStringList LUTPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[LUT::TYPE_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.type;
+            }
+            return out;
+        }
+
+        bool LUTPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[LUT::TYPE_OPTION], Qt::CaseInsensitive))
+                {
+                    LUT::TYPE type = static_cast<LUT::TYPE>(0);
+                    data >> type;
+                    if (type != _options.type)
+                    {
+                        _options.type = type;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        QStringList LUTPlugin::options() const
+        {
+            return LUT::optionsLabels();
+        }
+
+        ImageLoad * LUTPlugin::createLoad() const
+        {
+            return new LUTLoad(_options, context());
+        }
+
+        ImageSave * LUTPlugin::createSave() const
+        {
+            return new LUTSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

@@ -37,120 +37,93 @@
 
 class djvFileIO;
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvLUTPlugin djvLUTPlugin
-//!
-//! This plugin provides support for two-dimensional lookup table file formats.
-//!
-//! File extensions: .lut, .1dl
-//!
-//! Supported features:
-//!
-//! - Inferno and Kodak formats
-//! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA; 10-bit RGB
-//!
-//! \todo Add support for detecting whether the input LUT file is horizontal
-//! or vertical.
-
-//@} // plugins
-
-//! \addtogroup djvLUTPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvLUT
-//!
-//! This struct provides LUT utilities.
-//------------------------------------------------------------------------------
-
-struct djvLUT
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-    
-    //! Plugin extensions.
-    static const QStringList staticExtensions;
-
-    //! This enumeration provides the file formats
-    enum FORMAT
+    namespace Graphics
     {
-        FORMAT_INFERNO,
-        FORMAT_KODAK,
+        //! \struct LUT
+        //!
+        //! This struct provides LUT utilities.
+        struct LUT
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        FORMAT_COUNT
-    };
+            //! Plugin extensions.
+            static const QStringList staticExtensions;
 
-    //! Get the file format labels.
-    static const QStringList & formatLabels();
+            //! This enumeration provides the file formats
+            enum FORMAT
+            {
+                FORMAT_INFERNO,
+                FORMAT_KODAK,
 
-    //! This enumeration provides the file types.
-    enum TYPE
-    {
-        TYPE_AUTO,
-        TYPE_U8,
-        TYPE_U10,
-        TYPE_U16,
+                FORMAT_COUNT
+            };
 
-        TYPE_COUNT
-    };
+            //! Get the file format labels.
+            static const QStringList & formatLabels();
 
-    //! Get the file type labels.
-    static const QStringList & typeLabels();
+            //! This enumeration provides the file types.
+            enum TYPE
+            {
+                TYPE_AUTO,
+                TYPE_U8,
+                TYPE_U10,
+                TYPE_U16,
 
-    //! Open an Inferno LUT.
-    static void infernoOpen(djvFileIO &, djvPixelDataInfo &, TYPE)
-        throw (djvError);
+                TYPE_COUNT
+            };
 
-    //! Load an Inferno LUT.
-    static void infernoLoad(djvFileIO &, djvImage &) throw (djvError);
+            //! Get the file type labels.
+            static const QStringList & typeLabels();
 
-    //! Open a Kodak LUT.
-    static void kodakOpen(djvFileIO &, djvPixelDataInfo &, TYPE)
-        throw (djvError);
+            //! Open an Inferno LUT.
+            static void infernoOpen(djvFileIO &, PixelDataInfo &, TYPE) throw (djvError);
 
-    //! Load a Kodak LUT.
-    static void kodakLoad(djvFileIO &, djvImage &) throw (djvError);
+            //! Load an Inferno LUT.
+            static void infernoLoad(djvFileIO &, Image &) throw (djvError);
 
-    //! Open an Inferno LUT.
-    static void infernoOpen(djvFileIO &, const djvPixelDataInfo &)
-        throw (djvError);
+            //! Open a Kodak LUT.
+            static void kodakOpen(djvFileIO &, PixelDataInfo &, TYPE) throw (djvError);
 
-    //! Save an Inferno LUT.
-    static void infernoSave(djvFileIO & io, const djvPixelData *)
-        throw (djvError);
+            //! Load a Kodak LUT.
+            static void kodakLoad(djvFileIO &, Image &) throw (djvError);
 
-    //! Open a Kodak LUT.
-    static void kodakOpen(djvFileIO &, const djvPixelDataInfo &)
-        throw (djvError);
+            //! Open an Inferno LUT.
+            static void infernoOpen(djvFileIO &, const PixelDataInfo &) throw (djvError);
 
-    //! Save a Kodak LUT.
-    static void kodakSave(djvFileIO &, const djvPixelData *)
-        throw (djvError);
+            //! Save an Inferno LUT.
+            static void infernoSave(djvFileIO & io, const PixelData *) throw (djvError);
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        TYPE_OPTION,
+            //! Open a Kodak LUT.
+            static void kodakOpen(djvFileIO &, const PixelDataInfo &) throw (djvError);
 
-        OPTIONS_COUNT
-    };
+            //! Save a Kodak LUT.
+            static void kodakSave(djvFileIO &, const PixelData *) throw (djvError);
 
-    //! Get the option labels.
-    static const QStringList & optionsLabels();
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                TYPE_OPTION,
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+                OPTIONS_COUNT
+            };
 
-        TYPE type;
-    };
-};
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
 
-DJV_STRING_OPERATOR(djvLUT::FORMAT);
-DJV_STRING_OPERATOR(djvLUT::TYPE);
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-//@} // djvLUTPlugin
+                TYPE type;
+            };
+        };
 
+    } // namespace Graphics
+} // namespace djv
+
+DJV_STRING_OPERATOR(djv::Graphics::LUT::FORMAT);
+DJV_STRING_OPERATOR(djv::Graphics::LUT::TYPE);

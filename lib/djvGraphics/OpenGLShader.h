@@ -36,50 +36,53 @@
 #include <djvCore/Error.h>
 #include <djvCore/Matrix.h>
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLShader
-//!
-//! This class encapsulates an OpenGL shader.
-//------------------------------------------------------------------------------
-
-class djvOpenGLShader
+namespace djv
 {
-public:
-    ~djvOpenGLShader();
+    namespace Graphics
+    {
+        //! \class OpenGLShader
+        //!
+        //! This class encapsulates an OpenGL shader.
+        class OpenGLShader
+        {
+        public:
+            ~OpenGLShader();
 
-    //! Initialize the shader.
-    void init(
-        const QString & vertexSource,
-        const QString & fragmentSource) throw (djvError);
+            //! Initialize the shader.
+            void init(
+                const QString & vertexSource,
+                const QString & fragmentSource) throw (djvError);
 
-    //! Bind the shader.
-    void bind();
-    
-    //! Get the shader vertex source.
-    const QString & vertexSource() const;
-    
-    //! Get the shader fragment source.
-    const QString & fragmentSource() const;
+            //! Bind the shader.
+            void bind();
 
-    //! Get the shader program ID.
-    GLuint program() const;
+            //! Get the shader vertex source.
+            const QString & vertexSource() const;
 
-    //! Set a uniform value.
-    void setUniform(const QString&, int);
+            //! Get the shader fragment source.
+            const QString & fragmentSource() const;
 
-    //! Set a uniform value.
-    void setUniform(const QString&, float);
+            //! Get the shader program ID.
+            GLuint program() const;
 
-    //! Set a uniform value.
-    void setUniform(const QString&, const glm::mat4x4&);
+            //! Set a uniform value.
+            void setUniform(const QString&, int);
 
-private:
-    void del();
+            //! Set a uniform value.
+            void setUniform(const QString&, float);
 
-    QString _vertexSource;
-    QString _fragmentSource;
-    GLuint  _vertexId       = 0;
-    GLuint  _fragmentId     = 0;
-    GLuint  _programId      = 0;
-};
+            //! Set a uniform value.
+            void setUniform(const QString&, const glm::mat4x4&);
 
+        private:
+            void del();
+
+            QString _vertexSource;
+            QString _fragmentSource;
+            GLuint  _vertexId = 0;
+            GLuint  _fragmentId = 0;
+            GLuint  _programId = 0;
+        };
+
+    } // namespace Graphics
+} // namespace djv

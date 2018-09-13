@@ -35,16 +35,10 @@
 
 #include <djvCore/FileInfoUtil.h>
 
-//! \addtogroup djv_ls
-//@{
-
-//------------------------------------------------------------------------------
 //! \class djvLsContext
 //!
 //! This class provides global functionality for the application.
-//------------------------------------------------------------------------------
-
-class djvLsContext : public djvGraphicsContext
+class djvLsContext : public djv::Graphics::GraphicsContext
 {
     Q_OBJECT
 
@@ -104,6 +98,3 @@ private:
     bool                  _reverseSort;
     bool                  _sortDirsFirst;
 };
-
-//@} // djv_ls
-

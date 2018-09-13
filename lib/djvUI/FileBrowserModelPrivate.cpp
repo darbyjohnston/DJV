@@ -108,7 +108,7 @@ namespace djv
             return _fileInfo;
         }
 
-        const djvImageIOInfo & FileBrowserItem::imageInfo() const
+        const Graphics::ImageIOInfo & FileBrowserItem::imageInfo() const
         {
             return _imageInfo;
         }
@@ -133,9 +133,9 @@ namespace djv
 
             struct ImageInfoThreadResult
             {
-                djvFileInfo    fileInfo;
-                bool           valid = false;
-                djvImageIOInfo info;
+                djvFileInfo           fileInfo;
+                bool                  valid = false;
+                Graphics::ImageIOInfo info;
             };
 
             ImageInfoThreadResult imageInfoThreadFunction(
@@ -148,7 +148,7 @@ namespace djv
                 out.fileInfo = fileInfo;
                 try
                 {
-                    QScopedPointer<djvImageLoad> load(context->imageIOFactory()->load(fileInfo, out.info));
+                    QScopedPointer<Graphics::ImageLoad> load(context->imageIOFactory()->load(fileInfo, out.info));
                     //DJV_DEBUG_PRINT("info = " << out.info);
                     out.valid = true;
                 }
@@ -169,7 +169,7 @@ namespace djv
                 const djvFileInfo & fileInfo,
                 FileBrowserModel::THUMBNAILS thumbnails,
                 const glm::ivec2 & thumbnailSize,
-                djvPixelDataInfo::PROXY proxy,
+                Graphics::PixelDataInfo::PROXY proxy,
                 UIContext * context)
             {
                 //DJV_DEBUG("thumbnailThreadFunction");
@@ -197,27 +197,27 @@ namespace djv
                     openGlContext->makeCurrent(offscreenSurface.data());
 
                     // Load the image.
-                    djvImage image;
-                    djvImageIOInfo imageIOInfo;
-                    QScopedPointer<djvImageLoad> load(
+                    Graphics::Image image;
+                    Graphics::ImageIOInfo imageIOInfo;
+                    QScopedPointer<Graphics::ImageLoad> load(
                         context->imageIOFactory()->load(fileInfo, imageIOInfo));
-                    load->read(image, djvImageIOFrameInfo(-1, 0, proxy));
+                    load->read(image, Graphics::ImageIOFrameInfo(-1, 0, proxy));
                     //DJV_DEBUG_PRINT("image = " << image);
 
                     // Scale the image.
-                    djvImage tmp(djvPixelDataInfo(
+                    Graphics::Image tmp(Graphics::PixelDataInfo(
                         thumbnailSize,
                         image.pixel()));
-                    djvOpenGLImageOptions options;
+                    Graphics::OpenGLImageOptions options;
                     options.xform.scale =
                         glm::vec2(tmp.size()) /
-                        (glm::vec2(image.size() * djvPixelDataUtil::proxyScale(image.info().proxy)));
+                        (glm::vec2(image.size() * Graphics::PixelDataUtil::proxyScale(image.info().proxy)));
                     options.colorProfile = image.colorProfile;
                     if (FileBrowserModel::THUMBNAILS_HIGH == thumbnails)
                     {
-                        options.filter = djvOpenGLImageFilter::filterHighQuality();
+                        options.filter = Graphics::OpenGLImageFilter::filterHighQuality();
                     }
-                    std::unique_ptr<djvOpenGLImage> openGLImage(new djvOpenGLImage);
+                    std::unique_ptr<Graphics::OpenGLImage> openGLImage(new Graphics::OpenGLImage);
                     openGLImage->copy(image, tmp, options);
                     out.thumbnail = openGLImage->toQt(tmp);
                     out.valid = true;
@@ -282,27 +282,27 @@ namespace djv
                 FileBrowserModel::THUMBNAILS thumbnails,
                 const glm::ivec2 & in,
                 int size,
-                djvPixelDataInfo::PROXY * proxy = 0)
+                Graphics::PixelDataInfo::PROXY * proxy = 0)
             {
                 const int imageSize = djvMath::max(in.x, in.y);
                 if (imageSize <= 0)
                     return glm::ivec2(0, 0);
                 int _proxy = 0;
                 float proxyScale = static_cast<float>(
-                    djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(_proxy)));
+                    Graphics::PixelDataUtil::proxyScale(Graphics::PixelDataInfo::PROXY(_proxy)));
                 if (FileBrowserModel::THUMBNAILS_LOW == thumbnails)
                 {
                     while (
                         (imageSize / proxyScale) > size * 2 &&
-                        _proxy < djvPixelDataInfo::PROXY_COUNT)
+                        _proxy < Graphics::PixelDataInfo::PROXY_COUNT)
                     {
                         proxyScale = static_cast<float>(
-                            djvPixelDataUtil::proxyScale(djvPixelDataInfo::PROXY(++_proxy)));
+                            Graphics::PixelDataUtil::proxyScale(Graphics::PixelDataInfo::PROXY(++_proxy)));
                     }
                 }
                 if (proxy)
                 {
-                    *proxy = djvPixelDataInfo::PROXY(_proxy);
+                    *proxy = Graphics::PixelDataInfo::PROXY(_proxy);
                 }
                 const float scale = size / static_cast<float>(imageSize / proxyScale);
                 return djvVectorUtil::ceil(glm::vec2(in) / proxyScale * scale);
@@ -324,8 +324,8 @@ namespace djv
 
             if (result.valid)
             {
-                djvPixelDataInfo::PROXY thumbnailProxy =
-                    static_cast<djvPixelDataInfo::PROXY>(0);
+                Graphics::PixelDataInfo::PROXY thumbnailProxy =
+                    static_cast<Graphics::PixelDataInfo::PROXY>(0);
                 _thumbnailSize = thumbnailSize(
                     _thumbnails,
                     result.info.size,

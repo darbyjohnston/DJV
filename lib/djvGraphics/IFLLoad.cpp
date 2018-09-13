@@ -39,91 +39,94 @@
 #include <djvCore/FileIOUtil.h>
 #include <djvCore/FileInfoUtil.h>
 
-//------------------------------------------------------------------------------
-// djvIFLLoad
-//------------------------------------------------------------------------------
-
-djvIFLLoad::djvIFLLoad(djvCoreContext * context) :
-    djvImageLoad(context)
-{}
-
-djvIFLLoad::~djvIFLLoad()
-{}
-
-void djvIFLLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvIFLLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _list.clear();
-    QStringList tmp;
-    try
+    namespace Graphics
     {
-        tmp = djvFileIOUtil::lines(in);
-        //DJV_DEBUG_PRINT("list = " << tmp);
-    }
-    catch (const djvError &)
-    {
-        throw djvError(
-            djvIFL::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-    }
-    for (int i = 0; i < tmp.count(); ++i)
-    {
-        if (tmp[i].isEmpty())
-        {
-            continue;
-        }
-        djvFileInfo file(tmp[i]);
-        if (file.path().isEmpty())
-        {
-            file.setPath(in.path());
-        }
-        if (file.isSequenceValid())
-        {
-            file.setType(djvFileInfo::SEQUENCE);
+        IFLLoad::IFLLoad(djvCoreContext * context) :
+            ImageLoad(context)
+        {}
 
-            _list += djvFileInfoUtil::expandSequence(file);
-        }
-        else
-        {
-            _list += tmp[i];
-        }
-    }
-    //DJV_DEBUG_PRINT("list = " << _list);
-    QScopedPointer<djvImageLoad> plugin(dynamic_cast<djvGraphicsContext*>(context())->imageIOFactory()->load(
-        _list.count() ? _list[0] : QString(), info));
-    info.sequence.frames.resize(_list.count());
-    for (int i = 0; i < _list.count(); ++i)
-    {
-        info.sequence.frames[i] = i;
-    }
-}
+        IFLLoad::~IFLLoad()
+        {}
 
-void djvIFLLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvIFLLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
-    QString fileName;
-    if (_list.count())
-    {
-        if (-1 == frame.frame)
+        void IFLLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
         {
-            fileName = _list[0];
+            //DJV_DEBUG("IFLLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _list.clear();
+            QStringList tmp;
+            try
+            {
+                tmp = djvFileIOUtil::lines(in);
+                //DJV_DEBUG_PRINT("list = " << tmp);
+            }
+            catch (const djvError &)
+            {
+                throw djvError(
+                    IFL::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+            }
+            for (int i = 0; i < tmp.count(); ++i)
+            {
+                if (tmp[i].isEmpty())
+                {
+                    continue;
+                }
+                djvFileInfo file(tmp[i]);
+                if (file.path().isEmpty())
+                {
+                    file.setPath(in.path());
+                }
+                if (file.isSequenceValid())
+                {
+                    file.setType(djvFileInfo::SEQUENCE);
+
+                    _list += djvFileInfoUtil::expandSequence(file);
+                }
+                else
+                {
+                    _list += tmp[i];
+                }
+            }
+            //DJV_DEBUG_PRINT("list = " << _list);
+            QScopedPointer<ImageLoad> plugin(dynamic_cast<GraphicsContext*>(context())->imageIOFactory()->load(
+                _list.count() ? _list[0] : QString(), info));
+            info.sequence.frames.resize(_list.count());
+            for (int i = 0; i < _list.count(); ++i)
+            {
+                info.sequence.frames[i] = i;
+            }
         }
-        else if (
-            frame.frame >= 0 &&
-            frame.frame < _list.count())
+
+        void IFLLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
         {
-            fileName = _list[frame.frame];
+            //DJV_DEBUG("IFLLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
+            QString fileName;
+            if (_list.count())
+            {
+                if (-1 == frame.frame)
+                {
+                    fileName = _list[0];
+                }
+                else if (
+                    frame.frame >= 0 &&
+                    frame.frame < _list.count())
+                {
+                    fileName = _list[frame.frame];
+                }
+            }
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            QScopedPointer<ImageLoad> load(
+                dynamic_cast<GraphicsContext*>(context())->imageIOFactory()->load(fileName, info));
+            load->read(image, ImageIOFrameInfo(-1, frame.layer, frame.proxy));
         }
-    }
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    QScopedPointer<djvImageLoad> load(
-        dynamic_cast<djvGraphicsContext*>(context())->imageIOFactory()->load(fileName, info));
-    load->read(image, djvImageIOFrameInfo(-1, frame.layer, frame.proxy));
-}
+
+    } // namespace Graphics
+} // namespace djv

@@ -33,163 +33,136 @@
 
 #include <djvGraphics/PixelData.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvCineonPlugin djvCineonPlugin
-//!
-//! This plugin provides support for the Kodak Cineon image file format. Cineon
-//! is a specialized image file format for working with motion picture film.
-//!
-//! File extensions: .cin
-//!
-//! Supported features:
-//!
-//! - 10-bit RGB (the most common variety)
-//! - Interleaved channels only
-//!
-//! References:
-//!
-//! - Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"
-
-//@} // plugins
-
-//! \addtogroup djvCineonPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvCineon
-//!
-//! This struct provides Cineon utilities.
-//------------------------------------------------------------------------------
-
-struct djvCineon
+namespace djv
 {
-    //! Plugin name.    
-    static const QString staticName;
-
-    //! This enumeration provides the color profiles.
-    enum COLOR_PROFILE
+    namespace Graphics
     {
-        COLOR_PROFILE_AUTO,
-        COLOR_PROFILE_RAW,
-        COLOR_PROFILE_FILM_PRINT,
+        //! \struct Cineon
+        //!
+        //! This struct provides Cineon utilities.
+        struct Cineon
+        {
+            //! Plugin name.    
+            static const QString staticName;
 
-        COLOR_PROFILE_COUNT
-    };
+            //! This enumeration provides the color profiles.
+            enum COLOR_PROFILE
+            {
+                COLOR_PROFILE_AUTO,
+                COLOR_PROFILE_RAW,
+                COLOR_PROFILE_FILM_PRINT,
 
-    //! Get the color profile labels.
-    static const QStringList & colorProfileLabels();
+                COLOR_PROFILE_COUNT
+            };
 
-    //! This struct provides options to convert from a linear color space to
-    //! the Cineon film print color space.
-    //!
-    //! - Black point range = 0 - 1023, default value = 95
-    //! - White point range = 0 - 1023, default value = 685
-    //! - Gamma range = 0.01 - 4.0, default value = 1.7
-    struct LinearToFilmPrint
-    {
-        LinearToFilmPrint() :
-            black(95),
-            white(685),
-            gamma(1.7f)
-        {}
+            //! Get the color profile labels.
+            static const QStringList & colorProfileLabels();
 
-        int   black;
-        int   white;
-        float gamma;
-    };
+            //! This struct provides options to convert from a linear color space to
+            //! the Cineon film print color space.
+            //!
+            //! - Black point range = 0 - 1023, default value = 95
+            //! - White point range = 0 - 1023, default value = 685
+            //! - Gamma range = 0.01 - 4.0, default value = 1.7
+            struct LinearToFilmPrint
+            {
+                LinearToFilmPrint() :
+                    black(95),
+                    white(685),
+                    gamma(1.7f)
+                {}
 
-    //! Create a linear color space to Cineon film print color space LUT.
-    static djvPixelData linearToFilmPrintLut(const LinearToFilmPrint &);
+                int   black;
+                int   white;
+                float gamma;
+            };
 
-    //! This struct provides options to convert from the Cineon film print
-    //! color space to a linear color space.
-    //!
-    //! - Black point range = 0 - 1023, default value = 95
-    //! - White point range = 0 - 1023, default value = 685
-    //! - Gamma range = 0.01 - 4.0, default value = 1.7
-    //! - Soft clip range = 0 - 50, default value = 0
-    struct FilmPrintToLinear
-    {
-        FilmPrintToLinear() :
-            black   (95),
-            white   (685),
-            gamma   (1.7f),
-            softClip(0)
-        {}
+            //! Create a linear color space to Cineon film print color space LUT.
+            static PixelData linearToFilmPrintLut(const LinearToFilmPrint &);
 
-        int   black;
-        int   white;
-        float gamma;
-        int   softClip;
-    };
+            //! This struct provides options to convert from the Cineon film print
+            //! color space to a linear color space.
+            //!
+            //! - Black point range = 0 - 1023, default value = 95
+            //! - White point range = 0 - 1023, default value = 685
+            //! - Gamma range = 0.01 - 4.0, default value = 1.7
+            //! - Soft clip range = 0 - 50, default value = 0
+            struct FilmPrintToLinear
+            {
+                FilmPrintToLinear() :
+                    black(95),
+                    white(685),
+                    gamma(1.7f),
+                    softClip(0)
+                {}
 
-    //! Create a Cineon film print color space to linear space LUT.
-    static djvPixelData filmPrintToLinearLut(const FilmPrintToLinear &);
+                int   black;
+                int   white;
+                float gamma;
+                int   softClip;
+            };
 
-    //! This enumeration provides additional image tags for Cineon files.
-    enum TAG
-    {
-        TAG_SOURCE_OFFSET,
-        TAG_SOURCE_FILE,
-        TAG_SOURCE_TIME,
-        TAG_SOURCE_INPUT_DEVICE,
-        TAG_SOURCE_INPUT_MODEL,
-        TAG_SOURCE_INPUT_SERIAL,
-        TAG_SOURCE_INPUT_PITCH,
-        TAG_SOURCE_GAMMA,
-        TAG_FILM_FORMAT,
-        TAG_FILM_FRAME,
-        TAG_FILM_FRAME_RATE,
-        TAG_FILM_FRAME_ID,
-        TAG_FILM_SLATE,
+            //! Create a Cineon film print color space to linear space LUT.
+            static PixelData filmPrintToLinearLut(const FilmPrintToLinear &);
 
-        TAG_COUNT
-    };
+            //! This enumeration provides additional image tags for Cineon files.
+            enum TAG
+            {
+                TAG_SOURCE_OFFSET,
+                TAG_SOURCE_FILE,
+                TAG_SOURCE_TIME,
+                TAG_SOURCE_INPUT_DEVICE,
+                TAG_SOURCE_INPUT_MODEL,
+                TAG_SOURCE_INPUT_SERIAL,
+                TAG_SOURCE_INPUT_PITCH,
+                TAG_SOURCE_GAMMA,
+                TAG_FILM_FORMAT,
+                TAG_FILM_FRAME,
+                TAG_FILM_FRAME_RATE,
+                TAG_FILM_FRAME_ID,
+                TAG_FILM_SLATE,
 
-    //! Get the image tag labels.
-    static const QStringList & tagLabels();
+                TAG_COUNT
+            };
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        INPUT_COLOR_PROFILE_OPTION,
-        INPUT_FILM_PRINT_OPTION,
-        OUTPUT_COLOR_PROFILE_OPTION,
-        OUTPUT_FILM_PRINT_OPTION,
+            //! Get the image tag labels.
+            static const QStringList & tagLabels();
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                INPUT_COLOR_PROFILE_OPTION,
+                INPUT_FILM_PRINT_OPTION,
+                OUTPUT_COLOR_PROFILE_OPTION,
+                OUTPUT_FILM_PRINT_OPTION,
 
-    //! Get the option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get the option labels.
+            static const QStringList & optionsLabels();
 
-        djvCineon::COLOR_PROFILE     inputColorProfile;
-        djvCineon::FilmPrintToLinear inputFilmPrint;
-        djvCineon::COLOR_PROFILE     outputColorProfile;
-        djvCineon::LinearToFilmPrint outputFilmPrint;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-bool operator == (const djvCineon::LinearToFilmPrint &,
-    const djvCineon::LinearToFilmPrint &);
-bool operator == (const djvCineon::FilmPrintToLinear &,
-    const djvCineon::FilmPrintToLinear &);
+                Cineon::COLOR_PROFILE     inputColorProfile;
+                Cineon::FilmPrintToLinear inputFilmPrint;
+                Cineon::COLOR_PROFILE     outputColorProfile;
+                Cineon::LinearToFilmPrint outputFilmPrint;
+            };
+        };
 
-bool operator != (const djvCineon::LinearToFilmPrint &,
-    const djvCineon::LinearToFilmPrint &);
-bool operator != (const djvCineon::FilmPrintToLinear &,
-    const djvCineon::FilmPrintToLinear &);
+        bool operator == (const Cineon::LinearToFilmPrint &, const Cineon::LinearToFilmPrint &);
+        bool operator == (const Cineon::FilmPrintToLinear &, const Cineon::FilmPrintToLinear &);
 
-DJV_STRING_OPERATOR(djvCineon::LinearToFilmPrint);
-DJV_STRING_OPERATOR(djvCineon::FilmPrintToLinear);
-DJV_STRING_OPERATOR(djvCineon::COLOR_PROFILE);
+        bool operator != (const Cineon::LinearToFilmPrint &, const Cineon::LinearToFilmPrint &);
+        bool operator != (const Cineon::FilmPrintToLinear &, const Cineon::FilmPrintToLinear &);
 
-//@} // djvCineonPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::Cineon::LinearToFilmPrint);
+DJV_STRING_OPERATOR(djv::Graphics::Cineon::FilmPrintToLinear);
+DJV_STRING_OPERATOR(djv::Graphics::Cineon::COLOR_PROFILE);

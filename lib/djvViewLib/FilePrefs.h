@@ -68,10 +68,10 @@ namespace djv
             bool hasAutoSequence() const;
 
             //! Get the default proxy scale.
-            static djvPixelDataInfo::PROXY proxyDefault();
+            static Graphics::PixelDataInfo::PROXY proxyDefault();
 
             //! Get the proxy scale.
-            djvPixelDataInfo::PROXY proxy() const;
+            Graphics::PixelDataInfo::PROXY proxy() const;
 
             //! Get the default for whether images are converted to 8-bits.
             static bool u8ConversionDefault();
@@ -108,7 +108,7 @@ namespace djv
             void setAutoSequence(bool);
 
             //! Set the proxy scale.
-            void setProxy(djvPixelDataInfo::PROXY);
+            void setProxy(djv::Graphics::PixelDataInfo::PROXY);
 
             //! Set whether images are converted to 8-bits.
             void setU8Conversion(bool);
@@ -133,7 +133,7 @@ namespace djv
             void autoSequenceChanged(bool);
 
             //! This signal is emitted when the proxy scale is changed.
-            void proxyChanged(djvPixelDataInfo::PROXY);
+            void proxyChanged(djv::Graphics::PixelDataInfo::PROXY);
 
             //! This signal is emitted when 8-bit conversion is changed.
             void u8ConversionChanged(bool);
@@ -151,14 +151,14 @@ namespace djv
             void displayCacheChanged(bool);
 
         private:
-            djvFileInfoList         _recent;
-            bool                    _autoSequence;
-            djvPixelDataInfo::PROXY _proxy;
-            bool                    _u8Conversion;
-            bool                    _cache;
-            float                   _cacheSize;
-            bool                    _preload;
-            bool                    _displayCache;
+            djvFileInfoList                _recent;
+            bool                           _autoSequence;
+            Graphics::PixelDataInfo::PROXY _proxy;
+            bool                           _u8Conversion;
+            bool                           _cache;
+            float                          _cacheSize;
+            bool                           _preload;
+            bool                           _displayCache;
         };
 
     } // namespace ViewLib

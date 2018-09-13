@@ -37,6 +37,8 @@
 
 #include <QColor>
 
+using namespace djv;
+
 void djvColorUtilTest::run(int &, char **)
 {
     DJV_DEBUG("djvColorUtilTest::run");
@@ -50,13 +52,12 @@ void djvColorUtilTest::scale()
 {
     DJV_DEBUG("djvColorUtilTest::scale");
     {
-        djvColor color(djvPixel::L_F32);
-        djvColorUtil::scale(.5f, djvColor(1.f), color);
+        Graphics::Color color(Graphics::Pixel::L_F32);
+        Graphics::ColorUtil::scale(.5f, Graphics::Color(1.f), color);
         DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
     {
-        const djvColor color = djvColorUtil::scale(.5f, djvColor(1.f));
-
+        const Graphics::Color color = Graphics::ColorUtil::scale(.5f, Graphics::Color(1.f));
         DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
 }
@@ -65,13 +66,12 @@ void djvColorUtilTest::lerp()
 {
     DJV_DEBUG("djvColorUtilTest::lerp");
     {
-        djvColor color(djvPixel::L_F32);
-        djvColorUtil::lerp(.5f, djvColor(0.f), djvColor(1.f), color);
+        Graphics::Color color(Graphics::Pixel::L_F32);
+        Graphics::ColorUtil::lerp(.5f, Graphics::Color(0.f), Graphics::Color(1.f), color);
         DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
     {
-        const djvColor color = djvColorUtil::lerp(.5f, djvColor(0.f), djvColor(1.f));
-
+        const Graphics::Color color = Graphics::ColorUtil::lerp(.5f, Graphics::Color(0.f), Graphics::Color(1.f));
         DJV_ASSERT(djvMath::fuzzyCompare(.5f, color.f32(0)));
     }
 }
@@ -82,43 +82,43 @@ void djvColorUtilTest::convert()
     const struct Data
     {
         QStringList  in;
-        djvPixel::PIXEL pixel;
+        Graphics::Pixel::PIXEL pixel;
         QStringList  out;
     }
         data [] =
     {
-        { QStringList() << "L U8" << "0",      djvPixel::L_U8,    QStringList() << "L U8" << "0" },
-        { QStringList() << "L U8" << "255",    djvPixel::L_U8,    QStringList() << "L U8" << "255" },
-        { QStringList() << "L U8" << "0",      djvPixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
-        { QStringList() << "L U8" << "255",    djvPixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
-        { QStringList() << "L U8" << "0",      djvPixel::L_U16,   QStringList() << "L U16" << "0" },
-        { QStringList() << "L U8" << "255",    djvPixel::L_U16,   QStringList() << "L U16" << "65535" },
-        { QStringList() << "L U16" << "0",     djvPixel::L_U8,    QStringList() << "L U8" << "0" },
-        { QStringList() << "L U16" << "65535", djvPixel::L_U8,    QStringList() << "L U8" << "255" },
-        { QStringList() << "L U16" << "0",     djvPixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
-        { QStringList() << "L U16" << "65535", djvPixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
-        { QStringList() << "L U16" << "0",     djvPixel::L_U16,   QStringList() << "L U16" << "0" },
-        { QStringList() << "L U16" << "65535", djvPixel::L_U16,   QStringList() << "L U16" << "65535" },
-        { QStringList() << "L F32" << "-1.0",  djvPixel::L_U8,    QStringList() << "L U8" << "0" },
-        { QStringList() << "L F32" << "0.0",   djvPixel::L_U8,    QStringList() << "L U8" << "0" },
-        { QStringList() << "L F32" << "0.5",   djvPixel::L_U8,    QStringList() << "L U8" << "128" },
-        { QStringList() << "L F32" << "1.0",   djvPixel::L_U8,    QStringList() << "L U8" << "255" },
-        { QStringList() << "L F32" << "2.0",   djvPixel::L_U8,    QStringList() << "L U8" << "255" },
-        { QStringList() << "L F32" << "-1.0",  djvPixel::L_U16,   QStringList() << "L U16" << "0" },
-        { QStringList() << "L F32" << "0.0",   djvPixel::L_U16,   QStringList() << "L U16" << "0" },
-        { QStringList() << "L F32" << "0.5",   djvPixel::L_U16,   QStringList() << "L U16" << "32768" },
-        { QStringList() << "L F32" << "1.0",   djvPixel::L_U16,   QStringList() << "L U16" << "65535" },
-        { QStringList() << "L F32" << "2.0",   djvPixel::L_U16,   QStringList() << "L U16" << "65535" },
-        { QStringList() << "L F32" << "1.0",   djvPixel::L_F16,   QStringList() << "L F16" << "1" }
+        { QStringList() << "L U8" << "0",      Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+        { QStringList() << "L U8" << "255",    Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+        { QStringList() << "L U8" << "0",      Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
+        { QStringList() << "L U8" << "255",    Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
+        { QStringList() << "L U8" << "0",      Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+        { QStringList() << "L U8" << "255",    Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+        { QStringList() << "L U16" << "0",     Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+        { QStringList() << "L U16" << "65535", Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+        { QStringList() << "L U16" << "0",     Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "0" << "0" << "0" },
+        { QStringList() << "L U16" << "65535", Graphics::Pixel::RGB_U10, QStringList() << "RGB U10" << "1023" << "1023" << "1023" },
+        { QStringList() << "L U16" << "0",     Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+        { QStringList() << "L U16" << "65535", Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+        { QStringList() << "L F32" << "-1.0",  Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+        { QStringList() << "L F32" << "0.0",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "0" },
+        { QStringList() << "L F32" << "0.5",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "128" },
+        { QStringList() << "L F32" << "1.0",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+        { QStringList() << "L F32" << "2.0",   Graphics::Pixel::L_U8,    QStringList() << "L U8" << "255" },
+        { QStringList() << "L F32" << "-1.0",  Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+        { QStringList() << "L F32" << "0.0",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "0" },
+        { QStringList() << "L F32" << "0.5",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "32768" },
+        { QStringList() << "L F32" << "1.0",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+        { QStringList() << "L F32" << "2.0",   Graphics::Pixel::L_U16,   QStringList() << "L U16" << "65535" },
+        { QStringList() << "L F32" << "1.0",   Graphics::Pixel::L_F16,   QStringList() << "L F16" << "1" }
     };
     const int dataCount = sizeof(data) / sizeof(Data);
     for (int i = 0; i < dataCount; ++i)
     {
-        djvColor in;
+        Graphics::Color in;
         QStringList tmp = data[i].in;
         tmp >> in;
-        djvColor out(data[i].pixel);
-        djvColorUtil::convert(in, out);
+        Graphics::Color out(data[i].pixel);
+        Graphics::ColorUtil::convert(in, out);
         DJV_ASSERT(djvStringUtil::label(out) == data[i].out);
     }
 }
@@ -127,12 +127,12 @@ void djvColorUtilTest::qt()
 {
     DJV_DEBUG("djvColorUtilTest::qt");
     {
-        djvColor color(djvPixel::RGBA_U8);
+        Graphics::Color color(Graphics::Pixel::RGBA_U8);
         color.setU8(255, 0);
         color.setU8(127, 1);
         color.setU8(  0, 2);
         color.setU8(255, 3);
-        const QColor qColor = djvColorUtil::toQt(color);
+        const QColor qColor = Graphics::ColorUtil::toQt(color);
         DJV_ASSERT(qColor.red()   == color.u8(0));
         DJV_ASSERT(qColor.green() == color.u8(1));
         DJV_ASSERT(qColor.blue()  == color.u8(2));
@@ -140,8 +140,7 @@ void djvColorUtilTest::qt()
     }
     {
         QColor qColor(255, 127, 0, 255);
-        const djvColor color = djvColorUtil::fromQt(qColor);
-
+        const Graphics::Color color = Graphics::ColorUtil::fromQt(qColor);
         DJV_ASSERT(color.u8(0) == qColor.red());
         DJV_ASSERT(color.u8(1) == qColor.green());
         DJV_ASSERT(color.u8(2) == qColor.blue());

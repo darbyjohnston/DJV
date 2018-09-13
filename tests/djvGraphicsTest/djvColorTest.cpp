@@ -38,6 +38,8 @@
 
 #include <QStringList>
 
+using namespace djv;
+
 void djvColorTest::run(int &, char **)
 {
     DJV_DEBUG("djvColorTest::run");
@@ -50,43 +52,43 @@ void djvColorTest::ctors()
 {
     DJV_DEBUG("djvColorTest::ctors");
     {
-        const djvColor color;
-        DJV_ASSERT(static_cast<djvPixel::PIXEL>(0) == color.pixel());
+        const Graphics::Color color;
+        DJV_ASSERT(static_cast<Graphics::Pixel::PIXEL>(0) == color.pixel());
         DJV_ASSERT(0 == color.u8(0));
     }
     {
-        const djvColor color(djvColor(1.f));
-        DJV_ASSERT(djvPixel::L_F32 == color.pixel());
+        const Graphics::Color color(Graphics::Color(1.f));
+        DJV_ASSERT(Graphics::Pixel::L_F32 == color.pixel());
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
     }
     {
-        const djvColor color(djvPixel::RGB_U10);
-        DJV_ASSERT(djvPixel::RGB_U10 == color.pixel());
+        const Graphics::Color color(Graphics::Pixel::RGB_U10);
+        DJV_ASSERT(Graphics::Pixel::RGB_U10 == color.pixel());
         DJV_ASSERT(0 == color.u10(0));
         DJV_ASSERT(0 == color.u10(1));
         DJV_ASSERT(0 == color.u10(2));
     }
     {
-        const djvColor color(1.f);
-        DJV_ASSERT(djvPixel::L_F32 == color.pixel());
+        const Graphics::Color color(1.f);
+        DJV_ASSERT(Graphics::Pixel::L_F32 == color.pixel());
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
     }
     {
-        const djvColor color(1.f, .9f);
-        DJV_ASSERT(djvPixel::LA_F32 == color.pixel());
+        const Graphics::Color color(1.f, .9f);
+        DJV_ASSERT(Graphics::Pixel::LA_F32 == color.pixel());
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(.9f, color.f32(1)));
     }
     {
-        const djvColor color(1.f, .9f, .8f);
-        DJV_ASSERT(djvPixel::RGB_F32 == color.pixel());
+        const Graphics::Color color(1.f, .9f, .8f);
+        DJV_ASSERT(Graphics::Pixel::RGB_F32 == color.pixel());
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(.9f, color.f32(1)));
         DJV_ASSERT(djvMath::fuzzyCompare(.8f, color.f32(2)));
     }
     {
-        const djvColor color(1.f, .9f, .8f, .7f);
-        DJV_ASSERT(djvPixel::RGBA_F32 == color.pixel());
+        const Graphics::Color color(1.f, .9f, .8f, .7f);
+        DJV_ASSERT(Graphics::Pixel::RGBA_F32 == color.pixel());
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(.9f, color.f32(1)));
         DJV_ASSERT(djvMath::fuzzyCompare(.8f, color.f32(2)));
@@ -94,8 +96,8 @@ void djvColorTest::ctors()
     }
     {
         const quint8 data [] = { 255, 127, 0 };
-        const djvColor color(data, djvPixel::RGB_U8);
-        DJV_ASSERT(djvPixel::RGB_U8 == color.pixel());
+        const Graphics::Color color(data, Graphics::Pixel::RGB_U8);
+        DJV_ASSERT(Graphics::Pixel::RGB_U8 == color.pixel());
         DJV_ASSERT(data[0] == color.u8(0));
         DJV_ASSERT(data[1] == color.u8(1));
         DJV_ASSERT(data[2] == color.u8(2));
@@ -106,45 +108,45 @@ void djvColorTest::members()
 {
     DJV_DEBUG("djvColorTest::members");
     {
-        djvColor color(djvPixel::RGB_U10);
-        DJV_ASSERT(djvPixel::RGB_U10 == color.pixel());
+        Graphics::Color color(Graphics::Pixel::RGB_U10);
+        DJV_ASSERT(Graphics::Pixel::RGB_U10 == color.pixel());
         DJV_ASSERT(3 == color.channels());
-        color.setPixel(djvPixel::RGBA_U8);
-        DJV_ASSERT(djvPixel::RGBA_U8 == color.pixel());
+        color.setPixel(Graphics::Pixel::RGBA_U8);
+        DJV_ASSERT(Graphics::Pixel::RGBA_U8 == color.pixel());
         DJV_ASSERT(4 == color.channels());
     }
     {
-        const djvColor color(1.f, 0.f, 1.f, 0.f);
-        DJV_ASSERT(djvPixel::u8Max == color.u8(0));
+        const Graphics::Color color(1.f, 0.f, 1.f, 0.f);
+        DJV_ASSERT(Graphics::Pixel::u8Max == color.u8(0));
         DJV_ASSERT(0 == color.u8(1));
-        DJV_ASSERT(djvPixel::u8Max == color.u8(2));
+        DJV_ASSERT(Graphics::Pixel::u8Max == color.u8(2));
         DJV_ASSERT(0 == color.u8(3));
     }
     {
-        const djvColor color(1.f, 0.f, 1.f);
-        DJV_ASSERT(djvPixel::u10Max == color.u10(0));
+        const Graphics::Color color(1.f, 0.f, 1.f);
+        DJV_ASSERT(Graphics::Pixel::u10Max == color.u10(0));
         DJV_ASSERT(0 == color.u10(1));
-        DJV_ASSERT(djvPixel::u10Max == color.u10(2));
+        DJV_ASSERT(Graphics::Pixel::u10Max == color.u10(2));
     }
     {
-        const djvColor color(1.f, 0.f, 1.f, 0.f);
-        DJV_ASSERT(djvPixel::u16Max == color.u16(0));
+        const Graphics::Color color(1.f, 0.f, 1.f, 0.f);
+        DJV_ASSERT(Graphics::Pixel::u16Max == color.u16(0));
         DJV_ASSERT(0 == color.u16(1));
-        DJV_ASSERT(djvPixel::u16Max == color.u16(2));
+        DJV_ASSERT(Graphics::Pixel::u16Max == color.u16(2));
         DJV_ASSERT(0 == color.u16(3));
     }
     {
-        const djvColor color(1.f, 0.f, 1.f, 0.f);
+        const Graphics::Color color(1.f, 0.f, 1.f, 0.f);
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(1)));
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(2)));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(3)));
     }
     {
-        djvColor color(djvPixel::RGBA_F32);
-        color.setU8(djvPixel::u8Max, 0);
+        Graphics::Color color(Graphics::Pixel::RGBA_F32);
+        color.setU8(Graphics::Pixel::u8Max, 0);
         color.setU8(0, 1);
-        color.setU8(djvPixel::u8Max, 2);
+        color.setU8(Graphics::Pixel::u8Max, 2);
         color.setU8(0, 3);
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(1)));
@@ -152,19 +154,19 @@ void djvColorTest::members()
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(3)));
     }
     {
-        djvColor color(djvPixel::RGB_F32);
-        color.setU10(djvPixel::u10Max, 0);
+        Graphics::Color color(Graphics::Pixel::RGB_F32);
+        color.setU10(Graphics::Pixel::u10Max, 0);
         color.setU10(0, 1);
-        color.setU10(djvPixel::u10Max, 2);
+        color.setU10(Graphics::Pixel::u10Max, 2);
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(1)));
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(2)));
     }
     {
-        djvColor color(djvPixel::RGBA_F32);
-        color.setU16(djvPixel::u16Max, 0);
+        Graphics::Color color(Graphics::Pixel::RGBA_F32);
+        color.setU16(Graphics::Pixel::u16Max, 0);
         color.setU16(0, 1);
-        color.setU16(djvPixel::u16Max, 2);
+        color.setU16(Graphics::Pixel::u16Max, 2);
         color.setU16(0, 3);
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(1)));
@@ -172,7 +174,7 @@ void djvColorTest::members()
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(3)));
     }
     {
-        djvColor color(djvPixel::RGBA_F32);
+        Graphics::Color color(Graphics::Pixel::RGBA_F32);
         color.setF32(1.f, 0);
         color.setF32(0.f, 1);
         color.setF32(1.f, 2);
@@ -183,7 +185,7 @@ void djvColorTest::members()
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(3)));
     }
     {
-        djvColor color(1.f, 1.f, 1.f, 1.f);
+        Graphics::Color color(1.f, 1.f, 1.f, 1.f);
         color.zero();
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(0)));
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(1)));
@@ -191,10 +193,10 @@ void djvColorTest::members()
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(3)));
     }
     {
-        djvColor color(djvPixel::L_U8);
-        color.setU8(djvPixel::u8Max, 0);
+        Graphics::Color color(Graphics::Pixel::L_U8);
+        color.setU8(Graphics::Pixel::u8Max, 0);
         DJV_ASSERT(color.data());
-        DJV_ASSERT(djvPixel::u8Max == *color.data());
+        DJV_ASSERT(Graphics::Pixel::u8Max == *color.data());
         *color.data() = 0;
         DJV_ASSERT(0 == *color.data());
     }
@@ -204,46 +206,46 @@ void djvColorTest::operators()
 {
     DJV_DEBUG("djvColorTest::operators");
     {
-        const djvColor color = djvColor(1.f);
+        const Graphics::Color color = Graphics::Color(1.f);
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
     }
     {
-        djvColor a, b;
+        Graphics::Color a, b;
         DJV_ASSERT(a == b);
-        a.setPixel(djvPixel::L_U8);
-        b.setPixel(djvPixel::RGB_U8);
+        a.setPixel(Graphics::Pixel::L_U8);
+        b.setPixel(Graphics::Pixel::RGB_U8);
         DJV_ASSERT(a != b);
     }
     {
-        djvColor a(djvPixel::RGB_U8), b(djvPixel::RGB_U8);
+        Graphics::Color a(Graphics::Pixel::RGB_U8), b(Graphics::Pixel::RGB_U8);
         DJV_ASSERT(a == b);
-        a.setU8(djvPixel::u8Max, 0);
+        a.setU8(Graphics::Pixel::u8Max, 0);
         DJV_ASSERT(a != b);
     }
     {
-        djvColor a(djvPixel::RGB_U10), b(djvPixel::RGB_U10);
+        Graphics::Color a(Graphics::Pixel::RGB_U10), b(Graphics::Pixel::RGB_U10);
         DJV_ASSERT(a == b);
-        a.setU10(djvPixel::u10Max, 0);
+        a.setU10(Graphics::Pixel::u10Max, 0);
         DJV_ASSERT(a != b);
     }
     {
-        djvColor a(djvPixel::RGB_U16), b(djvPixel::RGB_U16);
+        Graphics::Color a(Graphics::Pixel::RGB_U16), b(Graphics::Pixel::RGB_U16);
         DJV_ASSERT(a == b);
-        a.setU16(djvPixel::u16Max, 0);
+        a.setU16(Graphics::Pixel::u16Max, 0);
         DJV_ASSERT(a != b);
     }
     {
-        djvColor a(djvPixel::RGB_F16), b(djvPixel::RGB_F16);
+        Graphics::Color a(Graphics::Pixel::RGB_F16), b(Graphics::Pixel::RGB_F16);
         DJV_ASSERT(a == b);
         a.setF16(1.f, 0);
         DJV_ASSERT(a != b);
     }
     {
-        DJV_ASSERT(djvColor(1.f) == djvColor(1.f));
-        DJV_ASSERT(djvColor(1.f) != djvColor(0.f));
+        DJV_ASSERT(Graphics::Color(1.f) == Graphics::Color(1.f));
+        DJV_ASSERT(Graphics::Color(1.f) != Graphics::Color(0.f));
     }
     {
-        djvColor color;
+        Graphics::Color color;
         QStringList s = QStringList() << "RGB U8" << "255" << "127" << "0";
         s >> color;
         DJV_ASSERT(255 == color.u8(0));
@@ -251,7 +253,7 @@ void djvColorTest::operators()
         DJV_ASSERT(  0 == color.u8(2));
     }
     {
-        djvColor color;
+        Graphics::Color color;
         QStringList s = QStringList() << "RGB U10" << "1023" << "511" << "0";
         s >> color;
         DJV_ASSERT(1023 == color.u10(0));
@@ -259,7 +261,7 @@ void djvColorTest::operators()
         DJV_ASSERT(   0 == color.u10(2));
     }
     {
-        djvColor color;
+        Graphics::Color color;
         QStringList s = QStringList() << "RGB F16" << "1.0" << "0.5" << "0.0";
         s >> color;
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f16(0)));
@@ -267,7 +269,7 @@ void djvColorTest::operators()
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f16(2)));
     }
     {
-        djvColor color;
+        Graphics::Color color;
         QStringList s = QStringList() << "RGB F32" << "1.0" << "0.5" << "0.0";
         s >> color;
         DJV_ASSERT(djvMath::fuzzyCompare(1.f, color.f32(0)));
@@ -275,13 +277,13 @@ void djvColorTest::operators()
         DJV_ASSERT(djvMath::fuzzyCompare(0.f, color.f32(2)));
     }
     {
-        djvColor color(1.f, 0.5f, 0.f);
+        Graphics::Color color(1.f, 0.5f, 0.f);
         QStringList s;
         s << color;
         DJV_ASSERT((QStringList() << "RGB F32" << "1" << "0.5" << "0") == s);
     }
     {
-        DJV_DEBUG_PRINT(djvColor());
+        DJV_DEBUG_PRINT(Graphics::Color());
     }
 }
 

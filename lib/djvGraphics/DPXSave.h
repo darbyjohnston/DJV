@@ -38,38 +38,32 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvDPXPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDPXSave
-//!
-//! This class provides a DPX saver.
-//------------------------------------------------------------------------------
-
-class djvDPXSave : public djvImageSave
+namespace djv
 {
-public:
-    djvDPXSave(const djvDPX::Options &, djvCoreContext *);
-    
-    virtual ~djvDPXSave();
+    namespace Graphics
+    {
+        //! \class DPXSave
+        //!
+        //! This class provides a DPX saver.
+        class DPXSave : public ImageSave
+        {
+        public:
+            DPXSave(const DPX::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual ~DPXSave();
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    void _open(const QString &, const djvImageIOInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, const ImageIOInfo &) throw (djvError);
 
-    djvDPX::Options  _options;
-    djvFileInfo      _file;
-    djvDPXHeader     _header;
-    djvPixelDataInfo _info;
-    djvImage         _image;
-};
+            DPX::Options  _options;
+            djvFileInfo   _file;
+            DPXHeader     _header;
+            PixelDataInfo _info;
+            Image         _image;
+        };
 
-//@} // djvDPXPlugin
-
+    } // namespace Graphics
+} // namespace djv

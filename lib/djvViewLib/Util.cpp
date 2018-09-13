@@ -184,9 +184,9 @@ namespace djv
         }
 
         void Util::loadLut(
-            const djvFileInfo & fileInfo,
-            djvPixelData &      lut,
-            Context *           context)
+            const djvFileInfo &   fileInfo,
+            Graphics::PixelData & lut,
+            Context *             context)
             throw (djvError)
         {
             if (fileInfo.fileName().isEmpty())
@@ -200,10 +200,9 @@ namespace djv
             }
             try
             {
-                djvImageIOInfo info;
-                QScopedPointer<djvImageLoad> load(
-                    context->imageIOFactory()->load(fileInfoTmp, info));
-                djvImage image;
+                Graphics::ImageIOInfo info;
+                QScopedPointer<Graphics::ImageLoad> load(context->imageIOFactory()->load(fileInfoTmp, info));
+                Graphics::Image image;
                 load->read(image);
                 lut = image;
                 //DJV_DEBUG_PRINT("lut = " << lut);

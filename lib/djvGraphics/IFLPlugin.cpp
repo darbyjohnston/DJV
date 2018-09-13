@@ -33,30 +33,33 @@
 
 #include <djvGraphics/IFLLoad.h>
 
-//------------------------------------------------------------------------------
-// djvIFLPlugin
-//------------------------------------------------------------------------------
-
-djvIFLPlugin::djvIFLPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvIFLPlugin::pluginName() const
+namespace djv
 {
-    return djvIFL::staticName;
-}
+    namespace Graphics
+    {
+        IFLPlugin::IFLPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-QStringList djvIFLPlugin::extensions() const
-{
-    return QStringList() << ".ifl";
-}
+        QString IFLPlugin::pluginName() const
+        {
+            return IFL::staticName;
+        }
 
-bool djvIFLPlugin::isSequence() const
-{
-    return false;
-}
+        QStringList IFLPlugin::extensions() const
+        {
+            return QStringList() << ".ifl";
+        }
 
-djvImageLoad * djvIFLPlugin::createLoad() const
-{
-    return new djvIFLLoad(context());
-}
+        bool IFLPlugin::isSequence() const
+        {
+            return false;
+        }
+
+        ImageLoad * IFLPlugin::createLoad() const
+        {
+            return new IFLLoad(context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

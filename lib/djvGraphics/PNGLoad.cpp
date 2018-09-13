@@ -37,245 +37,247 @@
 #include <djvCore/Error.h>
 #include <djvCore/StringUtil.h>
 
-//------------------------------------------------------------------------------
-// djvPNGLoad
-//------------------------------------------------------------------------------
-
-djvPNGLoad::djvPNGLoad(djvCoreContext * context) :
-    djvImageLoad(context),
-    _f         (0),
-    _png       (0),
-    _pngInfo   (0),
-    _pngInfoEnd(0)
-{}
-
-djvPNGLoad::~djvPNGLoad()
+namespace djv
 {
-    close();
-}
-
-void djvPNGLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPNGLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    _open(_file.fileName(_file.sequence().start()), info);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
+        PNGLoad::PNGLoad(djvCoreContext * context) :
+            ImageLoad(context),
+            _f(0),
+            _png(0),
+            _pngInfo(0),
+            _pngInfoEnd(0)
+        {}
 
-namespace
-{
-
-bool pngScanline(png_structp png, quint8 * out)
-{
-    if (setjmp(png_jmpbuf(png)))
-    {
-        return false;
-    }
-    png_read_row(png, out, 0);
-    return true;
-}
-
-bool pngEnd(png_structp png, png_infop pngInfo)
-{
-    if (setjmp(png_jmpbuf(png)))
-    {
-        return false;
-    }
-    png_read_end(png, pngInfo);
-    return true;
-}
-
-} // namespace
-
-void djvPNGLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPNGLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
-
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    _open(fileName, info);
-
-    // Read the file.
-    djvPixelData * data = frame.proxy ? &_tmp : &image;
-    data->set(info);
-    for (int y = 0; y < info.size.y; ++y)
-    {
-        if (! pngScanline(_png, data->data(0,  data->h() - 1 - y)))
+        PNGLoad::~PNGLoad()
         {
-            throw djvError(
-                djvPNG::staticName,
-                _pngError.msg);
+            close();
         }
-    }
-    pngEnd(_png, _pngInfoEnd);
 
-    // Proxy scale the image.
-    if (frame.proxy)
-    {
-        info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-        info.proxy = frame.proxy;
-        image.set(info);
-        djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-    }
+        void PNGLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PNGLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            _open(_file.fileName(_file.sequence().start()), info);
+            if (djvFileInfo::SEQUENCE == _file.type())
+            {
+                info.sequence.frames = _file.sequence().frames;
+            }
+        }
 
-    //DJV_DEBUG_PRINT("image = " << image);
-    
-    close();
-}
+        namespace
+        {
 
-void djvPNGLoad::close() throw (djvError)
-{
-    if (_png || _pngInfo || _pngInfoEnd)
-    {
-        png_destroy_read_struct(
-            _png ? &_png : 0,
-            _pngInfo ? &_pngInfo : 0,
-            _pngInfoEnd ? &_pngInfoEnd : 0);
-        _png        = 0;
-        _pngInfo    = 0;
-        _pngInfoEnd = 0;
-    }
+            bool pngScanline(png_structp png, quint8 * out)
+            {
+                if (setjmp(png_jmpbuf(png)))
+                {
+                    return false;
+                }
+                png_read_row(png, out, 0);
+                return true;
+            }
 
-    if (_f)
-    {
-        ::fclose(_f);
-        _f = 0;
-    }
-}
+            bool pngEnd(png_structp png, png_infop pngInfo)
+            {
+                if (setjmp(png_jmpbuf(png)))
+                {
+                    return false;
+                }
+                png_read_end(png, pngInfo);
+                return true;
+            }
 
-namespace
-{
+        } // namespace
 
-bool pngOpen(
-    FILE *      f,
-    png_structp png,
-    png_infop * pngInfo,
-    png_infop * pngInfoEnd)
-{
-    if (setjmp(png_jmpbuf(png)))
-    {
-        return false;
-    }
-    *pngInfo = png_create_info_struct(png);
-    if (! *pngInfo)
-    {
-        return false;
-    }
-    *pngInfoEnd = png_create_info_struct(png);
-    if (! *pngInfoEnd)
-    {
-        return false;
-    }
-    quint8 tmp [8];
-    if (::fread(tmp, 8, 1, f) != 1)
-    {
-        return false;
-    }
-    if (png_sig_cmp(tmp, 0, 8))
-    {
-        return false;
-    }
-    png_init_io(png, f);
-    png_set_sig_bytes(png, 8);
-    png_read_info(png, *pngInfo);
-    if (png_get_interlace_type(png, *pngInfo) != PNG_INTERLACE_NONE)
-    {
-        return false;
-    }
-    png_set_expand(png);
-    //png_set_gray_1_2_4_to_8(png);
-    png_set_palette_to_rgb(png);
-    png_set_tRNS_to_alpha(png);
-    return true;
-}
+        void PNGLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PNGLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
 
-} // namespace
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
 
-void djvPNGLoad::_open(const QString & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvPNGLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            _open(fileName, info);
 
-    close();
+            // Read the file.
+            PixelData * data = frame.proxy ? &_tmp : &image;
+            data->set(info);
+            for (int y = 0; y < info.size.y; ++y)
+            {
+                if (!pngScanline(_png, data->data(0, data->h() - 1 - y)))
+                {
+                    throw djvError(
+                        PNG::staticName,
+                        _pngError.msg);
+                }
+            }
+            pngEnd(_png, _pngInfoEnd);
 
-    // Initialize libpng.
-    _png = png_create_read_struct(
-        PNG_LIBPNG_VER_STRING,
-        &_pngError,
-        djvPNGError,
-        djvPNGWarning);
-    if (! _png)
-    {
-        throw djvError(
-            djvPNG::staticName,
-            _pngError.msg);
-    }
+            // Proxy scale the image.
+            if (frame.proxy)
+            {
+                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                info.proxy = frame.proxy;
+                image.set(info);
+                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+            }
 
-    // Open the file.
+            //DJV_DEBUG_PRINT("image = " << image);
+
+            close();
+        }
+
+        void PNGLoad::close() throw (djvError)
+        {
+            if (_png || _pngInfo || _pngInfoEnd)
+            {
+                png_destroy_read_struct(
+                    _png ? &_png : 0,
+                    _pngInfo ? &_pngInfo : 0,
+                    _pngInfoEnd ? &_pngInfoEnd : 0);
+                _png = 0;
+                _pngInfo = 0;
+                _pngInfoEnd = 0;
+            }
+
+            if (_f)
+            {
+                ::fclose(_f);
+                _f = 0;
+            }
+        }
+
+        namespace
+        {
+
+            bool pngOpen(
+                FILE *      f,
+                png_structp png,
+                png_infop * pngInfo,
+                png_infop * pngInfoEnd)
+            {
+                if (setjmp(png_jmpbuf(png)))
+                {
+                    return false;
+                }
+                *pngInfo = png_create_info_struct(png);
+                if (!*pngInfo)
+                {
+                    return false;
+                }
+                *pngInfoEnd = png_create_info_struct(png);
+                if (!*pngInfoEnd)
+                {
+                    return false;
+                }
+                quint8 tmp[8];
+                if (::fread(tmp, 8, 1, f) != 1)
+                {
+                    return false;
+                }
+                if (png_sig_cmp(tmp, 0, 8))
+                {
+                    return false;
+                }
+                png_init_io(png, f);
+                png_set_sig_bytes(png, 8);
+                png_read_info(png, *pngInfo);
+                if (png_get_interlace_type(png, *pngInfo) != PNG_INTERLACE_NONE)
+                {
+                    return false;
+                }
+                png_set_expand(png);
+                //png_set_gray_1_2_4_to_8(png);
+                png_set_palette_to_rgb(png);
+                png_set_tRNS_to_alpha(png);
+                return true;
+            }
+
+        } // namespace
+
+        void PNGLoad::_open(const QString & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("PNGLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            close();
+
+            // Initialize libpng.
+            _png = png_create_read_struct(
+                PNG_LIBPNG_VER_STRING,
+                &_pngError,
+                djvPNGError,
+                djvPNGWarning);
+            if (!_png)
+            {
+                throw djvError(
+                    PNG::staticName,
+                    _pngError.msg);
+            }
+
+            // Open the file.
 #if defined(DJV_WINDOWS)
-    ::fopen_s(&_f, in.toLatin1().data(), "rb");
+            ::fopen_s(&_f, in.toLatin1().data(), "rb");
 #else
-    _f = ::fopen(in.toLatin1().data(), "rb");
+            _f = ::fopen(in.toLatin1().data(), "rb");
 #endif
-    if (! _f)
-    {
-        throw djvError(
-            djvPNG::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_OPEN]);
-    }
-    if (! pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
-    {
-        throw djvError(
-            djvPNG::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_OPEN]);
-    }
+            if (!_f)
+            {
+                throw djvError(
+                    PNG::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+            }
+            if (!pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
+            {
+                throw djvError(
+                    PNG::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+            }
 
-    // Get file information.
-    info.fileName = in;
-    info.size = glm::ivec2(
-        png_get_image_width(_png, _pngInfo),
-        png_get_image_height(_png, _pngInfo));
-    int channels = png_get_channels(_png, _pngInfo);
-    if (png_get_color_type(_png, _pngInfo) == PNG_COLOR_TYPE_PALETTE)
-    {
-        channels = 3;
-    }
-    if (png_get_valid(_png, _pngInfo, PNG_INFO_tRNS))
-    {
-        ++channels;
-    }
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    int bitDepth = png_get_bit_depth(_png, _pngInfo);
-    if (bitDepth < 8)
-    {
-        bitDepth = 8;
-    }
-    //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
-    if (! djvPixel::pixel(channels, bitDepth, djvPixel::INTEGER, info.pixel))
-    {
-        throw djvError(
-            djvPNG::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-    }
+            // Get file information.
+            info.fileName = in;
+            info.size = glm::ivec2(
+                png_get_image_width(_png, _pngInfo),
+                png_get_image_height(_png, _pngInfo));
+            int channels = png_get_channels(_png, _pngInfo);
+            if (png_get_color_type(_png, _pngInfo) == PNG_COLOR_TYPE_PALETTE)
+            {
+                channels = 3;
+            }
+            if (png_get_valid(_png, _pngInfo, PNG_INFO_tRNS))
+            {
+                ++channels;
+            }
+            //DJV_DEBUG_PRINT("channels = " << channels);
+            int bitDepth = png_get_bit_depth(_png, _pngInfo);
+            if (bitDepth < 8)
+            {
+                bitDepth = 8;
+            }
+            //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
+            if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
+            {
+                throw djvError(
+                    PNG::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+            }
 
-    // Set the endian.
-    if (bitDepth >= 16 && djvMemory::LSB == djvMemory::endian())
-    {
-        png_set_swap(_png);
-    }
-}
+            // Set the endian.
+            if (bitDepth >= 16 && djvMemory::LSB == djvMemory::endian())
+            {
+                png_set_swap(_png);
+            }
+        }
 
+    } // namespace Graphics
+} // namespace djv

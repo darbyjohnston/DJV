@@ -39,110 +39,113 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvSGIPlugin
-//------------------------------------------------------------------------------
-
-djvSGIPlugin::djvSGIPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvSGIPlugin::pluginName() const
+namespace djv
 {
-    return djvSGI::staticName;
-}
-
-QStringList djvSGIPlugin::extensions() const
-{
-    return QStringList() <<
-        ".sgi"  <<
-        ".rgba" <<
-        ".rgb"  <<
-        ".bw";
-}
-
-QStringList djvSGIPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvSGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
+    namespace Graphics
     {
-        out << _options.compression;
-    }
-    return out;
-}
+        SGIPlugin::SGIPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-bool djvSGIPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvSGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
+        QString SGIPlugin::pluginName() const
         {
-            djvSGI::COMPRESSION compression = static_cast<djvSGI::COMPRESSION>(0);
-            data >> compression;
-            if (compression != _options.compression)
-            {
-                _options.compression = compression;
-                Q_EMIT optionChanged(in);
-            }
+            return SGI::staticName;
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvSGIPlugin::options() const
-{
-    return djvSGI::optionsLabels();
-}
-
-void djvSGIPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList SGIPlugin::extensions() const
         {
-            in >> arg;
-            if (qApp->translate("djvSGIPlugin", "-sgi_compression") == arg)
-            {
-                in >> _options.compression;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return QStringList() <<
+                ".sgi" <<
+                ".rgba" <<
+                ".rgb" <<
+                ".bw";
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvSGIPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvSGIPlugin",
-"\n"
-"SGI Options\n"
-"\n"
-"    -sgi_compression (value)\n"
-"        Set the file compression used when saving SGI images. Options = %1. "
-"Default = %2.\n").
-    arg(djvSGI::compressionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.compression).join(", "));
-}
+        QStringList SGIPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[SGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.compression;
+            }
+            return out;
+        }
 
-djvImageLoad * djvSGIPlugin::createLoad() const
-{
-    return new djvSGILoad(context());
-}
+        bool SGIPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[SGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                {
+                    SGI::COMPRESSION compression = static_cast<SGI::COMPRESSION>(0);
+                    data >> compression;
+                    if (compression != _options.compression)
+                    {
+                        _options.compression = compression;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
 
-djvImageSave * djvSGIPlugin::createSave() const
-{
-    return new djvSGISave(_options, context());
-}
+        QStringList SGIPlugin::options() const
+        {
+            return SGI::optionsLabels();
+        }
+
+        void SGIPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::SGIPlugin", "-sgi_compression") == arg)
+                    {
+                        in >> _options.compression;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString SGIPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::SGIPlugin",
+                "\n"
+                "SGI Options\n"
+                "\n"
+                "    -sgi_compression (value)\n"
+                "        Set the file compression used when saving SGI images. Options = %1. "
+                "Default = %2.\n").
+                arg(SGI::compressionLabels().join(", ")).
+                arg(djvStringUtil::label(_options.compression).join(", "));
+        }
+
+        ImageLoad * SGIPlugin::createLoad() const
+        {
+            return new SGILoad(context());
+        }
+
+        ImageSave * SGIPlugin::createSave() const
+        {
+            return new SGISave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

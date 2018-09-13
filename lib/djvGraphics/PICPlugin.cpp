@@ -39,26 +39,28 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvPICPlugin
-//------------------------------------------------------------------------------
-
-djvPICPlugin::djvPICPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvPICPlugin::pluginName() const
+namespace djv
 {
-    return djvPIC::staticName;
-}
+    namespace Graphics
+    {
+        PICPlugin::PICPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-QStringList djvPICPlugin::extensions() const
-{
-    return QStringList() << ".pic";
-}
-    
-djvImageLoad * djvPICPlugin::createLoad() const
-{
-    return new djvPICLoad(context());
-}
+        QString PICPlugin::pluginName() const
+        {
+            return PIC::staticName;
+        }
 
+        QStringList PICPlugin::extensions() const
+        {
+            return QStringList() << ".pic";
+        }
+
+        ImageLoad * PICPlugin::createLoad() const
+        {
+            return new PICLoad(context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

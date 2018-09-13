@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            PPMWidget(djvImageIO *, UIContext *);
+            PPMWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~PPMWidget();
 
@@ -64,9 +64,9 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvPPM::Options _options;
-            QComboBox *     _typeWidget;
-            QComboBox *     _dataWidget;
+            Graphics::PPM::Options _options;
+            QComboBox * _typeWidget = nullptr;
+            QComboBox * _dataWidget = nullptr;
         };
 
         //! \class PPMWidgetPlugin
@@ -77,7 +77,7 @@ namespace djv
         public:
             PPMWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

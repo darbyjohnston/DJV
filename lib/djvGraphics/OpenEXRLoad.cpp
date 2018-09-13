@@ -45,264 +45,266 @@
 
 #include <algorithm>
 
-//------------------------------------------------------------------------------
-// djvOpenEXRLoad
-//------------------------------------------------------------------------------
-
-djvOpenEXRLoad::djvOpenEXRLoad(const djvOpenEXR::Options & options, djvCoreContext * context) :
-    djvImageLoad(context),
-    _options(options),
-    _f      (0),
-    _fast   (false)
-{}
-
-djvOpenEXRLoad::~djvOpenEXRLoad()
+namespace djv
 {
-    close();
-}
-
-void djvOpenEXRLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvOpenEXRLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    _open(_file.fileName(_file.sequence().start()), info);
-    //DJV_DEBUG_PRINT("info = " << info);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
+        OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, djvCoreContext * context) :
+            ImageLoad(context),
+            _options(options),
+            _f(0),
+            _fast(false)
+        {}
 
-void djvOpenEXRLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvOpenEXRLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-    try
-    {
-        // Open the file.
-        const QString fileName = _file.fileName(
-            frame.frame != -1 ? frame.frame : _file.sequence().start());
-        //DJV_DEBUG_PRINT("file name = " << fileName);
-        djvImageIOInfo info;
-        _open(fileName, info);
-        if (frame.layer < 0 || frame.layer >= _layers.count())
+        OpenEXRLoad::~OpenEXRLoad()
         {
-            throw djvError(
-                djvOpenEXR::staticName,
-                djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
+            close();
         }
-        djvPixelDataInfo pixelDataInfo = info[frame.layer];
-        const bool flip = Imf::DECREASING_Y == _f->header().lineOrder();
-        //DJV_DEBUG_PRINT("flip = " << flip);
-        pixelDataInfo.mirror.y = ! flip;
-        //DJV_DEBUG_PRINT("pixel data info = " << pixelDataInfo);
 
-        //! Set the image tags.
-        image.tags = info.tags;
-
-        //! Set the color profile.
-        if (_options.inputColorProfile != djvOpenEXR::COLOR_PROFILE_NONE)
+        void OpenEXRLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
         {
-            //DJV_DEBUG_PRINT("color profile");
-            switch (_options.inputColorProfile)
+            //DJV_DEBUG("OpenEXRLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            _open(_file.fileName(_file.sequence().start()), info);
+            //DJV_DEBUG_PRINT("info = " << info);
+            if (djvFileInfo::SEQUENCE == _file.type())
             {
-                case djvOpenEXR::COLOR_PROFILE_GAMMA:
-                    //DJV_DEBUG_PRINT("gamma = " << _options.inputGamma);
-                    image.colorProfile.type = djvColorProfile::GAMMA;
-                    break;
-                case djvOpenEXR::COLOR_PROFILE_EXPOSURE:
-                    image.colorProfile.type = djvColorProfile::EXPOSURE;
-                    break;
-                default: break;
+                info.sequence.frames = _file.sequence().frames;
             }
-            image.colorProfile.gamma    = _options.inputGamma;
-            image.colorProfile.exposure = _options.inputExposure;
-        }
-        else
-        {
-            image.colorProfile = djvColorProfile();
         }
 
-        // Read the file.
-        djvPixelData * data = frame.proxy ? &_tmp : &image;
-        data->set(pixelDataInfo);
-        const int channels  = djvPixel::channels(pixelDataInfo.pixel);
-        const int byteCount = djvPixel::channelByteCount(pixelDataInfo.pixel);
-        //DJV_DEBUG_PRINT("channels = " << channels);
-        //DJV_DEBUG_PRINT("byteCount = " << byteCount);
-        const int cb  = channels * byteCount;
-        const int scb = pixelDataInfo.size.x * channels * byteCount;
-        //DJV_DEBUG_PRINT("fast = " << _fast);
-        if (_fast)
+        void OpenEXRLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
         {
-            Imf::FrameBuffer frameBuffer;
-            for (int c = 0; c < channels; ++c)
+            //DJV_DEBUG("OpenEXRLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
+            try
             {
-                const QString & channel = _layers[frame.layer].channels[c].name;
-                //DJV_DEBUG_PRINT("channel = " << channel);
-                const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
-                //DJV_DEBUG_PRINT("sampling = " << sampling);
-                frameBuffer.insert(
-                    channel.toLatin1().data(),
-                    Imf::Slice(
-                        djvOpenEXR::pixelTypeToImf(djvPixel::type(data->pixel())),
-                        (char *)data->data() + (c * byteCount),
-                        cb,
-                        scb,
-                        sampling.x,
-                        sampling.y,
-                        0.f));
-            }
-            _f->setFrameBuffer(frameBuffer);
-            _f->readPixels(
-                _displayWindow.y,
-                _displayWindow.y + _displayWindow.size.y - 1);
-        }
-        else
-        {
-            Imf::FrameBuffer frameBuffer;
-            std::vector<char> buf(_dataWindow.size.x * cb);
-            for (int c = 0; c < channels; ++c)
-            {
-                const QString & channel = _layers[frame.layer].channels[c].name;
-                //DJV_DEBUG_PRINT("channel = " << channel);
-                const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
-                //DJV_DEBUG_PRINT("sampling = " << sampling);
-                frameBuffer.insert(
-                    channel.toLatin1().data(),
-                    Imf::Slice(
-                        djvOpenEXR::pixelTypeToImf(djvPixel::type(data->pixel())),
-                        buf.data() - (_dataWindow.x * cb) + (c * byteCount),
-                        cb,
-                        0,
-                        sampling.x,
-                        sampling.y,
-                        0.f));
-            }
-            _f->setFrameBuffer(frameBuffer);
-            for (
-                int y = _displayWindow.y;
-                y < _displayWindow.y + _displayWindow.size.y;
-                ++y)
-            {
-                quint8 * p = data->data() + ((y - _displayWindow.y) * scb);
-                quint8 * end = p + scb;
-                if (y >= _intersectedWindow.y &&
-                    y < _intersectedWindow.y + _intersectedWindow.size.y)
+                // Open the file.
+                const QString fileName = _file.fileName(
+                    frame.frame != -1 ? frame.frame : _file.sequence().start());
+                //DJV_DEBUG_PRINT("file name = " << fileName);
+                ImageIOInfo info;
+                _open(fileName, info);
+                if (frame.layer < 0 || frame.layer >= _layers.count())
                 {
-                    quint64 size = (_intersectedWindow.x - _displayWindow.x) * cb;
-                    memset(p, 0, size);
-                    p += size;
-                    size = _intersectedWindow.size.x * cb;
-                    _f->readPixels(y, y);
-                    memcpy(
-                        p,
-                        buf.data() + djvMath::max(_displayWindow.x - _dataWindow.x, 0) * cb,
-                        size);
-                    p += size;
+                    throw djvError(
+                        OpenEXR::staticName,
+                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                 }
-                memset(p, 0, end - p);
+                PixelDataInfo pixelDataInfo = info[frame.layer];
+                const bool flip = Imf::DECREASING_Y == _f->header().lineOrder();
+                //DJV_DEBUG_PRINT("flip = " << flip);
+                pixelDataInfo.mirror.y = !flip;
+                //DJV_DEBUG_PRINT("pixel data info = " << pixelDataInfo);
+
+                //! Set the image tags.
+                image.tags = info.tags;
+
+                //! Set the color profile.
+                if (_options.inputColorProfile != OpenEXR::COLOR_PROFILE_NONE)
+                {
+                    //DJV_DEBUG_PRINT("color profile");
+                    switch (_options.inputColorProfile)
+                    {
+                    case OpenEXR::COLOR_PROFILE_GAMMA:
+                        //DJV_DEBUG_PRINT("gamma = " << _options.inputGamma);
+                        image.colorProfile.type = ColorProfile::GAMMA;
+                        break;
+                    case OpenEXR::COLOR_PROFILE_EXPOSURE:
+                        image.colorProfile.type = ColorProfile::EXPOSURE;
+                        break;
+                    default: break;
+                    }
+                    image.colorProfile.gamma = _options.inputGamma;
+                    image.colorProfile.exposure = _options.inputExposure;
+                }
+                else
+                {
+                    image.colorProfile = ColorProfile();
+                }
+
+                // Read the file.
+                PixelData * data = frame.proxy ? &_tmp : &image;
+                data->set(pixelDataInfo);
+                const int channels = Pixel::channels(pixelDataInfo.pixel);
+                const int byteCount = Pixel::channelByteCount(pixelDataInfo.pixel);
+                //DJV_DEBUG_PRINT("channels = " << channels);
+                //DJV_DEBUG_PRINT("byteCount = " << byteCount);
+                const int cb = channels * byteCount;
+                const int scb = pixelDataInfo.size.x * channels * byteCount;
+                //DJV_DEBUG_PRINT("fast = " << _fast);
+                if (_fast)
+                {
+                    Imf::FrameBuffer frameBuffer;
+                    for (int c = 0; c < channels; ++c)
+                    {
+                        const QString & channel = _layers[frame.layer].channels[c].name;
+                        //DJV_DEBUG_PRINT("channel = " << channel);
+                        const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
+                        //DJV_DEBUG_PRINT("sampling = " << sampling);
+                        frameBuffer.insert(
+                            channel.toLatin1().data(),
+                            Imf::Slice(
+                                OpenEXR::pixelTypeToImf(Pixel::type(data->pixel())),
+                                (char *)data->data() + (c * byteCount),
+                                cb,
+                                scb,
+                                sampling.x,
+                                sampling.y,
+                                0.f));
+                    }
+                    _f->setFrameBuffer(frameBuffer);
+                    _f->readPixels(
+                        _displayWindow.y,
+                        _displayWindow.y + _displayWindow.size.y - 1);
+                }
+                else
+                {
+                    Imf::FrameBuffer frameBuffer;
+                    std::vector<char> buf(_dataWindow.size.x * cb);
+                    for (int c = 0; c < channels; ++c)
+                    {
+                        const QString & channel = _layers[frame.layer].channels[c].name;
+                        //DJV_DEBUG_PRINT("channel = " << channel);
+                        const glm::ivec2 sampling = _layers[frame.layer].channels[c].sampling;
+                        //DJV_DEBUG_PRINT("sampling = " << sampling);
+                        frameBuffer.insert(
+                            channel.toLatin1().data(),
+                            Imf::Slice(
+                                OpenEXR::pixelTypeToImf(Pixel::type(data->pixel())),
+                                buf.data() - (_dataWindow.x * cb) + (c * byteCount),
+                                cb,
+                                0,
+                                sampling.x,
+                                sampling.y,
+                                0.f));
+                    }
+                    _f->setFrameBuffer(frameBuffer);
+                    for (
+                        int y = _displayWindow.y;
+                        y < _displayWindow.y + _displayWindow.size.y;
+                        ++y)
+                    {
+                        quint8 * p = data->data() + ((y - _displayWindow.y) * scb);
+                        quint8 * end = p + scb;
+                        if (y >= _intersectedWindow.y &&
+                            y < _intersectedWindow.y + _intersectedWindow.size.y)
+                        {
+                            quint64 size = (_intersectedWindow.x - _displayWindow.x) * cb;
+                            memset(p, 0, size);
+                            p += size;
+                            size = _intersectedWindow.size.x * cb;
+                            _f->readPixels(y, y);
+                            memcpy(
+                                p,
+                                buf.data() + djvMath::max(_displayWindow.x - _dataWindow.x, 0) * cb,
+                                size);
+                            p += size;
+                        }
+                        memset(p, 0, end - p);
+                    }
+                }
+                if (frame.proxy)
+                {
+                    //DJV_DEBUG_PRINT("proxy");
+                    pixelDataInfo.size = PixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
+                    pixelDataInfo.proxy = frame.proxy;
+                    image.set(pixelDataInfo);
+                    PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+                }
             }
-        }
-        if (frame.proxy)
-        {
-            //DJV_DEBUG_PRINT("proxy");
-            pixelDataInfo.size = djvPixelDataUtil::proxyScale(pixelDataInfo.size, frame.proxy);
-            pixelDataInfo.proxy = frame.proxy;
-            image.set(pixelDataInfo);
-
-            djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-        }
-    }
-    catch (const std::exception & error)
-    {
-        throw djvError(
-            djvOpenEXR::staticName,
-            error.what());
-    }
-    //DJV_DEBUG_PRINT("image = " << image);
-   
-    close();
-}
-
-void djvOpenEXRLoad::close() throw (djvError)
-{
-    delete _f;
-
-    _f = 0;
-}
-
-void djvOpenEXRLoad::_open(const QString & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvOpenEXRLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    close();
-
-    try
-    {
-        // Open the file.
-        _f = new Imf::InputFile(in.toLatin1().data());
-
-        // Get the display and data windows.
-        _displayWindow = djvOpenEXR::imfToBox(_f->header().displayWindow());
-        _dataWindow = djvOpenEXR::imfToBox(_f->header().dataWindow());
-        _intersectedWindow = djvBoxUtil::intersect(_displayWindow, _dataWindow);
-        //DJV_DEBUG_PRINT("display window = " << _displayWindow);
-        //DJV_DEBUG_PRINT("data window = " << _dataWindow);
-        //DJV_DEBUG_PRINT("intersected window = " << _intersectedWindow);
-        _fast = _displayWindow == _dataWindow;
-
-        // Get the layers.
-        _layers = djvOpenEXR::layer(_f->header().channels(), _options.channels);
-        info.setLayerCount(_layers.count());
-        //DJV_DEBUG_PRINT("layers = " << _layers.count());
-        for (int i = 0; i < _layers.count(); ++i)
-        {
-            //DJV_DEBUG_PRINT("layer = " << _layers[i].name);
-            const glm::ivec2 sampling(
-                _layers[i].channels[0].sampling.x,
-                _layers[i].channels[0].sampling.y);
-            //DJV_DEBUG_PRINT("sampling = " << sampling);
-            if (sampling.x != 1 || sampling.y != 1)
-                _fast = false;
-            djvPixelDataInfo pixelDataInfo;
-            pixelDataInfo.fileName = in;
-            pixelDataInfo.layerName = _layers[i].name;
-            pixelDataInfo.size = _displayWindow.size;
-            djvPixel::FORMAT format = static_cast<djvPixel::FORMAT>(0);
-            if (! djvPixel::format(_layers[i].channels.count(), format))
+            catch (const std::exception & error)
             {
                 throw djvError(
-                    djvOpenEXR::staticName,
-                    djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
+                    OpenEXR::staticName,
+                    error.what());
             }
-            //DJV_DEBUG_PRINT("format = " << format);
-            if (! djvPixel::pixel(
-                format,
-                _layers[i].channels[0].type,
-                pixelDataInfo.pixel))
+            //DJV_DEBUG_PRINT("image = " << image);
+
+            close();
+        }
+
+        void OpenEXRLoad::close() throw (djvError)
+        {
+            delete _f;
+
+            _f = 0;
+        }
+
+        void OpenEXRLoad::_open(const QString & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("OpenEXRLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            close();
+
+            try
+            {
+                // Open the file.
+                _f = new Imf::InputFile(in.toLatin1().data());
+
+                // Get the display and data windows.
+                _displayWindow = OpenEXR::imfToBox(_f->header().displayWindow());
+                _dataWindow = OpenEXR::imfToBox(_f->header().dataWindow());
+                _intersectedWindow = djvBoxUtil::intersect(_displayWindow, _dataWindow);
+                //DJV_DEBUG_PRINT("display window = " << _displayWindow);
+                //DJV_DEBUG_PRINT("data window = " << _dataWindow);
+                //DJV_DEBUG_PRINT("intersected window = " << _intersectedWindow);
+                _fast = _displayWindow == _dataWindow;
+
+                // Get the layers.
+                _layers = OpenEXR::layer(_f->header().channels(), _options.channels);
+                info.setLayerCount(_layers.count());
+                //DJV_DEBUG_PRINT("layers = " << _layers.count());
+                for (int i = 0; i < _layers.count(); ++i)
+                {
+                    //DJV_DEBUG_PRINT("layer = " << _layers[i].name);
+                    const glm::ivec2 sampling(
+                        _layers[i].channels[0].sampling.x,
+                        _layers[i].channels[0].sampling.y);
+                    //DJV_DEBUG_PRINT("sampling = " << sampling);
+                    if (sampling.x != 1 || sampling.y != 1)
+                        _fast = false;
+                    PixelDataInfo pixelDataInfo;
+                    pixelDataInfo.fileName = in;
+                    pixelDataInfo.layerName = _layers[i].name;
+                    pixelDataInfo.size = _displayWindow.size;
+                    Pixel::FORMAT format = static_cast<Pixel::FORMAT>(0);
+                    if (!Pixel::format(_layers[i].channels.count(), format))
+                    {
+                        throw djvError(
+                            OpenEXR::staticName,
+                            ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    }
+                    //DJV_DEBUG_PRINT("format = " << format);
+                    if (!Pixel::pixel(
+                        format,
+                        _layers[i].channels[0].type,
+                        pixelDataInfo.pixel))
+                    {
+                        throw djvError(
+                            OpenEXR::staticName,
+                            ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                    }
+                    //DJV_DEBUG_PRINT("pixel = " << pixelDataInfo.pixel);
+                    info[i] = pixelDataInfo;
+                }
+                //DJV_DEBUG_PRINT("fast = " << _fast);
+
+                // Get the image tags.
+                OpenEXR::loadTags(_f->header(), info);
+            }
+            catch (const std::exception & error)
             {
                 throw djvError(
-                    djvOpenEXR::staticName,
-                    djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
+                    OpenEXR::staticName,
+                    error.what());
             }
-            //DJV_DEBUG_PRINT("pixel = " << pixelDataInfo.pixel);
-            info[i] = pixelDataInfo;
         }
-        //DJV_DEBUG_PRINT("fast = " << _fast);
 
-        // Get the image tags.
-        djvOpenEXR::loadTags(_f->header(), info);
-    }
-    catch (const std::exception & error)
-    {
-        throw djvError(
-            djvOpenEXR::staticName,
-            error.what());
-    }
-}
+    } // namespace Graphics
+} // namespace djv

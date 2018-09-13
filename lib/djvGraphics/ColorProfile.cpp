@@ -36,100 +36,99 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvColorProfile::Exposure
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvColorProfile::Exposure::Exposure(
-    float value,
-    float defog,
-    float kneeLow,
-    float kneeHigh) :
-    value   (value),
-    defog   (defog),
-    kneeLow (kneeLow),
-    kneeHigh(kneeHigh)
-{}
-
-//------------------------------------------------------------------------------
-// djvColorProfile
-//------------------------------------------------------------------------------
-
-djvColorProfile::djvColorProfile()
-{}
-
-const QStringList & djvColorProfile::profileLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvColorProfile", "Raw") <<
-        qApp->translate("djvColorProfile", "Gamma") <<
-        qApp->translate("djvColorProfile", "LUT") <<
-        qApp->translate("djvColorProfile", "Exposure");
+    namespace Graphics
+    {
+        ColorProfile::Exposure::Exposure(
+            float value,
+            float defog,
+            float kneeLow,
+            float kneeHigh) :
+            value(value),
+            defog(defog),
+            kneeLow(kneeLow),
+            kneeHigh(kneeHigh)
+        {}
 
-    DJV_ASSERT(data.count() == PROFILE_COUNT);
+        ColorProfile::ColorProfile()
+        {}
 
-    return data;
-}
+        const QStringList & ColorProfile::profileLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::ColorProfile", "Raw") <<
+                qApp->translate("djv::Graphics::ColorProfile", "Gamma") <<
+                qApp->translate("djv::Graphics::ColorProfile", "LUT") <<
+                qApp->translate("djv::Graphics::ColorProfile", "Exposure");
+            DJV_ASSERT(data.count() == PROFILE_COUNT);
+            return data;
+        }
 
-bool operator == (
-    const djvColorProfile::Exposure & a,
-    const djvColorProfile::Exposure & b)
-{
-    return
-        djvMath::fuzzyCompare(a.value, b.value) &&
-        djvMath::fuzzyCompare(a.defog, b.defog) &&
-        djvMath::fuzzyCompare(a.kneeLow, b.kneeLow) &&
-        djvMath::fuzzyCompare(a.kneeHigh, b.kneeHigh);
-}
+        bool operator == (
+            const ColorProfile::Exposure & a,
+            const ColorProfile::Exposure & b)
+        {
+            return
+                djvMath::fuzzyCompare(a.value, b.value) &&
+                djvMath::fuzzyCompare(a.defog, b.defog) &&
+                djvMath::fuzzyCompare(a.kneeLow, b.kneeLow) &&
+                djvMath::fuzzyCompare(a.kneeHigh, b.kneeHigh);
+        }
 
-bool operator != (
-    const djvColorProfile::Exposure & a,
-    const djvColorProfile::Exposure & b)
-{
-    return ! (a == b);
-}
+        bool operator != (
+            const ColorProfile::Exposure & a,
+            const ColorProfile::Exposure & b)
+        {
+            return !(a == b);
+        }
 
-bool operator == (const djvColorProfile & a, const djvColorProfile & b)
-{
-    return
-        a.type     == b.type     &&
-        djvMath::fuzzyCompare(a.gamma, b.gamma) &&
-        a.lut      == b.lut      &&
-        a.exposure == b.exposure;
-}
+        bool operator == (const ColorProfile & a, const ColorProfile & b)
+        {
+            return
+                a.type == b.type &&
+                djvMath::fuzzyCompare(a.gamma, b.gamma) &&
+                a.lut == b.lut &&
+                a.exposure == b.exposure;
+        }
 
-bool operator != (const djvColorProfile & a, const djvColorProfile & b)
-{
-    return ! (a == b);
-}
+        bool operator != (const ColorProfile & a, const ColorProfile & b)
+        {
+            return !(a == b);
+        }
 
-QStringList & operator >> (QStringList & in, djvColorProfile::Exposure & out)
+    } // namespace Graphics
+} // namespace djv
+
+QStringList & operator >> (QStringList & in, Graphics::ColorProfile::Exposure & out)
     throw (QString)
 {
     return in >> out.value >> out.defog >> out.kneeLow >> out.kneeHigh;
 }
 
-QStringList & operator << (QStringList & out, const djvColorProfile::Exposure & in)
+QStringList & operator << (QStringList & out, const Graphics::ColorProfile::Exposure & in)
 {
     return out << in.value << in.defog << in.kneeLow << in.kneeHigh;
 }
 
 _DJV_STRING_OPERATOR_LABEL(
-    djvColorProfile::PROFILE,
-    djvColorProfile::profileLabels())
+    Graphics::ColorProfile::PROFILE,
+    Graphics::ColorProfile::profileLabels())
 
-djvDebug & operator << (djvDebug & debug, const djvColorProfile::Exposure & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::ColorProfile::Exposure & in)
 {
     return debug << in.value << " " << in.defog << " " << in.kneeLow << " " <<
         in.kneeHigh;
 }
 
-djvDebug & operator << (djvDebug & debug, const djvColorProfile::PROFILE & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::ColorProfile::PROFILE & in)
 {
     return debug << djvStringUtil::label(in);
 }
 
-djvDebug & operator << (djvDebug & debug, const djvColorProfile & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::ColorProfile & in)
 {
     return debug <<
         in.type << ", " <<

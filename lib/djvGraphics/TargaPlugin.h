@@ -33,37 +33,49 @@
 
 #include <djvGraphics/Targa.h>
 
-//! \addtogroup djvTargaPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTargaPlugin
-//!
-//! This class provides a Targa plugin.
-//------------------------------------------------------------------------------
-
-class djvTargaPlugin : public djvImageIO
+namespace djv
 {
-public:
-    djvTargaPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
-    
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+    namespace Graphics
+    {
+        //------------------------------------------------------------------------------
+        //! \class TargaPlugin
+        //!
+        //! This plugin provides support for the Targa image file format.
+        //!
+        //! File extensions: .tga
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit Luminance, Luminance Alpha, RGB, RGBA
+        //! - File compression
+        //!
+        //! References:
+        //!
+        //! - James D. Murray, William vanRyper, "Encyclopedia of Graphics File Formats,
+        //!   Second Edition"
+        //------------------------------------------------------------------------------
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+        class TargaPlugin : public ImageIO
+        {
+        public:
+            TargaPlugin(djvCoreContext *);
 
-private:
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    djvTarga::Options _options;
-};
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-//@} // djvTargaPlugin
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
+
+        private:
+            Targa::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

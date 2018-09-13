@@ -92,12 +92,12 @@ namespace djv
             return _zoomFactor;
         }
 
-        djvColor ViewPrefs::backgroundDefault()
+        Graphics::Color ViewPrefs::backgroundDefault()
         {
-            return djvColor(0.f);
+            return Graphics::Color(0.f);
         }
 
-        const djvColor & ViewPrefs::background() const
+        const Graphics::Color & ViewPrefs::background() const
         {
             return _background;
         }
@@ -112,12 +112,12 @@ namespace djv
             return _grid;
         }
 
-        djvColor ViewPrefs::gridColorDefault()
+        Graphics::Color ViewPrefs::gridColorDefault()
         {
-            return djvColor(0.25);
+            return Graphics::Color(0.25);
         }
 
-        const djvColor & ViewPrefs::gridColor() const
+        const Graphics::Color & ViewPrefs::gridColor() const
         {
             return _gridColor;
         }
@@ -147,12 +147,12 @@ namespace djv
             return _hudInfo[in] != 0 ? true : false;
         }
 
-        djvColor ViewPrefs::hudColorDefault()
+        Graphics::Color ViewPrefs::hudColorDefault()
         {
-            return djvColor(1.f);
+            return Graphics::Color(1.f);
         }
 
-        const djvColor & ViewPrefs::hudColor() const
+        const Graphics::Color & ViewPrefs::hudColor() const
         {
             return _hudColor;
         }
@@ -167,12 +167,12 @@ namespace djv
             return _hudBackground;
         }
 
-        djvColor ViewPrefs::hudBackgroundColorDefault()
+        Graphics::Color ViewPrefs::hudBackgroundColorDefault()
         {
-            return djvColor(0.f, 0.5f);
+            return Graphics::Color(0.f, 0.5f);
         }
 
-        const djvColor & ViewPrefs::hudBackgroundColor() const
+        const Graphics::Color & ViewPrefs::hudBackgroundColor() const
         {
             return _hudBackgroundColor;
         }
@@ -187,7 +187,7 @@ namespace djv
 
         }
 
-        void ViewPrefs::setBackground(const djvColor & in)
+        void ViewPrefs::setBackground(const Graphics::Color & in)
         {
             if (in == _background)
                 return;
@@ -205,7 +205,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setGridColor(const djvColor & in)
+        void ViewPrefs::setGridColor(const Graphics::Color & in)
         {
             if (in == _gridColor)
                 return;
@@ -244,7 +244,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setHudColor(const djvColor & in)
+        void ViewPrefs::setHudColor(const Graphics::Color & in)
         {
             if (in == _hudColor)
                 return;
@@ -262,7 +262,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ViewPrefs::setHudBackgroundColor(const djvColor & in)
+        void ViewPrefs::setHudBackgroundColor(const Graphics::Color & in)
         {
             if (in == _hudBackgroundColor)
                 return;

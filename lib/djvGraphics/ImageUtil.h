@@ -33,20 +33,18 @@
 
 #include <djvGraphics/Image.h>
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImageUtil
-//!
-//! This class provides image utilities.
-//------------------------------------------------------------------------------
-
-class djvImageUtil
+namespace djv
 {
-public:
-    virtual ~djvImageUtil() = 0;
-};
+    namespace Graphics
+    {
+        //! \class ImageUtil
+        //!
+        //! This class provides image utilities.
+        class ImageUtil
+        {
+        public:
+            virtual ~ImageUtil() = 0;
+        };
 
-//@} // djvGraphicsImage
-
+    } // namespace Graphics
+} // namespace djv

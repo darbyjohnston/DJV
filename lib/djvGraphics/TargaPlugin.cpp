@@ -39,106 +39,109 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvTargaPlugin
-//------------------------------------------------------------------------------
-
-djvTargaPlugin::djvTargaPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvTargaPlugin::pluginName() const
+namespace djv
 {
-    return djvTarga::staticName;
-}
-
-QStringList djvTargaPlugin::extensions() const
-{
-    return QStringList() << ".tga";
-}
-
-QStringList djvTargaPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
+    namespace Graphics
     {
-        out << _options.compression;
-    }
-    return out;
-}
+        TargaPlugin::TargaPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-bool djvTargaPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvTarga::COMPRESSION_OPTION], Qt::CaseInsensitive))
+        QString TargaPlugin::pluginName() const
         {
-            djvTarga::COMPRESSION compression = static_cast<djvTarga::COMPRESSION>(0);
-            data >> compression;
-            if (compression != _options.compression)
-            {
-                _options.compression = compression;
-                Q_EMIT optionChanged(in);
-            }
+            return Targa::staticName;
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvTargaPlugin::options() const
-{
-    return djvTarga::optionsLabels();
-}
-
-void djvTargaPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList TargaPlugin::extensions() const
         {
-            in >> arg;
-            if (qApp->translate("djvTargaPlugin", "-targa_compression") == arg)
-            {
-                in >> _options.compression;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return QStringList() << ".tga";
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvTargaPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvTargaPlugin",
-"\n"
-"Targa Options\n"
-"\n"
-"    -targa_compression (value)\n"
-"        Set the file compression used when saving Targa images. Options = "
-"%1. Default = %2.\n").
-    arg(djvTarga::compressionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.compression).join(", "));
-}
-    
-djvImageLoad * djvTargaPlugin::createLoad() const
-{
-    return new djvTargaLoad(context());
-}
+        QStringList TargaPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[Targa::COMPRESSION_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.compression;
+            }
+            return out;
+        }
 
-djvImageSave * djvTargaPlugin::createSave() const
-{
-    return new djvTargaSave(_options, context());
-}
+        bool TargaPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[Targa::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                {
+                    Targa::COMPRESSION compression = static_cast<Targa::COMPRESSION>(0);
+                    data >> compression;
+                    if (compression != _options.compression)
+                    {
+                        _options.compression = compression;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        QStringList TargaPlugin::options() const
+        {
+            return Targa::optionsLabels();
+        }
+
+        void TargaPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::TargaPlugin", "-targa_compression") == arg)
+                    {
+                        in >> _options.compression;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString TargaPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::TargaPlugin",
+                "\n"
+                "Targa Options\n"
+                "\n"
+                "    -targa_compression (value)\n"
+                "        Set the file compression used when saving Targa images. Options = "
+                "%1. Default = %2.\n").
+                arg(Targa::compressionLabels().join(", ")).
+                arg(djvStringUtil::label(_options.compression).join(", "));
+        }
+
+        ImageLoad * TargaPlugin::createLoad() const
+        {
+            return new TargaLoad(context());
+        }
+
+        ImageSave * TargaPlugin::createSave() const
+        {
+            return new TargaSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

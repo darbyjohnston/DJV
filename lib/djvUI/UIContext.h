@@ -63,7 +63,7 @@ namespace djv
         //! \class djvUIContext
         //!
         //! This class provides global functionality for the library.
-        class UIContext : public djvGraphicsContext
+        class UIContext : public Graphics::GraphicsContext
         {
             Q_OBJECT
 

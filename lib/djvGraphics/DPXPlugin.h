@@ -34,36 +34,52 @@
 #include <djvGraphics/DPX.h>
 #include <djvGraphics/ImageIO.h>
 
-//! \addtogroup djvDPXPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDPXPlugin
-//!
-//! This class provides a DPX plugin.
-//------------------------------------------------------------------------------
-
-class djvDPXPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvDPXPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+    namespace Graphics
+    {
+        //! \class DPXPlugin
+        //!
+        //! This plugin provides support for the SMPTE Digital Picture Exchange (DPX)
+        //! image file format. DPX is a specialized image file format for working with
+        //! motion picture film. DPX is the successor to the Cineon file format with
+        //! support for additional image and meta data.
+        //!
+        //! File extensions: .dpx
+        //!
+        //! Supported features:
+        //!
+        //! - 10-bit RGB type "A" packing (the most common variety); 8-bit, 16-bit,
+        //!   Luminance, RGB, RGBA
+        //! - Interleaved channels only
+        //!
+        //! References:
+        //!
+        //! - SMPTE, "SMPTE 268M-2003"
+        //!   http://www.smpte.org
+        //! - Cinesite, "Conversion of 10-bit Log Film Data To 8-bit Linear or Video
+        //!   Data"
+        class DPXPlugin : public ImageIO
+        {
+        public:
+            explicit DPXPlugin(djvCoreContext *);
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-private:
-    djvDPX::Options _options;
-};
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-//@} // djvDPXPlugin
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
+        private:
+            DPX::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

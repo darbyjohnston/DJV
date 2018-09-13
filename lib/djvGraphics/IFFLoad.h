@@ -36,40 +36,34 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIFFLoad
-//!
-//! This class provides an IFF loader.
-//!
-//! \todo We need more careful error handling when using memory-mapping to
-//! read files; in some cases reading truncated files may cause crashes.
-//------------------------------------------------------------------------------
-
-class djvIFFLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvIFFLoad(djvCoreContext *);
-    
-    virtual ~djvIFFLoad();
+    namespace Graphics
+    {
+        //! \class IFFLoad
+        //!
+        //! This class provides an IFF loader.
+        //!
+        //! \todo We need more careful error handling when using memory-mapping to
+        //! read files; in some cases reading truncated files may cause crashes.
+        class IFFLoad : public ImageLoad
+        {
+        public:
+            explicit IFFLoad(djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual ~IFFLoad();
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
-    
-private:
-    void _open(const djvFileInfo &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    djvFileInfo  _file;
-    int          _tiles;
-    bool         _compression;
-    djvPixelData _tmp;
-};
+        private:
+            void _open(const djvFileInfo &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-//@} // djvIFFPlugin
+            djvFileInfo _file;
+            int         _tiles;
+            bool        _compression;
+            PixelData   _tmp;
+        };
 
+    } // namespace Graphics
+} // namespace djv

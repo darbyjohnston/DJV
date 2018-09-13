@@ -85,7 +85,7 @@ namespace djv
         };
 
         UIContext::UIContext(QObject * parent) :
-            djvGraphicsContext(parent),
+            Graphics::GraphicsContext(parent),
             _p(new Private)
         {
             //DJV_DEBUG("UIContext::UIContext");
@@ -290,7 +290,7 @@ namespace djv
                 "    User: %3\n"
                 "    System: %4\n");
             return QString(label).
-                arg(djvGraphicsContext::info()).
+                arg(Graphics::GraphicsContext::info()).
                 arg(imageIOWidgetFactory()->names().join(", ")).
                 arg(Prefs(QString(), Prefs::USER).fileName()).
                 arg(Prefs(QString(), Prefs::SYSTEM).fileName());
@@ -300,7 +300,7 @@ namespace djv
         {
             //DJV_DEBUG("UIContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
-            if (!djvGraphicsContext::commandLineParse(in))
+            if (!Graphics::GraphicsContext::commandLineParse(in))
                 return false;
             QStringList tmp;
             QString     arg;
@@ -337,7 +337,7 @@ namespace djv
                 "        Do not load the preference at start up.\n"
                 "%2");
             return QString(label).
-                arg(djvGraphicsContext::commandLineHelp());
+                arg(Graphics::GraphicsContext::commandLineHelp());
         }
 
         void UIContext::print(const QString & string, bool newLine, int indent)
@@ -348,7 +348,7 @@ namespace djv
             }
             else
             {
-                djvGraphicsContext::print(string, newLine, indent);
+                Graphics::GraphicsContext::print(string, newLine, indent);
             }
         }
 

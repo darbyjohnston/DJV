@@ -44,7 +44,7 @@ namespace djv
     {
         namespace
         {
-            void _load(djvImageIO * plugin)
+            void _load(Graphics::ImageIO * plugin)
             {
                 //DJV_DEBUG("_load");
                 //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -61,7 +61,7 @@ namespace djv
                 }
             }
 
-            void _save(const djvImageIO * plugin)
+            void _save(const Graphics::ImageIO * plugin)
             {
                 //DJV_DEBUG("_save");
                 //DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -83,7 +83,7 @@ namespace djv
             const QList<djvPlugin *> & plugins = context->imageIOFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
-                if (djvImageIO * plugin = dynamic_cast<djvImageIO *>(plugins[i]))
+                if (Graphics::ImageIO * plugin = dynamic_cast<Graphics::ImageIO *>(plugins[i]))
                 {
                     _load(plugin);
                 }
@@ -96,7 +96,7 @@ namespace djv
             const QList<djvPlugin *> & plugins = _context->imageIOFactory()->plugins();
             for (int i = 0; i < plugins.count(); ++i)
             {
-                if (djvImageIO * plugin = dynamic_cast<djvImageIO *>(plugins[i]))
+                if (Graphics::ImageIO * plugin = dynamic_cast<Graphics::ImageIO *>(plugins[i]))
                 {
                     _save(plugin);
                 }

@@ -40,7 +40,6 @@
 #include <QMetaType>
 
 class djvFileInfo;
-class djvPixelData;
 
 #if defined(DJV_WINDOWS)
 //! \todo Windows defines the macro "FILE_OPEN".
@@ -49,6 +48,12 @@ class djvPixelData;
 
 namespace djv
 {
+    namespace Graphics
+    {
+        class PixelData;
+
+    } // namespace Graphics
+
     namespace ViewLib
     {
         class Context;
@@ -201,9 +206,9 @@ namespace djv
 
             //! Load a LUT.
             static void loadLut(
-                const djvFileInfo & fileInfo,
-                djvPixelData &      lut,
-                Context *           context) throw (djvError);
+                const djvFileInfo &   fileInfo,
+                Graphics::PixelData & lut,
+                Context *             context) throw (djvError);
 
             //! This enumeration provides the playback modes.
             enum PLAYBACK

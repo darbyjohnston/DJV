@@ -35,16 +35,10 @@
 
 #include <djvCore/Sequence.h>
 
-//! \addtogroup djv_info
-//@{
-
-//------------------------------------------------------------------------------
 //! \class djvInfoContext
 //!
 //! This class provides global functionality for the application.
-//------------------------------------------------------------------------------
-
-class djvInfoContext : public djvGraphicsContext
+class djvInfoContext : public djv::Graphics::GraphicsContext
 {
     Q_OBJECT
 
@@ -88,6 +82,3 @@ private:
     bool                  _recurse;
     int                   _columns;
 };
-
-//@} // djv_info
-

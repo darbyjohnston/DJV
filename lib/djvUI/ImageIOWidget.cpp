@@ -40,7 +40,7 @@ namespace djv
     namespace UI
     {
         ImageIOWidget::ImageIOWidget(
-            djvImageIO * plugin,
+            Graphics::ImageIO * plugin,
             UIContext * context,
             QWidget * parent) :
             AbstractPrefsWidget(plugin->pluginName(), context, parent),
@@ -51,7 +51,7 @@ namespace djv
         ImageIOWidget::~ImageIOWidget()
         {}
 
-        djvImageIO * ImageIOWidget::plugin() const
+        Graphics::ImageIO * ImageIOWidget::plugin() const
         {
             return _plugin;
         }
@@ -93,7 +93,7 @@ namespace djv
             //DJV_DEBUG("ImageIOWidgetFactory::~ImageIOWidgetFactory");
         }
 
-        ImageIOWidget * ImageIOWidgetFactory::createWidget(djvImageIO * imageIOPlugin) const
+        ImageIOWidget * ImageIOWidgetFactory::createWidget(Graphics::ImageIO * imageIOPlugin) const
         {
             Q_FOREACH(djvPlugin * plugin, plugins())
             {

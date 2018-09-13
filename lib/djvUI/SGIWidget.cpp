@@ -46,13 +46,13 @@ namespace djv
 {
     namespace UI
     {
-        SGIWidget::SGIWidget(djvImageIO * plugin, UIContext * context) :
+        SGIWidget::SGIWidget(Graphics::ImageIO * plugin, UIContext * context) :
             ImageIOWidget(plugin, context),
             _compressionWidget(0)
         {
             // Create the output widgets.    
             _compressionWidget = new QComboBox;
-            _compressionWidget->addItems(djvSGI::compressionLabels());
+            _compressionWidget->addItems(Graphics::SGI::compressionLabels());
             _compressionWidget->setSizePolicy(
                 QSizePolicy::Fixed, QSizePolicy::Fixed);
 
@@ -75,7 +75,7 @@ namespace djv
             // Initialize.
             QStringList tmp;
             tmp = plugin->option(
-                plugin->options()[djvSGI::COMPRESSION_OPTION]);
+                plugin->options()[Graphics::SGI::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
             widgetUpdate();
@@ -96,7 +96,7 @@ namespace djv
 
         void SGIWidget::resetPreferences()
         {
-            _options = djvSGI::Options();
+            _options = Graphics::SGI::Options();
             pluginUpdate();
             widgetUpdate();
         }
@@ -108,7 +108,7 @@ namespace djv
                 QStringList tmp;
                 tmp = plugin()->option(option);
                 if (0 == option.compare(plugin()->options()[
-                    djvSGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                    Graphics::SGI::COMPRESSION_OPTION], Qt::CaseInsensitive))
                     tmp >> _options.compression;
             }
             catch (const QString &)
@@ -119,7 +119,7 @@ namespace djv
 
         void SGIWidget::compressionCallback(int in)
         {
-            _options.compression = static_cast<djvSGI::COMPRESSION>(in);
+            _options.compression = static_cast<Graphics::SGI::COMPRESSION>(in);
             pluginUpdate();
         }
 
@@ -128,7 +128,7 @@ namespace djv
             QStringList tmp;
             tmp << _options.compression;
             plugin()->setOption(
-                plugin()->options()[djvSGI::COMPRESSION_OPTION], tmp);
+                plugin()->options()[Graphics::SGI::COMPRESSION_OPTION], tmp);
         }
 
         void SGIWidget::widgetUpdate()
@@ -141,14 +141,14 @@ namespace djv
             ImageIOWidgetPlugin(context)
         {}
 
-        ImageIOWidget * SGIWidgetPlugin::createWidget(djvImageIO * plugin) const
+        ImageIOWidget * SGIWidgetPlugin::createWidget(Graphics::ImageIO * plugin) const
         {
             return new SGIWidget(plugin, uiContext());
         }
 
         QString SGIWidgetPlugin::pluginName() const
         {
-            return djvSGI::staticName;
+            return Graphics::SGI::staticName;
         }
 
     } // namespace UI

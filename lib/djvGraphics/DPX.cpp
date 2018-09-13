@@ -37,102 +37,103 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvDPX::Options
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvDPX::Options::Options() :
-    inputColorProfile (djvCineon::COLOR_PROFILE_AUTO),
-    outputColorProfile(djvCineon::COLOR_PROFILE_FILM_PRINT),
-    version           (djvDPX::VERSION_2_0),
-    type              (djvDPX::TYPE_U10),
-    endian            (djvDPX::ENDIAN_MSB)
-{}
-
-//------------------------------------------------------------------------------
-// djvDPX
-//------------------------------------------------------------------------------
-
-const QString djvDPX::staticName = "DPX";
-
-const QStringList & djvDPX::versionLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDPX", "1.0") <<
-        qApp->translate("djvDPX", "2.0");
-    DJV_ASSERT(data.count() == VERSION_COUNT);
-    return data;
-}
+    namespace Graphics
+    {
+        DPX::Options::Options() :
+            inputColorProfile(Cineon::COLOR_PROFILE_AUTO),
+            outputColorProfile(Cineon::COLOR_PROFILE_FILM_PRINT),
+            version(DPX::VERSION_2_0),
+            type(DPX::TYPE_U10),
+            endian(DPX::ENDIAN_MSB)
+        {}
 
-const QStringList & djvDPX::typeLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDPX", "Auto") <<
-        qApp->translate("djvDPX", "U10");
-    DJV_ASSERT(data.count() == TYPE_COUNT);
-    return data;
-}
+        const QString DPX::staticName = "DPX";
 
-const QStringList & djvDPX::endianLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDPX", "Auto") <<
-        djvMemory::endianLabels();
-    DJV_ASSERT(data.count() == ENDIAN_COUNT);
-    return data;
-}
+        const QStringList & DPX::versionLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::DPX", "1.0") <<
+                qApp->translate("djv::Graphics::DPX", "2.0");
+            DJV_ASSERT(data.count() == VERSION_COUNT);
+            return data;
+        }
 
-const QStringList & djvDPX::tagLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDPX", "Source Offset") <<
-        qApp->translate("djvDPX", "Source Center") <<
-        qApp->translate("djvDPX", "Source Size") <<
-        qApp->translate("djvDPX", "Source File") <<
-        qApp->translate("djvDPX", "Source Time") <<
-        qApp->translate("djvDPX", "Source Input Device") <<
-        qApp->translate("djvDPX", "Source Input Serial") <<
-        qApp->translate("djvDPX", "Source Border") <<
-        qApp->translate("djvDPX", "Source Pixel Aspect") <<
-        qApp->translate("djvDPX", "Source ScanSize") <<
-        qApp->translate("djvDPX", "Film Format") <<
-        qApp->translate("djvDPX", "Film Frame") <<
-        qApp->translate("djvDPX", "Film Sequence") <<
-        qApp->translate("djvDPX", "Film Hold") <<
-        qApp->translate("djvDPX", "Film Frame Rate") <<
-        qApp->translate("djvDPX", "Film Shutter") <<
-        qApp->translate("djvDPX", "Film Frame ID") <<
-        qApp->translate("djvDPX", "Film Slate") <<
-        qApp->translate("djvDPX", "TV Interlace") <<
-        qApp->translate("djvDPX", "TV Field") <<
-        qApp->translate("djvDPX", "TV Video Signal") <<
-        qApp->translate("djvDPX", "TV Sample Rate") <<
-        qApp->translate("djvDPX", "TV Frame Rate") <<
-        qApp->translate("djvDPX", "TV Time Offset") <<
-        qApp->translate("djvDPX", "TV Gamma") <<
-        qApp->translate("djvDPX", "TV Black Level") <<
-        qApp->translate("djvDPX", "TV Black Gain") <<
-        qApp->translate("djvDPX", "TV Break Point") <<
-        qApp->translate("djvDPX", "TV White Level") <<
-        qApp->translate("djvDPX", "TV Integration Times");
-    DJV_ASSERT(data.count() == TAG_COUNT);
-    return data;
-}
+        const QStringList & DPX::typeLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::DPX", "Auto") <<
+                qApp->translate("djv::Graphics::DPX", "U10");
+            DJV_ASSERT(data.count() == TYPE_COUNT);
+            return data;
+        }
 
-const QStringList & djvDPX::optionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvDPX", "Input Color Profile") <<
-        qApp->translate("djvDPX", "Input Film Print") <<
-        qApp->translate("djvDPX", "Output Color Profile") <<
-        qApp->translate("djvDPX", "Output Film Print") <<
-        qApp->translate("djvDPX", "Version") <<
-        qApp->translate("djvDPX", "Type") <<
-        qApp->translate("djvDPX", "Endian");
-    DJV_ASSERT(data.count() == OPTIONS_COUNT);
-    return data;
-}
+        const QStringList & DPX::endianLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::DPX", "Auto") <<
+                djvMemory::endianLabels();
+            DJV_ASSERT(data.count() == ENDIAN_COUNT);
+            return data;
+        }
 
-_DJV_STRING_OPERATOR_LABEL(djvDPX::VERSION, djvDPX::versionLabels())
-_DJV_STRING_OPERATOR_LABEL(djvDPX::TYPE, djvDPX::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(djvDPX::ENDIAN, djvDPX::endianLabels())
+        const QStringList & DPX::tagLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::DPX", "Source Offset") <<
+                qApp->translate("djv::Graphics::DPX", "Source Center") <<
+                qApp->translate("djv::Graphics::DPX", "Source Size") <<
+                qApp->translate("djv::Graphics::DPX", "Source File") <<
+                qApp->translate("djv::Graphics::DPX", "Source Time") <<
+                qApp->translate("djv::Graphics::DPX", "Source Input Device") <<
+                qApp->translate("djv::Graphics::DPX", "Source Input Serial") <<
+                qApp->translate("djv::Graphics::DPX", "Source Border") <<
+                qApp->translate("djv::Graphics::DPX", "Source Pixel Aspect") <<
+                qApp->translate("djv::Graphics::DPX", "Source ScanSize") <<
+                qApp->translate("djv::Graphics::DPX", "Film Format") <<
+                qApp->translate("djv::Graphics::DPX", "Film Frame") <<
+                qApp->translate("djv::Graphics::DPX", "Film Sequence") <<
+                qApp->translate("djv::Graphics::DPX", "Film Hold") <<
+                qApp->translate("djv::Graphics::DPX", "Film Frame Rate") <<
+                qApp->translate("djv::Graphics::DPX", "Film Shutter") <<
+                qApp->translate("djv::Graphics::DPX", "Film Frame ID") <<
+                qApp->translate("djv::Graphics::DPX", "Film Slate") <<
+                qApp->translate("djv::Graphics::DPX", "TV Interlace") <<
+                qApp->translate("djv::Graphics::DPX", "TV Field") <<
+                qApp->translate("djv::Graphics::DPX", "TV Video Signal") <<
+                qApp->translate("djv::Graphics::DPX", "TV Sample Rate") <<
+                qApp->translate("djv::Graphics::DPX", "TV Frame Rate") <<
+                qApp->translate("djv::Graphics::DPX", "TV Time Offset") <<
+                qApp->translate("djv::Graphics::DPX", "TV Gamma") <<
+                qApp->translate("djv::Graphics::DPX", "TV Black Level") <<
+                qApp->translate("djv::Graphics::DPX", "TV Black Gain") <<
+                qApp->translate("djv::Graphics::DPX", "TV Break Point") <<
+                qApp->translate("djv::Graphics::DPX", "TV White Level") <<
+                qApp->translate("djv::Graphics::DPX", "TV Integration Times");
+            DJV_ASSERT(data.count() == TAG_COUNT);
+            return data;
+        }
+
+        const QStringList & DPX::optionsLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::DPX", "Input Color Profile") <<
+                qApp->translate("djv::Graphics::DPX", "Input Film Print") <<
+                qApp->translate("djv::Graphics::DPX", "Output Color Profile") <<
+                qApp->translate("djv::Graphics::DPX", "Output Film Print") <<
+                qApp->translate("djv::Graphics::DPX", "Version") <<
+                qApp->translate("djv::Graphics::DPX", "Type") <<
+                qApp->translate("djv::Graphics::DPX", "Endian");
+            DJV_ASSERT(data.count() == OPTIONS_COUNT);
+            return data;
+        }
+
+    } // namespace Graphics
+} // namespace djv
+
+_DJV_STRING_OPERATOR_LABEL(Graphics::DPX::VERSION, Graphics::DPX::versionLabels())
+_DJV_STRING_OPERATOR_LABEL(Graphics::DPX::TYPE, Graphics::DPX::typeLabels())
+_DJV_STRING_OPERATOR_LABEL(Graphics::DPX::ENDIAN, Graphics::DPX::endianLabels())

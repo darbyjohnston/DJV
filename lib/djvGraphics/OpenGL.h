@@ -38,29 +38,30 @@
 
 #include <QOpenGLFunctions_4_1_Core>
 
-//! \addtogroup djvGraphicsOpenGL
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLUtil
-//!
-//! This class provides OpenGL utilities.
-//------------------------------------------------------------------------------
-
-class djvOpenGLUtil
+namespace djv
 {
-public:
-    virtual ~djvOpenGLUtil() = 0;
-    
-    //! Convert a pixel format to OpenGL.
-    static GLenum format(djvPixel::PIXEL, bool bgr = false);
+    namespace Graphics
+    {
+        //! \class OpenGLUtil
+        //!
+        //! This class provides OpenGL utilities.
+        class OpenGLUtil
+        {
+        public:
+            virtual ~OpenGLUtil() = 0;
 
-    //! Convert a pixel type to OpenGL.
-    static GLenum type(djvPixel::PIXEL);
-    
-    //! Get an OpenGL error string.
-    static QString errorString(GLenum);
-};
+            //! Convert a pixel format to OpenGL.
+            static GLenum format(Pixel::PIXEL, bool bgr = false);
+
+            //! Convert a pixel type to OpenGL.
+            static GLenum type(Pixel::PIXEL);
+
+            //! Get an OpenGL error string.
+            static QString errorString(GLenum);
+        };
+
+    } // namespace Graphics
+} // namespace djv
 
 //! This macro provides OpenGL debugging functionality.
 //!
@@ -77,7 +78,7 @@ public:
         { \
             DJV_DEBUG_PRINT(QString("%1 = %2 (%3, line %4)"). \
                 arg(#cmd). \
-                arg((djvOpenGLUtil::errorString(error)). \
+                arg((djv::Graphics::OpenGLUtil::errorString(error)). \
                 arg(__FILE__). \
                 arg(__LINE__)); \
         } \
@@ -86,6 +87,3 @@ public:
 #define DJV_DEBUG_OPEN_GL(cmd) \
     cmd;
 #endif
-
-//@} // djvGraphicsOpenGL
-

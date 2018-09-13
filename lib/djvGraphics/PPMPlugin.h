@@ -34,37 +34,46 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/PPM.h>
 
-//! \addtogroup djvPPMPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPPMPlugin
-//!
-//! This class provides a PPM plugin.
-//------------------------------------------------------------------------------
-
-class djvPPMPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvPPMPlugin(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class PPMPlugin
+        //!
+        //! This plugin provides support for the NetPBM image file format.
+        //!
+        //! File extensions: .ppm, pnm, .pgm, .pbm
+        //!
+        //! Supported features:
+        //!
+        //! - 1-bit, 8-bit, 16-bit, Luminance, RGB
+        //! - Binary and ASCII data
+        //!
+        //! References:
+        //!
+        //! - Netpbm, "PPM Format Specification"
+        //!   http://netpbm.sourceforge.net/doc/ppm.html
+        class PPMPlugin : public ImageIO
+        {
+        public:
+            explicit PPMPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-private:
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
-    djvPPM::Options _options;
-};
+        private:
+            PPM::Options _options;
+        };
 
-//@} // djvPPMPlugin
-
+    } // namespace Graphics
+} // namespace djv

@@ -37,72 +37,57 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djv_convert
-//@{
-
-//------------------------------------------------------------------------------
 //! \struct djvConvertOptions
 //!
 //! This struct provides conversion options.
-//------------------------------------------------------------------------------
-
 struct djvConvertOptions
 {
     djvConvertOptions();
 
-    djvPixelDataInfo::Mirror       mirror;
-    glm::vec2                      scale = glm::vec2(1.f, 1.f);
-    djvOpenGLImageOptions::CHANNEL channel;
-    glm::ivec2                     size = glm::ivec2(0, 0);
-    djvBox2i                       crop;
-    djvBox2f                       cropPercent;
-    djvSequence::COMPRESS          sequence;
+    djv::Graphics::PixelDataInfo::Mirror       mirror;
+    glm::vec2                                  scale = glm::vec2(1.f, 1.f);
+    djv::Graphics::OpenGLImageOptions::CHANNEL channel;
+    glm::ivec2                                 size = glm::ivec2(0, 0);
+    djvBox2i                                   crop;
+    djvBox2f                                   cropPercent;
+    djvSequence::COMPRESS                      sequence;
 };
 
-//------------------------------------------------------------------------------
 //! \struct djvConvertInput
 //!
 //! This struct provides input options.
-//------------------------------------------------------------------------------
-
 struct djvConvertInput
 {
     djvConvertInput();
 
-    djvFileInfo             file;
-    int                     layer;
-    djvPixelDataInfo::PROXY proxy;
-    QString                 start;
-    QString                 end;
-    djvFileInfo             slate;
-    int                     slateFrames;
-    int                     timeout;
+    djvFileInfo                         file;
+    int                                 layer;
+    djv::Graphics::PixelDataInfo::PROXY proxy;
+    QString                             start;
+    QString                             end;
+    djvFileInfo                         slate;
+    int                                 slateFrames;
+    int                                 timeout;
 };
 
-//------------------------------------------------------------------------------
 //! \struct djvConvertOutput
 //!
 //! This struct provides output options.
-//------------------------------------------------------------------------------
-
 struct djvConvertOutput
 {
     djvConvertOutput();
 
-    djvFileInfo                     file;
-    QScopedPointer<djvPixel::PIXEL> pixel;
-    djvImageTags                    tags;
-    bool                            tagsAuto;
-    QScopedPointer<djvSpeed::FPS>   speed;
+    djvFileInfo                                 file;
+    QScopedPointer<djv::Graphics::Pixel::PIXEL> pixel;
+    djv::Graphics::ImageTags                    tags;
+    bool                                        tagsAuto;
+    QScopedPointer<djvSpeed::FPS>               speed;
 };
 
-//------------------------------------------------------------------------------
 //! \class djvConvertContext
 //!
 //! This class provides global functionality for the application.
-//------------------------------------------------------------------------------
-
-class djvConvertContext : public djvGraphicsContext
+class djvConvertContext : public djv::Graphics::GraphicsContext
 {
     Q_OBJECT
     
@@ -130,6 +115,3 @@ private:
     djvConvertInput                          _input;
     djvConvertOutput                         _output;
 };
-
-//@} // djv_convert
-

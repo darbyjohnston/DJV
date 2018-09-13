@@ -37,34 +37,29 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIFFSave
-//!
-//! This class provides an IFF saver.
-//------------------------------------------------------------------------------
-
-class djvIFFSave : public djvImageSave
+namespace djv
 {
-public:
-    djvIFFSave(const djvIFF::Options &, djvCoreContext *);
-    
-    virtual ~djvIFFSave();
+    namespace Graphics
+    {
+        //! \class IFFSave
+        //!
+        //! This class provides an IFF saver.
+        class IFFSave : public ImageSave
+        {
+        public:
+            IFFSave(const IFF::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual ~IFFSave();
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    djvIFF::Options  _options;
-    djvFileInfo      _file;
-    djvPixelDataInfo _info;
-    djvImage         _image;
-};
+        private:
+            IFF::Options  _options;
+            djvFileInfo   _file;
+            PixelDataInfo _info;
+            Image         _image;
+        };
 
-//@} // djvIFFPlugin
-
+    } // namespace Graphics
+} // namespace djv

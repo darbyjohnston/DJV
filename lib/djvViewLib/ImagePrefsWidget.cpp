@@ -150,7 +150,7 @@ namespace djv
 
             _p->channelWidget = new QComboBox;
             _p->channelWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->channelWidget->addItems(djvOpenGLImageOptions::channelLabels());
+            _p->channelWidget->addItems(Graphics::OpenGLImageOptions::channelLabels());
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
@@ -300,14 +300,14 @@ namespace djv
 
         void ImagePrefsWidget::mirrorHCallback(bool in)
         {
-            djvPixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
+            Graphics::PixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
             mirror.x = in;
             context()->imagePrefs()->setMirror(mirror);
         }
 
         void ImagePrefsWidget::mirrorVCallback(bool in)
         {
-            djvPixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
+            Graphics::PixelDataInfo::Mirror mirror = context()->imagePrefs()->mirror();
             mirror.y = in;
             context()->imagePrefs()->setMirror(mirror);
         }
@@ -418,8 +418,7 @@ namespace djv
 
         void ImagePrefsWidget::channelCallback(int in)
         {
-            context()->imagePrefs()->setChannel(
-                static_cast<djvOpenGLImageOptions::CHANNEL>(in));
+            context()->imagePrefs()->setChannel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(in));
         }
 
         void ImagePrefsWidget::widgetUpdate()

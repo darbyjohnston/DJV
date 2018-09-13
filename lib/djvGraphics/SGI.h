@@ -35,102 +35,80 @@
 
 #include <djvCore/FileIO.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvSGIPlugin djvSGIPlugin
-//!
-//! This plugin provides support for the Silicon Graphics image file format.
-//!
-//! File extensions: .sgi, .rgba, .rgb, .bw
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
-//! - File compression
-//!
-//! References:
-//!
-//! - Paul Haeberli, "The SGI Image File Format, Version 1.00"
-
-//@} // plugins
-
-//! \addtogroup djvSGIPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvSGI
-//!
-//! This struct provides SGI utilities.
-//------------------------------------------------------------------------------
-
-struct djvSGI
+namespace djv
 {
-    //! Plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file compression.
-    enum COMPRESSION
+    namespace Graphics
     {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
+        //! \struct SGI
+        //!
+        //! This struct provides SGI utilities.
+        struct SGI
+        {
+            //! Plugin name.
+            static const QString staticName;
 
-        COMPRESSION_COUNT
-    };
+            //! This enumeration provides the file compression.
+            enum COMPRESSION
+            {
+                COMPRESSION_NONE,
+                COMPRESSION_RLE,
 
-    //! Get compression labels.
-    static const QStringList & compressionLabels();
+                COMPRESSION_COUNT
+            };
 
-    //! Load information.
-    static void loadInfo(
-        djvFileIO &      io,
-        djvImageIOInfo & info,
-        bool *           compression) throw (djvError);
+            //! Get compression labels.
+            static const QStringList & compressionLabels();
 
-    //! Save information.
-    static void saveInfo(
-        djvFileIO &            io,
-        const djvImageIOInfo & info,
-        bool                   compression) throw (djvError);
+            //! Load information.
+            static void loadInfo(
+                djvFileIO &   io,
+                ImageIOInfo & info,
+                bool *        compression) throw (djvError);
 
-    //! Load RLE data.
-    static bool readRle(
-        const void * in,
-        const void * end,
-        void *       out,
-        int          size,
-        int          bytes,
-        bool         endian);
+            //! Save information.
+            static void saveInfo(
+                djvFileIO &         io,
+                const ImageIOInfo & info,
+                bool                compression) throw (djvError);
 
-    //! Save RLE data.
-    static quint64 writeRle(
-        const void * in,
-        void *       out,
-        int          size,
-        int          bytes,
-        bool         endian);
+            //! Load RLE data.
+            static bool readRle(
+                const void * in,
+                const void * end,
+                void *       out,
+                int          size,
+                int          bytes,
+                bool         endian);
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
+            //! Save RLE data.
+            static quint64 writeRle(
+                const void * in,
+                void *       out,
+                int          size,
+                int          bytes,
+                bool         endian);
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                COMPRESSION_OPTION,
 
-    //! Get option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get option labels.
+            static const QStringList & optionsLabels();
 
-        COMPRESSION compression;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-DJV_STRING_OPERATOR(djvSGI::COMPRESSION);
+                COMPRESSION compression;
+            };
+        };
 
-//@} // djvSGIPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::SGI::COMPRESSION);

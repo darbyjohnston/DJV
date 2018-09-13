@@ -36,40 +36,34 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvTIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTIFFLoad
-//!
-//! This class provides a TIFF loader.
-//------------------------------------------------------------------------------
-
-class djvTIFFLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvTIFFLoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class TIFFLoad
+        //!
+        //! This class provides a TIFF loader.
+        class TIFFLoad : public ImageLoad
+        {
+        public:
+            explicit TIFFLoad(djvCoreContext *);
 
-    virtual ~djvTIFFLoad();
+            virtual ~TIFFLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &) throw (djvError);
 
-    virtual void close() throw (djvError);
+            djvFileInfo _file;
+            ::TIFF *    _f;
+            bool        _compression;
+            bool        _palette;
+            uint16 *    _colormap[3];
+            PixelData   _tmp;
+        };
 
-private:
-    void _open(const QString &, djvImageIOInfo &) throw (djvError);
-
-    djvFileInfo  _file;
-    TIFF *       _f;
-    bool         _compression;
-    bool         _palette;
-    uint16 *     _colormap [3];
-    djvPixelData _tmp;
-};
-
-//@} // djvTIFFPlugin
-
+    } // namespace Graphics
+} // namespace djv

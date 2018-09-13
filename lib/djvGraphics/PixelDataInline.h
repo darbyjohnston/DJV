@@ -33,85 +33,87 @@
 
 #include <djvCore/VectorUtil.h>
 
-//------------------------------------------------------------------------------
-// djvPixelData
-//------------------------------------------------------------------------------
-
-inline const djvPixelDataInfo & djvPixelData::info() const
+namespace djv
 {
-    return _info;
-}
+    namespace Graphics
+    {
+        inline const PixelDataInfo & PixelData::info() const
+        {
+            return _info;
+        }
 
-inline const glm::ivec2 & djvPixelData::size() const
-{
-    return _info.size;
-}
+        inline const glm::ivec2 & PixelData::size() const
+        {
+            return _info.size;
+        }
 
-inline djvPixelDataInfo::PROXY djvPixelData::proxy() const
-{
-    return _info.proxy;
-}
+        inline PixelDataInfo::PROXY PixelData::proxy() const
+        {
+            return _info.proxy;
+        }
 
-inline int djvPixelData::w() const
-{
-    return _info.size.x;
-}
+        inline int PixelData::w() const
+        {
+            return _info.size.x;
+        }
 
-inline int djvPixelData::h() const
-{
-    return _info.size.y;
-}
+        inline int PixelData::h() const
+        {
+            return _info.size.y;
+        }
 
-inline djvPixel::PIXEL djvPixelData::pixel() const
-{
-    return _info.pixel;
-}
+        inline Pixel::PIXEL PixelData::pixel() const
+        {
+            return _info.pixel;
+        }
 
-inline int djvPixelData::channels() const
-{
-    return _channels;
-}
+        inline int PixelData::channels() const
+        {
+            return _channels;
+        }
 
-bool djvPixelData::isValid() const
-{
-    return djvVectorUtil::isSizeValid(_info.size);
-}
+        bool PixelData::isValid() const
+        {
+            return djvVectorUtil::isSizeValid(_info.size);
+        }
 
-inline quint8 * djvPixelData::data()
-{
-    detach();
-    
-    return _data.data();
-}
+        inline quint8 * PixelData::data()
+        {
+            detach();
 
-inline const quint8 * djvPixelData::data() const
-{
-    return _p;
-}
+            return _data.data();
+        }
 
-inline quint8 * djvPixelData::data(int x, int y)
-{
-    detach();   
-    return _data.data() + (y * _info.size.x + x) * _pixelByteCount;
-}
+        inline const quint8 * PixelData::data() const
+        {
+            return _p;
+        }
 
-inline const quint8 * djvPixelData::data(int x, int y) const
-{
-    return _p + (y * _info.size.x + x) * _pixelByteCount;
-}
+        inline quint8 * PixelData::data(int x, int y)
+        {
+            detach();
+            return _data.data() + (y * _info.size.x + x) * _pixelByteCount;
+        }
 
-inline quint64 djvPixelData::pixelByteCount() const
-{
-    return _pixelByteCount;
-}
+        inline const quint8 * PixelData::data(int x, int y) const
+        {
+            return _p + (y * _info.size.x + x) * _pixelByteCount;
+        }
 
-inline quint64 djvPixelData::scanlineByteCount() const
-{
-    return _scanlineByteCount;
-}
+        inline quint64 PixelData::pixelByteCount() const
+        {
+            return _pixelByteCount;
+        }
 
-inline quint64 djvPixelData::dataByteCount() const
-{
-    return _dataByteCount;
-}
+        inline quint64 PixelData::scanlineByteCount() const
+        {
+            return _scanlineByteCount;
+        }
 
+        inline quint64 PixelData::dataByteCount() const
+        {
+            return _dataByteCount;
+        }
+
+    } // namespace Graphics
+} // namespace djv

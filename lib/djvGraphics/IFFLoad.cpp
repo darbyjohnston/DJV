@@ -35,477 +35,478 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/PixelDataUtil.h>
 
-//------------------------------------------------------------------------------
-// djvIFFLoad
-//------------------------------------------------------------------------------
-
-djvIFFLoad::djvIFFLoad(djvCoreContext * context) :
-    djvImageLoad(context),
-    _tiles      (0),
-    _compression(false)
-{}
-
-djvIFFLoad::~djvIFFLoad()
-{}
-
-void djvIFFLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvIFFLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    _file = in;
-    
-    djvFileIO io;
-    
-    _open(_file.fileName(_file.sequence().start()), info, io);
-
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
+        IFFLoad::IFFLoad(djvCoreContext * context) :
+            ImageLoad(context),
+            _tiles(0),
+            _compression(false)
+        {}
 
-void djvIFFLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvIFFLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
+        IFFLoad::~IFFLoad()
+        {}
 
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
-
-    quint8 type[4];
-    quint8 pixels[32];
-
-    quint32 size;
-    quint32 chunkSize;
-    quint32 tilesRgba;
-
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    djvFileIO io;
-    _open(fileName, info, io);
-    image.tags = info.tags;
-
-    // Read the file.
-    const int channelByteCount = djvPixel::channelByteCount(info.pixel);
-    const uint byteCount = djvPixel::byteCount(info.pixel);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("channelByteCount = " << channelByteCount);
-    //DJV_DEBUG_PRINT("byteCount = " << byteCount);
-    io.readAhead();
-    djvPixelData * data = frame.proxy ? &_tmp : &image;
-    data->set(info);
-    tilesRgba = _tiles;
-
-    // Read FOR4 <size> TBMP block
-    for (;;)
-    {
-        // Get type.
-        io.get(&type, 4);
-
-        // Get length.
-        io.getU32(&size, 1);
-        chunkSize = djvIFF::alignSize(size, 4);
-
-        if (type[0] == 'A' &&
-                type[1] == 'U' &&
-                type[2] == 'T' &&
-                type[3] == 'H')
+        void IFFLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
         {
-            //DJV_DEBUG_PRINT("type = AUTH");
-            const quint8 * p = io.mmapP();
+            //DJV_DEBUG("IFFLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
 
-            // Get tag.
-            info.tags[djvImageTags::tagLabels()[djvImageTags::CREATOR]] =
-                QString((const char *)p).mid(chunkSize);
+            _file = in;
 
-            // Skip to the next block.
-            io.seek(chunkSize);
+            djvFileIO io;
 
-            // Set tag.
-            image.tags = info.tags;
-        }
-        else if (type[0] == 'F' &&
-                 type[1] == 'O' &&
-                 type[2] == 'R' &&
-                 type[3] == '4')
-        {
-            //DJV_DEBUG_PRINT("type = FOR4");
+            _open(_file.fileName(_file.sequence().start()), info, io);
 
-            // Get type.
-            io.get(&type, 4);
-
-            // Check if TBMP.
-            if (type[0] == 'T' &&
-                    type[1] == 'B' &&
-                    type[2] == 'M' &&
-                    type[3] == 'P')
+            if (djvFileInfo::SEQUENCE == _file.type())
             {
-                //DJV_DEBUG_PRINT("type = TBMP");
+                info.sequence.frames = _file.sequence().frames;
+            }
+        }
 
-                // Read RGBA and ZBUF block.
-                for (;;)
+        void IFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("IFFLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
+
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
+
+            quint8 type[4];
+            quint8 pixels[32];
+
+            quint32 size;
+            quint32 chunkSize;
+            quint32 tilesRgba;
+
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            djvFileIO io;
+            _open(fileName, info, io);
+            image.tags = info.tags;
+
+            // Read the file.
+            const int channelByteCount = Pixel::channelByteCount(info.pixel);
+            const uint byteCount = Pixel::byteCount(info.pixel);
+            //DJV_DEBUG_PRINT("channels = " << channels);
+            //DJV_DEBUG_PRINT("channelByteCount = " << channelByteCount);
+            //DJV_DEBUG_PRINT("byteCount = " << byteCount);
+            io.readAhead();
+            PixelData * data = frame.proxy ? &_tmp : &image;
+            data->set(info);
+            tilesRgba = _tiles;
+
+            // Read FOR4 <size> TBMP block
+            for (;;)
+            {
+                // Get type.
+                io.get(&type, 4);
+
+                // Get length.
+                io.getU32(&size, 1);
+                chunkSize = IFF::alignSize(size, 4);
+
+                if (type[0] == 'A' &&
+                    type[1] == 'U' &&
+                    type[2] == 'T' &&
+                    type[3] == 'H')
                 {
+                    //DJV_DEBUG_PRINT("type = AUTH");
+                    const quint8 * p = io.mmapP();
+
+                    // Get tag.
+                    info.tags[ImageTags::tagLabels()[ImageTags::CREATOR]] = QString((const char *)p).mid(chunkSize);
+
+                    // Skip to the next block.
+                    io.seek(chunkSize);
+
+                    // Set tag.
+                    image.tags = info.tags;
+                }
+                else if (type[0] == 'F' &&
+                    type[1] == 'O' &&
+                    type[2] == 'R' &&
+                    type[3] == '4')
+                {
+                    //DJV_DEBUG_PRINT("type = FOR4");
+
                     // Get type.
                     io.get(&type, 4);
 
-                    // Get length.
-                    io.getU32(&size, 1);
-                    chunkSize = djvIFF::alignSize(size, 4);
-
-                    // Tiles and RGBA.
-                    if (tilesRgba &&
-                            type[0] == 'R' &&
-                            type[1] == 'G' &&
-                            type[2] == 'B' &&
-                            type[3] == 'A')
+                    // Check if TBMP.
+                    if (type[0] == 'T' &&
+                        type[1] == 'B' &&
+                        type[2] == 'M' &&
+                        type[3] == 'P')
                     {
-                        // Set image size.
-                        quint32 imageSize = size;
+                        //DJV_DEBUG_PRINT("type = TBMP");
 
-                        // Get tile coordinates.
-                        quint16 xmin, xmax, ymin, ymax;
-                        io.getU16(&xmin, 1);
-                        io.getU16(&ymin, 1);
-                        io.getU16(&xmax, 1);
-                        io.getU16(&ymax, 1);
-
-                        if (xmin > xmax ||
-                            ymin > ymax ||
-                            xmax >= info.size.x ||
-                            ymax >= info.size.y)
+                        // Read RGBA and ZBUF block.
+                        for (;;)
                         {
-                            throw djvError(
-                                djvIFF::staticName,
-                                djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-                        }
+                            // Get type.
+                            io.get(&type, 4);
 
-                        // NOTE: tile w = xmax - xmin + 1
-                        //       tile h = ymax - ymin + 1
+                            // Get length.
+                            io.getU32(&size, 1);
+                            chunkSize = IFF::alignSize(size, 4);
 
-                        quint32 tw = xmax - xmin + 1;
-                        quint32 th = ymax - ymin + 1;
-
-                        if (!tw || !th)
-                        {
-                            throw djvError(
-                                djvIFF::staticName,
-                                djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-                        }
-
-                        bool tile_compress = false;
-
-                        // If tile compression fails to be less than
-                        // image data stored uncompressed, the tile
-                        // is written uncompressed.
-
-                        // Set channels.
-                        quint8 channels = djvPixel::channels(info.pixel);
-
-                        // Set tile pixels.
-
-                        // Append xmin, xmax, ymin and ymax.
-                        quint32 tileSize =
-                            tw * th * channels *
-                            djvPixel::channelByteCount(info.pixel) + 8;
-
-                        // Test compressed.
-                        if (tileSize > imageSize)
-                        {
-                            tile_compress = true;
-                        }
-
-                        // Handle 8-bit data.
-                        if (info.pixel == djvPixel::RGB_U8 ||
-                            info.pixel == djvPixel::RGBA_U8)
-                        {
-
-                            // Tile compress.
-                            if (tile_compress)
+                            // Tiles and RGBA.
+                            if (tilesRgba &&
+                                type[0] == 'R' &&
+                                type[1] == 'G' &&
+                                type[2] == 'B' &&
+                                type[3] == 'A')
                             {
-                                // Set bytes.
-                                const quint8 * p = io.mmapP();
+                                // Set image size.
+                                quint32 imageSize = size;
 
-                                // Map: RGB(A)8 BGRA to RGBA
-                                for (int c = (channels * channelByteCount) - 1;
-                                    c >= 0;
-                                    --c)
-                                {
-                                    std::vector<quint8> in(tw * th);
-                                    quint8 * inP = in.data();
+                                // Get tile coordinates.
+                                quint16 xmin, xmax, ymin, ymax;
+                                io.getU16(&xmin, 1);
+                                io.getU16(&ymin, 1);
+                                io.getU16(&xmax, 1);
+                                io.getU16(&ymax, 1);
 
-                                    // Uncompress.
-                                    p += djvIFF::readRle (p, in.data(), tw * th);
-
-                                    for (quint16 py = ymin; py <= ymax; py++)
-                                    {
-                                        quint8 * out_dy = data->data(0, py);
-
-                                        for (
-                                            quint16 px = xmin;
-                                            px <= xmax;
-                                            px++)
-                                        {
-                                            quint8 * outP =
-                                                out_dy + px * byteCount + c;
-                                            *outP++ = *inP++;
-                                        }
-                                    }
-                                }
-
-                                // Seek
-                                io.seek(imageSize - 8);
-
-                                // Test.
-                                if (p != io.mmapP())
+                                if (xmin > xmax ||
+                                    ymin > ymax ||
+                                    xmax >= info.size.x ||
+                                    ymax >= info.size.y)
                                 {
                                     throw djvError(
-                                        djvIFF::staticName,
-                                        djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
+                                        IFF::staticName,
+                                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                 }
-                            }
-                            else
-                            {
-                                for (quint16 py = ymin; py <= ymax; py++)
+
+                                // NOTE: tile w = xmax - xmin + 1
+                                //       tile h = ymax - ymin + 1
+
+                                quint32 tw = xmax - xmin + 1;
+                                quint32 th = ymax - ymin + 1;
+
+                                if (!tw || !th)
                                 {
-                                    quint8 * out_dy = data->data(xmin, py);
+                                    throw djvError(
+                                        IFF::staticName,
+                                        ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                }
 
-                                    // Tile scanline.
-                                    std::vector<quint8> scanline(tw * byteCount);
-                                    quint8 * outP = scanline.data();
+                                bool tile_compress = false;
 
-                                    // Set bytes.
-                                    for (quint16 px = xmin; px <= xmax; px++)
+                                // If tile compression fails to be less than
+                                // image data stored uncompressed, the tile
+                                // is written uncompressed.
+
+                                // Set channels.
+                                quint8 channels = Pixel::channels(info.pixel);
+
+                                // Set tile pixels.
+
+                                // Append xmin, xmax, ymin and ymax.
+                                quint32 tileSize =
+                                    tw * th * channels *
+                                    Pixel::channelByteCount(info.pixel) + 8;
+
+                                // Test compressed.
+                                if (tileSize > imageSize)
+                                {
+                                    tile_compress = true;
+                                }
+
+                                // Handle 8-bit data.
+                                if (info.pixel == Pixel::RGB_U8 ||
+                                    info.pixel == Pixel::RGBA_U8)
+                                {
+
+                                    // Tile compress.
+                                    if (tile_compress)
                                     {
-                                        // Get pixels.
-                                        io.get(&pixels, byteCount);
+                                        // Set bytes.
+                                        const quint8 * p = io.mmapP();
 
-                                        if (size < static_cast<quint32>(byteCount))
+                                        // Map: RGB(A)8 BGRA to RGBA
+                                        for (int c = (channels * channelByteCount) - 1;
+                                            c >= 0;
+                                            --c)
+                                        {
+                                            std::vector<quint8> in(tw * th);
+                                            quint8 * inP = in.data();
+
+                                            // Uncompress.
+                                            p += IFF::readRle(p, in.data(), tw * th);
+
+                                            for (quint16 py = ymin; py <= ymax; py++)
+                                            {
+                                                quint8 * out_dy = data->data(0, py);
+
+                                                for (
+                                                    quint16 px = xmin;
+                                                    px <= xmax;
+                                                    px++)
+                                                {
+                                                    quint8 * outP =
+                                                        out_dy + px * byteCount + c;
+                                                    *outP++ = *inP++;
+                                                }
+                                            }
+                                        }
+
+                                        // Seek
+                                        io.seek(imageSize - 8);
+
+                                        // Test.
+                                        if (p != io.mmapP())
                                         {
                                             throw djvError(
-                                                djvIFF::staticName,
-                                                djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
+                                                IFF::staticName,
+                                                ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                         }
-
-                                        size -= byteCount;
-
-                                        // Map: RGB(A)8 ABGR to ARGB
-                                        for (int c = channels - 1; c >= 0; --c)
-                                        {
-                                            quint8 pixel;
-                                            quint8 * inP =
-                                                pixels + c * channelByteCount;
-                                            memcpy(&pixel, inP, 1);
-                                            *outP++ = pixel;
-                                        }
-                                    }
-
-                                    // Copy data.
-                                    memcpy(out_dy, scanline.data(), tw * byteCount);
-                                }
-                            }
-                        }
-                        // Handle 16-bit data.
-                        else if (
-                            info.pixel == djvPixel::RGB_U16 ||
-                            info.pixel == djvPixel::RGBA_U16)
-                        {
-                            if (tile_compress)
-                            {
-
-                                // Set bytes.
-                                const quint8 * p = io.mmapP();
-
-                                // Set map.
-                                int* map = NULL;
-
-                                if (djvMemory::endian() == djvMemory::LSB)
-                                {
-                                    int rgb16[] = { 0, 2, 4, 1, 3, 5 };
-                                    int rgba16[] = { 0, 2, 4, 7, 1, 3, 5, 6 };
-
-                                    if (info.pixel == djvPixel::RGB_U16)
-                                    {
-                                        map = rgb16;
                                     }
                                     else
                                     {
-                                        map = rgba16;
+                                        for (quint16 py = ymin; py <= ymax; py++)
+                                        {
+                                            quint8 * out_dy = data->data(xmin, py);
+
+                                            // Tile scanline.
+                                            std::vector<quint8> scanline(tw * byteCount);
+                                            quint8 * outP = scanline.data();
+
+                                            // Set bytes.
+                                            for (quint16 px = xmin; px <= xmax; px++)
+                                            {
+                                                // Get pixels.
+                                                io.get(&pixels, byteCount);
+
+                                                if (size < static_cast<quint32>(byteCount))
+                                                {
+                                                    throw djvError(
+                                                        IFF::staticName,
+                                                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                                }
+
+                                                size -= byteCount;
+
+                                                // Map: RGB(A)8 ABGR to ARGB
+                                                for (int c = channels - 1; c >= 0; --c)
+                                                {
+                                                    quint8 pixel;
+                                                    quint8 * inP =
+                                                        pixels + c * channelByteCount;
+                                                    memcpy(&pixel, inP, 1);
+                                                    *outP++ = pixel;
+                                                }
+                                            }
+
+                                            // Copy data.
+                                            memcpy(out_dy, scanline.data(), tw * byteCount);
+                                        }
+                                    }
+                                }
+                                // Handle 16-bit data.
+                                else if (
+                                    info.pixel == Pixel::RGB_U16 ||
+                                    info.pixel == Pixel::RGBA_U16)
+                                {
+                                    if (tile_compress)
+                                    {
+
+                                        // Set bytes.
+                                        const quint8 * p = io.mmapP();
+
+                                        // Set map.
+                                        int* map = NULL;
+
+                                        if (djvMemory::endian() == djvMemory::LSB)
+                                        {
+                                            int rgb16[] = { 0, 2, 4, 1, 3, 5 };
+                                            int rgba16[] = { 0, 2, 4, 7, 1, 3, 5, 6 };
+
+                                            if (info.pixel == Pixel::RGB_U16)
+                                            {
+                                                map = rgb16;
+                                            }
+                                            else
+                                            {
+                                                map = rgba16;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            int rgb16[] = { 1, 3, 5, 0, 2, 4 };
+                                            int rgba16[] = { 1, 3, 5, 7, 0, 2, 4, 6 };
+
+                                            if (info.pixel == Pixel::RGB_U16)
+                                            {
+                                                map = rgb16;
+                                            }
+                                            else
+                                            {
+                                                map = rgba16;
+                                            }
+                                        }
+
+                                        // Map: RGB(A)8 BGRA to RGBA
+                                        for (int c = (channels * channelByteCount) - 1;
+                                            c >= 0;
+                                            --c)
+                                        {
+                                            int mc = map[c];
+
+                                            std::vector<quint8> in(tw * th);
+                                            quint8 * inP = in.data();
+
+                                            // Uncompress.
+                                            p += IFF::readRle(p, in.data(), tw * th);
+
+                                            for (quint16 py = ymin; py <= ymax; py++)
+                                            {
+                                                quint8 * out_dy = data->data(0, py);
+
+                                                for (
+                                                    quint16 px = xmin;
+                                                    px <= xmax;
+                                                    px++)
+                                                {
+                                                    quint8 * outP =
+                                                        out_dy + px * byteCount + mc;
+                                                    *outP++ = *inP++;
+                                                }
+                                            }
+                                        }
+
+                                        // Seek
+                                        io.seek(imageSize - 8);
+
+                                        // Test.
+                                        if (p != io.mmapP())
+                                        {
+                                            throw djvError(
+                                                IFF::staticName,
+                                                ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (quint16 py = ymin; py <= ymax; py++)
+                                        {
+                                            quint8 * out_dy = data->data(xmin, py);
+
+                                            // Tile scanline.
+                                            std::vector<quint16> scanline(tw * byteCount);
+                                            quint16 * outP = scanline.data();
+
+                                            // Set bytes.
+                                            for (quint16 px = xmin; px <= xmax; px++)
+                                            {
+                                                // Get pixels.
+                                                io.get(&pixels, byteCount);
+
+                                                if (size < static_cast<quint32>(byteCount))
+                                                {
+                                                    throw djvError(
+                                                        IFF::staticName,
+                                                        ImageIO::errorLabels()[ImageIO::ERROR_READ]);
+                                                }
+
+                                                size -= byteCount;
+
+                                                // Map: RGB8 ABGR to ARGB
+                                                for (int c = channels - 1; c >= 0; --c)
+                                                {
+                                                    quint16 pixel;
+                                                    quint8 * in =
+                                                        pixels + c * channelByteCount;
+
+                                                    if (djvMemory::endian() == djvMemory::LSB)
+                                                    {
+                                                        djvMemory::convertEndian(in, &pixel, 1, 2);
+                                                    }
+                                                    else
+                                                    {
+                                                        memcpy(&pixel, in, 2);
+                                                    }
+
+                                                    // Set pixel.
+                                                    *outP++ = pixel;
+                                                }
+                                            }
+
+                                            // Copy data.
+                                            memcpy(out_dy, scanline.data(), tw * byteCount);
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    int rgb16[] = { 1, 3, 5, 0, 2, 4 };
-                                    int rgba16[] = { 1, 3, 5, 7, 0, 2, 4, 6 };
-
-                                    if (info.pixel == djvPixel::RGB_U16)
-                                    {
-                                        map = rgb16;
-                                    }
-                                    else
-                                    {
-                                        map = rgba16;
-                                    }
+                                    io.seek(chunkSize);
                                 }
 
-                                // Map: RGB(A)8 BGRA to RGBA
-                                for (int c = (channels * channelByteCount) - 1;
-                                    c >= 0;
-                                    --c)
+                                // Seek to align to chunksize.
+                                size = chunkSize - imageSize;
+
+                                if (size)
                                 {
-                                    int mc = map[c];
-
-                                    std::vector<quint8> in(tw * th);
-                                    quint8 * inP = in.data();
-
-                                    // Uncompress.
-                                    p += djvIFF::readRle (p, in.data(), tw * th);
-
-                                    for (quint16 py = ymin; py <= ymax; py++)
-                                    {
-                                        quint8 * out_dy = data->data(0, py);
-
-                                        for (
-                                            quint16 px = xmin;
-                                            px <= xmax;
-                                            px++)
-                                        {
-                                            quint8 * outP =
-                                                out_dy + px * byteCount + mc;
-                                            *outP++ = *inP++;
-                                        }
-                                    }
+                                    io.seek(size);
                                 }
 
-                                // Seek
-                                io.seek(imageSize - 8);
-
-                                // Test.
-                                if (p != io.mmapP())
-                                {
-                                    throw djvError(
-                                        djvIFF::staticName,
-                                        djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-                                }
+                                tilesRgba--;
                             }
                             else
                             {
-                                for (quint16 py = ymin; py <= ymax; py++)
-                                {
-                                    quint8 * out_dy = data->data(xmin, py);
-
-                                    // Tile scanline.
-                                    std::vector<quint16> scanline(tw * byteCount);
-                                    quint16 * outP = scanline.data();
-
-                                    // Set bytes.
-                                    for (quint16 px = xmin; px <= xmax; px++)
-                                    {
-                                        // Get pixels.
-                                        io.get(&pixels, byteCount);
-
-                                        if (size < static_cast<quint32>(byteCount))
-                                        {
-                                            throw djvError(
-                                                djvIFF::staticName,
-                                                djvImageIO::errorLabels()[djvImageIO::ERROR_READ]);
-                                        }
-
-                                        size -= byteCount;
-
-                                        // Map: RGB8 ABGR to ARGB
-                                        for (int c = channels - 1; c >= 0; --c)
-                                        {
-                                            quint16 pixel;
-                                            quint8 * in =
-                                                pixels + c * channelByteCount;
-
-                                            if (djvMemory::endian() == djvMemory::LSB)
-                                            {
-                                                djvMemory::convertEndian(in, &pixel, 1, 2);
-                                            }
-                                            else
-                                            {
-                                                memcpy(&pixel, in, 2);
-                                            }
-
-                                            // Set pixel.
-                                            *outP++ = pixel;
-                                        }
-                                    }
-
-                                    // Copy data.
-                                    memcpy(out_dy, scanline.data(), tw * byteCount);
-                                }
+                                io.seek(chunkSize);
                             }
-                        }
-                        else
-                        {
-                            io.seek(chunkSize);
-                        }
 
-                        // Seek to align to chunksize.
-                        size = chunkSize - imageSize;
+                            if (tilesRgba)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                break;
+                            }
 
-                        if (size)
-                        {
-                            io.seek(size);
                         }
 
-                        tilesRgba--;
-                    }
-                    else
-                    {
-                        io.seek(chunkSize);
-                    }
-
-                    if (tilesRgba)
-                    {
-                        continue;
-                    }
-                    else
-                    {
+                        // TBMP done, break.
                         break;
                     }
 
                 }
-
-                // TBMP done, break.
-                break;
+                else
+                {
+                    // Skip to the next block.
+                    io.seek(chunkSize);
+                }
             }
 
+            if (frame.proxy)
+            {
+                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                info.proxy = frame.proxy;
+                image.set(info);
+                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+            }
+
+            //DJV_DEBUG_PRINT("image = " << image);
         }
-        else
+
+        void IFFLoad::_open(const djvFileInfo & in, ImageIOInfo & info, djvFileIO & io)
+            throw (djvError)
         {
-            // Skip to the next block.
-            io.seek(chunkSize);
+            //DJV_DEBUG("IFFLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            io.setEndian(djvMemory::endian() != djvMemory::MSB);
+            io.open(in, djvFileIO::READ);
+            info.fileName = in;
+            IFF::loadInfo(io, info, &_tiles, &_compression);
         }
-    }
 
-    if (frame.proxy)
-    {
-        info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-        info.proxy = frame.proxy;
-        image.set(info);
-
-        djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-    }
-
-    //DJV_DEBUG_PRINT("image = " << image);
-}
-
-void djvIFFLoad::_open(const djvFileInfo & in, djvImageIOInfo & info, djvFileIO & io)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvIFFLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    io.setEndian(djvMemory::endian() != djvMemory::MSB);
-    io.open(in, djvFileIO::READ);
-    info.fileName = in;
-    djvIFF::loadInfo(io, info, &_tiles, &_compression);
-}
+    } // namespace Graphics
+} // namespace djv

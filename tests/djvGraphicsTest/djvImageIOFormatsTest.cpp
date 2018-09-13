@@ -49,27 +49,29 @@
 
 #include <algorithm>
 
+using namespace djv;
+
 void djvImageIOFormatsTest::run(int & argc, char ** argv)
 {
     DJV_DEBUG("djvImageIOFormatsTest::run");
 
-    djvGraphicsContext context;
+    Graphics::GraphicsContext context;
     initData();
     initImages();
     initPlugins(&context);
     
     //! \todo Fix these image I/O confidence tests.    
-    typedef QPair<QString, djvPixel::PIXEL> Disable;
+    typedef QPair<QString, Graphics::Pixel::PIXEL> Disable;
     QVector<Disable> disabled;
-    disabled += Disable("IFF", djvPixel::RGB_U16);
-    disabled += Disable("IFF", djvPixel::RGBA_U16);
+    disabled += Disable("IFF", Graphics::Pixel::RGB_U16);
+    disabled += Disable("IFF", Graphics::Pixel::RGBA_U16);
     
     for (int j = 0; j < _plugins.count(); ++j)
     {
-        djvImageIO * plugin = static_cast<djvImageIO *>(_plugins[j]);
+        Graphics::ImageIO * plugin = static_cast<Graphics::ImageIO *>(_plugins[j]);
         for (int i = 0; i < _images.count(); ++i)
         {
-            const djvImage & image = _images[i];
+            const Graphics::Image & image = _images[i];
             bool test = true;
             for (int k = 0; k < disabled.count(); ++k)
             {
@@ -88,7 +90,7 @@ void djvImageIOFormatsTest::run(int & argc, char ** argv)
     }
 }
 
-void djvImageIOFormatsTest::initPlugins(djvGraphicsContext * context)
+void djvImageIOFormatsTest::initPlugins(Graphics::GraphicsContext * context)
 {
     DJV_DEBUG("djvImageIOFormatsTest::initPlugins");
 
@@ -134,17 +136,17 @@ void djvImageIOFormatsTest::initData()
             //glm::ivec2( 1,  7) <<
             glm::ivec2(11,  7) <<
             glm::ivec2( 7, 11);
-        for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
+        for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
         {
-            const djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(i);
+            const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
             _pixels += pixel;
         }
     }
     else
     {
         _sizes += glm::ivec2(10, 1);
-        //_pixels += djvPixel::RGB_U10;
-        _pixels += djvPixel::RGB_F16;
+        //_pixels += Graphics::Pixel::RGB_U10;
+        _pixels += Graphics::Pixel::RGB_F16;
     }
     DJV_DEBUG_PRINT("sizes = " << _sizes);
     DJV_DEBUG_PRINT("pixels = " << _pixels);
@@ -157,23 +159,22 @@ void djvImageIOFormatsTest::initImages()
     {
         for (int j = 0; j < _pixels.count(); ++j)
         {
-            djvImage gradient(djvPixelDataInfo(_sizes[i], djvPixel::L_F32));
-            djvPixelDataUtil::gradient(gradient);
-            djvImage image(djvPixelDataInfo(gradient.size(), _pixels[j]));
-            djvOpenGLImage().copy(gradient, image);
+            Graphics::Image gradient(Graphics::PixelDataInfo(_sizes[i], Graphics::Pixel::L_F32));
+            Graphics::PixelDataUtil::gradient(gradient);
+            Graphics::Image image(Graphics::PixelDataInfo(gradient.size(), _pixels[j]));
+            Graphics::OpenGLImage().copy(gradient, image);
             DJV_DEBUG_PRINT("image = " << image);
 
-            djvPixelData p(djvPixelDataInfo(1, 1, image.pixel()));
-            djvOpenGLImageOptions options;
+            Graphics::PixelData p(Graphics::PixelDataInfo(1, 1, image.pixel()));
+            Graphics::OpenGLImageOptions options;
             options.xform.position = glm::vec2(0, 0);
-            djvOpenGLImage().copy(image, p, options);
-            djvColor c(p.data(), p.pixel());
+            Graphics::OpenGLImage().copy(image, p, options);
+            Graphics::Color c(p.data(), p.pixel());
             DJV_DEBUG_PRINT("c0 = " << c);
 
-            options.xform.position = -glm::vec2(
-                image.size().x - 1, image.size().y - 1);
-            djvOpenGLImage().copy(image, p, options);
-            c = djvColor(p.data(), p.pixel());
+            options.xform.position = -glm::vec2(image.size().x - 1, image.size().y - 1);
+            Graphics::OpenGLImage().copy(image, p, options);
+            c = Graphics::Color(p.data(), p.pixel());
             DJV_DEBUG_PRINT("c1 = " << c);
 
             _images += image;
@@ -181,7 +182,7 @@ void djvImageIOFormatsTest::initImages()
     }
 }
 
-void djvImageIOFormatsTest::runTest(djvImageIO * plugin, const djvImage & image)
+void djvImageIOFormatsTest::runTest(Graphics::ImageIO * plugin, const Graphics::Image & image)
 {
     DJV_DEBUG("djvImageIOFormatsTest::runTest");
     DJV_DEBUG_PRINT("plugin = " << plugin->pluginName());
@@ -199,8 +200,8 @@ void djvImageIOFormatsTest::runTest(djvImageIO * plugin, const djvImage & image)
     
     try
     {
-        QScopedPointer<djvImageLoad> load(plugin->createLoad());
-        QScopedPointer<djvImageSave> save(plugin->createSave());
+        QScopedPointer<Graphics::ImageLoad> load(plugin->createLoad());
+        QScopedPointer<Graphics::ImageSave> save(plugin->createSave());
         if (! load.data() || ! save.data())
             return;
         
@@ -208,26 +209,26 @@ void djvImageIOFormatsTest::runTest(djvImageIO * plugin, const djvImage & image)
         save->write(image);
         save->close();
         
-        djvImageIOInfo info;
+        Graphics::ImageIOInfo info;
         load->open(fileName, info);
-        djvImage tmp;
+        Graphics::Image tmp;
         load->read(tmp);
         load->close();
         if (info.pixel != image.pixel() ||
             info.size  != image.size())
             return;
         
-        djvPixelData p(djvPixelDataInfo(1, 1, image.pixel()));        
-        djvOpenGLImageOptions options;
+        Graphics::PixelData p(Graphics::PixelDataInfo(1, 1, image.pixel()));
+        Graphics::OpenGLImageOptions options;
         for (int y = 0; y < info.size.y; ++y)
         {
             for (int x = 0; x < info.size.x; ++x)
             {
                 options.xform.position = -glm::vec2(x, y);
-                djvOpenGLImage().copy(image, p, options);
-                djvColor a(p.data(), p.pixel());
-                djvOpenGLImage().copy(tmp, p, options);
-                djvColor b(p.data(), p.pixel());
+                Graphics::OpenGLImage().copy(image, p, options);
+                Graphics::Color a(p.data(), p.pixel());
+                Graphics::OpenGLImage().copy(tmp, p, options);
+                Graphics::Color b(p.data(), p.pixel());
                 DJV_DEBUG_PRINT(a << " == " << b << " (" << x << " " << y << ")");
                 DJV_ASSERT(a == b);
             }
@@ -253,13 +254,13 @@ void djvImageIOFormatsTest::runTest(djvImageIO * plugin, const djvImage & image)
         io.set(buf.data(), buf.size());
         io.close();
 
-        QScopedPointer<djvImageLoad> load(plugin->createLoad());        
+        QScopedPointer<Graphics::ImageLoad> load(plugin->createLoad());
         if (! load.data())
             return;
         
-        djvImageIOInfo info;
+        Graphics::ImageIOInfo info;
         load->open(fileNamePartial, info);
-        djvImage tmp;
+        Graphics::Image tmp;
         load->read(tmp);
         load->close();        
         DJV_ASSERT(0);

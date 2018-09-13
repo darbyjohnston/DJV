@@ -106,12 +106,12 @@ namespace djv
             return _frameStoreFileReload;
         }
 
-        djvPixelDataInfo::Mirror ImagePrefs::mirrorDefault()
+        Graphics::PixelDataInfo::Mirror ImagePrefs::mirrorDefault()
         {
-            return djvPixelDataInfo::Mirror();
+            return Graphics::PixelDataInfo::Mirror();
         }
 
-        const djvPixelDataInfo::Mirror & ImagePrefs::mirror() const
+        const Graphics::PixelDataInfo::Mirror & ImagePrefs::mirror() const
         {
             return _mirror;
         }
@@ -180,12 +180,12 @@ namespace djv
             return out;
         }
 
-        djvOpenGLImageOptions::CHANNEL ImagePrefs::channelDefault()
+        Graphics::OpenGLImageOptions::CHANNEL ImagePrefs::channelDefault()
         {
-            return static_cast<djvOpenGLImageOptions::CHANNEL>(0);
+            return static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
         }
 
-        djvOpenGLImageOptions::CHANNEL ImagePrefs::channel() const
+        Graphics::OpenGLImageOptions::CHANNEL ImagePrefs::channel() const
         {
             return _channel;
         }
@@ -195,7 +195,7 @@ namespace djv
             _frameStoreFileReload = in;
         }
 
-        void ImagePrefs::setMirror(const djvPixelDataInfo::Mirror & mirror)
+        void ImagePrefs::setMirror(const Graphics::PixelDataInfo::Mirror & mirror)
         {
             if (mirror == _mirror)
                 return;
@@ -258,7 +258,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ImagePrefs::setChannel(djvOpenGLImageOptions::CHANNEL in)
+        void ImagePrefs::setChannel(Graphics::OpenGLImageOptions::CHANNEL in)
         {
             if (in == _channel)
                 return;

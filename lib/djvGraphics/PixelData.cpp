@@ -40,282 +40,277 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvPixelDataInfo::Mirror
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvPixelDataInfo::Mirror::Mirror()
-{}
-
-djvPixelDataInfo::Mirror::Mirror(bool x, bool y) :
-    x(x),
-    y(y)
-{}
-
-//------------------------------------------------------------------------------
-// djvPixelDataInfo
-//------------------------------------------------------------------------------
-
-void djvPixelDataInfo::init()
+namespace djv
 {
-    static const QString defaultLayerName = qApp->translate("djvPixelDataInfo", "Default");
-    layerName = defaultLayerName;
-}
-
-djvPixelDataInfo::djvPixelDataInfo()
-{
-    init();
-}
-
-djvPixelDataInfo::djvPixelDataInfo(
-    const glm::ivec2 & size,
-    djvPixel::PIXEL    pixel)
-{
-    init();
-    this->size  = size;
-    this->pixel = pixel;
-}
-
-djvPixelDataInfo::djvPixelDataInfo(
-    int             width,
-    int             height,
-    djvPixel::PIXEL pixel)
-{
-    init();
-    this->size   = glm::ivec2(width, height);
-    this->pixel  = pixel;
-}
-
-djvPixelDataInfo::djvPixelDataInfo(
-    const QString &    fileName,
-    const glm::ivec2 & size,
-    djvPixel::PIXEL    pixel)
-{
-    init();
-    this->fileName = fileName;
-    this->size     = size;
-    this->pixel    = pixel;
-}
-
-djvPixelDataInfo::djvPixelDataInfo(
-    const QString & fileName,
-    int             width,
-    int             height,
-    djvPixel::PIXEL pixel)
-{
-    init();
-    this->fileName = fileName;
-    this->size     = glm::ivec2(width, height);
-    this->pixel    = pixel;
-}
-
-const QStringList & djvPixelDataInfo::proxyLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvPixelDataInfo", "None") <<
-        qApp->translate("djvPixelDataInfo", "1/2") <<
-        qApp->translate("djvPixelDataInfo", "1/4") <<
-        qApp->translate("djvPixelDataInfo", "1/8");
-    DJV_ASSERT(data.count() == djvPixelDataInfo::PROXY_COUNT);
-    return data;
-}
-
-//------------------------------------------------------------------------------
-// djvPixelData
-//------------------------------------------------------------------------------
-
-djvPixelData::djvPixelData()
-{
-    //DJV_DEBUG("djvPixelData::djvPixelData");
-}
-
-djvPixelData::djvPixelData(const djvPixelData & in)
-{
-    //DJV_DEBUG("djvPixelData::djvPixelData");
-    copy(in);
-}
-
-djvPixelData::djvPixelData(
-    const djvPixelDataInfo & in,
-    const quint8 *           p,
-    djvFileIO *              fileIo)
-{
-    //DJV_DEBUG("djvPixelData::djvPixelData");
-    set(in, p, fileIo);
-}
-
-djvPixelData::~djvPixelData()
-{
-	delete _fileIo;
-}
-
-void djvPixelData::zero()
-{
-    //DJV_DEBUG("djvPixelData::zero");
-    memset(_data.data(), 0, _dataByteCount);
-}
-
-void djvPixelData::close()
-{
-    //DJV_DEBUG("djvPixelData::close");
-    if (_fileIo)
+    namespace Graphics
     {
-        delete _fileIo;
-        _info              = djvPixelDataInfo();
-        _channels          = 0;
-        _data.resize(0);
-        _p                 = nullptr;
-        _pixelByteCount    = 0;
-        _scanlineByteCount = 0;
-        _dataByteCount     = 0;
-        _fileIo            = nullptr;
-    }
-}
+        PixelDataInfo::Mirror::Mirror()
+        {}
 
-djvPixelData & djvPixelData::operator = (const djvPixelData & in)
-{
-    if (&in != this)
-    {
-        copy(in);
-    }
-    return *this;
-}
+        PixelDataInfo::Mirror::Mirror(bool x, bool y) :
+            x(x),
+            y(y)
+        {}
 
-void djvPixelData::detach()
-{
-    if (_fileIo)
-    {
-        _data.resize(_dataByteCount);
-        memcpy(_data.data(), _p, _dataByteCount);
-        _p = _data.data();
-        delete _fileIo;
-        _fileIo = 0;
-    }
-}
-
-void djvPixelData::set(
-    const djvPixelDataInfo & in,
-    const quint8 *           p,
-    djvFileIO *              fileIo)
-{
-    //DJV_DEBUG("djvPixelData::set");
-    //DJV_DEBUG_PRINT("in = " << in);
-    
-	delete _fileIo;
-    _fileIo = 0;
-
-    _info = in;
-    
-    _channels          = djvPixel::channels(_info.pixel);
-    _pixelByteCount    = djvPixel::byteCount(_info.pixel);
-    _scanlineByteCount = djvPixelDataUtil::scanlineByteCount(_info);
-    _dataByteCount     = djvPixelDataUtil::dataByteCount(_info);
-    //DJV_DEBUG_PRINT("channels = " << _channels);
-    //DJV_DEBUG_PRINT("bytes pixel = " << _pixelByteCount);
-    //DJV_DEBUG_PRINT("bytes scanline = " << _scanlineByteCount);
-    //DJV_DEBUG_PRINT("bytes data = " << _dataByteCount);
-
-    if (p)
-    {
-        if (fileIo)
+        void PixelDataInfo::init()
         {
-            _data.resize(0);
-            _p = p;
-            _fileIo = fileIo;
+            static const QString defaultLayerName = qApp->translate("djv::Graphisc::PixelDataInfo", "Default");
+            layerName = defaultLayerName;
         }
-        else
+
+        PixelDataInfo::PixelDataInfo()
         {
-            _data.resize(_dataByteCount);
-            _p = _data.data();
-            memcpy(_data.data(), p, _dataByteCount);
+            init();
         }
-    }
-    else
-    {
-        _data.resize(_dataByteCount);
-        _p = _data.data();
-    }
-}
 
-void djvPixelData::copy(const djvPixelData & in)
-{
-    set(in._info);    
-    memcpy(_data.data(), in._p, _dataByteCount);
-}
+        PixelDataInfo::PixelDataInfo(
+            const glm::ivec2 & size,
+            Pixel::PIXEL       pixel)
+        {
+            init();
+            this->size = size;
+            this->pixel = pixel;
+        }
 
-bool operator == (const djvPixelDataInfo::Mirror & a,
-    const djvPixelDataInfo::Mirror & b)
-{
-    return
-        a.x == b.x &&
-        a.y == b.y;
-}
+        PixelDataInfo::PixelDataInfo(
+            int          width,
+            int          height,
+            Pixel::PIXEL pixel)
+        {
+            init();
+            this->size = glm::ivec2(width, height);
+            this->pixel = pixel;
+        }
 
-bool operator == (const djvPixelDataInfo & a, const djvPixelDataInfo & b)
-{
-    return
-        a.size   == b.size   &&
-        a.proxy  == b.proxy  &&
-        a.pixel  == b.pixel  &&
-        a.bgr    == b.bgr    &&
-        a.mirror == b.mirror &&
-        a.align  == b.align  &&
-        a.endian == b.endian;
-}
+        PixelDataInfo::PixelDataInfo(
+            const QString &    fileName,
+            const glm::ivec2 & size,
+            Pixel::PIXEL       pixel)
+        {
+            init();
+            this->fileName = fileName;
+            this->size = size;
+            this->pixel = pixel;
+        }
 
-bool operator == (const djvPixelData & a, const djvPixelData & b)
-{
-    return
-        a.info()          == b.info()          &&
-        a.dataByteCount() == b.dataByteCount() &&
-        memcmp(a.data(), b.data(), a.dataByteCount()) == 0;
-}
+        PixelDataInfo::PixelDataInfo(
+            const QString & fileName,
+            int             width,
+            int             height,
+            Pixel::PIXEL    pixel)
+        {
+            init();
+            this->fileName = fileName;
+            this->size = glm::ivec2(width, height);
+            this->pixel = pixel;
+        }
 
-bool operator != (const djvPixelDataInfo::Mirror & a,
-    const djvPixelDataInfo::Mirror & b)
-{
-    return ! (a == b);
-}
+        const QStringList & PixelDataInfo::proxyLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Graphics::PixelDataInfo", "None") <<
+                qApp->translate("djv::Graphics::PixelDataInfo", "1/2") <<
+                qApp->translate("djv::Graphics::PixelDataInfo", "1/4") <<
+                qApp->translate("djv::Graphics::PixelDataInfo", "1/8");
+            DJV_ASSERT(data.count() == PixelDataInfo::PROXY_COUNT);
+            return data;
+        }
 
-bool operator != (const djvPixelDataInfo & a, const djvPixelDataInfo & b)
-{
-    return ! (a == b);
-}
+        PixelData::PixelData()
+        {
+            //DJV_DEBUG("PixelData::PixelData");
+        }
 
-bool operator != (const djvPixelData & a, const djvPixelData & b)
-{
-    return ! (a == b);
-}
+        PixelData::PixelData(const PixelData & in)
+        {
+            //DJV_DEBUG("PixelData::PixelData");
+            copy(in);
+        }
+
+        PixelData::PixelData(
+            const PixelDataInfo & in,
+            const quint8 *        p,
+            djvFileIO *           fileIo)
+        {
+            //DJV_DEBUG("PixelData::PixelData");
+            set(in, p, fileIo);
+        }
+
+        PixelData::~PixelData()
+        {
+            delete _fileIo;
+        }
+
+        void PixelData::zero()
+        {
+            //DJV_DEBUG("PixelData::zero");
+            memset(_data.data(), 0, _dataByteCount);
+        }
+
+        void PixelData::close()
+        {
+            //DJV_DEBUG("PixelData::close");
+            if (_fileIo)
+            {
+                delete _fileIo;
+                _info = PixelDataInfo();
+                _channels = 0;
+                _data.resize(0);
+                _p = nullptr;
+                _pixelByteCount = 0;
+                _scanlineByteCount = 0;
+                _dataByteCount = 0;
+                _fileIo = nullptr;
+            }
+        }
+
+        PixelData & PixelData::operator = (const PixelData & in)
+        {
+            if (&in != this)
+            {
+                copy(in);
+            }
+            return *this;
+        }
+
+        void PixelData::detach()
+        {
+            if (_fileIo)
+            {
+                _data.resize(_dataByteCount);
+                memcpy(_data.data(), _p, _dataByteCount);
+                _p = _data.data();
+                delete _fileIo;
+                _fileIo = 0;
+            }
+        }
+
+        void PixelData::set(
+            const PixelDataInfo & in,
+            const quint8 *        p,
+            djvFileIO *           fileIo)
+        {
+            //DJV_DEBUG("PixelData::set");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            delete _fileIo;
+            _fileIo = 0;
+
+            _info = in;
+
+            _channels = Pixel::channels(_info.pixel);
+            _pixelByteCount = Pixel::byteCount(_info.pixel);
+            _scanlineByteCount = PixelDataUtil::scanlineByteCount(_info);
+            _dataByteCount = PixelDataUtil::dataByteCount(_info);
+            //DJV_DEBUG_PRINT("channels = " << _channels);
+            //DJV_DEBUG_PRINT("bytes pixel = " << _pixelByteCount);
+            //DJV_DEBUG_PRINT("bytes scanline = " << _scanlineByteCount);
+            //DJV_DEBUG_PRINT("bytes data = " << _dataByteCount);
+
+            if (p)
+            {
+                if (fileIo)
+                {
+                    _data.resize(0);
+                    _p = p;
+                    _fileIo = fileIo;
+                }
+                else
+                {
+                    _data.resize(_dataByteCount);
+                    _p = _data.data();
+                    memcpy(_data.data(), p, _dataByteCount);
+                }
+            }
+            else
+            {
+                _data.resize(_dataByteCount);
+                _p = _data.data();
+            }
+        }
+
+        void PixelData::copy(const PixelData & in)
+        {
+            set(in._info);
+            memcpy(_data.data(), in._p, _dataByteCount);
+        }
+
+        bool operator == (const PixelDataInfo::Mirror & a, const PixelDataInfo::Mirror & b)
+        {
+            return
+                a.x == b.x &&
+                a.y == b.y;
+        }
+
+        bool operator == (const PixelDataInfo & a, const PixelDataInfo & b)
+        {
+            return
+                a.size == b.size   &&
+                a.proxy == b.proxy  &&
+                a.pixel == b.pixel  &&
+                a.bgr == b.bgr    &&
+                a.mirror == b.mirror &&
+                a.align == b.align  &&
+                a.endian == b.endian;
+        }
+
+        bool operator == (const PixelData & a, const PixelData & b)
+        {
+            return
+                a.info() == b.info() &&
+                a.dataByteCount() == b.dataByteCount() &&
+                memcmp(a.data(), b.data(), a.dataByteCount()) == 0;
+        }
+
+        bool operator != (const PixelDataInfo::Mirror & a, const PixelDataInfo::Mirror & b)
+        {
+            return !(a == b);
+        }
+
+        bool operator != (const PixelDataInfo & a, const PixelDataInfo & b)
+        {
+            return !(a == b);
+        }
+
+        bool operator != (const PixelData & a, const PixelData & b)
+        {
+            return !(a == b);
+        }
+
+    } // namespace Graphics
+} // namespace djv
 
 _DJV_STRING_OPERATOR_LABEL(
-    djvPixelDataInfo::PROXY,
-    djvPixelDataInfo::proxyLabels())
+    Graphics::PixelDataInfo::PROXY,
+    Graphics::PixelDataInfo::proxyLabels())
 
-QStringList & operator >> (QStringList & in, djvPixelDataInfo::Mirror & out) throw (QString)
+QStringList & operator >> (QStringList & in, Graphics::PixelDataInfo::Mirror & out) throw (QString)
 {
     in >> out.x;
     in >> out.y;    
     return in;
 }
 
-QStringList & operator << (QStringList & out, const djvPixelDataInfo::Mirror & in)
+QStringList & operator << (QStringList & out, const Graphics::PixelDataInfo::Mirror & in)
 {
     out << in.x;
     out << in.y;
     return out;
 }
 
-djvDebug & operator << (djvDebug & debug, const djvPixelDataInfo::PROXY & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::PixelDataInfo::PROXY & in)
 {
     return debug << djvStringUtil::label(in);
 }
 
-djvDebug & operator << (djvDebug & debug, const djvPixelDataInfo::Mirror & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::PixelDataInfo::Mirror & in)
 {
     return debug << in.x << " " << in.y;
 }
 
-djvDebug & operator << (djvDebug & debug, const djvPixelDataInfo & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::PixelDataInfo & in)
 {
     return debug <<
         //"file name = " << in.fileName << ", " <<
@@ -329,7 +324,7 @@ djvDebug & operator << (djvDebug & debug, const djvPixelDataInfo & in)
         "endian = " << in.endian;
 }
 
-djvDebug & operator << (djvDebug & debug, const djvPixelData & in)
+djvDebug & operator << (djvDebug & debug, const Graphics::PixelData & in)
 {
     return debug << in.info();
 }

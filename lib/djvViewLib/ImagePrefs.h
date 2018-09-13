@@ -58,10 +58,10 @@ namespace djv
             bool hasFrameStoreFileReload() const;
 
             //! Get the default mirror.
-            static djvPixelDataInfo::Mirror mirrorDefault();
+            static Graphics::PixelDataInfo::Mirror mirrorDefault();
 
             //! Get the mirror.
-            const djvPixelDataInfo::Mirror & mirror() const;
+            const Graphics::PixelDataInfo::Mirror & mirror() const;
 
             //! Get the default scale.
             static Util::IMAGE_SCALE scaleDefault();
@@ -97,17 +97,17 @@ namespace djv
             QStringList displayProfileNames() const;
 
             //! Get the default image channel.
-            static djvOpenGLImageOptions::CHANNEL channelDefault();
+            static Graphics::OpenGLImageOptions::CHANNEL channelDefault();
 
             //! Get the image channel.
-            djvOpenGLImageOptions::CHANNEL channel() const;
+            Graphics::OpenGLImageOptions::CHANNEL channel() const;
 
         public Q_SLOTS:
             //! Set whether to store the frame when reloading files.
             void setFrameStoreFileReload(bool);
 
             //! Set the mirror.
-            void setMirror(const djvPixelDataInfo::Mirror &);
+            void setMirror(const djv::Graphics::PixelDataInfo::Mirror &);
 
             //! Set the scale.
             void setScale(djv::ViewLib::Util::IMAGE_SCALE);
@@ -125,11 +125,11 @@ namespace djv
             void setDisplayProfiles(const QVector<djv::ViewLib::DisplayProfile> &);
 
             //! Set the image channel.
-            void setChannel(djvOpenGLImageOptions::CHANNEL);
+            void setChannel(djv::Graphics::OpenGLImageOptions::CHANNEL);
 
         Q_SIGNALS:
             //! This signal is emitted when the mirror is changed.
-            void mirrorChanged(djvPixelDataInfo::Mirror);
+            void mirrorChanged(djv::Graphics::PixelDataInfo::Mirror);
 
             //! This signal is emitted when the scale is changed.
             void scaleChanged(djv::ViewLib::Util::IMAGE_SCALE);
@@ -148,17 +148,17 @@ namespace djv
             void displayProfilesChanged(const QVector<djv::ViewLib::DisplayProfile> &);
 
             //! This signal is emitted when the image channel is changed.
-            void channelChanged(djvOpenGLImageOptions::CHANNEL);
+            void channelChanged(djv::Graphics::OpenGLImageOptions::CHANNEL);
 
         private:
-            bool                           _frameStoreFileReload;
-            djvPixelDataInfo::Mirror       _mirror;
-            Util::IMAGE_SCALE              _scale;
-            Util::IMAGE_ROTATE             _rotate;
-            bool                           _colorProfile;
-            int                            _displayProfileIndex;
-            QVector<DisplayProfile>        _displayProfiles;
-            djvOpenGLImageOptions::CHANNEL _channel;
+            bool                                  _frameStoreFileReload;
+            Graphics::PixelDataInfo::Mirror       _mirror;
+            Util::IMAGE_SCALE                     _scale;
+            Util::IMAGE_ROTATE                    _rotate;
+            bool                                  _colorProfile;
+            int                                   _displayProfileIndex;
+            QVector<DisplayProfile>               _displayProfiles;
+            Graphics::OpenGLImageOptions::CHANNEL _channel;
         };
 
     } // namespace ViewLib

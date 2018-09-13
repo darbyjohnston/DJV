@@ -102,12 +102,12 @@ namespace djv
             return _autoSequence;
         }
 
-        djvPixelDataInfo::PROXY FilePrefs::proxyDefault()
+        Graphics::PixelDataInfo::PROXY FilePrefs::proxyDefault()
         {
-            return static_cast<djvPixelDataInfo::PROXY>(0);
+            return static_cast<Graphics::PixelDataInfo::PROXY>(0);
         }
 
-        djvPixelDataInfo::PROXY FilePrefs::proxy() const
+        Graphics::PixelDataInfo::PROXY FilePrefs::proxy() const
         {
             return _proxy;
         }
@@ -171,7 +171,7 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void FilePrefs::setProxy(djvPixelDataInfo::PROXY proxy)
+        void FilePrefs::setProxy(Graphics::PixelDataInfo::PROXY proxy)
         {
             if (proxy == _proxy)
                 return;

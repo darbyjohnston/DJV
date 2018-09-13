@@ -33,46 +33,44 @@
 
 #include <djvCore/CoreContext.h>
 
-class  djvImageIOFactory;
-
 class QOpenGLContext;
 
-//! \addtogroup djvGraphicsMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvGraphicsContext
-//!
-//! This class provides global functionality for the library.
-//------------------------------------------------------------------------------
-
-class djvGraphicsContext : public djvCoreContext
+namespace djv
 {
-public:
-    explicit djvGraphicsContext(QObject * parent = nullptr);
+    namespace Graphics
+    {
+        class ImageIOFactory;
 
-    virtual ~djvGraphicsContext();
+        //! \class GraphicsContext
+        //!
+        //! This class provides global functionality for the library.
+        class GraphicsContext : public djvCoreContext
+        {
+        public:
+            explicit GraphicsContext(QObject * parent = nullptr);
 
-    //! Get the image I/O factory.    
-    djvImageIOFactory * imageIOFactory() const;
-        
-    //! Get the default OpenGL context.
-    QOpenGLContext * openGlContext() const;
-    
-    //! Make the default OpenGL context current;
-    void makeGLContextCurrent();
+            virtual ~GraphicsContext();
 
-    virtual QString info() const;
+            //! Get the image I/O factory.    
+            ImageIOFactory * imageIOFactory() const;
 
-protected:
-    virtual bool commandLineParse(QStringList &) throw (QString);
+            //! Get the default OpenGL context.
+            QOpenGLContext * openGlContext() const;
 
-    virtual QString commandLineHelp() const;
+            //! Make the default OpenGL context current;
+            void makeGLContextCurrent();
 
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            virtual QString info() const;
 
-//@} // djvGraphicsMisc
+        protected:
+            virtual bool commandLineParse(QStringList &) throw (QString);
 
+            virtual QString commandLineHelp() const;
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace Graphics
+} // namespace djv

@@ -42,7 +42,7 @@ bool operator == (
     return
         a.name == b.name    &&
         a.lutFile == b.lutFile &&
-        djvOpenGLImageDisplayProfile(a) == djvOpenGLImageDisplayProfile(b);
+        Graphics::OpenGLImageDisplayProfile(a) == Graphics::OpenGLImageDisplayProfile(b);
 }
 
 bool operator != (

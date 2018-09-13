@@ -37,6 +37,8 @@
 
 #include <QString>
 
+using namespace djv;
+
 void djvPixelDataTest::run(int &, char **)
 {
     DJV_DEBUG("djvPixelDataTest::run");
@@ -49,39 +51,39 @@ void djvPixelDataTest::ctors()
 {
     DJV_DEBUG("djvPixelDataTest::ctors");
     {
-        const djvPixelDataInfo info;
+        const Graphics::PixelDataInfo info;
         DJV_ASSERT(glm::ivec2() == info.size);
     }
     {
-        const djvPixelDataInfo info(glm::ivec2(1, 2), djvPixel::LA_U8);
+        const Graphics::PixelDataInfo info(glm::ivec2(1, 2), Graphics::Pixel::LA_U8);
         DJV_ASSERT(glm::ivec2(1, 2) == info.size);
-        DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
+        DJV_ASSERT(Graphics::Pixel::LA_U8 == info.pixel);
     }
     {
-        const djvPixelDataInfo info(1, 2, djvPixel::LA_U8);
+        const Graphics::PixelDataInfo info(1, 2, Graphics::Pixel::LA_U8);
         DJV_ASSERT(glm::ivec2(1, 2) == info.size);
-        DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
+        DJV_ASSERT(Graphics::Pixel::LA_U8 == info.pixel);
     }
     {
-        const djvPixelDataInfo info("name", glm::ivec2(1, 2), djvPixel::LA_U8);
+        const Graphics::PixelDataInfo info("name", glm::ivec2(1, 2), Graphics::Pixel::LA_U8);
         DJV_ASSERT("name" == info.fileName);
         DJV_ASSERT(glm::ivec2(1, 2) == info.size);
-        DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
+        DJV_ASSERT(Graphics::Pixel::LA_U8 == info.pixel);
     }
     {
-        const djvPixelDataInfo info("name", 1, 2, djvPixel::LA_U8);
+        const Graphics::PixelDataInfo info("name", 1, 2, Graphics::Pixel::LA_U8);
         DJV_ASSERT("name" == info.fileName);
         DJV_ASSERT(glm::ivec2(1, 2) == info.size);
-        DJV_ASSERT(djvPixel::LA_U8 == info.pixel);
+        DJV_ASSERT(Graphics::Pixel::LA_U8 == info.pixel);
     }
     {
-        const djvPixelData data;
+        const Graphics::PixelData data;
         DJV_ASSERT(glm::ivec2() == data.size());
     }
     {
-        const djvPixelData data(djvPixelDataInfo(1, 2, djvPixel::LA_U8));
+        const Graphics::PixelData data(Graphics::PixelDataInfo(1, 2, Graphics::Pixel::LA_U8));
         DJV_ASSERT(glm::ivec2(1, 2) == data.size());
-        DJV_ASSERT(djvPixel::LA_U8 == data.pixel());
+        DJV_ASSERT(Graphics::Pixel::LA_U8 == data.pixel());
     }
 }
 
@@ -89,16 +91,16 @@ void djvPixelDataTest::members()
 {
     DJV_DEBUG("djvPixelDataTest::members");
     {
-        djvPixelData data;
+        Graphics::PixelData data;
         DJV_ASSERT(! data.isValid());
-        const djvPixelDataInfo info(1, 2, djvPixel::LA_U8);
+        const Graphics::PixelDataInfo info(1, 2, Graphics::Pixel::LA_U8);
         data.set(info);
         DJV_ASSERT(info == data.info());
         DJV_ASSERT(data.isValid());
         data.zero();
         DJV_ASSERT(0 == *data.data());
         DJV_ASSERT(0 == *data.data(0, 1));
-        const djvPixelData & tmp = data;
+        const Graphics::PixelData & tmp = data;
         DJV_ASSERT(0 == *tmp.data());
         DJV_ASSERT(0 == *tmp.data(0, 1));
         DJV_ASSERT(2 == data.pixelByteCount());
@@ -111,29 +113,29 @@ void djvPixelDataTest::operators()
 {
     DJV_DEBUG("djvPixelDataTest::operators");
     {
-        djvPixelDataInfo::Mirror a, b;
+        Graphics::PixelDataInfo::Mirror a, b;
         a.x = b.x = true;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvPixelDataInfo::Mirror());
+        DJV_ASSERT(a != Graphics::PixelDataInfo::Mirror());
     }
     {
-        djvPixelDataInfo a, b;
+        Graphics::PixelDataInfo a, b;
         a.size = b.size = glm::ivec2(1, 2);
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvPixelDataInfo());
+        DJV_ASSERT(a != Graphics::PixelDataInfo());
     }
     {
-        djvPixelData
-            a(djvPixelDataInfo(1, 2, djvPixel::LA_U8)),
-            b(djvPixelDataInfo(1, 2, djvPixel::LA_U8));
+        Graphics::PixelData
+            a(Graphics::PixelDataInfo(1, 2, Graphics::Pixel::LA_U8)),
+            b(Graphics::PixelDataInfo(1, 2, Graphics::Pixel::LA_U8));
         a.zero();
         b.zero();
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvPixelData());
+        DJV_ASSERT(a != Graphics::PixelData());
     }
     {
-        DJV_DEBUG_PRINT(djvPixelDataInfo::PROXY_1_2);
-        DJV_DEBUG_PRINT(djvPixelDataInfo::Mirror(true, true));
+        DJV_DEBUG_PRINT(Graphics::PixelDataInfo::PROXY_1_2);
+        DJV_DEBUG_PRINT(Graphics::PixelDataInfo::Mirror(true, true));
     }
 }
 

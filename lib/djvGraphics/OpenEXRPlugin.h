@@ -34,40 +34,56 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/OpenEXR.h>
 
-//! \addtogroup djvOpenEXRPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenEXRPlugin
-//!
-//! This class provides an OpenEXR plugin.
-//------------------------------------------------------------------------------
-
-class djvOpenEXRPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvOpenEXRPlugin(djvCoreContext *);
-    
-    virtual void initPlugin() throw (djvError);
-    virtual void releasePlugin();
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+    namespace Graphics
+    {
+        //! \class OpenEXRPlugin
+        //!
+        //! This plugin provides support for the Industrial Light and Magic OpenEXR
+        //! image file format.
+        //!
+        //! Requires:
+        //!
+        //! - OpenEXR - http://www.openexr.com
+        //!
+        //! File extensions: .exr
+        //!
+        //! Supported features:
+        //!
+        //! - 16-bit float, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
+        //! - Image layers
+        //! - Display and data windows
+        //! - File compression
+        //!
+        //! \todo Add support for writing luminance/chroma images.
+        //! \todo Add support for OpenEXR aspect ratios.
+        //! \todo Add better support for tiled images.
+        class OpenEXRPlugin : public ImageIO
+        {
+        public:
+            explicit OpenEXRPlugin(djvCoreContext *);
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual void initPlugin() throw (djvError);
+            virtual void releasePlugin();
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-private:
-    void threadsUpdate();
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-    djvOpenEXR::Options _options;
-};
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
-//@} // djvOpenEXRPlugin
+        private:
+            void threadsUpdate();
 
+            OpenEXR::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

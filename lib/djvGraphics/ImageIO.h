@@ -44,8 +44,6 @@
 
 #include <memory>
 
-class djvImage;
-
 class djvCoreContext;
 class djvFileInfo;
 
@@ -53,278 +51,262 @@ class djvFileInfo;
 #undef ERROR
 #endif // DJV_WINDOWS
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvImageIOInfo
-//!
-//! This class provides image I/O information.
-//------------------------------------------------------------------------------
-
-class djvImageIOInfo : public djvPixelDataInfo
+namespace djv
 {
-public:
-    djvImageIOInfo();
-    djvImageIOInfo(const djvPixelDataInfo &);
-
-    //! Add a layer.
-    void addLayer(const djvPixelDataInfo &);
-
-    //! Get the number of layers.
-    int layerCount() const;
-
-    //! Set the number of layers.
-    void setLayerCount(int);
-
-    //! Remove all the layers.
-    void clearLayers();
-
-    //! The image tags.
-    djvImageTags tags;
-
-    //! The frame sequence.
-    djvSequence sequence;
-
-    djvPixelDataInfo & operator [] (int);
-
-    const djvPixelDataInfo & operator [] (int) const;
-
-private:
-    QVector<djvPixelDataInfo> _info;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvImageIOFrameInfo
-//!
-//! This struct provides image I/O frame information.
-//------------------------------------------------------------------------------
-
-struct djvImageIOFrameInfo
-{
-    djvImageIOFrameInfo();
-    djvImageIOFrameInfo(
-        qint64                  frame,
-        int                     layer = 0,
-        djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE);
-
-    //! The frame number.
-    qint64 frame = -1;
-
-    //! The image layer.
-    int layer = 0;
-
-    //! The proxy scale.
-    djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvImageLoad
-//!
-//! This class provides the base functionality for image loading.
-//!
-//! \todo Add comments about ensuring loaders are thread safe (ie. don't use
-//! OpenGL functionality, debug logging, etc.).
-//------------------------------------------------------------------------------
-
-class djvImageLoad
-{
-public:
-    explicit djvImageLoad(djvCoreContext *);
-        
-    virtual ~djvImageLoad() = 0;
-
-    //! Open an image.
-    virtual void open(
-        const djvFileInfo & fileInfo,
-        djvImageIOInfo &    imageIOInfo)
-        throw (djvError) = 0;
-
-    //! Load an image.
-    virtual void read(
-        djvImage &                  image,
-        const djvImageIOFrameInfo & frameInfo = djvImageIOFrameInfo())
-        throw (djvError) = 0;
-  
-    //! Close the image.
-    virtual void close() throw (djvError);
-    
-    //! Get the context.
-    djvCoreContext * context() const;
-
-private:
-    djvCoreContext * _context = nullptr;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvImageSave
-//!
-//! This class provides the base functionality for image saving.
-//------------------------------------------------------------------------------
-
-class djvImageSave
-{
-public:
-    explicit djvImageSave(djvCoreContext *);
-    
-    virtual ~djvImageSave() = 0;
-
-    //! Open an image.
-    virtual void open(
-        const djvFileInfo &    fileInfo,
-        const djvImageIOInfo & imageIOInfo)
-        throw (djvError) = 0;
-
-    //! Save an image.
-    virtual void write(
-        const djvImage &            image,
-        const djvImageIOFrameInfo & frameInfo = djvImageIOFrameInfo())
-        throw (djvError) = 0;
-
-    //! Close the image.
-    virtual void close() throw (djvError);
-    
-    //! Get the context.
-    djvCoreContext * context() const;
-
-private:
-    djvCoreContext * _context = nullptr;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvImageIO
-//!
-//! This class provides the base functionality for image I/O plugins.
-//------------------------------------------------------------------------------
-
-class djvImageIO : public QObject, public djvPlugin
-{
-    Q_OBJECT
-    
-public:
-    explicit djvImageIO(djvCoreContext *);
-    
-    virtual ~djvImageIO() = 0;
-    
-    //! Get the list of supported file extensions.
-    virtual QStringList extensions() const;
-
-    //! Does the plugin use file sequences?
-    virtual bool isSequence() const;
-
-    //! Get an option.
-    virtual QStringList option(const QString &) const;
-
-    //! Set an option.
-    virtual bool setOption(const QString &, QStringList &);
-    
-    //! Get the list of options.
-    virtual QStringList options() const;
-
-    //! Parse the command line.
-    virtual void commandLine(QStringList &) throw (QString);
-
-    //! Get the command line help.
-    virtual QString commandLineHelp() const;
-    
-    //! Get an image loader.
-    virtual djvImageLoad * createLoad() const;
-    
-    //! Get an image saver.
-    virtual djvImageSave * createSave() const;
-    
-    //! This enumeration provides error codes.
-    enum ERROR
+    namespace Graphics
     {
-        ERROR_UNRECOGNIZED,
-        ERROR_UNSUPPORTED,
-        ERROR_OPEN,
-        ERROR_READ,
-        ERROR_WRITE,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+        class Image;
 
-Q_SIGNALS:
-    //! This signal is emitted when an option is changed.
-    void optionChanged(const QString &);
-};
+        //! \class ImageIOInfo
+        //!
+        //! This class provides image I/O information.
+        class ImageIOInfo : public PixelDataInfo
+        {
+        public:
+            ImageIOInfo();
+            ImageIOInfo(const PixelDataInfo &);
 
-//------------------------------------------------------------------------------
-//! \class djvImageIOFactory
-//!
-//! This class provides a factory for image I/O plugins.
-//------------------------------------------------------------------------------
+            //! Add a layer.
+            void addLayer(const PixelDataInfo &);
 
-class djvImageIOFactory : public djvPluginFactory
-{
-    Q_OBJECT
-    
-public:
+            //! Get the number of layers.
+            int layerCount() const;
 
-    explicit djvImageIOFactory(
-        djvCoreContext *    context,
-        const QStringList & searchPath = djvSystem::searchPath(),
-        QObject *           parent     = nullptr);
+            //! Set the number of layers.
+            void setLayerCount(int);
 
-    virtual ~djvImageIOFactory();
+            //! Remove all the layers.
+            void clearLayers();
 
-    //! Get a plugin option.
-    QStringList option(const QString & name, const QString &) const;
+            //! The image tags.
+            ImageTags tags;
 
-    //! Set a plugin option.
-    bool setOption(const QString & name, const QString &, QStringList &);
-    
-    //! Open an image for loading.
-    djvImageLoad * load(
-        const djvFileInfo & fileInfo,
-        djvImageIOInfo &    imageIoInfo) const throw (djvError);
-    
-    //! Open an image for saving.
-    djvImageSave * save(
-        const djvFileInfo &    fileInfo,
-        const djvImageIOInfo & imageIoInfo) const throw (djvError);
+            //! The frame sequence.
+            djvSequence sequence;
 
-    //! This enumeration provides error codes.
-    enum ERROR
-    {
-        ERROR_UNRECOGNIZED,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+            PixelDataInfo & operator [] (int);
 
-    virtual void addPlugin(djvPlugin *);
+            const PixelDataInfo & operator [] (int) const;
 
-Q_SIGNALS:
-    //! This signal is emitted when a plugin option is changed.
-    void optionChanged();
-    
-private Q_SLOTS:
-    void pluginOptionCallback(const QString &);
+        private:
+            QVector<PixelDataInfo> _info;
+        };
 
-private:
-    DJV_PRIVATE_COPY(djvImageIOFactory);
-    
-    void _addPlugin(djvImageIO *);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        //! \class ImageIOFrameInfo
+        //!
+        //! This struct provides image I/O frame information.
+        struct ImageIOFrameInfo
+        {
+            ImageIOFrameInfo();
+            ImageIOFrameInfo(
+                qint64               frame,
+                int                  layer = 0,
+                PixelDataInfo::PROXY proxy = PixelDataInfo::PROXY_NONE);
 
-Q_DECLARE_METATYPE(djvImageIOInfo)
-Q_DECLARE_METATYPE(djvImageIOFrameInfo)
+            //! The frame number.
+            qint64 frame = -1;
 
-DJV_COMPARISON_OPERATOR(djvImageIOInfo);
-DJV_COMPARISON_OPERATOR(djvImageIOFrameInfo);
+            //! The image layer.
+            int layer = 0;
 
-DJV_DEBUG_OPERATOR(djvImageIOInfo);
-DJV_DEBUG_OPERATOR(djvImageIOFrameInfo);
+            //! The proxy scale.
+            PixelDataInfo::PROXY proxy = PixelDataInfo::PROXY_NONE;
+        };
 
-//@} // djvGraphicsImage
+        //! \class ImageLoad
+        //!
+        //! This class provides the base functionality for image loading.
+        //!
+        //! \todo Add comments about ensuring loaders are thread safe (ie. don't use
+        //! OpenGL functionality, debug logging, etc.).
+        class ImageLoad
+        {
+        public:
+            explicit ImageLoad(djvCoreContext *);
 
+            virtual ~ImageLoad() = 0;
+
+            //! Open an image.
+            virtual void open(
+                const djvFileInfo & fileInfo,
+                ImageIOInfo &       imageIOInfo)
+                throw (djvError) = 0;
+
+            //! Load an image.
+            virtual void read(
+                Image &                  image,
+                const ImageIOFrameInfo & frameInfo = ImageIOFrameInfo())
+                throw (djvError) = 0;
+
+            //! Close the image.
+            virtual void close() throw (djvError);
+
+            //! Get the context.
+            djvCoreContext * context() const;
+
+        private:
+            djvCoreContext * _context = nullptr;
+        };
+
+        //! \class ImageSave
+        //!
+        //! This class provides the base functionality for image saving.
+        class ImageSave
+        {
+        public:
+            explicit ImageSave(djvCoreContext *);
+
+            virtual ~ImageSave() = 0;
+
+            //! Open an image.
+            virtual void open(
+                const djvFileInfo & fileInfo,
+                const ImageIOInfo & imageIOInfo)
+                throw (djvError) = 0;
+
+            //! Save an image.
+            virtual void write(
+                const Image &            image,
+                const ImageIOFrameInfo & frameInfo = ImageIOFrameInfo())
+                throw (djvError) = 0;
+
+            //! Close the image.
+            virtual void close() throw (djvError);
+
+            //! Get the context.
+            djvCoreContext * context() const;
+
+        private:
+            djvCoreContext * _context = nullptr;
+        };
+
+        //! \class ImageIO
+        //!
+        //! This class provides the base functionality for image I/O plugins.
+        class ImageIO : public QObject, public djvPlugin
+        {
+            Q_OBJECT
+
+        public:
+            explicit ImageIO(djvCoreContext *);
+
+            virtual ~ImageIO() = 0;
+
+            //! Get the list of supported file extensions.
+            virtual QStringList extensions() const;
+
+            //! Does the plugin use file sequences?
+            virtual bool isSequence() const;
+
+            //! Get an option.
+            virtual QStringList option(const QString &) const;
+
+            //! Set an option.
+            virtual bool setOption(const QString &, QStringList &);
+
+            //! Get the list of options.
+            virtual QStringList options() const;
+
+            //! Parse the command line.
+            virtual void commandLine(QStringList &) throw (QString);
+
+            //! Get the command line help.
+            virtual QString commandLineHelp() const;
+
+            //! Get an image loader.
+            virtual ImageLoad * createLoad() const;
+
+            //! Get an image saver.
+            virtual ImageSave * createSave() const;
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_UNRECOGNIZED,
+                ERROR_UNSUPPORTED,
+                ERROR_OPEN,
+                ERROR_READ,
+                ERROR_WRITE,
+
+                ERROR_COUNT
+            };
+
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+        Q_SIGNALS:
+            //! This signal is emitted when an option is changed.
+            void optionChanged(const QString &);
+        };
+
+        //! \class ImageIOFactory
+        //!
+        //! This class provides a factory for image I/O plugins.
+        class ImageIOFactory : public djvPluginFactory
+        {
+            Q_OBJECT
+
+        public:
+            explicit ImageIOFactory(
+                djvCoreContext *    context,
+                const QStringList & searchPath = djvSystem::searchPath(),
+                QObject *           parent = nullptr);
+
+            virtual ~ImageIOFactory();
+
+            //! Get a plugin option.
+            QStringList option(const QString & name, const QString &) const;
+
+            //! Set a plugin option.
+            bool setOption(const QString & name, const QString &, QStringList &);
+
+            //! Open an image for loading.
+            ImageLoad * load(
+                const djvFileInfo & fileInfo,
+                ImageIOInfo &       imageIoInfo) const throw (djvError);
+
+            //! Open an image for saving.
+            ImageSave * save(
+                const djvFileInfo & fileInfo,
+                const ImageIOInfo & imageIoInfo) const throw (djvError);
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_UNRECOGNIZED,
+
+                ERROR_COUNT
+            };
+
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+            virtual void addPlugin(djvPlugin *);
+
+        Q_SIGNALS:
+            //! This signal is emitted when a plugin option is changed.
+            void optionChanged();
+
+        private Q_SLOTS:
+            void pluginOptionCallback(const QString &);
+
+        private:
+            DJV_PRIVATE_COPY(ImageIOFactory);
+
+            void _addPlugin(ImageIO *);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+        DJV_COMPARISON_OPERATOR(ImageIOInfo);
+        DJV_COMPARISON_OPERATOR(ImageIOFrameInfo);
+
+    } // namespace Graphics
+} // namespace djv
+
+Q_DECLARE_METATYPE(djv::Graphics::ImageIOInfo)
+Q_DECLARE_METATYPE(djv::Graphics::ImageIOFrameInfo)
+
+DJV_DEBUG_OPERATOR(djv::Graphics::ImageIOInfo);
+DJV_DEBUG_OPERATOR(djv::Graphics::ImageIOFrameInfo);

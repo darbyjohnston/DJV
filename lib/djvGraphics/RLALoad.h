@@ -36,36 +36,30 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvRLAPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvRLALoad
-//!
-//! This class provides a RLA loader.
-//------------------------------------------------------------------------------
-
-class djvRLALoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvRLALoad(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class RLALoad
+        //!
+        //! This class provides a RLA loader.
+        class RLALoad : public ImageLoad
+        {
+        public:
+            explicit RLALoad(djvCoreContext *);
 
-    virtual ~djvRLALoad();
+            virtual ~RLALoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-private:
-    void _open(const QString &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+            djvFileInfo         _file;
+            std::vector<qint32> _rleOffset;
+            PixelData           _tmp;
+        };
 
-    djvFileInfo         _file;
-    std::vector<qint32> _rleOffset;
-    djvPixelData        _tmp;
-};
-
-//@} // djvRLAPlugin
-
+    } // namespace Graphics
+} // namespace djv

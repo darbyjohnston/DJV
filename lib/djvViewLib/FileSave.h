@@ -55,26 +55,26 @@ namespace djv
         struct FileSaveInfo
         {
             FileSaveInfo(
-                const djvFileInfo &           inputFile = djvFileInfo(),
-                const djvFileInfo &           outputFile = djvFileInfo(),
-                const djvPixelDataInfo &      info = djvPixelDataInfo(),
-                const djvSequence &           sequence = djvSequence(),
-                int                           layer = 0,
-                const djvPixelDataInfo::PROXY proxy = djvPixelDataInfo::PROXY_NONE,
-                bool                          u8Conversion = false,
-                bool                          colorProfile = true,
-                const djvOpenGLImageOptions & options = djvOpenGLImageOptions());
+                const djvFileInfo &                  inputFile = djvFileInfo(),
+                const djvFileInfo &                  outputFile = djvFileInfo(),
+                const Graphics::PixelDataInfo &      info = Graphics::PixelDataInfo(),
+                const djvSequence &                  sequence = djvSequence(),
+                int                                  layer = 0,
+                const Graphics::PixelDataInfo::PROXY proxy = Graphics::PixelDataInfo::PROXY_NONE,
+                bool                                 u8Conversion = false,
+                bool                                 colorProfile = true,
+                const Graphics::OpenGLImageOptions & options = Graphics::OpenGLImageOptions());
 
-            djvFileInfo             inputFile;
-            djvFileInfo             outputFile;
-            djvPixelDataInfo        info;
-            djvSequence             sequence;
-            int                     layer;
-            djvPixelDataInfo::PROXY proxy;
-            bool                    u8Conversion;
-            bool                    colorProfile;
-            djvImageIOFrameInfo     frameInfo;
-            djvOpenGLImageOptions   options;
+            djvFileInfo                    inputFile;
+            djvFileInfo                    outputFile;
+            Graphics::PixelDataInfo        info;
+            djvSequence                    sequence;
+            int                            layer;
+            Graphics::PixelDataInfo::PROXY proxy;
+            bool                           u8Conversion;
+            bool                           colorProfile;
+            Graphics::ImageIOFrameInfo     frameInfo;
+            Graphics::OpenGLImageOptions   options;
         };
 
         //! \class FileSave

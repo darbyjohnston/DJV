@@ -46,11 +46,11 @@ namespace djv
     {
         Style::Palette::Palette(
             const QString &  name,
-            const djvColor & foreground,
-            const djvColor & background,
-            const djvColor & background2,
-            const djvColor & button,
-            const djvColor & select) :
+            const Graphics::Color & foreground,
+            const Graphics::Color & background,
+            const Graphics::Color & background2,
+            const Graphics::Color & button,
+            const Graphics::Color & select) :
             name(name),
             foreground(foreground),
             background(background),
@@ -192,32 +192,32 @@ namespace djv
             {
                 Palette(
                     qApp->translate("djv::UI::Style", "Dark"),
-                    djvColor(0.9f),
-                    djvColor(0.25f),
-                    djvColor(0.15f),
-                    djvColor(0.25f),
-                    djvColor(0.7f, 0.6f, 0.3f)),
+                    Graphics::Color(0.9f),
+                    Graphics::Color(0.25f),
+                    Graphics::Color(0.15f),
+                    Graphics::Color(0.25f),
+                    Graphics::Color(0.7f, 0.6f, 0.3f)),
                 Palette(
                     qApp->translate("djv::UI::Style", "Light"),
-                    djvColor(0.1f),
-                    djvColor(0.8f),
-                    djvColor(0.7f),
-                    djvColor(0.7f),
-                    djvColor(0.7f, 0.6f, 0.3f)),
+                    Graphics::Color(0.1f),
+                    Graphics::Color(0.8f),
+                    Graphics::Color(0.7f),
+                    Graphics::Color(0.7f),
+                    Graphics::Color(0.7f, 0.6f, 0.3f)),
                 Palette(
                     qApp->translate("djv::UI::Style", "Default"),
-                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
-                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
-                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
-                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
-                    djvColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Foreground)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Background)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Base)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Button)),
+                    Graphics::ColorUtil::fromQt(qApp->palette().color(QPalette::Highlight))),
                 Palette(
                     qApp->translate("djv::UI::Style", "Custom"),
-                    djvColor(0.9f),
-                    djvColor(0.0f, 0.3f, 0.0f),
-                    djvColor(0.3f, 0.4f, 0.3f),
-                    djvColor(0.0f, 0.4f, 0.0f),
-                    djvColor(0.7f, 0.9f, 0.7f))
+                    Graphics::Color(0.9f),
+                    Graphics::Color(0.0f, 0.3f, 0.0f),
+                    Graphics::Color(0.3f, 0.4f, 0.3f),
+                    Graphics::Color(0.0f, 0.4f, 0.0f),
+                    Graphics::Color(0.7f, 0.9f, 0.7f))
             };
             return data;
         }
@@ -386,10 +386,10 @@ namespace djv
         namespace
         {
 
-            QColor toQColor(const djvColor & color)
+            QColor toQColor(const Graphics::Color & color)
             {
-                djvColor tmp(djvPixel::RGBA_U8);
-                djvColorUtil::convert(color, tmp);
+                Graphics::Color tmp(Graphics::Pixel::RGBA_U8);
+                Graphics::ColorUtil::convert(color, tmp);
                 return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
             }
 

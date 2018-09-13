@@ -66,18 +66,18 @@ namespace djv
             {
                 explicit Palette(
                     const QString &  name = QString(),
-                    const djvColor & foreground = djvColor(),
-                    const djvColor & background = djvColor(),
-                    const djvColor & background2 = djvColor(),
-                    const djvColor & button = djvColor(),
-                    const djvColor & select = djvColor());
+                    const Graphics::Color & foreground = Graphics::Color(),
+                    const Graphics::Color & background = Graphics::Color(),
+                    const Graphics::Color & background2 = Graphics::Color(),
+                    const Graphics::Color & button = Graphics::Color(),
+                    const Graphics::Color & select = Graphics::Color());
 
                 QString  name;
-                djvColor foreground;
-                djvColor background;
-                djvColor background2;
-                djvColor button;
-                djvColor select;
+                Graphics::Color foreground;
+                Graphics::Color background;
+                Graphics::Color background2;
+                Graphics::Color button;
+                Graphics::Color select;
             };
 
             //! Get the default color palettes.

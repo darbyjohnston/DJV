@@ -39,6 +39,8 @@
 
 #include <QStringList>
 
+using namespace djv;
+
 void djvPixelTest::run(int &, char **)
 {
     DJV_DEBUG("djvPixelTest::run");
@@ -52,37 +54,37 @@ void djvPixelTest::mask()
 {
     DJV_DEBUG("djvPixelTest::mask");
     {
-        const djvPixel::Mask mask;
+        const Graphics::Pixel::Mask mask;
         DJV_ASSERT(mask.mask[0]);
         DJV_ASSERT(mask.mask[1]);
         DJV_ASSERT(mask.mask[2]);
         DJV_ASSERT(mask.mask[3]);
     }
     {
-        const djvPixel::Mask mask(false);
+        const Graphics::Pixel::Mask mask(false);
         DJV_ASSERT(! mask.mask[0]);
         DJV_ASSERT(! mask.mask[1]);
         DJV_ASSERT(! mask.mask[2]);
         DJV_ASSERT(! mask.mask[3]);
     }
     {
-        const djvPixel::Mask mask(false, false, false, false);
+        const Graphics::Pixel::Mask mask(false, false, false, false);
         DJV_ASSERT(! mask.mask[0]);
         DJV_ASSERT(! mask.mask[1]);
         DJV_ASSERT(! mask.mask[2]);
         DJV_ASSERT(! mask.mask[3]);
     }
     {
-        const djvPixel::Mask tmp(false, false, false, false);
-        const djvPixel::Mask mask(tmp);
+        const Graphics::Pixel::Mask tmp(false, false, false, false);
+        const Graphics::Pixel::Mask mask(tmp);
         DJV_ASSERT(tmp.mask[0] == mask.mask[0]);
         DJV_ASSERT(tmp.mask[1] == mask.mask[1]);
         DJV_ASSERT(tmp.mask[2] == mask.mask[2]);
         DJV_ASSERT(tmp.mask[3] == mask.mask[3]);
     }
     {
-        const djvPixel::Mask tmp(false, false, false, false);
-        djvPixel::Mask mask;
+        const Graphics::Pixel::Mask tmp(false, false, false, false);
+        Graphics::Pixel::Mask mask;
         mask = tmp;
         DJV_ASSERT(tmp.mask[0] == mask.mask[0]);
         DJV_ASSERT(tmp.mask[1] == mask.mask[1]);
@@ -90,20 +92,20 @@ void djvPixelTest::mask()
         DJV_ASSERT(tmp.mask[3] == mask.mask[3]);
     }
     {
-        djvPixel::Mask mask;
+        Graphics::Pixel::Mask mask;
         mask[1] = false;
         DJV_ASSERT(! mask[1]);
     }
     {
-        const djvPixel::Mask
+        const Graphics::Pixel::Mask
             a(false, false, false, false),
             b(false, false, false, false);
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvPixel::Mask());
+        DJV_ASSERT(a != Graphics::Pixel::Mask());
     }
     {
-        const djvPixel::Mask tmp(true, false, true, false);
-        djvPixel::Mask mask(tmp);
+        const Graphics::Pixel::Mask tmp(true, false, true, false);
+        Graphics::Pixel::Mask mask(tmp);
         QStringList data;
         data << mask;
         data >> mask;
@@ -115,100 +117,100 @@ void djvPixelTest::members()
 {
     DJV_DEBUG("djvPixelTest::members");
     {
-        DJV_ASSERT(djvPixel::RGB == djvPixel::format(djvPixel::RGB_U10));
-        DJV_ASSERT(djvPixel::U10 == djvPixel::type(djvPixel::RGB_U10));
+        DJV_ASSERT(Graphics::Pixel::RGB == Graphics::Pixel::format(Graphics::Pixel::RGB_U10));
+        DJV_ASSERT(Graphics::Pixel::U10 == Graphics::Pixel::type(Graphics::Pixel::RGB_U10));
     }
     {
-        djvPixel::FORMAT format = static_cast<djvPixel::FORMAT>(0);
-        DJV_ASSERT(! djvPixel::format(0, format));
-        for (int i = 0; i < djvPixel::channelsMax; ++i)
+        Graphics::Pixel::FORMAT format = static_cast<Graphics::Pixel::FORMAT>(0);
+        DJV_ASSERT(!Graphics::Pixel::format(0, format));
+        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
         {
-            djvPixel::format(i + 1, format);
-            DJV_ASSERT(static_cast<djvPixel::FORMAT>(i) == format);
+            Graphics::Pixel::format(i + 1, format);
+            DJV_ASSERT(static_cast<Graphics::Pixel::FORMAT>(i) == format);
         }
     }
     {
-        djvPixel::TYPE type = static_cast<djvPixel::TYPE>(0);
-        DJV_ASSERT(djvPixel::type(10, djvPixel::INTEGER, type));
-        DJV_ASSERT(djvPixel::U10 == type);
-        DJV_ASSERT(!djvPixel::type(10, djvPixel::FLOAT, type));
+        Graphics::Pixel::TYPE type = static_cast<Graphics::Pixel::TYPE>(0);
+        DJV_ASSERT(Graphics::Pixel::type(10, Graphics::Pixel::INTEGER, type));
+        DJV_ASSERT(Graphics::Pixel::U10 == type);
+        DJV_ASSERT(!Graphics::Pixel::type(10, Graphics::Pixel::FLOAT, type));
     }
     {
-        djvPixel::TYPE type = static_cast<djvPixel::TYPE>(0);
-        DJV_ASSERT(! djvPixel::type(0, djvPixel::INTEGER, type));
-        djvPixel::type(8, djvPixel::INTEGER, type);
-        DJV_ASSERT(djvPixel::U8 == type);
-        djvPixel::type(10, djvPixel::INTEGER, type);
-        DJV_ASSERT(djvPixel::U10 == type);
-        djvPixel::type(16, djvPixel::INTEGER, type);
-        DJV_ASSERT(djvPixel::U16 == type);
-        DJV_ASSERT(! djvPixel::type(0, djvPixel::FLOAT, type));
-        djvPixel::type(16, djvPixel::FLOAT, type);
-        DJV_ASSERT(djvPixel::F16 == type);
-        djvPixel::type(32, djvPixel::FLOAT, type);
-        DJV_ASSERT(djvPixel::F32 == type);
+        Graphics::Pixel::TYPE type = static_cast<Graphics::Pixel::TYPE>(0);
+        DJV_ASSERT(!Graphics::Pixel::type(0, Graphics::Pixel::INTEGER, type));
+        Graphics::Pixel::type(8, Graphics::Pixel::INTEGER, type);
+        DJV_ASSERT(Graphics::Pixel::U8 == type);
+        Graphics::Pixel::type(10, Graphics::Pixel::INTEGER, type);
+        DJV_ASSERT(Graphics::Pixel::U10 == type);
+        Graphics::Pixel::type(16, Graphics::Pixel::INTEGER, type);
+        DJV_ASSERT(Graphics::Pixel::U16 == type);
+        DJV_ASSERT(!Graphics::Pixel::type(0, Graphics::Pixel::FLOAT, type));
+        Graphics::Pixel::type(16, Graphics::Pixel::FLOAT, type);
+        DJV_ASSERT(Graphics::Pixel::F16 == type);
+        Graphics::Pixel::type(32, Graphics::Pixel::FLOAT, type);
+        DJV_ASSERT(Graphics::Pixel::F32 == type);
     }
     {
-        DJV_ASSERT(3 == djvPixel::channels(djvPixel::RGB));
-        DJV_ASSERT(3 == djvPixel::channels(djvPixel::RGB_U10));
+        DJV_ASSERT(3 == Graphics::Pixel::channels(Graphics::Pixel::RGB));
+        DJV_ASSERT(3 == Graphics::Pixel::channels(Graphics::Pixel::RGB_U10));
     }
     {
-        DJV_ASSERT(2 == djvPixel::channelByteCount(djvPixel::RGBA_U16));
-        DJV_ASSERT(8 == djvPixel::byteCount(djvPixel::RGBA_U16));
+        DJV_ASSERT(2 == Graphics::Pixel::channelByteCount(Graphics::Pixel::RGBA_U16));
+        DJV_ASSERT(8 == Graphics::Pixel::byteCount(Graphics::Pixel::RGBA_U16));
     }
     {
-        DJV_ASSERT(16 == djvPixel::bitDepth(djvPixel::U16));
-        DJV_ASSERT(16 == djvPixel::bitDepth(djvPixel::RGBA_U16));
+        DJV_ASSERT(16 == Graphics::Pixel::bitDepth(Graphics::Pixel::U16));
+        DJV_ASSERT(16 == Graphics::Pixel::bitDepth(Graphics::Pixel::RGBA_U16));
     }
     {
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::max(djvPixel::RGBA_U16));
-        DJV_ASSERT(1 == djvPixel::max(djvPixel::RGBA_F16));
+        DJV_ASSERT(Graphics::Pixel::u16Max == Graphics::Pixel::max(Graphics::Pixel::RGBA_U16));
+        DJV_ASSERT(1 == Graphics::Pixel::max(Graphics::Pixel::RGBA_F16));
     }
     {
-        const djvPixel::FORMAT formatUndef = djvPixel::FORMAT_COUNT;
-        const djvPixel::TYPE   typeUndef   = djvPixel::TYPE_COUNT;
-        const djvPixel::PIXEL  pixelUndef  = static_cast<djvPixel::PIXEL>(0);
+        const Graphics::Pixel::FORMAT formatUndef = Graphics::Pixel::FORMAT_COUNT;
+        const Graphics::Pixel::TYPE   typeUndef   = Graphics::Pixel::TYPE_COUNT;
+        const Graphics::Pixel::PIXEL  pixelUndef  = static_cast<Graphics::Pixel::PIXEL>(0);
         const struct Data
         {
-            djvPixel::FORMAT format;
-            djvPixel::TYPE   type;
-            djvPixel::PIXEL  result;
+            Graphics::Pixel::FORMAT format;
+            Graphics::Pixel::TYPE   type;
+            Graphics::Pixel::PIXEL  result;
         }
             data [] =
         {
-            { djvPixel::L,    djvPixel::U8,  djvPixel::L_U8     },
-            { djvPixel::L,    djvPixel::U10, djvPixel::L_U16    },
-            { djvPixel::L,    djvPixel::U16, djvPixel::L_U16    },
-            { djvPixel::L,    djvPixel::F16, djvPixel::L_F16    },
-            { djvPixel::L,    djvPixel::F32, djvPixel::L_F32    },
-            { djvPixel::L,    typeUndef,     pixelUndef         },
+            { Graphics::Pixel::L,    Graphics::Pixel::U8,  Graphics::Pixel::L_U8     },
+            { Graphics::Pixel::L,    Graphics::Pixel::U10, Graphics::Pixel::L_U16    },
+            { Graphics::Pixel::L,    Graphics::Pixel::U16, Graphics::Pixel::L_U16    },
+            { Graphics::Pixel::L,    Graphics::Pixel::F16, Graphics::Pixel::L_F16    },
+            { Graphics::Pixel::L,    Graphics::Pixel::F32, Graphics::Pixel::L_F32    },
+            { Graphics::Pixel::L,    typeUndef,            pixelUndef                },
 
-            { djvPixel::LA,   djvPixel::U8,  djvPixel::LA_U8    },
-            { djvPixel::LA,   djvPixel::U10, djvPixel::LA_U16   },
-            { djvPixel::LA,   djvPixel::U16, djvPixel::LA_U16   },
-            { djvPixel::LA,   djvPixel::F16, djvPixel::LA_F16   },
-            { djvPixel::LA,   djvPixel::F32, djvPixel::LA_F32   },
-            { djvPixel::LA,   typeUndef,     pixelUndef         },
+            { Graphics::Pixel::LA,   Graphics::Pixel::U8,  Graphics::Pixel::LA_U8    },
+            { Graphics::Pixel::LA,   Graphics::Pixel::U10, Graphics::Pixel::LA_U16   },
+            { Graphics::Pixel::LA,   Graphics::Pixel::U16, Graphics::Pixel::LA_U16   },
+            { Graphics::Pixel::LA,   Graphics::Pixel::F16, Graphics::Pixel::LA_F16   },
+            { Graphics::Pixel::LA,   Graphics::Pixel::F32, Graphics::Pixel::LA_F32   },
+            { Graphics::Pixel::LA,   typeUndef,            pixelUndef                },
 
-            { djvPixel::RGB,  djvPixel::U8,  djvPixel::RGB_U8   },
-            { djvPixel::RGB,  djvPixel::U10, djvPixel::RGB_U10  },
-            { djvPixel::RGB,  djvPixel::U16, djvPixel::RGB_U16  },
-            { djvPixel::RGB,  djvPixel::F16, djvPixel::RGB_F16  },
-            { djvPixel::RGB,  djvPixel::F32, djvPixel::RGB_F32  },
-            { djvPixel::RGB,  typeUndef,     pixelUndef         },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::U8,  Graphics::Pixel::RGB_U8   },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::U10, Graphics::Pixel::RGB_U10  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::U16, Graphics::Pixel::RGB_U16  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::F16, Graphics::Pixel::RGB_F16  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::F32, Graphics::Pixel::RGB_F32  },
+            { Graphics::Pixel::RGB,  typeUndef,     pixelUndef         },
 
-            { djvPixel::RGBA, djvPixel::U8,  djvPixel::RGBA_U8  },
-            { djvPixel::RGBA, djvPixel::U10, djvPixel::RGBA_U16 },
-            { djvPixel::RGBA, djvPixel::U16, djvPixel::RGBA_U16 },
-            { djvPixel::RGBA, djvPixel::F16, djvPixel::RGBA_F16 },
-            { djvPixel::RGBA, djvPixel::F32, djvPixel::RGBA_F32 },
-            { djvPixel::RGBA, typeUndef,     pixelUndef         },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::U8,  Graphics::Pixel::RGBA_U8  },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::U10, Graphics::Pixel::RGBA_U16 },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::U16, Graphics::Pixel::RGBA_U16 },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::F16, Graphics::Pixel::RGBA_F16 },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::F32, Graphics::Pixel::RGBA_F32 },
+            { Graphics::Pixel::RGBA, typeUndef,     pixelUndef         },
 
-            { formatUndef,    djvPixel::U8,  pixelUndef         },
-            { formatUndef,    djvPixel::U10, pixelUndef         },
-            { formatUndef,    djvPixel::U16, pixelUndef         },
-            { formatUndef,    djvPixel::F16, pixelUndef         },
-            { formatUndef,    djvPixel::F32, pixelUndef         },
+            { formatUndef,    Graphics::Pixel::U8,  pixelUndef         },
+            { formatUndef,    Graphics::Pixel::U10, pixelUndef         },
+            { formatUndef,    Graphics::Pixel::U16, pixelUndef         },
+            { formatUndef,    Graphics::Pixel::F16, pixelUndef         },
+            { formatUndef,    Graphics::Pixel::F32, pixelUndef         },
             { formatUndef,    typeUndef,     pixelUndef         }
         };
         const int dataCount = sizeof(data) / sizeof(data[0]);
@@ -216,79 +218,79 @@ void djvPixelTest::members()
         {
             DJV_ASSERT(
                 data[i].result ==
-                djvPixel::pixel(data[i].format, data[i].type));
+                Graphics::Pixel::pixel(data[i].format, data[i].type));
         }
     }
     {
-        const djvPixel::FORMAT formatUndef = djvPixel::FORMAT_COUNT;
-        const djvPixel::TYPE   typeUndef   = djvPixel::TYPE_COUNT;
-        const djvPixel::PIXEL  pixelUndef  = static_cast<djvPixel::PIXEL>(0);
+        const Graphics::Pixel::FORMAT formatUndef = Graphics::Pixel::FORMAT_COUNT;
+        const Graphics::Pixel::TYPE   typeUndef   = Graphics::Pixel::TYPE_COUNT;
+        const Graphics::Pixel::PIXEL  pixelUndef  = static_cast<Graphics::Pixel::PIXEL>(0);
         const struct Data
         {
-            djvPixel::FORMAT format;
-            djvPixel::TYPE   type;
-            djvPixel::PIXEL  result;
+            Graphics::Pixel::FORMAT format;
+            Graphics::Pixel::TYPE   type;
+            Graphics::Pixel::PIXEL  result;
             bool             ok;
         }
             data [] =
         {
-            { djvPixel::L,    djvPixel::U8,  djvPixel::L_U8,     true  },
-            { djvPixel::L,    djvPixel::U10, pixelUndef,         false },
-            { djvPixel::L,    djvPixel::U16, djvPixel::L_U16,    true  },
-            { djvPixel::L,    djvPixel::F16, djvPixel::L_F16,    true  },
-            { djvPixel::L,    djvPixel::F32, djvPixel::L_F32,    true  },
-            { djvPixel::L,    typeUndef,     pixelUndef,         false },
+            { Graphics::Pixel::L,    Graphics::Pixel::U8,  Graphics::Pixel::L_U8,     true  },
+            { Graphics::Pixel::L,    Graphics::Pixel::U10, pixelUndef,         false },
+            { Graphics::Pixel::L,    Graphics::Pixel::U16, Graphics::Pixel::L_U16,    true  },
+            { Graphics::Pixel::L,    Graphics::Pixel::F16, Graphics::Pixel::L_F16,    true  },
+            { Graphics::Pixel::L,    Graphics::Pixel::F32, Graphics::Pixel::L_F32,    true  },
+            { Graphics::Pixel::L,    typeUndef,     pixelUndef,         false },
 
-            { djvPixel::LA,   djvPixel::U8,  djvPixel::LA_U8,    true  },
-            { djvPixel::LA,   djvPixel::U10, pixelUndef,         false },
-            { djvPixel::LA,   djvPixel::U16, djvPixel::LA_U16,   true  },
-            { djvPixel::LA,   djvPixel::F16, djvPixel::LA_F16,   true  },
-            { djvPixel::LA,   djvPixel::F32, djvPixel::LA_F32,   true  },
-            { djvPixel::LA,   typeUndef,     pixelUndef,         false },
+            { Graphics::Pixel::LA,   Graphics::Pixel::U8,  Graphics::Pixel::LA_U8,    true  },
+            { Graphics::Pixel::LA,   Graphics::Pixel::U10, pixelUndef,         false },
+            { Graphics::Pixel::LA,   Graphics::Pixel::U16, Graphics::Pixel::LA_U16,   true  },
+            { Graphics::Pixel::LA,   Graphics::Pixel::F16, Graphics::Pixel::LA_F16,   true  },
+            { Graphics::Pixel::LA,   Graphics::Pixel::F32, Graphics::Pixel::LA_F32,   true  },
+            { Graphics::Pixel::LA,   typeUndef,     pixelUndef,         false },
 
-            { djvPixel::RGB,  djvPixel::U8,  djvPixel::RGB_U8,   true  },
-            { djvPixel::RGB,  djvPixel::U10, djvPixel::RGB_U10,  true  },
-            { djvPixel::RGB,  djvPixel::U16, djvPixel::RGB_U16,  true  },
-            { djvPixel::RGB,  djvPixel::F16, djvPixel::RGB_F16,  true  },
-            { djvPixel::RGB,  djvPixel::F32, djvPixel::RGB_F32,  true  },
-            { djvPixel::RGB,  typeUndef,     pixelUndef,         false },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::U8,  Graphics::Pixel::RGB_U8,   true  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::U10, Graphics::Pixel::RGB_U10,  true  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::U16, Graphics::Pixel::RGB_U16,  true  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::F16, Graphics::Pixel::RGB_F16,  true  },
+            { Graphics::Pixel::RGB,  Graphics::Pixel::F32, Graphics::Pixel::RGB_F32,  true  },
+            { Graphics::Pixel::RGB,  typeUndef,     pixelUndef,         false },
 
-            { djvPixel::RGBA, djvPixel::U8,  djvPixel::RGBA_U8,  true  },
-            { djvPixel::RGBA, djvPixel::U10, pixelUndef,         false },
-            { djvPixel::RGBA, djvPixel::U16, djvPixel::RGBA_U16, true  },
-            { djvPixel::RGBA, djvPixel::F16, djvPixel::RGBA_F16, true  },
-            { djvPixel::RGBA, djvPixel::F32, djvPixel::RGBA_F32, true  },
-            { djvPixel::RGBA, typeUndef,     pixelUndef,         false },
-            { formatUndef,    djvPixel::U8,  pixelUndef,         false },
-            { formatUndef,    djvPixel::U10, pixelUndef,         false },
-            { formatUndef,    djvPixel::U16, pixelUndef,         false },
-            { formatUndef,    djvPixel::F16, pixelUndef,         false },
-            { formatUndef,    djvPixel::F32, pixelUndef,         false },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::U8,  Graphics::Pixel::RGBA_U8,  true  },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::U10, pixelUndef,         false },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::U16, Graphics::Pixel::RGBA_U16, true  },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::F16, Graphics::Pixel::RGBA_F16, true  },
+            { Graphics::Pixel::RGBA, Graphics::Pixel::F32, Graphics::Pixel::RGBA_F32, true  },
+            { Graphics::Pixel::RGBA, typeUndef,     pixelUndef,         false },
+            { formatUndef,    Graphics::Pixel::U8,  pixelUndef,         false },
+            { formatUndef,    Graphics::Pixel::U10, pixelUndef,         false },
+            { formatUndef,    Graphics::Pixel::U16, pixelUndef,         false },
+            { formatUndef,    Graphics::Pixel::F16, pixelUndef,         false },
+            { formatUndef,    Graphics::Pixel::F32, pixelUndef,         false },
 
             { formatUndef,    typeUndef,     pixelUndef,         false }
         };
         const int dataCount = sizeof(data) / sizeof(data[0]);
         for (int i = 0; i < dataCount; ++i)
         {
-            djvPixel::PIXEL result = pixelUndef;
+            Graphics::Pixel::PIXEL result = pixelUndef;
             DJV_ASSERT(
                 data[i].ok ==
-                djvPixel::pixel(data[i].format, data[i].type, result));
+                Graphics::Pixel::pixel(data[i].format, data[i].type, result));
             DJV_ASSERT(data[i].result == result);
         }
     }
     {
-        djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
-        DJV_ASSERT(djvPixel::pixel(djvPixel::RGB, djvPixel::U10, pixel));
-        DJV_ASSERT(djvPixel::RGB_U10 == pixel);
-        DJV_ASSERT(! djvPixel::pixel(djvPixel::RGBA, djvPixel::U10, pixel));
+        Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
+        DJV_ASSERT(Graphics::Pixel::pixel(Graphics::Pixel::RGB, Graphics::Pixel::U10, pixel));
+        DJV_ASSERT(Graphics::Pixel::RGB_U10 == pixel);
+        DJV_ASSERT(! Graphics::Pixel::pixel(Graphics::Pixel::RGBA, Graphics::Pixel::U10, pixel));
     }
     {
-        djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(0);
-        DJV_ASSERT(djvPixel::pixel(3, 10, djvPixel::INTEGER, pixel));
-        DJV_ASSERT(djvPixel::RGB_U10 == pixel);
-        DJV_ASSERT(! djvPixel::pixel(3, 10, djvPixel::FLOAT, pixel));
-        DJV_ASSERT(! djvPixel::pixel(4, 10, djvPixel::INTEGER, pixel));
+        Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
+        DJV_ASSERT(Graphics::Pixel::pixel(3, 10, Graphics::Pixel::INTEGER, pixel));
+        DJV_ASSERT(Graphics::Pixel::RGB_U10 == pixel);
+        DJV_ASSERT(! Graphics::Pixel::pixel(3, 10, Graphics::Pixel::FLOAT, pixel));
+        DJV_ASSERT(! Graphics::Pixel::pixel(4, 10, Graphics::Pixel::INTEGER, pixel));
     }
 }
 
@@ -296,65 +298,65 @@ void djvPixelTest::convert()
 {
     DJV_DEBUG("djvPixelTest::convert");
     {
-        DJV_ASSERT(0                == djvPixel::u8ToU10(0));
-        DJV_ASSERT(djvPixel::u10Max == djvPixel::u8ToU10(djvPixel::u8Max));
-        DJV_ASSERT(0                == djvPixel::u8ToU16(0));
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::u8ToU16(djvPixel::u8Max));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u8ToF16(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u8ToF16(djvPixel::u8Max)));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u8ToF32(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u8ToF32(djvPixel::u8Max)));
+        DJV_ASSERT(0                == Graphics::Pixel::u8ToU10(0));
+        DJV_ASSERT(Graphics::Pixel::u10Max == Graphics::Pixel::u8ToU10(Graphics::Pixel::u8Max));
+        DJV_ASSERT(0                == Graphics::Pixel::u8ToU16(0));
+        DJV_ASSERT(Graphics::Pixel::u16Max == Graphics::Pixel::u8ToU16(Graphics::Pixel::u8Max));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::u8ToF16(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::u8ToF16(Graphics::Pixel::u8Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::u8ToF32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::u8ToF32(Graphics::Pixel::u8Max)));
     }
     {
-        DJV_ASSERT(0                == djvPixel::u10ToU8(0));
-        DJV_ASSERT(djvPixel::u8Max  == djvPixel::u10ToU8(djvPixel::u10Max));
-        DJV_ASSERT(0                == djvPixel::u10ToU16(0));
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::u10ToU16(djvPixel::u10Max));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u10ToF16(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u10ToF16(djvPixel::u10Max)));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u10ToF32(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u10ToF32(djvPixel::u10Max)));
+        DJV_ASSERT(0                == Graphics::Pixel::u10ToU8(0));
+        DJV_ASSERT(Graphics::Pixel::u8Max  == Graphics::Pixel::u10ToU8(Graphics::Pixel::u10Max));
+        DJV_ASSERT(0                == Graphics::Pixel::u10ToU16(0));
+        DJV_ASSERT(Graphics::Pixel::u16Max == Graphics::Pixel::u10ToU16(Graphics::Pixel::u10Max));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::u10ToF16(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::u10ToF16(Graphics::Pixel::u10Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::u10ToF32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::u10ToF32(Graphics::Pixel::u10Max)));
     }
     {
-        DJV_ASSERT(0                == djvPixel::u16ToU8(0));
-        DJV_ASSERT(djvPixel::u8Max  == djvPixel::u16ToU8(djvPixel::u16Max));
-        DJV_ASSERT(0                == djvPixel::u16ToU10(0));
-        DJV_ASSERT(djvPixel::u10Max == djvPixel::u16ToU10(djvPixel::u16Max));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u16ToF16(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u16ToF16(djvPixel::u16Max)));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::u16ToF32(0)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::u16ToF32(djvPixel::u16Max)));
+        DJV_ASSERT(0                == Graphics::Pixel::u16ToU8(0));
+        DJV_ASSERT(Graphics::Pixel::u8Max  == Graphics::Pixel::u16ToU8(Graphics::Pixel::u16Max));
+        DJV_ASSERT(0                == Graphics::Pixel::u16ToU10(0));
+        DJV_ASSERT(Graphics::Pixel::u10Max == Graphics::Pixel::u16ToU10(Graphics::Pixel::u16Max));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::u16ToF16(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::u16ToF16(Graphics::Pixel::u16Max)));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::u16ToF32(0)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::u16ToF32(Graphics::Pixel::u16Max)));
     }
     {
-        DJV_ASSERT(0                == djvPixel::f16ToU8(0.f));
-        DJV_ASSERT(djvPixel::u8Max  == djvPixel::f16ToU8(1.f));
-        DJV_ASSERT(0                == djvPixel::f16ToU10(0.f));
-        DJV_ASSERT(djvPixel::u10Max == djvPixel::f16ToU10(1.f));
-        DJV_ASSERT(0                == djvPixel::f16ToU16(0.f));
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::f16ToU16(1.f));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::f16ToF32(0.f)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::f16ToF32(1.f)));
+        DJV_ASSERT(0                == Graphics::Pixel::f16ToU8(0.f));
+        DJV_ASSERT(Graphics::Pixel::u8Max  == Graphics::Pixel::f16ToU8(1.f));
+        DJV_ASSERT(0                == Graphics::Pixel::f16ToU10(0.f));
+        DJV_ASSERT(Graphics::Pixel::u10Max == Graphics::Pixel::f16ToU10(1.f));
+        DJV_ASSERT(0                == Graphics::Pixel::f16ToU16(0.f));
+        DJV_ASSERT(Graphics::Pixel::u16Max == Graphics::Pixel::f16ToU16(1.f));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::f16ToF32(0.f)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::f16ToF32(1.f)));
     }
     {
-        DJV_ASSERT(0                == djvPixel::f32ToU8(0.f));
-        DJV_ASSERT(djvPixel::u8Max  == djvPixel::f32ToU8(1.f));
-        DJV_ASSERT(0                == djvPixel::f32ToU10(0.f));
-        DJV_ASSERT(djvPixel::u10Max == djvPixel::f32ToU10(1.f));
-        DJV_ASSERT(0                == djvPixel::f32ToU16(0.f));
-        DJV_ASSERT(djvPixel::u16Max == djvPixel::f32ToU16(1.f));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, djvPixel::f32ToF16(0.f)));
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, djvPixel::f32ToF16(1.f)));
+        DJV_ASSERT(0                == Graphics::Pixel::f32ToU8(0.f));
+        DJV_ASSERT(Graphics::Pixel::u8Max  == Graphics::Pixel::f32ToU8(1.f));
+        DJV_ASSERT(0                == Graphics::Pixel::f32ToU10(0.f));
+        DJV_ASSERT(Graphics::Pixel::u10Max == Graphics::Pixel::f32ToU10(1.f));
+        DJV_ASSERT(0                == Graphics::Pixel::f32ToU16(0.f));
+        DJV_ASSERT(Graphics::Pixel::u16Max == Graphics::Pixel::f32ToU16(1.f));
+        DJV_ASSERT(djvMath::fuzzyCompare(0.f, Graphics::Pixel::f32ToF16(0.f)));
+        DJV_ASSERT(djvMath::fuzzyCompare(1.f, Graphics::Pixel::f32ToF16(1.f)));
     }
     {
-        for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
+        for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
         {
-            for (int j = 0; j < djvPixel::PIXEL_COUNT; ++j)
+            for (int j = 0; j < Graphics::Pixel::PIXEL_COUNT; ++j)
             {
-                djvColor
-                    a(static_cast<djvPixel::PIXEL>(i)),
-                    b(static_cast<djvPixel::PIXEL>(j));
-                djvColorUtil::convert(djvColor(.5f), a);
-                djvPixel::convert(
+                Graphics::Color
+                    a(static_cast<Graphics::Pixel::PIXEL>(i)),
+                    b(static_cast<Graphics::Pixel::PIXEL>(j));
+                Graphics::ColorUtil::convert(Graphics::Color(.5f), a);
+                Graphics::Pixel::convert(
                     a.data(),
                     a.pixel(),
                     b.data(),
@@ -373,18 +375,18 @@ void djvPixelTest::operators()
 {
     DJV_DEBUG("djvPixelTest::operators");
     {
-        djvPixel::PIXEL pixel = djvPixel::L_F32;
+        Graphics::Pixel::PIXEL pixel = Graphics::Pixel::L_F32;
         QStringList s;
         s << pixel;
         DJV_ASSERT(s.count() && s[0] == "L F32");
         s >> pixel;
-        DJV_ASSERT(djvPixel::L_F32 == pixel);
+        DJV_ASSERT(Graphics::Pixel::L_F32 == pixel);
     }
     {
-        DJV_DEBUG_PRINT(djvPixel::RGBA);
-        DJV_DEBUG_PRINT(djvPixel::F32);
-        DJV_DEBUG_PRINT(djvPixel::FLOAT);
-        DJV_DEBUG_PRINT(djvPixel::RGBA_F32);
+        DJV_DEBUG_PRINT(Graphics::Pixel::RGBA);
+        DJV_DEBUG_PRINT(Graphics::Pixel::F32);
+        DJV_DEBUG_PRINT(Graphics::Pixel::FLOAT);
+        DJV_DEBUG_PRINT(Graphics::Pixel::RGBA_F32);
     }
 }
 

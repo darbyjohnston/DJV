@@ -42,10 +42,17 @@
 
 #include <QMetaType>
 
-class djvOpenGLLUT;
-class djvOpenGLOffscreenBuffer;
-class djvOpenGLTexture;
-class djvOpenGLShader;
+namespace djv
+{
+    namespace Graphics
+    {
+        class OpenGLLUT;
+        class OpenGLOffscreenBuffer;
+        class OpenGLTexture;
+        class OpenGLShader;
+
+    } // namespace Graphics
+} // namespace djv
 
 class QPixmap;
 
@@ -53,319 +60,296 @@ class QPixmap;
 #undef ERROR
 #endif // DJV_WINDOWS
 
-//! \addtogroup djvGraphicsOpenGL
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageXform
-//!
-//! This class provides OpenGL image transform options.
-//------------------------------------------------------------------------------
-
-class djvOpenGLImageXform
+namespace djv
 {
-public:
-    djvPixelDataInfo::Mirror mirror;
-    glm::vec2                position = glm::vec2(0.f, 0.f);
-    glm::vec2                scale    = glm::vec2(1.f, 1.f);
-    float                    rotate   = 0.f;
-
-    //! Create a transform matrix.
-    static glm::mat4x4 xformMatrix(const djvOpenGLImageXform &);
-};
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageColor
-//!
-//! This class provides OpenGL image color options.
-//------------------------------------------------------------------------------
-
-class djvOpenGLImageColor
-{
-public:
-    float brightness = 1.f;
-    float contrast   = 1.f;
-    float saturation = 1.f;
-
-    //! Create a brightness matrix.
-    static glm::mat4x4 brightnessMatrix(float r, float g, float b);
-
-    //! Create a contrast matrix.
-    static glm::mat4x4 contrastMatrix(float r, float g, float b);
-
-    //! Create a saturation matrix.
-    static glm::mat4x4 saturationMatrix(float r, float g, float b);
-
-    //! Create a color matrix.
-    static glm::mat4x4 colorMatrix(const djvOpenGLImageColor &);
-};
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageLevels
-//!
-//! This class provides OpenGL image color levels options.
-//------------------------------------------------------------------------------
-
-class djvOpenGLImageLevels
-{
-public:
-    float inLow   = 0.f;
-    float inHigh  = 1.f;
-    float gamma   = 1.f;
-    float outLow  = 0.f;
-    float outHigh = 1.f;
-
-    //! Create a lookup table from color levels.
-    static djvPixelData colorLut(const djvOpenGLImageLevels &, float softClip);
-};
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageDisplayProfile
-//!
-//! This class provides OpenGL image display profile options.
-//------------------------------------------------------------------------------
-
-class djvOpenGLImageDisplayProfile
-{
-public:
-    djvPixelData         lut;
-    djvOpenGLImageColor  color;
-    djvOpenGLImageLevels levels;
-    float                softClip = 0.f;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageFilter
-//!
-//! This class provides OpenGL image filtering options.
-//------------------------------------------------------------------------------
-
-class djvOpenGLImageFilter
-{
-    Q_GADGET
-    Q_ENUMS(FILTER)
-    
-public:
-    //! This enumeration provides the image filters.
-    enum FILTER
+    namespace Graphics
     {
-        NEAREST,
-        LINEAR,
-        BOX,
-        TRIANGLE,
-        BELL,
-        BSPLINE,
-        LANCZOS3,
-        CUBIC,
-        MITCHELL,
+        //! \class OpenGLImageXform
+        //!
+        //! This class provides OpenGL image transform options.
+        class OpenGLImageXform
+        {
+        public:
+            PixelDataInfo::Mirror mirror;
+            glm::vec2             position = glm::vec2(0.f, 0.f);
+            glm::vec2             scale = glm::vec2(1.f, 1.f);
+            float                 rotate = 0.f;
 
-        FILTER_COUNT
-    };
+            //! Create a transform matrix.
+            static glm::mat4x4 xformMatrix(const OpenGLImageXform &);
+        };
 
-    //! Get the image filter labels.
-    static const QStringList & filterLabels();
+        //! \class OpenGLImageColor
+        //!
+        //! This class provides OpenGL image color options.
+        class OpenGLImageColor
+        {
+        public:
+            float brightness = 1.f;
+            float contrast = 1.f;
+            float saturation = 1.f;
 
-    djvOpenGLImageFilter();
-    djvOpenGLImageFilter(FILTER min, FILTER mag);
+            //! Create a brightness matrix.
+            static glm::mat4x4 brightnessMatrix(float r, float g, float b);
 
-    FILTER min;
-    FILTER mag;
+            //! Create a contrast matrix.
+            static glm::mat4x4 contrastMatrix(float r, float g, float b);
 
-    //! Convert an image filter to OpenGL.
-    static GLenum toGl(FILTER);
+            //! Create a saturation matrix.
+            static glm::mat4x4 saturationMatrix(float r, float g, float b);
 
-    //! Get the default image filter.
-    static djvOpenGLImageFilter filterDefault();
+            //! Create a color matrix.
+            static glm::mat4x4 colorMatrix(const OpenGLImageColor &);
+        };
 
-    //! Get the high quality image filter.
-    static const djvOpenGLImageFilter & filterHighQuality();
+        //! \class OpenGLImageLevels
+        //!
+        //! This class provides OpenGL image color levels options.
+        class OpenGLImageLevels
+        {
+        public:
+            float inLow = 0.f;
+            float inHigh = 1.f;
+            float gamma = 1.f;
+            float outLow = 0.f;
+            float outHigh = 1.f;
 
-    //! Get the global image filter.
-    static const djvOpenGLImageFilter & filter();
+            //! Create a lookup table from color levels.
+            static PixelData colorLut(const OpenGLImageLevels &, float softClip);
+        };
 
-    //! Set the global image filter.
-    static void setFilter(const djvOpenGLImageFilter &);
-};
+        //! \class djvOpenGLImageDisplayProfile
+        //!
+        //! This class provides OpenGL image display profile options.
+        class OpenGLImageDisplayProfile
+        {
+        public:
+            PixelData         lut;
+            OpenGLImageColor  color;
+            OpenGLImageLevels levels;
+            float             softClip = 0.f;
+        };
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageOptions
-//!
-//! This class provides OpenGL image options.
-//------------------------------------------------------------------------------
+        //! \class OpenGLImageFilter
+        //!
+        //! This class provides OpenGL image filtering options.
+        class OpenGLImageFilter
+        {
+            Q_GADGET
+            Q_ENUMS(FILTER)
 
-class djvOpenGLImageOptions
-{
-    Q_GADGET
-    Q_ENUMS(CHANNEL)
+        public:
+            //! This enumeration provides the image filters.
+            enum FILTER
+            {
+                NEAREST,
+                LINEAR,
+                BOX,
+                TRIANGLE,
+                BELL,
+                BSPLINE,
+                LANCZOS3,
+                CUBIC,
+                MITCHELL,
 
-public:
-    //! This enumeration provides the channels to display.
-    enum CHANNEL
-    {
-        CHANNEL_DEFAULT,
-        CHANNEL_RED,
-        CHANNEL_GREEN,
-        CHANNEL_BLUE,
-        CHANNEL_ALPHA,
+                FILTER_COUNT
+            };
 
-        CHANNEL_COUNT
-    };
+            //! Get the image filter labels.
+            static const QStringList & filterLabels();
 
-    //! Get the channel labels.
-    static const QStringList & channelLabels();
+            OpenGLImageFilter();
+            OpenGLImageFilter(FILTER min, FILTER mag);
 
-    djvOpenGLImageXform          xform;
-    djvColorProfile              colorProfile;
-    djvOpenGLImageDisplayProfile displayProfile;
-    CHANNEL                      channel        = CHANNEL_DEFAULT;
-    djvOpenGLImageFilter         filter;
-    djvColor                     background;
-    bool                         proxyScale     = true;
-};
+            FILTER min;
+            FILTER mag;
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImageMesh
-//!
-//! This class provides a mesh for drawing images.
-//------------------------------------------------------------------------------
+            //! Convert an image filter to OpenGL.
+            static GLenum toGl(FILTER);
 
-class djvOpenGLImageMesh
-{
-public:
-    djvOpenGLImageMesh();
+            //! Get the default image filter.
+            static OpenGLImageFilter filterDefault();
 
-    ~djvOpenGLImageMesh();
+            //! Get the high quality image filter.
+            static const OpenGLImageFilter & filterHighQuality();
 
-    void setSize(const glm::ivec2&, const djvPixelDataInfo::Mirror & mirror = djvPixelDataInfo::Mirror(), int proxyScale = 1);
-    void draw();
+            //! Get the global image filter.
+            static const OpenGLImageFilter & filter();
 
-private:
-    glm::ivec2 _size = glm::ivec2(0, 0);
-    djvPixelDataInfo::Mirror _mirror;
-    int _proxyScale = 1;
-    size_t _vertexSize = 0;
-    GLuint _vbo = 0;
-    GLuint _vao = 0;
-};
+            //! Set the global image filter.
+            static void setFilter(const OpenGLImageFilter &);
+        };
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLImage
-//!
-//! This class provides OpenGL image utilities.
-//------------------------------------------------------------------------------
+        //! \class OpenGLImageOptions
+        //!
+        //! This class provides OpenGL image options.
+        class OpenGLImageOptions
+        {
+            Q_GADGET
+            Q_ENUMS(CHANNEL)
 
-class djvOpenGLImage
-{
-public:
-    djvOpenGLImage();
+        public:
+            //! This enumeration provides the channels to display.
+            enum CHANNEL
+            {
+                CHANNEL_DEFAULT,
+                CHANNEL_RED,
+                CHANNEL_GREEN,
+                CHANNEL_BLUE,
+                CHANNEL_ALPHA,
 
-    ~djvOpenGLImage();
+                CHANNEL_COUNT
+            };
 
-    //! Draw pixel data.
-    void draw(
-        const djvPixelData &          data,
-        const glm::mat4x4&            viewMatrix,
-        const djvOpenGLImageOptions & options = djvOpenGLImageOptions()) throw (djvError);
+            //! Get the channel labels.
+            static const QStringList & channelLabels();
 
-    //! Read pixel data.
-    void read(djvPixelData &);
+            OpenGLImageXform          xform;
+            ColorProfile              colorProfile;
+            OpenGLImageDisplayProfile displayProfile;
+            CHANNEL                   channel = CHANNEL_DEFAULT;
+            OpenGLImageFilter         filter;
+            Color                     background;
+            bool                      proxyScale = true;
+        };
 
-    //! Read pixel data.
-    void read(djvPixelData &, const djvBox2i &);
+        //! \class OpenGLImageMesh
+        //!
+        //! This class provides a mesh for drawing images.
+        class OpenGLImageMesh
+        {
+        public:
+            OpenGLImageMesh();
 
-    //! Read a pixel.
-    djvColor read(const djvPixelData &, int x, int y);
+            ~OpenGLImageMesh();
 
-    //! Copy pixel data.
-    void copy(
-        const djvPixelData &          input,
-        djvPixelData &                output,
-        const djvOpenGLImageOptions & options = djvOpenGLImageOptions()) throw (djvError);
+            void setSize(const glm::ivec2&, const PixelDataInfo::Mirror & mirror = PixelDataInfo::Mirror(), int proxyScale = 1);
+            void draw();
 
-    //! Setup OpenGL state for image drawing.
-    static void stateUnpack(
-        const djvPixelDataInfo & info,
-        const glm::ivec2 &       offset = glm::ivec2(0, 0));
+        private:
+            glm::ivec2 _size = glm::ivec2(0, 0);
+            PixelDataInfo::Mirror _mirror;
+            int _proxyScale = 1;
+            size_t _vertexSize = 0;
+            GLuint _vbo = 0;
+            GLuint _vao = 0;
+        };
 
-    //! Setup OpenGL state for image reading.
-    static void statePack(
-        const djvPixelDataInfo & info,
-        const glm::ivec2 &       offset = glm::ivec2(0, 0));
+        //! \class OpenGLImage
+        //!
+        //! This class provides OpenGL image utilities.
+        class OpenGLImage
+        {
+        public:
+            OpenGLImage();
 
-    //! Calculate the average color.
-    //!
-    //! \todo Use a GPU implementation.
-    void average(
-        const djvPixelData &   input,
-        djvColor &             output,
-        const djvPixel::Mask & mask   = djvPixel::Mask()) throw (djvError);
+            ~OpenGLImage();
 
-    //! Calculate the histogram.
-    //!
-    //! \todo Use a GPU implementation.
-    void histogram(
-        const djvPixelData &   input,
-        djvPixelData &         output,
-        int                    size,
-        djvColor &             min,
-        djvColor &             max,
-        const djvPixel::Mask & mask = djvPixel::Mask()) throw (djvError);
+            //! Draw pixel data.
+            void draw(
+                const PixelData &          data,
+                const glm::mat4x4&         viewMatrix,
+                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (djvError);
 
-    //! Convert pixel data to Qt.    
-    QPixmap toQt(
-        const djvPixelData &          pixelData,
-        const djvOpenGLImageOptions & options = djvOpenGLImageOptions());
+            //! Read pixel data.
+            void read(PixelData &);
 
-    //! This enumeration provides error codes.
-    enum ERROR
-    {
-        ERROR_CREATE_TEXTURE,
-        ERROR_CREATE_TEXTURE2,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+            //! Read pixel data.
+            void read(PixelData &, const djvBox2i &);
 
-private:
-    bool _init = false;
-    djvPixelDataInfo _info;
-    djvOpenGLImageOptions _options;
-    std::unique_ptr<djvOpenGLTexture> _texture;
-    std::unique_ptr<djvOpenGLShader> _shader;
-    std::unique_ptr<djvOpenGLTexture> _scaleXContrib;
-    std::unique_ptr<djvOpenGLTexture> _scaleYContrib;
-    std::unique_ptr<djvOpenGLShader> _scaleXShader;
-    std::unique_ptr<djvOpenGLShader> _scaleYShader;
-    std::unique_ptr<djvOpenGLLUT> _lutColorProfile;
-    std::unique_ptr<djvOpenGLLUT> _lutDisplayProfile;
-    std::unique_ptr<djvOpenGLImageMesh> _mesh;
-    std::unique_ptr<djvOpenGLOffscreenBuffer> _buffer;
-};
+            //! Read a pixel.
+            Color read(const PixelData &, int x, int y);
 
-DJV_COMPARISON_OPERATOR(djvOpenGLImageXform);
-DJV_COMPARISON_OPERATOR(djvOpenGLImageColor);
-DJV_COMPARISON_OPERATOR(djvOpenGLImageLevels);
-DJV_COMPARISON_OPERATOR(djvOpenGLImageDisplayProfile);
-DJV_COMPARISON_OPERATOR(djvOpenGLImageFilter);
-DJV_COMPARISON_OPERATOR(djvOpenGLImageOptions);
+            //! Copy pixel data.
+            void copy(
+                const PixelData &          input,
+                PixelData &                output,
+                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (djvError);
 
-DJV_STRING_OPERATOR(djvOpenGLImageXform);
-DJV_STRING_OPERATOR(djvOpenGLImageColor);
-DJV_STRING_OPERATOR(djvOpenGLImageLevels);
-DJV_STRING_OPERATOR(djvOpenGLImageFilter);
-DJV_STRING_OPERATOR(djvOpenGLImageFilter::FILTER);
-DJV_STRING_OPERATOR(djvOpenGLImageOptions::CHANNEL);
+            //! Setup OpenGL state for image drawing.
+            static void stateUnpack(
+                const PixelDataInfo & info,
+                const glm::ivec2 &    offset = glm::ivec2(0, 0));
 
-DJV_DEBUG_OPERATOR(djvOpenGLImageXform);
-DJV_DEBUG_OPERATOR(djvOpenGLImageColor);
-DJV_DEBUG_OPERATOR(djvOpenGLImageLevels);
-DJV_DEBUG_OPERATOR(djvOpenGLImageDisplayProfile);
-DJV_DEBUG_OPERATOR(djvOpenGLImageFilter);
-DJV_DEBUG_OPERATOR(djvOpenGLImageFilter::FILTER);
-DJV_DEBUG_OPERATOR(djvOpenGLImageOptions);
-DJV_DEBUG_OPERATOR(djvOpenGLImageOptions::CHANNEL);
+            //! Setup OpenGL state for image reading.
+            static void statePack(
+                const PixelDataInfo & info,
+                const glm::ivec2 &    offset = glm::ivec2(0, 0));
 
-//@} // djvGraphicsOpenGL
+            //! Calculate the average color.
+            //!
+            //! \todo Use a GPU implementation.
+            void average(
+                const PixelData &   input,
+                Color &             output,
+                const Pixel::Mask & mask = Pixel::Mask()) throw (djvError);
 
+            //! Calculate the histogram.
+            //!
+            //! \todo Use a GPU implementation.
+            void histogram(
+                const PixelData &   input,
+                PixelData &         output,
+                int                 size,
+                Color &             min,
+                Color &             max,
+                const Pixel::Mask & mask = Pixel::Mask()) throw (djvError);
+
+            //! Convert pixel data to Qt.    
+            QPixmap toQt(
+                const PixelData &          pixelData,
+                const OpenGLImageOptions & options = OpenGLImageOptions());
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_CREATE_TEXTURE,
+                ERROR_CREATE_TEXTURE2,
+
+                ERROR_COUNT
+            };
+
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+        private:
+            bool _init = false;
+            PixelDataInfo _info;
+            OpenGLImageOptions _options;
+            std::unique_ptr<OpenGLTexture> _texture;
+            std::unique_ptr<OpenGLShader> _shader;
+            std::unique_ptr<OpenGLTexture> _scaleXContrib;
+            std::unique_ptr<OpenGLTexture> _scaleYContrib;
+            std::unique_ptr<OpenGLShader> _scaleXShader;
+            std::unique_ptr<OpenGLShader> _scaleYShader;
+            std::unique_ptr<OpenGLLUT> _lutColorProfile;
+            std::unique_ptr<OpenGLLUT> _lutDisplayProfile;
+            std::unique_ptr<OpenGLImageMesh> _mesh;
+            std::unique_ptr<OpenGLOffscreenBuffer> _buffer;
+        };
+
+        DJV_COMPARISON_OPERATOR(OpenGLImageXform);
+        DJV_COMPARISON_OPERATOR(OpenGLImageColor);
+        DJV_COMPARISON_OPERATOR(OpenGLImageLevels);
+        DJV_COMPARISON_OPERATOR(OpenGLImageDisplayProfile);
+        DJV_COMPARISON_OPERATOR(OpenGLImageFilter);
+        DJV_COMPARISON_OPERATOR(OpenGLImageOptions);
+
+    } // namespace Graphics
+} // namespace djv
+
+DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageXform);
+DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageColor);
+DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageLevels);
+DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageFilter);
+DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageFilter::FILTER);
+DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageOptions::CHANNEL);
+
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageXform);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageColor);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageLevels);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageDisplayProfile);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageFilter);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageFilter::FILTER);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageOptions);
+DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageOptions::CHANNEL);

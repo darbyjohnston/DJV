@@ -54,10 +54,10 @@ namespace djv
 
                 //! This property holds the pixel.
                 Q_PROPERTY(
-                    djvPixel::PIXEL pixel
-                    READ            pixel
-                    WRITE           setPixel
-                    NOTIFY          pixelChanged)
+                    djv::Graphics::Pixel::PIXEL pixel
+                    READ                        pixel
+                    WRITE                       setPixel
+                    NOTIFY                      pixelChanged)
 
         public:
             explicit PixelWidget(QWidget * parent = nullptr);
@@ -65,15 +65,15 @@ namespace djv
             virtual ~PixelWidget();
 
             //! Get the pixel.
-            djvPixel::PIXEL pixel() const;
+            Graphics::Pixel::PIXEL pixel() const;
 
         public Q_SLOTS:
             //! Set the pixel.
-            void setPixel(djvPixel::PIXEL);
+            void setPixel(djv::Graphics::Pixel::PIXEL);
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel is changed.
-            void pixelChanged(djvPixel::PIXEL);
+            void pixelChanged(djv::Graphics::Pixel::PIXEL);
 
         private Q_SLOTS:
             void widgetCallback(int);

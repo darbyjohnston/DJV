@@ -52,17 +52,17 @@ namespace djv
 
                 //! This property holds the pixel data.
                 Q_PROPERTY(
-                    const djvPixelData * data
-                    READ                 data
-                    WRITE                setData
-                    NOTIFY               dataChanged)
+                    const djv::Graphics::PixelData * data
+                    READ                             data
+                    WRITE                            setData
+                    NOTIFY                           dataChanged)
 
                 //! This property holds the image options.
                 Q_PROPERTY(
-                    djvOpenGLImageOptions options
-                    READ                  options
-                    WRITE                 setOptions
-                    NOTIFY                optionsChanged)
+                    djv::Graphics::OpenGLImageOptions options
+                    READ                              options
+                    WRITE                             setOptions
+                    NOTIFY                            optionsChanged)
 
                 //! This property holds the view position.
                 Q_PROPERTY(
@@ -87,10 +87,10 @@ namespace djv
             virtual ~ImageView();
 
             //! Get the pixel data.
-            const djvPixelData * data() const;
+            const Graphics::PixelData * data() const;
 
             //! Get the image options.
-            const djvOpenGLImageOptions & options() const;
+            const Graphics::OpenGLImageOptions & options() const;
 
             //! Get the view position.
             const glm::ivec2 & viewPos() const;
@@ -108,10 +108,10 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the pixel data.
-            void setData(const djvPixelData *);
+            void setData(const djv::Graphics::PixelData *);
 
             //! Set the image options.
-            void setOptions(const djvOpenGLImageOptions &);
+            void setOptions(const djv::Graphics::OpenGLImageOptions &);
 
             //! Set the view position.
             void setViewPos(const glm::ivec2 &);
@@ -136,10 +136,10 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel data is changed.
-            void dataChanged(const djvPixelData *);
+            void dataChanged(const djv::Graphics::PixelData *);
 
             //! This signal is emitted when the image options are changed.
-            void optionsChanged(const djvOpenGLImageOptions &);
+            void optionsChanged(const djv::Graphics::OpenGLImageOptions &);
 
             //! This signal is emitted when the view position is changed.
             void viewPosChanged(const glm::ivec2 &);

@@ -31,10 +31,6 @@
 
 #include <djvConvertApplication.h>
 
-//------------------------------------------------------------------------------
-// main
-//------------------------------------------------------------------------------
-
 int main(int argc, char ** argv)
 {
     return djvConvertApplication(argc, argv).exec();

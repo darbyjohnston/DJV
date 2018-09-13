@@ -75,17 +75,17 @@ namespace djv
                 fileSave(0)
             {}
 
-            QStringList                             input;
-            bool                                    combine = false;
-            djvSequence::COMPRESS                   sequence = djvSequence::COMPRESS_RANGE;
-            bool                                    autoSequence = true;
-            QScopedPointer<int>                     fileLayer;
-            QScopedPointer<djvPixelDataInfo::PROXY> fileProxy;
-            QScopedPointer<bool>                    fileCacheEnable;
-            QScopedPointer<bool>                    windowFullScreen;
-            QScopedPointer<Util::PLAYBACK>          playback;
-            QScopedPointer<int>                     playbackFrame;
-            QScopedPointer<djvSpeed>                playbackSpeed;
+            QStringList                                    input;
+            bool                                           combine = false;
+            djvSequence::COMPRESS                          sequence = djvSequence::COMPRESS_RANGE;
+            bool                                           autoSequence = true;
+            QScopedPointer<int>                            fileLayer;
+            QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
+            QScopedPointer<bool>                           fileCacheEnable;
+            QScopedPointer<bool>                           windowFullScreen;
+            QScopedPointer<Util::PLAYBACK>                 playback;
+            QScopedPointer<int>                            playbackFrame;
+            QScopedPointer<djvSpeed>                       playbackSpeed;
 
             FilePrefs *                      filePrefs = nullptr;
             ImagePrefs *                     imagePrefs = nullptr;
@@ -167,7 +167,7 @@ namespace djv
             return _p->fileLayer;
         }
 
-        const QScopedPointer<djvPixelDataInfo::PROXY> & Context::fileProxy() const
+        const QScopedPointer<Graphics::PixelDataInfo::PROXY> & Context::fileProxy() const
         {
             return _p->fileProxy;
         }
@@ -299,10 +299,9 @@ namespace djv
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-file_proxy") == arg)
                     {
-                        djvPixelDataInfo::PROXY value =
-                            static_cast<djvPixelDataInfo::PROXY>(0);
+                        Graphics::PixelDataInfo::PROXY value = static_cast<Graphics::PixelDataInfo::PROXY>(0);
                         in >> value;
-                        _p->fileProxy.reset(new djvPixelDataInfo::PROXY(value));
+                        _p->fileProxy.reset(new Graphics::PixelDataInfo::PROXY(value));
                     }
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-file_cache") == arg)
@@ -410,7 +409,7 @@ namespace djv
                 arg(djvStringUtil::label(_p->sequence).join(", ")).
                 arg(djvStringUtil::boolLabels().join(", ")).
                 arg(djvStringUtil::label(_p->autoSequence).join(", ")).
-                arg(djvPixelDataInfo::proxyLabels().join(", ")).
+                arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
                 arg(djvStringUtil::boolLabels().join(", ")).
                 arg(Util::playbackLabels().join(", ")).
                 arg(djvSpeed::fpsLabels().join(", ")).

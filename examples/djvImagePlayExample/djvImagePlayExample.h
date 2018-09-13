@@ -77,11 +77,11 @@ private Q_SLOTS:
 private:
     QScopedPointer<djv::UI::UIContext>        _context;
     djvFileInfo                               _fileInfo;
-    QScopedPointer<djvImageLoad>              _load;
-    djvImageIOInfo                            _info;
-    djvImage                                  _image;
+    QScopedPointer<djv::Graphics::ImageLoad>  _load;
+    djv::Graphics::ImageIOInfo                _info;
+    djv::Graphics::Image                      _image;
     bool                                      _cache;
-    QVector<djvImage *>                       _cachedImages;
+    QVector<djv::Graphics::Image *>           _cachedImages;
     QScopedPointer<djvImagePlayExampleWidget> _widget;
     int                                       _frame;
 };

@@ -70,7 +70,7 @@ namespace djv
             int layer() const;
 
             //! Get the proxy scale.
-            djvPixelDataInfo::PROXY proxy() const;
+            Graphics::PixelDataInfo::PROXY proxy() const;
 
             //! Get whther images are converted to 8-bits.
             bool hasU8Conversion() const;
@@ -88,10 +88,10 @@ namespace djv
             qint64 preloadFrame() const;
 
             //! Get an image.
-            const djvImage * image(qint64 frame) const;
+            const Graphics::Image * image(qint64 frame) const;
 
             //! Get image I/O information.
-            const djvImageIOInfo & imageIOInfo() const;
+            const Graphics::ImageIOInfo & imageIOInfo() const;
 
             virtual QToolBar * toolBar() const;
 
@@ -103,7 +103,7 @@ namespace djv
             void setLayer(int);
 
             //! Set the proxy scale.
-            void setProxy(djvPixelDataInfo::PROXY);
+            void setProxy(djv::Graphics::PixelDataInfo::PROXY);
 
             //! Set whether images are converted to 8-bits.
             void setU8Conversion(bool);

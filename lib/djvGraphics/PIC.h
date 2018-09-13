@@ -33,75 +33,51 @@
 
 #include <QString>
 
-//! \addtogroup plugins
-//@{
-
-//!\defgroup djvPICPlugin djvPICPlugin
-//!
-//! This plugin provides support for the Softimage image file format.
-//!
-//! File extensions: .pic
-//!
-//! Supported features:
-//!
-//! - 8-bit, RGB, RGBA, RGB plus Alpha
-//! - File compression
-//! - Read only
-//!
-//! References:
-//!
-//! - Softimage, "INFO: PIC file format"
-//!   http://xsi.wiki.avid.com/index.php/INFO:_PIC_file_format
-
-//@} // plugins
-
-//! \addtogroup djvPICPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPIC
-//!
-//! This class provides PIC utilities.
-//------------------------------------------------------------------------------
-
-class djvPIC
+namespace djv
 {
-public:
-    //! The plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file types.
-    enum TYPE
+    namespace Graphics
     {
-        TYPE_RGB,
-        TYPE_RGBA,
-        TYPE_RGB_A,
+        //! \class PIC
+        //!
+        //! This class provides PIC utilities.
+        class PIC
+        {
+        public:
+            //! The plugin name.
+            static const QString staticName;
 
-        TYPE_COUNT
-    };
+            //! This enumeration provides the file types.
+            enum TYPE
+            {
+                TYPE_RGB,
+                TYPE_RGBA,
+                TYPE_RGB_A,
 
-    //! This enumeration provides the file compression.
-    enum COMPRESSION
-    {
-        COMPRESSION_NONE,
-        COMPRESSION_RLE,
+                TYPE_COUNT
+            };
 
-        COMPRESSION_COUNT
-    };
+            //! This enumeration provides the file compression.
+            enum COMPRESSION
+            {
+                COMPRESSION_NONE,
+                COMPRESSION_RLE,
 
-    //! Get the compression labels.
-    static const QStringList & compressionLabels();
+                COMPRESSION_COUNT
+            };
 
-    //! Load RLE data.
-    static const quint8 * readRle(
-        const quint8 * in,
-        const quint8 * end,
-        quint8 *       out,
-        int            size,
-        int            channels,
-        int            stride,
-        bool           endian);
-};
+            //! Get the compression labels.
+            static const QStringList & compressionLabels();
 
-//@} // djvPICPlugin
+            //! Load RLE data.
+            static const quint8 * readRle(
+                const quint8 * in,
+                const quint8 * end,
+                quint8 *       out,
+                int            size,
+                int            channels,
+                int            stride,
+                bool           endian);
+        };
 
+    } // namespace Graphics
+} // namespace djv

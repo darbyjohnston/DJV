@@ -65,6 +65,8 @@
 #include <QPaintEvent>
 #include <QVBoxLayout>
 
+using namespace djv;
+
 namespace
 {
     struct Tick
@@ -86,7 +88,7 @@ namespace
             switch (type)
             {
             case FRAME:
-                painter->setPen(djvColorUtil::lerp(
+                painter->setPen(Graphics::ColorUtil::lerp(
                     .2f,
                     palette.color(QPalette::Base),
                     palette.color(QPalette::Text)));
@@ -96,7 +98,7 @@ namespace
             case SECOND:
                 if (label.isEmpty())
                 {
-                    painter->setPen(djvColorUtil::lerp(
+                    painter->setPen(Graphics::ColorUtil::lerp(
                         .2f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
@@ -105,12 +107,12 @@ namespace
                 }
                 else
                 {
-                    painter->setPen(djvColorUtil::lerp(
+                    painter->setPen(Graphics::ColorUtil::lerp(
                         .2f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
                     painter->drawLine(x, 0, x, h - 1);
-                    painter->setPen(djvColorUtil::lerp(
+                    painter->setPen(Graphics::ColorUtil::lerp(
                         .4f,
                         palette.color(QPalette::Base),
                         palette.color(QPalette::Text)));
@@ -130,7 +132,6 @@ namespace
 
 namespace djv
 {
-
     namespace ViewLib
     {
         struct CacheSizeWidget::Private

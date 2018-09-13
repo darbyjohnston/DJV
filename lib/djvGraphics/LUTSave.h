@@ -37,37 +37,32 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvLUTPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvLUTSave
-//!
-//! This class provides a LUT saver.
-//------------------------------------------------------------------------------
-
-class djvLUTSave : public djvImageSave
+namespace djv
 {
-public:
-    djvLUTSave(const djvLUT::Options &, djvCoreContext *);
-    
-    virtual ~djvLUTSave();
+    namespace Graphics
+    {
+        //! \class LUTSave
+        //!
+        //! This class provides a LUT saver.
+        class LUTSave : public ImageSave
+        {
+        public:
+            LUTSave(const LUT::Options &, djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual ~LUTSave();
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    void _open(const djvFileInfo &) throw (djvError);
+        private:
+            void _open(const djvFileInfo &) throw (djvError);
 
-    djvLUT::Options  _options;
-    djvFileInfo      _file;
-    djvLUT::FORMAT   _format;
-    djvPixelDataInfo _info;
-    djvImage         _image;
-};
+            LUT::Options  _options;
+            djvFileInfo   _file;
+            LUT::FORMAT   _format;
+            PixelDataInfo _info;
+            Image         _image;
+        };
 
-//@} // djvLUTPlugin
-
+    } // namespace Graphics
+} // namespace djv

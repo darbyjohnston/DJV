@@ -36,41 +36,27 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvConvertOptions
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvConvertOptions::djvConvertOptions() :
     scale   (1.0),
-    channel (static_cast<djvOpenGLImageOptions::CHANNEL>(0)),
+    channel (static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0)),
     sequence(djvSequence::COMPRESS_RANGE)
 {}
 
-//------------------------------------------------------------------------------
-// djvConvertInput
-//------------------------------------------------------------------------------
-
 djvConvertInput::djvConvertInput() :
     layer      (0),
-    proxy      (static_cast<djvPixelDataInfo::PROXY>(0)),
+    proxy      (static_cast<Graphics::PixelDataInfo::PROXY>(0)),
     slateFrames(0),
     timeout    (0)
 {}
-
-//------------------------------------------------------------------------------
-// djvConvertOutput
-//------------------------------------------------------------------------------
 
 djvConvertOutput::djvConvertOutput() :
     tagsAuto(true)
 {}
 
-//------------------------------------------------------------------------------
-// djvConvertContext
-//------------------------------------------------------------------------------
-
 djvConvertContext::djvConvertContext(QObject * parent) :
-    djvGraphicsContext(parent)
+    Graphics::GraphicsContext(parent)
 {
     //DJV_DEBUG("djvConvertContext::djvConvertContext");
     
@@ -103,7 +89,7 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
     //DJV_DEBUG("djvConvertContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    if (! djvGraphicsContext::commandLineParse(in))
+    if (!Graphics::GraphicsContext::commandLineParse(in))
         return false;
 
     if (in.isEmpty())
@@ -214,9 +200,9 @@ bool djvConvertContext::commandLineParse(QStringList & in) throw (QString)
             else if (
                 qApp->translate("djvConvertContext", "-pixel") == arg)
             {
-                djvPixel::PIXEL value = static_cast<djvPixel::PIXEL>(0);
+                Graphics::Pixel::PIXEL value = static_cast<Graphics::Pixel::PIXEL>(0);
                 in >> value;
-                _output.pixel.reset(new djvPixel::PIXEL(value));
+                _output.pixel.reset(new Graphics::Pixel::PIXEL(value));
             }
             else if (
                 qApp->translate("djvConvertContext", "-speed") == arg)
@@ -411,16 +397,16 @@ QString djvConvertContext::commandLineHelp() const
 "\n"
 "    > djv_convert input.cin output.tga -cineon_input_film_print 95 685 2.2 2\n");
     return QString(label).
-        arg(djvOpenGLImageOptions::channelLabels().join(", ")).
+        arg(Graphics::OpenGLImageOptions::channelLabels().join(", ")).
         arg(djvStringUtil::label(_options.channel).join(", ")).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_options.sequence).join(", ")).
-        arg(djvPixelDataInfo::proxyLabels().join(", ")).
+        arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
         arg(djvStringUtil::label(_input.proxy).join(", ")).
         arg(_input.timeout).
-        arg(djvPixel::pixelLabels().join(", ")).
+        arg(Graphics::Pixel::pixelLabels().join(", ")).
         arg(djvSpeed::fpsLabels().join(", ")).
         arg(djvStringUtil::boolLabels().join(", ")).
         arg(djvStringUtil::label(_output.tagsAuto).join(", ")).
-        arg(djvGraphicsContext::commandLineHelp());
+        arg(Graphics::GraphicsContext::commandLineHelp());
 }

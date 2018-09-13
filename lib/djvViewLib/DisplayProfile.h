@@ -44,7 +44,7 @@ namespace djv
         //! \struct DisplayProfile
         //!
         //! This struct provides a display profile.
-        struct DisplayProfile : public djvOpenGLImageDisplayProfile
+        struct DisplayProfile : public Graphics::OpenGLImageDisplayProfile
         {
             QString     name;
             djvFileInfo lutFile;

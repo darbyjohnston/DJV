@@ -34,26 +34,33 @@
 #include <djvGraphics/IFL.h>
 #include <djvGraphics/ImageIO.h>
 
-//! \addtogroup djvIFLPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvIFLPlugin
-//!
-//! This class provides an IFL plugin.
-//------------------------------------------------------------------------------
-
-class djvIFLPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvIFLPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
-    virtual bool isSequence() const;
-    
-    virtual djvImageLoad * createLoad() const;
-};
+    namespace Graphics
+    {
+        //! \class IFLPlugin
+        //!
+        //! This plugin provides support for the Autodesk Image File List (IFL) format.
+        //! IFL is a file format for creating sequences or playlists of other image
+        //! files. An IFL file simply consists of a list of image file names, one per
+        //! line.
+        //!
+        //! File extensions: .ifl
+        //!
+        //! Supported features:
+        //!
+        //! - Read only
+        class IFLPlugin : public ImageIO
+        {
+        public:
+            explicit IFLPlugin(djvCoreContext *);
 
-//@} // djvIFLPlugin
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
+            virtual bool isSequence() const;
 
+            virtual ImageLoad * createLoad() const;
+        };
+
+    } // namespace Graphics
+} // namespace djv

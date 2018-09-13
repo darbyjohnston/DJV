@@ -37,6 +37,8 @@
 
 #include <QStringList>
 
+using namespace djv;
+
 void djvImageTagsTest::run(int &, char **)
 {
     DJV_DEBUG("djvImageTagsTest::run");
@@ -49,13 +51,13 @@ void djvImageTagsTest::ctors()
 {
     DJV_DEBUG("djvImageTagsTest::ctors");
     {
-        const djvImageTags tags;
+        const Graphics::ImageTags tags;
         DJV_ASSERT(0 == tags.count());
     }
     {
-        djvImageTags tmp;
+        Graphics::ImageTags tmp;
         tmp.add("key", "value");
-        const djvImageTags tags(tmp);
+        const Graphics::ImageTags tags(tmp);
         DJV_ASSERT(1 == tags.count());
         DJV_ASSERT("key" == tags.keys()[0]);
         DJV_ASSERT("value" == tags.values()[0]);
@@ -66,9 +68,9 @@ void djvImageTagsTest::members()
 {
     DJV_DEBUG("djvImageTagsTest::members");
     {
-        djvImageTags tmp;
+        Graphics::ImageTags tmp;
         tmp.add("key", "value");
-        djvImageTags tags;
+        Graphics::ImageTags tags;
         tags.add(tmp);
         DJV_ASSERT(1 == tags.count());
         DJV_ASSERT("key" == tags.keys()[0]);
@@ -84,7 +86,7 @@ void djvImageTagsTest::members()
         DJV_ASSERT(0 == tags.count());
     }
     {
-        DJV_DEBUG_PRINT(djvImageTags::tagLabels());
+        DJV_DEBUG_PRINT(Graphics::ImageTags::tagLabels());
     }
 }
 
@@ -92,25 +94,25 @@ void djvImageTagsTest::operators()
 {
     DJV_DEBUG("djvImageTagsTest::operators");
     {
-        djvImageTags tags;
+        Graphics::ImageTags tags;
         tags["key"] = "value";
         DJV_ASSERT("value" == tags["key"]);
-        const djvImageTags & tmp = tags;
+        const Graphics::ImageTags & tmp = tags;
         DJV_ASSERT("value" == tmp["key"]);
         tags["key 2"];
         DJV_ASSERT(2 == tags.count());
     }
     {
-        djvImageTags a, b, c;
+        Graphics::ImageTags a, b, c;
         a["key"] = "value";
         b["key"] = "value";
         c["key"] = "value 2";
         DJV_ASSERT(a == b);
         DJV_ASSERT(a != c);
-        DJV_ASSERT(a != djvImageTags());
+        DJV_ASSERT(a != Graphics::ImageTags());
     }
     {
-        djvImageTags tags;
+        Graphics::ImageTags tags;
         tags["key"] = "value";
         tags["key 2"] = "value 2";
         DJV_DEBUG_PRINT(tags);

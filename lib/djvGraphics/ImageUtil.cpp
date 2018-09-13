@@ -31,6 +31,12 @@
 
 #include <djvGraphics/ImageUtil.h>
 
-djvImageUtil::~djvImageUtil()
-{}
+namespace djv
+{
+    namespace Graphics
+    {
+        ImageUtil::~ImageUtil()
+        {}
 
+    } // namespace Graphics
+} // namespace djv

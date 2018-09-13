@@ -49,68 +49,48 @@ extern "C"
 
 #undef TRUE
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvJPEGPlugin djvJPEGPlugin
-//!
-//! This plugin provides support for the Joint Photographic Experts Group
-//! (JPEG) image file format.
-//!
-//! Requires:
-//!
-//! - libjpeg - http://www.ijg.org
-//!
-//! File extensions: .jpeg, .jpg, .jfif
-//!
-//! Supported features:
-//!
-//! - 8-bit, Luminance, RGB
-//! - File compression
-
-//@} // plugins
-
-//! \addtogroup djvJPEGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvJPEG
-//!
-//! This class provides JPEG utilities.
-//------------------------------------------------------------------------------
-
-struct djvJPEG
+namespace djv
 {
-    //! The plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the options.
-    enum OPTIONS
+    namespace Graphics
     {
-        QUALITY_OPTION,
+        //! \struct JPEG
+        //!
+        //! This class provides JPEG utilities.
+        struct JPEG
+        {
+            //! The plugin name.
+            static const QString staticName;
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                QUALITY_OPTION,
 
-    //! Get option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get option labels.
+            static const QStringList & optionsLabels();
 
-        int quality;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-//! This struct provides libjpeg error handling.
-struct djvJPEGErrorStruct
-{
-    struct libjpeg::jpeg_error_mgr pub;
-    char msg [JMSG_LENGTH_MAX];
-    jmp_buf jump;
-};
+                int quality;
+            };
+        };
+
+        //! This struct provides libjpeg error handling.
+        struct JPEGErrorStruct
+        {
+            struct libjpeg::jpeg_error_mgr pub;
+            char msg[JMSG_LENGTH_MAX];
+            jmp_buf jump;
+        };
+
+    } // namespace Graphics
+} // namespace djv
 
 extern "C" {
 
@@ -118,6 +98,3 @@ void djvJPEGError(libjpeg::j_common_ptr);
 void djvJPEGWarning(libjpeg::j_common_ptr, int);
 
 }
-
-//@} // djvJPEGPlugin
-

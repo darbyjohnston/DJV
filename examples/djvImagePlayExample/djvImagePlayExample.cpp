@@ -156,14 +156,14 @@ void djvImagePlayExampleApplication::timerEvent(QTimerEvent * event)
         arg(fps).
         arg(accum ? (average / static_cast<float>(accum)) : 0.f));
 
-    djvImage * imageP = 0;
+    Graphics::Image * imageP = 0;
     try
     {
         if (_cache)
         {
             if (_cachedImages.count() < _info.sequence.frames.count())
             {
-                djvImage * image = new djvImage;
+                Graphics::Image * image = new Graphics::Image;
                 _load->read(*image, _info.sequence.frames[_frame]);
                 _cachedImages += image;
                 imageP = image;
@@ -185,7 +185,7 @@ void djvImagePlayExampleApplication::timerEvent(QTimerEvent * event)
     if (imageP && imageP->isValid())
     {
         _widget->setData(imageP);
-        djvOpenGLImageOptions options;
+        Graphics::OpenGLImageOptions options;
         options.colorProfile = imageP->colorProfile;
         _widget->setOptions(options);
         _widget->update();

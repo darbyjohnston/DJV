@@ -33,34 +33,45 @@
 
 #include <djvGraphics/SGI.h>
 
-//------------------------------------------------------------------------------
-//! \class djvSGIPlugin
-//!
-//! This class provides a SGI plugin.
-//------------------------------------------------------------------------------
-
-class djvSGIPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvSGIPlugin(djvCoreContext *);
-    
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+    namespace Graphics
+    {
+        //! \class SGIPlugin
+        //!
+        //! This plugin provides support for the Silicon Graphics image file format.
+        //!
+        //! File extensions: .sgi, .rgba, .rgb, .bw
+        //!
+        //! Supported features:
+        //!
+        //! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA
+        //! - File compression
+        //!
+        //! References:
+        //!
+        //! - Paul Haeberli, "The SGI Image File Format, Version 1.00"
+        class SGIPlugin : public ImageIO
+        {
+        public:
+            explicit SGIPlugin(djvCoreContext *);
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-private:
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-    djvSGI::Options _options;
-};
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
-//@} // djvSGIPlugin
+        private:
+            SGI::Options _options;
+        };
 
+    } // namespace Graphics
+} // namespace djv

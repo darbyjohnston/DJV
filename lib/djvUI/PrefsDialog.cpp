@@ -161,7 +161,7 @@ namespace djv
 
             for (int i = 0; i < imageIOPlugins.count(); ++i)
             {
-                if (djvImageIO * imageIOPlugin = dynamic_cast<djvImageIO *>(imageIOPlugins[i]))
+                if (Graphics::ImageIO * imageIOPlugin = dynamic_cast<Graphics::ImageIO *>(imageIOPlugins[i]))
                 {
                     if (AbstractPrefsWidget * widget =
                         context->imageIOWidgetFactory()->createWidget(imageIOPlugin))

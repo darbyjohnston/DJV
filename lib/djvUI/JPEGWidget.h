@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            JPEGWidget(djvImageIO *, UIContext *);
+            JPEGWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~JPEGWidget();
 
@@ -63,8 +63,8 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvJPEG::Options _options;
-            IntEditSlider * _qualityWidget;
+            Graphics::JPEG::Options _options;
+            IntEditSlider * _qualityWidget = nullptr;
         };
 
         //! \class JPEGWidgetPlugin
@@ -75,7 +75,7 @@ namespace djv
         public:
             JPEGWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

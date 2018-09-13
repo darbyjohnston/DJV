@@ -37,40 +37,33 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvTIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTIFFSave
-//!
-//! This class provides a TIFF saver.
-//------------------------------------------------------------------------------
-
-class djvTIFFSave : public djvImageSave
+namespace djv
 {
-public:
-    djvTIFFSave(const djvTIFF::Options &, djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class TIFFSave
+        //!
+        //! This class provides a TIFF saver.
+        class TIFFSave : public ImageSave
+        {
+        public:
+            TIFFSave(const TIFF::Options &, djvCoreContext *);
 
-    virtual ~djvTIFFSave();
+            virtual ~TIFFSave();
 
-    virtual void open(const djvFileInfo &, const djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void close() throw (djvError);
 
-    virtual void write(const djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, const ImageIOInfo &) throw (djvError);
 
-    virtual void close() throw (djvError);
+            TIFF::Options _options;
+            djvFileInfo   _file;
+            ::TIFF *      _f;
+            PixelDataInfo _info;
+            Image         _image;
+        };
 
-private:
-    void _open(const QString &, const djvImageIOInfo &)
-        throw (djvError);
-
-    djvTIFF::Options _options;
-    djvFileInfo      _file;
-    TIFF *           _f;
-    djvPixelDataInfo _info;
-    djvImage         _image;
-};
-
-//@} // djvTIFF
-
+    } // namespace Graphics
+} // namespace djv

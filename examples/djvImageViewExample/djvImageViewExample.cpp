@@ -105,7 +105,7 @@ void djvImageViewExampleApplication::work()
 {
     try
     {
-        djvImageIOInfo info;
+        Graphics::ImageIOInfo info;
         _load.reset(_context->imageIOFactory()->load(_fileInfo, info));
         _load->read(_image);
     }
@@ -120,7 +120,7 @@ void djvImageViewExampleApplication::work()
     _widget->setWindowTitle("djvImageViewExample");
     _widget->setData(&_image);
 
-    djvOpenGLImageOptions options;
+    Graphics::OpenGLImageOptions options;
     options.colorProfile = _image.colorProfile;
     _widget->setOptions(options);
 

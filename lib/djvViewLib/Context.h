@@ -85,7 +85,7 @@ namespace djv
             const QScopedPointer<int> & fileLayer() const;
 
             //! Get the file proxy.
-            const QScopedPointer<djvPixelDataInfo::PROXY> & fileProxy() const;
+            const QScopedPointer<Graphics::PixelDataInfo::PROXY> & fileProxy() const;
 
             //! Get whether the file cache is enabled.
             const QScopedPointer<bool> & hasFileCache() const;

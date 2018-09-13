@@ -34,36 +34,44 @@
 #include <djvGraphics/ImageIO.h>
 #include <djvGraphics/LUT.h>
 
-//! \addtogroup djvLUTPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvLUTPlugin
-//!
-//! This class provides a LUT plugin.
-//------------------------------------------------------------------------------
-
-class djvLUTPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvLUTPlugin(djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class LUTPlugin
+        //!
+        //! This plugin provides support for two-dimensional lookup table file formats.
+        //!
+        //! File extensions: .lut, .1dl
+        //!
+        //! Supported features:
+        //!
+        //! - Inferno and Kodak formats
+        //! - 8-bit, 16-bit, Luminance, Luminance Alpha, RGB, RGBA; 10-bit RGB
+        //!
+        //! \todo Add support for detecting whether the input LUT file is horizontal
+        //! or vertical.
+        class LUTPlugin : public ImageIO
+        {
+        public:
+            explicit LUTPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
 
-private:
-    djvLUT::Options _options;
-};
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
 
-//@} // djvLUTPlugin
+        private:
+            LUT::Options _options;
+        };
 
+    } // namespace Graphics
+} // namespace djv

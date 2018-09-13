@@ -39,187 +39,189 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvCineonPlugin
-//------------------------------------------------------------------------------
-
-djvCineonPlugin::djvCineonPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-djvCineonPlugin::~djvCineonPlugin()
-{}
-
-QString djvCineonPlugin::pluginName() const
+namespace djv
 {
-    return djvCineon::staticName;
-}
+    namespace Graphics
+    {
+        CineonPlugin::CineonPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-QStringList djvCineonPlugin::extensions() const
-{
-    return QStringList() << ".cin";
-}
+        CineonPlugin::~CineonPlugin()
+        {}
 
-QStringList djvCineonPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvCineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputColorProfile;
-    }
-    else if (0 == in.compare(options()[djvCineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputFilmPrint;
-    }
-    else if (0 == in.compare(options()[djvCineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.outputColorProfile;
-    }
-    else if (0 == in.compare(options()[djvCineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.outputFilmPrint;
-    }
-    return out;
-}
-
-bool djvCineonPlugin::setOption(const QString & in, QStringList & data)
-{
-    //DJV_DEBUG("djvCineonPlugin::setOption");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("data = " << data);
-    try
-    {
-        if (0 == in.compare(options()[djvCineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        QString CineonPlugin::pluginName() const
         {
-            djvCineon::COLOR_PROFILE colorProfile =
-                static_cast<djvCineon::COLOR_PROFILE>(0);
-            data >> colorProfile;
-            if (colorProfile != _options.inputColorProfile)
-            {
-                //DJV_DEBUG_PRINT("color profile = " << colorProfile);
-                _options.inputColorProfile = colorProfile;
-                Q_EMIT optionChanged(in);
-            }
+            return Cineon::staticName;
         }
-        else if (0 == in.compare(options()[djvCineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+
+        QStringList CineonPlugin::extensions() const
         {
-            djvCineon::FilmPrintToLinear filmPrint;
-            data >> filmPrint;
-            if (filmPrint != _options.inputFilmPrint)
-            {
-                _options.inputFilmPrint = filmPrint;
-                Q_EMIT optionChanged(in);
-            }
+            return QStringList() << ".cin";
         }
-        else if (0 == in.compare(options()[djvCineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+
+        QStringList CineonPlugin::option(const QString & in) const
         {
-            djvCineon::COLOR_PROFILE colorProfile =
-                static_cast<djvCineon::COLOR_PROFILE>(0);
-            data >> colorProfile;
-            if (colorProfile != _options.outputColorProfile)
+            QStringList out;
+            if (0 == in.compare(options()[Cineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
             {
-                _options.outputColorProfile = colorProfile;
-                Q_EMIT optionChanged(in);
+                out << _options.inputColorProfile;
             }
+            else if (0 == in.compare(options()[Cineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.inputFilmPrint;
+            }
+            else if (0 == in.compare(options()[Cineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.outputColorProfile;
+            }
+            else if (0 == in.compare(options()[Cineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.outputFilmPrint;
+            }
+            return out;
         }
-        else if (0 == in.compare(options()[djvCineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+
+        bool CineonPlugin::setOption(const QString & in, QStringList & data)
         {
-            djvCineon::LinearToFilmPrint filmPrint;
-            data >> filmPrint;
-            if (filmPrint != _options.outputFilmPrint)
+            //DJV_DEBUG("CineonPlugin::setOption");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("data = " << data);
+            try
             {
-                _options.outputFilmPrint = filmPrint;            
-                Q_EMIT optionChanged(in);
+                if (0 == in.compare(options()[Cineon::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::COLOR_PROFILE colorProfile =
+                        static_cast<Cineon::COLOR_PROFILE>(0);
+                    data >> colorProfile;
+                    if (colorProfile != _options.inputColorProfile)
+                    {
+                        //DJV_DEBUG_PRINT("color profile = " << colorProfile);
+                        _options.inputColorProfile = colorProfile;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[Cineon::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::FilmPrintToLinear filmPrint;
+                    data >> filmPrint;
+                    if (filmPrint != _options.inputFilmPrint)
+                    {
+                        _options.inputFilmPrint = filmPrint;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[Cineon::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::COLOR_PROFILE colorProfile =
+                        static_cast<Cineon::COLOR_PROFILE>(0);
+                    data >> colorProfile;
+                    if (colorProfile != _options.outputColorProfile)
+                    {
+                        _options.outputColorProfile = colorProfile;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[Cineon::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::LinearToFilmPrint filmPrint;
+                    data >> filmPrint;
+                    if (filmPrint != _options.outputFilmPrint)
+                    {
+                        _options.outputFilmPrint = filmPrint;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
             }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvCineonPlugin::options() const
-{
-    return djvCineon::optionsLabels();
-}
-
-void djvCineonPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList CineonPlugin::options() const
         {
-            in >> arg;
-            if (
-                qApp->translate("djvCineonPlugin", "-cineon_input_color_profile") == arg)
-            {
-                in >> _options.inputColorProfile;
-            }
-            else if (
-                qApp->translate("djvCineonPlugin", "-cineon_input_film_print") == arg)
-            {
-                in >> _options.inputFilmPrint;
-            }
-            else if (
-                qApp->translate("djvCineonPlugin", "-cineon_output_color_profile") == arg)
-            {
-                in >> _options.outputColorProfile;
-            }
-            else if (
-                qApp->translate("djvCineonPlugin", "-cineon_output_film_print") == arg)
-            {
-                in >> _options.outputFilmPrint;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return Cineon::optionsLabels();
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvCineonPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvCineonPlugin",
-"\n"
-"Cineon Options\n"
-"\n"
-"    -cineon_input_color_profile (value)\n"
-"        Set the color profile used when loading Cineon images. Options = %1. "
-"Default = %2.\n"
-"    -cineon_input_film_print (black) (white) (gamma) (soft clip)\n"
-"        Set the film print values used when loading Cineon images. Default = "
-"%3.\n"
-"    -cineon_output_color_profile (value)\n"
-"        Set the color profile used when saving Cineon images. Options = %4. "
-"Default = %5.\n"
-"    -cineon_output_film_print (black) (white) (gamma) (soft clip)\n"
-"        Set the film print values used when saving Cineon images. Default = "
-"%6.\n").
-    arg(djvCineon::colorProfileLabels().join(", ")).
-    arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
-    arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
-    arg(djvCineon::colorProfileLabels().join(", ")).
-    arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
-    arg(djvStringUtil::label(_options.outputFilmPrint).join(", "));
-}
+        void CineonPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (
+                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_input_color_profile") == arg)
+                    {
+                        in >> _options.inputColorProfile;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::CineonPlugin", "-cineon_input_film_print") == arg)
+                    {
+                        in >> _options.inputFilmPrint;
+                    }
+                    else if (
+                        qApp->translate("vCineonPlugin", "-cineon_output_color_profile") == arg)
+                    {
+                        in >> _options.outputColorProfile;
+                    }
+                    else if (
+                        qApp->translate("vCineonPlugin", "-cineon_output_film_print") == arg)
+                    {
+                        in >> _options.outputFilmPrint;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
 
-djvImageLoad * djvCineonPlugin::createLoad() const
-{
-    return new djvCineonLoad(_options, context());
-}
+        QString CineonPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::CineonPlugin",
+                "\n"
+                "Cineon Options\n"
+                "\n"
+                "    -cineon_input_color_profile (value)\n"
+                "        Set the color profile used when loading Cineon images. Options = %1. "
+                "Default = %2.\n"
+                "    -cineon_input_film_print (black) (white) (gamma) (soft clip)\n"
+                "        Set the film print values used when loading Cineon images. Default = "
+                "%3.\n"
+                "    -cineon_output_color_profile (value)\n"
+                "        Set the color profile used when saving Cineon images. Options = %4. "
+                "Default = %5.\n"
+                "    -cineon_output_film_print (black) (white) (gamma) (soft clip)\n"
+                "        Set the film print values used when saving Cineon images. Default = "
+                "%6.\n").
+                arg(Cineon::colorProfileLabels().join(", ")).
+                arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
+                arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
+                arg(Cineon::colorProfileLabels().join(", ")).
+                arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
+                arg(djvStringUtil::label(_options.outputFilmPrint).join(", "));
+        }
 
-djvImageSave * djvCineonPlugin::createSave() const
-{
-    return new djvCineonSave(_options, context());
-}
+        ImageLoad * CineonPlugin::createLoad() const
+        {
+            return new CineonLoad(_options, context());
+        }
 
+        ImageSave * CineonPlugin::createSave() const
+        {
+            return new CineonSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

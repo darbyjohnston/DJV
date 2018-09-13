@@ -39,328 +39,331 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvOpenEXRPlugin
-//------------------------------------------------------------------------------
-
-djvOpenEXRPlugin::djvOpenEXRPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-namespace
+namespace djv
 {
-int refCount = 0;
+    namespace Graphics
+    {
+        OpenEXRPlugin::OpenEXRPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-} // namespace
+        namespace
+        {
+            int refCount = 0;
 
-void djvOpenEXRPlugin::initPlugin() throw (djvError)
-{
-    ++refCount;
-    if (refCount > 1)
-        return;
-    //DJV_DEBUG("djvOpenEXRPlugin::initPlugin");
-    //DJV_DEBUG_PRINT("ref count = " << refCount);
-    threadsUpdate();
-}
+        } // namespace
 
-void djvOpenEXRPlugin::releasePlugin()
-{
-    --refCount;
-    if (refCount)
-        return;
-    //DJV_DEBUG("djvOpenEXRPlugin::releasePlugin");
-    //DJV_DEBUG_PRINT("ref count = " << refCount);
+        void OpenEXRPlugin::initPlugin() throw (djvError)
+        {
+            ++refCount;
+            if (refCount > 1)
+                return;
+            //DJV_DEBUG("OpenEXRPlugin::initPlugin");
+            //DJV_DEBUG_PRINT("ref count = " << refCount);
+            threadsUpdate();
+        }
+
+        void OpenEXRPlugin::releasePlugin()
+        {
+            --refCount;
+            if (refCount)
+                return;
+            //DJV_DEBUG("OpenEXRPlugin::releasePlugin");
+            //DJV_DEBUG_PRINT("ref count = " << refCount);
 #if defined(DJV_WINDOWS)
     //! \todo Is is still necessary to reset the global thread cound on
     //! Windows?
     //Imf::setGlobalThreadCount(0);
 #endif // DJV_WINDOWS
-}
+        }
 
-QString djvOpenEXRPlugin::pluginName() const
-{
-    return djvOpenEXR::staticName;
-}
+        QString OpenEXRPlugin::pluginName() const
+        {
+            return OpenEXR::staticName;
+        }
 
-QStringList djvOpenEXRPlugin::extensions() const
-{
-    return QStringList() << ".exr";
-}
+        QStringList OpenEXRPlugin::extensions() const
+        {
+            return QStringList() << ".exr";
+        }
 
-QStringList djvOpenEXRPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvOpenEXR::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.threadsEnable;
-    }
-    else if (0 == in.compare(options()[djvOpenEXR::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.threadCount;
-    }
-    else if (0 == in.compare(options()[djvOpenEXR::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputColorProfile;
-    }
-    else if (0 == in.compare(options()[djvOpenEXR::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputGamma;
-    }
-    else if (0 == in.compare(options()[djvOpenEXR::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputExposure;
-    }
-    else if (0 == in.compare(options()[djvOpenEXR::CHANNELS_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.channels;
-    }
-    else if (0 == in.compare(options()[djvOpenEXR::COMPRESSION_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.compression;
-    }
-#if OPENEXR_VERSION_HEX >= 0x02020000
-    else if (0 == in.compare(options()[djvOpenEXR::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.dwaCompressionLevel;
-    }
-#endif // OPENEXR_VERSION_HEX
-    return out;
-}
-
-bool djvOpenEXRPlugin::setOption(const QString & in, QStringList & data)
-{
-    //DJV_DEBUG("djvOpenEXRPlugin::setOption");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("data = " << data);
-    try
-    {
-        if (0 == in.compare(options()[djvOpenEXR::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
+        QStringList OpenEXRPlugin::option(const QString & in) const
         {
-            bool enable = false;
-            data >> enable;
-            if (enable != _options.threadsEnable)
+            QStringList out;
+            if (0 == in.compare(options()[OpenEXR::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
             {
-                _options.threadsEnable = enable;
-                threadsUpdate();
-                Q_EMIT optionChanged(in);
+                out << _options.threadsEnable;
             }
-        }
-        else if (0 == in.compare(options()[djvOpenEXR::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
-        {
-            int threadCount = 0;
-            data >> threadCount;
-            if (threadCount != _options.threadCount)
+            else if (0 == in.compare(options()[OpenEXR::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
             {
-                _options.threadCount = threadCount;
-                threadsUpdate();
-                Q_EMIT optionChanged(in);
+                out << _options.threadCount;
             }
-        }
-        else if (0 == in.compare(options()[djvOpenEXR::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-        {
-            djvOpenEXR::COLOR_PROFILE colorProfile = static_cast<djvOpenEXR::COLOR_PROFILE>(0);
-            data >> colorProfile;
-            if (colorProfile != _options.inputColorProfile)
+            else if (0 == in.compare(options()[OpenEXR::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
             {
-                _options.inputColorProfile = colorProfile;
-                Q_EMIT optionChanged(in);
+                out << _options.inputColorProfile;
             }
-        }
-        else if (0 == in.compare(options()[djvOpenEXR::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
-        {
-            float gamma = 0.f;
-            data >> gamma;
-            if (gamma != _options.inputGamma)
+            else if (0 == in.compare(options()[OpenEXR::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
             {
-                _options.inputGamma = gamma;
-                Q_EMIT optionChanged(in);
+                out << _options.inputGamma;
             }
-        }
-        else if (0 == in.compare(options()[djvOpenEXR::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
-        {
-            djvColorProfile::Exposure exposure;
-            data >> exposure;
-            if (exposure != _options.inputExposure)
+            else if (0 == in.compare(options()[OpenEXR::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
             {
-                _options.inputExposure = exposure;
-                Q_EMIT optionChanged(in);
+                out << _options.inputExposure;
             }
-        }
-        else if (0 == in.compare(options()[djvOpenEXR::CHANNELS_OPTION], Qt::CaseInsensitive))
-        {
-            djvOpenEXR::CHANNELS channels = static_cast<djvOpenEXR::CHANNELS>(0);
-            data >> channels;
-            if (channels != _options.channels)
+            else if (0 == in.compare(options()[OpenEXR::CHANNELS_OPTION], Qt::CaseInsensitive))
             {
-                _options.channels = channels;
-                Q_EMIT optionChanged(in);
+                out << _options.channels;
             }
-        }
-        else if (0 == in.compare(options()[djvOpenEXR::COMPRESSION_OPTION], Qt::CaseInsensitive))
-        {
-            djvOpenEXR::COMPRESSION compression = static_cast<djvOpenEXR::COMPRESSION>(0);
-            data >> compression;
-            if (compression != _options.compression)
+            else if (0 == in.compare(options()[OpenEXR::COMPRESSION_OPTION], Qt::CaseInsensitive))
             {
-                _options.compression = compression;
-                Q_EMIT optionChanged(in);
-            }
-        }
-#if OPENEXR_VERSION_HEX >= 0x02020000
-        else if (0 == in.compare(options()[djvOpenEXR::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
-        {
-            float compressionLevel = 0.f;
-            data >> compressionLevel;
-            if (! djvMath::fuzzyCompare(
-                compressionLevel,
-                _options.dwaCompressionLevel))
-            {
-                _options.dwaCompressionLevel = compressionLevel;
-                Q_EMIT optionChanged(in);
-            }
-        }
-#endif // OPENEXR_VERSION_HEX
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
-
-QStringList djvOpenEXRPlugin::options() const
-{
-    return djvOpenEXR::optionsLabels();
-}
-
-void djvOpenEXRPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
-        {
-            in >> arg;
-            if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_threads_enable") == arg)
-            {
-                in >> _options.threadsEnable;
-            }
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_thread_count") == arg)
-            {
-                in >> _options.threadCount;
-            }
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_input_color_profile") == arg)
-            {
-                in >> _options.inputColorProfile;
-            }
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_input_gamma") == arg)
-            {
-                in >> _options.inputGamma;
-            }
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_input_exposure") == arg)
-            {
-                in >> _options.inputExposure;
-            }
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_channels") == arg)
-            {
-                in >> _options.channels;
-            }
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_compression") == arg)
-            {
-                in >> _options.compression;
+                out << _options.compression;
             }
 #if OPENEXR_VERSION_HEX >= 0x02020000
-            else if (
-                qApp->translate("djvOpenEXRPlugin", "-exr_dwa_compression_level") == arg)
+            else if (0 == in.compare(options()[OpenEXR::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
             {
-                in >> _options.dwaCompressionLevel;
+                out << _options.dwaCompressionLevel;
             }
 #endif // OPENEXR_VERSION_HEX
-            else
-            {
-                tmp << arg;
-            }
+            return out;
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvOpenEXRPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvOpenEXRPlugin",
-"\n"
-"OpenEXR Options\n"
-"\n"
-"    -exr_threads_enable (value)\n"
-"        Set whether threading is enabled. Default = %1.\n"
-"    -exr_thread_count (value)\n"
-"        Set the maximum number of threads to use. Default = %2.\n"
-"    -exr_input_color_profile (value)\n"
-"        Set the color profile used when loading OpenEXR images. Options = "
-"%3. Default = %4.\n"
-"    -exr_input_gamma (value)\n"
-"        Set the gamma values used when loading OpenEXR images. Default = "
-"%5.\n"
-"    -exr_input_exposure (value) (defog) (knee low) (knee high)\n"
-"        Set the exposure values used when loading OpenEXR images. Default = "
-"%6.\n"
-"    -exr_channels (value)\n"
-"        Set how channels are grouped when loading OpenEXR images. Options = "
-"%7. Default = %8.\n"
-"    -exr_compression (value)\n"
-"        Set the file compression used when saving OpenEXR images. Options = "
-"%9. Default = %10.\n"
+        bool OpenEXRPlugin::setOption(const QString & in, QStringList & data)
+        {
+            //DJV_DEBUG("OpenEXRPlugin::setOption");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("data = " << data);
+            try
+            {
+                if (0 == in.compare(options()[OpenEXR::THREADS_ENABLE_OPTION], Qt::CaseInsensitive))
+                {
+                    bool enable = false;
+                    data >> enable;
+                    if (enable != _options.threadsEnable)
+                    {
+                        _options.threadsEnable = enable;
+                        threadsUpdate();
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[OpenEXR::THREAD_COUNT_OPTION], Qt::CaseInsensitive))
+                {
+                    int threadCount = 0;
+                    data >> threadCount;
+                    if (threadCount != _options.threadCount)
+                    {
+                        _options.threadCount = threadCount;
+                        threadsUpdate();
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[OpenEXR::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                {
+                    OpenEXR::COLOR_PROFILE colorProfile = static_cast<OpenEXR::COLOR_PROFILE>(0);
+                    data >> colorProfile;
+                    if (colorProfile != _options.inputColorProfile)
+                    {
+                        _options.inputColorProfile = colorProfile;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[OpenEXR::INPUT_GAMMA_OPTION], Qt::CaseInsensitive))
+                {
+                    float gamma = 0.f;
+                    data >> gamma;
+                    if (gamma != _options.inputGamma)
+                    {
+                        _options.inputGamma = gamma;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[OpenEXR::INPUT_EXPOSURE_OPTION], Qt::CaseInsensitive))
+                {
+                    ColorProfile::Exposure exposure;
+                    data >> exposure;
+                    if (exposure != _options.inputExposure)
+                    {
+                        _options.inputExposure = exposure;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[OpenEXR::CHANNELS_OPTION], Qt::CaseInsensitive))
+                {
+                    OpenEXR::CHANNELS channels = static_cast<OpenEXR::CHANNELS>(0);
+                    data >> channels;
+                    if (channels != _options.channels)
+                    {
+                        _options.channels = channels;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[OpenEXR::COMPRESSION_OPTION], Qt::CaseInsensitive))
+                {
+                    OpenEXR::COMPRESSION compression = static_cast<OpenEXR::COMPRESSION>(0);
+                    data >> compression;
+                    if (compression != _options.compression)
+                    {
+                        _options.compression = compression;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
 #if OPENEXR_VERSION_HEX >= 0x02020000
-"    -exr_dwa_compression_level (value)\n"
-"        Set the DWA compression level used when saving OpenEXR images. "
-"Default = %11.\n"
+                else if (0 == in.compare(options()[OpenEXR::DWA_COMPRESSION_LEVEL_OPTION], Qt::CaseInsensitive))
+                {
+                    float compressionLevel = 0.f;
+                    data >> compressionLevel;
+                    if (!djvMath::fuzzyCompare(
+                        compressionLevel,
+                        _options.dwaCompressionLevel))
+                    {
+                        _options.dwaCompressionLevel = compressionLevel;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
 #endif // OPENEXR_VERSION_HEX
-    ).
-    arg(djvStringUtil::label(_options.threadsEnable).join(", ")).
-    arg(djvStringUtil::label(_options.threadCount).join(", ")).
-    arg(djvOpenEXR::colorProfileLabels().join(", ")).
-    arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
-    arg(djvStringUtil::label(_options.inputGamma).join(", ")).
-    arg(djvStringUtil::label(_options.inputExposure).join(", ")).
-    arg(djvOpenEXR::channelsLabels().join(", ")).
-    arg(djvStringUtil::label(_options.channels).join(", ")).
-    arg(djvOpenEXR::compressionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.compression).join(", "))
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        QStringList OpenEXRPlugin::options() const
+        {
+            return OpenEXR::optionsLabels();
+        }
+
+        void OpenEXRPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_threads_enable") == arg)
+                    {
+                        in >> _options.threadsEnable;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_thread_count") == arg)
+                    {
+                        in >> _options.threadCount;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_input_color_profile") == arg)
+                    {
+                        in >> _options.inputColorProfile;
+                    }
+                    else if (
+                        qApp->translate("vOpenEXRPlugin", "-exr_input_gamma") == arg)
+                    {
+                        in >> _options.inputGamma;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_input_exposure") == arg)
+                    {
+                        in >> _options.inputExposure;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_channels") == arg)
+                    {
+                        in >> _options.channels;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_compression") == arg)
+                    {
+                        in >> _options.compression;
+                    }
 #if OPENEXR_VERSION_HEX >= 0x02020000
-    .
-    arg(_options.dwaCompressionLevel)
+                    else if (
+                        qApp->translate("djv::Graphics::OpenEXRPlugin", "-exr_dwa_compression_level") == arg)
+                    {
+                        in >> _options.dwaCompressionLevel;
+                    }
 #endif // OPENEXR_VERSION_HEX
-    ;
-}
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
 
-djvImageLoad * djvOpenEXRPlugin::createLoad() const
-{
-    return new djvOpenEXRLoad(_options, context());
-}
+        QString OpenEXRPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::OpenEXRPlugin",
+                "\n"
+                "OpenEXR Options\n"
+                "\n"
+                "    -exr_threads_enable (value)\n"
+                "        Set whether threading is enabled. Default = %1.\n"
+                "    -exr_thread_count (value)\n"
+                "        Set the maximum number of threads to use. Default = %2.\n"
+                "    -exr_input_color_profile (value)\n"
+                "        Set the color profile used when loading OpenEXR images. Options = "
+                "%3. Default = %4.\n"
+                "    -exr_input_gamma (value)\n"
+                "        Set the gamma values used when loading OpenEXR images. Default = "
+                "%5.\n"
+                "    -exr_input_exposure (value) (defog) (knee low) (knee high)\n"
+                "        Set the exposure values used when loading OpenEXR images. Default = "
+                "%6.\n"
+                "    -exr_channels (value)\n"
+                "        Set how channels are grouped when loading OpenEXR images. Options = "
+                "%7. Default = %8.\n"
+                "    -exr_compression (value)\n"
+                "        Set the file compression used when saving OpenEXR images. Options = "
+                "%9. Default = %10.\n"
+#if OPENEXR_VERSION_HEX >= 0x02020000
+                "    -exr_dwa_compression_level (value)\n"
+                "        Set the DWA compression level used when saving OpenEXR images. "
+                "Default = %11.\n"
+#endif // OPENEXR_VERSION_HEX
+            ).
+                arg(djvStringUtil::label(_options.threadsEnable).join(", ")).
+                arg(djvStringUtil::label(_options.threadCount).join(", ")).
+                arg(OpenEXR::colorProfileLabels().join(", ")).
+                arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
+                arg(djvStringUtil::label(_options.inputGamma).join(", ")).
+                arg(djvStringUtil::label(_options.inputExposure).join(", ")).
+                arg(OpenEXR::channelsLabels().join(", ")).
+                arg(djvStringUtil::label(_options.channels).join(", ")).
+                arg(OpenEXR::compressionLabels().join(", ")).
+                arg(djvStringUtil::label(_options.compression).join(", "))
+#if OPENEXR_VERSION_HEX >= 0x02020000
+                .
+                arg(_options.dwaCompressionLevel)
+#endif // OPENEXR_VERSION_HEX
+                ;
+        }
 
-djvImageSave * djvOpenEXRPlugin::createSave() const
-{
-    return new djvOpenEXRSave(_options, context());
-}
+        ImageLoad * OpenEXRPlugin::createLoad() const
+        {
+            return new OpenEXRLoad(_options, context());
+        }
 
-void djvOpenEXRPlugin::threadsUpdate()
-{
-    //DJV_DEBUG("djvOpenEXRPlugin::threadsUpdate");
-    //DJV_DEBUG_PRINT("this = " << uint64_t(this));
-    //DJV_DEBUG_PRINT("threads = " << _options.threadsEnable);
-    //DJV_DEBUG_PRINT("thread count = " << _options.threadsCount);
-    Imf::setGlobalThreadCount(
-        _options.threadsEnable ? _options.threadCount : 0);
-}
+        ImageSave * OpenEXRPlugin::createSave() const
+        {
+            return new OpenEXRSave(_options, context());
+        }
+
+        void OpenEXRPlugin::threadsUpdate()
+        {
+            //DJV_DEBUG("OpenEXRPlugin::threadsUpdate");
+            //DJV_DEBUG_PRINT("this = " << uint64_t(this));
+            //DJV_DEBUG_PRINT("threads = " << _options.threadsEnable);
+            //DJV_DEBUG_PRINT("thread count = " << _options.threadsCount);
+            Imf::setGlobalThreadCount(_options.threadsEnable ? _options.threadCount : 0);
+        }
+
+    } // namespace Graphics
+} // namespace djv
+

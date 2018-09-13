@@ -93,11 +93,11 @@ namespace djv
             float playbackSpeedTmp = 0.f;
             ToolGroup * toolGroup = nullptr;
             HelpGroup * helpGroup = nullptr;
-            const djvImage * imageP = nullptr;
-            djvImage imageTmp;
+            const Graphics::Image * imageP = nullptr;
+            Graphics::Image imageTmp;
             glm::ivec2 imagePick = glm::ivec2(0, 0);
-            djvColor imageSample;
-            std::unique_ptr<djvOpenGLImage> openGLImage;
+            Graphics::Color imageSample;
+            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             bool sampleInit = false;
             ImageView * viewWidget = nullptr;
             UI::ColorSwatch * infoSwatch = nullptr;
@@ -294,11 +294,11 @@ namespace djv
                 SLOT(fileCacheUpdate()));
             connect(
                 context->UIContext::imagePrefs(),
-                SIGNAL(filterChanged(const djvOpenGLImageFilter &)),
+                SIGNAL(filterChanged(const djv::Graphics::OpenGLImageFilter &)),
                 SLOT(imageUpdate()));
             connect(
                 context->viewPrefs(),
-                SIGNAL(backgroundChanged(const djvColor &)),
+                SIGNAL(backgroundChanged(const djv::Graphics::Color &)),
                 SLOT(imageUpdate()));
         }
 
@@ -307,7 +307,7 @@ namespace djv
             //DJV_DEBUG("MainWindow::~MainWindow");
         }
 
-        const djvImageIOInfo & MainWindow::imageIOInfo() const
+        const Graphics::ImageIOInfo & MainWindow::imageIOInfo() const
         {
             return _p->fileGroup->imageIOInfo();
         }
@@ -424,7 +424,7 @@ namespace djv
             _p->fileGroup->setLayer(in);
         }
 
-        void MainWindow::setFileProxy(djvPixelDataInfo::PROXY in)
+        void MainWindow::setFileProxy(Graphics::PixelDataInfo::PROXY in)
         {
             _p->fileGroup->setProxy(in);
         }
@@ -702,10 +702,10 @@ namespace djv
             {
                 //DJV_DEBUG_PRINT("image = " << *_p->imageP);
             }
-            const djvImage * image = this->image();
+            const Graphics::Image * image = this->image();
 
             // Update the information tool bar.
-            djvPixelDataInfo info;
+            Graphics::PixelDataInfo info;
             if (image)
             {
                 info = image->info();
@@ -779,7 +779,7 @@ namespace djv
 
             //! Update the HUD.
             HudInfo hudInfo;
-            const djvImage * image = this->image();
+            const Graphics::Image * image = this->image();
             if (image)
             {
                 hudInfo.info = image->info();
@@ -807,7 +807,7 @@ namespace djv
             _p->context->makeGLContextCurrent();
             if (!_p->openGLImage)
             {
-                _p->openGLImage.reset(new djvOpenGLImage);
+                _p->openGLImage.reset(new Graphics::OpenGLImage);
             }
 
             // Update the info bar with pixel information.
@@ -815,17 +815,17 @@ namespace djv
                 glm::vec2(_p->imagePick - _p->viewWidget->viewPos()) /
                 _p->viewWidget->viewZoom());
             //DJV_DEBUG_PRINT("pick = " << pick);
-            djvOpenGLImageOptions options = imageOptions();
+            Graphics::OpenGLImageOptions options = imageOptions();
             _p->imageSample = options.background;
-            const djvImage * image = this->image();
+            const Graphics::Image * image = this->image();
             if (image && _p->windowGroup->toolBarVisible()[Util::INFO_BAR])
             {
                 //DJV_DEBUG_PRINT("sample");
                 try
                 {
                     _p->context->makeGLContextCurrent();
-                    djvPixelData tmp(djvPixelDataInfo(glm::ivec2(1, 1), image->pixel()));
-                    djvOpenGLImageOptions _options = options;
+                    Graphics::PixelData tmp(Graphics::PixelDataInfo(glm::ivec2(1, 1), image->pixel()));
+                    Graphics::OpenGLImageOptions _options = options;
                     _options.xform.position -= pick;
                     _p->openGLImage->copy(*image, tmp, _options);
                     _p->openGLImage->average(tmp, _p->imageSample);
@@ -864,16 +864,16 @@ namespace djv
             }
         }
 
-        const djvImage * MainWindow::image() const
+        const Graphics::Image * MainWindow::image() const
         {
             return _p->imageGroup->hasFrameStore() ? &_p->imageTmp : _p->imageP;
         }
 
-        djvOpenGLImageOptions MainWindow::imageOptions() const
+        Graphics::OpenGLImageOptions MainWindow::imageOptions() const
         {
-            djvOpenGLImageOptions out;
+            Graphics::OpenGLImageOptions out;
             out.xform.mirror = _p->imageGroup->mirror();
-            const djvImage * image = this->image();
+            const Graphics::Image * image = this->image();
             if (image)
             {
                 out.xform.scale = Util::imageScale(

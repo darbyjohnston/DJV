@@ -105,7 +105,7 @@ namespace djv
             bool colorProfile = true;
             bool displayProfile = true;
             bool pixelDataInit = false;
-            std::unique_ptr<djvOpenGLImage> openGLImage;
+            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             Widget * widget = nullptr;
             UI::IntEditSlider * slider = nullptr;
             UI::ToolButton * colorProfileButton = nullptr;
@@ -252,11 +252,11 @@ namespace djv
             //DJV_DEBUG("MagnifyTool::pixelDataUpdate");
             djvSignalBlocker signalBlocker(QObjectList() <<
                 _p->widget);
-            djvPixelData tmp(djvPixelDataInfo(
+            Graphics::PixelData tmp(Graphics::PixelDataInfo(
                 _p->widget->width(),
                 _p->widget->height(),
-                djvPixel::RGB_U8));
-            if (const djvPixelData * data = viewWidget()->data())
+                Graphics::Pixel::RGB_U8));
+            if (const Graphics::PixelData * data = viewWidget()->data())
             {
                 //DJV_DEBUG_PRINT("data = " << *data);
                 const float zoom = djvMath::pow(2, _p->zoom);
@@ -270,14 +270,14 @@ namespace djv
                     context()->makeGLContextCurrent();
                     if (!_p->openGLImage)
                     {
-                        _p->openGLImage.reset(new djvOpenGLImage);
+                        _p->openGLImage.reset(new Graphics::OpenGLImage);
                     }
-                    djvOpenGLImageOptions options = viewWidget()->options();
+                    Graphics::OpenGLImageOptions options = viewWidget()->options();
                     options.xform.position -= pick;
                     options.xform.scale *= zoom * viewWidget()->viewZoom();
                     if (!_p->colorProfile)
                     {
-                        options.colorProfile = djvColorProfile();
+                        options.colorProfile = Graphics::ColorProfile();
                     }
                     if (!_p->displayProfile)
                     {

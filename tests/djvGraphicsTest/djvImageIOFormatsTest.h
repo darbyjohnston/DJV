@@ -36,7 +36,14 @@
 #include <djvGraphics/Image.h>
 #include <djvGraphics/ImageIO.h>
 
-class djvGraphicsContext;
+namespace djv
+{
+    namespace Graphics
+    {
+        class GraphicsContext;
+
+    } // namespace Graphics
+} // namespace djv
 
 class djvImageIOFormatsTest : public djvAbstractTest
 {
@@ -44,14 +51,14 @@ public:
     virtual void run(int &, char **);
 
 private:
-    void initPlugins(djvGraphicsContext *);
+    void initPlugins(djv::Graphics::GraphicsContext *);
     void initData();
     void initImages();
-    void runTest(djvImageIO *, const djvImage &);
+    void runTest(djv::Graphics::ImageIO *, const djv::Graphics::Image &);
 
-    QVector<glm::ivec2>      _sizes;
-    QVector<djvPixel::PIXEL> _pixels;
-    QVector<djvImage>        _images;
-    QVector<djvPlugin *>     _plugins;
+    QVector<glm::ivec2>                  _sizes;
+    QVector<djv::Graphics::Pixel::PIXEL> _pixels;
+    QVector<djv::Graphics::Image>        _images;
+    QVector<djvPlugin *>                 _plugins;
 };
 

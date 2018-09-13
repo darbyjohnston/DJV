@@ -35,99 +35,102 @@
 
 #include <QColor>
 
-//------------------------------------------------------------------------------
-// djvColorUtil
-//------------------------------------------------------------------------------
-
-djvColorUtil::~djvColorUtil()
-{}
-
-void djvColorUtil::scale(float value, const djvColor & in, djvColor & out)
+namespace djv
 {
-    djvColor in_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
-    convert(in, in_);
-    const int channels = djvPixel::channels(out.pixel());
-    for (int c = 0; c < channels; ++c)
+    namespace Graphics
     {
-        in_.setF32(in_.f32(c) * static_cast<float>(value), c);
-    }
-    convert(in_, out);
-}
+        ColorUtil::~ColorUtil()
+        {}
 
-djvColor djvColorUtil::scale(float value, const djvColor & in)
-{
-    djvColor out(in.pixel());
-    scale(value, in, out);
-    return out;
-}
+        void ColorUtil::scale(float value, const Color & in, Color & out)
+        {
+            Color in_(Pixel::pixel(Pixel::format(out.pixel()), Pixel::F32));
+            convert(in, in_);
+            const int channels = Pixel::channels(out.pixel());
+            for (int c = 0; c < channels; ++c)
+            {
+                in_.setF32(in_.f32(c) * static_cast<float>(value), c);
+            }
+            convert(in_, out);
+        }
 
-void djvColorUtil::lerp(
-    float            value,
-    const djvColor & min,
-    const djvColor & max,
-    djvColor &       out)
-{
-    djvColor min_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
-    djvColor max_(djvPixel::pixel(djvPixel::format(out.pixel()), djvPixel::F32));
-    convert(min, min_);
-    convert(max, max_);
-    const int channels = djvPixel::channels(out.pixel());
-    for (int c = 0; c < channels; ++c)
-    {
-        min_.setF32(
-            djvMath::lerp(value, min_.f32(c), max_.f32(c)),
-            c);
-    }
-    convert(min_, out);
-}
+        Color ColorUtil::scale(float value, const Color & in)
+        {
+            Color out(in.pixel());
+            scale(value, in, out);
+            return out;
+        }
 
-void djvColorUtil::lerp(
-    float          value,
-    const QColor & min,
-    const QColor & max,
-    QColor &       out)
-{
-    out.setRedF  (djvMath::lerp(value, min.redF(),   max.redF  ()));
-    out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
-    out.setBlueF (djvMath::lerp(value, min.blueF(),  max.blueF ()));
-    out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
-}
+        void ColorUtil::lerp(
+            float         value,
+            const Color & min,
+            const Color & max,
+            Color &       out)
+        {
+            Color min_(Pixel::pixel(Pixel::format(out.pixel()), Pixel::F32));
+            Color max_(Pixel::pixel(Pixel::format(out.pixel()), Pixel::F32));
+            convert(min, min_);
+            convert(max, max_);
+            const int channels = Pixel::channels(out.pixel());
+            for (int c = 0; c < channels; ++c)
+            {
+                min_.setF32(
+                    djvMath::lerp(value, min_.f32(c), max_.f32(c)),
+                    c);
+            }
+            convert(min_, out);
+        }
 
-djvColor djvColorUtil::lerp(float value, const djvColor & min, const djvColor & max)
-{
-    djvColor out(djvMath::max(min.pixel(), max.pixel()));
-    lerp(value, min, max, out);
-    return out;
-}
+        void ColorUtil::lerp(
+            float          value,
+            const QColor & min,
+            const QColor & max,
+            QColor &       out)
+        {
+            out.setRedF(djvMath::lerp(value, min.redF(), max.redF()));
+            out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
+            out.setBlueF(djvMath::lerp(value, min.blueF(), max.blueF()));
+            out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
+        }
 
-QColor djvColorUtil::lerp(float value, const QColor & min, const QColor & max)
-{
-    QColor out;
-    out.setRedF  (djvMath::lerp(value, min.redF(),   max.redF  ()));
-    out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
-    out.setBlueF (djvMath::lerp(value, min.blueF(),  max.blueF ()));
-    out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
-    return out;
-}
+        Color ColorUtil::lerp(float value, const Color & min, const Color & max)
+        {
+            Color out(djvMath::max(min.pixel(), max.pixel()));
+            lerp(value, min, max, out);
+            return out;
+        }
 
-void djvColorUtil::convert(const djvColor & in, djvColor & out)
-{
-    djvPixel::convert(in.data(), in.pixel(), out.data(), out.pixel());
-}
+        QColor ColorUtil::lerp(float value, const QColor & min, const QColor & max)
+        {
+            QColor out;
+            out.setRedF(djvMath::lerp(value, min.redF(), max.redF()));
+            out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
+            out.setBlueF(djvMath::lerp(value, min.blueF(), max.blueF()));
+            out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
+            return out;
+        }
 
-QColor djvColorUtil::toQt(const djvColor & in)
-{
-    djvColor tmp(djvPixel::RGBA_U8);
-    djvColorUtil::convert(in, tmp);
-    return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
-}
+        void ColorUtil::convert(const Color & in, Color & out)
+        {
+            Pixel::convert(in.data(), in.pixel(), out.data(), out.pixel());
+        }
 
-djvColor djvColorUtil::fromQt(const QColor & in)
-{
-    djvColor out(djvPixel::RGBA_U8);
-    out.setU8(in.red(), 0);
-    out.setU8(in.green(), 1);
-    out.setU8(in.blue(), 2);
-    out.setU8(in.alpha(), 3);
-    return out;
-}
+        QColor ColorUtil::toQt(const Color & in)
+        {
+            Color tmp(Pixel::RGBA_U8);
+            ColorUtil::convert(in, tmp);
+            return QColor(tmp.u8(0), tmp.u8(1), tmp.u8(2), tmp.u8(3));
+        }
+
+        Color ColorUtil::fromQt(const QColor & in)
+        {
+            Color out(Pixel::RGBA_U8);
+            out.setU8(in.red(), 0);
+            out.setU8(in.green(), 1);
+            out.setU8(in.blue(), 2);
+            out.setU8(in.alpha(), 3);
+            return out;
+        }
+
+    } // namespace Graphics
+} // namespace djv

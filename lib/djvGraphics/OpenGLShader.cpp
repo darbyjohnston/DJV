@@ -35,156 +35,159 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvOpenGLShader
-//------------------------------------------------------------------------------
-
-djvOpenGLShader::~djvOpenGLShader()
+namespace djv
 {
-    del();
-}
-
-namespace
-{
-void shaderCompile(GLuint id, const QString & source)
-{
-    //DJV_DEBUG("shaderCompile");
-    //DJV_DEBUG_PRINT("source = " << source);
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    std::vector<char> buf(source.length());
-    memcpy(buf.data(), source.toLatin1().data(), buf.size());
-    const char * sources       [] = { buf.data() };
-    const GLint  sourceLengths [] = { static_cast<GLint>(buf.size()) };
-    DJV_DEBUG_OPEN_GL(glFuncs->glShaderSource(id, 1, sources, sourceLengths));
-    DJV_DEBUG_OPEN_GL(glFuncs->glCompileShader(id));
-    GLint error = 0;
-    glFuncs->glGetShaderiv(id, GL_COMPILE_STATUS, &error);
-    char    log [4096] = "";
-    GLsizei logSize    = 0;
-    glFuncs->glGetShaderInfoLog(id, 4096, &logSize, log);
-    //DJV_DEBUG_PRINT("log = " << QString(log));
-    if (error != GL_TRUE)
+    namespace Graphics
     {
-        throw djvError(
-            "djvOpenGLShader",
-            qApp->translate("djvOpenGLShader", "Cannot compile shader:\n%1").
-            arg(log));
-    }
-}
+        OpenGLShader::~OpenGLShader()
+        {
+            del();
+        }
 
-} // namespace
+        namespace
+        {
+            void shaderCompile(GLuint id, const QString & source)
+            {
+                //DJV_DEBUG("shaderCompile");
+                //DJV_DEBUG_PRINT("source = " << source);
+                auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+                std::vector<char> buf(source.length());
+                memcpy(buf.data(), source.toLatin1().data(), buf.size());
+                const char * sources[] = { buf.data() };
+                const GLint  sourceLengths[] = { static_cast<GLint>(buf.size()) };
+                DJV_DEBUG_OPEN_GL(glFuncs->glShaderSource(id, 1, sources, sourceLengths));
+                DJV_DEBUG_OPEN_GL(glFuncs->glCompileShader(id));
+                GLint error = 0;
+                glFuncs->glGetShaderiv(id, GL_COMPILE_STATUS, &error);
+                char    log[4096] = "";
+                GLsizei logSize = 0;
+                glFuncs->glGetShaderInfoLog(id, 4096, &logSize, log);
+                //DJV_DEBUG_PRINT("log = " << QString(log));
+                if (error != GL_TRUE)
+                {
+                    throw djvError(
+                        "djv::Graphics::OpenGLShader",
+                        qApp->translate("djv::Graphics::OpenGLShader", "Cannot compile shader:\n%1").
+                        arg(log));
+                }
+            }
 
-void djvOpenGLShader::init(
-    const QString & vertexSource,
-    const QString & fragmentSource) throw (djvError)
-{
-    if (vertexSource == _vertexSource && fragmentSource == _fragmentSource)
-        return;
+        } // namespace
 
-    //DJV_DEBUG("djvOpenGLShader::init");
-    //DJV_DEBUG_PRINT("vertexSource = " << vertexSource);
-    //DJV_DEBUG_PRINT("fragmentSource = " << fragmentSource);
+        void OpenGLShader::init(
+            const QString & vertexSource,
+            const QString & fragmentSource) throw (djvError)
+        {
+            if (vertexSource == _vertexSource && fragmentSource == _fragmentSource)
+                return;
 
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            //DJV_DEBUG("OpenGLShader::init");
+            //DJV_DEBUG_PRINT("vertexSource = " << vertexSource);
+            //DJV_DEBUG_PRINT("fragmentSource = " << fragmentSource);
 
-    del();
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
-    _vertexSource   = vertexSource;
-    _fragmentSource = fragmentSource;
+            del();
 
-    _vertexId   = glFuncs->glCreateShader(GL_VERTEX_SHADER);
-    _fragmentId = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
-    shaderCompile(_vertexId,   _vertexSource);
-    shaderCompile(_fragmentId, _fragmentSource);
-    DJV_DEBUG_OPEN_GL(_programId = glFuncs->glCreateProgram());
-    if (! _programId)
-    {
-        throw djvError(
-            "djvOpenGLShader",
-            qApp->translate("djvOpenGLShader", "Cannot create shader program"));
-    }
-    DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _vertexId));
-    DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _fragmentId));
-    DJV_DEBUG_OPEN_GL(glFuncs->glLinkProgram (_programId));
-    GLint error = 0;
-    glFuncs->glGetProgramiv(_programId, GL_LINK_STATUS, &error);
-    char log [4096] = "";
-    GLsizei logSize = 0;
-    glFuncs->glGetProgramInfoLog(_programId, 4096, &logSize, log);
-    //DJV_DEBUG_PRINT("log = " << QString(log));
-    if (error != GL_TRUE)
-    {
-        throw djvError(
-            "djvOpenGLShader",
-            qApp->translate("djvOpenGLShader", "Cannot link shader:\n%1").
-            arg(log));
-    }
-}
+            _vertexSource = vertexSource;
+            _fragmentSource = fragmentSource;
 
-void djvOpenGLShader::bind()
-{
-    //DJV_DEBUG("djvOpenGLShader::bind");
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    DJV_DEBUG_OPEN_GL(glFuncs->glUseProgram(_programId));
-}
-    
-const QString & djvOpenGLShader::vertexSource() const
-{
-    return _vertexSource;
-}
+            _vertexId = glFuncs->glCreateShader(GL_VERTEX_SHADER);
+            _fragmentId = glFuncs->glCreateShader(GL_FRAGMENT_SHADER);
+            shaderCompile(_vertexId, _vertexSource);
+            shaderCompile(_fragmentId, _fragmentSource);
+            DJV_DEBUG_OPEN_GL(_programId = glFuncs->glCreateProgram());
+            if (!_programId)
+            {
+                throw djvError(
+                    "djv::Graphics::OpenGLShader",
+                    qApp->translate("djv::Graphics::OpenGLShader", "Cannot create shader program"));
+            }
+            DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _vertexId));
+            DJV_DEBUG_OPEN_GL(glFuncs->glAttachShader(_programId, _fragmentId));
+            DJV_DEBUG_OPEN_GL(glFuncs->glLinkProgram(_programId));
+            GLint error = 0;
+            glFuncs->glGetProgramiv(_programId, GL_LINK_STATUS, &error);
+            char log[4096] = "";
+            GLsizei logSize = 0;
+            glFuncs->glGetProgramInfoLog(_programId, 4096, &logSize, log);
+            //DJV_DEBUG_PRINT("log = " << QString(log));
+            if (error != GL_TRUE)
+            {
+                throw djvError(
+                    "djv::Graphics::OpenGLShader",
+                    qApp->translate("vOpenGLShader", "Cannot link shader:\n%1").
+                    arg(log));
+            }
+        }
 
-const QString & djvOpenGLShader::fragmentSource() const
-{
-    return _fragmentSource;
-}
+        void OpenGLShader::bind()
+        {
+            //DJV_DEBUG("OpenGLShader::bind");
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            DJV_DEBUG_OPEN_GL(glFuncs->glUseProgram(_programId));
+        }
 
-GLuint djvOpenGLShader::program() const
-{
-    return _programId;
-}
+        const QString & OpenGLShader::vertexSource() const
+        {
+            return _vertexSource;
+        }
 
-void djvOpenGLShader::setUniform(const QString& name, int value)
-{
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    glFuncs->glUniform1i(
-        glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
-        static_cast<GLint>(value));
-}
+        const QString & OpenGLShader::fragmentSource() const
+        {
+            return _fragmentSource;
+        }
 
-void djvOpenGLShader::setUniform(const QString& name, float value)
-{
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    glFuncs->glUniform1f(
-        glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
-        static_cast<GLfloat>(value));
-}
+        GLuint OpenGLShader::program() const
+        {
+            return _programId;
+        }
 
-void djvOpenGLShader::setUniform(const QString& name, const glm::mat4x4& value)
-{
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    glFuncs->glUniformMatrix4fv(
-        glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
-        1,
-        false,
-        &value[0][0]);
-}
+        void OpenGLShader::setUniform(const QString& name, int value)
+        {
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            glFuncs->glUniform1i(
+                glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+                static_cast<GLint>(value));
+        }
 
-void djvOpenGLShader::del()
-{
-    auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
-    if (_vertexId)
-    {
-        glFuncs->glDeleteShader(_vertexId);
-        _vertexId = 0;
-    }
-    if (_fragmentId)
-    {
-        glFuncs->glDeleteShader(_fragmentId);
-        _fragmentId = 0;
-    }
-    if (_programId)
-    {
-        glFuncs->glDeleteProgram(_programId);
-        _programId = 0;
-    }
-}
+        void OpenGLShader::setUniform(const QString& name, float value)
+        {
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            glFuncs->glUniform1f(
+                glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+                static_cast<GLfloat>(value));
+        }
+
+        void OpenGLShader::setUniform(const QString& name, const glm::mat4x4& value)
+        {
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            glFuncs->glUniformMatrix4fv(
+                glFuncs->glGetUniformLocation(_programId, name.toLatin1().data()),
+                1,
+                false,
+                &value[0][0]);
+        }
+
+        void OpenGLShader::del()
+        {
+            auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
+            if (_vertexId)
+            {
+                glFuncs->glDeleteShader(_vertexId);
+                _vertexId = 0;
+            }
+            if (_fragmentId)
+            {
+                glFuncs->glDeleteShader(_fragmentId);
+                _fragmentId = 0;
+            }
+            if (_programId)
+            {
+                glFuncs->glDeleteProgram(_programId);
+                _programId = 0;
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

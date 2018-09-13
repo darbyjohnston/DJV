@@ -39,12 +39,17 @@
 
 #include <memory>
 
-class djvImageIOInfo;
-class djvOpenGLImageOptions;
 class djvSpeed;
 
 namespace djv
 {
+    namespace Graphics
+    {
+        class ImageIOInfo;
+        class OpenGLImageOptions;
+
+    } // Graphics
+
     namespace ViewLib
     {
         class Context;
@@ -65,7 +70,7 @@ namespace djv
             virtual ~MainWindow();
 
             //! Get the image I/O information.
-            const djvImageIOInfo & imageIOInfo() const;
+            const Graphics::ImageIOInfo & imageIOInfo() const;
 
             //! Get the view widget.
             ImageView * viewWidget() const;
@@ -86,7 +91,7 @@ namespace djv
             void setFileLayer(int);
 
             //! Set the file proxy scale.
-            void setFileProxy(djvPixelDataInfo::PROXY);
+            void setFileProxy(djv::Graphics::PixelDataInfo::PROXY);
 
             //! Set whether the file cache is enabled.
             void setFileCache(bool);
@@ -133,10 +138,10 @@ namespace djv
 
         private:
             //! Get the current image.
-            const djvImage * image() const;
+            const Graphics::Image * image() const;
 
             //! Get the image drawing options.
-            djvOpenGLImageOptions imageOptions() const;
+            Graphics::OpenGLImageOptions imageOptions() const;
 
             DJV_PRIVATE_COPY(MainWindow);
 

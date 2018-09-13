@@ -36,37 +36,31 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvPPMPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPPMLoad
-//!
-//! This class provides a PPM loader.
-//------------------------------------------------------------------------------
-
-class djvPPMLoad : public djvImageLoad
+namespace djv
 {
-public:
-    explicit djvPPMLoad(djvCoreContext *);
-    
-    virtual ~djvPPMLoad();
+    namespace Graphics
+    {
+        //! \class PPMLoad
+        //!
+        //! This class provides a PPM loader.
+        class PPMLoad : public ImageLoad
+        {
+        public:
+            explicit PPMLoad(djvCoreContext *);
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual ~PPMLoad();
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-private:
-    void _open(const QString &, djvImageIOInfo &, djvFileIO &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
 
-    djvFileInfo  _file;
-    int          _bitDepth;
-    djvPPM::DATA _data;
-    djvPixelData _tmp;
-};
+            djvFileInfo _file;
+            int         _bitDepth;
+            PPM::DATA   _data;
+            PixelData   _tmp;
+        };
 
-//@} // djvPPMPlugin
-
+    } // namespace Graphics
+} // namespace djv

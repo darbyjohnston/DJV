@@ -37,25 +37,10 @@
 
 class djvLsContext;
 
-//! \addtogroup bin
-//@{
-
-//! \defgroup djv_ls djv_ls
+//! \class djvLsApplication
 //!
 //! This program provides a command line tool for listing directories with file
 //! sequences.
-
-//@} // bin
-
-//! \addtogroup djv_ls
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvLsApplication
-//!
-//! This class provides the application.
-//------------------------------------------------------------------------------
-
 class djvLsApplication : public QGuiApplication
 {
     Q_OBJECT
@@ -78,6 +63,3 @@ private:
 
     djvLsContext * _context;
 };
-
-//@} // djv_ls
-

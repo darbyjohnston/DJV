@@ -35,54 +35,29 @@
 
 #include <png.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvPNGPlugin djvPNGPlugin
-//!
-//! This plugin provides support for the Portable Network Graphics (PNG) image
-//! file format.
-//!
-//! Requires:
-//!
-//! - libpng - http://www.libpng.org
-//!
-//! File extensions: .png
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, Luminance, RGB, RGBA
-//! - File compression
-
-//@} // plugins
-
-//! \addtogroup djvPNGPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvPNG
-//!
-//! This struct provides PNG utilities.
-//------------------------------------------------------------------------------
-
-struct djvPNG
+namespace djv
 {
-    static const QString staticName;
-};
+    namespace Graphics
+    {
+        //! \struct PNG
+        //!
+        //! This struct provides PNG utilities.
+        struct PNG
+        {
+            static const QString staticName;
+        };
 
+        //! This struct provides libpng error handling.
+        struct PNGErrorStruct
+        {
+            char msg[djvStringUtil::cStringLength];
+        };
 
-//! This struct provides libpng error handling.
-struct djvPNGErrorStruct
+    } // namespace Graphics
+} // namespace djv
+
+extern "C"
 {
-    char msg[djvStringUtil::cStringLength];
-};
-
-extern "C" {
-
-void djvPNGError(png_structp, png_const_charp);
-void djvPNGWarning(png_structp, png_const_charp);
-
+    void djvPNGError(png_structp, png_const_charp);
+    void djvPNGWarning(png_structp, png_const_charp);
 }
-
-//@} // djvPNGPlugin
-

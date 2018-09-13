@@ -65,7 +65,7 @@ void djvPixelWidgetTest::run(const QStringList & args)
     window->show();
 }
 
-void djvPixelWidgetTest::callback(djvPixel::PIXEL value)
+void djvPixelWidgetTest::callback(Graphics::Pixel::PIXEL value)
 {
     QStringList tmp;
     tmp << value;

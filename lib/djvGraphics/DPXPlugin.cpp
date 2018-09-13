@@ -39,256 +39,257 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvDPXPlugin
-//------------------------------------------------------------------------------
-
-djvDPXPlugin::djvDPXPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvDPXPlugin::pluginName() const
+namespace djv
 {
-    return djvDPX::staticName;
-}
+    namespace Graphics
+    {
+        DPXPlugin::DPXPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-QStringList djvDPXPlugin::extensions() const
-{
-    return QStringList() << ".dpx";
-}
-
-QStringList djvDPXPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvDPX::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputColorProfile;
-    }
-    else if (0 == in.compare(options()[djvDPX::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.inputFilmPrint;
-    }
-    else if (0 == in.compare(options()[djvDPX::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.outputColorProfile;
-    }
-    else if (0 == in.compare(options()[djvDPX::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.outputFilmPrint;
-    }
-    else if (0 == in.compare(options()[djvDPX::VERSION_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.version;
-    }
-    else if (0 == in.compare(options()[djvDPX::TYPE_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.type;
-    }
-    else if (0 == in.compare(options()[djvDPX::ENDIAN_OPTION], Qt::CaseInsensitive))
-    {
-        out << _options.endian;
-    }
-
-    return out;
-}
-
-bool djvDPXPlugin::setOption(const QString & in, QStringList & data)
-{
-    //DJV_DEBUG("djvDPXPlugin::setOption");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("data = " << *data);
-    try
-    {
-        if (0 == in.compare(options()[djvDPX::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+        QString DPXPlugin::pluginName() const
         {
-            djvCineon::COLOR_PROFILE colorProfile =
-                static_cast<djvCineon::COLOR_PROFILE>(0);
-            data >> colorProfile;
-            if (colorProfile != _options.inputColorProfile)
-            {
-                _options.inputColorProfile = colorProfile;
-                Q_EMIT optionChanged(in);
-            }
+            return DPX::staticName;
         }
-        else if (0 == in.compare(options()[djvDPX::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-        {
-            djvCineon::FilmPrintToLinear filmPrint;
-            data >> filmPrint;
-            if (filmPrint != _options.inputFilmPrint)
-            {
-                _options.inputFilmPrint = filmPrint;
-                Q_EMIT optionChanged(in);
-            }
-        }
-        else if (0 == in.compare(options()[djvDPX::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
-        {
-            djvCineon::COLOR_PROFILE colorProfile =
-                static_cast<djvCineon::COLOR_PROFILE>(0);
-            data >> colorProfile;
-            if (colorProfile != _options.outputColorProfile)
-            {
-                _options.outputColorProfile = colorProfile;
-                Q_EMIT optionChanged(in);
-            }
-        }
-        else if (0 == in.compare(options()[djvDPX::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
-        {
-            djvCineon::LinearToFilmPrint filmPrint;
-            data >> filmPrint;
-            if (filmPrint != _options.outputFilmPrint)
-            {
-                _options.outputFilmPrint = filmPrint;
-                Q_EMIT optionChanged(in);
-            }
-        }
-        else if (0 == in.compare(options()[djvDPX::VERSION_OPTION], Qt::CaseInsensitive))
-        {
-            djvDPX::VERSION version = static_cast<djvDPX::VERSION>(0);
-            data >> version;
-            if (version != _options.version)
-            {
-                _options.version = version;
-                Q_EMIT optionChanged(in);
-            }
-        }
-        else if (0 == in.compare(options()[djvDPX::TYPE_OPTION], Qt::CaseInsensitive))
-        {
-            djvDPX::TYPE type = static_cast<djvDPX::TYPE>(0);
-            data >> type;
-            if (type != _options.type)
-            {
-                _options.type = type;
-                Q_EMIT optionChanged(in);
-            }
-        }
-        else if (0 == in.compare(options()[djvDPX::ENDIAN_OPTION], Qt::CaseInsensitive))
-        {
-            djvDPX::ENDIAN endian = static_cast<djvDPX::ENDIAN>(0);
-            data >> endian;
-            if (endian != _options.endian)
-            {
-                _options.endian = endian;
-                Q_EMIT optionChanged(in);
-            }
-        }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvDPXPlugin::options() const
-{
-    return djvDPX::optionsLabels();
-}
-
-void djvDPXPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList DPXPlugin::extensions() const
         {
-            in >> arg;
-            if (
-                qApp->translate("djvDPXPlugin", "-dpx_input_color_profile") == arg)
-            {
-                in >> _options.inputColorProfile;
-            }
-            else if (
-                qApp->translate("djvDPXPlugin", "-dpx_input_film_print") == arg)
-            {
-                in >> _options.inputFilmPrint;
-            }
-            else if (
-                qApp->translate("djvDPXPlugin", "-dpx_output_color_profile") == arg)
-            {
-                in >> _options.outputColorProfile;
-            }
-            else if (
-                qApp->translate("djvDPXPlugin", "-dpx_output_film_print") == arg)
-            {
-                in >> _options.outputFilmPrint;
-            }
-            else if (
-                qApp->translate("djvDPXPlugin", "-dpx_version") == arg)
-            {
-                in >> _options.version;
-            }
-            else if (
-                qApp->translate("djvDPXPlugin", "-dpx_type") == arg)
-            {
-                in >> _options.type;
-            }
-            else if (
-                qApp->translate("djvDPXPlugin", "-dpx_endian") == arg)
-            {
-                in >> _options.endian;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return QStringList() << ".dpx";
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvDPXPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvDPXPlugin",
-"\n"
-"DPX Options\n"
-"\n"
-"    -dpx_input_color_profile (value)\n"
-"        Set the color profile used when loading DPX images. Options = %1. "
-"Default = %2.\n"
-"    -dpx_input_film_print (black) (white) (gamma) (soft clip)\n"
-"        Set the film print values used when loading DPX images. Default = "
-"%3.\n"
-"    -dpx_output_color_profile (value)\n"
-"        Set the color profile used when saving DPX images. Options = %4. "
-"Default = %5.\n"
-"    -dpx_output_film_print (black) (white) (gamma) (soft clip)\n"
-"        Set the film print values used when saving DPX images. Default = "
-"%6.\n"
-"    -dpx_version (value)\n"
-"        Set the file version used when saving DPX images. Options = %7. Default = "
-"%8.\n"
-"    -dpx_type (value)\n"
-"        Set the pixel type used when saving DPX images. Options = %9. "
-"Default = %10.\n"
-"    -dpx_endian (value)\n"
-"        Set the endian used when saving DPX images. Setting the endian to "
-"\"Auto\" will use the endian of the current hardware. Options = %11. Default = "
-"%12.\n").
-    arg(djvCineon::colorProfileLabels().join(", ")).
-    arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
-    arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
-    arg(djvCineon::colorProfileLabels().join(", ")).
-    arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
-    arg(djvStringUtil::label(_options.outputFilmPrint).join(", ")).
-    arg(djvDPX::versionLabels().join(", ")).
-    arg(djvStringUtil::label(_options.version).join(", ")).
-    arg(djvDPX::typeLabels().join(", ")).
-    arg(djvStringUtil::label(_options.type).join(", ")).
-    arg(djvDPX::endianLabels().join(", ")).
-    arg(djvStringUtil::label(_options.endian).join(", "));
-}
+        QStringList DPXPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[DPX::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.inputColorProfile;
+            }
+            else if (0 == in.compare(options()[DPX::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.inputFilmPrint;
+            }
+            else if (0 == in.compare(options()[DPX::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.outputColorProfile;
+            }
+            else if (0 == in.compare(options()[DPX::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.outputFilmPrint;
+            }
+            else if (0 == in.compare(options()[DPX::VERSION_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.version;
+            }
+            else if (0 == in.compare(options()[DPX::TYPE_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.type;
+            }
+            else if (0 == in.compare(options()[DPX::ENDIAN_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.endian;
+            }
 
-djvImageLoad * djvDPXPlugin::createLoad() const
-{
-    return new djvDPXLoad(_options, context());
-}
+            return out;
+        }
 
-djvImageSave * djvDPXPlugin::createSave() const
-{
-    return new djvDPXSave(_options, context());
-}
+        bool DPXPlugin::setOption(const QString & in, QStringList & data)
+        {
+            //DJV_DEBUG("DPXPlugin::setOption");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("data = " << *data);
+            try
+            {
+                if (0 == in.compare(options()[DPX::INPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::COLOR_PROFILE colorProfile = static_cast<Cineon::COLOR_PROFILE>(0);
+                    data >> colorProfile;
+                    if (colorProfile != _options.inputColorProfile)
+                    {
+                        _options.inputColorProfile = colorProfile;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[DPX::INPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::FilmPrintToLinear filmPrint;
+                    data >> filmPrint;
+                    if (filmPrint != _options.inputFilmPrint)
+                    {
+                        _options.inputFilmPrint = filmPrint;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[DPX::OUTPUT_COLOR_PROFILE_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::COLOR_PROFILE colorProfile = static_cast<Cineon::COLOR_PROFILE>(0);
+                    data >> colorProfile;
+                    if (colorProfile != _options.outputColorProfile)
+                    {
+                        _options.outputColorProfile = colorProfile;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[DPX::OUTPUT_FILM_PRINT_OPTION], Qt::CaseInsensitive))
+                {
+                    Cineon::LinearToFilmPrint filmPrint;
+                    data >> filmPrint;
+                    if (filmPrint != _options.outputFilmPrint)
+                    {
+                        _options.outputFilmPrint = filmPrint;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[DPX::VERSION_OPTION], Qt::CaseInsensitive))
+                {
+                    DPX::VERSION version = static_cast<DPX::VERSION>(0);
+                    data >> version;
+                    if (version != _options.version)
+                    {
+                        _options.version = version;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[DPX::TYPE_OPTION], Qt::CaseInsensitive))
+                {
+                    DPX::TYPE type = static_cast<DPX::TYPE>(0);
+                    data >> type;
+                    if (type != _options.type)
+                    {
+                        _options.type = type;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+                else if (0 == in.compare(options()[DPX::ENDIAN_OPTION], Qt::CaseInsensitive))
+                {
+                    DPX::ENDIAN endian = static_cast<DPX::ENDIAN>(0);
+                    data >> endian;
+                    if (endian != _options.endian)
+                    {
+                        _options.endian = endian;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        QStringList DPXPlugin::options() const
+        {
+            return DPX::optionsLabels();
+        }
+
+        void DPXPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_input_color_profile") == arg)
+                    {
+                        in >> _options.inputColorProfile;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_input_film_print") == arg)
+                    {
+                        in >> _options.inputFilmPrint;
+                    }
+                    else if (
+                        qApp->translate("vDPXPlugin", "-dpx_output_color_profile") == arg)
+                    {
+                        in >> _options.outputColorProfile;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_output_film_print") == arg)
+                    {
+                        in >> _options.outputFilmPrint;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_version") == arg)
+                    {
+                        in >> _options.version;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_type") == arg)
+                    {
+                        in >> _options.type;
+                    }
+                    else if (
+                        qApp->translate("djv::Graphics::DPXPlugin", "-dpx_endian") == arg)
+                    {
+                        in >> _options.endian;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString DPXPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::DPXPlugin",
+                "\n"
+                "DPX Options\n"
+                "\n"
+                "    -dpx_input_color_profile (value)\n"
+                "        Set the color profile used when loading DPX images. Options = %1. "
+                "Default = %2.\n"
+                "    -dpx_input_film_print (black) (white) (gamma) (soft clip)\n"
+                "        Set the film print values used when loading DPX images. Default = "
+                "%3.\n"
+                "    -dpx_output_color_profile (value)\n"
+                "        Set the color profile used when saving DPX images. Options = %4. "
+                "Default = %5.\n"
+                "    -dpx_output_film_print (black) (white) (gamma) (soft clip)\n"
+                "        Set the film print values used when saving DPX images. Default = "
+                "%6.\n"
+                "    -dpx_version (value)\n"
+                "        Set the file version used when saving DPX images. Options = %7. Default = "
+                "%8.\n"
+                "    -dpx_type (value)\n"
+                "        Set the pixel type used when saving DPX images. Options = %9. "
+                "Default = %10.\n"
+                "    -dpx_endian (value)\n"
+                "        Set the endian used when saving DPX images. Setting the endian to "
+                "\"Auto\" will use the endian of the current hardware. Options = %11. Default = "
+                "%12.\n").
+                arg(Cineon::colorProfileLabels().join(", ")).
+                arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
+                arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
+                arg(Cineon::colorProfileLabels().join(", ")).
+                arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
+                arg(djvStringUtil::label(_options.outputFilmPrint).join(", ")).
+                arg(DPX::versionLabels().join(", ")).
+                arg(djvStringUtil::label(_options.version).join(", ")).
+                arg(DPX::typeLabels().join(", ")).
+                arg(djvStringUtil::label(_options.type).join(", ")).
+                arg(DPX::endianLabels().join(", ")).
+                arg(djvStringUtil::label(_options.endian).join(", "));
+        }
+
+        ImageLoad * DPXPlugin::createLoad() const
+        {
+            return new DPXLoad(_options, context());
+        }
+
+        ImageSave * DPXPlugin::createSave() const
+        {
+            return new DPXSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

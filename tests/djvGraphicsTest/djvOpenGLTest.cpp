@@ -38,6 +38,8 @@
 
 #include <QString>
 
+using namespace djv;
+
 void djvOpenGLTest::run(int &, char **)
 {
     DJV_DEBUG("djvOpenGLTest::run");
@@ -48,10 +50,10 @@ void djvOpenGLTest::members()
 {
     DJV_DEBUG("djvOpenGLTest::members");
     {
-        for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
+        for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
         {
-            DJV_ASSERT(djvOpenGLUtil::format(static_cast<djvPixel::PIXEL>(i)) != GL_NONE);
-            DJV_ASSERT(djvOpenGLUtil::type(static_cast<djvPixel::PIXEL>(i)) != GL_NONE);
+            DJV_ASSERT(Graphics::OpenGLUtil::format(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
+            DJV_ASSERT(Graphics::OpenGLUtil::type(static_cast<Graphics::Pixel::PIXEL>(i)) != GL_NONE);
         }
     }
 }

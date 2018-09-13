@@ -49,7 +49,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            LUTWidget(djvImageIO *, UIContext *);
+            LUTWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~LUTWidget();
 
@@ -63,8 +63,8 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvLUT::Options _options;
-            QComboBox *     _typeWidget;
+            Graphics::LUT::Options _options;
+            QComboBox * _typeWidget = nullptr;
         };
 
         //! \class LUTWidgetPlugin
@@ -75,7 +75,7 @@ namespace djv
         public:
             LUTWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

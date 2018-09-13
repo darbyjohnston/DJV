@@ -31,25 +31,29 @@
 
 #include <djvGraphics/PNG.h>
 
-//------------------------------------------------------------------------------
-// djvPNG
-//------------------------------------------------------------------------------
+using namespace djv;
 
-const QString djvPNG::staticName = "PNG";
+namespace djv
+{
+    namespace Graphics
+    {
+        const QString PNG::staticName = "PNG";
+
+    } // namespace Graphics
+} // namespace djv
 
 extern "C"
 {
-
 void djvPNGError(png_structp in, png_const_charp msg)
 {
-    djvPNGErrorStruct * error = (djvPNGErrorStruct *)png_get_error_ptr(in);
+    Graphics::PNGErrorStruct * error = (Graphics::PNGErrorStruct *)png_get_error_ptr(in);
     SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
     longjmp(png_jmpbuf(in), 1);
 }
 
 void djvPNGWarning(png_structp in, png_const_charp msg)
 {
-    djvPNGErrorStruct * error = (djvPNGErrorStruct *)png_get_error_ptr(in);
+    Graphics::PNGErrorStruct * error = (Graphics::PNGErrorStruct *)png_get_error_ptr(in);
     SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
     longjmp(png_jmpbuf(in), 1);
 }

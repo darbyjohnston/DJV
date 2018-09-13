@@ -54,7 +54,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            OpenEXRWidget(djvImageIO *, UIContext *);
+            OpenEXRWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~OpenEXRWidget();
 
@@ -77,20 +77,20 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvOpenEXR::Options  _options;
-            QCheckBox * _threadsEnableWidget;
-            IntEdit * _threadCountWidget;
-            QComboBox * _inputColorProfileWidget;
-            QFormLayout * _inputColorProfileLayout;
-            FloatEditSlider * _inputGammaWidget;
-            FloatEditSlider * _inputExposureWidget;
-            FloatEditSlider * _inputExposureDefogWidget;
-            FloatEditSlider * _inputExposureKneeLowWidget;
-            FloatEditSlider * _inputExposureKneeHighWidget;
-            QComboBox * _channelsWidget;
-            QComboBox * _compressionWidget;
+            Graphics::OpenEXR::Options  _options;
+            QCheckBox * _threadsEnableWidget = nullptr;
+            IntEdit * _threadCountWidget = nullptr;
+            QComboBox * _inputColorProfileWidget = nullptr;
+            QFormLayout * _inputColorProfileLayout = nullptr;
+            FloatEditSlider * _inputGammaWidget = nullptr;
+            FloatEditSlider * _inputExposureWidget = nullptr;
+            FloatEditSlider * _inputExposureDefogWidget = nullptr;
+            FloatEditSlider * _inputExposureKneeLowWidget = nullptr;
+            FloatEditSlider * _inputExposureKneeHighWidget = nullptr;
+            QComboBox * _channelsWidget = nullptr;
+            QComboBox * _compressionWidget = nullptr;
 #if OPENEXR_VERSION_HEX >= 0x02020000
-            FloatEditSlider * _dwaCompressionLevelWidget;
+            FloatEditSlider * _dwaCompressionLevelWidget = nullptr;
 #endif // OPENEXR_VERSION_HEX
         };
 
@@ -102,7 +102,7 @@ namespace djv
         public:
             OpenEXRWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

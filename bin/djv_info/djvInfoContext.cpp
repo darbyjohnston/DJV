@@ -35,12 +35,10 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvInfoContext
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvInfoContext::djvInfoContext(QObject * parent) :
-    djvGraphicsContext(parent),
+    Graphics::GraphicsContext(parent),
     _info    (true),
     _verbose (false),
     _filePath(false),
@@ -99,7 +97,7 @@ bool djvInfoContext::commandLineParse(QStringList & in) throw (QString)
     //DJV_DEBUG("djvInfoContext::commandLineParse");
     //DJV_DEBUG_PRINT("in = " << in);
 
-    if (! djvGraphicsContext::commandLineParse(in))
+    if (!Graphics::GraphicsContext::commandLineParse(in))
         return false;
 
     QString arg;
@@ -234,5 +232,5 @@ QString djvInfoContext::commandLineHelp() const
     return QString(label).
         arg(djvSequence::compressLabels().join(", ")).
         arg(djvStringUtil::label(_sequence).join(", ")).
-        arg(djvGraphicsContext::commandLineHelp());
+        arg(Graphics::GraphicsContext::commandLineHelp());
 }

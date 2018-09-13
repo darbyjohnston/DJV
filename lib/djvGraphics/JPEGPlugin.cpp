@@ -39,107 +39,110 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvJPEGPlugin
-//------------------------------------------------------------------------------
-
-djvJPEGPlugin::djvJPEGPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvJPEGPlugin::pluginName() const
+namespace djv
 {
-    return djvJPEG::staticName;
-}
-
-QStringList djvJPEGPlugin::extensions() const
-{
-    return QStringList() <<
-        ".jpeg" <<
-        ".jpg" <<
-        ".jfif";
-}
-
-QStringList djvJPEGPlugin::option(const QString & in) const
-{
-    QStringList out;
-    if (0 == in.compare(options()[djvJPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+    namespace Graphics
     {
-        out << _options.quality;
-    }
-    return out;
-}
+        JPEGPlugin::JPEGPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-bool djvJPEGPlugin::setOption(const QString & in, QStringList & data)
-{
-    try
-    {
-        if (0 == in.compare(options()[djvJPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+        QString JPEGPlugin::pluginName() const
         {
-            int quality = 0;
-            data >> quality;
-            if (quality != _options.quality)
-            {
-                _options.quality = quality;
-                Q_EMIT optionChanged(in);
-            }
+            return JPEG::staticName;
         }
-    }
-    catch (const QString &)
-    {
-        return false;
-    }
-    return true;
-}
 
-QStringList djvJPEGPlugin::options() const
-{
-    return djvJPEG::optionsLabels();
-}
-
-void djvJPEGPlugin::commandLine(QStringList & in) throw (QString)
-{
-    QStringList tmp;
-    QString     arg;
-    try
-    {
-        while (! in.isEmpty())
+        QStringList JPEGPlugin::extensions() const
         {
-            in >> arg;
-            if (qApp->translate("djvJPEGPlugin", "-jpeg_quality") == arg)
-            {
-                in >> _options.quality;
-            }
-            else
-            {
-                tmp << arg;
-            }
+            return QStringList() <<
+                ".jpeg" <<
+                ".jpg" <<
+                ".jfif";
         }
-    }
-    catch (const QString &)
-    {
-        throw arg;
-    }
-    in = tmp;
-}
 
-QString djvJPEGPlugin::commandLineHelp() const
-{
-    return qApp->translate("djvJPEGPlugin",
-"\n"
-"JPEG Options\n"
-"\n"
-"    -jpeg_quality (value)\n"
-"        Set the quality used when saving JPEG images. Default = %1.\n").
-    arg(djvStringUtil::label(_options.quality).join(", "));
-}
+        QStringList JPEGPlugin::option(const QString & in) const
+        {
+            QStringList out;
+            if (0 == in.compare(options()[JPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+            {
+                out << _options.quality;
+            }
+            return out;
+        }
 
-djvImageLoad * djvJPEGPlugin::createLoad() const
-{
-    return new djvJPEGLoad(context());
-}
+        bool JPEGPlugin::setOption(const QString & in, QStringList & data)
+        {
+            try
+            {
+                if (0 == in.compare(options()[JPEG::QUALITY_OPTION], Qt::CaseInsensitive))
+                {
+                    int quality = 0;
+                    data >> quality;
+                    if (quality != _options.quality)
+                    {
+                        _options.quality = quality;
+                        Q_EMIT optionChanged(in);
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                return false;
+            }
+            return true;
+        }
 
-djvImageSave * djvJPEGPlugin::createSave() const
-{
-    return new djvJPEGSave(_options, context());
-}
+        QStringList JPEGPlugin::options() const
+        {
+            return JPEG::optionsLabels();
+        }
+
+        void JPEGPlugin::commandLine(QStringList & in) throw (QString)
+        {
+            QStringList tmp;
+            QString     arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+                    if (qApp->translate("djv::Graphics::JPEGPlugin", "-jpeg_quality") == arg)
+                    {
+                        in >> _options.quality;
+                    }
+                    else
+                    {
+                        tmp << arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw arg;
+            }
+            in = tmp;
+        }
+
+        QString JPEGPlugin::commandLineHelp() const
+        {
+            return qApp->translate("djv::Graphics::JPEGPlugin",
+                "\n"
+                "JPEG Options\n"
+                "\n"
+                "    -jpeg_quality (value)\n"
+                "        Set the quality used when saving JPEG images. Default = %1.\n").
+                arg(djvStringUtil::label(_options.quality).join(", "));
+        }
+
+        ImageLoad * JPEGPlugin::createLoad() const
+        {
+            return new JPEGLoad(context());
+        }
+
+        ImageSave * JPEGPlugin::createSave() const
+        {
+            return new JPEGSave(_options, context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

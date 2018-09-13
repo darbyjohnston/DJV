@@ -33,204 +33,206 @@
 
 #include <djvGraphics/OpenGLImage.h>
 
-//------------------------------------------------------------------------------
-// djvTIFFSave
-//------------------------------------------------------------------------------
-
-djvTIFFSave::djvTIFFSave(const djvTIFF::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options(options),
-    _f      (0)
-{}
-
-djvTIFFSave::~djvTIFFSave()
+namespace djv
 {
-    close();
-}
-
-void djvTIFFSave::open(const djvFileInfo & in, const djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvTIFFSave::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    _file = in;
-    
-    _info          = djvPixelDataInfo();
-    _info.size     = info.size;
-    _info.mirror.y = true;
-
-    djvPixel::TYPE type = djvPixel::type(info.pixel);
-    switch (type)
+    namespace Graphics
     {
-        case djvPixel::U10: type = djvPixel::U16; break;
-        case djvPixel::F16: type = djvPixel::F32; break;
+        TIFFSave::TIFFSave(const TIFF::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options),
+            _f(0)
+        {}
 
-        default: break;
-    }
-
-    _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
-    //DJV_DEBUG_PRINT("info = " << _info);
-
-    _image.set(_info);
-}
-
-void djvTIFFSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvTIFFSave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    // Open the file.
-    const QString fileName = _file.fileName(frame.frame);
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info(_info);
-    info.tags = in.tags;
-    _open(fileName, info);
-
-    // Convert the image.
-    const djvPixelData * p = &in;
-    if (in.info() != _info)
-    {
-        //DJV_DEBUG_PRINT("convert = " << _image);
-        _image.zero();
-        djvOpenGLImage().copy(in, _image);
-        p = &_image;
-    }
-    
-    //! Write the file.
-    const int h = p->h();
-    for (int y = 0; y < h; ++y)
-    {
-        if (TIFFWriteScanline(_f, (tdata_t *)p->data(0, y), y) == -1)
+        TIFFSave::~TIFFSave()
         {
-            throw djvError(
-                djvTIFF::staticName,
-                djvImageIO::errorLabels()[djvImageIO::ERROR_WRITE]);
+            close();
         }
-    }
 
-    close();
-}
+        void TIFFSave::open(const djvFileInfo & in, const ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("TIFFSave::open");
+            //DJV_DEBUG_PRINT("in = " << in);
 
-void djvTIFFSave::close() throw (djvError)
-{
-    if (_f)
-    {
-        TIFFClose(_f);
-        _f = 0;
-    }
-}
+            _file = in;
 
-void djvTIFFSave::_open(const QString & in, const djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvTIFFSave::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
+            _info = PixelDataInfo();
+            _info.size = info.size;
+            _info.mirror.y = true;
 
-    close();
+            Pixel::TYPE type = Pixel::type(info.pixel);
+            switch (type)
+            {
+            case Pixel::U10: type = Pixel::U16; break;
+            case Pixel::F16: type = Pixel::F32; break;
 
-    // Open the file.
-    _f = TIFFOpen(in.toLatin1().data(), "w");
-    if (! _f)
-    {
-        throw djvError(
-            djvTIFF::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_OPEN]);
-    }
+            default: break;
+            }
 
-    // Write the header.
-    uint16 photometric      = 0;
-    uint16 samples          = 0;
-    uint16 sampleDepth      = 0;
-    uint16 sampleFormat     = 0;
-    uint16 extraSamples []  = { EXTRASAMPLE_ASSOCALPHA };
-    uint16 extraSamplesSize = 0;
-    uint16 compression      = 0;
-    switch (djvPixel::format(_image.pixel()))
-    {
-        case djvPixel::L:
-            photometric = PHOTOMETRIC_MINISBLACK;
-            samples     = 1;
-            break;
-        case djvPixel::LA:
-            photometric      = PHOTOMETRIC_MINISBLACK;
-            samples          = 2;
-            extraSamplesSize = 1;
-            break;
-        case djvPixel::RGB:
-            photometric = PHOTOMETRIC_RGB;
-            samples     = 3;
-            break;
-        case djvPixel::RGBA:
-            photometric      = PHOTOMETRIC_RGB;
-            samples          = 4;
-            extraSamplesSize = 1;
-            break;
-        default: break;
-    }
-    switch (djvPixel::type(_image.pixel()))
-    {
-        case djvPixel::U8:
-            sampleDepth  = 8;
-            sampleFormat = SAMPLEFORMAT_UINT;
-            break;
-        case djvPixel::U16:
-            sampleDepth  = 16;
-            sampleFormat = SAMPLEFORMAT_UINT;
-            break;
-        case djvPixel::F16:
-        case djvPixel::F32:
-            sampleDepth  = 32;
-            sampleFormat = SAMPLEFORMAT_IEEEFP;
-            break;
-        default: break;
-    }
-    switch (_options.compression)
-    {
-        case djvTIFF::_COMPRESSION_NONE:
-            compression = COMPRESSION_NONE;
-            break;
-        case djvTIFF::_COMPRESSION_RLE:
-            compression = COMPRESSION_PACKBITS;
-            break;
-        case djvTIFF::_COMPRESSION_LZW:
-            compression = COMPRESSION_LZW;
-            break;
-        default: break;
-    }
-    TIFFSetField(_f, TIFFTAG_IMAGEWIDTH, _image.w());
-    TIFFSetField(_f, TIFFTAG_IMAGELENGTH, _image.h());
-    TIFFSetField(_f, TIFFTAG_PHOTOMETRIC, photometric);
-    TIFFSetField(_f, TIFFTAG_SAMPLESPERPIXEL, samples);
-    TIFFSetField(_f, TIFFTAG_BITSPERSAMPLE, sampleDepth);
-    TIFFSetField(_f, TIFFTAG_SAMPLEFORMAT, sampleFormat);
-    TIFFSetField(_f, TIFFTAG_EXTRASAMPLES, extraSamplesSize, extraSamples);
-    TIFFSetField(_f, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
-    TIFFSetField(_f, TIFFTAG_COMPRESSION, compression);
-    TIFFSetField(_f, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            //DJV_DEBUG_PRINT("info = " << _info);
 
-    // Set image tags.
-    const QStringList & tags = djvImageTags::tagLabels();
-    QString tmp = info.tags[tags[djvImageTags::CREATOR]];
-    if (tmp.length())
-    {
-        TIFFSetField(_f, TIFFTAG_ARTIST, tmp.toLatin1().data());
-    }
-    tmp = info.tags[tags[djvImageTags::COPYRIGHT]];
-    if (tmp.length())
-    {
-        TIFFSetField(_f, TIFFTAG_COPYRIGHT, tmp.toLatin1().data());
-    }
-    tmp = info.tags[tags[djvImageTags::TIME]];
-    if (tmp.length())
-    {
-        TIFFSetField(_f, TIFFTAG_DATETIME, tmp.toLatin1().data());
-    }
-    tmp = info.tags[tags[djvImageTags::DESCRIPTION]];
-    if (tmp.length())
-    {
-        TIFFSetField(_f, TIFFTAG_IMAGEDESCRIPTION, tmp.toLatin1().data());
-    }
-}
+            _image.set(_info);
+        }
 
+        void TIFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("TIFFSave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            // Open the file.
+            const QString fileName = _file.fileName(frame.frame);
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info(_info);
+            info.tags = in.tags;
+            _open(fileName, info);
+
+            // Convert the image.
+            const PixelData * p = &in;
+            if (in.info() != _info)
+            {
+                //DJV_DEBUG_PRINT("convert = " << _image);
+                _image.zero();
+                OpenGLImage().copy(in, _image);
+                p = &_image;
+            }
+
+            //! Write the file.
+            const int h = p->h();
+            for (int y = 0; y < h; ++y)
+            {
+                if (TIFFWriteScanline(_f, (tdata_t *)p->data(0, y), y) == -1)
+                {
+                    throw djvError(
+                        TIFF::staticName,
+                        ImageIO::errorLabels()[ImageIO::ERROR_WRITE]);
+                }
+            }
+
+            close();
+        }
+
+        void TIFFSave::close() throw (djvError)
+        {
+            if (_f)
+            {
+                TIFFClose(_f);
+                _f = 0;
+            }
+        }
+
+        void TIFFSave::_open(const QString & in, const ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("TIFFSave::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            close();
+
+            // Open the file.
+            _f = TIFFOpen(in.toLatin1().data(), "w");
+            if (!_f)
+            {
+                throw djvError(
+                    TIFF::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+            }
+
+            // Write the header.
+            uint16 photometric = 0;
+            uint16 samples = 0;
+            uint16 sampleDepth = 0;
+            uint16 sampleFormat = 0;
+            uint16 extraSamples[] = { EXTRASAMPLE_ASSOCALPHA };
+            uint16 extraSamplesSize = 0;
+            uint16 compression = 0;
+            switch (Pixel::format(_image.pixel()))
+            {
+            case Pixel::L:
+                photometric = PHOTOMETRIC_MINISBLACK;
+                samples = 1;
+                break;
+            case Pixel::LA:
+                photometric = PHOTOMETRIC_MINISBLACK;
+                samples = 2;
+                extraSamplesSize = 1;
+                break;
+            case Pixel::RGB:
+                photometric = PHOTOMETRIC_RGB;
+                samples = 3;
+                break;
+            case Pixel::RGBA:
+                photometric = PHOTOMETRIC_RGB;
+                samples = 4;
+                extraSamplesSize = 1;
+                break;
+            default: break;
+            }
+            switch (Pixel::type(_image.pixel()))
+            {
+            case Pixel::U8:
+                sampleDepth = 8;
+                sampleFormat = SAMPLEFORMAT_UINT;
+                break;
+            case Pixel::U16:
+                sampleDepth = 16;
+                sampleFormat = SAMPLEFORMAT_UINT;
+                break;
+            case Pixel::F16:
+            case Pixel::F32:
+                sampleDepth = 32;
+                sampleFormat = SAMPLEFORMAT_IEEEFP;
+                break;
+            default: break;
+            }
+            switch (_options.compression)
+            {
+            case TIFF::_COMPRESSION_NONE:
+                compression = COMPRESSION_NONE;
+                break;
+            case TIFF::_COMPRESSION_RLE:
+                compression = COMPRESSION_PACKBITS;
+                break;
+            case TIFF::_COMPRESSION_LZW:
+                compression = COMPRESSION_LZW;
+                break;
+            default: break;
+            }
+            TIFFSetField(_f, TIFFTAG_IMAGEWIDTH, _image.w());
+            TIFFSetField(_f, TIFFTAG_IMAGELENGTH, _image.h());
+            TIFFSetField(_f, TIFFTAG_PHOTOMETRIC, photometric);
+            TIFFSetField(_f, TIFFTAG_SAMPLESPERPIXEL, samples);
+            TIFFSetField(_f, TIFFTAG_BITSPERSAMPLE, sampleDepth);
+            TIFFSetField(_f, TIFFTAG_SAMPLEFORMAT, sampleFormat);
+            TIFFSetField(_f, TIFFTAG_EXTRASAMPLES, extraSamplesSize, extraSamples);
+            TIFFSetField(_f, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
+            TIFFSetField(_f, TIFFTAG_COMPRESSION, compression);
+            TIFFSetField(_f, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+
+            // Set image tags.
+            const QStringList & tags = ImageTags::tagLabels();
+            QString tmp = info.tags[tags[ImageTags::CREATOR]];
+            if (tmp.length())
+            {
+                TIFFSetField(_f, TIFFTAG_ARTIST, tmp.toLatin1().data());
+            }
+            tmp = info.tags[tags[ImageTags::COPYRIGHT]];
+            if (tmp.length())
+            {
+                TIFFSetField(_f, TIFFTAG_COPYRIGHT, tmp.toLatin1().data());
+            }
+            tmp = info.tags[tags[ImageTags::TIME]];
+            if (tmp.length())
+            {
+                TIFFSetField(_f, TIFFTAG_DATETIME, tmp.toLatin1().data());
+            }
+            tmp = info.tags[tags[ImageTags::DESCRIPTION]];
+            if (tmp.length())
+            {
+                TIFFSetField(_f, TIFFTAG_IMAGEDESCRIPTION, tmp.toLatin1().data());
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

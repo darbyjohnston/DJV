@@ -49,5 +49,5 @@ public:
 
 private Q_SLOTS:
 
-    void colorCallback(const djvColor &);
+    void colorCallback(const djv::Graphics::Color &);
 };

@@ -77,13 +77,13 @@ namespace djv
                 displayProfileDockWidget(0)
             {}
 
-            bool                           frameStore = false;
-            djvPixelDataInfo::Mirror       mirror;
-            Util::IMAGE_SCALE              scale = static_cast<Util::IMAGE_SCALE>(0);
-            Util::IMAGE_ROTATE             rotate = static_cast<Util::IMAGE_ROTATE>(0);
-            bool                           colorProfile = false;
-            DisplayProfile                 displayProfile;
-            djvOpenGLImageOptions::CHANNEL channel = static_cast<djvOpenGLImageOptions::CHANNEL>(0);
+            bool                                  frameStore = false;
+            Graphics::PixelDataInfo::Mirror       mirror;
+            Util::IMAGE_SCALE                     scale = static_cast<Util::IMAGE_SCALE>(0);
+            Util::IMAGE_ROTATE                    rotate = static_cast<Util::IMAGE_ROTATE>(0);
+            bool                                  colorProfile = false;
+            DisplayProfile                        displayProfile;
+            Graphics::OpenGLImageOptions::CHANNEL channel = static_cast<Graphics::OpenGLImageOptions::CHANNEL>(0);
 
             ImageActions *          actions = nullptr;
             ImageMenu *             menu = nullptr;
@@ -230,7 +230,7 @@ namespace djv
             return _p->frameStore;
         }
 
-        const djvPixelDataInfo::Mirror & ImageGroup::mirror() const
+        const Graphics::PixelDataInfo::Mirror & ImageGroup::mirror() const
         {
             return _p->mirror;
         }
@@ -263,7 +263,7 @@ namespace djv
             Q_EMIT displayProfileChanged(_p->displayProfile);
         }
 
-        djvOpenGLImageOptions::CHANNEL ImageGroup::channel() const
+        Graphics::OpenGLImageOptions::CHANNEL ImageGroup::channel() const
         {
             return _p->channel;
         }
@@ -281,7 +281,7 @@ namespace djv
             Q_EMIT frameStoreChanged(_p->frameStore);
         }
 
-        void ImageGroup::mirrorCallback(const djvPixelDataInfo::Mirror & in)
+        void ImageGroup::mirrorCallback(const Graphics::PixelDataInfo::Mirror & in)
         {
             _p->mirror = in;
             Q_EMIT redrawNeeded();
@@ -289,12 +289,12 @@ namespace djv
 
         void ImageGroup::mirrorHCallback(bool in)
         {
-            mirrorCallback(djvPixelDataInfo::Mirror(in, _p->mirror.y));
+            mirrorCallback(Graphics::PixelDataInfo::Mirror(in, _p->mirror.y));
         }
 
         void ImageGroup::mirrorVCallback(bool in)
         {
-            mirrorCallback(djvPixelDataInfo::Mirror(_p->mirror.x, in));
+            mirrorCallback(Graphics::PixelDataInfo::Mirror(_p->mirror.x, in));
         }
 
         void ImageGroup::scaleCallback(Util::IMAGE_SCALE scale)
@@ -343,11 +343,11 @@ namespace djv
                 DisplayProfile());
         }
 
-        void ImageGroup::channelCallback(djvOpenGLImageOptions::CHANNEL channel)
+        void ImageGroup::channelCallback(Graphics::OpenGLImageOptions::CHANNEL channel)
         {
             if (channel == _p->channel)
             {
-                _p->channel = djvOpenGLImageOptions::CHANNEL_DEFAULT;
+                _p->channel = Graphics::OpenGLImageOptions::CHANNEL_DEFAULT;
             }
             else
             {
@@ -359,8 +359,7 @@ namespace djv
 
         void ImageGroup::channelCallback(QAction * action)
         {
-            channelCallback(
-                static_cast<djvOpenGLImageOptions::CHANNEL>(action->data().toInt()));
+            channelCallback(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(action->data().toInt()));
         }
 
         void ImageGroup::update()

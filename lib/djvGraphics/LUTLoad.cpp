@@ -37,86 +37,89 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/ListUtil.h>
 
-//------------------------------------------------------------------------------
-// djvLUTLoad
-//------------------------------------------------------------------------------
-
-djvLUTLoad::djvLUTLoad(const djvLUT::Options & options, djvCoreContext * context) :
-    djvImageLoad(context),
-    _options(options)
-{}
-
-djvLUTLoad::~djvLUTLoad()
-{}
-
-void djvLUTLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvLUTLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    djvFileIO io;
-    _open(_file.fileName(_file.sequence().start()), info, io);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-}
+        LUTLoad::LUTLoad(const LUT::Options & options, djvCoreContext * context) :
+            ImageLoad(context),
+            _options(options)
+        {}
 
-void djvLUTLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvLUTLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
+        LUTLoad::~LUTLoad()
+        {}
 
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
+        void LUTLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("LUTLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            djvFileIO io;
+            _open(_file.fileName(_file.sequence().start()), info, io);
+            if (djvFileInfo::SEQUENCE == _file.type())
+            {
+                info.sequence.frames = _file.sequence().frames;
+            }
+        }
 
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    djvImageIOInfo info;
-    djvFileIO io;
-    _open(fileName, info, io);
+        void LUTLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("LUTLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
 
-    // Read the file.
-    image.set(info);
-    switch (_format)
-    {
-        case djvLUT::FORMAT_INFERNO:
-            djvLUT::infernoLoad(io, image);
-            break;
-        case djvLUT::FORMAT_KODAK:
-            djvLUT::kodakLoad(io, image);
-            break;
-        default: break;
-    }
-    //DJV_DEBUG_PRINT("image = " << image);
-}
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
 
-void djvLUTLoad::_open(const djvFileInfo & in, djvImageIOInfo & info, djvFileIO & io)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvLUTLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    io.open(in, djvFileIO::READ);
-    info.fileName = in;
-    const int index = djvLUT::staticExtensions.indexOf(in.extension());
-    if (-1 == index)
-    {
-        throw djvError(
-            djvLUT::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNRECOGNIZED]);
-    }
-    _format = static_cast<djvLUT::FORMAT>(index);
-    switch (_format)
-    {
-        case djvLUT::FORMAT_INFERNO:
-            djvLUT::infernoOpen(io, info, _options.type);
-            break;
-        case djvLUT::FORMAT_KODAK:
-            djvLUT::kodakOpen(io, info, _options.type);
-            break;
-        default: break;
-    }
-}
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            ImageIOInfo info;
+            djvFileIO io;
+            _open(fileName, info, io);
+
+            // Read the file.
+            image.set(info);
+            switch (_format)
+            {
+            case LUT::FORMAT_INFERNO:
+                LUT::infernoLoad(io, image);
+                break;
+            case LUT::FORMAT_KODAK:
+                LUT::kodakLoad(io, image);
+                break;
+            default: break;
+            }
+            //DJV_DEBUG_PRINT("image = " << image);
+        }
+
+        void LUTLoad::_open(const djvFileInfo & in, ImageIOInfo & info, djvFileIO & io)
+            throw (djvError)
+        {
+            //DJV_DEBUG("LUTLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            io.open(in, djvFileIO::READ);
+            info.fileName = in;
+            const int index = LUT::staticExtensions.indexOf(in.extension());
+            if (-1 == index)
+            {
+                throw djvError(
+                    LUT::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+            }
+            _format = static_cast<LUT::FORMAT>(index);
+            switch (_format)
+            {
+            case LUT::FORMAT_INFERNO:
+                LUT::infernoOpen(io, info, _options.type);
+                break;
+            case LUT::FORMAT_KODAK:
+                LUT::kodakOpen(io, info, _options.type);
+                break;
+            default: break;
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

@@ -33,27 +33,30 @@
 
 #include <djvGraphics/RLALoad.h>
 
-//------------------------------------------------------------------------------
-// djvRLAPlugin
-//------------------------------------------------------------------------------
-
-djvRLAPlugin::djvRLAPlugin(djvCoreContext * context) :
-    djvImageIO(context)
-{}
-
-QString djvRLAPlugin::pluginName() const
+namespace djv
 {
-    return djvRLA::staticName;
-}
+    namespace Graphics
+    {
+        RLAPlugin::RLAPlugin(djvCoreContext * context) :
+            ImageIO(context)
+        {}
 
-QStringList djvRLAPlugin::extensions() const
-{
-    return QStringList() <<
-        ".rla" <<
-        ".rpf";
-}
-    
-djvImageLoad * djvRLAPlugin::createLoad() const
-{
-    return new djvRLALoad(context());
-}
+        QString RLAPlugin::pluginName() const
+        {
+            return RLA::staticName;
+        }
+
+        QStringList RLAPlugin::extensions() const
+        {
+            return QStringList() <<
+                ".rla" <<
+                ".rpf";
+        }
+
+        ImageLoad * RLAPlugin::createLoad() const
+        {
+            return new RLALoad(context());
+        }
+
+    } // namespace Graphics
+} // namespace djv

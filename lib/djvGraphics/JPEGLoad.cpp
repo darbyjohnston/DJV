@@ -36,232 +36,233 @@
 
 #include <djvCore/Error.h>
 
-//------------------------------------------------------------------------------
-// djvJPEGLoad
-//------------------------------------------------------------------------------
-
-djvJPEGLoad::djvJPEGLoad(djvCoreContext * context) :
-    djvImageLoad(context),
-    _f       (0),
-    _jpegInit(false)
-{}
-
-djvJPEGLoad::~djvJPEGLoad()
+namespace djv
 {
-    close();
-}
-
-void djvJPEGLoad::open(const djvFileInfo & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvJPEGLoad::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    _open(_file.fileName(_file.sequence().start()), info);
-    if (djvFileInfo::SEQUENCE == _file.type())
+    namespace Graphics
     {
-        info.sequence.frames = _file.sequence().frames;
-    }
-    close();
-}
+        JPEGLoad::JPEGLoad(djvCoreContext * context) :
+            ImageLoad(context),
+            _f(0),
+            _jpegInit(false)
+        {}
 
-namespace
-{
-
-bool jpegScanline(
-    libjpeg::jpeg_decompress_struct * jpeg,
-    quint8 *                          out,
-    djvJPEGErrorStruct *              error)
-{
-    if (::setjmp(error->jump))
-    {
-        return false;
-    }
-    libjpeg::JSAMPROW p [] = { (libjpeg::JSAMPLE *)(out) };
-    if (! libjpeg::jpeg_read_scanlines(jpeg, p, 1))
-    {
-        return false;
-    }
-    return true;
-}
-
-bool jpegEnd(
-    libjpeg::jpeg_decompress_struct * jpeg,
-    djvJPEGErrorStruct *              error)
-{
-    if (::setjmp(error->jump))
-    {
-        return false;
-    }
-    libjpeg::jpeg_finish_decompress(jpeg);
-    return true;
-}
-
-} // namespace
-
-void djvJPEGLoad::read(djvImage & image, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvJPEGLoad::read");
-    //DJV_DEBUG_PRINT("frame = " << frame);
-
-    image.colorProfile = djvColorProfile();
-    image.tags = djvImageTags();
-
-    // Open the file.
-    const QString fileName =
-        _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
-    //DJV_DEBUG_PRINT("file name = " << fileName);
-    djvImageIOInfo info;
-    _open(fileName, info);
-    image.tags = info.tags;
-
-    // Read the file.
-    djvPixelData * data = frame.proxy ? &_tmp : &image;
-    data->set(info);
-    for (int y = 0; y < info.size.y; ++y)
-    {
-        if (! jpegScanline(
-            &_jpeg,
-            data->data(0, data->h() - 1 - y),
-            &_jpegError))
+        JPEGLoad::~JPEGLoad()
         {
-            throw djvError(
-                djvJPEG::staticName,
-                _jpegError.msg);
+            close();
         }
-    }
-    if (! jpegEnd(&_jpeg, &_jpegError))
-    {
-        throw djvError(
-            djvJPEG::staticName,
-            _jpegError.msg);
-    }
 
-    if (frame.proxy)
-    {
-        info.size = djvPixelDataUtil::proxyScale(info.size, frame.proxy);
-        info.proxy = frame.proxy;
-        image.set(info);
-        djvPixelDataUtil::proxyScale(_tmp, image, frame.proxy);
-    }
+        void JPEGLoad::open(const djvFileInfo & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("JPEGLoad::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            _open(_file.fileName(_file.sequence().start()), info);
+            if (djvFileInfo::SEQUENCE == _file.type())
+            {
+                info.sequence.frames = _file.sequence().frames;
+            }
+            close();
+        }
 
-    //DJV_DEBUG_PRINT("image = " << image);
-    close();
-}
+        namespace
+        {
 
-void djvJPEGLoad::close() throw (djvError)
-{
-    if (_jpegInit)
-    {
-        libjpeg::jpeg_destroy_decompress(&_jpeg);
-        _jpegInit = false;
-    }
-    if (_f)
-    {
-        ::fclose(_f);
-        _f = 0;
-    }
-}
+            bool jpegScanline(
+                libjpeg::jpeg_decompress_struct * jpeg,
+                quint8 *                          out,
+                JPEGErrorStruct *                 error)
+            {
+                if (::setjmp(error->jump))
+                {
+                    return false;
+                }
+                libjpeg::JSAMPROW p[] = { (libjpeg::JSAMPLE *)(out) };
+                if (!libjpeg::jpeg_read_scanlines(jpeg, p, 1))
+                {
+                    return false;
+                }
+                return true;
+            }
 
-namespace
-{
+            bool jpegEnd(
+                libjpeg::jpeg_decompress_struct * jpeg,
+                JPEGErrorStruct *                 error)
+            {
+                if (::setjmp(error->jump))
+                {
+                    return false;
+                }
+                libjpeg::jpeg_finish_decompress(jpeg);
+                return true;
+            }
 
-bool jpegInit(
-    libjpeg::jpeg_decompress_struct * jpeg,
-    djvJPEGErrorStruct *              error)
-{
-    if (::setjmp(error->jump))
-    {
-        return false;
-    }    
-    using libjpeg::jpeg_decompress_struct;
-    libjpeg::jpeg_create_decompress(jpeg);
-    return true;
-}
+        } // namespace
 
-bool jpegOpen(
-    FILE *                            f,
-    libjpeg::jpeg_decompress_struct * jpeg,
-    djvJPEGErrorStruct *              error)
-{
-    if (::setjmp(error->jump))
-    {
-        return false;
-    }
-    libjpeg::jpeg_stdio_src(jpeg, f);
-    libjpeg::jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
-    if (! libjpeg::jpeg_read_header(jpeg, static_cast<libjpeg::boolean>(1)))
-    {
-        return false;
-    }
-    if (! libjpeg::jpeg_start_decompress(jpeg))
-    {
-        return false;
-    }
-    return true;
-}
+        void JPEGLoad::read(Image & image, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("JPEGLoad::read");
+            //DJV_DEBUG_PRINT("frame = " << frame);
 
-} // namespace
+            image.colorProfile = ColorProfile();
+            image.tags = ImageTags();
 
-void djvJPEGLoad::_open(const QString & in, djvImageIOInfo & info)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvJPEGLoad::_open");
-    //DJV_DEBUG_PRINT("in = " << in);
+            // Open the file.
+            const QString fileName =
+                _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
+            //DJV_DEBUG_PRINT("file name = " << fileName);
+            ImageIOInfo info;
+            _open(fileName, info);
+            image.tags = info.tags;
 
-    close();
+            // Read the file.
+            PixelData * data = frame.proxy ? &_tmp : &image;
+            data->set(info);
+            for (int y = 0; y < info.size.y; ++y)
+            {
+                if (!jpegScanline(
+                    &_jpeg,
+                    data->data(0, data->h() - 1 - y),
+                    &_jpegError))
+                {
+                    throw djvError(
+                        JPEG::staticName,
+                        _jpegError.msg);
+                }
+            }
+            if (!jpegEnd(&_jpeg, &_jpegError))
+            {
+                throw djvError(
+                    JPEG::staticName,
+                    _jpegError.msg);
+            }
 
-    // Initialize libjpeg.
-    _jpeg.err = libjpeg::jpeg_std_error(&_jpegError.pub);
-    _jpegError.pub.error_exit = djvJPEGError;
-    _jpegError.pub.emit_message = djvJPEGWarning;
-    _jpegError.msg[0] = 0;
+            if (frame.proxy)
+            {
+                info.size = PixelDataUtil::proxyScale(info.size, frame.proxy);
+                info.proxy = frame.proxy;
+                image.set(info);
+                PixelDataUtil::proxyScale(_tmp, image, frame.proxy);
+            }
 
-    if (! jpegInit(&_jpeg, &_jpegError))
-    {
-        throw djvError(
-            djvJPEG::staticName,
-            _jpegError.msg);
-    }
-    _jpegInit = true;
+            //DJV_DEBUG_PRINT("image = " << image);
+            close();
+        }
 
-    // Open.
+        void JPEGLoad::close() throw (djvError)
+        {
+            if (_jpegInit)
+            {
+                libjpeg::jpeg_destroy_decompress(&_jpeg);
+                _jpegInit = false;
+            }
+            if (_f)
+            {
+                ::fclose(_f);
+                _f = 0;
+            }
+        }
+
+        namespace
+        {
+
+            bool jpegInit(
+                libjpeg::jpeg_decompress_struct * jpeg,
+                JPEGErrorStruct *                 error)
+            {
+                if (::setjmp(error->jump))
+                {
+                    return false;
+                }
+                using libjpeg::jpeg_decompress_struct;
+                libjpeg::jpeg_create_decompress(jpeg);
+                return true;
+            }
+
+            bool jpegOpen(
+                FILE *                            f,
+                libjpeg::jpeg_decompress_struct * jpeg,
+                JPEGErrorStruct *                 error)
+            {
+                if (::setjmp(error->jump))
+                {
+                    return false;
+                }
+                libjpeg::jpeg_stdio_src(jpeg, f);
+                libjpeg::jpeg_save_markers(jpeg, JPEG_COM, 0xFFFF);
+                if (!libjpeg::jpeg_read_header(jpeg, static_cast<libjpeg::boolean>(1)))
+                {
+                    return false;
+                }
+                if (!libjpeg::jpeg_start_decompress(jpeg))
+                {
+                    return false;
+                }
+                return true;
+            }
+
+        } // namespace
+
+        void JPEGLoad::_open(const QString & in, ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("JPEGLoad::_open");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            close();
+
+            // Initialize libjpeg.
+            _jpeg.err = libjpeg::jpeg_std_error(&_jpegError.pub);
+            _jpegError.pub.error_exit = djvJPEGError;
+            _jpegError.pub.emit_message = djvJPEGWarning;
+            _jpegError.msg[0] = 0;
+
+            if (!jpegInit(&_jpeg, &_jpegError))
+            {
+                throw djvError(
+                    JPEG::staticName,
+                    _jpegError.msg);
+            }
+            _jpegInit = true;
+
+            // Open.
 #if defined(DJV_WINDOWS)
-    ::fopen_s(&_f, in.toLatin1().data(), "rb");
+            ::fopen_s(&_f, in.toLatin1().data(), "rb");
 #else // DJV_WINDOWS
-    _f = ::fopen(in.toLatin1().data(), "rb");
+            _f = ::fopen(in.toLatin1().data(), "rb");
 #endif // DJV_WINDOWS
-    if (! _f)
-    {
-        throw djvError(
-            djvJPEG::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_OPEN]);
-    }
-    if (! jpegOpen(_f, &_jpeg, &_jpegError))
-    {
-        throw djvError(
-            djvJPEG::staticName,
-            _jpegError.msg);
-    }
+            if (!_f)
+            {
+                throw djvError(
+                    JPEG::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
+            }
+            if (!jpegOpen(_f, &_jpeg, &_jpegError))
+            {
+                throw djvError(
+                    JPEG::staticName,
+                    _jpegError.msg);
+            }
 
-    // Information.
-    info.fileName = in;
-    info.size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
-    if (! djvPixel::pixel(
-        _jpeg.out_color_components, 8, djvPixel::INTEGER, info.pixel))
-    {
-        throw djvError(
-            djvJPEG::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNSUPPORTED]);
-    }
+            // Information.
+            info.fileName = in;
+            info.size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
+            if (!Pixel::pixel(_jpeg.out_color_components, 8, Pixel::INTEGER, info.pixel))
+            {
+                throw djvError(
+                    JPEG::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
+            }
 
-    // Image tags.
-    const libjpeg::jpeg_saved_marker_ptr marker = _jpeg.marker_list;
-    if (marker)
-        info.tags[djvImageTags::tagLabels()[djvImageTags::DESCRIPTION]] =
-            QString((const char *)marker->data).mid(0, marker->data_length);
+            // Image tags.
+            const libjpeg::jpeg_saved_marker_ptr marker = _jpeg.marker_list;
+            if (marker)
+                info.tags[ImageTags::tagLabels()[ImageTags::DESCRIPTION]] =
+                QString((const char *)marker->data).mid(0, marker->data_length);
 
-    //DJV_DEBUG_PRINT("info = " << info);
-}
+            //DJV_DEBUG_PRINT("info = " << info);
+        }
 
+    } // namespace Graphics
+} // namespace djv

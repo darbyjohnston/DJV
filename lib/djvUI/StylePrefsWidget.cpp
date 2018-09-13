@@ -243,35 +243,35 @@ namespace djv
             widgetUpdate();
         }
 
-        void StylePrefsWidget::colorForegroundCallback(const djvColor & color)
+        void StylePrefsWidget::colorForegroundCallback(const Graphics::Color & color)
         {
             Style::Palette tmp = context()->style()->palette();
             tmp.foreground = color;
             context()->style()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorBackgroundCallback(const djvColor & color)
+        void StylePrefsWidget::colorBackgroundCallback(const Graphics::Color & color)
         {
             Style::Palette tmp = context()->style()->palette();
             tmp.background = color;
             context()->style()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorBackground2Callback(const djvColor & color)
+        void StylePrefsWidget::colorBackground2Callback(const Graphics::Color & color)
         {
             Style::Palette tmp = context()->style()->palette();
             tmp.background2 = color;
             context()->style()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorButtonCallback(const djvColor & color)
+        void StylePrefsWidget::colorButtonCallback(const Graphics::Color & color)
         {
             Style::Palette tmp = context()->style()->palette();
             tmp.button = color;
             context()->style()->setPalette(tmp);
         }
 
-        void StylePrefsWidget::colorSelectCallback(const djvColor & color)
+        void StylePrefsWidget::colorSelectCallback(const Graphics::Color & color)
         {
             Style::Palette tmp = context()->style()->palette();
             tmp.select = color;

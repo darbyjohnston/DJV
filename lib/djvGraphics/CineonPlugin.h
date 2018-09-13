@@ -36,38 +36,48 @@
 
 #include <djvCore/FileIO.h>
 
-//! \addtogroup djvCineonPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvCineonPlugin
-//!
-//! This class provides a Cineon plugin.
-//------------------------------------------------------------------------------
-
-class djvCineonPlugin : public djvImageIO
+namespace djv
 {
-public:
-    explicit djvCineonPlugin(djvCoreContext *);
-    
-    virtual ~djvCineonPlugin();
+    namespace Graphics
+    {
+        //! \class CineonPlugin
+        //!
+        //! This plugin provides support for the Kodak Cineon image file format. Cineon
+        //! is a specialized image file format for working with motion picture film.
+        //!
+        //! File extensions: .cin
+        //!
+        //! Supported features:
+        //!
+        //! - 10-bit RGB (the most common variety)
+        //! - Interleaved channels only
+        //!
+        //! References:
+        //!
+        //! - Kodak, "4.5 DRAFT - Image File Format Proposal for Digital Pictures"
+        class CineonPlugin : public ImageIO
+        {
+        public:
+            explicit CineonPlugin(djvCoreContext *);
 
-    virtual QString pluginName() const;
-    virtual QStringList extensions() const;
-    
-    virtual QStringList option(const QString &) const;
-    virtual bool setOption(const QString &, QStringList &);
-    virtual QStringList options() const;
+            virtual ~CineonPlugin();
 
-    virtual void commandLine(QStringList &) throw (QString);
-    virtual QString commandLineHelp() const;
-    
-    virtual djvImageLoad * createLoad() const;
-    virtual djvImageSave * createSave() const;
-    
-private:
-    djvCineon::Options _options;
-};
+            virtual QString pluginName() const;
+            virtual QStringList extensions() const;
 
-//@} // djvCineonPlugin
+            virtual QStringList option(const QString &) const;
+            virtual bool setOption(const QString &, QStringList &);
+            virtual QStringList options() const;
 
+            virtual void commandLine(QStringList &) throw (QString);
+            virtual QString commandLineHelp() const;
+
+            virtual ImageLoad * createLoad() const;
+            virtual ImageSave * createSave() const;
+
+        private:
+            Cineon::Options _options;
+        };
+
+    } // namespace Graphics
+} // namespace djv

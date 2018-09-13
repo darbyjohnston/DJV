@@ -31,8 +31,11 @@
 
 #include <djvGraphics/IFL.h>
 
-//------------------------------------------------------------------------------
-// djvIFL
-//------------------------------------------------------------------------------
+namespace djv
+{
+    namespace Graphics
+    {
+        const QString IFL::staticName = "IFL";
 
-const QString djvIFL::staticName = "IFL";
+    } // namespace Graphics
+} // namespace djv

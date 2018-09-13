@@ -36,92 +36,94 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/ListUtil.h>
 
-//------------------------------------------------------------------------------
-// djvLUTSave
-//------------------------------------------------------------------------------
-
-djvLUTSave::djvLUTSave(const djvLUT::Options & options, djvCoreContext * context) :
-    djvImageSave(context),
-    _options(options)
-{}
-
-djvLUTSave::~djvLUTSave()
-{}
-
-void djvLUTSave::open(const djvFileInfo & in, const djvImageIOInfo & info)
-    throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvLUTSave::open");
-    //DJV_DEBUG_PRINT("in = " << in);
-    _file = in;
-    if (info.sequence.frames.count() > 1)
+    namespace Graphics
     {
-        _file.setType(djvFileInfo::SEQUENCE);
-    }
-    _info = djvPixelDataInfo();
-    _info.size = glm::ivec2(info.size.x, 1);
-    djvPixel::TYPE type = djvPixel::type(info.pixel);
-    switch (type)
-    {
-        case djvPixel::F16:
-        case djvPixel::F32: type = djvPixel::U16; break;
-        default: break;
-    }
-    _info.pixel = djvPixel::pixel(djvPixel::format(info.pixel), type);
-    //DJV_DEBUG_PRINT("info = " << _info);
-    _image.set(_info);
-}
+        LUTSave::LUTSave(const LUT::Options & options, djvCoreContext * context) :
+            ImageSave(context),
+            _options(options)
+        {}
 
-void djvLUTSave::write(const djvImage & in, const djvImageIOFrameInfo & frame)
-    throw (djvError)
-{
-    //DJV_DEBUG("djvLUTSave::write");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("frame = " << frame);
+        LUTSave::~LUTSave()
+        {}
 
-    // Open the file.
-    const QString fileName = _file.fileName(frame.frame);
-    djvFileIO io;
-    io.open(fileName, djvFileIO::WRITE);
-    const int index = djvLUT::staticExtensions.indexOf(_file.extension());
-    if (-1 == index)
-    {
-        throw djvError(
-            djvLUT::staticName,
-            djvImageIO::errorLabels()[djvImageIO::ERROR_UNRECOGNIZED]);
-    }
-    _format = static_cast<djvLUT::FORMAT>(index);
-    switch (_format)
-    {
-        case djvLUT::FORMAT_INFERNO:
-            djvLUT::infernoOpen(io, _info);
-            break;
-        case djvLUT::FORMAT_KODAK:
-            djvLUT::kodakOpen(io, _info);
-            break;
-        default: break;
-    }
+        void LUTSave::open(const djvFileInfo & in, const ImageIOInfo & info)
+            throw (djvError)
+        {
+            //DJV_DEBUG("LUTSave::open");
+            //DJV_DEBUG_PRINT("in = " << in);
+            _file = in;
+            if (info.sequence.frames.count() > 1)
+            {
+                _file.setType(djvFileInfo::SEQUENCE);
+            }
+            _info = PixelDataInfo();
+            _info.size = glm::ivec2(info.size.x, 1);
+            Pixel::TYPE type = Pixel::type(info.pixel);
+            switch (type)
+            {
+            case Pixel::F16:
+            case Pixel::F32: type = Pixel::U16; break;
+            default: break;
+            }
+            _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
+            //DJV_DEBUG_PRINT("info = " << _info);
+            _image.set(_info);
+        }
 
-    // Convert the image.
-    const djvPixelData * p = &in;
-    if (in.info() != _info)
-    {
-        //DJV_DEBUG_PRINT("convert = " << _image);
-        _image.zero();
-        djvOpenGLImage().copy(in, _image);
-        p = &_image;
-    }
+        void LUTSave::write(const Image & in, const ImageIOFrameInfo & frame)
+            throw (djvError)
+        {
+            //DJV_DEBUG("LUTSave::write");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("frame = " << frame);
 
-    // Write the file.
-    switch (_format)
-    {
-        case djvLUT::FORMAT_INFERNO:
-            djvLUT::infernoSave(io, p);
-            break;
-        case djvLUT::FORMAT_KODAK:
-            djvLUT::kodakSave(io, p);
-            break;
-        default: break;
-    }
-}
+            // Open the file.
+            const QString fileName = _file.fileName(frame.frame);
+            djvFileIO io;
+            io.open(fileName, djvFileIO::WRITE);
+            const int index = LUT::staticExtensions.indexOf(_file.extension());
+            if (-1 == index)
+            {
+                throw djvError(
+                    LUT::staticName,
+                    ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
+            }
+            _format = static_cast<LUT::FORMAT>(index);
+            switch (_format)
+            {
+            case LUT::FORMAT_INFERNO:
+                LUT::infernoOpen(io, _info);
+                break;
+            case LUT::FORMAT_KODAK:
+                LUT::kodakOpen(io, _info);
+                break;
+            default: break;
+            }
 
+            // Convert the image.
+            const PixelData * p = &in;
+            if (in.info() != _info)
+            {
+                //DJV_DEBUG_PRINT("convert = " << _image);
+                _image.zero();
+                OpenGLImage().copy(in, _image);
+                p = &_image;
+            }
+
+            // Write the file.
+            switch (_format)
+            {
+            case LUT::FORMAT_INFERNO:
+                LUT::infernoSave(io, p);
+                break;
+            case LUT::FORMAT_KODAK:
+                LUT::kodakSave(io, p);
+                break;
+            default: break;
+            }
+        }
+
+    } // namespace Graphics
+} // namespace djv

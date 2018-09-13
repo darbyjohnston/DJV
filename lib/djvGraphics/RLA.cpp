@@ -34,104 +34,107 @@
 #include <djvCore/Debug.h>
 #include <djvCore/Memory.h>
 
-//------------------------------------------------------------------------------
-// djvRLA
-//------------------------------------------------------------------------------
-
-const QString djvRLA::staticName = "RLA";
-
-void djvRLA::readRle(
-    djvFileIO & io,
-    quint8 *    out,
-    int         size,
-    int         channels,
-    int         bytes) throw (djvError)
+namespace djv
 {
-    //DJV_DEBUG("djvRLA::readRle");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    //DJV_DEBUG_PRINT("bytes = " << bytes);
-    qint16 _size = 0;
-    io.get16(&_size);
-    //DJV_DEBUG_PRINT("io size = " << _size);
-    const quint8 * start = io.mmapP();
-    const quint8 * p = start;
-    io.seek(_size);
-    for (int b = 0; b < bytes; ++b)
+    namespace Graphics
     {
-        quint8 * outP =
-            out + (djvMemory::LSB == djvMemory::endian() ? (bytes - 1 - b) : b);
-        const int outInc = channels * bytes;
-        for (int i = 0; i < size;)
+        const QString RLA::staticName = "RLA";
+
+        void RLA::readRle(
+            djvFileIO & io,
+            quint8 *    out,
+            int         size,
+            int         channels,
+            int         bytes) throw (djvError)
         {
-            int count = *((qint8 *)p);
-            ++p;
-            //DJV_DEBUG_PRINT("count = " << count);
-            if (count >= 0)
+            //DJV_DEBUG("RLA::readRle");
+            //DJV_DEBUG_PRINT("size = " << size);
+            //DJV_DEBUG_PRINT("channels = " << channels);
+            //DJV_DEBUG_PRINT("bytes = " << bytes);
+            qint16 _size = 0;
+            io.get16(&_size);
+            //DJV_DEBUG_PRINT("io size = " << _size);
+            const quint8 * start = io.mmapP();
+            const quint8 * p = start;
+            io.seek(_size);
+            for (int b = 0; b < bytes; ++b)
             {
-                ++count;
-                for (int j = 0; j < count; ++j, outP += outInc)
+                quint8 * outP =
+                    out + (djvMemory::LSB == djvMemory::endian() ? (bytes - 1 - b) : b);
+                const int outInc = channels * bytes;
+                for (int i = 0; i < size;)
                 {
-                    *outP = *p;
+                    int count = *((qint8 *)p);
+                    ++p;
+                    //DJV_DEBUG_PRINT("count = " << count);
+                    if (count >= 0)
+                    {
+                        ++count;
+                        for (int j = 0; j < count; ++j, outP += outInc)
+                        {
+                            *outP = *p;
+                        }
+                        ++p;
+                    }
+                    else
+                    {
+                        count = -count;
+                        for (int j = 0; j < count; ++j, ++p, outP += outInc)
+                        {
+                            *outP = *p;
+                        }
+                    }
+                    i += count;
                 }
-                ++p;
+            }
+            //DJV_DEBUG_PRINT("out = " << p - start);
+        }
+
+        void RLA::floatLoad(
+            djvFileIO & io,
+            quint8 *    out,
+            int         size,
+            int         channels) throw (djvError)
+        {
+            //DJV_DEBUG("RLA::floatLoad");
+            //DJV_DEBUG_PRINT("size = " << size);
+            //DJV_DEBUG_PRINT("channels = " << channels);
+            qint16 _size = 0;
+            io.get16(&_size);
+            //DJV_DEBUG_PRINT("io size = " << _size);
+            const quint8 * start = io.mmapP();
+            const quint8 * p = start;
+            io.seek(_size);
+            const int outInc = channels * 4;
+            if (djvMemory::LSB == djvMemory::endian())
+            {
+                for (int i = 0; i < size; ++i, p += 4, out += outInc)
+                {
+                    out[0] = p[3];
+                    out[1] = p[2];
+                    out[2] = p[1];
+                    out[3] = p[0];
+                }
             }
             else
             {
-                count = -count;
-                for (int j = 0; j < count; ++j, ++p, outP += outInc)
+                for (int i = 0; i < size; ++i, p += 4, out += outInc)
                 {
-                    *outP = *p;
+                    out[0] = p[0];
+                    out[1] = p[1];
+                    out[2] = p[2];
+                    out[3] = p[3];
                 }
             }
-            i += count;
+            //DJV_DEBUG_PRINT("out = " << p - start);
         }
-    }
-    //DJV_DEBUG_PRINT("out = " << p - start);
-}
 
-void djvRLA::floatLoad(
-    djvFileIO & io,
-    quint8 *    out,
-    int         size,
-    int         channels) throw (djvError)
-{
-    //DJV_DEBUG("djvRLA::floatLoad");
-    //DJV_DEBUG_PRINT("size = " << size);
-    //DJV_DEBUG_PRINT("channels = " << channels);
-    qint16 _size = 0;
-    io.get16(&_size);
-    //DJV_DEBUG_PRINT("io size = " << _size);
-    const quint8 * start = io.mmapP();
-    const quint8 * p = start;
-    io.seek(_size);
-    const int outInc = channels * 4;
-    if (djvMemory::LSB == djvMemory::endian())
-    {
-        for (int i = 0; i < size; ++i, p += 4, out += outInc)
+        void RLA::skip(djvFileIO & io) throw (djvError)
         {
-            out[0] = p[3];
-            out[1] = p[2];
-            out[2] = p[1];
-            out[3] = p[0];
+            qint16 size = 0;
+            io.get16(&size);
+            io.seek(size);
         }
-    }
-    else
-    {
-        for (int i = 0; i < size; ++i, p += 4, out += outInc)
-        {
-            out[0] = p[0];
-            out[1] = p[1];
-            out[2] = p[2];
-            out[3] = p[3];
-        }
-    }
-    //DJV_DEBUG_PRINT("out = " << p - start);
-}
 
-void djvRLA::skip(djvFileIO & io) throw (djvError)
-{
-    qint16 size = 0;
-    io.get16(&size);
-    io.seek(size);
-}
+    } // namespace Graphics
+} // namespace djv

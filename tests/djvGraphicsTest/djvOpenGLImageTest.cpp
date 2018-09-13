@@ -42,6 +42,8 @@
 #include <QScopedPointer>
 #include <QStringList>
 
+using namespace djv;
+
 void djvOpenGLImageTest::run(int &, char **)
 {
     DJV_DEBUG("djvOpenGLImageTest::run");
@@ -55,24 +57,24 @@ void djvOpenGLImageTest::ctors()
 {
     DJV_DEBUG("djvOpenGLImageTest::ctors");
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageXform());
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageXform());
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageColor());
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageColor());
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageLevels());
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageLevels());
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageDisplayProfile());
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageDisplayProfile());
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageFilter());
-        DJV_DEBUG_PRINT(djvOpenGLImageFilter(
-            djvOpenGLImageFilter::BOX, djvOpenGLImageFilter::TRIANGLE));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageFilter());
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageFilter(
+            Graphics::OpenGLImageFilter::BOX, Graphics::OpenGLImageFilter::TRIANGLE));
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageOptions());
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageOptions());
     }
 }
 
@@ -80,44 +82,44 @@ void djvOpenGLImageTest::members()
 {
     DJV_DEBUG("djvOpenGLImageTest::members");
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageXform::xformMatrix(djvOpenGLImageXform()));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageXform::xformMatrix(Graphics::OpenGLImageXform()));
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageColor::brightnessMatrix(1.f, 0.f, 0.f));
-        DJV_DEBUG_PRINT(djvOpenGLImageColor::contrastMatrix(1.f, 0.f, 0.f));
-        DJV_DEBUG_PRINT(djvOpenGLImageColor::saturationMatrix(1.f, 0.f, 0.f));
-        DJV_DEBUG_PRINT(djvOpenGLImageColor::colorMatrix(djvOpenGLImageColor()));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageColor::brightnessMatrix(1.f, 0.f, 0.f));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageColor::contrastMatrix(1.f, 0.f, 0.f));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageColor::saturationMatrix(1.f, 0.f, 0.f));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageColor::colorMatrix(Graphics::OpenGLImageColor()));
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageLevels::colorLut(djvOpenGLImageLevels(), .5f));
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageLevels::colorLut(Graphics::OpenGLImageLevels(), .5f));
     }
     {
-        DJV_ASSERT(djvOpenGLImageFilter::toGl(djvOpenGLImageFilter::NEAREST) != GL_NONE);
-        DJV_ASSERT(djvOpenGLImageFilter::toGl(djvOpenGLImageFilter::LINEAR) != GL_NONE);
-        DJV_ASSERT(djvOpenGLImageFilter::toGl(djvOpenGLImageFilter::BOX) == GL_NONE);
+        DJV_ASSERT(Graphics::OpenGLImageFilter::toGl(Graphics::OpenGLImageFilter::NEAREST) != GL_NONE);
+        DJV_ASSERT(Graphics::OpenGLImageFilter::toGl(Graphics::OpenGLImageFilter::LINEAR) != GL_NONE);
+        DJV_ASSERT(Graphics::OpenGLImageFilter::toGl(Graphics::OpenGLImageFilter::BOX) == GL_NONE);
     }
     {
-        djvGraphicsContext context;
-        for (int i = 0; i < djvPixel::PIXEL_COUNT; ++i)
+        Graphics::GraphicsContext context;
+        for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
         {
-            const djvPixel::PIXEL pixel = static_cast<djvPixel::PIXEL>(i);
+            const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
             DJV_DEBUG_PRINT("pixel = " << pixel);
-            djvPixelData
-                a(djvPixelDataInfo(1, 1, pixel)),
-                b(djvPixelDataInfo(1, 1, pixel));
-            djvColor color(pixel);
-            djvColorUtil::convert(djvColor(0.5), color);
+            Graphics::PixelData
+                a(Graphics::PixelDataInfo(1, 1, pixel)),
+                b(Graphics::PixelDataInfo(1, 1, pixel));
+            Graphics::Color color(pixel);
+            Graphics::ColorUtil::convert(Graphics::Color(0.5), color);
             DJV_DEBUG_PRINT("color = " << color);
             memcpy(a.data(), color.data(), a.dataByteCount());
-            DJV_DEBUG_PRINT("pixel = " << djvOpenGLImage().read(a, 0, 0));
+            DJV_DEBUG_PRINT("pixel = " << Graphics::OpenGLImage().read(a, 0, 0));
 
-            djvOpenGLImage().copy(a, b);
+            Graphics::OpenGLImage().copy(a, b);
             DJV_DEBUG_PRINT("compare = " << (a == b));
-            djvOpenGLImage().average(a, color);
+            Graphics::OpenGLImage().average(a, color);
 
             DJV_DEBUG_PRINT("average = " << color);
-            djvColor min, max;
-            djvOpenGLImage().histogram(a, b, 1, min, max);
+            Graphics::Color min, max;
+            Graphics::OpenGLImage().histogram(a, b, 1, min, max);
 
             DJV_DEBUG_PRINT("histogram = " << b);
             DJV_DEBUG_PRINT("min = " << min);
@@ -130,75 +132,75 @@ void djvOpenGLImageTest::members()
 void djvOpenGLImageTest::convert()
 {
     DJV_DEBUG("djvOpenGLImageTest::convert");
-    djvGraphicsContext context;
-    djvPixelData data(djvPixelDataInfo(32, 32, djvPixel::L_F32));
-    djvOpenGLImage().toQt(data);
+    Graphics::GraphicsContext context;
+    Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::L_F32));
+    Graphics::OpenGLImage().toQt(data);
 }
 
 void djvOpenGLImageTest::operators()
 {
     DJV_DEBUG("djvOpenGLImageTest::operators");
     {
-        djvOpenGLImageXform a, b;
-        a.mirror = b.mirror = djvPixelDataInfo::Mirror(true, true);
+        Graphics::OpenGLImageXform a, b;
+        a.mirror = b.mirror = Graphics::PixelDataInfo::Mirror(true, true);
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvOpenGLImageXform());
+        DJV_ASSERT(a != Graphics::OpenGLImageXform());
     }
     {
-        djvOpenGLImageColor a, b;
+        Graphics::OpenGLImageColor a, b;
         a.brightness = b.brightness = 2.f;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvOpenGLImageColor());
+        DJV_ASSERT(a != Graphics::OpenGLImageColor());
     }
     {
-        djvOpenGLImageLevels a, b;
+        Graphics::OpenGLImageLevels a, b;
         a.gamma = b.gamma = 2.2f;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvOpenGLImageLevels());
+        DJV_ASSERT(a != Graphics::OpenGLImageLevels());
     }
     {
-        djvOpenGLImageDisplayProfile a, b;
+        Graphics::OpenGLImageDisplayProfile a, b;
         a.softClip = b.softClip = .5f;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvOpenGLImageDisplayProfile());
+        DJV_ASSERT(a != Graphics::OpenGLImageDisplayProfile());
     }
     {
-        djvOpenGLImageFilter a, b;
-        a.min = b.min = djvOpenGLImageFilter::BOX;
+        Graphics::OpenGLImageFilter a, b;
+        a.min = b.min = Graphics::OpenGLImageFilter::BOX;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvOpenGLImageFilter());
+        DJV_ASSERT(a != Graphics::OpenGLImageFilter());
     }
     {
-        djvOpenGLImageOptions a, b;
-        a.channel = b.channel = djvOpenGLImageOptions::CHANNEL_RED;
+        Graphics::OpenGLImageOptions a, b;
+        a.channel = b.channel = Graphics::OpenGLImageOptions::CHANNEL_RED;
         DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvOpenGLImageOptions());
+        DJV_ASSERT(a != Graphics::OpenGLImageOptions());
     }
     {
-        djvOpenGLImageXform a;
-        a.mirror   = djvPixelDataInfo::Mirror(true, true);
+        Graphics::OpenGLImageXform a;
+        a.mirror   = Graphics::PixelDataInfo::Mirror(true, true);
         a.position = glm::vec2(1.f, 2.f);
         a.scale    = glm::vec2(3.f, 4.f);
         a.rotate   = 5.f;
         QStringList tmp;
         tmp << a;
-        djvOpenGLImageXform b;
+        Graphics::OpenGLImageXform b;
         tmp >> b;
         DJV_ASSERT(a == b);
     }
     {
-        djvOpenGLImageColor a;
+        Graphics::OpenGLImageColor a;
         a.brightness = 1.f;
         a.contrast   = 2.f;
         a.saturation = 3.f;
         QStringList tmp;
         tmp << a;
-        djvOpenGLImageColor b;
+        Graphics::OpenGLImageColor b;
         tmp >> b;
         DJV_ASSERT(a == b);
     }
     {
-        djvOpenGLImageLevels a;
+        Graphics::OpenGLImageLevels a;
         a.inLow   = 1.f;
         a.inHigh  = 2.f;
         a.gamma   = 3.f;
@@ -206,13 +208,13 @@ void djvOpenGLImageTest::operators()
         a.outHigh = 5.f;
         QStringList tmp;
         tmp << a;
-        djvOpenGLImageLevels b;
+        Graphics::OpenGLImageLevels b;
         tmp >> b;
         DJV_ASSERT(a == b);
     }
     {
-        DJV_DEBUG_PRINT(djvOpenGLImageFilter::BELL);
-        DJV_DEBUG_PRINT(djvOpenGLImageOptions::CHANNEL_RED);
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageFilter::BELL);
+        DJV_DEBUG_PRINT(Graphics::OpenGLImageOptions::CHANNEL_RED);
     }
 }
 

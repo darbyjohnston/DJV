@@ -36,38 +36,32 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \addtogroup djvCineonPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvCineonLoad
-//!
-//! This class provides a Cineon loader.
-//------------------------------------------------------------------------------
-
-class djvCineonLoad : public djvImageLoad
+namespace djv
 {
-public:
-    djvCineonLoad(const djvCineon::Options &, djvCoreContext *);
+    namespace Graphics
+    {
+        //! \class CineonLoad
+        //!
+        //! This class provides a Cineon loader.
+        class CineonLoad : public ImageLoad
+        {
+        public:
+            CineonLoad(const Cineon::Options &, djvCoreContext *);
 
-    virtual ~djvCineonLoad();
+            virtual ~CineonLoad();
 
-    virtual void open(const djvFileInfo &, djvImageIOInfo &)
-        throw (djvError);
+            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
 
-    virtual void read(djvImage &, const djvImageIOFrameInfo &)
-        throw (djvError);
+        private:
+            void _open(const QString &, ImageIOInfo &, djvFileIO & io) throw (djvError);
 
-private:
-    void _open(const QString &, djvImageIOInfo &, djvFileIO & io)
-        throw (djvError);
+            Cineon::Options _options;
+            bool            _filmPrint;
+            PixelData       _filmPrintLut;
+            djvFileInfo     _file;
+            PixelData       _tmp;
+        };
 
-    djvCineon::Options _options;
-    bool               _filmPrint;
-    djvPixelData       _filmPrintLut;
-    djvFileInfo        _file;
-    djvPixelData       _tmp;
-};
-
-//@} // djvCineonPlugin
-
+    } // namespace Graphics
+} // namespace djv

@@ -56,10 +56,10 @@ namespace djv
 
             //! This property holds the pixel mask.    
             Q_PROPERTY(
-                djvPixel::Mask mask
-                READ           mask
-                WRITE          setMask
-                NOTIFY         maskChanged)
+                djv::Graphics::Pixel::Mask mask
+                READ                       mask
+                WRITE                      setMask
+                NOTIFY                     maskChanged)
 
         public:
             explicit PixelMaskWidget(UIContext *, QWidget * parent = nullptr);
@@ -67,15 +67,15 @@ namespace djv
             virtual ~PixelMaskWidget();
 
             //! Get the pixel mask.
-            const djvPixel::Mask & mask() const;
+            const Graphics::Pixel::Mask & mask() const;
 
         public Q_SLOTS:
             //! Set the pixel mask.
-            void setMask(const djvPixel::Mask &);
+            void setMask(const djv::Graphics::Pixel::Mask &);
 
         Q_SIGNALS:
             //! This signal is emitted when the pixel mask is changed.
-            void maskChanged(const djvPixel::Mask &);
+            void maskChanged(const djv::Graphics::Pixel::Mask &);
 
         private Q_SLOTS:
             void buttonCallback();

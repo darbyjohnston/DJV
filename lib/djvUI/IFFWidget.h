@@ -50,7 +50,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            IFFWidget(djvImageIO *, UIContext *);
+            IFFWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~IFFWidget();
 
@@ -64,8 +64,8 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvIFF::Options _options;
-            QComboBox *     _compressionWidget;
+            Graphics::IFF::Options _options;
+            QComboBox * _compressionWidget;
         };
 
         //! \class IFFWidgetPlugin
@@ -76,7 +76,7 @@ namespace djv
         public:
             IFFWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

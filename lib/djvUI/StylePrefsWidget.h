@@ -37,10 +37,14 @@
 
 #include <memory>
 
-class djvColor;
-
 namespace djv
 {
+    namespace Graphics
+    {
+        class Color;
+    
+    } // namespace Graphics
+
     namespace UI
     {
         //! \class djvStylePrefsWidget
@@ -59,11 +63,11 @@ namespace djv
 
         private Q_SLOTS:
             void colorCallback(int);
-            void colorForegroundCallback(const djvColor &);
-            void colorBackgroundCallback(const djvColor &);
-            void colorBackground2Callback(const djvColor &);
-            void colorButtonCallback(const djvColor &);
-            void colorSelectCallback(const djvColor &);
+            void colorForegroundCallback(const Graphics::Color &);
+            void colorBackgroundCallback(const Graphics::Color &);
+            void colorBackground2Callback(const Graphics::Color &);
+            void colorButtonCallback(const Graphics::Color &);
+            void colorSelectCallback(const Graphics::Color &);
             void colorSwatchTransparencyCallback(bool);
             void sizeCallback(int);
             void sizeValueCallback(int);

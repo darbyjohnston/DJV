@@ -86,15 +86,15 @@ namespace djv
             {}
 
             djvFileInfo fileInfo;
-            djvImageIOInfo imageIOInfo;
-            const djvImage * image = nullptr;
-            djvImage imageTmp;
-            djvImage imageTmp2;
-            QScopedPointer<djvImageLoad> imageLoad;
-            std::unique_ptr<djvOpenGLImage> openGLImage;
+            Graphics::ImageIOInfo imageIOInfo;
+            const Graphics::Image * image = nullptr;
+            Graphics::Image imageTmp;
+            Graphics::Image imageTmp2;
+            QScopedPointer<Graphics::ImageLoad> imageLoad;
+            std::unique_ptr<Graphics::OpenGLImage> openGLImage;
             int layer = 0;
             QStringList layers;
-            djvPixelDataInfo::PROXY proxy = static_cast<djvPixelDataInfo::PROXY>(0);
+            Graphics::PixelDataInfo::PROXY proxy = static_cast<Graphics::PixelDataInfo::PROXY>(0);
             bool u8Conversion = false;
             bool cache = false;
             FileCacheItem * cacheItem = nullptr;
@@ -284,7 +284,7 @@ namespace djv
             return _p->layer;
         }
 
-        djvPixelDataInfo::PROXY FileGroup::proxy() const
+        Graphics::PixelDataInfo::PROXY FileGroup::proxy() const
         {
             return _p->proxy;
         }
@@ -314,7 +314,7 @@ namespace djv
             return _p->preloadFrame;
         }
 
-        const djvImage * FileGroup::image(qint64 frame) const
+        const Graphics::Image * FileGroup::image(qint64 frame) const
         {
             //DJV_DEBUG("FileGroup::image");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -340,7 +340,7 @@ namespace djv
                     {
                         _p->imageLoad->read(
                             _p->u8Conversion ? that->_p->imageTmp2 : that->_p->imageTmp,
-                            djvImageIOFrameInfo(
+                            Graphics::ImageIOFrameInfo(
                                 _p->imageIOInfo.sequence.frames.count() ?
                                 _p->imageIOInfo.sequence.frames[frame] :
                                 -1,
@@ -361,13 +361,12 @@ namespace djv
                         {
                             //DJV_DEBUG_PRINT("u8 conversion");
                             //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
-                            djvPixelDataInfo info(_p->imageTmp2.info());
-                            info.pixel = djvPixel::pixel(
-                                djvPixel::format(info.pixel), djvPixel::U8);
+                            Graphics::PixelDataInfo info(_p->imageTmp2.info());
+                            info.pixel = Graphics::Pixel::pixel(Graphics::Pixel::format(info.pixel), Graphics::Pixel::U8);
                             that->_p->imageTmp.set(info);
                             that->_p->imageTmp.tags = _p->imageTmp2.tags;
-                            that->_p->imageTmp.colorProfile = djvColorProfile();
-                            djvOpenGLImageOptions options;
+                            that->_p->imageTmp.colorProfile = Graphics::ColorProfile();
+                            Graphics::OpenGLImageOptions options;
                             options.colorProfile = _p->imageTmp2.colorProfile;
                             options.proxyScale = false;
                             _p->openGLImage->copy(_p->imageTmp2, that->_p->imageTmp, options);
@@ -387,7 +386,7 @@ namespace djv
                 {
                     //DJV_DEBUG_PRINT("cache image");   
                     that->_p->cacheItem = cache->create(
-                        new djvImage(*_p->image),
+                        new Graphics::Image(*_p->image),
                         mainWindow(),
                         frame);
                     that->_p->image = _p->cacheItem->image();
@@ -402,7 +401,7 @@ namespace djv
             return _p->image;
         }
 
-        const djvImageIOInfo & FileGroup::imageIOInfo() const
+        const Graphics::ImageIOInfo & FileGroup::imageIOInfo() const
         {
             return _p->imageIOInfo;
         }
@@ -424,7 +423,7 @@ namespace djv
             cacheDel();
             djvFileInfo tmp = fileInfo;
             _p->fileInfo = djvFileInfo();
-            _p->imageIOInfo = djvImageIOInfo();
+            _p->imageIOInfo = Graphics::ImageIOInfo();
             _p->imageLoad.reset();
 
             // Load the file.
@@ -448,8 +447,8 @@ namespace djv
             }
             else
             {
-                _p->imageTmp = djvImage();
-                _p->imageTmp2 = djvImage();
+                _p->imageTmp = Graphics::Image();
+                _p->imageTmp2 = Graphics::Image();
             }
 
             _p->layer = 0;
@@ -479,7 +478,7 @@ namespace djv
             Q_EMIT imageChanged();
         }
 
-        void FileGroup::setProxy(djvPixelDataInfo::PROXY proxy)
+        void FileGroup::setProxy(Graphics::PixelDataInfo::PROXY proxy)
         {
             if (proxy == _p->proxy)
                 return;
@@ -572,12 +571,12 @@ namespace djv
             {
                 if (FileCacheItem * item = cache->get(mainWindow(), frame))
                 {
-                    byteCount += djvPixelDataUtil::dataByteCount(item->image()->info());
+                    byteCount += Graphics::PixelDataUtil::dataByteCount(item->image()->info());
                     item->decrement();
                 }
                 else
                 {
-                    byteCount += djvPixelDataUtil::dataByteCount(_p->imageIOInfo);
+                    byteCount += Graphics::PixelDataUtil::dataByteCount(_p->imageIOInfo);
                     if (byteCount <= cache->maxByteCount())
                     {
                         preload = true;
@@ -594,9 +593,9 @@ namespace djv
                 context()->makeGLContextCurrent();
                 if (!_p->openGLImage)
                 {
-                    _p->openGLImage.reset(new djvOpenGLImage);
+                    _p->openGLImage.reset(new Graphics::OpenGLImage);
                 }
-                djvImage * image = 0;
+                Graphics::Image * image = 0;
                 if (_p->imageLoad.data())
                 {
                     //DJV_DEBUG_PRINT("loading image");
@@ -604,7 +603,7 @@ namespace djv
                     {
                         _p->imageLoad->read(
                             _p->u8Conversion ? _p->imageTmp2 : _p->imageTmp,
-                            djvImageIOFrameInfo(
+                            Graphics::ImageIOFrameInfo(
                                 _p->imageIOInfo.sequence.frames.count() ?
                                 _p->imageIOInfo.sequence.frames[frame] :
                                 -1,
@@ -620,14 +619,13 @@ namespace djv
                         {
                             //DJV_DEBUG_PRINT("u8 conversion");
                             //DJV_DEBUG_PRINT("image = " << _p->imageTmp2);
-                            djvPixelDataInfo info(_p->imageTmp2.info());
-                            info.pixel = djvPixel::pixel(
-                                djvPixel::format(info.pixel), djvPixel::U8);
+                            Graphics::PixelDataInfo info(_p->imageTmp2.info());
+                            info.pixel = Graphics::Pixel::pixel(Graphics::Pixel::format(info.pixel), Graphics::Pixel::U8);
                             _p->imageTmp.set(info);
                             _p->imageTmp.tags = _p->imageTmp2.tags;
-                            _p->imageTmp.colorProfile = djvColorProfile();
+                            _p->imageTmp.colorProfile = Graphics::ColorProfile();
 
-                            djvOpenGLImageOptions options;
+                            Graphics::OpenGLImageOptions options;
                             options.colorProfile = _p->imageTmp2.colorProfile;
                             options.proxyScale = false;
 
@@ -643,7 +641,7 @@ namespace djv
                 {
                     //DJV_DEBUG_PRINT("image = " << *image);
                     if (FileCacheItem * item = cache->create(
-                        new djvImage(*image),
+                        new Graphics::Image(*image),
                         mainWindow(),
                         frame))
                     {
@@ -819,7 +817,7 @@ namespace djv
         void FileGroup::proxyCallback(QAction * action)
         {
             const int index = action->data().toInt();
-            setProxy(static_cast<djvPixelDataInfo::PROXY>(index));
+            setProxy(static_cast<Graphics::PixelDataInfo::PROXY>(index));
         }
 
         void FileGroup::cacheClearCallback()

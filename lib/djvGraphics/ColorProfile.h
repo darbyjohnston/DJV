@@ -35,70 +35,67 @@
 
 #include <QMetaType>
 
-//! \addtogroup djvGraphicsImage
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvColorProfile
-//!
-//! This class provides a color profile.
-//------------------------------------------------------------------------------
-
-class djvColorProfile
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(PROFILE)
-
-public:
-
-    djvColorProfile();
-    
-    //! This struct provides exposure values.
-    struct Exposure
+    namespace Graphics
     {
-        Exposure(
-            float value    = 0.f,
-            float defog    = 0.f,
-            float kneeLow  = 0.f,
-            float kneeHigh = 5.f);
+        //! \class ColorProfile
+        //!
+        //! This class provides a color profile.
+        class ColorProfile
+        {
+            Q_GADGET
+            Q_ENUMS(PROFILE)
 
-        float value;
-        float defog;
-        float kneeLow;
-        float kneeHigh;
-    };
+        public:
+            ColorProfile();
 
-    //! This enumeration provides the color profiles.
-    enum PROFILE
-    {
-        RAW,
-        GAMMA,
-        LUT,
-        EXPOSURE,
+            //! This struct provides exposure values.
+            struct Exposure
+            {
+                Exposure(
+                    float value = 0.f,
+                    float defog = 0.f,
+                    float kneeLow = 0.f,
+                    float kneeHigh = 5.f);
 
-        PROFILE_COUNT
-    };
+                float value;
+                float defog;
+                float kneeLow;
+                float kneeHigh;
+            };
 
-    //! Get the color profile labels.
-    static const QStringList & profileLabels();
+            //! This enumeration provides the color profiles.
+            enum PROFILE
+            {
+                RAW,
+                GAMMA,
+                LUT,
+                EXPOSURE,
 
-    PROFILE      type     = RAW;
-    float        gamma    = 2.2f;
-    djvPixelData lut;
-    Exposure     exposure;
-};
+                PROFILE_COUNT
+            };
 
-Q_DECLARE_METATYPE(djvColorProfile)
+            //! Get the color profile labels.
+            static const QStringList & profileLabels();
 
-DJV_COMPARISON_OPERATOR(djvColorProfile::Exposure);
-DJV_COMPARISON_OPERATOR(djvColorProfile);
+            PROFILE   type = RAW;
+            float     gamma = 2.2f;
+            PixelData lut;
+            Exposure  exposure;
+        };
 
-DJV_STRING_OPERATOR(djvColorProfile::Exposure);
-DJV_STRING_OPERATOR(djvColorProfile::PROFILE);
+        DJV_COMPARISON_OPERATOR(ColorProfile::Exposure);
+        DJV_COMPARISON_OPERATOR(ColorProfile);
 
-DJV_DEBUG_OPERATOR(djvColorProfile::Exposure);
-DJV_DEBUG_OPERATOR(djvColorProfile::PROFILE);
-DJV_DEBUG_OPERATOR(djvColorProfile);
+    } // namespace Graphics
+} // namespace djv
 
-//@} // djvGraphicsImage
+Q_DECLARE_METATYPE(djv::Graphics::ColorProfile)
 
+DJV_STRING_OPERATOR(djv::Graphics::ColorProfile::Exposure);
+DJV_STRING_OPERATOR(djv::Graphics::ColorProfile::PROFILE);
+
+DJV_DEBUG_OPERATOR(djv::Graphics::ColorProfile::Exposure);
+DJV_DEBUG_OPERATOR(djv::Graphics::ColorProfile::PROFILE);
+DJV_DEBUG_OPERATOR(djv::Graphics::ColorProfile);

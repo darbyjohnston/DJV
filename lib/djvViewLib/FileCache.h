@@ -40,10 +40,14 @@
 
 #include <memory>
 
-class djvImage;
-
 namespace djv
 {
+    namespace Graphics
+    {
+        class Image;
+    
+    } // namespace Graphics
+
     namespace ViewLib
     {
         class Context;
@@ -61,14 +65,14 @@ namespace djv
             //! \param key   A key to be associated with this cache item.
             //! \param frame The frame number associated with this cache item.
             FileCacheItem(
-                djvImage *   image,
-                const void * key,
-                qint64       frame);
+                Graphics::Image * image,
+                const void *      key,
+                qint64            frame);
 
             ~FileCacheItem();
 
             //! Get the image.
-            djvImage * image();
+            Graphics::Image * image();
 
             //! Get the key.
             const void * key() const;
@@ -111,7 +115,7 @@ namespace djv
 
             //! Create a new cache item. The reference count on the item is
             //! automatically set to one.
-            FileCacheItem * create(djvImage *, const void * key, qint64 frame);
+            FileCacheItem * create(Graphics::Image *, const void * key, qint64 frame);
 
             //! Get a cache item. The reference count on the item is automatically
             //! incremented.

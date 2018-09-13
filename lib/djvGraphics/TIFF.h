@@ -35,85 +35,62 @@
 
 #include <tiffio.h>
 
-//! \addtogroup plugins
-//@{
-
-//! \defgroup djvTIFFPlugin djvTIFFPlugin
-//!
-//! This plugin provides support for the Tagged Image File Format (TIFF).
-//!
-//! Requires:
-//!
-//! - libtiff - http://www.libtiff.org
-//!
-//! File extensions: .tiff, .tif
-//!
-//! Supported features:
-//!
-//! - 8-bit, 16-bit, 32-bit float, Luminance, Luminance Alpha, RGB, RGBA
-//! - Interleaved channels only
-//! - File compression
-
-//@} // plugins
-
-//! \addtogroup djvTIFFPlugin
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvTIFF
-//!
-//! This struct provides TIFF utilities.
-//------------------------------------------------------------------------------
-
-struct djvTIFF
+namespace djv
 {
-    //! The plugin name.
-    static const QString staticName;
-
-    //! This enumeration provides the file compression. Note that libtiff
-    //! defines similar values so we prefix ours with "_".
-    enum COMPRESSION
+    namespace Graphics
     {
-        _COMPRESSION_NONE,
-        _COMPRESSION_RLE,
-        _COMPRESSION_LZW,
+        //! \struct djvTIFF
+        //!
+        //! This struct provides TIFF utilities.
+        struct TIFF
+        {
+            //! The plugin name.
+            static const QString staticName;
 
-        COMPRESSION_COUNT
-    };
+            //! This enumeration provides the file compression. Note that libtiff
+            //! defines similar values so we prefix ours with "_".
+            enum COMPRESSION
+            {
+                _COMPRESSION_NONE,
+                _COMPRESSION_RLE,
+                _COMPRESSION_LZW,
 
-    //! Get compression labels.
-    static const QStringList & compressionLabels();
+                COMPRESSION_COUNT
+            };
 
-    //! Load a palette.
-    static void paletteLoad(
-        quint8 *  out,
-        int       size,
-        int       bytes,
-        quint16 * red,
-        quint16 * green,
-        quint16 * blue);
+            //! Get compression labels.
+            static const QStringList & compressionLabels();
 
-    //! This enumeration provides the options.
-    enum OPTIONS
-    {
-        COMPRESSION_OPTION,
+            //! Load a palette.
+            static void paletteLoad(
+                quint8 *  out,
+                int       size,
+                int       bytes,
+                quint16 * red,
+                quint16 * green,
+                quint16 * blue);
 
-        OPTIONS_COUNT
-    };
+            //! This enumeration provides the options.
+            enum OPTIONS
+            {
+                COMPRESSION_OPTION,
 
-    //! Get option labels.
-    static const QStringList & optionsLabels();
+                OPTIONS_COUNT
+            };
 
-    //! This struct provides options.
-    struct Options
-    {
-        Options();
+            //! Get option labels.
+            static const QStringList & optionsLabels();
 
-        COMPRESSION compression;
-    };
-};
+            //! This struct provides options.
+            struct Options
+            {
+                Options();
 
-DJV_STRING_OPERATOR(djvTIFF::COMPRESSION);
+                COMPRESSION compression;
+            };
+        };
 
-//@} // djvTIFFPlugin
+    } // namespace Graphics
+} // namespace djv
 
+DJV_STRING_OPERATOR(djv::Graphics::TIFF::COMPRESSION);

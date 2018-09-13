@@ -54,7 +54,7 @@ namespace djv
             Q_OBJECT
 
         public:
-            CineonWidget(djvImageIO *, UIContext *);
+            CineonWidget(Graphics::ImageIO *, UIContext *);
 
             virtual ~CineonWidget();
 
@@ -76,7 +76,7 @@ namespace djv
             void widgetUpdate();
 
         private:
-            djvCineon::Options _options;
+            Graphics::Cineon::Options _options;
             QFormLayout * _inputColorProfileLayout;
             QComboBox * _inputColorProfileWidget;
             IntEditSlider * _inputBlackPointWidget;
@@ -98,7 +98,7 @@ namespace djv
         public:
             CineonWidgetPlugin(djvCoreContext *);
 
-            virtual ImageIOWidget * createWidget(djvImageIO *) const;
+            virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;
         };
 

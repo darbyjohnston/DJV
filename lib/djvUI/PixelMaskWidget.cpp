@@ -46,7 +46,7 @@ namespace djv
     {
         struct PixelMaskWidget::Private
         {
-            djvPixel::Mask mask;
+            Graphics::Pixel::Mask mask;
             ToolButton * button = nullptr;
         };
 
@@ -76,12 +76,12 @@ namespace djv
         PixelMaskWidget::~PixelMaskWidget()
         {}
 
-        const djvPixel::Mask & PixelMaskWidget::mask() const
+        const Graphics::Pixel::Mask & PixelMaskWidget::mask() const
         {
             return _p->mask;
         }
 
-        void PixelMaskWidget::setMask(const djvPixel::Mask & mask)
+        void PixelMaskWidget::setMask(const Graphics::Pixel::Mask & mask)
         {
             if (mask == _p->mask)
                 return;
@@ -144,7 +144,7 @@ namespace djv
         void PixelMaskWidget::soloCallback()
         {
             QAction * action = qobject_cast<QAction *>(sender());
-            djvPixel::Mask mask(false);
+            Graphics::Pixel::Mask mask(false);
             mask[action->data().toInt()] = true;
             setMask(mask);
         }
@@ -152,21 +152,21 @@ namespace djv
         void PixelMaskWidget::toggleCallback(bool checked)
         {
             QAction * action = qobject_cast<QAction *>(sender());
-            djvPixel::Mask mask = _p->mask;
+            Graphics::Pixel::Mask mask = _p->mask;
             mask[action->data().toInt()] = checked;
             setMask(mask);
         }
 
         void PixelMaskWidget::resetCallback()
         {
-            setMask(djvPixel::Mask());
+            setMask(Graphics::Pixel::Mask());
         }
 
         void PixelMaskWidget::widgetUpdate()
         {
             djvSignalBlocker signalBlocker(_p->button);
             bool checked = false;
-            for (int i = 0; i < djvPixel::channelsMax; ++i)
+            for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
             {
                 if (!_p->mask[i])
                 {

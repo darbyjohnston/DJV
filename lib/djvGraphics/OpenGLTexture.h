@@ -36,65 +36,68 @@
 
 #include <djvCore/Error.h>
 
-//------------------------------------------------------------------------------
-//! \class djvOpenGLTexture
-//!
-//! This class proivides an OpenGL texture.
-//------------------------------------------------------------------------------
-
-class djvOpenGLTexture
+namespace djv
 {
-public:
-    ~djvOpenGLTexture();
-    
-    //! Initialize the texture.
-    void init(
-        const djvPixelDataInfo &,
-        GLenum                   target = GL_TEXTURE_2D,
-        GLenum                   min    = GL_LINEAR,
-        GLenum                   mag    = GL_LINEAR) throw (djvError);
+    namespace Graphics
+    {
+        //! \class OpenGLTexture
+        //!
+        //! This class proivides an OpenGL texture.
+        class OpenGLTexture
+        {
+        public:
+            ~OpenGLTexture();
 
-    //! Initialize the texture.
-    void init(
-        const djvPixelData &,
-        GLenum           target = GL_TEXTURE_2D,
-        GLenum           min    = GL_LINEAR,
-        GLenum           mag    = GL_LINEAR) throw (djvError);
-    
-    //! Get the pixel information.
-    const djvPixelDataInfo & info() const;
+            //! Initialize the texture.
+            void init(
+                const PixelDataInfo &,
+                GLenum                target = GL_TEXTURE_2D,
+                GLenum                min = GL_LINEAR,
+                GLenum                mag = GL_LINEAR) throw (djvError);
 
-    //! Get the target.
-    GLenum target() const;
+            //! Initialize the texture.
+            void init(
+                const PixelData &,
+                GLenum            target = GL_TEXTURE_2D,
+                GLenum            min = GL_LINEAR,
+                GLenum            mag = GL_LINEAR) throw (djvError);
 
-    //! Get the minify filter.
-    GLenum min() const;
+            //! Get the pixel information.
+            const PixelDataInfo & info() const;
 
-    //! Get the magnify filter.
-    GLenum mag() const;
+            //! Get the target.
+            GLenum target() const;
 
-    //! Get the texture ID.
-    GLuint id() const;
+            //! Get the minify filter.
+            GLenum min() const;
 
-    //! Bind the texture.
-    void bind();
+            //! Get the magnify filter.
+            GLenum mag() const;
 
-    //! Copy pixel data to the texture.
-    void copy(const djvPixelData &);
+            //! Get the texture ID.
+            GLuint id() const;
 
-    //! Copy pixel data to the texture.
-    void copy(const djvPixelData &, const djvBox2i &);
+            //! Bind the texture.
+            void bind();
 
-    //! Copy the current read buffer to the texture.
-    void copy(const glm::ivec2 &);
+            //! Copy pixel data to the texture.
+            void copy(const PixelData &);
 
-private:
-    void del();
+            //! Copy pixel data to the texture.
+            void copy(const PixelData &, const djvBox2i &);
 
-    djvPixelDataInfo _info;
-    GLenum           _target = GL_NONE;
-    GLenum           _min    = GL_NONE;
-    GLenum           _mag    = GL_NONE;
-    GLuint           _id     = 0;
-};
+            //! Copy the current read buffer to the texture.
+            void copy(const glm::ivec2 &);
 
+        private:
+            void del();
+
+            PixelDataInfo _info;
+            GLenum        _target = GL_NONE;
+            GLenum        _min = GL_NONE;
+            GLenum        _mag = GL_NONE;
+            GLuint        _id = 0;
+        };
+
+    } // namespace Graphics
+} // namespace djv
