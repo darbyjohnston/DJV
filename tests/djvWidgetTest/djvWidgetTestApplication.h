@@ -53,7 +53,7 @@ public:
     
 private:
 
-    QScopedPointer<djvUIContext>         _context;
+    QScopedPointer<djv::UI::UIContext>   _context;
     QScopedPointer<djvWidgetTestManager> _testManager;
     QScopedPointer<djvWidgetTestModel>   _model;
     QScopedPointer<djvWidgetTestWindow>  _window;

@@ -34,9 +34,7 @@
 #include <djvAbstractWidgetTest.h>
 #include <djvWidgetTestManager.h>
 
-//------------------------------------------------------------------------------
-// djvWidgetTestModel
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvWidgetTestModel::djvWidgetTestModel(djvWidgetTestManager * testManager) :
     _testManager(testManager)

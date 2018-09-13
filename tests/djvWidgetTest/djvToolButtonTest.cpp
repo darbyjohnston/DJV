@@ -45,7 +45,9 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-djvToolButtonTest::djvToolButtonTest(djvUIContext * context) :
+using namespace djv;
+
+djvToolButtonTest::djvToolButtonTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -58,23 +60,21 @@ void djvToolButtonTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvToolButton * reverseButton = new djvToolButton;
+    UI::ToolButton * reverseButton = new UI::ToolButton;
     reverseButton->setCheckable(true);
     reverseButton->setIconSize(context()->iconLibrary()->defaultSize());
     reverseButton->setIcon(
         context()->iconLibrary()->icon("djvPlayReverseIcon.png"));
     
-    djvToolButton * stopButton = new djvToolButton;
+    UI::ToolButton * stopButton = new UI::ToolButton;
     stopButton->setCheckable(true);
     stopButton->setIconSize(context()->iconLibrary()->defaultSize());
-    stopButton->setIcon(
-        context()->iconLibrary()->icon("djvPlayStopIcon.png"));
+    stopButton->setIcon(context()->iconLibrary()->icon("djvPlayStopIcon.png"));
 
-    djvToolButton * forwardButton = new djvToolButton;
+    UI::ToolButton * forwardButton = new UI::ToolButton;
     forwardButton->setCheckable(true);
     forwardButton->setIconSize(context()->iconLibrary()->defaultSize());
-    forwardButton->setIcon(
-        context()->iconLibrary()->icon("djvPlayForwardIcon.png"));
+    forwardButton->setIcon(context()->iconLibrary()->icon("djvPlayForwardIcon.png"));
     
     QButtonGroup * buttonGroup = new QButtonGroup(window);
     buttonGroup->setExclusive(true);
@@ -82,38 +82,34 @@ void djvToolButtonTest::run(const QStringList & args)
     buttonGroup->addButton(stopButton, STOP);
     buttonGroup->addButton(forwardButton, FORWARD);
 
-    djvShuttleButton * shuttle = new djvShuttleButton(
-        djvShuttleButton::iconsDefault(context()));
+    UI::ShuttleButton * shuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context()));
 
     const QStringList loopLabel = QStringList() <<
         "Once" <<
         "Repeat" <<
         "PongPong";
-
     const QList<QIcon> loopIcon = QList<QIcon>() <<
         context()->iconLibrary()->icon("djvPlayLoopOnceIcon.png") <<
         context()->iconLibrary()->icon("djvPlayLoopRepeatIcon.png") <<
         context()->iconLibrary()->icon("djvPlayLoopPingPongIcon.png");
-
     QActionGroup * loopActionGroup = new QActionGroup(this);
     loopActionGroup->setExclusive(true);
 
     for (int i = 0; i < loopLabel.count(); ++i)
         new QAction(loopIcon[i], loopLabel[i], loopActionGroup);
 
-    djvChoiceButton * choiceButton = new djvChoiceButton(loopActionGroup);
+    UI::ChoiceButton * choiceButton = new UI::ChoiceButton(loopActionGroup);
 
-    djvToolButton * disabledToolButton = new djvToolButton;
+    UI::ToolButton * disabledToolButton = new UI::ToolButton;
     disabledToolButton->setIconSize(context()->iconLibrary()->defaultSize());
     disabledToolButton->setIcon(
         context()->iconLibrary()->icon("djvPlayReverseIcon.png"));
     disabledToolButton->setEnabled(false);
 
-    djvShuttleButton * disabledShuttle =
-        new djvShuttleButton(djvShuttleButton::iconsDefault(context()));
+    UI::ShuttleButton * disabledShuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context()));
     disabledShuttle->setEnabled(false);
 
-    djvChoiceButton * disabledChoiceButton = new djvChoiceButton(loopActionGroup);
+    UI::ChoiceButton * disabledChoiceButton = new UI::ChoiceButton(loopActionGroup);
     disabledChoiceButton->setEnabled(false);
     
     QVBoxLayout * layout = new QVBoxLayout(window);

@@ -39,7 +39,7 @@ class djvIconLibraryTest : public djvAbstractWidgetTest
     
 public:
 
-    djvIconLibraryTest(djvUIContext *);
+    djvIconLibraryTest(djv::UI::UIContext *);
 
     virtual QString name();
 

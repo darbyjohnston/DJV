@@ -38,7 +38,7 @@ class djvToolButtonTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvToolButtonTest(djvUIContext *);
+    djvToolButtonTest(djv::UI::UIContext *);
 
     virtual QString name();
 

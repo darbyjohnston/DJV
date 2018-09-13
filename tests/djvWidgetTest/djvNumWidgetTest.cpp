@@ -43,7 +43,9 @@
 
 #include <QFormLayout>
 
-djvNumWidgetTest::djvNumWidgetTest(djvUIContext * context) :
+using namespace djv;
+
+djvNumWidgetTest::djvNumWidgetTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -57,7 +59,7 @@ void djvNumWidgetTest::run(const QStringList & args)
     (new djvNumWidgetTestWidget(context()))->show();
 }
 
-djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvUIContext * context) :
+djvNumWidgetTestWidget::djvNumWidgetTestWidget(UI::UIContext * context) :
     _intValue    (0),
     _floatValue  (0.f),
     _intEdit     (0),
@@ -67,17 +69,17 @@ djvNumWidgetTestWidget::djvNumWidgetTestWidget(djvUIContext * context) :
     _floatDisplay(0),
     _floatSlider (0)
 {
-    _intEdit = new djvIntEdit;
+    _intEdit = new UI::IntEdit;
     
-    _intDisplay = new djvIntDisplay;
+    _intDisplay = new UI::IntDisplay;
     
-    _intSlider = new djvIntEditSlider(context);
+    _intSlider = new UI::IntEditSlider(context);
     
-    _floatEdit = new djvFloatEdit;
+    _floatEdit = new UI::FloatEdit;
     
-    _floatDisplay = new djvFloatDisplay;
+    _floatDisplay = new UI::FloatDisplay;
     
-    _floatSlider = new djvFloatEditSlider(context);
+    _floatSlider = new UI::FloatEditSlider(context);
     
     QFormLayout * layout = new QFormLayout(this);
     layout->addRow("djvIntEdit", _intEdit);

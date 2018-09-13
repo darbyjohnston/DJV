@@ -41,18 +41,16 @@
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 
-//------------------------------------------------------------------------------
-// djvWidgetTestWindow
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvWidgetTestWindow::djvWidgetTestWindow(
     djvWidgetTestModel * model,
-    djvUIContext *       context) :
+    UI::UIContext *      context) :
     _model     (model),
     _proxyModel(0),
     _listView  (0)
 {
-    djvSearchBox * searchBox = new djvSearchBox(context);
+    UI::SearchBox * searchBox = new UI::SearchBox(context);
     
     _listView = new QListView;
     

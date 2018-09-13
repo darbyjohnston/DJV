@@ -81,13 +81,13 @@ namespace djv
             };
 
             //! Get the default color palettes.
-            static const QVector<Palette> & palettesDefault();
+            static const std::vector<Palette> & palettesDefault();
 
             //! Get the list of color palettes.
-            const QVector<Palette> & palettes();
+            const std::vector<Palette> & palettes();
 
             //! Set the list of color palettes.
-            void setPalettes(const QVector<Palette> &);
+            void setPalettes(const std::vector<Palette> &);
 
             //! Get the default palette index.
             static int palettesIndexDefault();
@@ -140,13 +140,13 @@ namespace djv
             };
 
             //! Get the default size metrics.
-            static const QVector<SizeMetric> & sizeMetricsDefault();
+            static const std::vector<SizeMetric> & sizeMetricsDefault();
 
             //! Get the list of size metrics.
-            const QVector<SizeMetric> & sizeMetrics();
+            const std::vector<SizeMetric> & sizeMetrics();
 
             //! Set the list of size metrics.
-            void setSizeMetrics(const QVector<SizeMetric> &);
+            void setSizeMetrics(const std::vector<SizeMetric> &);
 
             //! Get the current size metric.
             const SizeMetric & sizeMetric() const;
@@ -205,14 +205,13 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
+        DJV_COMPARISON_OPERATOR(Style::Palette);
+        DJV_COMPARISON_OPERATOR(Style::SizeMetric);
+        DJV_COMPARISON_OPERATOR(Style::Fonts);
+
     } // namespace UI
-
-    DJV_COMPARISON_OPERATOR(UI::Style::Palette);
-    DJV_COMPARISON_OPERATOR(UI::Style::SizeMetric);
-    DJV_COMPARISON_OPERATOR(UI::Style::Fonts);
-
-    DJV_STRING_OPERATOR(UI::Style::Palette);
-    DJV_STRING_OPERATOR(UI::Style::SizeMetric);
-    DJV_STRING_OPERATOR(UI::Style::Fonts);
-
 } // namespace djv
+
+DJV_STRING_OPERATOR(djv::UI::Style::Palette);
+DJV_STRING_OPERATOR(djv::UI::Style::SizeMetric);
+DJV_STRING_OPERATOR(djv::UI::Style::Fonts);

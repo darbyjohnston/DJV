@@ -35,7 +35,9 @@
 
 #include <djvCore/System.h>
 
-djvChoiceDialogTest::djvChoiceDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvChoiceDialogTest::djvChoiceDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -46,7 +48,7 @@ QString djvChoiceDialogTest::name()
 
 void djvChoiceDialogTest::run(const QStringList & args)
 {
-    djvChoiceDialog dialog(
+    UI::ChoiceDialog dialog(
         "Select a color:",
         QStringList() << "Red" << "Green" << "Blue",
         1);

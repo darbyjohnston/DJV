@@ -34,7 +34,9 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/InfoDialog.h>
 
-djvInfoDialogTest::djvInfoDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvInfoDialogTest::djvInfoDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

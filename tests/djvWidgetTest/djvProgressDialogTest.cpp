@@ -36,7 +36,9 @@
 #include <djvCore/System.h>
 #include <djvCore/Time.h>
 
-djvProgressDialogTest::djvProgressDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvProgressDialogTest::djvProgressDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -47,7 +49,7 @@ QString djvProgressDialogTest::name()
 
 void djvProgressDialogTest::run(const QStringList & args)
 {
-    djvProgressDialog * dialog = new djvProgressDialog("Movie export:");
+    UI::ProgressDialog * dialog = new UI::ProgressDialog("Movie export:");
     
     connect(dialog, SIGNAL(progressSignal(int)), SLOT(callback(int)));
     

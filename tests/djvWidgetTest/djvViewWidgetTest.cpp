@@ -50,7 +50,7 @@
 
 using namespace djv;
 
-djvViewWidget::djvViewWidget(djvUIContext * context) :
+djvViewWidget::djvViewWidget(UI::UIContext * context) :
     _frame          (0),
     _inOutEnabled   (true),
     _inPoint        (100),
@@ -76,14 +76,10 @@ djvViewWidget::djvViewWidget(djvUIContext * context) :
     
     _frameSlider = new ViewLib::FrameSlider(context);
 
-    djvToolButton * markInPointButton = new djvToolButton(
-        context->iconLibrary()->icon("djvInPointMarkIcon.png"));
-    djvToolButton * markOutPointButton = new djvToolButton(
-        context->iconLibrary()->icon("djvOutPointMarkIcon.png"));
-    djvToolButton * resetInPointButton = new djvToolButton(
-        context->iconLibrary()->icon("djvInPointResetIcon.png"));
-    djvToolButton * resetOutPointButton = new djvToolButton(
-        context->iconLibrary()->icon("djvOutPointResetIcon.png"));
+    UI::ToolButton * markInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointMarkIcon.png"));
+    UI::ToolButton * markOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointMarkIcon.png"));
+    UI::ToolButton * resetInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointResetIcon.png"));
+    UI::ToolButton * resetOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointResetIcon.png"));
 
     _frameDisplay = new ViewLib::FrameDisplay(context);
     
@@ -204,7 +200,7 @@ void djvViewWidget::widgetUpdate()
     _speedDisplay->setDroppedFrames(true);
 }
 
-djvViewWidgetTest::djvViewWidgetTest(djvUIContext * context) :
+djvViewWidgetTest::djvViewWidgetTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

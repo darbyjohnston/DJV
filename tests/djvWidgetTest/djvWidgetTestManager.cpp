@@ -57,11 +57,9 @@
 
 #include <djvUI/UIContext.h>
 
-//------------------------------------------------------------------------------
-// djvWidgetTestManager
-//------------------------------------------------------------------------------
+using namespace djv;
 
-djvWidgetTestManager::djvWidgetTestManager(djvUIContext * context)
+djvWidgetTestManager::djvWidgetTestManager(UI::UIContext * context)
 {
     _tests += new djvAboutDialogTest(context);
     _tests += new djvChoiceDialogTest(context);

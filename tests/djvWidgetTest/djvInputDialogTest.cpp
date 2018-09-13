@@ -35,7 +35,9 @@
 
 #include <djvCore/System.h>
 
-djvInputDialogTest::djvInputDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvInputDialogTest::djvInputDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -46,7 +48,7 @@ QString djvInputDialogTest::name()
 
 void djvInputDialogTest::run(const QStringList & args)
 {
-    djvInputDialog dialog("Enter the object name:");
+    UI::InputDialog dialog("Enter the object name:");
     if (QDialog::Accepted == dialog.exec())
     {
         djvSystem::print(QString("%1").arg(dialog.text()));

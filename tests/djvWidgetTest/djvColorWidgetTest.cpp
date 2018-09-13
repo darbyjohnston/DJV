@@ -38,7 +38,9 @@
 
 #include <QHBoxLayout>
 
-djvColorWidgetTest::djvColorWidgetTest(djvUIContext * context) :
+using namespace djv;
+
+djvColorWidgetTest::djvColorWidgetTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -51,10 +53,10 @@ void djvColorWidgetTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvColorSwatch * swatch = new djvColorSwatch(context());
+    UI::ColorSwatch * swatch = new UI::ColorSwatch(context());
     swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     
-    djvColorWidget * widget = new djvColorWidget(context());
+    UI::ColorWidget * widget = new UI::ColorWidget(context());
     
     QHBoxLayout * layout = new QHBoxLayout(window);
     layout->addWidget(swatch);

@@ -38,7 +38,7 @@ class djvSearchBoxTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvSearchBoxTest(djvUIContext *);
+    djvSearchBoxTest(djv::UI::UIContext *);
 
     virtual QString name();
 

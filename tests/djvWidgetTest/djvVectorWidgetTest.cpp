@@ -39,7 +39,9 @@
 
 #include <QFormLayout>
 
-djvVectorWidgetTest::djvVectorWidgetTest(djvUIContext * context) :
+using namespace djv;
+
+djvVectorWidgetTest::djvVectorWidgetTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -51,10 +53,8 @@ QString djvVectorWidgetTest::name()
 void djvVectorWidgetTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
-    
-    djvVector2iEditWidget * intEdit = new djvVector2iEditWidget;
-    
-    djvVector2fEditWidget * floatEdit = new djvVector2fEditWidget;
+    UI::Vector2iEditWidget * intEdit = new UI::Vector2iEditWidget;
+    UI::Vector2fEditWidget * floatEdit = new UI::Vector2fEditWidget;
     
     QFormLayout * layout = new QFormLayout(window);
     layout->addRow("Vector2iEditWidget", intEdit);

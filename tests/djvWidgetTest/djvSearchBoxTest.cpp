@@ -37,7 +37,9 @@
 
 #include <QHBoxLayout>
 
-djvSearchBoxTest::djvSearchBoxTest(djvUIContext * context) :
+using namespace djv;
+
+djvSearchBoxTest::djvSearchBoxTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -50,7 +52,7 @@ void djvSearchBoxTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvSearchBox * widget = new djvSearchBox(context());
+    UI::SearchBox * widget = new UI::SearchBox(context());
     
     QHBoxLayout * layout = new QHBoxLayout(window);
     layout->addWidget(widget);

@@ -37,7 +37,14 @@
 #include <QObject>
 #include <QStringList>
 
-class djvUIContext;
+namespace djv
+{
+    namespace UI
+    {
+        class UIContext;
+
+    } // namespace UI
+} // namespace djv
 
 //------------------------------------------------------------------------------
 // djvAbstractWidgetTest
@@ -49,7 +56,7 @@ class djvAbstractWidgetTest : public QObject
     
 public:
 
-    djvAbstractWidgetTest(djvUIContext *);
+    djvAbstractWidgetTest(djv::UI::UIContext *);
     
     virtual ~djvAbstractWidgetTest() = 0;
 
@@ -57,11 +64,11 @@ public:
 
     virtual void run(const QStringList & args = QStringList()) = 0;
 
-    djvUIContext * context() const;
+    djv::UI::UIContext * context() const;
 
 private:
 
-    djvUIContext * _context;
+    djv::UI::UIContext * _context;
 };
 
 #endif // DJV_ABSTRACT_WIDGET_TEST_H

@@ -34,7 +34,9 @@
 #include <djvUI/AboutDialog.h>
 #include <djvUI/UIContext.h>
 
-djvAboutDialogTest::djvAboutDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvAboutDialogTest::djvAboutDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -47,4 +49,3 @@ void djvAboutDialogTest::run(const QStringList & args)
 {
     context()->aboutDialog()->show();
 }
-

@@ -40,12 +40,12 @@ class djvShortcutsWidgetTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvShortcutsWidgetTest(djvUIContext *);
+    djvShortcutsWidgetTest(djv::UI::UIContext *);
 
     virtual QString name();
 
     virtual void run(const QStringList & args = QStringList());
 
 private Q_SLOTS:
-    void callback(const QVector<djvShortcut> &);
+    void callback(const QVector<djv::UI::Shortcut> &);
 };

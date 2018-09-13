@@ -58,11 +58,9 @@ class djvViewWidget : public QWidget
     Q_OBJECT
     
 public:
-
-    djvViewWidget(djvUIContext *);
+    djvViewWidget(djv::UI::UIContext *);
 
 private Q_SLOTS:
-
     void timeUnitsCallback(int);
     void frameCallback(qint64);
     void speedCallback(const djvSpeed &);
@@ -71,7 +69,6 @@ private Q_SLOTS:
     void frameUpdate();
 
 private:
-
     qint64 _frame;
     bool _inOutEnabled;
     qint64 _inPoint;
@@ -80,7 +77,7 @@ private:
     djvFrameList _cachedFrames;
     djvSpeed _speed;
     
-    djvUIContext * _context = nullptr;
+    djv::UI::UIContext * _context = nullptr;
     QComboBox * _timeUnitsWidget = nullptr;
     djv::ViewLib::FrameWidget *  _frameWidget = nullptr;
     djv::ViewLib::FrameSlider *  _frameSlider = nullptr;
@@ -94,8 +91,7 @@ class djvViewWidgetTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-
-    djvViewWidgetTest(djvUIContext *);
+    djvViewWidgetTest(djv::UI::UIContext *);
 
     virtual QString name();
 

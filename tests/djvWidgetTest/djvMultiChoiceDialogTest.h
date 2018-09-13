@@ -38,7 +38,7 @@ class djvMultiChoiceDialogTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvMultiChoiceDialogTest(djvUIContext *);
+    djvMultiChoiceDialogTest(djv::UI::UIContext *);
 
     virtual QString name();
 

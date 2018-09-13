@@ -40,7 +40,7 @@ class djvVectorWidgetTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvVectorWidgetTest(djvUIContext *);
+    djvVectorWidgetTest(djv::UI::UIContext *);
     
     virtual QString name();
 

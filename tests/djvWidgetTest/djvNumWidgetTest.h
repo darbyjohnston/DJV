@@ -35,19 +35,26 @@
 
 #include <QWidget>
 
-class djvFloatDisplay;
-class djvFloatEdit;
-class djvFloatEditSlider;
-class djvIntDisplay;
-class djvIntEdit;
-class djvIntEditSlider;
+namespace djv
+{
+    namespace UI
+    {
+        class FloatDisplay;
+        class FloatEdit;
+        class FloatEditSlider;
+        class IntDisplay;
+        class IntEdit;
+        class IntEditSlider;
+
+    } // namespace UI
+} // namespace djv
 
 class djvNumWidgetTest : public djvAbstractWidgetTest
 {
     Q_OBJECT
     
 public:
-    djvNumWidgetTest(djvUIContext *);
+    djvNumWidgetTest(djv::UI::UIContext *);
 
     virtual QString name();
 
@@ -59,7 +66,7 @@ class djvNumWidgetTestWidget : public QWidget
     Q_OBJECT
 
 public:
-    djvNumWidgetTestWidget(djvUIContext *);
+    djvNumWidgetTestWidget(djv::UI::UIContext *);
     
 private Q_SLOTS:
     void intCallback(int);
@@ -71,10 +78,10 @@ private:
     int   _intValue;
     float _floatValue;
     
-    djvIntEdit *         _intEdit;
-    djvIntDisplay *      _intDisplay;
-    djvIntEditSlider *   _intSlider;
-    djvFloatEdit *       _floatEdit;
-    djvFloatDisplay *    _floatDisplay;
-    djvFloatEditSlider * _floatSlider;
+    djv::UI::IntEdit *         _intEdit = nullptr;
+    djv::UI::IntDisplay *      _intDisplay = nullptr;
+    djv::UI::IntEditSlider *   _intSlider = nullptr;
+    djv::UI::FloatEdit *       _floatEdit = nullptr;
+    djv::UI::FloatDisplay *    _floatDisplay = nullptr;
+    djv::UI::FloatEditSlider * _floatSlider = nullptr;
 };

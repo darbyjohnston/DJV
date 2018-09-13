@@ -38,7 +38,7 @@ class djvQuestionDialogTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvQuestionDialogTest(djvUIContext *);
+    djvQuestionDialogTest(djv::UI::UIContext *);
 
     virtual QString name();
 

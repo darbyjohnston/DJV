@@ -35,7 +35,14 @@
 
 class djvWidgetTestModel;
 
-class djvUIContext;
+namespace djv
+{
+    namespace UI
+    {
+        class UIContext;
+
+    } // namespace UI
+} // namespace djv
 
 class QListView;
 class QSortFilterProxyModel;
@@ -49,16 +56,13 @@ class djvWidgetTestWindow : public QWidget
     Q_OBJECT
     
 public:
-
-    djvWidgetTestWindow(djvWidgetTestModel *, djvUIContext *);
+    djvWidgetTestWindow(djvWidgetTestModel *, djv::UI::UIContext *);
 
 private Q_SLOTS:
-
     void runCallback(const QModelIndex &);
     void runCallback();
     
 private:
-    
     djvWidgetTestModel *    _model;
     QSortFilterProxyModel * _proxyModel;
     QListView *             _listView;

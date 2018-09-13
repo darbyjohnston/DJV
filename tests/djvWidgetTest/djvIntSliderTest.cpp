@@ -37,7 +37,9 @@
 
 #include <QVBoxLayout>
 
-djvIntSliderTest::djvIntSliderTest(djvUIContext * context) :
+using namespace djv;
+
+djvIntSliderTest::djvIntSliderTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -50,7 +52,7 @@ void djvIntSliderTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvIntSlider * slider = new djvIntSlider;
+    UI::IntSlider * slider = new UI::IntSlider;
     
     QVBoxLayout * layout = new QVBoxLayout(window);
     layout->addWidget(slider);

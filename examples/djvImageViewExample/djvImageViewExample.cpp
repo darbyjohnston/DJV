@@ -42,8 +42,10 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-djvImageViewExampleWidget::djvImageViewExampleWidget(djvUIContext * context) :
-    djvImageView(context)
+using namespace djv;
+
+djvImageViewExampleWidget::djvImageViewExampleWidget(UI::UIContext * context) :
+    UI::ImageView(context)
 {}
 
 void djvImageViewExampleWidget::mousePressEvent(QMouseEvent * event)
@@ -81,7 +83,7 @@ void djvImageViewExampleWidget::keyPressEvent(QKeyEvent * event)
 djvImageViewExampleApplication::djvImageViewExampleApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
-    _context.reset(new djvUIContext);
+    _context.reset(new UI::UIContext);
     if (argc != 2)
     {
         _context->printMessage("Usage: djvImageViewExample (input)");
@@ -122,7 +124,7 @@ void djvImageViewExampleApplication::work()
     options.colorProfile = _image.colorProfile;
     _widget->setOptions(options);
 
-    const glm::ivec2 size = djvWindowUtil::resize(_image.size());
+    const glm::ivec2 size = UI::WindowUtil::resize(_image.size());
     _widget->resize(size.x, size.y);
     _widget->show();
 }

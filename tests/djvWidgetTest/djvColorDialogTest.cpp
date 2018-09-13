@@ -37,7 +37,9 @@
 
 #include <QHBoxLayout>
 
-djvColorDialogTest::djvColorDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvColorDialogTest::djvColorDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -48,7 +50,7 @@ QString djvColorDialogTest::name()
 
 void djvColorDialogTest::run(const QStringList & args)
 {
-    djvColorDialog dialog(context());
+    UI::ColorDialog dialog(context());
     if (QDialog::Accepted == dialog.exec())
     {
         QStringList tmp;

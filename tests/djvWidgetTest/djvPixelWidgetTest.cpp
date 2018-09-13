@@ -37,7 +37,9 @@
 
 #include <QVBoxLayout>
 
-djvPixelWidgetTest::djvPixelWidgetTest(djvUIContext * context) :
+using namespace djv;
+
+djvPixelWidgetTest::djvPixelWidgetTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -50,7 +52,7 @@ void djvPixelWidgetTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvPixelWidget * widget = new djvPixelWidget;
+    UI::PixelWidget * widget = new UI::PixelWidget;
     
     QVBoxLayout * layout = new QVBoxLayout(window);
     layout->addWidget(widget);

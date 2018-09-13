@@ -37,7 +37,9 @@
 
 #include <QHBoxLayout>
 
-djvShortcutsWidgetTest::djvShortcutsWidgetTest(djvUIContext * context) :
+using namespace djv;
+
+djvShortcutsWidgetTest::djvShortcutsWidgetTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -50,25 +52,25 @@ void djvShortcutsWidgetTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvShortcutsWidget * widget = new djvShortcutsWidget(context());
+    UI::ShortcutsWidget * widget = new UI::ShortcutsWidget(context());
     
     QHBoxLayout * layout = new QHBoxLayout(window);
     layout->addWidget(widget);
     
-    widget->setShortcuts(QVector<djvShortcut>() <<
-        djvShortcut("A", QKeySequence("A")) <<
-        djvShortcut("B", QKeySequence("Ctrl+B")) <<
-        djvShortcut("C", QKeySequence("Alt+C")));
+    widget->setShortcuts(QVector<UI::Shortcut>() <<
+        UI::Shortcut("A", QKeySequence("A")) <<
+        UI::Shortcut("B", QKeySequence("Ctrl+B")) <<
+        UI::Shortcut("C", QKeySequence("Alt+C")));
     
     connect(
         widget,
-        SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
-        SLOT(callback(const QVector<djvShortcut> &)));
+        SIGNAL(shortcutsChanged(const QVector<djv::UI::Shortcut> &)),
+        SLOT(callback(const QVector<djv::UI::Shortcut> &)));
     
     window->show();
 }
 
-void djvShortcutsWidgetTest::callback(const QVector<djvShortcut> & shortcuts)
+void djvShortcutsWidgetTest::callback(const QVector<UI::Shortcut> & shortcuts)
 {
     for (int i = 0; i < shortcuts.count(); ++i)
     {

@@ -35,7 +35,9 @@
 
 #include <djvCore/System.h>
 
-djvQuestionDialogTest::djvQuestionDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvQuestionDialogTest::djvQuestionDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -46,7 +48,7 @@ QString djvQuestionDialogTest::name()
 
 void djvQuestionDialogTest::run(const QStringList & args)
 {
-    djvQuestionDialog dialog("Would you like to save the file?");
+    UI::QuestionDialog dialog("Would you like to save the file?");
     if (QDialog::Accepted == dialog.exec())
     {
         djvSystem::print("Yes");

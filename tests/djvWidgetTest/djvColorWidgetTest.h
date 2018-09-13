@@ -41,7 +41,7 @@ class djvColorWidgetTest : public djvAbstractWidgetTest
     
 public:
 
-    djvColorWidgetTest(djvUIContext *);
+    djvColorWidgetTest(djv::UI::UIContext *);
 
     virtual QString name();
 

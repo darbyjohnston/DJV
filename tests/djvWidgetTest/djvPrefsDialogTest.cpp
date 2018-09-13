@@ -34,7 +34,9 @@
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/UIContext.h>
 
-djvPrefsDialogTest::djvPrefsDialogTest(djvUIContext * context) :
+using namespace djv;
+
+djvPrefsDialogTest::djvPrefsDialogTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 

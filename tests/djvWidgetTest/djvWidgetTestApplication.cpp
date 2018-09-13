@@ -33,16 +33,14 @@
 
 #include <djvAbstractWidgetTest.h>
 
-//------------------------------------------------------------------------------
-// djvWidgetTestApplication
-//------------------------------------------------------------------------------
+using namespace djv;
 
 djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
     QApplication(argc, argv)
 {
     setStyle("fusion");
 
-    _context.reset(new djvUIContext);
+    _context.reset(new UI::UIContext);
     _context->setValid(true);
     
     _testManager.reset(new djvWidgetTestManager(_context.data()));
@@ -69,10 +67,6 @@ djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
         }
     }
 }
-
-//------------------------------------------------------------------------------
-// main
-//------------------------------------------------------------------------------
 
 int main(int argc, char ** argv)
 {

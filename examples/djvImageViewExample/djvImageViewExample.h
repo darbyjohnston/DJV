@@ -42,12 +42,12 @@
 #include <QApplication>
 #include <QScopedPointer>
 
-class djvImageViewExampleWidget : public djvImageView
+class djvImageViewExampleWidget : public djv::UI::ImageView
 {
     Q_OBJECT
 
 public:
-    explicit djvImageViewExampleWidget(djvUIContext *);
+    explicit djvImageViewExampleWidget(djv::UI::UIContext *);
     
 protected:
     virtual void mousePressEvent(QMouseEvent *);
@@ -71,7 +71,7 @@ private Q_SLOTS:
     void work();
 
 private:
-    QScopedPointer<djvUIContext>              _context;
+    QScopedPointer<djv::UI::UIContext>        _context;
     djvFileInfo                               _fileInfo;
     QScopedPointer<djvImageLoad>              _load;
     djvImage                                  _image;

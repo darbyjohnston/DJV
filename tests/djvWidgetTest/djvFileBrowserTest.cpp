@@ -35,7 +35,9 @@
 
 #include <djvCore/System.h>
 
-djvFileBrowserTest::djvFileBrowserTest(djvUIContext * context) :
+using namespace djv;
+
+djvFileBrowserTest::djvFileBrowserTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -46,7 +48,7 @@ QString djvFileBrowserTest::name()
 
 void djvFileBrowserTest::run(const QStringList & args)
 {
-    djvFileBrowser fileBrowser(context());
+    UI::FileBrowser fileBrowser(context());
     if (args.count() > 0)
     {
         fileBrowser.setFileInfo(args[0]);

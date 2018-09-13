@@ -38,7 +38,7 @@ class djvProgressDialogTest : public djvAbstractWidgetTest
     Q_OBJECT
     
 public:
-    djvProgressDialogTest(djvUIContext *);
+    djvProgressDialogTest(djv::UI::UIContext *);
 
     virtual QString name();
 

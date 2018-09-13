@@ -37,7 +37,9 @@
 
 #include <QVBoxLayout>
 
-djvFileEditTest::djvFileEditTest(djvUIContext * context) :
+using namespace djv;
+
+djvFileEditTest::djvFileEditTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -50,7 +52,7 @@ void djvFileEditTest::run(const QStringList & args)
 {
     QWidget * window = new QWidget;
     
-    djvFileEdit * fileEdit = new djvFileEdit(context());
+    UI::FileEdit * fileEdit = new UI::FileEdit(context());
     
     QVBoxLayout * layout = new QVBoxLayout(window);
     layout->addWidget(fileEdit);

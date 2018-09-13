@@ -39,7 +39,7 @@ class djvIntSliderTest : public djvAbstractWidgetTest
     
 public:
 
-    djvIntSliderTest(djvUIContext *);
+    djvIntSliderTest(djv::UI::UIContext *);
 
     virtual QString name();
 

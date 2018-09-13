@@ -43,6 +43,8 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
+using namespace djv;
+
 struct IconLibraryItem
 {
     IconLibraryItem(
@@ -62,7 +64,7 @@ struct IconLibraryItem
 class IconLibraryModel : public QAbstractListModel
 {
 public:
-    explicit IconLibraryModel(djvUIContext *, QObject * parent = nullptr);
+    explicit IconLibraryModel(UI::UIContext *, QObject * parent = nullptr);
 
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
     virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
@@ -76,7 +78,7 @@ private:
     QVector<IconLibraryItem> _items;
 };
 
-IconLibraryModel::IconLibraryModel(djvUIContext * context, QObject * parent) :
+IconLibraryModel::IconLibraryModel(UI::UIContext * context, QObject * parent) :
     QAbstractListModel(parent)
 {
     const QStringList names = context->iconLibrary()->names();
@@ -174,7 +176,7 @@ QVariant IconLibraryModel::headerData(int section, Qt::Orientation, int role) co
 void IconLibraryModel::sort(int column, Qt::SortOrder order)
 {}
 
-djvIconLibraryTest::djvIconLibraryTest(djvUIContext * context) :
+djvIconLibraryTest::djvIconLibraryTest(UI::UIContext * context) :
     djvAbstractWidgetTest(context)
 {}
 
@@ -203,7 +205,7 @@ void djvIconLibraryTest::run(const QStringList & args)
     view->header()->resizeSections(QHeaderView::ResizeToContents);
     view->header()->setSortIndicator(0, Qt::AscendingOrder);
 
-    djvSearchBox * searchBox = new djvSearchBox(context());
+    UI::SearchBox * searchBox = new UI::SearchBox(context());
 
     QVBoxLayout * layout = new QVBoxLayout(window);
     layout->addWidget(searchBox);
