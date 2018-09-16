@@ -99,7 +99,7 @@ namespace djv
             float viewZoom() const;
 
             //! Get the image bounding box.
-            djvBox2f bbox() const;
+            Core::Box2f bbox() const;
 
             //! Get whether the view has been fitted.
             bool hasViewFit() const;
@@ -158,7 +158,7 @@ namespace djv
             virtual void paintGL();
 
         private:
-            djvBox2f bbox(const glm::ivec2 &, float) const;
+            Core::Box2f bbox(const glm::ivec2 &, float) const;
 
             DJV_PRIVATE_COPY(ImageView);
 

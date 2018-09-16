@@ -33,30 +33,30 @@
 
 #include <QAbstractListModel>
 
-class djvWidgetTestManager;
-
-//------------------------------------------------------------------------------
-// djvWidgetTestModel
-//------------------------------------------------------------------------------
-
-class djvWidgetTestModel : public QAbstractListModel
+namespace djv
 {
-public:
+    namespace WidgetTest
+    {
+        class WidgetTestManager;
 
-    djvWidgetTestModel(djvWidgetTestManager *);
-    
-    virtual QModelIndex	index(
-        int                 row,
-        int                 column,
-        const QModelIndex & parent = QModelIndex()) const;
-    
-    virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
+        class WidgetTestModel : public QAbstractListModel
+        {
+        public:
+            WidgetTestModel(WidgetTestManager *);
 
-    virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole)
-        const;
+            virtual QModelIndex	index(
+                int                 row,
+                int                 column,
+                const QModelIndex & parent = QModelIndex()) const;
 
-private:
+            virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
 
-    djvWidgetTestManager * _testManager;
-};
+            virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole)
+                const;
 
+        private:
+            WidgetTestManager * _testManager;
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

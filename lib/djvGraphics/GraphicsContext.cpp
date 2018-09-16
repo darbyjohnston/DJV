@@ -84,14 +84,14 @@ namespace djv
         };
 
         GraphicsContext::GraphicsContext(QObject * parent) :
-            djvCoreContext(parent),
+            Core::CoreContext(parent),
             _p(new Private)
         {
             //DJV_DEBUG("GraphicsContext::GraphicsContext");
 
             // Register meta types.
             qRegisterMetaType<Image>("djv::Graphics::Image");
-            qRegisterMetaType<ImageIOInfo>("djvGraphics::ImageIOInfo");
+            qRegisterMetaType<ImageIOInfo>("djv::Graphics::ImageIOInfo");
 
             // Create the default OpenGL context.
             DJV_LOG(debugLog(), "djv::Graphics::GraphicsContext",
@@ -192,11 +192,11 @@ namespace djv
                 "\n"
                 "    Plugins: %6\n");
             return QString(label).
-                arg(djvCoreContext::info()).
+                arg(Core::CoreContext::info()).
                 arg(_p->openGlContext->format().majorVersion()).
                 arg(_p->openGlContext->format().minorVersion()).
-                arg(djvStringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
-                arg(djvStringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
+                arg(Core::StringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
+                arg(Core::StringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
                 arg(_p->imageIOFactory->names().join(", "));
         }
 
@@ -205,10 +205,10 @@ namespace djv
             //DJV_DEBUG("GraphicsContext::commandLineParse");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            if (!djvCoreContext::commandLineParse(in))
+            if (!Core::CoreContext::commandLineParse(in))
                 return false;
 
-            Q_FOREACH(djvPlugin * plugin, _p->imageIOFactory->plugins())
+            Q_FOREACH(Core::Plugin * plugin, _p->imageIOFactory->plugins())
             {
                 ImageIO * io = static_cast<ImageIO *>(plugin);
                 io->commandLine(in);
@@ -254,7 +254,7 @@ namespace djv
         QString GraphicsContext::commandLineHelp() const
         {
             QString imageIOHelp;
-            Q_FOREACH(djvPlugin * plugin, _p->imageIOFactory->plugins())
+            Q_FOREACH(Core::Plugin * plugin, _p->imageIOFactory->plugins())
             {
                 ImageIO * io = static_cast<ImageIO *>(plugin);
                 imageIOHelp += io->commandLineHelp();
@@ -272,11 +272,11 @@ namespace djv
             return QString(label).
                 arg(imageIOHelp).
                 arg(OpenGLImageFilter::filterLabels().join(", ")).
-                arg(djvStringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
-                arg(djvStringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
-                arg(djvStringUtil::label(OpenGLImageFilter::filterHighQuality().min).join(", ")).
-                arg(djvStringUtil::label(OpenGLImageFilter::filterHighQuality().mag).join(", ")).
-                arg(djvCoreContext::commandLineHelp());
+                arg(Core::StringUtil::label(OpenGLImageFilter::filter().min).join(", ")).
+                arg(Core::StringUtil::label(OpenGLImageFilter::filter().mag).join(", ")).
+                arg(Core::StringUtil::label(OpenGLImageFilter::filterHighQuality().min).join(", ")).
+                arg(Core::StringUtil::label(OpenGLImageFilter::filterHighQuality().mag).join(", ")).
+                arg(Core::CoreContext::commandLineHelp());
         }
 
     } // namespace Graphics

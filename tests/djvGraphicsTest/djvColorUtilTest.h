@@ -35,16 +35,21 @@
 
 #include <djvAbstractTest.h>
 
-class djvColorUtilTest : public djvAbstractTest
+namespace djv
 {
-public:
+    namespace GraphicsTest
+    {
+        class ColorUtilTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-    virtual void run(int &, char **);
+        private:
+            void scale();
+            void lerp();
+            void convert();
+            void qt();
+        };
 
-private:
-
-    void scale();
-    void lerp();
-    void convert();
-    void qt();
-};
+    } // namespace GraphicsTest
+} // namespace djv

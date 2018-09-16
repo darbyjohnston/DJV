@@ -39,44 +39,52 @@
 
 #include <QString>
 
-void djvTimerTest::run(int &, char **)
-{
-    DJV_DEBUG("djvTimerTest::run");
-    ctors();
-    operators();
-}
+using namespace djv::Core;
 
-void djvTimerTest::ctors()
+namespace djv
 {
-    DJV_DEBUG("djvTimerTest::ctors");
+    namespace CoreTest
     {
-        const djvTimer timer;
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, timer.seconds()));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, timer.fps()));
-    }
-    {
-        djvTimer a;
-        a.start();
-        djvTime::msleep(1);
-        a.check();
-        djvTimer b(a);
-        DJV_ASSERT(djvMath::fuzzyCompare(a.seconds(), b.seconds()));
-        DJV_ASSERT(djvMath::fuzzyCompare(a.fps(), b.fps()));
-    }
-}
+        void TimerTest::run(int &, char **)
+        {
+            DJV_DEBUG("TimerTest::run");
+            ctors();
+            operators();
+        }
 
-void djvTimerTest::operators()
-{
-    DJV_DEBUG("djvTimerTest::operators");
-    {
-        djvTimer a;
-        a.start();
-        djvTime::msleep(1);
-        a.check();
-        djvTimer b;
-        b = a;
-        DJV_ASSERT(djvMath::fuzzyCompare(a.seconds(), b.seconds()));
-        DJV_ASSERT(djvMath::fuzzyCompare(a.fps(), b.fps()));
-    }
-}
+        void TimerTest::ctors()
+        {
+            DJV_DEBUG("TimerTest::ctors");
+            {
+                const Timer timer;
+                DJV_ASSERT(Math::fuzzyCompare(0.f, timer.seconds()));
+                DJV_ASSERT(Math::fuzzyCompare(0.f, timer.fps()));
+            }
+            {
+                Timer a;
+                a.start();
+                Time::msleep(1);
+                a.check();
+                Timer b(a);
+                DJV_ASSERT(Math::fuzzyCompare(a.seconds(), b.seconds()));
+                DJV_ASSERT(Math::fuzzyCompare(a.fps(), b.fps()));
+            }
+        }
 
+        void TimerTest::operators()
+        {
+            DJV_DEBUG("TimerTest::operators");
+            {
+                Timer a;
+                a.start();
+                Time::msleep(1);
+                a.check();
+                Timer b;
+                b = a;
+                DJV_ASSERT(Math::fuzzyCompare(a.seconds(), b.seconds()));
+                DJV_ASSERT(Math::fuzzyCompare(a.fps(), b.fps()));
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

@@ -50,7 +50,7 @@ namespace djv
         //! This struct provides libpng error handling.
         struct PNGErrorStruct
         {
-            char msg[djvStringUtil::cStringLength];
+            char msg[Core::StringUtil::cStringLength];
         };
 
     } // namespace Graphics
@@ -60,4 +60,5 @@ extern "C"
 {
     void djvPNGError(png_structp, png_const_charp);
     void djvPNGWarning(png_structp, png_const_charp);
-}
+
+} // extern "C"

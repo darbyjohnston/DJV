@@ -39,134 +39,133 @@
 
 #include <memory>
 
-//! \addtogroup djvCoreFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileIO
-//!
-//! This class provides file I/O.
-//------------------------------------------------------------------------------
-
-class djvFileIO
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(MODE)
-    
-public:
-    djvFileIO();
-
-    ~djvFileIO();
-
-    //! This enumeration provides the file modes.
-    enum MODE
+    namespace Core
     {
-        READ,
-        WRITE
-    };
+        //! \class FileIO
+        //!
+        //! This class provides file I/O.
+        class FileIO
+        {
+            Q_GADGET
+            Q_ENUMS(MODE)
 
-    //! Open a file.
-    void open(const QString & fileName, MODE) throw (djvError);
+        public:
+            FileIO();
 
-    //! Close the file.
-    void close();
-    
-    //! Get the file name.
-    const QString & fileName() const;
+            ~FileIO();
 
-    //! Get whether the file is open.
-    bool isValid() const;
+            //! This enumeration provides the file modes.
+            enum MODE
+            {
+                READ,
+                WRITE
+            };
 
-    //! Get the file size.
-    quint64 size() const;
+            //! Open a file.
+            void open(const QString & fileName, MODE) throw (Error);
 
-    //! Get data.
-    void get(void *, quint64, int wordSize = 1) throw (djvError);
+            //! Close the file.
+            void close();
 
-    inline void get8  (qint8 *,   quint64 = 1) throw (djvError);
-    inline void getU8 (quint8 *,  quint64 = 1) throw (djvError);
-    inline void get16 (qint16 *,  quint64 = 1) throw (djvError);
-    inline void getU16(quint16 *, quint64 = 1) throw (djvError);
-    inline void get32 (qint32 *,  quint64 = 1) throw (djvError);
-    inline void getU32(quint32 *, quint64 = 1) throw (djvError);
-    inline void getF32(float *,   quint64 = 1) throw (djvError);
+            //! Get the file name.
+            const QString & fileName() const;
 
-    //! Set data.
-    void set(const void *, quint64, int wordSize = 1) throw (djvError);
+            //! Get whether the file is open.
+            bool isValid() const;
 
-    inline void set8  (const qint8 *,   quint64) throw (djvError);
-    inline void setU8 (const quint8 *,  quint64) throw (djvError);
-    inline void set16 (const qint16 *,  quint64) throw (djvError);
-    inline void setU16(const quint16 *, quint64) throw (djvError);
-    inline void set32 (const qint32 *,  quint64) throw (djvError);
-    inline void setU32(const quint32 *, quint64) throw (djvError);
-    inline void setF32(const float *,   quint64) throw (djvError);
+            //! Get the file size.
+            quint64 size() const;
 
-    inline void set8  (const qint8 &) throw (djvError);
-    inline void setU8 (const quint8 &) throw (djvError);
-    inline void set16 (const qint16 &) throw (djvError);
-    inline void setU16(const quint16 &) throw (djvError);
-    inline void set32 (const qint32 &) throw (djvError);
-    inline void setU32(const quint32 &) throw (djvError);
-    inline void setF32(const float &) throw (djvError);
+            //! Get data.
+            void get(void *, quint64, int wordSize = 1) throw (Error);
 
-    //! Start an asynchronous read-ahead. This allows the operating system to
-    //! cache the file by the time we need it.
-    void readAhead();
+            inline void get8(qint8 *, quint64 = 1) throw (Error);
+            inline void getU8(quint8 *, quint64 = 1) throw (Error);
+            inline void get16(qint16 *, quint64 = 1) throw (Error);
+            inline void getU16(quint16 *, quint64 = 1) throw (Error);
+            inline void get32(qint32 *, quint64 = 1) throw (Error);
+            inline void getU32(quint32 *, quint64 = 1) throw (Error);
+            inline void getF32(float *, quint64 = 1) throw (Error);
 
-    //! Get the current memory-map position.
-    const quint8 * mmapP() const;
+            //! Set data.
+            void set(const void *, quint64, int wordSize = 1) throw (Error);
 
-    //! Get a pointer to the end of the memory-map.
-    const quint8 * mmapEnd() const;
+            inline void set8(const qint8 *, quint64) throw (Error);
+            inline void setU8(const quint8 *, quint64) throw (Error);
+            inline void set16(const qint16 *, quint64) throw (Error);
+            inline void setU16(const quint16 *, quint64) throw (Error);
+            inline void set32(const qint32 *, quint64) throw (Error);
+            inline void setU32(const quint32 *, quint64) throw (Error);
+            inline void setF32(const float *, quint64) throw (Error);
 
-    //! Get the file position.
-    quint64 pos() const;
+            inline void set8(const qint8 &) throw (Error);
+            inline void setU8(const quint8 &) throw (Error);
+            inline void set16(const qint16 &) throw (Error);
+            inline void setU16(const quint16 &) throw (Error);
+            inline void set32(const qint32 &) throw (Error);
+            inline void setU32(const quint32 &) throw (Error);
+            inline void setF32(const float &) throw (Error);
 
-    //! Set the file position.
-    void setPos(quint64) throw (djvError);
+            //! Start an asynchronous read-ahead. This allows the operating system to
+            //! cache the file by the time we need it.
+            void readAhead();
 
-    //! Move the file position.
-    void seek(quint64) throw (djvError);
+            //! Get the current memory-map position.
+            const quint8 * mmapP() const;
 
-    //! Get whether endian conversion is performed when using the data
-    //! functions.
-    bool endian() const;
+            //! Get a pointer to the end of the memory-map.
+            const quint8 * mmapEnd() const;
 
-    //! Set whether endian conversion is performed when using the data
-    //! functions.
-    void setEndian(bool);
-    
-    //! This enumeration provides error codes.
-    enum ERROR
-    {
-        ERROR_OPEN,
+            //! Get the file position.
+            quint64 pos() const;
+
+            //! Set the file position.
+            void setPos(quint64) throw (Error);
+
+            //! Move the file position.
+            void seek(quint64) throw (Error);
+
+            //! Get whether endian conversion is performed when using the data
+            //! functions.
+            bool endian() const;
+
+            //! Set whether endian conversion is performed when using the data
+            //! functions.
+            void setEndian(bool);
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_OPEN,
 #       if defined(DJV_WINDOWS)
-        ERROR_FILE_MAPPING,
-        ERROR_MEMORY_MAP,
+                ERROR_FILE_MAPPING,
+                ERROR_MEMORY_MAP,
 #       else // DJV_WINDOWS
-        ERROR_MEMORY_MAP,
+                ERROR_MEMORY_MAP,
 #       endif // DJV_WINDOWS
-        ERROR_READ,
-        ERROR_WRITE,
-        ERROR_SET_POS,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+                ERROR_READ,
+                ERROR_WRITE,
+                ERROR_SET_POS,
 
-private:
-    void setPos(quint64, bool seek) throw (djvError);
-	
-    DJV_PRIVATE_COPY(djvFileIO);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+                ERROR_COUNT
+            };
 
-//@} // djvCoreFile
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+        private:
+            void setPos(quint64, bool seek) throw (Error);
+
+            DJV_PRIVATE_COPY(FileIO);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace Core
+} // namespace djv
 
 #include <djvCore/FileIOInline.h>
 

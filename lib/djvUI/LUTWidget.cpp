@@ -131,12 +131,12 @@ namespace djv
 
         void LUTWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _typeWidget);
             _typeWidget->setCurrentIndex(_options.type);
         }
 
-        LUTWidgetPlugin::LUTWidgetPlugin(djvCoreContext * context) :
+        LUTWidgetPlugin::LUTWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

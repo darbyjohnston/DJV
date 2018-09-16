@@ -41,68 +41,71 @@
 #include <windows.h>
 #endif // DJV_WINDOWS
 
-//------------------------------------------------------------------------------
-// djvErrorUtil
-//------------------------------------------------------------------------------
-
-djvErrorUtil::~djvErrorUtil()
-{}
-
-QStringList djvErrorUtil::format(const djvError & error)
+namespace djv
 {
-    QStringList out;
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvErrorUtil", "[ERROR] %1") <<
-        qApp->translate("djvErrorUtil", "[ERROR %1] %2");
-    Q_FOREACH(const djvError::Message & message, error.messages())
+    namespace Core
     {
-        out += message.prefix.isEmpty() ?
-            data[0].arg(message.string) :
-            data[1].arg(message.prefix).arg(message.string);
-    }
-    return out;
-}
-
-QString djvErrorUtil::lastError()
-{
-    QString out;
-#if defined(DJV_WINDOWS)
-    struct Buffer
-    {
-        Buffer() :
-            p(0)
+        ErrorUtil::~ErrorUtil()
         {}
-        
-        ~Buffer()
+
+        QStringList ErrorUtil::format(const Error & error)
         {
-            LocalFree(p);
+            QStringList out;
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::ErrorUtil", "[ERROR] %1") <<
+                qApp->translate("djv::Core::ErrorUtil", "[ERROR %1] %2");
+            Q_FOREACH(const Error::Message & message, error.messages())
+            {
+                out += message.prefix.isEmpty() ?
+                    data[0].arg(message.string) :
+                    data[1].arg(message.prefix).arg(message.string);
+            }
+            return out;
         }
-        
-        LPTSTR * p;
-        
-    } buffer;
 
-    ::FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        0,
-        GetLastError(),
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR)&buffer.p,
-        0,
-        0);
+        QString ErrorUtil::lastError()
+        {
+            QString out;
+#if defined(DJV_WINDOWS)
+            struct Buffer
+            {
+                Buffer() :
+                    p(0)
+                {}
 
-    out = QString((LPCTSTR)buffer.p);
+                ~Buffer()
+                {
+                    LocalFree(p);
+                }
+
+                LPTSTR * p;
+
+            } buffer;
+
+            ::FormatMessage(
+                FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                FORMAT_MESSAGE_FROM_SYSTEM |
+                FORMAT_MESSAGE_IGNORE_INSERTS,
+                0,
+                GetLastError(),
+                MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                (LPTSTR)&buffer.p,
+                0,
+                0);
+
+            out = QString((LPCTSTR)buffer.p);
 #endif // DJV_WINDOWS
-    return out;
-}
+            return out;
+        }
 
-void djvErrorUtil::print(const djvError & error)
-{
-    const QStringList list = format(error);
-    for (int i = list.count() - 1; i >= 0; --i)
-    {
-        djvSystem::print(list[i]);
-    }
-}
+        void ErrorUtil::print(const Error & error)
+        {
+            const QStringList list = format(error);
+            for (int i = list.count() - 1; i >= 0; --i)
+            {
+                System::print(list[i]);
+            }
+        }
+
+    } // namespace Core
+} // namespace djv

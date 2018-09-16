@@ -48,7 +48,7 @@ namespace djv
         } // namespace
 
         OpenGLOffscreenBuffer::OpenGLOffscreenBuffer(const PixelDataInfo & info)
-            throw (djvError) :
+            throw (Core::Error) :
             _info(info)
         {
             //DJV_DEBUG("OpenGLOffscreenBuffer::OpenGLOffscreenBuffer");
@@ -61,19 +61,15 @@ namespace djv
             DJV_DEBUG_OPEN_GL(glFuncs->glGenTextures(1, &_texture));
             if (!_texture)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_CREATE_TEXTURE]);
             }
             DJV_DEBUG_OPEN_GL(glFuncs->glBindTexture(GL_TEXTURE_2D, _texture));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
-                GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
-                GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
-                GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(
-                GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+            DJV_DEBUG_OPEN_GL(glFuncs->glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
             GLenum format = GL_RGBA;
             if (Pixel::F16 == Pixel::type(_info.pixel))
             {
@@ -100,7 +96,7 @@ namespace djv
             //! loaded, though it doesn't actually seem to be a problem?
             if (error != GL_NO_ERROR)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_INIT_TEXTURE].
                     arg(OpenGLUtil::errorString(error)));
@@ -112,7 +108,7 @@ namespace djv
             DJV_DEBUG_OPEN_GL(glFuncs->glGenFramebuffers(1, &_id));
             if (!_id)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_CREATE_FBO]);
             }
@@ -126,7 +122,7 @@ namespace djv
             error = glFuncs->glCheckFramebufferStatus(GL_FRAMEBUFFER);
             if (error != GL_FRAMEBUFFER_COMPLETE)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLOffscreenBuffer",
                     errorLabels()[ERROR_INIT_FBO].
                     arg(OpenGLUtil::errorString(error)));

@@ -46,23 +46,23 @@ namespace djv
         class TIFFLoad : public ImageLoad
         {
         public:
-            explicit TIFFLoad(djvCoreContext *);
+            explicit TIFFLoad(Core::CoreContext *);
 
             virtual ~TIFFLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
-            virtual void close() throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            virtual void close() throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &) throw (Core::Error);
 
-            djvFileInfo _file;
-            ::TIFF *    _f;
-            bool        _compression;
-            bool        _palette;
-            uint16 *    _colormap[3];
-            PixelData   _tmp;
+            Core::FileInfo _file;
+            ::TIFF *       _f;
+            bool           _compression;
+            bool           _palette;
+            uint16 *       _colormap[3];
+            PixelData      _tmp;
         };
 
     } // namespace Graphics

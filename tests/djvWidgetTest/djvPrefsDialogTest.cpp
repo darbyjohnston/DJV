@@ -34,18 +34,23 @@
 #include <djvUI/PrefsDialog.h>
 #include <djvUI/UIContext.h>
 
-using namespace djv;
-
-djvPrefsDialogTest::djvPrefsDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvPrefsDialogTest::name()
+namespace djv
 {
-    return "djvPrefsDialogTest";
-}
+    namespace WidgetTest
+    {
+        PrefsDialogTest::PrefsDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvPrefsDialogTest::run(const QStringList & args)
-{
-    context()->prefsDialog()->show();
-}
+        QString PrefsDialogTest::name()
+        {
+            return "PrefsDialogTest";
+        }
+
+        void PrefsDialogTest::run(const QStringList & args)
+        {
+            context()->prefsDialog()->show();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

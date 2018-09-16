@@ -37,24 +37,29 @@
 
 #include <QHBoxLayout>
 
-using namespace djv;
-
-djvColorDialogTest::djvColorDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvColorDialogTest::name()
+namespace djv
 {
-    return "djvColorDialogTest";
-}
-
-void djvColorDialogTest::run(const QStringList & args)
-{
-    UI::ColorDialog dialog(context());
-    if (QDialog::Accepted == dialog.exec())
+    namespace WidgetTest
     {
-        QStringList tmp;
-        tmp << dialog.color();
-        djvSystem::print(QString("%1").arg(tmp.join(", ")));
-    }
-}
+        ColorDialogTest::ColorDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
+
+        QString ColorDialogTest::name()
+        {
+            return "ColorDialogTest";
+        }
+
+        void ColorDialogTest::run(const QStringList & args)
+        {
+            UI::ColorDialog dialog(context());
+            if (QDialog::Accepted == dialog.exec())
+            {
+                QStringList tmp;
+                tmp << dialog.color();
+                Core::System::print(QString("%1").arg(tmp.join(", ")));
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

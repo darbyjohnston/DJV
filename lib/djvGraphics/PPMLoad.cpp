@@ -40,30 +40,30 @@ namespace djv
 {
     namespace Graphics
     {
-        PPMLoad::PPMLoad(djvCoreContext * context) :
+        PPMLoad::PPMLoad(Core::CoreContext * context) :
             ImageLoad(context)
         {}
 
         PPMLoad::~PPMLoad()
         {}
 
-        void PPMLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void PPMLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PPMLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             //DJV_DEBUG_PRINT("type = " << in.type());
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(in.fileName(in.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void PPMLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PPMLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -75,7 +75,7 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            QScopedPointer<djvFileIO> io(new djvFileIO);
+            QScopedPointer<Core::FileIO> io(new Core::FileIO);
             _open(fileName, info, *io);
 
             // Read the file.
@@ -85,7 +85,7 @@ namespace djv
             {
                 if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(info))
                 {
-                    throw djvError(
+                    throw Core::Error(
                         PPM::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                 }
@@ -139,21 +139,21 @@ namespace djv
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void PPMLoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void PPMLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PPMLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(in, djvFileIO::READ);
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(in, Core::FileIO::READ);
             char magic[] = { 0, 0, 0 };
             io.get(magic, 2);
             //DJV_DEBUG_PRINT("magic = " << magic);
             if (magic[0] != 'P')
             {
-                throw djvError(
+                throw Core::Error(
                     PPM::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
             }
@@ -166,7 +166,7 @@ namespace djv
             case '5':
             case '6': break;
             default:
-                throw djvError(
+                throw Core::Error(
                     PPM::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -174,17 +174,17 @@ namespace djv
             //DJV_DEBUG_PRINT("ppm type = " << ppmType);
 
             // Read the header.
-            char tmp[djvStringUtil::cStringLength] = "";
+            char tmp[Core::StringUtil::cStringLength] = "";
             int width = 0;
             int height = 0;
-            djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+            Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
             width = QString(tmp).toInt();
-            djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+            Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
             height = QString(tmp).toInt();
             int maxValue = 0;
             if (ppmType != 1 && ppmType != 4)
             {
-                djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+                Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
                 maxValue = QString(tmp).toInt();
             }
             //DJV_DEBUG_PRINT("max value = " << maxValue);
@@ -218,7 +218,7 @@ namespace djv
                 Pixel::INTEGER,
                 info.pixel))
             {
-                throw djvError(
+                throw Core::Error(
                     PPM::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -229,7 +229,7 @@ namespace djv
 
             if (PPM::DATA_BINARY == _data)
             {
-                info.endian = djvMemory::MSB;
+                info.endian = Core::Memory::MSB;
             }
         }
 

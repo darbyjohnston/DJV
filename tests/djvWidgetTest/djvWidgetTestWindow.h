@@ -33,7 +33,8 @@
 
 #include <QWidget>
 
-class djvWidgetTestModel;
+class QListView;
+class QSortFilterProxyModel;
 
 namespace djv
 {
@@ -42,29 +43,27 @@ namespace djv
         class UIContext;
 
     } // namespace UI
+
+    namespace WidgetTest
+    {
+        class WidgetTestModel;
+
+        class WidgetTestWindow : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            WidgetTestWindow(WidgetTestModel *, UI::UIContext *);
+
+        private Q_SLOTS:
+            void runCallback(const QModelIndex &);
+            void runCallback();
+
+        private:
+            WidgetTestModel * _model = nullptr;
+            QSortFilterProxyModel * _proxyModel = nullptr;
+            QListView * _listView = nullptr;
+        };
+
+    } // namespace WidgetTest
 } // namespace djv
-
-class QListView;
-class QSortFilterProxyModel;
-
-//------------------------------------------------------------------------------
-// djvWidgetTestWindow
-//------------------------------------------------------------------------------
-
-class djvWidgetTestWindow : public QWidget
-{
-    Q_OBJECT
-    
-public:
-    djvWidgetTestWindow(djvWidgetTestModel *, djv::UI::UIContext *);
-
-private Q_SLOTS:
-    void runCallback(const QModelIndex &);
-    void runCallback();
-    
-private:
-    djvWidgetTestModel *    _model;
-    QSortFilterProxyModel * _proxyModel;
-    QListView *             _listView;
-};
-

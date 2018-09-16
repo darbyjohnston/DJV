@@ -53,7 +53,7 @@ namespace djv
         class IFLPlugin : public ImageIO
         {
         public:
-            explicit IFLPlugin(djvCoreContext *);
+            explicit IFLPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

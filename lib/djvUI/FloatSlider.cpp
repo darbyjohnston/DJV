@@ -220,7 +220,7 @@ namespace djv
             //DJV_DEBUG_PRINT("value = " << value());
             //DJV_DEBUG_PRINT("min = " << min());
             //DJV_DEBUG_PRINT("max = " << max());
-            djvSignalBlocker signalBlocker(_p->slider);
+            Core::SignalBlocker signalBlocker(_p->slider);
             _p->slider->setValue(static_cast<int>(
                 ((_p->object->value() - _p->object->min()) /
                 (_p->object->max() - _p->object->min())) * steps));

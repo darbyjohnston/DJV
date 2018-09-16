@@ -38,29 +38,29 @@ namespace djv
 {
     namespace Graphics
     {
-        RLALoad::RLALoad(djvCoreContext * context) :
+        RLALoad::RLALoad(Core::CoreContext * context) :
             ImageLoad(context)
         {}
 
         RLALoad::~RLALoad()
         {}
 
-        void RLALoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void RLALoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("RLALoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(_file.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void RLALoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("RLALoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -72,11 +72,11 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            djvFileIO io;
+            Core::FileIO io;
             _open(fileName, info, io);
             if (frame.layer < 0 || frame.layer >= info.layerCount())
             {
-                throw djvError(
+                throw Core::Error(
                     RLA::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_READ]);
             }
@@ -161,22 +161,22 @@ namespace djv
 
             void endian(Header * in)
             {
-                djvMemory::convertEndian(&in->dimensions, 4, 2);
-                djvMemory::convertEndian(&in->active, 4, 2);
-                djvMemory::convertEndian(&in->frame, 1, 2);
-                djvMemory::convertEndian(&in->colorChannelType, 1, 2);
-                djvMemory::convertEndian(&in->colorChannels, 1, 2);
-                djvMemory::convertEndian(&in->matteChannels, 1, 2);
-                djvMemory::convertEndian(&in->auxChannels, 1, 2);
-                djvMemory::convertEndian(&in->version, 1, 2);
-                djvMemory::convertEndian(&in->job, 1, 4);
-                djvMemory::convertEndian(&in->field, 1, 2);
-                djvMemory::convertEndian(&in->colorBitDepth, 1, 2);
-                djvMemory::convertEndian(&in->matteChannelType, 1, 2);
-                djvMemory::convertEndian(&in->matteBitDepth, 1, 2);
-                djvMemory::convertEndian(&in->auxChannelType, 1, 2);
-                djvMemory::convertEndian(&in->auxBitDepth, 1, 2);
-                djvMemory::convertEndian(&in->offset, 1, 4);
+                Core::Memory::convertEndian(&in->dimensions, 4, 2);
+                Core::Memory::convertEndian(&in->active, 4, 2);
+                Core::Memory::convertEndian(&in->frame, 1, 2);
+                Core::Memory::convertEndian(&in->colorChannelType, 1, 2);
+                Core::Memory::convertEndian(&in->colorChannels, 1, 2);
+                Core::Memory::convertEndian(&in->matteChannels, 1, 2);
+                Core::Memory::convertEndian(&in->auxChannels, 1, 2);
+                Core::Memory::convertEndian(&in->version, 1, 2);
+                Core::Memory::convertEndian(&in->job, 1, 4);
+                Core::Memory::convertEndian(&in->field, 1, 2);
+                Core::Memory::convertEndian(&in->colorBitDepth, 1, 2);
+                Core::Memory::convertEndian(&in->matteChannelType, 1, 2);
+                Core::Memory::convertEndian(&in->matteBitDepth, 1, 2);
+                Core::Memory::convertEndian(&in->auxChannelType, 1, 2);
+                Core::Memory::convertEndian(&in->auxBitDepth, 1, 2);
+                Core::Memory::convertEndian(&in->offset, 1, 4);
             }
 
             void debug(const Header & in)
@@ -221,15 +221,15 @@ namespace djv
 
         } // namespace
 
-        void RLALoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void RLALoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
             //DJV_DEBUG("djvRLALoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(in, djvFileIO::READ);
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(in, Core::FileIO::READ);
 
             // Read the header.
             Header header;
@@ -252,19 +252,19 @@ namespace djv
             Pixel::PIXEL pixel = static_cast<Pixel::PIXEL>(0);
             if (header.matteChannels > 1)
             {
-                throw djvError(
+                throw Core::Error(
                     RLA::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
             if (header.matteChannelType != header.colorChannelType)
             {
-                throw djvError(
+                throw Core::Error(
                     RLA::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
             if (header.matteBitDepth != header.colorBitDepth)
             {
-                throw djvError(
+                throw Core::Error(
                     RLA::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -274,13 +274,13 @@ namespace djv
                 3 == header.colorChannelType ? Pixel::FLOAT : Pixel::INTEGER,
                 pixel))
             {
-                throw djvError(
+                throw Core::Error(
                     RLA::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
             if (header.field)
             {
-                throw djvError(
+                throw Core::Error(
                     RLA::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }

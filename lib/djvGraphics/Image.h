@@ -46,7 +46,7 @@ namespace djv
         {
         public:
             Image();
-            Image(const PixelDataInfo & in, const quint8 * = 0, djvFileIO * = 0);
+            Image(const PixelDataInfo & in, const quint8 * = 0, Core::FileIO * = 0);
 
             virtual ~Image();
 
@@ -54,11 +54,12 @@ namespace djv
             ColorProfile colorProfile;
         };
 
-        DJV_COMPARISON_OPERATOR(Image);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::Image);
+
+    DJV_DEBUG_OPERATOR(Graphics::Image);
+
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Graphics::Image)
-
-DJV_DEBUG_OPERATOR(djv::Graphics::Image);

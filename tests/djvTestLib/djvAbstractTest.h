@@ -31,21 +31,24 @@
 
 #pragma once
 
-#ifndef DJV_ABSTRACT_TEST_H
-#define DJV_ABSTRACT_TEST_H
-
 #include <djvTestLib.h>
 
 #include <QObject>
 
-class djvAbstractTest : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace TestLib
+    {
+        class AbstractTest : public QObject
+        {
+            Q_OBJECT
 
-    virtual void run(int & argc, char ** argv) = 0;
-};
+        public:
+            virtual ~AbstractTest() = 0;
 
-#endif // DJV_ABSTRACT_TEST_H
+            virtual void run(int & argc, char ** argv) = 0;
+        };
+
+    } // namespace TestLib
+} // namespace djv
 

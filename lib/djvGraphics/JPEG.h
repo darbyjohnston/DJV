@@ -34,6 +34,7 @@
 #include <QStringList>
 
 #include <stdio.h>
+#include <setjmp.h>
 
 //! \todo This namespace is meant to resolve conflicts on Windows, is it still
 //! necessary?
@@ -42,10 +43,9 @@ namespace libjpeg
 extern "C"
 {
 #include <jpeglib.h>
-}
-}
 
-#include <setjmp.h>
+} // extern "C"
+} // namespce libjpeg
 
 #undef TRUE
 
@@ -92,9 +92,9 @@ namespace djv
     } // namespace Graphics
 } // namespace djv
 
-extern "C" {
+extern "C"
+{
+    void djvJPEGError(libjpeg::j_common_ptr);
+    void djvJPEGWarning(libjpeg::j_common_ptr, int);
 
-void djvJPEGError(libjpeg::j_common_ptr);
-void djvJPEGWarning(libjpeg::j_common_ptr, int);
-
-}
+} // extern "C"

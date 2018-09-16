@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PNGPlugin::PNGPlugin(djvCoreContext * context) :
+        PNGPlugin::PNGPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 

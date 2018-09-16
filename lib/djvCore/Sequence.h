@@ -36,82 +36,81 @@
 #include <QMetaType>
 #include <QVector>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//! This typedef provides a frame number list.
-typedef QVector<qint64> djvFrameList;
-
-//------------------------------------------------------------------------------
-//! \class djvSequence
-//!
-//! This class provides a sequence of frames.
-//------------------------------------------------------------------------------
-
-class djvSequence
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(COMPRESS)
-
-public:
-
-    //! This enumeration provides the sequence compression.
-    enum COMPRESS
+    namespace Core
     {
-        COMPRESS_OFF,     //!< No sequence compression
-        COMPRESS_SPARSE,  //!< Sparse sequence compression, for example: 1-3,5
-        COMPRESS_RANGE,   //!< Range sequence compression, for example: 1-5
+        //! This typedef provides a frame number list.
+        typedef QVector<qint64> FrameList;
 
-        COMPRESS_COUNT
-    };
+        //! \class Sequence
+        //!
+        //! This class provides a sequence of frames.
+        class Sequence
+        {
+            Q_GADGET
+            Q_ENUMS(COMPRESS)
 
-    //! Get the compression labels.
-    static const QStringList & compressLabels();    
+        public:
 
-    djvSequence();
-    explicit djvSequence(const djvFrameList &, int pad = 0, const djvSpeed & = djvSpeed());
-    djvSequence(qint64 start, qint64 end, int pad = 0, const djvSpeed & = djvSpeed());
+            //! This enumeration provides the sequence compression.
+            enum COMPRESS
+            {
+                COMPRESS_OFF,     //!< No sequence compression
+                COMPRESS_SPARSE,  //!< Sparse sequence compression, for example: 1-3,5
+                COMPRESS_RANGE,   //!< Range sequence compression, for example: 1-5
 
-    djvFrameList frames;
-    int pad = 0;
-    djvSpeed speed;
+                COMPRESS_COUNT
+            };
 
-    //! Set the list of frame numbers.
-    void setFrames(qint64 start, qint64 end);
+            //! Get the compression labels.
+            static const QStringList & compressLabels();
 
-    //! Get the start frame.
-    inline qint64 start() const;
+            Sequence();
+            explicit Sequence(const FrameList &, int pad = 0, const Speed & = Speed());
+            Sequence(qint64 start, qint64 end, int pad = 0, const Speed & = Speed());
 
-    //! Get the end frame.
-    inline qint64 end() const;
+            FrameList frames;
+            int pad = 0;
+            Speed speed;
 
-    //! Sort the frame numbers in a sequence.
-    void sort();
-    
-    //! Get the maximum number of frames default.
-    static qint64 maxFramesDefault();
+            //! Set the list of frame numbers.
+            void setFrames(qint64 start, qint64 end);
 
-    //! Get the maximum number of frames a sequence can hold.
-    static qint64 maxFrames();
+            //! Get the start frame.
+            inline qint64 start() const;
 
-    //! Set the maximum number of frames a sequence can hold.
-    static void setMaxFrames(qint64);
-};
+            //! Get the end frame.
+            inline qint64 end() const;
 
-Q_DECLARE_METATYPE(djvSequence)
-Q_DECLARE_METATYPE(djvSequence::COMPRESS)
+            //! Sort the frame numbers in a sequence.
+            void sort();
 
-inline bool operator == (const djvSequence &, const djvSequence &);
+            //! Get the maximum number of frames default.
+            static qint64 maxFramesDefault();
 
-inline bool operator != (const djvSequence &, const djvSequence &);
+            //! Get the maximum number of frames a sequence can hold.
+            static qint64 maxFrames();
 
-DJV_STRING_OPERATOR(djvSequence::COMPRESS);
-DJV_STRING_OPERATOR(djvSequence);
+            //! Set the maximum number of frames a sequence can hold.
+            static void setMaxFrames(qint64);
+        };
 
-DJV_DEBUG_OPERATOR(djvSequence);
-DJV_DEBUG_OPERATOR(djvSequence::COMPRESS);
+    } // namespace Core
 
-//@} // djvCoreMisc
+    inline bool operator == (const Core::Sequence &, const Core::Sequence &);
+    inline bool operator != (const Core::Sequence &, const Core::Sequence &);
+
+    DJV_STRING_OPERATOR(Core::Sequence::COMPRESS);
+    DJV_STRING_OPERATOR(Core::Sequence);
+    DJV_DEBUG_OPERATOR(Core::FrameList);
+    DJV_DEBUG_OPERATOR(Core::Sequence);
+    DJV_DEBUG_OPERATOR(Core::Sequence::COMPRESS);
+
+} // namespace djv
+
+Q_DECLARE_METATYPE(djv::Core::Sequence)
+Q_DECLARE_METATYPE(djv::Core::Sequence::COMPRESS)
 
 #include <djvCore/SequenceInline.h>
 

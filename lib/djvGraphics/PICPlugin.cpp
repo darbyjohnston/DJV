@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PICPlugin::PICPlugin(djvCoreContext * context) :
+        PICPlugin::PICPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 

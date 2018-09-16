@@ -47,18 +47,18 @@ namespace djv
         class IFFSave : public ImageSave
         {
         public:
-            IFFSave(const IFF::Options &, djvCoreContext *);
+            IFFSave(const IFF::Options &, Core::CoreContext *);
 
             virtual ~IFFSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            IFF::Options  _options;
-            djvFileInfo   _file;
-            PixelDataInfo _info;
-            Image         _image;
+            IFF::Options   _options;
+            Core::FileInfo _file;
+            PixelDataInfo  _info;
+            Image          _image;
         };
 
     } // namespace Graphics

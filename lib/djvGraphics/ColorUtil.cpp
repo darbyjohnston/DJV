@@ -75,7 +75,7 @@ namespace djv
             for (int c = 0; c < channels; ++c)
             {
                 min_.setF32(
-                    djvMath::lerp(value, min_.f32(c), max_.f32(c)),
+                    Core::Math::lerp(value, min_.f32(c), max_.f32(c)),
                     c);
             }
             convert(min_, out);
@@ -87,15 +87,15 @@ namespace djv
             const QColor & max,
             QColor &       out)
         {
-            out.setRedF(djvMath::lerp(value, min.redF(), max.redF()));
-            out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
-            out.setBlueF(djvMath::lerp(value, min.blueF(), max.blueF()));
-            out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
+            out.setRedF(Core::Math::lerp(value, min.redF(), max.redF()));
+            out.setGreenF(Core::Math::lerp(value, min.greenF(), max.greenF()));
+            out.setBlueF(Core::Math::lerp(value, min.blueF(), max.blueF()));
+            out.setAlphaF(Core::Math::lerp(value, min.alphaF(), max.alphaF()));
         }
 
         Color ColorUtil::lerp(float value, const Color & min, const Color & max)
         {
-            Color out(djvMath::max(min.pixel(), max.pixel()));
+            Color out(Core::Math::max(min.pixel(), max.pixel()));
             lerp(value, min, max, out);
             return out;
         }
@@ -103,10 +103,10 @@ namespace djv
         QColor ColorUtil::lerp(float value, const QColor & min, const QColor & max)
         {
             QColor out;
-            out.setRedF(djvMath::lerp(value, min.redF(), max.redF()));
-            out.setGreenF(djvMath::lerp(value, min.greenF(), max.greenF()));
-            out.setBlueF(djvMath::lerp(value, min.blueF(), max.blueF()));
-            out.setAlphaF(djvMath::lerp(value, min.alphaF(), max.alphaF()));
+            out.setRedF(Core::Math::lerp(value, min.redF(), max.redF()));
+            out.setGreenF(Core::Math::lerp(value, min.greenF(), max.greenF()));
+            out.setBlueF(Core::Math::lerp(value, min.blueF(), max.blueF()));
+            out.setAlphaF(Core::Math::lerp(value, min.alphaF(), max.alphaF()));
             return out;
         }
 

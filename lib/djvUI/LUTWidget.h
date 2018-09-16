@@ -73,7 +73,7 @@ namespace djv
         class LUTWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            LUTWidgetPlugin(djvCoreContext *);
+            LUTWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

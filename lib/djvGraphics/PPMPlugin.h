@@ -56,7 +56,7 @@ namespace djv
         class PPMPlugin : public ImageIO
         {
         public:
-            explicit PPMPlugin(djvCoreContext *);
+            explicit PPMPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

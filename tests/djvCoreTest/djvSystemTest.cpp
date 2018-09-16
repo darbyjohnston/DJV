@@ -37,34 +37,42 @@
 
 #include <QStringList>
 
-void djvSystemTest::run(int & argc, char ** argv)
-{
-    DJV_DEBUG("djvSystemTest::run");
-    searchPath();
-    drives();
-}
+using namespace djv::Core;
 
-void djvSystemTest::searchPath()
+namespace djv
 {
-    DJV_DEBUG("djvSystemTest::searchPath");
-    const QString djvPathValue = djvSystem::env(djvSystem::djvPathEnv());
-    if (! djvPathValue.length())
+    namespace CoreTest
     {
-        djvSystem::setEnv(djvSystem::djvPathEnv(), "djvPath1:djvPath2");
-    }
-    const QString ldLibPathValue = djvSystem::env(djvSystem::ldLibPathEnv());
-    if (! ldLibPathValue.length())
-    {
-        djvSystem::setEnv(djvSystem::ldLibPathEnv(), "ldLibPath1:ldLibPath2");
-    }
-    DJV_DEBUG_PRINT(djvSystem::searchPath());
-    djvSystem::setEnv(djvSystem::ldLibPathEnv(), ldLibPathValue);
-    djvSystem::setEnv(djvSystem::ldLibPathEnv(), ldLibPathValue);
-}
+        void SystemTest::run(int & argc, char ** argv)
+        {
+            DJV_DEBUG("SystemTest::run");
+            searchPath();
+            drives();
+        }
 
-void djvSystemTest::drives()
-{
-    DJV_DEBUG("djvSystemTest::drives");
-    DJV_DEBUG_PRINT("drives = " << djvSystem::drives());
-}
+        void SystemTest::searchPath()
+        {
+            DJV_DEBUG("SystemTest::searchPath");
+            const QString djvPathValue = System::env(System::djvPathEnv());
+            if (!djvPathValue.length())
+            {
+                System::setEnv(System::djvPathEnv(), "djvPath1:djvPath2");
+            }
+            const QString ldLibPathValue = System::env(System::ldLibPathEnv());
+            if (!ldLibPathValue.length())
+            {
+                System::setEnv(System::ldLibPathEnv(), "ldLibPath1:ldLibPath2");
+            }
+            DJV_DEBUG_PRINT(System::searchPath());
+            System::setEnv(System::ldLibPathEnv(), ldLibPathValue);
+            System::setEnv(System::ldLibPathEnv(), ldLibPathValue);
+        }
 
+        void SystemTest::drives()
+        {
+            DJV_DEBUG("SystemTest::drives");
+            DJV_DEBUG_PRINT("drives = " << System::drives());
+        }
+
+    } // namespace CoreTest
+} // namespace djv

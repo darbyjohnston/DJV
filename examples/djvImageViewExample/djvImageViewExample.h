@@ -42,38 +42,42 @@
 #include <QApplication>
 #include <QScopedPointer>
 
-class djvImageViewExampleWidget : public djv::UI::ImageView
+namespace djv
 {
-    Q_OBJECT
+    class ImageViewExampleWidget : public UI::ImageView
+    {
+        Q_OBJECT
 
-public:
-    explicit djvImageViewExampleWidget(djv::UI::UIContext *);
-    
-protected:
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
-    virtual void keyPressEvent(QKeyEvent *);
+    public:
+        explicit ImageViewExampleWidget(UI::UIContext *);
 
-private:
-    glm::ivec2 _viewPosTmp = glm::ivec2(0, 0);
-    glm::ivec2 _mousePress = glm::ivec2(0, 0);
-};
+    protected:
+        virtual void mousePressEvent(QMouseEvent *);
+        virtual void mouseMoveEvent(QMouseEvent *);
+        virtual void keyPressEvent(QKeyEvent *);
 
-class djvImageViewExampleApplication : public QApplication
-{
-    Q_OBJECT
-    
-public:
-    djvImageViewExampleApplication(int & argc, char ** argv);
+    private:
+        glm::ivec2 _viewPosTmp = glm::ivec2(0, 0);
+        glm::ivec2 _mousePress = glm::ivec2(0, 0);
+    };
 
-private Q_SLOTS:
-    void commandLineExit();
-    void work();
+    class ImageViewExampleApplication : public QApplication
+    {
+        Q_OBJECT
 
-private:
-    QScopedPointer<djv::UI::UIContext>        _context;
-    djvFileInfo                               _fileInfo;
-    QScopedPointer<djv::Graphics::ImageLoad>  _load;
-    djv::Graphics::Image                      _image;
-    QScopedPointer<djvImageViewExampleWidget> _widget;
-};
+    public:
+        ImageViewExampleApplication(int & argc, char ** argv);
+
+    private Q_SLOTS:
+        void commandLineExit();
+        void work();
+
+    private:
+        QScopedPointer<UI::UIContext> _context;
+        Core::FileInfo _fileInfo;
+        QScopedPointer<Graphics::ImageLoad> _load;
+        Graphics::Image _image;
+        QScopedPointer<ImageViewExampleWidget> _widget;
+    };
+
+} // namespace djv

@@ -74,7 +74,7 @@ namespace djv
 
         bool PixelData::isValid() const
         {
-            return djvVectorUtil::isSizeValid(_info.size);
+            return Core::VectorUtil::isSizeValid(_info.size);
         }
 
         inline quint8 * PixelData::data()

@@ -135,11 +135,11 @@ namespace djv
 
         void TargaWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_compressionWidget);
+            Core::SignalBlocker signalBlocker(_compressionWidget);
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        TargaWidgetPlugin::TargaWidgetPlugin(djvCoreContext * context) :
+        TargaWidgetPlugin::TargaWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

@@ -43,99 +43,104 @@
 
 #include <QFormLayout>
 
-using namespace djv;
-
-djvNumWidgetTest::djvNumWidgetTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvNumWidgetTest::name()
+namespace djv
 {
-    return "djvNumWidgetTest";
-}
+    namespace WidgetTest
+    {
+        NumWidgetTest::NumWidgetTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvNumWidgetTest::run(const QStringList & args)
-{
-    (new djvNumWidgetTestWidget(context()))->show();
-}
+        QString NumWidgetTest::name()
+        {
+            return "NumWidgetTest";
+        }
 
-djvNumWidgetTestWidget::djvNumWidgetTestWidget(UI::UIContext * context) :
-    _intValue    (0),
-    _floatValue  (0.f),
-    _intEdit     (0),
-    _intDisplay  (0),
-    _intSlider   (0),
-    _floatEdit   (0),
-    _floatDisplay(0),
-    _floatSlider (0)
-{
-    _intEdit = new UI::IntEdit;
-    
-    _intDisplay = new UI::IntDisplay;
-    
-    _intSlider = new UI::IntEditSlider(context);
-    
-    _floatEdit = new UI::FloatEdit;
-    
-    _floatDisplay = new UI::FloatDisplay;
-    
-    _floatSlider = new UI::FloatEditSlider(context);
-    
-    QFormLayout * layout = new QFormLayout(this);
-    layout->addRow("djvIntEdit", _intEdit);
-    layout->addRow("djvIntDisplay", _intDisplay);
-    layout->addRow("djvIntEditSlider", _intSlider);
-    layout->addRow("djvFloatEdit", _floatEdit);
-    layout->addRow("djvFloatDisplay", _floatDisplay);
-    layout->addRow("djvFloatEditSlider", _floatSlider);
-    
-    widgetUpdate();
-    
-    connect(
-        _intEdit,
-        SIGNAL(valueChanged(int)),
-        SLOT(intCallback(int)));
-    connect(
-        _intSlider,
-        SIGNAL(valueChanged(int)),
-        SLOT(intCallback(int)));
-    connect(
-        _floatEdit,
-        SIGNAL(valueChanged(float)),
-        SLOT(floatCallback(float)));
-    connect(
-        _floatSlider,
-        SIGNAL(valueChanged(float)),
-        SLOT(floatCallback(float)));
-}
+        void NumWidgetTest::run(const QStringList & args)
+        {
+            (new NumWidgetTestWidget(context()))->show();
+        }
 
-void djvNumWidgetTestWidget::intCallback(int value)
-{
-    _intValue = value;
-    djvSystem::print(QString("%1").arg(_intValue));
-    widgetUpdate();
-}
+        NumWidgetTestWidget::NumWidgetTestWidget(UI::UIContext * context) :
+            _intValue(0),
+            _floatValue(0.f),
+            _intEdit(0),
+            _intDisplay(0),
+            _intSlider(0),
+            _floatEdit(0),
+            _floatDisplay(0),
+            _floatSlider(0)
+        {
+            _intEdit = new UI::IntEdit;
 
-void djvNumWidgetTestWidget::floatCallback(float value)
-{
-    _floatValue = value;
-    djvSystem::print(QString("%1").arg(_floatValue));
-    widgetUpdate();
-}
+            _intDisplay = new UI::IntDisplay;
 
-void djvNumWidgetTestWidget::widgetUpdate()
-{
-    djvSignalBlocker SignalBlocker(QObjectList() <<
-        _intEdit <<
-        _intDisplay <<
-        _intSlider <<
-        _floatEdit <<
-        _floatDisplay <<
-        _floatSlider);
-    _intEdit->setValue(_intValue);
-    _intDisplay->setValue(_intValue);
-    _intSlider->setValue(_intValue);
-    _floatEdit->setValue(_floatValue);
-    _floatDisplay->setValue(_floatValue);
-    _floatSlider->setValue(_floatValue);
-}
+            _intSlider = new UI::IntEditSlider(context);
+
+            _floatEdit = new UI::FloatEdit;
+
+            _floatDisplay = new UI::FloatDisplay;
+
+            _floatSlider = new UI::FloatEditSlider(context);
+
+            QFormLayout * layout = new QFormLayout(this);
+            layout->addRow("IntEdit", _intEdit);
+            layout->addRow("IntDisplay", _intDisplay);
+            layout->addRow("IntEditSlider", _intSlider);
+            layout->addRow("FloatEdit", _floatEdit);
+            layout->addRow("FloatDisplay", _floatDisplay);
+            layout->addRow("FloatEditSlider", _floatSlider);
+
+            widgetUpdate();
+
+            connect(
+                _intEdit,
+                SIGNAL(valueChanged(int)),
+                SLOT(intCallback(int)));
+            connect(
+                _intSlider,
+                SIGNAL(valueChanged(int)),
+                SLOT(intCallback(int)));
+            connect(
+                _floatEdit,
+                SIGNAL(valueChanged(float)),
+                SLOT(floatCallback(float)));
+            connect(
+                _floatSlider,
+                SIGNAL(valueChanged(float)),
+                SLOT(floatCallback(float)));
+        }
+
+        void NumWidgetTestWidget::intCallback(int value)
+        {
+            _intValue = value;
+            Core::System::print(QString("%1").arg(_intValue));
+            widgetUpdate();
+        }
+
+        void NumWidgetTestWidget::floatCallback(float value)
+        {
+            _floatValue = value;
+            Core::System::print(QString("%1").arg(_floatValue));
+            widgetUpdate();
+        }
+
+        void NumWidgetTestWidget::widgetUpdate()
+        {
+            Core::SignalBlocker SignalBlocker(QObjectList() <<
+                _intEdit <<
+                _intDisplay <<
+                _intSlider <<
+                _floatEdit <<
+                _floatDisplay <<
+                _floatSlider);
+            _intEdit->setValue(_intValue);
+            _intDisplay->setValue(_intValue);
+            _intSlider->setValue(_intValue);
+            _floatEdit->setValue(_floatValue);
+            _floatDisplay->setValue(_floatValue);
+            _floatSlider->setValue(_floatValue);
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

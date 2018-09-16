@@ -65,8 +65,7 @@ namespace djv
         //! \class FileBrowserCache
         //!
         //! This class provides a file browser thumbnail cache.
-        class FileBrowserCache :
-            public QCache<djvFileInfo, FileBrowserCacheItem>
+        class FileBrowserCache : public QCache<Core::FileInfo, FileBrowserCacheItem>
         {};
 
     } // namespace UI

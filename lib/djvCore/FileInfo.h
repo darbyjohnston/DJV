@@ -40,256 +40,256 @@
 
 #include <sys/types.h>
 
-class djvFileInfoUtil;
 class djvFileBrowserTestDirWorker;
 
-//! \addtogroup djvCoreFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileInfo
-//!
-//! This class provides information about files and file sequences. A file
-//! sequence is a list of file names that share a common name and have frame
-//! numbers. File sequences are used to store animation or movie footage where
-//! each frame is an individual file. A file sequence is expressed as a file
-//! name with a start and end frame separated with a dash ('-'), for example
-//! "render.1-100.exr". Frame increments may be specified with a colon (':'),
-//! for example "render.1-100:3.exr" Multiple start and end frames and
-//! individual frames are separated with a comma (','), for example
-//! "render.1-10,20-30,33,35,37.exr". File sequences may also have frames with
-//! padded zeroes, for example "render.0001-0100.exr". Note that file sequences
-//! are always sorted in ascending order and frame numbers are always positive.
-//!
-//! File names are broken into components which are returned with path(),
-//! prefix(), number(), and extension().
-//!
-//! The file type is returned with type(), and information is returned with
-//! size(), owner(), and time(). File sequences return information for the
-//! entire sequence.
-//!
-//! Example file name:
-//!
-//! \code
-//! /scratch/render.exr
-//! \endcode
-//!
-//! - Path          = /scratch/
-//! - Prefix        = render
-//! - Number        =
-//! - Frame padding = 0
-//! - Extension     = .exr
-//!
-//! Example file sequence:
-//!
-//! \code
-//! /scratch/render.1-100.exr
-//! \endcode
-//!
-//! - Path          = /scratch/
-//! - Prefix        = render.
-//! - Number        = 1-100
-//! - Frame padding = 0
-//! - Extension     = .exr
-//!
-//! Example file sequence with frame padding:
-//!
-//! \code
-//! /scratch/render.1-100.exr
-//! \endcode
-//!
-//! - Path          = /scratch/
-//! - Prefix        = render.
-//! - Number        = 0001-0100
-//! - Frame padding = 4
-//! - Extension     = .exr
-//------------------------------------------------------------------------------
-
-class djvFileInfo
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(TYPE)
-    Q_FLAGS(PERMISSIONS)
-    
-public:
-    djvFileInfo();
-    djvFileInfo(const QString &, bool stat = true);
-
-    //! Get the file name.
-    //
-    //! \param frame Specify a frame number or -1 for the entire sequence.
-    //! \param path Include the path in the file name.
-    QString fileName(qint64 frame = -1, bool path = true) const;
-
-    //! Set the file name.
-    //
-    //! \param stat Get information from the file system.
-    void setFileName(const QString &, bool stat = true);
-
-    //! Get the file name without the path.
-    inline QString name() const;
-
-    //! Get the path.
-    inline const QString & path() const;
-
-    //! Set the path.
-
-    void setPath(const QString &);
-
-    //! Get the base.
-    inline const QString & base() const;
-
-    //! Set the base.
-    void setBase(const QString &);
-
-    //! Get the number.
-    inline const QString & number() const;
-
-    //! Set the number.
-    void setNumber(const QString &);
-
-    //! Get the extension.
-    inline const QString & extension() const;
-
-    //! Set the extension.
-    void setExtension(const QString &);
-    
-    //! Get whether the file is empty.
-    inline bool isEmpty() const;
-    
-    //! Get whether this file exists.
-    inline bool exists() const;
-    
-    //! Get whether this is a dot file (name starts with a ".").
-    inline bool isDotFile() const;
-
-    //! This enumeration provides the file types.
-    enum TYPE
+    namespace Core
     {
-        FILE,      //!< Regular file
-        SEQUENCE,  //!< File sequence
-        DIRECTORY, //!< Directory
+        class FileInfoUtil;
 
-        TYPE_COUNT
-    };
+        //! \class FileInfo
+        //!
+        //! This class provides information about files and file sequences. A file
+        //! sequence is a list of file names that share a common name and have frame
+        //! numbers. File sequences are used to store animation or movie footage where
+        //! each frame is an individual file. A file sequence is expressed as a file
+        //! name with a start and end frame separated with a dash ('-'), for example
+        //! "render.1-100.exr". Frame increments may be specified with a colon (':'),
+        //! for example "render.1-100:3.exr" Multiple start and end frames and
+        //! individual frames are separated with a comma (','), for example
+        //! "render.1-10,20-30,33,35,37.exr". File sequences may also have frames with
+        //! padded zeroes, for example "render.0001-0100.exr". Note that file sequences
+        //! are always sorted in ascending order and frame numbers are always positive.
+        //!
+        //! File names are broken into components which are returned with path(),
+        //! prefix(), number(), and extension().
+        //!
+        //! The file type is returned with type(), and information is returned with
+        //! size(), owner(), and time(). File sequences return information for the
+        //! entire sequence.
+        //!
+        //! Example file name:
+        //!
+        //! \code
+        //! /scratch/render.exr
+        //! \endcode
+        //!
+        //! - Path          = /scratch/
+        //! - Prefix        = render
+        //! - Number        =
+        //! - Frame padding = 0
+        //! - Extension     = .exr
+        //!
+        //! Example file sequence:
+        //!
+        //! \code
+        //! /scratch/render.1-100.exr
+        //! \endcode
+        //!
+        //! - Path          = /scratch/
+        //! - Prefix        = render.
+        //! - Number        = 1-100
+        //! - Frame padding = 0
+        //! - Extension     = .exr
+        //!
+        //! Example file sequence with frame padding:
+        //!
+        //! \code
+        //! /scratch/render.1-100.exr
+        //! \endcode
+        //!
+        //! - Path          = /scratch/
+        //! - Prefix        = render.
+        //! - Number        = 0001-0100
+        //! - Frame padding = 4
+        //! - Extension     = .exr
+        class FileInfo
+        {
+            Q_GADGET
+            Q_ENUMS(TYPE)
+            Q_FLAGS(PERMISSIONS)
 
-    //! Get the file type labels.
-    static const QStringList & typeLabels();
+        public:
+            FileInfo();
+            FileInfo(const QString &, bool stat = true);
 
-    //! Get the file type icons.
-    static const QStringList & typeIcons();
+            //! Get the file name.
+            //
+            //! \param frame Specify a frame number or -1 for the entire sequence.
+            //! \param path Include the path in the file name.
+            QString fileName(qint64 frame = -1, bool path = true) const;
 
-    //! Get the file type images.
-    static const QStringList & typeImages();
+            //! Set the file name.
+            //
+            //! \param stat Get information from the file system.
+            void setFileName(const QString &, bool stat = true);
 
-    //! This enumeration provides the file permissions.
-    enum PERMISSIONS
-    {
-        READ  = 1, //!< Readable
-        WRITE = 2, //!< Writable
-        EXEC  = 4  //!< Executable
-    };
+            //! Get the file name without the path.
+            inline QString name() const;
 
-    static const int PERMISSIONS_COUNT = 3;
+            //! Get the path.
+            inline const QString & path() const;
 
-    //! Get the file permissions labels.
-    static const QStringList & permissionsLabels();
+            //! Set the path.
 
-    //! Get a file permissions label.
-    static const QString & permissionsLabel(int);
+            void setPath(const QString &);
 
-    //! Get the type.
-    inline TYPE type() const;
+            //! Get the base.
+            inline const QString & base() const;
 
-    //! Set the type.
-    void setType(TYPE);
+            //! Set the base.
+            void setBase(const QString &);
 
-    //! Get the size.
-    inline quint64 size() const;
+            //! Get the number.
+            inline const QString & number() const;
 
-    //! Set the size.
-    void setSize(quint64);
+            //! Set the number.
+            void setNumber(const QString &);
 
-    //! Get the user.
-    inline uid_t user() const;
+            //! Get the extension.
+            inline const QString & extension() const;
 
-    //! Set the user.
-    void setUser(uid_t);
+            //! Set the extension.
+            void setExtension(const QString &);
 
-    //! Get the permissions.
-    inline int permissions() const;
+            //! Get whether the file is empty.
+            inline bool isEmpty() const;
 
-    //! Set the permissions.
-    void setPermissions(int);
+            //! Get whether this file exists.
+            inline bool exists() const;
 
-    //! Get the time.
-    inline time_t time() const;
+            //! Get whether this is a dot file (name starts with a ".").
+            inline bool isDotFile() const;
 
-    //! Set the time.
-    void setTime(time_t);
+            //! This enumeration provides the file types.
+            enum TYPE
+            {
+                FILE,      //!< Regular file
+                SEQUENCE,  //!< File sequence
+                DIRECTORY, //!< Directory
 
-    //! Get information from the file system.
-    bool stat(const QString & path = QString());
+                TYPE_COUNT
+            };
 
-    //! Get the sequence.
-    inline const djvSequence & sequence() const;
+            //! Get the file type labels.
+            static const QStringList & typeLabels();
 
-    //! Set the sequence.
-    void setSequence(const djvSequence &);
+            //! Get the file type icons.
+            static const QStringList & typeIcons();
 
-    //! Sort the sequence.
-    void sortSequence();
-    
-    //! Is the sequence valid?
-    inline bool isSequenceValid() const;
+            //! Get the file type images.
+            static const QStringList & typeImages();
 
-    //! Is the sequence a wildcard?
-    inline bool isSequenceWildcard() const;
+            //! This enumeration provides the file permissions.
+            enum PERMISSIONS
+            {
+                READ = 1, //!< Readable
+                WRITE = 2, //!< Writable
+                EXEC = 4  //!< Executable
+            };
 
-    //! Add a file to the sequence. The file is checked to see whether it is
-    //! compatible.
-    inline bool addSequence(const djvFileInfo &);
+            static const int PERMISSIONS_COUNT = 3;
 
-    //! This contains the set of file extensions that can be sequenced.
-    static QSet<QString> sequenceExtensions;
+            //! Get the file permissions labels.
+            static const QStringList & permissionsLabels();
 
-    inline bool operator == (const djvFileInfo &) const;
-    
-    inline bool operator != (const djvFileInfo &) const;
-    
-    inline operator QString() const;
+            //! Get a file permissions label.
+            static const QString & permissionsLabel(int);
 
-private:
-    QString     _path;
-    QString     _base;
-    QString     _number;
-    QString     _extension;
+            //! Get the type.
+            inline TYPE type() const;
 
-    bool        _exists      = false;
-    bool        _dotFile     = false;
-    TYPE        _type        = FILE;
-    quint64     _size        = 0;
-    uid_t       _user        = 0;
-    int         _permissions = 0;
-    time_t      _time        = 0;
+            //! Set the type.
+            void setType(TYPE);
 
-    djvSequence _sequence;
+            //! Get the size.
+            inline quint64 size() const;
 
-    friend class djvFileInfoUtil;
-    friend class djvFileBrowserTestDirWorker;
-};
+            //! Set the size.
+            void setSize(quint64);
 
-typedef QVector<djvFileInfo> djvFileInfoList;
+            //! Get the user.
+            inline uid_t user() const;
 
-Q_DECLARE_METATYPE(djvFileInfo)
+            //! Set the user.
+            void setUser(uid_t);
 
-DJV_STRING_OPERATOR(djvFileInfo::TYPE);
-DJV_STRING_OPERATOR(djvFileInfo);
+            //! Get the permissions.
+            inline int permissions() const;
 
-DJV_DEBUG_OPERATOR(djvFileInfo::TYPE);
-DJV_DEBUG_OPERATOR(djvFileInfo);
+            //! Set the permissions.
+            void setPermissions(int);
 
-//@} // djvCoreFile
+            //! Get the time.
+            inline time_t time() const;
+
+            //! Set the time.
+            void setTime(time_t);
+
+            //! Get information from the file system.
+            bool stat(const QString & path = QString());
+
+            //! Get the sequence.
+            inline const Sequence & sequence() const;
+
+            //! Set the sequence.
+            void setSequence(const Sequence &);
+
+            //! Sort the sequence.
+            void sortSequence();
+
+            //! Is the sequence valid?
+            inline bool isSequenceValid() const;
+
+            //! Is the sequence a wildcard?
+            inline bool isSequenceWildcard() const;
+
+            //! Add a file to the sequence. The file is checked to see whether it is
+            //! compatible.
+            inline bool addSequence(const FileInfo &);
+
+            //! This contains the set of file extensions that can be sequenced.
+            static QSet<QString> sequenceExtensions;
+
+            inline bool operator == (const FileInfo &) const;
+
+            inline bool operator != (const FileInfo &) const;
+
+            inline operator QString() const;
+
+        private:
+            QString     _path;
+            QString     _base;
+            QString     _number;
+            QString     _extension;
+
+            bool        _exists = false;
+            bool        _dotFile = false;
+            TYPE        _type = FILE;
+            quint64     _size = 0;
+            uid_t       _user = 0;
+            int         _permissions = 0;
+            time_t      _time = 0;
+
+            Sequence _sequence;
+
+            friend class FileInfoUtil;
+            friend class djvFileBrowserTestDirWorker;
+        };
+
+        typedef QVector<FileInfo> FileInfoList;
+
+    } // namespace Core
+
+    DJV_STRING_OPERATOR(Core::FileInfo::TYPE);
+    DJV_STRING_OPERATOR(Core::FileInfo);
+    DJV_STRING_OPERATOR(Core::FileInfoList);
+    DJV_DEBUG_OPERATOR(Core::FileInfo::TYPE);
+    DJV_DEBUG_OPERATOR(Core::FileInfo);
+
+} // namespace djv
+
+Q_DECLARE_METATYPE(djv::Core::FileInfo)
 
 #include <djvCore/FileInfoInline.h>
-

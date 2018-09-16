@@ -136,11 +136,11 @@ namespace djv
 
         void IFFWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_compressionWidget);
+            Core::SignalBlocker signalBlocker(_compressionWidget);
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        IFFWidgetPlugin::IFFWidgetPlugin(djvCoreContext * context) :
+        IFFWidgetPlugin::IFFWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

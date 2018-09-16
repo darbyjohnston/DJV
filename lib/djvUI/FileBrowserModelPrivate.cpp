@@ -52,7 +52,7 @@ namespace djv
     namespace UI
     {
         FileBrowserItem::FileBrowserItem(
-            const djvFileInfo & fileInfo,
+            const Core::FileInfo & fileInfo,
             FileBrowserModel::THUMBNAILS thumbnails,
             FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
             UIContext * context,
@@ -66,18 +66,18 @@ namespace djv
             // Initialize the display role data.
             _displayRole[FileBrowserModel::NAME] = fileInfo.name();
             _displayRole[FileBrowserModel::SIZE] =
-                djvMemory::sizeLabel(fileInfo.size());
+                Core::Memory::sizeLabel(fileInfo.size());
 #if ! defined(DJV_WINDOWS)
             _displayRole[FileBrowserModel::USER] =
-                djvUser::uidToString(fileInfo.user());
+                Core::User::uidToString(fileInfo.user());
 #endif // DJV_WINDOWS
             _displayRole[FileBrowserModel::PERMISSIONS] =
-                djvFileInfo::permissionsLabel(fileInfo.permissions());
+                Core::FileInfo::permissionsLabel(fileInfo.permissions());
             _displayRole[FileBrowserModel::TIME] =
-                djvTime::timeToString(fileInfo.time());
+                Core::Time::timeToString(fileInfo.time());
 
             // Initialize the edit role data.
-            _editRole[FileBrowserModel::NAME].setValue<djvFileInfo>(fileInfo);
+            _editRole[FileBrowserModel::NAME].setValue<Core::FileInfo>(fileInfo);
             _editRole[FileBrowserModel::SIZE] = fileInfo.size();
 #if ! defined(DJV_WINDOWS)
             _editRole[FileBrowserModel::USER] = fileInfo.user();
@@ -103,7 +103,7 @@ namespace djv
             }
         }
 
-        const djvFileInfo & FileBrowserItem::fileInfo() const
+        const Core::FileInfo & FileBrowserItem::fileInfo() const
         {
             return _fileInfo;
         }
@@ -133,13 +133,13 @@ namespace djv
 
             struct ImageInfoThreadResult
             {
-                djvFileInfo           fileInfo;
+                Core::FileInfo        fileInfo;
                 bool                  valid = false;
                 Graphics::ImageIOInfo info;
             };
 
             ImageInfoThreadResult imageInfoThreadFunction(
-                const djvFileInfo & fileInfo,
+                const Core::FileInfo & fileInfo,
                 UIContext * context)
             {
                 //DJV_DEBUG("imageInfoThreadFunction");
@@ -152,7 +152,7 @@ namespace djv
                     //DJV_DEBUG_PRINT("info = " << out.info);
                     out.valid = true;
                 }
-                catch (const djvError &)
+                catch (const Core::Error &)
                 {
                 }
                 return out;
@@ -160,13 +160,13 @@ namespace djv
 
             struct ThumbnailThreadResult
             {
-                djvFileInfo fileInfo;
-                bool        valid = false;
-                QPixmap     thumbnail;
+                Core::FileInfo fileInfo;
+                bool           valid = false;
+                QPixmap        thumbnail;
             };
 
             ThumbnailThreadResult thumbnailThreadFunction(
-                const djvFileInfo & fileInfo,
+                const Core::FileInfo & fileInfo,
                 FileBrowserModel::THUMBNAILS thumbnails,
                 const glm::ivec2 & thumbnailSize,
                 Graphics::PixelDataInfo::PROXY proxy,
@@ -222,7 +222,7 @@ namespace djv
                     out.thumbnail = openGLImage->toQt(tmp);
                     out.valid = true;
                 }
-                catch (const djvError &)
+                catch (const Core::Error &)
                 {
                     //for (int i = 0; i < error.messages().count(); ++i)
                     //    DJV_DEBUG_PRINT("error = " << error.messages()[i].string);
@@ -255,7 +255,7 @@ namespace djv
                 watcher->setFuture(future);
             }
 
-            if (!_thumbnailRequest && djvVectorUtil::isSizeValid(_thumbnailSize))
+            if (!_thumbnailRequest && Core::VectorUtil::isSizeValid(_thumbnailSize))
             {
                 _thumbnailRequest = true;
                 QFuture<ThumbnailThreadResult> future = QtConcurrent::run(
@@ -284,7 +284,7 @@ namespace djv
                 int size,
                 Graphics::PixelDataInfo::PROXY * proxy = 0)
             {
-                const int imageSize = djvMath::max(in.x, in.y);
+                const int imageSize = Core::Math::max(in.x, in.y);
                 if (imageSize <= 0)
                     return glm::ivec2(0, 0);
                 int _proxy = 0;
@@ -305,7 +305,7 @@ namespace djv
                     *proxy = Graphics::PixelDataInfo::PROXY(_proxy);
                 }
                 const float scale = size / static_cast<float>(imageSize / proxyScale);
-                return djvVectorUtil::ceil(glm::vec2(in) / proxyScale * scale);
+                return Core::VectorUtil::ceil(glm::vec2(in) / proxyScale * scale);
             }
 
         } // namespace
@@ -375,12 +375,12 @@ namespace djv
                 arg(_fileInfo.name()).
                 arg(_imageInfo.size.x).
                 arg(_imageInfo.size.y).
-                arg(djvVectorUtil::aspect(_imageInfo.size), 0, 'f', 2).
-                arg(djvStringUtil::label(_imageInfo.pixel).join(", ")).
-                arg(djvTime::frameToString(
+                arg(Core::VectorUtil::aspect(_imageInfo.size), 0, 'f', 2).
+                arg(Core::StringUtil::label(_imageInfo.pixel).join(", ")).
+                arg(Core::Time::frameToString(
                     _imageInfo.sequence.frames.count(),
                     _imageInfo.sequence.speed)).
-                arg(djvSpeed::speedToFloat(_imageInfo.sequence.speed));
+                arg(Core::Speed::speedToFloat(_imageInfo.sequence.speed));
             _thumbnail = QPixmap(_thumbnailSize.x, _thumbnailSize.y);
             _thumbnail.fill(Qt::transparent);
         }

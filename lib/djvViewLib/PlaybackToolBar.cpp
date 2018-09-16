@@ -232,7 +232,7 @@ namespace djv
         PlaybackToolBar::~PlaybackToolBar()
         {}
 
-        void PlaybackToolBar::setSpeed(const djvSpeed & speed)
+        void PlaybackToolBar::setSpeed(const Core::Speed & speed)
         {
             _p->speedWidget->setSpeed(speed);
             _p->frameWidget->setSpeed(speed);
@@ -242,7 +242,7 @@ namespace djv
             _p->durationDisplay->setSpeed(speed);
         }
 
-        void PlaybackToolBar::setDefaultSpeed(const djvSpeed & speed)
+        void PlaybackToolBar::setDefaultSpeed(const Core::Speed & speed)
         {
             _p->speedWidget->setDefaultSpeed(speed);
         }
@@ -257,7 +257,7 @@ namespace djv
             _p->realSpeedDisplay->setDroppedFrames(in);
         }
 
-        void PlaybackToolBar::setFrameList(const djvFrameList & in)
+        void PlaybackToolBar::setFrameList(const Core::FrameList & in)
         {
             _p->frameWidget->setFrameList(in);
             _p->frameSlider->setFrameList(in);
@@ -271,7 +271,7 @@ namespace djv
             _p->frameSlider->setFrame(in);
         }
 
-        void PlaybackToolBar::setCachedFrames(const djvFrameList & in)
+        void PlaybackToolBar::setCachedFrames(const Core::FrameList & in)
         {
             _p->frameSlider->setCachedFrames(in);
         }

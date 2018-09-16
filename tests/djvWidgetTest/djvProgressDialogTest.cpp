@@ -36,29 +36,34 @@
 #include <djvCore/System.h>
 #include <djvCore/Time.h>
 
-using namespace djv;
-
-djvProgressDialogTest::djvProgressDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvProgressDialogTest::name()
+namespace djv
 {
-    return "djvProgressDialogTest";
-}
+    namespace WidgetTest
+    {
+        ProgressDialogTest::ProgressDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvProgressDialogTest::run(const QStringList & args)
-{
-    UI::ProgressDialog * dialog = new UI::ProgressDialog("Movie export:");
-    
-    connect(dialog, SIGNAL(progressSignal(int)), SLOT(callback(int)));
-    
-    dialog->show();
-    dialog->start(100);
-}
+        QString ProgressDialogTest::name()
+        {
+            return "ProgressDialogTest";
+        }
 
-void djvProgressDialogTest::callback(int value)
-{
-    djvSystem::print(QString("%1").arg(value));
-    djvTime::msleep(50);
-}
+        void ProgressDialogTest::run(const QStringList & args)
+        {
+            UI::ProgressDialog * dialog = new UI::ProgressDialog("Movie export:");
+
+            connect(dialog, SIGNAL(progressSignal(int)), SLOT(callback(int)));
+
+            dialog->show();
+            dialog->start(100);
+        }
+
+        void ProgressDialogTest::callback(int value)
+        {
+            Core::System::print(QString("%1").arg(value));
+            Core::Time::msleep(50);
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

@@ -137,7 +137,7 @@ namespace djv
             {
                 _p->value = static_cast<float>(tmp);
                 update();
-                Q_EMIT valueChanged(djvMath::round(_p->value / 5.f));
+                Q_EMIT valueChanged(Core::Math::round(_p->value / 5.f));
             }
         }
 
@@ -146,7 +146,7 @@ namespace djv
             AbstractToolButton::paintEvent(event);
 
             QPainter painter(this);
-            const int i = djvMath::mod(djvMath::round(_p->value / 5.f), 8);
+            const int i = Core::Math::mod(Core::Math::round(_p->value / 5.f), 8);
             QIcon::Mode  mode = QIcon::Normal;
             QIcon::State state = QIcon::Off;
             if (!isEnabled())

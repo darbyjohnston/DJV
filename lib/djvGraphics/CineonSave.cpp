@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Graphics
     {
-        CineonSave::CineonSave(const Cineon::Options & options, djvCoreContext * context) :
+        CineonSave::CineonSave(const Cineon::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options)
         {}
@@ -46,8 +46,8 @@ namespace djv
         CineonSave::~CineonSave()
         {}
 
-        void CineonSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void CineonSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("CineonSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -57,14 +57,14 @@ namespace djv
 
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
             _info.size = info.size;
             _info.pixel = Pixel::RGB_U10;
             _info.mirror.y = true;
-            _info.endian = djvMemory::MSB;
+            _info.endian = Core::Memory::MSB;
             _info.align = 4;
 
             //DJV_DEBUG_PRINT("info = " << _info);
@@ -73,7 +73,7 @@ namespace djv
         }
 
         void CineonSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("CineonSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -95,19 +95,18 @@ namespace djv
             ImageIOInfo info(_info);
             info.fileName = fileName;
             info.tags = in.tags;
-            djvFileIO io;
-            io.open(fileName, djvFileIO::WRITE);
+            Core::FileIO io;
+            io.open(fileName, Core::FileIO::WRITE);
             _header = CineonHeader();
             _header.save(io, info, _options.outputColorProfile);
 
             // Convert.
             const PixelData * p = &in;
-            if (
-                in.info() != _info ||
+            if (in.info() != _info ||
                 in.colorProfile.type != ColorProfile::RAW ||
                 colorProfile.type != ColorProfile::RAW)
             {
-                //DJV_DEBUG_PRINT("convert = " << _image);
+                //Core::_DEBUG_PRINT("convert = " << _image);
                 _image.zero();
                 OpenGLImageOptions options;
                 options.colorProfile = colorProfile;

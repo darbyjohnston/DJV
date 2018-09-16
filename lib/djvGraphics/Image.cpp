@@ -31,8 +31,6 @@
 
 #include <djvGraphics/Image.h>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -40,31 +38,32 @@ namespace djv
         Image::Image()
         {}
 
-        Image::Image(const PixelDataInfo & in, const quint8 * p, djvFileIO * fileIo) :
+        Image::Image(const PixelDataInfo & in, const quint8 * p, Core::FileIO * fileIo) :
             PixelData(in, p, fileIo)
         {}
 
         Image::~Image()
         {}
 
-        bool operator == (const Image & a, const Image & b)
-        {
-            return
-                static_cast<const PixelData &>(a) ==
-                static_cast<const PixelData &>(b) &&
-                a.tags == b.tags &&
-                a.colorProfile == b.colorProfile;
-        }
-
-        bool operator != (const Image & a, const Image & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
-} // namespace djv
 
-djvDebug & operator << (djvDebug & debug, const Graphics::Image & in)
-{
-    return debug << in.info() << ", color profile: " << in.colorProfile.type;
-}
+    bool operator == (const Graphics::Image & a, const Graphics::Image & b)
+    {
+        return
+            static_cast<const Graphics::PixelData &>(a) ==
+            static_cast<const Graphics::PixelData &>(b) &&
+            a.tags == b.tags &&
+            a.colorProfile == b.colorProfile;
+    }
+
+    bool operator != (const Graphics::Image & a, const Graphics::Image & b)
+    {
+        return !(a == b);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Image & in)
+    {
+        return debug << in.info() << ", color profile: " << in.colorProfile.type;
+    }
+
+} // namespace djv

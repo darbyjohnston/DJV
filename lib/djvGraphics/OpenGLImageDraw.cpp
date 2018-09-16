@@ -223,10 +223,10 @@ namespace djv
 
             static float sinc(float x)
             {
-                x *= djvMath::pi;
+                x *= Core::Math::pi;
                 if (x != 0.f)
                 {
-                    return djvMath::sin(x) / x;
+                    return Core::Math::sin(x) / x;
                 }
                 return 1.f;
             }
@@ -328,7 +328,7 @@ namespace djv
 
             int edge(int in, int size)
             {
-                return djvMath::clamp(in, 0, size - 1);
+                return Core::Math::clamp(in, 0, size - 1);
             }
 
             void scaleContrib(
@@ -351,7 +351,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("radius = " << radius);
 
                 // Initialize.
-                const int width = djvMath::ceil(radius * 2.f + 1.f);
+                const int width = Core::Math::ceil(radius * 2.f + 1.f);
                 //DJV_DEBUG_PRINT("width = " << width);
                 data.set(PixelDataInfo(output, width, Pixel::LA_F32));
 
@@ -359,8 +359,8 @@ namespace djv
                 for (int i = 0; i < output; ++i)
                 {
                     const float center = i / scale;
-                    const int   left = djvMath::ceil(center - radius);
-                    const int   right = djvMath::floor(center + radius);
+                    const int   left = Core::Math::ceil(center - radius);
+                    const int   right = Core::Math::floor(center + radius);
                     //DJV_DEBUG_PRINT(i << " = " << left << " " << center << " " << right);
 
                     float sum = 0.f;
@@ -625,7 +625,7 @@ namespace djv
 
                 // Initialize the header.
                 header = sourceFragmentHeader.
-                    arg(!djvMath::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
+                    arg(!Core::Math::fuzzyCompare(displayProfile.levels.gamma, 1.f) ?
                         sourceGamma : "");
                 header += "in vec2 TextureCoord;\n";
                 header += "out vec4 FragColor;\n";
@@ -729,7 +729,7 @@ namespace djv
         {
             float knee(float x, float f)
             {
-                return djvMath::log(x * f + 1.f) / f;
+                return Core::Math::log(x * f + 1.f) / f;
             }
 
             float knee2(float x, float y)
@@ -784,17 +784,17 @@ namespace djv
                         float v, d, k, f;
                     };
                     Exposure exposure;
-                    exposure.v = djvMath::pow(
+                    exposure.v = Core::Math::pow(
                         2.f,
                         options.colorProfile.exposure.value + 2.47393f);
                     exposure.d = options.colorProfile.exposure.defog;
-                    exposure.k = djvMath::pow(
+                    exposure.k = Core::Math::pow(
                         2.f,
                         options.colorProfile.exposure.kneeLow);
                     exposure.f = knee2(
-                        djvMath::pow(2.f, options.colorProfile.exposure.kneeHigh) -
+                        Core::Math::pow(2.f, options.colorProfile.exposure.kneeHigh) -
                         exposure.k,
-                        djvMath::pow(2.f, 3.5f) - exposure.k);
+                        Core::Math::pow(2.f, 3.5f) - exposure.k);
                     //DJV_DEBUG_PRINT("exposure");
                     //DJV_DEBUG_PRINT("  v = " << exposure.v);
                     //DJV_DEBUG_PRINT("  d = " << exposure.d);
@@ -868,7 +868,7 @@ namespace djv
         void OpenGLImage::draw(
             const PixelData &          data,
             const glm::mat4x4&         viewMatrix,
-            const OpenGLImageOptions & options) throw (djvError)
+            const OpenGLImageOptions & options) throw (Core::Error)
         {
             //DJV_DEBUG("OpenGLImage::draw");
             //DJV_DEBUG_PRINT("data = " << data);
@@ -882,8 +882,8 @@ namespace djv
                 PixelDataUtil::proxyScale(info.proxy) :
                 1;
             const glm::ivec2 scale(
-                djvMath::ceil(options.xform.scale.x * info.size.x * proxyScale),
-                djvMath::ceil(options.xform.scale.y * info.size.y * proxyScale));
+                Core::Math::ceil(options.xform.scale.x * info.size.x * proxyScale),
+                Core::Math::ceil(options.xform.scale.y * info.size.y * proxyScale));
             const glm::ivec2 scaleTmp(scale.x, data.h());
             //DJV_DEBUG_PRINT("scale = " << scale);
             //DJV_DEBUG_PRINT("scale tmp = " << scaleTmp);

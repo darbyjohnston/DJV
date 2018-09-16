@@ -435,7 +435,7 @@ namespace djv
         void OpenEXRWidget::widgetUpdate()
         {
             //DJV_DEBUG("djvOpenEXRWidget::widgetUpdate()");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _threadsEnableWidget <<
                 _threadCountWidget <<
                 _inputColorProfileWidget <<
@@ -486,7 +486,7 @@ namespace djv
 #endif // OPENEXR_VERSION_HEX
         }
 
-        OpenEXRWidgetPlugin::OpenEXRWidgetPlugin(djvCoreContext * context) :
+        OpenEXRWidgetPlugin::OpenEXRWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

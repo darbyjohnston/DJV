@@ -85,17 +85,18 @@ namespace djv
             Exposure  exposure;
         };
 
-        DJV_COMPARISON_OPERATOR(ColorProfile::Exposure);
-        DJV_COMPARISON_OPERATOR(ColorProfile);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::ColorProfile::Exposure);
+    DJV_COMPARISON_OPERATOR(Graphics::ColorProfile);
+
+    DJV_STRING_OPERATOR(Graphics::ColorProfile::Exposure);
+    DJV_STRING_OPERATOR(Graphics::ColorProfile::PROFILE);
+
+    DJV_DEBUG_OPERATOR(Graphics::ColorProfile::Exposure);
+    DJV_DEBUG_OPERATOR(Graphics::ColorProfile::PROFILE);
+    DJV_DEBUG_OPERATOR(Graphics::ColorProfile);
+
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Graphics::ColorProfile)
-
-DJV_STRING_OPERATOR(djv::Graphics::ColorProfile::Exposure);
-DJV_STRING_OPERATOR(djv::Graphics::ColorProfile::PROFILE);
-
-DJV_DEBUG_OPERATOR(djv::Graphics::ColorProfile::Exposure);
-DJV_DEBUG_OPERATOR(djv::Graphics::ColorProfile::PROFILE);
-DJV_DEBUG_OPERATOR(djv::Graphics::ColorProfile);

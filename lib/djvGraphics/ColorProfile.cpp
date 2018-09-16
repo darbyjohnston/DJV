@@ -36,8 +36,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -67,73 +65,72 @@ namespace djv
             return data;
         }
 
-        bool operator == (
-            const ColorProfile::Exposure & a,
-            const ColorProfile::Exposure & b)
-        {
-            return
-                djvMath::fuzzyCompare(a.value, b.value) &&
-                djvMath::fuzzyCompare(a.defog, b.defog) &&
-                djvMath::fuzzyCompare(a.kneeLow, b.kneeLow) &&
-                djvMath::fuzzyCompare(a.kneeHigh, b.kneeHigh);
-        }
-
-        bool operator != (
-            const ColorProfile::Exposure & a,
-            const ColorProfile::Exposure & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const ColorProfile & a, const ColorProfile & b)
-        {
-            return
-                a.type == b.type &&
-                djvMath::fuzzyCompare(a.gamma, b.gamma) &&
-                a.lut == b.lut &&
-                a.exposure == b.exposure;
-        }
-
-        bool operator != (const ColorProfile & a, const ColorProfile & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
+
+    bool operator == (
+        const Graphics::ColorProfile::Exposure & a,
+        const Graphics::ColorProfile::Exposure & b)
+    {
+        return
+            Core::Math::fuzzyCompare(a.value, b.value) &&
+            Core::Math::fuzzyCompare(a.defog, b.defog) &&
+            Core::Math::fuzzyCompare(a.kneeLow, b.kneeLow) &&
+            Core::Math::fuzzyCompare(a.kneeHigh, b.kneeHigh);
+    }
+
+    bool operator != (
+        const Graphics::ColorProfile::Exposure & a,
+        const Graphics::ColorProfile::Exposure & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (const Graphics::ColorProfile & a, const Graphics::ColorProfile & b)
+    {
+        return
+            a.type == b.type &&
+            Core::Math::fuzzyCompare(a.gamma, b.gamma) &&
+            a.lut == b.lut &&
+            a.exposure == b.exposure;
+    }
+
+    bool operator != (const Graphics::ColorProfile & a, const Graphics::ColorProfile & b)
+    {
+        return !(a == b);
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::ColorProfile::Exposure & out)
+        throw (QString)
+    {
+        return in >> out.value >> out.defog >> out.kneeLow >> out.kneeHigh;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::ColorProfile::Exposure & in)
+    {
+        return out << in.value << in.defog << in.kneeLow << in.kneeHigh;
+    }
+
+    _DJV_STRING_OPERATOR_LABEL(
+        Graphics::ColorProfile::PROFILE,
+        Graphics::ColorProfile::profileLabels());
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile::Exposure & in)
+    {
+        return debug << in.value << " " << in.defog << " " << in.kneeLow << " " << in.kneeHigh;
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile::PROFILE & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::ColorProfile & in)
+    {
+        return debug <<
+            in.type << ", " <<
+            "gamma = " << in.gamma << ", " <<
+            "lut = " << in.lut << ", " <<
+            "exposure = " << in.exposure;
+    }
+
 } // namespace djv
-
-QStringList & operator >> (QStringList & in, Graphics::ColorProfile::Exposure & out)
-    throw (QString)
-{
-    return in >> out.value >> out.defog >> out.kneeLow >> out.kneeHigh;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::ColorProfile::Exposure & in)
-{
-    return out << in.value << in.defog << in.kneeLow << in.kneeHigh;
-}
-
-_DJV_STRING_OPERATOR_LABEL(
-    Graphics::ColorProfile::PROFILE,
-    Graphics::ColorProfile::profileLabels())
-
-djvDebug & operator << (djvDebug & debug, const Graphics::ColorProfile::Exposure & in)
-{
-    return debug << in.value << " " << in.defog << " " << in.kneeLow << " " <<
-        in.kneeHigh;
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::ColorProfile::PROFILE & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::ColorProfile & in)
-{
-    return debug <<
-        in.type << ", " <<
-        "gamma = " << in.gamma << ", " <<
-        "lut = " << in.lut << ", " <<
-        "exposure = " << in.exposure;
-}
-

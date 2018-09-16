@@ -33,15 +33,21 @@
 
 #include <djvAbstractWidgetTest.h>
 
-class djvFileBrowserTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace WidgetTest
+    {
+        class FileBrowserTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    djvFileBrowserTest(djv::UI::UIContext *);
+        public:
+            FileBrowserTest(UI::UIContext *);
 
-    virtual QString name();
+            virtual QString name();
 
-    virtual void run(const QStringList & args = QStringList());
-};
+            virtual void run(const QStringList & args = QStringList());
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

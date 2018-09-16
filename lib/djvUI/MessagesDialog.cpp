@@ -133,9 +133,9 @@ namespace djv
             }
         }
 
-        void MessagesDialog::message(const djvError & in)
+        void MessagesDialog::message(const Core::Error & in)
         {
-            message(djvErrorUtil::format(in).join("\n"));
+            message(Core::ErrorUtil::format(in).join("\n"));
         }
 
         void MessagesDialog::showEvent(QShowEvent *)

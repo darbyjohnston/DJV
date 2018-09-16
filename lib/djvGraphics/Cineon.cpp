@@ -35,8 +35,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -53,7 +51,7 @@ namespace djv
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::Graphics::Cineon", "Auto") <<
                 qApp->translate("djv::Graphics::Cineon", "None") <<
-                qApp->translate("vCineon", "Film Print");
+                qApp->translate("djv::Graphics::Cineon", "Film Print");
             DJV_ASSERT(data.count() == COLOR_PROFILE_COUNT);
             return data;
         }
@@ -70,8 +68,8 @@ namespace djv
             Pixel::F32_T * data = reinterpret_cast<Pixel::F32_T *>(out.data());
             const float gain =
                 1.f / (
-                    1.f - djvMath::pow(
-                        djvMath::pow(10.f, (value.black - value.white) * .002f / .6f),
+                    1.f - Core::Math::pow(
+                        Core::Math::pow(10.f, (value.black - value.white) * .002f / .6f),
                         value.gamma / 1.7f));
             const float offset = gain - 1.f;
             //DJV_DEBUG_PRINT("gain = " << gain * 255);
@@ -84,8 +82,8 @@ namespace djv
             {
                 data[i] = Pixel::F32_T(
                     value.white / 1023.f +
-                    djvMath::log10(
-                        djvMath::pow((data[i] + offset) / gain, 1.7f / value.gamma)) /
+                    Core::Math::log10(
+                        Core::Math::pow((data[i] + offset) / gain, 1.7f / value.gamma)) /
                         (2.048f / .6f));
                 //DJV_DEBUG_PRINT("lut[" << i << "] = " <<
                 //    data[i] << " " << static_cast<int>(data[i] * 1024));
@@ -106,23 +104,23 @@ namespace djv
             Pixel::F32_T * data = reinterpret_cast<Pixel::F32_T *>(out.data());
             const float gain =
                 1.f / (
-                    1.f - djvMath::pow(
-                        djvMath::pow(10.f, (value.black - value.white) * .002f / .6f),
+                    1.f - Core::Math::pow(
+                        Core::Math::pow(10.f, (value.black - value.white) * .002f / .6f),
                         value.gamma / 1.7f));
             const float offset = gain - 1.f;
             //DJV_DEBUG_PRINT("gain = " << gain * 255);
             //DJV_DEBUG_PRINT("offset = " << offset * 255);
             const int breakPoint = value.white - value.softClip;
             const float kneeOffset =
-                djvMath::pow(
-                    djvMath::pow(10.f, (breakPoint - value.white) * .002f / .6f),
+                Core::Math::pow(
+                    Core::Math::pow(10.f, (breakPoint - value.white) * .002f / .6f),
                     value.gamma / 1.7f
                 ) *
                 gain - offset;
             const float kneeGain =
                 (
                 (255 - (kneeOffset * 255)) /
-                    djvMath::pow(5.f * value.softClip, value.softClip / 100.f)
+                    Core::Math::pow(5.f * value.softClip, value.softClip / 100.f)
                     ) / 255.f;
             //DJV_DEBUG_PRINT("break point = " << breakPoint);
             //DJV_DEBUG_PRINT("knee offset = " << kneeOffset * 255);
@@ -140,15 +138,15 @@ namespace djv
                 }
                 else if (tmp > breakPoint)
                 {
-                    data[i] = Pixel::F32_T((djvMath::pow(
+                    data[i] = Pixel::F32_T((Core::Math::pow(
                         static_cast<float>(tmp - breakPoint),
                         value.softClip / 100.f) *
                         kneeGain * 255 + kneeOffset * 255) / 255.f);
                 }
                 else
                 {
-                    data[i] = Pixel::F32_T(djvMath::pow(
-                        djvMath::pow(10.f, (tmp - value.white) * .002f / .6f),
+                    data[i] = Pixel::F32_T(Core::Math::pow(
+                        Core::Math::pow(10.f, (tmp - value.white) * .002f / .6f),
                         value.gamma / 1.7f) * gain - offset);
                 }
                 //DJV_DEBUG_PRINT("lut[" << i << "] = " <<
@@ -188,76 +186,77 @@ namespace djv
             return data;
         }
 
-        bool operator == (
-            const Cineon::LinearToFilmPrint & a,
-            const Cineon::LinearToFilmPrint & b)
-        {
-            return
-                a.black == b.black &&
-                a.white == b.white &&
-                a.gamma == b.gamma;
-        }
-
-        bool operator == (
-            const Cineon::FilmPrintToLinear & a,
-            const Cineon::FilmPrintToLinear & b)
-        {
-            return
-                a.black == b.black &&
-                a.white == b.white &&
-                a.gamma == b.gamma &&
-                a.softClip == b.softClip;
-        }
-
-        bool operator != (
-            const Cineon::LinearToFilmPrint & a,
-            const Cineon::LinearToFilmPrint & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator != (
-            const Cineon::FilmPrintToLinear & a,
-            const Cineon::FilmPrintToLinear & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
+
+    bool operator == (
+        const Graphics::Cineon::LinearToFilmPrint & a,
+        const Graphics::Cineon::LinearToFilmPrint & b)
+    {
+        return
+            a.black == b.black &&
+            a.white == b.white &&
+            a.gamma == b.gamma;
+    }
+
+    bool operator == (
+        const Graphics::Cineon::FilmPrintToLinear & a,
+        const Graphics::Cineon::FilmPrintToLinear & b)
+    {
+        return
+            a.black == b.black &&
+            a.white == b.white &&
+            a.gamma == b.gamma &&
+            a.softClip == b.softClip;
+    }
+
+    bool operator != (
+        const Graphics::Cineon::LinearToFilmPrint & a,
+        const Graphics::Cineon::LinearToFilmPrint & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator != (
+        const Graphics::Cineon::FilmPrintToLinear & a,
+        const Graphics::Cineon::FilmPrintToLinear & b)
+    {
+        return !(a == b);
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::Cineon::LinearToFilmPrint & out) throw (QString)
+    {
+        return in >>
+            out.black >>
+            out.white >>
+            out.gamma;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::Cineon::LinearToFilmPrint & in)
+    {
+        return out <<
+            in.black <<
+            in.white <<
+            in.gamma;
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::Cineon::FilmPrintToLinear & out) throw (QString)
+    {
+        return in >>
+            out.black >>
+            out.white >>
+            out.gamma >>
+            out.softClip;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::Cineon::FilmPrintToLinear & in)
+    {
+        return out <<
+            in.black <<
+            in.white <<
+            in.gamma <<
+            in.softClip;
+    }
+
+    _DJV_STRING_OPERATOR_LABEL(Graphics::Cineon::COLOR_PROFILE, Graphics::Cineon::colorProfileLabels())
+
 } // namespace djv
-
-QStringList & operator >> (QStringList & in, Graphics::Cineon::LinearToFilmPrint & out) throw (QString)
-{
-    return in >>
-        out.black >>
-        out.white >>
-        out.gamma;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::Cineon::LinearToFilmPrint & in)
-{
-    return out <<
-        in.black <<
-        in.white <<
-        in.gamma;
-}
-
-QStringList & operator >> (QStringList & in, Graphics::Cineon::FilmPrintToLinear & out) throw (QString)
-{
-    return in >>
-        out.black >>
-        out.white >>
-        out.gamma >>
-        out.softClip;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::Cineon::FilmPrintToLinear & in)
-{
-    return out <<
-        in.black <<
-        in.white <<
-        in.gamma <<
-        in.softClip;
-}
-
-_DJV_STRING_OPERATOR_LABEL(Graphics::Cineon::COLOR_PROFILE, Graphics::Cineon::colorProfileLabels())

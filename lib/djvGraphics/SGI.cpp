@@ -36,8 +36,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -63,10 +61,10 @@ namespace djv
             {
                 Header();
 
-                void load(djvFileIO &, ImageIOInfo &, bool * compression)
-                    throw (djvError);
-                void save(djvFileIO &, const ImageIOInfo &, bool compression)
-                    throw (djvError);
+                void load(Core::FileIO &, ImageIOInfo &, bool * compression)
+                    throw (Core::Error);
+                void save(Core::FileIO &, const ImageIOInfo &, bool compression)
+                    throw (Core::Error);
 
                 void debug() const;
 
@@ -99,8 +97,8 @@ namespace djv
                 _data.pixelMax = 0;
             }
 
-            void Header::load(djvFileIO & io, ImageIOInfo & info, bool * compression)
-                throw (djvError)
+            void Header::load(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -108,7 +106,7 @@ namespace djv
                 io.getU16(&_data.magic);
                 if (_data.magic != 474)
                 {
-                    throw djvError(
+                    throw Core::Error(
                         SGI::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
                 }
@@ -131,18 +129,18 @@ namespace djv
                     Pixel::INTEGER,
                     info.pixel))
                 {
-                    throw djvError(
+                    throw Core::Error(
                         SGI::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                 }
                 //DJV_DEBUG_PRINT("pixel = " << info.pixel);
-                info.endian = djvMemory::MSB;
+                info.endian = Core::Memory::MSB;
 
                 *compression = _data.storage ? true : false;
             }
 
-            void Header::save(djvFileIO & io, const ImageIOInfo & info, bool compression)
-                throw (djvError)
+            void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::save");
 
@@ -187,15 +185,15 @@ namespace djv
 
         } // namespace
 
-        void SGI::loadInfo(djvFileIO & io, ImageIOInfo & info, bool * compression)
-            throw (djvError)
+        void SGI::loadInfo(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+            throw (Core::Error)
         {
             Header header;
             header.load(io, info, compression);
         }
 
-        void SGI::saveInfo(djvFileIO & io, const ImageIOInfo & info, bool compression)
-            throw (djvError)
+        void SGI::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+            throw (Core::Error)
         {
             Header header;
             header.save(io, info, compression);
@@ -250,10 +248,11 @@ namespace djv
                         }
                         else
                         {
-                            djvMemory::convertEndian(inP, outP, 1, bytes);
+                            Core::Memory::convertEndian(inP, outP, 1, bytes);
+                            Core::Memory::convertEndian(inP, outP, 1, bytes);
                             if (count > 1)
                             {
-                                djvMemory::fill<T>(*outP, outP + 1, count - 1);
+                                Core::Memory::fill<T>(*outP, outP + 1, count - 1);
                             }
                             outP += count;
                         }
@@ -270,7 +269,7 @@ namespace djv
                         }
                         else
                         {
-                            djvMemory::convertEndian(inP, outP, length, bytes);
+                            Core::Memory::convertEndian(inP, outP, length, bytes);
                             inP += length;
                             outP += length;
                         }
@@ -318,7 +317,7 @@ namespace djv
                 {
                     // Pixel runs.
                     const int min = 3;
-                    const int max = djvMath::min(0x7f, static_cast<int>(end - inP));
+                    const int max = Core::Math::min(0x7f, static_cast<int>(end - inP));
                     int count = 1, match = 1;
                     for (; count < max; ++count)
                     {
@@ -360,7 +359,7 @@ namespace djv
                     }
                     else
                     {
-                        djvMemory::convertEndian(inP, outP, length, bytes);
+                        Core::Memory::convertEndian(inP, outP, length, bytes);
                     }
                     outP += length;
                     inP += count;
@@ -400,6 +399,7 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::SGI::COMPRESSION, Graphics::SGI::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::SGI::COMPRESSION, Graphics::SGI::compressionLabels())
+
+} // namespace djv

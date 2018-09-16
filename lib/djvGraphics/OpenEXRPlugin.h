@@ -62,9 +62,9 @@ namespace djv
         class OpenEXRPlugin : public ImageIO
         {
         public:
-            explicit OpenEXRPlugin(djvCoreContext *);
+            explicit OpenEXRPlugin(Core::CoreContext *);
 
-            virtual void initPlugin() throw (djvError);
+            virtual void initPlugin() throw (Core::Error);
             virtual void releasePlugin();
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

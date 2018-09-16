@@ -51,9 +51,9 @@ namespace djv
                 settings(
                     QSettings::UserScope,
                     //            USER == scope ? QSettings::UserScope : QSettings::SystemScope,
-                    djvSystem::env("LANG").isEmpty() ?
+                    Core::System::env("LANG").isEmpty() ?
                     QString("djv.sourceforge.net") :
-                    QString("djv.sourceforge.net.%1").arg(djvSystem::env("LANG")))
+                    QString("djv.sourceforge.net.%1").arg(Core::System::env("LANG")))
             {}
 
             Prefs::SCOPE scope;

@@ -35,34 +35,33 @@
 
 #include <QVector>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvListUtil
-//!
-//! This class provides utilities for lists.
-//------------------------------------------------------------------------------
-
-class djvListUtil
+namespace djv
 {
-public:
-    inline virtual ~djvListUtil() = 0;
-    
-    //! Convert list types.
-    template<typename A, typename B>
-    static inline void convert(const QVector<A> &, QVector<B> &);
+    namespace Core
+    {
+        //! \class ListUtil
+        //!
+        //! This class provides utilities for lists.
+        class ListUtil
+        {
+        public:
+            inline virtual ~ListUtil() = 0;
 
-    //! Convert list types.
-    template<typename A, typename B>
-    static inline QVector<B> convert(const QVector<A> &);
+            //! Convert list types.
+            template<typename A, typename B>
+            static inline void convert(const QVector<A> &, QVector<B> &);
 
-    //! Convert and append list types.
-    template<typename A, typename B>
-    static inline void convertAndAppend(const QVector<A> &, QVector<B> &);
-};
+            //! Convert list types.
+            template<typename A, typename B>
+            static inline QVector<B> convert(const QVector<A> &);
 
-//@} // djvCoreMisc
+            //! Convert and append list types.
+            template<typename A, typename B>
+            static inline void convertAndAppend(const QVector<A> &, QVector<B> &);
+        };
+
+    } // namespace Core
+} // namespace djv
 
 #include <djvCore/ListUtilInline.h>
 

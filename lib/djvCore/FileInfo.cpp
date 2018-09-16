@@ -45,202 +45,202 @@
 #include <errno.h>
 #include <stdio.h>
 
-//------------------------------------------------------------------------------
-// djvFileInfo
-//------------------------------------------------------------------------------
-
-QSet<QString> djvFileInfo::sequenceExtensions;
-
-djvFileInfo::djvFileInfo()
-{}
-
-djvFileInfo::djvFileInfo(const QString & fileName, bool stat)
+namespace djv
 {
-    setFileName(fileName, stat);
-}
-
-QString djvFileInfo::fileName(qint64 frame, bool path) const
-{
-    QString out;
-    if (path)
+    namespace Core
     {
-        out += _path;
-    }
-    out += _base;
-    if (SEQUENCE == _type && frame != -1)
-    {
-        out += djvSequenceUtil::frameToString(frame, _sequence.pad);
-    }
-    else if (SEQUENCE == _type && _sequence.frames.count())
-    {
-        out += djvSequenceUtil::sequenceToString(_sequence);
-    }
-    else
-    {
-        out += _number;
-    }
-    out += _extension;
-    return out;
-}
+        QSet<QString> FileInfo::sequenceExtensions;
 
-void djvFileInfo::setFileName(const QString & in, bool stat)
-{
-    //DJV_DEBUG("djvFileInfo::setFileName");
-    //DJV_DEBUG_PRINT("in = " << in);
-    //DJV_DEBUG_PRINT("stat = " << stat);
+        FileInfo::FileInfo()
+        {}
 
-    _exists      = false;
-    _dotFile     = false;
-    _type        = FILE;
-    _size        = 0;
-    _user        = 0;
-    _permissions = 0;
-    _time        = 0;
+        FileInfo::FileInfo(const QString & fileName, bool stat)
+        {
+            setFileName(fileName, stat);
+        }
 
-    // Split file name into pieces.
-    djvFileInfoUtil::split(
-        in,
-        _path,
-        _base,
-        _number,
-        _extension);
+        QString FileInfo::fileName(qint64 frame, bool path) const
+        {
+            QString out;
+            if (path)
+            {
+                out += _path;
+            }
+            out += _base;
+            if (SEQUENCE == _type && frame != -1)
+            {
+                out += SequenceUtil::frameToString(frame, _sequence.pad);
+            }
+            else if (SEQUENCE == _type && _sequence.frames.count())
+            {
+                out += SequenceUtil::sequenceToString(_sequence);
+            }
+            else
+            {
+                out += _number;
+            }
+            out += _extension;
+            return out;
+        }
 
-    //DJV_DEBUG_PRINT("path = " << _path);
-    //DJV_DEBUG_PRINT("base = " << _base);
-    //DJV_DEBUG_PRINT("number = " << _number);
-    //DJV_DEBUG_PRINT("extension = " << _extension);
+        void FileInfo::setFileName(const QString & in, bool stat)
+        {
+            //DJV_DEBUG("FileInfo::setFileName");
+            //DJV_DEBUG_PRINT("in = " << in);
+            //DJV_DEBUG_PRINT("stat = " << stat);
 
-    // Get information from the file system.
-    if (stat)
-    {
-        this->stat();
-    }
-    
-    // Does this file start with a '.'?
-    if (djvFileInfoUtil::dot == _base)
-        ;
-    else if (djvFileInfoUtil::dotDot == _base)
-        ;
-    else if (_base.length() > 0)
-    {
-        _dotFile = _base[0] == '.';
-    }
+            _exists = false;
+            _dotFile = false;
+            _type = FILE;
+            _size = 0;
+            _user = 0;
+            _permissions = 0;
+            _time = 0;
 
-    // File sequencing.
-    if (sequenceExtensions.contains(_extension))
-    {
-        _sequence = djvSequenceUtil::stringToSequence(_number);
-    }
+            // Split file name into pieces.
+            FileInfoUtil::split(
+                in,
+                _path,
+                _base,
+                _number,
+                _extension);
 
-    //DJV_DEBUG_PRINT("sequence = " << _sequence);
-}
+            //DJV_DEBUG_PRINT("path = " << _path);
+            //DJV_DEBUG_PRINT("base = " << _base);
+            //DJV_DEBUG_PRINT("number = " << _number);
+            //DJV_DEBUG_PRINT("extension = " << _extension);
 
-void djvFileInfo::setPath(const QString & in)
-{
-    _path = in;
-}
+            // Get information from the file system.
+            if (stat)
+            {
+                this->stat();
+            }
 
-void djvFileInfo::setBase(const QString & in)
-{
-    _base = in;
-}
+            // Does this file start with a '.'?
+            if (FileInfoUtil::dot == _base)
+                ;
+            else if (FileInfoUtil::dotDot == _base)
+                ;
+            else if (_base.length() > 0)
+            {
+                _dotFile = _base[0] == '.';
+            }
 
-void djvFileInfo::setNumber(const QString & in)
-{
-    _number = in;
-}
+            // File sequencing.
+            if (sequenceExtensions.contains(_extension))
+            {
+                _sequence = SequenceUtil::stringToSequence(_number);
+            }
 
-void djvFileInfo::setExtension(const QString & in)
-{
-    _extension = in;
-}
+            //DJV_DEBUG_PRINT("sequence = " << _sequence);
+        }
 
-const QStringList & djvFileInfo::typeLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileInfo", "File") <<
-        qApp->translate("djvFileInfo", "Seq") <<
-        qApp->translate("djvFileInfo", "Dir");
-    DJV_ASSERT(data.count() == djvFileInfo::TYPE_COUNT);
-    return data;
-}
+        void FileInfo::setPath(const QString & in)
+        {
+            _path = in;
+        }
 
-const QStringList & djvFileInfo::typeIcons()
-{
-    static const QStringList data = QStringList() <<
-        ":djvFileIcon.png" <<
-        ":djvSequenceIcon.png" <<
-        ":djvDirIcon.png";
-    DJV_ASSERT(data.count() == djvFileInfo::TYPE_COUNT);
-    return data;
-}
+        void FileInfo::setBase(const QString & in)
+        {
+            _base = in;
+        }
 
-const QStringList & djvFileInfo::typeImages()
-{
-    static const QStringList data = QStringList() <<
-        ":djvFile.svg" <<
-        ":djvSequence.svg" <<
-        ":djvDir.svg";
-    DJV_ASSERT(data.count() == djvFileInfo::TYPE_COUNT);
-    return data;
-}
+        void FileInfo::setNumber(const QString & in)
+        {
+            _number = in;
+        }
 
-void djvFileInfo::setType(TYPE in)
-{
-    _type = in;
-}
+        void FileInfo::setExtension(const QString & in)
+        {
+            _extension = in;
+        }
 
-void djvFileInfo::setSize(quint64 in)
-{
-    _size = in;
-}
+        const QStringList & FileInfo::typeLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::FileInfo", "File") <<
+                qApp->translate("djv::Core::FileInfo", "Seq") <<
+                qApp->translate("djv::Core::FileInfo", "Dir");
+            DJV_ASSERT(data.count() == FileInfo::TYPE_COUNT);
+            return data;
+        }
 
-void djvFileInfo::setUser(uid_t in)
-{
-    _user = in;
-}
+        const QStringList & FileInfo::typeIcons()
+        {
+            static const QStringList data = QStringList() <<
+                ":djv::Core::FileIcon.png" <<
+                ":djv::Core::SequenceIcon.png" <<
+                ":djv::Core::DirIcon.png";
+            DJV_ASSERT(data.count() == FileInfo::TYPE_COUNT);
+            return data;
+        }
 
-const QStringList & djvFileInfo::permissionsLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvFileInfo", "r") <<
-        qApp->translate("djvFileInfo", "w") <<
-        qApp->translate("djvFileInfo", "x");
-    DJV_ASSERT(data.count() == djvFileInfo::PERMISSIONS_COUNT);
-    return data;
-}
+        const QStringList & FileInfo::typeImages()
+        {
+            static const QStringList data = QStringList() <<
+                ":djv::Core::File.svg" <<
+                ":djv::Core::Sequence.svg" <<
+                ":djv::Core::Dir.svg";
+            DJV_ASSERT(data.count() == FileInfo::TYPE_COUNT);
+            return data;
+        }
 
-const QString & djvFileInfo::permissionsLabel(int in)
-{
-    static const QString data[] =
-    {
-        qApp->translate("djvFileInfo", ""),
-        qApp->translate("djvFileInfo", "r"),
-        qApp->translate("djvFileInfo", "w"),
-        qApp->translate("djvFileInfo", "rw"),
-        qApp->translate("djvFileInfo", "x"),
-        qApp->translate("djvFileInfo", "rx"),
-        qApp->translate("djvFileInfo", "wx"),
-        qApp->translate("djvFileInfo", "rwx")
-    };
-    return data[in];
-}
+        void FileInfo::setType(TYPE in)
+        {
+            _type = in;
+        }
 
-void djvFileInfo::setPermissions(int in)
-{
-    _permissions = in;
-}
+        void FileInfo::setSize(quint64 in)
+        {
+            _size = in;
+        }
 
-void djvFileInfo::setTime(time_t in)
-{
-    _time = in;
-}
+        void FileInfo::setUser(uid_t in)
+        {
+            _user = in;
+        }
+
+        const QStringList & FileInfo::permissionsLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::FileInfo", "r") <<
+                qApp->translate("djv::Core::FileInfo", "w") <<
+                qApp->translate("djv::Core::FileInfo", "x");
+            DJV_ASSERT(data.count() == FileInfo::PERMISSIONS_COUNT);
+            return data;
+        }
+
+        const QString & FileInfo::permissionsLabel(int in)
+        {
+            static const QString data[] =
+            {
+                qApp->translate("djv::Core::FileInfo", ""),
+                qApp->translate("djv::Core::FileInfo", "r"),
+                qApp->translate("djv::Core::FileInfo", "w"),
+                qApp->translate("djv::Core::FileInfo", "rw"),
+                qApp->translate("djv::Core::FileInfo", "x"),
+                qApp->translate("djv::Core::FileInfo", "rx"),
+                qApp->translate("djv::Core::FileInfo", "wx"),
+                qApp->translate("djv::Core::FileInfo", "rwx")
+            };
+            return data[in];
+        }
+
+        void FileInfo::setPermissions(int in)
+        {
+            _permissions = in;
+        }
+
+        void FileInfo::setTime(time_t in)
+        {
+            _time = in;
+        }
 
 #if defined(DJV_WINDOWS)
 #define _STAT struct ::_stati64
 #define _STAT_FNC    ::_stati64
 #elif (defined(DJV_FREEBSD) || defined(DJV_OSX))
-//! \todo OS X doesn't have stat64?
+        //! \todo OS X doesn't have stat64?
 #define _STAT struct ::stat
 #define _STAT_FNC    ::stat
 #else
@@ -248,138 +248,159 @@ void djvFileInfo::setTime(time_t in)
 #define _STAT_FNC    ::stat64
 #endif // DJV_WINDOWS
 
-bool djvFileInfo::stat(const QString & path)
-{
-    //DJV_DEBUG("djvFileInfo::stat");
-    //DJV_DEBUG_PRINT("path = " << path);
-    
-    _exists      = false;
-    _type        = static_cast<TYPE>(0);
-    _size        = 0;
-    _user        = 0;
-    _permissions = 0;
-    _time        = time_t();
+        bool FileInfo::stat(const QString & path)
+        {
+            //DJV_DEBUG("FileInfo::stat");
+            //DJV_DEBUG_PRINT("path = " << path);
 
-    _STAT info;
-    
-    djvMemory::fill<quint8>(0, &info, sizeof(_STAT));
+            _exists = false;
+            _type = static_cast<TYPE>(0);
+            _size = 0;
+            _user = 0;
+            _permissions = 0;
+            _time = time_t();
 
-    const QString fileName =
-        djvFileInfoUtil::fixPath(path.length() ? path : _path) +
-        this->fileName(-1, false);
-    
-    //DJV_DEBUG_PRINT("fileName = " << fileName);
+            _STAT info;
 
-    //! \todo Try to stat multiple variations of the path name to find the
-    //! correct one. Is this still necessary?
-    const QString fileName2 = fileName + '/';
-    const QString fileName3 = fileName.mid(0, fileName.length() - 1);
+            Memory::fill<quint8>(0, &info, sizeof(_STAT));
 
-    //DJV_DEBUG_PRINT("fileName2 = " << fileName2);
-    //DJV_DEBUG_PRINT("fileName3 = " << fileName3);
+            const QString fileName =
+                FileInfoUtil::fixPath(path.length() ? path : _path) +
+                this->fileName(-1, false);
 
-    if (0 == _STAT_FNC(fileName.toLatin1().data(), &info))
-    {
-        //DJV_DEBUG_PRINT("fileName");
-    }
-    else if (
-        0 == _STAT_FNC(fileName2.toLatin1().data(), &info))
-    {
-        //DJV_DEBUG_PRINT("fileName2");
-    }
-    else if (
-        0 == _STAT_FNC(fileName3.toLatin1().data(), &info))
-    {
-        //DJV_DEBUG_PRINT("fileName3");
-    }
-    else
-    {
-        QString err;
+            //DJV_DEBUG_PRINT("fileName = " << fileName);
+
+            //! \todo Try to stat multiple variations of the path name to find the
+            //! correct one. Is this still necessary?
+            const QString fileName2 = fileName + '/';
+            const QString fileName3 = fileName.mid(0, fileName.length() - 1);
+
+            //DJV_DEBUG_PRINT("fileName2 = " << fileName2);
+            //DJV_DEBUG_PRINT("fileName3 = " << fileName3);
+
+            if (0 == _STAT_FNC(fileName.toLatin1().data(), &info))
+            {
+                //DJV_DEBUG_PRINT("fileName");
+            }
+            else if (
+                0 == _STAT_FNC(fileName2.toLatin1().data(), &info))
+            {
+                //DJV_DEBUG_PRINT("fileName2");
+            }
+            else if (
+                0 == _STAT_FNC(fileName3.toLatin1().data(), &info))
+            {
+                //DJV_DEBUG_PRINT("fileName3");
+            }
+            else
+            {
+                QString err;
 #if defined(DJV_WINDOWS)
-        char tmp[djvStringUtil::cStringLength] = "";
-        ::strerror_s(tmp, djvStringUtil::cStringLength, errno);
-        err = tmp;
+                char tmp[StringUtil::cStringLength] = "";
+                ::strerror_s(tmp, StringUtil::cStringLength, errno);
+                err = tmp;
 #endif // DJV_WINDOWS
-        //DJV_DEBUG_PRINT("errno = " << err);
-        return false;
-    }
+                //DJV_DEBUG_PRINT("errno = " << err);
+                return false;
+            }
 
-    _exists      = true;
-    _size        = info.st_size;
-    _user        = info.st_uid;
-    _permissions = 0;
-    _time        = info.st_mtime;
-    _type        = FILE;
-    _permissions = 0;
-    
-    //DJV_DEBUG_PRINT("size = " << _size);
+            _exists = true;
+            _size = info.st_size;
+            _user = info.st_uid;
+            _permissions = 0;
+            _time = info.st_mtime;
+            _type = FILE;
+            _permissions = 0;
+
+            //DJV_DEBUG_PRINT("size = " << _size);
 
 #if defined(DJV_WINDOWS)
-    if (info.st_mode & _S_IFDIR)
-    {
-        _type = DIRECTORY;
-    }
-    _permissions |= (info.st_mode & _S_IREAD ) ? djvFileInfo::READ : 0;
-    _permissions |= (info.st_mode & _S_IWRITE) ? djvFileInfo::WRITE : 0;
-    _permissions |= (info.st_mode & _S_IEXEC ) ? djvFileInfo::EXEC : 0;
+            if (info.st_mode & _S_IFDIR)
+            {
+                _type = DIRECTORY;
+            }
+            _permissions |= (info.st_mode & _S_IREAD) ? FileInfo::READ : 0;
+            _permissions |= (info.st_mode & _S_IWRITE) ? FileInfo::WRITE : 0;
+            _permissions |= (info.st_mode & _S_IEXEC) ? FileInfo::EXEC : 0;
 #else // DJV_WINDOWS
-    if (S_ISDIR(info.st_mode))
-    {
-        _type = DIRECTORY;
-    }
-    _permissions |= (info.st_mode & S_IRUSR) ? READ  : 0;
-    _permissions |= (info.st_mode & S_IWUSR) ? WRITE : 0;
-    _permissions |= (info.st_mode & S_IXUSR) ? EXEC  : 0;
+            if (S_ISDIR(info.st_mode))
+            {
+                _type = DIRECTORY;
+            }
+            _permissions |= (info.st_mode & S_IRUSR) ? READ : 0;
+            _permissions |= (info.st_mode & S_IWUSR) ? WRITE : 0;
+            _permissions |= (info.st_mode & S_IXUSR) ? EXEC : 0;
 #endif // DJV_WINDOWS
-    //DJV_DEBUG_PRINT("type = " << _type);
-    
-    return true;
-}
+            //DJV_DEBUG_PRINT("type = " << _type);
 
-void djvFileInfo::setSequence(const djvSequence & in)
-{
-    _sequence = in;
-    _number = djvSequenceUtil::sequenceToString(_sequence);
-}
+            return true;
+        }
+
+        void FileInfo::setSequence(const Sequence & in)
+        {
+            _sequence = in;
+            _number = SequenceUtil::sequenceToString(_sequence);
+        }
 
 
-void djvFileInfo::sortSequence()
-{
-    _sequence.sort();
-    _number = djvSequenceUtil::sequenceToString(_sequence);
-}
+        void FileInfo::sortSequence()
+        {
+            _sequence.sort();
+            _number = SequenceUtil::sequenceToString(_sequence);
+        }
 
-//------------------------------------------------------------------------------
+    } // namespace Core
 
-_DJV_STRING_OPERATOR_LABEL(djvFileInfo::TYPE, djvFileInfo::typeLabels())
+    _DJV_STRING_OPERATOR_LABEL(Core::FileInfo::TYPE, Core::FileInfo::typeLabels());
 
-QStringList & operator >> (QStringList & in, djvFileInfo & out) throw (QString)
-{
-    QString           fileName;
-    djvFileInfo::TYPE type     = static_cast<djvFileInfo::TYPE>(0);    
-    in >> fileName;
-    in >> type;
-    out = fileName;
-    out.setType(type);
-    return in;
-}
+    Core::Debug & operator << (Core::Debug & debug, const Core::FileInfo::TYPE & in)
+    {
+        QStringList tmp;
+        tmp << in;
+        return debug << tmp;
+    }
 
-QStringList & operator << (QStringList & out, const djvFileInfo & in)
-{
-    out << in.fileName();
-    out << in.type();
-    return out;
-}
+    Core::Debug & operator << (Core::Debug & debug, const Core::FileInfo & in)
+    {
+        return debug << in.fileName();
+    }
 
-djvDebug & operator << (djvDebug & debug, const djvFileInfo::TYPE & in)
-{
-    QStringList tmp;
-    tmp << in;
-    return debug << tmp;
-}
+    QStringList & operator >> (QStringList & in, Core::FileInfo & out) throw (QString)
+    {
+        QString fileName;
+        Core::FileInfo::TYPE type = static_cast<Core::FileInfo::TYPE>(0);
+        in >> fileName;
+        in >> type;
+        out = fileName;
+        out.setType(type);
+        return in;
+    }
 
-djvDebug & operator << (djvDebug & debug, const djvFileInfo & in)
-{
-    return debug << in.fileName();
-}
+    QStringList & operator << (QStringList & out, const Core::FileInfo & in)
+    {
+        out << in.fileName();
+        out << in.type();
+        return out;
+    }
 
+    QStringList & operator >> (QStringList & in, Core::FileInfoList & out) throw (QString)
+    {
+        while (in.count())
+        {
+            Core::FileInfo value;
+            in >> value;
+            out += value;
+        }
+        return in;
+    }
+
+    QStringList & operator << (QStringList & out, const Core::FileInfoList & in)
+    {
+        for (int i = 0; i < in.count(); ++i)
+        {
+            out << in[i];
+        }
+        return out;
+    }
+
+} // namespace djv

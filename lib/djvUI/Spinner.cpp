@@ -142,7 +142,7 @@ namespace djv
             painter.translate(w / 2, h / 2);
             painter.rotate(-_p->tick);
             painter.translate(-w / 2, -h / 2);
-            const int s = djvMath::min<int>(w, h) / 2;
+            const int s = Core::Math::min<int>(w, h) / 2;
             _p->svg->render(&painter, QRectF(w / 2 - s / 2, h / 2 - s / 2, s, s));
         }
 

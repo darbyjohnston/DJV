@@ -33,54 +33,52 @@
 
 #include <djvCore/Debug.h>
 
-using namespace djv;
-
-bool operator == (
-    const ViewLib::DisplayProfile & a,
-    const ViewLib::DisplayProfile & b)
+namespace djv
 {
-    return
-        a.name == b.name    &&
-        a.lutFile == b.lutFile &&
-        Graphics::OpenGLImageDisplayProfile(a) == Graphics::OpenGLImageDisplayProfile(b);
-}
+    bool operator == (const ViewLib::DisplayProfile & a, const ViewLib::DisplayProfile & b)
+    {
+        return
+            a.name == b.name &&
+            a.lutFile == b.lutFile &&
+            Graphics::OpenGLImageDisplayProfile(a) == Graphics::OpenGLImageDisplayProfile(b);
+    }
 
-bool operator != (
-    const ViewLib::DisplayProfile & a,
-    const ViewLib::DisplayProfile & b)
-{
-    return !(a == b);
-}
+    bool operator != (const ViewLib::DisplayProfile & a, const ViewLib::DisplayProfile & b)
+    {
+        return !(a == b);
+    }
 
-QStringList & operator >> (QStringList & in, ViewLib::DisplayProfile & out)
-    throw (QString)
-{
-    in >> out.name;
-    QString tmp;
-    in >> tmp;
-    out.lutFile = tmp;
-    in >> out.color;
-    in >> out.levels;
-    in >> out.softClip;
-    return in;
-}
+    QStringList & operator >> (QStringList & in, ViewLib::DisplayProfile & out)
+        throw (QString)
+    {
+        in >> out.name;
+        QString tmp;
+        in >> tmp;
+        out.lutFile = tmp;
+        in >> out.color;
+        in >> out.levels;
+        in >> out.softClip;
+        return in;
+    }
 
-QStringList & operator << (QStringList & out, const ViewLib::DisplayProfile & in)
-{
-    return out <<
-        in.name <<
-        in.lutFile <<
-        in.color <<
-        in.levels <<
-        in.softClip;
-}
+    QStringList & operator << (QStringList & out, const ViewLib::DisplayProfile & in)
+    {
+        return out <<
+            in.name <<
+            in.lutFile <<
+            in.color <<
+            in.levels <<
+            in.softClip;
+    }
 
-djvDebug & operator << (djvDebug & out, const ViewLib::DisplayProfile & in)
-{
-    return out <<
-        in.name <<
-        in.lutFile <<
-        in.color <<
-        in.levels <<
-        in.softClip;
-}
+    Core::Debug & operator << (Core::Debug & out, const ViewLib::DisplayProfile & in)
+    {
+        return out <<
+            in.name <<
+            in.lutFile <<
+            in.color <<
+            in.levels <<
+            in.softClip;
+    }
+
+} // namespace djv

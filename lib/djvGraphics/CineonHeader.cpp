@@ -48,12 +48,12 @@ namespace djv
 
         CineonHeader::CineonHeader()
         {
-            djvMemory::fill<quint8>(0xff, &file, sizeof(File));
+            Core::Memory::fill<quint8>(0xff, &file, sizeof(File));
             zero(file.version, 8);
             zero(file.name, 100);
             zero(file.time, 24);
 
-            djvMemory::fill<quint8>(0xff, &image, sizeof(Image));
+            Core::Memory::fill<quint8>(0xff, &image, sizeof(Image));
 
             for (uint i = 0; i < 8; ++i)
             {
@@ -63,7 +63,7 @@ namespace djv
                 zero(&image.channel[i].highQuantity);
             }
 
-            djvMemory::fill<quint8>(0xff, &source, sizeof(Source));
+            Core::Memory::fill<quint8>(0xff, &source, sizeof(Source));
             zero(&source.offset[0]);
             zero(&source.offset[1]);
             zero(source.file, 100);
@@ -75,7 +75,7 @@ namespace djv
             zero(&source.inputPitch[1]);
             zero(&source.gamma);
 
-            djvMemory::fill<quint8>(0xff, &film, sizeof(Film));
+            Core::Memory::fill<quint8>(0xff, &film, sizeof(Film));
             zero(film.format, 32);
             zero(&film.frameRate);
             zero(film.frameId, 32);
@@ -83,9 +83,9 @@ namespace djv
         }
 
         void CineonHeader::load(
-            djvFileIO &   io,
-            ImageIOInfo & info,
-            bool &        filmPrint) throw (djvError)
+            Core::FileIO & io,
+            ImageIOInfo &  info,
+            bool &         filmPrint) throw (Core::Error)
         {
             //DJV_DEBUG("CineonHeader::load");
 
@@ -100,7 +100,7 @@ namespace djv
             }
             else
             {
-                throw djvError(
+                throw Core::Error(
                     Cineon::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
             }
@@ -112,7 +112,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("endian");
                 io.setEndian(true);
                 this->endian();
-                info.endian = djvMemory::endianOpposite(djvMemory::endian());
+                info.endian = Core::Memory::endianOpposite(Core::Memory::endian());
             }
 
             // Information.
@@ -142,7 +142,7 @@ namespace djv
             }
             if (!image.channels)
             {
-                throw djvError(
+                throw Core::Error(
                     Cineon::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -162,7 +162,7 @@ namespace djv
             }
             if (i < image.channels)
             {
-                throw djvError(
+                throw Core::Error(
                     Cineon::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -181,7 +181,7 @@ namespace djv
             }
             if (-1 == pixel)
             {
-                throw djvError(
+                throw Core::Error(
                     Cineon::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -193,14 +193,14 @@ namespace djv
 
             if (isValid(&image.linePadding) && image.linePadding)
             {
-                throw djvError(
+                throw Core::Error(
                     Cineon::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
 
             if (isValid(&image.channelPadding) && image.channelPadding)
             {
-                throw djvError(
+                throw Core::Error(
                     Cineon::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -254,7 +254,7 @@ namespace djv
                 isValid(&film.prefix) &&
                 isValid(&film.count))
             {
-                info.tags[tags[ImageTags::KEYCODE]] = djvTime::keycodeToString(
+                info.tags[tags[ImageTags::KEYCODE]] = Core::Time::keycodeToString(
                     film.id, film.type, film.prefix, film.count, film.offset);
             }
             if (isValid(film.format, 32))
@@ -269,7 +269,7 @@ namespace djv
             }
             if (isValid(&film.frameRate) && film.frameRate >= minSpeed)
             {
-                info.sequence.speed = djvSpeed::floatToSpeed(film.frameRate);
+                info.sequence.speed = Core::Speed::floatToSpeed(film.frameRate);
 
                 info.tags[cineonTags[Cineon::TAG_FILM_FRAME_RATE]] =
                     QString::number(film.frameRate);
@@ -289,9 +289,9 @@ namespace djv
         }
 
         void CineonHeader::save(
-            djvFileIO &           io,
+            Core::FileIO &        io,
             const ImageIOInfo &   info,
-            Cineon::COLOR_PROFILE colorProfile) throw (djvError)
+            Cineon::COLOR_PROFILE colorProfile) throw (Core::Error)
         {
             //DJV_DEBUG("CineonHeader::save");
 
@@ -356,8 +356,8 @@ namespace djv
             const QStringList & tags = ImageTags::tagLabels();
             const QStringList & cineonTags = Cineon::tagLabels();
             QString tmp;
-            djvStringUtil::cString(info.fileName, file.name, 100, false);
-            djvStringUtil::cString(info.tags[tags[ImageTags::TIME]], file.time, 24, false);
+            Core::StringUtil::cString(info.fileName, file.name, 100, false);
+            Core::StringUtil::cString(info.tags[tags[ImageTags::TIME]], file.time, 24, false);
 
             // Source image tags.
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_OFFSET]];
@@ -374,27 +374,27 @@ namespace djv
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_FILE]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.file, 100, false);
+                Core::StringUtil::cString(tmp, source.file, 100, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_TIME]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.time, 24, false);
+                Core::StringUtil::cString(tmp, source.time, 24, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_INPUT_DEVICE]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.inputDevice, 64, false);
+                Core::StringUtil::cString(tmp, source.inputDevice, 64, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_INPUT_MODEL]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.inputModel, 32, false);
+                Core::StringUtil::cString(tmp, source.inputModel, 32, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_INPUT_SERIAL]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.inputSerial, 32, false);
+                Core::StringUtil::cString(tmp, source.inputSerial, 32, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_SOURCE_INPUT_PITCH]];
             if (tmp.length())
@@ -417,7 +417,7 @@ namespace djv
             if (tmp.length())
             {
                 int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
-                djvTime::stringToKeycode(tmp, id, type, prefix, count, offset);
+                Core::Time::stringToKeycode(tmp, id, type, prefix, count, offset);
                 film.id = id;
                 film.type = type;
                 film.offset = offset;
@@ -427,7 +427,7 @@ namespace djv
             tmp = info.tags[cineonTags[Cineon::TAG_FILM_FORMAT]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, film.format, 32, false);
+                Core::StringUtil::cString(tmp, film.format, 32, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_FILM_FRAME]];
             if (tmp.length())
@@ -442,17 +442,17 @@ namespace djv
             tmp = info.tags[cineonTags[Cineon::TAG_FILM_FRAME_ID]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, film.frameId, 32, false);
+                Core::StringUtil::cString(tmp, film.frameId, 32, false);
             }
             tmp = info.tags[cineonTags[Cineon::TAG_FILM_SLATE]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, film.slate, 200, false);
+                Core::StringUtil::cString(tmp, film.slate, 200, false);
             }
 
             // Write.
             debug();
-            const bool endian = djvMemory::endian() != djvMemory::MSB;
+            const bool endian = Core::Memory::endian() != Core::Memory::MSB;
             io.setEndian(endian);
             if (endian)
             {
@@ -470,7 +470,7 @@ namespace djv
             io.set(&film, sizeof(Film));
         }
 
-        void CineonHeader::saveEnd(djvFileIO & io) throw (djvError)
+        void CineonHeader::saveEnd(Core::FileIO & io) throw (Core::Error)
         {
             const quint32 size = static_cast<quint32>(io.pos());
             io.setPos(20);
@@ -479,36 +479,36 @@ namespace djv
 
         void CineonHeader::endian()
         {
-            djvMemory::convertEndian(&file.imageOffset, 1, 4);
-            djvMemory::convertEndian(&file.headerSize, 1, 4);
-            djvMemory::convertEndian(&file.industryHeaderSize, 1, 4);
-            djvMemory::convertEndian(&file.userHeaderSize, 1, 4);
-            djvMemory::convertEndian(&file.size, 1, 4);
+            Core::Memory::convertEndian(&file.imageOffset, 1, 4);
+            Core::Memory::convertEndian(&file.headerSize, 1, 4);
+            Core::Memory::convertEndian(&file.industryHeaderSize, 1, 4);
+            Core::Memory::convertEndian(&file.userHeaderSize, 1, 4);
+            Core::Memory::convertEndian(&file.size, 1, 4);
 
             for (uint i = 0; i < 8; ++i)
             {
-                djvMemory::convertEndian(image.channel[i].size, 2, 4);
-                djvMemory::convertEndian(&image.channel[i].lowData, 1, 4);
-                djvMemory::convertEndian(&image.channel[i].lowQuantity, 1, 4);
-                djvMemory::convertEndian(&image.channel[i].highData, 1, 4);
-                djvMemory::convertEndian(&image.channel[i].highQuantity, 1, 4);
+                Core::Memory::convertEndian(image.channel[i].size, 2, 4);
+                Core::Memory::convertEndian(&image.channel[i].lowData, 1, 4);
+                Core::Memory::convertEndian(&image.channel[i].lowQuantity, 1, 4);
+                Core::Memory::convertEndian(&image.channel[i].highData, 1, 4);
+                Core::Memory::convertEndian(&image.channel[i].highQuantity, 1, 4);
             }
 
-            djvMemory::convertEndian(image.white, 2, 4);
-            djvMemory::convertEndian(image.red, 2, 4);
-            djvMemory::convertEndian(image.green, 2, 4);
-            djvMemory::convertEndian(image.blue, 2, 4);
-            djvMemory::convertEndian(&image.linePadding, 1, 4);
-            djvMemory::convertEndian(&image.channelPadding, 1, 4);
+            Core::Memory::convertEndian(image.white, 2, 4);
+            Core::Memory::convertEndian(image.red, 2, 4);
+            Core::Memory::convertEndian(image.green, 2, 4);
+            Core::Memory::convertEndian(image.blue, 2, 4);
+            Core::Memory::convertEndian(&image.linePadding, 1, 4);
+            Core::Memory::convertEndian(&image.channelPadding, 1, 4);
 
-            djvMemory::convertEndian(source.offset, 2, 4);
-            djvMemory::convertEndian(source.inputPitch, 2, 4);
-            djvMemory::convertEndian(&source.gamma, 1, 4);
+            Core::Memory::convertEndian(source.offset, 2, 4);
+            Core::Memory::convertEndian(source.inputPitch, 2, 4);
+            Core::Memory::convertEndian(&source.gamma, 1, 4);
 
-            djvMemory::convertEndian(&film.prefix, 1, 4);
-            djvMemory::convertEndian(&film.count, 1, 4);
-            djvMemory::convertEndian(&film.frame, 1, 4);
-            djvMemory::convertEndian(&film.frameRate, 1, 4);
+            Core::Memory::convertEndian(&film.prefix, 1, 4);
+            Core::Memory::convertEndian(&film.count, 1, 4);
+            Core::Memory::convertEndian(&film.frame, 1, 4);
+            Core::Memory::convertEndian(&film.frameRate, 1, 4);
         }
 
         void CineonHeader::zero(qint32 * in)

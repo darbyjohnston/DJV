@@ -35,71 +35,68 @@
 
 #include <QMetaType>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMemory
-//!
-//! This class provides memory utilities.
-//------------------------------------------------------------------------------
-
-class djvMemory
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(ENDIAN)
-
-public:
-
-    virtual ~djvMemory() = 0;
-
-    static const quint64 kilobyte; //!< The number of bytes in a kilobyte.
-    static const quint64 megabyte; //!< The number of bytes in a megabyte.
-    static const quint64 gigabyte; //!< The number of bytes in a gigabyte.
-    static const quint64 terabyte; //!< The number of bytes in a terabyte.
-
-    //! Convert a byte count to a human readable string.
-    static QString sizeLabel(quint64);
-
-    //! This enumeration provides the machine endian.
-    enum ENDIAN
+    namespace Core
     {
-        MSB, //!< Most siginificant byte first
-        LSB, //!< Least significant byte first
+        class Memory
+        {
+            Q_GADGET
+            Q_ENUMS(ENDIAN)
 
-        ENDIAN_COUNT
-    };
+        public:
 
-    //! Get the machine endian labels.
-    static const QStringList & endianLabels();
+            virtual ~Memory() = 0;
 
-    //! Fill a block of memory with a value.
-    template<typename T>
-    static inline void fill(T value, void * in, quint64 size);
+            static const quint64 kilobyte; //!< The number of bytes in a kilobyte.
+            static const quint64 megabyte; //!< The number of bytes in a megabyte.
+            static const quint64 gigabyte; //!< The number of bytes in a gigabyte.
+            static const quint64 terabyte; //!< The number of bytes in a terabyte.
 
-    //! Get the current machine's endian.
-    static ENDIAN endian();
+            //! Convert a byte count to a human readable string.
+            static QString sizeLabel(quint64);
 
-    //! Get the opposite of the given endian.
-    static inline ENDIAN endianOpposite(ENDIAN);
+            //! This enumeration provides the machine endian.
+            enum ENDIAN
+            {
+                MSB, //!< Most siginificant byte first
+                LSB, //!< Least significant byte first
 
-    //! Convert the endianness of a block of memory in place.
-    static inline void convertEndian(
-        void *  in,
-        quint64 size,
-        int     wordSize);
+                ENDIAN_COUNT
+            };
 
-    //! Convert the endianness of a block of memory.
-    static inline void convertEndian(
-        const void * in,
-        void *       out,
-        quint64      size,
-        int          wordSize);
-};
+            //! Get the machine endian labels.
+            static const QStringList & endianLabels();
 
-DJV_STRING_OPERATOR(djvMemory::ENDIAN);
+            //! Fill a block of memory with a value.
+            template<typename T>
+            static inline void fill(T value, void * in, quint64 size);
 
-//@} // djvCoreMisc
+            //! Get the current machine's endian.
+            static ENDIAN endian();
+
+            //! Get the opposite of the given endian.
+            static inline ENDIAN endianOpposite(ENDIAN);
+
+            //! Convert the endianness of a block of memory in place.
+            static inline void convertEndian(
+                void *  in,
+                quint64 size,
+                int     wordSize);
+
+            //! Convert the endianness of a block of memory.
+            static inline void convertEndian(
+                const void * in,
+                void *       out,
+                quint64      size,
+                int          wordSize);
+        };
+
+    } // namespace Core
+
+    DJV_STRING_OPERATOR(Core::Memory::ENDIAN);
+
+} // namespace djv
 
 #include <djvCore/MemoryInline.h>
 

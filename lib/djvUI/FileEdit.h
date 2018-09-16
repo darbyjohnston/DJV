@@ -55,10 +55,10 @@ namespace djv
 
             //! This property holds the file information.    
             Q_PROPERTY(
-                djvFileInfo fileInfo
-                READ        fileInfo
-                WRITE       setFileInfo
-                NOTIFY      fileInfoChanged)
+                Core::FileInfo fileInfo
+                READ           fileInfo
+                WRITE          setFileInfo
+                NOTIFY         fileInfoChanged)
     
         public:
             explicit FileEdit(UIContext *, QWidget * parent = nullptr);
@@ -66,15 +66,15 @@ namespace djv
             virtual ~FileEdit();
 
             //! Get the file information.
-            const djvFileInfo & fileInfo() const;
+            const Core::FileInfo & fileInfo() const;
 
         public Q_SLOTS:
             //! Set the file information.
-            void setFileInfo(const djvFileInfo &);
+            void setFileInfo(const djv::Core::FileInfo &);
 
         Q_SIGNALS:
             //! This signal is emitted when the file information is changed.
-            void fileInfoChanged(const djvFileInfo &);
+            void fileInfoChanged(const djv::Core::FileInfo &);
 
         private Q_SLOTS:
             void editCallback();

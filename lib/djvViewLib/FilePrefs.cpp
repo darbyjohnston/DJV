@@ -61,8 +61,8 @@ namespace djv
             prefs.get("cacheSize", _cacheSize);
             prefs.get("preload", _preload);
             prefs.get("displayCache", _displayCache);
-            if (_recent.count() > djvFileInfoUtil::recentMax)
-                _recent = _recent.mid(0, djvFileInfoUtil::recentMax);
+            if (_recent.count() > Core::FileInfoUtil::recentMax)
+                _recent = _recent.mid(0, Core::FileInfoUtil::recentMax);
         }
 
         FilePrefs::~FilePrefs()
@@ -78,16 +78,16 @@ namespace djv
             prefs.set("displayCache", _displayCache);
         }
 
-        void FilePrefs::addRecent(const djvFileInfo & in)
+        void FilePrefs::addRecent(const Core::FileInfo & in)
         {
             //DJV_DEBUG("FilePrefs::addRecent");
             //DJV_DEBUG_PRINT("in = " << in);
-            djvFileInfoUtil::recent(in, _recent);
+            Core::FileInfoUtil::recent(in, _recent);
             Q_EMIT recentChanged(_recent);
             Q_EMIT prefChanged();
         }
 
-        const djvFileInfoList & FilePrefs::recentFiles() const
+        const Core::FileInfoList & FilePrefs::recentFiles() const
         {
             return _recent;
         }

@@ -41,11 +41,11 @@ namespace djv
         const QString RLA::staticName = "RLA";
 
         void RLA::readRle(
-            djvFileIO & io,
-            quint8 *    out,
-            int         size,
-            int         channels,
-            int         bytes) throw (djvError)
+            Core::FileIO & io,
+            quint8 *       out,
+            int            size,
+            int            channels,
+            int            bytes) throw (Core::Error)
         {
             //DJV_DEBUG("RLA::readRle");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -59,8 +59,7 @@ namespace djv
             io.seek(_size);
             for (int b = 0; b < bytes; ++b)
             {
-                quint8 * outP =
-                    out + (djvMemory::LSB == djvMemory::endian() ? (bytes - 1 - b) : b);
+                quint8 * outP = out + (Core::Memory::LSB == Core::Memory::endian() ? (bytes - 1 - b) : b);
                 const int outInc = channels * bytes;
                 for (int i = 0; i < size;)
                 {
@@ -91,10 +90,10 @@ namespace djv
         }
 
         void RLA::floatLoad(
-            djvFileIO & io,
-            quint8 *    out,
-            int         size,
-            int         channels) throw (djvError)
+            Core::FileIO & io,
+            quint8 *       out,
+            int            size,
+            int            channels) throw (Core::Error)
         {
             //DJV_DEBUG("RLA::floatLoad");
             //DJV_DEBUG_PRINT("size = " << size);
@@ -106,7 +105,7 @@ namespace djv
             const quint8 * p = start;
             io.seek(_size);
             const int outInc = channels * 4;
-            if (djvMemory::LSB == djvMemory::endian())
+            if (Core::Memory::LSB == Core::Memory::endian())
             {
                 for (int i = 0; i < size; ++i, p += 4, out += outInc)
                 {
@@ -129,7 +128,7 @@ namespace djv
             //DJV_DEBUG_PRINT("out = " << p - start);
         }
 
-        void RLA::skip(djvFileIO & io) throw (djvError)
+        void RLA::skip(Core::FileIO & io) throw (Core::Error)
         {
             qint16 size = 0;
             io.get16(&size);

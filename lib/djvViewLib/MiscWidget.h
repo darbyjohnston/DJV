@@ -122,9 +122,9 @@ namespace djv
 
                 //! This property holds the frame list.
                 Q_PROPERTY(
-                    djvFrameList frameList
-                    READ         frameList
-                    WRITE        setFrameList)
+                    Core::FrameList frameList
+                    READ            frameList
+                    WRITE           setFrameList)
 
                 //! This property holds the frame.
                 Q_PROPERTY(
@@ -135,9 +135,9 @@ namespace djv
 
                 //! This property holds the speed.
                 Q_PROPERTY(
-                    djvSpeed speed
-                    READ     speed
-                    WRITE    setSpeed)
+                    Core::Speed speed
+                    READ        speed
+                    WRITE       setSpeed)
 
         public:
             explicit FrameWidget(UI::UIContext *, QWidget * parent = nullptr);
@@ -145,13 +145,13 @@ namespace djv
             virtual ~FrameWidget();
 
             //! Get the frame list.
-            const djvFrameList & frameList() const;
+            const Core::FrameList & frameList() const;
 
             //! Get the frame.
             qint64 frame() const;
 
             //! Get the speed.
-            const djvSpeed & speed() const;
+            const Core::Speed & speed() const;
 
             virtual void stepBy(int);
 
@@ -159,13 +159,13 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the frame list.
-            void setFrameList(const djvFrameList &);
+            void setFrameList(const djv::Core::FrameList &);
 
             //! Set the frame.
             void setFrame(qint64);
 
             //! Set the speed.
-            void setSpeed(const djvSpeed &);
+            void setSpeed(const djv::Core::Speed &);
 
         Q_SIGNALS:
             //! This signal is emitted when the frame is changed.
@@ -197,8 +197,8 @@ namespace djv
 
                 //! This property holds the frame list.
                 Q_PROPERTY(
-                    djvFrameList frameList
-                    READ         frameList
+                    djv::Core::FrameList frameList
+                    READ                frameList
                     WRITE        setFrameList)
 
                 //! This property holds the current frame.
@@ -210,9 +210,9 @@ namespace djv
 
                 //! This property holds the speed.
                 Q_PROPERTY(
-                    djvSpeed speed
-                    READ     speed
-                    WRITE    setSpeed)
+                    Core::Speed speed
+                    READ        speed
+                    WRITE       setSpeed)
 
                 //! This property holds whether in/out points are enabled.
                 Q_PROPERTY(
@@ -241,13 +241,13 @@ namespace djv
             virtual ~FrameSlider();
 
             //! Get the frame list.
-            const djvFrameList & frameList() const;
+            const Core::FrameList & frameList() const;
 
             //! Get the current frame.
             qint64 frame() const;
 
             //! Get the speed.
-            const djvSpeed & speed() const;
+            const Core::Speed & speed() const;
 
             //! Get whether the in/out points are enabled.
             bool isInOutEnabled() const;
@@ -262,13 +262,13 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the frame list.
-            void setFrameList(const djvFrameList &);
+            void setFrameList(const djv::Core::FrameList &);
 
             //! Set the current frame.
             void setFrame(qint64);
 
             //! Set the speed.
-            void setSpeed(const djvSpeed &);
+            void setSpeed(const djv::Core::Speed &);
 
             //! Set whether the in/out points are enabled.
             void setInOutEnabled(bool);
@@ -304,7 +304,7 @@ namespace djv
             void gotoEndFrame();
 
             //! Set the list of cached frames.
-            void setCachedFrames(const djvFrameList &);
+            void setCachedFrames(const djv::Core::FrameList &);
 
         Q_SIGNALS:
             //! This signal is emitted when the frame is changed.
@@ -359,9 +359,9 @@ namespace djv
 
                 //! This property holds the speed.
                 Q_PROPERTY(
-                    djvSpeed speed
-                    READ     speed
-                    WRITE    setSpeed)
+                    Core::Speed speed
+                    READ        speed
+                    WRITE       setSpeed)
 
                 //! This property holds whether in/out points are enabled.
                 Q_PROPERTY(
@@ -378,7 +378,7 @@ namespace djv
             qint64 frame() const;
 
             //! Get the speed.
-            const djvSpeed & speed() const;
+            const Core::Speed & speed() const;
 
             //! Get whether the in/out points are enabled.
             bool isInOutEnabled() const;
@@ -390,7 +390,7 @@ namespace djv
             void setFrame(qint64);
 
             //! Set the speed.
-            void setSpeed(const djvSpeed &);
+            void setSpeed(const djv::Core::Speed &);
 
             //! Set whether in/out points are enabled.
             void setInOutEnabled(bool);
@@ -421,11 +421,11 @@ namespace djv
             virtual ~SpeedButton();
 
             //! Set the default speed.
-            void setDefaultSpeed(const djvSpeed &);
+            void setDefaultSpeed(const Core::Speed &);
 
         Q_SIGNALS:
             //! This signal is emitted when the speed is changed.
-            void speedChanged(const djvSpeed &);
+            void speedChanged(const djv::Core::Speed &);
 
         private Q_SLOTS:
 
@@ -433,7 +433,6 @@ namespace djv
             void menuCallback();
 
         private:
-
             DJV_PRIVATE_COPY(SpeedButton);
 
             struct Private;
@@ -449,16 +448,16 @@ namespace djv
 
                 //! This property holds the speed.
                 Q_PROPERTY(
-                    djvSpeed speed
-                    READ     speed
-                    WRITE    setSpeed
-                    NOTIFY   speedChanged)
+                    Core::Speed speed
+                    READ        speed
+                    WRITE       setSpeed
+                    NOTIFY      speedChanged)
 
                 //! This property holds the default speed.
                 Q_PROPERTY(
-                    djvSpeed defaultSpeed
-                    READ     defaultSpeed
-                    WRITE    setDefaultSpeed)
+                    Core::Speed defaultSpeed
+                    READ        defaultSpeed
+                    WRITE       setDefaultSpeed)
 
         public:
             explicit SpeedWidget(UI::UIContext *, QWidget * parent = nullptr);
@@ -466,21 +465,21 @@ namespace djv
             virtual ~SpeedWidget();
 
             //! Get the speed.
-            const djvSpeed & speed() const;
+            const Core::Speed & speed() const;
 
             //! Get the default speed.
-            const djvSpeed & defaultSpeed() const;
+            const Core::Speed & defaultSpeed() const;
 
         public Q_SLOTS:
             //! Set the speed.
-            void setSpeed(const djvSpeed &);
+            void setSpeed(const djv::Core::Speed &);
 
             //! Set the default speed.
-            void setDefaultSpeed(const djvSpeed &);
+            void setDefaultSpeed(const djv::Core::Speed &);
 
         Q_SIGNALS:
             //! This signal is emitted when the speed is changed.
-            void speedChanged(const djvSpeed &);
+            void speedChanged(const djv::Core::Speed &);
 
         private Q_SLOTS:
             void editCallback(float);

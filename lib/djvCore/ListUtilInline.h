@@ -31,46 +31,48 @@
 
 #include <algorithm>
 
-//------------------------------------------------------------------------------
-// djvListUtil
-//------------------------------------------------------------------------------
-
-inline djvListUtil::~djvListUtil()
-{}
-
-template<typename A, typename B>
-inline void djvListUtil::convert(const QVector<A> & in, QVector<B> & out)
+namespace djv
 {
-    const int count = in.count();
-    out.resize(count);
-    for (int i = 0; i < count; ++i)
+    namespace Core
     {
-        out[i] = static_cast<B>(in[i]);
-    }
-}
+        inline ListUtil::~ListUtil()
+        {}
 
-template<typename A, typename B>
-inline QVector<B> djvListUtil::convert(const QVector<A> & in)
-{
-    QVector<B> out;
-    const int count = in.count();
-    out.resize(count);
-    for (int i = 0; i < count; ++i)
-    {
-        out[i] = static_cast<B>(in[i]);
-    }
-    return out;
-}
+        template<typename A, typename B>
+        inline void ListUtil::convert(const QVector<A> & in, QVector<B> & out)
+        {
+            const int count = in.count();
+            out.resize(count);
+            for (int i = 0; i < count; ++i)
+            {
+                out[i] = static_cast<B>(in[i]);
+            }
+        }
 
-template<typename A, typename B>
-inline void djvListUtil::convertAndAppend(const QVector<A> & in, QVector<B> & out)
-{
-    const int inCount  = in.count();
-    const int outCount = out.count();
-    out.resize(inCount + outCount);
-    for (int i = 0; i < inCount; ++i)
-    {
-        out[outCount + i] = static_cast<B>(in[i]);
-    }
-}
+        template<typename A, typename B>
+        inline QVector<B> ListUtil::convert(const QVector<A> & in)
+        {
+            QVector<B> out;
+            const int count = in.count();
+            out.resize(count);
+            for (int i = 0; i < count; ++i)
+            {
+                out[i] = static_cast<B>(in[i]);
+            }
+            return out;
+        }
 
+        template<typename A, typename B>
+        inline void ListUtil::convertAndAppend(const QVector<A> & in, QVector<B> & out)
+        {
+            const int inCount = in.count();
+            const int outCount = out.count();
+            out.resize(inCount + outCount);
+            for (int i = 0; i < inCount; ++i)
+            {
+                out[outCount + i] = static_cast<B>(in[i]);
+            }
+        }
+
+    } // namespace Core
+} // namespace djv

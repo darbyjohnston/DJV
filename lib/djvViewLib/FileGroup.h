@@ -64,7 +64,7 @@ namespace djv
             virtual ~FileGroup();
 
             //! Get the currently opened file.
-            const djvFileInfo & fileInfo() const;
+            const Core::FileInfo & fileInfo() const;
 
             //! Get the layer to load.
             int layer() const;
@@ -97,7 +97,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Open a file.
-            void open(const djvFileInfo &);
+            void open(const djv::Core::FileInfo &);
 
             //! Set the layer to load.
             void setLayer(int);
@@ -131,17 +131,17 @@ namespace djv
             void reloadFrame();
 
             //! This signal is emitted to save a sequence.
-            void save(const djvFileInfo &);
+            void save(const djv::Core::FileInfo &);
 
             //! This signal is emitted to save a frame.
-            void saveFrame(const djvFileInfo &);
+            void saveFrame(const djv::Core::FileInfo &);
 
         protected:
             virtual void timerEvent(QTimerEvent *);
 
         private Q_SLOTS:
             void openCallback();
-            void openCallback(const djvFileInfo &);
+            void openCallback(const djv::Core::FileInfo &);
             void recentCallback(QAction *);
             void reloadCallback();
             void reloadFrameCallback();

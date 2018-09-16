@@ -37,81 +37,88 @@
 
 #include <djvCore/FileInfo.h>
 
-//! \struct djvConvertOptions
-//!
-//! This struct provides conversion options.
-struct djvConvertOptions
+namespace djv
 {
-    djvConvertOptions();
+    namespace convert
+    {
+        //! \struct Options
+        //!
+        //! This struct provides conversion options.
+        struct Options
+        {
+            Options();
 
-    djv::Graphics::PixelDataInfo::Mirror       mirror;
-    glm::vec2                                  scale = glm::vec2(1.f, 1.f);
-    djv::Graphics::OpenGLImageOptions::CHANNEL channel;
-    glm::ivec2                                 size = glm::ivec2(0, 0);
-    djvBox2i                                   crop;
-    djvBox2f                                   cropPercent;
-    djvSequence::COMPRESS                      sequence;
-};
+            Graphics::PixelDataInfo::Mirror mirror;
+            glm::vec2 scale = glm::vec2(1.f, 1.f);
+            Graphics::OpenGLImageOptions::CHANNEL channel;
+            glm::ivec2 size = glm::ivec2(0, 0);
+            Core::Box2i crop;
+            Core::Box2f cropPercent;
+            Core::Sequence::COMPRESS sequence;
+        };
 
-//! \struct djvConvertInput
-//!
-//! This struct provides input options.
-struct djvConvertInput
-{
-    djvConvertInput();
+        //! \struct Input
+        //!
+        //! This struct provides input options.
+        struct Input
+        {
+            Input();
 
-    djvFileInfo                         file;
-    int                                 layer;
-    djv::Graphics::PixelDataInfo::PROXY proxy;
-    QString                             start;
-    QString                             end;
-    djvFileInfo                         slate;
-    int                                 slateFrames;
-    int                                 timeout;
-};
+            Core::FileInfo file;
+            int layer;
+            Graphics::PixelDataInfo::PROXY proxy;
+            QString start;
+            QString end;
+            Core::FileInfo slate;
+            int slateFrames;
+            int timeout;
+        };
 
-//! \struct djvConvertOutput
-//!
-//! This struct provides output options.
-struct djvConvertOutput
-{
-    djvConvertOutput();
+        //! \struct Output
+        //!
+        //! This struct provides output options.
+        struct Output
+        {
+            Output();
 
-    djvFileInfo                                 file;
-    QScopedPointer<djv::Graphics::Pixel::PIXEL> pixel;
-    djv::Graphics::ImageTags                    tags;
-    bool                                        tagsAuto;
-    QScopedPointer<djvSpeed::FPS>               speed;
-};
+            Core::FileInfo file;
+            QScopedPointer<Graphics::Pixel::PIXEL> pixel;
+            Graphics::ImageTags tags;
+            bool tagsAuto;
+            QScopedPointer<Core::Speed::FPS> speed;
+        };
 
-//! \class djvConvertContext
-//!
-//! This class provides global functionality for the application.
-class djvConvertContext : public djv::Graphics::GraphicsContext
-{
-    Q_OBJECT
-    
-public:
-    explicit djvConvertContext(QObject * parent = nullptr);
+        //! \class Context
+        //!
+        //! This class provides global functionality for the application.
+        class Context : public Graphics::GraphicsContext
+        {
+            Q_OBJECT
 
-    virtual ~djvConvertContext();
-    
-    //! Get the options.
-    const djvConvertOptions & options() const;
-    
-    //! Get the input options.
-    const djvConvertInput & input() const;
-    
-    //! Get the output options.
-    const djvConvertOutput & output() const;
+        public:
+            explicit Context(QObject * parent = nullptr);
 
-protected:
-    virtual bool commandLineParse(QStringList &) throw (QString);
+            virtual ~Context();
 
-    virtual QString commandLineHelp() const;
+            //! Get the options.
+            const Options & options() const;
 
-private:
-    djvConvertOptions                        _options;
-    djvConvertInput                          _input;
-    djvConvertOutput                         _output;
-};
+            //! Get the input options.
+            const Input & input() const;
+
+            //! Get the output options.
+            const Output & output() const;
+
+        protected:
+            virtual bool commandLineParse(QStringList &) throw (QString);
+
+            virtual QString commandLineHelp() const;
+
+        private:
+            Options _options;
+            Input _input;
+            Output _output;
+        };
+
+    } // namespace convert
+} // namespace djv

@@ -209,7 +209,7 @@ namespace djv
             //DJV_DEBUG_PRINT("value = " << _p->object->value());
             //DJV_DEBUG_PRINT("min = " << _p->object->min());
             //DJV_DEBUG_PRINT("max = " << _p->object->max());
-            djvSignalBlocker signalBlocker(_p->slider);
+            Core::SignalBlocker signalBlocker(_p->slider);
             _p->slider->setRange(_p->object->min(), _p->object->max());
             _p->slider->setValue(_p->object->value());
         }

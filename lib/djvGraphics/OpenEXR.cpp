@@ -43,8 +43,6 @@
 #include <QCoreApplication>
 #include <QSet>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -520,7 +518,7 @@ namespace djv
             {
                 const Imf::KeyCode data = keyCodeAttribute(in).value();
                 out.tags[tags[ImageTags::KEYCODE]] =
-                    djvTime::keycodeToString(
+                    Core::Time::keycodeToString(
                         data.filmMfcCode(),
                         data.filmType(),
                         data.prefix(),
@@ -528,12 +526,12 @@ namespace djv
                         data.perfOffset());
             }
             if (hasTimeCode(in))
-                out.tags[tags[ImageTags::TIMECODE]] = djvTime::timecodeToString(
+                out.tags[tags[ImageTags::TIMECODE]] = Core::Time::timecodeToString(
                     timeCodeAttribute(in).value().timeAndFlags());
             if (hasFramesPerSecond(in))
             {
                 const Imf::Rational data = framesPerSecondAttribute(in).value();
-                out.sequence.speed = djvSpeed(data.n, data.d);
+                out.sequence.speed = Core::Speed(data.n, data.d);
             }
         }
 
@@ -623,22 +621,22 @@ namespace djv
             if (tmp.length())
             {
                 int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
-                djvTime::stringToKeycode(tmp, id, type, prefix, count, offset);
+                Core::Time::stringToKeycode(tmp, id, type, prefix, count, offset);
                 addKeyCode(out, Imf::KeyCode(id, type, prefix, count, offset));
             }
             tmp = in.tags[tags[ImageTags::TIMECODE]];
             if (tmp.length())
             {
-                addTimeCode(out, djvTime::stringToTimecode(tmp));
+                addTimeCode(out, Core::Time::stringToTimecode(tmp));
             }
             addFramesPerSecond(
                 out,
                 Imf::Rational(in.sequence.speed.scale(), in.sequence.speed.duration()));
         }
 
-        djvBox2i OpenEXR::imfToBox(const Imath::Box2i & in)
+        Core::Box2i OpenEXR::imfToBox(const Imath::Box2i & in)
         {
-            return djvBox2i(
+            return Core::Box2i(
                 glm::ivec2(in.min.x, in.min.y),
                 glm::ivec2(in.max.x, in.max.y) - glm::ivec2(in.min.x, in.min.y) + 1);
         }
@@ -687,8 +685,7 @@ namespace djv
                 qApp->translate("djv::Graphics::OpenEXR", "Channels") <<
                 qApp->translate("djv::Graphics::OpenEXR", "Compression")
 #if OPENEXR_VERSION_HEX >= 0x02020000
-                <<
-                qApp->translate("djv::Graphics::OpenEXR", "DWA Compression Level");
+                << qApp->translate("djv::Graphics::OpenEXR", "DWA Compression Level");
 #endif // OPENEXR_VERSION_HEX
             ;
             DJV_ASSERT(data.count() == OPTIONS_COUNT);
@@ -696,20 +693,21 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::COLOR_PROFILE, Graphics::OpenEXR::colorProfileLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::COMPRESSION, Graphics::OpenEXR::compressionLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::CHANNELS, Graphics::OpenEXR::channelsLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::COLOR_PROFILE, Graphics::OpenEXR::colorProfileLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::COMPRESSION, Graphics::OpenEXR::compressionLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::OpenEXR::CHANNELS, Graphics::OpenEXR::channelsLabels());
 
-bool compare(const QVector<Imf::Channel> & in)
-{
-    for (int i = 1; i < in.count(); ++i)
+    bool compare(const QVector<Imf::Channel> & in)
     {
-        if (! (in[0] == in[i]))
+        for (int i = 1; i < in.count(); ++i)
         {
-            return false;
+            if (!(in[0] == in[i]))
+            {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
-}
+
+} // namespace djv

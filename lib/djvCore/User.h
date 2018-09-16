@@ -43,26 +43,24 @@ typedef int uid_t;
 
 #endif // DJV_WINDOWS
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvUser
-//!
-//! This class provides user utilities.
-//------------------------------------------------------------------------------
-
-class djvUser
+namespace djv
 {
-public:
-    virtual ~djvUser() = 0;
-    
-    //! Get the current user name.
-    static QString current();
+    namespace Core
+    {
+        //! \class User
+        //!
+        //! This class provides user utilities.
+        class User
+        {
+        public:
+            virtual ~User() = 0;
 
-    //! Covert a user id to a string.
-    static QString uidToString(uid_t);
-};
+            //! Get the current user name.
+            static QString current();
 
-//@} // djvCoreMisc
+            //! Covert a user id to a string.
+            static QString uidToString(uid_t);
+        };
 
+    } // namespace Core
+} // namspace djv

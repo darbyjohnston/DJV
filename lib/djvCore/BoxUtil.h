@@ -36,68 +36,67 @@
 class QRect;
 class QRectF;
 
-//! \addtogroup djvCoreMath
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvBoxUtil
-//!
-//! This class provides box utilities.
-//------------------------------------------------------------------------------
-
-class djvBoxUtil
+namespace djv
 {
-public:
-    inline virtual ~djvBoxUtil() = 0;
-    
-    //! Create a box with the given corners.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline djvBox2<T, P> corners(
-        const glm::tvec2<T, P> & upperLeft,
-        const glm::tvec2<T, P> & lowerRight);
+    namespace Core
+    {
+        //! \class BoxUtil
+        //!
+        //! This class provides box utilities.
+        class BoxUtil
+        {
+        public:
+            inline virtual ~BoxUtil() = 0;
 
-    //! Swap the box position and size components.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline djvBox2<T, P> swap(const djvBox2<T, P> &);
+            //! Create a box with the given corners.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline Box2<T, P> corners(
+                const glm::tvec2<T, P> & upperLeft,
+                const glm::tvec2<T, P> & lowerRight);
 
-    //! Get the intersection of two boxes.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline djvBox2<T, P> intersect(const djvBox2<T, P> &, const djvBox2<T, P> &);
+            //! Swap the box position and size components.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline Box2<T, P> swap(const Box2<T, P> &);
 
-    //! Get whether a point is inside a box.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline bool intersect(const djvBox2<T, P> &, const glm::tvec2<T, P> &);
+            //! Get the intersection of two boxes.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline Box2<T, P> intersect(const Box2<T, P> &, const Box2<T, P> &);
 
-    //! Get the union of two boxes.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline djvBox2<T, P> bound(const djvBox2<T, P> &, const djvBox2<T, P> &);
+            //! Get whether a point is inside a box.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline bool intersect(const Box2<T, P> &, const glm::tvec2<T, P> &);
 
-    //! Expand a box to contain the given point.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline djvBox2<T, P> expand(const djvBox2<T, P> &, const glm::tvec2<T, P> &);
+            //! Get the union of two boxes.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline Box2<T, P> bound(const Box2<T, P> &, const Box2<T, P> &);
 
-    //! Add a border to a box.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline djvBox2<T, P> border(const djvBox2<T, P> &, const glm::tvec2<T, P> &);
+            //! Expand a box to contain the given point.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline Box2<T, P> expand(const Box2<T, P> &, const glm::tvec2<T, P> &);
 
-    //! Is the box's size greater than zero?
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline bool isSizeValid(const djvBox2<T, P> &);
+            //! Add a border to a box.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline Box2<T, P> border(const Box2<T, P> &, const glm::tvec2<T, P> &);
 
-    //! Convert to Qt.
-    static inline QRect toQt(const djvBox2<int> &);
+            //! Is the box's size greater than zero?
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline bool isSizeValid(const Box2<T, P> &);
 
-    //! Convert to Qt.
-    static inline QRectF toQt(const djvBox2<float> &);
+            //! Convert to Qt.
+            static inline QRect toQt(const Box2<int> &);
 
-    //! Convert from Qt.
-    static inline djvBox2i fromQt(const QRect &);
+            //! Convert to Qt.
+            static inline QRectF toQt(const Box2<float> &);
 
-    //! Convert from Qt.
-    static inline djvBox2f fromQt(const QRectF &);
-};
+            //! Convert from Qt.
+            static inline Box2i fromQt(const QRect &);
 
-//@} // djvCoreMath
+            //! Convert from Qt.
+            static inline Box2f fromQt(const QRectF &);
+        };
+
+    } // namespace Core
+} // namespace djv
 
 #include <djvCore/BoxUtilInline.h>
 

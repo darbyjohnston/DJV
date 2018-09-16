@@ -112,16 +112,15 @@ namespace djv
             quint8       _data[Pixel::channelsMax * Pixel::bytesMax];
         };
 
-        DJV_COMPARISON_OPERATOR(Color);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::Color);
+    DJV_STRING_OPERATOR(Graphics::Color);
+    DJV_DEBUG_OPERATOR(Graphics::Color);
+
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Graphics::Color)
-
-DJV_STRING_OPERATOR(djv::Graphics::Color);
-
-DJV_DEBUG_OPERATOR(djv::Graphics::Color);
 
 #include <djvGraphics/ColorInline.h>
 

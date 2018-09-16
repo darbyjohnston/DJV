@@ -52,10 +52,10 @@ namespace djv
 
             //! This property holds the file sequencing.    
             Q_PROPERTY(
-                djvSequence::COMPRESS sequence
-                READ                  sequence
-                WRITE                 setSequence
-                NOTIFY                sequenceChanged)
+                djv::Core::Sequence::COMPRESS sequence
+                READ                          sequence
+                WRITE                         setSequence
+                NOTIFY                        sequenceChanged)
 
             //! This property holds whether hidden files are shown.
             Q_PROPERTY(
@@ -135,10 +135,10 @@ namespace djv
             static const QString & pathDefault();
 
             //! Get the file sequencing default.
-            static djvSequence::COMPRESS sequenceDefault();
+            static Core::Sequence::COMPRESS sequenceDefault();
 
             //! Get the file sequencing.
-            djvSequence::COMPRESS sequence() const;
+            Core::Sequence::COMPRESS sequence() const;
 
             //! Get the hidden files shown default.
             static bool showHiddenDefault();
@@ -242,7 +242,7 @@ namespace djv
             static void setPathDefault(const QString &);
 
             //! Set the file sequencing.
-            void setSequence(djvSequence::COMPRESS);
+            void setSequence(djv::Core::Sequence::COMPRESS);
 
             //! Set whether hidden files are shown.
             void setShowHidden(bool);
@@ -285,7 +285,7 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the file sequencing is changed.
-            void sequenceChanged(djvSequence::COMPRESS);
+            void sequenceChanged(djv::Core::Sequence::COMPRESS);
 
             //! This signal is emitted when the hidden files are changed.
             void showHiddenChanged(bool);

@@ -31,29 +31,10 @@
 
 #pragma once
 
-//! \addtogroup lib
-//@{
-
-//! \defgroup djvUI djvUI
-//!
-//! This library provides user interface functionality.
-
-//@} // lib
-
-//! \addtogroup djvUI
-//@{
-
-//! \defgroup djvUIDialog djvUIDialog
-//!
-//! This module provides user interface dialogs.
-
-//! \defgroup djvUIMisc djvUIMisc
-//!
-//! This module provides miscellaneous user interface functionality.
-
-//! \defgroup djvUIWidget djvUIWidget
-//!
-//! This module provides user interface widgets.
-
-//@} // djvUI
+namespace djv
+{
+    namespace UI
+    {
+    } // namespace UI
+} // namespace djv
 

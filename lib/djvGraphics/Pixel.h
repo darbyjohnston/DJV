@@ -292,11 +292,10 @@ namespace djv
                 bool         bgr = false);
         };
 
-        inline bool operator == (const Pixel::Mask &, const Pixel::Mask &);
-        inline bool operator != (const Pixel::Mask &, const Pixel::Mask &);
-
     } // namespace Graphics
-} // namespace djv
+
+    inline bool operator == (const Graphics::Pixel::Mask &, const Graphics::Pixel::Mask &);
+    inline bool operator != (const Graphics::Pixel::Mask &, const Graphics::Pixel::Mask &);
 
 #define PIXEL_U8_ZERO  0
 #define PIXEL_U10_ZERO 0
@@ -340,17 +339,19 @@ namespace djv
 #define PIXEL_F32_TO_F16(IN) djv::Graphics::Pixel::f32ToF16(IN)
 #define PIXEL_F32_TO_F32(IN) (IN)
 
-DJV_STRING_OPERATOR(djv::Graphics::Pixel::FORMAT);
-DJV_STRING_OPERATOR(djv::Graphics::Pixel::TYPE);
-DJV_STRING_OPERATOR(djv::Graphics::Pixel::DATA);
-DJV_STRING_OPERATOR(djv::Graphics::Pixel::PIXEL);
-DJV_STRING_OPERATOR(djv::Graphics::Pixel::Mask);
+    DJV_STRING_OPERATOR(Graphics::Pixel::FORMAT);
+    DJV_STRING_OPERATOR(Graphics::Pixel::TYPE);
+    DJV_STRING_OPERATOR(Graphics::Pixel::DATA);
+    DJV_STRING_OPERATOR(Graphics::Pixel::PIXEL);
+    DJV_STRING_OPERATOR(Graphics::Pixel::Mask);
 
-DJV_DEBUG_OPERATOR(djv::Graphics::Pixel::FORMAT);
-DJV_DEBUG_OPERATOR(djv::Graphics::Pixel::TYPE);
-DJV_DEBUG_OPERATOR(djv::Graphics::Pixel::DATA);
-DJV_DEBUG_OPERATOR(djv::Graphics::Pixel::PIXEL);
-DJV_DEBUG_OPERATOR(djv::Graphics::Pixel::FORMAT);
-DJV_DEBUG_OPERATOR(djv::Graphics::Pixel::Mask);
+    DJV_DEBUG_OPERATOR(Graphics::Pixel::FORMAT);
+    DJV_DEBUG_OPERATOR(Graphics::Pixel::TYPE);
+    DJV_DEBUG_OPERATOR(Graphics::Pixel::DATA);
+    DJV_DEBUG_OPERATOR(Graphics::Pixel::PIXEL);
+    DJV_DEBUG_OPERATOR(Graphics::Pixel::FORMAT);
+    DJV_DEBUG_OPERATOR(Graphics::Pixel::Mask);
+
+} // namespace djv
 
 #include <djvGraphics/PixelInline.h>

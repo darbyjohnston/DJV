@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        DPXPlugin::DPXPlugin(djvCoreContext * context) :
+        DPXPlugin::DPXPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -268,17 +268,17 @@ namespace djv
                 "\"Auto\" will use the endian of the current hardware. Options = %11. Default = "
                 "%12.\n").
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
-                arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
+                arg(Core::StringUtil::label(_options.inputColorProfile).join(", ")).
+                arg(Core::StringUtil::label(_options.inputFilmPrint).join(", ")).
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
-                arg(djvStringUtil::label(_options.outputFilmPrint).join(", ")).
+                arg(Core::StringUtil::label(_options.outputColorProfile).join(", ")).
+                arg(Core::StringUtil::label(_options.outputFilmPrint).join(", ")).
                 arg(DPX::versionLabels().join(", ")).
-                arg(djvStringUtil::label(_options.version).join(", ")).
+                arg(Core::StringUtil::label(_options.version).join(", ")).
                 arg(DPX::typeLabels().join(", ")).
-                arg(djvStringUtil::label(_options.type).join(", ")).
+                arg(Core::StringUtil::label(_options.type).join(", ")).
                 arg(DPX::endianLabels().join(", ")).
-                arg(djvStringUtil::label(_options.endian).join(", "));
+                arg(Core::StringUtil::label(_options.endian).join(", "));
         }
 
         ImageLoad * DPXPlugin::createLoad() const

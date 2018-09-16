@@ -311,7 +311,7 @@ namespace djv
 
         void StylePrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->colorWidget <<
                 _p->colorForegroundWidget <<
                 _p->colorBackgroundWidget <<

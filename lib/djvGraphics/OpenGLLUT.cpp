@@ -46,7 +46,7 @@ namespace djv
             del();
         }
 
-        void OpenGLLUT::init(const PixelDataInfo & info) throw (djvError)
+        void OpenGLLUT::init(const PixelDataInfo & info) throw (Core::Error)
         {
             if (info == _info)
                 return;
@@ -57,13 +57,13 @@ namespace djv
             del();
 
             _info = info;
-            _size = djvMath::toPow2(_info.size.x);
+            _size = Core::Math::toPow2(_info.size.x);
             //DJV_DEBUG_PRINT("size = " << _size);
 
             DJV_DEBUG_OPEN_GL(glGenTextures(1, &_id));
             if (!_id)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLLUT",
                     qApp->translate("djv::Graphics::OpenGLLUT", "Cannot create texture"));
             }
@@ -95,7 +95,7 @@ namespace djv
                     0));
         }
 
-        void OpenGLLUT::init(const PixelData & data) throw (djvError)
+        void OpenGLLUT::init(const PixelData & data) throw (Core::Error)
         {
             init(data.info());
             bind();

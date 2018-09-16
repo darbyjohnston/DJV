@@ -35,17 +35,24 @@
 
 #include <djvGraphics/Pixel.h>
 
-class djvPixelWidgetTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvPixelWidgetTest(djv::UI::UIContext *);
+    namespace WidgetTest
+    {
+        class PixelWidgetTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    virtual QString name();
+        public:
+            PixelWidgetTest(UI::UIContext *);
 
-    virtual void run(const QStringList & args = QStringList());
-    
-private Q_SLOTS:
-    void callback(djv::Graphics::Pixel::PIXEL);
-};
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+
+        private Q_SLOTS:
+            void callback(djv::Graphics::Pixel::PIXEL);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

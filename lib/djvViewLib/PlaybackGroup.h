@@ -36,13 +36,17 @@
 
 #include <memory>
 
-class djvSequence;
-class djvSpeed;
-
 class QAction;
 
 namespace djv
 {
+    namespace Core
+    {
+        class Sequence;
+        class Speed;
+
+    } // namespace Core
+
     namespace ViewLib
     {
         //! \class PlaybackGroup
@@ -63,7 +67,7 @@ namespace djv
             virtual ~PlaybackGroup();
 
             //! Get the sequence.
-            const djvSequence & sequence() const;
+            const Core::Sequence & sequence() const;
 
             //! Get the playback.
             Util::PLAYBACK playback() const;
@@ -72,7 +76,7 @@ namespace djv
             Util::LOOP loop() const;
 
             //! Get the speed.
-            const djvSpeed & speed() const;
+            const Core::Speed & speed() const;
 
             //! Get the real playback speed.
             float realSpeed() const;
@@ -102,7 +106,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the sequence.
-            void setSequence(const djvSequence &);
+            void setSequence(const djv::Core::Sequence &);
 
             //! Set the playback.
             void setPlayback(djv::ViewLib::Util::PLAYBACK);
@@ -114,7 +118,7 @@ namespace djv
             void setLoop(djv::ViewLib::Util::LOOP);
 
             //! Set the speed.
-            void setSpeed(const djvSpeed &);
+            void setSpeed(const djv::Core::Speed &);
 
             //! Set whether every frame is played back.
             void setEveryFrame(bool);
@@ -136,7 +140,7 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the sequence is changed.
-            void sequenceChanged(const djvSequence &);
+            void sequenceChanged(const djv::Core::Sequence &);
 
             //! This signal is emitted when the playback is changed.
             void playbackChanged(djv::ViewLib::Util::PLAYBACK);
@@ -145,7 +149,7 @@ namespace djv
             void loopChanged(djv::ViewLib::Util::LOOP);
 
             //! This signal is emitted when the speed is changed.
-            void speedChanged(const djvSpeed &);
+            void speedChanged(const djv::Core::Speed &);
 
             //! This signal is emitted when the real speed is changed.
             void realSpeedChanged(float);

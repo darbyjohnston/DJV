@@ -51,7 +51,7 @@ namespace djv
                 context(context)
             {}
 
-            djvSequence::COMPRESS sequence = FileBrowserPrefs::sequenceDefault();
+            Core::Sequence::COMPRESS sequence = FileBrowserPrefs::sequenceDefault();
             bool showHidden = FileBrowserPrefs::showHiddenDefault();
             FileBrowserModel::COLUMNS columnsSort = FileBrowserPrefs::columnsSortDefault();
             bool reverseSort = FileBrowserPrefs::reverseSortDefault();
@@ -87,8 +87,8 @@ namespace djv
             prefs.get("thumbnailsCache", _p->thumbnailsCache);
             prefs.get("recent", _p->recent);
             prefs.get("bookmarks", _p->bookmarks);
-            if (_p->recent.count() > djvFileInfoUtil::recentMax)
-                _p->recent = _p->recent.mid(0, djvFileInfoUtil::recentMax);
+            if (_p->recent.count() > Core::FileInfoUtil::recentMax)
+                _p->recent = _p->recent.mid(0, Core::FileInfoUtil::recentMax);
             Prefs shortcutsPrefs("djv::UI::FileBrowserPrefs/Shortcuts");
             for (int i = 0; i < _p->shortcuts.count(); ++i)
             {
@@ -128,12 +128,12 @@ namespace djv
             return _pathDefault;
         }
 
-        djvSequence::COMPRESS FileBrowserPrefs::sequenceDefault()
+        Core::Sequence::COMPRESS FileBrowserPrefs::sequenceDefault()
         {
-            return djvSequence::COMPRESS_RANGE;
+            return Core::Sequence::COMPRESS_RANGE;
         }
 
-        djvSequence::COMPRESS FileBrowserPrefs::sequence() const
+        Core::Sequence::COMPRESS FileBrowserPrefs::sequence() const
         {
             return _p->sequence;
         }
@@ -200,7 +200,7 @@ namespace djv
 
         qint64 FileBrowserPrefs::thumbnailsCacheDefault()
         {
-            return 128 * djvMemory::megabyte;
+            return 128 * Core::Memory::megabyte;
         }
 
         qint64 FileBrowserPrefs::thumbnailsCache() const
@@ -310,7 +310,7 @@ namespace djv
             _pathDefault = in;
         }
 
-        void FileBrowserPrefs::setSequence(djvSequence::COMPRESS in)
+        void FileBrowserPrefs::setSequence(Core::Sequence::COMPRESS in)
         {
             if (in == _p->sequence)
                 return;
@@ -397,7 +397,7 @@ namespace djv
         void FileBrowserPrefs::addRecent(const QString & in)
         {
             const QStringList tmp = _p->recent;
-            djvFileInfoUtil::recent(in, _p->recent);
+            Core::FileInfoUtil::recent(in, _p->recent);
             if (_p->recent != tmp)
             {
                 Q_EMIT recentChanged(_p->recent);

@@ -64,11 +64,11 @@ namespace djv
             // Create the widgets.
             _p->timeUnitsWidget = new QComboBox;
             _p->timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->timeUnitsWidget->addItems(djvTime::unitsLabels());
+            _p->timeUnitsWidget->addItems(Core::Time::unitsLabels());
 
             _p->speedWidget = new QComboBox;
             _p->speedWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->speedWidget->addItems(djvSpeed::fpsLabels());
+            _p->speedWidget->addItems(Core::Speed::fpsLabels());
 
             // Layout the widgets.
             QVBoxLayout * layout = new QVBoxLayout(this);
@@ -109,28 +109,28 @@ namespace djv
 
         void TimePrefsWidget::resetPreferences()
         {
-            context()->timePrefs()->setTimeUnits(djvTime::unitsDefault());
-            context()->timePrefs()->setSpeed(djvSpeed::speedDefault());
+            context()->timePrefs()->setTimeUnits(Core::Time::unitsDefault());
+            context()->timePrefs()->setSpeed(Core::Speed::speedDefault());
             widgetUpdate();
         }
 
         void TimePrefsWidget::timeUnitsCallback(int index)
         {
-            context()->timePrefs()->setTimeUnits(static_cast<djvTime::UNITS>(index));
+            context()->timePrefs()->setTimeUnits(static_cast<Core::Time::UNITS>(index));
         }
 
         void TimePrefsWidget::speedCallback(int index)
         {
-            context()->timePrefs()->setSpeed(static_cast<djvSpeed::FPS>(index));
+            context()->timePrefs()->setSpeed(static_cast<Core::Speed::FPS>(index));
         }
 
         void TimePrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->timeUnitsWidget <<
                 _p->speedWidget);
-            _p->timeUnitsWidget->setCurrentIndex(djvTime::units());
-            _p->speedWidget->setCurrentIndex(djvSpeed::speed());
+            _p->timeUnitsWidget->setCurrentIndex(Core::Time::units());
+            _p->speedWidget->setCurrentIndex(Core::Speed::speed());
         }
 
     } // namespace UI

@@ -37,7 +37,7 @@ namespace djv
 {
     namespace Graphics
     {
-        TIFFSave::TIFFSave(const TIFF::Options & options, djvCoreContext * context) :
+        TIFFSave::TIFFSave(const TIFF::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options),
             _f(0)
@@ -48,8 +48,8 @@ namespace djv
             close();
         }
 
-        void TIFFSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void TIFFSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -76,7 +76,7 @@ namespace djv
         }
 
         void TIFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -104,7 +104,7 @@ namespace djv
             {
                 if (TIFFWriteScanline(_f, (tdata_t *)p->data(0, y), y) == -1)
                 {
-                    throw djvError(
+                    throw Core::Error(
                         TIFF::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_WRITE]);
                 }
@@ -113,7 +113,7 @@ namespace djv
             close();
         }
 
-        void TIFFSave::close() throw (djvError)
+        void TIFFSave::close() throw (Core::Error)
         {
             if (_f)
             {
@@ -123,7 +123,7 @@ namespace djv
         }
 
         void TIFFSave::_open(const QString & in, const ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -134,7 +134,7 @@ namespace djv
             _f = TIFFOpen(in.toLatin1().data(), "w");
             if (!_f)
             {
-                throw djvError(
+                throw Core::Error(
                     TIFF::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }

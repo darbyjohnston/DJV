@@ -35,12 +35,19 @@
 
 #include <djvAbstractTest.h>
 
-class djvTimerTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace CoreTest
+    {
+        class TimerTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void ctors();
-    void operators();
-};
+        private:
+            void ctors();
+            void operators();
+        };
+
+    } // namespace CoreTest
+} // namespace djv

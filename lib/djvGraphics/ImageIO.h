@@ -44,15 +44,19 @@
 
 #include <memory>
 
-class djvCoreContext;
-class djvFileInfo;
-
 #if defined DJV_WINDOWS
 #undef ERROR
 #endif // DJV_WINDOWS
 
 namespace djv
 {
+    namespace Core
+    {
+        class CoreContext;
+        class FileInfo;
+
+    } // namespace Core
+
     namespace Graphics
     {
         class Image;
@@ -82,7 +86,7 @@ namespace djv
             ImageTags tags;
 
             //! The frame sequence.
-            djvSequence sequence;
+            Core::Sequence sequence;
 
             PixelDataInfo & operator [] (int);
 
@@ -122,30 +126,24 @@ namespace djv
         class ImageLoad
         {
         public:
-            explicit ImageLoad(djvCoreContext *);
+            explicit ImageLoad(Core::CoreContext *);
 
             virtual ~ImageLoad() = 0;
 
             //! Open an image.
-            virtual void open(
-                const djvFileInfo & fileInfo,
-                ImageIOInfo &       imageIOInfo)
-                throw (djvError) = 0;
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error) = 0;
 
             //! Load an image.
-            virtual void read(
-                Image &                  image,
-                const ImageIOFrameInfo & frameInfo = ImageIOFrameInfo())
-                throw (djvError) = 0;
+            virtual void read(Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) throw (Core::Error) = 0;
 
             //! Close the image.
-            virtual void close() throw (djvError);
+            virtual void close() throw (Core::Error);
 
             //! Get the context.
-            djvCoreContext * context() const;
+            Core::CoreContext * context() const;
 
         private:
-            djvCoreContext * _context = nullptr;
+            Core::CoreContext * _context = nullptr;
         };
 
         //! \class ImageSave
@@ -154,41 +152,35 @@ namespace djv
         class ImageSave
         {
         public:
-            explicit ImageSave(djvCoreContext *);
+            explicit ImageSave(Core::CoreContext *);
 
             virtual ~ImageSave() = 0;
 
             //! Open an image.
-            virtual void open(
-                const djvFileInfo & fileInfo,
-                const ImageIOInfo & imageIOInfo)
-                throw (djvError) = 0;
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error) = 0;
 
             //! Save an image.
-            virtual void write(
-                const Image &            image,
-                const ImageIOFrameInfo & frameInfo = ImageIOFrameInfo())
-                throw (djvError) = 0;
+            virtual void write(const Image &, const ImageIOFrameInfo & = ImageIOFrameInfo()) throw (Core::Error) = 0;
 
             //! Close the image.
-            virtual void close() throw (djvError);
+            virtual void close() throw (Core::Error);
 
             //! Get the context.
-            djvCoreContext * context() const;
+            Core::CoreContext * context() const;
 
         private:
-            djvCoreContext * _context = nullptr;
+            Core::CoreContext * _context = nullptr;
         };
 
         //! \class ImageIO
         //!
         //! This class provides the base functionality for image I/O plugins.
-        class ImageIO : public QObject, public djvPlugin
+        class ImageIO : public QObject, public Core::Plugin
         {
             Q_OBJECT
 
         public:
-            explicit ImageIO(djvCoreContext *);
+            explicit ImageIO(Core::CoreContext *);
 
             virtual ~ImageIO() = 0;
 
@@ -242,14 +234,14 @@ namespace djv
         //! \class ImageIOFactory
         //!
         //! This class provides a factory for image I/O plugins.
-        class ImageIOFactory : public djvPluginFactory
+        class ImageIOFactory : public Core::PluginFactory
         {
             Q_OBJECT
 
         public:
             explicit ImageIOFactory(
-                djvCoreContext *    context,
-                const QStringList & searchPath = djvSystem::searchPath(),
+                Core::CoreContext * context,
+                const QStringList & searchPath = Core::System::searchPath(),
                 QObject *           parent = nullptr);
 
             virtual ~ImageIOFactory();
@@ -261,14 +253,10 @@ namespace djv
             bool setOption(const QString & name, const QString &, QStringList &);
 
             //! Open an image for loading.
-            ImageLoad * load(
-                const djvFileInfo & fileInfo,
-                ImageIOInfo &       imageIoInfo) const throw (djvError);
+            ImageLoad * load(const Core::FileInfo &, ImageIOInfo &) const throw (Core::Error);
 
             //! Open an image for saving.
-            ImageSave * save(
-                const djvFileInfo & fileInfo,
-                const ImageIOInfo & imageIoInfo) const throw (djvError);
+            ImageSave * save(const Core::FileInfo &, const ImageIOInfo &) const throw (Core::Error);
 
             //! This enumeration provides error codes.
             enum ERROR
@@ -281,7 +269,7 @@ namespace djv
             //! Get the error code labels.
             static const QStringList & errorLabels();
 
-            virtual void addPlugin(djvPlugin *);
+            virtual void addPlugin(Core::Plugin *);
 
         Q_SIGNALS:
             //! This signal is emitted when a plugin option is changed.
@@ -299,14 +287,15 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        DJV_COMPARISON_OPERATOR(ImageIOInfo);
-        DJV_COMPARISON_OPERATOR(ImageIOFrameInfo);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::ImageIOInfo);
+    DJV_COMPARISON_OPERATOR(Graphics::ImageIOFrameInfo);
+
+    DJV_DEBUG_OPERATOR(Graphics::ImageIOInfo);
+    DJV_DEBUG_OPERATOR(Graphics::ImageIOFrameInfo);
+
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Graphics::ImageIOInfo)
 Q_DECLARE_METATYPE(djv::Graphics::ImageIOFrameInfo)
-
-DJV_DEBUG_OPERATOR(djv::Graphics::ImageIOInfo);
-DJV_DEBUG_OPERATOR(djv::Graphics::ImageIOFrameInfo);

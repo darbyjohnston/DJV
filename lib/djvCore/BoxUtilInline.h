@@ -35,125 +35,127 @@
 #include <QRect>
 #include <QRectF>
 
-//------------------------------------------------------------------------------
-// djvBoxUtil
-//------------------------------------------------------------------------------
-
-inline djvBoxUtil::~djvBoxUtil()
-{}
-
-template<typename T, glm::precision P>
-inline djvBox2<T, P> djvBoxUtil::corners(
-    const glm::tvec2<T, P> & upperLeft,
-    const glm::tvec2<T, P> & lowerRight)
+namespace djv
 {
-    const glm::tvec2<T, P> & a = djvVectorUtil::min(upperLeft, lowerRight);
-    const glm::tvec2<T, P> & b = djvVectorUtil::max(upperLeft, lowerRight);
-    djvBox2<T, P> out;
-    out.position = a;
-    out.setLowerRight(b);
-    return out;
-}
-
-template<typename T, glm::precision P>
-inline djvBox2<T, P> djvBoxUtil::swap(const djvBox2<T, P> & in)
-{
-    return djvBox2<T, P>(djvVectorUtil::swap(in.position), djvVectorUtil::swap(in.size));
-}
-
-template<typename T, glm::precision P>
-inline bool djvBoxUtil::intersect(const djvBox2<T, P> & a, const glm::tvec2<T, P> & b)
-{
-    const glm::tvec2<T, P> a1 = a.lowerRight();
-    for (int i = 0; i < 2; ++i)
+    namespace Core
     {
-        if (! djvRangeUtil::intersect(b[i], djvRange<T>(a.position[i], a1[i])))
+        inline BoxUtil::~BoxUtil()
+        {}
+
+        template<typename T, glm::precision P>
+        inline Box2<T, P> BoxUtil::corners(
+            const glm::tvec2<T, P> & upperLeft,
+            const glm::tvec2<T, P> & lowerRight)
         {
-            return false;
+            const glm::tvec2<T, P> & a = VectorUtil::min(upperLeft, lowerRight);
+            const glm::tvec2<T, P> & b = VectorUtil::max(upperLeft, lowerRight);
+            Box2<T, P> out;
+            out.position = a;
+            out.setLowerRight(b);
+            return out;
         }
-    }
-    return true;
-}
 
-template<typename T, glm::precision P>
-inline djvBox2<T, P> djvBoxUtil::intersect(const djvBox2<T, P> & a, const djvBox2<T, P> & b)
-{
-    const glm::tvec2<T, P> a1 = a.lowerRight();
-    const glm::tvec2<T, P> b1 = b.lowerRight();
-    djvBox2<T, P>    out;
-    glm::tvec2<T, P> lowerRight;
-    for (int i = 0; i < 2; ++i)
-    {
-        djvRange<T> tmp;
-        djvRangeUtil::intersect(
-            djvRange<T>(a.position[i], a1[i]),
-            djvRange<T>(b.position[i], b1[i]),
-            &tmp);
-        out.position[i] = tmp.min;
-        lowerRight[i] = tmp.max;
-    }
-    out.setLowerRight(lowerRight);
-    return out;
-}
+        template<typename T, glm::precision P>
+        inline Box2<T, P> BoxUtil::swap(const Box2<T, P> & in)
+        {
+            return Box2<T, P>(VectorUtil::swap(in.position), VectorUtil::swap(in.size));
+        }
 
-template<typename T, glm::precision P>
-inline djvBox2<T, P> djvBoxUtil::bound(const djvBox2<T, P> & a, const djvBox2<T, P> & b)
-{
-    const glm::tvec2<T, P> a1 = a.lowerRight();
-    const glm::tvec2<T, P> b1 = b.lowerRight();
-    djvBox2<T, P>    out;
-    glm::tvec2<T, P> lowerRight;
-    for (int i = 0; i < 2; ++i)
-    {
-        djvRange<T> tmp;
-        djvRangeUtil::bound(
-            djvRange<T>(a.position[i], a1[i]),
-            djvRange<T>(b.position[i], b1[i]),
-            &tmp);
-        out.position[i] = tmp.min;
-        lowerRight[i] = tmp.max;
-    }
-    out.setLowerRight(lowerRight);
-    return out;
-}
+        template<typename T, glm::precision P>
+        inline bool BoxUtil::intersect(const Box2<T, P> & a, const glm::tvec2<T, P> & b)
+        {
+            const glm::tvec2<T, P> a1 = a.lowerRight();
+            for (int i = 0; i < 2; ++i)
+            {
+                if (!RangeUtil::intersect(b[i], Range<T>(a.position[i], a1[i])))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox2<T, P> djvBoxUtil::expand(const djvBox2<T, P> & in, const glm::tvec2<T, P> & expand)
-{
-    return corners(
-        djvVectorUtil::min(in.position, expand),
-        djvVectorUtil::max(in.lowerRight(), expand));
-}
+        template<typename T, glm::precision P>
+        inline Box2<T, P> BoxUtil::intersect(const Box2<T, P> & a, const Box2<T, P> & b)
+        {
+            const glm::tvec2<T, P> a1 = a.lowerRight();
+            const glm::tvec2<T, P> b1 = b.lowerRight();
+            Box2<T, P>    out;
+            glm::tvec2<T, P> lowerRight;
+            for (int i = 0; i < 2; ++i)
+            {
+                Range<T> tmp;
+                RangeUtil::intersect(
+                    Range<T>(a.position[i], a1[i]),
+                    Range<T>(b.position[i], b1[i]),
+                    &tmp);
+                out.position[i] = tmp.min;
+                lowerRight[i] = tmp.max;
+            }
+            out.setLowerRight(lowerRight);
+            return out;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox2<T, P> djvBoxUtil::border(const djvBox2<T, P> & in, const glm::tvec2<T, P> & border)
-{
-    return djvBox2<T, P>(in.position - border, in.size + border * T(2));
-}
+        template<typename T, glm::precision P>
+        inline Box2<T, P> BoxUtil::bound(const Box2<T, P> & a, const Box2<T, P> & b)
+        {
+            const glm::tvec2<T, P> a1 = a.lowerRight();
+            const glm::tvec2<T, P> b1 = b.lowerRight();
+            Box2<T, P>    out;
+            glm::tvec2<T, P> lowerRight;
+            for (int i = 0; i < 2; ++i)
+            {
+                Range<T> tmp;
+                RangeUtil::bound(
+                    Range<T>(a.position[i], a1[i]),
+                    Range<T>(b.position[i], b1[i]),
+                    &tmp);
+                out.position[i] = tmp.min;
+                lowerRight[i] = tmp.max;
+            }
+            out.setLowerRight(lowerRight);
+            return out;
+        }
 
-template<typename T, glm::precision P>
-inline bool djvBoxUtil::isSizeValid(const djvBox2<T, P> & in)
-{
-    return in.size.x > T(0) && in.size.y > T(0);
-}
+        template<typename T, glm::precision P>
+        inline Box2<T, P> BoxUtil::expand(const Box2<T, P> & in, const glm::tvec2<T, P> & expand)
+        {
+            return corners(
+                VectorUtil::min(in.position, expand),
+                VectorUtil::max(in.lowerRight(), expand));
+        }
 
-inline QRect djvBoxUtil::toQt(const djvBox2<int> & in)
-{
-    return QRect(in.x, in.y, in.w, in.h);
-}
+        template<typename T, glm::precision P>
+        inline Box2<T, P> BoxUtil::border(const Box2<T, P> & in, const glm::tvec2<T, P> & border)
+        {
+            return Box2<T, P>(in.position - border, in.size + border * T(2));
+        }
 
-inline QRectF djvBoxUtil::toQt(const djvBox2<float> & in)
-{
-    return QRectF(in.x, in.y, in.w, in.h);
-}
+        template<typename T, glm::precision P>
+        inline bool BoxUtil::isSizeValid(const Box2<T, P> & in)
+        {
+            return in.size.x > T(0) && in.size.y > T(0);
+        }
 
-inline djvBox2i djvBoxUtil::fromQt(const QRect & in)
-{
-    return djvBox2i(in.x(), in.y(), in.width(), in.height());
-}
+        inline QRect BoxUtil::toQt(const Box2<int> & in)
+        {
+            return QRect(in.x, in.y, in.w, in.h);
+        }
 
-inline djvBox2f djvBoxUtil::fromQt(const QRectF & in)
-{
-    return djvBox2f(in.x(), in.y(), in.width(), in.height());
-}
+        inline QRectF BoxUtil::toQt(const Box2<float> & in)
+        {
+            return QRectF(in.x, in.y, in.w, in.h);
+        }
 
+        inline Box2i BoxUtil::fromQt(const QRect & in)
+        {
+            return Box2i(in.x(), in.y(), in.width(), in.height());
+        }
+
+        inline Box2f BoxUtil::fromQt(const QRectF & in)
+        {
+            return Box2f(in.x(), in.y(), in.width(), in.height());
+        }
+
+    } // namespace Core
+} // namespace djv

@@ -61,15 +61,15 @@ namespace djv
 
             //! Load information.
             static void loadInfo(
-                djvFileIO &   io,
-                ImageIOInfo & info,
-                bool *        compression) throw (djvError);
+                Core::FileIO & io,
+                ImageIOInfo &  info,
+                bool *         compression) throw (Core::Error);
 
             //! Save information.
             static void saveInfo(
-                djvFileIO &         io,
+                Core::FileIO &      io,
                 const ImageIOInfo & info,
-                bool                compression) throw (djvError);
+                bool                compression) throw (Core::Error);
 
             //! Load RLE data.
             static const quint8 * readRle(
@@ -107,6 +107,7 @@ namespace djv
         };
 
     } // namespace Graphics
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::Graphics::Targa::COMPRESSION);
+    DJV_STRING_OPERATOR(Graphics::Targa::COMPRESSION);
+
+} // namespace djv

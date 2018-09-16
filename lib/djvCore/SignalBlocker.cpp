@@ -31,67 +31,69 @@
 
 #include <djvCore/SignalBlocker.h>
 
-//------------------------------------------------------------------------------
-// djvSignalBlocker
-//------------------------------------------------------------------------------
-
-namespace
+namespace djv
 {
-
-QObjectList allObjects;
-
-} // namespace
-
-djvSignalBlocker::djvSignalBlocker(QObject * object)
-{
-    add(object);
-}
-
-djvSignalBlocker::djvSignalBlocker(const QObjectList & objects)
-{
-    add(objects);
-}
-
-djvSignalBlocker::djvSignalBlocker(const QVector<QObject *> & objects)
-{
-    add(objects);
-}
-
-djvSignalBlocker::~djvSignalBlocker()
-{
-    Q_FOREACH (QObject * object, _objects)
+    namespace Core
     {
-        allObjects.removeOne(object);        
-        if (allObjects.indexOf(object) == -1)
+        namespace
         {
-            object->blockSignals(false);
+            QObjectList allObjects;
+
+        } // namespace
+
+        SignalBlocker::SignalBlocker(QObject * object)
+        {
+            add(object);
         }
-    }
-}
 
-void djvSignalBlocker::add(QObject * object)
-{
-    object->blockSignals(true);
-    _objects += object;
-    allObjects += object;
-}
+        SignalBlocker::SignalBlocker(const QObjectList & objects)
+        {
+            add(objects);
+        }
 
-void djvSignalBlocker::add(const QObjectList & objects)
-{
-    Q_FOREACH (QObject * object, objects)
-    {
-        object->blockSignals(true);
-        _objects += object;
-        allObjects += object;
-    }
-}
+        SignalBlocker::SignalBlocker(const QVector<QObject *> & objects)
+        {
+            add(objects);
+        }
 
-void djvSignalBlocker::add(const QVector<QObject *> & objects)
-{
-    for (int i = 0; i < objects.count(); ++i)
-    {
-        objects[i]->blockSignals(true);
-        _objects += objects[i];
-        allObjects += objects[i];
-    }
-}
+        SignalBlocker::~SignalBlocker()
+        {
+            Q_FOREACH(QObject * object, _objects)
+            {
+                allObjects.removeOne(object);
+                if (allObjects.indexOf(object) == -1)
+                {
+                    object->blockSignals(false);
+                }
+            }
+        }
+
+        void SignalBlocker::add(QObject * object)
+        {
+            object->blockSignals(true);
+            _objects += object;
+            allObjects += object;
+        }
+
+        void SignalBlocker::add(const QObjectList & objects)
+        {
+            Q_FOREACH(QObject * object, objects)
+            {
+                object->blockSignals(true);
+                _objects += object;
+                allObjects += object;
+            }
+        }
+
+        void SignalBlocker::add(const QVector<QObject *> & objects)
+        {
+            for (int i = 0; i < objects.count(); ++i)
+            {
+                objects[i]->blockSignals(true);
+                _objects += objects[i];
+                allObjects += objects[i];
+            }
+        }
+
+    } // namespace Core
+} // namespace djv

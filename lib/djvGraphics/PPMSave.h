@@ -47,21 +47,21 @@ namespace djv
         class PPMSave : public ImageSave
         {
         public:
-            PPMSave(const PPM::Options &, djvCoreContext *);
+            PPMSave(const PPM::Options &, Core::CoreContext *);
 
             virtual ~PPMSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, djvFileIO &) throw (djvError);
+            void _open(const QString &, Core::FileIO &) throw (Core::Error);
 
-            PPM::Options  _options;
-            djvFileInfo   _file;
-            int           _bitDepth;
-            PixelDataInfo _info;
-            Image         _image;
+            PPM::Options   _options;
+            Core::FileInfo _file;
+            int            _bitDepth;
+            PixelDataInfo  _info;
+            Image          _image;
         };
 
     } // namespace Graphics

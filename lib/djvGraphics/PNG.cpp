@@ -44,19 +44,18 @@ namespace djv
 
 extern "C"
 {
-void djvPNGError(png_structp in, png_const_charp msg)
-{
-    Graphics::PNGErrorStruct * error = (Graphics::PNGErrorStruct *)png_get_error_ptr(in);
-    SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
-    longjmp(png_jmpbuf(in), 1);
-}
+    void djvPNGError(png_structp in, png_const_charp msg)
+    {
+        Graphics::PNGErrorStruct * error = (Graphics::PNGErrorStruct *)png_get_error_ptr(in);
+        SNPRINTF(error->msg, Core::StringUtil::cStringLength, "%s", msg);
+        longjmp(png_jmpbuf(in), 1);
+    }
 
-void djvPNGWarning(png_structp in, png_const_charp msg)
-{
-    Graphics::PNGErrorStruct * error = (Graphics::PNGErrorStruct *)png_get_error_ptr(in);
-    SNPRINTF(error->msg, djvStringUtil::cStringLength, "%s", msg);
-    longjmp(png_jmpbuf(in), 1);
-}
+    void djvPNGWarning(png_structp in, png_const_charp msg)
+    {
+        Graphics::PNGErrorStruct * error = (Graphics::PNGErrorStruct *)png_get_error_ptr(in);
+        SNPRINTF(error->msg, Core::StringUtil::cStringLength, "%s", msg);
+        longjmp(png_jmpbuf(in), 1);
+    }
 
 } // extern "C"
-

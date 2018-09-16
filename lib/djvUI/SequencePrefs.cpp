@@ -47,10 +47,10 @@ namespace djv
         {
             //DJV_DEBUG("SequencePrefs::SequencePrefs");
             Prefs prefs("djv::UI::SequencePrefs", Prefs::SYSTEM);
-            qint64 maxFrames = djvSequence::maxFrames();
+            qint64 maxFrames = Core::Sequence::maxFrames();
             if (prefs.get("maxFrames", maxFrames))
             {
-                djvSequence::setMaxFrames(maxFrames);
+                Core::Sequence::setMaxFrames(maxFrames);
             }
         }
 
@@ -58,19 +58,19 @@ namespace djv
         {
             //DJV_DEBUG("SequencePrefs::~SequencePrefs");
             Prefs prefs("djv::UI::SequencePrefs", Prefs::SYSTEM);
-            prefs.set("maxFrames", djvSequence::maxFrames());
+            prefs.set("maxFrames", Core::Sequence::maxFrames());
         }
 
         qint64 SequencePrefs::maxFrames() const
         {
-            return djvSequence::maxFrames();
+            return Core::Sequence::maxFrames();
         }
 
         void SequencePrefs::setMaxFrames(qint64 size)
         {
             if (size == this->maxFrames())
                 return;
-            djvSequence::setMaxFrames(size);
+            Core::Sequence::setMaxFrames(size);
             Q_EMIT maxFramesChanged(this->maxFrames());
         }
 

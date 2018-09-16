@@ -54,7 +54,7 @@ namespace djv
         class LUTPlugin : public ImageIO
         {
         public:
-            explicit LUTPlugin(djvCoreContext *);
+            explicit LUTPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

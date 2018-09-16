@@ -34,19 +34,23 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/MessagesDialog.h>
 
-using namespace djv;
-
-djvMessagesDialogTest::djvMessagesDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvMessagesDialogTest::name()
+namespace djv
 {
-    return "djvMessagesDialogTest";
-}
+    namespace WidgetTest
+    {
+        MessagesDialogTest::MessagesDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvMessagesDialogTest::run(const QStringList & args)
-{
-    context()->messagesDialog()->message("This is a message");
-}
+        QString MessagesDialogTest::name()
+        {
+            return "MessagesDialogTest";
+        }
 
+        void MessagesDialogTest::run(const QStringList & args)
+        {
+            context()->messagesDialog()->message("This is a message");
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

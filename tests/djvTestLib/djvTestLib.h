@@ -31,11 +31,9 @@
 
 #pragma once
 
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvTestLib djvTestLib
-//!
-//! This library provides testing functionality.
-
-//@} // tests
+namespace djv
+{
+    namespace TestLib
+    {
+    } // namespace TestLib
+} // namespace djv

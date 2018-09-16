@@ -59,10 +59,10 @@ namespace djv
 
             //! This property holds the file information.    
             Q_PROPERTY(
-                djvFileInfo fileInfo
-                READ        fileInfo
-                WRITE       setFileInfo
-                NOTIFY      fileInfoChanged)
+                djv::Core::FileInfo fileInfo
+                READ                fileInfo
+                WRITE               setFileInfo
+                NOTIFY              fileInfoChanged)
 
             //! This property holds whether the file browser is pinnable.
             Q_PROPERTY(
@@ -84,7 +84,7 @@ namespace djv
             virtual ~FileBrowser();
 
             //! Get the file information.
-            const djvFileInfo & fileInfo() const;
+            const Core::FileInfo & fileInfo() const;
 
             //! Get whether the file browser is pinnable.
             bool isPinnable() const;
@@ -94,7 +94,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the file information.
-            void setFileInfo(const djvFileInfo &);
+            void setFileInfo(const djv::Core::FileInfo &);
 
             //! Set whether the file browser is pinnable.
             void setPinnable(bool);
@@ -104,7 +104,7 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the file information is changed.
-            void fileInfoChanged(const djvFileInfo &);
+            void fileInfoChanged(const djv::Core::FileInfo &);
 
             //! This signal is emitted when the pinnable state is changed.
             void pinnableChanged(bool);

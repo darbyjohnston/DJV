@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRPlugin::OpenEXRPlugin(djvCoreContext * context) :
+        OpenEXRPlugin::OpenEXRPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -53,7 +53,7 @@ namespace djv
 
         } // namespace
 
-        void OpenEXRPlugin::initPlugin() throw (djvError)
+        void OpenEXRPlugin::initPlugin() throw (Core::Error)
         {
             ++refCount;
             if (refCount > 1)
@@ -211,7 +211,7 @@ namespace djv
                 {
                     float compressionLevel = 0.f;
                     data >> compressionLevel;
-                    if (!djvMath::fuzzyCompare(
+                    if (!Core::Math::fuzzyCompare(
                         compressionLevel,
                         _options.dwaCompressionLevel))
                     {
@@ -328,16 +328,16 @@ namespace djv
                 "Default = %11.\n"
 #endif // OPENEXR_VERSION_HEX
             ).
-                arg(djvStringUtil::label(_options.threadsEnable).join(", ")).
-                arg(djvStringUtil::label(_options.threadCount).join(", ")).
+                arg(Core::StringUtil::label(_options.threadsEnable).join(", ")).
+                arg(Core::StringUtil::label(_options.threadCount).join(", ")).
                 arg(OpenEXR::colorProfileLabels().join(", ")).
-                arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
-                arg(djvStringUtil::label(_options.inputGamma).join(", ")).
-                arg(djvStringUtil::label(_options.inputExposure).join(", ")).
+                arg(Core::StringUtil::label(_options.inputColorProfile).join(", ")).
+                arg(Core::StringUtil::label(_options.inputGamma).join(", ")).
+                arg(Core::StringUtil::label(_options.inputExposure).join(", ")).
                 arg(OpenEXR::channelsLabels().join(", ")).
-                arg(djvStringUtil::label(_options.channels).join(", ")).
+                arg(Core::StringUtil::label(_options.channels).join(", ")).
                 arg(OpenEXR::compressionLabels().join(", ")).
-                arg(djvStringUtil::label(_options.compression).join(", "))
+                arg(Core::StringUtil::label(_options.compression).join(", "))
 #if OPENEXR_VERSION_HEX >= 0x02020000
                 .
                 arg(_options.dwaCompressionLevel)

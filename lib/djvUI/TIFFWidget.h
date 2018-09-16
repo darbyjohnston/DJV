@@ -73,7 +73,7 @@ namespace djv
         class TIFFWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            TIFFWidgetPlugin(djvCoreContext *);
+            TIFFWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

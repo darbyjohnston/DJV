@@ -29,136 +29,139 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvMemory
-//------------------------------------------------------------------------------
-
-template<typename T>
-inline void djvMemory::fill(T value, void * out, quint64 size)
+namespace djv
 {
-    T * p = reinterpret_cast<T *>(out);
-    for (quint64 i = 0; i < size; ++i)
+    namespace Core
     {
-        p[i] = value;
-    }
-}
+        template<typename T>
+        inline void Memory::fill(T value, void * out, quint64 size)
+        {
+            T * p = reinterpret_cast<T *>(out);
+            for (quint64 i = 0; i < size; ++i)
+            {
+                p[i] = value;
+            }
+        }
 
-inline djvMemory::ENDIAN djvMemory::endianOpposite(ENDIAN in)
-{
-    return MSB == in ? LSB : MSB;
-}
+        inline Memory::ENDIAN Memory::endianOpposite(ENDIAN in)
+        {
+            return MSB == in ? LSB : MSB;
+        }
 
-inline void djvMemory::convertEndian(
-    void *  in,
-    quint64 size,
-    int     wordSize)
-{
-    quint8 * p = reinterpret_cast<quint8 *>(in);
-    quint8 tmp = 0;
-    switch (wordSize)
-    {
-        case 2:
-            while (size--)
+        inline void Memory::convertEndian(
+            void *  in,
+            quint64 size,
+            int     wordSize)
+        {
+            quint8 * p = reinterpret_cast<quint8 *>(in);
+            quint8 tmp = 0;
+            switch (wordSize)
             {
-                tmp  = p[0];
-                p[0] = p[1];
-                p[1] = tmp;
-                p += 2;
+            case 2:
+                while (size--)
+                {
+                    tmp = p[0];
+                    p[0] = p[1];
+                    p[1] = tmp;
+                    p += 2;
+                }
+                break;
+            case 4:
+                while (size--)
+                {
+                    tmp = p[0];
+                    p[0] = p[3];
+                    p[3] = tmp;
+                    tmp = p[1];
+                    p[1] = p[2];
+                    p[2] = tmp;
+                    p += 4;
+                }
+                break;
+            case 8:
+                while (size--)
+                {
+                    tmp = p[0];
+                    p[0] = p[7];
+                    p[7] = tmp;
+                    tmp = p[1];
+                    p[1] = p[6];
+                    p[6] = tmp;
+                    tmp = p[2];
+                    p[2] = p[5];
+                    p[5] = tmp;
+                    tmp = p[3];
+                    p[3] = p[4];
+                    p[4] = tmp;
+                    tmp = p[4];
+                    p[4] = p[3];
+                    p[3] = tmp;
+                    tmp = p[5];
+                    p[5] = p[2];
+                    p[2] = tmp;
+                    tmp = p[6];
+                    p[6] = p[1];
+                    p[1] = tmp;
+                    tmp = p[7];
+                    p[7] = p[0];
+                    p[0] = tmp;
+                    p += 8;
+                }
+                break;
             }
-            break;
-        case 4:
-            while (size--)
-            {
-                tmp  = p[0];
-                p[0] = p[3];
-                p[3] = tmp;
-                tmp  = p[1];
-                p[1] = p[2];
-                p[2] = tmp;
-                p += 4;
-            }
-            break;
-        case 8:
-            while (size--)
-            {
-                tmp  = p[0];
-                p[0] = p[7];
-                p[7] = tmp;
-                tmp  = p[1];
-                p[1] = p[6];
-                p[6] = tmp;
-                tmp  = p[2];
-                p[2] = p[5];
-                p[5] = tmp;
-                tmp  = p[3];
-                p[3] = p[4];
-                p[4] = tmp;
-                tmp  = p[4];
-                p[4] = p[3];
-                p[3] = tmp;
-                tmp  = p[5];
-                p[5] = p[2];
-                p[2] = tmp;
-                tmp  = p[6];
-                p[6] = p[1];
-                p[1] = tmp;
-                tmp  = p[7];
-                p[7] = p[0];
-                p[0] = tmp;
-                p += 8;
-            }
-            break;
-    }
-}
+        }
 
-inline void djvMemory::convertEndian(
-    const void * in,
-    void *       out,
-    quint64      size,
-    int          wordSize)
-{
-    const quint8 * inP = reinterpret_cast<const quint8 *>(in);
-    quint8 * outP = reinterpret_cast<quint8 *>(out);
-    switch (wordSize)
-    {
-        case 2:
-            while (size--)
+        inline void Memory::convertEndian(
+            const void * in,
+            void *       out,
+            quint64      size,
+            int          wordSize)
+        {
+            const quint8 * inP = reinterpret_cast<const quint8 *>(in);
+            quint8 * outP = reinterpret_cast<quint8 *>(out);
+            switch (wordSize)
             {
-                outP[0] = inP[1];
-                outP[1] = inP[0];
-                inP  += 2;
-                outP += 2;
+            case 2:
+                while (size--)
+                {
+                    outP[0] = inP[1];
+                    outP[1] = inP[0];
+                    inP += 2;
+                    outP += 2;
+                }
+                break;
+            case 4:
+                while (size--)
+                {
+                    outP[0] = inP[3];
+                    outP[1] = inP[2];
+                    outP[2] = inP[1];
+                    outP[3] = inP[0];
+                    inP += 4;
+                    outP += 4;
+                }
+                break;
+            case 8:
+                while (size--)
+                {
+                    outP[0] = inP[7];
+                    outP[1] = inP[6];
+                    outP[2] = inP[5];
+                    outP[3] = inP[4];
+                    outP[4] = inP[3];
+                    outP[5] = inP[2];
+                    outP[6] = inP[1];
+                    outP[7] = inP[0];
+                    inP += 8;
+                    outP += 8;
+                }
+                break;
+            default:
+                memcpy(out, in, size * wordSize);
+                break;
             }
-            break;
-        case 4:
-            while (size--)
-            {
-                outP[0] = inP[3];
-                outP[1] = inP[2];
-                outP[2] = inP[1];
-                outP[3] = inP[0];
-                inP  += 4;
-                outP += 4;
-            }
-            break;
-        case 8:
-            while (size--)
-            {
-                outP[0] = inP[7];
-                outP[1] = inP[6];
-                outP[2] = inP[5];
-                outP[3] = inP[4];
-                outP[4] = inP[3];
-                outP[5] = inP[2];
-                outP[6] = inP[1];
-                outP[7] = inP[0];
-                inP  += 8;
-                outP += 8;
-            }
-            break;
-        default:
-            memcpy(out, in, size * wordSize);
-            break;
-    }
-}
+        }
+
+    } // namespace Core
+} // namespace djv
 

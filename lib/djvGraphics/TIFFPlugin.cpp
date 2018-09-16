@@ -43,11 +43,11 @@ namespace djv
 {
     namespace Graphics
     {
-        TIFFPlugin::TIFFPlugin(djvCoreContext * context) :
+        TIFFPlugin::TIFFPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
-        void TIFFPlugin::initPlugin() throw (djvError)
+        void TIFFPlugin::initPlugin() throw (Core::Error)
         {
             TIFFSetErrorHandler(0);
             TIFFSetWarningHandler(0);
@@ -138,7 +138,7 @@ namespace djv
                 "        Set the file compression used when saving TIFF images. Options = %1. "
                 "Default = %2.\n").
                 arg(TIFF::compressionLabels().join(", ")).
-                arg(djvStringUtil::label(_options.compression).join(", "));
+                arg(Core::StringUtil::label(_options.compression).join(", "));
         }
 
         ImageLoad * TIFFPlugin::createLoad() const

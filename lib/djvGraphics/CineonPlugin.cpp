@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        CineonPlugin::CineonPlugin(djvCoreContext * context) :
+        CineonPlugin::CineonPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -206,11 +206,11 @@ namespace djv
                 "        Set the film print values used when saving Cineon images. Default = "
                 "%6.\n").
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(djvStringUtil::label(_options.inputColorProfile).join(", ")).
-                arg(djvStringUtil::label(_options.inputFilmPrint).join(", ")).
+                arg(Core::StringUtil::label(_options.inputColorProfile).join(", ")).
+                arg(Core::StringUtil::label(_options.inputFilmPrint).join(", ")).
                 arg(Cineon::colorProfileLabels().join(", ")).
-                arg(djvStringUtil::label(_options.outputColorProfile).join(", ")).
-                arg(djvStringUtil::label(_options.outputFilmPrint).join(", "));
+                arg(Core::StringUtil::label(_options.outputColorProfile).join(", ")).
+                arg(Core::StringUtil::label(_options.outputFilmPrint).join(", "));
         }
 
         ImageLoad * CineonPlugin::createLoad() const

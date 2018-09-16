@@ -35,202 +35,207 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
-djvInfoContext::djvInfoContext(QObject * parent) :
-    Graphics::GraphicsContext(parent),
-    _info    (true),
-    _verbose (false),
-    _filePath(false),
-    _sequence(djvSequence::COMPRESS_RANGE),
-    _recurse (false),
-    _columns (djvSystem::terminalWidth())
+namespace djv
 {
-    //DJV_DEBUG("djvInfoContext::djvInfoContext");
-    
-    // Load translators.
-    loadTranslator("djv_info");
-}
-
-djvInfoContext::~djvInfoContext()
-{
-    //DJV_DEBUG("djvInfoContext::~djvInfoContext");
-}
-
-const QStringList & djvInfoContext::input() const
-{
-    return _input;
-}
-
-bool djvInfoContext::hasInfo() const
-{
-    return _info;
-}
-
-bool djvInfoContext::hasVerbose() const
-{
-    return _verbose;
-}
-
-bool djvInfoContext::hasFilePath() const
-{
-    return _filePath;
-}
-
-djvSequence::COMPRESS djvInfoContext::sequence() const
-{
-    return _sequence;
-}
-
-bool djvInfoContext::hasRecurse() const
-{
-    return _recurse;
-}
-
-int djvInfoContext::columns() const
-{
-    return _columns;
-}
-
-bool djvInfoContext::commandLineParse(QStringList & in) throw (QString)
-{
-    //DJV_DEBUG("djvInfoContext::commandLineParse");
-    //DJV_DEBUG_PRINT("in = " << in);
-
-    if (!Graphics::GraphicsContext::commandLineParse(in))
-        return false;
-
-    QString arg;
-    try
+    namespace info
     {
-        while (! in.isEmpty())
+        Context::Context(QObject * parent) :
+            Graphics::GraphicsContext(parent),
+            _info(true),
+            _verbose(false),
+            _filePath(false),
+            _sequence(Core::Sequence::COMPRESS_RANGE),
+            _recurse(false),
+            _columns(Core::System::terminalWidth())
         {
-            in >> arg;
+            //DJV_DEBUG("Context::Context");
 
-            // Parse the options.
-            if (
-                qApp->translate("djvInfoContext", "-x_info") == arg ||
-                qApp->translate("djvInfoContext", "-xi") == arg)
-            {
-                _info = false;
-            }
-            else if (
-                qApp->translate("djvInfoContext", "-verbose") == arg ||
-                qApp->translate("djvInfoContext", "-v") == arg)
-            {
-                _verbose = true;
-            }
-            else if (
-                qApp->translate("djvInfoContext", "-file_path") == arg ||
-                qApp->translate("djvInfoContext", "-fp") == arg)
-            {
-                _filePath = true;
-            }
-            else if (
-                qApp->translate("djvInfoContext", "-seq") == arg ||
-                qApp->translate("djvInfoContext", "-q") == arg)
-            {
-                in >> _sequence;
-            }
-            else if (
-                qApp->translate("djvInfoContext", "-recurse") == arg ||
-                qApp->translate("djvInfoContext", "-r") == arg)
-            {
-                _recurse = true;
-            }
-            else if (
-                qApp->translate("djvInfoContext", "-columns") == arg ||
-                qApp->translate("djvInfoContext", "-c") == arg)
-            {
-                in >> _columns;
-            }
-
-            // Parse the arguments.
-            else
-            {
-                _input += arg;
-            }
+            // Load translators.
+            loadTranslator("djv_info");
         }
-    }
-    catch (const QString &)
-    {
-        throw QString(arg);
-    }
 
-    return true;
-}
+        Context::~Context()
+        {
+            //DJV_DEBUG("Context::~Context");
+        }
 
-QString djvInfoContext::commandLineHelp() const
-{
-    static const QString label = qApp->translate("djvInfoContext",
-"djv_info\n"
-"\n"
-"    The djv_info application is a command line tool for displaying information "
-"about images and movies.\n"
-"\n"
-"    Example output:\n"
-"\n"
-"    yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12\n"
-"    dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24\n"
-"    render0001-1000.exr                                      00:00:41:16@24\n"
-"        0: A,B,G,R                                     720x480:1.5 RGBA F16\n"
-"        1: Ambient                                      720x480:1.5 RGB F16\n"
-"        2: Diffuse                                      720x480:1.5 RGB F16\n"
-"        3: Specular                                     720x480:1.5 RGB F16\n"
-"        4: Z                                              720x480:1.5 L F32\n"
-"\n"
-"    Key:\n"
-"\n"
-"    (name)     (width)x(height):(aspect) (format) (type) (duration)@(speed)\n"
-"\n"
-"    Layer key:\n"
-"\n"
-"    (name)                                               (duration)@(speed)\n"
-"        (layer): (name)           (width)x(height):(aspect) (format) (type)\n"
-"\n"
-"Usage\n"
-"\n"
-"    djv_info [image|directory]... [option]...\n"
-"\n"
-"    image     - One or more images, image sequences, or movies\n"
-"    directory - One or more directories\n"
-"    option    - Additional options (see below)\n"
-"\n"
-"    If no images or directories are given then the current directory will be "
-"used.\n"
-"\n"
-"Options\n"
-"\n"
-"    -x_info, -xi\n"
-"        Don't show image information, only file names.\n"
-"    -verbose, -v\n"
-"        Show verbose image information.\n"
-"    -file_path, -fp\n"
-"        Show file path names.\n"
-"    -seq, -q (value)\n"
-"        Set file sequencing. Options = %1. Default = %2.\n"
-"    -recurse, -r\n"
-"        Descend into sub-directories.\n"
-"    -columns, -c (value)\n"
-"        Set the number of columns for formatting output. A value of zero "
-"disables formatting.\n"
-"%3"
-"\n"
-"Examples\n"
-"\n"
-"    Display image information:\n"
-"\n"
-"    > djv_info image.sgi image2.sgi\n"
-"\n"
-"    Display image sequence information:\n"
-"\n"
-"    > djv_info image.1-100.sgi\n"
-"\n"
-"    Display information about all images within a directory:\n"
-"\n"
-"    > djv_info ~/pics\n");
-    return QString(label).
-        arg(djvSequence::compressLabels().join(", ")).
-        arg(djvStringUtil::label(_sequence).join(", ")).
-        arg(Graphics::GraphicsContext::commandLineHelp());
-}
+        const QStringList & Context::input() const
+        {
+            return _input;
+        }
+
+        bool Context::hasInfo() const
+        {
+            return _info;
+        }
+
+        bool Context::hasVerbose() const
+        {
+            return _verbose;
+        }
+
+        bool Context::hasFilePath() const
+        {
+            return _filePath;
+        }
+
+        Core::Sequence::COMPRESS Context::sequence() const
+        {
+            return _sequence;
+        }
+
+        bool Context::hasRecurse() const
+        {
+            return _recurse;
+        }
+
+        int Context::columns() const
+        {
+            return _columns;
+        }
+
+        bool Context::commandLineParse(QStringList & in) throw (QString)
+        {
+            //DJV_DEBUG("Context::commandLineParse");
+            //DJV_DEBUG_PRINT("in = " << in);
+
+            if (!Graphics::GraphicsContext::commandLineParse(in))
+                return false;
+
+            QString arg;
+            try
+            {
+                while (!in.isEmpty())
+                {
+                    in >> arg;
+
+                    // Parse the options.
+                    if (
+                        qApp->translate("djv::info::Context", "-x_info") == arg ||
+                        qApp->translate("djv::info::Context", "-xi") == arg)
+                    {
+                        _info = false;
+                    }
+                    else if (
+                        qApp->translate("djv::info::Context", "-verbose") == arg ||
+                        qApp->translate("djv::info::Context", "-v") == arg)
+                    {
+                        _verbose = true;
+                    }
+                    else if (
+                        qApp->translate("djv::info::Context", "-file_path") == arg ||
+                        qApp->translate("djv::info::Context", "-fp") == arg)
+                    {
+                        _filePath = true;
+                    }
+                    else if (
+                        qApp->translate("djv::info::Context", "-seq") == arg ||
+                        qApp->translate("djv::info::Context", "-q") == arg)
+                    {
+                        in >> _sequence;
+                    }
+                    else if (
+                        qApp->translate("djv::info::Context", "-recurse") == arg ||
+                        qApp->translate("djv::info::Context", "-r") == arg)
+                    {
+                        _recurse = true;
+                    }
+                    else if (
+                        qApp->translate("djv::info::Context", "-columns") == arg ||
+                        qApp->translate("djv::info::Context", "-c") == arg)
+                    {
+                        in >> _columns;
+                    }
+
+                    // Parse the arguments.
+                    else
+                    {
+                        _input += arg;
+                    }
+                }
+            }
+            catch (const QString &)
+            {
+                throw QString(arg);
+            }
+
+            return true;
+        }
+
+        QString Context::commandLineHelp() const
+        {
+            static const QString label = qApp->translate("djv::info::Context",
+                "djv_info\n"
+                "\n"
+                "    The djv_info application is a command line tool for displaying information "
+                "about images and movies.\n"
+                "\n"
+                "    Example output:\n"
+                "\n"
+                "    yesterdayview.mov                    640x424:1.51 RGB U8 00:02:00:01@12\n"
+                "    dlad.dpx                          2048x1556:1.32 RGB U10 00:00:00:01@24\n"
+                "    render0001-1000.exr                                      00:00:41:16@24\n"
+                "        0: A,B,G,R                                     720x480:1.5 RGBA F16\n"
+                "        1: Ambient                                      720x480:1.5 RGB F16\n"
+                "        2: Diffuse                                      720x480:1.5 RGB F16\n"
+                "        3: Specular                                     720x480:1.5 RGB F16\n"
+                "        4: Z                                              720x480:1.5 L F32\n"
+                "\n"
+                "    Key:\n"
+                "\n"
+                "    (name)     (width)x(height):(aspect) (format) (type) (duration)@(speed)\n"
+                "\n"
+                "    Layer key:\n"
+                "\n"
+                "    (name)                                               (duration)@(speed)\n"
+                "        (layer): (name)           (width)x(height):(aspect) (format) (type)\n"
+                "\n"
+                "Usage\n"
+                "\n"
+                "    djv_info [image|directory]... [option]...\n"
+                "\n"
+                "    image     - One or more images, image sequences, or movies\n"
+                "    directory - One or more directories\n"
+                "    option    - Additional options (see below)\n"
+                "\n"
+                "    If no images or directories are given then the current directory will be "
+                "used.\n"
+                "\n"
+                "Options\n"
+                "\n"
+                "    -x_info, -xi\n"
+                "        Don't show image information, only file names.\n"
+                "    -verbose, -v\n"
+                "        Show verbose image information.\n"
+                "    -file_path, -fp\n"
+                "        Show file path names.\n"
+                "    -seq, -q (value)\n"
+                "        Set file sequencing. Options = %1. Default = %2.\n"
+                "    -recurse, -r\n"
+                "        Descend into sub-directories.\n"
+                "    -columns, -c (value)\n"
+                "        Set the number of columns for formatting output. A value of zero "
+                "disables formatting.\n"
+                "%3"
+                "\n"
+                "Examples\n"
+                "\n"
+                "    Display image information:\n"
+                "\n"
+                "    > djv_info image.sgi image2.sgi\n"
+                "\n"
+                "    Display image sequence information:\n"
+                "\n"
+                "    > djv_info image.1-100.sgi\n"
+                "\n"
+                "    Display information about all images within a directory:\n"
+                "\n"
+                "    > djv_info ~/pics\n");
+            return QString(label).
+                arg(Core::Sequence::compressLabels().join(", ")).
+                arg(Core::StringUtil::label(_sequence).join(", ")).
+                arg(Graphics::GraphicsContext::commandLineHelp());
+        }
+    
+    } // namespace info
+} // namespace djv

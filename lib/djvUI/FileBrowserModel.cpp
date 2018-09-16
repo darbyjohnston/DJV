@@ -59,7 +59,7 @@ namespace djv
             {}
 
             QString path;
-            djvSequence::COMPRESS sequence = djvSequence::COMPRESS_RANGE;
+            Core::Sequence::COMPRESS sequence = Core::Sequence::COMPRESS_RANGE;
             QString filterText;
             bool showHidden = false;
             FileBrowserModel::COLUMNS columnsSort = FileBrowserModel::NAME;
@@ -68,8 +68,8 @@ namespace djv
             FileBrowserModel::THUMBNAILS thumbnails = FileBrowserModel::THUMBNAILS_HIGH;
             FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize = FileBrowserModel::THUMBNAILS_MEDIUM;
 
-            djvFileInfoList list;
-            djvFileInfoList listTmp;
+            Core::FileInfoList list;
+            Core::FileInfoList listTmp;
 
             mutable QVector<FileBrowserItem *> items;
 
@@ -114,24 +114,24 @@ namespace djv
             return _p->path;
         }
 
-        const djvFileInfoList & FileBrowserModel::contents() const
+        const Core::FileInfoList & FileBrowserModel::contents() const
         {
             return _p->listTmp;
         }
 
-        djvFileInfo FileBrowserModel::fileInfo(const QModelIndex & index) const
+        Core::FileInfo FileBrowserModel::fileInfo(const QModelIndex & index) const
         {
             //DJV_DEBUG("FileBrowserModel::fileInfo");
             //DJV_DEBUG_PRINT("index = " << index.isValid());
-            djvFileInfo * fileInfo = 0;
+            Core::FileInfo * fileInfo = 0;
             if (index.isValid())
             {
-                fileInfo = (djvFileInfo *)index.internalPointer();
+                fileInfo = (Core::FileInfo *)index.internalPointer();
             }
-            return fileInfo ? *fileInfo : djvFileInfo();
+            return fileInfo ? *fileInfo : Core::FileInfo();
         }
 
-        djvSequence::COMPRESS FileBrowserModel::sequence() const
+        Core::Sequence::COMPRESS FileBrowserModel::sequence() const
         {
             return _p->sequence;
         }
@@ -272,11 +272,11 @@ namespace djv
                 return QVariant();
 
             FileBrowserItem * item = _p->items[row];
-            const djvFileInfo & fileInfo = item->fileInfo();
+            const Core::FileInfo & fileInfo = item->fileInfo();
             static const QVector<QPixmap> pixmaps = QVector<QPixmap>() <<
-                QPixmap(djvFileInfo::typeIcons()[djvFileInfo::FILE]) <<
-                QPixmap(djvFileInfo::typeIcons()[djvFileInfo::SEQUENCE]) <<
-                QPixmap(djvFileInfo::typeIcons()[djvFileInfo::DIRECTORY]);
+                QPixmap(Core::FileInfo::typeIcons()[Core::FileInfo::FILE]) <<
+                QPixmap(Core::FileInfo::typeIcons()[Core::FileInfo::SEQUENCE]) <<
+                QPixmap(Core::FileInfo::typeIcons()[Core::FileInfo::DIRECTORY]);
             switch (role)
             {
             case Qt::DecorationRole:
@@ -335,7 +335,7 @@ namespace djv
             QMimeData * mimeData = new QMimeData();
             if (indexes.count())
             {
-                const djvFileInfo fileInfo = this->fileInfo(indexes[0]);
+                const Core::FileInfo fileInfo = this->fileInfo(indexes[0]);
                 QStringList tmp;
                 tmp << fileInfo;
                 QByteArray data;
@@ -362,7 +362,7 @@ namespace djv
             modelUpdate();
         }
 
-        void FileBrowserModel::setSequence(djvSequence::COMPRESS in)
+        void FileBrowserModel::setSequence(Core::Sequence::COMPRESS in)
         {
             if (in == _p->sequence)
                 return;
@@ -449,15 +449,15 @@ namespace djv
             //DJV_DEBUG_PRINT("path = " << _p->path);
 
             // Get directory contents.
-            _p->list = djvFileInfoUtil::list(_p->path, _p->sequence);
+            _p->list = Core::FileInfoUtil::list(_p->path, _p->sequence);
 
             // Add parent directory.
-            if (djvFileInfo(_p->path).exists())
+            if (Core::FileInfo(_p->path).exists())
             {
-                _p->list.push_front(djvFileInfo(_p->path + ".."));
+                _p->list.push_front(Core::FileInfo(_p->path + ".."));
             }
             //DJV_DEBUG_PRINT("list = " << _p->list.count());
-            //Q_FOREACH(const djvFileInfo & fileInfo, _p->list)
+            //Q_FOREACH(const Core::FileInfo & fileInfo, _p->list)
             //    DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
         }
 
@@ -474,35 +474,35 @@ namespace djv
             _p->listTmp = _p->list;
 
             // File sequence directory contents.
-            //djvFileInfoUtil::compressSequence(_p->listTmp, _p->seq);
+            //Core::FileInfoUtil::compressSequence(_p->listTmp, _p->seq);
 
             // Filter directory contents.
             if (_p->filterText.length() > 0 || !_p->showHidden)
             {
-                const djvFileInfoUtil::FILTER filter =
+                const Core::FileInfoUtil::FILTER filter =
                     !_p->showHidden ?
-                    djvFileInfoUtil::FILTER_HIDDEN :
-                    djvFileInfoUtil::FILTER_NONE;
-                djvFileInfoUtil::filter(_p->listTmp, filter, _p->filterText);
+                    Core::FileInfoUtil::FILTER_HIDDEN :
+                    Core::FileInfoUtil::FILTER_NONE;
+                Core::FileInfoUtil::filter(_p->listTmp, filter, _p->filterText);
             }
 
             // Sort directory contents.
-            djvFileInfoUtil::SORT sort = static_cast<djvFileInfoUtil::SORT>(0);
+            Core::FileInfoUtil::SORT sort = static_cast<Core::FileInfoUtil::SORT>(0);
             switch (_p->columnsSort)
             {
-            case NAME:        sort = djvFileInfoUtil::SORT_NAME; break;
-            case SIZE:        sort = djvFileInfoUtil::SORT_SIZE; break;
+            case NAME:        sort = Core::FileInfoUtil::SORT_NAME; break;
+            case SIZE:        sort = Core::FileInfoUtil::SORT_SIZE; break;
 #if ! defined(DJV_WINDOWS)
-            case USER:        sort = djvFileInfoUtil::SORT_USER; break;
+            case USER:        sort = Core::FileInfoUtil::SORT_USER; break;
 #endif
-            case PERMISSIONS: sort = djvFileInfoUtil::SORT_PERMISSIONS; break;
-            case TIME:        sort = djvFileInfoUtil::SORT_TIME; break;
+            case PERMISSIONS: sort = Core::FileInfoUtil::SORT_PERMISSIONS; break;
+            case TIME:        sort = Core::FileInfoUtil::SORT_TIME; break;
             default: break;
             }
-            djvFileInfoUtil::sort(_p->listTmp, sort, _p->reverseSort);
+            Core::FileInfoUtil::sort(_p->listTmp, sort, _p->reverseSort);
             if (_p->sortDirsFirst)
             {
-                djvFileInfoUtil::sortDirsFirst(_p->listTmp);
+                Core::FileInfoUtil::sortDirsFirst(_p->listTmp);
             }
 
             for (int i = 0; i < _p->items.count(); ++i)

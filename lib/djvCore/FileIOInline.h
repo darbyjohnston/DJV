@@ -29,112 +29,114 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvFileIO
-//------------------------------------------------------------------------------
-
-inline void djvFileIO::get8(qint8 * in, quint64 size) throw (djvError)
+namespace djv
 {
-    return get(in, size, 1);
-}
+    namespace Core
+    {
+        inline void FileIO::get8(qint8 * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 1);
+        }
 
-inline void djvFileIO::getU8(quint8 * in, quint64 size) throw (djvError)
-{
-    return get(in, size, 1);
-}
+        inline void FileIO::getU8(quint8 * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 1);
+        }
 
-inline void djvFileIO::get16(qint16 * in, quint64 size) throw (djvError)
-{
-    return get(in, size, 2);
-}
+        inline void FileIO::get16(qint16 * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 2);
+        }
 
-inline void djvFileIO::getU16(quint16 * in, quint64 size) throw (djvError)
-{
-    return get(in, size, 2);
-}
+        inline void FileIO::getU16(quint16 * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 2);
+        }
 
-inline void djvFileIO::get32(qint32 * in, quint64 size) throw (djvError)
-{
-    return get(in, size, 4);
-}
+        inline void FileIO::get32(qint32 * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 4);
+        }
 
-inline void djvFileIO::getU32(quint32 * in, quint64 size) throw (djvError)
-{
-    return get(in, size, 4);
-}
+        inline void FileIO::getU32(quint32 * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 4);
+        }
 
-inline void djvFileIO::getF32(float * in, quint64 size) throw (djvError)
-{
-    return get(in, size, 4);
-}
+        inline void FileIO::getF32(float * in, quint64 size) throw (Error)
+        {
+            return get(in, size, 4);
+        }
 
-inline void djvFileIO::set8(const qint8 * in, quint64 size) throw (djvError)
-{
-    set(in, size, 1);
-}
+        inline void FileIO::set8(const qint8 * in, quint64 size) throw (Error)
+        {
+            set(in, size, 1);
+        }
 
-inline void djvFileIO::setU8(const quint8 * in, quint64 size) throw (djvError)
-{
-    set(in, size, 1);
-}
+        inline void FileIO::setU8(const quint8 * in, quint64 size) throw (Error)
+        {
+            set(in, size, 1);
+        }
 
-inline void djvFileIO::set16(const qint16 * in, quint64 size) throw (djvError)
-{
-    set(in, size, 2);
-}
+        inline void FileIO::set16(const qint16 * in, quint64 size) throw (Error)
+        {
+            set(in, size, 2);
+        }
 
-inline void djvFileIO::setU16(const quint16 * in, quint64 size) throw (djvError)
-{
-    set(in, size, 2);
-}
+        inline void FileIO::setU16(const quint16 * in, quint64 size) throw (Error)
+        {
+            set(in, size, 2);
+        }
 
-inline void djvFileIO::set32(const qint32 * in, quint64 size) throw (djvError)
-{
-    return set(in, size, 4);
-}
+        inline void FileIO::set32(const qint32 * in, quint64 size) throw (Error)
+        {
+            return set(in, size, 4);
+        }
 
-inline void djvFileIO::setU32(const quint32 * in, quint64 size) throw (djvError)
-{
-    return set(in, size, 4);
-}
+        inline void FileIO::setU32(const quint32 * in, quint64 size) throw (Error)
+        {
+            return set(in, size, 4);
+        }
 
-inline void djvFileIO::setF32(const float * in, quint64 size) throw (djvError)
-{
-    set(in, size, 4);
-}
+        inline void FileIO::setF32(const float * in, quint64 size) throw (Error)
+        {
+            set(in, size, 4);
+        }
 
-inline void djvFileIO::set8(const qint8 & in) throw (djvError)
-{
-    set8(&in, 1);
-}
+        inline void FileIO::set8(const qint8 & in) throw (Error)
+        {
+            set8(&in, 1);
+        }
 
-inline void djvFileIO::setU8(const quint8 & in) throw (djvError)
-{
-    setU8(&in, 1);
-}
+        inline void FileIO::setU8(const quint8 & in) throw (Error)
+        {
+            setU8(&in, 1);
+        }
 
-inline void djvFileIO::set16(const qint16 & in) throw (djvError)
-{
-    set16(&in, 1);
-}
+        inline void FileIO::set16(const qint16 & in) throw (Error)
+        {
+            set16(&in, 1);
+        }
 
-inline void djvFileIO::setU16(const quint16 & in) throw (djvError)
-{
-    setU16(&in, 1);
-}
+        inline void FileIO::setU16(const quint16 & in) throw (Error)
+        {
+            setU16(&in, 1);
+        }
 
-inline void djvFileIO::set32(const qint32 & in) throw (djvError)
-{
-    set32(&in, 1);
-}
+        inline void FileIO::set32(const qint32 & in) throw (Error)
+        {
+            set32(&in, 1);
+        }
 
-inline void djvFileIO::setU32(const quint32 & in) throw (djvError)
-{
-    setU32(&in, 1);
-}
+        inline void FileIO::setU32(const quint32 & in) throw (Error)
+        {
+            setU32(&in, 1);
+        }
 
-inline void djvFileIO::setF32(const float & in) throw (djvError)
-{
-    setF32(&in, 1);
-}
+        inline void FileIO::setF32(const float & in) throw (Error)
+        {
+            setF32(&in, 1);
+        }
 
+    } // namespace Core
+} // namespace djv

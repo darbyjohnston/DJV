@@ -166,18 +166,18 @@ namespace djv
 
             //! Load the header.
             void load(
-                djvFileIO &,
+                Core::FileIO &,
                 ImageIOInfo &,
-                bool & filmPrint) throw (djvError);
+                bool & filmPrint) throw (Core::Error);
 
             //! Save the header.
             void save(
-                djvFileIO &,
+                Core::FileIO &,
                 const ImageIOInfo &,
-                Cineon::COLOR_PROFILE) throw (djvError);
+                Cineon::COLOR_PROFILE) throw (Core::Error);
 
             //! Update the header when saving is finished.
-            void saveEnd(djvFileIO &) throw (djvError);
+            void saveEnd(Core::FileIO &) throw (Core::Error);
 
             //! Zero memory.
             static void zero(qint32 *);

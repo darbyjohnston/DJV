@@ -36,8 +36,6 @@
 #include <djvCore/Debug.h>
 #include <djvCore/Memory.h>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -118,7 +116,7 @@ namespace djv
 
         void Color::zero()
         {
-            djvMemory::fill<quint8>(0, _data, Pixel::byteCount(_pixel));
+            Core::Memory::fill<quint8>(0, _data, Pixel::byteCount(_pixel));
         }
 
         Color & Color::operator = (const Color & in)
@@ -132,79 +130,78 @@ namespace djv
             return *this;
         }
 
-        bool operator == (const Color & a, const Color & b)
-        {
-            const Pixel::PIXEL pixel = a.pixel();
-            if (pixel != b.pixel())
-                return false;
-            const int channels = Pixel::channels(pixel);
-            for (int c = 0; c < channels; ++c)
-            {
-                switch (Pixel::type(pixel))
-                {
-                case Pixel::U8:
-                    if (a.u8(c) != b.u8(c))
-                        return false;
-                    break;
-                case Pixel::U10:
-                    if (a.u10(c) != b.u10(c))
-                        return false;
-                    break;
-                case Pixel::U16:
-                    if (a.u16(c) != b.u16(c))
-                        return false;
-                    break;
-                case Pixel::F16:
-                    if (a.f16(c) != b.f16(c))
-                        return false;
-                    break;
-                case Pixel::F32:
-                    if (!djvMath::fuzzyCompare(a.f32(c), b.f32(c)))
-                        return false;
-                    break;
-                default: break;
-                }
-            }
-            return true;
-        }
-
-        bool operator != (const Color & a, const Color & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
-} // namespace djv
 
-QStringList & operator >> (QStringList & in, Graphics::Color & out) throw (QString)
-{
-    Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
-    in >> pixel;
-    out.setPixel(pixel);
-    const int channels = Graphics::Pixel::channels(pixel);
-    for (int c = 0; c < channels; ++c)
+    bool operator == (const Graphics::Color & a, const Graphics::Color & b)
     {
-        switch (Graphics::Pixel::type(pixel))
+        const Graphics::Pixel::PIXEL pixel = a.pixel();
+        if (pixel != b.pixel())
+            return false;
+        const int channels = Graphics::Pixel::channels(pixel);
+        for (int c = 0; c < channels; ++c)
         {
+            switch (Graphics::Pixel::type(pixel))
+            {
+            case Graphics::Pixel::U8:
+                if (a.u8(c) != b.u8(c))
+                    return false;
+                break;
+            case Graphics::Pixel::U10:
+                if (a.u10(c) != b.u10(c))
+                    return false;
+                break;
+            case Graphics::Pixel::U16:
+                if (a.u16(c) != b.u16(c))
+                    return false;
+                break;
+            case Graphics::Pixel::F16:
+                if (a.f16(c) != b.f16(c))
+                    return false;
+                break;
+            case Graphics::Pixel::F32:
+                if (!Core::Math::fuzzyCompare(a.f32(c), b.f32(c)))
+                    return false;
+                break;
+            default: break;
+            }
+        }
+        return true;
+    }
+
+    bool operator != (const Graphics::Color & a, const Graphics::Color & b)
+    {
+        return !(a == b);
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::Color & out) throw (QString)
+    {
+        Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(0);
+        in >> pixel;
+        out.setPixel(pixel);
+        const int channels = Graphics::Pixel::channels(pixel);
+        for (int c = 0; c < channels; ++c)
+        {
+            switch (Graphics::Pixel::type(pixel))
+            {
             case Graphics::Pixel::U8:
             {
                 int value = 0;
                 in >> value;
-                out.setU8(djvMath::clamp(value, 0, Graphics::Pixel::u8Max), c);
+                out.setU8(Core::Math::clamp(value, 0, Graphics::Pixel::u8Max), c);
             }
             break;
             case Graphics::Pixel::U10:
             {
                 int value = 0;
                 in >> value;
-                out.setU10(djvMath::clamp(value, 0, Graphics::Pixel::u10Max), c);
+                out.setU10(Core::Math::clamp(value, 0, Graphics::Pixel::u10Max), c);
             }
             break;
             case Graphics::Pixel::U16:
             {
                 int value = 0;
                 in >> value;
-                out.setU16(djvMath::clamp(value, 0, Graphics::Pixel::u16Max), c);
+                out.setU16(Core::Math::clamp(value, 0, Graphics::Pixel::u16Max), c);
             }
             break;
             case Graphics::Pixel::F16:
@@ -222,32 +219,33 @@ QStringList & operator >> (QStringList & in, Graphics::Color & out) throw (QStri
             }
             break;
             default: break;
+            }
         }
+        return in;
     }
-    return in;
-}
 
-QStringList & operator << (QStringList & out, const Graphics::Color & in)
-{
-    out << in.pixel();
-    const int channels = Graphics::Pixel::channels(in.pixel());
-    for (int c = 0; c < channels; ++c)
+    QStringList & operator << (QStringList & out, const Graphics::Color & in)
     {
-        switch (Graphics::Pixel::type(in.pixel()))
+        out << in.pixel();
+        const int channels = Graphics::Pixel::channels(in.pixel());
+        for (int c = 0; c < channels; ++c)
         {
-            case Graphics::Pixel::U8:  out << in.u8 (c); break;
+            switch (Graphics::Pixel::type(in.pixel()))
+            {
+            case Graphics::Pixel::U8:  out << in.u8(c); break;
             case Graphics::Pixel::U10: out << in.u10(c); break;
             case Graphics::Pixel::U16: out << in.u16(c); break;
             case Graphics::Pixel::F16: out << in.f16(c); break;
             case Graphics::Pixel::F32: out << in.f32(c); break;
             default: break;
+            }
         }
+        return out;
     }
-    return out;
-}
 
-djvDebug & operator << (djvDebug & debug, const Graphics::Color & in)
-{
-    return debug << djvStringUtil::label(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Color & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
 
+} // namespace djv

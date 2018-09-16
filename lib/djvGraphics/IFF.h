@@ -62,16 +62,16 @@ namespace djv
 
             //! Load information.
             static void loadInfo(
-                djvFileIO   & io,
-                ImageIOInfo & info,
-                int *         tiles,
-                bool *        compression) throw (djvError);
+                Core::FileIO & io,
+                ImageIOInfo &  info,
+                int *          tiles,
+                bool *         compression) throw (Core::Error);
 
             //! Save information.
             static void saveInfo(
-                djvFileIO &         io,
+                Core::FileIO &      io,
                 const ImageIOInfo & info,
-                bool                compression) throw (djvError);
+                bool                compression) throw (Core::Error);
 
             //! Load RLE compressed data.
             static int readRle(
@@ -122,6 +122,7 @@ namespace djv
         };
 
     } // namespace Graphics
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::Graphics::IFF::COMPRESSION);
+    DJV_STRING_OPERATOR(Graphics::IFF::COMPRESSION);
+
+} // namespace djv

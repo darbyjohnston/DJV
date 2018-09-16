@@ -129,10 +129,10 @@ void djvViewApplication::work()
         // Combine command line arguments.
         if (_p->context->hasCombine())
         {
-            djvFileInfo fileInfo(input[0]);
+            Core::FileInfo fileInfo(input[0]);
             if (fileInfo.isSequenceValid())
             {
-                fileInfo.setType(djvFileInfo::SEQUENCE);
+                fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             for (int i = 1; i < input.count(); ++i)
             {
@@ -147,7 +147,7 @@ void djvViewApplication::work()
         for (int i = 0; i < input.count(); ++i)
         {
             // Parse the input.
-            const djvFileInfo fileInfo = djvFileInfoUtil::parse(
+            const Core::FileInfo fileInfo = Core::FileInfoUtil::parse(
                 input[i], _p->context->sequence(), _p->context->hasAutoSequence());
             DJV_LOG(_p->context->debugLog(), "djvViewApplication",
                 QString("Input = \"%1\"").arg(fileInfo));

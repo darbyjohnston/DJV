@@ -39,49 +39,54 @@
 
 #include <QFormLayout>
 
-using namespace djv;
-
-djvVectorWidgetTest::djvVectorWidgetTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvVectorWidgetTest::name()
+namespace djv
 {
-    return "djvVectorWidgetTest";
-}
+    namespace WidgetTest
+    {
+        VectorWidgetTest::VectorWidgetTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvVectorWidgetTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    UI::Vector2iEditWidget * intEdit = new UI::Vector2iEditWidget;
-    UI::Vector2fEditWidget * floatEdit = new UI::Vector2fEditWidget;
-    
-    QFormLayout * layout = new QFormLayout(window);
-    layout->addRow("Vector2iEditWidget", intEdit);
-    layout->addRow("Vector2fEditWidget", floatEdit);
-    
-    connect(
-        intEdit,
-        SIGNAL(valueChanged(const glm::ivec2 &)),
-        SLOT(intCallback(const glm::ivec2 &)));
-    connect(
-        floatEdit,
-        SIGNAL(valueChanged(const glm::vec2 &)),
-        SLOT(floatCallback(const glm::vec2 &)));
-    
-    window->show();
-}
+        QString VectorWidgetTest::name()
+        {
+            return "VectorWidgetTest";
+        }
 
-void djvVectorWidgetTest::intCallback(const glm::ivec2 & value)
-{
-    QStringList tmp;
-    tmp << value;
-    djvSystem::print(QString("%1").arg(tmp.join(", ")));
-}
+        void VectorWidgetTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
+            UI::Vector2iEditWidget * intEdit = new UI::Vector2iEditWidget;
+            UI::Vector2fEditWidget * floatEdit = new UI::Vector2fEditWidget;
 
-void djvVectorWidgetTest::floatCallback(const glm::vec2 & value)
-{
-    QStringList tmp;
-    tmp << value;
-    djvSystem::print(QString("%1").arg(tmp.join(", ")));
-}
+            QFormLayout * layout = new QFormLayout(window);
+            layout->addRow("Vector2iEditWidget", intEdit);
+            layout->addRow("Vector2fEditWidget", floatEdit);
+
+            connect(
+                intEdit,
+                SIGNAL(valueChanged(const glm::ivec2 &)),
+                SLOT(intCallback(const glm::ivec2 &)));
+            connect(
+                floatEdit,
+                SIGNAL(valueChanged(const glm::vec2 &)),
+                SLOT(floatCallback(const glm::vec2 &)));
+
+            window->show();
+        }
+
+        void VectorWidgetTest::intCallback(const glm::ivec2 & value)
+        {
+            QStringList tmp;
+            tmp << value;
+            Core::System::print(QString("%1").arg(tmp.join(", ")));
+        }
+
+        void VectorWidgetTest::floatCallback(const glm::vec2 & value)
+        {
+            QStringList tmp;
+            tmp << value;
+            Core::System::print(QString("%1").arg(tmp.join(", ")));
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

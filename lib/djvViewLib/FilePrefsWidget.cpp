@@ -229,7 +229,7 @@ namespace djv
 
         void FilePrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->autoSequenceWidget <<
                 _p->proxyWidget <<
                 _p->u8ConversionWidget <<

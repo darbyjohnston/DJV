@@ -65,7 +65,7 @@ namespace djv
             static glm::ivec2 proxyScale(const glm::ivec2 &, PixelDataInfo::PROXY);
 
             //! Calculate the size of a proxy scale.
-            static djvBox2i proxyScale(const djvBox2i &, PixelDataInfo::PROXY);
+            static Core::Box2i proxyScale(const Core::Box2i &, PixelDataInfo::PROXY);
 
             //! Interleave pixel data channels.
             static void planarInterleave(

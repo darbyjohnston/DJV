@@ -233,7 +233,7 @@ namespace djv
         void MagnifyTool::widgetUpdate()
         {
             //DJV_DEBUG("MagnifyTool::widgetUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->slider <<
                 _p->colorProfileButton <<
                 _p->displayProfileButton);
@@ -250,7 +250,7 @@ namespace djv
         void MagnifyTool::pixelDataUpdate()
         {
             //DJV_DEBUG("MagnifyTool::pixelDataUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->widget);
             Graphics::PixelData tmp(Graphics::PixelDataInfo(
                 _p->widget->width(),
@@ -259,8 +259,8 @@ namespace djv
             if (const Graphics::PixelData * data = viewWidget()->data())
             {
                 //DJV_DEBUG_PRINT("data = " << *data);
-                const float zoom = djvMath::pow(2, _p->zoom);
-                glm::ivec2 pick = djvVectorUtil::floor(
+                const float zoom = Core::Math::pow(2, _p->zoom);
+                glm::ivec2 pick = Core::VectorUtil::floor(
                     glm::vec2(_p->pick - viewWidget()->viewPos()) * zoom -
                     glm::vec2(tmp.info().size) / 2.f);
                 //DJV_DEBUG_PRINT("zoom = " << zoom);
@@ -286,7 +286,7 @@ namespace djv
                     _p->openGLImage->copy(*data, tmp, options);
                     _p->widget->setPixmap(_p->openGLImage->toQt(tmp));
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(Util::errorLabels()[Util::ERROR_MAGNIFY]);
                     context()->printError(error);

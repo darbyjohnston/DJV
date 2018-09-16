@@ -437,7 +437,7 @@ namespace djv
         void DPXWidget::widgetUpdate()
         {
             //DJV_DEBUG("DPXWidget::widgetUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _inputColorProfileWidget <<
                 _inputBlackPointWidget <<
                 _inputWhitePointWidget <<
@@ -508,7 +508,7 @@ namespace djv
             _endianWidget->setCurrentIndex(_options.endian);
         }
 
-        DPXWidgetPlugin::DPXWidgetPlugin(djvCoreContext * context) :
+        DPXWidgetPlugin::DPXWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

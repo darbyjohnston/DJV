@@ -50,7 +50,7 @@ namespace djv
         class OpenGLOffscreenBuffer
         {
         public:
-            OpenGLOffscreenBuffer(const PixelDataInfo &) throw (djvError);
+            OpenGLOffscreenBuffer(const PixelDataInfo &) throw (Core::Error);
 
             ~OpenGLOffscreenBuffer();
 

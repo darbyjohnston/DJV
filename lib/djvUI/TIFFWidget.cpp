@@ -137,11 +137,11 @@ namespace djv
 
         void TIFFWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_compressionWidget);
+            Core::SignalBlocker signalBlocker(_compressionWidget);
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        TIFFWidgetPlugin::TIFFWidgetPlugin(djvCoreContext * context) :
+        TIFFWidgetPlugin::TIFFWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

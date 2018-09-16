@@ -108,11 +108,12 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        DJV_COMPARISON_OPERATOR(ImageTags);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::ImageTags);
+
+    DJV_DEBUG_OPERATOR(Graphics::ImageTags);
+
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Graphics::ImageTags)
-
-DJV_DEBUG_OPERATOR(djv::Graphics::ImageTags);

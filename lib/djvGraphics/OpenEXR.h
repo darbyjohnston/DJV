@@ -174,7 +174,7 @@ namespace djv
             static void saveTags(const ImageIOInfo &, Imf::Header &);
 
             //! Convert from an OpenEXR box type.
-            static djvBox2i imfToBox(const Imath::Box2i &);
+            static Core::Box2i imfToBox(const Imath::Box2i &);
 
             //! Convert to a OpenEXR pixel type.
             static Imf::PixelType pixelTypeToImf(Pixel::TYPE);
@@ -224,10 +224,11 @@ namespace djv
         };
 
     } // namespace Graphics
+
+    DJV_STRING_OPERATOR(Graphics::OpenEXR::COLOR_PROFILE);
+    DJV_STRING_OPERATOR(Graphics::OpenEXR::COMPRESSION);
+    DJV_STRING_OPERATOR(Graphics::OpenEXR::CHANNELS);
+
+    bool compare(const QVector<Imf::Channel> &);
+
 } // namespace djv
-
-DJV_STRING_OPERATOR(djv::Graphics::OpenEXR::COLOR_PROFILE);
-DJV_STRING_OPERATOR(djv::Graphics::OpenEXR::COMPRESSION);
-DJV_STRING_OPERATOR(djv::Graphics::OpenEXR::CHANNELS);
-
-bool compare(const QVector<Imf::Channel> &);

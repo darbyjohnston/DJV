@@ -47,22 +47,22 @@ namespace djv
         class TIFFSave : public ImageSave
         {
         public:
-            TIFFSave(const TIFF::Options &, djvCoreContext *);
+            TIFFSave(const TIFF::Options &, Core::CoreContext *);
 
             virtual ~TIFFSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
-            virtual void close() throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            virtual void close() throw (Core::Error);
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (djvError);
+            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
 
-            TIFF::Options _options;
-            djvFileInfo   _file;
-            ::TIFF *      _f;
-            PixelDataInfo _info;
-            Image         _image;
+            TIFF::Options  _options;
+            Core::FileInfo _file;
+            ::TIFF *       _f;
+            PixelDataInfo  _info;
+            Image          _image;
         };
 
     } // namespace Graphics

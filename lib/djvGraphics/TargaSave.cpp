@@ -37,7 +37,7 @@ namespace djv
 {
     namespace Graphics
     {
-        TargaSave::TargaSave(const Targa::Options & options, djvCoreContext * context) :
+        TargaSave::TargaSave(const Targa::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options)
         {}
@@ -45,15 +45,15 @@ namespace djv
         TargaSave::~TargaSave()
         {}
 
-        void TargaSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void TargaSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TargaSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
             _info.size = info.size;
@@ -64,22 +64,22 @@ namespace djv
             case Pixel::RGBA: _info.bgr = true; break;
             default: break;
             }
-            _info.endian = djvMemory::LSB;
+            _info.endian = Core::Memory::LSB;
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
         }
 
         void TargaSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TargaSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
             const QString fileName = _file.fileName(frame.frame);
-            djvFileIO io;
-            io.setEndian(djvMemory::endian() != djvMemory::LSB);
-            io.open(fileName, djvFileIO::WRITE);
+            Core::FileIO io;
+            io.setEndian(Core::Memory::endian() != Core::Memory::LSB);
+            io.open(fileName, Core::FileIO::WRITE);
             Targa::saveInfo(
                 io,
                 _info,

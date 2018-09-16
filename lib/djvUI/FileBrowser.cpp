@@ -143,7 +143,7 @@ namespace djv
             bool pinnable = false;
             bool pinned = false;
             bool shown = false;
-            djvFileInfo fileInfo;
+            Core::FileInfo fileInfo;
             QString prev;
             FileBrowserModel * model = nullptr;
             Menus menus;
@@ -263,7 +263,7 @@ namespace djv
             _p->widgets.reload->setDefaultAction(_p->actions.actions[Actions::RELOAD]);
 
             _p->widgets.seq = new QComboBox;
-            _p->widgets.seq->addItems(djvSequence::compressLabels());
+            _p->widgets.seq->addItems(Core::Sequence::compressLabels());
             QLabel * seqLabel = new QLabel(
                 qApp->translate("djv::UI::FileBrowser", "Sequence:"));
 
@@ -329,7 +329,7 @@ namespace djv
             layout->addLayout(hLayout);
 
             // Restore the last used path.
-            _p->fileInfo = djvFileInfoUtil::fixPath(FileBrowserPrefs::pathDefault());
+            _p->fileInfo = Core::FileInfoUtil::fixPath(FileBrowserPrefs::pathDefault());
             _p->prev = _p->fileInfo;
             //DJV_DEBUG_PRINT("file = " << _p->fileInfo);
 
@@ -504,7 +504,7 @@ namespace djv
             _p->context->fileBrowserPrefs()->setThumbnailsSize(_p->model->thumbnailsSize());
         }
 
-        const djvFileInfo & FileBrowser::fileInfo() const
+        const Core::FileInfo & FileBrowser::fileInfo() const
         {
             return _p->fileInfo;
         }
@@ -519,23 +519,23 @@ namespace djv
             return _p->pinned;
         }
 
-        void FileBrowser::setFileInfo(const djvFileInfo & fileInfo)
+        void FileBrowser::setFileInfo(const Core::FileInfo & fileInfo)
         {
-            djvFileInfo tmp = djvFileInfoUtil::fixPath(fileInfo);
+            Core::FileInfo tmp = Core::FileInfoUtil::fixPath(fileInfo);
             tmp.setType(fileInfo.type());
             if (tmp == _p->fileInfo)
                 return;
-            //DJV_DEBUG("djvFileBrowser::setFileInfo");
+            //DJV_DEBUG("FileBrowser::setFileInfo");
             //DJV_DEBUG_PRINT("fileInfo = " << tmp);
-            const QString oldDir = djvFileInfoUtil::fixPath(
-                _p->fileInfo.type() == djvFileInfo::DIRECTORY ?
+            const QString oldDir = Core::FileInfoUtil::fixPath(
+                _p->fileInfo.type() == Core::FileInfo::DIRECTORY ?
                 _p->fileInfo.fileName() :
                 _p->fileInfo.path());
             //DJV_DEBUG_PRINT("oldDir = " << oldDir);
             _p->fileInfo = tmp;
             //DJV_DEBUG_PRINT("file = " << _p->fileInfo);
-            const QString newDir = djvFileInfoUtil::fixPath(
-                _p->fileInfo.type() == djvFileInfo::DIRECTORY ?
+            const QString newDir = Core::FileInfoUtil::fixPath(
+                _p->fileInfo.type() == Core::FileInfo::DIRECTORY ?
                 _p->fileInfo.fileName() :
                 _p->fileInfo.path());
             //DJV_DEBUG_PRINT("newDir = " << newDir);
@@ -579,12 +579,11 @@ namespace djv
         void FileBrowser::fileCallback()
         {
             //DJV_DEBUG("FileBrowser::fileCallback");
-            const QString fileName = djvFileInfoUtil::fixPath(
-                _p->widgets.file->text());
+            const QString fileName = Core::FileInfoUtil::fixPath(_p->widgets.file->text());
             //DJV_DEBUG_PRINT("fileName = " << fileName);
-            djvFileInfo fileInfo(fileName);
+            Core::FileInfo fileInfo(fileName);
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-            if (fileInfo.type() == djvFileInfo::DIRECTORY)
+            if (fileInfo.type() == Core::FileInfo::DIRECTORY)
             {
                 //DJV_DEBUG_PRINT("valid");
                 setFileInfo(fileInfo);
@@ -595,7 +594,7 @@ namespace djv
         void FileBrowser::browserCallback(const QModelIndex & index)
         {
             //DJV_DEBUG("FileBrowser::browserCallback");
-            const djvFileInfo fileInfo = _p->model->fileInfo(index);
+            const Core::FileInfo fileInfo = _p->model->fileInfo(index);
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
             _p->widgets.file->setText(QDir::toNativeSeparators(fileInfo));
             acceptedCallback();
@@ -606,21 +605,21 @@ namespace djv
             const QModelIndex & previous)
         {
             //DJV_DEBUG("FileBrowser::browserCurrentCallback");
-            const djvFileInfo fileInfo = _p->model->fileInfo(index);
+            const Core::FileInfo fileInfo = _p->model->fileInfo(index);
             //DJV_DEBUG_PRINT("file = " << fileInfo);
             _p->widgets.file->setText(QDir::toNativeSeparators(fileInfo));
         }
 
         void FileBrowser::recentCallback(QAction * action)
         {
-            setFileInfo(djvFileInfoUtil::fixPath(action->data().toString()));
+            setFileInfo(Core::FileInfoUtil::fixPath(action->data().toString()));
         }
 
         void FileBrowser::upCallback()
         {
             QDir tmp(_p->fileInfo.path());
             tmp.cdUp();
-            setFileInfo(djvFileInfoUtil::fixPath(tmp.path()));
+            setFileInfo(Core::FileInfoUtil::fixPath(tmp.path()));
         }
 
         void FileBrowser::prevCallback()
@@ -630,22 +629,22 @@ namespace djv
 
         void FileBrowser::drivesCallback(QAction * action)
         {
-            setFileInfo(djvFileInfoUtil::fixPath(action->data().toString()));
+            setFileInfo(Core::FileInfoUtil::fixPath(action->data().toString()));
         }
 
         void FileBrowser::currentCallback()
         {
-            setFileInfo(djvFileInfoUtil::fixPath(QDir::currentPath()));
+            setFileInfo(Core::FileInfoUtil::fixPath(QDir::currentPath()));
         }
 
         void FileBrowser::homeCallback()
         {
-            setFileInfo(djvFileInfoUtil::fixPath(QDir::homePath()));
+            setFileInfo(Core::FileInfoUtil::fixPath(QDir::homePath()));
         }
 
         void FileBrowser::desktopCallback()
         {
-            setFileInfo(djvFileInfoUtil::fixPath(QDir::homePath() + "/Desktop"));
+            setFileInfo(Core::FileInfoUtil::fixPath(QDir::homePath() + "/Desktop"));
         }
 
         void FileBrowser::reloadCallback()
@@ -678,12 +677,12 @@ namespace djv
         void FileBrowser::seqCallback(QAction * action)
         {
             _p->model->setSequence(
-                static_cast<djvSequence::COMPRESS>(action->data().toInt()));
+                static_cast<Core::Sequence::COMPRESS>(action->data().toInt()));
         }
 
         void FileBrowser::seqCallback(int in)
         {
-            _p->model->setSequence(static_cast<djvSequence::COMPRESS>(in));
+            _p->model->setSequence(static_cast<Core::Sequence::COMPRESS>(in));
         }
 
         void FileBrowser::searchCallback(const QString & text)
@@ -764,8 +763,7 @@ namespace djv
                 return;
             //DJV_DEBUG("FileBrowser::deleteBookmarkCallback");
             //DJV_DEBUG_PRINT("bookmarks = " << bookmarks);
-            MultiChoiceDialog dialog(
-                qApp->translate("djv::UI::FileBrowser", "Delete bookmarks:"), bookmarks);
+            MultiChoiceDialog dialog(qApp->translate("djv::UI::FileBrowser", "Delete bookmarks:"), bookmarks);
             if (QDialog::Accepted == dialog.exec())
             {
                 QStringList tmp;
@@ -798,7 +796,7 @@ namespace djv
 
         void FileBrowser::bookmarksCallback(QAction * action)
         {
-            setFileInfo(djvFileInfoUtil::fixPath(action->data().toString()));
+            setFileInfo(Core::FileInfoUtil::fixPath(action->data().toString()));
         }
 
         void FileBrowser::bookmarksCallback()
@@ -839,19 +837,18 @@ namespace djv
         void FileBrowser::acceptedCallback()
         {
             //DJV_DEBUG("FileBrowser::acceptedCallback");
-            const QString fileName = djvFileInfoUtil::fixPath(
-                _p->widgets.file->text());
+            const QString fileName = Core::FileInfoUtil::fixPath(_p->widgets.file->text());
             //DJV_DEBUG_PRINT("file name = " << fileName);
-            djvFileInfo fileInfo(fileName);
-            if (_p->model->sequence() != djvSequence::COMPRESS_OFF &&
+            Core::FileInfo fileInfo(fileName);
+            if (_p->model->sequence() != Core::Sequence::COMPRESS_OFF &&
                 fileInfo.isSequenceValid())
             {
-                fileInfo.setType(djvFileInfo::SEQUENCE);
+                fileInfo.setType(Core::FileInfo::SEQUENCE);
             }
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
             setFileInfo(fileInfo);
             _p->widgets.file->setText(QDir::toNativeSeparators(_p->fileInfo));
-            if (fileInfo.type() != djvFileInfo::DIRECTORY)
+            if (fileInfo.type() != Core::FileInfo::DIRECTORY)
             {
                 _p->context->fileBrowserPrefs()->addRecent(_p->fileInfo.path());
                 if (!_p->pinnable || (_p->pinnable && !_p->pinned))
@@ -878,7 +875,7 @@ namespace djv
             //DJV_DEBUG("FileBrowser::widgetUpdate");
             //DJV_DEBUG_PRINT("file = " << _p->fileInfo);
             //DJV_DEBUG_PRINT("file seq = " << _p->fileInfo.seq());
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->widgets.file <<
                 _p->widgets.seq <<
                 _p->widgets.browser->header() <<
@@ -920,7 +917,7 @@ namespace djv
                 shortcuts[FileBrowserPrefs::DESKTOP].value);
 
             _p->menus.menus[Menus::DRIVES]->clear();
-            const QStringList drives = djvSystem::drives();
+            const QStringList drives = Core::System::drives();
             for (int i = 0; i < drives.count(); ++i)
             {
                 QAction * action = _p->menus.menus[Menus::DRIVES]->addAction(
@@ -957,7 +954,7 @@ namespace djv
             }
 
             _p->menus.menus[Menus::SEQ]->clear();
-            const QStringList & seq = djvSequence::compressLabels();
+            const QStringList & seq = Core::Sequence::compressLabels();
             for (int i = 0; i < seq.count(); ++i)
             {
                 QAction * action = _p->menus.menus[Menus::SEQ]->addAction(seq[i]);

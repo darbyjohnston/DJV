@@ -39,144 +39,151 @@
 #include <djvGraphics/GraphicsContext.h>
 #include <djvGraphics/ImageIO.h>
 
-using namespace djv;
+using namespace djv::Core;
+using namespace djv::Graphics;
 
-void djvImageIOTest::run(int & argc, char ** argv)
+namespace djv
 {
-    DJV_DEBUG("djvImageIOTest::run");
-    info();
-    plugin();
-    io();
-}
-
-void djvImageIOTest::info()
-{
-    DJV_DEBUG("djvImageIOTest::info");
+    namespace GraphicsTest
     {
-        const Graphics::ImageIOInfo info;
-        DJV_ASSERT(info.layerCount() == 1);
-    }
-    {
-        const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
-        const Graphics::ImageIOInfo info(tmp);
-        DJV_ASSERT(info.layerCount() == 1);
-        DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info) == tmp);
-    }
-    {
-        const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
-        Graphics::ImageIOInfo info;
-        info.addLayer(tmp);
-        DJV_ASSERT(info.layerCount() == 2);
-        DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info) == Graphics::PixelDataInfo());
-        DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info[1]) == tmp);
-        info[0] = tmp;
-        DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info[0]) == tmp);
-    }
-    {
-        Graphics::ImageIOInfo info;
-        info.setLayerCount(10);
-        DJV_ASSERT(info.layerCount() == 10);
-        info.clearLayers();
-        DJV_ASSERT(info.layerCount() == 1);
-    }
-    {
-        const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
-        Graphics::ImageIOInfo a(tmp), b(tmp);
-        a.addLayer(tmp);
-        b.addLayer(tmp);
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != Graphics::ImageIOInfo());
-        Graphics::ImageIOInfo c;
-        c.addLayer(tmp);
-        DJV_ASSERT(a != c);
-    }
-    {
-        Graphics::ImageIOFrameInfo info;
-        DJV_ASSERT(-1 == info.frame);
-        DJV_ASSERT(0 == info.layer);
-        DJV_ASSERT(Graphics::PixelDataInfo::PROXY_NONE == info.proxy);
-    }
-    {
-        Graphics::ImageIOFrameInfo info(1, 2, Graphics::PixelDataInfo::PROXY_1_2);
-        DJV_ASSERT(1 == info.frame);
-        DJV_ASSERT(2 == info.layer);
-        DJV_ASSERT(Graphics::PixelDataInfo::PROXY_1_2 == info.proxy);
-    }
-    {
-        Graphics::ImageIOFrameInfo
-            a(1, 2, Graphics::PixelDataInfo::PROXY_1_2),
-            b(1, 2, Graphics::PixelDataInfo::PROXY_1_2);
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != Graphics::ImageIOFrameInfo());
-    }
-    {
-        DJV_DEBUG_PRINT(Graphics::ImageIOInfo());
-        DJV_DEBUG_PRINT(Graphics::ImageIOFrameInfo());
-    }
-}
-
-void djvImageIOTest::plugin()
-{
-    DJV_DEBUG("djvImageIOTest::plugin");
-    Graphics::GraphicsContext context;
-    Graphics::ImageIOFactory * factory = context.imageIOFactory();
-    Q_FOREACH(QString plugin, QStringList() << "PPM")
-    {
-        if (Graphics::ImageIO * io = static_cast<Graphics::ImageIO *>(factory->plugin(plugin)))
+        void ImageIOTest::run(int & argc, char ** argv)
         {
-            DJV_ASSERT(io->extensions().count());
-            DJV_ASSERT(io->isSequence());
-            DJV_ASSERT(io->options().count());
-            DJV_ASSERT(factory->option("", "") == QStringList());
-            QStringList tmp;
-            DJV_ASSERT(! factory->setOption("", "", tmp));
-            Graphics::ImageIOInfo info;
-            try
-            {
-                factory->load(djvFileInfo(), info);
-                DJV_ASSERT(0);
-            }
-            catch (...)
-            {
-            }
-            try
-            {
-                factory->save(djvFileInfo(), info);
+            DJV_DEBUG("ImageIOTest::run");
+            info();
+            plugin();
+            io();
+        }
 
-                DJV_ASSERT(0);
-            }
-            catch (...)
+        void ImageIOTest::info()
+        {
+            DJV_DEBUG("ImageIOTest::info");
             {
+                const Graphics::ImageIOInfo info;
+                DJV_ASSERT(info.layerCount() == 1);
+            }
+            {
+                const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
+                const Graphics::ImageIOInfo info(tmp);
+                DJV_ASSERT(info.layerCount() == 1);
+                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info) == tmp);
+            }
+            {
+                const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
+                Graphics::ImageIOInfo info;
+                info.addLayer(tmp);
+                DJV_ASSERT(info.layerCount() == 2);
+                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info) == Graphics::PixelDataInfo());
+                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info[1]) == tmp);
+                info[0] = tmp;
+                DJV_ASSERT(static_cast<Graphics::PixelDataInfo>(info[0]) == tmp);
+            }
+            {
+                Graphics::ImageIOInfo info;
+                info.setLayerCount(10);
+                DJV_ASSERT(info.layerCount() == 10);
+                info.clearLayers();
+                DJV_ASSERT(info.layerCount() == 1);
+            }
+            {
+                const Graphics::PixelDataInfo tmp(1, 1, Graphics::Pixel::L_U8);
+                Graphics::ImageIOInfo a(tmp), b(tmp);
+                a.addLayer(tmp);
+                b.addLayer(tmp);
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != Graphics::ImageIOInfo());
+                Graphics::ImageIOInfo c;
+                c.addLayer(tmp);
+                DJV_ASSERT(a != c);
+            }
+            {
+                Graphics::ImageIOFrameInfo info;
+                DJV_ASSERT(-1 == info.frame);
+                DJV_ASSERT(0 == info.layer);
+                DJV_ASSERT(Graphics::PixelDataInfo::PROXY_NONE == info.proxy);
+            }
+            {
+                Graphics::ImageIOFrameInfo info(1, 2, Graphics::PixelDataInfo::PROXY_1_2);
+                DJV_ASSERT(1 == info.frame);
+                DJV_ASSERT(2 == info.layer);
+                DJV_ASSERT(Graphics::PixelDataInfo::PROXY_1_2 == info.proxy);
+            }
+            {
+                Graphics::ImageIOFrameInfo
+                    a(1, 2, Graphics::PixelDataInfo::PROXY_1_2),
+                    b(1, 2, Graphics::PixelDataInfo::PROXY_1_2);
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != Graphics::ImageIOFrameInfo());
+            }
+            {
+                DJV_DEBUG_PRINT(Graphics::ImageIOInfo());
+                DJV_DEBUG_PRINT(Graphics::ImageIOFrameInfo());
             }
         }
-    }
-}
 
-void djvImageIOTest::io()
-{
-    DJV_DEBUG("djvImageIOTest::io");
-    Graphics::GraphicsContext context;
-    QScopedPointer<Graphics::ImageLoad> load;
-    QScopedPointer<Graphics::ImageSave> save;
-    try
-    {
-        const djvFileInfo fileInfo("djvImageIOTest.ppm");
-        const Graphics::PixelDataInfo pixelDataInfo(1, 1, Graphics::Pixel::L_U8);
-        save.reset(context.imageIOFactory()->save(fileInfo, pixelDataInfo));
-        DJV_ASSERT(save);
-        save->write(Graphics::Image(pixelDataInfo));
-        save->close();
-        Graphics::ImageIOInfo info;
-        load.reset(context.imageIOFactory()->load(fileInfo, info));
-        DJV_ASSERT(load);
-        Graphics::Image image;
-        load->read(image);
-        DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
-        load->close();
-    }
-    catch (const djvError & error)
-    {
-        DJV_DEBUG_PRINT("error = " << djvErrorUtil::format(error));
-    }
-}
+        void ImageIOTest::plugin()
+        {
+            DJV_DEBUG("ImageIOTest::plugin");
+            Graphics::GraphicsContext context;
+            Graphics::ImageIOFactory * factory = context.imageIOFactory();
+            Q_FOREACH(QString plugin, QStringList() << "PPM")
+            {
+                if (Graphics::ImageIO * io = static_cast<Graphics::ImageIO *>(factory->plugin(plugin)))
+                {
+                    DJV_ASSERT(io->extensions().count());
+                    DJV_ASSERT(io->isSequence());
+                    DJV_ASSERT(io->options().count());
+                    DJV_ASSERT(factory->option("", "") == QStringList());
+                    QStringList tmp;
+                    DJV_ASSERT(!factory->setOption("", "", tmp));
+                    Graphics::ImageIOInfo info;
+                    try
+                    {
+                        factory->load(FileInfo(), info);
+                        DJV_ASSERT(0);
+                    }
+                    catch (...)
+                    {
+                    }
+                    try
+                    {
+                        factory->save(FileInfo(), info);
 
+                        DJV_ASSERT(0);
+                    }
+                    catch (...)
+                    {
+                    }
+                }
+            }
+        }
+
+        void ImageIOTest::io()
+        {
+            DJV_DEBUG("ImageIOTest::io");
+            Graphics::GraphicsContext context;
+            QScopedPointer<Graphics::ImageLoad> load;
+            QScopedPointer<Graphics::ImageSave> save;
+            try
+            {
+                const FileInfo fileInfo("ImageIOTest.ppm");
+                const Graphics::PixelDataInfo pixelDataInfo(1, 1, Graphics::Pixel::L_U8);
+                save.reset(context.imageIOFactory()->save(fileInfo, pixelDataInfo));
+                DJV_ASSERT(save);
+                save->write(Graphics::Image(pixelDataInfo));
+                save->close();
+                Graphics::ImageIOInfo info;
+                load.reset(context.imageIOFactory()->load(fileInfo, info));
+                DJV_ASSERT(load);
+                Graphics::Image image;
+                load->read(image);
+                DJV_ASSERT(image.info().pixel == pixelDataInfo.pixel);
+                load->close();
+            }
+            catch (const Error & error)
+            {
+                DJV_DEBUG_PRINT("error = " << ErrorUtil::format(error));
+            }
+        }
+
+    } // namespace GraphicsTest
+} // namespace djv

@@ -35,25 +35,30 @@
 
 #include <djvCore/System.h>
 
-using namespace djv;
-
-djvChoiceDialogTest::djvChoiceDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvChoiceDialogTest::name()
+namespace djv
 {
-    return "djvChoiceDialogTest";
-}
-
-void djvChoiceDialogTest::run(const QStringList & args)
-{
-    UI::ChoiceDialog dialog(
-        "Select a color:",
-        QStringList() << "Red" << "Green" << "Blue",
-        1);
-    if (QDialog::Accepted == dialog.exec())
+    namespace WidgetTest
     {
-        djvSystem::print(QString("%1").arg(dialog.choice()));
-    }
-}
+        ChoiceDialogTest::ChoiceDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
+
+        QString ChoiceDialogTest::name()
+        {
+            return "ChoiceDialogTest";
+        }
+
+        void ChoiceDialogTest::run(const QStringList & args)
+        {
+            UI::ChoiceDialog dialog(
+                "Select a color:",
+                QStringList() << "Red" << "Green" << "Blue",
+                1);
+            if (QDialog::Accepted == dialog.exec())
+            {
+                Core::System::print(QString("%1").arg(dialog.choice()));
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

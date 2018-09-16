@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        SGIPlugin::SGIPlugin(djvCoreContext * context) :
+        SGIPlugin::SGIPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -134,7 +134,7 @@ namespace djv
                 "        Set the file compression used when saving SGI images. Options = %1. "
                 "Default = %2.\n").
                 arg(SGI::compressionLabels().join(", ")).
-                arg(djvStringUtil::label(_options.compression).join(", "));
+                arg(Core::StringUtil::label(_options.compression).join(", "));
         }
 
         ImageLoad * SGIPlugin::createLoad() const

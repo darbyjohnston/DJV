@@ -75,7 +75,7 @@ namespace djv
         class PPMWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            PPMWidgetPlugin(djvCoreContext *);
+            PPMWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

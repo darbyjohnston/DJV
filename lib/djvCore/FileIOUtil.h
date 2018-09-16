@@ -35,37 +35,36 @@
 #include <djvCore/StringUtil.h>
 #include <djvCore/Util.h>
 
-class djvFileIO;
-
-//! \addtogroup djvCoreFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileIOUtil
-//!
-//! This class provides file I/O utilities.
-//------------------------------------------------------------------------------
-
-class djvFileIOUtil
+namespace djv
 {
-public:
-    virtual ~djvFileIOUtil() = 0;
-    
-    //! Read a word from a file.
-    static void word(
-        djvFileIO &,
-        char *,
-        int maxLen = djvStringUtil::cStringLength) throw (djvError);
+    namespace Core
+    {
+        class FileIO;
 
-    //! Read a line from a file.
-    static void line(
-        djvFileIO &,
-        char *,
-        int maxLen = djvStringUtil::cStringLength) throw (djvError);
+        //! \class FileIOUtil
+        //!
+        //! This class provides file I/O utilities.
+        class FileIOUtil
+        {
+        public:
+            virtual ~FileIOUtil() = 0;
 
-    //! Read all the lines from a file.
-    static QStringList lines(const QString & fileName) throw (djvError);
-};
+            //! Read a word from a file.
+            static void word(
+                FileIO &,
+                char *,
+                int maxLen = StringUtil::cStringLength) throw (Error);
 
-//@} // djvCoreFile
+            //! Read a line from a file.
+            static void line(
+                FileIO &,
+                char *,
+                int maxLen = StringUtil::cStringLength) throw (Error);
+
+            //! Read all the lines from a file.
+            static QStringList lines(const QString & fileName) throw (Error);
+        };
+
+    } // namespace Core
+} // namespace djv
 

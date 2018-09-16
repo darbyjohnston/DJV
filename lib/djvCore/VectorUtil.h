@@ -33,48 +33,46 @@
 
 #include <djvCore/Vector.h>
 
-//! \addtogroup djvCoreMath
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvVectorUtil
-//!
-//! This class provides vector utilities.
-//------------------------------------------------------------------------------
-
-class djvVectorUtil
+namespace djv
 {
-public:
-    inline virtual ~djvVectorUtil() = 0;
-    
-    //! Are all of the components greater than zero?
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline bool isSizeValid(const glm::tvec2<T, P> &);
-    
-    //! Get the minimum vector components.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline glm::tvec2<T, P> min(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
-    
-    //! Get the maximum vector components.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline glm::tvec2<T, P> max(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
-    
-    //! Swap the vector components.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline glm::tvec2<T, P> swap(const glm::tvec2<T, P> &);
-    
-    //! Get the aspect ratio of the components.
-    template<typename T, glm::precision P = glm::defaultp>
-    static inline float aspect(const glm::tvec2<T, P> &);
-    
-    //! Round to the smallest integer value.
-    static inline glm::ivec2 floor(const glm::vec2&);
-    
-    //! Round to the largest integer value.
-    static inline glm::ivec2 ceil(const glm::vec2&);
-};
+    namespace Core
+    {
+        //! \class VectorUtil
+        //!
+        //! This class provides vector utilities.
+        class VectorUtil
+        {
+        public:
+            inline virtual ~VectorUtil() = 0;
 
-//@} // djvCoreMath
+            //! Are all of the components greater than zero?
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline bool isSizeValid(const glm::tvec2<T, P> &);
+
+            //! Get the minimum vector components.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline glm::tvec2<T, P> min(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
+
+            //! Get the maximum vector components.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline glm::tvec2<T, P> max(const glm::tvec2<T, P> &, const glm::tvec2<T, P> &);
+
+            //! Swap the vector components.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline glm::tvec2<T, P> swap(const glm::tvec2<T, P> &);
+
+            //! Get the aspect ratio of the components.
+            template<typename T, glm::precision P = glm::defaultp>
+            static inline float aspect(const glm::tvec2<T, P> &);
+
+            //! Round to the smallest integer value.
+            static inline glm::ivec2 floor(const glm::vec2&);
+
+            //! Round to the largest integer value.
+            static inline glm::ivec2 ceil(const glm::vec2&);
+        };
+
+    } // namespace Core
+} // namspace djv
 
 #include <djvCore/VectorUtilInline.h>
-

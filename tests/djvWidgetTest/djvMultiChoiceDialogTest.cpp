@@ -36,27 +36,32 @@
 #include <djvCore/System.h>
 #include <djvCore/StringUtil.h>
 
-using namespace djv;
-
-djvMultiChoiceDialogTest::djvMultiChoiceDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvMultiChoiceDialogTest::name()
+namespace djv
 {
-    return "djvMultiChoiceDialogTest";
-}
-
-void djvMultiChoiceDialogTest::run(const QStringList & args)
-{
-    UI::MultiChoiceDialog dialog(
-        "Display:",
-        QStringList() << "Red" << "Green" << "Blue",
-        QVector<bool>() << false << true);
-    if (QDialog::Accepted == dialog.exec())
+    namespace WidgetTest
     {
-        QStringList tmp;
-        tmp << dialog.values();
-        djvSystem::print(QString("%1").arg(tmp.join(", ")));
-    }
-}
+        MultiChoiceDialogTest::MultiChoiceDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
+
+        QString MultiChoiceDialogTest::name()
+        {
+            return "MultiChoiceDialogTest";
+        }
+
+        void MultiChoiceDialogTest::run(const QStringList & args)
+        {
+            UI::MultiChoiceDialog dialog(
+                "Display:",
+                QStringList() << "Red" << "Green" << "Blue",
+                QVector<bool>() << false << true);
+            if (QDialog::Accepted == dialog.exec())
+            {
+                QStringList tmp;
+                tmp << dialog.values();
+                Core::System::print(QString("%1").arg(tmp.join(", ")));
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

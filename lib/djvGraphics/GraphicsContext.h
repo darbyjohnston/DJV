@@ -44,7 +44,7 @@ namespace djv
         //! \class GraphicsContext
         //!
         //! This class provides global functionality for the library.
-        class GraphicsContext : public djvCoreContext
+        class GraphicsContext : public Core::CoreContext
         {
         public:
             explicit GraphicsContext(QObject * parent = nullptr);

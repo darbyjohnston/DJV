@@ -48,21 +48,21 @@ namespace djv
         class DPXSave : public ImageSave
         {
         public:
-            DPXSave(const DPX::Options &, djvCoreContext *);
+            DPXSave(const DPX::Options &, Core::CoreContext *);
 
             virtual ~DPXSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (djvError);
+            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
 
-            DPX::Options  _options;
-            djvFileInfo   _file;
-            DPXHeader     _header;
-            PixelDataInfo _info;
-            Image         _image;
+            DPX::Options   _options;
+            Core::FileInfo _file;
+            DPXHeader      _header;
+            PixelDataInfo  _info;
+            Image          _image;
         };
 
     } // namespace Graphics

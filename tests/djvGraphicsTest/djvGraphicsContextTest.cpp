@@ -37,112 +37,120 @@
 #include <djvGraphics/GraphicsContext.h>
 #include <djvGraphics/OpenGLImage.h>
 
-using namespace djv;
+using namespace djv::Core;
+using namespace djv::Graphics;
 
-void djvGraphicsContextTest::run(int & argc, char ** argv)
+namespace djv
 {
-    DJV_DEBUG("djvGraphicsContextTest::run");
+    namespace GraphicsTest
     {
-        Graphics::GraphicsContext context;
-        DJV_ASSERT(context.openGlContext());
-    }
-    try
-    {
-        Graphics::GraphicsContext context;
-        char * args [256] =
+        void GraphicsContextTest::run(int & argc, char ** argv)
         {
-            "djvTest",
-            "arg"
-        };
-        int argsCount = 2;
-        DJV_ASSERT(context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        Graphics::GraphicsContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-render_filter", "Box", "Triangle"
-        };
-        int argsCount = 4;
-        DJV_ASSERT(context.commandLine(argsCount, args));
-        DJV_ASSERT(Graphics::OpenGLImageFilter(
-            Graphics::OpenGLImageFilter::BOX, Graphics::OpenGLImageFilter::TRIANGLE) ==
-            Graphics::OpenGLImageFilter::filter());
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        Graphics::GraphicsContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-render_filter_high"
-        };
-        int argsCount = 2;
-        DJV_ASSERT(context.commandLine(argsCount, args));
-        DJV_ASSERT(Graphics::OpenGLImageFilter::filterHighQuality() == Graphics::OpenGLImageFilter::filter());
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        Graphics::GraphicsContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-render_filter"
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (...)
-    {}
+            DJV_DEBUG("GraphicsContextTest::run");
+            {
+                Graphics::GraphicsContext context;
+                DJV_ASSERT(context.openGlContext());
+            }
+            try
+            {
+                Graphics::GraphicsContext context;
+                char * args[256] =
+                {
+                    "djvTest",
+                    "arg"
+                };
+                int argsCount = 2;
+                DJV_ASSERT(context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                Graphics::GraphicsContext context;
+                char * args[256] =
+                {
+                    "djvTest",
+                    "-render_filter", "Box", "Triangle"
+                };
+                int argsCount = 4;
+                DJV_ASSERT(context.commandLine(argsCount, args));
+                DJV_ASSERT(Graphics::OpenGLImageFilter(
+                    Graphics::OpenGLImageFilter::BOX, Graphics::OpenGLImageFilter::TRIANGLE) ==
+                    Graphics::OpenGLImageFilter::filter());
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                Graphics::GraphicsContext context;
+                char * args[256] =
+                {
+                    "djvTest",
+                    "-render_filter_high"
+                };
+                int argsCount = 2;
+                DJV_ASSERT(context.commandLine(argsCount, args));
+                DJV_ASSERT(Graphics::OpenGLImageFilter::filterHighQuality() == Graphics::OpenGLImageFilter::filter());
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                Graphics::GraphicsContext context;
+                char * args[256] =
+                {
+                    "djvTest",
+                    "-render_filter"
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (...)
+            {
+            }
 
-    try
-    {
-        Graphics::GraphicsContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-help",
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        Graphics::GraphicsContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-info",
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-}
+            try
+            {
+                Graphics::GraphicsContext context;
+                char * args[256] =
+                {
+                    "djvTest",
+                    "-help",
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                Graphics::GraphicsContext context;
+                char * args[256] =
+                {
+                    "djvTest",
+                    "-info",
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+        }
 
+    } // namespace GraphicsTest
+} // namespace djv

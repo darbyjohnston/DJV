@@ -424,7 +424,7 @@ namespace djv
         void ImagePrefsWidget::widgetUpdate()
         {
             //DJV_DEBUG("ImagePrefsWidget::widgetUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->frameStoreFileReloadWidget <<
                 _p->mirrorHWidget <<
                 _p->mirrorVWidget <<

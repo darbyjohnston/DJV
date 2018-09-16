@@ -62,7 +62,7 @@ namespace djv
         class DPXPlugin : public ImageIO
         {
         public:
-            explicit DPXPlugin(djvCoreContext *);
+            explicit DPXPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

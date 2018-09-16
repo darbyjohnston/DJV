@@ -46,18 +46,18 @@ namespace djv
         class PNGLoad : public ImageLoad
         {
         public:
-            explicit PNGLoad(djvCoreContext *);
+            explicit PNGLoad(Core::CoreContext *);
 
             virtual ~PNGLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
-            virtual void close() throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            virtual void close() throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &) throw (Core::Error);
 
-            djvFileInfo    _file;
+            Core::FileInfo _file;
             FILE *         _f;
             png_structp    _png;
             png_infop      _pngInfo;

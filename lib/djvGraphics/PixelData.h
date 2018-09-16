@@ -43,13 +43,17 @@
 
 #include <vector>
 
-class djvFileIO;
-
 namespace djv
 {
+    namespace Core
+    {
+        class FileIO;
+
+    } // namespace Core
+
     namespace Graphics
     {
-        //! \class djvPixelDataInfo
+        //! \class PixelDataInfo
         //!
         //! This class provides pixel data information.
         class PixelDataInfo
@@ -100,21 +104,21 @@ namespace djv
                 bool y = false;
             };
 
-            QString           fileName;
-            QString           layerName;
-            glm::ivec2        size = glm::ivec2(0, 0);
-            PROXY             proxy = PROXY_NONE;
-            Pixel::PIXEL      pixel = static_cast<Pixel::PIXEL>(0);
-            bool              bgr = false;
-            Mirror            mirror;
-            int               align = 1;
-            djvMemory::ENDIAN endian = djvMemory::endian();
+            QString              fileName;
+            QString              layerName;
+            glm::ivec2           size = glm::ivec2(0, 0);
+            PROXY                proxy = PROXY_NONE;
+            Pixel::PIXEL         pixel = static_cast<Pixel::PIXEL>(0);
+            bool                 bgr = false;
+            Mirror               mirror;
+            int                  align = 1;
+            Core::Memory::ENDIAN endian = Core::Memory::endian();
 
         private:
             void init();
         };
 
-        //! \class djvPixelData
+        //! \class PixelData
         //!
         //! This class provides pixel data.
         class PixelData
@@ -122,12 +126,12 @@ namespace djv
         public:
             PixelData();
             PixelData(const PixelData &);
-            PixelData(const PixelDataInfo &, const quint8 * = 0, djvFileIO * = 0);
+            PixelData(const PixelDataInfo &, const quint8 * = 0, Core::FileIO * = 0);
 
             virtual ~PixelData();
 
             //! Set the pixel data.
-            void set(const PixelDataInfo &, const quint8 * = 0, djvFileIO * = 0);
+            void set(const PixelDataInfo &, const quint8 * = 0, Core::FileIO * = 0);
 
             //! Zero the pixel data.
             void zero();
@@ -194,25 +198,26 @@ namespace djv
             quint64             _pixelByteCount = 0;
             quint64             _scanlineByteCount = 0;
             quint64             _dataByteCount = 0;
-            djvFileIO *         _fileIo = nullptr;
+            Core::FileIO *      _fileIo = nullptr;
         };
 
-        DJV_COMPARISON_OPERATOR(PixelDataInfo::Mirror);
-        DJV_COMPARISON_OPERATOR(PixelDataInfo);
-        DJV_COMPARISON_OPERATOR(PixelData);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::PixelDataInfo::Mirror);
+    DJV_COMPARISON_OPERATOR(Graphics::PixelDataInfo);
+    DJV_COMPARISON_OPERATOR(Graphics::PixelData);
+
+    DJV_STRING_OPERATOR(Graphics::PixelDataInfo::PROXY);
+    DJV_STRING_OPERATOR(Graphics::PixelDataInfo::Mirror);
+
+    DJV_DEBUG_OPERATOR(Graphics::PixelDataInfo::PROXY);
+    DJV_DEBUG_OPERATOR(Graphics::PixelDataInfo::Mirror);
+    DJV_DEBUG_OPERATOR(Graphics::PixelDataInfo);
+    DJV_DEBUG_OPERATOR(Graphics::PixelData);
+
 } // namespace djv
 
 Q_DECLARE_METATYPE(djv::Graphics::PixelDataInfo)
 Q_DECLARE_METATYPE(djv::Graphics::PixelData)
-
-DJV_STRING_OPERATOR(djv::Graphics::PixelDataInfo::PROXY);
-DJV_STRING_OPERATOR(djv::Graphics::PixelDataInfo::Mirror);
-
-DJV_DEBUG_OPERATOR(djv::Graphics::PixelDataInfo::PROXY);
-DJV_DEBUG_OPERATOR(djv::Graphics::PixelDataInfo::Mirror);
-DJV_DEBUG_OPERATOR(djv::Graphics::PixelDataInfo);
-DJV_DEBUG_OPERATOR(djv::Graphics::PixelData);
 
 #include <djvGraphics/PixelDataInline.h>

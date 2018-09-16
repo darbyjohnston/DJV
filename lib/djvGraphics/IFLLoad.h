@@ -44,12 +44,12 @@ namespace djv
         class IFLLoad : public ImageLoad
         {
         public:
-            explicit IFLLoad(djvCoreContext *);
+            explicit IFLLoad(Core::CoreContext *);
 
             virtual ~IFLLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
             QStringList _list;

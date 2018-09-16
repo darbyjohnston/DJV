@@ -133,11 +133,11 @@ namespace djv
 
         void JPEGWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_qualityWidget);
+            Core::SignalBlocker signalBlocker(_qualityWidget);
             _qualityWidget->setValue(_options.quality);
         }
 
-        JPEGWidgetPlugin::JPEGWidgetPlugin(djvCoreContext * context) :
+        JPEGWidgetPlugin::JPEGWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

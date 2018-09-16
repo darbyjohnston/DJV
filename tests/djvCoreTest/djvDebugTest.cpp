@@ -37,22 +37,29 @@
 #include <QStringList>
 #include <QVector>
 
-void djvDebugTest::run(int &, char **)
-{
-    DJV_DEBUG("djvDebugTest::run");
-    DJV_DEBUG_PRINT("string = " << QString("string"));
-    DJV_DEBUG_PRINT("char * = " << "char *");
-    DJV_DEBUG_PRINT("bool = " << true);
-    DJV_DEBUG_PRINT("int = " << static_cast<int>(1));
-    DJV_DEBUG_PRINT("unsigned int = " << static_cast<unsigned int>(1));
-    DJV_DEBUG_PRINT("qint64 = " << static_cast<qint64>(1));
-    DJV_DEBUG_PRINT("quint64 = " << static_cast<quint64>(1));
-    DJV_DEBUG_PRINT("float = " << 1.f);
-    DJV_DEBUG_PRINT("double = " << 1.0);
-    DJV_DEBUG_PRINT("string list = " << QStringList() << "a" << "b" << "c");
-    DJV_DEBUG_PRINT("vector = " << QVector<int>() << 1 << 2 << 3);    
-    DJV_DEBUG_PRINT("bits = " << djvDebug::bitsU8(1));
-    DJV_DEBUG_PRINT("bits = " << djvDebug::bitsU16(1));
-    DJV_DEBUG_PRINT("bits = " << djvDebug::bitsU32(1));
-}
+using namespace djv::Core;
 
+namespace djv
+{
+    namespace CoreTest
+    {
+        void DebugTest::run(int &, char **)
+        {
+            DJV_DEBUG("DebugTest::run");
+            DJV_DEBUG_PRINT("string = " << QString("string"));
+            DJV_DEBUG_PRINT("char * = " << "char *");
+            DJV_DEBUG_PRINT("bool = " << true);
+            DJV_DEBUG_PRINT("int = " << static_cast<int>(1));
+            DJV_DEBUG_PRINT("unsigned int = " << static_cast<unsigned int>(1));
+            DJV_DEBUG_PRINT("qint64 = " << static_cast<qint64>(1));
+            DJV_DEBUG_PRINT("quint64 = " << static_cast<quint64>(1));
+            DJV_DEBUG_PRINT("float = " << 1.f);
+            DJV_DEBUG_PRINT("double = " << 1.0);
+            DJV_DEBUG_PRINT("string list = " << QStringList() << "a" << "b" << "c");
+            DJV_DEBUG_PRINT("bits = " << Debug::bitsU8(1));
+            DJV_DEBUG_PRINT("bits = " << Debug::bitsU16(1));
+            DJV_DEBUG_PRINT("bits = " << Debug::bitsU32(1));
+        }
+
+    } // namespace CoreTest
+} // namespace djv

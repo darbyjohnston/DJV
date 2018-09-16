@@ -37,153 +37,162 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//------------------------------------------------------------------------------
-// djvDebug::Private
-//------------------------------------------------------------------------------
-
-struct djvDebug::Private
+namespace djv
 {
-    QString  tmp;
-    djvTimer timer;
-};
-
-//------------------------------------------------------------------------------
-// djvDebug
-//------------------------------------------------------------------------------
-
-namespace
-{
-// Note that the indentation level is a global variable.
-int indent = 0;
-
-} // namespace
-
-void djvDebug::init(const QString & in)
-{
-    *this << LINE_BEGIN << in << LINE_END;
-    *this << LINE_BEGIN << "{" << LINE_END;
-    indent += 4;
-}
-
-djvDebug::djvDebug(const QString & prefix, const QString & in) :
-    _p(new Private)
-{
-    init(prefix + ": " + in);
-}
-
-djvDebug::~djvDebug()
-{
-    _p->timer.check();
-    indent -= 4;
-    *this <<
-        LINE_BEGIN <<
-        "} (" <<
-        _p->timer.seconds() <<
-        " seconds, " <<
-        _p->timer.fps() <<
-        " fps)" <<
-        LINE_END;
-}
-
-void djvDebug::add(const QString & in)
-{
-    _p->tmp += in;
-}
-
-namespace
-{
-
-QString bits(quint32 in, int size)
-{
-    QString out;
-    for (int i = 0; i < size; ++i)
+    namespace Core
     {
-        out += ((in >> i) & 1) ? '1' : '0';
-    }
-    return out;
-}
+        struct Debug::Private
+        {
+            QString tmp;
+            Timer timer;
+        };
 
-} // namespace
+        namespace
+        {
+            // Note that the indentation level is a global variable.
+            int indent = 0;
 
-QString djvDebug::bitsU8(quint8  in)
-{
-    return bits(in, 8);
-}
+        } // namespace
 
-QString djvDebug::bitsU16(quint16 in)
-{
-    return bits(in, 16);
-}
+        void Debug::init(const QString & in)
+        {
+            *this << LINE_BEGIN << in << LINE_END;
+            *this << LINE_BEGIN << "{" << LINE_END;
+            indent += 4;
+        }
 
-QString djvDebug::bitsU32(quint32 in)
-{
-    return bits(in, 32);
-}
+        Debug::Debug(const QString & prefix, const QString & in) :
+            _p(new Private)
+        {
+            init(prefix + ": " + in);
+        }
 
-djvDebug & djvDebug::operator << (LINE in)
-{
-    switch (in)
-    {
-        case LINE_BEGIN:
+        Debug::~Debug()
+        {
+            _p->timer.check();
+            indent -= 4;
+            *this <<
+                LINE_BEGIN <<
+                "} (" <<
+                _p->timer.seconds() <<
+                " seconds, " <<
+                _p->timer.fps() <<
+                " fps)" <<
+                LINE_END;
+        }
+
+        void Debug::add(const QString & in)
+        {
+            _p->tmp += in;
+        }
+
+        namespace
+        {
+            QString bits(quint32 in, int size)
+            {
+                QString out;
+                for (int i = 0; i < size; ++i)
+                {
+                    out += ((in >> i) & 1) ? '1' : '0';
+                }
+                return out;
+            }
+
+        } // namespace
+
+        QString Debug::bitsU8(quint8  in)
+        {
+            return bits(in, 8);
+        }
+
+        QString Debug::bitsU16(quint16 in)
+        {
+            return bits(in, 16);
+        }
+
+        QString Debug::bitsU32(quint32 in)
+        {
+            return bits(in, 32);
+        }
+
+        void Debug::lineBegin()
+        {
             _p->tmp = "debug " + QString(indent, ' ');
-            break;
-        case LINE_END:
+        }
+
+        void Debug::lineEnd()
+        {
             ::printf("%s\n", _p->tmp.toLatin1().data());
             ::fflush(stdout);
+        }
+
+    } // namespace Core
+
+    Core::Debug & operator << (Core::Debug & debug, Core::Debug::LINE in)
+    {
+        switch (in)
+        {
+        case Core::Debug::LINE_BEGIN:
+            debug.lineBegin();
             break;
+        case Core::Debug::LINE_END:
+            debug.lineEnd();
+            break;
+        }
+        return debug;
     }
-    return *this;
-}
+    
+    Core::Debug & operator << (Core::Debug & debug, const char * in)
+    {
+        debug.add(in);
+        return debug;
+    }
 
-djvDebug & operator << (djvDebug & debug, const char * in)
-{
-    debug.add(in);
-    return debug;
-}
+    Core::Debug & operator << (Core::Debug & debug, bool in)
+    {
+        static const QStringList label = Core::StringUtil::boolLabels();
+        return debug << label[in];
+    }
 
-djvDebug & operator << (djvDebug & debug, bool in)
-{
-    static const QStringList label = djvStringUtil::boolLabels();
-    return debug << label[in];
-}
+    Core::Debug & operator << (Core::Debug & debug, int in)
+    {
+        return debug << QString::number(in);
+    }
 
-djvDebug & operator << (djvDebug & debug, int in)
-{
-    return debug << QString::number(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, unsigned int in)
+    {
+        return debug << QString::number(in);
+    }
 
-djvDebug & operator << (djvDebug & debug, unsigned int in)
-{
-    return debug << QString::number(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, qint64 in)
+    {
+        return debug << QString::number(in);
+    }
 
-djvDebug & operator << (djvDebug & debug, qint64 in)
-{
-    return debug << QString::number(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, quint64 in)
+    {
+        return debug << QString::number(in);
+    }
 
-djvDebug & operator << (djvDebug & debug, quint64 in)
-{
-    return debug << QString::number(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, float in)
+    {
+        return debug << QString::number(in);
+    }
 
-djvDebug & operator << (djvDebug & debug, float in)
-{
-    return debug << QString::number(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, double in)
+    {
+        return debug << QString::number(in);
+    }
 
-djvDebug & operator << (djvDebug & debug, double in)
-{
-    return debug << QString::number(in);
-}
+    Core::Debug & operator << (Core::Debug & debug, const QString & in)
+    {
+        debug.add(in);
+        return debug;
+    }
 
-djvDebug & operator << (djvDebug & debug, const QString & in)
-{
-    debug.add(in);
-    return debug;
-}
+    Core::Debug & operator << (Core::Debug & debug, const QStringList & in)
+    {
+        return debug << in.join(" ");
+    }
 
-djvDebug & operator << (djvDebug & debug, const QStringList & in)
-{
-    return debug << in.join(" ");
-}
+} // namespace djv

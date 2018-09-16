@@ -46,7 +46,7 @@ namespace djv
         glm::ivec2 WindowUtil::resize(const glm::ivec2 & size, float maxPercent)
         {
             const QSize qSize = qApp->desktop()->availableGeometry().size();
-            return djvVectorUtil::min(
+            return Core::VectorUtil::min(
                 size,
                 glm::ivec2(glm::vec2(qSize.width(), qSize.height()) * maxPercent));
         }

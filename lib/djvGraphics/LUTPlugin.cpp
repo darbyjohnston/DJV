@@ -42,7 +42,7 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTPlugin::LUTPlugin(djvCoreContext * context) :
+        LUTPlugin::LUTPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -82,7 +82,7 @@ namespace djv
                 "        Set the pixel type used when loading LUTs. Options = %1. Default = "
                 "%2.\n").
                 arg(LUT::typeLabels().join(", ")).
-                arg(djvStringUtil::label(_options.type).join(", "));
+                arg(Core::StringUtil::label(_options.type).join(", "));
         }
 
         QString LUTPlugin::pluginName() const

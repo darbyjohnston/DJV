@@ -36,74 +36,81 @@
 #include <djvCore/FileIO.h>
 #include <djvCore/FileIOUtil.h>
 
-void djvFileIOUtilTest::run(int &, char **)
+using namespace djv::Core;
+
+namespace djv
 {
-    DJV_DEBUG("djvFileIOUtilTest::run");
-    word();
-    lines();
-}
-
-namespace
-{
-
-const QStringList data = QStringList() <<
-    "a" << "bb" << "ccc";
-
-} // namespace
-
-void djvFileIOUtilTest::word()
-{
-    DJV_DEBUG("djvFileIOUtilTest::word");
-    const QString fileName = "djvFileIOUtilTest.test";
-    djvFileIO io;
-    io.open(fileName, djvFileIO::WRITE);
-    const QString s = QString("# comment\n") + data.join(" ");
-    const QByteArray b = s.toLatin1();
-    io.set(b.data(), b.count());
-    io.setU8(0);
-    io.close();
-
-    io.open(fileName, djvFileIO::READ);
-
-    char buf [djvStringUtil::cStringLength];
-    int i = 0;
-    while (io.isValid())
+    namespace CoreTest
     {
-        djvFileIOUtil::word(io, buf);
-        DJV_DEBUG_PRINT("word = " << buf);
-        DJV_ASSERT(data[i++] == QString(buf));
-    }
-    DJV_ASSERT(data.count() == i);
-}
+        void FileIOUtilTest::run(int &, char **)
+        {
+            DJV_DEBUG("FileIOUtilTest::run");
+            word();
+            lines();
+        }
 
-void djvFileIOUtilTest::lines()
-{
-    DJV_DEBUG("djvFileIOUtilTest::lines");
-    const QString fileName = "djvFileIOUtilTest.test";
-    djvFileIO io;
-    io.open(fileName, djvFileIO::WRITE);
-    const QString s = data.join("\n");
-    const QByteArray b = s.toLatin1();
-    io.set(b.data(), b.count());
-    io.setU8(0);
-    io.close();
+        namespace
+        {
+            const QStringList data = QStringList() <<
+                "a" << "bb" << "ccc";
 
-    io.open(fileName, djvFileIO::READ);
-    char buf [djvStringUtil::cStringLength];
-    int i = 0;
-    while (io.isValid())
-    {
-        djvFileIOUtil::line(io, buf);
-        DJV_DEBUG_PRINT("line = " << buf);
-        DJV_ASSERT(data[i++] == QString(buf));
-    }
-    DJV_ASSERT(data.count() == i);
+        } // namespace
 
-    const QStringList list = djvFileIOUtil::lines(fileName);
-    DJV_ASSERT(data.count() == list.count());
-    for (i = 0; i < data.count(); ++i)
-    {
-        DJV_ASSERT(data[i] == list[i]);
-    }
-}
+        void FileIOUtilTest::word()
+        {
+            DJV_DEBUG("FileIOUtilTest::word");
+            const QString fileName = "FileIOUtilTest.test";
+            FileIO io;
+            io.open(fileName, FileIO::WRITE);
+            const QString s = QString("# comment\n") + data.join(" ");
+            const QByteArray b = s.toLatin1();
+            io.set(b.data(), b.count());
+            io.setU8(0);
+            io.close();
 
+            io.open(fileName, FileIO::READ);
+
+            char buf[StringUtil::cStringLength];
+            int i = 0;
+            while (io.isValid())
+            {
+                FileIOUtil::word(io, buf);
+                DJV_DEBUG_PRINT("word = " << buf);
+                DJV_ASSERT(data[i++] == QString(buf));
+            }
+            DJV_ASSERT(data.count() == i);
+        }
+
+        void FileIOUtilTest::lines()
+        {
+            DJV_DEBUG("FileIOUtilTest::lines");
+            const QString fileName = "FileIOUtilTest.test";
+            FileIO io;
+            io.open(fileName, FileIO::WRITE);
+            const QString s = data.join("\n");
+            const QByteArray b = s.toLatin1();
+            io.set(b.data(), b.count());
+            io.setU8(0);
+            io.close();
+
+            io.open(fileName, FileIO::READ);
+            char buf[StringUtil::cStringLength];
+            int i = 0;
+            while (io.isValid())
+            {
+                FileIOUtil::line(io, buf);
+                DJV_DEBUG_PRINT("line = " << buf);
+                DJV_ASSERT(data[i++] == QString(buf));
+            }
+            DJV_ASSERT(data.count() == i);
+
+            const QStringList list = FileIOUtil::lines(fileName);
+            DJV_ASSERT(data.count() == list.count());
+            for (i = 0; i < data.count(); ++i)
+            {
+                DJV_ASSERT(data[i] == list[i]);
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

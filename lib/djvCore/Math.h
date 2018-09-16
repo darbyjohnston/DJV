@@ -33,182 +33,181 @@
 
 #include <djvConfig.h>
 
-//! \addtogroup djvCoreMath
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvMath
-//!
-//! This class provides math utilities.
-//!
-//! References:
-//!
-//! - Andrew Glassner, "Graphics Gems"
-//! - David S. Ebert, F. Kenton Musgrave, Darwyn Peachey, Ken Perlin,
-//!   Steven Worley, "Texturing & Modeling, A Procedural Approach"
-//------------------------------------------------------------------------------
-
-class djvMath
+namespace djv
 {
-public:
-    virtual ~djvMath() = 0;
-    
-    static const float pi;     //!< Pi
-    static const float piX2;   //!< Pi times two
-    static const float piDiv2; //!< Pi divided by two
-    static const float piDiv4; //!< Pi divided by four
+    namespace Core
+    {
+        //! \class Math
+        //!
+        //! This class provides math utilities.
+        //!
+        //! References:
+        //!
+        //! - Andrew Glassner, "Graphics Gems"
+        //! - David S. Ebert, F. Kenton Musgrave, Darwyn Peachey, Ken Perlin,
+        //!   Steven Worley, "Texturing & Modeling, A Procedural Approach"
+        class Math
+        {
+        public:
+            virtual ~Math() = 0;
 
-    //! Get the absolute value.
-    template<typename T>
-    static inline T abs(T);
+            static const float pi;     //!< Pi
+            static const float piX2;   //!< Pi times two
+            static const float piDiv2; //!< Pi divided by two
+            static const float piDiv4; //!< Pi divided by four
 
-    //! Raise a value to a power.
-    static int pow(int value, int power);
+            //! Get the absolute value.
+            template<typename T>
+            static inline T abs(T);
 
-    //! Raise a value to a power.
-    static float pow(float value, float power);
+            //! Raise a value to a power.
+            static int pow(int value, int power);
 
-    //! Get the square root of a value.
-    static float sqrt(float);
+            //! Raise a value to a power.
+            static float pow(float value, float power);
 
-    //! Exponential.
-    static float exp(float);
+            //! Get the square root of a value.
+            static float sqrt(float);
 
-    //! Logarithm.
-    static float log(float);
+            //! Exponential.
+            static float exp(float);
 
-    //! Logarithm.
-    static float log10(float);
+            //! Logarithm.
+            static float log(float);
 
-    //! Logarithm.
-    static float antiLog10(float);
+            //! Logarithm.
+            static float log10(float);
 
-    //! Modulus.
-    template<typename T>
-    static inline T mod(T value, T mod);
+            //! Logarithm.
+            static float antiLog10(float);
 
-    //! Wrap a number between two values.
-    template<typename T>
-    static inline T wrap(T value, T min, T max);
+            //! Modulus.
+            template<typename T>
+            static inline T mod(T value, T mod);
 
-    //! Step function.
-    template<typename T>
-    static inline T step(T value, T step);
+            //! Wrap a number between two values.
+            template<typename T>
+            static inline T wrap(T value, T min, T max);
 
-    //! Pulse function.
-    template<typename T>
-    static inline T pulse(T value, T min, T max);
+            //! Step function.
+            template<typename T>
+            static inline T step(T value, T step);
 
-    //! Bias function.
-    static float bias(float value, float bias);
+            //! Pulse function.
+            template<typename T>
+            static inline T pulse(T value, T min, T max);
 
-    //! Gain function.
-    static float gain(float value, float gain);
+            //! Bias function.
+            static float bias(float value, float bias);
 
-    //! Return the minimum of two values.
-    template<typename T>
-    static inline T min(const T &, const T &);
+            //! Gain function.
+            static float gain(float value, float gain);
 
-    //! Return the maximum of two values.
-    template<typename T>
-    static inline T max(const T &, const T &);
+            //! Return the minimum of two values.
+            template<typename T>
+            static inline T min(const T &, const T &);
 
-    //! Clamp a number between two values.
-    template<typename T>
-    static inline T clamp(T, T min, T max);
+            //! Return the maximum of two values.
+            template<typename T>
+            static inline T max(const T &, const T &);
 
-    //! Linear interpolation.
-    template<typename T, typename U>
-    static inline T lerp(U value, T min, T max);
+            //! Clamp a number between two values.
+            template<typename T>
+            static inline T clamp(T, T min, T max);
 
-    //! Smooth step function.
-    static inline float smoothStep(float value, float min, float max);
+            //! Linear interpolation.
+            template<typename T, typename U>
+            static inline T lerp(U value, T min, T max);
 
-    //! Soft clip function.
-    //!
-    //! References:
-    //!
-    //! - Ken McGaugh, "Re: [Openexr-devel] Cineon -> half conversion?"
-    //!   OpenEXR Mailing List 3/2/05
-    static float softClip(float value, float softClip);
+            //! Smooth step function.
+            static inline float smoothStep(float value, float min, float max);
 
-    //! Sine function.
-    static float sin(float);
+            //! Soft clip function.
+            //!
+            //! References:
+            //!
+            //! - Ken McGaugh, "Re: [Openexr-devel] Cineon -> half conversion?"
+            //!   OpenEXR Mailing List 3/2/05
+            static float softClip(float value, float softClip);
 
-    //! Cosine function.
-    static float cos(float);
+            //! Sine function.
+            static float sin(float);
 
-    //! Secant function.
-    static float sec(float);
+            //! Cosine function.
+            static float cos(float);
 
-    //! Tangent function.
-    static float tan(float);
+            //! Secant function.
+            static float sec(float);
 
-    //! Inverse sine function.
-    static float arcSin(float);
+            //! Tangent function.
+            static float tan(float);
 
-    //! Inverse cosine function.
-    static float arcCos(float);
+            //! Inverse sine function.
+            static float arcSin(float);
 
-    //! Inverse tangent function.
-    static float arcTan(float);
+            //! Inverse cosine function.
+            static float arcCos(float);
 
-    //! Inverse tangent function.
-    static float arcTan(float, float);
+            //! Inverse tangent function.
+            static float arcTan(float);
 
-    //! Cosecant function.
-    static float coSec(float);
+            //! Inverse tangent function.
+            static float arcTan(float, float);
 
-    //! Cotangent function.
-    static float coTan(float);
+            //! Cosecant function.
+            static float coSec(float);
 
-    //! Get a random number between zero and one.
-    static float rand();
+            //! Cotangent function.
+            static float coTan(float);
 
-    //! Get a random number between zero and the given value.
-    static float rand(float);
+            //! Get a random number between zero and one.
+            static float rand();
 
-    //! Get a random number between two values.
-    static float rand(float min, float max);
+            //! Get a random number between zero and the given value.
+            static float rand(float);
 
-    //! Seed the random value generator. A value of zero uses a random seed.
-    static void randSeed(unsigned int = 0);
+            //! Get a random number between two values.
+            static float rand(float min, float max);
 
-    //! Round to the smallest integer value.
-    static int floor(float);
+            //! Seed the random value generator. A value of zero uses a random seed.
+            static void randSeed(unsigned int = 0);
 
-    //! Round to the largest integer value.
-    static int ceil(float);
+            //! Round to the smallest integer value.
+            static int floor(float);
 
-    //! Round to an integer value.
-    static int round(float);
+            //! Round to the largest integer value.
+            static int ceil(float);
 
-    //! Get the value after the decimal.
-    static inline float fraction(float);
+            //! Round to an integer value.
+            static int round(float);
 
-    //! Find the closest power of two.
-    static inline int toPow2(int);
+            //! Get the value after the decimal.
+            static inline float fraction(float);
 
-    //! Convert degrees to radians.
-    static inline float degreesToRadians(float);
+            //! Find the closest power of two.
+            static inline int toPow2(int);
 
-    //! Convert radians to degrees.
-    static inline float radiansToDegrees(float);
-    
-    //! Floating point comparison.
-    static bool fuzzyCompare(float, float);
-    
-    //! Floating point comparison.
-    static bool fuzzyCompare(float, float, float precision);
-    
-    //! Floating point comparison.    
-    static bool fuzzyCompare(double, double);
-    
-    //! Floating point comparison.
-    static bool fuzzyCompare(double, double, double precision);
-};
+            //! Convert degrees to radians.
+            static inline float degreesToRadians(float);
 
-//@} // djvCoreMath
+            //! Convert radians to degrees.
+            static inline float radiansToDegrees(float);
+
+            //! Floating point comparison.
+            static bool fuzzyCompare(float, float);
+
+            //! Floating point comparison.
+            static bool fuzzyCompare(float, float, float precision);
+
+            //! Floating point comparison.    
+            static bool fuzzyCompare(double, double);
+
+            //! Floating point comparison.
+            static bool fuzzyCompare(double, double, double precision);
+        };
+
+    } // namespace Core
+} // namespace djv
 
 #include <djvCore/MathInline.h>
 

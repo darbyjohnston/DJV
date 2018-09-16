@@ -46,20 +46,20 @@ namespace djv
         class CineonLoad : public ImageLoad
         {
         public:
-            CineonLoad(const Cineon::Options &, djvCoreContext *);
+            CineonLoad(const Cineon::Options &, Core::CoreContext *);
 
             virtual ~CineonLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &, djvFileIO & io) throw (djvError);
+            void _open(const QString &, ImageIOInfo &, Core::FileIO & io) throw (Core::Error);
 
             Cineon::Options _options;
             bool            _filmPrint;
             PixelData       _filmPrintLut;
-            djvFileInfo     _file;
+            Core::FileInfo  _file;
             PixelData       _tmp;
         };
 

@@ -46,21 +46,21 @@ namespace djv
         class DPXLoad : public ImageLoad
         {
         public:
-            DPXLoad(const DPX::Options &, djvCoreContext *);
+            DPXLoad(const DPX::Options &, Core::CoreContext *);
 
             virtual ~DPXLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
 
-            DPX::Options _options;
-            bool         _filmPrint;
-            PixelData    _filmPrintLut;
-            djvFileInfo  _file;
-            PixelData    _tmp;
+            DPX::Options   _options;
+            bool           _filmPrint;
+            PixelData      _filmPrintLut;
+            Core::FileInfo _file;
+            PixelData      _tmp;
         };
 
     } // namespace Graphics

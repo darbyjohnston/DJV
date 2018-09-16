@@ -100,7 +100,7 @@ namespace djv
 
         void IntObject::setValue(int in)
         {
-            const int tmp = _clamp ? djvMath::clamp(in, _min, _max) : in;
+            const int tmp = _clamp ? Core::Math::clamp(in, _min, _max) : in;
             if (tmp == _value)
                 return;
             _value = tmp;

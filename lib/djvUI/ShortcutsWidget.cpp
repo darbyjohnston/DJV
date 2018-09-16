@@ -248,7 +248,7 @@ namespace djv
                     const int spacing = _context->style()->sizeMetric().spacing;
                     size = QSize(
                         size.width() + spacing + _clearPixmap.width(),
-                        djvMath::max(size.height(), _clearPixmap.height()));
+                        Core::Math::max(size.height(), _clearPixmap.height()));
                 }
                 break;
                 }

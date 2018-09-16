@@ -33,8 +33,6 @@
 
 #include <djvCore/Assert.h>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -123,7 +121,7 @@ namespace djv
                         const int wordSize = Pixel::byteCount(in.pixel());
                         //DJV_DEBUG_PRINT("endian size = " << size);
                         //DJV_DEBUG_PRINT("endian word size = " << wordSize);
-                        djvMemory::convertEndian(inP, tmp.data(), size, wordSize);
+                        Core::Memory::convertEndian(inP, tmp.data(), size, wordSize);
                         inP = tmp.data();
                     }
 
@@ -142,25 +140,25 @@ namespace djv
 
         int PixelDataUtil::proxyScale(PixelDataInfo::PROXY proxy)
         {
-            return proxy ? djvMath::pow(2, static_cast<int>(proxy)) : 1;
+            return proxy ? Core::Math::pow(2, static_cast<int>(proxy)) : 1;
         }
 
         glm::ivec2 PixelDataUtil::proxyScale(const glm::ivec2 & in, PixelDataInfo::PROXY proxy)
         {
             const int scale = proxyScale(proxy);
             return glm::ivec2(
-                djvMath::ceil(in.x / static_cast<float>(scale)),
-                djvMath::ceil(in.y / static_cast<float>(scale)));
+                Core::Math::ceil(in.x / static_cast<float>(scale)),
+                Core::Math::ceil(in.y / static_cast<float>(scale)));
         }
 
-        djvBox2i PixelDataUtil::proxyScale(const djvBox2i & in, PixelDataInfo::PROXY proxy)
+        Core::Box2i PixelDataUtil::proxyScale(const Core::Box2i & in, PixelDataInfo::PROXY proxy)
         {
             const int scale = proxyScale(proxy);
-            return djvBox2i(
-                djvMath::ceil(in.x / static_cast<float>(scale)),
-                djvMath::ceil(in.y / static_cast<float>(scale)),
-                djvMath::ceil(in.size.x / static_cast<float>(scale)),
-                djvMath::ceil(in.size.y / static_cast<float>(scale)));
+            return Core::Box2i(
+                Core::Math::ceil(in.x / static_cast<float>(scale)),
+                Core::Math::ceil(in.y / static_cast<float>(scale)),
+                Core::Math::ceil(in.size.x / static_cast<float>(scale)),
+                Core::Math::ceil(in.size.y / static_cast<float>(scale)));
         }
 
         void PixelDataUtil::planarInterleave(

@@ -37,7 +37,7 @@ namespace djv
 {
     namespace Graphics
     {
-        DPXSave::DPXSave(const DPX::Options & options, djvCoreContext * context) :
+        DPXSave::DPXSave(const DPX::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options)
         {}
@@ -45,8 +45,8 @@ namespace djv
         DPXSave::~DPXSave()
         {}
 
-        void DPXSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void DPXSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("DPXSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -56,7 +56,7 @@ namespace djv
 
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
@@ -66,8 +66,8 @@ namespace djv
             switch (_options.endian)
             {
             case DPX::ENDIAN_AUTO: break;
-            case DPX::ENDIAN_MSB:  _info.endian = djvMemory::MSB; break;
-            case DPX::ENDIAN_LSB:  _info.endian = djvMemory::LSB; break;
+            case DPX::ENDIAN_MSB:  _info.endian = Core::Memory::MSB; break;
+            case DPX::ENDIAN_LSB:  _info.endian = Core::Memory::LSB; break;
             default: break;
             }
 
@@ -99,7 +99,7 @@ namespace djv
         }
 
         void DPXSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("DPXSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -120,8 +120,8 @@ namespace djv
             ImageIOInfo info(_info);
             info.fileName = fileName;
             info.tags = in.tags;
-            djvFileIO io;
-            io.open(fileName, djvFileIO::WRITE);
+            Core::FileIO io;
+            io.open(fileName, Core::FileIO::WRITE);
             _header = DPXHeader();
             _header.save(
                 io,

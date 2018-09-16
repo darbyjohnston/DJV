@@ -31,12 +31,9 @@
 
 #pragma once
 
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvGraphicsTest djvGraphicsTest
-//!
-//! This library provides testing functionality for djvGraphics.
-
-//@} // tests
-
+namespace djv
+{
+    namespace GraphicsTest
+    {
+    } // namespace GraphicsTest
+} // namespace djv

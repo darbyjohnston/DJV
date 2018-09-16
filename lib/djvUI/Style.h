@@ -205,13 +205,13 @@ namespace djv
             std::unique_ptr<Private> _p;
         };
 
-        DJV_COMPARISON_OPERATOR(Style::Palette);
-        DJV_COMPARISON_OPERATOR(Style::SizeMetric);
-        DJV_COMPARISON_OPERATOR(Style::Fonts);
-
     } // namespace UI
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::UI::Style::Palette);
-DJV_STRING_OPERATOR(djv::UI::Style::SizeMetric);
-DJV_STRING_OPERATOR(djv::UI::Style::Fonts);
+    DJV_COMPARISON_OPERATOR(UI::Style::Palette);
+    DJV_COMPARISON_OPERATOR(UI::Style::SizeMetric);
+    DJV_COMPARISON_OPERATOR(UI::Style::Fonts);
+    DJV_STRING_OPERATOR(UI::Style::Palette);
+    DJV_STRING_OPERATOR(UI::Style::SizeMetric);
+    DJV_STRING_OPERATOR(UI::Style::Fonts);
+
+} // namespace djv

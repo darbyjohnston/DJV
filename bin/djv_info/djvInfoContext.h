@@ -35,50 +35,57 @@
 
 #include <djvCore/Sequence.h>
 
-//! \class djvInfoContext
-//!
-//! This class provides global functionality for the application.
-class djvInfoContext : public djv::Graphics::GraphicsContext
+namespace djv
 {
-    Q_OBJECT
+    namespace info
+    {
+        //! \class Context
+        //!
+        //! This class provides global functionality for the application.
+        class Context : public Graphics::GraphicsContext
+        {
+            Q_OBJECT
 
-public:
-    explicit djvInfoContext(QObject * parent = nullptr);
+        public:
+            explicit Context(QObject * parent = nullptr);
 
-    virtual ~djvInfoContext();
+            virtual ~Context();
 
-    //! Get the list of inputs.    
-    const QStringList & input() const;
-    
-    //! Get whether to show image information.
-    bool hasInfo() const;
-    
-    //! Get whether to show verbose information.
-    bool hasVerbose() const;
-    
-    //! Get whether to show file paths.
-    bool hasFilePath() const;
-    
-    //! Get the file sequencing.
-    djvSequence::COMPRESS sequence() const;
-    
-    // Get whether to descend into sub-directories.
-    bool hasRecurse() const;
+            //! Get the list of inputs.    
+            const QStringList & input() const;
 
-    //! Get the number of columns for formatting the output.
-    int columns() const;
+            //! Get whether to show image information.
+            bool hasInfo() const;
 
-protected:
-    virtual bool commandLineParse(QStringList &) throw (QString);
+            //! Get whether to show verbose information.
+            bool hasVerbose() const;
 
-    virtual QString commandLineHelp() const;
+            //! Get whether to show file paths.
+            bool hasFilePath() const;
 
-private:
-    QStringList           _input;
-    bool                  _info;
-    bool                  _verbose;
-    bool                  _filePath;
-    djvSequence::COMPRESS _sequence;
-    bool                  _recurse;
-    int                   _columns;
-};
+            //! Get the file sequencing.
+            Core::Sequence::COMPRESS sequence() const;
+
+            // Get whether to descend into sub-directories.
+            bool hasRecurse() const;
+
+            //! Get the number of columns for formatting the output.
+            int columns() const;
+
+        protected:
+            virtual bool commandLineParse(QStringList &) throw (QString);
+
+            virtual QString commandLineHelp() const;
+
+        private:
+            QStringList              _input;
+            bool                     _info;
+            bool                     _verbose;
+            bool                     _filePath;
+            Core::Sequence::COMPRESS _sequence;
+            bool                     _recurse;
+            int                      _columns;
+        };
+
+    } // namespace info
+} // namespace djv

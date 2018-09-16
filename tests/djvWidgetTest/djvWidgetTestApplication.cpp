@@ -33,43 +33,48 @@
 
 #include <djvAbstractWidgetTest.h>
 
-using namespace djv;
-
-djvWidgetTestApplication::djvWidgetTestApplication(int & argc, char ** argv) :
-    QApplication(argc, argv)
+namespace djv
 {
-    setStyle("fusion");
-
-    _context.reset(new UI::UIContext);
-    _context->setValid(true);
-    
-    _testManager.reset(new djvWidgetTestManager(_context.data()));
-
-    _model.reset(new djvWidgetTestModel(_testManager.data()));
-    
-    _window.reset(new djvWidgetTestWindow(_model.data(), _context.data()));
-    _window->show();
-    
-    if (argc > 1)
+    namespace WidgetTest
     {
-        QStringList args;
-        for (int i = 2; i < argc; ++i)
+        WidgetTestApplication::WidgetTestApplication(int & argc, char ** argv) :
+            QApplication(argc, argv)
         {
-            args += QString(argv[i]);
-        }
-        for (int i = 0; i < _testManager->tests().count(); ++i)
-        {
-            if (argv[1] == _testManager->tests()[i]->name())
+            setStyle("fusion");
+
+            _context.reset(new UI::UIContext);
+            _context->setValid(true);
+
+            _testManager.reset(new WidgetTestManager(_context.data()));
+
+            _model.reset(new WidgetTestModel(_testManager.data()));
+
+            _window.reset(new WidgetTestWindow(_model.data(), _context.data()));
+            _window->show();
+
+            if (argc > 1)
             {
-                _testManager->tests()[i]->run(args);
-                break;
+                QStringList args;
+                for (int i = 2; i < argc; ++i)
+                {
+                    args += QString(argv[i]);
+                }
+                for (int i = 0; i < _testManager->tests().count(); ++i)
+                {
+                    if (argv[1] == _testManager->tests()[i]->name())
+                    {
+                        _testManager->tests()[i]->run(args);
+                        break;
+                    }
+                }
             }
         }
-    }
-}
+
+    } // namespace WidgetTest
+} // namespace djv
 
 int main(int argc, char ** argv)
 {
-    return (djvWidgetTestApplication(argc, argv)).exec();
+    return (djv::WidgetTest::WidgetTestApplication(argc, argv)).exec();
 }
 

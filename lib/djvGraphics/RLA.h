@@ -47,21 +47,21 @@ namespace djv
 
             //! Load RLE data.
             static void readRle(
-                djvFileIO & io,
-                quint8 *    out,
-                int         size,
-                int         channels,
-                int         bytes) throw (djvError);
+                Core::FileIO & io,
+                quint8 *       out,
+                int            size,
+                int            channels,
+                int            bytes) throw (Core::Error);
 
             //! Load floating point data.
             static void floatLoad(
-                djvFileIO & io,
-                quint8 *    out,
-                int         size,
-                int         channels) throw (djvError);
+                Core::FileIO & io,
+                quint8 *       out,
+                int            size,
+                int            channels) throw (Core::Error);
 
             //! Skip file data.
-            static void skip(djvFileIO &) throw (djvError);
+            static void skip(Core::FileIO &) throw (Core::Error);
         };
 
     } // namespace Graphics

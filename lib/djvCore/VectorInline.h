@@ -31,57 +31,60 @@
 
 #include <djvCore/StringUtil.h>
 
-template<typename T, glm::precision P>
-inline QStringList & operator << (QStringList & out, const glm::tvec2<T, P> & in)
+namespace djv
 {
-    return out << in.x << in.y;
-}
+    template<typename T, glm::precision P>
+    inline QStringList & operator << (QStringList & out, const glm::tvec2<T, P> & in)
+    {
+        return out << in.x << in.y;
+    }
 
-template<typename T, glm::precision P>
-inline QStringList & operator << (QStringList & out, const glm::tvec3<T, P> & in)
-{
-    return out << in.x << in.y << in.z;
-}
+    template<typename T, glm::precision P>
+    inline QStringList & operator << (QStringList & out, const glm::tvec3<T, P> & in)
+    {
+        return out << in.x << in.y << in.z;
+    }
 
-template<typename T, glm::precision P>
-inline QStringList & operator << (QStringList & out, const glm::tvec4<T, P> & in)
-{
-    return out << in.x << in.y << in.z << in.w;
-}
+    template<typename T, glm::precision P>
+    inline QStringList & operator << (QStringList & out, const glm::tvec4<T, P> & in)
+    {
+        return out << in.x << in.y << in.z << in.w;
+    }
 
-template<typename T, glm::precision P>
-inline QStringList & operator >> (QStringList & in, glm::tvec2<T, P> & out) throw (QString)
-{
-    return in >> out.x >> out.y;
-}
+    template<typename T, glm::precision P>
+    inline QStringList & operator >> (QStringList & in, glm::tvec2<T, P> & out) throw (QString)
+    {
+        return in >> out.x >> out.y;
+    }
 
-template<typename T, glm::precision P>
-inline QStringList & operator >> (QStringList & in, glm::tvec3<T, P> & out) throw (QString)
-{
-    return in >> out.x >> out.y >> out.z;
-}
+    template<typename T, glm::precision P>
+    inline QStringList & operator >> (QStringList & in, glm::tvec3<T, P> & out) throw (QString)
+    {
+        return in >> out.x >> out.y >> out.z;
+    }
 
-template<typename T, glm::precision P>
-inline QStringList & operator >> (QStringList & in, glm::tvec4<T, P> & out) throw (QString)
-{
-    return in >> out.x >> out.y >> out.z << out.w;
-}
+    template<typename T, glm::precision P>
+    inline QStringList & operator >> (QStringList & in, glm::tvec4<T, P> & out) throw (QString)
+    {
+        return in >> out.x >> out.y >> out.z << out.w;
+    }
 
-template<typename T, glm::precision P>
-inline djvDebug & operator << (djvDebug & debug, const glm::tvec2<T, P> & in)
-{
-    return debug << in.x << " " << in.y;
-}
+    template<typename T, glm::precision P>
+    inline Core::Debug & operator << (Core::Debug & debug, const glm::tvec2<T, P> & in)
+    {
+        return debug << in.x << " " << in.y;
+    }
 
-template<typename T, glm::precision P>
-inline djvDebug & operator << (djvDebug & debug, const glm::tvec3<T, P> & in)
-{
-    return debug << in.x << " " << in.y << " " << in.z;
-}
+    template<typename T, glm::precision P>
+    inline Core::Debug & operator << (Core::Debug & debug, const glm::tvec3<T, P> & in)
+    {
+        return debug << in.x << " " << in.y << " " << in.z;
+    }
 
-template<typename T, glm::precision P>
-inline djvDebug & operator << (djvDebug & debug, const glm::tvec4<T, P> & in)
-{
-    return debug << in.x << " " << in.y << " " << in.z << " " << in.w;
-}
+    template<typename T, glm::precision P>
+    inline Core::Debug & operator << (Core::Debug & debug, const glm::tvec4<T, P> & in)
+    {
+        return debug << in.x << " " << in.y << " " << in.z << " " << in.w;
+    }
 
+} // namespace djv

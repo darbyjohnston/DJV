@@ -50,23 +50,23 @@ namespace djv
         class OpenEXRLoad : public ImageLoad
         {
         public:
-            OpenEXRLoad(const OpenEXR::Options &, djvCoreContext *);
+            OpenEXRLoad(const OpenEXR::Options &, Core::CoreContext *);
 
             virtual ~OpenEXRLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
-            virtual void close() throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            virtual void close() throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &) throw (Core::Error);
 
             OpenEXR::Options        _options;
-            djvFileInfo             _file;
+            Core::FileInfo          _file;
             Imf::InputFile *        _f;
-            djvBox2i                _displayWindow;
-            djvBox2i                _dataWindow;
-            djvBox2i                _intersectedWindow;
+            Core::Box2i             _displayWindow;
+            Core::Box2i             _dataWindow;
+            Core::Box2i             _intersectedWindow;
             QVector<OpenEXR::Layer> _layers;
             PixelData               _tmp;
             bool                    _fast;

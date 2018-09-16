@@ -35,13 +35,20 @@
 
 #include <djvAbstractTest.h>
 
-class djvPixelDataTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace GraphicsTest
+    {
+        class PixelDataTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void ctors();
-    void members();
-    void operators();
-};
+        private:
+            void ctors();
+            void members();
+            void operators();
+        };
+
+    } // namespace GraphicsTest
+} // namespace djv

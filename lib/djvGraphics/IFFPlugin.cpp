@@ -44,7 +44,7 @@ namespace djv
 {
     namespace Graphics
     {
-        IFFPlugin::IFFPlugin(djvCoreContext * context) :
+        IFFPlugin::IFFPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -133,7 +133,7 @@ namespace djv
                 "        Set the file compression used when saving IFF images. Options = %1. "
                 "Default = %2.\n").
                 arg(IFF::compressionLabels().join(", ")).
-                arg(djvStringUtil::label(_options.compression).join(", "));
+                arg(Core::StringUtil::label(_options.compression).join(", "));
         }
 
         ImageLoad * IFFPlugin::createLoad() const

@@ -36,8 +36,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -64,10 +62,10 @@ namespace djv
             {
                 Header();
 
-                void load(djvFileIO &, ImageIOInfo &, bool * compression)
-                    throw (djvError);
-                void save(djvFileIO &, const ImageIOInfo &, bool compression)
-                    throw (djvError);
+                void load(Core::FileIO &, ImageIOInfo &, bool * compression)
+                    throw (Core::Error);
+                void save(Core::FileIO &, const ImageIOInfo &, bool compression)
+                    throw (Core::Error);
 
                 void debug() const;
 
@@ -106,8 +104,8 @@ namespace djv
                 _data.descriptor = 0;
             }
 
-            void Header::load(djvFileIO & io, ImageIOInfo & info, bool * compression)
-                throw (djvError)
+            void Header::load(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -137,7 +135,7 @@ namespace djv
                 case 0:
                 case 8: break;
                 default:
-                    throw djvError(
+                    throw Core::Error(
                         Targa::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                 }
@@ -169,7 +167,7 @@ namespace djv
                 }
                 if (-1 == pixel)
                 {
-                    throw djvError(
+                    throw Core::Error(
                         Targa::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                 }
@@ -178,7 +176,7 @@ namespace djv
                 const int bits = _data.pixelBits + alphaBits;
                 if (bits < (Pixel::channels(info.pixel) * 8) || (bits % 8) != 0)
                 {
-                    throw djvError(
+                    throw Core::Error(
                         Targa::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                 }
@@ -186,11 +184,11 @@ namespace djv
                     10 == _data.imageType ||
                     11 == _data.imageType;
                 //DJV_DEBUG_PRINT("compression = " << compression);
-                info.endian = djvMemory::LSB;
+                info.endian = Core::Memory::LSB;
             }
 
-            void Header::save(djvFileIO & io, const ImageIOInfo & info, bool compression)
-                throw (djvError)
+            void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::save");
 
@@ -251,15 +249,15 @@ namespace djv
 
         } // namespace
 
-        void Targa::loadInfo(djvFileIO & io, ImageIOInfo & info, bool * compression)
-            throw (djvError)
+        void Targa::loadInfo(Core::FileIO & io, ImageIOInfo & info, bool * compression)
+            throw (Core::Error)
         {
             Header header;
             header.load(io, info, compression);
         }
 
-        void Targa::saveInfo(djvFileIO & io, const ImageIOInfo & info, bool compression)
-            throw (djvError)
+        void Targa::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+            throw (Core::Error)
         {
             Header header;
             header.save(io, info, compression);
@@ -340,8 +338,7 @@ namespace djv
             while (in < end)
             {
                 // Find runs.
-                const int max =
-                    djvMath::min(0x7f + 1, static_cast<int>(end - in) / channels);
+                const int max = Core::Math::min(0x7f + 1, static_cast<int>(end - in) / channels);
                 int count = 1;
                 for (; count < max; ++count)
                 {
@@ -396,6 +393,7 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::Targa::COMPRESSION, Graphics::Targa::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::Targa::COMPRESSION, Graphics::Targa::compressionLabels())
+
+} // namespace djv

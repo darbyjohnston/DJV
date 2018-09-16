@@ -35,10 +35,14 @@
 
 #include <djvCore/Error.h>
 
-class djvFileIO;
-
 namespace djv
 {
+    namespace Core
+    {
+        class FileIO;
+
+    } // namespace Core
+
     namespace Graphics
     {
         //! \struct LUT
@@ -79,28 +83,28 @@ namespace djv
             static const QStringList & typeLabels();
 
             //! Open an Inferno LUT.
-            static void infernoOpen(djvFileIO &, PixelDataInfo &, TYPE) throw (djvError);
+            static void infernoOpen(Core::FileIO &, PixelDataInfo &, TYPE) throw (Core::Error);
 
             //! Load an Inferno LUT.
-            static void infernoLoad(djvFileIO &, Image &) throw (djvError);
+            static void infernoLoad(Core::FileIO &, Image &) throw (Core::Error);
 
             //! Open a Kodak LUT.
-            static void kodakOpen(djvFileIO &, PixelDataInfo &, TYPE) throw (djvError);
+            static void kodakOpen(Core::FileIO &, PixelDataInfo &, TYPE) throw (Core::Error);
 
             //! Load a Kodak LUT.
-            static void kodakLoad(djvFileIO &, Image &) throw (djvError);
+            static void kodakLoad(Core::FileIO &, Image &) throw (Core::Error);
 
             //! Open an Inferno LUT.
-            static void infernoOpen(djvFileIO &, const PixelDataInfo &) throw (djvError);
+            static void infernoOpen(Core::FileIO &, const PixelDataInfo &) throw (Core::Error);
 
             //! Save an Inferno LUT.
-            static void infernoSave(djvFileIO & io, const PixelData *) throw (djvError);
+            static void infernoSave(Core::FileIO & io, const PixelData *) throw (Core::Error);
 
             //! Open a Kodak LUT.
-            static void kodakOpen(djvFileIO &, const PixelDataInfo &) throw (djvError);
+            static void kodakOpen(Core::FileIO &, const PixelDataInfo &) throw (Core::Error);
 
             //! Save a Kodak LUT.
-            static void kodakSave(djvFileIO &, const PixelData *) throw (djvError);
+            static void kodakSave(Core::FileIO &, const PixelData *) throw (Core::Error);
 
             //! This enumeration provides the options.
             enum OPTIONS
@@ -123,7 +127,8 @@ namespace djv
         };
 
     } // namespace Graphics
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::Graphics::LUT::FORMAT);
-DJV_STRING_OPERATOR(djv::Graphics::LUT::TYPE);
+    DJV_STRING_OPERATOR(Graphics::LUT::FORMAT);
+    DJV_STRING_OPERATOR(Graphics::LUT::TYPE);
+
+} // namespace djv

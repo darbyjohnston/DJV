@@ -40,304 +40,312 @@
 
 #include <QDir>
 
-void djvFileInfoUtilTest::run(int &, char **)
-{
-    DJV_DEBUG("djvFileInfoUtilTest::run");
-    split();
-    exists();
-    list();
-    match();
-    compress();
-    expand();
-    filter();
-    sort();
-    fix();
-    recent();
-    operators();
-}
+using namespace djv::Core;
 
-void djvFileInfoUtilTest::split()
+namespace djv
 {
-    DJV_DEBUG("djvFileInfoUtilTest::split");
-
-    const struct Data
+    namespace CoreTest
     {
-        QString in, path, base, number, extension;
-    }
-        data [] =
-    {
-        { "/tmp/image.1-100.ppm", "/tmp/", "image.", "1-100", ".ppm" },
-        { "image.1-100.ppm", "", "image.", "1-100", ".ppm" },
-        { "image.001-100.ppm", "", "image.", "001-100", ".ppm" },
-        { "image1-100.ppm", "", "image", "1-100", ".ppm" },
-        { "image001-100.ppm", "", "image", "001-100", ".ppm" },
-        { "image_01-100.ppm", "", "image_01-", "100", ".ppm" },
-        { "image.-100--1.ppm", "", "image.", "-100--1", ".ppm" },
-        { "image-100--1.ppm", "", "image", "-100--1", ".ppm" },
-        { "1-100.ppm", "", "", "1-100", ".ppm" },
-        { "1--100.ppm", "", "", "1--100", ".ppm" },
-        { "-1--100.ppm", "", "", "-1--100", ".ppm" },
-        { "-1.ppm", "", "", "-1", ".ppm" },
-        { "1-100", "", "", "1-100", "" },
-        { "1", "", "", "1", "" },
-        { ".hidden", "", ".hidden", "", "" },
-        { "", "", "", "", "" },
-        { "/", "/", "", "", "" },
-        { "//", "//", "", "", "" },
-        { "/.", "/", ".", "", "" },
-        { "./", "./", "", "", "" },
-        { "C:\\Documents and Settings\\darby\\Desktop\\movie.mov",
-          "C:\\Documents and Settings\\darby\\Desktop\\", "movie", "", ".mov"}
-    };
-    const int dataCount = sizeof(data) / sizeof(Data);
-    for (int i = 0; i < dataCount; ++i)
-    {
-        const djvFileInfo tmp(data[i].in);
-        DJV_DEBUG_PRINT(data[i].in << " = " <<
-            QString("'%1' '%2' '%3' '%4'").
-            arg(tmp.path()).
-            arg(tmp.base()).
-            arg(tmp.number()).
-            arg(tmp.extension()));
-        DJV_ASSERT(
-            tmp.path()      == data[i].path      &&
-            tmp.base()      == data[i].base      &&
-            tmp.number()    == data[i].number    &&
-            tmp.extension() == data[i].extension);
-    }
-}
-
-void djvFileInfoUtilTest::exists()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::exists");
-    {
-        const QString fileName("djvFileInfoUtilTest.test");
-        djvFileIO io;
-        io.open(fileName, djvFileIO::WRITE);
-        io.close();
-        DJV_ASSERT(djvFileInfoUtil::exists(djvFileInfo(fileName)));
-        DJV_ASSERT(! djvFileInfoUtil::exists(djvFileInfo(fileName + ".ppm")));
-    }
-    {
-        const QString fileName("djvFileInfoUtilTest.%1.ppm");
+        void FileInfoUtilTest::run(int &, char **)
         {
-            djvFileIO io;
-            io.open(fileName.arg(1), djvFileIO::WRITE);
-            io.close();
-            io.open(fileName.arg(2), djvFileIO::WRITE);
-            io.close();
-            io.open(fileName.arg(3), djvFileIO::WRITE);
-            io.close();
+            DJV_DEBUG("FileInfoUtilTest::run");
+            split();
+            exists();
+            list();
+            match();
+            compress();
+            expand();
+            filter();
+            sort();
+            fix();
+            recent();
+            operators();
         }
-        djvFileInfo fileInfo(fileName.arg("1-3"));
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-        DJV_ASSERT(djvFileInfoUtil::exists(fileInfo));
-    }
-}
 
-void djvFileInfoUtilTest::list()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::list");
-    const QString fileName("djvFileInfoUtilTest.%1.test");
-    {
-        djvFileIO io;
-        io.open(fileName.arg(1), djvFileIO::WRITE);
-        io.close();
-        io.open(fileName.arg(3), djvFileIO::WRITE);
-        io.close();
-    }
-    djvFileInfoList list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_OFF);
-    DJV_ASSERT(list.indexOf(djvFileInfo(fileName.arg(1))));
-    list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_SPARSE);
-    DJV_ASSERT(list.indexOf(djvFileInfo(fileName.arg("1,3"))));
-    list = djvFileInfoUtil::list(".", djvSequence::COMPRESS_RANGE);
-    DJV_ASSERT(list.indexOf(djvFileInfo(fileName.arg("1-3"))));
-}
+        void FileInfoUtilTest::split()
+        {
+            DJV_DEBUG("FileInfoUtilTest::split");
 
-void djvFileInfoUtilTest::match()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::match");
-    const QString fileName("image.%1.ppm");
-    const djvFileInfoList list = djvFileInfoList() <<
-        djvFileInfo(fileName.arg("1")) <<
-        djvFileInfo(fileName.arg("2")) <<
-        djvFileInfo(fileName.arg("3"));
-    DJV_ASSERT(list[0] == djvFileInfoUtil::sequenceWildcardMatch(list[2], list));
-    const djvFileInfo tmp("image.1.pic");
-    DJV_ASSERT(tmp == djvFileInfoUtil::sequenceWildcardMatch(tmp, list));
-}
+            const struct Data
+            {
+                QString in, path, base, number, extension;
+            }
+            data[] =
+            {
+                { "/tmp/image.1-100.ppm", "/tmp/", "image.", "1-100", ".ppm" },
+                { "image.1-100.ppm", "", "image.", "1-100", ".ppm" },
+                { "image.001-100.ppm", "", "image.", "001-100", ".ppm" },
+                { "image1-100.ppm", "", "image", "1-100", ".ppm" },
+                { "image001-100.ppm", "", "image", "001-100", ".ppm" },
+                { "image_01-100.ppm", "", "image_01-", "100", ".ppm" },
+                { "image.-100--1.ppm", "", "image.", "-100--1", ".ppm" },
+                { "image-100--1.ppm", "", "image", "-100--1", ".ppm" },
+                { "1-100.ppm", "", "", "1-100", ".ppm" },
+                { "1--100.ppm", "", "", "1--100", ".ppm" },
+                { "-1--100.ppm", "", "", "-1--100", ".ppm" },
+                { "-1.ppm", "", "", "-1", ".ppm" },
+                { "1-100", "", "", "1-100", "" },
+                { "1", "", "", "1", "" },
+                { ".hidden", "", ".hidden", "", "" },
+                { "", "", "", "", "" },
+                { "/", "/", "", "", "" },
+                { "//", "//", "", "", "" },
+                { "/.", "/", ".", "", "" },
+                { "./", "./", "", "", "" },
+                { "C:\\Documents and Settings\\darby\\Desktop\\movie.mov",
+                  "C:\\Documents and Settings\\darby\\Desktop\\", "movie", "", ".mov"}
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                const FileInfo tmp(data[i].in);
+                DJV_DEBUG_PRINT(data[i].in << " = " <<
+                    QString("'%1' '%2' '%3' '%4'").
+                    arg(tmp.path()).
+                    arg(tmp.base()).
+                    arg(tmp.number()).
+                    arg(tmp.extension()));
+                DJV_ASSERT(
+                    tmp.path() == data[i].path      &&
+                    tmp.base() == data[i].base      &&
+                    tmp.number() == data[i].number    &&
+                    tmp.extension() == data[i].extension);
+            }
+        }
 
-void djvFileInfoUtilTest::compress()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::compress");
-    const QString fileName("image.%1.ppm");
-    const djvFileInfoList list = djvFileInfoList() <<
-        djvFileInfo(fileName.arg(1)) <<
-        djvFileInfo(fileName.arg(3)) <<
-        djvFileInfo(fileName.arg(4));
-    djvFileInfoList tmp = list;
-    djvFileInfoUtil::compressSequence(tmp, djvSequence::COMPRESS_OFF);
-    DJV_ASSERT(tmp[0] == list[0]);
-    tmp = list;
-    djvFileInfoUtil::compressSequence(tmp, djvSequence::COMPRESS_SPARSE);
-    DJV_ASSERT(tmp[0].number() == "1,3-4");
-    tmp = list;
-    djvFileInfoUtil::compressSequence(tmp, djvSequence::COMPRESS_RANGE);
-    DJV_ASSERT(tmp[0].number() == "1-4");
-}
+        void FileInfoUtilTest::exists()
+        {
+            DJV_DEBUG("FileInfoUtilTest::exists");
+            {
+                const QString fileName("FileInfoUtilTest.test");
+                FileIO io;
+                io.open(fileName, FileIO::WRITE);
+                io.close();
+                DJV_ASSERT(FileInfoUtil::exists(FileInfo(fileName)));
+                DJV_ASSERT(!FileInfoUtil::exists(FileInfo(fileName + ".ppm")));
+            }
+            {
+                const QString fileName("FileInfoUtilTest.%1.ppm");
+                {
+                    FileIO io;
+                    io.open(fileName.arg(1), FileIO::WRITE);
+                    io.close();
+                    io.open(fileName.arg(2), FileIO::WRITE);
+                    io.close();
+                    io.open(fileName.arg(3), FileIO::WRITE);
+                    io.close();
+                }
+                FileInfo fileInfo(fileName.arg("1-3"));
+                fileInfo.setType(FileInfo::SEQUENCE);
+                DJV_ASSERT(FileInfoUtil::exists(fileInfo));
+            }
+        }
 
-void djvFileInfoUtilTest::expand()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::expand");
-    const QString fileName("image.%1.ppm");
-    djvFileInfo fileInfo(fileName.arg("1,3"));
-    QStringList list = djvFileInfoUtil::expandSequence(fileInfo);
-    DJV_ASSERT(fileInfo.fileName() == list[0]);
-    fileInfo.setType(djvFileInfo::SEQUENCE);
-    list = djvFileInfoUtil::expandSequence(fileInfo);
-    DJV_ASSERT(fileName.arg(1) == list[0]);
-    DJV_ASSERT(fileName.arg(3) == list[1]);
-}
+        void FileInfoUtilTest::list()
+        {
+            DJV_DEBUG("FileInfoUtilTest::list");
+            const QString fileName("FileInfoUtilTest.%1.test");
+            {
+                FileIO io;
+                io.open(fileName.arg(1), FileIO::WRITE);
+                io.close();
+                io.open(fileName.arg(3), FileIO::WRITE);
+                io.close();
+            }
+            FileInfoList list = FileInfoUtil::list(".", Sequence::COMPRESS_OFF);
+            DJV_ASSERT(list.indexOf(FileInfo(fileName.arg(1))));
+            list = FileInfoUtil::list(".", Sequence::COMPRESS_SPARSE);
+            DJV_ASSERT(list.indexOf(FileInfo(fileName.arg("1,3"))));
+            list = FileInfoUtil::list(".", Sequence::COMPRESS_RANGE);
+            DJV_ASSERT(list.indexOf(FileInfo(fileName.arg("1-3"))));
+        }
 
-void djvFileInfoUtilTest::filter()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::filter");
-    const QString fileName("image.%1.ppm");
-    const djvFileInfoList list = djvFileInfoList() <<
-        djvFileInfo(fileName.arg(1)) <<
-        djvFileInfo(fileName.arg(3)) <<
-        djvFileInfo(fileName.arg(4));
-    djvFileInfoList tmp = list;
-    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_NONE);
-    DJV_ASSERT(tmp == list);
-    tmp = list;
-    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_FILES);
-    DJV_ASSERT(! tmp.count());
-    tmp = list;
-    tmp[0].setType(djvFileInfo::DIRECTORY);
-    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_DIRECTORIES);
-    DJV_ASSERT(list[1] == tmp[0]);
-    tmp = list;
-    tmp += djvFileInfo(".hidden");
-    djvFileInfoUtil::filter(tmp, djvFileInfoUtil::FILTER_HIDDEN);
-    DJV_ASSERT(tmp.count() == list.count());
-    tmp = list;
-    djvFileInfoUtil::filter(tmp, 0, "1");
-    DJV_ASSERT(list[0] == tmp[0]);
-    tmp = list;
-    djvFileInfoUtil::filter(tmp, 0, QString(), QStringList() << "*1*" << "*3*");
-    DJV_ASSERT(list[0] == tmp[0]);
-    DJV_ASSERT(list[1] == tmp[1]);
-}
+        void FileInfoUtilTest::match()
+        {
+            DJV_DEBUG("FileInfoUtilTest::match");
+            const QString fileName("image.%1.ppm");
+            const FileInfoList list = FileInfoList() <<
+                FileInfo(fileName.arg("1")) <<
+                FileInfo(fileName.arg("2")) <<
+                FileInfo(fileName.arg("3"));
+            DJV_ASSERT(list[0] == FileInfoUtil::sequenceWildcardMatch(list[2], list));
+            const FileInfo tmp("image.1.pic");
+            DJV_ASSERT(tmp == FileInfoUtil::sequenceWildcardMatch(tmp, list));
+        }
 
-void djvFileInfoUtilTest::sort()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::sort");
-    const QString fileName("image.%1.ppm");
-    const djvFileInfoList list = djvFileInfoList() <<
-        djvFileInfo(fileName.arg(4)) <<
-        djvFileInfo(fileName.arg(3)) <<
-        djvFileInfo(fileName.arg(1));
+        void FileInfoUtilTest::compress()
+        {
+            DJV_DEBUG("FileInfoUtilTest::compress");
+            const QString fileName("image.%1.ppm");
+            const FileInfoList list = FileInfoList() <<
+                FileInfo(fileName.arg(1)) <<
+                FileInfo(fileName.arg(3)) <<
+                FileInfo(fileName.arg(4));
+            FileInfoList tmp = list;
+            FileInfoUtil::compressSequence(tmp, Sequence::COMPRESS_OFF);
+            DJV_ASSERT(tmp[0] == list[0]);
+            tmp = list;
+            FileInfoUtil::compressSequence(tmp, Sequence::COMPRESS_SPARSE);
+            DJV_ASSERT(tmp[0].number() == "1,3-4");
+            tmp = list;
+            FileInfoUtil::compressSequence(tmp, Sequence::COMPRESS_RANGE);
+            DJV_ASSERT(tmp[0].number() == "1-4");
+        }
 
-    djvFileInfoList tmp = list;
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_NAME);
-    DJV_ASSERT(tmp[0] == list[2]);
+        void FileInfoUtilTest::expand()
+        {
+            DJV_DEBUG("FileInfoUtilTest::expand");
+            const QString fileName("image.%1.ppm");
+            FileInfo fileInfo(fileName.arg("1,3"));
+            QStringList list = FileInfoUtil::expandSequence(fileInfo);
+            DJV_ASSERT(fileInfo.fileName() == list[0]);
+            fileInfo.setType(FileInfo::SEQUENCE);
+            list = FileInfoUtil::expandSequence(fileInfo);
+            DJV_ASSERT(fileName.arg(1) == list[0]);
+            DJV_ASSERT(fileName.arg(3) == list[1]);
+        }
 
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_NAME, true);
-    DJV_ASSERT(tmp[2] == list[2]);
+        void FileInfoUtilTest::filter()
+        {
+            DJV_DEBUG("FileInfoUtilTest::filter");
+            const QString fileName("image.%1.ppm");
+            const FileInfoList list = FileInfoList() <<
+                FileInfo(fileName.arg(1)) <<
+                FileInfo(fileName.arg(3)) <<
+                FileInfo(fileName.arg(4));
+            FileInfoList tmp = list;
+            FileInfoUtil::filter(tmp, FileInfoUtil::FILTER_NONE);
+            DJV_ASSERT(tmp == list);
+            tmp = list;
+            FileInfoUtil::filter(tmp, FileInfoUtil::FILTER_FILES);
+            DJV_ASSERT(!tmp.count());
+            tmp = list;
+            tmp[0].setType(FileInfo::DIRECTORY);
+            FileInfoUtil::filter(tmp, FileInfoUtil::FILTER_DIRECTORIES);
+            DJV_ASSERT(list[1] == tmp[0]);
+            tmp = list;
+            tmp += FileInfo(".hidden");
+            FileInfoUtil::filter(tmp, FileInfoUtil::FILTER_HIDDEN);
+            DJV_ASSERT(tmp.count() == list.count());
+            tmp = list;
+            FileInfoUtil::filter(tmp, 0, "1");
+            DJV_ASSERT(list[0] == tmp[0]);
+            tmp = list;
+            FileInfoUtil::filter(tmp, 0, QString(), QStringList() << "*1*" << "*3*");
+            DJV_ASSERT(list[0] == tmp[0]);
+            DJV_ASSERT(list[1] == tmp[1]);
+        }
 
-    tmp = list;
-    tmp[0].setType(djvFileInfo::DIRECTORY);
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TYPE);
-    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
+        void FileInfoUtilTest::sort()
+        {
+            DJV_DEBUG("FileInfoUtilTest::sort");
+            const QString fileName("image.%1.ppm");
+            const FileInfoList list = FileInfoList() <<
+                FileInfo(fileName.arg(4)) <<
+                FileInfo(fileName.arg(3)) <<
+                FileInfo(fileName.arg(1));
 
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TYPE, true);
-    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
+            FileInfoList tmp = list;
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_NAME);
+            DJV_ASSERT(tmp[0] == list[2]);
 
-    tmp = list;
-    tmp[0].setSize(1);
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_SIZE);
-    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_NAME, true);
+            DJV_ASSERT(tmp[2] == list[2]);
 
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_SIZE, true);
-    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
+            tmp = list;
+            tmp[0].setType(FileInfo::DIRECTORY);
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_TYPE);
+            DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
-    tmp = list;
-    tmp[0].setUser(1);
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_USER);
-    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_TYPE, true);
+            DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_USER, true);
-    DJV_ASSERT(tmp[0].fileName()== list[0].fileName());
+            tmp = list;
+            tmp[0].setSize(1);
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_SIZE);
+            DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
-    tmp = list;
-    tmp[0].setPermissions(1);
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_PERMISSIONS);
-    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_SIZE, true);
+            DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_PERMISSIONS, true);
-    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
+            tmp = list;
+            tmp[0].setUser(1);
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_USER);
+            DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
-    tmp = list;
-    tmp[0].setTime(1);
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TIME);
-    DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_USER, true);
+            DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
-    djvFileInfoUtil::sort(tmp, djvFileInfoUtil::SORT_TIME, true);
-    DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
+            tmp = list;
+            tmp[0].setPermissions(1);
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_PERMISSIONS);
+            DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
-    tmp = list;
-    tmp[2].setType(djvFileInfo::DIRECTORY);
-    djvFileInfoUtil::sortDirsFirst(tmp);
-    DJV_ASSERT(tmp[0].fileName() == list[2].fileName());
-}
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_PERMISSIONS, true);
+            DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
-void djvFileInfoUtilTest::recent()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::recent");
-    const QString fileName("image.%1.ppm");
-    const djvFileInfoList list = djvFileInfoList() <<
-        fileName.arg(4) <<
-        fileName.arg(3) <<
-        fileName.arg(1);
-    djvFileInfoList tmp;
-    for (int i = 0; i < list.count(); ++i)
-    {
-        djvFileInfoUtil::recent(list[i], tmp, list.count() - 1);
-    }
-    DJV_ASSERT(tmp.count() == list.count() - 1);
-    DJV_ASSERT(tmp[0] == list[2]);
-    djvFileInfoUtil::recent(list[2], tmp, list.count() - 1);
-    DJV_ASSERT(tmp.count() == list.count() - 1);
-    DJV_ASSERT(tmp[0] == list[2]);
-}
+            tmp = list;
+            tmp[0].setTime(1);
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_TIME);
+            DJV_ASSERT(tmp[2].fileName() == list[0].fileName());
 
-void djvFileInfoUtilTest::fix()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::fix");
-    const struct Data
-    {
-        QString path;
-        QString fixed;
-    }
-        data [] =
-    {
-        { "/", QDir::rootPath() }
-    };
-    const int dataCount = sizeof(data) / sizeof(Data);
-    for (int i = 0; i < dataCount; ++i)
-    {
-        const QString fixed = djvFileInfoUtil::fixPath(data[i].path);
-        DJV_DEBUG_PRINT(data[i].path << " = " << fixed);
-        DJV_ASSERT(fixed == data[i].fixed);
-    }
-}
+            FileInfoUtil::sort(tmp, FileInfoUtil::SORT_TIME, true);
+            DJV_ASSERT(tmp[0].fileName() == list[0].fileName());
 
-void djvFileInfoUtilTest::operators()
-{
-    DJV_DEBUG("djvFileInfoUtilTest::operators");
-    {
-        DJV_DEBUG_PRINT(djvFileInfoUtil::SORT_NAME);
-    }
-}
+            tmp = list;
+            tmp[2].setType(FileInfo::DIRECTORY);
+            FileInfoUtil::sortDirsFirst(tmp);
+            DJV_ASSERT(tmp[0].fileName() == list[2].fileName());
+        }
 
+        void FileInfoUtilTest::recent()
+        {
+            DJV_DEBUG("FileInfoUtilTest::recent");
+            const QString fileName("image.%1.ppm");
+            const FileInfoList list = FileInfoList() <<
+                fileName.arg(4) <<
+                fileName.arg(3) <<
+                fileName.arg(1);
+            FileInfoList tmp;
+            for (int i = 0; i < list.count(); ++i)
+            {
+                FileInfoUtil::recent(list[i], tmp, list.count() - 1);
+            }
+            DJV_ASSERT(tmp.count() == list.count() - 1);
+            DJV_ASSERT(tmp[0] == list[2]);
+            FileInfoUtil::recent(list[2], tmp, list.count() - 1);
+            DJV_ASSERT(tmp.count() == list.count() - 1);
+            DJV_ASSERT(tmp[0] == list[2]);
+        }
+
+        void FileInfoUtilTest::fix()
+        {
+            DJV_DEBUG("FileInfoUtilTest::fix");
+            const struct Data
+            {
+                QString path;
+                QString fixed;
+            }
+            data[] =
+            {
+                { "/", QDir::rootPath() }
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                const QString fixed = FileInfoUtil::fixPath(data[i].path);
+                DJV_DEBUG_PRINT(data[i].path << " = " << fixed);
+                DJV_ASSERT(fixed == data[i].fixed);
+            }
+        }
+
+        void FileInfoUtilTest::operators()
+        {
+            DJV_DEBUG("FileInfoUtilTest::operators");
+            {
+                DJV_DEBUG_PRINT(FileInfoUtil::SORT_NAME);
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

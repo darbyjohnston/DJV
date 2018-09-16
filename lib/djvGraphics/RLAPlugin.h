@@ -57,7 +57,7 @@ namespace djv
         class RLAPlugin : public ImageIO
         {
         public:
-            explicit RLAPlugin(djvCoreContext *);
+            explicit RLAPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

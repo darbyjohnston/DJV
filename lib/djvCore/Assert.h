@@ -33,19 +33,20 @@
 
 #include <djvConfig.h>
 
-//! \addtogroup djvCoreMisc
-//@{
+namespace djv
+{
+    namespace Core
+    {
+        void Assert(const char * file, int line);
+
+    } // namespace Core
+} // namespace djv
 
 #if defined(DJV_ASSERT)
 #undef DJV_ASSERT
 #define DJV_ASSERT(IN) \
     if (! (IN)) \
-        _djvAssert(__FILE__, __LINE__)
+        djv::Core::Assert(__FILE__, __LINE__)
 #else
 #define DJV_ASSERT(IN)
 #endif
-
-void _djvAssert(const char * file, int line);
-
-//@} // djvCoreMisc
-

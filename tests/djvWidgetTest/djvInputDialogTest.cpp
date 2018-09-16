@@ -35,22 +35,27 @@
 
 #include <djvCore/System.h>
 
-using namespace djv;
-
-djvInputDialogTest::djvInputDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvInputDialogTest::name()
+namespace djv
 {
-    return "djvInputDialogTest";
-}
-
-void djvInputDialogTest::run(const QStringList & args)
-{
-    UI::InputDialog dialog("Enter the object name:");
-    if (QDialog::Accepted == dialog.exec())
+    namespace WidgetTest
     {
-        djvSystem::print(QString("%1").arg(dialog.text()));
-    }
-}
+        InputDialogTest::InputDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
+
+        QString InputDialogTest::name()
+        {
+            return "InputDialogTest";
+        }
+
+        void InputDialogTest::run(const QStringList & args)
+        {
+            UI::InputDialog dialog("Enter the object name:");
+            if (QDialog::Accepted == dialog.exec())
+            {
+                Core::System::print(QString("%1").arg(dialog.text()));
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

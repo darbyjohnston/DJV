@@ -34,14 +34,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//------------------------------------------------------------------------------
-// _djvAssert()
-//------------------------------------------------------------------------------
-
-void _djvAssert(const char * file, int line)
+namespace djv
 {
-    ::printf("ASSERT: File \"%s\", line %d.\n", file, line);    
-    ::fflush(stdout);
-    ::abort();
-}
+    namespace Core
+    {
+        void Assert(const char * file, int line)
+        {
+            ::printf("ASSERT: File \"%s\", line %d.\n", file, line);
+            ::fflush(stdout);
+            ::abort();
+        }
 
+    } // namespace Core
+} // namespace djv

@@ -33,37 +33,36 @@
 
 #include <djvCore/Sequence.h>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSequenceUtil
-//!
-//! This class provides sequence utilities.
-//------------------------------------------------------------------------------
-
-class djvSequenceUtil
+namespace djv
 {
-public:
-    virtual ~djvSequenceUtil() = 0;
-    
-    //! Find the closest frame in a sequence.
-    static qint64 findClosest(qint64, const djvFrameList &);
+    namespace Core
+    {
+        //! \class SequenceUtil
+        //!
+        //! This class provides sequence utilities.
+        class SequenceUtil
+        {
+        public:
+            virtual ~SequenceUtil() = 0;
 
-    //! Convert a frame to a string.
-    static QString frameToString(qint64, int pad = 0);
+            //! Find the closest frame in a sequence.
+            static qint64 findClosest(qint64, const FrameList &);
 
-    //! Convert a string to a frame.
-    static inline qint64 stringToFrame(const QString &, int * pad = 0);
+            //! Convert a frame to a string.
+            static QString frameToString(qint64, int pad = 0);
 
-    //! Convert a sequence to a string.
-    static QString sequenceToString(const djvSequence &);
+            //! Convert a string to a frame.
+            static inline qint64 stringToFrame(const QString &, int * pad = 0);
 
-    //! Convert a string to a sequence.
-    static djvSequence stringToSequence(const QString &);
-};
+            //! Convert a sequence to a string.
+            static QString sequenceToString(const Sequence &);
 
-//@} // djvCoreMisc
+            //! Convert a string to a sequence.
+            static Sequence stringToSequence(const QString &);
+        };
+
+    } // namespace Core
+} // namespace djv
 
 #include <djvCore/SequenceUtilInline.h>
 

@@ -42,7 +42,7 @@ namespace djv
 {
     namespace Graphics
     {
-        CineonLoad::CineonLoad(const Cineon::Options & options, djvCoreContext * context) :
+        CineonLoad::CineonLoad(const Cineon::Options & options, Core::CoreContext * context) :
             ImageLoad(context),
             _options(options),
             _filmPrint(false)
@@ -51,23 +51,23 @@ namespace djv
         CineonLoad::~CineonLoad()
         {}
 
-        void CineonLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void CineonLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("CineonLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(_file.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void CineonLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("CineonLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -77,7 +77,7 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            QScopedPointer<djvFileIO> io(new djvFileIO);
+            QScopedPointer<Core::FileIO> io(new Core::FileIO);
             _open(fileName, info, *io);
             image.tags = info.tags;
 
@@ -127,8 +127,8 @@ namespace djv
             {
                 PixelData * data = frame.proxy ? &_tmp : &image;
                 data->set(info);
-                djvError error;
-                bool     errorValid = false;
+                Core::Error error;
+                bool errorValid = false;
                 try
                 {
                     for (int y = 0; y < info.size.y; ++y)
@@ -138,7 +138,7 @@ namespace djv
                             info.size.x * Pixel::byteCount(info.pixel));
                     }
                 }
-                catch (const djvError & otherError)
+                catch (const Core::Error & otherError)
                 {
                     error = otherError;
                     errorValid = true;
@@ -159,11 +159,11 @@ namespace djv
         void CineonLoad::_open(
             const QString & in,
             ImageIOInfo &   info,
-            djvFileIO &     io) throw (djvError)
+            Core::FileIO &  io) throw (Core::Error)
         {
             //DJV_DEBUG("CineonLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-            io.open(in, djvFileIO::READ);
+            io.open(in, Core::FileIO::READ);
             info.fileName = in;
             _filmPrint = false;
             CineonHeader header;

@@ -46,19 +46,19 @@ namespace djv
         class LUTLoad : public ImageLoad
         {
         public:
-            LUTLoad(const LUT::Options &, djvCoreContext *);
+            LUTLoad(const LUT::Options &, Core::CoreContext *);
 
             virtual ~LUTLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const djvFileInfo &, ImageIOInfo &, djvFileIO &) throw (djvError);
+            void _open(const Core::FileInfo &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
 
             LUT::Options _options;
-            djvFileInfo  _file;
-            LUT::FORMAT  _format;
+            Core::FileInfo _file;
+            LUT::FORMAT _format;
         };
 
     } // namespace Graphics

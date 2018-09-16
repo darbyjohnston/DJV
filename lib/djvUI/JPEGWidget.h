@@ -73,7 +73,7 @@ namespace djv
         class JPEGWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            JPEGWidgetPlugin(djvCoreContext *);
+            JPEGWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

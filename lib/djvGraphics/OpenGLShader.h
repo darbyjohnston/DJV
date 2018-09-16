@@ -51,7 +51,7 @@ namespace djv
             //! Initialize the shader.
             void init(
                 const QString & vertexSource,
-                const QString & fragmentSource) throw (djvError);
+                const QString & fragmentSource) throw (Core::Error);
 
             //! Bind the shader.
             void bind();

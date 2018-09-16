@@ -70,48 +70,50 @@
 #include <QApplication>
 #include <QVector>
 
+using namespace djv;
+
 int main(int argc, char ** argv)
 {
     QApplication app(argc, argv);
     
-    QVector<djvAbstractTest *> tests = QVector<djvAbstractTest *>() <<
-        new djvBoxTest <<
-        new djvBoxUtilTest <<
-        new djvCoreContextTest <<
-        new djvDebugTest <<
-        new djvErrorTest <<
-        new djvFileInfoTest <<
-        new djvFileInfoUtilTest <<
-        new djvFileIOTest <<
-        new djvFileIOUtilTest <<
-        new djvListUtilTest <<
-        new djvMathTest <<
-        new djvMemoryTest <<
-        new djvRangeTest <<
-        new djvSequenceTest <<
-        new djvSequenceUtilTest <<
-        new djvSignalBlockerTest <<
-        new djvSpeedTest <<
-        new djvStringUtilTest <<
-        new djvSystemTest <<
-        new djvTimeTest <<
-        new djvTimerTest <<
-        new djvUserTest <<
-        new djvVectorUtilTest <<
+    QVector<TestLib::AbstractTest *> tests = QVector<TestLib::AbstractTest *>() <<
+        new CoreTest::BoxTest <<
+        new CoreTest::BoxUtilTest <<
+        new CoreTest::CoreContextTest <<
+        new CoreTest::DebugTest <<
+        new CoreTest::ErrorTest <<
+        new CoreTest::FileInfoTest <<
+        new CoreTest::FileInfoUtilTest <<
+        new CoreTest::FileIOTest <<
+        new CoreTest::FileIOUtilTest <<
+        new CoreTest::ListUtilTest <<
+        new CoreTest::MathTest <<
+        new CoreTest::MemoryTest <<
+        new CoreTest::RangeTest <<
+        new CoreTest::SequenceTest <<
+        new CoreTest::SequenceUtilTest <<
+        new CoreTest::SignalBlockerTest <<
+        new CoreTest::SpeedTest <<
+        new CoreTest::StringUtilTest <<
+        new CoreTest::SystemTest <<
+        new CoreTest::TimeTest <<
+        new CoreTest::TimerTest <<
+        new CoreTest::UserTest <<
+        new CoreTest::VectorUtilTest <<
 
-        new djvColorProfileTest <<
-        new djvColorTest <<
-        new djvColorUtilTest <<
-        new djvGraphicsContextTest <<
-        new djvImageIOFormatsTest <<
-        new djvImageIOTest <<
-        new djvImageTagsTest <<
-        new djvImageTest <<
-        new djvOpenGLImageTest <<
-        new djvOpenGLTest <<
-        new djvPixelDataTest <<
-        new djvPixelDataUtilTest <<
-        new djvPixelTest;
+        new GraphicsTest::ColorProfileTest <<
+        new GraphicsTest::ColorTest <<
+        new GraphicsTest::ColorUtilTest <<
+        new GraphicsTest::GraphicsContextTest <<
+        new GraphicsTest::ImageIOFormatsTest <<
+        new GraphicsTest::ImageIOTest <<
+        new GraphicsTest::ImageTagsTest <<
+        new GraphicsTest::ImageTest <<
+        new GraphicsTest::OpenGLImageTest <<
+        new GraphicsTest::OpenGLTest <<
+        new GraphicsTest::PixelDataTest <<
+        new GraphicsTest::PixelDataUtilTest <<
+        new GraphicsTest::PixelTest;
 
     for (int i = 0; i < tests.count(); ++i)
     {

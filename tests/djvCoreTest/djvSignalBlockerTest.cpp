@@ -37,39 +37,47 @@
 
 #include <QString>
 
-djvSignalBlockerTest::djvSignalBlockerTest() :
-    _counter(0)
-{
-    connect(this, SIGNAL(signal()), SLOT(slot()));
-}
+using namespace djv::Core;
 
-void djvSignalBlockerTest::run(int &, char **)
+namespace djv
 {
-    DJV_DEBUG("djvSignalBlockerTest::run");
-    Q_EMIT signal();
-    DJV_ASSERT(1 == _counter);
+    namespace CoreTest
     {
-        djvSignalBlocker signalBlocker(this);
-        Q_EMIT signal();
-        DJV_ASSERT(1 == _counter);
+        SignalBlockerTest::SignalBlockerTest() :
+            _counter(0)
         {
-            djvSignalBlocker signalBlocker(QObjectList() << this);
+            connect(this, SIGNAL(signal()), SLOT(slot()));
+        }
+
+        void SignalBlockerTest::run(int &, char **)
+        {
+            DJV_DEBUG("SignalBlockerTest::run");
             Q_EMIT signal();
             DJV_ASSERT(1 == _counter);
             {
-                djvSignalBlocker signalBlocker(QVector<QObject *>() << this);
+                SignalBlocker signalBlocker(this);
                 Q_EMIT signal();
                 DJV_ASSERT(1 == _counter);
+                {
+                    SignalBlocker signalBlocker(QObjectList() << this);
+                    Q_EMIT signal();
+                    DJV_ASSERT(1 == _counter);
+                    {
+                        SignalBlocker signalBlocker(QVector<QObject *>() << this);
+                        Q_EMIT signal();
+                        DJV_ASSERT(1 == _counter);
+                    }
+                }
             }
+            Q_EMIT signal();
+            DJV_ASSERT(2 == _counter);
         }
-    }
-    Q_EMIT signal();
-    DJV_ASSERT(2 == _counter);
-}
 
-void djvSignalBlockerTest::slot()
-{
-    DJV_DEBUG("djvSignalBlockerTest::slot");
-    ++_counter;
-}
+        void SignalBlockerTest::slot()
+        {
+            DJV_DEBUG("SignalBlockerTest::slot");
+            ++_counter;
+        }
 
+    } // namespace CoreTest
+} // namespace djv

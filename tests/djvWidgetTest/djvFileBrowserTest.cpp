@@ -35,26 +35,31 @@
 
 #include <djvCore/System.h>
 
-using namespace djv;
-
-djvFileBrowserTest::djvFileBrowserTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvFileBrowserTest::name()
+namespace djv
 {
-    return "djvFileBrowserTest";
-}
+    namespace WidgetTest
+    {
+        FileBrowserTest::FileBrowserTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvFileBrowserTest::run(const QStringList & args)
-{
-    UI::FileBrowser fileBrowser(context());
-    if (args.count() > 0)
-    {
-        fileBrowser.setFileInfo(args[0]);
-    }
-    if (QDialog::Accepted == fileBrowser.exec())
-    {
-        djvSystem::print(fileBrowser.fileInfo());
-    }
-}
+        QString FileBrowserTest::name()
+        {
+            return "FileBrowserTest";
+        }
+
+        void FileBrowserTest::run(const QStringList & args)
+        {
+            UI::FileBrowser fileBrowser(context());
+            if (args.count() > 0)
+            {
+                fileBrowser.setFileInfo(args[0]);
+            }
+            if (QDialog::Accepted == fileBrowser.exec())
+            {
+                Core::System::print(fileBrowser.fileInfo());
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

@@ -60,24 +60,9 @@ namespace djv
     {
         struct Context::Private
         {
-            Private() :
-                combine(false),
-                sequence(),
-                autoSequence(true),
-                filePrefs(0),
-                imagePrefs(0),
-                inputPrefs(0),
-                playbackPrefs(0),
-                shortcutPrefs(0),
-                viewPrefs(0),
-                windowPrefs(0),
-                fileCache(0),
-                fileSave(0)
-            {}
-
             QStringList                                    input;
             bool                                           combine = false;
-            djvSequence::COMPRESS                          sequence = djvSequence::COMPRESS_RANGE;
+            Core::Sequence::COMPRESS                       sequence = Core::Sequence::COMPRESS_RANGE;
             bool                                           autoSequence = true;
             QScopedPointer<int>                            fileLayer;
             QScopedPointer<Graphics::PixelDataInfo::PROXY> fileProxy;
@@ -85,18 +70,18 @@ namespace djv
             QScopedPointer<bool>                           windowFullScreen;
             QScopedPointer<Util::PLAYBACK>                 playback;
             QScopedPointer<int>                            playbackFrame;
-            QScopedPointer<djvSpeed>                       playbackSpeed;
+            QScopedPointer<Core::Speed>                    playbackSpeed;
 
-            FilePrefs *                      filePrefs = nullptr;
-            ImagePrefs *                     imagePrefs = nullptr;
-            InputPrefs *                     inputPrefs = nullptr;
-            PlaybackPrefs *                  playbackPrefs = nullptr;
-            ShortcutPrefs *                  shortcutPrefs = nullptr;
-            ViewPrefs *                      viewPrefs = nullptr;
-            WindowPrefs *                    windowPrefs = nullptr;
+            FilePrefs *     filePrefs = nullptr;
+            ImagePrefs *    imagePrefs = nullptr;
+            InputPrefs *    inputPrefs = nullptr;
+            PlaybackPrefs * playbackPrefs = nullptr;
+            ShortcutPrefs * shortcutPrefs = nullptr;
+            ViewPrefs *     viewPrefs = nullptr;
+            WindowPrefs *   windowPrefs = nullptr;
 
-            FileCache *                      fileCache = nullptr;
-            FileSave *                       fileSave = nullptr;
+            FileCache * fileCache = nullptr;
+            FileSave *  fileSave = nullptr;
         };
 
         Context::Context(QObject * parent) :
@@ -152,7 +137,7 @@ namespace djv
             return _p->combine;
         }
 
-        djvSequence::COMPRESS Context::sequence() const
+        Core::Sequence::COMPRESS Context::sequence() const
         {
             return _p->sequence;
         }
@@ -192,7 +177,7 @@ namespace djv
             return _p->playbackFrame;
         }
 
-        const QScopedPointer<djvSpeed> & Context::playbackSpeed() const
+        const QScopedPointer<Core::Speed> & Context::playbackSpeed() const
         {
             return _p->playbackSpeed;
         }
@@ -337,9 +322,9 @@ namespace djv
                     else if (
                         qApp->translate("djv::ViewLib::Context", "-playback_speed") == arg)
                     {
-                        djvSpeed::FPS value = static_cast<djvSpeed::FPS>(0);
+                        Core::Speed::FPS value = static_cast<Core::Speed::FPS>(0);
                         in >> value;
-                        _p->playbackSpeed.reset(new djvSpeed(value));
+                        _p->playbackSpeed.reset(new Core::Speed(value));
                     }
 
                     // Parse the arguments.
@@ -405,14 +390,14 @@ namespace djv
                 "        Set the playback speed. Options = %8.\n"
                 "%9");
             return QString(label).
-                arg(djvSequence::compressLabels().join(", ")).
-                arg(djvStringUtil::label(_p->sequence).join(", ")).
-                arg(djvStringUtil::boolLabels().join(", ")).
-                arg(djvStringUtil::label(_p->autoSequence).join(", ")).
+                arg(Core::Sequence::compressLabels().join(", ")).
+                arg(Core::StringUtil::label(_p->sequence).join(", ")).
+                arg(Core::StringUtil::boolLabels().join(", ")).
+                arg(Core::StringUtil::label(_p->autoSequence).join(", ")).
                 arg(Graphics::PixelDataInfo::proxyLabels().join(", ")).
-                arg(djvStringUtil::boolLabels().join(", ")).
+                arg(Core::StringUtil::boolLabels().join(", ")).
                 arg(Util::playbackLabels().join(", ")).
-                arg(djvSpeed::fpsLabels().join(", ")).
+                arg(Core::Speed::fpsLabels().join(", ")).
                 arg(UI::UIContext::commandLineHelp());
         }
 

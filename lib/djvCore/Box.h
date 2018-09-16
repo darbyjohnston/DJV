@@ -35,171 +35,168 @@
 
 #include <QMetaType>
 
-//! \addtogroup djvCoreMath
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvBox2<T, P>
-//!
-//! This class provides a two-dimensional axis-aligned box.
-//------------------------------------------------------------------------------
-
-template<typename T, glm::precision P = glm::defaultp>
-struct djvBox2
+namespace djv
 {
-    inline djvBox2();
-    inline djvBox2(const djvBox2<T, P> &);
-    inline djvBox2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size);
-    inline djvBox2(const glm::tvec2<T, P> & size);
-    inline djvBox2(T x, T y, T w, T h);
-    inline djvBox2(T w, T h);
+    namespace Core
+    {
+        //! \class Box2<T, P>
+        //!
+        //! This class provides a two-dimensional axis-aligned box.
+        template<typename T, glm::precision P = glm::defaultp>
+        struct Box2
+        {
+            inline Box2();
+            inline Box2(const Box2<T, P> &);
+            inline Box2(const glm::tvec2<T, P> & position, const glm::tvec2<T, P> & size);
+            inline Box2(const glm::tvec2<T, P> & size);
+            inline Box2(T x, T y, T w, T h);
+            inline Box2(T w, T h);
 
-    glm::tvec2<T, P> position;
-    glm::tvec2<T, P> size;
+            glm::tvec2<T, P> position;
+            glm::tvec2<T, P> size;
 
-    //! Component access.
-    T & x, & y, & w, & h;
+            //! Component access.
+            T & x, &y, &w, &h;
 
-    //! Is the box valid (width and height are greater than zero)?
-    inline bool isValid() const;
-    
-    //! Set the components to zero.
-    inline void zero();
+            //! Is the box valid (width and height are greater than zero)?
+            inline bool isValid() const;
 
-    //! Get the lower right hand corner.
-    inline glm::tvec2<T, P> lowerRight() const;
+            //! Set the components to zero.
+            inline void zero();
 
-    //! Set the lower right hand corner.
-    inline void setLowerRight(const glm::tvec2<T, P> &);
+            //! Get the lower right hand corner.
+            inline glm::tvec2<T, P> lowerRight() const;
 
-    inline djvBox2<T, P> & operator = (const djvBox2<T, P> &);
+            //! Set the lower right hand corner.
+            inline void setLowerRight(const glm::tvec2<T, P> &);
 
-    inline djvBox2<T, P> & operator *= (const glm::tvec2<T, P> &);
-    inline djvBox2<T, P> & operator /= (const glm::tvec2<T, P> &);
+            inline Box2<T, P> & operator = (const Box2<T, P> &);
 
-    inline djvBox2<T, P> & operator *= (T);
-    inline djvBox2<T, P> & operator /= (T);
+            inline Box2<T, P> & operator *= (const glm::tvec2<T, P> &);
+            inline Box2<T, P> & operator /= (const glm::tvec2<T, P> &);
 
-    inline operator djvBox2<int, P>() const;
-    inline operator djvBox2<float, P>() const;
-};
+            inline Box2<T, P> & operator *= (T);
+            inline Box2<T, P> & operator /= (T);
 
-//------------------------------------------------------------------------------
-//! \class djvBox3<T, P>
-//!
-//! This class provides a three-dimensional axis-aligned box.
-//------------------------------------------------------------------------------
+            inline operator Box2<int, P>() const;
+            inline operator Box2<float, P>() const;
+        };
 
-template<typename T, glm::precision P = glm::defaultp>
-struct djvBox3
-{
-    inline djvBox3();
-    inline djvBox3(const djvBox3<T, P> &);
-    inline djvBox3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size);
-    inline djvBox3(const glm::tvec3<T, P> & size);
-    inline djvBox3(T x, T y, T z, T w, T h, T d);
-    inline djvBox3(T w, T h, T d);
+        //! \class Box3<T, P>
+        //!
+        //! This class provides a three-dimensional axis-aligned box.
+        template<typename T, glm::precision P = glm::defaultp>
+        struct Box3
+        {
+            inline Box3();
+            inline Box3(const Box3<T, P> &);
+            inline Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size);
+            inline Box3(const glm::tvec3<T, P> & size);
+            inline Box3(T x, T y, T z, T w, T h, T d);
+            inline Box3(T w, T h, T d);
 
-    glm::tvec3<T, P> position;
-    glm::tvec3<T, P> size;
+            glm::tvec3<T, P> position;
+            glm::tvec3<T, P> size;
 
-    //! Component access.
-    T & x, & y, & z, & w, & h, & d;
+            //! Component access.
+            T & x, &y, &z, &w, &h, &d;
 
-    //! Is the box valid (width and height are greater than zero)?
-    inline bool isValid() const;
-    
-    //! Set the components to zero.
-    inline void zero();
+            //! Is the box valid (width and height are greater than zero)?
+            inline bool isValid() const;
 
-    //! Get the lower right hand corner.
-    inline glm::tvec3<T, P> lowerRight() const;
+            //! Set the components to zero.
+            inline void zero();
 
-    //! Set the lower right hand corner.
-    inline void setLowerRight(const glm::tvec3<T, P> &);
+            //! Get the lower right hand corner.
+            inline glm::tvec3<T, P> lowerRight() const;
 
-    inline djvBox3<T, P> & operator = (const djvBox3<T, P> &);
+            //! Set the lower right hand corner.
+            inline void setLowerRight(const glm::tvec3<T, P> &);
 
-    inline djvBox3<T, P> & operator *= (const glm::tvec3<T, P> &);
-    inline djvBox3<T, P> & operator /= (const glm::tvec3<T, P> &);
+            inline Box3<T, P> & operator = (const Box3<T, P> &);
 
-    inline djvBox3<T, P> & operator *= (T);
-    inline djvBox3<T, P> & operator /= (T);
+            inline Box3<T, P> & operator *= (const glm::tvec3<T, P> &);
+            inline Box3<T, P> & operator /= (const glm::tvec3<T, P> &);
 
-    inline operator djvBox3<int, P>() const;
-    inline operator djvBox3<float, P>() const;
-};
+            inline Box3<T, P> & operator *= (T);
+            inline Box3<T, P> & operator /= (T);
 
-typedef djvBox2<int> djvBox2i;
-typedef djvBox2<float> djvBox2f;
-typedef djvBox3<int> djvBox3i;
-typedef djvBox3<float> djvBox3f;
+            inline operator Box3<int, P>() const;
+            inline operator Box3<float, P>() const;
+        };
 
-Q_DECLARE_METATYPE(djvBox2i)
-Q_DECLARE_METATYPE(djvBox2f)
-Q_DECLARE_METATYPE(djvBox3i)
-Q_DECLARE_METATYPE(djvBox3f)
+        typedef Box2<int> Box2i;
+        typedef Box2<float> Box2f;
+        typedef Box3<int> Box3i;
+        typedef Box3<float> Box3f;
 
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator + (const djvBox2<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator + (const djvBox3<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator - (const djvBox2<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator - (const djvBox3<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator * (const djvBox2<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator * (const djvBox3<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator / (const djvBox2<T, P> &, T);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator / (const djvBox3<T, P> &, T);
+    } // namespace Core
 
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator + (const djvBox2<T, P> &, const glm::tvec2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator + (const djvBox3<T, P> &, const glm::tvec3<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator - (const djvBox2<T, P> &, const glm::tvec2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator - (const djvBox3<T, P> &, const glm::tvec3<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator * (const djvBox2<T, P> &, const glm::tvec2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator * (const djvBox3<T, P> &, const glm::tvec3<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator / (const djvBox2<T, P> &, const glm::tvec2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvBox3<T, P> operator / (const djvBox3<T, P> &, const glm::tvec3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator + (const Core::Box2<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator + (const Core::Box3<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator - (const Core::Box2<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator - (const Core::Box3<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator * (const Core::Box2<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator * (const Core::Box3<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator / (const Core::Box2<T, P> &, T);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator / (const Core::Box3<T, P> &, T);
 
-template <typename T, glm::precision P = glm::defaultp>
-inline bool operator == (const djvBox2<T, P> &, const djvBox2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline bool operator == (const djvBox3<T, P> &, const djvBox3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator + (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator + (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator - (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator - (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator * (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator * (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator / (const Core::Box2<T, P> &, const glm::tvec2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Box3<T, P> operator / (const Core::Box3<T, P> &, const glm::tvec3<T, P> &);
 
-template <typename T, glm::precision P = glm::defaultp>
-inline bool operator != (const djvBox2<T, P> &, const djvBox2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline bool operator != (const djvBox3<T, P> &, const djvBox3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline bool operator == (const Core::Box2<T, P> &, const Core::Box2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline bool operator == (const Core::Box3<T, P> &, const Core::Box3<T, P> &);
 
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator >> (QStringList &, djvBox2<T, P> &) throw (QString);
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator >> (QStringList &, djvBox3<T, P> &) throw (QString);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline bool operator != (const Core::Box2<T, P> &, const Core::Box2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline bool operator != (const Core::Box3<T, P> &, const Core::Box3<T, P> &);
 
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator << (QStringList &, const djvBox2<T, P> &);
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator << (QStringList &, const djvBox3<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator >> (QStringList &, Core::Box2<T, P> &) throw (QString);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator >> (QStringList &, Core::Box3<T, P> &) throw (QString);
 
-template <typename T, glm::precision P = glm::defaultp>
-inline djvDebug & operator << (djvDebug &, const djvBox2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvDebug & operator << (djvDebug &, const djvBox3<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator << (QStringList &, const Core::Box2<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator << (QStringList &, const Core::Box3<T, P> &);
 
-//@} // djvCoreMath
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Debug & operator << (Core::Debug &, const Core::Box2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Debug & operator << (Core::Debug &, const Core::Box3<T, P> &);
+
+} // namespace djv
+
+Q_DECLARE_METATYPE(djv::Core::Box2i)
+Q_DECLARE_METATYPE(djv::Core::Box2f)
+Q_DECLARE_METATYPE(djv::Core::Box3i)
+Q_DECLARE_METATYPE(djv::Core::Box3f)
 
 #include <djvCore/BoxInline.h>
 #include <djvCore/Box2Inline.h>

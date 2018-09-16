@@ -36,30 +36,36 @@
 
 #include <QGuiApplication>
 
-class djvInfoContext;
-
-//! \class djvInfoApplication
-//!
-//! This program provides a command line tool for displaying information about
-//! images and movies.
-class djvInfoApplication : public QGuiApplication
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvInfoApplication(int, char **);
+    namespace info
+    {
+        class Context;
 
-    virtual ~djvInfoApplication();
+        //! \class Application
+        //!
+        //! This program provides a command line tool for displaying information about
+        //! images and movies.
+        class Application : public QGuiApplication
+        {
+            Q_OBJECT
 
-private Q_SLOTS:
-    void commandLineExit();
-    void work();
+        public:
+            Application(int, char **);
 
-private:
-    void printItem(const djvFileInfo &, bool path = false, bool info = true)
-        throw (djvError);
+            virtual ~Application();
 
-    void printDirectory(const djvFileInfo &, bool label);
+        private Q_SLOTS:
+            void commandLineExit();
+            void work();
 
-    djvInfoContext * _context;
-};
+        private:
+            void printItem(const Core::FileInfo &, bool path = false, bool info = true)
+                throw (Core::Error);
+            void printDirectory(const Core::FileInfo &, bool label);
+
+            Context * _context = nullptr;
+        };
+
+    } // namespace info
+} // namespace djv

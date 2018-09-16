@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        TargaPlugin::TargaPlugin(djvCoreContext * context) :
+        TargaPlugin::TargaPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -130,7 +130,7 @@ namespace djv
                 "        Set the file compression used when saving Targa images. Options = "
                 "%1. Default = %2.\n").
                 arg(Targa::compressionLabels().join(", ")).
-                arg(djvStringUtil::label(_options.compression).join(", "));
+                arg(Core::StringUtil::label(_options.compression).join(", "));
         }
 
         ImageLoad * TargaPlugin::createLoad() const

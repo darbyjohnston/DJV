@@ -48,18 +48,18 @@ namespace djv
         class CineonSave : public ImageSave
         {
         public:
-            CineonSave(const Cineon::Options &, djvCoreContext *);
+            CineonSave(const Cineon::Options &, Core::CoreContext *);
 
             virtual ~CineonSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &)throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &)throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (djvError);
+            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
 
             Cineon::Options _options;
-            djvFileInfo     _file;
+            Core::FileInfo  _file;
             CineonHeader    _header;
             PixelDataInfo   _info;
             Image           _image;

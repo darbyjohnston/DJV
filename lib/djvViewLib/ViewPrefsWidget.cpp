@@ -298,7 +298,7 @@ namespace djv
 
         void ViewPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->zoomFactorWidget <<
                 _p->backgroundColorWidget <<
                 _p->gridWidget <<

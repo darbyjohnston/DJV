@@ -33,29 +33,36 @@
 
 #include <djvAbstractWidgetTest.h>
 
-class djvToolButtonTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvToolButtonTest(djv::UI::UIContext *);
-
-    virtual QString name();
-
-    virtual void run(const QStringList & args = QStringList());
-    
-private Q_SLOTS:
-    void playbackCallback(int, bool);
-    void shuttleCallback(int);
-    void choiceCallback(int);
-
-private:
-    enum PLAYBACK
+    namespace WidgetTest
     {
-        REVERSE,
-        STOP,
-        FORWARD,
-        
-        PLAYBACK_COUNT
-    };
-};
+        class ToolButtonTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
+
+        public:
+            ToolButtonTest(UI::UIContext *);
+
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+
+        private Q_SLOTS:
+            void playbackCallback(int, bool);
+            void shuttleCallback(int);
+            void choiceCallback(int);
+
+        private:
+            enum PLAYBACK
+            {
+                REVERSE,
+                STOP,
+                FORWARD,
+
+                PLAYBACK_COUNT
+            };
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

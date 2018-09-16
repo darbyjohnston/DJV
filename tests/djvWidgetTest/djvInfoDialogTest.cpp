@@ -34,19 +34,23 @@
 #include <djvUI/UIContext.h>
 #include <djvUI/InfoDialog.h>
 
-using namespace djv;
-
-djvInfoDialogTest::djvInfoDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvInfoDialogTest::name()
+namespace djv
 {
-    return "djvInfoDialogTest";
-}
+    namespace WidgetTest
+    {
+        InfoDialogTest::InfoDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvInfoDialogTest::run(const QStringList & args)
-{
-    context()->infoDialog()->show();
-}
+        QString InfoDialogTest::name()
+        {
+            return "InfoDialogTest";
+        }
 
+        void InfoDialogTest::run(const QStringList & args)
+        {
+            context()->infoDialog()->show();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

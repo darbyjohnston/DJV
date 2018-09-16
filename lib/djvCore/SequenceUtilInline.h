@@ -31,31 +31,33 @@
 
 #include <djvCore/StringUtil.h>
 
-//------------------------------------------------------------------------------
-// djvSequenceUtil
-//------------------------------------------------------------------------------
-
-inline qint64 djvSequenceUtil::stringToFrame(const QString & string, int * pad)
+namespace djv
 {
-    const int length = string.length();
-    if (length && '#' == string[0])
-        return -1;
-    if (pad)
+    namespace Core
     {
-        *pad = 0;
-        int i = 0;
-        if (length && '-' == string[i])
+        inline qint64 SequenceUtil::stringToFrame(const QString & string, int * pad)
         {
-            ++i;
-        }
-        if ((length - i) > 1)
-        {
-            if ('0' == string[i])
+            const int length = string.length();
+            if (length && '#' == string[0])
+                return -1;
+            if (pad)
             {
-                *pad = (length - i);
+                *pad = 0;
+                int i = 0;
+                if (length && '-' == string[i])
+                {
+                    ++i;
+                }
+                if ((length - i) > 1)
+                {
+                    if ('0' == string[i])
+                    {
+                        *pad = (length - i);
+                    }
+                }
             }
+            return StringUtil::stringToInt<qint64>(string.toLatin1().data());
         }
-    }
-    return djvStringUtil::stringToInt<qint64>(string.toLatin1().data());
-}
 
+    } // namespace Core
+} // namespace djv

@@ -102,8 +102,8 @@ namespace djv
 
         void FloatObject::setValue(float in)
         {
-            const float tmp = _clamp ? djvMath::clamp(in, _min, _max) : in;
-            if (djvMath::fuzzyCompare(tmp, _value))
+            const float tmp = _clamp ? Core::Math::clamp(in, _min, _max) : in;
+            if (Core::Math::fuzzyCompare(tmp, _value))
                 return;
             _value = tmp;
             defaultValidUpdate();
@@ -112,7 +112,7 @@ namespace djv
 
         void FloatObject::setDefaultValue(float in)
         {
-            if (djvMath::fuzzyCompare(in, _defaultValue))
+            if (Core::Math::fuzzyCompare(in, _defaultValue))
                 return;
             //DJV_DEBUG("FloatObject::setDefaultValue");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -133,8 +133,8 @@ namespace djv
 
         void FloatObject::setRange(float min, float max)
         {
-            const bool minChange = !djvMath::fuzzyCompare(min, _min);
-            const bool maxChange = !djvMath::fuzzyCompare(max, _max);
+            const bool minChange = !Core::Math::fuzzyCompare(min, _min);
+            const bool maxChange = !Core::Math::fuzzyCompare(max, _max);
             if (!(minChange || maxChange))
                 return;
             _min = min;
@@ -169,8 +169,8 @@ namespace djv
 
         void FloatObject::setInc(float smallInc, float largeInc)
         {
-            const bool smallChange = !djvMath::fuzzyCompare(smallInc, _smallInc);
-            const bool largeChange = !djvMath::fuzzyCompare(largeInc, _largeInc);
+            const bool smallChange = !Core::Math::fuzzyCompare(smallInc, _smallInc);
+            const bool largeChange = !Core::Math::fuzzyCompare(largeInc, _largeInc);
             if (!(smallChange || largeChange))
                 return;
             _smallInc = smallInc;
@@ -220,7 +220,7 @@ namespace djv
 
         void FloatObject::defaultValidUpdate()
         {
-            const bool defaultValid = djvMath::fuzzyCompare(_value, _defaultValue);
+            const bool defaultValid = Core::Math::fuzzyCompare(_value, _defaultValue);
             if (defaultValid != _isDefaultValid)
             {
                 _isDefaultValid = defaultValid;

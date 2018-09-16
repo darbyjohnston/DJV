@@ -41,62 +41,64 @@
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 
-using namespace djv;
-
-djvWidgetTestWindow::djvWidgetTestWindow(
-    djvWidgetTestModel * model,
-    UI::UIContext *      context) :
-    _model     (model),
-    _proxyModel(0),
-    _listView  (0)
+namespace djv
 {
-    UI::SearchBox * searchBox = new UI::SearchBox(context);
-    
-    _listView = new QListView;
-    
-    QPushButton * button = new QPushButton("Run");
-    
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->addWidget(searchBox);
-    layout->addWidget(_listView);
-    layout->addWidget(button);
-    
-    setWindowTitle("djvWidgetTest");
-    
-    _proxyModel = new QSortFilterProxyModel(this);
-    _proxyModel->setSourceModel(_model);
-    _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    
-    _listView->setModel(_proxyModel);
-    
-    connect(
-        searchBox,
-        SIGNAL(textChanged(const QString &)),
-        _proxyModel,
-        SLOT(setFilterFixedString(const QString &)));
-    connect(
-        _listView,
-        SIGNAL(activated(const QModelIndex &)),
-        SLOT(runCallback()));
-    connect(
-        button,
-        SIGNAL(clicked()),
-        SLOT(runCallback()));
-}
-
-void djvWidgetTestWindow::runCallback(const QModelIndex & index)
-{
-    static_cast<djvAbstractWidgetTest *>(
-        _proxyModel->mapToSource(index).internalPointer())->run();
-}
-
-void djvWidgetTestWindow::runCallback()
-{
-    QModelIndexList rows = _listView->selectionModel()->selectedRows();
-    Q_FOREACH(QModelIndex row, rows)
+    namespace WidgetTest
     {
-        static_cast<djvAbstractWidgetTest *>(
-            _proxyModel->mapToSource(row).internalPointer())->run();
-    }
-}
+        WidgetTestWindow::WidgetTestWindow(
+            WidgetTestModel * model,
+            UI::UIContext * context) :
+            _model(model),
+            _proxyModel(0),
+            _listView(0)
+        {
+            UI::SearchBox * searchBox = new UI::SearchBox(context);
 
+            _listView = new QListView;
+
+            QPushButton * button = new QPushButton("Run");
+
+            QVBoxLayout * layout = new QVBoxLayout(this);
+            layout->addWidget(searchBox);
+            layout->addWidget(_listView);
+            layout->addWidget(button);
+
+            setWindowTitle("djvWidgetTest");
+
+            _proxyModel = new QSortFilterProxyModel(this);
+            _proxyModel->setSourceModel(_model);
+            _proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+            _listView->setModel(_proxyModel);
+
+            connect(
+                searchBox,
+                SIGNAL(textChanged(const QString &)),
+                _proxyModel,
+                SLOT(setFilterFixedString(const QString &)));
+            connect(
+                _listView,
+                SIGNAL(activated(const QModelIndex &)),
+                SLOT(runCallback()));
+            connect(
+                button,
+                SIGNAL(clicked()),
+                SLOT(runCallback()));
+        }
+
+        void WidgetTestWindow::runCallback(const QModelIndex & index)
+        {
+            static_cast<AbstractWidgetTest *>(_proxyModel->mapToSource(index).internalPointer())->run();
+        }
+
+        void WidgetTestWindow::runCallback()
+        {
+            QModelIndexList rows = _listView->selectionModel()->selectedRows();
+            Q_FOREACH(QModelIndex row, rows)
+            {
+                static_cast<AbstractWidgetTest *>(_proxyModel->mapToSource(row).internalPointer())->run();
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

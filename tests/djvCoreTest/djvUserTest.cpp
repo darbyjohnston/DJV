@@ -37,20 +37,28 @@
 
 #include <QString>
 
-void djvUserTest::run(int &, char **)
-{
-    DJV_DEBUG("djvUserTest::run");
-    members();
-}
+using namespace djv::Core;
 
-void djvUserTest::members()
+namespace djv
 {
-    DJV_DEBUG("djvUserTest::members");
+    namespace CoreTest
     {
-        DJV_DEBUG_PRINT(djvUser::current());
-    }    
-    {
-        DJV_DEBUG_PRINT(djvUser::uidToString(0));
-    }
-}
+        void UserTest::run(int &, char **)
+        {
+            DJV_DEBUG("UserTest::run");
+            members();
+        }
 
+        void UserTest::members()
+        {
+            DJV_DEBUG("UserTest::members");
+            {
+                DJV_DEBUG_PRINT(User::current());
+            }
+            {
+                DJV_DEBUG_PRINT(User::uidToString(0));
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

@@ -96,7 +96,7 @@ namespace djv
         class CineonWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            CineonWidgetPlugin(djvCoreContext *);
+            CineonWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

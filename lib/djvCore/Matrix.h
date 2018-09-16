@@ -38,19 +38,18 @@
 
 #include <QMetaType>
 
-//! \addtogroup djvCoreMath
-//@{
+namespace djv
+{
+    template<typename T, glm::precision P = glm::defaultp>
+    inline Core::Box2<T, P> operator * (const glm::mat3x3 &, const Core::Box2<T, P> &);
 
-template<typename T, glm::precision P = glm::defaultp>
-inline djvBox2<T, P> operator * (const glm::mat3x3 &, const djvBox2<T, P> &);
+    inline Core::Debug & operator << (Core::Debug &, const glm::mat3x3 &);
+    inline Core::Debug & operator << (Core::Debug &, const glm::mat4x4 &);
 
-inline djvDebug & operator << (djvDebug &, const glm::mat3x3 &);
-inline djvDebug & operator << (djvDebug &, const glm::mat4x4 &);
+} // namespace djv
 
 Q_DECLARE_METATYPE(glm::mat3x3)
 Q_DECLARE_METATYPE(glm::mat4x4)
-
-//@} // djvCoreMath
 
 #include <djvCore/MatrixInline.h>
 

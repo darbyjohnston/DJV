@@ -38,29 +38,29 @@ namespace djv
 {
     namespace Graphics
     {
-        TargaLoad::TargaLoad(djvCoreContext * context) :
+        TargaLoad::TargaLoad(Core::CoreContext * context) :
             ImageLoad(context)
         {}
 
         TargaLoad::~TargaLoad()
         {}
 
-        void TargaLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void TargaLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TargaLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(_file.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void TargaLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TargaLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -73,7 +73,7 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            QScopedPointer<djvFileIO> io(new djvFileIO);
+            QScopedPointer<Core::FileIO> io(new Core::FileIO);
             _open(fileName, info, *io);
 
             // Read the file.
@@ -83,7 +83,7 @@ namespace djv
             {
                 if ((io->size() - io->pos()) < PixelDataUtil::dataByteCount(info))
                 {
-                    throw djvError(
+                    throw Core::Error(
                         Targa::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                 }
@@ -107,7 +107,7 @@ namespace djv
                         channels);
                     if (!p)
                     {
-                        throw djvError(
+                        throw Core::Error(
                             Targa::staticName,
                             ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                     }
@@ -126,13 +126,13 @@ namespace djv
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void TargaLoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void TargaLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
             //DJV_DEBUG("djvTargaLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-            io.setEndian(djvMemory::endian() != djvMemory::LSB);
-            io.open(in, djvFileIO::READ);
+            io.setEndian(Core::Memory::endian() != Core::Memory::LSB);
+            io.open(in, Core::FileIO::READ);
             info.fileName = in;
             Targa::loadInfo(io, info, &_compression);
         }

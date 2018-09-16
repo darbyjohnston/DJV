@@ -50,14 +50,14 @@ namespace djv
 
         public:
             explicit FileBrowserItem(
-                const djvFileInfo & fileInfo,
+                const Core::FileInfo & fileInfo,
                 FileBrowserModel::THUMBNAILS thumbnails,
                 FileBrowserModel::THUMBNAILS_SIZE thumbnailsSize,
                 UIContext * context,
                 QObject * parent);
 
             //! Get the file information.
-            const djvFileInfo & fileInfo() const;
+            const Core::FileInfo & fileInfo() const;
 
             //! Get the image information.
             const Graphics::ImageIOInfo & imageInfo() const;
@@ -89,7 +89,7 @@ namespace djv
         private:
             void updateImageInfo();
 
-            djvFileInfo _fileInfo;
+            Core::FileInfo _fileInfo;
             FileBrowserModel::THUMBNAILS _thumbnails;
             FileBrowserModel::THUMBNAILS_SIZE _thumbnailsSize;
             glm::ivec2 _thumbnailSize = glm::ivec2(0, 0);

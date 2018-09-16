@@ -49,10 +49,10 @@ namespace djv
     namespace ViewLib
     {
         FileSaveInfo::FileSaveInfo(
-            const djvFileInfo &                  inputFile,
-            const djvFileInfo &                  outputFile,
+            const Core::FileInfo &               inputFile,
+            const Core::FileInfo &               outputFile,
             const Graphics::PixelDataInfo &      info,
-            const djvSequence &                  sequence,
+            const Core::Sequence &               sequence,
             int                                  layer,
             Graphics::PixelDataInfo::PROXY       proxy,
             bool                                 u8Conversion,
@@ -76,7 +76,7 @@ namespace djv
             {}
 
             FileSaveInfo info;
-            djvSequence saveSequence;
+            Core::Sequence saveSequence;
             QScopedPointer<Graphics::ImageLoad> load;
             QScopedPointer<Graphics::ImageSave> save;
             std::unique_ptr<Graphics::OpenGLImage> openGLImage;
@@ -121,7 +121,7 @@ namespace djv
             _p->info = info;
             if (_p->info.outputFile.isSequenceValid())
             {
-                _p->saveSequence = djvSequence(
+                _p->saveSequence = Core::Sequence(
                     _p->info.outputFile.sequence().frames[0],
                     _p->info.outputFile.sequence().frames[0] + info.sequence.frames.count() - 1,
                     info.sequence.pad,
@@ -134,9 +134,9 @@ namespace djv
 
             //! \todo Why do we need to reverse the rotation here?
             _p->info.options.xform.rotate = -_p->info.options.xform.rotate;
-            const djvBox2f bbox =
+            const Core::Box2f bbox =
                 Graphics::OpenGLImageXform::xformMatrix(_p->info.options.xform) *
-                djvBox2f(_p->info.info.size * Graphics::PixelDataUtil::proxyScale(_p->info.info.proxy));
+                Core::Box2f(_p->info.info.size * Graphics::PixelDataUtil::proxyScale(_p->info.info.proxy));
             //DJV_DEBUG_PRINT("bbox = " << bbox);
             _p->info.options.xform.position = -bbox.position;
             _p->info.info.size = bbox.size;
@@ -148,7 +148,7 @@ namespace djv
                 _p->load.reset(
                     _p->context->imageIOFactory()->load(_p->info.inputFile, loadInfo));
             }
-            catch (djvError error)
+            catch (Core::Error error)
             {
                 error.add(
                     Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
@@ -166,14 +166,12 @@ namespace djv
                 _p->save.reset(
                     _p->context->imageIOFactory()->save(_p->info.outputFile, saveInfo));
             }
-            catch (djvError error)
+            catch (Core::Error error)
             {
                 error.add(
                     Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
                     arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
                 _p->context->printError(error);
-
                 return;
             }
 
@@ -200,12 +198,11 @@ namespace djv
 
                     _p->save->close();
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(
                         Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
                         arg(QDir::toNativeSeparators(_p->info.outputFile)));
-
                     _p->context->printError(error);
                 }
             }
@@ -239,7 +236,7 @@ namespace djv
 
                 //DJV_DEBUG_PRINT("image = " << image);
             }
-            catch (djvError error)
+            catch (Core::Error error)
             {
                 error.add(
                     Util::errorLabels()[Util::ERROR_READ_IMAGE].
@@ -258,9 +255,9 @@ namespace djv
                 options.colorProfile = image.colorProfile;
             }
             //DJV_DEBUG_PRINT("convert = " << (p->info() != _p->info.info));
-            //DJV_DEBUG_PRINT("options = " << (options != djvOpenGLImageOptions()));
+            //DJV_DEBUG_PRINT("options = " << (options != Graphics::OpenGLImageOptions()));
             //DJV_DEBUG_PRINT("options = " << options);
-            //DJV_DEBUG_PRINT("def options = " << djvOpenGLImageOptions());
+            //DJV_DEBUG_PRINT("def options = " << Graphics::OpenGLImageOptions());
             if (p->info() != _p->info.info || options != Graphics::OpenGLImageOptions())
             {
                 tmp.set(_p->info.info);
@@ -269,7 +266,7 @@ namespace djv
                     //DJV_DEBUG_PRINT("process");
                     _p->openGLImage->copy(image, tmp, options);
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(
                         Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
@@ -291,7 +288,7 @@ namespace djv
                     Graphics::ImageIOFrameInfo(
                         in < _p->saveSequence.frames.count() ? _p->saveSequence.frames[in] : -1));
             }
-            catch (djvError error)
+            catch (Core::Error error)
             {
                 error.add(
                     Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
@@ -307,7 +304,7 @@ namespace djv
                     //DJV_DEBUG_PRINT("close");
                     _p->save->close();
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(
                         Util::errorLabels()[Util::ERROR_WRITE_IMAGE].
@@ -325,7 +322,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("close");
                 _p->save->close();
             }
-            catch (djvError error)
+            catch (Core::Error error)
             {
                 error.add(
                     Util::errorLabels()[Util::ERROR_WRITE_IMAGE].

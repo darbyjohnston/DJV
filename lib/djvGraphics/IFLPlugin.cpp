@@ -37,7 +37,7 @@ namespace djv
 {
     namespace Graphics
     {
-        IFLPlugin::IFLPlugin(djvCoreContext * context) :
+        IFLPlugin::IFLPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 

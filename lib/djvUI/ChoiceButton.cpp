@@ -163,7 +163,7 @@ namespace djv
             if (_p->actionGroup)
                 actions = _p->actionGroup->actions();
 
-            const int tmp = djvMath::clamp(
+            const int tmp = Core::Math::clamp(
                 index,
                 0,
                 actions.count() - 1);
@@ -234,7 +234,7 @@ namespace djv
             {
                 actions = _p->actionGroup->actions();
             }
-            const int index = djvMath::wrap<int>(
+            const int index = Core::Math::wrap<int>(
                 _p->currentIndex + 1,
                 0,
                 actions.count() - 1);

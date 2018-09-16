@@ -70,22 +70,13 @@ namespace djv
         struct FileGroup::Private
         {
             Private(Context * context) :
-                image(0),
-                layer(0),
                 proxy(context->filePrefs()->proxy()),
                 u8Conversion(context->filePrefs()->hasU8Conversion()),
                 cache(context->filePrefs()->hasCache()),
-                cacheItem(0),
-                preload(context->filePrefs()->hasPreload()),
-                preloadActive(false),
-                preloadTimer(0),
-                preloadFrame(0),
-                actions(0),
-                menu(0),
-                toolBar(0)
+                preload(context->filePrefs()->hasPreload())
             {}
 
-            djvFileInfo fileInfo;
+            Core::FileInfo fileInfo;
             Graphics::ImageIOInfo imageIOInfo;
             const Graphics::Image * image = nullptr;
             Graphics::Image imageTmp;
@@ -274,7 +265,7 @@ namespace djv
             _p->openGLImage.reset();
         }
 
-        const djvFileInfo & FileGroup::fileInfo() const
+        const Core::FileInfo & FileGroup::fileInfo() const
         {
             return _p->fileInfo;
         }
@@ -347,7 +338,7 @@ namespace djv
                                 _p->layer,
                                 _p->proxy));
                     }
-                    catch (djvError error)
+                    catch (Core::Error error)
                     {
                         error.add(
                             Util::errorLabels()[Util::ERROR_READ_IMAGE].
@@ -372,7 +363,7 @@ namespace djv
                             _p->openGLImage->copy(_p->imageTmp2, that->_p->imageTmp, options);
                         }
                     }
-                    catch (djvError error)
+                    catch (Core::Error error)
                     {
                         error.add(
                             Util::errorLabels()[Util::ERROR_READ_IMAGE].
@@ -411,7 +402,7 @@ namespace djv
             return _p->toolBar;
         }
 
-        void FileGroup::open(const djvFileInfo & fileInfo)
+        void FileGroup::open(const Core::FileInfo & fileInfo)
         {
             //DJV_DEBUG("FileGroup::open");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -421,8 +412,8 @@ namespace djv
                 QString("Open file = \"%1\"").arg(fileInfo));
 
             cacheDel();
-            djvFileInfo tmp = fileInfo;
-            _p->fileInfo = djvFileInfo();
+            Core::FileInfo tmp = fileInfo;
+            _p->fileInfo = Core::FileInfo();
             _p->imageIOInfo = Graphics::ImageIOInfo();
             _p->imageLoad.reset();
 
@@ -437,7 +428,7 @@ namespace djv
                     _p->fileInfo = tmp;
                     context()->filePrefs()->addRecent(_p->fileInfo);
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(
                         Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
@@ -470,7 +461,7 @@ namespace djv
             //DJV_DEBUG_PRINT("layer = " << layer);
             const int count = _p->layers.count();
             //DJV_DEBUG_PRINT("layer list = " << size);
-            _p->layer = djvMath::wrap(layer, 0, count - 1);
+            _p->layer = Core::Math::wrap(layer, 0, count - 1);
             //DJV_DEBUG_PRINT("layer = " << _layer);
             cacheDel();
             preloadUpdate();
@@ -567,7 +558,7 @@ namespace djv
             for (;
                 byteCount <= cache->maxByteCount() &&
                 frameCount < totalFrames;
-                frame = djvMath::wrap<qint64>(frame + 1, 0, totalFrames - 1), ++frameCount)
+                frame = Core::Math::wrap<qint64>(frame + 1, 0, totalFrames - 1), ++frameCount)
             {
                 if (FileCacheItem * item = cache->get(mainWindow(), frame))
                 {
@@ -584,9 +575,9 @@ namespace djv
                     break;
                 }
             }
-            //DJV_DEBUG_PRINT("byteCount            = " << byteCount);
-            //DJV_DEBUG_PRINT("preload              = " << preload);
-            //DJV_DEBUG_PRINT("frame                = " << frame);
+            //DJV_DEBUG_PRINT("byteCount = " << byteCount);
+            //DJV_DEBUG_PRINT("preload   = " << preload);
+            //DJV_DEBUG_PRINT("frame     = " << frame);
 
             if (preload)
             {
@@ -610,7 +601,7 @@ namespace djv
                                 _p->layer,
                                 _p->proxy));
                     }
-                    catch (const djvError &)
+                    catch (const Core::Error &)
                     {
                     }
                     try
@@ -632,7 +623,7 @@ namespace djv
                             _p->openGLImage->copy(_p->imageTmp2, _p->imageTmp, options);
                         }
                     }
-                    catch (const djvError &)
+                    catch (const Core::Error &)
                     {
                     }
                     image = &_p->imageTmp;
@@ -671,7 +662,7 @@ namespace djv
             fileBrowser->raise();
         }
 
-        void FileGroup::openCallback(const djvFileInfo & fileInfo)
+        void FileGroup::openCallback(const Core::FileInfo & fileInfo)
         {
             mainWindow()->fileOpen(fileInfo);
         }
@@ -680,7 +671,7 @@ namespace djv
         {
             //DJV_DEBUG("FileGroup::recentCallback");
             const int index = action->data().toInt();
-            djvFileInfo fileInfo = context()->filePrefs()->recentFiles()[index];
+            Core::FileInfo fileInfo = context()->filePrefs()->recentFiles()[index];
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo << " " << fileInfo.type());
             mainWindow()->fileOpen(fileInfo);
         }
@@ -701,7 +692,7 @@ namespace djv
                     _p->imageLoad.reset(
                         context()->imageIOFactory()->load(_p->fileInfo, _p->imageIOInfo));
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(
                         Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
@@ -729,7 +720,7 @@ namespace djv
                     _p->imageLoad.reset(
                         context()->imageIOFactory()->load(_p->fileInfo, _p->imageIOInfo));
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(
                         Util::errorLabels()[Util::ERROR_OPEN_IMAGE].
@@ -744,7 +735,7 @@ namespace djv
         void FileGroup::closeCallback()
         {
             //DJV_DEBUG("FileGroup::closeCallback");
-            mainWindow()->fileOpen(djvFileInfo());
+            mainWindow()->fileOpen(Core::FileInfo());
         }
 
         void FileGroup::saveCallback()
@@ -754,9 +745,9 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileGroup", "Save"));
             if (fileBrowser->exec() == QDialog::Accepted)
             {
-                const djvFileInfo & fileInfo = fileBrowser->fileInfo();
+                const Core::FileInfo & fileInfo = fileBrowser->fileInfo();
                 //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-                if (djvFileInfoUtil::exists(fileInfo))
+                if (Core::FileInfoUtil::exists(fileInfo))
                 {
                     //DJV_DEBUG_PRINT("exists");
                     UI::QuestionDialog dialog(
@@ -780,8 +771,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::FileGroup", "Save Frame"));
             if (fileBrowser->exec() == QDialog::Accepted)
             {
-                const djvFileInfo & fileInfo = fileBrowser->fileInfo();
-                if (djvFileInfoUtil::exists(fileInfo))
+                const Core::FileInfo & fileInfo = fileBrowser->fileInfo();
+                if (Core::FileInfoUtil::exists(fileInfo))
                 {
                     UI::QuestionDialog dialog(
                         qApp->translate("djv::ViewLib::FileGroup", "Overwrite existing file \"%1\"?").

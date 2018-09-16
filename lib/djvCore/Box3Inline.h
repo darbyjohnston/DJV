@@ -29,164 +29,166 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvBox3<T, P>
-//------------------------------------------------------------------------------
-
-//! \todo Is this specialization for integer box types correct?
-//! \todo Why do these specializations need to come first on Windows (error
-//! C2908)?
-template<>
-inline glm::ivec3 djvBox3<int>::lowerRight() const
+namespace djv
 {
-    return position + size - 1;
-}
+    namespace Core
+    {
+        //! \todo Is this specialization for integer box types correct?
+        //! \todo Why do these specializations need to come first on Windows (error
+        //! C2908)?
+        template<>
+        inline glm::ivec3 Box3<int>::lowerRight() const
+        {
+            return position + size - 1;
+        }
 
-template<>
-inline void djvBox3<int>::setLowerRight(const glm::ivec3 & in)
-{
-    size = in - position + 1;
-}
+        template<>
+        inline void Box3<int>::setLowerRight(const glm::ivec3 & in)
+        {
+            size = in - position + 1;
+        }
 
 #define _BOX3_INIT() \
-    x(djvBox3::position.x), \
-    y(djvBox3::position.y), \
-    z(djvBox3::position.z), \
-    w(djvBox3::size.x),     \
-    h(djvBox3::size.y),     \
-    d(djvBox3::size.z)
+    x(Box3::position.x), \
+    y(Box3::position.y), \
+    z(Box3::position.z), \
+    w(Box3::size.x),     \
+    h(Box3::size.y),     \
+    d(Box3::size.z)
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::djvBox3() :
-    position(T(0), T(0), T(0)),
-    size(T(0), T(0), T(0)),
-    _BOX3_INIT()
-{}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::Box3() :
+            position(T(0), T(0), T(0)),
+            size(T(0), T(0), T(0)),
+            _BOX3_INIT()
+        {}
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::djvBox3(const djvBox3<T, P> & in) :
-    position(in.position),
-    size(in.size),
-    _BOX3_INIT()
-{}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::Box3(const Box3<T, P> & in) :
+            position(in.position),
+            size(in.size),
+            _BOX3_INIT()
+        {}
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::djvBox3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size) :
-    position(position),
-    size(size),
-    _BOX3_INIT()
-{}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::Box3(const glm::tvec3<T, P> & position, const glm::tvec3<T, P> & size) :
+            position(position),
+            size(size),
+            _BOX3_INIT()
+        {}
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::djvBox3(const glm::tvec3<T, P> & size) :
-    position(T(0), T(0), T(0)),
-    size(size),
-    _BOX3_INIT()
-{}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::Box3(const glm::tvec3<T, P> & size) :
+            position(T(0), T(0), T(0)),
+            size(size),
+            _BOX3_INIT()
+        {}
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::djvBox3(T _x, T _y, T _z, T _w, T _h, T _d) :
-    _BOX3_INIT()
-{
-    x = _x;
-    y = _y;
-    z = _z;
-    w = _w;
-    h = _h;
-    d = _d;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::Box3(T _x, T _y, T _z, T _w, T _h, T _d) :
+            _BOX3_INIT()
+        {
+            x = _x;
+            y = _y;
+            z = _z;
+            w = _w;
+            h = _h;
+            d = _d;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::djvBox3(T _w, T _h, T _d) :
-    position(T(0), T(0), T(0)),
-    _BOX3_INIT()
-{
-    w = _w;
-    h = _h;
-    d = _d;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::Box3(T _w, T _h, T _d) :
+            position(T(0), T(0), T(0)),
+            _BOX3_INIT()
+        {
+            w = _w;
+            h = _h;
+            d = _d;
+        }
 
-template<typename T, glm::precision P>
-inline bool djvBox3<T, P>::isValid() const
-{
-    return size.x > T(0) && size.y > T(0);
-}
+        template<typename T, glm::precision P>
+        inline bool Box3<T, P>::isValid() const
+        {
+            return size.x > T(0) && size.y > T(0);
+        }
 
-template<typename T, glm::precision P>
-inline void djvBox3<T, P>::zero()
-{
-    position.x = position.y = position.z = T(0);
-    size.x = size.y = size.z = T(0);
-}
+        template<typename T, glm::precision P>
+        inline void Box3<T, P>::zero()
+        {
+            position.x = position.y = position.z = T(0);
+            size.x = size.y = size.z = T(0);
+        }
 
-template<typename T, glm::precision P>
-inline glm::tvec3<T, P> djvBox3<T, P>::lowerRight() const
-{
-    return position + size;
-}
+        template<typename T, glm::precision P>
+        inline glm::tvec3<T, P> Box3<T, P>::lowerRight() const
+        {
+            return position + size;
+        }
 
-template<typename T, glm::precision P>
-inline void djvBox3<T, P>::setLowerRight(const glm::tvec3<T, P> & in)
-{
-    size = in - position;
-}
+        template<typename T, glm::precision P>
+        inline void Box3<T, P>::setLowerRight(const glm::tvec3<T, P> & in)
+        {
+            size = in - position;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P> & djvBox3<T, P>::operator = (const djvBox3<T, P> & in)
-{
-    if (&in != this)
-    {
-        position = in.position;
-        size     = in.size;
-    }
-    return *this;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P> & Box3<T, P>::operator = (const Box3<T, P> & in)
+        {
+            if (&in != this)
+            {
+                position = in.position;
+                size = in.size;
+            }
+            return *this;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P> & djvBox3<T, P>::operator *= (const glm::tvec3<T, P> & in)
-{
-    position *= in;
-    size *= in;
-    return *this;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P> & Box3<T, P>::operator *= (const glm::tvec3<T, P> & in)
+        {
+            position *= in;
+            size *= in;
+            return *this;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P> & djvBox3<T, P>::operator /= (const glm::tvec3<T, P> & in)
-{
-    position /= in;
-    size /= in;
-    return *this;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P> & Box3<T, P>::operator /= (const glm::tvec3<T, P> & in)
+        {
+            position /= in;
+            size /= in;
+            return *this;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P> & djvBox3<T, P>::operator *= (T in)
-{
-    position *= in;
-    size *= in;
-    return *this;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P> & Box3<T, P>::operator *= (T in)
+        {
+            position *= in;
+            size *= in;
+            return *this;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P> & djvBox3<T, P>::operator /= (T in)
-{
-    position /= in;
-    size /= in;
-    return *this;
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P> & Box3<T, P>::operator /= (T in)
+        {
+            position /= in;
+            size /= in;
+            return *this;
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::operator djvBox3<int, P>() const
-{
-    return djvBox3<int, P>(
-        static_cast<int>(x), static_cast<int>(y), static_cast<int>(z),
-        static_cast<int>(w), static_cast<int>(h), static_cast<int>(d));
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::operator Box3<int, P>() const
+        {
+            return Box3<int, P>(
+                static_cast<int>(x), static_cast<int>(y), static_cast<int>(z),
+                static_cast<int>(w), static_cast<int>(h), static_cast<int>(d));
+        }
 
-template<typename T, glm::precision P>
-inline djvBox3<T, P>::operator djvBox3<float, P>() const
-{
-    return djvBox3<float, P>(
-        static_cast<float>(x), static_cast<float>(y), static_cast<float>(z),
-        static_cast<float>(w), static_cast<float>(h), static_cast<float>(d));
-}
+        template<typename T, glm::precision P>
+        inline Box3<T, P>::operator Box3<float, P>() const
+        {
+            return Box3<float, P>(
+                static_cast<float>(x), static_cast<float>(y), static_cast<float>(z),
+                static_cast<float>(w), static_cast<float>(h), static_cast<float>(d));
+        }
 
+    } // namespace Core
+} // namespace djv

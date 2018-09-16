@@ -94,7 +94,7 @@ namespace djv
             // Create the widgets.
             _p->seqWidget = new QComboBox;
             _p->seqWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            _p->seqWidget->addItems(djvSequence::compressLabels());
+            _p->seqWidget->addItems(Core::Sequence::compressLabels());
 
             _p->showHiddenWidget = new QCheckBox(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Show hidden files"));
@@ -296,7 +296,7 @@ namespace djv
 
         void FileBrowserPrefsWidget::seqCallback(int index)
         {
-            context()->fileBrowserPrefs()->setSequence(static_cast<djvSequence::COMPRESS>(index));
+            context()->fileBrowserPrefs()->setSequence(static_cast<Core::Sequence::COMPRESS>(index));
         }
 
         void FileBrowserPrefsWidget::sortCallback(int index)
@@ -316,7 +316,7 @@ namespace djv
 
         void FileBrowserPrefsWidget::thumbnailsCacheCallback(int value)
         {
-            context()->fileBrowserPrefs()->setThumbnailsCache(value * djvMemory::megabyte);
+            context()->fileBrowserPrefs()->setThumbnailsCache(value * Core::Memory::megabyte);
         }
 
         void FileBrowserPrefsWidget::bookmarkCallback(QListWidgetItem * item)
@@ -388,7 +388,7 @@ namespace djv
 
         void FileBrowserPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->seqWidget <<
                 _p->showHiddenWidget <<
                 _p->sortWidget <<
@@ -406,7 +406,7 @@ namespace djv
             _p->sortDirsFirstWidget->setChecked(context()->fileBrowserPrefs()->hasSortDirsFirst());
             _p->thumbnailsWidget->setCurrentIndex(context()->fileBrowserPrefs()->thumbnails());
             _p->thumbnailsSizeWidget->setCurrentIndex(context()->fileBrowserPrefs()->thumbnailsSize());
-            _p->thumbnailsCacheWidget->setValue(context()->fileBrowserPrefs()->thumbnailsCache() / djvMemory::megabyte);
+            _p->thumbnailsCacheWidget->setValue(context()->fileBrowserPrefs()->thumbnailsCache() / Core::Memory::megabyte);
             _p->bookmarksWidget->clear();
             const QStringList & bookmarks = context()->fileBrowserPrefs()->bookmarks();
             for (int i = 0; i < bookmarks.count(); ++i)

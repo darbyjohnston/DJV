@@ -199,7 +199,7 @@ namespace djv
             // Update the action groups.
             Q_FOREACH(QAction * action, _groups[RECENT_GROUP]->actions())
                 delete action;
-            const djvFileInfoList & recent = context()->filePrefs()->recentFiles();
+            const Core::FileInfoList & recent = context()->filePrefs()->recentFiles();
             for (int i = 0; i < recent.count(); ++i)
             {
                 QAction * action = new QAction(this);

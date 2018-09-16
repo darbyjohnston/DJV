@@ -36,139 +36,138 @@
 #include <QMetaType>
 #include <QStringList>
 
-//! \addtogroup djvCoreFile
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvFileInfoUtil
-//!
-//! This class provides file information utilities.
-//------------------------------------------------------------------------------
-
-class djvFileInfoUtil
+namespace djv
 {
-    Q_GADGET
-    Q_FLAGS(FILTER)
-    Q_ENUMS(SORT)
-    
-public:
-    virtual ~djvFileInfoUtil() = 0;
-    
-    //! Split a file name into pieces.
-    static void split(
-        const QString &,
-        QString & path,
-        QString & base,
-        QString & number,
-        QString & extension);
-
-    //! Check if a file exists.
-    static bool exists(const djvFileInfo &);
-
-    //! Get a file list from a directory.
-    static djvFileInfoList list(
-        const QString &       path,
-        djvSequence::COMPRESS sequence = djvSequence::COMPRESS_RANGE);
-
-    //! Find a match for a sequence wildcard. If nothing is found the input is
-    //! returned.
-    //!
-    //! Example wildcard: render.#.exr
-    static const djvFileInfo & sequenceWildcardMatch(
-        const djvFileInfo &,
-        const djvFileInfoList &);
-
-    //! Compress a list of files into a sequence.
-    static void compressSequence(
-        djvFileInfoList &,
-        djvSequence::COMPRESS = djvSequence::COMPRESS_RANGE);
-
-    //! Expand a sequence into a list of file names.
-    static QStringList expandSequence(const djvFileInfo &);
-
-    //! This enumeration provides file filters.
-    enum FILTER
+    namespace Core
     {
-        FILTER_NONE        = 0,
-        FILTER_FILES       = 1, //!< Filter files
-        FILTER_DIRECTORIES = 2, //!< Filter directories
-        FILTER_HIDDEN      = 4  //!< Filter hidden items
-    };
+        //! \class FileInfoUtil
+        //!
+        //! This class provides file information utilities.
+        class FileInfoUtil
+        {
+            Q_GADGET
+            Q_FLAGS(FILTER)
+            Q_ENUMS(SORT)
 
-    //! Filter a list of files.
-    static void filter(
-        djvFileInfoList &,
-        int                 filter,
-        const QString &     filterText = QString(),
-        const QStringList & glob       = QStringList());
+        public:
+            virtual ~FileInfoUtil() = 0;
 
-    //! This enumeration provides file sorting.
-    enum SORT
-    {
-        SORT_NAME,        //!< Sort by name
-        SORT_TYPE,        //!< Sort by file type
-        SORT_SIZE,        //!< Sort by file size
-        SORT_USER,        //!< Sort by user name
-        SORT_PERMISSIONS, //!< Sort by file permissions
-        SORT_TIME,        //!< Sort by the last modified time
+            //! Split a file name into pieces.
+            static void split(
+                const QString &,
+                QString & path,
+                QString & base,
+                QString & number,
+                QString & extension);
 
-        SORT_COUNT
-    };
+            //! Check if a file exists.
+            static bool exists(const FileInfo &);
 
-    //! Get the file sorting labels.
-    static const QStringList & sortLabels();
+            //! Get a file list from a directory.
+            static FileInfoList list(
+                const QString &    path,
+                Sequence::COMPRESS sequence = Sequence::COMPRESS_RANGE);
 
-    //! Sort a list of files.
-    static void sort(
-        djvFileInfoList &,
-        SORT,
-        bool reverse = false);
+            //! Find a match for a sequence wildcard. If nothing is found the input is
+            //! returned.
+            //!
+            //! Example wildcard: render.#.exr
+            static const FileInfo & sequenceWildcardMatch(
+                const FileInfo &,
+                const FileInfoList &);
 
-    //! Sort the list so directories are first.
-    static void sortDirsFirst(djvFileInfoList &);
+            //! Compress a list of files into a sequence.
+            static void compressSequence(
+                FileInfoList &,
+                Sequence::COMPRESS = Sequence::COMPRESS_RANGE);
 
-    //! The maximum number of recent files.
-    static const int recentMax = 10;
+            //! Expand a sequence into a list of file names.
+            static QStringList expandSequence(const FileInfo &);
 
-    //! Update a recent files list.
-    static void recent(
-        const djvFileInfo & fileInfo,
-        djvFileInfoList &   list,
-        int                 max = recentMax);
+            //! This enumeration provides file filters.
+            enum FILTER
+            {
+                FILTER_NONE = 0,
+                FILTER_FILES = 1, //!< Filter files
+                FILTER_DIRECTORIES = 2, //!< Filter directories
+                FILTER_HIDDEN = 4  //!< Filter hidden items
+            };
 
-    //! Update a recent files list.
-    static void recent(
-        const QString & fileName,
-        QStringList &   list,
-        int             max = recentMax);
+            //! Filter a list of files.
+            static void filter(
+                FileInfoList &,
+                int                 filter,
+                const QString &     filterText = QString(),
+                const QStringList & glob = QStringList());
 
-    //! Fix a path.
-    static QString fixPath(const QString &);
+            //! This enumeration provides file sorting.
+            enum SORT
+            {
+                SORT_NAME,        //!< Sort by name
+                SORT_TYPE,        //!< Sort by file type
+                SORT_SIZE,        //!< Sort by file size
+                SORT_USER,        //!< Sort by user name
+                SORT_PERMISSIONS, //!< Sort by file permissions
+                SORT_TIME,        //!< Sort by the last modified time
 
-    //! Path list separators.
-    static QList<QChar> listSeparators;
+                SORT_COUNT
+            };
 
-    //! Path list separator.
+            //! Get the file sorting labels.
+            static const QStringList & sortLabels();
+
+            //! Sort a list of files.
+            static void sort(
+                FileInfoList &,
+                SORT,
+                bool reverse = false);
+
+            //! Sort the list so directories are first.
+            static void sortDirsFirst(FileInfoList &);
+
+            //! The maximum number of recent files.
+            static const int recentMax = 10;
+
+            //! Update a recent files list.
+            static void recent(
+                const FileInfo & fileInfo,
+                FileInfoList &   list,
+                int              max = recentMax);
+
+            //! Update a recent files list.
+            static void recent(
+                const QString & fileName,
+                QStringList &   list,
+                int             max = recentMax);
+
+            //! Fix a path.
+            static QString fixPath(const QString &);
+
+            //! Path list separators.
+            static QList<QChar> listSeparators;
+
+            //! Path list separator.
 #if defined(DJV_WINDOWS)
-    static const QChar & listSeparator;
+            static const QChar & listSeparator;
 #else // DJV_WINDOWS
-    static const QChar & listSeparator;
+            static const QChar & listSeparator;
 #endif // DJV_WINDOWS
 
-    //! Dot directory.
-    static const QString dot;
+            //! Dot directory.
+            static const QString dot;
 
-    //! Dot dot directory.
-    static const QString dotDot;
-    
-    //! Parse a file name.
-    static djvFileInfo parse(
-        const QString &       fileName,
-        djvSequence::COMPRESS sequence,
-        bool                  autoSequence = false);
-};
+            //! Dot dot directory.
+            static const QString dotDot;
 
-DJV_STRING_OPERATOR(djvFileInfoUtil::SORT);
+            //! Parse a file name.
+            static FileInfo parse(
+                const QString &    fileName,
+                Sequence::COMPRESS sequence,
+                bool               autoSequence = false);
+        };
 
-//@} // djvCoreFile
+    } // namespace Core
 
+    DJV_STRING_OPERATOR(Core::FileInfoUtil::SORT);
+
+} // namespace djv

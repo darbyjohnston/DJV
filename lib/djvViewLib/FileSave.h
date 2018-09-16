@@ -55,24 +55,24 @@ namespace djv
         struct FileSaveInfo
         {
             FileSaveInfo(
-                const djvFileInfo &                  inputFile = djvFileInfo(),
-                const djvFileInfo &                  outputFile = djvFileInfo(),
+                const Core::FileInfo &               inputFile = Core::FileInfo(),
+                const Core::FileInfo &               outputFile = Core::FileInfo(),
                 const Graphics::PixelDataInfo &      info = Graphics::PixelDataInfo(),
-                const djvSequence &                  sequence = djvSequence(),
+                const Core::Sequence &               sequence = Core::Sequence(),
                 int                                  layer = 0,
                 const Graphics::PixelDataInfo::PROXY proxy = Graphics::PixelDataInfo::PROXY_NONE,
                 bool                                 u8Conversion = false,
                 bool                                 colorProfile = true,
                 const Graphics::OpenGLImageOptions & options = Graphics::OpenGLImageOptions());
 
-            djvFileInfo                    inputFile;
-            djvFileInfo                    outputFile;
+            Core::FileInfo                 inputFile;
+            Core::FileInfo                 outputFile;
             Graphics::PixelDataInfo        info;
-            djvSequence                    sequence;
-            int                            layer;
-            Graphics::PixelDataInfo::PROXY proxy;
-            bool                           u8Conversion;
-            bool                           colorProfile;
+            Core::Sequence                 sequence;
+            int                            layer = 0;
+            Graphics::PixelDataInfo::PROXY proxy = Graphics::PixelDataInfo::PROXY_NONE;
+            bool                           u8Conversion = false;
+            bool                           colorProfile = true;
             Graphics::ImageIOFrameInfo     frameInfo;
             Graphics::OpenGLImageOptions   options;
         };

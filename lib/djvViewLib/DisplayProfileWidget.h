@@ -73,7 +73,7 @@ namespace djv
             void displayProfileChanged(const djv::ViewLib::DisplayProfile &);
 
         private Q_SLOTS:
-            void lutCallback(const djvFileInfo &);
+            void lutCallback(const djv::Core::FileInfo &);
             void brightnessCallback(float);
             void contrastCallback(float);
             void saturationCallback(float);

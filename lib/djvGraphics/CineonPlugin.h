@@ -58,7 +58,7 @@ namespace djv
         class CineonPlugin : public ImageIO
         {
         public:
-            explicit CineonPlugin(djvCoreContext *);
+            explicit CineonPlugin(Core::CoreContext *);
 
             virtual ~CineonPlugin();
 

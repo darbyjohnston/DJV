@@ -229,8 +229,24 @@ namespace djv
 
         void Style::setPalettes(const std::vector<Palette> & palettes)
         {
-            if (palettes == _p->palettes)
-                return;
+            //! \bug Error C2893 on Windows?
+            //if (palettes == _p->palettes)
+            //    return;
+            if (palettes.size() == _p->palettes.size())
+            {
+                size_t i = 0;
+                for (; i < palettes.size(); ++i)
+                {
+                    if (palettes[i] != _p->palettes[i])
+                    {
+                        break;
+                    }
+                }
+                if (i == palettes.size())
+                {
+                    return;
+                }
+            }
             _p->palettes = palettes;
             colorUpdate();
         }
@@ -313,8 +329,24 @@ namespace djv
 
         void Style::setSizeMetrics(const std::vector<SizeMetric> & sizeMetrics)
         {
-            if (sizeMetrics == _p->sizeMetrics)
-                return;
+            //! \bug Error C2893 on Windows?
+            //if (sizeMetrics == _p->sizeMetrics)
+            //    return;
+            if (sizeMetrics.size() == _p->sizeMetrics.size())
+            {
+                size_t i = 0;
+                for (; i < sizeMetrics.size(); ++i)
+                {
+                    if (sizeMetrics[i] != _p->sizeMetrics[i])
+                    {
+                        break;
+                    }
+                }
+                if (i == sizeMetrics.size())
+                {
+                    return;
+                }
+            }
             _p->sizeMetrics = sizeMetrics;
             sizeUpdate();
             Q_EMIT sizeMetricsChanged();
@@ -449,186 +481,187 @@ namespace djv
             qApp->setFont(font);
         }
 
-        bool operator == (const djv::UI::Style::Palette & a, const djv::UI::Style::Palette & b)
-        {
-            return
-                a.foreground == b.foreground  &&
-                a.background == b.background  &&
-                a.background2 == b.background2 &&
-                a.button == b.button &&
-                a.select == b.select;
-        }
-
-        bool operator != (const djv::UI::Style::Palette & a, const djv::UI::Style::Palette & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const djv::UI::Style::SizeMetric & a, const djv::UI::Style::SizeMetric & b)
-        {
-            return
-                a.fontSize == b.fontSize &&
-                a.pickSize == b.pickSize &&
-                a.handleSize == b.handleSize &&
-                a.spacing == b.spacing &&
-                a.largeSpacing == b.largeSpacing &&
-                a.margin == b.margin &&
-                a.textMargin == b.textMargin &&
-                a.widgetMargin == b.widgetMargin &&
-                a.largeMargin == b.largeMargin  &&
-                a.iconSize == b.iconSize &&
-                a.toolIconSize == b.toolIconSize &&
-                a.buttonSize == b.buttonSize &&
-                a.textSize == b.textSize &&
-                a.swatchSize == b.swatchSize &&
-                a.thumbnailSize == b.thumbnailSize;
-        }
-
-        bool operator != (const djv::UI::Style::SizeMetric & a, const djv::UI::Style::SizeMetric & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const djv::UI::Style::Fonts & a, const djv::UI::Style::Fonts & b)
-        {
-            return
-                a.normal == b.normal &&
-                a.fixed == b.fixed;
-        }
-
-        bool operator != (const djv::UI::Style::Fonts & a, const djv::UI::Style::Fonts & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace UI
-} // namespace s
 
-QStringList & operator >> (QStringList & in, djv::UI::Style::Palette & out) throw (QString)
-{
-    in >> out.name;
-    QString tmp;
-    in >> tmp;
-    in >> out.foreground;
-    in >> tmp;
-    in >> out.background;
-    in >> tmp;
-    in >> out.background2;
-    in >> tmp;
-    in >> out.button;
-    in >> tmp;
-    in >> out.select;
-    return in;
-}
+    bool operator == (const UI::Style::Palette & a, const UI::Style::Palette & b)
+    {
+        return
+            a.foreground == b.foreground  &&
+            a.background == b.background  &&
+            a.background2 == b.background2 &&
+            a.button == b.button &&
+            a.select == b.select;
+    }
 
-QStringList & operator << (QStringList & out, const djv::UI::Style::Palette & in)
-{
-    out << in.name;
-    out << QString("foreground");
-    out << in.foreground;
-    out << QString("background");
-    out << in.background;
-    out << QString("background2");
-    out << in.background2;
-    out << QString("button");
-    out << in.button;
-    out << QString("select");
-    out << in.select;
-    return out;
-}
+    bool operator != (const UI::Style::Palette & a, const UI::Style::Palette & b)
+    {
+        return !(a == b);
+    }
 
-QStringList & operator >> (QStringList & in, djv::UI::Style::SizeMetric & out)
-throw (QString)
-{
-    in >> out.name;
-    QString tmp;
-    in >> tmp;
-    in >> out.fontSize;
-    in >> tmp;
-    in >> out.pickSize;
-    in >> tmp;
-    in >> out.handleSize;
-    in >> tmp;
-    in >> out.spacing;
-    in >> tmp;
-    in >> out.largeSpacing;
-    in >> tmp;
-    in >> out.margin;
-    in >> tmp;
-    in >> out.textMargin;
-    in >> tmp;
-    in >> out.widgetMargin;
-    in >> tmp;
-    in >> out.largeMargin;
-    in >> tmp;
-    in >> out.iconSize;
-    in >> tmp;
-    in >> out.toolIconSize;
-    in >> tmp;
-    in >> out.buttonSize;
-    in >> tmp;
-    in >> out.textSize;
-    in >> tmp;
-    in >> out.swatchSize;
-    in >> tmp;
-    in >> out.thumbnailSize;
-    return in;
-}
+    bool operator == (const UI::Style::SizeMetric & a, const UI::Style::SizeMetric & b)
+    {
+        return
+            a.fontSize == b.fontSize &&
+            a.pickSize == b.pickSize &&
+            a.handleSize == b.handleSize &&
+            a.spacing == b.spacing &&
+            a.largeSpacing == b.largeSpacing &&
+            a.margin == b.margin &&
+            a.textMargin == b.textMargin &&
+            a.widgetMargin == b.widgetMargin &&
+            a.largeMargin == b.largeMargin  &&
+            a.iconSize == b.iconSize &&
+            a.toolIconSize == b.toolIconSize &&
+            a.buttonSize == b.buttonSize &&
+            a.textSize == b.textSize &&
+            a.swatchSize == b.swatchSize &&
+            a.thumbnailSize == b.thumbnailSize;
+    }
 
-QStringList & operator << (QStringList & out, const djv::UI::Style::SizeMetric & in)
-{
-    out << in.name;
-    out << QString("fontSize");
-    out << in.fontSize;
-    out << QString("pickSize");
-    out << in.pickSize;
-    out << QString("handleSize");
-    out << in.handleSize;
-    out << QString("spacing");
-    out << in.spacing;
-    out << QString("largeSpacing");
-    out << in.largeSpacing;
-    out << QString("margin");
-    out << in.margin;
-    out << QString("textMargin");
-    out << in.textMargin;
-    out << QString("widgetMargin");
-    out << in.widgetMargin;
-    out << QString("largeMargin");
-    out << in.largeMargin;
-    out << QString("iconSize");
-    out << in.iconSize;
-    out << QString("toolIconSize");
-    out << in.toolIconSize;
-    out << QString("buttonSize");
-    out << in.buttonSize;
-    out << QString("textSize");
-    out << in.textSize;
-    out << QString("swatchSize");
-    out << in.swatchSize;
-    out << QString("thumbnailSize");
-    out << in.thumbnailSize;
-    return out;
-}
+    bool operator != (const UI::Style::SizeMetric & a, const UI::Style::SizeMetric & b)
+    {
+        return !(a == b);
+    }
 
-QStringList & operator >> (QStringList & in, djv::UI::Style::Fonts & out)
-throw (QString)
-{
-    QString tmp, tmp2;
-    in >> tmp;
-    in >> tmp2;
-    out.normal.setFamily(tmp2);
-    in >> tmp;
-    in >> tmp2;
-    out.fixed.setFamily(tmp2);
-    return in;
-}
+    bool operator == (const UI::Style::Fonts & a, const UI::Style::Fonts & b)
+    {
+        return
+            a.normal == b.normal &&
+            a.fixed == b.fixed;
+    }
 
-QStringList & operator << (QStringList & out, const djv::UI::Style::Fonts & in)
-{
-    out << QString("normal");
-    out << in.normal.family();
-    out << QString("fixed");
-    out << in.fixed.family();
-    return out;
-}
+    bool operator != (const UI::Style::Fonts & a, const UI::Style::Fonts & b)
+    {
+        return !(a == b);
+    }
+
+    QStringList & operator >> (QStringList & in, UI::Style::Palette & out) throw (QString)
+    {
+        in >> out.name;
+        QString tmp;
+        in >> tmp;
+        in >> out.foreground;
+        in >> tmp;
+        in >> out.background;
+        in >> tmp;
+        in >> out.background2;
+        in >> tmp;
+        in >> out.button;
+        in >> tmp;
+        in >> out.select;
+        return in;
+    }
+
+    QStringList & operator << (QStringList & out, const UI::Style::Palette & in)
+    {
+        out << in.name;
+        out << QString("foreground");
+        out << in.foreground;
+        out << QString("background");
+        out << in.background;
+        out << QString("background2");
+        out << in.background2;
+        out << QString("button");
+        out << in.button;
+        out << QString("select");
+        out << in.select;
+        return out;
+    }
+
+    QStringList & operator >> (QStringList & in, UI::Style::SizeMetric & out)
+        throw (QString)
+    {
+        in >> out.name;
+        QString tmp;
+        in >> tmp;
+        in >> out.fontSize;
+        in >> tmp;
+        in >> out.pickSize;
+        in >> tmp;
+        in >> out.handleSize;
+        in >> tmp;
+        in >> out.spacing;
+        in >> tmp;
+        in >> out.largeSpacing;
+        in >> tmp;
+        in >> out.margin;
+        in >> tmp;
+        in >> out.textMargin;
+        in >> tmp;
+        in >> out.widgetMargin;
+        in >> tmp;
+        in >> out.largeMargin;
+        in >> tmp;
+        in >> out.iconSize;
+        in >> tmp;
+        in >> out.toolIconSize;
+        in >> tmp;
+        in >> out.buttonSize;
+        in >> tmp;
+        in >> out.textSize;
+        in >> tmp;
+        in >> out.swatchSize;
+        in >> tmp;
+        in >> out.thumbnailSize;
+        return in;
+    }
+
+    QStringList & operator << (QStringList & out, const UI::Style::SizeMetric & in)
+    {
+        out << in.name;
+        out << QString("fontSize");
+        out << in.fontSize;
+        out << QString("pickSize");
+        out << in.pickSize;
+        out << QString("handleSize");
+        out << in.handleSize;
+        out << QString("spacing");
+        out << in.spacing;
+        out << QString("largeSpacing");
+        out << in.largeSpacing;
+        out << QString("margin");
+        out << in.margin;
+        out << QString("textMargin");
+        out << in.textMargin;
+        out << QString("widgetMargin");
+        out << in.widgetMargin;
+        out << QString("largeMargin");
+        out << in.largeMargin;
+        out << QString("iconSize");
+        out << in.iconSize;
+        out << QString("toolIconSize");
+        out << in.toolIconSize;
+        out << QString("buttonSize");
+        out << in.buttonSize;
+        out << QString("textSize");
+        out << in.textSize;
+        out << QString("swatchSize");
+        out << in.swatchSize;
+        out << QString("thumbnailSize");
+        out << in.thumbnailSize;
+        return out;
+    }
+
+    QStringList & operator >> (QStringList & in, UI::Style::Fonts & out)
+        throw (QString)
+    {
+        QString tmp, tmp2;
+        in >> tmp;
+        in >> tmp2;
+        out.normal.setFamily(tmp2);
+        in >> tmp;
+        in >> tmp2;
+        out.fixed.setFamily(tmp2);
+        return in;
+    }
+
+    QStringList & operator << (QStringList & out, const UI::Style::Fonts & in)
+    {
+        out << QString("normal");
+        out << in.normal.family();
+        out << QString("fixed");
+        out << in.fixed.family();
+        return out;
+    }
+
+} // namespace djv

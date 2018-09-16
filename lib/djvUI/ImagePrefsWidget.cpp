@@ -134,7 +134,7 @@ namespace djv
         void ImagePrefsWidget::widgetUpdate()
         {
             //DJV_DEBUG("ImagePrefsWidget::widgetUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->filterMinWidget <<
                 _p->filterMagWidget);
             //DJV_DEBUG_PRINT("filter = " << context()->imagePrefs()->filter());

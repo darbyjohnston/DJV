@@ -137,7 +137,7 @@ namespace djv
 
         void InfoTool::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->fileNameWidget <<
                 _p->layerNameWidget <<
                 _p->sizeWidget <<
@@ -154,15 +154,15 @@ namespace djv
                     qApp->translate("djv::ViewLib::InfoTool", "%1x%2:%3").
                     arg(imageIOInfo.size.x).
                     arg(imageIOInfo.size.y).
-                    arg(djvVectorUtil::aspect(imageIOInfo.size)));
+                    arg(Core::VectorUtil::aspect(imageIOInfo.size)));
                 _p->pixelWidget->setText(
-                    djvStringUtil::label(imageIOInfo.pixel).join(", "));
+                    Core::StringUtil::label(imageIOInfo.pixel).join(", "));
                 _p->timeWidget->setText(
                     qApp->translate("djv::ViewLib::InfoTool", "%1@%2").
-                    arg(djvTime::frameToString(
+                    arg(Core::Time::frameToString(
                         imageIOInfo.sequence.frames.count(),
                         imageIOInfo.sequence.speed)).
-                    arg(djvSpeed::speedToFloat(imageIOInfo.sequence.speed), 0, 'f', 2));
+                    arg(Core::Speed::speedToFloat(imageIOInfo.sequence.speed), 0, 'f', 2));
                 QString tmp;
                 const QStringList keys = imageIOInfo.tags.keys();
                 for (int i = 0; i < keys.count(); ++i)

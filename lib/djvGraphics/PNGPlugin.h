@@ -56,7 +56,7 @@ namespace djv
         class PNGPlugin : public ImageIO
         {
         public:
-            explicit PNGPlugin(djvCoreContext *);
+            explicit PNGPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

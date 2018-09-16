@@ -35,13 +35,20 @@
 
 #include <djvAbstractTest.h>
 
-class djvFileInfoTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace CoreTest
+    {
+        class FileInfoTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void ctors();
-    void members();
-    void operators();
-};
+        private:
+            void ctors();
+            void members();
+            void operators();
+        };
+
+    } // namespace CoreTest
+} // namespace djv

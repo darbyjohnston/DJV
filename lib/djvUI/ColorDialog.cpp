@@ -135,7 +135,7 @@ namespace djv
 
         void ColorDialog::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->widget <<
                 _p->swatch);
             _p->widget->setColor(_p->color);

@@ -35,31 +35,29 @@
 
 #include <QStringList>
 
-class djvError;
-
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvErrorUtil
-//!
-//! This class provides error utilities.
-//------------------------------------------------------------------------------
-
-class djvErrorUtil
+namespace djv
 {
-public:
-    virtual ~djvErrorUtil() = 0;
-    
-    //! Convert an error into a printable format.
-    static QStringList format(const djvError &);
+    namespace Core
+    {
+        class Error;
 
-    //! Return the last system error (Windows specific).
-    static QString lastError();
-    
-    //! Print an error to the console.
-    static void print(const djvError &);
-};
+        //! \class ErrorUtil
+        //!
+        //! This class provides error utilities.
+        class ErrorUtil
+        {
+        public:
+            virtual ~ErrorUtil() = 0;
 
-//@} // djvCoreMisc
+            //! Convert an error into a printable format.
+            static QStringList format(const Error &);
 
+            //! Return the last system error (Windows specific).
+            static QString lastError();
+
+            //! Print an error to the console.
+            static void print(const Error &);
+        };
+
+    } // namespace Core
+} // namespace djv

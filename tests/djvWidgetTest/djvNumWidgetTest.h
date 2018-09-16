@@ -47,41 +47,45 @@ namespace djv
         class IntEditSlider;
 
     } // namespace UI
+
+    namespace WidgetTest
+    {
+        class NumWidgetTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
+
+        public:
+            NumWidgetTest(UI::UIContext *);
+
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+        };
+
+        class NumWidgetTestWidget : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            NumWidgetTestWidget(UI::UIContext *);
+
+        private Q_SLOTS:
+            void intCallback(int);
+            void floatCallback(float);
+
+            void widgetUpdate();
+
+        private:
+            int   _intValue;
+            float _floatValue;
+
+            UI::IntEdit *         _intEdit = nullptr;
+            UI::IntDisplay *      _intDisplay = nullptr;
+            UI::IntEditSlider *   _intSlider = nullptr;
+            UI::FloatEdit *       _floatEdit = nullptr;
+            UI::FloatDisplay *    _floatDisplay = nullptr;
+            UI::FloatEditSlider * _floatSlider = nullptr;
+        };
+
+    } // namespace WidgetTest
 } // namespace djv
-
-class djvNumWidgetTest : public djvAbstractWidgetTest
-{
-    Q_OBJECT
-    
-public:
-    djvNumWidgetTest(djv::UI::UIContext *);
-
-    virtual QString name();
-
-    virtual void run(const QStringList & args = QStringList());
-};
-
-class djvNumWidgetTestWidget : public QWidget
-{
-    Q_OBJECT
-
-public:
-    djvNumWidgetTestWidget(djv::UI::UIContext *);
-    
-private Q_SLOTS:
-    void intCallback(int);
-    void floatCallback(float);
-
-    void widgetUpdate();
-    
-private:
-    int   _intValue;
-    float _floatValue;
-    
-    djv::UI::IntEdit *         _intEdit = nullptr;
-    djv::UI::IntDisplay *      _intDisplay = nullptr;
-    djv::UI::IntEditSlider *   _intSlider = nullptr;
-    djv::UI::FloatEdit *       _floatEdit = nullptr;
-    djv::UI::FloatDisplay *    _floatDisplay = nullptr;
-    djv::UI::FloatEditSlider * _floatSlider = nullptr;
-};

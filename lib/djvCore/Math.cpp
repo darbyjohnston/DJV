@@ -40,225 +40,225 @@
 #include <math.h>
 #include <stdlib.h>
 
-//------------------------------------------------------------------------------
-// djvMath
-//------------------------------------------------------------------------------
-
-djvMath::~djvMath()
-{}
-
-const float djvMath::pi     = 3.1415927f;
-const float djvMath::piX2   = 6.2831853f;
-const float djvMath::piDiv2 = 1.5707963f;
-const float djvMath::piDiv4 = 0.7853981f;
-
-int djvMath::pow(int value, int power)
+namespace djv
 {
-    return static_cast<int>(::floor(
-        ::pow(static_cast<float>(value), static_cast<float>(power))));
-}
-
-float djvMath::pow(float value, float power)
-{
-    return ::powf(value, power);
-}
-
-float djvMath::sqrt(float value)
-{
-    return ::sqrtf(value);
-}
-
-float djvMath::exp(float value)
-{
-    return ::expf(value);
-}
-
-float djvMath::log(float value)
-{
-    return ::logf(value);
-}
-
-float djvMath::log10(float value)
-{
-    return ::log10f(value);
-}
-
-float djvMath::antiLog10(float value)
-{
-    return exp(value * log(10.f));
-}
-
-float djvMath::bias(float value, float bias)
-{
-    return pow(value, log(bias) / log(0.5));
-}
-
-namespace
-{
-
-const float almostZero = FLT_MIN * 2.f;
-const float almostOne  = 1.f - almostZero;
-
-} // namespace
-
-float djvMath::gain(float value, float gain)
-{
-    if (value < almostZero)
+    namespace Core
     {
-        return 0.f;
-    }
-    else if (value > almostOne)
-    {
-        return 1.f;
-    }
-    const float tmp = log(1.f - gain) / log(0.5);
-    if (value < 0.5)
-    {
-        return pow(2.f * value, tmp) / 2.f;
-    }
-    else
-    {
-        return 1.f - pow(2.f * (1.f - value), tmp) / 2.f;
-    }
-}
+        Math::~Math()
+        {}
 
-float djvMath::softClip(float value, float softClip)
-{
-    const float tmp = 1.f - softClip;
-    if (value > tmp)
-    {
-        value = tmp + (1.f - exp(-(value - tmp) / softClip)) * softClip;
-    }
-    return value;
-}
+        const float Math::pi = 3.1415927f;
+        const float Math::piX2 = 6.2831853f;
+        const float Math::piDiv2 = 1.5707963f;
+        const float Math::piDiv4 = 0.7853981f;
 
-float djvMath::sin(float value)
-{
-    return ::sinf(value);
-}
+        int Math::pow(int value, int power)
+        {
+            return static_cast<int>(::floor(::pow(static_cast<float>(value), static_cast<float>(power))));
+        }
 
-float djvMath::cos(float value)
-{
-    return ::cosf(value);
-}
+        float Math::pow(float value, float power)
+        {
+            return ::powf(value, power);
+        }
 
-float djvMath::tan(float value)
-{
-    return ::tanf(value);
-}
+        float Math::sqrt(float value)
+        {
+            return ::sqrtf(value);
+        }
 
-float djvMath::arcSin(float value)
-{
-    return ::asinf(value);
-}
+        float Math::exp(float value)
+        {
+            return ::expf(value);
+        }
 
-float djvMath::arcCos(float value)
-{
-    return ::acosf(value);
-}
+        float Math::log(float value)
+        {
+            return ::logf(value);
+        }
 
-float djvMath::arcTan(float value)
-{
-    return ::atanf(value);
-}
+        float Math::log10(float value)
+        {
+            return ::log10f(value);
+        }
 
-float djvMath::arcTan(float a, float b)
-{
-    return ::atan2f(a, b);
-}
+        float Math::antiLog10(float value)
+        {
+            return exp(value * log(10.f));
+        }
 
-//! \todo What is the correct way to handle zero values for the trigonometry
-//! functions?
-float djvMath::sec(float value)
-{
-    const float tmp = cos(value);
-    return tmp != 0.f ? (1.f / tmp) : 0.f;
-}
+        float Math::bias(float value, float bias)
+        {
+            return pow(value, log(bias) / log(0.5));
+        }
 
-float djvMath::coSec(float value)
-{
-    const float tmp = sin(value);
-    return tmp != 0.f ? (1.f / tmp) : 0.f;
-}
+        namespace
+        {
+            const float almostZero = FLT_MIN * 2.f;
+            const float almostOne = 1.f - almostZero;
 
-float djvMath::coTan(float value)
-{
-    const float tmp = tan(value);
-    return tmp != 0.f ? (1.f / tmp) : 0.f;
-}
+        } // namespace
 
-namespace
-{
-float _rand()
-{
-    return ::rand() / static_cast<float>(RAND_MAX);
-}
+        float Math::gain(float value, float gain)
+        {
+            if (value < almostZero)
+            {
+                return 0.f;
+            }
+            else if (value > almostOne)
+            {
+                return 1.f;
+            }
+            const float tmp = log(1.f - gain) / log(0.5);
+            if (value < 0.5)
+            {
+                return pow(2.f * value, tmp) / 2.f;
+            }
+            else
+            {
+                return 1.f - pow(2.f * (1.f - value), tmp) / 2.f;
+            }
+        }
 
-} // namespace
+        float Math::softClip(float value, float softClip)
+        {
+            const float tmp = 1.f - softClip;
+            if (value > tmp)
+            {
+                value = tmp + (1.f - exp(-(value - tmp) / softClip)) * softClip;
+            }
+            return value;
+        }
 
-float djvMath::rand()
-{
-    return _rand();
-}
+        float Math::sin(float value)
+        {
+            return ::sinf(value);
+        }
 
-float djvMath::rand(float value)
-{
-    return value * _rand();
-}
+        float Math::cos(float value)
+        {
+            return ::cosf(value);
+        }
 
-float djvMath::rand(float min, float max)
-{
-    return min + (max - min) * _rand();
-}
+        float Math::tan(float value)
+        {
+            return ::tanf(value);
+        }
 
-void djvMath::randSeed(unsigned int value)
-{
-    if (! value)
-    {
-        //! Seed the random number generator with the current time.
+        float Math::arcSin(float value)
+        {
+            return ::asinf(value);
+        }
+
+        float Math::arcCos(float value)
+        {
+            return ::acosf(value);
+        }
+
+        float Math::arcTan(float value)
+        {
+            return ::atanf(value);
+        }
+
+        float Math::arcTan(float a, float b)
+        {
+            return ::atan2f(a, b);
+        }
+
+        //! \todo What is the correct way to handle zero values for the trigonometry
+        //! functions?
+        float Math::sec(float value)
+        {
+            const float tmp = cos(value);
+            return tmp != 0.f ? (1.f / tmp) : 0.f;
+        }
+
+        float Math::coSec(float value)
+        {
+            const float tmp = sin(value);
+            return tmp != 0.f ? (1.f / tmp) : 0.f;
+        }
+
+        float Math::coTan(float value)
+        {
+            const float tmp = tan(value);
+            return tmp != 0.f ? (1.f / tmp) : 0.f;
+        }
+
+        namespace
+        {
+            float _rand()
+            {
+                return ::rand() / static_cast<float>(RAND_MAX);
+            }
+
+        } // namespace
+
+        float Math::rand()
+        {
+            return _rand();
+        }
+
+        float Math::rand(float value)
+        {
+            return value * _rand();
+        }
+
+        float Math::rand(float min, float max)
+        {
+            return min + (max - min) * _rand();
+        }
+
+        void Math::randSeed(unsigned int value)
+        {
+            if (!value)
+            {
+                //! Seed the random number generator with the current time.
 #if defined(DJV_WINDOWS)
-        value = ::GetTickCount();
+                value = ::GetTickCount();
 #else // DJV_WINDOWS
-        struct ::timeval tmp = { 0, 0 };
-        ::gettimeofday(&tmp, 0);
-        value = tmp.tv_usec;
+                struct ::timeval tmp = { 0, 0 };
+                ::gettimeofday(&tmp, 0);
+                value = tmp.tv_usec;
 #endif // DJV_WINDOWS
-    }
-    ::srand(value);
-}
+            }
+            ::srand(value);
+        }
 
-int djvMath::floor(float value)
-{
-    return static_cast<int>(::floor(value));
-}
+        int Math::floor(float value)
+        {
+            return static_cast<int>(::floor(value));
+        }
 
-int djvMath::ceil(float value)
-{
-    return static_cast<int>(::ceil(value));
-}
+        int Math::ceil(float value)
+        {
+            return static_cast<int>(::ceil(value));
+        }
 
-int djvMath::round(float value)
-{
-    return static_cast<int>(::round(value));
-}
+        int Math::round(float value)
+        {
+            return static_cast<int>(::round(value));
+        }
 
-bool djvMath::fuzzyCompare(float a, float b)
-{
-    return fuzzyCompare(a, b, FLT_EPSILON);
-}
+        bool Math::fuzzyCompare(float a, float b)
+        {
+            return fuzzyCompare(a, b, FLT_EPSILON);
+        }
 
-bool djvMath::fuzzyCompare(float a, float b, float precision)
-{
-    return ::fabsf(a - b) < precision;
-}
+        bool Math::fuzzyCompare(float a, float b, float precision)
+        {
+            return ::fabsf(a - b) < precision;
+        }
 
-bool djvMath::fuzzyCompare(double a, double b)
-{
-    return fuzzyCompare(a, b, DBL_EPSILON);
-}
+        bool Math::fuzzyCompare(double a, double b)
+        {
+            return fuzzyCompare(a, b, DBL_EPSILON);
+        }
 
-bool djvMath::fuzzyCompare(double a, double b, double precision)
-{
-    return ::fabs(a - b) < precision;
-}
+        bool Math::fuzzyCompare(double a, double b, double precision)
+        {
+            return ::fabs(a - b) < precision;
+        }
 
+    } // namespace Core
+} // namespace djv

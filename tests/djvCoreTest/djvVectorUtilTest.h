@@ -35,16 +35,22 @@
 
 #include <djvAbstractTest.h>
 
-class djvVectorUtilTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace CoreTest
+    {
+        class VectorUtilTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void swap();
-    void range();
-    void isSizeValid();
-    void aspect();
-    void convert();
-};
+        private:
+            void swap();
+            void range();
+            void isSizeValid();
+            void aspect();
+            void convert();
+        };
 
+    } // namespace CoreTest
+} // namespace djv

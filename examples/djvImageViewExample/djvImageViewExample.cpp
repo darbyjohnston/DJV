@@ -42,95 +42,97 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-using namespace djv;
-
-djvImageViewExampleWidget::djvImageViewExampleWidget(UI::UIContext * context) :
-    UI::ImageView(context)
-{}
-
-void djvImageViewExampleWidget::mousePressEvent(QMouseEvent * event)
+namespace djv
 {
-    const glm::ivec2 mouse(
-        event->pos().x(),
-        height() - 1 - event->pos().y());
-    _viewPosTmp = viewPos();
-    _mousePress = mouse;
-}
+    ImageViewExampleWidget::ImageViewExampleWidget(UI::UIContext * context) :
+        UI::ImageView(context)
+    {}
 
-void djvImageViewExampleWidget::mouseMoveEvent(QMouseEvent * event)
-{
-    const glm::ivec2 mouse(
-        event->pos().x(),
-        height() - 1 - event->pos().y());
-    setViewPos(_viewPosTmp + mouse - _mousePress);
-}
-
-void djvImageViewExampleWidget::keyPressEvent(QKeyEvent * event)
-{
-    const QPoint pos = mapFromGlobal(QCursor::pos());
-    const glm::ivec2 mouse(
-        pos.x(),
-        height() - 1 - pos.y());
-    switch (event->key())
+    void ImageViewExampleWidget::mousePressEvent(QMouseEvent * event)
     {
+        const glm::ivec2 mouse(
+            event->pos().x(),
+            height() - 1 - event->pos().y());
+        _viewPosTmp = viewPos();
+        _mousePress = mouse;
+    }
+
+    void ImageViewExampleWidget::mouseMoveEvent(QMouseEvent * event)
+    {
+        const glm::ivec2 mouse(
+            event->pos().x(),
+            height() - 1 - event->pos().y());
+        setViewPos(_viewPosTmp + mouse - _mousePress);
+    }
+
+    void ImageViewExampleWidget::keyPressEvent(QKeyEvent * event)
+    {
+        const QPoint pos = mapFromGlobal(QCursor::pos());
+        const glm::ivec2 mouse(
+            pos.x(),
+            height() - 1 - pos.y());
+        switch (event->key())
+        {
         case Qt::Key_0:         viewZero(); break;
         case Qt::Key_Minus:     setViewZoom(viewZoom() * .5f, mouse); break;
         case Qt::Key_Equal:     setViewZoom(viewZoom() * 2.f, mouse); break;
         case Qt::Key_Backspace: viewFit(); break;
+        }
     }
-}
 
-djvImageViewExampleApplication::djvImageViewExampleApplication(int & argc, char ** argv) :
-    QApplication(argc, argv)
-{
-    _context.reset(new UI::UIContext);
-    if (argc != 2)
+    ImageViewExampleApplication::ImageViewExampleApplication(int & argc, char ** argv) :
+        QApplication(argc, argv)
     {
-        _context->printMessage("Usage: djvImageViewExample (input)");
-        QTimer::singleShot(0, this, SLOT(commandLineExit()));
+        _context.reset(new UI::UIContext);
+        if (argc != 2)
+        {
+            _context->printMessage("Usage: djvImageViewExample (input)");
+            QTimer::singleShot(0, this, SLOT(commandLineExit()));
+        }
+        else
+        {
+            _fileInfo = Core::FileInfo(argv[1]);
+            QTimer::singleShot(0, this, SLOT(work()));
+        }
     }
-    else
-    {
-        _fileInfo = djvFileInfo(argv[1]);
-        QTimer::singleShot(0, this, SLOT(work()));
-    }
-}
 
-void djvImageViewExampleApplication::commandLineExit()
-{
-    exit(1);
-}
-
-void djvImageViewExampleApplication::work()
-{
-    try
+    void ImageViewExampleApplication::commandLineExit()
     {
-        Graphics::ImageIOInfo info;
-        _load.reset(_context->imageIOFactory()->load(_fileInfo, info));
-        _load->read(_image);
-    }
-    catch (const djvError & error)
-    {
-        _context->printError(error);
         exit(1);
-        return;
     }
 
-    _widget.reset(new djvImageViewExampleWidget(_context.data()));
-    _widget->setWindowTitle("djvImageViewExample");
-    _widget->setData(&_image);
+    void ImageViewExampleApplication::work()
+    {
+        try
+        {
+            Graphics::ImageIOInfo info;
+            _load.reset(_context->imageIOFactory()->load(_fileInfo, info));
+            _load->read(_image);
+        }
+        catch (const Core::Error & error)
+        {
+            _context->printError(error);
+            exit(1);
+            return;
+        }
 
-    Graphics::OpenGLImageOptions options;
-    options.colorProfile = _image.colorProfile;
-    _widget->setOptions(options);
+        _widget.reset(new ImageViewExampleWidget(_context.data()));
+        _widget->setWindowTitle("djvImageViewExample");
+        _widget->setData(&_image);
 
-    const glm::ivec2 size = UI::WindowUtil::resize(_image.size());
-    _widget->resize(size.x, size.y);
-    _widget->show();
-}
+        Graphics::OpenGLImageOptions options;
+        options.colorProfile = _image.colorProfile;
+        _widget->setOptions(options);
+
+        const glm::ivec2 size = UI::WindowUtil::resize(_image.size());
+        _widget->resize(size.x, size.y);
+        _widget->show();
+    }
+
+} // namespace djv
 
 int main(int argc, char ** argv)
 {
-    return djvImageViewExampleApplication(argc, argv).exec();
+    return djv::ImageViewExampleApplication(argc, argv).exec();
 }
 

@@ -35,26 +35,31 @@
 
 #include <djvCore/System.h>
 
-using namespace djv;
-
-djvQuestionDialogTest::djvQuestionDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvQuestionDialogTest::name()
+namespace djv
 {
-    return "djvQuestionDialogTest";
-}
+    namespace WidgetTest
+    {
+        QuestionDialogTest::QuestionDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvQuestionDialogTest::run(const QStringList & args)
-{
-    UI::QuestionDialog dialog("Would you like to save the file?");
-    if (QDialog::Accepted == dialog.exec())
-    {
-        djvSystem::print("Yes");
-    }
-    else
-    {
-        djvSystem::print("No");
-    }
-}
+        QString QuestionDialogTest::name()
+        {
+            return "QuestionDialogTest";
+        }
+
+        void QuestionDialogTest::run(const QStringList & args)
+        {
+            UI::QuestionDialog dialog("Would you like to save the file?");
+            if (QDialog::Accepted == dialog.exec())
+            {
+                Core::System::print("Yes");
+            }
+            else
+            {
+                Core::System::print("No");
+            }
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

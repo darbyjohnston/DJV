@@ -31,37 +31,9 @@
 
 #pragma once
 
-//! \addtogroup lib
-//@{
-
-//! \defgroup djvCore djvCore
-//!
-//! This library provides core functionality.
-
-//@} // lib
-
-//! \addtogroup djvCore
-//@{
-
-//! \defgroup djvCoreFile djvCoreFile
-//!
-//! This module provides core file functionality.
-
-//! \defgroup djvCoreImage djvCoreImage
-//!
-//! This module provides core image functionality.
-
-//! \defgroup djvCoreMath djvCoreMath
-//!
-//! This module provides core math functionality.
-
-//! \defgroup djvCoreMisc djvCoreMisc
-//!
-//! This module provides miscellaneous core functionality.
-
-//! \defgroup djvCoreOpenGL djvCoreOpenGL
-//!
-//! This module provides core OpenGL functionality.
-
-//@} // djvCore
-
+namespace djv
+{
+    namespace Core
+    {
+    } // namespace Core
+} // namespace djv

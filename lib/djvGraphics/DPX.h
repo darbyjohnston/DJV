@@ -155,8 +155,9 @@ namespace djv
         };
 
     } // namespace Graphics
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::Graphics::DPX::VERSION);
-DJV_STRING_OPERATOR(djv::Graphics::DPX::TYPE);
-DJV_STRING_OPERATOR(djv::Graphics::DPX::ENDIAN);
+    DJV_STRING_OPERATOR(Graphics::DPX::VERSION);
+    DJV_STRING_OPERATOR(Graphics::DPX::TYPE);
+    DJV_STRING_OPERATOR(Graphics::DPX::ENDIAN);
+
+} // namespace djv

@@ -33,14 +33,21 @@
 
 #include <djvAbstractWidgetTest.h>
 
-class djvNoticeDialogTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvNoticeDialogTest(djv::UI::UIContext *);
+    namespace WidgetTest
+    {
+        class NoticeDialogTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    virtual QString name();
+        public:
+            NoticeDialogTest(UI::UIContext *);
 
-    virtual void run(const QStringList & args = QStringList());
-};
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

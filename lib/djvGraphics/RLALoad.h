@@ -46,17 +46,17 @@ namespace djv
         class RLALoad : public ImageLoad
         {
         public:
-            explicit RLALoad(djvCoreContext *);
+            explicit RLALoad(Core::CoreContext *);
 
             virtual ~RLALoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
 
-            djvFileInfo         _file;
+            Core::FileInfo      _file;
             std::vector<qint32> _rleOffset;
             PixelData           _tmp;
         };

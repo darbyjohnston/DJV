@@ -38,29 +38,29 @@ namespace djv
 {
     namespace Graphics
     {
-        SGILoad::SGILoad(djvCoreContext * context) :
+        SGILoad::SGILoad(Core::CoreContext * context) :
             ImageLoad(context)
         {}
 
         SGILoad::~SGILoad()
         {}
 
-        void SGILoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void SGILoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("SGILoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(_file.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void SGILoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("SGILoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -73,7 +73,7 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            djvFileIO io;
+            Core::FileIO io;
             _open(fileName, info, io);
 
             // Read the file.
@@ -94,7 +94,7 @@ namespace djv
                 {
                     if (size != PixelDataUtil::dataByteCount(info))
                     {
-                        throw djvError(
+                        throw Core::Error(
                             SGI::staticName,
                             ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                     }
@@ -124,7 +124,7 @@ namespace djv
                             bytes,
                             io.endian()))
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 SGI::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -141,15 +141,15 @@ namespace djv
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void SGILoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void SGILoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
-            //DJV_DEBUG("djvSGILoad::_open");
+            //DJV_DEBUG("SGILoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(in, djvFileIO::READ);
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(in, Core::FileIO::READ);
             info.fileName = in;
             SGI::loadInfo(io, info, &_compression);
 

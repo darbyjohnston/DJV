@@ -31,50 +31,53 @@
 
 #include <djvCore/BoxUtil.h>
 
-template<typename T, glm::precision P>
-inline djvBox2<T, P> operator * (const glm::mat3x3 & a, const djvBox2<T, P> & b)
+namespace djv
 {
-    const glm::tvec2<T, P> lowerRight = b.lowerRight();
-    glm::tvec3<T, P> pt[] =
+    template<typename T, glm::precision P>
+    inline Core::Box2<T, P> operator * (const glm::mat3x3 & a, const Core::Box2<T, P> & b)
     {
-        glm::tvec3<T, P>(b.position.x, b.position.y, 1.f),
-        glm::tvec3<T, P>(b.position.x, b.position.y, 1.f),
-        glm::tvec3<T, P>(lowerRight.x, lowerRight.y, 1.f),
-        glm::tvec3<T, P>(b.position.x, b.position.y, 1.f)
-    };
-    pt[1].y = lowerRight.y;
-    pt[3].x = lowerRight.x;
-    djvBox2<T, P> out;
-    for (int i = 0; i < 4; ++i)
-    {
-        pt[i] = a * pt[i];
-        if (0 == i)
+        const glm::tvec2<T, P> lowerRight = b.lowerRight();
+        glm::tvec3<T, P> pt[] =
         {
-            out.position.x = pt[i].x;
-            out.position.y = pt[i].y;
-        }
-        else
+            glm::tvec3<T, P>(b.position.x, b.position.y, 1.f),
+            glm::tvec3<T, P>(b.position.x, b.position.y, 1.f),
+            glm::tvec3<T, P>(lowerRight.x, lowerRight.y, 1.f),
+            glm::tvec3<T, P>(b.position.x, b.position.y, 1.f)
+        };
+        pt[1].y = lowerRight.y;
+        pt[3].x = lowerRight.x;
+        Core::Box2<T, P> out;
+        for (int i = 0; i < 4; ++i)
         {
-            out = djvBoxUtil::expand(out, glm::tvec2<T, P>(pt[i].x, pt[i].y));
+            pt[i] = a * pt[i];
+            if (0 == i)
+            {
+                out.position.x = pt[i].x;
+                out.position.y = pt[i].y;
+            }
+            else
+            {
+                out = Core::BoxUtil::expand(out, glm::tvec2<T, P>(pt[i].x, pt[i].y));
+            }
         }
+        return out;
     }
-    return out;
-}
 
-inline djvDebug & operator << (djvDebug & debug, const glm::mat3x3 & in)
-{
-    return debug <<
-        in[0][0] << " " << in[0][1] << " " << in[0][2] << "\n" <<
-        in[1][0] << " " << in[1][1] << " " << in[1][2] << "\n" <<
-        in[2][0] << " " << in[2][1] << " " << in[2][2];
-}
+    inline Core::Debug & operator << (Core::Debug & debug, const glm::mat3x3 & in)
+    {
+        return debug <<
+            in[0][0] << " " << in[0][1] << " " << in[0][2] << "\n" <<
+            in[1][0] << " " << in[1][1] << " " << in[1][2] << "\n" <<
+            in[2][0] << " " << in[2][1] << " " << in[2][2];
+    }
 
-inline djvDebug & operator << (djvDebug & debug, const glm::mat4x4 & in)
-{
-    return debug <<
-        in[0][0] << " " << in[0][1] << " " << in[0][2] << " " << in[0][3] << "\n" <<
-        in[1][0] << " " << in[1][1] << " " << in[1][2] << " " << in[1][3] << "\n" <<
-        in[2][0] << " " << in[2][1] << " " << in[2][2] << " " << in[2][3] << "\n" <<
-        in[3][0] << " " << in[3][1] << " " << in[3][2] << " " << in[3][3];
-}
+    inline Core::Debug & operator << (Core::Debug & debug, const glm::mat4x4 & in)
+    {
+        return debug <<
+            in[0][0] << " " << in[0][1] << " " << in[0][2] << " " << in[0][3] << "\n" <<
+            in[1][0] << " " << in[1][1] << " " << in[1][2] << " " << in[1][3] << "\n" <<
+            in[2][0] << " " << in[2][1] << " " << in[2][2] << " " << in[2][3] << "\n" <<
+            in[3][0] << " " << in[3][1] << " " << in[3][2] << " " << in[3][3];
+    }
 
+} // namespace djv

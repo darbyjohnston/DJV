@@ -38,8 +38,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -102,7 +100,7 @@ namespace djv
                 switch (bitDepth)
                 {
                 case 1:
-                    out = djvMath::ceil(width / 8.f);
+                    out = Core::Math::ceil(width / 8.f);
                     break;
                 case  8:
                 case 16:
@@ -118,11 +116,11 @@ namespace djv
             return out;
         }
 
-        void PPM::asciiLoad(djvFileIO & io, void * out, int size, int bitDepth)
-            throw (djvError)
+        void PPM::asciiLoad(Core::FileIO & io, void * out, int size, int bitDepth)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PPM::asciiLoad");
-            char tmp[djvStringUtil::cStringLength] = "";
+            char tmp[Core::StringUtil::cStringLength] = "";
             int i = 0;
             switch (bitDepth)
             {
@@ -131,7 +129,7 @@ namespace djv
                 quint8 * outP = reinterpret_cast<quint8 *>(out);
                 for (; i < size; ++i)
                 {
-                    djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+                    Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
                     outP[i] = QString(tmp).toInt() ? 0 : 255;
                 }
             }
@@ -140,7 +138,7 @@ namespace djv
     TYPE * outP = reinterpret_cast<TYPE *>(out); \
     for (; i < size; ++i) \
     { \
-        djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength); \
+        Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength); \
         outP[i] = QString(tmp).toInt(); \
     }
             case 8:
@@ -213,7 +211,8 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::PPM::TYPE, Graphics::PPM::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::PPM::DATA, Graphics::PPM::dataLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::PPM::TYPE, Graphics::PPM::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::PPM::DATA, Graphics::PPM::dataLabels());
+
+} // namespace djv

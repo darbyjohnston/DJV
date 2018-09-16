@@ -40,135 +40,133 @@
 #include <float.h>
 #include <time.h>
 
-//------------------------------------------------------------------------------
-// djvTimer::Private
-//------------------------------------------------------------------------------
-
-struct djvTimer::Private
+namespace djv
 {
+    namespace Core
+    {
+        struct Timer::Private
+        {
 #if defined(DJV_WINDOWS)
-    //DWORD t0;
-    //DWORD t1;
-    LARGE_INTEGER t0;
-    LARGE_INTEGER t1;
-    LARGE_INTEGER frequency;
+            //DWORD t0;
+            //DWORD t1;
+            LARGE_INTEGER t0;
+            LARGE_INTEGER t1;
+            LARGE_INTEGER frequency;
 #else
-    ::timeval     t0;
-    ::timeval     t1;
+            ::timeval     t0;
+            ::timeval     t1;
 #endif
-};
+        };
 
-//------------------------------------------------------------------------------
-// Timer
-//------------------------------------------------------------------------------
-
-djvTimer::djvTimer() :
-    _p(new Private)
-{
+        Timer::Timer() :
+            _p(new Private)
+        {
 #if defined(DJV_WINDOWS)
-    //_p->t0 = _p->t1 = 0;
-    _p->t0.QuadPart = 0;
-    _p->t1.QuadPart = 0;
-    ::QueryPerformanceFrequency(&_p->frequency);
+            //_p->t0 = _p->t1 = 0;
+            _p->t0.QuadPart = 0;
+            _p->t1.QuadPart = 0;
+            ::QueryPerformanceFrequency(&_p->frequency);
 #else // DJV_WINDOWS
-    _p->t0.tv_sec = _p->t0.tv_usec = 0;
-    _p->t1.tv_sec = _p->t1.tv_usec = 0;
+            _p->t0.tv_sec = _p->t0.tv_usec = 0;
+            _p->t1.tv_sec = _p->t1.tv_usec = 0;
 #endif // DJV_WINDOWS
-    start();
-}
+            start();
+        }
 
-djvTimer::djvTimer(const djvTimer & timer) :
-    _p(new Private)
-{
+        Timer::Timer(const Timer & timer) :
+            _p(new Private)
+        {
 #if defined(DJV_WINDOWS)
-    _p->t0 = timer._p->t0;
-    _p->t1 = timer._p->t1;
-    _p->frequency = timer._p->frequency;
+            _p->t0 = timer._p->t0;
+            _p->t1 = timer._p->t1;
+            _p->frequency = timer._p->frequency;
 #else // DJV_WINDOWS
-    _p->t0 = timer._p->t0;
-    _p->t1 = timer._p->t1;
+            _p->t0 = timer._p->t0;
+            _p->t1 = timer._p->t1;
 #endif // DJV_WINDOWS
-}
+        }
 
-djvTimer::~djvTimer()
-{}
+        Timer::~Timer()
+        {}
 
-void djvTimer::start()
-{
+        void Timer::start()
+        {
 #if defined(DJV_WINDOWS)
-    //_p->t0 = ::GetTickCount();
-    ::QueryPerformanceCounter(&_p->t0);
+            //_p->t0 = ::GetTickCount();
+            ::QueryPerformanceCounter(&_p->t0);
 #else // DJV_WINDOWS
-    ::gettimeofday(&_p->t0, 0);
+            ::gettimeofday(&_p->t0, 0);
 #endif // DJV_WINDOWS
-    _p->t1 = _p->t0;
-}
+            _p->t1 = _p->t0;
+        }
 
-void djvTimer::check()
-{
+        void Timer::check()
+        {
 #if defined(DJV_WINDOWS)
-    //_p->t1 = ::GetTickCount();
-    ::QueryPerformanceCounter(&_p->t1);
+            //_p->t1 = ::GetTickCount();
+            ::QueryPerformanceCounter(&_p->t1);
 #else // DJV_WINDOWS
-    ::gettimeofday(&_p->t1, 0);
+            ::gettimeofday(&_p->t1, 0);
 #endif // DJV_WINDOWS
-}
+        }
 
 #if ! defined(DJV_WINDOWS)
-namespace
-{
-inline void timediff(const timeval & a, const timeval & b, timeval & out)
-{
-    out.tv_sec  = a.tv_sec  - b.tv_sec;
-    out.tv_usec = a.tv_usec - b.tv_usec;
-    if (out.tv_usec < 0)
-    {
-        --out.tv_sec;
-        out.tv_usec += 1000000;
-    }
-}
+        namespace
+        {
+            void timediff(const timeval & a, const timeval & b, timeval & out)
+            {
+                out.tv_sec = a.tv_sec - b.tv_sec;
+                out.tv_usec = a.tv_usec - b.tv_usec;
+                if (out.tv_usec < 0)
+                {
+                    --out.tv_sec;
+                    out.tv_usec += 1000000;
+                }
+            }
 
-} // namespace
+        } // namespace
 
 #endif // ! DJV_WINDOWS
 
-float djvTimer::seconds() const
-{
-    float out = 0.f;
+        float Timer::seconds() const
+        {
+            float out = 0.f;
 #if defined(DJV_WINDOWS)
-    //out = (_p->t1 - _p->t0) / 1000.f;
-    if (_p->frequency.QuadPart)
-    {
-        out = (_p->t1.QuadPart - _p->t0.QuadPart) /
-            static_cast<float>(_p->frequency.QuadPart);
-    }
+            //out = (_p->t1 - _p->t0) / 1000.f;
+            if (_p->frequency.QuadPart)
+            {
+                out = (_p->t1.QuadPart - _p->t0.QuadPart) /
+                    static_cast<float>(_p->frequency.QuadPart);
+            }
 #else // DJV_WINDOWS
-    timeval t;
-    timediff(_p->t1, _p->t0, t);
-    out = t.tv_sec + t.tv_usec / 1000000.f;
+            timeval t;
+            timediff(_p->t1, _p->t0, t);
+            out = t.tv_sec + t.tv_usec / 1000000.f;
 #endif // DJV_WINDOWS
-    return out;
-}
+            return out;
+        }
 
-float djvTimer::fps() const
-{
-    const float seconds = this->seconds();    
-    return (seconds != 0.f) ? (1.f / seconds) : 0.f;
-}
+        float Timer::fps() const
+        {
+            const float seconds = this->seconds();
+            return (seconds != 0.f) ? (1.f / seconds) : 0.f;
+        }
 
-djvTimer & djvTimer::operator = (const djvTimer & timer)
-{
-    if (&timer != this)
-    {
+        Timer & Timer::operator = (const Timer & timer)
+        {
+            if (&timer != this)
+            {
 #if defined(DJV_WINDOWS)
-        _p->t0 = timer._p->t0;
-        _p->t1 = timer._p->t1;
-        _p->frequency = timer._p->frequency;
+                _p->t0 = timer._p->t0;
+                _p->t1 = timer._p->t1;
+                _p->frequency = timer._p->frequency;
 #else // DJV_WINDOWS
-        _p->t0 = timer._p->t0;
-        _p->t1 = timer._p->t1;
+                _p->t0 = timer._p->t0;
+                _p->t1 = timer._p->t1;
 #endif // DJV_WINDOWS
-    }
-    return *this;
-}
+            }
+            return *this;
+        }
 
+    } // namespace Core
+} // namespace djv

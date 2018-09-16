@@ -249,7 +249,7 @@ namespace djv
 
         void ColorPickerTool::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->sizeSlider <<
                 _p->colorProfileButton <<
                 _p->displayProfileButton <<
@@ -272,7 +272,7 @@ namespace djv
             //DJV_DEBUG_PRINT("display profile = " << _p->displayProfile);
             //DJV_DEBUG_PRINT("lock = " << _p->lock);
 
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->widget <<
                 _p->swatch);
             if (const Graphics::PixelData * data = viewWidget()->data())
@@ -288,7 +288,7 @@ namespace djv
                 }
 
                 // Pick.
-                const glm::ivec2 pick = djvVectorUtil::floor(
+                const glm::ivec2 pick = Core::VectorUtil::floor(
                     glm::vec2(_p->pick - viewWidget()->viewPos()) / viewWidget()->viewZoom());
                 //DJV_DEBUG_PRINT("pick = " << _p->pick);
 
@@ -323,7 +323,7 @@ namespace djv
                     _p->openGLImage->copy(*data, tmp, options);
                     _p->openGLImage->average(tmp, _p->value);
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(Util::errorLabels()[Util::ERROR_PICK_COLOR]);
                     context()->printError(error);

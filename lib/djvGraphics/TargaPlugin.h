@@ -58,7 +58,7 @@ namespace djv
         class TargaPlugin : public ImageIO
         {
         public:
-            TargaPlugin(djvCoreContext *);
+            TargaPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

@@ -35,31 +35,36 @@
 
 #include <QGuiApplication>
 
-class djvLsContext;
-
-//! \class djvLsApplication
-//!
-//! This program provides a command line tool for listing directories with file
-//! sequences.
-class djvLsApplication : public QGuiApplication
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvLsApplication(int &, char **);
+    namespace ls
+    {
+        class Context;
 
-    virtual ~djvLsApplication();
+        //! \class Application
+        //!
+        //! This program provides a command line tool for listing directories with file
+        //! sequences.
+        class Application : public QGuiApplication
+        {
+            Q_OBJECT
 
-private Q_SLOTS:
-    void commandLineExit();
-    void work();
+        public:
+            Application(int &, char **);
 
-private:
-    void process(djvFileInfoList &);
+            virtual ~Application();
 
-    void printItem(const djvFileInfo &, bool path = false, bool info = true);
+        private Q_SLOTS:
+            void commandLineExit();
+            void work();
 
-    bool printDirectory(const djvFileInfo &, bool label);
+        private:
+            void process(Core::FileInfoList &);
+            void printItem(const Core::FileInfo &, bool path = false, bool info = true);
+            bool printDirectory(const Core::FileInfo &, bool label);
 
-    djvLsContext * _context;
-};
+            Context * _context = nullptr;
+        };
+
+    } // namespace ls
+} // namespace djv

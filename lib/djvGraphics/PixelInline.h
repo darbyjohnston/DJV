@@ -433,17 +433,17 @@ namespace djv
 
         inline Pixel::U8_T Pixel::f16ToU8(F16_T in)
         {
-            return djvMath::clamp(static_cast<int>(in * u8Max + 0.5), 0, u8Max);
+            return Core::Math::clamp(static_cast<int>(in * u8Max + 0.5), 0, u8Max);
         }
 
         inline Pixel::U10_T Pixel::f16ToU10(F16_T in)
         {
-            return djvMath::clamp(static_cast<int>(in * u10Max + 0.5), 0, u10Max);
+            return Core::Math::clamp(static_cast<int>(in * u10Max + 0.5), 0, u10Max);
         }
 
         inline Pixel::U16_T Pixel::f16ToU16(F16_T in)
         {
-            return djvMath::clamp(static_cast<int>(in * u16Max + 0.5), 0, u16Max);
+            return Core::Math::clamp(static_cast<int>(in * u16Max + 0.5), 0, u16Max);
         }
 
         inline Pixel::F32_T Pixel::f16ToF32(F16_T in)
@@ -456,7 +456,7 @@ namespace djv
             //DJV_DEBUG("f32ToU8");
             //DJV_DEBUG_PRINT("in = " << in);
 
-            return djvMath::clamp(static_cast<int>(in * u8Max + 0.5), 0, u8Max);
+            return Core::Math::clamp(static_cast<int>(in * u8Max + 0.5), 0, u8Max);
 
             /*// Ill floating point conversion. Assumes IEEE floats: sign (1 bit)
             // + exponent (8 bits) + mantissa (23 bits).
@@ -491,12 +491,12 @@ namespace djv
 
         inline Pixel::U10_T Pixel::f32ToU10(F32_T in)
         {
-            return djvMath::clamp(static_cast<int>(in * u10Max + 0.5), 0, u10Max);
+            return Core::Math::clamp(static_cast<int>(in * u10Max + 0.5), 0, u10Max);
         }
 
         inline Pixel::U16_T Pixel::f32ToU16(F32_T in)
         {
-            return djvMath::clamp(static_cast<int>(in * u16Max + 0.5), 0, u16Max);
+            return Core::Math::clamp(static_cast<int>(in * u16Max + 0.5), 0, u16Max);
         }
 
         inline Pixel::F16_T Pixel::f32ToF16(F32_T in)
@@ -504,22 +504,23 @@ namespace djv
             return in;
         }
 
-        inline bool operator == (const Pixel::Mask & a, const Pixel::Mask & b)
-        {
-            for (int i = 0; i < Pixel::channelsMax; ++i)
-            {
-                if (a.mask[i] != b.mask[i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        inline bool operator != (const Pixel::Mask & a, const Pixel::Mask & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
+
+    inline bool operator == (const Graphics::Pixel::Mask & a, const Graphics::Pixel::Mask & b)
+    {
+        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        {
+            if (a.mask[i] != b.mask[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    inline bool operator != (const Graphics::Pixel::Mask & a, const Graphics::Pixel::Mask & b)
+    {
+        return !(a == b);
+    }
+
 } // namespace djv

@@ -102,10 +102,10 @@ namespace djv
     }
 
         _COLOR_SET(U8, U8)
-            _COLOR_SET(U10, U10)
-            _COLOR_SET(U16, U16)
-            _COLOR_SET(F16, F16)
-            _COLOR_SET(F32, F32)
+        _COLOR_SET(U10, U10)
+        _COLOR_SET(U16, U16)
+        _COLOR_SET(F16, F16)
+        _COLOR_SET(F32, F32)
 
 #define _COLOR_GET(NAME, TYPE) \
     inline Pixel::TYPE##_T Color::NAME(int c) const \
@@ -141,11 +141,11 @@ namespace djv
         return 0; \
     }
 
-            _COLOR_GET(u8, U8)
-            _COLOR_GET(u10, U10)
-            _COLOR_GET(u16, U16)
-            _COLOR_GET(f16, F16)
-            _COLOR_GET(f32, F32)
+        _COLOR_GET(u8, U8)
+        _COLOR_GET(u10, U10)
+        _COLOR_GET(u16, U16)
+        _COLOR_GET(f16, F16)
+        _COLOR_GET(f32, F32)
 
     } // namespace Graphics
 } // namespace djv

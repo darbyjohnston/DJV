@@ -202,7 +202,7 @@ namespace djv
 
         void WindowPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->autoFitWidget <<
                 _p->viewMaxWidget <<
                 _p->viewMaxUserWidget <<

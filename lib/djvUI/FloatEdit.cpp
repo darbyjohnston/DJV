@@ -170,7 +170,7 @@ namespace djv
 
         void FloatEdit::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_p->spinBox);
+            Core::SignalBlocker signalBlocker(_p->spinBox);
             _p->spinBox->setRange(_p->object->min(), _p->object->max());
             _p->spinBox->setSingleStep(_p->object->smallInc());
             _p->spinBox->setValue(_p->object->value());

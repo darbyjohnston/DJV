@@ -73,7 +73,7 @@ namespace djv
         class TargaWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            TargaWidgetPlugin(djvCoreContext *);
+            TargaWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

@@ -39,49 +39,47 @@
 #include <QStringList>
 #include <QVector>
 
-namespace
+namespace djv
 {
-const int max = 10000;
-
-} // namespace
-
-//------------------------------------------------------------------------------
-// djvDebugLog::Private
-//------------------------------------------------------------------------------
-
-struct djvDebugLog::Private
-{
-    QVector<QString> messages;
-};
-
-//------------------------------------------------------------------------------
-// djvDebugLog
-//------------------------------------------------------------------------------
-
-djvDebugLog::djvDebugLog(QObject * parent) :
-    QObject(parent),
-    _p(new Private)
-{}
-
-djvDebugLog::~djvDebugLog()
-{}
-
-const QVector<QString> & djvDebugLog::messages() const
-{
-    return _p->messages;
-}
-
-void djvDebugLog::addMessage(const QString & context, const QString & message)
-{
-    Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))
+    namespace Core
     {
-        QString s = QString("[%1] %2").arg(context, -30).arg(line);        
-        _p->messages.append(s);
-        if (_p->messages.count() > max)
+        namespace
         {
-            _p->messages.pop_front();
-        }
-        Q_EMIT this->message(s);
-    }
-}
+            const int max = 10000;
 
+        } // namespace
+
+        struct DebugLog::Private
+        {
+            QVector<QString> messages;
+        };
+
+        DebugLog::DebugLog(QObject * parent) :
+            QObject(parent),
+            _p(new Private)
+        {}
+
+        DebugLog::~DebugLog()
+        {}
+
+        const QVector<QString> & DebugLog::messages() const
+        {
+            return _p->messages;
+        }
+
+        void DebugLog::addMessage(const QString & context, const QString & message)
+        {
+            Q_FOREACH(const QString & line, message.split(QRegExp("[\n\r]")))
+            {
+                QString s = QString("[%1] %2").arg(context, -30).arg(line);
+                _p->messages.append(s);
+                if (_p->messages.count() > max)
+                {
+                    _p->messages.pop_front();
+                }
+                Q_EMIT this->message(s);
+            }
+        }
+
+    } // namespace Core
+} // namespace djv

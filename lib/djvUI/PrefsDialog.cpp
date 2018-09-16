@@ -157,7 +157,7 @@ namespace djv
                 new TimePrefsWidget(context),
                 qApp->translate("djv::UI::PrefsDialog", "General"));
 
-            const QList<djvPlugin *> & imageIOPlugins = context->imageIOFactory()->plugins();
+            const QList<Core::Plugin *> & imageIOPlugins = context->imageIOFactory()->plugins();
 
             for (int i = 0; i < imageIOPlugins.count(); ++i)
             {

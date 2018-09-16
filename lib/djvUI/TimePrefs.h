@@ -50,17 +50,17 @@ namespace djv
 
                 //! This property holds the global time units.
                 Q_PROPERTY(
-                    djvTime::UNITS timeUnits
-                    READ           timeUnits
-                    WRITE          setTimeUnits
-                    NOTIFY         timeUnitsChanged)
+                    djv::Core::Time::UNITS timeUnits
+                    READ                   timeUnits
+                    WRITE                  setTimeUnits
+                    NOTIFY                 timeUnitsChanged)
 
                 //! This property holds the global speed.
                 Q_PROPERTY(
-                    djvSpeed::FPS speed
-                    READ          speed
-                    WRITE         setSpeed
-                    NOTIFY        speedChanged)
+                    djv::Core::Speed::FPS speed
+                    READ                  speed
+                    WRITE                 setSpeed
+                    NOTIFY                speedChanged)
 
         public:
             explicit TimePrefs(QObject * parent = nullptr);
@@ -68,24 +68,24 @@ namespace djv
             ~TimePrefs();
 
             //! Get the global time units.
-            djvTime::UNITS timeUnits() const;
+            Core::Time::UNITS timeUnits() const;
 
             //! Get the global speed.
-            djvSpeed::FPS speed() const;
+            Core::Speed::FPS speed() const;
 
         public Q_SLOTS:
             //! Set the global time units.
-            void setTimeUnits(djvTime::UNITS);
+            void setTimeUnits(djv::Core::Time::UNITS);
 
             //! Set the global speed.
-            void setSpeed(djvSpeed::FPS);
+            void setSpeed(djv::Core::Speed::FPS);
 
         Q_SIGNALS:
             //! This signal is emitted when the global time units are changed.
-            void timeUnitsChanged(djvTime::UNITS);
+            void timeUnitsChanged(djv::Core::Time::UNITS);
 
             //! This signal is emitted when the global speed is changed.
-            void speedChanged(djvSpeed::FPS);
+            void speedChanged(djv::Core::Speed::FPS);
         };
 
     } // namespace UI

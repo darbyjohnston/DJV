@@ -4,6 +4,7 @@ set(header
 set(mocHeader
     djvAbstractTest.h)
 set(source
+    djvAbstractTest.cpp
     djvTestLib.cpp)
 
 QT5_WRAP_CPP(mocSource ${mocHeader})

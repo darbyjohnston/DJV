@@ -40,121 +40,131 @@
 
 #include <QCoreApplication>
 
-//------------------------------------------------------------------------------
-// djvSequence
-//------------------------------------------------------------------------------
-
-const QStringList & djvSequence::compressLabels()
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvSequence", "Off") <<
-        qApp->translate("djvSequence", "Sparse") <<
-        qApp->translate("djvSequence", "Range");
-    DJV_ASSERT(data.count() == COMPRESS_COUNT);
-    return data;
-}
-
-djvSequence::djvSequence()
-{}
-
-djvSequence::djvSequence(const djvFrameList & frames, int pad, const djvSpeed & speed) :
-    frames(frames),
-    pad   (pad),
-    speed (speed)
-{}
-
-djvSequence::djvSequence(qint64 start, qint64 end, int pad, const djvSpeed & speed) :
-    pad  (pad),
-    speed(speed)
-{
-    setFrames(start, end);
-}
-
-namespace
-{
-// Set the maximum number of frames large enough for a two hour movie.
-
-qint64 _maxFrames = djvSequence::maxFramesDefault();
-
-} // namespace
-
-void djvSequence::setFrames(qint64 start, qint64 end)
-{
-    if (start < end)
+    namespace Core
     {
-        const qint64 size = djvMath::min<qint64>(end - start + 1, _maxFrames);
-        frames.resize(size);
-        for (qint64 i = start, j = 0; i <= end && j < size; ++i, ++j)
+        const QStringList & Sequence::compressLabels()
         {
-            frames[j] = i;
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::Sequence", "Off") <<
+                qApp->translate("djv::Core::Sequence", "Sparse") <<
+                qApp->translate("djv::Core::Sequence", "Range");
+            DJV_ASSERT(data.count() == COMPRESS_COUNT);
+            return data;
         }
-    }
-    else
+
+        Sequence::Sequence()
+        {}
+
+        Sequence::Sequence(const FrameList & frames, int pad, const Speed & speed) :
+            frames(frames),
+            pad(pad),
+            speed(speed)
+        {}
+
+        Sequence::Sequence(qint64 start, qint64 end, int pad, const Speed & speed) :
+            pad(pad),
+            speed(speed)
+        {
+            setFrames(start, end);
+        }
+
+        namespace
+        {
+            // Set the maximum number of frames large enough for a two hour movie.
+            qint64 _maxFrames = Sequence::maxFramesDefault();
+
+        } // namespace
+
+        void Sequence::setFrames(qint64 start, qint64 end)
+        {
+            if (start < end)
+            {
+                const qint64 size = Math::min<qint64>(end - start + 1, _maxFrames);
+                frames.resize(size);
+                for (qint64 i = start, j = 0; i <= end && j < size; ++i, ++j)
+                {
+                    frames[j] = i;
+                }
+            }
+            else
+            {
+                const qint64 size = Math::min<qint64>(start - end + 1, _maxFrames);
+                frames.resize(size);
+                for (qint64 i = start, j = 0; i >= end && j < size; --i, ++j)
+                {
+                    frames[j] = i;
+                }
+            }
+        }
+
+        namespace
+        {
+            bool compare(qint64 a, qint64 b)
+            {
+                return a < b;
+            }
+
+        } // namespace
+
+        void Sequence::sort()
+        {
+            qSort(frames.begin(), frames.end(), compare);
+        }
+
+        qint64 Sequence::maxFramesDefault()
+        {
+            return 4 * 60 * 60 * 24;
+        }
+
+        qint64 Sequence::maxFrames()
+        {
+            return _maxFrames;
+        }
+
+        void Sequence::setMaxFrames(qint64 size)
+        {
+            _maxFrames = size;
+        }
+
+    } // namespace Core
+
+    _DJV_STRING_OPERATOR_LABEL(Core::Sequence::COMPRESS, Core::Sequence::compressLabels())
+
+        QStringList & operator << (QStringList & out, const Core::Sequence & in)
     {
-        const qint64 size = djvMath::min<qint64>(start - end + 1, _maxFrames);
-        frames.resize(size);
-        for (qint64 i = start, j = 0; i >= end && j < size; --i, ++j)
-        {
-            frames[j] = i;
-        }
+        return out << Core::SequenceUtil::sequenceToString(in);
     }
-}
 
-namespace
-{
+    QStringList & operator >> (QStringList & in, Core::Sequence & out) throw (QString)
+    {
+        QString tmp;
+        in >> tmp;
+        out = Core::SequenceUtil::stringToSequence(tmp);
+        return in;
+    }
 
-bool compare(qint64 a, qint64 b)
-{
-    return a < b;
-}
+    Core::Debug & operator << (Core::Debug & debug, const Core::Sequence & in)
+    {
+        return debug <<
+            Core::StringUtil::label(in) <<
+            "@" <<
+            Core::Speed::speedToFloat(in.speed);
+    }
 
-} // namespace
+    Core::Debug & operator << (Core::Debug & debug, const Core::Sequence::COMPRESS & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
 
-void djvSequence::sort()
-{
-    qSort(frames.begin(), frames.end(), compare);
-}
+    Core::Debug & operator << (Core::Debug & debug, const Core::FrameList & in)
+    {
+        Q_FOREACH(qint64 i, in)
+        {
+            debug << i;
+        }
+        return debug;
+    }
 
-qint64 djvSequence::maxFramesDefault()
-{
-    return 4 * 60 * 60 * 24;
-}
-
-qint64 djvSequence::maxFrames()
-{
-    return _maxFrames;
-}
-
-void djvSequence::setMaxFrames(qint64 size)
-{
-    _maxFrames = size;
-}
-
-_DJV_STRING_OPERATOR_LABEL(djvSequence::COMPRESS, djvSequence::compressLabels())
-
-QStringList & operator << (QStringList & out, const djvSequence & in)
-{
-    return out << djvSequenceUtil::sequenceToString(in);
-}
-
-QStringList & operator >> (QStringList & in, djvSequence & out) throw (QString)
-{
-    QString tmp;
-    in >> tmp;
-    out = djvSequenceUtil::stringToSequence(tmp);
-    return in;
-}
-
-djvDebug & operator << (djvDebug & debug, const djvSequence & in)
-{
-    return debug <<
-        djvStringUtil::label(in) <<
-        "@" <<
-        djvSpeed::speedToFloat(in.speed);
-}
-
-djvDebug & operator << (djvDebug & debug, const djvSequence::COMPRESS & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
+} // namespace djv

@@ -33,19 +33,23 @@
 
 #include <djvUI/NoticeDialog.h>
 
-using namespace djv;
-
-djvNoticeDialogTest::djvNoticeDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvNoticeDialogTest::name()
+namespace djv
 {
-    return "djvNoticeDialogTest";
-}
+    namespace WidgetTest
+    {
+        NoticeDialogTest::NoticeDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvNoticeDialogTest::run(const QStringList & args)
-{
-    UI::NoticeDialog("File saved succesfully").exec();
-}
+        QString NoticeDialogTest::name()
+        {
+            return "NoticeDialogTest";
+        }
 
+        void NoticeDialogTest::run(const QStringList & args)
+        {
+            UI::NoticeDialog("File saved succesfully").exec();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

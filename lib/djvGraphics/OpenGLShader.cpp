@@ -65,7 +65,7 @@ namespace djv
                 //DJV_DEBUG_PRINT("log = " << QString(log));
                 if (error != GL_TRUE)
                 {
-                    throw djvError(
+                    throw Core::Error(
                         "djv::Graphics::OpenGLShader",
                         qApp->translate("djv::Graphics::OpenGLShader", "Cannot compile shader:\n%1").
                         arg(log));
@@ -76,7 +76,7 @@ namespace djv
 
         void OpenGLShader::init(
             const QString & vertexSource,
-            const QString & fragmentSource) throw (djvError)
+            const QString & fragmentSource) throw (Core::Error)
         {
             if (vertexSource == _vertexSource && fragmentSource == _fragmentSource)
                 return;
@@ -99,7 +99,7 @@ namespace djv
             DJV_DEBUG_OPEN_GL(_programId = glFuncs->glCreateProgram());
             if (!_programId)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLShader",
                     qApp->translate("djv::Graphics::OpenGLShader", "Cannot create shader program"));
             }
@@ -114,7 +114,7 @@ namespace djv
             //DJV_DEBUG_PRINT("log = " << QString(log));
             if (error != GL_TRUE)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLShader",
                     qApp->translate("vOpenGLShader", "Cannot link shader:\n%1").
                     arg(log));

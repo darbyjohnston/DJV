@@ -37,79 +37,87 @@
 
 #include <QString>
 
-void djvMathTest::run(int &, char **)
-{
-    DJV_DEBUG("djvMathTest::run");
-    members();
-}
+using namespace djv::Core;
 
-void djvMathTest::members()
+namespace djv
 {
-    DJV_DEBUG("djvMathTest::members");
+    namespace CoreTest
     {
-        DJV_ASSERT(10 == djvMath::abs<int>( 10));
-        DJV_ASSERT(10 == djvMath::abs<int>(-10));
-    }
-    {
-        DJV_ASSERT(4 == djvMath::pow(2, 2));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.f, djvMath::pow(2.f, 2.f)));
-    }
-    {
-        DJV_ASSERT(djvMath::fuzzyCompare(2.f, djvMath::sqrt(4.f)));
-    }
-    {
-        DJV_ASSERT(0 == djvMath::mod<int>(2, 1));
-    }
-    {
-        DJV_ASSERT(1 == djvMath::wrap<int>(-1, 0, 1));
-        DJV_ASSERT(0 == djvMath::wrap<int>( 0, 0, 1));
-        DJV_ASSERT(1 == djvMath::wrap<int>( 1, 0, 1));
-        DJV_ASSERT(0 == djvMath::wrap<int>( 2, 0, 1));
-    }
-    {
-        DJV_ASSERT(-1 == djvMath::step<int>(-1, 1));
-        DJV_ASSERT( 0 == djvMath::step<int>( 0, 1));
-        DJV_ASSERT( 1 == djvMath::step<int>( 1, 1));
-        DJV_ASSERT( 1 == djvMath::step<int>( 2, 1));
-    }
-    {
-        DJV_ASSERT(0 == djvMath::pulse<int>(-1, 0, 1));
-        DJV_ASSERT(0 == djvMath::pulse<int>( 0, 0, 1));
-        DJV_ASSERT(1 == djvMath::pulse<int>( 1, 0, 1));
-        DJV_ASSERT(1 == djvMath::pulse<int>( 2, 0, 1));
-    }
-    {
-        DJV_ASSERT(0 == djvMath::min(0, 1));
-        DJV_ASSERT(1 == djvMath::max(0, 1));
-    }
-    {
-        DJV_ASSERT(0 == djvMath::clamp(-1, 0, 1));
-        DJV_ASSERT(0 == djvMath::clamp( 0, 0, 1));
-        DJV_ASSERT(1 == djvMath::clamp( 1, 0, 1));
-        DJV_ASSERT(1 == djvMath::clamp( 2, 0, 1));
-    }
-    {
-        DJV_ASSERT(-1 == djvMath::lerp(-1, 0, 1));
-        DJV_ASSERT( 0 == djvMath::lerp( 0, 0, 1));
-        DJV_ASSERT( 1 == djvMath::lerp( 1, 0, 1));
-        DJV_ASSERT( 2 == djvMath::lerp( 2, 0, 1));
-    }
-    {
-        DJV_ASSERT(1 == djvMath::floor(1.5f));
-        DJV_ASSERT(2 == djvMath::ceil (1.5f));
-        DJV_ASSERT(2 == djvMath::round(1.5f));
-    }
-    {
-        DJV_ASSERT(djvMath::fuzzyCompare(.5f, djvMath::fraction(1.5f)));
-    }
-    {
-        DJV_ASSERT(4 == djvMath::toPow2(3));
-    }
-    {
-        DJV_DEBUG_PRINT(djvMath::degreesToRadians(180.f));
-        DJV_DEBUG_PRINT(djvMath::radiansToDegrees(djvMath::pi));
-        //DJV_ASSERT(djvMath::fuzzyCompare(djvMath::pi, djvMath::degreesToRadians(180.f)));
-        //DJV_ASSERT(djvMath::fuzzyCompare(180.f, djvMath::radiansToDegrees(djvMath::pi)));
-    }
-}
+        void MathTest::run(int &, char **)
+        {
+            DJV_DEBUG("MathTest::run");
+            members();
+        }
 
+        void MathTest::members()
+        {
+            DJV_DEBUG("MathTest::members");
+            {
+                DJV_ASSERT(10 == Math::abs<int>(10));
+                DJV_ASSERT(10 == Math::abs<int>(-10));
+            }
+            {
+                DJV_ASSERT(4 == Math::pow(2, 2));
+                DJV_ASSERT(Math::fuzzyCompare(4.f, Math::pow(2.f, 2.f)));
+            }
+            {
+                DJV_ASSERT(Math::fuzzyCompare(2.f, Math::sqrt(4.f)));
+            }
+            {
+                DJV_ASSERT(0 == Math::mod<int>(2, 1));
+            }
+            {
+                DJV_ASSERT(1 == Math::wrap<int>(-1, 0, 1));
+                DJV_ASSERT(0 == Math::wrap<int>(0, 0, 1));
+                DJV_ASSERT(1 == Math::wrap<int>(1, 0, 1));
+                DJV_ASSERT(0 == Math::wrap<int>(2, 0, 1));
+            }
+            {
+                DJV_ASSERT(-1 == Math::step<int>(-1, 1));
+                DJV_ASSERT(0 == Math::step<int>(0, 1));
+                DJV_ASSERT(1 == Math::step<int>(1, 1));
+                DJV_ASSERT(1 == Math::step<int>(2, 1));
+            }
+            {
+                DJV_ASSERT(0 == Math::pulse<int>(-1, 0, 1));
+                DJV_ASSERT(0 == Math::pulse<int>(0, 0, 1));
+                DJV_ASSERT(1 == Math::pulse<int>(1, 0, 1));
+                DJV_ASSERT(1 == Math::pulse<int>(2, 0, 1));
+            }
+            {
+                DJV_ASSERT(0 == Math::min(0, 1));
+                DJV_ASSERT(1 == Math::max(0, 1));
+            }
+            {
+                DJV_ASSERT(0 == Math::clamp(-1, 0, 1));
+                DJV_ASSERT(0 == Math::clamp(0, 0, 1));
+                DJV_ASSERT(1 == Math::clamp(1, 0, 1));
+                DJV_ASSERT(1 == Math::clamp(2, 0, 1));
+            }
+            {
+                DJV_ASSERT(-1 == Math::lerp(-1, 0, 1));
+                DJV_ASSERT(0 == Math::lerp(0, 0, 1));
+                DJV_ASSERT(1 == Math::lerp(1, 0, 1));
+                DJV_ASSERT(2 == Math::lerp(2, 0, 1));
+            }
+            {
+                DJV_ASSERT(1 == Math::floor(1.5f));
+                DJV_ASSERT(2 == Math::ceil(1.5f));
+                DJV_ASSERT(2 == Math::round(1.5f));
+            }
+            {
+                DJV_ASSERT(Math::fuzzyCompare(.5f, Math::fraction(1.5f)));
+            }
+            {
+                DJV_ASSERT(4 == Math::toPow2(3));
+            }
+            {
+                DJV_DEBUG_PRINT(Math::degreesToRadians(180.f));
+                DJV_DEBUG_PRINT(Math::radiansToDegrees(Math::pi));
+                //DJV_ASSERT(Math::fuzzyCompare(Math::pi, Math::degreesToRadians(180.f)));
+                //DJV_ASSERT(Math::fuzzyCompare(180.f, Math::radiansToDegrees(Math::pi)));
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

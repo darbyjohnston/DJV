@@ -35,66 +35,73 @@
 
 #include <djvCore/FileInfoUtil.h>
 
-//! \class djvLsContext
-//!
-//! This class provides global functionality for the application.
-class djvLsContext : public djv::Graphics::GraphicsContext
+namespace djv
 {
-    Q_OBJECT
+    namespace ls
+    {
+        //! \class Context
+        //!
+        //! This class provides global functionality for the application.
+        class Context : public Graphics::GraphicsContext
+        {
+            Q_OBJECT
 
-public:
-    explicit djvLsContext(QObject * parent = nullptr);
+        public:
+            explicit Context(QObject * parent = nullptr);
 
-    virtual ~djvLsContext();
-    
-    //! Get the list of inputs.    
-    const QStringList & input() const;
+            virtual ~Context();
 
-    //! Get whether to show file information.
-    bool hasFileInfo() const;
+            //! Get the list of inputs.    
+            const QStringList & input() const;
 
-    //! Get whether to show file paths.
-    bool hasFilePath() const;
+            //! Get whether to show file information.
+            bool hasFileInfo() const;
 
-    //! Get the file sequencing.
-    djvSequence::COMPRESS sequence() const;
+            //! Get whether to show file paths.
+            bool hasFilePath() const;
 
-    //! Get whether to descend into sub-directories.
-    bool hasRecurse() const;
+            //! Get the file sequencing.
+            Core::Sequence::COMPRESS sequence() const;
 
-    //! Get whether to show hidden files.
-    bool hasHidden() const;
+            //! Get whether to descend into sub-directories.
+            bool hasRecurse() const;
 
-    //! Get the list of file globs.
-    const QStringList & glob() const;
+            //! Get whether to show hidden files.
+            bool hasHidden() const;
 
-    //! Get the number of columns for formatting the output.
-    int columns() const;
+            //! Get the list of file globs.
+            const QStringList & glob() const;
 
-    //! Get the sorting.
-    djvFileInfoUtil::SORT sort() const;
+            //! Get the number of columns for formatting the output.
+            int columns() const;
 
-    //! Get whether to reverse the sorting order.
-    bool hasReverseSort() const;
+            //! Get the sorting.
+            Core::FileInfoUtil::SORT sort() const;
 
-    //! Get whether directories are sorted first.
-    bool hasSortDirsFirst() const;
+            //! Get whether to reverse the sorting order.
+            bool hasReverseSort() const;
 
-protected:
-    virtual bool commandLineParse(QStringList &) throw (QString);
+            //! Get whether directories are sorted first.
+            bool hasSortDirsFirst() const;
 
-    virtual QString commandLineHelp() const;
-    
-private:
-    QStringList           _input;
-    bool                  _fileInfo;
-    bool                  _filePath;
-    djvSequence::COMPRESS _sequence;
-    bool                  _recurse;
-    bool                  _hidden;
-    QStringList           _glob;
-    int                   _columns;
-    djvFileInfoUtil::SORT _sort;
-    bool                  _reverseSort;
-    bool                  _sortDirsFirst;
-};
+        protected:
+            virtual bool commandLineParse(QStringList &) throw (QString);
+
+            virtual QString commandLineHelp() const;
+
+        private:
+            QStringList              _input;
+            bool                     _fileInfo;
+            bool                     _filePath;
+            Core::Sequence::COMPRESS _sequence;
+            bool                     _recurse;
+            bool                     _hidden;
+            QStringList              _glob;
+            int                      _columns;
+            Core::FileInfoUtil::SORT _sort;
+            bool                     _reverseSort;
+            bool                     _sortDirsFirst;
+        };
+
+    } // namespace ls
+} // namespace djv

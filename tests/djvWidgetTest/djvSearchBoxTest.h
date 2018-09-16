@@ -33,17 +33,24 @@
 
 #include <djvAbstractWidgetTest.h>
 
-class djvSearchBoxTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvSearchBoxTest(djv::UI::UIContext *);
+    namespace WidgetTest
+    {
+        class SearchBoxTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    virtual QString name();
+        public:
+            SearchBoxTest(UI::UIContext *);
 
-    virtual void run(const QStringList & args = QStringList());
+            virtual QString name();
 
-private Q_SLOTS:
-    void callback(const QString &);
-};
+            virtual void run(const QStringList & args = QStringList());
+
+        private Q_SLOTS:
+            void callback(const QString &);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

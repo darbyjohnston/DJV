@@ -39,23 +39,23 @@
 
 #include <QApplication>
 
-//------------------------------------------------------------------------------
-// djvWidgetTestApplication
-//------------------------------------------------------------------------------
-
-class djvWidgetTestApplication : public QApplication
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace WidgetTest
+    {
+        class WidgetTestApplication : public QApplication
+        {
+            Q_OBJECT
 
-    djvWidgetTestApplication(int & argc, char ** argv);
-    
-private:
+        public:
+            WidgetTestApplication(int & argc, char ** argv);
 
-    QScopedPointer<djv::UI::UIContext>   _context;
-    QScopedPointer<djvWidgetTestManager> _testManager;
-    QScopedPointer<djvWidgetTestModel>   _model;
-    QScopedPointer<djvWidgetTestWindow>  _window;
-};
+        private:
+            QScopedPointer<UI::UIContext>     _context;
+            QScopedPointer<WidgetTestManager> _testManager;
+            QScopedPointer<WidgetTestModel>   _model;
+            QScopedPointer<WidgetTestWindow>  _window;
+        };
 
+    } // namespace WidgetTest
+} // namespace djv

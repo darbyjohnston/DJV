@@ -46,15 +46,15 @@ namespace djv
         {
             //DJV_DEBUG("TimePrefs::TimePrefs");
             Prefs prefs("djv::UI::TimePrefs", Prefs::SYSTEM);
-            djvTime::UNITS timeUnits = djvTime::units();
+            Core::Time::UNITS timeUnits = Core::Time::units();
             if (prefs.get("timeUnits", timeUnits))
             {
-                djvTime::setUnits(timeUnits);
+                Core::Time::setUnits(timeUnits);
             }
-            djvSpeed::FPS speed = djvSpeed::speed();
+            Core::Speed::FPS speed = Core::Speed::speed();
             if (prefs.get("speed", speed))
             {
-                djvSpeed::setSpeed(speed);
+                Core::Speed::setSpeed(speed);
             }
         }
 
@@ -62,33 +62,33 @@ namespace djv
         {
             //DJV_DEBUG("TimePrefs::~TimePrefs");
             Prefs prefs("djv::UI::TimePrefs", Prefs::SYSTEM);
-            prefs.set("timeUnits", djvTime::units());
-            prefs.set("speed", djvSpeed::speed());
+            prefs.set("timeUnits", Core::Time::units());
+            prefs.set("speed", Core::Speed::speed());
         }
 
-        djvTime::UNITS TimePrefs::timeUnits() const
+        Core::Time::UNITS TimePrefs::timeUnits() const
         {
-            return djvTime::units();
+            return Core::Time::units();
         }
 
-        djvSpeed::FPS TimePrefs::speed() const
+        Core::Speed::FPS TimePrefs::speed() const
         {
-            return djvSpeed::speed();
+            return Core::Speed::speed();
         }
 
-        void TimePrefs::setTimeUnits(djvTime::UNITS units)
+        void TimePrefs::setTimeUnits(Core::Time::UNITS units)
         {
             if (units == this->timeUnits())
                 return;
-            djvTime::setUnits(units);
+            Core::Time::setUnits(units);
             Q_EMIT timeUnitsChanged(this->timeUnits());
         }
 
-        void TimePrefs::setSpeed(djvSpeed::FPS speed)
+        void TimePrefs::setSpeed(Core::Speed::FPS speed)
         {
             if (speed == this->speed())
                 return;
-            djvSpeed::setSpeed(speed);
+            Core::Speed::setSpeed(speed);
             Q_EMIT speedChanged(this->speed());
         }
 

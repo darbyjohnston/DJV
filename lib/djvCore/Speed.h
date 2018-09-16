@@ -36,91 +36,90 @@
 
 #include <QMetaType>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSpeed
-//!
-//! This class provides speed information.
-//------------------------------------------------------------------------------
-
-class djvSpeed
+namespace djv
 {
-    Q_GADGET
-    Q_ENUMS(FPS)
-    
-public:
-    //! This enumeration provides the frames per second.
-    enum FPS
+    namespace Core
     {
-        FPS_1,
-        FPS_3,
-        FPS_6,
-        FPS_12,
-        FPS_15,
-        FPS_16,
-        FPS_18,
-        FPS_23_976,
-        FPS_24,
-        FPS_25,
-        FPS_29_97,
-        FPS_30,
-        FPS_50,
-        FPS_59_94,
-        FPS_60,
-        FPS_120,
+        //! \class Speed
+        //!
+        //! This class provides speed information.
+        class Speed
+        {
+            Q_GADGET
+            Q_ENUMS(FPS)
 
-        FPS_COUNT
-    };
+        public:
+            //! This enumeration provides the frames per second.
+            enum FPS
+            {
+                FPS_1,
+                FPS_3,
+                FPS_6,
+                FPS_12,
+                FPS_15,
+                FPS_16,
+                FPS_18,
+                FPS_23_976,
+                FPS_24,
+                FPS_25,
+                FPS_29_97,
+                FPS_30,
+                FPS_50,
+                FPS_59_94,
+                FPS_60,
+                FPS_120,
 
-    //! Get the frames per second labels.
-    static const QStringList & fpsLabels();
+                FPS_COUNT
+            };
 
-    djvSpeed();
-    djvSpeed(int scale, int duration = 1);
-    djvSpeed(FPS);
-    
-    //! Get the time scale.    
-    int scale() const;
-    
-    //! Get the time duration.
-    int duration() const;
+            //! Get the frames per second labels.
+            static const QStringList & fpsLabels();
 
-    //! Set the frames per second.
-    void set(FPS);
+            Speed();
+            Speed(int scale, int duration = 1);
+            Speed(FPS);
 
-    //! Get whether the speed is valid.
-    bool isValid() const;
+            //! Get the time scale.    
+            int scale() const;
 
-    //! Convert a speed to a floating point value.
-    static float speedToFloat(const djvSpeed &);
+            //! Get the time duration.
+            int duration() const;
 
-    //! Convert a floating point value to a speed.
-    static djvSpeed floatToSpeed(float);
+            //! Set the frames per second.
+            void set(FPS);
 
-    //! Get the speed default.
-    static FPS speedDefault();
+            //! Get whether the speed is valid.
+            bool isValid() const;
 
-    //! Get the global speed.
-    static FPS speed();
+            //! Convert a speed to a floating point value.
+            static float speedToFloat(const Speed &);
 
-    //! Set the global speed.
-    static void setSpeed(FPS);
+            //! Convert a floating point value to a speed.
+            static Speed floatToSpeed(float);
 
-private:
-    int _scale    = 0;
-    int _duration = 0;
-};
+            //! Get the speed default.
+            static FPS speedDefault();
 
-Q_DECLARE_METATYPE(djvSpeed)
+            //! Get the global speed.
+            static FPS speed();
 
-DJV_COMPARISON_OPERATOR(djvSpeed);
+            //! Set the global speed.
+            static void setSpeed(FPS);
 
-DJV_STRING_OPERATOR(djvSpeed::FPS);
-DJV_STRING_OPERATOR(djvSpeed);
+        private:
+            int _scale = 0;
+            int _duration = 0;
+        };
 
-DJV_DEBUG_OPERATOR(djvSpeed);
+    } // namespace Core
 
-//@} // djvCoreMisc
+    DJV_COMPARISON_OPERATOR(Core::Speed);
 
+    DJV_STRING_OPERATOR(Core::Speed::FPS);
+    DJV_STRING_OPERATOR(Core::Speed);
+
+    DJV_DEBUG_OPERATOR(Core::Speed);
+
+} // namspace djv
+
+Q_DECLARE_METATYPE(djv::Core::Speed)

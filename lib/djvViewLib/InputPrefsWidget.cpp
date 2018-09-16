@@ -136,7 +136,7 @@ namespace djv
 
         void InputPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->mouseWheelWidget <<
                 _p->mouseWheelShiftWidget <<
                 _p->mouseWheelCtrlWidget);

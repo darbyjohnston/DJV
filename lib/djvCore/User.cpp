@@ -40,37 +40,39 @@
 #include <unistd.h>
 #endif
 
-//------------------------------------------------------------------------------
-// djvUser
-//------------------------------------------------------------------------------
-
-djvUser::~djvUser()
-{}
-
-QString djvUser::current()
+namespace djv
 {
-    QString out;
-#if defined(DJV_WINDOWS)
-    TCHAR tmp[djvStringUtil::cStringLength] = { 0 };
-    DWORD size = djvStringUtil::cStringLength;
-    ::GetUserName(tmp, &size);
-    out = QString(tmp);
-#else // DJV_WINDOWS
-    out = uidToString(::getuid());
-#endif // DJV_WINDOWS
-    return out;
-}
-
-QString djvUser::uidToString(uid_t value)
-{
-    QString out;
-#if ! defined(DJV_WINDOWS)
-    struct passwd * buf = ::getpwuid(value);
-    if (buf)
+    namespace Core
     {
-        out = buf->pw_name;
-    }
-#endif // ! DJV_WINDOWS
-    return out;
-}
+        User::~User()
+        {}
 
+        QString User::current()
+        {
+            QString out;
+#if defined(DJV_WINDOWS)
+            TCHAR tmp[StringUtil::cStringLength] = { 0 };
+            DWORD size = StringUtil::cStringLength;
+            ::GetUserName(tmp, &size);
+            out = QString(tmp);
+#else // DJV_WINDOWS
+            out = uidToString(::getuid());
+#endif // DJV_WINDOWS
+            return out;
+        }
+
+        QString User::uidToString(uid_t value)
+        {
+            QString out;
+#if ! defined(DJV_WINDOWS)
+            struct passwd * buf = ::getpwuid(value);
+            if (buf)
+            {
+                out = buf->pw_name;
+            }
+#endif // ! DJV_WINDOWS
+            return out;
+        }
+
+    } // namespace Core
+} // namespace djv

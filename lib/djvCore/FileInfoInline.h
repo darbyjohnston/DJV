@@ -29,146 +29,149 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvFileInfo
-//------------------------------------------------------------------------------
-
-inline QString djvFileInfo::name() const
+namespace djv
 {
-    return _base + _number + _extension;
-}
+    namespace Core
+    {
+        inline QString FileInfo::name() const
+        {
+            return _base + _number + _extension;
+        }
 
-inline const QString & djvFileInfo::path() const
-{
-    return _path;
-}
+        inline const QString & FileInfo::path() const
+        {
+            return _path;
+        }
 
-inline const QString & djvFileInfo::base() const
-{
-    return _base;
-}
+        inline const QString & FileInfo::base() const
+        {
+            return _base;
+        }
 
-inline const QString & djvFileInfo::number() const
-{
-    return _number;
-}
+        inline const QString & FileInfo::number() const
+        {
+            return _number;
+        }
 
-inline const QString & djvFileInfo::extension() const
-{
-    return _extension;
-}
+        inline const QString & FileInfo::extension() const
+        {
+            return _extension;
+        }
 
-inline bool djvFileInfo::isEmpty() const
-{
-    return
-        _path.isEmpty()      &&
-        _base.isEmpty()      &&
-        _number.isEmpty()    &&
-        _extension.isEmpty();
-}
+        inline bool FileInfo::isEmpty() const
+        {
+            return
+                _path.isEmpty() &&
+                _base.isEmpty() &&
+                _number.isEmpty() &&
+                _extension.isEmpty();
+        }
 
-inline bool djvFileInfo::exists() const
-{
-    return _exists;
-}
+        inline bool FileInfo::exists() const
+        {
+            return _exists;
+        }
 
-inline bool djvFileInfo::isDotFile() const
-{
-    return _dotFile;
-}
+        inline bool FileInfo::isDotFile() const
+        {
+            return _dotFile;
+        }
 
-inline djvFileInfo::TYPE djvFileInfo::type() const
-{
-    return _type;
-}
+        inline FileInfo::TYPE FileInfo::type() const
+        {
+            return _type;
+        }
 
-inline quint64 djvFileInfo::size() const
-{
-    return _size;
-}
+        inline quint64 FileInfo::size() const
+        {
+            return _size;
+        }
 
-inline uid_t djvFileInfo::user() const
-{
-    return _user;
-}
+        inline uid_t FileInfo::user() const
+        {
+            return _user;
+        }
 
-inline int djvFileInfo::permissions() const
-{
-    return _permissions;
-}
+        inline int FileInfo::permissions() const
+        {
+            return _permissions;
+        }
 
-inline time_t djvFileInfo::time() const
-{
-    return _time;
-}
+        inline time_t FileInfo::time() const
+        {
+            return _time;
+        }
 
-inline const djvSequence & djvFileInfo::sequence() const
-{
-    return _sequence;
-}
+        inline const Sequence & FileInfo::sequence() const
+        {
+            return _sequence;
+        }
 
-inline bool djvFileInfo::isSequenceValid() const
-{
-    return
-        _type != DIRECTORY       &&
-        _number.length()         &&
-        _sequence.frames.count();
-}
+        inline bool FileInfo::isSequenceValid() const
+        {
+            return
+                _type != DIRECTORY &&
+                _number.length() &&
+                _sequence.frames.count();
+        }
 
-inline bool djvFileInfo::isSequenceWildcard() const
-{
-    return
-        _type != DIRECTORY &&
-        _number.length()   &&
-        '#' == _number[0];
-}
+        inline bool FileInfo::isSequenceWildcard() const
+        {
+            return
+                _type != DIRECTORY &&
+                _number.length() &&
+                '#' == _number[0];
+        }
 
-inline bool djvFileInfo::addSequence(const djvFileInfo & in)
-{
-    // Compare.
-    if (_extension != in._extension)
-        return false;
-    if (_base != in._base)
-        return false;
-    if (! isSequenceValid() || ! in.isSequenceValid())
-        return false;
+        inline bool FileInfo::addSequence(const FileInfo & in)
+        {
+            // Compare.
+            if (_extension != in._extension)
+                return false;
+            if (_base != in._base)
+                return false;
+            if (!isSequenceValid() || !in.isSequenceValid())
+                return false;
 
-    // Update sequence.
-    _type = SEQUENCE;
-    _sequence.frames += in._sequence.frames;
-    if (in._sequence.pad > _sequence.pad)
-        _sequence.pad = in._sequence.pad;
+            // Update sequence.
+            _type = SEQUENCE;
+            _sequence.frames += in._sequence.frames;
+            if (in._sequence.pad > _sequence.pad)
+                _sequence.pad = in._sequence.pad;
 
-    // Update information.
-    _size += in._size;
-    if (in._user > _user)
-        _user = in._user;
-    if (in._time > _time)
-        _time = in._time;
+            // Update information.
+            _size += in._size;
+            if (in._user > _user)
+                _user = in._user;
+            if (in._time > _time)
+                _time = in._time;
 
-    return true;
-}
+            return true;
+        }
 
-inline bool djvFileInfo::operator == (const djvFileInfo & in) const
-{
-    return
-        in._path        == _path        &&
-        in._base        == _base        &&
-        in._number      == _number      &&
-        in._extension   == _extension   &&
-        in._type        == _type        &&
-        in._size        == _size        &&
-        in._user        == _user        &&
-        in._permissions == _permissions &&
-        in._time        == _time;
-}
+        inline bool FileInfo::operator == (const FileInfo & in) const
+        {
+            return
+                in._path == _path &&
+                in._base == _base &&
+                in._number == _number &&
+                in._extension == _extension &&
+                in._type == _type &&
+                in._size == _size &&
+                in._user == _user &&
+                in._permissions == _permissions &&
+                in._time == _time;
+        }
 
-inline bool djvFileInfo::operator != (const djvFileInfo & in) const
-{
-    return ! (in == *this);
-}
+        inline bool FileInfo::operator != (const FileInfo & in) const
+        {
+            return !(in == *this);
+        }
 
-inline djvFileInfo::operator QString() const
-{
-    return fileName();
-}
+        inline FileInfo::operator QString() const
+        {
+            return fileName();
+        }
+
+    } // namespace Core
+} // namespace djv

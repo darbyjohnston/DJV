@@ -100,7 +100,7 @@ namespace djv
         class OpenEXRWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            OpenEXRWidgetPlugin(djvCoreContext *);
+            OpenEXRWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

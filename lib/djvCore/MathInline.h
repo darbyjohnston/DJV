@@ -29,102 +29,104 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvMath
-//------------------------------------------------------------------------------
-
-template<class T>
-inline T djvMath::abs(T value)
+namespace djv
 {
-    return value < T(0) ? -value : value;
-}
-
-template<class T>
-inline T djvMath::mod(T value, T mod)
-{
-    T tmp = value;
-    if (mod != T(0))
+    namespace Core
     {
-        tmp = value - (static_cast<int>(value / mod) * mod);
-        if (tmp < T(0))
+        template<class T>
+        inline T Math::abs(T value)
         {
-            tmp += mod;
+            return value < T(0) ? -value : value;
         }
-    }
-    return tmp;
-}
 
-template<class T>
-inline T djvMath::wrap(T value, T min, T max)
-{
-    return max > min ?
-           (min + mod(value - min, max - min + static_cast<T>(1))) :
-           min;
-}
+        template<class T>
+        inline T Math::mod(T value, T mod)
+        {
+            T tmp = value;
+            if (mod != T(0))
+            {
+                tmp = value - (static_cast<int>(value / mod) * mod);
+                if (tmp < T(0))
+                {
+                    tmp += mod;
+                }
+            }
+            return tmp;
+        }
 
-template<class T>
-inline T djvMath::step(T value, T step)
-{
-    return value <= step ? value : step;
-}
+        template<class T>
+        inline T Math::wrap(T value, T min, T max)
+        {
+            return max > min ?
+                (min + mod(value - min, max - min + static_cast<T>(1))) :
+                min;
+        }
 
-template<class T>
-inline T djvMath::pulse(T value, T min, T max)
-{
-    return step(value, max) - step(value, min);
-}
+        template<class T>
+        inline T Math::step(T value, T step)
+        {
+            return value <= step ? value : step;
+        }
 
-template<class T>
-inline T djvMath::min(const T & a, const T & b)
-{
-    return a < b ? a : b;
-}
+        template<class T>
+        inline T Math::pulse(T value, T min, T max)
+        {
+            return step(value, max) - step(value, min);
+        }
 
-template<class T>
-inline T djvMath::max(const T & a, const T & b)
-{
-    return a > b ? a : b;
-}
+        template<class T>
+        inline T Math::min(const T & a, const T & b)
+        {
+            return a < b ? a : b;
+        }
 
-template<class T>
-inline T djvMath::clamp(T value, T min, T max)
-{
-    return value < min ? min : (value > max ? max : value);
-}
+        template<class T>
+        inline T Math::max(const T & a, const T & b)
+        {
+            return a > b ? a : b;
+        }
 
-template<class T, class U>
-inline T djvMath::lerp(U value, T min, T max)
-{
-    return min + T(value * (max - min));
-}
+        template<class T>
+        inline T Math::clamp(T value, T min, T max)
+        {
+            return value < min ? min : (value > max ? max : value);
+        }
 
-inline float djvMath::smoothStep(float value, float min, float max)
-{
-    return lerp(value * value * (3.f - (2.f * value)), min, max);
-}
+        template<class T, class U>
+        inline T Math::lerp(U value, T min, T max)
+        {
+            return min + T(value * (max - min));
+        }
 
-inline float djvMath::fraction(float value)
-{
-    return value - static_cast<int>(value);
-}
+        inline float Math::smoothStep(float value, float min, float max)
+        {
+            return lerp(value * value * (3.f - (2.f * value)), min, max);
+        }
 
-inline int djvMath::toPow2(int value)
-{
-    int i = 0;
-    for (; value > (1 << i); ++i)
-        ;
-    return 1 << i;
-}
+        inline float Math::fraction(float value)
+        {
+            return value - static_cast<int>(value);
+        }
 
-inline float djvMath::degreesToRadians(float value)
-{
-    static const float m = 1.f / 360.f * piX2;
-    return value * m;
-}
+        inline int Math::toPow2(int value)
+        {
+            int i = 0;
+            for (; value > (1 << i); ++i)
+                ;
+            return 1 << i;
+        }
 
-inline float djvMath::radiansToDegrees(float value)
-{
-    static const float m = 1.f / piX2 * 360.f;
-    return value * m;
-}
+        inline float Math::degreesToRadians(float value)
+        {
+            static const float m = 1.f / 360.f * piX2;
+            return value * m;
+        }
 
+        inline float Math::radiansToDegrees(float value)
+        {
+            static const float m = 1.f / piX2 * 360.f;
+            return value * m;
+        }
+
+    } // namespace Core
+} // namespace djv

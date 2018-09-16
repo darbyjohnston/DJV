@@ -50,7 +50,7 @@ namespace djv
             const PixelDataInfo & info,
             GLenum                target,
             GLenum                min,
-            GLenum                mag) throw (djvError)
+            GLenum                mag) throw (Core::Error)
         {
             if (info == _info && target == _target && min == _min && mag == _mag)
                 return;
@@ -70,7 +70,7 @@ namespace djv
             //DJV_DEBUG_PRINT("id = " << int(_id));
             if (!_id)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLTexture",
                     qApp->translate("djv::Graphics::OpenGLTexture", "Cannot create texture"));
             }
@@ -104,7 +104,7 @@ namespace djv
             GLenum error = glFuncs->glGetError();
             if (error != GL_NO_ERROR)
             {
-                throw djvError(
+                throw Core::Error(
                     "djv::Graphics::OpenGLTexture",
                     qApp->translate("djv::Graphics::OpenGLTexture", "Cannot create texture: %1").
                     arg(OpenGLUtil::errorString(error)));
@@ -115,7 +115,7 @@ namespace djv
             const PixelData & data,
             GLenum            target,
             GLenum            min,
-            GLenum            mag) throw (djvError)
+            GLenum            mag) throw (Core::Error)
         {
             init(data.info(), target, min, mag);
             copy(data);
@@ -147,7 +147,7 @@ namespace djv
                     in.data()));
         }
 
-        void OpenGLTexture::copy(const PixelData & in, const djvBox2i & area)
+        void OpenGLTexture::copy(const PixelData & in, const Core::Box2i & area)
         {
             //DJV_DEBUG("OpenGLTexture::copy");
             //DJV_DEBUG_PRINT("in = " << in);

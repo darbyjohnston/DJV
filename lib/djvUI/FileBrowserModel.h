@@ -66,10 +66,10 @@ namespace djv
 
             //! This property holds the file sequencing.
             Q_PROPERTY(
-                djvSequence::COMPRESS sequence
-                READ                  sequence
-                WRITE                 setSequence
-                NOTIFY                sequenceChanged)
+                djv::Core::Sequence::COMPRESS sequence
+                READ                          sequence
+                WRITE                         setSequence
+                NOTIFY                        sequenceChanged)
 
             //! This property holds the filter text.
             Q_PROPERTY(
@@ -147,13 +147,13 @@ namespace djv
             const QString & path() const;
 
             //! Get the list of files.
-            const djvFileInfoList & contents() const;
+            const Core::FileInfoList & contents() const;
 
             //! Convert a model index to file information.
-            djvFileInfo fileInfo(const QModelIndex &) const;
+            Core::FileInfo fileInfo(const QModelIndex &) const;
 
             //! Get the file sequencing.
-            djvSequence::COMPRESS sequence() const;
+            Core::Sequence::COMPRESS sequence() const;
 
             //! Get the filter text.
             const QString & filterText() const;
@@ -242,7 +242,7 @@ namespace djv
             void reload();
 
             //! Set the file sequencing.
-            void setSequence(djvSequence::COMPRESS);
+            void setSequence(djv::Core::Sequence::COMPRESS);
 
             //! Set the filter text.
             void setFilterText(const QString &);
@@ -270,7 +270,7 @@ namespace djv
             void pathChanged(const QString &);
 
             //! This signal is emitted when the file sequencing is changed.
-            void sequenceChanged(djvSequence::COMPRESS);
+            void sequenceChanged(djv::Core::Sequence::COMPRESS);
 
             //! This signal is emitted when the filter text is changed.
             void filterTextChanged(const QString &);

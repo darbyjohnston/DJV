@@ -49,7 +49,7 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, djvCoreContext * context) :
+        OpenEXRLoad::OpenEXRLoad(const OpenEXR::Options & options, Core::CoreContext * context) :
             ImageLoad(context),
             _options(options),
             _f(0),
@@ -61,22 +61,22 @@ namespace djv
             close();
         }
 
-        void OpenEXRLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void OpenEXRLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             _open(_file.fileName(_file.sequence().start()), info);
             //DJV_DEBUG_PRINT("info = " << info);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void OpenEXRLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -90,7 +90,7 @@ namespace djv
                 _open(fileName, info);
                 if (frame.layer < 0 || frame.layer >= _layers.count())
                 {
-                    throw djvError(
+                    throw Core::Error(
                         OpenEXR::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                 }
@@ -200,7 +200,7 @@ namespace djv
                             _f->readPixels(y, y);
                             memcpy(
                                 p,
-                                buf.data() + djvMath::max(_displayWindow.x - _dataWindow.x, 0) * cb,
+                                buf.data() + Core::Math::max(_displayWindow.x - _dataWindow.x, 0) * cb,
                                 size);
                             p += size;
                         }
@@ -218,7 +218,7 @@ namespace djv
             }
             catch (const std::exception & error)
             {
-                throw djvError(
+                throw Core::Error(
                     OpenEXR::staticName,
                     error.what());
             }
@@ -227,7 +227,7 @@ namespace djv
             close();
         }
 
-        void OpenEXRLoad::close() throw (djvError)
+        void OpenEXRLoad::close() throw (Core::Error)
         {
             delete _f;
 
@@ -235,7 +235,7 @@ namespace djv
         }
 
         void OpenEXRLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -250,7 +250,7 @@ namespace djv
                 // Get the display and data windows.
                 _displayWindow = OpenEXR::imfToBox(_f->header().displayWindow());
                 _dataWindow = OpenEXR::imfToBox(_f->header().dataWindow());
-                _intersectedWindow = djvBoxUtil::intersect(_displayWindow, _dataWindow);
+                _intersectedWindow = Core::BoxUtil::intersect(_displayWindow, _dataWindow);
                 //DJV_DEBUG_PRINT("display window = " << _displayWindow);
                 //DJV_DEBUG_PRINT("data window = " << _dataWindow);
                 //DJV_DEBUG_PRINT("intersected window = " << _intersectedWindow);
@@ -276,7 +276,7 @@ namespace djv
                     Pixel::FORMAT format = static_cast<Pixel::FORMAT>(0);
                     if (!Pixel::format(_layers[i].channels.count(), format))
                     {
-                        throw djvError(
+                        throw Core::Error(
                             OpenEXR::staticName,
                             ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                     }
@@ -286,7 +286,7 @@ namespace djv
                         _layers[i].channels[0].type,
                         pixelDataInfo.pixel))
                     {
-                        throw djvError(
+                        throw Core::Error(
                             OpenEXR::staticName,
                             ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                     }
@@ -300,7 +300,7 @@ namespace djv
             }
             catch (const std::exception & error)
             {
-                throw djvError(
+                throw Core::Error(
                     OpenEXR::staticName,
                     error.what());
             }

@@ -39,10 +39,14 @@
 
 #include <memory>
 
-class djvError;
-
 namespace djv
 {
+    namespace Core
+    {
+        class djvError;
+
+    } // namespace Core
+
     namespace UI
     {
         class UIContext;

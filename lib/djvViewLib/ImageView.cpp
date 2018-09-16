@@ -102,27 +102,27 @@ namespace djv
 
             connect(
                 context->viewPrefs(),
-                SIGNAL(gridColorChanged(const djvColor &)),
-                SLOT(setGridColor(const djvColor &)));
+                SIGNAL(gridColorChanged(const djv::Core::Color &)),
+                SLOT(setGridColor(const djv::Core::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudInfoChanged(const QVector<bool> &)),
                 SLOT(hudInfoCallback(const QVector<bool> &)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudColorChanged(const djvColor &)),
-                SLOT(setHudColor(const djvColor &)));
+                SIGNAL(hudColorChanged(const djv::Core::Color &)),
+                SLOT(setHudColor(const djv::Core::Color &)));
             connect(
                 context->viewPrefs(),
                 SIGNAL(hudBackgroundChanged(djv::ViewLib::Util::HUD_BACKGROUND)),
                 SLOT(setHudBackground(djv::ViewLib::Util::HUD_BACKGROUND)));
             connect(
                 context->viewPrefs(),
-                SIGNAL(hudBackgroundColorChanged(const djvColor &)),
-                SLOT(setHudBackgroundColor(const djvColor &)));
+                SIGNAL(hudBackgroundColorChanged(const djv::Core::Color &)),
+                SLOT(setHudBackgroundColor(const djv::Core::Color &)));
             connect(
                 context->timePrefs(),
-                SIGNAL(timeUnitsChanged(djvTime::UNITS)),
+                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(update()));
         }
 
@@ -145,8 +145,8 @@ namespace djv
         {
             //DJV_DEBUG("ImageView::sizeHint");
             //DJV_DEBUG_PRINT("zoom = " << viewZoom());
-            glm::ivec2 size = djvVectorUtil::ceil(bbox().size);
-            if (djvVectorUtil::isSizeValid(size))
+            glm::ivec2 size = Core::VectorUtil::ceil(bbox().size);
+            if (Core::VectorUtil::isSizeValid(size))
             {
                 size = glm::ivec2(640, 300);
             }
@@ -167,7 +167,7 @@ namespace djv
                 case Util::VIEW_MAX_75: v = 0.75; break;
                 default: break;
                 }
-                maxSize = djvVectorUtil::ceil(glm::vec2(screenSize) * v);
+                maxSize = Core::VectorUtil::ceil(glm::vec2(screenSize) * v);
             }
             break;
             case Util::VIEW_MAX_USER:
@@ -175,7 +175,7 @@ namespace djv
                 break;
             default: break;
             }
-            if (djvVectorUtil::isSizeValid(maxSize))
+            if (Core::VectorUtil::isSizeValid(maxSize))
             {
                 if (size.x > maxSize.x || size.y > maxSize.y)
                 {
@@ -424,7 +424,7 @@ namespace djv
             event->acceptProposedAction();
             const bool autoSequence = _p->context->filePrefs()->hasAutoSequence();
             //DJV_DEBUG_PRINT("autoSequence = " << autoSequence);
-            djvFileInfo fileInfo;
+            Core::FileInfo fileInfo;
             if (event->mimeData()->hasFormat("application/x-filebrowser"))
             {
                 //DJV_DEBUG_PRINT("application/x-filebrowser");
@@ -448,17 +448,17 @@ namespace djv
                     fileName.chop(1);
                 }
                 //DJV_DEBUG_PRINT("URI = \"" << fileName << "\"");         
-                fileInfo = djvFileInfoUtil::parse(
+                fileInfo = Core::FileInfoUtil::parse(
                     fileName,
-                    autoSequence ? djvSequence::COMPRESS_RANGE : djvSequence::COMPRESS_OFF,
+                    autoSequence ? Core::Sequence::COMPRESS_RANGE : Core::Sequence::COMPRESS_OFF,
                     autoSequence);
             }
             else if (event->mimeData()->hasFormat("text/plain"))
             {
                 //DJV_DEBUG_PRINT("text/plain");
-                fileInfo = djvFileInfoUtil::parse(
+                fileInfo = Core::FileInfoUtil::parse(
                     event->mimeData()->text(),
-                    autoSequence ? djvSequence::COMPRESS_RANGE : djvSequence::COMPRESS_OFF,
+                    autoSequence ? Core::Sequence::COMPRESS_RANGE : Core::Sequence::COMPRESS_OFF,
                     autoSequence);
             }
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -504,17 +504,17 @@ namespace djv
                 return;
 
             // Compute the view area.
-            djvBox2i area(
-                djvVectorUtil::floor(
+            Core::Box2i area(
+                Core::VectorUtil::floor(
                     glm::vec2(-viewPos()) / viewZoom() / static_cast<float>(inc)) - 1,
-                djvVectorUtil::ceil(
+                Core::VectorUtil::ceil(
                     glm::vec2(width(), height()) / viewZoom() / static_cast<float>(inc)) + 2);
             area *= inc;
             //DJV_DEBUG_PRINT("area = " << area);
 
             // Draw.
             //! \todo
-            /*djvOpenGLUtil::color(_p->gridColor);
+            /*Graphics::OpenGLUtil::color(_p->gridColor);
             glPushMatrix();
             glTranslated(viewPos().x, viewPos().y, 0);
             glScaled(viewZoom(), viewZoom(), 1.f);
@@ -558,7 +558,7 @@ namespace djv
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "Size  = %1x%2:%3").
                     arg(_p->hudInfo.info.size.x).
                     arg(_p->hudInfo.info.size.y).
-                    arg(djvVectorUtil::aspect(_p->hudInfo.info.size), 0, 'f', 2);
+                    arg(Core::VectorUtil::aspect(_p->hudInfo.info.size), 0, 'f', 2);
             }
             if (_p->hudInfo.visible[Util::HUD_PROXY])
             {
@@ -568,7 +568,7 @@ namespace djv
             if (_p->hudInfo.visible[Util::HUD_PIXEL])
             {
                 upperLeft += qApp->translate("djv::ViewLib::ImageView", "Pixel = %1").
-                    arg(djvStringUtil::label(_p->hudInfo.info.pixel).join(", "));
+                    arg(Core::StringUtil::label(_p->hudInfo.info.pixel).join(", "));
             }
 
             // Generate the lower left contents.
@@ -587,12 +587,12 @@ namespace djv
             if (_p->hudInfo.visible[Util::HUD_FRAME])
             {
                 upperRight += qApp->translate("djv::ViewLib::ImageView", "Frame = %1").
-                    arg(djvTime::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
+                    arg(Core::Time::frameToString(_p->hudInfo.frame, _p->hudInfo.speed));
             }
             if (_p->hudInfo.visible[Util::HUD_SPEED])
             {
                 upperRight += qApp->translate("djv::ViewLib::ImageView", "Speed = %1/%2").
-                    arg(djvSpeed::speedToFloat(_p->hudInfo.speed), 0, 'f', 2).
+                    arg(Core::Speed::speedToFloat(_p->hudInfo.speed), 0, 'f', 2).
                     arg(_p->hudInfo.realSpeed, 0, 'f', 2);
             }
 
@@ -613,7 +613,7 @@ namespace djv
             //DJV_DEBUG("ImageView::drawHud");
 
             // Setup.
-            const djvBox2i geom(width(), height());
+            const Core::Box2i geom(width(), height());
             const int  margin = _p->context->style()->sizeMetric().widgetMargin;
             QSize      size;
             glm::ivec2 p;
@@ -659,7 +659,7 @@ namespace djv
 
         } // namespace
 
-        djvBox2i ImageView::drawHud(
+        Core::Box2i ImageView::drawHud(
             const QString &    in,
             const glm::ivec2 & position)
         {
@@ -667,11 +667,11 @@ namespace djv
             const int w = fontMetrics().width(in);
             const int a = fontMetrics().ascent();
             const int d = fontMetrics().descent();
-            djvBox2i box(position.x, position.y, w + margin * 2, a + d + margin * 2);
+            Core::Box2i box(position.x, position.y, w + margin * 2, a + d + margin * 2);
 
             // Draw the background.
             //! \todo
-            /*djvOpenGLUtil::color(_p->hudBackgroundColor);
+            /*Graphics::OpenGLUtil::color(_p->hudBackgroundColor);
             switch (_p->hudBackground)
             {
             case Util::HUD_BACKGROUND_NONE: break;
@@ -698,7 +698,7 @@ namespace djv
             }
 
             // Draw the foreground.
-            djvOpenGLUtil::color(_p->hudColor);
+            Graphics::OpenGLUtil::color(_p->hudColor);
             renderText(
                 position.x + margin,
                 position.y + a + margin,

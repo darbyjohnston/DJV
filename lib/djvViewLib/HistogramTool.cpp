@@ -137,10 +137,10 @@ namespace djv
                 int            y,
                 const QColor & color)
             {
-                const int x = djvMath::floor(
+                const int x = Core::Math::floor(
                     index / static_cast<float>(dataWidth)* width);
-                const int w = djvMath::max(
-                    djvMath::floor(
+                const int w = Core::Math::max(
+                    Core::Math::floor(
                     (index + 1) / static_cast<float>(dataWidth)* width) - x,
                     1);
                 painter.fillRect(x, height - 1 - y, w, y, color);
@@ -176,7 +176,7 @@ namespace djv
             {
                 for (int c = 0; c < dataC; ++c)
                 {
-                    dataMax = djvMath::max(static_cast<int>(p[c]), dataMax);
+                    dataMax = Core::Math::max(static_cast<int>(p[c]), dataMax);
                 }
             }
             //DJV_DEBUG_PRINT("dataMax = " << dataMax);
@@ -194,10 +194,10 @@ namespace djv
                 int yMax = 0;
                 for (int c = dataC - 1; c >= 0; --c)
                 {
-                    const int y = djvMath::floor(
+                    const int y = Core::Math::floor(
                         p[c] / static_cast<float>(dataMax) * (height - 1));
                     yC[c] = y;
-                    yMax = djvMath::max(y, yMax);
+                    yMax = Core::Math::max(y, yMax);
                 }
                 drawHistrogramBar(painter, width, height, dataW, i, yMax, Qt::black);
                 painter.setCompositionMode(QPainter::CompositionMode_Plus);
@@ -371,7 +371,7 @@ namespace djv
         void HistogramTool::widgetUpdate()
         {
             //DJV_DEBUG("HistogramTool::widgetUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->widget <<
                 _p->minWidget <<
                 _p->maxWidget <<
@@ -393,9 +393,9 @@ namespace djv
                         Graphics::OpenGLImageOptions options = viewWidget()->options();
                         //! \todo Why do we need to reverse the rotation here?
                         options.xform.rotate = options.xform.rotate;
-                        const djvBox2f bbox =
+                        const Core::Box2f bbox =
                             Graphics::OpenGLImageXform::xformMatrix(options.xform) *
-                            djvBox2f(data->size());
+                            Core::Box2f(data->size());
                         //DJV_DEBUG_PRINT("bbox = " << bbox);
                         options.xform.position = -bbox.position;
                         if (!_p->colorProfile)
@@ -416,7 +416,7 @@ namespace djv
                             _p->max,
                             _p->mask);
                     }
-                    catch (djvError error)
+                    catch (Core::Error error)
                     {
                         error.add(Util::errorLabels()[Util::ERROR_HISTOGRAM]);
                         context()->printError(error);
@@ -430,8 +430,8 @@ namespace djv
                 }
             }
             _p->widget->set(&_p->histogram, _p->min, _p->max);
-            _p->minWidget->setText(djvStringUtil::label(_p->min).join(", "));
-            _p->maxWidget->setText(djvStringUtil::label(_p->max).join(", "));
+            _p->minWidget->setText(Core::StringUtil::label(_p->min).join(", "));
+            _p->maxWidget->setText(Core::StringUtil::label(_p->max).join(", "));
             _p->maskWidget->setMask(_p->mask);
             _p->colorProfileButton->setChecked(_p->colorProfile);
             _p->displayProfileButton->setChecked(_p->displayProfile);

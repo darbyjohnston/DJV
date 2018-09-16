@@ -40,7 +40,7 @@ namespace djv
 {
     namespace Graphics
     {
-        JPEGLoad::JPEGLoad(djvCoreContext * context) :
+        JPEGLoad::JPEGLoad(Core::CoreContext * context) :
             ImageLoad(context),
             _f(0),
             _jpegInit(false)
@@ -51,14 +51,14 @@ namespace djv
             close();
         }
 
-        void JPEGLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void JPEGLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             _open(_file.fileName(_file.sequence().start()), info);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
@@ -100,7 +100,7 @@ namespace djv
         } // namespace
 
         void JPEGLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -126,14 +126,14 @@ namespace djv
                     data->data(0, data->h() - 1 - y),
                     &_jpegError))
                 {
-                    throw djvError(
+                    throw Core::Error(
                         JPEG::staticName,
                         _jpegError.msg);
                 }
             }
             if (!jpegEnd(&_jpeg, &_jpegError))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     _jpegError.msg);
             }
@@ -150,7 +150,7 @@ namespace djv
             close();
         }
 
-        void JPEGLoad::close() throw (djvError)
+        void JPEGLoad::close() throw (Core::Error)
         {
             if (_jpegInit)
             {
@@ -205,7 +205,7 @@ namespace djv
         } // namespace
 
         void JPEGLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -220,7 +220,7 @@ namespace djv
 
             if (!jpegInit(&_jpeg, &_jpegError))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     _jpegError.msg);
             }
@@ -234,13 +234,13 @@ namespace djv
 #endif // DJV_WINDOWS
             if (!_f)
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
             if (!jpegOpen(_f, &_jpeg, &_jpegError))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     _jpegError.msg);
             }
@@ -250,7 +250,7 @@ namespace djv
             info.size = glm::ivec2(_jpeg.output_width, _jpeg.output_height);
             if (!Pixel::pixel(_jpeg.out_color_components, 8, Pixel::INTEGER, info.pixel))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }

@@ -45,123 +45,128 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-using namespace djv;
-
-djvToolButtonTest::djvToolButtonTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvToolButtonTest::name()
+namespace djv
 {
-    return "djvToolButtonTest";
-}
+    namespace WidgetTest
+    {
+        ToolButtonTest::ToolButtonTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvToolButtonTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    
-    UI::ToolButton * reverseButton = new UI::ToolButton;
-    reverseButton->setCheckable(true);
-    reverseButton->setIconSize(context()->iconLibrary()->defaultSize());
-    reverseButton->setIcon(
-        context()->iconLibrary()->icon("djvPlayReverseIcon.png"));
-    
-    UI::ToolButton * stopButton = new UI::ToolButton;
-    stopButton->setCheckable(true);
-    stopButton->setIconSize(context()->iconLibrary()->defaultSize());
-    stopButton->setIcon(context()->iconLibrary()->icon("djvPlayStopIcon.png"));
+        QString ToolButtonTest::name()
+        {
+            return "ToolButtonTest";
+        }
 
-    UI::ToolButton * forwardButton = new UI::ToolButton;
-    forwardButton->setCheckable(true);
-    forwardButton->setIconSize(context()->iconLibrary()->defaultSize());
-    forwardButton->setIcon(context()->iconLibrary()->icon("djvPlayForwardIcon.png"));
-    
-    QButtonGroup * buttonGroup = new QButtonGroup(window);
-    buttonGroup->setExclusive(true);
-    buttonGroup->addButton(reverseButton, REVERSE);
-    buttonGroup->addButton(stopButton, STOP);
-    buttonGroup->addButton(forwardButton, FORWARD);
+        void ToolButtonTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
 
-    UI::ShuttleButton * shuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context()));
+            UI::ToolButton * reverseButton = new UI::ToolButton;
+            reverseButton->setCheckable(true);
+            reverseButton->setIconSize(context()->iconLibrary()->defaultSize());
+            reverseButton->setIcon(
+                context()->iconLibrary()->icon("djvPlayReverseIcon.png"));
 
-    const QStringList loopLabel = QStringList() <<
-        "Once" <<
-        "Repeat" <<
-        "PongPong";
-    const QList<QIcon> loopIcon = QList<QIcon>() <<
-        context()->iconLibrary()->icon("djvPlayLoopOnceIcon.png") <<
-        context()->iconLibrary()->icon("djvPlayLoopRepeatIcon.png") <<
-        context()->iconLibrary()->icon("djvPlayLoopPingPongIcon.png");
-    QActionGroup * loopActionGroup = new QActionGroup(this);
-    loopActionGroup->setExclusive(true);
+            UI::ToolButton * stopButton = new UI::ToolButton;
+            stopButton->setCheckable(true);
+            stopButton->setIconSize(context()->iconLibrary()->defaultSize());
+            stopButton->setIcon(context()->iconLibrary()->icon("djvPlayStopIcon.png"));
 
-    for (int i = 0; i < loopLabel.count(); ++i)
-        new QAction(loopIcon[i], loopLabel[i], loopActionGroup);
+            UI::ToolButton * forwardButton = new UI::ToolButton;
+            forwardButton->setCheckable(true);
+            forwardButton->setIconSize(context()->iconLibrary()->defaultSize());
+            forwardButton->setIcon(context()->iconLibrary()->icon("djvPlayForwardIcon.png"));
 
-    UI::ChoiceButton * choiceButton = new UI::ChoiceButton(loopActionGroup);
+            QButtonGroup * buttonGroup = new QButtonGroup(window);
+            buttonGroup->setExclusive(true);
+            buttonGroup->addButton(reverseButton, REVERSE);
+            buttonGroup->addButton(stopButton, STOP);
+            buttonGroup->addButton(forwardButton, FORWARD);
 
-    UI::ToolButton * disabledToolButton = new UI::ToolButton;
-    disabledToolButton->setIconSize(context()->iconLibrary()->defaultSize());
-    disabledToolButton->setIcon(
-        context()->iconLibrary()->icon("djvPlayReverseIcon.png"));
-    disabledToolButton->setEnabled(false);
+            UI::ShuttleButton * shuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context()));
 
-    UI::ShuttleButton * disabledShuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context()));
-    disabledShuttle->setEnabled(false);
+            const QStringList loopLabel = QStringList() <<
+                "Once" <<
+                "Repeat" <<
+                "PongPong";
+            const QList<QIcon> loopIcon = QList<QIcon>() <<
+                context()->iconLibrary()->icon("djvPlayLoopOnceIcon.png") <<
+                context()->iconLibrary()->icon("djvPlayLoopRepeatIcon.png") <<
+                context()->iconLibrary()->icon("djvPlayLoopPingPongIcon.png");
+            QActionGroup * loopActionGroup = new QActionGroup(this);
+            loopActionGroup->setExclusive(true);
 
-    UI::ChoiceButton * disabledChoiceButton = new UI::ChoiceButton(loopActionGroup);
-    disabledChoiceButton->setEnabled(false);
-    
-    QVBoxLayout * layout = new QVBoxLayout(window);
-    
-    QHBoxLayout * hLayout = new QHBoxLayout;
+            for (int i = 0; i < loopLabel.count(); ++i)
+                new QAction(loopIcon[i], loopLabel[i], loopActionGroup);
 
-    QHBoxLayout * hLayout2 = new QHBoxLayout;
-    hLayout2->setMargin(0);
-    hLayout2->setSpacing(0);
-    hLayout2->addWidget(reverseButton);
-    hLayout2->addWidget(stopButton);
-    hLayout2->addWidget(forwardButton);
-    hLayout->addLayout(hLayout2);
-    hLayout->addWidget(shuttle);
-    hLayout->addWidget(choiceButton);
-    layout->addLayout(hLayout);
+            UI::ChoiceButton * choiceButton = new UI::ChoiceButton(loopActionGroup);
 
-    hLayout = new QHBoxLayout;
-    hLayout->addWidget(disabledToolButton);
-    hLayout->addWidget(disabledShuttle);
-    hLayout->addWidget(disabledChoiceButton);
-    layout->addLayout(hLayout);
+            UI::ToolButton * disabledToolButton = new UI::ToolButton;
+            disabledToolButton->setIconSize(context()->iconLibrary()->defaultSize());
+            disabledToolButton->setIcon(
+                context()->iconLibrary()->icon("djvPlayReverseIcon.png"));
+            disabledToolButton->setEnabled(false);
 
-    buttonGroup->buttons()[STOP]->setChecked(true);
-    
-    connect(
-        buttonGroup,
-        SIGNAL(buttonToggled(int, bool)),
-        SLOT(playbackCallback(int, bool)));
-    connect(
-        shuttle,
-        SIGNAL(valueChanged(int)),
-        SLOT(shuttleCallback(int)));
-    connect(
-        choiceButton,
-        SIGNAL(currentIndexChanged(int)),
-        SLOT(choiceCallback(int)));
-    
-    window->show();
-}
+            UI::ShuttleButton * disabledShuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context()));
+            disabledShuttle->setEnabled(false);
 
-void djvToolButtonTest::playbackCallback(int index, bool checked)
-{
-    djvSystem::print(QString("%1").arg(index));
-}
+            UI::ChoiceButton * disabledChoiceButton = new UI::ChoiceButton(loopActionGroup);
+            disabledChoiceButton->setEnabled(false);
 
-void djvToolButtonTest::shuttleCallback(int value)
-{
-    djvSystem::print(QString("%1").arg(value));
-}
+            QVBoxLayout * layout = new QVBoxLayout(window);
 
-void djvToolButtonTest::choiceCallback(int index)
-{
-    djvSystem::print(QString("%1").arg(index));
-}
+            QHBoxLayout * hLayout = new QHBoxLayout;
+
+            QHBoxLayout * hLayout2 = new QHBoxLayout;
+            hLayout2->setMargin(0);
+            hLayout2->setSpacing(0);
+            hLayout2->addWidget(reverseButton);
+            hLayout2->addWidget(stopButton);
+            hLayout2->addWidget(forwardButton);
+            hLayout->addLayout(hLayout2);
+            hLayout->addWidget(shuttle);
+            hLayout->addWidget(choiceButton);
+            layout->addLayout(hLayout);
+
+            hLayout = new QHBoxLayout;
+            hLayout->addWidget(disabledToolButton);
+            hLayout->addWidget(disabledShuttle);
+            hLayout->addWidget(disabledChoiceButton);
+            layout->addLayout(hLayout);
+
+            buttonGroup->buttons()[STOP]->setChecked(true);
+
+            connect(
+                buttonGroup,
+                SIGNAL(buttonToggled(int, bool)),
+                SLOT(playbackCallback(int, bool)));
+            connect(
+                shuttle,
+                SIGNAL(valueChanged(int)),
+                SLOT(shuttleCallback(int)));
+            connect(
+                choiceButton,
+                SIGNAL(currentIndexChanged(int)),
+                SLOT(choiceCallback(int)));
+
+            window->show();
+        }
+
+        void ToolButtonTest::playbackCallback(int index, bool checked)
+        {
+            Core::System::print(QString("%1").arg(index));
+        }
+
+        void ToolButtonTest::shuttleCallback(int value)
+        {
+            Core::System::print(QString("%1").arg(value));
+        }
+
+        void ToolButtonTest::choiceCallback(int index)
+        {
+            Core::System::print(QString("%1").arg(index));
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

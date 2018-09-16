@@ -46,18 +46,18 @@ namespace djv
         class TargaSave : public ImageSave
         {
         public:
-            TargaSave(const Targa::Options &, djvCoreContext *);
+            TargaSave(const Targa::Options &, Core::CoreContext *);
 
             virtual ~TargaSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &) throw (djvError);
+            void _open(const QString &) throw (Core::Error);
 
             Targa::Options _options;
-            djvFileInfo    _file;
+            Core::FileInfo _file;
             PixelDataInfo  _info;
             Image          _image;
         };

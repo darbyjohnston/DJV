@@ -48,169 +48,173 @@
 #include <QComboBox>
 #include <QGridLayout>
 
-using namespace djv;
-
-djvViewWidget::djvViewWidget(UI::UIContext * context) :
-    _frame          (0),
-    _inOutEnabled   (true),
-    _inPoint        (100),
-    _outPoint       (150),
-    _frameList      (djvSequence(1, 250).frames),
-    _cachedFrames   (djvRangeUtil::frames(djvFrameRangeList() <<
-                        djvFrameRange(  1,  10) <<
-                        djvFrameRange(110, 180) <<
-                        djvFrameRange(250, 250))),
-    _context        (context),
-    _timeUnitsWidget(0),
-    _frameWidget    (0),
-    _frameSlider    (0),
-    _frameDisplay   (0),
-    _speedWidget    (0),
-    _speedDisplay   (0)
+namespace djv
 {
-    _timeUnitsWidget = new QComboBox;
-    _timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _timeUnitsWidget->addItems(djvTime::unitsLabels());
-    
-    _frameWidget = new ViewLib::FrameWidget(context);
-    
-    _frameSlider = new ViewLib::FrameSlider(context);
-
-    UI::ToolButton * markInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointMarkIcon.png"));
-    UI::ToolButton * markOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointMarkIcon.png"));
-    UI::ToolButton * resetInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointResetIcon.png"));
-    UI::ToolButton * resetOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointResetIcon.png"));
-
-    _frameDisplay = new ViewLib::FrameDisplay(context);
-    
-    _speedWidget = new ViewLib::SpeedWidget(context);
-    
-    _speedDisplay = new ViewLib::SpeedDisplay;
-    
-    QGridLayout * layout = new QGridLayout(this);
-    layout->setColumnStretch(3, 1);
-    layout->setRowStretch(3, 1);
-    QGridLayout * gLayout = new QGridLayout;
-    gLayout->addWidget(_frameWidget,  0, 0);
-    gLayout->addWidget(_frameDisplay, 0, 1);
-    gLayout->addWidget(_speedWidget,  1, 0);
-    gLayout->addWidget(_speedDisplay, 1, 1);
-    layout->addLayout(gLayout, 0, 0, 2, 1);
-    layout->addWidget(_frameSlider,  0, 1, 1, 5);
-    layout->addWidget(resetInPointButton, 1, 1);
-    layout->addWidget(markInPointButton, 1, 2);
-    layout->addWidget(markOutPointButton, 1, 4);
-    layout->addWidget(resetOutPointButton, 1, 5);
-    layout->addWidget(_timeUnitsWidget, 2, 0);
-
-    setWindowTitle("djvViewWidget");
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    widgetUpdate();
-    frameUpdate();
-    
-    connect(
-        _timeUnitsWidget,
-        SIGNAL(activated(int)),
-        SLOT(timeUnitsCallback(int)));
-    connect(
-        _frameWidget,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(frameCallback(qint64)));
-    connect(
-        _frameSlider,
-        SIGNAL(frameChanged(qint64)),
-        SLOT(frameCallback(qint64)));
-    connect(
-        markInPointButton,
-        SIGNAL(clicked()),
-        _frameSlider,
-        SLOT(markInPoint()));
-    connect(
-        markOutPointButton,
-        SIGNAL(clicked()),
-        _frameSlider,
-        SLOT(markOutPoint()));
-    connect(
-        resetInPointButton,
-        SIGNAL(clicked()),
-        _frameSlider,
-        SLOT(resetInPoint()));
-    connect(
-        resetOutPointButton,
-        SIGNAL(clicked()),
-        _frameSlider,
-        SLOT(resetOutPoint()));
-    connect(
-        _speedWidget,
-        SIGNAL(speedChanged(const djvSpeed &)),
-        SLOT(speedCallback(const djvSpeed &)));
-}
-
-void djvViewWidget::timeUnitsCallback(int index)
-{
-    _context->timePrefs()->setTimeUnits(static_cast<djvTime::UNITS>(index));
-}
-
-void djvViewWidget::frameCallback(qint64 frame)
-{
-    if (frame != _frame)
+    namespace WidgetTest
     {
-        _frame = frame;
-        frameUpdate();
-    }
-}
+        ViewWidget::ViewWidget(UI::UIContext * context) :
+            _frame(0),
+            _inOutEnabled(true),
+            _inPoint(100),
+            _outPoint(150),
+            _frameList(Core::Sequence(1, 250).frames),
+            _cachedFrames(Core::RangeUtil::frames(Core::FrameRangeList() <<
+                Core::FrameRange(1, 10) <<
+                Core::FrameRange(110, 180) <<
+                Core::FrameRange(250, 250))),
+            _context(context),
+            _timeUnitsWidget(0),
+            _frameWidget(0),
+            _frameSlider(0),
+            _frameDisplay(0),
+            _speedWidget(0),
+            _speedDisplay(0)
+        {
+            _timeUnitsWidget = new QComboBox;
+            _timeUnitsWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            _timeUnitsWidget->addItems(Core::Time::unitsLabels());
 
-void djvViewWidget::speedCallback(const djvSpeed & speed)
-{
-    if (speed != _speed)
-    {
-        _speed = speed;
-        widgetUpdate();
-    }
-}
+            _frameWidget = new ViewLib::FrameWidget(context);
 
-void djvViewWidget::frameUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _frameWidget <<
-        _frameSlider);
-    _frameWidget->setFrame(_frame);
-    _frameSlider->setFrame(_frame);
-    _frameDisplay->setFrame(_frame);
-}
+            _frameSlider = new ViewLib::FrameSlider(context);
 
-void djvViewWidget::widgetUpdate()
-{
-    djvSignalBlocker signalBlocker(QObjectList() <<
-        _timeUnitsWidget <<
-        _frameWidget <<
-        _frameSlider);
-    _timeUnitsWidget->setCurrentIndex(_context->timePrefs()->timeUnits());
-    _frameWidget->setFrameList(_frameList);
-    _frameWidget->setSpeed(_speed);
-    _frameSlider->setFrameList(_frameList);
-    _frameSlider->setSpeed(_speed);
-    _frameSlider->setInOutEnabled(_inOutEnabled);
-    _frameSlider->setInOutPoints(_inPoint, _outPoint);
-    _frameSlider->setCachedFrames(_cachedFrames);
-    _frameDisplay->setSpeed(_speed);
-    _speedWidget->setSpeed(_speed);
-    _speedDisplay->setSpeed(djvSpeed::speedToFloat(_speed));
-    _speedDisplay->setDroppedFrames(true);
-}
+            UI::ToolButton * markInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointMarkIcon.png"));
+            UI::ToolButton * markOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointMarkIcon.png"));
+            UI::ToolButton * resetInPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvInPointResetIcon.png"));
+            UI::ToolButton * resetOutPointButton = new UI::ToolButton(context->iconLibrary()->icon("djvOutPointResetIcon.png"));
 
-djvViewWidgetTest::djvViewWidgetTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
+            _frameDisplay = new ViewLib::FrameDisplay(context);
 
-QString djvViewWidgetTest::name()
-{
-    return "djvViewWidgetTest";
-}
+            _speedWidget = new ViewLib::SpeedWidget(context);
 
-void djvViewWidgetTest::run(const QStringList & args)
-{
-    (new djvViewWidget(context()))->show();
-}
+            _speedDisplay = new ViewLib::SpeedDisplay;
 
+            QGridLayout * layout = new QGridLayout(this);
+            layout->setColumnStretch(3, 1);
+            layout->setRowStretch(3, 1);
+            QGridLayout * gLayout = new QGridLayout;
+            gLayout->addWidget(_frameWidget, 0, 0);
+            gLayout->addWidget(_frameDisplay, 0, 1);
+            gLayout->addWidget(_speedWidget, 1, 0);
+            gLayout->addWidget(_speedDisplay, 1, 1);
+            layout->addLayout(gLayout, 0, 0, 2, 1);
+            layout->addWidget(_frameSlider, 0, 1, 1, 5);
+            layout->addWidget(resetInPointButton, 1, 1);
+            layout->addWidget(markInPointButton, 1, 2);
+            layout->addWidget(markOutPointButton, 1, 4);
+            layout->addWidget(resetOutPointButton, 1, 5);
+            layout->addWidget(_timeUnitsWidget, 2, 0);
+
+            setWindowTitle("djvViewWidget");
+            setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+            widgetUpdate();
+            frameUpdate();
+
+            connect(
+                _timeUnitsWidget,
+                SIGNAL(activated(int)),
+                SLOT(timeUnitsCallback(int)));
+            connect(
+                _frameWidget,
+                SIGNAL(frameChanged(qint64)),
+                SLOT(frameCallback(qint64)));
+            connect(
+                _frameSlider,
+                SIGNAL(frameChanged(qint64)),
+                SLOT(frameCallback(qint64)));
+            connect(
+                markInPointButton,
+                SIGNAL(clicked()),
+                _frameSlider,
+                SLOT(markInPoint()));
+            connect(
+                markOutPointButton,
+                SIGNAL(clicked()),
+                _frameSlider,
+                SLOT(markOutPoint()));
+            connect(
+                resetInPointButton,
+                SIGNAL(clicked()),
+                _frameSlider,
+                SLOT(resetInPoint()));
+            connect(
+                resetOutPointButton,
+                SIGNAL(clicked()),
+                _frameSlider,
+                SLOT(resetOutPoint()));
+            connect(
+                _speedWidget,
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
+                SLOT(speedCallback(const djv::Core::Speed &)));
+        }
+
+        void ViewWidget::timeUnitsCallback(int index)
+        {
+            _context->timePrefs()->setTimeUnits(static_cast<Core::Time::UNITS>(index));
+        }
+
+        void ViewWidget::frameCallback(qint64 frame)
+        {
+            if (frame != _frame)
+            {
+                _frame = frame;
+                frameUpdate();
+            }
+        }
+
+        void ViewWidget::speedCallback(const Core::Speed & speed)
+        {
+            if (speed != _speed)
+            {
+                _speed = speed;
+                widgetUpdate();
+            }
+        }
+
+        void ViewWidget::frameUpdate()
+        {
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _frameWidget <<
+                _frameSlider);
+            _frameWidget->setFrame(_frame);
+            _frameSlider->setFrame(_frame);
+            _frameDisplay->setFrame(_frame);
+        }
+
+        void ViewWidget::widgetUpdate()
+        {
+            Core::SignalBlocker signalBlocker(QObjectList() <<
+                _timeUnitsWidget <<
+                _frameWidget <<
+                _frameSlider);
+            _timeUnitsWidget->setCurrentIndex(_context->timePrefs()->timeUnits());
+            _frameWidget->setFrameList(_frameList);
+            _frameWidget->setSpeed(_speed);
+            _frameSlider->setFrameList(_frameList);
+            _frameSlider->setSpeed(_speed);
+            _frameSlider->setInOutEnabled(_inOutEnabled);
+            _frameSlider->setInOutPoints(_inPoint, _outPoint);
+            _frameSlider->setCachedFrames(_cachedFrames);
+            _frameDisplay->setSpeed(_speed);
+            _speedWidget->setSpeed(_speed);
+            _speedDisplay->setSpeed(Core::Speed::speedToFloat(_speed));
+            _speedDisplay->setDroppedFrames(true);
+        }
+
+        ViewWidgetTest::ViewWidgetTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
+
+        QString ViewWidgetTest::name()
+        {
+            return "ViewWidgetTest";
+        }
+
+        void ViewWidgetTest::run(const QStringList & args)
+        {
+            (new ViewWidget(context()))->show();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

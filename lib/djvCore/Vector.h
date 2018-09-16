@@ -40,29 +40,30 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
-//! \addtogroup djvCoreMath
-//@{
+namespace djv
+{
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &) throw (QString);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator >> (QStringList &, glm::tvec3<T, P> &) throw (QString);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator >> (QStringList &, glm::tvec4<T, P> &) throw (QString);
 
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator >> (QStringList &, glm::tvec2<T, P> &) throw (QString);
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator >> (QStringList &, glm::tvec3<T, P> &) throw (QString);
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator >> (QStringList &, glm::tvec4<T, P> &) throw (QString);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator << (QStringList &, const glm::tvec2<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator << (QStringList &, const glm::tvec3<T, P> &);
+    template<typename T, glm::precision P = glm::defaultp>
+    inline QStringList & operator << (QStringList &, const glm::tvec4<T, P> &);
 
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator << (QStringList &, const glm::tvec2<T, P> &);
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator << (QStringList &, const glm::tvec3<T, P> &);
-template<typename T, glm::precision P = glm::defaultp>
-inline QStringList & operator << (QStringList &, const glm::tvec4<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Debug & operator << (Core::Debug &, const glm::tvec2<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Debug & operator << (Core::Debug &, const glm::tvec3<T, P> &);
+    template <typename T, glm::precision P = glm::defaultp>
+    inline Core::Debug & operator << (Core::Debug &, const glm::tvec4<T, P> &);
 
-template <typename T, glm::precision P = glm::defaultp>
-inline djvDebug & operator << (djvDebug &, const glm::tvec2<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvDebug & operator << (djvDebug &, const glm::tvec3<T, P> &);
-template <typename T, glm::precision P = glm::defaultp>
-inline djvDebug & operator << (djvDebug &, const glm::tvec4<T, P> &);
+} // namespace djv
 
 Q_DECLARE_METATYPE(glm::ivec2)
 Q_DECLARE_METATYPE(glm::ivec3)
@@ -70,8 +71,6 @@ Q_DECLARE_METATYPE(glm::ivec4)
 Q_DECLARE_METATYPE(glm::vec2)
 Q_DECLARE_METATYPE(glm::vec3)
 Q_DECLARE_METATYPE(glm::vec4)
-
-//@} // djvCoreMath
 
 #include <djvCore/VectorInline.h>
 

@@ -45,8 +45,6 @@
 
 #include <algorithm>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -102,38 +100,38 @@ namespace djv
             proxy(proxy)
         {}
 
-        ImageLoad::ImageLoad(djvCoreContext * context) :
+        ImageLoad::ImageLoad(Core::CoreContext * context) :
             _context(context)
         {}
 
         ImageLoad::~ImageLoad()
         {}
 
-        void ImageLoad::close() throw (djvError)
+        void ImageLoad::close() throw (Core::Error)
         {}
 
-        djvCoreContext * ImageLoad::context() const
+        Core::CoreContext * ImageLoad::context() const
         {
             return _context;
         }
 
-        ImageSave::ImageSave(djvCoreContext * context) :
+        ImageSave::ImageSave(Core::CoreContext * context) :
             _context(context)
         {}
 
         ImageSave::~ImageSave()
         {}
 
-        void ImageSave::close() throw (djvError)
+        void ImageSave::close() throw (Core::Error)
         {}
 
-        djvCoreContext * ImageSave::context() const
+        Core::CoreContext * ImageSave::context() const
         {
             return _context;
         }
 
-        ImageIO::ImageIO(djvCoreContext * context) :
-            djvPlugin(context)
+        ImageIO::ImageIO(Core::CoreContext * context) :
+            Core::Plugin(context)
         {}
 
         ImageIO::~ImageIO()
@@ -205,15 +203,15 @@ namespace djv
         };
 
         ImageIOFactory::ImageIOFactory(
-            djvCoreContext *     context,
+            Core::CoreContext *  context,
             const QStringList &  searchPath,
             QObject *            parent) :
-            djvPluginFactory(context, searchPath, "djvImageIOEntry", "djv", "Plugin", parent),
+            Core::PluginFactory(context, searchPath, "djvImageIOEntry", "djv", "Plugin", parent),
             _p(new Private)
         {
             //DJV_DEBUG("ImageIOFactory::ImageIOFactory");
-            const QList<djvPlugin *> & plugins = this->plugins();
-            Q_FOREACH(djvPlugin * plugin, plugins)
+            const QList<Core::Plugin *> & plugins = this->plugins();
+            Q_FOREACH(Core::Plugin * plugin, plugins)
             {
                 if (ImageIO * imageIO = dynamic_cast<ImageIO *>(plugin))
                 {
@@ -262,8 +260,8 @@ namespace djv
         }
 
         ImageLoad * ImageIOFactory::load(
-            const djvFileInfo & fileInfo,
-            ImageIOInfo &       imageIOInfo) const throw (djvError)
+            const Core::FileInfo & fileInfo,
+            ImageIOInfo &          imageIOInfo) const throw (Core::Error)
         {
             //DJV_DEBUG("ImageIOFactory::load");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -285,7 +283,7 @@ namespace djv
                     return imageLoad;
                 }
             }
-            throw djvError(
+            throw Core::Error(
                 "ImageIOFactory",
                 qApp->translate("ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
@@ -293,8 +291,8 @@ namespace djv
         }
 
         ImageSave * ImageIOFactory::save(
-            const djvFileInfo & fileInfo,
-            const ImageIOInfo & imageIOInfo) const throw (djvError)
+            const Core::FileInfo & fileInfo,
+            const ImageIOInfo & imageIOInfo) const throw (Core::Error)
         {
             //DJV_DEBUG("ImageIOFactory::save");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -317,7 +315,7 @@ namespace djv
                     return imageSave;
                 }
             }
-            throw djvError(
+            throw Core::Error(
                 "djv::Graphics::ImageIOFactory",
                 qApp->translate("djv::Graphics::ImageIOFactory", "Unrecognized image: %1").
                 arg(QDir::toNativeSeparators(fileInfo)));
@@ -332,9 +330,9 @@ namespace djv
             return data;
         }
 
-        void ImageIOFactory::addPlugin(djvPlugin * plugin)
+        void ImageIOFactory::addPlugin(Core::Plugin * plugin)
         {
-            djvPluginFactory::addPlugin(plugin);
+            Core::PluginFactory::addPlugin(plugin);
             if (ImageIO * imageIO = dynamic_cast<ImageIO *>(plugin))
             {
                 _addPlugin(imageIO);
@@ -353,8 +351,8 @@ namespace djv
             {
                 Q_FOREACH(const QString & extension, plugin->extensions())
                 {
-                    djvFileInfo::sequenceExtensions.insert(extension.toLower());
-                    djvFileInfo::sequenceExtensions.insert(extension.toUpper());
+                    Core::FileInfo::sequenceExtensions.insert(extension.toLower());
+                    Core::FileInfo::sequenceExtensions.insert(extension.toUpper());
                 }
             }
 
@@ -373,48 +371,49 @@ namespace djv
                 SLOT(pluginOptionCallback(const QString &)));
         }
 
-        bool operator == (const ImageIOInfo & a, const ImageIOInfo & b)
-        {
-            if (a.layerCount() != b.layerCount())
-                return false;
-            for (int i = 0; i < a.layerCount(); ++i)
-                if (a[i] != b[i])
-                    return false;
-            return
-                operator == (
-                    static_cast<const PixelDataInfo &>(a),
-                    static_cast<const PixelDataInfo &>(b)) &&
-                a.tags == b.tags &&
-                a.sequence == b.sequence;
-        }
-
-        bool operator != (const ImageIOInfo & a, const ImageIOInfo & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const ImageIOFrameInfo & a, const ImageIOFrameInfo & b)
-        {
-            return
-                a.frame == b.frame &&
-                a.layer == b.layer &&
-                a.proxy == b.proxy;
-        }
-
-        bool operator != (const ImageIOFrameInfo & a, const ImageIOFrameInfo & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
+
+    bool operator == (const Graphics::ImageIOInfo & a, const Graphics::ImageIOInfo & b)
+    {
+        if (a.layerCount() != b.layerCount())
+            return false;
+        for (int i = 0; i < a.layerCount(); ++i)
+            if (a[i] != b[i])
+                return false;
+        return
+            operator == (
+                static_cast<const Graphics::PixelDataInfo &>(a),
+                static_cast<const Graphics::PixelDataInfo &>(b)) &&
+            a.tags == b.tags &&
+            a.sequence == b.sequence;
+    }
+
+    bool operator != (const Graphics::ImageIOInfo & a, const Graphics::ImageIOInfo & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (const Graphics::ImageIOFrameInfo & a, const Graphics::ImageIOFrameInfo & b)
+    {
+        return
+            a.frame == b.frame &&
+            a.layer == b.layer &&
+            a.proxy == b.proxy;
+    }
+
+    bool operator != (const Graphics::ImageIOFrameInfo & a, const Graphics::ImageIOFrameInfo & b)
+    {
+        return !(a == b);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::ImageIOInfo & in)
+    {
+        return operator << (debug, static_cast<const Graphics::PixelDataInfo &>(in));
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::ImageIOFrameInfo & in)
+    {
+        return debug << in.frame;
+    }
+
 } // namespace djv
-
-djvDebug & operator << (djvDebug & debug, const Graphics::ImageIOInfo & in)
-{
-    return operator << (debug, static_cast<const Graphics::PixelDataInfo &>(in));
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::ImageIOFrameInfo & in)
-{
-    return debug << in.frame;
-}

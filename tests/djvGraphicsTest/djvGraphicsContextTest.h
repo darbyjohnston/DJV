@@ -35,8 +35,15 @@
 
 #include <djvAbstractTest.h>
 
-class djvGraphicsContextTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
-};
+    namespace GraphicsTest
+    {
+        class GraphicsContextTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
+        };
+
+    } // namespace GraphicsTest
+} // namespace djv

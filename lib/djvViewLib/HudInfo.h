@@ -47,22 +47,17 @@ namespace djv
         //! This struct provides HUD information.
         struct HudInfo
         {
-            HudInfo() :
-                frame(0),
-                realSpeed(0.f),
-                droppedFrames(false)
-            {}
-
             Graphics::PixelDataInfo info;
             Graphics::ImageTags     tags;
-            qint64                  frame;
-            djvSpeed                speed;
-            float                   realSpeed;
-            bool                    droppedFrames;
+            qint64                  frame = 0;
+            Core::Speed             speed;
+            float                   realSpeed = 0.f;
+            bool                    droppedFrames = false;
             QVector<bool>           visible;
         };
 
     } // namespace ViewLib
-} // namespace djv
 
-DJV_COMPARISON_OPERATOR(djv::ViewLib::HudInfo);
+    DJV_COMPARISON_OPERATOR(ViewLib::HudInfo);
+
+} // namespace djv

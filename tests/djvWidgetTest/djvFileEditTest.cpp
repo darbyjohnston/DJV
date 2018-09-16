@@ -37,36 +37,40 @@
 
 #include <QVBoxLayout>
 
-using namespace djv;
-
-djvFileEditTest::djvFileEditTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvFileEditTest::name()
+namespace djv
 {
-    return "djvFileEditTest";
-}
+    namespace WidgetTest
+    {
+        FileEditTest::FileEditTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvFileEditTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    
-    UI::FileEdit * fileEdit = new UI::FileEdit(context());
-    
-    QVBoxLayout * layout = new QVBoxLayout(window);
-    layout->addWidget(fileEdit);
-    
-    connect(
-        fileEdit,
-        SIGNAL(fileInfoChanged(const djvFileInfo &)),
-        SLOT(callback(const djvFileInfo &)));
-    
-    window->show();
-}
+        QString FileEditTest::name()
+        {
+            return "FileEditTest";
+        }
 
-void djvFileEditTest::callback(const djvFileInfo & value)
-{
-    djvSystem::print(value);
-}
+        void FileEditTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
 
+            UI::FileEdit * fileEdit = new UI::FileEdit(context());
+
+            QVBoxLayout * layout = new QVBoxLayout(window);
+            layout->addWidget(fileEdit);
+
+            connect(
+                fileEdit,
+                SIGNAL(fileInfoChanged(const djv::Core::FileInfo &)),
+                SLOT(callback(const djv::Core::FileInfo &)));
+
+            window->show();
+        }
+
+        void FileEditTest::callback(const Core::FileInfo & value)
+        {
+            Core::System::print(value);
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

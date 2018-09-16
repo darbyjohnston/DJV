@@ -35,13 +35,20 @@
 
 #include <djvAbstractTest.h>
 
-class djvRangeTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace CoreTest
+    {
+        class RangeTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void ctors();
-    void convert();
-    void operators();
-};
+        private:
+            void ctors();
+            void convert();
+            void operators();
+        };
+
+    } // namespace CoreTest
+} // namespace djv

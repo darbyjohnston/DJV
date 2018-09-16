@@ -164,7 +164,7 @@ namespace djv
 
         void PixelMaskWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_p->button);
+            Core::SignalBlocker signalBlocker(_p->button);
             bool checked = false;
             for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
             {

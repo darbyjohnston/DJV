@@ -46,20 +46,20 @@ namespace djv
         class PPMLoad : public ImageLoad
         {
         public:
-            explicit PPMLoad(djvCoreContext *);
+            explicit PPMLoad(Core::CoreContext *);
 
             virtual ~PPMLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
 
-            djvFileInfo _file;
-            int         _bitDepth;
-            PPM::DATA   _data;
-            PixelData   _tmp;
+            Core::FileInfo _file;
+            int            _bitDepth;
+            PPM::DATA      _data;
+            PixelData      _tmp;
         };
 
     } // namespace Graphics

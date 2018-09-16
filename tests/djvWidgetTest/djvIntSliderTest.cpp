@@ -37,32 +37,37 @@
 
 #include <QVBoxLayout>
 
-using namespace djv;
-
-djvIntSliderTest::djvIntSliderTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvIntSliderTest::name()
+namespace djv
 {
-    return "djvIntSliderTest";
-}
+    namespace WidgetTest
+    {
+        IntSliderTest::IntSliderTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvIntSliderTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    
-    UI::IntSlider * slider = new UI::IntSlider;
-    
-    QVBoxLayout * layout = new QVBoxLayout(window);
-    layout->addWidget(slider);
-    
-    connect(slider, SIGNAL(valueChanged(int)), SLOT(sliderCallback(int)));
-    
-    window->show();
-}
+        QString IntSliderTest::name()
+        {
+            return "IntSliderTest";
+        }
 
-void djvIntSliderTest::sliderCallback(int value)
-{
-    djvSystem::print(QString("%1").arg(value));
-}
+        void IntSliderTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
+
+            UI::IntSlider * slider = new UI::IntSlider;
+
+            QVBoxLayout * layout = new QVBoxLayout(window);
+            layout->addWidget(slider);
+
+            connect(slider, SIGNAL(valueChanged(int)), SLOT(sliderCallback(int)));
+
+            window->show();
+        }
+
+        void IntSliderTest::sliderCallback(int value)
+        {
+            Core::System::print(QString("%1").arg(value));
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

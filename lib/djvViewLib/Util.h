@@ -39,8 +39,6 @@
 
 #include <QMetaType>
 
-class djvFileInfo;
-
 #if defined(DJV_WINDOWS)
 //! \todo Windows defines the macro "FILE_OPEN".
 #undef FILE_OPEN
@@ -48,6 +46,12 @@ class djvFileInfo;
 
 namespace djv
 {
+    namespace Core
+    {
+        class FileInfo;
+
+    } // namespace Core
+
     namespace Graphics
     {
         class PixelData;
@@ -206,9 +210,9 @@ namespace djv
 
             //! Load a LUT.
             static void loadLut(
-                const djvFileInfo &   fileInfo,
-                Graphics::PixelData & lut,
-                Context *             context) throw (djvError);
+                const Core::FileInfo & fileInfo,
+                Graphics::PixelData &  lut,
+                Context *              context) throw (Core::Error);
 
             //! This enumeration provides the playback modes.
             enum PLAYBACK
@@ -489,20 +493,21 @@ namespace djv
         };
 
     } // namespace ViewLib
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::ViewLib::Util::VIEW_MAX);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::TOOL_BAR);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::GRID);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::HUD_BACKGROUND);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::IMAGE_SCALE);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::IMAGE_ROTATE);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::PLAYBACK);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::FRAME);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::LOOP);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::LAYOUT);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::TOOL);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::HISTOGRAM);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::SHORTCUT);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::MOUSE_WHEEL);
-DJV_STRING_OPERATOR(djv::ViewLib::Util::ZOOM_FACTOR);
+    DJV_STRING_OPERATOR(ViewLib::Util::VIEW_MAX);
+    DJV_STRING_OPERATOR(ViewLib::Util::TOOL_BAR);
+    DJV_STRING_OPERATOR(ViewLib::Util::GRID);
+    DJV_STRING_OPERATOR(ViewLib::Util::HUD_BACKGROUND);
+    DJV_STRING_OPERATOR(ViewLib::Util::IMAGE_SCALE);
+    DJV_STRING_OPERATOR(ViewLib::Util::IMAGE_ROTATE);
+    DJV_STRING_OPERATOR(ViewLib::Util::PLAYBACK);
+    DJV_STRING_OPERATOR(ViewLib::Util::FRAME);
+    DJV_STRING_OPERATOR(ViewLib::Util::LOOP);
+    DJV_STRING_OPERATOR(ViewLib::Util::LAYOUT);
+    DJV_STRING_OPERATOR(ViewLib::Util::TOOL);
+    DJV_STRING_OPERATOR(ViewLib::Util::HISTOGRAM);
+    DJV_STRING_OPERATOR(ViewLib::Util::SHORTCUT);
+    DJV_STRING_OPERATOR(ViewLib::Util::MOUSE_WHEEL);
+    DJV_STRING_OPERATOR(ViewLib::Util::ZOOM_FACTOR);
+
+} // namespace djv

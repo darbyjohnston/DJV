@@ -35,91 +35,98 @@
 #include <djvGraphics/ColorProfile.h>
 #include <djvCore/Debug.h>
 
-using namespace djv;
+using namespace djv::Core;
+using namespace djv::Graphics;
 
-void djvColorProfileTest::run(int &, char **)
+namespace djv
 {
-    DJV_DEBUG("djvColorProfileTest::run");
-    ctors();
-    operators();
-}
+    namespace GraphicsTest
+    {
+        void ColorProfileTest::run(int &, char **)
+        {
+            DJV_DEBUG("ColorProfileTest::run");
+            ctors();
+            operators();
+        }
 
-void djvColorProfileTest::ctors()
-{
-    DJV_DEBUG("djvColorProfileTest::ctors");
-    {
-        const Graphics::ColorProfile::Exposure exposure;
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.value));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.defog));
-        DJV_ASSERT(djvMath::fuzzyCompare(0.f, exposure.kneeLow));
-        DJV_ASSERT(djvMath::fuzzyCompare(5.f, exposure.kneeHigh));
-    }
-    {
-        const Graphics::ColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, exposure.value));
-        DJV_ASSERT(djvMath::fuzzyCompare(2.f, exposure.defog));
-        DJV_ASSERT(djvMath::fuzzyCompare(3.f, exposure.kneeLow));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.f, exposure.kneeHigh));
-    }
-    {
-        const Graphics::ColorProfile colorProfile;
-        DJV_ASSERT(Graphics::ColorProfile::RAW == colorProfile.type);
-        DJV_ASSERT(djvMath::fuzzyCompare(2.2f, colorProfile.gamma));
-        DJV_ASSERT(! colorProfile.lut.isValid());
-    }
-}
+        void ColorProfileTest::ctors()
+        {
+            DJV_DEBUG("ColorProfileTest::ctors");
+            {
+                const Graphics::ColorProfile::Exposure exposure;
+                DJV_ASSERT(Math::fuzzyCompare(0.f, exposure.value));
+                DJV_ASSERT(Math::fuzzyCompare(0.f, exposure.defog));
+                DJV_ASSERT(Math::fuzzyCompare(0.f, exposure.kneeLow));
+                DJV_ASSERT(Math::fuzzyCompare(5.f, exposure.kneeHigh));
+            }
+            {
+                const Graphics::ColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
+                DJV_ASSERT(Math::fuzzyCompare(1.f, exposure.value));
+                DJV_ASSERT(Math::fuzzyCompare(2.f, exposure.defog));
+                DJV_ASSERT(Math::fuzzyCompare(3.f, exposure.kneeLow));
+                DJV_ASSERT(Math::fuzzyCompare(4.f, exposure.kneeHigh));
+            }
+            {
+                const Graphics::ColorProfile colorProfile;
+                DJV_ASSERT(Graphics::ColorProfile::RAW == colorProfile.type);
+                DJV_ASSERT(Math::fuzzyCompare(2.2f, colorProfile.gamma));
+                DJV_ASSERT(!colorProfile.lut.isValid());
+            }
+        }
 
-void djvColorProfileTest::operators()
-{
-    DJV_DEBUG("djvColorProfileTest::operators");
-    {
-        Graphics::ColorProfile a, b;
-        a.type     = b.type     = Graphics::ColorProfile::LUT;
-        a.gamma    = b.gamma    = 1.f;
-        a.lut      = b.lut      = Graphics::PixelData(Graphics::PixelDataInfo(16, 1, Graphics::Pixel::L_U8));
-        a.exposure = b.exposure = Graphics::ColorProfile::Exposure(1.f, 2.f, 3.f, 4.f);
-        a.lut.zero();
-        b.lut.zero();
-        DJV_ASSERT(a.exposure == b.exposure);
-        DJV_ASSERT(a.exposure != Graphics::ColorProfile::Exposure());
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != Graphics::ColorProfile());
-    }
-    {
-        Graphics::ColorProfile::Exposure exposure;
-        QStringList s = QStringList() << "1.0" << "2.0" << "3.0" << "4.0";
-        s >> exposure;
-        DJV_ASSERT(djvMath::fuzzyCompare(1.f, exposure.value));
-        DJV_ASSERT(djvMath::fuzzyCompare(2.f, exposure.defog));
-        DJV_ASSERT(djvMath::fuzzyCompare(3.f, exposure.kneeLow));
-        DJV_ASSERT(djvMath::fuzzyCompare(4.f, exposure.kneeHigh));
-    }
-    {
-        Graphics::ColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
-        QStringList s;
-        s << exposure;
-        DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4") == s);
-    }
-    {
-        const Graphics::ColorProfile::Exposure a(1.f, 2.f, 3.f, 4.f);
-        QStringList tmp;
-        tmp << a;
-        Graphics::ColorProfile::Exposure b;
-        tmp >> b;
-        DJV_ASSERT(a == b);
-    }
-    {
-        const Graphics::ColorProfile::PROFILE a = Graphics::ColorProfile::LUT;
-        QStringList tmp;
-        tmp << a;
-        Graphics::ColorProfile::PROFILE b = static_cast<Graphics::ColorProfile::PROFILE>(0);
-        tmp >> b;
-        DJV_ASSERT(a == b);
-    }
-    {
-        DJV_DEBUG_PRINT(Graphics::ColorProfile::Exposure());
-        DJV_DEBUG_PRINT(Graphics::ColorProfile::RAW);
-        DJV_DEBUG_PRINT(Graphics::ColorProfile());
-    }
-}
+        void ColorProfileTest::operators()
+        {
+            DJV_DEBUG("ColorProfileTest::operators");
+            {
+                Graphics::ColorProfile a, b;
+                a.type = b.type = Graphics::ColorProfile::LUT;
+                a.gamma = b.gamma = 1.f;
+                a.lut = b.lut = Graphics::PixelData(Graphics::PixelDataInfo(16, 1, Graphics::Pixel::L_U8));
+                a.exposure = b.exposure = Graphics::ColorProfile::Exposure(1.f, 2.f, 3.f, 4.f);
+                a.lut.zero();
+                b.lut.zero();
+                DJV_ASSERT(a.exposure == b.exposure);
+                DJV_ASSERT(a.exposure != Graphics::ColorProfile::Exposure());
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != Graphics::ColorProfile());
+            }
+            {
+                Graphics::ColorProfile::Exposure exposure;
+                QStringList s = QStringList() << "1.0" << "2.0" << "3.0" << "4.0";
+                s >> exposure;
+                DJV_ASSERT(Math::fuzzyCompare(1.f, exposure.value));
+                DJV_ASSERT(Math::fuzzyCompare(2.f, exposure.defog));
+                DJV_ASSERT(Math::fuzzyCompare(3.f, exposure.kneeLow));
+                DJV_ASSERT(Math::fuzzyCompare(4.f, exposure.kneeHigh));
+            }
+            {
+                Graphics::ColorProfile::Exposure exposure(1.f, 2.f, 3.f, 4.f);
+                QStringList s;
+                s << exposure;
+                DJV_ASSERT((QStringList() << "1" << "2" << "3" << "4") == s);
+            }
+            {
+                const Graphics::ColorProfile::Exposure a(1.f, 2.f, 3.f, 4.f);
+                QStringList tmp;
+                tmp << a;
+                Graphics::ColorProfile::Exposure b;
+                tmp >> b;
+                DJV_ASSERT(a == b);
+            }
+            {
+                const Graphics::ColorProfile::PROFILE a = Graphics::ColorProfile::LUT;
+                QStringList tmp;
+                tmp << a;
+                Graphics::ColorProfile::PROFILE b = static_cast<Graphics::ColorProfile::PROFILE>(0);
+                tmp >> b;
+                DJV_ASSERT(a == b);
+            }
+            {
+                DJV_DEBUG_PRINT(Graphics::ColorProfile::Exposure());
+                DJV_DEBUG_PRINT(Graphics::ColorProfile::RAW);
+                DJV_DEBUG_PRINT(Graphics::ColorProfile());
+            }
+        }
 
+    } // namespace GraphicsTest
+} // namespace djv

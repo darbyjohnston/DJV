@@ -35,14 +35,21 @@
 
 #include <djvAbstractTest.h>
 
-class djvTimeTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace CoreTest
+    {
+        class TimeTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void current();
-    void sleep();
-    void convert();
-    void operators();
-};
+        private:
+            void current();
+            void sleep();
+            void convert();
+            void operators();
+        };
+
+    } // namespace CoreTest
+} // namespace djv

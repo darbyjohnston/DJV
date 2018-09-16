@@ -45,7 +45,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PPMPlugin::PPMPlugin(djvCoreContext * context) :
+        PPMPlugin::PPMPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -157,9 +157,9 @@ namespace djv
                 "        Set the data type used when saving PPM images. Options = %3. "
                 "Default = %4.\n").
                 arg(PPM::typeLabels().join(", ")).
-                arg(djvStringUtil::label(_options.type).join(", ")).
+                arg(Core::StringUtil::label(_options.type).join(", ")).
                 arg(PPM::dataLabels().join(", ")).
-                arg(djvStringUtil::label(_options.data).join(", "));
+                arg(Core::StringUtil::label(_options.data).join(", "));
         }
 
         ImageLoad * PPMPlugin::createLoad() const

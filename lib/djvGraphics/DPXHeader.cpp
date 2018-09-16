@@ -48,7 +48,7 @@ namespace djv
 
         DPXHeader::DPXHeader()
         {
-            djvMemory::fill<quint8>(0xff, &file, sizeof(File));
+            Core::Memory::fill<quint8>(0xff, &file, sizeof(File));
             zero(file.version, 8);
             zero(file.name, 100);
             zero(file.time, 24);
@@ -56,15 +56,15 @@ namespace djv
             zero(file.project, 200);
             zero(file.copyright, 200);
 
-            djvMemory::fill<quint8>(0xff, &image, sizeof(Image));
+            Core::Memory::fill<quint8>(0xff, &image, sizeof(Image));
 
-            djvMemory::fill<quint8>(0xff, &source, sizeof(Source));
+            Core::Memory::fill<quint8>(0xff, &source, sizeof(Source));
             zero(source.file, 100);
             zero(source.time, 24);
             zero(source.inputDevice, 32);
             zero(source.inputSerial, 32);
 
-            djvMemory::fill<quint8>(0xff, &film, sizeof(Film));
+            Core::Memory::fill<quint8>(0xff, &film, sizeof(Film));
             zero(film.id, 2);
             zero(film.type, 2);
             zero(film.offset, 2);
@@ -74,13 +74,13 @@ namespace djv
             zero(film.frameId, 32);
             zero(film.slate, 100);
 
-            djvMemory::fill<quint8>(0xff, &tv, sizeof(Tv));
+            Core::Memory::fill<quint8>(0xff, &tv, sizeof(Tv));
         }
 
         void DPXHeader::load(
-            djvFileIO &   io,
-            ImageIOInfo & info,
-            bool &        filmPrint) throw (djvError)
+            Core::FileIO & io,
+            ImageIOInfo &  info,
+            bool &         filmPrint) throw (Core::Error)
         {
             //DJV_DEBUG("DPXHeader::load");
             //DJV_DEBUG_PRINT("file = " << io.fileName());
@@ -90,15 +90,15 @@ namespace djv
             //DJV_DEBUG_PRINT("magic = " << QString::fromLatin1((char *)&file.magic, 4));
             if (0 == memcmp(&file.magic, magic[0], 4))
             {
-                info.endian = djvMemory::MSB;
+                info.endian = Core::Memory::MSB;
             }
             else if (0 == memcmp(&file.magic, magic[1], 4))
             {
-                info.endian = djvMemory::LSB;
+                info.endian = Core::Memory::LSB;
             }
             else
             {
-                throw djvError(
+                throw Core::Error(
                     DPX::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
             }
@@ -107,7 +107,7 @@ namespace djv
             io.get(&source, sizeof(Source));
             io.get(&film, sizeof(Film));
             io.get(&tv, sizeof(Tv));
-            if (info.endian != djvMemory::endian())
+            if (info.endian != Core::Memory::endian())
             {
                 //DJV_DEBUG_PRINT("endian");
                 io.setEndian(true);
@@ -117,7 +117,7 @@ namespace djv
             // Information.
             if (image.elemSize != 1)
             {
-                throw djvError(
+                throw Core::Error(
                     DPX::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -216,7 +216,7 @@ namespace djv
             }
             if (!found)
             {
-                throw djvError(
+                throw Core::Error(
                     DPX::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -231,14 +231,14 @@ namespace djv
 
             if (image.elem[0].encoding)
             {
-                throw djvError(
+                throw Core::Error(
                     DPX::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
 
             if (isValid(&image.elem[0].linePadding) && image.elem[0].linePadding)
             {
-                throw djvError(
+                throw Core::Error(
                     DPX::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -314,7 +314,7 @@ namespace djv
                 isValid(film.id, 2) && isValid(film.type, 2) &&
                 isValid(film.offset, 2) && isValid(film.prefix, 6) &&
                 isValid(film.count, 4))
-                info.tags[tags[ImageTags::KEYCODE]] = djvTime::keycodeToString(
+                info.tags[tags[ImageTags::KEYCODE]] = Core::Time::keycodeToString(
                     toString(film.id, 2).toInt(),
                     toString(film.type, 2).toInt(),
                     toString(film.prefix, 6).toInt(),
@@ -339,7 +339,7 @@ namespace djv
             if (isValid(&film.frameRate) &&
                 film.frameRate > CineonHeader::minSpeed)
             {
-                info.sequence.speed = djvSpeed::floatToSpeed(film.frameRate);
+                info.sequence.speed = Core::Speed::floatToSpeed(film.frameRate);
 
                 info.tags[dpxTags[DPX::TAG_FILM_FRAME_RATE]] =
                     QString::number(film.frameRate);
@@ -360,7 +360,7 @@ namespace djv
             // TV image tags.
             if (isValid(&tv.timecode))
                 info.tags[tags[ImageTags::TIMECODE]] =
-                djvTime::timecodeToString(tv.timecode);
+                Core::Time::timecodeToString(tv.timecode);
             if (isValid(&tv.interlace))
                 info.tags[dpxTags[DPX::TAG_TV_INTERLACE]] =
                 QString::number(tv.interlace);
@@ -379,7 +379,7 @@ namespace djv
             if (isValid(&tv.frameRate) &&
                 tv.frameRate > CineonHeader::minSpeed)
             {
-                info.sequence.speed = djvSpeed::floatToSpeed(tv.frameRate);
+                info.sequence.speed = Core::Speed::floatToSpeed(tv.frameRate);
                 info.tags[dpxTags[DPX::TAG_TV_FRAME_RATE]] =
                     QString::number(tv.frameRate);
             }
@@ -416,13 +416,13 @@ namespace djv
         }
 
         void DPXHeader::save(
-            djvFileIO &           io,
+            Core::FileIO &        io,
             const ImageIOInfo &   info,
             DPX::ENDIAN           endian,
             Cineon::COLOR_PROFILE colorProfile,
-            DPX::VERSION          version) throw (djvError)
+            DPX::VERSION          version) throw (Core::Error)
         {
-            //DJV_DEBUG("djvDPXHeader::save");
+            //DJV_DEBUG("DPXHeader::save");
 
             // Information.
             switch (version)
@@ -546,26 +546,26 @@ namespace djv
             const QStringList & tags = ImageTags::tagLabels();
             const QStringList & dpxTags = DPX::tagLabels();
             QString tmp;
-            djvStringUtil::cString(info.fileName, file.name, 100, false);
+            Core::StringUtil::cString(info.fileName, file.name, 100, false);
             tmp = info.tags[tags[ImageTags::TIME]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, file.time, 24, false);
+                Core::StringUtil::cString(tmp, file.time, 24, false);
             }
             tmp = info.tags[tags[ImageTags::CREATOR]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, file.creator, 100, false);
+                Core::StringUtil::cString(tmp, file.creator, 100, false);
             }
             tmp = info.tags[tags[ImageTags::PROJECT]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, file.project, 200, false);
+                Core::StringUtil::cString(tmp, file.project, 200, false);
             }
             tmp = info.tags[tags[ImageTags::COPYRIGHT]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, file.copyright, 200, false);
+                Core::StringUtil::cString(tmp, file.copyright, 200, false);
             }
             file.encryptionKey = 0;
 
@@ -603,22 +603,22 @@ namespace djv
             tmp = info.tags[dpxTags[DPX::TAG_SOURCE_FILE]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.file, 100, false);
+                Core::StringUtil::cString(tmp, source.file, 100, false);
             }
             tmp = info.tags[tags[DPX::TAG_SOURCE_TIME]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.time, 24, false);
+                Core::StringUtil::cString(tmp, source.time, 24, false);
             }
             tmp = info.tags[dpxTags[DPX::TAG_SOURCE_INPUT_DEVICE]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.inputDevice, 32, false);
+                Core::StringUtil::cString(tmp, source.inputDevice, 32, false);
             }
             tmp = info.tags[dpxTags[DPX::TAG_SOURCE_INPUT_SERIAL]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, source.inputSerial, 32, false);
+                Core::StringUtil::cString(tmp, source.inputSerial, 32, false);
             }
             tmp = info.tags[dpxTags[DPX::TAG_SOURCE_BORDER]];
             if (tmp.length())
@@ -658,22 +658,22 @@ namespace djv
             if (tmp.length())
             {
                 int id = 0, type = 0, prefix = 0, count = 0, offset = 0;
-                djvTime::stringToKeycode(tmp, id, type, prefix, count, offset);
-                djvStringUtil::cString(
+                Core::Time::stringToKeycode(tmp, id, type, prefix, count, offset);
+                Core::StringUtil::cString(
                     QString::number(id), film.id, 2, false);
-                djvStringUtil::cString(
+                Core::StringUtil::cString(
                     QString::number(type), film.type, 2, false);
-                djvStringUtil::cString(
+                Core::StringUtil::cString(
                     QString::number(offset), film.offset, 2, false);
-                djvStringUtil::cString(
+                Core::StringUtil::cString(
                     QString::number(prefix), film.prefix, 6, false);
-                djvStringUtil::cString(
+                Core::StringUtil::cString(
                     QString::number(count), film.count, 4, false);
             }
             tmp = info.tags[dpxTags[DPX::TAG_FILM_FORMAT]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, film.format, 32, false);
+                Core::StringUtil::cString(tmp, film.format, 32, false);
             }
             tmp = info.tags[dpxTags[DPX::TAG_FILM_FRAME]];
             if (tmp.length())
@@ -703,19 +703,19 @@ namespace djv
             tmp = info.tags[dpxTags[DPX::TAG_FILM_FRAME_ID]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, film.frameId, 32, false);
+                Core::StringUtil::cString(tmp, film.frameId, 32, false);
             }
             tmp = info.tags[dpxTags[DPX::TAG_FILM_SLATE]];
             if (tmp.length())
             {
-                djvStringUtil::cString(tmp, film.slate, 100, false);
+                Core::StringUtil::cString(tmp, film.slate, 100, false);
             }
 
             // TV image tags.
             tmp = info.tags[tags[ImageTags::TIMECODE]];
             if (tmp.length())
             {
-                tv.timecode = djvTime::stringToTimecode(tmp);
+                tv.timecode = Core::Time::stringToTimecode(tmp);
             }
             tmp = info.tags[dpxTags[DPX::TAG_TV_INTERLACE]];
             if (tmp.length())
@@ -783,16 +783,16 @@ namespace djv
 
             // Write.
             debug();
-            djvMemory::ENDIAN file_endian = djvMemory::endian();
+            Core::Memory::ENDIAN fileEndian = Core::Memory::endian();
             if (DPX::ENDIAN_MSB == endian)
             {
-                file_endian = djvMemory::MSB;
+                fileEndian = Core::Memory::MSB;
             }
             else if (DPX::ENDIAN_LSB == endian)
             {
-                file_endian = djvMemory::LSB;
+                fileEndian = Core::Memory::LSB;
             }
-            if (file_endian != djvMemory::endian())
+            if (fileEndian != Core::Memory::endian())
             {
                 //DJV_DEBUG_PRINT("endian");
                 io.setEndian(true);
@@ -800,7 +800,7 @@ namespace djv
             }
             memcpy(
                 &file.magic,
-                djvMemory::MSB == file_endian ? magic[0] : magic[1],
+                Core::Memory::MSB == fileEndian ? magic[0] : magic[1],
                 4);
             io.set(&file, sizeof(File));
             io.set(&image, sizeof(Image));
@@ -809,7 +809,7 @@ namespace djv
             io.set(&tv, sizeof(Tv));
         }
 
-        void DPXHeader::saveEnd(djvFileIO & io) throw (djvError)
+        void DPXHeader::saveEnd(Core::FileIO & io) throw (Core::Error)
         {
             const quint32 size = static_cast<quint32>(io.pos());
             io.setPos(12);
@@ -879,56 +879,56 @@ namespace djv
 
         void DPXHeader::endian()
         {
-            djvMemory::convertEndian(&file.imageOffset, 1, 4);
-            djvMemory::convertEndian(&file.size, 1, 4);
-            djvMemory::convertEndian(&file.dittoKey, 1, 4);
-            djvMemory::convertEndian(&file.headerSize, 1, 4);
-            djvMemory::convertEndian(&file.industryHeaderSize, 1, 4);
-            djvMemory::convertEndian(&file.userHeaderSize, 1, 4);
-            djvMemory::convertEndian(&file.encryptionKey, 1, 4);
+            Core::Memory::convertEndian(&file.imageOffset, 1, 4);
+            Core::Memory::convertEndian(&file.size, 1, 4);
+            Core::Memory::convertEndian(&file.dittoKey, 1, 4);
+            Core::Memory::convertEndian(&file.headerSize, 1, 4);
+            Core::Memory::convertEndian(&file.industryHeaderSize, 1, 4);
+            Core::Memory::convertEndian(&file.userHeaderSize, 1, 4);
+            Core::Memory::convertEndian(&file.encryptionKey, 1, 4);
 
-            djvMemory::convertEndian(&image.orient, 1, 2);
-            djvMemory::convertEndian(&image.elemSize, 1, 2);
-            djvMemory::convertEndian(image.size, 2, 4);
+            Core::Memory::convertEndian(&image.orient, 1, 2);
+            Core::Memory::convertEndian(&image.elemSize, 1, 2);
+            Core::Memory::convertEndian(image.size, 2, 4);
 
             for (uint i = 0; i < 8; ++i)
             {
-                djvMemory::convertEndian(&image.elem[i].dataSign, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].lowData, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].lowQuantity, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].highData, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].highQuantity, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].packing, 1, 2);
-                djvMemory::convertEndian(&image.elem[i].encoding, 1, 2);
-                djvMemory::convertEndian(&image.elem[i].dataOffset, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].linePadding, 1, 4);
-                djvMemory::convertEndian(&image.elem[i].elemPadding, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].dataSign, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].lowData, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].lowQuantity, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].highData, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].highQuantity, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].packing, 1, 2);
+                Core::Memory::convertEndian(&image.elem[i].encoding, 1, 2);
+                Core::Memory::convertEndian(&image.elem[i].dataOffset, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].linePadding, 1, 4);
+                Core::Memory::convertEndian(&image.elem[i].elemPadding, 1, 4);
             }
 
-            djvMemory::convertEndian(source.offset, 2, 4);
-            djvMemory::convertEndian(source.center, 2, 4);
-            djvMemory::convertEndian(source.size, 2, 4);
-            djvMemory::convertEndian(source.border, 4, 2);
-            djvMemory::convertEndian(source.pixelAspect, 2, 4);
-            djvMemory::convertEndian(source.scanSize, 2, 4);
+            Core::Memory::convertEndian(source.offset, 2, 4);
+            Core::Memory::convertEndian(source.center, 2, 4);
+            Core::Memory::convertEndian(source.size, 2, 4);
+            Core::Memory::convertEndian(source.border, 4, 2);
+            Core::Memory::convertEndian(source.pixelAspect, 2, 4);
+            Core::Memory::convertEndian(source.scanSize, 2, 4);
 
-            djvMemory::convertEndian(&film.frame, 1, 4);
-            djvMemory::convertEndian(&film.sequence, 1, 4);
-            djvMemory::convertEndian(&film.hold, 1, 4);
-            djvMemory::convertEndian(&film.frameRate, 1, 4);
-            djvMemory::convertEndian(&film.shutter, 1, 4);
+            Core::Memory::convertEndian(&film.frame, 1, 4);
+            Core::Memory::convertEndian(&film.sequence, 1, 4);
+            Core::Memory::convertEndian(&film.hold, 1, 4);
+            Core::Memory::convertEndian(&film.frameRate, 1, 4);
+            Core::Memory::convertEndian(&film.shutter, 1, 4);
 
-            djvMemory::convertEndian(&tv.timecode, 1, 4);
-            djvMemory::convertEndian(&tv.userBits, 1, 4);
-            djvMemory::convertEndian(tv.sampleRate, 2, 4);
-            djvMemory::convertEndian(&tv.frameRate, 1, 4);
-            djvMemory::convertEndian(&tv.timeOffset, 1, 4);
-            djvMemory::convertEndian(&tv.gamma, 1, 4);
-            djvMemory::convertEndian(&tv.blackLevel, 1, 4);
-            djvMemory::convertEndian(&tv.blackGain, 1, 4);
-            djvMemory::convertEndian(&tv.breakpoint, 1, 4);
-            djvMemory::convertEndian(&tv.whiteLevel, 1, 4);
-            djvMemory::convertEndian(&tv.integrationTimes, 1, 4);
+            Core::Memory::convertEndian(&tv.timecode, 1, 4);
+            Core::Memory::convertEndian(&tv.userBits, 1, 4);
+            Core::Memory::convertEndian(tv.sampleRate, 2, 4);
+            Core::Memory::convertEndian(&tv.frameRate, 1, 4);
+            Core::Memory::convertEndian(&tv.timeOffset, 1, 4);
+            Core::Memory::convertEndian(&tv.gamma, 1, 4);
+            Core::Memory::convertEndian(&tv.blackLevel, 1, 4);
+            Core::Memory::convertEndian(&tv.blackGain, 1, 4);
+            Core::Memory::convertEndian(&tv.breakpoint, 1, 4);
+            Core::Memory::convertEndian(&tv.whiteLevel, 1, 4);
+            Core::Memory::convertEndian(&tv.integrationTimes, 1, 4);
         }
 
         namespace

@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Graphics
     {
-        TIFFLoad::TIFFLoad(djvCoreContext * context) :
+        TIFFLoad::TIFFLoad(Core::CoreContext * context) :
             ImageLoad(context),
             _f(0)
         {}
@@ -48,21 +48,21 @@ namespace djv
             close();
         }
 
-        void TIFFLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void TIFFLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             _open(_file.fileName(_file.sequence().start()), info);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void TIFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -85,7 +85,7 @@ namespace djv
             {
                 if (TIFFReadScanline(_f, (tdata_t *)data->data(0, y), y) == -1)
                 {
-                    throw djvError(
+                    throw Core::Error(
                         TIFF::staticName,
                         ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                 }
@@ -113,7 +113,7 @@ namespace djv
             close();
         }
 
-        void TIFFLoad::close() throw (djvError)
+        void TIFFLoad::close() throw (Core::Error)
         {
             if (_f)
             {
@@ -123,7 +123,7 @@ namespace djv
         }
 
         void TIFFLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("TIFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -134,7 +134,7 @@ namespace djv
             _f = TIFFOpen(in.toLatin1().data(), "r");
             if (!_f)
             {
-                throw djvError(
+                throw Core::Error(
                     TIFF::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
@@ -176,7 +176,7 @@ namespace djv
             info.size = glm::ivec2(width, height);
             if (samples > 1 && PLANARCONFIG_SEPARATE == channels)
             {
-                throw djvError(
+                throw Core::Error(
                     TIFF::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -206,7 +206,7 @@ namespace djv
             //DJV_DEBUG_PRINT("pixel = " << pixel);
             if (!found)
             {
-                throw djvError(
+                throw Core::Error(
                     TIFF::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }

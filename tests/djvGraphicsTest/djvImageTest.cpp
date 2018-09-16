@@ -35,42 +35,49 @@
 #include <djvCore/Debug.h>
 #include <djvGraphics/Image.h>
 
-using namespace djv;
+using namespace djv::Core;
+using namespace djv::Graphics;
 
-void djvImageTest::run(int &, char **)
+namespace djv
 {
-    DJV_DEBUG("djvImageTest::run");
-    ctors();
-    operators();
-}
+    namespace GraphicsTest
+    {
+        void ImageTest::run(int &, char **)
+        {
+            DJV_DEBUG("ImageTest::run");
+            ctors();
+            operators();
+        }
 
-void djvImageTest::ctors()
-{
-    DJV_DEBUG("djvImageTest::ctors");
-    {
-        const Graphics::Image image;
-        DJV_ASSERT(image.data() == 0);
-    }
-    {
-        const Graphics::Image image(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::RGBA_U8));
-        Graphics::Image other(image);
-        DJV_ASSERT(other.info() == image.info());
-    }
-}
+        void ImageTest::ctors()
+        {
+            DJV_DEBUG("ImageTest::ctors");
+            {
+                const Graphics::Image image;
+                DJV_ASSERT(image.data() == 0);
+            }
+            {
+                const Graphics::Image image(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::RGBA_U8));
+                Graphics::Image other(image);
+                DJV_ASSERT(other.info() == image.info());
+            }
+        }
 
-void djvImageTest::operators()
-{
-    DJV_DEBUG("djvImageTest::operators");
-    {
-        Graphics::Image
-            a(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8)),
-            b(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8));
-        a.data()[0] = b.data()[0] = 127;
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != Graphics::Image());
-    }
-    {
-        DJV_DEBUG_PRINT(Graphics::Image());
-    }
-}
+        void ImageTest::operators()
+        {
+            DJV_DEBUG("ImageTest::operators");
+            {
+                Graphics::Image
+                    a(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8)),
+                    b(Graphics::PixelDataInfo(1, 1, Graphics::Pixel::L_U8));
+                a.data()[0] = b.data()[0] = 127;
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != Graphics::Image());
+            }
+            {
+                DJV_DEBUG_PRINT(Graphics::Image());
+            }
+        }
 
+    } // namespace GraphicsTest
+} // namespace djv

@@ -56,10 +56,10 @@ namespace djv
             virtual ~FilePrefs();
 
             //! Add a recent file.
-            void addRecent(const djvFileInfo &);
+            void addRecent(const Core::FileInfo &);
 
             //! Get the recent files.
-            const djvFileInfoList & recentFiles() const;
+            const Core::FileInfoList & recentFiles() const;
 
             //! Get the default for whether sequences are automatically opened.
             static bool autoSequenceDefault();
@@ -127,7 +127,7 @@ namespace djv
 
         Q_SIGNALS:
             //! This signal is emitted when the recent files are changed.
-            void recentChanged(const djvFileInfoList &);
+            void recentChanged(const djv::Core::FileInfoList &);
 
             //! This signal is emitted when automatic sequences is changed.
             void autoSequenceChanged(bool);
@@ -151,7 +151,7 @@ namespace djv
             void displayCacheChanged(bool);
 
         private:
-            djvFileInfoList                _recent;
+            Core::FileInfoList             _recent;
             bool                           _autoSequence;
             Graphics::PixelDataInfo::PROXY _proxy;
             bool                           _u8Conversion;

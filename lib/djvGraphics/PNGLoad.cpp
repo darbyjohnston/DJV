@@ -41,7 +41,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PNGLoad::PNGLoad(djvCoreContext * context) :
+        PNGLoad::PNGLoad(Core::CoreContext * context) :
             ImageLoad(context),
             _f(0),
             _png(0),
@@ -54,14 +54,14 @@ namespace djv
             close();
         }
 
-        void PNGLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void PNGLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PNGLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             _open(_file.fileName(_file.sequence().start()), info);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
@@ -93,7 +93,7 @@ namespace djv
         } // namespace
 
         void PNGLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PNGLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -115,7 +115,7 @@ namespace djv
             {
                 if (!pngScanline(_png, data->data(0, data->h() - 1 - y)))
                 {
-                    throw djvError(
+                    throw Core::Error(
                         PNG::staticName,
                         _pngError.msg);
                 }
@@ -136,7 +136,7 @@ namespace djv
             close();
         }
 
-        void PNGLoad::close() throw (djvError)
+        void PNGLoad::close() throw (Core::Error)
         {
             if (_png || _pngInfo || _pngInfoEnd)
             {
@@ -205,7 +205,7 @@ namespace djv
         } // namespace
 
         void PNGLoad::_open(const QString & in, ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PNGLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -220,7 +220,7 @@ namespace djv
                 djvPNGWarning);
             if (!_png)
             {
-                throw djvError(
+                throw Core::Error(
                     PNG::staticName,
                     _pngError.msg);
             }
@@ -233,13 +233,13 @@ namespace djv
 #endif
             if (!_f)
             {
-                throw djvError(
+                throw Core::Error(
                     PNG::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
             if (!pngOpen(_f, _png, &_pngInfo, &_pngInfoEnd))
             {
-                throw djvError(
+                throw Core::Error(
                     PNG::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
@@ -267,13 +267,13 @@ namespace djv
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
             if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
             {
-                throw djvError(
+                throw Core::Error(
                     PNG::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
 
             // Set the endian.
-            if (bitDepth >= 16 && djvMemory::LSB == djvMemory::endian())
+            if (bitDepth >= 16 && Core::Memory::LSB == Core::Memory::endian())
             {
                 png_set_swap(_png);
             }

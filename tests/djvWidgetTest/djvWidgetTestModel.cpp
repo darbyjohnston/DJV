@@ -34,32 +34,37 @@
 #include <djvAbstractWidgetTest.h>
 #include <djvWidgetTestManager.h>
 
-using namespace djv;
-
-djvWidgetTestModel::djvWidgetTestModel(djvWidgetTestManager * testManager) :
-    _testManager(testManager)
-{}
-
-QModelIndex	djvWidgetTestModel::index(
-    int                 row,
-    int                 column,
-    const QModelIndex & parent) const
+namespace djv
 {
-    if (! hasIndex(row, column, parent))
-        return QModelIndex();
-    return createIndex(row, column, _testManager->tests()[row]);
-}
+    namespace WidgetTest
+    {
+        WidgetTestModel::WidgetTestModel(WidgetTestManager * testManager) :
+            _testManager(testManager)
+        {}
 
-int djvWidgetTestModel::rowCount(const QModelIndex & parent) const
-{
-    return _testManager->tests().count();
-}
+        QModelIndex	WidgetTestModel::index(
+            int                 row,
+            int                 column,
+            const QModelIndex & parent) const
+        {
+            if (!hasIndex(row, column, parent))
+                return QModelIndex();
+            return createIndex(row, column, _testManager->tests()[row]);
+        }
 
-QVariant djvWidgetTestModel::data(const QModelIndex & index, int role) const
-{
-    if (! index.isValid())
-        return QVariant();
-    if (Qt::DisplayRole == role)
-        return _testManager->tests()[index.row()]->name();
-    return QVariant();
-}
+        int WidgetTestModel::rowCount(const QModelIndex & parent) const
+        {
+            return _testManager->tests().count();
+        }
+
+        QVariant WidgetTestModel::data(const QModelIndex & index, int role) const
+        {
+            if (!index.isValid())
+                return QVariant();
+            if (Qt::DisplayRole == role)
+                return _testManager->tests()[index.row()]->name();
+            return QVariant();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

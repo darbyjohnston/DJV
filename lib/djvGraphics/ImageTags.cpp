@@ -40,8 +40,6 @@
 #include <QStringList>
 #include <QVector>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -182,34 +180,34 @@ namespace djv
             return tag(key);
         }
 
-        bool operator == (const ImageTags & a, const ImageTags & b)
-        {
-            if (a.keys() != b.keys())
-            {
-                return false;
-            }
-            if (a.values() != b.values())
-            {
-                return false;
-            }
-            return true;
-        }
-
-        bool operator != (const ImageTags & a, const ImageTags & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
-} // namespace djv
 
-djvDebug & operator << (djvDebug & debug, const Graphics::ImageTags & tags)
-{
-    QStringList tmp;
-    Q_FOREACH(const QString & key, tags.keys())
+    bool operator == (const Graphics::ImageTags & a, const Graphics::ImageTags & b)
     {
-        tmp += QString("\"%1 = %2\"").arg(key).arg(tags[key]);
-    }    
-    return debug << tmp.join(", ");
-}
+        if (a.keys() != b.keys())
+        {
+            return false;
+        }
+        if (a.values() != b.values())
+        {
+            return false;
+        }
+        return true;
+    }
 
+    bool operator != (const Graphics::ImageTags & a, const Graphics::ImageTags & b)
+    {
+        return !(a == b);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::ImageTags & tags)
+    {
+        QStringList tmp;
+        Q_FOREACH(const QString & key, tags.keys())
+        {
+            tmp += QString("\"%1 = %2\"").arg(key).arg(tags[key]);
+        }
+        return debug << tmp.join(", ");
+    }
+
+} // namespace djv

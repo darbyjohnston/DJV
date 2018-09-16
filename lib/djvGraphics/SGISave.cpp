@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Graphics
     {
-        SGISave::SGISave(const SGI::Options & options, djvCoreContext * context) :
+        SGISave::SGISave(const SGI::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options)
         {}
@@ -46,15 +46,15 @@ namespace djv
         SGISave::~SGISave()
         {}
 
-        void SGISave::open(const djvFileInfo & file, const ImageIOInfo & info)
-            throw (djvError)
+        void SGISave::open(const Core::FileInfo & file, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("SGISave::open");
             //DJV_DEBUG_PRINT("file = " << file);
             _file = file;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
             _info.size = info.size;
@@ -67,13 +67,13 @@ namespace djv
             default: break;
             }
             _info.pixel = Pixel::pixel(Pixel::format(info.pixel), type);
-            _info.endian = djvMemory::MSB;
+            _info.endian = Core::Memory::MSB;
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
         }
 
         void SGISave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("SGISave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -81,9 +81,9 @@ namespace djv
 
             // Open the file.
             const QString fileName = _file.fileName(frame.frame);
-            djvFileIO io;
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(fileName, djvFileIO::WRITE);
+            Core::FileIO io;
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(fileName, Core::FileIO::WRITE);
             SGI::saveInfo(
                 io,
                 _info,

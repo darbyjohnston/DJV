@@ -77,7 +77,7 @@ namespace djv
                     {
                         if (endian)
                         {
-                            djvMemory::convertEndian(in, &count, 1, 2);
+                            Core::Memory::convertEndian(in, &count, 1, 2);
                         }
                         else
                         {

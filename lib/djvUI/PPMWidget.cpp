@@ -164,14 +164,14 @@ namespace djv
 
         void PPMWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _typeWidget <<
                 _dataWidget);
             _typeWidget->setCurrentIndex(_options.type);
             _dataWidget->setCurrentIndex(_options.data);
         }
 
-        PPMWidgetPlugin::PPMWidgetPlugin(djvCoreContext * context) :
+        PPMWidgetPlugin::PPMWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

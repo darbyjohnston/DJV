@@ -38,102 +38,110 @@
 
 #include <QStringList>
 
-void djvSpeedTest::run(int &, char **)
-{
-    DJV_DEBUG("djvSpeedTest::run");
-    ctors();
-    members();
-    convert();
-    operators();
-}
+using namespace djv::Core;
 
-void djvSpeedTest::ctors()
+namespace djv
 {
-    DJV_DEBUG("djvSpeedTest::ctors");
+    namespace CoreTest
     {
-        const djvSpeed speed;
-        const djvSpeed speedDefault(djvSpeed::speed());
-        DJV_ASSERT(speedDefault.scale()    == speed.scale());
-        DJV_ASSERT(speedDefault.duration() == speed.duration());
-    }
-    {
-        const djvSpeed speed(24000, 1001);
-        DJV_ASSERT(24000 == speed.scale());
-        DJV_ASSERT(1001  == speed.duration());
-    }
-    {
-        const djvSpeed speed(djvSpeed::FPS_23_976);
-        DJV_ASSERT(24000 == speed.scale());
-        DJV_ASSERT(1001  == speed.duration());
-    }
-}
+        void SpeedTest::run(int &, char **)
+        {
+            DJV_DEBUG("SpeedTest::run");
+            ctors();
+            members();
+            convert();
+            operators();
+        }
 
-void djvSpeedTest::members()
-{
-    DJV_DEBUG("djvSpeedTest::members");
-    {
-        djvSpeed::setSpeed(djvSpeed::FPS_24);
-        const djvSpeed speed = djvSpeed::speed();
-        djvSpeed::setSpeed(djvSpeed::FPS_23_976);
-        djvSpeed::setSpeed(djvSpeed::speedDefault());
-        DJV_ASSERT(djvSpeed::speed() == speed);
-    }
-    {
-        djvSpeed speed;
-        speed.set(djvSpeed::FPS_23_976);
-        DJV_ASSERT(24000 == speed.scale());
-        DJV_ASSERT(1001  == speed.duration());
-    }
-    {
-        DJV_ASSERT(djvSpeed().isValid());
-        DJV_ASSERT(! djvSpeed(0, 0).isValid());
-    }
-}
+        void SpeedTest::ctors()
+        {
+            DJV_DEBUG("SpeedTest::ctors");
+            {
+                const Speed speed;
+                const Speed speedDefault(Speed::speed());
+                DJV_ASSERT(speedDefault.scale() == speed.scale());
+                DJV_ASSERT(speedDefault.duration() == speed.duration());
+            }
+            {
+                const Speed speed(24000, 1001);
+                DJV_ASSERT(24000 == speed.scale());
+                DJV_ASSERT(1001 == speed.duration());
+            }
+            {
+                const Speed speed(Speed::FPS_23_976);
+                DJV_ASSERT(24000 == speed.scale());
+                DJV_ASSERT(1001 == speed.duration());
+            }
+        }
 
-void djvSpeedTest::convert()
-{
-    DJV_DEBUG("djvSpeedTest::convert");
-    const struct Data
-    {
-        djvSpeed speed;
-        float    value;
-    }
-        data [] =
-    {
-        { djvSpeed(djvSpeed::FPS_23_976),  23.976f },
-        { djvSpeed(djvSpeed::FPS_24),      24.f    },
-        { djvSpeed(djvSpeed::FPS_29_97),   29.97f  },
-        { djvSpeed(240, 1),               240.f    }
-    };
-    const int dataCount = sizeof(data) / sizeof(data[0]);
-    for (int i = 0; i < dataCount; ++i)
-    {
-        DJV_DEBUG_PRINT("speed = " << data[i].speed);
-        const float value = djvSpeed::speedToFloat(data[i].speed);
-        DJV_DEBUG_PRINT("value = " << value);
-        DJV_ASSERT(djvMath::fuzzyCompare(value, data[i].value, .0001f));
-        const djvSpeed speed = djvSpeed::floatToSpeed(value);
-        DJV_ASSERT(data[i].speed == speed);
-    }
-}
+        void SpeedTest::members()
+        {
+            DJV_DEBUG("SpeedTest::members");
+            {
+                Speed::setSpeed(Speed::FPS_24);
+                const Speed speed = Speed::speed();
+                Speed::setSpeed(Speed::FPS_23_976);
+                Speed::setSpeed(Speed::speedDefault());
+                DJV_ASSERT(Speed::speed() == speed);
+            }
+            {
+                Speed speed;
+                speed.set(Speed::FPS_23_976);
+                DJV_ASSERT(24000 == speed.scale());
+                DJV_ASSERT(1001 == speed.duration());
+            }
+            {
+                DJV_ASSERT(Speed().isValid());
+                DJV_ASSERT(!Speed(0, 0).isValid());
+            }
+        }
 
-void djvSpeedTest::operators()
-{
-    DJV_DEBUG("djvSpeedTest::operators");
-    {
-        const djvSpeed a(djvSpeed::FPS_23_976), b(djvSpeed::FPS_23_976);
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != djvSpeed());
-    }
-    {
-        djvSpeed speed;
-        QStringList tmp;
-        tmp << speed;
-        tmp >> speed;
-        DJV_ASSERT(speed == djvSpeed());
-    }
-    {
-        DJV_DEBUG_PRINT(djvSpeed());
-    }
-}
+        void SpeedTest::convert()
+        {
+            DJV_DEBUG("SpeedTest::convert");
+            const struct Data
+            {
+                Speed speed;
+                float value = 0.f;
+            }
+            data[] =
+            {
+                { Speed(Speed::FPS_23_976),  23.976f },
+                { Speed(Speed::FPS_24),      24.f    },
+                { Speed(Speed::FPS_29_97),   29.97f  },
+                { Speed(240, 1),            240.f    }
+            };
+            const int dataCount = sizeof(data) / sizeof(data[0]);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                DJV_DEBUG_PRINT("speed = " << data[i].speed);
+                const float value = Speed::speedToFloat(data[i].speed);
+                DJV_DEBUG_PRINT("value = " << value);
+                DJV_ASSERT(Math::fuzzyCompare(value, data[i].value, .0001f));
+                const Speed speed = Speed::floatToSpeed(value);
+                DJV_ASSERT(data[i].speed == speed);
+            }
+        }
 
+        void SpeedTest::operators()
+        {
+            DJV_DEBUG("SpeedTest::operators");
+            {
+                const Speed a(Speed::FPS_23_976), b(Speed::FPS_23_976);
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != Speed());
+            }
+            {
+                Speed speed;
+                QStringList tmp;
+                tmp << speed;
+                tmp >> speed;
+                DJV_ASSERT(speed == Speed());
+            }
+            {
+                DJV_DEBUG_PRINT(Speed());
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

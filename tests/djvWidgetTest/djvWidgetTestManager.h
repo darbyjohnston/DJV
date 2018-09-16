@@ -34,8 +34,6 @@
 #include <QObject>
 #include <QVector>
 
-class djvAbstractWidgetTest;
-
 namespace djv
 {
     namespace UI
@@ -43,24 +41,23 @@ namespace djv
         class UIContext;
 
     } // namespace UI
+
+    namespace WidgetTest
+    {
+        class AbstractWidgetTest;
+
+        class WidgetTestManager : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            WidgetTestManager(UI::UIContext *);
+
+            const QVector<AbstractWidgetTest *> & tests() const;
+
+        private:
+            QVector<AbstractWidgetTest *> _tests;
+        };
+
+    } // namespace WidgetTest
 } // namespace djv
-
-//------------------------------------------------------------------------------
-// djvWidgetTestManager
-//------------------------------------------------------------------------------
-
-class djvWidgetTestManager : public QObject
-{
-    Q_OBJECT
-    
-public:
-
-    djvWidgetTestManager(djv::UI::UIContext *);
-    
-    const QVector<djvAbstractWidgetTest *> & tests() const;
-
-private:
-
-    QVector<djvAbstractWidgetTest *> _tests;
-};
-

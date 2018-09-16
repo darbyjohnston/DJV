@@ -36,79 +36,93 @@
 #include <djvCore/Range.h>
 #include <djvCore/RangeUtil.h>
 
-void djvRangeTest::run(int &, char **)
-{
-    DJV_DEBUG("djvRangeTest::run");
-    ctors();
-    convert();
-    operators();
-}
+using namespace djv::Core;
 
-void djvRangeTest::ctors()
+namespace djv
 {
-    DJV_DEBUG("djvRangeTest::ctors");
+    namespace CoreTest
     {
-        const djvRange<int> range;
-        DJV_ASSERT(0 == range.min);
-        DJV_ASSERT(0 == range.max);
-    }
-    {
-        const djvRange<int> range(1, 10);
-        DJV_ASSERT( 1 == range.min);
-        DJV_ASSERT(10 == range.max);
-    }
-}
-
-void djvRangeTest::convert()
-{
-    DJV_DEBUG("djvRangeTest::convert");
-    const struct Data
-    {
-        djvFrameList           a;
-        QVector<djvFrameRange> b;
-    }
-        data [] =
-    {
+        void RangeTest::run(int &, char **)
         {
-            djvFrameList() << 1,
-            QVector<djvFrameRange>() << djvFrameRange(1, 1)
-        },
-        {
-            djvFrameList() << 1 << 2,
-            QVector<djvFrameRange>() << djvFrameRange(1, 2)
-        },
-        {
-            djvFrameList() << 1 << 2 << 3,
-            QVector<djvFrameRange>() << djvFrameRange(1, 3)
-        },
-        {
-            djvFrameList() << 1 << 3,
-            QVector<djvFrameRange>() << djvFrameRange(1) << djvFrameRange(3)
-        },
-        {
-            djvFrameList() << 1 << 2 << 4,
-            QVector<djvFrameRange>() << djvFrameRange(1, 2) << djvFrameRange(4)
-        },
-        {
-            djvFrameList() << 1 << 2 << 4 << 5,
-            QVector<djvFrameRange>() << djvFrameRange(1, 2) << djvFrameRange(4, 5)
+            DJV_DEBUG("RangeTest::run");
+            ctors();
+            convert();
+            operators();
         }
-    };
-    const int dataCount = sizeof(data) / sizeof(Data);
-    for (int i = 0; i < dataCount; ++i)
-    {
-        const djvFrameRangeList tmp = djvRangeUtil::range(data[i].a);
-        DJV_ASSERT(tmp == data[i].b);
-    }
-}
 
-void djvRangeTest::operators()
-{
-    DJV_DEBUG("djvRangeTest::operators");
-    {
-        const djvRange<int> range(1, 10);
-        DJV_ASSERT(range == range);
-        DJV_ASSERT(range != djvRange<int>());
-    }
-}
+        void RangeTest::ctors()
+        {
+            DJV_DEBUG("RangeTest::ctors");
+            {
+                const Range<int> range;
+                DJV_ASSERT(0 == range.min);
+                DJV_ASSERT(0 == range.max);
+            }
+            {
+                const Range<int> range(1, 10);
+                DJV_ASSERT(1 == range.min);
+                DJV_ASSERT(10 == range.max);
+            }
+        }
 
+        void RangeTest::convert()
+        {
+            DJV_DEBUG("RangeTest::convert");
+            const struct Data
+            {
+                FrameList           a;
+                QVector<FrameRange> b;
+            }
+            data[] =
+            {
+                {
+                    FrameList() << 1,
+                    QVector<FrameRange>() << FrameRange(1, 1)
+                },
+                {
+                    FrameList() << 1 << 2,
+                    QVector<FrameRange>() << FrameRange(1, 2)
+                },
+                {
+                    FrameList() << 1 << 2 << 3,
+                    QVector<FrameRange>() << FrameRange(1, 3)
+                },
+                {
+                    FrameList() << 1 << 3,
+                    QVector<FrameRange>() << FrameRange(1) << FrameRange(3)
+                },
+                {
+                    FrameList() << 1 << 2 << 4,
+                    QVector<FrameRange>() << FrameRange(1, 2) << FrameRange(4)
+                },
+                {
+                    FrameList() << 1 << 2 << 4 << 5,
+                    QVector<FrameRange>() << FrameRange(1, 2) << FrameRange(4, 5)
+                }
+            };
+            const int dataCount = sizeof(data) / sizeof(Data);
+            for (int i = 0; i < dataCount; ++i)
+            {
+                const FrameRangeList tmp = RangeUtil::range(data[i].a);
+                //! \bug Error C2893 on Windows?
+                //DJV_ASSERT(tmp == data[i].b);
+                DJV_ASSERT(tmp.size() == data[i].b.size());
+                for (int j = 0; j < tmp.size(); ++j)
+                {
+                    DJV_ASSERT(tmp[j] == data[i].b[j]);
+                }
+            }
+        }
+
+        void RangeTest::operators()
+        {
+            DJV_DEBUG("RangeTest::operators");
+            {
+                const Range<int> range(1, 10);
+                DJV_ASSERT(range == range);
+                DJV_ASSERT(range != Range<int>());
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

@@ -56,9 +56,9 @@ namespace djv
         class TIFFPlugin : public ImageIO
         {
         public:
-            explicit TIFFPlugin(djvCoreContext *);
+            explicit TIFFPlugin(Core::CoreContext *);
 
-            virtual void initPlugin() throw (djvError);
+            virtual void initPlugin() throw (Core::Error);
             virtual QString pluginName() const;
             virtual QStringList extensions() const;
 

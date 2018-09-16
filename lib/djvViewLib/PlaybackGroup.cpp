@@ -52,20 +52,19 @@
 #include <QMenuBar>
 #include <QToolBar>
 
-namespace
-{
-
-qint64 sequenceEnd(const djvSequence & sequence)
-{
-    return sequence.frames.count() ? sequence.frames.count() - 1 : 0;
-}
-
-} // namespace
-
 namespace djv
 {
     namespace ViewLib
     {
+        namespace
+        {
+            qint64 sequenceEnd(const Core::Sequence & sequence)
+            {
+                return sequence.frames.count() ? sequence.frames.count() - 1 : 0;
+            }
+
+        } // namespace
+
         struct PlaybackGroup::Private
         {
             Private(Context * context) :
@@ -73,11 +72,11 @@ namespace djv
                 layout(context->playbackPrefs()->layout())
             {}
 
-            djvSequence       sequence;
+            Core::Sequence    sequence;
             Util::PLAYBACK    playback = Util::STOP;
             Util::PLAYBACK    playbackPrev = Util::STOP;
             Util::LOOP        loop = Util::LOOP_REPEAT;
-            djvSpeed          speed;
+            Core::Speed       speed;
             float             realSpeed = 0.f;
             bool              droppedFrames = false;
             bool              droppedFramesTmp = false;
@@ -92,9 +91,9 @@ namespace djv
             int               timer = 0;
             bool              idlePause = false;
             bool              idleInit = true;
-            djvTimer          idleTimer;
+            Core::Timer       idleTimer;
             quint64           idleFrame = 0;
-            djvTimer          speedTimer;
+            Core::Timer       speedTimer;
             quint64           speedCounter = 0;
             Util::LAYOUT      layout = static_cast<Util::LAYOUT>(0);
             PlaybackActions * actions = nullptr;
@@ -188,8 +187,8 @@ namespace djv
                 SLOT(playbackShuttleValueCallback(int)));
             connect(
                 _p->toolBar,
-                SIGNAL(speedChanged(const djvSpeed &)),
-                SLOT(setSpeed(const djvSpeed &)));
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
+                SLOT(setSpeed(const djv::Core::Speed &)));
             connect(
                 _p->toolBar,
                 SIGNAL(frameChanged(qint64)),
@@ -247,7 +246,7 @@ namespace djv
         PlaybackGroup::~PlaybackGroup()
         {}
 
-        const djvSequence & PlaybackGroup::sequence() const
+        const Core::Sequence & PlaybackGroup::sequence() const
         {
             return _p->sequence;
         }
@@ -262,7 +261,7 @@ namespace djv
             return _p->loop;
         }
 
-        const djvSpeed & PlaybackGroup::speed() const
+        const Core::Speed & PlaybackGroup::speed() const
         {
             return _p->speed;
         }
@@ -312,7 +311,7 @@ namespace djv
             return _p->toolBar;
         }
 
-        void PlaybackGroup::setSequence(const djvSequence & sequence)
+        void PlaybackGroup::setSequence(const Core::Sequence & sequence)
         {
             if (sequence == _p->sequence)
                 return;
@@ -365,7 +364,7 @@ namespace djv
             Q_EMIT loopChanged(_p->loop);
         }
 
-        void PlaybackGroup::setSpeed(const djvSpeed & in)
+        void PlaybackGroup::setSpeed(const Core::Speed & in)
         {
             if (in == _p->speed)
                 return;
@@ -401,10 +400,10 @@ namespace djv
                 {
                     setPlayback(Util::STOP);
                 }
-                in = djvMath::clamp(in, frameStart, frameEnd);
+                in = Core::Math::clamp(in, frameStart, frameEnd);
                 break;
             case Util::LOOP_REPEAT:
-                in = djvMath::wrap(in, frameStart, frameEnd);
+                in = Core::Math::wrap(in, frameStart, frameEnd);
                 break;
             case Util::LOOP_PING_PONG:
                 if (_p->playback != Util::STOP)
@@ -418,7 +417,7 @@ namespace djv
                         setPlayback(Util::REVERSE);
                     }
                 }
-                in = djvMath::clamp(in, frameStart, frameEnd);
+                in = Core::Math::clamp(in, frameStart, frameEnd);
                 break;
             default: break;
             }
@@ -494,7 +493,7 @@ namespace djv
             {
                 _p->idleTimer.check();
             }
-            const float speed = _p->shuttle ? _p->shuttleSpeed : djvSpeed::speedToFloat(_p->speed);
+            const float speed = _p->shuttle ? _p->shuttleSpeed : Core::Speed::speedToFloat(_p->speed);
             //DJV_DEBUG_PRINT("speed = " << speed);
             const quint64 absoluteFrame = quint64(_p->idleTimer.seconds() * speed);
             int inc = static_cast<int>(absoluteFrame - _p->idleFrame);
@@ -518,7 +517,7 @@ namespace djv
             {
                 _p->droppedFramesTmp |= inc > 1 || inc < -1;
             }
-            _p->speedCounter += djvMath::abs(inc);
+            _p->speedCounter += Core::Math::abs(inc);
 
             // Calculate real playback speed.
             _p->speedTimer.check();
@@ -578,7 +577,7 @@ namespace djv
             //DJV_DEBUG("PlaybackGroup::playbackShuttleValueCallback");
             //DJV_DEBUG_PRINT("in = " << in);
             _p->shuttleSpeed =
-                djvMath::pow(static_cast<float>(djvMath::abs(in)), 1.5) *
+                Core::Math::pow(static_cast<float>(Core::Math::abs(in)), 1.5) *
                 (in >= 0 ? 1.f : -1.f);
             _p->idleFrame = quint64(_p->idleTimer.seconds() * _p->shuttleSpeed);
         }
@@ -678,12 +677,12 @@ namespace djv
 
         qint64 PlaybackGroup::frameStart() const
         {
-            return djvMath::max(static_cast<qint64>(0), _p->inPoint);
+            return Core::Math::max(static_cast<qint64>(0), _p->inPoint);
         }
 
         qint64 PlaybackGroup::frameEnd() const
         {
-            return djvMath::min(sequenceEnd(_p->sequence), _p->outPoint);
+            return Core::Math::min(sequenceEnd(_p->sequence), _p->outPoint);
         }
 
         void PlaybackGroup::playbackUpdate()
@@ -746,7 +745,7 @@ namespace djv
         void PlaybackGroup::frameUpdate()
         {
             //DJV_DEBUG("PlaybackGroup::frameUpdate");
-            djvSignalBlocker signalBlocker(_p->toolBar);
+            Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setFrame(_p->frame);
             _p->toolBar->setCachedFrames(context()->fileCache()->frames(mainWindow()));
         }
@@ -757,7 +756,7 @@ namespace djv
             _p->actions->group(PlaybackActions::IN_OUT_GROUP)->actions()[
                 Util::IN_OUT_ENABLE]->setChecked(_p->inOutEnabled);
                 const qint64 end = sequenceEnd(_p->sequence);
-                djvSignalBlocker signalBlocker(_p->toolBar);
+                Core::SignalBlocker signalBlocker(_p->toolBar);
                 _p->toolBar->setFrameList(_p->sequence.frames);
                 _p->toolBar->setFrame(_p->frame);
                 _p->toolBar->setStart(_p->inOutEnabled ? _p->inPoint : 0);
@@ -777,7 +776,7 @@ namespace djv
             //DJV_DEBUG("PlaybackGroup::speedUpdate");
             _p->actions->action(PlaybackActions::EVERY_FRAME)->
                 setChecked(_p->everyFrame);
-            djvSignalBlocker signalBlocker(_p->toolBar);
+            Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setSpeed(_p->speed);
             _p->toolBar->setDefaultSpeed(_p->sequence.speed);
             _p->toolBar->setRealSpeed(_p->realSpeed);
@@ -789,7 +788,7 @@ namespace djv
             //DJV_DEBUG("PlaybackGroup::layoutUpdate");
             _p->actions->group(PlaybackActions::LAYOUT_GROUP)->
                 actions()[_p->layout]->trigger();
-            djvSignalBlocker signalBlocker(_p->toolBar);
+            Core::SignalBlocker signalBlocker(_p->toolBar);
             _p->toolBar->setLayout(_p->layout);
         }
 

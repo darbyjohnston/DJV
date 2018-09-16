@@ -133,11 +133,11 @@ namespace djv
 
         void SGIWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_compressionWidget);
+            Core::SignalBlocker signalBlocker(_compressionWidget);
             _compressionWidget->setCurrentIndex(_options.compression);
         }
 
-        SGIWidgetPlugin::SGIWidgetPlugin(djvCoreContext * context) :
+        SGIWidgetPlugin::SGIWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

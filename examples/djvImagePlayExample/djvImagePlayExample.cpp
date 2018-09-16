@@ -43,163 +43,166 @@
 #include <QMouseEvent>
 #include <QTimer>
 
-using namespace djv;
-
-djvImagePlayExampleWidget::djvImagePlayExampleWidget(UI::UIContext * context) :
-    UI::ImageView(context)
-{}
-
-void djvImagePlayExampleWidget::showEvent(QShowEvent *)
+namespace djv
 {
-    viewFit();
-}
+    ImagePlayExampleWidget::ImagePlayExampleWidget(UI::UIContext * context) :
+        UI::ImageView(context)
+    {}
 
-void djvImagePlayExampleWidget::mousePressEvent(QMouseEvent * event)
-{
-    const glm::ivec2 mouse(
-        event->pos().x(),
-        height() - 1 - event->pos().y());
-    _viewPosTmp = viewPos();
-    _mousePress = mouse;
-}
-
-void djvImagePlayExampleWidget::mouseMoveEvent(QMouseEvent * event)
-{
-    const glm::ivec2 mouse(
-        event->pos().x(),
-        height() - 1 - event->pos().y());
-    setViewPos(_viewPosTmp + mouse - _mousePress);
-}
-
-void djvImagePlayExampleWidget::keyPressEvent(QKeyEvent * event)
-{
-    const QPoint pos = mapFromGlobal(QCursor::pos());
-    const glm::ivec2 mouse(
-        pos.x(),
-        height() - 1 - pos.y());
-    switch (event->key())
+    void ImagePlayExampleWidget::showEvent(QShowEvent *)
     {
+        viewFit();
+    }
+
+    void ImagePlayExampleWidget::mousePressEvent(QMouseEvent * event)
+    {
+        const glm::ivec2 mouse(
+            event->pos().x(),
+            height() - 1 - event->pos().y());
+        _viewPosTmp = viewPos();
+        _mousePress = mouse;
+    }
+
+    void ImagePlayExampleWidget::mouseMoveEvent(QMouseEvent * event)
+    {
+        const glm::ivec2 mouse(
+            event->pos().x(),
+            height() - 1 - event->pos().y());
+        setViewPos(_viewPosTmp + mouse - _mousePress);
+    }
+
+    void ImagePlayExampleWidget::keyPressEvent(QKeyEvent * event)
+    {
+        const QPoint pos = mapFromGlobal(QCursor::pos());
+        const glm::ivec2 mouse(
+            pos.x(),
+            height() - 1 - pos.y());
+        switch (event->key())
+        {
         case Qt::Key_0:         viewZero(); break;
         case Qt::Key_Minus:     setViewZoom(viewZoom() * .5f, mouse); break;
         case Qt::Key_Equal:     setViewZoom(viewZoom() * 2.f, mouse); break;
         case Qt::Key_Backspace: viewFit(); break;
-    }
-}
-
-djvImagePlayExampleApplication::djvImagePlayExampleApplication(int & argc, char ** argv) :
-    QApplication(argc, argv),
-    _cache(false),
-    _frame(0)
-{
-    _context.reset(new UI::UIContext);
-    if (argc != 2)
-    {
-        _context->printMessage("Usage: djvImagePlayExample (input)");
-        QTimer::singleShot(0, this, SLOT(commandLineExit()));
-    }
-    else
-    {
-        _fileInfo = djvFileInfo(argv[1]);
-        QTimer::singleShot(0, this, SLOT(work()));
-    }
-}
-
-void djvImagePlayExampleApplication::commandLineExit()
-{
-    exit(1);
-}
-
-void djvImagePlayExampleApplication::work()
-{
-    if (_fileInfo.isSequenceValid())
-    {
-        _fileInfo.setType(djvFileInfo::SEQUENCE);
-    }
-    try
-    {
-        _load.reset(_context->imageIOFactory()->load(_fileInfo, _info));
-    }
-    catch (const djvError & error)
-    {
-        _context->printError(error);
-        exit(1);
-        return;
-    }
-    _widget.reset(new djvImagePlayExampleWidget(_context.data()));
-    //_widget->zoom(0.5);
-    const glm::ivec2 size = UI::WindowUtil::resize(_info.size);
-    _widget->resize(size.x, size.y);
-    _widget->show();
-    startTimer(0);
-}
-
-void djvImagePlayExampleApplication::timerEvent(QTimerEvent * event)
-{
-    //DJV_DEBUG("djvImagePlayExampleApplication::timerEvent");
-
-    _widget->setWindowTitle(
-        QString("%1 Frame: %2").arg("djvImagePlayExample").arg(_frame));
-
-    static djvTimer t;
-    static float    average = 0.f;
-    static int      accum   = 0;
-    t.check();
-    const float fps = t.fps();
-    t.start();
-    if (fps < 1000.f)
-    {
-        average += fps;
-        ++accum;
+        }
     }
 
-    _context->printMessage(QString("FPS = %1 (%2)").
-        arg(fps).
-        arg(accum ? (average / static_cast<float>(accum)) : 0.f));
-
-    Graphics::Image * imageP = 0;
-    try
+    ImagePlayExampleApplication::ImagePlayExampleApplication(int & argc, char ** argv) :
+        QApplication(argc, argv),
+        _cache(false),
+        _frame(0)
     {
-        if (_cache)
+        _context.reset(new UI::UIContext);
+        if (argc != 2)
         {
-            if (_cachedImages.count() < _info.sequence.frames.count())
-            {
-                Graphics::Image * image = new Graphics::Image;
-                _load->read(*image, _info.sequence.frames[_frame]);
-                _cachedImages += image;
-                imageP = image;
-            }
-            else
-            {
-                imageP = _cachedImages[_frame];
-            }
+            _context->printMessage("Usage: djvImagePlayExample (input)");
+            QTimer::singleShot(0, this, SLOT(commandLineExit()));
         }
         else
         {
-            _load->read(_image, _info.sequence.frames[_frame]);
-            imageP = &_image;
+            _fileInfo = Core::FileInfo(argv[1]);
+            QTimer::singleShot(0, this, SLOT(work()));
         }
     }
-    catch (const djvError &)
-    {}
 
-    if (imageP && imageP->isValid())
+    void ImagePlayExampleApplication::commandLineExit()
     {
-        _widget->setData(imageP);
-        Graphics::OpenGLImageOptions options;
-        options.colorProfile = imageP->colorProfile;
-        _widget->setOptions(options);
-        _widget->update();
+        exit(1);
     }
 
-    ++_frame;
-    if (_frame >= _info.sequence.frames.count())
+    void ImagePlayExampleApplication::work()
     {
-        _frame = 0;
+        if (_fileInfo.isSequenceValid())
+        {
+            _fileInfo.setType(Core::FileInfo::SEQUENCE);
+        }
+        try
+        {
+            _load.reset(_context->imageIOFactory()->load(_fileInfo, _info));
+        }
+        catch (const Core::Error & error)
+        {
+            _context->printError(error);
+            exit(1);
+            return;
+        }
+        _widget.reset(new ImagePlayExampleWidget(_context.data()));
+        //_widget->zoom(0.5);
+        const glm::ivec2 size = UI::WindowUtil::resize(_info.size);
+        _widget->resize(size.x, size.y);
+        _widget->show();
+        startTimer(0);
     }
-}
+
+    void ImagePlayExampleApplication::timerEvent(QTimerEvent * event)
+    {
+        //DJV_DEBUG("ImagePlayExampleApplication::timerEvent");
+
+        _widget->setWindowTitle(
+            QString("%1 Frame: %2").arg("djvImagePlayExample").arg(_frame));
+
+        static Core::Timer t;
+        static float    average = 0.f;
+        static int      accum = 0;
+        t.check();
+        const float fps = t.fps();
+        t.start();
+        if (fps < 1000.f)
+        {
+            average += fps;
+            ++accum;
+        }
+
+        _context->printMessage(QString("FPS = %1 (%2)").
+            arg(fps).
+            arg(accum ? (average / static_cast<float>(accum)) : 0.f));
+
+        Graphics::Image * imageP = 0;
+        try
+        {
+            if (_cache)
+            {
+                if (_cachedImages.count() < _info.sequence.frames.count())
+                {
+                    Graphics::Image * image = new Graphics::Image;
+                    _load->read(*image, _info.sequence.frames[_frame]);
+                    _cachedImages += image;
+                    imageP = image;
+                }
+                else
+                {
+                    imageP = _cachedImages[_frame];
+                }
+            }
+            else
+            {
+                _load->read(_image, _info.sequence.frames[_frame]);
+                imageP = &_image;
+            }
+        }
+        catch (const Core::Error &)
+        {
+        }
+
+        if (imageP && imageP->isValid())
+        {
+            _widget->setData(imageP);
+            Graphics::OpenGLImageOptions options;
+            options.colorProfile = imageP->colorProfile;
+            _widget->setOptions(options);
+            _widget->update();
+        }
+
+        ++_frame;
+        if (_frame >= _info.sequence.frames.count())
+        {
+            _frame = 0;
+        }
+    }
+
+} // namespace djv
 
 int main(int argc, char ** argv)
 {
-    return djvImagePlayExampleApplication(argc, argv).exec();
+    return djv::ImagePlayExampleApplication(argc, argv).exec();
 }
 

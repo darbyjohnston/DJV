@@ -31,9 +31,6 @@
 
 #pragma once
 
-#ifndef DJV_ABSTRACT_WIDGET_TEST_H
-#define DJV_ABSTRACT_WIDGET_TEST_H
-
 #include <QObject>
 #include <QStringList>
 
@@ -44,31 +41,26 @@ namespace djv
         class UIContext;
 
     } // namespace UI
+
+    namespace WidgetTest
+    {
+        class AbstractWidgetTest : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            AbstractWidgetTest(UI::UIContext *);
+            virtual ~AbstractWidgetTest() = 0;
+
+            virtual QString name() = 0;
+
+            virtual void run(const QStringList & args = QStringList()) = 0;
+
+            UI::UIContext * context() const;
+
+        private:
+            UI::UIContext * _context;
+        };
+
+    } // namespace WidgetTest
 } // namespace djv
-
-//------------------------------------------------------------------------------
-// djvAbstractWidgetTest
-//------------------------------------------------------------------------------
-
-class djvAbstractWidgetTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-
-    djvAbstractWidgetTest(djv::UI::UIContext *);
-    
-    virtual ~djvAbstractWidgetTest() = 0;
-
-    virtual QString name() = 0;
-
-    virtual void run(const QStringList & args = QStringList()) = 0;
-
-    djv::UI::UIContext * context() const;
-
-private:
-
-    djv::UI::UIContext * _context;
-};
-
-#endif // DJV_ABSTRACT_WIDGET_TEST_H

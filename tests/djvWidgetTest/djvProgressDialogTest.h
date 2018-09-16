@@ -33,17 +33,24 @@
 
 #include <djvAbstractWidgetTest.h>
 
-class djvProgressDialogTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvProgressDialogTest(djv::UI::UIContext *);
+    namespace WidgetTest
+    {
+        class ProgressDialogTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    virtual QString name();
+        public:
+            ProgressDialogTest(UI::UIContext *);
 
-    virtual void run(const QStringList & args = QStringList());
-    
-private Q_SLOTS:
-    void callback(int);
-};
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+
+        private Q_SLOTS:
+            void callback(int);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

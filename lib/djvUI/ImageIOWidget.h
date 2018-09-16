@@ -79,10 +79,10 @@ namespace djv
         //! \class ImageIOWidgetPlugin
         //!
         //! This class provides an image I/O widget plugin.
-        class ImageIOWidgetPlugin : public djvPlugin
+        class ImageIOWidgetPlugin : public Core::Plugin
         {
         public:
-            ImageIOWidgetPlugin(djvCoreContext *);
+            ImageIOWidgetPlugin(Core::CoreContext *);
 
             virtual ~ImageIOWidgetPlugin() = 0;
 
@@ -92,20 +92,20 @@ namespace djv
             //! Get the context.
             UIContext * uiContext() const;
 
-            virtual djvPlugin * copyPlugin() const;
+            virtual Core::Plugin * copyPlugin() const;
         };
 
         //! \class ImageIOWidgetFactory
         //!
         //! This class provides a factory for image I/O widget plugins.
-        class ImageIOWidgetFactory : public djvPluginFactory
+        class ImageIOWidgetFactory : public Core::PluginFactory
         {
             Q_OBJECT
 
         public:
             explicit ImageIOWidgetFactory(
                 UIContext * context,
-                const QStringList & searchPath = djvSystem::searchPath(),
+                const QStringList & searchPath = Core::System::searchPath(),
                 QObject * parent = nullptr);
 
             virtual ~ImageIOWidgetFactory();

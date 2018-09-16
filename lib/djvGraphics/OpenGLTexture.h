@@ -53,14 +53,14 @@ namespace djv
                 const PixelDataInfo &,
                 GLenum                target = GL_TEXTURE_2D,
                 GLenum                min = GL_LINEAR,
-                GLenum                mag = GL_LINEAR) throw (djvError);
+                GLenum                mag = GL_LINEAR) throw (Core::Error);
 
             //! Initialize the texture.
             void init(
                 const PixelData &,
                 GLenum            target = GL_TEXTURE_2D,
                 GLenum            min = GL_LINEAR,
-                GLenum            mag = GL_LINEAR) throw (djvError);
+                GLenum            mag = GL_LINEAR) throw (Core::Error);
 
             //! Get the pixel information.
             const PixelDataInfo & info() const;
@@ -84,7 +84,7 @@ namespace djv
             void copy(const PixelData &);
 
             //! Copy pixel data to the texture.
-            void copy(const PixelData &, const djvBox2i &);
+            void copy(const PixelData &, const Core::Box2i &);
 
             //! Copy the current read buffer to the texture.
             void copy(const glm::ivec2 &);

@@ -40,108 +40,115 @@
 #include <QPixmap>
 #include <QString>
 
-using namespace djv;
+using namespace djv::Core;
+using namespace djv::Graphics;
 
-void djvPixelDataUtilTest::run(int & argc, char ** argv)
+namespace djv
 {
-    DJV_DEBUG("djvPixelDataUtilTest::run");
-    byteCount();
-    proxy();
-    interleave();
-    gradient();
-}
-
-void djvPixelDataUtilTest::byteCount()
-{
-    DJV_DEBUG("djvPixelDataUtilTest::byteCount");
+    namespace GraphicsTest
     {
-        const Graphics::PixelDataInfo info(1, 2, Graphics::Pixel::L_U8);
-        DJV_ASSERT(1 == Graphics::PixelDataUtil::scanlineByteCount(info));
-        DJV_ASSERT(2 == Graphics::PixelDataUtil::dataByteCount(info));
-    }
-}
-
-void djvPixelDataUtilTest::proxy()
-{
-    DJV_DEBUG("djvPixelDataUtilTest::proxy");
-    QList<Graphics::PixelDataInfo::PROXY> proxies;
-    QList<djvMemory::ENDIAN>              endians;
-    QList<Graphics::Pixel::PIXEL>         pixels;
-    for (int i = 0; i < Graphics::PixelDataInfo::PROXY_COUNT; ++i)
-    {
-        proxies += static_cast<Graphics::PixelDataInfo::PROXY>(i);
-    }
-    for (int i = 0; i < djvMemory::ENDIAN_COUNT; ++i)
-    {
-        endians += static_cast<djvMemory::ENDIAN>(i);
-    }
-    for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
-    {
-        pixels += static_cast<Graphics::Pixel::PIXEL>(i);
-    }
-    Q_FOREACH(Graphics::Pixel::PIXEL pixel, pixels)
-    {
-        Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, pixel));
-        data.zero();
-        Q_FOREACH(Graphics::Pixel::PIXEL proxyPixel, pixels)
+        void PixelDataUtilTest::run(int & argc, char ** argv)
         {
-            Q_FOREACH(djvMemory::ENDIAN proxyEndian, endians)
+            DJV_DEBUG("PixelDataUtilTest::run");
+            byteCount();
+            proxy();
+            interleave();
+            gradient();
+        }
+
+        void PixelDataUtilTest::byteCount()
+        {
+            DJV_DEBUG("PixelDataUtilTest::byteCount");
             {
-                Q_FOREACH(Graphics::PixelDataInfo::PROXY proxy, proxies)
-                {
-                    Graphics::PixelDataInfo proxyInfo(
-                        Graphics::PixelDataUtil::proxyScale(data.size(), proxy),
-                        proxyPixel);
-                    proxyInfo.endian = proxyEndian;
-                    DJV_DEBUG_PRINT("proxy = " << proxy);
-                    DJV_DEBUG_PRINT("info = " << proxyInfo);
-                    Graphics::PixelData proxyData(proxyInfo);
-                    Graphics::PixelDataUtil::proxyScale(data, proxyData, proxy);
-                }
+                const Graphics::PixelDataInfo info(1, 2, Graphics::Pixel::L_U8);
+                DJV_ASSERT(1 == Graphics::PixelDataUtil::scanlineByteCount(info));
+                DJV_ASSERT(2 == Graphics::PixelDataUtil::dataByteCount(info));
             }
         }
-    }
-    const djvBox2i box(16, 32, 64, 128);
-    DJV_DEBUG_PRINT("box = " << box);
-    Q_FOREACH(Graphics::PixelDataInfo::PROXY proxy, proxies)
-    {
-        DJV_DEBUG_PRINT("proxy = " << proxy);
-        DJV_DEBUG_PRINT("box = " << Graphics::PixelDataUtil::proxyScale(box, proxy));
-    }
-}
 
-void djvPixelDataUtilTest::interleave()
-{
-    DJV_DEBUG("djvPixelDataUtilTest::interleave");
-    QList<Graphics::Pixel::PIXEL> pixels;
-    for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
-    {
-        const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
-        if (pixel != Graphics::Pixel::RGB_U10)
+        void PixelDataUtilTest::proxy()
         {
-            pixels += pixel;
+            DJV_DEBUG("PixelDataUtilTest::proxy");
+            QList<Graphics::PixelDataInfo::PROXY> proxies;
+            QList<Memory::ENDIAN>                 endians;
+            QList<Graphics::Pixel::PIXEL>         pixels;
+            for (int i = 0; i < Graphics::PixelDataInfo::PROXY_COUNT; ++i)
+            {
+                proxies += static_cast<Graphics::PixelDataInfo::PROXY>(i);
+            }
+            for (int i = 0; i < Memory::ENDIAN_COUNT; ++i)
+            {
+                endians += static_cast<Memory::ENDIAN>(i);
+            }
+            for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
+            {
+                pixels += static_cast<Graphics::Pixel::PIXEL>(i);
+            }
+            Q_FOREACH(Graphics::Pixel::PIXEL pixel, pixels)
+            {
+                Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, pixel));
+                data.zero();
+                Q_FOREACH(Graphics::Pixel::PIXEL proxyPixel, pixels)
+                {
+                    Q_FOREACH(Memory::ENDIAN proxyEndian, endians)
+                    {
+                        Q_FOREACH(Graphics::PixelDataInfo::PROXY proxy, proxies)
+                        {
+                            Graphics::PixelDataInfo proxyInfo(
+                                Graphics::PixelDataUtil::proxyScale(data.size(), proxy),
+                                proxyPixel);
+                            proxyInfo.endian = proxyEndian;
+                            DJV_DEBUG_PRINT("proxy = " << proxy);
+                            DJV_DEBUG_PRINT("info = " << proxyInfo);
+                            Graphics::PixelData proxyData(proxyInfo);
+                            Graphics::PixelDataUtil::proxyScale(data, proxyData, proxy);
+                        }
+                    }
+                }
+            }
+            const Box2i box(16, 32, 64, 128);
+            DJV_DEBUG_PRINT("box = " << box);
+            Q_FOREACH(Graphics::PixelDataInfo::PROXY proxy, proxies)
+            {
+                DJV_DEBUG_PRINT("proxy = " << proxy);
+                DJV_DEBUG_PRINT("box = " << Graphics::PixelDataUtil::proxyScale(box, proxy));
+            }
         }
-    }
-    Q_FOREACH(Graphics::Pixel::PIXEL pixel, pixels)
-    {
-        Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, pixel));
-        data.zero();
-        DJV_DEBUG_PRINT("info = " << data.info());
-        Graphics::PixelData interleaveData(data.info());
-        Graphics::PixelDataUtil::planarInterleave(data, interleaveData);
-        Graphics::PixelData deinterleaveData(data.info());
-        Graphics::PixelDataUtil::planarDeinterleave(interleaveData, deinterleaveData);
-        DJV_ASSERT(0 == memcmp(
-            data.data(),
-            deinterleaveData.data(),
-            data.dataByteCount()));
-    }
-}
 
-void djvPixelDataUtilTest::gradient()
-{
-    DJV_DEBUG("djvPixelDataUtilTest::gradient");
-    Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::L_F32));
-    Graphics::PixelDataUtil::gradient(data);
-}
+        void PixelDataUtilTest::interleave()
+        {
+            DJV_DEBUG("PixelDataUtilTest::interleave");
+            QList<Graphics::Pixel::PIXEL> pixels;
+            for (int i = 0; i < Graphics::Pixel::PIXEL_COUNT; ++i)
+            {
+                const Graphics::Pixel::PIXEL pixel = static_cast<Graphics::Pixel::PIXEL>(i);
+                if (pixel != Graphics::Pixel::RGB_U10)
+                {
+                    pixels += pixel;
+                }
+            }
+            Q_FOREACH(Graphics::Pixel::PIXEL pixel, pixels)
+            {
+                Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, pixel));
+                data.zero();
+                DJV_DEBUG_PRINT("info = " << data.info());
+                Graphics::PixelData interleaveData(data.info());
+                Graphics::PixelDataUtil::planarInterleave(data, interleaveData);
+                Graphics::PixelData deinterleaveData(data.info());
+                Graphics::PixelDataUtil::planarDeinterleave(interleaveData, deinterleaveData);
+                DJV_ASSERT(0 == memcmp(
+                    data.data(),
+                    deinterleaveData.data(),
+                    data.dataByteCount()));
+            }
+        }
 
+        void PixelDataUtilTest::gradient()
+        {
+            DJV_DEBUG("PixelDataUtilTest::gradient");
+            Graphics::PixelData data(Graphics::PixelDataInfo(32, 32, Graphics::Pixel::L_F32));
+            Graphics::PixelDataUtil::gradient(data);
+        }
+
+    } // namespace GraphicsTest
+} // namespace djv

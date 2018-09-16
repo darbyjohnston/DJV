@@ -43,15 +43,15 @@ namespace djv
 {
     namespace Graphics
     {
-        IFLLoad::IFLLoad(djvCoreContext * context) :
+        IFLLoad::IFLLoad(Core::CoreContext * context) :
             ImageLoad(context)
         {}
 
         IFLLoad::~IFLLoad()
         {}
 
-        void IFLLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void IFLLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("IFLLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -59,12 +59,12 @@ namespace djv
             QStringList tmp;
             try
             {
-                tmp = djvFileIOUtil::lines(in);
+                tmp = Core::FileIOUtil::lines(in);
                 //DJV_DEBUG_PRINT("list = " << tmp);
             }
-            catch (const djvError &)
+            catch (const Core::Error &)
             {
-                throw djvError(
+                throw Core::Error(
                     IFL::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_READ]);
             }
@@ -74,16 +74,16 @@ namespace djv
                 {
                     continue;
                 }
-                djvFileInfo file(tmp[i]);
+                Core::FileInfo file(tmp[i]);
                 if (file.path().isEmpty())
                 {
                     file.setPath(in.path());
                 }
                 if (file.isSequenceValid())
                 {
-                    file.setType(djvFileInfo::SEQUENCE);
+                    file.setType(Core::FileInfo::SEQUENCE);
 
-                    _list += djvFileInfoUtil::expandSequence(file);
+                    _list += Core::FileInfoUtil::expandSequence(file);
                 }
                 else
                 {
@@ -101,7 +101,7 @@ namespace djv
         }
 
         void IFLLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("IFLLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);

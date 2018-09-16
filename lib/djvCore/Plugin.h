@@ -43,92 +43,93 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
-class djvCoreContext;
-
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvPlugin
-//!
-//! This class provides the base functionality for plugins.
-//!
-//! \todo Document the plugin naming conventions.
-//------------------------------------------------------------------------------
-
-class djvPlugin
+namespace djv
 {
-public:
-    djvPlugin(djvCoreContext *);
-    virtual ~djvPlugin() = 0;
-
-    //! Initialize the plugin.
-    virtual void initPlugin() throw (djvError) {}
-
-    //! Release the plugin.
-    virtual void releasePlugin() {}
-
-    //! Get the plugin name.
-    virtual QString pluginName() const = 0;
-    
-    //! Get the context.
-    djvCoreContext * context() const;
-
-private:
-    djvCoreContext * _context;
-};
-
-//------------------------------------------------------------------------------
-//! \class djvPluginFactory
-//!
-//! This class provides the base functionality for plugin factories.
-//------------------------------------------------------------------------------
-
-class djvPluginFactory : public QObject
-{
-    Q_OBJECT
-    
-public:
-    djvPluginFactory(
-        djvCoreContext *    context,
-        const QStringList & searchPath,
-        const QString &     pluginEntry,
-        const QString &     pluginPrefix = "djv",
-        const QString &     pluginSuffix = "Plugin",
-        QObject *           parent       = nullptr);
-
-    virtual ~djvPluginFactory() = 0;
-
-    //! Get the list of plugins.
-    QList<djvPlugin *> plugins() const;
-    
-    //! Get a plugin by name.
-    djvPlugin * plugin(const QString &) const;
-
-    //! Get the list of plugin names.
-    QStringList names() const;
-    
-    //! Add a plugin.
-    virtual void addPlugin(djvPlugin *);
-
-    //! This enumeration provides error codes.
-    enum ERROR
+    namespace Core
     {
-        ERROR_OPEN,
-        ERROR_LOAD,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+        class CoreContext;
 
-private:
-    DJV_PRIVATE_COPY(djvPluginFactory);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        //! \class Plugin
+        //!
+        //! This class provides the base functionality for plugins.
+        //!
+        //! \todo Document the plugin naming conventions.
+        class Plugin
+        {
+        public:
+            Plugin(CoreContext *);
+            virtual ~Plugin() = 0;
+
+            //! Initialize the plugin.
+            virtual void initPlugin() throw (Error) {}
+
+            //! Release the plugin.
+            virtual void releasePlugin() {}
+
+            //! Get the plugin name.
+            virtual QString pluginName() const = 0;
+
+            //! Get the context.
+            CoreContext * context() const;
+
+        private:
+            CoreContext * _context;
+        };
+
+        //! \class PluginFactory
+        //!
+        //! This class provides the base functionality for plugin factories.
+        class PluginFactory : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            PluginFactory(
+                CoreContext *       context,
+                const QStringList & searchPath,
+                const QString &     pluginEntry,
+                const QString &     pluginPrefix = "djv",
+                const QString &     pluginSuffix = "Plugin",
+                QObject *           parent = nullptr);
+
+            virtual ~PluginFactory() = 0;
+
+            //! Get the list of plugins.
+            QList<Plugin *> plugins() const;
+
+            //! Get a plugin by name.
+            Plugin * plugin(const QString &) const;
+
+            //! Get the list of plugin names.
+            QStringList names() const;
+
+            //! Add a plugin.
+            virtual void addPlugin(Plugin *);
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_OPEN,
+                ERROR_LOAD,
+
+                ERROR_COUNT
+            };
+
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+        private:
+            DJV_PRIVATE_COPY(PluginFactory);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+        //! This typedef provides a plugin entry point.
+        typedef Plugin * (djvCorePluginEntry)(CoreContext *);
+
+    } // namespace Core
+} // namespace djv
 
 //! This macro provides a plugin entry point export.
 #if defined(DJV_WINDOWS)
@@ -136,9 +137,3 @@ private:
 #else
 #define DJV_PLUGIN_EXPORT
 #endif
-
-//! This typedef provides a plugin entry point.
-typedef djvPlugin * (djvPluginEntry)(djvCoreContext *);
-
-//@} // djvCoreMisc
-

@@ -61,10 +61,10 @@ namespace djv
 
         public Q_SLOTS:
             //! Set the playback speed.
-            void setSpeed(const djvSpeed &);
+            void setSpeed(const djv::Core::Speed &);
 
             //! Set the default playback speed.
-            void setDefaultSpeed(const djvSpeed &);
+            void setDefaultSpeed(const djv::Core::Speed &);
 
             //! Set the real playback speed.
             void setRealSpeed(float);
@@ -73,13 +73,13 @@ namespace djv
             void setDroppedFrames(bool);
 
             //! Set the frame list.
-            void setFrameList(const djvFrameList &);
+            void setFrameList(const djv::Core::FrameList &);
 
             //! Set the frame.
             void setFrame(qint64);
 
             //! Set the cached frames.
-            void setCachedFrames(const djvFrameList &);
+            void setCachedFrames(const djv::Core::FrameList &);
 
             //! Set the start frame.
             void setStart(qint64);
@@ -122,7 +122,7 @@ namespace djv
             void playbackShuttleValue(int);
 
             //! This signal is emitted when the speed is changed.
-            void speedChanged(const djvSpeed &);
+            void speedChanged(const djv::Core::Speed &);
 
             //! This signal is emitted when the frame is changed.
             void frameChanged(qint64);

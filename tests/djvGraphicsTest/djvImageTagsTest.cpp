@@ -37,85 +37,92 @@
 
 #include <QStringList>
 
-using namespace djv;
+using namespace djv::Core;
+using namespace djv::Graphics;
 
-void djvImageTagsTest::run(int &, char **)
+namespace djv
 {
-    DJV_DEBUG("djvImageTagsTest::run");
-    ctors();
-    members();
-    operators();
-}
+    namespace GraphicsTest
+    {
+        void ImageTagsTest::run(int &, char **)
+        {
+            DJV_DEBUG("ImageTagsTest::run");
+            ctors();
+            members();
+            operators();
+        }
 
-void djvImageTagsTest::ctors()
-{
-    DJV_DEBUG("djvImageTagsTest::ctors");
-    {
-        const Graphics::ImageTags tags;
-        DJV_ASSERT(0 == tags.count());
-    }
-    {
-        Graphics::ImageTags tmp;
-        tmp.add("key", "value");
-        const Graphics::ImageTags tags(tmp);
-        DJV_ASSERT(1 == tags.count());
-        DJV_ASSERT("key" == tags.keys()[0]);
-        DJV_ASSERT("value" == tags.values()[0]);
-    }
-}
+        void ImageTagsTest::ctors()
+        {
+            DJV_DEBUG("ImageTagsTest::ctors");
+            {
+                const Graphics::ImageTags tags;
+                DJV_ASSERT(0 == tags.count());
+            }
+            {
+                Graphics::ImageTags tmp;
+                tmp.add("key", "value");
+                const Graphics::ImageTags tags(tmp);
+                DJV_ASSERT(1 == tags.count());
+                DJV_ASSERT("key" == tags.keys()[0]);
+                DJV_ASSERT("value" == tags.values()[0]);
+            }
+        }
 
-void djvImageTagsTest::members()
-{
-    DJV_DEBUG("djvImageTagsTest::members");
-    {
-        Graphics::ImageTags tmp;
-        tmp.add("key", "value");
-        Graphics::ImageTags tags;
-        tags.add(tmp);
-        DJV_ASSERT(1 == tags.count());
-        DJV_ASSERT("key" == tags.keys()[0]);
-        DJV_ASSERT("value" == tags.values()[0]);
-        DJV_ASSERT("value" == tags.tag("key"));
-        DJV_ASSERT(! tags.tag("none").length());
-        DJV_ASSERT(tags.isValid("key"));
-        DJV_ASSERT(! tags.isValid("none"));
-        tags.add("key", "value 2");
-        DJV_ASSERT(1 == tags.count());
-        DJV_ASSERT("value 2" == tags.tag("key"));
-        tags.clear();
-        DJV_ASSERT(0 == tags.count());
-    }
-    {
-        DJV_DEBUG_PRINT(Graphics::ImageTags::tagLabels());
-    }
-}
+        void ImageTagsTest::members()
+        {
+            DJV_DEBUG("ImageTagsTest::members");
+            {
+                Graphics::ImageTags tmp;
+                tmp.add("key", "value");
+                Graphics::ImageTags tags;
+                tags.add(tmp);
+                DJV_ASSERT(1 == tags.count());
+                DJV_ASSERT("key" == tags.keys()[0]);
+                DJV_ASSERT("value" == tags.values()[0]);
+                DJV_ASSERT("value" == tags.tag("key"));
+                DJV_ASSERT(!tags.tag("none").length());
+                DJV_ASSERT(tags.isValid("key"));
+                DJV_ASSERT(!tags.isValid("none"));
+                tags.add("key", "value 2");
+                DJV_ASSERT(1 == tags.count());
+                DJV_ASSERT("value 2" == tags.tag("key"));
+                tags.clear();
+                DJV_ASSERT(0 == tags.count());
+            }
+            {
+                DJV_DEBUG_PRINT(Graphics::ImageTags::tagLabels());
+            }
+        }
 
-void djvImageTagsTest::operators()
-{
-    DJV_DEBUG("djvImageTagsTest::operators");
-    {
-        Graphics::ImageTags tags;
-        tags["key"] = "value";
-        DJV_ASSERT("value" == tags["key"]);
-        const Graphics::ImageTags & tmp = tags;
-        DJV_ASSERT("value" == tmp["key"]);
-        tags["key 2"];
-        DJV_ASSERT(2 == tags.count());
-    }
-    {
-        Graphics::ImageTags a, b, c;
-        a["key"] = "value";
-        b["key"] = "value";
-        c["key"] = "value 2";
-        DJV_ASSERT(a == b);
-        DJV_ASSERT(a != c);
-        DJV_ASSERT(a != Graphics::ImageTags());
-    }
-    {
-        Graphics::ImageTags tags;
-        tags["key"] = "value";
-        tags["key 2"] = "value 2";
-        DJV_DEBUG_PRINT(tags);
-    }
-}
+        void ImageTagsTest::operators()
+        {
+            DJV_DEBUG("ImageTagsTest::operators");
+            {
+                Graphics::ImageTags tags;
+                tags["key"] = "value";
+                DJV_ASSERT("value" == tags["key"]);
+                const Graphics::ImageTags & tmp = tags;
+                DJV_ASSERT("value" == tmp["key"]);
+                tags["key 2"];
+                DJV_ASSERT(2 == tags.count());
+            }
+            {
+                Graphics::ImageTags a, b, c;
+                a["key"] = "value";
+                b["key"] = "value";
+                c["key"] = "value 2";
+                DJV_ASSERT(a == b);
+                DJV_ASSERT(a != c);
+                DJV_ASSERT(a != Graphics::ImageTags());
+            }
+            {
+                Graphics::ImageTags tags;
+                tags["key"] = "value";
+                tags["key 2"] = "value 2";
+                DJV_DEBUG_PRINT(tags);
+            }
+        }
 
+    } // namespace GraphicsTest
+} // namespace djv

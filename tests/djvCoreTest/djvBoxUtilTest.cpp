@@ -35,71 +35,79 @@
 #include <djvCore/BoxUtil.h>
 #include <djvCore/Debug.h>
 
-void djvBoxUtilTest::run(int &, char **)
-{
-    DJV_DEBUG("djvBoxUtilTest::run");
-    corners();
-    swap();
-    intersect();
-    bound();
-    expand();
-    border();
-    isSizeValid();
-}
+using namespace djv::Core;
 
-void djvBoxUtilTest::corners()
+namespace djv
 {
-    DJV_DEBUG("djvBoxUtilTest::corners");
-    DJV_ASSERT(
-        djvBoxUtil::corners(glm::ivec2(0, 10), glm::ivec2(9, 29)) == djvBox2i(0, 10, 10, 20));
-    DJV_ASSERT(
-        djvBoxUtil::corners(glm::vec2(0.f, 10.f), glm::vec2(10.f, 30.f)) ==
-        djvBox2f(0.f, 10.f, 10.f, 20.f));
-}
+    namespace CoreTest
+    {
+        void BoxUtilTest::run(int &, char **)
+        {
+            DJV_DEBUG("BoxUtilTest::run");
+            corners();
+            swap();
+            intersect();
+            bound();
+            expand();
+            border();
+            isSizeValid();
+        }
 
-void djvBoxUtilTest::swap()
-{
-    DJV_DEBUG("djvBoxUtilTest::swap");
-    DJV_ASSERT(djvBoxUtil::swap(djvBox2i(0, 10, 10, 20)) == djvBox2i(10, 0, 20, 10));
-}
+        void BoxUtilTest::corners()
+        {
+            DJV_DEBUG("BoxUtilTest::corners");
+            DJV_ASSERT(
+                BoxUtil::corners(glm::ivec2(0, 10), glm::ivec2(9, 29)) == Box2i(0, 10, 10, 20));
+            DJV_ASSERT(
+                BoxUtil::corners(glm::vec2(0.f, 10.f), glm::vec2(10.f, 30.f)) ==
+                Box2f(0.f, 10.f, 10.f, 20.f));
+        }
 
-void djvBoxUtilTest::intersect()
-{
-    DJV_DEBUG("djvBoxUtilTest::intersect");
-    DJV_ASSERT(
-        djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), djvBox2i(5, 10, 15, 20)) ==
-        djvBox2i(5, 10, 5, 10));
-    DJV_ASSERT(djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), glm::ivec2(5, 10)));
-    DJV_ASSERT(! djvBoxUtil::intersect(djvBox2i(0, 5, 10, 15), glm::ivec2(-1, -1)));
-}
+        void BoxUtilTest::swap()
+        {
+            DJV_DEBUG("BoxUtilTest::swap");
+            DJV_ASSERT(BoxUtil::swap(Box2i(0, 10, 10, 20)) == Box2i(10, 0, 20, 10));
+        }
 
-void djvBoxUtilTest::bound()
-{
-    DJV_DEBUG("djvBoxUtilTest::bound");
-    DJV_ASSERT(
-        djvBoxUtil::bound(djvBox2i(0, 5, 5, 10), djvBox2i(5, 10, 10, 15)) ==
-        djvBox2i(0, 5, 15, 20));
-}
+        void BoxUtilTest::intersect()
+        {
+            DJV_DEBUG("BoxUtilTest::intersect");
+            DJV_ASSERT(
+                BoxUtil::intersect(Box2i(0, 5, 10, 15), Box2i(5, 10, 15, 20)) ==
+                Box2i(5, 10, 5, 10));
+            DJV_ASSERT(BoxUtil::intersect(Box2i(0, 5, 10, 15), glm::ivec2(5, 10)));
+            DJV_ASSERT(!BoxUtil::intersect(Box2i(0, 5, 10, 15), glm::ivec2(-1, -1)));
+        }
 
-void djvBoxUtilTest::expand()
-{
-    DJV_DEBUG("djvBoxUtilTest::expand");
-    DJV_ASSERT(
-        djvBoxUtil::expand(djvBox2i(0, 5, 5, 10), glm::ivec2(9, 19)) ==
-        djvBox2i(0, 5, 10, 15));
-}
+        void BoxUtilTest::bound()
+        {
+            DJV_DEBUG("BoxUtilTest::bound");
+            DJV_ASSERT(
+                BoxUtil::bound(Box2i(0, 5, 5, 10), Box2i(5, 10, 10, 15)) ==
+                Box2i(0, 5, 15, 20));
+        }
 
-void djvBoxUtilTest::border()
-{
-    DJV_DEBUG("djvBoxUtilTest::border");
-    DJV_ASSERT(
-        djvBoxUtil::border(djvBox2i(0, 5, 5, 10), glm::ivec2(5, 5)) ==
-        djvBox2i(-5, 0, 15, 20));
-}
+        void BoxUtilTest::expand()
+        {
+            DJV_DEBUG("BoxUtilTest::expand");
+            DJV_ASSERT(
+                BoxUtil::expand(Box2i(0, 5, 5, 10), glm::ivec2(9, 19)) ==
+                Box2i(0, 5, 10, 15));
+        }
 
-void djvBoxUtilTest::isSizeValid()
-{
-    DJV_DEBUG("djvBoxUtilTest::isSizeValid");
-    DJV_ASSERT(djvBoxUtil::isSizeValid(djvBox2i(0, 5, 10, 15)));
-}
+        void BoxUtilTest::border()
+        {
+            DJV_DEBUG("BoxUtilTest::border");
+            DJV_ASSERT(
+                BoxUtil::border(Box2i(0, 5, 5, 10), glm::ivec2(5, 5)) ==
+                Box2i(-5, 0, 15, 20));
+        }
 
+        void BoxUtilTest::isSizeValid()
+        {
+            DJV_DEBUG("BoxUtilTest::isSizeValid");
+            DJV_ASSERT(BoxUtil::isSizeValid(Box2i(0, 5, 10, 15)));
+        }
+
+    } // namespace CoreTest
+} // namespace djv

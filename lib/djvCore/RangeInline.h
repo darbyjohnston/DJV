@@ -29,36 +29,40 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvRange
-//------------------------------------------------------------------------------
-
-template<typename T>
-inline djvRange<T>::djvRange(T in) :
-    min(in),
-    max(in)
-{}
-
-template<typename T>
-inline djvRange<T>::djvRange(T min, T max) :
-    min(min),
-    max(max)
-{}
-
-template<typename T>
-inline bool operator == (const djvRange<T> & a, const djvRange<T> & b)
+namespace djv
 {
-    return a.min == b.min && a.max == a.max;
-}
+    namespace Core
+    {
+        template<typename T>
+        inline Range<T>::Range(T in) :
+            min(in),
+            max(in)
+        {}
 
-template<typename T>
-inline bool operator != (const djvRange<T> & a, const djvRange<T> & b)
-{
-    return ! (a == b);
-}
+        template<typename T>
+        inline Range<T>::Range(T min, T max) :
+            min(min),
+            max(max)
+        {}
 
-template<class T>
-inline djvDebug & operator << (djvDebug & debug, const djvRange<T> & in)
-{
-    return debug << in.min << "-" << in.max;
-}
+    } // namespace Core
+
+    template<typename T>
+    inline bool operator == (const Core::Range<T> & a, const Core::Range<T> & b)
+    {
+        return a.min == b.min && a.max == a.max;
+    }
+
+    template<typename T>
+    inline bool operator != (const Core::Range<T> & a, const Core::Range<T> & b)
+    {
+        return !(a == b);
+    }
+
+    template<class T>
+    inline Core::Debug & operator << (Core::Debug & debug, const Core::Range<T> & in)
+    {
+        return debug << in.min << "-" << in.max;
+    }
+
+} // namespace djv

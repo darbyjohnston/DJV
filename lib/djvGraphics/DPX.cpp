@@ -37,8 +37,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -75,7 +73,7 @@ namespace djv
         {
             static const QStringList data = QStringList() <<
                 qApp->translate("djv::Graphics::DPX", "Auto") <<
-                djvMemory::endianLabels();
+                Core::Memory::endianLabels();
             DJV_ASSERT(data.count() == ENDIAN_COUNT);
             return data;
         }
@@ -132,8 +130,9 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::DPX::VERSION, Graphics::DPX::versionLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::DPX::TYPE, Graphics::DPX::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::DPX::ENDIAN, Graphics::DPX::endianLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::DPX::VERSION, Graphics::DPX::versionLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::DPX::TYPE, Graphics::DPX::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::DPX::ENDIAN, Graphics::DPX::endianLabels());
+
+} // namespace djv

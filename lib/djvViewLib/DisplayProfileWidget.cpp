@@ -280,7 +280,7 @@ namespace djv
             Q_EMIT displayProfileChanged(_p->displayProfile);
         }
 
-        void DisplayProfileWidget::lutCallback(const djvFileInfo & in)
+        void DisplayProfileWidget::lutCallback(const Core::FileInfo & in)
         {
             _p->displayProfile.lutFile = in;
             try
@@ -290,7 +290,7 @@ namespace djv
                     _p->displayProfile.lut,
                     _p->context);
             }
-            catch (const djvError & error)
+            catch (const Core::Error & error)
             {
                 _p->context->printError(error);
             }
@@ -377,7 +377,7 @@ namespace djv
 
         void DisplayProfileWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->lutWidget <<
                 _p->brightnessWidget <<
                 _p->contrastWidget <<

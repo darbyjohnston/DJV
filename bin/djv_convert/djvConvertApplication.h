@@ -36,43 +36,54 @@
 
 #include <QGuiApplication>
 
-class djvConvertContext;
-
-class djvSequence;
-
-//! \class djvConvertApplication
-//!
-//! This program provides a command line tool for image and movie conversion.
-class djvConvertApplication : public QGuiApplication
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvConvertApplication(int &, char **);
-        
-    virtual ~djvConvertApplication();
-
-    //! This enumeration provides error codes.
-    enum ERROR
+    namespace Core
     {
-        ERROR_OPEN_INPUT,
-        ERROR_OPEN_OUTPUT,
-        ERROR_OPEN_SLATE,
-        ERROR_READ_INPUT,
-        ERROR_WRITE_OUTPUT,
-        
-        ERROR_COUNT
-    };
-    
-    //! Get the error code labels.
-    static const QStringList & errorLabels();
+        class Sequence;
 
-private Q_SLOTS:
-    void commandLineExit();
-    void work();
+    } // namespace Core
 
-private:
-    QString labelImage(const djv::Graphics::PixelDataInfo &, const djvSequence &) const;
+    namespace convert
+    {
+        class Context;
 
-    djvConvertContext * _context;
-};
+        //! \class Application
+        //!
+        //! This program provides a command line tool for image and movie conversion.
+        class Application : public QGuiApplication
+        {
+            Q_OBJECT
+
+        public:
+            Application(int &, char **);
+
+            virtual ~Application();
+
+            //! This enumeration provides error codes.
+            enum ERROR
+            {
+                ERROR_OPEN_INPUT,
+                ERROR_OPEN_OUTPUT,
+                ERROR_OPEN_SLATE,
+                ERROR_READ_INPUT,
+                ERROR_WRITE_OUTPUT,
+
+                ERROR_COUNT
+            };
+
+            //! Get the error code labels.
+            static const QStringList & errorLabels();
+
+        private Q_SLOTS:
+            void commandLineExit();
+            void work();
+
+        private:
+            QString labelImage(const Graphics::PixelDataInfo &, const Core::Sequence &) const;
+
+            Context * _context = nullptr;
+        };
+
+    } // namespace convert
+} // namespace djv

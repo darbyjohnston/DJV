@@ -40,78 +40,79 @@
 class QString;
 class QStringList;
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDebug
-//!
-//! This class provides debugging messages.
-//------------------------------------------------------------------------------
-
-class djvDebug
+namespace djv
 {
-public:
-    djvDebug(const QString & prefix, const QString &);
-
-    ~djvDebug();
-
-    //! Add a message.
-    void add(const QString &);
-
-    //! This enumeration provides the line beginning and ending.
-    enum LINE
+    namespace Core
     {
-        LINE_BEGIN,
-        LINE_END
-    };
+        //! \class Debug
+        //!
+        //! This class provides debugging messages.
+        class Debug
+        {
+        public:
+            Debug(const QString & prefix, const QString &);
+            ~Debug();
 
-    //! Convert bits to a string.
-    static QString bitsU8(quint8);
+            //! Add a message.
+            void add(const QString &);
 
-    //! Convert bits to a string.
-    static QString bitsU16(quint16);
+            //! This enumeration provides the line beginning and ending.
+            enum LINE
+            {
+                LINE_BEGIN,
+                LINE_END
+            };
 
-    //! Convert bits to a string.
-    static QString bitsU32(quint32);
+            //! Convert bits to a string.
+            static QString bitsU8(quint8);
 
-    djvDebug & operator << (LINE);
+            //! Convert bits to a string.
+            static QString bitsU16(quint16);
 
-private:
-    void init(const QString &);
+            //! Convert bits to a string.
+            static QString bitsU32(quint32);
 
-    DJV_PRIVATE_COPY(djvDebug);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            void lineBegin();
+            void lineEnd();
 
-//! Start a debugging message block.
+        private:
+            void init(const QString &);
+
+            DJV_PRIVATE_COPY(Debug);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace Core
+
+      //! Start a debugging message block.
 #define DJV_DEBUG(in) \
-    djvDebug _debug(__FILE__, in)
+    djv::Core::Debug _debug(__FILE__, in)
 
-//! Print a debugging message.
+      //! Print a debugging message.
 #define DJV_DEBUG_PRINT(in) \
-    _debug << djvDebug::LINE_BEGIN << in << djvDebug::LINE_END
+    _debug << djv::Core::Debug::LINE_BEGIN << in << djv::Core::Debug::LINE_END
 
-//! Convenience macro for declaring debugging operators.
+      //! Convenience macro for declaring debugging operators.
 #define DJV_DEBUG_OPERATOR(TYPE) \
-    djvDebug & operator << (djvDebug &, const TYPE &)
+    djv::Core::Debug & operator << (djv::Core::Debug &, const TYPE &)
 
-djvDebug & operator << (djvDebug &, const char *);
-djvDebug & operator << (djvDebug &, bool);
-djvDebug & operator << (djvDebug &, int);
-djvDebug & operator << (djvDebug &, unsigned int);
-djvDebug & operator << (djvDebug &, qint64);
-djvDebug & operator << (djvDebug &, quint64);
-djvDebug & operator << (djvDebug &, float);
-djvDebug & operator << (djvDebug &, double);
-DJV_DEBUG_OPERATOR(QString);
-DJV_DEBUG_OPERATOR(QStringList);
-template<class T>
-inline djvDebug & operator << (djvDebug &, const QVector<T> &);
+    Core::Debug & operator << (Core::Debug &, Core::Debug::LINE);
+    Core::Debug & operator << (Core::Debug &, const char *);
+    Core::Debug & operator << (Core::Debug &, bool);
+    Core::Debug & operator << (Core::Debug &, int);
+    Core::Debug & operator << (Core::Debug &, unsigned int);
+    Core::Debug & operator << (Core::Debug &, qint64);
+    Core::Debug & operator << (Core::Debug &, quint64);
+    Core::Debug & operator << (Core::Debug &, float);
+    Core::Debug & operator << (Core::Debug &, double);
+    DJV_DEBUG_OPERATOR(QString);
+    DJV_DEBUG_OPERATOR(QStringList);
+    //template<class T>
+    //inline Core::Debug & operator << (Core::Debug &, const QVector<T> &);
 
-//@} // djvCoreMisc
+} // namespace djv
 
 #include <djvCore/DebugInline.h>
 

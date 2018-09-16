@@ -99,7 +99,7 @@ namespace djv
 
         void SequencePrefsWidget::resetPreferences()
         {
-            context()->sequencePrefs()->setMaxFrames(djvSequence::maxFramesDefault());
+            context()->sequencePrefs()->setMaxFrames(Core::Sequence::maxFramesDefault());
             widgetUpdate();
         }
 
@@ -110,9 +110,9 @@ namespace djv
 
         void SequencePrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->maxFramesWidget);
-            _p->maxFramesWidget->setValue(djvSequence::maxFrames());
+            _p->maxFramesWidget->setValue(Core::Sequence::maxFrames());
         }
 
     } // namespace UI

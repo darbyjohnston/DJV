@@ -47,21 +47,21 @@ namespace djv
         class LUTSave : public ImageSave
         {
         public:
-            LUTSave(const LUT::Options &, djvCoreContext *);
+            LUTSave(const LUT::Options &, Core::CoreContext *);
 
             virtual ~LUTSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const djvFileInfo &) throw (djvError);
+            void _open(const Core::FileInfo &) throw (Core::Error);
 
-            LUT::Options  _options;
-            djvFileInfo   _file;
-            LUT::FORMAT   _format;
-            PixelDataInfo _info;
-            Image         _image;
+            LUT::Options   _options;
+            Core::FileInfo _file;
+            LUT::FORMAT    _format;
+            PixelDataInfo  _info;
+            Image          _image;
         };
 
     } // namespace Graphics

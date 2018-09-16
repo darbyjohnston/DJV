@@ -45,8 +45,6 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -129,9 +127,9 @@ namespace djv
             for (int i = 0; i < size; ++i, ++p)
             {
                 *p = static_cast<Pixel::F32_T>(
-                    djvMath::softClip(
-                        djvMath::pow(
-                            djvMath::max(
+                    Core::Math::softClip(
+                        Core::Math::pow(
+                            Core::Math::max(
                             ((i / static_cast<float>(size - 1) - in.inLow) /
                                 inTmp),
                                 0.000001f),
@@ -216,7 +214,7 @@ namespace djv
                 qApp->translate("djv::Graphics::OpenGLImageOptions", "Red") <<
                 qApp->translate("djv::Graphics::OpenGLImageOptions", "Green") <<
                 qApp->translate("djv::Graphics::OpenGLImageOptions", "Blue") <<
-                qApp->translate("vOpenGLImageOptions", "Alpha");
+                qApp->translate("djv::Graphics::OpenGLImageOptions", "Alpha");
             DJV_ASSERT(data.count() == CHANNEL_COUNT);
             return data;
         }
@@ -239,10 +237,10 @@ namespace djv
 
         void OpenGLImage::read(PixelData & output)
         {
-            read(output, djvBox2i(output.size()));
+            read(output, Core::Box2i(output.size()));
         }
 
-        void OpenGLImage::read(PixelData & output, const djvBox2i & area)
+        void OpenGLImage::read(PixelData & output, const Core::Box2i & area)
         {
             //DJV_DEBUG("OpenGLImage::read");
             //DJV_DEBUG_PRINT("output = " << output);
@@ -292,7 +290,7 @@ namespace djv
         void OpenGLImage::copy(
             const PixelData &          input,
             PixelData &                output,
-            const OpenGLImageOptions & options) throw (djvError)
+            const OpenGLImageOptions & options) throw (Core::Error)
         {
             //DJV_DEBUG("OpenGLImage::copy");
             //DJV_DEBUG_PRINT("input = " << input);
@@ -342,7 +340,7 @@ namespace djv
                 draw(input, viewMatrix, _options);
                 read(output);
             }
-            catch (const djvError & error)
+            catch (const Core::Error & error)
             {
                 throw error;
             }
@@ -352,7 +350,7 @@ namespace djv
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
             glFuncs->glPixelStorei(GL_UNPACK_ALIGNMENT, in.align);
-            glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, in.endian != djvMemory::endian());
+            glFuncs->glPixelStorei(GL_UNPACK_SWAP_BYTES, in.endian != Core::Memory::endian());
             //glFuncs->glPixelStorei(GL_UNPACK_ROW_LENGTH, in.data_window.w);
             glFuncs->glPixelStorei(GL_UNPACK_SKIP_ROWS, offset.y);
             glFuncs->glPixelStorei(GL_UNPACK_SKIP_PIXELS, offset.x);
@@ -362,7 +360,7 @@ namespace djv
         {
             auto glFuncs = QOpenGLContext::currentContext()->versionFunctions<QOpenGLFunctions_4_1_Core>();
             glFuncs->glPixelStorei(GL_PACK_ALIGNMENT, in.align);
-            glFuncs->glPixelStorei(GL_PACK_SWAP_BYTES, in.endian != djvMemory::endian());
+            glFuncs->glPixelStorei(GL_PACK_SWAP_BYTES, in.endian != Core::Memory::endian());
             glFuncs->glPixelStorei(GL_PACK_ROW_LENGTH, in.size.x);
             glFuncs->glPixelStorei(GL_PACK_SKIP_ROWS, offset.y);
             glFuncs->glPixelStorei(GL_PACK_SKIP_PIXELS, offset.x);
@@ -371,7 +369,7 @@ namespace djv
         void OpenGLImage::average(
             const PixelData &   in,
             Color &             out,
-            const Pixel::Mask & mask) throw (djvError)
+            const Pixel::Mask & mask) throw (Core::Error)
         {
             //DJV_DEBUG("average");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -473,7 +471,7 @@ namespace djv
             int                 size,
             Color &             min,
             Color &             max,
-            const Pixel::Mask & mask) throw (djvError)
+            const Pixel::Mask & mask) throw (Core::Error)
         {
             //DJV_DEBUG("histogram");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -517,7 +515,7 @@ namespace djv
             int * indexLut = new int[indexLutSize];
             for (int i = 0; i < indexLutSize; ++i)
             {
-                indexLut[i] = djvMath::floor(
+                indexLut[i] = Core::Math::floor(
                     i / static_cast<float>(indexLutSize - 1) * (size - 1));
             }
 
@@ -556,23 +554,23 @@ namespace djv
                     if (mask[0])
                     {
                         i = indexLut[inP->r] * outChannels + 0;
-                        outP[i] = djvMath::min(outP[i] + 1, pixelMax);
-                        minP->r = djvMath::min(inP->r, minP->r);
-                        maxP->r = djvMath::max(inP->r, maxP->r);
+                        outP[i] = Core::Math::min(outP[i] + 1, pixelMax);
+                        minP->r = Core::Math::min(inP->r, minP->r);
+                        maxP->r = Core::Math::max(inP->r, maxP->r);
                     }
                     if (mask[1])
                     {
                         i = indexLut[inP->g] * outChannels + 1;
-                        outP[i] = djvMath::min(outP[i] + 1, pixelMax);
-                        minP->g = djvMath::min(inP->g, minP->g);
-                        maxP->g = djvMath::max(inP->g, maxP->g);
+                        outP[i] = Core::Math::min(outP[i] + 1, pixelMax);
+                        minP->g = Core::Math::min(inP->g, minP->g);
+                        maxP->g = Core::Math::max(inP->g, maxP->g);
                     }
                     if (mask[2])
                     {
                         i = indexLut[inP->b] * outChannels + 2;
-                        outP[i] = djvMath::min(outP[i] + 1, pixelMax);
-                        minP->b = djvMath::min(inP->b, minP->b);
-                        maxP->b = djvMath::max(inP->b, maxP->b);
+                        outP[i] = Core::Math::min(outP[i] + 1, pixelMax);
+                        minP->b = Core::Math::min(inP->b, minP->b);
+                        maxP->b = Core::Math::max(inP->b, maxP->b);
                     }
                 }
             }
@@ -601,34 +599,34 @@ namespace djv
             case 4: \
                 if (mask[3]) \
                 { \
-                    minP[3] = djvMath::min(inP[3], minP[3]); \
-                    maxP[3] = djvMath::max(inP[3], maxP[3]); \
+                    minP[3] = Core::Math::min(inP[3], minP[3]); \
+                    maxP[3] = Core::Math::max(inP[3], maxP[3]); \
                 } \
             case 3: \
                 if (mask[2]) \
                 { \
                     i = indexLut[PIXEL_##TYPE##_TO_U16(inP[2])] * outChannels + 2; \
-                    outP[i] = djvMath::min(outP[i] + 1, pixelMax); \
+                    outP[i] = Core::Math::min(outP[i] + 1, pixelMax); \
                     \
-                    minP[2] = djvMath::min(inP[2], minP[2]); \
-                    maxP[2] = djvMath::max(inP[2], maxP[2]); \
+                    minP[2] = Core::Math::min(inP[2], minP[2]); \
+                    maxP[2] = Core::Math::max(inP[2], maxP[2]); \
                 } \
             \
             case 2: \
                 if (mask[1]) \
                 { \
                     i = indexLut[PIXEL_##TYPE##_TO_U16(inP[1])] * outChannels + 1; \
-                    outP[i] = djvMath::min(outP[i] + 1, pixelMax); \
-                    minP[1] = djvMath::min(inP[1], minP[1]); \
-                    maxP[1] = djvMath::max(inP[1], maxP[1]); \
+                    outP[i] = Core::Math::min(outP[i] + 1, pixelMax); \
+                    minP[1] = Core::Math::min(inP[1], minP[1]); \
+                    maxP[1] = Core::Math::max(inP[1], maxP[1]); \
                 } \
             case 1: \
                 if (mask[0]) \
                 { \
                     i = indexLut[PIXEL_##TYPE##_TO_U16(inP[0])] * outChannels + 0; \
-                    outP[i] = djvMath::min(outP[i] + 1, pixelMax); \
-                    minP[0] = djvMath::min(inP[0], minP[0]); \
-                    maxP[0] = djvMath::max(inP[0], maxP[0]); \
+                    outP[i] = Core::Math::min(outP[i] + 1, pixelMax); \
+                    minP[0] = Core::Math::min(inP[0], minP[0]); \
+                    maxP[0] = Core::Math::max(inP[0], maxP[0]); \
                 } \
                 break; \
         } \
@@ -672,7 +670,7 @@ namespace djv
 
             delete[] indexLut;
 
-            //djvPixel::U16_T * const outP = reinterpret_cast<djvPixel::U16_T *>(out.data());
+            //Core::Pixel::U16_T * const outP = reinterpret_cast<Core::Pixel::U16_T *>(out.data());
             //for (int i = 0; i < size; ++i)
             //    DJV_DEBUG_PRINT(i << " = " << outP[i * 3]);
         }
@@ -722,213 +720,214 @@ namespace djv
             return QPixmap::fromImage(qImage);
         }
 
-        bool operator == (const OpenGLImageXform & a, const OpenGLImageXform & b)
-        {
-            return
-                a.mirror == b.mirror   &&
-                a.position == b.position &&
-                a.scale == b.scale    &&
-                a.rotate == b.rotate;
-        }
-
-        bool operator != (const OpenGLImageXform & a, const OpenGLImageXform & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const OpenGLImageColor & a, const OpenGLImageColor & b)
-        {
-            return
-                a.brightness == b.brightness &&
-                a.contrast == b.contrast   &&
-                a.saturation == b.saturation;
-        }
-
-        bool operator != (const OpenGLImageColor & a, const OpenGLImageColor & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const OpenGLImageLevels & a, const OpenGLImageLevels & b)
-        {
-            return
-                a.inLow == b.inLow  &&
-                a.inHigh == b.inHigh &&
-                a.gamma == b.gamma  &&
-                a.outLow == b.outLow &&
-                a.outHigh == b.outHigh;
-        }
-
-        bool operator != (const OpenGLImageLevels & a, const OpenGLImageLevels & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (
-            const OpenGLImageDisplayProfile & a,
-            const OpenGLImageDisplayProfile & b)
-        {
-            return
-                a.lut == b.lut    &&
-                a.color == b.color  &&
-                a.levels == b.levels &&
-                a.softClip == b.softClip;
-        }
-
-        bool operator != (
-            const OpenGLImageDisplayProfile & a,
-            const OpenGLImageDisplayProfile & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const OpenGLImageFilter & a, const OpenGLImageFilter & b)
-        {
-            return
-                a.min == b.min &&
-                a.mag == b.mag;
-        }
-
-        bool operator != (const OpenGLImageFilter & a, const OpenGLImageFilter & b)
-        {
-            return !(a == b);
-        }
-
-        bool operator == (const OpenGLImageOptions & a, const OpenGLImageOptions & b)
-        {
-            return
-                a.xform == b.xform &&
-                a.colorProfile == b.colorProfile &&
-                a.displayProfile == b.displayProfile &&
-                a.channel == b.channel &&
-                a.filter == b.filter &&
-                a.background == b.background;
-        }
-
-        bool operator != (const OpenGLImageOptions & a, const OpenGLImageOptions & b)
-        {
-            return !(a == b);
-        }
-
     } // namespace Graphics
+
+    bool operator == (const Graphics::OpenGLImageXform & a, const Graphics::OpenGLImageXform & b)
+    {
+        return
+            a.mirror == b.mirror   &&
+            a.position == b.position &&
+            a.scale == b.scale    &&
+            a.rotate == b.rotate;
+    }
+
+    bool operator != (const Graphics::OpenGLImageXform & a, const Graphics::OpenGLImageXform & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (const Graphics::OpenGLImageColor & a, const Graphics::OpenGLImageColor & b)
+    {
+        return
+            a.brightness == b.brightness &&
+            a.contrast == b.contrast   &&
+            a.saturation == b.saturation;
+    }
+
+    bool operator != (const Graphics::OpenGLImageColor & a, const Graphics::OpenGLImageColor & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (const Graphics::OpenGLImageLevels & a, const Graphics::OpenGLImageLevels & b)
+    {
+        return
+            a.inLow == b.inLow  &&
+            a.inHigh == b.inHigh &&
+            a.gamma == b.gamma  &&
+            a.outLow == b.outLow &&
+            a.outHigh == b.outHigh;
+    }
+
+    bool operator != (const Graphics::OpenGLImageLevels & a, const Graphics::OpenGLImageLevels & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (
+        const Graphics::OpenGLImageDisplayProfile & a,
+        const Graphics::OpenGLImageDisplayProfile & b)
+    {
+        return
+            a.lut == b.lut    &&
+            a.color == b.color  &&
+            a.levels == b.levels &&
+            a.softClip == b.softClip;
+    }
+
+    bool operator != (
+        const Graphics::OpenGLImageDisplayProfile & a,
+        const Graphics::OpenGLImageDisplayProfile & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (const Graphics::OpenGLImageFilter & a, const Graphics::OpenGLImageFilter & b)
+    {
+        return
+            a.min == b.min &&
+            a.mag == b.mag;
+    }
+
+    bool operator != (const Graphics::OpenGLImageFilter & a, const Graphics::OpenGLImageFilter & b)
+    {
+        return !(a == b);
+    }
+
+    bool operator == (const Graphics::OpenGLImageOptions & a, const Graphics::OpenGLImageOptions & b)
+    {
+        return
+            a.xform == b.xform &&
+            a.colorProfile == b.colorProfile &&
+            a.displayProfile == b.displayProfile &&
+            a.channel == b.channel &&
+            a.filter == b.filter &&
+            a.background == b.background;
+    }
+
+    bool operator != (const Graphics::OpenGLImageOptions & a, const Graphics::OpenGLImageOptions & b)
+    {
+        return !(a == b);
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageXform & out) throw (QString)
+    {
+        return in >>
+            out.mirror >>
+            out.position >>
+            out.scale >>
+            out.rotate;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::OpenGLImageXform & in)
+    {
+        return out <<
+            in.mirror <<
+            in.position <<
+            in.scale <<
+            in.rotate;
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageColor & out) throw (QString)
+    {
+        return in >>
+            out.brightness >>
+            out.contrast >>
+            out.saturation;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::OpenGLImageColor & in)
+    {
+        return out <<
+            in.brightness <<
+            in.contrast <<
+            in.saturation;
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageLevels & out) throw (QString)
+    {
+        return in >>
+            out.inLow >>
+            out.inHigh >>
+            out.gamma >>
+            out.outLow >>
+            out.outHigh;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::OpenGLImageLevels & in)
+    {
+        return out <<
+            in.inLow <<
+            in.inHigh <<
+            in.gamma <<
+            in.outLow <<
+            in.outHigh;
+    }
+
+    QStringList & operator >> (QStringList & in, Graphics::OpenGLImageFilter & out) throw (QString)
+    {
+        return in >>
+            out.min >>
+            out.mag;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::OpenGLImageFilter & in)
+    {
+        return out <<
+            in.min <<
+            in.mag;
+    }
+
+    _DJV_STRING_OPERATOR_LABEL(
+        Graphics::OpenGLImageFilter::FILTER,
+        Graphics::OpenGLImageFilter::filterLabels());
+    _DJV_STRING_OPERATOR_LABEL(
+        Graphics::OpenGLImageOptions::CHANNEL,
+        Graphics::OpenGLImageOptions::channelLabels());
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageXform & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageColor & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageLevels & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageDisplayProfile & in)
+    {
+        return debug << "lut = [" << in.lut << "], color = " << in.color <<
+            ", levels = " << in.levels << ", soft clip = " << in.softClip;
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageFilter & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageFilter::FILTER & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageOptions & in)
+    {
+        return debug << "xform = [" << in.xform << "], color profile = [" <<
+            in.colorProfile << "], display profile = [" << in.displayProfile <<
+            "], channel = " << in.channel << ", filter = " << in.filter <<
+            ", background = " << in.background << ", proxy scale = " <<
+            in.proxyScale;
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::OpenGLImageOptions::CHANNEL & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
 } // namespace djv
-
-QStringList & operator >> (QStringList & in, Graphics::OpenGLImageXform & out) throw (QString)
-{
-    return in >>
-        out.mirror >>
-        out.position >>
-        out.scale >>
-        out.rotate;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::OpenGLImageXform & in)
-{
-    return out <<
-        in.mirror <<
-        in.position <<
-        in.scale <<
-        in.rotate;
-}
-
-QStringList & operator >> (QStringList & in, Graphics::OpenGLImageColor & out) throw (QString)
-{
-    return in >>
-        out.brightness >>
-        out.contrast >>
-        out.saturation;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::OpenGLImageColor & in)
-{
-    return out <<
-        in.brightness <<
-        in.contrast <<
-        in.saturation;
-}
-
-QStringList & operator >> (QStringList & in, Graphics::OpenGLImageLevels & out) throw (QString)
-{
-    return in >>
-        out.inLow >>
-        out.inHigh >>
-        out.gamma >>
-        out.outLow >>
-        out.outHigh;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::OpenGLImageLevels & in)
-{
-    return out <<
-        in.inLow <<
-        in.inHigh <<
-        in.gamma <<
-        in.outLow <<
-        in.outHigh;
-}
-
-QStringList & operator >> (QStringList & in, Graphics::OpenGLImageFilter & out) throw (QString)
-{
-    return in >>
-        out.min >>
-        out.mag;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::OpenGLImageFilter & in)
-{
-    return out <<
-        in.min <<
-        in.mag;
-}
-
-_DJV_STRING_OPERATOR_LABEL(
-    Graphics::OpenGLImageFilter::FILTER,
-    Graphics::OpenGLImageFilter::filterLabels())
-_DJV_STRING_OPERATOR_LABEL(
-    Graphics::OpenGLImageOptions::CHANNEL,
-    Graphics::OpenGLImageOptions::channelLabels())
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageXform & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageColor & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageLevels & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageDisplayProfile & in)
-{
-    return debug << "lut = [" << in.lut << "], color = " << in.color <<
-        ", levels = " << in.levels << ", soft clip = " << in.softClip;
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageFilter & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageFilter::FILTER & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageOptions & in)
-{
-    return debug << "xform = [" << in.xform << "], color profile = [" <<
-        in.colorProfile << "], display profile = [" << in.displayProfile <<
-        "], channel = " << in.channel << ", filter = " << in.filter <<
-        ", background = " << in.background << ", proxy scale = " <<
-        in.proxyScale;
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::OpenGLImageOptions::CHANNEL & in)
-{
-    return debug << djvStringUtil::label(in);
-}

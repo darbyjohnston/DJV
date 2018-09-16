@@ -37,7 +37,7 @@ namespace djv
 {
     namespace Graphics
     {
-        RLAPlugin::RLAPlugin(djvCoreContext * context) :
+        RLAPlugin::RLAPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 

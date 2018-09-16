@@ -37,35 +37,40 @@
 
 #include <QHBoxLayout>
 
-using namespace djv;
-
-djvSearchBoxTest::djvSearchBoxTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvSearchBoxTest::name()
+namespace djv
 {
-    return "djvSearchBoxTest";
-}
+    namespace WidgetTest
+    {
+        SearchBoxTest::SearchBoxTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvSearchBoxTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    
-    UI::SearchBox * widget = new UI::SearchBox(context());
-    
-    QHBoxLayout * layout = new QHBoxLayout(window);
-    layout->addWidget(widget);
-    
-    connect(
-        widget,
-        SIGNAL(textChanged(const QString &)),
-        SLOT(callback(const QString &)));
-    
-    window->show();
-}
+        QString SearchBoxTest::name()
+        {
+            return "SearchBoxTest";
+        }
 
-void djvSearchBoxTest::callback(const QString & text)
-{
-    djvSystem::print(text);
-}
+        void SearchBoxTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
+
+            UI::SearchBox * widget = new UI::SearchBox(context());
+
+            QHBoxLayout * layout = new QHBoxLayout(window);
+            layout->addWidget(widget);
+
+            connect(
+                widget,
+                SIGNAL(textChanged(const QString &)),
+                SLOT(callback(const QString &)));
+
+            window->show();
+        }
+
+        void SearchBoxTest::callback(const QString & text)
+        {
+            Core::System::print(text);
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

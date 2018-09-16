@@ -33,5 +33,5 @@
 
 int main(int argc, char ** argv)
 {
-    return djvConvertApplication(argc, argv).exec();
+    return djv::convert::Application(argc, argv).exec();
 }

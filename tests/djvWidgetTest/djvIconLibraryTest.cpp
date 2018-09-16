@@ -43,180 +43,185 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-using namespace djv;
-
-struct IconLibraryItem
+namespace djv
 {
-    IconLibraryItem(
-        const QPixmap & pixmap        = QPixmap(),
-        const QPixmap & displayPixmap = QPixmap(),
-        const QString & name          = QString()) :
-        pixmap       (pixmap),
-        displayPixmap(displayPixmap),
-        name         (name)
-    {}
-
-    QPixmap pixmap;
-    QPixmap displayPixmap;
-    QString name;
-};
-
-class IconLibraryModel : public QAbstractListModel
-{
-public:
-    explicit IconLibraryModel(UI::UIContext *, QObject * parent = nullptr);
-
-    virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
-    virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
-
-    virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-    virtual QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
-
-    virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-
-private:
-    QVector<IconLibraryItem> _items;
-};
-
-IconLibraryModel::IconLibraryModel(UI::UIContext * context, QObject * parent) :
-    QAbstractListModel(parent)
-{
-    const QStringList names = context->iconLibrary()->names();
-    for (int i = 0; i < names.count(); ++i)
+    namespace WidgetTest
     {
-        const QPixmap & pixmap = context->iconLibrary()->pixmap(names[i]);
-        const QSize & defaultSize = context->iconLibrary()->defaultSize();
-        QSize size(
-            djvMath::max(pixmap.width(), defaultSize.width()),
-            djvMath::max(pixmap.height(), defaultSize.height()));
-        QPixmap displayPixmap(size);
-        displayPixmap.fill(Qt::transparent);
-        QPainter painter(&displayPixmap);
-        painter.drawPixmap(
-            size.width () / 2 - pixmap.width () / 2,
-            size.height() / 2 - pixmap.height() / 2,
-            pixmap);
-        _items += IconLibraryItem(
-            pixmap,
-            displayPixmap,
-            names[i]);
-    }
-}
-
-int IconLibraryModel::rowCount(const QModelIndex & parent) const
-{
-    return _items.count();
-}
-
-namespace
-{
-enum HEADER
-{
-    HEADER_NAME,
-    HEADER_WIDTH,
-    HEADER_HEIGHT,
-
-    HEADER_COUNT
-};
-
-const QStringList headers = QStringList() <<
-    "Name" <<
-    "Width" <<
-    "Height";
-
-} // namespace
-
-int IconLibraryModel::columnCount(const QModelIndex & parent) const
-{
-    return HEADER_COUNT;
-}
-
-QVariant IconLibraryModel::data(const QModelIndex & index, int role) const
-{
-    if (index.isValid())
-    {
-        const int row = index.row();
-        if (row >= 0 && row < _items.count())
+        struct IconLibraryItem
         {
-            switch (role)
-            {
-                case Qt::DisplayRole:
-                switch (index.column())
-                {
-                    case HEADER_NAME:   return _items[row].name;
-                    case HEADER_WIDTH:  return _items[row].pixmap.size().width();
-                    case HEADER_HEIGHT: return _items[row].pixmap.size().height();
-                }
-                break;
+            IconLibraryItem(
+                const QPixmap & pixmap = QPixmap(),
+                const QPixmap & displayPixmap = QPixmap(),
+                const QString & name = QString()) :
+                pixmap(pixmap),
+                displayPixmap(displayPixmap),
+                name(name)
+            {}
 
-            case Qt::DecorationRole:
-                switch (index.column())
-                {
-                    case HEADER_NAME: return _items[row].displayPixmap;
-                }
-                break;
+            QPixmap pixmap;
+            QPixmap displayPixmap;
+            QString name;
+        };
+
+        class IconLibraryModel : public QAbstractListModel
+        {
+        public:
+            explicit IconLibraryModel(UI::UIContext *, QObject * parent = nullptr);
+
+            virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
+            virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
+
+            virtual QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+            virtual QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
+
+            virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+
+        private:
+            QVector<IconLibraryItem> _items;
+        };
+
+        IconLibraryModel::IconLibraryModel(UI::UIContext * context, QObject * parent) :
+            QAbstractListModel(parent)
+        {
+            const QStringList names = context->iconLibrary()->names();
+            for (int i = 0; i < names.count(); ++i)
+            {
+                const QPixmap & pixmap = context->iconLibrary()->pixmap(names[i]);
+                const QSize & defaultSize = context->iconLibrary()->defaultSize();
+                QSize size(
+                    Core::Math::max(pixmap.width(), defaultSize.width()),
+                    Core::Math::max(pixmap.height(), defaultSize.height()));
+                QPixmap displayPixmap(size);
+                displayPixmap.fill(Qt::transparent);
+                QPainter painter(&displayPixmap);
+                painter.drawPixmap(
+                    size.width() / 2 - pixmap.width() / 2,
+                    size.height() / 2 - pixmap.height() / 2,
+                    pixmap);
+                _items += IconLibraryItem(
+                    pixmap,
+                    displayPixmap,
+                    names[i]);
             }
         }
-    }
-    return QVariant();
-}
 
-QVariant IconLibraryModel::headerData(int section, Qt::Orientation, int role) const
-{
-    if (section >= 0 && section < HEADER_COUNT)
-    {
-        if (Qt::DisplayRole == role)
+        int IconLibraryModel::rowCount(const QModelIndex & parent) const
         {
-            return headers[section];
+            return _items.count();
         }
-    }
-    return QVariant();
-}
 
-void IconLibraryModel::sort(int column, Qt::SortOrder order)
-{}
+        namespace
+        {
+            enum HEADER
+            {
+                HEADER_NAME,
+                HEADER_WIDTH,
+                HEADER_HEIGHT,
 
-djvIconLibraryTest::djvIconLibraryTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
+                HEADER_COUNT
+            };
 
-QString djvIconLibraryTest::name()
-{
-    return "djvIconLibraryTest";
-}
+            const QStringList headers = QStringList() <<
+                "Name" <<
+                "Width" <<
+                "Height";
 
-void djvIconLibraryTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
+        } // namespace
 
-    IconLibraryModel * model = new IconLibraryModel(context(), window);
+        int IconLibraryModel::columnCount(const QModelIndex & parent) const
+        {
+            return HEADER_COUNT;
+        }
 
-    QSortFilterProxyModel * proxyModel = new QSortFilterProxyModel(window);
-    proxyModel->setSourceModel(model);
-    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    proxyModel->sort(0, Qt::AscendingOrder);
+        QVariant IconLibraryModel::data(const QModelIndex & index, int role) const
+        {
+            if (index.isValid())
+            {
+                const int row = index.row();
+                if (row >= 0 && row < _items.count())
+                {
+                    switch (role)
+                    {
+                    case Qt::DisplayRole:
+                        switch (index.column())
+                        {
+                        case HEADER_NAME:   return _items[row].name;
+                        case HEADER_WIDTH:  return _items[row].pixmap.size().width();
+                        case HEADER_HEIGHT: return _items[row].pixmap.size().height();
+                        }
+                        break;
 
-    QTreeView * view = new QTreeView;
-    view->setRootIsDecorated(false);
-    view->setIconSize(context()->iconLibrary()->defaultSize());
-    view->setModel(proxyModel);
-    view->setSortingEnabled(true);
+                    case Qt::DecorationRole:
+                        switch (index.column())
+                        {
+                        case HEADER_NAME: return _items[row].displayPixmap;
+                        }
+                        break;
+                    }
+                }
+            }
+            return QVariant();
+        }
 
-    view->header()->resizeSections(QHeaderView::ResizeToContents);
-    view->header()->setSortIndicator(0, Qt::AscendingOrder);
+        QVariant IconLibraryModel::headerData(int section, Qt::Orientation, int role) const
+        {
+            if (section >= 0 && section < HEADER_COUNT)
+            {
+                if (Qt::DisplayRole == role)
+                {
+                    return headers[section];
+                }
+            }
+            return QVariant();
+        }
 
-    UI::SearchBox * searchBox = new UI::SearchBox(context());
+        void IconLibraryModel::sort(int column, Qt::SortOrder order)
+        {}
 
-    QVBoxLayout * layout = new QVBoxLayout(window);
-    layout->addWidget(searchBox);
-    layout->addWidget(view);
+        IconLibraryTest::IconLibraryTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-    connect(
-        searchBox,
-        SIGNAL(textChanged(const QString &)),
-        proxyModel,
-        SLOT(setFilterFixedString(const QString &)));
+        QString IconLibraryTest::name()
+        {
+            return "IconLibraryTest";
+        }
 
-    window->resize(400, 600);
-    window->show();
-}
+        void IconLibraryTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
+
+            IconLibraryModel * model = new IconLibraryModel(context(), window);
+
+            QSortFilterProxyModel * proxyModel = new QSortFilterProxyModel(window);
+            proxyModel->setSourceModel(model);
+            proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+            proxyModel->sort(0, Qt::AscendingOrder);
+
+            QTreeView * view = new QTreeView;
+            view->setRootIsDecorated(false);
+            view->setIconSize(context()->iconLibrary()->defaultSize());
+            view->setModel(proxyModel);
+            view->setSortingEnabled(true);
+
+            view->header()->resizeSections(QHeaderView::ResizeToContents);
+            view->header()->setSortIndicator(0, Qt::AscendingOrder);
+
+            UI::SearchBox * searchBox = new UI::SearchBox(context());
+
+            QVBoxLayout * layout = new QVBoxLayout(window);
+            layout->addWidget(searchBox);
+            layout->addWidget(view);
+
+            connect(
+                searchBox,
+                SIGNAL(textChanged(const QString &)),
+                proxyModel,
+                SLOT(setFilterFixedString(const QString &)));
+
+            window->resize(400, 600);
+            window->show();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

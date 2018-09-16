@@ -36,8 +36,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -108,6 +106,7 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::TIFF::COMPRESSION, Graphics::TIFF::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::TIFF::COMPRESSION, Graphics::TIFF::compressionLabels())
+
+} // namespace djv

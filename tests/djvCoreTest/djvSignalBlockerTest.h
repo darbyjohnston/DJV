@@ -35,22 +35,28 @@
 
 #include <djvAbstractTest.h>
 
-class djvSignalBlockerTest : public djvAbstractTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvSignalBlockerTest();
+    namespace CoreTest
+    {
+        class SignalBlockerTest : public TestLib::AbstractTest
+        {
+            Q_OBJECT
 
-    virtual void run(int &, char **);
+        public:
+            SignalBlockerTest();
 
-public Q_SLOTS:
-    void slot();
-    
-Q_SIGNALS:
-    void signal();
+            virtual void run(int &, char **);
 
-private:
-    int _counter;
-};
+        public Q_SLOTS:
+            void slot();
 
+        Q_SIGNALS:
+            void signal();
+
+        private:
+            int _counter;
+        };
+
+    } // namespace CoreTest
+} // namespace djv

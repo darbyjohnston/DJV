@@ -46,20 +46,20 @@ namespace djv
         class PICLoad : public ImageLoad
         {
         public:
-            explicit PICLoad(djvCoreContext *);
+            explicit PICLoad(Core::CoreContext *);
 
             virtual ~PICLoad();
 
-            virtual void open(const djvFileInfo &, ImageIOInfo &) throw (djvError);
-            virtual void read(Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, ImageIOInfo &) throw (Core::Error);
+            virtual void read(Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &, ImageIOInfo &, djvFileIO &) throw (djvError);
+            void _open(const QString &, ImageIOInfo &, Core::FileIO &) throw (Core::Error);
 
-            djvFileInfo _file;
-            PIC::TYPE   _type;
-            bool        _compression[2];
-            PixelData   _tmp;
+            Core::FileInfo _file;
+            PIC::TYPE      _type;
+            bool           _compression[2];
+            PixelData      _tmp;
         };
 
     } // namespace Graphics

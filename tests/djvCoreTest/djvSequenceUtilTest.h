@@ -35,14 +35,21 @@
 
 #include <djvAbstractTest.h>
 
-class djvSequenceUtilTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace CoreTest
+    {
+        class SequenceUtilTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void frameToString();
-    void stringToFrame();
-    void sequenceToString();
-    void stringToSequence();
-};
+        private:
+            void frameToString();
+            void stringToFrame();
+            void sequenceToString();
+            void stringToSequence();
+        };
+
+    } // namespace CoreTest
+} // namespace djv

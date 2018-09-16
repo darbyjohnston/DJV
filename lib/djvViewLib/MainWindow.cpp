@@ -363,7 +363,7 @@ namespace djv
             return out;
         }
 
-        void MainWindow::fileOpen(const djvFileInfo & fileInfo, bool init)
+        void MainWindow::fileOpen(const Core::FileInfo & fileInfo, bool init)
         {
             //DJV_DEBUG("MainWindow::fileOpen");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
@@ -381,7 +381,7 @@ namespace djv
                 _p->fileGroup->open(fileInfo);
 
                 // Set playback.
-                const djvSequence & sequence = _p->fileGroup->imageIOInfo().sequence;
+                const Core::Sequence & sequence = _p->fileGroup->imageIOInfo().sequence;
                 //DJV_DEBUG_PRINT("sequence = " << sequence);
                 _p->playbackGroup->setSequence(sequence);
                 if (init)
@@ -442,11 +442,11 @@ namespace djv
             const glm::ivec2 frame(frameGeometry().width(), frameGeometry().height());
             //DJV_DEBUG_PRINT("frame = " << frame);
             //DJV_DEBUG_PRINT("view size = " <<
-            //    djvVectorUtil::fromQSize(_p->viewWidget->size()));
+            //    Core::VectorUtil::fromQSize(_p->viewWidget->size()));
             _p->viewWidget->updateGeometry();
             resize(sizeHint());
             //DJV_DEBUG_PRINT("new view size = " <<
-            //    djvVectorUtil::fromQSize(_p->viewWidget->size()));
+            //    Core::VectorUtil::fromQSize(_p->viewWidget->size()));
             if (move && isVisible())
             {
                 //DJV_DEBUG_PRINT("move");
@@ -467,7 +467,7 @@ namespace djv
             _p->playbackGroup->setFrame(in);
         }
 
-        void MainWindow::setPlaybackSpeed(const djvSpeed & in)
+        void MainWindow::setPlaybackSpeed(const Core::Speed & in)
         {
             _p->playbackGroup->setSpeed(in);
         }
@@ -481,7 +481,7 @@ namespace djv
             //DJV_DEBUG_PRINT("size = " << size);
             resize(size.x, size.y);
             _p->viewWidget->viewFit();
-            const djvBox2i screen = djvBoxUtil::fromQt(QApplication::desktop()->availableGeometry());
+            const Core::Box2i screen = Core::BoxUtil::fromQt(QApplication::desktop()->availableGeometry());
             //DJV_DEBUG_PRINT("screen = " << screen);
             move(
                 screen.x + screen.w / 2 - size.x / 2,
@@ -564,12 +564,12 @@ namespace djv
             _p->context->fileCache()->del(this, frame);
         }
 
-        void MainWindow::saveCallback(const djvFileInfo & in)
+        void MainWindow::saveCallback(const Core::FileInfo & in)
         {
             //DJV_DEBUG("MainWindow::saveCallback");
             //DJV_DEBUG_PRINT("in = " << in);
-            djvSequence sequence;
-            const djvFrameList & frames = _p->playbackGroup->sequence().frames;
+            Core::Sequence sequence;
+            const Core::FrameList & frames = _p->playbackGroup->sequence().frames;
             if (frames.count())
             {
                 sequence.frames = frames.mid(
@@ -590,12 +590,12 @@ namespace djv
             _p->context->fileSave()->save(info);
         }
 
-        void MainWindow::saveFrameCallback(const djvFileInfo & in)
+        void MainWindow::saveFrameCallback(const Core::FileInfo & in)
         {
             //DJV_DEBUG("MainWindow::saveFrameCallback");
             //DJV_DEBUG_PRINT("in = " << in);
-            djvSequence sequence;
-            const djvFrameList & frames = _p->playbackGroup->sequence().frames;
+            Core::Sequence sequence;
+            const Core::FrameList & frames = _p->playbackGroup->sequence().frames;
             if (frames.count())
             {
                 sequence.frames += frames[_p->playbackGroup->frame()];
@@ -644,8 +644,7 @@ namespace djv
                 _p->playbackFrameTmp = _p->playbackGroup->frame();
                 break;
             case Util::MOUSE_WHEEL_PLAYBACK_SPEED:
-                _p->playbackSpeedTmp =
-                    djvSpeed::speedToFloat(_p->playbackGroup->speed());
+                _p->playbackSpeedTmp = Core::Speed::speedToFloat(_p->playbackGroup->speed());
                 break;
             default: break;
             }
@@ -659,9 +658,7 @@ namespace djv
                 _p->playbackGroup->setFrame(_p->playbackFrameTmp + in);
                 break;
             case Util::MOUSE_WHEEL_PLAYBACK_SPEED:
-                _p->playbackGroup->setSpeed(
-                    djvSpeed::floatToSpeed(
-                        _p->playbackSpeedTmp + static_cast<float>(in)));
+                _p->playbackGroup->setSpeed(Core::Speed::floatToSpeed(_p->playbackSpeedTmp + static_cast<float>(in)));
                 break;
             default: break;
             }
@@ -670,7 +667,7 @@ namespace djv
         void MainWindow::fileUpdate()
         {
             // Update the window title.
-            const djvFileInfo & fileInfo = _p->fileGroup->fileInfo();
+            const Core::FileInfo & fileInfo = _p->fileGroup->fileInfo();
             const QString title = !fileInfo.fileName().isEmpty() ?
                 qApp->translate("djv::ViewLib::MainWindow", "%1 - %2").
                 arg(qApp->applicationName()).
@@ -715,8 +712,8 @@ namespace djv
                 qApp->translate("djv::ViewLib::MainWindow", "Image: %1x%2:%3 %4").
                 arg(info.size.x).
                 arg(info.size.y).
-                arg(djvVectorUtil::aspect(info.size), 0, 'f', 2).
-                arg(djvStringUtil::label(info.pixel).join(" ")));
+                arg(Core::VectorUtil::aspect(info.size), 0, 'f', 2).
+                arg(Core::StringUtil::label(info.pixel).join(" ")));
 
             //! Update the view.
             _p->viewWidget->setOptions(imageOptions());
@@ -785,7 +782,7 @@ namespace djv
                 hudInfo.info = image->info();
                 hudInfo.tags = image->tags;
             }
-            const djvSequence & sequence = _p->playbackGroup->sequence();
+            const Core::Sequence & sequence = _p->playbackGroup->sequence();
             hudInfo.frame = 0;
             if (sequence.frames.count() &&
                 _p->playbackGroup->frame() <
@@ -811,7 +808,7 @@ namespace djv
             }
 
             // Update the info bar with pixel information.
-            const glm::ivec2 pick = djvVectorUtil::floor(
+            const glm::ivec2 pick = Core::VectorUtil::floor(
                 glm::vec2(_p->imagePick - _p->viewWidget->viewPos()) /
                 _p->viewWidget->viewZoom());
             //DJV_DEBUG_PRINT("pick = " << pick);
@@ -830,7 +827,7 @@ namespace djv
                     _p->openGLImage->copy(*image, tmp, _options);
                     _p->openGLImage->average(tmp, _p->imageSample);
                 }
-                catch (djvError error)
+                catch (Core::Error error)
                 {
                     error.add(Util::errorLabels()[Util::ERROR_PICK_COLOR]);
                     _p->context->printError(error);
@@ -844,7 +841,7 @@ namespace djv
                 qApp->translate("djv::ViewLib::MainWindow", "Pixel: %1, %2, %3").
                 arg(pick.x).
                 arg(pick.y).
-                arg(djvStringUtil::label(_p->imageSample).join(" ")));
+                arg(Core::StringUtil::label(_p->imageSample).join(" ")));
 
             _p->sampleInit = false;
         }

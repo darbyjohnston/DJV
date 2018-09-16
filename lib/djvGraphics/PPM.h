@@ -78,10 +78,10 @@ namespace djv
 
             //! Load ASCII data.
             static void asciiLoad(
-                djvFileIO & io,
-                void *      out,
-                int         size,
-                int         bitDepth) throw (djvError);
+                Core::FileIO & io,
+                void *         out,
+                int            size,
+                int            bitDepth) throw (Core::Error);
 
             //! Save ASCII data.
             static quint64 asciiSave(
@@ -113,7 +113,8 @@ namespace djv
         };
 
     } // namespace Graphics
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::Graphics::PPM::TYPE);
-DJV_STRING_OPERATOR(djv::Graphics::PPM::DATA);
+    DJV_STRING_OPERATOR(Graphics::PPM::TYPE);
+    DJV_STRING_OPERATOR(Graphics::PPM::DATA);
+
+} // namespace djv

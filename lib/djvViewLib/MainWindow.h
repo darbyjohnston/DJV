@@ -39,10 +39,14 @@
 
 #include <memory>
 
-class djvSpeed;
-
 namespace djv
 {
+    namespace Core
+    {
+        class Speed;
+
+    } // namespace Core
+
     namespace Graphics
     {
         class ImageIOInfo;
@@ -85,7 +89,7 @@ namespace djv
 
         public Q_SLOTS:
             //! Open a file.
-            void fileOpen(const djvFileInfo &, bool init = true);
+            void fileOpen(const djv::Core::FileInfo &, bool init = true);
 
             //! Set the file layer to open.
             void setFileLayer(int);
@@ -106,7 +110,7 @@ namespace djv
             void setPlaybackFrame(qint64);
 
             //! Set the playback speed.
-            void setPlaybackSpeed(const djvSpeed &);
+            void setPlaybackSpeed(const djv::Core::Speed &);
 
         Q_SIGNALS:
             //! This signal is emitted when the image is changed.
@@ -121,8 +125,8 @@ namespace djv
             void windowResizeCallback();
             void enableUpdatesCallback();
             void reloadFrameCallback();
-            void saveCallback(const djvFileInfo &);
-            void saveFrameCallback(const djvFileInfo &);
+            void saveCallback(const djv::Core::FileInfo &);
+            void saveFrameCallback(const djv::Core::FileInfo &);
             void loadFrameStoreCallback();
             void pickCallback(const glm::ivec2 &);
             void mouseWheelCallback(djv::ViewLib::Util::MOUSE_WHEEL);

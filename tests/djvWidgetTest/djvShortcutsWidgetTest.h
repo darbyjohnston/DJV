@@ -35,17 +35,24 @@
 
 #include <djvUI/Shortcut.h>
 
-class djvShortcutsWidgetTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvShortcutsWidgetTest(djv::UI::UIContext *);
+    namespace WidgetTest
+    {
+        class ShortcutsWidgetTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    virtual QString name();
+        public:
+            ShortcutsWidgetTest(UI::UIContext *);
 
-    virtual void run(const QStringList & args = QStringList());
+            virtual QString name();
 
-private Q_SLOTS:
-    void callback(const QVector<djv::UI::Shortcut> &);
-};
+            virtual void run(const QStringList & args = QStringList());
+
+        private Q_SLOTS:
+            void callback(const QVector<djv::UI::Shortcut> &);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

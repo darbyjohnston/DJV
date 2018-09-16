@@ -76,7 +76,7 @@ namespace djv
             bool hasCombine() const;
 
             //! Get the file sequencing.
-            djvSequence::COMPRESS sequence() const;
+            Core::Sequence::COMPRESS sequence() const;
 
             //! Get whether to automatically detext sequences.
             bool hasAutoSequence() const;
@@ -100,7 +100,7 @@ namespace djv
             const QScopedPointer<int> & playbackFrame() const;
 
             //! Get the playback speed.
-            const QScopedPointer<djvSpeed> & playbackSpeed() const;
+            const QScopedPointer<Core::Speed> & playbackSpeed() const;
 
             //! Get the file preferences.
             FilePrefs * filePrefs() const;

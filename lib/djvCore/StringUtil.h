@@ -36,71 +36,69 @@
 #include <QString>
 #include <QVector>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvStringUtil
-//!
-//! This class provides string utilities.
-//------------------------------------------------------------------------------
-
-class djvStringUtil
+namespace djv
 {
-public:
-    virtual ~djvStringUtil() = 0;
-    
-    //! Find a string in a list.
-    static inline bool find(
-        const QString &     string,
-        const QStringList & list,
-        int *               index  = 0);
+    namespace Core
+    {
+        //! \class StringUtil
+        //!
+        //! This class provides string utilities.
+        class StringUtil
+        {
+        public:
+            virtual ~StringUtil() = 0;
 
-    //! Find a string in a list, case insensitive.
-    static inline bool findNoCase(
-        const QString &     string,
-        const QStringList & list,
-        int *               index = 0);
+            //! Find a string in a list.
+            static inline bool find(
+                const QString &     string,
+                const QStringList & list,
+                int *               index = 0);
 
-    //! Add double quotes to each string in a list.
-    static QStringList addQuotes(const QStringList &);
-    
-    //! Get a label for a value.
-    template<typename T>
-    static inline QStringList label(const T &);
+            //! Find a string in a list, case insensitive.
+            static inline bool findNoCase(
+                const QString &     string,
+                const QStringList & list,
+                int *               index = 0);
 
-    //! Get the boolean labels.
-    static const QStringList & boolLabels();
+            //! Add double quotes to each string in a list.
+            static QStringList addQuotes(const QStringList &);
 
-    //! C-string conversion.
-    static int cString(
-        const QString & string,
-        char *          cString,
-        int             maxLen    = 0,
-        bool            terminate = true);
+            //! Get a label for a value.
+            template<typename T>
+            static inline QStringList label(const T &);
 
-    //! Default C-string length.
-    static const int cStringLength = 256;
+            //! Get the boolean labels.
+            static const QStringList & boolLabels();
 
-    //! Convert a string to an integer.
-    template<typename T>
-    static inline T stringToInt(
-        const char * string,
-        int          maxLen = cStringLength);
+            //! C-string conversion.
+            static int cString(
+                const QString & string,
+                char *          cString,
+                int             maxLen = 0,
+                bool            terminate = true);
 
-    //! Convert a string to an unsigned integer.
-    template<typename T>
-    static inline T stringToUInt(
-        const char * string,
-        int          maxLen = cStringLength);
+            //! Default C-string length.
+            static const int cStringLength = 256;
 
-    //! Convert an integer to a string.
-    template<typename T>
-    static inline int intToString(
-        T      value,
-        char * string,
-        int    maxLen = cStringLength);
-};
+            //! Convert a string to an integer.
+            template<typename T>
+            static inline T stringToInt(
+                const char * string,
+                int          maxLen = cStringLength);
+
+            //! Convert a string to an unsigned integer.
+            template<typename T>
+            static inline T stringToUInt(
+                const char * string,
+                int          maxLen = cStringLength);
+
+            //! Convert an integer to a string.
+            template<typename T>
+            static inline int intToString(
+                T      value,
+                char * string,
+                int    maxLen = cStringLength);
+        };
 
 #if defined(DJV_WINDOWS)
 #define SNPRINTF ::sprintf_s
@@ -108,47 +106,51 @@ public:
 #define SNPRINTF ::snprintf
 #endif // DJV_WINDOWS
 
-bool djvSerialize(QStringList &, QString &);
-bool djvSerialize(QStringList &, unsigned int &, const QStringList & labels);
-template <typename T>
-inline bool djvSerialize(QStringList &, T &, const QStringList & labels);
-template <typename T>
-inline QStringList djvSerialize(T, const QStringList & labels);
+        bool Serialize(QStringList &, QString &);
+        bool Serialize(QStringList &, unsigned int &, const QStringList & labels);
+        template <typename T>
+        inline bool Serialize(QStringList &, T &, const QStringList & labels);
+        template <typename T>
+        inline QStringList Serialize(T, const QStringList & labels);
 
-QStringList & operator >> (QStringList &, QString &) throw (QString);
-QStringList & operator >> (QStringList &, QStringList &) throw (QString);
-QStringList & operator >> (QStringList &, bool &) throw (QString);
-QStringList & operator >> (QStringList &, int &) throw (QString);
-QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
-QStringList & operator >> (QStringList &, qint64 &) throw (QString);
-QStringList & operator >> (QStringList &, quint64 &) throw (QString);
-QStringList & operator >> (QStringList &, float &) throw (QString);
-QStringList & operator >> (QStringList &, double &) throw (QString);
-template <typename T>
-inline QStringList & operator >> (QStringList &, QVector<T> &) throw (QString);
+    } // namespace Core
 
-QStringList & operator << (QStringList &, const char *);
-QStringList & operator << (QStringList &, bool);
-QStringList & operator << (QStringList &, int);
-QStringList & operator << (QStringList &, unsigned int);
-QStringList & operator << (QStringList &, qint64);
-QStringList & operator << (QStringList &, quint64);
-QStringList & operator << (QStringList &, float);
-QStringList & operator << (QStringList &, double);
-template <typename T>
-inline QStringList & operator << (QStringList &, const QVector<T> &);
+    QStringList & operator >> (QStringList &, QString &) throw (QString);
+    QStringList & operator >> (QStringList &, QStringList &) throw (QString);
+    QStringList & operator >> (QStringList &, bool &) throw (QString);
+    QStringList & operator >> (QStringList &, int &) throw (QString);
+    QStringList & operator >> (QStringList &, unsigned int &) throw (QString);
+    QStringList & operator >> (QStringList &, qint64 &) throw (QString);
+    QStringList & operator >> (QStringList &, quint64 &) throw (QString);
+    QStringList & operator >> (QStringList &, float &) throw (QString);
+    QStringList & operator >> (QStringList &, double &) throw (QString);
+    QStringList & operator >> (QStringList &, QVector<bool> &) throw (QString);
+    //template <typename T>
+    //inline QStringList & operator >> (QStringList &, QVector<T> &) throw (QString);
 
-//! This macros provides string serialize operators.
+    QStringList & operator << (QStringList &, const char *);
+    QStringList & operator << (QStringList &, bool);
+    QStringList & operator << (QStringList &, int);
+    QStringList & operator << (QStringList &, unsigned int);
+    QStringList & operator << (QStringList &, qint64);
+    QStringList & operator << (QStringList &, quint64);
+    QStringList & operator << (QStringList &, float);
+    QStringList & operator << (QStringList &, double);
+    QStringList & operator << (QStringList &, const QVector<bool>&);
+    //template <typename T>
+    //inline QStringList & operator << (QStringList &, const QVector<T> &);
+
+    //! This macros provides string serialize operators.
 #define DJV_STRING_OPERATOR(TYPE) \
     QStringList & operator >> (QStringList &, TYPE &) throw (QString); \
     QStringList & operator << (QStringList &, const TYPE &)
-    
-//! This macro provides string serialize operators.
+
+    //! This macro provides string serialize operators.
 #define _DJV_STRING_OPERATOR_LABEL(TYPE, LABEL) \
     QStringList & operator >> (QStringList & in, TYPE & out) \
         throw (QString) \
     { \
-        if (! djvSerialize(in, out, LABEL)) \
+        if (! djv::Core::Serialize(in, out, LABEL)) \
         { \
             throw in.count() ? in[0] : QString(); \
         } \
@@ -156,10 +158,10 @@ inline QStringList & operator << (QStringList &, const QVector<T> &);
     } \
     QStringList & operator << (QStringList & out, const TYPE & in) \
     { \
-        return out << djvSerialize(in, LABEL); \
+        return out << djv::Core::Serialize(in, LABEL); \
     }
 
-//@} // djvCoreMisc
+} // namspace djv
 
 #include <djvCore/StringUtilInline.h>
 

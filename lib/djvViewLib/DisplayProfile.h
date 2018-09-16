@@ -46,15 +46,14 @@ namespace djv
         //! This struct provides a display profile.
         struct DisplayProfile : public Graphics::OpenGLImageDisplayProfile
         {
-            QString     name;
-            djvFileInfo lutFile;
+            QString        name;
+            Core::FileInfo lutFile;
         };
 
     } // namespace ViewLib
+
+    DJV_COMPARISON_OPERATOR(ViewLib::DisplayProfile);
+    DJV_STRING_OPERATOR(ViewLib::DisplayProfile);
+    DJV_DEBUG_OPERATOR(ViewLib::DisplayProfile);
+
 } // namespace djv
-
-DJV_COMPARISON_OPERATOR(djv::ViewLib::DisplayProfile);
-
-DJV_STRING_OPERATOR(djv::ViewLib::DisplayProfile);
-
-DJV_DEBUG_OPERATOR(djv::ViewLib::DisplayProfile);

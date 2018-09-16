@@ -100,7 +100,7 @@ namespace djv
 
         void ShortcutPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->shortcutsWidget);
             _p->shortcutsWidget->setShortcuts(context()->shortcutPrefs()->shortcuts());
         }

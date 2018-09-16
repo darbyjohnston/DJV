@@ -39,7 +39,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PPMSave::PPMSave(const PPM::Options & options, djvCoreContext * context) :
+        PPMSave::PPMSave(const PPM::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options),
             _bitDepth(0)
@@ -48,8 +48,8 @@ namespace djv
         PPMSave::~PPMSave()
         {}
 
-        void PPMSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void PPMSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PPMSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -57,7 +57,7 @@ namespace djv
             _file = in;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
@@ -94,14 +94,14 @@ namespace djv
             default: break;
             }
 
-            _info.endian = djvMemory::MSB;
+            _info.endian = Core::Memory::MSB;
 
             //DJV_DEBUG_PRINT("info = " << _info);
             _image.set(_info);
         }
 
         void PPMSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PPMSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -109,7 +109,7 @@ namespace djv
             //DJV_DEBUG_PRINT("data = " << _data);
 
             // Open the file.
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(frame.frame), io);
 
             // Convert the image.
@@ -172,14 +172,14 @@ namespace djv
             }
         }
 
-        void PPMSave::_open(const QString & in, djvFileIO & io) throw (djvError)
+        void PPMSave::_open(const QString & in, Core::FileIO & io) throw (Core::Error)
         {
             //DJV_DEBUG("PPMSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open.
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(in, djvFileIO::WRITE);
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(in, Core::FileIO::WRITE);
 
             // Header.
             int ppmType = 0;
@@ -198,10 +198,10 @@ namespace djv
             char magic[] = "P \n";
             magic[1] = '0' + ppmType;
             io.set(magic, 3);
-            char tmp[djvStringUtil::cStringLength] = "";
+            char tmp[Core::StringUtil::cStringLength] = "";
             int size = SNPRINTF(
                 tmp,
-                djvStringUtil::cStringLength, "%d %d\n",
+                Core::StringUtil::cStringLength, "%d %d\n",
                 _image.w(),
                 _image.h());
             io.set(tmp, size);
@@ -211,7 +211,7 @@ namespace djv
                 //const int maxValue =
                 //    (8 == _bitDepth) ? Pixel::u8Max : Pixel::u16Max;
                 const int max_value = (8 == _bitDepth) ? Pixel::u8Max : 65535;
-                size = SNPRINTF(tmp, djvStringUtil::cStringLength, "%d\n", max_value);
+                size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%d\n", max_value);
                 io.set(tmp, size);
             }
         }

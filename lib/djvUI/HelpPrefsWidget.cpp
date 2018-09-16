@@ -102,7 +102,7 @@ namespace djv
 
         void HelpPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->toolTipsWidget);
             _p->toolTipsWidget->setChecked(context()->helpPrefs()->hasToolTips());
         }

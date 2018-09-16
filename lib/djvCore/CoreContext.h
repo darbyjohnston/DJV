@@ -43,70 +43,68 @@
 #undef ERROR
 #endif // DJV_WINDOWS
 
-class djvDebugLog;
-
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvCoreContext
-//!
-//! This class provides global functionality for the library.
-//------------------------------------------------------------------------------
-
-class djvCoreContext : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvCoreContext(QObject * parent = nullptr);
+    namespace Core
+    {
+        class DebugLog;
 
-    virtual ~djvCoreContext();
+        //! \class CoreContext
+        //!
+        //! This class provides global functionality for the library.
+        class CoreContext : public QObject
+        {
+            Q_OBJECT
 
-    //! Parse the command line.
-    virtual bool commandLine(int & argc, char ** argv);
-    
-    //! Get the documentation URL.
-    virtual QString doc() const;
+        public:
+            explicit CoreContext(QObject * parent = nullptr);
 
-    //! Get the application information.
-    virtual QString info() const;
+            virtual ~CoreContext();
 
-    //! Get the application about information.
-    virtual QString about() const;
-    
-    //! Print a string.
-    virtual void print(const QString &, bool newLine = true, int indent = 0);
+            //! Parse the command line.
+            virtual bool commandLine(int & argc, char ** argv);
 
-    //! Print a separator.
-    virtual void printSeparator();
-    
-    //! Get the debugging log.
-    djvDebugLog * debugLog() const;
+            //! Get the documentation URL.
+            virtual QString doc() const;
 
-public Q_SLOTS:
-    //! Print a message.
-    void printMessage(const QString &);
+            //! Get the application information.
+            virtual QString info() const;
 
-    //! Print an error.
-    void printError(const djvError &);
+            //! Get the application about information.
+            virtual QString about() const;
 
-protected:
-    void loadTranslator(const QString & baseName);
+            //! Print a string.
+            virtual void print(const QString &, bool newLine = true, int indent = 0);
 
-    virtual bool commandLineParse(QStringList &) throw (QString);
+            //! Print a separator.
+            virtual void printSeparator();
 
-    virtual QString commandLineHelp() const;
-    
-    void consolePrint(const QString &, bool newLine = true, int indent = 0);
+            //! Get the debugging log.
+            DebugLog * debugLog() const;
 
-private Q_SLOTS:
-    void debugLogCallback(const QString &);
-    
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public Q_SLOTS:
+            //! Print a message.
+            void printMessage(const QString &);
 
-//@} // djvCoreMisc
+            //! Print an error.
+            void printError(const djv::Core::Error &);
 
+        protected:
+            void loadTranslator(const QString & baseName);
+
+            virtual bool commandLineParse(QStringList &) throw (QString);
+
+            virtual QString commandLineHelp() const;
+
+            void consolePrint(const QString &, bool newLine = true, int indent = 0);
+
+        private Q_SLOTS:
+            void debugLogCallback(const QString &);
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace Core
+} // namespace djv

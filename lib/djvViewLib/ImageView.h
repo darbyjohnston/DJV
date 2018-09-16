@@ -104,7 +104,7 @@ namespace djv
             void mouseWheelValueChanged(int);
 
             //! This signal is emitted when a file is dropped on the view.
-            void fileDropped(const djvFileInfo &);
+            void fileDropped(const djv::Core::FileInfo &);
 
         protected:
             virtual void timerEvent(QTimerEvent *);
@@ -130,7 +130,7 @@ namespace djv
                 const QStringList & lowerLeft,
                 const QStringList & upperRight,
                 const QStringList & lowerRight);
-            djvBox2i drawHud(
+            Core::Box2i drawHud(
                 const QString &    string,
                 const glm::ivec2 & position);
             QSize drawHudSize(const QString &) const;

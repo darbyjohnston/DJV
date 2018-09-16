@@ -31,12 +31,9 @@
 
 #pragma once
 
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvCoreTest djvCoreTest
-//!
-//! This library provides testing functionality for djvCore.
-
-//@} // tests
-
+namespace djv
+{
+    namespace CoreTest
+    {
+    } // namespace CoreTest
+} // namespace djv

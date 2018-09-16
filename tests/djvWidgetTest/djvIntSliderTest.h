@@ -33,19 +33,24 @@
 
 #include <djvAbstractWidgetTest.h>
 
-class djvIntSliderTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace WidgetTest
+    {
+        class IntSliderTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    djvIntSliderTest(djv::UI::UIContext *);
+        public:
+            IntSliderTest(UI::UIContext *);
 
-    virtual QString name();
+            virtual QString name();
 
-    virtual void run(const QStringList & args = QStringList());
-    
-private Q_SLOTS:
+            virtual void run(const QStringList & args = QStringList());
 
-    void sliderCallback(int);
-};
+        private Q_SLOTS:
+            void sliderCallback(int);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

@@ -38,46 +38,51 @@
 
 #include <QHBoxLayout>
 
-using namespace djv;
-
-djvColorWidgetTest::djvColorWidgetTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvColorWidgetTest::name()
+namespace djv
 {
-    return "djvColorWidgetTest";
-}
+    namespace WidgetTest
+    {
+        ColorWidgetTest::ColorWidgetTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvColorWidgetTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    
-    UI::ColorSwatch * swatch = new UI::ColorSwatch(context());
-    swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    
-    UI::ColorWidget * widget = new UI::ColorWidget(context());
-    
-    QHBoxLayout * layout = new QHBoxLayout(window);
-    layout->addWidget(swatch);
-    layout->addWidget(widget);
-    
-    connect(
-        widget,
-        SIGNAL(colorChanged(const djvColor &)),
-        swatch,
-        SLOT(setColor(const djvColor &)));
-    connect(
-        widget,
-        SIGNAL(colorChanged(const djvColor &)),
-        SLOT(colorCallback(const djvColor &)));
-    
-    window->show();
-}
+        QString ColorWidgetTest::name()
+        {
+            return "ColorWidgetTest";
+        }
 
-void djvColorWidgetTest::colorCallback(const Graphics::Color & color)
-{
-    QStringList tmp;
-    tmp << color;
-    djvSystem::print(QString("%1").arg(tmp.join(", ")));
-}
+        void ColorWidgetTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
+
+            UI::ColorSwatch * swatch = new UI::ColorSwatch(context());
+            swatch->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+            UI::ColorWidget * widget = new UI::ColorWidget(context());
+
+            QHBoxLayout * layout = new QHBoxLayout(window);
+            layout->addWidget(swatch);
+            layout->addWidget(widget);
+
+            connect(
+                widget,
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                swatch,
+                SLOT(setColor(const djv::Graphics::Color &)));
+            connect(
+                widget,
+                SIGNAL(colorChanged(const djv::Graphics::Color &)),
+                SLOT(colorCallback(const djv::Graphics::Color &)));
+
+            window->show();
+        }
+
+        void ColorWidgetTest::colorCallback(const Graphics::Color & color)
+        {
+            QStringList tmp;
+            tmp << color;
+            Core::System::print(QString("%1").arg(tmp.join(", ")));
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

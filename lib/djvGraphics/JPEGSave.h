@@ -47,19 +47,19 @@ namespace djv
         class JPEGSave : public ImageSave
         {
         public:
-            JPEGSave(const JPEG::Options &, djvCoreContext *);
+            JPEGSave(const JPEG::Options &, Core::CoreContext *);
 
             virtual ~JPEGSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
-            virtual void close() throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            virtual void close() throw (Core::Error);
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (djvError);
+            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
 
             JPEG::Options                 _options;
-            djvFileInfo                   _file;
+            Core::FileInfo                _file;
             FILE *                        _f;
             libjpeg::jpeg_compress_struct _jpeg;
             bool                          _jpegInit;

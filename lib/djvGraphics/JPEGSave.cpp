@@ -39,7 +39,7 @@ namespace djv
 {
     namespace Graphics
     {
-        JPEGSave::JPEGSave(const JPEG::Options & options, djvCoreContext * context) :
+        JPEGSave::JPEGSave(const JPEG::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options),
             _f(0),
@@ -51,15 +51,15 @@ namespace djv
             close();
         }
 
-        void JPEGSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void JPEGSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
             _info = ImageIOInfo();
             _info.size = info.size;
@@ -112,7 +112,7 @@ namespace djv
         } // namespace
 
         void JPEGSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -140,21 +140,21 @@ namespace djv
             {
                 if (!jpegScanline(&_jpeg, p->data(0, h - 1 - y), &_jpegError))
                 {
-                    throw djvError(
+                    throw Core::Error(
                         JPEG::staticName,
                         _jpegError.msg);
                 }
             }
             if (!jpeg_end(&_jpeg, &_jpegError))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     _jpegError.msg);
             }
             close();
         }
 
-        void JPEGSave::close() throw (djvError)
+        void JPEGSave::close() throw (Core::Error)
         {
             if (_jpegInit)
             {
@@ -224,7 +224,7 @@ namespace djv
         } // namespace
 
         void JPEGSave::_open(const QString & in, const ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("JPEGSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -239,7 +239,7 @@ namespace djv
 
             if (!jpegInit(&_jpeg, &_jpegError))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     _jpegError.msg);
             }
@@ -254,13 +254,13 @@ namespace djv
 #endif // DJV_WINDOWS
             if (!_f)
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_OPEN]);
             }
             if (!jpegOpen(_f, &_jpeg, info, _options.quality, &_jpegError))
             {
-                throw djvError(
+                throw Core::Error(
                     JPEG::staticName,
                     _jpegError.msg);
             }

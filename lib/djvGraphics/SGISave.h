@@ -46,18 +46,18 @@ namespace djv
         class SGISave : public ImageSave
         {
         public:
-            SGISave(const SGI::Options &, djvCoreContext *);
+            SGISave(const SGI::Options &, Core::CoreContext *);
 
             virtual ~SGISave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
 
         private:
-            void _open(const QString &) throw (djvError);
+            void _open(const QString &) throw (Core::Error);
 
             SGI::Options         _options;
-            djvFileInfo          _file;
+            Core::FileInfo       _file;
             std::vector<quint32> _rleOffset;
             std::vector<quint32> _rleSize;
             PixelDataInfo        _info;

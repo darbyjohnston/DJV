@@ -31,16 +31,21 @@
 
 #include <djvAbstractWidgetTest.h>
 
-using namespace djv;
-
-djvAbstractWidgetTest::djvAbstractWidgetTest(UI::UIContext * context) :
-    _context(context)
-{}
-
-djvAbstractWidgetTest::~djvAbstractWidgetTest()
-{}
-
-UI::UIContext * djvAbstractWidgetTest::context() const
+namespace djv
 {
-    return _context;
-}
+    namespace WidgetTest
+    {
+        AbstractWidgetTest::AbstractWidgetTest(UI::UIContext * context) :
+            _context(context)
+        {}
+
+        AbstractWidgetTest::~AbstractWidgetTest()
+        {}
+
+        UI::UIContext * AbstractWidgetTest::context() const
+        {
+            return _context;
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

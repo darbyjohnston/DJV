@@ -335,7 +335,7 @@ namespace djv
         void CineonWidget::widgetUpdate()
         {
             //DJV_DEBUG("CineonWidget::widgetUpdate");
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _inputColorProfileWidget <<
                 _inputBlackPointWidget <<
                 _inputWhitePointWidget <<
@@ -398,7 +398,7 @@ namespace djv
             _outputGammaWidget->setValue(_options.outputFilmPrint.gamma);
         }
 
-        CineonWidgetPlugin::CineonWidgetPlugin(djvCoreContext * context) :
+        CineonWidgetPlugin::CineonWidgetPlugin(Core::CoreContext * context) :
             ImageIOWidgetPlugin(context)
         {}
 

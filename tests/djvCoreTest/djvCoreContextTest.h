@@ -35,9 +35,16 @@
 
 #include <djvAbstractTest.h>
 
-class djvCoreContextTest : public djvAbstractTest
+namespace djv
 {
-public:
+    namespace CoreTest
+    {
+        class CoreContextTest : public TestLib::AbstractTest
+        {
+        public:
 
-    virtual void run(int &, char **);
-};
+            virtual void run(int &, char **);
+        };
+
+    } // namespace CoreTest
+} // namespace djv

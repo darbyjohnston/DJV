@@ -69,7 +69,7 @@ namespace djv
                 {
                     Util::loadLut(value.lutFile, value.lut, context);
                 }
-                catch (const djvError & error)
+                catch (const Core::Error & error)
                 {
                     context->printError(error);
                 }
@@ -243,15 +243,27 @@ namespace djv
             Q_EMIT prefChanged();
         }
 
-        void ImagePrefs::setDisplayProfiles(
-            const QVector<DisplayProfile> & in)
+        void ImagePrefs::setDisplayProfiles(const QVector<DisplayProfile> & in)
         {
-            if (in == _displayProfiles)
-                return;
+            //! \bug Error C2893 on Windows?
+            //if (in == _displayProfiles)
+            //    return;
+            if (in.size() == _displayProfiles.size())
+            {
+                int i = 0;
+                for (; i < in.size(); ++i)
+                {
+                    if (in[i] != _displayProfiles[i])
+                        break;
+                }
+                if (i == in.size())
+                    return;
+            }
+
             //DJV_DEBUG("setDisplayProfiles");
             //DJV_DEBUG_PRINT("in = " << in);
             _displayProfiles = in;
-            setDisplayProfileIndex(djvMath::min(
+            setDisplayProfileIndex(Core::Math::min(
                 _displayProfileIndex,
                 _displayProfiles.count() - 1));
             Q_EMIT displayProfilesChanged(_displayProfiles);

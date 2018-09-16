@@ -35,42 +35,40 @@
 
 #include <memory>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvTimer
-//!
-//! This class provides a timer.
-//------------------------------------------------------------------------------
-
-class djvTimer
+namespace djv
 {
-public:
-    djvTimer();
-    djvTimer(const djvTimer &);
-    ~djvTimer();
+    namespace Core
+    {
+        //! \class Timer
+        //!
+        //! This class provides a timer.
+        class Timer
+        {
+        public:
+            Timer();
+            Timer(const Timer &);
+            ~Timer();
 
-    //! Start the timer.
-    void start();
+            //! Start the timer.
+            void start();
 
-    //! Check the timer.
-    void check();
+            //! Check the timer.
+            void check();
 
-    //! Get elapsed time in seconds. You should call check() before calling
-    //! this function.
-    float seconds() const;
+            //! Get elapsed time in seconds. You should call check() before calling
+            //! this function.
+            float seconds() const;
 
-    //! Get elapsed time in frames per second. You should call check() before
-    //! calling this function.
-    float fps() const;
-    
-    djvTimer & operator = (const djvTimer &);
+            //! Get elapsed time in frames per second. You should call check() before
+            //! calling this function.
+            float fps() const;
 
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            Timer & operator = (const Timer &);
 
-//@} // djvCoreMisc
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
 
+    } // namespace Core
+} // namspace djv

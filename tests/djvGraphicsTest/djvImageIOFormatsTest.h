@@ -43,22 +43,25 @@ namespace djv
         class GraphicsContext;
 
     } // namespace Graphics
+
+    namespace GraphicsTest
+    {
+        class ImageIOFormatsTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
+
+        private:
+            void initPlugins(djv::Graphics::GraphicsContext *);
+            void initData();
+            void initImages();
+            void runTest(Graphics::ImageIO *, const Graphics::Image &);
+
+            QVector<glm::ivec2>             _sizes;
+            QVector<Graphics::Pixel::PIXEL> _pixels;
+            QVector<Graphics::Image>        _images;
+            QVector<Core::Plugin *>         _plugins;
+        };
+
+    } // namespace GraphicsTest
 } // namespace djv
-
-class djvImageIOFormatsTest : public djvAbstractTest
-{
-public:
-    virtual void run(int &, char **);
-
-private:
-    void initPlugins(djv::Graphics::GraphicsContext *);
-    void initData();
-    void initImages();
-    void runTest(djv::Graphics::ImageIO *, const djv::Graphics::Image &);
-
-    QVector<glm::ivec2>                  _sizes;
-    QVector<djv::Graphics::Pixel::PIXEL> _pixels;
-    QVector<djv::Graphics::Image>        _images;
-    QVector<djvPlugin *>                 _plugins;
-};
-

@@ -154,15 +154,15 @@ namespace djv
             };
         };
 
-        bool operator == (const Cineon::LinearToFilmPrint &, const Cineon::LinearToFilmPrint &);
-        bool operator == (const Cineon::FilmPrintToLinear &, const Cineon::FilmPrintToLinear &);
-
-        bool operator != (const Cineon::LinearToFilmPrint &, const Cineon::LinearToFilmPrint &);
-        bool operator != (const Cineon::FilmPrintToLinear &, const Cineon::FilmPrintToLinear &);
-
     } // namespace Graphics
-} // namespace djv
 
-DJV_STRING_OPERATOR(djv::Graphics::Cineon::LinearToFilmPrint);
-DJV_STRING_OPERATOR(djv::Graphics::Cineon::FilmPrintToLinear);
-DJV_STRING_OPERATOR(djv::Graphics::Cineon::COLOR_PROFILE);
+    bool operator == (const Graphics::Cineon::LinearToFilmPrint &, const Graphics::Cineon::LinearToFilmPrint &);
+    bool operator == (const Graphics::Cineon::FilmPrintToLinear &, const Graphics::Cineon::FilmPrintToLinear &);
+    bool operator != (const Graphics::Cineon::LinearToFilmPrint &, const Graphics::Cineon::LinearToFilmPrint &);
+    bool operator != (const Graphics::Cineon::FilmPrintToLinear &, const Graphics::Cineon::FilmPrintToLinear &);
+
+    DJV_STRING_OPERATOR(Graphics::Cineon::LinearToFilmPrint);
+    DJV_STRING_OPERATOR(Graphics::Cineon::FilmPrintToLinear);
+    DJV_STRING_OPERATOR(Graphics::Cineon::COLOR_PROFILE);
+
+} // namespace djv

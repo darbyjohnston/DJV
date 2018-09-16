@@ -40,7 +40,7 @@ namespace djv
 {
     namespace Graphics
     {
-        PICLoad::PICLoad(djvCoreContext * context) :
+        PICLoad::PICLoad(Core::CoreContext * context) :
             ImageLoad(context),
             _type(static_cast<PIC::TYPE>(0))
         {
@@ -51,22 +51,22 @@ namespace djv
         PICLoad::~PICLoad()
         {}
 
-        void PICLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void PICLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PICLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(_file.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void PICLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PICLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -79,7 +79,7 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            djvFileIO io;
+            Core::FileIO io;
             _open(fileName, info, io);
             image.tags = info.tags;
 
@@ -110,7 +110,7 @@ namespace djv
                             endian);
                         if (!p)
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 PIC::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -121,7 +121,7 @@ namespace djv
                         if ((io.size() - io.pos()) <
                             PixelDataUtil::dataByteCount(info))
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 PIC::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -144,7 +144,7 @@ namespace djv
                             endian);
                         if (!p)
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 PIC::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -155,7 +155,7 @@ namespace djv
                         if ((io.size() - io.pos()) <
                             PixelDataUtil::dataByteCount(info))
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 PIC::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -174,7 +174,7 @@ namespace djv
                             endian);
                         if (!p)
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 PIC::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -185,7 +185,7 @@ namespace djv
                         if ((io.size() - io.pos()) <
                             PixelDataUtil::dataByteCount(info))
                         {
-                            throw djvError(
+                            throw Core::Error(
                                 PIC::staticName,
                                 ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                         }
@@ -241,7 +241,7 @@ namespace djv
                 quint8 channel;
             };
 
-            void _channel(djvFileIO & io, Channel * out)
+            void _channel(Core::FileIO & io, Channel * out)
             {
                 io.getU8(&out->chained);
                 io.getU8(&out->size);
@@ -261,15 +261,15 @@ namespace djv
 
         } /// namespace
 
-        void PICLoad::_open(const QString & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void PICLoad::_open(const QString & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
             //DJV_DEBUG("PICLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(in, djvFileIO::READ);
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(in, Core::FileIO::READ);
 
             // Read the header.
             Header header;
@@ -277,7 +277,7 @@ namespace djv
             io.getU32(&header.magic);
             if (header.magic != 0x5380F634)
             {
-                throw djvError(
+                throw Core::Error(
                     PIC::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -298,7 +298,7 @@ namespace djv
             //DJV_DEBUG_PRINT("fields = " << header.fields);
             if (QString::fromLatin1(header.id, sizeof(header.id)) != "PICT")
             {
-                throw djvError(
+                throw Core::Error(
                     PIC::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
@@ -354,7 +354,7 @@ namespace djv
             }
             if (-1 == type)
             {
-                throw djvError(
+                throw Core::Error(
                     PIC::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }

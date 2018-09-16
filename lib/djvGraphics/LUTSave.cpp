@@ -40,7 +40,7 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTSave::LUTSave(const LUT::Options & options, djvCoreContext * context) :
+        LUTSave::LUTSave(const LUT::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options)
         {}
@@ -48,15 +48,15 @@ namespace djv
         LUTSave::~LUTSave()
         {}
 
-        void LUTSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void LUTSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("LUTSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
             _info = PixelDataInfo();
             _info.size = glm::ivec2(info.size.x, 1);
@@ -73,7 +73,7 @@ namespace djv
         }
 
         void LUTSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("LUTSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -81,12 +81,12 @@ namespace djv
 
             // Open the file.
             const QString fileName = _file.fileName(frame.frame);
-            djvFileIO io;
-            io.open(fileName, djvFileIO::WRITE);
+            Core::FileIO io;
+            io.open(fileName, Core::FileIO::WRITE);
             const int index = LUT::staticExtensions.indexOf(_file.extension());
             if (-1 == index)
             {
-                throw djvError(
+                throw Core::Error(
                     LUT::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
             }

@@ -33,41 +33,40 @@
 
 #include <djvCore/Debug.h>
 
-//! \addtogroup djvCoreMath
-//@{
-
-//------------------------------------------------------------------------------
-//! \struct djvRange
-//!
-//! This struct provides a number range.
-//------------------------------------------------------------------------------
-
-template<typename T>
-struct djvRange
+namespace djv
 {
-    inline djvRange(T = T(0));
-    inline djvRange(T min, T max);
+    namespace Core
+    {
+        //! \struct Range
+        //!
+        //! This struct provides a number range.
+        template<typename T>
+        struct Range
+        {
+            inline Range(T = T(0));
+            inline Range(T min, T max);
 
-    T min = T(0);
-    T max = T(0);
-};
+            T min = T(0);
+            T max = T(0);
+        };
 
-//! This typedef provides a frame range.
-typedef djvRange<qint64> djvFrameRange;
+        //! This typedef provides a frame range.
+        typedef Range<qint64> FrameRange;
 
-//! This typedef provides a frame range list.
-typedef QVector<djvFrameRange> djvFrameRangeList;
+        //! This typedef provides a frame range list.
+        typedef QVector<FrameRange> FrameRangeList;
 
-template<typename T>
-inline bool operator == (const djvRange<T> &, const djvRange<T> &);
+    } // namespace Core
 
-template<typename T>
-inline bool operator != (const djvRange<T> &, const djvRange<T> &);
+    template<typename T>
+    inline bool operator == (const Core::Range<T> &, const Core::Range<T> &);
+    template<typename T>
+    inline bool operator != (const Core::Range<T> &, const Core::Range<T> &);
 
-template<typename T>
-inline djvDebug & operator << (djvDebug &, const djvRange<T> &);
+    template<typename T>
+    inline Core::Debug & operator << (Core::Debug &, const Core::Range<T> &);
 
-//@} // djvCoreMath
+} // namespace djv
 
 #include <djvCore/RangeInline.h>
 

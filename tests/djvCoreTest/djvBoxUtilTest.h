@@ -35,19 +35,26 @@
 
 #include <djvAbstractTest.h>
 
-class djvBoxUtilTest : public djvAbstractTest
+namespace djv
 {
-public:
+    namespace CoreTest
+    {
+        class BoxUtilTest : public TestLib::AbstractTest
+        {
+        public:
 
-    virtual void run(int &, char **);
+            virtual void run(int &, char **);
 
-private:
+        private:
 
-    void corners();
-    void swap();
-    void intersect();
-    void bound();
-    void expand();
-    void border();
-    void isSizeValid();
-};
+            void corners();
+            void swap();
+            void intersect();
+            void bound();
+            void expand();
+            void border();
+            void isSizeValid();
+        };
+
+    } // namespace CoreTest
+} // namespace s

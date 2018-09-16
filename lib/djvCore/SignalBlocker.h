@@ -36,38 +36,36 @@
 #include <QObject>
 #include <QVector>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSignalBlocker
-//!
-//! This class provides functionality to temporarily block QObject signals.
-//------------------------------------------------------------------------------
-
-class djvSignalBlocker
+namespace djv
 {
-public:
-    djvSignalBlocker(QObject *);
-    djvSignalBlocker(const QObjectList &);
-    djvSignalBlocker(const QVector<QObject *> &);
+    namespace Core
+    {
+        //! \class SignalBlocker
+        //!
+        //! This class provides functionality to temporarily block QObject signals.
+        class SignalBlocker
+        {
+        public:
+            SignalBlocker(QObject *);
+            SignalBlocker(const QObjectList &);
+            SignalBlocker(const QVector<QObject *> &);
 
-    ~djvSignalBlocker();
-    
-    //! Add an object.    
-    void add(QObject *);
-    
-    //! Add a list of objects.
-    void add(const QObjectList &);
-    
-    //! Add a list of objects.
-    void add(const QVector<QObject *> &);
-    
-private:
-    DJV_PRIVATE_COPY(djvSignalBlocker)
-    
-    QObjectList _objects;
-};
+            ~SignalBlocker();
 
-//@} // djvCoreMisc
+            //! Add an object.    
+            void add(QObject *);
 
+            //! Add a list of objects.
+            void add(const QObjectList &);
+
+            //! Add a list of objects.
+            void add(const QVector<QObject *> &);
+
+        private:
+            DJV_PRIVATE_COPY(SignalBlocker);
+
+            QObjectList _objects;
+        };
+
+    } // namespace Core
+} // namespace djv

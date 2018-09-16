@@ -125,7 +125,7 @@ namespace djv
         struct FileCache::Private
         {
             Private(Context * context) :
-                maxByteCount(static_cast<quint64>(context->filePrefs()->cacheSize() * djvMemory::gigabyte)),
+                maxByteCount(static_cast<quint64>(context->filePrefs()->cacheSize() * Core::Memory::gigabyte)),
                 context(context)
             {}
 
@@ -345,7 +345,6 @@ namespace djv
 
         namespace
         {
-
             bool compare(qint64 a, qint64 b)
             {
                 return a < b;
@@ -353,9 +352,9 @@ namespace djv
 
         } // namespace
 
-        djvFrameList FileCache::frames(const void * key)
+        Core::FrameList FileCache::frames(const void * key)
         {
-            djvFrameList frames;
+            Core::FrameList frames;
             const int count = _p->items.count();
             for (int i = 0; i < count; ++i)
             {
@@ -370,7 +369,7 @@ namespace djv
 
         float FileCache::maxSize() const
         {
-            return _p->maxByteCount / static_cast<float>(djvMemory::gigabyte);
+            return _p->maxByteCount / static_cast<float>(Core::Memory::gigabyte);
         }
 
         quint64 FileCache::maxByteCount() const
@@ -389,12 +388,12 @@ namespace djv
                     size += _p->items[i]->image()->dataByteCount();
                 }
             }
-            return size / static_cast<float>(djvMemory::gigabyte);
+            return size / static_cast<float>(Core::Memory::gigabyte);
         }
 
         float FileCache::size() const
         {
-            return _p->cacheByteCount / static_cast<float>(djvMemory::gigabyte);
+            return _p->cacheByteCount / static_cast<float>(Core::Memory::gigabyte);
         }
 
         quint64 FileCache::byteCount() const
@@ -451,7 +450,7 @@ namespace djv
             //DJV_DEBUG("FileCache::setMaxSize");
             //DJV_DEBUG_PRINT("size = " << size);
             //debug();
-            _p->maxByteCount = static_cast<quint64>(size * djvMemory::gigabyte);
+            _p->maxByteCount = static_cast<quint64>(size * Core::Memory::gigabyte);
             //if (_p->cacheByteCount > _p->maxByteCount)
             purge();
             //debug();

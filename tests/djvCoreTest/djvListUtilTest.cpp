@@ -39,22 +39,30 @@
 
 #include <QString>
 
-void djvListUtilTest::run(int &, char **)
-{
-    DJV_DEBUG("djvListUtilTest::run");
-    convert();
-}
+using namespace djv::Core;
 
-void djvListUtilTest::convert()
+namespace djv
 {
-    DJV_DEBUG("djvListUtilTest::convert");
-    const QVector<float> floatList = QVector<float>() << 1.f << 2.f << 3.f;
-    QVector<int> intList;
-    djvListUtil::convert<float, int>(floatList, intList);
-    DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3);
-    djvListUtil::convert<float, int>(floatList);
-    DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3);
-    djvListUtil::convertAndAppend<float, int>(floatList, intList);
-    DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3 << 1 << 2 << 3);
-}
+    namespace CoreTest
+    {
+        void ListUtilTest::run(int &, char **)
+        {
+            DJV_DEBUG("ListUtilTest::run");
+            convert();
+        }
 
+        void ListUtilTest::convert()
+        {
+            DJV_DEBUG("ListUtilTest::convert");
+            const QVector<float> floatList = QVector<float>() << 1.f << 2.f << 3.f;
+            QVector<int> intList;
+            ListUtil::convert<float, int>(floatList, intList);
+            DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3);
+            ListUtil::convert<float, int>(floatList);
+            DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3);
+            ListUtil::convertAndAppend<float, int>(floatList, intList);
+            DJV_ASSERT(intList == QVector<int>() << 1 << 2 << 3 << 1 << 2 << 3);
+        }
+
+    } // namespace CoreTest
+} // namespace djv

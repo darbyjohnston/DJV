@@ -49,23 +49,23 @@ namespace djv
         class OpenEXRSave : public ImageSave
         {
         public:
-            OpenEXRSave(const OpenEXR::Options &, djvCoreContext *);
+            OpenEXRSave(const OpenEXR::Options &, Core::CoreContext *);
 
             virtual ~OpenEXRSave();
 
-            virtual void open(const djvFileInfo &, const ImageIOInfo &) throw (djvError);
-            virtual void write(const Image &, const ImageIOFrameInfo &) throw (djvError);
-            virtual void close() throw (djvError);
+            virtual void open(const Core::FileInfo &, const ImageIOInfo &) throw (Core::Error);
+            virtual void write(const Image &, const ImageIOFrameInfo &) throw (Core::Error);
+            virtual void close() throw (Core::Error);
 
         private:
-            void _open(const QString &, const ImageIOInfo &) throw (djvError);
+            void _open(const QString &, const ImageIOInfo &) throw (Core::Error);
 
             OpenEXR::Options  _options;
-            djvFileInfo       _file;
+            Core::FileInfo    _file;
             Imf::OutputFile * _f;
             PixelDataInfo     _info;
             QStringList       _channels;
-            djvSpeed          _speed;
+            Core::Speed       _speed;
             PixelData         _tmp;
         };
 

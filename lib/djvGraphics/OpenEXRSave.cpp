@@ -45,7 +45,7 @@ namespace djv
 {
     namespace Graphics
     {
-        OpenEXRSave::OpenEXRSave(const OpenEXR::Options & options, djvCoreContext * context) :
+        OpenEXRSave::OpenEXRSave(const OpenEXR::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options),
             _f(0)
@@ -56,8 +56,8 @@ namespace djv
             close();
         }
 
-        void OpenEXRSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void OpenEXRSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -66,7 +66,7 @@ namespace djv
             _file = in;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
 
             // Image information.
@@ -89,7 +89,7 @@ namespace djv
         }
 
         void OpenEXRSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -139,7 +139,7 @@ namespace djv
             }
             catch (const std::exception & error)
             {
-                throw djvError(
+                throw Core::Error(
                     OpenEXR::staticName,
                     error.what());
             }
@@ -147,14 +147,14 @@ namespace djv
             close();
         }
 
-        void OpenEXRSave::close() throw (djvError)
+        void OpenEXRSave::close() throw (Core::Error)
         {
             delete _f;
             _f = 0;
         }
 
         void OpenEXRSave::_open(const QString & in, const ImageIOInfo & info)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("OpenEXRSave::_open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -229,7 +229,7 @@ namespace djv
             }
             catch (const std::exception & error)
             {
-                throw djvError(
+                throw Core::Error(
                     OpenEXR::staticName,
                     error.what());
             }

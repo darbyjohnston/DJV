@@ -42,18 +42,6 @@
 
 #include <QMetaType>
 
-namespace djv
-{
-    namespace Graphics
-    {
-        class OpenGLLUT;
-        class OpenGLOffscreenBuffer;
-        class OpenGLTexture;
-        class OpenGLShader;
-
-    } // namespace Graphics
-} // namespace djv
-
 class QPixmap;
 
 #if defined DJV_WINDOWS
@@ -64,6 +52,11 @@ namespace djv
 {
     namespace Graphics
     {
+        class OpenGLLUT;
+        class OpenGLOffscreenBuffer;
+        class OpenGLTexture;
+        class OpenGLShader;
+
         //! \class OpenGLImageXform
         //!
         //! This class provides OpenGL image transform options.
@@ -118,7 +111,7 @@ namespace djv
             static PixelData colorLut(const OpenGLImageLevels &, float softClip);
         };
 
-        //! \class djvOpenGLImageDisplayProfile
+        //! \class OpenGLImageDisplayProfile
         //!
         //! This class provides OpenGL image display profile options.
         class OpenGLImageDisplayProfile
@@ -249,13 +242,13 @@ namespace djv
             void draw(
                 const PixelData &          data,
                 const glm::mat4x4&         viewMatrix,
-                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (djvError);
+                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (Core::Error);
 
             //! Read pixel data.
             void read(PixelData &);
 
             //! Read pixel data.
-            void read(PixelData &, const djvBox2i &);
+            void read(PixelData &, const Core::Box2i &);
 
             //! Read a pixel.
             Color read(const PixelData &, int x, int y);
@@ -264,7 +257,7 @@ namespace djv
             void copy(
                 const PixelData &          input,
                 PixelData &                output,
-                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (djvError);
+                const OpenGLImageOptions & options = OpenGLImageOptions()) throw (Core::Error);
 
             //! Setup OpenGL state for image drawing.
             static void stateUnpack(
@@ -282,7 +275,7 @@ namespace djv
             void average(
                 const PixelData &   input,
                 Color &             output,
-                const Pixel::Mask & mask = Pixel::Mask()) throw (djvError);
+                const Pixel::Mask & mask = Pixel::Mask()) throw (Core::Error);
 
             //! Calculate the histogram.
             //!
@@ -293,7 +286,7 @@ namespace djv
                 int                 size,
                 Color &             min,
                 Color &             max,
-                const Pixel::Mask & mask = Pixel::Mask()) throw (djvError);
+                const Pixel::Mask & mask = Pixel::Mask()) throw (Core::Error);
 
             //! Convert pixel data to Qt.    
             QPixmap toQt(
@@ -328,28 +321,29 @@ namespace djv
             std::unique_ptr<OpenGLOffscreenBuffer> _buffer;
         };
 
-        DJV_COMPARISON_OPERATOR(OpenGLImageXform);
-        DJV_COMPARISON_OPERATOR(OpenGLImageColor);
-        DJV_COMPARISON_OPERATOR(OpenGLImageLevels);
-        DJV_COMPARISON_OPERATOR(OpenGLImageDisplayProfile);
-        DJV_COMPARISON_OPERATOR(OpenGLImageFilter);
-        DJV_COMPARISON_OPERATOR(OpenGLImageOptions);
-
     } // namespace Graphics
+
+    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageXform);
+    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageColor);
+    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageLevels);
+    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageDisplayProfile);
+    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageFilter);
+    DJV_COMPARISON_OPERATOR(Graphics::OpenGLImageOptions);
+
+    DJV_STRING_OPERATOR(Graphics::OpenGLImageXform);
+    DJV_STRING_OPERATOR(Graphics::OpenGLImageColor);
+    DJV_STRING_OPERATOR(Graphics::OpenGLImageLevels);
+    DJV_STRING_OPERATOR(Graphics::OpenGLImageFilter);
+    DJV_STRING_OPERATOR(Graphics::OpenGLImageFilter::FILTER);
+    DJV_STRING_OPERATOR(Graphics::OpenGLImageOptions::CHANNEL);
+
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageXform);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageColor);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageLevels);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageDisplayProfile);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageFilter);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageFilter::FILTER);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageOptions);
+    DJV_DEBUG_OPERATOR(Graphics::OpenGLImageOptions::CHANNEL);
+
 } // namespace djv
-
-DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageXform);
-DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageColor);
-DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageLevels);
-DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageFilter);
-DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageFilter::FILTER);
-DJV_STRING_OPERATOR(djv::Graphics::OpenGLImageOptions::CHANNEL);
-
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageXform);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageColor);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageLevels);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageDisplayProfile);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageFilter);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageFilter::FILTER);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageOptions);
-DJV_DEBUG_OPERATOR(djv::Graphics::OpenGLImageOptions::CHANNEL);

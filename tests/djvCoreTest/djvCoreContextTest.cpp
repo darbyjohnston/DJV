@@ -39,113 +39,122 @@
 #include <djvCore/Speed.h>
 #include <djvCore/Time.h>
 
-void djvCoreContextTest::run(int & argc, char ** argv)
+using namespace djv::Core;
+
+namespace djv
 {
-    DJV_DEBUG("djvCoreContextTest::run");
+    namespace CoreTest
     {
-        djvCoreContext context;
-        DJV_DEBUG_PRINT("doc = " << context.doc());
-        context.printError(djvError("prefix", "string"));
-        context.printSeparator();
-        context.print("message 2");
-    }
+        void CoreContextTest::run(int & argc, char ** argv)
+        {
+            DJV_DEBUG("CoreContextTest::run");
+            {
+                CoreContext context;
+                DJV_DEBUG_PRINT("doc = " << context.doc());
+                context.printError(Error("prefix", "string"));
+                context.printSeparator();
+                context.print("message 2");
+            }
 
-    try
-    {
-        djvCoreContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "arg"
-        };
-        int argsCount = 2;
-        DJV_ASSERT(context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
+            try
+            {
+                CoreContext context;
+                char * args[256] =
+                {
+                    "Test",
+                    "arg"
+                };
+                int argsCount = 2;
+                DJV_ASSERT(context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
 
-    try
-    {
-        djvCoreContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-time_units",    "timecode",
-            "-default_speed", "12"
-        };
-        int argsCount = 5;
-        DJV_ASSERT(context.commandLine(argsCount, args));
-        DJV_ASSERT(djvTime::UNITS_TIMECODE == djvTime::units());
-        DJV_ASSERT(djvSpeed(12) == djvSpeed::speed());
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        djvCoreContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-time_units",
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (...)
-    {}
-    try
-    {
-        djvCoreContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-help",
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        djvCoreContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-info",
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-    try
-    {
-        djvCoreContext context;
-        char * args [256] =
-        {
-            "djvTest",
-            "-about",
-        };
-        int argsCount = 2;
-        DJV_ASSERT(! context.commandLine(argsCount, args));
-    }
-    catch (const djvError & error)
-    {
-        djvErrorUtil::print(error);
-        DJV_ASSERT(0);
-    }
-}
+            try
+            {
+                CoreContext context;
+                char * args[256] =
+                {
+                    "Test",
+                    "-time_units",    "timecode",
+                    "-default_speed", "12"
+                };
+                int argsCount = 5;
+                DJV_ASSERT(context.commandLine(argsCount, args));
+                DJV_ASSERT(Time::UNITS_TIMECODE == Time::units());
+                DJV_ASSERT(Speed(12) == Speed::speed());
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                CoreContext context;
+                char * args[256] =
+                {
+                    "Test",
+                    "-time_units",
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (...)
+            {
+            }
+            try
+            {
+                CoreContext context;
+                char * args[256] =
+                {
+                    "Test",
+                    "-help",
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                CoreContext context;
+                char * args[256] =
+                {
+                    "Test",
+                    "-info",
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+            try
+            {
+                CoreContext context;
+                char * args[256] =
+                {
+                    "Test",
+                    "-about",
+                };
+                int argsCount = 2;
+                DJV_ASSERT(!context.commandLine(argsCount, args));
+            }
+            catch (const Error & error)
+            {
+                ErrorUtil::print(error);
+                DJV_ASSERT(0);
+            }
+        }
 
+    } // namespace CoreTest
+} // namespace djv

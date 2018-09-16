@@ -162,7 +162,7 @@ namespace djv
 
         void PlaybackPrefsWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->autoStartWidget <<
                 _p->loopWidget <<
                 _p->everyFrameWidget <<

@@ -38,6 +38,8 @@
 
 #include <QWidget>
 
+class QComboBox;
+
 namespace djv
 {
     namespace ViewLib
@@ -49,52 +51,53 @@ namespace djv
         class SpeedDisplay;
 
     } // namespace ViewLib
+
+    namespace WidgetTest
+    {
+        class ViewWidget : public QWidget
+        {
+            Q_OBJECT
+
+        public:
+            ViewWidget(UI::UIContext *);
+
+        private Q_SLOTS:
+            void timeUnitsCallback(int);
+            void frameCallback(qint64);
+            void speedCallback(const djv::Core::Speed &);
+
+            void widgetUpdate();
+            void frameUpdate();
+
+        private:
+            qint64 _frame;
+            bool _inOutEnabled;
+            qint64 _inPoint;
+            qint64 _outPoint;
+            Core::FrameList _frameList;
+            Core::FrameList _cachedFrames;
+            Core::Speed _speed;
+
+            UI::UIContext * _context = nullptr;
+            QComboBox * _timeUnitsWidget = nullptr;
+            ViewLib::FrameWidget *  _frameWidget = nullptr;
+            ViewLib::FrameSlider *  _frameSlider = nullptr;
+            ViewLib::FrameDisplay * _frameDisplay = nullptr;
+            ViewLib::SpeedWidget *  _speedWidget = nullptr;
+            ViewLib::SpeedDisplay * _speedDisplay = nullptr;
+        };
+
+        class ViewWidgetTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
+
+        public:
+            ViewWidgetTest(UI::UIContext *);
+
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+        };
+
+    } // namespace WidgetTest
 } // namespace djv
-
-class QComboBox;
-
-class djvViewWidget : public QWidget
-{
-    Q_OBJECT
-    
-public:
-    djvViewWidget(djv::UI::UIContext *);
-
-private Q_SLOTS:
-    void timeUnitsCallback(int);
-    void frameCallback(qint64);
-    void speedCallback(const djvSpeed &);
-    
-    void widgetUpdate();
-    void frameUpdate();
-
-private:
-    qint64 _frame;
-    bool _inOutEnabled;
-    qint64 _inPoint;
-    qint64 _outPoint;
-    djvFrameList _frameList;
-    djvFrameList _cachedFrames;
-    djvSpeed _speed;
-    
-    djv::UI::UIContext * _context = nullptr;
-    QComboBox * _timeUnitsWidget = nullptr;
-    djv::ViewLib::FrameWidget *  _frameWidget = nullptr;
-    djv::ViewLib::FrameSlider *  _frameSlider = nullptr;
-    djv::ViewLib::FrameDisplay * _frameDisplay = nullptr;
-    djv::ViewLib::SpeedWidget *  _speedWidget = nullptr;
-    djv::ViewLib::SpeedDisplay * _speedDisplay = nullptr;
-};
-
-class djvViewWidgetTest : public djvAbstractWidgetTest
-{
-    Q_OBJECT
-    
-public:
-    djvViewWidgetTest(djv::UI::UIContext *);
-
-    virtual QString name();
-
-    virtual void run(const QStringList & args = QStringList());
-};
-

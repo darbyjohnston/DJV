@@ -31,91 +31,92 @@
 
 #include <djvCore/Math.h>
 
-//------------------------------------------------------------------------------
-// djvRangeUtil
-//------------------------------------------------------------------------------
-
-inline djvRangeUtil::~djvRangeUtil()
-{}
-
-template<typename T>
-inline bool djvRangeUtil::intersect(T in, const djvRange<T> & range)
+namespace djv
 {
-    return in >= range.min && in < range.max;
-}
-
-inline bool djvRangeUtil::intersect(int in, const djvRange<int> & range)
-{
-    return in >= range.min && in < range.max + 1;
-}
-
-template<typename T>
-inline bool djvRangeUtil::intersect(
-    const djvRange<T> & a,
-    const djvRange<T> & b,
-    djvRange<T> * out)
-{
-    out->min = djvMath::max(a.min, b.min);
-    out->max = djvMath::min(a.max, b.max);
-    return out->max > out->min;
-}
-
-inline bool djvRangeUtil::intersect(const djvRange<int> & a, const djvRange<int> & b,
-    djvRange<int> * out)
-{
-    out->min = djvMath::max(a.min, b.min);
-    out->max = djvMath::min(a.max, b.max);
-    return (out->max + 1) > out->min;
-}
-
-template<typename T>
-inline void djvRangeUtil::bound(
-    const djvRange<T> & a,
-    const djvRange<T> & b,
-    djvRange<T> * out)
-{
-    out->min = djvMath::min(a.min, b.min);
-    out->max = djvMath::max(a.max, b.max);
-}
-
-inline djvFrameRangeList djvRangeUtil::range(const djvFrameList & in)
-{
-    djvFrameRangeList out;
-    if (in.count())
+    namespace Core
     {
-        out += djvFrameRange(in[0], in[0]);
-    }
-    for (int i = 1; i < in.count(); ++i)
-    {
-        if (in[i] - 1 != out[out.count() - 1].max)
+        inline RangeUtil::~RangeUtil()
+        {}
+
+        template<typename T>
+        inline bool RangeUtil::intersect(T in, const Range<T> & range)
         {
-            out += djvFrameRange(in[i], in[i]);
+            return in >= range.min && in < range.max;
         }
-        else
+
+        inline bool RangeUtil::intersect(int in, const Range<int> & range)
         {
-            out[out.count() - 1].max = in[i];
+            return in >= range.min && in < range.max + 1;
         }
-    }
-    return out;
-}
 
-inline djvFrameList djvRangeUtil::frames(const djvFrameRange & in)
-{
-    djvFrameList out;
-    for (qint64 i = in.min; i <= in.max; ++i)
-    {
-        out += i;
-    }
-    return out;
-}
+        template<typename T>
+        inline bool RangeUtil::intersect(
+            const Range<T> & a,
+            const Range<T> & b,
+            Range<T> * out)
+        {
+            out->min = Math::max(a.min, b.min);
+            out->max = Math::min(a.max, b.max);
+            return out->max > out->min;
+        }
 
-inline djvFrameList djvRangeUtil::frames(const djvFrameRangeList & in)
-{
-    djvFrameList out;
-    for (int i = 0; i < in.count(); ++i)
-    {
-        out += frames(in[i]);
-    }
-    return out;
-}
+        inline bool RangeUtil::intersect(const Range<int> & a, const Range<int> & b, Range<int> * out)
+        {
+            out->min = Math::max(a.min, b.min);
+            out->max = Math::min(a.max, b.max);
+            return (out->max + 1) > out->min;
+        }
 
+        template<typename T>
+        inline void RangeUtil::bound(
+            const Range<T> & a,
+            const Range<T> & b,
+            Range<T> * out)
+        {
+            out->min = Math::min(a.min, b.min);
+            out->max = Math::max(a.max, b.max);
+        }
+
+        inline FrameRangeList RangeUtil::range(const FrameList & in)
+        {
+            FrameRangeList out;
+            if (in.count())
+            {
+                out += FrameRange(in[0], in[0]);
+            }
+            for (int i = 1; i < in.count(); ++i)
+            {
+                if (in[i] - 1 != out[out.count() - 1].max)
+                {
+                    out += FrameRange(in[i], in[i]);
+                }
+                else
+                {
+                    out[out.count() - 1].max = in[i];
+                }
+            }
+            return out;
+        }
+
+        inline FrameList RangeUtil::frames(const FrameRange & in)
+        {
+            FrameList out;
+            for (qint64 i = in.min; i <= in.max; ++i)
+            {
+                out += i;
+            }
+            return out;
+        }
+
+        inline FrameList RangeUtil::frames(const FrameRangeList & in)
+        {
+            FrameList out;
+            for (int i = 0; i < in.count(); ++i)
+            {
+                out += frames(in[i]);
+            }
+            return out;
+        }
+
+    } // namespace Core
+} // namespace djv

@@ -37,55 +37,53 @@
 
 #include <memory>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvError
-//!
-//! This class provides the base exception class.
-//------------------------------------------------------------------------------
-
-class djvError
+namespace djv
 {
-public:
-
-    //! This struct provides an error message.    
-    struct Message
+    namespace Core
     {
-        Message(
-            const QString & prefix = QString(),
-            const QString & string = QString());
+        //! \class Error
+        //!
+        //! This class provides the base exception class.
+        class Error
+        {
+        public:
 
-        QString prefix;
-        QString string;
-    };
+            //! This struct provides an error message.    
+            struct Message
+            {
+                Message(
+                    const QString & prefix = QString(),
+                    const QString & string = QString());
 
-    djvError();
-    djvError(const QString & string);
-    djvError(const QString & prefix, const QString & string);
-    djvError(const djvError &);
+                QString prefix;
+                QString string;
+            };
 
-    virtual ~djvError();
+            Error();
+            Error(const QString & string);
+            Error(const QString & prefix, const QString & string);
+            Error(const Error &);
 
-    //! Get the message list.
-    const QList<Message> & messages() const;
-    
-    //! Get the number of messages.
-    int count() const;
-    
-    //! Add a message to the list.
-    void add(const QString & string);
-    
-    //! Add a message to the list.
-    void add(const QString & prefix, const QString & string);
+            virtual ~Error();
 
-    djvError & operator = (const djvError &);
+            //! Get the message list.
+            const QList<Message> & messages() const;
 
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+            //! Get the number of messages.
+            int count() const;
 
-//@} // djvCoreMisc
+            //! Add a message to the list.
+            void add(const QString & string);
 
+            //! Add a message to the list.
+            void add(const QString & prefix, const QString & string);
+
+            Error & operator = (const Error &);
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace Core
+} // namespace djv

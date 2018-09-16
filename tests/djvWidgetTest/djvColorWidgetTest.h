@@ -35,19 +35,24 @@
 
 #include <djvGraphics/Color.h>
 
-class djvColorWidgetTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace WidgetTest
+    {
+        class ColorWidgetTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    djvColorWidgetTest(djv::UI::UIContext *);
+        public:
+            ColorWidgetTest(UI::UIContext *);
 
-    virtual QString name();
+            virtual QString name();
 
-    virtual void run(const QStringList & args = QStringList());
+            virtual void run(const QStringList & args = QStringList());
 
-private Q_SLOTS:
+        private Q_SLOTS:
+            void colorCallback(const djv::Graphics::Color &);
+        };
 
-    void colorCallback(const djv::Graphics::Color &);
-};
+    } // namespace WidgetTest
+} // namespace djv

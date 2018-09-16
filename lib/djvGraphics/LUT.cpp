@@ -43,8 +43,6 @@
 
 #include <stdio.h>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -81,22 +79,22 @@ namespace djv
 
         namespace
         {
-            int _bitDepth(djvFileIO & io) throw (djvError)
+            int _bitDepth(Core::FileIO & io) throw (Core::Error)
             {
                 int out = 0;
                 const quint64 pos = io.pos();
-                char tmp[djvStringUtil::cStringLength] = "";
+                char tmp[Core::StringUtil::cStringLength] = "";
                 while (1)
                 {
                     try
                     {
-                        djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+                        Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
                     }
-                    catch (const djvError &)
+                    catch (const Core::Error &)
                     {
                         break;
                     }
-                    out = djvMath::max(QString(tmp).toInt(), out);
+                    out = Core::Math::max(QString(tmp).toInt(), out);
                 }
                 io.setPos(pos);
                 if (out <= Pixel::u8Max)
@@ -112,24 +110,24 @@ namespace djv
 
         } // namespace
 
-        void LUT::infernoOpen(djvFileIO & io, PixelDataInfo & info, TYPE type)
-            throw (djvError)
+        void LUT::infernoOpen(Core::FileIO & io, PixelDataInfo & info, TYPE type)
+            throw (Core::Error)
         {
             //DJV_DEBUG("infernoOpen");
 
             // Header.
-            char tmp[djvStringUtil::cStringLength] = "";
-            djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+            char tmp[Core::StringUtil::cStringLength] = "";
+            Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
             //DJV_DEBUG_PRINT("magic = " << tmp);
             if (QString(tmp) != "LUT:")
             {
-                throw djvError(
+                throw Core::Error(
                     LUT::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
             }
-            djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+            Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
             const int channels = QString(tmp).toInt();
-            djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+            Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
             const int size = QString(tmp).toInt();
             //DJV_DEBUG_PRINT("size = " << size);
             //DJV_DEBUG_PRINT("channels = " << channels);
@@ -148,23 +146,23 @@ namespace djv
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
             if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
             {
-                throw djvError(
+                throw Core::Error(
                     LUT::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
         }
 
-        void LUT::infernoOpen(djvFileIO & io, const PixelDataInfo & info)
-            throw (djvError)
+        void LUT::infernoOpen(Core::FileIO & io, const PixelDataInfo & info)
+            throw (Core::Error)
         {
-            char tmp[djvStringUtil::cStringLength] = "";
-            int size = SNPRINTF(tmp, djvStringUtil::cStringLength, "LUT: %d %d\n\n",
+            char tmp[Core::StringUtil::cStringLength] = "";
+            int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "LUT: %d %d\n\n",
                 Pixel::channels(info.pixel), info.size.x);
             io.set(tmp, size);
         }
 
-        void LUT::kodakOpen(djvFileIO & io, PixelDataInfo & info, TYPE type)
-            throw (djvError)
+        void LUT::kodakOpen(Core::FileIO & io, PixelDataInfo & info, TYPE type)
+            throw (Core::Error)
         {
             //DJV_DEBUG("LUT::kodakOpen");
 
@@ -179,7 +177,7 @@ namespace djv
                 {
                     io.get8(&c);
                 }
-                catch (const djvError &)
+                catch (const Core::Error &)
                 {
                     break;
                 }
@@ -223,7 +221,7 @@ namespace djv
                 {
                     io.get8(&c);
                 }
-                catch (const djvError &)
+                catch (const Core::Error &)
                 {
                     break;
                 }
@@ -250,18 +248,18 @@ namespace djv
             //DJV_DEBUG_PRINT("bit depth = " << bitDepth);
             if (!Pixel::pixel(channels, bitDepth, Pixel::INTEGER, info.pixel))
             {
-                throw djvError(
+                throw Core::Error(
                     LUT::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
             }
         }
 
-        void LUT::kodakOpen(djvFileIO &, const PixelDataInfo &)
-            throw (djvError)
+        void LUT::kodakOpen(Core::FileIO &, const PixelDataInfo &)
+            throw (Core::Error)
         {}
 
-        void LUT::infernoLoad(djvFileIO & io, Image & out)
-            throw (djvError)
+        void LUT::infernoLoad(Core::FileIO & io, Image & out)
+            throw (Core::Error)
         {
             //DJV_DEBUG("djvLUT::infernoLoad");
             QVector<Color> color(out.w());
@@ -272,8 +270,8 @@ namespace djv
             for (int c = 0; c < Pixel::channels(out.pixel()); ++c)
                 for (int x = 0; x < out.w(); ++x)
                 {
-                    char tmp[djvStringUtil::cStringLength] = "";
-                    djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+                    char tmp[Core::StringUtil::cStringLength] = "";
+                    Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
                     const int v = QString(tmp).toInt();
                     switch (Pixel::type(out.pixel()))
                     {
@@ -293,7 +291,7 @@ namespace djv
             }
         }
 
-        void LUT::kodakLoad(djvFileIO & io, Image & out) throw (djvError)
+        void LUT::kodakLoad(Core::FileIO & io, Image & out) throw (Core::Error)
         {
             //DJV_DEBUG("LUT::kodakLoad");
             for (int x = 0; x < out.w(); ++x)
@@ -301,8 +299,8 @@ namespace djv
                 Color color(out.pixel());
                 for (int c = 0; c < Pixel::channels(out.pixel()); ++c)
                 {
-                    char tmp[djvStringUtil::cStringLength] = "";
-                    djvFileIOUtil::word(io, tmp, djvStringUtil::cStringLength);
+                    char tmp[Core::StringUtil::cStringLength] = "";
+                    Core::FileIOUtil::word(io, tmp, Core::StringUtil::cStringLength);
                     const int v = QString(tmp).toInt();
                     switch (Pixel::type(out.pixel()))
                     {
@@ -320,8 +318,8 @@ namespace djv
             }
         }
 
-        void LUT::infernoSave(djvFileIO & io, const PixelData * out)
-            throw (djvError)
+        void LUT::infernoSave(Core::FileIO & io, const PixelData * out)
+            throw (Core::Error)
         {
             QVector<Color> color(out->w());
             for (int x = 0; x < out->w(); ++x)
@@ -344,15 +342,15 @@ namespace djv
                     case Pixel::U16: v = color[x].u16(c); break;
                     default: break;
                     }
-                    char tmp[djvStringUtil::cStringLength] = "";
-                    const int size = SNPRINTF(tmp, djvStringUtil::cStringLength, "%9d\n", v);
+                    char tmp[Core::StringUtil::cStringLength] = "";
+                    const int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%9d\n", v);
                     io.set(tmp, size);
                 }
             }
         }
 
-        void LUT::kodakSave(djvFileIO & io, const PixelData * out)
-            throw (djvError)
+        void LUT::kodakSave(Core::FileIO & io, const PixelData * out)
+            throw (Core::Error)
         {
             for (int x = 0; x < out->w(); ++x)
             {
@@ -371,8 +369,8 @@ namespace djv
                     case Pixel::U16: v = color.u16(c); break;
                     default: break;
                     }
-                    char tmp[djvStringUtil::cStringLength] = "";
-                    int size = SNPRINTF(tmp, djvStringUtil::cStringLength, "%6d", v);
+                    char tmp[Core::StringUtil::cStringLength] = "";
+                    int size = SNPRINTF(tmp, Core::StringUtil::cStringLength, "%6d", v);
                     io.set(tmp, size);
                 }
                 io.set8('\n');
@@ -388,7 +386,8 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::LUT::FORMAT, Graphics::LUT::formatLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::LUT::TYPE, Graphics::LUT::typeLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::LUT::FORMAT, Graphics::LUT::formatLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::LUT::TYPE, Graphics::LUT::typeLabels());
+
+} // namespace djv

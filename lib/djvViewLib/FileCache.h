@@ -140,7 +140,7 @@ namespace djv
 
             //! Get the list of frames for the given key. The frames are sorted in
             //! ascending order.
-            djvFrameList frames(const void * key);
+            Core::FrameList frames(const void * key);
 
             //! Get the maximum cache size in gigabytes.
             float maxSize() const;

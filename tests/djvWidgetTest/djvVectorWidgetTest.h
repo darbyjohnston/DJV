@@ -35,18 +35,25 @@
 
 #include <djvCore/Vector.h>
 
-class djvVectorWidgetTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvVectorWidgetTest(djv::UI::UIContext *);
-    
-    virtual QString name();
+    namespace WidgetTest
+    {
+        class VectorWidgetTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    virtual void run(const QStringList & args = QStringList());
-    
-private Q_SLOTS:
-    void intCallback(const glm::ivec2 &);
-    void floatCallback(const glm::vec2 &);
-};
+        public:
+            VectorWidgetTest(UI::UIContext *);
+
+            virtual QString name();
+
+            virtual void run(const QStringList & args = QStringList());
+
+        private Q_SLOTS:
+            void intCallback(const glm::ivec2 &);
+            void floatCallback(const glm::vec2 &);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

@@ -35,14 +35,21 @@
 
 #include <djvAbstractTest.h>
 
-class djvOpenGLImageTest : public djvAbstractTest
+namespace djv
 {
-public:
-    virtual void run(int &, char **);
+    namespace GraphicsTest
+    {
+        class OpenGLImageTest : public TestLib::AbstractTest
+        {
+        public:
+            virtual void run(int &, char **);
 
-private:
-    void ctors();
-    void members();
-    void convert();
-    void operators();
-};
+        private:
+            void ctors();
+            void members();
+            void convert();
+            void operators();
+        };
+
+    } // namespace GraphicsTest
+} // namespace djv

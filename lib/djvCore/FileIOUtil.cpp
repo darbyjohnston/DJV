@@ -36,114 +36,115 @@
 #include <djvCore/Assert.h>
 #include <djvCore/FileIO.h>
 
-//------------------------------------------------------------------------------
-// djvFileIOUtil
-//------------------------------------------------------------------------------
-
-djvFileIOUtil::~djvFileIOUtil()
-{}
-
-void djvFileIOUtil::word(djvFileIO & in, char * out, int maxLen) throw (djvError)
+namespace djv
 {
-    DJV_ASSERT(maxLen > 0);
-
-    //DJV_DEBUG("djvFileIOUtil::word");
-
-    //! \todo Document how comments are handled.
-    out[0] = 0;
-    enum
+    namespace Core
     {
-        END,
-        WORD,
-        COMMENT
-    }
-        parse = WORD;
-    int i = 0;
-    while (parse)
-    {
-        //DJV_DEBUG_PRINT("parse = " << parse);
-        //DJV_DEBUG_PRINT("i = " << i);
+        FileIOUtil::~FileIOUtil()
+        {}
 
-        // Get the next character.
-        quint8 c;
-        in.get(&c, 1);
-        //DJV_DEBUG_PRINT("c = \'" << c << "\'");
-
-        switch (c)
+        void FileIOUtil::word(FileIO & in, char * out, int maxLen) throw (Error)
         {
-                // Start of a comment.
-            case '#':
-                parse = COMMENT;
-                break;
-                // End of a comment or word.
-            case '\0':
-            case '\n':
-            case '\r':
-                parse = WORD;
-            case ' ':
-            case '\t':
-                if (out[0])
+            DJV_ASSERT(maxLen > 0);
+
+            //DJV_DEBUG("FileIOUtil::word");
+
+            //! \todo Document how comments are handled.
+            out[0] = 0;
+            enum
+            {
+                END,
+                WORD,
+                COMMENT
+            }
+            parse = WORD;
+            int i = 0;
+            while (parse)
+            {
+                //DJV_DEBUG_PRINT("parse = " << parse);
+                //DJV_DEBUG_PRINT("i = " << i);
+
+                // Get the next character.
+                quint8 c;
+                in.get(&c, 1);
+                //DJV_DEBUG_PRINT("c = \'" << c << "\'");
+
+                switch (c)
                 {
-                    parse = END;
+                    // Start of a comment.
+                case '#':
+                    parse = COMMENT;
+                    break;
+                    // End of a comment or word.
+                case '\0':
+                case '\n':
+                case '\r':
+                    parse = WORD;
+                case ' ':
+                case '\t':
+                    if (out[0])
+                    {
+                        parse = END;
+                    }
+                    break;
+                    // Add the character to the word.
+                default:
+                    if (WORD == parse && i < (maxLen - 1))
+                    {
+                        out[i++] = c;
+                        //out[i] = 0;
+                        //DJV_DEBUG_PRINT("out = \"" << out << "\"");
+                    }
+                    break;
                 }
-                break;
-                // Add the character to the word.
-            default:
-                if (WORD == parse && i < (maxLen - 1))
+            }
+
+            out[i] = 0;
+            //DJV_DEBUG_PRINT("out = \"" << out << "\"");
+        }
+
+        void FileIOUtil::line(FileIO & in, char * out, int maxLen) throw (Error)
+        {
+            DJV_ASSERT(maxLen > 0);
+
+            //DJV_DEBUG("FileIOUtil::line");
+
+            //! \todo Should we handle comments here like FileIOUtil::word()?
+            int  i = 0;
+            char c = 0;
+            do
+            {
+                in.get(&c, 1);
+                if (
+                    c != '\n' &&
+                    c != '\r')
                 {
                     out[i++] = c;
-                    //out[i] = 0;
-                    //DJV_DEBUG_PRINT("out = \"" << out << "\"");
+                    //DJV_DEBUG_PRINT(QString(out, i));
                 }
-                break;
+            } while (
+                c != '\n' &&
+                c != '\r' &&
+                in.isValid() &&
+                i < (maxLen - 1));
+
+            out[i] = 0;
+            //DJV_DEBUG_PRINT("out = \"" << out << "\"");
         }
-    }
-    
-    out[i] = 0;
-    //DJV_DEBUG_PRINT("out = \"" << out << "\"");
-}
 
-void djvFileIOUtil::line(djvFileIO & in, char * out, int maxLen) throw (djvError)
-{
-    DJV_ASSERT(maxLen > 0);
-
-    //DJV_DEBUG("djvFileIOUtil::line");
-
-    //! \todo Should we handle comments here like djvFileIOUtil::word()?
-    int  i = 0;
-    char c = 0;
-    do
-    {
-        in.get(&c, 1);
-        if (
-            c != '\n' &&
-            c != '\r')
+        QStringList FileIOUtil::lines(const QString & fileName) throw (Error)
         {
-            out[i++] = c;
-            //DJV_DEBUG_PRINT(QString(out, i));
+            QStringList out;
+            FileIO io;
+            io.open(fileName, FileIO::READ);
+            while (io.isValid())
+            {
+                char buf[StringUtil::cStringLength] = "";
+                line(io, buf, StringUtil::cStringLength);
+                out += buf;
+            }
+            return out;
         }
-    }
-    while (
-        c != '\n' &&
-        c != '\r' &&
-        in.isValid() &&
-        i < (maxLen - 1));
 
-    out[i] = 0;
-    //DJV_DEBUG_PRINT("out = \"" << out << "\"");
-}
-
-QStringList djvFileIOUtil::lines(const QString & fileName) throw (djvError)
-{
-    QStringList out;
-    djvFileIO io;
-    io.open(fileName, djvFileIO::READ);
-    while (io.isValid())
-    {
-        char buf[djvStringUtil::cStringLength] = "";
-        line(io, buf, djvStringUtil::cStringLength);
-        out += buf;
-    }
-    return out;
-}
-
+    } // namespace Core
+} // namespace djv

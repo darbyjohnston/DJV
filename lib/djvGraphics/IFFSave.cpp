@@ -38,7 +38,7 @@ namespace djv
 {
     namespace Graphics
     {
-        IFFSave::IFFSave(const IFF::Options & options, djvCoreContext * context) :
+        IFFSave::IFFSave(const IFF::Options & options, Core::CoreContext * context) :
             ImageSave(context),
             _options(options)
         {}
@@ -46,8 +46,8 @@ namespace djv
         IFFSave::~IFFSave()
         {}
 
-        void IFFSave::open(const djvFileInfo & in, const ImageIOInfo & info)
-            throw (djvError)
+        void IFFSave::open(const Core::FileInfo & in, const ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("IFFSave::open");
             //DJV_DEBUG_PRINT("in = " << in);
@@ -55,12 +55,12 @@ namespace djv
             _file = in;
             if (info.sequence.frames.count() > 1)
             {
-                _file.setType(djvFileInfo::SEQUENCE);
+                _file.setType(Core::FileInfo::SEQUENCE);
             }
 
             _info = PixelDataInfo();
             _info.size = info.size;
-            _info.endian = djvMemory::MSB;
+            _info.endian = Core::Memory::MSB;
 
             Pixel::FORMAT format = Pixel::format(info.pixel);
             switch (format)
@@ -80,22 +80,22 @@ namespace djv
             }
 
             _info.pixel = Pixel::pixel(format, type);
-            _info.endian = djvMemory::MSB;
+            _info.endian = Core::Memory::MSB;
             //DJV_DEBUG_PRINT("info = " << _info);
 
             _image.set(_info);
         }
 
         void IFFSave::write(const Image & in, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("djvIFFSave::write");
             //DJV_DEBUG_PRINT("in = " << in);
 
             // Open the file.
-            djvFileIO io;
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(_file.fileName(frame.frame), djvFileIO::WRITE);
+            Core::FileIO io;
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(_file.fileName(frame.frame), Core::FileIO::WRITE);
             IFF::saveInfo(
                 io,
                 _info,
@@ -160,11 +160,11 @@ namespace djv
 
                     // Set xmin and xmax.
                     xmin = x * IFF::tileWidth();
-                    xmax = djvMath::min(xmin + IFF::tileWidth(), w) - 1;
+                    xmax = Core::Math::min(xmin + IFF::tileWidth(), w) - 1;
 
                     // Set ymin and ymax.
                     ymin = y * IFF::tileHeight();
-                    ymax = djvMath::min(ymin + IFF::tileHeight(), h) - 1;
+                    ymax = Core::Math::min(ymin + IFF::tileHeight(), h) - 1;
 
                     // Set width and height.
                     quint32 tw = xmax - xmin + 1;
@@ -307,7 +307,7 @@ namespace djv
                             // Set map.
                             int* map = NULL;
 
-                            if (djvMemory::endian() == djvMemory::LSB)
+                            if (Core::Memory::endian() == Core::Memory::LSB)
                             {
                                 int rgb16[] = { 0, 2, 4, 1, 3, 5 };
                                 int rgba16[] = { 0, 2, 4, 7, 1, 3, 5, 6 };
@@ -414,9 +414,9 @@ namespace djv
                                         const quint8 * inDx =
                                             inDy + px * byteCount + c * channelByteCount;
 
-                                        if (djvMemory::endian() == djvMemory::LSB)
+                                        if (Core::Memory::endian() == Core::Memory::LSB)
                                         {
-                                            djvMemory::convertEndian(inDx, &pixel, 1, 2);
+                                            Core::Memory::convertEndian(inDx, &pixel, 1, 2);
                                         }
                                         else
                                         {

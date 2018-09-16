@@ -54,7 +54,7 @@ namespace djv
         class SGIPlugin : public ImageIO
         {
         public:
-            explicit SGIPlugin(djvCoreContext *);
+            explicit SGIPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

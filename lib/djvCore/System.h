@@ -36,59 +36,57 @@
 class QString;
 class QStringList;
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvSystem
-//!
-//! This class provides system utilities.
-//------------------------------------------------------------------------------
-
-class djvSystem
+namespace djv
 {
-public:
-    virtual ~djvSystem() = 0;
-    
-    //! Get system information.
-    static QString info();
-    
-    //! Get the DJV_PATH environment variable name.
-    static const QString & djvPathEnv();
-    
-    //! Get the LD_LIBRARY_PATH environment variable name.
-    static const QString & ldLibPathEnv();
+    namespace Core
+    {
+        //! \class System
+        //!
+        //! This class provides system utilities.
+        class System
+        {
+        public:
+            virtual ~System() = 0;
 
-    //! Get the search path. The default search path consists of:
-    //!
-    //! - The DJV_PATH environment variable
-    //! - The LD_LIBRARY_PATH environment variable
-    //! - The application path
-    //! - The current directory
-    static QStringList searchPath();
-    
-    //! Find a file in the search path. If the file is found the path to the
-    //! file is returned, otherwise an empty string is returned.
-    static QString findFile(const QString & fileName);
+            //! Get system information.
+            static QString info();
 
-    //! Get the width of the terminal.
-    static int terminalWidth();
+            //! Get the DJV_PATH environment variable name.
+            static const QString & djvPathEnv();
 
-    //! Print a message to the terminal.
-    static void print(const QString &, bool newline = true, int indent = 0);
+            //! Get the LD_LIBRARY_PATH environment variable name.
+            static const QString & ldLibPathEnv();
 
-    //! Execute a command.
-    static int exec(const QString &);
+            //! Get the search path. The default search path consists of:
+            //!
+            //! - The DJV_PATH environment variable
+            //! - The LD_LIBRARY_PATH environment variable
+            //! - The application path
+            //! - The current directory
+            static QStringList searchPath();
 
-    //! Get an environment variable.
-    static QString env(const QString &);
+            //! Find a file in the search path. If the file is found the path to the
+            //! file is returned, otherwise an empty string is returned.
+            static QString findFile(const QString & fileName);
 
-    //! Set an environment variable.
-    static bool setEnv(const QString & var, const QString & value);
-    
-    //! Get the list of drives.
-    static QStringList drives();
-};
+            //! Get the width of the terminal.
+            static int terminalWidth();
 
-//@} // djvCoreMisc
+            //! Print a message to the terminal.
+            static void print(const QString &, bool newline = true, int indent = 0);
 
+            //! Execute a command.
+            static int exec(const QString &);
+
+            //! Get an environment variable.
+            static QString env(const QString &);
+
+            //! Set an environment variable.
+            static bool setEnv(const QString & var, const QString & value);
+
+            //! Get the list of drives.
+            static QStringList drives();
+        };
+
+    } // namespace Core
+} // namspace djv

@@ -34,18 +34,23 @@
 #include <djvUI/AboutDialog.h>
 #include <djvUI/UIContext.h>
 
-using namespace djv;
-
-djvAboutDialogTest::djvAboutDialogTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvAboutDialogTest::name()
+namespace djv
 {
-    return "djvAboutDialogTest";
-}
+    namespace WidgetTest
+    {
+        AboutDialogTest::AboutDialogTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvAboutDialogTest::run(const QStringList & args)
-{
-    context()->aboutDialog()->show();
-}
+        QString AboutDialogTest::name()
+        {
+            return "AboutDialogTest";
+        }
+
+        void AboutDialogTest::run(const QStringList & args)
+        {
+            context()->aboutDialog()->show();
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

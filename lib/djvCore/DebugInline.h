@@ -29,17 +29,20 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-template<class T>
-inline djvDebug & operator << (djvDebug & debug, const QVector<T> & list)
+namespace djv
 {
-    for (int i = 0; i < list.count(); ++i)
+    /*template<class T>
+    inline Core::Debug & operator << (Core::Debug & debug, const QVector<T> & list)
     {
-        if (i)
+        for (int i = 0; i < list.count(); ++i)
         {
-            debug << " ";
+            if (i)
+            {
+                debug << " ";
+            }
+            debug << list[i];
         }
-        debug << list[i];
-    }
-    return debug;
-}
+        return debug;
+    }*/
 
+} // namespace djv

@@ -33,9 +33,6 @@
 
 #include <djvConfig.h>
 
-//! \addtogroup djvCoreMisc
-//@{
-
 //! This macro provides a private copy constructor and operator.
 #define DJV_PRIVATE_COPY(class) \
     class(const class &); \
@@ -45,6 +42,3 @@
 #define DJV_COMPARISON_OPERATOR(TYPE) \
     bool operator == (const TYPE &, const TYPE &); \
     bool operator != (const TYPE &, const TYPE &)
-
-//@} // djvCoreMisc
-

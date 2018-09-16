@@ -37,43 +37,41 @@
 
 #include <memory>
 
-//! \addtogroup djvCoreMisc
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvDebugLog
-//!
-//! This class provides a log for debugging.
-//------------------------------------------------------------------------------
-
-class djvDebugLog : public QObject
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    explicit djvDebugLog(QObject * parent = nullptr);
-    
-    virtual ~djvDebugLog();
-    
-    //! Get the messages.    
-    const QVector<QString> & messages() const;
-    
-public Q_SLOTS:
-    //! Add a message.
-    void addMessage(const QString & context, const QString & message);
-    
-Q_SIGNALS:
-    //! This signal is emitted when a message is added.
-    void message(const QString &);
-    
-private:
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+    namespace Core
+    {
+        //! \class DebugLog
+        //!
+        //! This class provides a log for debugging.
+        class DebugLog : public QObject
+        {
+            Q_OBJECT
+
+        public:
+            explicit DebugLog(QObject * parent = nullptr);
+
+            virtual ~DebugLog();
+
+            //! Get the messages.    
+            const QVector<QString> & messages() const;
+
+        public Q_SLOTS:
+            //! Add a message.
+            void addMessage(const QString & context, const QString & message);
+
+        Q_SIGNALS:
+            //! This signal is emitted when a message is added.
+            void message(const QString &);
+
+        private:
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace Core
+} // namespace djv
 
 //! Add a message to the log.
 #define DJV_LOG(log, context, message) \
     log->addMessage(context, message)
-
-//@} // djvCoreMisc
-

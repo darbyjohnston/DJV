@@ -37,37 +37,42 @@
 
 #include <QVBoxLayout>
 
-using namespace djv;
-
-djvPixelWidgetTest::djvPixelWidgetTest(UI::UIContext * context) :
-    djvAbstractWidgetTest(context)
-{}
-
-QString djvPixelWidgetTest::name()
+namespace djv
 {
-    return "djvPixelWidgetTest";
-}
+    namespace WidgetTest
+    {
+        PixelWidgetTest::PixelWidgetTest(UI::UIContext * context) :
+            AbstractWidgetTest(context)
+        {}
 
-void djvPixelWidgetTest::run(const QStringList & args)
-{
-    QWidget * window = new QWidget;
-    
-    UI::PixelWidget * widget = new UI::PixelWidget;
-    
-    QVBoxLayout * layout = new QVBoxLayout(window);
-    layout->addWidget(widget);
-    
-    connect(
-        widget,
-        SIGNAL(pixelChanged(djvPixel::PIXEL)),
-        SLOT(callback(djvPixel::PIXEL)));
-    
-    window->show();
-}
+        QString PixelWidgetTest::name()
+        {
+            return "PixelWidgetTest";
+        }
 
-void djvPixelWidgetTest::callback(Graphics::Pixel::PIXEL value)
-{
-    QStringList tmp;
-    tmp << value;
-    djvSystem::print(QString("%1").arg(tmp.join(", ")));
-}
+        void PixelWidgetTest::run(const QStringList & args)
+        {
+            QWidget * window = new QWidget;
+
+            UI::PixelWidget * widget = new UI::PixelWidget;
+
+            QVBoxLayout * layout = new QVBoxLayout(window);
+            layout->addWidget(widget);
+
+            connect(
+                widget,
+                SIGNAL(pixelChanged(djv::Graphics::Pixel::PIXEL)),
+                SLOT(callback(djv::Graphics::Pixel::PIXEL)));
+
+            window->show();
+        }
+
+        void PixelWidgetTest::callback(Graphics::Pixel::PIXEL value)
+        {
+            QStringList tmp;
+            tmp << value;
+            Core::System::print(QString("%1").arg(tmp.join(", ")));
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

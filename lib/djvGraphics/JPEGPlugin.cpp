@@ -43,7 +43,7 @@ namespace djv
 {
     namespace Graphics
     {
-        JPEGPlugin::JPEGPlugin(djvCoreContext * context) :
+        JPEGPlugin::JPEGPlugin(Core::CoreContext * context) :
             ImageIO(context)
         {}
 
@@ -131,7 +131,7 @@ namespace djv
                 "\n"
                 "    -jpeg_quality (value)\n"
                 "        Set the quality used when saving JPEG images. Default = %1.\n").
-                arg(djvStringUtil::label(_options.quality).join(", "));
+                arg(Core::StringUtil::label(_options.quality).join(", "));
         }
 
         ImageLoad * JPEGPlugin::createLoad() const

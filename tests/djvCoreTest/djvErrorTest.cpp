@@ -38,56 +38,64 @@
 
 #include <QString>
 
-void djvErrorTest::run(int &, char **)
-{
-    DJV_DEBUG("djvErrorTest::run");
-    ctors();
-    members();
-    operators();
-}
+using namespace djv::Core;
 
-void djvErrorTest::ctors()
+namespace djv
 {
-    DJV_DEBUG("djvErrorTest::ctors");
+    namespace CoreTest
     {
-        const djvError error;
-        DJV_ASSERT(error.messages().isEmpty());
-    }
-    {
-        const djvError error("string");
-        DJV_ASSERT(error.messages()[0].prefix.isEmpty());
-        DJV_ASSERT("string" == error.messages()[0].string);
-    }
-    {
-        const djvError error("prefix", "string");
-        DJV_ASSERT("prefix" == error.messages()[0].prefix);
-        DJV_ASSERT("string" == error.messages()[0].string);
-    }
-    {
-        const djvError error("prefix", "string");
-        const djvError other(error);
-        DJV_ASSERT(other.messages()[0].prefix == error.messages()[0].prefix);
-        DJV_ASSERT(other.messages()[0].string == error.messages()[0].string);
-    }
-}
+        void ErrorTest::run(int &, char **)
+        {
+            DJV_DEBUG("ErrorTest::run");
+            ctors();
+            members();
+            operators();
+        }
 
-void djvErrorTest::members()
-{
-    DJV_DEBUG("djvErrorTest::members");
-    {
-        DJV_DEBUG_PRINT("last error = " << djvErrorUtil::lastError());
-    }
-}
+        void ErrorTest::ctors()
+        {
+            DJV_DEBUG("ErrorTest::ctors");
+            {
+                const Error error;
+                DJV_ASSERT(error.messages().isEmpty());
+            }
+            {
+                const Error error("string");
+                DJV_ASSERT(error.messages()[0].prefix.isEmpty());
+                DJV_ASSERT("string" == error.messages()[0].string);
+            }
+            {
+                const Error error("prefix", "string");
+                DJV_ASSERT("prefix" == error.messages()[0].prefix);
+                DJV_ASSERT("string" == error.messages()[0].string);
+            }
+            {
+                const Error error("prefix", "string");
+                const Error other(error);
+                DJV_ASSERT(other.messages()[0].prefix == error.messages()[0].prefix);
+                DJV_ASSERT(other.messages()[0].string == error.messages()[0].string);
+            }
+        }
 
-void djvErrorTest::operators()
-{
-    DJV_DEBUG("djvErrorTest::operators");
-    {
-        djvError a;
-        const djvError b("prefix", "string");
-        a = b;
-        DJV_ASSERT(a.messages()[0].prefix == b.messages()[0].prefix);
-        DJV_ASSERT(a.messages()[0].string == b.messages()[0].string);
-    }
-}
+        void ErrorTest::members()
+        {
+            DJV_DEBUG("ErrorTest::members");
+            {
+                DJV_DEBUG_PRINT("last error = " << ErrorUtil::lastError());
+            }
+        }
 
+        void ErrorTest::operators()
+        {
+            DJV_DEBUG("ErrorTest::operators");
+            {
+                Error a;
+                const Error b("prefix", "string");
+                a = b;
+                DJV_ASSERT(a.messages()[0].prefix == b.messages()[0].prefix);
+                DJV_ASSERT(a.messages()[0].string == b.messages()[0].string);
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

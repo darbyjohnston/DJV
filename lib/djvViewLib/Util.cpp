@@ -160,7 +160,7 @@ namespace djv
             {
             case IMAGE_SCALE_NONE: break;
             default:
-                out.x = data[in] / djvVectorUtil::aspect(size);
+                out.x = data[in] / Core::VectorUtil::aspect(size);
                 break;
             }
             return out;
@@ -184,19 +184,19 @@ namespace djv
         }
 
         void Util::loadLut(
-            const djvFileInfo &   fileInfo,
-            Graphics::PixelData & lut,
-            Context *             context)
-            throw (djvError)
+            const Core::FileInfo & fileInfo,
+            Graphics::PixelData &  lut,
+            Context *              context)
+            throw (Core::Error)
         {
             if (fileInfo.fileName().isEmpty())
                 return;
             //DJV_DEBUG("Util::loadLut");
             //DJV_DEBUG_PRINT("fileInfo = " << fileInfo);
-            djvFileInfo fileInfoTmp(fileInfo);
+            Core::FileInfo fileInfoTmp(fileInfo);
             if (fileInfoTmp.isSequenceValid())
             {
-                fileInfoTmp.setType(djvFileInfo::SEQUENCE);
+                fileInfoTmp.setType(Core::FileInfo::SEQUENCE);
             }
             try
             {
@@ -207,7 +207,7 @@ namespace djv
                 lut = image;
                 //DJV_DEBUG_PRINT("lut = " << lut);
             }
-            catch (djvError error)
+            catch (Core::Error error)
             {
                 error.add(
                     errorLabels()[ERROR_OPEN_LUT].
@@ -480,19 +480,20 @@ namespace djv
         }
 
     } // namespace ViewLib
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::VIEW_MAX, djv::ViewLib::Util::viewMaxLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::TOOL_BAR, djv::ViewLib::Util::toolBarLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::GRID, djv::ViewLib::Util::gridLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::HUD_BACKGROUND, djv::ViewLib::Util::hudBackgroundLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::IMAGE_SCALE, djv::ViewLib::Util::imageScaleLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::IMAGE_ROTATE, djv::ViewLib::Util::imageRotateLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::PLAYBACK, djv::ViewLib::Util::playbackLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::FRAME, djv::ViewLib::Util::frameLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::LOOP, djv::ViewLib::Util::loopLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::LAYOUT, djv::ViewLib::Util::layoutLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::TOOL, djv::ViewLib::Util::toolLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::HISTOGRAM, djv::ViewLib::Util::histogramLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::MOUSE_WHEEL, djv::ViewLib::Util::mouseWheelLabels())
-_DJV_STRING_OPERATOR_LABEL(djv::ViewLib::Util::ZOOM_FACTOR, djv::ViewLib::Util::zoomFactorLabels())
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::VIEW_MAX, ViewLib::Util::viewMaxLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::TOOL_BAR, ViewLib::Util::toolBarLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::GRID, ViewLib::Util::gridLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::HUD_BACKGROUND, ViewLib::Util::hudBackgroundLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::IMAGE_SCALE, ViewLib::Util::imageScaleLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::IMAGE_ROTATE, ViewLib::Util::imageRotateLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::PLAYBACK, ViewLib::Util::playbackLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::FRAME, ViewLib::Util::frameLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::LOOP, ViewLib::Util::loopLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::LAYOUT, ViewLib::Util::layoutLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::TOOL, ViewLib::Util::toolLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::HISTOGRAM, ViewLib::Util::histogramLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::MOUSE_WHEEL, ViewLib::Util::mouseWheelLabels());
+    _DJV_STRING_OPERATOR_LABEL(ViewLib::Util::ZOOM_FACTOR, ViewLib::Util::zoomFactorLabels());
+
+} // namespace djv

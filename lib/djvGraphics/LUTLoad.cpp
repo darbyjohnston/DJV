@@ -41,7 +41,7 @@ namespace djv
 {
     namespace Graphics
     {
-        LUTLoad::LUTLoad(const LUT::Options & options, djvCoreContext * context) :
+        LUTLoad::LUTLoad(const LUT::Options & options, Core::CoreContext * context) :
             ImageLoad(context),
             _options(options)
         {}
@@ -49,22 +49,22 @@ namespace djv
         LUTLoad::~LUTLoad()
         {}
 
-        void LUTLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void LUTLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("LUTLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
             _file = in;
-            djvFileIO io;
+            Core::FileIO io;
             _open(_file.fileName(_file.sequence().start()), info, io);
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void LUTLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("LUTLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -76,7 +76,7 @@ namespace djv
             const QString fileName =
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             ImageIOInfo info;
-            djvFileIO io;
+            Core::FileIO io;
             _open(fileName, info, io);
 
             // Read the file.
@@ -94,17 +94,17 @@ namespace djv
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void LUTLoad::_open(const djvFileInfo & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void LUTLoad::_open(const Core::FileInfo & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
             //DJV_DEBUG("LUTLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-            io.open(in, djvFileIO::READ);
+            io.open(in, Core::FileIO::READ);
             info.fileName = in;
             const int index = LUT::staticExtensions.indexOf(in.extension());
             if (-1 == index)
             {
-                throw djvError(
+                throw Core::Error(
                     LUT::staticName,
                     ImageIO::errorLabels()[ImageIO::ERROR_UNRECOGNIZED]);
             }

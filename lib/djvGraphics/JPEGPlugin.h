@@ -56,7 +56,7 @@ namespace djv
         class JPEGPlugin : public ImageIO
         {
         public:
-            explicit JPEGPlugin(djvCoreContext *);
+            explicit JPEGPlugin(Core::CoreContext *);
 
             virtual QString pluginName() const;
             virtual QStringList extensions() const;

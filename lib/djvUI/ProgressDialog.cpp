@@ -110,9 +110,9 @@ namespace djv
         {
             int              totalTicks = 0;
             int              currentTick = 0;
-            djvTimer         time;
+            Core::Timer      time;
             float            timeAccum = 0.f;
-            djvTimer         elapsed;
+            Core::Timer      elapsed;
             int              timerId = 0;
             ProgressWidget * widget = nullptr;
             QString          label = nullptr;
@@ -232,14 +232,14 @@ namespace djv
 
             const QString estimateLabel = QString(
                 qApp->translate("djv::UI::ProgressDialog", "Estimated: %1 (%2 Frames/Second)")).
-                arg(djvTime::labelTime(estimate)).
+                arg(Core::Time::labelTime(estimate)).
                 arg(_p->currentTick / _p->elapsed.seconds(), 0, 'f', 2);
 
             _p->estimateLabel->setText(estimateLabel);
 
             const QString elapsedLabel = QString(
-                qApp->translate("djv::UI::ProgressDialog", "Elapsed: %1")).
-                arg(djvTime::labelTime(_p->elapsed.seconds()));
+                qApp->translate("Core::::UI::ProgressDialog", "Elapsed: %1")).
+                arg(Core::Time::labelTime(_p->elapsed.seconds()));
 
             _p->elapsedLabel->setText(elapsedLabel);
 

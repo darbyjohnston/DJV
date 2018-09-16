@@ -29,27 +29,30 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-// djvSequence
-//------------------------------------------------------------------------------
-
-inline qint64 djvSequence::start() const
+namespace djv
 {
-    return frames.count() ? frames[0] : 0;
-}
+    namespace Core
+    {
+        inline qint64 Sequence::start() const
+        {
+            return frames.count() ? frames[0] : 0;
+        }
 
-inline qint64 djvSequence::end() const
-{
-    return frames.count() ? frames[frames.count() - 1] : 0;
-}
+        inline qint64 Sequence::end() const
+        {
+            return frames.count() ? frames[frames.count() - 1] : 0;
+        }
 
-inline bool operator == (const djvSequence & a, const djvSequence & b)
-{
-    return a.frames == b.frames && a.pad == b.pad && a.speed == b.speed;
-}
+    } // namespace Core
 
-inline bool operator != (const djvSequence & a, const djvSequence & b)
-{
-    return ! (a == b);
-}
+    inline bool operator == (const Core::Sequence & a, const Core::Sequence & b)
+    {
+        return a.frames == b.frames && a.pad == b.pad && a.speed == b.speed;
+    }
 
+    inline bool operator != (const Core::Sequence & a, const Core::Sequence & b)
+    {
+        return !(a == b);
+    }
+
+} // namespace djv

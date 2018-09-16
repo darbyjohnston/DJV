@@ -33,5 +33,5 @@
 
 int main(int argc, char ** argv)
 {
-    return djvInfoApplication(argc, argv).exec();
+    return djv::info::Application(argc, argv).exec();
 }

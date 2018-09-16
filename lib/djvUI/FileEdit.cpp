@@ -49,7 +49,7 @@ namespace djv
                 context(context)
             {}
 
-            djvFileInfo fileInfo;
+            Core::FileInfo fileInfo;
             QLineEdit * edit = nullptr;
             UIContext * context = nullptr;
         };
@@ -81,12 +81,12 @@ namespace djv
         FileEdit::~FileEdit()
         {}
 
-        const djvFileInfo & FileEdit::fileInfo() const
+        const Core::FileInfo & FileEdit::fileInfo() const
         {
             return _p->fileInfo;
         }
 
-        void FileEdit::setFileInfo(const djvFileInfo & file)
+        void FileEdit::setFileInfo(const Core::FileInfo & file)
         {
             if (file == _p->fileInfo)
                 return;

@@ -102,7 +102,7 @@ namespace djv
         class DPXWidgetPlugin : public ImageIOWidgetPlugin
         {
         public:
-            DPXWidgetPlugin(djvCoreContext *);
+            DPXWidgetPlugin(Core::CoreContext *);
 
             virtual ImageIOWidget * createWidget(Graphics::ImageIO *) const;
             virtual QString pluginName() const;

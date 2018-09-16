@@ -39,10 +39,14 @@
 
 #include <memory>
 
-class djvError;
-
 namespace djv
 {
+    namespace Core
+    {
+        class Error;
+
+    } // namespace Core
+
     namespace UI
     {
         class UIContext;
@@ -63,7 +67,7 @@ namespace djv
             void message(const QString &);
 
             //! Add an error to the dialog.
-            void message(const djvError &);
+            void message(const Core::Error &);
 
             //! Clear the messages.
             void clear();

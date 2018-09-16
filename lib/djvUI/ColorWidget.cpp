@@ -221,9 +221,9 @@ namespace djv
             //DJV_DEBUG("ColorWidget::widgetUpdate");
             //DJV_DEBUG_PRINT("color = " << _p->color);
 
-            djvSignalBlocker signalBlocker(QVector<QObject *>() <<
-                djvListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
-                djvListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets) <<
+            Core::SignalBlocker signalBlocker(QVector<QObject *>() <<
+                Core::ListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
+                Core::ListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets) <<
                 _p->formatWidget <<
                 _p->typeWidget);
 
@@ -305,9 +305,9 @@ namespace djv
         {
             //DJV_DEBUG("ColorWidget::valueUpdate");
 
-            djvSignalBlocker signalBlocker(QVector<QObject *>() <<
-                djvListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
-                djvListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets));
+            Core::SignalBlocker signalBlocker(QVector<QObject *>() <<
+                Core::ListUtil::convert<IntEditSlider *, QObject *>(_p->intWidgets) <<
+                Core::ListUtil::convert<FloatEditSlider *, QObject *>(_p->floatWidgets));
 
             for (int i = 0; i < Graphics::Pixel::channels(_p->color.pixel()); ++i)
             {

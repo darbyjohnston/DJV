@@ -37,51 +37,58 @@
 #include <djvCore/Vector.h>
 #include <djvCore/VectorUtil.h>
 
-void djvVectorUtilTest::run(int &, char **)
+using namespace djv::Core;
+
+namespace djv
 {
-    DJV_DEBUG("djvVectorUtilTest::run");
-    swap();
-    range();
-    isSizeValid();
-    aspect();
-    convert();
-}
+    namespace CoreTest
+    {
+        void VectorUtilTest::run(int &, char **)
+        {
+            DJV_DEBUG("VectorUtilTest::run");
+            swap();
+            range();
+            isSizeValid();
+            aspect();
+            convert();
+        }
 
-void djvVectorUtilTest::swap()
-{
-    DJV_DEBUG("djvVectorUtilTest::swap");
-    DJV_ASSERT(djvVectorUtil::swap(glm::ivec2(1, 2)) == glm::ivec2(2, 1));
-}
+        void VectorUtilTest::swap()
+        {
+            DJV_DEBUG("VectorUtilTest::swap");
+            DJV_ASSERT(VectorUtil::swap(glm::ivec2(1, 2)) == glm::ivec2(2, 1));
+        }
 
-void djvVectorUtilTest::range()
-{
-    DJV_DEBUG("djvVectorUtilTest::range");
-    DJV_ASSERT(djvVectorUtil::min(glm::ivec2(1, 2), glm::ivec2(3, 4)) == glm::ivec2(1, 2));
-    DJV_ASSERT(djvVectorUtil::max(glm::ivec2(1, 2), glm::ivec2(3, 4)) == glm::ivec2(3, 4));
-}
+        void VectorUtilTest::range()
+        {
+            DJV_DEBUG("VectorUtilTest::range");
+            DJV_ASSERT(VectorUtil::min(glm::ivec2(1, 2), glm::ivec2(3, 4)) == glm::ivec2(1, 2));
+            DJV_ASSERT(VectorUtil::max(glm::ivec2(1, 2), glm::ivec2(3, 4)) == glm::ivec2(3, 4));
+        }
 
-void djvVectorUtilTest::isSizeValid()
-{
-    DJV_DEBUG("djvVectorUtilTest::isSizeValid");
-    DJV_ASSERT(
-        djvVectorUtil::isSizeValid(glm::ivec2(1, 2)) &&
-        !djvVectorUtil::isSizeValid(glm::ivec2(-1, -2)));
-}
+        void VectorUtilTest::isSizeValid()
+        {
+            DJV_DEBUG("VectorUtilTest::isSizeValid");
+            DJV_ASSERT(
+                VectorUtil::isSizeValid(glm::ivec2(1, 2)) &&
+                !VectorUtil::isSizeValid(glm::ivec2(-1, -2)));
+        }
 
-void djvVectorUtilTest::aspect()
-{
-    DJV_DEBUG("djvVectorUtilTest::aspect");
-    DJV_ASSERT(djvVectorUtil::aspect(glm::ivec2(2, 1)) == 2.0);
-}
+        void VectorUtilTest::aspect()
+        {
+            DJV_DEBUG("VectorUtilTest::aspect");
+            DJV_ASSERT(VectorUtil::aspect(glm::ivec2(2, 1)) == 2.0);
+        }
 
-void djvVectorUtilTest::convert()
-{
-    DJV_DEBUG("djvVectorUtilTest::convert");
-    glm::ivec2 v2i = djvVectorUtil::ceil(glm::vec2(.5f, .5f));
-    DJV_ASSERT(v2i == glm::ivec2(1, 1));
-    v2i = djvVectorUtil::floor(glm::vec2(.5f, .5f));
-    DJV_ASSERT(v2i == glm::ivec2(0, 0));
-    DJV_ASSERT((QStringList() << "1" << "2") == djvStringUtil::label(glm::ivec2(1, 2)));
-}
+        void VectorUtilTest::convert()
+        {
+            DJV_DEBUG("VectorUtilTest::convert");
+            glm::ivec2 v2i = VectorUtil::ceil(glm::vec2(.5f, .5f));
+            DJV_ASSERT(v2i == glm::ivec2(1, 1));
+            v2i = VectorUtil::floor(glm::vec2(.5f, .5f));
+            DJV_ASSERT(v2i == glm::ivec2(0, 0));
+            DJV_ASSERT((QStringList() << "1" << "2") == StringUtil::label(glm::ivec2(1, 2)));
+        }
 
-
+    } // namespace CoreTest
+} // namespace djv

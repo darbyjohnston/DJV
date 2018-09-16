@@ -31,12 +31,9 @@
 
 #pragma once
 
-//! \addtogroup tests
-//@{
-
-//! \defgroup djvUITest djvUITest
-//!
-//! This library provides testing functionality for djvUI.
-
-//@} // tests
-
+namespace djv
+{
+    namespace UITest
+    {
+    } // namespace UITest
+} // namespace djv

@@ -233,17 +233,17 @@ namespace djv
 
         void CacheSizeWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->edit);
             _p->edit->setValue(_p->cacheSize);
         }
 
         struct FrameWidget::Private
         {
-            qint64       frame = 0;
-            djvFrameList frameList;
-            djvSpeed     speed;
-            QString      text;
+            qint64          frame = 0;
+            Core::FrameList frameList;
+            Core::Speed     speed;
+            QString         text;
         };
 
         FrameWidget::FrameWidget(UI::UIContext * context, QWidget * parent) :
@@ -261,7 +261,7 @@ namespace djv
                 SLOT(editingFinishedCallback()));
             connect(
                 context->timePrefs(),
-                SIGNAL(timeUnitsChanged(djvTime::UNITS)),
+                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
         }
 
@@ -273,12 +273,12 @@ namespace djv
             return _p->frame;
         }
 
-        const djvFrameList & FrameWidget::frameList() const
+        const Core::FrameList & FrameWidget::frameList() const
         {
             return _p->frameList;
         }
 
-        const djvSpeed & FrameWidget::speed() const
+        const Core::Speed & FrameWidget::speed() const
         {
             return _p->speed;
         }
@@ -291,10 +291,10 @@ namespace djv
         QSize FrameWidget::sizeHint() const
         {
             QString sizeString;
-            switch (djvTime::units())
+            switch (Core::Time::units())
             {
-            case djvTime::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
-            case djvTime::UNITS_FRAMES:   sizeString = "000000";      break;
+            case Core::Time::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
+            case Core::Time::UNITS_FRAMES:   sizeString = "000000";      break;
             default: break;
             }
             return QSize(
@@ -302,7 +302,7 @@ namespace djv
                 QAbstractSpinBox::sizeHint().height());
         }
 
-        void FrameWidget::setFrameList(const djvFrameList & in)
+        void FrameWidget::setFrameList(const Core::FrameList & in)
         {
             if (in == _p->frameList)
                 return;
@@ -314,7 +314,7 @@ namespace djv
 
         void FrameWidget::setFrame(qint64 frame)
         {
-            const int tmp = djvMath::min(
+            const int tmp = Core::Math::min(
                 frame,
                 static_cast<qint64>(_p->frameList.count() - 1));
             if (tmp == _p->frame)
@@ -328,7 +328,7 @@ namespace djv
             Q_EMIT frameChanged(_p->frame);
         }
 
-        void FrameWidget::setSpeed(const djvSpeed & in)
+        void FrameWidget::setSpeed(const Core::Speed & in)
         {
             if (in == _p->speed)
                 return;
@@ -360,8 +360,8 @@ namespace djv
             //DJV_DEBUG("FrameWidget::editingFinishedCallback");
             const QString text = lineEdit()->text();
             //DJV_DEBUG_PRINT("text = " << text);
-            setFrame(djvSequenceUtil::findClosest(
-                djvTime::stringToFrame(text, _p->speed), _p->frameList));
+            setFrame(Core::SequenceUtil::findClosest(
+                Core::Time::stringToFrame(text, _p->speed), _p->frameList));
             lineEdit()->setText(_p->text);
         }
 
@@ -380,12 +380,12 @@ namespace djv
             {
                 frame = _p->frameList[_p->frame];
             }
-            _p->text = djvTime::frameToString(frame, _p->speed);
+            _p->text = Core::Time::frameToString(frame, _p->speed);
         }
 
         void FrameWidget::widgetUpdate()
         {
-            //djvSignalBlocker signalBlocker(lineEdit());
+            //Core::SignalBlocker signalBlocker(lineEdit());
             lineEdit()->setText(_p->text);
         }
 
@@ -396,12 +396,12 @@ namespace djv
             {}
 
             qint64 frame = 0;
-            djvFrameList frameList;
-            djvSpeed speed;
+            Core::FrameList frameList;
+            Core::Speed speed;
             bool inOutEnabled = false;
             qint64 inPoint = 0;
             qint64 outPoint = 0;
-            djvFrameList cachedFrames;
+            Core::FrameList cachedFrames;
             UI::UIContext * context;
         };
 
@@ -414,7 +414,7 @@ namespace djv
 
             connect(
                 context->timePrefs(),
-                SIGNAL(timeUnitsChanged(djvTime::UNITS)),
+                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
         }
 
@@ -426,12 +426,12 @@ namespace djv
             return _p->frame;
         }
 
-        const djvFrameList & FrameSlider::frameList() const
+        const Core::FrameList & FrameSlider::frameList() const
         {
             return _p->frameList;
         }
 
-        const djvSpeed & FrameSlider::speed() const
+        const Core::Speed & FrameSlider::speed() const
         {
             return _p->speed;
         }
@@ -456,7 +456,7 @@ namespace djv
             return QSize(200, fontMetrics().height() * 2 + 5 * 2);
         }
 
-        void FrameSlider::setFrameList(const djvFrameList & in)
+        void FrameSlider::setFrameList(const Core::FrameList & in)
         {
             if (in == _p->frameList)
                 return;
@@ -467,7 +467,7 @@ namespace djv
 
         void FrameSlider::setFrame(qint64 frame)
         {
-            const int tmp = djvMath::clamp(
+            const int tmp = Core::Math::clamp(
                 frame,
                 static_cast<qint64>(0),
                 end());
@@ -480,7 +480,7 @@ namespace djv
             Q_EMIT frameChanged(_p->frame);
         }
 
-        void FrameSlider::setSpeed(const djvSpeed & in)
+        void FrameSlider::setSpeed(const Core::Speed & in)
         {
             if (in == _p->speed)
                 return;
@@ -553,7 +553,7 @@ namespace djv
             setFrame(_p->outPoint);
         }
 
-        void FrameSlider::setCachedFrames(const djvFrameList & in)
+        void FrameSlider::setCachedFrames(const Core::FrameList & in)
         {
             if (in == _p->cachedFrames)
                 return;
@@ -581,7 +581,7 @@ namespace djv
         {
             //DJV_DEBUG("FrameSlider::paintEvent");
 
-            const djvBox2i box(0, 0, width(), height());
+            const Core::Box2i box(0, 0, width(), height());
             QPainter painter(this);
             painter.setRenderHint(QPainter::Antialiasing);
             const QPalette palette(this->palette());
@@ -609,7 +609,7 @@ namespace djv
             if (_p->cachedFrames.count())
             {
                 //DJV_DEBUG_PRINT("cached frames = " << _p->cachedFrames.count());
-                const djvFrameRangeList list = djvRangeUtil::range(_p->cachedFrames);
+                const Core::FrameRangeList list = Core::RangeUtil::range(_p->cachedFrames);
                 for (int i = 0; i < list.count(); ++i)
                 {
                     const QRectF r(
@@ -623,9 +623,9 @@ namespace djv
 
             // Draw the frame ticks.
             QVector<Tick> ticks;
-            const float  speed = djvSpeed::speedToFloat(_p->speed);
-            const bool   drawFrames = frameToPosF(1) > 3;
-            const bool   drawSeconds = frameToPosF(static_cast<int>(speed)) > 3;
+            const float   speed = Core::Speed::speedToFloat(_p->speed);
+            const bool    drawFrames = frameToPosF(1) > 3;
+            const bool    drawSeconds = frameToPosF(static_cast<int>(speed)) > 3;
             for (int i = 0; i < _p->frameList.count(); ++i)
             {
                 Tick tick;
@@ -643,7 +643,7 @@ namespace djv
                     tick.x = (frameToPosF(i) + frameToPosF(i + 1)) / 2.f;
                     if (drawLabel)
                     {
-                        tick.label = djvTime::frameToString(
+                        tick.label = Core::Time::frameToString(
                             _p->frameList[i],
                             _p->speed);
                     }
@@ -661,7 +661,7 @@ namespace djv
                     box.h / 2,
                     labelBounds.width(),
                     labelBounds.height());
-                labelWidthMax = djvMath::max(
+                labelWidthMax = Core::Math::max(
                     labelWidthMax,
                     ticks[i].labelRect.width());
             }
@@ -694,7 +694,7 @@ namespace djv
             Tick current;
             current.type = Tick::CURRENT;
             current.x = (frameToPosF(_p->frame) + frameToPosF(_p->frame + 1)) / 2.f;
-            current.label = djvTime::frameToString(
+            current.label = Core::Time::frameToString(
                 _p->frameList.count() ? _p->frameList[_p->frame] : 0, speed);
             const QRect labelBounds =
                 fontMetrics().boundingRect(current.label);
@@ -756,7 +756,7 @@ namespace djv
         struct FrameDisplay::Private
         {
             qint64      frame = 0;
-            djvSpeed    speed;
+            Core::Speed speed;
             bool        inOutEnabled = false;
             QString     text;
             QLineEdit * lineEdit = nullptr;
@@ -781,7 +781,7 @@ namespace djv
             // Setup the callbacks.
             connect(
                 context->timePrefs(),
-                SIGNAL(timeUnitsChanged(djvTime::UNITS)),
+                SIGNAL(timeUnitsChanged(djv::Core::Time::UNITS)),
                 SLOT(timeUnitsCallback()));
         }
 
@@ -793,7 +793,7 @@ namespace djv
             return _p->frame;
         }
 
-        const djvSpeed & FrameDisplay::speed() const
+        const Core::Speed & FrameDisplay::speed() const
         {
             return _p->speed;
         }
@@ -806,10 +806,10 @@ namespace djv
         QSize FrameDisplay::sizeHint() const
         {
             QString sizeString;
-            switch (djvTime::units())
+            switch (Core::Time::units())
             {
-            case djvTime::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
-            case djvTime::UNITS_FRAMES:   sizeString = "000000";      break;
+            case Core::Time::UNITS_TIMECODE: sizeString = "00:00:00:00"; break;
+            case Core::Time::UNITS_FRAMES:   sizeString = "000000";      break;
 
             default: break;
             }
@@ -827,7 +827,7 @@ namespace djv
             widgetUpdate();
         }
 
-        void FrameDisplay::setSpeed(const djvSpeed & in)
+        void FrameDisplay::setSpeed(const Core::Speed & in)
         {
             if (in == _p->speed)
                 return;
@@ -853,12 +853,12 @@ namespace djv
 
         void FrameDisplay::textUpdate()
         {
-            _p->text = djvTime::frameToString(_p->frame, _p->speed);
+            _p->text = Core::Time::frameToString(_p->frame, _p->speed);
         }
 
         void FrameDisplay::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_p->lineEdit);
+            Core::SignalBlocker signalBlocker(_p->lineEdit);
             _p->lineEdit->setText(_p->text);
             QPalette palette = this->palette();
             if (_p->inOutEnabled)
@@ -868,8 +868,8 @@ namespace djv
 
         struct SpeedButton::Private
         {
-            djvSpeed speed;
-            djvSpeed defaultSpeed;
+            Core::Speed speed;
+            Core::Speed defaultSpeed;
             UI::ToolButton * button = nullptr;
         };
 
@@ -897,7 +897,7 @@ namespace djv
         SpeedButton::~SpeedButton()
         {}
 
-        void SpeedButton::setDefaultSpeed(const djvSpeed & in)
+        void SpeedButton::setDefaultSpeed(const Core::Speed & in)
         {
             _p->defaultSpeed = in;
         }
@@ -909,7 +909,7 @@ namespace djv
             {
                 const QString text =
                     qApp->translate("djv::ViewLib::SpeedButton", "Default: %1").
-                    arg(djvSpeed::speedToFloat(_p->defaultSpeed), 0, 'f', 2);
+                    arg(Core::Speed::speedToFloat(_p->defaultSpeed), 0, 'f', 2);
                 QAction * action = menu.addAction(
                     text,
                     this,
@@ -917,7 +917,7 @@ namespace djv
                 action->setData(-1);
                 menu.addSeparator();
             }
-            const QStringList & labels = djvSpeed::fpsLabels();
+            const QStringList & labels = Core::Speed::fpsLabels();
             for (int i = 0; i < labels.count(); ++i)
             {
                 QAction * action = menu.addAction(
@@ -934,13 +934,13 @@ namespace djv
         {
             QAction * action = qobject_cast<QAction *>(sender());
             const int index = action->data().toInt();
-            Q_EMIT speedChanged(-1 == index ? _p->defaultSpeed : static_cast<djvSpeed::FPS>(index));
+            Q_EMIT speedChanged(-1 == index ? _p->defaultSpeed : static_cast<Core::Speed::FPS>(index));
         }
 
         struct SpeedWidget::Private
         {
-            djvSpeed speed;
-            djvSpeed defaultSpeed;
+            Core::Speed speed;
+            Core::Speed defaultSpeed;
             UI::FloatEdit * floatEdit = nullptr;
             SpeedButton * button = nullptr;
         };
@@ -973,24 +973,24 @@ namespace djv
                 SLOT(editCallback(float)));
             connect(
                 _p->button,
-                SIGNAL(speedChanged(const djvSpeed &)),
-                SLOT(setSpeed(const djvSpeed &)));
+                SIGNAL(speedChanged(const djv::Core::Speed &)),
+                SLOT(setSpeed(const djv::Core::Speed &)));
         }
 
         SpeedWidget::~SpeedWidget()
         {}
 
-        const djvSpeed & SpeedWidget::speed() const
+        const Core::Speed & SpeedWidget::speed() const
         {
             return _p->speed;
         }
 
-        const djvSpeed & SpeedWidget::defaultSpeed() const
+        const Core::Speed & SpeedWidget::defaultSpeed() const
         {
             return _p->defaultSpeed;
         }
 
-        void SpeedWidget::setSpeed(const djvSpeed & in)
+        void SpeedWidget::setSpeed(const Core::Speed & in)
         {
             if (in == _p->speed)
                 return;
@@ -999,7 +999,7 @@ namespace djv
             Q_EMIT speedChanged(_p->speed);
         }
 
-        void SpeedWidget::setDefaultSpeed(const djvSpeed & in)
+        void SpeedWidget::setDefaultSpeed(const Core::Speed & in)
         {
             if (in == _p->defaultSpeed)
                 return;
@@ -1009,15 +1009,15 @@ namespace djv
 
         void SpeedWidget::editCallback(float in)
         {
-            const djvSpeed speed = djvSpeed::floatToSpeed(in);
+            const Core::Speed speed = Core::Speed::floatToSpeed(in);
             setSpeed(speed);
             widgetUpdate();
         }
 
         void SpeedWidget::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_p->floatEdit);
-            _p->floatEdit->setValue(djvSpeed::speedToFloat(_p->speed));
+            Core::SignalBlocker signalBlocker(_p->floatEdit);
+            _p->floatEdit->setValue(Core::Speed::speedToFloat(_p->speed));
             _p->button->setDefaultSpeed(_p->defaultSpeed);
         }
 
@@ -1055,7 +1055,7 @@ namespace djv
 
         void SpeedDisplay::setSpeed(float speed)
         {
-            if (djvMath::fuzzyCompare(speed, _p->speed))
+            if (Core::Math::fuzzyCompare(speed, _p->speed))
                 return;
             _p->speed = speed;
             widgetUpdate();
@@ -1071,7 +1071,7 @@ namespace djv
 
         void SpeedDisplay::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_p->lineEdit);
+            Core::SignalBlocker signalBlocker(_p->lineEdit);
             QPalette palette = this->palette();
             if (_p->droppedFrames)
                 palette.setColor(QPalette::Text, palette.color(QPalette::Highlight));

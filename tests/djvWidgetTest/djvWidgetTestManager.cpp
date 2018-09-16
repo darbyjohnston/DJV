@@ -57,36 +57,41 @@
 
 #include <djvUI/UIContext.h>
 
-using namespace djv;
+namespace djv
+{
+    namespace WidgetTest
+    {
+        WidgetTestManager::WidgetTestManager(UI::UIContext * context)
+        {
+            _tests += new AboutDialogTest(context);
+            _tests += new ChoiceDialogTest(context);
+            _tests += new ColorWidgetTest(context);
+            _tests += new ColorDialogTest(context);
+            _tests += new FileBrowserTest(context);
+            _tests += new FileEditTest(context);
+            _tests += new IconLibraryTest(context);
+            _tests += new InfoDialogTest(context);
+            _tests += new InputDialogTest(context);
+            _tests += new IntSliderTest(context);
+            _tests += new MessagesDialogTest(context);
+            _tests += new MultiChoiceDialogTest(context);
+            _tests += new NoticeDialogTest(context);
+            _tests += new NumWidgetTest(context);
+            _tests += new PixelWidgetTest(context);
+            _tests += new PrefsDialogTest(context);
+            _tests += new ProgressDialogTest(context);
+            _tests += new QuestionDialogTest(context);
+            _tests += new SearchBoxTest(context);
+            _tests += new ShortcutsWidgetTest(context);
+            _tests += new ToolButtonTest(context);
+            _tests += new VectorWidgetTest(context);
+            _tests += new ViewWidgetTest(context);
+        }
 
-djvWidgetTestManager::djvWidgetTestManager(UI::UIContext * context)
-{
-    _tests += new djvAboutDialogTest(context);
-    _tests += new djvChoiceDialogTest(context);
-    _tests += new djvColorWidgetTest(context);
-    _tests += new djvColorDialogTest(context);
-    _tests += new djvFileBrowserTest(context);
-    _tests += new djvFileEditTest(context);
-    _tests += new djvIconLibraryTest(context);
-    _tests += new djvInfoDialogTest(context);
-    _tests += new djvInputDialogTest(context);
-    _tests += new djvIntSliderTest(context);
-    _tests += new djvMessagesDialogTest(context);
-    _tests += new djvMultiChoiceDialogTest(context);
-    _tests += new djvNoticeDialogTest(context);
-    _tests += new djvNumWidgetTest(context);
-    _tests += new djvPixelWidgetTest(context);
-    _tests += new djvPrefsDialogTest(context);
-    _tests += new djvProgressDialogTest(context);
-    _tests += new djvQuestionDialogTest(context);
-    _tests += new djvSearchBoxTest(context);
-    _tests += new djvShortcutsWidgetTest(context);
-    _tests += new djvToolButtonTest(context);
-    _tests += new djvVectorWidgetTest(context);
-    _tests += new djvViewWidgetTest(context);
-}
-    
-const QVector<djvAbstractWidgetTest *> & djvWidgetTestManager::tests() const
-{
-    return _tests;
-}
+        const QVector<AbstractWidgetTest *> & WidgetTestManager::tests() const
+        {
+            return _tests;
+        }
+
+    } // namespace WidgetTest
+} // namespace djv

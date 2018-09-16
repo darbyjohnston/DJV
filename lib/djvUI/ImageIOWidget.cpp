@@ -61,8 +61,8 @@ namespace djv
             return _context;
         }
 
-        ImageIOWidgetPlugin::ImageIOWidgetPlugin(djvCoreContext * context) :
-            djvPlugin(context)
+        ImageIOWidgetPlugin::ImageIOWidgetPlugin(Core::CoreContext * context) :
+            Core::Plugin(context)
         {}
 
         ImageIOWidgetPlugin::~ImageIOWidgetPlugin()
@@ -73,7 +73,7 @@ namespace djv
             return dynamic_cast<UIContext *>(context());
         }
 
-        djvPlugin * ImageIOWidgetPlugin::copyPlugin() const
+        Core::Plugin * ImageIOWidgetPlugin::copyPlugin() const
         {
             return 0;
         }
@@ -82,7 +82,7 @@ namespace djv
             UIContext * context,
             const QStringList & searchPath,
             QObject * parent) :
-            djvPluginFactory(context, searchPath, "djv::UI::ImageIOWidgetEntry", "djv", "Plugin", parent),
+            Core::PluginFactory(context, searchPath, "djv::UI::ImageIOWidgetEntry", "djv", "Plugin", parent),
             _context(context)
         {
             //DJV_DEBUG("ImageIOWidgetFactory::ImageIOWidgetFactory");
@@ -95,7 +95,7 @@ namespace djv
 
         ImageIOWidget * ImageIOWidgetFactory::createWidget(Graphics::ImageIO * imageIOPlugin) const
         {
-            Q_FOREACH(djvPlugin * plugin, plugins())
+            Q_FOREACH(Core::Plugin * plugin, plugins())
             {
                 if (ImageIOWidgetPlugin * imageIOWidgetPlugin = dynamic_cast<ImageIOWidgetPlugin *>(plugin))
                 {

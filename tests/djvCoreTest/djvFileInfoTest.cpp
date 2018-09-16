@@ -37,146 +37,152 @@
 #include <djvCore/FileInfoUtil.h>
 #include <djvCore/FileIO.h>
 
-void djvFileInfoTest::run(int &, char **)
+using namespace djv::Core;
+
+namespace djv
 {
-    DJV_DEBUG("djvFileInfoTest::run");
-    ctors();
-    members();
-    operators();
-}
-
-void djvFileInfoTest::ctors()
-{
-    DJV_DEBUG("djvFileInfoTest::ctors");
+    namespace CoreTest
     {
-        djvFileInfo fileInfo;
-        DJV_ASSERT(fileInfo.isEmpty());
-    }
-    {
-        const QString fileName("djvFileInfoTest.test");
-        djvFileInfo fileInfo(fileName);
-        DJV_ASSERT(fileName == fileInfo.fileName());
-    }
-}
-
-void djvFileInfoTest::members()
-{
-    DJV_DEBUG("djvFileInfoTest::members");
-    djvFileInfo::sequenceExtensions.insert(".ppm");
-    {
-        const QString fileName("image.0001-0100.ppm");
-        djvFileInfo fileInfo(fileName);
-        DJV_ASSERT(fileName == fileInfo.fileName());
-        DJV_ASSERT(fileName == fileInfo.fileName(1));
-
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-        DJV_ASSERT(fileName == fileInfo.fileName());
-        DJV_ASSERT("image.0001.ppm" == fileInfo.fileName(1));
-    }
-    {
-        const QString fileName("image.1.ppm");
-        djvFileInfo fileInfo(fileName);
-        fileInfo.setPath("/");
-        DJV_ASSERT("/image.1.ppm" == fileInfo.fileName());
-        fileInfo.setBase("movie");
-
-        DJV_ASSERT("/movie1.ppm" == fileInfo.fileName());
-        fileInfo.setNumber("100");
-
-        DJV_ASSERT("/movie100.ppm" == fileInfo.fileName());
-        fileInfo.setExtension(".pic");
-
-        DJV_ASSERT("/movie100.pic" == fileInfo.fileName());
-    }
-    {
-        const QString fileName("djvFileInfoTest.test");
-
+        void FileInfoTest::run(int &, char **)
         {
-            djvFileIO io;
-            io.open(fileName, djvFileIO::WRITE);
-            io.close();
+            DJV_DEBUG("FileInfoTest::run");
+            ctors();
+            members();
+            operators();
         }
 
-        DJV_ASSERT(djvFileInfo(fileName).exists());
-    }
-    {
-        djvFileInfo fileInfo;
-        fileInfo.setType(djvFileInfo::SEQUENCE);
-        fileInfo.setSize(1);
-        fileInfo.setUser(2);
-        fileInfo.setPermissions(3);
-        fileInfo.setTime(4);
-        DJV_ASSERT(! fileInfo.isDotFile());   
-        DJV_ASSERT(djvFileInfo::SEQUENCE == fileInfo.type());
-        DJV_ASSERT(1 == fileInfo.size()); 
-        DJV_ASSERT(2 == fileInfo.user()); 
-        DJV_ASSERT(3 == fileInfo.permissions()); 
-        DJV_ASSERT(4 == fileInfo.time()); 
-    }
-    {
-        djvFileInfo fileInfo("image.ppm");
-        const djvSequence sequence(1, 3);
-        fileInfo.setSequence(sequence);
-        DJV_ASSERT(sequence == fileInfo.sequence());
-        DJV_ASSERT(fileInfo.isSequenceValid());
-        DJV_ASSERT("image1-3.ppm" == fileInfo.fileName());
-        fileInfo.setSequence(djvSequence(djvFrameList() << 3 << 2 << 1));
-        fileInfo.sortSequence();
-        DJV_ASSERT(sequence == fileInfo.sequence());
-        DJV_ASSERT(fileInfo.isSequenceValid());
-        DJV_ASSERT("image1-3.ppm" == fileInfo.fileName());
-    }
-    {
-        djvFileInfo fileInfo("image.ppm");
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image1.ppm")));
-    }
-    {
-        djvFileInfo fileInfo("image.1.ppm");
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image.pic")));
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("movie.ppm")));
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image.ppm")));
-        DJV_ASSERT(! fileInfo.addSequence(djvFileInfo("image..ppm")));
-        DJV_ASSERT(fileInfo.addSequence(djvFileInfo("image.2.ppm")));
-        DJV_ASSERT(djvSequence(1, 2) == fileInfo.sequence());
-        DJV_ASSERT(fileInfo.addSequence(djvFileInfo("image.0003.ppm")));
-        DJV_ASSERT(djvSequence(1, 3, 4) == fileInfo.sequence());
-        djvFileInfo tmp("image.0004.ppm");
-        tmp.setSize(1);
-        tmp.setUser(2);
-        tmp.setTime(3);
-        fileInfo.addSequence(tmp);
-        DJV_ASSERT(1 == fileInfo.size());
-        DJV_ASSERT(2 == fileInfo.user());
-        DJV_ASSERT(3 == fileInfo.time());
-    }
-    {
-        DJV_DEBUG_PRINT("permissions = " << djvFileInfo::permissionsLabels());
-        DJV_DEBUG_PRINT("rwx = " << djvFileInfo::permissionsLabel(
-            djvFileInfo::READ  |
-            djvFileInfo::WRITE |
-            djvFileInfo::EXEC));
-    }
-    {
-        const QString fileName("image.1.ppm");
-        djvFileInfo fileInfo(fileName);
-        DJV_ASSERT(fileName == (QString)fileInfo);
-    }
-}
+        void FileInfoTest::ctors()
+        {
+            DJV_DEBUG("FileInfoTest::ctors");
+            {
+                FileInfo fileInfo;
+                DJV_ASSERT(fileInfo.isEmpty());
+            }
+            {
+                const QString fileName("FileInfoTest.test");
+                FileInfo fileInfo(fileName);
+                DJV_ASSERT(fileName == fileInfo.fileName());
+            }
+        }
 
-void djvFileInfoTest::operators()
-{
-    DJV_DEBUG("djvFileInfoTest::operators");
-    {
-        const djvFileInfo::TYPE a = djvFileInfo::DIRECTORY;
-        QStringList tmp;
-        tmp << a;
-        djvFileInfo::TYPE b = static_cast<djvFileInfo::TYPE>(0);
-        tmp >> b;
-        DJV_ASSERT(a == b);
-    }
-    {
-        DJV_DEBUG_PRINT("type = " << djvFileInfo::DIRECTORY);
-        DJV_DEBUG_PRINT(djvFileInfo());
-    }
-}
+        void FileInfoTest::members()
+        {
+            DJV_DEBUG("FileInfoTest::members");
+            FileInfo::sequenceExtensions.insert(".ppm");
+            {
+                const QString fileName("image.0001-0100.ppm");
+                FileInfo fileInfo(fileName);
+                DJV_ASSERT(fileName == fileInfo.fileName());
+                DJV_ASSERT(fileName == fileInfo.fileName(1));
 
+                fileInfo.setType(FileInfo::SEQUENCE);
+                DJV_ASSERT(fileName == fileInfo.fileName());
+                DJV_ASSERT("image.0001.ppm" == fileInfo.fileName(1));
+            }
+            {
+                const QString fileName("image.1.ppm");
+                FileInfo fileInfo(fileName);
+                fileInfo.setPath("/");
+                DJV_ASSERT("/image.1.ppm" == fileInfo.fileName());
+                fileInfo.setBase("movie");
+
+                DJV_ASSERT("/movie1.ppm" == fileInfo.fileName());
+                fileInfo.setNumber("100");
+
+                DJV_ASSERT("/movie100.ppm" == fileInfo.fileName());
+                fileInfo.setExtension(".pic");
+
+                DJV_ASSERT("/movie100.pic" == fileInfo.fileName());
+            }
+            {
+                const QString fileName("FileInfoTest.test");
+                {
+                    FileIO io;
+                    io.open(fileName, FileIO::WRITE);
+                    io.close();
+                }
+                DJV_ASSERT(FileInfo(fileName).exists());
+            }
+            {
+                FileInfo fileInfo;
+                fileInfo.setType(FileInfo::SEQUENCE);
+                fileInfo.setSize(1);
+                fileInfo.setUser(2);
+                fileInfo.setPermissions(3);
+                fileInfo.setTime(4);
+                DJV_ASSERT(!fileInfo.isDotFile());
+                DJV_ASSERT(FileInfo::SEQUENCE == fileInfo.type());
+                DJV_ASSERT(1 == fileInfo.size());
+                DJV_ASSERT(2 == fileInfo.user());
+                DJV_ASSERT(3 == fileInfo.permissions());
+                DJV_ASSERT(4 == fileInfo.time());
+            }
+            {
+                FileInfo fileInfo("image.ppm");
+                const Sequence sequence(1, 3);
+                fileInfo.setSequence(sequence);
+                DJV_ASSERT(sequence == fileInfo.sequence());
+                DJV_ASSERT(fileInfo.isSequenceValid());
+                DJV_ASSERT("image1-3.ppm" == fileInfo.fileName());
+                fileInfo.setSequence(Sequence(FrameList() << 3 << 2 << 1));
+                fileInfo.sortSequence();
+                DJV_ASSERT(sequence == fileInfo.sequence());
+                DJV_ASSERT(fileInfo.isSequenceValid());
+                DJV_ASSERT("image1-3.ppm" == fileInfo.fileName());
+            }
+            {
+                FileInfo fileInfo("image.ppm");
+                DJV_ASSERT(!fileInfo.addSequence(FileInfo("image1.ppm")));
+            }
+            {
+                FileInfo fileInfo("image.1.ppm");
+                DJV_ASSERT(!fileInfo.addSequence(FileInfo("image.pic")));
+                DJV_ASSERT(!fileInfo.addSequence(FileInfo("movie.ppm")));
+                DJV_ASSERT(!fileInfo.addSequence(FileInfo("image.ppm")));
+                DJV_ASSERT(!fileInfo.addSequence(FileInfo("image..ppm")));
+                DJV_ASSERT(fileInfo.addSequence(FileInfo("image.2.ppm")));
+                DJV_ASSERT(Sequence(1, 2) == fileInfo.sequence());
+                DJV_ASSERT(fileInfo.addSequence(FileInfo("image.0003.ppm")));
+                DJV_ASSERT(Sequence(1, 3, 4) == fileInfo.sequence());
+                FileInfo tmp("image.0004.ppm");
+                tmp.setSize(1);
+                tmp.setUser(2);
+                tmp.setTime(3);
+                fileInfo.addSequence(tmp);
+                DJV_ASSERT(1 == fileInfo.size());
+                DJV_ASSERT(2 == fileInfo.user());
+                DJV_ASSERT(3 == fileInfo.time());
+            }
+            {
+                DJV_DEBUG_PRINT("permissions = " << FileInfo::permissionsLabels());
+                DJV_DEBUG_PRINT("rwx = " << FileInfo::permissionsLabel(
+                    FileInfo::READ |
+                    FileInfo::WRITE |
+                    FileInfo::EXEC));
+            }
+            {
+                const QString fileName("image.1.ppm");
+                FileInfo fileInfo(fileName);
+                DJV_ASSERT(fileName == (QString)fileInfo);
+            }
+        }
+
+        void FileInfoTest::operators()
+        {
+            DJV_DEBUG("FileInfoTest::operators");
+            {
+                const FileInfo::TYPE a = FileInfo::DIRECTORY;
+                QStringList tmp;
+                tmp << a;
+                FileInfo::TYPE b = static_cast<FileInfo::TYPE>(0);
+                tmp >> b;
+                DJV_ASSERT(a == b);
+            }
+            {
+                DJV_DEBUG_PRINT("type = " << FileInfo::DIRECTORY);
+                DJV_DEBUG_PRINT(FileInfo());
+            }
+        }
+
+    } // namespace CoreTest
+} // namespace djv

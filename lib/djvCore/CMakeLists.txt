@@ -74,6 +74,7 @@ set(source
     Math.cpp
     Memory.cpp
     Plugin.cpp
+    Range.cpp
     Sequence.cpp
     SequenceUtil.cpp
     SignalBlocker.cpp

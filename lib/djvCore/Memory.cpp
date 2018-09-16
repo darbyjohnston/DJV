@@ -37,63 +37,61 @@
 
 #include <string.h>
 
-//------------------------------------------------------------------------------
-// djvMemory
-//------------------------------------------------------------------------------
-
-djvMemory::~djvMemory()
-{}
-
-const quint64 djvMemory::kilobyte = 1024;
-const quint64 djvMemory::megabyte = kilobyte * 1024;
-const quint64 djvMemory::gigabyte = megabyte * 1024;
-const quint64 djvMemory::terabyte = gigabyte * 1024;
-
-QString djvMemory::sizeLabel(quint64 in)
+namespace djv
 {
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvMemory", "%1TB") <<
-        qApp->translate("djvMemory", "%1GB") <<
-        qApp->translate("djvMemory", "%1MB") <<
-        qApp->translate("djvMemory", "%1KB");
-
-    if (in >= djvMemory::terabyte)
+    namespace Core
     {
-        return data[0].arg(in /
-            static_cast<float>(djvMemory::terabyte), 0, 'f', 2);
-    }
-    else if (in >= djvMemory::gigabyte)
-    {
-        return data[1].arg(in /
-            static_cast<float>(djvMemory::gigabyte), 0, 'f', 2);
-    }
-    else if (in >= djvMemory::megabyte)
-    {
-        return data[2].arg(in /
-            static_cast<float>(djvMemory::megabyte), 0, 'f', 2);
-    }
-    else
-    {
-        return data[3].arg(in /
-            static_cast<float>(djvMemory::kilobyte), 0, 'f', 2);
-    }
-}
+        Memory::~Memory()
+        {}
 
-const QStringList & djvMemory::endianLabels()
-{
-    static const QStringList data = QStringList() <<
-        qApp->translate("djvMemory", "MSB") <<
-        qApp->translate("djvMemory", "LSB");
-    DJV_ASSERT(data.count() == ENDIAN_COUNT);
-    return data;
-}
+        const quint64 Memory::kilobyte = 1024;
+        const quint64 Memory::megabyte = kilobyte * 1024;
+        const quint64 Memory::gigabyte = megabyte * 1024;
+        const quint64 Memory::terabyte = gigabyte * 1024;
 
-djvMemory::ENDIAN djvMemory::endian()
-{
-    static const int tmp = 1;
-    static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
-    return *p ? LSB : MSB;
-}
+        QString Memory::sizeLabel(quint64 in)
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::Memory", "%1TB") <<
+                qApp->translate("djv::Core::Memory", "%1GB") <<
+                qApp->translate("djv::Core::Memory", "%1MB") <<
+                qApp->translate("djv::Core::Memory", "%1KB");
+            if (in >= Memory::terabyte)
+            {
+                return data[0].arg(in / static_cast<float>(Memory::terabyte), 0, 'f', 2);
+            }
+            else if (in >= Memory::gigabyte)
+            {
+                return data[1].arg(in / static_cast<float>(Memory::gigabyte), 0, 'f', 2);
+            }
+            else if (in >= Memory::megabyte)
+            {
+                return data[2].arg(in / static_cast<float>(Memory::megabyte), 0, 'f', 2);
+            }
+            else
+            {
+                return data[3].arg(in / static_cast<float>(Memory::kilobyte), 0, 'f', 2);
+            }
+        }
 
-_DJV_STRING_OPERATOR_LABEL(djvMemory::ENDIAN, djvMemory::endianLabels())
+        const QStringList & Memory::endianLabels()
+        {
+            static const QStringList data = QStringList() <<
+                qApp->translate("djv::Core::Memory", "MSB") <<
+                qApp->translate("djv::Core::Memory", "LSB");
+            DJV_ASSERT(data.count() == ENDIAN_COUNT);
+            return data;
+        }
 
+        Memory::ENDIAN Memory::endian()
+        {
+            static const int tmp = 1;
+            static const quint8 * const p = reinterpret_cast<const quint8 *>(&tmp);
+            return *p ? LSB : MSB;
+        }
+
+    } // namespace Core
+
+    _DJV_STRING_OPERATOR_LABEL(Core::Memory::ENDIAN, Core::Memory::endianLabels())
+
+} // namespace djv

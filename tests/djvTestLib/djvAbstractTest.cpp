@@ -29,78 +29,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //------------------------------------------------------------------------------
 
-#include <djvCore/Error.h>
-
-#include <QList>
-#include <QString>
+#include <djvAbstractTest.h>
 
 namespace djv
 {
-    namespace Core
+    namespace TestLib
     {
-        Error::Message::Message(const QString & prefix, const QString & string) :
-            prefix(prefix),
-            string(string)
+        AbstractTest::~AbstractTest()
         {}
 
-        struct Error::Private
-        {
-            QList<Error::Message> messages;
-        };
-
-        Error::Error() :
-            _p(new Private)
-        {}
-
-        Error::Error(const QString & string) :
-            _p(new Private)
-        {
-            _p->messages += Message(QString(), string);
-        }
-
-        Error::Error(const QString & prefix, const QString & string) :
-            _p(new Private)
-        {
-            _p->messages += Message(prefix, string);
-        }
-
-        Error::Error(const Error & other) :
-            _p(new Private)
-        {
-            _p->messages = other._p->messages;
-        }
-
-        Error::~Error()
-        {}
-
-        const QList<Error::Message> & Error::messages() const
-        {
-            return _p->messages;
-        }
-
-        int Error::count() const
-        {
-            return _p->messages.count();
-        }
-
-        void Error::add(const QString & string)
-        {
-            _p->messages.append(Message(QString(), string));
-        }
-
-        void Error::add(const QString & prefix, const QString & string)
-        {
-            _p->messages.append(Message(prefix, string));
-        }
-
-        Error & Error::operator = (const Error & other)
-        {
-            if (this != &other)
-            {
-                _p->messages = other._p->messages;
-            }
-            return *this;
-        }
-
-    } // namespace Core
+    } // namespace TestLib
 } // namespace djv

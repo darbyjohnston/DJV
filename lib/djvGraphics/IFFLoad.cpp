@@ -39,7 +39,7 @@ namespace djv
 {
     namespace Graphics
     {
-        IFFLoad::IFFLoad(djvCoreContext * context) :
+        IFFLoad::IFFLoad(Core::CoreContext * context) :
             ImageLoad(context),
             _tiles(0),
             _compression(false)
@@ -48,26 +48,26 @@ namespace djv
         IFFLoad::~IFFLoad()
         {}
 
-        void IFFLoad::open(const djvFileInfo & in, ImageIOInfo & info)
-            throw (djvError)
+        void IFFLoad::open(const Core::FileInfo & in, ImageIOInfo & info)
+            throw (Core::Error)
         {
             //DJV_DEBUG("IFFLoad::open");
             //DJV_DEBUG_PRINT("in = " << in);
 
             _file = in;
 
-            djvFileIO io;
+            Core::FileIO io;
 
             _open(_file.fileName(_file.sequence().start()), info, io);
 
-            if (djvFileInfo::SEQUENCE == _file.type())
+            if (Core::FileInfo::SEQUENCE == _file.type())
             {
                 info.sequence.frames = _file.sequence().frames;
             }
         }
 
         void IFFLoad::read(Image & image, const ImageIOFrameInfo & frame)
-            throw (djvError)
+            throw (Core::Error)
         {
             //DJV_DEBUG("IFFLoad::read");
             //DJV_DEBUG_PRINT("frame = " << frame);
@@ -87,7 +87,7 @@ namespace djv
                 _file.fileName(frame.frame != -1 ? frame.frame : _file.sequence().start());
             //DJV_DEBUG_PRINT("file name = " << fileName);
             ImageIOInfo info;
-            djvFileIO io;
+            Core::FileIO io;
             _open(fileName, info, io);
             image.tags = info.tags;
 
@@ -179,7 +179,7 @@ namespace djv
                                     xmax >= info.size.x ||
                                     ymax >= info.size.y)
                                 {
-                                    throw djvError(
+                                    throw Core::Error(
                                         IFF::staticName,
                                         ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                 }
@@ -192,7 +192,7 @@ namespace djv
 
                                 if (!tw || !th)
                                 {
-                                    throw djvError(
+                                    throw Core::Error(
                                         IFF::staticName,
                                         ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                 }
@@ -263,7 +263,7 @@ namespace djv
                                         // Test.
                                         if (p != io.mmapP())
                                         {
-                                            throw djvError(
+                                            throw Core::Error(
                                                 IFF::staticName,
                                                 ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                         }
@@ -286,7 +286,7 @@ namespace djv
 
                                                 if (size < static_cast<quint32>(byteCount))
                                                 {
-                                                    throw djvError(
+                                                    throw Core::Error(
                                                         IFF::staticName,
                                                         ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                                                 }
@@ -323,7 +323,7 @@ namespace djv
                                         // Set map.
                                         int* map = NULL;
 
-                                        if (djvMemory::endian() == djvMemory::LSB)
+                                        if (Core::Memory::endian() == Core::Memory::LSB)
                                         {
                                             int rgb16[] = { 0, 2, 4, 1, 3, 5 };
                                             int rgba16[] = { 0, 2, 4, 7, 1, 3, 5, 6 };
@@ -387,7 +387,7 @@ namespace djv
                                         // Test.
                                         if (p != io.mmapP())
                                         {
-                                            throw djvError(
+                                            throw Core::Error(
                                                 IFF::staticName,
                                                 ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                         }
@@ -410,7 +410,7 @@ namespace djv
 
                                                 if (size < static_cast<quint32>(byteCount))
                                                 {
-                                                    throw djvError(
+                                                    throw Core::Error(
                                                         IFF::staticName,
                                                         ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                                                 }
@@ -424,9 +424,9 @@ namespace djv
                                                     quint8 * in =
                                                         pixels + c * channelByteCount;
 
-                                                    if (djvMemory::endian() == djvMemory::LSB)
+                                                    if (Core::Memory::endian() == Core::Memory::LSB)
                                                     {
-                                                        djvMemory::convertEndian(in, &pixel, 1, 2);
+                                                        Core::Memory::convertEndian(in, &pixel, 1, 2);
                                                     }
                                                     else
                                                     {
@@ -497,13 +497,13 @@ namespace djv
             //DJV_DEBUG_PRINT("image = " << image);
         }
 
-        void IFFLoad::_open(const djvFileInfo & in, ImageIOInfo & info, djvFileIO & io)
-            throw (djvError)
+        void IFFLoad::_open(const Core::FileInfo & in, ImageIOInfo & info, Core::FileIO & io)
+            throw (Core::Error)
         {
             //DJV_DEBUG("IFFLoad::_open");
             //DJV_DEBUG_PRINT("in = " << in);
-            io.setEndian(djvMemory::endian() != djvMemory::MSB);
-            io.open(in, djvFileIO::READ);
+            io.setEndian(Core::Memory::endian() != Core::Memory::MSB);
+            io.open(in, Core::FileIO::READ);
             info.fileName = in;
             IFF::loadInfo(io, info, &_tiles, &_compression);
         }

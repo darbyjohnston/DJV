@@ -233,7 +233,7 @@ namespace djv
             //DJV_DEBUG_PRINT("min = " << min());
             //DJV_DEBUG_PRINT("max = " << max());
             //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
-            djvSignalBlocker signalBlocker(QObjectList() <<
+            Core::SignalBlocker signalBlocker(QObjectList() <<
                 _p->edit <<
                 _p->slider <<
                 _p->defaultButton);

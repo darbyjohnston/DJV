@@ -42,46 +42,50 @@
 #include <QApplication>
 #include <QScopedPointer>
 
-class djvImagePlayExampleWidget : public djv::UI::ImageView
+namespace djv
 {
-    Q_OBJECT
+    class ImagePlayExampleWidget : public UI::ImageView
+    {
+        Q_OBJECT
 
-public:
-    explicit djvImagePlayExampleWidget(djv::UI::UIContext *);
-    
-protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
-    virtual void keyPressEvent(QKeyEvent *);
+    public:
+        explicit ImagePlayExampleWidget(UI::UIContext *);
 
-private:
-    glm::ivec2 _viewPosTmp = glm::ivec2(0, 0);
-    glm::ivec2 _mousePress = glm::ivec2(0, 0);
-};
+    protected:
+        virtual void showEvent(QShowEvent *);
+        virtual void mousePressEvent(QMouseEvent *);
+        virtual void mouseMoveEvent(QMouseEvent *);
+        virtual void keyPressEvent(QKeyEvent *);
 
-class djvImagePlayExampleApplication : public QApplication
-{
-    Q_OBJECT
-    
-public:
-    djvImagePlayExampleApplication(int & argc, char ** argv);
+    private:
+        glm::ivec2 _viewPosTmp = glm::ivec2(0, 0);
+        glm::ivec2 _mousePress = glm::ivec2(0, 0);
+    };
 
-protected:
-    void timerEvent(QTimerEvent *);
+    class ImagePlayExampleApplication : public QApplication
+    {
+        Q_OBJECT
 
-private Q_SLOTS:
-    void commandLineExit();
-    void work();
+    public:
+        ImagePlayExampleApplication(int & argc, char ** argv);
 
-private:
-    QScopedPointer<djv::UI::UIContext>        _context;
-    djvFileInfo                               _fileInfo;
-    QScopedPointer<djv::Graphics::ImageLoad>  _load;
-    djv::Graphics::ImageIOInfo                _info;
-    djv::Graphics::Image                      _image;
-    bool                                      _cache;
-    QVector<djv::Graphics::Image *>           _cachedImages;
-    QScopedPointer<djvImagePlayExampleWidget> _widget;
-    int                                       _frame;
-};
+    protected:
+        void timerEvent(QTimerEvent *);
+
+    private Q_SLOTS:
+        void commandLineExit();
+        void work();
+
+    private:
+        QScopedPointer<UI::UIContext> _context;
+        Core::FileInfo _fileInfo;
+        QScopedPointer<Graphics::ImageLoad> _load;
+        Graphics::ImageIOInfo _info;
+        Graphics::Image _image;
+        bool _cache;
+        QVector<Graphics::Image *> _cachedImages;
+        QScopedPointer<ImagePlayExampleWidget> _widget;
+        int _frame;
+    };
+
+} // namespace djv

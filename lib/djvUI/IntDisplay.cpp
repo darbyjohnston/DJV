@@ -103,7 +103,7 @@ namespace djv
 
         void IntDisplay::widgetUpdate()
         {
-            djvSignalBlocker signalBlocker(_p->spinBox);
+            Core::SignalBlocker signalBlocker(_p->spinBox);
             _p->spinBox->setRange(_p->min, _p->max);
             _p->spinBox->setValue(_p->value);
         }

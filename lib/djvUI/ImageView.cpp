@@ -97,7 +97,7 @@ namespace djv
             return _p->viewZoom;
         }
 
-        djvBox2f ImageView::bbox() const
+        Core::Box2f ImageView::bbox() const
         {
             return bbox(_p->viewPos, _p->viewZoom);
         }
@@ -159,7 +159,7 @@ namespace djv
         void ImageView::setViewPosZoom(const glm::ivec2 & pos, float zoom)
         {
             const bool posSame = pos == _p->viewPos;
-            const bool zoomSame = djvMath::fuzzyCompare(zoom, _p->viewZoom);
+            const bool zoomSame = Core::Math::fuzzyCompare(zoom, _p->viewZoom);
             if (posSame && zoomSame)
                 return;
             //DJV_DEBUG("ImageView::setViewPosZoom");
@@ -191,12 +191,12 @@ namespace djv
             if (!_p->data)
                 return;
             //DJV_DEBUG("ImageView::viewFit");
-            const djvBox2i geom(width(), height());
+            const Core::Box2i geom(width(), height());
             //DJV_DEBUG_PRINT("geom = " << geom.size);
-            const djvBox2f bbox = this->bbox(glm::ivec2(), 1.f);
+            const Core::Box2f bbox = this->bbox(glm::ivec2(), 1.f);
             //DJV_DEBUG_PRINT("bbox = " << bbox);
-            const float zoom = djvVectorUtil::isSizeValid(bbox.size) ?
-                djvMath::min(geom.w / bbox.size.x, geom.h / bbox.size.y) : 1.f;
+            const float zoom = Core::VectorUtil::isSizeValid(bbox.size) ?
+                Core::Math::min(geom.w / bbox.size.x, geom.h / bbox.size.y) : 1.f;
             //DJV_DEBUG_PRINT("zoom = " << zoom);
             glm::ivec2 pos =
                 glm::vec2(geom.size) / 2.f -
@@ -230,7 +230,7 @@ namespace djv
 
             const int devicePixelRatio = this->devicePixelRatio();
             //DJV_DEBUG_PRINT("devicePixelRatio = " << devicePixelRatio);
-            const djvBox2i geom(
+            const Core::Box2i geom(
                 width() * devicePixelRatio,
                 height() * devicePixelRatio);
             //DJV_DEBUG_PRINT("geom = " << geom.size);
@@ -264,17 +264,17 @@ namespace djv
                     1.f);
                 _p->openGLImage->draw(*_p->data, viewMatrix, options);
             }
-            catch (const djvError & error)
+            catch (const Core::Error & error)
             {
                 DJV_LOG(_p->context->debugLog(), "djv::UI::ImageView",
-                    djvErrorUtil::format(error).join("\n"));
+                    Core::ErrorUtil::format(error).join("\n"));
             }
         }
 
-        djvBox2f ImageView::bbox(const glm::ivec2 & pos, float zoom) const
+        Core::Box2f ImageView::bbox(const glm::ivec2 & pos, float zoom) const
         {
             if (!_p->data)
-                return djvBox2f();
+                return Core::Box2f();
 
             //DJV_DEBUG("ImageView::bbox");
             //DJV_DEBUG_PRINT("pos = " << pos);
@@ -291,7 +291,7 @@ namespace djv
             const glm::mat3x3 m = Graphics::OpenGLImageXform::xformMatrix(xform);
             //DJV_DEBUG_PRINT("m = " << m);
 
-            djvBox2f box(_p->data->info().size * Graphics::PixelDataUtil::proxyScale(info.proxy));
+            Core::Box2f box(_p->data->info().size * Graphics::PixelDataUtil::proxyScale(info.proxy));
             //DJV_DEBUG_PRINT("box = " << box);
 
             box = m * box;

@@ -36,8 +36,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -102,57 +100,57 @@ namespace djv
         }
 
     } // namespace Graphics
+
+    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::FORMAT, Graphics::Pixel::formatLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::TYPE, Graphics::Pixel::typeLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::DATA, Graphics::Pixel::dataLabels());
+    _DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::PIXEL, Graphics::Pixel::pixelLabels());
+
+    QStringList & operator >> (QStringList & in, Graphics::Pixel::Mask & out) throw (QString)
+    {
+        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        {
+            in >> out[i];
+        }
+        return in;
+    }
+
+    QStringList & operator << (QStringList & out, const Graphics::Pixel::Mask & in)
+    {
+        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        {
+            out << in[i];
+        }
+        return out;
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::FORMAT & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::TYPE & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::DATA & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::PIXEL & in)
+    {
+        return debug << Core::StringUtil::label(in);
+    }
+
+    Core::Debug & operator << (Core::Debug & debug, const Graphics::Pixel::Mask & in)
+    {
+        for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
+        {
+            debug << static_cast<int>(in[i]);
+        }
+        return debug;
+    }
+
 } // namespace djv
-
-_DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::FORMAT, Graphics::Pixel::formatLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::TYPE, Graphics::Pixel::typeLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::DATA, Graphics::Pixel::dataLabels())
-_DJV_STRING_OPERATOR_LABEL(Graphics::Pixel::PIXEL, Graphics::Pixel::pixelLabels())
-
-QStringList & operator >> (QStringList & in, Graphics::Pixel::Mask & out) throw (QString)
-{
-    for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
-    {
-        in >> out[i];
-    }
-    return in;
-}
-
-QStringList & operator << (QStringList & out, const Graphics::Pixel::Mask & in)
-{
-    for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
-    {
-        out << in[i];
-    }
-    return out;
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::Pixel::FORMAT & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::Pixel::TYPE & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::Pixel::DATA & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::Pixel::PIXEL & in)
-{
-    return debug << djvStringUtil::label(in);
-}
-
-djvDebug & operator << (djvDebug & debug, const Graphics::Pixel::Mask & in)
-{
-    for (int i = 0; i < Graphics::Pixel::channelsMax; ++i)
-    {
-        debug << static_cast<int>(in[i]);
-    }
-    return debug;
-}
-

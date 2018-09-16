@@ -35,19 +35,24 @@
 
 #include <djvUI/FileEdit.h>
 
-class djvFileEditTest : public djvAbstractWidgetTest
+namespace djv
 {
-    Q_OBJECT
-    
-public:
+    namespace WidgetTest
+    {
+        class FileEditTest : public AbstractWidgetTest
+        {
+            Q_OBJECT
 
-    djvFileEditTest(djv::UI::UIContext *);
+        public:
+            FileEditTest(UI::UIContext *);
 
-    virtual QString name();
+            virtual QString name();
 
-    virtual void run(const QStringList & args = QStringList());
-    
-private Q_SLOTS:
+            virtual void run(const QStringList & args = QStringList());
 
-    void callback(const djvFileInfo &);
-};
+        private Q_SLOTS:
+            void callback(const djv::Core::FileInfo &);
+        };
+
+    } // namespace WidgetTest
+} // namespace djv

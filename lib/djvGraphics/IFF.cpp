@@ -37,8 +37,6 @@
 
 #include <QCoreApplication>
 
-using namespace djv;
-
 namespace djv
 {
     namespace Graphics
@@ -64,10 +62,10 @@ namespace djv
             {
                 Header();
 
-                void load(djvFileIO &, ImageIOInfo &, int * tiles, bool * compression)
-                    throw (djvError);
-                void save(djvFileIO &, const ImageIOInfo &, bool compression)
-                    throw (djvError);
+                void load(Core::FileIO &, ImageIOInfo &, int * tiles, bool * compression)
+                    throw (Core::Error);
+                void save(Core::FileIO &, const ImageIOInfo &, bool compression)
+                    throw (Core::Error);
 
                 void debug() const;
 
@@ -97,10 +95,10 @@ namespace djv
             }
 
             void Header::load(
-                djvFileIO &   io,
-                ImageIOInfo & info,
-                int *         tiles,
-                bool *        compression) throw (djvError)
+                Core::FileIO & io,
+                ImageIOInfo &  info,
+                int *          tiles,
+                bool *         compression) throw (Core::Error)
             {
                 //DJV_DEBUG("Header::load");
 
@@ -164,7 +162,7 @@ namespace djv
                                     // Test if size if correct.
                                     if (tbhdsize != 24 && tbhdsize != 32)
                                     {
-                                        throw djvError(
+                                        throw Core::Error(
                                             IFF::staticName,
                                             ImageIO::errorLabels()[ImageIO::ERROR_READ]);
                                     }
@@ -201,7 +199,7 @@ namespace djv
                                         // no compression or non-rle compression not
                                         // supported
 
-                                        throw djvError(
+                                        throw Core::Error(
                                             IFF::staticName,
                                             ImageIO::errorLabels()[ImageIO::ERROR_UNSUPPORTED]);
                                     }
@@ -337,8 +335,8 @@ namespace djv
             }
 
 
-            void Header::save(djvFileIO & io, const ImageIOInfo & info, bool compression)
-                throw (djvError)
+            void Header::save(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+                throw (Core::Error)
             {
                 //DJV_DEBUG("Header::save");
 
@@ -469,17 +467,17 @@ namespace djv
         } // namespace
 
         void IFF::loadInfo(
-            djvFileIO &   io,
-            ImageIOInfo & info,
-            int *         tiles,
-            bool *        compression) throw (djvError)
+            Core::FileIO & io,
+            ImageIOInfo &  info,
+            int *          tiles,
+            bool *         compression) throw (Core::Error)
         {
             Header header;
             header.load(io, info, tiles, compression);
         }
 
-        void IFF::saveInfo(djvFileIO & io, const ImageIOInfo & info, bool compression)
-            throw (djvError)
+        void IFF::saveInfo(Core::FileIO & io, const ImageIOInfo & info, bool compression)
+            throw (Core::Error)
         {
             Header header;
             header.save(io, info, compression);
@@ -605,7 +603,7 @@ namespace djv
             while (in < end)
             {
                 // Find runs.
-                const int max = djvMath::min(0x7f + 1, static_cast<int>(end - in));
+                const int max = Core::Math::min(0x7f + 1, static_cast<int>(end - in));
 
                 if (max > 0)
                 {
@@ -670,6 +668,7 @@ namespace djv
         }
 
     } // namespace Graphics
-} // namespace djv
 
-_DJV_STRING_OPERATOR_LABEL(Graphics::IFF::COMPRESSION, Graphics::IFF::compressionLabels())
+    _DJV_STRING_OPERATOR_LABEL(Graphics::IFF::COMPRESSION, Graphics::IFF::compressionLabels())
+
+} // namespace djv
