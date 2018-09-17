@@ -42,147 +42,144 @@
 #include <QScopedPointer>
 #include <QTimer>
 
-using namespace djv;
-
-//------------------------------------------------------------------------------
-// djvViewApplication::Private
-//------------------------------------------------------------------------------
-
-struct djvViewApplication::Private
+namespace djv
 {
-    QScopedPointer<ViewLib::Context> context;
-};
-
-//------------------------------------------------------------------------------
-// djvViewApplication
-//------------------------------------------------------------------------------
-
-djvViewApplication::djvViewApplication(int & argc, char ** argv) :
-    QApplication(argc, argv),
-    _p(new Private)
-{
-    //DJV_DEBUG("djvViewApplication::djvViewApplication");
-    
-    setOrganizationName("djv.sourceforge.net");
-    setApplicationName("djv_view");
-    
-    // Create the context.
-    _p->context.reset(new ViewLib::Context(this));
-    
-    // Parse the command line.
-    if (! _p->context->commandLine(argc, argv))
+    namespace view
     {
-        QTimer::singleShot(0, this, SLOT(commandLineExit()));
-    }
-    else
-    {
-        QTimer::singleShot(0, this, SLOT(work()));
-    }
-}
-
-djvViewApplication::~djvViewApplication()
-{
-    //DJV_DEBUG("djvViewApplication::~djvViewApplication");
-}
-
-bool djvViewApplication::event(QEvent * event)
-{
-    switch (event->type())
-    {
-        case QEvent::FileOpen:
+        struct Application::Private
         {
-            QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
-            QVector<ViewLib::MainWindow *> mainWindowList =
-                ViewLib::MainWindow::mainWindowList();
-            if (mainWindowList.count())
-            {
-                mainWindowList[0]->fileOpen(e->file());
-                mainWindowList[0]->raise();
-            }
-        } return true;
-        default: break;
-    }
-    return QApplication::event(event);
-}
+            QScopedPointer<ViewLib::Context> context;
+        };
 
-void djvViewApplication::commandLineExit()
-{
-    exit(1);
-}
-
-void djvViewApplication::work()
-{
-    //DJV_DEBUG("djvViewApplication::work");
-
-    // Initialize user interface.
-    DJV_LOG(_p->context->debugLog(), "djvViewApplication",
-        "Initialize user interface...");
-    _p->context->setValid(true);
-    setStyle("fusion");
-    setWindowIcon(QPixmap(":projector32x32.png"));
-    DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
-
-    // Show main window(s).
-    QStringList input = _p->context->input();
-    if (input.count())
-    {
-        // Combine command line arguments.
-        if (_p->context->hasCombine())
+        Application::Application(int & argc, char ** argv) :
+            QApplication(argc, argv),
+            _p(new Private)
         {
-            Core::FileInfo fileInfo(input[0]);
-            if (fileInfo.isSequenceValid())
+            //DJV_DEBUG("Application::Application");
+
+            setOrganizationName("djv.sourceforge.net");
+            setApplicationName("djv_view");
+
+            // Create the context.
+            _p->context.reset(new ViewLib::Context(this));
+
+            // Parse the command line.
+            if (!_p->context->commandLine(argc, argv))
             {
-                fileInfo.setType(Core::FileInfo::SEQUENCE);
+                QTimer::singleShot(0, this, SLOT(commandLineExit()));
             }
-            for (int i = 1; i < input.count(); ++i)
+            else
             {
-                fileInfo.addSequence(input[i]);
+                QTimer::singleShot(0, this, SLOT(work()));
             }
-            fileInfo.sortSequence();
-            input.clear();
-            input += fileInfo;
         }
 
-        // Create and show a window for each input.
-        for (int i = 0; i < input.count(); ++i)
+        Application::~Application()
         {
-            // Parse the input.
-            const Core::FileInfo fileInfo = Core::FileInfoUtil::parse(
-                input[i], _p->context->sequence(), _p->context->hasAutoSequence());
-            DJV_LOG(_p->context->debugLog(), "djvViewApplication",
-                QString("Input = \"%1\"").arg(fileInfo));
-            
-            // Initialize the window.
-            ViewLib::MainWindow * window =
-                ViewLib::MainWindow::createWindow(_p->context.data());
-            window->fileOpen(fileInfo);
-            if (_p->context->fileLayer().data())
-            {
-                window->setFileLayer(*_p->context->fileLayer());
-            }
-            if (_p->context->playback().data())
-            {
-                window->setPlayback(*_p->context->playback());
-            }
-            if (_p->context->playbackFrame().data())
-            {
-                window->setPlaybackFrame(*_p->context->playbackFrame());
-            }
-            if (_p->context->playbackSpeed().data())
-            {
-                window->setPlaybackSpeed(*_p->context->playbackSpeed());
-            }            
-            DJV_LOG(_p->context->debugLog(), "djvViewApplication",
-                "Show window...");
-            window->show();
-            DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
+            //DJV_DEBUG("Application::~Application");
         }
-    }
-    else
-    {
-        // Create and show an empty window.
-        DJV_LOG(_p->context->debugLog(), "djvViewApplication", "Show window...");
-        ViewLib::MainWindow::createWindow(_p->context.data())->show();
-        DJV_LOG(_p->context->debugLog(), "djvViewApplication", "");
-    }
-}
+
+        bool Application::event(QEvent * event)
+        {
+            switch (event->type())
+            {
+            case QEvent::FileOpen:
+            {
+                QFileOpenEvent * e = static_cast<QFileOpenEvent *>(event);
+                QVector<ViewLib::MainWindow *> mainWindowList =
+                    ViewLib::MainWindow::mainWindowList();
+                if (mainWindowList.count())
+                {
+                    mainWindowList[0]->fileOpen(e->file());
+                    mainWindowList[0]->raise();
+                }
+            } return true;
+            default: break;
+            }
+            return QApplication::event(event);
+        }
+
+        void Application::commandLineExit()
+        {
+            exit(1);
+        }
+
+        void Application::work()
+        {
+            //DJV_DEBUG("Application::work");
+
+            // Initialize user interface.
+            DJV_LOG(_p->context->debugLog(), "djv::view::Application",
+                "Initialize user interface...");
+            _p->context->setValid(true);
+            setStyle("fusion");
+            setWindowIcon(QPixmap(":projector32x32.png"));
+            DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
+
+            // Show main window(s).
+            QStringList input = _p->context->input();
+            if (input.count())
+            {
+                // Combine command line arguments.
+                if (_p->context->hasCombine())
+                {
+                    Core::FileInfo fileInfo(input[0]);
+                    if (fileInfo.isSequenceValid())
+                    {
+                        fileInfo.setType(Core::FileInfo::SEQUENCE);
+                    }
+                    for (int i = 1; i < input.count(); ++i)
+                    {
+                        fileInfo.addSequence(input[i]);
+                    }
+                    fileInfo.sortSequence();
+                    input.clear();
+                    input += fileInfo;
+                }
+
+                // Create and show a window for each input.
+                for (int i = 0; i < input.count(); ++i)
+                {
+                    // Parse the input.
+                    const Core::FileInfo fileInfo = Core::FileInfoUtil::parse(
+                        input[i], _p->context->sequence(), _p->context->hasAutoSequence());
+                    DJV_LOG(_p->context->debugLog(), "djv::view::Application",
+                        QString("Input = \"%1\"").arg(fileInfo));
+
+                    // Initialize the window.
+                    ViewLib::MainWindow * window =
+                        ViewLib::MainWindow::createWindow(_p->context.data());
+                    window->fileOpen(fileInfo);
+                    if (_p->context->fileLayer().data())
+                    {
+                        window->setFileLayer(*_p->context->fileLayer());
+                    }
+                    if (_p->context->playback().data())
+                    {
+                        window->setPlayback(*_p->context->playback());
+                    }
+                    if (_p->context->playbackFrame().data())
+                    {
+                        window->setPlaybackFrame(*_p->context->playbackFrame());
+                    }
+                    if (_p->context->playbackSpeed().data())
+                    {
+                        window->setPlaybackSpeed(*_p->context->playbackSpeed());
+                    }
+                    DJV_LOG(_p->context->debugLog(), "djv::view::Application",
+                        "Show window...");
+                    window->show();
+                    DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
+                }
+            }
+            else
+            {
+                // Create and show an empty window.
+                DJV_LOG(_p->context->debugLog(), "djv::view::Application", "Show window...");
+                ViewLib::MainWindow::createWindow(_p->context.data())->show();
+                DJV_LOG(_p->context->debugLog(), "djv::view::Application", "");
+            }
+        }
+
+    } // namespace view
+} // namespace djv

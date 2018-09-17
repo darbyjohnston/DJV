@@ -39,25 +39,13 @@
 #include <tchar.h>
 #endif // DJV_WINDOWS
 
-//------------------------------------------------------------------------------
-// main()
-//------------------------------------------------------------------------------
-
 int main(int argc, char ** argv)
 {
-    return djvViewApplication(argc, argv).exec();
+    return djv::view::Application(argc, argv).exec();
 }
 
-//------------------------------------------------------------------------------
-// WinMain()
-//------------------------------------------------------------------------------
-
 #if defined(DJV_WINDOWS)
-int WINAPI WinMain(
-    HINSTANCE hInstance,
-    HINSTANCE,
-    LPSTR,
-    int)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int)
 {
     return main(__argc, __argv);
 }

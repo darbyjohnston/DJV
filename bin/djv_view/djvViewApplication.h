@@ -38,39 +38,37 @@
 
 #include <memory>
 
-class djvViewMainWindow;
-
-//! \addtogroup djvViewLib
-//@{
-
-//------------------------------------------------------------------------------
-//! \class djvViewApplication
-//!
-//! This class provides the application.
-//------------------------------------------------------------------------------
-
-class djvViewApplication : public QApplication
+namespace djv
 {
-    Q_OBJECT
-    
-public:
-    djvViewApplication(int & argc, char ** argv);
+    namespace view
+    {
+        class MainWindow;
 
-    virtual ~djvViewApplication();
+        //! \class Application
+        //!
+        //! This class provides the application.
+        class Application : public QApplication
+        {
+            Q_OBJECT
 
-protected:
-    virtual bool event(QEvent *);
-    
-private Q_SLOTS:
-    void commandLineExit();
-    void work();
-    
-private:
-    DJV_PRIVATE_COPY(djvViewApplication);
-    
-    struct Private;
-    std::unique_ptr<Private> _p;
-};
+        public:
+            Application(int & argc, char ** argv);
 
-//@} // djvViewLib
+            virtual ~Application();
 
+        protected:
+            virtual bool event(QEvent *);
+
+        private Q_SLOTS:
+            void commandLineExit();
+            void work();
+
+        private:
+            DJV_PRIVATE_COPY(Application);
+
+            struct Private;
+            std::unique_ptr<Private> _p;
+        };
+
+    } // namespace view
+} // namespace djv
