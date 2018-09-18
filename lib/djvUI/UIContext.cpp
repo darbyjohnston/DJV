@@ -59,6 +59,11 @@
 #include <QThreadPool>
 #include <QUrl>
 
+static void initResources()
+{
+    Q_INIT_RESOURCE(djvUI);
+}
+
 namespace djv
 {
     namespace UI
@@ -90,8 +95,8 @@ namespace djv
         {
             //DJV_DEBUG("UIContext::UIContext");
 
-            Q_INIT_RESOURCE(djvUI);
-
+            initResources();
+            
             // Register meta types.
             qRegisterMetaType<PlaybackUtil::PLAYBACK>("djv::UI::PlaybackUtil::PLAYBACK");
 

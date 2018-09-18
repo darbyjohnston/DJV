@@ -103,20 +103,17 @@ namespace djv
             _p->sizeSlider->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Color picker sample size"));
 
-            _p->colorProfileButton = new UI::ToolButton(
-                context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"), context);
+            _p->colorProfileButton = new UI::ToolButton(context);
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->pixmap("djvDisplayProfileIcon.png"), context);
+            _p->displayProfileButton = new UI::ToolButton(context);
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Set whether the display profile is enabled"));
 
-            _p->lockWidget = new UI::ToolButton(
-                context->iconLibrary()->icon("djvUnlockIcon.png", "djvLockIcon.png"), context);
+            _p->lockWidget = new UI::ToolButton(context);
             _p->lockWidget->setCheckable(true);
             _p->lockWidget->setToolTip(
                 qApp->translate("djv::ViewLib::ColorPickerTool", "Lock the pixel format and type"));
@@ -126,7 +123,6 @@ namespace djv
 
             _p->hLayout = new QHBoxLayout;
             _p->hLayout->setMargin(0);
-            _p->hLayout->setSpacing(context->style()->sizeMetric().spacing);
             _p->hLayout->addWidget(_p->swatch);
             _p->hLayout->addWidget(_p->widget, 1);
             layout->addLayout(_p->hLayout);
@@ -159,6 +155,7 @@ namespace djv
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::ColorPickerTool", "Color Picker"));
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -193,7 +190,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         ColorPickerTool::~ColorPickerTool()
@@ -252,8 +249,12 @@ namespace djv
             widgetUpdate();
         }
 
-        void ColorPickerTool::sizeMetricsCallback()
+        void ColorPickerTool::sizeUpdate()
         {
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+            _p->lockWidget->setIcon(context()->iconLibrary()->icon("djvUnlockIcon", "djvLockIcon", iconDPI));
             _p->hLayout->setSpacing(context()->style()->sizeMetric().spacing);
             updateGeometry();
         }

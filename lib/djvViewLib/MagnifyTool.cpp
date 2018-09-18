@@ -39,6 +39,7 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/IntEditSlider.h>
 #include <djvUI/Prefs.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvGraphics/OpenGLImage.h>
@@ -126,14 +127,12 @@ namespace djv
             _p->slider->setRange(1, 10);
             _p->slider->setResetToDefault(false);
 
-            _p->colorProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDisplayProfileIcon.png"), context);
+            _p->colorProfileButton = new UI::ToolButton(context);
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDisplayProfileIcon.png"), context);
+            _p->displayProfileButton = new UI::ToolButton(context);
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::MagnifyTool", "Set whether the display profile is enabled"));
@@ -164,6 +163,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::MagnifyTool", "Magnify"));
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -187,6 +187,10 @@ namespace djv
                 _p->displayProfileButton,
                 SIGNAL(toggled(bool)),
                 SLOT(displayProfileCallback(bool)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(update()));
         }
 
         MagnifyTool::~MagnifyTool()
@@ -230,6 +234,13 @@ namespace djv
             widgetUpdate();
         }
 
+        void MagnifyTool::sizeUpdate()
+        {
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+        }
+        
         void MagnifyTool::widgetUpdate()
         {
             //DJV_DEBUG("MagnifyTool::widgetUpdate");

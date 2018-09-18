@@ -62,7 +62,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::PPMWidget", "File Type"),
@@ -93,6 +92,7 @@ namespace djv
             tmp = plugin->option(plugin->options()[Graphics::PPM::DATA_OPTION]);
             tmp >> _options.data;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -111,7 +111,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         PPMWidget::~PPMWidget()
@@ -155,7 +155,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void PPMWidget::sizeMetricsCallback()
+        void PPMWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

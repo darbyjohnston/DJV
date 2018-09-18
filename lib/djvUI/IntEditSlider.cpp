@@ -66,13 +66,8 @@ namespace djv
             _p->context = context;
 
             _p->edit = new IntEdit;
-
             _p->slider = new IntSlider;
-
             _p->defaultButton = new ToolButton(context);
-            _p->defaultButton->setIconSize(QSize(16, 16));
-            _p->defaultButton->setIcon(
-                context->iconLibrary()->icon("djvResetIcon.png"));
             _p->defaultButton->setToolTip(
                 qApp->translate("djv::UI::IntEditSlider", "Reset the value"));
 
@@ -84,10 +79,9 @@ namespace djv
             _p->layout->addWidget(_p->defaultButton);
 
             _p->slider->setRange(0, 100);
-
             _p->defaultButton->hide();
-
-            widgetUpdate();
+            sizeUpdate();
+            valueUpdate();
 
             connect(
                 _p->edit,
@@ -108,7 +102,7 @@ namespace djv
             connect(
                 _p->edit->object(),
                 SIGNAL(defaultValidChanged(bool)),
-                SLOT(widgetUpdate()));
+                SLOT(valueUpdate()));
             connect(
                 _p->edit->object(),
                 SIGNAL(defaultValueChanged(int)),
@@ -124,7 +118,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         IntEditSlider::~IntEditSlider()
@@ -180,7 +174,7 @@ namespace djv
             if (value == _p->resetToDefault)
                 return;
             _p->resetToDefault = value;
-            widgetUpdate();
+            valueUpdate();
         }
 
         void IntEditSlider::setMin(int value)
@@ -203,7 +197,7 @@ namespace djv
 
         void IntEditSlider::valueCallback()
         {
-            widgetUpdate();
+            valueUpdate();
             Q_EMIT valueChanged(_p->edit->value());
         }
 
@@ -217,15 +211,17 @@ namespace djv
             _p->edit->setValue(_p->edit->object()->defaultValue());
         }
 
-        void IntEditSlider::sizeMetricsCallback()
+        void IntEditSlider::sizeUpdate()
         {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djvResetIcon", iconDPI));
             _p->layout->setSpacing(_p->context->style()->sizeMetric().spacing);
             updateGeometry();
         }
 
-        void IntEditSlider::widgetUpdate()
+        void IntEditSlider::valueUpdate()
         {
-            //DJV_DEBUG("IntEditSlider::widgetUpdate");
+            //DJV_DEBUG("IntEditSlider::valueUpdate");
             //DJV_DEBUG_PRINT("value = " << value());
             //DJV_DEBUG_PRINT("defaultValue = " << defaultValue());
             Core::SignalBlocker signalBlocker(QObjectList() <<

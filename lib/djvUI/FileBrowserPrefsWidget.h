@@ -70,8 +70,8 @@ namespace djv
             void moveBookmarkUpCallback();
             void moveBookmarkDownCallback();
             void shortcutsCallback(const QVector<Shortcut> &);
-            void sizeMetricsCallback();
 
+            void sizeUpdate();
             void widgetUpdate();
 
         private:

@@ -68,16 +68,14 @@ namespace djv
             _p->buttonGroup = new QButtonGroup(this);
             _p->buttonGroup->setExclusive(true);
 
-            const int iconSize = context->style()->sizeMetric().iconSize;
             Q_FOREACH(QAction * action, actionGroup->actions())
             {
                 UI::ToolButton* button = new UI::ToolButton(context);
                 button->setDefaultAction(action);
-                button->setIconSize(QSize(iconSize, iconSize));
                 _p->buttonGroup->addButton(button);
             }
 
-            _p->shuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context), context);
+            _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons", "Playback shuttle\n\nClick and drag to start playback; the speed is "
                     "determined by how far you drag."));
@@ -105,15 +103,6 @@ namespace djv
 
         PlaybackButtons::~PlaybackButtons()
         {}
-
-        void PlaybackButtons::sizeMetricsCallback()
-        {
-            const int iconSize = _p->context->style()->sizeMetric().iconSize;
-            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-            {
-                button->setIconSize(QSize(iconSize, iconSize));
-            }
-        }
 
         struct LoopWidget::Private
         {
@@ -186,19 +175,17 @@ namespace djv
             _p->buttonGroup = new QButtonGroup(this);
             _p->buttonGroup->setExclusive(false);
 
-            const int iconSize = _p->context->style()->sizeMetric().iconSize;
             Q_FOREACH(QAction * action, actionGroup->actions())
             {
                 if (!action->icon().isNull())
                 {
                     UI::ToolButton* button = new UI::ToolButton(context);
                     button->setDefaultAction(action);
-                    button->setIconSize(QSize(iconSize, iconSize));
                     _p->buttonGroup->addButton(button);
                 }
             }
 
-            _p->shuttle = new UI::ShuttleButton(UI::ShuttleButton::iconsDefault(context), context);
+            _p->shuttle = new UI::ShuttleButton(context);
             _p->shuttle->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackButtons", "Frame shuttle\n\nClick and drag to change the current frame."));
 
@@ -228,15 +215,6 @@ namespace djv
 
         FrameButtons::~FrameButtons()
         {}
-
-        void FrameButtons::sizeMetricsCallback()
-        {
-            const int iconSize = _p->context->style()->sizeMetric().iconSize;
-            Q_FOREACH(QAbstractButton * button, _p->buttonGroup->buttons())
-            {
-                button->setIconSize(QSize(iconSize, iconSize));
-            }
-        }
 
     } // namespace ViewLib
 } // namespace djv

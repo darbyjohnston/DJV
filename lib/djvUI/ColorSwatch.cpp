@@ -49,7 +49,7 @@ namespace djv
         {
             setAttribute(Qt::WA_OpaquePaintEvent);
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
+            sizeUpdate();
             connect(
                 context->style(),
                 SIGNAL(colorSwatchTransparencyChanged(bool)),
@@ -57,7 +57,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         const Graphics::Color & ColorSwatch::color() const
@@ -161,7 +161,7 @@ namespace djv
             }
         }
 
-        void ColorSwatch::sizeMetricsCallback()
+        void ColorSwatch::sizeUpdate()
         {
             updateGeometry();
         }

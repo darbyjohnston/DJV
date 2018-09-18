@@ -103,6 +103,7 @@ namespace djv
             void menuCallback();
 
         private Q_SLOTS:
+            void sizeUpdate();
             void widgetUpdate();
 
         private:
@@ -175,8 +176,8 @@ namespace djv
         private Q_SLOTS:
             void editingFinishedCallback();
             void timeUnitsCallback();
-            void sizeMetricsCallback();
 
+            void sizeUpdate();
             void textUpdate();
             void widgetUpdate();
 
@@ -328,7 +329,8 @@ namespace djv
 
         private Q_SLOTS:
             void timeUnitsCallback();
-            void sizeMetricsCallback();
+            
+            void sizeUpdate();
 
         private:
             qint64 end() const;
@@ -395,8 +397,8 @@ namespace djv
 
         private Q_SLOTS:
             void timeUnitsCallback();
-            void sizeMetricsCallback();
-
+            
+            void sizeUpdate();
             void textUpdate();
             void widgetUpdate();
 
@@ -426,10 +428,11 @@ namespace djv
             void speedChanged(const djv::Core::Speed &);
 
         private Q_SLOTS:
-
             void pressedCallback();
             void menuCallback();
 
+            void sizeUpdate();
+            
         private:
             DJV_PRIVATE_COPY(SpeedButton);
 
@@ -511,8 +514,7 @@ namespace djv
             void setDroppedFrames(bool);
 
         private Q_SLOTS:
-            void sizeMetricsCallback();
-
+            void sizeUpdate();
             void widgetUpdate();
 
         private:

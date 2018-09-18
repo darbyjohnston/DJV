@@ -57,11 +57,11 @@ namespace djv
 
         private Q_SLOTS:
             void toolTipsCallback(bool);
-            void sizeMetricsCallback();
-
-        private:
+            
+            void sizeUpdate();
             void widgetUpdate();
 
+        private:
             DJV_PRIVATE_COPY(HelpPrefsWidget);
 
             struct Private;

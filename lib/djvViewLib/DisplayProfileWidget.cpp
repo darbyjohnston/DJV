@@ -40,6 +40,7 @@
 #include <djvUI/FloatObject.h>
 #include <djvUI/IconLibrary.h>
 #include <djvUI/InputDialog.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvGraphics/Image.h>
@@ -61,10 +62,11 @@ namespace djv
             Private(
                 const ImageView * viewWidget,
                 Context *         context) :
-                viewWidget(viewWidget),
-                context(context)
+                context(context),
+                viewWidget(viewWidget)
             {}
 
+            Context * context = nullptr;
             const ImageView * viewWidget = nullptr;
             DisplayProfile displayProfile;
             UI::FileEdit * lutWidget = nullptr;
@@ -75,13 +77,14 @@ namespace djv
             UI::FloatEditSlider * gammaWidget = nullptr;
             UI::FloatEditSlider * levelsOutWidget[2] = { nullptr, nullptr };
             UI::FloatEditSlider * softClipWidget = nullptr;
-            Context * context = nullptr;
+            UI::ToolButton * addButton = nullptr;
+            UI::ToolButton * resetButton = nullptr;
         };
 
         DisplayProfileWidget::DisplayProfileWidget(
             const ImageView * viewWidget,
             Context *         context,
-            QWidget *        parent) :
+            QWidget *         parent) :
             QWidget(parent),
             _p(new Private(viewWidget, context))
         {
@@ -145,14 +148,12 @@ namespace djv
             _p->softClipWidget->sliderObject()->setRange(0.f, 1.f);
 
             // Create the other widgets.
-            UI::ToolButton * addButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvAddIcon.png"), context);
-            addButton->setToolTip(
+            _p->addButton = new UI::ToolButton(context);
+            _p->addButton->setToolTip(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Add this display profile to the favorites list"));
 
-            UI::ToolButton * resetButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvRemoveIcon.png"), context);
-            resetButton->setToolTip(
+            _p->resetButton = new UI::ToolButton(context);
+            _p->resetButton->setToolTip(
                 qApp->translate("djv::ViewLib::DisplayProfileWidget", "Reset the display profile"));
 
             // Layout the widgets.
@@ -197,13 +198,14 @@ namespace djv
 
             QHBoxLayout * hLayout = new QHBoxLayout;
             hLayout->addStretch();
-            hLayout->addWidget(addButton);
-            hLayout->addWidget(resetButton);
+            hLayout->addWidget(_p->addButton);
+            hLayout->addWidget(_p->resetButton);
             layout->addLayout(hLayout);
 
             layout->addStretch();
 
             // Initialize.
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the LUT callbacks.
@@ -254,13 +256,17 @@ namespace djv
 
             // Setup the other callbacks.
             connect(
-                addButton,
+                _p->addButton,
                 SIGNAL(clicked()),
                 SLOT(addCallback()));
             connect(
-                resetButton,
+                _p->resetButton,
                 SIGNAL(clicked()),
                 SLOT(resetCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         DisplayProfileWidget::~DisplayProfileWidget()
@@ -375,6 +381,13 @@ namespace djv
             Q_EMIT displayProfileChanged(_p->displayProfile);
         }
 
+        void DisplayProfileWidget::sizeUpdate()
+        {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->addButton->setIcon(_p->context->iconLibrary()->icon("djvAddIcon", iconDPI));
+            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djvRemoveIcon", iconDPI));
+        }
+        
         void DisplayProfileWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<

@@ -145,9 +145,9 @@ namespace djv
             void valueCallback();
             void sliderCallback(int);
             void defaultCallback();
-            void sizeMetricsCallback();
 
-            void widgetUpdate();
+            void sizeUpdate();
+            void valueUpdate();
 
         private:
             DJV_PRIVATE_COPY(IntEditSlider);

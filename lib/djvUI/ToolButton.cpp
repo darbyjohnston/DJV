@@ -60,7 +60,12 @@ namespace djv
             AbstractToolButton(context, parent),
             _p(new Private)
         {
+            sizeUpdate();
             widgetUpdate();
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         ToolButton::ToolButton(const QIcon & icon, UIContext * context, QWidget * parent) :
@@ -68,7 +73,12 @@ namespace djv
             _p(new Private)
         {
             setIcon(icon);
+            sizeUpdate();
             widgetUpdate();
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         ToolButton::~ToolButton()
@@ -96,11 +106,8 @@ namespace djv
                     _p->defaultAction,
                     SLOT(setChecked(bool)));
             }
-
             _p->defaultAction = action;
-
             widgetUpdate();
-
             if (_p->defaultAction)
             {
                 connect(
@@ -169,6 +176,11 @@ namespace djv
                 image);
         }
 
+        void ToolButton::sizeUpdate()
+        {
+            updateGeometry();
+        }
+        
         void ToolButton::widgetUpdate()
         {
             //djvSignalBlocker signalBlocker(this);

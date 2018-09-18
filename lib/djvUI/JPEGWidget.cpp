@@ -58,7 +58,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::JPEGWidget", "Quality"),
@@ -78,6 +77,7 @@ namespace djv
                 plugin->options()[Graphics::JPEG::QUALITY_OPTION]);
             tmp >> _options.quality;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -92,7 +92,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         JPEGWidget::~JPEGWidget()
@@ -127,7 +127,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void JPEGWidget::sizeMetricsCallback()
+        void JPEGWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

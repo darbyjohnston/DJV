@@ -37,6 +37,7 @@
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Style.h>
 
 #include <QAction>
 #include <QActionGroup>
@@ -72,19 +73,12 @@ namespace djv
                 true <<
                 true <<
                 true;
-            const QList<QIcon> toolIcons = QList<QIcon>() <<
-                context->iconLibrary()->icon("djvMagnifyIcon.png") <<
-                context->iconLibrary()->icon("djvColorPickerIcon.png") <<
-                context->iconLibrary()->icon("djvHistogramIcon.png") <<
-                context->iconLibrary()->icon("djvInfoIcon.png");
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
                 QAction * action = new QAction(this);
                 action->setText(toolText[i]);
                 action->setCheckable(toolCheckable[i]);
-                action->setIcon(toolIcons[i]);
                 action->setData(i);
-
                 _groups[TOOL_GROUP]->addAction(action);
             }
 
@@ -96,6 +90,10 @@ namespace djv
                 context->shortcutPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
                 SLOT(update()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(update()));
         }
 
         ToolActions::~ToolActions()
@@ -103,10 +101,14 @@ namespace djv
 
         void ToolActions::update()
         {
-            const QVector<UI::Shortcut> & shortcuts =
-                context()->shortcutPrefs()->shortcuts();
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            // Update the action groups.
+            const QList<QIcon> toolIcons = QList<QIcon>() <<
+                context()->iconLibrary()->icon("djvMagnifyIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvColorPickerIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvHistogramIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvInfoIcon", iconDPI);
             const QVector<QKeySequence> toolShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Util::SHORTCUT_TOOL_MAGNIFY].value <<
                 shortcuts[Util::SHORTCUT_TOOL_COLOR_PICKER].value <<
@@ -119,12 +121,11 @@ namespace djv
                 qApp->translate("djv::ViewLib::ToolActions", "Toggle the information tool\n\nShortcut: %1");
             for (int i = 0; i < Util::TOOL_COUNT; ++i)
             {
+                _groups[TOOL_GROUP]->actions()[i]->setIcon(toolIcons[i]);
                 _groups[TOOL_GROUP]->actions()[i]->setShortcut(toolShortcuts[i]);
-                _groups[TOOL_GROUP]->actions()[i]->setToolTip(
-                    toolToolTips[i].arg(toolShortcuts[i].toString()));
+                _groups[TOOL_GROUP]->actions()[i]->setToolTip(toolToolTips[i].arg(toolShortcuts[i].toString()));
             }
 
-            // Emit changed signal.
             Q_EMIT changed();
         }
 

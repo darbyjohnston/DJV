@@ -69,7 +69,6 @@ namespace djv
 
             // Layout the widgets.
             _p->layout = new QVBoxLayout(this);
-            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::SequencePrefsWidget", "Max Frames"),
@@ -86,6 +85,7 @@ namespace djv
             _p->layout->addStretch();
 
             // Initialize.
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -96,7 +96,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         SequencePrefsWidget::~SequencePrefsWidget()
@@ -113,7 +113,7 @@ namespace djv
             context()->sequencePrefs()->setMaxFrames(size);
         }
 
-        void SequencePrefsWidget::sizeMetricsCallback()
+        void SequencePrefsWidget::sizeUpdate()
         {
             _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

@@ -91,7 +91,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::CineonWidget", "Input Color Profile"),
@@ -167,6 +166,7 @@ namespace djv
                 plugin->options()[Graphics::Cineon::OUTPUT_FILM_PRINT_OPTION]);
             tmp >> _options.outputFilmPrint;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -213,7 +213,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         CineonWidget::~CineonWidget()
@@ -307,7 +307,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void CineonWidget::sizeMetricsCallback()
+        void CineonWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

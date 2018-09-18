@@ -62,7 +62,7 @@ namespace djv
             virtual bool event(QEvent*);
 
         private Q_SLOTS:
-            void sizeMetricsCallback();
+            void sizeUpdate();
 
         private:
             DJV_PRIVATE_COPY(AbstractToolButton);

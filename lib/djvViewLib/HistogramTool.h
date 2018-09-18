@@ -66,6 +66,7 @@ namespace djv
             void colorProfileCallback(bool);
             void displayProfileCallback(bool);
 
+            void sizeUpdate();
             void widgetUpdate();
 
         private:

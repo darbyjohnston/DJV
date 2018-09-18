@@ -63,17 +63,13 @@ namespace djv
             {
                 QToolButton * button = new QToolButton;
                 button->setCheckable(true);
-                button->setIcon(context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i]));
-                const int iconSize = context->style()->sizeMetric().iconSize;
-                button->setIconSize(QSize(iconSize, iconSize));
                 button->setAutoRaise(true);
                 button->setToolTip(toolTips[i]);
-
                 _buttonGroup->addButton(button, i);
-
                 layout->addWidget(button);
             }
 
+            sizeUpdate();
             _buttonGroup->buttons()[_playback]->setChecked(true);
 
             connect(
@@ -83,7 +79,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         PlaybackUtil::PLAYBACK PlaybackButtons::playback() const
@@ -105,12 +101,13 @@ namespace djv
             setPlayback(static_cast<PlaybackUtil::PLAYBACK>(id));
         }
 
-        void PlaybackButtons::sizeMetricsCallback()
+        void PlaybackButtons::sizeUpdate()
         {
-            const int iconSize = _context->style()->sizeMetric().iconSize;
-            for (int i = 0; i < PlaybackUtil::PLAYBACK_COUNT; ++i)
+            const int iconDPI = _context->style()->sizeMetric().iconDPI;
+            const QList<QAbstractButton *> & buttons = _buttonGroup->buttons();
+            for (int i = 0; i < buttons.size(); ++i)
             {
-                _buttonGroup->buttons()[i]->setIconSize(QSize(iconSize, iconSize));
+                buttons[i]->setIcon(_context->iconLibrary()->icon(PlaybackUtil::playbackIcons()[i], iconDPI));
             }
         }
 

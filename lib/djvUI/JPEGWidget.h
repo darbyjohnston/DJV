@@ -60,8 +60,8 @@ namespace djv
         private Q_SLOTS:
             void pluginCallback(const QString &);
             void qualityCallback(int);
-            void sizeMetricsCallback();
 
+            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

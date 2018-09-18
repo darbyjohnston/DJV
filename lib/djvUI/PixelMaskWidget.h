@@ -83,9 +83,10 @@ namespace djv
             void toggleCallback(bool);
             void resetCallback();
 
-        private:
-            void widgetUpdate();
+            void sizeUpdate();
+            void valueUpdate();
 
+        private:
             DJV_PRIVATE_COPY(PixelMaskWidget);
 
             struct Private;

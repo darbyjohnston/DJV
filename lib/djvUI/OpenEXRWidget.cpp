@@ -104,7 +104,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::OpenEXRWidget", "Multi-Threading"), context);
@@ -211,6 +210,7 @@ namespace djv
             tmp >> _options.dwaCompressionLevel;
 #endif // OPENEXR_VERSION_HEX
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -267,7 +267,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         OpenEXRWidget::~OpenEXRWidget()
@@ -390,7 +390,7 @@ namespace djv
 #endif // OPENEXR_VERSION_HEX
         }
 
-        void OpenEXRWidget::sizeMetricsCallback()
+        void OpenEXRWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

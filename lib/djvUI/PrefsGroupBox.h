@@ -77,7 +77,7 @@ namespace djv
             QFormLayout * createLayout();
 
         private Q_SLOTS:
-            void sizeMetricsCallback();
+            void sizeUpdate();
 
         private:
             void init(const QString & title);

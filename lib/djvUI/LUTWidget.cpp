@@ -58,7 +58,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::LUTWidget", "Pixel Type"),
@@ -76,6 +75,7 @@ namespace djv
             QStringList tmp;
             tmp = plugin->option(plugin->options()[Graphics::LUT::TYPE_OPTION]);
             tmp >> _options.type;
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -90,7 +90,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         LUTWidget::~LUTWidget()
@@ -125,7 +125,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void LUTWidget::sizeMetricsCallback()
+        void LUTWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

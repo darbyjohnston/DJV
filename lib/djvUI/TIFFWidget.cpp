@@ -61,7 +61,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::TIFFWidget", "Compression"),
@@ -81,6 +80,7 @@ namespace djv
                 plugin->options()[Graphics::TIFF::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -95,7 +95,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         TIFFWidget::~TIFFWidget()
@@ -130,7 +130,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void TIFFWidget::sizeMetricsCallback()
+        void TIFFWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

@@ -151,9 +151,6 @@ namespace djv
             //! This signal is emitted when the out point is changed.
             void outPointChanged(qint64);
 
-        private Q_SLOTS:
-            void sizeMetricsCallback();
-
         private:
             void layoutUpdate();
 

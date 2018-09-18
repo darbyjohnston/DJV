@@ -35,6 +35,7 @@
 #include <djvViewLib/ShortcutPrefs.h>
 
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
 
 #include <QApplication>
 
@@ -65,7 +66,6 @@ namespace djv
             _actions[EVERY_FRAME]->setText(
                 qApp->translate("djv::ViewLib::PlaybackActions", "Ever&y Frame"));
             _actions[EVERY_FRAME]->setCheckable(true);
-            _actions[EVERY_FRAME]->setIcon(context->iconLibrary()->icon("djvLockIcon.png"));
             _actions[EVERY_FRAME]->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackActions", "Set whether every frame is played back"));
 
@@ -77,73 +77,35 @@ namespace djv
 
             _groups[PLAYBACK_GROUP] = new QActionGroup(this);
             _groups[PLAYBACK_GROUP]->setExclusive(true);
-            const QVector<QIcon> playbackIcons = QVector<QIcon>() <<
-                context->iconLibrary()->icon("djvPlayReverseIcon.png") <<
-                context->iconLibrary()->icon("djvPlayStopIcon.png") <<
-                context->iconLibrary()->icon("djvPlayForwardIcon.png");
             for (int i = 0; i < Util::PLAYBACK_COUNT; ++i)
             {
-                QAction * action = new QAction(
-                    playbackIcons[i],
-                    Util::playbackLabels()[i],
-                    _groups[PLAYBACK_GROUP]);
+                QAction * action = new QAction(Util::playbackLabels()[i], _groups[PLAYBACK_GROUP]);
                 action->setCheckable(true);
                 action->setData(i);
             }
 
             _groups[LOOP_GROUP] = new QActionGroup(this);
             _groups[LOOP_GROUP]->setExclusive(true);
-            const QVector<QIcon> loopIcons = QVector<QIcon>() <<
-                context->iconLibrary()->icon("djvPlayLoopOnceIcon.png") <<
-                context->iconLibrary()->icon("djvPlayLoopRepeatIcon.png") <<
-                context->iconLibrary()->icon("djvPlayLoopPingPongIcon.png");
             for (int i = 0; i < Util::LOOP_COUNT; ++i)
             {
-                QAction * action = new QAction(
-                    loopIcons[i],
-                    Util::loopLabels()[i],
-                    _groups[LOOP_GROUP]);
+                QAction * action = new QAction(Util::loopLabels()[i], _groups[LOOP_GROUP]);
                 action->setCheckable(true);
                 action->setData(i);
             }
 
             _groups[FRAME_GROUP] = new QActionGroup(this);
             _groups[FRAME_GROUP]->setExclusive(false);
-            const QVector<QIcon> frameIcons = QVector<QIcon>() <<
-                context->iconLibrary()->icon("djvFrameStartIcon.png") <<
-                QIcon() <<
-                context->iconLibrary()->icon("djvFramePrevIcon.png") <<
-                QIcon() <<
-                QIcon() <<
-                context->iconLibrary()->icon("djvFrameNextIcon.png") <<
-                QIcon() <<
-                QIcon() <<
-                context->iconLibrary()->icon("djvFrameEndIcon.png") <<
-                QIcon();
             for (int i = 0; i < Util::FRAME_COUNT; ++i)
             {
-                QAction * action = new QAction(
-                    frameIcons[i],
-                    Util::frameLabels()[i],
-                    _groups[FRAME_GROUP]);
+                QAction * action = new QAction(Util::frameLabels()[i], _groups[FRAME_GROUP]);
                 action->setData(i);
             }
 
             _groups[IN_OUT_GROUP] = new QActionGroup(this);
             _groups[IN_OUT_GROUP]->setExclusive(false);
-            const QVector<QIcon> inOutIcons = QVector<QIcon>() <<
-                context->iconLibrary()->icon("djvPlayInOutIcon.png") <<
-                context->iconLibrary()->icon("djvInPointMarkIcon.png") <<
-                context->iconLibrary()->icon("djvOutPointMarkIcon.png") <<
-                context->iconLibrary()->icon("djvInPointResetIcon.png") <<
-                context->iconLibrary()->icon("djvOutPointResetIcon.png") <<
-                QIcon();
             for (int i = 0; i < Util::IN_OUT_COUNT; ++i)
             {
-                QAction * action = new QAction(
-                    inOutIcons[i],
-                    Util::inOutLabels()[i],
-                    _groups[IN_OUT_GROUP]);
+                QAction * action = new QAction(Util::inOutLabels()[i], _groups[IN_OUT_GROUP]);
                 action->setData(i);
                 if (Util::IN_OUT_ENABLE == i)
                 {
@@ -170,6 +132,10 @@ namespace djv
                 context->shortcutPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
                 SLOT(update()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(update()));
         }
 
         PlaybackActions::~PlaybackActions()
@@ -177,17 +143,20 @@ namespace djv
 
         void PlaybackActions::update()
         {
-            const QVector<UI::Shortcut> & shortcuts =
-                context()->shortcutPrefs()->shortcuts();
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            // Update the actions.
             QKeySequence key = shortcuts[Util::SHORTCUT_PLAYBACK_TOGGLE].value;
             _actions[PLAYBACK_TOGGLE]->setShortcut(key);
             _actions[PLAYBACK_TOGGLE]->setToolTip(
                 qApp->translate("djv::ViewLib::PlaybackActions", "Toggle playback\n\nShortcut: %1").
                 arg(key.toString()));
+            _actions[EVERY_FRAME]->setIcon(context()->iconLibrary()->icon("djvLockIcon", iconDPI));
 
-            // Update the action groups.
+            const QVector<QIcon> playbackIcons = QVector<QIcon>() <<
+                context()->iconLibrary()->icon("djvPlayReverseIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvPlayStopIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvPlayForwardIcon", iconDPI);
             const QVector<Util::SHORTCUT> playbackShortcuts =
                 QVector<Util::SHORTCUT>() <<
                 Util::SHORTCUT_PLAYBACK_REVERSE <<
@@ -199,12 +168,32 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions", "Start forward playback\n\nShortcut: %1");
             for (int i = 0; i < Util::PLAYBACK_COUNT; ++i)
             {
+                _groups[PLAYBACK_GROUP]->actions()[i]->setIcon(playbackIcons[i]);
                 const QKeySequence key = shortcuts[playbackShortcuts[i]].value;
                 _groups[PLAYBACK_GROUP]->actions()[i]->setShortcut(key);
-                _groups[PLAYBACK_GROUP]->actions()[i]->setToolTip(
-                    playbackToolTips[i].arg(key.toString()));
+                _groups[PLAYBACK_GROUP]->actions()[i]->setToolTip(playbackToolTips[i].arg(key.toString()));
             }
 
+            const QVector<QIcon> loopIcons = QVector<QIcon>() <<
+                context()->iconLibrary()->icon("djvPlayLoopOnceIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvPlayLoopRepeatIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvPlayLoopPingPongIcon", iconDPI);
+            for (int i = 0; i < Util::LOOP_COUNT; ++i)
+            {
+                _groups[LOOP_GROUP]->actions()[i]->setIcon(loopIcons[i]);
+            }
+
+            const QVector<QIcon> frameIcons = QVector<QIcon>() <<
+                context()->iconLibrary()->icon("djvFrameStartIcon", iconDPI) <<
+                QIcon() <<
+                context()->iconLibrary()->icon("djvFramePrevIcon", iconDPI) <<
+                QIcon() <<
+                QIcon() <<
+                context()->iconLibrary()->icon("djvFrameNextIcon", iconDPI) <<
+                QIcon() <<
+                QIcon() <<
+                context()->iconLibrary()->icon("djvFrameEndIcon", iconDPI) <<
+                QIcon();
             const QVector<bool> frameAutoRepeat = QVector<bool>() <<
                 false <<
                 false <<
@@ -241,14 +230,21 @@ namespace djv
                 QString();
             for (int i = 0; i < Util::FRAME_COUNT; ++i)
             {
+                _groups[FRAME_GROUP]->actions()[i]->setIcon(frameIcons[i]);
                 const QKeySequence key = shortcuts[frameShortcuts[i]].value;
                 _groups[FRAME_GROUP]->actions()[i]->setAutoRepeat(frameAutoRepeat[i]);
                 _groups[FRAME_GROUP]->actions()[i]->setShortcut(key);
                 if (!frameToolTips[i].isEmpty())
-                    _groups[FRAME_GROUP]->actions()[i]->setToolTip(
-                        frameToolTips[i].arg(key.toString()));
+                    _groups[FRAME_GROUP]->actions()[i]->setToolTip(frameToolTips[i].arg(key.toString()));
             }
 
+            const QVector<QIcon> inOutIcons = QVector<QIcon>() <<
+                context()->iconLibrary()->icon("djvPlayInOutIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvInPointMarkIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvOutPointMarkIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvInPointResetIcon", iconDPI) <<
+                context()->iconLibrary()->icon("djvOutPointResetIcon", iconDPI) <<
+                QIcon();
             const QVector<Util::SHORTCUT> inOutShortcuts =
                 QVector<Util::SHORTCUT>() <<
                 Util::SHORTCUT_PLAYBACK_IN_OUT <<
@@ -264,13 +260,12 @@ namespace djv
                 qApp->translate("djv::ViewLib::PlaybackActions", "Reset the out point\n\nShortcut: %1");
             for (int i = 0; i < Util::IN_OUT_COUNT; ++i)
             {
+                _groups[IN_OUT_GROUP]->actions()[i]->setIcon(inOutIcons[i]);
                 const QKeySequence key = shortcuts[inOutShortcuts[i]].value;
                 _groups[IN_OUT_GROUP]->actions()[i]->setShortcut(key);
-                _groups[IN_OUT_GROUP]->actions()[i]->setToolTip(
-                    inOutToolTips[i].arg(key.toString()));
+                _groups[IN_OUT_GROUP]->actions()[i]->setToolTip(inOutToolTips[i].arg(key.toString()));
             }
 
-            // Emit changed signal.
             Q_EMIT changed();
         }
 

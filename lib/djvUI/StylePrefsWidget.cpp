@@ -125,7 +125,6 @@ namespace djv
 
             // Layout the widgets.
             _p->layout = new QVBoxLayout(this);
-            _p->layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::StylePrefsWidget", "Colors"), context);
@@ -169,6 +168,7 @@ namespace djv
             _p->layout->addStretch();
 
             // Initialize.
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -219,7 +219,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         StylePrefsWidget::~StylePrefsWidget()
@@ -227,18 +227,12 @@ namespace djv
 
         void StylePrefsWidget::resetPreferences()
         {
-            context()->style()->setPalettes(
-                Style::palettesDefault());
-            context()->style()->setPalettesIndex(
-                Style::palettesIndexDefault());
-            context()->style()->setColorSwatchTransparency(
-                Style::colorSwatchTransparencyDefault());
-            context()->style()->setSizeMetrics(
-                Style::sizeMetricsDefault());
-            context()->style()->setSizeMetricsIndex(
-                Style::sizeMetricsIndexDefault());
-            context()->style()->setFonts(
-                Style::fontsDefault());
+            context()->style()->setPalettes(Style::palettesDefault());
+            context()->style()->setPalettesIndex(Style::palettesIndexDefault());
+            context()->style()->setColorSwatchTransparency(Style::colorSwatchTransparencyDefault());
+            context()->style()->setSizeMetrics(Style::sizeMetricsDefault());
+            context()->style()->setSizeMetricsIndex(Style::sizeMetricsIndexDefault());
+            context()->style()->setFonts(Style::fontsDefault());
             widgetUpdate();
         }
 
@@ -314,7 +308,7 @@ namespace djv
             context()->style()->setFonts(fonts);
         }
 
-        void StylePrefsWidget::sizeMetricsCallback()
+        void StylePrefsWidget::sizeUpdate()
         {
             _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

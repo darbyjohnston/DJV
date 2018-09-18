@@ -58,11 +58,11 @@ namespace djv
         private Q_SLOTS:
             void timeUnitsCallback(int);
             void speedCallback(int);
-            void sizeMetricsCallback();
 
-        private:
+            void sizeUpdate();
             void widgetUpdate();
 
+        private:
             DJV_PRIVATE_COPY(TimePrefsWidget);
 
             struct Private;

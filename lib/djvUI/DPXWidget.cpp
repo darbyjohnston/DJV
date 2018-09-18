@@ -105,7 +105,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::DPXWidget", "Input Color Profile"),
@@ -222,6 +221,7 @@ namespace djv
                 plugin->options()[Graphics::DPX::ENDIAN_OPTION]);
             tmp >> _options.endian;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -280,7 +280,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         DPXWidget::~DPXWidget()
@@ -405,7 +405,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void DPXWidget::sizeMetricsCallback()
+        void DPXWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

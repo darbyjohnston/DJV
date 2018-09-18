@@ -122,6 +122,7 @@ namespace djv
                 explicit SizeMetric(
                     const QString & name = QString(),
                     int fontSize = 0,
+                    int iconDPI = 0,
                     int iconSize = 0,
                     int toolIconSize = 0);
 
@@ -135,6 +136,7 @@ namespace djv
                 int     textMargin = 0;
                 int     widgetMargin = 0;
                 int     largeMargin = 0;
+                int     iconDPI = 0;
                 int     iconSize = 0;
                 int     toolIconSize = 0;
                 int     buttonSize = 0;

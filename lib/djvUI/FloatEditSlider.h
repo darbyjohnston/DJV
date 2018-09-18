@@ -154,9 +154,9 @@ namespace djv
             void valueCallback();
             void sliderCallback(float);
             void defaultCallback();
-            void sizeMetricsCallback();
 
-            void widgetUpdate();
+            void sizeUpdate();
+            void valueUpdate();
 
         private:
             DJV_PRIVATE_COPY(FloatEditSlider);

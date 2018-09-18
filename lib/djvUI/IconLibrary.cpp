@@ -66,16 +66,18 @@ namespace djv
 
         namespace
         {
-            QString getFullName(const QString& name, int size)
+            QString getFullName(const QString& name, int DPI)
             {
-                return QString(":%1%2x%3.png").arg(name).arg(size).arg(size);
+                return QString(":%1%2DPI.png").arg(name).arg(DPI);
             }
 
         } // namespace
 
-        const QIcon & IconLibrary::icon(const QString & name, int size) const
+        const QIcon & IconLibrary::icon(const QString & name, int DPI) const
         {
-            const QString fullName = getFullName(name, size);
+            //DJV_DEBUG("IconLibrary::icon");
+            const QString fullName = getFullName(name, DPI);
+            //DJV_DEBUG_PRINT("full name = " << fullName);
             if (!_p->icons.contains(fullName))
             {
                 QIcon icon;
@@ -115,10 +117,10 @@ namespace djv
             return _p->icons[fullName];
         }
 
-        QIcon IconLibrary::icon(const QString & off, const QString & on, int size) const
+        QIcon IconLibrary::icon(const QString & off, const QString & on, int DPI) const
         {
-            const QString offFullName = getFullName(off, size);
-            const QString onFullName = getFullName(on, size);
+            const QString offFullName = getFullName(off, DPI);
+            const QString onFullName = getFullName(on, DPI);
             const QString key = offFullName + onFullName;
             if (!_p->icons.contains(key))
             {
@@ -130,13 +132,14 @@ namespace djv
             return _p->icons[key];
         }
 
-        const QPixmap & IconLibrary::pixmap(const QString & name) const
+        const QPixmap & IconLibrary::pixmap(const QString & name, int DPI) const
         {
-            if (!_p->pixmaps.contains(name))
+            const QString fullName = getFullName(name, DPI);
+            if (!_p->pixmaps.contains(fullName))
             {
-                const_cast<Private *>(_p.get())->pixmaps.insert(name, QPixmap(QString(":%1").arg(name)));
+                const_cast<Private *>(_p.get())->pixmaps.insert(fullName, QPixmap(fullName));
             }
-            return _p->pixmaps[name];
+            return _p->pixmaps[fullName];
         }
 
         QStringList IconLibrary::names() const

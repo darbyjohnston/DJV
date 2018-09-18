@@ -65,6 +65,10 @@ namespace djv
                 this,
                 SIGNAL(clicked()),
                 SLOT(clickedCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         ChoiceButton::ChoiceButton(QActionGroup * actionGroup, UIContext * context, QWidget * parent) :
@@ -72,11 +76,14 @@ namespace djv
             _p(new Private)
         {
             setActionGroup(actionGroup);
-
             connect(
                 this,
                 SIGNAL(clicked()),
                 SLOT(clickedCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         ChoiceButton::~ChoiceButton()
@@ -100,13 +107,11 @@ namespace djv
             if (_p->actionGroup)
             {
                 QList<QAction *> actions = _p->actionGroup->actions();
-
                 QStyleOptionToolButton opt;
                 opt.iconSize = actions.count() > 0 ?
                     actions[0]->icon().actualSize(sizeHint) :
                     sizeHint;
                 opt.iconSize += QSize(margin * 2, margin * 2);
-
                 sizeHint = opt.iconSize.expandedTo(QApplication::globalStrut());
             }
             return sizeHint;
@@ -252,5 +257,10 @@ namespace djv
             setCurrentIndex(index);
         }
 
+        void ChoiceButton::sizeUpdate()
+        {
+            updateGeometry();
+        }
+        
     } // namespace UI
 } // namespace 

@@ -41,6 +41,7 @@
 #include <djvUI/IconLibrary.h>
 #include <djvUI/PixelMaskWidget.h>
 #include <djvUI/Prefs.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvCore/Debug.h>
@@ -251,14 +252,12 @@ namespace djv
 
             _p->maskWidget = new UI::PixelMaskWidget(context);
 
-            _p->colorProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDisplayProfileIcon.png"), context);
+            _p->colorProfileButton = new UI::ToolButton(context);
             _p->colorProfileButton->setCheckable(true);
             _p->colorProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the color profile is enabled"));
 
-            _p->displayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDisplayProfileIcon.png"), context);
+            _p->displayProfileButton = new UI::ToolButton(context);
             _p->displayProfileButton->setCheckable(true);
             _p->displayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::HistogramTool", "Set whether the display profile is enabled"));
@@ -297,6 +296,7 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::ViewLib::HistogramTool", "Histogram"));
+            sizeUpdate();            
             widgetUpdate();
 
             // Setup the callbacks.
@@ -320,6 +320,10 @@ namespace djv
                 _p->displayProfileButton,
                 SIGNAL(toggled(bool)),
                 SLOT(displayProfileCallback(bool)));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         HistogramTool::~HistogramTool()
@@ -368,6 +372,13 @@ namespace djv
             widgetUpdate();
         }
 
+        void HistogramTool::sizeUpdate()
+        {
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;            
+            _p->colorProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+            _p->displayProfileButton->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
+        }
+        
         void HistogramTool::widgetUpdate()
         {
             //DJV_DEBUG("HistogramTool::widgetUpdate");

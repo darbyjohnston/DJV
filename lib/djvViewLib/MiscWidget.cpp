@@ -136,6 +136,7 @@ namespace djv
     {
         struct CacheSizeWidget::Private
         {
+            UI::UIContext * context = nullptr;
             QVector<float> cacheSizes;
             float cacheSize = 0.f;
             UI::FloatEdit *  edit = nullptr;
@@ -146,14 +147,14 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
+            _p->context = context;
+            
             // Create widgets.
             _p->edit = new UI::FloatEdit;
             _p->edit->setRange(0.f, 1024.f);
             _p->edit->object()->setInc(1.f, 5.f);
 
             _p->button = new UI::ToolButton(context);
-            _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
-            _p->button->setIconSize(QSize(20, 20));
 
             // Layout the widgets.
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -164,6 +165,7 @@ namespace djv
             layout->addWidget(_p->button);
 
             // Initialize.
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -175,6 +177,10 @@ namespace djv
                 _p->button,
                 SIGNAL(pressed()),
                 SLOT(buttonCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         CacheSizeWidget::~CacheSizeWidget()
@@ -231,6 +237,12 @@ namespace djv
             setCacheSize(action->data().toInt());
         }
 
+        void CacheSizeWidget::sizeUpdate()
+        {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djvSubMenuIcon", iconDPI));
+        }
+        
         void CacheSizeWidget::widgetUpdate()
         {
             Core::SignalBlocker signalBlocker(QObjectList() <<
@@ -254,6 +266,7 @@ namespace djv
             _p->context = context;
 
             // Initialize.
+            sizeUpdate();
             textUpdate();
             widgetUpdate();
 
@@ -269,7 +282,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         FrameWidget::~FrameWidget()
@@ -379,7 +392,7 @@ namespace djv
             updateGeometry();
         }
 
-        void FrameWidget::sizeMetricsCallback()
+        void FrameWidget::sizeUpdate()
         {
             updateGeometry();
         }
@@ -421,6 +434,7 @@ namespace djv
 
             setAttribute(Qt::WA_OpaquePaintEvent);
             setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+            sizeUpdate();
 
             connect(
                 context->timePrefs(),
@@ -429,7 +443,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         FrameSlider::~FrameSlider()
@@ -728,7 +742,7 @@ namespace djv
             update();
         }
 
-        void FrameSlider::sizeMetricsCallback()
+        void FrameSlider::sizeUpdate()
         {
             updateGeometry();
         }
@@ -797,6 +811,7 @@ namespace djv
             layout->addWidget(_p->lineEdit);
 
             // Initialize.
+            sizeUpdate();
             textUpdate();
             widgetUpdate();
 
@@ -808,7 +823,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         FrameDisplay::~FrameDisplay()
@@ -877,7 +892,7 @@ namespace djv
             updateGeometry();
         }
 
-        void FrameDisplay::sizeMetricsCallback()
+        void FrameDisplay::sizeUpdate()
         {
             updateGeometry();
         }
@@ -899,6 +914,7 @@ namespace djv
 
         struct SpeedButton::Private
         {
+            UI::UIContext * context = nullptr;
             Core::Speed speed;
             Core::Speed defaultSpeed;
             UI::ToolButton * button = nullptr;
@@ -908,21 +924,28 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
+            _p->context = context;
+            
             // Create the widgets.
             _p->button = new UI::ToolButton(context);
-            _p->button->setIcon(context->iconLibrary()->icon("djvSubMenuIcon.png"));
-            _p->button->setIconSize(QSize(20, 20));
 
             // Layout the widgets.
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
             layout->addWidget(_p->button);
+            
+            // Initialize.
+            sizeUpdate();
 
             // Setup the callbacks.
             connect(
                 _p->button,
                 SIGNAL(pressed()),
                 SLOT(pressedCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         SpeedButton::~SpeedButton()
@@ -966,6 +989,12 @@ namespace djv
             QAction * action = qobject_cast<QAction *>(sender());
             const int index = action->data().toInt();
             Q_EMIT speedChanged(-1 == index ? _p->defaultSpeed : static_cast<Core::Speed::FPS>(index));
+        }
+
+        void SpeedButton::sizeUpdate()
+        {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djvSubMenuIcon", iconDPI));
         }
 
         struct SpeedWidget::Private
@@ -1073,12 +1102,13 @@ namespace djv
             layout->setMargin(0);
             layout->addWidget(_p->lineEdit);
 
+            sizeUpdate();
             widgetUpdate();
 
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         SpeedDisplay::~SpeedDisplay()
@@ -1108,7 +1138,7 @@ namespace djv
             widgetUpdate();
         }
 
-        void SpeedDisplay::sizeMetricsCallback()
+        void SpeedDisplay::sizeUpdate()
         {
             updateGeometry();
         }

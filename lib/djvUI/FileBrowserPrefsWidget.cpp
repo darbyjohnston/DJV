@@ -82,6 +82,10 @@ namespace djv
             QComboBox * thumbnailsSizeWidget = nullptr;
             IntEdit * thumbnailsCacheWidget = nullptr;
             QListWidget * bookmarksWidget = nullptr;
+            ToolButton * addBookmarkButton = nullptr;
+            ToolButton * removeBookmarkButton = nullptr;
+            ToolButton * moveBookmarkUpButton = nullptr;
+            ToolButton * moveBookmarkDownButton = nullptr;
             ShortcutsWidget * shortcutsWidget = nullptr;
             QVBoxLayout * layout = nullptr;
         };
@@ -124,23 +128,20 @@ namespace djv
 
             _p->bookmarksWidget = new SmallListWidget;
 
-            ToolButton * addBookmarkButton = new ToolButton(context->iconLibrary()->icon("djvAddIcon.png"), context);
-            addBookmarkButton->setToolTip(
+            _p->addBookmarkButton = new ToolButton(context);
+            _p->addBookmarkButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Add a new bookmark"));
-
-            ToolButton * removeBookmarkButton = new ToolButton(context->iconLibrary()->icon("djvRemoveIcon.png"), context);
-            removeBookmarkButton->setAutoRepeat(true);
-            removeBookmarkButton->setToolTip(
+            _p->removeBookmarkButton = new ToolButton(context);
+            _p->removeBookmarkButton->setAutoRepeat(true);
+            _p->removeBookmarkButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Remove the selected bookmark"));
-
-            ToolButton * moveBookmarkUpButton = new ToolButton(context->iconLibrary()->icon("djvUpIcon.png"), context);
-            moveBookmarkUpButton->setAutoRepeat(true);
-            moveBookmarkUpButton->setToolTip(
+            _p->moveBookmarkUpButton = new ToolButton(context);
+            _p->moveBookmarkUpButton->setAutoRepeat(true);
+            _p->moveBookmarkUpButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Move the selected bookmark up"));
-
-            ToolButton * moveBookmarkDownButton = new ToolButton(context->iconLibrary()->icon("djvDownIcon.png"), context);
-            moveBookmarkDownButton->setAutoRepeat(true);
-            moveBookmarkDownButton->setToolTip(
+            _p->moveBookmarkDownButton = new ToolButton(context);
+            _p->moveBookmarkDownButton->setAutoRepeat(true);
+            _p->moveBookmarkDownButton->setToolTip(
                 qApp->translate("djv::UI::FileBrowserPrefsWidget", "Move the selected bookmark down"));
 
             _p->shortcutsWidget = new ShortcutsWidget(context);
@@ -192,10 +193,10 @@ namespace djv
             formLayout->addRow(_p->bookmarksWidget);
             hLayout = new QHBoxLayout;
             hLayout->addStretch();
-            hLayout->addWidget(addBookmarkButton);
-            hLayout->addWidget(removeBookmarkButton);
-            hLayout->addWidget(moveBookmarkUpButton);
-            hLayout->addWidget(moveBookmarkDownButton);
+            hLayout->addWidget(_p->addBookmarkButton);
+            hLayout->addWidget(_p->removeBookmarkButton);
+            hLayout->addWidget(_p->moveBookmarkUpButton);
+            hLayout->addWidget(_p->moveBookmarkDownButton);
             formLayout->addRow(hLayout);
             _p->layout->addWidget(prefsGroupBox);
 
@@ -206,6 +207,7 @@ namespace djv
             _p->layout->addWidget(prefsGroupBox);
 
             // Initialize.
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -249,19 +251,19 @@ namespace djv
                 SIGNAL(itemChanged(QListWidgetItem *)),
                 SLOT(bookmarkCallback(QListWidgetItem *)));
             connect(
-                addBookmarkButton,
+                _p->addBookmarkButton,
                 SIGNAL(clicked()),
                 SLOT(addBookmarkCallback()));
             connect(
-                removeBookmarkButton,
+                _p->removeBookmarkButton,
                 SIGNAL(clicked()),
                 SLOT(removeBookmarkCallback()));
             connect(
-                moveBookmarkUpButton,
+                _p->moveBookmarkUpButton,
                 SIGNAL(clicked()),
                 SLOT(moveBookmarkUpCallback()));
             connect(
-                moveBookmarkDownButton,
+                _p->moveBookmarkDownButton,
                 SIGNAL(clicked()),
                 SLOT(moveBookmarkDownCallback()));
             connect(
@@ -275,7 +277,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         FileBrowserPrefsWidget::~FileBrowserPrefsWidget()
@@ -387,8 +389,13 @@ namespace djv
             context()->fileBrowserPrefs()->setShortcuts(in);
         }
 
-        void FileBrowserPrefsWidget::sizeMetricsCallback()
+        void FileBrowserPrefsWidget::sizeUpdate()
         {
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            _p->addBookmarkButton->setIcon(context()->iconLibrary()->icon("djvAddIcon", iconDPI));
+            _p->removeBookmarkButton->setIcon(context()->iconLibrary()->icon("djvRemoveIcon", iconDPI));
+            _p->moveBookmarkUpButton->setIcon(context()->iconLibrary()->icon("djvUpIcon", iconDPI));
+            _p->moveBookmarkDownButton->setIcon(context()->iconLibrary()->icon("djvDownIcon", iconDPI));
             _p->layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();
         }

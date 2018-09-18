@@ -60,13 +60,13 @@ namespace djv
             virtual ~IconLibrary();
 
             //! Get an icon.
-            const QIcon & icon(const QString &, int size = 0) const;
+            const QIcon & icon(const QString &, int DPI) const;
 
             //! Get an icon.
-            QIcon icon(const QString & off, const QString & on, int size = 0) const;
+            QIcon icon(const QString & off, const QString & on, int DPI) const;
 
             //! Get a pixmap.
-            const QPixmap & pixmap(const QString &) const;
+            const QPixmap & pixmap(const QString &, int DPI) const;
 
             //! Get the list of icon names.
             QStringList names() const;

@@ -63,6 +63,7 @@ namespace djv
             virtual void paintEvent(QPaintEvent *);
 
         private Q_SLOTS:
+            void sizeUpdate();
             void widgetUpdate();
 
         private:

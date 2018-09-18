@@ -52,18 +52,8 @@ namespace djv
 
         public:
             explicit ShuttleButton(UIContext *, QWidget * parent = nullptr);
-            explicit ShuttleButton(const QVector<QIcon> & icons, UIContext *, QWidget * parent = nullptr);
 
             virtual ~ShuttleButton();
-
-            //! Get the icons.    
-            const QVector<QIcon> & icons() const;
-
-            //! Set the icons.
-            void setIcons(const QVector<QIcon> &);
-
-            //! Get the default shuttle icons.
-            static const QVector<QIcon> & iconsDefault(UIContext *);
 
             virtual QSize sizeHint() const;
 
@@ -80,9 +70,10 @@ namespace djv
             virtual void mouseMoveEvent(QMouseEvent *);
             virtual void paintEvent(QPaintEvent *);
 
+        private Q_SLOTS:
+            void sizeUpdate();
+        
         private:
-            void iconsUpdate();
-
             DJV_PRIVATE_COPY(ShuttleButton);
 
             struct Private;

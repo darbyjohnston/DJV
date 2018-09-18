@@ -38,6 +38,7 @@
 #include <djvUI/InputDialog.h>
 #include <djvUI/QuestionDialog.h>
 #include <djvUI/PrefsGroupBox.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
 
 #include <djvGraphics/Image.h>
@@ -72,27 +73,19 @@ namespace djv
     {
         struct ImagePrefsWidget::Private
         {
-            Private() :
-                frameStoreFileReloadWidget(0),
-                mirrorHWidget(0),
-                mirrorVWidget(0),
-                scaleWidget(0),
-                rotateWidget(0),
-                colorProfileWidget(0),
-                displayProfileWidget(0),
-                displayProfileListWidget(0),
-                channelWidget(0)
-            {}
-
-            QCheckBox *    frameStoreFileReloadWidget;
-            QCheckBox *    mirrorHWidget;
-            QCheckBox *    mirrorVWidget;
-            QComboBox *    scaleWidget;
-            QComboBox *    rotateWidget;
-            QCheckBox *    colorProfileWidget;
-            QComboBox *    displayProfileWidget;
-            QListWidget *  displayProfileListWidget;
-            QComboBox *    channelWidget;
+            QCheckBox * frameStoreFileReloadWidget = nullptr;
+            QCheckBox * mirrorHWidget = nullptr;
+            QCheckBox * mirrorVWidget = nullptr;
+            QComboBox * scaleWidget = nullptr;
+            QComboBox * rotateWidget = nullptr;
+            QCheckBox * colorProfileWidget = nullptr;
+            QComboBox * displayProfileWidget = nullptr;
+            QListWidget * displayProfileListWidget = nullptr;
+            UI::ToolButton * addDisplayProfileButton = nullptr;
+            UI::ToolButton * removeDisplayProfileButton = nullptr;
+            UI::ToolButton * moveDisplayProfileUpButton = nullptr;
+            UI::ToolButton * moveDisplayProfileDownButton = nullptr;
+            QComboBox * channelWidget = nullptr;
         };
 
         ImagePrefsWidget::ImagePrefsWidget(Context * context) :
@@ -125,27 +118,23 @@ namespace djv
 
             _p->displayProfileListWidget = new SmallListWidget;
 
-            UI::ToolButton * addDisplayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvAddIcon.png"), context);
-            addDisplayProfileButton->setToolTip(
+            _p->addDisplayProfileButton = new UI::ToolButton(context);
+            _p->addDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Add a new display profile"));
 
-            UI::ToolButton * removeDisplayProfileButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvRemoveIcon.png"), context);
-            removeDisplayProfileButton->setAutoRepeat(true);
-            removeDisplayProfileButton->setToolTip(
+            _p->removeDisplayProfileButton = new UI::ToolButton(context);
+            _p->removeDisplayProfileButton->setAutoRepeat(true);
+            _p->removeDisplayProfileButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Remove the selected display profile"));
 
-            UI::ToolButton * moveDisplayProfileUpButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvUpIcon.png"), context);
-            moveDisplayProfileUpButton->setAutoRepeat(true);
-            moveDisplayProfileUpButton->setToolTip(
+            _p->moveDisplayProfileUpButton = new UI::ToolButton(context);
+            _p->moveDisplayProfileUpButton->setAutoRepeat(true);
+            _p->moveDisplayProfileUpButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile up"));
 
-            UI::ToolButton * moveDisplayProfileDownButton = new UI::ToolButton(
-                context->iconLibrary()->icon("djvDownIcon.png"), context);
-            moveDisplayProfileDownButton->setAutoRepeat(true);
-            moveDisplayProfileDownButton->setToolTip(
+            _p->moveDisplayProfileDownButton = new UI::ToolButton(context);
+            _p->moveDisplayProfileDownButton->setAutoRepeat(true);
+            _p->moveDisplayProfileDownButton->setToolTip(
                 qApp->translate("djv::ViewLib::ImagePrefsWidget", "Move the selected display profile down"));
 
             _p->channelWidget = new QComboBox;
@@ -197,10 +186,10 @@ namespace djv
             formLayout->addRow(_p->displayProfileListWidget);
             QHBoxLayout * hLayout = new QHBoxLayout;
             hLayout->addStretch();
-            hLayout->addWidget(addDisplayProfileButton);
-            hLayout->addWidget(removeDisplayProfileButton);
-            hLayout->addWidget(moveDisplayProfileUpButton);
-            hLayout->addWidget(moveDisplayProfileDownButton);
+            hLayout->addWidget(_p->addDisplayProfileButton);
+            hLayout->addWidget(_p->removeDisplayProfileButton);
+            hLayout->addWidget(_p->moveDisplayProfileUpButton);
+            hLayout->addWidget(_p->moveDisplayProfileDownButton);
             formLayout->addRow(hLayout);
             layout->addWidget(prefsGroupBox);
 
@@ -217,6 +206,7 @@ namespace djv
             layout->addStretch();
 
             // Initialize.
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -253,19 +243,19 @@ namespace djv
                 SIGNAL(itemChanged(QListWidgetItem *)),
                 SLOT(displayProfileCallback(QListWidgetItem *)));
             connect(
-                addDisplayProfileButton,
+                _p->addDisplayProfileButton,
                 SIGNAL(clicked()),
                 SLOT(addDisplayProfileCallback()));
             connect(
-                removeDisplayProfileButton,
+                _p->removeDisplayProfileButton,
                 SIGNAL(clicked()),
                 SLOT(removeDisplayProfileCallback()));
             connect(
-                moveDisplayProfileUpButton,
+                _p->moveDisplayProfileUpButton,
                 SIGNAL(clicked()),
                 SLOT(moveDisplayProfileUpCallback()));
             connect(
-                moveDisplayProfileDownButton,
+                _p->moveDisplayProfileDownButton,
                 SIGNAL(clicked()),
                 SLOT(moveDisplayProfileDownCallback()));
             connect(
@@ -276,6 +266,10 @@ namespace djv
                 context->imagePrefs(),
                 SIGNAL(prefChanged()),
                 SLOT(widgetUpdate()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(update()));
         }
 
         ImagePrefsWidget::~ImagePrefsWidget()
@@ -419,6 +413,15 @@ namespace djv
         void ImagePrefsWidget::channelCallback(int in)
         {
             context()->imagePrefs()->setChannel(static_cast<Graphics::OpenGLImageOptions::CHANNEL>(in));
+        }
+        
+        void ImagePrefsWidget::sizeUpdate()
+        {
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            _p->addDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djvAddIcon", iconDPI));
+            _p->removeDisplayProfileButton->setIcon(context()->iconLibrary()->icon("djvRemoveIcon", iconDPI));
+            _p->moveDisplayProfileUpButton->setIcon(context()->iconLibrary()->icon("djvUpIcon", iconDPI));
+            _p->moveDisplayProfileDownButton->setIcon(context()->iconLibrary()->icon("djvDownIcon", iconDPI));
         }
 
         void ImagePrefsWidget::widgetUpdate()

@@ -75,8 +75,8 @@ namespace djv
             void versionCallback(int);
             void typeCallback(int);
             void endianCallback(int);
-            void sizeMetricsCallback();
-
+            
+            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

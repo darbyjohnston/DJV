@@ -74,7 +74,8 @@ namespace djv
 
         private Q_SLOTS:
             void buttonCallback(int);
-            void sizeMetricsCallback();
+
+            void sizeUpdate();
 
         private:
             UIContext * _context = nullptr;

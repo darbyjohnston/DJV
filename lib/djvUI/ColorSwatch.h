@@ -102,7 +102,7 @@ namespace djv
             virtual void paintEvent(QPaintEvent *);
 
         private Q_SLOTS:
-            void sizeMetricsCallback();
+            void sizeUpdate();
 
         private:
             Graphics::Color _color;

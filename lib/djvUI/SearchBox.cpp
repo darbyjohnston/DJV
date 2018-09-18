@@ -31,9 +31,10 @@
 
 #include <djvUI/SearchBox.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/IconLibrary.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
+#include <djvUI/UIContext.h>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -46,38 +47,36 @@ namespace djv
     {
         struct SearchBox::Private
         {
+            UIContext * context = nullptr;
             QString text;
             QLineEdit * lineEdit = nullptr;
             ToolButton * resetButton = nullptr;
+            QLabel * label = nullptr;
         };
 
         SearchBox::SearchBox(UIContext * context, QWidget * parent) :
             QWidget(parent),
             _p(new Private)
         {
+            _p->context = context;
+            
             // Create the widgets.
             _p->lineEdit = new QLineEdit;
-            _p->lineEdit->setToolTip(
-                qApp->translate("djv::UI::SearchBox", "Enter a search"));
-
+            _p->lineEdit->setToolTip(qApp->translate("djv::UI::SearchBox", "Enter a search"));
             _p->resetButton = new ToolButton(context);
-            _p->resetButton->setIconSize(QSize(16, 16));
-            _p->resetButton->setIcon(
-                context->iconLibrary()->icon("djvResetIcon.png"));
-            _p->resetButton->setToolTip(
-                qApp->translate("djv::UI::SearchBox", "Reset the search"));
-
-            QLabel * label = new QLabel;
-            label->setPixmap(
-                context->iconLibrary()->pixmap("djvMagnifyIcon.png"));
+            _p->resetButton->setToolTip(qApp->translate("djv::UI::SearchBox", "Reset the search"));
+            _p->label = new QLabel;
 
             // Layout the widgets.
             QHBoxLayout * layout = new QHBoxLayout(this);
             layout->setMargin(0);
-            layout->addWidget(label);
+            layout->addWidget(_p->label);
             layout->addWidget(_p->lineEdit);
             layout->addWidget(_p->resetButton);
 
+            // Initialize.
+            sizeUpdate();
+            
             // Setup callbacks.
             connect(
                 _p->lineEdit,
@@ -87,6 +86,10 @@ namespace djv
                 _p->resetButton,
                 SIGNAL(clicked()),
                 SLOT(resetCallback()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         SearchBox::~SearchBox()
@@ -115,6 +118,13 @@ namespace djv
         void SearchBox::resetCallback()
         {
             setText(QString());
+        }
+        
+        void SearchBox::sizeUpdate()
+        {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->resetButton->setIcon(_p->context->iconLibrary()->icon("djvResetIcon", iconDPI));
+            _p->label->setPixmap(_p->context->iconLibrary()->pixmap("djvMagnifyIcon", iconDPI));
         }
 
     } // namespace UI

@@ -58,11 +58,11 @@ namespace djv
         private Q_SLOTS:
             void filterMinCallback(int);
             void filterMagCallback(int);
-            void sizeMetricsCallback();
 
-        private:
+            void sizeUpdate();
             void widgetUpdate();
 
+        private:
             DJV_PRIVATE_COPY(ImagePrefsWidget);
 
             struct Private;

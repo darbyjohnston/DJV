@@ -50,6 +50,7 @@ namespace djv
     {
         struct ShuttleButton::Private
         {
+            UIContext *    context = nullptr;
             float          value = 0.f;
             QVector<QIcon> icons;
             bool           mousePress = false;
@@ -59,45 +60,18 @@ namespace djv
         ShuttleButton::ShuttleButton(UIContext * context, QWidget * parent) :
             AbstractToolButton(context, parent),
             _p(new Private)
-        {}
-
-        ShuttleButton::ShuttleButton(const QVector<QIcon> & icons, UIContext * context, QWidget * parent) :
-            AbstractToolButton(context, parent),
-            _p(new Private)
         {
-            setIcons(icons);
+            _p->context = context;
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            sizeUpdate();
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(sizeUpdate()));
         }
 
         ShuttleButton::~ShuttleButton()
         {}
-
-        const QVector<QIcon> & ShuttleButton::icons() const
-        {
-            return _p->icons;
-        }
-
-        void ShuttleButton::setIcons(const QVector<QIcon> & icons)
-        {
-            _p->icons = icons;
-
-            updateGeometry();
-            update();
-        }
-
-        const QVector<QIcon> & ShuttleButton::iconsDefault(UIContext * context)
-        {
-            static const QVector<QIcon> data = QVector<QIcon>() <<
-                context->iconLibrary()->icon("djvShuttle0Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle1Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle2Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle3Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle4Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle5Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle6Icon.png") <<
-                context->iconLibrary()->icon("djvShuttle7Icon.png");
-            return data;
-        }
 
         QSize ShuttleButton::sizeHint() const
         {
@@ -167,6 +141,23 @@ namespace djv
                 height() / 2 - image.height() / 2,
                 image);
         }
+        
+        void ShuttleButton::sizeUpdate()
+        {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->icons.clear();
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle0Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle1Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle2Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle3Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle4Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle5Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle6Icon", iconDPI));
+            _p->icons.append(_p->context->iconLibrary()->icon("djvShuttle7Icon", iconDPI));
+            updateGeometry();
+            update();
+        }
 
     } // namespace UI
 } // namespace djv
+

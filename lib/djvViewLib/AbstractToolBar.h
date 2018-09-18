@@ -67,9 +67,6 @@ namespace djv
             //! Get the context.
             Context * context() const;
 
-        private Q_SLOTS:
-            void sizeMetricsCallback();
-
         private:
             DJV_PRIVATE_COPY(AbstractToolBar);
 

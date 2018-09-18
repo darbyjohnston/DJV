@@ -86,9 +86,10 @@ namespace djv
             void addCallback();
             void resetCallback();
 
-        private:
+            void sizeUpdate();
             void widgetUpdate();
 
+        private:
             DJV_PRIVATE_COPY(DisplayProfileWidget);
 
             struct Private;

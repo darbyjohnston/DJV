@@ -70,6 +70,7 @@ namespace djv
             void moveDisplayProfileDownCallback();
             void channelCallback(int);
 
+            void sizeUpdate();
             void widgetUpdate();
 
         private:

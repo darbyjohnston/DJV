@@ -60,8 +60,8 @@ namespace djv
             void pluginCallback(const QString &);
             void typeCallback(int);
             void dataCallback(int);
-            void sizeMetricsCallback();
 
+            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

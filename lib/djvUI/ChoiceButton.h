@@ -85,6 +85,8 @@ namespace djv
         private Q_SLOTS:
             void actionGroupCallback(QAction *);
             void clickedCallback();
+            
+            void sizeUpdate();
 
         private:
             DJV_PRIVATE_COPY(ChoiceButton);

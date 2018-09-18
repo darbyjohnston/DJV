@@ -74,8 +74,8 @@ namespace djv
             void channelsCallback(int);
             void compressionCallback(int);
             void dwaCompressionLevelCallback(float);
-            void sizeMetricsCallback();
 
+            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

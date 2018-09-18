@@ -64,15 +64,10 @@ namespace djv
             _p(new Private)
         {
             _p->context = context;
-
+            
             _p->edit = new FloatEdit;
-
             _p->slider = new FloatSlider;
-
             _p->defaultButton = new ToolButton(context);
-            _p->defaultButton->setIconSize(QSize(16, 16));
-            _p->defaultButton->setIcon(
-                context->iconLibrary()->icon("djvResetIcon.png"));
             _p->defaultButton->setToolTip(
                 qApp->translate("djv::UI::FloatEditSlider", "Reset the value"));
 
@@ -85,7 +80,8 @@ namespace djv
 
             _p->slider->setRange(0.f, 1.f);
             _p->defaultButton->hide();
-            widgetUpdate();
+            sizeUpdate();
+            valueUpdate();
 
             connect(
                 _p->edit,
@@ -106,7 +102,7 @@ namespace djv
             connect(
                 _p->edit->object(),
                 SIGNAL(defaultValidChanged(bool)),
-                SLOT(widgetUpdate()));
+                SLOT(valueUpdate()));
             connect(
                 _p->edit->object(),
                 SIGNAL(defaultValueChanged(float)),
@@ -122,7 +118,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         FloatEditSlider::~FloatEditSlider()
@@ -190,7 +186,7 @@ namespace djv
             if (value == _p->resetToDefault)
                 return;
             _p->resetToDefault = value;
-            widgetUpdate();
+            valueUpdate();
         }
 
         void FloatEditSlider::setMin(float value)
@@ -219,7 +215,7 @@ namespace djv
 
         void FloatEditSlider::valueCallback()
         {
-            widgetUpdate();
+            valueUpdate();
             Q_EMIT valueChanged(_p->edit->value());
         }
 
@@ -233,15 +229,17 @@ namespace djv
             _p->edit->setValue(_p->edit->object()->defaultValue());
         }
 
-        void FloatEditSlider::sizeMetricsCallback()
+        void FloatEditSlider::sizeUpdate()
         {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->defaultButton->setIcon(_p->context->iconLibrary()->icon("djvResetIcon", iconDPI));
             _p->layout->setSpacing(_p->context->style()->sizeMetric().spacing);
             updateGeometry();
         }
 
-        void FloatEditSlider::widgetUpdate()
+        void FloatEditSlider::valueUpdate()
         {
-            //DJV_DEBUG("FloatEditSlider::widgetUpdate");
+            //DJV_DEBUG("FloatEditSlider::valueUpdate");
             //DJV_DEBUG_PRINT("value = " << value());
             //DJV_DEBUG_PRINT("min = " << min());
             //DJV_DEBUG_PRINT("max = " << max());

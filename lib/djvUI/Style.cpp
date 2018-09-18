@@ -59,7 +59,7 @@ namespace djv
             select(select)
         {}
 
-        Style::SizeMetric::SizeMetric(const QString & name, int fontSize, int iconSize, int toolIconSize) :
+        Style::SizeMetric::SizeMetric(const QString & name, int fontSize, int iconDPI, int iconSize, int toolIconSize) :
             name(name),
             fontSize(fontSize),
             pickSize(static_cast<int>(fontSize * .8f)),
@@ -70,6 +70,7 @@ namespace djv
             textMargin(static_cast<int>(fontSize * .5f)),
             widgetMargin(static_cast<int>(fontSize * .5f)),
             largeMargin(fontSize),
+            iconDPI(iconDPI),
             iconSize(iconSize),
             toolIconSize(toolIconSize),
             buttonSize(static_cast<int>(fontSize * 4)),
@@ -164,18 +165,18 @@ namespace djv
 
             // Save preferences.
             Prefs prefs("djv::UI::Style", Prefs::SYSTEM);
-            const size_t paletteCount = _p->palettes.size();
+            const int paletteCount = static_cast<int>(_p->palettes.size());
             prefs.set("paletteCount", static_cast<int>(paletteCount));
-            for (size_t i = 0; i < paletteCount; ++i)
+            for (int i = 0; i < paletteCount; ++i)
             {
                 prefs.set(QString("palette%1").arg(i), _p->palettes[i]);
             }
             //DJV_DEBUG_PRINT("palettesIndex = " << _p->palettesIndex);
             prefs.set("palettesIndex", _p->palettesIndex);
 
-            const size_t sizeMetricsCount = _p->sizeMetrics.size();
+            const int sizeMetricsCount = static_cast<int>(_p->sizeMetrics.size());
             prefs.set("sizeMetricsCount", sizeMetricsCount);
-            for (size_t i = 0; i < sizeMetricsCount; ++i)
+            for (int i = 0; i < sizeMetricsCount; ++i)
             {
                 prefs.set(QString("sizeMetric%1").arg(i), _p->sizeMetrics[i]);
             }
@@ -319,8 +320,8 @@ namespace djv
         {
             static const std::vector<SizeMetric> data =
             {
-                SizeMetric(qApp->translate("djv::UI::Style", "Default"), 12, 25, 20),
-                SizeMetric(qApp->translate("djv::UI::Style", "Large"), 24, 50, 40)
+                SizeMetric(qApp->translate("djv::UI::Style", "Default"), 12, 96, 25, 20),
+                SizeMetric(qApp->translate("djv::UI::Style", "Large"), 24, 192, 50, 40)
             };
             return data;
         }
@@ -513,6 +514,7 @@ namespace djv
             a.textMargin == b.textMargin &&
             a.widgetMargin == b.widgetMargin &&
             a.largeMargin == b.largeMargin  &&
+            a.iconDPI == b.iconDPI &&
             a.iconSize == b.iconSize &&
             a.toolIconSize == b.toolIconSize &&
             a.buttonSize == b.buttonSize &&
@@ -595,6 +597,8 @@ namespace djv
         in >> tmp;
         in >> out.largeMargin;
         in >> tmp;
+        in >> out.iconDPI;
+        in >> tmp;
         in >> out.iconSize;
         in >> tmp;
         in >> out.toolIconSize;
@@ -630,6 +634,8 @@ namespace djv
         out << in.widgetMargin;
         out << QString("largeMargin");
         out << in.largeMargin;
+        out << QString("iconDPI");
+        out << in.iconDPI;
         out << QString("iconSize");
         out << in.iconSize;
         out << QString("toolIconSize");

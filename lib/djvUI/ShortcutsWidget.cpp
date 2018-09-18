@@ -189,16 +189,13 @@ namespace djv
                     const QModelIndex &          index);
 
             private:
-                QPixmap _clearPixmap;
                 UIContext * _context;
             };
 
             ShortcutDelegate::ShortcutDelegate(UIContext * context, QObject * parent) :
                 QStyledItemDelegate(parent),
                 _context(context)
-            {
-                _clearPixmap = context->iconLibrary()->pixmap("djvResetIcon.png");
-            }
+            {}
 
             QWidget * ShortcutDelegate::createEditor(
                 QWidget *                    parent,
@@ -245,10 +242,11 @@ namespace djv
                 {
                 case 1:
                 {
+                    const int iconSize = _context->style()->sizeMetric().iconSize;
                     const int spacing = _context->style()->sizeMetric().spacing;
                     size = QSize(
-                        size.width() + spacing + _clearPixmap.width(),
-                        Core::Math::max(size.height(), _clearPixmap.height()));
+                        size.width() + spacing + iconSize,
+                        Core::Math::max(size.height(), iconSize));
                 }
                 break;
                 }
@@ -266,10 +264,12 @@ namespace djv
                 {
                 case 1:
                 {
+                    const int iconDPI = _context->style()->sizeMetric().iconDPI;
+                    const int iconSize = _context->style()->sizeMetric().iconSize;
                     painter->drawPixmap(
-                        r.x() + r.width() - _clearPixmap.width(),
+                        r.x() + r.width() - iconSize,
                         r.y(),
-                        _clearPixmap);
+                        _context->iconLibrary()->pixmap("djvResetIcon", iconDPI));
                 }
                 break;
                 }
@@ -289,11 +289,12 @@ namespace djv
                     case QEvent::MouseButtonPress:
                     {
                         QMouseEvent * e = static_cast<QMouseEvent *>(event);
+                        const int iconSize = _context->style()->sizeMetric().iconSize;
                         QRect r(
-                            option.rect.x() + option.rect.width() - _clearPixmap.width(),
+                            option.rect.x() + option.rect.width() - iconSize,
                             option.rect.y(),
-                            _clearPixmap.width(),
-                            _clearPixmap.height());
+                            iconSize,
+                            iconSize);
                         if (r.contains(e->pos()))
                         {
                             model->setData(index, Shortcut().value, Qt::EditRole);

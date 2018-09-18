@@ -169,13 +169,9 @@ namespace djv
 
             _p->actions.actions[Actions::UP] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Up"), this, SLOT(upCallback()));
-            _p->actions.actions[Actions::UP]->setIcon(
-                context->iconLibrary()->icon("djvDirUpIcon.png"));
 
             _p->actions.actions[Actions::PREV] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "&Prev"), this, SLOT(prevCallback()));
-            _p->actions.actions[Actions::PREV]->setIcon(
-                context->iconLibrary()->icon("djvDirPrevIcon.png"));
 
             _p->menus.menus[Menus::RECENT] = directoryMenu->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Recent"));
@@ -200,8 +196,6 @@ namespace djv
 
             _p->actions.actions[Actions::RELOAD] = directoryMenu->addAction(
                 qApp->translate("djv::UI::FileBrowser", "Re&load"), this, SLOT(reloadCallback()));
-            _p->actions.actions[Actions::RELOAD]->setIcon(
-                context->iconLibrary()->icon("djvDirReloadIcon.png"));
 
             QMenu * optionsMenu = _p->menus.menuBar->addMenu(
                 qApp->translate("djv::UI::FileBrowser", "&Options"));
@@ -298,7 +292,6 @@ namespace djv
             layout->setMenuBar(_p->menus.menuBar);
 
             _p->hLayout = new QHBoxLayout;
-            _p->hLayout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             QHBoxLayout * hLayout2 = new QHBoxLayout;
             hLayout2->setMargin(0);
@@ -310,7 +303,6 @@ namespace djv
 
             _p->hLayout2 = new QHBoxLayout;
             _p->hLayout2->setMargin(0);
-            _p->hLayout2->setSpacing(context->style()->sizeMetric().spacing);
             _p->hLayout2->addWidget(seqLabel);
             _p->hLayout2->addWidget(_p->widgets.seq);
             _p->hLayout->addLayout(_p->hLayout2);
@@ -348,20 +340,16 @@ namespace djv
 
             // Initialize.
             setWindowTitle(qApp->translate("djv::UI::FileBrowser", "File Browser"));
-
             _p->widgets.browser->setModel(_p->model);
-
             const QVector<int> sizes = columnSizes();
-
             for (int i = 0; i < sizes.count(); ++i)
             {
                 _p->widgets.browser->header()->resizeSection(i, sizes[i]);
             }
-
+            sizeUpdate();
             widgetUpdate();
             menuUpdate();
             toolTipUpdate();
-
             resize(700, 600);
 
             // Setup the callbacks.
@@ -486,7 +474,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         FileBrowser::~FileBrowser()
@@ -861,11 +849,12 @@ namespace djv
             }
         }
 
-        void FileBrowser::sizeMetricsCallback()
+        void FileBrowser::sizeUpdate()
         {
             _p->hLayout->setSpacing(_p->context->style()->sizeMetric().largeSpacing);
             _p->hLayout2->setSpacing(_p->context->style()->sizeMetric().spacing);
             modelUpdate();
+            menuUpdate();
             updateGeometry();
         }
 
@@ -902,49 +891,45 @@ namespace djv
         void FileBrowser::menuUpdate()
         {
             //DJV_DEBUG("FileBrowser::menuUpdate");
-            const QVector<Shortcut> & shortcuts =
-                _p->context->fileBrowserPrefs()->shortcuts();
-            _p->actions.actions[Actions::UP]->setShortcut(
-                shortcuts[FileBrowserPrefs::UP].value);
-            _p->actions.actions[Actions::PREV]->setShortcut(
-                shortcuts[FileBrowserPrefs::PREV].value);
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            const QVector<Shortcut> & shortcuts = _p->context->fileBrowserPrefs()->shortcuts();
+
+            _p->actions.actions[Actions::UP]->setIcon(_p->context->iconLibrary()->icon("djvDirUpIcon", iconDPI));
+            _p->actions.actions[Actions::UP]->setShortcut(shortcuts[FileBrowserPrefs::UP].value);
+
+            _p->actions.actions[Actions::PREV]->setIcon(_p->context->iconLibrary()->icon("djvDirPrevIcon", iconDPI));
+            _p->actions.actions[Actions::PREV]->setShortcut(shortcuts[FileBrowserPrefs::PREV].value);
 
             _p->menus.menus[Menus::RECENT]->clear();
             const QStringList & recent = _p->context->fileBrowserPrefs()->recent();
             for (int i = 0; i < recent.count(); ++i)
             {
-                QAction * action = _p->menus.menus[Menus::RECENT]->addAction(
-                    QDir::toNativeSeparators(recent[i]));
+                QAction * action = _p->menus.menus[Menus::RECENT]->addAction(QDir::toNativeSeparators(recent[i]));
                 action->setData(recent[i]);
                 _p->actions.groups[Actions::RECENT_GROUP]->addAction(action);
             }
 
-            _p->actions.actions[Actions::CURRENT]->setShortcut(
-                shortcuts[FileBrowserPrefs::CURRENT].value);
-            _p->actions.actions[Actions::HOME]->setShortcut(
-                shortcuts[FileBrowserPrefs::HOME].value);
-            _p->actions.actions[Actions::DESKTOP]->setShortcut(
-                shortcuts[FileBrowserPrefs::DESKTOP].value);
+            _p->actions.actions[Actions::CURRENT]->setShortcut(shortcuts[FileBrowserPrefs::CURRENT].value);
+            _p->actions.actions[Actions::HOME]->setShortcut(shortcuts[FileBrowserPrefs::HOME].value);
+            _p->actions.actions[Actions::DESKTOP]->setShortcut(shortcuts[FileBrowserPrefs::DESKTOP].value);
 
             _p->menus.menus[Menus::DRIVES]->clear();
             const QStringList drives = Core::System::drives();
             for (int i = 0; i < drives.count(); ++i)
             {
-                QAction * action = _p->menus.menus[Menus::DRIVES]->addAction(
-                    QDir::toNativeSeparators(drives[i]));
+                QAction * action = _p->menus.menus[Menus::DRIVES]->addAction(QDir::toNativeSeparators(drives[i]));
                 action->setData(drives[i]);
                 _p->actions.groups[Actions::DRIVES_GROUP]->addAction(action);
             }
 
-            _p->actions.actions[Actions::RELOAD]->setShortcut(
-                shortcuts[FileBrowserPrefs::RELOAD].value);
+            _p->actions.actions[Actions::RELOAD]->setIcon(_p->context->iconLibrary()->icon("djvDirReloadIcon", iconDPI));
+            _p->actions.actions[Actions::RELOAD]->setShortcut(shortcuts[FileBrowserPrefs::RELOAD].value);
 
             _p->menus.menus[Menus::THUMBNAILS]->clear();
             const QStringList & thumbnails = FileBrowserModel::thumbnailsLabels();
             for (int i = 0; i < thumbnails.count(); ++i)
             {
-                QAction * action = _p->menus.menus[Menus::THUMBNAILS]->addAction(
-                    thumbnails[i]);
+                QAction * action = _p->menus.menus[Menus::THUMBNAILS]->addAction(thumbnails[i]);
                 action->setCheckable(true);
                 action->setChecked(_p->model->thumbnails() == i);
                 action->setData(i);
@@ -955,8 +940,7 @@ namespace djv
             const QStringList & thumbnailsSize = FileBrowserModel::thumbnailsSizeLabels();
             for (int i = 0; i < thumbnailsSize.count(); ++i)
             {
-                QAction * action = _p->menus.menus[Menus::THUMBNAILS_SIZE]->addAction(
-                    thumbnailsSize[i]);
+                QAction * action = _p->menus.menus[Menus::THUMBNAILS_SIZE]->addAction(thumbnailsSize[i]);
                 action->setCheckable(true);
                 action->setChecked(_p->model->thumbnailsSize() == i);
                 action->setData(i);
@@ -975,8 +959,7 @@ namespace djv
             }
 
             _p->actions.actions[Actions::SHOW_HIDDEN]->setChecked(_p->model->hasShowHidden());
-            _p->actions.actions[Actions::SHOW_HIDDEN]->setShortcut(
-                shortcuts[FileBrowserPrefs::SHOW_HIDDEN].value);
+            _p->actions.actions[Actions::SHOW_HIDDEN]->setShortcut(shortcuts[FileBrowserPrefs::SHOW_HIDDEN].value);
 
             QVector<Shortcut> sortShortcuts = QVector<Shortcut>() <<
                 _p->context->fileBrowserPrefs()->shortcuts()[FileBrowserPrefs::SORT_NAME] <<
@@ -992,22 +975,17 @@ namespace djv
             {
                 QAction * action = _p->menus.menus[Menus::SORT]->addAction(sort[i]);
                 action->setCheckable(true);
-                action->setChecked(
-                    _p->widgets.browser->header()->sortIndicatorSection() == i);
+                action->setChecked(_p->widgets.browser->header()->sortIndicatorSection() == i);
                 action->setData(i);
                 action->setShortcut(sortShortcuts[i].value);
                 _p->actions.groups[Actions::SORT_GROUP]->addAction(action);
             }
 
-            _p->actions.actions[Actions::REVERSE_SORT]->setChecked(
-                _p->widgets.browser->header()->sortIndicatorOrder());
-            _p->actions.actions[Actions::REVERSE_SORT]->setShortcut(
-                shortcuts[FileBrowserPrefs::REVERSE_SORT].value);
+            _p->actions.actions[Actions::REVERSE_SORT]->setChecked(_p->widgets.browser->header()->sortIndicatorOrder());
+            _p->actions.actions[Actions::REVERSE_SORT]->setShortcut(shortcuts[FileBrowserPrefs::REVERSE_SORT].value);
 
-            _p->actions.actions[Actions::SORT_DIRS_FIRST]->setChecked(
-                _p->model->hasSortDirsFirst());
-            _p->actions.actions[Actions::SORT_DIRS_FIRST]->setShortcut(
-                shortcuts[FileBrowserPrefs::SORT_DIRS_FIRST].value);
+            _p->actions.actions[Actions::SORT_DIRS_FIRST]->setChecked(_p->model->hasSortDirsFirst());
+            _p->actions.actions[Actions::SORT_DIRS_FIRST]->setShortcut(shortcuts[FileBrowserPrefs::SORT_DIRS_FIRST].value);
 
             _p->menus.menus[Menus::BOOKMARKS]->clear();
             QAction * action = _p->menus.menus[Menus::BOOKMARKS]->addAction(
@@ -1054,8 +1032,8 @@ namespace djv
         void FileBrowser::toolTipUpdate()
         {
             //DJV_DEBUG("FileBrowser::toolTipUpdate");
-            const QVector<Shortcut> & shortcuts =
-                _p->context->fileBrowserPrefs()->shortcuts();
+            const QVector<Shortcut> & shortcuts = _p->context->fileBrowserPrefs()->shortcuts();
+                
             _p->widgets.file->setToolTip(qApp->translate("djv::UI::FileBrowser", "File name"));
             _p->widgets.up->setToolTip(QString(
                 qApp->translate("djv::UI::FileBrowser", "Go up a directory\n\nShortcut: %1")).

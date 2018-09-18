@@ -169,8 +169,6 @@ namespace djv
             setAllowedAreas(Qt::BottomToolBarArea);
             setFloatable(false);
             setMovable(false);
-            const int iconSize = context->style()->sizeMetric().iconSize;
-            setIconSize(QSize(iconSize, iconSize));
             layoutUpdate();
 
             // Setup callbacks.
@@ -342,12 +340,6 @@ namespace djv
                 return;
             _p->layout = layout;
             layoutUpdate();
-        }
-
-        void PlaybackToolBar::sizeMetricsCallback()
-        {
-            const int iconSize = _p->context->style()->sizeMetric().iconSize;
-            setIconSize(QSize(iconSize, iconSize));
         }
 
         void PlaybackToolBar::layoutUpdate()

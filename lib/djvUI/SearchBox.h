@@ -78,6 +78,8 @@ namespace djv
         private Q_SLOTS:
             void textCallback(const QString &);
             void resetCallback();
+            
+            void sizeUpdate();
 
         private:
             DJV_PRIVATE_COPY(SearchBox);

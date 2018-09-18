@@ -72,8 +72,8 @@ namespace djv
             void outputBlackPointCallback(int);
             void outputWhitePointCallback(int);
             void outputGammaCallback(float);
-            void sizeMetricsCallback();
-
+            
+            void sizeUpdate();
             void pluginUpdate();
             void widgetUpdate();
 

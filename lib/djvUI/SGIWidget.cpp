@@ -57,7 +57,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::SGIWidget", "Compression"),
@@ -77,6 +76,7 @@ namespace djv
                 plugin->options()[Graphics::SGI::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -91,7 +91,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         SGIWidget::~SGIWidget()
@@ -126,7 +126,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void SGIWidget::sizeMetricsCallback()
+        void SGIWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();

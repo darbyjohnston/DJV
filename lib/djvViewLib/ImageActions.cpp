@@ -38,6 +38,7 @@
 
 #include <djvUI/IconLibrary.h>
 #include <djvUI/Shortcut.h>
+#include <djvUI/Style.h>
 
 #include <djvGraphics/OpenGLImage.h>
 
@@ -80,8 +81,6 @@ namespace djv
             _actions[DISPLAY_PROFILE_VISIBLE]->setCheckable(true);
             _actions[DISPLAY_PROFILE_VISIBLE]->setText(
                 qApp->translate("djv::ViewLib::ImageActions", "Show Display Profile"));
-            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context->iconLibrary()->icon(
-                "djvDisplayProfileIcon.png"));
 
             // Create the action groups.
             for (int i = 0; i < GROUP_COUNT; ++i)
@@ -128,6 +127,10 @@ namespace djv
                 context->shortcutPrefs(),
                 SIGNAL(shortcutsChanged(const QVector<djvShortcut> &)),
                 SLOT(update()));
+            connect(
+                context->style(),
+                SIGNAL(sizeMetricsChanged()),
+                SLOT(update()));
         }
 
         ImageActions::~ImageActions()
@@ -135,22 +138,16 @@ namespace djv
 
         void ImageActions::update()
         {
-            const QVector<UI::Shortcut> & shortcuts =
-                context()->shortcutPrefs()->shortcuts();
+            const int iconDPI = context()->style()->sizeMetric().iconDPI;
+            const QVector<UI::Shortcut> & shortcuts = context()->shortcutPrefs()->shortcuts();
 
-            // Update the actions.
-            _actions[FRAME_STORE]->setShortcut(
-                shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE].value);
-            _actions[LOAD_FRAME_STORE]->setShortcut(
-                shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE_LOAD].value);
-            _actions[MIRROR_H]->setShortcut(
-                shortcuts[Util::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
-            _actions[MIRROR_V]->setShortcut(
-                shortcuts[Util::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
-            _actions[COLOR_PROFILE]->setShortcut(
-                shortcuts[Util::SHORTCUT_IMAGE_COLOR_PROFILE].value);
+            _actions[FRAME_STORE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE].value);
+            _actions[LOAD_FRAME_STORE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_FRAME_STORE_LOAD].value);
+            _actions[MIRROR_H]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_HORIZONTAL].value);
+            _actions[MIRROR_V]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_MIRROR_VERTICAL].value);
+            _actions[COLOR_PROFILE]->setShortcut(shortcuts[Util::SHORTCUT_IMAGE_COLOR_PROFILE].value);
+            _actions[DISPLAY_PROFILE_VISIBLE]->setIcon(context()->iconLibrary()->icon("djvDisplayProfileIcon", iconDPI));
 
-            // Update the action groups.
             const QVector<QKeySequence> scaleShortcuts = QVector<QKeySequence>() <<
                 shortcuts[Util::SHORTCUT_IMAGE_SCALE_NONE].value <<
                 shortcuts[Util::SHORTCUT_IMAGE_SCALE_16_9].value <<
@@ -222,7 +219,6 @@ namespace djv
                 _groups[CHANNEL_GROUP]->actions()[i]->setShortcut(channelShortcuts[i]);
             }
             
-            // Emit changed signal.
             Q_EMIT changed();
         }
 

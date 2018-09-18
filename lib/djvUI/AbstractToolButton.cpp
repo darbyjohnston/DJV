@@ -52,11 +52,11 @@ namespace djv
             _context(context)
         {
             setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
+            sizeUpdate();
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         AbstractToolButton::~AbstractToolButton()
@@ -93,7 +93,7 @@ namespace djv
             return QAbstractButton::event(event);
         }
 
-        void AbstractToolButton::sizeMetricsCallback()
+        void AbstractToolButton::sizeUpdate()
         {
             updateGeometry();
         }

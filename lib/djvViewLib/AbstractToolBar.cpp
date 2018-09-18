@@ -64,13 +64,6 @@ namespace djv
             setAllowedAreas(Qt::TopToolBarArea | Qt::LeftToolBarArea | Qt::RightToolBarArea);
             setFloatable(false);
             //setMovable(false);
-            const int iconSize = _p->context->style()->sizeMetric().iconSize;
-            setIconSize(QSize(iconSize, iconSize));
-
-            connect(
-                context->style(),
-                SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
         }
 
         AbstractToolBar::~AbstractToolBar()
@@ -84,12 +77,6 @@ namespace djv
         Context * AbstractToolBar::context() const
         {
             return _p->context;
-        }
-
-        void AbstractToolBar::sizeMetricsCallback()
-        {
-            const int iconSize = _p->context->style()->sizeMetric().iconSize;
-            setIconSize(QSize(iconSize, iconSize));
         }
 
     } // namespace ViewLib

@@ -31,10 +31,12 @@
 
 #include <djvUI/PixelMaskWidget.h>
 
-#include <djvUI/UIContext.h>
 #include <djvUI/IconLibrary.h>
-#include <djvCore/SignalBlocker.h>
+#include <djvUI/Style.h>
 #include <djvUI/ToolButton.h>
+#include <djvUI/UIContext.h>
+
+#include <djvCore/SignalBlocker.h>
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -46,6 +48,7 @@ namespace djv
     {
         struct PixelMaskWidget::Private
         {
+            UIContext * context = nullptr;
             Graphics::Pixel::Mask mask;
             ToolButton * button = nullptr;
         };
@@ -54,7 +57,9 @@ namespace djv
             QWidget(parent),
             _p(new Private)
         {
-            _p->button = new ToolButton(context->iconLibrary()->icon("djvPixelMaskIcon.png"), context);
+            _p->context = context;
+            
+            _p->button = new ToolButton(context);
             _p->button->setCheckable(true);
             _p->button->setToolTip(
                 qApp->translate("djv::UI::PixelMaskWidget", "Set the pixel mask"));
@@ -64,7 +69,8 @@ namespace djv
             layout->setSpacing(0);
             layout->addWidget(_p->button);
 
-            widgetUpdate();
+            sizeUpdate();
+            valueUpdate();
 
             connect(
                 _p->button,
@@ -85,7 +91,7 @@ namespace djv
             if (mask == _p->mask)
                 return;
             _p->mask = mask;
-            widgetUpdate();
+            valueUpdate();
             Q_EMIT maskChanged(_p->mask);
         }
 
@@ -161,7 +167,13 @@ namespace djv
             setMask(Graphics::Pixel::Mask());
         }
 
-        void PixelMaskWidget::widgetUpdate()
+        void PixelMaskWidget::sizeUpdate()
+        {
+            const int iconDPI = _p->context->style()->sizeMetric().iconDPI;
+            _p->button->setIcon(_p->context->iconLibrary()->icon("djvPixelMaskIcon", iconDPI));
+        }
+
+        void PixelMaskWidget::valueUpdate()
         {
             Core::SignalBlocker signalBlocker(_p->button);
             bool checked = false;

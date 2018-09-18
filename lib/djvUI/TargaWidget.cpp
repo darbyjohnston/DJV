@@ -59,7 +59,6 @@ namespace djv
 
             // Layout the widgets.
             _layout = new QVBoxLayout(this);
-            _layout->setSpacing(context->style()->sizeMetric().largeSpacing);
 
             PrefsGroupBox * prefsGroupBox = new PrefsGroupBox(
                 qApp->translate("djv::UI::TargaWidget", "Compression"),
@@ -79,6 +78,7 @@ namespace djv
                 plugin->options()[Graphics::Targa::COMPRESSION_OPTION]);
             tmp >> _options.compression;
 
+            sizeUpdate();
             widgetUpdate();
 
             // Setup the callbacks.
@@ -93,7 +93,7 @@ namespace djv
             connect(
                 context->style(),
                 SIGNAL(sizeMetricsChanged()),
-                SLOT(sizeMetricsCallback()));
+                SLOT(sizeUpdate()));
         }
 
         TargaWidget::~TargaWidget()
@@ -128,7 +128,7 @@ namespace djv
             pluginUpdate();
         }
 
-        void TargaWidget::sizeMetricsCallback()
+        void TargaWidget::sizeUpdate()
         {
             _layout->setSpacing(context()->style()->sizeMetric().largeSpacing);
             updateGeometry();
